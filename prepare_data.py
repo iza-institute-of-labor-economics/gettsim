@@ -123,7 +123,6 @@ def preparedata(data_path,graph_path):
     # size of taxunit
     df = df.join(df.groupby(['syear','tu_id'])['counter'].sum(), on = ['syear','tu_id'], how='left',rsuffix = '_tu')
     df = df.rename(columns = {'counter_tu':'hhsize_tu'})
-    print('Children Stuff...')
     # Child Age Aggregates
     df.sort_values(by=['syear','hid','age'], ascending=[True,True,False])
 

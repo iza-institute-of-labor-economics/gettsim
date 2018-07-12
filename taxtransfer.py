@@ -12,21 +12,28 @@ import numpy as np
 import math
 import sys
 
-def taxtransfer(tbinput,settings,ref):
+def taxtransfer(tbinput,settings,ref,hyporun=False):
     datayear = min(settings['taxyear'],2016)
     print("---------------------------------------------")
     print(" TAX TRANSFER SYSTEM ")
     print(" -------------------")
-    print(" Year of Database: " + str(datayear))
+    if hyporun:
+        print(" HYPOTHETICAL DATA")
+        df = pd.read_pickle(tbinput+'hypo')
+    else:
+        print(" Year of Database: " + str(datayear))
+        df = pd.read_pickle(tbinput+str(datayear))
+    # Get the correct parameters for the tax year
     print(" Year of System: "   + str(settings['taxyear']))
     print(" Simulated Reform: " + str(ref))
     print("---------------------------------------------")
-    df = pd.read_pickle(tbinput+str(datayear))
-    # Get the correct parameters for the tax year
+
     tb = get_params(settings)[str(settings['taxyear'])]
 
+
     # 1. Uprating if necessary
-    df = uprate(df,datayear,settings['taxyear'],settings['MAIN_PATH'])
+    if hyporun == False:
+        df = uprate(df,datayear,settings['taxyear'],settings['MAIN_PATH'])
 
     # 2. Social Security Payments
     ssc_out = ssc(df[['pid','hid','east','m_wage','selfemployed','m_self','m_pensions','age','haskids','pkv']],tb,settings['taxyear'],ref)
@@ -61,14 +68,16 @@ def taxtransfer(tbinput,settings,ref):
     df['dpi']    = np.maximum(df['dpi_ind_temp'] + df['m_alg2'],0)
 
     # SHOW OUTPUT
-    tb_out(df,ref,settings['GRAPH_PATH'])
+    if hyporun == False:
+        tb_out(df,ref,settings['GRAPH_PATH'])
 
-#
-    print('Saving to:' + settings['DATA_PATH']+ref+'/taxben_results' + str(datayear) + '_' + str(settings['taxyear']) + '.json')
-    df.to_json(settings['DATA_PATH']+ref+'/taxben_results' + str(datayear) + '_' + str(settings['taxyear']) + '.json')
+    if hyporun == False:
+        print('Saving to:' + settings['DATA_PATH']+ref+'/taxben_results' + str(datayear) + '_' + str(settings['taxyear']) + '.json')
+        df.to_json(settings['DATA_PATH']+ref+'/taxben_results' + str(datayear) + '_' + str(settings['taxyear']) + '.json')
+    #pd.to_pickle(df,settings['DATA_PATH']+'/taxben_hypo')
     #pd.read_pickle(df,out_path+ref+'/taxben_results2016_2018')
 
-    return
+    return df
 
 
 def uprate(df,dy,ty,path):
@@ -121,7 +130,7 @@ def pensions(df,tb,yr,ref):
 def ssc(df,tb,yr,ref):
     ''' Calculates Social Security Payments
     '''
-    print(colored('Social Security Payments...','red'))
+    cprint('Social Security Payments...','red','on_white')
 # Einige Prüfgrößen
     ssc = df.copy()
     westost = [df['east'] == False, df['east']]
@@ -184,7 +193,7 @@ def ssc(df,tb,yr,ref):
         ssc.loc[ssc['in_gleitzone'],'pvbeit']    = (ssc['gb_pv'] - ssc['ag_pvbeit']
                                                     + np.select([ssc['kinderlos'],ssc['kinderlos'] == False],
                                                                 [tb['gpvbs_kind'] * ssc['m_wage'],0]))
-        # Drop intermediate results
+        # Drop intermediate variables
         ssc = ssc.drop(['gb_rv','gb_gkv','gb_alv','gb_pv','bemessungsentgelt'],axis=1)
     # ENDE GLEITZONE
 
@@ -239,8 +248,7 @@ def ui(df,tb,taxyear,ref):
 def tax(df,tb,yr,ref,data_path):
     ''' Calculates Income Tax Deductions and Tax Due
     '''
-    print(colored('Income Tax...','red'))
-    print(colored('Gross Income...','yellow'))
+    cprint('Income Tax...','red','on_white')
 
     def tarif(x,tb):
         ''' The German Income Tax Tariff
@@ -340,7 +348,7 @@ def tax(df,tb,yr,ref,data_path):
         df = aggr(df,inc)
 
     # TAX DEDUCTIONS
-    print(colored('Vorsorgeaufwendungen...','yellow'))
+    cprint('Vorsorgeaufwendungen...','red','on_white')
     # Vorsorgeaufwendungen bis 2004
     # TO DO
     # Vorsorgeaufwendungen ab 2005
@@ -547,6 +555,8 @@ def ben(df,tb,yr,ref,data_path):
     df['wg_head'] = df['wohngeld'] * df['head_tu']
     df = df.join(df.groupby(['hid'])['wg_head'].sum(), on = ['hid'], how='left',rsuffix='_hh')
     df = df.rename(columns = {'wg_head_hh':'wohngeld_hh'})
+
+    #print(df['wohngeld'].describe())
     #######################################################
     #### ALG 2
     #######################################################
@@ -555,6 +565,7 @@ def ben(df,tb,yr,ref,data_path):
         df['kiz']    = 0
         df['kdu']    = 0
     else:
+        # Mehrbedarf für Alleinerziehende
         df['mehrbed'] = ((df['child'] == False) * df['alleinerz'] *
                           np.minimum(np.maximum(((df['child6_num'] == 1) | (df['child15_num'].between(2,3))) * tb['a2mbch2'],
                                                   tb['a2mbch1'] * df['child_num']), tb['a2zu2']/100 ))
@@ -585,7 +596,7 @@ def ben(df,tb,yr,ref,data_path):
                                (tb['rs_ch0'] *(df['child2_num'] + df['child3_6_num'])) ]
 
         df['regelsatz'] = np.select([df['adult_num']==1,df['adult_num']>1],regelberechnung)
-
+        # 'angemessene Kosten der Unterkunft: Nimm an, dass Wohngeldrichtlinien angewendet werden
         df['alg2_kdu'] = df['M'] + np.maximum(df['heizkost'] - df['wgheiz'],0)
 
         if 2005 <= yr <= 2010:
@@ -658,7 +669,7 @@ def ben(df,tb,yr,ref,data_path):
         df['kiz_heiz'] = df['heizkost'] * df['hh_korr']
         # Anteil Wohnbedarf der Eltern
         wb = wohnbedarf(yr)
-        df['wb_eltern_share'] = 1
+        df['wb_eltern_share'] = 1.0
         for c in [1,2]:
             for r in [1,2,3,4]:
                 df.loc[(df['child_num'] == r) & (df['adult_num'] == c),'wb_eltern_share'] = wb[r-1][c-1] / 100
@@ -679,8 +690,8 @@ def ben(df,tb,yr,ref,data_path):
 #        Wenn das zu berücksichtigende Einkommen UNTER der Höchsteinkommensgrenze und UNTER der Bemessungsgrundlage liegt, wird
 #        der volle KIZ gezahlt
 #        Wenn es ÜBER der Bemessungsgrundlage liegt, wird die Differenz abgezogen mit 50% Abschmelzung.
-        df['kiz_ek_gross'] =  df['alg2_grossek_hh'] - df['wohngeld_hh'] - df['kindergeld_hh']
-        df['kiz_ek_net']   =  df['ar_alg2_ek_hh'] - df['wohngeld_hh']
+        df['kiz_ek_gross'] =  df['alg2_grossek_hh']
+        df['kiz_ek_net']   =  df['ar_alg2_ek_hh']
 
         # Anzurechnendes Einkommen.
         df['kiz_ek_anr'] = np.maximum(0,round((df['ar_alg2_ek_hh'] - df['kiz_ek_relev'])/10)*5)
@@ -688,9 +699,10 @@ def ben(df,tb,yr,ref,data_path):
         df['kiz'] = 0
         df['kiz_incrange'] = (df['kiz_ek_gross'] >= df['kiz_ek_min']) & (df['kiz_ek_net'] <= df['kiz_ek_max'])
         df.loc[df['kiz_incrange'],'kiz'] = np.maximum((tb['a2kiz'] * df['child_num_tu'])- df['kiz_ek_anr'],0)
-        print('IS KIZ CONSTANT WITHIN HOUSEHOLDS??')
-        df = df.join(df.groupby(['tu_id'])['kiz'].std(), on = ['tu_id'], how='left',rsuffix='_std').fillna(0)
-        print(df[['hid','tu_id','pid','kiz']][df['kiz_std'] != 0])
+
+        #print('IS KIZ CONSTANT WITHIN HOUSEHOLDS??')
+        #df = df.join(df.groupby(['tu_id'])['kiz'].std(), on = ['tu_id'], how='left',rsuffix='_std').fillna(0)
+        #print(df[['hid','tu_id','pid','kiz']][df['kiz_std'] != 0])
         #assert((len(df.groupby(['tu_id'])['kiz'].std().value_counts())==1) & (df.groupby(['tu_id'])['kiz'].std().value_counts().index[0] == 0))
         ###############################
         # Check eligibility for benefits
@@ -700,8 +712,8 @@ def ben(df,tb,yr,ref,data_path):
         df['ar_wgkiz_alg2_ek']  = df['ar_base_alg2_ek'] + df['wohngeld'] + df['kiz']
 
         for v in ['base','wg','kiz','wgkiz']:
-            df['fehlbedarf'+v] = df['regelbedarf'] - df['ar_'+v+'_alg2_ek']
-            df['m_alg2_'+v]    = np.maximum(df['fehlbedarf'+v],0)
+            df['fehlbedarf_'+v] = df['regelbedarf'] - df['ar_'+v+'_alg2_ek']
+            df['m_alg2_'+v]    = np.maximum(df['fehlbedarf_'+v],0)
         # Check which benefits are superior to others
         for v in ['wg','kiz','wgkiz']:
             df[v+'_vorrang'] = (df['m_alg2_'+v] == 0) & (df['m_alg2_base'] > 0)
@@ -730,9 +742,9 @@ def ben(df,tb,yr,ref,data_path):
                      'wgmiete', 'wgheiz', 'mehrbed', 'bef_zuschlag', 'ind_freib', 'ind_freib_hh', 'maxvermfb',
                      'maxvermfb_hh', 'vermfreibetr', 'kiz_ek_regel', 'kiz_miete', 'kiz_heiz', 'wb_eltern_share',
                      'kiz_ek_kdu', 'kiz_ek_relev', 'kiz_ek_max', 'kiz_ek_min', 'kiz_ek_gross', 'kiz_ek_net',
-                     'kiz_ek_anr', 'kiz_incrange', 'kiz_std', 'ar_wg_alg2_ek', 'ar_kiz_alg2_ek', 'ar_wgkiz_alg2_ek',
-                     'fehlbedarfbase', 'm_alg2_base', 'fehlbedarfwg', 'm_alg2_wg', 'fehlbedarfkiz', 'm_alg2_kiz',
-                      'fehlbedarfwgkiz', 'm_alg2_wgkiz', 'wg_vorrang', 'kiz_vorrang', 'wgkiz_vorrang']
+                     'kiz_ek_anr', 'kiz_incrange', 'ar_wg_alg2_ek', 'ar_kiz_alg2_ek', 'ar_wgkiz_alg2_ek',
+                     'fehlbedarf_base', 'm_alg2_base', 'fehlbedarf_wg', 'm_alg2_wg', 'fehlbedarf_kiz', 'm_alg2_kiz',
+                      'fehlbedarf_wgkiz', 'm_alg2_wgkiz', 'wg_vorrang', 'kiz_vorrang', 'wgkiz_vorrang']
         drop(df,dropvars)
 
     return df

@@ -3,11 +3,12 @@
 IZAMOD SETTINGS
 """
 import re
+import os
 
 # initialize global variables
 def get_settings():
 
-    taxyear = 2016
+    taxyear = 2018
 
     # Rechtsstand des Basisjahres ist immer Baseline Reform
     reforms = ['RS'+str(taxyear)]
@@ -21,12 +22,14 @@ def get_settings():
 
 
     # TAX TRANSFER CALCULATION
-    taxtrans = 1
+    taxtrans = 0
 
+    # Run Hypo file for debugging
+    run_hypo = 1
 
 
     # PATH SETTINGS
-    MAIN_PATH = 'W:/izamod/IZA_DYN_MOD/'
+    MAIN_PATH = os.getcwd() + '/'
     SOEP_PATH = MAIN_PATH + 'data/soep_raw/'
     DATA_PATH = MAIN_PATH + 'data/'
     GRAPH_PATH = MAIN_PATH + 'graphs/'
@@ -37,6 +40,7 @@ def get_settings():
             'minyear':minyear,
             'taxtrans':taxtrans,
             'taxyear' : taxyear,
+            'run_hypo': run_hypo,
             'MAIN_PATH':MAIN_PATH,
             'SOEP_PATH':SOEP_PATH,
             'DATA_PATH':DATA_PATH,

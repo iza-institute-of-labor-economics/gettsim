@@ -16,6 +16,7 @@
 from settings import get_settings
 from load_data import loaddata
 from prepare_data import preparedata
+from hypo     import create_hypo_data
 from taxtransfer import *
 
 pd.options.display.float_format = '{:.2f}'.format
@@ -38,6 +39,9 @@ def run_izamod(settings):
         for ref in settings['Reforms']:
             taxtransfer(settings['DATA_PATH']+'SOEP/taxben_input_',settings,ref)
 
+    # HYPO RUN
+    if settings['run_hypo'] == 1:
+        create_hypo_data(settings['DATA_PATH'],settings)
 # Write Run Settings into dictionary
 settings = get_settings()
 
