@@ -16,7 +16,7 @@
 from settings import get_settings
 from load_data import loaddata
 from prepare_data import preparedata
-from hypo     import create_hypo_data
+from hypo import create_hypo_data
 from taxtransfer import *
 
 pd.options.display.float_format = '{:.2f}'.format
