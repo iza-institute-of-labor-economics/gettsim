@@ -29,23 +29,28 @@ def run_izamod(settings):
     main_path = settings['MAIN_PATH']
 
     if settings['load_data'] == 1:
-        loaddata(settings['SOEP_PATH'], settings['DATA_PATH']+'SOEP/', settings['minyear'])
+        loaddata(settings['SOEP_PATH'],
+                 settings['DATA_PATH']+'SOEP/',
+                 settings['minyear'])
 
     if settings['prepare_data'] == 1:
-        preparedata(settings['DATA_PATH']+'SOEP/', settings['GRAPH_PATH'])
+        preparedata(settings['DATA_PATH']+'SOEP/',
+                    settings['GRAPH_PATH'])
 
 
     if settings['taxtrans'] == 1:
         for ref in settings['Reforms']:
-            taxtransfer(settings['DATA_PATH']+'SOEP/taxben_input_',settings,ref)
+            taxtransfer(settings['DATA_PATH']+'SOEP/taxben_input_',
+                        settings,
+                        ref)
 
     # HYPO RUN
     if settings['run_hypo'] == 1:
-        create_hypo_data(settings['DATA_PATH'],settings)
+        create_hypo_data(settings['DATA_PATH'], settings)
 # Write Run Settings into dictionary
 settings = get_settings()
 
-#visualize_code()
+# visualize_code()
 
 # and run the thing
 run_izamod(settings)

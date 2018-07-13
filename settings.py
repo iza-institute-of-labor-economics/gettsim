@@ -2,7 +2,6 @@
 """
 IZAMOD SETTINGS
 """
-import re
 import os
 
 def get_settings():

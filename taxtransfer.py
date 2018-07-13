@@ -133,9 +133,9 @@ def pensions(df, tb, yr, ref):
     # individuelle monatl. Altersrente (Rentenartfaktor = 1):
     # R = EP * ZF * Rw
     m_wage_west = df['m_wage'][(df['m_wage'] > tb['mini_grenzew'])
-                               & (df['east'] is False)].mean()
+                               & (~df['east'])].mean()
     m_wage_east = df['m_wage'][(df['m_wage'] > tb['mini_grenzeo'])
-                               & (df['east'] is True)].mean()
+                               & (df['east'])].mean()
     df['EP'] = np.select(
             westost, [np.minimum(df['m_wage'], tb['rvmaxekw'])/m_wage_west,
                       np.minimum(df['m_wage'], tb['rvmaxeko'])/m_wage_east]
@@ -167,10 +167,10 @@ def ssc(df, tb, yr, ref):
     cprint('Social Security Payments...', 'red', 'on_white')
 # Einige Prüfgrößen
     ssc = df.copy()
-    westost = [df['east'] is False, df['east']]
+    westost = [~df['east'], df['east']]
     ssc['bezgr'] = np.select(westost,
                              [tb['bezgr_o'], tb['bezgr_w']])
-    ssc['kinderlos'] = ((ssc['haskids'] is False) & (ssc['age'] > 22))
+    ssc['kinderlos'] = ((~ssc['haskids']) & (ssc['age'] > 22))
     ssc['belowmini'] = np.select(westost,
                                  [ssc['m_wage'] < tb['mini_grenzew'],
                                   ssc['m_wage'] < tb['mini_grenzeo']]) == 1
@@ -287,12 +287,10 @@ def ssc(df, tb, yr, ref):
         ssc['gb_pv'] = 2 * tb['gpvbs'] * ssc['bemessungsentgelt']
         ssc.loc[ssc['in_gleitzone'], 'ag_pvbeit'] = tb['gpvbs'] * ssc['m_wage']
         ssc.loc[ssc['in_gleitzone'],
-                'pvbeit'] = (ssc['gb_pv']
-                             - ssc['ag_pvbeit']
-                             + np.select([ssc['kinderlos'],
-                                          ssc['kinderlos'] is False],
-                                         [tb['gpvbs_kind'] *
-                                          ssc['m_wage'], 0]))
+                'pvbeit'] = (ssc['gb_pv'] - ssc['ag_pvbeit']
+                             + (ssc['kinderlos']
+                                * tb['gpvbs_kind'] * ssc['m_wage']))
+
         # Drop intermediate variables
         ssc = ssc.drop(['gb_rv', 'gb_gkv',
                         'gb_alv', 'gb_pv', 'bemessungsentgelt'], axis=1)
@@ -307,17 +305,16 @@ def ssc(df, tb, yr, ref):
 
     # Freiwillige GKV der Selbständigen.
     # Entweder Selbständigen-Einkommen oder 3/4 der Bezugsgröße
-    ssc.loc[(ssc['selfemployed']) &
-            (ssc['pkv'] is False),
+    ssc.loc[(ssc['selfemployed']) & (~ssc['pkv']),
             'gkvbeit'] = ((tb['gkvbs_an'] + tb['gkvbs_ag'])
                           * np.minimum(ssc['m_self'],
                           0.75 * np.select(westost,
                                            [tb['bezgr_w'], tb['bezgr_o']])))
 
     ssc.loc[(ssc['selfemployed']) &
-            (ssc['pkv'] is False),
+            (~ssc['pkv']),
             'pvbeit'] = ((2 * tb['gpvbs'] + np.select(
-                        [ssc['kinderlos'], ssc['kinderlos'] is False],
+                        [ssc['kinderlos'], ~ssc['kinderlos']],
                         [tb['gpvbs_kind'], 0]))
                     * np.minimum(ssc['m_self'], 0.75 * np.select(
                             westost, [tb['bezgr_w'], tb['bezgr_o']])))
@@ -352,7 +349,7 @@ def ui(df, tb, taxyear, ref):
     ''' Unemployment/Transitory Benefit
         based on employment status and income from previous years
     '''
-    westost = [df['east'] is False, df['east']]
+    westost = [~df['east'], df['east']]
 
     df['m_alg1'] = df['alg_soep'].fillna(0)
     # Months of entitlement
@@ -418,8 +415,8 @@ def tax(df, tb, yr, ref, data_path):
 
     # settings + definitions
     e5_in_gde = yr < 2009
-    westost = [df['east'] is False, df['east']]
-    married = [df['zveranl'], df['zveranl'] is False]
+    westost = [~df['east'], df['east']]
+    married = [df['zveranl'], ~df['zveranl']]
 
     def aggr(df, inc):
         ''' Function to aggregate some variable
@@ -470,7 +467,7 @@ def tax(df, tb, yr, ref, data_path):
 
     df['werbung'] = ((df['m_wage'] > 0)
                      * np.maximum(tb['werbung'], df['entfpausch']))
-    df['sonder'] = (df['child'] is False) * tb['sonder']
+    df['sonder'] = (~df['child']) * tb['sonder']
     ####################################################
     # Einkommenskomponenten (auf jährlicher Basis!)
 
@@ -571,20 +568,14 @@ def tax(df, tb, yr, ref, data_path):
 
     # Entlastungsbetrag für Alleinerziehende
     if yr < 2015:
-        df['hhfreib'] = np.select(
-                [df['alleinerz'] is True,
-                 df['alleinerz'] is False],
-                [tb['hhfreib'], 0])
+        df['hhfreib'] = tb['hhfreib'] * df['alleinerz']
     if yr >= 2015:
-        df['hhfreib'] = np.select(
-                [df['alleinerz'] is True,
-                 df['alleinerz'] is False],
-                [tb['hhfreib'] + (df['child_num_tu'] - 1) * 240, 0])
-
+        df['hhfreib'] = (tb['hhfreib']
+                         + (df['child_num_tu'] - 1) * 240) * df['alleinerz']
     # Kinderfreibetrag...
     # Alleinerziehende bekommen nur den halben...Ehepartner auch
     df['kifreib'] = (0.5 * tb['kifreib']
-                     * df['child_num_tu'] * (df['child'] is False))
+                     * df['child_num_tu'] * ~df['child'])
     # ZU VERSTEUERNDEN EINKOMMEN (zve)
     # Ohne Kinderfreibetrag
     df['zve_nokfb'] = 0
@@ -699,26 +690,26 @@ def tax(df, tb, yr, ref, data_path):
     df['abgehakt'] = False
     for inc in inclist:
         df.loc[(df['minpay'] == df['nettax_' + inc])
-               & (df['abgehakt'] is False),
+               & (~df['abgehakt']),
                'tax_income'] = df['zve_'+inc]
         # Income Tax in monthly terms!
         df.loc[(df['minpay'] == df['nettax_' + inc])
-               & (df['abgehakt'] is False),
+               & (~df['abgehakt']),
                'incometax'] = df['tax_'+inc+'_tu'] / 12
         # set kindergeld to zero if necessary
-        if (('nokfb' in inc) is False) | (yr <= 1996):
+        if (not ('nokfb' in inc)) | (yr <= 1996):
             df.loc[(df['minpay'] == df['nettax_' + inc])
-                   & (df['abgehakt'] is False),
+                   & (~df['abgehakt']),
                    'kindergeld'] = 0
             df.loc[(df['minpay'] == df['nettax_' + inc])
-                   & (df['abgehakt'] is False),
+                   & (~df['abgehakt']),
                    'kindergeld_tu'] = 0
         if ('abg' in inc):
             df.loc[(df['minpay'] == df['nettax_' + inc])
-                   & (df['abgehakt'] is False),
+                   & (~df['abgehakt']),
                    'abgst'] = 0
             df.loc[(df['minpay'] == df['nettax_' + inc])
-                   & (df['abgehakt'] is False),
+                   & (~df['abgehakt']),
                    'abgst_tu'] = 0
         df.loc[(df['minpay'] == df['nettax_' + inc]), 'abgehakt'] = True
 
@@ -785,9 +776,9 @@ def ben(df, tb, yr, ref, data_path):
 
     if yr >= 2016:
         df['wg_incdeduct'] = ((df['handcap_degree'] > 0) * tb['wgpfbm80']
-                              + (((df['child'] is True) * (df['m_wage'] > 0))
+                              + (((df['child']) * (df['m_wage'] > 0))
                                  * np.minimum(tb['wgpfb24'], df['m_wage']))
-                              + ((df['alleinerz'] is True) * tb['wgpfb12']))
+                              + (df['alleinerz'] * tb['wgpfb12']))
     else:
         sys.exit("Wohngeld-Abzüge vor 2016 noch nicht modelliert")
 
@@ -867,7 +858,7 @@ def ben(df, tb, yr, ref, data_path):
         df['kdu'] = 0
     else:
         # Mehrbedarf für Alleinerziehende
-        df['mehrbed'] = ((df['child'] is False)
+        df['mehrbed'] = ((~df['child'])
                          * df['alleinerz']
                          * np.minimum(
                                  np.maximum(
@@ -936,10 +927,10 @@ def ben(df, tb, yr, ref, data_path):
         # individuelle Freibeträge
         df['ind_freib'] = 0
         df.loc[(df['byear'] >= 1948)
-               & (df['child'] is False),
+               & (~df['child']),
                'ind_freib'] = tb['a2ve1'] * df['age']
         df.loc[(df['byear'] < 1948)
-               & (df['child'] is False),
+               & (~df['child']),
                'ind_freib'] = tb['a2ve2'] * df['age']
         df = df.join(df.groupby(['hid'])['ind_freib'].sum(),
                      on=['hid'], how='left', rsuffix='_hh')
@@ -947,16 +938,16 @@ def ben(df, tb, yr, ref, data_path):
         # maximale Freibeträge
         df['maxvermfb'] = 0
         df.loc[(df['byear'] < 1948)
-               & (df['child'] is False),
+               & (~df['child']),
                'maxvermfb'] = tb['a2voe1']
         df.loc[(df['byear'].between(1948, 1957))
-               & (df['child'] is False),
+               & (~df['child']),
                'maxvermfb'] = tb['a2voe1']
         df.loc[(df['byear'].between(1958, 1963))
-               & (df['child'] is False),
+               & (~df['child']),
                'maxvermfb'] = tb['a2voe3']
         df.loc[(df['byear'] >= 1964)
-               & (df['child'] is False),
+               & (~df['child']),
                'maxvermfb'] = tb['a2voe4']
         df = df.join(df.groupby(['hid'])['maxvermfb'].sum(),
                      on=['hid'], how='left', rsuffix='_hh')
@@ -969,7 +960,7 @@ def ben(df, tb, yr, ref, data_path):
         df.loc[(df['assets'] > df['vermfreibetr']), 'regelbedarf'] = 0
 
         # AlG2-relevantes Einkommen
-        df['alg2_grossek'] = ((df['child'] is False)
+        df['alg2_grossek'] = (~(df['child'])
                               * df[['m_wage',
                                     'm_transfers',
                                     'm_self',
@@ -979,7 +970,7 @@ def ben(df, tb, yr, ref, data_path):
                                     'm_alg1']].sum(axis=1))
         df['alg2_grossek'] = df['alg2_grossek'].fillna(0)
 
-        df['alg2_ek'] = ((df['child'] is False)
+        df['alg2_ek'] = ((~df['child'])
                          * np.maximum(df['alg2_grossek']
                                       - df['incometax']
                                       - df['svbeit'], 0))
@@ -1066,7 +1057,7 @@ def ben(df, tb, yr, ref, data_path):
         # min income to be eligible for KIZ (different for singles and couples)
         df['kiz_ek_min'] = (tb['a2kiz_minek_cou'] * (df['hhtyp'] == 4)
                             + (tb['a2kiz_minek_sin']
-                               * (df['alleinerz'] is True)))
+                               * (df['alleinerz'])))
 
 #        Übersetzung §6a BKGG auf deutsch:
 #     1. Um KIZ zu bekommen, muss das Bruttoeinkommen minus Wohngeld
@@ -1119,12 +1110,12 @@ def ben(df, tb, yr, ref, data_path):
                | (df['kiz_vorrang'])
                | (df['wgkiz_vorrang']),
                'm_alg2'] = 0
-        df.loc[(df['wg_vorrang'] is False)
-               & (df['wgkiz_vorrang'] is False)
+        df.loc[(df['wg_vorrang'])
+               & (~df['wgkiz_vorrang'])
                & (df['m_alg2_base'] > 0),
                'wohngeld'] = 0
-        df.loc[(df['kiz_vorrang'] is False)
-               & (df['wgkiz_vorrang'] is False)
+        df.loc[(~df['kiz_vorrang'])
+               & (~df['wgkiz_vorrang'])
                & (df['m_alg2_base'] > 0),
                'kiz'] = 0
 
