@@ -37,7 +37,6 @@ def run_izamod(settings):
         preparedata(settings['DATA_PATH']+'SOEP/',
                     settings['GRAPH_PATH'])
 
-
     if settings['taxtrans'] == 1:
         for ref in settings['Reforms']:
             taxtransfer(settings['DATA_PATH']+'SOEP/taxben_input_',

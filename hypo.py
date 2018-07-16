@@ -22,6 +22,7 @@ Hypothetical Household Types
    38: Paar, hohes Partnereinkommen, zwei Kinder
 """
 
+
 def create_hypo_data(data_path, settings):
 
     # DEFINE STEPS IN YEARLY WAGES
@@ -61,14 +62,8 @@ def create_hypo_data(data_path, settings):
 
     df[['typ', 'typ_bud']]
 
-    # Set some variables
-    df.loc[df['typ_bud'] == 11, 'hhtyp_old'] = 1
-    df.loc[(df['typ_bud'] >= 30) & ((df['typ_bud'] % 2) != 0), 'hhtyp_old'] = 2
-    df.loc[(df['typ_bud'] == 22) | (df['typ_bud'] == 24), 'hhtyp_old'] = 3
-    df.loc[(df['typ_bud'] >= 30) & ((df['typ_bud'] % 2) == 0), 'hhtyp_old'] = 4
-
-    df['alleinerz'] = df['hhtyp_old'] == 2
-    # Verdopple die Reihen und erhöhe den Lohn
+  
+    # Vervielfache die Reihen und erhöhe den Lohn
     df = df.append([df] * 500, ignore_index=True)
     df = df.sort_values(by=['typ_bud'])
     df['n_typ_bud'] = df.groupby(['typ_bud']).cumcount()
@@ -79,7 +74,7 @@ def create_hypo_data(data_path, settings):
     df['age'] = 30
     df['child'] = False
     df['female'] = False
-
+    
     # verdopple die Reihen mit Paarhaushalten
     df = df.append([df[df['typ_bud'] > 30]], ignore_index=True)
     df = df.sort_values(by=['typ_bud', 'y_wage'])
@@ -109,9 +104,10 @@ def create_hypo_data(data_path, settings):
 
     # append kids
     df = df.append(kids)
-    print(df['typ_bud'].value_counts())
+
     df = df.sort_values(by=['typ_bud', 'y_wage'])
     df = df.reset_index(drop=True)
+    df[df['y_wage'] == 0]['typ_bud'].value_counts()
 
     # drop missings
     df = df.dropna(subset=['typ_bud'])
@@ -131,7 +127,7 @@ def create_hypo_data(data_path, settings):
     df['child3_6_num'] = 1 * ((df['typ_bud'] % 2) == 0)
     for var in ['7_11', '7_13', '7_16', '12_15']:
         df['child'+var+'_num'] = (1 * (df['typ_bud'] >= 24)
-                                  + (df['typ_bud'] % 2 == 0))
+                                  * (df['typ_bud'] % 2 == 0))
 
     df['child6'] = df['child3_6_num']
     for var in ['11', '15', '18', '']:
@@ -139,19 +135,30 @@ def create_hypo_data(data_path, settings):
 
     # Erster Mann ist immer Head, der Rest sind Frauen und Mädchen
     df['head'] = ~df['female']
-
+    df['head_tu'] = df['head']
+    
     df['haskids'] = df['child_num'] > 0
     df['adult_num'] = 1 + (df['typ_bud'] >= 31) * 1
     df['hhsize'] = df['adult_num'] + df['child_num']
+            
+    print(pd.crosstab(df['typ_bud'], df['child_num']))
 
     tuvars = ['child3_6', 'child7_11', 'child7_13', 'child7_16',
               'child12_15', 'child14_24', 'child2', 'child11',
               'child15', 'child18', 'child', 'adult']
 
     for var in tuvars:
-        df[var+'num_tu'] = df[var+'_num']
+        df[var+'_num_tu'] = df[var+'_num']
+        
+    df['hhsize_tu'] = df['adult_num_tu'] + df['child_num_tu']
 
-    df['hhsize_tu'] = df['hhsize']
+    # Household types
+    df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] == 0), 'hhtyp'] = 1
+    df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0), 'hhtyp'] = 2
+    df.loc[(df['adult_num_tu'] == 2) & (df['child_num_tu'] == 0), 'hhtyp'] = 3
+    df.loc[(df['adult_num_tu'] == 2) & (df['child_num_tu'] > 0), 'hhtyp'] = 4
+
+    df['alleinerz'] = df['hhtyp'] == 2
 
     # Miete und Heizkosten.
     df['cnstyr'] = 2
@@ -167,6 +174,7 @@ def create_hypo_data(data_path, settings):
 
     df['east'] = False
     df['zveranl'] = df['typ_bud'] >= 30
+    df['hh_korr'] = 1
 
     # Teile das Jahreseinkommen auf für Paare...
     # s gibt erstmal nur alleinverdiener
@@ -178,8 +186,8 @@ def create_hypo_data(data_path, settings):
     df = df.sort_values(by=['typ_bud', 'y_wage', 'female'])
     df = df.dropna(subset=['typ_bud'])
     # Drop Doppeltverdiener
-    df = df[df['typ_bud'] < 33]
-
+    df = df[df['typ_bud'] < 33]    
+    
     pd.to_pickle(df, data_path + 'SOEP/taxben_input_hypo')
     # df.to_stata(data_path+'hypo.dta')
 
@@ -195,35 +203,65 @@ def create_hypo_data(data_path, settings):
     # create writer for excel
     hypo_writer = pd.ExcelWriter(data_path + 'check_hypo.xlsx')
     out_vars = ['typ_bud', 'female', 'age', 'head', 'child', 'y_wage',
-                'm_wage', 'w_hours', 'dpi', 'wohngeld', 'kiz',
-                'kindergeld', 'svbeit', 'tax_income', 'incometax']
+                'm_wage', 'w_hours', 'dpi', 'm_alg2', 'wohngeld', 'kiz',
+                'kindergeld', 'svbeit', 'tax_income', 'incometax', 'soli',
+                'miete', 'heizkost']
     for typ in [11, 22, 24, 31, 32]:
-        df[df['typ_bud'] == typ].to_excel(hypo_writer,
-                                          sheet_name='typ_' + str(typ),
-                                          columns=out_vars, na_rep='NaN',
-                                          freeze_panes=(1, 0))
+        df[(df['typ_bud'] == typ) 
+           & df['head']].to_excel(hypo_writer,
+                                  sheet_name='typ_' + str(typ),
+                                  columns=out_vars, na_rep='NaN',
+                                  freeze_panes=(1, 0))
 
     # graph it
     # data set with heads only
     h = df[df['head']]
-    h = h.sort_values(by = ['typ_bud', 'y_wage'])
-    h['emtr'] = (1 - (h['dpi'] - h['dpi'].shift(1))
-                 / (h['m_wage'] - h['m_wage'].shift(1)))
+    h = h.sort_values(by=['typ_bud', 'y_wage'])
+    h['emtr'] = 100 * np.minimum((1 - (h['dpi'] - h['dpi'].shift(1))
+                 / (h['m_wage'] - h['m_wage'].shift(1))),1.2)
+    h.loc[h['emtr'] < -1, 'emtr'] = np.nan
+
+    lego = df[['y_wage', 'm_wage', 'dpi', 'kindergeld',
+               'm_alg2', 'kiz', 'wohngeld', 'soli',
+               'svbeit', 'incometax', 'typ_bud']][df['head']]
+    lego['net_l'] = (lego['m_wage'] - lego['svbeit']
+                     - lego['incometax'] - lego['soli'])
+    lego['cb_l'] = lego['net_l'] + lego['kindergeld']
+    lego['ub_l'] = lego['cb_l'] + lego['m_alg2']
+    lego['hb_l'] = lego['ub_l'] + lego['wohngeld']
+    lego['kiz_l'] = lego['hb_l'] + lego['kiz']
+
+    lego['sic_l'] = lego['svbeit'] * (-1)
+    #lego['tax_l'] = lego['sic_l'] - lego['incometax']
+    lego['tax_l'] = (lego['incometax'] + lego['soli']) * (-1)
+    lego['dpi_l'] = lego['dpi']
 
     # GRAPH SETTINGS
-    maxinc = 50000
+    # max yearly income to plot
+    maxinc = 100000
 
     for t in [11, 22, 24, 31, 32]:
         plt.clf()
         ax = h[(h['typ_bud'] == t)
-               & (h['y_wage'] <= maxinc)].plot.line(x='y_wage',y='emtr')
+               & (h['y_wage'] <= maxinc)].plot.line(x='m_wage', y='emtr')
         fig = ax.get_figure()
         fig.savefig(settings['GRAPH_PATH'] + 'hypo/emtr_'
-                                           + str(t) +'.png')
-#        for f in [0,1]:
-#            plt.clf()
-#            plotdata = df[['w_hours','syear','female']].query('syear == @y & female == @f')
-#            hours = np.array(plotdata['w_hours'])
-#            plt.hist(hours,bins=13,range=(1,60))
-#            plt.title('Hours Distribution, Year: '+ str(y)+ ', Female: ' +str(f))
-#            plt.savefig(graph_path+'hrs_dist/'+str(y)+'_f'+str(f)+'.png')
+                                           + str(t) + '.png')
+
+        # Lego Plots
+        plt.clf()
+        p = lego[(lego['typ_bud'] == t) & (lego['m_wage'] <= (maxinc / 12))]
+        if t in [11, 31]:
+            lego_vars = p[['tax_l', 'sic_l', 'wohngeld', 'm_alg2', 'net_l']]
+            #lego_vars = p[['tax_l', 'sic_l', 'hb_l', 'net_l']]
+            lego_lab = ['PIT', 'SIC', 'HB', 'ALG2', 'NetInc']
+        else:
+            lego_vars = p[['tax_l', 'sic_l', 'kiz_l',
+                           'hb_l', 'cb_l', 'ub_l', 'net_l']]
+            lego_lab = ['PIT', 'SIC', 'KiZ', 'HB', 'ChBen', 'ALG2', 'NetInc']
+
+        fig, ax = plt.subplots()
+        ax.stackplot(p['m_wage'], lego_vars.T, labels=lego_lab)
+        ax.legend(loc=0)
+        fig.savefig(settings['GRAPH_PATH'] + 'hypo/lego_'
+                                           + str(t) + '.png')

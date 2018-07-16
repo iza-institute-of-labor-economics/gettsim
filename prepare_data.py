@@ -6,6 +6,7 @@ Created on Fri Jun 15 08:48:33 2018
 """
 from imports import *
 
+
 def preparedata(data_path, graph_path):
     print('Load selected SOEP Data from HD')
 
@@ -347,8 +348,8 @@ def preparedata(data_path, graph_path):
     # Monthly Wage
     df['m_wage'] = 0
     df['m_self'] = 0
-    df['othwage_ly'] = df[['i13ly','i14ly','ixmas','iholy',
-                           'igray','iothy','itray']].sum(axis=1)
+    df['othwage_ly'] = df[['i13ly','i14ly','ixmas', 'iholy',
+                           'igray', 'iothy', 'itray']].sum(axis=1)
     df.loc[(df['othwage_ly'] > 0)
            & ((pd.isna(df['months']))
            | (df['months'] == 0)), 'months'] = 12
@@ -390,7 +391,7 @@ def preparedata(data_path, graph_path):
     print('Living costs...')
     # WOHNKOSTEN
     for v in ['hgsize', 'hgrent', 'hgheat', 'hgcnstyrmax', 'hgcnstyrmin']:
-        df[v] = df[v].replace([-8, -7, -6, -5, -4, -3, -2, -1, 0],np.nan)
+        df[v] = df[v].replace([-8, -7, -6, -5, -4, -3, -2, -1, 0], np.nan)
 
     df['eigentum'] = df['hgowner'] == 1
     df['heim'] = df['hgowner'] == 5
