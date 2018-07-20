@@ -153,15 +153,4 @@ def loaddata(soep_path, data_path, minyear):
                             'hlc0081': 'wgeld_m_l1',
                             'hlc0082': 'wgeld_l1'})
 
-    print('Save ' + str(df.shape) + ' Data to Pickle: ' +
-          data_path + 'soep_long')
-    pd.to_pickle(df, data_path + 'soep_long')
-
-
-
-
-
-
-
-
-
+    return df
