@@ -22,9 +22,9 @@ def init(settings):
             os.makedirs(settings['DATA_PATH']+r)
         if not os.path.exists(settings['GRAPH_PATH']+r):
             os.makedirs(settings['GRAPH_PATH']+r)
-    if not os.path.exists(settings['DATA_PATH']+'SOEP'):            
+    if not os.path.exists(settings['DATA_PATH']+'SOEP'):
         os.makedirs(settings['DATA_PATH'] + 'SOEP')
-    if not os.path.exists(settings['GRAPH_PATH']+'hypo'):            
+    if not os.path.exists(settings['GRAPH_PATH']+'hypo'):
         os.makedirs(settings['GRAPH_PATH'] + 'hypo')
 
 
@@ -41,9 +41,15 @@ def get_params(settings):
         for i in range(0, len(params)):
             name = params.index[i]
             yearpar.update({name: params.loc[name, col]})
+
+        # TO DO: English Translation
+        yearpar['ch_allow'] = yearpar.pop('kifreib')
+        # add year
         yearpar.update({'yr': str(yr)})
         # When finished, add to par
         par.update({str(yr): yearpar})
+
+
 
     return par
 
@@ -82,12 +88,12 @@ def drop(df, dropvars):
 def aggr(df, inc, kids=False):
     ''' Function to aggregate some variable
         'inc' among
-        - the 2 adults of the tax unit (if they are married!) 
+        - the 2 adults of the tax unit (if they are married!)
           if kids is False.
           Do this for taxable incomes
         - all members (incl. children) of the tax_unit
            if 'hh' is chosen as unit
-        returns a variable with suffix _tu or _tu_k, depending on the 
+        returns a variable with suffix _tu or _tu_k, depending on the
         parameter kids
     '''
     if kids is False:
@@ -117,27 +123,6 @@ def ols(y, X, show=False):
     if show:
         print(model_name.summary())
     return model_name
-
-
-def wohnbedarf(yr_in):
-    ''' Erwachsenen-Wohnbedarf für Kinderzuschlag
-        Fixe Anteile am Gesamtbedarf gem. jährlichem Existenz-
-        minimumsbericht
-    '''
-    year = max(yr_in, 2011)
-    # cols: number of adults
-    # rows: number of kids
-    wb = {'2011': [[75.90, 83.11], [61.16, 71.10], [51.21, 62.12], [44.05, 55.15], [38.65, 49.59]],
-          '2012': [[76.34, 83.14], [61.74, 71.15], [51.82, 62.18], [44.65, 55.22], [39.23, 49.66]],
-          '2013': [[76.34, 83.14], [61.74, 71.15], [51.82, 62.18], [44.65, 55.22], [39.23, 49.66]],
-          '2014': [[76.69, 83.30], [62.20, 71.38], [52.31, 62.45], [45.13, 55.50], [39.69, 49.95]],
-          '2015': [[76.69, 83.30], [62.20, 71.38], [52.31, 62.45], [45.13, 55.50], [39.69, 49.95]],
-          '2016': [[77.25, 83.16], [62.93, 71.17], [53.09, 62.20], [45.92, 55.24], [40.45, 49.69]],
-          '2017': [[77.25, 83.16], [62.93, 71.17], [53.09, 62.20], [45.92, 55.24], [40.45, 49.69]],
-          '2018': [[77.24, 83.25], [62.92, 71.30], [53.08, 62.36], [45.90, 55.41], [40.43, 49.85]]
-         }
-
-    return wb[str(year)]
 
 
 def gini(x, w=None):

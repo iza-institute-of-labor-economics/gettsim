@@ -25,27 +25,49 @@ pd.options.display.float_format = '{:.2f}'.format
 def run_izamod(settings):
 
     init(settings)
-    global main_path
-    main_path = settings['MAIN_PATH']
 
     if settings['load_data'] == 1:
-        loaddata(settings['SOEP_PATH'],
-                 settings['DATA_PATH']+'SOEP/',
-                 settings['minyear'])
+        rawdata = loaddata(settings['SOEP_PATH'], settings['DATA_PATH']+'SOEP/',
+                           settings['minyear'])
+
+        print('Save ' + str(rawdata.shape) + ' Data to: ' + settings['DATA_PATH'] + 'soep_long')
+        pd.to_pickle(rawdata, settings['DATA_PATH'] + 'soep_long')
 
     if settings['prepare_data'] == 1:
         preparedata(settings['DATA_PATH']+'SOEP/',
                     settings['GRAPH_PATH'])
 
     if settings['taxtrans'] == 1:
+        ### TAX TRANSFER
+        # Load Tax-Benefit Parameters
+        tb = get_params(settings)[str(settings['taxyear'])]
         for ref in settings['Reforms']:
-            taxtransfer(settings['DATA_PATH']+'SOEP/taxben_input_',
-                        settings,
-                        ref)
+            # call tax transfer
+            datayear = min(settings['taxyear'], 2016)
+            print("---------------------------------------------")
+            print(" TAX TRANSFER SYSTEM ")
+            print(" -------------------")
+            print(" Year of Database: " + str(datayear))
+
+            df = pd.read_pickle(settings['DATA_PATH'] + 'SOEP/taxben_input_' + str(datayear))
+            # Get the correct parameters for the tax year
+            print(" Year of System: " + str(settings['taxyear']))
+            print(" Simulated Reform: " + str(ref))
+            print("---------------------------------------------")
+            tt_out = taxtransfer(df, ref, datayear, settings['taxyear'], tb, False)
+            print('Saving to:' + settings['DATA_PATH'] + ref
+              + '/taxben_results' + str(datayear) + '_'
+              + str(taxyear) + '.json')
+            tt_out.to_json(settings['DATA_PATH']+ref+'/taxben_results' +
+                           str(datayear) + '_' + str(settings['taxyear']) + '.json')
+
+            # SHOW OUTPUT
+            tb_out(tt_out, ref, settings['GRAPH_PATH'])
 
     # HYPO RUN
     if settings['run_hypo'] == 1:
         create_hypo_data(settings['DATA_PATH'], settings)
+
 # Write Run Settings into dictionary
 settings = get_settings()
 

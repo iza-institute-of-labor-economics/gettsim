@@ -62,7 +62,7 @@ def create_hypo_data(data_path, settings):
 
     df[['typ', 'typ_bud']]
 
-  
+
     # Vervielfache die Reihen und erhöhe den Lohn
     df = df.append([df] * 500, ignore_index=True)
     df = df.sort_values(by=['typ_bud'])
@@ -74,7 +74,7 @@ def create_hypo_data(data_path, settings):
     df['age'] = 30
     df['child'] = False
     df['female'] = False
-    
+
     # verdopple die Reihen mit Paarhaushalten
     df = df.append([df[df['typ_bud'] > 30]], ignore_index=True)
     df = df.sort_values(by=['typ_bud', 'y_wage'])
@@ -136,11 +136,11 @@ def create_hypo_data(data_path, settings):
     # Erster Mann ist immer Head, der Rest sind Frauen und Mädchen
     df['head'] = ~df['female']
     df['head_tu'] = df['head']
-    
+
     df['haskids'] = df['child_num'] > 0
     df['adult_num'] = 1 + (df['typ_bud'] >= 31) * 1
     df['hhsize'] = df['adult_num'] + df['child_num']
-            
+
     print(pd.crosstab(df['typ_bud'], df['child_num']))
 
     tuvars = ['child3_6', 'child7_11', 'child7_13', 'child7_16',
@@ -149,7 +149,7 @@ def create_hypo_data(data_path, settings):
 
     for var in tuvars:
         df[var+'_num_tu'] = df[var+'_num']
-        
+
     df['hhsize_tu'] = df['adult_num_tu'] + df['child_num_tu']
 
     # Household types
@@ -186,15 +186,14 @@ def create_hypo_data(data_path, settings):
     df = df.sort_values(by=['typ_bud', 'y_wage', 'female'])
     df = df.dropna(subset=['typ_bud'])
     # Drop Doppeltverdiener
-    df = df[df['typ_bud'] < 33]    
-    
+    df = df[df['typ_bud'] < 33]
+
     pd.to_pickle(df, data_path + 'SOEP/taxben_input_hypo')
     # df.to_stata(data_path+'hypo.dta')
+    df = pd.read_pickle(settings['DATA_PATH'] + 'SOEP/taxben_input_hypo')
+    tb = get_params(settings)[str(settings['taxyear'])]
 
-    taxout_hypo = taxtransfer(settings['DATA_PATH'] + 'SOEP/taxben_input_',
-                              settings,
-                              'RS2018',
-                              True)
+    taxout_hypo = taxtransfer(df, 'RS2018', 2018, 2018, tb, True)
 
     # EMTR Graphen
     # keep only those that get earnings
@@ -205,9 +204,9 @@ def create_hypo_data(data_path, settings):
     out_vars = ['typ_bud', 'female', 'age', 'head', 'child', 'y_wage',
                 'm_wage', 'w_hours', 'dpi', 'm_alg2', 'wohngeld', 'kiz',
                 'kindergeld', 'svbeit', 'tax_income', 'incometax', 'soli',
-                'miete', 'heizkost']
+                'incometax_tu', 'soli_tu', 'miete', 'heizkost']
     for typ in [11, 22, 24, 31, 32]:
-        df[(df['typ_bud'] == typ) 
+        df[(df['typ_bud'] == typ)
            & df['head']].to_excel(hypo_writer,
                                   sheet_name='typ_' + str(typ),
                                   columns=out_vars, na_rep='NaN',
