@@ -34,11 +34,24 @@ def run_izamod(settings):
         pd.to_pickle(rawdata, settings['DATA_PATH'] + 'soep_long')
 
     if settings['prepare_data'] == 1:
-        preparedata(settings['DATA_PATH']+'SOEP/',
-                    settings['GRAPH_PATH'])
+        ########################
+        ## DATA PREPARATION
+        #######################
+        print('Load selected SOEP Data from HD')
+        # load data
+        soep_long_raw = pd.read_pickle(settings['DATA_PATH'] + 'soep_long')
+        df = preparedata(soep_long_raw)
+        
+        # Export data for each SOEP survey year separately
+        for y in df['syear'].unique():
+            filename = settings['DATA_PATH'] + 'taxben_input_' + str(y)
+            print("Saving to " + filename)
+            pd.to_pickle(df[df['syear'] == y], filename)
 
     if settings['taxtrans'] == 1:
+        ########################
         ### TAX TRANSFER
+        ########################
         # Load Tax-Benefit Parameters
         tb = get_params(settings)[str(settings['taxyear'])]
         for ref in settings['Reforms']:
