@@ -210,7 +210,7 @@ def ssc(df, tb, yr, ref):
     '''
     # Unemployment Insurance / Arbeitslosenversicherung
     ssc['avbeit'] = (tb['alvbs'] *
-                     * np.minimum(ssc['m_wage'],
+                     np.minimum(ssc['m_wage'],
                                   np.select(westost,
                                             [tb['rvmaxekw'],
                                              tb['rvmaxeko']])))
@@ -645,28 +645,31 @@ def kindergeld(df, tb, yr, ref):
     """ Child Benefit
         Basic Amount for each child, hours restriction applies
     """
-    df['child_count'] = df.groupby(['tu_id'])['child'].cumsum()
-    df['kindergeld'] = 0
-    for k in range(1, int(df['child_num_tu'].max())+1):
-        z = min(k, 4)
-        if yr <= 2011:
-            # pre 2011: income restriction
-            df.loc[(df['child_count'] == k)
-                   & (df['child'])
-                   & (df['m_wage'] <= tb['kgfreib']),
-                   'kindergeld'] = tb['kgeld'+str(z)]
-        if yr > 2011:
-            # poist 2011: hours restriction
-            df.loc[(df['child_count'] == k)
-                   & (df['child'])
-                   & (df['w_hours'] <= 20),
-                   'kindergeld'] = tb['kgeld'+str(z)]
+    df['eligible'] = 1
+    if yr > 2011:
+        df['eligible'] = df['eligible'].where(
+            (df['age'] <= tb['kgage']) &
+            (df['w_hours'] <= 20) &
+            (df['ineducation']), 0)
+    else:
+        df['eligible'] = df['eligible'].where(
+            (df['age'] <= tb['kgage']) &
+            (df['m_wage'] <= tb['kgfreib'] / 12) &
+            (df['ineducation']), 0)
 
-    df = df.join(
-            df.groupby(['tu_id'])['kindergeld'].sum(),
-            on=['tu_id'], how='left', rsuffix='_tu')
+    df['child_count'] = df.groupby(['tu_id'])['eligible'].cumsum()
+
+    num_to_amount = {1: tb['kgeld1'], 2: tb['kgeld2'], 3: tb['kgeld3'],
+                     4: tb['kgeld4']}
+    df['kindergeld'] = df['child_count'].replace(num_to_amount)
+    df['kindergeld'] = df['kindergeld'].where(
+        df['child_count'] <= 4, tb['kgeld4'])
+    df['kindergeld_tu'] = df.groupby('tu_id')['kindergeld'].transform(sum)
+
+    df.drop(['child_count', 'eligible', 'kindergeld'], axis=1, inplace=True)
 
     return df
+
 
 def tax_test(df, tb, yr, ref):
     """ 'Higher-Yield Test'
