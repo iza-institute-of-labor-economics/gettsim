@@ -258,8 +258,8 @@ def ssc(df, tb, yr, ref):
 
     if yr >= 2003:
         # For midijobs, the rate is not calculated on the wage,
-        # but on the 'bemessungsentgelt'
-        # Contributions are usually shared equally by employee and
+        # but on the 'bemessungsentgelt
+        # contributions are usually equally paid half by employee and
         # employer. We are not interested in employer's contributions,
         # but we need them here as an intermediate step
         AN_anteil = tb['grvbs'] + tb['gpvbs'] + tb['alvbs'] + tb['gkvbs_an']
@@ -350,14 +350,14 @@ def ssc(df, tb, yr, ref):
                                             [tb['kvmaxekw'],
                                              tb['kvmaxeko']])))
     # doppelter Pflegebeitragssatz
-    ssc['pvrbeit'] = (2 * tb['gpvbs'] *
-                      np.minimum(ssc['m_pensions'],
+    ssc['pvrbeit'] = (2 * tb['gpvbs']
+                      * np.minimum(ssc['m_pensions'],
                                    np.select(westost,
                                              [tb['kvmaxekw'],
                                               tb['kvmaxeko']])))
     ssc.loc[ssc['kinderlos'],
-            'pvrbeit'] = ((2 * tb['gpvbs'] + tb['gpvbs_kind']) *
-                          np.minimum(ssc['m_pensions'],
+            'pvrbeit'] = ((2 * tb['gpvbs'] + tb['gpvbs_kind'])
+                          * np.minimum(ssc['m_pensions'],
                                        np.select(westost,
                                                  [tb['kvmaxekw'],
                                                   tb['kvmaxeko']])))
@@ -393,7 +393,7 @@ def ui(df, tb, taxyear, ref):
                                           tb['alg1_frei'], 0), 0)
     # BENEFIT AMOUNT
     # Check Eligiblity.
-    # Then different rates for parent and non-parents
+    # Then differen rates for parent and non-parents
     # Take into account actual wages
     # Do this only for people for which we don't observe UI payments in SOEP,
     # assuming that their information is more reliable
@@ -496,8 +496,6 @@ def zve(df, tb, yr, ref):
         df = aggr(df, inc, False)
 
     # TAX DEDUCTIONS
-    # 'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
-    # from your taxable income
     # Vorsorgeaufwendungen bis 2004
     # TO DO
     # Vorsorgeaufwendungen ab 2005
