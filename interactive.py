@@ -20,3 +20,6 @@ ref = 'RS'+str(taxyear)
 #df = pd.read_pickle(data_path+'taxben_input')
 
 # df = pd.read_json(out_path+ref+'/taxben_results' + str(datayear) + '_' + str(taxyear) + '.json')
+
+#df2 = pd.read_stata(settings['DATA_PATH']+'/hypoinc_2018_reference.dta',
+ #                   convert_categoricals=False)

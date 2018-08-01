@@ -135,11 +135,11 @@ def preparedata(df):
            (~df['old_single_unit']) &
            (df['partner_id'] == 1), 'main_unit'] = True
     # treat residuals as single units
-    df.loc[(~df['main_unit'])
-           & (~df['young_single_unit'])
-           & (~df['young_couple_unit'])
-           & (~df['old_couple_unit'])
-           & (~df['old_single_unit']), 'old_single_unit'] = True
+    df.loc[(~df['main_unit']) &
+           (~df['young_single_unit']) &
+           (~df['young_couple_unit']) &
+           (~df['old_couple_unit']) &
+           (~df['old_single_unit']), 'old_single_unit'] = True
     # combine old and young units
     df['single_unit'] = df['young_single_unit'] | df['old_single_unit']
     df['couple_unit'] = df['young_couple_unit'] | df['old_couple_unit']
