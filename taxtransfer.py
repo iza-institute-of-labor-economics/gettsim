@@ -465,7 +465,11 @@ def zve(df, tb, yr, ref):
                                 - tb['vorsorgpausch'], 0)
     # Sum of incomes
     df['gross_gde'] = df[['gross_e1', 'gross_e4', 'gross_e6', 'gross_e7']].sum(axis=1)
-    if kapinc_in_tarif: df['gross_gde'] = df['gross_gde'] + df['gross_e5']
+    # If capital income tax with tariff, add it but account for exemptions
+    if kapinc_in_tarif: df['gross_gde'] = (df['gross_gde'] +
+                                           np.maximum(df['gross_e5'] -
+                                                      tb['spsparf'] -
+                                                      tb['spwerbz'], 0)
     # Gross (market) income <> sum of incomes...
     df['m_brutto'] = df[['m_self',
                          'm_wage',
@@ -546,7 +550,7 @@ def zve(df, tb, yr, ref):
     if yr < 2015:
         df.loc[df['alleinerz'],'hhfreib'] = tb['hhfreib']
     if yr >= 2015:
-        df.loc[df['alleinerz'],'hhfreib'] = (tb['hhfreib'] + (df['child_num_tu'] - 1) * 240)
+            df.loc[df['alleinerz'],'hhfreib'] = (tb['hhfreib'] + (df['child_num_tu'] - 1) * 240)
     # Child Allowance (Kinderfreibetrag)
     # Single Parents get half the allowance, parents get the full amount but share it.
     # This is an assumption!
@@ -558,17 +562,19 @@ def zve(df, tb, yr, ref):
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
     df['zve_nokfb'] = 0
     df.loc[~df['zveranl'],
-           'zve_nokfb'] = np.maximum(
-           df['gross_gde'] - (np.minimum(tb['spsparf'] + tb['spwerbz'],
-                              df['gross_e5']) * kapinc_in_tarif) -
-           df['vorsorge'] - df['sonder'] - df['handc_pausch'] - df['hhfreib'] - df['altfreib'], 0)
+           'zve_nokfb'] = np.maximum(df['gross_gde'] -
+                                     df['vorsorge'] -
+                                     df['sonder'] -
+                                     df['handc_pausch'] -
+                                     df['hhfreib'] -
+                                     df['altfreib'], 0)
     df.loc[df['zveranl'],
-           'zve_nokfb'] = 0.5 * np.maximum(
-           df['gross_gde_tu'] - (np.minimum(2 * (tb['spsparf'] + tb['spwerbz']),
-                                            df['gross_e5_tu']) * kapinc_in_tarif) -
-                                            df['vorsorge_tu'] - df['sonder_tu'] -
+           'zve_nokfb'] = 0.5 * np.maximum(df['gross_gde_tu'] -
+                                            df['vorsorge_tu'] -
+                                            df['sonder_tu'] -
                                             df['handc_pausch_tu'] -
-                                            df['hhfreib'] - df['altfreib'], 0)
+                                            df['hhfreib'] -
+                                            df['altfreib'], 0)
 
     # Ohne Kinderfreibetrag, aber ohne Kapitalerträge
     df.loc[~df['zveranl'], 'zve_abg_nokfb'] = (
