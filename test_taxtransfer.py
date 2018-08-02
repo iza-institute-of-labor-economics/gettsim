@@ -57,6 +57,6 @@ def test_kindergeld(df, yr, res):
 
     ref = None
     actual = kindergeld(df, tb, yr, ref)
-    df['kindergeld_tu'] = res
-    expected = df
+    expected = df.copy(deep=True)
+    expected['kindergeld_tu'] = res
     assert_frame_equal(actual, expected)
