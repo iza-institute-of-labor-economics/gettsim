@@ -25,9 +25,12 @@ pd.options.display.float_format = '{:.2f}'.format
 def run_izamod(settings):
 
     init(settings)
+    global main_path
+    main_path = settings['MAIN_PATH']
 
     if settings['load_data'] == 1:
         rawdata = loaddata(settings['SOEP_PATH'], settings['DATA_PATH']+'SOEP/',
+                 settings['DATA_PATH']+'SOEP/',
                            settings['minyear'])
 
         print('Save ' + str(rawdata.shape) + ' Data to: ' + settings['DATA_PATH'] + 'soep_long')

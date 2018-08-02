@@ -42,7 +42,7 @@ def taxtransfer(df, ref, datayear, taxyear, tb, hyporun=False):
                'm_self', 'm_pensions', 'age', 'pkv', 'zveranl', 'child', 'child_num',
                'renteneintritt', 'w_hours', 'm_kapinc', 'm_vermiet', 'm_imputedrent',
                'marstat', 'handcap_dummy', 'handcap_degree', 'rvbeit', 'gkvbeit',
-               'pvbeit', 'avbeit', 'adult_num_tu', 'child_num_tu', 'alleinerz'
+               'pvbeit', 'avbeit', 'adult_num_tu', 'child_num_tu', 'alleinerz', 'ineducation'
                ]
     # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
     zve_out = zve(df[taxvars], tb, taxyear, ref)
@@ -72,7 +72,7 @@ def taxtransfer(df, ref, datayear, taxyear, tb, hyporun=False):
                 'm_kapinc', 'm_alg1', 'incometax', 'svbeit', 'soli', 'kindergeld',
                 'kindergeld_hh', 'hhtyp', ]
     # 6.1. Wohngeld, Housing Benefit
-    wg_out = wg(df[ben_vars], tb, taxyear, ref)
+    wg_out = wg(df, tb, taxyear, ref)
 
     # 6.2 ALG2, Basic Unemployment Benefit
     alg2_out = alg2(wg_out, tb, taxyear, ref)
@@ -258,8 +258,8 @@ def ssc(df, tb, yr, ref):
 
     if yr >= 2003:
         # For midijobs, the rate is not calculated on the wage,
-        # but on the 'bemessungsentgelt
-        # contributions are usually equally paid half by employee and
+        # but on the 'bemessungsentgelt'
+        # Contributions are usually shared equally by employee and
         # employer. We are not interested in employer's contributions,
         # but we need them here as an intermediate step
         AN_anteil = tb['grvbs'] + tb['gpvbs'] + tb['alvbs'] + tb['gkvbs_an']
@@ -327,7 +327,6 @@ def ssc(df, tb, yr, ref):
     for beit in ['rvbeit', 'gkvbeit', 'avbeit', 'pvbeit',
                  'ag_rvbeit', 'ag_gkvbeit', 'ag_avbeit', 'ag_pvbeit']:
         ssc.loc[ssc['belowmini'], beit] = 0
-        '''
     # Freiwillige GKV der Selbständigen.
     # Entweder Selbständigen-Einkommen oder 3/4 der Bezugsgröße
     ssc.loc[(ssc['selfemployed']) & (~ssc['pkv']),
@@ -350,21 +349,21 @@ def ssc(df, tb, yr, ref):
                                             [tb['kvmaxekw'],
                                              tb['kvmaxeko']])))
     # doppelter Pflegebeitragssatz
-    ssc['pvrbeit'] = (2 * tb['gpvbs']
-                      * np.minimum(ssc['m_pensions'],
+    ssc['pvrbeit'] = (2 * tb['gpvbs'] *
+                      np.minimum(ssc['m_pensions'],
                                    np.select(westost,
                                              [tb['kvmaxekw'],
                                               tb['kvmaxeko']])))
     ssc.loc[ssc['kinderlos'],
-            'pvrbeit'] = ((2 * tb['gpvbs'] + tb['gpvbs_kind'])
-                          * np.minimum(ssc['m_pensions'],
+            'pvrbeit'] = ((2 * tb['gpvbs'] + tb['gpvbs_kind']) *
+                          np.minimum(ssc['m_pensions'],
                                        np.select(westost,
                                                  [tb['kvmaxekw'],
                                                   tb['kvmaxeko']])))
 
     ssc['gkvbeit'] = ssc['gkvbeit'] + ssc['gkvrbeit']
     ssc['pvbeit'] = ssc['pvbeit'] + ssc['pvrbeit']
-    '''
+
     # Sum of Social Security Contributions (for employees)
     ssc['svbeit'] = ssc[['rvbeit', 'avbeit', 'gkvbeit', 'pvbeit']].sum(axis=1)
 
@@ -393,7 +392,7 @@ def ui(df, tb, taxyear, ref):
                                           tb['alg1_frei'], 0), 0)
     # BENEFIT AMOUNT
     # Check Eligiblity.
-    # Then differen rates for parent and non-parents
+    # Then different rates for parent and non-parents
     # Take into account actual wages
     # Do this only for people for which we don't observe UI payments in SOEP,
     # assuming that their information is more reliable
@@ -432,7 +431,6 @@ def zve(df, tb, yr, ref):
     westost = [~df['east'], df['east']]
     married = [df['zveranl'], ~df['zveranl']]
 
-    df = df.copy()
     # The share of pensions subject to income taxation
     df['ertragsanteil'] = 0
     df.loc[df['renteneintritt'] <= 2004, 'ertragsanteil'] = 0.27
@@ -496,19 +494,36 @@ def zve(df, tb, yr, ref):
         df = aggr(df, inc, False)
 
     # TAX DEDUCTIONS
-    # Vorsorgeaufwendungen bis 2004
+    # 'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
+    # from your taxable income
+    # This regulation has been changed often in recent years. In order not to make anyone
+    # worse off, the old regulation was maintained. Nowadays the older regulations
+    # don't play a large role (i.e. the new one is more beneficial most of the times)
+    # but they'd need to be implemented if earlier years are modelled.
+    # Vorsorgeaufwendungen until 2004
     # TO DO
-    # Vorsorgeaufwendungen ab 2005
+    # Vorsorgeaufwendungen since 2005
     # TO DO
-    # Vorsorgeaufwendungen ab 2010
-    vorsorg2010_married = 0.5 * (0.4 + 0.04 * (np.minimum(yr, 2025) - 2010) *
-                                 (12 * df['rvbeit_tu'] + np.maximum(12 * (df['pvbeit_tu'] +
-                                  0.96 * df['gkvbeit_tu']), np.minimum(
-                                            0.12 * 12 * df['m_wage_tu'],
-                                            2 * 1900))))
-    vorsorg2010_single = 0.4 + 0.04 * (np.minimum(yr, 2025) - 2010) * (12 * df['rvbeit']
-                                       + np.maximum(12 * (df['pvbeit'] + 0.96 * df['gkvbeit']),
-                                                    np.minimum(0.12 * 12 * df['m_wage'], 1900)))
+    # Vorsorgeaufwendungen since 2010
+    # § 10 (3) EStG
+    # The share of deductable pension contributions increases each year by 2 pp.
+    # ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
+    # 4% from health contributions are not deductable
+    # The regular maximum amount of deductions is 2800€ per taxpayer
+
+    # only deduct pension contributions up to the ceiling. for couples, it's an approximation.
+    df['rvbeit_vors'] = np.minimum(df['rvbeit'], np.select(westost,
+                                                          [tb['rvmaxekw'], tb['rvmaxeko']]))
+    df['rvbeit_tu_vors'] = np.minimum(df['rvbeit_tu'], 2 * np.select(
+                                      westost, [tb['rvmaxekw'], tb['rvmaxeko']]))
+    # For couples, give everybody half the total deduction. (maybe improve this))
+    vorsorg2010_married = (0.5 * (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) *
+                                 (12 * df['rvbeit_tu_vors']) + np.minimum(12 * (df['pvbeit_tu'] +
+                                  df['avbeit_tu'] + 0.96 * df['gkvbeit_tu']), 2 * 2800))
+
+    vorsorg2010_single = ((0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * df['rvbeit_vors']) +
+                                       np.minimum(12 * (df['pvbeit'] + df['avbeit'] +
+                                                          0.96 * df['gkvbeit']), 2800))
 
     df['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
 
@@ -875,6 +890,8 @@ def wg(df, tb, yr, ref):
                  on=['hid'], how='left', rsuffix='_hh')
     df = df.rename(columns={'wg_head_hh': 'wohngeld_hh'})
 
+    return df
+
 def alg2(df, tb, yr, ref):
     """ Basic Unemployment Benefit / Social Assistance
         Every household is assigend the sum of "needs" (Regelbedarf)
@@ -1004,7 +1021,7 @@ def alg2(df, tb, yr, ref):
            'ekanrefrei'] = (tb['a2grf'] + tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
                             tb['a2an2'] * (tb['a2eg3'] - tb['a2eg1']))
     # Children income is fully deducted, except for the first 100 €.
-    df.loc[(df['child']), 'ekanrefrei'] = np.minumum(np.maximum(0, df['m_wage'] - 100), 100)
+    df.loc[(df['child']), 'ekanrefrei'] = np.minimum(np.maximum(0, df['m_wage'] - 100), 100)
     # This is
     df['ar_alg2_ek'] = np.maximum(df['alg2_ek'] - df['ekanrefrei'], 0)
     # Aggregate on HH
@@ -1016,6 +1033,8 @@ def alg2(df, tb, yr, ref):
     # ALG2 ist Differenz zwischen Regelbedarf und Summe der Einkommen.
     # Wird aber erst später berechnet beim Vergleich der unterschiedlichen
     # Leistungen.
+
+    return df
 
 def kiz(df, tb, yr, ref):
     ''' Kinderzuschlag / Additional Child Benefit
@@ -1039,7 +1058,7 @@ def kiz(df, tb, yr, ref):
               '2018': [[77.24, 83.25], [62.92, 71.30], [53.08, 62.36], [45.90, 55.41], [40.43, 49.85]]
              }
 
-    return wb[str(year)]
+        return wb[str(year)]
 
     print("Kinderzuschlag...")
     # First, calculate the need, but only for parents.
@@ -1094,12 +1113,12 @@ def kiz(df, tb, yr, ref):
 #        der volle KIZ gezahlt
 #        Wenn es ÜBER der Bemessungsgrundlage liegt,
 #        wird die Differenz zur Hälfte abgezogen.
-    df['kiz_ek_gross'] = df['alg2_grossek_tu']
-    df['kiz_ek_net'] = df['ar_alg2_ek_tu']
+    df['kiz_ek_gross'] = df['alg2_grossek_hh']
+    df['kiz_ek_net'] = df['ar_alg2_ek_hh']
 
     # Anzurechnendes Einkommen.
     # TO DO: Kindereinkommen abziehen!
-    df['kiz_ek_anr'] = np.maximum(0, round((df['ar_alg2_ek_tu'] - df['kiz_ek_relev'])/10)*5)
+    df['kiz_ek_anr'] = np.maximum(0, round((df['ar_alg2_ek_hh'] - df['kiz_ek_relev'])/10)*5)
     # Amount of additional child benefit
     df['kiz'] = 0
     df['kiz_incrange'] = ((df['kiz_ek_gross'] >= df['kiz_ek_min'])
@@ -1149,7 +1168,7 @@ def dropstuff(df):
 
     dropvars = ['belowmini', 'above_thresh_kv', 'above_thresh_rv',
                 'gkvrbeit', 'pvrbeit', 'ertragsanteil',
-                'pendeltage', 'entfpausch', 'handc_pausch',
+                'handc_pausch',
                 'handc_pausch_verh',
                 'handc_pausch_verh_sum', 'gross_gde_verh',
                 'gross_gde_verh_sum', 'gross_e5_verh',
@@ -1160,7 +1179,7 @@ def dropstuff(df):
                 'tax_abg_nokfb_verh_sum', 'tax_kfb_verh',
                 'tax_kfb_verh_sum', 'tax_abg_kfb_verh',
                 'tax_abg_kfb_verh_sum', 'abgst_verh',
-                'abgst_verh_sum', 'child_count', 'nettax_nokfb',
+                'abgst_verh_sum', 'nettax_nokfb',
                 'nettax_abg_nokfb', 'nettax_kfb', 'nettax_abg_kfb',
                 'minpay', 'pens_steuer', 'm_alg1_sum', 'm_alg1_tu_k',
                 'm_transfers_sum', 'm_transfers_tu_k', 'pens_steuer_sum',

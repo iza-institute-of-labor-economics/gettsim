@@ -104,10 +104,9 @@ def create_hypo_data(data_path, settings):
 
     # append kids
     df = df.append(kids)
-
+    print(df['typ_bud'].value_counts())
     df = df.sort_values(by=['typ_bud', 'y_wage'])
     df = df.reset_index(drop=True)
-    df[df['y_wage'] == 0]['typ_bud'].value_counts()
 
     # drop missings
     df = df.dropna(subset=['typ_bud'])
@@ -148,9 +147,7 @@ def create_hypo_data(data_path, settings):
               'child15', 'child18', 'child', 'adult']
 
     for var in tuvars:
-        df[var+'_num_tu'] = df[var+'_num']
-
-    df['hhsize_tu'] = df['adult_num_tu'] + df['child_num_tu']
+        df[var+'num_tu'] = df[var+'_num']
 
     # Household types
     df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] == 0), 'hhtyp'] = 1
@@ -247,7 +244,8 @@ def create_hypo_data(data_path, settings):
         fig.savefig(settings['GRAPH_PATH'] + 'hypo/emtr_'
                                            + str(t) + '.png')
 
-        # Lego Plots
+        # Lego Plots...buggy
+        '''
         plt.clf()
         p = lego[(lego['typ_bud'] == t) & (lego['m_wage'] <= (maxinc / 12))]
         if t in [11, 31]:
@@ -262,5 +260,5 @@ def create_hypo_data(data_path, settings):
         fig, ax = plt.subplots()
         ax.stackplot(p['m_wage'], lego_vars.T, labels=lego_lab)
         ax.legend(loc=0)
-        fig.savefig(settings['GRAPH_PATH'] + 'hypo/lego_'
-                                           + str(t) + '.png')
+        fig.savefig(settings['GRAPH_PATH'] + 'hypo/lego_')
+        '''
