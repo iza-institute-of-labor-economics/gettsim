@@ -8,13 +8,15 @@ from imports import *
 
 
 def preparedata(df):
-
+    '''Prepare Data
+    Prepares SOEP for input to tax transfer calculation
+    '''
     df['syear'].value_counts()
 
     # Counter
     df['counter'] = 1
 
-    # Deal with Missing PNR
+    # Deal with Missing Person Identifier and add an artificial one
     df['kinderdaten'] = ~df['k_rel'].isna()
     df = df.sort_values(by=['syear', 'hid', 'pnr'])
     df = df.join(df.groupby(['syear', 'hid'])['pnr'].max(),
@@ -27,27 +29,31 @@ def preparedata(df):
     # Demographics
     # Age
     df['age'] = df['d11101'][df['d11101'] >= 0]
-    # Birth Year
-    df['byear'] = df['syear'] - df['age']
-    # Female dummy
-    df['female'] = (df['d11102ll'] == 2)
-    # Foreigner Dummy
-    df['foreigner'] = df['pgnation'] > 1
-    
-    df['byear'] = df['byear'].astype(int)
-    df['age'] = df['age'].astype(int)
-    df['work_age'] = df['age'].between(15, 64)
 
     # drop HH with missing age information
     df['age_mis'] = pd.isna(df['age'])
     df = df.join(df.groupby(['syear', 'hid'])['age_mis'].sum(),
                  on=['syear', 'hid'], how='left', rsuffix='_sum')
-    df = df.drop(df[df['age_mis_sum'] > 0].index)
+    df = df[df['age_mis_sum'] == 0]
 
-    # Employment Status
+    # Birth Year
+    df['byear'] = df['syear'] - df['age']
+    # Female dummy
+    df['female'] = (df['d11102ll'] == 2)
+    # Foreigner Dummy...currently not used
+    # df['foreigner'] = df['pgnation'] > 1
+
+    df['byear'] = df['byear'].astype(int)
+    df['age'] = df['age'].astype(int)
+    # Working Age Dummy...currently not used
+    # df['work_age'] = df['age'].between(15, 64)
+
+
+
+    # A couple of useful dummy variables
     df['pensioner'] = ((df['pgstib'] == 13) | (df['age'] > 64))
     df['ineducation'] = (((df['pgstib'] > 100) & (df['pgstib'] < 200)) |
-                         (df['pgstib'] == 11))
+                         (df['pgstib'] == 11)) | (df['ks_ats_r'] == 1)
     df['military'] = df['pgstib'] == 15
     df['parentalleave'] = df['pglfs'] == 4
     df['civilservant'] = df['pgstib'] > 600
@@ -55,7 +61,7 @@ def preparedata(df):
     df['selfemployed'] = ((df['pgstib'] > 400) & (df['pgstib'] < 500))
     df['renteneintritt'] = (df['pensioner'] *
                             (df['syear'] - 1 - (df['age'] - 65)))
-    
+
     # Region
     df['east'] = df['l11102'] == 2
     # Position within the HH
@@ -64,8 +70,8 @@ def preparedata(df):
     # Spouse of Head
     df['spouse'] = df['stell'] == 2
     # Child of head, can be above 18!
-    df['child'] = (((df['stell'] == 3) & (df['age'] < 16)) | 
-                   ((df['age'] <= 16) | ((df['age'] < 25) & 
+    df['child'] = (((df['stell'] == 3) & (df['age'] < 16)) |
+                   ((df['age'] <= 16) | ((df['age'] < 25) &
                     df['ineducation'])))
     # other members
     df['othmem'] = ~df[['head', 'spouse', 'child']].any(axis=1)
@@ -84,41 +90,41 @@ def preparedata(df):
     ######################################################
     print('Splitting of households...')
     # 'Main Unit' consists of head, spouse and children
-    df['main_unit'] = ((df[['head', 'spouse']].any(axis=1)) | 
-                       ((df['child']) & ((df['partner_id'] < 0) | 
+    df['main_unit'] = ((df[['head', 'spouse']].any(axis=1)) |
+                       ((df['child']) & ((df['partner_id'] < 0) |
                                          (pd.isna(df['partner_id'])))))
     # This captures adult members which are not a head without partner
-    df['young_single_unit'] = ((df['age'] < 40) & (~df['main_unit']) &  
-                               ((df['partner_id'] < 0) | 
+    df['young_single_unit'] = ((df['age'] < 40) & (~df['main_unit']) &
+                               ((df['partner_id'] < 0) |
                                 (pd.isna(df['partner_id']))))
     # The same for couples which are not head
-    df['young_couple_unit'] = ((~df['main_unit']) & 
-                               (~df['young_single_unit']) & 
+    df['young_couple_unit'] = ((~df['main_unit']) &
+                               (~df['young_single_unit']) &
                                (df['stell'].isin([3, 4, 5])) &
-                               (df['partner_id'] > 0))    
+                               (df['partner_id'] > 0))
 
     # check if both partners are present (due to miscoding)
     df = df.join(df.groupby(['syear', 'hid'])['young_couple_unit'].sum(),
                  on=['syear', 'hid'], how='left', rsuffix='_sum')
     # if there is only one partner, it's a single
-    df.loc[(df['young_couple_unit_sum'] == 1) & 
+    df.loc[(df['young_couple_unit_sum'] == 1) &
            (~df['main_unit']), 'young_single_unit'] = True
     df.loc[(df['young_couple_unit_sum'] == 1), 'young_couple_unit'] = False
     # Add grandchildren of head to young couple unit
-    df.loc[(~df['young_single_unit']) & 
-           (~df['young_couple_unit']) & 
+    df.loc[(~df['young_single_unit']) &
+           (~df['young_couple_unit']) &
            (~df['main_unit']) &
-           (df['young_couple_unit_sum'] == 2) & 
+           (df['young_couple_unit_sum'] == 2) &
            (df['k_rel'].isin([25, 26])), 'young_couple_unit'] = True
     # ...unless they are above 18
-    df.loc[(~df['young_single_unit']) & 
+    df.loc[(~df['young_single_unit']) &
            (~df['young_couple_unit']) &
            (~df['main_unit']) &
            (df['young_couple_unit_sum'] == 0) &
            (df['age'] >= 18), 'young_single_unit'] = True
 
     # df = df.join(df.groupby(['syear','hid'])['identi'].first(), on = ['syear','hid'], how='left', rsuffix = 'fier')
-    # do the same with the generation older than the ehad
+    # do the same with the generation older than the head
     df['old_dummy'] = ((df['stell'] == 4) &
                        (~df['main_unit']) &
                        (~df['young_single_unit']) &
@@ -159,14 +165,14 @@ def preparedata(df):
            (df['single_unit']) &
            (~df['couple_unit']) &
            (df['child']), 'new_unit'] = False
-    df.loc[(~df['main_unit']) & 
+    df.loc[(~df['main_unit']) &
            (~df['single_unit']) &
            (df['couple_unit']), 'new_unit'] = True
     # Set 'new_unit' to zero for the second partner of a couple unit.
     df = df.sort_values(by=['syear', 'hid', 'couple_unit', 'single_unit'],
                         ascending=[True, True, False, False])
     df['n'] = df.groupby(['syear', 'hid'])['counter'].cumsum()
-    df.loc[(~df['main_unit']) & 
+    df.loc[(~df['main_unit']) &
            (~df['single_unit']) &
            (df['couple_unit']) &
            (df['n'] > 1), 'new_unit'] = False
@@ -190,7 +196,7 @@ def preparedata(df):
            'head_tu'] = True
     df['head_tu'] = df['head_tu'].fillna(False)
 
-    # size of taxunit
+    # size of tax unit
     df = df.join(df.groupby(['syear', 'tu_id'])['counter'].sum(),
                  on=['syear', 'tu_id'], how='left', rsuffix='_tu')
     df = df.rename(columns={'counter_tu': 'hhsize_tu'})
@@ -215,7 +221,8 @@ def preparedata(df):
                '14':     pd.eval('df.child and df.age <= 14'),
                '15':     pd.eval('df.child and df.age <= 15'),
                '18':    pd.eval('df.child and df.age < 18')}
-
+    # Sometimes you need the number of kids per HH (e.g. for Unemployment Benefit)
+    # Sometimes you need them per tax unit (e.g. child benefit, taxes).
     for id in ['hid', 'tu_id']:
         for c in ch_ages:
             df['temp'] = ch_ages[c]
@@ -226,13 +233,13 @@ def preparedata(df):
                          on=['syear', id], how='left', rsuffix=c)
             df = df.rename(columns={'temp'+c: 'child'+c})
             df['child'+c] = df['child'+c].astype(int)
-    
+
     df = df.join(df.groupby(['syear', 'tu_id'])['child'].sum(),
                  on=['syear', 'tu_id'], how='left', rsuffix='_num_tu')
-    # If only person in Household, it's an adult.
+    # If the only person in Household, it's an adult.
     df = df.join(df.groupby(['syear', 'hid'])['counter'].first(),
                  on=['syear', 'hid'], rsuffix='_first')
-    df.loc[(df['child_num_tu'] == df['hhsize_tu']) & 
+    df.loc[(df['child_num_tu'] == df['hhsize_tu']) &
            (df['counter_first'] == 1), 'child'] = False
     df = df.drop(columns=['counter_first', 'child_num_tu'], axis=1)
     # Recount children
@@ -244,43 +251,38 @@ def preparedata(df):
     for ending in ['', '_tu']:
         df['adult_num'+ending] = df['hhsize'+ending] - df['child_num'+ending]
         print(pd.crosstab(df['child_num'+ending], df['adult_num'+ending]))
-    # There are still households left for which the 'splitting' did not work
+    # There are still few households left for which the 'splitting' did not work
     print('Deleting incorrect Tax Units...' +
           str(df['counter'][df['adult_num_tu'] > 2].sum()) + ' persons.')
     df = df[df['adult_num_tu'] <= 2]
     # 'Correction factor': The share of people a tax unit accrues compared
-    # to the 'SOEP' household. This is needed for assessing the needs for 
-    # social benefits 
+    # to the 'SOEP' household. This is needed for assessing the needs for
+    # social benefits. always between 0 and 1
     df['hh_korr'] = df['hhsize_tu'] / df['hhsize']
-    # check whether tax units are well defined
-    # CONTROL OUTPUT
-    # df[df['adult_num_tu'] > 2].to_excel(pd.ExcelWriter(data_path+'check_tax_units.xlsx'),sheet_name='py_out',columns=['syear','hid','pid','pnr','hhsize','head','main_unit','single_unit','couple_unit','new_unit','new_unit_id','nu','tu_id','age','female','child','stell','k_rel','k_pmum','partner_id','adult_num_tu'],na_rep='NaN',freeze_panes=(0,1))
-    # Ever born kids? Matters for 'pflegeversicherung'
+    # Ever born kids? Matters for long-term care contributions
     df['haskids'] = (df['lb0285'] > 0) | (df['child_num_tu'] > 0)
 
     # Handicap Dummy
     df['handcap_dummy'] = df['handcap_degree'] > 50
-    
-    # Skill level
+
+    # Skill level. sometimes you have casmin classification, sometimes isced. Take what you get
     sel_quali = [df['pgcasmin'].between(0, 2),
                  df['pgcasmin'].between(3, 6),
                  df['pgcasmin'].between(7, 9)]
     sel_isced = [df['pgisced11'].between(0, 2),
                  df['pgisced11'].between(3, 4),
                  df['pgisced11'].between(5, 8)]
-    # sel_stib = [(df['pgstib'].between(520,529) or df['pgstib'].le(220) or df['pgstib'].equals(440)) and df['qualification'].equals(0),
-    #            (df['pgstib'].between(230,439) or df['pgstib'].isin([510,530,610,620])) and df['qualification'] == 0,
-    #            (df['pgstib'].between(540,559) or df['pgstib'].between(630,649)) and df['qualification'] == 0]
+
     val_quali = [3, 2, 1]
     df['qualification'] = np.select(sel_quali, val_quali)
     df['temp'] = np.select(sel_isced, val_quali)
     df.loc[df['qualification'] == 0, 'qualification'] = df['temp']
-    
+
     df['unskilled'] = df['qualification'] == 3
     df['university'] = df['qualification'] == 1
 
     ######
-    # Income from varoius sources
+    # Income from various sources
     ######
     print('Income Components...')
     df['transfers'] = df['i11106'] + df['i11107']
@@ -303,12 +305,12 @@ def preparedata(df):
                               'irie1', 'irie2']].sum(axis=1)
     df['pensions'] = df[['pensions_pub', 'pensions_priv']].sum(axis=1)
     # correct implausible values for months of pensions
-    df.loc[((df['months_pen'] == 0) | 
+    df.loc[((df['months_pen'] == 0) |
            (pd.isna(['months_pen']))) &
            (df['pensions'] > 0), 'months_pen'] = 12
     df.loc[(pd.isna(df['months_pen']))
            & (df['pensions'] == 0), 'months_pen'] = 0
-    
+
     df['months_pen'] = df['months_pen'].fillna(0)
     df['m_pensions'] = np.select([df['months_pen'] > 0,
                                  df['months_pen'] == 0],
@@ -318,25 +320,24 @@ def preparedata(df):
     df['m_trans1'] = df[['ialim', 'iachm', 'ichsu',
                          'ispou', 'ielse']].sum(axis=1) / 12
     df['m_trans2'] = (df['head_tu'] * (df[['nursh', 'sphlp', 'hsup',
-                                       'ssold', 'chsub']].sum(axis=1) / 12) * 
+                                       'ssold', 'chsub']].sum(axis=1) / 12) *
                       df['hh_korr'])
     df['m_transfers'] = df[['m_trans1', 'm_trans2']].sum(axis=1)
-    df = df.drop(columns=['pensions_pub', 'pensions_priv', 
+    df = df.drop(columns=['pensions_pub', 'pensions_priv',
                           'm_trans1', 'm_trans2'])
     # Child income
     df['childinc'] = df['child'] * (df['pglabgro'] + (df['k_inco'] / 12))
     # the following income amounts are household sums
-    # only give the head therefore
+    # only apply it to  the head therefore
     # Capital Income
     df['m_kapinc'] = df['divdy']/12 * df['head']
     # Income from rents, net of operating cost
-    df['m_vermiet'] = (np.maximum((df['renty'] - df['opery']), 0)/12 * 
+    df['m_vermiet'] = (np.maximum((df['renty'] - df['opery']), 0)/12 *
                        df['head'])
-    # Imputed rents. not interesting for tax-benefit rules, but important 
-    # to get the right inequality measures
+    # Imputed rents. not interesting for tax-benefit rules, but important
+    # to get the right inequality measures (if we care about them)
     df['m_imputedrent'] = (df['imp_rent']) / 12 * df['head']
-    # df['m_imputedrent'] = (df['imp_rent'] - df['hlc0111'] + df['hlc0112']) /12 * df['head']
-    # distribute these incomes among the tax units
+    # distribute these incomes among the tax units (among the tax unit heads, to be precise)
     for inc in ['kapinc', 'vermiet', 'imputedrent']:
         df['m_'+inc+'_tu'] = df['m_'+inc] * df['hh_korr'] * df['head_tu']
 
@@ -368,8 +369,8 @@ def preparedata(df):
     df['m_self'] = 0
     df['othwage_ly'] = df[['i13ly','i14ly','ixmas', 'iholy',
                            'igray', 'iothy', 'itray']].sum(axis=1)
-    df.loc[(df['othwage_ly'] > 0) & 
-           ((pd.isna(df['months'])) | 
+    df.loc[(df['othwage_ly'] > 0) &
+           ((pd.isna(df['months'])) |
            (df['months'] == 0)), 'months'] = 12
     # Depending on status, either labor income or self-employment income
     # Important for income taxation and for labor supply estimation
@@ -406,7 +407,7 @@ def preparedata(df):
 
     # Privat versichert
     df['pkv'] = df['ple0097'] == 2
-    # TO DO: Heckman Imputation or comparable to assign non-workers 
+    # TO DO: Heckman Imputation or comparable to assign non-workers
     # an hourly wage
 
     print('Living costs...')
@@ -415,14 +416,14 @@ def preparedata(df):
         df[v] = df[v].replace([-8, -7, -6, -5, -4, -3, -2, -1, 0], np.nan)
     # Dummy for living on own property
     df['eigentum'] = df['hgowner'] == 1
-    #df['heim'] = df['hgowner'] == 5
+    # df['heim'] = df['hgowner'] == 5
     # impute missing values for flat size
     df = df.join(df.groupby(['syear', 'bula', 'hhsize'])['hgsize'].mean(),
                  on=['syear', 'bula', 'hhsize'], how='left', rsuffix='_mean')
     df['wohnfl'] = np.select([pd.isna(df['hgsize']), ~pd.isna(df['hgsize'])],
                              [df['hgsize_mean'], df['hgsize']])
     # Construction Year. sometimes important for housing benefit
-    df.loc[(~(pd.isna(df['hgcnstyrmax'])) & 
+    df.loc[(~(pd.isna(df['hgcnstyrmax'])) &
             (~pd.isna(df['hgcnstyrmin']))),
            'baujahr'] = (df['hgcnstyrmax'] + df['hgcnstyrmin'])/2
     sel_cnstyr = [df['baujahr'].between(1800, 1965),
@@ -469,13 +470,13 @@ def preparedata(df):
     # Household Types
     # Singles
     df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] == 0), 'hhtyp'] = 1
-    # Single Parents    
+    # Single Parents
     df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0), 'hhtyp'] = 2
     # Couples
     df.loc[(df['adult_num_tu'] == 2) & (df['child_num_tu'] == 0), 'hhtyp'] = 3
     # Couples with kids
     df.loc[(df['adult_num_tu'] == 2) & (df['child_num_tu'] > 0), 'hhtyp'] = 4
-    
+
     # Single Parents dummy
     df['alleinerz'] = (df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0)
 
@@ -497,7 +498,7 @@ def preparedata(df):
                                               3: 'Unskilled'})
     # Dummy for joint taxation
     df['zveranl'] = (df['marstat'] == 1) & (df['adult_num_tu'] >= 2)
-    
+
 
     print('Reduce Dataset...')
     # Get rid of missings:
@@ -545,8 +546,6 @@ def preparedata(df):
                 'plb0186', 'plb0295', 'plb0423',
                 'plb0424', 'plb0586', 'plb0605', 'plc0446']
     drop(df, dropvars)
-    # Output of Summary Statistics
-    summaries = df.describe()
-    summaries.to_excel(pd.ExcelWriter(data_path+'sum_data_out.xlsx'),
-                       sheet_name='py_out')
-    
+
+    return df
+

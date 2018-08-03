@@ -10,9 +10,20 @@ from imports import *
 
 
 def loaddata(soep_path, data_path, minyear):
-    # LOAD ALL DATA AND CREATE DATAFRAMES
+    '''LOAD RAW DATA
+
+    Arguments:
+
+    - path where SOEP data are stores
+    - output path
+    - first SOEP wave to consider
+
+    loads necessary variables from SOEP long data and creates a single data frame
+    also treats some variables with missing values. (-5, -2, -1 etc. in SOEP)
+    '''
+
     print('Loading Data...')
-    # WHICH VARIABLES DO I NEED?
+    # Specifies which variables to input exactly from each dataset
     vl_pequiv = ['hid', 'pid', 'syear', 'd11102ll', 'l11102', 'x11103',
                  'd11101', 'd11104', 'd11105', 'd11106', 'd11107',
                  'e11101', 'e11102', 'e11103', 'e11105', 'e11106',
@@ -48,32 +59,32 @@ def loaddata(soep_path, data_path, minyear):
                'hgcnstyrmax', 'hgcnstyrmin', 'hgheat',
                'hgheatinfo', 'hgtyp1hh']
     vl_biol = ['hid', 'pid', 'syear', 'lb0285']
-    vl_kidl = ['hid', 'pid', 'syear', 'k_rel', 'k_nrinhh', 'k_inco', 'k_pmum']
-
-    pequiv  = pd.read_stata(soep_path+'pequiv.dta',
-                            convert_categoricals=False,
-                            columns=vl_pequiv)
-    pgen    = pd.read_stata(soep_path+'pgen.dta',
-                            convert_categoricals=False,
-                            columns=vl_pgen)
-    pl      = pd.read_stata(soep_path+'pl.dta'  ,
-                            convert_categoricals=False,
-                            columns=vl_pl)
-    pkal    = pd.read_stata(soep_path+'pkal.dta',
-                            convert_categoricals=False,
-                            columns=vl_pkal)
-    hl      = pd.read_stata(soep_path+'hl.dta'  ,
-                            convert_categoricals=False,
-                            columns=vl_hl)
-    hgen    = pd.read_stata(soep_path+'hgen.dta',
-                            convert_categoricals=False,
-                            columns=vl_hgen)
-    biol    = pd.read_stata(soep_path+'biol.dta',
-                            convert_categoricals=False,
-                            columns=vl_biol)
-    kidl    = pd.read_stata(soep_path+'kidl.dta',
-                            convert_categoricals=False,
-                            columns=vl_kidl)
+    vl_kidl = ['hid', 'pid', 'syear', 'k_rel', 'k_nrinhh', 'k_inco', 'k_pmum', 'ks_ats_r']
+    # Load from Stata Format
+    pequiv = pd.read_stata(soep_path+'pequiv.dta',
+                           convert_categoricals=False,
+                           columns=vl_pequiv)
+    pgen = pd.read_stata(soep_path+'pgen.dta',
+                         convert_categoricals=False,
+                         columns=vl_pgen)
+    pl = pd.read_stata(soep_path+'pl.dta',
+                       convert_categoricals=False,
+                       columns=vl_pl)
+    pkal = pd.read_stata(soep_path+'pkal.dta',
+                         convert_categoricals=False,
+                         columns=vl_pkal)
+    hl = pd.read_stata(soep_path+'hl.dta',
+                       convert_categoricals=False,
+                       columns=vl_hl)
+    hgen = pd.read_stata(soep_path+'hgen.dta',
+                         convert_categoricals=False,
+                         columns=vl_hgen)
+    biol = pd.read_stata(soep_path+'biol.dta',
+                         convert_categoricals=False,
+                         columns=vl_biol)
+    kidl = pd.read_stata(soep_path+'kidl.dta',
+                         convert_categoricals=False,
+                         columns=vl_kidl)
 
     # MERGE THEM TOGETHER
     print('Merging...')
@@ -100,28 +111,106 @@ def loaddata(soep_path, data_path, minyear):
     df = df[df['syear'] >= minyear]
 
     # get rid of negative values
-    negvars = ['i11105', 'plb0022', 'plb0063', 'plb0157', 'plb0158',
-               'plb0186', 'plb0295', 'plb0423', 'plb0424', 'plb0586',
-               'plb0605', 'plc0131', 'ijob1', 'ijob2', 'iself', 'ioldy',
-               'iwidy', 'iunby', 'iunay', 'isuby', 'ieret', 'imaty',
-               'istuy', 'imilt', 'ialim', 'ielse', 'icomp', 'iprvp',
-               'i13ly', 'i14ly', 'ixmas', 'iholy', 'igray', 'iothy',
-               'igrv1', 'igrv2', 'renty', 'opery', 'divdy', 'chspt',
-               'house', 'nursh', 'subst', 'sphlp', 'hsup', 'ismp1',
-               'iciv1', 'iwar1', 'iagr1', 'iguv1', 'ivbl1', 'icom1',
-               'iprv1', 'ison1', 'ismp2', 'iciv2', 'iwar2', 'iagr2',
-               'iguv2', 'ivbl2', 'icom2', 'ison2', 'iprv2', 'ssold',
-               'lossr', 'lossc', 'itray', 'alg2', 'adchb', 'iachm',
-               'chsub', 'ichsu', 'ispou', 'irie1', 'irie2', 'kidy', 'iwith',
-               'kal1a02', 'kal1b02', 'kal1d02', 'kal1e02', 'kal1n02',
-               'pglabgro', 'pgtatzeit', 'pgvebzeit', 'pguebstd', 'lb0285',
-               'ple0041', 'k_inco', 'hgowner', 'hgsize', 'hlc0053',
-               'hlc0054', 'hlc0081', 'hlc0082'
+    negvars = ['i11105',
+               'plb0022',
+               'plb0063',
+               'plb0157',
+               'plb0158',
+               'plb0186',
+               'plb0295',
+               'plb0423',
+               'plb0424',
+               'plb0586',
+               'plb0605',
+               'plc0131',
+               'ijob1',
+               'ijob2',
+               'iself',
+               'ioldy',
+               'iwidy',
+               'iunby',
+               'iunay',
+               'isuby',
+               'ieret',
+               'imaty',
+               'istuy',
+               'imilt',
+               'ialim',
+               'ielse',
+               'icomp',
+               'iprvp',
+               'i13ly',
+               'i14ly',
+               'ixmas',
+               'iholy',
+               'igray',
+               'iothy',
+               'igrv1',
+               'igrv2',
+               'renty',
+               'opery',
+               'divdy',
+               'chspt',
+               'house',
+               'nursh',
+               'subst',
+               'sphlp',
+               'hsup',
+               'ismp1',
+               'iciv1',
+               'iwar1',
+               'iagr1',
+               'iguv1',
+               'ivbl1',
+               'icom1',
+               'iprv1',
+               'ison1',
+               'ismp2',
+               'iciv2',
+               'iwar2',
+               'iagr2',
+               'iguv2',
+               'ivbl2',
+               'icom2',
+               'ison2',
+               'iprv2',
+               'ssold',
+               'lossr',
+               'lossc',
+               'itray',
+               'alg2',
+               'adchb',
+               'iachm',
+               'chsub',
+               'ichsu',
+               'ispou',
+               'irie1',
+               'irie2',
+               'kidy',
+               'iwith',
+               'kal1a02',
+               'kal1b02',
+               'kal1d02',
+               'kal1e02',
+               'kal1n02',
+               'pglabgro',
+               'pgtatzeit',
+               'pgvebzeit',
+               'pguebstd',
+               'lb0285',
+               'ple0041',
+               'k_inco',
+               'hgowner',
+               'hgsize',
+               'hlc0053',
+               'hlc0054',
+               'hlc0081',
+               'hlc0082'
                ]
 
     for v in negvars:
         df[v] = df[v].replace([-8, -7, -6, -5, -4, -3, -2, -1], 0)
-
+    # Rename a couple of variables
     df = df.rename(columns={'d11106': 'hhsize',
                             'i11103': 'laborinc',
                             'i11110': 'laborinc_ind',
@@ -151,6 +240,7 @@ def loaddata(soep_path, data_path, minyear):
                             'hlc0053': 'algII_m_l1',
                             'hlc0054': 'algII_l1',
                             'hlc0081': 'wgeld_m_l1',
-                            'hlc0082': 'wgeld_l1'})
+                            'hlc0082': 'wgeld_l1'}
+                   )
 
     return df
