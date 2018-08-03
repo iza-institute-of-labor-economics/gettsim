@@ -469,7 +469,7 @@ def zve(df, tb, yr, ref):
     if kapinc_in_tarif: df['gross_gde'] = (df['gross_gde'] +
                                            np.maximum(df['gross_e5'] -
                                                       tb['spsparf'] -
-                                                      tb['spwerbz'], 0)
+                                                      tb['spwerbz'], 0))
     # Gross (market) income <> sum of incomes...
     df['m_brutto'] = df[['m_self',
                          'm_wage',
@@ -656,7 +656,7 @@ def tax_sched(df, tb, yr, ref):
         df.loc[df['zveranl'], 'abgst'] = (
                 0.5 * tb['abgst'] * np.maximum(df['gross_e5_tu']
                                                - 2 * (tb['spsparf']
-                                                      - tb['spwerbz']), 0))
+                                                          - tb['spwerbz']), 0))
     df = aggr(df, 'abgst')
 
     return df
