@@ -15,14 +15,19 @@ import sys
 
 
 def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
-    """ German Tax-Transfer System
-        df:     Input Data Frame
-        ref:    Name of Reform
-        datayear: year of SOEP wave
-        taxyear:  year of reform baseline
-        tb:     dictionary with tax-benefit parameters
-        hyporun: indicator for hypothetical household input (defult: use real SOEP data)
+    """German Tax-Transfer System.
+
+    Arguments:
+
+        - df: Input Data Frame
+        - ref: Name of Reform
+        - datayear: year of SOEP wave
+        - taxyear: year of reform baseline
+        - tb: dictionary with tax-benefit parameters
+        - hyporun: indicator for hypothetical household input (defult: use real SOEP data)
+
     """
+
     # 1. Uprating if necessary
     #if hyporun is False:
         #df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
@@ -101,9 +106,11 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
 
 
 def uprate(df, dy, ty, path):
-    ''' Uprating monetary values to account for difference between
-        data year and simulation year.
+    '''Uprating monetary values to account for difference between
+    data year and simulation year.
+    
     '''
+
     # define all monetary variables
     # get uprate matrix ,as np.array
     upr = pd.read_excel(path+'/data/params/uprate_cpi.xls',
@@ -165,18 +172,22 @@ def pensions(df, tb, yr, ref):
     rentenwert = tb['rw_west'] * lohnkomponente
     """
 
+
 def ssc(df, tb, yr, ref):
-    ''' Calculates Social Security Payments
-      4 branches of social insurances:
-            - health
-            - old-age pensions
-            - unemployment
-            - care
-        There is a fixed rate on earnings up to a threshold,
-        after which no rates are charged.
-        'Minijobs' below 450€ are free of contributions
-        For 'Midijobs' between 450€ and 850€, the rate increases
-        smoothly until the regular one is reached
+    '''Calculates Social Security Payments
+
+    4 branches of social insurances:
+
+        - health
+        - old-age pensions
+        - unemployment
+        - care
+
+    There is a fixed rate on earnings up to a threshold,
+    after which no rates are charged.
+    'Minijobs' below 450€ are free of contributions
+    For 'Midijobs' between 450€ and 850€, the rate increases
+    smoothly until the regular one is reached
     '''
     cprint('Social Security Payments...', 'red', 'on_white')
     # a couple of definitions
