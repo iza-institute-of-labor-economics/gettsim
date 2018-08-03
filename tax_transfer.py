@@ -298,11 +298,12 @@ def soc_ins_contrib(df, tb, yr, ref):
 
     cprint('Social Insurance Contributions...', 'red', 'on_white')
 
+    # initiate dataframe, indices must be identical
+    ssc = pd.DataFrame(index=df.index.copy())
+
     # a couple of definitions
-    ssc = pd.DataFrame()
-
     westost = [~df['east'], df['east']]
-
+    # 'Bezugsgröße'
     ssc['bezgr'] = np.select(
         westost,
         [tb['bezgr_o'], tb['bezgr_w']]
@@ -358,7 +359,8 @@ def soc_ins_contrib(df, tb, yr, ref):
         )
     )
     # If you are above 23 and without kids, you have to pay a higher rate
-    ssc.loc[df['kinderlos'], 'pvbeit'] = (tb['gpvbs'] + tb['gpvbs_kind']) * np.minimum(
+
+    ssc.loc[ssc['kinderlos'], 'pvbeit'] = (tb['gpvbs'] + tb['gpvbs_kind']) * np.minimum(
         df['m_wage'],
         np.select(
             westost,
@@ -381,17 +383,14 @@ def soc_ins_contrib(df, tb, yr, ref):
         # always needs to differentiate between east and west,
         # was relevant in earlier years
         bemes = [
-                F * tb['mini_grenzew']
-                + ((tb['midi_grenze'] / (tb['midi_grenze']
-                    - tb['mini_grenzew']))
-                   - (tb['mini_grenzew'] /
-                   ((tb['midi_grenze'] - tb['mini_grenzew']))*F))
-                * (df['m_wage'] - tb['mini_grenzew']),
-                F * tb['mini_grenzeo']
-                + ((tb['midi_grenze']/(tb['midi_grenze'] - tb['mini_grenzeo']))
-                    - (tb['mini_grenzeo'] /
-                       ((tb['midi_grenze']-tb['mini_grenzeo']))*F))
-                * (df['m_wage'] - tb['mini_grenzeo'])
+                F * tb['mini_grenzew'] +
+                ((tb['midi_grenze'] / (tb['midi_grenze'] - tb['mini_grenzew'])) -
+                 (tb['mini_grenzew'] / ((tb['midi_grenze'] - tb['mini_grenzew']))*F)) *
+                (df['m_wage'] - tb['mini_grenzew']),
+                F * tb['mini_grenzeo'] +
+                ((tb['midi_grenze']/(tb['midi_grenze'] - tb['mini_grenzeo'])) -
+                 (tb['mini_grenzeo'] / ((tb['midi_grenze']-tb['mini_grenzeo']))*F)) *
+                (df['m_wage'] - tb['mini_grenzeo'])
                 ]
         ssc['bemessungsentgelt'] = np.select(westost, bemes)
         # This checks whether wage is in the relevant range
@@ -400,7 +399,6 @@ def soc_ins_contrib(df, tb, yr, ref):
                                       [tb['mini_grenzew'],
                                        tb['mini_grenzeo']]),
                                       tb['midi_grenze'])
-
         # Again, all branches of social insurance
         # First total amount, then employer, then employee
 
@@ -424,7 +422,7 @@ def soc_ins_contrib(df, tb, yr, ref):
         ssc.loc[ssc['in_gleitzone'], 'ag_pvbeit'] = tb['gpvbs'] * df['m_wage']
         ssc.loc[ssc['in_gleitzone'], 'pvbeit'] = (
             ssc['gb_pv'] - ssc['ag_pvbeit'] +
-            (df['kinderlos'] * tb['gpvbs_kind'] * df['m_wage'])
+            (ssc['kinderlos'] * tb['gpvbs_kind'] * df['m_wage'])
         )
 
         # Drop intermediate variables
@@ -464,7 +462,7 @@ def soc_ins_contrib(df, tb, yr, ref):
     ssc.loc[(df['selfemployed']) &
             (~df['pkv']),
             'pvbeit'] = ((2 * tb['gpvbs'] + np.select(
-                        [df['kinderlos'], ~df['kinderlos']],
+                        [ssc['kinderlos'], ~ssc['kinderlos']],
                         [tb['gpvbs_kind'], 0]))
                     * np.minimum(df['m_self'], 0.75 * np.select(
                             westost, [tb['bezgr_w'], tb['bezgr_o']])))
@@ -480,7 +478,7 @@ def soc_ins_contrib(df, tb, yr, ref):
                                    np.select(westost,
                                              [tb['kvmaxekw'],
                                               tb['kvmaxeko']])))
-    ssc.loc[df['kinderlos'],
+    ssc.loc[ssc['kinderlos'],
             'pvrbeit'] = ((2 * tb['gpvbs'] + tb['gpvbs_kind']) *
                           np.minimum(df['m_pensions'],
                                        np.select(westost,
@@ -557,7 +555,7 @@ def zve(df, tb, yr, ref):
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
         - abgeltungssteuer vs. taxing capital income in the tariff
-        It's always the most favorable for the taxpayer, but you only after applying
+        It's always the most favorable for the taxpayer, but you know that only after applying
         the tax schedule
     '''
     cprint('Calculate Taxable Income...', 'red', 'on_white')
