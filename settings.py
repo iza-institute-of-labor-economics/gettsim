@@ -4,13 +4,14 @@ IZAMOD SETTINGS
 """
 import os
 
+
 def get_settings():
     ''' Initialize Global Settings
     '''
     taxyear = 2018
 
     # Rechtsstand des Basisjahres ist immer Baseline Reform
-    reforms = ['RS'+str(taxyear)]
+    reforms = ['RS' + str(taxyear)]
 
     # DATA CREATION
     # load raw SOEP data and merge them into one data set
@@ -31,14 +32,16 @@ def get_settings():
     DATA_PATH = MAIN_PATH + 'data/'
     GRAPH_PATH = MAIN_PATH + 'graphs/'
 
-    return {'Reforms': reforms,
-            'load_data': load_data,
-            'prepare_data': prepare_data,
-            'minyear': minyear,
-            'taxtrans': taxtrans,
-            'taxyear': taxyear,
-            'run_hypo': run_hypo,
-            'MAIN_PATH': MAIN_PATH,
-            'SOEP_PATH': SOEP_PATH,
-            'DATA_PATH': DATA_PATH,
-            'GRAPH_PATH': GRAPH_PATH}
+    return {
+        'Reforms': reforms,
+        'load_data': load_data,
+        'prepare_data': prepare_data,
+        'minyear': minyear,
+        'taxtrans': taxtrans,
+        'taxyear': taxyear,
+        'run_hypo': run_hypo,
+        'MAIN_PATH': MAIN_PATH,
+        'SOEP_PATH': SOEP_PATH,
+        'DATA_PATH': DATA_PATH,
+        'GRAPH_PATH': GRAPH_PATH
+    }

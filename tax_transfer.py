@@ -19,44 +19,88 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
 
     Arguments:
 
-        - df: Input Data Frame
-        - ref: Name of Reform
-        - datayear: year of SOEP wave
-        - taxyear: year of reform baseline
-        - tb: dictionary with tax-benefit parameters
-        - hyporun: indicator for hypothetical household input (defult: use real SOEP data)
+        - *df*: Input Data Frame
+        - *ref*: Name of Reform
+        - *datayear*: year of SOEP wave
+        - *taxyear*: year of reform baseline
+        - *tb*: dictionary with tax-benefit parameters
+        - *hyporun*: indicator for hypothetical household input (defult: use real SOEP data)
 
     """
 
-    # 1. Uprating if necessary
-    #if hyporun is False:
-        #df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
+    # if hyporun is False:
+    # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
-    # 2. Social Security Payments
-    ssc_out = ssc(df[['pid', 'hid', 'east', 'm_wage', 'selfemployed',
-                      'm_self', 'm_pensions', 'age', 'haskids', 'pkv']],
-                  tb, taxyear, ref)
-    df = pd.merge(df, ssc_out,  how='inner', validate='1:1')
-    # 3. Unemployment benefit
+    # Social Insurance Contributions
+    df = df.join(
+        other=soc_ins_contrib(
+            df[[
+                'pid',
+                'hid',
+                'east',
+                'm_wage',
+                'selfemployed',
+                'm_self',
+                'm_pensions',
+                'age',
+                'haskids',
+                'pkv'
+            ]],
+            tb,
+            taxyear,
+            ref
+        ),
+        how='inner'
+    )
 
-    df = ui(df, tb, taxyear, ref)
-    # 4. Pensions
-    # pens_out = pensions(df, tb, taxyear, ref):
+    # Unemployment benefits
+    df['m_alg1'] = ui(df, tb, taxyear, ref)
 
-    # 5. Income Tax
-    taxvars = ['pid', 'hid', 'female', 'head_tu', 'tu_id', 'east', 'm_wage', 'selfemployed',
-               'm_self', 'm_pensions', 'age', 'pkv', 'zveranl', 'child', 'child_num',
-               'renteneintritt', 'w_hours', 'm_kapinc', 'm_vermiet', 'm_imputedrent',
-               'marstat', 'handcap_dummy', 'handcap_degree', 'rvbeit', 'gkvbeit',
-               'pvbeit', 'avbeit', 'adult_num_tu', 'child_num_tu', 'alleinerz', 'ineducation'
-               ]
+    # Pension benefits
+    # df['pen_ben'] = pensions(df, tb, taxyear, ref)
+
+    # Income Tax
+    taxvars = [
+        'pid',
+        'hid',
+        'female',
+        'head_tu',
+        'tu_id',
+        'east',
+        'm_wage',
+        'selfemployed',
+        'm_self',
+        'm_pensions',
+        'age',
+        'pkv',
+        'zveranl',
+        'child',
+        'child_num',
+        'renteneintritt',
+        'w_hours',
+        'm_kapinc',
+        'm_vermiet',
+        'm_imputedrent',
+        'marstat',
+        'handcap_dummy',
+        'handcap_degree',
+        'rvbeit',
+        'gkvbeit',
+        'pvbeit',
+        'avbeit',
+        'adult_num_tu',
+        'child_num_tu',
+        'alleinerz',
+        'ineducation'
+    ]
+
     # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
     zve_out = zve(df[taxvars], tb, taxyear, ref)
 
     # 5.2 Apply Tax Schedule
     sched_out = tax_sched(zve_out, tb, taxyear, ref)
-    # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
 
+    # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
     kg_out = kindergeld(sched_out, tb, taxyear, ref)
 
     # 5.4 Günstigerprüfung to obtain final income tax due.
@@ -69,14 +113,56 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
     df = pd.merge(df, soli_out, how='inner', validate='1:1')
 
     # 6. SOCIAL TRANSFERS / BENEFITS
-    ben_vars = ['pid', 'hid', 'tu_id', 'head', 'head_tu', 'female', 'miete', 'heizkost',
-                'hh_korr', 'incometax_tu', 'rvbeit_tu', 'gkvbeit_tu', 'gross_e1', 'gross_e4',
-                'gross_e5', 'gross_e6', 'm_alg1', 'm_transfers', 'ertragsanteil', 'm_pensions',
-                'm_wage', 'child', 'child_num', 'child_num_tu', 'alleinerz', 'hhsize', 'hhsize_tu',
-                'child6_num', 'child15_num', 'child14_24_num', 'child7_13_num', 'child2_num',
-                'child3_6_num', 'divdy', 'age', 'child18_num', 'adult_num', 'm_self', 'm_vermiet',
-                'm_kapinc', 'm_alg1', 'incometax', 'svbeit', 'soli', 'kindergeld',
-                'kindergeld_hh', 'hhtyp', ]
+    ben_vars = [
+        'pid',
+        'hid',
+        'tu_id',
+        'head',
+        'head_tu',
+        'female',
+        'miete',
+        'heizkost',
+        'hh_korr',
+        'incometax_tu',
+        'rvbeit_tu',
+        'gkvbeit_tu',
+        'gross_e1',
+        'gross_e4',
+        'gross_e5',
+        'gross_e6',
+        'm_alg1',
+        'm_transfers',
+        'ertragsanteil',
+        'm_pensions',
+        'm_wage',
+        'child',
+        'child_num',
+        'child_num_tu',
+        'alleinerz',
+        'hhsize',
+        'hhsize_tu',
+        'child6_num',
+        'child15_num',
+        'child14_24_num',
+        'child7_13_num',
+        'child2_num',
+        'child3_6_num',
+        'divdy',
+        'age',
+        'child18_num',
+        'adult_num',
+        'm_self',
+        'm_vermiet',
+        'm_kapinc',
+        'm_alg1',
+        'incometax',
+        'svbeit',
+        'soli',
+        'kindergeld',
+        'kindergeld_hh',
+        'hhtyp',
+    ]
+
     # 6.1. Wohngeld, Housing Benefit
     wg_out = wg(df, tb, taxyear, ref)
 
@@ -92,13 +178,28 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
 
     # 8. Finally, calculate disposable income
     # To be updated!
-    df['dpi_ind'] = (df[['m_wage', 'm_kapinc', 'm_self', 'm_vermiet',
-                         'm_imputedrent', 'm_pensions', 'm_transfers',
-                         'kindergeld', 'wohngeld']].sum(axis=1)
-                     - df[['incometax', 'soli', 'abgst', 'gkvbeit', 'rvbeit',
-                           'pvbeit', 'avbeit']].sum(axis=1))
-    df = df.join(df.groupby(['hid'])[('dpi_ind')].sum(),
-                 on=['hid'], how='left', rsuffix='_temp')
+    df['dpi_ind'] = df[[
+        'm_wage',
+        'm_kapinc',
+        'm_self',
+        'm_vermiet',
+        'm_imputedrent',
+        'm_pensions',
+        'm_transfers',
+        'kindergeld',
+        'wohngeld'
+    ]].sum(axis=1) - df[[
+        'incometax',
+        'soli',
+        'abgst',
+        'gkvbeit',
+        'rvbeit',
+        'pvbeit',
+        'avbeit'
+    ]].sum(axis=1)
+
+    df['dpi_ind_temp'] = df.groupby(['hid'])['dpi_ind'].transform(sum)
+
     # Finally, add ALG2 which is calculated on HH level
     df['dpi'] = np.maximum(df['dpi_ind_temp'] + df['m_alg2'], 0)
 
@@ -108,7 +209,7 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
 def uprate(df, dy, ty, path):
     '''Uprating monetary values to account for difference between
     data year and simulation year.
-    
+
     '''
 
     # define all monetary variables
@@ -132,9 +233,12 @@ def uprate(df, dy, ty, path):
 
 
 def pensions(df, tb, yr, ref):
-    ''' Old-Age Pensions
-        TO DO: how to account for increasing pension claims
+    '''Old-Age Pensions
+
+    TO DO: how to account for increasing pension claims
+
     '''
+
     cprint('Pensions', 'red', 'on_white')
     westost = [df['east'] is False, df['east']]
     year = str(yr)
@@ -173,8 +277,8 @@ def pensions(df, tb, yr, ref):
     """
 
 
-def ssc(df, tb, yr, ref):
-    '''Calculates Social Security Payments
+def soc_ins_contrib(df, tb, yr, ref):
+    '''Calculates Social Insurance Contributions
 
     4 branches of social insurances:
 
@@ -185,11 +289,15 @@ def ssc(df, tb, yr, ref):
 
     There is a fixed rate on earnings up to a threshold,
     after which no rates are charged.
+
     'Minijobs' below 450€ are free of contributions
     For 'Midijobs' between 450€ and 850€, the rate increases
     smoothly until the regular one is reached
+
     '''
-    cprint('Social Security Payments...', 'red', 'on_white')
+
+    cprint('Social Insurance Contributions...', 'red', 'on_white')
+
     # a couple of definitions
     ssc = df.copy()
     westost = [~df['east'], df['east']]
@@ -209,6 +317,8 @@ def ssc(df, tb, yr, ref):
     # Standard rates under consideration of thresholds
     # need to differentiate between East and West Germany
     # Old-Age Pension Insurance / Rentenversicherung
+
+    # This is probably the point where Entgeltpunkte should be updated as well.
     ssc['rvbeit'] = (tb['grvbs'] *
                      np.minimum(ssc['m_wage'],
                                   np.select(westost,
@@ -376,32 +486,38 @@ def ssc(df, tb, yr, ref):
     ssc['gkvbeit'] = ssc['gkvbeit'] + ssc['gkvrbeit']
     ssc['pvbeit'] = ssc['pvbeit'] + ssc['pvrbeit']
 
-    # Sum of Social Security Contributions (for employees)
+    # Sum of Social Insurance Contributions (for employees)
     ssc['svbeit'] = ssc[['rvbeit', 'avbeit', 'gkvbeit', 'pvbeit']].sum(axis=1)
 
     return ssc
 
 
 def ui(df, tb, taxyear, ref):
-    ''' Unemployment/Transitory Benefit
-        based on employment status and income from previous years
+    '''Return the Unemployment Benefit based on
+    employment status and income from previous years.
+
     '''
+
     westost = [~df['east'], df['east']]
 
-    df['m_alg1'] = df['alg_soep'].fillna(0)
+    m_alg1 = df['alg_soep'].fillna(0)
     # Months of entitlement
-    df['mts_contrib'] = df['months_l1'] + df['months_l2']
-    df['mts_ue'] = (df['months_ue'] +
-                    df['months_ue_l1'] +
-                    df['months_ue_l2'])
+    mts_ue = (
+        df['months_ue'] +
+        df['months_ue_l1'] +
+        df['months_ue_l2']
+    )
     # Relevant wage is capped at the contribution thresholds
-    df['alg_wage'] = (np.select(westost,
-                                [np.minimum(tb['rvmaxekw'], df['m_wage_l1']),
-                                 np.minimum(tb['rvmaxeko'], df['m_wage_l1'])]))
+    alg_wage = np.select(
+        westost,
+        [
+            np.minimum(tb['rvmaxekw'], df['m_wage_l1']),
+            np.minimum(tb['rvmaxeko'], df['m_wage_l1'])
+        ]
+    )
 
-    df['ui_wage'] = np.maximum(df['alg_wage'] -
-                               np.maximum(df['m_wage'] -
-                                          tb['alg1_frei'], 0), 0)
+    ui_wage = np.maximum(0, alg_wage - np.maximum(df['m_wage'] - tb['alg1_frei'], 0))
+
     # BENEFIT AMOUNT
     # Check Eligiblity.
     # Then different rates for parent and non-parents
@@ -410,28 +526,30 @@ def ui(df, tb, taxyear, ref):
     # assuming that their information is more reliable
     # (rethink this for the dynamic model)
     # there are different replacement rates depending on presence of children
-    df.loc[(df['mts_ue'] > 0) &
-           (df['mts_ue'] <= 12) &
-           (df['age'] < 65) &
-           (df['m_pensions'] == 0) &
-           (df['alg_soep'] == 0) &
-           (df['w_hours'] < 15),
-           'm_alg1'] = (np.select(
-                        [df['child_num_tu'] == 0, df['child_num_tu'] > 0],
-                        [tb['agsatz0'],                  tb['agsatz1']]) *
-                        df['ui_wage'])
+    m_alg1.loc[
+        (mts_ue > 0) &
+        (mts_ue <= 12) &
+        (df['age'] < 65) &
+        (df['m_pensions'] == 0) &
+        (df['alg_soep'] == 0) &
+        (df['w_hours'] < 15)
+    ] = ui_wage * np.select(
+        [df['child_num_tu'] == 0, df['child_num_tu'] > 0],
+        [tb['agsatz0'], tb['agsatz1']]
+    )
 
-    print('ALG 1 recipients according to SOEP:'
-          + str(df['counter'][df['alg_soep'] > 0].sum()))
-    print('Additional ALG 1 recipients from simulation:'
-          + str(df['counter'][df['m_alg1'] > 0].sum()
-                - df['counter'][df['alg_soep'] > 0].sum()))
-    return df
+    print('ALG 1 recipients according to SOEP:' + str(df['counter'][df['alg_soep'] > 0].sum()))
+    print(
+        'Additional ALG 1 recipients from simulation:' +
+        str(df['counter'][m_alg1 > 0].sum() - df['counter'][df['alg_soep'] > 0].sum())
+    )
+
+    return m_alg1
 
 
 # @jit(nopython=True)
 def zve(df, tb, yr, ref):
-    ''' Calculates taxable income
+    '''Calculate taxable income
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
         - abgeltungssteuer vs. taxing capital income in the tariff
