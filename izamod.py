@@ -17,7 +17,7 @@ from settings import get_settings
 from load_data import loaddata
 from prepare_data import preparedata
 from hypo import create_hypo_data
-from taxtransfer import *
+from tax_transfer import *
 
 pd.options.display.float_format = '{:.2f}'.format
 
@@ -70,7 +70,7 @@ def run_izamod(settings):
             print(" Year of System: " + str(settings['taxyear']))
             print(" Simulated Reform: " + str(ref))
             print("---------------------------------------------")
-            tt_out = taxtransfer(df, ref, datayear, settings['taxyear'], tb, False)
+            tt_out = tax_transfer(df, ref, datayear, settings['taxyear'], tb, False)
             print('Saving to:' + settings['DATA_PATH'] + ref
               + '/taxben_results' + str(datayear) + '_'
               + str(taxyear) + '.json')

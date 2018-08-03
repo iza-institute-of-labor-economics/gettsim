@@ -5,7 +5,7 @@ Created on Fri Jun 15 14:36:30 2018
 @author: iza6354
 """
 from imports import *
-from taxtransfer import *
+from tax_transfer import *
 
 """
 Hypothetical Household Types
@@ -190,7 +190,7 @@ def create_hypo_data(data_path, settings):
     df = pd.read_pickle(settings['DATA_PATH'] + 'SOEP/taxben_input_hypo')
     tb = get_params(settings)[str(settings['taxyear'])]
 
-    taxout_hypo = taxtransfer(df, 'RS2018', 2018, 2018, tb, True)
+    taxout_hypo = tax_transfer(df, 'RS2018', 2018, 2018, tb, True)
 
     # EMTR Graphen
     # keep only those that get earnings
