@@ -1,0 +1,28 @@
+# Basic .gitattributes for a python repo.
+
+*			text=auto
+
+# Source files
+# ============
+*.pxd		text eol=lf
+*.py 		text eol=lf
+*.py3 		text eol=lf
+*.pyw 		text eol=lf
+*.pyx  		text eol=lf
+*.do		text eol=lf
+*.rst		text eol=lf
+*.txt  		text eol=lf
+
+# Binary files
+# ============
+*.db		binary
+*.p 		binary
+*.pkl 		binary
+*.pickle	binary
+*.pyc 		binary
+*.pyd		binary
+*.pyo 		binary
+*.pdf 		binary
+*.xls 		binary
+*.xlsx 		binary
+*.dta 		binary
