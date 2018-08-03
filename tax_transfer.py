@@ -214,17 +214,17 @@ def uprate(df, dy, ty, path):
 
     # define all monetary variables
     # get uprate matrix ,as np.array
-    upr = pd.read_excel(path+'/data/params/uprate_cpi.xls',
+    upr = pd.read_excel(path + '/data/params/uprate_cpi.xls',
                         index_col='ausgang')
-    factor = upr.loc[dy]['y'+str(ty)]
+    factor = upr.loc[dy]['y' + str(ty)]
     print('Uprating monetary variables from year ' + str(dy) +
           ' to ' + str(ty) + ' with factor ' + str(factor))
     money_vars = [
-                'k_inco', 'm_pensions', 'm_transfers', 'childinc',
-                'm_kapinc', 'm_vermiet', 'm_imputedrent',
-                'versbez', 'm_wage', 'othwage_ly', 'h_wage',
-                'kaltmiete', 'heizkost', 'kapdienst', 'miete'
-                ]
+        'k_inco', 'm_pensions', 'm_transfers', 'childinc',
+        'm_kapinc', 'm_vermiet', 'm_imputedrent',
+        'versbez', 'm_wage', 'othwage_ly', 'h_wage',
+        'kaltmiete', 'heizkost', 'kapdienst', 'miete'
+    ]
 
     for v in money_vars:
         df[v] = factor * df[v]
@@ -253,9 +253,9 @@ def pensions(df, tb, yr, ref):
     m_wage_east = df['m_wage'][(df['m_wage'] > tb['mini_grenzeo'])
                                & (df['east'])].mean()
     df['EP'] = np.select(
-            westost, [np.minimum(df['m_wage'], tb['rvmaxekw'])/m_wage_west,
-                      np.minimum(df['m_wage'], tb['rvmaxeko'])/m_wage_east]
-                )
+        westost, [np.minimum(df['m_wage'], tb['rvmaxekw']) / m_wage_west,
+                  np.minimum(df['m_wage'], tb['rvmaxeko']) / m_wage_east]
+    )
 
     # rw_east = rentenwert['rw_east'][rentenwert['yr'] == yr]
     # rw_west = rentenwert['rw_west'][rentenwert['yr'] == yr]
@@ -299,85 +299,74 @@ def soc_ins_contrib(df, tb, yr, ref):
     cprint('Social Insurance Contributions...', 'red', 'on_white')
 
     # a couple of definitions
-    ssc = df.copy()
+    ssc = pd.DataFrame()
+
     westost = [~df['east'], df['east']]
-    ssc['bezgr'] = np.select(westost,
-                             [tb['bezgr_o'], tb['bezgr_w']])
-    ssc['kinderlos'] = ((~ssc['haskids']) & (ssc['age'] > 22))
-    ssc['belowmini'] = np.select(westost,
-                                 [ssc['m_wage'] < tb['mini_grenzew'],
-                                  ssc['m_wage'] < tb['mini_grenzeo']]) == 1
-    ssc['above_thresh_kv'] = np.select(westost,
-                                       [ssc['m_wage'] > tb['kvmaxekw'],
-                                        ssc['m_wage'] > tb['kvmaxeko']]) == 1
-    ssc['above_thresh_rv'] = np.select(westost,
-                                       [ssc['m_wage'] > tb['rvmaxekw'],
-                                        ssc['m_wage'] > tb['rvmaxeko']]) == 1
+
+    ssc['bezgr'] = np.select(
+        westost,
+        [tb['bezgr_o'], tb['bezgr_w']]
+    )
+    ssc['kinderlos'] = ((~df['haskids']) & (df['age'] > 22))
+    ssc['belowmini'] = 1 == np.select(
+        westost,
+        [df['m_wage'] < tb['mini_grenzew'], df['m_wage'] < tb['mini_grenzeo']]
+    )
+    ssc['above_thresh_kv'] = 1 == np.select(
+        westost,
+        [df['m_wage'] > tb['kvmaxekw'], df['m_wage'] > tb['kvmaxeko']]
+    )
+    ssc['above_thresh_rv'] = 1 == np.select(
+        westost,
+        [df['m_wage'] > tb['rvmaxekw'], df['m_wage'] > tb['rvmaxeko']]
+    )
 
     # Standard rates under consideration of thresholds
     # need to differentiate between East and West Germany
     # Old-Age Pension Insurance / Rentenversicherung
 
     # This is probably the point where Entgeltpunkte should be updated as well.
-    ssc['rvbeit'] = (tb['grvbs'] *
-                     np.minimum(ssc['m_wage'],
-                                  np.select(westost,
-                                            [tb['rvmaxekw'],  tb['rvmaxeko']]
-                                            )))
-    '''ssc['ag_rvbeit'] = (tb['grvbs']
-                        * np.minimum(ssc['m_wage'],
-                                     np.select(westost,
-                                               [tb['rvmaxekw'],
-                                                tb['rvmaxeko']])))
-    '''
+    ssc['rvbeit'] = tb['grvbs'] * np.minimum(
+        df['m_wage'],
+        np.select(
+            westost,
+            [tb['rvmaxekw'], tb['rvmaxeko']]
+        )
+    )
     # Unemployment Insurance / Arbeitslosenversicherung
-    ssc['avbeit'] = (tb['alvbs'] *
-                     np.minimum(ssc['m_wage'],
-                                  np.select(westost,
-                                            [tb['rvmaxekw'],
-                                             tb['rvmaxeko']])))
-    '''
-    ssc['ag_avbeit'] = (tb['alvbs']
-                        * np.minimum(ssc['m_wage'],
-                                     np.select(westost,
-                                               [tb['rvmaxekw'],
-                                                tb['rvmaxeko']])))
-    '''
+    ssc['avbeit'] = tb['alvbs'] * np.minimum(
+        df['m_wage'],
+        np.select(
+            westost,
+            [tb['rvmaxekw'], tb['rvmaxeko']]
+        )
+    )
     # Health Insurance for Employees (GKV)
-    ssc['gkvbeit'] = (tb['gkvbs_an'] *
-                      np.minimum(ssc['m_wage'],
-                                   np.select(westost,
-                                             [tb['kvmaxekw'],
-                                              tb['kvmaxeko']])))
-    '''
-    ssc['ag_gkvbeit'] = (tb['gkvbs_ag']
-                         * np.minimum(ssc['m_wage'],
-                                      np.select(westost,
-                                                [tb['kvmaxekw'],
-                                                 tb['kvmaxeko']])))
-    '''
+    ssc['gkvbeit'] = tb['gkvbs_an'] * np.minimum(
+        df['m_wage'],
+        np.select(
+            westost,
+            [tb['kvmaxekw'], tb['kvmaxeko']]
+        )
+    )
     # Care Insurance / Pflegeversicherung
-    ssc['pvbeit'] = (tb['gpvbs'] *
-                     np.minimum(ssc['m_wage'],
-                                  np.select(westost,
-                                            [tb['kvmaxekw'],
-                                             tb['kvmaxeko']])))
+    ssc['pvbeit'] = tb['gpvbs'] * np.minimum(
+        df['m_wage'],
+        np.select(
+            westost,
+            [tb['kvmaxekw'], tb['kvmaxeko']]
+        )
+    )
     # If you are above 23 and without kids, you have to pay a higher rate
-    ssc.loc[ssc['kinderlos'],
-            'pvbeit'] = ((tb['gpvbs'] + tb['gpvbs_kind']) *
-                         np.minimum(ssc['m_wage'],
-                                      np.select(westost,
-                                                [tb['kvmaxekw'],
-                                                 tb['kvmaxeko']])))
-    '''
-    ssc['ag_pvbeit'] = (tb['gpvbs']
-                        * np.minimum(ssc['m_wage'],
-                                     np.select(westost,
-                                               [tb['kvmaxekw'],
-                                                tb['kvmaxeko']])))
-    '''
-    # Gleitzone / Midi-Jobs
+    ssc.loc[df['kinderlos'], 'pvbeit'] = (tb['gpvbs'] + tb['gpvbs_kind']) * np.minimum(
+        df['m_wage'],
+        np.select(
+            westost,
+            [tb['kvmaxekw'], tb['kvmaxeko']]
+        )
+    )
 
+    # Gleitzone / Midi-Jobs
     if yr >= 2003:
         # For midijobs, the rate is not calculated on the wage,
         # but on the 'bemessungsentgelt'
@@ -397,16 +386,16 @@ def soc_ins_contrib(df, tb, yr, ref):
                     - tb['mini_grenzew']))
                    - (tb['mini_grenzew'] /
                    ((tb['midi_grenze'] - tb['mini_grenzew']))*F))
-                * (ssc['m_wage'] - tb['mini_grenzew']),
+                * (df['m_wage'] - tb['mini_grenzew']),
                 F * tb['mini_grenzeo']
                 + ((tb['midi_grenze']/(tb['midi_grenze'] - tb['mini_grenzeo']))
                     - (tb['mini_grenzeo'] /
                        ((tb['midi_grenze']-tb['mini_grenzeo']))*F))
-                * (ssc['m_wage'] - tb['mini_grenzeo'])
+                * (df['m_wage'] - tb['mini_grenzeo'])
                 ]
         ssc['bemessungsentgelt'] = np.select(westost, bemes)
         # This checks whether wage is in the relevant range
-        ssc['in_gleitzone'] = ssc['m_wage'].between(
+        ssc['in_gleitzone'] = df['m_wage'].between(
                             np.select(westost,
                                       [tb['mini_grenzew'],
                                        tb['mini_grenzeo']]),
@@ -417,68 +406,83 @@ def soc_ins_contrib(df, tb, yr, ref):
 
         # Old-Age Pensions
         ssc['gb_rv'] = 2 * tb['grvbs'] * ssc['bemessungsentgelt']
-        ssc.loc[ssc['in_gleitzone'], 'ag_rvbeit'] = tb['grvbs'] * ssc['m_wage']
-        ssc.loc[ssc['in_gleitzone'],
-                'rvbeit'] = ssc['gb_rv'] - ssc['ag_rvbeit']
+        ssc.loc[ssc['in_gleitzone'], 'ag_rvbeit'] = tb['grvbs'] * df['m_wage']
+        ssc.loc[ssc['in_gleitzone'], 'rvbeit'] = ssc['gb_rv'] - ssc['ag_rvbeit']
+
         # Health
-        ssc['gb_gkv'] = ((tb['gkvbs_an'] + tb['gkvbs_ag'])
-                         * ssc['bemessungsentgelt'])
-        ssc.loc[ssc['in_gleitzone'],
-                'ag_gkvbeit'] = tb['gkvbs_ag'] * ssc['m_wage']
-        ssc.loc[ssc['in_gleitzone'],
-                'gkvbeit'] = ssc['gb_gkv'] - ssc['ag_gkvbeit']
+        ssc['gb_gkv'] = ((tb['gkvbs_an'] + tb['gkvbs_ag']) * ssc['bemessungsentgelt'])
+        ssc.loc[ssc['in_gleitzone'], 'ag_gkvbeit'] = tb['gkvbs_ag'] * df['m_wage']
+        ssc.loc[ssc['in_gleitzone'], 'gkvbeit'] = ssc['gb_gkv'] - ssc['ag_gkvbeit']
+
         # Unemployment
         ssc['gb_alv'] = 2 * tb['alvbs'] * ssc['bemessungsentgelt']
-        ssc.loc[ssc['in_gleitzone'], 'ag_avbeit'] = tb['alvbs'] * ssc['m_wage']
-        ssc.loc[ssc['in_gleitzone'],
-                'avbeit'] = ssc['gb_alv'] - ssc['ag_avbeit']
-        # Care
+        ssc.loc[ssc['in_gleitzone'], 'ag_avbeit'] = tb['alvbs'] * df['m_wage']
+        ssc.loc[ssc['in_gleitzone'], 'avbeit'] = ssc['gb_alv'] - ssc['ag_avbeit']
+
+        # Long-Term Care
         ssc['gb_pv'] = 2 * tb['gpvbs'] * ssc['bemessungsentgelt']
-        ssc.loc[ssc['in_gleitzone'], 'ag_pvbeit'] = tb['gpvbs'] * ssc['m_wage']
-        ssc.loc[ssc['in_gleitzone'],
-                'pvbeit'] = (ssc['gb_pv'] - ssc['ag_pvbeit']
-                             + (ssc['kinderlos']
-                                * tb['gpvbs_kind'] * ssc['m_wage']))
+        ssc.loc[ssc['in_gleitzone'], 'ag_pvbeit'] = tb['gpvbs'] * df['m_wage']
+        ssc.loc[ssc['in_gleitzone'], 'pvbeit'] = (
+            ssc['gb_pv'] - ssc['ag_pvbeit'] +
+            (df['kinderlos'] * tb['gpvbs_kind'] * df['m_wage'])
+        )
 
         # Drop intermediate variables
-        ssc = ssc.drop(['gb_rv', 'gb_gkv',
-                        'gb_alv', 'gb_pv', 'bemessungsentgelt'], axis=1)
+        ssc = ssc.drop(
+            [
+                'gb_rv',
+                'gb_gkv',
+                'gb_alv',
+                'gb_pv',
+                'bemessungsentgelt'
+            ],
+            axis=1
+        )
     # END 'GLEITZONE'
 
     # check whether we are below 450€...set to zero
-    for beit in ['rvbeit', 'gkvbeit', 'avbeit', 'pvbeit',
-                 'ag_rvbeit', 'ag_gkvbeit', 'ag_avbeit', 'ag_pvbeit']:
+    for beit in [
+        'rvbeit',
+        'gkvbeit',
+        'avbeit',
+        'pvbeit',
+        'ag_rvbeit',
+        'ag_gkvbeit',
+        'ag_avbeit',
+        'ag_pvbeit'
+    ]:
         ssc.loc[ssc['belowmini'], beit] = 0
+
     # Freiwillige GKV der Selbständigen.
     # Entweder Selbständigen-Einkommen oder 3/4 der Bezugsgröße
-    ssc.loc[(ssc['selfemployed']) & (~ssc['pkv']),
+    ssc.loc[(df['selfemployed']) & (~df['pkv']),
             'gkvbeit'] = ((tb['gkvbs_an'] + tb['gkvbs_ag'])
-                          * np.minimum(ssc['m_self'],
+                          * np.minimum(df['m_self'],
                           0.75 * np.select(westost,
                                            [tb['bezgr_w'], tb['bezgr_o']])))
 
-    ssc.loc[(ssc['selfemployed']) &
-            (~ssc['pkv']),
+    ssc.loc[(df['selfemployed']) &
+            (~df['pkv']),
             'pvbeit'] = ((2 * tb['gpvbs'] + np.select(
-                        [ssc['kinderlos'], ~ssc['kinderlos']],
+                        [df['kinderlos'], ~df['kinderlos']],
                         [tb['gpvbs_kind'], 0]))
-                    * np.minimum(ssc['m_self'], 0.75 * np.select(
+                    * np.minimum(df['m_self'], 0.75 * np.select(
                             westost, [tb['bezgr_w'], tb['bezgr_o']])))
     # GKV auf Renten, die zahlen den doppelten Pflebebeitragssatz.
     ssc['gkvrbeit'] = (tb['gkvbs_an'] *
-                       np.minimum(ssc['m_pensions'],
+                       np.minimum(df['m_pensions'],
                                   np.select(westost,
                                             [tb['kvmaxekw'],
                                              tb['kvmaxeko']])))
     # doppelter Pflegebeitragssatz
     ssc['pvrbeit'] = (2 * tb['gpvbs'] *
-                      np.minimum(ssc['m_pensions'],
+                      np.minimum(df['m_pensions'],
                                    np.select(westost,
                                              [tb['kvmaxekw'],
                                               tb['kvmaxeko']])))
-    ssc.loc[ssc['kinderlos'],
+    ssc.loc[df['kinderlos'],
             'pvrbeit'] = ((2 * tb['gpvbs'] + tb['gpvbs_kind']) *
-                          np.minimum(ssc['m_pensions'],
+                          np.minimum(df['m_pensions'],
                                        np.select(westost,
                                                  [tb['kvmaxekw'],
                                                   tb['kvmaxeko']])))
