@@ -486,16 +486,6 @@ def preparedata(df):
     # Some people commute within city, but report comm_freq == 0
     #df.loc[(df['comm_dist'] > 0) & (df['comm_freq'] == 0), 'comm_freq'] = 1
 
-    # Some labels
-    # Marital Status...Maybe rather rename and label?
-    df['marstat_lb'] = df['marstat'].map({1: 'Married',
-                                          2: 'Single',
-                                          3: 'Widowed',
-                                          4: 'Divorced',
-                                          5: 'Separated'})
-    df['quali_lb'] = df['qualification'].map({1: 'High-Skilled',
-                                              2: 'Medium-Skilled',
-                                              3: 'Unskilled'})
     # Dummy for joint taxation
     df['zveranl'] = (df['marstat'] == 1) & (df['adult_num_tu'] >= 2)
 

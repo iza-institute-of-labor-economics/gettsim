@@ -4,7 +4,7 @@ TAX TRANSFER SIMULATION
 
 Eric Sommer, 2018
 """
-from imports import *
+from imports import aggr
 from termcolor import colored, cprint
 
 import pandas as pd
@@ -95,10 +95,19 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
     ]
 
     # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
-    zve_out = zve(df[taxvars], tb, taxyear, ref)
+    df = df.join(
+        other=zve(
+            df[taxvars],
+            tb,
+            taxyear,
+            ref
+        ),
+        how='inner'
+    )
+    #zve_out = zve(df[taxvars], tb, taxyear, ref)
 
     # 5.2 Apply Tax Schedule
-    sched_out = tax_sched(zve_out, tb, taxyear, ref)
+    sched_out = tax_sched(df, tb, taxyear, ref)
 
     # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
     kg_out = kindergeld(sched_out, tb, taxyear, ref)
@@ -491,7 +500,7 @@ def soc_ins_contrib(df, tb, yr, ref):
     # Sum of Social Insurance Contributions (for employees)
     ssc['svbeit'] = ssc[['rvbeit', 'avbeit', 'gkvbeit', 'pvbeit']].sum(axis=1)
 
-    return ssc
+    return ssc[['svbeit', 'rvbeit', 'avbeit', 'gkvbeit', 'pvbeit']]
 
 
 def ui(df, tb, taxyear, ref):
@@ -551,7 +560,7 @@ def ui(df, tb, taxyear, ref):
 
 # @jit(nopython=True)
 def zve(df, tb, yr, ref):
-    '''Calculate taxable income
+    '''Calculate taxable income (zve = zu versteuerndes Einkommen)
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
         - abgeltungssteuer vs. taxing capital income in the tariff
@@ -563,9 +572,13 @@ def zve(df, tb, yr, ref):
     kapinc_in_tarif = yr < 2009
     westost = [~df['east'], df['east']]
     married = [df['zveranl'], ~df['zveranl']]
+    # create output dataframe and transter some important variables
+    zve = pd.DataFrame(index=df.index.copy())
+    for v in ['hid', 'tu_id', 'zveranl']:
+        zve[v] = df[v]
 
     # The share of pensions subject to income taxation
-    df['ertragsanteil'] = 0
+    zve['ertragsanteil'] = 0
     df.loc[df['renteneintritt'] <= 2004, 'ertragsanteil'] = 0.27
     df.loc[df['renteneintritt'].between(2005, 2020),
            'ertragsanteil'] = 0.5 + 0.02 * (df['renteneintritt'] - 2005)
@@ -574,14 +587,14 @@ def zve(df, tb, yr, ref):
     df.loc[df['renteneintritt'] >= 2041, 'ertragsanteil'] = 1
 
     # Werbungskosten und Sonderausgaben
-    df['werbung'] = tb['werbung'] * df['m_wage'] > 0 * ~df['child']
-    df['sonder'] = (~df['child']) * tb['sonder']
+    zve['werbung'] = tb['werbung'] * df['m_wage'] > 0 * ~df['child']
+    zve['sonder'] = (~df['child']) * tb['sonder']
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
-    df['gross_e1'] = 12 * df['m_self']
+    zve['gross_e1'] = 12 * df['m_self']
     # Earnings
-    df['gross_e4'] = np.maximum((12 * df['m_wage']) - df['werbung'], 0)
+    zve['gross_e4'] = np.maximum((12 * df['m_wage']) - zve['werbung'], 0)
     # Minijob-Grenze beachten
     df.loc[df['m_wage'] <= np.select(westost,
                                      [tb['mini_grenzew'],
@@ -589,23 +602,23 @@ def zve(df, tb, yr, ref):
            'gross_e4'] = 0
 
     # Capital Income
-    df['gross_e5'] = np.maximum((12 * df['m_kapinc']), 0)
+    zve['gross_e5'] = np.maximum((12 * df['m_kapinc']), 0)
     # Income from rents
-    df['gross_e6'] = 12 * df['m_vermiet']
+    zve['gross_e6'] = 12 * df['m_vermiet']
     # Others (Pensions)
-    df['gross_e7'] = np.maximum(
-        12 * (df['ertragsanteil'] * df['m_pensions']) - tb['vorsorgpausch'], 0
+    zve['gross_e7'] = np.maximum(
+        12 * (zve['ertragsanteil'] * df['m_pensions']) - tb['vorsorgpausch'], 0
     )
     # Sum of incomes
-    df['gross_gde'] = df[['gross_e1', 'gross_e4', 'gross_e6', 'gross_e7']].sum(axis=1)
+    zve['gross_gde'] = zve[['gross_e1', 'gross_e4', 'gross_e6', 'gross_e7']].sum(axis=1)
     # If capital income tax with tariff, add it but account for exemptions
     if kapinc_in_tarif:
-        df['gross_gde'] = (
-            df['gross_gde'] +
-            np.maximum(df['gross_e5'] - tb['spsparf'] - tb['spwerbz'], 0)
+        zve['gross_gde'] = (
+            zve['gross_gde'] +
+            np.maximum(zve['gross_e5'] - tb['spsparf'] - tb['spwerbz'], 0)
         )
     # Gross (market) income <> sum of incomes...
-    df['m_brutto'] = df[['m_self',
+    zve['m_brutto'] = df[['m_self',
                          'm_wage',
                          'm_kapinc',
                          'm_vermiet',
@@ -620,16 +633,16 @@ def zve(df, tb, yr, ref):
                   df['handcap_degree'].between(91, 100)]
     hc_pausch = [tb['sbhp50'], tb['sbhp60'], tb['sbhp70'],
                  tb['sbhp80'], tb['sbhp90'], tb['sbhp100']]
-    df['handc_pausch'] = (df['handcap_dummy']
+    zve['handc_pausch'] = (df['handcap_dummy']
                           * np.select(hc_degrees, hc_pausch))
 
     # Aggregate several incomes on the taxpayer couple
     for inc in ['m_wage', 'rvbeit', 'gkvbeit', 'avbeit', 'pvbeit']:
-        df = aggr(df, inc, True)
+        zve[inc+'_tu_k'] = aggr(df, inc, True)
+        zve[inc+'_tu'] = aggr(df, inc, False)
     for inc in ['sonder', 'handc_pausch', 'gross_gde', 'gross_e1',
-                'gross_e4', 'gross_e5', 'gross_e6', 'm_wage', 'rvbeit',
-                'avbeit', 'gkvbeit', 'pvbeit']:
-        df = aggr(df, inc, False)
+                'gross_e4', 'gross_e5', 'gross_e6', 'gross_e7']:
+        zve[inc+'_tu'] = aggr(zve, inc, False)
 
     # TAX DEDUCTIONS
     # 'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
@@ -650,96 +663,110 @@ def zve(df, tb, yr, ref):
     # The regular maximum amount of deductions is 2800€ per taxpayer
 
     # only deduct pension contributions up to the ceiling. for couples, it's an approximation.
-    df['rvbeit_vors'] = np.minimum(df['rvbeit'], np.select(westost,
-                                                          [tb['rvmaxekw'], tb['rvmaxeko']]))
-    df['rvbeit_tu_vors'] = np.minimum(df['rvbeit_tu'], 2 * np.select(
-                                      westost, [tb['rvmaxekw'], tb['rvmaxeko']]))
+    zve['rvbeit_vors'] = np.minimum(df['rvbeit'],
+                                    np.select(westost,
+                                              [tb['rvmaxekw'], tb['rvmaxeko']])
+                                    )
+    zve['rvbeit_tu_vors'] = np.minimum(zve['rvbeit_tu'],
+                                       2 * np.select(westost,
+                                                     [tb['rvmaxekw'], tb['rvmaxeko']])
+                                       )
     # For couples, give everybody half the total deduction. (maybe improve this))
-    vorsorg2010_married = (0.5 * (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) *
-                                 (12 * df['rvbeit_tu_vors']) + np.minimum(12 * (df['pvbeit_tu'] +
-                                  df['avbeit_tu'] + 0.96 * df['gkvbeit_tu']), 2 * 2800))
+    vorsorg2010_married = (
+            0.5 * (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) *
+            (12 * zve['rvbeit_tu_vors']) + np.minimum(2 * 2800,
+                                                      12 * (zve['pvbeit_tu'] +
+                                                      zve['avbeit_tu'] +
+                                                      0.96 * zve['gkvbeit_tu']))
+            )
 
-    vorsorg2010_single = ((0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * df['rvbeit_vors']) +
-                                       np.minimum(12 * (df['pvbeit'] + df['avbeit'] +
-                                                          0.96 * df['gkvbeit']), 2800))
+    vorsorg2010_single = ((0.6 +
+                           0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) +
+                          np.minimum(2800,
+                                     12 * (df['pvbeit'] +
+                                           df['avbeit'] +
+                                           0.96 * df['gkvbeit'])
+                                     )
+                          )
 
-    df['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
+    zve['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
 
     # TO DO: check various deductions against each other (when modelled)
-    df['vorsorge'] = df['vorsorge2010']
-    df = aggr(df, 'vorsorge')
+    zve['vorsorge'] = zve['vorsorge2010']
+    zve['vorsorge_tu'] = aggr(zve, 'vorsorge')
 
-    # Altersentlastungsbetrag. Deduction for elderly
-    df['altfreib'] = 0
+    # Tax Deduction for elderly ("Altersentlastungsfreibetrag")
+    zve['altfreib'] = 0
     df.loc[df['age'] > 64, 'altfreib'] = np.minimum(
                                          tb['altentq'] * 12 * (df['m_wage'] +
                                          np.maximum(0, df[['m_kapinc',
                                                            'm_self',
                                                            'm_vermiet']].sum(axis=1))),
-                                                    tb['altenth'])
-    df = aggr(df, 'altfreib')
-
+                                                    tb['altenth']
+                                                    )
+    zve['altfreib_tu'] = aggr(zve, 'altfreib')
     # Entlastungsbetrag für Alleinerziehende. Deduction for Single Parents
-    df['hhfreib'] = 0
+    zve['hhfreib'] = 0
     if yr < 2015:
-        df.loc[df['alleinerz'],'hhfreib'] = tb['hhfreib']
+        zve.loc[df['alleinerz'], 'hhfreib'] = tb['hhfreib']
     if yr >= 2015:
-            df.loc[df['alleinerz'],'hhfreib'] = (tb['hhfreib'] + (df['child_num_tu'] - 1) * 240)
+        zve.loc[df['alleinerz'], 'hhfreib'] = (tb['hhfreib'] + (df['child_num_tu'] - 1) * 240)
     # Child Allowance (Kinderfreibetrag)
     # Single Parents get half the allowance, parents get the full amount but share it.
-    # This is an assumption!
-    df['kifreib'] = 0
-    df['kifreib'] = (0.5 * tb['ch_allow'] *
-                     df['child_num_tu'] * ~df['child'])
+    # Note that this is an assumption, parents can share them differently.
+    zve['kifreib'] = 0
+    zve['kifreib'] = (0.5 * tb['ch_allow'] *
+                      df['child_num_tu'] * ~df['child'])
     # Taxable income (zve)
     # For married couples, household income is split between the two.
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
-    df['zve_nokfb'] = 0
-    df.loc[~df['zveranl'], 'zve_nokfb'] = np.maximum(
+    zve['zve_nokfb'] = 0
+    zve.loc[~df['zveranl'], 'zve_nokfb'] = np.maximum(
         0,
-        df['gross_gde'] -
-        df['vorsorge'] -
-        df['sonder'] -
-        df['handc_pausch'] -
-        df['hhfreib'] -
-        df['altfreib']
+        zve['gross_gde'] -
+        zve['vorsorge'] -
+        zve['sonder'] -
+        zve['handc_pausch'] -
+        zve['hhfreib'] -
+        zve['altfreib']
     )
-    df.loc[df['zveranl'], 'zve_nokfb'] = 0.5 * np.maximum(
+    zve.loc[df['zveranl'], 'zve_nokfb'] = 0.5 * np.maximum(
         0,
-        df['gross_gde_tu'] -
-        df['vorsorge_tu'] -
-        df['sonder_tu'] -
-        df['handc_pausch_tu'] -
-        df['hhfreib'] -
-        df['altfreib']
+        zve['gross_gde_tu'] -
+        zve['vorsorge_tu'] -
+        zve['sonder_tu'] -
+        zve['handc_pausch_tu'] -
+        zve['hhfreib'] -
+        zve['altfreib']
     )
-
-    # Ohne Kinderfreibetrag, aber ohne Kapitalerträge
-    df.loc[~df['zveranl'], 'zve_abg_nokfb'] = np.maximum(
+    # No Child Allowance, but with capital income
+    zve.loc[~df['zveranl'], 'zve_abg_nokfb'] = np.maximum(
         0,
-        df['gross_gde'] -
-        np.minimum(tb['spsparf'] + tb['spwerbz'], df['gross_e5']) * (kapinc_in_tarif is False) -
-        df['vorsorge'] -
-        df['sonder'] -
-        df['handc_pausch'] -
-        df['hhfreib'] -
-        df['altfreib']
+        zve['gross_gde'] -
+        np.minimum(tb['spsparf'] + tb['spwerbz'], zve['gross_e5']) -
+        zve['vorsorge'] -
+        zve['sonder'] -
+        zve['handc_pausch'] -
+        zve['hhfreib'] -
+        zve['altfreib']
     )
-    df.loc[df['zveranl'], 'zve_abg_nokfb'] = 0.5 * np.maximum(
+    zve.loc[df['zveranl'], 'zve_abg_nokfb'] = 0.5 * np.maximum(
         0,
-        df['gross_gde_tu'] -
-        (np.minimum(2 * (tb['spsparf'] + tb['spwerbz']), df['gross_e5_tu']) * (kapinc_in_tarif is False)) -  # noqa
-        df['vorsorge_tu'] -
-        df['sonder'] -
-        df['handc_pausch_tu'] -
-        df['hhfreib'] -
-        df['altfreib']
+        zve['gross_gde_tu'] -
+        np.minimum(2 * (tb['spsparf'] + tb['spwerbz']), zve['gross_e5_tu']) -
+        zve['vorsorge_tu'] -
+        zve['sonder'] -
+        zve['handc_pausch_tu'] -
+        zve['hhfreib'] -
+        zve['altfreib']
     )
     # Subtract Child allowance to get alternative taxable incomes
-    df['zve_kfb'] = np.maximum(df['zve_nokfb'] - df['kifreib'], 0)
-    df['zve_abg_kfb'] = np.maximum(df['zve_abg_nokfb'] - df['kifreib'], 0)
+    zve['zve_kfb'] = np.maximum(zve['zve_nokfb'] - zve['kifreib'], 0)
+    zve['zve_abg_kfb'] = np.maximum(zve['zve_abg_nokfb'] - zve['kifreib'], 0)
 
-    return df
+    return zve[['zve_nokfb', 'zve_abg_nokfb', 'zve_kfb', 'zve_abg_kfb', 'kifreib',
+                'gross_e1', 'gross_e4', 'gross_e5', 'gross_e6', 'gross_e7',
+                'gross_e1_tu', 'gross_e4_tu', 'gross_e5_tu', 'gross_e6_tu', 'gross_e7_tu']]
 
 
 def tax_sched(df, tb, yr, ref):
@@ -747,7 +774,7 @@ def tax_sched(df, tb, yr, ref):
     '''
     cprint('Income Tax...', 'red', 'on_white')
     kapinc_in_tarif = yr < 2009
-
+    # Before 2009, no separate taxation of capital income
     if (yr < 2009):
         inclist = ['nokfb', 'kfb']
     else:
