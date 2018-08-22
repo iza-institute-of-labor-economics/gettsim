@@ -4,7 +4,7 @@ TAX TRANSFER SIMULATION
 
 Eric Sommer, 2018
 """
-from imports import aggr
+from imports import aggr, gini
 from termcolor import colored, cprint
 
 import pandas as pd
@@ -104,13 +104,33 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
         ),
         how='inner'
     )
-    #zve_out = zve(df[taxvars], tb, taxyear, ref)
 
     # 5.2 Apply Tax Schedule
-    sched_out = tax_sched(df, tb, taxyear, ref)
+    df = df.join(
+        other=tax_sched(
+            df,
+            tb,
+            taxyear,
+            ref
+        ),
+        how='inner'
+    )
 
     # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
-    kg_out = kindergeld(sched_out, tb, taxyear, ref)
+    df = df.join(
+        other=kindergeld(
+            df[['hid',
+                'tu_id',
+                'age',
+                'ineducation',
+                'w_hours',
+                'm_wage']],
+            tb,
+            taxyear,
+            ref
+        ),
+        how='inner'
+    )
 
     # 5.4 Günstigerprüfung to obtain final income tax due.
     pre_soli = favorability_check(kg_out, tb, taxyear, ref)
@@ -770,10 +790,10 @@ def zve(df, tb, yr, ref):
 
 
 def tax_sched(df, tb, yr, ref):
-    ''' Applies the income tax tariff
+    ''' Applies the income tax tariff for various definitions of taxable income
+        also calculates tax on capital income (Abgeltungssteuer)
     '''
     cprint('Income Tax...', 'red', 'on_white')
-    kapinc_in_tarif = yr < 2009
     # Before 2009, no separate taxation of capital income
     if (yr < 2009):
         inclist = ['nokfb', 'kfb']
@@ -782,6 +802,10 @@ def tax_sched(df, tb, yr, ref):
 
     def tarif(x, tb):
         ''' The German Income Tax Tariff
+            modelled only after 2002 so far
+            It's not calculated as in the tax code, but rather a gemoetric decomposition of the
+            area beneath the marginal tax rate function.
+            This facilitates the implemenation of alternative tax schedules
         '''
         y = int(tb['yr'])
         if y < 2002:
@@ -804,60 +828,67 @@ def tax_sched(df, tb, yr, ref):
             t = round(t, 2)
         return t
 
-    #####################
-    # TAX SCHEDULE FOR VARIOUS DEFINITIONS OF TAXABLE INCOME
-    #####################
     cprint('Tax Schedule...', 'red', 'on_white')
+    # create ts dataframe and copy three important variables
+    ts = pd.DataFrame(index=df.index.copy())
+    for v in ['hid', 'tu_id', 'zveranl']:
+        ts[v] = df[v]
+
     for inc in inclist:
-        df['tax_'+inc] = np.vectorize(tarif)(df['zve_'+inc], tb)
-        df = aggr(df, 'tax_'+inc)
-    ###################
+        # apply the tariff. Need np.vectorize for handing a series to the function along with
+        # other parameters.
+        # need to convert this one to panda series...
+        ts['tax_'+inc] = np.vectorize(tarif)(df['zve_'+inc], tb)
+        ts['tax_'+inc+'_tu'] = aggr(ts, 'tax_'+inc, False)
+    ################
 
     # Abgeltungssteuer
-    df['abgst'] = 0
-    if kapinc_in_tarif is False:
-        df.loc[~df['zveranl'], 'abgst'] = (
+    ts['abgst'] = 0
+    if (yr >= 2009):
+        ts.loc[~ts['zveranl'], 'abgst'] = (
                 tb['abgst'] * np.maximum(df['gross_e5']
                                          - tb['spsparf']
                                          - tb['spwerbz'], 0))
-        df.loc[df['zveranl'], 'abgst'] = (
+        ts.loc[ts['zveranl'], 'abgst'] = (
                 0.5 * tb['abgst'] * np.maximum(df['gross_e5_tu']
                                                - 2 * (tb['spsparf']
                                                       - tb['spwerbz']), 0))
-    df = aggr(df, 'abgst')
-
-    return df
+    ts['abgst_tu'] = aggr(ts, 'abgst')
+    # drop some vars to avoid duplicates in join. More elegant way would be to modifiy joint
+    # command above.
+    ts = ts.drop(columns=['zveranl', 'hid', 'tu_id'], axis=1)
+    return ts
 
 
 def kindergeld(df, tb, yr, ref):
     """ Child Benefit
         Basic Amount for each child, hours restriction applies
     """
-
-    df['eligible'] = 1
+    kg = pd.DataFrame(index=df.index.copy())
+    kg['tu_id']  = df['tu_id']
+    kg['eligible'] = 1
     if yr > 2011:
-        df['eligible'] = df['eligible'].where(
+        kg['eligible'] = kg['eligible'].where(
             (df['age'] <= tb['kgage']) &
             (df['w_hours'] <= 20) &
             (df['ineducation']), 0
         )
     else:
-        df['eligible'] = df['eligible'].where(
+        kg['eligible'] = kg['eligible'].where(
             (df['age'] <= tb['kgage']) &
             (df['m_wage'] <= tb['kgfreib'] / 12) &
             (df['ineducation']), 0)
 
-    df['child_count'] = df.groupby(['tu_id'])['eligible'].cumsum()
+    kg['child_count'] = kg.groupby(['tu_id'])['eligible'].cumsum()
 
-    num_to_amount = {1: tb['kgeld1'], 2: tb['kgeld2'], 3: tb['kgeld3'],
-                     4: tb['kgeld4']}
-    df['kindergeld'] = df['child_count'].replace(num_to_amount)
-    df['kindergeld'] = df['kindergeld'].where(df['child_count'] <= 4, tb['kgeld4'])
-    df['kindergeld_tu'] = df.groupby('tu_id')['kindergeld'].transform(sum)
+    kg_amounts = {1: tb['kgeld1'], 2: tb['kgeld2'], 3: tb['kgeld3'], 4: tb['kgeld4']}
+    kg['kindergeld'] = kg['child_count'].replace(num_to_amount)
+    kg['kindergeld'] = kg['kindergeld'].where(kg['child_count'] >= 4, tb['kgeld4'])
+    kg['kindergeld_tu'] = kg.groupby('tu_id')['kindergeld'].transform(sum)
 
-    df.drop(['child_count', 'eligible', 'kindergeld'], axis=1, inplace=True)
+    #kg.drop(['child_count', 'eligible', 'kindergeld'], axis=1, inplace=True)
 
-    return df
+    return kg[['kindergeld', 'kindergeld_tu']]
 
 
 def favorability_check(df, tb, yr, ref):
@@ -870,7 +901,7 @@ def favorability_check(df, tb, yr, ref):
         A similar check applies to whether it is more profitable to
         tax capital incomes with the standard 25% rate or to include it in the tariff.
     """
-    # Günstigerprüfung...auf TU-Ebene!
+
     cprint('Günstigerprüfung...', 'red', 'on_white')
     if (yr < 2009):
         inclist = ['nokfb', 'kfb']

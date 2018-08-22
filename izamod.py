@@ -18,6 +18,8 @@ from load_data import loaddata
 from prepare_data import preparedata
 from hypo import create_hypo_data
 from tax_transfer import *
+from imports import init, get_params
+
 
 pd.options.display.float_format = '{:.2f}'.format
 
@@ -50,6 +52,7 @@ def run_izamod(settings):
             filename = settings['DATA_PATH'] + 'taxben_input_' + str(y)
             print("Saving to " + filename)
             pd.to_pickle(df[df['syear'] == y], filename)
+
     # TAX TRANSFER CALCULATION
     if settings['taxtrans'] == 1:
         # Load Tax-Benefit Parameters

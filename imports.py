@@ -90,10 +90,12 @@ def aggr(df, inc, kids=False):
         'inc' among
         - the 2 adults of the tax unit (if they are married!)
           if kids is False.
-          Do this for taxable incomes
+          Do this for taxable incomes and the like.
+          If they are not married, but form a tax unit (which is possible right now),
+          the variable 'inc' is not summed up.
         - all members (incl. children) of the tax_unit
            if 'hh' is chosen as unit
-        returns a variable with suffix _tu or _tu_k, depending on the
+        returns one series with suffix _tu or _tu_k, depending on the
         parameter kids
     '''
     if kids is False:
@@ -103,13 +105,15 @@ def aggr(df, inc, kids=False):
             on=['tu_id'], how='left', rsuffix='_sum')
         df[inc+'_tu'] = np.select([df['zveranl'], ~df['zveranl']],
                                   [df[inc+'_verh_sum'], df[inc]])
+        return df[inc+'_tu']
 
     if kids is True:
         df = df.join(
             df.groupby(['tu_id'])[inc].sum(),
             on=['tu_id'], how='left', rsuffix='_sum')
         df[inc+'_tu_k'] = df[inc+'_sum']
-    return df
+
+        return df[inc+'_tu_k']
 
 
 def ols(y, X, show=False):
