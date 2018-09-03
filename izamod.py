@@ -35,8 +35,9 @@ def run_izamod(settings):
                            settings['DATA_PATH']+'SOEP/',
                            settings['minyear'])
 
-        print('Save ' + str(rawdata.shape) + ' Data to: ' + settings['DATA_PATH'] + 'soep_long')
-        pd.to_pickle(rawdata, settings['DATA_PATH'] + 'soep_long')
+        print('Save ' + str(rawdata.shape) + ' Data to: ' +
+              settings['DATA_PATH'] + 'SOEP/soep_long')
+        pd.to_pickle(rawdata, settings['DATA_PATH'] + 'SOEP/soep_long')
     # DATA PREPARATION
     if settings['prepare_data'] == 1:
         print('Load selected SOEP Data from HD')
@@ -45,11 +46,11 @@ def run_izamod(settings):
         df = preparedata(soep_long_raw)
         # Output of Summary Statistics
         summaries = df.describe()
-        summaries.to_excel(pd.ExcelWriter(settings['DATA_PATH'] +'sum_data_out.xlsx'),
+        summaries.to_excel(pd.ExcelWriter(settings['DATA_PATH'] + 'SOEP/sum_data_out.xlsx'),
                            sheet_name='py_out')
         # Export data for each SOEP survey year separately
         for y in df['syear'].unique():
-            filename = settings['DATA_PATH'] + 'taxben_input_' + str(y)
+            filename = settings['DATA_PATH'] + 'SOEP/taxben_input_' + str(y)
             print("Saving to " + filename)
             pd.to_pickle(df[df['syear'] == y], filename)
 
@@ -64,18 +65,22 @@ def run_izamod(settings):
             print(" TAX TRANSFER SYSTEM ")
             print(" -------------------")
             print(" Year of Database: " + str(datayear))
-
+            # LOAD DATA
             df = pd.read_pickle(settings['DATA_PATH'] + 'SOEP/taxben_input_' + str(datayear))
             # Get the correct parameters for the tax year
             print(" Year of System: " + str(settings['taxyear']))
             print(" Simulated Reform: " + str(ref))
             print("---------------------------------------------")
             tt_out = tax_transfer(df, ref, datayear, settings['taxyear'], tb, False)
-            print('Saving to:' + settings['DATA_PATH'] + ref
-              + '/taxben_results' + str(datayear) + '_'
-              + str(taxyear) + '.json')
-            tt_out.to_json(settings['DATA_PATH']+ref+'/taxben_results' +
-                           str(datayear) + '_' + str(settings['taxyear']) + '.json')
+            print('Saving to:' + settings['DATA_PATH'] + ref +
+                  '/taxben_results' + str(datayear) + '_' +
+                  str(taxyear) + '.json')
+            tt_out.to_json(settings['DATA_PATH'] +
+                           ref +
+                           '/taxben_results' +
+                           str(datayear) + '_' +
+                           str(settings['taxyear']) +
+                           '.json')
             # SHOW OUTPUT
             tb_out(tt_out, ref, settings['GRAPH_PATH'])
 
