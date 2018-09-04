@@ -52,8 +52,12 @@ def preparedata(df):
 
     # A couple of useful dummy variables
     df['pensioner'] = ((df['pgstib'] == 13) | (df['age'] > 64))
-    df['ineducation'] = (((df['pgstib'] > 100) & (df['pgstib'] < 200)) |
-                         (df['pgstib'] == 11)) | (df['ks_ats_r'] == 1)
+    df['ineducation'] = ((((df['pgstib'] > 100) & (df['pgstib'] < 200)) |
+                         (df['pgstib'] == 11)) |
+                         (df['ks_ats_r'] == 1) |
+                         (df['age'] < 18))
+
+
     df['military'] = df['pgstib'] == 15
     df['parentalleave'] = df['pglfs'] == 4
     df['civilservant'] = df['pgstib'] > 600
@@ -494,22 +498,6 @@ def preparedata(df):
     # Get rid of missings:
     for v in ['m_wage', 'm_self', 'miete', 'w_hours']:
         df[v] = df[v].fillna(0)
-
-    print("Pensions Calculations...")
-    # Einige Berechnungen für die Rentenformel
-    #    rent = df[['syear','m_wage','female','east','pweight','svbeit']][(df['m_wage'] > 100)]
-    #
-    #    # TO DO: Berechne gewichtetes Mittel
-    #
-    #    meanwages = rent.groupby(['syear'])['m_wage'].mean()
-    #    # Beitragspflichtige Löhne
-    #    meanwages_beit = rent[rent['svbeit'] > 0].groupby(['syear']).mean()
-    #    # Rentnerquotient
-    #    rentenvol = df.groupby(['syear'])['m_pensions'].sum()
-    #    beitragsvol = df.groupby(['syear'])['rvbeit'].sum()
-    #    # TO DO: Save them somewhere
-    #
-    #    rentenstuff = pd.DataFrame(columns=[meanwages,meanwages_beit,rentenvol,beitragsvol])
 
     # Drop unnecesary stuff
     dropvars = ['d11102ll', 'l11102', 'x11103', 'd11101', 'd11107',

@@ -15,7 +15,7 @@ import math
 import sys
 
 
-def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
+def tax_transfer(df, ref, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
     """German Tax-Transfer System.
 
     Arguments:
@@ -25,6 +25,8 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
         - *datayear*: year of SOEP wave
         - *taxyear*: year of reform baseline
         - *tb*: dictionary with tax-benefit parameters
+        - *tb_pens*: Parameters for pension calculations
+        - *mw*: Mean earnings by year, for pension calculations.
         - *hyporun*: indicator for hypothetical household input (defult: use real SOEP data)
 
     """
@@ -58,7 +60,7 @@ def tax_transfer(df, ref, datayear, taxyear, tb, hyporun=False):
     df['m_alg1'] = ui(df, tb, taxyear, ref)
 
     # Pension benefits
-    # df['pen_ben'] = pensions(df, tb, taxyear, ref)
+    df['pen_sim'] = pensions(df, tb, tb_pens, mw, taxyear, ref)
 
     # Income Tax
     taxvars = [
@@ -297,49 +299,90 @@ def uprate(df, dy, ty, path):
     return df
 
 
-def pensions(df, tb, yr, ref):
-    '''Old-Age Pensions
+def pensions(df, tb, tb_pens, mw, yr, ref):
+    ''' Old-Age Pensions
 
-    TO DO: account for increasing pension claims,
-           explicitly model 'Rentenformel'
+        models 'Rentenformel':
+        https://de.wikipedia.org/wiki/Rentenformel
+        https://de.wikipedia.org/wiki/Rentenanpassungsformel
     '''
 
     cprint('Pensions', 'red', 'on_white')
-    westost = [df['east'] is False, df['east']]
-    year = str(yr)
-    # lagged values needed for Rentenformel
-    tb_1 = get_params()[str(yr - 1)]
-    tb_2 = get_params()[str(yr - 2)]
-    tb_3 = get_params()[str(yr - 3)]
+    westost = [~df['east'], df['east']]
+
+    r = pd.DataFrame(index=df.index.copy())
+
     # individuelle monatl. Altersrente (Rentenartfaktor = 1):
     # R = EP * ZF * Rw
-    m_wage_west = df['m_wage'][(df['m_wage'] > tb['mini_grenzew'])
-                               & (~df['east'])].mean()
-    m_wage_east = df['m_wage'][(df['m_wage'] > tb['mini_grenzeo'])
-                               & (df['east'])].mean()
-    df['EP'] = np.select(
-        westost, [np.minimum(df['m_wage'], tb['rvmaxekw']) / m_wage_west,
-                  np.minimum(df['m_wage'], tb['rvmaxeko']) / m_wage_east]
+
+    # EP: Entgeltpunkte: ratio of own wage (up to the threshold) to the mean wage
+    # TODO: This is only for the current year. How to model total employment history?
+    r['EP'] = np.select(
+        westost, [np.minimum(df['m_wage'], tb['rvmaxekw']) / mw['meanwages'][yr],
+                  np.minimum(df['m_wage'], tb['rvmaxeko']) / mw['meanwages'][yr]]
     )
+    # ZF: Zugangsfaktor. Depends on the age of entering pensions
+    r['regelaltersgrenze'] = 65
+    # If born after 1947, each birth year raises the age threshold by one month.
+    r.loc[df['byear'] > 1947, 'regelaltersgrenze'] = np.minimum(67,
+                                                                ((df['byear'] - 1947) / 12) + 65)
+    # For each year entering earlier (later) than the statutory retirement age,
+    # you get a penalty (reward) of 3.6 pp.
+    r['ZF'] = ((df['age'] - r['regelaltersgrenze']) * .036) + 1
 
-    # rw_east = rentenwert['rw_east'][rentenwert['yr'] == yr]
-    # rw_west = rentenwert['rw_west'][rentenwert['yr'] == yr]
-    #################################
-    # Neuer Rentenwert für yr > 2018:
-    # Rentenformel: https://de.wikipedia.org/wiki/Rentenanpassungsformel
-    """
-    # Altersvorsorgeanteil = 4 nach 2012
-    ava = 4
-    lohnkomponente = (meanwages[str(yr-1)] / (meanwages[str(yr-2)] *
-                      (meanwages[str(yr - 2)] / meanwages[str(yr - 3)]) /
-                      (meanwages_beit[str(yr - 2)] /
-                       meanwages_beit[str(yr - 3)])))
+    # Rentenwert: The monetary value of one 'entgeltpunkt'.
+    # This depends, among others, of past developments. Hence, some calculations have been made
+    # in the data preparation.
+    lohnkomponente = mw['meanwages'][yr-1] / (mw['meanwages'][yr-2] *
+                                              ((mw['meanwages'][yr-2] / mw['meanwages'][yr-3]) /
+                                               (mw['meanwages_sub'][yr-2] /
+                                                mw['meanwages_sub'][yr-3])
+                                               )
+                                            )
 
-    riesterfaktor = ((100 - ava - (tb_1['grvbs'] * 200))
-                     / (100 - ava - (tb_1['grvbs'] * 200)))
-    # nachhfaktor   =
-    rentenwert = tb['rw_west'] * lohnkomponente
-    """
+    riesterfaktor = (
+                    (100 - tb_pens['ava'][yr-1] - tb_pens['rvbeitrag'][yr-1]) /
+                    (100 - tb_pens['ava'][yr-2] - tb_pens['rvbeitrag'][yr-2])
+                    )
+    # Rentnerquotienten
+    rq = {}
+    for t in [1, 2]:
+        rq[t] = (
+                (tb_pens['rentenvol'][yr-t] / tb_pens['eckrente'][yr-t]) /
+                (tb_pens['beitragsvol'][yr-t] / (tb_pens['rvbeitrag'][yr-t] / 100 *
+                                                 tb_pens['eckrente'][yr-t])
+                )
+               )
+
+    nachhfaktor = 1 + (
+                       (1 - (rq[1]/rq[2])) *
+                        tb_pens['alpha'][yr]
+                       )
+    # use external or internal value for rentenwert?
+    if yr <= 2017:
+        rentenwert = tb_pens['rentenwert_ext'][yr]
+    else:
+        rentenwert = (tb_pens['rentenwert_ext'][yr-1] *
+                         min(1,
+                             lohnkomponente *
+                             riesterfaktor *
+                             nachhfaktor
+                             )
+                      )
+        print('Änderung des Rentenwerts: ' + str(min(1,
+                                                     lohnkomponente *
+                                                     riesterfaktor *
+                                                     nachhfaktor
+                                                     )))
+
+    # use all three components for Rentenformel.
+    # There is an additional 'Rentenartfaktor', equal to 1 for old-age pensions.
+    # It's called 'pensions_sim' to pronounce the fact that this is simulated.
+    r['pensions_sim'] = np.maximum(0,
+                                   round(r['EP'] * r['ZF'] * rentenwert, 2)
+                                   )
+
+    return r['pensions_sim']
 
 
 def soc_ins_contrib(df, tb, yr, ref):
@@ -424,7 +467,6 @@ def soc_ins_contrib(df, tb, yr, ref):
         )
     )
     # If you are above 23 and without kids, you have to pay a higher rate
-
     ssc.loc[ssc['kinderlos'], 'pvbeit'] = (tb['gpvbs'] + tb['gpvbs_kind']) * np.minimum(
         df['m_wage'],
         np.select(
@@ -437,8 +479,8 @@ def soc_ins_contrib(df, tb, yr, ref):
     if yr >= 2003:
         # For midijobs, the rate is not calculated on the wage,
         # but on the 'bemessungsentgelt'
-        # Contributions are usually shared equally by employee and
-        # employer. We are not interested in employer's contributions,
+        # Contributions are usually shared equally by employee (AN) and
+        # employer (AG). We are actually not interested in employer's contributions,
         # but we need them here as an intermediate step
         AN_anteil = tb['grvbs'] + tb['gpvbs'] + tb['alvbs'] + tb['gkvbs_an']
         AG_anteil = tb['grvbs'] + tb['gpvbs'] + tb['alvbs'] + tb['gkvbs_ag']
@@ -446,7 +488,7 @@ def soc_ins_contrib(df, tb, yr, ref):
         pauschmini = tb['mini_ag_gkv'] + tb['mini_ag_grv'] + tb['stpag']
         F = round(pauschmini / DBSV, 4)
         # always needs to differentiate between east and west,
-        # was relevant in earlier years
+        # used to be relevant in earlier years
         bemes = [
                 F * tb['mini_grenzew'] +
                 ((tb['midi_grenze'] / (tb['midi_grenze'] - tb['mini_grenzew'])) -
@@ -540,15 +582,15 @@ def soc_ins_contrib(df, tb, yr, ref):
     # doppelter Pflegebeitragssatz
     ssc['pvrbeit'] = (2 * tb['gpvbs'] *
                       np.minimum(df['m_pensions'],
-                                   np.select(westost,
-                                             [tb['kvmaxekw'],
-                                              tb['kvmaxeko']])))
+                                 np.select(westost,
+                                           [tb['kvmaxekw'],
+                                            tb['kvmaxeko']])))
     ssc.loc[ssc['kinderlos'],
             'pvrbeit'] = ((2 * tb['gpvbs'] + tb['gpvbs_kind']) *
                           np.minimum(df['m_pensions'],
-                                       np.select(westost,
-                                                 [tb['kvmaxekw'],
-                                                  tb['kvmaxeko']])))
+                                     np.select(westost,
+                                               [tb['kvmaxekw'],
+                                                tb['kvmaxeko']])))
 
     ssc['gkvbeit'] = ssc['gkvbeit'] + ssc['gkvrbeit']
     ssc['pvbeit'] = ssc['pvbeit'] + ssc['pvrbeit']
@@ -842,7 +884,7 @@ def tax_sched(df, tb, yr, ref):
             modelled only after 2002 so far
             It's not calculated as in the tax code, but rather a gemoetric decomposition of the
             area beneath the marginal tax rate function.
-            This facilitates the implemenation of alternative tax schedules
+            This facilitates the implementation of alternative tax schedules
         '''
         y = int(tb['yr'])
         if y < 2002:
@@ -872,8 +914,8 @@ def tax_sched(df, tb, yr, ref):
         ts[v] = df[v]
 
     for inc in inclist:
-        # apply the tariff. Need np.vectorize for handing a series to the function along with
-        # other parameters.
+        # apply the tariff. Need np.vectorize for handing a series
+        # to the function along with other parameters.
         # need to convert this one to panda series...
         ts['tax_'+inc] = np.vectorize(tarif)(df['zve_'+inc], tb)
         ts['tax_'+inc+'_tu'] = aggr(ts, 'tax_'+inc, False)
@@ -1050,7 +1092,7 @@ def wg(df, tb, yr, ref):
         Computation is very complicated, accounts for household size, income, actual rent
         and differs on the municipality level ('Mietstufe'). we assume a medium rent level
     """
-    print("Housing Benefit...")
+    cprint('Wohngeld...', 'red', 'on_white')
 
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
     # Calculate them on the level of the tax unit
@@ -1065,7 +1107,7 @@ def wg(df, tb, yr, ref):
                 'gross_e4', 'gross_e5', 'gross_e6',
                 'incometax', 'rvbeit', 'gkvbeit']:
         wg[inc+'_tu_k'] = aggr(df, inc, True)
-    print(type(wg))
+
     wg['pens_steuer_tu_k'] = aggr(wg, 'pens_steuer', True)
 
     # There share of income to be deducted is 0/10/20/30%, depending on whether household is
@@ -1179,7 +1221,7 @@ def alg2(df, tb, yr, ref):
         and the rent. There are additional needs acknowledged for single parents.
         Income and wealth is tested for, the transfer withdrawal rate is non-constant.
     """
-    print("ALG 2...")
+    cprint('ALG 2...', 'red', 'on_white')
 
     alg2 = pd.DataFrame(index=df.index.copy())
     alg2['hid'] = df['hid']
@@ -1359,7 +1401,8 @@ def kiz(df, tb, yr, ref):
 
         return wb[str(year)]
 
-    print("Kinderzuschlag...")
+    cprint('Kinderzuschlag...', 'red', 'on_white')
+
     kiz = pd.DataFrame(index=df.index.copy())
     kiz['hid'] = df['hid']
     kiz['tu_id'] = df['tu_id']
@@ -1505,14 +1548,17 @@ def tb_out(df, ref, graph_path):
             df['w_sum_'+tax] = df[tax] * df['hweight'] * df['head_tu']
         else:
             df['w_sum_'+tax] = df[tax] * df['pweight']
-        print(tax + " : " + str(df['w_sum_'+tax].sum()/1e9 * 12) + " bn €.")
+        print(tax + " : " + str(round(
+                                df['w_sum_'+tax].sum()/1e9 * 12
+                                , 2)) + " bn €.")
     cprint('Benefit recipients', 'red', 'on_white')
     for ben in ['m_alg1', 'm_alg2', 'wohngeld', 'kiz']:
-        print(ben + " :" + str(df['hweight'][(df[ben] > 0)
-                               & (df['head_tu'])].sum()/1e6)
-              + " Million Households.")
+        print(ben + " :" + str(round(
+                                df['hweight'][(df[ben] > 0)
+                                & (df['head_tu'])].sum()/1e6
+                                , 2)) + " Million Households.")
         df['w_sum_'+ben] = df[ben] * df['hweight'] * df['head_tu']
-        print(ben + " : " + str(df['w_sum_'+ben].sum()/1e9 * 12) + " bn €.")
+        print(ben + " : " + str(round(df['w_sum_'+ben].sum()/1e9 * 12, 2)) + " bn €.")
         print('Recipients by Household Type (in 1000): ')
         print(df[(df['head_tu']) &
                  (df[ben] > 0) &
@@ -1521,6 +1567,7 @@ def tb_out(df, ref, graph_path):
     print('-'*80)
 
     # Check Income Distribution:
+    # Equivalence Scale (modified OECD scale)
     df['eq_scale'] = (1
                       + 0.5 * np.maximum(
                               (df['hhsize'] - df['child14_num'] - 1), 0)

@@ -59,7 +59,8 @@ def loaddata(soep_path, data_path, minyear):
                'hgcnstyrmax', 'hgcnstyrmin', 'hgheat',
                'hgheatinfo', 'hgtyp1hh']
     vl_biol = ['hid', 'pid', 'syear', 'lb0285']
-    vl_kidl = ['hid', 'pid', 'syear', 'k_rel', 'k_nrinhh', 'k_inco', 'k_pmum', 'ks_ats_r']
+    vl_kidl = ['hid', 'pid', 'syear', 'k_rel', 'k_nrinhh',
+               'k_inco', 'k_pmum', 'ks_ats_r']
     # Load from Stata Format
     pequiv = pd.read_stata(soep_path+'pequiv.dta',
                            convert_categoricals=False,

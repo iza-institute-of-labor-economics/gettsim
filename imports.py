@@ -42,7 +42,7 @@ def get_params(settings):
             name = params.index[i]
             yearpar.update({name: params.loc[name, col]})
 
-        # TO DO: English Translation
+        # TO DO (MAYBE): English Translation of parameter names
         yearpar['ch_allow'] = yearpar.pop('kifreib')
         # add year
         yearpar.update({'yr': str(yr)})
@@ -140,7 +140,8 @@ def gini(x, w=None):
     x = pd.Series(x).reset_index(drop=True)
     if w is None:
         w = np.ones_like(x)
-    w = pd.Series(w).reset_index(drop=True)
+    else:
+        w = pd.Series(w).reset_index(drop=True)
     n = x.size
     wxsum = sum(w * x)
     wsum = sum(w)
@@ -149,8 +150,37 @@ def gini(x, w=None):
     sw = w[sxw]
     pxi = np.cumsum(sx) / wxsum
     pci = np.cumsum(sw) / wsum
-    g = 0.0
+    gini = 0.0
     for i in np.arange(1, n):
-        g = g + pxi.iloc[i] * pci.iloc[i - 1] - pci.iloc[i] * pxi.iloc[i - 1]
-    return g
+        gini = gini + pxi.iloc[i] * pci.iloc[i - 1] - pci.iloc[i] * pxi.iloc[i - 1]
+    return gini
+
+
+def mw_pensions(df):
+    ''' Calculates mean wages by SOEP year. Will be used in tax_transfer
+    '''
+    print("Pensions Calculations...")
+    rent = df[['syear',
+               'm_wage',
+               'female',
+               'east',
+               'pweight',
+               'civilservant',
+               ]][(df['m_wage'] > 100)
+                  & ~df['selfemployed']]
+    # calculates weighted mean wages by year
+    # all earnings.
+    rent['wage_weighted'] = rent['m_wage'] * 12 * rent['pweight']
+    # only wages subject to social security contributions
+    rent['wage_weighted_subsample'] = rent['wage_weighted'][~rent['civilservant'] &
+                                                            (rent['m_wage'] > 450)]
+    rent['pweight_sub'] = rent['pweight'][~rent['civilservant'] &
+                                          (rent['m_wage'] > 450)]
+    years = rent.groupby('syear')
+    mw = pd.DataFrame()
+    mw['meanwages'] = round(years['wage_weighted'].sum() / years['pweight'].sum(), 2)
+    mw['meanwages_sub'] = round(years['wage_weighted_subsample'].sum() /
+                                years['pweight_sub'].sum(),
+                                2)
+    return mw
 
