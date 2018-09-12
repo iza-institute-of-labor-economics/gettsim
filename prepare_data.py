@@ -11,7 +11,7 @@ def preparedata(df):
     '''Prepare Data
     Prepares SOEP for input to tax transfer calculation
     '''
-    df['syear'].value_counts()
+    print(df['syear'].value_counts())
 
     # Counter
     df['counter'] = 1
@@ -47,8 +47,6 @@ def preparedata(df):
     df['age'] = df['age'].astype(int)
     # Working Age Dummy...currently not used
     # df['work_age'] = df['age'].between(15, 64)
-
-
 
     # A couple of useful dummy variables
     df['pensioner'] = ((df['pgstib'] == 13) | (df['age'] > 64))
@@ -209,22 +207,22 @@ def preparedata(df):
     # kids age brackets.
     df.sort_values(by=['syear', 'hid', 'age'], ascending=[True, True, False])
 
-    ch_ages = {'0_1':  pd.eval('df.child and df.age <= 1'),
-               '1_2':  pd.eval('df.child and df.age >= 1 and df.age<= 2'),
-               '2':     pd.eval('df.child and df.age<3'),
-               '2_3':  pd.eval('df.child and df.age >= 2 and df.age<= 3'),
-               '3_6':   pd.eval('df.child and df.age >= 3 and df.age<= 6'),
-               '6':     pd.eval('df.child and df.age <= 6'),
-               '7_16':  pd.eval('df.child and df.age >= 7 and df.age<= 16'),
-               '7_11':  pd.eval('df.child and df.age >= 7 and df.age<= 11'),
-               '7_13':  pd.eval('df.child and df.age >= 7 and df.age<= 13'),
-               '11':     pd.eval('df.child and df.age <= 11'),
-               '12_15':  pd.eval('df.child and df.age >= 12 and df.age<= 15'),
+    ch_ages = {'0_1': pd.eval('df.child and df.age <= 1'),
+               '1_2': pd.eval('df.child and df.age >= 1 and df.age<= 2'),
+               '2': pd.eval('df.child and df.age<3'),
+               '2_3': pd.eval('df.child and df.age >= 2 and df.age<= 3'),
+               '3_6': pd.eval('df.child and df.age >= 3 and df.age<= 6'),
+               '6': pd.eval('df.child and df.age <= 6'),
+               '7_16': pd.eval('df.child and df.age >= 7 and df.age<= 16'),
+               '7_11': pd.eval('df.child and df.age >= 7 and df.age<= 11'),
+               '7_13': pd.eval('df.child and df.age >= 7 and df.age<= 13'),
+               '11': pd.eval('df.child and df.age <= 11'),
+               '12_15': pd.eval('df.child and df.age >= 12 and df.age<= 15'),
                '14_17': pd.eval('df.child and df.age >= 14 and df.age<= 17'),
                '14_24': pd.eval('df.child and df.age >= 14 and df.age<= 24'),
-               '14':     pd.eval('df.child and df.age <= 14'),
-               '15':     pd.eval('df.child and df.age <= 15'),
-               '18':    pd.eval('df.child and df.age < 18')}
+               '14': pd.eval('df.child and df.age <= 14'),
+               '15': pd.eval('df.child and df.age <= 15'),
+               '18': pd.eval('df.child and df.age < 18')}
     # Sometimes you need the number of kids per HH (e.g. for Unemployment Benefit)
     # Sometimes you need them per tax unit (e.g. child benefit, taxes).
     for id in ['hid', 'tu_id']:
@@ -371,7 +369,7 @@ def preparedata(df):
     # Monthly Wage
     df['m_wage'] = 0
     df['m_self'] = 0
-    df['othwage_ly'] = df[['i13ly','i14ly','ixmas', 'iholy',
+    df['othwage_ly'] = df[['i13ly', 'i14ly', 'ixmas', 'iholy',
                            'igray', 'iothy', 'itray']].sum(axis=1)
     df.loc[(df['othwage_ly'] > 0) &
            ((pd.isna(df['months'])) |
@@ -390,8 +388,11 @@ def preparedata(df):
            (~df['parentalleave']),
            'm_self'] = df['pglabgro'] + np.maximum(
                                             df['othwage_ly']/df['months'], 0)
+    # Division by zero months might lead to infinity values for wages
+    #df['m_wage'] = df[np.isinf(df['m_wage'])] = 0
+    #df['m_self'] = df[np.isinf(df['m_self'])] = 0
     df['m_wage'] = df['m_wage'].fillna(0)
-
+    df['m_self'] = df['m_self'].fillna(0)
     # Correction: If there's no income, there are no hours.
     # This 'mistake' is less common than positive income with zero hours
     df.loc[(df['m_wage'] == 0) & (df['m_self'] == 0), 'w_hours'] = 0
@@ -402,9 +403,9 @@ def preparedata(df):
         df[v+'_l1'] = df[v].shift(1).fillna(0)
 
     for v in ['m_wage', 'months', 'wgeld', 'alg', 'months_ue']:
-        df[v+'_l2'] = df[v+'_l1'].shift(2).fillna(0)
+        df[v+'_l2'] = df[v+'_l1'].shift(1).fillna(0)
         if v in ['wgeld', 'alg']:
-            df[v+'_m_l2'] = df[v+'_m_l1'].shift(2).fillna(0)
+            df[v+'_m_l2'] = df[v+'_m_l1'].shift(1).fillna(0)
 
     # Hourly Wage
     df['h_wage'] = df['m_wage'] / (df['w_hours'] * 4.34)
@@ -436,6 +437,8 @@ def preparedata(df):
     df['cnstyr'] = np.select(sel_cnstyr, [1, 2, 3])
 
     # Impute missing rents via estimation
+    # we need some sensible values for rents in order to determine a proper
+    # benefit claim.
     for var in ['rent', 'heat']:
         print('Imputing ' + var + '...')
         est = pd.concat([df[['hg'+var, 'eigentum']],
@@ -452,11 +455,13 @@ def preparedata(df):
                   & (~est['eigentum'])]
         # OLS is defined in imports.py
         imp_rent = ols(sub['hg'+var],
-                       sub.drop(columns=['hg'+var, 'eigentum']), show=True)
+                       sub.drop(columns=['hg'+var, 'eigentum']), show=False)
         # Predict Miete/Heizkosten for all missings + non-owners
-        est.loc[(est['hg'+var].isna()) & (~est['eigentum']),
+        est.loc[(est['hg'+var].isna())
+                & (~est['eigentum']),
                 'hg' + var] = imp_rent.predict(est.drop(
-                                columns=['hg'+var, 'eigentum']))
+                                               columns=['hg'+var, 'eigentum'])
+                                               )
         if var == 'rent':
             df['kaltmiete'] = est['hgrent'] * df['hh_korr']
         if var == 'heat':
@@ -484,11 +489,11 @@ def preparedata(df):
     # Single Parents dummy
     df['alleinerz'] = (df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0)
 
-    # Commuting...
-    #df['comm_freq'] = df['comm_freq'].fillna(0)
-    #df['comm_dist'] = df['comm_dist'].fillna(0)
+    # Commuting frequency and distance... do not use
+    # df['comm_freq'] = df['comm_freq'].fillna(0)
+    # df['comm_dist'] = df['comm_dist'].fillna(0)
     # Some people commute within city, but report comm_freq == 0
-    #df.loc[(df['comm_dist'] > 0) & (df['comm_freq'] == 0), 'comm_freq'] = 1
+    # df.loc[(df['comm_dist'] > 0) & (df['comm_freq'] == 0), 'comm_freq'] = 1
 
     # Dummy for joint taxation
     df['zveranl'] = (df['marstat'] == 1) & (df['adult_num_tu'] >= 2)

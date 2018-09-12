@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 
- _____ ______  ___  ___  ______________            ________   _______ _   _ _____ _   _
-|_   _|___  / / _ \ |  \/  |  _  |  _  \    ____   | ___ \ \ / /_   _| | | |  _  | \ | |
-  | |    / / / /_\ \| .  . | | | | | | |   / __ \  | |_/ /\ V /  | | | |_| | | | |  \| |
-  | |   / /  |  _  || |\/| | | | | | | |  / / _` | |  __/  \ /   | | |  _  | | | | . ` |
- _| |_./ /___| | | || |  | \ \_/ / |/ /  | | (_| | | |     | |   | | | | | \ \_/ / |\  |
- \___/\_____/\_| |_/\_|  |_/\___/|___/    \ \__,_| \_|     \_/   \_/ \_| |_/\___/\_| \_/
-                                           \____/
+IZA_DYN_MOD
 
+Dynamic application of IZAPSIMOD
 
-@author: iza6354
+Eric Sommer
+Hans-Martin v. Gaudecker
+Janos Gabler
+
 """
 
 from settings import get_settings
@@ -18,14 +16,27 @@ from load_data import loaddata
 from prepare_data import preparedata
 from hypo import create_hypo_data
 from tax_transfer import *
+from tax_transfer_ubi import tax_transfer_ubi
 from imports import init, get_params, mw_pensions
+from descr import descriptives
 
+import time
 
 pd.options.display.float_format = '{:.2f}'.format
 
+start = time.time()
+
 
 def run_izamod(settings):
+    ''' IZA_DYN_MOD
 
+        runs the modules
+        - loaddata
+        - preparedata
+        - tax_transfer
+
+        according to the settings made in settings.py
+    '''
     init(settings)
     global main_path
     main_path = settings['MAIN_PATH']
@@ -42,7 +53,7 @@ def run_izamod(settings):
     if settings['prepare_data'] == 1:
         print('Load selected SOEP Data from HD')
         # load data
-        soep_long_raw = pd.read_pickle(settings['DATA_PATH'] + 'soep_long')
+        soep_long_raw = pd.read_pickle(settings['DATA_PATH'] + 'SOEP/soep_long')
         # call prepare data
         df = preparedata(soep_long_raw)
         # Output of Summary Statistics
@@ -52,11 +63,17 @@ def run_izamod(settings):
         # Calculate meanwages by year for pensions...
         mw = mw_pensions(df)
         mw.to_json(settings['DATA_PATH'] + 'params/mw_pensions.json')
+        # Maybe show some descriptive statistics
+        if settings['show_descr'] == 1:
+            descr = descriptives(df)
+            descr.to_excel(pd.ExcelWriter(settings['DATA_PATH'] + 'SOEP/data_descr.xlsx'),
+                           sheet_name='descr')
         # Finally, export data for each SOEP survey year separately
         for y in df['syear'].unique():
             filename = settings['DATA_PATH'] + 'SOEP/taxben_input_' + str(y)
             print("Saving to " + filename)
             pd.to_pickle(df[df['syear'] == y], filename)
+
 
     # TAX TRANSFER CALCULATION
     if settings['taxtrans'] == 1:
@@ -81,15 +98,24 @@ def run_izamod(settings):
             print(" Simulated Reform: " + str(ref))
             print("---------------------------------------------")
             # CALL TAX TRANSFER
-            tt_out = tax_transfer(df,
-                                  ref,
-                                  datayear,
-                                  settings['taxyear'],
-                                  tb,
-                                  tb_pens,
-                                  mw,
-                                  False
-                                  )
+            if ref != "UBI":
+                tt_out = tax_transfer(df,
+                                      datayear,
+                                      settings['taxyear'],
+                                      tb,
+                                      tb_pens,
+                                      mw,
+                                      False
+                                      )
+            else:
+                tt_out = tax_transfer_ubi(df,
+                                          datayear,
+                                          settings['taxyear'],
+                                          tb,
+                                          tb_pens,
+                                          mw,
+                                          False
+                                          )
 
             print('Saving to:' + settings['DATA_PATH'] + ref +
                   '/taxben_results' + str(datayear) + '_' +
@@ -110,17 +136,16 @@ def run_izamod(settings):
     print('END IZA_DYN_MOD')
 
     return True
+
+# -------------------------------------------------------------------------------------------
+# Actual run starts here
 # Write Run Settings into dictionary
 settings = get_settings()
 
 # and run the thing
-# TO DO: Add time counter
 run_izamod(settings)
 
-
-
-
-
-
-
-
+end = time.time()
+print('Total time used: ' +
+      time.strftime('%H:%M:%S', time.gmtime(end - start))
+      + "Hours.")

@@ -19,7 +19,10 @@ def loaddata(soep_path, data_path, minyear):
     - first SOEP wave to consider
 
     loads necessary variables from SOEP long data and creates a single data frame
+
     also treats some variables with missing values. (-5, -2, -1 etc. in SOEP)
+    and assigns zero values
+
     '''
 
     print('Loading Data...')
@@ -108,7 +111,7 @@ def loaddata(soep_path, data_path, minyear):
     df = df.merge(hl, on=['syear', 'hid'], validate='m:1', how='inner')
     print('after hl ' + str(df.shape))
     df = df.merge(hgen, on=['syear', 'hid'], validate='m:1', how='inner')
-
+    # drop a couple of years
     df = df[df['syear'] >= minyear]
 
     # get rid of negative values
@@ -202,7 +205,6 @@ def loaddata(soep_path, data_path, minyear):
                'ple0041',
                'k_inco',
                'hgowner',
-               'hgsize',
                'hlc0053',
                'hlc0054',
                'hlc0081',

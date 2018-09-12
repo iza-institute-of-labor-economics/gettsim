@@ -7,8 +7,10 @@ import os
 
 def get_settings():
     ''' Initialize Global Settings
+        maybe add argument 'user' to differentiate
+        different platforms with different paths.
     '''
-    taxyear = 2016
+    taxyear = 2008
 
     # Rechtsstand des Basisjahres ist immer Baseline Reform
     reforms = ['RS' + str(taxyear)]
@@ -20,6 +22,9 @@ def get_settings():
     # prepare tax-ben input
     prepare_data = 0
 
+    # prepare descriptive statistics
+    show_descr = 1
+
     # TAX TRANSFER CALCULATION
     taxtrans = 1
 
@@ -28,7 +33,7 @@ def get_settings():
 
     # PATH SETTINGS
     MAIN_PATH = os.getcwd() + '/'
-    #SOEP_PATH = MAIN_PATH + 'data/soep_raw/'
+    # SOEP_PATH = MAIN_PATH + 'data/soep_raw/'
     SOEP_PATH = 'V:/soep/datasets/2016/v33.1/long/'
     DATA_PATH = MAIN_PATH + 'data/'
     GRAPH_PATH = MAIN_PATH + 'graphs/'
@@ -36,8 +41,9 @@ def get_settings():
     return {
         'Reforms': reforms,
         'load_data': load_data,
-        'prepare_data': prepare_data,
         'minyear': minyear,
+        'prepare_data': prepare_data,
+        'show_descr': show_descr,
         'taxtrans': taxtrans,
         'taxyear': taxyear,
         'run_hypo': run_hypo,

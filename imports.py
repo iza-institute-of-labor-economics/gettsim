@@ -91,7 +91,8 @@ def aggr(df, inc, kids=False):
         - the 2 adults of the tax unit (if they are married!)
           if kids is False.
           Do this for taxable incomes and the like.
-          If they are not married, but form a tax unit (which is possible right now),
+          If they are not married, but form a tax unit,
+          which makes sense from a labor supply point of view,
           the variable 'inc' is not summed up.
         - all members (incl. children) of the tax_unit
            if 'hh' is chosen as unit
