@@ -5,14 +5,168 @@ Created on Fri Jun 15 08:48:33 2018
 @author: iza6354
 """
 from imports import *
+from settings import get_settings
+import statsmodels.api as sm
 
+def call_heckman(df, plot=False):
+    ''' creates variables for the Heckman estimation
+        calls the estimation
+        optional: plots predicted against actual wages
+    '''
+    # First, create variables
+    df['work_dummy'] = df['w_hours'] > 0
+    df['missing_wage'] = (df['h_wage'] == 0) | (df['h_wage'].isna())
+    df['age2'] = (df['age'] ** 2) / 1000
+    df['age3'] = (df['age'] ** 3) / 1000
+    df['married'] = df['marstat'] == 1
+    df['ln_wage'] = np.select([df['h_wage'] > 0, df['h_wage'] == 0],
+                              [np.log(df['h_wage']), np.nan])
+    df['exper'] = df['expft'] + 0.5 * df['exppt']
+    for var in ['exper', 'expue', 'tenure']:
+        df[var] = df[var].fillna(0)
+        df[var+'2'] = (df[var] ** 2) / 100
+
+    df['heck_wage'] = np.nan
+
+    for yr in df['syear'].unique():
+        print(str(yr))
+        for f in [0, 1]:
+            print('Female: ' + str(f))
+            # find out extreme values of hourly wage
+            p1p99 = df['h_wage'][(df['h_wage'] > 0) &
+                                 (df['syear'] == yr) &
+                                 (df['female'] == f)].describe(
+                                                  percentiles=[0.01, 0.99]
+                                                               )[['1%', '99%']]
+            # define subsample
+            sub = ((df['syear'] == yr) &
+                   (df['female'] == f) &
+                   (~df['child']) &
+                   (df['age'].between(15, 70))
+                   )
+
+            # define selection variables
+            select_vars = ['age',
+                           'age2',
+                           'age3',
+                           'child2_num',
+                           'child3_6_num',
+                           'child7_16_num',
+                           'm_kapinc_tu',
+                           'm_vermiet_tu',
+                           'unskilled',
+                           'university',
+                           'foreigner',
+                           'east',
+                           'married',
+                           'couple',
+                           'handcap_dummy',
+                           'welfare'
+                           ]
+            # define variables for wage equation
+            wage_vars = ['exper',
+                         'exper2',
+                         'expue',
+                         'expue2',
+                         'tenure',
+                         'tenure2',
+                         'unskilled',
+                         'university',
+                         'foreigner'
+                         ]
+
+            # create estimation sample. sex, year and labor force
+            heck = df[sub]
+
+            # obtain heckman wages
+            heck['heck_wage'] = heckman(
+                               heck['ln_wage'][~heck['ln_wage'].isna()],
+                               heck[wage_vars][~heck['ln_wage'].isna()].astype(float),
+                               heck[wage_vars].astype(float),
+                               heck['work_dummy'],
+                               heck[select_vars].astype(float),
+                                        )
+            assert(~heck['heck_wage'].isna().all())
+            # assign the predicted wage in the main DataFrame
+            df.loc[(df['syear'] == yr) &
+                   (df['female'] == f) &
+                   (~df['child']) &
+                   (df['age'].between(15, 70)),
+                   'heck_wage'] = heck['heck_wage']
+
+    if plot:
+        for yr in df['syear'].unique():
+            for f in [0, 1]:
+                plt.clf()
+                fig = plt.figure(figsize=(8, 5))
+                ax_heck = df['heck_wage'][(df['syear'] == yr) &
+                                          (df['female'] == f) &
+                                          (df['heck_wage'].between(5, 100))
+                                          ].plot.kde(label='Heckman Wage')
+                ax_wage = df['h_wage'][(df['syear'] == yr) &
+                                       (df['female'] == f) &
+                                       (df['heck_wage'].between(5, 100))
+                                       ].plot.kde(label='Observed Wage')
+                ax_heck.set_xlim(0, 100)
+                ax_heck.legend(loc=0,
+                               ncol=1,
+                               fontsize=14,
+                               frameon=True)
+
+                plt.savefig(get_settings()['GRAPH_PATH'] +
+                            'wageplots/wageplots_y' + str(yr) +
+                            '_f' + str(f) + '.png')
+
+    return df['heck_wage']
+
+
+def heckman(wage_y, wage_X, wage_X2, select_y, select_X):
+    ''' Carries out wage estimation with heckman selection model
+        - wage_y: log wage
+        - wage_X: determinants of wage workers
+        - wage_X2: determinants of wages, for the full sample
+        - select_y: dummy of whether or not in work
+        - select_X: Determinants of Labor Force Participation
+
+        Note that this is a 'pseudo' heckman estimation, as the standard errors are wrong.
+        It'll do however for our purposes.
+    '''
+    # print(str(len(wage_y)))
+    # print(str(len(select_y)))
+    # 1st stage: Probit estimation
+    select_X = sm.add_constant(select_X)
+    probit_model = sm.Probit(np.asarray(select_y),
+                             np.asarray(select_X)
+                             )
+    probit_est = probit_model.fit()
+#    print(probit_est.summary())
+    # Predict probability
+    p_work = probit_est.predict(select_X)
+    # linear probability
+    p_work_linear = probit_est.predict(select_X, linear=True)
+    # calculate inverse mills ratio
+    wage_X['imr'] = scipy.stats.norm.pdf(p_work_linear) / p_work
+    # 2nd stage: (Log) wage estimation, corrected with inverse mills ratio
+    wage_X = sm.add_constant(wage_X)
+
+    # print(wage_y.head())
+    # print(wage_X.head())
+    ols_model = sm.OLS(wage_y, wage_X)
+    ols_est = ols_model.fit()
+    # What's left is to predict log wages for the full sample (the 'select' sample)
+    wage_X2['imr'] = scipy.stats.norm.pdf(p_work_linear) / p_work
+    wage_X2 = sm.add_constant(wage_X2)
+
+    se_reg = ols_est.ssr / (ols_est.nobs - 2)
+    heck_wage = np.exp(ols_est.predict(exog=wage_X2)) * np.exp((se_reg**2)/2)
+
+    return heck_wage
 
 def preparedata(df):
     '''Prepare Data
     Prepares SOEP for input to tax transfer calculation
     '''
     print(df['syear'].value_counts())
-
     # Counter
     df['counter'] = 1
 
@@ -24,7 +178,6 @@ def preparedata(df):
     df['pnr_mis'] = df['pnr'].isna() & ~df['kinderdaten']
     df['pnr_mis_n'] = df.groupby(['syear', 'hid'])['pnr_mis'].cumsum()
     df.loc[df['pnr_mis'], 'pnr'] = df['pnr_max'] + df['pnr_mis_n']
-    drop(df, ['pnr_mis', 'pnr_max', 'pnr_mis_n'])
 
     # Demographics
     # Age
@@ -40,8 +193,8 @@ def preparedata(df):
     df['byear'] = df['syear'] - df['age']
     # Female dummy
     df['female'] = (df['d11102ll'] == 2)
-    # Foreigner Dummy...currently not used
-    # df['foreigner'] = df['pgnation'] > 1
+    # Foreigner Dummy
+    df['foreigner'] = df['pgnation'] > 1
 
     df['byear'] = df['byear'].astype(int)
     df['age'] = df['age'].astype(int)
@@ -54,7 +207,6 @@ def preparedata(df):
                          (df['pgstib'] == 11)) |
                          (df['ks_ats_r'] == 1) |
                          (df['age'] < 18))
-
 
     df['military'] = df['pgstib'] == 15
     df['parentalleave'] = df['pglfs'] == 4
@@ -283,6 +435,22 @@ def preparedata(df):
     df['unskilled'] = df['qualification'] == 3
     df['university'] = df['qualification'] == 1
 
+    ###########
+    # Household Types
+    # Singles
+    df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] == 0), 'hhtyp'] = 1
+    # Single Parents
+    df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0), 'hhtyp'] = 2
+    # Couples
+    df.loc[(df['adult_num_tu'] == 2) & (df['child_num_tu'] == 0), 'hhtyp'] = 3
+    # Couples with kids
+    df.loc[(df['adult_num_tu'] == 2) & (df['child_num_tu'] > 0), 'hhtyp'] = 4
+
+    # Single Parents dummy
+    df['alleinerz'] = (df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0)
+    # Couple Dummy
+    df['couple'] = df['hhtyp'].isin([3,4])
+
     ######
     # Income from various sources
     ######
@@ -328,6 +496,7 @@ def preparedata(df):
     df = df.drop(columns=['pensions_pub', 'pensions_priv',
                           'm_trans1', 'm_trans2'])
     # Child income
+    df['k_inco'] = df['k_inco'].fillna(0)
     df['childinc'] = df['child'] * (df['pglabgro'] + (df['k_inco'] / 12))
     # the following income amounts are household sums
     # only apply it to  the head therefore
@@ -347,6 +516,18 @@ def preparedata(df):
                               [df[['iciv1', 'ivbl1',
                                    'iciv2', 'ivbl2']].sum(axis=1) /
                                df['months_pen'], 0])
+
+    # Dummy for welfare recipient
+    df['welfare'] = np.select([df['syear'] <= 2004, df['syear'] >= 2005],
+                              [(df['D_sozh_current'] == 1) |
+                               (df['D_wg_current'] == 1) |
+                               (df['D_alg_current'] == 1),
+                               (df['D_sozh_current'] == 1) |
+                               (df['D_wg_current'] == 1) |
+                               (df['D_kiz_current'] == 1) |
+                               (df['D_alg2_current'] == 1)
+                               ]
+                              )
 
     # Weekly hours of work
     # use actual hours worked if there is no overtime
@@ -380,17 +561,17 @@ def preparedata(df):
            (~df['pensioner']) &
            (~df['military']) &
            (~df['parentalleave']),
-           'm_wage'] = df['pglabgro'] + np.maximum(
-                                            df['othwage_ly']/df['months'], 0)
+           'm_wage'] = df['pglabgro'] + np.maximum(0,
+                                                   df['othwage_ly']/df['months'])
     df.loc[(df['selfemployed']) &
            (~df['pensioner']) &
            (~df['military']) &
            (~df['parentalleave']),
-           'm_self'] = df['pglabgro'] + np.maximum(
-                                            df['othwage_ly']/df['months'], 0)
+           'm_self'] = df['pglabgro'] + np.maximum(0,
+                                                   df['othwage_ly']/df['months'])
     # Division by zero months might lead to infinity values for wages
-    #df['m_wage'] = df[np.isinf(df['m_wage'])] = 0
-    #df['m_self'] = df[np.isinf(df['m_self'])] = 0
+    # df['m_wage'] = df[np.isinf(df['m_wage'])] = 0
+    # df['m_self'] = df[np.isinf(df['m_self'])] = 0
     df['m_wage'] = df['m_wage'].fillna(0)
     df['m_self'] = df['m_self'].fillna(0)
     # Correction: If there's no income, there are no hours.
@@ -408,12 +589,19 @@ def preparedata(df):
             df[v+'_m_l2'] = df[v+'_m_l1'].shift(1).fillna(0)
 
     # Hourly Wage
-    df['h_wage'] = df['m_wage'] / (df['w_hours'] * 4.34)
+    df['h_wage'] = np.select([df['w_hours'] == 0, df['w_hours'] > 0],
+                             [0, df['m_wage'] / (df['w_hours'] * 4.34)]
+                             )
+    # df.loc[df['h_wage'] > 0, 'h_wage'] = np.minimum(3, df['h_wage'])
 
-    # Privat versichert
+    #########################################
+    # Heckman Imputation to assign non-workers an h_wage
+    print('Heckman Imputation...')
+    df['h_wage_pred'] = call_heckman(df, False)
+    # TODO: assign predicted wages to non-workers.
+
+    # Dummy for private health insurance
     df['pkv'] = df['ple0097'] == 2
-    # TO DO: Heckman Imputation or comparable to assign non-workers
-    # an hourly wage
 
     print('Living costs...')
     # Housing costs
@@ -453,14 +641,15 @@ def preparedata(df):
                                         drop_first=True)], axis=1)
         sub = est[(~pd.isna(est['hg'+var]))
                   & (~est['eigentum'])]
-        # OLS is defined in imports.py
-        imp_rent = ols(sub['hg'+var],
-                       sub.drop(columns=['hg'+var, 'eigentum']), show=False)
+
+        imp_rent = sm.OLS(sub['hg'+var],
+                          sub.drop(columns=['hg'+var, 'eigentum']).astype(float)).fit()
         # Predict Miete/Heizkosten for all missings + non-owners
         est.loc[(est['hg'+var].isna())
                 & (~est['eigentum']),
                 'hg' + var] = imp_rent.predict(est.drop(
-                                               columns=['hg'+var, 'eigentum'])
+                                               columns=['hg'+var,
+                                                        'eigentum'])
                                                )
         if var == 'rent':
             df['kaltmiete'] = est['hgrent'] * df['hh_korr']
@@ -476,18 +665,6 @@ def preparedata(df):
     df['miete'] = np.select([df['eigentum'], ~df['eigentum']],
                             [df['kapdienst'], df['kaltmiete']])
 
-    # Household Types
-    # Singles
-    df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] == 0), 'hhtyp'] = 1
-    # Single Parents
-    df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0), 'hhtyp'] = 2
-    # Couples
-    df.loc[(df['adult_num_tu'] == 2) & (df['child_num_tu'] == 0), 'hhtyp'] = 3
-    # Couples with kids
-    df.loc[(df['adult_num_tu'] == 2) & (df['child_num_tu'] > 0), 'hhtyp'] = 4
-
-    # Single Parents dummy
-    df['alleinerz'] = (df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0)
 
     # Commuting frequency and distance... do not use
     # df['comm_freq'] = df['comm_freq'].fillna(0)
@@ -498,7 +675,6 @@ def preparedata(df):
     # Dummy for joint taxation
     df['zveranl'] = (df['marstat'] == 1) & (df['adult_num_tu'] >= 2)
 
-
     print('Reduce Dataset...')
     # Get rid of missings:
     for v in ['m_wage', 'm_self', 'miete', 'w_hours']:
@@ -507,7 +683,7 @@ def preparedata(df):
     # Drop unnecesary stuff
     dropvars = ['d11102ll', 'l11102', 'x11103', 'd11101', 'd11107',
                 'e11101', 'e11102', 'e11103', 'e11105', 'e11106',
-                'i11101', 'i11102',  'i11106', 'i11107', 'i11111',
+                'i11101', 'i11102', 'i11106', 'i11107', 'i11111',
                 'i11112', 'i11113', 'i11114', 'w11101', 'w11103',
                 'l11101', 'i11205', 'ijob1', 'ijob2', 'ioldy', 'iwidy',
                 'iunby', 'iunay', 'isuby', 'ieret', 'imaty', 'istuy',
@@ -520,15 +696,15 @@ def preparedata(df):
                 'icom2', 'ison2', 'iprv2', 'ssold', 'lossr', 'lossc',
                 'itray', 'adchb', 'iachm', 'chsub', 'ichsu', 'ispou',
                 'irie1', 'irie2', 'kidy', 'iwith', 'pgoeffd', 'pgpartnr',
-                'pgnation', 'pgpsbil', 'pgerwzeit', 'pgtatzeit', 'pgvebzeit',
+                'pgnation', 'pgpsbil', 'pgtatzeit', 'pgvebzeit',
                 'pguebstd', 'pglfs', 'pgnace', 'pgisced97', 'pgcasmin',
                 'pgstib', 'pglabgro', 'pgisco08', 'pgisced11', 'plb0022',
                 'plb0063', 'hgowner', 'hgsize', 'hgrent', 'hgcnstyrmax',
                 'hgcnstyrmin', 'hgheat', 'hgheatinfo', 'pnr_max', 'pnr_mis',
                 'pnr_mis_n', 'age_mis', 'age_mis_sum', 'h', 'nu', 'temp',
                 'plb0186', 'plb0295', 'plb0423',
-                'plb0424', 'plb0586', 'plb0605', 'plc0446']
-    drop(df, dropvars)
+                'plb0424', 'plb0586', 'plb0605', 'plc0446',
+                'ks_ats_r', 'hlc0111', 'hlc0112', 'tax']
 
+    df = df.drop(columns=dropvars, axis=1)
     return df
-

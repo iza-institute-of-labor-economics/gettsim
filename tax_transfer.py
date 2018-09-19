@@ -222,8 +222,8 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
                        df['m_alg2'] +
                        df['wohngeld'] +
                        df['kiz']
-                       )
-            , 2)
+                       ),
+            2)
 
     # Control output
     df = df.sort_values(by=['hid', 'tu_id', 'pid'])
@@ -484,14 +484,16 @@ def soc_ins_contrib(df, tb, yr):
                 ((tb['midi_grenze']/(tb['midi_grenze'] - tb['mini_grenzeo'])) -
                  (tb['mini_grenzeo'] / ((tb['midi_grenze']-tb['mini_grenzeo']))*F)) *
                 (df['m_wage'] - tb['mini_grenzeo'])
-                ]
+                 ]
         ssc['bemessungsentgelt'] = np.select(westost, bemes)
         # This checks whether wage is in the relevant range
         ssc['in_gleitzone'] = df['m_wage'].between(
                             np.select(westost,
                                       [tb['mini_grenzew'],
-                                       tb['mini_grenzeo']]),
-                                       tb['midi_grenze'])
+                                       tb['mini_grenzeo']
+                                       ]),
+                                                   tb['midi_grenze']
+                                                   )
         # Again, all branches of social insurance
         # First total amount, then employer, then employee
 
@@ -717,8 +719,7 @@ def zve(df, tb, yr):
                   df['handcap_degree'].between(91, 100)]
     hc_pausch = [tb['sbhp50'], tb['sbhp60'], tb['sbhp70'],
                  tb['sbhp80'], tb['sbhp90'], tb['sbhp100']]
-    zve['handc_pausch'] = (df['handcap_dummy']
-                          * np.select(hc_degrees, hc_pausch))
+    zve['handc_pausch'] = (df['handcap_dummy'] * np.select(hc_degrees, hc_pausch))
 
     # Aggregate several incomes on the taxpayer couple
     for inc in ['m_wage', 'rvbeit', 'gkvbeit', 'avbeit', 'pvbeit']:
@@ -790,9 +791,10 @@ def zve(df, tb, yr):
                                                                  'm_vermiet']].sum(axis=1))
                                                ),
                                          tb['altenth']
-                                                    )
+                                                     )
     zve['altfreib_tu'] = aggr(zve, 'altfreib')
-    # Entlastungsbetrag für Alleinerziehende. Deduction for Single Parents
+    # Entlastungsbetrag für Alleinerziehende. Deduction for Single Parents.
+    # Used to be called 'Haushaltsfreibetrag'
     zve['hhfreib'] = 0
     if yr < 2015:
         zve.loc[df['alleinerz'], 'hhfreib'] = tb['hhfreib']
@@ -923,13 +925,13 @@ def tax_sched(df, tb, yr):
     ts['abgst'] = 0
     if (yr >= 2009):
         ts.loc[~ts['zveranl'], 'abgst'] = (
-                tb['abgst'] * np.maximum(df['gross_e5']
-                                         - tb['spsparf']
-                                         - tb['spwerbz'], 0))
+                tb['abgst'] * np.maximum(df['gross_e5'] -
+                                         tb['spsparf'] -
+                                         tb['spwerbz'], 0))
         ts.loc[ts['zveranl'], 'abgst'] = (
-                0.5 * tb['abgst'] * np.maximum(df['gross_e5_tu']
-                                               - 2 * (tb['spsparf']
-                                                      - tb['spwerbz']), 0))
+                0.5 * tb['abgst'] * np.maximum(df['gross_e5_tu'] -
+                                               2 * (tb['spsparf'] +
+                                                    tb['spwerbz']), 0))
     ts['abgst_tu'] = aggr(ts, 'abgst')
     # drop some vars to avoid duplicates in join. More elegant way would be to modifiy joint
     # command above.
@@ -1155,7 +1157,6 @@ def wg(df, tb, yr):
 
     wg['wg_incdeduct_tu_k'] = aggr(wg, 'wg_incdeduct', True)
 
-
     wg['wgY'] = ((1 - wg['wg_abzuege']) *
                  np.maximum(0,
                             (wg['wg_grossY'] +
@@ -1289,7 +1290,7 @@ def alg2(df, tb, yr):
                 (tb['rs_hhvor'] * tb['a2ch14'] * df['child14_24_num']) +
                 (tb['rs_hhvor'] * tb['a2ch7'] * df['child7_13_num']) +
                 (tb['rs_hhvor'] * tb['a2ch0'] * (df['child2_num'] + df['child3_6_num']))
-                ]
+                            ]
 
     else:
         # After 2010,
@@ -1304,14 +1305,14 @@ def alg2(df, tb, yr):
                 (tb['rs_ch14'] * df['child14_24_num']) +
                 (tb['rs_ch7'] * df['child7_13_num']) +
                 (tb['rs_ch0'] * (df['child2_num'] + df['child3_6_num']))
-                ]
+                            ]
 
     alg2['regelsatz'] = np.select([df['adult_num'] == 1, df['adult_num'] > 1], regelberechnung)
 
-    #alg2['regelsatz_tu_k'] = aggr(alg2, 'regelsatz', True)
+    # alg2['regelsatz_tu_k'] = aggr(alg2, 'regelsatz', True)
     # Only 'appropriate' housing costs are paid. For simplicity apply Housing benefit rules
     # this might be overly restrictive...check number of benefit recipients.
-    #alg2['alg2_kdu'] = df['M'] + np.maximum(df['heizkost'] - df['wgheiz'], 0)
+    # alg2['alg2_kdu'] = df['M'] + np.maximum(df['heizkost'] - df['wgheiz'], 0)
     # For now, just assume they are paid...
     alg2['alg2_kdu'] = df['miete'] + df['heizkost']
 
@@ -1358,52 +1359,80 @@ def alg2(df, tb, yr):
     # additional child benefit as well (because they are always assessed against the need)
     alg2.loc[(alg2['assets'] > alg2['vermfreibetr']), 'regelbedarf'] = 0
 
-
-
     # Income relevant to check against ALG2 claim
     alg2['alg2_grossek'] = (~(df['child']) *
-                          df[['m_wage', 'm_transfers', 'm_self', 'm_vermiet',
-                              'm_kapinc', 'm_pensions', 'm_alg1']].sum(axis=1))
+                            df[['m_wage',
+                                'm_transfers',
+                                'm_self',
+                                'm_vermiet',
+                                'm_kapinc',
+                                'm_pensions',
+                                'm_alg1']].sum(axis=1)
+                            )
     alg2['alg2_grossek'] = alg2['alg2_grossek'].fillna(0)
     # ...deduct income tax and social security contributions
-    alg2['alg2_ek'] = ((~df['child'])
-                     * np.maximum(alg2['alg2_grossek'] - df['incometax'] - df['soli'] -
-                                  df['svbeit'], 0))
+    alg2['alg2_ek'] = ((~df['child']) *
+                       np.maximum(alg2['alg2_grossek'] -
+                                  df['incometax'] -
+                                  df['soli'] -
+                                  df['svbeit'], 0)
+                       )
     alg2['alg2_ek'] = alg2['alg2_ek'].fillna(0)
 
     # Determine the amount of income that is not deducted
     # Varios withdrawal rates depending on monthly earnings.
     alg2['ekanrefrei'] = 0
+    # 100€ is always 'free'
     alg2.loc[(df['m_wage'] <= tb['a2grf']), 'ekanrefrei'] = df['m_wage']
+    # until 1000€, you may keep 20% (withdrawal rate: 80%)
     alg2.loc[(df['m_wage'].between(tb['a2grf'], tb['a2eg1'])),
-             'ekanrefrei'] = (tb['a2grf'] + tb['a2an1'] * (df['m_wage'] - tb['a2grf']))
+             'ekanrefrei'] = (tb['a2grf'] +
+                              tb['a2an1'] * (df['m_wage'] - tb['a2grf']))
+    # from 1000 to 1200 €, you may keep only 10%
     alg2.loc[(df['m_wage'].between(tb['a2eg1'], tb['a2eg2']))
              & (df['child18_num'] == 0),
-             'ekanrefrei'] = (tb['a2grf'] + tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
-                              tb['a2an2'] * (df['m_wage'] - tb['a2eg1']))
-    alg2.loc[(df['m_wage'].between(tb['a2eg1'], tb['a2eg3'])) & (df['child18_num'] > 0),
-             'ekanrefrei'] = (tb['a2grf'] + tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
-                              tb['a2an2'] * (df['m_wage'] - tb['a2eg1']))
-
-    alg2.loc[(df['m_wage'] > tb['a2eg2']) & (df['child18_num'] == 0),
-             'ekanrefrei'] = (tb['a2grf'] + tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
-                              tb['a2an2'] * (tb['a2eg2'] - tb['a2eg1']))
-    alg2.loc[(df['m_wage'] > tb['a2eg3'])
-             & (df['child18_num'] > 0),
-             'ekanrefrei'] = (tb['a2grf'] + tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
-                              tb['a2an2'] * (tb['a2eg3'] - tb['a2eg1']))
+             'ekanrefrei'] = (tb['a2grf'] +
+                              tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
+                              tb['a2an2'] * (df['m_wage'] - tb['a2eg1'])
+                              )
+    # If you have kids, this range goes until 1500 €,
+    alg2.loc[(df['m_wage'].between(tb['a2eg1'], tb['a2eg3'])) &
+             (df['child18_num'] > 0),
+             'ekanrefrei'] = (tb['a2grf'] +
+                              tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
+                              tb['a2an2'] * (df['m_wage'] - tb['a2eg1'])
+                              )
+    # beyond 1200/1500€, you can't keep anything.
+    alg2.loc[(df['m_wage'] > tb['a2eg2']) &
+             (df['child18_num'] == 0),
+             'ekanrefrei'] = (tb['a2grf'] +
+                              tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
+                              tb['a2an2'] * (tb['a2eg2'] - tb['a2eg1'])
+                              )
+    alg2.loc[(df['m_wage'] > tb['a2eg3']) &
+             (df['child18_num'] > 0),
+             'ekanrefrei'] = (tb['a2grf'] +
+                              tb['a2an1'] * (tb['a2eg1'] - tb['a2grf']) +
+                              tb['a2an2'] * (tb['a2eg3'] - tb['a2eg1'])
+                              )
     # Children income is fully deducted, except for the first 100 €.
     alg2.loc[(df['child']), 'ekanrefrei'] = np.minimum(np.maximum(0, df['m_wage'] - 100), 100)
-    # This is
+    # the final alg2 amount is the difference between the theoretical need and the
+    # relevant income. this will be calculated later when several benefits have to be compared.
     alg2['ar_alg2_ek'] = np.maximum(alg2['alg2_ek'] - alg2['ekanrefrei'], 0)
     # Aggregate on HH
     for var in ['ar_alg2_ek', 'alg2_grossek']:
         alg2 = alg2.join(alg2.groupby(['hid'])[var].sum(),
                          on=['hid'], how='left', rsuffix='_hh')
     alg2['ar_base_alg2_ek'] = alg2['ar_alg2_ek_hh'] + df['kindergeld_hh']
-
-    # the final alg2 amount is the difference between the theoretical need and the
-    # relevant income. this will be calculated later when several benefits have to be compared.
+    '''
+    out = df.join(alg2.drop(columns=['hid', 'tu_id'],
+                            axis=1),
+                  how='outer')
+    out = out.sort_values(by=['hid', 'tu_id', 'pid'])
+    out[(out['hhsize'] > 1) &
+        (out['child_num'] > 0)].to_excel('Z:/test/alg2_check.xlsx')
+    '''
 
     return alg2[['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'alg2_grossek_hh',
                  'mehrbed', 'assets', 'vermfreibetr', 'regelbedarf']]

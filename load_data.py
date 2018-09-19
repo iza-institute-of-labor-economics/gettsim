@@ -48,16 +48,18 @@ def loaddata(soep_path, data_path, minyear):
     vl_pgen = ['hid', 'pid', 'syear', 'pgoeffd', 'pgpartnr', 'pgnation',
                'pgpsbil', 'pgerwzeit', 'pgtatzeit', 'pgvebzeit', 'pguebstd',
                'pglfs', 'pgnace', 'pgisced97', 'pgcasmin', 'pgstib',
-               'pglabgro', 'pgemplst', 'pgisco08', 'pgisced11']
+               'pglabgro', 'pgemplst', 'pgisco08', 'pgisced11',
+               'pgexpft', 'pgexppt', 'pgexpue']
     vl_pl = ['hid', 'pid', 'pnr', 'syear', 'sample1', 'plb0021',
              'plb0022', 'plb0063', 'plb0157', 'plb0158', 'plb0186',
              'plb0295', 'plb0423', 'plb0424', 'plb0586', 'plb0605',
              'plc0131', 'plc0136', 'plc0137', 'plc0446', 'ple0041',
-             'ple0097', 'plk0001']
+             'ple0097', 'plk0001', 'plc0130']
     vl_pkal = ['hid', 'pid', 'syear', 'kal1a02', 'kal1b02',
                'kal1d02', 'kal1e02', 'kal1n02']
     vl_hl = ['hid', 'syear', 'hlc0111', 'hlc0053', 'hlc0054',
-             'hlc0081', 'hlc0082', 'hlc0112', 'hlf0088']
+             'hlc0081', 'hlc0082', 'hlc0112', 'hlf0088',
+             'hlc0064', 'hcc0031', 'hlc0083', 'hlc0046']
     vl_hgen = ['hid', 'syear', 'hgnuts1', 'hgowner', 'hgsize', 'hgrent',
                'hgcnstyrmax', 'hgcnstyrmin', 'hgheat',
                'hgheatinfo', 'hgtyp1hh']
@@ -201,14 +203,28 @@ def loaddata(soep_path, data_path, minyear):
                'pgtatzeit',
                'pgvebzeit',
                'pguebstd',
+               'pgerwzeit',
+               'pgexpft',
+               'pgexppt',
+               'pgexpue',
                'lb0285',
                'ple0041',
                'k_inco',
                'hgowner',
+               'hcc0031',
+               'hlc0046',
                'hlc0053',
                'hlc0054',
+               'hlc0064',
                'hlc0081',
-               'hlc0082'
+               'hlc0082',
+               'hlc0083',
+               'hlf0088',
+               'plb0157',
+               'plb0158',
+               'plc0130',
+               'plc0136',
+               'plc0137'
                ]
 
     for v in negvars:
@@ -235,15 +251,25 @@ def loaddata(soep_path, data_path, minyear):
                             'ple0041': 'handcap_degree',
                             'plk0001': 'partner_id',
                             'hgnuts1': 'bula',
+                            'hcc0031': 'D_sozh_current',
+                            'hlc0046': 'D_alg2_current',
+                            'hlc0053': 'algII_m_l1',
+                            'hlc0054': 'algII_l1',
+                            'hlc0064': 'D_kiz_current',
+                            'hlc0081': 'wgeld_m_l1',
+                            'hlc0082': 'wgeld_l1',
+                            'hlc0083': 'D_wg_current',
                             'hlf0088': 'zinszahl',
                             'plb0157': 'comm_freq',
                             'plb0158': 'comm_dist',
+                            'plc0130': 'D_alg_current',
                             'plc0136': 'alg_m_l1',
                             'plc0137': 'alg_l1',
-                            'hlc0053': 'algII_m_l1',
-                            'hlc0054': 'algII_l1',
-                            'hlc0081': 'wgeld_m_l1',
-                            'hlc0082': 'wgeld_l1'}
+                            'pgexpft': 'expft',
+                            'pgexppt': 'exppt',
+                            'pgexpue': 'expue',
+                            'pgerwzeit': 'tenure'
+                            }
                    )
 
     return df

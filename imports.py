@@ -49,8 +49,6 @@ def get_params(settings):
         # When finished, add to par
         par.update({str(yr): yearpar})
 
-
-
     return par
 
 
@@ -117,22 +115,9 @@ def aggr(df, inc, kids=False):
         return df[inc+'_tu_k']
 
 
-def ols(y, X, show=False):
-    ''' Estimates OLS. Requires Data Frames for y and X.
-        Constants should be added to X automatically,
-        but are not done so yet!!!.
-    '''
-    #model_name = sm.OLS(np.asarray(y,dtype=float),sm.add_constant(np.asarray(X,dtype=float))).fit()
-    #model_name = sm.OLS(y,sm.add_constant(X,has_constant='add')).fit()
-    model_name = sm.OLS(y, X.astype(float)).fit()
-    if show:
-        print(model_name.summary())
-    return model_name
-
-
 def gini(x, w=None):
     '''
-    Calculate the Gini coefficient of a numpy array with weights.
+    Calculate the Gini coefficient of a numpy array using sample weights.
     Source: https://stackoverflow.com/questions/48999542/more-efficient-weighted-gini-coefficient-in-python
 
     '''
