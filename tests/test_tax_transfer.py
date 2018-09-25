@@ -110,7 +110,7 @@ def ssc_tb(year):
     return tb
 
 
-years = [2018]
+years = [2010, 2018]
 columns = ['svbeit', 'rvbeit', 'avbeit', 'gkvbeit', 'pvbeit']
 to_test = list(product(years, columns))
 

@@ -517,7 +517,7 @@ def soc_ins_contrib(df, tb, yr):
         ssc.loc[ssc['in_gleitzone'], 'ag_pvbeit'] = tb['gpvbs'] * df['m_wage']
         ssc.loc[ssc['in_gleitzone'], 'pvbeit'] = (
             ssc['gb_pv'] - ssc['ag_pvbeit'] +
-            (ssc['kinderlos'] * tb['gpvbs_kind'] * df['m_wage'])
+            (ssc['kinderlos'] * tb['gpvbs_kind'] * ssc['bemessungsentgelt'])
         )
 
         # Drop intermediate variables
