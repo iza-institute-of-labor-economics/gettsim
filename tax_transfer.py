@@ -294,32 +294,30 @@ def pensions(df, tb, tb_pens, mw, yr):
     cprint('Pensions', 'red', 'on_white')
 
     r = pd.DataFrame(index=df.index.copy())
-    r['']
+    r['byear'] = df['byear']
+    r['exper'] = df['exper']
     westost = [~df['east'], df['east']]
 
     # individuelle monatl. Altersrente (Rentenartfaktor = 1):
     # R = EP * ZF * Rw
 
-    # EP: Entgeltpunkte: ratio of own wage (up to the threshold) to the mean wage
+    # EP: Entgeltpunkte:
     # Take average values for entgeltpunkte by birth year from external statistics (2015)
     avg_ep = pd.read_excel('data/grv_ep.xlsx', header=3, nrows=40)
     avg_ep = avg_ep[~avg_ep['byear'].isna()]
-    # r['yearly_ep'] =
+    r = pd.merge(r, avg_ep[['byear', 'avg_ep']], how = 'outer')
 
-    df = df.join(df.groupby(['syear', 'hid'])['young_couple_unit'].sum(),
-                 on=['syear', 'hid'], how='left', rsuffix='_sum')
-
-
-    # Add values for current year
-    r['EP'] = np.select(
+    r['EP'] = r['avg_ep'] * r['exper']
+    # Add values for current year: ratio of own wage (up to the threshold) to the mean wage
+    r['EP'] = r['EP'] + np.select(
         westost, [np.minimum(df['m_wage'], tb['rvmaxekw']) / mw['meanwages'][yr],
                   np.minimum(df['m_wage'], tb['rvmaxeko']) / mw['meanwages'][yr]]
     )
     # ZF: Zugangsfaktor. Depends on the age of entering pensions
     r['regelaltersgrenze'] = 65
     # If born after 1947, each birth year raises the age threshold by one month.
-    r.loc[df['byear'] > 1947, 'regelaltersgrenze'] = np.minimum(67,
-                                                                ((df['byear'] - 1947) / 12) + 65)
+    r.loc[r['byear'] > 1947, 'regelaltersgrenze'] = np.minimum(67,
+                                                     ((r['byear'] - 1947) / 12) + 65)
     # For each year entering earlier (later) than the statutory retirement age,
     # you get a penalty (reward) of 3.6 pp.
     r['ZF'] = ((df['age'] - r['regelaltersgrenze']) * .036) + 1
@@ -952,7 +950,8 @@ def tax_sched(df, tb, yr):
     # drop some vars to avoid duplicates in join. More elegant way would be to modifiy joint
     # command above.
     ts = ts.drop(columns=['zveranl', 'hid', 'tu_id'], axis=1)
-    return ts['abgst', 'abgst_tu', 'tax_nokfb', 'tax_kfb', 'tax_abg_nokfb', 'tax_abg_kfb']
+    # Here, I don't specify exactly the return variables because they may differ by year.
+    return ts
 
 
 def kindergeld(df, tb, yr):
@@ -1009,23 +1008,32 @@ def favorability_check(df, tb, yr):
         inclist = ['nokfb', 'kfb']
     else:
         inclist = ['nokfb', 'abg_nokfb', 'kfb', 'abg_kfb']
-
+    '''
+    df = df.sort_values(by=['hid', 'tu_id', 'pid'])
+    df[['hid', 'tu_id', 'child', 'tax_nokfb_tu', 'tax_kfb_tu',
+              'kindergeld_basis' ,'kindergeld_tu_basis']].to_excel('Z:/test/fav_check.xlsx')
+    '''
     for inc in inclist:
-        fc['nettax_' + inc] = df['tax_'+inc+'_tu']
+        # Nettax is defined on the maximum within the tax unit.
+        # Reason: This way, kids get assigned the tax payments of their parents,
+        # ensuring correct treatment afterwards
+        fc['tax_'+inc+'_tu'] = df['tax_'+inc+'_tu']
+        fc = fc.join(fc.groupby(['tu_id'])['tax_'+inc+'_tu'].max(),
+                     on=['tu_id'], how='left', rsuffix='_max')
+        fc = fc.rename(columns={'tax_'+inc+'_tu_max': 'nettax_' + inc})
         # for those tax bases without capital taxes in tariff,
         # add abgeltungssteuer
         if 'abg' not in inc:
             fc['nettax_' + inc] = fc['nettax_'+inc] + df['abgst_tu']
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
-        # TODO: Problem: Kind hat 'tax_tu' immer 0, aber kindergeld_tu nicht.
         if ('nokfb' in inc) | (yr <= 1996):
             fc['nettax_' + inc] = (fc['nettax_'+inc] -
                                    (12 * df['kindergeld_tu_basis']))
     # get the maximum income, i.e. the minimum payment burden
     fc['minpay'] = fc.filter(regex='nettax').min(axis=1)
-    # relevant tax base
-    fc['tax_income'] = 0
+    # relevant tax base. not really needed...
+    # fc['tax_income'] = 0
     # relevant incometax associated with this tax base
     fc['incometax_tu'] = 0
     # secures that every tax unit gets 'treated'
@@ -1068,7 +1076,6 @@ def favorability_check(df, tb, yr):
     # df.to_excel(pd.ExcelWriter(data_path+'check_güsntiger.xlsx'),sheet_name='py_out',columns= ['tu_id','child','zveranl','minpay','incometax','abgehakt','nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu'],na_rep='NaN',freeze_panes=(0,1))
     # pd.to_pickle(df,data_path+ref+'/taxben_check')
     # df.to_excel(pd.ExcelWriter(data_path+'check_tax_incomes.xlsx'),sheet_name='py_out',columns=['hid','pid','age','female','child','zve_nokfb','zve_kfb','tax_nokfb','tax_kfb','gross_e1','gross_e4','gross_e5','gross_e6','gross_e7','gross_gde'],na_rep='NaN',freeze_panes=(0,1))
-    print(fc[['nettax_nokfb', 'nettax_kfb']])
 
     return fc[['hid', 'pid', 'incometax_tu',
                'kindergeld', 'kindergeld_hh', 'kindergeld_tu']]
@@ -1240,6 +1247,8 @@ def wg(df, tb, yr):
     # Finally, apply Wohngeld Formel. There are parameters a, b, c, depending on hh size
     # To ease notation, I write them first into separate variables from the tb dictionary
     wgeld = {}
+    # Call it wohngeld_basis for now, might be set back to zero later on.
+    wg['wohngeld_basis'] = 0
     for x in range(1, 13):
         for z in ['a', 'b', 'c']:
             wgeld[z] = tb['wg_'+z+'_'+str(x)+'p']
@@ -1249,7 +1258,7 @@ def wg(df, tb, yr):
         c = wgeld['c']
 
         wg.loc[np.minimum(df['hhsize_tu'], 12) == x,
-               'wohngeld'] = np.maximum(0,
+               'wohngeld_basis'] = np.maximum(0,
                                         tb['wg_factor'] *
                                         (wg['M'] - ((a + (b * wg['M']) +
                                                     (c * wg['Y'])) *
@@ -1263,12 +1272,12 @@ def wg(df, tb, yr):
     wg.loc[(wg['assets'] > (60000 + (30000 * (df['hhsize'] - 1)))), 'wohngeld'] = 0
 
     # Sum of wohngeld within household
-    wg['wg_head'] = wg['wohngeld'] * df['head_tu']
+    wg['wg_head'] = wg['wohngeld_basis'] * df['head_tu']
     wg = wg.join(wg.groupby(['hid'])['wg_head'].sum(),
                  on=['hid'], how='left', rsuffix='_hh')
-    wg = wg.rename(columns={'wg_head_hh': 'wohngeld_hh'})
+    wg = wg.rename(columns={'wg_head_hh': 'wohngeld_basis_hh'})
 
-    return wg[['wohngeld', 'wohngeld_hh', 'gkvbeit_tu_k', 'rvbeit_tu_k']]
+    return wg[['wohngeld_basis', 'wohngeld_basis_hh', 'gkvbeit_tu_k', 'rvbeit_tu_k']]
 
 
 def alg2(df, tb, yr):
@@ -1606,11 +1615,11 @@ def kiz(df, tb, yr):
     ###############################
     # transfer some variables...
     kiz['ar_base_alg2_ek'] = df['ar_base_alg2_ek']
-    kiz['wohngeld'] = df['wohngeld']
+    kiz['wohngeld_basis'] = df['wohngeld_basis_hh']
 
-    kiz['ar_wg_alg2_ek'] = kiz['ar_base_alg2_ek'] + kiz['wohngeld']
+    kiz['ar_wg_alg2_ek'] = kiz['ar_base_alg2_ek'] + kiz['wohngeld_basis']
     kiz['ar_kiz_alg2_ek'] = kiz['ar_base_alg2_ek'] + kiz['kiz']
-    kiz['ar_wgkiz_alg2_ek'] = (kiz['ar_base_alg2_ek'] + kiz['wohngeld'] + kiz['kiz'])
+    kiz['ar_wgkiz_alg2_ek'] = (kiz['ar_base_alg2_ek'] + kiz['wohngeld_basis'] + kiz['kiz'])
 
     for v in ['base', 'wg', 'kiz', 'wgkiz']:
         kiz['fehlbedarf_'+v] = df['regelbedarf'] - kiz['ar_'+v+'_alg2_ek']
@@ -1630,6 +1639,7 @@ def kiz(df, tb, yr):
             (kiz['wgkiz_vorrang']),
             'm_alg2'] = 0
     # If other benefits are not sufficient, set THEM to zero instead.
+    kiz['wohngeld'] = kiz['wohngeld_basis']
     kiz.loc[(~kiz['wg_vorrang']) &
             (~kiz['wgkiz_vorrang']) &
             (kiz['m_alg2_base'] > 0),
