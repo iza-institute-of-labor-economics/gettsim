@@ -105,7 +105,7 @@ def call_heckman(df, plot=False):
                                           ].plot.kde(label='Heckman Wage')
                 ax_wage = df['h_wage'][(df['syear'] == yr) &
                                        (df['female'] == f) &
-                                       (df['heck_wage'].between(5, 100))
+                                       (df['h_wage'].between(5, 100))
                                        ].plot.kde(label='Observed Wage')
                 ax_heck.set_xlim(0, 100)
                 ax_heck.legend(loc=0,
@@ -449,7 +449,7 @@ def preparedata(df):
     # Single Parents dummy
     df['alleinerz'] = (df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0)
     # Couple Dummy
-    df['couple'] = df['hhtyp'].isin([3,4])
+    df['couple'] = df['hhtyp'].isin([3, 4])
 
     ######
     # Income from various sources
@@ -597,7 +597,7 @@ def preparedata(df):
     #########################################
     # Heckman Imputation to assign non-workers an h_wage
     print('Heckman Imputation...')
-    df['h_wage_pred'] = call_heckman(df, False)
+    df['h_wage_pred'] = call_heckman(df, True)
     # TODO: assign predicted wages to non-workers.
 
     # Dummy for private health insurance

@@ -8,6 +8,7 @@ All import commands to be inserted here.
 import pandas as pd
 # pd.options.mode.use_inf_as_na = True
 
+import scipy
 import numpy as np
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
