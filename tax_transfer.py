@@ -135,11 +135,10 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
     # 5.4 Günstigerprüfung to obtain final income tax due.
     # different call here, because 'kindergeld' is overwritten by the function and
     # needs to be updated. not really elegant I must admit...
-    temp = favorability_check(
-                  df,
-                  tb,
-                  taxyear
-                  )
+    temp = favorability_check(df,
+                              tb,
+                              taxyear
+                              )
     for var in [['incometax_tu',
                  'kindergeld',
                  'kindergeld_hh',
@@ -156,9 +155,9 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
         how='inner'
     )
 
-
     # 6. SOCIAL TRANSFERS / BENEFITS
     # 6.1. Wohngeld, Housing Benefit
+    # TODO: rename wohngeld ('wohngeld_basis') until final check.
     df = df.join(
         other=wg(
             df,
@@ -293,15 +292,25 @@ def pensions(df, tb, tb_pens, mw, yr):
     '''
 
     cprint('Pensions', 'red', 'on_white')
-    westost = [~df['east'], df['east']]
 
     r = pd.DataFrame(index=df.index.copy())
+    r['']
+    westost = [~df['east'], df['east']]
 
     # individuelle monatl. Altersrente (Rentenartfaktor = 1):
     # R = EP * ZF * Rw
 
     # EP: Entgeltpunkte: ratio of own wage (up to the threshold) to the mean wage
-    # TODO: This is only for the current year. How to model total employment history?
+    # Take average values for entgeltpunkte by birth year from external statistics (2015)
+    avg_ep = pd.read_excel('data/grv_ep.xlsx', header=3, nrows=40)
+    avg_ep = avg_ep[~avg_ep['byear'].isna()]
+    # r['yearly_ep'] =
+
+    df = df.join(df.groupby(['syear', 'hid'])['young_couple_unit'].sum(),
+                 on=['syear', 'hid'], how='left', rsuffix='_sum')
+
+
+    # Add values for current year
     r['EP'] = np.select(
         westost, [np.minimum(df['m_wage'], tb['rvmaxekw']) / mw['meanwages'][yr],
                   np.minimum(df['m_wage'], tb['rvmaxeko']) / mw['meanwages'][yr]]
@@ -473,19 +482,21 @@ def soc_ins_contrib(df, tb, yr):
         DBSV = AN_anteil + AG_anteil
         pauschmini = tb['mini_ag_gkv'] + tb['mini_ag_grv'] + tb['stpag']
         F = round(pauschmini / DBSV, 4)
-        # always needs to differentiate between east and west,
-        # used to be relevant in earlier years
-        bemes = [
-                F * tb['mini_grenzew'] +
-                ((tb['midi_grenze'] / (tb['midi_grenze'] - tb['mini_grenzew'])) -
-                 (tb['mini_grenzew'] / ((tb['midi_grenze'] - tb['mini_grenzew']))*F)) *
-                (df['m_wage'] - tb['mini_grenzew']),
-                F * tb['mini_grenzeo'] +
-                ((tb['midi_grenze']/(tb['midi_grenze'] - tb['mini_grenzeo'])) -
-                 (tb['mini_grenzeo'] / ((tb['midi_grenze']-tb['mini_grenzeo']))*F)) *
-                (df['m_wage'] - tb['mini_grenzeo'])
-                 ]
-        ssc['bemessungsentgelt'] = np.select(westost, bemes)
+        # always needs to differentiate between east and west.
+        # This used to be relevant until 1999
+        bemes_west = (F * tb['mini_grenzew'] +
+                      ((tb['midi_grenze'] / (tb['midi_grenze'] - tb['mini_grenzew'])) -
+                       (tb['mini_grenzew'] / ((tb['midi_grenze'] - tb['mini_grenzew'])) * F)
+                       ) *
+                      (df['m_wage'] - tb['mini_grenzew'])
+                      )
+
+        bemes_ost = (F * tb['mini_grenzeo'] +
+                     ((tb['midi_grenze']/(tb['midi_grenze'] - tb['mini_grenzeo'])) -
+                      (tb['mini_grenzeo'] / ((tb['midi_grenze']-tb['mini_grenzeo'])) * F)) *
+                      (df['m_wage'] - tb['mini_grenzeo'])
+                     )
+        ssc['bemessungsentgelt'] = np.select(westost, [bemes_west, bemes_ost])
         # This checks whether wage is in the relevant range
         ssc['in_gleitzone'] = df['m_wage'].between(
                             np.select(westost,
@@ -493,7 +504,7 @@ def soc_ins_contrib(df, tb, yr):
                                        tb['mini_grenzeo']
                                        ]),
                                                    tb['midi_grenze']
-                                                   )
+                                                    )
         # Again, all branches of social insurance
         # First total amount, then employer, then employee
 
@@ -546,28 +557,32 @@ def soc_ins_contrib(df, tb, yr):
     ]:
         ssc.loc[ssc['belowmini'], beit] = 0
 
-    # Freiwillige GKV der Selbständigen.
-    # Entweder Selbständigen-Einkommen oder 3/4 der Bezugsgröße
+    # Self-employed may insure via the public health insurance
+    # In that case, they pay the full contribution (employer + employee),
+    # which is either assessed on their self-employemtn income or 3/4 of the 'Bezugsgröße'
     ssc.loc[(df['selfemployed']) & (~df['pkv']),
             'gkvbeit'] = ((tb['gkvbs_an'] + tb['gkvbs_ag'])
                           * np.minimum(df['m_self'],
                           0.75 * np.select(westost,
                                            [tb['bezgr_w'], tb['bezgr_o']])))
-
+    # Same holds for care insurance
     ssc.loc[(df['selfemployed']) &
             (~df['pkv']),
             'pvbeit'] = ((2 * tb['gpvbs'] + np.select(
                         [ssc['kinderlos'], ~ssc['kinderlos']],
-                        [tb['gpvbs_kind'], 0]))
-                    * np.minimum(df['m_self'], 0.75 * np.select(
-                            westost, [tb['bezgr_w'], tb['bezgr_o']])))
-    # GKV auf Renten, die zahlen den doppelten Pflebebeitragssatz.
+                        [tb['gpvbs_kind'], 0])
+                          ) *
+                np.minimum(df['m_self'], 0.75 * np.select(westost,
+                                                          [tb['bezgr_w'], tb['bezgr_o']])
+                           )
+                         )
+    # Health insurance for pensioners; they pay the standard health insurance rate...
     ssc['gkvrbeit'] = (tb['gkvbs_an'] *
                        np.minimum(df['m_pensions'],
                                   np.select(westost,
                                             [tb['kvmaxekw'],
                                              tb['kvmaxeko']])))
-    # doppelter Pflegebeitragssatz
+    # but twice the care insurance rate.
     ssc['pvrbeit'] = (2 * tb['gpvbs'] *
                       np.minimum(df['m_pensions'],
                                  np.select(westost,
@@ -737,9 +752,9 @@ def zve(df, tb, yr):
     # don't play a large role (i.e. the new one is more beneficial most of the times)
     # but they'd need to be implemented if earlier years are modelled.
     # Vorsorgeaufwendungen until 2004
-    # TO DO
+    # TODO
     # Vorsorgeaufwendungen since 2005
-    # TO DO
+    # TODO
     # Vorsorgeaufwendungen since 2010
     # § 10 (3) EStG
     # The share of deductable pension contributions increases each year by 2 pp.
@@ -781,7 +796,8 @@ def zve(df, tb, yr):
     zve['vorsorge'] = zve['vorsorge2010']
     zve['vorsorge_tu'] = aggr(zve, 'vorsorge')
 
-    # Tax Deduction for elderly ("Altersentlastungsfreibetrag")
+    # Tax Deduction for elderly ("Altersentlastungsbetrag")
+    # does not affect pensions.
     zve['altfreib'] = 0
     df.loc[df['age'] > 64, 'altfreib'] = np.minimum(
                                          tb['altentq'] *
@@ -831,8 +847,8 @@ def zve(df, tb, yr):
     # No Child Allowance, but with capital income
     zve.loc[~df['zveranl'], 'zve_abg_nokfb'] = np.maximum(
         0,
-        zve['gross_gde'] -
-        np.minimum(tb['spsparf'] + tb['spwerbz'], zve['gross_e5']) -
+        zve['gross_gde'] +
+        np.maximum(0, zve['gross_e5'] - tb['spsparf'] - tb['spwerbz']) -
         zve['vorsorge'] -
         zve['sonder'] -
         zve['handc_pausch'] -
@@ -841,8 +857,8 @@ def zve(df, tb, yr):
     )
     zve.loc[df['zveranl'], 'zve_abg_nokfb'] = 0.5 * np.maximum(
         0,
-        zve['gross_gde_tu'] -
-        np.minimum(2 * (tb['spsparf'] + tb['spwerbz']), zve['gross_e5_tu']) -
+        zve['gross_gde_tu'] +
+        np.maximum(0, zve['gross_e5'] - tb['spsparf'] - tb['spwerbz']) -
         zve['vorsorge_tu'] -
         zve['sonder'] -
         zve['handc_pausch_tu'] -
@@ -936,7 +952,7 @@ def tax_sched(df, tb, yr):
     # drop some vars to avoid duplicates in join. More elegant way would be to modifiy joint
     # command above.
     ts = ts.drop(columns=['zveranl', 'hid', 'tu_id'], axis=1)
-    return ts
+    return ts['abgst', 'abgst_tu', 'tax_nokfb', 'tax_kfb', 'tax_abg_nokfb', 'tax_abg_kfb']
 
 
 def kindergeld(df, tb, yr):
@@ -1002,6 +1018,7 @@ def favorability_check(df, tb, yr):
             fc['nettax_' + inc] = fc['nettax_'+inc] + df['abgst_tu']
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
+        # TODO: Problem: Kind hat 'tax_tu' immer 0, aber kindergeld_tu nicht.
         if ('nokfb' in inc) | (yr <= 1996):
             fc['nettax_' + inc] = (fc['nettax_'+inc] -
                                    (12 * df['kindergeld_tu_basis']))
@@ -1014,10 +1031,12 @@ def favorability_check(df, tb, yr):
     # secures that every tax unit gets 'treated'
     fc['abgehakt'] = False
     for inc in inclist:
-        # fc.loc[(fc['minpay'] == fc['nettax_' + inc])
-        #        & (~fc['abgehakt'])
-        #        & (~df['child']),
-        #        'tax_income'] = df['zve_'+inc]
+        '''
+        fc.loc[(fc['minpay'] == fc['nettax_' + inc])
+               & (~fc['abgehakt'])
+               & (~df['child']),
+               'tax_income'] = df['zve_'+inc]
+        '''
         # Income Tax in monthly terms! And write only to parents
         fc.loc[(fc['minpay'] == fc['nettax_' + inc])
                & (~fc['abgehakt'])
@@ -1265,8 +1284,7 @@ def alg2(df, tb, yr):
     alg2['hid'] = df['hid']
     alg2['tu_id'] = df['tu_id']
     # Additional need for single parents
-    alg2['mehrbed'] = ((~df['child']) *
-                       df['alleinerz'] *
+    alg2['mehrbed'] = (df['alleinerz'] *
                        np.minimum(tb['a2zu2']/100,
                                   np.maximum(tb['a2mbch1'] * df['child_num'],
                                              ((df['child6_num'] == 1)
@@ -1301,6 +1319,7 @@ def alg2(df, tb, yr):
                 (tb['rs_ch14'] * df['child14_24_num']) +
                 (tb['rs_ch7'] * df['child7_13_num']) +
                 (tb['rs_ch0'] * (df['child2_num'] + df['child3_6_num'])),
+
                 tb['rs_2adults'] * (1 + alg2['mehrbed']) +
                 tb['rs_2adults'] +
                 (tb['rs_madults'] * np.maximum((df['adult_num'] - 2), 0)) +
@@ -1357,13 +1376,10 @@ def alg2(df, tb, yr):
                                       )
 
     # If wealth exceeds the exemption, the need is set to zero
-    # Note that if the HH has too much wealth, there's no Hosuing Benefit and no
-    # additional child benefit as well (because they are always assessed against the need)
     alg2.loc[(alg2['assets'] > alg2['vermfreibetr']), 'regelbedarf'] = 0
 
     # Income relevant to check against ALG2 claim
-    alg2['alg2_grossek'] = (~(df['child']) *
-                            df[['m_wage',
+    alg2['alg2_grossek'] = (df[['m_wage',
                                 'm_transfers',
                                 'm_self',
                                 'm_vermiet',
@@ -1373,8 +1389,7 @@ def alg2(df, tb, yr):
                             )
     alg2['alg2_grossek'] = alg2['alg2_grossek'].fillna(0)
     # ...deduct income tax and social security contributions
-    alg2['alg2_ek'] = ((~df['child']) *
-                       np.maximum(alg2['alg2_grossek'] -
+    alg2['alg2_ek'] = (np.maximum(alg2['alg2_grossek'] -
                                   df['incometax'] -
                                   df['soli'] -
                                   df['svbeit'], 0)
@@ -1418,7 +1433,7 @@ def alg2(df, tb, yr):
                               tb['a2an2'] * (tb['a2eg3'] - tb['a2eg1'])
                               )
     # Children income is fully deducted, except for the first 100 €.
-    alg2.loc[(df['child']), 'ekanrefrei'] = np.minimum(np.maximum(0, df['m_wage'] - 100), 100)
+    alg2.loc[(df['child']), 'ekanrefrei'] = np.maximum(0, df['m_wage'] - 100)
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be compared.
     alg2['ar_alg2_ek'] = np.maximum(alg2['alg2_ek'] - alg2['ekanrefrei'], 0)
@@ -1437,7 +1452,7 @@ def alg2(df, tb, yr):
     '''
 
     return alg2[['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'alg2_grossek_hh',
-                 'mehrbed', 'assets', 'vermfreibetr', 'regelbedarf']]
+                 'mehrbed', 'assets', 'vermfreibetr', 'regelbedarf', 'regelsatz']]
 
 
 def kiz(df, tb, yr):
@@ -1446,61 +1461,89 @@ def kiz(df, tb, yr):
         would be eligible to ALG2 due to the fact that their claim rises because of their children,
         they can claim Kiz.
 
-        Also determines the final amount of
+        Also determines which benefit (if any) the household actually receives.
     '''
 
-    def wohnbedarf(yr_in):
-        ''' In contrast to ALG2, Kiz considers only the rental costs that are attributed
-            to the parents.
-            This is done by some fixed share which is updated on annual basis
-            ('jährlicher Existenzminimumsbericht')
-        '''
-        year = max(yr_in, 2011)
-        # cols: number of adults
-        # rows: number of kids
-        wb = {'2011': [[75.90, 83.11], [61.16, 71.10], [51.21, 62.12], [44.05, 55.15], [38.65, 49.59]],
-              '2012': [[76.34, 83.14], [61.74, 71.15], [51.82, 62.18], [44.65, 55.22], [39.23, 49.66]],
-              '2013': [[76.34, 83.14], [61.74, 71.15], [51.82, 62.18], [44.65, 55.22], [39.23, 49.66]],
-              '2014': [[76.69, 83.30], [62.20, 71.38], [52.31, 62.45], [45.13, 55.50], [39.69, 49.95]],
-              '2015': [[76.69, 83.30], [62.20, 71.38], [52.31, 62.45], [45.13, 55.50], [39.69, 49.95]],
-              '2016': [[77.25, 83.16], [62.93, 71.17], [53.09, 62.20], [45.92, 55.24], [40.45, 49.69]],
-              '2017': [[77.25, 83.16], [62.93, 71.17], [53.09, 62.20], [45.92, 55.24], [40.45, 49.69]],
-              '2018': [[77.24, 83.25], [62.92, 71.30], [53.08, 62.36], [45.90, 55.41], [40.43, 49.85]]
-             }
+    ''' In contrast to ALG2, Kiz considers only the rental costs that are attributed
+        to the parents.
+        This is done by some fixed share which is updated on annual basis
+        ('jährlicher Existenzminimumsbericht')
+    '''
+    # cols: number of adults
+    # rows: number of kids
+    wohnbedarf = {'2011': [[75.90, 83.11],
+                           [61.16, 71.10],
+                           [51.21, 62.12],
+                           [44.05, 55.15],
+                           [38.65, 49.59]],
+                  '2012': [[76.34, 83.14],
+                           [61.74, 71.15],
+                           [51.82, 62.18],
+                           [44.65, 55.22],
+                           [39.23, 49.66]],
+                  '2013': [[76.34, 83.14],
+                           [61.74, 71.15],
+                           [51.82, 62.18],
+                           [44.65, 55.22],
+                           [39.23, 49.66]],
+                  '2014': [[76.69, 83.30],
+                           [62.20, 71.38],
+                           [52.31, 62.45],
+                           [45.13, 55.50],
+                           [39.69, 49.95]],
+                  '2015': [[76.69, 83.30],
+                           [62.20, 71.38],
+                           [52.31, 62.45],
+                           [45.13, 55.50],
+                           [39.69, 49.95]],
+                  '2016': [[77.25, 83.16],
+                           [62.93, 71.17],
+                           [53.09, 62.20],
+                           [45.92, 55.24],
+                           [40.45, 49.69]],
+                  '2017': [[77.25, 83.16],
+                           [62.93, 71.17],
+                           [53.09, 62.20],
+                           [45.92, 55.24],
+                           [40.45, 49.69]],
+                  '2018': [[77.24, 83.25],
+                           [62.92, 71.30],
+                           [53.08, 62.36],
+                           [45.90, 55.41],
+                           [40.43, 49.85]]
+                  }
 
-        return wb[str(year)]
 
     cprint('Kinderzuschlag...', 'red', 'on_white')
 
     kiz = pd.DataFrame(index=df.index.copy())
     kiz['hid'] = df['hid']
     kiz['tu_id'] = df['tu_id']
+    kiz['pid'] = df['pid']
 
     # First, calculate the need as for ALG2, but only for parents.
     if yr <= 2010:
         # not yet implemented
-        kiz_regel = [
-                    tb['rs_hhvor'] * (1 + df['mehrbed']),
-                    tb['rs_hhvor'] * tb['a2part'] * (2 + df['mehrbed']),
-                    tb['rs_hhvor'] * tb['a2ch18'] * df['adult_num']
-                    ]
+        kiz_regel = [tb['rs_hhvor'] * (1 + df['mehrbed']),
+                     tb['rs_hhvor'] * tb['a2part'] * (2 + df['mehrbed']),
+                     tb['rs_hhvor'] * tb['a2ch18'] * df['adult_num']
+                     ]
     if yr > 2010:
-        kiz_regel = [
-                    tb['rs_hhvor'] * (1 + df['mehrbed']),
-                    tb['rs_2adults'] + ((1 + df['mehrbed']) * tb['rs_2adults']),
-                    tb['rs_madults'] * df['adult_num']
-                    ]
+        kiz_regel = [tb['rs_hhvor'] * (1 + df['mehrbed']),
+                     tb['rs_2adults'] + ((1 + df['mehrbed']) * tb['rs_2adults']),
+                     tb['rs_madults'] * df['adult_num']
+                     ]
 
     kiz['kiz_ek_regel'] = np.select([df['adult_num'] == 1,
                                     df['adult_num'] == 2,
                                     df['adult_num'] > 2],
-                                    kiz_regel) * (df['head'])
+                                    kiz_regel)
     # Add rents. First, correct rent for the case of several tax units within the HH
     kiz['kiz_miete'] = df['miete'] * df['hh_korr']
     kiz['kiz_heiz'] = df['heizkost'] * df['hh_korr']
     # The actual living need is again broken down to the parents.
-    # There is a specific share for this, taken from the function 'wohnbedarf' above.
-    wb = wohnbedarf(yr)
+    # There is a specific share for this, taken from the dict 'wohnbedarf' above.
+    wb = wohnbedarf[str(max(yr,2011))]
     kiz['wb_eltern_share'] = 1.0
     for c in [1, 2]:
         for r in [1, 2, 3, 4]:
@@ -1510,13 +1553,12 @@ def kiz(df, tb, yr):
                 'wb_eltern_share'] = wb[4][c-1] / 100
 
     # apply this share to living costs
-    kiz['kiz_ek_kdu'] = ((kiz['wb_eltern_share'] * (kiz['kiz_miete'] + kiz['kiz_heiz'])) *
-                         df['head'])
+    kiz['kiz_ek_kdu'] = kiz['wb_eltern_share'] * (kiz['kiz_miete'] + kiz['kiz_heiz'])
 
     kiz['kiz_ek_relev'] = kiz['kiz_ek_regel'] + kiz['kiz_ek_kdu']
 
     # There is a maximum income threshold, depending on the need, plus the potential kiz receipt
-    kiz['kiz_ek_max'] = kiz['kiz_ek_relev'] + tb['a2kiz'] * df['child_num']
+    kiz['kiz_ek_max'] = kiz['kiz_ek_relev'] + tb['a2kiz'] * df['child_num_tu']
     # min income to be eligible for KIZ (different for singles and couples)
     kiz['kiz_ek_min'] = (tb['a2kiz_minek_cou'] * (df['hhtyp'] == 4) +
                          (tb['a2kiz_minek_sin'] * (df['alleinerz'])))
@@ -1536,8 +1578,8 @@ def kiz(df, tb, yr):
     kiz['kiz_ek_gross'] = df['alg2_grossek_hh']
     kiz['kiz_ek_net'] = df['ar_alg2_ek_hh']
 
-    # Deductable income. 50% withdrawal rate.
-    # TO DO: deduct child income
+    # Deductable income. 50% withdrawal rate, rounded to 5€ values.
+    # TODO: deduct child income
     kiz['kiz_ek_anr'] = np.maximum(0,
                                    round((df['ar_alg2_ek_hh'] -
                                           kiz['kiz_ek_relev'])/10)
@@ -1547,7 +1589,8 @@ def kiz(df, tb, yr):
     kiz['kiz'] = 0
     # Dummy variable whether household is in the relevant income range.
     kiz['kiz_incrange'] = ((kiz['kiz_ek_gross'] >= kiz['kiz_ek_min'])
-                          & (kiz['kiz_ek_net'] <= kiz['kiz_ek_max']))
+                           & (kiz['kiz_ek_net'] <= kiz['kiz_ek_max'])
+                           )
     # Finally, calculate the amount.
     kiz.loc[kiz['kiz_incrange'], 'kiz'] = np.maximum(0,
                                                      (tb['a2kiz'] * df['child_num']) -
@@ -1596,8 +1639,18 @@ def kiz(df, tb, yr):
             (kiz['m_alg2_base'] > 0),
             'kiz'] = 0
 
+    ## control output
+    '''
+    kiz['regelbedarf'] = df['regelbedarf']
+    kiz['child'] = df['child']
+    kiz['age'] = df['age']
+    kiz['hhtyp'] = df['hhtyp']
+    kiz = kiz.sort_values(by=['hid', 'tu_id', 'pid'])
+    kiz[kiz['hhtyp'].isin([2, 4]) &
+        (df['hh_korr'] < 1)].to_excel('Z:/test/vorrang_check.xlsx')
+    '''
     # TO DO: Correct benefit receipt of pensioners.
-    # For them, 'sozialhilfe' would need to be modelled
+    # For them, 'sozialhilfe' needs to be modelled
 
     assert(kiz['m_alg2'].notna().all())
     assert(kiz['wohngeld'].notna().all())
