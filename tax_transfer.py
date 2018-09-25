@@ -961,18 +961,18 @@ def kindergeld(df, tb, yr):
     kg['child_count'] = kg.groupby(['tu_id'])['eligible'].cumsum()
 
     kg_amounts = {1: tb['kgeld1'], 2: tb['kgeld2'], 3: tb['kgeld3'], 4: tb['kgeld4']}
-    kg['kindergeld'] = kg['child_count'].replace(kg_amounts)
+    kg['kindergeld_basis'] = kg['child_count'].replace(kg_amounts)
     # ES: the where method replaces all values for which the condition is FALSE!!
-    kg['kindergeld'] = kg['kindergeld'].where(kg['child_count'] < 4, tb['kgeld4'])
-    kg['kindergeld_tu'] = kg.groupby('tu_id')['kindergeld'].transform(sum)
+    kg['kindergeld_basis'] = kg['kindergeld_basis'].where(kg['child_count'] < 4, tb['kgeld4'])
+    kg['kindergeld_tu_basis'] = kg.groupby('tu_id')['kindergeld_basis'].transform(sum)
 
     # kg.drop(['child_count', 'eligible', 'kindergeld'], axis=1, inplace=True)
 
-    return kg[['kindergeld', 'kindergeld_tu']]
+    return kg[['kindergeld_basis', 'kindergeld_tu_basis']]
 
 
 def favorability_check(df, tb, yr):
-    """ 'Higher-Yield Test'
+    """ 'Higher-Yield Tepst'
         compares the tax burden that results from various definitions of the tax base
         Most importantly, it compares the tax burden without applying the child allowance (_nokfb)
         AND receiving child benefit with the tax burden including the child allowance (_kfb), but
@@ -985,8 +985,8 @@ def favorability_check(df, tb, yr):
     fc['tu_id'] = df['tu_id']
     fc['hid'] = df['hid']
     fc['pid'] = df['pid']
-    fc['kindergeld'] = df['kindergeld']
-    fc['kindergeld_tu'] = df['kindergeld_tu']
+    fc['kindergeld'] = df['kindergeld_basis']
+    fc['kindergeld_tu'] = df['kindergeld_tu_basis']
 
     cprint('Günstigerprüfung...', 'red', 'on_white')
     if (yr < 2009):
@@ -1004,7 +1004,7 @@ def favorability_check(df, tb, yr):
         # Before 1996, both child allowance and child benefit could be claimed
         if ('nokfb' in inc) | (yr <= 1996):
             fc['nettax_' + inc] = (fc['nettax_'+inc] -
-                                   (12 * df['kindergeld_tu']))
+                                   (12 * df['kindergeld_tu_basis']))
     # get the maximum income, i.e. the minimum payment burden
     fc['minpay'] = fc.filter(regex='nettax').min(axis=1)
     # relevant tax base
@@ -1014,10 +1014,10 @@ def favorability_check(df, tb, yr):
     # secures that every tax unit gets 'treated'
     fc['abgehakt'] = False
     for inc in inclist:
-        fc.loc[(fc['minpay'] == fc['nettax_' + inc])
-               & (~fc['abgehakt'])
-               & (~df['child']),
-               'tax_income'] = df['zve_'+inc]
+        # fc.loc[(fc['minpay'] == fc['nettax_' + inc])
+        #        & (~fc['abgehakt'])
+        #        & (~df['child']),
+        #        'tax_income'] = df['zve_'+inc]
         # Income Tax in monthly terms! And write only to parents
         fc.loc[(fc['minpay'] == fc['nettax_' + inc])
                & (~fc['abgehakt'])
@@ -1049,6 +1049,8 @@ def favorability_check(df, tb, yr):
     # df.to_excel(pd.ExcelWriter(data_path+'check_güsntiger.xlsx'),sheet_name='py_out',columns= ['tu_id','child','zveranl','minpay','incometax','abgehakt','nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu'],na_rep='NaN',freeze_panes=(0,1))
     # pd.to_pickle(df,data_path+ref+'/taxben_check')
     # df.to_excel(pd.ExcelWriter(data_path+'check_tax_incomes.xlsx'),sheet_name='py_out',columns=['hid','pid','age','female','child','zve_nokfb','zve_kfb','tax_nokfb','tax_kfb','gross_e1','gross_e4','gross_e5','gross_e6','gross_e7','gross_gde'],na_rep='NaN',freeze_panes=(0,1))
+    print(fc[['nettax_nokfb', 'nettax_kfb']])
+
     return fc[['hid', 'pid', 'incometax_tu',
                'kindergeld', 'kindergeld_hh', 'kindergeld_tu']]
 
