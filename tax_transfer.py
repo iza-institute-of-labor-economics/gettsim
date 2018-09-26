@@ -797,7 +797,7 @@ def zve(df, tb, yr):
     # Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve['altfreib'] = 0
-    df.loc[df['age'] > 64, 'altfreib'] = np.minimum(
+    zve.loc[df['age'] > 64, 'altfreib'] = np.minimum(
                                          tb['altentq'] *
                                          12 * (df['m_wage'] +
                                                np.maximum(0, df[['m_kapinc',

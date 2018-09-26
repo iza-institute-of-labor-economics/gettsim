@@ -1,7 +1,7 @@
 import pytest
 from pandas import DataFrame, Series
-from pandas.testing import assert_series_equal
-from tax_transfer import kindergeld, soc_ins_contrib, favorability_check
+from pandas.testing import assert_series_equal, assert_frame_equal
+from tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
 from itertools import product
 import pandas as pd
 
@@ -87,25 +87,9 @@ def load_ssc_output_data(year, column):
     return df[column]
 
 
-def ssc_tb(year):
-    assert year in [2010, 2018]
-    if year == 2010:
-        tb = {'gkvbs_ag': 0.07, 'gkvbs_an': 0.079, 'gpvbs': 0.00975,
-              'gpvbs_kind': 0.0025, 'bezgr_w': 2555, 'bezgr_o': 2170,
-              'kvmaxeko': 3750, 'kvmaxekw': 3750, 'alvbs': 0.014,
-              'grvbs': 0.0995, 'rvmaxeko': 4650, 'rvmaxekw': 5500,
-              'midi_grenze': 800, 'mini_grenzeo': 400, 'mini_grenzew': 400,
-              'mini_ag_gkv': 0.13, 'mini_ag_grv': 0.15, 'stpag': 0.02,
-              'miniuml': 0.0108}
-    else:
-        tb = {'gkvbs_ag': 0.073, 'gkvbs_an': 0.083, 'gpvbs': 0.01275,
-              'gpvbs_kind': 0.0025, 'bezgr_w': 3045, 'bezgr_o': 2695,
-              'kvmaxeko': 4425, 'kvmaxekw': 4425, 'alvbs': 0.015,
-              'grvbs': 0.093, 'rvmaxeko': 5800, 'rvmaxekw': 6500,
-              'midi_grenze': 850, 'mini_grenzeo': 450, 'mini_grenzew': 450,
-              'mini_ag_gkv': 0.13, 'mini_ag_grv': 0.15, 'stpag': 0.02,
-              'miniuml': 0.012}
-    return tb
+def load_tb(year):
+    df = pd.read_excel('tests/test_data/test_param.xls').set_index('para')
+    return df['y{}'.format(year)].to_dict()
 
 
 years = [2010, 2018]
@@ -116,7 +100,7 @@ to_test = list(product(years, columns))
 @pytest.mark.parametrize('year, column', to_test)
 def test_soc_ins_contrib(year, column):
     df = load_ssc_input_data(year)
-    tb = ssc_tb(year)
+    tb = load_tb(year)
     calculated = soc_ins_contrib(df, tb, year)[column]
     expected = load_ssc_output_data(year, column)
     assert_series_equal(calculated, expected)
@@ -131,8 +115,9 @@ def load_favorability_input_data(year):
     assert year in [2010, 2012, 2016]
     df = pd.read_excel('tests/test_data/test_dfs_favorability_check.xlsx')
     input_cols = ['hid', 'tu_id', 'pid', 'zveranl', 'child', 'tax_nokfb_tu',
-                  'tax_abg_nokfb_tu', 'tax_kfb_tu', 'tax_abg_kfb_tu', 'abgst_tu',
-                  'kindergeld_basis', 'kindergeld_tu_basis', 'year']
+                  'tax_abg_nokfb_tu', 'tax_kfb_tu', 'tax_abg_kfb_tu',
+                  'abgst_tu', 'kindergeld_basis', 'kindergeld_tu_basis',
+                  'year']
     df = df[input_cols]
     df = df[df['year'] == year]
     return df
@@ -159,7 +144,7 @@ to_test += [pytest.param(2016, 'kindergeld', marks=pytest.mark.xfail),
 
 
 @pytest.mark.parametrize('year, column', to_test)
-def test_dfs_favorability_check(year, column):
+def test_favorability_check(year, column):
     df = load_favorability_input_data(year)
     tb = {}
     calculated = favorability_check(df, tb, year)[column]
@@ -168,3 +153,46 @@ def test_dfs_favorability_check(year, column):
     print(calculated.to_frame(), '\n')
     print(expected.to_frame(), '\n\n')
     assert_series_equal(calculated, expected)
+
+# =============================================================================
+# test zve
+# =============================================================================
+
+
+def load_zve_input_data(year):
+    assert year in [2005, 2009, 2010, 2012, 2018]
+    df = pd.read_excel('tests/test_data/test_dfs_zve.xlsx',
+                       true_values=['TRUE()'], false_values=['FALSE()'])
+    input_cols = [
+        'hid', 'tu_id', 'm_wage', 'm_self', 'm_kapinc', 'm_vermiet',
+        'renteneintritt', 'm_pensions', 'zveranl', 'child', 'handcap_degree',
+        'rvbeit', 'avbeit', 'pvbeit', 'alleinerz', 'age',
+        'child_num_tu', 'year'] # 'gkvbeit', 'east', 'handcap_dummy']
+    df = df[input_cols]
+    df = df[df['year'] == year]
+    print(df)
+    return df
+
+
+def load_zve_output_data(year):
+
+    columns = ['zve_nokfb', 'zve_kfb', 'zve_abg_nokfb', 'zve_abg_kfb']
+    df = pd.read_excel('tests/test_data/test_dfs_zve.xlsx')
+    df = df[df['year'] == year]
+    return df[columns]
+
+years = [2005, 2009, 2010, 2012, 2018]
+
+
+@pytest.mark.parametrize('year', years)
+def test_zve(year):
+    columns = ['zve_nokfb', 'zve_kfb', 'zve_abg_nokfb', 'zve_abg_kfb']
+    df = load_zve_input_data(year)
+    tb = load_tb(year)
+    tb['ch_allow'] = tb['kifreib']
+    calculated = zve(df, tb, year)[columns]
+    expected = load_zve_output_data(year)
+    print(calculated.to_frame(), '\n')
+    print(expected.to_frame(), '\n\n')
+    assert_frame_equal(calculated, expected)
+
