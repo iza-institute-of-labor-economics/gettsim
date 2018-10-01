@@ -14,7 +14,7 @@ Janos Gabler
 from settings import get_settings
 from load_data import loaddata
 from prepare_data import preparedata
-from hypo import create_hypo_data
+from hypo import hypo_analysis
 from tax_transfer import *
 from tax_transfer_ubi import tax_transfer_ubi
 from imports import init, get_params, mw_pensions
@@ -76,7 +76,8 @@ def run_izamod(settings):
 
 
     # TAX TRANSFER CALCULATION
-    if settings['taxtrans'] == 1:
+
+    if (settings['taxtrans'] == 1) or (settings['run_hypo'] == 1):
         # Load Tax-Benefit Parameters
         tb = get_params(settings)[str(settings['taxyear'])]
         # Load pension parameters
@@ -84,6 +85,8 @@ def run_izamod(settings):
         tb_pens = pd.read_excel(settings['MAIN_PATH'] +
                                 '/data/params/pensions.xlsx',
                                 index_col='var').transpose()
+
+    if settings['taxtrans'] == 1:
         for ref in settings['Reforms']:
             # call tax transfer
             datayear = min(settings['taxyear'], 2016)
@@ -97,7 +100,7 @@ def run_izamod(settings):
             print(" Year of System: " + str(settings['taxyear']))
             print(" Simulated Reform: " + str(ref))
             print("---------------------------------------------")
-            # CALL TAX TRANSFER
+            # CALL TAX TRANSFER, depending on reform
             if ref != "UBI":
                 tt_out = tax_transfer(df,
                                       datayear,
@@ -131,7 +134,7 @@ def run_izamod(settings):
 
     # Hypo Run: create hypothetical household data, run tax transfer and produce some outputs.
     if settings['run_hypo'] == 1:
-        create_hypo_data(settings['DATA_PATH'], settings)
+        hypo_analysis(settings['DATA_PATH'], settings, tb)
 
     print('END IZA_DYN_MOD')
 

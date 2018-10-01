@@ -15,7 +15,7 @@ import math
 import sys
 
 
-def tax_transfer(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
+def tax_transfer(df, datayear, taxyear, tb, tb_pens = [], mw = [], hyporun=False):
     """German Tax-Transfer System.
 
     Arguments:
@@ -60,7 +60,9 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
     df['m_alg1'] = ui(df, tb, taxyear)
 
     # Pension benefits
-    df['pen_sim'] = pensions(df, tb, tb_pens, mw, taxyear)
+    print(hyporun)
+    if hyporun is False:
+        df['pen_sim'] = pensions(df, tb, tb_pens, mw, taxyear)
 
     # Income Tax
     taxvars = [
@@ -491,8 +493,8 @@ def soc_ins_contrib(df, tb, yr):
 
         bemes_ost = (F * tb['mini_grenzeo'] +
                      ((tb['midi_grenze']/(tb['midi_grenze'] - tb['mini_grenzeo'])) -
-                      (tb['mini_grenzeo'] / ((tb['midi_grenze']-tb['mini_grenzeo'])) * F)) *
-                      (df['m_wage'] - tb['mini_grenzeo'])
+                      (tb['mini_grenzeo'] / ((tb['midi_grenze'] - tb['mini_grenzeo'])) * F)) *
+                     (df['m_wage'] - tb['mini_grenzeo'])
                      )
         ssc['bemessungsentgelt'] = np.select(westost, [bemes_west, bemes_ost])
         # This checks whether wage is in the relevant range
@@ -1522,7 +1524,6 @@ def kiz(df, tb, yr):
                            [40.43, 49.85]]
                   }
 
-
     cprint('Kinderzuschlag...', 'red', 'on_white')
 
     kiz = pd.DataFrame(index=df.index.copy())
@@ -1552,7 +1553,7 @@ def kiz(df, tb, yr):
     kiz['kiz_heiz'] = df['heizkost'] * df['hh_korr']
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the dict 'wohnbedarf' above.
-    wb = wohnbedarf[str(max(yr,2011))]
+    wb = wohnbedarf[str(max(yr, 2011))]
     kiz['wb_eltern_share'] = 1.0
     for c in [1, 2]:
         for r in [1, 2, 3, 4]:
@@ -1649,7 +1650,7 @@ def kiz(df, tb, yr):
             (kiz['m_alg2_base'] > 0),
             'kiz'] = 0
 
-    ## control output
+    # control output
     '''
     kiz['regelbedarf'] = df['regelbedarf']
     kiz['child'] = df['child']

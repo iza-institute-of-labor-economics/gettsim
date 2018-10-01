@@ -7,27 +7,22 @@ Created on Fri Jun 15 14:36:30 2018
 from imports import *
 from tax_transfer import *
 
-"""
-Hypothetical Household Types
-   11: Single, keine Kinder
-   22: Alleinerziehend, ein Kind (3 Jahre)
-   24: Alleinerziehend, zwei Kinder (3 und 8 Jahre)
-   31: Paar, Alleinverdiener HH, keine Kinder
-   32: Paar, Alleinverdiener HH, zwei Kinder
-   33: Paar, geringes Partnereinkommen, keine Kinder
-   34: Paar, geringes Partnereinkommen, zwei Kinder
-   35: Paar, mittleres Partnereinkommen, keine Kinder
-   36: Paar, mittleres Partnereinkommen, zwei Kinder
-   37: Paar, hohes Partnereinkommen, keine Kinder
-   38: Paar, hohes Partnereinkommen, zwei Kinder
-"""
+def create_hypo_data(data_path, settings, tb):
+    '''
+    builds a dataset identical to original SOEP output,
+    but with custom household types, for which earnings are varied.
 
-
-def create_hypo_data(data_path, settings):
-
+    Hypothetical Household Types defined so far:
+    11: Single, keine Kinder
+    22: Alleinerziehend, ein Kind (3 Jahre)
+    24: Alleinerziehend, zwei Kinder (3 und 8 Jahre)
+    31: Paar, Alleinverdiener HH, keine Kinder
+    32: Paar, Alleinverdiener HH, zwei Kinder
+    '''
     # DEFINE STEPS IN YEARLY WAGES
     wagestep = 200
 
+    # take original data for congruence.
     df = pd.read_pickle(data_path + 'SOEP/taxben_input_2016')
     # drop all rows
     df = df.iloc[0:0]
@@ -62,7 +57,6 @@ def create_hypo_data(data_path, settings):
 
     df[['typ', 'typ_bud']]
 
-
     # Vervielfache die Reihen und erhöhe den Lohn
     df = df.append([df] * 500, ignore_index=True)
     df = df.sort_values(by=['typ_bud'])
@@ -72,6 +66,7 @@ def create_hypo_data(data_path, settings):
     df['head'] = True
     df['head_tu'] = True
     df['age'] = 30
+
     df['child'] = False
     df['female'] = False
 
@@ -182,25 +177,25 @@ def create_hypo_data(data_path, settings):
 
     df = df.sort_values(by=['typ_bud', 'y_wage', 'female'])
     df = df.dropna(subset=['typ_bud'])
-    # Drop Doppeltverdiener
+    # Drop Doppeltverdiener for the moment.
     df = df[df['typ_bud'] < 33]
 
-    pd.to_pickle(df, data_path + 'SOEP/taxben_input_hypo')
-    # df.to_stata(data_path+'hypo.dta')
-    df = pd.read_pickle(settings['DATA_PATH'] + 'SOEP/taxben_input_hypo')
-    tb = get_params(settings)[str(settings['taxyear'])]
+    return df
 
-    taxout_hypo = tax_transfer(df, 'RS2018', 2018, 2018, tb, True)
 
+def hypo_graphs(df, settings):
+    '''
+    creates a couple of graphs by hypothetical household type for debugging
+    '''
     # EMTR Graphen
     # keep only those that get earnings
-    df = taxout_hypo.copy()
+    # df = taxout_hypo.copy()
     df = df.sort_values(by=['typ_bud', 'y_wage'])
     # create writer for excel
-    hypo_writer = pd.ExcelWriter(data_path + 'check_hypo.xlsx')
+    hypo_writer = pd.ExcelWriter(settings['DATA_PATH'] + 'check_hypo.xlsx')
     out_vars = ['typ_bud', 'female', 'age', 'head', 'child', 'y_wage',
                 'm_wage', 'w_hours', 'dpi', 'm_alg2', 'wohngeld', 'kiz',
-                'kindergeld', 'svbeit', 'tax_income', 'incometax', 'soli',
+                'kindergeld', 'svbeit', 'incometax', 'soli',
                 'incometax_tu', 'soli_tu', 'miete', 'heizkost']
     for typ in [11, 22, 24, 31, 32]:
         df[(df['typ_bud'] == typ)
@@ -262,3 +257,22 @@ def create_hypo_data(data_path, settings):
         ax.legend(loc=0)
         fig.savefig(settings['GRAPH_PATH'] + 'hypo/lego_')
         '''
+
+def hypo_analysis(data_path, settings, tb):
+    """
+    Tax-Transfer analysis with hypothetical households
+
+
+    """
+    # create hypo data
+    df = create_hypo_data(data_path, settings, tb)
+
+    # run them through tax_transfer
+    taxout_hypo = tax_transfer(df,
+                               settings['taxyear'],
+                               settings['taxyear'],
+                               tb,
+                               hyporun=True)
+    # run graphs
+    hypo_graphs(taxout_hypo, settings)
+
