@@ -23,10 +23,58 @@ def create_hypo_data(data_path, settings, tb):
     wagestep = 200
 
     # take original data for congruence.
-    df = pd.read_pickle(data_path + 'SOEP/taxben_input_2016')
+    #df = pd.read_pickle(data_path + 'SOEP/taxben_input_2016')
+    columns = ['hid', 'pid', 'syear', 'marstat', 'stell', 'hhsize',
+               'laborinc', 'assetinc', 'imp_rent', 'sose_pension',
+               'laborinc_ind', 'retirement', 'hweight', 'pweight',
+               'm_self', 'divdy', 'alg2', 'tenure', 'pgemplst',
+               'expft', 'exppt', 'expue', 'pnr', 'sample1', 'plb0021',
+               'comm_freq', 'comm_dist', 'plc0131', 'alg_m_l1', 'alg_l1',
+               'handcap_degree', 'ple0097', 'partner_id', 'D_alg_current',
+               'months_ft', 'months_pt', 'months_ue', 'months_pen',
+               'months_mj', 'lb0285', 'k_rel', 'k_nrinhh', 'k_inco',
+               'k_pmum', 'algII_m_l1', 'algII_l1', 'wgeld_m_l1', 'wgeld_l1',
+               'zinszahl', 'D_kiz_current', 'D_sozh_current', 'D_wg_current',
+               'D_alg2_current', 'bula', 'hgtyp1hh', 'counter',
+               'kinderdaten', 'age', 'byear', 'female', 'foreigner',
+               'pensioner', 'ineducation', 'military', 'parentalleave',
+               'civilservant', 'pubsector', 'selfemployed', 'renteneintritt',
+               'east', 'head', 'spouse', 'child', 'othmem', 'head_num',
+               'main_unit', 'old_dummy', 'old_dummy_sum', 'single_unit',
+               'couple_unit', 'new_unit', 'n', 'new_unit_id', 'tu_id',
+               'head_tu', 'hhsize_tu', 'child0_1_num', 'child1_2_num',
+               'child2_num', 'child2_3_num', 'child3_6_num', 'child6_num',
+               'child7_16_num', 'child7_11_num', 'child7_13_num',
+               'child11_num', 'child12_15_num', 'child14_17_num',
+               'child14_24_num', 'child14_num', 'child15_num', 'child18_num',
+               'child0_1_num_tu', 'child1_2_num_tu', 'child2_num_tu',
+               'child2_3_num_tu', 'child3_6_num_tu', 'child6_num_tu',
+               'child7_16_num_tu', 'child7_11_num_tu', 'child7_13_num_tu',
+               'child11_num_tu', 'child12_15_num_tu', 'child14_17_num_tu',
+               'child14_24_num_tu', 'child14_num_tu', 'child15_num_tu',
+               'child18_num_tu', 'child_num_tu', 'child_num', 'adult_num',
+               'adult_num_tu', 'hh_korr', 'haskids', 'handcap_dummy',
+               'qualification', 'unskilled', 'university', 'hhtyp',
+               'alleinerz', 'couple', 'transfers', 'alg_soep', 'months',
+               'pensions', 'm_pensions', 'm_transfers', 'childinc',
+               'm_kapinc', 'm_vermiet', 'm_imputedrent', 'm_kapinc_tu', 
+               'm_vermiet_tu', 'm_imputedrent_tu', 'versbez', 'welfare',
+               'w_hours', 'm_wage', 'othwage_ly', 'm_wage_l1', 'months_l1',
+               'months_ue_l1', 'm_wage_l2', 'months_l2', 'wgeld_l2', 
+               'wgeld_m_l2', 'alg_l2', 'alg_m_l2', 'months_ue_l2', 'h_wage',
+               'work_dummy', 'missing_wage', 'age2', 'age3', 'married', 
+               'ln_wage', 'exper', 'exper2', 'expue2', 'tenure2', 'heck_wage',
+               'h_wage_pred', 'pkv', 'eigentum', 'hgsize_mean', 'wohnfl',
+               'baujahr', 'cnstyr', 'kaltmiete', 'heizkost', 'kapdienst',
+               'miete', 'zveranl'
+    ]
+    
+    df = pd.DataFrame(columns=columns)
+        
     # drop all rows
     df = df.iloc[0:0]
-
+    
+    
     # append rows with zeros
     s2 = pd.Series(np.zeros(len(list(df))), index=list(df))
     for i in range(0, 5):
