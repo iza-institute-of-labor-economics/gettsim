@@ -194,7 +194,7 @@ def test_zve(year):
 def load_tax_sched_input_data(year):
     assert year in [2009, 2012, 2015, 2018]
     input_cols = ['hid', 'tu_id', 'zve_nokfb', 'zve_kfb', 'zve_abg_kfb',
-                  'zve_abg_nokfb', 'gross_e5']
+                  'zve_abg_nokfb', 'gross_e5', 'zveranl', 'gross_e5_tu']
     df = pd.read_excel('tests/test_data/test_dfs_tax_sched.xlsx')
     df = df[df['year'] == year]
     df = df[input_cols]
@@ -216,6 +216,7 @@ def test_tax_sched(year):
     columns = ['zve_nokfb', 'zve_kfb', 'zve_abg_nokfb', 'zve_abg_kfb']
     df = load_tax_sched_input_data(year)
     tb = load_tb(year)
+    tb['yr'] = year
     calculated = tax_sched(df, tb, year)[columns]
     expected = load_zve_output_data(year)
     print('calculated: \n', calculated, '\n\n')
