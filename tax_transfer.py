@@ -797,6 +797,9 @@ def zve(df, tb, yr):
     zve['vorsorge'] = zve['vorsorge2010']
     zve['vorsorge_tu'] = aggr(zve, 'vorsorge')
 
+    print('vorsorge: \n', zve['vorsorge'])
+    print('gross_gde: \n', zve['gross_gde'])
+
     # Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve['altfreib'] = 0
@@ -843,7 +846,7 @@ def zve(df, tb, yr):
         zve['sonder_tu'] -
         zve['handc_pausch_tu'] -
         zve['hhfreib'] -
-        zve['altfreib']
+        zve['altfreib_tu']
     )
     # No Child Allowance, but with capital income
     zve.loc[~df['zveranl'], 'zve_abg_nokfb'] = np.maximum(
@@ -859,17 +862,20 @@ def zve(df, tb, yr):
     zve.loc[df['zveranl'], 'zve_abg_nokfb'] = 0.5 * np.maximum(
         0,
         zve['gross_gde_tu'] +
-        np.maximum(0, zve['gross_e5'] - tb['spsparf'] - tb['spwerbz']) -
+        np.maximum(0, zve['gross_e5_tu'] - 2 * tb['spsparf'] - 2 * tb['spwerbz']) -
         zve['vorsorge_tu'] -
-        zve['sonder'] -
+        zve['sonder_tu'] -
         zve['handc_pausch_tu'] -
         zve['hhfreib'] -
-        zve['altfreib']
+        zve['altfreib_tu']
     )
+
+    print('max: \n', np.maximum(0, zve['gross_e5_tu'] - 2 * tb['spsparf'] - 2 * tb['spwerbz']))
     # Subtract Child allowance to get alternative taxable incomes
     zve['zve_kfb'] = np.maximum(zve['zve_nokfb'] - zve['kifreib'], 0)
     zve['zve_abg_kfb'] = np.maximum(zve['zve_abg_nokfb'] - zve['kifreib'], 0)
 
+    print(zve['gross_e5_tu'])
     return zve[['zve_nokfb', 'zve_abg_nokfb', 'zve_kfb', 'zve_abg_kfb', 'kifreib',
                 'gross_e1', 'gross_e4', 'gross_e5', 'gross_e6', 'gross_e7',
                 'gross_e1_tu', 'gross_e4_tu', 'gross_e5_tu', 'gross_e6_tu', 'gross_e7_tu',
