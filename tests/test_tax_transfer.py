@@ -167,7 +167,7 @@ def load_zve_input_data(year):
         'hid', 'tu_id', 'm_wage', 'm_self', 'm_kapinc', 'm_vermiet',
         'renteneintritt', 'm_pensions', 'zveranl', 'child', 'handcap_degree',
         'rvbeit', 'avbeit', 'pvbeit', 'alleinerz', 'age',
-        'child_num_tu', 'year'] # 'gkvbeit', 'east', 'handcap_dummy']
+        'child_num_tu', 'year', 'east', 'gkvbeit']
     df = df[input_cols]
     df = df[df['year'] == year]
     print(df)

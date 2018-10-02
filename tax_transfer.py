@@ -734,7 +734,8 @@ def zve(df, tb, yr):
                   df['handcap_degree'].between(91, 100)]
     hc_pausch = [tb['sbhp50'], tb['sbhp60'], tb['sbhp70'],
                  tb['sbhp80'], tb['sbhp90'], tb['sbhp100']]
-    zve['handc_pausch'] = (df['handcap_dummy'] * np.select(hc_degrees, hc_pausch))
+    zve['handc_pausch'] = np.select(hc_degrees, hc_pausch)
+    zve['handc_pausch'].fillna(0, inplace=True)
 
     # Aggregate several incomes on the taxpayer couple
     for inc in ['m_wage', 'rvbeit', 'gkvbeit', 'avbeit', 'pvbeit']:
