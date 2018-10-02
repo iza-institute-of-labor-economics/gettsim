@@ -203,7 +203,7 @@ def load_tax_sched_input_data(year):
 
 
 def load_tax_sched_output_data(year):
-    columns = ['tax_nokfb', 'tax_kfb', 'tax_abg_nokfb', 'tax_abg_kfb']
+    columns = ['tax_nokfb', 'tax_kfb', 'tax_abg_nokfb', 'tax_abg_kfb', 'abgst']
     df = pd.read_excel('tests/test_data/test_dfs_tax_sched.xlsx')
     df = df[df['year'] == year]
     return df[columns]
@@ -213,7 +213,7 @@ years = [2009, 2012, 2015, 2018]
 
 @pytest.mark.parametrize('year', years)
 def test_tax_sched(year):
-    columns = ['tax_nokfb', 'tax_kfb', 'tax_abg_nokfb', 'tax_abg_kfb']
+    columns = ['tax_nokfb', 'tax_kfb', 'tax_abg_nokfb', 'tax_abg_kfb', 'abgst']
     df = load_tax_sched_input_data(year)
     tb = load_tb(year)
     tb['yr'] = year
@@ -221,5 +221,5 @@ def test_tax_sched(year):
     expected = load_tax_sched_output_data(year)
     print('calculated: \n', calculated, '\n\n')
     print('expected: \n', expected)
-    assert_frame_equal(calculated, expected)
+    assert_frame_equal(calculated.round(), expected.round(), check_dtype=False)
 
