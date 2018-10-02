@@ -2,6 +2,7 @@ import pytest
 from pandas import DataFrame, Series
 from pandas.testing import assert_series_equal, assert_frame_equal
 from tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
+from tax_transfer import tax_sched
 from itertools import product
 import pandas as pd
 
@@ -134,14 +135,6 @@ years = [2010, 2012, 2016]
 columns = ['incometax_tu', 'kindergeld', 'kindergeld_hh', 'kindergeld_tu']
 to_test = list(product(years, columns))
 
-# #############################################################################
-# delete this after the bug in favorability_check is fixed
-to_test = to_test[:9]
-to_test += [pytest.param(2016, 'kindergeld', marks=pytest.mark.xfail),
-            pytest.param(2016, 'kindergeld_hh', marks=pytest.mark.xfail),
-            pytest.param(2016, 'kindergeld_tu', marks=pytest.mark.xfail)]
-# #############################################################################
-
 
 @pytest.mark.parametrize('year, column', to_test)
 def test_favorability_check(year, column):
@@ -170,7 +163,6 @@ def load_zve_input_data(year):
         'child_num_tu', 'year', 'east', 'gkvbeit']
     df = df[input_cols]
     df = df[df['year'] == year]
-    print(df)
     return df
 
 
@@ -192,7 +184,41 @@ def test_zve(year):
     tb['ch_allow'] = tb['kifreib']
     calculated = zve(df, tb, year)[columns]
     expected = load_zve_output_data(year)
-    print(calculated, '\n')
-    print(expected, '\n\n')
+    assert_frame_equal(calculated, expected)
+
+
+# =============================================================================
+# test tax_sched
+# =============================================================================
+
+def load_tax_sched_input_data(year):
+    assert year in [2009, 2012, 2015, 2018]
+    input_cols = ['hid', 'tu_id', 'zve_nokfb', 'zve_kfb', 'zve_abg_kfb',
+                  'zve_abg_nokfb', 'gross_e5']
+    df = pd.read_excel('tests/test_data/test_dfs_tax_sched.xlsx')
+    df = df[df['year'] == year]
+    df = df[input_cols]
+    print(df)
+    return df
+
+
+def load_tax_sched_output_data(year):
+    columns = ['tax_nokfb', 'tax_kfb', 'tax_abg_nokfb', 'tax_abg_kfb']
+    df = pd.read_excel('tests/test_data/test_dfs_tax_sched.xlsx')
+    df = df[df['year'] == year]
+    return df[columns]
+
+years = [2009, 2012, 2015, 2018]
+
+
+@pytest.mark.parametrize('year', years)
+def test_tax_sched(year):
+    columns = ['zve_nokfb', 'zve_kfb', 'zve_abg_nokfb', 'zve_abg_kfb']
+    df = load_tax_sched_input_data(year)
+    tb = load_tb(year)
+    calculated = tax_sched(df, tb, year)[columns]
+    expected = load_zve_output_data(year)
+    print('calculated: \n', calculated, '\n\n')
+    print('expected: \n', expected)
     assert_frame_equal(calculated, expected)
 
