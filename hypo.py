@@ -262,17 +262,14 @@ def hypo_graphs(df, settings):
     # df = taxout_hypo.copy()
     df = df.sort_values(by=['typ_bud', 'y_wage'])
 
-    # create writer for excel
-    hypo_writer = pd.ExcelWriter(settings['DATA_PATH'] + 'check_hypo.xlsx')
-
     out_vars = ['typ_bud', 'female', 'age', 'head', 'child', 'y_wage',
                 'm_wage', 'w_hours', 'dpi', 'm_alg2', 'wohngeld', 'kiz',
-                'kindergeld', 'svbeit', 'incometax', 'soli',
+                'kindergeld', 'kindergeld_hh', 'svbeit', 'incometax', 'soli',
                 'incometax_tu', 'soli_tu', 'miete', 'heizkost']
 
     for typ in [11, 22, 24, 31, 32]:
-        df.loc[(df['typ_bud'] == typ) & df['head']].to_excel(
-            hypo_writer,
+        df.loc[(df['typ_bud'] == typ)].to_excel(
+            settings['DATA_PATH'] + 'check_hypo.xlsx',
             sheet_name='typ_{}'.format(typ),
             columns=out_vars,
             na_rep='NaN',
@@ -293,33 +290,29 @@ def hypo_graphs(df, settings):
         'y_wage',
         'm_wage',
         'dpi',
-        'kindergeld',
+        'kindergeld_hh',
         'm_alg2',
         'kiz',
         'wohngeld',
-        'soli',
+        'soli_tu',
         'svbeit',
-        'incometax',
+        'incometax_tu',
         'typ_bud'
     ]
 
     lego = df.loc[df['head'] == True, lego_vars]
-
-    #lego['net_l'] = (lego['m_wage'] - lego['svbeit'] - lego['incometax'] - lego['soli'])
-    #lego['cb_l'] = lego['net_l'] + lego['kindergeld']
-    #lego['ub_l'] = lego['cb_l'] + lego['m_alg2']
-    #lego['hb_l'] = lego['ub_l'] + lego['wohngeld']
-    #lego['kiz_l'] = lego['hb_l'] + lego['kiz']
-
-    lego['net_l'] = lego['m_wage'] - lego['svbeit'] - lego['incometax'] - lego['soli']
-    lego['cb_l'] = lego['kindergeld']
+    # Für Doppelverdiener müssten auch m_wage und svbeit auf HH-Ebene sein.
+    lego['net_l'] = (lego['m_wage'] - lego['svbeit'] -
+                     lego['incometax_tu'] - lego['soli_tu']
+                     )
+    lego['cb_l'] = lego['kindergeld_hh']
     lego['ub_l'] = lego['m_alg2']
     lego['hb_l'] = lego['wohngeld']
     lego['kiz_l'] = lego['kiz']
 
     lego['sic_l'] = lego['svbeit'] * (-1)
     #lego['tax_l'] = lego['sic_l'] - lego['incometax']
-    lego['tax_l'] = (lego['incometax'] + lego['soli']) * (-1)
+    lego['tax_l'] = (lego['incometax_tu'] + lego['soli_tu']) * (-1)
     lego['dpi_l'] = lego['dpi']
 
     # GRAPH SETTINGS
@@ -344,10 +337,10 @@ def hypo_graphs(df, settings):
 
         # Lego Plots...buggy
         plt.clf()
+        fig = plt.figure(figsize = (10, 5))
         ax = plt.axes()
 
         p = lego.loc[(lego['typ_bud'] == t) & (lego['m_wage'] <= (maxinc / 12))]
-
         labels = {
             'sic_l': 'SIC',
             'tax_l': 'PIT',
@@ -359,12 +352,12 @@ def hypo_graphs(df, settings):
         }
 
         colors = {
-            'sic_l': 'red',
-            'tax_l': 'blue',
-            'net_l': 'gray',
+            'sic_l': 'orangered',
+            'tax_l': 'royalblue',
+            'net_l': 'darkcyan',
             'cb_l': 'magenta',
-            'ub_l': 'lightseagreen',
-            'hb_l': 'orange',
+            'ub_l': 'gold',
+            'hb_l': 'purple',
             'kiz_l': 'yellowgreen'
         }
 
@@ -454,7 +447,7 @@ def hypo_graphs(df, settings):
         plt.ylabel("Disp. monthly income (€)")
         plt.xlabel("Gross monthly income (€)")
 
-        plt.ylim(-4000, 9000)
+        plt.ylim(p['dpi'].max() * (-0.5), p['dpi'].max() * 1.1)
         plt.xlim(0, 9000)
 
         types = {
@@ -483,7 +476,7 @@ def hypo_graphs(df, settings):
             ncol=ncol
         )
 
-        plt.savefig('{}hypo/lego_{}.pdf'.format(
+        plt.savefig('{}hypo/lego_{}.png'.format(
             settings['GRAPH_PATH'],
             t
             )
