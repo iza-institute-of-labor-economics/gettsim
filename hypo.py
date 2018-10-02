@@ -7,6 +7,28 @@ Created on Fri Jun 15 14:36:30 2018
 from imports import *
 from tax_transfer import *
 
+import itertools
+
+
+def flip(items, ncol):
+    """Fill columns of legend first, then rows.
+    """
+    return list(itertools.chain(*[items[i::ncol] for i in range(ncol)]))
+
+
+def get_lego_lists(lego_vars, colors, labels, spec):
+
+    var_list = lego_vars[spec]
+    color_list = []
+    label_list = []
+
+    for var in var_list:
+        color_list.append(colors[var])
+        label_list.append(labels[var])
+
+    return var_list, color_list, label_list
+
+
 def create_hypo_data(data_path, settings, tb):
     '''
     builds a dataset identical to original SOEP output,
@@ -24,57 +46,57 @@ def create_hypo_data(data_path, settings, tb):
 
     # take original data for congruence.
     #df = pd.read_pickle(data_path + 'SOEP/taxben_input_2016')
-    columns = ['hid', 'pid', 'syear', 'marstat', 'stell', 'hhsize',
-               'laborinc', 'assetinc', 'imp_rent', 'sose_pension',
-               'laborinc_ind', 'retirement', 'hweight', 'pweight',
-               'm_self', 'divdy', 'alg2', 'tenure', 'pgemplst',
-               'expft', 'exppt', 'expue', 'pnr', 'sample1', 'plb0021',
-               'comm_freq', 'comm_dist', 'plc0131', 'alg_m_l1', 'alg_l1',
-               'handcap_degree', 'ple0097', 'partner_id', 'D_alg_current',
-               'months_ft', 'months_pt', 'months_ue', 'months_pen',
-               'months_mj', 'lb0285', 'k_rel', 'k_nrinhh', 'k_inco',
-               'k_pmum', 'algII_m_l1', 'algII_l1', 'wgeld_m_l1', 'wgeld_l1',
-               'zinszahl', 'D_kiz_current', 'D_sozh_current', 'D_wg_current',
-               'D_alg2_current', 'bula', 'hgtyp1hh', 'counter',
-               'kinderdaten', 'age', 'byear', 'female', 'foreigner',
-               'pensioner', 'ineducation', 'military', 'parentalleave',
-               'civilservant', 'pubsector', 'selfemployed', 'renteneintritt',
-               'east', 'head', 'spouse', 'child', 'othmem', 'head_num',
-               'main_unit', 'old_dummy', 'old_dummy_sum', 'single_unit',
-               'couple_unit', 'new_unit', 'n', 'new_unit_id', 'tu_id',
-               'head_tu', 'hhsize_tu', 'child0_1_num', 'child1_2_num',
-               'child2_num', 'child2_3_num', 'child3_6_num', 'child6_num',
-               'child7_16_num', 'child7_11_num', 'child7_13_num',
-               'child11_num', 'child12_15_num', 'child14_17_num',
-               'child14_24_num', 'child14_num', 'child15_num', 'child18_num',
-               'child0_1_num_tu', 'child1_2_num_tu', 'child2_num_tu',
-               'child2_3_num_tu', 'child3_6_num_tu', 'child6_num_tu',
-               'child7_16_num_tu', 'child7_11_num_tu', 'child7_13_num_tu',
-               'child11_num_tu', 'child12_15_num_tu', 'child14_17_num_tu',
-               'child14_24_num_tu', 'child14_num_tu', 'child15_num_tu',
-               'child18_num_tu', 'child_num_tu', 'child_num', 'adult_num',
-               'adult_num_tu', 'hh_korr', 'haskids', 'handcap_dummy',
-               'qualification', 'unskilled', 'university', 'hhtyp',
-               'alleinerz', 'couple', 'transfers', 'alg_soep', 'months',
-               'pensions', 'm_pensions', 'm_transfers', 'childinc',
-               'm_kapinc', 'm_vermiet', 'm_imputedrent', 'm_kapinc_tu', 
-               'm_vermiet_tu', 'm_imputedrent_tu', 'versbez', 'welfare',
-               'w_hours', 'm_wage', 'othwage_ly', 'm_wage_l1', 'months_l1',
-               'months_ue_l1', 'm_wage_l2', 'months_l2', 'wgeld_l2', 
-               'wgeld_m_l2', 'alg_l2', 'alg_m_l2', 'months_ue_l2', 'h_wage',
-               'work_dummy', 'missing_wage', 'age2', 'age3', 'married', 
-               'ln_wage', 'exper', 'exper2', 'expue2', 'tenure2', 'heck_wage',
-               'h_wage_pred', 'pkv', 'eigentum', 'hgsize_mean', 'wohnfl',
-               'baujahr', 'cnstyr', 'kaltmiete', 'heizkost', 'kapdienst',
-               'miete', 'zveranl'
+    columns = [
+        'hid', 'pid', 'syear', 'marstat', 'stell', 'hhsize',
+        'laborinc', 'assetinc', 'imp_rent', 'sose_pension',
+        'laborinc_ind', 'retirement', 'hweight', 'pweight',
+        'm_self', 'divdy', 'alg2', 'tenure', 'pgemplst',
+        'expft', 'exppt', 'expue', 'pnr', 'sample1', 'plb0021',
+        'comm_freq', 'comm_dist', 'plc0131', 'alg_m_l1', 'alg_l1',
+        'handcap_degree', 'ple0097', 'partner_id', 'D_alg_current',
+        'months_ft', 'months_pt', 'months_ue', 'months_pen',
+        'months_mj', 'lb0285', 'k_rel', 'k_nrinhh', 'k_inco',
+        'k_pmum', 'algII_m_l1', 'algII_l1', 'wgeld_m_l1', 'wgeld_l1',
+        'zinszahl', 'D_kiz_current', 'D_sozh_current', 'D_wg_current',
+        'D_alg2_current', 'bula', 'hgtyp1hh', 'counter',
+        'kinderdaten', 'age', 'byear', 'female', 'foreigner',
+        'pensioner', 'ineducation', 'military', 'parentalleave',
+        'civilservant', 'pubsector', 'selfemployed', 'renteneintritt',
+        'east', 'head', 'spouse', 'child', 'othmem', 'head_num',
+        'main_unit', 'old_dummy', 'old_dummy_sum', 'single_unit',
+        'couple_unit', 'new_unit', 'n', 'new_unit_id', 'tu_id',
+        'head_tu', 'hhsize_tu', 'child0_1_num', 'child1_2_num',
+        'child2_num', 'child2_3_num', 'child3_6_num', 'child6_num',
+        'child7_16_num', 'child7_11_num', 'child7_13_num',
+        'child11_num', 'child12_15_num', 'child14_17_num',
+        'child14_24_num', 'child14_num', 'child15_num', 'child18_num',
+        'child0_1_num_tu', 'child1_2_num_tu', 'child2_num_tu',
+        'child2_3_num_tu', 'child3_6_num_tu', 'child6_num_tu',
+        'child7_16_num_tu', 'child7_11_num_tu', 'child7_13_num_tu',
+        'child11_num_tu', 'child12_15_num_tu', 'child14_17_num_tu',
+        'child14_24_num_tu', 'child14_num_tu', 'child15_num_tu',
+        'child18_num_tu', 'child_num_tu', 'child_num', 'adult_num',
+        'adult_num_tu', 'hh_korr', 'haskids', 'handcap_dummy',
+        'qualification', 'unskilled', 'university', 'hhtyp',
+        'alleinerz', 'couple', 'transfers', 'alg_soep', 'months',
+        'pensions', 'm_pensions', 'm_transfers', 'childinc',
+        'm_kapinc', 'm_vermiet', 'm_imputedrent', 'm_kapinc_tu',
+        'm_vermiet_tu', 'm_imputedrent_tu', 'versbez', 'welfare',
+        'w_hours', 'm_wage', 'othwage_ly', 'm_wage_l1', 'months_l1',
+        'months_ue_l1', 'm_wage_l2', 'months_l2', 'wgeld_l2',
+        'wgeld_m_l2', 'alg_l2', 'alg_m_l2', 'months_ue_l2', 'h_wage',
+        'work_dummy', 'missing_wage', 'age2', 'age3', 'married',
+        'ln_wage', 'exper', 'exper2', 'expue2', 'tenure2', 'heck_wage',
+        'h_wage_pred', 'pkv', 'eigentum', 'hgsize_mean', 'wohnfl',
+        'baujahr', 'cnstyr', 'kaltmiete', 'heizkost', 'kapdienst',
+        'miete', 'zveranl'
     ]
-    
+
     df = pd.DataFrame(columns=columns)
-        
+
     # drop all rows
     df = df.iloc[0:0]
-    
-    
+
     # append rows with zeros
     s2 = pd.Series(np.zeros(len(list(df))), index=list(df))
     for i in range(0, 5):
@@ -94,10 +116,10 @@ def create_hypo_data(data_path, settings, tb):
 
     df_typ3 = df[df['typ'] == 3]
     # Paare mit und ohne kinder
-    df = df.append([df_typ3]*7, ignore_index=True)
+    df = df.append([df_typ3] * 7, ignore_index=True)
 
     df = df.sort_values(by=['typ'])
-    df['n_typ'] = df.groupby(['typ']).cumcount()+1
+    df['n_typ'] = df.groupby(['typ']).cumcount() + 1
 
     df.loc[df['typ'] == 1, 'typ_bud'] = 11
     df.loc[df['typ'] == 2, 'typ_bud'] = 20 + 2 * df['n_typ']
@@ -123,14 +145,13 @@ def create_hypo_data(data_path, settings, tb):
     df = df.sort_values(by=['typ_bud', 'y_wage'])
     df['female'] = (df.groupby(['typ_bud', 'y_wage']).cumcount()) > 0
 
-
     # 'produziere' Kinder...klone hid etc. von Erwachsenen und manipuliere Alter.
     # Dann wieder dranmergen
 
     kids = df[df['typ_bud'].isin([22, 24, 32, 34, 36, 38])
               & (df['y_wage'] == 0)]
 
-    kids = kids.append([kids]*500, ignore_index=True)
+    kids = kids.append([kids] * 500, ignore_index=True)
     kids = kids.sort_values(by=['typ_bud'])
     kids['n_typ_bud'] = kids.groupby(['typ_bud']).cumcount()
     kids['y_wage'] = kids['n_typ_bud'] * wagestep
@@ -168,12 +189,13 @@ def create_hypo_data(data_path, settings, tb):
 
     df['child3_6_num'] = 1 * ((df['typ_bud'] % 2) == 0)
     for var in ['7_11', '7_13', '7_16', '12_15']:
-        df['child'+var+'_num'] = (1 * (df['typ_bud'] >= 24)
-                                  * (df['typ_bud'] % 2 == 0))
+        df['child' + var + '_num'] = (1 * (df['typ_bud'] >= 24)
+                                      * (df['typ_bud'] % 2 == 0))
 
     df['child6'] = df['child3_6_num']
     for var in ['11', '15', '18', '']:
-        df['child'+var+'_num'] = df['child3_6_num'] + df['child7_16_num']
+        df['child{}_num'.format(var)] = df[
+            'child3_6_num'] + df['child7_16_num']
 
     # Erster Mann ist immer Head, der Rest sind Frauen und Mädchen
     df['head'] = ~df['female']
@@ -190,7 +212,7 @@ def create_hypo_data(data_path, settings, tb):
               'child15', 'child18', 'child', 'adult']
 
     for var in tuvars:
-        df[var+'num_tu'] = df[var+'_num']
+        df['{}num_tu'.format(var)] = df['{}_num'.format(var)]
 
     # Household types
     df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] == 0), 'hhtyp'] = 1
@@ -226,7 +248,7 @@ def create_hypo_data(data_path, settings, tb):
     df = df.sort_values(by=['typ_bud', 'y_wage', 'female'])
     df = df.dropna(subset=['typ_bud'])
     # Drop Doppeltverdiener for the moment.
-    df = df[df['typ_bud'] < 33]
+    df = df.query('typ_bud < 33')
 
     return df
 
@@ -239,36 +261,61 @@ def hypo_graphs(df, settings):
     # keep only those that get earnings
     # df = taxout_hypo.copy()
     df = df.sort_values(by=['typ_bud', 'y_wage'])
+
     # create writer for excel
     hypo_writer = pd.ExcelWriter(settings['DATA_PATH'] + 'check_hypo.xlsx')
+
     out_vars = ['typ_bud', 'female', 'age', 'head', 'child', 'y_wage',
                 'm_wage', 'w_hours', 'dpi', 'm_alg2', 'wohngeld', 'kiz',
                 'kindergeld', 'svbeit', 'incometax', 'soli',
                 'incometax_tu', 'soli_tu', 'miete', 'heizkost']
+
     for typ in [11, 22, 24, 31, 32]:
-        df[(df['typ_bud'] == typ)
-           & df['head']].to_excel(hypo_writer,
-                                  sheet_name='typ_' + str(typ),
-                                  columns=out_vars, na_rep='NaN',
-                                  freeze_panes=(1, 0))
+        df.loc[(df['typ_bud'] == typ) & df['head']].to_excel(
+            hypo_writer,
+            sheet_name='typ_{}'.format(typ),
+            columns=out_vars,
+            na_rep='NaN',
+            freeze_panes=(1, 0)
+        )
 
     # graph it
     # data set with heads only
-    h = df[df['head']]
+    h = df.loc[df['head'] == True]
+
     h = h.sort_values(by=['typ_bud', 'y_wage'])
     h['emtr'] = 100 * np.minimum((1 - (h['dpi'] - h['dpi'].shift(1))
-                 / (h['m_wage'] - h['m_wage'].shift(1))),1.2)
+                                  / (h['m_wage'] - h['m_wage'].shift(1))), 1.2)
+
     h.loc[h['emtr'] < -1, 'emtr'] = np.nan
 
-    lego = df[['y_wage', 'm_wage', 'dpi', 'kindergeld',
-               'm_alg2', 'kiz', 'wohngeld', 'soli',
-               'svbeit', 'incometax', 'typ_bud']][df['head']]
-    lego['net_l'] = (lego['m_wage'] - lego['svbeit']
-                     - lego['incometax'] - lego['soli'])
-    lego['cb_l'] = lego['net_l'] + lego['kindergeld']
-    lego['ub_l'] = lego['cb_l'] + lego['m_alg2']
-    lego['hb_l'] = lego['ub_l'] + lego['wohngeld']
-    lego['kiz_l'] = lego['hb_l'] + lego['kiz']
+    lego_vars = [
+        'y_wage',
+        'm_wage',
+        'dpi',
+        'kindergeld',
+        'm_alg2',
+        'kiz',
+        'wohngeld',
+        'soli',
+        'svbeit',
+        'incometax',
+        'typ_bud'
+    ]
+
+    lego = df.loc[df['head'] == True, lego_vars]
+
+    #lego['net_l'] = (lego['m_wage'] - lego['svbeit'] - lego['incometax'] - lego['soli'])
+    #lego['cb_l'] = lego['net_l'] + lego['kindergeld']
+    #lego['ub_l'] = lego['cb_l'] + lego['m_alg2']
+    #lego['hb_l'] = lego['ub_l'] + lego['wohngeld']
+    #lego['kiz_l'] = lego['hb_l'] + lego['kiz']
+
+    lego['net_l'] = lego['m_wage'] - lego['svbeit'] - lego['incometax'] - lego['soli']
+    lego['cb_l'] = lego['kindergeld']
+    lego['ub_l'] = lego['m_alg2']
+    lego['hb_l'] = lego['wohngeld']
+    lego['kiz_l'] = lego['kiz']
 
     lego['sic_l'] = lego['svbeit'] * (-1)
     #lego['tax_l'] = lego['sic_l'] - lego['incometax']
@@ -281,30 +328,167 @@ def hypo_graphs(df, settings):
 
     for t in [11, 22, 24, 31, 32]:
         plt.clf()
-        ax = h[(h['typ_bud'] == t)
-               & (h['y_wage'] <= maxinc)].plot.line(x='m_wage', y='emtr')
-        fig = ax.get_figure()
-        fig.savefig(settings['GRAPH_PATH'] + 'hypo/emtr_'
-                                           + str(t) + '.png')
+
+        ax = plt.axes()
+
+        ax.plot(
+            h.loc[(h['typ_bud'] == t) & (h['y_wage'] <= maxinc), 'm_wage'],
+            h.loc[(h['typ_bud'] == t) & (h['y_wage'] <= maxinc), 'emtr']
+        )
+
+        plt.savefig('{}hypo/emtr_{}.pdf'.format(
+            settings['GRAPH_PATH'],
+            t
+        )
+        )
 
         # Lego Plots...buggy
-        '''
         plt.clf()
-        p = lego[(lego['typ_bud'] == t) & (lego['m_wage'] <= (maxinc / 12))]
-        if t in [11, 31]:
-            lego_vars = p[['tax_l', 'sic_l', 'wohngeld', 'm_alg2', 'net_l']]
-            #lego_vars = p[['tax_l', 'sic_l', 'hb_l', 'net_l']]
-            lego_lab = ['PIT', 'SIC', 'HB', 'ALG2', 'NetInc']
-        else:
-            lego_vars = p[['tax_l', 'sic_l', 'kiz_l',
-                           'hb_l', 'cb_l', 'ub_l', 'net_l']]
-            lego_lab = ['PIT', 'SIC', 'KiZ', 'HB', 'ChBen', 'ALG2', 'NetInc']
+        ax = plt.axes()
 
-        fig, ax = plt.subplots()
-        ax.stackplot(p['m_wage'], lego_vars.T, labels=lego_lab)
-        ax.legend(loc=0)
-        fig.savefig(settings['GRAPH_PATH'] + 'hypo/lego_')
-        '''
+        p = lego.loc[(lego['typ_bud'] == t) & (lego['m_wage'] <= (maxinc / 12))]
+
+        labels = {
+            'sic_l': 'SIC',
+            'tax_l': 'PIT',
+            'net_l': 'NetInc',
+            'cb_l': 'ChBen',
+            'ub_l': 'ALG2',
+            'hb_l': 'HB',
+            'kiz_l': 'KiZ'
+        }
+
+        colors = {
+            'sic_l': 'red',
+            'tax_l': 'blue',
+            'net_l': 'gray',
+            'cb_l': 'magenta',
+            'ub_l': 'lightseagreen',
+            'hb_l': 'orange',
+            'kiz_l': 'yellowgreen'
+        }
+
+        if t in [11, 31]:
+
+            lego_vars = {
+                'minus':
+                    [
+                        'sic_l',
+                        'tax_l'
+                    ],
+                'plus':
+                    [
+                        'net_l',
+                        'hb_l',
+                        'ub_l'
+                    ]
+            }
+
+            lego_vars_neg, lego_colors_neg, lego_labels_neg = get_lego_lists(
+                lego_vars,
+                colors,
+                labels,
+                'minus'
+            )
+
+            lego_vars_pos, lego_colors_pos, lego_labels_pos = get_lego_lists(
+                lego_vars,
+                colors,
+                labels,
+                'plus'
+            )
+
+        else:
+
+            lego_vars = {
+                'minus':
+                    [
+                        'sic_l',
+                        'tax_l'
+                    ],
+                'plus':
+                    [
+                        'net_l',
+                        'cb_l',
+                        'ub_l',
+                        'hb_l',
+                        'kiz_l'
+                    ]
+            }
+
+            lego_vars_neg, lego_colors_neg, lego_labels_neg = get_lego_lists(
+                lego_vars,
+                colors,
+                labels,
+                'minus'
+            )
+
+            lego_vars_pos, lego_colors_pos, lego_labels_pos = get_lego_lists(
+                lego_vars,
+                colors,
+                labels,
+                'plus'
+            )
+
+        ax.stackplot(
+            p['m_wage'],
+            p[lego_vars_neg].T,
+            labels=lego_labels_neg,
+            colors=lego_colors_neg
+        )
+
+        ax.stackplot(
+            p['m_wage'],
+            p[lego_vars_pos].T,
+            labels=lego_labels_pos,
+            colors=lego_colors_pos
+        )
+
+        ax.plot(
+            p['m_wage'],
+            p['dpi_l'],
+            label='DPI',
+            color='black'
+        )
+
+        plt.ylabel("Disp. monthly income (€)")
+        plt.xlabel("Gross monthly income (€)")
+
+        plt.ylim(-4000, 9000)
+        plt.xlim(0, 9000)
+
+        types = {
+            11: "Single, keine Kinder",
+            22: "Alleinerziehend, ein Kind (3 Jahre)",
+            24: "Alleinerziehend, zwei Kinder (3 und 8 Jahre)",
+            31: "Paar, Alleinverdiener HH, keine Kinder",
+            32: "Paar, Alleinverdiener HH, zwei Kinder"
+        }
+
+        plt.title(types[t])
+
+        box = ax.get_position()
+        ax.set_position([box.x0, box.y0 + box.height * 0.2,
+                         1.05 * box.width, 1.05 * (box.height * 0.85)])
+
+        handles, labels = ax.get_legend_handles_labels()
+
+        ncol = 4
+        leg = ax.legend(
+            flip(handles, ncol),
+            flip(labels, ncol),
+            loc="upper center",
+            fontsize="medium",
+            bbox_to_anchor=(0.48, -0.15),
+            ncol=ncol
+        )
+
+        plt.savefig('{}hypo/lego_{}.pdf'.format(
+            settings['GRAPH_PATH'],
+            t
+            )
+        )
+
 
 def hypo_analysis(data_path, settings, tb):
     """
@@ -316,11 +500,12 @@ def hypo_analysis(data_path, settings, tb):
     df = create_hypo_data(data_path, settings, tb)
 
     # run them through tax_transfer
-    taxout_hypo = tax_transfer(df,
-                               settings['taxyear'],
-                               settings['taxyear'],
-                               tb,
-                               hyporun=True)
+    taxout_hypo = tax_transfer(
+        df,
+        settings['taxyear'],
+        settings['taxyear'],
+        tb,
+        hyporun=True
+    )
     # run graphs
     hypo_graphs(taxout_hypo, settings)
-
