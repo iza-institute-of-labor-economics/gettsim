@@ -213,12 +213,12 @@ years = [2009, 2012, 2015, 2018]
 
 @pytest.mark.parametrize('year', years)
 def test_tax_sched(year):
-    columns = ['zve_nokfb', 'zve_kfb', 'zve_abg_nokfb', 'zve_abg_kfb']
+    columns = ['tax_nokfb', 'tax_kfb', 'tax_abg_nokfb', 'tax_abg_kfb']
     df = load_tax_sched_input_data(year)
     tb = load_tb(year)
     tb['yr'] = year
     calculated = tax_sched(df, tb, year)[columns]
-    expected = load_zve_output_data(year)
+    expected = load_tax_sched_output_data(year)
     print('calculated: \n', calculated, '\n\n')
     print('expected: \n', expected)
     assert_frame_equal(calculated, expected)
