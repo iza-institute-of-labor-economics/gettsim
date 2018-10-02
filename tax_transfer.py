@@ -688,7 +688,7 @@ def zve(df, tb, yr):
     df.loc[df['renteneintritt'] >= 2041, 'ertragsanteil'] = 1
 
     # Werbungskosten und Sonderausgaben
-    zve['werbung'] = tb['werbung'] * df['m_wage'] > 0 * ~df['child']
+    zve['werbung'] = tb['werbung'] * (df['m_wage'] > 0) * (~df['child'])
     zve['sonder'] = (~df['child']) * tb['sonder']
     ####################################################
     # Income components on annual basis
@@ -697,7 +697,7 @@ def zve(df, tb, yr):
     # Earnings
     zve['gross_e4'] = np.maximum((12 * df['m_wage']) - zve['werbung'], 0)
     # Minijob-Grenze beachten
-    df.loc[df['m_wage'] <= np.select(westost,
+    zve.loc[df['m_wage'] <= np.select(westost,
                                      [tb['mini_grenzew'],
                                       tb['mini_grenzeo']]),
            'gross_e4'] = 0

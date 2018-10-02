@@ -192,7 +192,7 @@ def test_zve(year):
     tb['ch_allow'] = tb['kifreib']
     calculated = zve(df, tb, year)[columns]
     expected = load_zve_output_data(year)
-    print(calculated.to_frame(), '\n')
-    print(expected.to_frame(), '\n\n')
+    print(calculated, '\n')
+    print(expected, '\n\n')
     assert_frame_equal(calculated, expected)
 
