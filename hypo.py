@@ -377,20 +377,6 @@ def hypo_graphs(df, settings):
                     ]
             }
 
-            lego_vars_neg, lego_colors_neg, lego_labels_neg = get_lego_lists(
-                lego_vars,
-                colors,
-                labels,
-                'minus'
-            )
-
-            lego_vars_pos, lego_colors_pos, lego_labels_pos = get_lego_lists(
-                lego_vars,
-                colors,
-                labels,
-                'plus'
-            )
-
         else:
 
             lego_vars = {
@@ -409,33 +395,20 @@ def hypo_graphs(df, settings):
                     ]
             }
 
-            lego_vars_neg, lego_colors_neg, lego_labels_neg = get_lego_lists(
+        for part in ['plus', 'minus']:
+            lego_areas, lego_colors, lego_labels = get_lego_lists(
                 lego_vars,
                 colors,
                 labels,
-                'minus'
+                part
             )
 
-            lego_vars_pos, lego_colors_pos, lego_labels_pos = get_lego_lists(
-                lego_vars,
-                colors,
-                labels,
-                'plus'
+            ax.stackplot(
+                p['m_wage'],
+                p[lego_areas].T,
+                labels=lego_labels,
+                colors=lego_colors
             )
-
-        ax.stackplot(
-            p['m_wage'],
-            p[lego_vars_neg].T,
-            labels=lego_labels_neg,
-            colors=lego_colors_neg
-        )
-
-        ax.stackplot(
-            p['m_wage'],
-            p[lego_vars_pos].T,
-            labels=lego_labels_pos,
-            colors=lego_colors_pos
-        )
 
         ax.plot(
             p['m_wage'],
