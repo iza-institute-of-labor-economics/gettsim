@@ -6,6 +6,7 @@ Eric Sommer, 2018
 """
 from imports import aggr, gini
 from termcolor import colored, cprint
+from settings import get_settings
 
 import pandas as pd
 import numpy as np
@@ -60,7 +61,6 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens = [], mw = [], hyporun=False
     df['m_alg1'] = ui(df, tb, taxyear)
 
     # Pension benefits
-    print(hyporun)
     if hyporun is False:
         df['pen_sim'] = pensions(df, tb, tb_pens, mw, taxyear)
 
@@ -754,51 +754,45 @@ def zve(df, tb, yr):
     # but they'd need to be implemented if earlier years are modelled.
     # Vorsorgeaufwendungen until 2004
     # TODO
-    # Vorsorgeaufwendungen since 2005
-    # TODO
     # Vorsorgeaufwendungen since 2010
     # § 10 (3) EStG
     # The share of deductable pension contributions increases each year by 2 pp.
     # ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
     # 4% from health contributions are not deductable
-    # The regular maximum amount of deductions is 2800€ per taxpayer
 
     # only deduct pension contributions up to the ceiling. for couples, it's an approximation.
     zve['rvbeit_vors'] = np.minimum(df['rvbeit'],
-                                    np.select(westost,
+                                    tb['grvbs'] * np.select(westost,
                                               [tb['rvmaxekw'], tb['rvmaxeko']])
                                     )
     zve['rvbeit_tu_vors'] = np.minimum(zve['rvbeit_tu'],
-                                       2 * np.select(westost,
+                                       2 * tb['grvbs'] * np.select(westost,
                                                      [tb['rvmaxekw'], tb['rvmaxeko']])
                                        )
-    # For couples, give everybody half the total deduction. (maybe improve this))
-    vorsorg2010_married = (
-            0.5 * (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) *
-            (12 * zve['rvbeit_tu_vors']) + np.minimum(2 * 2800,
+    # For couples where both are working, give everybody half the total deduction.
+    '''
+    vorsorg2010_married = ~df['child'] * (
+           1/df['worker_sum'] * (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) *
+           (12 * zve['rvbeit_tu_vors']) + np.minimum(df['worker_sum'] * 2800,
                                                       12 * (zve['pvbeit_tu'] +
                                                             zve['avbeit_tu'] +
                                                             0.96 * zve['gkvbeit_tu'])
                                                       )
-            )
-
-    vorsorg2010_single = ((0.6 +
+                                          )
+    '''
+    zve['vorsorge2010'] = ~df['child'] * ((0.6 +
                            0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) +
-                          np.minimum(2800,
                                      12 * (df['pvbeit'] +
                                            df['avbeit'] +
                                            0.96 * df['gkvbeit'])
-                                     )
-                          )
+                                          )
 
-    zve['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
+    # zve['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
 
     # TO DO: check various deductions against each other (when modelled)
     zve['vorsorge'] = zve['vorsorge2010']
-    zve['vorsorge_tu'] = aggr(zve, 'vorsorge')
-
-    print('vorsorge: \n', zve['vorsorge'])
-    print('gross_gde: \n', zve['gross_gde'])
+    # Summing up not necessary! they already got half
+    zve['vorsorge_tu'] = aggr(zve, 'vorsorge', False)
 
     # Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
@@ -812,7 +806,7 @@ def zve(df, tb, yr):
                                                ),
                                          tb['altenth']
                                                      )
-    zve['altfreib_tu'] = aggr(zve, 'altfreib')
+    zve['altfreib_tu'] = aggr(zve, 'altfreib', False)
     # Entlastungsbetrag für Alleinerziehende. Deduction for Single Parents.
     # Used to be called 'Haushaltsfreibetrag'
     zve['hhfreib'] = 0
@@ -870,12 +864,10 @@ def zve(df, tb, yr):
         zve['altfreib_tu']
     )
 
-    print('max: \n', np.maximum(0, zve['gross_e5_tu'] - 2 * tb['spsparf'] - 2 * tb['spwerbz']))
     # Subtract Child allowance to get alternative taxable incomes
     zve['zve_kfb'] = np.maximum(zve['zve_nokfb'] - zve['kifreib'], 0)
     zve['zve_abg_kfb'] = np.maximum(zve['zve_abg_nokfb'] - zve['kifreib'], 0)
 
-    print(zve['gross_e5_tu'])
     return zve[['zve_nokfb', 'zve_abg_nokfb', 'zve_kfb', 'zve_abg_kfb', 'kifreib',
                 'gross_e1', 'gross_e4', 'gross_e5', 'gross_e6', 'gross_e7',
                 'gross_e1_tu', 'gross_e4_tu', 'gross_e5_tu', 'gross_e6_tu', 'gross_e7_tu',
@@ -1285,7 +1277,8 @@ def wg(df, tb, yr):
     wg = wg.join(wg.groupby(['hid'])['wg_head'].sum(),
                  on=['hid'], how='left', rsuffix='_hh')
     wg = wg.rename(columns={'wg_head_hh': 'wohngeld_basis_hh'})
-
+    df['hhsize_tu'].describe()
+    wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return wg[['wohngeld_basis', 'wohngeld_basis_hh', 'gkvbeit_tu_k', 'rvbeit_tu_k']]
 
 
@@ -1302,14 +1295,18 @@ def alg2(df, tb, yr):
     alg2['hid'] = df['hid']
     alg2['tu_id'] = df['tu_id']
     # Additional need for single parents
+    # Maximum 60% of the standard amount on top (a2zu2)
+    # if you have at least one kid below 6 or two or three below 15, you 36%
+    # alternatively, you get 12% per kid, depending on what's higher.
     alg2['mehrbed'] = (df['alleinerz'] *
                        np.minimum(tb['a2zu2']/100,
                                   np.maximum(tb['a2mbch1'] * df['child_num'],
-                                             ((df['child6_num'] == 1)
+                                             ((df['child6_num'] >= 1)
                                              | (df['child15_num'].between(2, 3))) *
                                              tb['a2mbch2'])
                                   )
                        )
+
 
     # 'Regular Need'
     # Different amounts by number of adults and age of kids
@@ -1347,7 +1344,11 @@ def alg2(df, tb, yr):
                             ]
 
     alg2['regelsatz'] = np.select([df['adult_num'] == 1, df['adult_num'] > 1], regelberechnung)
-
+    '''
+    print(pd.crosstab(alg2['mehrbed'], df['typ_bud']))
+    print(pd.crosstab(alg2['regelsatz'],  df['typ_bud']))
+    print(pd.crosstab(df['typ_bud'], df['child6_num']))
+    '''
     # alg2['regelsatz_tu_k'] = aggr(alg2, 'regelsatz', True)
     # Only 'appropriate' housing costs are paid. For simplicity apply Housing benefit rules
     # this might be overly restrictive...check number of benefit recipients.
@@ -1632,6 +1633,8 @@ def kiz(df, tb, yr):
     for v in ['base', 'wg', 'kiz', 'wgkiz']:
         kiz['fehlbedarf_'+v] = df['regelbedarf'] - kiz['ar_'+v+'_alg2_ek']
         kiz['m_alg2_'+v] = np.maximum(kiz['fehlbedarf_'+v], 0)
+
+
     # There is a rule which benefits are superior to others
     # If there is a positive ALG2 claim, but the need can be covered with
     # Housing Benefit (and possibly add. child benefit),

@@ -593,6 +593,11 @@ def preparedata(df):
                              [0, df['m_wage'] / (df['w_hours'] * 4.34)]
                              )
     # df.loc[df['h_wage'] > 0, 'h_wage'] = np.minimum(3, df['h_wage'])
+    df['worker'] = ~df['child'] * (df['m_wage'] > 0)
+    df = df.join(df.groupby(['syear', 'tu_id'])['worker'].sum(),
+                      on=['syear', 'tu_id'], how='left', rsuffix='_sum')
+
+
 
     #########################################
     # Heckman Imputation to assign non-workers an h_wage
