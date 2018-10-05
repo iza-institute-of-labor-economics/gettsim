@@ -192,7 +192,7 @@ def create_hypo_data(data_path, settings, tb):
         df['child' + var + '_num'] = (1 * (df['typ_bud'] >= 24)
                                       * (df['typ_bud'] % 2 == 0))
 
-    df['child6'] = df['child3_6_num']
+    df['child6_num'] = df['child3_6_num']
     for var in ['11', '15', '18', '']:
         df['child{}_num'.format(var)] = df[
             'child3_6_num'] + df['child7_16_num']
@@ -208,12 +208,13 @@ def create_hypo_data(data_path, settings, tb):
     print(pd.crosstab(df['typ_bud'], df['child_num']))
 
     tuvars = ['child3_6', 'child7_11', 'child7_13', 'child7_16',
-              'child12_15', 'child14_24', 'child2', 'child11',
-              'child15', 'child18', 'child', 'adult']
-
+              'child12_15', 'child14_24', 'child2', 'child6',
+              'child11', 'child15', 'child18', 'child']
     for var in tuvars:
         df['{}num_tu'.format(var)] = df['{}_num'.format(var)]
 
+    df['hhsize_tu'] = df['hhsize']
+    df['adult_num_tu'] = df['adult_num']
     # Household types
     df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] == 0), 'hhtyp'] = 1
     df.loc[(df['adult_num_tu'] == 1) & (df['child_num_tu'] > 0), 'hhtyp'] = 2
@@ -235,7 +236,11 @@ def create_hypo_data(data_path, settings, tb):
            'miete'] = 600 - df['heizkost']
 
     df['east'] = False
-    df['zveranl'] = df['typ_bud'] >= 30
+    df['zveranl'] = (df['typ_bud'] >= 30) * ~df['child']
+    df['worker'] = ~df['child'] * df['m_wage'] > 0
+    df['worker_sum'] = np.select([df['typ_bud'] <= 32, df['typ_bud'] > 32],
+                                 [1, 2]
+                                 )
     df['hh_korr'] = 1
 
     # Teile das Jahreseinkommen auf für Paare...
@@ -269,8 +274,7 @@ def hypo_graphs(df, settings):
 
     for typ in [11, 22, 24, 31, 32]:
         df.loc[(df['typ_bud'] == typ)].to_excel(
-            settings['DATA_PATH'] + 'check_hypo.xlsx',
-            sheet_name='typ_{}'.format(typ),
+            settings['DATA_PATH'] + 'check_hypo_' + str(typ) + '.xlsx',
             columns=out_vars,
             na_rep='NaN',
             freeze_panes=(1, 0)
@@ -278,9 +282,10 @@ def hypo_graphs(df, settings):
 
     # graph it
     # data set with heads only
-    h = df.loc[df['head'] == True]
+    h = df.loc[df['head']]
 
     h = h.sort_values(by=['typ_bud', 'y_wage'])
+    # Effective Marginal Tax Rate
     h['emtr'] = 100 * np.minimum((1 - (h['dpi'] - h['dpi'].shift(1))
                                   / (h['m_wage'] - h['m_wage'].shift(1))), 1.2)
 
@@ -301,7 +306,7 @@ def hypo_graphs(df, settings):
     ]
 
     lego = df.loc[df['head'] == True, lego_vars]
-    # Für Doppelverdiener müssten auch m_wage und svbeit auf HH-Ebene sein.
+    # Für Doppelverdiener-HH müssten auch m_wage und svbeit auf HH-Ebene sein.
     lego['net_l'] = (lego['m_wage'] - lego['svbeit'] -
                      lego['incometax_tu'] - lego['soli_tu']
                      )
@@ -317,7 +322,7 @@ def hypo_graphs(df, settings):
 
     # GRAPH SETTINGS
     # max yearly income to plot
-    maxinc = 100000
+    maxinc = 60000
 
     for t in [11, 22, 24, 31, 32]:
         plt.clf()
@@ -341,6 +346,7 @@ def hypo_graphs(df, settings):
         ax = plt.axes()
 
         p = lego.loc[(lego['typ_bud'] == t) & (lego['m_wage'] <= (maxinc / 12))]
+        p['taxes'] = p['tax_l'] + p['sic_l']
         labels = {
             'sic_l': 'SIC',
             'tax_l': 'PIT',
@@ -420,8 +426,8 @@ def hypo_graphs(df, settings):
         plt.ylabel("Disp. monthly income (€)")
         plt.xlabel("Gross monthly income (€)")
 
-        plt.ylim(p['dpi'].max() * (-0.5), p['dpi'].max() * 1.1)
-        plt.xlim(0, 9000)
+        plt.ylim(p['taxes'].min() * 1.1, p['dpi'].max() * 1.1)
+        plt.xlim(0, (maxinc/12))
 
         types = {
             11: "Single, keine Kinder",
@@ -473,5 +479,8 @@ def hypo_analysis(data_path, settings, tb):
         tb,
         hyporun=True
     )
+    # Export to check against Stata Output
+    taxout_hypo[taxout_hypo['head']].to_json(data_path + 'hypo/python_check.json')
+
     # run graphs
     hypo_graphs(taxout_hypo, settings)
