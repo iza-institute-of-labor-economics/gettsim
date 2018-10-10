@@ -2,7 +2,7 @@ import pytest
 from pandas import DataFrame, Series
 from pandas.testing import assert_series_equal, assert_frame_equal
 from tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
-from tax_transfer import tax_sched
+from tax_transfer import tax_sched, soli
 from itertools import product
 import pandas as pd
 
@@ -200,7 +200,6 @@ def load_tax_sched_input_data(year):
     df = pd.read_excel('tests/test_data/test_dfs_tax_sched.xlsx')
     df = df[df['year'] == year]
     df = df[input_cols]
-    print(df)
     return df
 
 
@@ -223,4 +222,39 @@ def test_tax_sched(year):
     expected = load_tax_sched_output_data(year)
     assert_frame_equal(calculated, expected, check_dtype=False,
                        check_exact=False, check_less_precise=0)
+
+# =============================================================================
+# test soli
+# =============================================================================
+
+
+def load_soli_input_data(year):
+    assert year in [2003, 2012, 2016, 2018]
+    input_cols = ['hid', 'tu_id', 'pid', 'zveranl', 'tax_kfb_tu',
+                  'tax_abg_kfb_tu', 'abgst_tu']
+    df = pd.read_excel('tests/test_data/test_dfs_soli.xlsx')
+    df = df[df['year'] == year]
+    df = df[input_cols]
+    print(df)
+    return df
+
+
+def load_soli_output_data(year):
+    columns = ['soli', 'soli_tu']
+    df = pd.read_excel('tests/test_data/test_dfs_soli.xlsx')
+    df = df[df['year'] == year]
+    return df[columns]
+
+
+years = [2003, 2012, 2016, 2018]
+
+
+@pytest.mark.parametrize('year', years)
+def test_soli(year):
+    columns = ['soli', 'soli_tu']
+    df = load_soli_input_data(year)
+    tb = load_tb(year)
+    calculated = soli(df, tb, year)[columns]
+    expected = load_soli_output_data(year)
+    assert_frame_equal(calculated, expected)
 
