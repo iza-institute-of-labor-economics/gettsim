@@ -2,7 +2,7 @@ import pytest
 from pandas import DataFrame, Series
 from pandas.testing import assert_series_equal, assert_frame_equal
 from tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
-from tax_transfer import tax_sched, soli
+from tax_transfer import tax_sched, soli, wg
 from itertools import product
 import pandas as pd
 
@@ -260,3 +260,44 @@ def test_soli(year):
     print('expected: \n', expected)
     assert_frame_equal(calculated, expected)
 
+# =============================================================================
+# test wg
+# =============================================================================
+
+
+def load_wg_input_data(year):
+    assert year in [2006, 2009, 2013, 2016]
+    input_cols = ['hid', 'tu_id', 'head_tu', 'hh_korr', 'hhsize', 'child',
+                  'miete', 'heizkost', 'alleinerz', 'child11_num_tu', 'cnstyr',
+                  'm_wage', 'm_pensions', 'ertragsanteil', 'm_alg1',
+                  'm_transfers', 'gross_e1', 'gross_e4', 'gross_e5',
+                  'gross_e6', 'incometax', 'rvbeit', 'gkvbeit',
+                  'handcap_degree', 'divdy', 'year', 'hhsize_tu']
+
+    df = pd.read_excel('tests/test_data/test_dfs_wg.xlsx')
+    df = df[df['year'] == year]
+    df = df[input_cols]
+    print(df)
+    return df
+
+
+def load_wg_output_data(year):
+    columns = ['wohngeld_basis_hh']
+    df = pd.read_excel('tests/test_data/test_dfs_wg.xlsx')
+    df = df[df['year'] == year]
+    return df[columns]
+
+
+years = [2006, 2009, 2013, 2016]
+
+
+@pytest.mark.parametrize('year', years)
+def test_wg(year):
+    columns = ['wohngeld_basis_hh']
+    df = load_wg_input_data(year)
+    tb = load_tb(year)
+    calculated = wg(df, tb, year)[columns]
+    expected = load_wg_output_data(year)
+    print('calculated: \n', calculated, '\n\n')
+    print('expected: \n', expected)
+    assert_frame_equal(calculated, expected)
