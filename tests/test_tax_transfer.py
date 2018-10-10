@@ -327,7 +327,7 @@ def load_alg2_input_data(year):
 
 
 def load_alg2_output_data(year):
-    columns = ['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'regelbedarf']
+    columns = ['ar_base_alg2_ek', 'ar_alg2_ek_hh']
     df = pd.read_excel('tests/test_data/test_dfs_alg2.xlsx')
     df = df[df['year'] == year]
     return df[columns]
@@ -338,7 +338,7 @@ years = [2006, 2009, 2011, 2013, 2016]
 
 @pytest.mark.parametrize('year', years)
 def test_alg2(year):
-    columns = ['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'regelbedarf']
+    columns = ['ar_base_alg2_ek', 'ar_alg2_ek_hh']
     df = load_alg2_input_data(year)
     tb = load_tb(year)
     calculated = alg2(df, tb, year)[columns]
