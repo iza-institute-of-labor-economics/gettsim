@@ -231,7 +231,7 @@ def test_tax_sched(year):
 def load_soli_input_data(year):
     assert year in [2003, 2012, 2016, 2018]
     input_cols = ['hid', 'tu_id', 'pid', 'zveranl', 'tax_kfb_tu',
-                  'tax_abg_kfb_tu', 'abgst_tu']
+                  'tax_abg_kfb_tu', 'abgst_tu', 'child', 'incometax_tu']
     df = pd.read_excel('tests/test_data/test_dfs_soli.xlsx')
     df = df[df['year'] == year]
     df = df[input_cols]
@@ -256,5 +256,7 @@ def test_soli(year):
     tb = load_tb(year)
     calculated = soli(df, tb, year)[columns]
     expected = load_soli_output_data(year)
+    print('calculated: \n', calculated, '\n\n')
+    print('expected: \n', expected)
     assert_frame_equal(calculated, expected)
 

@@ -764,7 +764,7 @@ def zve(df, tb, yr):
     zve['rvbeit_vors'] = np.minimum(df['rvbeit'],
                                     tb['grvbs'] * np.select(westost,
                                               [tb['rvmaxekw'], tb['rvmaxeko']])
-                                    )   
+                                    )
     zve['vorsorge2010'] = ~df['child'] * ((0.6 +
                            0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) +
                                      12 * (df['pvbeit'] +
@@ -1088,11 +1088,11 @@ def soli(df, tb, yr):
         if yr >= 2009:
             soli['solibasis'] = df['tax_kfb_tu'] + df['abgst_tu']
         else:
-            soli['solibasis'] = df['tax_kfb_tu']
+            soli['solibasis'] = df['tax_abg_kfb_tu']
         # Soli also in monthly terms. only for adults
         soli['soli_tu'] = (np.minimum(tb['solisatz'] * soli['solibasis'],
                                       np.maximum(0.2 * (soli['solibasis'] -
-                                                 tb['solifreigrenze'])/12, 0))
+                                                 tb['solifreigrenze']), 0))
                                                  * (~df['child']))
 
     # Assign income Tax + Soli to individuals
