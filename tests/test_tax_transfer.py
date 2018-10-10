@@ -2,7 +2,7 @@ import pytest
 from pandas import DataFrame, Series
 from pandas.testing import assert_series_equal, assert_frame_equal
 from tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
-from tax_transfer import tax_sched, soli, wg
+from tax_transfer import tax_sched, soli, wg, alg2
 from itertools import product
 import pandas as pd
 
@@ -298,6 +298,51 @@ def test_wg(year):
     tb = load_tb(year)
     calculated = wg(df, tb, year)[columns]
     expected = load_wg_output_data(year)
+    print('calculated: \n', calculated, '\n\n')
+    print('expected: \n', expected)
+    assert_frame_equal(calculated, expected)
+
+
+# =============================================================================
+# test alg2
+# =============================================================================
+
+
+def load_alg2_input_data(year):
+    assert year in [2006, 2009, 2011, 2013, 2016]
+    input_cols = ['hid', 'tu_id', 'head_tu', 'hh_korr', 'hhsize', 'child',
+                  'age', 'byear', 'miete', 'heizkost', 'alleinerz',
+                  'adult_num', 'child6_num', 'child15_num', 'child18_num',
+                  'child_num', 'child14_24_num', 'child7_13_num',
+                  'child3_6_num', 'child2_num', 'm_wage', 'm_pensions',
+                  'm_kapinc', 'm_alg1', 'm_transfers', 'm_self', 'm_vermiet',
+                  'incometax', 'soli', 'svbeit', 'kindergeld_hh', 'divdy',
+                  'year']
+
+    df = pd.read_excel('tests/test_data/test_dfs_alg2.xlsx')
+    df = df[df['year'] == year]
+    df = df[input_cols]
+    print(df)
+    return df
+
+
+def load_alg2_output_data(year):
+    columns = ['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'regelbedarf']
+    df = pd.read_excel('tests/test_data/test_dfs_alg2.xlsx')
+    df = df[df['year'] == year]
+    return df[columns]
+
+
+years = [2006, 2009, 2011, 2013, 2016]
+
+
+@pytest.mark.parametrize('year', years)
+def test_alg2(year):
+    columns = ['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'regelbedarf']
+    df = load_alg2_input_data(year)
+    tb = load_tb(year)
+    calculated = alg2(df, tb, year)[columns]
+    expected = load_alg2_output_data(year)
     print('calculated: \n', calculated, '\n\n')
     print('expected: \n', expected)
     assert_frame_equal(calculated, expected)

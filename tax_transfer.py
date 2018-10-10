@@ -1455,6 +1455,7 @@ def alg2(df, tb, yr):
         (out['child_num'] > 0)].to_excel('Z:/test/alg2_check.xlsx')
     '''
 
+    print(alg2[['alg2_ek', 'ekanrefrei']])
     return alg2[['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'alg2_grossek_hh',
                  'mehrbed', 'assets', 'vermfreibetr', 'regelbedarf', 'regelsatz']]
 
