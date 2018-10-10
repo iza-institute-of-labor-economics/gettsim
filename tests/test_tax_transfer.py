@@ -184,6 +184,8 @@ def test_zve(year):
     tb['ch_allow'] = tb['kifreib']
     calculated = zve(df, tb, year)[columns]
     expected = load_zve_output_data(year)
+    print('calculated: \n', calculated, '\n\n')
+    print('expected: \n', expected)
     assert_frame_equal(calculated, expected)
 
 
@@ -219,7 +221,6 @@ def test_tax_sched(year):
     tb['yr'] = year
     calculated = tax_sched(df, tb, year)[columns]
     expected = load_tax_sched_output_data(year)
-    print('calculated: \n', calculated, '\n\n')
-    print('expected: \n', expected)
-    assert_frame_equal(calculated.round(), expected.round(), check_dtype=False)
+    assert_frame_equal(calculated, expected, check_dtype=False,
+                       check_exact=False, check_less_precise=0)
 
