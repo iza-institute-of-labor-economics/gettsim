@@ -764,22 +764,7 @@ def zve(df, tb, yr):
     zve['rvbeit_vors'] = np.minimum(df['rvbeit'],
                                     tb['grvbs'] * np.select(westost,
                                               [tb['rvmaxekw'], tb['rvmaxeko']])
-                                    )
-    zve['rvbeit_tu_vors'] = np.minimum(zve['rvbeit_tu'],
-                                       2 * tb['grvbs'] * np.select(westost,
-                                                     [tb['rvmaxekw'], tb['rvmaxeko']])
-                                       )
-    # For couples where both are working, give everybody half the total deduction.
-    '''
-    vorsorg2010_married = ~df['child'] * (
-           1/df['worker_sum'] * (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) *
-           (12 * zve['rvbeit_tu_vors']) + np.minimum(df['worker_sum'] * 2800,
-                                                      12 * (zve['pvbeit_tu'] +
-                                                            zve['avbeit_tu'] +
-                                                            0.96 * zve['gkvbeit_tu'])
-                                                      )
-                                          )
-    '''
+                                    )   
     zve['vorsorge2010'] = ~df['child'] * ((0.6 +
                            0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) +
                                      12 * (df['pvbeit'] +
