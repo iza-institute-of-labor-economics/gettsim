@@ -2,7 +2,7 @@ import pytest
 from pandas import DataFrame, Series
 from pandas.testing import assert_series_equal, assert_frame_equal
 from tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
-from tax_transfer import tax_sched, soli, wg, alg2
+from tax_transfer import tax_sched, soli, wg, alg2, kiz
 from itertools import product
 import pandas as pd
 
@@ -346,3 +346,44 @@ def test_alg2(year):
     print('calculated: \n', calculated, '\n\n')
     print('expected: \n', expected)
     assert_frame_equal(calculated, expected)
+
+
+# =============================================================================
+# test kiz
+# =============================================================================
+
+def load_kiz_input_data(year):
+    assert year in [2006, 2009, 2011, 2013, 2016]
+    input_cols = ['hid', 'tu_id', 'head', 'hhtyp', 'hh_korr', 'hhsize',
+                  'child', 'age', 'miete', 'heizkost', 'alleinerz', 'mehrbed',
+                  'adult_num_tu', 'child_num_tu', 'alg2_grossek_hh',
+                  'ar_alg2_ek_hh', 'wohngeld_basis_hh', 'regelbedarf',
+                  'ar_base_alg2_ek', 'kindergeld_hh', 'year']
+
+    df = pd.read_excel('tests/test_data/test_dfs_kiz.xlsx')
+    df = df[df['year'] == year]
+    df = df[input_cols]
+    print(df)
+    return df
+
+
+def load_kiz_output_data(year):
+    columns = ['kiz', 'm_alg2', 'wohngeld']
+    df = pd.read_excel('tests/test_data/test_dfs_kiz.xlsx')
+    df = df[df['year'] == year]
+    return df[columns]
+
+
+years = [2006, 2009, 2011, 2013, 2016]
+
+
+@pytest.mark.parametrize('year', years)
+def test_kiz(year):
+    columns = ['kiz', 'm_alg2', 'wohngeld']
+    df = load_kiz_input_data(year)
+    tb = load_tb(year)
+    calculated = kiz(df, tb, year)[columns]
+    expected = load_kiz_output_data(year)
+    print('calculated: \n', calculated, '\n\n')
+    print('expected: \n', expected)
+    assert_frame_equal(calculated, expected, check_dtype=False)

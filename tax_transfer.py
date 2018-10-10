@@ -1596,7 +1596,7 @@ def kiz(df, tb, yr):
                            )
     # Finally, calculate the amount.
     kiz.loc[kiz['kiz_incrange'], 'kiz'] = np.maximum(0,
-                                                     (tb['a2kiz'] * df['child_num']) -
+                                                     (tb['a2kiz'] * df['child_num_tu']) -
                                                      kiz['kiz_ek_anr'])
 
     # Extend the amount to the other hh members for complementarity with wohngeld and alg2
