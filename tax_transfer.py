@@ -760,17 +760,21 @@ def zve(df, tb, yr):
     # ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
     # 4% from health contributions are not deductable
 
-    # only deduct pension contributions up to the ceiling. for couples, it's an approximation.
-    zve['rvbeit_vors'] = np.minimum(df['rvbeit'],
-                                    tb['grvbs'] * np.select(westost,
+    # only deduct pension contributions up to the ceiling. multiply by to 
+    # because it's both employee and employer contributions.
+    zve['rvbeit_vors'] = np.minimum(2 * df['rvbeit'],
+                                    2 * tb['grvbs'] * np.select(westost,
                                               [tb['rvmaxekw'], tb['rvmaxeko']])
                                     )
+    # calculate x% of relevant employer and employee contributions
+    # then subtract employer contributions
     zve['vorsorge2010'] = ~df['child'] * ((0.6 +
-                           0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) +
-                                     12 * (df['pvbeit'] +
-                                           df['avbeit'] +
-                                           0.96 * df['gkvbeit'])
-                                          )
+                           0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) -
+                           (12 * df['rvbeit']) +
+                           (12 * (df['pvbeit'] +
+                                  df['avbeit'] +
+                                  0.96 * df['gkvbeit'])
+                            )
 
     # zve['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
 
