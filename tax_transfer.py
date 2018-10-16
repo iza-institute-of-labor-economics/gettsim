@@ -760,7 +760,7 @@ def zve(df, tb, yr):
     # ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
     # 4% from health contributions are not deductable
 
-    # only deduct pension contributions up to the ceiling. multiply by to 
+    # only deduct pension contributions up to the ceiling. multiply by 2
     # because it's both employee and employer contributions.
     zve['rvbeit_vors'] = np.minimum(2 * df['rvbeit'],
                                     2 * tb['grvbs'] * np.select(westost,
@@ -769,12 +769,12 @@ def zve(df, tb, yr):
     # calculate x% of relevant employer and employee contributions
     # then subtract employer contributions
     zve['vorsorge2010'] = ~df['child'] * ((0.6 +
-                           0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) -
-                           (12 * df['rvbeit']) +
-                           (12 * (df['pvbeit'] +
-                                  df['avbeit'] +
-                                  0.96 * df['gkvbeit'])
-                            )
+                          0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) -
+                          (12 * 0.5 * zve['rvbeit_vors']) +
+                          (12 * (df['pvbeit'] +
+                                 df['avbeit'] +
+                                 0.96 * df['gkvbeit'])
+                           ))
 
     # zve['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
 
@@ -782,7 +782,6 @@ def zve(df, tb, yr):
     zve['vorsorge'] = zve['vorsorge2010']
     # Summing up not necessary! they already got half
     zve['vorsorge_tu'] = aggr(zve, 'vorsorge', False)
-
     # Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve['altfreib'] = 0
@@ -1066,7 +1065,6 @@ def favorability_check(df, tb, yr):
     # df.to_excel(pd.ExcelWriter(data_path+'check_güsntiger.xlsx'),sheet_name='py_out',columns= ['tu_id','child','zveranl','minpay','incometax','abgehakt','nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu', 'nettax_abg_kfb_tu', 'zve_abg_kfb_tu', 'tax_abg_kfb_tu'],na_rep='NaN',freeze_panes=(0,1))
     # pd.to_pickle(df,data_path+ref+'/taxben_check')
     # df.to_excel(pd.ExcelWriter(data_path+'check_tax_incomes.xlsx'),sheet_name='py_out',columns=['hid','pid','age','female','child','zve_nokfb','zve_kfb','tax_nokfb','tax_kfb','gross_e1','gross_e4','gross_e5','gross_e6','gross_e7','gross_gde'],na_rep='NaN',freeze_panes=(0,1))
-
     return fc[['hid', 'pid', 'incometax_tu',
                'kindergeld', 'kindergeld_hh', 'kindergeld_tu']]
 
@@ -1096,15 +1094,16 @@ def soli(df, tb, yr):
         # Soli also in monthly terms. only for adults
         soli['soli_tu'] = (np.minimum(tb['solisatz'] * soli['solibasis'],
                                       np.maximum(0.2 * (soli['solibasis'] -
-                                                 tb['solifreigrenze']), 0))
-                                                 * (~df['child']))
+                                                 tb['solifreigrenze']), 0)
+                                      )
+                                      * ~df['child'] * (1/12)
+                           )
 
     # Assign income Tax + Soli to individuals
     soli['incometax'] = np.select([df['zveranl'], ~df['zveranl']],
                                   [df['incometax_tu'] / 2, df['incometax_tu']])
     soli['soli'] = np.select([df['zveranl'], ~df['zveranl']],
                              [soli['soli_tu'] / 2, soli['soli_tu']])
-
     return soli[['incometax', 'soli', 'soli_tu']]
 
 
@@ -1459,7 +1458,6 @@ def alg2(df, tb, yr):
         (out['child_num'] > 0)].to_excel('Z:/test/alg2_check.xlsx')
     '''
 
-    print(alg2[['alg2_ek', 'ekanrefrei']])
     return alg2[['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'alg2_grossek_hh',
                  'mehrbed', 'assets', 'vermfreibetr', 'regelbedarf', 'regelsatz']]
 
