@@ -6,6 +6,7 @@ Created on Fri Jun 15 14:36:30 2018
 """
 from imports import *
 from tax_transfer import *
+from check_hypo import check_hypo
 
 import itertools
 
@@ -262,6 +263,7 @@ def hypo_graphs(df, settings):
     '''
     creates a couple of graphs by hypothetical household type for debugging
     '''
+    print('Creating Hypothetical HH Graphs...')
     # EMTR Graphen
     # keep only those that get earnings
     # df = taxout_hypo.copy()
@@ -334,13 +336,13 @@ def hypo_graphs(df, settings):
             h.loc[(h['typ_bud'] == t) & (h['y_wage'] <= maxinc), 'emtr']
         )
 
-        plt.savefig('{}hypo/emtr_{}.pdf'.format(
+        plt.savefig('{}hypo/emtr_{}.png'.format(
             settings['GRAPH_PATH'],
             t
         )
         )
 
-        # Lego Plots...buggy
+        # Lego Plots...
         plt.clf()
         fig = plt.figure(figsize = (10, 5))
         ax = plt.axes()
@@ -360,11 +362,11 @@ def hypo_graphs(df, settings):
         colors = {
             'sic_l': 'orangered',
             'tax_l': 'royalblue',
-            'net_l': 'darkcyan',
-            'cb_l': 'magenta',
+            'net_l': 'grey',
+            'cb_l': 'darkgreen',
             'ub_l': 'gold',
             'hb_l': 'purple',
-            'kiz_l': 'yellowgreen'
+            'kiz_l': 'darkorange'
         }
 
         if t in [11, 31]:
@@ -423,8 +425,8 @@ def hypo_graphs(df, settings):
             color='black'
         )
 
-        plt.ylabel("Disp. monthly income (€)")
-        plt.xlabel("Gross monthly income (€)")
+        plt.ylabel("Disp. monthly income (€)", size=14)
+        plt.xlabel("Gross monthly income (€)", size=14)
 
         plt.ylim(p['taxes'].min() * 1.1, p['dpi'].max() * 1.1)
         plt.xlim(0, (maxinc/12))
@@ -437,7 +439,7 @@ def hypo_graphs(df, settings):
             32: "Paar, Alleinverdiener HH, zwei Kinder"
         }
 
-        plt.title(types[t])
+        plt.title(types[t], size=14)
 
         box = ax.get_position()
         ax.set_position([box.x0, box.y0 + box.height * 0.2,
@@ -450,7 +452,7 @@ def hypo_graphs(df, settings):
             flip(handles, ncol),
             flip(labels, ncol),
             loc="upper center",
-            fontsize="medium",
+            fontsize=14,
             bbox_to_anchor=(0.48, -0.15),
             ncol=ncol
         )
@@ -480,7 +482,11 @@ def hypo_analysis(data_path, settings, tb):
         hyporun=True
     )
     # Export to check against Stata Output
-    taxout_hypo[taxout_hypo['head']].to_json(data_path + 'hypo/python_check.json')
+    taxout_hypo[taxout_hypo['head']].to_json(data_path + 'hypo/python_check' +
+                                             str(settings['taxyear']) +
+                                             '.json')
 
     # run graphs
     hypo_graphs(taxout_hypo, settings)
+    # check against Stata output.
+    check_hypo(settings)

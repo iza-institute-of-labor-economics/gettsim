@@ -86,21 +86,21 @@ def drop(df, dropvars):
     df = df.drop(columns=dropvars, axis=1)
 
 
-def aggr(df, inc, kids=False):
+def aggr(df, inc, withkids=False):
     ''' Function to aggregate some variable
         'inc' among
         - the 2 adults of the tax unit (if they are married!)
-          if kids is False.
+          if 'withkids' is False.
           Do this for taxable incomes and the like.
           If they are not married, but form a tax unit,
           which makes sense from a labor supply point of view,
           the variable 'inc' is not summed up.
         - all members (incl. children) of the tax_unit
-           if 'hh' is chosen as unit
+           if 'withkids' is true.
         returns one series with suffix _tu or _tu_k, depending on the
-        parameter kids
+        parameter 'withkids'
     '''
-    if kids is False:
+    if withkids is False:
         df[inc+'_verh'] = df['zveranl'] * df[inc]
         df = df.join(
             df.groupby(['tu_id'])[(inc+'_verh')].sum(),
@@ -109,7 +109,7 @@ def aggr(df, inc, kids=False):
                                   [df[inc+'_verh_sum'], df[inc]])
         return df[inc+'_tu']
 
-    if kids is True:
+    if withkids is True:
         df = df.join(
             df.groupby(['tu_id'])[inc].sum(),
             on=['tu_id'], how='left', rsuffix='_sum')
