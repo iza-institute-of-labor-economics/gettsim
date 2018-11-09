@@ -27,6 +27,8 @@ def init(settings):
         os.makedirs(settings['DATA_PATH'] + 'SOEP')
     if not os.path.exists(settings['GRAPH_PATH']+'hypo'):
         os.makedirs(settings['GRAPH_PATH'] + 'hypo')
+    if not os.path.exists(settings['GRAPH_PATH']+'wageplots'):
+        os.makedirs(settings['GRAPH_PATH'] + 'wageplots')
 
 
 def get_params(settings):

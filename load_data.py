@@ -66,7 +66,7 @@ def loaddata(soep_path, data_path, minyear):
     vl_biol = ['hid', 'pid', 'syear', 'lb0285']
     vl_kidl = ['hid', 'pid', 'syear', 'k_rel', 'k_nrinhh',
                'k_inco', 'k_pmum', 'ks_ats_r']
-    # Load from Stata Format
+    # Load from Stata Format. Use only variables defined above.
     pequiv = pd.read_stata(soep_path+'pequiv.dta',
                            convert_categoricals=False,
                            columns=vl_pequiv)
