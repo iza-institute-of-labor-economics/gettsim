@@ -16,7 +16,7 @@ import math
 import sys
 
 
-def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
+def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     """Counterfactual with Unconditional Basic income
 
     Either uses the functions from the baseline system (tax_transfer.py)
@@ -35,7 +35,6 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
 
 
     """
-
     # Social Insurance Contributions
     df = df.join(
         other=soc_ins_contrib(
@@ -61,7 +60,7 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
     df['m_alg1'] = 0
 
     # Pension benefits
-    df['pen_sim'] = pensions(df, tb, tb_pens, mw, taxyear)
+    df['pen_sim'] = pensions(df, tb, tb_pens, mw, taxyear, hyporun)
 
     # Income Tax
     taxvars = [
@@ -119,8 +118,8 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
     )
 
     # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
-    df['kindergeld'] = 0
-    df['kindergeld_tu'] = 0
+    df['kindergeld_basis'] = 0
+    df['kindergeld_tu_basis'] = 0
 
     # 5.4 Günstigerprüfung to obtain final income tax due.
     # different call here, because 'kindergeld' is overwritten by the function and
@@ -135,24 +134,16 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
                  'kindergeld_hh',
                  'kindergeld_tu']]:
         df[var] = temp[var]
-
+    df['tu_id'].describe()
     # 5.5 Solidarity Surcharge
     df = df.join(
         other=soli(
-            df[['hid',
-                'tu_id',
-                'pid',
-                'tax_kfb_tu',
-                'abgst',
-                'zveranl',
-                'incometax_tu',
-                'child']],
+            df,
             tb,
             taxyear
         ),
         how='inner'
     )
-    df['incometax'].describe()
 
     # 6. SOCIAL TRANSFERS / BENEFITS
     # 6.1. Wohngeld, Housing Benefit
@@ -163,8 +154,8 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
     # 6.3. Kinderzuschlag, Additional Child Benefit
     df['kiz'] = 0
 
-    # TODO: Model unconditional basic income.
-    df['ubi'] = 800
+    # UBI replaces ALG2 for compatibility reasons
+    df['m_alg2'] = ubi(df)
 
     # 7. Drop unnecessary variables. not necessary anymore.s
     # df = dropstuff(df)
@@ -234,4 +225,12 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens, mw, hyporun=False):
 
     return df
 
+
+def ubi(df):
+    ubi = pd.DataFrame(index=df.index.copy())
+    ubi['hid'] = df['hid']
+    ubi['ubi'] = (800 * df['age'] >= 18) + (500 * df['age'] < 18)
+    # ubi['ubi_hh'] = aggr(ubi, 'ubi', True)
+
+    return ubi['ubi']
 

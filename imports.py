@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import os
+import time
 
 
 def init(settings):
@@ -173,3 +174,16 @@ def mw_pensions(df):
                                 2)
     return mw
 
+def say_hello(taxyear, ref, hyporun):
+    print("---------------------------------------------")
+    print(" TAX TRANSFER SYSTEM ")
+    print(" -------------------")
+    # print(" Year of Database: " + str(datayear))
+    print(" Year of Tax Transfer System: " + str(taxyear))
+    print(" Simulated Reform: " + str(ref))
+    if hyporun:
+        print("RUN WITH SAMPLE HOUSEHOLDS")
+    print("---------------------------------------------")
+    time.sleep(1)
+
+    return

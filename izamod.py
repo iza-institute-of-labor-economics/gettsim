@@ -15,8 +15,7 @@ from settings import get_settings
 from load_data import loaddata
 from prepare_data import preparedata
 from hypo import hypo_analysis
-from tax_transfer import *
-from tax_transfer_ubi import tax_transfer_ubi
+from tt_list import *
 from imports import init, get_params, mw_pensions
 from descr import descriptives
 
@@ -88,18 +87,12 @@ def run_izamod(settings):
 
     if settings['taxtrans'] == 1:
         for ref in settings['Reforms']:
-            # call tax transfer
             datayear = min(settings['taxyear'], 2016)
-            print("---------------------------------------------")
-            print(" TAX TRANSFER SYSTEM ")
-            print(" -------------------")
-            print(" Year of Database: " + str(datayear))
             # LOAD DATA
             df = pd.read_pickle(settings['DATA_PATH'] + 'SOEP/taxben_input_' + str(datayear))
-            # Get the correct parameters for the tax year
-            print(" Year of System: " + str(settings['taxyear']))
-            print(" Simulated Reform: " + str(ref))
-            print("---------------------------------------------")
+            say_hello(settings['taxyear'],
+                      ref,
+                      False)
             # CALL TAX TRANSFER, depending on reform
             if ref != "UBI":
                 tt_out = tax_transfer(df,
@@ -132,6 +125,8 @@ def run_izamod(settings):
             # SHOW OUTPUT
             tb_out(tt_out, ref, settings['GRAPH_PATH'])
 
+    # TODO: Show reform effects (necessary right now?)
+
     # Hypo Run: create hypothetical household data, run tax transfer and produce some outputs.
     if settings['run_hypo'] == 1:
         hypo_analysis(settings['DATA_PATH'], settings, tb)
@@ -149,6 +144,8 @@ settings = get_settings()
 run_izamod(settings)
 
 end = time.time()
+print('-'*80)
 print('Total time used: ' +
       time.strftime('%H:%M:%S', time.gmtime(end - start))
       + "Hours.")
+print('-'*80)

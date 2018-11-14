@@ -23,7 +23,7 @@ def check_hypo(settings):
                               convert_categoricals=False
                               )
     except FileNotFoundError:
-        print('There is no Stata hypo output for year' + str(taxyear))
+        print('There is no Stata hypo output for year ' + taxyear)
         return False
     # Filter households
     stata = stata[stata['typ_bud'] <= 32]
@@ -44,15 +44,10 @@ def check_hypo(settings):
         stata[var] = stata[var] / 12
 
     # now, get the python output
-    pyth = pd.read_json(settings['DATA_PATH'] + 'hypo/python_check' +
+    pyth = pd.read_json(settings['DATA_PATH'] + 'hypo/python_checkRS' +
                         taxyear + '.json')
-    pyth = pyth.rename(columns={'dpi': 'dpi_pyth',
-                                'kindergeld_hh': 'kindergeld_hh_pyth',
-                                'svbeit': 'svbeit_pyth',
-                                'm_alg2': 'm_alg2_pyth',
-                                'kiz': 'kiz_pyth',
-                                'wohngeld': 'wohngeld_pyth'
-                                })
+    for var in ['dpi', 'kindergeld_hh', 'svbeit', 'm_alg2', 'kiz', 'wohngeld']:
+        pyth = pyth.rename(columns={var: var+'_pyth'})
 
     pyth['tax_pyth'] = pyth['incometax_tu'] + pyth['soli_tu']
     # merge them

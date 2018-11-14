@@ -5,7 +5,7 @@ Created on Fri Jun 15 14:36:30 2018
 @author: iza6354
 """
 from imports import *
-from tax_transfer import *
+from tt_list import *
 from check_hypo import check_hypo
 
 import itertools
@@ -29,6 +29,28 @@ def get_lego_lists(lego_vars, colors, labels, spec):
 
     return var_list, color_list, label_list
 
+def hypo_graph_settings():
+    ''' Set various settings for Hypo Graphs
+    '''
+    # Create labels for each graph type
+    xlabels = {'lego': 'Gross monthly household income (€)',
+               'emtr': 'Gross monthly household income (€)',
+               'bruttonetto': 'Gross monthly household income (€)',
+               }
+
+    ylabels = {'lego': 'Disp. monthly household income (€)',
+               'emtr': 'Effective Marginal Tax Rate',
+               'bruttonetto': 'Disp. monthly household income (€)'
+               }
+    # depending on the plottype, which reform-specific variables to plot?
+    yvars = {'emtr': 'emtr',
+             'bruttonetto': 'dpi'
+             }
+
+    # max yearly income to plot
+    maxinc = 60000
+
+    return xlabels, ylabels, yvars, maxinc
 
 def create_hypo_data(data_path, settings, tb):
     '''
@@ -259,40 +281,48 @@ def create_hypo_data(data_path, settings, tb):
     return df
 
 
-def hypo_graphs(df, settings):
+def hypo_graphs(dfs, settings):
     '''
     creates a couple of graphs by hypothetical household type for debugging
+    dfs: Dictionary containing a dataframe for each reform
+    settings: the settings dictionary
     '''
     print('Creating Hypothetical HH Graphs...')
-    # EMTR Graphen
-    # keep only those that get earnings
-    # df = taxout_hypo.copy()
-    df = df.sort_values(by=['typ_bud', 'y_wage'])
+    # Get graph settings
+    xlabels, ylabels, yvars, maxinc = hypo_graph_settings()
 
     out_vars = ['typ_bud', 'female', 'age', 'head', 'child', 'y_wage',
                 'm_wage', 'w_hours', 'dpi', 'm_alg2', 'wohngeld', 'kiz',
                 'kindergeld', 'kindergeld_hh', 'svbeit', 'incometax', 'soli',
                 'incometax_tu', 'soli_tu', 'miete', 'heizkost']
+    # Excel Control output
+    print('Producing Excel Output for debugging...')
+    for ref, df in dfs.items():
+        df = df.sort_values(by=['typ_bud', 'y_wage'])
+        for typ in [11, 22, 24, 31, 32]:
+            df.loc[(df['typ_bud'] == typ)].to_excel(
+                   settings['DATA_PATH'] + 'check_hypo_' + ref + '_' + str(typ) + '.xlsx',
+                   columns=out_vars,
+                   na_rep='NaN',
+                   freeze_panes=(1, 0)
+            )
 
-    for typ in [11, 22, 24, 31, 32]:
-        df.loc[(df['typ_bud'] == typ)].to_excel(
-            settings['DATA_PATH'] + 'check_hypo_' + str(typ) + '.xlsx',
-            columns=out_vars,
-            na_rep='NaN',
-            freeze_panes=(1, 0)
-        )
+    # plot data contains heads only and computes outcomes for each reform
+    base = settings['Reforms'][0]
+    plot = dfs[base][dfs[base]['head']]
+    # prepare variables that are going to be plotted
+    for ref in settings['Reforms']:
+        # reduce datasets to heads
+        dfs[ref] = dfs[ref][dfs[ref]['head']]
+        # Effective Marginal Tax Rate
+        plot['emtr' + ref] = 100 * np.minimum((1 - (dfs[ref]['dpi'] - dfs[ref]['dpi'].shift(1))
+                                              / (dfs[ref]['m_wage'] - dfs[ref]['m_wage'].shift(1))), 1.2)
+        plot.loc[plot['emtr' + ref] < -1, 'emtr' + ref] = np.nan
+        # Disposable income by reform
+        plot['dpi' + ref] = dfs[ref]['dpi']
+        # Other outcomes...Average Tax Rate...
 
-    # graph it
-    # data set with heads only
-    h = df.loc[df['head']]
-
-    h = h.sort_values(by=['typ_bud', 'y_wage'])
-    # Effective Marginal Tax Rate
-    h['emtr'] = 100 * np.minimum((1 - (h['dpi'] - h['dpi'].shift(1))
-                                  / (h['m_wage'] - h['m_wage'].shift(1))), 1.2)
-
-    h.loc[h['emtr'] < -1, 'emtr'] = np.nan
-
+    # Lego graphs so far only for the baseline scenario
     lego_vars = [
         'y_wage',
         'm_wage',
@@ -306,8 +336,7 @@ def hypo_graphs(df, settings):
         'incometax_tu',
         'typ_bud'
     ]
-
-    lego = df.loc[df['head'] == True, lego_vars]
+    lego = dfs[base].loc[dfs[base]['head'] == True, lego_vars]
     # Für Doppelverdiener-HH müssten auch m_wage und svbeit auf HH-Ebene sein.
     lego['net_l'] = (lego['m_wage'] - lego['svbeit'] -
                      lego['incometax_tu'] - lego['soli_tu']
@@ -322,25 +351,29 @@ def hypo_graphs(df, settings):
     lego['tax_l'] = (lego['incometax_tu'] + lego['soli_tu']) * (-1)
     lego['dpi_l'] = lego['dpi']
 
-    # GRAPH SETTINGS
-    # max yearly income to plot
-    maxinc = 60000
-
+    # Actual plotting starts here
     for t in [11, 22, 24, 31, 32]:
-        plt.clf()
+        # Reduce data
+        sub = plot[(plot['y_wage'] <= maxinc) &
+                   (plot['typ_bud'] == t)]
 
-        ax = plt.axes()
+        for plottype in ['emtr', 'bruttonetto']:
+            plt.clf()
+            ax = plt.axes()
+            for ref in settings['Reforms']:
+                ax.plot(sub['m_wage'],
+                        sub[yvars[plottype] + ref]
+                        )
 
-        ax.plot(
-            h.loc[(h['typ_bud'] == t) & (h['y_wage'] <= maxinc), 'm_wage'],
-            h.loc[(h['typ_bud'] == t) & (h['y_wage'] <= maxinc), 'emtr']
-        )
+            plt.ylabel(ylabels[plottype], size=14)
+            plt.xlabel(xlabels[plottype], size=14)
 
-        plt.savefig('{}hypo/emtr_{}.png'.format(
-            settings['GRAPH_PATH'],
-            t
-        )
-        )
+            plt.savefig('{}hypo/{}_{}.png'.format(
+                settings['GRAPH_PATH'],
+                plottype,
+                t
+            )
+            )
 
         # Lego Plots...
         plt.clf()
@@ -425,8 +458,8 @@ def hypo_graphs(df, settings):
             color='black'
         )
 
-        plt.ylabel("Disp. monthly income (€)", size=14)
-        plt.xlabel("Gross monthly income (€)", size=14)
+        plt.ylabel(ylabels['lego'], size=14)
+        plt.xlabel(xlabels['lego'], size=14)
 
         plt.ylim(p['taxes'].min() * 1.1, p['dpi'].max() * 1.1)
         plt.xlim(0, (maxinc/12))
@@ -474,19 +507,35 @@ def hypo_analysis(data_path, settings, tb):
     df = create_hypo_data(data_path, settings, tb)
 
     # run them through tax_transfer
-    taxout_hypo = tax_transfer(
-        df,
-        settings['taxyear'],
-        settings['taxyear'],
-        tb,
-        hyporun=True
-    )
-    # Export to check against Stata Output
-    taxout_hypo[taxout_hypo['head']].to_json(data_path + 'hypo/python_check' +
-                                             str(settings['taxyear']) +
-                                             '.json')
+    # taxout_hypo collects all result dataframes
+    taxout_hypo = {}
+    for ref in settings['Reforms']:
+        say_hello(settings['taxyear'],
+                  ref,
+                  True)
+        if "RS" in ref:
+            taxout_hypo[ref] = tax_transfer(
+                df,
+                settings['taxyear'],
+                settings['taxyear'],
+                tb,
+                hyporun=True
+            )
+        if "UBI" in ref:
+            taxout_hypo[ref] = tax_transfer_ubi(
+                df,
+                settings['taxyear'],
+                settings['taxyear'],
+                tb,
+                hyporun=True
+            )
 
-    # run graphs
+        # Export to check against Stata Output
+        taxout_hypo[ref][taxout_hypo[ref]['head']].to_json(data_path + 'hypo/python_check' +
+                                                           str(ref) +
+                                                           '.json')
+
+    # produce graphs
     hypo_graphs(taxout_hypo, settings)
     # check against Stata output.
     check_hypo(settings)

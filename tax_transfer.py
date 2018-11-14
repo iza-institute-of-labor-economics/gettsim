@@ -16,7 +16,7 @@ import math
 import sys
 
 
-def tax_transfer(df, datayear, taxyear, tb, tb_pens = [], mw = [], hyporun=False):
+def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     """German Tax-Transfer System.
 
     Arguments:
@@ -61,8 +61,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens = [], mw = [], hyporun=False
     df['m_alg1'] = ui(df, tb, taxyear)
 
     # Pension benefits
-    if hyporun is False:
-        df['pen_sim'] = pensions(df, tb, tb_pens, mw, taxyear)
+    df['pen_sim'] = pensions(df, tb, tb_pens, mw, taxyear, hyporun)
 
     # Income Tax
     taxvars = [
@@ -285,17 +284,21 @@ def uprate(df, dy, ty, path):
     return df
 
 
-def pensions(df, tb, tb_pens, mw, yr):
+def pensions(df, tb, tb_pens, mw, yr, hypo):
     ''' Old-Age Pensions
 
         models 'Rentenformel':
         https://de.wikipedia.org/wiki/Rentenformel
         https://de.wikipedia.org/wiki/Rentenanpassungsformel
     '''
+    r = pd.DataFrame(index=df.index.copy())
+    if hypo:
+        r['pensions_sim'] = 0
+        return r['pensions_sim']
 
     cprint('Pensions', 'red', 'on_white')
 
-    r = pd.DataFrame(index=df.index.copy())
+
     r['byear'] = df['byear']
     r['exper'] = df['exper']
     westost = [~df['east'], df['east']]
@@ -1266,7 +1269,7 @@ def wg(df, tb, yr):
                  on=['hid'], how='left', rsuffix='_hh')
     wg = wg.rename(columns={'wg_head_hh': 'wohngeld_basis_hh'})
     df['hhsize_tu'].describe()
-    wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
+    # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return wg[['wohngeld_basis', 'wohngeld_basis_hh', 'gkvbeit_tu_k', 'rvbeit_tu_k']]
 
 

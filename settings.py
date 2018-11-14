@@ -11,26 +11,28 @@ def get_settings():
         maybe add argument 'user' to differentiate
         different platforms with different paths.
     '''
-    taxyear = 2015
+    # Base year
+    taxyear = 2016
 
-    # Rechtsstand des Basisjahres ist immer Baseline Reform
-    reforms = ['RS' + str(taxyear)]
+    # The baseline scenario is always called RS`taxyear' (RS = Rechtsstand)
+    reforms = ['RS' + str(taxyear), 'UBI']
 
     # DATA CREATION
     # load raw SOEP data and merge them into one data set
     load_data = 0
+    # Minimum year to collect data from.
     minyear = 2005
     # prepare tax-ben input
-    prepare_data = 1
+    prepare_data = 0
 
     # prepare descriptive statistics
-    show_descr = 1
+    show_descr = 0
 
     # TAX TRANSFER CALCULATION
-    taxtrans = 1
+    taxtrans = 0
 
     # Run Hypo file for debugging
-    run_hypo = 0
+    run_hypo = 1
 
     # PATH SETTINGS
     MAIN_PATH = os.getcwd() + '/'
