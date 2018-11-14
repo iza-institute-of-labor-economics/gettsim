@@ -20,6 +20,6 @@ kids in the SOEP household (*child_num*) and the the number of kids in the tax u
 * The tax transfer parameters (tax rates, benefit amounts etc.) can be found in /data/params/params.xlsx
 This is also where you find the corresponding law. The content of this will be loaded into a
 year-specific dictionary called *tb*
-* The implementation of tax transfer rules before 2005 is complete as of now.
+* The implementation of tax transfer rules before 2005 is not complete as of now.
 
 
