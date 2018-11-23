@@ -22,6 +22,14 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
     Either uses the functions from the baseline system (tax_transfer.py)
     or redefines the respective element
 
+    - Basic guidelines:
+        1. UBI replaces ALG2, Social assistance, Kindergeld, Wohngeld, Kinderzuschlag
+        2. UBI is a flat rate, possibly lower for kids below a certain age.
+        3. UBI is not means-tested and does not depend on family composition
+        4. UBI is fully taxable
+        5. Possibly, also abolish midi and mini job rules.
+
+
     Arguments:
 
         - *df*: Input Data Frame
@@ -35,6 +43,7 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
 
 
     """
+
     # Social Insurance Contributions
     df = df.join(
         other=soc_ins_contrib(

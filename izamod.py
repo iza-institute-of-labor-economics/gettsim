@@ -11,7 +11,7 @@ Janos Gabler
 
 """
 
-from settings import get_settings
+from settings import get_settings, ubi_settings
 from load_data import loaddata
 from prepare_data import preparedata
 from hypo import hypo_analysis
@@ -104,10 +104,11 @@ def run_izamod(settings):
                                       False
                                       )
             else:
+                tb_ubi = ubi_settings(tb)
                 tt_out = tax_transfer_ubi(df,
                                           datayear,
                                           settings['taxyear'],
-                                          tb,
+                                          tb_ubi,
                                           tb_pens,
                                           mw,
                                           False

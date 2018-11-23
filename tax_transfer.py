@@ -22,7 +22,6 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     Arguments:
 
         - *df*: Input Data Frame
-        [- *ref*: Name of Reform]
         - *datayear*: year of SOEP wave
         - *taxyear*: year of reform baseline
         - *tb*: dictionary with tax-benefit parameters
@@ -30,7 +29,8 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
         - *mw*: Mean earnings by year, for pension calculations.
         - *hyporun*: indicator for hypothetical household input (defult: use real SOEP data)
 
-
+        The 'sub' functions may take an argument 'ref', which might be used for small reforms
+        that e.g. only differ in parameters or slightly change the calculation
     """
 
     # if hyporun is False:
@@ -383,7 +383,7 @@ def pensions(df, tb, tb_pens, mw, yr, hypo):
     return r['pensions_sim']
 
 
-def soc_ins_contrib(df, tb, yr):
+def soc_ins_contrib(df, tb, yr, ref=""):
     '''Calculates Social Insurance Contributions
 
     4 branches of social insurances:
@@ -474,7 +474,7 @@ def soc_ins_contrib(df, tb, yr):
     )
 
     # Gleitzone / Midi-Jobs
-    if yr >= 2003:
+    if (yr >= 2003) & (tb['midi_grenze'] > 0):
         # For midijobs, the rate is not calculated on the wage,
         # but on the 'bemessungsentgelt'
         # Contributions are usually shared equally by employee (AN) and
@@ -485,21 +485,15 @@ def soc_ins_contrib(df, tb, yr):
         DBSV = AN_anteil + AG_anteil
         pauschmini = tb['mini_ag_gkv'] + tb['mini_ag_grv'] + tb['stpag']
         F = round(pauschmini / DBSV, 4)
-        # always needs to differentiate between east and west.
-        # This used to be relevant until 1999
-        bemes_west = (F * tb['mini_grenzew'] +
-                      ((tb['midi_grenze'] / (tb['midi_grenze'] - tb['mini_grenzew'])) -
-                       (tb['mini_grenzew'] / ((tb['midi_grenze'] - tb['mini_grenzew'])) * F)
-                       ) *
-                      (df['m_wage'] - tb['mini_grenzew'])
-                      )
 
-        bemes_ost = (F * tb['mini_grenzeo'] +
-                     ((tb['midi_grenze']/(tb['midi_grenze'] - tb['mini_grenzeo'])) -
-                      (tb['mini_grenzeo'] / ((tb['midi_grenze'] - tb['mini_grenzeo'])) * F)) *
-                     (df['m_wage'] - tb['mini_grenzeo'])
-                     )
-        ssc['bemessungsentgelt'] = np.select(westost, [bemes_west, bemes_ost])
+        ssc['bemessungsentgelt'] = (F * tb['mini_grenzew'] +
+                                    ((tb['midi_grenze'] / (tb['midi_grenze'] - tb['mini_grenzew'])) -
+                                     (tb['mini_grenzew'] / ((tb['midi_grenze'] -
+                                                             tb['mini_grenzew'])) * F)
+                                     ) *
+                                    (df['m_wage'] - tb['mini_grenzew'])
+                                    )
+
         # This checks whether wage is in the relevant range
         ssc['in_gleitzone'] = df['m_wage'].between(
                             np.select(westost,
@@ -663,7 +657,7 @@ def ui(df, tb, taxyear):
 
 
 # @jit(nopython=True)
-def zve(df, tb, yr):
+def zve(df, tb, yr, ref=""):
     '''Calculate taxable income (zve = zu versteuerndes Einkommen)
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
@@ -721,6 +715,9 @@ def zve(df, tb, yr):
             zve['gross_gde'] +
             np.maximum(zve['gross_e5'] - tb['spsparf'] - tb['spwerbz'], 0)
         )
+    # UBI is taxable
+    if ref == "ubi":
+        zve['gross_gde'] = zve['gross_gde'] + zve['ubi']
     # Gross (market) income <> sum of incomes...
     zve['m_brutto'] = df[['m_self',
                           'm_wage',
@@ -761,7 +758,7 @@ def zve(df, tb, yr):
     # § 10 (3) EStG
     # The share of deductable pension contributions increases each year by 2 pp.
     # ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
-    # 4% from health contributions are not deductable
+    # 4% from health contributions are not deductable. There is also an upper ceiling for those
 
     # only deduct pension contributions up to the ceiling. multiply by 2
     # because it's both employee and employer contributions.
@@ -771,13 +768,16 @@ def zve(df, tb, yr):
                                     )
     # calculate x% of relevant employer and employee contributions
     # then subtract employer contributions
+    # also subtract health + care + unemployment insurance contributions
     zve['vorsorge2010'] = ~df['child'] * ((0.6 +
                           0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) -
                           (12 * 0.5 * zve['rvbeit_vors']) +
-                          (12 * (df['pvbeit'] +
-                                 df['avbeit'] +
-                                 0.96 * df['gkvbeit'])
-                           ))
+                          np.minimum(12 * (df['pvbeit'] +
+                          	               df['avbeit'] +
+                                      0.96 * df['gkvbeit'])
+                                     , tb['vors_sonst_max']
+                                     )
+                                          )
 
     # zve['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
 
@@ -865,7 +865,7 @@ def zve(df, tb, yr):
                 'ertragsanteil']]
 
 
-def tax_sched(df, tb, yr):
+def tax_sched(df, tb, yr, ref=""):
     ''' Applies the income tax tariff for various definitions of taxable income
         also calculates tax on capital income (Abgeltungssteuer)
     '''

@@ -173,6 +173,7 @@ def load_zve_output_data(year):
     df = df[df['year'] == year]
     return df[columns]
 
+
 years = [2005, 2009, 2010, 2012, 2018]
 
 
@@ -208,6 +209,7 @@ def load_tax_sched_output_data(year):
     df = pd.read_excel('tests/test_data/test_dfs_tax_sched.xlsx')
     df = df[df['year'] == year]
     return df[columns]
+
 
 years = [2009, 2012, 2015, 2018]
 

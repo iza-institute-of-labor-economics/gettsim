@@ -7,6 +7,7 @@ Created on Fri Jun 15 14:36:30 2018
 from imports import *
 from tt_list import *
 from check_hypo import check_hypo
+from settings import hypo_graph_settings
 
 import itertools
 
@@ -29,28 +30,6 @@ def get_lego_lists(lego_vars, colors, labels, spec):
 
     return var_list, color_list, label_list
 
-def hypo_graph_settings():
-    ''' Set various settings for Hypo Graphs
-    '''
-    # Create labels for each graph type
-    xlabels = {'lego': 'Gross monthly household income (€)',
-               'emtr': 'Gross monthly household income (€)',
-               'bruttonetto': 'Gross monthly household income (€)',
-               }
-
-    ylabels = {'lego': 'Disp. monthly household income (€)',
-               'emtr': 'Effective Marginal Tax Rate',
-               'bruttonetto': 'Disp. monthly household income (€)'
-               }
-    # depending on the plottype, which reform-specific variables to plot?
-    yvars = {'emtr': 'emtr',
-             'bruttonetto': 'dpi'
-             }
-
-    # max yearly income to plot
-    maxinc = 60000
-
-    return xlabels, ylabels, yvars, maxinc
 
 def create_hypo_data(data_path, settings, tb):
     '''
