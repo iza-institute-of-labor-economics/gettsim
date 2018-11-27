@@ -16,7 +16,7 @@ from load_data import loaddata
 from prepare_data import preparedata
 from hypo import hypo_analysis
 from tt_list import *
-from imports import init, get_params, mw_pensions
+from imports import init, get_params, mw_pensions, say_hello
 from descr import descriptives
 
 import time

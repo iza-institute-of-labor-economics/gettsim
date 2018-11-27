@@ -113,7 +113,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
         other=tax_sched(
             df,
             tb,
-            taxyear
+            taxyear,
         ),
         how='inner'
     )
@@ -261,6 +261,8 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
 def uprate(df, dy, ty, path):
     '''Uprating monetary values to account for difference between
     data year and simulation year.
+
+    not sure whether we need this
 
     '''
 
@@ -428,50 +430,33 @@ def soc_ins_contrib(df, tb, yr, ref=""):
         [df['m_wage'] > tb['rvmaxekw'], df['m_wage'] > tb['rvmaxeko']]
     )
 
-    # Standard rates under consideration of thresholds
-    # need to differentiate between East and West Germany
-    # Old-Age Pension Insurance / Rentenversicherung
-
     # This is probably the point where Entgeltpunkte should be updated as well.
-    ssc['rvbeit'] = tb['grvbs'] * np.minimum(
-        df['m_wage'],
-        np.select(
-            westost,
-            [tb['rvmaxekw'], tb['rvmaxeko']]
-        )
-    )
+
+    # First, define corrected wage; need to differentiate between East and West Germany
+    ssc['svwage_pens'] = np.minimum(df['m_wage'],
+                                    np.select(
+                                    westost,
+                                    [tb['rvmaxekw'], tb['rvmaxeko']]
+                                    )
+                                    )
+
+    ssc['svwage_health'] = np.minimum(df['m_wage'],
+                                      np.select(
+                                      westost,
+                                      [tb['kvmaxekw'], tb['kvmaxeko']]
+                                      )
+                                     )
+    # Then, calculate employee contributions.
+    # Old-Age Pension Insurance / Rentenversicherung
+    ssc['rvbeit'] = tb['grvbs'] * ssc['svwage_pens']
     # Unemployment Insurance / Arbeitslosenversicherung
-    ssc['avbeit'] = tb['alvbs'] * np.minimum(
-        df['m_wage'],
-        np.select(
-            westost,
-            [tb['rvmaxekw'], tb['rvmaxeko']]
-        )
-    )
+    ssc['avbeit'] = tb['alvbs'] * ssc['svwage_pens']
     # Health Insurance for Employees (GKV)
-    ssc['gkvbeit'] = tb['gkvbs_an'] * np.minimum(
-        df['m_wage'],
-        np.select(
-            westost,
-            [tb['kvmaxekw'], tb['kvmaxeko']]
-        )
-    )
+    ssc['gkvbeit'] = tb['gkvbs_an'] * ssc['svwage_health']
     # Care Insurance / Pflegeversicherung
-    ssc['pvbeit'] = tb['gpvbs'] * np.minimum(
-        df['m_wage'],
-        np.select(
-            westost,
-            [tb['kvmaxekw'], tb['kvmaxeko']]
-        )
-    )
+    ssc['pvbeit'] = tb['gpvbs'] * ssc['svwage_health']
     # If you are above 23 and without kids, you have to pay a higher rate
-    ssc.loc[ssc['kinderlos'], 'pvbeit'] = (tb['gpvbs'] + tb['gpvbs_kind']) * np.minimum(
-        df['m_wage'],
-        np.select(
-            westost,
-            [tb['kvmaxekw'], tb['kvmaxeko']]
-        )
-    )
+    ssc.loc[ssc['kinderlos'], 'pvbeit'] = (tb['gpvbs'] + tb['gpvbs_kind']) * ssc['svwage_health']
 
     # Gleitzone / Midi-Jobs
     if (yr >= 2003) & (tb['midi_grenze'] > 0):
@@ -887,7 +872,7 @@ def tax_sched(df, tb, yr, ref=""):
         if y < 2002:
             print("Income Tax Pre 2002 not yet modelled!")
         if y > 2002:
-            t = 0
+            t = 0.0
             if tb['G'] < x <= tb['M']:
                 t = ((((tb['t_m'] - tb['t_e']) /
                        (2 * (tb['M'] - tb['G']))) * (x - tb['G']) +
@@ -910,7 +895,8 @@ def tax_sched(df, tb, yr, ref=""):
                      )
             if x > tb['R']:
                 t = t + (tb['t_r'] - tb['t_s']) * (x - tb['R'])
-            t = round(t, 2)
+            # round down to next integer
+            # t = int(t)
         return t
 
     cprint('Tax Schedule...', 'red', 'on_white')
@@ -946,7 +932,7 @@ def tax_sched(df, tb, yr, ref=""):
     return ts
 
 
-def kindergeld(df, tb, yr):
+def kindergeld(df, tb, yr, ref=''):
     """ Child Benefit
         Basic Amount for each child, hours restriction applies
     """
@@ -1072,7 +1058,7 @@ def favorability_check(df, tb, yr):
                'kindergeld', 'kindergeld_hh', 'kindergeld_tu']]
 
 
-def soli(df, tb, yr):
+def soli(df, tb, yr, ref=''):
     """ Solidarity Surcharge ('soli')
         on top of the income tax and capital income tax.
         No Soli if income tax due is below € 920 (solifreigrenze)
