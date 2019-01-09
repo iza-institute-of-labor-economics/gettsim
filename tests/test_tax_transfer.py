@@ -183,7 +183,7 @@ def test_zve(year):
     df = load_zve_input_data(year)
     tb = load_tb(year)
     tb['ch_allow'] = tb['kifreib']
-    calculated = zve(df, tb, year)[columns]
+    calculated = zve(df, tb, year, hyporun=False)[columns]
     expected = load_zve_output_data(year)
     print('calculated: \n', calculated, '\n\n')
     print('expected: \n', expected)

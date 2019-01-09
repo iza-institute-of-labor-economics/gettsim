@@ -14,7 +14,7 @@ def get_settings():
     ''' Initialize Global Settings
     '''
     # Base year
-    taxyear = 2016
+    taxyear = 2019
 
     # The baseline scenario is always called RS`taxyear' (RS = Rechtsstand)
     reforms = ['RS' + str(taxyear), 'UBI']
@@ -34,7 +34,7 @@ def get_settings():
     taxtrans = 1
 
     # Run Hypo file for debugging
-    run_hypo = 1
+    run_hypo = 0
 
     # PATH SETTINGS
     MAIN_PATH = os.getcwd() + '/'

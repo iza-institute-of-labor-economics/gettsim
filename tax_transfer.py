@@ -103,11 +103,14 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
         other=zve(
             df[taxvars],
             tb,
-            taxyear
+            taxyear,
+            hyporun
         ),
         how='inner'
     )
 
+    # print(df[['typ_bud', 'y_wage', 'zve_nokfb']][df['y_wage'].between(64000, 70000)])
+    # aaa
     # 5.2 Apply Tax Schedule
     df = df.join(
         other=tax_sched(
@@ -286,7 +289,7 @@ def uprate(df, dy, ty, path):
     return df
 
 
-def pensions(df, tb, tb_pens, mw, yr, hypo):
+def pensions(df, tb, tb_pens, mw, year, hypo):
     ''' Old-Age Pensions
 
         models 'Rentenformel':
@@ -299,7 +302,8 @@ def pensions(df, tb, tb_pens, mw, yr, hypo):
         return r['pensions_sim']
 
     cprint('Pensions', 'red', 'on_white')
-
+    # mw is only filled until 2016
+    yr = min(year, 2016)
 
     r['byear'] = df['byear']
     r['exper'] = df['exper']
@@ -642,7 +646,7 @@ def ui(df, tb, taxyear):
 
 
 # @jit(nopython=True)
-def zve(df, tb, yr, ref=""):
+def zve(df, tb, yr, hyporun, ref=""):
     '''Calculate taxable income (zve = zu versteuerndes Einkommen)
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
@@ -743,7 +747,7 @@ def zve(df, tb, yr, ref=""):
     # § 10 (3) EStG
     # The share of deductable pension contributions increases each year by 2 pp.
     # ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
-    # 4% from health contributions are not deductable. There is also an upper ceiling for those
+    # 4% from health contributions are not deductable.
 
     # only deduct pension contributions up to the ceiling. multiply by 2
     # because it's both employee and employer contributions.
@@ -754,17 +758,15 @@ def zve(df, tb, yr, ref=""):
     # calculate x% of relevant employer and employee contributions
     # then subtract employer contributions
     # also subtract health + care + unemployment insurance contributions
-    zve['vorsorge2010'] = ~df['child'] * ((0.6 +
-                          0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) -
-                          (12 * 0.5 * zve['rvbeit_vors']) +
-                          np.minimum(12 * (df['pvbeit'] +
-                          	               df['avbeit'] +
-                                      0.96 * df['gkvbeit'])
-                                     , tb['vors_sonst_max']
-                                     )
-                                          )
+    zve['altersvors2010'] = ~df['child'] * (
+            (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) -
+            (12 * 0.5 * zve['rvbeit_vors']))
 
-    # zve['vorsorge2010'] = np.select(married, [vorsorg2010_married, vorsorg2010_single])
+    zve['sonstigevors2010'] = 12 * (df['pvbeit'] + df['avbeit'] + 0.96 * df['gkvbeit'])
+    if hyporun:
+        zve['vorsorge2010'] = zve['altersvors2010'] + zve['sonstigevors2010']
+    if not hyporun:
+        zve['vorsorge2010'] = zve['altersvors2010'].astype(int) + zve['sonstigevors2010'].astype(int)
 
     # TO DO: check various deductions against each other (when modelled)
     zve['vorsorge'] = zve['vorsorge2010']
@@ -783,13 +785,15 @@ def zve(df, tb, yr, ref=""):
                                          tb['altenth']
                                                      )
     zve['altfreib_tu'] = aggr(zve, 'altfreib', False)
-    # Entlastungsbetrag für Alleinerziehende. Deduction for Single Parents.
+    # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
+    # Since 2015, it increases with number of children.
     # Used to be called 'Haushaltsfreibetrag'
     zve['hhfreib'] = 0
     if yr < 2015:
         zve.loc[df['alleinerz'], 'hhfreib'] = tb['hhfreib']
     if yr >= 2015:
-        zve.loc[df['alleinerz'], 'hhfreib'] = (tb['hhfreib'] + (df['child_num_tu'] - 1) * 240)
+        zve.loc[df['alleinerz'], 'hhfreib'] = (tb['hhfreib'] + ((df['child_num_tu'] - 1) *
+                                                                 tb['hhfreib_ch']))
     # Child Allowance (Kinderfreibetrag)
     # Single Parents get half the allowance, parents get the full amount but share it.
     # Note that this is an assumption, parents can share them differently.
@@ -1465,50 +1469,6 @@ def kiz(df, tb, yr):
         This is done by some fixed share which is updated on annual basis
         ('jährlicher Existenzminimumsbericht')
     '''
-    # cols: number of adults
-    # rows: number of kids
-    wohnbedarf = {'2011': [[75.90, 83.11],
-                           [61.16, 71.10],
-                           [51.21, 62.12],
-                           [44.05, 55.15],
-                           [38.65, 49.59]],
-                  '2012': [[76.34, 83.14],
-                           [61.74, 71.15],
-                           [51.82, 62.18],
-                           [44.65, 55.22],
-                           [39.23, 49.66]],
-                  '2013': [[76.34, 83.14],
-                           [61.74, 71.15],
-                           [51.82, 62.18],
-                           [44.65, 55.22],
-                           [39.23, 49.66]],
-                  '2014': [[76.69, 83.30],
-                           [62.20, 71.38],
-                           [52.31, 62.45],
-                           [45.13, 55.50],
-                           [39.69, 49.95]],
-                  '2015': [[76.69, 83.30],
-                           [62.20, 71.38],
-                           [52.31, 62.45],
-                           [45.13, 55.50],
-                           [39.69, 49.95]],
-                  '2016': [[77.25, 83.16],
-                           [62.93, 71.17],
-                           [53.09, 62.20],
-                           [45.92, 55.24],
-                           [40.45, 49.69]],
-                  '2017': [[77.25, 83.16],
-                           [62.93, 71.17],
-                           [53.09, 62.20],
-                           [45.92, 55.24],
-                           [40.45, 49.69]],
-                  '2018': [[77.24, 83.25],
-                           [62.92, 71.30],
-                           [53.08, 62.36],
-                           [45.90, 55.41],
-                           [40.43, 49.85]]
-                  }
-
     cprint('Kinderzuschlag...', 'red', 'on_white')
 
     kiz = pd.DataFrame(index=df.index.copy())
@@ -1536,8 +1496,8 @@ def kiz(df, tb, yr):
     kiz['kiz_miete'] = df['miete'] * df['hh_korr']
     kiz['kiz_heiz'] = df['heizkost'] * df['hh_korr']
     # The actual living need is again broken down to the parents.
-    # There is a specific share for this, taken from the dict 'wohnbedarf' above.
-    wb = wohnbedarf[str(max(yr, 2011))]
+    # There is a specific share for this, taken from the fucntion 'wohnbedarf'.
+    wb = get_wohnbedarf(max(yr, 2011))
     kiz['wb_eltern_share'] = 1.0
     for c in [1, 2]:
         for r in [1, 2, 3, 4]:
@@ -1712,3 +1672,57 @@ def tb_out(df, graph_path, ref):
     print('-'*80)
 
     return True
+
+def get_wohnbedarf(yr):
+    ''' Specifies the share of living costs that is attributed to the parents
+    '''
+    # cols: number of adults
+    # rows: number of kids
+    wohnbedarf = {'2011': [[75.90, 83.11],
+                           [61.16, 71.10],
+                           [51.21, 62.12],
+                           [44.05, 55.15],
+                           [38.65, 49.59]],
+                  '2012': [[76.34, 83.14],
+                           [61.74, 71.15],
+                           [51.82, 62.18],
+                           [44.65, 55.22],
+                           [39.23, 49.66]],
+                  '2013': [[76.34, 83.14],
+                           [61.74, 71.15],
+                           [51.82, 62.18],
+                           [44.65, 55.22],
+                           [39.23, 49.66]],
+                  '2014': [[76.69, 83.30],
+                           [62.20, 71.38],
+                           [52.31, 62.45],
+                           [45.13, 55.50],
+                           [39.69, 49.95]],
+                  '2015': [[76.69, 83.30],
+                           [62.20, 71.38],
+                           [52.31, 62.45],
+                           [45.13, 55.50],
+                           [39.69, 49.95]],
+                  '2016': [[77.25, 83.16],
+                           [62.93, 71.17],
+                           [53.09, 62.20],
+                           [45.92, 55.24],
+                           [40.45, 49.69]],
+                  '2017': [[77.25, 83.16],
+                           [62.93, 71.17],
+                           [53.09, 62.20],
+                           [45.92, 55.24],
+                           [40.45, 49.69]],
+                  '2018': [[77.24, 83.25],
+                           [62.92, 71.30],
+                           [53.08, 62.36],
+                           [45.90, 55.41],
+                           [40.43, 49.85]],
+                  '2019': [[77.24, 83.25],
+                           [62.92, 71.30],
+                           [53.08, 62.36],
+                           [45.90, 55.41],
+                           [40.43, 49.85]]
+                  }
+
+    return wohnbedarf[str(yr)]

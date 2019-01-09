@@ -39,7 +39,7 @@ def get_params(settings):
     params = pd.read_excel(settings['MAIN_PATH'] +
                            '/data/params/param.xls', index_col='para')
     par = {}
-    for yr in range(1984, 2019):
+    for yr in range(1984, 2020):
         yearpar = {}
         col = 'y' + str(yr)
         for i in range(0, len(params)):

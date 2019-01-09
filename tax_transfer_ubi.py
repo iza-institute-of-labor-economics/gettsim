@@ -111,7 +111,8 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
         other=zve(
             df[taxvars],
             tb,
-            taxyear
+            taxyear,
+            hyporun
         ),
         how='inner'
     )
