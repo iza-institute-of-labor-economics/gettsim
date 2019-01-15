@@ -181,11 +181,10 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     )
 
     # 6.3. Kinderzuschlag, Additional Child Benefit
-    temp = kiz(
-            df,
-            tb,
-            taxyear
-            )
+    temp = kiz(df,
+               tb,
+               taxyear
+               )
     for var in [['m_alg2',
                  'kiz',
                  'wohngeld',
@@ -316,7 +315,7 @@ def pensions(df, tb, tb_pens, mw, year, hypo):
     # Take average values for entgeltpunkte by birth year from external statistics (2015)
     avg_ep = pd.read_excel('data/grv_ep.xlsx', header=3, nrows=40)
     avg_ep = avg_ep[~avg_ep['byear'].isna()]
-    r = pd.merge(r, avg_ep[['byear', 'avg_ep']], how = 'outer')
+    r = pd.merge(r, avg_ep[['byear', 'avg_ep']], how='outer')
 
     r['EP'] = r['avg_ep'] * r['exper']
     # Add values for current year: ratio of own wage (up to the threshold) to the mean wage
@@ -542,6 +541,10 @@ def soc_ins_contrib(df, tb, yr, ref=""):
         'ag_pvbeit'
     ]:
         ssc.loc[ssc['belowmini'], beit] = 0
+    # Exception: since 2013, marginally employed people may pay pension insurance contributions.
+    if yr > 2012:
+        ssc.loc[df['m_wage'].between(1, tb['mini_grenzew']),
+                          'rvbeit'] = tb['grvbs_mini'] * np.maximum(175, df['m_wage'])
 
     # Self-employed may insure via the public health insurance
     # In that case, they pay the full contribution (employer + employee),
@@ -598,7 +601,7 @@ def ui(df, tb, taxyear):
 
     westost = [~df['east'], df['east']]
 
-    m_alg1 = df['alg_soep'].fillna(0)
+    ui['m_alg1'] = df['alg_soep'].fillna(0)
     # Months of entitlement
     mts_ue = (
         df['months_ue'] +
@@ -606,13 +609,14 @@ def ui(df, tb, taxyear):
         df['months_ue_l2']
     )
     # Relevant wage is capped at the contribution thresholds
-    alg_wage = np.select(
+    ui['alg_wage'] = np.select(
         westost,
         [
             np.minimum(tb['rvmaxekw'], df['m_wage_l1']),
             np.minimum(tb['rvmaxeko'], df['m_wage_l1'])
         ]
     )
+    # Further, you need to deduct lump-sum amounts for contributions, taxes and soli
 
     ui_wage = np.maximum(0, alg_wage - np.maximum(df['m_wage'] - tb['alg1_frei'], 0))
 
@@ -761,12 +765,17 @@ def zve(df, tb, yr, hyporun, ref=""):
     zve['altersvors2010'] = ~df['child'] * (
             (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) -
             (12 * 0.5 * zve['rvbeit_vors']))
+    # These you get anyway ('Basisvorsorge').
+    zve['sonstigevors2010'] = 12 * (df['pvbeit'] + 0.96 * df['gkvbeit'])
+    # maybe add avbeit, but do not exceed 1900€.
+    zve['sonstigevors2010'] = np.maximum(zve['sonstigevors2010'],
+                                         np.minimum(zve['sonstigevors2010'] + 12 * df['avbeit'],
+                                                    tb['vors_sonst_max']))
 
-    zve['sonstigevors2010'] = 12 * (df['pvbeit'] + df['avbeit'] + 0.96 * df['gkvbeit'])
     if hyporun:
         zve['vorsorge2010'] = zve['altersvors2010'] + zve['sonstigevors2010']
     if not hyporun:
-        zve['vorsorge2010'] = zve['altersvors2010'].astype(int) + zve['sonstigevors2010'].astype(int)
+        zve['vorsorge2010'] = np.fix(zve['altersvors2010']) + np.fix(zve['sonstigevors2010'])
 
     # TO DO: check various deductions against each other (when modelled)
     zve['vorsorge'] = zve['vorsorge2010']
@@ -1637,8 +1646,8 @@ def tb_out(df, graph_path, ref):
         else:
             df['w_sum_'+tax] = df[tax] * df['pweight']
         print(tax + " : " + str(round(
-                                df['w_sum_'+tax].sum()/1e9 * 12
-                                , 2)) + " bn €.")
+                                df['w_sum_'+tax].sum()/1e9 * 12,
+                                2)) + " bn €.")
     cprint('Benefit recipients', 'red', 'on_white')
     for ben in ['m_alg1', 'm_alg2', 'wohngeld', 'kiz']:
         print(ben + " :" + str(round(

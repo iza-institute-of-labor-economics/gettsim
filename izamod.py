@@ -148,5 +148,5 @@ end = time.time()
 print('-'*80)
 print('Total time used: ' +
       time.strftime('%H:%M:%S', time.gmtime(end - start))
-      + "Hours.")
+      + " Hours.")
 print('-'*80)
