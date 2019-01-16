@@ -29,4 +29,8 @@ from tax_transfer.py. Then, one has several choices
 new functions differ only by a few lines, this should be OK.
 4. write a new function yourself
 
+## Open issues ##
+* too many recipients for ALG1 and wohngeld
+
+
 

@@ -117,6 +117,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
             df,
             tb,
             taxyear,
+            hyporun
         ),
         how='inner'
     )
@@ -592,6 +593,54 @@ def soc_ins_contrib(df, tb, yr, ref=""):
 
     return ssc[['svbeit', 'rvbeit', 'avbeit', 'gkvbeit', 'pvbeit']]
 
+def tarif(x, tb):
+        ''' The German Income Tax Tariff
+            modelled only after 2002 so far
+            It's not calculated as in the tax code, but rather a gemoetric decomposition of the
+            area beneath the marginal tax rate function.
+            This facilitates the implementation of alternative tax schedules
+        '''
+        y = int(tb['yr'])
+        if y < 2002:
+            print("Income Tax Pre 2002 not yet modelled!")
+        if y > 2002:
+            t = 0.0
+            if tb['G'] < x <= tb['M']:
+                t = ((((tb['t_m'] - tb['t_e']) /
+                       (2 * (tb['M'] - tb['G']))) * (x - tb['G']) +
+                      tb['t_e']
+                      ) * (x - tb['G'])
+                     )
+            if tb['M'] < x <= tb['S']:
+                t = ((((tb['t_s'] - tb['t_m']) /
+                       (2 * (tb['S'] - tb['M']))
+                       ) * (x-tb['M']) +
+                      tb['t_m']
+                      ) * (x - tb['M']) +
+                     (tb['M'] - tb['G']) * ((tb['t_m'] + tb['t_e']) / 2)
+                     )
+            if(x > tb['S']):
+                t = ((tb['t_s'] * x - tb['t_s'] * tb['S'] +
+                      ((tb['t_s'] + tb['t_m']) / 2) * (tb['S'] - tb['M']) +
+                      ((tb['t_m'] + tb['t_e']) / 2) * (tb['M'] - tb['G'])
+                      )
+                     )
+            if x > tb['R']:
+                t = t + (tb['t_r'] - tb['t_s']) * (x - tb['R'])
+            # round down to next integer
+            # t = int(t)
+            assert(t>=0)
+        return t
+
+def soli_formula(solibasis, tb):
+    soli = (np.minimum(tb['solisatz'] * solibasis,
+                       np.maximum(0.2 * (solibasis -
+                                         tb['solifreigrenze']), 0)
+                       )
+            )
+
+    return soli
+
 
 def ui(df, tb, taxyear):
     '''Return the Unemployment Benefit based on
@@ -599,15 +648,15 @@ def ui(df, tb, taxyear):
 
     '''
 
+    ui = pd.DataFrame(index=df.index.copy())
     westost = [~df['east'], df['east']]
 
     ui['m_alg1'] = df['alg_soep'].fillna(0)
-    # Months of entitlement
-    mts_ue = (
-        df['months_ue'] +
-        df['months_ue_l1'] +
-        df['months_ue_l2']
-    )
+    # Months of unemployment beforehand.
+    ui['mts_ue'] = (df['months_ue'] +
+                    df['months_ue_l1'] +
+                    df['months_ue_l2']
+                    )
     # Relevant wage is capped at the contribution thresholds
     ui['alg_wage'] = np.select(
         westost,
@@ -616,9 +665,22 @@ def ui(df, tb, taxyear):
             np.minimum(tb['rvmaxeko'], df['m_wage_l1'])
         ]
     )
+
     # Further, you need to deduct lump-sum amounts for contributions, taxes and soli
 
-    ui_wage = np.maximum(0, alg_wage - np.maximum(df['m_wage'] - tb['alg1_frei'], 0))
+    ui['alg_ssc'] = tb['alg1_abz'] * ui['alg_wage']
+    # assume west germany for this particular calculation
+    # df['east'] = False
+
+    # also assume
+    ui['alg_tax'] = np.vectorize(tarif)(12 * ui['alg_wage'] - tb['werbung'],
+                                        tb)
+    ui['alg_soli'] = soli_formula(ui['alg_tax'], tb)
+
+    ui['alg_entgelt'] = np.maximum(0, ui['alg_wage'] -
+                                      ui['alg_ssc'] -
+                                      ui['alg_tax'] / 12 -
+                                      ui['alg_soli'] / 12)
 
     # BENEFIT AMOUNT
     # Check Eligiblity.
@@ -628,26 +690,67 @@ def ui(df, tb, taxyear):
     # assuming that their information is more reliable
     # (rethink this for the dynamic model)
     # there are different replacement rates depending on presence of children
-    m_alg1.loc[
-        (mts_ue > 0) &
-        (mts_ue <= 12) &
-        (df['age'] < 65) &
-        (df['m_pensions'] == 0) &
-        (df['alg_soep'] == 0) &
-        (df['w_hours'] < 15)
-    ] = ui_wage * np.select(
-        [df['child_num_tu'] == 0, df['child_num_tu'] > 0],
-        [tb['agsatz0'], tb['agsatz1']]
-    )
+    ui['eligible'] = ((ui['mts_ue'] < 12) &
+                      (df['age'] < 65) &
+                      (df['m_pensions'] == 0) &
+                      (df['alg_soep'] == 0) &
+                      (df['w_hours'] < 15))
+    ui.loc[ui['eligible'],
+           'm_alg1'] = ui['alg_entgelt'] * np.select(
+                           [df['child_num_tu'] == 0, df['child_num_tu'] > 0],
+                           [tb['agsatz0'], tb['agsatz1']]
+                                                     )
+#    print('ALG 1 recipients according to SOEP: ' + str(df[df['alg_soep'] > 0].count()))
+#    print('Additional ALG 1 recipients from simulation: ' +
+#          str(ui[ui['m_alg1'] > 0].count() - df[df['alg_soep'] > 0].count())
+#          )
 
-    print('ALG 1 recipients according to SOEP:' + str(df['counter'][df['alg_soep'] > 0].sum()))
-    print(
-        'Additional ALG 1 recipients from simulation:' +
-        str(df['counter'][m_alg1 > 0].sum() - df['counter'][df['alg_soep'] > 0].sum())
-    )
+    return ui['m_alg1']
 
-    return m_alg1
 
+def vorsorge2010(df, tb, yr, hyporun):
+        '''
+        'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
+        from your taxable income
+        This regulation has been changed often in recent years. In order not to make anyone
+        worse off, the old regulation was maintained. Nowadays the older regulations
+        don't play a large role (i.e. the new one is more beneficial most of the times)
+        but they'd need to be implemented if earlier years are modelled.
+        Vorsorgeaufwendungen until 2004
+        TODO
+        Vorsorgeaufwendungen since 2010
+        § 10 (3) EStG
+        The share of deductable pension contributions increases each year by 2 pp.
+        ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
+        4% from health contributions are not deductable.
+        only deduct pension contributions up to the ceiling. multiply by 2
+        because it's both employee and employer contributions.
+        '''
+        westost = [~df['east'], df['east']]
+        rvbeit_vors = np.minimum(2 * df['rvbeit'],
+                                 2 * tb['grvbs'] * np.select(westost,
+                                             [tb['rvmaxekw'], tb['rvmaxeko']])
+                                 )
+        # calculate x% of relevant employer and employee contributions
+        # then subtract employer contributions
+        # also subtract health + care + unemployment insurance contributions
+        altersvors2010 = ~df['child'] * (
+                (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * rvbeit_vors) -
+                (12 * 0.5 * rvbeit_vors))
+        # These you get anyway ('Basisvorsorge').
+        sonstigevors2010 = 12 * (df['pvbeit'] + 0.96 * df['gkvbeit'])
+        # maybe add avbeit, but do not exceed 1900€.
+        sonstigevors2010 = np.maximum(sonstigevors2010,
+                                      np.minimum(sonstigevors2010 + 12 * df['avbeit'],
+                                                 tb['vors_sonst_max'])
+                                      )
+
+        if hyporun:
+            vorsorge2010 = altersvors2010 + sonstigevors2010
+        if not hyporun:
+            vorsorge2010 = np.fix(altersvors2010) + np.fix(sonstigevors2010)
+
+        return vorsorge2010
 
 # @jit(nopython=True)
 def zve(df, tb, yr, hyporun, ref=""):
@@ -662,7 +765,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     # Kapitaleinkommen im Tarif versteuern oder nicht?
     kapinc_in_tarif = yr < 2009
     westost = [~df['east'], df['east']]
-    married = [df['zveranl'], ~df['zveranl']]
+    # married = [df['zveranl'], ~df['zveranl']]
     # create output dataframe and transter some important variables
     zve = pd.DataFrame(index=df.index.copy())
     for v in ['hid', 'tu_id', 'zveranl']:
@@ -739,46 +842,8 @@ def zve(df, tb, yr, hyporun, ref=""):
         zve[inc+'_tu'] = aggr(zve, inc, False)
 
     # TAX DEDUCTIONS
-    # 'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
-    # from your taxable income
-    # This regulation has been changed often in recent years. In order not to make anyone
-    # worse off, the old regulation was maintained. Nowadays the older regulations
-    # don't play a large role (i.e. the new one is more beneficial most of the times)
-    # but they'd need to be implemented if earlier years are modelled.
-    # Vorsorgeaufwendungen until 2004
-    # TODO
-    # Vorsorgeaufwendungen since 2010
-    # § 10 (3) EStG
-    # The share of deductable pension contributions increases each year by 2 pp.
-    # ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
-    # 4% from health contributions are not deductable.
-
-    # only deduct pension contributions up to the ceiling. multiply by 2
-    # because it's both employee and employer contributions.
-    zve['rvbeit_vors'] = np.minimum(2 * df['rvbeit'],
-                                    2 * tb['grvbs'] * np.select(westost,
-                                              [tb['rvmaxekw'], tb['rvmaxeko']])
-                                    )
-    # calculate x% of relevant employer and employee contributions
-    # then subtract employer contributions
-    # also subtract health + care + unemployment insurance contributions
-    zve['altersvors2010'] = ~df['child'] * (
-            (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * zve['rvbeit_vors']) -
-            (12 * 0.5 * zve['rvbeit_vors']))
-    # These you get anyway ('Basisvorsorge').
-    zve['sonstigevors2010'] = 12 * (df['pvbeit'] + 0.96 * df['gkvbeit'])
-    # maybe add avbeit, but do not exceed 1900€.
-    zve['sonstigevors2010'] = np.maximum(zve['sonstigevors2010'],
-                                         np.minimum(zve['sonstigevors2010'] + 12 * df['avbeit'],
-                                                    tb['vors_sonst_max']))
-
-    if hyporun:
-        zve['vorsorge2010'] = zve['altersvors2010'] + zve['sonstigevors2010']
-    if not hyporun:
-        zve['vorsorge2010'] = np.fix(zve['altersvors2010']) + np.fix(zve['sonstigevors2010'])
-
     # TO DO: check various deductions against each other (when modelled)
-    zve['vorsorge'] = zve['vorsorge2010']
+    zve['vorsorge'] = vorsorge2010(df, tb, yr, hyporun)
     # Summing up not necessary! they already got half
     zve['vorsorge_tu'] = aggr(zve, 'vorsorge', False)
     # Tax Deduction for elderly ("Altersentlastungsbetrag")
@@ -807,7 +872,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     # Single Parents get half the allowance, parents get the full amount but share it.
     # Note that this is an assumption, parents can share them differently.
     zve['kifreib'] = 0
-    zve['kifreib'] = (0.5 * tb['ch_allow'] *
+    zve['kifreib'] = (0.5 * tb['kifreib'] *
                       df['child_num_tu'] * ~df['child'])
     # Taxable income (zve)
     # For married couples, household income is split between the two.
@@ -863,7 +928,7 @@ def zve(df, tb, yr, hyporun, ref=""):
                 'ertragsanteil']]
 
 
-def tax_sched(df, tb, yr, ref=""):
+def tax_sched(df, tb, yr, ref="", hyporun=False):
     ''' Applies the income tax tariff for various definitions of taxable income
         also calculates tax on capital income (Abgeltungssteuer)
     '''
@@ -874,44 +939,6 @@ def tax_sched(df, tb, yr, ref=""):
     else:
         inclist = ['nokfb', 'abg_nokfb', 'kfb', 'abg_kfb']
 
-    def tarif(x, tb):
-        ''' The German Income Tax Tariff
-            modelled only after 2002 so far
-            It's not calculated as in the tax code, but rather a gemoetric decomposition of the
-            area beneath the marginal tax rate function.
-            This facilitates the implementation of alternative tax schedules
-        '''
-        y = int(tb['yr'])
-        if y < 2002:
-            print("Income Tax Pre 2002 not yet modelled!")
-        if y > 2002:
-            t = 0.0
-            if tb['G'] < x <= tb['M']:
-                t = ((((tb['t_m'] - tb['t_e']) /
-                       (2 * (tb['M'] - tb['G']))) * (x - tb['G']) +
-                      tb['t_e']
-                      ) * (x - tb['G'])
-                     )
-            if tb['M'] < x <= tb['S']:
-                t = ((((tb['t_s'] - tb['t_m']) /
-                       (2 * (tb['S'] - tb['M']))
-                       ) * (x-tb['M']) +
-                      tb['t_m']
-                      ) * (x - tb['M']) +
-                     (tb['M'] - tb['G']) * ((tb['t_m'] + tb['t_e']) / 2)
-                     )
-            if(x > tb['S']):
-                t = ((tb['t_s'] * x - tb['t_s'] * tb['S'] +
-                      ((tb['t_s'] + tb['t_m']) / 2) * (tb['S'] - tb['M']) +
-                      ((tb['t_m'] + tb['t_e']) / 2) * (tb['M'] - tb['G'])
-                      )
-                     )
-            if x > tb['R']:
-                t = t + (tb['t_r'] - tb['t_s']) * (x - tb['R'])
-            # round down to next integer
-            # t = int(t)
-        return t
-
     cprint('Tax Schedule...', 'red', 'on_white')
     # create ts dataframe and copy three important variables
     ts = pd.DataFrame(index=df.index.copy())
@@ -919,10 +946,9 @@ def tax_sched(df, tb, yr, ref=""):
         ts[v] = df[v]
 
     for inc in inclist:
-        # apply the tariff. Need np.vectorize for handing a series
-        # to the function along with other parameters.
-        # need to convert this one to panda series...
         ts['tax_'+inc] = np.vectorize(tarif)(df['zve_'+inc], tb)
+        if not hyporun:
+            ts['tax_'+inc] = np.fix(ts['tax_'+inc])
         ts['tax_'+inc+'_tu'] = aggr(ts, 'tax_'+inc, False)
     ################
 
@@ -1094,12 +1120,7 @@ def soli(df, tb, yr, ref=''):
         else:
             soli['solibasis'] = df['tax_abg_kfb_tu']
         # Soli also in monthly terms. only for adults
-        soli['soli_tu'] = (np.minimum(tb['solisatz'] * soli['solibasis'],
-                                      np.maximum(0.2 * (soli['solibasis'] -
-                                                 tb['solifreigrenze']), 0)
-                                      )
-                                      * ~df['child'] * (1/12)
-                           )
+        soli['soli_tu'] = soli_formula(soli['solibasis'], tb) * ~df['child'] * (1/12)
 
     # Assign income Tax + Soli to individuals
     soli['incometax'] = np.select([df['zveranl'], ~df['zveranl']],

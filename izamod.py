@@ -78,7 +78,7 @@ def run_izamod(settings):
 
     if (settings['taxtrans'] == 1) or (settings['run_hypo'] == 1):
         # Load Tax-Benefit Parameters
-        tb = get_params(settings)[str(settings['taxyear'])]
+        tb = get_params(settings)['y'+str(settings['taxyear'])]
         # Load pension parameters
         mw = pd.read_json(settings['DATA_PATH'] + 'params/mw_pensions.json')
         tb_pens = pd.read_excel(settings['MAIN_PATH'] +

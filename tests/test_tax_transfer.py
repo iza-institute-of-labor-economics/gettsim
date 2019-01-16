@@ -3,8 +3,9 @@ from pandas import DataFrame, Series
 from pandas.testing import assert_series_equal, assert_frame_equal
 from numpy.testing import assert_allclose
 from tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
-from tax_transfer import tax_sched, soli, wg, alg2, kiz
+from tax_transfer import tax_sched, soli, wg, alg2, kiz, ui
 from itertools import product
+from settings import get_settings
 import pandas as pd
 
 
@@ -90,14 +91,14 @@ def load_ssc_output_data(year, column):
 
 
 def load_tb(year):
-    df = pd.read_excel('tests/test_data/test_param.xls').set_index('para')
+    # df = pd.read_excel('tests/test_data/test_param.xls').set_index('para')
+    df = pd.read_excel(get_settings()['DATA_PATH']+'params/param.xls').set_index('para')
     return df['y{}'.format(year)].to_dict()
 
 
 years = [2010, 2018]
 columns = ['svbeit', 'rvbeit', 'avbeit', 'gkvbeit', 'pvbeit']
 to_test = list(product(years, columns))
-
 
 @pytest.mark.parametrize('year, column', to_test)
 def test_soc_ins_contrib(year, column):
@@ -107,6 +108,42 @@ def test_soc_ins_contrib(year, column):
     expected = load_ssc_output_data(year, column)
     assert_series_equal(calculated, expected)
 
+
+# =============================================================================
+# test Arbeitslosgendgeld (UI)
+# =============================================================================
+def load_ui_input_data(year):
+    df = pd.read_excel('tests/test_data/test_dfs_ui.xlsx',
+                       true_values=['TRUE'])
+    df = df[['hid', 'tu_id', 'm_wage_l1', 'east', 'child',
+             'months_ue', 'months_ue_l1', 'months_ue_l2',
+             'alg_soep', 'm_pensions', 'w_hours', 'child_num_tu',
+             'age', 'year']]
+    df = df.astype({'east': bool,
+                    'child': bool})
+    df = df[df['year'] == year]
+
+    return df
+
+def load_ui_output_data(year):
+    df = pd.read_excel('tests/test_data/test_dfs_ui.xlsx')
+    df = df[['m_alg1', 'year']][df['year'] == year]
+
+    return df['m_alg1']
+
+
+years = [2010, 2011, 2015, 2019]
+
+@pytest.mark.parametrize('year', years)
+def test_ui(year):
+    df = load_ui_input_data(year)
+    tb = load_tb(year)
+    tb['yr'] = year
+    calculated = ui(df, tb, year)
+    expected = load_ui_output_data(year)
+    print('calculated: \n', calculated, '\n\n')
+    print('expected: \n', expected)
+    assert_allclose(calculated, expected, atol=.01)
 
 # =============================================================================
 # test favorability_check
@@ -131,6 +168,7 @@ def load_favorability_output_data(year, column):
     df = pd.read_excel('tests/test_data/test_dfs_favorability_check.xlsx')
     df = df[df['year'] == year]
     return df[column]
+
 
 years = [2010, 2012, 2016]
 columns = ['incometax_tu', 'kindergeld', 'kindergeld_hh', 'kindergeld_tu']
@@ -186,8 +224,8 @@ def test_zve(year):
     tb['ch_allow'] = tb['kifreib']
     calculated = zve(df, tb, year, hyporun=False)[columns]
     expected = load_zve_output_data(year)
-    print('calculated: \n', calculated, '\n\n')
-    print('expected: \n', expected)
+
+    # allow 1€ difference, caused by strange rounding issues.
     assert_allclose(calculated, expected, atol=1)
     # assert_frame_equal(calculated, expected)
 

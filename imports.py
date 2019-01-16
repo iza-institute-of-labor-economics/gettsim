@@ -37,23 +37,26 @@ def get_params(settings):
     returns A Dictionary of Dictionaries for each year.
     '''
     params = pd.read_excel(settings['MAIN_PATH'] +
-                           '/data/params/param.xls', index_col='para')
-    par = {}
+                           '/data/params/param.xls', index_col='para').to_dict()
+
     for yr in range(1984, 2020):
-        yearpar = {}
-        col = 'y' + str(yr)
-        for i in range(0, len(params)):
-            name = params.index[i]
-            yearpar.update({name: params.loc[name, col]})
+        params['y'+str(yr)]['yr'] = yr
+#    par = {}
+#    for yr in range(1984, 2020):
+#        yearpar = {}
+#        col = 'y' + str(yr)
+#        for i in range(0, len(params)):
+#            name = params.index[i]
+#            yearpar.update({name: params.loc[name, col]})
+#
+#        # TO DO (MAYBE): English Translation of parameter names
+#        yearpar['ch_allow'] = yearpar.pop('kifreib')
+#        # add year
+#        yearpar.update({'yr': str(yr)})
+#        # When finished, add to par
+#        par.update({str(yr): yearpar})
 
-        # TO DO (MAYBE): English Translation of parameter names
-        yearpar['ch_allow'] = yearpar.pop('kifreib')
-        # add year
-        yearpar.update({'yr': str(yr)})
-        # When finished, add to par
-        par.update({str(yr): yearpar})
-
-    return par
+    return params
 
 
 def regex_replace(df, rx, numlist, x):
