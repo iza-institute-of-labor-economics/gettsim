@@ -6,6 +6,7 @@ All import commands to be inserted here.
 """
 
 import pandas as pd
+
 # pd.options.mode.use_inf_as_na = True
 
 import scipy
@@ -17,53 +18,54 @@ import time
 
 
 def init(settings):
-    '''checks for existence of folder and creates them if necesarry
-    '''
-    for r in settings['Reforms']:
-        if not os.path.exists(settings['DATA_PATH']+r):
-            os.makedirs(settings['DATA_PATH']+r)
-        if not os.path.exists(settings['GRAPH_PATH']+r):
-            os.makedirs(settings['GRAPH_PATH']+r)
-    if not os.path.exists(settings['DATA_PATH']+'SOEP'):
-        os.makedirs(settings['DATA_PATH'] + 'SOEP')
-    if not os.path.exists(settings['GRAPH_PATH']+'hypo'):
-        os.makedirs(settings['GRAPH_PATH'] + 'hypo')
-    if not os.path.exists(settings['GRAPH_PATH']+'wageplots'):
-        os.makedirs(settings['GRAPH_PATH'] + 'wageplots')
+    """checks for existence of folder and creates them if necesarry
+    """
+    for r in settings["Reforms"]:
+        if not os.path.exists(settings["DATA_PATH"] + r):
+            os.makedirs(settings["DATA_PATH"] + r)
+        if not os.path.exists(settings["GRAPH_PATH"] + r):
+            os.makedirs(settings["GRAPH_PATH"] + r)
+    if not os.path.exists(settings["DATA_PATH"] + "SOEP"):
+        os.makedirs(settings["DATA_PATH"] + "SOEP")
+    if not os.path.exists(settings["GRAPH_PATH"] + "hypo"):
+        os.makedirs(settings["GRAPH_PATH"] + "hypo")
+    if not os.path.exists(settings["GRAPH_PATH"] + "wageplots"):
+        os.makedirs(settings["GRAPH_PATH"] + "wageplots")
 
 
 def get_params(settings):
-    ''' Load Tax-Benefit Parameters.
+    """ Load Tax-Benefit Parameters.
     returns A Dictionary of Dictionaries for each year.
-    '''
-    params = pd.read_excel(settings['MAIN_PATH'] +
-                           '/data/params/param.xls', index_col='para').to_dict()
+    """
+    params = pd.read_excel(
+        settings["MAIN_PATH"] + "/data/params/param.xls", index_col="para"
+    ).to_dict()
 
     for yr in range(1984, 2020):
-        params['y'+str(yr)]['yr'] = yr
-#    par = {}
-#    for yr in range(1984, 2020):
-#        yearpar = {}
-#        col = 'y' + str(yr)
-#        for i in range(0, len(params)):
-#            name = params.index[i]
-#            yearpar.update({name: params.loc[name, col]})
-#
-#        # TO DO (MAYBE): English Translation of parameter names
-#        yearpar['ch_allow'] = yearpar.pop('kifreib')
-#        # add year
-#        yearpar.update({'yr': str(yr)})
-#        # When finished, add to par
-#        par.update({str(yr): yearpar})
+        params["y" + str(yr)]["yr"] = yr
+    #    par = {}
+    #    for yr in range(1984, 2020):
+    #        yearpar = {}
+    #        col = 'y' + str(yr)
+    #        for i in range(0, len(params)):
+    #            name = params.index[i]
+    #            yearpar.update({name: params.loc[name, col]})
+    #
+    #        # TO DO (MAYBE): English Translation of parameter names
+    #        yearpar['ch_allow'] = yearpar.pop('kifreib')
+    #        # add year
+    #        yearpar.update({'yr': str(yr)})
+    #        # When finished, add to par
+    #        par.update({str(yr): yearpar})
 
     return params
 
 
 def regex_replace(df, rx, numlist, x):
-    '''
+    """
     function that replaces all columns defined by regex
     in a dataframe from the list in numlist to value x.
-    '''
+    """
     sub = df.filter(regex=rx)
 
     for v in list(sub):
@@ -73,8 +75,8 @@ def regex_replace(df, rx, numlist, x):
 
 
 def tab(df, row, col):
-    ''' Cross-Tabulation. For several nested columns, insert a list for col
-    '''
+    """ Cross-Tabulation. For several nested columns, insert a list for col
+    """
     c = [df[col[0]]]
     if len(col) > 1:
         for l in range(1, len(col)):
@@ -84,14 +86,14 @@ def tab(df, row, col):
 
 
 def drop(df, dropvars):
-    ''' Stata Drop Command. Drops the variable list 'vars' from dataframe df
+    """ Stata Drop Command. Drops the variable list 'vars' from dataframe df
         A convenience tool
-    '''
+    """
     df = df.drop(columns=dropvars, axis=1)
 
 
 def aggr(df, inc, withkids=False):
-    ''' Function to aggregate some variable
+    """ Function to aggregate some variable
         'inc' among
         - the 2 adults of the tax unit (if they are married!)
           if 'withkids' is False.
@@ -103,31 +105,30 @@ def aggr(df, inc, withkids=False):
            if 'withkids' is true.
         returns one series with suffix _tu or _tu_k, depending on the
         parameter 'withkids'
-    '''
+    """
     if withkids is False:
-        df[inc+'_verh'] = df['zveranl'] * df[inc]
+        df[inc + "_verh"] = df["zveranl"] * df[inc]
         df = df.join(
-            df.groupby(['tu_id'])[(inc+'_verh')].sum(),
-            on=['tu_id'], how='left', rsuffix='_sum')
-        df[inc+'_tu'] = np.select([df['zveranl'], ~df['zveranl']],
-                                  [df[inc+'_verh_sum'], df[inc]])
-        return df[inc+'_tu']
+            df.groupby(["tu_id"])[(inc + "_verh")].sum(), on=["tu_id"], how="left", rsuffix="_sum"
+        )
+        df[inc + "_tu"] = np.select(
+            [df["zveranl"], ~df["zveranl"]], [df[inc + "_verh_sum"], df[inc]]
+        )
+        return df[inc + "_tu"]
 
     if withkids is True:
-        df = df.join(
-            df.groupby(['tu_id'])[inc].sum(),
-            on=['tu_id'], how='left', rsuffix='_sum')
-        df[inc+'_tu_k'] = df[inc+'_sum']
+        df = df.join(df.groupby(["tu_id"])[inc].sum(), on=["tu_id"], how="left", rsuffix="_sum")
+        df[inc + "_tu_k"] = df[inc + "_sum"]
 
-        return df[inc+'_tu_k']
+        return df[inc + "_tu_k"]
 
 
 def gini(x, w=None):
-    '''
+    """
     Calculate the Gini coefficient of a numpy array using sample weights.
     Source: https://stackoverflow.com/questions/48999542/more-efficient-weighted-gini-coefficient-in-python
 
-    '''
+    """
 
     # Array indexing requires reset indexes.
     x = pd.Series(x).reset_index(drop=True)
@@ -150,32 +151,28 @@ def gini(x, w=None):
 
 
 def mw_pensions(df):
-    ''' Calculates mean wages by SOEP year. Will be used in tax_transfer
-    '''
+    """ Calculates mean wages by SOEP year. Will be used in tax_transfer
+    """
     print("Pensions Calculations...")
-    rent = df[['syear',
-               'm_wage',
-               'female',
-               'east',
-               'pweight',
-               'civilservant',
-               ]][(df['m_wage'] > 100)
-                  & ~df['selfemployed']]
+    rent = df[["syear", "m_wage", "female", "east", "pweight", "civilservant"]][
+        (df["m_wage"] > 100) & ~df["selfemployed"]
+    ]
     # calculates weighted mean wages by year
     # all earnings.
-    rent['wage_weighted'] = rent['m_wage'] * 12 * rent['pweight']
+    rent["wage_weighted"] = rent["m_wage"] * 12 * rent["pweight"]
     # only wages subject to social security contributions
-    rent['wage_weighted_subsample'] = rent['wage_weighted'][~rent['civilservant'] &
-                                                            (rent['m_wage'] > 450)]
-    rent['pweight_sub'] = rent['pweight'][~rent['civilservant'] &
-                                          (rent['m_wage'] > 450)]
-    years = rent.groupby('syear')
+    rent["wage_weighted_subsample"] = rent["wage_weighted"][
+        ~rent["civilservant"] & (rent["m_wage"] > 450)
+    ]
+    rent["pweight_sub"] = rent["pweight"][~rent["civilservant"] & (rent["m_wage"] > 450)]
+    years = rent.groupby("syear")
     mw = pd.DataFrame()
-    mw['meanwages'] = round(years['wage_weighted'].sum() / years['pweight'].sum(), 2)
-    mw['meanwages_sub'] = round(years['wage_weighted_subsample'].sum() /
-                                years['pweight_sub'].sum(),
-                                2)
+    mw["meanwages"] = round(years["wage_weighted"].sum() / years["pweight"].sum(), 2)
+    mw["meanwages_sub"] = round(
+        years["wage_weighted_subsample"].sum() / years["pweight_sub"].sum(), 2
+    )
     return mw
+
 
 def say_hello(taxyear, ref, hyporun):
     print("---------------------------------------------")
