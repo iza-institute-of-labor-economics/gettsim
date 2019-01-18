@@ -29,8 +29,6 @@ def set_project_paths(ctx):
     pp["OUT_MODEL_SPECS"] = f"{out}/src/model_specs"
     pp["OUT_TABLES"] = f"{out}/out/tables"
 
-
-
     # Convert the directories into Waf nodes.
     for key, val in pp.items():
         if not key == "ADO":
@@ -70,13 +68,12 @@ def path_to(ctx, pp_key, *args):
 def configure(ctx):
     ctx.env.PYTHONPATH = os.getcwd()
     # Disable on a machine where security risks could arise
-    ctx.env.PDFLATEXFLAGS = "-shell-escape"
+    ctx.env.PDFLATEXFLAGS = ["-shell-escape", "-halt-on-error"]
     ctx.load("run_py_script")
     ctx.load("sphinx_build")
     ctx.load("write_project_headers")
     # ctx.find_program("dot")
     ctx.load("biber")
-
 
 
 def build(ctx):
