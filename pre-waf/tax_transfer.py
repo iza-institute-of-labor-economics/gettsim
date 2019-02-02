@@ -195,7 +195,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     # 7. Drop unnecessary variables. not necessary anymore.s
     # df = dropstuff(df)
 
-    # 8. Finally, calculate disposable income
+    # 8. Calculate disposable income
     # To be updated!
     df['dpi_ind'] = df[[
         'm_wage',
@@ -206,6 +206,8 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
         'm_pensions',
         'm_transfers',
         'kindergeld',
+        'm_alg2',
+        'wohngeld'
     ]].sum(axis=1) - df[[
         'incometax',
         'soli',
@@ -236,7 +238,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
                             'm_transfers',
                             'kindergeld',
                             ]].sum(axis=1), 2) + df['m_alg2'] + df['wohngeld'] + df['kiz']
-
+    
     # Control output
     df = df.sort_values(by=['hid', 'tu_id', 'pid'])
     df[['hid',
