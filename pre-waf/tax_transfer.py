@@ -205,9 +205,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
         'm_imputedrent',
         'm_pensions',
         'm_transfers',
-        'kindergeld',
-        'm_alg2',
-        'wohngeld'
+        'kindergeld',        
     ]].sum(axis=1) - df[[
         'incometax',
         'soli',
