@@ -621,7 +621,9 @@ def hypo_graphs(dfs, settings, types, lang):
 def hypo_tex(settings, types, rents, lang):
     """ outputs graphs in latex along with explanatory text
     """
-    texfile = open("{}/hypographs_{}.tex".format(settings["GRAPH_PATH"],lang), "w")
+    texfile = open("{}/hypographs_{}_{}.tex".format(settings["GRAPH_PATH"],
+                                                    settings['Reforms'][0],
+                                                    lang), "w")
     texfile.write("\\documentclass{article} \n")
     if lang == "german":
         texfile.write("\\usepackage[ngerman]{babel} \n")
