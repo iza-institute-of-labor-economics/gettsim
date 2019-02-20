@@ -12,8 +12,6 @@ Janos Gabler
 """
 
 from settings import get_settings, ubi_settings
-from load_data import loaddata
-from prepare_data import preparedata
 from hypo import hypo_analysis
 from tt_list import *
 from imports import init, get_params, mw_pensions, say_hello
@@ -128,7 +126,7 @@ def run_izamod(settings):
 
     # Hypo Run: create hypothetical household data, run tax transfer and produce some outputs.
     if settings["run_hypo"] == 1:
-        hypo_analysis(settings["DATA_PATH"], settings, tb)
+        hypo_analysis(settings["DATA_PATH"], settings, tb, "german")
 
     print("END IZA_DYN_MOD")
 

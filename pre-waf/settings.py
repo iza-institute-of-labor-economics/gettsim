@@ -31,10 +31,10 @@ def get_settings():
     show_descr = 0
 
     # TAX TRANSFER CALCULATION
-    taxtrans = 1
+    taxtrans = 0
 
     # Run Hypo file for debugging
-    run_hypo = 0
+    run_hypo = 1
 
     # PATH SETTINGS
     MAIN_PATH = os.getcwd() + "/"
@@ -89,25 +89,38 @@ def ubi_settings(tb):
     return tb_ubi
 
 
-def hypo_graph_settings():
+def hypo_graph_settings(lang):
     """ Set various settings for Hypo Graphs
     """
     # Create labels for each graph type
-    xlabels = {
-        "lego": "Gross monthly household income (€)",
-        "emtr": "Gross monthly household income (€)",
-        "bruttonetto": "Gross monthly household income (€)",
-    }
+    if lang == "english":
+        xlabels = {
+            "lego": "Gross monthly household income (€)",
+            "emtr": "Gross monthly household income (€)",
+            "bruttonetto": "Gross monthly household income (€)",
+        }
 
-    ylabels = {
-        "lego": "Disp. monthly household income (€)",
-        "emtr": "Effective Marginal Tax Rate",
-        "bruttonetto": "Disp. monthly household income (€)",
-    }
+        ylabels = {
+            "lego": "Disp. monthly household income (€)",
+            "emtr": "Effective Marginal Tax Rate",
+            "bruttonetto": "Disp. monthly household income (€)",
+        }
+    if lang == "german":
+        xlabels = {
+            "lego": "Bruttoeinkommen (€ / Monat)",
+            "emtr": "Bruttoeinkommen (€ / Monat)",
+            "bruttonetto": "Bruttoeinkommen (€ / Monat)",
+        }
+
+        ylabels = {
+            "lego": "Verf. Einkommen (€ / Monat)",
+            "emtr": "Effektive Grenzbelastung",
+            "bruttonetto": "Verf. Einkommen (€ / Monat)",
+        }
     # depending on the plottype, which reform-specific variables to plot?
     yvars = {"emtr": "emtr", "bruttonetto": "dpi"}
 
     # max yearly income to plot
-    maxinc = 60000
+    maxinc = 48000
 
     return xlabels, ylabels, yvars, maxinc
