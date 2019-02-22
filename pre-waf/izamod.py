@@ -126,7 +126,7 @@ def run_izamod(settings):
 
     # Hypo Run: create hypothetical household data, run tax transfer and produce some outputs.
     if settings["run_hypo"] == 1:
-        hypo_analysis(settings["DATA_PATH"], settings, tb, "german")
+        hypo_analysis(settings["DATA_PATH"], settings, tb, "en")
 
     print("END IZA_DYN_MOD")
 

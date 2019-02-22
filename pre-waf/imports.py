@@ -2,7 +2,6 @@
 """
 This is where scripts and functions are defined that are regularly
 used in various bits of the model.
-All import commands to be inserted here.
 """
 
 import pandas as pd
@@ -18,19 +17,19 @@ import time
 
 
 def init(settings):
-    """checks for existence of folder and creates them if necesarry
+    """checks for existence of folders and creates them if necesarry
     """
     for r in settings["Reforms"]:
         if not os.path.exists(settings["DATA_PATH"] + r):
             os.makedirs(settings["DATA_PATH"] + r)
         if not os.path.exists(settings["GRAPH_PATH"] + r):
             os.makedirs(settings["GRAPH_PATH"] + r)
-    if not os.path.exists(settings["DATA_PATH"] + "SOEP"):
-        os.makedirs(settings["DATA_PATH"] + "SOEP")
-    if not os.path.exists(settings["GRAPH_PATH"] + "hypo"):
-        os.makedirs(settings["GRAPH_PATH"] + "hypo")
-    if not os.path.exists(settings["GRAPH_PATH"] + "wageplots"):
-        os.makedirs(settings["GRAPH_PATH"] + "wageplots")
+    for path in [settings["DATA_PATH"] + "SOEP",
+                 settings["DATA_PATH"] + "hypo",
+                 settings["GRAPH_PATH"] + "hypo",
+                 settings["GRAPH_PATH"] + "wageplots"]:
+        if not os.path.exists(path):
+            os.makedirs(path)
 
 
 def get_params(settings):
@@ -51,8 +50,6 @@ def get_params(settings):
     #            name = params.index[i]
     #            yearpar.update({name: params.loc[name, col]})
     #
-    #        # TO DO (MAYBE): English Translation of parameter names
-    #        yearpar['ch_allow'] = yearpar.pop('kifreib')
     #        # add year
     #        yearpar.update({'yr': str(yr)})
     #        # When finished, add to par
@@ -92,21 +89,26 @@ def drop(df, dropvars):
     df = df.drop(columns=dropvars, axis=1)
 
 
-def aggr(df, inc, withkids=False):
-    """ Function to aggregate some variable
-        'inc' among
-        - the 2 adults of the tax unit (if they are married!)
-          if 'withkids' is False.
-          Do this for taxable incomes and the like.
-          If they are not married, but form a tax unit,
-          which makes sense from a labor supply point of view,
-          the variable 'inc' is not summed up.
-        - all members (incl. children) of the tax_unit
-           if 'withkids' is true.
+def aggr(df, inc, unit):
+    """ Function to aggregate some (income) variable within the household
+
+        args:
+            df: the dataframe in which aggregation takes place. Needs to have
+            the variable 'inc', but also ['zveranl', 'hid', 'tu_id']
+        inc: the variable to aggregate
+        unit: The household members among which you aggregate;
+        'adult_married': the 2 adults of the tax unit (if they are married!)
+                         Do this for taxable incomes and the like.
+                         If they are not married, but form a tax unit,
+                         which makes sense from a labor supply point of view,
+                         the variable 'inc' is not summed up.
+        'all_tu': all members (incl. children) of the tax_unit
+        'all_hh': all members (incl. children) of the Household
+
         returns one series with suffix _tu or _tu_k, depending on the
         parameter 'withkids'
     """
-    if withkids is False:
+    if unit == 'adult_married':
         df[inc + "_verh"] = df["zveranl"] * df[inc]
         df = df.join(
             df.groupby(["tu_id"])[(inc + "_verh")].sum(), on=["tu_id"], how="left", rsuffix="_sum"
@@ -116,12 +118,17 @@ def aggr(df, inc, withkids=False):
         )
         return df[inc + "_tu"]
 
-    if withkids is True:
+    if unit == 'all_tu':
         df = df.join(df.groupby(["tu_id"])[inc].sum(), on=["tu_id"], how="left", rsuffix="_sum")
         df[inc + "_tu_k"] = df[inc + "_sum"]
 
         return df[inc + "_tu_k"]
 
+    if unit == 'all_hh':
+        df = df.join(df.groupby(["hid"])[inc].sum(), on=["hid"], how="left", rsuffix="_sum")
+        df[inc + "_hh"] = df[inc + "_sum"]
+
+        return df[inc + "_hh"]
 
 def gini(x, w=None):
     """

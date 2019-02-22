@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-TAX TRANSFER SIMULATION
-
+TAX TRANSFER SYSTEM FOR UBI
 Eric Sommer, 2018
 """
-from imports import aggr, gini
+from imports import aggr
 from termcolor import colored, cprint
-from tax_transfer import *
+from tax_transfer import soc_ins_contrib, pensions, zve, tax_sched
+from tax_transfer import soli, favorability_check, uhv
 
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 
 # from numba import jit
-import math
-import sys
 
 
 def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
@@ -34,7 +30,6 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
     Arguments:
 
         - *df*: Input Data Frame
-        [- *ref*: Name of Reform]
         - *datayear*: year of SOEP wave
         - *taxyear*: year of reform baseline
         - *tb*: dictionary with tax-benefit parameters
@@ -74,6 +69,10 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
     # Pension benefits
     df["pen_sim"] = pensions(df, tb, tb_pens, mw, taxyear, hyporun)
 
+    # UBI
+    df["ubi"] = ubi(df, tb)
+    # aggregate it on hh level
+    df["ubi_hh"] = aggr(df, "ubi", "all_hh")
     # Income Tax
     taxvars = [
         "pid",
@@ -107,10 +106,11 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
         "child_num_tu",
         "alleinerz",
         "ineducation",
+        "ubi",
     ]
 
     # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
-    df = df.join(other=zve(df[taxvars], tb, taxyear, hyporun), how="inner")
+    df = df.join(other=zve(df[taxvars], tb, taxyear, hyporun, ref="UBI"), how="inner")
 
     # 5.2 Apply Tax Schedule
     df = df.join(other=tax_sched(df, tb, taxyear), how="inner")
@@ -130,6 +130,10 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
     df = df.join(other=soli(df, tb, taxyear), how="inner")
 
     # 6. SOCIAL TRANSFERS / BENEFITS
+    # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
+    df["uhv"] = uhv(df, tb, taxyear)
+    df["uhv_hh"] = aggr(df, "uhv", "all_hh")
+
     # 6.1. Wohngeld, Housing Benefit
     df["wohngeld"] = 0
     # 6.2 ALG2, Basic Unemployment Benefit
@@ -137,9 +141,6 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
 
     # 6.3. Kinderzuschlag, Additional Child Benefit
     df["kiz"] = 0
-
-    # UBI replaces ALG2 for compatibility reasons
-    df["m_alg2"] = ubi(df)
 
     # 7. Drop unnecessary variables. not necessary anymore.s
     # df = dropstuff(df)
@@ -155,7 +156,8 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
             "m_imputedrent",
             "m_pensions",
             "m_transfers",
-            "kindergeld",
+            "ubi",
+            "uhv",
         ]
     ].sum(axis=1) - df[
         ["incometax", "soli", "abgst", "gkvbeit", "rvbeit", "pvbeit", "avbeit"]
@@ -165,51 +167,19 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
 
     df["dpi_ind_temp"] = df.groupby(["hid"])["dpi_ind"].transform(sum)
 
-    # Finally, add benefits that are defined on the household level
-    df["dpi"] = round(
-        np.maximum(0, df["dpi_ind_temp"] + df["m_alg2"] + df["wohngeld"] + df["kiz"]), 2
-    )
-
-    # Control output
-    df = df.sort_values(by=["hid", "tu_id", "pid"])
-    df[
-        [
-            "hid",
-            "tu_id",
-            "pid",
-            "head",
-            "child",
-            "age",
-            "m_wage",
-            "m_kapinc",
-            "m_self",
-            "m_vermiet",
-            "m_imputedrent",
-            "m_pensions",
-            "m_transfers",
-            "kindergeld",
-            "wohngeld",
-            "kiz",
-            "m_alg2",
-            "incometax",
-            "soli",
-            "abgst",
-            "gkvbeit",
-            "rvbeit",
-            "pvbeit",
-            "avbeit",
-            "dpi_ind",
-            "dpi",
-        ]
-    ].to_excel(pd.ExcelWriter("W:\\izamod\\IZA_DYN_MOD/data/taxben_out.xlsx"), sheet_name="py_out")
+    # There are no benefits at the household level
+    df["dpi"] = df["dpi_ind_temp"]
 
     return df
 
 
-def ubi(df):
+def ubi(df, tb):
     ubi = pd.DataFrame(index=df.index.copy())
-    ubi["hid"] = df["hid"]
-    ubi["ubi"] = (800 * df["age"] >= 18) + (500 * df["age"] < 18)
+    # ubi["hid"] = df["hid"]
+    ubi["ubi"] = 0
+    ubi.loc[df["age"] >= 18, "ubi"] = tb["ubi_adult"]
+    ubi.loc[df["age"] < 18, "ubi"] = tb["ubi_child"]
+
     # ubi['ubi_hh'] = aggr(ubi, 'ubi', True)
 
     return ubi["ubi"]
