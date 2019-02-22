@@ -70,7 +70,7 @@ def ubi_settings(tb):
 
     tb_ubi = tb.copy()
     # UBI amount for adults
-    tb_ubi["ubi_adult"] = 1000
+    tb_ubi["ubi_adult"] = 800
     tb_ubi["ubi_child"] = 0.5 * tb_ubi["ubi_adult"]
 
     # Minijobgrenze
@@ -88,12 +88,29 @@ def ubi_settings(tb):
 
     return tb_ubi
 
+def get_ref_text(refname):
+    """ defines a bit of tex code which briefly sums up what each reform is doing.
+    """
+
+    if refname == "UBI":
+        tb = ubi_settings({})
+
+        ref_text = """Adult rate: \EUR{{{}}}, Kid rate: \EUR{{{}}},
+                Abolition of Marginal Jobs, Abolition of 'Gleitzone'.
+                Abolition of Unemployment Benefit, Housing Benefit, Additional Child Benefit,
+                Child Allowance. UBI is fully subject to income taxation.
+                """.format(int(tb["ubi_adult"]), int(tb["ubi_child"]))
+    else:
+        ref_text = ""
+
+    return ref_text
+
 
 def hypo_graph_settings(lang):
     """ Set various settings for Hypo Graphs
     """
     # Create labels for each graph type
-    if lang == "english":
+    if lang == "en":
         xlabels = {
             "lego": "Gross monthly household income (€)",
             "emtr": "Gross monthly household income (€)",
@@ -105,7 +122,7 @@ def hypo_graph_settings(lang):
             "emtr": "Effective Marginal Tax Rate",
             "bruttonetto": "Disp. monthly household income (€)",
         }
-    if lang == "german":
+    if lang == "de":
         xlabels = {
             "lego": "Bruttoeinkommen (€ / Monat)",
             "emtr": "Bruttoeinkommen (€ / Monat)",
@@ -121,6 +138,25 @@ def hypo_graph_settings(lang):
     yvars = {"emtr": "emtr", "bruttonetto": "dpi"}
 
     # max yearly income to plot
-    maxinc = 48000
+    maxinc = 60000
 
     return xlabels, ylabels, yvars, maxinc
+
+def get_reform_names(lang):
+    """ returns a language-specific proper name for every reform
+    """
+    refnames = {"de": {
+            "RS2017": "Rechtsstand 2017",
+            "RS2018": "Rechtsstand 2018",
+            "RS2019": "Rechtsstand 2019",
+            "UBI": "Bedingungsloses Grundeinkommen"
+            },
+            "en": {
+            "RS2017": "Germany, 2017",
+            "RS2018": "Germany, 2018",
+            "RS2019": "Germany, 2019",
+            "UBI": "Unconditional Basic Income"
+            }
+        }
+
+    return refnames[lang]
