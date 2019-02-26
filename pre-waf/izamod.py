@@ -18,6 +18,7 @@ from imports import init, get_params, mw_pensions, say_hello
 from descr import descriptives
 
 import time
+import pandas as pd
 
 pd.options.display.float_format = "{:.2f}".format
 

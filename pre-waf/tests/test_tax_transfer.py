@@ -237,9 +237,7 @@ def test_favorability_check(year, column):
 
 def load_zve_input_data(year):
     assert year in [2005, 2009, 2010, 2012, 2018]
-    df = pd.read_excel(
-        "tests/test_data/test_dfs_zve.xlsx", true_values=["TRUE()"], false_values=["FALSE()"]
-    )
+    df = pd.read_excel("tests/test_data/test_dfs_zve.xlsx")
     input_cols = [
         "hid",
         "tu_id",
@@ -263,6 +261,9 @@ def load_zve_input_data(year):
         "gkvbeit",
     ]
     df = df[input_cols]
+    for boolevar in ['east', 'zveranl', 'alleinerz', 'child']:
+        df[boolevar] = df[boolevar].astype(bool)
+
     df = df[df["year"] == year]
     return df
 
@@ -283,7 +284,6 @@ def test_zve(year):
     columns = ["zve_nokfb", "zve_kfb", "zve_abg_nokfb", "zve_abg_kfb"]
     df = load_zve_input_data(year)
     tb = load_tb(year)
-    tb["ch_allow"] = tb["kifreib"]
     calculated = zve(df, tb, year, hyporun=False)[columns]
     expected = load_zve_output_data(year)
 
