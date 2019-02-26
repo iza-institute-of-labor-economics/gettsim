@@ -8,11 +8,12 @@ Created on Fri Jun 15 14:36:30 2018
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from imports import say_hello, gini, aggr
+from imports import say_hello, aggr
 from tt_list import *
 from termcolor import cprint
 from check_hypo import check_hypo
-from settings import hypo_graph_settings, get_reform_names, ubi_settings, get_ref_text
+from settings import hypo_graph_settings, get_reform_names, ubi_settings
+from settings import get_ref_text, get_hh_text
 from custompygraph.make_plot import make_plot
 import itertools
 
@@ -130,7 +131,7 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
 
     plt.ylabel(ylabels["lego"], size=18)
     plt.xlabel(xlabels["lego"], size=18)
-
+    plt.tick_params(axis='both', which='major', labelsize=14)
     plt.ylim(p["taxes"].min() * 1.1, p["dpi"].max() * 1.1)
     plt.xlim(0, (maxinc / 12))
 
@@ -151,6 +152,7 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
         fontsize=16,
         bbox_to_anchor=(0.48, -0.15),
         ncol=ncol,
+        frameon=False
     )
 
     plt.savefig("{}hypo/lego_{}_{}_{}.png".format(settings["GRAPH_PATH"], ref, t, lang))
@@ -167,6 +169,7 @@ def create_hypo_data(data_path, settings, tb, types, rents):
     24: Alleinerziehend, zwei Kinder (3 und 8 Jahre)
     31: Paar, Alleinverdiener HH, keine Kinder
     32: Paar, Alleinverdiener HH, zwei Kinder
+
     """
     # DEFINE STEPS IN YEARLY WAGES. ideally, take a multiple of 12
     wagestep = 120
@@ -393,8 +396,6 @@ def create_hypo_data(data_path, settings, tb, types, rents):
     df.loc[df["typ"] == 2, "typ_bud"] = 20 + 2 * df["n_typ"]
     df.loc[df["typ"] == 3, "typ_bud"] = 30 + df["n_typ"]
 
-    df[["typ", "typ_bud"]]
-
     # Vervielfache die Reihen und erhöhe den Lohn
     df = df.append([df] * int(1e5 / wagestep), ignore_index=True)
     df = df.sort_values(by=["typ_bud"])
@@ -418,7 +419,7 @@ def create_hypo_data(data_path, settings, tb, types, rents):
 
     kids = df[df["typ_bud"].isin([22, 24, 32, 34, 36, 38]) & (df["y_wage"] == 0)]
 
-    kids = kids.append([kids] * 500, ignore_index=True)
+    kids = kids.append([kids] * int(1e5 / wagestep), ignore_index=True)
     kids = kids.sort_values(by=["typ_bud"])
     kids["n_typ_bud"] = kids.groupby(["typ_bud"]).cumcount()
     kids["y_wage"] = kids["n_typ_bud"] * wagestep
@@ -435,6 +436,8 @@ def create_hypo_data(data_path, settings, tb, types, rents):
 
     # append kids
     df = df.append(kids)
+    df = df[df['typ_bud'].notna()]
+    df['typ_bud'] = df['typ_bud'].astype(int)
     print(df["typ_bud"].value_counts())
     df = df.sort_values(by=["typ_bud", "y_wage"])
     df = df.reset_index(drop=True)
@@ -507,22 +510,31 @@ def create_hypo_data(data_path, settings, tb, types, rents):
         df.loc[df["typ_bud"] == t, "miete"] = rents["miete"][t]
 
     df["east"] = False
-    df["zveranl"] = (df["typ_bud"] >= 30) * ~df["child"]
+    df["zveranl"] = (df["typ_bud"] >= 30) & ~df["child"]
+
     df["worker"] = ~df["child"] * df["m_wage"] > 0
     df["worker_sum"] = np.select([df["typ_bud"] <= 32, df["typ_bud"] > 32], [1, 2])
     df["hh_korr"] = 1
 
-    # Teile das Jahreseinkommen auf für Paare...
-    # s gibt erstmal nur alleinverdiener
+    # In one earner households, only the adult man has (increasing) earnings.
     df["y_wage_ind"] = df["y_wage"]
     df.loc[df["female"], "y_wage_ind"] = 0
+    # Two-earner couples: men's earnings still vary, women gets fixed amount
+    # (average full-time male employee). This is for ease of modelling. For the interpreation,
+    # it makes sense to swap the genders.
+    # for typ_bud> 32, y_wage is hence "secondary earnings"
+    df.loc[df['female'] & ~df['child'] & (df['typ_bud'].isin([33,34])), 'y_wage_ind'] = 51286
+    # Drop all observations with y_wage < woman's earnings
+    df = df.join(df.groupby('hid')['y_wage_ind'].sum(),
+       on =['hid'], how = "left", rsuffix="_sum")
+
     df["m_wage"] = df["y_wage_ind"] / 12
     df.loc[df["m_wage"] > 0, "w_hours"] = 40
 
     df = df.sort_values(by=["typ_bud", "y_wage", "female"])
     df = df.dropna(subset=["typ_bud"])
-    # Drop Doppeltverdiener for the moment.
-    df = df.query("typ_bud < 33")
+
+    df = df[df['typ_bud'] <= 34]
 
     return df
 
@@ -533,58 +545,16 @@ def hypo_graphs(dfs, settings, types, lang):
     dfs: Dictionary containing a dataframe for each reform
     settings: the settings dictionary
     """
+
     cprint("Creating Hypothetical HH Graphs...", "red", "on_white")
-    # Get graph settings
-    xlabels, ylabels, yvars, maxinc = hypo_graph_settings(lang)
-    """
-    out_vars = [
-        "typ_bud",
-        "female",
-        "age",
-        "head",
-        "child",
-        "y_wage",
-        "m_wage",
-        "w_hours",
-        "dpi",
-        "m_alg2",
-        "wohngeld",
-        "kiz",
-        "kindergeld",
-        "kindergeld_hh",
-        "svbeit",
-        "incometax",
-        "soli",
-        "incometax_tu",
-        "soli_tu",
-        "miete",
-        "heizkost",
-        "uhv",
-    ]
 
-    # Excel Control output
-
-    cprint('Producing Excel Output for debugging...', 'red', 'on_white')
-    for ref, df in dfs.items():
-        df = df.sort_values(by=['typ_bud', 'y_wage'])
-        writer = pd.ExcelWriter(settings['DATA_PATH'] + 'check_hypo/' + ref + '.xlsx')
-        for typ in types:
-            df.loc[(df['typ_bud'] == typ)].to_excel(
-                   writer,
-                   'Typ_' + str(typ),
-                   columns=out_vars,
-                   na_rep='NaN',
-                   freeze_panes=(1, 0)
-            )
-        writer.save()
-    """
     # plot data contains heads only and computes outcomes for each reform
     base = settings["Reforms"][0]
-    plot = dfs[base][dfs[base]["head"]]
+    plot = dfs[base][dfs[base]["head"]].copy()
     # prepare variables that are going to be plotted
     for ref in settings["Reforms"]:
         # reduce datasets to heads
-        dfs[ref] = dfs[ref][dfs[ref]["head"]]
+        dfs[ref] = dfs[ref][dfs[ref]["head"]].copy()
         dfs[ref] = dfs[ref].sort_values(by=["typ_bud", "y_wage"])
         # Effective Marginal Tax Rate
         plot["emtr" + ref] = np.minimum(
@@ -638,10 +608,13 @@ def hypo_graphs(dfs, settings, types, lang):
         lego["dpi_l"] = lego["dpi"]
 
         for t in types:
+            xlabels, ylabels, yvars, maxinc = hypo_graph_settings(lang, t)
             make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref)
 
     # The other plots combine the various reforms
     for t in types:
+        # Get graph settings
+        xlabels, ylabels, yvars, maxinc = hypo_graph_settings(lang, t)
         # Reduce data
         sub = plot[(plot["y_wage"] <= maxinc) & (plot["typ_bud"] == t)]
 
@@ -656,6 +629,9 @@ def hypo_graphs(dfs, settings, types, lang):
                 xlim_low=0,
                 xlim_high=maxinc / 12,
             ).savefig("{}hypo/{}_{}_{}.png".format(settings["GRAPH_PATH"], plottype, t, lang))
+
+    # Empty memory
+    plt.clf()
 
 
 def hypo_tex(settings, types, rents, lang):
@@ -681,7 +657,7 @@ def hypo_tex(settings, types, rents, lang):
     # Header of Tex File
     texfile.write("\\documentclass{article} \n")
     if lang == "de":
-        texfile.write("\\usepackage[nde]{babel} \n")
+        texfile.write("\\usepackage[ngerman]{babel} \n")
     texfile.write("\\usepackage[utf8]{inputenc} \n")
     texfile.write("\\usepackage{graphicx} \n")
     texfile.write("\\usepackage{eurosym} \n")
@@ -696,7 +672,10 @@ def hypo_tex(settings, types, rents, lang):
     texfile.write("\\renewcommand{\\familydefault}{\\sfdefault} \n")
     texfile.write("\\begin{document} \n")
     texfile.write("\\begin{center} \n")
-    texfile.write("\\Large{{\\textbf{{Hypothetical Graphs}}}} \\\\ \n")
+    if "lang" == "en":
+        texfile.write("\\Large{{\\textbf{{IZADYNMOD --- Sample Households}}}} \\\\ \n")
+    if "lang" == "de":
+        texfile.write("\\Large{{\\textbf{{IZADYNMOD --- Beispielhaushalte}}}} \\\\ \n")
     texfile.write("\\large{\\today} \\\\ \n")
     texfile.write("\\end{center} \n")
     texfile.write(
@@ -741,31 +720,65 @@ def hypo_tex(settings, types, rents, lang):
                             ref, t, lang
                         )
                     )
-                    # TO DO: More on Household definition.
-                    if lang == "de":
-                        texfile.write(
-                            """\\small{{Quelle: Eigene Berechnungen mit IZADYNMOD. Zusammensetzung des
-                                        verfügbaren Einkommens für gegebene Werte des Bruttoeinkommens.
-                                        Unterstellte Kaltmiete: \EUR{{{}}}.  Unterstellte Heizkosten: \EUR{{{}}}
-                                        }} \n""".format(
-                                rents["miete"][t], rents["heizkost"][t]
-                            )
-                        )
-                    if lang == "en":
-                        texfile.write(
-                            """\\small{{Source: Own calculations with IZADYNMOD. The graph shows
-                                              the composition of disposable income for various gross income
-                                              values. Assumed monthly rent: \EUR{{{}}}.
-                                              Assumed monthly heating cost: \EUR{{{}}}.
-                                        }} \n""".format(
-                                rents["miete"][t], rents["heizkost"][t]
-                            )
+                    texfile.write(get_hh_text(lang,
+                                               t,
+                                               rents["miete"][t],
+                                               rents["heizkost"][t])
                         )
                     texfile.write("\\end{figure} \n")
                 texfile.write("\\clearpage \n")
     texfile.write("\\end{document} \n")
     texfile.close()
 
+def hypo_excel(dfs, settings, types):
+    """ Produces Excel Control Output
+        args:
+            dfs -- dictionary of dataframes, labelled with reform
+            settings -- the settings dictionary
+            types -- dictionary of budget types
+    """
+
+    out_vars = [
+        "typ_bud",
+        "female",
+        "age",
+        "head",
+        "child",
+        "y_wage",
+        "m_wage",
+        "w_hours",
+        "dpi",
+        "m_alg2",
+        "wohngeld",
+        "kiz",
+        "kindergeld",
+        "kindergeld_hh",
+        "svbeit",
+        "incometax",
+        "soli",
+        "incometax_tu",
+        "soli_tu",
+        "miete",
+        "heizkost",
+        "uhv_hh",
+    ]
+
+    # cprint('Producing Excel Output for debugging...', 'red', 'on_white')
+    for ref, df in dfs.items():
+        df = df.sort_values(by=['typ_bud', 'y_wage'])
+        writer = pd.ExcelWriter('{}check_hypo/{}.xlsx'.format(
+                settings['DATA_PATH'],
+                ref)
+                )
+        for typ in types:
+            df.loc[(df['typ_bud'] == typ)].to_excel(
+                   writer,
+                   'Typ_' + str(typ),
+                   columns=out_vars,
+                   na_rep='NaN',
+                   freeze_panes=(1, 0)
+            )
+        writer.save()
 
 def hypo_analysis(data_path, settings, tb, lang):
     """
@@ -784,6 +797,8 @@ def hypo_analysis(data_path, settings, tb, lang):
             24: "Alleinerziehend, zwei Kinder (3 und 8 Jahre)",
             31: "Paar, Alleinverdiener HH, keine Kinder",
             32: "Paar, Alleinverdiener HH, zwei Kinder (3 und 8 Jahre)",
+            33: "Paar, mittleres Partnereinkommen, keine Kinder",
+            34: "Paar, mittleres Partnereinkommen, zwei Kinder"
         },
         "en": {
             11: "Single Household",
@@ -791,6 +806,8 @@ def hypo_analysis(data_path, settings, tb, lang):
             24: "Single Parent, two children (3 and 8 years)",
             31: "One-earner couple, no children",
             32: "One-earner couple, two children (3 and 8 years)",
+            33: "Two-earner couple, avg. income of first earner",
+            34: "Two-earner couple, avg. income of first earner, 2 children",
         },
     }
 
@@ -821,9 +838,12 @@ def hypo_analysis(data_path, settings, tb, lang):
             data_path + "hypo/python_check" + str(ref) + ".json"
         )
 
+    # produce excel control output
+    hypo_excel(taxout_hypo, settings, types[lang])
     # produce graphs
     hypo_graphs(taxout_hypo, settings, types[lang], lang)
     # produce latex output with these graphs
     hypo_tex(settings, types[lang], rents, lang)
     # check against Stata output.
     # check_hypo(settings)
+
