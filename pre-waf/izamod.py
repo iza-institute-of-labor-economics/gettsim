@@ -16,11 +16,14 @@ from hypo import hypo_analysis
 from tt_list import *
 from imports import init, get_params, mw_pensions, say_hello
 from descr import descriptives
+from output import output
 
 import time
 import pandas as pd
 
 pd.options.display.float_format = "{:.2f}".format
+# Switch off 'SettingWithCopyWarning'
+pd.options.mode.chained_assignment = None
 
 start = time.time()
 
@@ -90,7 +93,11 @@ def run_izamod(settings):
         for ref in settings["Reforms"]:
             datayear = min(settings["taxyear"], 2016)
             # LOAD DATA
-            df = pd.read_pickle(settings["DATA_PATH"] + "SOEP/taxben_input_" + str(datayear))
+            df = pd.read_json("{}/SOEP/2_taxben_input.json".format(settings["DATA_PATH"]))
+            # reduce datasets
+            df = df[df["syear"] == 2016]
+            # print(df.info(verbose=True))
+
             say_hello(settings["taxyear"], ref, False)
             # CALL TAX TRANSFER, depending on reform
             if ref != "UBI":
@@ -102,28 +109,19 @@ def run_izamod(settings):
                 )
 
             print(
-                "Saving to:"
-                + settings["DATA_PATH"]
-                + ref
-                + "/taxben_results"
-                + str(datayear)
-                + "_"
-                + str(settings["taxyear"])
-                + ".json"
+                "Saving to: {}{}/taxben_results_{}_{}.json".format(
+                    settings["DATA_PATH"], ref, datayear, settings["taxyear"]
+                )
             )
             tt_out.to_json(
-                settings["DATA_PATH"]
-                + ref
-                + "/taxben_results"
-                + str(datayear)
-                + "_"
-                + str(settings["taxyear"])
-                + ".json"
+                "{}{}/taxben_results_{}_{}.json".format(
+                    settings["DATA_PATH"], ref, datayear, settings["taxyear"]
+                )
             )
-            # SHOW OUTPUT
-            tb_out(tt_out, ref, settings["GRAPH_PATH"])
 
-    # TODO: Show reform effects (necessary right now?)
+    if settings["output"] == 1:
+        # SHOW OUTPUT
+        output(settings)
 
     # Hypo Run: create hypothetical household data, run tax transfer and produce some outputs.
     if settings["run_hypo"] == 1:

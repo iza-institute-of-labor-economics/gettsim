@@ -5,20 +5,16 @@ TAX TRANSFER SIMULATION
 Eric Sommer, 2018
 """
 from imports import aggr, gini
-from termcolor import colored, cprint
-from settings import get_settings
+from termcolor import cprint
+from settings import tarif_ubi
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# from numba import jit
-import math
-import sys
-
 
 def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
-    """German Tax-Transfer System.
+    """ The German Tax-Transfer System.
 
     Arguments:
 
@@ -30,6 +26,9 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     *mw* -- Mean earnings by year, for pension calculations.
     *hyporun* -- indicator for hypothetical household input (defult -- use real SOEP data)
 
+    Returns:
+        A dataframe containing the core elements of interest (tax payments, contributions,
+        various benefits, disp. income, gross income)
     The 'sub' functions may take an argument 'ref', which might be used for small reforms
     that e.g. only differ in parameters or slightly change the calculation
     """
@@ -536,7 +535,7 @@ def soli_formula(solibasis, tb):
     return soli
 
 
-def ui(df, tb, taxyear):
+def ui(df, tb, taxyear, ref=""):
     """Return the Unemployment Benefit based on
     employment status and income from previous years.
 
@@ -561,7 +560,11 @@ def ui(df, tb, taxyear):
     # df['east'] = False
 
     # also assume
-    ui["alg_tax"] = np.vectorize(tarif)(12 * ui["alg_wage"] - tb["werbung"], tb)
+    if ref == "":
+        ui["alg_tax"] = np.vectorize(tarif)(12 * ui["alg_wage"] - tb["werbung"], tb)
+    if ref == "UBI":
+        ui["alg_tax"] = np.vectorize(tarif_ubi)(12 * ui["alg_wage"] - tb["werbung"], tb)
+
     ui["alg_soli"] = soli_formula(ui["alg_tax"], tb)
 
     ui["alg_entgelt"] = np.maximum(
@@ -671,10 +674,9 @@ def zve(df, tb, yr, hyporun, ref=""):
 
     # Werbungskosten und Sonderausgaben
     zve["werbung"] = 0
-    zve.loc[(~df['child']) &
-            (df['m_wage'] > 0), "werbung"] = tb["werbung"]
+    zve.loc[(~df["child"]) & (df["m_wage"] > 0), "werbung"] = tb["werbung"]
     zve["sonder"] = 0
-    zve.loc[(~df['child']), "sonder"] = tb["sonder"]
+    zve.loc[(~df["child"]), "sonder"] = tb["sonder"]
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
@@ -729,7 +731,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     zve["handc_pausch"].fillna(0, inplace=True)
 
     # Aggregate several incomes on the taxpayer couple
-    #for inc in ["m_wage", "rvbeit", "gkvbeit", "avbeit", "pvbeit"]:
+    # for inc in ["m_wage", "rvbeit", "gkvbeit", "avbeit", "pvbeit"]:
     #    zve[inc + "_tu_k"] = aggr(df, inc, "all_tu")
     #    zve[inc + "_tu"] = aggr(df, inc, "adult_married")
     for inc in [
@@ -774,17 +776,17 @@ def zve(df, tb, yr, hyporun, ref=""):
     # Taxable income (zve)
     # For married couples, household income is split between the two.
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
-    zve.loc[~df['child'], "zve_nokfb"] = np.maximum(
+    zve.loc[~df["child"], "zve_nokfb"] = np.maximum(
         0,
         zve["gross_gde"]
         - zve["vorsorge"]
         - zve["sonder"]
         - zve["handc_pausch"]
         - zve["hhfreib"]
-        - zve["altfreib"]
+        - zve["altfreib"],
     )
     # Tax base incl. capital income
-    zve.loc[~df['zveranl'] & ~df['child'], "zve_abg_nokfb"] = np.maximum(
+    zve.loc[~df["zveranl"] & ~df["child"], "zve_abg_nokfb"] = np.maximum(
         0,
         zve["gross_gde"]
         + np.maximum(0, zve["gross_e5"] - tb["spsparf"] - tb["spwerbz"])
@@ -792,10 +794,10 @@ def zve(df, tb, yr, hyporun, ref=""):
         - zve["sonder"]
         - zve["handc_pausch"]
         - zve["hhfreib"]
-        - zve["altfreib"]
+        - zve["altfreib"],
     )
     # Married couples get twice the basic allowance
-    zve.loc[df["zveranl"] & ~df['child'], "zve_abg_nokfb"] = np.maximum(
+    zve.loc[df["zveranl"] & ~df["child"], "zve_abg_nokfb"] = np.maximum(
         0,
         zve["gross_gde"]
         + np.maximum(0, zve["gross_e5"] - 2 * tb["spsparf"] - 2 * tb["spwerbz"])
@@ -803,55 +805,63 @@ def zve(df, tb, yr, hyporun, ref=""):
         - zve["sonder"]
         - zve["handc_pausch"]
         - zve["hhfreib"]
-        - zve["altfreib"]
+        - zve["altfreib"],
     )
 
     # Child Allowance (Kinderfreibetrag)
     # Married couples may share deductions if one partner does not need it.
     # For non-married, just deduct half the amount for each child.
-    #TODO: Check whether this is correct for non-married couples
+    # TODO: Check whether this is correct for non-married couples
 
     zve["kifreib"] = 0
-    zve.loc[~zve["zveranl"] &
-            ~df['child'], "kifreib"] = 0.5 * tb['kifreib'] * df["child_num_tu"]
+    zve.loc[~zve["zveranl"] & ~df["child"], "kifreib"] = 0.5 * tb["kifreib"] * df["child_num_tu"]
     # For married couples, things are more complicated
     # Find out who has higher and lower zve among partners
-    zve = zve.join(zve[zve['zveranl']].groupby('tu_id')['zve_nokfb'].max(),
-       on =['tu_id'], how = "left", rsuffix="_higher")
-    zve = zve.join(zve[zve['zveranl']].groupby('tu_id')['zve_nokfb'].min(),
-       on =['tu_id'], how = "left", rsuffix="_lower")
+    zve = zve.join(
+        zve[zve["zveranl"]].groupby("tu_id")["zve_nokfb"].max(),
+        on=["tu_id"],
+        how="left",
+        rsuffix="_higher",
+    )
+    zve = zve.join(
+        zve[zve["zveranl"]].groupby("tu_id")["zve_nokfb"].min(),
+        on=["tu_id"],
+        how="left",
+        rsuffix="_lower",
+    )
     # the difference of the lower value to the child allowance is what the first earner
     # can claim.
     zve["diff_kifreib"] = zve["zve_nokfb_lower"] - (0.5 * tb["kifreib"] * df["child_num_tu"])
 
     # For the first earner, subtract half the amount first.
-    zve.loc[(zve["zve_nokfb"] == zve["zve_nokfb_higher"]) &
-            zve["zveranl"], "kifreib"] = (0.5 * tb['kifreib'] * df['child_num_tu'])
+    zve.loc[(zve["zve_nokfb"] == zve["zve_nokfb_higher"]) & zve["zveranl"], "kifreib"] = (
+        0.5 * tb["kifreib"] * df["child_num_tu"]
+    )
     # Then subtract also the amount transferred from the second earner.
-    zve.loc[(zve["zve_nokfb"] == zve["zve_nokfb_higher"]) &
-            zve["zveranl"] &
-            (zve["diff_kifreib"] < 0), "kifreib"] = zve["kifreib"] + abs(zve["diff_kifreib"])
+    zve.loc[
+        (zve["zve_nokfb"] == zve["zve_nokfb_higher"]) & zve["zveranl"] & (zve["diff_kifreib"] < 0),
+        "kifreib",
+    ] = zve["kifreib"] + abs(zve["diff_kifreib"])
     # The second earner subtracts the remaining amount
-    zve.loc[(zve["zve_nokfb"] == zve["zve_nokfb_lower"]) &
-            zve["zveranl"] &
-            (zve["diff_kifreib"] < 0),
-            "kifreib"] = (0.5 * tb['kifreib'] * df['child_num_tu'] -
-                          abs(zve["diff_kifreib"]))
+    zve.loc[
+        (zve["zve_nokfb"] == zve["zve_nokfb_lower"]) & zve["zveranl"] & (zve["diff_kifreib"] < 0),
+        "kifreib",
+    ] = 0.5 * tb["kifreib"] * df["child_num_tu"] - abs(zve["diff_kifreib"])
 
     # If the second earner earns enough, deduct half the amount also for him/her
-    zve.loc[(zve["zve_nokfb"] == zve["zve_nokfb_lower"]) &
-            zve["zveranl"] &
-            (zve["diff_kifreib"] >= 0),
-            "kifreib"] = (0.5 * tb['kifreib'] * df['child_num_tu'])
+    zve.loc[
+        (zve["zve_nokfb"] == zve["zve_nokfb_lower"]) & zve["zveranl"] & (zve["diff_kifreib"] >= 0),
+        "kifreib",
+    ] = (0.5 * tb["kifreib"] * df["child_num_tu"])
 
     # Finally, Subtract (corrected) Child allowance
-    zve.loc[~df['child'], "zve_kfb"] = np.maximum(zve["zve_nokfb"] - zve["kifreib"], 0)
-    zve.loc[~df['child'], "zve_abg_kfb"] = np.maximum(zve["zve_abg_nokfb"] - zve["kifreib"], 0)
+    zve.loc[~df["child"], "zve_kfb"] = np.maximum(zve["zve_nokfb"] - zve["kifreib"], 0)
+    zve.loc[~df["child"], "zve_abg_kfb"] = np.maximum(zve["zve_abg_nokfb"] - zve["kifreib"], 0)
     # Finally, modify married couples income according to Splitting rule, i.e. each partner
     # get assigned half of the total income
-    for incdef in ['nokfb', 'abg_nokfb', 'kfb', 'abg_kfb']:
-        zve['zve_'+incdef+'_tu'] = aggr(zve, 'zve_'+incdef, 'adult_married')
-        zve.loc[df['zveranl'] & ~df['child'], 'zve_'+incdef] = 0.5 * zve['zve_'+incdef+'_tu']
+    for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
+        zve["zve_" + incdef + "_tu"] = aggr(zve, "zve_" + incdef, "adult_married")
+        zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = 0.5 * zve["zve_" + incdef + "_tu"]
 
     return zve[
         [
@@ -883,7 +893,7 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
     # Before 2009, no separate taxation of capital income
     if yr < 2009:
         inclist = ["nokfb", "kfb"]
-    else:
+    if (yr >= 2009) or (ref == "UBI"):
         inclist = ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]
 
     cprint("Tax Schedule...", "red", "on_white")
@@ -893,7 +903,11 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
         ts[v] = df[v]
 
     for inc in inclist:
-        ts["tax_" + inc] = np.vectorize(tarif)(df["zve_" + inc], tb)
+        if ref == "UBI":
+            ts["tax_" + inc] = np.vectorize(tarif_ubi)(df["zve_" + inc], tb)
+        else:
+            ts["tax_" + inc] = np.vectorize(tarif)(df["zve_" + inc], tb)
+
         if not hyporun:
             ts["tax_" + inc] = np.fix(ts["tax_" + inc])
         ts["tax_" + inc + "_tu"] = aggr(ts, "tax_" + inc, "adult_married")
@@ -1621,65 +1635,6 @@ def kiz(df, tb, yr, hyporun):
 
     return kiz[["kiz", "wohngeld", "m_alg2"]]
 
-
-def tb_out(df, graph_path, ref):
-    """ Tax-Benefit Output
-        Debugging Tool.
-        Produces some aggregates on
-        - total tax revenue
-        - Benefit recipients
-        - Income inequality
-    """
-    print("-" * 80)
-    print("TAX BENEFIT AGGREGATES")
-    print("-" * 80)
-    cprint("Revenues", "red", "on_white")
-    # Incometax over all persons. SV Beiträge too
-    #
-
-    for tax in ["incometax_tu", "soli_tu", "gkvbeit", "rvbeit", "pvbeit", "avbeit"]:
-        if tax in ["incometax_tu", "soli_tu"]:
-            df["w_sum_" + tax] = df[tax] * df["hweight"] * df["head_tu"]
-        else:
-            df["w_sum_" + tax] = df[tax] * df["pweight"]
-        print(tax + " : " + str(round(df["w_sum_" + tax].sum() / 1e9 * 12, 2)) + " bn €.")
-    cprint("Benefit recipients", "red", "on_white")
-    for ben in ["m_alg1", "m_alg2", "wohngeld", "kiz"]:
-        print(
-            ben
-            + " :"
-            + str(round(df["hweight"][(df[ben] > 0) & (df["head_tu"])].sum() / 1e6, 2))
-            + " Million Households."
-        )
-        df["w_sum_" + ben] = df[ben] * df["hweight"] * df["head_tu"]
-        print(ben + " : " + str(round(df["w_sum_" + ben].sum() / 1e9 * 12, 2)) + " bn €.")
-        print("Recipients by Household Type (in 1000): ")
-        print(
-            df[(df["head_tu"]) & (df[ben] > 0) & (~df["pensioner"])]
-            .groupby("hhtyp")["hweight"]
-            .sum()
-            / 1e3
-        )
-
-    print("-" * 80)
-
-    # Check Income Distribution:
-    # Equivalence Scale (modified OECD scale)
-    df["eq_scale"] = (
-        1 + 0.5 * np.maximum((df["hhsize"] - df["child14_num"] - 1), 0) + 0.3 * (df["child14_num"])
-    )
-    df["dpi_eq"] = df["dpi"] / df["eq_scale"]
-    print(df["dpi_eq"].describe())
-    plt.clf()
-    ax = df["dpi_eq"].plot.kde(xlim=(0, 4000))
-    ax.set_title("Distribution of equivalized disp. income " + str(ref))
-    # print(graph_path + 'dist_dpi_' + ref + '.png')
-    # plt.savefig(graph_path + 'dist_dpi_' + ref + '.png')
-    print("-" * 80)
-    print("Gini-Coefficient Disp. Income: ", gini(df["dpi_eq"], df["pweight"]))
-    print("-" * 80)
-
-    return True
 
 
 def get_wohnbedarf(yr):

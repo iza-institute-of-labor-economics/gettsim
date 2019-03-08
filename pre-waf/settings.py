@@ -31,10 +31,12 @@ def get_settings():
     show_descr = 0
 
     # TAX TRANSFER CALCULATION
-    taxtrans = 0
+    taxtrans = 1
+    # Produce Output
+    output = 1
 
     # Run Hypo file for debugging
-    run_hypo = 1
+    run_hypo = 0
 
     # PATH SETTINGS
     MAIN_PATH = os.getcwd() + "/"
@@ -56,6 +58,7 @@ def get_settings():
         "show_descr": show_descr,
         "taxtrans": taxtrans,
         "taxyear": taxyear,
+        "output": output,
         "run_hypo": run_hypo,
         "MAIN_PATH": MAIN_PATH,
         "SOEP_PATH": SOEP_PATH,
@@ -80,6 +83,9 @@ def ubi_settings(tb):
     # Midijobgrenze
     tb_ubi["midi_grenze"] = 0
 
+    # UBI Flat Rate
+    tb_ubi["flatrate"] = 0.4
+
     # Kindergeld
     for i in range(1, 5):
         tb_ubi["kgeld" + str(i)] = 0
@@ -98,8 +104,9 @@ def get_ref_text(refname):
         ref_text = """Adult rate: \EUR{{{}}}, Kid rate: \EUR{{{}}},
                 Abolition of Marginal Jobs, Abolition of 'Gleitzone'.
                 Abolition of Unemployment Benefit, Housing Benefit, Additional Child Benefit,
-                Child Allowance. UBI is fully subject to income taxation.
-                """.format(int(tb["ubi_adult"]), int(tb["ubi_child"]))
+                Child Allowance. UBI is fully subject to income taxation. Income Tax:
+                Flat Rate of {}%.
+                """.format(int(tb["ubi_adult"]), int(tb["ubi_child"]), tb['flatrate']*100)
     else:
         ref_text = ""
 
@@ -206,6 +213,18 @@ def get_hh_text(lang, t, miete, heizkost):
     fullstring = first + hh + mietstring + end
 
     return fullstring
+
+def tarif_ubi(x, tb):
+    """ UBI Tax schedule
+        the function is defined here, as defining it in tax_transfer_ubi.py would lead to
+        circular dependencies
+    """
+    t = 0.0
+    if x > tb['G']:
+        t = tb['flatrate'] * (x - tb['G'])
+
+    return t
+
 
 
 

@@ -4,10 +4,10 @@ TAX TRANSFER SYSTEM FOR UBI
 Eric Sommer, 2018
 """
 from imports import aggr
-from termcolor import colored, cprint
+from termcolor import cprint
 from tax_transfer import soc_ins_contrib, pensions, zve, tax_sched
 from tax_transfer import soli, favorability_check, uhv
-
+from settings import tarif_ubi
 import pandas as pd
 
 # from numba import jit
@@ -113,7 +113,7 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
     df = df.join(other=zve(df[taxvars], tb, taxyear, hyporun, ref="UBI"), how="inner")
 
     # 5.2 Apply Tax Schedule
-    df = df.join(other=tax_sched(df, tb, taxyear), how="inner")
+    df = df.join(other=tax_sched(df, tb, 2018, ref="UBI"), how="inner")
 
     # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
     df["kindergeld_basis"] = 0
