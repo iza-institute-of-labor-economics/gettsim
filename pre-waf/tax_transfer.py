@@ -544,7 +544,9 @@ def ui(df, tb, taxyear, ref=""):
     ui = pd.DataFrame(index=df.index.copy())
     westost = [~df["east"], df["east"]]
 
-    ui["m_alg1"] = df["alg_soep"].fillna(0)
+    ui["m_alg1"] = 0
+    # ui["m_alg1_soep"] = df["alg_soep"].fillna(0)
+
     # Months of unemployment beforehand.
     ui["mts_ue"] = df["months_ue"] + df["months_ue_l1"] + df["months_ue_l2"]
     # Relevant wage is capped at the contribution thresholds
@@ -553,13 +555,11 @@ def ui(df, tb, taxyear, ref=""):
         [np.minimum(tb["rvmaxekw"], df["m_wage_l1"]), np.minimum(tb["rvmaxeko"], df["m_wage_l1"])],
     )
 
-    # Further, you need to deduct lump-sum amounts for contributions, taxes and soli
-
+    # We need to deduct lump-sum amounts for contributions, taxes and soli
     ui["alg_ssc"] = tb["alg1_abz"] * ui["alg_wage"]
     # assume west germany for this particular calculation
     # df['east'] = False
-
-    # also assume
+    # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     if ref == "":
         ui["alg_tax"] = np.vectorize(tarif)(12 * ui["alg_wage"] - tb["werbung"], tb)
     if ref == "UBI":
@@ -575,24 +575,19 @@ def ui(df, tb, taxyear, ref=""):
     # Check Eligiblity.
     # Then different rates for parent and non-parents
     # Take into account actual wages
-    # Do this only for people for which we don't observe UI payments in SOEP,
-    # assuming that their information is more reliable
-    # (rethink this for the dynamic model)
     # there are different replacement rates depending on presence of children
     ui["eligible"] = (
-        (ui["mts_ue"] < 12)
+        (ui["mts_ue"].between(1,12))
         & (df["age"] < 65)
         & (df["m_pensions"] == 0)
-        & (df["alg_soep"] == 0)
         & (df["w_hours"] < 15)
     )
     ui.loc[ui["eligible"], "m_alg1"] = ui["alg_entgelt"] * np.select(
         [df["child_num_tu"] == 0, df["child_num_tu"] > 0], [tb["agsatz0"], tb["agsatz1"]]
     )
-    #    print('ALG 1 recipients according to SOEP: ' + str(df[df['alg_soep'] > 0].count()))
-    #    print('Additional ALG 1 recipients from simulation: ' +
-    #          str(ui[ui['m_alg1'] > 0].count() - df[df['alg_soep'] > 0].count())
-    #          )
+
+    # print("ALG1 Payments: {} bn €.".format(ui['m_alg1'].multiply(df['pweight']).sum() * 12 / 1e9))
+    # print("ALG1 Recipients: {}.".format(df['pweight'][ui['m_alg1']>0].sum()))
 
     return ui["m_alg1"]
 
@@ -1626,8 +1621,10 @@ def kiz(df, tb, yr, hyporun):
     kiz[kiz['hhtyp'].isin([2, 4]) &
         (df['hh_korr'] < 1)].to_excel('Z:/test/vorrang_check.xlsx')
     """
-    # TO DO: Correct benefit receipt of pensioners.
-    # For them, 'sozialhilfe' needs to be modelled
+    # Pensioners do not receive Kiz. They actually do not receive ALGII, too. Instead,
+    # they get 'Grundleistung im Alter', which pays the same amount. Until this is not modelled,
+    # we give them ALG2.
+    kiz.loc[df['pensioner'], 'kiz'] = 0
 
     assert kiz["m_alg2"].notna().all()
     assert kiz["wohngeld"].notna().all()

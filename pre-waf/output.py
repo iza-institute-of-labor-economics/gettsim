@@ -23,7 +23,7 @@ def output(settings):
 
         # load reform-specific results
         df = pd.read_json(
-            "{}{}/taxben_results{}_{}.json".format(
+            "{}{}/taxben_results_{}_{}.json".format(
                 settings["DATA_PATH"], ref, min(2016, settings["taxyear"]), settings["taxyear"]
             )
         )
@@ -44,11 +44,10 @@ def output(settings):
                 df[var + "_w"] = df[var + "_w"] * (-1)
 
         budget[ref] = df.filter(regex="_w$").sum() / 1e9
-        # calculate total budget
-        budget[ref]["total"] = budget[ref].sum()
-
         recip[ref] = df.filter(regex="recip$").sum() / 1000
 
+    # calculate total budget
+    budget.loc["TOTAL"] = budget.sum()
     # Calculate Differences to baseline
     base = settings["Reforms"][0]
     diff_rev = pd.DataFrame(columns=settings["Reforms"][1:])
