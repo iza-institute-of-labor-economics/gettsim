@@ -2,6 +2,7 @@
 
 
 import os
+import socket
 
 from collections import OrderedDict
 
@@ -24,10 +25,18 @@ def set_project_paths(ctx):
     pp["OUT_ANALYSIS"] = f"{out}/out/analysis"
     pp["OUT_FINAL"] = f"{out}/out/final"
     pp["OUT_FIGURES"] = f"{out}/out/figures"
+    pp["OUT_HYPO"] = f"{out}/source/hypo"
     # OUT_MODEL_SPECS is only required for using Stata with JSON and
     # can be safely deleted otherwise
     pp["OUT_MODEL_SPECS"] = f"{out}/src/model_specs"
     pp["OUT_TABLES"] = f"{out}/out/tables"
+    if socket.gethostname() == "gpu1":
+        pp["SOEP_PATH"] = "../../shares/dynamod/soep/bld/out/data"
+        pp["SIAB_PATH"] = "../../shares/izadynmod-siab/bld/out/data"
+    else:
+        pp["SOEP_PATH"] = "../izadynmod-soep/bld/out/data"
+        pp["SIAB_PATH"] = "../izadynmod_siab/bld/out/data"
+
 
     # Convert the directories into Waf nodes.
     for key, val in pp.items():

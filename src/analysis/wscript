@@ -1,23 +1,70 @@
 #! python
-
+import pandas as pd
+from bld.project_paths import project_paths_join as ppj
 
 def build(ctx):
 
-    for model in "baseline", "max_moves_2":
+    # Illustrate use of run_py_script with automatic model specification.
+    ctx(
+        features="run_py_script",
+        source="tax_transfer.py",
+        deps=[
+            ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),
+            ctx.path_to(ctx, "IN_DATA", "param.xls"),
+            ctx.path_to(ctx, "IN_DATA", "pensions.xlsx"),
+            ctx.path_to(ctx, "IN_DATA", "mw_pensions.json"),
+            ctx.path_to(ctx, "IN_DATA", "grv_ep.xlsx")
+        ],
+        target=[
+            ctx.path_to(ctx, "OUT_DATA", "taxben_results_RS2019.json"),
+        ],
+    )
 
-        # Illustrate use of run_py_script with automatic model specification.
-        ctx(
-            features="run_py_script",
-            source="schelling.py",
-            deps=[
-                ctx.path_to(ctx, "OUT_DATA", "initial_locations.csv"),
-                ctx.path_to(ctx, "IN_MODEL_CODE", "agent.py"),
-                ctx.path_to(ctx, "IN_MODEL_SPECS", "{}.json".format(model)),
-            ],
-            target=[
-                ctx.path_to(ctx, "OUT_ANALYSIS", "schelling_{}.pickle".format(model)),
-                ctx.path_to(ctx, "OUT_ANALYSIS", "log", "schelling_{}.log".format(model)),
-            ],
-            append=model,
-            name="schelling_{}".format(model),
-        )
+    ctx(
+        features="run_py_script",
+        source="tax_transfer_ubi.py",
+        deps=[
+            ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),
+            ctx.path_to(ctx, "IN_DATA", "param.xls"),
+            ctx.path_to(ctx, "IN_DATA", "pensions.xlsx"),
+            ctx.path_to(ctx, "IN_DATA", "mw_pensions.json"),
+            ctx.path_to(ctx, "IN_DATA", "grv_ep.xlsx"),
+        ],
+        target=[
+            ctx.path_to(ctx, "OUT_DATA", "taxben_results_UBI.json"),
+        ],
+    )
+    reforms = pd.read_json(ppj("IN_MODEL_SPECS","settings.json"))["Reforms"]         
+    ctx(    
+        features="run_py_script",
+        source="output.py",     
+        deps=[
+        # HOW CAN I ENDOGENIZE THIS???
+            ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),            
+            ctx.path_to(ctx, "OUT_DATA", "taxben_results_RS2019.json"),
+            ctx.path_to(ctx, "OUT_DATA", "taxben_results_UBI.json"),
+            #+
+            # [ctx.path_to(ctx, "OUT_DATA", "taxben_results_".format(ref)) for ref in reforms],
+        ],
+        target=[
+        # doesn't produce output yet.
+        ]
+     )
+     
+    ctx(
+        features="run_py_script",
+        source="hypo.py",
+        deps=[
+            ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),
+            ctx.path_to(ctx, "IN_DATA", "param.xls"),
+        ],
+        target=[
+            ctx.path_to(ctx, "OUT_DATA", "python_check_RS2019.json"),
+            ctx.path_to(ctx, "OUT_HYPO", "hypographs_RS2019_en.tex"),
+            #ctx.path_to(ctx, "OUT_HYPO", "hypographs_RS2019_de.tex"),
+            ctx.path_to(ctx, "OUT_DATA", "check_hypo_RS2019.xlsx"),
+            ctx.path_to(ctx, "OUT_DATA", "check_hypo_UBI.xlsx"),       
+        ]                    
+     )
+     
+          
