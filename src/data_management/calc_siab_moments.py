@@ -8,6 +8,13 @@ import numpy as np
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 from bld.project_paths import project_paths_join as ppj
+from statsmodels.iolib.summary2 import summary_col
+
+def ols2csv(filename, out):
+    with open(filename, 'w') as f:
+        for line in out:
+            f.write(line)
+
 
 df = pd.read_pickle(ppj("SIAB_PATH", "siab_recoded.pickle"))
 
@@ -56,11 +63,23 @@ ols_wage_male = smf.ols(
         data=men)
 
 women = df[(df['female'] == 1) & (~df['log_wage'].isna()) & (~df['experience'].isna())]
-print("OLS of log wage on experience and education \n {}".format(ols_wage_male.fit().summary()))
 ols_wage_female = smf.ols(
         formula='log_wage ~ experience + experience2 + age + C(skill)',
         data=women)
-print("OLS of log wage on experience and education \n {}".format(ols_wage_female.fit().summary()))
+print("OLS of log wage on experience and education \n {}".format(summary_col(
+        [ols_wage_male.fit(), ols_wage_female.fit()],
+        stars=True,
+        model_names=['Men', 'Women'],
+        )))
+
+
+# Export Regression results
+#ols2csv(ppj("OUT_DATA", "siab_ols_wage_male.csv"),
+        #ols_wage_male.fit().params)
+#ols2csv(ppj("OUT_DATA", "siab_ols_wage_female.csv"),
+ #       ols_wage_female.fit().params)
+ols_wage_male.fit().params.to_csv(ppj("OUT_DATA", 'siab_ols_wage_male.csv'), header=True)
+ols_wage_female.fit().params.to_csv(ppj("OUT_DATA", 'siab_ols_wage_female.csv'), header=True)
 
 
 
@@ -81,9 +100,15 @@ pt_shares = df.groupby(groupvars)['pt'].mean()
 inact_shares = df.groupby(groupvars)['inact'].mean()
 
 # Work experience by age
-exp_by_age = df.loc[df['working']].groupby('age')['experience'].mean()
+exp_by_age = df.groupby(groupvars)['experience'].mean()
 
 for out in [ft_shares, pt_shares, inact_shares, exp_by_age]:
+    headers = groupvars + [out.name]
+    out.to_csv(path_or_buf=ppj("OUT_DATA", "siab_{}.csv".format(out.name)),
+               index=groupvars,
+               header=True,
+               index_label=groupvars
+               )
     print(out)
 
 # TO DO: Export results
