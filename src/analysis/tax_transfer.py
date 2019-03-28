@@ -18,19 +18,19 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
 
     Arguments:
 
-    *df* -- Input Data Frame
-    *datayear* -- year of SOEP wave
-    *taxyear* -- year of reform baseline
-    *tb* -- dictionary with tax-benefit parameters
-    *tb_pens* -- Parameters for pension calculations
-    *mw* -- Mean earnings by year, for pension calculations.
-    *hyporun* -- indicator for hypothetical household input (defult -- use real SOEP data)
+        *df* -- Input Data Frame
+        *datayear* -- year of SOEP wave
+        *taxyear* -- year of reform baseline
+        *tb* -- dictionary with tax-benefit parameters
+        *tb_pens* -- Parameters for pension calculations
+        *mw* -- Mean earnings by year, for pension calculations.
+        *hyporun* -- indicator for hypothetical household input (default: False -> use real SOEP data)
 
     Returns:
         A dataframe containing the core elements of interest (tax payments, contributions,
         various benefits, disp. income, gross income)
     The 'sub' functions may take an argument 'ref', which might be used for small reforms
-    that e.g. only differ in parameters or slightly change the calculation
+    that e.g. only differ in parameters or slightly change the calculation.
     """
 
     # if hyporun is False:
@@ -239,9 +239,9 @@ def uprate(df, dy, ty, path):
 def pensions(df, tb, tb_pens, mw, year, hypo):
     """ Old-Age Pensions
 
-        models 'Rentenformel':
-        https://de.wikipedia.org/wiki/Rentenformel
-        https://de.wikipedia.org/wiki/Rentenanpassungsformel
+    models 'Rentenformel':
+    https://de.wikipedia.org/wiki/Rentenformel
+    https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
     r = pd.DataFrame(index=df.index.copy())
     if hypo:
@@ -494,11 +494,16 @@ def soc_ins_contrib(df, tb, yr, ref=""):
 
 def tarif(x, tb):
     """ The German Income Tax Tariff
-            modelled only after 2002 so far
-            It's not calculated as in the tax code, but rather a gemoetric decomposition of the
-            area beneath the marginal tax rate function.
-            This facilitates the implementation of alternative tax schedules
-        """
+    modelled only after 2002 so far
+        
+    It's not calculated as in the tax code, but rather a gemoetric decomposition of the
+    area beneath the marginal tax rate function.
+    This facilitates the implementation of alternative tax schedules
+        
+    args:
+        x (float): taxable income
+        tb (dict): tax-benefit parameters specific to year and reform                       
+    """
     y = int(tb["yr"])
     if y < 2002:
         print("Income Tax Pre 2002 not yet modelled!")
@@ -528,6 +533,13 @@ def tarif(x, tb):
 
 
 def soli_formula(solibasis, tb):
+    """ The actual soli calculation
+    
+    args:
+        solibasis: taxable income, *always with Kinderfreibetrag!*
+        tb (dict): tax-benefit parameters
+    
+    """
     soli = np.minimum(
         tb["solisatz"] * solibasis, np.maximum(0.2 * (solibasis - tb["solifreigrenze"]), 0)
     )
@@ -928,8 +940,13 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
 
 
 def kindergeld(df, tb, yr, ref=""):
-    """ Child Benefit
-        Basic Amount for each child, hours restriction applies
+    """ Child Benefit (kindergeld)
+    Basic Amount for each child, hours restriction applies
+    
+    Returns:
+        pd.series:
+            kindergeld_basis: Kindergeld on the individual level
+            kindergeld_tu_basis: Kindergeld summed up within the tax unit      
     """
     kg = pd.DataFrame(index=df.index.copy())
     kg["tu_id"] = df["tu_id"]
@@ -950,8 +967,7 @@ def kindergeld(df, tb, yr, ref=""):
 
     kg_amounts = {1: tb["kgeld1"], 2: tb["kgeld2"], 3: tb["kgeld3"], 4: tb["kgeld4"]}
     kg["kindergeld_basis"] = kg["child_count"].replace(kg_amounts)
-    # ES: the where method replaces all values for which the condition is FALSE!!
-    kg["kindergeld_basis"] = kg["kindergeld_basis"].where(kg["child_count"] < 4, tb["kgeld4"])
+    kg.loc[kg["child_count"] > 4, "kindergeld_basis"] = tb["kgeld4"]
     kg["kindergeld_tu_basis"] = kg.groupby("tu_id")["kindergeld_basis"].transform(sum)
 
     # kg.drop(['child_count', 'eligible', 'kindergeld'], axis=1, inplace=True)
@@ -1083,12 +1099,15 @@ def soli(df, tb, yr, ref=""):
 def uhv(df, tb, taxyear):
     """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
 
-        In Germany, Single Parents get alimony payments for themselves and for their child
-        from the ex partner. If the ex partner is not able to pay the child alimony,
-        the government pays the child alimony to the mother (or the father, if he has the kids)
-        Since 2017, the receipt of this
-        UHV has been extended substantially and needs to be taken into account, since it's
-        dominant to other transfers, i.e. single parents 'have to' apply for it.
+    In Germany, Single Parents get alimony payments for themselves and for their child
+    from the ex partner. If the ex partner is not able to pay the child alimony,
+    the government pays the child alimony to the mother (or the father, if he has the kids)
+    Since 2017, the receipt of this
+    UHV has been extended substantially and needs to be taken into account, since it's
+    dominant to other transfers, i.e. single parents 'have to' apply for it.
+    
+    returns:
+        uhv (pd.Series): Alimony Payment on individual level
     """
     cprint("Unterhaltsvorschuss...", "red", "on_white")
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
@@ -1610,17 +1629,7 @@ def kiz(df, tb, yr, hyporun):
         (~kiz["wg_vorrang"]) & (~kiz["wgkiz_vorrang"]) & (kiz["m_alg2_base"] > 0), "wohngeld"
     ] = 0
     kiz.loc[(~kiz["kiz_vorrang"]) & (~kiz["wgkiz_vorrang"]) & (kiz["m_alg2_base"] > 0), "kiz"] = 0
-
-    # control output
-    """
-    kiz['regelbedarf'] = df['regelbedarf']
-    kiz['child'] = df['child']
-    kiz['age'] = df['age']
-    kiz['hhtyp'] = df['hhtyp']
-    kiz = kiz.sort_values(by=['hid', 'tu_id', 'pid'])
-    kiz[kiz['hhtyp'].isin([2, 4]) &
-        (df['hh_korr'] < 1)].to_excel('Z:/test/vorrang_check.xlsx')
-    """
+    
     # Pensioners do not receive Kiz. They actually do not receive ALGII, too. Instead,
     # they get 'Grundleistung im Alter', which pays the same amount. Until this is not modelled,
     # we give them ALG2.

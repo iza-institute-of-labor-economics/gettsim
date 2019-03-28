@@ -44,12 +44,12 @@ def get_lego_lists(lego_vars, colors, labels, spec):
 def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
     """ Creates compositional plots
         args:
-            lego: the soruce dataframe
-            t: the household type to plot
-            maxinc
-            lang
-            settings: the settins dict
-            ref: the reform
+            lego: the source dataframe
+            t (int): the household type to plot
+            maxinc (int): maximum income to plot
+            lang (str): Language
+            settings (dict): settings
+            ref (str): the reform
     """
 
     plt.clf()
@@ -167,12 +167,20 @@ def create_hypo_data(settings, tb, types, rents):
     but with custom household types, for which earnings are varied.
 
     Hypothetical Household Types defined so far:
-    11: Single, keine Kinder
-    22: Alleinerziehend, ein Kind (3 Jahre)
-    24: Alleinerziehend, zwei Kinder (3 und 8 Jahre)
-    31: Paar, Alleinverdiener HH, keine Kinder
-    32: Paar, Alleinverdiener HH, zwei Kinder
-
+    11: Single, no children
+    22: Single Parent, one child (3 years)
+    24: Single Parent, two children (3 and 8 years)
+    31: Single-Earner Couple, no children
+    32: Single-Earner Couple, no children
+    
+    args:
+        settings(dict)
+        tb(dict)
+        types(list): list of hh types
+        rents(dict): rents assumed for each hh type        
+    
+    returns: 
+        pd.Dataframe as from SOEP, but with made-up households
     """
     # DEFINE STEPS IN YEARLY WAGES. ideally, take a multiple of 12
     wagestep = 120
@@ -544,8 +552,12 @@ def create_hypo_data(settings, tb, types, rents):
 def hypo_graphs(dfs, settings, types, lang):
     """
     creates a couple of graphs by hypothetical household type for debugging
-    dfs: Dictionary containing a dataframe for each reform
-    settings: the settings dictionary
+    
+    args:
+        dfs (dict): Dictionary containing a dataframe for each reform
+        settings (dict): the settings dictionary
+        types (list): list of household types
+        lang (str): language for graphs
     """
 
     cprint("Creating Hypothetical HH Graphs...", "red", "on_white")
