@@ -24,6 +24,8 @@ def output(settings):
 
         # load reform-specific results
         df = pd.read_json(ppj("OUT_DATA", "taxben_results_{}.json".format(ref)))
+        print("Number of adults: {}".format(df[df['age']>=18]['pweight'].sum()))
+        print("Number of children: {}".format(df[df['age']<18]['pweight'].sum()))
 
         # create weighted annual sums
         for var in budgetvars:
@@ -50,9 +52,12 @@ def output(settings):
     diff_rev = pd.DataFrame(columns=settings["Reforms"][1:])
     recip_rev = pd.DataFrame(columns=settings["Reforms"][1:])
     for ref in settings["Reforms"]:
+        print(budget[ref])
         if ref != base:
             diff_rev[ref] = budget[ref] - budget[base]
             recip_rev[ref] = recip[ref] - recip[base]
+
+
 
     print("-" * 80)
     print("Budget Differences (bn € per year)")

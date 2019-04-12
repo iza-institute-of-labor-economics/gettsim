@@ -22,7 +22,7 @@ def ubi_settings(tb):
 
     tb_ubi = tb.copy()
     # UBI amount for adults
-    tb_ubi["ubi_adult"] = 800
+    tb_ubi["ubi_adult"] = 1000
     tb_ubi["ubi_child"] = 0.5 * tb_ubi["ubi_adult"]
 
     # Minijobgrenze
@@ -33,7 +33,9 @@ def ubi_settings(tb):
     tb_ubi["midi_grenze"] = 0
 
     # UBI Flat Rate
-    tb_ubi["flatrate"] = 0.48
+    tb_ubi["flatrate"] = 0.9
+    # change basic allowance?
+    tb_ubi['G'] = 5000
 
     # Kindergeld
     for i in range(1, 5):
@@ -56,7 +58,7 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
         2. UBI is a flat rate, possibly lower for kids below a certain age.
         3. UBI is not means-tested and does not depend on family composition
         4. UBI is fully taxable
-        5. Possibly, also abolish midi and mini job rules.
+        5. Mini and Midi job rules are not touched
 
 
     Arguments:
@@ -105,11 +107,13 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
     df["ubi"] = ubi(df, tb)
     # aggregate it on hh level
     df["ubi_hh"] = aggr(df, "ubi", "all_hh")
+    df["ubi_tu"] = aggr(df, "ubi", "all_tu")
     # Income Tax
     taxvars = [
         "pid",
         "hid",
         "female",
+        "pweight",
         "head_tu",
         "tu_id",
         "east",
@@ -139,6 +143,7 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
         "alleinerz",
         "ineducation",
         "ubi",
+        "ubi_tu",
     ]
 
     # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)

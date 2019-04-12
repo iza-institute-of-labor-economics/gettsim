@@ -15,8 +15,8 @@ from custompygraph.make_plot import make_plot
 from bld.project_paths import project_paths_join as ppj
 
 from src.model_code.hypo_helpers import get_ref_text, hypo_graph_settings, get_reform_names, get_hh_text
-from src.model_code.imports import get_params, say_hello
-from src.analysis.tax_transfer import tax_transfer
+from src.model_code.imports import get_params, say_hello, tarif_ubi
+from src.analysis.tax_transfer import tax_transfer, tarif
 from src.analysis.tax_transfer_ubi import tax_transfer_ubi, ubi_settings
 
 
@@ -158,7 +158,7 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
         ncol=ncol,
         frameon=False,
     )
-    plt.savefig(ppj("OUT_FIGURES", "lego_{}_{}_{}.png".format(ref, t, lang)))
+    plt.savefig(ppj("OUT_FIGURES", "hypo/lego_{}_{}_{}.png".format(ref, t, lang)))
 
 
 def create_hypo_data(settings, tb, types, rents):
@@ -172,14 +172,14 @@ def create_hypo_data(settings, tb, types, rents):
     24: Single Parent, two children (3 and 8 years)
     31: Single-Earner Couple, no children
     32: Single-Earner Couple, no children
-    
+
     args:
         settings(dict)
         tb(dict)
         types(list): list of hh types
-        rents(dict): rents assumed for each hh type        
-    
-    returns: 
+        rents(dict): rents assumed for each hh type
+
+    returns:
         pd.Dataframe as from SOEP, but with made-up households
     """
     # DEFINE STEPS IN YEARLY WAGES. ideally, take a multiple of 12
@@ -552,7 +552,7 @@ def create_hypo_data(settings, tb, types, rents):
 def hypo_graphs(dfs, settings, types, lang):
     """
     creates a couple of graphs by hypothetical household type for debugging
-    
+
     args:
         dfs (dict): Dictionary containing a dataframe for each reform
         settings (dict): the settings dictionary
@@ -725,8 +725,11 @@ def hypo_tex(settings, types, rents, lang):
                 texfile.write("\\begin{figure}[htb] \n")
                 texfile.write("\\caption{{{}}} \n".format(types[t]))
                 texfile.write(
-                    """\\includegraphics[width=0.9\\textwidth]{{hypo/{}_{}_{}.png}} \\\\ \n""".format(
-                        graphtype, t, lang
+                    """\\includegraphics[width=0.9\\textwidth]{{{}/hypo/{}_{}_{}.png}} \\\\ \n""".format(
+                        ppj("OUT_FIGURES").replace("\\","/"),
+                        graphtype,
+                        t,
+                        lang
                     )
                 )
                 texfile.write("\\end{figure} \n")
@@ -737,8 +740,11 @@ def hypo_tex(settings, types, rents, lang):
                     texfile.write("\\begin{figure}[htb] \n")
                     texfile.write("\\caption{{{}}} \n".format(types[t]))
                     texfile.write(
-                        """\\includegraphics[width=0.9\\textwidth]{{hypo/lego_{}_{}_{}.png}} \\\\ \n""".format(
-                            ref, t, lang
+                        """\\includegraphics[width=0.9\\textwidth]{{{}/hypo/lego_{}_{}_{}.png}} \\\\ \n""".format(
+                            ppj("OUT_FIGURES").replace("\\","/"),
+                            ref,
+                            t,
+                            lang
                         )
                     )
                     texfile.write(get_hh_text(lang, t, rents["miete"][t], rents["heizkost"][t]))
@@ -746,6 +752,29 @@ def hypo_tex(settings, types, rents, lang):
                 texfile.write("\\clearpage \n")
     texfile.write("\\end{document} \n")
     texfile.close()
+
+def taxgraphs(settings, tb, tb_ubi):
+    """ Simple plot of the tax tariffs
+    """
+    incstep = 50
+    df = pd.DataFrame({'zve': np.arange(0, 2e5, incstep)})
+    df["tax_baseline"] = np.vectorize(tarif)(df["zve"], tb)
+    df["tax_ubi"] = np.vectorize(tarif_ubi)(df["zve"], tb_ubi)
+
+    for ref in ["baseline", "ubi"]:
+        df["mtr"+ref] = (df["tax_"+ref] - df["tax_"+ref].shift(1)) / incstep
+
+    make_plot(
+            {ref: [df["zve"], df["mtr" + ref]] for ref in ["baseline",
+                                                           "ubi"]},
+            ylab="MTR",
+            xlab="taxable income",
+            ylim_low=0,
+            ylim_high=1,
+            xlim_low=0,
+            xlim_high=2e5,
+              ).savefig(ppj("OUT_FIGURES",
+                            "hypo/taxtariffs.png"))
 
 
 def hypo_excel(dfs, settings, types):
@@ -824,8 +853,8 @@ if __name__ == "__main__":
             24: "Single Parent, two children (3 and 8 years)",
             31: "One-earner couple, no children",
             32: "One-earner couple, two children (3 and 8 years)",
-            33: "Two-earner couple, avg. income of first earner",
-            34: "Two-earner couple, avg. income of first earner, 2 children",
+            #33: "Two-earner couple, avg. income of first earner",
+            #34: "Two-earner couple, avg. income of first earner, 2 children",
         },
     }
 
@@ -862,5 +891,6 @@ if __name__ == "__main__":
     hypo_graphs(taxout_hypo, settings, types[lang], lang)
     # produce latex output with these graphs
     hypo_tex(settings, types[lang], rents, lang)
+    taxgraphs(settings, tb, ubi_settings(tb))
     # check against Stata output.
     # check_hypo(settings)

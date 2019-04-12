@@ -69,6 +69,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     taxvars = [
         "pid",
         "hid",
+        "pweight",
         "female",
         "head_tu",
         "tu_id",
@@ -495,14 +496,14 @@ def soc_ins_contrib(df, tb, yr, ref=""):
 def tarif(x, tb):
     """ The German Income Tax Tariff
     modelled only after 2002 so far
-        
+
     It's not calculated as in the tax code, but rather a gemoetric decomposition of the
     area beneath the marginal tax rate function.
     This facilitates the implementation of alternative tax schedules
-        
+
     args:
         x (float): taxable income
-        tb (dict): tax-benefit parameters specific to year and reform                       
+        tb (dict): tax-benefit parameters specific to year and reform
     """
     y = int(tb["yr"])
     if y < 2002:
@@ -534,11 +535,11 @@ def tarif(x, tb):
 
 def soli_formula(solibasis, tb):
     """ The actual soli calculation
-    
+
     args:
         solibasis: taxable income, *always with Kinderfreibetrag!*
         tb (dict): tax-benefit parameters
-    
+
     """
     soli = np.minimum(
         tb["solisatz"] * solibasis, np.maximum(0.2 * (solibasis - tb["solifreigrenze"]), 0)
@@ -600,7 +601,6 @@ def ui(df, tb, taxyear, ref=""):
 
     # print("ALG1 Payments: {} bn €.".format(ui['m_alg1'].multiply(df['pweight']).sum() * 12 / 1e9))
     # print("ALG1 Recipients: {}.".format(df['pweight'][ui['m_alg1']>0].sum()))
-
     return ui["m_alg1"]
 
 
@@ -705,9 +705,9 @@ def zve(df, tb, yr, hyporun, ref=""):
     )
     # Sum of incomes
     zve["gross_gde"] = zve[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
-    # Add UBI
+    # Add UBI to taxable income
     if ref == "UBI":
-        zve["gross_gde"] = zve["gross_gde"] + df["ubi"]
+        zve["gross_gde"] = zve["gross_gde"] + df["ubi_tu"]
     # If capital income tax with tariff, add it but account for exemptions
     if kapinc_in_tarif:
         zve["gross_gde"] = zve["gross_gde"] + np.maximum(
@@ -870,6 +870,12 @@ def zve(df, tb, yr, hyporun, ref=""):
         zve["zve_" + incdef + "_tu"] = aggr(zve, "zve_" + incdef, "adult_married")
         zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = 0.5 * zve["zve_" + incdef + "_tu"]
 
+    if not hyporun:
+        print("Sum of taxable income: {} bn €".format(
+                    (zve['zve_nokfb'] * df['pweight']).sum()/1e9
+                )
+              )
+
     return zve[
         [
             "zve_nokfb",
@@ -942,11 +948,11 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
 def kindergeld(df, tb, yr, ref=""):
     """ Child Benefit (kindergeld)
     Basic Amount for each child, hours restriction applies
-    
+
     Returns:
         pd.series:
             kindergeld_basis: Kindergeld on the individual level
-            kindergeld_tu_basis: Kindergeld summed up within the tax unit      
+            kindergeld_tu_basis: Kindergeld summed up within the tax unit
     """
     kg = pd.DataFrame(index=df.index.copy())
     kg["tu_id"] = df["tu_id"]
@@ -1105,7 +1111,7 @@ def uhv(df, tb, taxyear):
     Since 2017, the receipt of this
     UHV has been extended substantially and needs to be taken into account, since it's
     dominant to other transfers, i.e. single parents 'have to' apply for it.
-    
+
     returns:
         uhv (pd.Series): Alimony Payment on individual level
     """
@@ -1629,16 +1635,19 @@ def kiz(df, tb, yr, hyporun):
         (~kiz["wg_vorrang"]) & (~kiz["wgkiz_vorrang"]) & (kiz["m_alg2_base"] > 0), "wohngeld"
     ] = 0
     kiz.loc[(~kiz["kiz_vorrang"]) & (~kiz["wgkiz_vorrang"]) & (kiz["m_alg2_base"] > 0), "kiz"] = 0
-    
+
     # Pensioners do not receive Kiz. They actually do not receive ALGII, too. Instead,
-    # they get 'Grundleistung im Alter', which pays the same amount. Until this is not modelled,
-    # we give them ALG2.
-    kiz.loc[df['pensioner'], 'kiz'] = 0
+    # they get 'Grundleistung im Alter', which pays the same amount.
+    df['n_pens'] = df.groupby('hid')['pensioner'].transform('sum')
+    print(df['pensioner'].value_counts())
+    print(df['n_pens'].value_counts())
+    for ben in ['kiz', 'wg', 'm_alg2']:
+        kiz.loc[kiz['n_pens'] > 1, ben] = 0
 
     assert kiz["m_alg2"].notna().all()
     assert kiz["wohngeld"].notna().all()
     assert kiz["kiz"].notna().all()
-
+    aaa
     return kiz[["kiz", "wohngeld", "m_alg2"]]
 
 

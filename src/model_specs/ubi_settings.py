@@ -11,7 +11,7 @@ def ubi_settings(tb):
 
     tb_ubi = tb.copy()
     # UBI amount for adults
-    tb_ubi["ubi_adult"] = 800
+    tb_ubi["ubi_adult"] = 1000
     tb_ubi["ubi_child"] = 0.5 * tb_ubi["ubi_adult"]
 
     # Minijobgrenze

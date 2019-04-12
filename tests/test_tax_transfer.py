@@ -2,10 +2,10 @@ import pytest
 from pandas import DataFrame, Series
 from pandas.testing import assert_series_equal, assert_frame_equal
 from numpy.testing import assert_allclose
-from tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
-from tax_transfer import tax_sched, soli, wg, alg2, kiz, ui, uhv
+from src.analysis.tax_transfer import kindergeld, soc_ins_contrib, favorability_check, zve
+from src.analysis.tax_transfer import tax_sched, soli, wg, alg2, kiz, ui, uhv
 from itertools import product
-from settings import get_settings
+from bld.project_paths import project_paths_join as ppj
 import pandas as pd
 
 
@@ -109,7 +109,7 @@ def load_ssc_output_data(year, column):
 
 def load_tb(year):
     # df = pd.read_excel('tests/test_data/test_param.xls').set_index('para')
-    df = pd.read_excel(get_settings()["DATA_PATH"] + "params/param.xls").set_index("para")
+    df = pd.read_excel(ppj("IN_DATA","param.xls")).set_index("para")
     return df["y{}".format(year)].to_dict()
 
 
@@ -581,6 +581,7 @@ def load_kiz_input_data(year):
         "hh_korr",
         "hhsize",
         "child",
+        "pensioner",
         "age",
         "miete",
         "heizkost",

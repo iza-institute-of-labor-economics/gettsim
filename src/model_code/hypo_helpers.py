@@ -13,7 +13,7 @@ def get_ref_text(refname):
                 Abolition of Marginal Jobs, Abolition of 'Gleitzone'.
                 Abolition of Unemployment Benefit, Housing Benefit, Additional Child Benefit,
                 Child Allowance. UBI is fully subject to income taxation. Income Tax:
-                Flat Rate of {}%.
+                Flat Rate of {}\% with current basic exemption.
                 """.format(int(tb["ubi_adult"]), int(tb["ubi_child"]), tb['flatrate']*100)
     else:
         ref_text = ""
