@@ -579,6 +579,8 @@ def hypo_graphs(dfs, settings, types, lang):
             ),
             1.2,
         )
+        if ref != base:
+            plot["d_dpi" + ref] = dfs[ref]["dpi"] - dfs[base]["dpi"]
         # plot['emtr' + ref] = 100 * np.minimum((1 - (dfs[ref]['dpi'] - dfs[ref]['dpi'].shift(1))
         #                                      / (dfs[ref]['m_wage'] - dfs[ref]['m_wage'].shift(1))), 1.2)
 
@@ -645,6 +647,18 @@ def hypo_graphs(dfs, settings, types, lang):
             ).savefig(ppj("OUT_FIGURES",
                           "hypo/{}_{}_{}.png".format(plottype, t, lang)))
 
+        # These plots are only for non-baseline reforms
+        for plottype in ["budget_diff"]:
+            make_plot(
+                {ref: [sub["m_wage"], sub[yvars[plottype] + ref]] for ref in settings["Reforms"][1:]},
+                ylab=ylabels[plottype],
+                xlab=xlabels[plottype],
+                xlim_low=0,
+                xlim_high=maxinc / 12,
+                showlegend=False,
+                hline=[0],
+            ).savefig(ppj("OUT_FIGURES",
+                          "hypo/{}_{}_{}.png".format(plottype, t, lang)))
     # Empty memory
     plt.clf()
 
@@ -656,11 +670,13 @@ def hypo_tex(settings, types, rents, lang):
     graphheaders = {
         "en": {
             "bruttonetto": "Budget Lines",
+            "budget_diff": "Income Difference",
             "emtr": "Effective Marginal Tax Rates",
             "lego": "Compositional Graphs",
         },
         "de": {
             "bruttonetto": "Budgetlinien",
+            "budget_diff": "Einkommensänderung",
             "emtr": "Effektive Grenzbelastungen",
             "lego": "Zerlegungen",
         },
@@ -717,7 +733,8 @@ def hypo_tex(settings, types, rents, lang):
     texfile.write("\\end{itemize} \n")
     texfile.write("\\listoffigures \n")
     # START TO INSERT GRAPHS
-    for graphtype in ["bruttonetto", "emtr", "lego"]:
+    # "emtr" can also be added
+    for graphtype in ["bruttonetto", "budget_diff", "lego"]:
         texfile.write("\\clearpage \n")
         texfile.write("\\section{{{}}} \n".format(graphheaders[lang][graphtype]))
         if graphtype != "lego":

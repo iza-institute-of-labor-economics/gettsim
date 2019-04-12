@@ -13,8 +13,10 @@ def get_ref_text(refname):
                 Abolition of Marginal Jobs, Abolition of 'Gleitzone'.
                 Abolition of Unemployment Benefit, Housing Benefit, Additional Child Benefit,
                 Child Allowance. UBI is fully subject to income taxation. Income Tax:
-                Flat Rate of {}\% with current basic exemption.
-                """.format(int(tb["ubi_adult"]), int(tb["ubi_child"]), tb['flatrate']*100)
+                Flat Rate of {}\%, along with reducing basic exemption to \EUR{{{}}}.
+                """.format(int(tb["ubi_adult"]), int(tb["ubi_child"]),
+                tb['flatrate']*100,
+                tb['G'])
     else:
         ref_text = ""
 
@@ -34,18 +36,21 @@ def hypo_graph_settings(lang, t):
                 "lego": "Gross monthly household income (€)",
                 "emtr": "Gross monthly household income (€)",
                 "bruttonetto": "Gross monthly household income (€)",
+                "budget_diff": "Gross monthly household income (€)",
             }
         else:
             xlabels = {
                 "lego": "Gross monthly income of secondary earner (€)",
                 "emtr": "Gross monthly income of secondary earner (€)",
                 "bruttonetto": "Gross monthly income of secondary earner (€)",
+                "budget_diff": "Gross monthly income of secondary earner (€)",
                     }
 
         ylabels = {
             "lego": "Disp. monthly household income (€)",
             "emtr": "Effective Marginal Tax Rate",
             "bruttonetto": "Disp. monthly household income (€)",
+            "budget_diff": "Disp. monthly household income (€)",
         }
     if lang == "de":
         if t <= 33:
@@ -66,7 +71,9 @@ def hypo_graph_settings(lang, t):
             "bruttonetto": "Verf. Einkommen (€ / Monat)",
         }
     # depending on the plottype, which reform-specific variables to plot?
-    yvars = {"emtr": "emtr", "bruttonetto": "dpi"}
+    yvars = {"emtr": "emtr",
+             "bruttonetto": "dpi",
+             "budget_diff": "d_dpi"}
 
     # max yearly income to plot. can also vary by t
     maxinc = 80000

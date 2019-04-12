@@ -33,9 +33,9 @@ def ubi_settings(tb):
     tb_ubi["midi_grenze"] = 0
 
     # UBI Flat Rate
-    tb_ubi["flatrate"] = 0.9
+    tb_ubi["flatrate"] = 0.83
     # change basic allowance?
-    tb_ubi['G'] = 5000
+    tb_ubi['G'] = 100
 
     # Kindergeld
     for i in range(1, 5):

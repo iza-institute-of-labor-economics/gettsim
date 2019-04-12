@@ -14,5 +14,6 @@ def build(ctx):
                 ctx.path_to(ctx, 'OUT_DATA', 'siab_pt.csv'),
                 ctx.path_to(ctx, 'OUT_DATA', 'siab_inact.csv'),
                 ctx.path_to(ctx, 'OUT_DATA', 'siab_experience.csv'),
+                ctx.path_to(ctx, 'OUT_FIGURES', 'siab_employment.png'),
                 ],
     )

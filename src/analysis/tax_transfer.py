@@ -1639,15 +1639,12 @@ def kiz(df, tb, yr, hyporun):
     # Pensioners do not receive Kiz. They actually do not receive ALGII, too. Instead,
     # they get 'Grundleistung im Alter', which pays the same amount.
     df['n_pens'] = df.groupby('hid')['pensioner'].transform('sum')
-    print(df['pensioner'].value_counts())
-    print(df['n_pens'].value_counts())
     for ben in ['kiz', 'wg', 'm_alg2']:
-        kiz.loc[kiz['n_pens'] > 1, ben] = 0
+        kiz.loc[df['n_pens'] > 1, ben] = 0
 
     assert kiz["m_alg2"].notna().all()
     assert kiz["wohngeld"].notna().all()
     assert kiz["kiz"].notna().all()
-    aaa
     return kiz[["kiz", "wohngeld", "m_alg2"]]
 
 
