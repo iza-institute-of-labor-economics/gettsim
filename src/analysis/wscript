@@ -1,6 +1,5 @@
 #! python
 import pandas as pd
-from bld.project_paths import project_paths_join as ppj
 
 def build(ctx):
 
@@ -34,7 +33,7 @@ def build(ctx):
             ctx.path_to(ctx, "OUT_DATA", "taxben_results_UBI.json"),
         ],
     )
-    reforms = pd.read_json(ppj("IN_MODEL_SPECS","settings.json"))["Reforms"]         
+    # reforms = pd.read_json(ppj("IN_MODEL_SPECS","settings.json"))["Reforms"]         
     ctx(    
         features="run_py_script",
         source="output.py",     
