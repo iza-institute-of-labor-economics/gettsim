@@ -19,8 +19,8 @@ import pandas as pd
 def ubi_settings(tb):
     """ Set alternative tax benefit parameters for UBI
     """
-
     tb_ubi = tb.copy()
+
     # UBI amount for adults
     tb_ubi["ubi_adult"] = 1000
     tb_ubi["ubi_child"] = 0.5 * tb_ubi["ubi_adult"]
@@ -33,9 +33,9 @@ def ubi_settings(tb):
     tb_ubi["midi_grenze"] = 0
 
     # UBI Flat Rate
-    tb_ubi["flatrate"] = 0.83
+    tb_ubi["flatrate"] = 0.81
     # change basic allowance?
-    tb_ubi['G'] = 100
+    tb_ubi['G'] = tb['G']
 
     # Kindergeld
     for i in range(1, 5):

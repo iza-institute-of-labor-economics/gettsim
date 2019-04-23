@@ -707,7 +707,8 @@ def zve(df, tb, yr, hyporun, ref=""):
     zve["gross_gde"] = zve[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
     # Add UBI to taxable income
     if ref == "UBI":
-        zve["gross_gde"] = zve["gross_gde"] + df["ubi_tu"]
+        zve["gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
+
     # If capital income tax with tariff, add it but account for exemptions
     if kapinc_in_tarif:
         zve["gross_gde"] = zve["gross_gde"] + np.maximum(
@@ -871,6 +872,10 @@ def zve(df, tb, yr, hyporun, ref=""):
         zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = 0.5 * zve["zve_" + incdef + "_tu"]
 
     if not hyporun:
+        print("Sum of gross income: {} bn €".format(
+                    (zve['gross_gde'] * df['pweight']).sum()/1e9
+                )
+              )
         print("Sum of taxable income: {} bn €".format(
                     (zve['zve_nokfb'] * df['pweight']).sum()/1e9
                 )
@@ -1373,11 +1378,22 @@ def alg2(df, tb, yr):
     print(pd.crosstab(df['typ_bud'], df['child6_num']))
     """
     # alg2['regelsatz_tu_k'] = aggr(alg2, 'regelsatz', True)
-    # Only 'appropriate' housing costs are paid. For simplicity apply Housing benefit rules
-    # this might be overly restrictive...check number of benefit recipients.
-    # alg2['alg2_kdu'] = df['M'] + np.maximum(df['heizkost'] - df['wgheiz'], 0)
-    # For now, just assume they are paid...
+    # Only 'appropriate' housing costs are paid. Two possible options:
+    # 1. Just pay rents no matter what
     alg2["alg2_kdu"] = df["miete"] + df["heizkost"]
+    # 2. Add restrictions regarding flat size and rent per square meter (set it 10€, slightly
+    # above average)
+#    alg2["rent_per_sqm"] = np.minimum((df["miete"] + df["heizkost"]) / df["wohnfl"], 10)
+#    alg2.loc[df["eigentum"], "wohnfl_just"] = np.minimum(
+#            df["wohnfl"],
+#            80 + np.maximum(0,
+#                            (df["hhsize"] - 2) * 20)
+#            )
+#    alg2.loc[~df["eigentum"], "wohnfl_just"] = np.minimum(
+#            df["wohnfl"],
+#            (45 + (df["hhsize"] - 1) * 15)
+#            )
+#    alg2["alg2_kdu"] = alg2["rent_per_sqm"] * alg2["wohnfl_just"]
 
     # After introduction of Hartz IV until 2010, people becoming unemployed
     # received something on top to smooth the transition. not yet modelled...
