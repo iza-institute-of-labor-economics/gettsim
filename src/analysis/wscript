@@ -33,13 +33,13 @@ def build(ctx):
             ctx.path_to(ctx, "OUT_DATA", "taxben_results_UBI.json"),
         ],
     )
-    # reforms = pd.read_json(ppj("IN_MODEL_SPECS","settings.json"))["Reforms"]         
-    ctx(    
+    # reforms = pd.read_json(ppj("IN_MODEL_SPECS","settings.json"))["Reforms"]
+    ctx(
         features="run_py_script",
-        source="output.py",     
+        source="output.py",
         deps=[
         # HOW CAN I ENDOGENIZE THIS???
-            ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),            
+            ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),
             ctx.path_to(ctx, "OUT_DATA", "taxben_results_RS2019.json"),
             ctx.path_to(ctx, "OUT_DATA", "taxben_results_UBI.json"),
             #+
@@ -49,7 +49,7 @@ def build(ctx):
         # doesn't produce output yet.
         ]
      )
-     
+
     ctx(
         features="run_py_script",
         source="hypo.py",
@@ -62,8 +62,7 @@ def build(ctx):
             ctx.path_to(ctx, "OUT_HYPO", "hypographs_RS2019_en.tex"),
             #ctx.path_to(ctx, "OUT_HYPO", "hypographs_RS2019_de.tex"),
             ctx.path_to(ctx, "OUT_DATA", "check_hypo_RS2019.xlsx"),
-            ctx.path_to(ctx, "OUT_DATA", "check_hypo_UBI.xlsx"),       
-        ]                    
+            ctx.path_to(ctx, "OUT_DATA", "check_hypo_UBI.xlsx"),
+        ]
      )
-     
-          
+

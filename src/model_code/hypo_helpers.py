@@ -2,18 +2,18 @@
 from src.analysis.tax_transfer_ubi import ubi_settings
 
 
-def get_ref_text(refname):
+def get_ref_text(refname, tb):
     """ defines a bit of tex code which briefly sums up what each reform is doing.
     """
 
     if refname == "UBI":
-        tb = ubi_settings({})
+        tb = ubi_settings(tb)
 
         ref_text = """Adult rate: \EUR{{{}}}, Kid rate: \EUR{{{}}},
                 Abolition of Marginal Jobs, Abolition of 'Gleitzone'.
                 Abolition of Unemployment Benefit, Housing Benefit, Additional Child Benefit,
                 Child Allowance. UBI is fully subject to income taxation. Income Tax:
-                Flat Rate of {}\%, along with reducing basic exemption to \EUR{{{}}}.
+                Flat Rate of {}\%, basic exemption: \EUR{{{}}}.
                 """.format(int(tb["ubi_adult"]), int(tb["ubi_child"]),
                 tb['flatrate']*100,
                 tb['G'])

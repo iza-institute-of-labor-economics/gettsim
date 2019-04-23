@@ -21,6 +21,8 @@ def output(settings):
     recip = pd.DataFrame(columns=settings["Reforms"])
     dpis = pd.DataFrame(columns=settings["Reforms"])
 
+    base = settings["Reforms"][0]
+
     for ref in settings["Reforms"]:
         taxvars = ["incometax", "soli", "gkvbeit", "rvbeit", "pvbeit", "avbeit"]
         benvars = ["m_alg1", "m_alg2", "wohngeld", "kiz", "kindergeld", "ubi"]
@@ -55,8 +57,13 @@ def output(settings):
         )
 
         dpis[ref]["dpi_eq"] = df["dpi"] / df["eq_scale"]
+        dpis[ref]["dpi_per_head"] = df["dpi"] / df["hhsize"]
         dpis[ref]["dpi"]    = df["dpi"]
         dpis[ref]["pweight"] = df["pweight"]
+        if ref != base:
+            dpis[ref]["d_dpi"] = dpis[ref]["dpi_per_head"] - dpis[base]["dpi_per_head"]
+            # print(dpis[ref]["d_dpi"].describe())
+
 
 
     # calculate total budget
@@ -92,22 +99,44 @@ def output(settings):
                      label=get_reform_names("en")[ref]
                      )
     plt.title('Income Distributions')
-    plt.xlabel('Equivalized personal income')
+    plt.xlabel('Personal Income')
     plt.ylabel('Density')
     plt.savefig(ppj("OUT_FIGURES", "income_densities.png"))
 
     # Winner/Loser Analysis
     for ref in settings["Reforms"][1:]:
         dpis[ref]["winner"] = df["pweight"] * (dpis[ref]["dpi"] > (dpis[base]["dpi"] + 5))
-        dpis[ref]["loser"]  = df["pweight"] * (dpis[ref]["dpi"] < (dpis[base]["dpi"] + 5))
-        for outcome in ['winner', 'loser']:
-            print("Share of {}s from {}: {}%".format(
-                    outcome,
-                    ref,
-                    100 * (dpis[ref][outcome].sum() /
-                           dpis[ref]["pweight"].sum())
-                        )
-                   )
+        dpis[ref]["loser"]  = df["pweight"] * (dpis[ref]["dpi"] < (dpis[base]["dpi"] - 5))
+        winshare = 100 * (dpis[ref]["winner"].sum() / dpis[ref]["pweight"].sum())
+        loseshare = 100 * (dpis[ref]["loser"].sum() / dpis[ref]["pweight"].sum())
+        winavg = dpis[ref]["d_dpi"][dpis[ref]["winner"] > 0].mean()
+        losavg = dpis[ref]["d_dpi"][dpis[ref]["loser"] > 0].mean()
+        print("Income Gains: {}".format(dpis[ref]["d_dpi"][dpis[ref]["winner"] > 0].describe()))
+        print("Income Losses: {}".format(dpis[ref]["d_dpi"][dpis[ref]["loser"] > 0].describe()))
+
+        fig = plt.figure(figsize=(8,5))
+        sns.distplot(dpis[ref]["d_dpi"][dpis[ref]["d_dpi"].between(-5000,2000)],
+                     kde=True,
+                     hist=False,
+                     kde_kws={'shade': True,
+                              'bw': 100},
+                     )
+#        sns.distplot(dpis[ref]["d_dpi"][dpis[ref]["d_dpi"].between(.01,2000)],
+#                     kde=True,
+#                     hist=False,
+#                     kde_kws={'shade': True,
+#                              'bw': 100},
+#                     label="Winners"
+#                     )
+        plt.text(-2000, .0004, "{:.2f}% Losers \nAverage Loss: € {:.0f}".format(loseshare,
+                         losavg * (-1)))
+        plt.text(500, .0006, "{:.2f}% Winners \nAverage Gain: € {:.0f}".format(winshare,
+                 winavg))
+        plt.axvline(0)
+        plt.title('Distribution of income change')
+        plt.xlabel('Monthly income per person')
+        plt.ylabel('Density')
+        plt.savefig(ppj("OUT_FIGURES", "d_inc_per_person_{}.png".format(ref)))
 
 
 #    print(df["dpi_eq"].describe())

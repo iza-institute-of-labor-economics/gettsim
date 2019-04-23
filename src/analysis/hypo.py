@@ -481,7 +481,7 @@ def create_hypo_data(settings, tb, types, rents):
 
     df["haskids"] = df["child_num"] > 0
     df["adult_num"] = 1 + (df["typ_bud"] >= 31) * 1
-    df["hhsize"] = df["adult_num"] + df["child_num"]
+    df["hhsize"] = (df["adult_num"] + df["child_num"]).astype(int)
 
     print(pd.crosstab(df["typ_bud"], df["child_num"]))
 
@@ -727,7 +727,8 @@ def hypo_tex(settings, types, rents, lang):
             "\\item \\textbf{{{}}} ({}): {} \n".format(
                 refnames[settings["Reforms"][r]],
                 settings["Reforms"][r],
-                get_ref_text(settings["Reforms"][r]),
+                get_ref_text(settings["Reforms"][r],
+                             get_params(ppj("IN_DATA"))["y" + str(settings["taxyear"][0])]),
             )
         )
     texfile.write("\\end{itemize} \n")
