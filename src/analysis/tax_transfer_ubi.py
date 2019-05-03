@@ -4,15 +4,15 @@ TAX TRANSFER SYSTEM FOR UBI
 Eric Sommer, 2018
 """
 
-from bld.project_paths import project_paths_join as ppj
-from src.model_code.imports import aggr, get_params, tarif_ubi
-
 import pandas as pd
 import numpy as np
 
+from bld.project_paths import project_paths_join as ppj
+from src.model_code.imports import aggr, get_params, tarif_ubi
+
+
 from tax_transfer import soc_ins_contrib, pensions, zve, tax_sched
 from tax_transfer import soli, favorability_check, uhv
-import pandas as pd
 
 # from numba import jit
 
@@ -222,8 +222,6 @@ def ubi(df, tb):
     return ubi["ubi"]
 
 
-
-
 if __name__ == "__main__":
     settings = pd.read_json(ppj("IN_MODEL_SPECS", "settings.json"))
     tb = get_params(ppj("IN_DATA"))["y" + str(settings["taxyear"][0])]
@@ -233,7 +231,7 @@ if __name__ == "__main__":
     df = pd.read_pickle(ppj("SOEP_PATH", "2_taxben_input.dta"))
     # reduce dataset
     df = df[df["syear"] == df["syear"].max()]
-    tt_out = tax_transfer_ubi(df, df["syear"].max(), settings["taxyear"][0], tb_ubi, tb_pens, mw, False)
+    tt_out = tax_transfer_ubi(
+        df, df["syear"].max(), settings["taxyear"][0], tb_ubi, tb_pens, mw, False
+    )
     tt_out.to_json(ppj("OUT_DATA", "taxben_results_{}.json".format("UBI")))
-
-

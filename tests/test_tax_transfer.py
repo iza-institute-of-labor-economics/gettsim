@@ -511,6 +511,8 @@ def load_alg2_input_data(year):
         "byear",
         "miete",
         "heizkost",
+        "wohnfl",
+        "eigentum",
         "alleinerz",
         "adult_num",
         "child6_num",

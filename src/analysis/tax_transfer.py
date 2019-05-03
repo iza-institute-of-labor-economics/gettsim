@@ -871,15 +871,15 @@ def zve(df, tb, yr, hyporun, ref=""):
         zve["zve_" + incdef + "_tu"] = aggr(zve, "zve_" + incdef, "adult_married")
         zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = 0.5 * zve["zve_" + incdef + "_tu"]
 
-    if not hyporun:
-        print("Sum of gross income: {} bn €".format(
-                    (zve['gross_gde'] * df['pweight']).sum()/1e9
-                )
-              )
-        print("Sum of taxable income: {} bn €".format(
-                    (zve['zve_nokfb'] * df['pweight']).sum()/1e9
-                )
-              )
+#    if not hyporun:
+#        print("Sum of gross income: {} bn €".format(
+#                    (zve['gross_gde'] * df['pweight']).sum()/1e9
+#                )
+#              )
+#        print("Sum of taxable income: {} bn €".format(
+#                    (zve['zve_nokfb'] * df['pweight']).sum()/1e9
+#                )
+#              )
 
     return zve[
         [
@@ -1277,8 +1277,8 @@ def wg(df, tb, yr, hyporun):
     wg["max_rent"] = wg["max_rent"] * df["hh_korr"]
 
     wg["wgmiete"] = np.minimum(wg["max_rent"], df["miete"] * df["hh_korr"])
-    wg["wgheiz"] = df["heizkost"] * df["hh_korr"]
-    wg["M"] = np.maximum(wg["wgmiete"] + wg["wgheiz"], wg["min_rent"])
+    # wg["wgheiz"] = df["heizkost"] * df["hh_korr"]
+    wg["M"] = np.maximum(wg["wgmiete"], wg["min_rent"])
     if not hyporun:
         wg["M"] = np.maximum(pd.Series(wg["M"] + 4).round(-1) - 5, 0)
 
@@ -1692,7 +1692,7 @@ if __name__ == "__main__":
     tb_pens = pd.read_excel(ppj("IN_DATA", "pensions.xlsx"), index_col="var").transpose()
     mw = pd.read_json(ppj("IN_DATA", "mw_pensions.json"))
     df = pd.read_pickle(ppj("SOEP_PATH", "2_taxben_input.dta"))
-    # reduce dataset
+    # reduce dataset to last available SOEP year
     df = df[df["syear"] == df["syear"].max()]
     tt_out = tax_transfer(df, df["syear"].max(), settings["taxyear"][0], tb, tb_pens, mw, False)
     tt_out.to_json(ppj("OUT_DATA", "taxben_results_{}.json".format(settings["Reforms"][0])))
