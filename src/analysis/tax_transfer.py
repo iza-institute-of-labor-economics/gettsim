@@ -1380,29 +1380,25 @@ def alg2(df, tb, yr):
     # alg2['regelsatz_tu_k'] = aggr(alg2, 'regelsatz', True)
     # Only 'appropriate' housing costs are paid. Two possible options:
     # 1. Just pay rents no matter what
-    alg2["alg2_kdu"] = df["miete"] + df["heizkost"]
+    # alg2["alg2_kdu"] = df["miete"] + df["heizkost"]
     # 2. Add restrictions regarding flat size and rent per square meter (set it 10€, slightly
     # above average)
-#    alg2["rent_per_sqm"] = np.minimum((df["miete"] + df["heizkost"]) / df["wohnfl"], 10)
-#    alg2.loc[df["eigentum"], "wohnfl_just"] = np.minimum(
-#            df["wohnfl"],
-#            80 + np.maximum(0,
-#                            (df["hhsize"] - 2) * 20)
-#            )
-#    alg2.loc[~df["eigentum"], "wohnfl_just"] = np.minimum(
-#            df["wohnfl"],
-#            (45 + (df["hhsize"] - 1) * 15)
-#            )
-#    alg2["alg2_kdu"] = alg2["rent_per_sqm"] * alg2["wohnfl_just"]
-
+    alg2["rent_per_sqm"] = np.minimum((df["miete"] + df["heizkost"]) / df["wohnfl"], 10)
+    alg2.loc[df["eigentum"], "wohnfl_just"] = np.minimum(
+            df["wohnfl"],
+            80 + np.maximum(0,
+                            (df["hhsize"] - 2) * 20)
+            )
+    alg2.loc[~df["eigentum"], "wohnfl_just"] = np.minimum(
+            df["wohnfl"],
+            (45 + (df["hhsize"] - 1) * 15)
+            )
+    alg2["alg2_kdu"] = alg2["rent_per_sqm"] * alg2["wohnfl_just"]
     # After introduction of Hartz IV until 2010, people becoming unemployed
     # received something on top to smooth the transition. not yet modelled...
-    if 2005 <= yr <= 2010:
-        alg2["bef_zuschlag"] = 0
-    else:
-        alg2["bef_zuschlag"] = 0
 
-    alg2["regelbedarf"] = alg2[["regelsatz", "alg2_kdu", "bef_zuschlag"]].sum(axis=1)
+
+    alg2["regelbedarf"] = alg2["regelsatz"] + alg2["alg2_kdu"]
 
     # Account for household wealth.
     # usually no wealth in the data, infer from capital income...works OK for low wealth HH
@@ -1492,14 +1488,6 @@ def alg2(df, tb, yr):
     for var in ["ar_alg2_ek", "alg2_grossek", "uhv"]:
         alg2[var + "_hh"] = aggr(alg2, var, "all_hh")
     alg2["ar_base_alg2_ek"] = alg2["ar_alg2_ek_hh"] + df["kindergeld_hh"] + alg2["uhv_hh"]
-    """
-    out = df.join(alg2.drop(columns=['hid', 'tu_id'],
-                            axis=1),
-                  how='outer')
-    out = out.sort_values(by=['hid', 'tu_id', 'pid'])
-    out[(out['hhsize'] > 1) &
-        (out['child_num'] > 0)].to_excel('Z:/test/alg2_check.xlsx')
-    """
 
     return alg2[
         [
@@ -1511,6 +1499,7 @@ def alg2(df, tb, yr):
             "vermfreibetr",
             "regelbedarf",
             "regelsatz",
+            "alg2_kdu",
             "uhv_hh",
         ]
     ]
