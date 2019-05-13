@@ -1,5 +1,7 @@
 # DYNAMOD - Dynamic Modelling of the German Tax Transfer System #
 
+In order to clone with submodules, please clone via `git clone --recurse-submodules https://git.econ.tools/dynamod/dynamod.git` .
+
 ## Assumptions in SOEP data preparation
 - A household member is defined as a child if (under 18) or (under 25 and in education). Unless it's the household head or his/her partner
 - Earnings:
