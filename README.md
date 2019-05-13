@@ -1,6 +1,10 @@
 # DYNAMOD - Dynamic Modelling of the German Tax Transfer System #
 
-In order to clone with submodules, please clone via `git clone --recurse-submodules https://git.econ.tools/dynamod/dynamod.git` .
+## Technical Remarks
+- In order to clone with submodules, please clone via `git clone --recurse-submodules https://git.econ.tools/dynamod/dynamod.git` .
+- The data for the test cases are prepared in Excel as we make use of formulas. When opening these files in Libreoffice Calc, boolean values (e.g. for `child` oder `east`) might be displayed as `0/1` instead of `TRUE/FALSE`. 
+Changing the tests with calc might hence lead to failure, as the function requires the `pandas` boolean type. **Remedy:** Change the format in Calc to *booelan* by selecting the respective cells and hitting `Ctrl+1`.
+
 
 ## Assumptions in SOEP data preparation
 - A household member is defined as a child if (under 18) or (under 25 and in education). Unless it's the household head or his/her partner
