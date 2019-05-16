@@ -65,7 +65,10 @@ to_test = [
 def test_kindergeld(df, yr, res):
     tb = {"kgeld1": 188, "kgeld2": 188, "kgeld3": 194, "kgeld4": 219, "kgage": 25, "kgfreib": 7680}
 
-    actual = kindergeld(df, tb, yr)
+    actual = pd.DataFrame(index=df['tu_id'], columns=["kindergeld_tu_basis"])
+    for tu_id in df['tu_id'].unique():
+        actual_tu = kindergeld(df[df['tu_id'] == tu_id], tb, yr)
+        actual.loc[tu_id, "kindergeld_tu_basis"] = actual_tu['kindergeld_tu_basis']
     expected = Series(data=res, index=actual.index, name="kindergeld_tu_basis")
 
     print(actual, "\n\n")
@@ -109,7 +112,7 @@ def load_ssc_output_data(year, column):
 
 def load_tb(year):
     # df = pd.read_excel('tests/test_data/test_param.xls').set_index('para')
-    df = pd.read_excel(ppj("IN_DATA","param.xls")).set_index("para")
+    df = pd.read_excel(ppj("IN_DATA", "param.xls")).set_index("para")
     return df["y{}".format(year)].to_dict()
 
 

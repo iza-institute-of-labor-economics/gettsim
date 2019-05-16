@@ -34,7 +34,7 @@ def set_project_paths(ctx):
         pp["SOEP_PATH"] = "../../shares/dynamod/soep/bld/out/data"
         pp["SIAB_PATH"] = "../../shares/izadynmod-siab/bld/out/data"
     else:
-        pp["SOEP_PATH"] = "../izadynmod-soep/bld/out/data"
+        pp["SOEP_PATH"] = "../soep/bld/out/data"
         pp["SIAB_PATH"] = "../izadynmod_siab/bld/out/data"
 
 

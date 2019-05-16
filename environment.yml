@@ -1,0 +1,25 @@
+name: dynmod
+
+dependencies:
+  - python=3.7
+  - numpy
+  - sphinx
+  - pandas
+  - statsmodels
+  - pytest
+  - pytest-xdist
+  - scipy
+  - matplotlib
+  - pytest-cov
+  - jupyter
+  - numba
+  - mpmath
+  - pip
+  - xlrd
+  - seaborn
+  - pip:
+      - termcolor
+      - flake8
+      - black
+      - pre-commit
+      - termcolor
