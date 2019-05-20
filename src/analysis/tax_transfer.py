@@ -1547,7 +1547,7 @@ def kiz(df, tb, yr, hyporun):
     kiz["kiz_miete"] = df["miete"] * df["hh_korr"]
     kiz["kiz_heiz"] = df["heizkost"] * df["hh_korr"]
     # The actual living need is again broken down to the parents.
-    # There is a specific share for this, taken from the fucntion 'wohnbedarf'.
+    # There is a specific share for this, taken from the function 'wohnbedarf'.
     wb = get_wohnbedarf(max(yr, 2011))
     kiz["wb_eltern_share"] = 1.0
     for c in [1, 2]:
@@ -1655,7 +1655,7 @@ def kiz(df, tb, yr, hyporun):
 
 
 def get_wohnbedarf(yr):
-    """ Specifies the share of living costs that is attributed to the parents
+    """ Specifies the percent share of living costs that is attributed to the parents
         This is a share that is defined by the "Existenzminimumsbericht"
     """
     # cols: number of adults
@@ -1669,7 +1669,7 @@ def get_wohnbedarf(yr):
         "2016": [[77.25, 83.16], [62.93, 71.17], [53.09, 62.20], [45.92, 55.24], [40.45, 49.69]],
         "2017": [[77.25, 83.16], [62.93, 71.17], [53.09, 62.20], [45.92, 55.24], [40.45, 49.69]],
         "2018": [[77.24, 83.25], [62.92, 71.30], [53.08, 62.36], [45.90, 55.41], [40.43, 49.85]],
-        "2019": [[77.24, 83.25], [62.92, 71.30], [53.08, 62.36], [45.90, 55.41], [40.43, 49.85]],
+        "2019": [[77.10, 83.60], [62.73, 71.93], [52.88, 62.96], [45.70, 56.04], [40.24, 50.49]],
     }
 
     return wohnbedarf[str(yr)]
