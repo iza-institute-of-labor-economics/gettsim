@@ -65,10 +65,10 @@ to_test = [
 def test_kindergeld(df, yr, res):
     tb = {"kgeld1": 188, "kgeld2": 188, "kgeld3": 194, "kgeld4": 219, "kgage": 25, "kgfreib": 7680}
 
-    actual = pd.DataFrame(index=df['tu_id'], columns=["kindergeld_tu_basis"])
-    for tu_id in df['tu_id'].unique():
-        actual_tu = kindergeld(df[df['tu_id'] == tu_id], tb, yr)
-        actual.loc[tu_id, "kindergeld_tu_basis"] = actual_tu['kindergeld_tu_basis']
+    actual = pd.DataFrame(index=df["tu_id"], columns=["kindergeld_tu_basis"])
+    for tu_id in df["tu_id"].unique():
+        actual_tu = kindergeld(df[df["tu_id"] == tu_id], tb, yr)
+        actual.loc[tu_id, "kindergeld_tu_basis"] = actual_tu["kindergeld_tu_basis"]
     expected = Series(data=res, index=actual.index, name="kindergeld_tu_basis")
 
     print(actual, "\n\n")
@@ -125,13 +125,15 @@ to_test = list(product(years, columns))
 def test_soc_ins_contrib(year, column):
     df = load_ssc_input_data(year)
     tb = load_tb(year)
-    calculated = soc_ins_contrib(df, tb, year)[column]
     expected = load_ssc_output_data(year, column)
+    calculated = pd.Series(name=column)
+    for pid in df.index:
+        calculated = calculated.append(soc_ins_contrib(df.loc[[pid]], tb, year)[column])
     assert_series_equal(calculated, expected)
 
 
 # =============================================================================
-# test Arbeitslosgendgeld (UI)
+# test Arbeitslosendgeld (UI)
 # =============================================================================
 def load_ui_input_data(year):
     df = pd.read_excel("tests/test_data/test_dfs_ui.xlsx", true_values=["TRUE"])
@@ -174,11 +176,13 @@ def test_ui(year):
     df = load_ui_input_data(year)
     tb = load_tb(year)
     tb["yr"] = year
-    calculated = ui(df, tb, year)
     expected = load_ui_output_data(year)
+    calculated = pd.Series(name="m_alg1")
+    for pid in df.index:
+        calculated = calculated.append(ui(df.loc[[pid]], tb, year))
     print("calculated: \n", calculated, "\n\n")
     print("expected: \n", expected)
-    assert_allclose(calculated, expected, atol=0.01)
+    assert_series_equal(calculated, expected, check_less_precise=3)
 
 
 # =============================================================================
@@ -225,9 +229,12 @@ to_test = list(product(years, columns))
 def test_favorability_check(year, column):
     df = load_favorability_input_data(year)
     tb = {}
-    calculated = favorability_check(df, tb, year)[column]
+    calculated = pd.Series(name=column)
+    for tu_id in df["tu_id"].unique():
+        calculated = calculated.append(
+            favorability_check(df[df["tu_id"] == tu_id], tb, year)[column]
+        )
     expected = load_favorability_output_data(year, column)
-
     print(calculated.to_frame(), "\n")
     print(expected.to_frame(), "\n\n")
     assert_series_equal(calculated, expected)
@@ -264,7 +271,7 @@ def load_zve_input_data(year):
         "gkvbeit",
     ]
     df = df[input_cols]
-    for boolevar in ['east', 'zveranl', 'alleinerz', 'child']:
+    for boolevar in ["east", "zveranl", "alleinerz", "child"]:
         df[boolevar] = df[boolevar].astype(bool)
 
     df = df[df["year"] == year]
@@ -287,14 +294,18 @@ def test_zve(year):
     columns = ["zve_nokfb", "zve_kfb", "zve_abg_nokfb", "zve_abg_kfb"]
     df = load_zve_input_data(year)
     tb = load_tb(year)
-    calculated = zve(df, tb, year, hyporun=False)[columns]
+    calculated = pd.DataFrame(columns=columns)
+    for tu_id in df["tu_id"].unique():
+        calculated = calculated.append(
+            zve(df[df["tu_id"] == tu_id], tb, year, hyporun=False)[columns]
+        )
     expected = load_zve_output_data(year)
 
     print(calculated)
     print(expected)
 
     # allow 1€ difference, caused by strange rounding issues.
-    assert_allclose(calculated, expected, atol=1)
+    assert_frame_equal(calculated, expected, check_less_precise=2)
     # assert_frame_equal(calculated, expected)
 
 
@@ -338,7 +349,9 @@ def test_tax_sched(year):
     df = load_tax_sched_input_data(year)
     tb = load_tb(year)
     tb["yr"] = year
-    calculated = tax_sched(df, tb, year)[columns]
+    calculated = pd.DataFrame(columns=columns)
+    for tu_id in df["tu_id"].unique():
+        calculated = calculated.append(tax_sched(df[df["tu_id"] == tu_id], tb, year)[columns])
     expected = load_tax_sched_output_data(year)
     assert_frame_equal(
         calculated, expected, check_dtype=False, check_exact=False, check_less_precise=0
@@ -384,45 +397,58 @@ def test_soli(year):
     columns = ["soli", "soli_tu"]
     df = load_soli_input_data(year)
     tb = load_tb(year)
-    calculated = soli(df, tb, year)[columns]
+    calculated = pd.DataFrame(columns=columns)
+    for tu_id in df["tu_id"].unique():
+        calculated = calculated.append(soli(df[df["tu_id"] == tu_id], tb, year)[columns])
     expected = load_soli_output_data(year)
     print("calculated: \n", calculated, "\n\n")
     print("expected: \n", expected)
     assert_frame_equal(calculated, expected)
 
+
 # =============================================================================
 # test uhv
 # =============================================================================
+
+
 def load_uhv_input_data(year):
-    input_cols=['hid',
-                'tu_id',
-                'alleinerz',
-                'age',
-                'm_wage',
-                'm_transfers',
-                'm_kapinc',
-                'm_vermiet',
-                'm_self',
-                'm_alg1',
-                'm_pensions',
-                'zveranl',
-                'year']
+    input_cols = [
+        "hid",
+        "tu_id",
+        "alleinerz",
+        "age",
+        "m_wage",
+        "m_transfers",
+        "m_kapinc",
+        "m_vermiet",
+        "m_self",
+        "m_alg1",
+        "m_pensions",
+        "zveranl",
+        "year",
+    ]
     df = pd.read_excel("tests/test_data/test_dfs_uhv.xlsx")
     df = df[df["year"] == year]
     df = df[input_cols]
     return df
 
+
 def load_uhv_output_data(year):
-        df = pd.read_excel("tests/test_data/test_dfs_uhv.xlsx")
-        df = df[df["year"] == year]
-        return df["uhv"]
+    df = pd.read_excel("tests/test_data/test_dfs_uhv.xlsx")
+    df = df[df["year"] == year]
+    return df["uhv"]
+
 
 years = [2017, 2019]
+
+
 @pytest.mark.parametrize("year", years)
 def test_uhv(year):
     df = load_uhv_input_data(year)
     tb = load_tb(year)
-    calculated = uhv(df, tb, year)
+    calculated = pd.Series(name="uhv")
+    for tu_id in df["tu_id"].unique():
+        calculated = calculated.append(uhv(df[df["tu_id"] == tu_id], tb, year))
     expected = load_uhv_output_data(year)
     print("calculated: \n", calculated, "\n\n")
     print("expected: \n", expected)
@@ -489,7 +515,9 @@ def test_wg(year):
     columns = ["wohngeld_basis_hh"]
     df = load_wg_input_data(year)
     tb = load_tb(year)
-    calculated = wg(df, tb, year, False)[columns]
+    calculated = pd.DataFrame(columns=columns)
+    for hid in df["hid"].unique():
+        calculated = calculated.append(wg(df[df["hid"] == hid], tb, year, False)[columns])
     expected = load_wg_output_data(year)
     print("calculated: \n", calculated, "\n\n")
     print("expected: \n", expected)
@@ -561,10 +589,12 @@ years = [2006, 2009, 2011, 2013, 2016, 2019]
 
 @pytest.mark.parametrize("year", years)
 def test_alg2(year):
-    columns = ['ar_base_alg2_ek', 'ar_alg2_ek_hh', 'regelbedarf']
+    columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     df = load_alg2_input_data(year)
     tb = load_tb(year)
-    calculated = alg2(df, tb, year)[columns]
+    calculated = pd.DataFrame(columns=columns)
+    for hid in df["hid"].unique():
+        calculated = calculated.append(alg2(df[df["hid"] == hid], tb, year)[columns])
     expected = load_alg2_output_data(year)
     print("calculated: \n", calculated, "\n\n")
     print("expected: \n", expected)
@@ -626,7 +656,9 @@ def test_kiz(year):
     columns = ["kiz", "m_alg2", "wohngeld"]
     df = load_kiz_input_data(year)
     tb = load_tb(year)
-    calculated = kiz(df, tb, year, False)[columns]
+    calculated = pd.DataFrame(columns=columns)
+    for hid in df["hid"].unique():
+        calculated = calculated.append(kiz(df[df["hid"] == hid], tb, year, False)[columns])
     expected = load_kiz_output_data(year)
     print("calculated: \n", calculated, "\n\n")
     print("expected: \n", expected)
