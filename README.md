@@ -34,4 +34,124 @@ We don't know the municipality and hence the Mietstufe. We assume instead Mietst
 	  - For Renters: 45 sqm plus 15 sqm for each additional person
 	  - For Owners: 80 sqm plus 20 sqm for each additional person after third
     - *Kosten der Unterkunft* (`alg2_kdu`) are hence calculated by maximum 10€ per sqm, multiplied by minimum of actual flat size and Faustregel.
-- For the Asset Test, we impute assets via capital income and some average interest rate (tb['r_assets']). This should be replaced by either imputed wealth from EVS, or wealth observed in SOEP wave 2017.
+  - For the Asset Test, we impute assets via capital income and some average interest rate (tb['r_assets']). This should be replaced by either imputed wealth from EVS, or wealth observed in SOEP wave 2017.
+
+## Necessary input for tax_transfer() elements ##
+
+### soc_ins_contrib() ###
+- `pid`: Personal Identifier
+- `m_wage`: Monthly earnings from Employment
+- `m_self`: Monthly Self-Employment Income
+- `m_pensions`: Monthly old-age pensions
+- `east` (boolean): East Germany
+- `age`
+- `selfemployed` (boolean): Self-Employment Status
+- `haskids` (boolean): Person has kids (in and outside the household!)
+- `pkv` (boolean): Person has private health insurance
+
+### ui() ###
+- `pid`: Personal Identifier
+- `m_wage_l1`: Monthly Earnings from previous year
+- `east` (boolean): East Germany
+- `child` (boolean)
+- `months_ue`: Months in unemployment, current year
+- `months_ue_l`: Month in unemployment, previous year
+- `months_ue_l2`: Month in unemployment, two years ago
+- `m_pensions`: Monthly old-age pensions
+- `w_hours`: Weekly working hours
+- `child_num_tu`: Number of children in Tax Unit
+- `age`
+
+### zve() ###
+- `tu_id`: Tax Unit Identifier
+- `pid`: Personal Identifier
+- `m_wage`: Monthly Earnings
+- `m_self`: Monthly Self-Employment Income
+- `m_kapinc`: Monthly capital income
+- `m_vermiet`: Monthly rental income
+- `renteneintritt`: Year of entering old-age retirement. **can easily be calculated within the function**
+- `m_pensions`: Monthly old-age pensions
+- `east` (booelan): East Germany
+- `zveranl` (boolean): Adults within a married couple who file jointly
+- `child` (boolean)
+- `handcap_degree` [0,100]: Degree of disability
+- `rvbeit`: Monthly old-age pension contributions, output from `soc_ins_contrib()`
+- `avbeit`: Monthly unemployment insurance contributions, output from `soc_ins_contrib()`
+- `gkvbeit`: Monthly statutory health insurance contributions, output from `soc_ins_contrib()`
+- `pvbeit`: Monthly long-term care insurance contributions, output from `soc_ins_contrib()`
+- `alleinerz` (boolean): Single Parent
+- `age`
+- `child_num_tu`: Number of children in tax unit
+
+### tax_sched() ###
+- `tu_id`: Tax Unit Identifier
+- `zve_x_y`: taxable income... (output from `zve()`)
+    - x = ["", abg]: without and with capital income included
+    - y = [nokfb, kfb]: without and with child tax allowance
+- `gross_e5`: **annual** capital income (5th type of taxable incomes), output from `zve()`
+- `gross_e5_tu`: annual capital income, sum within the tax unit, output from `zve()`
+- `zveranl` (boolean): Adults within a married couple who file jointly
+
+### kindergeld() ###
+- `tu_id`: Tax Unit Identifier
+- `pid`: Personal Identifer
+- `age`
+- `w_hours`: Weekly working hours
+- `ineducation` (boolean)
+- `m_wage`: Monthly Earnings
+
+### favorability_check() ###
+- `tu_id`: Tax Unit Identifier
+- `pid`: Personal Identifier
+- `zveranl` (boolean): Adults within a married couple who file jointly
+- `child` (boolean)
+- `tax_x_y`: income tax for different tax bases (output from `tax_sched()`):
+    - x = ["", abg]: without and with capital income included
+    - y = [nokfb, kfb]: without and with child tax allowance
+- `abgst_tu`: Capital income tax (Abgeltungssteuer), sum within tu_id.
+- `kindergeld_basis`: Output from `kindergeld()`
+- `kindergeld_basis`: Output from `kindergeld()`, **can be calculated within function**
+
+### soli() ###
+- `tu_id`: Tax Unit Identifier
+- `pid`: Personal Identifier
+- `zveranl` (boolean): Adults within a married couple who file jointly
+- `child` (boolean)
+- `incometax_tu`: optimal income tax, output from `favorability_check()`.
+- `tax_kfb_tu`: Income tax with child tax allowance, output from `tax_sched()`
+- `tax_kfb_abg_tu`: As above, but with capital income included, needed before 2009. Output from `tax_sched()`
+- `abgst_tu`: Capital income tax, output from `tax_sched()`
+
+### uhv() ###
+- `tu_id`: Tax Unit Identifier
+- `pid`: Personal Identifier
+- `zveranl` (boolean): Adults within a married couple who file jointly
+- `age`
+- `alleinerz` (boolean): Single Parent
+- `m_wage, m_transfers, m_self, m_vermiet, m_kapinc, m_pensions, m_alg1`: Income from various sources
+
+### wg() ###
+- `hid`: Household Identifier
+- `tu_id`: Tax Unit Identifier
+- `head_tu` (boolean): Dummy for Head of Tax Unit
+- `hhsize`: Size of Household
+- `hhsize_tu`: Size of Tax Unit
+- `hh_korr`: `hhsize` / `hhsize_tu`. ** can be calculated within function **
+- `child` (boolean)
+- `miete`: monthly rent without heating
+- `heizkost`: monthly heating costs
+- `alleinerz` (boolean): Single Parent
+- `child11_num_tu`: number of children below 11 in tax unit ** can be calculated within function **
+- `cnstyr` [1,2,3]: Indicator for construction year of house; relevant before 2009. Set it to `2` if in doubt.
+- `m_wage`: Monthly Earnings
+- `m_pensions`: Monthly old-age pensions
+- `ertragsanteil`: Taxable Share of pensions, output from `zve()`.
+- `uhv`: Monthly alimony payments, output from `uhv()`.
+- `m_alg1`: Monthly unemployment benefits, output from `ui()`
+- `m_transfers`: Monthly private and public transfers that are not simulated. 
+- `gross_e1, gross_e4, gross_e5, gross_e6`: Annual income from self-employment, employment (incl. werbungskosten), capital and rental
+- `incometax`: monthyl income Tax payments, output from `soli()`.
+- `rvbeit`, `gkvbeit`: monthly contributions, output from `soc_ins_contrib()`
+- `handcap_degree`: Degree of disability
+- `divdy`: annual capital income.
+
