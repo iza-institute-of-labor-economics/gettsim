@@ -1326,6 +1326,31 @@ def alg2(df, tb, yr):
     alg2["hid"] = df["hid"]
     alg2["tu_id"] = df["tu_id"]
     alg2["uhv"] = df["uhv"]
+
+    # Calculate a couple of helper variables
+    ch_ages = [(0, 6),
+               (0, 15),
+               (0, 18),
+               (14, 24),
+               (7, 13),
+               (3, 6),
+               (0, 2)]
+
+    for c in ch_ages:
+        alg2["child{}_{}_num".format(c[0],
+                                     c[1])] = (df['child'] & df['age'].between(c[0], c[1])).sum()
+
+    alg2['hhsize'] = len(alg2)
+    alg2 = alg2.join(alg2.groupby(["tu_id"])['tu_id'].count(),
+                     on=["tu_id"],
+                     how="left",
+                     rsuffix="_sum")
+    # rename
+    alg2 = alg2.rename(columns={'tu_id_sum': 'hhsize_tu'})
+    alg2['child_num'] = df['child'].sum()
+    alg2['adult_num'] = alg2['hhsize'] - alg2['child_num']
+    alg2['byear'] = yr - df['age']
+
     # Additional need for single parents
     # Maximum 60% of the standard amount on top (a2zu2)
     # if you have at least one kid below 6 or two or three below 15, you get 36% on top
@@ -1333,8 +1358,8 @@ def alg2(df, tb, yr):
     alg2["mehrbed"] = df["alleinerz"] * np.minimum(
         tb["a2zu2"] / 100,
         np.maximum(
-            tb["a2mbch1"] * df["child_num"],
-            ((df["child6_num"] >= 1) | (df["child15_num"].between(2, 3))) * tb["a2mbch2"],
+            tb["a2mbch1"] * alg2["child_num"],
+            ((alg2["child0_6_num"] >= 1) | (alg2["child0_15_num"].between(2, 3))) * tb["a2mbch2"],
         ),
     )
 
@@ -1345,33 +1370,33 @@ def alg2(df, tb, yr):
         # Before 2010, other members' amounts were calculated by a share of the head's need
         regelberechnung = [
             tb["rs_hhvor"] * (1 + alg2["mehrbed"])
-            + (tb["rs_hhvor"] * tb["a2ch14"] * df["child14_24_num"])
-            + (tb["rs_hhvor"] * tb["a2ch7"] * df["child7_13_num"])
-            + (tb["rs_hhvor"] * tb["a2ch0"] * (df["child2_num"] + df["child3_6_num"])),
+            + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
+            + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
+            + (tb["rs_hhvor"] * tb["a2ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
             tb["rs_hhvor"] * tb["a2part"] * (1 + alg2["mehrbed"])
             + (tb["rs_hhvor"] * tb["a2part"])
-            + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((df["adult_num"] - 2), 0))
-            + (tb["rs_hhvor"] * tb["a2ch14"] * df["child14_24_num"])
-            + (tb["rs_hhvor"] * tb["a2ch7"] * df["child7_13_num"])
-            + (tb["rs_hhvor"] * tb["a2ch0"] * (df["child2_num"] + df["child3_6_num"])),
+            + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((alg2["adult_num"] - 2), 0))
+            + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
+            + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
+            + (tb["rs_hhvor"] * tb["a2ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
         ]
 
     else:
         # After 2010,
         regelberechnung = [
             tb["rs_hhvor"] * (1 + alg2["mehrbed"])
-            + (tb["rs_ch14"] * df["child14_24_num"])
-            + (tb["rs_ch7"] * df["child7_13_num"])
-            + (tb["rs_ch0"] * (df["child2_num"] + df["child3_6_num"])),
+            + (tb["rs_ch14"] * alg2["child14_24_num"])
+            + (tb["rs_ch7"] * alg2["child7_13_num"])
+            + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
             tb["rs_2adults"] * (1 + alg2["mehrbed"])
             + tb["rs_2adults"]
-            + (tb["rs_madults"] * np.maximum((df["adult_num"] - 2), 0))
-            + (tb["rs_ch14"] * df["child14_24_num"])
-            + (tb["rs_ch7"] * df["child7_13_num"])
-            + (tb["rs_ch0"] * (df["child2_num"] + df["child3_6_num"])),
+            + (tb["rs_madults"] * np.maximum((alg2["adult_num"] - 2), 0))
+            + (tb["rs_ch14"] * alg2["child14_24_num"])
+            + (tb["rs_ch7"] * alg2["child7_13_num"])
+            + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
         ]
 
-    alg2["regelsatz"] = np.select([df["adult_num"] == 1, df["adult_num"] > 1], regelberechnung)
+    alg2["regelsatz"] = np.select([alg2["adult_num"] == 1, alg2["adult_num"] > 1], regelberechnung)
     """
     print(pd.crosstab(alg2['mehrbed'], df['typ_bud']))
     print(pd.crosstab(alg2['regelsatz'],  df['typ_bud']))
@@ -1387,16 +1412,15 @@ def alg2(df, tb, yr):
     alg2.loc[df["eigentum"], "wohnfl_just"] = np.minimum(
             df["wohnfl"],
             80 + np.maximum(0,
-                            (df["hhsize"] - 2) * 20)
+                            (alg2["hhsize"] - 2) * 20)
             )
     alg2.loc[~df["eigentum"], "wohnfl_just"] = np.minimum(
             df["wohnfl"],
-            (45 + (df["hhsize"] - 1) * 15)
+            (45 + (alg2["hhsize"] - 1) * 15)
             )
     alg2["alg2_kdu"] = alg2["rent_per_sqm"] * alg2["wohnfl_just"]
     # After introduction of Hartz IV until 2010, people becoming unemployed
     # received something on top to smooth the transition. not yet modelled...
-
 
     alg2["regelbedarf"] = alg2["regelsatz"] + alg2["alg2_kdu"]
 
@@ -1407,8 +1431,8 @@ def alg2(df, tb, yr):
     # df['vermfreib'] = tb['a2vki']
     # there are exemptions depending on individual age for adults
     alg2["ind_freib"] = 0
-    alg2.loc[(df["byear"] >= 1948) & (~df["child"]), "ind_freib"] = tb["a2ve1"] * df["age"]
-    alg2.loc[(df["byear"] < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
+    alg2.loc[(alg2["byear"] >= 1948) & (~df["child"]), "ind_freib"] = tb["a2ve1"] * df["age"]
+    alg2.loc[(alg2["byear"] < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
     # sum over individuals
     alg2 = alg2.join(
         alg2.groupby(["hid"])["ind_freib"].sum(), on=["hid"], how="left", rsuffix="_hh"
@@ -1416,17 +1440,17 @@ def alg2(df, tb, yr):
 
     # there is an overall maximum exemption
     alg2["maxvermfb"] = 0
-    alg2.loc[(df["byear"] < 1948) & (~df["child"]), "maxvermfb"] = tb["a2voe1"]
-    alg2.loc[(df["byear"].between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
-    alg2.loc[(df["byear"].between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
-    alg2.loc[(df["byear"] >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
+    alg2.loc[(alg2["byear"] < 1948) & (~df["child"]), "maxvermfb"] = tb["a2voe1"]
+    alg2.loc[(alg2["byear"].between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
+    alg2.loc[(alg2["byear"].between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
+    alg2.loc[(alg2["byear"] >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
     alg2 = alg2.join(
         alg2.groupby(["hid"])["maxvermfb"].sum(), on=["hid"], how="left", rsuffix="_hh"
     )
     # add fixed amounts per child and adult
     alg2["vermfreibetr"] = np.minimum(
         alg2["maxvermfb_hh"],
-        alg2["ind_freib_hh"] + df["child18_num"] * tb["a2vkf"] + df["adult_num"] * tb["a2verst"],
+        alg2["ind_freib_hh"] + alg2["child0_18_num"] * tb["a2vkf"] + alg2["adult_num"] * tb["a2verst"],
     )
 
     # If wealth exceeds the exemption, the need is set to zero
@@ -1454,7 +1478,7 @@ def alg2(df, tb, yr):
     ] * (df["m_wage"] - tb["a2grf"])
     # from 1000 to 1200 €, you may keep only 10%
     alg2.loc[
-        (df["m_wage"].between(tb["a2eg1"], tb["a2eg2"])) & (df["child18_num"] == 0), "ekanrefrei"
+        (df["m_wage"].between(tb["a2eg1"], tb["a2eg2"])) & (alg2["child0_18_num"] == 0), "ekanrefrei"
     ] = (
         tb["a2grf"]
         + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
@@ -1462,19 +1486,19 @@ def alg2(df, tb, yr):
     )
     # If you have kids, this range goes until 1500 €,
     alg2.loc[
-        (df["m_wage"].between(tb["a2eg1"], tb["a2eg3"])) & (df["child18_num"] > 0), "ekanrefrei"
+        (df["m_wage"].between(tb["a2eg1"], tb["a2eg3"])) & (alg2["child0_18_num"] > 0), "ekanrefrei"
     ] = (
         tb["a2grf"]
         + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
         + tb["a2an2"] * (df["m_wage"] - tb["a2eg1"])
     )
     # beyond 1200/1500€, you can't keep anything.
-    alg2.loc[(df["m_wage"] > tb["a2eg2"]) & (df["child18_num"] == 0), "ekanrefrei"] = (
+    alg2.loc[(df["m_wage"] > tb["a2eg2"]) & (alg2["child0_18_num"] == 0), "ekanrefrei"] = (
         tb["a2grf"]
         + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
         + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
     )
-    alg2.loc[(df["m_wage"] > tb["a2eg3"]) & (df["child18_num"] > 0), "ekanrefrei"] = (
+    alg2.loc[(df["m_wage"] > tb["a2eg3"]) & (alg2["child0_18_num"] > 0), "ekanrefrei"] = (
         tb["a2grf"]
         + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
         + tb["a2an2"] * (tb["a2eg3"] - tb["a2eg1"])
