@@ -133,9 +133,10 @@ We don't know the municipality and hence the Mietstufe. We assume instead Mietst
 ### wg() ###
 - `hid`: Household Identifier
 - `tu_id`: Tax Unit Identifier
+- `pid`: Personal Identifier
 - `head_tu` (boolean): Dummy for Head of Tax Unit
-- `hhsize`: Size of Household
-- `hhsize_tu`: Size of Tax Unit
+- `hhsize`: Size of Household ** can be calculated within function **
+- `hhsize_tu`: Size of Tax Unit ** can be calculated within function **
 - `hh_korr`: `hhsize` / `hhsize_tu`. ** can be calculated within function **
 - `child` (boolean)
 - `miete`: monthly rent without heating
@@ -151,7 +152,49 @@ We don't know the municipality and hence the Mietstufe. We assume instead Mietst
 - `m_transfers`: Monthly private and public transfers that are not simulated. 
 - `gross_e1, gross_e4, gross_e5, gross_e6`: Annual income from self-employment, employment (incl. werbungskosten), capital and rental
 - `incometax`: monthyl income Tax payments, output from `soli()`.
-- `rvbeit`, `gkvbeit`: monthly contributions, output from `soc_ins_contrib()`
+- `rvbeit`, `gkvbeit`: monthly contributions for old-age pension and health insurance respectively, output from `soc_ins_contrib()`
 - `handcap_degree`: Degree of disability
-- `divdy`: annual capital income.
+- `divdy`: annual capital income. ** only needed for asset test **
 
+### alg2() ###
+- `hid`: Household Identifier
+- `tu_id`: Tax Unit Identifier
+- `pid`: Personal Identifier
+- `head_tu` (boolean): Dummy for Head of Tax Unit
+- `child` (boolean)
+- `age`
+- `byear`: Birth Year ** can be calculated within function ** 
+- `miete`: monthly rent without heating
+- `heizkost`: monthly heating costs
+- `wohnfl`: Size of flat/house in square meters.
+- `eigentum` (boolean): Dummy on living in own property.
+- `m_wage`, `m_pensions`, `m_kapinc`,` m_transfers`, `m_self`, `m_vermiet`: Income from various sources
+- `m_alg1`: Unemployment benefit, output from `ui()`
+- `incometax`: monthyl income Tax payments, output from `soli()`.
+- `svbeit`: sum of monthly contributions, output from `soc_ins_contrib()`
+- `soli`: monthly Solidarity Surcharge payments, output from `soli()`
+- `kindergeld_hh`: monthly child benefit for the household, outputfrom `favorability_check()`
+- `uhv`: monthly child alimony, output from `uhv()`
+- `divdy`: annual capital income. ** only needed for asset test **
+
+
+### kiz() ###
+- `hid`: Household Identifier
+- `tu_id`: Tax Unit Identifier
+- `pid`: Personal Identifier
+- `head` (boolean): Dummy for household head
+- `hhtyp`: 1: Single, 2: Single Parent, 3: Couple without kids, 4: Couple with kids
+- `child` (boolean)	
+- `pensioner`(boolean)
+- `age`
+- `miete`: monthly rent without heating
+- `heizkost`: monthly heating costs
+- `alleinerz`: Dummy for single parent
+- `mehrbed`: Additional need, output from `alg2()`. ** can be calculated within the function, copy code from `alg2()` **
+- `alg2_grossek_hh`: monthly gross hh income for ALG2, output from `alg2()`
+- `ar_alg2_ek_hh`: monthly net hh income for ALG2, output from `alg2()`
+- `wohngeld_basis_hh`: housing benefit claim, output from `wg()`
+- `regelbedarf`: household basic need, output from `alg2()`
+- `ar_base_alg2_ek`: `ar_alg2_ek_hh` + `kindergeld_hh` + `uhv_hh`, output from `alg2()`
+- `kindergeld_hh`: monthly child benefit for the household, outputfrom `favorability_check()`
+- `uhv`: monthly child alimony, output from `uhv()`
