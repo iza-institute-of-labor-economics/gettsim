@@ -8,6 +8,7 @@ Changing the tests with calc might hence lead to failure, as the function requir
 Alternatively, you may change the respective path (`SOEP_PATH`, `SIAB_PATH`, etc.) in `wscript`. 
 
 ## Assumptions in SOEP data preparation
+- Persons are uniquely identified via `syear` and `pid`.
 - A household member is defined as a child if (under 18) or (under 25 and in education). Unless it's the household head or his/her partner
 - Earnings:
   - Monthly earnings are summed up from earnings from all jobs. This is a simplification as the 2nd job might be tax-free if it's paid below 450€. 
@@ -135,9 +136,6 @@ We don't know the municipality and hence the Mietstufe. We assume instead Mietst
 - `tu_id`: Tax Unit Identifier
 - `pid`: Personal Identifier
 - `head_tu` (boolean): Dummy for Head of Tax Unit
-- `hhsize`: Size of Household ** can be calculated within function **
-- `hhsize_tu`: Size of Tax Unit ** can be calculated within function **
-- `hh_korr`: `hhsize` / `hhsize_tu`. ** can be calculated within function **
 - `child` (boolean)
 - `miete`: monthly rent without heating
 - `heizkost`: monthly heating costs
