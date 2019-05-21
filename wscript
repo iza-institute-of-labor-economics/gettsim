@@ -20,6 +20,7 @@ def set_project_paths(ctx):
     pp["IN_MODEL_CODE"] = "src/model_code"
     pp["IN_MODEL_SPECS"] = "src/model_specs"
     pp["LIBRARY"] = "src/library"
+    pp["TESTS_TAX_TRANSFERS"] = "tests/test_tax_transfers/test_data"
     pp["BLD"] = ""
     pp["OUT_DATA"] = f"{out}/out/data"
     pp["OUT_ANALYSIS"] = f"{out}/out/analysis"
