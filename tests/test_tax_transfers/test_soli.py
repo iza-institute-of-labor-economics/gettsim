@@ -8,9 +8,9 @@ from src.analysis.tax_transfer import soli
 
 
 input_cols = [
+    "pid",
     "hid",
     "tu_id",
-    "pid",
     "zveranl",
     "tax_kfb_tu",
     "tax_abg_kfb_tu",

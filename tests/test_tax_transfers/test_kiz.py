@@ -8,6 +8,7 @@ from src.analysis.tax_transfer import kiz
 
 
 input_cols = [
+    "pid",
     "hid",
     "tu_id",
     "head",

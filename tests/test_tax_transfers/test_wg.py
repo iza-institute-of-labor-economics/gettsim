@@ -8,6 +8,7 @@ from src.analysis.tax_transfer import wg
 
 
 input_cols = [
+    "pid",
     "hid",
     "tu_id",
     "head_tu",

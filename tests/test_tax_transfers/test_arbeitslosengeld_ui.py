@@ -7,6 +7,7 @@ from tests.auxiliary_test import load_tb
 from src.analysis.tax_transfer import ui
 
 input_cols = [
+    "pid",
     "hid",
     "tu_id",
     "m_wage_l1",

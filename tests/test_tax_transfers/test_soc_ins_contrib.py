@@ -8,17 +8,18 @@ from tests.auxiliary_test import load_tb
 from tests.auxiliary_test import load_tax_transfer_output_data as load_output
 
 input_cols = [
-        "hid",
-        "tu_id",
-        "m_wage",
-        "east",
-        "age",
-        "selfemployed",
-        "haskids",
-        "m_self",
-        "m_pensions",
-        "pkv",
-        "year",
+    "pid",
+    "hid",
+    "tu_id",
+    "m_wage",
+    "east",
+    "age",
+    "selfemployed",
+    "haskids",
+    "m_self",
+    "m_pensions",
+    "pkv",
+    "year",
     ]
 
 

@@ -8,6 +8,7 @@ from src.analysis.tax_transfer import tax_sched
 
 
 input_cols = [
+    "pid",
     "hid",
     "tu_id",
     "zve_nokfb",
