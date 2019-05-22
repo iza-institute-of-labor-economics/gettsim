@@ -1,5 +1,7 @@
 # DYNAMOD - Dynamic Modelling of the German Tax Transfer System #
 
+** For details on the modelling of the tax-benefit system, you may check out `doc_files` in the IZAΨMOD repository, in particular `doku.pdf` and the graphs in the `flowcharts` directory.**
+
 ## Technical Remarks
 - In order to clone including submodules, please clone via `git clone --recurse-submodules https://git.econ.tools/dynamod/dynamod.git` .
 - The data for the test cases are prepared in Excel as we make use of formulas. When opening these files in Libreoffice Calc, boolean values (e.g. for `child` oder `east`) might be displayed as `0/1` instead of `TRUE/FALSE`. 
