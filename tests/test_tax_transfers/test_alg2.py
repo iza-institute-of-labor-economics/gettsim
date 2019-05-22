@@ -10,14 +10,14 @@ from src.analysis.tax_transfer import alg2
 input_cols = [
     "hid",
     "tu_id",
-    "head_tu",      
+    "head_tu",
     "child",
-    "age",    
+    "age",
     "miete",
     "heizkost",
     "wohnfl",
     "eigentum",
-    "alleinerz",   
+    "alleinerz",
     "m_wage",
     "m_pensions",
     "m_kapinc",
@@ -33,6 +33,7 @@ input_cols = [
     "divdy",
     "year",
 ]
+
 
 years = [2006, 2009, 2011, 2013, 2016, 2019]
 
