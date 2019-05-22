@@ -18,7 +18,6 @@ dependencies:
   - xlrd
   - seaborn
   - pip:
-      - termcolor
       - flake8
       - black
       - pre-commit
