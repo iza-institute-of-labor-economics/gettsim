@@ -11,6 +11,7 @@ input_cols = [
     "pid",
     "hid",
     "tu_id",
+    "child",
     "zve_nokfb",
     "zve_kfb",
     "zve_abg_kfb",
