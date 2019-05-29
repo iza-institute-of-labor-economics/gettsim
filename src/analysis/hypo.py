@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 """
 Created on Fri Jun 15 14:36:30 2018
 
@@ -10,16 +10,21 @@ import pandas as pd
 import numpy as np
 import itertools
 from termcolor import cprint
+
 # from check_hypo import check_hypo
 from custompygraph.make_plot import make_plot
 from bld.project_paths import project_paths_join as ppj
 
-from src.model_code.hypo_helpers import get_ref_text, hypo_graph_settings, get_reform_names, get_hh_text
+from src.model_code.hypo_helpers import (
+    get_ref_text,
+    hypo_graph_settings,
+    get_reform_names,
+    get_hh_text,
+)
 from src.model_code.imports import get_params, say_hello, tarif_ubi
-from src.analysis.tax_transfer import tax_transfer, tarif
+from src.analysis.tax_transfer.tex_transfer_master import tax_transfer
+from src.analysis.tax_transfer.tax_transfer import tarif
 from src.analysis.tax_transfer_ubi import tax_transfer_ubi, ubi_settings
-
-
 
 
 def flip(items, ncol):
@@ -53,7 +58,8 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
     """
 
     plt.clf()
-    fig = plt.figure(figsize=(7 * 1.618, 7))
+    # fig = plt.figure(figsize=(7 * 1.618, 7))
+    plt.figure(figsize=(7 * 1.618, 7))
     ax = plt.axes()
 
     p = lego.loc[(lego["typ_bud"] == t) & (lego["m_wage"] <= (maxinc / 12))]
@@ -101,7 +107,10 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
     }
 
     if t in [11, 31]:
-        lego_vars = {"minus": ["sic_l", "tax_l", "soli_l"], "plus": ["net_l", "hb_l", "ub_l"]}
+        lego_vars = {
+            "minus": ["sic_l", "tax_l", "soli_l"],
+            "plus": ["net_l", "hb_l", "ub_l"],
+        }
     elif t in [22, 24]:
         lego_vars = {
             "minus": ["sic_l", "tax_l", "soli_l"],
@@ -128,7 +137,11 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
         )
 
         ax.stackplot(
-            p["m_wage"], p[lego_areas].T, labels=lego_labels, colors=lego_colors, alpha=0.7
+            p["m_wage"],
+            p[lego_areas].T,
+            labels=lego_labels,
+            colors=lego_colors,
+            alpha=0.7,
         )
 
     ax.plot(p["m_wage"], p["dpi_l"], label=labels[lang]["dpi_l"], color="black")
@@ -143,13 +156,27 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
 
     box = ax.get_position()
     ax.set_position(
-        [box.x0, box.y0 + box.height * 0.2, 1.05 * box.width, 1.05 * (box.height * 0.85)]
+        [
+            box.x0,
+            box.y0 + box.height * 0.2,
+            1.05 * box.width,
+            1.05 * (box.height * 0.85),
+        ]
     )
 
     handles, labels = ax.get_legend_handles_labels()
     plt.grid(True, axis="y")
     ncol = 4
-    leg = ax.legend(
+    # leg = ax.legend(
+    #     flip(handles, ncol),
+    #     flip(labels, ncol),
+    #     loc="upper center",
+    #     fontsize=16,
+    #     bbox_to_anchor=(0.48, -0.15),
+    #     ncol=ncol,
+    #     frameon=False,
+    # )
+    ax.legend(
         flip(handles, ncol),
         flip(labels, ncol),
         loc="upper center",
@@ -464,12 +491,16 @@ def create_hypo_data(settings, tb, types, rents):
 
     # Children variables
     df = df.drop(["child_num", "child_num_tu"], 1)
-    df = df.join(df.groupby(["hid"])["child"].sum(), on=["hid"], how="left", rsuffix="_num")
+    df = df.join(
+        df.groupby(["hid"])["child"].sum(), on=["hid"], how="left", rsuffix="_num"
+    )
     df["child_num_tu"] = df["child_num"]
 
     df["child3_6_num"] = 1 * ((df["typ_bud"] % 2) == 0)
     for var in ["7_11", "7_13", "7_16", "12_15"]:
-        df["child" + var + "_num"] = 1 * (df["typ_bud"] >= 24) * (df["typ_bud"] % 2 == 0)
+        df["child" + var + "_num"] = (
+            1 * (df["typ_bud"] >= 24) * (df["typ_bud"] % 2 == 0)
+        )
 
     df["child6_num"] = df["child3_6_num"]
     for var in ["11", "15", "18", ""]:
@@ -531,12 +562,16 @@ def create_hypo_data(settings, tb, types, rents):
     df["y_wage_ind"] = df["y_wage"]
     df.loc[df["female"], "y_wage_ind"] = 0
     # Two-earner couples: men's earnings still vary, women gets fixed amount
-    # (average full-time male employee). This is for ease of modelling. For the interpreation,
-    # it makes sense to swap the genders.
+    # (average full-time male employee). This is for ease of modelling. For the
+    # interpreation, it makes sense to swap the genders.
     # for typ_bud> 32, y_wage is hence "secondary earnings"
-    df.loc[df["female"] & ~df["child"] & (df["typ_bud"].isin([33, 34])), "y_wage_ind"] = 51286
+    df.loc[
+        df["female"] & ~df["child"] & (df["typ_bud"].isin([33, 34])), "y_wage_ind"
+    ] = 51286
     # Drop all observations with y_wage < woman's earnings
-    df = df.join(df.groupby("hid")["y_wage_ind"].sum(), on=["hid"], how="left", rsuffix="_sum")
+    df = df.join(
+        df.groupby("hid")["y_wage_ind"].sum(), on=["hid"], how="left", rsuffix="_sum"
+    )
 
     df["m_wage"] = df["y_wage_ind"] / 12
     df.loc[df["m_wage"] > 0, "w_hours"] = 40
@@ -581,8 +616,14 @@ def hypo_graphs(dfs, settings, types, lang):
         )
         if ref != base:
             plot["d_dpi" + ref] = dfs[ref]["dpi"] - dfs[base]["dpi"]
-        # plot['emtr' + ref] = 100 * np.minimum((1 - (dfs[ref]['dpi'] - dfs[ref]['dpi'].shift(1))
-        #                                      / (dfs[ref]['m_wage'] - dfs[ref]['m_wage'].shift(1))), 1.2)
+        # plot["emtr" + ref] = 100 * np.minimum(
+        #     (
+        #         1
+        #         - (dfs[ref]["dpi"] - dfs[ref]["dpi"].shift(1))
+        #         / (dfs[ref]["m_wage"] - dfs[ref]["m_wage"].shift(1))
+        #     ),
+        #     1.2,
+        # )
 
         plot.loc[plot["emtr" + ref] < -1, "emtr" + ref] = np.nan
         # Disposable income by reform
@@ -607,9 +648,11 @@ def hypo_graphs(dfs, settings, types, lang):
         if "UBI" in ref:
             lego_vars.append("ubi_hh")
 
-        lego = dfs[ref].loc[dfs[ref]["head"] == True, lego_vars]
+        lego = dfs[ref].loc[dfs[ref]["head"], lego_vars]
         # Für Doppelverdiener-HH müssten auch m_wage und svbeit auf HH-Ebene sein.
-        lego["net_l"] = lego["m_wage"] - lego["svbeit"] - lego["incometax_tu"] - lego["soli_tu"]
+        lego["net_l"] = (
+            lego["m_wage"] - lego["svbeit"] - lego["incometax_tu"] - lego["soli_tu"]
+        )
         lego["cb_l"] = lego["kindergeld_hh"]
         lego["ub_l"] = lego["m_alg2"]
         lego["hb_l"] = lego["wohngeld"]
@@ -638,27 +681,31 @@ def hypo_graphs(dfs, settings, types, lang):
 
         for plottype in ["emtr", "bruttonetto"]:
             make_plot(
-                {ref: [sub["m_wage"], sub[yvars[plottype] + ref]] for ref in settings["Reforms"]},
+                {
+                    ref: [sub["m_wage"], sub[yvars[plottype] + ref]]
+                    for ref in settings["Reforms"]
+                },
                 ylab=ylabels[plottype],
                 xlab=xlabels[plottype],
                 ylim_low=0,
                 xlim_low=0,
                 xlim_high=maxinc / 12,
-            ).savefig(ppj("OUT_FIGURES",
-                          "hypo/{}_{}_{}.png".format(plottype, t, lang)))
+            ).savefig(ppj("OUT_FIGURES", "hypo/{}_{}_{}.png".format(plottype, t, lang)))
 
         # These plots are only for non-baseline reforms
         for plottype in ["budget_diff"]:
             make_plot(
-                {ref: [sub["m_wage"], sub[yvars[plottype] + ref]] for ref in settings["Reforms"][1:]},
+                {
+                    ref: [sub["m_wage"], sub[yvars[plottype] + ref]]
+                    for ref in settings["Reforms"][1:]
+                },
                 ylab=ylabels[plottype],
                 xlab=xlabels[plottype],
                 xlim_low=0,
                 xlim_high=maxinc / 12,
                 showlegend=False,
                 hline=[0],
-            ).savefig(ppj("OUT_FIGURES",
-                          "hypo/{}_{}_{}.png".format(plottype, t, lang)))
+            ).savefig(ppj("OUT_FIGURES", "hypo/{}_{}_{}.png".format(plottype, t, lang)))
     # Empty memory
     plt.clf()
 
@@ -683,7 +730,8 @@ def hypo_tex(settings, types, rents, lang):
     }
 
     texfile = open(
-        ppj("OUT_HYPO","hypographs_{}_{}.tex".format(settings["Reforms"][0], lang)), "w"
+        ppj("OUT_HYPO", "hypographs_{}_{}.tex".format(settings["Reforms"][0], lang)),
+        "w",
     )
     # Header of Tex File
     texfile.write("\\documentclass{article} \n")
@@ -727,8 +775,10 @@ def hypo_tex(settings, types, rents, lang):
             "\\item \\textbf{{{}}} ({}): {} \n".format(
                 refnames[settings["Reforms"][r]],
                 settings["Reforms"][r],
-                get_ref_text(settings["Reforms"][r],
-                             get_params(ppj("IN_DATA"))["y" + str(settings["taxyear"][0])]),
+                get_ref_text(
+                    settings["Reforms"][r],
+                    get_params(ppj("IN_DATA"))["y" + str(settings["taxyear"][0])],
+                ),
             )
         )
     texfile.write("\\end{itemize} \n")
@@ -743,11 +793,9 @@ def hypo_tex(settings, types, rents, lang):
                 texfile.write("\\begin{figure}[htb] \n")
                 texfile.write("\\caption{{{}}} \n".format(types[t]))
                 texfile.write(
-                    """\\includegraphics[width=0.9\\textwidth]{{{}/hypo/{}_{}_{}.png}} \\\\ \n""".format(
-                        ppj("OUT_FIGURES").replace("\\","/"),
-                        graphtype,
-                        t,
-                        lang
+                    """\\includegraphics[width=0.9\\textwidth]{{{}/hypo/{}_{}_{}.png}}
+                     \\\\ \n""".format(
+                        ppj("OUT_FIGURES").replace("\\", "/"), graphtype, t, lang
                     )
                 )
                 texfile.write("\\end{figure} \n")
@@ -758,41 +806,40 @@ def hypo_tex(settings, types, rents, lang):
                     texfile.write("\\begin{figure}[htb] \n")
                     texfile.write("\\caption{{{}}} \n".format(types[t]))
                     texfile.write(
-                        """\\includegraphics[width=0.9\\textwidth]{{{}/hypo/lego_{}_{}_{}.png}} \\\\ \n""".format(
-                            ppj("OUT_FIGURES").replace("\\","/"),
-                            ref,
-                            t,
-                            lang
+                        """\\includegraphics[width=0.9\\textwidth]{{{}/hypo/lego
+                        _{}_{}_{}.png}} \\\\ \n""".format(
+                            ppj("OUT_FIGURES").replace("\\", "/"), ref, t, lang
                         )
                     )
-                    texfile.write(get_hh_text(lang, t, rents["miete"][t], rents["heizkost"][t]))
+                    texfile.write(
+                        get_hh_text(lang, t, rents["miete"][t], rents["heizkost"][t])
+                    )
                     texfile.write("\\end{figure} \n")
                 texfile.write("\\clearpage \n")
     texfile.write("\\end{document} \n")
     texfile.close()
 
+
 def taxgraphs(settings, tb, tb_ubi):
     """ Simple plot of the tax tariffs
     """
     incstep = 50
-    df = pd.DataFrame({'zve': np.arange(0, 2e5, incstep)})
+    df = pd.DataFrame({"zve": np.arange(0, 2e5, incstep)})
     df["tax_baseline"] = np.vectorize(tarif)(df["zve"], tb)
     df["tax_ubi"] = np.vectorize(tarif_ubi)(df["zve"], tb_ubi)
 
     for ref in ["baseline", "ubi"]:
-        df["mtr"+ref] = (df["tax_"+ref] - df["tax_"+ref].shift(1)) / incstep
+        df["mtr" + ref] = (df["tax_" + ref] - df["tax_" + ref].shift(1)) / incstep
 
     make_plot(
-            {ref: [df["zve"], df["mtr" + ref]] for ref in ["baseline",
-                                                           "ubi"]},
-            ylab="MTR",
-            xlab="taxable income",
-            ylim_low=0,
-            ylim_high=1,
-            xlim_low=0,
-            xlim_high=2e5,
-              ).savefig(ppj("OUT_FIGURES",
-                            "hypo/taxtariffs.png"))
+        {ref: [df["zve"], df["mtr" + ref]] for ref in ["baseline", "ubi"]},
+        ylab="MTR",
+        xlab="taxable income",
+        ylim_low=0,
+        ylim_high=1,
+        xlim_low=0,
+        xlim_high=2e5,
+    ).savefig(ppj("OUT_FIGURES", "hypo/taxtariffs.png"))
 
 
 def hypo_excel(dfs, settings, types):
@@ -831,12 +878,15 @@ def hypo_excel(dfs, settings, types):
     # cprint('Producing Excel Output for debugging...', 'red', 'on_white')
     for ref, df in dfs.items():
         df = df.sort_values(by=["typ_bud", "y_wage"])
-        writer = pd.ExcelWriter(ppj("OUT_DATA",
-                                    "check_hypo_{}.xlsx".format(ref)))
+        writer = pd.ExcelWriter(ppj("OUT_DATA", "check_hypo_{}.xlsx".format(ref)))
 
         for typ in types:
             df.loc[(df["typ_bud"] == typ)].to_excel(
-                writer, "Typ_" + str(typ), columns=out_vars, na_rep="NaN", freeze_panes=(1, 0)
+                writer,
+                "Typ_" + str(typ),
+                columns=out_vars,
+                na_rep="NaN",
+                freeze_panes=(1, 0),
             )
         writer.save()
 
@@ -848,7 +898,8 @@ if __name__ == "__main__":
     Tax-Transfer analysis with sample households
         settings: the settings dictionary
         tb: the param dictionary
-        lang: language; either "de" or "en", affects labelling of graphs and tex document.
+        lang: language; either "de" or "en", affects labelling of graphs and tex
+        document.
 
     """
     settings = pd.read_json(ppj("IN_MODEL_SPECS", "settings.json"))
@@ -871,14 +922,34 @@ if __name__ == "__main__":
             24: "Single Parent, two children (3 and 8 years)",
             31: "One-earner couple, no children",
             32: "One-earner couple, two children (3 and 8 years)",
-            #33: "Two-earner couple, avg. income of first earner",
-            #34: "Two-earner couple, avg. income of first earner, 2 children",
+            # 33: "Two-earner couple, avg. income of first earner",
+            # 34: "Two-earner couple, avg. income of first earner, 2 children",
         },
     }
 
     rents = {
-        "heizkost": {11: 61, 22: 90, 24: 109, 31: 92, 32: 121, 33: 92, 34: 121, 35: 92, 36: 121},
-        "miete": {11: 265, 22: 364, 24: 428, 31: 353, 32: 482, 33: 353, 34: 482, 35: 353, 36: 482},
+        "heizkost": {
+            11: 61,
+            22: 90,
+            24: 109,
+            31: 92,
+            32: 121,
+            33: 92,
+            34: 121,
+            35: 92,
+            36: 121,
+        },
+        "miete": {
+            11: 265,
+            22: 364,
+            24: 428,
+            31: 353,
+            32: 482,
+            33: 353,
+            34: 482,
+            35: 353,
+            36: 482,
+        },
     }
 
     # create hypo data
@@ -895,12 +966,16 @@ if __name__ == "__main__":
             )
         if "UBI" in ref:
             taxout_hypo[ref] = tax_transfer_ubi(
-                df, settings["taxyear"][0], settings["taxyear"][0], ubi_settings(tb), hyporun=True
+                df,
+                settings["taxyear"][0],
+                settings["taxyear"][0],
+                ubi_settings(tb),
+                hyporun=True,
             )
 
         # Export to check against Stata Output
         taxout_hypo[ref][taxout_hypo[ref]["head"]].to_json(
-            ppj("OUT_DATA","python_check_{}.json".format(ref))
+            ppj("OUT_DATA", "python_check_{}.json".format(ref))
         )
 
     # produce excel control output

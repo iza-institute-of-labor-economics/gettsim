@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from src.analysis.tax_transfer import kindergeld
+from src.analysis.tax_transfer.tax_transfer import kindergeld
 
 
 def child_benefit_standard_df():
@@ -53,7 +53,14 @@ to_test = [
 
 @pytest.mark.parametrize("df, yr, res", to_test)
 def test_kindergeld(df, yr, res):
-    tb = {"kgeld1": 188, "kgeld2": 188, "kgeld3": 194, "kgeld4": 219, "kgage": 25, "kgfreib": 7680}
+    tb = {
+        "kgeld1": 188,
+        "kgeld2": 188,
+        "kgeld3": 194,
+        "kgeld4": 219,
+        "kgage": 25,
+        "kgfreib": 7680,
+    }
 
     actual = pd.DataFrame(index=df["tu_id"], columns=["kindergeld_tu_basis"])
     for tu_id in df["tu_id"].unique():

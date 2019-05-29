@@ -4,9 +4,10 @@
 # character.
 
 [tool.black]
-line-length = 99
-py36 = true
-include = '(\.pyi?|wscript)$'
+line-length = 88
+#py36 = true
+#include = '(\.pyi?|wscript)$'
+include = '\.pyi?$'
 exclude = '''
 /(
     \.git
