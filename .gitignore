@@ -41,7 +41,8 @@ waf3-*
 !.environment.osx.yml
 !.environment.windows.yml
 !.environment.linux.yml
-!.env
+!.pre-commit-config.yaml
+!.envrc
 .*pdfsvn
 __pycache__
 analysis_out
