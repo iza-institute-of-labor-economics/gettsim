@@ -204,7 +204,7 @@ def zve(df, tb, yr, hyporun, ref=""):
 
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
-    # TO DO: check various deductions against each other (when modelled)
+    # TODO: check various deductions against each other (when modelled)
     zve["vorsorge"] = vorsorge2010(df, tb, yr, hyporun)
     # Summing up not necessary! they already got half
     # zve["vorsorge_tu"] = aggr(zve, "vorsorge", "all_tu")

@@ -23,7 +23,7 @@ from src.model_code.imports import get_params
 from bld.project_paths import project_paths_join as ppj
 
 
-def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
+def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False):
     """ The German Tax-Transfer System.
 
     Arguments:
@@ -44,6 +44,9 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
      reforms that e.g. only differ in parameters or slightly change the calculation.
     """
 
+    # set default arguments
+    tb_pens = [] if tb_pens is None else tb_pens
+    mw = [] if mw is None else mw
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
@@ -116,7 +119,6 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     df = df.join(other=zve(df[taxvars], tb, taxyear, hyporun), how="inner")
 
     # print(df[['typ_bud', 'y_wage', 'zve_nokfb']][df['y_wage'].between(64000, 70000)])
-    # aaa
     # 5.2 Apply Tax Schedule
     df = df.join(other=tax_sched(df, tb, taxyear, hyporun), how="inner")
 

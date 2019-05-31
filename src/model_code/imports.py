@@ -21,10 +21,12 @@ def init(settings):
             os.makedirs(settings["DATA_PATH"] + r)
         if not os.path.exists(settings["GRAPH_PATH"] + r):
             os.makedirs(settings["GRAPH_PATH"] + r)
-    for path in [settings["DATA_PATH"] + "SOEP",
-                 settings["DATA_PATH"] + "hypo",
-                 settings["GRAPH_PATH"] + "hypo",
-                 settings["GRAPH_PATH"] + "wageplots"]:
+    for path in [
+        settings["DATA_PATH"] + "SOEP",
+        settings["DATA_PATH"] + "hypo",
+        settings["GRAPH_PATH"] + "hypo",
+        settings["GRAPH_PATH"] + "wageplots",
+    ]:
         if not os.path.exists(path):
             os.makedirs(path)
 
@@ -33,9 +35,7 @@ def get_params(path):
     """ Load Tax-Benefit Parameters.
     returns A Dictionary of Dictionaries for each year.
     """
-    params = pd.read_excel(
-        path+"/param.xls", index_col="para"
-    ).to_dict()
+    params = pd.read_excel(path + "/param.xls", index_col="para").to_dict()
 
     for yr in range(1984, 2020):
         params["y" + str(yr)]["yr"] = yr
@@ -105,32 +105,41 @@ def aggr(df, inc, unit):
         returns one series with suffix _tu or _tu_k, depending on the
         parameter 'withkids'
     """
-    if unit == 'adult_married':
+    if unit == "adult_married":
         df[inc + "_verh"] = df["zveranl"] * df[inc]
         df = df.join(
-            df.groupby(["tu_id"])[(inc + "_verh")].sum(), on=["tu_id"], how="left", rsuffix="_sum"
+            df.groupby(["tu_id"])[(inc + "_verh")].sum(),
+            on=["tu_id"],
+            how="left",
+            rsuffix="_sum",
         )
         df[inc + "_tu"] = np.select(
             [df["zveranl"], ~df["zveranl"]], [df[inc + "_verh_sum"], df[inc]]
         )
         return df[inc + "_tu"]
 
-    if unit == 'all_tu':
-        df = df.join(df.groupby(["tu_id"])[inc].sum(), on=["tu_id"], how="left", rsuffix="_sum")
+    if unit == "all_tu":
+        df = df.join(
+            df.groupby(["tu_id"])[inc].sum(), on=["tu_id"], how="left", rsuffix="_sum"
+        )
         df[inc + "_tu_k"] = df[inc + "_sum"]
 
         return df[inc + "_tu_k"]
 
-    if unit == 'all_hh':
-        df = df.join(df.groupby(["hid"])[inc].sum(), on=["hid"], how="left", rsuffix="_sum")
+    if unit == "all_hh":
+        df = df.join(
+            df.groupby(["hid"])[inc].sum(), on=["hid"], how="left", rsuffix="_sum"
+        )
         df[inc + "_hh"] = df[inc + "_sum"]
 
         return df[inc + "_hh"]
 
+
 def gini(x, w=None):
     """
     Calculate the Gini coefficient of a numpy array using sample weights.
-    Source: https://stackoverflow.com/questions/48999542/more-efficient-weighted-gini-coefficient-in-python
+    Source: https://stackoverflow.com/questions/48999542/more-efficient-weighted-gini
+    -coefficient-in-python
 
     """
 
@@ -154,6 +163,32 @@ def gini(x, w=None):
     return gini
 
 
+def mw_pensions(df):
+    """ Calculates mean wages by SOEP year. Will be used in tax_transfer
+    """
+    print("Pensions Calculations...")
+    rent = df[["syear", "m_wage", "female", "east", "pweight", "civilservant"]][
+        (df["m_wage"] > 100) & ~df["selfemployed"]
+    ]
+    # calculates weighted mean wages by year
+    # all earnings.
+    rent["wage_weighted"] = rent["m_wage"] * 12 * rent["pweight"]
+    # only wages subject to social security contributions
+    rent["wage_weighted_subsample"] = rent["wage_weighted"][
+        ~rent["civilservant"] & (rent["m_wage"] > 450)
+    ]
+    rent["pweight_sub"] = rent["pweight"][
+        ~rent["civilservant"] & (rent["m_wage"] > 450)
+    ]
+    years = rent.groupby("syear")
+    mw = pd.DataFrame()
+    mw["meanwages"] = round(years["wage_weighted"].sum() / years["pweight"].sum(), 2)
+    mw["meanwages_sub"] = round(
+        years["wage_weighted_subsample"].sum() / years["pweight_sub"].sum(), 2
+    )
+    return mw
+
+
 def say_hello(taxyear, ref, hyporun):
     print("---------------------------------------------")
     print(" TAX TRANSFER SYSTEM ")
@@ -168,13 +203,14 @@ def say_hello(taxyear, ref, hyporun):
 
     return
 
+
 def tarif_ubi(x, tb):
     """ UBI Tax schedule
-        the function is defined here, as defining it in tax_transfer_ubi.py would lead to
-        circular dependencies
+        the function is defined here, as defining it in tax_transfer_ubi.py would
+        lead to circular dependencies
     """
     t = 0.0
-    if x > tb['G']:
-        t = tb['flatrate'] * (x - tb['G'])
+    if x > tb["G"]:
+        t = tb["flatrate"] * (x - tb["G"])
 
     return t
