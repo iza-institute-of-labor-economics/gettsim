@@ -4,7 +4,7 @@ from pandas.testing import assert_frame_equal
 from tests.auxiliary_test import load_tax_transfer_input_data as load_input
 from tests.auxiliary_test import load_tax_transfer_output_data as load_output
 from tests.auxiliary_test import load_tb
-from src.analysis.tax_transfer.tax_transfer import tax_sched
+from src.analysis.tax_transfer.taxes import tax_sched
 
 
 input_cols = [

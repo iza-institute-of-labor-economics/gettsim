@@ -22,7 +22,7 @@ from src.model_code.hypo_helpers import (
     get_hh_text,
 )
 from src.model_code.imports import get_params, say_hello, tarif_ubi
-from src.analysis.tax_transfer.tex_transfer_master import tax_transfer
+from src.analysis.tax_transfer.tax_transfer_master import tax_transfer
 from src.analysis.tax_transfer.tax_transfer import tarif
 from src.analysis.tax_transfer_ubi import tax_transfer_ubi, ubi_settings
 

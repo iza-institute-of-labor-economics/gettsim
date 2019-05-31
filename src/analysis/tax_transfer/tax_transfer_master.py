@@ -1,11 +1,24 @@
+# -*- coding: utf-8 -*-
+"""
+TAX TRANSFER SIMULATION
+
+Eric Sommer, 2018
+"""
+
 import numpy as np
 import pandas as pd
 
-from src.analysis.tax_transfer.tax_transfer import soc_ins_contrib, ui, pensions
-from src.analysis.tax_transfer.tax_transfer import zve, tax_sched, kindergeld
-from src.analysis.tax_transfer.tax_transfer import favorability_check, soli, uhv
-from src.analysis.tax_transfer.tax_transfer import wg, alg2, kiz
 
+from src.analysis.tax_transfer.taxes import soli, zve, tax_sched
+from src.analysis.tax_transfer.unemployment_benefits import ui, wg, alg2
+from src.analysis.tax_transfer.child_benefits import (
+    kindergeld,
+    favorability_check,
+    uhv,
+    kiz,
+)
+from src.analysis.tax_transfer.social_insurance import soc_ins_contrib
+from src.analysis.tax_transfer.pensions import pensions
 from src.model_code.imports import get_params
 from bld.project_paths import project_paths_join as ppj
 

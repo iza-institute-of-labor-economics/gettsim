@@ -4,7 +4,7 @@ from pandas.testing import assert_series_equal
 from tests.auxiliary_test import load_tax_transfer_input_data as load_input
 from tests.auxiliary_test import load_tax_transfer_output_data as load_output
 from tests.auxiliary_test import load_tb
-from src.analysis.tax_transfer.tax_transfer import uhv
+from src.analysis.tax_transfer.child_benefits import uhv
 
 
 input_cols = [
