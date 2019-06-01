@@ -1,5 +1,5 @@
 #! python
-import pandas as pd
+
 
 def build(ctx):
 
@@ -17,7 +17,7 @@ def build(ctx):
    
     ctx(
         features="run_py_script",
-        source="tax_transfer.py",
+        source="tax_transfer/tax_transfer_master.py",
         deps=[
             ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),
             ctx.path_to(ctx, "IN_DATA", "param.xls"),
@@ -50,15 +50,16 @@ def build(ctx):
         features="run_py_script",
         source="output.py",
         deps=[
-        # HOW CAN I ENDOGENIZE THIS???
+         # HOW CAN I ENDOGENIZE THIS???
             ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),
             ctx.path_to(ctx, "OUT_DATA", "taxben_results_RS2019.json"),
             ctx.path_to(ctx, "OUT_DATA", "taxben_results_UBI.json"),
-            #+
-            # [ctx.path_to(ctx, "OUT_DATA", "taxben_results_".format(ref)) for ref in reforms],
+            # +
+            # [ctx.path_to(ctx, "OUT_DATA", "taxben_results_".format(ref)) for ref in
+            # reforms],
         ],
         target=[
-        # doesn't produce output yet.
+         # doesn't produce output yet.
         ]
      )
 
@@ -72,9 +73,8 @@ def build(ctx):
         target=[
             ctx.path_to(ctx, "OUT_DATA", "python_check_RS2019.json"),
             ctx.path_to(ctx, "OUT_HYPO", "hypographs_RS2019_en.tex"),
-            #ctx.path_to(ctx, "OUT_HYPO", "hypographs_RS2019_de.tex"),
+            # ctx.path_to(ctx, "OUT_HYPO", "hypographs_RS2019_de.tex"),
             ctx.path_to(ctx, "OUT_DATA", "check_hypo_RS2019.xlsx"),
             ctx.path_to(ctx, "OUT_DATA", "check_hypo_UBI.xlsx"),
         ]
      )
-

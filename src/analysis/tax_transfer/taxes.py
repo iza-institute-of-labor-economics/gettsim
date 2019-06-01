@@ -29,7 +29,10 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
 
         if not hyporun:
             ts["tax_" + inc] = np.fix(ts["tax_" + inc])
-        ts["tax_" + inc + "_tu"] = aggr(ts, "tax_" + inc, "adult_married")
+        sum_inc = ts[ts["zveranl"]]["tax_" + inc].sum()
+        ts.loc[ts["zveranl"], "tax_" + inc + "_tu"] = 0.5 * sum_inc
+        ts.loc[~ts["zveranl"], "tax_" + inc + "_tu"] = ts["tax_" + inc]
+
     ################
 
     # Abgeltungssteuer
@@ -43,6 +46,7 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
             * tb["abgst"]
             * np.maximum(df["gross_e5_tu"] - 2 * (tb["spsparf"] + tb["spwerbz"]), 0)
         )
+
     ts["abgst_tu"] = aggr(ts, "abgst", "adult_married")
     # drop some vars to avoid duplicates in join. More elegant way would be to modifiy
     # joint command above.
@@ -200,7 +204,9 @@ def zve(df, tb, yr, hyporun, ref=""):
         "gross_e6",
         "gross_e7",
     ]:
-        zve[inc + "_tu"] = aggr(zve, inc, "adult_married")
+        sum_inc = zve[zve["zveranl"]][inc].sum()
+        zve.loc[zve["zveranl"] & ~df["child"], inc + "_tu"] = 0.5 * sum_inc
+        zve.loc[~zve["zveranl"] & df["child"], inc + "_tu"] = zve[inc]
 
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
@@ -331,10 +337,8 @@ def zve(df, tb, yr, hyporun, ref=""):
     # Finally, modify married couples income according to Splitting rule,
     # i.e. each partner get assigned half of the total income
     for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
-        zve["zve_" + incdef + "_tu"] = aggr(zve, "zve_" + incdef, "adult_married")
-        zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = (
-            0.5 * zve["zve_" + incdef + "_tu"]
-        )
+        sum_incdef = zve[zve["zveranl"]]["zve_" + incdef].sum()
+        zve.loc[zve["zveranl"] & ~df["child"], "zve_" + incdef] = 0.5 * sum_incdef
 
     #    if not hyporun:
     #        print("Sum of gross income: {} bn €".format(

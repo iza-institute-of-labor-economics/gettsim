@@ -5,16 +5,18 @@ Eric Sommer, 2018
 """
 
 import pandas as pd
-import numpy as np
 
 from bld.project_paths import project_paths_join as ppj
-from src.model_code.imports import aggr, get_params, tarif_ubi
+from src.model_code.imports import aggr, get_params
 
 
-from tax_transfer import soc_ins_contrib, pensions, zve, tax_sched
-from tax_transfer import soli, favorability_check, uhv
+from src.analysis.tax_transfer.social_insurance import soc_ins_contrib
+from src.analysis.tax_transfer.pensions import pensions
+from src.analysis.tax_transfer.taxes import zve, tax_sched, soli
+from src.analysis.tax_transfer.child_benefits import favorability_check, uhv
 
 # from numba import jit
+
 
 def ubi_settings(tb):
     """ Set alternative tax benefit parameters for UBI
@@ -35,7 +37,7 @@ def ubi_settings(tb):
     # UBI Flat Rate
     tb_ubi["flatrate"] = 0.81
     # change basic allowance?
-    tb_ubi['G'] = tb['G']
+    tb_ubi["G"] = tb["G"]
 
     # Kindergeld
     for i in range(1, 5):
@@ -46,11 +48,10 @@ def ubi_settings(tb):
     return tb_ubi
 
 
-
-def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
+def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False):
     """Counterfactual with Unconditional Basic income
 
-    Either uses the functions from the baseline system (tax_transfer.py)
+    Either uses the functions from the baseline system (tax_transfer_master.py)
     or redefines the respective element
 
     - Basic guidelines:
@@ -69,11 +70,14 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
         - *tb*: dictionary with tax-benefit parameters
         - *tb_pens*: Parameters for pension calculations
         - *mw*: Mean earnings by year, for pension calculations.
-        - *hyporun*: indicator for hypothetical household input (defult: use real SOEP data)
+        - *hyporun*: indicator for hypothetical household input (defult: use real SOEP
+                     data)
 
 
     """
-
+    # set default arguments
+    tb_pens = [] if tb_pens is None else tb_pens
+    mw = [] if mw is None else mw
     # Social Insurance Contributions
     df = df.join(
         other=soc_ins_contrib(
@@ -225,7 +229,9 @@ def ubi(df, tb):
 if __name__ == "__main__":
     settings = pd.read_json(ppj("IN_MODEL_SPECS", "settings.json"))
     tb = get_params(ppj("IN_DATA"))["y" + str(settings["taxyear"][0])]
-    tb_pens = pd.read_excel(ppj("IN_DATA", "pensions.xlsx"), index_col="var").transpose()
+    tb_pens = pd.read_excel(
+        ppj("IN_DATA", "pensions.xlsx"), index_col="var"
+    ).transpose()
     tb_ubi = ubi_settings(tb)
     mw = pd.read_json(ppj("IN_DATA", "mw_pensions.json"))
     df = pd.read_pickle(ppj("SOEP_PATH", "2_taxben_input.dta"))

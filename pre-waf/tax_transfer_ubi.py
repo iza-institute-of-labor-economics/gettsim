@@ -4,10 +4,10 @@ TAX TRANSFER SYSTEM FOR UBI
 Eric Sommer, 2018
 """
 from imports import aggr
-from termcolor import cprint
+
 from tax_transfer import soc_ins_contrib, pensions, zve, tax_sched
 from tax_transfer import soli, favorability_check, uhv
-from settings import tarif_ubi
+
 import pandas as pd
 
 # from numba import jit
@@ -16,7 +16,7 @@ import pandas as pd
 def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False):
     """Counterfactual with Unconditional Basic income
 
-    Either uses the functions from the baseline system (tax_transfer.py)
+    Either uses the functions from the baseline system (tax_transfer_master.py)
     or redefines the respective element
 
     - Basic guidelines:
@@ -35,7 +35,8 @@ def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=[], mw=[], hyporun=False
         - *tb*: dictionary with tax-benefit parameters
         - *tb_pens*: Parameters for pension calculations
         - *mw*: Mean earnings by year, for pension calculations.
-        - *hyporun*: indicator for hypothetical household input (defult: use real SOEP data)
+        - *hyporun*: indicator for hypothetical household input (defult: use real SOEP
+                     data)
 
 
     """
