@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from src.model_code.imports import aggr, tarif_ubi
+from src.model_code.imports import tarif_ubi
+from src.analysis.tax_transfer.social_insurance import vorsorge2010
 from termcolor import cprint
 
 
@@ -15,6 +16,7 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
     else:
         inclist = ["nokfb", "kfb"]
 
+    adult_married = (~df["child"]) & (df["zveranl"])
     cprint("Tax Schedule...", "red", "on_white")
     # create ts dataframe and copy three important variables
     ts = pd.DataFrame(index=df.index.copy())
@@ -29,7 +31,7 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
 
         if not hyporun:
             ts["tax_" + inc] = np.fix(ts["tax_" + inc])
-        ts["tax_" + inc + "_tu"] = aggr(ts, "tax_" + inc, "adult_married")
+        ts["tax_{}_tu".format(inc)] = ts["tax_{}".format(inc)][adult_married].sum()
 
     ################
 
@@ -45,7 +47,7 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
             * np.maximum(df["gross_e5_tu"] - 2 * (tb["spsparf"] + tb["spwerbz"]), 0)
         )
 
-    ts["abgst_tu"] = aggr(ts, "abgst", "adult_married")
+    ts["abgst_tu"] = ts["abgst"][adult_married].sum()
     # drop some vars to avoid duplicates in join. More elegant way would be to modifiy
     # joint command above.
     ts = ts.drop(columns=["zveranl", "hid", "tu_id"], axis=1)
@@ -109,6 +111,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     # Kapitaleinkommen im Tarif versteuern oder nicht?
     kapinc_in_tarif = yr < 2009
     westost = [~df["east"], df["east"]]
+    adult_married = ~df["child"] & df["zveranl"]
     # married = [df['zveranl'], ~df['zveranl']]
     # create output dataframe and transter some important variables
     zve = pd.DataFrame(index=df.index.copy())
@@ -202,9 +205,7 @@ def zve(df, tb, yr, hyporun, ref=""):
         "gross_e6",
         "gross_e7",
     ]:
-        sum_inc = zve[zve["zveranl"]][inc].sum()
-        zve.loc[zve["zveranl"] & ~df["child"], inc + "_tu"] = 0.5 * sum_inc
-        zve.loc[~zve["zveranl"] & df["child"], inc + "_tu"] = zve[inc]
+        zve[inc + "_tu"] = zve[inc][adult_married].sum()
 
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
@@ -224,7 +225,7 @@ def zve(df, tb, yr, hyporun, ref=""):
         ),
         tb["altenth"],
     )
-    zve["altfreib_tu"] = aggr(zve, "altfreib", "adult_married")
+    zve["altfreib_tu"] = zve["altfreib"][adult_married].sum()
     # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
     # Since 2015, it increases with number of children.
     # Used to be called 'Haushaltsfreibetrag'
@@ -335,8 +336,9 @@ def zve(df, tb, yr, hyporun, ref=""):
     # Finally, modify married couples income according to Splitting rule,
     # i.e. each partner get assigned half of the total income
     for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
-        sum_incdef = zve[zve["zveranl"]]["zve_" + incdef].sum()
-        zve.loc[zve["zveranl"] & ~df["child"], "zve_" + incdef] = 0.5 * sum_incdef
+        zve["zve_" + incdef + "_tu"] = zve["zve_" + incdef][adult_married].sum()
+        zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = \
+            0.5 * zve["zve_" + incdef + "_tu"]
 
     #    if not hyporun:
     #        print("Sum of gross income: {} bn €".format(
@@ -368,53 +370,6 @@ def zve(df, tb, yr, hyporun, ref=""):
             "ertragsanteil",
         ]
     ]
-
-
-def vorsorge2010(df, tb, yr, hyporun):
-    """
-        'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
-        from your taxable income
-        This regulation has been changed often in recent years. In order not to make
-        anyone worse off, the old regulation was maintained. Nowadays the older
-        regulations don't play a large role (i.e. the new one is more beneficial most of
-         the times) but they'd need to be implemented if earlier years are modelled.
-        Vorsorgeaufwendungen until 2004
-        TODO
-        Vorsorgeaufwendungen since 2010
-        § 10 (3) EStG
-        The share of deductable pension contributions increases each year by 2 pp.
-        ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
-        4% from health contributions are not deductable.
-        only deduct pension contributions up to the ceiling. multiply by 2
-        because it's both employee and employer contributions.
-        """
-    westost = [~df["east"], df["east"]]
-    rvbeit_vors = np.minimum(
-        2 * df["rvbeit"],
-        2 * tb["grvbs"] * np.select(westost, [tb["rvmaxekw"], tb["rvmaxeko"]]),
-    )
-
-    # calculate x% of relevant employer and employee contributions
-    # then subtract employer contributions
-    # also subtract health + care + unemployment insurance contributions
-    altersvors2010 = ~df["child"] * (
-        (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * rvbeit_vors)
-        - (12 * 0.5 * rvbeit_vors)
-    )
-    # These you get anyway ('Basisvorsorge').
-    sonstigevors2010 = 12 * (df["pvbeit"] + 0.96 * df["gkvbeit"])
-    # maybe add avbeit, but do not exceed 1900€.
-    sonstigevors2010 = np.maximum(
-        sonstigevors2010,
-        np.minimum(sonstigevors2010 + 12 * df["avbeit"], tb["vors_sonst_max"]),
-    )
-
-    if hyporun:
-        vorsorge2010 = altersvors2010 + sonstigevors2010
-    else:
-        vorsorge2010 = np.fix(altersvors2010) + np.fix(sonstigevors2010)
-
-    return vorsorge2010
 
 
 def soli(df, tb, yr, ref=""):

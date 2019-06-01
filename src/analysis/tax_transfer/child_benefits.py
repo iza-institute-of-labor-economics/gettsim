@@ -189,7 +189,7 @@ def uhv(df, tb, taxyear):
         ]
     ].sum(axis=1)
 
-    uhv["uhv_inc_tu"] = aggr(uhv, "uhv_inc", "all_tu")
+    uhv["uhv_inc_tu"] = uhv["uhv_inc"].sum()
     uhv.loc[
         (df["age"].between(12, 17)) & (df["alleinerz"]) & (uhv["uhv_inc_tu"] > 600),
         "uhv",
