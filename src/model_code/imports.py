@@ -106,16 +106,8 @@ def aggr(df, inc, unit):
         parameter 'withkids'
     """
     if unit == "adult_married":
-        df[inc + "_verh"] = df["zveranl"] * df[inc]
-        df = df.join(
-            df.groupby(["tu_id"])[(inc + "_verh")].sum(),
-            on=["tu_id"],
-            how="left",
-            rsuffix="_sum",
-        )
-        df[inc + "_tu"] = np.select(
-            [df["zveranl"], ~df["zveranl"]], [df[inc + "_verh_sum"], df[inc]]
-        )
+        df[inc + "_tu"] = df[inc]
+        df[df["zveranl"]][inc + "tu"] = df[df["zveranl"]][inc].sum()
         return df[inc + "_tu"]
 
     if unit == "all_tu":

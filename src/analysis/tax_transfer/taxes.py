@@ -29,9 +29,7 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
 
         if not hyporun:
             ts["tax_" + inc] = np.fix(ts["tax_" + inc])
-        sum_inc = ts[ts["zveranl"]]["tax_" + inc].sum()
-        ts.loc[ts["zveranl"], "tax_" + inc + "_tu"] = 0.5 * sum_inc
-        ts.loc[~ts["zveranl"], "tax_" + inc + "_tu"] = ts["tax_" + inc]
+        ts["tax_" + inc + "_tu"] = aggr(ts, "tax_" + inc, "adult_married")
 
     ################
 
