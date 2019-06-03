@@ -9,7 +9,8 @@ import numpy as np
 import pandas as pd
 
 
-from src.analysis.tax_transfer.taxes import soli, zve, tax_sched
+from src.analysis.tax_transfer.taxes import soli, tax_sched
+from src.analysis.tax_transfer.zve import zve
 from src.analysis.tax_transfer.unemployment_benefits import ui, wg, alg2
 from src.analysis.tax_transfer.child_benefits import kindergeld, uhv
 from src.analysis.tax_transfer.child_benefits import favorability_check, kiz
