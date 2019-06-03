@@ -387,7 +387,11 @@ def wg(df, tb, yr, hyporun):
             (df["handcap_degree"] > 80) * tb["wgpfbm80"]
             + df["handcap_degree"].between(1, 80) * tb["wgpfbu80"]
             + (wg["workingchild"] * np.minimum(tb["wgpfb24"], df["m_wage"]))
-            + (df["alleinerz"] * (~df["child"]) * df["child11_num_tu"] * tb["wgpfb12"])
+            + (
+                (df["alleinerz"] & (~df["child"]))
+                * df["child11_num_tu"]
+                * tb["wgpfb12"]
+            )
         )
     else:
         wg["wg_incdeduct"] = (
