@@ -10,6 +10,12 @@ def pensions(df, tb, tb_pens, mw, year, hypo):
     models 'Rentenformel':
     https://de.wikipedia.org/wiki/Rentenformel
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
+
+    - In particular, it calculates the "entgeltpunkte" for the previous year, based on
+      earnings of that year. These need to be related to average earnings
+    - As we do not know previously collect Entgeltpunkte, we take an average
+      value (to be improved)
+
     """
     r = pd.DataFrame(index=df.index.copy())
     if hypo:
@@ -44,14 +50,14 @@ def pensions(df, tb, tb_pens, mw, year, hypo):
             np.minimum(df["m_wage"], tb["rvmaxeko"]) / mw["meanwages"][yr],
         ],
     )
-    # ZF: Zugangsfaktor. Depends on the age of entering pensions
+    # ZF: Zugangsfaktor. Depends on the age of entering pensions.
+    # For each year entering earlier (later) than the statutory retirement age,
+    # you get a penalty (reward) of 3.6 pp.
     r["regelaltersgrenze"] = 65
     # If born after 1947, each birth year raises the age threshold by one month.
     r.loc[r["byear"] > 1947, "regelaltersgrenze"] = np.minimum(
         67, ((r["byear"] - 1947) / 12) + 65
     )
-    # For each year entering earlier (later) than the statutory retirement age,
-    # you get a penalty (reward) of 3.6 pp.
     r["ZF"] = ((df["age"] - r["regelaltersgrenze"]) * 0.036) + 1
 
     # Rentenwert: The monetary value of one 'entgeltpunkt'.

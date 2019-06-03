@@ -192,9 +192,6 @@ def zve(df, tb, yr, hyporun, ref=""):
     zve["handc_pausch"].fillna(0, inplace=True)
 
     # Aggregate several incomes on the taxpayer couple
-    # for inc in ["m_wage", "rvbeit", "gkvbeit", "avbeit", "pvbeit"]:
-    #    zve[inc + "_tu_k"] = aggr(df, inc, "all_tu")
-    #    zve[inc + "_tu"] = aggr(df, inc, "adult_married")
     for inc in [
         "sonder",
         "handc_pausch",
@@ -211,8 +208,6 @@ def zve(df, tb, yr, hyporun, ref=""):
     # 1. VORSORGEAUFWENDUNGEN
     # TODO: check various deductions against each other (when modelled)
     zve["vorsorge"] = vorsorge2010(df, tb, yr, hyporun)
-    # Summing up not necessary! they already got half
-    # zve["vorsorge_tu"] = aggr(zve, "vorsorge", "all_tu")
     # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve["altfreib"] = 0

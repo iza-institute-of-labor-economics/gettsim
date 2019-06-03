@@ -346,7 +346,7 @@ def wg(df, tb, yr, hyporun):
         "gkvbeit",
         "uhv",
     ]:
-        wg[inc + "_tu_k"] = aggr(df, inc, "all_tu")
+        wg["{}_tu_k".format(inc)] = aggr(df, inc, "all_tu")
 
     wg["pens_steuer_tu_k"] = aggr(wg, "pens_steuer", "all_tu")
 

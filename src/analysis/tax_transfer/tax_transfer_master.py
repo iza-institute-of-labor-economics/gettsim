@@ -78,6 +78,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
     # Income Tax
     taxvars = [
         "pid",
+        "tu_id",
         "hid",
         "pweight",
         "female",

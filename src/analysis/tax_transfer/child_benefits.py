@@ -90,9 +90,7 @@ def favorability_check(df, tb, yr):
         fc.loc[(fc["minpay"] == fc["nettax_" + inc]), "abgehakt"] = True
 
     # Aggregate Child benefit on the household.
-    fc = fc.join(
-        fc.groupby(["hid"])["kindergeld"].sum(), on=["hid"], how="left", rsuffix="_hh"
-    )
+    fc["kindergeld_hh"] = fc["kindergeld"].sum()
 
     # Control output
     # df.to_excel(
