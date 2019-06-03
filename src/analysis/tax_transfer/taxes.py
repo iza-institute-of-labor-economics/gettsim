@@ -108,6 +108,7 @@ def zve(df, tb, yr, hyporun, ref=""):
          applying the tax schedule
     """
     cprint("Calculate Taxable Income...", "red", "on_white")
+    pd.options.mode.chained_assignment = "raise"
     # Kapitaleinkommen im Tarif versteuern oder nicht?
     kapinc_in_tarif = yr < 2009
     westost = [~df["east"], df["east"]]
@@ -120,14 +121,14 @@ def zve(df, tb, yr, hyporun, ref=""):
 
     # The share of pensions subject to income taxation
     zve["ertragsanteil"] = 0
-    df.loc[df["renteneintritt"] <= 2004, "ertragsanteil"] = 0.27
-    df.loc[df["renteneintritt"].between(2005, 2020), "ertragsanteil"] = 0.5 + 0.02 * (
+    zve.loc[df["renteneintritt"] <= 2004, "ertragsanteil"] = 0.27
+    zve.loc[df["renteneintritt"].between(2005, 2020), "ertragsanteil"] = 0.5 + 0.02 * (
         df["renteneintritt"] - 2005
     )
-    df.loc[df["renteneintritt"].between(2021, 2040), "ertragsanteil"] = 0.8 + 0.01 * (
+    zve.loc[df["renteneintritt"].between(2021, 2040), "ertragsanteil"] = 0.8 + 0.01 * (
         df["renteneintritt"] - 2020
     )
-    df.loc[df["renteneintritt"] >= 2041, "ertragsanteil"] = 1
+    zve.loc[df["renteneintritt"] >= 2041, "ertragsanteil"] = 1
 
     # Werbungskosten und Sonderausgaben
     zve["werbung"] = 0
@@ -158,16 +159,16 @@ def zve(df, tb, yr, hyporun, ref=""):
     zve["gross_gde"] = zve[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
     # Add UBI to taxable income
     if ref == "UBI":
-        zve["gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
+        zve.loc[:, "gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
 
     # If capital income tax with tariff, add it but account for exemptions
     if kapinc_in_tarif:
-        zve["gross_gde"] = zve["gross_gde"] + np.maximum(
+        zve.loc[:, "gross_gde"] = zve["gross_gde"] + np.maximum(
             zve["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0
         )
 
     # Gross (market) income <> sum of incomes...
-    zve["m_brutto"] = df[
+    zve.loc[:, "m_brutto"] = df[
         ["m_self", "m_wage", "m_kapinc", "m_vermiet", "m_pensions"]
     ].sum(axis=1)
 
@@ -227,7 +228,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     zve["hhfreib"] = 0
     if yr < 2015:
         zve.loc[df["alleinerz"], "hhfreib"] = tb["hhfreib"]
-    if yr >= 2015:
+    else:
         zve.loc[df["alleinerz"], "hhfreib"] = tb["hhfreib"] + (
             (df["child_num_tu"] - 1) * tb["hhfreib_ch"]
         )
@@ -332,8 +333,9 @@ def zve(df, tb, yr, hyporun, ref=""):
     # i.e. each partner get assigned half of the total income
     for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
         zve["zve_" + incdef + "_tu"] = zve["zve_" + incdef][adult_married].sum()
-        zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = \
+        zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = (
             0.5 * zve["zve_" + incdef + "_tu"]
+        )
 
     #    if not hyporun:
     #        print("Sum of gross income: {} bn €".format(
