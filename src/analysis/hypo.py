@@ -22,8 +22,8 @@ from src.model_code.hypo_helpers import (
     get_hh_text,
 )
 from src.model_code.imports import get_params, say_hello, tarif_ubi
-from src.analysis.tax_transfer.tax_transfer_master import tax_transfer
-from src.analysis.tax_transfer.taxes import tarif
+from src.analysis.tax_transfer import tax_transfer
+from src.analysis.tax_transfer_funcs.taxes import tarif
 from src.analysis.tax_transfer_ubi import tax_transfer_ubi, ubi_settings
 
 
@@ -955,7 +955,7 @@ if __name__ == "__main__":
     # create hypo data
     df = create_hypo_data(settings, tb, types[lang], rents)
 
-    # run them through tax_transfer
+    # run them through tax_transfer_funcs
     # taxout_hypo is a dictionary containing dataframes for each reform
     taxout_hypo = {}
     for ref in settings["Reforms"]:

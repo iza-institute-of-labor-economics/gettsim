@@ -10,10 +10,11 @@ from bld.project_paths import project_paths_join as ppj
 from src.model_code.imports import aggr, get_params
 
 
-from src.analysis.tax_transfer.social_insurance import soc_ins_contrib
-from src.analysis.tax_transfer.pensions import pensions
-from src.analysis.tax_transfer.taxes import zve, tax_sched, soli
-from src.analysis.tax_transfer.child_benefits import favorability_check, uhv
+from src.analysis.tax_transfer_funcs.social_insurance import soc_ins_contrib
+from src.analysis.tax_transfer_funcs.pensions import pensions
+from src.analysis.tax_transfer_funcs.taxes import tax_sched, soli, favorability_check
+from src.analysis.tax_transfer_funcs.zve import zve
+from src.analysis.tax_transfer_funcs.benefits import uhv
 
 # from numba import jit
 
@@ -51,7 +52,7 @@ def ubi_settings(tb):
 def tax_transfer_ubi(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False):
     """Counterfactual with Unconditional Basic income
 
-    Either uses the functions from the baseline system (tax_transfer_master.py)
+    Either uses the functions from the baseline system (tax_transfer_funcs.py)
     or redefines the respective element
 
     - Basic guidelines:

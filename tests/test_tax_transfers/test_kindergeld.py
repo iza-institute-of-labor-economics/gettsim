@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from src.analysis.tax_transfer.child_benefits import kindergeld
+from src.analysis.tax_transfer_funcs.taxes import kindergeld
 
 
 def child_benefit_standard_df():

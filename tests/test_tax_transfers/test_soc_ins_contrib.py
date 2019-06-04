@@ -2,7 +2,7 @@ import pandas as pd
 from itertools import product
 import pytest
 from pandas.testing import assert_series_equal
-from src.analysis.tax_transfer.social_insurance import soc_ins_contrib
+from src.analysis.tax_transfer_funcs.social_insurance import soc_ins_contrib
 from tests.auxiliary_test import load_tax_transfer_input_data as load_input
 from tests.auxiliary_test import load_tb
 from tests.auxiliary_test import load_tax_transfer_output_data as load_output

@@ -108,7 +108,8 @@ def zve(df, tb, yr, hyporun, ref=""):
         "gross_e6",
         "gross_e7",
     ]:
-        zve[inc + "_tu"] = zve[inc][adult_married].sum()
+        zve[inc + "_tu"] = 0
+        zve.loc[adult_married, inc + "_tu"] = zve[inc][adult_married].sum()
 
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
@@ -126,7 +127,8 @@ def zve(df, tb, yr, hyporun, ref=""):
         ),
         tb["altenth"],
     )
-    zve["altfreib_tu"] = zve["altfreib"][adult_married].sum()
+    zve["altfreib_tu"] = 0
+    zve.loc[adult_married, "altfreib_tu"] = zve["altfreib"][adult_married].sum()
     # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
     # Since 2015, it increases with number of children.
     # Used to be called 'Haushaltsfreibetrag'
@@ -238,9 +240,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     # i.e. each partner get assigned half of the total income
     for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
         zve["zve_" + incdef + "_tu"] = zve["zve_" + incdef][adult_married].sum()
-        zve.loc[df["zveranl"] & ~df["child"], "zve_" + incdef] = (
-            0.5 * zve["zve_" + incdef + "_tu"]
-        )
+        zve.loc[adult_married, "zve_" + incdef] = 0.5 * zve["zve_" + incdef + "_tu"]
 
     #    if not hyporun:
     #        print("Sum of gross income: {} bn €".format(

@@ -10,7 +10,8 @@ from bld.project_paths import project_paths_join as ppj
 
 
 def mw_pensions(df):
-    """ Calculates mean wages by SOEP year. Will be used in tax_transfer for pension calculations
+    """ Calculates mean wages by SOEP year. Will be used in tax_transfer_funcs for
+    pension calculations
     """
     print("Pensions Calculations...")
     rent = df[["syear", "m_wage", "female", "east", "pweight", "civilservant"]][
@@ -23,7 +24,9 @@ def mw_pensions(df):
     rent["wage_weighted_subsample"] = rent["wage_weighted"][
         ~rent["civilservant"] & (rent["m_wage"] > 450)
     ]
-    rent["pweight_sub"] = rent["pweight"][~rent["civilservant"] & (rent["m_wage"] > 450)]
+    rent["pweight_sub"] = rent["pweight"][
+        ~rent["civilservant"] & (rent["m_wage"] > 450)
+    ]
     years = rent.groupby("syear")
     mw = pd.DataFrame()
     mw["meanwages"] = round(years["wage_weighted"].sum() / years["pweight"].sum(), 2)

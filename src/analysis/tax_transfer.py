@@ -9,13 +9,12 @@ import numpy as np
 import pandas as pd
 
 
-from src.analysis.tax_transfer.taxes import soli, tax_sched
-from src.analysis.tax_transfer.zve import zve
-from src.analysis.tax_transfer.unemployment_benefits import ui, wg, alg2
-from src.analysis.tax_transfer.child_benefits import kindergeld, uhv
-from src.analysis.tax_transfer.child_benefits import favorability_check, kiz
-from src.analysis.tax_transfer.social_insurance import soc_ins_contrib
-from src.analysis.tax_transfer.pensions import pensions
+from src.analysis.tax_transfer_funcs.taxes import soli, tax_sched
+from src.analysis.tax_transfer_funcs.taxes import favorability_check, kindergeld
+from src.analysis.tax_transfer_funcs.zve import zve
+from src.analysis.tax_transfer_funcs.benefits import ui, wg, alg2, uhv, kiz
+from src.analysis.tax_transfer_funcs.social_insurance import soc_ins_contrib
+from src.analysis.tax_transfer_funcs.pensions import pensions
 from src.model_code.imports import get_params
 from bld.project_paths import project_paths_join as ppj
 

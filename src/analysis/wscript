@@ -17,7 +17,7 @@ def build(ctx):
    
     ctx(
         features="run_py_script",
-        source="tax_transfer/tax_transfer_master.py",
+        source="tax_transfer_funcs.py",
         deps=[
             ctx.path_to(ctx, "IN_MODEL_SPECS", "settings.json"),
             ctx.path_to(ctx, "IN_DATA", "param.xls"),

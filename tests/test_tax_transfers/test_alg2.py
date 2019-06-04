@@ -4,7 +4,7 @@ from pandas.testing import assert_frame_equal
 from tests.auxiliary_test import load_tax_transfer_input_data as load_input
 from tests.auxiliary_test import load_tax_transfer_output_data as load_output
 from tests.auxiliary_test import load_tb
-from src.analysis.tax_transfer.unemployment_benefits import alg2
+from src.analysis.tax_transfer_funcs.benefits import alg2
 
 
 input_cols = [
