@@ -19,9 +19,6 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
     cprint("Tax Schedule...", "red", "on_white")
     # create ts dataframe and copy three important variables
     ts = pd.DataFrame(index=df.index.copy())
-    for v in ["hid", "tu_id", "zveranl"]:
-        ts[v] = df[v]
-
     for inc in inclist:
         if ref == "UBI":
             ts["tax_" + inc] = np.vectorize(tarif_ubi)(df["zve_" + inc], tb)
@@ -34,28 +31,29 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
         ts.loc[adult_married, "tax_{}_tu".format(inc)] = ts["tax_{}".format(inc)][
             adult_married
         ].sum()
-
-    ################
-
-    # Abgeltungssteuer
-    ts["abgst"] = 0
-    if yr >= 2009:
-        ts.loc[~ts["zveranl"], "abgst"] = tb["abgst"] * np.maximum(
-            df["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0
-        )
-        ts.loc[ts["zveranl"], "abgst"] = (
-            0.5
-            * tb["abgst"]
-            * np.maximum(df["gross_e5_tu"] - 2 * (tb["spsparf"] + tb["spwerbz"]), 0)
-        )
+    ts["abgst"] = abgeltung(df, tb, yr)
     ts["abgst_tu"] = 0
     ts.loc[adult_married, "abgst_tu"] = ts["abgst"][adult_married].sum()
     # drop some vars to avoid duplicates in join. More elegant way would be to modifiy
     # joint command above.
-    ts = ts.drop(columns=["zveranl", "hid", "tu_id"], axis=1)
     # Here, I don't specify exactly the return variables because they may differ
     # by year.
     return ts
+
+
+def abgeltung(df, tb, yr):
+    df_abgelt = pd.DataFrame(index=df.index.copy())
+    df_abgelt["abgst"] = 0
+    if yr >= 2009:
+        df_abgelt.loc[~df["zveranl"], "abgst"] = tb["abgst"] * np.maximum(
+            df["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0
+        )
+        df_abgelt.loc[df["zveranl"], "abgst"] = (
+            0.5
+            * tb["abgst"]
+            * np.maximum(df["gross_e5_tu"] - 2 * (tb["spsparf"] + tb["spwerbz"]), 0)
+        )
+    return df_abgelt["abgst"]
 
 
 def tarif(x, tb):
