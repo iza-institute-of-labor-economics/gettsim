@@ -660,22 +660,26 @@ def kiz(df, tb, yr, hyporun):
     )
 
     kiz["kiz"] = kiz["kiz_temp"]
-    ###############################
-    # Check eligibility for benefits
-    ###############################
-    # transfer some variables...
+    # Transfer some variables for eligibility check
     kiz["ar_base_alg2_ek"] = df["ar_base_alg2_ek"]
-    kiz["wohngeld_basis"] = df["wohngeld_basis_hh"]
+    kiz["wohngeld"] = df["wohngeld_basis_hh"]
+    kiz["n_pens"] = df["pensioner"].sum()
+    kiz["regelbedarf"] = df["regelbedarf"]
+    return check_eligibility(kiz)
 
-    kiz["ar_wg_alg2_ek"] = kiz["ar_base_alg2_ek"] + kiz["wohngeld_basis"]
-    kiz["ar_kiz_alg2_ek"] = kiz["ar_base_alg2_ek"] + kiz["kiz"]
-    kiz["ar_wgkiz_alg2_ek"] = (
-        kiz["ar_base_alg2_ek"] + kiz["wohngeld_basis"] + kiz["kiz"]
+
+def check_eligibility(df_kiz):
+    df_kiz["ar_wg_alg2_ek"] = df_kiz["ar_base_alg2_ek"] + df_kiz["wohngeld"]
+    df_kiz["ar_kiz_alg2_ek"] = df_kiz["ar_base_alg2_ek"] + df_kiz["kiz"]
+    df_kiz["ar_wgkiz_alg2_ek"] = (
+        df_kiz["ar_base_alg2_ek"] + df_kiz["wohngeld"] + df_kiz["kiz"]
     )
 
     for v in ["base", "wg", "kiz", "wgkiz"]:
-        kiz["fehlbedarf_" + v] = df["regelbedarf"] - kiz["ar_" + v + "_alg2_ek"]
-        kiz["m_alg2_" + v] = np.maximum(kiz["fehlbedarf_" + v], 0)
+        df_kiz["fehlbedarf_" + v] = (
+            df_kiz["regelbedarf"] - df_kiz["ar_" + v + "_alg2_ek"]
+        )
+        df_kiz["m_alg2_" + v] = np.maximum(df_kiz["fehlbedarf_" + v], 0)
 
     # There is a rule which benefits are superior to others
     # If there is a positive ALG2 claim, but the need can be covered with
@@ -683,34 +687,39 @@ def kiz(df, tb, yr, hyporun):
     # the HH has to claim the housing benefit and addit. child benefit.
     # There is no way you can receive ALG2 and Wohngeld at the same time!
     for v in ["wg", "kiz", "wgkiz"]:
-        kiz[v + "_vorrang"] = (kiz["m_alg2_" + v] == 0) & (kiz["m_alg2_base"] > 0)
+        df_kiz[v + "_vorrang"] = (df_kiz["m_alg2_" + v] == 0) & (
+            df_kiz["m_alg2_base"] > 0
+        )
 
-    kiz["m_alg2"] = kiz["m_alg2_base"]
+    df_kiz["m_alg2"] = df_kiz["m_alg2_base"]
     # If this is the case set alg2 to zero.
-    kiz.loc[
-        (kiz["wg_vorrang"]) | (kiz["kiz_vorrang"]) | (kiz["wgkiz_vorrang"]), "m_alg2"
+    df_kiz.loc[
+        (df_kiz["wg_vorrang"]) | (df_kiz["kiz_vorrang"]) | (df_kiz["wgkiz_vorrang"]),
+        "m_alg2",
     ] = 0
     # If other benefits are not sufficient, set THEM to zero instead.
-    kiz["wohngeld"] = kiz["wohngeld_basis"]
-    kiz.loc[
-        (~kiz["wg_vorrang"]) & (~kiz["wgkiz_vorrang"]) & (kiz["m_alg2_base"] > 0),
+    df_kiz.loc[
+        (~df_kiz["wg_vorrang"])
+        & (~df_kiz["wgkiz_vorrang"])
+        & (df_kiz["m_alg2_base"] > 0),
         "wohngeld",
     ] = 0
-    kiz.loc[
-        (~kiz["kiz_vorrang"]) & (~kiz["wgkiz_vorrang"]) & (kiz["m_alg2_base"] > 0),
+    df_kiz.loc[
+        (~df_kiz["kiz_vorrang"])
+        & (~df_kiz["wgkiz_vorrang"])
+        & (df_kiz["m_alg2_base"] > 0),
         "kiz",
     ] = 0
 
     # Pensioners do not receive Kiz. They actually do not receive ALGII, too. Instead,
     # they get 'Grundleistung im Alter', which pays the same amount.
-    df["n_pens"] = df.groupby("hid")["pensioner"].transform("sum")
-    for ben in ["kiz", "wg", "m_alg2"]:
-        kiz.loc[df["n_pens"] > 1, ben] = 0
+    for ben in ["kiz", "wohngeld", "m_alg2"]:
+        df_kiz.loc[df_kiz["n_pens"] > 0, ben] = 0
 
-    assert kiz["m_alg2"].notna().all()
-    assert kiz["wohngeld"].notna().all()
-    assert kiz["kiz"].notna().all()
-    return kiz[["kiz", "wohngeld", "m_alg2"]]
+    assert df_kiz["m_alg2"].notna().all()
+    assert df_kiz["wohngeld"].notna().all()
+    assert df_kiz["kiz"].notna().all()
+    return df_kiz[["kiz", "wohngeld", "m_alg2"]]
 
 
 def get_wohnbedarf(yr):
