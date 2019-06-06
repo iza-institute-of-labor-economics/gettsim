@@ -5,7 +5,7 @@ from termcolor import cprint
 
 def tax_sched(df, tb, yr, schedule):
     """Given various forms of income and other state variables, return
-    the different taxes to be paid.
+    the different taxes to be paid before making favourability checks etc..
 
     In particular
 
@@ -16,7 +16,7 @@ def tax_sched(df, tb, yr, schedule):
     """
     cprint("Income Tax...", "red", "on_white")
     # Before 2009, no separate taxation of capital income
-    if (yr >= 2009) or (schedule.__name__ == "tarif_ubi"):
+    if (yr >= 2009):  # or (schedule.__name__ == "tarif_ubi"): FIX THIS! Won't work after decorating things immediately.
         inclist = ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]
     else:
         inclist = ["nokfb", "kfb"]
@@ -26,8 +26,7 @@ def tax_sched(df, tb, yr, schedule):
     # create ts dataframe and copy three important variables
     ts = pd.DataFrame(index=df.index.copy())
     for inc in inclist:
-        ts["tax_" + inc] = np.vectorize(schedule)(df["zve_" + inc], tb)
-        ts["tax_" + inc] = np.fix(ts["tax_" + inc])
+        ts["tax_" + inc] = schedule(df["zve_" + inc], tb)
         ts["tax_{}_tu".format(inc)] = 0
         ts.loc[adult_married, "tax_{}_tu".format(inc)] = ts["tax_{}".format(inc)][
             adult_married
@@ -38,7 +37,7 @@ def tax_sched(df, tb, yr, schedule):
     # drop some vars to avoid duplicates in join. More elegant way would be to modifiy
     # joint command above.
     # Here, I don't specify exactly the return variables because they may differ
-    # by year.
+    # by year. !! FIX THIS !!
     return ts
 
 
@@ -57,6 +56,7 @@ def abgeltung(df, tb, yr):
     return df_abgelt["abgst"]
 
 
+@np.vectorize
 def tarif(x, tb):
     """ The German Income Tax Tariff
     modelled only after 2002 so far

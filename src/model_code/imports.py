@@ -196,6 +196,7 @@ def say_hello(taxyear, ref, hyporun):
     return
 
 
+@np.vectorize
 def tarif_ubi(x, tb):
     """ UBI Tax schedule
         the function is defined here, as defining it in tax_transfer_ubi.py would

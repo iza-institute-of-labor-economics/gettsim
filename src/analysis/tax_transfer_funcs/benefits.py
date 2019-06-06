@@ -34,9 +34,9 @@ def ui(df, tb, taxyear, ref=""):
     # df['east'] = False
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     if ref == "":
-        ui["alg_tax"] = np.vectorize(tarif)(12 * ui["alg_wage"] - tb["werbung"], tb)
+        ui["alg_tax"] = tarif(12 * ui["alg_wage"] - tb["werbung"], tb)
     if ref == "UBI":
-        ui["alg_tax"] = np.vectorize(tarif_ubi)(12 * ui["alg_wage"] - tb["werbung"], tb)
+        ui["alg_tax"] = tarif_ubi(12 * ui["alg_wage"] - tb["werbung"], tb)
 
     ui["alg_soli"] = soli_formula(ui["alg_tax"], tb)
 
