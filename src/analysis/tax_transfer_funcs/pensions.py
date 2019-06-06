@@ -4,7 +4,47 @@ from termcolor import cprint
 from bld.project_paths import project_paths_join as ppj
 
 
-def pensions(df, tb, tb_pens, mw, year, hypo):
+def _ep_for_earnings(df, tb, tb_pens):
+    westost = [~df["east"], df["east"]]
+    return np.select(
+        westost,
+        [
+            np.minimum(df["m_wage"], tb["rvmaxekw"]) / tb_pens["meanwages"],
+            np.minimum(df["m_wage"], tb["rvmaxeko"]) / tb_pens["meanwages"],
+        ],
+    )
+
+
+def _ep_for_care_periods(df, tb, tb_pens):
+    """Return earnings points for care periods."""
+    return 0.0
+
+
+# @numba.jit(nopython=True)
+def update_earnings_points(df, tb, tb_pens):
+    """Given earnings, social security rules, average
+    earnings in a particular year and potentially other
+    variables (e.g., benefits for raising children,
+    informal care), return the new earnings points.
+
+    models 'Rentenformel':
+    https://de.wikipedia.org/wiki/Rentenformel
+    https://de.wikipedia.org/wiki/Rentenanpassungsformel
+
+    """
+
+    out = _ep_for_earnings(df, tb, tb_pens)
+    out += _ep_for_care_periods(df, tb, tb_pens)
+    # Note: We might need some interaction between the two
+    # ways to accumulate earnings points (e.g., how to
+    # determine what constitutes a 'care period')
+
+    return df["EP"] + out
+
+
+
+
+def pensions(df, tb, tb_pens, mw, year):
     """ Old-Age Pensions
 
     models 'Rentenformel':
@@ -18,9 +58,6 @@ def pensions(df, tb, tb_pens, mw, year, hypo):
 
     """
     r = pd.DataFrame(index=df.index.copy())
-    if hypo:
-        r["pensions_sim"] = 0
-        return r["pensions_sim"]
 
     cprint("Pensions", "red", "on_white")
     # mw is only filled until 2016
@@ -43,7 +80,7 @@ def pensions(df, tb, tb_pens, mw, year, hypo):
     r["EP"] = r["avg_ep"] * r["exper"]
     # Add values for current year: ratio of own wage (up to the threshold)
     # to the mean wage
-    r["EP"] = r["EP"] + np.select(
+    r["EP"] += np.select(
         westost,
         [
             np.minimum(df["m_wage"], tb["rvmaxekw"]) / mw["meanwages"][yr],
