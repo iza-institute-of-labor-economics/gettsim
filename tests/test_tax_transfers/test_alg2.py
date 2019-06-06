@@ -4,8 +4,11 @@ from pandas.testing import assert_frame_equal
 from tests.auxiliary_test import load_tax_transfer_input_data as load_input
 from tests.auxiliary_test import load_tax_transfer_output_data as load_output
 from tests.auxiliary_test import load_tb
-from src.analysis.tax_transfer_funcs.benefits import alg2
-
+from src.analysis.tax_transfer_funcs.benefits import (
+    alg2,
+    regelberechnung_until_2010,
+    regelberechnung_2011_and_beyond,
+)
 
 input_cols = [
     "pid",
@@ -45,6 +48,10 @@ def test_alg2(year):
     columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     df = load_input(year, file_name, input_cols)
     tb = load_tb(year)
+    if year <= 2010:
+        tb["calc_regelsatz"] = regelberechnung_until_2010
+    else:
+        tb["calc_regelsatz"] = regelberechnung_2011_and_beyond
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(alg2(df[df["hid"] == hid], tb, year)[columns])

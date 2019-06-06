@@ -69,6 +69,43 @@ def ui(df, tb, taxyear, ref=""):
     return ui["m_alg1"]
 
 
+def regelberechnung_until_2010(alg2, tb):
+    return [
+            tb["rs_hhvor"] * (1 + alg2["mehrbed"])
+            + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
+            + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
+            + (
+                tb["rs_hhvor"]
+                * tb["a2ch0"]
+                * (alg2["child0_2_num"] + alg2["child3_6_num"])
+            ),
+            tb["rs_hhvor"] * tb["a2part"] * (1 + alg2["mehrbed"])
+            + (tb["rs_hhvor"] * tb["a2part"])
+            + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((alg2["adult_num"] - 2), 0))
+            + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
+            + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
+            + (
+                tb["rs_hhvor"]
+                * tb["a2ch0"]
+                * (alg2["child0_2_num"] + alg2["child3_6_num"])
+            ),
+        ]
+
+def regelberechnung_2011_and_beyond(alg2, tb):
+    return [
+            tb["rs_hhvor"] * (1 + alg2["mehrbed"])
+            + (tb["rs_ch14"] * alg2["child14_24_num"])
+            + (tb["rs_ch7"] * alg2["child7_13_num"])
+            + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
+            tb["rs_2adults"] * (1 + alg2["mehrbed"])
+            + tb["rs_2adults"]
+            + (tb["rs_madults"] * np.maximum((alg2["adult_num"] - 2), 0))
+            + (tb["rs_ch14"] * alg2["child14_24_num"])
+            + (tb["rs_ch7"] * alg2["child7_13_num"])
+            + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
+        ]
+
+
 def alg2(df, tb, yr):
     """ Basic Unemployment Benefit / Social Assistance
         Every household is assigend the sum of "needs" (Regelbedarf)
@@ -122,47 +159,9 @@ def alg2(df, tb, yr):
     # 'Regular Need'
     # Different amounts by number of adults and age of kids
     # tb['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
-    if yr <= 2010:
-        # Before 2010, other members' amounts were calculated by a share of the head's
-        # need
-        regelberechnung = [
-            tb["rs_hhvor"] * (1 + alg2["mehrbed"])
-            + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
-            + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
-            + (
-                tb["rs_hhvor"]
-                * tb["a2ch0"]
-                * (alg2["child0_2_num"] + alg2["child3_6_num"])
-            ),
-            tb["rs_hhvor"] * tb["a2part"] * (1 + alg2["mehrbed"])
-            + (tb["rs_hhvor"] * tb["a2part"])
-            + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((alg2["adult_num"] - 2), 0))
-            + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
-            + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
-            + (
-                tb["rs_hhvor"]
-                * tb["a2ch0"]
-                * (alg2["child0_2_num"] + alg2["child3_6_num"])
-            ),
-        ]
-
-    else:
-        # After 2010,
-        regelberechnung = [
-            tb["rs_hhvor"] * (1 + alg2["mehrbed"])
-            + (tb["rs_ch14"] * alg2["child14_24_num"])
-            + (tb["rs_ch7"] * alg2["child7_13_num"])
-            + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
-            tb["rs_2adults"] * (1 + alg2["mehrbed"])
-            + tb["rs_2adults"]
-            + (tb["rs_madults"] * np.maximum((alg2["adult_num"] - 2), 0))
-            + (tb["rs_ch14"] * alg2["child14_24_num"])
-            + (tb["rs_ch7"] * alg2["child7_13_num"])
-            + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
-        ]
 
     alg2["regelsatz"] = np.select(
-        [alg2["adult_num"] == 1, alg2["adult_num"] > 1], regelberechnung
+        [alg2["adult_num"] == 1, alg2["adult_num"] > 1], tb["calc_regelsatz"](alg2, tb)
     )
     """
     print(pd.crosstab(alg2['mehrbed'], df['typ_bud']))
