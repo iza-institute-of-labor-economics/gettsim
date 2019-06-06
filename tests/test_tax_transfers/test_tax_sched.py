@@ -4,7 +4,8 @@ from pandas.testing import assert_frame_equal
 from tests.auxiliary_test import load_tax_transfer_input_data as load_input
 from tests.auxiliary_test import load_tax_transfer_output_data as load_output
 from tests.auxiliary_test import load_tb
-from src.analysis.tax_transfer_funcs.taxes import tax_sched
+from src.analysis.tax_transfer_funcs.taxes import tax_sched, tarif
+from src.model_code.imports import tarif_ubi
 
 
 input_cols = [
@@ -34,7 +35,7 @@ def test_tax_sched(year):
     calculated = pd.DataFrame(columns=columns)
     for tu_id in df["tu_id"].unique():
         calculated = calculated.append(
-            tax_sched(df[df["tu_id"] == tu_id], tb, year)[columns]
+            tax_sched(df[df["tu_id"] == tu_id], tb, year, tarif)[columns]
         )
     expected = load_output(year, file_name, columns)
     assert_frame_equal(

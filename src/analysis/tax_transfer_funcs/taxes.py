@@ -1,16 +1,22 @@
 import numpy as np
 import pandas as pd
-from src.model_code.imports import tarif_ubi
 from termcolor import cprint
 
 
-def tax_sched(df, tb, yr, ref="", hyporun=False):
-    """ Applies the income tax tariff for various definitions of taxable income
-        also calculates tax on capital income (Abgeltungssteuer)
+def tax_sched(df, tb, yr, schedule):
+    """Given various forms of income and other state variables, return
+    the different taxes to be paid.
+
+    In particular
+
+        * Income tax (Einkommensteuer)
+        * Solidarity Surcharge (Solidaritätszuschlag)
+        * Capital income tax (Abgeltungssteuer)
+
     """
     cprint("Income Tax...", "red", "on_white")
     # Before 2009, no separate taxation of capital income
-    if (yr >= 2009) or (ref == "UBI"):
+    if (yr >= 2009) or (schedule.__name__ == "tarif_ubi"):
         inclist = ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]
     else:
         inclist = ["nokfb", "kfb"]
@@ -20,13 +26,8 @@ def tax_sched(df, tb, yr, ref="", hyporun=False):
     # create ts dataframe and copy three important variables
     ts = pd.DataFrame(index=df.index.copy())
     for inc in inclist:
-        if ref == "UBI":
-            ts["tax_" + inc] = np.vectorize(tarif_ubi)(df["zve_" + inc], tb)
-        else:
-            ts["tax_" + inc] = np.vectorize(tarif)(df["zve_" + inc], tb)
-
-        if not hyporun:
-            ts["tax_" + inc] = np.fix(ts["tax_" + inc])
+        ts["tax_" + inc] = np.vectorize(schedule)(df["zve_" + inc], tb)
+        ts["tax_" + inc] = np.fix(ts["tax_" + inc])
         ts["tax_{}_tu".format(inc)] = 0
         ts.loc[adult_married, "tax_{}_tu".format(inc)] = ts["tax_{}".format(inc)][
             adult_married
