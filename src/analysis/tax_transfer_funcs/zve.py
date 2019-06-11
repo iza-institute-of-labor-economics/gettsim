@@ -4,7 +4,7 @@ from termcolor import cprint
 
 
 # @jit(nopython=True)
-def zve(df, tb, yr, hyporun, ref=""):
+def zve(df, tb):
     """Calculate taxable income (zve = zu versteuerndes Einkommen)
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
@@ -15,7 +15,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     cprint("Calculate Taxable Income...", "red", "on_white")
     pd.options.mode.chained_assignment = "raise"
     # Kapitaleinkommen im Tarif versteuern oder nicht?
-    kapinc_in_tarif = yr < 2009
+    kapinc_in_tarif = tb['yr'] < 2009
     westost = [~df["east"], df["east"]]
     adult_married = ~df["child"] & df["zveranl"]
     # married = [df['zveranl'], ~df['zveranl']]
@@ -63,8 +63,8 @@ def zve(df, tb, yr, hyporun, ref=""):
     # Sum of incomes
     zve["gross_gde"] = zve[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
     # Add UBI to taxable income
-    if ref == "UBI":
-        zve.loc[:, "gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
+    #if ref == "UBI":
+    #    zve.loc[:, "gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
 
     # If capital income tax with tariff, add it but account for exemptions
     if kapinc_in_tarif:
@@ -114,7 +114,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
     # TODO: check various deductions against each other (when modelled)
-    zve["vorsorge"] = vorsorge2010(df, tb, yr, hyporun)
+    zve["vorsorge"] = vorsorge2010(df, tb)
     # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve["altfreib"] = 0
@@ -133,12 +133,7 @@ def zve(df, tb, yr, hyporun, ref=""):
     # Since 2015, it increases with number of children.
     # Used to be called 'Haushaltsfreibetrag'
     zve["hhfreib"] = 0
-    if yr < 2015:
-        zve.loc[df["alleinerz"], "hhfreib"] = tb["hhfreib"]
-    else:
-        zve.loc[df["alleinerz"], "hhfreib"] = tb["hhfreib"] + (
-            (df["child_num_tu"] - 1) * tb["hhfreib_ch"]
-        )
+    zve.loc[df["alleinerz"], "hhfreib"] = tb["calc_hhfreib"](df, tb)
 
     # Taxable income (zve)
     # For married couples, household income is split between the two.
@@ -242,7 +237,6 @@ def zve(df, tb, yr, hyporun, ref=""):
         zve["zve_" + incdef + "_tu"] = zve["zve_" + incdef][adult_married].sum()
         zve.loc[adult_married, "zve_" + incdef] = 0.5 * zve["zve_" + incdef + "_tu"]
 
-    #    if not hyporun:
     #        print("Sum of gross income: {} bn €".format(
     #                    (zve['gross_gde'] * df['pweight']).sum()/1e9
     #                )
@@ -274,10 +268,9 @@ def zve(df, tb, yr, hyporun, ref=""):
     ]
 
 
-def vorsorge2010(df, tb, yr, hyporun):
-    """
-        'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
-        from your taxable income
+def vorsorge2010(df, tb):
+    """'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
+        from your taxable income.
         This regulation has been changed often in recent years. In order not to make
         anyone worse off, the old regulation was maintained. Nowadays the older
         regulations don't play a large role (i.e. the new one is more beneficial most of
@@ -302,7 +295,7 @@ def vorsorge2010(df, tb, yr, hyporun):
     # then subtract employer contributions
     # also subtract health + care + unemployment insurance contributions
     altersvors2010 = ~df["child"] * (
-        (0.6 + 0.02 * (np.minimum(yr, 2025) - 2005)) * (12 * rvbeit_vors)
+        (0.6 + 0.02 * (np.minimum(tb['yr'], 2025) - 2005)) * (12 * rvbeit_vors)
         - (12 * 0.5 * rvbeit_vors)
     )
     # These you get anyway ('Basisvorsorge').
@@ -313,9 +306,12 @@ def vorsorge2010(df, tb, yr, hyporun):
         np.minimum(sonstigevors2010 + 12 * df["avbeit"], tb["vors_sonst_max"]),
     )
 
-    if hyporun:
-        vorsorge2010 = altersvors2010 + sonstigevors2010
-    else:
-        vorsorge2010 = np.fix(altersvors2010) + np.fix(sonstigevors2010)
+    vorsorge2010 = altersvors2010 + sonstigevors2010
 
     return vorsorge2010
+
+def calc_hhfreib_until2014(df, tb):
+    return tb["hhfreib"]
+
+def calc_hhfreib_from2015(df, tb):
+    return tb["hhfreib"] + ((df["child_num_tu"] - 1) * tb["hhfreib_ch"])
