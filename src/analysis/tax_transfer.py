@@ -115,8 +115,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
     # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
     df = df.join(other=zve(df[taxvars], tb, taxyear, hyporun), how="inner")
 
-    # print(df[['typ_bud', 'y_wage', 'zve_nokfb']][df['y_wage'].between(64000, 70000)])
-    # 5.2 Apply Tax Schedule
+    # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
     df = df.join(other=tax_sched(df, tb, taxyear, hyporun), how="inner")
 
     # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
@@ -135,7 +134,7 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
         df[var] = temp[var]
 
     # 5.5 Solidarity Surcharge
-    df = df.join(other=soli(df, tb, taxyear), how="inner")
+    # df = df.join(other=soli(df, tb, taxyear), how="inner")
 
     # 6. SOCIAL TRANSFERS / BENEFITS
     # 6.0.1 Alimony Advance (Unterhaltsvorschuss)

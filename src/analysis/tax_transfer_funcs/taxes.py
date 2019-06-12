@@ -1,9 +1,8 @@
 import numpy as np
 import pandas as pd
-from termcolor import cprint
 
 
-def tax_sched(df, tb, yr, schedule):
+def tax_sched(df, tb):
     """Given various forms of income and other state variables, return
     the different taxes to be paid before making favourability checks etc..
 
@@ -14,38 +13,57 @@ def tax_sched(df, tb, yr, schedule):
         * Capital income tax (Abgeltungssteuer)
 
     """
-    cprint("Income Tax...", "red", "on_white")
-    # Before 2009, no separate taxation of capital income
-    # or (schedule.__name__ == "tarif_ubi"): FIX THIS! Won't work after decorating things immediately.
-    if yr >= 2009:
-        inclist = ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]
-    else:
-        inclist = ["nokfb", "kfb"]
 
     adult_married = (~df["child"]) & (df["zveranl"])
-    cprint("Tax Schedule...", "red", "on_white")
     # create ts dataframe and copy three important variables
     ts = pd.DataFrame(index=df.index.copy())
-    for inc in inclist:
-        ts["tax_" + inc] = schedule(df["zve_" + inc], tb)
-        ts["tax_{}_tu".format(inc)] = 0
+    for inc in tb["zve_list"]:
+        ts["tax_" + inc] = tb["tax_schedule"](df["zve_" + inc], tb)
+        ts["tax_{}_tu".format(inc)] = ts["tax_{}".format(inc)]
         ts.loc[adult_married, "tax_{}_tu".format(inc)] = ts["tax_{}".format(inc)][
             adult_married
         ].sum()
-    ts["abgst"] = abgeltung(df, tb, yr)
+
+    # Abgeltungssteuer
+    ts["abgst"] = abgeltung(df, tb)
     ts["abgst_tu"] = 0
     ts.loc[adult_married, "abgst_tu"] = ts["abgst"][adult_married].sum()
-    # drop some vars to avoid duplicates in join. More elegant way would be to modifiy
-    # joint command above.
-    # Here, I don't specify exactly the return variables because they may differ
-    # by year. !! FIX THIS !!
-    return ts
+
+    """Solidarity Surcharge. on top of the income tax and capital income tax.
+    No Soli if income tax due is below € 920 (solifreigrenze)
+    Then it increases with 0.2 marginal rate until 5.5% (solisatz)
+    of the incometax is reached.
+    As opposed to the 'standard' income tax,
+    child allowance is always deducted for soli calculation
+    """
+
+    if tb["yr"] >= 1991:
+        ts["solibasis"] = ts["tax_kfb_tu"] + ts["abgst_tu"]
+        # Soli also in monthly terms. only for adults
+        ts["soli_tu"] = soli_formula(ts["solibasis"], tb) * ~df["child"] * (1 / 12)
+    else:
+        ts["soli_tu"] = 0
+
+    # Assign Soli to individuals
+    ts["soli"] = np.select(
+        [df["zveranl"], ~df["zveranl"]], [ts["soli_tu"] / 2, ts["soli_tu"]]
+    )
+    print(df["tu_id"])
+    print(ts[["tax_kfb_tu", "tax_kfb", "soli", "solibasis", "tax_kfb_tu"]])
+    return ts[
+        ["tax_{}".format(inc) for inc in tb["zve_list"]]
+        + ["tax_{}_tu".format(inc) for inc in tb["zve_list"]]
+        + ["abgst_tu", "abgst", "soli", "soli_tu"]
+    ]
 
 
-def abgeltung(df, tb, yr):
+def abgeltung(df, tb):
+    """ Capital Income Tax / Abgeltungsteuer
+        since 2009, captial income is taxed with a flatrate of 25%.
+    """
     df_abgelt = pd.DataFrame(index=df.index.copy())
     df_abgelt["abgst"] = 0
-    if yr >= 2009:
+    if tb["yr"] >= 2009:
         df_abgelt.loc[~df["zveranl"], "abgst"] = tb["abgst"] * np.maximum(
             df["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0
         )
@@ -70,8 +88,7 @@ def tarif(x, tb):
         x (float): taxable income
         tb (dict): tax-benefit parameters specific to year and reform
     """
-    y = int(tb["yr"])
-    if y < 2002:
+    if tb["yr"] < 2002:
         raise ValueError("Income Tax Pre 2002 not yet modelled!")
     else:
         t = 0.0
@@ -98,41 +115,6 @@ def tarif(x, tb):
         # t = int(t)
         assert t >= 0
     return t
-
-
-def soli(df, tb, yr, ref=""):
-    """ Solidarity Surcharge ('soli')
-        on top of the income tax and capital income tax.
-        No Soli if income tax due is below € 920 (solifreigrenze)
-        Then it increases with 0.2 marginal rate until 5.5% (solisatz)
-        of the incometax is reached.
-        As opposed to the 'standard' income tax,
-        child allowance is always deducted for soli calculation
-    """
-
-    soli = pd.DataFrame(index=df.index.copy())
-    soli["tu_id"] = df["tu_id"]
-    soli["hid"] = df["hid"]
-    soli["pid"] = df["pid"]
-
-    cprint("Solidarity Surcharge...", "red", "on_white")
-
-    if yr >= 1991:
-        if yr >= 2009:
-            soli["solibasis"] = df["tax_kfb_tu"] + df["abgst_tu"]
-        else:
-            soli["solibasis"] = df["tax_abg_kfb_tu"]
-        # Soli also in monthly terms. only for adults
-        soli["soli_tu"] = soli_formula(soli["solibasis"], tb) * ~df["child"] * (1 / 12)
-
-    # Assign income Tax + Soli to individuals
-    soli["incometax"] = np.select(
-        [df["zveranl"], ~df["zveranl"]], [df["incometax_tu"] / 2, df["incometax_tu"]]
-    )
-    soli["soli"] = np.select(
-        [df["zveranl"], ~df["zveranl"]], [soli["soli_tu"] / 2, soli["soli_tu"]]
-    )
-    return soli[["incometax", "soli", "soli_tu"]]
 
 
 def soli_formula(solibasis, tb):
@@ -167,8 +149,6 @@ def favorability_check(df, tb, yr):
     fc["pid"] = df["pid"]
     fc["kindergeld"] = df["kindergeld_basis"]
     fc["kindergeld_tu"] = df["kindergeld_tu_basis"]
-
-    cprint("Günstigerprüfung...", "red", "on_white")
     if yr < 2009:
         inclist = ["nokfb", "kfb"]
     else:
@@ -238,6 +218,10 @@ def favorability_check(df, tb, yr):
 
     # Aggregate Child benefit on the household.
     fc["kindergeld_hh"] = fc["kindergeld"].sum()
+    # Assign Income tax to individuals
+    fc["incometax"] = np.select(
+        [df["zveranl"], ~df["zveranl"]], [fc["incometax_tu"] / 2, fc["incometax_tu"]]
+    )
 
     # Control output
     # df.to_excel(
@@ -291,7 +275,15 @@ def favorability_check(df, tb, yr):
     #     freeze_panes=(0, 1),
     # )
     return fc[
-        ["hid", "pid", "incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
+        [
+            "hid",
+            "pid",
+            "incometax_tu",
+            "incometax",
+            "kindergeld",
+            "kindergeld_hh",
+            "kindergeld_tu",
+        ]
     ]
 
 
@@ -327,9 +319,12 @@ def kg_eligibility_hours(df, tb):
     """
     df = df.copy()
     df["eligible"] = df["age"] <= 18
-    df.loc[(df["age"].between(19,tb["kgage"])) &
-           df["ineducation"] &
-           (df["w_hours"] <= 20), "eligible"] = True
+    df.loc[
+        (df["age"].between(19, tb["kgage"]))
+        & df["ineducation"]
+        & (df["w_hours"] <= 20),
+        "eligible",
+    ] = True
 
     return df["eligible"]
 
@@ -339,8 +334,11 @@ def kg_eligibility_wage(df, tb):
     """
     df = df.copy()
     df["eligible"] = df["age"] <= 18
-    df.loc[(df["age"].between(19,tb["kgage"])) &
-           df["ineducation"] &
-           (df["m_wage"] <= tb["kgfreib"] / 12), "eligible"] = True
+    df.loc[
+        (df["age"].between(19, tb["kgage"]))
+        & df["ineducation"]
+        & (df["m_wage"] <= tb["kgfreib"] / 12),
+        "eligible",
+    ] = True
 
     return df["eligible"]

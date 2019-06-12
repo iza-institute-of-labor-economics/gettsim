@@ -46,7 +46,7 @@ years = [2005, 2009, 2010, 2012, 2018]
 @pytest.mark.parametrize("year", years)
 def test_zve(year):
     file_name = "test_dfs_zve.xlsx"
-    columns = ["zve_nokfb", "zve_kfb", "zve_abg_nokfb", "zve_abg_kfb"]
+    columns = ["zve_nokfb", "zve_kfb"]
     df = load_input(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
