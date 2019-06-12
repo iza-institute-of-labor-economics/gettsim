@@ -16,7 +16,8 @@ def tax_sched(df, tb, yr, schedule):
     """
     cprint("Income Tax...", "red", "on_white")
     # Before 2009, no separate taxation of capital income
-    if (yr >= 2009):  # or (schedule.__name__ == "tarif_ubi"): FIX THIS! Won't work after decorating things immediately.
+    # or (schedule.__name__ == "tarif_ubi"): FIX THIS! Won't work after decorating things immediately.
+    if yr >= 2009:
         inclist = ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]
     else:
         inclist = ["nokfb", "kfb"]
@@ -294,9 +295,12 @@ def favorability_check(df, tb, yr):
     ]
 
 
-def kindergeld(df, tb, yr, ref=""):
+def kindergeld(df, tb):
     """ Child Benefit (kindergeld)
-    Basic Amount for each child, hours restriction applies
+    Basic Amount for each child. Parents receive child benefit for every child up to 18 years.
+    Above, they get it only up to tb["kgage"] if the child is
+    a) in eduacation and
+    b) not working too much / not receiving too much income (depending on the year)
 
     Returns:
         pd.series:
@@ -305,20 +309,8 @@ def kindergeld(df, tb, yr, ref=""):
     """
     kg = pd.DataFrame(index=df.index.copy())
     kg["tu_id"] = df["tu_id"]
-    kg["eligible"] = 1
-    if yr > 2011:
-        kg["eligible"] = kg["eligible"].where(
-            (df["age"] <= tb["kgage"]) & (df["w_hours"] <= 20) & (df["ineducation"]), 0
-        )
-    else:
-        kg["eligible"] = kg["eligible"].where(
-            (df["age"] <= tb["kgage"])
-            & (df["m_wage"] <= tb["kgfreib"] / 12)
-            & (df["ineducation"]),
-            0,
-        )
 
-    kg["child_count"] = kg.groupby(["tu_id"])["eligible"].cumsum()
+    kg["child_count"] = tb["childben_elig_rule"](df, tb).cumsum()
 
     kg_amounts = {1: tb["kgeld1"], 2: tb["kgeld2"], 3: tb["kgeld3"], 4: tb["kgeld4"]}
     kg["kindergeld_basis"] = kg["child_count"].replace(kg_amounts)
@@ -328,3 +320,27 @@ def kindergeld(df, tb, yr, ref=""):
     # kg.drop(['child_count', 'eligible', 'kindergeld'], axis=1, inplace=True)
 
     return kg[["kindergeld_basis", "kindergeld_tu_basis"]]
+
+
+def kg_eligibility_hours(df, tb):
+    """ Nowadays, kids must not work more than 20 hour
+    """
+    df = df.copy()
+    df["eligible"] = df["age"] <= 18
+    df.loc[(df["age"].between(19,tb["kgage"])) &
+           df["ineducation"] &
+           (df["w_hours"] <= 20), "eligible"] = True
+
+    return df["eligible"]
+
+
+def kg_eligibility_wage(df, tb):
+    """ Before 2011, there was an income ceiling for children
+    """
+    df = df.copy()
+    df["eligible"] = df["age"] <= 18
+    df.loc[(df["age"].between(19,tb["kgage"])) &
+           df["ineducation"] &
+           (df["m_wage"] <= tb["kgfreib"] / 12), "eligible"] = True
+
+    return df["eligible"]

@@ -1,7 +1,12 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from src.analysis.tax_transfer_funcs.taxes import kindergeld
+from tests.auxiliary_test import load_tb
+from src.analysis.tax_transfer_funcs.taxes import (
+    kindergeld,
+    kg_eligibility_wage,
+    kg_eligibility_hours,
+)
 
 
 def child_benefit_standard_df():
@@ -21,7 +26,7 @@ def child_benefit_standard_df():
 
 def child_benefit_many_children_df():
     df = pd.DataFrame()
-    df["tu_id"] = [0] * 6
+    df["tu_id"] = [5] * 6
     df["age"] = [1, 2, 3, 4, 5, 6]
     df["ineducation"] = [True] * 6
     df["w_hours"] = [0] * 6
@@ -42,29 +47,26 @@ def child_benefit_eligibility_conditions():
 
 
 to_test = [
-    (child_benefit_standard_df(), 2011, 570),
-    (child_benefit_standard_df(), 2002, 570),
-    (child_benefit_many_children_df(), 2011, 1227),
-    (child_benefit_many_children_df(), 2001, 1227),
-    (child_benefit_eligibility_conditions(), 2013, 188),
-    (child_benefit_eligibility_conditions(), 2000, 188),
+    (child_benefit_standard_df(), 2019, 588),
+    (child_benefit_standard_df(), 2002, 462),
+    (child_benefit_many_children_df(), 2011, 1203),
+    (child_benefit_many_children_df(), 2001, 966),
+    (child_benefit_eligibility_conditions(), 2013, 558),
+    (child_benefit_eligibility_conditions(), 2000, 429),
 ]
 
 
 @pytest.mark.parametrize("df, yr, res", to_test)
 def test_kindergeld(df, yr, res):
-    tb = {
-        "kgeld1": 188,
-        "kgeld2": 188,
-        "kgeld3": 194,
-        "kgeld4": 219,
-        "kgage": 25,
-        "kgfreib": 7680,
-    }
+    tb = load_tb(yr)
+    if yr > 2011:
+        tb["childben_elig_rule"] = kg_eligibility_hours
+    else:
+        tb["childben_elig_rule"] = kg_eligibility_wage
 
     actual = pd.DataFrame(index=df["tu_id"], columns=["kindergeld_tu_basis"])
     for tu_id in df["tu_id"].unique():
-        actual_tu = kindergeld(df[df["tu_id"] == tu_id], tb, yr)
+        actual_tu = kindergeld(df[df["tu_id"] == tu_id], tb)
         actual.loc[tu_id, "kindergeld_tu_basis"] = actual_tu["kindergeld_tu_basis"]
     expected = pd.Series(data=res, index=actual.index, name="kindergeld_tu_basis")
 

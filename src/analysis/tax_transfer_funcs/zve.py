@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from termcolor import cprint
+from src.analysis.tax_transfer_funcs.taxes import kg_eligibility_wage, kg_eligibility_hours
 
 
 # @jit(nopython=True)
@@ -176,8 +177,12 @@ def zve(df, tb):
     # TODO: Check whether this is correct for non-married couples
 
     zve["kifreib"] = 0
+    # Count number of children eligible for Child Benefit.
+    # Child allowance is only received for these kids.
+    zve["child_num_kg"] = tb["childben_elig_rule"](df, tb).sum()
+
     zve.loc[~zve["zveranl"] & ~df["child"], "kifreib"] = (
-        0.5 * tb["kifreib"] * df["child_num_tu"]
+        0.5 * tb["kifreib"] * zve["child_num_kg"]
     )
     # For married couples, things are more complicated
     # Find out who has higher and lower zve among partners
@@ -196,13 +201,13 @@ def zve(df, tb):
     # the difference of the lower value to the child allowance is what the first earner
     # can claim.
     zve["diff_kifreib"] = zve["zve_nokfb_lower"] - (
-        0.5 * tb["kifreib"] * df["child_num_tu"]
+        0.5 * tb["kifreib"] * zve["child_num_kg"]
     )
 
     # For the first earner, subtract half the amount first.
     zve.loc[
         (zve["zve_nokfb"] == zve["zve_nokfb_higher"]) & zve["zveranl"], "kifreib"
-    ] = (0.5 * tb["kifreib"] * df["child_num_tu"])
+    ] = (0.5 * tb["kifreib"] * zve["child_num_kg"])
     # Then subtract also the amount transferred from the second earner.
     zve.loc[
         (zve["zve_nokfb"] == zve["zve_nokfb_higher"])
@@ -216,7 +221,7 @@ def zve(df, tb):
         & zve["zveranl"]
         & (zve["diff_kifreib"] < 0),
         "kifreib",
-    ] = 0.5 * tb["kifreib"] * df["child_num_tu"] - abs(zve["diff_kifreib"])
+    ] = 0.5 * tb["kifreib"] * zve["child_num_kg"] - abs(zve["diff_kifreib"])
 
     # If the second earner earns enough, deduct half the amount also for him/her
     zve.loc[
@@ -224,7 +229,7 @@ def zve(df, tb):
         & zve["zveranl"]
         & (zve["diff_kifreib"] >= 0),
         "kifreib",
-    ] = (0.5 * tb["kifreib"] * df["child_num_tu"])
+    ] = (0.5 * tb["kifreib"] * zve["child_num_kg"])
 
     # Finally, Subtract (corrected) Child allowance
     zve.loc[~df["child"], "zve_kfb"] = np.maximum(zve["zve_nokfb"] - zve["kifreib"], 0)
