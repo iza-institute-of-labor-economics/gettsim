@@ -138,10 +138,8 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
 
     # 6. SOCIAL TRANSFERS / BENEFITS
     # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
-    if taxyear >= 2017:
-        df["uhv"] = uhv(df, tb, taxyear)
-    else:
-        df["uhv"] = 0
+    df["uhv"] = uhv(df, tb, taxyear)
+
 
     # 6.1. Wohngeld, Housing Benefit
     # TODO: rename wohngeld ('wohngeld_basis') until final check.

@@ -5,7 +5,7 @@ from termcolor import cprint
 from src.analysis.tax_transfer_funcs.taxes import soli_formula, tarif
 
 
-def ui(df, tb, taxyear, ref=""):
+def ui(df, tb):
     """Return the Unemployment Benefit based on
     employment status and income from previous years.
 
@@ -33,10 +33,7 @@ def ui(df, tb, taxyear, ref=""):
     # assume west germany for this particular calculation
     # df['east'] = False
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    if ref == "":
-        ui["alg_tax"] = tarif(12 * ui["alg_wage"] - tb["werbung"], tb)
-    if ref == "UBI":
-        ui["alg_tax"] = tarif_ubi(12 * ui["alg_wage"] - tb["werbung"], tb)
+    ui["alg_tax"] = tb["tax_schedule"](12 * ui["alg_wage"] - tb["werbung"], tb)
 
     ui["alg_soli"] = soli_formula(ui["alg_tax"], tb)
 
@@ -499,7 +496,7 @@ def wg(df, tb, yr, hyporun):
     return wg[["wohngeld_basis", "wohngeld_basis_hh", "gkvbeit_tu_k", "rvbeit_tu_k"]]
 
 
-def uhv(df, tb, taxyear):
+def uhv(df, tb):
     """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
 
     In Germany, Single Parents get alimony payments for themselves and for their child
@@ -513,7 +510,6 @@ def uhv(df, tb, taxyear):
     returns:
         uhv (pd.Series): Alimony Payment on individual level
     """
-    cprint("Unterhaltsvorschuss...", "red", "on_white")
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
     # Calculate them on the level of the tax unit
     uhv = pd.DataFrame(index=df.index.copy())
@@ -521,7 +517,6 @@ def uhv(df, tb, taxyear):
     uhv["zveranl"] = df["zveranl"]
 
     uhv["uhv"] = 0
-
     # Amounts depend on age
     uhv.loc[df["age"].between(0, 5) & df["alleinerz"]] = tb["uhv5"]
     uhv.loc[df["age"].between(6, 11) & df["alleinerz"]] = tb["uhv11"]
@@ -544,8 +539,10 @@ def uhv(df, tb, taxyear):
         "uhv",
     ] = tb["uhv17"]
     # TODO: Check against actual transfers
-
-    return uhv["uhv"]
+    if tb["yr"] >= 2017:
+        return uhv["uhv"]
+    else:
+        return 0
 
 
 def kiz(df, tb, yr, hyporun):
