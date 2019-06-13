@@ -133,7 +133,7 @@ def soli_formula(solibasis, tb):
     return soli
 
 
-def favorability_check(df, tb, yr):
+def favorability_check(df, tb):
     """ 'Higher-Yield Tepst'
         compares the tax burden that results from various definitions of the tax base
         Most importantly, it compares the tax burden without applying the child
@@ -149,16 +149,8 @@ def favorability_check(df, tb, yr):
     fc["pid"] = df["pid"]
     fc["kindergeld"] = df["kindergeld_basis"]
     fc["kindergeld_tu"] = df["kindergeld_tu_basis"]
-    if yr < 2009:
-        inclist = ["nokfb", "kfb"]
-    else:
-        inclist = ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]
-    """
-    df = df.sort_values(by=['hid', 'tu_id', 'pid'])
-    df[['hid', 'tu_id', 'child', 'tax_nokfb_tu', 'tax_kfb_tu',
-        'kindergeld_basis' ,'kindergeld_tu_basis']].to_excel('Z:/test/fav_check.xlsx')
-    """
-    for inc in inclist:
+
+    for inc in tb["zve_list"]:
         # Nettax is defined on the maximum within the tax unit.
         # Reason: This way, kids get assigned the tax payments of their parents,
         # ensuring correct treatment afterwards
@@ -176,17 +168,17 @@ def favorability_check(df, tb, yr):
             fc["nettax_" + inc] = fc["nettax_" + inc] + df["abgst_tu"]
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
-        if ("nokfb" in inc) | (yr <= 1996):
+        if ("nokfb" in inc) | (tb["yr"] <= 1996):
             fc["nettax_" + inc] = fc["nettax_" + inc] - (12 * df["kindergeld_tu_basis"])
     # get the maximum income, i.e. the minimum payment burden
     fc["minpay"] = fc.filter(regex="nettax").min(axis=1)
     # relevant tax base. not really needed...
     # fc['tax_income'] = 0
-    # relevant incometax associated with this tax base
+    # relevant incometax
     fc["incometax_tu"] = 0
     # secures that every tax unit gets 'treated'
     fc["abgehakt"] = False
-    for inc in inclist:
+    for inc in tb["zve_list"]:
         """
         fc.loc[(fc['minpay'] == fc['nettax_' + inc])
                & (~fc['abgehakt'])
@@ -199,7 +191,7 @@ def favorability_check(df, tb, yr):
             "incometax_tu",
         ] = (df["tax_" + inc + "_tu"] / 12)
         # set kindergeld to zero if necessary.
-        if (not ("nokfb" in inc)) | (yr <= 1996):
+        if (not ("nokfb" in inc)) | (tb["yr"] <= 1996):
             fc.loc[
                 (fc["minpay"] == fc["nettax_" + inc]) & (~fc["abgehakt"]), "kindergeld"
             ] = 0
@@ -223,57 +215,7 @@ def favorability_check(df, tb, yr):
         [df["zveranl"], ~df["zveranl"]], [fc["incometax_tu"] / 2, fc["incometax_tu"]]
     )
 
-    # Control output
-    # df.to_excel(
-    #     pd.ExcelWriter(data_path + "check_güsntiger.xlsx"),
-    #     sheet_name="py_out",
-    #     columns=[
-    #         "tu_id",
-    #         "child",
-    #         "zveranl",
-    #         "minpay",
-    #         "incometax",
-    #         "abgehakt",
-    #         "nettax_abg_kfb_tu",
-    #         "zve_abg_kfb_tu",
-    #         "tax_abg_kfb_tu",
-    #         "nettax_abg_kfb_tu",
-    #         "zve_abg_kfb_tu",
-    #         "tax_abg_kfb_tu",
-    #         "nettax_abg_kfb_tu",
-    #         "zve_abg_kfb_tu",
-    #         "tax_abg_kfb_tu",
-    #         "nettax_abg_kfb_tu",
-    #         "zve_abg_kfb_tu",
-    #         "tax_abg_kfb_tu",
-    #     ],
-    #     na_rep="NaN",
-    #     freeze_panes=(0, 1),
-    # )
-    # pd.to_pickle(df, data_path + ref + "/taxben_check")
-    # df.to_excel(
-    #     pd.ExcelWriter(data_path + "check_tax_incomes.xlsx"),
-    #     sheet_name="py_out",
-    #     columns=[
-    #         "hid",
-    #         "pid",
-    #         "age",
-    #         "female",
-    #         "child",
-    #         "zve_nokfb",
-    #         "zve_kfb",
-    #         "tax_nokfb",
-    #         "tax_kfb",
-    #         "gross_e1",
-    #         "gross_e4",
-    #         "gross_e5",
-    #         "gross_e6",
-    #         "gross_e7",
-    #         "gross_gde",
-    #     ],
-    #     na_rep="NaN",
-    #     freeze_panes=(0, 1),
-    # )
+
     return fc[
         [
             "hid",

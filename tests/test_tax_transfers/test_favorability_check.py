@@ -14,9 +14,7 @@ input_cols = [
     "zveranl",
     "child",
     "tax_nokfb_tu",
-    "tax_abg_nokfb_tu",
     "tax_kfb_tu",
-    "tax_abg_kfb_tu",
     "abgst_tu",
     "kindergeld_basis",
     "kindergeld_tu_basis",
@@ -33,10 +31,12 @@ def test_favorability_check(year, column):
     file_name = "test_dfs_favorability_check.xlsx"
     df = load_input(year, file_name, input_cols)
     tb = {}
+    tb["zve_list"] = ["nokfb", "kfb"]
+    tb["yr"] = year
     calculated = pd.Series(name=column)
     for tu_id in df["tu_id"].unique():
         calculated = calculated.append(
-            favorability_check(df[df["tu_id"] == tu_id], tb, year)[column]
+            favorability_check(df[df["tu_id"] == tu_id], tb)[column]
         )
     expected = load_output(year, file_name, column)
     print(calculated.to_frame(), "\n")
