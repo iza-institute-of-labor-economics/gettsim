@@ -309,8 +309,6 @@ def kindergeld(df, tb):
     kg.loc[kg["child_count"] > 4, "kindergeld_basis"] = tb["kgeld4"]
     kg["kindergeld_tu_basis"] = kg.groupby("tu_id")["kindergeld_basis"].transform(sum)
 
-    # kg.drop(['child_count', 'eligible', 'kindergeld'], axis=1, inplace=True)
-
     return kg[["kindergeld_basis", "kindergeld_tu_basis"]]
 
 
