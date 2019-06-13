@@ -2,7 +2,12 @@ import numpy as np
 import pandas as pd
 from src.model_code.imports import aggr, tarif_ubi
 from termcolor import cprint
-from src.analysis.tax_transfer_funcs.taxes import soli_formula, tarif
+from src.analysis.tax_transfer_funcs.taxes import (
+        soli_formula,
+        tarif,
+        kg_eligibility_wage,
+        kg_eligibility_hours,
+)
 
 
 def ui(df, tb):
@@ -103,7 +108,7 @@ def regelberechnung_2011_and_beyond(alg2, tb):
         ]
 
 
-def alg2(df, tb, yr):
+def alg2(df, tb):
     """ Basic Unemployment Benefit / Social Assistance
         Every household is assigend the sum of "needs" (Regelbedarf)
         These depend on the household composition (# of adults, kids in various age
@@ -111,8 +116,6 @@ def alg2(df, tb, yr):
         parents. Income and wealth is tested for, the transfer withdrawal rate is
         non-constant.
     """
-    cprint("ALG 2...", "red", "on_white")
-
     alg2 = pd.DataFrame(index=df.index.copy())
     alg2["hid"] = df["hid"]
     alg2["tu_id"] = df["tu_id"]
@@ -138,7 +141,7 @@ def alg2(df, tb, yr):
     alg2 = alg2.rename(columns={"tu_id_sum": "hhsize_tu"})
     alg2["child_num"] = df["child"].sum()
     alg2["adult_num"] = alg2["hhsize"] - alg2["child_num"]
-    alg2["byear"] = yr - df["age"]
+    alg2["byear"] = tb["yr"] - df["age"]
 
     # Additional need for single parents
     # Maximum 60% of the standard amount on top (a2zu2)
@@ -197,9 +200,7 @@ def alg2(df, tb, yr):
     )
     alg2.loc[(alg2["byear"] < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
     # sum over individuals
-    alg2 = alg2.join(
-        alg2.groupby(["hid"])["ind_freib"].sum(), on=["hid"], how="left", rsuffix="_hh"
-    )
+    alg2["ind_freib_hh"] = alg2["ind_freib"].sum()
 
     # there is an overall maximum exemption
     alg2["maxvermfb"] = 0
@@ -207,9 +208,8 @@ def alg2(df, tb, yr):
     alg2.loc[(alg2["byear"].between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
     alg2.loc[(alg2["byear"].between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
     alg2.loc[(alg2["byear"] >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
-    alg2 = alg2.join(
-        alg2.groupby(["hid"])["maxvermfb"].sum(), on=["hid"], how="left", rsuffix="_hh"
-    )
+    alg2["maxvermfb_hh"] = alg2["maxvermfb"].sum()
+
     # add fixed amounts per child and adult
     alg2["vermfreibetr"] = np.minimum(
         alg2["maxvermfb_hh"],
@@ -535,7 +535,7 @@ def uhv(df, tb):
         return 0
 
 
-def kiz(df, tb, yr, hyporun):
+def kiz(df, tb):
     """ Kinderzuschlag / Additional Child Benefit
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
@@ -549,14 +549,12 @@ def kiz(df, tb, yr, hyporun):
         This is done by some fixed share which is updated on annual basis
         ('jährlicher Existenzminimumsbericht')
     """
-    cprint("Kinderzuschlag...", "red", "on_white")
-
     kiz = pd.DataFrame(index=df.index.copy())
     kiz["hid"] = df["hid"]
     kiz["tu_id"] = df["tu_id"]
     kiz["uhv_tu"] = aggr(df, "uhv", "all_tu")
     # First, calculate the need as for ALG2, but only for parents.
-    if yr <= 2010:
+    if tb["yr"] <= 2010:
         # not yet implemented
         kiz_regel = [
             tb["rs_hhvor"] * (1 + df["mehrbed"]),
@@ -579,7 +577,7 @@ def kiz(df, tb, yr, hyporun):
     kiz["kiz_heiz"] = df["heizkost"] * df["hh_korr"]
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
-    wb = get_wohnbedarf(max(yr, 2011))
+    wb = get_wohnbedarf(max(tb["yr"], 2011))
     kiz["wb_eltern_share"] = 1.0
     for c in [1, 2]:
         for r in [1, 2, 3, 4]:
@@ -592,12 +590,14 @@ def kiz(df, tb, yr, hyporun):
 
     # apply this share to living costs
     kiz["kiz_ek_kdu"] = kiz["wb_eltern_share"] * (kiz["kiz_miete"] + kiz["kiz_heiz"])
-
     kiz["kiz_ek_relev"] = kiz["kiz_ek_regel"] + kiz["kiz_ek_kdu"]
 
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt
-    kiz["kiz_ek_max"] = kiz["kiz_ek_relev"] + tb["a2kiz"] * df["child_num_tu"]
+    # First, we need to count the number of children eligible to child benefit.
+    kiz["child_num_kg"] = tb["childben_elig_rule"](df, tb).sum()
+
+    kiz["kiz_ek_max"] = kiz["kiz_ek_relev"] + tb["a2kiz"] * kiz["child_num_kg"]
     # min income to be eligible for KIZ (different for singles and couples)
     kiz["kiz_ek_min"] = tb["a2kiz_minek_cou"] * (df["hhtyp"] == 4) + (
         tb["a2kiz_minek_sin"] * (df["alleinerz"])
@@ -618,15 +618,10 @@ def kiz(df, tb, yr, hyporun):
     kiz["kiz_ek_gross"] = df["alg2_grossek_hh"]
     kiz["kiz_ek_net"] = df["ar_alg2_ek_hh"]
 
-    # Deductable income. 50% withdrawal rate, rounded to 5€ values.
-    if not hyporun:
-        kiz["kiz_ek_anr"] = np.maximum(
-            0, round((df["ar_alg2_ek_hh"] - kiz["kiz_ek_relev"]) / 10) * 5
-        )
-    if hyporun:
-        kiz["kiz_ek_anr"] = np.maximum(
-            0, 0.5 * (df["ar_alg2_ek_hh"] - kiz["kiz_ek_relev"])
-        )
+    # Deductable income. 50% withdrawal rate.
+    kiz["kiz_ek_anr"] = np.maximum(
+        0, 0.5 * (df["ar_alg2_ek_hh"] - kiz["kiz_ek_relev"])
+    )
 
     # Dummy variable whether household is in the relevant income range.
     kiz["kiz_incrange"] = (kiz["kiz_ek_gross"] >= kiz["kiz_ek_min"]) & (
@@ -636,14 +631,12 @@ def kiz(df, tb, yr, hyporun):
     # income fully!
     kiz["kiz"] = 0
     kiz.loc[kiz["kiz_incrange"], "kiz"] = np.maximum(
-        0, tb["a2kiz"] * df["child_num_tu"] - kiz["kiz_ek_anr"] - kiz["uhv_tu"]
+        0, tb["a2kiz"] * kiz["child_num_kg"] - kiz["kiz_ek_anr"] - kiz["uhv_tu"]
     )
 
     # Extend the amount to the other hh members for complementarity with wohngeld and
     # alg2
-    kiz = kiz.join(
-        kiz.groupby(["hid"])["kiz"].max(), on=["hid"], how="left", rsuffix="_temp"
-    )
+    kiz["kiz_temp"] = kiz["kiz"].max()
 
     kiz["kiz"] = kiz["kiz_temp"]
     # Transfer some variables for eligibility check
@@ -651,27 +644,35 @@ def kiz(df, tb, yr, hyporun):
     kiz["wohngeld"] = df["wohngeld_basis_hh"]
     kiz["n_pens"] = df["pensioner"].sum()
     kiz["regelbedarf"] = df["regelbedarf"]
-    return check_eligibility(kiz)
+    return benefit_priority(kiz)
 
 
-def check_eligibility(df_kiz):
+def benefit_priority(df_kiz):
+    """There are three main transfers for working-age people:
+        1. Unemployment Benefit / ALG2
+        2. Housing Benefit / Wohngeld
+        3. Additional Child Benefit / Kinderzuschlag
+
+    There is a rule which benefits are superior to others
+    If there is a positive ALG2 entitlement, but the need can be covered with
+    Housing Benefit (and possibly add. child benefit),
+    the HH *has* to claim the housing benefit and addit. child benefit.
+    If the household need cannot be covered via Wohngeld, he has to apply for ALG2.
+    There is no way you can receive ALG2 and Wohngeld/Kinderzuschlag at the same time!
+    """
     df_kiz["ar_wg_alg2_ek"] = df_kiz["ar_base_alg2_ek"] + df_kiz["wohngeld"]
     df_kiz["ar_kiz_alg2_ek"] = df_kiz["ar_base_alg2_ek"] + df_kiz["kiz"]
     df_kiz["ar_wgkiz_alg2_ek"] = (
         df_kiz["ar_base_alg2_ek"] + df_kiz["wohngeld"] + df_kiz["kiz"]
     )
-
+    # calculate differenz between transfers and the household need
     for v in ["base", "wg", "kiz", "wgkiz"]:
         df_kiz["fehlbedarf_" + v] = (
             df_kiz["regelbedarf"] - df_kiz["ar_" + v + "_alg2_ek"]
         )
         df_kiz["m_alg2_" + v] = np.maximum(df_kiz["fehlbedarf_" + v], 0)
 
-    # There is a rule which benefits are superior to others
-    # If there is a positive ALG2 claim, but the need can be covered with
-    # Housing Benefit (and possibly add. child benefit),
-    # the HH has to claim the housing benefit and addit. child benefit.
-    # There is no way you can receive ALG2 and Wohngeld at the same time!
+    # check whether any of wg kiz or wg+kiz joint imply a fulfilled need.
     for v in ["wg", "kiz", "wgkiz"]:
         df_kiz[v + "_vorrang"] = (df_kiz["m_alg2_" + v] == 0) & (
             df_kiz["m_alg2_base"] > 0
@@ -697,7 +698,8 @@ def check_eligibility(df_kiz):
         "kiz",
     ] = 0
 
-    # Pensioners do not receive Kiz. They actually do not receive ALGII, too. Instead,
+    # Pensioners do not receive Kiz or Wohngeld.
+    # They actually do not receive ALGII, too. Instead,
     # they get 'Grundleistung im Alter', which pays the same amount.
     for ben in ["kiz", "wohngeld", "m_alg2"]:
         df_kiz.loc[df_kiz["n_pens"] > 0, ben] = 0

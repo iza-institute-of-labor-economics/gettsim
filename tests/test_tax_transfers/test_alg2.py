@@ -48,13 +48,14 @@ def test_alg2(year):
     columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     df = load_input(year, file_name, input_cols)
     tb = load_tb(year)
+    tb["yr"] = year
     if year <= 2010:
         tb["calc_regelsatz"] = regelberechnung_until_2010
     else:
         tb["calc_regelsatz"] = regelberechnung_2011_and_beyond
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
-        calculated = calculated.append(alg2(df[df["hid"] == hid], tb, year)[columns])
+        calculated = calculated.append(alg2(df[df["hid"] == hid], tb)[columns])
     expected = load_output(year, file_name, columns)
     print("calculated: \n", calculated, "\n\n")
     print("expected: \n", expected)

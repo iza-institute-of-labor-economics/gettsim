@@ -5,6 +5,10 @@ from tests.auxiliary_test import load_tax_transfer_input_data as load_input
 from tests.auxiliary_test import load_tax_transfer_output_data as load_output
 from tests.auxiliary_test import load_tb
 from src.analysis.tax_transfer_funcs.benefits import kiz
+from src.analysis.tax_transfer_funcs.taxes import (
+    kg_eligibility_wage,
+    kg_eligibility_hours,
+)
 
 
 input_cols = [
@@ -18,6 +22,9 @@ input_cols = [
     "child",
     "pensioner",
     "age",
+    "w_hours",
+    "m_wage",
+    "ineducation",
     "miete",
     "heizkost",
     "alleinerz",
@@ -43,10 +50,15 @@ def test_kiz(year):
     columns = ["kiz", "m_alg2", "wohngeld"]
     df = load_input(year, file_name, input_cols)
     tb = load_tb(year)
+    tb["yr"] = year
+    if year > 2011:
+        tb["childben_elig_rule"] = kg_eligibility_hours
+    else:
+        tb["childben_elig_rule"] = kg_eligibility_wage
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(
-            kiz(df[df["hid"] == hid], tb, year, False)[columns]
+            kiz(df[df["hid"] == hid], tb)[columns]
         )
     expected = load_output(year, file_name, columns)
     print("calculated: \n", calculated, "\n\n")

@@ -256,6 +256,7 @@ def kindergeld(df, tb):
 
 def kg_eligibility_hours(df, tb):
     """ Nowadays, kids must not work more than 20 hour
+    returns a boolean variable whether a specific person is a child eligible for child benefit
     """
     df = df.copy()
     df["eligible"] = df["age"] <= 18
@@ -271,6 +272,7 @@ def kg_eligibility_hours(df, tb):
 
 def kg_eligibility_wage(df, tb):
     """ Before 2011, there was an income ceiling for children
+    returns a boolean variable whether a specific person is a child eligible for child benefit
     """
     df = df.copy()
     df["eligible"] = df["age"] <= 18
