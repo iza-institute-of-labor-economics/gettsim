@@ -47,10 +47,11 @@ def test_wg(year):
     columns = ["wohngeld_basis_hh"]
     df = load_input(year, file_name, input_cols)
     tb = load_tb(year)
+    tb["yr"] = year
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(
-            wg(df[df["hid"] == hid], tb, year, False)[columns]
+            wg(df[df["hid"] == hid], tb)[columns]
         )
     expected = load_output(year, file_name, columns)
     print("calculated: \n", calculated, "\n\n")

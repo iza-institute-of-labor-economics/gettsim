@@ -311,7 +311,7 @@ def alg2(df, tb, yr):
     ]
 
 
-def wg(df, tb, yr, hyporun):
+def wg(df, tb):
     """ Housing benefit / Wohngeld
         Social benefit for recipients with income above basic social assistance
         Computation is very complicated, accounts for household size, income, actual
@@ -319,10 +319,7 @@ def wg(df, tb, yr, hyporun):
         As we don't have information on the last item, we assume 'Mietstufe' 3,
         corresponding to an average level
     """
-    cprint("Wohngeld...", "red", "on_white")
-
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
-    # Calculate them on the level of the tax unit
 
     wg = pd.DataFrame(index=df.index.copy())
     wg["hid"] = df["hid"]
@@ -378,7 +375,7 @@ def wg(df, tb, yr, hyporun):
     # ... minus a couple of lump-sum deductions for handicaps,
     # children income or being single parent
     wg["workingchild"] = df["child"] & (df["m_wage"] > 0)
-    if yr < 2016:
+    if tb["yr"] < 2016:
         wg["wg_incdeduct"] = (
             (df["handcap_degree"] > 80) * tb["wgpfbm80"]
             + df["handcap_degree"].between(1, 80) * tb["wgpfbu80"]
@@ -398,18 +395,12 @@ def wg(df, tb, yr, hyporun):
 
     wg["wg_incdeduct_tu_k"] = aggr(wg, "wg_incdeduct", "all_tu")
 
-    wg["wgY"] = (1 - wg["wg_abzuege"]) * np.maximum(
+    wg["Y"] = (1 - wg["wg_abzuege"]) * np.maximum(
         0, (wg["wg_grossY"] + wg["wg_otherinc"] - wg["wg_incdeduct_tu_k"])
     )
 
-    # Parameter Y in steps of 5 Euros
-    if not hyporun:
-        wg["Y"] = np.maximum(0, pd.Series(wg["wgY"] + 4).round(-1) - 5)
-    if hyporun:
-        wg["Y"] = wg["wgY"]
-
     # There's a minimum Y depending on the hh size
-    for i in range(1, 12):
+    for i in range(1, 13):
         wg.loc[df["hhsize"] == i, "Y"] = np.maximum(
             wg["Y"], tb["wgminEK" + str(i) + "p"]
         )
@@ -425,14 +416,15 @@ def wg(df, tb, yr, hyporun):
         # first, maximum rent.
         # fixed amounts for the households with size 1 to 5
         # afterwards, fix amount for every additional hh member
-        if yr >= 2009:
+        if tb["yr"] >= 2009:
             if i <= 5:
                 wg.loc[(df["hhsize"] == i), "max_rent"] = tb["wgmax" + str(i) + "p_m"]
 
             wg.loc[(df["hhsize"] > 5), "max_rent"] = tb["wgmax5p_m"] + tb[
                 "wgmaxplus5_m"
             ] * (df["hhsize"] - 5)
-        if yr < 2009:
+        if tb["yr"] < 2009:
+            # Before 2009, differentiate by construction year of the house.
             for c in cnstyr:
                 if i <= 5:
                     wg.loc[
@@ -457,8 +449,6 @@ def wg(df, tb, yr, hyporun):
     wg["wgmiete"] = np.minimum(wg["max_rent"], df["miete"] * df["hh_korr"])
     # wg["wgheiz"] = df["heizkost"] * df["hh_korr"]
     wg["M"] = np.maximum(wg["wgmiete"], wg["min_rent"])
-    if not hyporun:
-        wg["M"] = np.maximum(pd.Series(wg["M"] + 4).round(-1) - 5, 0)
 
     # Finally, apply Wohngeld Formel. There are parameters a, b, c, depending on hh size
     # To ease notation, I write them first into separate variables from the
