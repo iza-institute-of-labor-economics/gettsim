@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 # from termcolor import cprint
 
@@ -38,7 +39,7 @@ def update_earnings_points(df, tb, tb_pens):
     return df["EP"] + out
 
 
-def pensions(df, tb, tb_pens, year):
+def pensions(df, tb, tb_pens):
     """ Old-Age Pensions
 
     models 'Rentenformel':
@@ -51,34 +52,26 @@ def pensions(df, tb, tb_pens, year):
       value (to be improved)
 
     """
-    r = df.copy()
+    r = pd.DataFrame(index=df.index)
     # cprint("Pensions", "red", "on_white")
     # meanwages is only filled until 2016
-    yr = min(year, 2016)
-
-    westost = [~df["east"], df["east"]]
+    yr = df["year"].iloc[0]
 
     # individuelle monatl. Altersrente (Rentenartfaktor = 1):
     # R = EP * ZF * Rw
 
     # Add values for current year: ratio of own wage (up to the threshold)
     # to the mean wage
-    r["EP"] += np.select(
-        westost,
-        [
-            np.minimum(r["m_wage"], tb["rvmaxekw"]) / tb_pens.loc["meanwages", yr],
-            np.minimum(r["m_wage"], tb["rvmaxeko"]) / tb_pens.loc["meanwages", yr],
-        ],
-    )
+    r["EP"] = update_earnings_points(df, tb, tb_pens[yr])
     # ZF: Zugangsfaktor. Depends on the age of entering pensions.
     # For each year entering earlier (later) than the statutory retirement age,
     # you get a penalty (reward) of 3.6 pp.
     r["regelaltersgrenze"] = 65
     # If born after 1947, each birth year raises the age threshold by one month.
-    r.loc[r["byear"] > 1947, "regelaltersgrenze"] = np.minimum(
-        67, ((r["byear"] - 1947) / 12) + 65
+    r.loc[df["byear"] > 1947, "regelaltersgrenze"] = np.minimum(
+        67, ((df["byear"] - 1947) / 12) + 65
     )
-    r["ZF"] = ((r["age"] - r["regelaltersgrenze"]) * 0.036) + 1
+    r["ZF"] = ((df["age"] - r["regelaltersgrenze"]) * 0.036) + 1
 
     # Rentenwert: The monetary value of one 'entgeltpunkt'.
     # This depends, among others, of past developments.

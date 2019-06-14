@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from src.analysis.tax_transfer_funcs.pensions import pensions
+from src.analysis.tax_transfer_funcs.pensions import pensions, update_earnings_points
 from bld.project_paths import project_paths_join as ppj
 
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
@@ -40,7 +40,20 @@ def test_pension(year):
     expected = load_output(year, "test_dfs_pensions.xlsx", column)
     calculated = pd.Series(name=column)
     for pid in df["pid"].unique():
-        calculated = calculated.append(
-            pensions(df[df["pid"] == pid], tb, tb_pens, year)
-        )
+        calculated = calculated.append(pensions(df[df["pid"] == pid], tb, tb_pens))
     assert_series_equal(calculated, expected)
+
+
+@pytest.mark.parametrize("year", years)
+def test_update_earning_points(year):
+    column = "EP_end"
+    df = load_input(year, "test_dfs_pensions.xlsx", input_cols)
+    tb = load_tb(year)
+    tb_pens = pd.read_excel(ppj("IN_DATA", "pensions.xlsx")).set_index("var")
+    expected = load_output(year, "test_dfs_pensions.xlsx", column)
+    calculated = pd.Series(name=column)
+    for pid in df["pid"].unique():
+        calculated = calculated.append(
+            update_earnings_points(df[df["pid"] == pid], tb, tb_pens[year])
+        )
+    assert_series_equal(calculated, expected, check_names=False)
