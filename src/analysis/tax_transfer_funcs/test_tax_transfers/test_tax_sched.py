@@ -1,12 +1,16 @@
 import pytest
 import pandas as pd
 from pandas.testing import assert_frame_equal
-from tests.auxiliary_test import load_tax_transfer_input_data as load_input
-from tests.auxiliary_test import load_tax_transfer_output_data as load_output
-from tests.auxiliary_test import load_tb
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_input,
+)
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_output,
+)
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_tb,
+)
 from src.analysis.tax_transfer_funcs.taxes import tax_sched, tarif
-from src.model_code.imports import tarif_ubi
-
 
 input_cols = [
     "pid",
@@ -38,9 +42,7 @@ def test_tax_sched(year):
     tb["tax_schedule"] = tarif
     calculated = pd.DataFrame(columns=columns)
     for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(
-            tax_sched(df[df["tu_id"] == tu_id], tb)[columns]
-        )
+        calculated = calculated.append(tax_sched(df[df["tu_id"] == tu_id], tb)[columns])
     expected = load_output(year, file_name, columns)
     assert_frame_equal(
         calculated, expected, check_dtype=False, check_exact=False, check_less_precise=0

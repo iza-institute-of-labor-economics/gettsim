@@ -1,15 +1,20 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from tests.auxiliary_test import load_tb
-from tests.auxiliary_test import load_tax_transfer_output_data as load_output
-from tests.auxiliary_test import load_tax_transfer_input_data as load_input
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_tb,
+)
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_output,
+)
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_input,
+)
 from src.analysis.tax_transfer_funcs.taxes import (
     kindergeld,
     kg_eligibility_wage,
     kg_eligibility_hours,
 )
-
 
 
 input_cols = ["tu_id", "age", "w_hours", "ineducation", "m_wage"]
@@ -29,12 +34,13 @@ def test_kindergeld(yr):
 
     calculated = pd.DataFrame(columns=["kindergeld_tu_basis"])
     for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(kindergeld(df[df["tu_id"] == tu_id], tb), sort=True)
+        calculated = calculated.append(
+            kindergeld(df[df["tu_id"] == tu_id], tb), sort=True
+        )
 
     expected = load_output(yr, filename, "kindergeld_tu_basis")
 
     print(calculated, "\n\n")
     print(expected, "\n\n")
 
-    assert_series_equal(calculated["kindergeld_tu_basis"].astype('int64'), expected)
-
+    assert_series_equal(calculated["kindergeld_tu_basis"].astype("int64"), expected)

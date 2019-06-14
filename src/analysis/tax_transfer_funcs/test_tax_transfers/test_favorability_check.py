@@ -2,8 +2,12 @@ import pytest
 import pandas as pd
 from pandas.testing import assert_series_equal
 from itertools import product
-from tests.auxiliary_test import load_tax_transfer_input_data as load_input
-from tests.auxiliary_test import load_tax_transfer_output_data as load_output
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_input,
+)
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_output,
+)
 from src.analysis.tax_transfer_funcs.taxes import favorability_check
 
 

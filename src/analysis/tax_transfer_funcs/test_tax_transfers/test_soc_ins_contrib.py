@@ -3,12 +3,19 @@ from itertools import product
 import pytest
 from pandas.testing import assert_series_equal
 from src.analysis.tax_transfer_funcs.social_insurance import (
-        soc_ins_contrib,
-        calc_midi_contributions,
-        no_midi)
-from tests.auxiliary_test import load_tax_transfer_input_data as load_input
-from tests.auxiliary_test import load_tb
-from tests.auxiliary_test import load_tax_transfer_output_data as load_output
+    soc_ins_contrib,
+    calc_midi_contributions,
+    no_midi,
+)
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_input,
+)
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_tb,
+)
+from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
+    load_output,
+)
 
 input_cols = [
     "pid",
