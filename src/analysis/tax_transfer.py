@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 
-from src.analysis.tax_transfer_funcs.taxes import soli, tax_sched
+from src.analysis.tax_transfer_funcs.taxes import tax_sched
 from src.analysis.tax_transfer_funcs.taxes import favorability_check, kindergeld
 from src.analysis.tax_transfer_funcs.zve import zve
 from src.analysis.tax_transfer_funcs.benefits import ui, wg, alg2, uhv, kiz
@@ -139,7 +139,6 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
     # 6. SOCIAL TRANSFERS / BENEFITS
     # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
     df["uhv"] = uhv(df, tb, taxyear)
-
 
     # 6.1. Wohngeld, Housing Benefit
     # TODO: rename wohngeld ('wohngeld_basis') until final check.

@@ -29,6 +29,8 @@ def soc_ins_contrib(df, tb):
 
     # a couple of definitions
 
+    # As there is only one household, we selcet west_ost dependent paramter in the
+    # beginning and place them in tb_ost.
     if df["east"].iloc[0]:
         westost = "o"
     else:
@@ -38,6 +40,7 @@ def soc_ins_contrib(df, tb):
         tb_ost[val] = tb[val + westost]
 
     kinderlos = (~df["haskids"]) & (df["age"] > 22)
+
     ssc["belowmini"] = df["m_wage"] < tb_ost["mini_grenze"]
 
     ssc["above_thresh_kv"] = df["m_wage"] > tb_ost["kvmaxek"]
@@ -46,9 +49,9 @@ def soc_ins_contrib(df, tb):
 
     # This is probably the point where Entgeltpunkte should be updated as well.
 
-    # First, define corrected wage; need to differentiate between East and West Germany
+    # Check if the wage is higher than the Beitragsbemessungsgrenze. If so, only the
+    # value of this is used.
     ssc["svwage_pens"] = np.minimum(df["m_wage"], tb_ost["rvmaxek"])
-
     ssc["svwage_health"] = np.minimum(df["m_wage"], tb_ost["kvmaxek"])
 
     # Then, calculate employee contributions.
