@@ -28,30 +28,29 @@ def soc_ins_contrib(df, tb):
     ssc = pd.DataFrame(index=df.index.copy())
 
     # a couple of definitions
-    westost = [~df["east"], df["east"]]
-    # 'Bezugsgröße'
-    ssc["bezgr"] = np.select(westost, [tb["bezgr_o"], tb["bezgr_w"]])
+
+    if df["east"].iloc[0]:
+        westost = "o"
+    else:
+        westost = "w"
+    tb_ost = {}
+    for val in ["bezgr_", "mini_grenze", "kvmaxek", "rvmaxek"]:
+        tb_ost[val] = tb[val + westost]
+
     kinderlos = (~df["haskids"]) & (df["age"] > 22)
-    ssc["belowmini"] = 1 == np.select(
-        westost, [df["m_wage"] < tb["mini_grenzew"], df["m_wage"] < tb["mini_grenzeo"]]
-    )
-    ssc["above_thresh_kv"] = 1 == np.select(
-        westost, [df["m_wage"] > tb["kvmaxekw"], df["m_wage"] > tb["kvmaxeko"]]
-    )
-    ssc["above_thresh_rv"] = 1 == np.select(
-        westost, [df["m_wage"] > tb["rvmaxekw"], df["m_wage"] > tb["rvmaxeko"]]
-    )
+    ssc["belowmini"] = df["m_wage"] < tb_ost["mini_grenze"]
+
+    ssc["above_thresh_kv"] = df["m_wage"] > tb_ost["kvmaxek"]
+
+    ssc["above_thresh_rv"] = df["m_wage"] > tb_ost["rvmaxek"]
 
     # This is probably the point where Entgeltpunkte should be updated as well.
 
     # First, define corrected wage; need to differentiate between East and West Germany
-    ssc["svwage_pens"] = np.minimum(
-        df["m_wage"], np.select(westost, [tb["rvmaxekw"], tb["rvmaxeko"]])
-    )
+    ssc["svwage_pens"] = np.minimum(df["m_wage"], tb_ost["rvmaxek"])
 
-    ssc["svwage_health"] = np.minimum(
-        df["m_wage"], np.select(westost, [tb["kvmaxekw"], tb["kvmaxeko"]])
-    )
+    ssc["svwage_health"] = np.minimum(df["m_wage"], tb_ost["kvmaxek"])
+
     # Then, calculate employee contributions.
     # Old-Age Pension Insurance / Rentenversicherung
     ssc["rvbeit"] = tb["grvbs"] * ssc["svwage_pens"]
@@ -68,9 +67,7 @@ def soc_ins_contrib(df, tb):
 
     # Gleitzone / Midi-Jobs
     # This checks whether wage is in the relevant range
-    ssc["in_gleitzone"] = df["m_wage"].between(
-        np.select(westost, [tb["mini_grenzew"], tb["mini_grenzeo"]]), tb["midi_grenze"]
-    )
+    ssc["in_gleitzone"] = df["m_wage"].between(tb_ost["mini_grenze"], tb["midi_grenze"])
 
     midi = tb["calc_midi_contrib"](df, tb, kinderlos)
 
@@ -103,29 +100,17 @@ def soc_ins_contrib(df, tb):
     # of the 'Bezugsgröße'
     ssc.loc[(df["selfemployed"]) & (~df["pkv"]), "gkvbeit"] = (
         tb["gkvbs_an"] + tb["gkvbs_ag"]
-    ) * np.minimum(
-        df["m_self"], 0.75 * np.select(westost, [tb["bezgr_w"], tb["bezgr_o"]])
-    )
+    ) * np.minimum(df["m_self"], 0.75 * tb_ost["bezgr_"])
     # Same holds for care insurance
     ssc.loc[(df["selfemployed"]) & (~df["pkv"]), "pvbeit"] = (
         2 * tb["gpvbs"] + np.select([kinderlos, ~kinderlos], [tb["gpvbs_kind"], 0])
-    ) * np.minimum(
-        df["m_self"], 0.75 * np.select(westost, [tb["bezgr_w"], tb["bezgr_o"]])
-    )
+    ) * np.minimum(df["m_self"], 0.75 * tb_ost["bezgr_"])
     # Health insurance for pensioners; they pay the standard health insurance rate...
-    ssc["gkvrbeit"] = tb["gkvbs_an"] * np.minimum(
-        df["m_pensions"], np.select(westost, [tb["kvmaxekw"], tb["kvmaxeko"]])
-    )
+    ssc["gkvrbeit"] = tb["gkvbs_an"] * np.minimum(df["m_pensions"], tb_ost["kvmaxek"])
     # but twice the care insurance rate.
-    ssc["pvrbeit"] = (
-        2
-        * tb["gpvbs"]
-        * np.minimum(
-            df["m_pensions"], np.select(westost, [tb["kvmaxekw"], tb["kvmaxeko"]])
-        )
-    )
+    ssc["pvrbeit"] = 2 * tb["gpvbs"] * np.minimum(df["m_pensions"], tb_ost["kvmaxek"])
     ssc.loc[kinderlos, "pvrbeit"] = (2 * tb["gpvbs"] + tb["gpvbs_kind"]) * np.minimum(
-        df["m_pensions"], np.select(westost, [tb["kvmaxekw"], tb["kvmaxeko"]])
+        df["m_pensions"], tb_ost["kvmaxek"]
     )
 
     ssc["gkvbeit"] = ssc["gkvbeit"] + ssc["gkvrbeit"]
