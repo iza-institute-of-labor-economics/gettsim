@@ -1,13 +1,7 @@
 import numpy as np
 import pandas as pd
-from src.model_code.imports import aggr, tarif_ubi
-from termcolor import cprint
-from src.analysis.tax_transfer_funcs.taxes import (
-        soli_formula,
-        tarif,
-        kg_eligibility_wage,
-        kg_eligibility_hours,
-)
+from src.model_code.imports import aggr
+from src.analysis.tax_transfer_funcs.taxes import soli_formula
 
 
 def ui(df, tb):
@@ -73,39 +67,36 @@ def ui(df, tb):
 
 def regelberechnung_until_2010(alg2, tb):
     return [
-            tb["rs_hhvor"] * (1 + alg2["mehrbed"])
-            + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
-            + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
-            + (
-                tb["rs_hhvor"]
-                * tb["a2ch0"]
-                * (alg2["child0_2_num"] + alg2["child3_6_num"])
-            ),
-            tb["rs_hhvor"] * tb["a2part"] * (1 + alg2["mehrbed"])
-            + (tb["rs_hhvor"] * tb["a2part"])
-            + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((alg2["adult_num"] - 2), 0))
-            + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
-            + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
-            + (
-                tb["rs_hhvor"]
-                * tb["a2ch0"]
-                * (alg2["child0_2_num"] + alg2["child3_6_num"])
-            ),
-        ]
+        tb["rs_hhvor"] * (1 + alg2["mehrbed"])
+        + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
+        + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
+        + (
+            tb["rs_hhvor"] * tb["a2ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])
+        ),
+        tb["rs_hhvor"] * tb["a2part"] * (1 + alg2["mehrbed"])
+        + (tb["rs_hhvor"] * tb["a2part"])
+        + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((alg2["adult_num"] - 2), 0))
+        + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
+        + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
+        + (
+            tb["rs_hhvor"] * tb["a2ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])
+        ),
+    ]
+
 
 def regelberechnung_2011_and_beyond(alg2, tb):
     return [
-            tb["rs_hhvor"] * (1 + alg2["mehrbed"])
-            + (tb["rs_ch14"] * alg2["child14_24_num"])
-            + (tb["rs_ch7"] * alg2["child7_13_num"])
-            + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
-            tb["rs_2adults"] * (1 + alg2["mehrbed"])
-            + tb["rs_2adults"]
-            + (tb["rs_madults"] * np.maximum((alg2["adult_num"] - 2), 0))
-            + (tb["rs_ch14"] * alg2["child14_24_num"])
-            + (tb["rs_ch7"] * alg2["child7_13_num"])
-            + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
-        ]
+        tb["rs_hhvor"] * (1 + alg2["mehrbed"])
+        + (tb["rs_ch14"] * alg2["child14_24_num"])
+        + (tb["rs_ch7"] * alg2["child7_13_num"])
+        + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
+        tb["rs_2adults"] * (1 + alg2["mehrbed"])
+        + tb["rs_2adults"]
+        + (tb["rs_madults"] * np.maximum((alg2["adult_num"] - 2), 0))
+        + (tb["rs_ch14"] * alg2["child14_24_num"])
+        + (tb["rs_ch7"] * alg2["child7_13_num"])
+        + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
+    ]
 
 
 def alg2(df, tb):
@@ -619,9 +610,7 @@ def kiz(df, tb):
     kiz["kiz_ek_net"] = df["ar_alg2_ek_hh"]
 
     # Deductable income. 50% withdrawal rate.
-    kiz["kiz_ek_anr"] = np.maximum(
-        0, 0.5 * (df["ar_alg2_ek_hh"] - kiz["kiz_ek_relev"])
-    )
+    kiz["kiz_ek_anr"] = np.maximum(0, 0.5 * (df["ar_alg2_ek_hh"] - kiz["kiz_ek_relev"]))
 
     # Dummy variable whether household is in the relevant income range.
     kiz["kiz_incrange"] = (kiz["kiz_ek_gross"] >= kiz["kiz_ek_min"]) & (

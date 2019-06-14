@@ -69,7 +69,7 @@ def soc_ins_contrib(df, tb):
     # Gleitzone / Midi-Jobs
     # This checks whether wage is in the relevant range
     ssc["in_gleitzone"] = df["m_wage"].between(
-            np.select(westost, [tb["mini_grenzew"], tb["mini_grenzeo"]]), tb["midi_grenze"]
+        np.select(westost, [tb["mini_grenzew"], tb["mini_grenzeo"]]), tb["midi_grenze"]
     )
 
     midi = tb["calc_midi_contrib"](df, tb, kinderlos)
@@ -108,8 +108,7 @@ def soc_ins_contrib(df, tb):
     )
     # Same holds for care insurance
     ssc.loc[(df["selfemployed"]) & (~df["pkv"]), "pvbeit"] = (
-        2 * tb["gpvbs"]
-        + np.select([kinderlos, ~kinderlos], [tb["gpvbs_kind"], 0])
+        2 * tb["gpvbs"] + np.select([kinderlos, ~kinderlos], [tb["gpvbs_kind"], 0])
     ) * np.minimum(
         df["m_self"], 0.75 * np.select(westost, [tb["bezgr_w"], tb["bezgr_o"]])
     )
@@ -125,9 +124,7 @@ def soc_ins_contrib(df, tb):
             df["m_pensions"], np.select(westost, [tb["kvmaxekw"], tb["kvmaxeko"]])
         )
     )
-    ssc.loc[kinderlos, "pvrbeit"] = (
-        2 * tb["gpvbs"] + tb["gpvbs_kind"]
-    ) * np.minimum(
+    ssc.loc[kinderlos, "pvrbeit"] = (2 * tb["gpvbs"] + tb["gpvbs_kind"]) * np.minimum(
         df["m_pensions"], np.select(westost, [tb["kvmaxekw"], tb["kvmaxeko"]])
     )
 
@@ -152,58 +149,77 @@ def calc_midi_contributions(df, tb, kinderlos):
     # Whether they apply (i.e. whether wage is within the gleitzone)
     # is checked outside.
     midi = pd.DataFrame(index=df.index.copy())
+    midi["m_wage"] = df["m_wage"]
 
-    an_anteil = tb["grvbs"] + tb["gpvbs"] + tb["alvbs"] + tb["gkvbs_an"]
-    ag_anteil = tb["grvbs"] + tb["gpvbs"] + tb["alvbs"] + tb["gkvbs_ag"]
-    dbsv = an_anteil + ag_anteil
-    pauschmini = tb["mini_ag_gkv"] + tb["mini_ag_grv"] + tb["stpag"]
-    f = round(pauschmini / dbsv, 4)
-
-    midi["bemessungsentgelt"] = f * tb["mini_grenzew"] + (
-        (tb["midi_grenze"] / (tb["midi_grenze"] - tb["mini_grenzew"]))
-        - (tb["mini_grenzew"] / (tb["midi_grenze"] - tb["mini_grenzew"]) * f)
-    ) * (df["m_wage"] - tb["mini_grenzew"])
+    midi["bemessungsentgelt"] = calc_midi_bemessungsentgelt(midi, tb)
 
     # Again, all branches of social insurance
     # First total amount, then employer, then employee
 
     # Old-Age Pensions
-    midi["gb_rv"] = 2 * tb["grvbs"] * midi["bemessungsentgelt"]
-    midi["ag_rvbeit"] = tb["grvbs"] * df["m_wage"]
-    midi["rvbeit"] = midi["gb_rv"] - midi["ag_rvbeit"]
+    midi["rvbeit"] = calc_midi_old_age_pensions_contr(midi, tb)
 
     # Health
-    midi["gb_gkv"] = (tb["gkvbs_an"] + tb["gkvbs_ag"]) * midi["bemessungsentgelt"]
-    midi["ag_gkvbeit"] = tb["gkvbs_ag"] * df["m_wage"]
-    midi["gkvbeit"] = midi["gb_gkv"] - midi["ag_gkvbeit"]
+    midi["gkvbeit"] = calc_midi_health_contr(midi, tb)
 
     # Unemployment
-    midi["gb_alv"] = 2 * tb["alvbs"] * midi["bemessungsentgelt"]
-    midi["ag_avbeit"] = tb["alvbs"] * df["m_wage"]
-    midi["avbeit"] = midi["gb_alv"] - midi["ag_avbeit"]
+    midi["avbeit"] = calc_midi_unemployment_contr(midi, tb)
 
     # Long-Term Care
-    midi["gb_pv"] = 2 * tb["gpvbs"] * midi["bemessungsentgelt"]
-    midi["ag_pvbeit"] = tb["gpvbs"] * df["m_wage"]
-    midi["pvbeit"] = (
-        midi["gb_pv"]
-        - midi["ag_pvbeit"]
-        + (kinderlos * tb["gpvbs_kind"] * midi["bemessungsentgelt"])
-    )
-
-    # Drop intermediate variables
-    midi = midi.drop(
-        ["gb_rv", "gb_gkv", "gb_alv", "gb_pv", "bemessungsentgelt"], axis=1
-    )
+    midi["pvbeit"] = calc_midi_long_term_care_contr(midi, tb, kinderlos)
 
     return midi[["rvbeit", "gkvbeit", "avbeit", "pvbeit"]]
+
+
+def calc_midi_f(midi, tb):
+    """ I have no idea what this function calculates. What means f?"""
+    an_anteil = tb["grvbs"] + tb["gpvbs"] + tb["alvbs"] + tb["gkvbs_an"]
+    ag_anteil = tb["grvbs"] + tb["gpvbs"] + tb["alvbs"] + tb["gkvbs_ag"]
+    dbsv = an_anteil + ag_anteil
+    pauschmini = tb["mini_ag_gkv"] + tb["mini_ag_grv"] + tb["stpag"]
+    f = round(pauschmini / dbsv, 4)
+    return f
+
+
+def calc_midi_bemessungsentgelt(midi, tb):
+    f = calc_midi_f(midi, tb)
+    return f * tb["mini_grenzew"] + (
+        (tb["midi_grenze"] / (tb["midi_grenze"] - tb["mini_grenzew"]))
+        - (tb["mini_grenzew"] / (tb["midi_grenze"] - tb["mini_grenzew"]) * f)
+    ) * (midi["m_wage"] - tb["mini_grenzew"])
+
+
+def calc_midi_old_age_pensions_contr(midi, tb):
+    """ Calculate old age pensions social insurance contribution for midi job."""
+    gb_rv = 2 * tb["grvbs"] * midi["bemessungsentgelt"]
+    ag_rvbeit = tb["grvbs"] * midi["m_wage"]
+    return gb_rv - ag_rvbeit
+
+
+def calc_midi_health_contr(midi, tb):
+    """ Calculate social insurance health contributions for midi job."""
+    gb_gkv = (tb["gkvbs_an"] + tb["gkvbs_ag"]) * midi["bemessungsentgelt"]
+    ag_gkvbeit = tb["gkvbs_ag"] * midi["m_wage"]
+    return gb_gkv - ag_gkvbeit
+
+
+def calc_midi_unemployment_contr(midi, tb):
+    gb_alv = 2 * tb["alvbs"] * midi["bemessungsentgelt"]
+    ag_avbeit = tb["alvbs"] * midi["m_wage"]
+    return gb_alv - ag_avbeit
+
+
+def calc_midi_long_term_care_contr(midi, tb, kinderlos):
+    gb_pv = 2 * tb["gpvbs"] * midi["bemessungsentgelt"]
+    ag_pvbeit = tb["gpvbs"] * midi["m_wage"]
+    return (
+        gb_pv - ag_pvbeit + (kinderlos * tb["gpvbs_kind"] * midi["bemessungsentgelt"])
+    )
+
 
 def no_midi(df, tb, kinderlos):
     """Dummy function returning nothing
     """
-    return pd.DataFrame([{beit: np.nan for beit in ["rvbeit",
-                                                   "gkvbeit",
-                                                   "avbeit",
-                                                   "pvbeit"
-                                                   ]
-                        }])
+    return pd.DataFrame(
+        [{beit: np.nan for beit in ["rvbeit", "gkvbeit", "avbeit", "pvbeit"]}]
+    )

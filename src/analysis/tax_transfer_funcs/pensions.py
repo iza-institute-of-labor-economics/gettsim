@@ -42,8 +42,6 @@ def update_earnings_points(df, tb, tb_pens):
     return df["EP"] + out
 
 
-
-
 def pensions(df, tb, tb_pens, mw, year):
     """ Old-Age Pensions
 
