@@ -321,13 +321,13 @@ def wg(df, tb):
     # Caluclate rent in seperate function
     wg["M"] = calc_wg_rent(df, tb, hhsize)
 
-    # FApply Wohngeld Formel.
+    # Apply Wohngeld Formel.
     wg["wohngeld_basis"] = apply_wg_formula(wg, tb, hhsize)
 
     # Wealth test for Wohngeld
     # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
     wg["assets"] = df["divdy"] / tb["r_assets"]
-    wg.loc[(wg["assets"] > (60000 + (30000 * (df["hhsize"] - 1)))), "wohngeld"] = 0
+    wg.loc[(wg["assets"] > (60000 + (30000 * (hhsize - 1)))), "wohngeld"] = 0
 
     # Sum of wohngeld within household
     wg["wg_head"] = wg["wohngeld_basis"] * df["head_tu"]
@@ -341,7 +341,9 @@ def wg(df, tb):
 
 
 def calc_wg_rent(df, tb, hhsize):
-    # Obtain relevant rent 'M'
+    """
+    This function yields the relevant rent for calculating the wohngeld.
+    """
     # There are also min and max values for this.
     # First max rent
     if tb["yr"] >= 2009:
@@ -365,6 +367,10 @@ def calc_wg_rent(df, tb, hhsize):
 
 
 def calc_max_rent_since_2009(tb, hhsize):
+    """
+    Since 2009 a different formula for the maximal acknowledged rent applies. Now the
+    date of the construction is irrelevant.
+    """
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
     if hhsize <= 5:
@@ -375,7 +381,8 @@ def calc_max_rent_since_2009(tb, hhsize):
 
 
 def calc_max_rent_until_2008(tb, hhsize, cnstyr):
-    # Before 2009, differentiate by construction year of the house.
+    """ Before 2009, differentiate by construction year of the house and calculate
+    the maximal acknowledged rent."""
     cnstyr_dict = {1: "a", 2: "m", 3: "n"}
     key = cnstyr_dict[cnstyr]
     # fixed amounts for the households with size 1 to 5
@@ -388,6 +395,7 @@ def calc_max_rent_until_2008(tb, hhsize, cnstyr):
 
 
 def calc_min_rent(tb, hhsize):
+    """ The minimal acknowledged rent depending on the household size."""
     if hhsize < 12:
         min_rent = tb["wgmin" + str(hhsize) + "p"]
     else:
@@ -396,6 +404,8 @@ def calc_min_rent(tb, hhsize):
 
 
 def calc_wg_income(df, tb, hhsize):
+    """ This function calculates the relevant income for the calculation of the
+    wohngeld."""
     wg_income = pd.DataFrame(index=df.index)
     wg_income["tu_id"] = df["tu_id"]
     # Start with income revelant for the housing beneift
