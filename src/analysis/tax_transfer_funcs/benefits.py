@@ -315,29 +315,14 @@ def wg(df, tb):
     wg = pd.DataFrame(index=df.index.copy())
     wg["hid"] = df["hid"]
     wg["tu_id"] = df["tu_id"]
+    hhsize = df.shape[0]
     # Caluclate income in seperate function
-    wg["Y"] = calc_wg_income(df, tb)
-    wg["M"] = calc_wg_rent(df, tb)
+    wg["Y"] = calc_wg_income(df, tb, hhsize)
+    # Caluclate rent in seperate function
+    wg["M"] = calc_wg_rent(df, tb, hhsize)
 
-    # Finally, apply Wohngeld Formel. There are parameters a, b, c, depending on hh size
-    # To ease notation, I write them first into separate variables from the
-    # tb dictionary
-    wgeld = {}
-    # Call it wohngeld_basis for now, might be set back to zero later on.
-    wg["wohngeld_basis"] = 0
-    for x in range(1, 13):
-        for z in ["a", "b", "c"]:
-            wgeld[z] = tb["wg_" + z + "_" + str(x) + "p"]
-
-        a = wgeld["a"]
-        b = wgeld["b"]
-        c = wgeld["c"]
-
-        wg.loc[np.minimum(df["hhsize_tu"], 12) == x, "wohngeld_basis"] = np.maximum(
-            0,
-            tb["wg_factor"]
-            * (wg["M"] - ((a + (b * wg["M"]) + (c * wg["Y"])) * wg["Y"])),
-        )
+    # FApply Wohngeld Formel.
+    wg["wohngeld_basis"] = apply_wg_formula(wg, tb, hhsize)
 
     # Wealth test for Wohngeld
     # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
@@ -355,8 +340,7 @@ def wg(df, tb):
     return wg[["wohngeld_basis", "wohngeld_basis_hh"]]
 
 
-def calc_wg_rent(df, tb):
-    hhsize = df.shape[0]
+def calc_wg_rent(df, tb, hhsize):
     # Obtain relevant rent 'M'
     # There are also min and max values for this.
     # First max rent
@@ -411,10 +395,9 @@ def calc_min_rent(tb, hhsize):
     return min_rent
 
 
-def calc_wg_income(df, tb):
+def calc_wg_income(df, tb, hhsize):
     wg_income = pd.DataFrame(index=df.index)
     wg_income["tu_id"] = df["tu_id"]
-    hhsize = df.shape[0]
     # Start with income revelant for the housing beneift
     # tax-relevant share of pensions for tax unit
     wg_income["pens_steuer"] = df["ertragsanteil"] * df["m_pensions"]
@@ -523,6 +506,21 @@ def _set_min_y(prelim_y, tb, hhsize):
     else:
         min_y = np.maximum(prelim_y, tb["wgminEK12p"])
     return min_y
+
+
+def apply_wg_formula(wg, tb, hhsize):
+    # There are parameters a, b, c, depending on hh size
+    a, b, c = calc_wg_formula_factors(tb, hhsize)
+    return np.maximum(
+        0, tb["wg_factor"] * (wg["M"] - ((a + (b * wg["M"]) + (c * wg["Y"])) * wg["Y"]))
+    )
+
+
+def calc_wg_formula_factors(tb, hhsize):
+    a = tb["wg_a_" + str(hhsize) + "p"]
+    b = tb["wg_b_" + str(hhsize) + "p"]
+    c = tb["wg_c_" + str(hhsize) + "p"]
+    return a, b, c
 
 
 def uhv(df, tb):
