@@ -32,7 +32,6 @@ def pensions(df_row, tb, tb_pens):
     rentenwert = tb["calc_rentenwert"](tb_pens, yr)
 
     # use all three components for Rentenformel.
-    #
     # It's called 'pensions_sim' to emphasize that this is simulated.
 
     pensions_sim = np.maximum(0, round(EP * ZF * rentenwert, 2))
@@ -105,26 +104,6 @@ def calc_rentenwert_from_2018(tb_pens, yr):
     )
 
 
-def calc_riesterfactor(tb_pens, yr):
-    return (100 - tb_pens.loc["ava", yr - 1] - tb_pens.loc["rvbeitrag", yr - 1]) / (
-        100 - tb_pens.loc["ava", yr - 2] - tb_pens.loc["rvbeitrag", yr - 2]
-    )
-
-
-def _calc_rentnerquotienten(tb_pens, yr):
-    return (tb_pens.loc["rentenvol", yr] / tb_pens.loc["eckrente", yr]) / (
-        tb_pens.loc["beitragsvol", yr]
-        / (tb_pens.loc["rvbeitrag", yr] / 100 * tb_pens.loc["eckrente", yr])
-    )
-
-
-def calc_nachhaltigkeitsfaktor(tb_pens, yr):
-    rq_last_year = _calc_rentnerquotienten(tb_pens, yr - 1)
-    rq_two_years_before = _calc_rentnerquotienten(tb_pens, yr - 2)
-    # There is an additional 'Rentenartfaktor', equal to 1 for old-age pensions.
-    return 1 + ((1 - (rq_last_year / rq_two_years_before)) * tb_pens.loc["alpha", yr])
-
-
 def calc_lohnkomponente(tb_pens, yr):
     return tb_pens.loc["meanwages", yr - 1] / (
         tb_pens.loc["meanwages", yr - 2]
@@ -135,4 +114,24 @@ def calc_lohnkomponente(tb_pens, yr):
                 / tb_pens.loc["meanwages_sub", yr - 3]
             )
         )
+    )
+
+
+def calc_riesterfactor(tb_pens, yr):
+    return (100 - tb_pens.loc["ava", yr - 1] - tb_pens.loc["rvbeitrag", yr - 1]) / (
+        100 - tb_pens.loc["ava", yr - 2] - tb_pens.loc["rvbeitrag", yr - 2]
+    )
+
+
+def calc_nachhaltigkeitsfaktor(tb_pens, yr):
+    rq_last_year = _calc_rentnerquotienten(tb_pens, yr - 1)
+    rq_two_years_before = _calc_rentnerquotienten(tb_pens, yr - 2)
+    # There is an additional 'Rentenartfaktor', equal to 1 for old-age pensions.
+    return 1 + ((1 - (rq_last_year / rq_two_years_before)) * tb_pens.loc["alpha", yr])
+
+
+def _calc_rentnerquotienten(tb_pens, yr):
+    return (tb_pens.loc["rentenvol", yr] / tb_pens.loc["eckrente", yr]) / (
+        tb_pens.loc["beitragsvol", yr]
+        / (tb_pens.loc["rvbeitrag", yr] / 100 * tb_pens.loc["eckrente", yr])
     )

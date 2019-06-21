@@ -477,51 +477,57 @@ def wg(df, tb):
     return wg[["wohngeld_basis", "wohngeld_basis_hh", "gkvbeit_tu_k", "rvbeit_tu_k"]]
 
 
-def uhv(df, tb):
+def uhv_since_2017(df, tb):
     """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
 
-    In Germany, Single Parents get alimony payments for themselves and for their child
-    from the ex partner. If the ex partner is not able to pay the child alimony,
-    the government pays the child alimony to the mother (or the father, if he has the
-    kids)
-    Since 2017, the receipt of this
-    UHV has been extended substantially and needs to be taken into account, since it's
-    dominant to other transfers, i.e. single parents 'have to' apply for it.
+        In Germany, Single Parents get alimony payments for themselves and for their
+        child from the ex partner. If the ex partner is not able to pay the child
+        alimony, the government pays the child alimony to the mother (or the father, if
+        he has the kids)
 
-    returns:
-        uhv (pd.Series): Alimony Payment on individual level
-    """
+        returns:
+            uhv (pd.Series): Alimony Payment on individual level
+        """
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
     # Calculate them on the level of the tax unit
     uhv = pd.DataFrame(index=df.index.copy())
-    uhv["tu_id"] = df["tu_id"]
-    uhv["zveranl"] = df["zveranl"]
 
     uhv["uhv"] = 0
     # Amounts depend on age
-    uhv.loc[df["age"].between(0, 5) & df["alleinerz"]] = tb["uhv5"]
-    uhv.loc[df["age"].between(6, 11) & df["alleinerz"]] = tb["uhv11"]
+    uhv.loc[df["age"].between(0, 5) & df["alleinerz"], "uhv"] = tb["uhv5"]
+    uhv.loc[df["age"].between(6, 11) & df["alleinerz"], "uhv"] = tb["uhv11"]
     # Older kids get it only if the parent has income > 600€
-    uhv["uhv_inc"] = df[
-        [
-            "m_wage",
-            "m_transfers",
-            "m_self",
-            "m_vermiet",
-            "m_kapinc",
-            "m_pensions",
-            "m_alg1",
+    uhv["uhv_inc_tu"] = (
+        df[
+            [
+                "m_wage",
+                "m_transfers",
+                "m_self",
+                "m_vermiet",
+                "m_kapinc",
+                "m_pensions",
+                "m_alg1",
+            ]
         ]
-    ].sum(axis=1)
-
-    uhv["uhv_inc_tu"] = uhv["uhv_inc"].sum()
+        .sum()
+        .sum()
+    )
     uhv.loc[
         (df["age"].between(12, 17)) & (df["alleinerz"]) & (uhv["uhv_inc_tu"] > 600),
         "uhv",
     ] = tb["uhv17"]
     # TODO: Check against actual transfers
+    return uhv["uhv"]
+
+
+def uhv(df, tb):
+    """
+    Since 2017, the receipt of this
+    UHV has been extended substantially and needs to be taken into account, since it's
+    dominant to other transfers, i.e. single parents 'have to' apply for it.
+    """
     if tb["yr"] >= 2017:
-        return uhv["uhv"]
+        return uhv_since_2017(df, tb)
     else:
         return 0
 

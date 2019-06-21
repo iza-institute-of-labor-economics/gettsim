@@ -42,6 +42,6 @@ def test_uhv(year):
     for tu_id in df["tu_id"].unique():
         calculated = calculated.append(uhv(df[df["tu_id"] == tu_id], tb))
     expected = load_output(year, file_name, "uhv")
-    print("calculated: \n", calculated, "\n\n")
-    print("expected: \n", expected)
+    # print("calculated: \n", calculated, "\n\n")
+    # print("expected: \n", expected)
     assert_series_equal(calculated, expected, check_dtype=False)
