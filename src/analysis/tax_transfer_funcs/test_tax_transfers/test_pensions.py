@@ -42,6 +42,7 @@ def test_pension(year):
     column = "pensions_sim"
     df = load_input(year, "test_dfs_pensions.xlsx", input_cols)
     tb = load_tb(year)
+    tb["yr"] = year
     if year > 2017:
         tb["calc_rentenwert"] = calc_rentenwert_from_2018
     else:
