@@ -1,19 +1,7 @@
 #! python
 
 
-def build(ctx):
-
-    ctx(
-        features="run_py_script",
-        source="meanwages.py",
-        deps=[
-            ctx.path_to(ctx, "SOEP_PATH", "2_taxben_input.dta")             
-        ],
-        target=[
-            ctx.path_to(ctx, "IN_DATA", "mw_pensions.json"),
-        ],
-    )
-   
+def build(ctx):   
    
     ctx(
         features="run_py_script",

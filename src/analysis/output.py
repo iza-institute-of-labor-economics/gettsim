@@ -16,7 +16,7 @@ def output(settings):
         - Benefit recipients
 
     """
-    # TODO: Collect results in dataframes and calculate differences
+  
     budget = pd.DataFrame(columns=settings["Reforms"])
     recip = pd.DataFrame(columns=settings["Reforms"])
     dpis = pd.DataFrame(columns=settings["Reforms"])

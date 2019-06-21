@@ -188,7 +188,7 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
     plt.savefig(ppj("OUT_FIGURES", "hypo/lego_{}_{}_{}.png".format(ref, t, lang)))
 
 
-def create_hypo_data(settings, tb, types, rents):
+def create_hypo_data(settings, tb, types, rents, avg_wage=51286):
     """
     builds a dataset identical to original SOEP output,
     but with custom household types, for which earnings are varied.
@@ -205,14 +205,19 @@ def create_hypo_data(settings, tb, types, rents):
         tb(dict)
         types(list): list of hh types
         rents(dict): rents assumed for each hh type
+        avg_wage (int): average wage of a full-time male worker.
+                        needed for secondary earner analyses
 
     returns:
-        pd.Dataframe as from SOEP, but with made-up households
+        pd.Dataframe which looks identical to the SOEP data, but with made-up households
     """
     # DEFINE STEPS IN YEARLY WAGES. ideally, take a multiple of 12
+    #                               in order to have round number on monthly level
     wagestep = 120
     if wagestep < 50:
         print("Wagestep is pretty low. Execution could take some time...")
+    # Define maximum annual income (€)
+    max_inc = 1e5
 
     # take original data for congruence.
     # df = pd.read_pickle(data_path + 'SOEP/taxben_input_2016')
@@ -420,11 +425,11 @@ def create_hypo_data(settings, tb, types, rents):
     df["typ"] = df.index + 1
 
     df_typ2 = df[df["typ"] == 2]
-    # Alleinerziehende
+    # wir brauchen zwei Alleinerziehenden-Typen
     df = df.append([df_typ2], ignore_index=True)
 
     df_typ3 = df[df["typ"] == 3]
-    # Paare mit und ohne kinder
+    # Paare mit und ohne kinder, verschiedene Lohn- und Erwerbskonstellationen
     df = df.append([df_typ3] * 7, ignore_index=True)
 
     df = df.sort_values(by=["typ"])
@@ -435,7 +440,7 @@ def create_hypo_data(settings, tb, types, rents):
     df.loc[df["typ"] == 3, "typ_bud"] = 30 + df["n_typ"]
 
     # Vervielfache die Reihen und erhöhe den Lohn
-    df = df.append([df] * int(1e5 / wagestep), ignore_index=True)
+    df = df.append([df] * int(max_inc / wagestep), ignore_index=True)
     df = df.sort_values(by=["typ_bud"])
     df["n_typ_bud"] = df.groupby(["typ_bud"]).cumcount()
     df["y_wage"] = df["n_typ_bud"] * wagestep
@@ -447,7 +452,7 @@ def create_hypo_data(settings, tb, types, rents):
     df["child"] = False
     df["female"] = False
 
-    # verdopple die Reihen mit Paarhaushalten
+    # create partners
     df = df.append([df[df["typ_bud"] > 30]], ignore_index=True)
     df = df.sort_values(by=["typ_bud", "y_wage"])
     df["female"] = (df.groupby(["typ_bud", "y_wage"]).cumcount()) > 0
@@ -457,7 +462,7 @@ def create_hypo_data(settings, tb, types, rents):
 
     kids = df[df["typ_bud"].isin([22, 24, 32, 34, 36, 38]) & (df["y_wage"] == 0)]
 
-    kids = kids.append([kids] * int(1e5 / wagestep), ignore_index=True)
+    kids = kids.append([kids] * int(max_inc / wagestep), ignore_index=True)
     kids = kids.sort_values(by=["typ_bud"])
     kids["n_typ_bud"] = kids.groupby(["typ_bud"]).cumcount()
     kids["y_wage"] = kids["n_typ_bud"] * wagestep
@@ -567,7 +572,7 @@ def create_hypo_data(settings, tb, types, rents):
     # for typ_bud> 32, y_wage is hence "secondary earnings"
     df.loc[
         df["female"] & ~df["child"] & (df["typ_bud"].isin([33, 34])), "y_wage_ind"
-    ] = 51286
+    ] = avg_wage
     # Drop all observations with y_wage < woman's earnings
     df = df.join(
         df.groupby("hid")["y_wage_ind"].sum(), on=["hid"], how="left", rsuffix="_sum"
@@ -926,7 +931,8 @@ if __name__ == "__main__":
             # 34: "Two-earner couple, avg. income of first earner, 2 children",
         },
     }
-
+    # Monthly rent and heating cost for households. Source: Bundesagentur für Arbeit,
+    # average amounts for benefit recipients.
     rents = {
         "heizkost": {
             11: 61,
