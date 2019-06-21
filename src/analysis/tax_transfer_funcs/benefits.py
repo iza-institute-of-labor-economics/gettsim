@@ -315,9 +315,11 @@ def wg(df, tb):
     wg = pd.DataFrame(index=df.index.copy())
     wg["hid"] = df["hid"]
     wg["tu_id"] = df["tu_id"]
+    hhsize = df.shape[0]
     # Start with income revelant for the housing beneift
     # tax-relevant share of pensions
     wg["pens_steuer"] = df["ertragsanteil"] * df["m_pensions"]
+    wg["pens_steuer_tu_k"] = aggr(wg, "pens_steuer", "all_tu")
     for inc in [
         "m_alg1",
         "m_transfers",
@@ -331,8 +333,6 @@ def wg(df, tb):
         "uhv",
     ]:
         wg["{}_tu_k".format(inc)] = aggr(df, inc, "all_tu")
-
-    wg["pens_steuer_tu_k"] = aggr(wg, "pens_steuer", "all_tu")
 
     # There share of income to be deducted is 0/10/20/30%, depending on whether
     # household is subject to income taxation and/or payroll taxes
@@ -398,33 +398,19 @@ def wg(df, tb):
     wg.loc[df["hhsize"] >= 12, "Y"] = np.maximum(wg["Y"], tb["wgminEK12p"])
 
     # Obtain relevant rent 'M'
-    # There are also min and max values for this. Before 2009, they differed by
-    # construction year of the house
+    # There are also min and max values for this.
     wg["max_rent"] = 0
     wg["min_rent"] = 0
-    cnstyr = {"a": 1, "m": 2, "n": 3}
     for i in range(1, 13):
         # first, maximum rent.
         # fixed amounts for the households with size 1 to 5
         # afterwards, fix amount for every additional hh member
         if tb["yr"] >= 2009:
-            if i <= 5:
-                wg.loc[(df["hhsize"] == i), "max_rent"] = tb["wgmax" + str(i) + "p_m"]
-
-            wg.loc[(df["hhsize"] > 5), "max_rent"] = tb["wgmax5p_m"] + tb[
-                "wgmaxplus5_m"
-            ] * (df["hhsize"] - 5)
+            wg["max_rent"] = calc_max_rent_since_2009(tb, hhsize)
         if tb["yr"] < 2009:
-            # Before 2009, differentiate by construction year of the house.
-            for c in cnstyr:
-                if i <= 5:
-                    wg.loc[
-                        (df["hhsize"] == i) & (df["cnstyr"] == cnstyr[c]), "max_rent"
-                    ] = tb["wgmax" + str(i) + "p_" + c]
-
-                wg.loc[
-                    (df["hhsize"] > 5) & (df["cnstyr"] == cnstyr[c]), "max_rent"
-                ] = tb["wgmax5p_" + c] + tb["wgmaxplus5_" + c] * (df["hhsize"] - 5)
+            # Before 2009, they differed by construction year of the house
+            cnstyr = df["cnstyr"].iloc[0]
+            wg["max_rent"] = calc_max_rent_until_2008(tb, hhsize, cnstyr)
 
         # min rent never depended on construction year
         wg.loc[(df["hhsize"] == i), "min_rent"] = tb["wgmin" + str(i) + "p"]
@@ -475,6 +461,27 @@ def wg(df, tb):
     df["hhsize_tu"].describe()
     # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return wg[["wohngeld_basis", "wohngeld_basis_hh", "gkvbeit_tu_k", "rvbeit_tu_k"]]
+
+
+def calc_max_rent_since_2009(tb, hhsize):
+    if hhsize <= 5:
+        max_rent = tb["wgmax" + str(hhsize) + "p_m"]
+    else:
+        max_rent = tb["wgmax5p_m"] + tb["wgmaxplus5_m"] * (hhsize - 5)
+    return max_rent
+
+
+def calc_max_rent_until_2008(tb, hhsize, cnstyr):
+    # Before 2009, differentiate by construction year of the house.
+    cnstyr_dict = {1: "a", 2: "m", 3: "n"}
+    key_cnstyr = cnstyr_dict[cnstyr]
+    if hhsize <= 5:
+        max_rent = tb["wgmax" + str(hhsize) + "p_" + cnstyr_dict[cnstyr]]
+    else:
+        max_rent = tb["wgmax5p_" + key_cnstyr] + tb["wgmaxplus5_" + key_cnstyr] * (
+            hhsize - 5
+        )
+    return max_rent
 
 
 def uhv_since_2017(df, tb):
