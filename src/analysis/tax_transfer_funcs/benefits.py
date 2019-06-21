@@ -317,28 +317,7 @@ def wg(df, tb):
     wg["tu_id"] = df["tu_id"]
     # Caluclate income in seperate function
     wg["Y"] = calc_wg_income(df, tb)
-    hhsize = df.shape[0]
-    # Obtain relevant rent 'M'
-    # There are also min and max values for this.
-    # First max rent
-    if tb["yr"] >= 2009:
-        wg["max_rent"] = calc_max_rent_since_2009(tb, hhsize)
-    else:
-        # Before 2009, they differed by construction year of the house
-        cnstyr = df["cnstyr"].iloc[0]
-        wg["max_rent"] = calc_max_rent_until_2008(tb, hhsize, cnstyr)
-    # Second min rent
-    wg["min_rent"] = calc_min_rent(tb, hhsize)
-    # check for failed assignments
-    assert ~wg["max_rent"].isna().all()
-    assert ~wg["min_rent"].isna().all()
-
-    # distribute max rent among the tax units
-    wg["max_rent"] = wg["max_rent"] * df["hh_korr"]
-
-    wg["wgmiete"] = np.minimum(wg["max_rent"], df["miete"] * df["hh_korr"])
-    # wg["wgheiz"] = df["heizkost"] * df["hh_korr"]
-    wg["M"] = np.maximum(wg["wgmiete"], wg["min_rent"])
+    wg["M"] = calc_wg_rent(df, tb)
 
     # Finally, apply Wohngeld Formel. There are parameters a, b, c, depending on hh size
     # To ease notation, I write them first into separate variables from the
@@ -374,6 +353,31 @@ def wg(df, tb):
     df["hhsize_tu"].describe()
     # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return wg[["wohngeld_basis", "wohngeld_basis_hh"]]
+
+
+def calc_wg_rent(df, tb):
+    hhsize = df.shape[0]
+    # Obtain relevant rent 'M'
+    # There are also min and max values for this.
+    # First max rent
+    if tb["yr"] >= 2009:
+        max_rent = calc_max_rent_since_2009(tb, hhsize)
+    else:
+        # Before 2009, they differed by construction year of the house
+        cnstyr = df["cnstyr"].iloc[0]
+        max_rent = calc_max_rent_until_2008(tb, hhsize, cnstyr)
+    # Second min rent
+    min_rent = calc_min_rent(tb, hhsize)
+    # check for failed assignments
+    assert not np.isnan(max_rent)
+    assert not np.isnan(min_rent)
+
+    # distribute max rent among the tax units
+    max_rent_dist = max_rent * df["hh_korr"]
+
+    wgmiete = np.minimum(max_rent_dist, df["miete"] * df["hh_korr"])
+    # wg["wgheiz"] = df["heizkost"] * df["hh_korr"]
+    return np.maximum(wgmiete, min_rent)
 
 
 def calc_max_rent_since_2009(tb, hhsize):
@@ -521,6 +525,18 @@ def _set_min_y(prelim_y, tb, hhsize):
     return min_y
 
 
+def uhv(df, tb):
+    """
+    Since 2017, the receipt of this
+    UHV has been extended substantially and needs to be taken into account, since it's
+    dominant to other transfers, i.e. single parents 'have to' apply for it.
+    """
+    if tb["yr"] >= 2017:
+        return uhv_since_2017(df, tb)
+    else:
+        return 0
+
+
 def uhv_since_2017(df, tb):
     """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
 
@@ -562,18 +578,6 @@ def uhv_since_2017(df, tb):
     ] = tb["uhv17"]
     # TODO: Check against actual transfers
     return uhv["uhv"]
-
-
-def uhv(df, tb):
-    """
-    Since 2017, the receipt of this
-    UHV has been extended substantially and needs to be taken into account, since it's
-    dominant to other transfers, i.e. single parents 'have to' apply for it.
-    """
-    if tb["yr"] >= 2017:
-        return uhv_since_2017(df, tb)
-    else:
-        return 0
 
 
 def kiz(df, tb):
