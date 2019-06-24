@@ -96,7 +96,10 @@ def _rentenwert_until_2017(tb_pens, yr):
 
 def _rentenwert_from_2018(tb_pens, yr):
     """From 2018 onwards we calculate the rentenwert with the formula given by law.
-    The formula takes three factors, which will be calculated seperatly."""
+    The formula takes three factors, which will be calculated seperatly. For a
+    detailed explanation see
+    https://de.wikipedia.org/wiki/Rentenanpassungsformel
+    """
     # Rentenwert: The monetary value of one 'entgeltpunkt'.
     # This depends, among others, of past developments.
     # Hence, some calculations have been made
@@ -116,7 +119,9 @@ def _rentenwert_from_2018(tb_pens, yr):
 
 def _lohnkomponente(tb_pens, yr):
     """Returns the lohnkomponente for each year. It deppends on the average wages of
-    the previous years."""
+    the previous years. For details see
+    https://de.wikipedia.org/wiki/Rentenanpassungsformel
+    """
     return tb_pens.loc["meanwages", yr - 1] / (
         tb_pens.loc["meanwages", yr - 2]
         * (
@@ -130,12 +135,21 @@ def _lohnkomponente(tb_pens, yr):
 
 
 def _riesterfactor(tb_pens, yr):
+    """This factor returns the riesterfactor, depending on the Altersvorsogeanteil
+    and the contributions to the pension insurance. For details see
+    https://de.wikipedia.org/wiki/Rentenanpassungsformel
+    """
     return (100 - tb_pens.loc["ava", yr - 1] - tb_pens.loc["rvbeitrag", yr - 1]) / (
         100 - tb_pens.loc["ava", yr - 2] - tb_pens.loc["rvbeitrag", yr - 2]
     )
 
 
 def _nachhaltigkeitsfaktor(tb_pens, yr):
+    """This factor mirrors the effect of the relationship between pension insurance
+    receivers and contributes on the pensions. It depends on the rentnerquotienten and
+    some correcting scalar alpha. For details see
+    https://de.wikipedia.org/wiki/Rentenanpassungsformel
+    """
     rq_last_year = _rentnerquotienten(tb_pens, yr - 1)
     rq_two_years_before = _rentnerquotienten(tb_pens, yr - 2)
     # There is an additional 'Rentenartfaktor', equal to 1 for old-age pensions.
@@ -143,6 +157,10 @@ def _nachhaltigkeitsfaktor(tb_pens, yr):
 
 
 def _rentnerquotienten(tb_pens, yr):
+    """The rentnerquotient is the relationship between pension insurance receivers and
+    contributes. For details see
+    https://de.wikipedia.org/wiki/Rentenanpassungsformel
+    """
     return (tb_pens.loc["rentenvol", yr] / tb_pens.loc["eckrente", yr]) / (
         tb_pens.loc["beitragsvol", yr]
         / (tb_pens.loc["rvbeitrag", yr] / 100 * tb_pens.loc["eckrente", yr])
