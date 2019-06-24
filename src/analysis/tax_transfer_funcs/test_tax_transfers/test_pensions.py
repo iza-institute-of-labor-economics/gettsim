@@ -5,8 +5,8 @@ from numpy.testing import assert_array_almost_equal
 from src.analysis.tax_transfer_funcs.pensions import (
     pensions,
     update_earnings_points,
-    calc_rentenwert_until_2017,
-    calc_rentenwert_from_2018,
+    _rentenwert_until_2017,
+    _rentenwert_from_2018,
 )
 from bld.project_paths import project_paths_join as ppj
 
@@ -44,9 +44,9 @@ def test_pension(year):
     tb = load_tb(year)
     tb["yr"] = year
     if year > 2017:
-        tb["calc_rentenwert"] = calc_rentenwert_from_2018
+        tb["calc_rentenwert"] = _rentenwert_from_2018
     else:
-        tb["calc_rentenwert"] = calc_rentenwert_until_2017
+        tb["calc_rentenwert"] = _rentenwert_until_2017
     tb_pens = pd.read_excel(ppj("IN_DATA", "pensions.xlsx")).set_index("var")
     expected = load_output(year, "test_dfs_pensions.xlsx", column)
     calculated = pd.Series(name=column)
