@@ -73,6 +73,7 @@ def _ep_for_care_periods(df, tb, tb_pens):
 def _zugangsfaktor(df_row):
     """ The zugangsfaktor depends on the age of entering pensions. At the
     regelaltersgrenze, the agent is allowed to get pensions with his full
+    claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his
     claim."""
     regelaltersgrenze = _regelaltersgrenze(df_row)
 
@@ -94,7 +95,8 @@ def _rentenwert_until_2017(tb_pens, yr):
 
 
 def _rentenwert_from_2018(tb_pens, yr):
-    """From 2018 onwards we calculate the rentenwert"""
+    """From 2018 onwards we calculate the rentenwert with the formula given by law.
+    The formula takes three factors, which will be calculated seperatly."""
     # Rentenwert: The monetary value of one 'entgeltpunkt'.
     # This depends, among others, of past developments.
     # Hence, some calculations have been made
@@ -113,6 +115,8 @@ def _rentenwert_from_2018(tb_pens, yr):
 
 
 def _lohnkomponente(tb_pens, yr):
+    """Returns the lohnkomponente for each year. It deppends on the average wages of
+    the previous years."""
     return tb_pens.loc["meanwages", yr - 1] / (
         tb_pens.loc["meanwages", yr - 2]
         * (
