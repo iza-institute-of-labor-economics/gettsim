@@ -10,57 +10,44 @@ from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax impor
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_tb,
 )
-from src.analysis.tax_transfer_funcs.benefits import kiz
-from src.analysis.tax_transfer_funcs.taxes import (
-    kg_eligibility_wage,
-    kg_eligibility_hours,
-)
+from src.analysis.tax_transfer_funcs.benefits import benefit_priority
 
 
 input_cols = [
     "pid",
     "hid",
     "tu_id",
-    "head",
-    "hhtyp",
     "hh_korr",
     "hhsize",
     "child",
     "pensioner",
     "age",
-    "w_hours",
-    "m_wage",
-    "ineducation",
-    "miete",
-    "heizkost",
-    "alleinerz",
-    "mehrbed",
-    "adult_num_tu",
-    "child_num_tu",
-    "alg2_grossek_hh",
-    "ar_alg2_ek_hh",
-    "kindergeld_hh",
-    "uhv",
+    "hh_wealth",
+    "adult_num",
+    "child0_18_num",
+    "kiz_temp",
+    "wohngeld_basis_hh",
+    "regelbedarf",
+    "ar_base_alg2_ek",
     "year",
 ]
 
-years = [2006, 2009, 2011, 2013, 2016, 2019]
+years = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
 
 
 @pytest.mark.parametrize("year", years)
 def test_kiz(year):
-    file_name = "test_dfs_kiz.xlsx"
-    columns = ["kiz_temp"]
+    file_name = "test_dfs_prio.xlsx"
+    columns = ["kiz", "m_alg2", "wohngeld"]
     df = load_input(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
-    if year > 2011:
-        tb["childben_elig_rule"] = kg_eligibility_hours
-    else:
-        tb["childben_elig_rule"] = kg_eligibility_wage
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
-        calculated = calculated.append(kiz(df[df["hid"] == hid], tb)[columns])
+        calculated = calculated.append(
+            benefit_priority(df[df["hid"] == hid], tb)[columns]
+        )
+
     expected = load_output(year, file_name, columns)
     print("calculated: \n", calculated, "\n\n")
     print("expected: \n", expected)

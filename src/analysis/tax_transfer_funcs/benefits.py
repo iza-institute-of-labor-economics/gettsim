@@ -178,40 +178,6 @@ def alg2(df, tb):
 
     alg2["regelbedarf"] = alg2["regelsatz"] + alg2["alg2_kdu"]
 
-    # Account for household wealth.
-    # usually no wealth in the data, infer from capital income...works OK for low
-    # wealth HH
-    alg2["assets"] = df["divdy"] / tb["r_assets"]
-
-    # df['vermfreib'] = tb['a2vki']
-    # there are exemptions depending on individual age for adults
-    alg2["ind_freib"] = 0
-    alg2.loc[(alg2["byear"] >= 1948) & (~df["child"]), "ind_freib"] = (
-        tb["a2ve1"] * df["age"]
-    )
-    alg2.loc[(alg2["byear"] < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
-    # sum over individuals
-    alg2["ind_freib_hh"] = alg2["ind_freib"].sum()
-
-    # there is an overall maximum exemption
-    alg2["maxvermfb"] = 0
-    alg2.loc[(alg2["byear"] < 1948) & (~df["child"]), "maxvermfb"] = tb["a2voe1"]
-    alg2.loc[(alg2["byear"].between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
-    alg2.loc[(alg2["byear"].between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
-    alg2.loc[(alg2["byear"] >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
-    alg2["maxvermfb_hh"] = alg2["maxvermfb"].sum()
-
-    # add fixed amounts per child and adult
-    alg2["vermfreibetr"] = np.minimum(
-        alg2["maxvermfb_hh"],
-        alg2["ind_freib_hh"]
-        + alg2["child0_18_num"] * tb["a2vkf"]
-        + alg2["adult_num"] * tb["a2verst"],
-    )
-
-    # If wealth exceeds the exemption, the need is set to zero
-    alg2.loc[(alg2["assets"] > alg2["vermfreibetr"]), "regelbedarf"] = 0
-
     # Income relevant to check against ALG2 claim
     alg2["alg2_grossek"] = df[
         [
@@ -292,8 +258,6 @@ def alg2(df, tb):
             "ar_alg2_ek_hh",
             "alg2_grossek_hh",
             "mehrbed",
-            "assets",
-            "vermfreibetr",
             "regelbedarf",
             "regelsatz",
             "alg2_kdu",
@@ -323,11 +287,6 @@ def wg(df, tb):
 
     # Apply Wohngeld Formel.
     wg["wohngeld_basis"] = apply_wg_formula(wg, tb, hhsize)
-
-    # Wealth test for Wohngeld
-    # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
-    wg["assets"] = df["divdy"] / tb["r_assets"]
-    wg.loc[(wg["assets"] > (60000 + (30000 * (hhsize - 1)))), "wohngeld"] = 0
 
     # Sum of wohngeld within household
     wg["wg_head"] = wg["wohngeld_basis"] * df["head_tu"]
@@ -667,19 +626,11 @@ def kiz(df, tb):
     kiz.loc[kiz["kiz_incrange"], "kiz"] = np.maximum(
         0, tb["a2kiz"] * kiz["child_num_kg"] - kiz["kiz_ek_anr"] - kiz["uhv_tu"]
     )
-
-    # Extend the amount to the other hh members for complementarity with wohngeld and
-    # alg2
-    # kiz["kiz_temp"] = kiz["kiz"].max()
-    #
-    # kiz["kiz"] = kiz["kiz_temp"]
-    kiz["kiz"] = kiz["kiz"].max()
+    kiz["kiz_temp"] = kiz["kiz"].max()
     # Transfer some variables for eligibility check
-    kiz["ar_base_alg2_ek"] = df["ar_base_alg2_ek"]
-    kiz["wohngeld"] = df["wohngeld_basis_hh"]
-    kiz["n_pens"] = df["pensioner"].sum()
-    kiz["regelbedarf"] = df["regelbedarf"]
-    return benefit_priority(kiz)
+    # kiz["ar_base_alg2_ek"] = df["ar_base_alg2_ek"]
+    # kiz["n_pens"] = df["pensioner"].sum()
+    return kiz[["kiz_temp", "kiz_incrange"]]
 
 
 def calc_kiz_ek(df, tb):
@@ -712,7 +663,7 @@ def _calc_kiz_regel_since_2011(df, tb):
     ]
 
 
-def benefit_priority(df_kiz):
+def benefit_priority(df, tb):
     """There are three main transfers for working-age people:
         1. Unemployment Benefit / ALG2
         2. Housing Benefit / Wohngeld
@@ -725,54 +676,129 @@ def benefit_priority(df_kiz):
     If the household need cannot be covered via Wohngeld, he has to apply for ALG2.
     There is no way you can receive ALG2 and Wohngeld/Kinderzuschlag at the same time!
     """
-    df_kiz["ar_wg_alg2_ek"] = df_kiz["ar_base_alg2_ek"] + df_kiz["wohngeld"]
-    df_kiz["ar_kiz_alg2_ek"] = df_kiz["ar_base_alg2_ek"] + df_kiz["kiz"]
-    df_kiz["ar_wgkiz_alg2_ek"] = (
-        df_kiz["ar_base_alg2_ek"] + df_kiz["wohngeld"] + df_kiz["kiz"]
+    # But first, we check whether hh wealth is too high
+    bp = wealth_test(
+        df[
+            [
+                "pid",
+                "hid",
+                "tu_id",
+                "regelbedarf",
+                "ar_base_alg2_ek",
+                "wohngeld_basis_hh",
+                "kiz_temp",
+                "child",
+                "hh_wealth",
+                "age",
+                "hhsize",
+                "adult_num",
+                "child0_18_num",
+            ]
+        ],
+        tb,
     )
-    # calculate differenz between transfers and the household need
+
+    # use these values (possibly zero now) below
+    bp["ar_base_alg2_ek"] = df["ar_base_alg2_ek"]
+    bp["ar_wg_alg2_ek"] = bp["ar_base_alg2_ek"] + bp["wohngeld_basis_hh"]
+    bp["ar_kiz_alg2_ek"] = bp["ar_base_alg2_ek"] + bp["kiz_temp"]
+    bp["ar_wgkiz_alg2_ek"] = (
+        bp["ar_base_alg2_ek"] + bp["wohngeld_basis_hh"] + bp["kiz_temp"]
+    )
+
+    # calculate difference between transfers and the household need
     for v in ["base", "wg", "kiz", "wgkiz"]:
-        df_kiz["fehlbedarf_" + v] = (
-            df_kiz["regelbedarf"] - df_kiz["ar_" + v + "_alg2_ek"]
-        )
-        df_kiz["m_alg2_" + v] = np.maximum(df_kiz["fehlbedarf_" + v], 0)
+        bp["fehlbedarf_" + v] = bp["regelbedarf"] - bp["ar_" + v + "_alg2_ek"]
+        bp["m_alg2_" + v] = np.maximum(bp["fehlbedarf_" + v], 0)
 
     # check whether any of wg kiz or wg+kiz joint imply a fulfilled need.
     for v in ["wg", "kiz", "wgkiz"]:
-        df_kiz[v + "_vorrang"] = (df_kiz["m_alg2_" + v] == 0) & (
-            df_kiz["m_alg2_base"] > 0
-        )
+        bp[v + "_vorrang"] = (bp["m_alg2_" + v] == 0) & (bp["m_alg2_base"] > 0)
 
-    df_kiz["m_alg2"] = df_kiz["m_alg2_base"]
+    # initialize final benefits
+    bp["m_alg2"] = bp["m_alg2_base"]
+    bp["kiz"] = bp["kiz_temp"]
+    bp["wohngeld"] = bp["wohngeld_basis_hh"]
+
     # If this is the case set alg2 to zero.
-    df_kiz.loc[
-        (df_kiz["wg_vorrang"]) | (df_kiz["kiz_vorrang"]) | (df_kiz["wgkiz_vorrang"]),
-        "m_alg2",
+    bp.loc[
+        (bp["wg_vorrang"]) | (bp["kiz_vorrang"]) | (bp["wgkiz_vorrang"]), "m_alg2"
     ] = 0
     # If other benefits are not sufficient, set THEM to zero instead.
-    df_kiz.loc[
-        (~df_kiz["wg_vorrang"])
-        & (~df_kiz["wgkiz_vorrang"])
-        & (df_kiz["m_alg2_base"] > 0),
+    bp.loc[
+        (~bp["wg_vorrang"]) & (~bp["wgkiz_vorrang"]) & (bp["m_alg2_base"] > 0),
         "wohngeld",
     ] = 0
-    df_kiz.loc[
-        (~df_kiz["kiz_vorrang"])
-        & (~df_kiz["wgkiz_vorrang"])
-        & (df_kiz["m_alg2_base"] > 0),
-        "kiz",
+    bp.loc[
+        (~bp["kiz_vorrang"]) & (~bp["wgkiz_vorrang"]) & (bp["m_alg2_base"] > 0), "kiz"
     ] = 0
 
     # Pensioners do not receive Kiz or Wohngeld.
     # They actually do not receive ALGII, too. Instead,
     # they get 'Grundleistung im Alter', which pays the same amount.
-    for ben in ["kiz", "wohngeld", "m_alg2"]:
-        df_kiz.loc[df_kiz["n_pens"] > 0, ben] = 0
+    bp["n_pens"] = df["pensioner"].sum()
 
-    assert df_kiz["m_alg2"].notna().all()
-    assert df_kiz["wohngeld"].notna().all()
-    assert df_kiz["kiz"].notna().all()
-    return df_kiz[["kiz", "wohngeld", "m_alg2"]]
+    print(bp[["kiz", "wohngeld", "m_alg2"]])
+    for ben in ["kiz", "wohngeld", "m_alg2"]:
+        bp.loc[bp["n_pens"] > 0, ben] = 0
+        assert bp[ben].notna().all()
+
+    return bp[["kiz", "wohngeld", "m_alg2"]]
+
+
+def wealth_test(df, tb):
+    """ Checks Benefit Claim against Household wealth.
+        - df: a dataframe containing information on theoretical claim of
+              - ALG2
+              - Kiz
+              - Wohngeld
+          as well as age of each hh member
+
+    For ALG2 and Kiz, there are wealth exemptions for every year.
+    For Wohngeld, there is a lump-sum amount depending on the household size
+    """
+
+    df["byear"] = tb["yr"] - df["age"]
+
+    # there are exemptions depending on individual age for adults
+    df["ind_freib"] = 0
+    df.loc[(df["byear"] >= 1948) & (~df["child"]), "ind_freib"] = (
+        tb["a2ve1"] * df["age"]
+    )
+    df.loc[(df["byear"] < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
+    # sum over individuals
+    df["ind_freib_hh"] = df["ind_freib"].sum()
+
+    # there is an overall maximum exemption
+    df["maxvermfb"] = 0
+    df.loc[(df["byear"] < 1948) & (~df["child"]), "maxvermfb"] = tb["a2voe1"]
+    df.loc[(df["byear"].between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
+    df.loc[(df["byear"].between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
+    df.loc[(df["byear"] >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
+    df["maxvermfb_hh"] = df["maxvermfb"].sum()
+
+    # add fixed amounts per child and adult
+    df["vermfreibetr"] = np.minimum(
+        df["maxvermfb_hh"],
+        df["ind_freib_hh"]
+        + df["child0_18_num"] * tb["a2vkf"]
+        + (df["hhsize"] - df["child0_18_num"]) * tb["a2verst"],
+    )
+
+    # If wealth exceeds the exemption, set benefits to zero
+    # (since ALG2 is not yet calculated, just set the need to zero)
+    df.loc[(df["hh_wealth"] > df["vermfreibetr"]), "regelbedarf"] = 0
+    df.loc[(df["hh_wealth"] > df["vermfreibetr"]), "kiz_temp"] = 0
+
+    # Wealth test for Wohngeld
+    # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
+    df.loc[
+        (df["hh_wealth"] > (60000 + (30000 * (df["hhsize"] - 1)))), "wohngeld_basis_hh"
+    ] = 0
+    for v in ["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]:
+        assert df[v].notna().all()
+
+    return df[["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]]
 
 
 def get_wohnbedarf(yr):

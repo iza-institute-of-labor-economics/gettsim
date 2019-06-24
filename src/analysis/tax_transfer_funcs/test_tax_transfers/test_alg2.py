@@ -40,7 +40,6 @@ input_cols = [
     "svbeit",
     "kindergeld_hh",
     "uhv",
-    "divdy",
     "year",
 ]
 

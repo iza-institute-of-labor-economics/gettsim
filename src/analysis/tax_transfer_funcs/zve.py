@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
-from termcolor import cprint
-from src.analysis.tax_transfer_funcs.taxes import kg_eligibility_wage, kg_eligibility_hours
+from src.analysis.tax_transfer_funcs.taxes import (
+    kg_eligibility_wage,
+    kg_eligibility_hours,
+)
 
 
 # @jit(nopython=True)
@@ -13,10 +15,9 @@ def zve(df, tb):
         It's always the most favorable for the taxpayer, but you know that only after
          applying the tax schedule
     """
-    cprint("Calculate Taxable Income...", "red", "on_white")
     pd.options.mode.chained_assignment = "raise"
     # Kapitaleinkommen im Tarif versteuern oder nicht?
-    kapinc_in_tarif = tb['yr'] < 2009
+    kapinc_in_tarif = tb["yr"] < 2009
     westost = [~df["east"], df["east"]]
     adult_married = ~df["child"] & df["zveranl"]
     # married = [df['zveranl'], ~df['zveranl']]
@@ -64,7 +65,7 @@ def zve(df, tb):
     # Sum of incomes
     zve["gross_gde"] = zve[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
     # Add UBI to taxable income
-    #if ref == "UBI":
+    # if ref == "UBI":
     #    zve.loc[:, "gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
 
     # If capital income tax with tariff, add it but account for exemptions
@@ -300,7 +301,7 @@ def vorsorge2010(df, tb):
     # then subtract employer contributions
     # also subtract health + care + unemployment insurance contributions
     altersvors2010 = ~df["child"] * (
-        (0.6 + 0.02 * (np.minimum(tb['yr'], 2025) - 2005)) * (12 * rvbeit_vors)
+        (0.6 + 0.02 * (np.minimum(tb["yr"], 2025) - 2005)) * (12 * rvbeit_vors)
         - (12 * 0.5 * rvbeit_vors)
     )
     # These you get anyway ('Basisvorsorge').
@@ -315,8 +316,10 @@ def vorsorge2010(df, tb):
 
     return vorsorge2010
 
+
 def calc_hhfreib_until2014(df, tb):
     return tb["hhfreib"]
+
 
 def calc_hhfreib_from2015(df, tb):
     return tb["hhfreib"] + ((df["child_num_tu"] - 1) * tb["hhfreib_ch"])
