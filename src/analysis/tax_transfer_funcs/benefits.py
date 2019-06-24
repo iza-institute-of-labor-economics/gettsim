@@ -607,24 +607,7 @@ def kiz(df, tb):
     kiz["tu_id"] = df["tu_id"]
     kiz["uhv_tu"] = aggr(df, "uhv", "all_tu")
     # First, calculate the need as for ALG2, but only for parents.
-    if tb["yr"] <= 2010:
-        # not yet implemented
-        kiz_regel = [
-            tb["rs_hhvor"] * (1 + df["mehrbed"]),
-            tb["rs_hhvor"] * tb["a2part"] * (2 + df["mehrbed"]),
-            tb["rs_hhvor"] * tb["a2ch18"] * df["adult_num_tu"],
-        ]
-    else:
-        kiz_regel = [
-            tb["rs_hhvor"] * (1 + df["mehrbed"]),
-            tb["rs_2adults"] + ((1 + df["mehrbed"]) * tb["rs_2adults"]),
-            tb["rs_madults"] * df["adult_num_tu"],
-        ]
-
-    kiz["kiz_ek_regel"] = np.select(
-        [df["adult_num_tu"] == 1, df["adult_num_tu"] == 2, df["adult_num_tu"] > 2],
-        kiz_regel,
-    )
+    kiz["kiz_ek_regel"] = calc_kiz_ek(df, tb)
     # Add rents. First, correct rent for the case of several tax units within the HH
     kiz["kiz_miete"] = df["miete"] * df["hh_korr"]
     kiz["kiz_heiz"] = df["heizkost"] * df["hh_korr"]
@@ -687,15 +670,46 @@ def kiz(df, tb):
 
     # Extend the amount to the other hh members for complementarity with wohngeld and
     # alg2
-    kiz["kiz_temp"] = kiz["kiz"].max()
-
-    kiz["kiz"] = kiz["kiz_temp"]
+    # kiz["kiz_temp"] = kiz["kiz"].max()
+    #
+    # kiz["kiz"] = kiz["kiz_temp"]
+    kiz["kiz"] = kiz["kiz"].max()
     # Transfer some variables for eligibility check
     kiz["ar_base_alg2_ek"] = df["ar_base_alg2_ek"]
     kiz["wohngeld"] = df["wohngeld_basis_hh"]
     kiz["n_pens"] = df["pensioner"].sum()
     kiz["regelbedarf"] = df["regelbedarf"]
     return benefit_priority(kiz)
+
+
+def calc_kiz_ek(df, tb):
+    if tb["yr"] <= 2010:
+        # not yet implemented
+        kiz_regel = _calc_kiz_regel_until_2010(df, tb)
+    else:
+        kiz_regel = _calc_kiz_regel_since_2011(df, tb)
+
+    return np.select(
+        [df["adult_num_tu"] == 1, df["adult_num_tu"] == 2, df["adult_num_tu"] > 2],
+        kiz_regel,
+    )
+
+
+def _calc_kiz_regel_until_2010(df, tb):
+    """"""
+    return [
+        tb["rs_hhvor"] * (1 + df["mehrbed"]),
+        tb["rs_hhvor"] * tb["a2part"] * (2 + df["mehrbed"]),
+        tb["rs_hhvor"] * tb["a2ch18"] * df["adult_num_tu"],
+    ]
+
+
+def _calc_kiz_regel_since_2011(df, tb):
+    return [
+        tb["rs_hhvor"] * (1 + df["mehrbed"]),
+        tb["rs_2adults"] + ((1 + df["mehrbed"]) * tb["rs_2adults"]),
+        tb["rs_madults"] * df["adult_num_tu"],
+    ]
 
 
 def benefit_priority(df_kiz):
