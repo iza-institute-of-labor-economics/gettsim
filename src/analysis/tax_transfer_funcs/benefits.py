@@ -4,55 +4,23 @@ from src.model_code.imports import aggr
 from src.analysis.tax_transfer_funcs.taxes import soli_formula
 
 
-def ui(df, tb):
+def ui(df_row, tb):
     """Return the Unemployment Benefit based on
     employment status and income from previous years.
 
     """
 
-    ui = pd.DataFrame(index=df.index.copy())
-    westost = [~df["east"], df["east"]]
+    ui = pd.DataFrame(index=df_row.index)
 
-    ui["m_alg1"] = 0
     # ui["m_alg1_soep"] = df["alg_soep"].fillna(0)
 
-    # Months of unemployment beforehand.
-    ui["mts_ue"] = df["months_ue"] + df["months_ue_l1"] + df["months_ue_l2"]
-    # Relevant wage is capped at the contribution thresholds
-    ui["alg_wage"] = np.select(
-        westost,
-        [
-            np.minimum(tb["rvmaxekw"], df["m_wage_l1"]),
-            np.minimum(tb["rvmaxeko"], df["m_wage_l1"]),
-        ],
-    )
+    ui["alg_entgelt"] = _alg_entgelt(df_row, tb)
 
-    # We need to deduct lump-sum amounts for contributions, taxes and soli
-    ui["alg_ssc"] = tb["alg1_abz"] * ui["alg_wage"]
-    # assume west germany for this particular calculation
-    # df['east'] = False
-    # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    ui["alg_tax"] = tb["tax_schedule"](12 * ui["alg_wage"] - tb["werbung"], tb)
+    ui["eligible"] = check_eligibility_alg(df_row)
 
-    ui["alg_soli"] = soli_formula(ui["alg_tax"], tb)
-
-    ui["alg_entgelt"] = np.maximum(
-        0, ui["alg_wage"] - ui["alg_ssc"] - ui["alg_tax"] / 12 - ui["alg_soli"] / 12
-    )
-
-    # BENEFIT AMOUNT
-    # Check Eligiblity.
-    # Then different rates for parent and non-parents
-    # Take into account actual wages
-    # there are different replacement rates depending on presence of children
-    ui["eligible"] = (
-        (ui["mts_ue"].between(1, 12))
-        & (df["age"] < 65)
-        & (df["m_pensions"] == 0)
-        & (df["w_hours"] < 15)
-    )
+    ui["m_alg1"] = 0
     ui.loc[ui["eligible"], "m_alg1"] = ui["alg_entgelt"] * np.select(
-        [df["child_num_tu"] == 0, df["child_num_tu"] > 0],
+        [df_row["child_num_tu"] == 0, df_row["child_num_tu"] > 0],
         [tb["agsatz0"], tb["agsatz1"]],
     )
 
@@ -63,6 +31,46 @@ def ui(df, tb):
     # )
     # print("ALG1 Recipients: {}.".format(df['pweight'][ui['m_alg1']>0].sum()))
     return ui["m_alg1"]
+
+
+def _alg_entgelt(df_row, tb):
+    """ Calculating the claim for the Arbeitslosengeldgeld, depending on the current
+    wage."""
+    if df_row["east"].iloc[0]:
+        westost = "o"
+    else:
+        westost = "w"
+    # Relevant wage is capped at the contribution thresholds
+    alg_wage = np.minimum(tb["rvmaxek" + westost], df_row["m_wage_l1"])
+
+    # We need to deduct lump-sum amounts for contributions, taxes and soli
+    alg_ssc = tb["alg1_abz"] * alg_wage
+    # assume west germany for this particular calculation
+    # df['east'] = False
+    # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
+    alg_tax = tb["tax_schedule"](12 * alg_wage - tb["werbung"], tb)
+
+    alg_soli = soli_formula(alg_tax, tb)
+
+    return np.maximum(0, alg_wage - alg_ssc - alg_tax / 12 - alg_soli / 12)
+
+
+def check_eligibility_alg(df_row):
+    """Checking eligibility, depending on the months worked beforehand, the age and
+    other variables.."""
+    # Months of unemployment beforehand.
+    mts_ue = df_row["months_ue"] + df_row["months_ue_l1"] + df_row["months_ue_l2"]
+    # BENEFIT AMOUNT
+    # Check Eligiblity.
+    # Then different rates for parent and non-parents
+    # Take into account actual wages
+    # there are different replacement rates depending on presence of children
+    return (
+        mts_ue.between(1, 12)
+        & (df_row["age"] < 65)
+        & (df_row["m_pensions"] == 0)
+        & (df_row["w_hours"] < 15)
+    )
 
 
 def regelberechnung_until_2010(alg2, tb):
@@ -758,23 +766,21 @@ def wealth_test(df, tb):
     For Wohngeld, there is a lump-sum amount depending on the household size
     """
 
-    df["byear"] = tb["yr"] - df["age"]
+    byear = tb["yr"] - df["age"]
 
     # there are exemptions depending on individual age for adults
     df["ind_freib"] = 0
-    df.loc[(df["byear"] >= 1948) & (~df["child"]), "ind_freib"] = (
-        tb["a2ve1"] * df["age"]
-    )
-    df.loc[(df["byear"] < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
+    df.loc[(byear >= 1948) & (~df["child"]), "ind_freib"] = tb["a2ve1"] * df["age"]
+    df.loc[(byear < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
     # sum over individuals
     df["ind_freib_hh"] = df["ind_freib"].sum()
 
     # there is an overall maximum exemption
     df["maxvermfb"] = 0
-    df.loc[(df["byear"] < 1948) & (~df["child"]), "maxvermfb"] = tb["a2voe1"]
-    df.loc[(df["byear"].between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
-    df.loc[(df["byear"].between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
-    df.loc[(df["byear"] >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
+    df.loc[(byear < 1948) & (~df["child"]), "maxvermfb"] = tb["a2voe1"]
+    df.loc[(byear.between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
+    df.loc[(byear.between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
+    df.loc[(byear >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
     df["maxvermfb_hh"] = df["maxvermfb"].sum()
 
     # add fixed amounts per child and adult
