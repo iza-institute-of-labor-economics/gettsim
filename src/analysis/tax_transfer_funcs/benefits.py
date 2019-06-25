@@ -766,45 +766,51 @@ def wealth_test(df, tb):
     For Wohngeld, there is a lump-sum amount depending on the household size
     """
 
-    byear = tb["yr"] - df["age"]
+    wt = pd.DataFrame(index=df.index)
+    for v in ["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]:
+        wt[v] = df[v]
+    # Initiate birth year series
+    wt["byear"] = tb["yr"] - df["age"]
 
     # there are exemptions depending on individual age for adults
-    df["ind_freib"] = 0
-    df.loc[(byear >= 1948) & (~df["child"]), "ind_freib"] = tb["a2ve1"] * df["age"]
-    df.loc[(byear < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
+    wt["ind_freib"] = 0
+    wt.loc[(wt["byear"] >= 1948) & (~df["child"]), "ind_freib"] = (
+        tb["a2ve1"] * df["age"]
+    )
+    wt.loc[(wt["byear"] < 1948), "ind_freib"] = tb["a2ve2"] * df["age"]
     # sum over individuals
-    df["ind_freib_hh"] = df["ind_freib"].sum()
+    wt["ind_freib_hh"] = wt["ind_freib"].sum()
 
     # there is an overall maximum exemption
-    df["maxvermfb"] = 0
-    df.loc[(byear < 1948) & (~df["child"]), "maxvermfb"] = tb["a2voe1"]
-    df.loc[(byear.between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
-    df.loc[(byear.between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
-    df.loc[(byear >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
-    df["maxvermfb_hh"] = df["maxvermfb"].sum()
+    wt["maxvermfb"] = 0
+    wt.loc[(wt["byear"] < 1948) & (~df["child"]), "maxvermfb"] = tb["a2voe1"]
+    wt.loc[(wt["byear"].between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
+    wt.loc[(wt["byear"].between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
+    wt.loc[(wt["byear"] >= 1964) & (~df["child"]), "maxvermfb"] = tb["a2voe4"]
+    wt["maxvermfb_hh"] = wt["maxvermfb"].sum()
 
     # add fixed amounts per child and adult
-    df["vermfreibetr"] = np.minimum(
-        df["maxvermfb_hh"],
-        df["ind_freib_hh"]
+    wt["vermfreibetr"] = np.minimum(
+        wt["maxvermfb_hh"],
+        wt["ind_freib_hh"]
         + df["child0_18_num"] * tb["a2vkf"]
         + (df["hhsize"] - df["child0_18_num"]) * tb["a2verst"],
     )
 
     # If wealth exceeds the exemption, set benefits to zero
     # (since ALG2 is not yet calculated, just set the need to zero)
-    df.loc[(df["hh_wealth"] > df["vermfreibetr"]), "regelbedarf"] = 0
-    df.loc[(df["hh_wealth"] > df["vermfreibetr"]), "kiz_temp"] = 0
+    wt.loc[(df["hh_wealth"] > wt["vermfreibetr"]), "regelbedarf"] = 0
+    wt.loc[(df["hh_wealth"] > wt["vermfreibetr"]), "kiz_temp"] = 0
 
     # Wealth test for Wohngeld
     # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
-    df.loc[
+    wt.loc[
         (df["hh_wealth"] > (60000 + (30000 * (df["hhsize"] - 1)))), "wohngeld_basis_hh"
     ] = 0
     for v in ["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]:
-        assert df[v].notna().all()
+        assert wt[v].notna().all()
 
-    return df[["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]]
+    return wt[["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]]
 
 
 def get_wohnbedarf(yr):
