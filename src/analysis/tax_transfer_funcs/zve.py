@@ -1,9 +1,5 @@
 import numpy as np
 import pandas as pd
-from src.analysis.tax_transfer_funcs.taxes import (
-    kg_eligibility_wage,
-    kg_eligibility_hours,
-)
 
 
 # @jit(nopython=True)

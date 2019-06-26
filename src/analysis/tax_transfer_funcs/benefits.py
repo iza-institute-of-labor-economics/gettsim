@@ -121,19 +121,9 @@ def alg2(df, tb):
     """
     alg2 = pd.DataFrame(index=df.index.copy())
     alg2["hid"] = df["hid"]
-    alg2["tu_id"] = df["tu_id"]
+    # alg2["tu_id"] = df["tu_id"]
     alg2["uhv"] = df["uhv"]
 
-    # Calculate a couple of helper variables
-    ch_ages = [(0, 18)]
-
-    # Create columns which hold the numer of kids in the age range
-    for c in ch_ages:
-        alg2["child{}_{}_num".format(c[0], c[1])] = (
-            df["child"] & df["age"].between(c[0], c[1])
-        ).sum()
-
-    alg2["hhsize"] = len(alg2)
     # alg2 = alg2.join(
     #     alg2.groupby(["tu_id"])["tu_id"].count(),
     #     on=["tu_id"],
@@ -162,50 +152,8 @@ def alg2(df, tb):
 
     alg2["alg2_ek"], alg2["alg2_grossek"] = alg2_inc(df)
 
-    # Determine the amount of income that is not deducted
-    # Varios withdrawal rates depending on monthly earnings.
-    alg2["ekanrefrei"] = 0
-    # 100€ is always 'free'
-    alg2.loc[(df["m_wage"] <= tb["a2grf"]), "ekanrefrei"] = df["m_wage"]
-    # until 1000€, you may keep 20% (withdrawal rate: 80%)
-    alg2.loc[(df["m_wage"].between(tb["a2grf"], tb["a2eg1"])), "ekanrefrei"] = tb[
-        "a2grf"
-    ] + tb["a2an1"] * (df["m_wage"] - tb["a2grf"])
-    # from 1000 to 1200 €, you may keep only 10%
-    alg2.loc[
-        (df["m_wage"].between(tb["a2eg1"], tb["a2eg2"])) & (alg2["child0_18_num"] == 0),
-        "ekanrefrei",
-    ] = (
-        tb["a2grf"]
-        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
-        + tb["a2an2"] * (df["m_wage"] - tb["a2eg1"])
-    )
-    # If you have kids, this range goes until 1500 €,
-    alg2.loc[
-        (df["m_wage"].between(tb["a2eg1"], tb["a2eg3"])) & (alg2["child0_18_num"] > 0),
-        "ekanrefrei",
-    ] = (
-        tb["a2grf"]
-        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
-        + tb["a2an2"] * (df["m_wage"] - tb["a2eg1"])
-    )
-    # beyond 1200/1500€, you can't keep anything.
-    alg2.loc[
-        (df["m_wage"] > tb["a2eg2"]) & (alg2["child0_18_num"] == 0), "ekanrefrei"
-    ] = (
-        tb["a2grf"]
-        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
-        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
-    )
-    alg2.loc[
-        (df["m_wage"] > tb["a2eg3"]) & (alg2["child0_18_num"] > 0), "ekanrefrei"
-    ] = (
-        tb["a2grf"]
-        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
-        + tb["a2an2"] * (tb["a2eg3"] - tb["a2eg1"])
-    )
-    # Children income is fully deducted, except for the first 100 €.
-    alg2.loc[(df["child"]), "ekanrefrei"] = np.maximum(0, df["m_wage"] - 100)
+    alg2["ekanrefrei"] = einkommensanrechnungsfrei(df, tb)
+
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
     # compared.
@@ -314,6 +262,53 @@ def grossinc_alg2(df):
         .sum(axis=1)
         .fillna(0)
     )
+
+
+def einkommensanrechnungsfrei(df, tb):
+    """Determine the amount of income that is not deducted. Varies withdrawal rates
+    depending on monthly earnings."""
+
+    ekanrefrei = pd.Series(index=df.index)
+    # Calculate the amount of children below the age of 18.
+    child0_18_num = (df["child"] & df["age"].between(0, 18)).sum()
+
+    # 100€ is always 'free'
+    ekanrefrei[(df["m_wage"] <= tb["a2grf"])] = df["m_wage"]
+    # until 1000€, you may keep 20% (withdrawal rate: 80%)
+    ekanrefrei[(df["m_wage"].between(tb["a2grf"], tb["a2eg1"]))] = tb["a2grf"] + tb[
+        "a2an1"
+    ] * (df["m_wage"] - tb["a2grf"])
+    # from 1000 to 1200 €, you may keep only 10%
+    ekanrefrei[
+        (df["m_wage"].between(tb["a2eg1"], tb["a2eg2"])) & (child0_18_num == 0)
+    ] = (
+        tb["a2grf"]
+        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
+        + tb["a2an2"] * (df["m_wage"] - tb["a2eg1"])
+    )
+    # If you have kids, this range goes until 1500 €,
+    ekanrefrei[
+        (df["m_wage"].between(tb["a2eg1"], tb["a2eg3"])) & (child0_18_num > 0)
+    ] = (
+        tb["a2grf"]
+        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
+        + tb["a2an2"] * (df["m_wage"] - tb["a2eg1"])
+    )
+    # beyond 1200/1500€, you can't keep anything.
+    ekanrefrei[(df["m_wage"] > tb["a2eg2"]) & (child0_18_num == 0)] = (
+        tb["a2grf"]
+        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
+        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+    )
+    ekanrefrei[(df["m_wage"] > tb["a2eg3"]) & (child0_18_num > 0)] = (
+        tb["a2grf"]
+        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
+        + tb["a2an2"] * (tb["a2eg3"] - tb["a2eg1"])
+    )
+    # Children income is fully deducted, except for the first 100 €.
+    ekanrefrei[(df["child"])] = np.maximum(0, df["m_wage"] - 100)
+
+    return ekanrefrei
 
 
 def wg(df, tb):
