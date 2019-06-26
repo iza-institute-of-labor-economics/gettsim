@@ -152,42 +152,15 @@ def alg2(df, tb):
     print(pd.crosstab(df['typ_bud'], df['child6_num']))
     """
     # alg2['regelsatz_tu_k'] = aggr(alg2, 'regelsatz', True)
-    # Only 'appropriate' housing costs are paid. Two possible options:
-    # 1. Just pay rents no matter what
-    # alg2["alg2_kdu"] = df["miete"] + df["heizkost"]
-    # 2. Add restrictions regarding flat size and rent per square meter (set it 10€,
-    # slightly above average)
-    alg2["rent_per_sqm"] = np.minimum((df["miete"] + df["heizkost"]) / df["wohnfl"], 10)
-    alg2.loc[df["eigentum"], "wohnfl_just"] = np.minimum(
-        df["wohnfl"], 80 + np.maximum(0, (alg2["hhsize"] - 2) * 20)
-    )
-    alg2.loc[~df["eigentum"], "wohnfl_just"] = np.minimum(
-        df["wohnfl"], (45 + (alg2["hhsize"] - 1) * 15)
-    )
-    alg2["alg2_kdu"] = alg2["rent_per_sqm"] * alg2["wohnfl_just"]
+
+    alg2["alg2_kdu"] = kdu_alg2(df)
+
     # After introduction of Hartz IV until 2010, people becoming unemployed
     # received something on top to smooth the transition. not yet modelled...
 
     alg2["regelbedarf"] = alg2["regelsatz"] + alg2["alg2_kdu"]
 
-    # Income relevant to check against ALG2 claim
-    alg2["alg2_grossek"] = df[
-        [
-            "m_wage",
-            "m_transfers",
-            "m_self",
-            "m_vermiet",
-            "m_kapinc",
-            "m_pensions",
-            "m_alg1",
-        ]
-    ].sum(axis=1)
-    alg2["alg2_grossek"] = alg2["alg2_grossek"].fillna(0)
-    # ...deduct income tax and social security contributions
-    alg2["alg2_ek"] = np.maximum(
-        alg2["alg2_grossek"] - df["incometax"] - df["soli"] - df["svbeit"], 0
-    )
-    alg2["alg2_ek"] = alg2["alg2_ek"].fillna(0)
+    alg2["alg2_ek"], alg2["alg2_grossek"] = alg2_inc(df)
 
     # Determine the amount of income that is not deducted
     # Varios withdrawal rates depending on monthly earnings.
@@ -292,6 +265,54 @@ def mehrbedarf_alg2(df, rs, tb):
             ((rs["child0_6_num"] >= 1) | (rs["child0_15_num"].between(2, 3)))
             * tb["a2mbch2"],
         ),
+    )
+
+
+def kdu_alg2(df):
+    """Only 'appropriate' housing costs are paid. Two possible options:
+    1. Just pay rents no matter what
+    return df["miete"] + df["heizkost"]
+    2. Add restrictions regarding flat size and rent per square meter (set it 10€,
+    slightly above average)"""
+    rent_per_sqm = np.minimum((df["miete"] + df["heizkost"]) / df["wohnfl"], 10)
+    if df["eigentum"].iloc[0]:
+        wohnfl_justified = np.minimum(
+            df["wohnfl"], 80 + np.maximum(0, (len(df) - 2) * 20)
+        )
+    else:
+        wohnfl_justified = np.minimum(df["wohnfl"], (45 + (len(df) - 1) * 15))
+
+    return rent_per_sqm * wohnfl_justified
+
+
+def alg2_inc(df):
+    """Relevant income of alg2."""
+    # Income relevant to check against ALG2 claim
+    alg2_grossek = grossinc_alg2(df)
+    # ...deduct income tax and social security contributions
+    alg2_ek = np.maximum(
+        alg2_grossek - df["incometax"] - df["soli"] - df["svbeit"], 0
+    ).fillna(0)
+
+    return alg2_ek, alg2_grossek
+
+
+def grossinc_alg2(df):
+    """Calculating the gross income relevant for alg2."""
+    return (
+        df[
+            [
+                "m_wage",
+                "m_transfers",
+                "m_self",
+                "m_vermiet",
+                "m_kapinc",
+                "m_pensions",
+                "m_alg1",
+            ]
+        ]
+        .sum(axis=1)
+        .fillna(0)
     )
 
 
