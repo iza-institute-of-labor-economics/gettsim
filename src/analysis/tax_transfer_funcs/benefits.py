@@ -73,37 +73,33 @@ def check_eligibility_alg(df_row):
     )
 
 
-def regelberechnung_until_2010(alg2, tb):
+def regelberechnung_until_2010(rs, tb):
     return [
-        tb["rs_hhvor"] * (1 + alg2["mehrbed"])
-        + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
-        + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
-        + (
-            tb["rs_hhvor"] * tb["a2ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])
-        ),
-        tb["rs_hhvor"] * tb["a2part"] * (1 + alg2["mehrbed"])
+        tb["rs_hhvor"] * (1 + rs["mehrbed"])
+        + (tb["rs_hhvor"] * tb["a2ch14"] * rs["child14_24_num"])
+        + (tb["rs_hhvor"] * tb["a2ch7"] * rs["child7_13_num"])
+        + (tb["rs_hhvor"] * tb["a2ch0"] * (rs["child0_2_num"] + rs["child3_6_num"])),
+        tb["rs_hhvor"] * tb["a2part"] * (1 + rs["mehrbed"])
         + (tb["rs_hhvor"] * tb["a2part"])
-        + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((alg2["adult_num"] - 2), 0))
-        + (tb["rs_hhvor"] * tb["a2ch14"] * alg2["child14_24_num"])
-        + (tb["rs_hhvor"] * tb["a2ch7"] * alg2["child7_13_num"])
-        + (
-            tb["rs_hhvor"] * tb["a2ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])
-        ),
+        + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((rs["adult_num"] - 2), 0))
+        + (tb["rs_hhvor"] * tb["a2ch14"] * rs["child14_24_num"])
+        + (tb["rs_hhvor"] * tb["a2ch7"] * rs["child7_13_num"])
+        + (tb["rs_hhvor"] * tb["a2ch0"] * (rs["child0_2_num"] + rs["child3_6_num"])),
     ]
 
 
-def regelberechnung_2011_and_beyond(alg2, tb):
+def regelberechnung_2011_and_beyond(rs, tb):
     return [
-        tb["rs_hhvor"] * (1 + alg2["mehrbed"])
-        + (tb["rs_ch14"] * alg2["child14_24_num"])
-        + (tb["rs_ch7"] * alg2["child7_13_num"])
-        + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
-        tb["rs_2adults"] * (1 + alg2["mehrbed"])
+        tb["rs_hhvor"] * (1 + rs["mehrbed"])
+        + (tb["rs_ch14"] * rs["child14_24_num"])
+        + (tb["rs_ch7"] * rs["child7_13_num"])
+        + (tb["rs_ch0"] * (rs["child0_2_num"] + rs["child3_6_num"])),
+        tb["rs_2adults"] * (1 + rs["mehrbed"])
         + tb["rs_2adults"]
-        + (tb["rs_madults"] * np.maximum((alg2["adult_num"] - 2), 0))
-        + (tb["rs_ch14"] * alg2["child14_24_num"])
-        + (tb["rs_ch7"] * alg2["child7_13_num"])
-        + (tb["rs_ch0"] * (alg2["child0_2_num"] + alg2["child3_6_num"])),
+        + (tb["rs_madults"] * np.maximum((rs["adult_num"] - 2), 0))
+        + (tb["rs_ch14"] * rs["child14_24_num"])
+        + (tb["rs_ch7"] * rs["child7_13_num"])
+        + (tb["rs_ch0"] * (rs["child0_2_num"] + rs["child3_6_num"])),
     ]
 
 
@@ -121,7 +117,7 @@ def alg2(df, tb):
     alg2["uhv"] = df["uhv"]
 
     # Calculate a couple of helper variables
-    ch_ages = [(0, 6), (0, 15), (0, 18), (14, 24), (7, 13), (3, 6), (0, 2)]
+    ch_ages = [(0, 18)]
 
     # Create columns which hold the numer of kids in the age range
     for c in ch_ages:
@@ -130,38 +126,18 @@ def alg2(df, tb):
         ).sum()
 
     alg2["hhsize"] = len(alg2)
-    alg2 = alg2.join(
-        alg2.groupby(["tu_id"])["tu_id"].count(),
-        on=["tu_id"],
-        how="left",
-        rsuffix="_sum",
-    )
-    # rename
-    alg2 = alg2.rename(columns={"tu_id_sum": "hhsize_tu"})
-    alg2["child_num"] = df["child"].sum()
-    alg2["adult_num"] = alg2["hhsize"] - alg2["child_num"]
-    alg2["byear"] = tb["yr"] - df["age"]
+    # alg2 = alg2.join(
+    #     alg2.groupby(["tu_id"])["tu_id"].count(),
+    #     on=["tu_id"],
+    #     how="left",
+    #     rsuffix="_sum",
+    # )
+    # # rename
+    # alg2 = alg2.rename(columns={"tu_id_sum": "hhsize_tu"})
+    # alg2["byear"] = tb["yr"] - df["age"]
 
-    # Additional need for single parents
-    # Maximum 60% of the standard amount on top (a2zu2)
-    # if you have at least one kid below 6 or two or three below 15, you get 36% on top
-    # alternatively, you get 12% per kid, depending on what's higher.
-    alg2["mehrbed"] = df["alleinerz"] * np.minimum(
-        tb["a2zu2"] / 100,
-        np.maximum(
-            tb["a2mbch1"] * alg2["child_num"],
-            ((alg2["child0_6_num"] >= 1) | (alg2["child0_15_num"].between(2, 3)))
-            * tb["a2mbch2"],
-        ),
-    )
+    alg2["mehrbed"], alg2["regelsatz"] = regelsatz_alg2(df, tb)
 
-    # 'Regular Need'
-    # Different amounts by number of adults and age of kids
-    # tb['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
-
-    alg2["regelsatz"] = np.select(
-        [alg2["adult_num"] == 1, alg2["adult_num"] > 1], tb["calc_regelsatz"](alg2, tb)
-    )
     """
     print(pd.crosstab(alg2['mehrbed'], df['typ_bud']))
     print(pd.crosstab(alg2['regelsatz'],  df['typ_bud']))
@@ -274,6 +250,42 @@ def alg2(df, tb):
     ]
 
 
+def regelsatz_alg2(df, tb):
+
+    rs = pd.DataFrame(index=df.index)
+    for age in [(0, 6), (0, 15), (14, 24), (7, 13), (3, 6), (0, 2)]:
+        rs["child{}_{}_num".format(age[0], age[1])] = (
+            df["child"] & df["age"].between(age[0], age[1])
+        ).sum()
+    rs["child_num"] = df["child"].sum()
+    rs["adult_num"] = len(rs) - rs["child_num"]
+    # Additional need for single parents
+    # Maximum 60% of the standard amount on top (a2zu2)
+    # if you have at least one kid below 6 or two or three below 15, you get 36% on top
+    # alternatively, you get 12% per kid, depending on what's higher.
+    rs["mehrbed"] = mehrbedarf_alg2(df, rs, tb)
+
+    # 'Regular Need'
+    # Different amounts by number of adults and age of kids
+    # tb['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
+
+    regelsatz = np.select(
+        [rs["adult_num"] == 1, rs["adult_num"] > 1], tb["calc_regelsatz"](rs, tb)
+    )
+    return rs["mehrbed"], regelsatz
+
+
+def mehrbedarf_alg2(df, rs, tb):
+    return df["alleinerz"] * np.minimum(
+        tb["a2zu2"] / 100,
+        np.maximum(
+            tb["a2mbch1"] * rs["child_num"],
+            ((rs["child0_6_num"] >= 1) | (rs["child0_15_num"].between(2, 3)))
+            * tb["a2mbch2"],
+        ),
+    )
+
+
 def wg(df, tb):
     """ Housing benefit / Wohngeld
         Social benefit for recipients with income above basic social assistance
@@ -302,7 +314,7 @@ def wg(df, tb):
         wg.groupby(["hid"])["wg_head"].sum(), on=["hid"], how="left", rsuffix="_hh"
     )
     wg = wg.rename(columns={"wg_head_hh": "wohngeld_basis_hh"})
-    df["hhsize_tu"].describe()
+    # df["hhsize_tu"].describe()
     # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return wg[["wohngeld_basis", "wohngeld_basis_hh"]]
 
