@@ -25,7 +25,7 @@ def soc_ins_contrib(df, tb):
     cprint("Social Insurance Contributions...", "red", "on_white")
 
     # initiate dataframe, indices must be identical
-    ssc = pd.Series()
+    ssc = pd.Series(dtype=float)
 
     # a couple of definitions
 
@@ -39,10 +39,6 @@ def soc_ins_contrib(df, tb):
     for val in ["bezgr_", "mini_grenze", "kvmaxek", "rvmaxek"]:
         tb_ost[val] = tb[val + westost]
 
-    kinderlos = (~df["haskids"]) & (df["age"] > 22)
-
-    belowmini = df["m_wage"] < tb_ost["mini_grenze"]
-
     # ssc["above_thresh_kv"] = df["m_wage"] > tb_ost["kvmaxek"]
     #
     # ssc["above_thresh_rv"] = df["m_wage"] > tb_ost["rvmaxek"]
@@ -54,41 +50,31 @@ def soc_ins_contrib(df, tb):
     ssc["svwage_pens"] = np.minimum(df["m_wage"], tb_ost["rvmaxek"])
     ssc["svwage_health"] = np.minimum(df["m_wage"], tb_ost["kvmaxek"])
 
-    # Then, calculate employee contributions.
-    # Old-Age Pension Insurance / Rentenversicherung
-    ssc["rvbeit"] = tb["grvbs"] * ssc["svwage_pens"]
-    # Unemployment Insurance / Arbeitslosenversicherung
-    ssc["avbeit"] = tb["alvbs"] * ssc["svwage_pens"]
-    # Health Insurance for Employees (GKV)
-    ssc["gkvbeit"] = tb["gkvbs_an"] * ssc["svwage_health"]
-    # Care Insurance / Pflegeversicherung
-    ssc["pvbeit"] = tb["gpvbs"] * ssc["svwage_health"]
-    # If you are above 23 and without kids, you have to pay a higher rate
-    if kinderlos:
-        ssc["pvbeit"] = (tb["gpvbs"] + tb["gpvbs_kind"]) * ssc["svwage_health"]
+    # Variable determining wheather wage is below the mini job grenze.
+    belowmini = df["m_wage"] < tb_ost["mini_grenze"]
 
     # Gleitzone / Midi-Jobs
-    # This checks whether wage is in the relevant range
     in_gleitzone = tb["midi_grenze"] >= df["m_wage"] >= tb_ost["mini_grenze"]
-
-    midi = tb["calc_midi_contrib"](df, tb, kinderlos)
 
     # check whether we are below 450€...set to zero
     if belowmini:
-        for beit in [
-            "rvbeit",
-            "gkvbeit",
-            "avbeit",
-            "pvbeit",
-            "ag_rvbeit",
-            "ag_gkvbeit",
-            "ag_avbeit",
-            "ag_pvbeit",
-        ]:
+        for beit in ["rvbeit", "gkvbeit", "avbeit", "pvbeit"]:
             ssc[beit] = 0
     elif in_gleitzone:
-        for beit in ["rvbeit", "gkvbeit", "avbeit", "pvbeit"]:
-            ssc[beit] = midi[beit]
+        ssc = tb["calc_midi_contrib"](df, tb)
+    else:
+        # Then, calculate employee contributions.
+        # Old-Age Pension Insurance / Rentenversicherung
+        ssc["rvbeit"] = tb["grvbs"] * ssc["svwage_pens"]
+        # Unemployment Insurance / Arbeitslosenversicherung
+        ssc["avbeit"] = tb["alvbs"] * ssc["svwage_pens"]
+        # Health Insurance for Employees (GKV)
+        ssc["gkvbeit"] = tb["gkvbs_an"] * ssc["svwage_health"]
+        # Care Insurance / Pflegeversicherung
+        ssc["pvbeit"] = tb["gpvbs"] * ssc["svwage_health"]
+        # If you are above 23 and without kids, you have to pay a higher rate
+        if ~df["haskids"] & (df["age"] > 22):
+            ssc["pvbeit"] = (tb["gpvbs"] + tb["gpvbs_kind"]) * ssc["svwage_health"]
 
     # Exception: since 2013, marginally employed people may pay pension
     # insurance contributions.
@@ -128,7 +114,7 @@ def selfemployed_pv_ssc(df, tb, tb_ost):
     """Calculates care insurance contributions. Self-employed pay the full
         contribution (employer + employee), which is either assessed on their
         self-employement income or 3/4 of the 'Bezugsgröße'"""
-    if ~df["haskids"] & df["age"] > 22:
+    if ~df["haskids"] & (df["age"] > 22):
         return 2 * tb["gpvbs"] + tb["gpvbs_kind"] * np.minimum(
             df["m_self"], 0.75 * tb_ost["bezgr_"]
         )
@@ -139,7 +125,7 @@ def selfemployed_pv_ssc(df, tb, tb_ost):
 def pv_ssc_pensions(df, tb, tb_ost):
     """Calculates the care insurance contributions for pensions. It is twice the
     standard rate"""
-    if ~df["haskids"] & df["age"] > 22:
+    if ~df["haskids"] & (df["age"] > 22):
         return (2 * tb["gpvbs"] + tb["gpvbs_kind"]) * np.minimum(
             df["m_pensions"], tb_ost["kvmaxek"]
         )
@@ -153,7 +139,7 @@ def gkv_ssc_pensions(df, tb, tb_ost):
     return tb["gkvbs_an"] * np.minimum(df["m_pensions"], tb_ost["kvmaxek"])
 
 
-def calc_midi_contributions(df, tb, kinderlos):
+def calc_midi_contributions(df, tb):
     # Calculates Contributions for wage in the 'Gleitzone'
     # For these jobs, the rate is not calculated on the wage,
     # but on the 'bemessungsentgelt'
@@ -182,7 +168,7 @@ def calc_midi_contributions(df, tb, kinderlos):
     midi["avbeit"] = calc_midi_unemployment_contr(midi, tb)
 
     # Long-Term Care
-    midi["pvbeit"] = calc_midi_long_term_care_contr(midi, tb, kinderlos)
+    midi["pvbeit"] = calc_midi_long_term_care_contr(df, midi, tb)
 
     return midi.loc[["rvbeit", "gkvbeit", "avbeit", "pvbeit"]]
 
@@ -225,17 +211,16 @@ def calc_midi_unemployment_contr(midi, tb):
     return grbetr_alv - ag_avbeit
 
 
-def calc_midi_long_term_care_contr(midi, tb, kinderlos):
+def calc_midi_long_term_care_contr(df, midi, tb):
     grbetr_pv = 2 * tb["gpvbs"] * midi["bemessungsentgelt"]
     ag_pvbeit = tb["gpvbs"] * midi["m_wage"]
-    return (
-        grbetr_pv
-        - ag_pvbeit
-        + (kinderlos * tb["gpvbs_kind"] * midi["bemessungsentgelt"])
-    )
+    if ~df["haskids"] & (df["age"] > 22):
+        return grbetr_pv - ag_pvbeit + tb["gpvbs_kind"] * midi["bemessungsentgelt"]
+    else:
+        return grbetr_pv - ag_pvbeit
 
 
-def no_midi(df, tb, kinderlos):
+def no_midi(df, tb):
     """Dummy function returning nothing
     """
     return pd.DataFrame(
