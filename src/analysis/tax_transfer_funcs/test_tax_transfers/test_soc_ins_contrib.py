@@ -47,9 +47,7 @@ def test_soc_ins_contrib(year, column):
     else:
         tb["calc_midi_contrib"] = no_midi
     expected = load_output(year, "test_dfs_ssc.xlsx", column)
-    calculated = pd.Series(name=column)
-    for pid in df["pid"].unique():
-        calculated = calculated.append(
-            soc_ins_contrib(df[df["pid"] == pid], tb)[column]
-        )
+    calculated = pd.Series(name=column, index=df.index)
+    for i in df.index:
+        calculated[i] = soc_ins_contrib(df.loc[i], tb)[column]
     assert_series_equal(calculated, expected)
