@@ -102,14 +102,8 @@ def soc_ins_contrib(df, tb):
     # which is either assessed on their self-employemtn income or 3/4
     # of the 'Bezugsgröße'
     if df["selfemployed"] & ~df["pkv"]:
-        ssc["gkvbeit"] = (tb["gkvbs_an"] + tb["gkvbs_ag"]) * np.minimum(
-            df["m_self"], 0.75 * tb_ost["bezgr_"]
-        )
-    # Same holds for care insurance
-    if df["selfemployed"] & ~df["pkv"]:
-        ssc["pvbeit"] = (
-            2 * tb["gpvbs"] + np.select([kinderlos, ~kinderlos], [tb["gpvbs_kind"], 0])
-        ) * np.minimum(df["m_self"], 0.75 * tb_ost["bezgr_"])
+        ssc["gkvbeit"] = selfemployed_gkv_ssc(df, tb, tb_ost)
+        ssc["pvbeit"] = selfemployed_pv_ssc(df, tb, tb_ost)
 
     # Add the health insurance contribution for pensions
     ssc["gkvbeit"] += gkv_ssc_pensions(df, tb, tb_ost)
@@ -121,6 +115,21 @@ def soc_ins_contrib(df, tb):
     ssc["svbeit"] = ssc.loc[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum()
 
     return ssc.loc[["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]]
+
+
+def selfemployed_gkv_ssc(df, tb, tb_ost):
+    return (tb["gkvbs_an"] + tb["gkvbs_ag"]) * np.minimum(
+        df["m_self"], 0.75 * tb_ost["bezgr_"]
+    )
+
+
+def selfemployed_pv_ssc(df, tb, tb_ost):
+    if ~df["haskids"] & df["age"] > 22:
+        return 2 * tb["gpvbs"] + tb["gpvbs_kind"] * np.minimum(
+            df["m_self"], 0.75 * tb_ost["bezgr_"]
+        )
+    else:
+        return 2 * tb["gpvbs"] * np.minimum(df["m_self"], 0.75 * tb_ost["bezgr_"])
 
 
 def gkv_rv_pensions(df, tb, tb_ost):
