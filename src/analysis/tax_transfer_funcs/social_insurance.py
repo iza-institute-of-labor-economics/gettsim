@@ -110,15 +110,8 @@ def soc_ins_contrib(df, tb):
         ssc["pvbeit"] = (
             2 * tb["gpvbs"] + np.select([kinderlos, ~kinderlos], [tb["gpvbs_kind"], 0])
         ) * np.minimum(df["m_self"], 0.75 * tb_ost["bezgr_"])
-    # Health insurance for pensioners; they pay the standard health insurance rate...
-    ssc["gkvrbeit"] = tb["gkvbs_an"] * np.minimum(df["m_pensions"], tb_ost["kvmaxek"])
-    # but twice the care insurance rate.
-    ssc["pvrbeit"] = 2 * tb["gpvbs"] * np.minimum(df["m_pensions"], tb_ost["kvmaxek"])
-    if kinderlos:
-        ssc["pvrbeit"] = (2 * tb["gpvbs"] + tb["gpvbs_kind"]) * np.minimum(
-            df["m_pensions"], tb_ost["kvmaxek"]
-        )
 
+    ssc["gkvrbeit"], ssc["pvrbeit"] = ssc_pensions(df, tb, tb_ost)
     ssc["gkvbeit"] = ssc["gkvbeit"] + ssc["gkvrbeit"]
     ssc["pvbeit"] = ssc["pvbeit"] + ssc["pvrbeit"]
 
@@ -126,6 +119,20 @@ def soc_ins_contrib(df, tb):
     ssc["svbeit"] = ssc.loc[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum()
 
     return ssc.loc[["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]]
+
+
+def ssc_pensions(df, tb, tb_ost):
+    # Health insurance for pensioners; they pay the standard health insurance rate...
+    gkv_pens_beit = tb["gkvbs_an"] * np.minimum(df["m_pensions"], tb_ost["kvmaxek"])
+
+    # but twice the care insurance rate.
+    if ~df["haskids"] & df["age"] > 22:
+        pv_pens_beit = (2 * tb["gpvbs"] + tb["gpvbs_kind"]) * np.minimum(
+            df["m_pensions"], tb_ost["kvmaxek"]
+        )
+    else:
+        pv_pens_beit = 2 * tb["gpvbs"] * np.minimum(df["m_pensions"], tb_ost["kvmaxek"])
+    return gkv_pens_beit, pv_pens_beit
 
 
 def calc_midi_contributions(df, tb, kinderlos):
