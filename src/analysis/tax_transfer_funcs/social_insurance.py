@@ -29,7 +29,7 @@ def soc_ins_contrib(df, tb):
     # a couple of definitions
 
     # As there is only one household, we selcet west_ost dependent paramter in the
-    # beginning and place them in tb_ost.
+    # beginning and place them in a seperate dictionary tb_ost.
     if df["east"]:
         westost = "o"
     else:
@@ -44,13 +44,13 @@ def soc_ins_contrib(df, tb):
 
     # This is probably the point where Entgeltpunkte should be updated as well.
 
-    # Variable determining wheather wage is below the mini job grenze.
+    # Check if wage is below the mini job grenze.
     belowmini = df["m_wage"] < tb_ost["mini_grenze"]
 
-    # Gleitzone / Midi-Jobs
+    # Check if wage is in Gleitzone / Midi-Jobs
     in_gleitzone = tb["midi_grenze"] >= df["m_wage"] >= tb_ost["mini_grenze"]
 
-    # check whether we are below 450€...set to zero
+    # Calculate accordingly the ssc
     if belowmini:
         ssc = ssc_mini_job()
     elif in_gleitzone:
@@ -84,6 +84,7 @@ def soc_ins_contrib(df, tb):
 
 
 def ssc_mini_job():
+    """Calculates the ssc for mini jobs."""
     mini = pd.Series()
     for beit in ["rvbeit", "gkvbeit", "avbeit", "pvbeit"]:
         mini[beit] = 0.0
@@ -151,16 +152,10 @@ def gkv_ssc_pensions(df, tb, tb_ost):
 
 
 def calc_midi_contributions(df, tb):
-    # Calculates Contributions for wage in the 'Gleitzone'
-    # For these jobs, the rate is not calculated on the wage,
-    # but on the 'bemessungsentgelt'
-    # Contributions are usually shared equally by employee (AN) and
-    # employer (AG). We are actually not interested in employer's contributions,
-    # but we need them here as an intermediate step
-
-    # This function calculates the contributions for everybody.
-    # Whether they apply (i.e. whether wage is within the gleitzone)
-    # is checked outside.
+    """Calculates the ssc for midi jobs. For these jobs, the rate is not calculated
+    on the wage, but on the 'bemessungsentgelt'. Contributions are usually shared
+    equally by employee (AN) and employer (AG). We are actually not interested in
+    employer's contributions, but we need them here as an intermediate step"""
     midi = pd.Series()
     midi["m_wage"] = df["m_wage"]
 
