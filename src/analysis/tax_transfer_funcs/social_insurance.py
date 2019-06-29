@@ -25,7 +25,6 @@ def soc_ins_contrib(df, tb):
     cprint("Social Insurance Contributions...", "red", "on_white")
 
     # initiate dataframe, indices must be identical
-    ssc = pd.Series(dtype=float)
 
     # a couple of definitions
 
@@ -45,11 +44,6 @@ def soc_ins_contrib(df, tb):
 
     # This is probably the point where Entgeltpunkte should be updated as well.
 
-    # Check if the wage is higher than the Beitragsbemessungsgrenze. If so, only the
-    # value of this is used.
-    ssc["svwage_pens"] = np.minimum(df["m_wage"], tb_ost["rvmaxek"])
-    ssc["svwage_health"] = np.minimum(df["m_wage"], tb_ost["kvmaxek"])
-
     # Variable determining wheather wage is below the mini job grenze.
     belowmini = df["m_wage"] < tb_ost["mini_grenze"]
 
@@ -58,23 +52,11 @@ def soc_ins_contrib(df, tb):
 
     # check whether we are below 450€...set to zero
     if belowmini:
-        for beit in ["rvbeit", "gkvbeit", "avbeit", "pvbeit"]:
-            ssc[beit] = 0
+        ssc = ssc_mini_job()
     elif in_gleitzone:
         ssc = tb["calc_midi_contrib"](df, tb)
     else:
-        # Then, calculate employee contributions.
-        # Old-Age Pension Insurance / Rentenversicherung
-        ssc["rvbeit"] = tb["grvbs"] * ssc["svwage_pens"]
-        # Unemployment Insurance / Arbeitslosenversicherung
-        ssc["avbeit"] = tb["alvbs"] * ssc["svwage_pens"]
-        # Health Insurance for Employees (GKV)
-        ssc["gkvbeit"] = tb["gkvbs_an"] * ssc["svwage_health"]
-        # Care Insurance / Pflegeversicherung
-        ssc["pvbeit"] = tb["gpvbs"] * ssc["svwage_health"]
-        # If you are above 23 and without kids, you have to pay a higher rate
-        if ~df["haskids"] & (df["age"] > 22):
-            ssc["pvbeit"] = (tb["gpvbs"] + tb["gpvbs_kind"]) * ssc["svwage_health"]
+        ssc = ssc_regular_job(df, tb, tb_ost)
 
     # Exception: since 2013, marginally employed people may pay pension
     # insurance contributions.
@@ -99,6 +81,35 @@ def soc_ins_contrib(df, tb):
     ssc["svbeit"] = ssc.loc[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum()
 
     return ssc.loc[["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]]
+
+
+def ssc_mini_job():
+    mini = pd.Series()
+    for beit in ["rvbeit", "gkvbeit", "avbeit", "pvbeit"]:
+        mini[beit] = 0.0
+    return mini
+
+
+def ssc_regular_job(df, tb, tb_ost):
+    """Calculates the ssc for a regular job with wage above the midi limit."""
+    regular = pd.Series()
+    # Check if the wage is higher than the Beitragsbemessungsgrenze. If so, only the
+    # value of this is used.
+    regular["svwage_pens"] = np.minimum(df["m_wage"], tb_ost["rvmaxek"])
+    regular["svwage_health"] = np.minimum(df["m_wage"], tb_ost["kvmaxek"])
+    # Then, calculate employee contributions.
+    # Old-Age Pension Insurance / Rentenversicherung
+    regular["rvbeit"] = tb["grvbs"] * regular["svwage_pens"]
+    # Unemployment Insurance / Arbeitslosenversicherung
+    regular["avbeit"] = tb["alvbs"] * regular["svwage_pens"]
+    # Health Insurance for Employees (GKV)
+    regular["gkvbeit"] = tb["gkvbs_an"] * regular["svwage_health"]
+    # Care Insurance / Pflegeversicherung
+    regular["pvbeit"] = tb["gpvbs"] * regular["svwage_health"]
+    # If you are above 23 and without kids, you have to pay a higher rate
+    if ~df["haskids"] & (df["age"] > 22):
+        regular["pvbeit"] = (tb["gpvbs"] + tb["gpvbs_kind"]) * regular["svwage_health"]
+    return regular
 
 
 def selfemployed_gkv_ssc(df, tb, tb_ost):
