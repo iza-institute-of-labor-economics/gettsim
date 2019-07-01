@@ -11,7 +11,7 @@ Alternatively, you may change the respective path (`SOEP_PATH`, `SIAB_PATH`, etc
 
 ## Sources for Cross-validation.
 
-- The [OECD TaxBen model(http://www.oecd.org/social/benefits-and-wages/) is publicly available. You find a concise description of policies. One can start own model runs.
+- The [OECD TaxBen model](http://www.oecd.org/social/benefits-and-wages/) is publicly available. You find a concise description of policies. One can start own model runs.
 
 ## Assumptions in SOEP data preparation
 - Persons are uniquely identified via `syear` and `pid`.
