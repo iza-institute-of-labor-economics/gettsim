@@ -217,6 +217,7 @@ def mehrbedarf_alg2(df, rs, tb):
 
 
 def kdu_alg2(df):
+    # kdu = Kosten der Unterkunft
     """Only 'appropriate' housing costs are paid. Two possible options:
     1. Just pay rents no matter what
     return df["miete"] + df["heizkost"]
