@@ -629,6 +629,7 @@ def kiz(df, tb):
         ] = (wb[4][c - 1] / 100)
 
     # apply this share to living costs
+    # unlike ALG2, there is no check whether living costs are "appropriate".
     kiz["kiz_ek_kdu"] = kiz["wb_eltern_share"] * (kiz["kiz_miete"] + kiz["kiz_heiz"])
     kiz["kiz_ek_relev"] = kiz["kiz_ek_regel"] + kiz["kiz_ek_kdu"]
 
