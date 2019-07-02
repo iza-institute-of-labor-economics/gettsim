@@ -265,7 +265,7 @@ def calc_gross_e4(df, tb):
     werbung = pd.Series(index=df.index, data=0)
     werbung[(~df["child"]) & (df["m_wage"] > 0)] = tb["werbung"]
 
-    gross_e4 = 12 * df["m_wage"] - werbung
+    gross_e4 = (12 * df["m_wage"]).subtract(werbung)
 
     # If they earn less the mini job limit, then their relevant gross income is 0
     if df.east.iloc[0]:
