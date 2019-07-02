@@ -14,7 +14,6 @@ def zve(df, tb):
     pd.options.mode.chained_assignment = "raise"
     # Kapitaleinkommen im Tarif versteuern oder nicht?
     kapinc_in_tarif = tb["yr"] < 2009
-    westost = [~df["east"], df["east"]]
     adult_married = ~df["child"] & df["zveranl"]
     # married = [df['zveranl'], ~df['zveranl']]
     # create output dataframe and transter some important variables
@@ -32,12 +31,6 @@ def zve(df, tb):
     zve["gross_e1"] = 12 * df["m_self"]
     # Earnings
     zve["gross_e4"] = calc_gross_e4(df, tb)
-    # Minijob-Grenze beachten
-    zve.loc[
-        df["m_wage"] <= np.select(westost, [tb["mini_grenzew"], tb["mini_grenzeo"]]),
-        "gross_e4",
-    ] = 0
-
     # Capital Income
     zve["gross_e5"] = np.maximum((12 * df["m_kapinc"]), 0)
     # Income from rents
@@ -258,10 +251,21 @@ def zve(df, tb):
 
 def calc_gross_e4(df, tb):
     """Calculates the gross incomes of non selfemployed work. The wage is reducted by a
-    lump sum payment for 'werbungskosten'"""
+    lump sum payment for 'Werbungskosten'"""
+    # Every adult with some wage, gets a lump sum payment for Werbungskosten
     werbung = pd.Series(index=df.index, data=0)
     werbung[(~df["child"]) & (df["m_wage"] > 0)] = tb["werbung"]
-    return np.maximum((12 * df["m_wage"]) - werbung, 0)
+
+    gross_e4 = 12 * df["m_wage"] - werbung
+
+    # If they earn less the mini job limit, then their relevant gross income is 0
+    if df.east.iloc[0]:
+        mini = tb["mini_grenzeo"]
+    else:
+        mini = tb["mini_grenzew"]
+
+    gross_e4[df["m_wage"] <= mini] = 0
+    return gross_e4
 
 
 def calc_gross_e7(df, tb):
