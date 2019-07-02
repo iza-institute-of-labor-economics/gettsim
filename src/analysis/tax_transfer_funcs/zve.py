@@ -45,15 +45,7 @@ def zve(df, tb):
     zve["handc_pausch"] = calc_handicap_lump_sum(df, tb)
 
     # Aggregate several incomes on the taxpayer couple
-    for inc in [
-        "handc_pausch",
-        "gross_gde",
-        "gross_e1",
-        "gross_e4",
-        "gross_e5",
-        "gross_e6",
-        "gross_e7",
-    ]:
+    for inc in ["gross_e1", "gross_e4", "gross_e5", "gross_e6", "gross_e7"]:
         zve[inc + "_tu"] = 0
         zve.loc[adult_married, inc + "_tu"] = zve[inc][adult_married].sum()
 
@@ -75,69 +67,13 @@ def zve(df, tb):
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
     zve.loc[~df["child"], "zve_nokfb"] = zve_nokfb(zve, tb)
     # Tax base incl. capital income
-    zve.loc[~adult_married, "zve_abg_nokfb"] = zve_abg_nokfb_not_married(zve, tb)
+    zve.loc[~df["zveranl"] & ~df["child"], "zve_abg_nokfb"] = zve_abg_nokfb_not_married(
+        zve, tb
+    )
     # Married couples get twice the basic allowance
     zve.loc[adult_married, "zve_abg_nokfb"] = zve_abg_nokfb_married(zve, tb)
 
-    # Child Allowance (Kinderfreibetrag)
-    # Married couples may share deductions if one partner does not need it.
-    # For non-married, just deduct half the amount for each child.
-    # TODO: Check whether this is correct for non-married couples
-
-    zve["kifreib"] = 0
-    # Count number of children eligible for Child Benefit.
-    # Child allowance is only received for these kids.
-    zve["child_num_kg"] = tb["childben_elig_rule"](df, tb).sum()
-
-    zve.loc[~zve["zveranl"] & ~df["child"], "kifreib"] = (
-        0.5 * tb["kifreib"] * zve["child_num_kg"]
-    )
-    # For married couples, things are more complicated
-    # Find out who has higher and lower zve among partners
-    zve = zve.join(
-        zve[zve["zveranl"]].groupby("tu_id")["zve_nokfb"].max(),
-        on=["tu_id"],
-        how="left",
-        rsuffix="_higher",
-    )
-    zve = zve.join(
-        zve[zve["zveranl"]].groupby("tu_id")["zve_nokfb"].min(),
-        on=["tu_id"],
-        how="left",
-        rsuffix="_lower",
-    )
-    # the difference of the lower value to the child allowance is what the first earner
-    # can claim.
-    zve["diff_kifreib"] = zve["zve_nokfb_lower"] - (
-        0.5 * tb["kifreib"] * zve["child_num_kg"]
-    )
-
-    # For the first earner, subtract half the amount first.
-    zve.loc[
-        (zve["zve_nokfb"] == zve["zve_nokfb_higher"]) & zve["zveranl"], "kifreib"
-    ] = (0.5 * tb["kifreib"] * zve["child_num_kg"])
-    # Then subtract also the amount transferred from the second earner.
-    zve.loc[
-        (zve["zve_nokfb"] == zve["zve_nokfb_higher"])
-        & zve["zveranl"]
-        & (zve["diff_kifreib"] < 0),
-        "kifreib",
-    ] = zve["kifreib"] + abs(zve["diff_kifreib"])
-    # The second earner subtracts the remaining amount
-    zve.loc[
-        (zve["zve_nokfb"] == zve["zve_nokfb_lower"])
-        & zve["zveranl"]
-        & (zve["diff_kifreib"] < 0),
-        "kifreib",
-    ] = 0.5 * tb["kifreib"] * zve["child_num_kg"] - abs(zve["diff_kifreib"])
-
-    # If the second earner earns enough, deduct half the amount also for him/her
-    zve.loc[
-        (zve["zve_nokfb"] == zve["zve_nokfb_lower"])
-        & zve["zveranl"]
-        & (zve["diff_kifreib"] >= 0),
-        "kifreib",
-    ] = (0.5 * tb["kifreib"] * zve["child_num_kg"])
+    zve["kifreib"] = kinderfreibetrag(df, zve, tb)
 
     # Finally, Subtract (corrected) Child allowance
     zve.loc[~df["child"], "zve_kfb"] = np.maximum(zve["zve_nokfb"] - zve["kifreib"], 0)
@@ -181,7 +117,51 @@ def zve(df, tb):
     ]
 
 
+def kinderfreibetrag(df, zve, tb):
+    """Calculate zve with 'kinderfreibetrag'"""
+    # Child Allowance (Kinderfreibetrag)
+    # Married couples may share deductions if one partner does not need it.
+    # For non-married, just deduct half the amount for each child.
+    # TODO: Check whether this is correct for non-married couples
+
+    kifreib = pd.Series(index=df.index, data=0)
+    # Count number of children eligible for Child Benefit.
+    # Child allowance is only received for these kids.
+    child_num_kg = tb["childben_elig_rule"](df, tb).sum()
+    #
+    # df_adults = df[~df["child"]]
+    # zve_adults = zve[~df["child"]]
+    kifreib[~df["zveranl"] & ~df["child"]] = 0.5 * tb["kifreib"] * child_num_kg
+    # For married couples, things are more complicated
+    # Find out who has higher and lower zve among partners
+    nokfb_higher = zve.loc[df["zveranl"], "zve_nokfb"].max()
+    nokfb_lower = zve.loc[df["zveranl"], "zve_nokfb"].min()
+    # the difference of the lower value to the child allowance is what the first earner
+    # can claim.
+    diff_kifreib = nokfb_lower - (0.5 * tb["kifreib"] * child_num_kg)
+
+    # For the first earner, subtract half the amount first.
+    kifreib[(zve["zve_nokfb"] == nokfb_higher) & df["zveranl"]] = (
+        0.5 * tb["kifreib"] * child_num_kg
+    )
+    # Then subtract also the amount transferred from the second earner.
+    kifreib[
+        (zve["zve_nokfb"] == nokfb_higher) & df["zveranl"] & (diff_kifreib < 0)
+    ] = kifreib + abs(diff_kifreib)
+    # The second earner subtracts the remaining amount
+    kifreib[
+        (zve["zve_nokfb"] == nokfb_lower) & df["zveranl"] & (diff_kifreib < 0)
+    ] = 0.5 * tb["kifreib"] * child_num_kg - abs(diff_kifreib)
+
+    # If the second earner earns enough, deduct half the amount also for him/her
+    kifreib[(zve["zve_nokfb"] == nokfb_lower) & df["zveranl"] & (diff_kifreib >= 0)] = (
+        0.5 * tb["kifreib"] * child_num_kg
+    )
+    return kifreib
+
+
 def zve_nokfb(zve, tb):
+    """Calculate zve with no 'kindefreibetrag'."""
     return np.maximum(
         0,
         zve["gross_gde"]
@@ -360,4 +340,4 @@ def calc_hhfreib_until2014(df, tb):
 def calc_hhfreib_from2015(df, tb):
     """Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'"""
-    return tb["hhfreib"] + ((df["child_num_tu"] - 1) * tb["hhfreib_ch"])
+    return tb["hhfreib"] + ((df["child"].sum() - 1) * tb["hhfreib_ch"])
