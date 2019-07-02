@@ -43,25 +43,7 @@ def zve(df, tb):
         ["m_self", "m_wage", "m_kapinc", "m_vermiet", "m_pensions"]
     ].sum(axis=1)
 
-    # Behinderten-Pauschbeträge
-    hc_degrees = [
-        df["handcap_degree"].between(45, 50),
-        df["handcap_degree"].between(51, 60),
-        df["handcap_degree"].between(61, 70),
-        df["handcap_degree"].between(71, 80),
-        df["handcap_degree"].between(81, 90),
-        df["handcap_degree"].between(91, 100),
-    ]
-    hc_pausch = [
-        tb["sbhp50"],
-        tb["sbhp60"],
-        tb["sbhp70"],
-        tb["sbhp80"],
-        tb["sbhp90"],
-        tb["sbhp100"],
-    ]
-    zve["handc_pausch"] = np.select(hc_degrees, hc_pausch)
-    zve["handc_pausch"].fillna(0, inplace=True)
+    zve["handc_pausch"] = calc_handicap_lump_sum(df, tb)
 
     # Aggregate several incomes on the taxpayer couple
     for inc in [
@@ -236,6 +218,28 @@ def zve(df, tb):
             "ertragsanteil",
         ]
     ]
+
+
+def calc_handicap_lump_sum(df, tb):
+    """Calculate the different deductions for different handicap degrees."""
+    # Behinderten-Pauschbeträge
+    hc_degrees = [
+        df["handcap_degree"].between(45, 50),
+        df["handcap_degree"].between(51, 60),
+        df["handcap_degree"].between(61, 70),
+        df["handcap_degree"].between(71, 80),
+        df["handcap_degree"].between(81, 90),
+        df["handcap_degree"].between(91, 100),
+    ]
+    hc_pausch = [
+        tb["sbhp50"],
+        tb["sbhp60"],
+        tb["sbhp70"],
+        tb["sbhp80"],
+        tb["sbhp90"],
+        tb["sbhp100"],
+    ]
+    return np.nan_to_num(np.select(hc_degrees, hc_pausch))
 
 
 def calc_gde(zve, tb):
