@@ -20,7 +20,6 @@ def zve(df, tb):
         zve[v] = df[v]
 
     # Werbungskosten und Sonderausgaben
-
     zve["sonder"] = 0
     zve.loc[(~df["child"]), "sonder"] = tb["sonder"]
     ####################################################
@@ -47,7 +46,6 @@ def zve(df, tb):
 
     # Aggregate several incomes on the taxpayer couple
     for inc in [
-        "sonder",
         "handc_pausch",
         "gross_gde",
         "gross_e1",
@@ -66,17 +64,7 @@ def zve(df, tb):
     # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve["altfreib"] = 0
-    zve.loc[df["age"] > 64, "altfreib"] = np.minimum(
-        tb["altentq"]
-        * 12
-        * (
-            df["m_wage"]
-            + np.maximum(0, df[["m_kapinc", "m_self", "m_vermiet"]].sum(axis=1))
-        ),
-        tb["altenth"],
-    )
-    zve["altfreib_tu"] = 0
-    zve.loc[adult_married, "altfreib_tu"] = zve["altfreib"][adult_married].sum()
+    zve.loc[df["age"] > 64, "altfreib"] = calc_altfreibetrag(df, tb)
     # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
     # Since 2015, it increases with number of children.
     # Used to be called 'Haushaltsfreibetrag'
@@ -218,6 +206,19 @@ def zve(df, tb):
             "ertragsanteil",
         ]
     ]
+
+
+def calc_altfreibetrag(df, tb):
+    """Calculates the deductions for elderly."""
+    return np.minimum(
+        tb["altentq"]
+        * 12
+        * (
+            df["m_wage"]
+            + np.maximum(0, df[["m_kapinc", "m_self", "m_vermiet"]].sum(axis=1))
+        ),
+        tb["altenth"],
+    )
 
 
 def calc_handicap_lump_sum(df, tb):
