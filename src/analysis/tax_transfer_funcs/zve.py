@@ -66,8 +66,7 @@ def zve(df, tb):
     zve["altfreib"] = 0
     zve.loc[df["age"] > 64, "altfreib"] = calc_altfreibetrag(df, tb)
     # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
-    # Since 2015, it increases with number of children.
-    # Used to be called 'Haushaltsfreibetrag'
+
     zve["hhfreib"] = 0
     zve.loc[df["alleinerz"], "hhfreib"] = tb["calc_hhfreib"](df, tb)
 
@@ -341,8 +340,12 @@ def vorsorge2010(df, tb):
 
 
 def calc_hhfreib_until2014(df, tb):
+    """Calculates tax reduction for single parents. Used to be called
+    'Haushaltsfreibetrag'"""
     return tb["hhfreib"]
 
 
 def calc_hhfreib_from2015(df, tb):
+    """Calculates tax reduction for single parents. Since 2015, it increases with
+    number of children. Used to be called 'Haushaltsfreibetrag'"""
     return tb["hhfreib"] + ((df["child_num_tu"] - 1) * tb["hhfreib_ch"])
