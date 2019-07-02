@@ -73,15 +73,7 @@ def zve(df, tb):
     # Taxable income (zve)
     # For married couples, household income is split between the two.
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
-    zve.loc[~df["child"], "zve_nokfb"] = np.maximum(
-        0,
-        zve["gross_gde"]
-        - zve["vorsorge"]
-        - zve["sonder"]
-        - zve["handc_pausch"]
-        - zve["hhfreib"]
-        - zve["altfreib"],
-    )
+    zve.loc[~df["child"], "zve_nokfb"] = zve_nokfb(zve, tb)
     # Tax base incl. capital income
     zve.loc[~adult_married, "zve_abg_nokfb"] = zve_abg_nokfb_not_married(zve, tb)
     # Married couples get twice the basic allowance
@@ -187,6 +179,18 @@ def zve(df, tb):
             "ertragsanteil",
         ]
     ]
+
+
+def zve_nokfb(zve, tb):
+    return np.maximum(
+        0,
+        zve["gross_gde"]
+        - zve["vorsorge"]
+        - zve["sonder"]
+        - zve["handc_pausch"]
+        - zve["hhfreib"]
+        - zve["altfreib"],
+    )
 
 
 def zve_abg_nokfb_not_married(zve, tb):
