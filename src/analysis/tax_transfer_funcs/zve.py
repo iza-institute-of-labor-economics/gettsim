@@ -12,8 +12,6 @@ def zve(df, tb):
          applying the tax schedule
     """
     pd.options.mode.chained_assignment = "raise"
-    # Kapitaleinkommen im Tarif versteuern oder nicht?
-    kapinc_in_tarif = tb["yr"] < 2009
     adult_married = ~df["child"] & df["zveranl"]
     # married = [df['zveranl'], ~df['zveranl']]
     # create output dataframe and transter some important variables
@@ -38,16 +36,7 @@ def zve(df, tb):
     # Others (Pensions)
     zve["gross_e7"], zve["ertragsanteil"] = calc_gross_e7(df, tb)
     # Sum of incomes
-    zve["gross_gde"] = zve[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
-    # Add UBI to taxable income
-    # if ref == "UBI":
-    #    zve.loc[:, "gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
-
-    # If capital income tax with tariff, add it but account for exemptions
-    if kapinc_in_tarif:
-        zve.loc[:, "gross_gde"] = zve["gross_gde"] + np.maximum(
-            zve["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0
-        )
+    zve["gross_gde"] = calc_gde(zve, tb)
 
     # Gross (market) income <> sum of incomes...
     zve.loc[:, "m_brutto"] = df[
@@ -247,6 +236,22 @@ def zve(df, tb):
             "ertragsanteil",
         ]
     ]
+
+
+def calc_gde(zve, tb):
+    """Calculates sum of the taxable income. It depends on the year if capital
+    income, counts into the sum."""
+    gross_gde = zve[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
+
+    # Add UBI to taxable income
+    # if ref == "UBI":
+    #    zve.loc[:, "gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
+
+    # Kapitaleinkommen im Tarif versteuern oder nicht?
+    # If capital income tax with tariff, add it but account for exemptions
+    if tb["yr"] < 2009:
+        gross_gde += np.maximum(zve["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0)
+    return gross_gde
 
 
 def calc_gross_e4(df, tb):
