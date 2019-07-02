@@ -22,17 +22,6 @@ def zve(df, tb):
     for v in ["hid", "tu_id", "zveranl"]:
         zve[v] = df[v]
 
-    # The share of pensions subject to income taxation
-    zve["ertragsanteil"] = 0
-    zve.loc[df["renteneintritt"] <= 2004, "ertragsanteil"] = 0.27
-    zve.loc[df["renteneintritt"].between(2005, 2020), "ertragsanteil"] = 0.5 + 0.02 * (
-        df["renteneintritt"] - 2005
-    )
-    zve.loc[df["renteneintritt"].between(2021, 2040), "ertragsanteil"] = 0.8 + 0.01 * (
-        df["renteneintritt"] - 2020
-    )
-    zve.loc[df["renteneintritt"] >= 2041, "ertragsanteil"] = 1
-
     # Werbungskosten und Sonderausgaben
     zve["werbung"] = 0
     zve.loc[(~df["child"]) & (df["m_wage"] > 0), "werbung"] = tb["werbung"]
@@ -55,9 +44,7 @@ def zve(df, tb):
     # Income from rents
     zve["gross_e6"] = 12 * df["m_vermiet"]
     # Others (Pensions)
-    zve["gross_e7"] = np.maximum(
-        12 * (zve["ertragsanteil"] * df["m_pensions"]) - tb["vorsorgpausch"], 0
-    )
+    zve["gross_e7"], zve["ertragsanteil"] = calc_gross_e7(df, tb)
     # Sum of incomes
     zve["gross_gde"] = zve[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
     # Add UBI to taxable income
@@ -268,6 +255,25 @@ def zve(df, tb):
             "ertragsanteil",
         ]
     ]
+
+
+def calc_gross_e7(df, tb):
+    """ Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
+    pensions."""
+    # The share of pensions subject to income taxation
+    ertragsanteil = pd.Series(index=df.index)
+    ertragsanteil[df["renteneintritt"] <= 2004] = 0.27
+    ertragsanteil[df["renteneintritt"].between(2005, 2020)] = 0.5 + 0.02 * (
+        df["renteneintritt"] - 2005
+    )
+    ertragsanteil[df["renteneintritt"].between(2021, 2040)] = 0.8 + 0.01 * (
+        df["renteneintritt"] - 2020
+    )
+    ertragsanteil[df["renteneintritt"] >= 2041] = 1
+    gross_e7 = np.maximum(
+        12 * (ertragsanteil * df["m_pensions"]) - tb["vorsorgpausch"], 0
+    )
+    return gross_e7, ertragsanteil
 
 
 def vorsorge2010(df, tb):
