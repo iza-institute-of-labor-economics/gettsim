@@ -23,8 +23,7 @@ def zve(df, tb):
         zve[v] = df[v]
 
     # Werbungskosten und Sonderausgaben
-    zve["werbung"] = 0
-    zve.loc[(~df["child"]) & (df["m_wage"] > 0), "werbung"] = tb["werbung"]
+
     zve["sonder"] = 0
     zve.loc[(~df["child"]), "sonder"] = tb["sonder"]
     ####################################################
@@ -32,7 +31,7 @@ def zve(df, tb):
     # Income from Self-Employment
     zve["gross_e1"] = 12 * df["m_self"]
     # Earnings
-    zve["gross_e4"] = np.maximum((12 * df["m_wage"]) - zve["werbung"], 0)
+    zve["gross_e4"] = calc_gross_e4(df, tb)
     # Minijob-Grenze beachten
     zve.loc[
         df["m_wage"] <= np.select(westost, [tb["mini_grenzew"], tb["mini_grenzeo"]]),
@@ -257,11 +256,19 @@ def zve(df, tb):
     ]
 
 
+def calc_gross_e4(df, tb):
+    """Calculates the gross incomes of non selfemployed work. The wage is reducted by a
+    lump sum payment for 'werbungskosten'"""
+    werbung = pd.Series(index=df.index, data=0)
+    werbung[(~df["child"]) & (df["m_wage"] > 0)] = tb["werbung"]
+    return np.maximum((12 * df["m_wage"]) - werbung, 0)
+
+
 def calc_gross_e7(df, tb):
     """ Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
     pensions."""
     # The share of pensions subject to income taxation
-    ertragsanteil = pd.Series(index=df.index)
+    ertragsanteil = pd.Series(index=df.index, data=0)
     ertragsanteil[df["renteneintritt"] <= 2004] = 0.27
     ertragsanteil[df["renteneintritt"].between(2005, 2020)] = 0.5 + 0.02 * (
         df["renteneintritt"] - 2005
