@@ -65,8 +65,8 @@ def zve(df, tb):
     # does not affect pensions.
     zve["altfreib"] = 0
     zve.loc[df["age"] > 64, "altfreib"] = calc_altfreibetrag(df, tb)
-    # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
 
+    # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
     zve["hhfreib"] = 0
     zve.loc[df["alleinerz"], "hhfreib"] = tb["calc_hhfreib"](df, tb)
 
@@ -83,27 +83,9 @@ def zve(df, tb):
         - zve["altfreib"],
     )
     # Tax base incl. capital income
-    zve.loc[~df["zveranl"] & ~df["child"], "zve_abg_nokfb"] = np.maximum(
-        0,
-        zve["gross_gde"]
-        + np.maximum(0, zve["gross_e5"] - tb["spsparf"] - tb["spwerbz"])
-        - zve["vorsorge"]
-        - zve["sonder"]
-        - zve["handc_pausch"]
-        - zve["hhfreib"]
-        - zve["altfreib"],
-    )
+    zve.loc[~adult_married, "zve_abg_nokfb"] = zve_abg_nokfb_not_married(zve, tb)
     # Married couples get twice the basic allowance
-    zve.loc[df["zveranl"] & ~df["child"], "zve_abg_nokfb"] = np.maximum(
-        0,
-        zve["gross_gde"]
-        + np.maximum(0, zve["gross_e5"] - 2 * tb["spsparf"] - 2 * tb["spwerbz"])
-        - zve["vorsorge"]
-        - zve["sonder"]
-        - zve["handc_pausch"]
-        - zve["hhfreib"]
-        - zve["altfreib"],
-    )
+    zve.loc[adult_married, "zve_abg_nokfb"] = zve_abg_nokfb_married(zve, tb)
 
     # Child Allowance (Kinderfreibetrag)
     # Married couples may share deductions if one partner does not need it.
@@ -205,6 +187,32 @@ def zve(df, tb):
             "ertragsanteil",
         ]
     ]
+
+
+def zve_abg_nokfb_not_married(zve, tb):
+    return np.maximum(
+        0,
+        zve["gross_gde"]
+        + np.maximum(0, zve["gross_e5"] - tb["spsparf"] - tb["spwerbz"])
+        - zve["vorsorge"]
+        - zve["sonder"]
+        - zve["handc_pausch"]
+        - zve["hhfreib"]
+        - zve["altfreib"],
+    )
+
+
+def zve_abg_nokfb_married(zve, tb):
+    return np.maximum(
+        0,
+        zve["gross_gde"]
+        + np.maximum(0, zve["gross_e5"] - 2 * tb["spsparf"] - 2 * tb["spwerbz"])
+        - zve["vorsorge"]
+        - zve["sonder"]
+        - zve["handc_pausch"]
+        - zve["hhfreib"]
+        - zve["altfreib"],
+    )
 
 
 def calc_altfreibetrag(df, tb):
