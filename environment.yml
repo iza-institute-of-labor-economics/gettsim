@@ -1,4 +1,4 @@
-name: dynamod
+name: gettsim
 
 dependencies:
   - python=3.7
@@ -18,7 +18,5 @@ dependencies:
   - xlrd
   - seaborn
   - pip:
-      - flake8
-      - black
       - pre-commit
       - termcolor
