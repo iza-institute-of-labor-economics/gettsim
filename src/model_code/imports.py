@@ -155,32 +155,6 @@ def gini(x, w=None):
     return gini
 
 
-def mw_pensions(df):
-    """ Calculates mean wages by SOEP year. Will be used in tax_transfer
-    """
-    print("Pensions Calculations...")
-    rent = df[["syear", "m_wage", "female", "east", "pweight", "civilservant"]][
-        (df["m_wage"] > 100) & ~df["selfemployed"]
-    ]
-    # calculates weighted mean wages by year
-    # all earnings.
-    rent["wage_weighted"] = rent["m_wage"] * 12 * rent["pweight"]
-    # only wages subject to social security contributions
-    rent["wage_weighted_subsample"] = rent["wage_weighted"][
-        ~rent["civilservant"] & (rent["m_wage"] > 450)
-    ]
-    rent["pweight_sub"] = rent["pweight"][
-        ~rent["civilservant"] & (rent["m_wage"] > 450)
-    ]
-    years = rent.groupby("syear")
-    mw = pd.DataFrame()
-    mw["meanwages"] = round(years["wage_weighted"].sum() / years["pweight"].sum(), 2)
-    mw["meanwages_sub"] = round(
-        years["wage_weighted_subsample"].sum() / years["pweight_sub"].sum(), 2
-    )
-    return mw
-
-
 def say_hello(taxyear, ref, hyporun):
     print("---------------------------------------------")
     print(" TAX TRANSFER SYSTEM ")
