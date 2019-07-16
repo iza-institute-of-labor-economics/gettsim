@@ -3,7 +3,17 @@
 **For details on the modelling of the tax-benefit system, you may check out `doc_files` in the IZAΨMOD repository, in particular `doku.pdf` and the graphs in the `flowcharts` directory.**
 
 ## Technical Remarks
-- In order to clone including submodules, please clone via `git clone --recurse-submodules https://git.econ.tools/dynamod/dynamod.git` .
+- In order to clone including submodules, please clone via
+
+  ```bash
+  $ git clone --recurse-submodules https://git.econ.tools/dynamod/dynamod.git
+  ```
+  If you cloned the repo without the recursive flag and find your submodules empty, pull the content with
+  ```bash
+  $ cd custompygraph
+  $ git submodule update --init
+  $ git checkout HEAD
+  ```
 - The data for the test cases are prepared in Excel as we make use of formulas. When opening these files in Libreoffice Calc, boolean values (e.g. for `child` oder `east`) might be displayed as `0/1` instead of `TRUE/FALSE`. 
 Changing the tests with calc might hence lead to failure, as the function requires the `pandas` boolean type. **Remedy:** Change the format in Calc to *booelan* by selecting the respective cells and hitting `Ctrl+1`.
 - The data preparation is outsourced into separate repositories. In order to work smoothly, place these repos into the same root folder as this repo. 
