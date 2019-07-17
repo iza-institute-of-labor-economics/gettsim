@@ -13,7 +13,7 @@ jobs:
   - bash: conda update conda --yes --quiet
     displayName: Update conda.
 
-  - bash: conda env create
+  - bash: conda env create -n gettsim -f environment.yml
     displayName: Create Anaconda environment.
 
   - bash: |
@@ -33,7 +33,7 @@ jobs:
   - powershell: conda update conda --yes --quiet
     displayName: Update conda.
 
-  - powershell: conda env create
+  - powershell: conda env create -n gettsim -f environment.yml
     displayName: Create Anaconda environment.
 
   - script: |
@@ -60,7 +60,7 @@ jobs:
   - bash: conda update conda --yes --quiet
     displayName: Update conda.
 
-  - bash: conda env create
+  - bash: conda env create -n gettsim -f environment.yml
     displayName: Create Anaconda environment.
 
   - bash: |
