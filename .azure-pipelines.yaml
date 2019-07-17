@@ -1,3 +1,8 @@
+# This file configures the test run on Azure Pipelines.
+
+# More information on how to use Anaconda with Azure Pipelines can be found here:
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/anaconda.
+
 pr: none
 
 jobs:
