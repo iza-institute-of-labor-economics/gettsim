@@ -13,14 +13,7 @@ def uprate(df, dy, ty, path):
     # get uprate matrix ,as np.array
     upr = pd.read_excel(path + "/data/params/uprate_cpi.xls", index_col="ausgang")
     factor = upr.loc[dy]["y" + str(ty)]
-    print(
-        "Uprating monetary variables from year "
-        + str(dy)
-        + " to "
-        + str(ty)
-        + " with factor "
-        + str(factor)
-    )
+
     money_vars = [
         "k_inco",
         "m_pensions",

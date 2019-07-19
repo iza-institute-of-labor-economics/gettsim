@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
-from src.model_code.imports import aggr
+
 from src.analysis.tax_transfer_funcs.taxes import soli_formula
+from src.model_code.imports import aggr
 
 
 def ui(df_row, tb):
@@ -24,12 +25,6 @@ def ui(df_row, tb):
         [tb["agsatz0"], tb["agsatz1"]],
     )
 
-    # print(
-    #     "ALG1 Payments: {} bn €.".format(
-    #         ui["m_alg1"].multiply(df["pweight"]).sum() * 12 / 1e9
-    #     )
-    # )
-    # print("ALG1 Recipients: {}.".format(df['pweight'][ui['m_alg1']>0].sum()))
     return ui["m_alg1"]
 
 
@@ -136,11 +131,6 @@ def alg2(df, tb):
 
     alg2["mehrbed"], alg2["regelsatz"] = regelsatz_alg2(df, tb)
 
-    """
-    print(pd.crosstab(alg2['mehrbed'], df['typ_bud']))
-    print(pd.crosstab(alg2['regelsatz'],  df['typ_bud']))
-    print(pd.crosstab(df['typ_bud'], df['child6_num']))
-    """
     # alg2['regelsatz_tu_k'] = aggr(alg2, 'regelsatz', True)
 
     alg2["alg2_kdu"] = kdu_alg2(df)
@@ -785,7 +775,6 @@ def benefit_priority(df, tb):
     # they get 'Grundleistung im Alter', which pays the same amount.
     bp["n_pens"] = df["pensioner"].sum()
 
-    print(bp[["kiz", "wohngeld", "m_alg2"]])
     for ben in ["kiz", "wohngeld", "m_alg2"]:
         bp.loc[bp["n_pens"] > 0, ben] = 0
         assert bp[ben].notna().all()

@@ -68,8 +68,5 @@ def test_zve(year):
         calculated = calculated.append(zve(df[df["tu_id"] == tu_id], tb)[columns])
     expected = load_output(year, file_name, columns)
 
-    # print(calculated)
-    # print(expected)
-
     # allow 1€ difference, caused by strange rounding issues.
     assert_frame_equal(calculated, expected, check_less_precise=2)

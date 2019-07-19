@@ -48,8 +48,6 @@ def tax_sched(df, tb):
     ts["soli"] = np.select(
         [df["zveranl"], ~df["zveranl"]], [ts["soli_tu"] / 2, ts["soli_tu"]]
     )
-    print(df["tu_id"])
-    print(ts[["tax_kfb_tu", "tax_kfb", "soli", "solibasis", "tax_kfb_tu"]])
     return ts[
         ["tax_{}".format(inc) for inc in tb["zve_list"]]
         + ["tax_{}_tu".format(inc) for inc in tb["zve_list"]]
@@ -215,7 +213,6 @@ def favorability_check(df, tb):
         [df["zveranl"], ~df["zveranl"]], [fc["incometax_tu"] / 2, fc["incometax_tu"]]
     )
 
-
     return fc[
         [
             "hid",
@@ -231,9 +228,9 @@ def favorability_check(df, tb):
 
 def kindergeld(df, tb):
     """ Child Benefit (kindergeld)
-    Basic Amount for each child. Parents receive child benefit for every child up to 18 years.
-    Above, they get it only up to tb["kgage"] if the child is
-    a) in eduacation and
+    Basic Amount for each child. Parents receive child benefit for every child up to
+    18 years. Above, they get it only up to tb["kgage"] if the child is
+    a) in education and
     b) not working too much / not receiving too much income (depending on the year)
 
     Returns:
@@ -256,7 +253,8 @@ def kindergeld(df, tb):
 
 def kg_eligibility_hours(df, tb):
     """ Nowadays, kids must not work more than 20 hour
-    returns a boolean variable whether a specific person is a child eligible for child benefit
+    returns a boolean variable whether a specific person is a child eligible for
+    child benefit
     """
     df = df.copy()
     df["eligible"] = df["age"] <= 18
@@ -272,7 +270,8 @@ def kg_eligibility_hours(df, tb):
 
 def kg_eligibility_wage(df, tb):
     """ Before 2011, there was an income ceiling for children
-    returns a boolean variable whether a specific person is a child eligible for child benefit
+    returns a boolean variable whether a specific person is a child eligible for
+    child benefit
     """
     df = df.copy()
     df["eligible"] = df["age"] <= 18

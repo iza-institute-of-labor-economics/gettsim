@@ -83,15 +83,6 @@ def zve(df, tb):
         zve["zve_" + incdef + "_tu"] = zve["zve_" + incdef][adult_married].sum()
         zve.loc[adult_married, "zve_" + incdef] = 0.5 * zve["zve_" + incdef + "_tu"]
 
-    #        print("Sum of gross income: {} bn €".format(
-    #                    (zve['gross_gde'] * df['pweight']).sum()/1e9
-    #                )
-    #              )
-    #        print("Sum of taxable income: {} bn €".format(
-    #                    (zve['zve_nokfb'] * df['pweight']).sum()/1e9
-    #                )
-    #              )
-
     return zve[
         [
             "zve_nokfb",

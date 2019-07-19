@@ -1,6 +1,8 @@
-import pytest
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal
+
+from src.analysis.tax_transfer_funcs.benefits import wg
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
@@ -10,7 +12,6 @@ from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax impor
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_tb,
 )
-from src.analysis.tax_transfer_funcs.benefits import wg
 
 
 input_cols = [
@@ -58,6 +59,4 @@ def test_wg(year):
     for hid in df["hid"].unique():
         calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
     expected = load_output(year, file_name, columns)
-    print("calculated: \n", calculated, "\n\n")
-    print("expected: \n", expected)
     assert_frame_equal(calculated, expected)

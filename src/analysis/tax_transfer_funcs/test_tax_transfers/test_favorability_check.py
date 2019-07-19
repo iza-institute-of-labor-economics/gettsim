@@ -1,14 +1,16 @@
-import pytest
-import pandas as pd
-from pandas.testing import assert_series_equal
 from itertools import product
+
+import pandas as pd
+import pytest
+from pandas.testing import assert_series_equal
+
+from src.analysis.tax_transfer_funcs.taxes import favorability_check
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_output,
 )
-from src.analysis.tax_transfer_funcs.taxes import favorability_check
 
 
 input_cols = [
@@ -43,6 +45,4 @@ def test_favorability_check(year, column):
             favorability_check(df[df["tu_id"] == tu_id], tb)[column]
         )
     expected = load_output(year, file_name, column)
-    print(calculated.to_frame(), "\n")
-    print(expected.to_frame(), "\n\n")
     assert_series_equal(calculated, expected)

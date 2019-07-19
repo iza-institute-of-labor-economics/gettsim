@@ -1,6 +1,9 @@
-import pytest
 import pandas as pd
+import pytest
 from pandas.testing import assert_series_equal
+
+from src.analysis.tax_transfer_funcs.benefits import ui
+from src.analysis.tax_transfer_funcs.taxes import tarif
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
@@ -10,8 +13,6 @@ from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax impor
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_tb,
 )
-from src.analysis.tax_transfer_funcs.benefits import ui
-from src.analysis.tax_transfer_funcs.taxes import tarif
 
 input_cols = [
     "pid",
@@ -45,6 +46,4 @@ def test_ui(year):
     calculated = pd.Series(name="m_alg1")
     for pid in df["pid"].unique():
         calculated = calculated.append(ui(df[df["pid"] == pid], tb))
-    print("calculated: \n", calculated, "\n\n")
-    print("expected: \n", expected)
     assert_series_equal(calculated, expected, check_less_precise=3)
