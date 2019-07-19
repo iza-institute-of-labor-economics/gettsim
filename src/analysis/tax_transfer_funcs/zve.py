@@ -60,8 +60,7 @@ def zve(df, tb):
     zve["altfreib"] = calc_altfreibetrag(df, tb)
 
     # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
-    zve["hhfreib"] = 0
-    zve.loc[df["alleinerz"], "hhfreib"] = tb["calc_hhfreib"](df, tb)
+    zve["hhfreib"] = tb["calc_hhfreib"](df, tb)
 
     # Taxable income (zve)
     # For married couples, household income is split between the two.
@@ -362,10 +361,16 @@ def vorsorge2010(df, tb):
 def calc_hhfreib_until2014(df, tb):
     """Calculates tax reduction for single parents. Used to be called
     'Haushaltsfreibetrag'"""
-    return tb["hhfreib"]
+    hhfreib = pd.Series(index=df.index, data=0)
+    hhfreib[df["alleinerz"]] = tb["hhfreib"]
+    return hhfreib
 
 
 def calc_hhfreib_from2015(df, tb):
     """Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'"""
-    return tb["hhfreib"] + ((df["child"].sum() - 1) * tb["hhfreib_ch"])
+    hhfreib = pd.Series(index=df.index, data=0)
+    hhfreib[df["alleinerz"]] = tb["hhfreib"] + (
+        (df["child"].sum() - 1) * tb["hhfreib_ch"]
+    )
+    return hhfreib
