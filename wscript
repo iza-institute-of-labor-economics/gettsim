@@ -39,7 +39,6 @@ def set_project_paths(ctx):
         pp["SOEP_PATH"] = "../soep/bld/out/data"
         pp["SIAB_PATH"] = "../izadynmod_siab/bld/out/data"
 
-
     # Convert the directories into Waf nodes.
     for key, val in pp.items():
         if not key == "ADO":
@@ -92,5 +91,5 @@ def build(ctx):
     ctx.path_to = path_to
     # Generate header file(s) with project paths in "bld" directory
     ctx(features="write_project_paths", target="project_paths.py")
-    ctx.add_group()
-    ctx.recurse("src")
+    # ctx.add_group()
+    # ctx.recurse("src")

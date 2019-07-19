@@ -1,5 +1,7 @@
 # DYNAMOD - Dynamic Modelling of the German Tax Transfer System #
 
+![](https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_apis/build/status/iza-institute-of-labor-economics.gettsim?branchName=master)
+
 **For details on the modelling of the tax-benefit system, you may check out `doc_files` in the IZAΨMOD repository, in particular `doku.pdf` and the graphs in the `flowcharts` directory.**
 
 ## Technical Remarks
@@ -14,9 +16,9 @@
   $ git submodule update --init
   $ git checkout HEAD
   ```
-- The data for the test cases are prepared in Excel as we make use of formulas. When opening these files in Libreoffice Calc, boolean values (e.g. for `child` oder `east`) might be displayed as `0/1` instead of `TRUE/FALSE`. 
+- The data for the test cases are prepared in Excel as we make use of formulas. When opening these files in Libreoffice Calc, boolean values (e.g. for `child` oder `east`) might be displayed as `0/1` instead of `TRUE/FALSE`.
 Changing the tests with calc might hence lead to failure, as the function requires the `pandas` boolean type. **Remedy:** Change the format in Calc to *booelan* by selecting the respective cells and hitting `Ctrl+1`.
-- The data preparation is outsourced into separate repositories. In order to work smoothly, place these repos into the same root folder as this repo. 
+- The data preparation is outsourced into separate repositories. In order to work smoothly, place these repos into the same root folder as this repo.
 Alternatively, you may change the respective path (`SOEP_PATH`, `SIAB_PATH`, etc.) in `wscript`.
 
 ## Sources for Cross-validation.
@@ -27,7 +29,7 @@ Alternatively, you may change the respective path (`SOEP_PATH`, `SIAB_PATH`, etc
 - Persons are uniquely identified via `syear` and `pid`.
 - A household member is defined as a child if (under 18) or (under 25 and in education). Unless it's the household head or his/her partner
 - Earnings:
-  - Monthly earnings are summed up from earnings from all jobs. This is a simplification as the 2nd job might be tax-free if it's paid below 450€. 
+  - Monthly earnings are summed up from earnings from all jobs. This is a simplification as the 2nd job might be tax-free if it's paid below 450€.
   - To this, other wage components (13th salary, bonus payments) are added. Since this information stems from the previous year, it is divided by the number of months in work.
   - If "stellung im Beruf" is self-employed, these earnings count as self-employed income `m_self`. Otherwise, it's labor income `m_wage`.
 - Non-workers are assigned a potential hourly wage via Heckman Imputation. (function `heckman()` in `2_prepare_data.py`)
@@ -36,7 +38,7 @@ Alternatively, you may change the respective path (`SOEP_PATH`, `SIAB_PATH`, etc
 
 ## Implicit Assumptions in Tax-Benefit calculations ##
 
-- Calculation of taxable income (`zve()`): 
+- Calculation of taxable income (`zve()`):
   - In lack of more detailed information, we always deduct the lumpsum amount `werbung` (currently € 1000) which is the lower bound
   - The same holds for Sonderausgaben (`sonder` = € 36)
 - Income Tax Calculation:
@@ -163,7 +165,7 @@ We don't know the municipality and hence the Mietstufe. We assume instead Mietst
 - `ertragsanteil`: Taxable Share of pensions, output from `zve()`.
 - `uhv`: Monthly alimony payments, output from `uhv()`.
 - `m_alg1`: Monthly unemployment benefits, output from `ui()`
-- `m_transfers`: Monthly private and public transfers that are not simulated. 
+- `m_transfers`: Monthly private and public transfers that are not simulated.
 - `gross_e1, gross_e4, gross_e5, gross_e6`: Annual income from self-employment, employment (incl. werbungskosten), capital and rental
 - `incometax`: monthyl income Tax payments, output from `soli()`.
 - `rvbeit`, `gkvbeit`: monthly contributions for old-age pension and health insurance respectively, output from `soc_ins_contrib()`
@@ -177,7 +179,7 @@ We don't know the municipality and hence the Mietstufe. We assume instead Mietst
 - `head_tu` (boolean): Dummy for Head of Tax Unit
 - `child` (boolean)
 - `age`
-- `byear`: Birth Year ** can be calculated within function ** 
+- `byear`: Birth Year ** can be calculated within function **
 - `miete`: monthly rent without heating
 - `heizkost`: monthly heating costs
 - `wohnfl`: Size of flat/house in square meters.
@@ -198,7 +200,7 @@ We don't know the municipality and hence the Mietstufe. We assume instead Mietst
 - `pid`: Personal Identifier
 - `head` (boolean): Dummy for household head
 - `hhtyp`: 1: Single, 2: Single Parent, 3: Couple without kids, 4: Couple with kids
-- `child` (boolean)	
+- `child` (boolean)
 - `pensioner`(boolean)
 - `age`
 - `miete`: monthly rent without heating
