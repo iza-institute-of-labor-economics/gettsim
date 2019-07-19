@@ -7,8 +7,10 @@
 .. raw:: html
 
    <p align="center">
+      <br>
+      <br>
       <a href="https://github.com/iza-institute-of-labor-economics/gettsim/">
-         <img src="pics/gettsim_logo_text.png" width="600" alt="GETTSIM">
+         <img src="pics/gettsim_logo_text.png" width="800" alt="GETTSIM">
       </a>
       <br>
    </p>
@@ -28,18 +30,22 @@ Initiated by
       <a href="https://www.iza.org">
          <img src="pics/iza_logo.jpg" width="100" alt="IZA">
       </a>
+      &emsp;
 
       <a href="https://www.diw.de/">
          <img src="pics/diw_logo.jpg" width="100" alt="DIW">
       </a>
+      &emsp;
 
       <a href="https://www.ifo.de/">
          <img src="pics/ifo_logo.jpg" width="100" alt="IFO">
       </a>
+      &emsp;
 
       <a href="https://www.zew.de/">
          <img src="pics/zew_logo.png" width="100" alt="ZEW">
       </a>
+      &emsp;
 
       <a href="https://www.uni-bonn.de">
          <img src="pics/uni_bonn_logo.png" width="100" alt="Universität Bonn">
