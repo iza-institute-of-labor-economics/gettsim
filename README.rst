@@ -18,7 +18,9 @@
 
 GETTSIM aims at providing a depiction of the German Taxes and Transfers System that is usable across a wide range of research applications, ranging from highly complex dynamic programming models to extremely detailed microsimulation studies.
 
-This is very early stage work,
+GETTSIM is implemented in Python and Numba, thereby achieving both flexibility and speed. All features are extensively tested.
+
+The current version is usable, but probably only by the initiated. Please get in touch (via an issue or emailing @hmgaudecker) if you want to use it already, else keep an eye out for what is to come!
 
 
 Initiated by
@@ -28,26 +30,26 @@ Initiated by
 
    <p align="center">
       <a href="https://www.iza.org">
-         <img src="pics/iza_logo.jpg" width="175" alt="IZA">
+         <img src="pics/iza_logo.jpg" width="150" alt="IZA">
       </a>
       &emsp;
 
       <a href="https://www.diw.de/">
-         <img src="pics/diw_logo.jpg" width="175" alt="DIW">
+         <img src="pics/diw_logo.jpg" width="150" alt="DIW">
       </a>
       &emsp;
 
       <a href="https://www.ifo.de/">
-         <img src="pics/ifo_logo.jpg" width="175" alt="IFO">
+         <img src="pics/ifo_logo.jpg" width="150" alt="IFO">
       </a>
       &emsp;
 
       <a href="https://www.zew.de/">
-         <img src="pics/zew_logo.png" width="175" alt="ZEW">
+         <img src="pics/zew_logo.png" width="150" alt="ZEW">
       </a>
       &emsp;
 
       <a href="https://www.uni-bonn.de">
-         <img src="pics/uni_bonn_logo.png" width="175" alt="Universität Bonn">
+         <img src="pics/uni_bonn_logo.png" width="150" alt="Universität Bonn">
       </a>
    </p>
