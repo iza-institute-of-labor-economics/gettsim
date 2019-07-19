@@ -18,29 +18,34 @@ This is very early stage work,
 Initiated by
 ============
 
-.. image:: pics/iza_logo.png
-  :width: 2px
-  :alt: IZA
-  :target: https://www.iza.org/
+.. raw:: html
 
-.. image:: pics/diw_logo.png
-  :width: 2px
-  :alt: DIW
-  :target: https://www.diw.de/
-
-.. image:: pics/ifo_logo.png
-  :width: 2px
-  :alt: Ifo
-  :target: https://www.ifo.de/
-
-.. image:: pics/zew_logo.png
-  :width: 2px
-  :alt: ZEW
-  :target: https://www.zew.de/
-
-.. image:: pics/uni_bonn_logo.png
-  :width: 2px
-  :alt: Universität Bonn
-  :target: https://www.uni-bonn.de
-
-
+   <p align="center">
+      <a href="https://www.iza.org">
+         <img src="pics/iza_logo.jpg" width="100" alt="IZA">
+      </a>
+   </p>
+   
+   <p align="center">
+      <a href="https://www.diw.de/">
+         <img src="pics/diw_logo.jpg" width="100" alt="DIW">
+      </a>
+   </p>
+   
+   <p align="center">
+      <a href="https://www.ifo.de/">
+         <img src="pics/ifo_logo.jpg" width="100" alt="IFO">
+      </a>
+   </p>
+   
+    <p align="center">
+      <a href="https://www.zew.de/">
+         <img src="pics/zew_logo.jpg" width="100" alt="ZEW">
+      </a>
+   </p>
+   
+    <p align="center">
+      <a href="https://www.uni-bonn.de">
+         <img src="pics/uni_bonn_logo.jpg" width="100" alt="Universität Bonn">
+      </a>
+   </p>
