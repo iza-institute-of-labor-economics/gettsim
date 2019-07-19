@@ -1,6 +1,9 @@
-import pytest
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal
+
+from src.analysis.tax_transfer_funcs.taxes import kg_eligibility_hours
+from src.analysis.tax_transfer_funcs.taxes import kg_eligibility_wage
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
@@ -10,15 +13,9 @@ from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax impor
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_tb,
 )
-from src.analysis.tax_transfer_funcs.zve import (
-    zve,
-    calc_hhfreib_until2014,
-    calc_hhfreib_from2015,
-)
-from src.analysis.tax_transfer_funcs.taxes import (
-    kg_eligibility_wage,
-    kg_eligibility_hours,
-)
+from src.analysis.tax_transfer_funcs.zve import calc_hhfreib_from2015
+from src.analysis.tax_transfer_funcs.zve import calc_hhfreib_until2014
+from src.analysis.tax_transfer_funcs.zve import zve
 
 
 input_cols = [
@@ -54,6 +51,7 @@ def test_zve(year):
     file_name = "test_dfs_zve.xlsx"
     columns = ["zve_nokfb", "zve_kfb"]
     df = load_input(year, file_name, input_cols)
+    df["m_childcare"] = 0.0
     tb = load_tb(year)
     tb["yr"] = year
     if year <= 2014:

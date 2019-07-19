@@ -22,9 +22,8 @@ def zve(df, tb):
     for v in ["hid", "tu_id", "zveranl"]:
         zve[v] = df[v]
 
-    # Werbungskosten und Sonderausgaben
-    zve["sonder"] = 0
-    zve.loc[(~df["child"]), "sonder"] = tb["sonder"]
+    # Sonderausgaben
+    zve["sonder"] = sonder_costs(df, tb)
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
@@ -268,6 +267,35 @@ def calc_gross_e4(df, tb):
 
     gross_e4[df["m_wage"] <= mini] = 0
     return gross_e4
+
+
+def sonder_costs(df, tb):
+    """Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
+    details here https://www.buzer.de/s1.htm?a=10&g=estg."""
+    sonder = pd.Series(index=df.index, data=0)
+    # So far we only implement the current regulation, which is since 2012 is in place.
+    if tb["yr"] < 2012:
+        # For earlier years we only use the pausch value
+        sonder[~df["child"]] = tb["sonder"]
+        return sonder
+    else:
+        adult_num = len(df[~df["child"]])
+        # The maximal amount to claim is 4000 per child. We only count the claim for
+        # children under 14. By law the parents are also to allow to claim for disabled
+        # children til the age of 25.
+        num_kids_elig = len(df[(df["child"]) & df["age"] <= 14])
+        # Calculate the maximal claim for childcare costs
+        childcare_max = tb["childcare_max"] * num_kids_elig
+        # The parents are allowed to claim only a share of the actual costs
+        child_care_exp = (
+            12
+            * df[df["child"]]["m_childcare"].sum()
+            * tb["childcare_share"]
+            / adult_num
+        )
+        # If parents can't claim anything, they get a pausch value.
+        sonder[~df["child"]] = max(min(child_care_exp, childcare_max), tb["sonder"])
+        return sonder
 
 
 def calc_gross_e7(df, tb):
