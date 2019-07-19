@@ -4,7 +4,10 @@ import pandas as pd
 
 # @jit(nopython=True)
 def zve(df, tb):
-    """Calculate taxable income (zve = zu versteuerndes Einkommen)
+    """Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
+    of the 6 branches of income is according to
+    https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema .
+
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
         - abgeltungssteuer vs. taxing capital income in the tariff
