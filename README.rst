@@ -28,26 +28,26 @@ Initiated by
 
    <p align="center">
       <a href="https://www.iza.org">
-         <img src="pics/iza_logo.jpg" width="100" alt="IZA">
+         <img src="pics/iza_logo.jpg" width="175" alt="IZA">
       </a>
       &emsp;
 
       <a href="https://www.diw.de/">
-         <img src="pics/diw_logo.jpg" width="100" alt="DIW">
+         <img src="pics/diw_logo.jpg" width="175" alt="DIW">
       </a>
       &emsp;
 
       <a href="https://www.ifo.de/">
-         <img src="pics/ifo_logo.jpg" width="100" alt="IFO">
+         <img src="pics/ifo_logo.jpg" width="175" alt="IFO">
       </a>
       &emsp;
 
       <a href="https://www.zew.de/">
-         <img src="pics/zew_logo.png" width="100" alt="ZEW">
+         <img src="pics/zew_logo.png" width="175" alt="ZEW">
       </a>
       &emsp;
 
       <a href="https://www.uni-bonn.de">
-         <img src="pics/uni_bonn_logo.png" width="100" alt="Universität Bonn">
+         <img src="pics/uni_bonn_logo.png" width="175" alt="Universität Bonn">
       </a>
    </p>
