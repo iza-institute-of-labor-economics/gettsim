@@ -40,12 +40,12 @@ Initiated by
    
     <p align="center">
       <a href="https://www.zew.de/">
-         <img src="pics/zew_logo.jpg" width="100" alt="ZEW">
+         <img src="pics/zew_logo.png" width="100" alt="ZEW">
       </a>
    </p>
    
     <p align="center">
       <a href="https://www.uni-bonn.de">
-         <img src="pics/uni_bonn_logo.jpg" width="100" alt="Universität Bonn">
+         <img src="pics/uni_bonn_logo.png" width="100" alt="Universität Bonn">
       </a>
    </p>
