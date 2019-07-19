@@ -4,11 +4,11 @@
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/ambv/black
 
-.. image:: pics/gettsim_logo_text.png
-  :scale: 400%
-  :alt:
-  :align: center
+.. raw:: html
 
+   <p align="center">
+      <img src="pics/gettsim_logo_text.png" width="500" alt="gettsim">
+   </p>
 
 GETTSIM aims at providing a depiction of the Geramn Taxes and Transfers System that is usable across a wide range of research applications, ranging from highly complex dynamic programming models to extremely detailed microsimulation studies.
 
