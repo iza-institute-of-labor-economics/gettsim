@@ -57,8 +57,7 @@ def zve(df, tb):
     zve["vorsorge"] = vorsorge2010(df, tb)
     # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
-    zve["altfreib"] = 0
-    zve.loc[df["age"] > 64, "altfreib"] = calc_altfreibetrag(df, tb)
+    zve["altfreib"] = calc_altfreibetrag(df, tb)
 
     # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
     zve["hhfreib"] = 0
@@ -198,8 +197,9 @@ def zve_abg_nokfb(df, zve, tb):
 
 
 def calc_altfreibetrag(df, tb):
-    """Calculates the deductions for elderly."""
-    return np.minimum(
+    """Calculates the deductions for elderly. Not tested yet!!!"""
+    altfrei = pd.Series(index=df.index, data=0)
+    altfrei[df["age"] > 64] = np.minimum(
         tb["altentq"]
         * 12
         * (
@@ -208,6 +208,7 @@ def calc_altfreibetrag(df, tb):
         ),
         tb["altenth"],
     )
+    return altfrei
 
 
 def calc_handicap_lump_sum(df, tb):
