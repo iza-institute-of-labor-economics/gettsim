@@ -49,7 +49,16 @@ Initiated by
       </a>
       &emsp;
 
+      <br>
+      <br>
+
       <a href="https://www.uni-bonn.de">
          <img src="pics/uni_bonn_logo.png" width="150" alt="Universität Bonn">
       </a>
+      &emsp;
+
+      <a href="https://www.uni-kassel.de">
+         <img src="pics/uni_kassel_logo.png" width="150" alt="Universität Kassel">
+      </a>
+
    </p>
