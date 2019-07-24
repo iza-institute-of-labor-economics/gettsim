@@ -60,5 +60,10 @@ Initiated by
       <a href="https://www.uni-kassel.de">
          <img src="pics/uni_kassel_logo.png" width="150" alt="Universität Kassel">
       </a>
+      &emsp;
+
+      <a href="https://www.fu-berlin.de">
+         <img src="pics/fu_berlin_logo.svg" width="150" alt="Freie Universität Berlin">
+      </a>
 
    </p>
