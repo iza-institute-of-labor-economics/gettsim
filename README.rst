@@ -40,7 +40,7 @@ Initiated by
       &emsp;
 
       <a href="https://www.ifo.de/">
-         <img src="pics/ifo_logo.jpg" width="150" alt="IFO">
+         <img src="pics/ifo_logo.png" width="150" alt="ifo Institute">
       </a>
       &emsp;
 
