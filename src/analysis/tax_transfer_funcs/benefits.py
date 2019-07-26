@@ -67,44 +67,6 @@ def check_eligibility_alg(df_row):
     )
 
 
-def regelberechnung_until_2010(regel_df, tb):
-    return [
-        tb["rs_hhvor"] * (1 + regel_df["mehrbed"])
-        + (tb["rs_hhvor"] * tb["a2ch14"] * regel_df["child14_24_num"])
-        + (tb["rs_hhvor"] * tb["a2ch7"] * regel_df["child7_13_num"])
-        + (
-            tb["rs_hhvor"]
-            * tb["a2ch0"]
-            * (regel_df["child0_2_num"] + regel_df["child3_6_num"])
-        ),
-        tb["rs_hhvor"] * tb["a2part"] * (1 + regel_df["mehrbed"])
-        + (tb["rs_hhvor"] * tb["a2part"])
-        + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((regel_df["adult_num"] - 2), 0))
-        + (tb["rs_hhvor"] * tb["a2ch14"] * regel_df["child14_24_num"])
-        + (tb["rs_hhvor"] * tb["a2ch7"] * regel_df["child7_13_num"])
-        + (
-            tb["rs_hhvor"]
-            * tb["a2ch0"]
-            * (regel_df["child0_2_num"] + regel_df["child3_6_num"])
-        ),
-    ]
-
-
-def regelberechnung_2011_and_beyond(regel_df, tb):
-    return [
-        tb["rs_hhvor"] * (1 + regel_df["mehrbed"])
-        + (tb["rs_ch14"] * regel_df["child14_24_num"])
-        + (tb["rs_ch7"] * regel_df["child7_13_num"])
-        + (tb["rs_ch0"] * (regel_df["child0_2_num"] + regel_df["child3_6_num"])),
-        tb["rs_2adults"] * (1 + regel_df["mehrbed"])
-        + tb["rs_2adults"]
-        + (tb["rs_madults"] * np.maximum((regel_df["adult_num"] - 2), 0))
-        + (tb["rs_ch14"] * regel_df["child14_24_num"])
-        + (tb["rs_ch7"] * regel_df["child7_13_num"])
-        + (tb["rs_ch0"] * (regel_df["child0_2_num"] + regel_df["child3_6_num"])),
-    ]
-
-
 def uhv(df, tb):
     """
     Since 2017, the receipt of this

@@ -17,19 +17,7 @@ def alg2(df, tb):
     # alg2["tu_id"] = df["tu_id"]
     alg2_df["uhv"] = df["uhv"]
 
-    # alg2 = alg2.join(
-    #     alg2.groupby(["tu_id"])["tu_id"].count(),
-    #     on=["tu_id"],
-    #     how="left",
-    #     rsuffix="_sum",
-    # )
-    # # rename
-    # alg2 = alg2.rename(columns={"tu_id_sum": "hhsize_tu"})
-    # alg2["byear"] = tb["yr"] - df["age"]
-
     alg2_df["mehrbed"], alg2_df["regelsatz"] = regelsatz_alg2(df, tb)
-
-    # alg2['regelsatz_tu_k'] = aggr(alg2, 'regelsatz', True)
 
     alg2_df["alg2_kdu"] = kdu_alg2(df)
 
@@ -83,11 +71,54 @@ def regelsatz_alg2(df, tb):
     # Different amounts by number of adults and age of kids
     # tb['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
 
+    if tb["yr"] <= 2010:
+        calc_regelsatz = regelberechnung_until_2010
+    else:
+        calc_regelsatz = regelberechnung_2011_and_beyond
+
     regelsatz = np.select(
         [regel_df["adult_num"] == 1, regel_df["adult_num"] > 1],
-        tb["calc_regelsatz"](regel_df, tb),
+        calc_regelsatz(regel_df, tb),
     )
     return regel_df["mehrbed"], regelsatz
+
+
+def regelberechnung_until_2010(regel_df, tb):
+    return [
+        tb["rs_hhvor"] * (1 + regel_df["mehrbed"])
+        + (tb["rs_hhvor"] * tb["a2ch14"] * regel_df["child14_24_num"])
+        + (tb["rs_hhvor"] * tb["a2ch7"] * regel_df["child7_13_num"])
+        + (
+            tb["rs_hhvor"]
+            * tb["a2ch0"]
+            * (regel_df["child0_2_num"] + regel_df["child3_6_num"])
+        ),
+        tb["rs_hhvor"] * tb["a2part"] * (1 + regel_df["mehrbed"])
+        + (tb["rs_hhvor"] * tb["a2part"])
+        + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((regel_df["adult_num"] - 2), 0))
+        + (tb["rs_hhvor"] * tb["a2ch14"] * regel_df["child14_24_num"])
+        + (tb["rs_hhvor"] * tb["a2ch7"] * regel_df["child7_13_num"])
+        + (
+            tb["rs_hhvor"]
+            * tb["a2ch0"]
+            * (regel_df["child0_2_num"] + regel_df["child3_6_num"])
+        ),
+    ]
+
+
+def regelberechnung_2011_and_beyond(regel_df, tb):
+    return [
+        tb["rs_hhvor"] * (1 + regel_df["mehrbed"])
+        + (tb["rs_ch14"] * regel_df["child14_24_num"])
+        + (tb["rs_ch7"] * regel_df["child7_13_num"])
+        + (tb["rs_ch0"] * (regel_df["child0_2_num"] + regel_df["child3_6_num"])),
+        tb["rs_2adults"] * (1 + regel_df["mehrbed"])
+        + tb["rs_2adults"]
+        + (tb["rs_madults"] * np.maximum((regel_df["adult_num"] - 2), 0))
+        + (tb["rs_ch14"] * regel_df["child14_24_num"])
+        + (tb["rs_ch7"] * regel_df["child7_13_num"])
+        + (tb["rs_ch0"] * (regel_df["child0_2_num"] + regel_df["child3_6_num"])),
+    ]
 
 
 def mehrbedarf_alg2(df, rs, tb):
