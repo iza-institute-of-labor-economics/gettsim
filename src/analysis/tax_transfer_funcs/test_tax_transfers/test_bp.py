@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from src.analysis.tax_transfer_funcs.benefits import benefit_priority
+from src.analysis.tax_transfer_funcs.benefits.benefit_checks import benefit_priority
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )

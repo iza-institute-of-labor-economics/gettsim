@@ -4,19 +4,22 @@ TAX TRANSFER SIMULATION
 
 Eric Sommer, 2018
 """
-
 import numpy as np
 import pandas as pd
 
-
-from src.analysis.tax_transfer_funcs.taxes import tax_sched
-from src.analysis.tax_transfer_funcs.taxes import favorability_check, kindergeld
-from src.analysis.tax_transfer_funcs.zve import zve
-from src.analysis.tax_transfer_funcs.benefits import ui, wg, alg2, uhv, kiz
-from src.analysis.tax_transfer_funcs.social_insurance import soc_ins_contrib
-from src.analysis.tax_transfer_funcs.pensions import pensions
-from src.model_code.imports import get_params
 from bld.project_paths import project_paths_join as ppj
+from src.analysis.tax_transfer_funcs.benefits.alg2 import alg2
+from src.analysis.tax_transfer_funcs.benefits.arbeitslosengeld import ui
+from src.analysis.tax_transfer_funcs.benefits.kiz import kiz
+from src.analysis.tax_transfer_funcs.benefits.unterhaltsvorschuss import uhv
+from src.analysis.tax_transfer_funcs.benefits.wohngeld import wg
+from src.analysis.tax_transfer_funcs.pensions import pensions
+from src.analysis.tax_transfer_funcs.social_insurance import soc_ins_contrib
+from src.analysis.tax_transfer_funcs.taxes import favorability_check
+from src.analysis.tax_transfer_funcs.taxes import kindergeld
+from src.analysis.tax_transfer_funcs.taxes import tax_sched
+from src.analysis.tax_transfer_funcs.zve import zve
+from src.model_code.imports import get_params
 
 
 def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False):

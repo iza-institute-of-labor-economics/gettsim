@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from src.analysis.tax_transfer_funcs.alg2 import alg2
+from src.analysis.tax_transfer_funcs.benefits.alg2 import alg2
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
