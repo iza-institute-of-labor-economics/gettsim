@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.analysis.tax_transfer_funcs.taxes import soli_formula
+from src.analysis.tax_transfer_funcs.taxes.calc_taxes import soli_formula
 
 
 def ui(df_row, tb):

@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from src.analysis.tax_transfer_funcs.taxes import favorability_check
+from src.analysis.tax_transfer_funcs.taxes.favorability_check import favorability_check
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )

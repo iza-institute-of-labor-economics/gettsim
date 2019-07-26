@@ -3,7 +3,7 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from src.analysis.tax_transfer_funcs.benefits.arbeitslosengeld import ui
-from src.analysis.tax_transfer_funcs.taxes import tarif
+from src.analysis.tax_transfer_funcs.taxes.calc_taxes import tarif
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )

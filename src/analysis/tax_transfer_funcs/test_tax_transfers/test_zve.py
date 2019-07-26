@@ -2,8 +2,11 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from src.analysis.tax_transfer_funcs.taxes import kg_eligibility_hours
-from src.analysis.tax_transfer_funcs.taxes import kg_eligibility_wage
+from src.analysis.tax_transfer_funcs.taxes.kindergeld import kg_eligibility_hours
+from src.analysis.tax_transfer_funcs.taxes.kindergeld import kg_eligibility_wage
+from src.analysis.tax_transfer_funcs.taxes.zve import calc_hhfreib_from2015
+from src.analysis.tax_transfer_funcs.taxes.zve import calc_hhfreib_until2014
+from src.analysis.tax_transfer_funcs.taxes.zve import zve
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
@@ -13,9 +16,6 @@ from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax impor
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_tb,
 )
-from src.analysis.tax_transfer_funcs.zve import calc_hhfreib_from2015
-from src.analysis.tax_transfer_funcs.zve import calc_hhfreib_until2014
-from src.analysis.tax_transfer_funcs.zve import zve
 
 
 input_cols = [
