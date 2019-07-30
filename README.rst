@@ -40,7 +40,7 @@ Initiated by
       &emsp;
 
       <a href="https://www.ifo.de/">
-         <img src="pics/ifo_logo.jpg" width="150" alt="IFO">
+         <img src="pics/ifo_logo.png" width="150" alt="IFO">
       </a>
       &emsp;
 
@@ -59,6 +59,11 @@ Initiated by
 
       <a href="https://www.uni-kassel.de">
          <img src="pics/uni_kassel_logo.png" width="150" alt="Universität Kassel">
+      </a>
+      &emsp;
+
+      <a href="https://www.uni-mannheim.de">
+         <img src="pics/uni_mannheim_logo.png" width="150" alt="Universität Mannheim">
       </a>
       &emsp;
 
