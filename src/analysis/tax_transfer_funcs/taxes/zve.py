@@ -6,7 +6,7 @@ import pandas as pd
 def zve(df, tb):
     """Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
     of the 6 branches of income is according to
-    https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema .
+    https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema
 
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
@@ -23,7 +23,7 @@ def zve(df, tb):
         zve[v] = df[v]
 
     # Sonderausgaben
-    zve["sonder"] = sonder_costs(df, tb)
+    zve["sonder"] = deductible_child_care_costs(df, tb)
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
@@ -258,7 +258,7 @@ def calc_gross_e4(df, tb):
     return gross_e4
 
 
-def sonder_costs(df, tb):
+def deductible_child_care_costs(df, tb):
     """Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg."""
     sonder = pd.Series(index=df.index, data=0)
