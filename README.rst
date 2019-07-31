@@ -62,6 +62,11 @@ Initiated by
       </a>
       &emsp;
 
+      <a href="https://www.uni-muenchen.de">
+         <img src="pics/lmu_logo.svg" width="150" alt="Ludwig-Maximilians-Universität München">
+      </a>
+      &emsp;
+
       <a href="https://www.uni-mannheim.de">
          <img src="pics/uni_mannheim_logo.png" width="150" alt="Universität Mannheim">
       </a>
