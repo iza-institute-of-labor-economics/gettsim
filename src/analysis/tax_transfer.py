@@ -15,9 +15,9 @@ from src.analysis.tax_transfer_funcs.benefits.unterhaltsvorschuss import uhv
 from src.analysis.tax_transfer_funcs.benefits.wohngeld import wg
 from src.analysis.tax_transfer_funcs.pensions import pensions
 from src.analysis.tax_transfer_funcs.social_insurance import soc_ins_contrib
-from src.analysis.tax_transfer_funcs.taxes import favorability_check
-from src.analysis.tax_transfer_funcs.taxes import kindergeld
-from src.analysis.tax_transfer_funcs.taxes import tax_sched
+from src.analysis.tax_transfer_funcs.taxes.calc_taxes import tax_sched
+from src.analysis.tax_transfer_funcs.taxes.favorability_check import favorability_check
+from src.analysis.tax_transfer_funcs.taxes.kindergeld import kindergeld
 from src.analysis.tax_transfer_funcs.taxes.zve import zve
 from src.model_code.imports import get_params
 
