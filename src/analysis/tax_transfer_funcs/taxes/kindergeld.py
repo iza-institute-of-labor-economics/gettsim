@@ -31,16 +31,12 @@ def kg_eligibility_hours(df, tb):
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
     """
-    df = df.copy()
-    df["eligible"] = df["age"] <= 18
-    df.loc[
-        (df["age"].between(19, tb["kgage"]))
-        & df["ineducation"]
-        & (df["w_hours"] <= 20),
-        "eligible",
+    elig = df["age"] <= 18
+    elig[
+        (df["age"].between(19, tb["kgage"])) & df["ineducation"] & (df["w_hours"] <= 20)
     ] = True
 
-    return df["eligible"]
+    return elig
 
 
 def kg_eligibility_wage(df, tb):
@@ -48,13 +44,11 @@ def kg_eligibility_wage(df, tb):
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
     """
-    df = df.copy()
-    df["eligible"] = df["age"] <= 18
-    df.loc[
+    elig = df["age"] <= 18
+    elig[
         (df["age"].between(19, tb["kgage"]))
         & df["ineducation"]
-        & (df["m_wage"] <= tb["kgfreib"] / 12),
-        "eligible",
+        & (df["m_wage"] <= tb["kgfreib"] / 12)
     ] = True
 
-    return df["eligible"]
+    return elig
