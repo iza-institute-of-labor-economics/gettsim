@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from termcolor import cprint
 
 
 def soc_ins_contrib(df, tb):
@@ -21,8 +20,6 @@ def soc_ins_contrib(df, tb):
     smoothly until the regular one is reached
 
     """
-
-    cprint("Social Insurance Contributions...", "red", "on_white")
 
     # initiate dataframe, indices must be identical
 

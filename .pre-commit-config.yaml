@@ -40,7 +40,7 @@ repos:
         flake8-bugbear, flake8-builtins, flake8-comprehensions,
         flake8-deprecated, flake8-docstrings, flake8-eradicate, flake8-print,
          flake8-rst-docstrings, flake8-todo, flake8-type-annotations,
-        pep8-naming
+        pep8-naming, pydocstyle<4
       ]
       # Harmonizing flake8 and black
       args: [

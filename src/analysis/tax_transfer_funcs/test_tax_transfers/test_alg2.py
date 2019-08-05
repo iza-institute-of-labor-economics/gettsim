@@ -1,6 +1,8 @@
-import pytest
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal
+
+from src.analysis.tax_transfer_funcs.benefits.alg2 import alg2
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
@@ -9,11 +11,6 @@ from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax impor
 )
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_tb,
-)
-from src.analysis.tax_transfer_funcs.benefits import (
-    alg2,
-    regelberechnung_until_2010,
-    regelberechnung_2011_and_beyond,
 )
 
 input_cols = [
@@ -54,14 +51,12 @@ def test_alg2(year):
     df = load_input(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
-    if year <= 2010:
-        tb["calc_regelsatz"] = regelberechnung_until_2010
-    else:
-        tb["calc_regelsatz"] = regelberechnung_2011_and_beyond
+    # if year <= 2010:
+    #     tb["calc_regelsatz"] = regelberechnung_until_2010
+    # else:
+    #     tb["calc_regelsatz"] = regelberechnung_2011_and_beyond
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(alg2(df[df["hid"] == hid], tb)[columns])
     expected = load_output(year, file_name, columns)
-    print("calculated: \n", calculated, "\n\n")
-    print("expected: \n", expected)
     assert_frame_equal(calculated, expected)

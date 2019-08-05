@@ -16,7 +16,6 @@ def pensions(df_row, tb, tb_pens):
     - As we do not know previously collect Entgeltpunkte, we take an average
       value (to be improved)
     """
-    # cprint("Pensions", "red", "on_white")
     # meanwages is only filled until 2016
     yr = min(tb["yr"], 2016)
 
@@ -108,7 +107,7 @@ def _rentenwert_from_2018(tb_pens, yr):
     lohnkomponente = _lohnkomponente(tb_pens, yr)
     # Second riesterfaktor
     riesterfaktor = _riesterfactor(tb_pens, yr)
-    # Nachhaltigskeitsfaktor# from termcolor import cprint
+    # Nachhaltigskeitsfaktor
     nachhfaktor = _nachhaltigkeitsfaktor(tb_pens, yr)
 
     # Rentenwert must not be lower than in the previous year.

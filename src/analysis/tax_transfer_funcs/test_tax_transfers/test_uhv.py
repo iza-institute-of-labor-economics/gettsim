@@ -1,6 +1,8 @@
-import pytest
 import pandas as pd
+import pytest
 from pandas.testing import assert_series_equal
+
+from src.analysis.tax_transfer_funcs.benefits.unterhaltsvorschuss import uhv
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
@@ -10,7 +12,6 @@ from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax impor
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_tb,
 )
-from src.analysis.tax_transfer_funcs.benefits import uhv
 
 
 input_cols = [
@@ -42,6 +43,4 @@ def test_uhv(year):
     for tu_id in df["tu_id"].unique():
         calculated = calculated.append(uhv(df[df["tu_id"] == tu_id], tb))
     expected = load_output(year, file_name, "uhv")
-    # print("calculated: \n", calculated, "\n\n")
-    # print("expected: \n", expected)
     assert_series_equal(calculated, expected, check_dtype=False)
