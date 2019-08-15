@@ -27,7 +27,7 @@ jobs:
       pytest --cov=./
 
   # The token is taken from environment variables.
-  - bash: <(curl -s https://codecov.io/bash)
+  - script: bash <(curl https://codecov.io/bash) -t $(CODECOV_TOKEN)
     displayName: Upload coverage report.
 
 - job:
