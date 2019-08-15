@@ -24,7 +24,11 @@ jobs:
   - bash: |
       source activate gettsim
       python waf.py configure build
-      pytest
+      pytest --cov=./
+
+  # The token is taken from environment variables.
+  - bash: <(curl -s https://codecov.io/bash)
+    displayName: Upload coverage report.
 
 - job:
   displayName: Windows
