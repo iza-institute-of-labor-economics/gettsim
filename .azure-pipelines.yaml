@@ -24,7 +24,7 @@ jobs:
   - bash: |
       source activate gettsim
       python waf.py configure build
-      pytest --cov=./
+      pytest --cov-report xml --cov=./
 
   # The token is taken from environment variables.
   - script: bash <(curl https://codecov.io/bash) -t $(CODECOV_TOKEN)
