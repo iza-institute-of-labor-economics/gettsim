@@ -1,8 +1,8 @@
 #! python
 
 
-def build(ctx):   
-   
+def build(ctx):
+
     ctx(
         features="run_py_script",
         source="tax_transfer_funcs.py",
@@ -12,13 +12,13 @@ def build(ctx):
             ctx.path_to(ctx, "IN_DATA", "pensions.xlsx"),
             ctx.path_to(ctx, "IN_DATA", "mw_pensions.json"),
             ctx.path_to(ctx, "IN_DATA", "grv_ep.xlsx"),
-            ctx.path_to(ctx, "SOEP_PATH", "2_taxben_input.dta") 
+            ctx.path_to(ctx, "SOEP_PATH", "2_taxben_input.dta")
         ],
         target=[
             ctx.path_to(ctx, "OUT_DATA", "taxben_results_RS2019.json"),
         ],
     )
-    
+
     ctx(
         features="run_py_script",
         source="tax_transfer_ubi.py",

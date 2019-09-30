@@ -5,6 +5,7 @@ Created on Tue Mar 19 14:29:13 2019
 @author: iza6354
 """
 
+
 def ubi_settings(tb):
     """ Set alternative tax benefit parameters for UBI
     """

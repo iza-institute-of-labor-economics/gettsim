@@ -5,26 +5,28 @@ Created on Fri Jun 15 14:36:30 2018
 
 @author: iza6354
 """
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 import itertools
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from custompygraph.make_plot import make_plot
 from termcolor import cprint
 
-# from check_hypo import check_hypo
-from custompygraph.make_plot import make_plot
 from bld.project_paths import project_paths_join as ppj
-
-from src.model_code.hypo_helpers import (
-    get_ref_text,
-    hypo_graph_settings,
-    get_reform_names,
-    get_hh_text,
-)
-from src.model_code.imports import get_params, say_hello, tarif_ubi
 from src.analysis.tax_transfer import tax_transfer
 from src.analysis.tax_transfer_funcs.taxes import tarif
-from src.analysis.tax_transfer_ubi import tax_transfer_ubi, ubi_settings
+from src.analysis.tax_transfer_ubi import tax_transfer_ubi
+from src.analysis.tax_transfer_ubi import ubi_settings
+from src.model_code.hypo_helpers import get_hh_text
+from src.model_code.hypo_helpers import get_ref_text
+from src.model_code.hypo_helpers import get_reform_names
+from src.model_code.hypo_helpers import hypo_graph_settings
+from src.model_code.imports import get_params
+from src.model_code.imports import say_hello
+from src.model_code.imports import tarif_ubi
+
+# from check_hypo import check_hypo
 
 
 def flip(items, ncol):

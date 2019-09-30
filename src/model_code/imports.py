@@ -3,14 +3,13 @@
 This is where scripts and functions are defined that are regularly
 used in various bits of the model.
 """
+import os
+import time
 
+import numpy as np
 import pandas as pd
 
 # pd.options.mode.use_inf_as_na = True
-
-import numpy as np
-import os
-import time
 
 
 def init(settings):

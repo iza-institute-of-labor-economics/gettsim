@@ -2,15 +2,15 @@
 
     should be based on which years?
 """
-
-import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+from statsmodels.iolib.summary2 import summary_col
+
+from bld.project_paths import project_paths_join as ppj
 
 # import statsmodels.api as sm
-import statsmodels.formula.api as smf
-from bld.project_paths import project_paths_join as ppj
-from statsmodels.iolib.summary2 import summary_col
-import matplotlib.pyplot as plt
 
 
 def ols2csv(filename, out):
@@ -25,16 +25,20 @@ df = pd.read_pickle(ppj("SIAB_PATH", "siab_recoded.pickle"))
 df = df[df["year"] > 1990]
 
 # inspect data
-df[(df["female"] == 0) & (df["age"].between(15, 65))].groupby("year")["working"].sum().plot(
-)
-df[(df["female"] == 1) & (df["age"].between(15, 65))].groupby("year")["working"].sum().plot(
-)
+df[(df["female"] == 0) & (df["age"].between(15, 65))].groupby("year")[
+    "working"
+].sum().plot()
+df[(df["female"] == 1) & (df["age"].between(15, 65))].groupby("year")[
+    "working"
+].sum().plot()
 plt.savefig(ppj("OUT_FIGURES", "siab_employment.png"))
 plt.clf()
-df[(df["female"] == 0) & (df["age"].between(15, 65))].groupby("year")["unempl"].sum().plot(
-)
-df[(df["female"] == 1) & (df["age"].between(15, 65))].groupby("year")["unempl"].sum().plot(
-)
+df[(df["female"] == 0) & (df["age"].between(15, 65))].groupby("year")[
+    "unempl"
+].sum().plot()
+df[(df["female"] == 1) & (df["age"].between(15, 65))].groupby("year")[
+    "unempl"
+].sum().plot()
 plt.savefig(ppj("OUT_FIGURES", "siab_unemployment.png"))
 
 
@@ -56,7 +60,9 @@ for gr in df["female"].unique():
     for before in df["empstat"].unique():
         for after in df["empstat"].unique():
             transition = (
-                (df["empstat"] == after) & (df["empstat_l"] == before) & (df["female"] == gr)
+                (df["empstat"] == after)
+                & (df["empstat_l"] == before)
+                & (df["female"] == gr)
             )
             # Count number of particular transitions and write into matrix
             trans_emp.loc[gr, before, after] = transition.sum()
@@ -73,7 +79,9 @@ df["experience2"] = df["experience"] ** 2
 df.loc[df["wage"] > 0, "log_wage"] = np.log(df["wage"])
 
 men = df[(df["female"] == 0) & (~df["log_wage"].isna()) & (~df["experience"].isna())]
-ols_wage_male = smf.ols(formula="log_wage ~ experience + experience2 + age + C(skill)", data=men)
+ols_wage_male = smf.ols(
+    formula="log_wage ~ experience + experience2 + age + C(skill)", data=men
+)
 
 women = df[(df["female"] == 1) & (~df["log_wage"].isna()) & (~df["experience"].isna())]
 ols_wage_female = smf.ols(
@@ -82,7 +90,9 @@ ols_wage_female = smf.ols(
 print(
     "OLS of log wage on experience and education \n {}".format(
         summary_col(
-            [ols_wage_male.fit(), ols_wage_female.fit()], stars=True, model_names=["Men", "Women"]
+            [ols_wage_male.fit(), ols_wage_female.fit()],
+            stars=True,
+            model_names=["Men", "Women"],
         )
     )
 )
@@ -93,8 +103,12 @@ print(
 # ols_wage_male.fit().params)
 # ols2csv(ppj("OUT_DATA", "siab_ols_wage_female.csv"),
 #       ols_wage_female.fit().params)
-ols_wage_male.fit().params.to_csv(ppj("OUT_DATA", "siab_ols_wage_male.csv"), header=True)
-ols_wage_female.fit().params.to_csv(ppj("OUT_DATA", "siab_ols_wage_female.csv"), header=True)
+ols_wage_male.fit().params.to_csv(
+    ppj("OUT_DATA", "siab_ols_wage_male.csv"), header=True
+)
+ols_wage_female.fit().params.to_csv(
+    ppj("OUT_DATA", "siab_ols_wage_female.csv"), header=True
+)
 
 
 # keep only the most recent year.
