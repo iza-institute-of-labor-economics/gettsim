@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This is where scripts and functions are defined that are regularly
 used in various bits of the model.

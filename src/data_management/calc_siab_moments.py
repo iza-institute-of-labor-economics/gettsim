@@ -72,7 +72,7 @@ trans_emp = trans_emp.dropna()
 trans_emp = trans_emp.div(trans_emp.groupby(level=["female", "from"]).sum())
 trans_emp = trans_emp.fillna(0)
 
-print("Transition matrix between employment states: \n {}".format(trans_emp))
+print(f"Transition matrix between employment states: \n {trans_emp}")
 
 # OLS Regressions of log wage on experience, education, by gender
 df["experience2"] = df["experience"] ** 2
@@ -133,7 +133,7 @@ exp_by_age = df.groupby(groupvars)["experience"].mean()
 for out in [ft_shares, pt_shares, inact_shares, exp_by_age]:
     headers = groupvars + [out.name]
     out.to_csv(
-        path_or_buf=ppj("OUT_DATA", "siab_{}.csv".format(out.name)),
+        path_or_buf=ppj("OUT_DATA", f"siab_{out.name}.csv"),
         index=groupvars,
         header=True,
         index_label=groupvars,

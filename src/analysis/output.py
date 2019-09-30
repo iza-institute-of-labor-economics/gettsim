@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 """
 import matplotlib.pyplot as plt
@@ -30,7 +29,7 @@ def output(settings):
         budgetvars = taxvars + benvars
 
         # load reform-specific results
-        df = pd.read_json(ppj("OUT_DATA", "taxben_results_{}.json".format(ref)))
+        df = pd.read_json(ppj("OUT_DATA", f"taxben_results_{ref}.json"))
         # print("Number of adults: {}".format(df[df['age']>=18]['pweight'].sum()))
         # print("Number of children: {}".format(df[df['age']<18]['pweight'].sum()))
 
@@ -145,16 +144,12 @@ def output(settings):
             0.0004,
             "{:.2f}% Losers \nAverage Loss: € {:.0f}".format(loseshare, losavg * (-1)),
         )
-        plt.text(
-            500,
-            0.0006,
-            "{:.2f}% Winners \nAverage Gain: € {:.0f}".format(winshare, winavg),
-        )
+        plt.text(500, 0.0006, f"{winshare:.2f}% Winners \nAverage Gain: € {winavg:.0f}")
         plt.axvline(0)
         plt.title("Distribution of income change")
         plt.xlabel("Monthly income per person")
         plt.ylabel("Density")
-        plt.savefig(ppj("OUT_FIGURES", "d_inc_per_person_{}.png".format(ref)))
+        plt.savefig(ppj("OUT_FIGURES", f"d_inc_per_person_{ref}.png"))
 
 
 #    print(df["dpi_eq"].describe())

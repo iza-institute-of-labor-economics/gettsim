@@ -12,7 +12,7 @@ def load_input(year, file_name, columns, *pd_args, **pd_kwargs):
 
 def load_tb(year):
     df = pd.read_excel(ppj("IN_DATA", "param.xls")).set_index("para")
-    return df["y{}".format(year)].to_dict()
+    return df[f"y{year}"].to_dict()
 
 
 def load_output(year, file_name, column):

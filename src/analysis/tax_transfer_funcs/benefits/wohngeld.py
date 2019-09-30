@@ -122,7 +122,7 @@ def calc_wg_income(df, tb, hhsize):
         "gkvbeit",
         "uhv",
     ]:
-        wg_income["{}_tu_k".format(inc)] = aggr(df, inc, "all_tu")
+        wg_income[f"{inc}_tu_k"] = aggr(df, inc, "all_tu")
 
     wg_income["wg_abzuege"] = calc_wg_abzuege(wg_income, tb)
 

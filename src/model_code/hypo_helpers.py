@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from src.analysis.tax_transfer_ubi import ubi_settings
 
 
@@ -9,7 +8,7 @@ def get_ref_text(refname, tb):
     if refname == "UBI":
         tb = ubi_settings(tb)
 
-        ref_text = """Adult rate: \EUR{{{}}}, Kid rate: \EUR{{{}}},
+        ref_text = r"""Adult rate: \EUR{{{}}}, Kid rate: \EUR{{{}}},
                 Abolition of Marginal Jobs, Abolition of 'Gleitzone'.
                 Abolition of Unemployment Benefit, Housing Benefit, Additional Child Benefit,
                 Child Allowance. UBI is fully subject to income taxation. Income Tax:
@@ -105,11 +104,11 @@ def get_hh_text(lang, t, miete, heizkost):
     """
     if lang == "en":
         first = "\\small{Own calculations with IZADYNMOD. "
-        mietstring = "Assumed monthly rent: \EUR{{{}}}. Assumed monthly heating cost: \EUR{{{}}}.".format(
+        mietstring = r"Assumed monthly rent: \EUR{{{}}}. Assumed monthly heating cost: \EUR{{{}}}.".format(
             miete, heizkost
         )
         if t in [33, 34]:
-            hh = """The x-axis shows income of the secondary earner. The first earner is
+            hh = r"""The x-axis shows income of the secondary earner. The first earner is
                     assumed to earn an annual income of \EUR{{{}}}. This corresponds to the
                     average annual earnings of a full-time employed male employee in 2018.""".format(
                 51286
@@ -119,11 +118,11 @@ def get_hh_text(lang, t, miete, heizkost):
 
     if lang == "de":
         first = "\\small{Eigene Berechnungen mit IZADYNMOD. "
-        mietstring = "Unterstellte Kaltmiete: \EUR{{{}}}.  Unterstellte Heizkosten: \EUR{{{}}}".format(
+        mietstring = r"Unterstellte Kaltmiete: \EUR{{{}}}.  Unterstellte Heizkosten: \EUR{{{}}}".format(
             miete, heizkost
         )
         if t in [33, 34]:
-            hh = """Die horizontale Achse bezeichnet das Einkommen des Zweitverdienenden.
+            hh = r"""Die horizontale Achse bezeichnet das Einkommen des Zweitverdienenden.
             Für den Erstverdienenden wird ein jährliches Bruttoeinkommen von \EUR{{{}}}
             unterstellt. Dies entspricht dem Durchschnittsverdienst eines
             vollzeitbeschäftigten männlichen abhängig Beschäftigten.""".format(
