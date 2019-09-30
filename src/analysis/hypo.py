@@ -1,30 +1,31 @@
-# -*- coding: utf-8 -*-
 # !/usr/bin/env python3
 """
 Created on Fri Jun 15 14:36:30 2018
 
 @author: iza6354
 """
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 import itertools
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from custompygraph.make_plot import make_plot
 from termcolor import cprint
 
-# from check_hypo import check_hypo
-from custompygraph.make_plot import make_plot
 from bld.project_paths import project_paths_join as ppj
-
-from src.model_code.hypo_helpers import (
-    get_ref_text,
-    hypo_graph_settings,
-    get_reform_names,
-    get_hh_text,
-)
-from src.model_code.imports import get_params, say_hello, tarif_ubi
 from src.analysis.tax_transfer import tax_transfer
 from src.analysis.tax_transfer_funcs.taxes import tarif
-from src.analysis.tax_transfer_ubi import tax_transfer_ubi, ubi_settings
+from src.analysis.tax_transfer_ubi import tax_transfer_ubi
+from src.analysis.tax_transfer_ubi import ubi_settings
+from src.model_code.hypo_helpers import get_hh_text
+from src.model_code.hypo_helpers import get_ref_text
+from src.model_code.hypo_helpers import get_reform_names
+from src.model_code.hypo_helpers import hypo_graph_settings
+from src.model_code.imports import get_params
+from src.model_code.imports import say_hello
+from src.model_code.imports import tarif_ubi
+
+# from check_hypo import check_hypo
 
 
 def flip(items, ncol):
@@ -185,7 +186,7 @@ def make_comp_plots(lego, t, maxinc, xlabels, ylabels, lang, settings, ref):
         ncol=ncol,
         frameon=False,
     )
-    plt.savefig(ppj("OUT_FIGURES", "hypo/lego_{}_{}_{}.png".format(ref, t, lang)))
+    plt.savefig(ppj("OUT_FIGURES", f"hypo/lego_{ref}_{t}_{lang}.png"))
 
 
 def create_hypo_data(settings, tb, types, rents, avg_wage=51286):
@@ -509,7 +510,7 @@ def create_hypo_data(settings, tb, types, rents, avg_wage=51286):
 
     df["child6_num"] = df["child3_6_num"]
     for var in ["11", "15", "18", ""]:
-        df["child{}_num".format(var)] = df["child3_6_num"] + df["child7_16_num"]
+        df[f"child{var}_num"] = df["child3_6_num"] + df["child7_16_num"]
 
     # Erster Mann ist immer Head, der Rest sind Frauen und Mädchen
     df["head"] = ~df["female"]
@@ -536,7 +537,7 @@ def create_hypo_data(settings, tb, types, rents, avg_wage=51286):
         "child",
     ]
     for var in tuvars:
-        df["{}num_tu".format(var)] = df["{}_num".format(var)]
+        df[f"{var}num_tu"] = df[f"{var}_num"]
 
     df["hhsize_tu"] = df["hhsize"]
     df["adult_num_tu"] = df["adult_num"]
@@ -695,7 +696,7 @@ def hypo_graphs(dfs, settings, types, lang):
                 ylim_low=0,
                 xlim_low=0,
                 xlim_high=maxinc / 12,
-            ).savefig(ppj("OUT_FIGURES", "hypo/{}_{}_{}.png".format(plottype, t, lang)))
+            ).savefig(ppj("OUT_FIGURES", f"hypo/{plottype}_{t}_{lang}.png"))
 
         # These plots are only for non-baseline reforms
         for plottype in ["budget_diff"]:
@@ -710,7 +711,7 @@ def hypo_graphs(dfs, settings, types, lang):
                 xlim_high=maxinc / 12,
                 showlegend=False,
                 hline=[0],
-            ).savefig(ppj("OUT_FIGURES", "hypo/{}_{}_{}.png".format(plottype, t, lang)))
+            ).savefig(ppj("OUT_FIGURES", f"hypo/{plottype}_{t}_{lang}.png"))
     # Empty memory
     plt.clf()
 
@@ -883,7 +884,7 @@ def hypo_excel(dfs, settings, types):
     # cprint('Producing Excel Output for debugging...', 'red', 'on_white')
     for ref, df in dfs.items():
         df = df.sort_values(by=["typ_bud", "y_wage"])
-        writer = pd.ExcelWriter(ppj("OUT_DATA", "check_hypo_{}.xlsx".format(ref)))
+        writer = pd.ExcelWriter(ppj("OUT_DATA", f"check_hypo_{ref}.xlsx"))
 
         for typ in types:
             df.loc[(df["typ_bud"] == typ)].to_excel(
@@ -981,7 +982,7 @@ if __name__ == "__main__":
 
         # Export to check against Stata Output
         taxout_hypo[ref][taxout_hypo[ref]["head"]].to_json(
-            ppj("OUT_DATA", "python_check_{}.json".format(ref))
+            ppj("OUT_DATA", f"python_check_{ref}.json")
         )
 
     # produce excel control output

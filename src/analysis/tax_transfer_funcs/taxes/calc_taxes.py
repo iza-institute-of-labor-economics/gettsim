@@ -19,10 +19,8 @@ def tax_sched(df, tb):
     ts = pd.DataFrame(index=df.index.copy())
     for inc in tb["zve_list"]:
         ts["tax_" + inc] = tb["tax_schedule"](df["zve_" + inc], tb)
-        ts["tax_{}_tu".format(inc)] = ts["tax_{}".format(inc)]
-        ts.loc[adult_married, "tax_{}_tu".format(inc)] = ts["tax_{}".format(inc)][
-            adult_married
-        ].sum()
+        ts[f"tax_{inc}_tu"] = ts[f"tax_{inc}"]
+        ts.loc[adult_married, f"tax_{inc}_tu"] = ts[f"tax_{inc}"][adult_married].sum()
 
     # Abgeltungssteuer
     ts["abgst"] = abgeltung(df, tb)
@@ -49,8 +47,8 @@ def tax_sched(df, tb):
         [df["zveranl"], ~df["zveranl"]], [ts["soli_tu"] / 2, ts["soli_tu"]]
     )
     return ts[
-        ["tax_{}".format(inc) for inc in tb["zve_list"]]
-        + ["tax_{}_tu".format(inc) for inc in tb["zve_list"]]
+        [f"tax_{inc}" for inc in tb["zve_list"]]
+        + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
         + ["abgst_tu", "abgst", "soli", "soli_tu"]
     ]
 

@@ -1,23 +1,21 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 import pytest
 from numpy.testing import assert_array_almost_equal
-from src.analysis.tax_transfer_funcs.pensions import (
-    pensions,
-    update_earnings_points,
-    _rentenwert_until_2017,
-    _rentenwert_from_2018,
-)
-from bld.project_paths import project_paths_join as ppj
 
+from bld.project_paths import project_paths_join as ppj
+from src.analysis.tax_transfer_funcs.pensions import _rentenwert_from_2018
+from src.analysis.tax_transfer_funcs.pensions import _rentenwert_until_2017
+from src.analysis.tax_transfer_funcs.pensions import pensions
+from src.analysis.tax_transfer_funcs.pensions import update_earnings_points
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
-    load_tb,
+    load_output,
 )
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
-    load_output,
+    load_tb,
 )
 
 input_cols = [

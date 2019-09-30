@@ -1,20 +1,20 @@
-import pandas as pd
 from itertools import product
+
+import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from src.analysis.tax_transfer_funcs.social_insurance import (
-    soc_ins_contrib,
-    calc_midi_contributions,
-    no_midi,
-)
+
+from src.analysis.tax_transfer_funcs.social_insurance import calc_midi_contributions
+from src.analysis.tax_transfer_funcs.social_insurance import no_midi
+from src.analysis.tax_transfer_funcs.social_insurance import soc_ins_contrib
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
     load_input,
 )
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
-    load_tb,
+    load_output,
 )
 from src.analysis.tax_transfer_funcs.test_tax_transfers.auxiliary_test_tax import (
-    load_output,
+    load_tb,
 )
 
 input_cols = [

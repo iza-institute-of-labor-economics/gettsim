@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 TAX TRANSFER SYSTEM FOR UBI
 Eric Sommer, 2018
