@@ -23,6 +23,7 @@ jobs:
 
   - bash: |
       source activate gettsim
+      pip install -e .
       pytest
 
 - job:
@@ -39,6 +40,7 @@ jobs:
 
   - script: |
       call activate gettsim
+      pip install -e .
       pytest
 
 
@@ -65,4 +67,5 @@ jobs:
 
   - bash: |
       source activate gettsim
+      pip install -e .
       pytest
