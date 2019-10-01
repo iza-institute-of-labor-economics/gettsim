@@ -31,9 +31,7 @@ to_test = list(product(years, columns))
 def test_favorability_check(year, column):
     file_name = "test_dfs_favorability_check.xlsx"
     df = load_test_data(year, file_name, input_cols)
-    tb = {}
-    tb["zve_list"] = ["nokfb", "kfb"]
-    tb["yr"] = year
+    tb = {"zve_list": ["nokfb", "kfb"], "yr": year}
     calculated = pd.Series(name=column)
     for tu_id in df["tu_id"].unique():
         calculated = calculated.append(
