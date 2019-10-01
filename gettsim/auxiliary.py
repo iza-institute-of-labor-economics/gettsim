@@ -1,5 +1,7 @@
 import pandas as pd
 
+from gettsim.config import ROOT_DIR
+
 
 def uprate(df, dy, ty, path):
     """Uprating monetary values to account for difference between
@@ -77,3 +79,13 @@ def aggr(df, inc, unit):
         df[inc + "_hh"] = df[inc + "_sum"]
 
         return df[inc + "_hh"]
+
+
+def get_params():
+    """ Load Tax-Benefit Parameters as a dictionary."""
+    params = pd.read_excel(ROOT_DIR / "data" / "param.xls", index_col="para").to_dict()
+
+    for yr in range(1984, 2020):
+        params["y" + str(yr)]["yr"] = yr
+
+    return params

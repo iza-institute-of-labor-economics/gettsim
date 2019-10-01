@@ -3,15 +3,8 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.alg2 import alg2
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_tb,
-)
+from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
     "pid",

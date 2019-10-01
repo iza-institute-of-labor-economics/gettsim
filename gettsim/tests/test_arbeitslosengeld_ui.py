@@ -4,15 +4,8 @@ from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.taxes.calc_taxes import tarif
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_tb,
-)
+from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
     "pid",

@@ -5,15 +5,8 @@ from pandas.testing import assert_frame_equal
 from gettsim.benefits.kiz import kiz
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_tb,
-)
+from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
 input_cols = [

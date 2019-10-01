@@ -1,18 +1,10 @@
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
 
 from gettsim.taxes.calc_taxes import tarif
 from gettsim.taxes.calc_taxes import tax_sched
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_tb,
-)
+from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
     "pid",
@@ -46,6 +38,6 @@ def test_tax_sched(year):
     for tu_id in df["tu_id"].unique():
         calculated = calculated.append(tax_sched(df[df["tu_id"] == tu_id], tb)[columns])
     expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(
+    pd.testing.assert_frame_equal(
         calculated, expected, check_dtype=False, check_exact=False, check_less_precise=0
     )

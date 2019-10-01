@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
@@ -12,7 +11,6 @@ from gettsim.taxes.calc_taxes import tax_sched
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.taxes.kindergeld import kindergeld
 from gettsim.taxes.zve import zve
-from gettsim.auxiliary import get_params
 
 
 def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False):
@@ -43,27 +41,20 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
     # Social Insurance Contributions
-    df = df.join(
-        other=soc_ins_contrib(
-            df[
-                [
-                    "pid",
-                    "hid",
-                    "east",
-                    "m_wage",
-                    "selfemployed",
-                    "m_self",
-                    "m_pensions",
-                    "age",
-                    "haskids",
-                    "pkv",
-                ]
-            ],
-            tb,
-            taxyear,
-        ),
-        how="inner",
-    )
+    columns = [
+        "pid",
+        "hid",
+        "east",
+        "m_wage",
+        "selfemployed",
+        "m_self",
+        "m_pensions",
+        "age",
+        "haskids",
+        "pkv",
+    ]
+    social_insurance_contributions = soc_ins_contrib(df[columns], tb, taxyear)
+    df = df.join(social_insurance_contributions, how="inner")
 
     # Unemployment benefits
     df["m_alg1"] = ui(df, tb, taxyear)
@@ -193,21 +184,3 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
     )
 
     return df
-
-
-if __name__ == "__main__":
-    settings = pd.read_json(ppj("IN_MODEL_SPECS", "settings.json"))
-    tb = get_params(ppj("IN_DATA"))["y" + str(settings["taxyear"][0])]
-    tb_pens = pd.read_excel(
-        ppj("IN_DATA", "pensions.xlsx"), index_col="var"
-    ).transpose()
-    mw = pd.read_json(ppj("IN_DATA", "mw_pensions.json"))
-    df = pd.read_pickle(ppj("SOEP_PATH", "2_taxben_input.dta"))
-    # reduce dataset to last available SOEP year
-    df = df[df["syear"] == df["syear"].max()]
-    tt_out = tax_transfer(
-        df, df["syear"].max(), settings["taxyear"][0], tb, tb_pens, mw, False
-    )
-    tt_out.to_json(
-        ppj("OUT_DATA", "taxben_results_{}.json".format(settings["Reforms"][0]))
-    )

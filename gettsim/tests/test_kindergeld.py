@@ -5,15 +5,8 @@ from pandas.testing import assert_series_equal
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.kindergeld import kindergeld
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_tb,
-)
+from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
 input_cols = ["tu_id", "age", "w_hours", "ineducation", "m_wage"]

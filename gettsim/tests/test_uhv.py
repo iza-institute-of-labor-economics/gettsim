@@ -3,15 +3,8 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.unterhaltsvorschuss import uhv
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_test_data,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_tb,
-)
+from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
 input_cols = [
