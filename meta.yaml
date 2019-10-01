@@ -19,20 +19,16 @@ requirements:
   run:
     - python {{ python }}
     - pandas
+    - xlrd
 
 test:
   commands:
     - pytest
   files:
-    - respy/tests/
-    - respy/conftest.py
+    - gettsim/tests/
   requires:
     - pytest
-    - pytest-mock
-    - pytest-cov
     - pytest-xdist
-    - codecov
-    - statsmodels
 
 
 about:

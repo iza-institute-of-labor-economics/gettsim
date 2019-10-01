@@ -6,10 +6,10 @@ from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.kindergeld import kindergeld
 from gettsim.tests.auxiliary_test_tax import (
-    load_input,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
-    load_output,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
     load_tb,
@@ -24,7 +24,7 @@ years = [2000, 2002, 2010, 2011, 2013, 2019]
 @pytest.mark.parametrize("yr", years)
 def test_kindergeld(yr):
     filename = "test_dfs_kindergeld.xlsx"
-    df = load_input(yr, filename, input_cols)
+    df = load_test_data(yr, filename, input_cols)
     tb = load_tb(yr)
     if yr > 2011:
         tb["childben_elig_rule"] = kg_eligibility_hours
@@ -37,6 +37,6 @@ def test_kindergeld(yr):
             kindergeld(df[df["tu_id"] == tu_id], tb), sort=True
         )
 
-    expected = load_output(yr, filename, "kindergeld_tu_basis")
+    expected = load_test_data(yr, filename, "kindergeld_tu_basis")
 
     assert_series_equal(calculated["kindergeld_tu_basis"].astype("int64"), expected)

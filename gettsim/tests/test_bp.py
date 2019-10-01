@@ -4,10 +4,10 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.tests.auxiliary_test_tax import (
-    load_input,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
-    load_output,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
     load_tb,
@@ -40,7 +40,7 @@ years = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
 def test_kiz(year):
     file_name = "test_dfs_prio.xlsx"
     columns = ["kiz", "m_alg2", "wohngeld"]
-    df = load_input(year, file_name, input_cols)
+    df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
     calculated = pd.DataFrame(columns=columns)
@@ -49,5 +49,5 @@ def test_kiz(year):
             benefit_priority(df[df["hid"] == hid], tb)[columns]
         )
 
-    expected = load_output(year, file_name, columns)
+    expected = load_test_data(year, file_name, columns)
     assert_frame_equal(calculated, expected, check_dtype=False)

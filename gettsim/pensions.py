@@ -4,8 +4,11 @@ import numpy as np
 def pensions(df_row, tb, tb_pens):
     """
     This function calculates the Old-Age Pensions claim if the agent chooses to
-    retire. The function basicly follows the following equation
-    # R = EP * ZF * Rw
+    retire. The function basically follows the following equation:
+
+    .. math::
+
+        R = EP * ZF * Rw
 
     models 'Rentenformel':
     https://de.wikipedia.org/wiki/Rentenformel
@@ -15,6 +18,7 @@ def pensions(df_row, tb, tb_pens):
       earnings of that year. These need to be related to average earnings
     - As we do not know previously collect Entgeltpunkte, we take an average
       value (to be improved)
+
     """
     # meanwages is only filled until 2016
     yr = min(tb["yr"], 2016)
@@ -33,7 +37,6 @@ def pensions(df_row, tb, tb_pens):
     return pensions_sim
 
 
-# @numba.jit(nopython=True)
 def update_earnings_points(df, tb, tb_pens):
     """Given earnings, social security rules, average
     earnings in a particular year and potentially other

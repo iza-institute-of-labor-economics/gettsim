@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 
 
-# @jit(nopython=True)
 def zve(df, tb):
     """Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
     of the 6 branches of income is according to

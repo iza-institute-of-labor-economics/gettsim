@@ -6,10 +6,10 @@ from pandas.testing import assert_series_equal
 
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.tests.auxiliary_test_tax import (
-    load_input,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
-    load_output,
+    load_test_data,
 )
 
 
@@ -35,7 +35,7 @@ to_test = list(product(years, columns))
 @pytest.mark.parametrize("year, column", to_test)
 def test_favorability_check(year, column):
     file_name = "test_dfs_favorability_check.xlsx"
-    df = load_input(year, file_name, input_cols)
+    df = load_test_data(year, file_name, input_cols)
     tb = {}
     tb["zve_list"] = ["nokfb", "kfb"]
     tb["yr"] = year
@@ -44,5 +44,5 @@ def test_favorability_check(year, column):
         calculated = calculated.append(
             favorability_check(df[df["tu_id"] == tu_id], tb)[column]
         )
-    expected = load_output(year, file_name, column)
+    expected = load_test_data(year, file_name, column)
     assert_series_equal(calculated, expected)

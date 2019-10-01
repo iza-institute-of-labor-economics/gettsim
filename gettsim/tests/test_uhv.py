@@ -4,10 +4,10 @@ from pandas.testing import assert_series_equal
 
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.tests.auxiliary_test_tax import (
-    load_input,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
-    load_output,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
     load_tb,
@@ -36,11 +36,11 @@ years = [2017, 2019]
 @pytest.mark.parametrize("year", years)
 def test_uhv(year):
     file_name = "test_dfs_uhv.xlsx"
-    df = load_input(year, file_name, input_cols)
+    df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
     calculated = pd.Series(name="uhv")
     for tu_id in df["tu_id"].unique():
         calculated = calculated.append(uhv(df[df["tu_id"] == tu_id], tb))
-    expected = load_output(year, file_name, "uhv")
+    expected = load_test_data(year, file_name, "uhv")
     assert_series_equal(calculated, expected, check_dtype=False)

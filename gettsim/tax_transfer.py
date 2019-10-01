@@ -1,12 +1,6 @@
-"""
-TAX TRANSFER SIMULATION
-
-Eric Sommer, 2018
-"""
 import numpy as np
 import pandas as pd
 
-from bld.project_paths import project_paths_join as ppj
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.benefits.kiz import kiz

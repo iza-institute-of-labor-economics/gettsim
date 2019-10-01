@@ -4,10 +4,10 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.wohngeld import wg
 from gettsim.tests.auxiliary_test_tax import (
-    load_input,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
-    load_output,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
     load_tb,
@@ -52,11 +52,11 @@ years = [2006, 2009, 2013, 2016]
 def test_wg(year):
     file_name = "test_dfs_wg.xlsx"
     columns = ["wohngeld_basis_hh"]
-    df = load_input(year, file_name, input_cols)
+    df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
-    expected = load_output(year, file_name, columns)
+    expected = load_test_data(year, file_name, columns)
     assert_frame_equal(calculated, expected)

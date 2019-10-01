@@ -39,7 +39,7 @@ def uprate(df, dy, ty, path):
 
 
 def aggr(df, inc, unit):
-    """ Function to aggregate some (income) variable within the househo<ld
+    """ Function to aggregate some (income) variable within the household
 
         args:
             df: the dataframe in which aggregation takes place. Needs to have

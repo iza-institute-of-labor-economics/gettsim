@@ -6,10 +6,10 @@ from gettsim.benefits.kiz import kiz
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.tests.auxiliary_test_tax import (
-    load_input,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
-    load_output,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
     load_tb,
@@ -50,7 +50,7 @@ years = [2006, 2009, 2011, 2013, 2016, 2019]
 def test_kiz(year):
     file_name = "test_dfs_kiz.xlsx"
     columns = ["kiz_temp"]
-    df = load_input(year, file_name, input_cols)
+    df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
     if year > 2011:
@@ -60,5 +60,5 @@ def test_kiz(year):
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(kiz(df[df["hid"] == hid], tb)[columns])
-    expected = load_output(year, file_name, columns)
+    expected = load_test_data(year, file_name, columns)
     assert_frame_equal(calculated, expected, check_dtype=False)

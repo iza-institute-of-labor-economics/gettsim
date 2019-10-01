@@ -8,10 +8,10 @@ from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.taxes.zve import zve
 from gettsim.tests.auxiliary_test_tax import (
-    load_input,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
-    load_output,
+    load_test_data,
 )
 from gettsim.tests.auxiliary_test_tax import (
     load_tb,
@@ -50,7 +50,7 @@ years = [2005, 2009, 2010, 2012, 2018]
 def test_zve(year):
     file_name = "test_dfs_zve.xlsx"
     columns = ["zve_nokfb", "zve_kfb"]
-    df = load_input(year, file_name, input_cols)
+    df = load_test_data(year, file_name, input_cols)
     df["m_childcare"] = 0.0
     tb = load_tb(year)
     tb["yr"] = year
@@ -66,7 +66,7 @@ def test_zve(year):
     calculated = pd.DataFrame(columns=columns)
     for tu_id in df["tu_id"].unique():
         calculated = calculated.append(zve(df[df["tu_id"] == tu_id], tb)[columns])
-    expected = load_output(year, file_name, columns)
+    expected = load_test_data(year, file_name, columns)
 
     # allow 1€ difference, caused by strange rounding issues.
     assert_frame_equal(calculated, expected, check_less_precise=2)
