@@ -23,7 +23,6 @@ jobs:
 
   - bash: |
       source activate gettsim
-      python waf.py configure build
       pytest
 
 - job:
@@ -40,7 +39,6 @@ jobs:
 
   - script: |
       call activate gettsim
-      python waf.py configure build
       pytest
 
 
@@ -67,5 +65,4 @@ jobs:
 
   - bash: |
       source activate gettsim
-      python waf.py configure build
       pytest
