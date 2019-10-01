@@ -1,0 +1,3 @@
+- alle Spalten bis zur grünen stellen (hoffentlich) den hinreichenden input für die jew. Funktion dar.
+- die grüne Spalte gibt das Ergebnis an, das getestet werden soll
+- alles rechts der grünen Spalte sind Hilfsrechnungen
