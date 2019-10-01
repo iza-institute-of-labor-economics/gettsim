@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.model_code.imports import aggr
+from gettsim.auxiliary import aggr
 
 
 def alg2(df, tb):

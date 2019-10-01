@@ -18,7 +18,7 @@ from gettsim.taxes.calc_taxes import tax_sched
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.taxes.kindergeld import kindergeld
 from gettsim.taxes.zve import zve
-from src.model_code.imports import get_params
+from gettsim.auxiliary import get_params
 
 
 def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False):

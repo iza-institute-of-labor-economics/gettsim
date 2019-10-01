@@ -7,15 +7,11 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
-from gettsim.tests.auxiliary_test_tax import (
-    load_input,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_output,
-)
-from gettsim.tests.auxiliary_test_tax import (
-    load_tb,
-)
+from gettsim.tests.auxiliary_test_tax import load_input
+from gettsim.tests.auxiliary_test_tax import load_output
+from gettsim.tests.auxiliary_test_tax import load_tb
+
+from gettsim.config import ROOT_DIR
 
 input_cols = [
     "pid",
@@ -44,7 +40,9 @@ def test_pension(year):
         tb["calc_rentenwert"] = _rentenwert_from_2018
     else:
         tb["calc_rentenwert"] = _rentenwert_until_2017
-    tb_pens = pd.read_excel(ppj("IN_DATA", "pensions.xlsx")).set_index("var")
+    tb_pens = pd.read_excel(ROOT_DIR / "original_data" / "pensions.xlsx").set_index(
+        "var"
+    )
     expected = load_output(year, "test_dfs_pensions.xlsx", column)
     calculated = pd.Series(name=column)
     for pid in df["pid"].unique():
@@ -59,7 +57,9 @@ def test_update_earning_points(year):
     column = "EP_end"
     df = load_input(year, "test_dfs_pensions.xlsx", input_cols)
     tb = load_tb(year)
-    tb_pens = pd.read_excel(ppj("IN_DATA", "pensions.xlsx")).set_index("var")
+    tb_pens = pd.read_excel(ROOT_DIR / "original_data" / "pensions.xlsx").set_index(
+        "var"
+    )
     expected = load_output(year, "test_dfs_pensions.xlsx", column)
     calculated = np.array([])
     for pid in df["pid"].unique():
