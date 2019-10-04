@@ -272,18 +272,16 @@ def deductible_child_care_costs(df, tb):
         # The maximal amount to claim is 4000 per child. We only count the claim for
         # children under 14. By law the parents are also to allow to claim for disabled
         # children til the age of 25.
-        num_kids_elig = len(df[(df["child"]) & df["age"] <= 14])
-        # Calculate the maximal claim for childcare costs
-        childcare_max = tb["childcare_max"] * num_kids_elig
-        # The parents are allowed to claim only a share of the actual costs
-        child_care_exp = (
-            12
-            * df[df["child"]]["m_childcare"].sum()
+        eligible = df["age"] <= 14
+
+        deductible_costs = (
+            eligible
+            * np.minimum(tb["childcare_max"], 12 * df["m_childcare"])
             * tb["childcare_share"]
             / adult_num
         )
         # If parents can't claim anything, they get a pausch value.
-        sonder[~df["child"]] = max(min(child_care_exp, childcare_max), tb["sonder"])
+        sonder[~df["child"]] = max(np.sum(deductible_costs), tb["sonder"])
         return sonder
 
 
