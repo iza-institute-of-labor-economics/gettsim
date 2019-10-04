@@ -9,8 +9,10 @@ def wg(df, tb):
         Social benefit for recipients with income above basic social assistance
         Computation is very complicated, accounts for household size, income, actual
         rent and differs on the municipality level ('Mietstufe' (1,...,6)).
-        As we don't have information on the last item, we assume 'Mietstufe' 3,
-        corresponding to an average level
+        
+        We usually don't have information on the last item. 
+        Therefore we assume 'Mietstufe' 3, corresponding to an average level,
+        but other Mietstufen can be specified in `df`.
     """
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
 
@@ -44,7 +46,7 @@ def calc_wg_rent(df, tb, hhsize):
     # There are also min and max values for this.
     # If 'Mietstufe' is not given, choose '3'.
     if 'mietstufe' in df.columns:
-        mietstufe = df['mietstufe'].max()
+        mietstufe = int(df['mietstufe'].max())
     else:
         mietstufe = 3
 
