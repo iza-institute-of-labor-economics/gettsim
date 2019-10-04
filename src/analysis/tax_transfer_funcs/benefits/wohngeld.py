@@ -42,13 +42,21 @@ def calc_wg_rent(df, tb, hhsize):
     This function yields the relevant rent for calculating the wohngeld.
     """
     # There are also min and max values for this.
+    # If 'Mietstufe' is not given, choose '3'.
+    if 'mietstufe' in df.columns:
+        mietstufe = df['mietstufe'].max()
+    else:
+        mietstufe = 3
+
+    assert(mietstufe in range(1, 7))
     # First max rent
     if tb["yr"] >= 2009:
-        max_rent = calc_max_rent_since_2009(tb, hhsize)
+        max_rent = calc_max_rent_since_2009(tb, hhsize, mietstufe)
     else:
         # Before 2009, they differed by construction year of the house
+        # Params by Mietstufe not yet collected
         cnstyr = df["cnstyr"].iloc[0]
-        max_rent = calc_max_rent_until_2008(tb, hhsize, cnstyr)
+        max_rent = calc_max_rent_until_2008(tb, hhsize, cnstyr, mietstufe)
     # Second min rent
     min_rent = calc_min_rent(tb, hhsize)
     # check for failed assignments
@@ -63,7 +71,7 @@ def calc_wg_rent(df, tb, hhsize):
     return np.maximum(wgmiete, min_rent)
 
 
-def calc_max_rent_since_2009(tb, hhsize):
+def calc_max_rent_since_2009(tb, hhsize, mietstufe):
     """
     Since 2009 a different formula for the maximal acknowledged rent applies. Now the
     date of the construction is irrelevant.
@@ -71,13 +79,13 @@ def calc_max_rent_since_2009(tb, hhsize):
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
     if hhsize <= 5:
-        max_rent = tb["wgmax" + str(hhsize) + "p_m"]
+        max_rent = tb["wgmax{}p_m_st{}".format(hhsize, mietstufe)]
     else:
-        max_rent = tb["wgmax5p_m"] + tb["wgmaxplus5_m"] * (hhsize - 5)
+        max_rent = tb["wgmax5p_m_st{}".format(mietstufe)] + tb["wgmaxplus5_m_st{}".format(mietstufe)] * (hhsize - 5)
     return max_rent
 
 
-def calc_max_rent_until_2008(tb, hhsize, cnstyr):
+def calc_max_rent_until_2008(tb, hhsize, cnstyr, mietstufe):
     """ Before 2009, differentiate by construction year of the house and calculate
     the maximal acknowledged rent."""
     cnstyr_dict = {1: "a", 2: "m", 3: "n"}
@@ -85,9 +93,9 @@ def calc_max_rent_until_2008(tb, hhsize, cnstyr):
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
     if hhsize <= 5:
-        max_rent = tb["wgmax" + str(hhsize) + "p_" + cnstyr_dict[cnstyr]]
+        max_rent = tb["wgmax{}p_{}_st{}".format(hhsize, key, mietstufe)]
     else:
-        max_rent = tb["wgmax5p_" + key] + tb["wgmaxplus5_" + key] * (hhsize - 5)
+        max_rent = tb["wgmax5p_{}_st{}".format(key, mietstufe)] + tb["wgmaxplus5_".format(key, mietstufe)] * (hhsize - 5)
     return max_rent
 
 
