@@ -30,7 +30,11 @@ jobs:
   - bash: |
       source activate gettsim
       pip install -e .
-      pytest
+      pytest --cov-report xml --cov=./
+
+  # The token is taken from environment variables.
+  - script: bash <(curl https://codecov.io/bash) -t $(CODECOV_TOKEN)
+    displayName: Upload coverage report.
 
 - job:
   displayName: Windows
