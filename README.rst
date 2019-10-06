@@ -1,3 +1,7 @@
+.. image:: https://readthedocs.org/projects/gettsim/badge/?version=latest
+    :target: https://gettsim.readthedocs.io/en/latest
+    :alt: Documentation Status
+
 .. image:: https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_apis/build/status/iza-institute-of-labor-economics.gettsim?branchName=master
    :target: https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_build/latest?definitionId=1&branchName=master
 
