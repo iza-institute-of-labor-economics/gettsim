@@ -6,6 +6,8 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-xdist
+  - sphinx
+  - sphinx_rtd_theme
   - xlrd
   - pip:
       - pre-commit
