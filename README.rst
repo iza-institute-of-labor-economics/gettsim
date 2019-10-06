@@ -16,11 +16,17 @@
    </p>
 
 
-GETTSIM aims at providing a depiction of the German Taxes and Transfers System that is usable across a wide range of research applications, ranging from highly complex dynamic programming models to extremely detailed microsimulation studies.
+GETTSIM aims at providing a depiction of the German Taxes and Transfers System that is
+usable across a wide range of research applications, ranging from highly complex dynamic
+programming models to extremely detailed microsimulation studies.
 
-GETTSIM is implemented in Python and Numba, thereby achieving both flexibility and speed. All features are extensively tested.
+GETTSIM is implemented in Python and Numba, thereby achieving both flexibility and
+speed. All features are extensively tested.
 
-The current version is usable, but probably only by the initiated. Please get in touch (via an issue or emailing `Hans-Martin von Gaudecker <https://www.iza.org/de/people/fellows/4238/hans-martin-von-gaudecker>`_ if you want to use it already, else keep an eye out for what there is to come!
+The current version is usable, but probably only by the initiated. Please get in touch
+(via an issue or emailing `Hans-Martin von Gaudecker
+<https://www.iza.org/de/people/fellows/4238/hans-martin-von-gaudecker>`_) if you want to
+use it already, else keep an eye out for what there is to come!
 
 
 Initiated by
@@ -58,22 +64,22 @@ Initiated by
       &emsp;
 
       <a href="https://www.uni-kassel.de">
-         <img src="pics/uni_kassel_logo.png" width="150" alt="Universität Kassel">
+         <img src="docs/_static/uni_kassel_logo.png" width="150" alt="Universität Kassel">
       </a>
       &emsp;
 
       <a href="https://www.uni-muenchen.de">
-         <img src="pics/lmu_logo.svg" width="150" alt="Ludwig-Maximilians-Universität München">
+         <img src="docs/_static/lmu_logo.svg" width="150" alt="Ludwig-Maximilians-Universität München">
       </a>
       &emsp;
 
       <a href="https://www.uni-mannheim.de">
-         <img src="pics/uni_mannheim_logo.png" width="150" alt="Universität Mannheim">
+         <img src="docs/_static/uni_mannheim_logo.png" width="150" alt="Universität Mannheim">
       </a>
       &emsp;
 
       <a href="https://www.fu-berlin.de">
-         <img src="pics/fu_berlin_logo.svg" width="150" alt="Freie Universität Berlin">
+         <img src="docs/_static/fu_berlin_logo.svg" width="150" alt="Freie Universität Berlin">
       </a>
 
    </p>
