@@ -7,14 +7,10 @@ assignees: ''
 
 ---
 
-### Current situation
+### Current and desired situation
 
-A clear and concise description of what the problem is. Ex. I'm always frustrated when
-[...]; Currently there is no way of [...]
-
-### Desired situation
-
-What functionality should become possible or easier?
+A clear and concise description of what the problem is. E.g., I would like to model this
+part of the tax and transfer system.
 
 ### Proposed implementation
 

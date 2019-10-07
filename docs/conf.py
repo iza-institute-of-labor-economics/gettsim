@@ -11,10 +11,10 @@
 # -- Project information -----------------------------------------------------
 
 project = "gettsim"
-copyright = "2019, Hans-Martin von Gaudecker"
-author = "Hans-Martin von Gaudecker"
-version = "0.0.1"
-release = "0.0.1dev"
+copyright = "2019, GETTSIM team"
+author = "GETTSIM team"
+version = "0.2"
+release = "0.2.0dev"
 
 
 # -- General configuration ---------------------------------------------------

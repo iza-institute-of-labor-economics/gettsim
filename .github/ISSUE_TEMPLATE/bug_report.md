@@ -26,5 +26,5 @@ If applicable, add screenshots to help explain your problem.
 
 ### System
 
-- OS: [e.g. Ubuntu 18.04]
-- Version [e.g. 0.0.1]
+- OS: [e.g. Windows 10]
+- Version [e.g. 0.1]
