@@ -2,10 +2,13 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from gettsim.benefits.wohngeld import wg
+from gettsim.benefits.wohngeld import (
+    wg,
+    calc_max_rent_since_2009,
+    calc_max_rent_until_2008,
+)
 from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
-
 
 input_cols = [
     "pid",
@@ -20,6 +23,7 @@ input_cols = [
     "alleinerz",
     "child11_num_tu",
     "cnstyr",
+    "mietstufe",
     "m_wage",
     "m_pensions",
     "ertragsanteil",
@@ -38,7 +42,7 @@ input_cols = [
     "year",
     "hhsize_tu",
 ]
-years = [2006, 2009, 2013, 2016]
+years = [2006, 2009, 2013, 2016, 2019]
 
 
 @pytest.mark.parametrize("year", years)
@@ -48,6 +52,10 @@ def test_wg(year):
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
+    if year < 2009:
+        tb["calc_max_rent"] = calc_max_rent_until_2008
+    else:
+        tb["calc_max_rent"] = calc_max_rent_since_2009
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
