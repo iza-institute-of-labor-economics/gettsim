@@ -54,6 +54,9 @@ def test_wg(year):
         tb["calc_max_rent"] = calc_max_rent_until_2008
     else:
         tb["calc_max_rent"] = calc_max_rent_since_2009
+    # For one year, deliberately kick out 'mietstufe' from the dataframe
+    if year == 2013:
+        df = df.drop(columns=["mietstufe"])
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
