@@ -36,7 +36,7 @@ def test_ui(year):
     tb["yr"] = year
     tb["tax_schedule"] = tarif
     expected = load_test_data(year, file_name, "m_alg1")
-    calculated = pd.Series(name="m_alg1")
-    for pid in df["pid"].unique():
-        calculated = calculated.append(ui(df[df["pid"] == pid], tb))
+    calculated = pd.Series(name="m_alg1", index=df.index)
+    for i in df.index:
+        calculated[i] = ui(df.loc[i], tb)
     assert_series_equal(calculated, expected, check_less_precise=3)
