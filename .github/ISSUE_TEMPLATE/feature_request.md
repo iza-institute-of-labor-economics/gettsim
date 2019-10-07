@@ -9,8 +9,8 @@ assignees: ''
 
 ### Current and desired situation
 
-A clear and concise description of what the problem is. E.g., I would like to model this
-part of the tax and transfer system.
+A clear and concise description of what the problem is. E.g., it would be great to add
+this and that feature of the taxes and transfers system.
 
 ### Proposed implementation
 
