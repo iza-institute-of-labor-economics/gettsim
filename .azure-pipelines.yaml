@@ -32,6 +32,9 @@ jobs:
       pip install -e .
       pytest --cov-report xml --cov=./
 
+      pre-commit install -f --install-hooks
+      pre-commit run --all-files
+
   # The token is taken from environment variables.
   - script: bash <(curl https://codecov.io/bash) -t $(CODECOV_TOKEN)
     displayName: Upload coverage report.
