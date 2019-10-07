@@ -53,14 +53,17 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
         "haskids",
         "pkv",
     ]
-    social_insurance_contributions = soc_ins_contrib(df[columns], tb, taxyear)
+    # pid
+    social_insurance_contributions = soc_ins_contrib(df[columns], tb)
     df = df.join(social_insurance_contributions, how="inner")
 
     # Unemployment benefits
-    df["m_alg1"] = ui(df, tb, taxyear)
+    # pid
+    df["m_alg1"] = ui(df, tb)
 
     # Pension benefits
-    df["pen_sim"] = pensions(df, tb, tb_pens, mw, taxyear, hyporun)
+    # pid
+    df["pen_sim"] = pensions(df, tb, tb_pens)
 
     # Income Tax
     taxvars = [
@@ -100,15 +103,18 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
     ]
 
     # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
-    df = df.join(other=zve(df[taxvars], tb, taxyear, hyporun), how="inner")
+    # tu_id
+    df = df.join(other=zve(df[taxvars], tb), how="inner")
 
     # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
-    df = df.join(other=tax_sched(df, tb, taxyear, hyporun), how="inner")
+    # tu_id
+    df = df.join(other=tax_sched(df, tb), how="inner")
 
     # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
+    # tu_id
     df = df.join(
         other=kindergeld(
-            df[["hid", "tu_id", "age", "ineducation", "w_hours", "m_wage"]], tb, taxyear
+            df[["hid", "tu_id", "age", "ineducation", "w_hours", "m_wage"]], tb
         ),
         how="inner",
     )
@@ -116,7 +122,8 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
     # 5.4 Günstigerprüfung to obtain final income tax due.
     # different call here, because 'kindergeld' is overwritten by the function and
     # needs to be updated. not really elegant I must admit...
-    temp = favorability_check(df, tb, taxyear)
+    # tu_id
+    temp = favorability_check(df, tb)
     for var in [["incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]]:
         df[var] = temp[var]
 
@@ -125,16 +132,20 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
 
     # 6. SOCIAL TRANSFERS / BENEFITS
     # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
-    df["uhv"] = uhv(df, tb, taxyear)
+    # tu_id
+    df["uhv"] = uhv(df, tb)
 
     # 6.1. Wohngeld, Housing Benefit
     # TODO: rename wohngeld ('wohngeld_basis') until final check.
-    df = df.join(other=wg(df, tb, taxyear, hyporun), how="inner")
+    # hid
+    df = df.join(other=wg(df, tb), how="inner")
     # 6.2 ALG2, Basic Unemployment Benefit
-    df = df.join(other=alg2(df, tb, taxyear), how="inner")
+    # hid
+    df = df.join(other=alg2(df, tb), how="inner")
 
     # 6.3. Kinderzuschlag, Additional Child Benefit
-    temp = kiz(df, tb, taxyear, hyporun)
+    # hid
+    temp = kiz(df, tb)
     for var in [["m_alg2", "kiz", "wohngeld"]]:
         df[var] = temp[var]
 
