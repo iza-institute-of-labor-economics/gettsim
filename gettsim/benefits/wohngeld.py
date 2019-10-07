@@ -24,7 +24,8 @@ def wg(df, tb):
     wg_df["Y"] = calc_wg_income(df, tb, hhsize)
     # Caluclate rent in separate function
     wg_df["M"] = calc_wg_rent(df, tb, hhsize)
-
+    print(wg_df["M"])
+    print(wg_df["Y"])
     # Apply Wohngeld Formel.
     wg_df["wohngeld_basis"] = apply_wg_formula(wg_df, tb, hhsize)
 
@@ -97,7 +98,7 @@ def calc_max_rent_until_2008(tb, hhsize, cnstyr, mietstufe):
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
     if hhsize <= 5:
-        max_rent = tb["wgmax{}p_{}_st{}".format(hhsize, key, mietstufe)]
+        max_rent = tb[f"wgmax{hhsize}p_{key}_st{mietstufe}"]
     else:
         max_rent = tb[f"wgmax5p_{key}_st{mietstufe}"] + tb[
             f"wgmaxplus5_{key}_st{mietstufe}"
@@ -139,10 +140,12 @@ def calc_wg_income(df, tb, hhsize):
         wg_income[f"{inc}_tu_k"] = aggr(df, inc, "all_tu")
 
     wg_income["wg_abzuege"] = calc_wg_abzuege(wg_income, tb)
-
+    print(wg_income["wg_abzuege"])
     # Relevant income is market income + transfers...
     wg_income["wg_grossY"] = calc_wg_gross_income(wg_income)
-
+    print(
+        wg_income[["m_alg1_tu_k", "m_transfers_tu_k", "pens_steuer_tu_k", "uhv_tu_k"]]
+    )
     wg_income["wg_otherinc"] = wg_income[
         ["m_alg1_tu_k", "m_transfers_tu_k", "pens_steuer_tu_k", "uhv_tu_k"]
     ].sum(axis=1)
@@ -159,6 +162,7 @@ def calc_wg_income(df, tb, hhsize):
             - wg_income["wg_incdeduct_tu_k"]
         ),
     )
+    print(wg_income["wg_otherinc"])
     # There's a minimum Y depending on the hh size
     return _set_min_y(prelim_y, tb, hhsize)
 
@@ -189,6 +193,7 @@ def calc_wg_gross_income(wg_income):
         + np.maximum(wg_income["gross_e5_tu_k"] / 12, 0)
         + np.maximum(wg_income["gross_e6_tu_k"] / 12, 0)
     )
+    print(out)
     return out
 
 
@@ -201,6 +206,9 @@ def calc_wg_income_deductions(df, tb):
 
 
 def _calc_wg_income_deductions_until_2015(df, tb):
+    """ calculate special deductions for handicapped, single parents
+    and children who are working
+    """
     workingchild = df["child"] & (df["m_wage"] > 0)
     wg_incdeduct = (
         (df["handcap_degree"] > 80) * tb["wgpfbm80"]
@@ -212,6 +220,9 @@ def _calc_wg_income_deductions_until_2015(df, tb):
 
 
 def _calc_wg_income_deductions_since_2016(df, tb):
+    """ calculate special deductions for handicapped, single parents
+    and children who are working
+    """
     workingchild = df["child"] & (df["m_wage"] > 0)
     wg_incdeduct = (
         (df["handcap_degree"] > 0) * tb["wgpfbm80"]
