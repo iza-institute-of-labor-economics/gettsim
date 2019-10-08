@@ -1,8 +1,10 @@
-
+"""
+Special Wohngeld test to account for missing 'mietstufe' in input data.
+"""
 
 import pandas as pd
-import pytest
 from pandas.testing import assert_frame_equal
+import pytest
 
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
@@ -22,8 +24,7 @@ input_cols = [
     "heizkost",
     "alleinerz",
     "child11_num_tu",
-    "cnstyr",
-    "mietstufe",
+    "cnstyr",    
     "m_wage",
     "m_pensions",
     "ertragsanteil",
@@ -42,11 +43,10 @@ input_cols = [
     "year",
     "hhsize_tu",
 ]
-years = [2006, 2009, 2013, 2016, 2018, 2019]
 
-@pytest.mark.parametrize("year", years)
-def test_wg(year):
-    file_name = "test_dfs_wg.xlsx"
+@pytest.mark.parametrize("year", [2013])
+def test_wg2(year):
+    file_name = "test_dfs_wg2.csv"    
     columns = ["wohngeld_basis_hh"]
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
@@ -54,9 +54,10 @@ def test_wg(year):
     if year < 2009:
         tb["calc_max_rent"] = calc_max_rent_until_2008
     else:
-        tb["calc_max_rent"] = calc_max_rent_since_2009
+        tb["calc_max_rent"] = calc_max_rent_since_2009    
     calculated = pd.DataFrame(columns=columns)
     for hid in df["hid"].unique():
         calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
     expected = load_test_data(year, file_name, columns)
     assert_frame_equal(calculated, expected, check_exact=False, check_less_precise=2)
+    
