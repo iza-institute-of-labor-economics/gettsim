@@ -1,5 +1,3 @@
-
-
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
@@ -43,6 +41,7 @@ input_cols = [
     "hhsize_tu",
 ]
 years = [2006, 2009, 2013, 2016, 2018, 2019]
+
 
 @pytest.mark.parametrize("year", years)
 def test_wg(year):

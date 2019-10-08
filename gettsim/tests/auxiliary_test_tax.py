@@ -5,14 +5,14 @@ from gettsim.config import ROOT_DIR
 
 def load_test_data(year, file_name, columns, *pd_args, **pd_kwargs):
     print(file_name)
-    if file_name.split('.')[1][:3] == "xls":
+    if file_name.split(".")[1][:3] == "xls":
         df = pd.read_excel(
             ROOT_DIR / "tests" / "test_data" / file_name, *pd_args, **pd_kwargs
         )
-    if file_name.split('.')[1] == "csv":        
+    if file_name.split(".")[1] == "csv":
         df = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     df = df.loc[df["year"].eq(year), columns].copy()
-    
+
     return df
 
 
