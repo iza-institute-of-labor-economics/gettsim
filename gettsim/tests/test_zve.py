@@ -25,6 +25,7 @@ input_cols = [
     "ineducation",
     "zveranl",
     "child",
+    "m_childcare",
     "handcap_degree",
     "rvbeit",
     "avbeit",
@@ -44,7 +45,6 @@ def test_zve(year):
     file_name = "test_dfs_zve.xlsx"
     columns = ["zve_nokfb", "zve_kfb"]
     df = load_test_data(year, file_name, input_cols)
-    df["m_childcare"] = 0.0
     tb = load_tb(year)
     tb["yr"] = year
     if year <= 2014:
