@@ -13,7 +13,7 @@ from gettsim.taxes.kindergeld import kindergeld
 from gettsim.taxes.zve import zve
 
 
-def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False):
+def tax_transfer(df, tb, tb_pens=None):
     """ The German Tax-Transfer System.
 
     Arguments:
@@ -36,34 +36,39 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
 
     # set default arguments
     tb_pens = [] if tb_pens is None else tb_pens
-    mw = [] if mw is None else mw
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
-    # Social Insurance Contributions
-    columns = [
-        "pid",
-        "hid",
-        "east",
-        "m_wage",
-        "selfemployed",
-        "m_self",
-        "m_pensions",
-        "age",
-        "haskids",
-        "pkv",
-    ]
-    # pid
-    social_insurance_contributions = soc_ins_contrib(df[columns], tb)
-    df = df.join(social_insurance_contributions, how="inner")
+    # We start with the top layer, which is household id. We treat this as the
+    # "Bedarfsgemeinschaft" in the german tax law.
+    for hid in df["hid"].unique():
+        df_hh = df[df["hid"] == hid]
+        for tu_id in df_hh["tu_id"].unique():
+            df_tu = df_hh[df_hh["tu_id"] == tu_id]
+            for i in df_tu.index:
+                # Use Series instead of single row DataFrame
+                df_row = df_tu.loc[i]
 
-    # Unemployment benefits
-    # pid
-    df["m_alg1"] = ui(df, tb)
+                # Social Insurance Contributions
+                columns = [
+                    "pid",
+                    "hid",
+                    "east",
+                    "m_wage",
+                    "selfemployed",
+                    "m_self",
+                    "m_pensions",
+                    "age",
+                    "haskids",
+                    "pkv",
+                ]
+                df_row = df_row.append(soc_ins_contrib(df_row.loc[columns], tb))
 
-    # Pension benefits
-    # pid
-    df["pen_sim"] = pensions(df, tb, tb_pens)
+                # Unemployment benefits
+                df_row["m_alg1"] = ui(df_row, tb)
+
+                # Pension benefits
+                df_row["pen_sim"] = pensions(df, tb, tb_pens)
 
     # Income Tax
     taxvars = [
@@ -136,7 +141,6 @@ def tax_transfer(df, datayear, taxyear, tb, tb_pens=None, mw=None, hyporun=False
     df["uhv"] = uhv(df, tb)
 
     # 6.1. Wohngeld, Housing Benefit
-    # TODO: rename wohngeld ('wohngeld_basis') until final check.
     # hid
     df = df.join(other=wg(df, tb), how="inner")
     # 6.2 ALG2, Basic Unemployment Benefit
