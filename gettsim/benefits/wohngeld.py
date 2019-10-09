@@ -9,8 +9,10 @@ def wg(df, tb):
         Social benefit for recipients with income above basic social assistance
         Computation is very complicated, accounts for household size, income, actual
         rent and differs on the municipality level ('Mietstufe' (1,...,6)).
-        As we don't have information on the last item, we assume 'Mietstufe' 3,
-        corresponding to an average level
+
+        We usually don't have information on the last item.
+        Therefore we assume 'Mietstufe' 3, corresponding to an average level,
+        but other Mietstufen can be specified in `df`.
     """
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
 
@@ -18,11 +20,10 @@ def wg(df, tb):
     wg_df["hid"] = df["hid"]
     wg_df["tu_id"] = df["tu_id"]
     hhsize = df.shape[0]
-    # Caluclate income in seperate function
+    # Caluclate income in separate function
     wg_df["Y"] = calc_wg_income(df, tb, hhsize)
-    # Caluclate rent in seperate function
+    # Caluclate rent in separate function
     wg_df["M"] = calc_wg_rent(df, tb, hhsize)
-
     # Apply Wohngeld Formel.
     wg_df["wohngeld_basis"] = apply_wg_formula(wg_df, tb, hhsize)
 
@@ -32,6 +33,7 @@ def wg(df, tb):
         wg_df.groupby(["hid"])["wg_head"].sum(), on=["hid"], how="left", rsuffix="_hh"
     )
     wg_df = wg_df.rename(columns={"wg_head_hh": "wohngeld_basis_hh"})
+    wg_df = wg_df.round({"wohngeld_basis_hh": 2})
     # df["hhsize_tu"].describe()
     # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return wg_df[["wohngeld_basis", "wohngeld_basis_hh"]]
@@ -42,15 +44,21 @@ def calc_wg_rent(df, tb, hhsize):
     This function yields the relevant rent for calculating the wohngeld.
     """
     # There are also min and max values for this.
-    # First max rent
-    if tb["yr"] >= 2009:
-        max_rent = calc_max_rent_since_2009(tb, hhsize)
+    # If 'Mietstufe' is not given, choose '3'.
+    if "mietstufe" in df.columns:
+        mietstufe = int(df["mietstufe"].iloc[0])
     else:
-        # Before 2009, they differed by construction year of the house
-        cnstyr = df["cnstyr"].iloc[0]
-        max_rent = calc_max_rent_until_2008(tb, hhsize, cnstyr)
+        mietstufe = 3
+
+    assert mietstufe in range(1, 7)
+    cnstyr = df["cnstyr"].iloc[0]
+    # First max rent
+    # Before 2009, they differed by construction year of the house
+    max_rent = tb["calc_max_rent"](tb, hhsize, cnstyr, mietstufe)
+
     # Second min rent
     min_rent = calc_min_rent(tb, hhsize)
+
     # check for failed assignments
     assert not np.isnan(max_rent)
     assert not np.isnan(min_rent)
@@ -63,31 +71,37 @@ def calc_wg_rent(df, tb, hhsize):
     return np.maximum(wgmiete, min_rent)
 
 
-def calc_max_rent_since_2009(tb, hhsize):
+def calc_max_rent_since_2009(tb, hhsize, cnstyr, mietstufe):
     """
-    Since 2009 a different formula for the maximal acknowledged rent applies. Now the
-    date of the construction is irrelevant.
+    Since 2009 a different formula for the maximal acknowledged rent applies.
+    Now the date of the construction is irrelevant.
+
+    cnstyr is not used, but needs to be handled for compatibility reasons
     """
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
     if hhsize <= 5:
-        max_rent = tb["wgmax" + str(hhsize) + "p_m"]
+        max_rent = tb[f"wgmax{hhsize}p_m_st{mietstufe}"]
     else:
-        max_rent = tb["wgmax5p_m"] + tb["wgmaxplus5_m"] * (hhsize - 5)
+        max_rent = tb[f"wgmax5p_m_st{mietstufe}"] + tb[
+            f"wgmaxplus5_m_st{mietstufe}"
+        ] * (hhsize - 5)
     return max_rent
 
 
-def calc_max_rent_until_2008(tb, hhsize, cnstyr):
-    """ Before 2009, differentiate by construction year of the house and calculate
-    the maximal acknowledged rent."""
+def calc_max_rent_until_2008(tb, hhsize, cnstyr, mietstufe):
+    """ Before 2009, differentiate by construction year of the house and
+    calculate the maximal acknowledged rent."""
     cnstyr_dict = {1: "a", 2: "m", 3: "n"}
     key = cnstyr_dict[cnstyr]
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
     if hhsize <= 5:
-        max_rent = tb["wgmax" + str(hhsize) + "p_" + cnstyr_dict[cnstyr]]
+        max_rent = tb[f"wgmax{hhsize}p_{key}_st{mietstufe}"]
     else:
-        max_rent = tb["wgmax5p_" + key] + tb["wgmaxplus5_" + key] * (hhsize - 5)
+        max_rent = tb[f"wgmax5p_{key}_st{mietstufe}"] + tb[
+            f"wgmaxplus5_{key}_st{mietstufe}"
+        ] * (hhsize - 5)
     return max_rent
 
 
@@ -125,10 +139,8 @@ def calc_wg_income(df, tb, hhsize):
         wg_income[f"{inc}_tu_k"] = aggr(df, inc, "all_tu")
 
     wg_income["wg_abzuege"] = calc_wg_abzuege(wg_income, tb)
-
     # Relevant income is market income + transfers...
     wg_income["wg_grossY"] = calc_wg_gross_income(wg_income)
-
     wg_income["wg_otherinc"] = wg_income[
         ["m_alg1_tu_k", "m_transfers_tu_k", "pens_steuer_tu_k", "uhv_tu_k"]
     ].sum(axis=1)
@@ -187,6 +199,9 @@ def calc_wg_income_deductions(df, tb):
 
 
 def _calc_wg_income_deductions_until_2015(df, tb):
+    """ calculate special deductions for handicapped, single parents
+    and children who are working
+    """
     workingchild = df["child"] & (df["m_wage"] > 0)
     wg_incdeduct = (
         (df["handcap_degree"] > 80) * tb["wgpfbm80"]
@@ -198,6 +213,9 @@ def _calc_wg_income_deductions_until_2015(df, tb):
 
 
 def _calc_wg_income_deductions_since_2016(df, tb):
+    """ calculate special deductions for handicapped, single parents
+    and children who are working
+    """
     workingchild = df["child"] & (df["m_wage"] > 0)
     wg_incdeduct = (
         (df["handcap_degree"] > 0) * tb["wgpfbm80"]

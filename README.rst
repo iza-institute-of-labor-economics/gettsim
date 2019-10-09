@@ -66,27 +66,32 @@ Initiated by
       <br>
 
       <a href="https://www.uni-bonn.de">
-         <img src="docs/_static/images/uni_bonn_logo.png" width="150" alt="Universität Bonn">
+         <img src="docs/_static/images/uni_bonn_logo.png" width="150"
+         alt="Universität Bonn">
       </a>
       &emsp;
 
       <a href="https://www.uni-kassel.de">
-         <img src="docs/_static/uni_kassel_logo.png" width="150" alt="Universität Kassel">
+         <img src="docs/_static/images/uni_kassel_logo.png" width="150"
+         alt="Universität Kassel">
       </a>
       &emsp;
 
       <a href="https://www.uni-muenchen.de">
-         <img src="docs/_static/lmu_logo.svg" width="150" alt="Ludwig-Maximilians-Universität München">
+         <img src="docs/_static/images/lmu_logo.svg" width="150"
+         alt="Ludwig-Maximilians-Universität München">
       </a>
       &emsp;
 
       <a href="https://www.uni-mannheim.de">
-         <img src="docs/_static/uni_mannheim_logo.png" width="150" alt="Universität Mannheim">
+         <img src="docs/_static/images/uni_mannheim_logo.png" width="150"
+         alt="Universität Mannheim">
       </a>
       &emsp;
 
       <a href="https://www.fu-berlin.de">
-         <img src="docs/_static/fu_berlin_logo.svg" width="150" alt="Freie Universität Berlin">
+         <img src="docs/_static/images/fu_berlin_logo.svg" width="150"
+         alt="Freie Universität Berlin">
       </a>
 
    </p>
