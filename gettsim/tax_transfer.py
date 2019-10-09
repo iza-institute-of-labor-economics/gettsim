@@ -45,23 +45,19 @@ def tax_transfer(df, tb, tb_pens=None):
         df_hh = df[df["hid"] == hid]
         for tu_id in df_hh["tu_id"].unique():
             df_tu = df_hh[df_hh["tu_id"] == tu_id]
-            df_tu[
-                "svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit", "m_alg1", "pen_sim"
-            ] = 0
+            ssc_contributions = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
+            for i in ssc_contributions + ["m_alg1", "pen_sim"]:
+                df_tu[i] = 0
             for i in df_tu.index:
                 # Use Series instead of single row DataFrame
                 df_row = df_tu.loc[i]
 
-                ssc_contributions = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
-                df_tu.loc[i, ssc_contributions] = df_row.append(
-                    soc_ins_contrib(df_row, tb)
-                )
-
+                df_tu.loc[i, ssc_contributions] = soc_ins_contrib(df_row, tb)
                 # Unemployment benefits
                 df_tu.loc[i, "m_alg1"] = ui(df_row, tb)
 
                 # Pension benefits
-                df_row.loc[i, "pen_sim"] = pensions(df_row, tb, tb_pens)
+                df_tu.loc[i, "pen_sim"] = pensions(df_row, tb, tb_pens)
 
     # Income Tax
     taxvars = [
