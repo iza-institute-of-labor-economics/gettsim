@@ -28,7 +28,7 @@ years = [2017, 2019]
 
 @pytest.mark.parametrize("year", years)
 def test_uhv(year):
-    file_name = "test_dfs_uhv.xlsx"
+    file_name = "test_dfs_uhv.ods"
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year

@@ -31,13 +31,13 @@ COLUMNS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, COLUMNS))
 def test_soc_ins_contrib(year, column):
-    df = load_test_data(year, "test_dfs_ssc.xlsx", INPUT_COLUMNS)
+    df = load_test_data(year, "test_dfs_ssc.ods", INPUT_COLUMNS)
     tb = load_tb(year)
     if year >= 2003:
         tb["calc_midi_contrib"] = calc_midi_contributions
     else:
         tb["calc_midi_contrib"] = no_midi
-    expected = load_test_data(year, "test_dfs_ssc.xlsx", column)
+    expected = load_test_data(year, "test_dfs_ssc.ods", column)
     calculated = pd.Series(name=column, index=df.index)
     for i in df.index:
         calculated[i] = soc_ins_contrib(df.loc[i], tb)[column]

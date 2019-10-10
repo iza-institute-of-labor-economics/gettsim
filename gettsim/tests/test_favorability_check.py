@@ -29,8 +29,9 @@ to_test = list(product(years, columns))
 
 @pytest.mark.parametrize("year, column", to_test)
 def test_favorability_check(year, column):
-    file_name = "test_dfs_favorability_check.xlsx"
-    df = load_test_data(year, file_name, input_cols)
+    file_name = "test_dfs_favorability_check.ods"
+    df = load_test_data(year, file_name, input_cols, bool_cols=["zveranl", "child"])
+
     tb = {"zve_list": ["nokfb", "kfb"], "yr": year}
     calculated = pd.Series(name=column)
     for tu_id in df["tu_id"].unique():
@@ -38,4 +39,4 @@ def test_favorability_check(year, column):
             favorability_check(df[df["tu_id"] == tu_id], tb)[column]
         )
     expected = load_test_data(year, file_name, column)
-    assert_series_equal(calculated, expected)
+    assert_series_equal(calculated, expected, check_dtype=False)

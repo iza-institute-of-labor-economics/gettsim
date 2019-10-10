@@ -30,7 +30,7 @@ years = [2010, 2011, 2015, 2019]
 
 @pytest.mark.parametrize("year", years)
 def test_ui(year):
-    file_name = "test_dfs_ui.xlsx"
+    file_name = "test_dfs_ui.ods"
     df = load_test_data(year, file_name, input_cols, pd_kwargs={"true_values": "TRUE"})
     tb = load_tb(year)
     tb["yr"] = year

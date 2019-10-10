@@ -25,7 +25,7 @@ years = [2009, 2012, 2015, 2018]
 
 @pytest.mark.parametrize("year", years)
 def test_tax_sched(year):
-    file_name = "test_dfs_tax_sched.xlsx"
+    file_name = "test_dfs_tax_sched.ods"
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)

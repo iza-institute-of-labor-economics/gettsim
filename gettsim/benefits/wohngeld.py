@@ -97,7 +97,7 @@ def calc_max_rent_until_2008(tb, hhsize, cnstyr, mietstufe):
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
     if hhsize <= 5:
-        max_rent = tb["wgmax{}p_{}_st{}".format(hhsize, key, mietstufe)]
+        max_rent = tb[f"wgmax{hhsize}p_{key}_st{mietstufe}"]
     else:
         max_rent = tb[f"wgmax5p_{key}_st{mietstufe}"] + tb[
             f"wgmaxplus5_{key}_st{mietstufe}"

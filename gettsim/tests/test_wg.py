@@ -2,11 +2,9 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from gettsim.benefits.wohngeld import (
-    wg,
-    calc_max_rent_since_2009,
-    calc_max_rent_until_2008,
-)
+from gettsim.benefits.wohngeld import calc_max_rent_since_2009
+from gettsim.benefits.wohngeld import calc_max_rent_until_2008
+from gettsim.benefits.wohngeld import wg
 from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
@@ -47,9 +45,11 @@ years = [2006, 2009, 2013, 2016, 2019]
 
 @pytest.mark.parametrize("year", years)
 def test_wg(year):
-    file_name = "test_dfs_wg.xlsx"
+    file_name = "test_dfs_wg.ods"
     columns = ["wohngeld_basis_hh"]
-    df = load_test_data(year, file_name, input_cols)
+    df = load_test_data(
+        year, file_name, input_cols, bool_cols=["head_tu", "child", "alleinerz"]
+    )
     tb = load_tb(year)
     tb["yr"] = year
     if year < 2009:

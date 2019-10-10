@@ -31,7 +31,8 @@ YEARS = [2010, 2012, 2015]
 @pytest.mark.parametrize("year", YEARS)
 def test_pension(year):
     column = "pensions_sim"
-    df = load_test_data(year, "test_dfs_pensions.xlsx", INPUT_COLUMNS)
+    file_name = "test_dfs_pensions.xlsx"
+    df = load_test_data(year, file_name, INPUT_COLUMNS)
     tb = load_tb(year)
     tb["yr"] = year
     if year > 2017:
@@ -39,7 +40,7 @@ def test_pension(year):
     else:
         tb["calc_rentenwert"] = _rentenwert_until_2017
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    expected = load_test_data(year, "test_dfs_pensions.xlsx", column)
+    expected = load_test_data(year, file_name, column)
     calculated = pd.Series(name=column)
     for pid in df["pid"].unique():
         calculated = np.append(
@@ -51,10 +52,11 @@ def test_pension(year):
 @pytest.mark.parametrize("year", YEARS)
 def test_update_earning_points(year):
     column = "EP_end"
-    df = load_test_data(year, "test_dfs_pensions.xlsx", INPUT_COLUMNS)
+    file_name = "test_dfs_pensions.xlsx"
+    df = load_test_data(year, file_name, INPUT_COLUMNS)
     tb = load_tb(year)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    expected = load_test_data(year, "test_dfs_pensions.xlsx", column)
+    expected = load_test_data(year, file_name, column)
     calculated = np.array([])
     for pid in df["pid"].unique():
         calculated = np.append(

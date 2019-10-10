@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def favorability_check(df, tb):
-    """ 'Higher-Yield Tepst'
+    """ 'Higher-Yield Test'
         compares the tax burden that results from various definitions of the tax base
         Most importantly, it compares the tax burden without applying the child
         allowance (_nokfb) AND receiving child benefit with the tax burden including
