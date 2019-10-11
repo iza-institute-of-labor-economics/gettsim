@@ -31,7 +31,7 @@ YEARS = [2010, 2012, 2015]
 @pytest.mark.parametrize("year", YEARS)
 def test_pension(year):
     column = "pensions_sim"
-    file_name = "test_dfs_pensions.xlsx"
+    file_name = "test_dfs_pensions.ods"
     df = load_test_data(year, file_name, INPUT_COLUMNS)
     tb = load_tb(year)
     tb["yr"] = year
