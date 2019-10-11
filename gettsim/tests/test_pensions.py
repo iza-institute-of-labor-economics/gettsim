@@ -52,7 +52,7 @@ def test_pension(year):
 @pytest.mark.parametrize("year", YEARS)
 def test_update_earning_points(year):
     column = "EP_end"
-    file_name = "test_dfs_pensions.xlsx"
+    file_name = "test_dfs_pensions.ods"
     df = load_test_data(year, file_name, INPUT_COLUMNS)
     tb = load_tb(year)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
