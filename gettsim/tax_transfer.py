@@ -45,89 +45,45 @@ def tax_transfer(df, tb, tb_pens=None):
         df_hh = df[df["hid"] == hid]
         for tu_id in df_hh["tu_id"].unique():
             df_tu = df_hh[df_hh["tu_id"] == tu_id]
-            ssc_contributions = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
-            for i in ssc_contributions + ["m_alg1", "pen_sim"]:
+            soc_sec_contr = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
+            for i in soc_sec_contr + ["m_alg1", "pen_sim"]:
                 df_tu[i] = 0
             for i in df_tu.index:
                 # Use Series instead of single row DataFrame
                 df_row = df_tu.loc[i]
 
-                df_tu.loc[i, ssc_contributions] = soc_ins_contrib(df_row, tb)
+                df_tu.loc[i, soc_sec_contr] = soc_ins_contrib(df_row, tb)
                 # Unemployment benefits
                 df_tu.loc[i, "m_alg1"] = ui(df_row, tb)
 
                 # Pension benefits
                 df_tu.loc[i, "pen_sim"] = pensions(df_row, tb, tb_pens)
 
-    # Income Tax
-    taxvars = [
-        "pid",
-        "tu_id",
-        "hid",
-        "pweight",
-        "female",
-        "head_tu",
-        "tu_id",
-        "east",
-        "m_wage",
-        "selfemployed",
-        "m_self",
-        "m_pensions",
-        "age",
-        "pkv",
-        "zveranl",
-        "child",
-        "child_num",
-        "renteneintritt",
-        "w_hours",
-        "m_kapinc",
-        "m_vermiet",
-        "m_imputedrent",
-        "marstat",
-        "handcap_dummy",
-        "handcap_degree",
-        "rvbeit",
-        "gkvbeit",
-        "pvbeit",
-        "avbeit",
-        "adult_num_tu",
-        "child_num_tu",
-        "alleinerz",
-        "ineducation",
-    ]
+            # Tax unit based calculations
+            # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
+            df_tu = df_tu.join(other=zve(df_tu, tb), how="inner")
 
-    # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
-    # tu_id
-    df = df.join(other=zve(df[taxvars], tb), how="inner")
+            # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
+            df_tu = df_tu.join(other=tax_sched(df_tu, tb), how="inner")
 
-    # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
-    # tu_id
-    df = df.join(other=tax_sched(df, tb), how="inner")
+            # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
+            df_tu = df_tu.join(other=kindergeld(df_tu, tb), how="inner")
 
-    # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
-    # tu_id
-    df = df.join(
-        other=kindergeld(
-            df[["hid", "tu_id", "age", "ineducation", "w_hours", "m_wage"]], tb
-        ),
-        how="inner",
-    )
+            # 5.4 Günstigerprüfung to obtain final income tax due.
+            # different call here, because 'kindergeld' is overwritten by the function and
+            # needs to be updated. not really elegant I must admit...
+            temp = favorability_check(df_tu, tb)
+            for var in [
+                ["incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
+            ]:
+                df_tu[var] = temp[var]
 
-    # 5.4 Günstigerprüfung to obtain final income tax due.
-    # different call here, because 'kindergeld' is overwritten by the function and
-    # needs to be updated. not really elegant I must admit...
-    # tu_id
-    temp = favorability_check(df, tb)
-    for var in [["incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]]:
-        df[var] = temp[var]
+            # 5.5 Solidarity Surcharge
+            # df = df.join(other=soli(df, tb, taxyear), how="inner")
 
-    # 5.5 Solidarity Surcharge
-    # df = df.join(other=soli(df, tb, taxyear), how="inner")
-
-    # 6. SOCIAL TRANSFERS / BENEFITS
-    # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
-    # tu_id
-    df["uhv"] = uhv(df, tb)
+            # 6. SOCIAL TRANSFERS / BENEFITS
+            # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
+            df_tu["uhv"] = uhv(df_tu, tb)
 
     # 6.1. Wohngeld, Housing Benefit
     # hid
