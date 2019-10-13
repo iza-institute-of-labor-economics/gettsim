@@ -57,4 +57,5 @@ def test_soc_ins_contrib(year):
     else:
         tb["childben_elig_rule"] = kg_eligibility_wage
     tb["tax_schedule"] = tarif
+    tb["zve_list"] = ["nokfb", "kfb"]
     tax_transfer(df, tb, tb_pens)

@@ -62,9 +62,7 @@ def tax_transfer(df, tb, tb_pens=None):
             # Tax unit based calculations
             # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
             df_tu = df_tu.join(other=zve(df_tu, tb), how="inner")
-            import pdb
 
-            pdb.set_trace()
             # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
             df_tu = df_tu.join(other=tax_sched(df_tu, tb), how="inner")
 
