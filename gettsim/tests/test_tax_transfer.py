@@ -1,6 +1,8 @@
 import pandas as pd
 import pytest
 
+from gettsim.benefits.wohngeld import calc_max_rent_since_2009
+from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
@@ -56,6 +58,10 @@ def test_soc_ins_contrib(year):
         tb["childben_elig_rule"] = kg_eligibility_hours
     else:
         tb["childben_elig_rule"] = kg_eligibility_wage
+    if year < 2009:
+        tb["calc_max_rent"] = calc_max_rent_until_2008
+    else:
+        tb["calc_max_rent"] = calc_max_rent_since_2009
     tb["tax_schedule"] = tarif
     tb["zve_list"] = ["nokfb", "kfb"]
     tax_transfer(df, tb, tb_pens)

@@ -1,10 +1,24 @@
-import numpy as np
-
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
+from gettsim.func_out_columns import ALG2
+from gettsim.func_out_columns import DPI
+from gettsim.func_out_columns import FC
+from gettsim.func_out_columns import GROSS
+from gettsim.func_out_columns import KG
+from gettsim.func_out_columns import KIZ
+from gettsim.func_out_columns import OUT_PUT
+from gettsim.func_out_columns import PENS
+from gettsim.func_out_columns import SOC_SEC
+from gettsim.func_out_columns import TAX_SCHED
+from gettsim.func_out_columns import UHV
+from gettsim.func_out_columns import UI
+from gettsim.func_out_columns import WG
+from gettsim.func_out_columns import ZVE
+from gettsim.incomes import disposible_income
+from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.taxes.calc_taxes import tax_sched
@@ -39,108 +53,55 @@ def tax_transfer(df, tb, tb_pens=None):
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
+    # We initialize all output columns.
+    for column in OUT_PUT:
+        df[column] = 0.0
+
     # We start with the top layer, which is household id. We treat this as the
     # "Bedarfsgemeinschaft" in the german tax law.
     for hid in df["hid"].unique():
-        df_hh = df[df["hid"] == hid]
-        for tu_id in df_hh["tu_id"].unique():
-            df_tu = df_hh[df_hh["tu_id"] == tu_id]
-            soc_sec_contr = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
-            for i in soc_sec_contr + ["m_alg1", "pen_sim"]:
-                df_tu[i] = 0
-            for i in df_tu.index:
-                # Use Series instead of single row DataFrame
-                df_row = df_tu.loc[i]
+        hh_index = df[df["hid"] == hid].index
+        for tu_id in df.loc[hh_index, "tu_id"].unique():
+            tu_index = df[df["tu_id"] == tu_id].index
+            for i in tu_index:
 
-                df_tu.loc[i, soc_sec_contr] = soc_ins_contrib(df_row, tb)
+                df.loc[i, SOC_SEC] = soc_ins_contrib(df.loc[i], tb)
                 # Unemployment benefits
-                df_tu.loc[i, "m_alg1"] = ui(df_row, tb)
-
+                df.loc[i, UI] = ui(df.loc[i], tb)
                 # Pension benefits
-                df_tu.loc[i, "pen_sim"] = pensions(df_row, tb, tb_pens)
+                df.loc[i, PENS] = pensions(df.loc[i], tb, tb_pens)
 
             # Tax unit based calculations
             # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
-            df_tu = df_tu.join(other=zve(df_tu, tb), how="inner")
+            df.loc[tu_index, ZVE] = zve(df.loc[tu_index, :], tb)
 
             # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
-            df_tu = df_tu.join(other=tax_sched(df_tu, tb), how="inner")
+            df.loc[tu_index, TAX_SCHED] = tax_sched(df.loc[tu_index, :], tb)
 
             # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
-            df_tu = df_tu.join(other=kindergeld(df_tu, tb), how="inner")
+            df.loc[tu_index, KG] = kindergeld(df.loc[tu_index, :], tb)
 
             # 5.4 Günstigerprüfung to obtain final income tax due.
             # different call here, because 'kindergeld' is overwritten by the
             # function and needs to be updated. not really elegant I must admit...
-            temp = favorability_check(df_tu, tb)
-            for var in [
-                ["incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
-            ]:
-                df_tu[var] = temp[var]
-
-            # 5.5 Solidarity Surcharge
-            # df = df.join(other=soli(df, tb, taxyear), how="inner")
+            df.loc[tu_index, FC] = favorability_check(df.loc[tu_index, :], tb)
 
             # 6. SOCIAL TRANSFERS / BENEFITS
             # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
-            df_tu["uhv"] = uhv(df_tu, tb)
+            df.loc[tu_index, UHV] = uhv(df.loc[tu_index, :], tb)
 
-    # 6.1. Wohngeld, Housing Benefit
-    # hid
-    df = df.join(other=wg(df, tb), how="inner")
-    # 6.2 ALG2, Basic Unemployment Benefit
-    # hid
-    df = df.join(other=alg2(df, tb), how="inner")
+        # 6.1. Wohngeld, Housing Benefit
+        df.loc[hh_index, WG] = wg(df.loc[hh_index, :], tb)
 
-    # 6.3. Kinderzuschlag, Additional Child Benefit
-    # hid
-    temp = kiz(df, tb)
-    for var in [["m_alg2", "kiz", "wohngeld"]]:
-        df[var] = temp[var]
+        # 6.2 ALG2, Basic Unemployment Benefit
+        df.loc[hh_index, ALG2] = alg2(df.loc[hh_index, :], tb)
 
-    # 7. Drop unnecessary variables. not necessary anymore.s
-    # df = dropstuff(df)
+        # 6.3. Kinderzuschlag, Additional Child Benefit
+        df.loc[hh_index, KIZ] = kiz(df.loc[hh_index, :], tb)
 
-    # 8. Calculate disposable income
-    # To be updated!
-    df["dpi_ind"] = df[
-        [
-            "m_wage",
-            "m_kapinc",
-            "m_self",
-            "m_vermiet",
-            "m_imputedrent",
-            "m_pensions",
-            "m_transfers",
-            "kindergeld",
-            "uhv",
-        ]
-    ].sum(axis=1) - df[
-        ["incometax", "soli", "abgst", "gkvbeit", "rvbeit", "pvbeit", "avbeit"]
-    ].sum(
-        axis=1
-    )
+        # 8. Calculate disposable income
+        df.loc[hh_index, DPI] = disposible_income(df.loc[hh_index, :])
 
-    df["dpi_ind_temp"] = df.groupby(["hid"])["dpi_ind"].transform(sum)
-
-    # Finally, add benefits that are defined on the household level
-    df["dpi"] = round(
-        np.maximum(0, df["dpi_ind_temp"] + df["m_alg2"] + df["wohngeld"] + df["kiz"]), 2
-    )
-    df["gross"] = round(
-        df[
-            [
-                "m_wage",
-                "m_kapinc",
-                "m_self",
-                "m_vermiet",
-                "m_imputedrent",
-                "m_pensions",
-                "m_transfers",
-                "kindergeld",
-            ]
-        ].sum(axis=1),
-        2,
-    )
+    df[GROSS] = gross_income(df)
 
     return df
