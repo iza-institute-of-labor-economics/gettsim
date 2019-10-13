@@ -1,5 +1,3 @@
-import itertools
-
 import pandas as pd
 import pytest
 
@@ -10,6 +8,10 @@ from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.tax_transfer import tax_transfer
 from gettsim.taxes.calc_taxes import tarif
+from gettsim.taxes.kindergeld import kg_eligibility_hours
+from gettsim.taxes.kindergeld import kg_eligibility_wage
+from gettsim.taxes.zve import calc_hhfreib_from2015
+from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.tests.auxiliary_test_tax import load_tb
 
 
@@ -30,11 +32,10 @@ INPUT_COLUMNS = [
 
 
 YEARS = [2002, 2010, 2018, 2019]
-COLUMNS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, COLUMNS))
-def test_soc_ins_contrib(year, column):
+@pytest.mark.parametrize("year", YEARS)
+def test_soc_ins_contrib(year):
     df = pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_tax_transfer.csv")
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     tb = load_tb(year)
@@ -47,5 +48,13 @@ def test_soc_ins_contrib(year, column):
         tb["calc_rentenwert"] = _rentenwert_from_2018
     else:
         tb["calc_rentenwert"] = _rentenwert_until_2017
+    if year <= 2014:
+        tb["calc_hhfreib"] = calc_hhfreib_until2014
+    else:
+        tb["calc_hhfreib"] = calc_hhfreib_from2015
+    if year > 2011:
+        tb["childben_elig_rule"] = kg_eligibility_hours
+    else:
+        tb["childben_elig_rule"] = kg_eligibility_wage
     tb["tax_schedule"] = tarif
     tax_transfer(df, tb, tb_pens)

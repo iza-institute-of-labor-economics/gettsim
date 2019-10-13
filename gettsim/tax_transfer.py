@@ -62,7 +62,9 @@ def tax_transfer(df, tb, tb_pens=None):
             # Tax unit based calculations
             # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
             df_tu = df_tu.join(other=zve(df_tu, tb), how="inner")
+            import pdb
 
+            pdb.set_trace()
             # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
             df_tu = df_tu.join(other=tax_sched(df_tu, tb), how="inner")
 
@@ -70,8 +72,8 @@ def tax_transfer(df, tb, tb_pens=None):
             df_tu = df_tu.join(other=kindergeld(df_tu, tb), how="inner")
 
             # 5.4 Günstigerprüfung to obtain final income tax due.
-            # different call here, because 'kindergeld' is overwritten by the function and
-            # needs to be updated. not really elegant I must admit...
+            # different call here, because 'kindergeld' is overwritten by the
+            # function and needs to be updated. not really elegant I must admit...
             temp = favorability_check(df_tu, tb)
             for var in [
                 ["incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
