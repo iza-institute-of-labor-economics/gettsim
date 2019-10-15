@@ -24,7 +24,6 @@ def wg(df, tb):
     wg_df["Y"] = calc_wg_income(df, tb, hhsize)
     # Caluclate rent in separate function
     wg_df["M"] = calc_wg_rent(df, tb, hhsize)
-
     # Apply Wohngeld Formel.
     wg_df["wohngeld_basis"] = apply_wg_formula(wg_df, tb, hhsize)
 
@@ -34,6 +33,7 @@ def wg(df, tb):
         wg_df.groupby(["hid"])["wg_head"].sum(), on=["hid"], how="left", rsuffix="_hh"
     )
     wg_df = wg_df.rename(columns={"wg_head_hh": "wohngeld_basis_hh"})
+    wg_df = wg_df.round({"wohngeld_basis_hh": 2})
     # df["hhsize_tu"].describe()
     # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return wg_df[["wohngeld_basis", "wohngeld_basis_hh"]]
@@ -139,10 +139,8 @@ def calc_wg_income(df, tb, hhsize):
         wg_income[f"{inc}_tu_k"] = aggr(df, inc, "all_tu")
 
     wg_income["wg_abzuege"] = calc_wg_abzuege(wg_income, tb)
-
     # Relevant income is market income + transfers...
     wg_income["wg_grossY"] = calc_wg_gross_income(wg_income)
-
     wg_income["wg_otherinc"] = wg_income[
         ["m_alg1_tu_k", "m_transfers_tu_k", "pens_steuer_tu_k", "uhv_tu_k"]
     ].sum(axis=1)
@@ -201,6 +199,9 @@ def calc_wg_income_deductions(df, tb):
 
 
 def _calc_wg_income_deductions_until_2015(df, tb):
+    """ calculate special deductions for handicapped, single parents
+    and children who are working
+    """
     workingchild = df["child"] & (df["m_wage"] > 0)
     wg_incdeduct = (
         (df["handcap_degree"] > 80) * tb["wgpfbm80"]
@@ -212,6 +213,9 @@ def _calc_wg_income_deductions_until_2015(df, tb):
 
 
 def _calc_wg_income_deductions_since_2016(df, tb):
+    """ calculate special deductions for handicapped, single parents
+    and children who are working
+    """
     workingchild = df["child"] & (df["m_wage"] > 0)
     wg_incdeduct = (
         (df["handcap_degree"] > 0) * tb["wgpfbm80"]
