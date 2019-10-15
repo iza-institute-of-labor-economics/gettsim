@@ -44,7 +44,8 @@ years = [2005, 2009, 2010, 2012, 2018]
 def test_zve(year):
     file_name = "test_dfs_zve.xlsx"
     columns = ["zve_nokfb", "zve_kfb"]
-    df = load_test_data(year, file_name, input_cols)    
+    df = load_test_data(year, file_name, input_cols)
+
     tb = load_tb(year)
     tb["yr"] = year
     if year <= 2014:
@@ -55,6 +56,10 @@ def test_zve(year):
         tb["childben_elig_rule"] = kg_eligibility_hours
     else:
         tb["childben_elig_rule"] = kg_eligibility_wage
+    if year >= 2010:
+        tb["vorsorge"] = vorsorge2010
+    else:
+        tb["vorsorge"] = vorsorge_dummy
 
     calculated = pd.DataFrame(columns=columns)
     for tu_id in df["tu_id"].unique():

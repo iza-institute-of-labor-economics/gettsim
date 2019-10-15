@@ -23,6 +23,7 @@ def zve(df, tb):
 
     # Sonderausgaben
     zve["sonder"] = deductible_child_care_costs(df, tb)
+
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
@@ -136,6 +137,7 @@ def kinderfreibetrag(df, zve, tb):
         # Then we assign each earner the amount and return the series
         kifreib[zve_adults["zve_nokfb"] != nokfb_lower] = kifreib_higher
         kifreib[zve_adults["zve_nokfb"] == nokfb_lower] = kifreib_lower
+
         return kifreib
 
     # For non married couples or couples where both earn enough this are a lot easier.
@@ -343,7 +345,7 @@ def vorsorge2010(df, tb):
 
     vorsorge2010 = altersvors2010 + sonstigevors2010
 
-    return vorsorge2010
+    return vorsorge2010.astype(int)
 
 
 def calc_hhfreib_until2014(df, tb):
