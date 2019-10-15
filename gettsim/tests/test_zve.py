@@ -6,6 +6,8 @@ from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
+from gettsim.taxes.zve import vorsorge2010
+from gettsim.taxes.zve import vorsorge_dummy
 from gettsim.taxes.zve import zve
 from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
