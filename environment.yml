@@ -1,22 +1,14 @@
 name: gettsim
-
 dependencies:
   - python=3.7
-  - numpy
-  - sphinx
-  - pandas=0.24.2
-  - statsmodels
-  - pytest
-  - pytest-xdist
-  - scipy
-  - matplotlib
-  - pytest-cov
-  - jupyter
-  - numba
-  - mpmath
   - pip
+  - pandas
+  - pytest
+  - pytest-cov
+  - pytest-xdist
+  - sphinx
+  - sphinx_rtd_theme
   - xlrd
-  - seaborn
   - pip:
       - pre-commit
-      - termcolor
+      - restructuredtext_lint
