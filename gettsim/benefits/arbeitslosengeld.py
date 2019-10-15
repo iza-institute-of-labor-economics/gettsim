@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 from gettsim.taxes.calc_taxes import soli_formula
 
@@ -10,27 +9,25 @@ def ui(df_row, tb):
 
     """
 
-    ui_df = pd.DataFrame(index=df_row.index)
-
     # ui["m_alg1_soep"] = df["alg_soep"].fillna(0)
 
-    ui_df["alg_entgelt"] = _alg_entgelt(df_row, tb)
+    alg_entgelt = _alg_entgelt(df_row, tb)
 
-    ui_df["eligible"] = check_eligibility_alg(df_row)
+    eligible = check_eligibility_alg(df_row)
 
-    ui_df["m_alg1"] = 0
-    ui_df.loc[ui_df["eligible"], "m_alg1"] = ui_df["alg_entgelt"] * np.select(
-        [df_row["child_num_tu"] == 0, df_row["child_num_tu"] > 0],
-        [tb["agsatz0"], tb["agsatz1"]],
-    )
-
-    return ui_df["m_alg1"]
+    if eligible:
+        if df_row["child_num_tu"] == 0:
+            return alg_entgelt * tb["agsatz0"]
+        else:
+            return alg_entgelt * tb["agsatz1"]
+    else:
+        return 0
 
 
 def _alg_entgelt(df_row, tb):
     """ Calculating the claim for the Arbeitslosengeldgeld, depending on the current
     wage."""
-    if df_row["east"].iloc[0]:
+    if df_row["east"]:
         westost = "o"
     else:
         westost = "w"
@@ -60,7 +57,7 @@ def check_eligibility_alg(df_row):
     # Take into account actual wages
     # there are different replacement rates depending on presence of children
     return (
-        mts_ue.between(1, 12)
+        (1 <= mts_ue <= 12)
         & (df_row["age"] < 65)
         & (df_row["m_pensions"] == 0)
         & (df_row["w_hours"] < 15)
