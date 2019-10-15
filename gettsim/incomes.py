@@ -13,7 +13,7 @@ def disposible_income(df):
             "m_kapinc",
             "m_self",
             "m_vermiet",
-            # "m_imputedrent", Do we need this?
+            # "m_imputedrent", We need to discuss this!
             "m_pensions",
             "m_transfers",
             "kindergeld",
@@ -26,14 +26,9 @@ def disposible_income(df):
     )
 
     # Disposible income on hh level
-    # TODO: Why we do not have m_alg2, wohngeld and kiz
     disp_inc["dpi"] = round(
         np.maximum(
-            0,
-            sum(disp_inc["dpi_ind"]) + df["kiz_temp"]
-            # df["m_alg2"] +
-            # df["wohngeld"] +
-            # df["kiz"],
+            0, sum(disp_inc["dpi_ind"]) + df["m_alg2"] + df["wohngeld"] + df["kiz"]
         ),
         2,
     )
