@@ -54,7 +54,7 @@ def zve(df, tb):
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
     # TODO: check various deductions against each other (when modelled)
-    zve["vorsorge"] = vorsorge2010(df, tb)
+    zve["vorsorge"] = tb["vorsorge"](df, tb)
     # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve["altfreib"] = calc_altfreibetrag(df, tb)
@@ -346,6 +346,9 @@ def vorsorge2010(df, tb):
     vorsorge2010 = altersvors2010 + sonstigevors2010
 
     return vorsorge2010.astype(int)
+
+def vorsorge_dummy(df, tb):
+	return 0
 
 
 def calc_hhfreib_until2014(df, tb):
