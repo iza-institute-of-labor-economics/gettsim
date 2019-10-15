@@ -5,7 +5,7 @@ from gettsim.func_out_columns import DPI
 from gettsim.func_out_columns import GROSS
 
 
-def disposible_income(df):
+def disposable_income(df):
     disp_inc = pd.DataFrame(index=df.index, columns=DPI)
     disp_inc["dpi_ind"] = df[
         [

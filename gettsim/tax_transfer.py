@@ -19,7 +19,7 @@ from gettsim.func_out_columns import UHV
 from gettsim.func_out_columns import UI
 from gettsim.func_out_columns import WG
 from gettsim.func_out_columns import ZVE
-from gettsim.incomes import disposible_income
+from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
 from gettsim.social_insurance import soc_ins_contrib
@@ -104,7 +104,7 @@ def tax_transfer(df, tb, tb_pens=None):
         df.loc[hh_indices, BP] = benefit_priority(df.loc[hh_indices, :], tb)
 
         # 8. Calculate disposable income
-        df.loc[hh_indices, DPI] = disposible_income(df.loc[hh_indices, :])
+        df.loc[hh_indices, DPI] = disposable_income(df.loc[hh_indices, :])
 
     df[GROSS] = gross_income(df)
 
