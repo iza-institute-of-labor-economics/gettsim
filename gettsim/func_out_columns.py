@@ -40,6 +40,7 @@ ALG2 = [
     "uhv_hh",
 ]
 KIZ = ["kiz_temp", "kiz_incrange"]
+BP = ["kiz", "wohngeld", "m_alg2"]
 DPI = ["dpi_ind", "dpi"]
 GROSS = ["gross"]
 
@@ -55,6 +56,7 @@ OUT_PUT = (
     + WG
     + ALG2
     + KIZ
+    + BP
     + DPI
     + GROSS
 )

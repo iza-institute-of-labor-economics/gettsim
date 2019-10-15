@@ -1,9 +1,11 @@
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
+from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
 from gettsim.func_out_columns import ALG2
+from gettsim.func_out_columns import BP
 from gettsim.func_out_columns import DPI
 from gettsim.func_out_columns import FC
 from gettsim.func_out_columns import GROSS
@@ -98,6 +100,8 @@ def tax_transfer(df, tb, tb_pens=None):
 
         # 6.3. Kinderzuschlag, Additional Child Benefit
         df.loc[hh_index, KIZ] = kiz(df.loc[hh_index, :], tb)
+
+        df.loc[hh_index, BP] = benefit_priority(df.loc[hh_index, :], tb)
 
         # 8. Calculate disposable income
         df.loc[hh_index, DPI] = disposible_income(df.loc[hh_index, :])

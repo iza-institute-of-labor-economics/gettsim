@@ -77,9 +77,9 @@ def benefit_priority(df, tb):
     # they get 'Grundleistung im Alter', which pays the same amount.
     bp["n_pens"] = df["pensioner"].sum()
 
-    for ben in ["kiz", "wohngeld", "m_alg2"]:
-        bp.loc[bp["n_pens"] > 0, ben] = 0
-        assert bp[ben].notna().all()
+    # for ben in ["kiz", "wohngeld", "m_alg2"]:
+    #     bp.loc[bp["n_pens"] > 0, ben] = 0
+    #     assert bp[ben].notna().all()
 
     return bp[["kiz", "wohngeld", "m_alg2"]]
 
@@ -137,7 +137,7 @@ def wealth_test(df, tb):
     wt.loc[
         (df["hh_wealth"] > (60000 + (30000 * (df["hhsize"] - 1)))), "wohngeld_basis_hh"
     ] = 0
-    for v in ["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]:
-        assert wt[v].notna().all()
+    # for v in ["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]:
+    #     assert wt[v].notna().all()
 
     return wt[["regelbedarf", "wohngeld_basis_hh", "kiz_temp"]]
