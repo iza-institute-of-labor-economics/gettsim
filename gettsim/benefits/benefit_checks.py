@@ -77,8 +77,8 @@ def benefit_priority(df, tb):
     # they get 'Grundleistung im Alter', which pays the same amount.
     bp["n_pens"] = df["pensioner"].sum()
 
-    # for ben in ["kiz", "wohngeld", "m_alg2"]:
-    #     bp.loc[bp["n_pens"] > 0, ben] = 0
+    for ben in ["kiz", "wohngeld", "m_alg2"]:
+        bp.loc[bp["n_pens"] > 0, ben] = 0
     #     assert bp[ben].notna().all()
 
     return bp[["kiz", "wohngeld", "m_alg2"]]
