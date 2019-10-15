@@ -62,10 +62,10 @@ def tax_transfer(df, tb, tb_pens=None):
     # We start with the top layer, which is household id. We treat this as the
     # "Bedarfsgemeinschaft" in the german tax law.
     for hid in df["hid"].unique():
-        hh_index = df[df["hid"] == hid].index
-        for tu_id in df.loc[hh_index, "tu_id"].unique():
-            tu_index = df[df["tu_id"] == tu_id].index
-            for i in tu_index:
+        hh_indices = df[df["hid"] == hid].index
+        for tu_id in df.loc[hh_indices, "tu_id"].unique():
+            tu_indices = df[df["tu_id"] == tu_id].index
+            for i in tu_indices:
 
                 df.loc[i, SOC_SEC] = soc_ins_contrib(df.loc[i], tb)
                 # Unemployment benefits
@@ -75,36 +75,36 @@ def tax_transfer(df, tb, tb_pens=None):
 
             # Tax unit based calculations
             # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
-            df.loc[tu_index, ZVE] = zve(df.loc[tu_index, :], tb)
+            df.loc[tu_indices, ZVE] = zve(df.loc[tu_indices, :], tb)
 
             # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
-            df.loc[tu_index, TAX_SCHED] = tax_sched(df.loc[tu_index, :], tb)
+            df.loc[tu_indices, TAX_SCHED] = tax_sched(df.loc[tu_indices, :], tb)
 
             # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
-            df.loc[tu_index, KG] = kindergeld(df.loc[tu_index, :], tb)
+            df.loc[tu_indices, KG] = kindergeld(df.loc[tu_indices, :], tb)
 
             # 5.4 Günstigerprüfung to obtain final income tax due.
             # different call here, because 'kindergeld' is overwritten by the
             # function and needs to be updated. not really elegant I must admit...
-            df.loc[tu_index, FC] = favorability_check(df.loc[tu_index, :], tb)
+            df.loc[tu_indices, FC] = favorability_check(df.loc[tu_indices, :], tb)
 
             # 6. SOCIAL TRANSFERS / BENEFITS
             # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
-            df.loc[tu_index, UHV] = uhv(df.loc[tu_index, :], tb)
+            df.loc[tu_indices, UHV] = uhv(df.loc[tu_indices, :], tb)
 
         # 6.1. Wohngeld, Housing Benefit
-        df.loc[hh_index, WG] = wg(df.loc[hh_index, :], tb)
+        df.loc[hh_indices, WG] = wg(df.loc[hh_indices, :], tb)
 
         # 6.2 ALG2, Basic Unemployment Benefit
-        df.loc[hh_index, ALG2] = alg2(df.loc[hh_index, :], tb)
+        df.loc[hh_indices, ALG2] = alg2(df.loc[hh_indices, :], tb)
 
         # 6.3. Kinderzuschlag, Additional Child Benefit
-        df.loc[hh_index, KIZ] = kiz(df.loc[hh_index, :], tb)
+        df.loc[hh_indices, KIZ] = kiz(df.loc[hh_indices, :], tb)
 
-        df.loc[hh_index, BP] = benefit_priority(df.loc[hh_index, :], tb)
+        df.loc[hh_indices, BP] = benefit_priority(df.loc[hh_indices, :], tb)
 
         # 8. Calculate disposable income
-        df.loc[hh_index, DPI] = disposible_income(df.loc[hh_index, :])
+        df.loc[hh_indices, DPI] = disposible_income(df.loc[hh_indices, :])
 
     df[GROSS] = gross_income(df)
 
