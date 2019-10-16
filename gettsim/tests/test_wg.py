@@ -64,7 +64,6 @@ def test_wg(year):
     assert_frame_equal(calculated, expected, check_exact=False, check_less_precise=2)
 
 
-
 @pytest.mark.parametrize("year", [2013])
 def test_wg_no_mietstufe_in_input_data(year):
     file_name = "test_dfs_wg2.csv"
