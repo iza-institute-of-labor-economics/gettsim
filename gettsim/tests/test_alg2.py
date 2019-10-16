@@ -39,7 +39,7 @@ years = [2006, 2009, 2011, 2013, 2016, 2019]
 
 @pytest.mark.parametrize("year", years)
 def test_alg2(year):
-    file_name = "test_dfs_alg2.xlsx"
+    file_name = "test_dfs_alg2.ods"
     columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)

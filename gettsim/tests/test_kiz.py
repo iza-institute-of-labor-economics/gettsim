@@ -41,7 +41,7 @@ years = [2006, 2009, 2011, 2013, 2016, 2019]
 
 @pytest.mark.parametrize("year", years)
 def test_kiz(year):
-    file_name = "test_dfs_kiz.xlsx"
+    file_name = "test_dfs_kiz.ods"
     columns = ["kiz_temp"]
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
