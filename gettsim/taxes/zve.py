@@ -21,8 +21,6 @@ def zve(df, tb):
     for v in ["hid", "tu_id", "zveranl"]:
         zve[v] = df[v]
 
-    # Sonderausgaben
-    zve["sonder"] = deductible_child_care_costs(df, tb)
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
@@ -51,14 +49,15 @@ def zve(df, tb):
         zve.loc[adult_married, inc + "_tu"] = zve[inc][adult_married].sum()
 
     # TAX DEDUCTIONS
-    # 1. VORSORGEAUFWENDUNGEN
+    # 1. Allgemeine Sonderausgaben
+    zve["sonder"] = deductible_child_care_costs(df, tb)
+    # 2. VORSORGEAUFWENDUNGEN (technically a special case of "Sonderausgaben")
     # TODO: check various deductions against each other (when modelled)
-    zve["vorsorge"] = vorsorge2010(df, tb)
-    # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
+    zve["vorsorge"] = tb["vorsorge"](df, tb)
+    # 3. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve["altfreib"] = calc_altfreibetrag(df, tb)
-
-    # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
+    # 4. Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
     zve["hhfreib"] = tb["calc_hhfreib"](df, tb)
 
     # Taxable income (zve)
@@ -136,6 +135,7 @@ def kinderfreibetrag(df, zve, tb):
         # Then we assign each earner the amount and return the series
         kifreib[zve_adults["zve_nokfb"] != nokfb_lower] = kifreib_higher
         kifreib[zve_adults["zve_nokfb"] == nokfb_lower] = kifreib_lower
+
         return kifreib
 
     # For non married couples or couples where both earn enough this are a lot easier.
@@ -271,18 +271,16 @@ def deductible_child_care_costs(df, tb):
         # The maximal amount to claim is 4000 per child. We only count the claim for
         # children under 14. By law the parents are also to allow to claim for disabled
         # children til the age of 25.
-        num_kids_elig = len(df[(df["child"]) & df["age"] <= 14])
-        # Calculate the maximal claim for childcare costs
-        childcare_max = tb["childcare_max"] * num_kids_elig
-        # The parents are allowed to claim only a share of the actual costs
-        child_care_exp = (
-            12
-            * df[df["child"]]["m_childcare"].sum()
+        eligible = df["age"] <= 14
+
+        deductible_costs = (
+            eligible
+            * np.minimum(tb["childcare_max"], 12 * df["m_childcare"])
             * tb["childcare_share"]
             / adult_num
         )
         # If parents can't claim anything, they get a pausch value.
-        sonder[~df["child"]] = max(min(child_care_exp, childcare_max), tb["sonder"])
+        sonder[~df["child"]] = max(np.sum(deductible_costs), tb["sonder"])
         return sonder
 
 
@@ -332,8 +330,7 @@ def vorsorge2010(df, tb):
     # then subtract employer contributions
     # also subtract health + care + unemployment insurance contributions
     altersvors2010 = ~df["child"] * (
-        (0.6 + 0.02 * (np.minimum(tb["yr"], 2025) - 2005)) * (12 * rvbeit_vors)
-        - (12 * 0.5 * rvbeit_vors)
+        pension_contributions_year_adj(tb["yr"], rvbeit_vors)
     )
     # These you get anyway ('Basisvorsorge').
     sonstigevors2010 = 12 * (df["pvbeit"] + 0.96 * df["gkvbeit"])
@@ -345,7 +342,43 @@ def vorsorge2010(df, tb):
 
     vorsorge2010 = altersvors2010 + sonstigevors2010
 
-    return vorsorge2010
+    return vorsorge2010.astype(int)
+
+
+def vorsorge2005(df, tb):
+    """ Vorsorgeaufwendungen pre 2010
+    Pension contributions are accounted for up to €20k.
+    From this, a certain share can actually be deducted,
+    starting with 60% in 2005.
+
+    Hintergrund (Stand 2004): https://bit.ly/32oqCQq
+    """
+    tb["max_altersvors_2005"] = 20000
+    rvbeit_max_vors = np.minimum(tb["max_altersvors_2005"], 12 * df["rvbeit"] * 2)
+
+    altersvors2005 = ~df["child"] * pension_contributions_year_adj(
+        tb["yr"], rvbeit_max_vors
+    )
+
+    # altersvors2005 = ~df["child"] * ((0.6 + 0.02 *  * (12 * rvbeit_vors)
+    #    - (12 * 0.5 * rvbeit_vors)))
+    sonstigevors2005 = ~df["child"] * df["gkvbeit"]
+
+    return (altersvors2005 + sonstigevors2005).astype(int)
+
+
+def pension_contributions_year_adj(year, contributions):
+    """ returns the amount of pension contributions which can be effectively deducted,
+    depending on the year.
+
+    year: int
+    contributions: **monthly** pension contributions by employer and employee
+    """
+    return (
+        0.6
+        + 0.02 * (np.minimum(year, 2025) - 2005) * (12 * contributions)
+        - (12 * 0.5 * contributions)
+    )
 
 
 def calc_hhfreib_until2014(df, tb):

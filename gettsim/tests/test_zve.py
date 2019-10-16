@@ -6,6 +6,8 @@ from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
+from gettsim.taxes.zve import vorsorge2010
+from gettsim.taxes.zve import vorsorge_dummy
 from gettsim.taxes.zve import zve
 from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
@@ -25,6 +27,7 @@ input_cols = [
     "ineducation",
     "zveranl",
     "child",
+    "m_childcare",
     "handcap_degree",
     "rvbeit",
     "avbeit",
@@ -44,7 +47,7 @@ def test_zve(year):
     file_name = "test_dfs_zve.ods"
     columns = ["zve_nokfb", "zve_kfb"]
     df = load_test_data(year, file_name, input_cols)
-    df["m_childcare"] = 0.0
+
     tb = load_tb(year)
     tb["yr"] = year
     if year <= 2014:
@@ -55,6 +58,10 @@ def test_zve(year):
         tb["childben_elig_rule"] = kg_eligibility_hours
     else:
         tb["childben_elig_rule"] = kg_eligibility_wage
+    if year >= 2010:
+        tb["vorsorge"] = vorsorge2010
+    else:
+        tb["vorsorge"] = vorsorge_dummy
 
     calculated = pd.DataFrame(columns=columns)
     for tu_id in df["tu_id"].unique():
