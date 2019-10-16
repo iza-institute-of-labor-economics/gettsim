@@ -16,7 +16,7 @@ years = [2000, 2002, 2010, 2011, 2013, 2019]
 
 @pytest.mark.parametrize("yr", years)
 def test_kindergeld(yr):
-    filename = "test_dfs_kindergeld.xlsx"
+    filename = "test_dfs_kindergeld.ods"
     df = load_test_data(yr, filename, input_cols)
     tb = load_tb(yr)
     if yr > 2011:
@@ -32,4 +32,4 @@ def test_kindergeld(yr):
 
     expected = load_test_data(yr, filename, "kindergeld_tu_basis")
 
-    assert_series_equal(calculated["kindergeld_tu_basis"].astype("int64"), expected)
+    assert_series_equal(calculated["kindergeld_tu_basis"], expected)

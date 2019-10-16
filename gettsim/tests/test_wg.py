@@ -45,9 +45,11 @@ years = [2006, 2009, 2013, 2016, 2018, 2019]
 
 @pytest.mark.parametrize("year", years)
 def test_wg(year):
-    file_name = "test_dfs_wg.xlsx"
+    file_name = "test_dfs_wg.ods"
     columns = ["wohngeld_basis_hh"]
-    df = load_test_data(year, file_name, input_cols)
+    df = load_test_data(
+        year, file_name, input_cols, bool_cols=["head_tu", "child", "alleinerz"]
+    )
     tb = load_tb(year)
     tb["yr"] = year
     if year < 2009:
@@ -58,6 +60,7 @@ def test_wg(year):
     for hid in df["hid"].unique():
         calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
     expected = load_test_data(year, file_name, columns)
+
     assert_frame_equal(calculated, expected, check_exact=False, check_less_precise=2)
 
 
