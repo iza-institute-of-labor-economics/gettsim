@@ -23,6 +23,7 @@ def zve(df, tb):
 
     # Sonderausgaben
     zve["sonder"] = deductible_child_care_costs(df, tb)
+
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
@@ -53,7 +54,7 @@ def zve(df, tb):
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
     # TODO: check various deductions against each other (when modelled)
-    zve["vorsorge"] = vorsorge2010(df, tb)
+    zve["vorsorge"] = tb["vorsorge"](df, tb)
     # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     zve["altfreib"] = calc_altfreibetrag(df, tb)
@@ -136,6 +137,7 @@ def kinderfreibetrag(df, zve, tb):
         # Then we assign each earner the amount and return the series
         kifreib[zve_adults["zve_nokfb"] != nokfb_lower] = kifreib_higher
         kifreib[zve_adults["zve_nokfb"] == nokfb_lower] = kifreib_lower
+
         return kifreib
 
     # For non married couples or couples where both earn enough this are a lot easier.
@@ -271,18 +273,16 @@ def deductible_child_care_costs(df, tb):
         # The maximal amount to claim is 4000 per child. We only count the claim for
         # children under 14. By law the parents are also to allow to claim for disabled
         # children til the age of 25.
-        num_kids_elig = len(df[(df["child"]) & df["age"] <= 14])
-        # Calculate the maximal claim for childcare costs
-        childcare_max = tb["childcare_max"] * num_kids_elig
-        # The parents are allowed to claim only a share of the actual costs
-        child_care_exp = (
-            12
-            * df[df["child"]]["m_childcare"].sum()
+        eligible = df["age"] <= 14
+
+        deductible_costs = (
+            eligible
+            * np.minimum(tb["childcare_max"], 12 * df["m_childcare"])
             * tb["childcare_share"]
             / adult_num
         )
         # If parents can't claim anything, they get a pausch value.
-        sonder[~df["child"]] = max(min(child_care_exp, childcare_max), tb["sonder"])
+        sonder[~df["child"]] = max(np.sum(deductible_costs), tb["sonder"])
         return sonder
 
 
@@ -345,7 +345,11 @@ def vorsorge2010(df, tb):
 
     vorsorge2010 = altersvors2010 + sonstigevors2010
 
-    return vorsorge2010
+    return vorsorge2010.astype(int)
+
+
+def vorsorge_dummy(df, tb):
+    return 0
 
 
 def calc_hhfreib_until2014(df, tb):
