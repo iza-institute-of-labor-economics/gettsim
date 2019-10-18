@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def soc_ins_contrib(df, tb):
+def soc_ins_contrib(inout, tb):
     """Calculates Social Insurance Contributions
 
     4 branches of social insurances:
@@ -27,52 +27,49 @@ def soc_ins_contrib(df, tb):
 
     # As there is only one household, we selcet west_ost dependent paramter in the
     # beginning and place them in a seperate dictionary tb_ost.
-    if df["east"]:
-        westost = "o"
-    else:
-        westost = "w"
+    westost = "o" if inout["east"] else "w"
     tb_ost = {}
     for val in ["bezgr_", "mini_grenze", "kvmaxek", "rvmaxek"]:
         tb_ost[val] = tb[val + westost]
 
-    # ssc["above_thresh_kv"] = df["m_wage"] > tb_ost["kvmaxek"]
+    # ssc["above_thresh_kv"] = inout["m_wage"] > tb_ost["kvmaxek"]
     #
-    # ssc["above_thresh_rv"] = df["m_wage"] > tb_ost["rvmaxek"]
+    # ssc["above_thresh_rv"] = inout["m_wage"] > tb_ost["rvmaxek"]
 
     # This is probably the point where Entgeltpunkte should be updated as well.
 
     # Check if wage is below the mini job grenze.
-    belowmini = df["m_wage"] < tb_ost["mini_grenze"]
+    belowmini = inout["m_wage"] < tb_ost["mini_grenze"]
 
     # Check if wage is in Gleitzone / Midi-Jobs
-    in_gleitzone = tb["midi_grenze"] >= df["m_wage"] >= tb_ost["mini_grenze"]
+    in_gleitzone = tb["midi_grenze"] >= inout["m_wage"] >= tb_ost["mini_grenze"]
 
     # Calculate accordingly the ssc
     if belowmini:
         ssc = ssc_mini_job()
     elif in_gleitzone:
-        ssc = tb["calc_midi_contrib"](df, tb)
+        ssc = tb["calc_midi_contrib"](inout, tb)
     else:
-        ssc = ssc_regular_job(df, tb, tb_ost)
+        ssc = ssc_regular_job(inout, tb, tb_ost)
 
     # Exception: since 2013, marginally employed people may pay pension
     # insurance contributions.
-    """
-    if yr > 2012:
-        ssc.loc[df["m_wage"].between(1, tb["mini_grenzew"]), "rvbeit"] = tb[
-            "grvbs_mini"
-        ] * np.maximum(175, df["m_wage"])
-    """
+    # """
+    # if yr > 2012:
+    #     ssc.loc[inout["m_wage"].between(1, tb["mini_grenzew"]), "rvbeit"] = tb[
+    #         "grvbs_mini"
+    #     ] * np.maximum(175, inout["m_wage"])
+    # """
     # Self-employed may insure via the public health and care insurance.
-    if df["selfemployed"] & ~df["pkv"]:
-        ssc["gkvbeit"] = selfemployed_gkv_ssc(df, tb, tb_ost)
-        ssc["pvbeit"] = selfemployed_pv_ssc(df, tb, tb_ost)
+    if inout["selfemployed"] & ~inout["pkv"]:
+        ssc["gkvbeit"] = selfemployed_gkv_ssc(inout, tb, tb_ost)
+        ssc["pvbeit"] = selfemployed_pv_ssc(inout, tb, tb_ost)
 
     # Add the health insurance contribution for pensions
-    ssc["gkvbeit"] += gkv_ssc_pensions(df, tb, tb_ost)
+    ssc["gkvbeit"] += gkv_ssc_pensions(inout, tb, tb_ost)
 
     # Add the care insurance contribution for pensions
-    ssc["pvbeit"] += pv_ssc_pensions(df, tb, tb_ost)
+    ssc["pvbeit"] += pv_ssc_pensions(inout, tb, tb_ost)
 
     # Sum of Social Insurance Contributions (for employees)
     ssc["svbeit"] = ssc.loc[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum()
