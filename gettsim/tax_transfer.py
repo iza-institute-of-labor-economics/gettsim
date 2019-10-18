@@ -56,11 +56,18 @@ def tax_transfer(df, tb, tb_pens=None):
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
     # We initialize all output columns.
-    for column in OUT_PUT:
-        df[column] = 0.0
-
+    # for column in OUT_PUT:
+    # df[column] = 0.0
+    household = ["hid"]
+    tax_unit = ["hid", "tu_id"]
+    person = ["hid", "tu_id", "pid"]
     # We start with the top layer, which is household id. We treat this as the
-    # "Bedarfsgemeinschaft" in the german tax law.
+    # "Bedarfsgemeinschaft" in German tax law.
+    in_cols = ["m_wage", "selfemployed", "pkv"]
+    out_cols = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
+    df[out_cols] = np.nan
+    df.groupby(person)[in_cols + out_cols].apply(soc_ins_contrib, tb=tb, axis=1)
+
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
         for tu_id in df.loc[hh_indices, "tu_id"].unique():
