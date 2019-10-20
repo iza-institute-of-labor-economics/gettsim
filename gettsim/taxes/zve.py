@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 
 def zve(df, tb):
@@ -25,13 +24,13 @@ def zve(df, tb):
     # Income from Self-Employment
     df.loc[:, "gross_e1"] = 12 * df["m_self"]
     # Earnings
-    df.loc[:, "gross_e4"] = calc_gross_e4(df, tb)
+    df = calc_gross_e4(df, tb)
     # Capital Income
     df.loc[:, "gross_e5"] = np.maximum((12 * df["m_kapinc"]), 0)
     # Income from rents
     df.loc[:, "gross_e6"] = 12 * df["m_vermiet"]
     # Others (Pensions)
-    df.loc[:, "gross_e7"], df["ertragsanteil"] = calc_gross_e7(df, tb)
+    df = calc_gross_e7(df, tb)
     # Sum of incomes
     df.loc[:, "gross_gde"] = calc_gde(df, tb)
 
@@ -217,11 +216,10 @@ def calc_gde(df, tb):
 def calc_gross_e4(df, tb):
     """Calculates the gross incomes of non selfemployed work. The wage is reducted by a
     lump sum payment for 'Werbungskosten'"""
-    # Every adult with some wage, gets a lump sum payment for Werbungskosten
-    werbung = pd.Series(index=df.index, data=0)
-    werbung[(~df["child"]) & (df["m_wage"] > 0)] = tb["werbung"]
 
-    gross_e4 = (12 * df["m_wage"]).subtract(werbung)
+    df.loc[:, "gross_e4"] = 12 * df["m_wage"]
+    # Every adult with some wage, gets a lump sum payment for Werbungskosten
+    df.loc[(~df["child"]) & (df["m_wage"] > 0), "gross_e4"] -= tb["werbung"]
 
     # If they earn less the mini job limit, then their relevant gross income is 0
     if df.east.iloc[0]:
@@ -229,8 +227,8 @@ def calc_gross_e4(df, tb):
     else:
         mini = tb["mini_grenzew"]
 
-    gross_e4[df["m_wage"] <= mini] = 0
-    return gross_e4
+    df.loc[df["m_wage"] <= mini, "gross_e4"] = 0
+    return df
 
 
 def deductible_child_care_costs(df, tb):
@@ -255,7 +253,6 @@ def deductible_child_care_costs(df, tb):
             / adult_num
         )
         # If parents can't claim anything, they get a pausch value.
-
         df.loc[~df["child"], "sonder"] = max(np.sum(deductible_costs), tb["sonder"])
         return df
 
@@ -264,19 +261,18 @@ def calc_gross_e7(df, tb):
     """ Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
     pensions."""
     # The share of pensions subject to income taxation
-    ertragsanteil = pd.Series(index=df.index, data=0)
-    ertragsanteil[df["renteneintritt"] <= 2004] = 0.27
-    ertragsanteil[df["renteneintritt"].between(2005, 2020)] = 0.5 + 0.02 * (
+    df.loc[df["renteneintritt"] <= 2004, "ertragsanteil"] = 0.27
+    df.loc[df["renteneintritt"].between(2005, 2020), "ertragsanteil"] = 0.5 + 0.02 * (
         df["renteneintritt"] - 2005
     )
-    ertragsanteil[df["renteneintritt"].between(2021, 2040)] = 0.8 + 0.01 * (
+    df.loc[df["renteneintritt"].between(2021, 2040), "ertragsanteil"] = 0.8 + 0.01 * (
         df["renteneintritt"] - 2020
     )
-    ertragsanteil[df["renteneintritt"] >= 2041] = 1
-    gross_e7 = np.maximum(
-        12 * (ertragsanteil * df["m_pensions"]) - tb["vorsorgpausch"], 0
+    df.loc[df["renteneintritt"] >= 2041, "ertragsanteil"] = 1
+    df.loc[:, "gross_e7"] = np.maximum(
+        12 * (df["ertragsanteil"] * df["m_pensions"]) - tb["vorsorgpausch"], 0
     )
-    return gross_e7, ertragsanteil
+    return df
 
 
 def vorsorge2010(df, tb):
