@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import pytest
 from pandas.testing import assert_frame_equal
 
@@ -39,6 +39,29 @@ input_cols = [
     "east",
     "gkvbeit",
 ]
+out_cols = [
+    "zve_nokfb",
+    "zve_abg_nokfb",
+    "zve_kfb",
+    "zve_abg_kfb",
+    "kifreib",
+    "gross_e1",
+    "gross_e4",
+    "gross_e5",
+    "gross_e6",
+    "gross_e7",
+    "gross_e1_tu",
+    "gross_e4_tu",
+    "gross_e5_tu",
+    "gross_e6_tu",
+    "gross_e7_tu",
+    "ertragsanteil",
+    "sonder",
+    "hhfreib",
+    "altfreib",
+    "vorsorge",
+]
+
 years = [2005, 2009, 2010, 2012, 2018]
 
 
@@ -63,10 +86,10 @@ def test_zve(year):
     else:
         tb["vorsorge"] = vorsorge_dummy
 
-    calculated = pd.DataFrame(columns=columns)
-    for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(zve(df[df["tu_id"] == tu_id], tb)[columns])
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby(["hid", "tu_id"]).apply(zve, tb=tb)
     expected = load_test_data(year, file_name, columns)
 
     # allow 1€ difference, caused by strange rounding issues.
-    assert_frame_equal(calculated, expected, check_less_precise=2)
+    assert_frame_equal(df[columns], expected, check_less_precise=2)
