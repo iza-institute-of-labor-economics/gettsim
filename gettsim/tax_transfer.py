@@ -93,7 +93,11 @@ def tax_transfer(df, tb, tb_pens=None):
     ]
     out_col = "m_alg1"
     df[out_col] = np.nan
-    df.groupby(person)[in_cols + [out_cols]].apply(soc_ins_contrib, tb=tb)
+    df.groupby(person)[in_cols + [out_col]].apply(soc_ins_contrib, tb=tb)
+    in_cols = ["m_wage", "east", "age", "year", "byear", "exper", "EP"]
+    out_col = "pensions_sim"
+    df[out_col] = np.nan
+    df.groupby(person)[in_cols + [out_col]].apply(pensions, tb=tb)
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
         for tu_id in df.loc[hh_indices, "tu_id"].unique():
