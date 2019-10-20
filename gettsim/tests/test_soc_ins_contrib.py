@@ -41,5 +41,5 @@ def test_soc_ins_contrib(year, column):
     else:
         tb["calc_midi_contrib"] = no_midi
     expected = load_test_data(year, "test_dfs_ssc.ods", column)
-    df = df.groupby(["hid", "tu_id", "pid"]).apply(soc_ins_contrib, tb)
+    df = df.groupby(["hid", "tu_id", "pid"]).apply(soc_ins_contrib, tb=tb)
     pd.testing.assert_series_equal(df[column], expected)
