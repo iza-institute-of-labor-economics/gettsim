@@ -15,22 +15,20 @@ def ui(df_row, tb):
 
     eligible = check_eligibility_alg(df_row)
 
-    if eligible:
-        if df_row["child_num_tu"] == 0:
-            return alg_entgelt * tb["agsatz0"]
+    if eligible.all():
+        if df_row["child_num_tu"].sum() == 0:
+            df_row["m_alg1"] = alg_entgelt * tb["agsatz0"]
         else:
-            return alg_entgelt * tb["agsatz1"]
+            df_row["m_alg1"] = alg_entgelt * tb["agsatz1"]
     else:
-        return 0
+        df_row["m_alg1"] = 0.0
+    return df_row
 
 
 def _alg_entgelt(df_row, tb):
     """ Calculating the claim for the Arbeitslosengeldgeld, depending on the current
     wage."""
-    if df_row["east"]:
-        westost = "o"
-    else:
-        westost = "w"
+    westost = "o" if df_row["east"].all() else "w"
     # Relevant wage is capped at the contribution thresholds
     alg_wage = np.minimum(tb["rvmaxek" + westost], df_row["m_wage_l1"])
 
@@ -57,7 +55,7 @@ def check_eligibility_alg(df_row):
     # Take into account actual wages
     # there are different replacement rates depending on presence of children
     return (
-        (1 <= mts_ue <= 12)
+        (mts_ue.between(1, 12))
         & (df_row["age"] < 65)
         & (df_row["m_pensions"] == 0)
         & (df_row["w_hours"] < 15)

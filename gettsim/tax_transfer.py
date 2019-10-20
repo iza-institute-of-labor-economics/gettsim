@@ -77,7 +77,7 @@ def tax_transfer(df, tb, tb_pens=None):
     out_cols = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
     for col in out_cols:
         df[col] = np.nan
-    df.groupby(person)[in_cols + out_cols].apply(soc_ins_contrib, tb=tb, axis=1)
+    df.groupby(person)[in_cols + out_cols].apply(soc_ins_contrib, tb=tb)
 
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index

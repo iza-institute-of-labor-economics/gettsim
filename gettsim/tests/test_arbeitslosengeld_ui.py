@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import pytest
 from pandas.testing import assert_series_equal
 
@@ -24,7 +24,7 @@ input_cols = [
     "age",
     "year",
 ]
-
+OUT_COL = "m_alg1"
 years = [2010, 2011, 2015, 2019]
 
 
@@ -35,8 +35,7 @@ def test_ui(year):
     tb = load_tb(year)
     tb["yr"] = year
     tb["tax_schedule"] = tarif
-    expected = load_test_data(year, file_name, "m_alg1")
-    calculated = pd.Series(name="m_alg1", index=df.index)
-    for i in df.index:
-        calculated[i] = ui(df.loc[i], tb)
-    assert_series_equal(calculated, expected, check_less_precise=3)
+    expected = load_test_data(year, file_name, OUT_COL)
+    df[OUT_COL] = np.nan
+    df = df.groupby(["hid", "tu_id", "pid"]).apply(ui, tb=tb)
+    assert_series_equal(df[OUT_COL], expected, check_less_precise=3)
