@@ -13,13 +13,9 @@ from gettsim.func_out_columns import FC
 from gettsim.func_out_columns import GROSS
 from gettsim.func_out_columns import KG
 from gettsim.func_out_columns import KIZ
-from gettsim.func_out_columns import PENS
-from gettsim.func_out_columns import SOC_SEC
 from gettsim.func_out_columns import TAX_SCHED
 from gettsim.func_out_columns import UHV
-from gettsim.func_out_columns import UI
 from gettsim.func_out_columns import WG
-from gettsim.func_out_columns import ZVE
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
@@ -60,7 +56,7 @@ def tax_transfer(df, tb, tb_pens=None):
     # for column in OUT_PUT:
     # df[column] = 0.0
     # household = ["hid"]
-    # tax_unit = ["hid", "tu_id"]
+    tax_unit = ["hid", "tu_id"]
     person = ["hid", "tu_id", "pid"]
     # We start with the top layer, which is household id. We treat this as the
     # "Bedarfsgemeinschaft" in German tax law.
@@ -77,7 +73,7 @@ def tax_transfer(df, tb, tb_pens=None):
     out_cols = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
     for col in out_cols:
         df[col] = np.nan
-    df.groupby(person)[in_cols + out_cols].apply(soc_ins_contrib, tb=tb)
+    df = df.groupby(person)[in_cols + out_cols].apply(soc_ins_contrib, tb=tb)
     in_cols = [
         "m_wage_l1",
         "east",
@@ -93,26 +89,62 @@ def tax_transfer(df, tb, tb_pens=None):
     ]
     out_col = "m_alg1"
     df[out_col] = np.nan
-    df.groupby(person)[in_cols + [out_col]].apply(soc_ins_contrib, tb=tb)
+    df = df.groupby(person)[in_cols + [out_col]].apply(ui, tb=tb)
     in_cols = ["m_wage", "east", "age", "year", "byear", "exper", "EP"]
     out_col = "pensions_sim"
     df[out_col] = np.nan
-    df.groupby(person)[in_cols + [out_col]].apply(pensions, tb=tb)
+    df = df.groupby(person)[in_cols + [out_col]].apply(pensions, tb=tb)
+    in_cols = [
+        "m_wage",
+        "m_self",
+        "m_kapinc",
+        "m_vermiet",
+        "renteneintritt",
+        "m_pensions",
+        "w_hours",
+        "ineducation",
+        "zveranl",
+        "child",
+        "m_childcare",
+        "handcap_degree",
+        "rvbeit",
+        "avbeit",
+        "pvbeit",
+        "alleinerz",
+        "age",
+        "child_num_tu",
+        "year",
+        "east",
+        "gkvbeit",
+    ]
+    out_cols = [
+        "zve_nokfb",
+        "zve_abg_nokfb",
+        "zve_kfb",
+        "zve_abg_kfb",
+        "kifreib",
+        "gross_e1",
+        "gross_e4",
+        "gross_e5",
+        "gross_e6",
+        "gross_e7",
+        "gross_e1_tu",
+        "gross_e4_tu",
+        "gross_e5_tu",
+        "gross_e6_tu",
+        "gross_e7_tu",
+        "ertragsanteil",
+        "sonder",
+        "hhfreib",
+        "altfreib",
+        "vorsorge",
+    ]
+    df = df.groupby(tax_unit)[in_cols + out_cols].apply(zve, tb=tb)
+
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
         for tu_id in df.loc[hh_indices, "tu_id"].unique():
             tu_indices = df[df["tu_id"] == tu_id].index
-            for i in tu_indices:
-
-                df.loc[i, SOC_SEC] = soc_ins_contrib(df.loc[i], tb)
-                # Unemployment benefits
-                df.loc[i, UI] = ui(df.loc[i], tb)
-                # Pension benefits
-                df.loc[i, PENS] = pensions(df.loc[i], tb, tb_pens)
-
-            # Tax unit based calculations
-            # 5.1 Calculate Taxable income (zve = zu versteuerndes Einkommen)
-            df.loc[tu_indices, ZVE] = zve(df.loc[tu_indices, :], tb)
 
             # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
             df.loc[tu_indices, TAX_SCHED] = tax_sched(df.loc[tu_indices, :], tb)
