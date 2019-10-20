@@ -32,12 +32,12 @@ def pensions(df_row, tb, tb_pens):
     # use all three components for Rentenformel.
     # It's called 'pensions_sim' to emphasize that this is simulated.
 
-    pensions_sim = np.maximum(0, round(EP * ZF * rentenwert, 2))
+    df_row["pensions_sim"] = np.maximum(0, round(EP * ZF * rentenwert, 2))
 
-    return pensions_sim
+    return df_row
 
 
-def update_earnings_points(df, tb, tb_pens):
+def update_earnings_points(df_row, tb, tb_pens):
     """Given earnings, social security rules, average
     earnings in a particular year and potentially other
     variables (e.g., benefits for raising children,
@@ -49,22 +49,19 @@ def update_earnings_points(df, tb, tb_pens):
 
     """
 
-    out = _ep_for_earnings(df, tb, tb_pens)
-    out += _ep_for_care_periods(df, tb, tb_pens)
+    out = _ep_for_earnings(df_row, tb, tb_pens)
+    out += _ep_for_care_periods(df_row, tb, tb_pens)
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
 
-    return df["EP"] + out
+    return df_row["EP"] + out
 
 
-def _ep_for_earnings(df, tb, tb_pens):
+def _ep_for_earnings(df_row, tb, tb_pens):
     """Return earning points for the wages earned in the last year."""
-    if df["east"]:
-        westost = "o"
-    else:
-        westost = "w"
-    return np.minimum(df["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"]
+    westost = "o" if df_row["east"].all() else "w"
+    return np.minimum(df_row["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"]
 
 
 def _ep_for_care_periods(df, tb, tb_pens):
@@ -85,7 +82,7 @@ def _zugangsfaktor(df_row):
 def _regelaltersgrenze(df_row):
     """Calculates the age, at which a worker is eligible to claim his full pension."""
     # If born after 1947, each birth year raises the age threshold by one month.
-    if df_row["byear"] > 1947:
+    if (df_row["byear"] > 1947).all():
         return np.minimum(67, ((df_row["byear"] - 1947) / 12) + 65)
     else:
         return 65

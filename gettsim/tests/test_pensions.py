@@ -41,12 +41,9 @@ def test_pension(year):
         tb["calc_rentenwert"] = _rentenwert_until_2017
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     expected = load_test_data(year, file_name, column)
-    calculated = pd.Series(name=column)
-    for pid in df["pid"].unique():
-        calculated = np.append(
-            calculated, pensions(df[df["pid"] == pid].iloc[0], tb, tb_pens)
-        )
-    assert_array_almost_equal(calculated, expected)
+    df[column] = np.nan
+    df = df.groupby(["hid", "tu_id", "pid"]).apply(pensions, tb=tb, tb_pens=tb_pens)
+    assert_array_almost_equal(df[column], expected)
 
 
 @pytest.mark.parametrize("year", YEARS)
