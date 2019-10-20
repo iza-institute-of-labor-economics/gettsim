@@ -1,3 +1,5 @@
+import numpy as np
+
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.benefits.benefit_checks import benefit_priority
@@ -11,7 +13,6 @@ from gettsim.func_out_columns import FC
 from gettsim.func_out_columns import GROSS
 from gettsim.func_out_columns import KG
 from gettsim.func_out_columns import KIZ
-from gettsim.func_out_columns import OUT_PUT
 from gettsim.func_out_columns import PENS
 from gettsim.func_out_columns import SOC_SEC
 from gettsim.func_out_columns import TAX_SCHED
@@ -58,14 +59,24 @@ def tax_transfer(df, tb, tb_pens=None):
     # We initialize all output columns.
     # for column in OUT_PUT:
     # df[column] = 0.0
-    household = ["hid"]
-    tax_unit = ["hid", "tu_id"]
+    # household = ["hid"]
+    # tax_unit = ["hid", "tu_id"]
     person = ["hid", "tu_id", "pid"]
     # We start with the top layer, which is household id. We treat this as the
     # "Bedarfsgemeinschaft" in German tax law.
-    in_cols = ["m_wage", "selfemployed", "pkv"]
+    in_cols = [
+        "m_wage",
+        "east",
+        "age",
+        "selfemployed",
+        "haskids",
+        "m_self",
+        "m_pensions",
+        "pkv",
+    ]
     out_cols = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
-    df[out_cols] = np.nan
+    for col in out_cols:
+        df[col] = np.nan
     df.groupby(person)[in_cols + out_cols].apply(soc_ins_contrib, tb=tb, axis=1)
 
     for hid in df["hid"].unique():
