@@ -1,16 +1,16 @@
 Code of Conduct (CoC)
 =====================
 
-The gettsim community is made up of members from around the globe with a diverse set of
+The GETTSIM community is made up of members from around the globe with a diverse set of
 skills, personalities, and experiences. It is through these differences that our
 community experiences great successes and continued growth. When you're working with
-members of the community, this CoC will help steer your interactions and keep gettsim a
+members of the community, this CoC will help steer your interactions and keep GETTSIM a
 positive, successful, and growing community.
 
 Our Community
 -------------
 
-Members of the gettsim community are open, considerate, and respectful. Behaviours that
+Members of the GETTSIM community are open, considerate, and respectful. Behaviours that
 reinforce these values contribute to a positive environment, and include:
 
 - *Being open*. Members of the community are open to collaboration, whether it's on
@@ -18,7 +18,7 @@ reinforce these values contribute to a positive environment, and include:
 - *Focusing on what is best for the community*. We're respectful of the processes set
   forth in the community, and we work within them.
 - *Acknowledging time and effort*. We're respectful of the volunteer efforts that
-  permeate the gettsim community. We're thoughtful when addressing the efforts of
+  permeate the GETTSIM community. We're thoughtful when addressing the efforts of
   others, keeping in mind that often times the labor was completed simply for the good
   of the community.
 - *Being respectful of differing viewpoints and experiences*. We're receptive to
@@ -28,7 +28,7 @@ reinforce these values contribute to a positive environment, and include:
   communications, whether in person or online, and we're tactful when approaching
   differing views.
 - *Being considerate*. Members of the community are considerate of their peers -- other
-  gettsim users.
+  GETTSIM users.
 - *Being respectful*. We're respectful of others, their positions, their skills, their
   commitments, and their efforts.
 - *Gracefully accepting constructive criticism*. When we disagree, we are courteous in
@@ -41,7 +41,7 @@ Our Standards
 -------------
 
 Every member of our community has the right to have their identity respected. The
-gettsim community is dedicated to providing a positive experience for everyone,
+GETTSIM community is dedicated to providing a positive experience for everyone,
 regardless of age, gender identity and expression, sexual orientation, disability,
 physical appearance, body size, ethnicity, nationality, race, or religion (or lack
 thereof), education, or socio-economic status.
@@ -80,21 +80,22 @@ Examples of unacceptable behavior by participants include:
 Community members asked to stop any inappropriate behavior are expected to comply
 immediately.
 
+
 Consequences
 ------------
 
-If a participant engages in behavior that violates this CoC, the gettsim community CoC
+If a participant engages in behavior that violates this CoC, the GETTSIM community CoC
 team may take any action they deem appropriate, including editing/removing inappropriate
 content, warning the offender or expulsion from the community. The CoC team is made up
-of gettsim contributors and users and will react promptly to reports. The current team
+of GETTSIM contributors and users and will react promptly to reports. The current team
 includes
 
-- first
-- second
-- third
+- `Boryana Ilieva <https://github.com/boryana-ilieva>`_
+- `Holger Stichnoth <https://github.com/stichnoth>`_
+- `Maximilian Blesch <https://github.com/MaxBlesch>`_
 
 All complaints will be reviewed and investigated and will result in a response that is
-deemed necessary and appropriate to the circumstances. The gettsim CoC team is obligated
+deemed necessary and appropriate to the circumstances. The GETTSIM CoC team is obligated
 to maintain confidentiality with regard to the reporter of an incident. In cases of
 conflicts of interest, CoC team members have to remove themselves from decision process
 without the need to further specify their conflict.
