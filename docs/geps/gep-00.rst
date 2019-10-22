@@ -1,6 +1,7 @@
 ===========================
-GEP 0 — Purpose and Process
+GEP 0 - Purpose and Process
 ===========================
+
 
 :Author: Hans-Martin von Gaudecker <https://github.com/hmgaudecker>
 :Status: Provisional

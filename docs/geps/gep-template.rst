@@ -5,7 +5,8 @@ GEP X — Template and Instructions
 =================================
 
 :Author: <list of authors' real names and optionally, email addresses>
-:Status: <Draft | Active | Accepted | Deferred | Rejected | Withdrawn | Final | Superseded>
+:Status:
+    <Draft | Active | Accepted | Deferred | Rejected | Withdrawn | Final | Superseded>
 :Type: <Standards Track | Process>
 :Created: <date created on, in yyyy-mm-dd format>
 :Resolution: <url> (required for Accepted | Rejected | Withdrawn)
