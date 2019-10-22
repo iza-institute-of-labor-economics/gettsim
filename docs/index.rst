@@ -16,6 +16,7 @@ use it already, else keep an eye out for what there is to come!
 .. toctree::
    :maxdepth: 2
 
+   how-to-contribute
    code-of-conduct
 
 
