@@ -10,7 +10,7 @@
 # sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
-project = "gettsim"
+project = "GETTSIM"
 copyright = "2019, GETTSIM team"
 author = "GETTSIM team"
 version = "0.2"

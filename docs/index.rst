@@ -1,4 +1,4 @@
-Welcome to gettsim's documentation!
+Welcome to GETTSIM's documentation!
 ===================================
 
 GETTSIM aims at providing a depiction of the German Taxes and Transfers System that is
