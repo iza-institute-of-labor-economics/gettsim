@@ -11,16 +11,13 @@ from gettsim.func_out_columns import BP
 from gettsim.func_out_columns import DPI
 from gettsim.func_out_columns import FC
 from gettsim.func_out_columns import GROSS
-from gettsim.func_out_columns import KG
 from gettsim.func_out_columns import KIZ
-from gettsim.func_out_columns import TAX_SCHED
 from gettsim.func_out_columns import UHV
 from gettsim.func_out_columns import WG
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
 from gettsim.social_insurance import soc_ins_contrib
-from gettsim.taxes.calc_taxes import tax_sched
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.taxes.kindergeld import kindergeld
 from gettsim.taxes.zve import zve
@@ -140,17 +137,16 @@ def tax_transfer(df, tb, tb_pens=None):
         "vorsorge",
     ]
     df = df.groupby(tax_unit)[in_cols + out_cols].apply(zve, tb=tb)
+    in_cols = ["age", "w_hours", "ineducation", "m_wage"]
+    out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby(tax_unit)[in_cols + out_cols].apply(kindergeld, tb=tb)
 
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
         for tu_id in df.loc[hh_indices, "tu_id"].unique():
             tu_indices = df[df["tu_id"] == tu_id].index
-
-            # 5.2 Apply Tax Schedule. returns incometax, capital income tax and soli
-            df.loc[tu_indices, TAX_SCHED] = tax_sched(df.loc[tu_indices, :], tb)
-
-            # 5.3 Child benefit (Kindergeld). Yes, this belongs to Income Tax
-            df.loc[tu_indices, KG] = kindergeld(df.loc[tu_indices, :], tb)
 
             # 5.4 Günstigerprüfung to obtain final income tax due.
             # different call here, because 'kindergeld' is overwritten by the
