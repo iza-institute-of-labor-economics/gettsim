@@ -3,7 +3,7 @@ GEP 0 - Purpose and Process
 ===========================
 
 
-:Author: Hans-Martin von Gaudecker <https://github.com/hmgaudecker>
+:Author: `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_
 :Status: Provisional
 :Type: Process
 :Created: 2019-10-22
@@ -12,21 +12,18 @@ GEP 0 - Purpose and Process
 What is a GEP?
 --------------
 
-GEP stands for GETTSIM Enhancement Proposal.  A GEP is a design
-document providing information to the GETTSIM community, or describing
-a new feature for GETTSIM or its processes or environment.  The GEP
-should provide a concise technical specification of the feature and a
-rationale for the feature.
+GEP stands for GETTSIM Enhancement Proposal.  A GEP is a design document providing
+information to the GETTSIM community, or describing a new feature for GETTSIM or its
+processes or environment.  The GEP should provide a concise technical specification of
+the feature and a rationale for the feature.
 
-We intend GEPs to be the primary mechanisms for proposing major new
-features, for collecting community input on an issue, and for
-documenting the design decisions that have gone into GETTSIM.  The GEP
-author is responsible for building consensus within the community and
-documenting dissenting opinions.
+We intend GEPs to be the primary mechanisms for proposing major new features, for
+collecting community input on an issue, and for documenting the design decisions that
+have gone into GETTSIM.  The GEP author is responsible for building consensus within the
+community and documenting dissenting opinions.
 
-Because the GEPs are maintained as text files in a versioned
-repository, their revision history is the historical record of the
-feature proposal [1]_.
+Because the GEPs are maintained as text files in a versioned repository, their revision
+history is the historical record of the feature proposal [1]_.
 
 
 Types
@@ -34,127 +31,116 @@ Types
 
 There are three kinds of GEPs:
 
-1. A **Standards Track** GEP describes a new feature or implementation
-   for GETTSIM.
+1. A **Standards Track** GEP describes a new feature or implementation for GETTSIM.
 
-2. An **Informational** GEP describes a GETTSIM design issue, or provides
-   general guidelines or information to the Python community, but does not
-   propose a new feature. Informational GEPs do not necessarily represent a
-   GETTSIM community consensus or recommendation, so users and implementers are
-   free to ignore Informational GEPs or follow their advice.
+2. An **Informational** GEP describes a GETTSIM design issue, or provides general
+   guidelines or information to the Python community, but does not propose a new
+   feature. Informational GEPs do not necessarily represent a GETTSIM community
+   consensus or recommendation, so users and implementers are free to ignore
+   Informational GEPs or follow their advice.
 
-3. A **Process** GEP describes a process surrounding GETTSIM, or
-   proposes a change to (or an event in) a process.  Process GEPs are
-   like Standards Track GEPs but apply to areas other than the GETTSIM
-   language itself.  They may propose an implementation, but not to
-   GETTSIM's codebase; they require community consensus.  Examples include
-   procedures, guidelines, changes to the decision-making process, and
-   changes to the tools or environment used in GETTSIM development.
-   Any meta-GEP is also considered a Process GEP.
+3. A **Process** GEP describes a process surrounding GETTSIM, or proposes a change to
+   (or an event in) a process.  Process GEPs are like Standards Track GEPs but apply to
+   areas other than the GETTSIM language itself.  They may propose an implementation,
+   but not to GETTSIM's codebase; they require community consensus.  Examples include
+   procedures, guidelines, changes to the decision-making process, and changes to the
+   tools or environment used in GETTSIM development. Any meta-GEP is also considered a
+   Process GEP.
 
 
 GEP Workflow
 ------------
 
-The GEP process begins with a new idea for GETTSIM.  It is highly
-recommended that a single GEP contain a single key proposal or new
-idea. Small enhancements or patches often don't need
-a GEP and can be injected into the GETTSIM development workflow with a
-pull request to the GETTSIM `repo`_. The more focused the
-GEP, the more successful it tends to be.
-If in doubt, split your GEP into several well-focused ones.
+The GEP process begins with a new idea for GETTSIM.  It is highly recommended that a
+single GEP contain a single key proposal or new idea. Small enhancements or patches
+often don't need a GEP and can be injected into the GETTSIM development workflow with a
+pull request to the GETTSIM `repository`_. The more focused the GEP, the more successful
+it tends to be. If in doubt, split your GEP into several well-focused ones.
 
-Each GEP must have a champion---someone who writes the GEP using the style
-and format described below, shepherds the discussions in the appropriate
-forums, and attempts to build community consensus around the idea.  The GEP
-champion (a.k.a. Author) should first attempt to ascertain whether the idea is
-suitable for a GEP. A message in the "#general/GEPs" channel on `Zulip`_ is the best
-way to go about doing this.
+Each GEP must have a champion---someone who writes the GEP using the style and format
+described below, shepherds the discussions in the appropriate forums, and attempts to
+build community consensus around the idea.  The GEP champion (a.k.a. Author) should
+first attempt to ascertain whether the idea is suitable for a GEP. A message in the
+"#general/GEPs" channel on `Zulip`_ is the best way to go about doing this.
 
-The proposal should be submitted as a draft GEP via a `GitHub pull
-request`_ to the ``doc/geps`` directory with the name ``gep-<n>.rst``
-where ``<n>`` is an appropriately assigned two-digit number (e.g., it is
-``gep-00.rst`` for this document). The draft must use the :ref:`gep-template` file.
+The proposal should be submitted as a draft GEP via a `GitHub pull request`_ to the
+``doc/geps`` directory with the name ``gep-<n>.rst`` where ``<n>`` is an appropriately
+assigned two-digit number (e.g., it is ``gep-00.rst`` for this document). The draft must
+use the :download:`GEP template <gep-template.rst>`  file.
 
-Once the PR is in place, the GEP should be announced on the in the #general/geps
-topic on `Zulip`_ for discussion (comments on the PR itself should be restricted to
-minor editorial and technical fixes).
+Once the PR is in place, the GEP should be announced on the in the #general/geps topic
+on `Zulip`_ for discussion (comments on the PR itself should be restricted to minor
+editorial and technical fixes).
 
-At the earliest convenience, the PR should be merged (regardless of
-whether it is accepted during discussion).  Additional PRs may be made
-by the Author to update or expand the GEP, or by maintainers to set
-its status, discussion URL, etc.
+At the earliest convenience, the PR should be merged (regardless of whether it is
+accepted during discussion).  Additional PRs may be made by the Author to update or
+expand the GEP, or by maintainers to set its status, discussion URL, etc.
 
-Standards Track GEPs consist of two parts, a design document and a
-reference implementation.  It is generally recommended that at least a
-prototype implementation be co-developed with the GEP, as ideas that sound
-good in principle sometimes turn out to be impractical when subjected to the
-test of implementation.  Often it makes sense for the prototype implementation
-to be made available as PR to the GETTSIM repo (making sure to appropriately
-mark the PR as a WIP).
+Standards Track GEPs consist of two parts, a design document and a reference
+implementation.  It is generally recommended that at least a prototype implementation be
+co-developed with the GEP, as ideas that sound good in principle sometimes turn out to
+be impractical when subjected to the test of implementation.  Often it makes sense for
+the prototype implementation to be made available as PR to the GETTSIM repository
+(making sure to appropriately mark the PR as a WIP).
 
 
 Review and Resolution
 ^^^^^^^^^^^^^^^^^^^^^
 
-GEPs are discussed on the mailing list.  The possible paths of the
-status of GEPs are as follows:
+GEPs are discussed on the mailing list.  The possible paths of the status of GEPs are as
+follows:
 
-.. image:: ../_static/gep-process.png
+.. image:: /_static/gep-process.png
 
 All GEPs should be created with the ``Draft`` status.
 
-Eventually, after discussion, there may be a consensus that the GEP
-should be accepted – see the next section for details. At this point
-the status becomes ``Accepted``.
+Eventually, after discussion, there may be a consensus that the GEP should be accepted
+–-- see the next section for details. At this point the status becomes ``Accepted``.
 
-Once a GEP has been ``Accepted``, the reference implementation must be
-completed.  When the reference implementation is complete and incorporated
-into the main source code repository, the status will be changed to ``Final``.
+Once a GEP has been ``Accepted``, the reference implementation must be completed.  When
+the reference implementation is complete and incorporated into the main source code
+repository, the status will be changed to ``Final``.
 
-To allow gathering of additional design and interface feedback before
-committing to long term stability for a language feature or standard library
-API, a GEP may also be marked as "Provisional". This is short for
-"Provisionally Accepted", and indicates that the proposal has been accepted for
-inclusion in the reference implementation, but additional user feedback is
-needed before the full design can be considered "Final". Unlike regular
-accepted GEPs, provisionally accepted GEPs may still be Rejected or Withdrawn
-even after the related changes have been included in a Python release.
+To allow gathering of additional design and interface feedback before committing to long
+term stability for a language feature or standard library API, a GEP may also be marked
+as "Provisional". This is short for "Provisionally Accepted", and indicates that the
+proposal has been accepted for inclusion in the reference implementation, but additional
+user feedback is needed before the full design can be considered "Final". Unlike regular
+accepted GEPs, provisionally accepted GEPs may still be Rejected or Withdrawn even after
+the related changes have been included in a Python release.
 
-Wherever possible, it is considered preferable to reduce the scope of a
-proposal to avoid the need to rely on the "Provisional" status (e.g. by
-deferring some features to later GEPs), as this status can lead to version
-compatibility challenges in the wider GETTSIM ecosystem.
+Wherever possible, it is considered preferable to reduce the scope of a proposal to
+avoid the need to rely on the "Provisional" status (e.g. by deferring some features to
+later GEPs), as this status can lead to version compatibility challenges in the wider
+GETTSIM ecosystem.
 
-A GEP can also be assigned status ``Deferred``.  The GEP author or a
-core developer can assign the GEP this status when no progress is being made
-on the GEP.
+A GEP can also be assigned status ``Deferred``.  The GEP author or a core developer can
+assign the GEP this status when no progress is being made on the GEP.
 
-A GEP can also be ``Rejected``.  Perhaps after all is said and done it
-was not a good idea.  It is still important to have a record of this
-fact. The ``Withdrawn`` status is similar---it means that the GEP author
-themselves has decided that the GEP is actually a bad idea, or has
-accepted that a competing proposal is a better alternative.
+A GEP can also be ``Rejected``.  Perhaps after all is said and done it was not a good
+idea.  It is still important to have a record of this fact. The ``Withdrawn`` status is
+similar --- it means that the GEP author themselves has decided that the GEP is actually
+a bad idea, or has accepted that a competing proposal is a better alternative.
 
-When a GEP is ``Accepted``, ``Rejected``, or ``Withdrawn``, the GEP should be
-updated accordingly. In addition to updating the status field, at the very
-least the ``Resolution`` header should be added with a link to the relevant
-thread in the Zulip archives.
+When a GEP is ``Accepted``, ``Rejected``, or ``Withdrawn``, the GEP should be updated
+accordingly. In addition to updating the status field, at the very least the
+``Resolution`` header should be added with a link to the relevant thread in the Zulip
+archives.
 
-GEPs can also be ``Superseded`` by a different GEP, rendering the
-original obsolete.  The ``Replaced-By`` and ``Replaces`` headers
-should be added to the original and new GEPs respectively.
+GEPs can also be ``Superseded`` by a different GEP, rendering the original obsolete.
+The ``Replaced-By`` and ``Replaces`` headers should be added to the original and new
+GEPs respectively.
 
-Process GEPs may also have a status of ``Active`` if they are never
-meant to be completed, e.g. GEP 0 (this GEP).
+Process GEPs may also have a status of ``Active`` if they are never meant to be
+completed, e.g. GEP 0 (this GEP).
 
 
 How a GEP becomes Accepted
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A GEP is ``Accepted`` by consensus of all interested contributors. We
-need a concrete way to tell whether consensus has been reached. When
-you think a GEP is ready to accept, send a message with a first line like:
+A GEP is ``Accepted`` by consensus of all interested contributors. We need a concrete
+way to tell whether consensus has been reached. When you think a GEP is ready to accept,
+send a message with a first line like:
 
   Proposal to accept GEP #<number>: <title>
 
@@ -162,77 +148,66 @@ In the body of your message, you should:
 
 * link to the latest version of the GEP,
 
-* briefly describe any major points of contention and how they were
-  resolved,
+* briefly describe any major points of contention and how they were resolved,
 
-* include a sentence like: "If there are no substantive objections
-  within 7 days from this message, then the GEP will be accepted; see
-  GEP 0 for more details."
+* include a sentence like: "If there are no substantive objections within 7 days from
+  this message, then the GEP will be accepted; see GEP 0 for more details."
 
-.. For an example, see: `Zulip`_ ....
+After you send the message, you should make sure to link to the message thread from the
+``Discussion`` section of the GEP, so that people can find it later.
 
-After you send the message, you should make sure to link to the message
-thread from the ``Discussion`` section of the GEP, so that people can
-find it later.
+Generally the GEP author will be the one to send this message, but anyone can do it –
+the important thing is to make sure that everyone knows when a GEP is on the verge of
+acceptance, and give them a final chance to respond. If there's some special reason to
+extend this final comment period beyond 7 days, then that's fine, just say so in the
+message. You shouldn't do less than 7 days, because sometimes people are traveling or
+similar and need some time to respond.
 
-Generally the GEP author will be the one to send this message, but
-anyone can do it – the important thing is to make sure that everyone
-knows when a GEP is on the verge of acceptance, and give them a final
-chance to respond. If there's some special reason to extend this final
-comment period beyond 7 days, then that's fine, just say so in the
-message. You shouldn't do less than 7 days, because sometimes people are
-travelling or similar and need some time to respond.
+In general, the goal is to make sure that the community has consensus, not provide a
+rigid policy for people to try to game. When in doubt, err on the side of asking for
+more feedback and looking for opportunities to compromise.
 
-In general, the goal is to make sure that the community has consensus,
-not provide a rigid policy for people to try to game. When in doubt,
-err on the side of asking for more feedback and looking for
-opportunities to compromise.
+If the final comment period passes without any substantive objections, then the GEP can
+officially be marked ``Accepted``. You should send a follow-up message notifying the
+community (celebratory emoji optional but encouraged 🎉✨), and then update the GEP by
+setting its ``:Status:`` to ``Accepted``, and its ``:Resolution:`` header to a link to
+your follow-up message.
 
-If the final comment period passes without any substantive objections,
-then the GEP can officially be marked ``Accepted``. You should send a
-followup message notifying the community (celebratory emoji optional but
-encouraged 🎉✨), and then update the GEP by setting its ``:Status:``
-to ``Accepted``, and its ``:Resolution:`` header to a link to your
-followup message.
-
-If there *are* substantive objections, then the GEP remains in
-``Draft`` state, discussion continues as normal, and it can be
-proposed for acceptance again later once the objections are resolved.
-
+If there *are* substantive objections, then the GEP remains in ``Draft`` state,
+discussion continues as normal, and it can be proposed for acceptance again later once
+the objections are resolved.
 
 
 Maintenance
 ^^^^^^^^^^^
 
-In general, Standards track GEPs are no longer modified after they have
-reached the Final state as the code and project documentation are considered
-the ultimate reference for the implemented feature.
-However, finalized Standards track GEPs may be updated as needed.
+In general, Standards track GEPs are no longer modified after they have reached the
+Final state as the code and project documentation are considered the ultimate reference
+for the implemented feature. However, finalized Standards track GEPs may be updated as
+needed.
 
-Process GEPs may be updated over time to reflect changes
-to development practices and other details. The precise process followed in
-these cases will depend on the nature and purpose of the GEP being updated.
+Process GEPs may be updated over time to reflect changes to development practices and
+other details. The precise process followed in these cases will depend on the nature and
+purpose of the GEP being updated.
 
 
 Format and Template
 -------------------
 
-GEPs are UTF-8 encoded text files using the reStructuredText_ format.  Please
-see the :doc:`gep-template` file and the reStructuredTextPrimer_ for more
-information.  We use Sphinx_ to convert GEPs to HTML for viewing on the web
-[2]_.
+GEPs are UTF-8 encoded text files using the reStructuredText_ format.  Please see the
+:download:`GEP template <gep-template.rst>` file and the reStructuredTextPrimer_ for
+more information. We use Sphinx_ to convert GEPs to HTML for viewing on the web [2]_.
 
 
 Header Preamble
 ^^^^^^^^^^^^^^^
 
-Each GEP must begin with a header preamble.  The headers
-must appear in the following order.  Headers marked with ``*`` are
-optional.  All other headers are required. ::
+Each GEP must begin with a header preamble.  The headers must appear in the following
+order.  Headers marked with ``*`` are optional.  All other headers are required. ::
 
     :Author: <list of authors' real names and optionally, email addresses>
-    :Status: <Draft | Active | Accepted | Deferred | Rejected |
-             Withdrawn | Final | Superseded>
+    :Status: <Draft | Active | Accepted | Deferred | Rejected | Withdrawn | Final |
+             Superseded>
     :Type: <Standards Track | Process>
     :Created: <date created on, in dd-mmm-yyyy format>
   * :Requires: <gep numbers>
@@ -241,9 +216,8 @@ optional.  All other headers are required. ::
   * :Replaced-By: <gep number>
   * :Resolution: <url>
 
-The Author header lists the names, and optionally the email addresses
-of all the authors of the GEP.  The format of the Author header
-value must be
+The Author header lists the names, and optionally the email addresses of all the authors
+of the GEP.  The format of the Author header value must be
 
     Random J. User <address@dom.ain>
 
@@ -251,8 +225,8 @@ if the email address is included, and just
 
     Random J. User
 
-if the address is not given.  If there are multiple authors, each should be on
-a separate line.
+if the address is not given.  If there are multiple authors, each should be on a
+separate line.
 
 
 Discussion
@@ -265,13 +239,14 @@ References and Footnotes
 ------------------------
 
 .. [1] This historical record is available by the normal git commands
-   for retrieving older revisions, and can also be browsed on
-   `GitHub <https://github.com/iza-institute-of-labor-economics/gettsim/tree/master/docs/geps>`_.
+       for retrieving older revisions, and can also be browsed on `GitHub
+       <https://github.com/iza-institute-of-labor-economics/gettsim/tree/master/
+       docs/geps>`_.
 
 .. [2] The URL for viewing GEPs on the web is
-   https://gettsim.readthedocs.io/en/latest/geps.
+       https://gettsim.readthedocs.io/en/latest/geps.
 
-.. _repo: https://github.com/iza-institute-of-labor-economics/gettsim
+.. _repository: https://github.com/iza-institute-of-labor-economics/gettsim
 
 .. _issue tracker: https://github.com/iza-institute-of-labor-economics/gettsim/issues
 
@@ -285,10 +260,12 @@ References and Footnotes
 
 .. _Zulip: https://gettsim.zulipchat.com/
 
+
 Acknowledgements
 ----------------
 
-This document has been slightly adapted from NumPy's `NEP 0 <https://numpy.org/neps/nep-0000>`.
+This document has been slightly adapted from NumPy's `NEP 0
+<https://numpy.org/neps/nep-0000>`.
 
 
 Copyright
