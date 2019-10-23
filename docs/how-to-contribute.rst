@@ -4,9 +4,9 @@ How To Contribute
 Contributions are always welcome. Everything ranging from small extensions of the
 documentation to implementing new features is appreciated. Of course, the bigger the
 change the more it is necessary to reach out to us in advance for an discussion. You can
-start an discussion by `posting an issue
-<https://github.com/iza-institute-of-labor-economics/gettsim/issues/new/choose>`_ which
-can be a bug report or a feature request or something else.
+start an discussion by `posting an issue <https://github.com/iza-institute-of-labor-
+economics/gettsim/issues/new/choose>`_ which can be a bug report or a feature request or
+something else.
 
 To get acquainted with the code base, you can also check out the `documentation
 <https://gettsim.readthedocs.io/en/latest/>`_ or our `issue tracker
@@ -16,8 +16,8 @@ immediate and clearly defined tasks.
 To contribute to the project, adhere to the following process.
 
 1. The process starts differently for regular contributors and newcomers. As a
-   contributor you might have been granted privileges to push to the GETTSIM repository
-   directly. Thus, you can clone the repository directly using
+   contributor you might have been granted privileges to push to the GETTSIM repository.
+   Thus, you can clone the repository directly using
 
    .. code-block:: bash
 
@@ -50,7 +50,8 @@ To contribute to the project, adhere to the following process.
        $ pre-commit install
 
 3. We always develop new features in new branches. Thus, create a new branch by picking
-   an appropriate and easy to use name, e.g., ``kindergeld-freibetrag`` or ``ubi``.
+   an appropriate name, e.g., ``kindergeld-freibetrag`` or ``ubi``. Make sure to branch
+   off of master and not any other branch.
 
    .. code-block:: bash
 
