@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 
 
 def kindergeld(df, tb):
@@ -13,17 +13,15 @@ def kindergeld(df, tb):
             kindergeld_basis: Kindergeld on the individual level
             kindergeld_tu_basis: Kindergeld summed up within the tax unit
     """
-    kg = pd.DataFrame(index=df.index.copy())
-    kg["tu_id"] = df["tu_id"]
 
-    kg["child_count"] = tb["childben_elig_rule"](df, tb).cumsum()
+    child_count = tb["childben_elig_rule"](df, tb).cumsum()
 
     kg_amounts = {1: tb["kgeld1"], 2: tb["kgeld2"], 3: tb["kgeld3"], 4: tb["kgeld4"]}
-    kg["kindergeld_basis"] = kg["child_count"].replace(kg_amounts)
-    kg.loc[kg["child_count"] > 4, "kindergeld_basis"] = tb["kgeld4"]
-    kg["kindergeld_tu_basis"] = kg.groupby("tu_id")["kindergeld_basis"].transform(sum)
+    df["kindergeld_basis"] = child_count.replace(kg_amounts)
+    df.loc[child_count > 4, "kindergeld_basis"] = tb["kgeld4"]
+    df["kindergeld_tu_basis"] = np.sum(df["kindergeld_basis"])
 
-    return kg[["kindergeld_basis", "kindergeld_tu_basis"]]
+    return df
 
 
 def kg_eligibility_hours(df, tb):
