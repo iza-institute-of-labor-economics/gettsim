@@ -11,5 +11,7 @@ These GEPs are currently in place:
 
 .. toctree::
    :maxdepth: 1
+   :caption: Meta-GEPs
 
    geps/gep-00.rst
+   geps/gep-template

@@ -1,4 +1,6 @@
-:orphan:
+:download:`Download the template here <gep-template.rst>`.
+
+.. _gep-template:
 
 =================================
 GEP X — Template and Instructions

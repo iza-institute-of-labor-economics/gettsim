@@ -66,7 +66,7 @@ first attempt to ascertain whether the idea is suitable for a GEP. A message in 
 The proposal should be submitted as a draft GEP via a `GitHub pull request`_ to the
 ``doc/geps`` directory with the name ``gep-<n>.rst`` where ``<n>`` is an appropriately
 assigned two-digit number (e.g., it is ``gep-00.rst`` for this document). The draft must
-use the :download:`GEP template <gep-template.rst>`  file.
+use the :ref:`gep-template` file.
 
 Once the PR is in place, the GEP should be announced on the in the #general/geps topic
 on `Zulip`_ for discussion (comments on the PR itself should be restricted to minor
@@ -194,16 +194,16 @@ purpose of the GEP being updated.
 Format and Template
 -------------------
 
-GEPs are UTF-8 encoded text files using the reStructuredText_ format.  Please see the
-:download:`GEP template <gep-template.rst>` file and the reStructuredTextPrimer_ for
-more information. We use Sphinx_ to convert GEPs to HTML for viewing on the web [2]_.
+GEPs are UTF-8 encoded text files using the reStructuredText_ format. Please see the
+:ref:`gep-template` file and the reStructuredTextPrimer_ for more information. We use
+Sphinx_ to convert GEPs to HTML for viewing on the web [2]_.
 
 
 Header Preamble
 ^^^^^^^^^^^^^^^
 
-Each GEP must begin with a header preamble.  The headers must appear in the following
-order.  Headers marked with ``*`` are optional.  All other headers are required. ::
+Each GEP must begin with a header preamble. The headers must appear in the following
+order.  Headers marked with ``*`` are optional. All other headers are required::
 
     :Author: <list of authors' real names and optionally, email addresses>
     :Status: <Draft | Active | Accepted | Deferred | Rejected | Withdrawn | Final |
