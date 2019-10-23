@@ -68,16 +68,16 @@ Each GEP must have a champion---someone who writes the GEP using the style
 and format described below, shepherds the discussions in the appropriate
 forums, and attempts to build community consensus around the idea.  The GEP
 champion (a.k.a. Author) should first attempt to ascertain whether the idea is
-suitable for a GEP. XXX is the best
+suitable for a GEP. A message in the "#general/GEPs" channel on `Zulip`_ is the best
 way to go about doing this.
 
 The proposal should be submitted as a draft GEP via a `GitHub pull
-request`_ to the ``doc/neps`` directory with the name ``nep-<n>.rst``
-where ``<n>`` is an appropriately assigned four-digit number (e.g.,
-``nep-0000.rst``). The draft must use the :ref:`gep-template` file.
+request`_ to the ``doc/geps`` directory with the name ``gep-<n>.rst``
+where ``<n>`` is an appropriately assigned two-digit number (e.g., it is
+``gep-00.rst`` for this document). The draft must use the :ref:`gep-template` file.
 
-Once the PR is in place, the GEP should be announced on the mailing
-list for discussion (comments on the PR itself should be restricted to
+Once the PR is in place, the GEP should be announced on the in the #general/geps
+topic on `Zulip`_ for discussion (comments on the PR itself should be restricted to
 minor editorial and technical fixes).
 
 At the earliest convenience, the PR should be merged (regardless of
@@ -139,7 +139,7 @@ accepted that a competing proposal is a better alternative.
 When a GEP is ``Accepted``, ``Rejected``, or ``Withdrawn``, the GEP should be
 updated accordingly. In addition to updating the status field, at the very
 least the ``Resolution`` header should be added with a link to the relevant
-thread in the mailing list archives.
+thread in the Zulip archives.
 
 GEPs can also be ``Superseded`` by a different GEP, rendering the
 original obsolete.  The ``Replaced-By`` and ``Replaces`` headers
@@ -154,11 +154,11 @@ How a GEP becomes Accepted
 
 A GEP is ``Accepted`` by consensus of all interested contributors. We
 need a concrete way to tell whether consensus has been reached. When
-you think a GEP is ready to accept, send an XXX with a subject like:
+you think a GEP is ready to accept, send a message with a first line like:
 
   Proposal to accept GEP #<number>: <title>
 
-In the body of your email, you should:
+In the body of your message, you should:
 
 * link to the latest version of the GEP,
 
@@ -169,9 +169,9 @@ In the body of your email, you should:
   within 7 days from this email, then the GEP will be accepted; see
   GEP 0 for more details."
 
-.. For an example, see: https://mail.python.org/pipermail/numpy-discussion/2018-June/078345.html
+.. For an example, see: `Zulip`_ ....
 
-After you send the email, you should make sure to link to the email
+After you send the message, you should make sure to link to the message
 thread from the ``Discussion`` section of the GEP, so that people can
 find it later.
 
@@ -190,7 +190,7 @@ opportunities to compromise.
 
 If the final comment period passes without any substantive objections,
 then the GEP can officially be marked ``Accepted``. You should send a
-followup email notifying the list (celebratory emoji optional but
+followup message notifying the community (celebratory emoji optional but
 encouraged 🎉✨), and then update the GEP by setting its ``:Status:``
 to ``Accepted``, and its ``:Resolution:`` header to a link to your
 followup email.
@@ -235,10 +235,10 @@ optional.  All other headers are required. ::
              Withdrawn | Final | Superseded>
     :Type: <Standards Track | Process>
     :Created: <date created on, in dd-mmm-yyyy format>
-  * :Requires: <nep numbers>
+  * :Requires: <gep numbers>
   * :GETTSIM-Version: <version number>
-  * :Replaces: <nep number>
-  * :Replaced-By: <nep number>
+  * :Replaces: <gep number>
+  * :Replaced-By: <gep number>
   * :Resolution: <url>
 
 The Author header lists the names, and optionally the email addresses
@@ -283,6 +283,7 @@ References and Footnotes
 
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/
 
+.. _Zulip: https://gettsim.zulipchat.com/
 
 Acknowledgements
 ----------------
