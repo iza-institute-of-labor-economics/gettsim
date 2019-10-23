@@ -166,7 +166,7 @@ In the body of your message, you should:
   resolved,
 
 * include a sentence like: "If there are no substantive objections
-  within 7 days from this email, then the GEP will be accepted; see
+  within 7 days from this message, then the GEP will be accepted; see
   GEP 0 for more details."
 
 .. For an example, see: `Zulip`_ ....
@@ -175,12 +175,12 @@ After you send the message, you should make sure to link to the message
 thread from the ``Discussion`` section of the GEP, so that people can
 find it later.
 
-Generally the GEP author will be the one to send this email, but
+Generally the GEP author will be the one to send this message, but
 anyone can do it – the important thing is to make sure that everyone
 knows when a GEP is on the verge of acceptance, and give them a final
 chance to respond. If there's some special reason to extend this final
 comment period beyond 7 days, then that's fine, just say so in the
-email. You shouldn't do less than 7 days, because sometimes people are
+message. You shouldn't do less than 7 days, because sometimes people are
 travelling or similar and need some time to respond.
 
 In general, the goal is to make sure that the community has consensus,
@@ -193,7 +193,7 @@ then the GEP can officially be marked ``Accepted``. You should send a
 followup message notifying the community (celebratory emoji optional but
 encouraged 🎉✨), and then update the GEP by setting its ``:Status:``
 to ``Accepted``, and its ``:Resolution:`` header to a link to your
-followup email.
+followup message.
 
 If there *are* substantive objections, then the GEP remains in
 ``Draft`` state, discussion continues as normal, and it can be
