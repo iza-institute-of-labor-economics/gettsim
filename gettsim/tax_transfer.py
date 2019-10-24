@@ -238,6 +238,35 @@ def tax_transfer(df, tb, tb_pens=None):
         "ekanrefrei",
     ]
     df = df.groupby(household)[in_cols + out_cols].apply(alg2, tb=tb)
+    in_cols = [
+        "pid",
+        "hid",
+        "tu_id",
+        "head",
+        "hhtyp",
+        "hh_korr",
+        "hhsize",
+        "child",
+        "pensioner",
+        "age",
+        "w_hours",
+        "m_wage",
+        "ineducation",
+        "miete",
+        "heizkost",
+        "alleinerz",
+        "mehrbed",
+        "adult_num_tu",
+        "child_num_tu",
+        "alg2_grossek_hh",
+        "ar_alg2_ek_hh",
+        "kindergeld_hh",
+        "uhv",
+    ]
+    out_cols = ["kiz_temp", "kiz_incrange"]
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby(household)[in_cols + out_cols].apply(kiz, tb=tb)
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
 
