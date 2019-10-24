@@ -12,35 +12,31 @@ def favorability_check(df, tb):
         set to zero. A similar check applies to whether it is more profitable to
         tax capital incomes with the standard 25% rate or to include it in the tariff.
     """
-    fc = pd.DataFrame(index=df.index)
-    fc["kindergeld"] = df["kindergeld_basis"]
-    fc["kindergeld_tu"] = df["kindergeld_tu_basis"]
-
+    df["kindergeld"] = df["kindergeld_basis"]
+    df["kindergeld_tu"] = df["kindergeld_tu_basis"]
     nettaxes = calc_nettax(df, tb)
     # get the maximum income, i.e. the minimum payment burden
     min_inc = nettaxes.idxmin()
     # relevant incometax
-    fc["incometax_tu"] = 0
+    df.loc[:, "incometax_tu"] = 0
     # Income Tax in monthly terms! And write only to parents
-    fc.loc[~df["child"], "incometax_tu"] = df["tax_" + min_inc + "_tu"] / 12
+    df.loc[~df["child"], "incometax_tu"] = df["tax_" + min_inc + "_tu"] / 12
     # set kindergeld to zero if necessary.
     if (not ("nokfb" in min_inc)) | (tb["yr"] <= 1996):
-        fc.loc[:, "kindergeld"] = 0
-        fc.loc[:, "kindergeld_tu"] = 0
+        df.loc[:, "kindergeld"] = 0
+        df.loc[:, "kindergeld_tu"] = 0
     if "abg" in min_inc:
-        fc.loc[:, "abgst"] = 0
-        fc.loc[:, "abgst_tu"] = 0
-    # Why do we calculate that? Can we not just set it as tu?
+        df.loc[:, "abgst"] = 0
+        df.loc[:, "abgst_tu"] = 0
+    # TODO: Why do we calculate that? Can we not just set it as tu?
     # Aggregate Child benefit on the household.
-    fc["kindergeld_hh"] = fc["kindergeld"].sum()
+    df["kindergeld_hh"] = df["kindergeld"].sum()
     # Assign Income tax to individuals
-    fc["incometax"] = np.select(
-        [df["zveranl"], ~df["zveranl"]], [fc["incometax_tu"] / 2, fc["incometax_tu"]]
+    df["incometax"] = np.select(
+        [df["zveranl"], ~df["zveranl"]], [df["incometax_tu"] / 2, df["incometax_tu"]]
     )
 
-    return fc[
-        ["incometax_tu", "incometax", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
-    ]
+    return df
 
 
 def calc_nettax(df, tb):
