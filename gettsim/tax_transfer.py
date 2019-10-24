@@ -9,7 +9,6 @@ from gettsim.benefits.wohngeld import wg
 from gettsim.func_out_columns import BP
 from gettsim.func_out_columns import DPI
 from gettsim.func_out_columns import GROSS
-from gettsim.func_out_columns import KIZ
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
@@ -269,9 +268,6 @@ def tax_transfer(df, tb, tb_pens=None):
     df = df.groupby(household)[in_cols + out_cols].apply(kiz, tb=tb)
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
-
-        # 6.3. Kinderzuschlag, Additional Child Benefit
-        df.loc[hh_indices, KIZ] = kiz(df.loc[hh_indices, :], tb)
 
         df.loc[hh_indices, BP] = benefit_priority(df.loc[hh_indices, :], tb)
 

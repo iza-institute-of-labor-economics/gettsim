@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import pytest
 from pandas.testing import assert_frame_equal
 
@@ -27,20 +27,17 @@ input_cols = [
 ]
 
 years = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
+out_cols = ["kiz", "wohngeld", "m_alg2"]
 
 
 @pytest.mark.parametrize("year", years)
 def test_kiz(year):
     file_name = "test_dfs_prio.ods"
-    columns = ["kiz", "m_alg2", "wohngeld"]
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
-    calculated = pd.DataFrame(columns=columns)
-    for hid in df["hid"].unique():
-        calculated = calculated.append(
-            benefit_priority(df[df["hid"] == hid], tb)[columns]
-        )
-
-    expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(calculated, expected, check_dtype=False)
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby("hid").apply(benefit_priority, tb=tb)
+    expected = load_test_data(year, file_name, out_cols)
+    assert_frame_equal(df[out_cols], expected, check_dtype=False)
