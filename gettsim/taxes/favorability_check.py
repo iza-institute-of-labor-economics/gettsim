@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 
 def favorability_check(df, tb):
@@ -14,18 +13,17 @@ def favorability_check(df, tb):
     """
     df["kindergeld"] = df["kindergeld_basis"]
     df["kindergeld_tu"] = df["kindergeld_tu_basis"]
-    nettaxes = calc_nettax(df, tb)
-    # get the maximum income, i.e. the minimum payment burden
-    min_inc = nettaxes.idxmin()
+    # get the maximum income
+    max_inc = get_max_inc(df, tb)
     # relevant incometax
     df.loc[:, "incometax_tu"] = 0
     # Income Tax in monthly terms! And write only to parents
-    df.loc[~df["child"], "incometax_tu"] = df["tax_" + min_inc + "_tu"] / 12
+    df.loc[~df["child"], "incometax_tu"] = df["tax_" + max_inc + "_tu"] / 12
     # set kindergeld to zero if necessary.
-    if (not ("nokfb" in min_inc)) | (tb["yr"] <= 1996):
+    if (not ("nokfb" in max_inc)) | (tb["yr"] <= 1996):
         df.loc[:, "kindergeld"] = 0
         df.loc[:, "kindergeld_tu"] = 0
-    if "abg" in min_inc:
+    if "abg" in max_inc:
         df.loc[:, "abgst"] = 0
         df.loc[:, "abgst_tu"] = 0
     # TODO: Why do we calculate that? Can we not just set it as tu?
@@ -39,20 +37,20 @@ def favorability_check(df, tb):
     return df
 
 
-def calc_nettax(df, tb):
-    """Nettax is defined on the maximum within the tax unit.
-    Reason: This way, kids get assigned the tax payments of their parents,
-    ensuring correct treatment afterwards"""
-    nettaxes = pd.Series()
-    for inc in tb["zve_list"]:
-        nettaxes[inc] = df["tax_" + inc + "_tu"].max()
+def get_max_inc(df, tb):
+    """The maximal income is selected considering taxing methods differing in the
+    policies on  Kinderfreibetrag or Abgeltungssteuer. """
+    inc_list = []
+    for i, inc in enumerate(tb["zve_list"]):
+        inc_list += [df["tax_" + inc + "_tu"].max()]
         # for those tax bases without capital taxes in tariff,
         # add abgeltungssteuer
         if "abg" not in inc:
-            nettaxes[inc] += df["abgst_tu"].iloc[0]
+            inc_list[i] += df["abgst_tu"].iloc[0]
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
         if ("nokfb" in inc) | (tb["yr"] <= 1996):
-            nettaxes[inc] -= (12 * df["kindergeld_tu_basis"]).iloc[0]
+            inc_list[i] -= (12 * df["kindergeld_tu_basis"]).iloc[0]
 
-    return nettaxes
+    # get the maximum income, i.e. the minimum payment burden
+    return tb["zve_list"][np.argmin(inc_list)]
