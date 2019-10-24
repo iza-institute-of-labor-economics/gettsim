@@ -41,6 +41,7 @@ out_cols = [
     "regelsatz",
     "alg2_kdu",
     "uhv_hh",
+    "ekanrefrei",
 ]
 
 
