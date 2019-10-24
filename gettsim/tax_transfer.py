@@ -11,7 +11,6 @@ from gettsim.func_out_columns import BP
 from gettsim.func_out_columns import DPI
 from gettsim.func_out_columns import GROSS
 from gettsim.func_out_columns import KIZ
-from gettsim.func_out_columns import UHV
 from gettsim.func_out_columns import WG
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
@@ -149,7 +148,6 @@ def tax_transfer(df, tb, tb_pens=None):
         "abgst_tu",
         "kindergeld_basis",
         "kindergeld_tu_basis",
-        "year",
     ]
     out_cols = [
         "incometax_tu",
@@ -158,15 +156,27 @@ def tax_transfer(df, tb, tb_pens=None):
         "kindergeld_hh",
         "kindergeld_tu",
     ]
+    for col in out_cols:
+        df[col] = np.nan
     df = df.groupby(tax_unit)[in_cols + out_cols].apply(favorability_check, tb=tb)
+    in_cols = [
+        "alleinerz",
+        "age",
+        "m_wage",
+        "m_transfers",
+        "m_kapinc",
+        "m_vermiet",
+        "m_self",
+        "m_alg1",
+        "m_pensions",
+        "zveranl",
+    ]
+    out_col = "uhv"
+    df[out_col] = np.nan
+    df = df.groupby(tax_unit)[in_cols + out_col].apply(uhv, tb=tb)
+
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
-        for tu_id in df.loc[hh_indices, "tu_id"].unique():
-            tu_indices = df[df["tu_id"] == tu_id].index
-
-            # 6. SOCIAL TRANSFERS / BENEFITS
-            # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
-            df.loc[tu_indices, UHV] = uhv(df.loc[tu_indices, :], tb)
 
         # 6.1. Wohngeld, Housing Benefit
         df.loc[hh_indices, WG] = wg(df.loc[hh_indices, :], tb)
