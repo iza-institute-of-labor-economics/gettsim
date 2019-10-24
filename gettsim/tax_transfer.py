@@ -6,11 +6,7 @@ from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
-from gettsim.func_out_columns import BP
-from gettsim.func_out_columns import DPI
-from gettsim.func_out_columns import GROSS
 from gettsim.incomes import disposable_income
-from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.taxes.favorability_check import favorability_check
@@ -266,14 +262,61 @@ def tax_transfer(df, tb, tb_pens=None):
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby(household)[in_cols + out_cols].apply(kiz, tb=tb)
-    for hid in df["hid"].unique():
-        hh_indices = df[df["hid"] == hid].index
-
-        df.loc[hh_indices, BP] = benefit_priority(df.loc[hh_indices, :], tb)
-
-        # 8. Calculate disposable income
-        df.loc[hh_indices, DPI] = disposable_income(df.loc[hh_indices, :])
-
-    df[GROSS] = gross_income(df)
+    in_cols = [
+        "hh_korr",
+        "hhsize",
+        "child",
+        "pensioner",
+        "age",
+        "hh_wealth",
+        "adult_num",
+        "child0_18_num",
+        "kiz_temp",
+        "wohngeld_basis_hh",
+        "regelbedarf",
+        "ar_base_alg2_ek",
+    ]
+    out_cols = ["kiz", "wohngeld", "m_alg2"]
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby(household)[in_cols + out_cols].apply(benefit_priority, tb=tb)
+    in_cols = [
+        "m_wage",
+        "m_kapinc",
+        "m_self",
+        "m_vermiet",
+        # "m_imputedrent", We need to discuss this!
+        "m_pensions",
+        "m_transfers",
+        "kindergeld",
+        "uhv",
+        "incometax",
+        "soli",
+        "abgst",
+        "gkvbeit",
+        "rvbeit",
+        "pvbeit",
+        "avbeit",
+        "kiz",
+        "wohngeld",
+        "m_alg2",
+    ]
+    out_cols = ["dpi_ind", "dpi"]
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby(household)[in_cols + out_cols].apply(disposable_income, tb=tb)
+    in_cols = [
+        "m_wage",
+        "m_kapinc",
+        "m_self",
+        "m_vermiet",
+        "m_imputedrent",
+        "m_pensions",
+        "m_transfers",
+        "kindergeld",
+    ]
+    out_col = "gross"
+    df[out_col] = np.nan
+    df = df.groupby(household)[in_cols + out_col].apply(disposable_income, tb=tb)
 
     return df

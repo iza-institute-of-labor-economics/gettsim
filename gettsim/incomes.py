@@ -1,13 +1,8 @@
 import numpy as np
-import pandas as pd
-
-from gettsim.func_out_columns import DPI
-from gettsim.func_out_columns import GROSS
 
 
 def disposable_income(df):
-    disp_inc = pd.DataFrame(index=df.index, columns=DPI)
-    disp_inc["dpi_ind"] = df[
+    df["dpi_ind"] = df[
         [
             "m_wage",
             "m_kapinc",
@@ -26,18 +21,14 @@ def disposable_income(df):
     )
 
     # Disposible income on hh level
-    disp_inc["dpi"] = round(
-        np.maximum(
-            0, sum(disp_inc["dpi_ind"]) + df["m_alg2"] + df["wohngeld"] + df["kiz"]
-        ),
-        2,
+    df["dpi"] = round(
+        np.maximum(0, sum(df["dpi_ind"]) + df["m_alg2"] + df["wohngeld"] + df["kiz"]), 2
     )
-    return disp_inc
+    return df
 
 
 def gross_income(df):
-    gross_inc = pd.DataFrame(index=df.index, columns=GROSS)
-    gross_inc["gross"] = round(
+    df["gross"] = round(
         df[
             [
                 "m_wage",
@@ -52,4 +43,4 @@ def gross_income(df):
         ].sum(axis=1),
         2,
     )
-    return gross_inc
+    return df
