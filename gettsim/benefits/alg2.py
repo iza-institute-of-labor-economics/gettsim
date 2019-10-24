@@ -40,15 +40,15 @@ def alg2(df, tb):
 def regelsatz_alg2(df, tb):
     """Creating the variables need for the calculation of the alg2 regelsatz. Then
     according to the year the appropriate function is called"""
-    child_dict = {}
+    children_age_info = {}
     for age in [(0, 6), (0, 15), (14, 24), (7, 13), (3, 6), (0, 2)]:
-        child_dict["child{}_{}_num".format(age[0], age[1])] = (
+        children_age_info["child{}_{}_num".format(age[0], age[1])] = (
             df["child"] & df["age"].between(age[0], age[1])
         ).sum()
-    child_dict["child_num"] = df["child"].sum()
-    child_dict["adult_num"] = len(df) - child_dict["child_num"]
+    children_age_info["child_num"] = df["child"].sum()
+    children_age_info["adult_num"] = len(df) - children_age_info["child_num"]
 
-    df["mehrbed"] = mehrbedarf_alg2(df, child_dict, tb)
+    df["mehrbed"] = mehrbedarf_alg2(df, children_age_info, tb)
     # 'Regular Need'
     # Different amounts by number of adults and age of kids
     # tb['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
@@ -58,23 +58,26 @@ def regelsatz_alg2(df, tb):
     else:
         calc_regelsatz = regelberechnung_2011_and_beyond
 
-    df["regelsatz"] = calc_regelsatz(df, child_dict, tb)
+    df["regelsatz"] = calc_regelsatz(df, children_age_info, tb)
     return df
 
 
-def regelberechnung_until_2010(df, child_dict, tb):
-    if child_dict["adult_num"] == 1:
+def regelberechnung_until_2010(df, children_age_info, tb):
+    if children_age_info["adult_num"] == 1:
         return (
             tb["rs_hhvor"] * (1 + df["mehrbed"])
-            + (tb["rs_hhvor"] * tb["a2ch14"] * child_dict["child14_24_num"])
-            + (tb["rs_hhvor"] * tb["a2ch7"] * child_dict["child7_13_num"])
+            + (tb["rs_hhvor"] * tb["a2ch14"] * children_age_info["child14_24_num"])
+            + (tb["rs_hhvor"] * tb["a2ch7"] * children_age_info["child7_13_num"])
             + (
                 tb["rs_hhvor"]
                 * tb["a2ch0"]
-                * (child_dict["child0_2_num"] + child_dict["child3_6_num"])
+                * (
+                    children_age_info["child0_2_num"]
+                    + children_age_info["child3_6_num"]
+                )
             )
         )
-    elif child_dict["adult_num"] > 1:
+    elif children_age_info["adult_num"] > 1:
         return (
             (
                 tb["rs_hhvor"] * tb["a2part"] * (1 + df["mehrbed"])
@@ -82,47 +85,65 @@ def regelberechnung_until_2010(df, child_dict, tb):
                 + (
                     tb["rs_hhvor"]
                     * tb["a2ch18"]
-                    * np.maximum((child_dict["adult_num"] - 2), 0)
+                    * np.maximum((children_age_info["adult_num"] - 2), 0)
                 )
             )
-            + (tb["rs_hhvor"] * tb["a2ch14"] * child_dict["child14_24_num"])
-            + (tb["rs_hhvor"] * tb["a2ch7"] * child_dict["child7_13_num"])
+            + (tb["rs_hhvor"] * tb["a2ch14"] * children_age_info["child14_24_num"])
+            + (tb["rs_hhvor"] * tb["a2ch7"] * children_age_info["child7_13_num"])
             + (
                 tb["rs_hhvor"]
                 * tb["a2ch0"]
-                * (child_dict["child0_2_num"] + child_dict["child3_6_num"])
+                * (
+                    children_age_info["child0_2_num"]
+                    + children_age_info["child3_6_num"]
+                )
             )
         )
 
 
-def regelberechnung_2011_and_beyond(df, child_dict, tb):
-    if child_dict["adult_num"] == 1:
+def regelberechnung_2011_and_beyond(df, children_age_info, tb):
+    if children_age_info["adult_num"] == 1:
         return (
             tb["rs_hhvor"] * (1 + df["mehrbed"])
-            + (tb["rs_ch14"] * child_dict["child14_24_num"])
-            + (tb["rs_ch7"] * child_dict["child7_13_num"])
-            + (tb["rs_ch0"] * (child_dict["child0_2_num"] + child_dict["child3_6_num"]))
+            + (tb["rs_ch14"] * children_age_info["child14_24_num"])
+            + (tb["rs_ch7"] * children_age_info["child7_13_num"])
+            + (
+                tb["rs_ch0"]
+                * (
+                    children_age_info["child0_2_num"]
+                    + children_age_info["child3_6_num"]
+                )
+            )
         )
-    elif child_dict["adult_num"] > 1:
+    elif children_age_info["adult_num"] > 1:
         return (
             tb["rs_2adults"] * (1 + df["mehrbed"])
             + tb["rs_2adults"]
-            + (tb["rs_madults"] * np.maximum((child_dict["adult_num"] - 2), 0))
-            + (tb["rs_ch14"] * child_dict["child14_24_num"])
-            + (tb["rs_ch7"] * child_dict["child7_13_num"])
-            + (tb["rs_ch0"] * (child_dict["child0_2_num"] + child_dict["child3_6_num"]))
+            + (tb["rs_madults"] * np.maximum((children_age_info["adult_num"] - 2), 0))
+            + (tb["rs_ch14"] * children_age_info["child14_24_num"])
+            + (tb["rs_ch7"] * children_age_info["child7_13_num"])
+            + (
+                tb["rs_ch0"]
+                * (
+                    children_age_info["child0_2_num"]
+                    + children_age_info["child3_6_num"]
+                )
+            )
         )
 
 
-def mehrbedarf_alg2(df, rs, tb):
+def mehrbedarf_alg2(df, children_age_info, tb):
     """ Additional need for single parents. Maximum 60% of the standard amount on top
     (a2zu2) if you have at least one kid below 6 or two or three below 15, you get
     36% on top alternatively, you get 12% per kid, depending on what's higher."""
     return df["alleinerz"] * np.minimum(
         tb["a2zu2"] / 100,
         np.maximum(
-            tb["a2mbch1"] * rs["child_num"],
-            ((rs["child0_6_num"] >= 1) | (2 <= rs["child0_15_num"] <= 3))
+            tb["a2mbch1"] * children_age_info["child_num"],
+            (
+                (children_age_info["child0_6_num"] >= 1)
+                | (2 <= children_age_info["child0_15_num"] <= 3)
+            )
             * tb["a2mbch2"],
         ),
     )
