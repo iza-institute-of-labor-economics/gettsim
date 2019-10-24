@@ -11,7 +11,6 @@ from gettsim.func_out_columns import BP
 from gettsim.func_out_columns import DPI
 from gettsim.func_out_columns import GROSS
 from gettsim.func_out_columns import KIZ
-from gettsim.func_out_columns import WG
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
@@ -50,7 +49,7 @@ def tax_transfer(df, tb, tb_pens=None):
     # We initialize all output columns.
     # for column in OUT_PUT:
     # df[column] = 0.0
-    # household = ["hid"]
+    household = ["hid"]
     tax_unit = ["hid", "tu_id"]
     person = ["hid", "tu_id", "pid"]
     # We start with the top layer, which is household id. We treat this as the
@@ -174,12 +173,41 @@ def tax_transfer(df, tb, tb_pens=None):
     out_col = "uhv"
     df[out_col] = np.nan
     df = df.groupby(tax_unit)[in_cols + out_col].apply(uhv, tb=tb)
+    in_cols = [
+        "head_tu",
+        "hh_korr",
+        "hhsize",
+        "child",
+        "miete",
+        "heizkost",
+        "alleinerz",
+        "child11_num_tu",
+        "cnstyr",
+        "mietstufe",
+        "m_wage",
+        "m_pensions",
+        "ertragsanteil",
+        "m_alg1",
+        "m_transfers",
+        "uhv",
+        "gross_e1",
+        "gross_e4",
+        "gross_e5",
+        "gross_e6",
+        "incometax",
+        "rvbeit",
+        "gkvbeit",
+        "handcap_degree",
+        "divdy",
+        "hhsize_tu",
+    ]
+    out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby(household)[in_cols + out_col].apply(wg, tb=tb)
 
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
-
-        # 6.1. Wohngeld, Housing Benefit
-        df.loc[hh_indices, WG] = wg(df.loc[hh_indices, :], tb)
 
         # 6.2 ALG2, Basic Unemployment Benefit
         df.loc[hh_indices, ALG2] = alg2(df.loc[hh_indices, :], tb)
