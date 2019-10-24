@@ -49,7 +49,15 @@ def regelsatz_alg2(df, tb):
     regel_df["child_num"] = df["child"].sum()
     regel_df["adult_num"] = len(regel_df) - regel_df["child_num"]
 
-    df["mehrbed"] = mehrbedarf_alg2(df, regel_df, tb)
+    child_dict = {}
+    for age in [(0, 6), (0, 15), (14, 24), (7, 13), (3, 6), (0, 2)]:
+        child_dict["child{}_{}_num".format(age[0], age[1])] = (
+            df["child"] & df["age"].between(age[0], age[1])
+        ).sum()
+    child_dict["child_num"] = df["child"].sum()
+    child_dict["adult_num"] = len(regel_df) - regel_df["child_num"]
+
+    df["mehrbed"] = mehrbedarf_alg2(df, child_dict, tb)
     # 'Regular Need'
     # Different amounts by number of adults and age of kids
     # tb['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
@@ -112,7 +120,7 @@ def mehrbedarf_alg2(df, rs, tb):
         tb["a2zu2"] / 100,
         np.maximum(
             tb["a2mbch1"] * rs["child_num"],
-            ((rs["child0_6_num"] >= 1) | (rs["child0_15_num"].between(2, 3)))
+            ((rs["child0_6_num"] >= 1) | (2 <= rs["child0_15_num"] <= 3))
             * tb["a2mbch2"],
         ),
     )
