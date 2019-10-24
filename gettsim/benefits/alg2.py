@@ -55,7 +55,7 @@ def regelsatz_alg2(df, tb):
             df["child"] & df["age"].between(age[0], age[1])
         ).sum()
     child_dict["child_num"] = df["child"].sum()
-    child_dict["adult_num"] = len(regel_df) - regel_df["child_num"]
+    child_dict["adult_num"] = len(df) - child_dict["child_num"]
 
     df["mehrbed"] = mehrbedarf_alg2(df, child_dict, tb)
     # 'Regular Need'
@@ -67,49 +67,60 @@ def regelsatz_alg2(df, tb):
     else:
         calc_regelsatz = regelberechnung_2011_and_beyond
 
-    df["regelsatz"] = np.select(
-        [regel_df["adult_num"] == 1, regel_df["adult_num"] > 1],
-        calc_regelsatz(df, regel_df, tb),
-    )
+    df["regelsatz"] = calc_regelsatz(df, child_dict, tb)
     return df
 
 
-def regelberechnung_until_2010(df, regel_df, tb):
-    return [
-        tb["rs_hhvor"] * (1 + df["mehrbed"])
-        + (tb["rs_hhvor"] * tb["a2ch14"] * regel_df["child14_24_num"])
-        + (tb["rs_hhvor"] * tb["a2ch7"] * regel_df["child7_13_num"])
-        + (
-            tb["rs_hhvor"]
-            * tb["a2ch0"]
-            * (regel_df["child0_2_num"] + regel_df["child3_6_num"])
-        ),
-        tb["rs_hhvor"] * tb["a2part"] * (1 + df["mehrbed"])
-        + (tb["rs_hhvor"] * tb["a2part"])
-        + (tb["rs_hhvor"] * tb["a2ch18"] * np.maximum((regel_df["adult_num"] - 2), 0))
-        + (tb["rs_hhvor"] * tb["a2ch14"] * regel_df["child14_24_num"])
-        + (tb["rs_hhvor"] * tb["a2ch7"] * regel_df["child7_13_num"])
-        + (
-            tb["rs_hhvor"]
-            * tb["a2ch0"]
-            * (regel_df["child0_2_num"] + regel_df["child3_6_num"])
-        ),
-    ]
+def regelberechnung_until_2010(df, child_dict, tb):
+    if child_dict["adult_num"] == 1:
+        return (
+            tb["rs_hhvor"] * (1 + df["mehrbed"])
+            + (tb["rs_hhvor"] * tb["a2ch14"] * child_dict["child14_24_num"])
+            + (tb["rs_hhvor"] * tb["a2ch7"] * child_dict["child7_13_num"])
+            + (
+                tb["rs_hhvor"]
+                * tb["a2ch0"]
+                * (child_dict["child0_2_num"] + child_dict["child3_6_num"])
+            )
+        )
+    elif child_dict["adult_num"] > 1:
+        return (
+            (
+                tb["rs_hhvor"] * tb["a2part"] * (1 + df["mehrbed"])
+                + (tb["rs_hhvor"] * tb["a2part"])
+                + (
+                    tb["rs_hhvor"]
+                    * tb["a2ch18"]
+                    * np.maximum((child_dict["adult_num"] - 2), 0)
+                )
+            )
+            + (tb["rs_hhvor"] * tb["a2ch14"] * child_dict["child14_24_num"])
+            + (tb["rs_hhvor"] * tb["a2ch7"] * child_dict["child7_13_num"])
+            + (
+                tb["rs_hhvor"]
+                * tb["a2ch0"]
+                * (child_dict["child0_2_num"] + child_dict["child3_6_num"])
+            )
+        )
 
 
-def regelberechnung_2011_and_beyond(df, regel_df, tb):
-    return [
-        tb["rs_hhvor"] * (1 + df["mehrbed"])
-        + (tb["rs_ch14"] * regel_df["child14_24_num"])
-        + (tb["rs_ch7"] * regel_df["child7_13_num"])
-        + (tb["rs_ch0"] * (regel_df["child0_2_num"] + regel_df["child3_6_num"])),
-        tb["rs_2adults"] * (1 + df["mehrbed"])
-        + tb["rs_2adults"]
-        + (tb["rs_madults"] * np.maximum((regel_df["adult_num"] - 2), 0))
-        + (tb["rs_ch14"] * regel_df["child14_24_num"])
-        + (tb["rs_ch7"] * regel_df["child7_13_num"])
-        + (tb["rs_ch0"] * (regel_df["child0_2_num"] + regel_df["child3_6_num"])),
-    ]
+def regelberechnung_2011_and_beyond(df, child_dict, tb):
+    if child_dict["adult_num"] == 1:
+        return (
+            tb["rs_hhvor"] * (1 + df["mehrbed"])
+            + (tb["rs_ch14"] * child_dict["child14_24_num"])
+            + (tb["rs_ch7"] * child_dict["child7_13_num"])
+            + (tb["rs_ch0"] * (child_dict["child0_2_num"] + child_dict["child3_6_num"]))
+        )
+    elif child_dict["adult_num"] > 1:
+        return (
+            tb["rs_2adults"] * (1 + df["mehrbed"])
+            + tb["rs_2adults"]
+            + (tb["rs_madults"] * np.maximum((child_dict["adult_num"] - 2), 0))
+            + (tb["rs_ch14"] * child_dict["child14_24_num"])
+            + (tb["rs_ch7"] * child_dict["child7_13_num"])
+            + (tb["rs_ch0"] * (child_dict["child0_2_num"] + child_dict["child3_6_num"]))
+        )
 
 
 def mehrbedarf_alg2(df, rs, tb):
@@ -220,55 +231,3 @@ def einkommensanrechnungsfrei(df, tb):
     ekanrefrei[(df["child"])] = np.maximum(0, df["m_wage"] - 100)
 
     return ekanrefrei
-
-
-# def regelberechnung_until_2010(df, child_dict, tb):
-#     if child_dict["adult_num"] == 1:
-#         return (
-#             tb["rs_hhvor"] * (1 + df["mehrbed"])
-#             + (tb["rs_hhvor"] * tb["a2ch14"] * child_dict["child14_24_num"])
-#             + (tb["rs_hhvor"] * tb["a2ch7"] * child_dict["child7_13_num"])
-#             + (
-#                 tb["rs_hhvor"]
-#                 * tb["a2ch0"]
-#                 * (child_dict["child0_2_num"] + child_dict["child3_6_num"])
-#             )
-#         )
-#     elif child_dict["adult_num"] > 1:
-#         return (
-#             (
-#                 tb["rs_hhvor"] * tb["a2part"] * (1 + df["mehrbed"])
-#                 + (tb["rs_hhvor"] * tb["a2part"])
-#                 + (
-#                     tb["rs_hhvor"]
-#                     * tb["a2ch18"]
-#                     * np.maximum((child_dict["adult_num"] - 2), 0)
-#                 )
-#             )
-#             + (tb["rs_hhvor"] * tb["a2ch14"] * child_dict["child14_24_num"])
-#             + (tb["rs_hhvor"] * tb["a2ch7"] * child_dict["child7_13_num"])
-#             + (
-#                 tb["rs_hhvor"]
-#                 * tb["a2ch0"]
-#                 * (child_dict["child0_2_num"] + child_dict["child3_6_num"])
-#             )
-#         )
-#
-#
-# def regelberechnung_2011_and_beyond(df, child_dict, tb):
-#     if child_dict["adult_num"] == 1:
-#         return (
-#             tb["rs_hhvor"] * (1 + df["mehrbed"])
-#             + (tb["rs_ch14"] * child_dict["child14_24_num"])
-#             + (tb["rs_ch7"] * child_dict["child7_13_num"])
-#             + (tb["rs_ch0"] * (child_dict["child0_2_num"] + child_dict["child3_6_num"]))
-#         )
-#     elif child_dict["adult_num"] > 1:
-#          return (
-#             tb["rs_2adults"] * (1 + df["mehrbed"])
-#             + tb["rs_2adults"]
-#             + (tb["rs_madults"] * np.maximum((child_dict["adult_num"] - 2), 0))
-#             + (tb["rs_ch14"] * child_dict["child14_24_num"])
-#             + (tb["rs_ch7"] * child_dict["child7_13_num"])
-#             + (tb["rs_ch0"] * (child_dict["child0_2_num"] + child_dict["child3_6_num"]))
-#         )
