@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 from gettsim.auxiliary import aggr
 
@@ -18,43 +17,38 @@ def kiz(df, tb):
         This is done by some fixed share which is updated on annual basis
         ('jährlicher Existenzminimumsbericht')
     """
-    kiz_df = pd.DataFrame(index=df.index.copy())
-    kiz_df["hid"] = df["hid"]
-    kiz_df["tu_id"] = df["tu_id"]
-    kiz_df["uhv_tu"] = aggr(df, "uhv", "all_tu")
+    df["uhv_tu"] = aggr(df, "uhv", "all_tu")
     # First, calculate the need as for ALG2, but only for parents.
-    kiz_df["kiz_ek_regel"] = calc_kiz_ek(df, tb)
+    df["kiz_ek_regel"] = calc_kiz_ek(df, tb)
     # Add rents. First, correct rent for the case of several tax units within the HH
-    kiz_df["kiz_miete"] = df["miete"] * df["hh_korr"]
-    kiz_df["kiz_heiz"] = df["heizkost"] * df["hh_korr"]
+    df["kiz_miete"] = df["miete"] * df["hh_korr"]
+    df["kiz_heiz"] = df["heizkost"] * df["hh_korr"]
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
     wb = get_wohnbedarf(max(tb["yr"], 2011))
-    kiz_df["wb_eltern_share"] = 1.0
+    df["wb_eltern_share"] = 1.0
     for c in [1, 2]:
         for r in [1, 2, 3, 4]:
-            kiz_df.loc[
+            df.loc[
                 (df["child_num_tu"] == r) & (df["adult_num_tu"] == c), "wb_eltern_share"
             ] = (wb[r - 1][c - 1] / 100)
-        kiz_df.loc[
+        df.loc[
             (df["child_num_tu"] >= 5) & (df["adult_num_tu"] == c), "wb_eltern_share"
         ] = (wb[4][c - 1] / 100)
 
     # apply this share to living costs
     # unlike ALG2, there is no check whether living costs are "appropriate".
-    kiz_df["kiz_ek_kdu"] = kiz_df["wb_eltern_share"] * (
-        kiz_df["kiz_miete"] + kiz_df["kiz_heiz"]
-    )
-    kiz_df["kiz_ek_relev"] = kiz_df["kiz_ek_regel"] + kiz_df["kiz_ek_kdu"]
+    df["kiz_ek_kdu"] = df["wb_eltern_share"] * (df["kiz_miete"] + df["kiz_heiz"])
+    df["kiz_ek_relev"] = df["kiz_ek_regel"] + df["kiz_ek_kdu"]
 
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
-    kiz_df["child_num_kg"] = tb["childben_elig_rule"](df, tb).sum()
+    df["child_num_kg"] = tb["childben_elig_rule"](df, tb).sum()
 
-    kiz_df["kiz_ek_max"] = kiz_df["kiz_ek_relev"] + tb["a2kiz"] * kiz_df["child_num_kg"]
+    df["kiz_ek_max"] = df["kiz_ek_relev"] + tb["a2kiz"] * df["child_num_kg"]
     # min income to be eligible for KIZ (different for singles and couples)
-    kiz_df["kiz_ek_min"] = tb["a2kiz_minek_cou"] * (df["hhtyp"] == 4) + (
+    df["kiz_ek_min"] = tb["a2kiz_minek_cou"] * (df["hhtyp"] == 4) + (
         tb["a2kiz_minek_sin"] * (df["alleinerz"])
     )
 
@@ -70,30 +64,27 @@ def kiz(df, tb):
     #        der volle KIZ gezahlt
     #        Wenn es ÜBER der Bemessungsgrundlage liegt,
     #        wird die Differenz zur Hälfte abgezogen.
-    kiz_df["kiz_ek_gross"] = df["alg2_grossek_hh"]
-    kiz_df["kiz_ek_net"] = df["ar_alg2_ek_hh"]
+    df["kiz_ek_gross"] = df["alg2_grossek_hh"]
+    df["kiz_ek_net"] = df["ar_alg2_ek_hh"]
 
     # Deductable income. 50% withdrawal rate.
-    kiz_df["kiz_ek_anr"] = np.maximum(
-        0, 0.5 * (df["ar_alg2_ek_hh"] - kiz_df["kiz_ek_relev"])
-    )
+    df["kiz_ek_anr"] = np.maximum(0, 0.5 * (df["ar_alg2_ek_hh"] - df["kiz_ek_relev"]))
 
     # Dummy variable whether household is in the relevant income range.
-    kiz_df["kiz_incrange"] = (kiz_df["kiz_ek_gross"] >= kiz_df["kiz_ek_min"]) & (
-        kiz_df["kiz_ek_net"] <= kiz_df["kiz_ek_max"]
+    df["kiz_incrange"] = (df["kiz_ek_gross"] >= df["kiz_ek_min"]) & (
+        df["kiz_ek_net"] <= df["kiz_ek_max"]
     )
     # Finally, calculate the amount. Subtract deductable income with 50% and child
     # income fully!
-    kiz_df["kiz"] = 0
-    kiz_df.loc[kiz_df["kiz_incrange"], "kiz"] = np.maximum(
-        0,
-        tb["a2kiz"] * kiz_df["child_num_kg"] - kiz_df["kiz_ek_anr"] - kiz_df["uhv_tu"],
+    df["kiz"] = 0
+    df.loc[df["kiz_incrange"], "kiz"] = np.maximum(
+        0, tb["a2kiz"] * df["child_num_kg"] - df["kiz_ek_anr"] - df["uhv_tu"]
     )
-    kiz_df["kiz_temp"] = kiz_df["kiz"].max()
+    df["kiz_temp"] = df["kiz"].max()
     # Transfer some variables for eligibility check
     # kiz["ar_base_alg2_ek"] = df["ar_base_alg2_ek"]
     # kiz["n_pens"] = df["pensioner"].sum()
-    return kiz_df[["kiz_temp", "kiz_incrange"]]
+    return df
 
 
 def calc_kiz_ek(df, tb):
