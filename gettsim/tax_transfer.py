@@ -6,7 +6,6 @@ from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
-from gettsim.func_out_columns import ALG2
 from gettsim.func_out_columns import BP
 from gettsim.func_out_columns import DPI
 from gettsim.func_out_columns import GROSS
@@ -204,13 +203,43 @@ def tax_transfer(df, tb, tb_pens=None):
     out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
     for col in out_cols:
         df[col] = np.nan
-    df = df.groupby(household)[in_cols + out_col].apply(wg, tb=tb)
-
+    df = df.groupby(household)[in_cols + out_cols].apply(wg, tb=tb)
+    in_cols = [
+        "head_tu",
+        "child",
+        "age",
+        "miete",
+        "heizkost",
+        "wohnfl",
+        "eigentum",
+        "alleinerz",
+        "m_wage",
+        "m_pensions",
+        "m_kapinc",
+        "m_alg1",
+        "m_transfers",
+        "m_self",
+        "m_vermiet",
+        "incometax",
+        "soli",
+        "svbeit",
+        "kindergeld_hh",
+        "uhv",
+    ]
+    out_cols = [
+        "ar_base_alg2_ek",
+        "ar_alg2_ek_hh",
+        "alg2_grossek_hh",
+        "mehrbed",
+        "regelbedarf",
+        "regelsatz",
+        "alg2_kdu",
+        "uhv_hh",
+        "ekanrefrei",
+    ]
+    df = df.groupby(household)[in_cols + out_cols].apply(alg2, tb=tb)
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
-
-        # 6.2 ALG2, Basic Unemployment Benefit
-        df.loc[hh_indices, ALG2] = alg2(df.loc[hh_indices, :], tb)
 
         # 6.3. Kinderzuschlag, Additional Child Benefit
         df.loc[hh_indices, KIZ] = kiz(df.loc[hh_indices, :], tb)
