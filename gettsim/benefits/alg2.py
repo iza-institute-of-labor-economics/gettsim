@@ -12,47 +12,30 @@ def alg2(df, tb):
         parents. Income and wealth is tested for, the transfer withdrawal rate is
         non-constant.
     """
-    alg2_df = pd.DataFrame(index=df.index.copy())
-    alg2_df["hid"] = df["hid"]
-    # alg2["tu_id"] = df["tu_id"]
-    alg2_df["uhv"] = df["uhv"]
 
-    alg2_df["mehrbed"], alg2_df["regelsatz"] = regelsatz_alg2(df, tb)
+    df["mehrbed"], df["regelsatz"] = regelsatz_alg2(df, tb)
 
-    alg2_df["alg2_kdu"] = kdu_alg2(df)
+    df["alg2_kdu"] = kdu_alg2(df)
 
     # After introduction of Hartz IV until 2010, people becoming unemployed
     # received something on top to smooth the transition. not yet modelled...
 
-    alg2_df["regelbedarf"] = alg2_df["regelsatz"] + alg2_df["alg2_kdu"]
+    df["regelbedarf"] = df["regelsatz"] + df["alg2_kdu"]
 
-    alg2_df["alg2_ek"], alg2_df["alg2_grossek"] = alg2_inc(df)
+    df["alg2_ek"], df["alg2_grossek"] = alg2_inc(df)
 
-    alg2_df["ekanrefrei"] = einkommensanrechnungsfrei(df, tb)
+    df["ekanrefrei"] = einkommensanrechnungsfrei(df, tb)
 
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
     # compared.
-    alg2_df["ar_alg2_ek"] = np.maximum(alg2_df["alg2_ek"] - alg2_df["ekanrefrei"], 0)
+    df["ar_alg2_ek"] = np.maximum(df["alg2_ek"] - df["ekanrefrei"], 0)
     # Aggregate on HH
     for var in ["ar_alg2_ek", "alg2_grossek", "uhv"]:
-        alg2_df[var + "_hh"] = aggr(alg2_df, var, "all_hh")
-    alg2_df["ar_base_alg2_ek"] = (
-        alg2_df["ar_alg2_ek_hh"] + df["kindergeld_hh"] + alg2_df["uhv_hh"]
-    )
+        df[var + "_hh"] = aggr(df, var, "all_hh")
+    df["ar_base_alg2_ek"] = df["ar_alg2_ek_hh"] + df["kindergeld_hh"] + df["uhv_hh"]
 
-    return alg2_df[
-        [
-            "ar_base_alg2_ek",
-            "ar_alg2_ek_hh",
-            "alg2_grossek_hh",
-            "mehrbed",
-            "regelbedarf",
-            "regelsatz",
-            "alg2_kdu",
-            "uhv_hh",
-        ]
-    ]
+    return df
 
 
 def regelsatz_alg2(df, tb):
