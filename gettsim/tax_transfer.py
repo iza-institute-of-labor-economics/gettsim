@@ -9,7 +9,6 @@ from gettsim.benefits.wohngeld import wg
 from gettsim.func_out_columns import ALG2
 from gettsim.func_out_columns import BP
 from gettsim.func_out_columns import DPI
-from gettsim.func_out_columns import FC
 from gettsim.func_out_columns import GROSS
 from gettsim.func_out_columns import KIZ
 from gettsim.func_out_columns import UHV
@@ -142,16 +141,28 @@ def tax_transfer(df, tb, tb_pens=None):
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby(tax_unit)[in_cols + out_cols].apply(kindergeld, tb=tb)
-
+    in_cols = [
+        "zveranl",
+        "child",
+        "tax_nokfb_tu",
+        "tax_kfb_tu",
+        "abgst_tu",
+        "kindergeld_basis",
+        "kindergeld_tu_basis",
+        "year",
+    ]
+    out_cols = [
+        "incometax_tu",
+        "incometax",
+        "kindergeld",
+        "kindergeld_hh",
+        "kindergeld_tu",
+    ]
+    df = df.groupby(tax_unit)[in_cols + out_cols].apply(favorability_check, tb=tb)
     for hid in df["hid"].unique():
         hh_indices = df[df["hid"] == hid].index
         for tu_id in df.loc[hh_indices, "tu_id"].unique():
             tu_indices = df[df["tu_id"] == tu_id].index
-
-            # 5.4 Günstigerprüfung to obtain final income tax due.
-            # different call here, because 'kindergeld' is overwritten by the
-            # function and needs to be updated. not really elegant I must admit...
-            df.loc[tu_indices, FC] = favorability_check(df.loc[tu_indices, :], tb)
 
             # 6. SOCIAL TRANSFERS / BENEFITS
             # 6.0.1 Alimony Advance (Unterhaltsvorschuss)
