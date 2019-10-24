@@ -41,14 +41,6 @@ def alg2(df, tb):
 def regelsatz_alg2(df, tb):
     """Creating the variables need for the calculation of the alg2 regelsatz. Then
     according to the year the appropriate function is called"""
-    regel_df = pd.DataFrame(index=df.index)
-    for age in [(0, 6), (0, 15), (14, 24), (7, 13), (3, 6), (0, 2)]:
-        regel_df["child{}_{}_num".format(age[0], age[1])] = (
-            df["child"] & df["age"].between(age[0], age[1])
-        ).sum()
-    regel_df["child_num"] = df["child"].sum()
-    regel_df["adult_num"] = len(regel_df) - regel_df["child_num"]
-
     child_dict = {}
     for age in [(0, 6), (0, 15), (14, 24), (7, 13), (3, 6), (0, 2)]:
         child_dict["child{}_{}_num".format(age[0], age[1])] = (
