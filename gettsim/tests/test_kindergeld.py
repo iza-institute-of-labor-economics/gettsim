@@ -10,7 +10,7 @@ from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
 input_cols = ["hid", "tu_id", "pid", "age", "w_hours", "ineducation", "m_wage"]
-OUT_COLS = ["kindergeld_basis", "kindergeld_tu_basis"]
+out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
 years = [2000, 2002, 2010, 2011, 2013, 2019]
 
 
@@ -24,9 +24,9 @@ def test_kindergeld(yr):
         tb["childben_elig_rule"] = kg_eligibility_hours
     else:
         tb["childben_elig_rule"] = kg_eligibility_wage
-    for col in OUT_COLS:
+    for col in out_cols:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"])[input_cols + OUT_COLS].apply(kindergeld, tb=tb)
+    df = df.groupby(["hid", "tu_id"])[input_cols + out_cols].apply(kindergeld, tb=tb)
 
     expected = load_test_data(yr, filename, test_column)
 
