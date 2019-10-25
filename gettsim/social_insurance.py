@@ -3,7 +3,7 @@ import numpy as np
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
 
 
-def soc_ins_contrib(df_row, tb):
+def soc_ins_contrib(person, tb):
     """Calculates Social Insurance Contributions
 
     4 branches of social insurances:
@@ -27,7 +27,7 @@ def soc_ins_contrib(df_row, tb):
 
     # As there is only one household, we selcet west_ost dependent paramter in the
     # beginning and place them in a seperate dictionary tb_ost.
-    westost = "o" if df_row["east"].all() else "w"
+    westost = "o" if person["east"].iloc[0] else "w"
     tb_ost = {}
     for val in ["bezgr_", "mini_grenze", "kvmaxek", "rvmaxek"]:
         tb_ost[val] = tb[val + westost]
@@ -39,122 +39,122 @@ def soc_ins_contrib(df_row, tb):
     # This is probably the point where Entgeltpunkte should be updated as well.
 
     # Check if wage is below the mini job grenze.
-    belowmini = df_row["m_wage"] < tb_ost["mini_grenze"]
+    belowmini = person["m_wage"] < tb_ost["mini_grenze"]
 
     # Check if wage is in Gleitzone / Midi-Jobs
-    in_gleitzone = (tb["midi_grenze"] >= df_row["m_wage"]) & (
-        df_row["m_wage"] >= tb_ost["mini_grenze"]
+    in_gleitzone = (tb["midi_grenze"] >= person["m_wage"]) & (
+        person["m_wage"] >= tb_ost["mini_grenze"]
     )
 
     # Calculate accordingly the ssc
-    if belowmini.all():
-        df_row.loc[:, OUT_COLS] = 0.0
-    elif in_gleitzone.all():
+    if belowmini.iloc[0]:
+        person.loc[:, OUT_COLS] = 0.0
+    elif in_gleitzone.iloc[0]:
         # TODO: Before and in 2003 tb["midi_grenze"] is 0 and therefore we won't reach
         #  this.
-        df_row = tb["calc_midi_contrib"](df_row, tb)
+        person = tb["calc_midi_contrib"](person, tb)
     else:
-        df_row = ssc_regular_job(df_row, tb, tb_ost)
+        person = ssc_regular_job(person, tb, tb_ost)
 
     # Self-employed may insure via the public health and care insurance.
-    if (df_row["selfemployed"] & ~df_row["pkv"]).all():
-        df_row["gkvbeit"] = selfemployed_gkv_ssc(df_row, tb, tb_ost)
-        df_row["pvbeit"] = selfemployed_pv_ssc(df_row, tb, tb_ost)
+    if (person["selfemployed"] & ~person["pkv"]).iloc[0]:
+        person["gkvbeit"] = selfemployed_gkv_ssc(person, tb, tb_ost)
+        person["pvbeit"] = selfemployed_pv_ssc(person, tb, tb_ost)
 
     # Add the health insurance contribution for pensions
-    df_row["gkvbeit"] += gkv_ssc_pensions(df_row, tb, tb_ost)
+    person["gkvbeit"] += gkv_ssc_pensions(person, tb, tb_ost)
 
     # Add the care insurance contribution for pensions
-    df_row["pvbeit"] += pv_ssc_pensions(df_row, tb, tb_ost)
+    person["pvbeit"] += pv_ssc_pensions(person, tb, tb_ost)
 
     # Sum of Social Insurance Contributions (for employees)
-    df_row["svbeit"] = df_row[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum(axis=1)
-    return df_row
+    person["svbeit"] = person[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum(axis=1)
+    return person
 
 
-def ssc_regular_job(df_row, tb, tb_ost):
+def ssc_regular_job(person, tb, tb_ost):
     """Calculates the ssc for a regular job with wage above the midi limit."""
     # Check if the wage is higher than the Beitragsbemessungsgrenze. If so, only the
     # value of this is used.
-    df_row["svwage_pens"] = np.minimum(df_row["m_wage"], tb_ost["rvmaxek"])
-    df_row["svwage_health"] = np.minimum(df_row["m_wage"], tb_ost["kvmaxek"])
+    person["svwage_pens"] = np.minimum(person["m_wage"], tb_ost["rvmaxek"])
+    person["svwage_health"] = np.minimum(person["m_wage"], tb_ost["kvmaxek"])
     # Then, calculate employee contributions.
     # Old-Age Pension Insurance / Rentenversicherung
-    df_row["rvbeit"] = tb["grvbs"] * df_row["svwage_pens"]
+    person["rvbeit"] = tb["grvbs"] * person["svwage_pens"]
     # Unemployment Insurance / Arbeitslosenversicherung
-    df_row["avbeit"] = tb["alvbs"] * df_row["svwage_pens"]
+    person["avbeit"] = tb["alvbs"] * person["svwage_pens"]
     # Health Insurance for Employees (GKV)
-    df_row["gkvbeit"] = tb["gkvbs_an"] * df_row["svwage_health"]
+    person["gkvbeit"] = tb["gkvbs_an"] * person["svwage_health"]
     # Care Insurance / Pflegeversicherung
-    df_row["pvbeit"] = tb["gpvbs"] * df_row["svwage_health"]
+    person["pvbeit"] = tb["gpvbs"] * person["svwage_health"]
     # If you are above 23 and without kids, you have to pay a higher rate
-    if (~df_row["haskids"] & (df_row["age"] > 22)).all():
-        df_row["pvbeit"] = (tb["gpvbs"] + tb["gpvbs_kind"]) * df_row["svwage_health"]
-    return df_row
+    if (~person["haskids"] & (person["age"] > 22)).iloc[0]:
+        person["pvbeit"] = (tb["gpvbs"] + tb["gpvbs_kind"]) * person["svwage_health"]
+    return person
 
 
-def selfemployed_gkv_ssc(df_row, tb, tb_ost):
+def selfemployed_gkv_ssc(person, tb, tb_ost):
     """Calculates health insurance contributions. Self-employed pay the full
     contribution (employer + employee), which is either assessed on their
     self-employement income or 3/4 of the 'Bezugsgröße'"""
     return (tb["gkvbs_an"] + tb["gkvbs_ag"]) * np.minimum(
-        df_row["m_self"], 0.75 * tb_ost["bezgr_"]
+        person["m_self"], 0.75 * tb_ost["bezgr_"]
     )
 
 
-def selfemployed_pv_ssc(df_row, tb, tb_ost):
+def selfemployed_pv_ssc(person, tb, tb_ost):
     """Calculates care insurance contributions. Self-employed pay the full
         contribution (employer + employee), which is either assessed on their
         self-employement income or 3/4 of the 'Bezugsgröße'"""
-    if (~df_row["haskids"] & (df_row["age"] > 22)).all():
+    if (~person["haskids"] & (person["age"] > 22)).iloc[0]:
         return 2 * tb["gpvbs"] + tb["gpvbs_kind"] * np.minimum(
-            df_row["m_self"], 0.75 * tb_ost["bezgr_"]
+            person["m_self"], 0.75 * tb_ost["bezgr_"]
         )
     else:
-        return 2 * tb["gpvbs"] * np.minimum(df_row["m_self"], 0.75 * tb_ost["bezgr_"])
+        return 2 * tb["gpvbs"] * np.minimum(person["m_self"], 0.75 * tb_ost["bezgr_"])
 
 
-def pv_ssc_pensions(df_row, tb, tb_ost):
+def pv_ssc_pensions(person, tb, tb_ost):
     """Calculates the care insurance contributions for pensions. It is twice the
     standard rate"""
-    if (~df_row["haskids"] & (df_row["age"] > 22)).all():
+    if (~person["haskids"] & (person["age"] > 22)).iloc[0]:
         return (2 * tb["gpvbs"] + tb["gpvbs_kind"]) * np.minimum(
-            df_row["m_pensions"], tb_ost["kvmaxek"]
+            person["m_pensions"], tb_ost["kvmaxek"]
         )
     else:
-        return 2 * tb["gpvbs"] * np.minimum(df_row["m_pensions"], tb_ost["kvmaxek"])
+        return 2 * tb["gpvbs"] * np.minimum(person["m_pensions"], tb_ost["kvmaxek"])
 
 
-def gkv_ssc_pensions(df_row, tb, tb_ost):
+def gkv_ssc_pensions(person, tb, tb_ost):
     """Calculates the health insurance contributions for pensions. It is the normal
     rate"""
-    return tb["gkvbs_an"] * np.minimum(df_row["m_pensions"], tb_ost["kvmaxek"])
+    return tb["gkvbs_an"] * np.minimum(person["m_pensions"], tb_ost["kvmaxek"])
 
 
-def calc_midi_contributions(df_row, tb):
+def calc_midi_contributions(person, tb):
     """Calculates the ssc for midi jobs. For these jobs, the rate is not calculated
     on the wage, but on the 'bemessungsentgelt'. Contributions are usually shared
     equally by employee (AN) and employer (AG). We are actually not interested in
     employer's contributions, but we need them here as an intermediate step"""
 
-    df_row["bemessungsentgelt"] = calc_midi_bemessungsentgelt(df_row, tb)
+    person["bemessungsentgelt"] = calc_midi_bemessungsentgelt(person, tb)
 
     # Again, all branches of social insurance
     # First total amount, then employer, then employee
 
     # Old-Age Pensions
-    df_row["rvbeit"] = calc_midi_old_age_pensions_contr(df_row, tb)
+    person["rvbeit"] = calc_midi_old_age_pensions_contr(person, tb)
 
     # Health
-    df_row["gkvbeit"] = calc_midi_health_contr(df_row, tb)
+    person["gkvbeit"] = calc_midi_health_contr(person, tb)
 
     # Unemployment
-    df_row["avbeit"] = calc_midi_unemployment_contr(df_row, tb)
+    person["avbeit"] = calc_midi_unemployment_contr(person, tb)
 
     # Long-Term Care
-    df_row["pvbeit"] = calc_midi_long_term_care_contr(df_row, tb)
+    person["pvbeit"] = calc_midi_long_term_care_contr(person, tb)
 
-    return df_row
+    return person
 
 
 def calc_midi_f(tb):
@@ -167,45 +167,45 @@ def calc_midi_f(tb):
     return f
 
 
-def calc_midi_bemessungsentgelt(df_row, tb):
+def calc_midi_bemessungsentgelt(person, tb):
     f = calc_midi_f(tb)
     return f * tb["mini_grenzew"] + (
         (tb["midi_grenze"] / (tb["midi_grenze"] - tb["mini_grenzew"]))
         - (tb["mini_grenzew"] / (tb["midi_grenze"] - tb["mini_grenzew"]) * f)
-    ) * (df_row["m_wage"] - tb["mini_grenzew"])
+    ) * (person["m_wage"] - tb["mini_grenzew"])
 
 
-def calc_midi_old_age_pensions_contr(df_row, tb):
+def calc_midi_old_age_pensions_contr(person, tb):
     """ Calculate old age pensions social insurance contribution for midi job."""
-    grbetr_rv = 2 * tb["grvbs"] * df_row["bemessungsentgelt"]
-    ag_rvbeit = tb["grvbs"] * df_row["m_wage"]
+    grbetr_rv = 2 * tb["grvbs"] * person["bemessungsentgelt"]
+    ag_rvbeit = tb["grvbs"] * person["m_wage"]
     return grbetr_rv - ag_rvbeit
 
 
-def calc_midi_health_contr(df_row, tb):
+def calc_midi_health_contr(person, tb):
     """ Calculate social insurance health contributions for midi job."""
-    grbetr_gkv = (tb["gkvbs_an"] + tb["gkvbs_ag"]) * df_row["bemessungsentgelt"]
-    ag_gkvbeit = tb["gkvbs_ag"] * df_row["m_wage"]
+    grbetr_gkv = (tb["gkvbs_an"] + tb["gkvbs_ag"]) * person["bemessungsentgelt"]
+    ag_gkvbeit = tb["gkvbs_ag"] * person["m_wage"]
     return grbetr_gkv - ag_gkvbeit
 
 
-def calc_midi_unemployment_contr(df_row, tb):
-    grbetr_alv = 2 * tb["alvbs"] * df_row["bemessungsentgelt"]
-    ag_avbeit = tb["alvbs"] * df_row["m_wage"]
+def calc_midi_unemployment_contr(person, tb):
+    grbetr_alv = 2 * tb["alvbs"] * person["bemessungsentgelt"]
+    ag_avbeit = tb["alvbs"] * person["m_wage"]
     return grbetr_alv - ag_avbeit
 
 
-def calc_midi_long_term_care_contr(df_row, tb):
-    grbetr_pv = 2 * tb["gpvbs"] * df_row["bemessungsentgelt"]
-    ag_pvbeit = tb["gpvbs"] * df_row["m_wage"]
-    if (~df_row["haskids"] & (df_row["age"] > 22)).all():
-        return grbetr_pv - ag_pvbeit + tb["gpvbs_kind"] * df_row["bemessungsentgelt"]
+def calc_midi_long_term_care_contr(person, tb):
+    grbetr_pv = 2 * tb["gpvbs"] * person["bemessungsentgelt"]
+    ag_pvbeit = tb["gpvbs"] * person["m_wage"]
+    if (~person["haskids"] & (person["age"] > 22)).iloc[0]:
+        return grbetr_pv - ag_pvbeit + tb["gpvbs_kind"] * person["bemessungsentgelt"]
     else:
         return grbetr_pv - ag_pvbeit
 
 
-def no_midi(df_row, tb):
+def no_midi(person, tb):
     """Dummy function returning nothing
     """
-    df_row.loc[:, OUT_COLS] = 0.0
-    return df_row
+    person.loc[:, OUT_COLS] = 0.0
+    return person

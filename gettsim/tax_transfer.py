@@ -376,4 +376,9 @@ def tax_transfer(df, tb, tb_pens=None):
     return df
 
 
-# def _apply_tax_transfer_func(tax_func, level, in_cols, out_cols, func_args):
+# def _apply_tax_transfer_func(df, tax_func, level, in_cols, out_cols, func_args):
+#     for col in out_cols:
+#         df[col] = np.nan
+#     df.loc[:, in_cols + out_cols] = df.groupby(level)[in_cols + out_cols].apply(
+#         tax_func,
+#     )
