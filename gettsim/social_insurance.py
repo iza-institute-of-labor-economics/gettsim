@@ -56,14 +56,6 @@ def soc_ins_contrib(df_row, tb):
     else:
         df_row = ssc_regular_job(df_row, tb, tb_ost)
 
-    # Exception: since 2013, marginally employed people may pay pension
-    # insurance contributions.
-    # """
-    # if yr > 2012:
-    #     ssc.loc[inout["m_wage"].between(1, tb["mini_grenzew"]), "rvbeit"] = tb[
-    #         "grvbs_mini"
-    #     ] * np.maximum(175, inout["m_wage"])
-    # """
     # Self-employed may insure via the public health and care insurance.
     if (df_row["selfemployed"] & ~df_row["pkv"]).all():
         df_row["gkvbeit"] = selfemployed_gkv_ssc(df_row, tb, tb_ost)
