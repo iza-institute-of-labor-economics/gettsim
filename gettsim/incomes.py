@@ -1,8 +1,8 @@
 import numpy as np
 
 
-def disposable_income(df):
-    df["dpi_ind"] = df[
+def disposable_income(household):
+    household["dpi_ind"] = household[
         [
             "m_wage",
             "m_kapinc",
@@ -14,22 +14,29 @@ def disposable_income(df):
             "kindergeld",
             "uhv",
         ]
-    ].sum(axis=1) - df[
+    ].sum(axis=1) - household[
         ["incometax", "soli", "abgst", "gkvbeit", "rvbeit", "pvbeit", "avbeit"]
     ].sum(
         axis=1
     )
 
     # Disposible income on hh level
-    df["dpi"] = round(
-        np.maximum(0, sum(df["dpi_ind"]) + df["m_alg2"] + df["wohngeld"] + df["kiz"]), 2
+    household["dpi"] = round(
+        np.maximum(
+            0,
+            sum(household["dpi_ind"])
+            + household["m_alg2"]
+            + household["wohngeld"]
+            + household["kiz"],
+        ),
+        2,
     )
-    return df
+    return household
 
 
-def gross_income(df):
-    df["gross"] = round(
-        df[
+def gross_income(household):
+    household["gross"] = round(
+        household[
             [
                 "m_wage",
                 "m_kapinc",
@@ -43,4 +50,4 @@ def gross_income(df):
         ].sum(axis=1),
         2,
     )
-    return df
+    return household
