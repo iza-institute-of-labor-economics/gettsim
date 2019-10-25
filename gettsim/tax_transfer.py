@@ -433,3 +433,11 @@ def _apply_tax_transfer_func(
         tax_func, *func_args, **func_kwargs
     )
     return df
+
+
+def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
+    if level == ["hid", "tu_id", "pid"]:
+        person = tax_func(group.squeeze(), *func_args, *func_kwargs)
+        return person.to_frame().transpose()
+    else:
+        return tax_func(group, *func_args, *func_kwargs)
