@@ -7,6 +7,7 @@ import pytest
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.social_insurance import soc_ins_contrib
+from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
@@ -41,5 +42,12 @@ def test_soc_ins_contrib(year, column):
     else:
         tb["calc_midi_contrib"] = no_midi
     expected = load_test_data(year, "test_dfs_ssc.ods", column)
-    df = df.groupby(["hid", "tu_id", "pid"]).apply(soc_ins_contrib, tb=tb)
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=soc_ins_contrib,
+        level=["hid", "tu_id", "pid"],
+        in_cols=INPUT_COLUMNS,
+        out_cols=OUT_COLS,
+        func_kwargs={"tb": tb},
+    )
     pd.testing.assert_series_equal(df[column], expected)

@@ -430,14 +430,16 @@ def _apply_tax_transfer_func(
     for col in out_cols:
         df[col] = np.nan
     df.loc[:, in_cols + out_cols] = df.groupby(level)[in_cols + out_cols].apply(
-        tax_func, *func_args, **func_kwargs
+        _apply_squeeze_function, tax_func, level, func_args, func_kwargs
     )
     return df
 
 
 def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
     if level == ["hid", "tu_id", "pid"]:
-        person = tax_func(group.squeeze(), *func_args, *func_kwargs)
-        return person.to_frame().transpose()
+        person = tax_func(group.squeeze(), *func_args, **func_kwargs)
+        for var in person.index:
+            group.loc[:, var] = person[var]
+        return group
     else:
-        return tax_func(group, *func_args, *func_kwargs)
+        return tax_func(group, *func_args, **func_kwargs)

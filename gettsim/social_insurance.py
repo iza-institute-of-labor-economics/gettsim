@@ -27,7 +27,7 @@ def soc_ins_contrib(person, tb):
 
     # As there is only one household, we selcet west_ost dependent paramter in the
     # beginning and place them in a seperate dictionary tb_ost.
-    westost = "o" if person["east"].iloc[0] else "w"
+    westost = "o" if person["east"] else "w"
     tb_ost = {}
     for val in ["bezgr_", "mini_grenze", "kvmaxek", "rvmaxek"]:
         tb_ost[val] = tb[val + westost]
@@ -47,9 +47,9 @@ def soc_ins_contrib(person, tb):
     )
 
     # Calculate accordingly the ssc
-    if belowmini.iloc[0]:
-        person.loc[:, OUT_COLS] = 0.0
-    elif in_gleitzone.iloc[0]:
+    if belowmini:
+        person[OUT_COLS] = 0.0
+    elif in_gleitzone:
         # TODO: Before and in 2003 tb["midi_grenze"] is 0 and therefore we won't reach
         #  this.
         person = tb["calc_midi_contrib"](person, tb)
@@ -57,7 +57,7 @@ def soc_ins_contrib(person, tb):
         person = ssc_regular_job(person, tb, tb_ost)
 
     # Self-employed may insure via the public health and care insurance.
-    if (person["selfemployed"] & ~person["pkv"]).iloc[0]:
+    if person["selfemployed"] & ~person["pkv"]:
         person["gkvbeit"] = selfemployed_gkv_ssc(person, tb, tb_ost)
         person["pvbeit"] = selfemployed_pv_ssc(person, tb, tb_ost)
 
@@ -68,7 +68,7 @@ def soc_ins_contrib(person, tb):
     person["pvbeit"] += pv_ssc_pensions(person, tb, tb_ost)
 
     # Sum of Social Insurance Contributions (for employees)
-    person["svbeit"] = person[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum(axis=1)
+    person["svbeit"] = person[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum()
     return person
 
 
@@ -88,7 +88,7 @@ def ssc_regular_job(person, tb, tb_ost):
     # Care Insurance / Pflegeversicherung
     person["pvbeit"] = tb["gpvbs"] * person["svwage_health"]
     # If you are above 23 and without kids, you have to pay a higher rate
-    if (~person["haskids"] & (person["age"] > 22)).iloc[0]:
+    if ~person["haskids"] & (person["age"] > 22):
         person["pvbeit"] = (tb["gpvbs"] + tb["gpvbs_kind"]) * person["svwage_health"]
     return person
 
@@ -106,7 +106,7 @@ def selfemployed_pv_ssc(person, tb, tb_ost):
     """Calculates care insurance contributions. Self-employed pay the full
         contribution (employer + employee), which is either assessed on their
         self-employement income or 3/4 of the 'Bezugsgröße'"""
-    if (~person["haskids"] & (person["age"] > 22)).iloc[0]:
+    if ~person["haskids"] & (person["age"] > 22):
         return 2 * tb["gpvbs"] + tb["gpvbs_kind"] * np.minimum(
             person["m_self"], 0.75 * tb_ost["bezgr_"]
         )
@@ -117,7 +117,7 @@ def selfemployed_pv_ssc(person, tb, tb_ost):
 def pv_ssc_pensions(person, tb, tb_ost):
     """Calculates the care insurance contributions for pensions. It is twice the
     standard rate"""
-    if (~person["haskids"] & (person["age"] > 22)).iloc[0]:
+    if ~person["haskids"] & (person["age"] > 22):
         return (2 * tb["gpvbs"] + tb["gpvbs_kind"]) * np.minimum(
             person["m_pensions"], tb_ost["kvmaxek"]
         )
@@ -198,7 +198,7 @@ def calc_midi_unemployment_contr(person, tb):
 def calc_midi_long_term_care_contr(person, tb):
     grbetr_pv = 2 * tb["gpvbs"] * person["bemessungsentgelt"]
     ag_pvbeit = tb["gpvbs"] * person["m_wage"]
-    if (~person["haskids"] & (person["age"] > 22)).iloc[0]:
+    if ~person["haskids"] & (person["age"] > 22):
         return grbetr_pv - ag_pvbeit + tb["gpvbs_kind"] * person["bemessungsentgelt"]
     else:
         return grbetr_pv - ag_pvbeit
@@ -207,5 +207,5 @@ def calc_midi_long_term_care_contr(person, tb):
 def no_midi(person, tb):
     """Dummy function returning nothing
     """
-    person.loc[:, OUT_COLS] = 0.0
+    person[OUT_COLS] = 0.0
     return person
