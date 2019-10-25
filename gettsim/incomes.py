@@ -1,13 +1,8 @@
 import numpy as np
-import pandas as pd
-
-from gettsim.func_out_columns import DPI
-from gettsim.func_out_columns import GROSS
 
 
-def disposable_income(df):
-    disp_inc = pd.DataFrame(index=df.index, columns=DPI)
-    disp_inc["dpi_ind"] = df[
+def disposable_income(household):
+    household["dpi_ind"] = household[
         [
             "m_wage",
             "m_kapinc",
@@ -19,26 +14,29 @@ def disposable_income(df):
             "kindergeld",
             "uhv",
         ]
-    ].sum(axis=1) - df[
+    ].sum(axis=1) - household[
         ["incometax", "soli", "abgst", "gkvbeit", "rvbeit", "pvbeit", "avbeit"]
     ].sum(
         axis=1
     )
 
     # Disposible income on hh level
-    disp_inc["dpi"] = round(
+    household["dpi"] = round(
         np.maximum(
-            0, sum(disp_inc["dpi_ind"]) + df["m_alg2"] + df["wohngeld"] + df["kiz"]
+            0,
+            sum(household["dpi_ind"])
+            + household["m_alg2"]
+            + household["wohngeld"]
+            + household["kiz"],
         ),
         2,
     )
-    return disp_inc
+    return household
 
 
-def gross_income(df):
-    gross_inc = pd.DataFrame(index=df.index, columns=GROSS)
-    gross_inc["gross"] = round(
-        df[
+def gross_income(household):
+    household["gross"] = round(
+        household[
             [
                 "m_wage",
                 "m_kapinc",
@@ -52,4 +50,4 @@ def gross_income(df):
         ].sum(axis=1),
         2,
     )
-    return gross_inc
+    return household
