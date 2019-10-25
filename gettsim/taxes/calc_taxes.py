@@ -16,16 +16,15 @@ def tax_sched(df, tb):
 
     adult_married = (~df["child"]) & (df["zveranl"])
     # create ts dataframe and copy three important variables
-    ts = pd.DataFrame(index=df.index.copy())
     for inc in tb["zve_list"]:
-        ts["tax_" + inc] = tb["tax_schedule"](df["zve_" + inc], tb)
-        ts[f"tax_{inc}_tu"] = ts[f"tax_{inc}"]
-        ts.loc[adult_married, f"tax_{inc}_tu"] = ts[f"tax_{inc}"][adult_married].sum()
+        df["tax_" + inc] = tb["tax_schedule"](df["zve_" + inc], tb)
+        df[f"tax_{inc}_tu"] = df[f"tax_{inc}"]
+        df.loc[adult_married, f"tax_{inc}_tu"] = df[f"tax_{inc}"][adult_married].sum()
 
     # Abgeltungssteuer
-    ts["abgst"] = abgeltung(df, tb)
-    ts["abgst_tu"] = 0
-    ts.loc[adult_married, "abgst_tu"] = ts["abgst"][adult_married].sum()
+    df["abgst"] = abgeltung(df, tb)
+    df["abgst_tu"] = 0
+    df.loc[adult_married, "abgst_tu"] = df["abgst"][adult_married].sum()
 
     """Solidarity Surcharge. on top of the income tax and capital income tax.
     No Soli if income tax due is below € 920 (solifreigrenze)
@@ -36,21 +35,17 @@ def tax_sched(df, tb):
     """
 
     if tb["yr"] >= 1991:
-        ts["solibasis"] = ts["tax_kfb_tu"] + ts["abgst_tu"]
+        df["solibasis"] = df["tax_kfb_tu"] + df["abgst_tu"]
         # Soli also in monthly terms. only for adults
-        ts["soli_tu"] = soli_formula(ts["solibasis"], tb) * ~df["child"] * (1 / 12)
+        df["soli_tu"] = soli_formula(df["solibasis"], tb) * ~df["child"] * (1 / 12)
     else:
-        ts["soli_tu"] = 0
+        df["soli_tu"] = 0
 
     # Assign Soli to individuals
-    ts["soli"] = np.select(
-        [df["zveranl"], ~df["zveranl"]], [ts["soli_tu"] / 2, ts["soli_tu"]]
+    df["soli"] = np.select(
+        [df["zveranl"], ~df["zveranl"]], [df["soli_tu"] / 2, df["soli_tu"]]
     )
-    return ts[
-        [f"tax_{inc}" for inc in tb["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
-        + ["abgst_tu", "abgst", "soli", "soli_tu"]
-    ]
+    return df
 
 
 def abgeltung(df, tb):
