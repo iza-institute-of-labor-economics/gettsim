@@ -28,8 +28,8 @@ def favorability_check(tax_unit, tb):
     if "abg" in max_inc:
         tax_unit.loc[:, "abgst"] = 0
         tax_unit.loc[:, "abgst_tu"] = 0
-    # TODO: Why do we calculate that? Can we not just set it as tu?
-    # Aggregate Child benefit on the household.
+    # Aggregate Child benefit on the household level, as we could have several
+    # tax_units in one household.
     tax_unit["kindergeld_hh"] = tax_unit["kindergeld"].sum()
     # Assign Income tax to individuals
     tax_unit["incometax"] = np.select(
