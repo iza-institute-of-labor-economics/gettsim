@@ -48,16 +48,12 @@ def test_pension(year):
 
 @pytest.mark.parametrize("year", YEARS)
 def test_update_earning_points(year):
-    column = "EP_end"
     file_name = "test_dfs_pensions.ods"
     df = load_test_data(year, file_name, INPUT_COLUMNS)
     tb = load_tb(year)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    expected = load_test_data(year, file_name, column)
-    calculated = np.array([])
-    for pid in df["pid"].unique():
-        calculated = np.append(
-            calculated,
-            update_earnings_points(df[df["pid"] == pid].iloc[0], tb, tb_pens[year]),
-        )
-    assert_array_almost_equal(calculated, expected.values)
+    expected = load_test_data(year, file_name, "EP_end")
+    df = df.groupby(["hid", "tu_id", "pid"]).apply(
+        update_earnings_points, tb=tb, tb_pens=tb_pens[year]
+    )
+    assert_array_almost_equal(df["EP"], expected.values)
