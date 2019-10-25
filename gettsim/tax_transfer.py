@@ -48,6 +48,11 @@ def tax_transfer(df, tb, tb_pens=None):
     household = ["hid"]
     tax_unit = ["hid", "tu_id"]
     person = ["hid", "tu_id", "pid"]
+    if df.groupby(person).ngroups != len(df):
+        raise ValueError(
+            "Household, tax unit and person identifier don't provide "
+            "distinguishable individuals."
+        )
     # We start with the top layer, which is household id. We treat this as the
     # "Bedarfsgemeinschaft" in German tax law.
     in_cols = [
