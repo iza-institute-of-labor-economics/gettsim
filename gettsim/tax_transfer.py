@@ -61,10 +61,13 @@ def tax_transfer(df, tb, tb_pens=None):
         "pkv",
     ]
     out_cols = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(person)[in_cols + out_cols].apply(
-        soc_ins_contrib, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=soc_ins_contrib,
+        level=person,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "m_wage_l1",
@@ -80,15 +83,23 @@ def tax_transfer(df, tb, tb_pens=None):
         "age",
     ]
     out_col = "m_alg1"
-    df[out_col] = np.nan
-    df.loc[:, in_cols + [out_col]] = df.groupby(person)[in_cols + [out_col]].apply(
-        ui, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=ui,
+        level=person,
+        in_cols=in_cols,
+        out_cols=[out_col],
+        func_kwargs={"tb": tb},
     )
     in_cols = ["m_wage", "east", "age", "year", "byear", "exper", "EP"]
     out_col = "pensions_sim"
-    df[out_col] = np.nan
-    df.loc[:, in_cols + [out_col]] = df.groupby(person)[in_cols + [out_col]].apply(
-        pensions, tb=tb, tb_pens=tb_pens
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=pensions,
+        level=person,
+        in_cols=in_cols,
+        out_cols=[out_col],
+        func_kwargs={"tb": tb, "tb_pens": tb_pens},
     )
     in_cols = [
         "m_wage",
@@ -135,10 +146,13 @@ def tax_transfer(df, tb, tb_pens=None):
         "altfreib",
         "vorsorge",
     ]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(tax_unit)[in_cols + out_cols].apply(
-        zve, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=zve,
+        level=tax_unit,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "child",
@@ -155,17 +169,23 @@ def tax_transfer(df, tb, tb_pens=None):
         + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
         + ["abgst_tu", "abgst", "soli", "soli_tu"]
     )
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(tax_unit)[in_cols + out_cols].apply(
-        tax_sched, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=tax_sched,
+        level=tax_unit,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = ["age", "w_hours", "ineducation", "m_wage"]
     out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(tax_unit)[in_cols + out_cols].apply(
-        kindergeld, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=kindergeld,
+        level=tax_unit,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "zveranl",
@@ -183,10 +203,13 @@ def tax_transfer(df, tb, tb_pens=None):
         "kindergeld_hh",
         "kindergeld_tu",
     ]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(tax_unit)[in_cols + out_cols].apply(
-        favorability_check, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=favorability_check,
+        level=tax_unit,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "alleinerz",
@@ -201,9 +224,13 @@ def tax_transfer(df, tb, tb_pens=None):
         "zveranl",
     ]
     out_col = "uhv"
-    df[out_col] = np.nan
-    df.loc[:, in_cols + [out_col]] = df.groupby(tax_unit)[in_cols + [out_col]].apply(
-        uhv, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=uhv,
+        level=tax_unit,
+        in_cols=in_cols,
+        out_cols=[out_col],
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "tu_id",
@@ -235,10 +262,13 @@ def tax_transfer(df, tb, tb_pens=None):
         "hhsize_tu",
     ]
     out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(household)[in_cols + out_cols].apply(
-        wg, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=wg,
+        level=household,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "hid",
@@ -274,10 +304,13 @@ def tax_transfer(df, tb, tb_pens=None):
         "uhv_hh",
         "ekanrefrei",
     ]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(household)[in_cols + out_cols].apply(
-        alg2, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=alg2,
+        level=household,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "pid",
@@ -305,10 +338,13 @@ def tax_transfer(df, tb, tb_pens=None):
         "uhv",
     ]
     out_cols = ["kiz_temp", "kiz_incrange"]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(household)[in_cols + out_cols].apply(
-        kiz, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=kiz,
+        level=household,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "hh_korr",
@@ -325,10 +361,13 @@ def tax_transfer(df, tb, tb_pens=None):
         "ar_base_alg2_ek",
     ]
     out_cols = ["kiz", "wohngeld", "m_alg2"]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(household)[in_cols + out_cols].apply(
-        benefit_priority, tb=tb
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=benefit_priority,
+        level=household,
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"tb": tb},
     )
     in_cols = [
         "m_wage",
@@ -352,10 +391,12 @@ def tax_transfer(df, tb, tb_pens=None):
         "m_alg2",
     ]
     out_cols = ["dpi_ind", "dpi"]
-    for col in out_cols:
-        df[col] = np.nan
-    df.loc[:, in_cols + out_cols] = df.groupby(household)[in_cols + out_cols].apply(
-        disposable_income
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=disposable_income,
+        level=household,
+        in_cols=in_cols,
+        out_cols=out_cols,
     )
     in_cols = [
         "m_wage",
@@ -368,9 +409,8 @@ def tax_transfer(df, tb, tb_pens=None):
         "kindergeld",
     ]
     out_col = "gross"
-    df[out_col] = np.nan
-    df.loc[:, in_cols + [out_col]] = df.groupby(household)[in_cols + [out_col]].apply(
-        gross_income
+    df = _apply_tax_transfer_func(
+        df, tax_func=gross_income, level=household, in_cols=in_cols, out_cols=[out_col]
     )
 
     return df
