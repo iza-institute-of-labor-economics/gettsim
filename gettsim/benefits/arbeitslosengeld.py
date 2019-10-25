@@ -28,7 +28,7 @@ def ui(person, tb):
 def _alg_entgelt(person, tb):
     """ Calculating the claim for the Arbeitslosengeldgeld, depending on the current
     wage."""
-    westost = "o" if person["east"].iloc[0] else "w"
+    westost = "o" if person["east"] else "w"
     # Relevant wage is capped at the contribution thresholds
     alg_wage = np.minimum(tb["rvmaxek" + westost], person["m_wage_l1"])
 
@@ -55,8 +55,8 @@ def check_eligibility_alg(person):
     # Take into account actual wages
     # there are different replacement rates depending on presence of children
     return (
-        (mts_ue.between(1, 12))
+        (1 <= mts_ue <= 12)
         & (person["age"] < 65)
         & (person["m_pensions"] == 0)
         & (person["w_hours"] < 15)
-    ).iloc[0]
+    )
