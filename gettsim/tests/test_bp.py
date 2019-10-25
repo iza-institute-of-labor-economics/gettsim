@@ -23,6 +23,7 @@ input_cols = [
     "wohngeld_basis_hh",
     "regelbedarf",
     "ar_base_alg2_ek",
+    "byear",
     "year",
 ]
 

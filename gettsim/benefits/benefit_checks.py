@@ -88,9 +88,6 @@ def wealth_test(household, tb):
     For ALG2 and Kiz, there are wealth exemptions for every year.
     For Wohngeld, there is a lump-sum amount depending on the household size
     """
-    if "byear" not in household.columns.values:
-        # Initiate birth year series
-        household["byear"] = tb["yr"] - household["age"]
 
     # there are exemptions depending on individual age for adults
     household["ind_freib"] = 0

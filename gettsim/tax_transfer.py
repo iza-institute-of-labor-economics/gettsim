@@ -359,6 +359,7 @@ def tax_transfer(df, tb, tb_pens=None):
         "wohngeld_basis_hh",
         "regelbedarf",
         "ar_base_alg2_ek",
+        "byear",
     ]
     out_cols = ["kiz", "wohngeld", "m_alg2"]
     df = _apply_tax_transfer_func(
