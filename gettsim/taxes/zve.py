@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def zve(df, tb):
+def zve(tax_unit, tb):
     """Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
     of the 6 branches of income is according to
     https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema
@@ -12,76 +12,82 @@ def zve(df, tb):
         It's always the most favorable for the taxpayer, but you know that only after
          applying the tax schedule
     """
-    adult_married = ~df["child"] & df["zveranl"]
-    # married = [df['zveranl'], ~df['zveranl']]
+    adult_married = ~tax_unit["child"] & tax_unit["zveranl"]
+    # married = [tax_unit['zveranl'], ~tax_unit['zveranl']]
     # create output dataframe and transter some important variables
 
     # Sonderausgaben
-    df = deductible_child_care_costs(df, tb)
+    tax_unit = deductible_child_care_costs(tax_unit, tb)
 
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
-    df.loc[:, "gross_e1"] = 12 * df["m_self"]
+    tax_unit.loc[:, "gross_e1"] = 12 * tax_unit["m_self"]
     # Earnings
-    df = calc_gross_e4(df, tb)
+    tax_unit = calc_gross_e4(tax_unit, tb)
     # Capital Income
-    df.loc[:, "gross_e5"] = np.maximum((12 * df["m_kapinc"]), 0)
+    tax_unit.loc[:, "gross_e5"] = np.maximum((12 * tax_unit["m_kapinc"]), 0)
     # Income from rents
-    df.loc[:, "gross_e6"] = 12 * df["m_vermiet"]
+    tax_unit.loc[:, "gross_e6"] = 12 * tax_unit["m_vermiet"]
     # Others (Pensions)
-    df = calc_gross_e7(df, tb)
+    tax_unit = calc_gross_e7(tax_unit, tb)
     # Sum of incomes
-    df.loc[:, "gross_gde"] = calc_gde(df, tb)
+    tax_unit.loc[:, "gross_gde"] = calc_gde(tax_unit, tb)
 
     # Gross (market) income <> sum of incomes...
-    df.loc[:, "m_brutto"] = df[
+    tax_unit.loc[:, "m_brutto"] = tax_unit[
         ["m_self", "m_wage", "m_kapinc", "m_vermiet", "m_pensions"]
     ].sum(axis=1)
 
-    df.loc[:, "handc_pausch"] = calc_handicap_lump_sum(df, tb)
+    tax_unit.loc[:, "handc_pausch"] = calc_handicap_lump_sum(tax_unit, tb)
 
     # Aggregate several incomes on the taxpayer couple
     for inc in ["gross_e1", "gross_e4", "gross_e5", "gross_e6", "gross_e7"]:
-        df.loc[adult_married, inc + "_tu"] = df[inc][adult_married].sum()
+        tax_unit.loc[adult_married, inc + "_tu"] = tax_unit[inc][adult_married].sum()
 
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
     # TODO: check various deductions against each other (when modelled)
-    df.loc[:, "vorsorge"] = tb["vorsorge"](df, tb)
+    tax_unit.loc[:, "vorsorge"] = tb["vorsorge"](tax_unit, tb)
     # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
-    df = calc_altfreibetrag(df, tb)
+    tax_unit = calc_altfreibetrag(tax_unit, tb)
 
     # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
-    df = tb["calc_hhfreib"](df, tb)
+    tax_unit = tb["calc_hhfreib"](tax_unit, tb)
 
     # Taxable income (zve)
     # For married couples, household income is split between the two.
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
-    df.loc[~df["child"], "zve_nokfb"] = zve_nokfb(df, tb)
+    tax_unit.loc[~tax_unit["child"], "zve_nokfb"] = zve_nokfb(tax_unit, tb)
     # Tax base including capital income
-    df = zve_abg_nokfb(df, tb)
+    tax_unit = zve_abg_nokfb(tax_unit, tb)
 
-    df = kinderfreibetrag(df, tb)
+    tax_unit = kinderfreibetrag(tax_unit, tb)
 
     # Finally, Subtract (corrected) Child allowance
-    df.loc[~df["child"], "zve_kfb"] = np.maximum(df["zve_nokfb"] - df["kifreib"], 0)
-    df.loc[~df["child"], "zve_abg_kfb"] = np.maximum(
-        df["zve_abg_nokfb"] - df["kifreib"], 0
+    tax_unit.loc[~tax_unit["child"], "zve_kfb"] = np.maximum(
+        tax_unit["zve_nokfb"] - tax_unit["kifreib"], 0
+    )
+    tax_unit.loc[~tax_unit["child"], "zve_abg_kfb"] = np.maximum(
+        tax_unit["zve_abg_nokfb"] - tax_unit["kifreib"], 0
     )
     # Finally, modify married couples income according to Splitting rule,
     # i.e. each partner get assigned half of the total income
     for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
-        df.loc[:, "zve_" + incdef + "_tu"] = df["zve_" + incdef][adult_married].sum()
-        df.loc[adult_married, "zve_" + incdef] = 0.5 * df["zve_" + incdef + "_tu"]
+        tax_unit.loc[:, "zve_" + incdef + "_tu"] = tax_unit["zve_" + incdef][
+            adult_married
+        ].sum()
+        tax_unit.loc[adult_married, "zve_" + incdef] = (
+            0.5 * tax_unit["zve_" + incdef + "_tu"]
+        )
 
-    return df
+    return tax_unit
 
 
-def kinderfreibetrag(df, tb):
+def kinderfreibetrag(tax_unit, tb):
     """Calculate zve with Child Allowance (Kinderfreibetrag)"""
-    df["kifreib"] = 0.0
+    tax_unit["kifreib"] = 0.0
     #
     # Married couples may share deductions if one partner does not need it.
     # For non-married, just deduct half the amount for each child.
@@ -89,16 +95,16 @@ def kinderfreibetrag(df, tb):
 
     # Count number of children eligible for Child Benefit.
     # Child allowance is only received for these kids.
-    child_num_kg = tb["childben_elig_rule"](df, tb).sum()
+    child_num_kg = tb["childben_elig_rule"](tax_unit, tb).sum()
 
     # Find out who has the lower zve among partners
-    nokfb_lower = df["zve_nokfb"].min()
+    nokfb_lower = tax_unit["zve_nokfb"].min()
 
     diff_kifreib = nokfb_lower - (0.5 * tb["kifreib"] * child_num_kg)
 
     # If the couple is married and one earns not enough to split the kinderfeibetrag,
     # things get a bit more complicated
-    if diff_kifreib < 0 & df[~df["child"]]["zveranl"].all():
+    if diff_kifreib < 0 & tax_unit[~tax_unit["child"]]["zveranl"].all():
 
         # The high earner gets half of the total kinderfreibetrag plus the amount the
         # lower earner can't claim.
@@ -106,85 +112,89 @@ def kinderfreibetrag(df, tb):
         # The second earner subtracts the remaining amount
         kifreib_lower = 0.5 * tb["kifreib"] * child_num_kg - abs(diff_kifreib)
         # Then we assign each earner the amount and return the series
-        df.loc[
-            ~df["child"] & df["zve_nokfb"] != nokfb_lower, "kifreib"
+        tax_unit.loc[
+            ~tax_unit["child"] & tax_unit["zve_nokfb"] != nokfb_lower, "kifreib"
         ] = kifreib_higher
-        df.loc[~df["child"] & df["zve_nokfb"] == nokfb_lower, "kifreib"] = kifreib_lower
+        tax_unit.loc[
+            ~tax_unit["child"] & tax_unit["zve_nokfb"] == nokfb_lower, "kifreib"
+        ] = kifreib_lower
 
-        return df
+        return tax_unit
 
     # For non married couples or couples where both earn enough this are a lot easier.
     # Just split the kinderfreibetrag 50/50.
     else:
-        df.loc[~df["child"], "kifreib"] = 0.5 * tb["kifreib"] * child_num_kg
-        return df
+        tax_unit.loc[~tax_unit["child"], "kifreib"] = 0.5 * tb["kifreib"] * child_num_kg
+        return tax_unit
 
 
-def zve_nokfb(df, tb):
+def zve_nokfb(tax_unit, tb):
     """Calculate zve with no 'kinderfreibetrag'."""
     return np.maximum(
         0,
-        df["gross_gde"]
-        - df["vorsorge"]
-        - df["sonder"]
-        - df["handc_pausch"]
-        - df["hhfreib"]
-        - df["altfreib"],
+        tax_unit["gross_gde"]
+        - tax_unit["vorsorge"]
+        - tax_unit["sonder"]
+        - tax_unit["handc_pausch"]
+        - tax_unit["hhfreib"]
+        - tax_unit["altfreib"],
     )
 
 
-def zve_abg_nokfb(df, tb):
+def zve_abg_nokfb(tax_unit, tb):
     """Calculates the zve with capital income in the tax base."""
-    if df[~df["child"]]["zveranl"].all():
-        df.loc[~df["child"], "zve_abg_nokfb"] = np.maximum(
+    if tax_unit[~tax_unit["child"]]["zveranl"].all():
+        tax_unit.loc[~tax_unit["child"], "zve_abg_nokfb"] = np.maximum(
             0,
-            df["gross_gde"]
-            + np.maximum(0, df["gross_e5"] - 2 * tb["spsparf"] - 2 * tb["spwerbz"])
-            - df["vorsorge"]
-            - df["sonder"]
-            - df["handc_pausch"]
-            - df["hhfreib"]
-            - df["altfreib"],
+            tax_unit["gross_gde"]
+            + np.maximum(
+                0, tax_unit["gross_e5"] - 2 * tb["spsparf"] - 2 * tb["spwerbz"]
+            )
+            - tax_unit["vorsorge"]
+            - tax_unit["sonder"]
+            - tax_unit["handc_pausch"]
+            - tax_unit["hhfreib"]
+            - tax_unit["altfreib"],
         )
     else:
-        df.loc[~df["child"], "zve_abg_nokfb"] = np.maximum(
+        tax_unit.loc[~tax_unit["child"], "zve_abg_nokfb"] = np.maximum(
             0,
-            df["gross_gde"]
-            + np.maximum(0, df["gross_e5"] - tb["spsparf"] - tb["spwerbz"])
-            - df["vorsorge"]
-            - df["sonder"]
-            - df["handc_pausch"]
-            - df["hhfreib"]
-            - df["altfreib"],
+            tax_unit["gross_gde"]
+            + np.maximum(0, tax_unit["gross_e5"] - tb["spsparf"] - tb["spwerbz"])
+            - tax_unit["vorsorge"]
+            - tax_unit["sonder"]
+            - tax_unit["handc_pausch"]
+            - tax_unit["hhfreib"]
+            - tax_unit["altfreib"],
         )
-    return df
+    return tax_unit
 
 
-def calc_altfreibetrag(df, tb):
+def calc_altfreibetrag(tax_unit, tb):
     """Calculates the deductions for elderly. Not tested yet!!!"""
-    df["altfreib"] = 0.0
-    df.loc[df["age"] > 64, "altfreib"] = np.minimum(
+    tax_unit["altfreib"] = 0.0
+    tax_unit.loc[tax_unit["age"] > 64, "altfreib"] = np.minimum(
         tb["altentq"]
         * 12
         * (
-            df["m_wage"]
-            + np.maximum(0, df[["m_kapinc", "m_self", "m_vermiet"]].sum(axis=1))
+            tax_unit["m_wage"]
+            + np.maximum(0, tax_unit[["m_kapinc", "m_self", "m_vermiet"]].sum(axis=1))
         ),
         tb["altenth"],
     )
-    return df
+    return tax_unit
 
 
-def calc_handicap_lump_sum(df, tb):
+def calc_handicap_lump_sum(tax_unit, tb):
     """Calculate the different deductions for different handicap degrees."""
     # Behinderten-Pauschbeträge
     hc_degrees = [
-        df["handcap_degree"].between(45, 50),
-        df["handcap_degree"].between(51, 60),
-        df["handcap_degree"].between(61, 70),
-        df["handcap_degree"].between(71, 80),
-        df["handcap_degree"].between(81, 90),
-        df["handcap_degree"].between(91, 100),
+        tax_unit["handcap_degree"].between(45, 50),
+        tax_unit["handcap_degree"].between(51, 60),
+        tax_unit["handcap_degree"].between(61, 70),
+        tax_unit["handcap_degree"].between(71, 80),
+        tax_unit["handcap_degree"].between(81, 90),
+        tax_unit["handcap_degree"].between(91, 100),
     ]
     hc_pausch = [
         tb["sbhp50"],
@@ -197,85 +207,90 @@ def calc_handicap_lump_sum(df, tb):
     return np.nan_to_num(np.select(hc_degrees, hc_pausch))
 
 
-def calc_gde(df, tb):
+def calc_gde(tax_unit, tb):
     """Calculates sum of the taxable income. It depends on the year if capital
     income, counts into the sum."""
-    gross_gde = df[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
+    gross_gde = tax_unit[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
 
     # Add UBI to taxable income
     # if ref == "UBI":
-    #    zve.loc[:, "gross_gde"] = zve["gross_gde"] + (df["ubi"] * 12)
+    #    zve.loc[:, "gross_gde"] = zve["gross_gde"] + (tax_unit["ubi"] * 12)
 
     # Kapitaleinkommen im Tarif versteuern oder nicht?
     # If capital income tax with tariff, add it but account for exemptions
     if tb["yr"] < 2009:
-        gross_gde += np.maximum(df["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0)
+        gross_gde += np.maximum(tax_unit["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0)
     return gross_gde
 
 
-def calc_gross_e4(df, tb):
+def calc_gross_e4(tax_unit, tb):
     """Calculates the gross incomes of non selfemployed work. The wage is reducted by a
     lump sum payment for 'Werbungskosten'"""
 
-    df.loc[:, "gross_e4"] = 12 * df["m_wage"]
+    tax_unit.loc[:, "gross_e4"] = 12 * tax_unit["m_wage"]
     # Every adult with some wage, gets a lump sum payment for Werbungskosten
-    df.loc[(~df["child"]) & (df["m_wage"] > 0), "gross_e4"] -= tb["werbung"]
+    tax_unit.loc[(~tax_unit["child"]) & (tax_unit["m_wage"] > 0), "gross_e4"] -= tb[
+        "werbung"
+    ]
 
     # If they earn less the mini job limit, then their relevant gross income is 0
-    if df.east.iloc[0]:
+    if tax_unit.east.iloc[0]:
         mini = tb["mini_grenzeo"]
     else:
         mini = tb["mini_grenzew"]
 
-    df.loc[df["m_wage"] <= mini, "gross_e4"] = 0
-    return df
+    tax_unit.loc[tax_unit["m_wage"] <= mini, "gross_e4"] = 0
+    return tax_unit
 
 
-def deductible_child_care_costs(df, tb):
+def deductible_child_care_costs(tax_unit, tb):
     """Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg."""
     # So far we only implement the current regulation, which is since 2012 is in place.
     if tb["yr"] < 2012:
         # For earlier years we only use the pausch value
-        df.loc[~df["child"], "sonder"] = tb["sonder"]
-        return df
+        tax_unit.loc[~tax_unit["child"], "sonder"] = tb["sonder"]
+        return tax_unit
     else:
-        adult_num = len(df[~df["child"]])
+        adult_num = len(tax_unit[~tax_unit["child"]])
         # The maximal amount to claim is 4000 per child. We only count the claim for
         # children under 14. By law the parents are also to allow to claim for disabled
         # children til the age of 25.
-        eligible = df["age"] <= 14
+        eligible = tax_unit["age"] <= 14
 
         deductible_costs = (
             eligible
-            * np.minimum(tb["childcare_max"], 12 * df["m_childcare"])
+            * np.minimum(tb["childcare_max"], 12 * tax_unit["m_childcare"])
             * tb["childcare_share"]
             / adult_num
         )
         # If parents can't claim anything, they get a pausch value.
-        df.loc[~df["child"], "sonder"] = max(np.sum(deductible_costs), tb["sonder"])
-        return df
+        tax_unit.loc[~tax_unit["child"], "sonder"] = max(
+            np.sum(deductible_costs), tb["sonder"]
+        )
+        return tax_unit
 
 
-def calc_gross_e7(df, tb):
+def calc_gross_e7(tax_unit, tb):
     """ Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
     pensions."""
     # The share of pensions subject to income taxation
-    df.loc[df["renteneintritt"] <= 2004, "ertragsanteil"] = 0.27
-    df.loc[df["renteneintritt"].between(2005, 2020), "ertragsanteil"] = 0.5 + 0.02 * (
-        df["renteneintritt"] - 2005
+    tax_unit.loc[tax_unit["renteneintritt"] <= 2004, "ertragsanteil"] = 0.27
+    tax_unit.loc[
+        tax_unit["renteneintritt"].between(2005, 2020), "ertragsanteil"
+    ] = 0.5 + 0.02 * (tax_unit["renteneintritt"] - 2005)
+    tax_unit.loc[
+        tax_unit["renteneintritt"].between(2021, 2040), "ertragsanteil"
+    ] = 0.8 + 0.01 * (tax_unit["renteneintritt"] - 2020)
+    tax_unit.loc[tax_unit["renteneintritt"] >= 2041, "ertragsanteil"] = 1
+    tax_unit.loc[:, "gross_e7"] = np.maximum(
+        12 * (tax_unit["ertragsanteil"] * tax_unit["m_pensions"]) - tb["vorsorgpausch"],
+        0,
     )
-    df.loc[df["renteneintritt"].between(2021, 2040), "ertragsanteil"] = 0.8 + 0.01 * (
-        df["renteneintritt"] - 2020
-    )
-    df.loc[df["renteneintritt"] >= 2041, "ertragsanteil"] = 1
-    df.loc[:, "gross_e7"] = np.maximum(
-        12 * (df["ertragsanteil"] * df["m_pensions"]) - tb["vorsorgpausch"], 0
-    )
-    return df
+    return tax_unit
 
 
-def vorsorge2010(df, tb):
+def vorsorge2010(tax_unit, tb):
     """'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
         from your taxable income.
         This regulation has been changed often in recent years. In order not to make
@@ -292,25 +307,25 @@ def vorsorge2010(df, tb):
         only deduct pension contributions up to the ceiling. multiply by 2
         because it's both employee and employer contributions.
         """
-    westost = [~df["east"], df["east"]]
+    westost = [~tax_unit["east"], tax_unit["east"]]
     rvbeit_vors = np.minimum(
-        2 * df["rvbeit"],
+        2 * tax_unit["rvbeit"],
         2 * tb["grvbs"] * np.select(westost, [tb["rvmaxekw"], tb["rvmaxeko"]]),
     )
 
     # calculate x% of relevant employer and employee contributions
     # then subtract employer contributions
     # also subtract health + care + unemployment insurance contributions
-    altersvors2010 = ~df["child"] * (
+    altersvors2010 = ~tax_unit["child"] * (
         (0.6 + 0.02 * (np.minimum(tb["yr"], 2025) - 2005)) * (12 * rvbeit_vors)
         - (12 * 0.5 * rvbeit_vors)
     )
     # These you get anyway ('Basisvorsorge').
-    sonstigevors2010 = 12 * (df["pvbeit"] + 0.96 * df["gkvbeit"])
+    sonstigevors2010 = 12 * (tax_unit["pvbeit"] + 0.96 * tax_unit["gkvbeit"])
     # maybe add avbeit, but do not exceed 1900€.
     sonstigevors2010 = np.maximum(
         sonstigevors2010,
-        np.minimum(sonstigevors2010 + 12 * df["avbeit"], tb["vors_sonst_max"]),
+        np.minimum(sonstigevors2010 + 12 * tax_unit["avbeit"], tb["vors_sonst_max"]),
     )
 
     vorsorge2010 = altersvors2010 + sonstigevors2010
@@ -318,23 +333,23 @@ def vorsorge2010(df, tb):
     return vorsorge2010.astype(int)
 
 
-def vorsorge_dummy(df, tb):
+def vorsorge_dummy(tax_unit, tb):
     return 0
 
 
-def calc_hhfreib_until2014(df, tb):
+def calc_hhfreib_until2014(tax_unit, tb):
     """Calculates tax reduction for single parents. Used to be called
     'Haushaltsfreibetrag'"""
-    df["hhfreib"] = 0.0
-    df.loc[df["alleinerz"], "hhfreib"] = tb["hhfreib"]
-    return df
+    tax_unit["hhfreib"] = 0.0
+    tax_unit.loc[tax_unit["alleinerz"], "hhfreib"] = tb["hhfreib"]
+    return tax_unit
 
 
-def calc_hhfreib_from2015(df, tb):
+def calc_hhfreib_from2015(tax_unit, tb):
     """Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'"""
-    df["hhfreib"] = 0.0
-    df.loc[df["alleinerz"], "hhfreib"] = tb["hhfreib"] + (
-        (df["child"].sum() - 1) * tb["hhfreib_ch"]
+    tax_unit["hhfreib"] = 0.0
+    tax_unit.loc[tax_unit["alleinerz"], "hhfreib"] = tb["hhfreib"] + (
+        (tax_unit["child"].sum() - 1) * tb["hhfreib_ch"]
     )
-    return df
+    return tax_unit

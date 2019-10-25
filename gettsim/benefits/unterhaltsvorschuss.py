@@ -1,17 +1,17 @@
-def uhv(df, tb):
+def uhv(tax_unit, tb):
     """
     Since 2017, the receipt of this
     UHV has been extended substantially and needs to be taken into account, since it's
     dominant to other transfers, i.e. single parents 'have to' apply for it.
     """
     if tb["yr"] >= 2017:
-        return uhv_since_2017(df, tb)
+        return uhv_since_2017(tax_unit, tb)
     else:
-        df["uhv"] = 0
-        return df
+        tax_unit["uhv"] = 0
+        return tax_unit
 
 
-def uhv_since_2017(df, tb):
+def uhv_since_2017(tax_unit, tb):
     """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
 
         In Germany, Single Parents get alimony payments for themselves and for their
@@ -25,13 +25,17 @@ def uhv_since_2017(df, tb):
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
     # Calculate them on the level of the tax unit
 
-    df["uhv"] = 0
+    tax_unit["uhv"] = 0
     # Amounts depend on age
-    df.loc[df["age"].between(0, 5) & df["alleinerz"], "uhv"] = tb["uhv5"]
-    df.loc[df["age"].between(6, 11) & df["alleinerz"], "uhv"] = tb["uhv11"]
+    tax_unit.loc[tax_unit["age"].between(0, 5) & tax_unit["alleinerz"], "uhv"] = tb[
+        "uhv5"
+    ]
+    tax_unit.loc[tax_unit["age"].between(6, 11) & tax_unit["alleinerz"], "uhv"] = tb[
+        "uhv11"
+    ]
     # Older kids get it only if the parent has income > 600€
     uhv_inc_tu = (
-        df[
+        tax_unit[
             [
                 "m_wage",
                 "m_transfers",
@@ -45,8 +49,11 @@ def uhv_since_2017(df, tb):
         .sum()
         .sum()
     )
-    df.loc[
-        (df["age"].between(12, 17)) & (df["alleinerz"]) & (uhv_inc_tu > 600), "uhv"
+    tax_unit.loc[
+        (tax_unit["age"].between(12, 17))
+        & (tax_unit["alleinerz"])
+        & (uhv_inc_tu > 600),
+        "uhv",
     ] = tb["uhv17"]
     # TODO: Check against actual transfers
-    return df
+    return tax_unit
