@@ -45,10 +45,4 @@ def test_tax_sched(year):
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(tax_sched, tb=tb)
     expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(
-        df[columns],
-        expected,
-        check_dtype=False,
-        check_exact=False,
-        check_less_precise=0,
-    )
+    assert_frame_equal(df[columns], expected, check_exact=False, check_less_precise=0)
