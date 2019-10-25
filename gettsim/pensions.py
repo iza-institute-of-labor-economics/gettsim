@@ -60,7 +60,7 @@ def update_earnings_points(person, tb, tb_pens):
 
 def _ep_for_earnings(person, tb, tb_pens):
     """Return earning points for the wages earned in the last year."""
-    westost = "o" if person["east"].iloc[0] else "w"
+    westost = "o" if person["east"] else "w"
     return np.minimum(person["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"]
 
 
@@ -82,7 +82,7 @@ def _zugangsfaktor(person):
 def _regelaltersgrenze(person):
     """Calculates the age, at which a worker is eligible to claim his full pension."""
     # If born after 1947, each birth year raises the age threshold by one month.
-    if (person["byear"] > 1947).iloc[0]:
+    if person["byear"] > 1947:
         return np.minimum(67, ((person["byear"] - 1947) / 12) + 65)
     else:
         return 65

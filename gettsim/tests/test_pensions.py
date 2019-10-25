@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import pytest
 from numpy.testing import assert_array_almost_equal
@@ -8,8 +7,10 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
+from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
+
 
 INPUT_COLUMNS = [
     "pid",
@@ -41,8 +42,14 @@ def test_pension(year):
         tb["calc_rentenwert"] = _rentenwert_until_2017
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     expected = load_test_data(year, file_name, column)
-    df[column] = np.nan
-    df = df.groupby(["hid", "tu_id", "pid"]).apply(pensions, tb=tb, tb_pens=tb_pens)
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=pensions,
+        level=["hid", "tu_id", "pid"],
+        in_cols=INPUT_COLUMNS,
+        out_cols=[column],
+        func_kwargs={"tb": tb, "tb_pens": tb_pens},
+    )
     assert_array_almost_equal(df[column], expected)
 
 
@@ -53,7 +60,12 @@ def test_update_earning_points(year):
     tb = load_tb(year)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     expected = load_test_data(year, file_name, "EP_end")
-    df = df.groupby(["hid", "tu_id", "pid"]).apply(
-        update_earnings_points, tb=tb, tb_pens=tb_pens[year]
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=update_earnings_points,
+        level=["hid", "tu_id", "pid"],
+        in_cols=INPUT_COLUMNS,
+        out_cols=[],
+        func_kwargs={"tb": tb, "tb_pens": tb_pens[year]},
     )
     assert_array_almost_equal(df["EP"], expected.values)
