@@ -43,7 +43,9 @@ def zve(tax_unit, tb):
 
     # Aggregate several incomes on the taxpayer couple
     for inc in ["gross_e1", "gross_e4", "gross_e5", "gross_e6", "gross_e7"]:
-        tax_unit.loc[adult_married, inc + "_tu"] = tax_unit[inc][adult_married].sum()
+        tax_unit.loc[adult_married, inc + "_tu"] = tax_unit.loc[
+            adult_married, inc
+        ].sum()
 
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
@@ -75,8 +77,8 @@ def zve(tax_unit, tb):
     # Finally, modify married couples income according to Splitting rule,
     # i.e. each partner get assigned half of the total income
     for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
-        tax_unit.loc[:, "zve_" + incdef + "_tu"] = tax_unit["zve_" + incdef][
-            adult_married
+        tax_unit.loc[:, "zve_" + incdef + "_tu"] = tax_unit.loc[
+            adult_married, "zve_" + incdef
         ].sum()
         tax_unit.loc[adult_married, "zve_" + incdef] = (
             0.5 * tax_unit["zve_" + incdef + "_tu"]
