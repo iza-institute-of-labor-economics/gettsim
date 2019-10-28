@@ -1,6 +1,6 @@
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.unterhaltsvorschuss import elt_geld
+from gettsim.benefits.elterngeld import elt_geld
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
@@ -13,7 +13,7 @@ input_cols = [
 
 bool_cols = ["elt_zeit"]
 
-def test_uhv(year):
+def test_eltgeld(year):
     file_name = "test_df_eltg.xlsx"
     df = load_test_data(file_name, input_cols)
     calculated = elt_geld(df)

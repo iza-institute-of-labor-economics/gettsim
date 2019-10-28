@@ -1,3 +1,5 @@
+from gettsim.tests.auxiliary_test_tax import load_tb
+
 def elt_geld(df):
     """This function calculates the monthly benefits for having
     a child that is up to one year old (Elterngeld)"""
@@ -15,15 +17,18 @@ def elt_geld(df):
             eltg_df.loc[(eltg_df["elt_zeit"] == True) & (eltg_df["pid"] == pid), "year"]
             - 1
         )
-        elt_geld += list(
+
+        tb = load_tb(referece_year.item())
+
+        calculated = (
             eltg_df.loc[
-                (eltg_df["pid"] == pid)
-                & (eltg_df["year"] == referece_year.to_numpy()[0]),
+                (eltg_df["pid"] == pid) & (eltg_df["year"] == referece_year.item()),
                 "m_wage",
-            ]
-            * 2
-            / 3
+            ].item()
+            * tb["elgfaktor"]
         )
+
+        elt_geld += [min(calculated, tb["elgmax"])]
 
     eltg_df.loc[eltg_df["elt_zeit"], "elt_geld"] = elt_geld
 
