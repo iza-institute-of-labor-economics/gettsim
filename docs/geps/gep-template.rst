@@ -21,12 +21,34 @@ The abstract should be a short description of what the GEP will achieve.
 
 Note that the — in the title is an elongated dash, not -.
 
+
 Motivation and Scope
 --------------------
 
 This section describes the need for the proposed change. It should describe the existing
 problem, who it affects, what it is trying to solve, and why. This section should
 explicitly address the scope of and key requirements for the proposed change.
+
+
+Usage and Impact
+----------------
+
+This section describes how users of GETTSIM will use features described in this GEP. It
+should be comprised mainly of code examples that wouldn't be possible without acceptance
+and implementation of this GEP, as well as the impact the proposed changes would have on
+the ecosystem. This section should be written from the perspective of the users of
+GETTSIM, and the benefits it will provide them; and as such, it should include
+implementation details only if necessary to explain the functionality.
+
+
+Backward compatibility
+----------------------
+
+This section describes the ways in which the GEP breaks backward compatibility.
+
+The mailing list post will contain the GEP up to and including this section. This is to
+avoid losing users who are not interested in implementation details and instead focus
+the discussion on usage and impact of the intended features.
 
 
 Detailed description

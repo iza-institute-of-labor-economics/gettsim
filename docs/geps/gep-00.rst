@@ -69,8 +69,12 @@ assigned two-digit number (e.g., it is ``gep-00.rst`` for this document). The dr
 use the :ref:`gep-template` file.
 
 Once the PR is in place, the GEP should be announced on the in the #general/geps topic
-on `Zulip`_ for discussion (comments on the PR itself should be restricted to minor
-editorial and technical fixes).
+on `Zulip`_ for discussion. Discussion about implementation details will take place on
+the pull request, but once editorial issues are solved, the PR should be merged, even if
+with draft status. The mailing list e-mail will contain the NEP upto the section titled
+"Backward compatibility", so as to make it digestible to a wide audience. The mailing
+list discussion is intended to target end-users, and thus, discussion on the proposed
+usage and possible impact should take place on the mailing list.
 
 At the earliest convenience, the PR should be merged (regardless of whether it is
 accepted during discussion).  Additional PRs may be made by the Author to update or
