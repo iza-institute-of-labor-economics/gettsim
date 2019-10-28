@@ -1,10 +1,9 @@
 import numpy as np
-import pandas as pd
 
 from gettsim.auxiliary import aggr
 
 
-def kiz(df, tb):
+def kiz(household, tb):
     """ Kinderzuschlag / Additional Child Benefit
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
@@ -18,44 +17,45 @@ def kiz(df, tb):
         This is done by some fixed share which is updated on annual basis
         ('jährlicher Existenzminimumsbericht')
     """
-    kiz_df = pd.DataFrame(index=df.index.copy())
-    kiz_df["hid"] = df["hid"]
-    kiz_df["tu_id"] = df["tu_id"]
-    kiz_df["uhv_tu"] = aggr(df, "uhv", "all_tu")
+    household["uhv_tu"] = aggr(household, "uhv", "all_tu")
     # First, calculate the need as for ALG2, but only for parents.
-    kiz_df["kiz_ek_regel"] = calc_kiz_ek(df, tb)
+    household["kiz_ek_regel"] = calc_kiz_ek(household, tb)
     # Add rents. First, correct rent for the case of several tax units within the HH
-    kiz_df["kiz_miete"] = df["miete"] * df["hh_korr"]
-    kiz_df["kiz_heiz"] = df["heizkost"] * df["hh_korr"]
+    household["kiz_miete"] = household["miete"] * household["hh_korr"]
+    household["kiz_heiz"] = household["heizkost"] * household["hh_korr"]
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
     wb = get_wohnbedarf(max(tb["yr"], 2011))
-    kiz_df["wb_eltern_share"] = 1.0
+    household["wb_eltern_share"] = 1.0
     for c in [1, 2]:
         for r in [1, 2, 3, 4]:
-            kiz_df.loc[
-                (df["child_num_tu"] == r) & (df["adult_num_tu"] == c), "wb_eltern_share"
+            household.loc[
+                (household["child_num_tu"] == r) & (household["adult_num_tu"] == c),
+                "wb_eltern_share",
             ] = (wb[r - 1][c - 1] / 100)
-        kiz_df.loc[
-            (df["child_num_tu"] >= 5) & (df["adult_num_tu"] == c), "wb_eltern_share"
+        household.loc[
+            (household["child_num_tu"] >= 5) & (household["adult_num_tu"] == c),
+            "wb_eltern_share",
         ] = (wb[4][c - 1] / 100)
 
     # apply this share to living costs
     # unlike ALG2, there is no check whether living costs are "appropriate".
-    kiz_df["kiz_ek_kdu"] = kiz_df["wb_eltern_share"] * (
-        kiz_df["kiz_miete"] + kiz_df["kiz_heiz"]
+    household["kiz_ek_kdu"] = household["wb_eltern_share"] * (
+        household["kiz_miete"] + household["kiz_heiz"]
     )
-    kiz_df["kiz_ek_relev"] = kiz_df["kiz_ek_regel"] + kiz_df["kiz_ek_kdu"]
+    household["kiz_ek_relev"] = household["kiz_ek_regel"] + household["kiz_ek_kdu"]
 
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
-    kiz_df["child_num_kg"] = tb["childben_elig_rule"](df, tb).sum()
+    household["child_num_kg"] = tb["childben_elig_rule"](household, tb).sum()
 
-    kiz_df["kiz_ek_max"] = kiz_df["kiz_ek_relev"] + tb["a2kiz"] * kiz_df["child_num_kg"]
+    household["kiz_ek_max"] = (
+        household["kiz_ek_relev"] + tb["a2kiz"] * household["child_num_kg"]
+    )
     # min income to be eligible for KIZ (different for singles and couples)
-    kiz_df["kiz_ek_min"] = tb["a2kiz_minek_cou"] * (df["hhtyp"] == 4) + (
-        tb["a2kiz_minek_sin"] * (df["alleinerz"])
+    household["kiz_ek_min"] = tb["a2kiz_minek_cou"] * (household["hhtyp"] == 4) + (
+        tb["a2kiz_minek_sin"] * (household["alleinerz"])
     )
 
     #        Übersetzung §6a BKGG auf deutsch:
@@ -70,59 +70,65 @@ def kiz(df, tb):
     #        der volle KIZ gezahlt
     #        Wenn es ÜBER der Bemessungsgrundlage liegt,
     #        wird die Differenz zur Hälfte abgezogen.
-    kiz_df["kiz_ek_gross"] = df["alg2_grossek_hh"]
-    kiz_df["kiz_ek_net"] = df["ar_alg2_ek_hh"]
+    household["kiz_ek_gross"] = household["alg2_grossek_hh"]
+    household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
 
     # Deductable income. 50% withdrawal rate.
-    kiz_df["kiz_ek_anr"] = np.maximum(
-        0, 0.5 * (df["ar_alg2_ek_hh"] - kiz_df["kiz_ek_relev"])
+    household["kiz_ek_anr"] = np.maximum(
+        0, 0.5 * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"])
     )
 
     # Dummy variable whether household is in the relevant income range.
-    kiz_df["kiz_incrange"] = (kiz_df["kiz_ek_gross"] >= kiz_df["kiz_ek_min"]) & (
-        kiz_df["kiz_ek_net"] <= kiz_df["kiz_ek_max"]
-    )
+    household["kiz_incrange"] = (
+        household["kiz_ek_gross"] >= household["kiz_ek_min"]
+    ) & (household["kiz_ek_net"] <= household["kiz_ek_max"])
     # Finally, calculate the amount. Subtract deductable income with 50% and child
     # income fully!
-    kiz_df["kiz"] = 0
-    kiz_df.loc[kiz_df["kiz_incrange"], "kiz"] = np.maximum(
+    household["kiz"] = 0
+    household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
         0,
-        tb["a2kiz"] * kiz_df["child_num_kg"] - kiz_df["kiz_ek_anr"] - kiz_df["uhv_tu"],
+        tb["a2kiz"] * household["child_num_kg"]
+        - household["kiz_ek_anr"]
+        - household["uhv_tu"],
     )
-    kiz_df["kiz_temp"] = kiz_df["kiz"].max()
+    household["kiz_temp"] = household["kiz"].max()
     # Transfer some variables for eligibility check
-    # kiz["ar_base_alg2_ek"] = df["ar_base_alg2_ek"]
-    # kiz["n_pens"] = df["pensioner"].sum()
-    return kiz_df[["kiz_temp", "kiz_incrange"]]
+    # kiz["ar_base_alg2_ek"] = household["ar_base_alg2_ek"]
+    # kiz["n_pens"] = household["pensioner"].sum()
+    return household
 
 
-def calc_kiz_ek(df, tb):
+def calc_kiz_ek(household, tb):
     if tb["yr"] <= 2010:
         # not yet implemented
-        kiz_regel = _calc_kiz_regel_until_2010(df, tb)
+        kiz_regel = _calc_kiz_regel_until_2010(household, tb)
     else:
-        kiz_regel = _calc_kiz_regel_since_2011(df, tb)
+        kiz_regel = _calc_kiz_regel_since_2011(household, tb)
 
     return np.select(
-        [df["adult_num_tu"] == 1, df["adult_num_tu"] == 2, df["adult_num_tu"] > 2],
+        [
+            household["adult_num_tu"] == 1,
+            household["adult_num_tu"] == 2,
+            household["adult_num_tu"] > 2,
+        ],
         kiz_regel,
     )
 
 
-def _calc_kiz_regel_until_2010(df, tb):
+def _calc_kiz_regel_until_2010(household, tb):
     """"""
     return [
-        tb["rs_hhvor"] * (1 + df["mehrbed"]),
-        tb["rs_hhvor"] * tb["a2part"] * (2 + df["mehrbed"]),
-        tb["rs_hhvor"] * tb["a2ch18"] * df["adult_num_tu"],
+        tb["rs_hhvor"] * (1 + household["mehrbed"]),
+        tb["rs_hhvor"] * tb["a2part"] * (2 + household["mehrbed"]),
+        tb["rs_hhvor"] * tb["a2ch18"] * household["adult_num_tu"],
     ]
 
 
-def _calc_kiz_regel_since_2011(df, tb):
+def _calc_kiz_regel_since_2011(household, tb):
     return [
-        tb["rs_hhvor"] * (1 + df["mehrbed"]),
-        tb["rs_2adults"] + ((1 + df["mehrbed"]) * tb["rs_2adults"]),
-        tb["rs_madults"] * df["adult_num_tu"],
+        tb["rs_hhvor"] * (1 + household["mehrbed"]),
+        tb["rs_2adults"] + ((1 + household["mehrbed"]) * tb["rs_2adults"]),
+        tb["rs_madults"] * household["adult_num_tu"],
     ]
 
 

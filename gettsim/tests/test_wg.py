@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import pytest
 from pandas.testing import assert_frame_equal
 
@@ -40,13 +40,14 @@ input_cols = [
     "year",
     "hhsize_tu",
 ]
+out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
 years = [2006, 2009, 2013, 2016, 2018, 2019]
+test_column = ["wohngeld_basis_hh"]
 
 
 @pytest.mark.parametrize("year", years)
 def test_wg(year):
     file_name = "test_dfs_wg.ods"
-    columns = ["wohngeld_basis_hh"]
     df = load_test_data(
         year, file_name, input_cols, bool_cols=["head_tu", "child", "alleinerz"]
     )
@@ -56,18 +57,18 @@ def test_wg(year):
         tb["calc_max_rent"] = calc_max_rent_until_2008
     else:
         tb["calc_max_rent"] = calc_max_rent_since_2009
-    calculated = pd.DataFrame(columns=columns)
-    for hid in df["hid"].unique():
-        calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
-    expected = load_test_data(year, file_name, columns)
-
-    assert_frame_equal(calculated, expected, check_exact=False, check_less_precise=2)
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby("hid").apply(wg, tb=tb)
+    expected = load_test_data(year, file_name, test_column)
+    assert_frame_equal(
+        df[test_column], expected, check_exact=False, check_less_precise=2
+    )
 
 
 @pytest.mark.parametrize("year", [2013])
 def test_wg_no_mietstufe_in_input_data(year):
     file_name = "test_dfs_wg2.csv"
-    columns = ["wohngeld_basis_hh"]
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
@@ -75,8 +76,10 @@ def test_wg_no_mietstufe_in_input_data(year):
         tb["calc_max_rent"] = calc_max_rent_until_2008
     else:
         tb["calc_max_rent"] = calc_max_rent_since_2009
-    calculated = pd.DataFrame(columns=columns)
-    for hid in df["hid"].unique():
-        calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
-    expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(calculated, expected, check_exact=False, check_less_precise=2)
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby("hid").apply(wg, tb=tb)
+    expected = load_test_data(year, file_name, test_column)
+    assert_frame_equal(
+        df[test_column], expected, check_exact=False, check_less_precise=2
+    )

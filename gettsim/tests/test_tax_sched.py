@@ -1,5 +1,6 @@
-import pandas as pd
+import numpy as np
 import pytest
+from pandas.testing import assert_frame_equal
 
 from gettsim.taxes.calc_taxes import tarif
 from gettsim.taxes.calc_taxes import tax_sched
@@ -32,12 +33,16 @@ def test_tax_sched(year):
     tb["yr"] = year
     # list of tax bases
     tb["zve_list"] = ["nokfb", "kfb"]
+    out_cols = (
+        [f"tax_{inc}" for inc in tb["zve_list"]]
+        + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
+        + ["abgst_tu", "abgst", "soli", "soli_tu"]
+    )
+
     # name of tax tariff function
     tb["tax_schedule"] = tarif
-    calculated = pd.DataFrame(columns=columns)
-    for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(tax_sched(df[df["tu_id"] == tu_id], tb)[columns])
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby(["hid", "tu_id"]).apply(tax_sched, tb=tb)
     expected = load_test_data(year, file_name, columns)
-    pd.testing.assert_frame_equal(
-        calculated, expected, check_dtype=False, check_exact=False, check_less_precise=0
-    )
+    assert_frame_equal(df[columns], expected, check_exact=False, check_less_precise=0)
