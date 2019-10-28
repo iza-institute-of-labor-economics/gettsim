@@ -1,8 +1,8 @@
-import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitslosengeld import ui
+from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.taxes.calc_taxes import tarif
 from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
@@ -24,7 +24,7 @@ input_cols = [
     "age",
     "year",
 ]
-
+OUT_COL = "m_alg1"
 years = [2010, 2011, 2015, 2019]
 
 
@@ -35,8 +35,13 @@ def test_ui(year):
     tb = load_tb(year)
     tb["yr"] = year
     tb["tax_schedule"] = tarif
-    expected = load_test_data(year, file_name, "m_alg1")
-    calculated = pd.Series(name="m_alg1", index=df.index)
-    for i in df.index:
-        calculated[i] = ui(df.loc[i], tb)
-    assert_series_equal(calculated, expected, check_less_precise=3)
+    expected = load_test_data(year, file_name, OUT_COL)
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=ui,
+        level=["hid", "tu_id", "pid"],
+        in_cols=input_cols,
+        out_cols=[OUT_COL],
+        func_kwargs={"tb": tb},
+    )
+    assert_series_equal(df[OUT_COL], expected, check_less_precise=3)

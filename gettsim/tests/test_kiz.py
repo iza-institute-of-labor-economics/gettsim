@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import pytest
 from pandas.testing import assert_frame_equal
 
@@ -35,7 +35,7 @@ input_cols = [
     "uhv",
     "year",
 ]
-
+out_cols = ["kiz_temp", "kiz_incrange"]
 years = [2006, 2009, 2011, 2013, 2016, 2019]
 
 
@@ -50,8 +50,8 @@ def test_kiz(year):
         tb["childben_elig_rule"] = kg_eligibility_hours
     else:
         tb["childben_elig_rule"] = kg_eligibility_wage
-    calculated = pd.DataFrame(columns=columns)
-    for hid in df["hid"].unique():
-        calculated = calculated.append(kiz(df[df["hid"] == hid], tb)[columns])
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby("hid").apply(kiz, tb=tb)
     expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(calculated, expected, check_dtype=False)
+    assert_frame_equal(df[columns], expected, check_dtype=False)

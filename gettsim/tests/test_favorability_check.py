@@ -1,6 +1,6 @@
 from itertools import product
 
-import pandas as pd
+import numpy as np
 import pytest
 from pandas.testing import assert_series_equal
 
@@ -21,7 +21,7 @@ input_cols = [
     "kindergeld_tu_basis",
     "year",
 ]
-
+out_cols = ["incometax_tu", "incometax", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
 years = [2010, 2012, 2016]
 columns = ["incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
 to_test = list(product(years, columns))
@@ -33,10 +33,8 @@ def test_favorability_check(year, column):
     df = load_test_data(year, file_name, input_cols, bool_cols=["zveranl", "child"])
 
     tb = {"zve_list": ["nokfb", "kfb"], "yr": year}
-    calculated = pd.Series(name=column)
-    for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(
-            favorability_check(df[df["tu_id"] == tu_id], tb)[column]
-        )
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby(["hid", "tu_id"]).apply(favorability_check, tb=tb)
     expected = load_test_data(year, file_name, column)
-    assert_series_equal(calculated, expected, check_dtype=False)
+    assert_series_equal(df[column], expected, check_dtype=False)

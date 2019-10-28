@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def tax_sched(df, tb):
+def tax_sched(tax_unit, tb):
     """Given various forms of income and other state variables, return
     the different taxes to be paid before making favourability checks etc..
 
@@ -14,18 +14,19 @@ def tax_sched(df, tb):
 
     """
 
-    adult_married = (~df["child"]) & (df["zveranl"])
+    adult_married = (~tax_unit["child"]) & (tax_unit["zveranl"])
     # create ts dataframe and copy three important variables
-    ts = pd.DataFrame(index=df.index.copy())
     for inc in tb["zve_list"]:
-        ts["tax_" + inc] = tb["tax_schedule"](df["zve_" + inc], tb)
-        ts[f"tax_{inc}_tu"] = ts[f"tax_{inc}"]
-        ts.loc[adult_married, f"tax_{inc}_tu"] = ts[f"tax_{inc}"][adult_married].sum()
+        tax_unit["tax_" + inc] = tb["tax_schedule"](tax_unit["zve_" + inc], tb)
+        tax_unit[f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"]
+        tax_unit.loc[adult_married, f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"][
+            adult_married
+        ].sum()
 
     # Abgeltungssteuer
-    ts["abgst"] = abgeltung(df, tb)
-    ts["abgst_tu"] = 0
-    ts.loc[adult_married, "abgst_tu"] = ts["abgst"][adult_married].sum()
+    tax_unit["abgst"] = abgeltung(tax_unit, tb)
+    tax_unit["abgst_tu"] = 0
+    tax_unit.loc[adult_married, "abgst_tu"] = tax_unit["abgst"][adult_married].sum()
 
     """Solidarity Surcharge. on top of the income tax and capital income tax.
     No Soli if income tax due is below € 920 (solifreigrenze)
@@ -36,39 +37,40 @@ def tax_sched(df, tb):
     """
 
     if tb["yr"] >= 1991:
-        ts["solibasis"] = ts["tax_kfb_tu"] + ts["abgst_tu"]
+        tax_unit["solibasis"] = tax_unit["tax_kfb_tu"] + tax_unit["abgst_tu"]
         # Soli also in monthly terms. only for adults
-        ts["soli_tu"] = soli_formula(ts["solibasis"], tb) * ~df["child"] * (1 / 12)
+        tax_unit["soli_tu"] = (
+            soli_formula(tax_unit["solibasis"], tb) * ~tax_unit["child"] * (1 / 12)
+        )
     else:
-        ts["soli_tu"] = 0
+        tax_unit["soli_tu"] = 0
 
     # Assign Soli to individuals
-    ts["soli"] = np.select(
-        [df["zveranl"], ~df["zveranl"]], [ts["soli_tu"] / 2, ts["soli_tu"]]
+    tax_unit["soli"] = np.select(
+        [tax_unit["zveranl"], ~tax_unit["zveranl"]],
+        [tax_unit["soli_tu"] / 2, tax_unit["soli_tu"]],
     )
-    return ts[
-        [f"tax_{inc}" for inc in tb["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
-        + ["abgst_tu", "abgst", "soli", "soli_tu"]
-    ]
+    return tax_unit
 
 
-def abgeltung(df, tb):
+def abgeltung(tax_unit, tb):
     """ Capital Income Tax / Abgeltungsteuer
         since 2009, captial income is taxed with a flatrate of 25%.
     """
-    df_abgelt = pd.DataFrame(index=df.index.copy())
-    df_abgelt["abgst"] = 0
+    tax_unit_abgelt = pd.DataFrame(index=tax_unit.index.copy())
+    tax_unit_abgelt["abgst"] = 0
     if tb["yr"] >= 2009:
-        df_abgelt.loc[~df["zveranl"], "abgst"] = tb["abgst"] * np.maximum(
-            df["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0
+        tax_unit_abgelt.loc[~tax_unit["zveranl"], "abgst"] = tb["abgst"] * np.maximum(
+            tax_unit["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0
         )
-        df_abgelt.loc[df["zveranl"], "abgst"] = (
+        tax_unit_abgelt.loc[tax_unit["zveranl"], "abgst"] = (
             0.5
             * tb["abgst"]
-            * np.maximum(df["gross_e5_tu"] - 2 * (tb["spsparf"] + tb["spwerbz"]), 0)
+            * np.maximum(
+                tax_unit["gross_e5_tu"] - 2 * (tb["spsparf"] + tb["spwerbz"]), 0
+            )
         )
-    return df_abgelt["abgst"]
+    return tax_unit_abgelt["abgst"]
 
 
 @np.vectorize

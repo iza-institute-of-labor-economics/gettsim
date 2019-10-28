@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import pytest
 from numpy.testing import assert_array_almost_equal
@@ -8,8 +7,10 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
+from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
+
 
 INPUT_COLUMNS = [
     "pid",
@@ -41,26 +42,30 @@ def test_pension(year):
         tb["calc_rentenwert"] = _rentenwert_until_2017
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     expected = load_test_data(year, file_name, column)
-    calculated = pd.Series(name=column)
-    for pid in df["pid"].unique():
-        calculated = np.append(
-            calculated, pensions(df[df["pid"] == pid].iloc[0], tb, tb_pens)
-        )
-    assert_array_almost_equal(calculated, expected)
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=pensions,
+        level=["hid", "tu_id", "pid"],
+        in_cols=INPUT_COLUMNS,
+        out_cols=[column],
+        func_kwargs={"tb": tb, "tb_pens": tb_pens},
+    )
+    assert_array_almost_equal(df[column], expected)
 
 
 @pytest.mark.parametrize("year", YEARS)
 def test_update_earning_points(year):
-    column = "EP_end"
     file_name = "test_dfs_pensions.ods"
     df = load_test_data(year, file_name, INPUT_COLUMNS)
     tb = load_tb(year)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    expected = load_test_data(year, file_name, column)
-    calculated = np.array([])
-    for pid in df["pid"].unique():
-        calculated = np.append(
-            calculated,
-            update_earnings_points(df[df["pid"] == pid].iloc[0], tb, tb_pens[year]),
-        )
-    assert_array_almost_equal(calculated, expected.values)
+    expected = load_test_data(year, file_name, "EP_end")
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=update_earnings_points,
+        level=["hid", "tu_id", "pid"],
+        in_cols=INPUT_COLUMNS,
+        out_cols=[],
+        func_kwargs={"tb": tb, "tb_pens": tb_pens[year]},
+    )
+    assert_array_almost_equal(df["EP"], expected.values)
