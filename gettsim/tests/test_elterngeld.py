@@ -13,9 +13,9 @@ input_cols = [
 
 bool_cols = ["elt_zeit"]
 
-def test_eltgeld(year):
+def test_eltgeld():
     file_name = "test_df_eltg.xlsx"
     df = load_test_data(file_name, input_cols)
     calculated = elt_geld(df)
-    expected = load_test_data(file_name, "elt_geld_expected")
+    expected = load_test_data(file_name, input_cols)["elt_geld"]
     assert_series_equal(calculated, expected, check_dtype=False)
