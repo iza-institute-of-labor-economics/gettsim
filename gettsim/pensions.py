@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def pensions(df_row, tb, tb_pens):
+def pensions(person, tb, tb_pens):
     """
     This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
@@ -23,21 +23,21 @@ def pensions(df_row, tb, tb_pens):
     # meanwages is only filled until 2016
     yr = min(tb["yr"], 2016)
 
-    EP = update_earnings_points(df_row, tb, tb_pens[yr])
+    person = update_earnings_points(person, tb, tb_pens[yr])
     # ZF: Zugangsfaktor.
-    ZF = _zugangsfaktor(df_row)
+    ZF = _zugangsfaktor(person)
 
     rentenwert = tb["calc_rentenwert"](tb_pens, yr)
 
     # use all three components for Rentenformel.
     # It's called 'pensions_sim' to emphasize that this is simulated.
 
-    pensions_sim = np.maximum(0, round(EP * ZF * rentenwert, 2))
+    person["pensions_sim"] = np.maximum(0, round(person["EP"] * ZF * rentenwert, 2))
 
-    return pensions_sim
+    return person
 
 
-def update_earnings_points(df, tb, tb_pens):
+def update_earnings_points(person, tb, tb_pens):
     """Given earnings, social security rules, average
     earnings in a particular year and potentially other
     variables (e.g., benefits for raising children,
@@ -49,22 +49,19 @@ def update_earnings_points(df, tb, tb_pens):
 
     """
 
-    out = _ep_for_earnings(df, tb, tb_pens)
-    out += _ep_for_care_periods(df, tb, tb_pens)
+    out = _ep_for_earnings(person, tb, tb_pens)
+    out += _ep_for_care_periods(person, tb, tb_pens)
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
+    person["EP"] += out
+    return person
 
-    return df["EP"] + out
 
-
-def _ep_for_earnings(df, tb, tb_pens):
+def _ep_for_earnings(person, tb, tb_pens):
     """Return earning points for the wages earned in the last year."""
-    if df["east"]:
-        westost = "o"
-    else:
-        westost = "w"
-    return np.minimum(df["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"]
+    westost = "o" if person["east"] else "w"
+    return np.minimum(person["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"]
 
 
 def _ep_for_care_periods(df, tb, tb_pens):
@@ -72,21 +69,21 @@ def _ep_for_care_periods(df, tb, tb_pens):
     return 0.0
 
 
-def _zugangsfaktor(df_row):
+def _zugangsfaktor(person):
     """ The zugangsfaktor depends on the age of entering pensions. At the
     regelaltersgrenze, the agent is allowed to get pensions with his full
     claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his
     claim."""
-    regelaltersgrenze = _regelaltersgrenze(df_row)
+    regelaltersgrenze = _regelaltersgrenze(person)
 
-    return (df_row["age"] - regelaltersgrenze) * 0.036 + 1
+    return (person["age"] - regelaltersgrenze) * 0.036 + 1
 
 
-def _regelaltersgrenze(df_row):
+def _regelaltersgrenze(person):
     """Calculates the age, at which a worker is eligible to claim his full pension."""
     # If born after 1947, each birth year raises the age threshold by one month.
-    if df_row["byear"] > 1947:
-        return np.minimum(67, ((df_row["byear"] - 1947) / 12) + 65)
+    if person["byear"] > 1947:
+        return np.minimum(67, ((person["byear"] - 1947) / 12) + 65)
     else:
         return 65
 

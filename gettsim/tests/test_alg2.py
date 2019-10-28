@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import pytest
 from pandas.testing import assert_frame_equal
 
@@ -32,6 +32,17 @@ input_cols = [
     "uhv",
     "year",
 ]
+out_cols = [
+    "ar_base_alg2_ek",
+    "ar_alg2_ek_hh",
+    "alg2_grossek_hh",
+    "mehrbed",
+    "regelbedarf",
+    "regelsatz",
+    "alg2_kdu",
+    "uhv_hh",
+    "ekanrefrei",
+]
 
 
 years = [2006, 2009, 2011, 2013, 2016, 2019]
@@ -48,8 +59,8 @@ def test_alg2(year):
     #     tb["calc_regelsatz"] = regelberechnung_until_2010
     # else:
     #     tb["calc_regelsatz"] = regelberechnung_2011_and_beyond
-    calculated = pd.DataFrame(columns=columns)
-    for hid in df["hid"].unique():
-        calculated = calculated.append(alg2(df[df["hid"] == hid], tb)[columns])
+    for col in out_cols:
+        df[col] = np.nan
+    df = df.groupby("hid").apply(alg2, tb=tb)
     expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(calculated, expected)
+    assert_frame_equal(df[columns], expected)

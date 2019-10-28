@@ -1,6 +1,8 @@
-import pandas as pd
+import itertools
+
+import numpy as np
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
@@ -13,7 +15,7 @@ from gettsim.tests.auxiliary_test_tax import load_tb
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
-input_cols = [
+IN_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -39,14 +41,38 @@ input_cols = [
     "east",
     "gkvbeit",
 ]
-years = [2005, 2009, 2010, 2012, 2018]
+OUT_COLS = [
+    "zve_nokfb",
+    "zve_abg_nokfb",
+    "zve_kfb",
+    "zve_abg_kfb",
+    "kifreib",
+    "gross_e1",
+    "gross_e4",
+    "gross_e5",
+    "gross_e6",
+    "gross_e7",
+    "gross_e1_tu",
+    "gross_e4_tu",
+    "gross_e5_tu",
+    "gross_e6_tu",
+    "gross_e7_tu",
+    "ertragsanteil",
+    "sonder",
+    "hhfreib",
+    "altfreib",
+    "vorsorge",
+]
+
+TEST_COLS = ["zve_nokfb", "zve_kfb"]
+YEARS = [2005, 2009, 2010, 2012, 2018]
 
 
-@pytest.mark.parametrize("year", years)
-def test_zve(year):
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
+def test_zve(year, column):
     file_name = "test_dfs_zve.ods"
-    columns = ["zve_nokfb", "zve_kfb"]
-    df = load_test_data(year, file_name, input_cols)
+
+    df = load_test_data(year, file_name, IN_COLS)
 
     tb = load_tb(year)
     tb["yr"] = year
@@ -63,10 +89,10 @@ def test_zve(year):
     else:
         tb["vorsorge"] = vorsorge_dummy
 
-    calculated = pd.DataFrame(columns=columns)
-    for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(zve(df[df["tu_id"] == tu_id], tb)[columns])
-    expected = load_test_data(year, file_name, columns)
+    for col in OUT_COLS:
+        df[col] = np.nan
+    df = df.groupby(["hid", "tu_id"]).apply(zve, tb=tb)
+    expected = load_test_data(year, file_name, column)
 
     # allow 1€ difference, caused by strange rounding issues.
-    assert_frame_equal(calculated, expected, check_less_precise=2)
+    assert_series_equal(df[column], expected, check_less_precise=2)
