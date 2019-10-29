@@ -82,7 +82,6 @@ def zve(tax_unit, tb):
         tax_unit.loc[adult_married, "zve_" + incdef] = (
             0.5 * tax_unit["zve_" + incdef + "_tu"]
         )
-    print(tax_unit["vorsorge"])
     return tax_unit
 
 
