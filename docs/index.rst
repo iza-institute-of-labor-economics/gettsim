@@ -17,6 +17,7 @@ use it already, else keep an eye out for what there is to come!
    :maxdepth: 2
 
    how-to-contribute
+   how-to-maintain
    code-of-conduct
 
 
