@@ -68,13 +68,13 @@ The proposal should be submitted as a draft GEP via a `GitHub pull request`_ to 
 assigned two-digit number (e.g., it is ``gep-00.rst`` for this document). The draft must
 use the :ref:`gep-template` file.
 
-Once the PR is in place, the GEP should be announced on the in the #general/geps topic
-on `Zulip`_ for discussion. Discussion about implementation details will take place on
-the pull request, but once editorial issues are solved, the PR should be merged, even if
-with draft status. The #general/geps topic will contain the GEP upto the section titled
+Once the PR is in place, the GEP should be announced on the in #general/geps on `Zulip`_
+for discussion. Discussion about implementation details will take place on the pull
+request, but once editorial issues are solved, the PR should be merged, even if with
+draft status. The #general/geps topic will contain the GEP upto the section titled
 "Backward compatibility", so as to make it digestible to a wide audience. The
 #general/geps topic discussion is intended to target end-users, and thus, discussion on
-the proposed usage and possible impact should take place in #general/geps topic.
+the proposed usage and possible impact should take place in #general/geps.
 
 At the earliest convenience, the PR should be merged (regardless of whether it is
 accepted during discussion). Additional PRs may be made by the Author to update or
@@ -91,8 +91,8 @@ the prototype implementation to be made available as PR to the GETTSIM repositor
 Review and Resolution
 ^^^^^^^^^^^^^^^^^^^^^
 
-GEPs are discussed in #general/geps topic.  The possible paths of the status of GEPs are
-as follows:
+GEPs are discussed in #general/geps.  The possible paths of the status of GEPs are as
+follows:
 
 .. image:: /_static/gep-process.png
 
