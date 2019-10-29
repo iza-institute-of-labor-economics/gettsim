@@ -46,9 +46,9 @@ Backward compatibility
 
 This section describes the ways in which the GEP breaks backward compatibility.
 
-The #general/geps topic will contain the GEP up to and including this section. This is
-to avoid losing users who are not interested in implementation details and instead focus
-the discussion on usage and impact of the intended features.
+The `#general/geps`_ topic will contain the GEP up to and including this section. This
+is to avoid losing users who are not interested in implementation details and instead
+focus the discussion on usage and impact of the intended features.
 
 
 Detailed description
@@ -110,6 +110,8 @@ References and Footnotes
        this GEP as an example) or licensed under the `Open Publication License`_.
 
 .. _Open Publication License: https://www.opencontent.org/openpub/
+
+.. _#general/geps: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs
 
 
 Copyright

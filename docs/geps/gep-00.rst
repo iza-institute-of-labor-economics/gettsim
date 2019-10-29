@@ -60,21 +60,21 @@ it tends to be. If in doubt, split your GEP into several well-focused ones.
 Each GEP must have a champion---someone who writes the GEP using the style and format
 described below, shepherds the discussions in the appropriate forums, and attempts to
 build community consensus around the idea.  The GEP champion (a.k.a. Author) should
-first attempt to ascertain whether the idea is suitable for a GEP. A message in the
-"#general/GEPs" channel on `Zulip`_ is the best way to go about doing this.
+first attempt to ascertain whether the idea is suitable for a GEP. A message in
+`#general/geps`_ on `Zulip`_ is the best way to go about doing this.
 
 The proposal should be submitted as a draft GEP via a `GitHub pull request`_ to the
 ``doc/geps`` directory with the name ``gep-<n>.rst`` where ``<n>`` is an appropriately
 assigned two-digit number (e.g., it is ``gep-00.rst`` for this document). The draft must
 use the :ref:`gep-template` file.
 
-Once the PR is in place, the GEP should be announced on the in #general/geps on `Zulip`_
-for discussion. Discussion about implementation details will take place on the pull
-request, but once editorial issues are solved, the PR should be merged, even if with
-draft status. The #general/geps topic will contain the GEP upto the section titled
-"Backward compatibility", so as to make it digestible to a wide audience. The
-#general/geps topic discussion is intended to target end-users, and thus, discussion on
-the proposed usage and possible impact should take place in #general/geps.
+Once the PR is in place, the GEP should be announced on the in `#general/geps`_ on
+`Zulip`_ for discussion. Discussion about implementation details will take place on the
+pull request, but once editorial issues are solved, the PR should be merged, even if
+with draft status. The `#general/geps`_ topic will contain the GEP upto the section
+titled "Backward compatibility", so as to make it digestible to a wide audience. The
+`#general/geps`_ topic discussion is intended to target end-users, and thus, discussion
+on the proposed usage and possible impact should take place in `#general/geps`_.
 
 At the earliest convenience, the PR should be merged (regardless of whether it is
 accepted during discussion). Additional PRs may be made by the Author to update or
@@ -91,7 +91,7 @@ the prototype implementation to be made available as PR to the GETTSIM repositor
 Review and Resolution
 ^^^^^^^^^^^^^^^^^^^^^
 
-GEPs are discussed in #general/geps.  The possible paths of the status of GEPs are as
+GEPs are discussed in `#general/geps`_.  The possible paths of the status of GEPs are as
 follows:
 
 .. image:: /_static/gep-process.png
@@ -131,9 +131,9 @@ accordingly. In addition to updating the status field, at the very least the
 ``Resolution`` header should be added with a link to the relevant thread in the Zulip
 archives.
 
-GEPs can also be ``Superseded`` by a different GEP, rendering the original obsolete.
-The ``Replaced-By`` and ``Replaces`` headers should be added to the original and new
-GEPs respectively.
+GEPs can also be ``Superseded`` by a different GEP, rendering the original obsolete. The
+``Replaced-By`` and ``Replaces`` headers should be added to the original and new GEPs
+respectively.
 
 Process GEPs may also have a status of ``Active`` if they are never meant to be
 completed, e.g. GEP 0 (this GEP).
@@ -263,6 +263,8 @@ References and Footnotes
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/
 
 .. _Zulip: https://gettsim.zulipchat.com/
+
+.. _#general/geps: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs
 
 
 Acknowledgements
