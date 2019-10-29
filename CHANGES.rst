@@ -16,7 +16,8 @@ This will be the initial release of ``gettsim``.
   <https://github.com/hmgaudecker>`_ and `@tobiasraabe
   <https://github.com/tobiasraabe>`_
 - Setup of development workflow by `@tobiasraabe <https://github.com/tobiasraabe>`_
-
+- Extend tax-benefit modelling
+    - *Vorsorgeaufwendungen* pre 2010
 
 0.1 and prior work - 2019-09-30
 -------------------------------
