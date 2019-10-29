@@ -46,8 +46,8 @@ Backward compatibility
 
 This section describes the ways in which the GEP breaks backward compatibility.
 
-The mailing list post will contain the GEP up to and including this section. This is to
-avoid losing users who are not interested in implementation details and instead focus
+The #general/geps topic will contain the GEP up to and including this section. This is
+to avoid losing users who are not interested in implementation details and instead focus
 the discussion on usage and impact of the intended features.
 
 
