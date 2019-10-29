@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import pytest
 from pandas.testing import assert_series_equal
 
@@ -23,6 +23,7 @@ input_cols = [
     "zveranl",
     "year",
 ]
+out_col = "uhv"
 years = [2017, 2019]
 
 
@@ -32,8 +33,7 @@ def test_uhv(year):
     df = load_test_data(year, file_name, input_cols)
     tb = load_tb(year)
     tb["yr"] = year
-    calculated = pd.Series(name="uhv")
-    for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(uhv(df[df["tu_id"] == tu_id], tb))
+    df[out_col] = np.nan
+    df = df.groupby(["hid", "tu_id"]).apply(uhv, tb=tb)
     expected = load_test_data(year, file_name, "uhv")
-    assert_series_equal(calculated, expected, check_dtype=False)
+    assert_series_equal(df[out_col], expected, check_dtype=False)
