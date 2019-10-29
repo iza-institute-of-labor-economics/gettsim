@@ -51,7 +51,10 @@ def zve(tax_unit, tb):
     # 2. VORSORGEAUFWENDUNGEN (technically a special case of "Sonderausgaben")
     # TODO: check various deductions against each other (when modelled)
     tax_unit.loc[:, "vorsorge"] = tb["vorsorge"](tax_unit, tb)
-    # 3. Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
+    # 3. Tax Deduction for elderly ("Altersentlastungsbetrag")
+    # does not affect pensions.
+    tax_unit = calc_altfreibetrag(tax_unit, tb)
+    # 4.. Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
     tax_unit = tb["calc_hhfreib"](tax_unit, tb)
 
     # Taxable income (zve)
@@ -79,7 +82,7 @@ def zve(tax_unit, tb):
         tax_unit.loc[adult_married, "zve_" + incdef] = (
             0.5 * tax_unit["zve_" + incdef + "_tu"]
         )
-
+    print(tax_unit["vorsorge"])
     return tax_unit
 
 
@@ -120,7 +123,6 @@ def kinderfreibetrag(tax_unit, tb):
 
         return tax_unit
 
-
     # For non married couples or couples where both earn enough this are a lot easier.
     # Just split the kinderfreibetrag 50/50.
     else:
@@ -130,6 +132,7 @@ def kinderfreibetrag(tax_unit, tb):
 
 def zve_nokfb(tax_unit, tb):
     """Calculate zve with no 'kinderfreibetrag'."""
+
     return np.maximum(
         0,
         tax_unit["gross_gde"]
@@ -316,10 +319,10 @@ def vorsorge2010(tax_unit, tb):
     # calculate x% of relevant employer and employee contributions
     # then subtract employer contributions
     # also subtract health + care + unemployment insurance contributions
-    altersvors2010 = ~tax_unit["child"] * (
-        (0.6 + 0.02 * (np.minimum(tb["yr"], 2025) - 2005)) * (12 * rvbeit_vors)
-        - (12 * 0.5 * rvbeit_vors)
-    )
+    altersvors2010 = ~tax_unit["child"] * vorsorge_year_faktor(tb["yr"]) * (
+        12 * rvbeit_vors
+    ) - (12 * 0.5 * rvbeit_vors)
+
     # These you get anyway ('Basisvorsorge').
     sonstigevors2010 = 12 * (tax_unit["pvbeit"] + 0.96 * tax_unit["gkvbeit"])
     # maybe add avbeit, but do not exceed 1900€.
@@ -327,48 +330,53 @@ def vorsorge2010(tax_unit, tb):
         sonstigevors2010,
         np.minimum(sonstigevors2010 + 12 * tax_unit["avbeit"], tb["vors_sonst_max"]),
     )
-
-    vorsorge2010 = altersvors2010 + sonstigevors2010
-
-    return vorsorge2010.astype(int)
+    return altersvors2010.astype(int) + sonstigevors2010.astype(int)
 
 
-def vorsorge2005(df, tb):
+def vorsorge2005(tax_unit, tb):
     """ Vorsorgeaufwendungen pre 2010
     Pension contributions are accounted for up to €20k.
     From this, a certain share can actually be deducted,
     starting with 60% in 2005.
+    Other deductions are just added, up to a ceiling of 2400 p.a. for standard employees.
 
-    Hintergrund (Stand 2004): https://bit.ly/32oqCQq
+    Background: https://bit.ly/32oqCQq
     """
     tb["max_altersvors_2005"] = 20000
-    rvbeit_max_vors = np.minimum(tb["max_altersvors_2005"], 12 * df["rvbeit"] * 2)
-
-    altersvors2005 = ~df["child"] * pension_contributions_year_adj(
-        tb["yr"], rvbeit_max_vors
+    tb["max_sonstige_vors_2005"] = 2400
+    rvbeit_vors_max = np.minimum(
+        tb["max_altersvors_2005"] * vorsorge_year_faktor(tb["yr"]),
+        12 * tax_unit["rvbeit"] * 2,
     )
+    # intermediate step
+    altersvors2005_int = ~tax_unit["child"] * (
+        vorsorge_year_faktor(tb["yr"]) * (12 * 2 * tax_unit["rvbeit"])
+        - (12 * tax_unit["rvbeit"])
+    ).astype(int)
+    altersvors2005 = np.minimum(rvbeit_vors_max, altersvors2005_int)
 
-    # altersvors2005 = ~df["child"] * ((0.6 + 0.02 *  * (12 * rvbeit_vors)
-    #    - (12 * 0.5 * rvbeit_vors)))
-    sonstigevors2005 = ~df["child"] * df["gkvbeit"]
-
+    sonstigevors2005 = ~tax_unit["child"] * np.minimum(
+        tb["max_sonstige_vors_2005"],
+        12 * (tax_unit["gkvbeit"] + tax_unit["avbeit"] + tax_unit["pvbeit"]),
+    ).astype(int)
     return (altersvors2005 + sonstigevors2005).astype(int)
 
 
-def pension_contributions_year_adj(year, contributions):
-    """ returns the amount of pension contributions which can be effectively deducted,
-    depending on the year.
+def vorsorge2004(tax_unit, tb):
+    """ Vorsorgeaufwendungen pre 2004.
+    """
+    pass
+
+
+def vorsorge_year_faktor(year):
+    """ at several points in the calculation of *Vorsorgeaufwendungen*,
+    there is year-dependent factor to be calculated.
 
     year: int
-    contributions: **monthly** pension contributions by employer and employee
+
+    returns the factor
     """
-    return (
-        0.6
-        + 0.02 * (np.minimum(year, 2025) - 2005) * (12 * contributions)
-        - (12 * 0.5 * contributions)
-    )
-def vorsorge_dummy(tax_unit, tb):
-    return 0
+    return 0.6 + 0.02 * (min(year, 2025) - 2005)
 
 
 def calc_hhfreib_until2014(tax_unit, tb):

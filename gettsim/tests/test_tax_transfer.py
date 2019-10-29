@@ -14,8 +14,8 @@ from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
+from gettsim.taxes.zve import vorsorge2005
 from gettsim.taxes.zve import vorsorge2010
-from gettsim.taxes.zve import vorsorge_dummy
 from gettsim.tests.auxiliary_test_tax import load_tb
 
 
@@ -67,7 +67,7 @@ def test_soc_ins_contrib(year):
     if year >= 2010:
         tb["vorsorge"] = vorsorge2010
     else:
-        tb["vorsorge"] = vorsorge_dummy
+        tb["vorsorge"] = vorsorge2005
 
     tb["tax_schedule"] = tarif
     tb["zve_list"] = ["nokfb", "kfb"]
