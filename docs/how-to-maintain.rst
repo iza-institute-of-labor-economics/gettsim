@@ -14,18 +14,6 @@ a given version number ``major.minor.patch``
 * ``minor`` is incremented when you add functionality which is backwards compatible.
 * ``patch`` is incremented when you make backwards compatible bug fixes.
 
-You can add a suffix to signal more information on the current version.
-
-* Use ``0.0.1dev0`` to signal that the release is a development version which is
-  currently tested and to be released soon. Increment the last digit for multiple
-  development versions.
-
-.. note::
-
-   The development suffix is not separated with a dot from the patch version as this
-   does not comply with the publishing process on anaconda.org.*
-
-
 Branching Model
 ---------------
 
@@ -55,12 +43,9 @@ To release a new version of GETTSIM, do the following.
    as its name on Github to collect issues and PRs which should be included in the new
    version.
 
-2. Call a halt on changes to the master branch. Make sure all changes to the master
-   branch since the last version are included in the milestone.
-
-**Here, we have to decide whether we allows pushing to master for releases or not. Then,
-we can use bump2version to create a tagged commit. Otherwise, we stick to PRs and create
-the tag via Github. I would go with the latter.**
+2. Once consensus is reached on which PRs to include in the release, call a halt on
+   changes to the master branch. Make sure all changes to the master branch since the
+   last version are included in the milestone.
 
 3. Create a PR to finalize the new release.
 
@@ -94,17 +79,16 @@ Procedure
 ^^^^^^^^^
 
 In the following we will consider an example where GETTSIM stable version is 0.2.0.
-Version 0.2.1 is currently developed on the master branch but not released. And a bug
-fix was found which should be backported to minor version 0.1 which latest patch version
-is 8.
+Version 0.2.1 is currently developed on the master branch but not released. And a
+critical bug was found which should go both into master and into the minor predecessor
+0.1.8.
 
 1. Create a PR which targets the master branch and includes the bug fix which should be
    backported.
 2. Add a note to the release notes for version 0.1.9.
 3. Add a label ``backport-to-0.1.9`` to the PR.
 4. Squash merge the PR into master and note down the commit sha.
-5. Create a new PR against branch 0.1.x. Either the branch exists or create the branch
-   from the last released patch version 0.1.8. Call the branch for the PR
+5. Create a new PR against branch ``0.1.``. Call the branch for the PR
    ``backport-<#pr>`` where #pr is the PR number.
 6. Use ``git cherrypick -x <commit-sha>`` with the aforementioned commit sha to apply
    the fix to the branch. Solve any merge conflicts, etc..
