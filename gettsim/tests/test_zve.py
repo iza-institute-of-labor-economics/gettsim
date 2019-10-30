@@ -8,7 +8,8 @@ from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
-from gettsim.taxes.zve import vorsorge2005
+from gettsim.taxes.zve import vorsorge04_05
+from gettsim.taxes.zve import vorsorge2004
 from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import zve
 from gettsim.tests.auxiliary_test_tax import load_tb
@@ -73,7 +74,6 @@ def test_zve(year, column):
     file_name = "test_dfs_zve.ods"
 
     df = load_test_data(year, file_name, IN_COLS)
-
     tb = load_tb(year)
     tb["yr"] = year
     if year <= 2014:
@@ -86,8 +86,10 @@ def test_zve(year, column):
         tb["childben_elig_rule"] = kg_eligibility_wage
     if year >= 2010:
         tb["vorsorge"] = vorsorge2010
-    else:
-        tb["vorsorge"] = vorsorge2005
+    elif 2005 <= year <= 2009:
+        tb["vorsorge"] = vorsorge04_05
+    elif year <= 2004:
+        tb["vorsorge"] = vorsorge2004
 
     for col in OUT_COLS:
         df[col] = np.nan

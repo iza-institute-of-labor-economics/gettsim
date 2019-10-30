@@ -49,8 +49,9 @@ def zve(tax_unit, tb):
     # Sonderausgaben
     tax_unit = deductible_child_care_costs(tax_unit, tb)
     # 2. VORSORGEAUFWENDUNGEN (technically a special case of "Sonderausgaben")
-    # TODO: check various deductions against each other (when modelled)
+    #
     tax_unit.loc[:, "vorsorge"] = tb["vorsorge"](tax_unit, tb)
+
     # 3. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     tax_unit = calc_altfreibetrag(tax_unit, tb)
@@ -343,10 +344,7 @@ def vorsorge2005(tax_unit, tb):
     """
     tb["max_altersvors_2005"] = 20000
     tb["max_sonstige_vors_2005"] = 2400
-    rvbeit_vors_max = np.minimum(
-        tb["max_altersvors_2005"] * vorsorge_year_faktor(tb["yr"]),
-        12 * tax_unit["rvbeit"] * 2,
-    )
+    rvbeit_vors_max = np.minimum(tb["max_altersvors_2005"], 12 * tax_unit["rvbeit"] * 2)
     # intermediate step
     altersvors2005_int = ~tax_unit["child"] * (
         vorsorge_year_faktor(tb["yr"]) * (12 * 2 * tax_unit["rvbeit"])
@@ -362,9 +360,55 @@ def vorsorge2005(tax_unit, tb):
 
 
 def vorsorge2004(tax_unit, tb):
-    """ Vorsorgeaufwendungen pre 2004.
+    """ Vorsorgeaufwendungen up until 2004.
+        - only pension and health contributions.
     """
-    pass
+
+    # Distinguish between married and singles
+    # Single Taxpayer
+    if not tax_unit["zveranl"].max():
+        # Amount 1: Basic deduction, based on earnings. Usually zero.
+        item_1 = np.maximum(
+            tb["vorwegab"] - tb["kuerzquo"] * 12 * tax_unit["m_wage"], 0
+        )
+        # calcuate the remaining amount.
+        vorsorg_rest = np.maximum(
+            12 * (tax_unit["rvbeit"] + tax_unit["gkvbeit"]) - item_1, 0
+        )
+        # Deduct a 'Grundhöchstbetrag' (1334€ in 2004),
+        # or the actual expenses if lower (which is unlikely)
+        item_2 = np.minimum(tb["grundbet"], vorsorg_rest)
+        # From what is left from vorsorg_rest, you may deduct 50%.
+        # (up until 50% of 'Grundhöchstbetrag')
+        item_3 = np.minimum(0.5 * (vorsorg_rest - item_2), 0.5 * tb["grundbet"])
+    # For the married couple, the same stuff, but with tu totals.
+    if tax_unit["zveranl"].max():
+        item_1 = 0.5 * np.maximum(
+            2 * tb["vorwegab"] - tb["kuerzquo"] * 12 * tax_unit["m_wage_tu"], 0
+        )
+        vorsorg_rest = 0.5 * np.maximum(
+            12 * (tax_unit["rvbeit_tu"] + tax_unit["gkvbeit_tu"]) - item_1, 0
+        )
+        item_2 = 0.5 * np.minimum(tb["grundbet"], vorsorg_rest)
+        item_3 = 0.5 * np.minimum((vorsorg_rest - item_2), 2 * tb["grundbet"])
+
+    # Finally, add up all three amounts and assign in to the adults.
+    vorsorge2004 = ~tax_unit["child"] * (item_1 + item_2 + item_3).astype(int)
+
+    return vorsorge2004
+
+
+def vorsorge04_05(tax_unit, tb):
+    """ With the 2004 reform, no taxpayer was supposed to be affected negatively.
+        Therefore, between 2005 and 2010, one needs to compute amounts
+        (2004 and 2005 regime) and take the higher one.
+        Sidenote: The 2010 ruling is *always* more beneficial than the 2005 one,
+        so no need for a check there.
+    """
+    vors2004 = vorsorge2004(tax_unit, tb)
+    vors2005 = vorsorge2005(tax_unit, tb)
+    # Take the sum of both adults in the tax unit
+    return np.maximum(vors2004.sum(), vors2005.sum())
 
 
 def vorsorge_year_faktor(year):
