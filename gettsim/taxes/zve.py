@@ -49,9 +49,7 @@ def zve(tax_unit, tb):
     # Sonderausgaben
     tax_unit = deductible_child_care_costs(tax_unit, tb)
     # 2. VORSORGEAUFWENDUNGEN (technically a special case of "Sonderausgaben")
-    #
     tax_unit.loc[:, "vorsorge"] = tb["vorsorge"](tax_unit, tb)
-
     # 3. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     tax_unit = calc_altfreibetrag(tax_unit, tb)
@@ -338,12 +336,12 @@ def vorsorge2005(tax_unit, tb):
     Pension contributions are accounted for up to €20k.
     From this, a certain share can actually be deducted,
     starting with 60% in 2005.
-    Other deductions are just added, up to a ceiling of 2400 p.a. for standard employees.
+    Other deductions are just added, up to a ceiling of 1500 p.a. for standard employees.
 
     Background: https://bit.ly/32oqCQq
     """
     tb["max_altersvors_2005"] = 20000
-    tb["max_sonstige_vors_2005"] = 2400
+    tb["max_sonstige_vors_2005"] = 1500
     rvbeit_vors_max = np.minimum(tb["max_altersvors_2005"], 12 * tax_unit["rvbeit"] * 2)
     # intermediate step
     altersvors2005_int = ~tax_unit["child"] * (
