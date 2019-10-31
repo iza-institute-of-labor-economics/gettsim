@@ -30,4 +30,4 @@ def test_kindergeld(yr):
 
     expected = load_test_data(yr, filename, test_column)
 
-    assert_series_equal(df[test_column], expected)
+    assert_series_equal(df[test_column], expected, check_dtype=False)

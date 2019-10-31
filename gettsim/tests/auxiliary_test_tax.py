@@ -1,4 +1,7 @@
+import datetime
+
 import pandas as pd
+import yaml
 from pandas_ods_reader import read_ods
 
 from gettsim.config import ROOT_DIR
@@ -40,6 +43,17 @@ def load_test_data(year, file_name, columns, *pd_args, **pd_kwargs):
     return df
 
 
-def load_tb(year):
-    df = pd.read_excel(ROOT_DIR / "data" / "param.xls").set_index("para")
-    return df[f"y{year}"].to_dict()
+def load_tb(year, month=1, day=1):
+    tb_pre = yaml.safe_load(open(f"{ROOT_DIR}/data/param.yaml", "rb"))
+    tb = {}
+    this_year = datetime.date(year=year, month=month, day=day)
+    for key in tb_pre.keys():
+        if tb_pre[key]["values"] is not None:
+            policy_dates = list(tb_pre[key]["values"].keys())
+            past_policies = [x for x in policy_dates if x <= this_year]
+            if not past_policies:
+                pass
+            else:
+                policy_in_place = max(past_policies)
+                tb[key] = tb_pre[key]["values"][policy_in_place]["value"]
+    return tb
