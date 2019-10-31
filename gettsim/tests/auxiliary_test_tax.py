@@ -1,5 +1,6 @@
 import datetime
 
+import numpy as np
 import pandas as pd
 import yaml
 from pandas_ods_reader import read_ods
@@ -52,7 +53,8 @@ def load_tb(year, month=1, day=1):
             policy_dates = list(tb_pre[key]["values"].keys())
             past_policies = [x for x in policy_dates if x <= this_year]
             if not past_policies:
-                pass
+                # TODO: Should there be missing values or should the key not exist?
+                tb[key] = np.nan
             else:
                 policy_in_place = max(past_policies)
                 tb[key] = tb_pre[key]["values"][policy_in_place]["value"]
