@@ -6014,7 +6014,7 @@ wg_a_6p:
       value: .037
       note: .
     2016-01-01:
-      value: -.01
+      value: -0.01
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_7p:
   group: wohngeld
@@ -6038,7 +6038,7 @@ wg_a_7p:
       value: .033
       note: .
     2016-01-01:
-      value: -.02
+      value: -0.02
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_8p:
   group: wohngeld
@@ -6050,19 +6050,19 @@ wg_a_8p:
     en:
   values:
     1984-01-01:
-      value: -.0176
+      value: -0.0176
       note:
     1990-01-01:
-      value: -.0005
+      value: -0.0005
       note: .
     1992-01-01:
-      value: -.00252
+      value: -0.00252
       note: .
     2001-01-01:
       value: .023
       note: .
     2016-01-01:
-      value: -.03
+      value: -0.03
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_9p:
   group: wohngeld
@@ -6074,22 +6074,22 @@ wg_a_9p:
     en:
   values:
     1984-01-01:
-      value: -.0397
+      value: -0.0397
       note:
     1990-01-01:
-      value: -.0281
+      value: -0.0281
       note: .
     1992-01-01:
-      value: -.00252
+      value: -0.00252
       note: .
     2001-01-01:
-      value: -.017
+      value: -0.017
       note: .
     2009-01-01:
-      value: -.0197
+      value: -0.0197
       note:
     2016-01-01:
-      value: -.04
+      value: -0.04
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_10p:
   group: wohngeld
@@ -6101,22 +6101,22 @@ wg_a_10p:
     en:
   values:
     1984-01-01:
-      value: -.0595
+      value: -0.0595
       note:
     1990-01-01:
-      value: -.0455
+      value: -0.0455
       note: .
     1992-01-01:
-      value: -.00252
+      value: -0.00252
       note: .
     2001-01-01:
-      value: -.037
+      value: -0.037
       note: .
     2009-01-01:
-      value: -.0401
+      value: -0.0401
       note:
     2016-01-01:
-      value: -.06
+      value: -0.06
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_11p:
   group: wohngeld
@@ -6128,22 +6128,22 @@ wg_a_11p:
     en:
   values:
     1984-01-01:
-      value: -.0595
+      value: -0.0595
       note:
     1990-01-01:
-      value: -.0455
+      value: -0.0455
       note: .
     1992-01-01:
-      value: -.00252
+      value: -0.00252
       note: .
     2001-01-01:
-      value: -.067
+      value: -0.067
       note: .
     2009-01-01:
-      value: -.066
+      value: -0.066
       note:
     2016-01-01:
-      value: -.1
+      value: -0.1
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_12p:
   group: wohngeld
@@ -6155,22 +6155,22 @@ wg_a_12p:
     en:
   values:
     1984-01-01:
-      value: -.0595
+      value: -0.0595
       note:
     1990-01-01:
-      value: -.0455
+      value: -0.0455
       note: .
     1992-01-01:
-      value: -.00252
+      value: -0.00252
       note: .
     2001-01-01:
-      value: -.092
+      value: -0.092
       note: .
     2009-01-01:
-      value: -.0899
+      value: -0.0899
       note:
     2016-01-01:
-      value: -.14
+      value: -0.14
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_1p:
   group: wohngeld
