@@ -44,8 +44,11 @@ def load_test_data(year, file_name, columns, *pd_args, **pd_kwargs):
     return df
 
 
-def load_tb(year, month=1, day=1):
-    tb_pre = yaml.safe_load(open(f"{ROOT_DIR}/data/param.yaml", "rb"))
+def load_tax_benefit_data():
+    return yaml.safe_load(open(f"{ROOT_DIR}/data/param.yaml", "rb"))
+
+
+def get_policies_for_date(tb_pre, year, month=1, day=1):
     tb = {}
     this_year = datetime.date(year=year, month=month, day=day)
     for key in tb_pre.keys():

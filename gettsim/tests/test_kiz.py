@@ -5,7 +5,8 @@ from pandas.testing import assert_frame_equal
 from gettsim.benefits.kiz import kiz
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
@@ -37,6 +38,7 @@ input_cols = [
 ]
 out_cols = ["kiz_temp", "kiz_incrange"]
 years = [2006, 2009, 2011, 2013, 2016, 2019]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year", years)
@@ -44,7 +46,7 @@ def test_kiz(year):
     file_name = "test_dfs_kiz.ods"
     columns = ["kiz_temp"]
     df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year > 2011:
         tb["childben_elig_rule"] = kg_eligibility_hours
