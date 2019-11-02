@@ -5,7 +5,8 @@ from pandas.testing import assert_frame_equal
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.benefits.wohngeld import wg
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
@@ -43,6 +44,7 @@ input_cols = [
 out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
 years = [2006, 2009, 2013, 2016, 2018, 2019]
 test_column = ["wohngeld_basis_hh"]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year", years)
@@ -51,7 +53,7 @@ def test_wg(year):
     df = load_test_data(
         year, file_name, input_cols, bool_cols=["head_tu", "child", "alleinerz"]
     )
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year < 2009:
         tb["calc_max_rent"] = calc_max_rent_until_2008
@@ -70,7 +72,7 @@ def test_wg(year):
 def test_wg_no_mietstufe_in_input_data(year):
     file_name = "test_dfs_wg2.csv"
     df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year < 2009:
         tb["calc_max_rent"] = calc_max_rent_until_2008

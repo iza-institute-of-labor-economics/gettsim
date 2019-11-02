@@ -4,7 +4,8 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.taxes.calc_taxes import tarif
 from gettsim.taxes.calc_taxes import tax_sched
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
@@ -22,6 +23,7 @@ input_cols = [
 ]
 
 years = [2009, 2012, 2015, 2018]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year", years)
@@ -29,7 +31,7 @@ def test_tax_sched(year):
     file_name = "test_dfs_tax_sched.ods"
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
     df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     # list of tax bases
     tb["zve_list"] = ["nokfb", "kfb"]

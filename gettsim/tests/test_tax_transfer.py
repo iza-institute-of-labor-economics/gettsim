@@ -16,7 +16,8 @@ from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import vorsorge_dummy
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 
 
 INPUT_COLUMNS = [
@@ -36,13 +37,14 @@ INPUT_COLUMNS = [
 
 
 YEARS = [2002, 2010, 2018, 2019]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year", YEARS)
 def test_soc_ins_contrib(year):
     df = pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_tax_transfer.csv")
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year >= 2003:
         tb["calc_midi_contrib"] = calc_midi_contributions
