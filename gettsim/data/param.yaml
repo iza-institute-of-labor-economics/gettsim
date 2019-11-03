@@ -5724,8 +5724,8 @@ t_ynom3:
     1999-01-01:
       value: 66312
       note:
-ust_low:
-  group: ust
+vat_low:
+  group: vat
   name:
     de: Mehrwertsteuer, ermäßigter Satz
     en:
@@ -5736,8 +5736,8 @@ ust_low:
     1984-01-01:
       value: .07
       note:
-ust_high:
-  group: ust
+vat_high:
+  group: vat
   name:
     de: Mehrwertsteuer, Regelsatz
     en:
@@ -5751,7 +5751,7 @@ ust_high:
     1993-01-01:
       value: .15
       note: .
-    1999-01-01:
+    1999-04-01:
       value: .16
       note:
     2007-01-01:
