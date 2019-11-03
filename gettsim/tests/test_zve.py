@@ -12,7 +12,8 @@ from gettsim.taxes.zve import vorsorge04_05
 from gettsim.taxes.zve import vorsorge2004
 from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import zve
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
@@ -67,6 +68,7 @@ OUT_COLS = [
 
 TEST_COLS = ["zve_nokfb", "zve_kfb"]
 YEARS = [2005, 2009, 2010, 2012, 2018]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
@@ -74,7 +76,9 @@ def test_zve(year, column):
     file_name = "test_dfs_zve.ods"
 
     df = load_test_data(year, file_name, IN_COLS)
-    tb = load_tb(year)
+
+    tb = get_policies_for_date(tax_policy_data, year=year)
+
     tb["yr"] = year
     if year <= 2014:
         tb["calc_hhfreib"] = calc_hhfreib_until2014

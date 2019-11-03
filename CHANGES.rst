@@ -1,5 +1,5 @@
 Changes
-=======
+^^^^^^^
 
 This is a record of all past ``gettsim`` releases and what went into them in reverse
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
@@ -10,6 +10,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 This will be the initial release of ``gettsim``.
 
+- Migration of the parameter database from xls to yaml
 - Many changes to the interface of the package by `@MaxBlesch
   <https://github.com/MaxBlesch>`_, `@janosg <https://github.com/janosg>`_,
   `@Eric-Sommer <https://github.com/Eric-Sommer>`_, `@hmgaudecker
