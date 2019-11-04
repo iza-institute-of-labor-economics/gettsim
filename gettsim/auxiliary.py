@@ -25,11 +25,3 @@ def aggr(df, inc, unit):
         df[inc + "_tu_k"] = df[inc + "_sum"]
 
         return df[inc + "_tu_k"]
-
-    if unit == "all_hh":
-        df = df.join(
-            df.groupby(["hid"])[inc].sum(), on=["hid"], how="left", rsuffix="_sum"
-        )
-        df[inc + "_hh"] = df[inc + "_sum"]
-
-        return df[inc + "_hh"]
