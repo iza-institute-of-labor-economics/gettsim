@@ -6,7 +6,7 @@ import numpy as np
 def get_policies_for_date(tb_pre, year, month=1, day=1):
     tb = {}
     this_year = datetime.date(year=year, month=month, day=day)
-    for key in tb_pre.keys():
+    for key in tb_pre:
         if tb_pre[key]["values"] is not None:
             policy_dates = tb_pre[key]["values"]
             past_policies = [x for x in policy_dates if x <= this_year]
