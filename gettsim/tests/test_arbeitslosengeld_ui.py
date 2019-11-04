@@ -6,8 +6,7 @@ from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.config import ROOT_DIR
 from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.taxes.calc_taxes import tarif
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 input_cols = [
@@ -29,7 +28,6 @@ input_cols = [
 ]
 OUT_COL = "m_alg1"
 years = [2010, 2011, 2015, 2019]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -40,7 +38,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", years)
-def test_ui(input_data, year):
+def test_ui(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)

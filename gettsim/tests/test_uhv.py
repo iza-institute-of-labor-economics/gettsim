@@ -5,8 +5,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.config import ROOT_DIR
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 input_cols = [
@@ -27,7 +26,6 @@ input_cols = [
 ]
 out_col = "uhv"
 years = [2017, 2019]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -38,7 +36,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", years)
-def test_uhv(input_data, year):
+def test_uhv(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)

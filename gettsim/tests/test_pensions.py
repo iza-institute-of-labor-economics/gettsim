@@ -8,8 +8,7 @@ from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 INPUT_COLUMNS = [
@@ -27,7 +26,6 @@ INPUT_COLUMNS = [
 
 
 YEARS = [2010, 2012, 2015]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -38,7 +36,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, year):
+def test_pension(input_data, tax_policy_data, year):
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLUMNS].copy()
@@ -61,7 +59,7 @@ def test_pension(input_data, year):
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, year):
+def test_update_earning_points(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLUMNS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)

@@ -7,14 +7,12 @@ from gettsim.config import ROOT_DIR
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.kindergeld import kindergeld
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 input_cols = ["hid", "tu_id", "pid", "age", "w_hours", "ineducation", "m_wage"]
 out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
 years = [2000, 2002, 2010, 2011, 2013, 2019]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -25,7 +23,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", years)
-def test_kindergeld(input_data, year):
+def test_kindergeld(input_data, tax_policy_data, year):
     test_column = "kindergeld_tu_basis"
     year_data = input_data[input_data["year"] == year]
     df = year_data[input_cols].copy()

@@ -5,8 +5,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.config import ROOT_DIR
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 input_cols = [
@@ -31,7 +30,6 @@ input_cols = [
 
 years = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
 out_cols = ["kiz", "wohngeld", "m_alg2"]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -42,7 +40,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", years)
-def test_kiz(input_data, year):
+def test_kiz(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)

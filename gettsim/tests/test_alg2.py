@@ -5,8 +5,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.alg2 import alg2
 from gettsim.config import ROOT_DIR
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 input_cols = [
     "pid",
@@ -48,7 +47,6 @@ out_cols = [
 
 
 years = [2006, 2009, 2011, 2013, 2016, 2019]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -59,7 +57,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", years)
-def test_alg2(input_data, year):
+def test_alg2(input_data, tax_policy_data, year):
     columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[input_cols].copy()

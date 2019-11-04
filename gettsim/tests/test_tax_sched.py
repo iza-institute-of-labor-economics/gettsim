@@ -6,8 +6,7 @@ from pandas.testing import assert_frame_equal
 from gettsim.config import ROOT_DIR
 from gettsim.taxes.calc_taxes import tarif
 from gettsim.taxes.calc_taxes import tax_sched
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 input_cols = [
     "pid",
@@ -24,7 +23,6 @@ input_cols = [
 ]
 
 years = [2009, 2012, 2015, 2018]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -35,7 +33,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", years)
-def test_tax_sched(input_data, year):
+def test_tax_sched(input_data, tax_policy_data, year):
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[input_cols].copy()

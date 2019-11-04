@@ -16,8 +16,7 @@ from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import vorsorge_dummy
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 INPUT_COLUMNS = [
@@ -37,7 +36,6 @@ INPUT_COLUMNS = [
 
 
 YEARS = [2002, 2010, 2018, 2019]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -48,7 +46,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_soc_ins_contrib(input_data, year):
+def test_soc_ins_contrib(input_data, tax_policy_data, year):
     df = input_data[input_data["year"] == year].copy()
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     tb = get_policies_for_date(tax_policy_data, year=year)

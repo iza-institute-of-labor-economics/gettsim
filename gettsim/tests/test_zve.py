@@ -13,8 +13,7 @@ from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import vorsorge_dummy
 from gettsim.taxes.zve import zve
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 IN_COLS = [
@@ -68,7 +67,6 @@ OUT_COLS = [
 
 TEST_COLS = ["zve_nokfb", "zve_kfb"]
 YEARS = [2005, 2009, 2010, 2012, 2018]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -79,7 +77,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_zve(input_data, year, column):
+def test_zve(input_data, tax_policy_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[IN_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)

@@ -7,8 +7,7 @@ from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 input_cols = [
     "pid",
@@ -45,7 +44,6 @@ input_cols = [
 out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
 years = [2006, 2009, 2013, 2016, 2018, 2019]
 test_column = ["wohngeld_basis_hh"]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -56,7 +54,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", years)
-def test_wg(input_data, year):
+def test_wg(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
@@ -79,7 +77,7 @@ def input_data_2():
 
 
 @pytest.mark.parametrize("year", [2013])
-def test_wg_no_mietstufe_in_input_data(input_data_2, year):
+def test_wg_no_mietstufe_in_input_data(input_data_2, tax_policy_data, year):
     year_data = input_data_2[input_data_2["year"] == year]
     df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)

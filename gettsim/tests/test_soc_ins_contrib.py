@@ -8,8 +8,7 @@ from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
+from gettsim.tests.policy_for_date import get_policies_for_date
 
 INPUT_COLUMNS = [
     "pid",
@@ -29,7 +28,6 @@ INPUT_COLUMNS = [
 
 YEARS = [2002, 2010, 2018, 2019]
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
-tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.fixture
@@ -40,7 +38,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_soc_ins_contrib(input_data, year, column):
+def test_soc_ins_contrib(input_data, tax_policy_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLUMNS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
