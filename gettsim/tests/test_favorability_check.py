@@ -29,11 +29,11 @@ to_test = list(product(years, columns))
 
 @pytest.mark.parametrize("year, column", to_test)
 def test_favorability_check(year, column):
-    file_name = "test_dfs_favorability_check.ods"
+    file_name = "test_dfs_favorability_check.csv"
     df = load_test_data(year, file_name, input_cols, bool_cols=["zveranl", "child"])
     tb = {"zve_list": ["nokfb", "kfb"], "yr": year}
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(favorability_check, tb=tb)
     expected = load_test_data(year, file_name, column)
-    assert_series_equal(df[column], expected, check_dtype=False)
+    assert_series_equal(df[column], expected)
