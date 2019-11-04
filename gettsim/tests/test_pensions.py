@@ -8,7 +8,8 @@ from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
@@ -27,6 +28,7 @@ INPUT_COLUMNS = [
 
 
 YEARS = [2010, 2012, 2015]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year", YEARS)
@@ -34,7 +36,7 @@ def test_pension(year):
     column = "pensions_sim"
     file_name = "test_dfs_pensions.ods"
     df = load_test_data(year, file_name, INPUT_COLUMNS)
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year > 2017:
         tb["calc_rentenwert"] = _rentenwert_from_2018
@@ -57,7 +59,7 @@ def test_pension(year):
 def test_update_earning_points(year):
     file_name = "test_dfs_pensions.ods"
     df = load_test_data(year, file_name, INPUT_COLUMNS)
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     expected = load_test_data(year, file_name, "EP_end")
     df = _apply_tax_transfer_func(

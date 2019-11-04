@@ -3,7 +3,8 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.unterhaltsvorschuss import uhv
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
@@ -25,13 +26,14 @@ input_cols = [
 ]
 out_col = "uhv"
 years = [2017, 2019]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year", years)
 def test_uhv(year):
     file_name = "test_dfs_uhv.ods"
     df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     df[out_col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(uhv, tb=tb)

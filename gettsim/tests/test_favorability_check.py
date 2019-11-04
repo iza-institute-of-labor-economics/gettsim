@@ -31,7 +31,6 @@ to_test = list(product(years, columns))
 def test_favorability_check(year, column):
     file_name = "test_dfs_favorability_check.ods"
     df = load_test_data(year, file_name, input_cols, bool_cols=["zveranl", "child"])
-
     tb = {"zve_list": ["nokfb", "kfb"], "yr": year}
     for col in out_cols:
         df[col] = np.nan
