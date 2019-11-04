@@ -28,20 +28,19 @@ def load_test_data(year, file_name, columns, *pd_args, **pd_kwargs):
     ]
     if file_name.endswith("csv"):
         df = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    if file_name.endswith("xls") or file_name.endswith("xlsx"):
+    elif file_name.endswith("xls") or file_name.endswith("xlsx"):
         df = pd.read_excel(
             ROOT_DIR / "tests" / "test_data" / file_name, *pd_args, **pd_kwargs
         )
-    if file_name.endswith("ods"):
+    elif file_name.endswith("ods"):
         # always load the first sheet
         df = read_ods(ROOT_DIR / "tests" / "test_data" / file_name, 1)
         for col in bool_cols:
             if col in df.columns:
                 df[col] = df[col].astype(bool)
-
-    df = df.loc[df["year"].eq(year), columns].copy()
-
-    return df
+    else:
+        raise ValueError("File does not exist.")
+    return df[df["year"] == year][columns]
 
 
 def load_tax_benefit_data():
