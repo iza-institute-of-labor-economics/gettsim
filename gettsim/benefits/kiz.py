@@ -15,7 +15,7 @@ def kiz(household, tb):
         This is done by some fixed share which is updated on annual basis
         ('jährlicher Existenzminimumsbericht')
     """
-    household["uhv_tu"] = household.groupby(["tu_id"])["uhv"].transform("sum")
+    household["uhv_tu"] = household.groupby("tu_id")["uhv"].transform("sum")
     # First, calculate the need as for ALG2, but only for parents.
     household["kiz_ek_regel"] = calc_kiz_ek(household, tb)
     # Add rents. First, correct rent for the case of several tax units within the HH
