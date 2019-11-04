@@ -38,12 +38,10 @@ def load_test_data(year, file_name, columns, *pd_args, **pd_kwargs):
         for col in bool_cols:
             if col in df.columns:
                 df[col] = df[col].astype(bool)
-    else:
-        raise ValueError("File does not exist.")
 
-    df = df.loc[df["year"].eq(year), columns].copy()
+    df_out = df.loc[df["year"].eq(year), columns]
 
-    return df
+    return df_out
 
 
 def load_tax_benefit_data():
