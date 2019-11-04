@@ -43,7 +43,7 @@ tax_policy_data = load_tax_benefit_data()
 
 @pytest.mark.parametrize("year", years)
 def test_kiz(year):
-    file_name = "test_dfs_kiz.ods"
+    file_name = "test_dfs_kiz.csv"
     columns = ["kiz_temp"]
     df = load_test_data(year, file_name, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
@@ -56,4 +56,6 @@ def test_kiz(year):
         df[col] = np.nan
     df = df.groupby("hid").apply(kiz, tb=tb)
     expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(df[columns], expected, check_dtype=False)
+    assert_frame_equal(
+        df[columns], expected, check_dtype=False, check_less_precise=True
+    )

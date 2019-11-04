@@ -18,7 +18,7 @@ tax_policy_data = load_tax_benefit_data()
 
 @pytest.mark.parametrize("year", years)
 def test_kindergeld(year):
-    filename = "test_dfs_kindergeld.ods"
+    filename = "test_dfs_kindergeld.csv"
     test_column = "kindergeld_tu_basis"
     df = load_test_data(year, filename, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
