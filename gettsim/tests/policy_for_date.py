@@ -1,13 +1,6 @@
 import datetime
 
 import numpy as np
-import yaml
-
-from gettsim.config import ROOT_DIR
-
-
-def load_tax_benefit_data():
-    return yaml.safe_load(open(f"{ROOT_DIR}/data/param.yaml", "rb"))
 
 
 def get_policies_for_date(tb_pre, year, month=1, day=1):
