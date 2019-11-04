@@ -17,10 +17,6 @@ def aggr(df, inc, unit):
         returns one series with suffix _tu or _tu_k, depending on the
         parameter 'withkids'
     """
-    if unit == "adult_married":
-        df[inc + "_tu"] = df[inc]
-        df[df["zveranl"]][inc + "tu"] = df[df["zveranl"]][inc].sum()
-        return df[inc + "_tu"]
 
     if unit == "all_tu":
         df = df.join(
