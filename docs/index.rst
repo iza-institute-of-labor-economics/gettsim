@@ -9,13 +9,13 @@ GETTSIM is implemented in Python and Numba, thereby achieving both flexibility a
 speed. All features are extensively tested.
 
 The current version is usable, but probably only by the initiated. Please get in touch
-(via an issue or emailing `Hans-Martin von Gaudecker
-<https://www.iza.org/de/people/fellows/4238/hans-martin-von-gaudecker>`_) if you want to
+(ideally by joining our Zulip Chat at https://gettsim.zulipchat.com) if you want to
 use it already, else keep an eye out for what there is to come!
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
+   geps
    how-to-contribute
    how-to-maintain
    code-of-conduct
