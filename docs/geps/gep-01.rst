@@ -26,7 +26,7 @@ Input Variables
 
 First letter specifies type of variable
 ----------------------------------------
-In the spirit of the Euromod framework, I suggest that the type of a variable is indicated by its first letter
+In the spirit of the Euromod_ framework, I suggest that the type of a variable is indicated by its first letter
 
 
 +--------------+-----------------------------------+----------------------------------------------------------+
@@ -145,5 +145,4 @@ In the medium-term, or along with this GEP, we need a list with the definition f
 2. description
 3. range of allowed values
 
-
-
+.. _Euromod: https://www.euromod.ac.uk/sites/default/files/working-papers/EMTN-1.1.pdf
