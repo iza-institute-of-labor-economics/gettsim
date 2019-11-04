@@ -51,6 +51,8 @@ def load_tax_benefit_data():
 def get_policies_for_date(tb_pre, year, month=1, day=1):
     tb = {}
     this_year = datetime.date(year=year, month=month, day=day)
+    tb["yr"] = year
+    tb["month"] = month
     for key in tb_pre.keys():
         if tb_pre[key]["values"] is not None:
             policy_dates = list(tb_pre[key]["values"].keys())

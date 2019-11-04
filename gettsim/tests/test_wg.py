@@ -54,7 +54,6 @@ def test_wg(year):
         year, file_name, input_cols, bool_cols=["head_tu", "child", "alleinerz"]
     )
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     if year < 2009:
         tb["calc_max_rent"] = calc_max_rent_until_2008
     else:

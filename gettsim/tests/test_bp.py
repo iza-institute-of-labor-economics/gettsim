@@ -38,7 +38,6 @@ def test_kiz(year):
     file_name = "test_dfs_prio.ods"
     df = load_test_data(year, file_name, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby("hid").apply(benefit_priority, tb=tb)

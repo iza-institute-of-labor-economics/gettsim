@@ -32,7 +32,6 @@ def test_tax_sched(year):
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
     df = load_test_data(year, file_name, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     # list of tax bases
     tb["zve_list"] = ["nokfb", "kfb"]
     out_cols = (

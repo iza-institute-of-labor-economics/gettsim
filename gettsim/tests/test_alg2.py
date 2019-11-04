@@ -56,7 +56,6 @@ def test_alg2(year):
     columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     df = load_test_data(year, file_name, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     # if year <= 2010:
     #     tb["calc_regelsatz"] = regelberechnung_until_2010
     # else:

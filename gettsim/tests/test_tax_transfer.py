@@ -47,7 +47,6 @@ def test_soc_ins_contrib(year):
     df = pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_tax_transfer.csv")
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     if year >= 2003:
         tb["calc_midi_contrib"] = calc_midi_contributions
     else:

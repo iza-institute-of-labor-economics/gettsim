@@ -34,7 +34,6 @@ def test_uhv(year):
     file_name = "test_dfs_uhv.ods"
     df = load_test_data(year, file_name, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     df[out_col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(uhv, tb=tb)
     expected = load_test_data(year, file_name, "uhv")

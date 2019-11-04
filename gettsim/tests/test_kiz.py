@@ -49,8 +49,7 @@ def test_kiz(year):
     columns = ["kiz_temp"]
     df = load_test_data(year, file_name, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
-    if year >= 2020:
+    if (year >= 2020) or (year == 2019 and tb["month"] >= 7):
         tb["calc_kiz_amount"] = calc_kiz_amount_2020
     else:
         tb["calc_kiz_amount"] = calc_kiz_amount_2005

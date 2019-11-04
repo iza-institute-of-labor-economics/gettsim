@@ -77,7 +77,6 @@ def test_zve(year, column):
     df = load_test_data(year, file_name, IN_COLS)
 
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     if year <= 2014:
         tb["calc_hhfreib"] = calc_hhfreib_until2014
     else:
