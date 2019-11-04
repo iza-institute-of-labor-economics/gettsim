@@ -31,7 +31,7 @@ def alg2(household, tb):
     )
     # Aggregate on HH
     for var in ["ar_alg2_ek", "alg2_grossek", "uhv"]:
-        household[var + "_hh"] = household[var].sum()
+        household[f"{var}_hh"] = household[var].sum()
     household["ar_base_alg2_ek"] = (
         household["ar_alg2_ek_hh"] + household["kindergeld_hh"] + household["uhv_hh"]
     )
