@@ -72,7 +72,7 @@ tax_policy_data = load_tax_benefit_data()
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
 def test_zve(year, column):
-    file_name = "test_dfs_zve.ods"
+    file_name = "test_dfs_zve.csv"
 
     df = load_test_data(year, file_name, IN_COLS)
 
@@ -96,5 +96,6 @@ def test_zve(year, column):
     df = df.groupby(["hid", "tu_id"]).apply(zve, tb=tb)
     expected = load_test_data(year, file_name, column)
 
+    # TODO: We need to adress this comment. This can't be our last word!
     # allow 1€ difference, caused by strange rounding issues.
     assert_series_equal(df[column], expected, check_less_precise=2)

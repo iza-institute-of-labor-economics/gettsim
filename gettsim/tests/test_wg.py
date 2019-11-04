@@ -49,7 +49,7 @@ tax_policy_data = load_tax_benefit_data()
 
 @pytest.mark.parametrize("year", years)
 def test_wg(year):
-    file_name = "test_dfs_wg.ods"
+    file_name = "test_dfs_wg.csv"
     df = load_test_data(
         year, file_name, input_cols, bool_cols=["head_tu", "child", "alleinerz"]
     )
@@ -63,9 +63,7 @@ def test_wg(year):
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, tb=tb)
     expected = load_test_data(year, file_name, test_column)
-    assert_frame_equal(
-        df[test_column], expected, check_exact=False, check_less_precise=2
-    )
+    assert_frame_equal(df[test_column], expected)
 
 
 @pytest.mark.parametrize("year", [2013])
@@ -82,6 +80,4 @@ def test_wg_no_mietstufe_in_input_data(year):
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, tb=tb)
     expected = load_test_data(year, file_name, test_column)
-    assert_frame_equal(
-        df[test_column], expected, check_exact=False, check_less_precise=2
-    )
+    assert_frame_equal(df[test_column], expected)
