@@ -2,6 +2,8 @@ import numpy as np
 import pytest
 from pandas.testing import assert_frame_equal
 
+from gettsim.benefits.kiz import calc_kiz_amount_2005
+from gettsim.benefits.kiz import calc_kiz_amount_2020
 from gettsim.benefits.kiz import kiz
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
@@ -48,6 +50,10 @@ def test_kiz(year):
     df = load_test_data(year, file_name, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
+    if year >= 2020:
+        tb["calc_kiz_amount"] = calc_kiz_amount_2020
+    else:
+        tb["calc_kiz_amount"] = calc_kiz_amount_2005
     if year > 2011:
         tb["childben_elig_rule"] = kg_eligibility_hours
     else:

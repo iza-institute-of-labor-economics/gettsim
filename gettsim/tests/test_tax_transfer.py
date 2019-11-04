@@ -1,6 +1,8 @@
 import pandas as pd
 import pytest
 
+from gettsim.benefits.kiz import calc_kiz_amount_2005
+from gettsim.benefits.kiz import calc_kiz_amount_2020
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
@@ -70,6 +72,10 @@ def test_soc_ins_contrib(year):
         tb["vorsorge"] = vorsorge2010
     else:
         tb["vorsorge"] = vorsorge_dummy
+    if year >= 2020:
+        tb["calc_kiz_amount"] = calc_kiz_amount_2020
+    else:
+        tb["calc_kiz_amount"] = calc_kiz_amount_2005
 
     tb["tax_schedule"] = tarif
     tb["zve_list"] = ["nokfb", "kfb"]

@@ -865,6 +865,21 @@ a2kiz_minek_sin:
     2009-01-01:
       value: 600
       note:
+a2kiz_withdrawal_rate:
+  group: kiz
+  name:
+    de: Rate, mit der relevantes Einkommen auf den Kinderzuschlag angerechnet wird.
+    en: transfer withdrawal of additional child benefit
+  description:
+    de: § 6a (3) BKGG
+    en:
+  values:
+    2005-01-01:
+      value: 0.5
+      note:
+    2019-07-01:
+      value: 0.45
+      note: geändert zum 1.7.2019 durch Artikel 1 vom 29.04.2019, BGBl I S. 530
 uhv5:
   group: uhv
   name:
@@ -8770,8 +8785,8 @@ rw_east:
     2018-01-01:
       value: 30.69
       note:
-vat_low:
-  group: vat
+ust_low:
+  group: ust
   name:
     de: Mehrwertsteuer, ermäßigter Satz
     en:
@@ -8782,8 +8797,8 @@ vat_low:
     1984-01-01:
       value: .07
       note:
-vat_high:
-  group: vat
+ust_high:
+  group: ust
   name:
     de: Mehrwertsteuer, Regelsatz
     en:
@@ -8797,9 +8812,6 @@ vat_high:
     1993-01-01:
       value: .15
       note: .
-    1999-04-01:
-      value: .16
-      note:
     2007-01-01:
       value: .19
       note:

@@ -73,28 +73,61 @@ def kiz(household, tb):
     household["kiz_ek_gross"] = household["alg2_grossek_hh"]
     household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
 
-    # Deductable income. 50% withdrawal rate.
+    # Deductable income from parent(s). 50% withdrawal rate until 07/19, then 45%
     household["kiz_ek_anr"] = np.maximum(
-        0, 0.5 * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"])
+        0,
+        tb["a2kiz_withdrawal_rate"]
+        * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"]),
     )
 
+    # Child income
+    household["childinc_tu"] = (household["child"] * household["m_wage"]).sum()
+    household = tb["calc_kiz_amount"](household, tb)
+    household["kiz_temp"] = household["kiz"].max()
+    # Transfer some variables for eligibility check
+    # kiz["ar_base_alg2_ek"] = household["ar_base_alg2_ek"]
+    # kiz["n_pens"] = household["pensioner"].sum()
+    return household
+
+
+def calc_kiz_amount_2005(household, tb):
+    """ Kinderzuschlag from 2005 until 07/2019"
+    """
     # Dummy variable whether household is in the relevant income range.
     household["kiz_incrange"] = (
         household["kiz_ek_gross"] >= household["kiz_ek_min"]
     ) & (household["kiz_ek_net"] <= household["kiz_ek_max"])
-    # Finally, calculate the amount. Subtract deductable income with 50% and child
+    # Finally, calculate the amount. Adult income is partly deducted.
+    # Child income is fully deducted until 07/2019
     # income fully!
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
         0,
         tb["a2kiz"] * household["child_num_kg"]
         - household["kiz_ek_anr"]
+        - household["childinc_tu"]
         - household["uhv_tu"],
     )
-    household["kiz_temp"] = household["kiz"].max()
-    # Transfer some variables for eligibility check
-    # kiz["ar_base_alg2_ek"] = household["ar_base_alg2_ek"]
-    # kiz["n_pens"] = household["pensioner"].sum()
+
+    return household
+
+
+def calc_kiz_amount_2020(household, tb):
+    """ Kinderzuschlag since 07/2019
+        - no maximum income threshold.
+        - child income is only partly deducted, just as parents income
+    """
+    household["kiz"] = 0
+    household.loc[
+        household["kiz_ek_gross"] >= household["kiz_ek_min"], "kiz"
+    ] = np.maximum(
+        0,
+        tb["a2kiz"] * household["child_num_kg"]
+        - household["kiz_ek_anr"]
+        - tb["a2kiz_withdrawal_rate"] * household["childinc_tu"]
+        - household["uhv_tu"],
+    )
+
     return household
 
 
