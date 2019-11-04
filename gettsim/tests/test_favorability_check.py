@@ -1,11 +1,12 @@
 from itertools import product
 
 import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
+from gettsim.config import ROOT_DIR
 from gettsim.taxes.favorability_check import favorability_check
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
 input_cols = [
@@ -27,13 +28,19 @@ columns = ["incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
 to_test = list(product(years, columns))
 
 
-@pytest.mark.parametrize("year, column", to_test)
-def test_favorability_check(year, column):
+@pytest.fixture
+def input_data():
     file_name = "test_dfs_favorability_check.csv"
-    df = load_test_data(year, file_name, input_cols, bool_cols=["zveranl", "child"])
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
+
+
+@pytest.mark.parametrize("year, column", to_test)
+def test_favorability_check(input_data, year, column):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[input_cols].copy()
     tb = {"zve_list": ["nokfb", "kfb"], "yr": year}
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(favorability_check, tb=tb)
-    expected = load_test_data(year, file_name, column)
-    assert_series_equal(df[column], expected)
+    assert_series_equal(df[column], year_data[column])

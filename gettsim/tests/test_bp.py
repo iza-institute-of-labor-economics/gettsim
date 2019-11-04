@@ -1,11 +1,12 @@
 import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.benefit_checks import benefit_priority
+from gettsim.config import ROOT_DIR
 from gettsim.tests.auxiliary_test_tax import get_policies_for_date
 from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
 input_cols = [
@@ -33,14 +34,20 @@ out_cols = ["kiz", "wohngeld", "m_alg2"]
 tax_policy_data = load_tax_benefit_data()
 
 
-@pytest.mark.parametrize("year", years)
-def test_kiz(year):
+@pytest.fixture
+def input_data():
     file_name = "test_dfs_prio.csv"
-    df = load_test_data(year, file_name, input_cols)
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
+
+
+@pytest.mark.parametrize("year", years)
+def test_kiz(input_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby("hid").apply(benefit_priority, tb=tb)
-    expected = load_test_data(year, file_name, out_cols)
-    assert_frame_equal(df[out_cols], expected, check_dtype=False)
+    assert_frame_equal(df[out_cols], year_data[out_cols], check_dtype=False)

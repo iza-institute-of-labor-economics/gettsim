@@ -40,9 +40,16 @@ YEARS = [2002, 2010, 2018, 2019]
 tax_policy_data = load_tax_benefit_data()
 
 
+@pytest.fixture
+def input_data():
+    file_name = "test_dfs_tax_transfer.csv"
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
+
+
 @pytest.mark.parametrize("year", YEARS)
-def test_soc_ins_contrib(year):
-    df = pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_tax_transfer.csv")
+def test_soc_ins_contrib(input_data, year):
+    df = input_data[input_data["year"] == year].copy()
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year

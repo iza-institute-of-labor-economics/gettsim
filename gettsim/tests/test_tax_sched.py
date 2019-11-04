@@ -1,12 +1,13 @@
 import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
+from gettsim.config import ROOT_DIR
 from gettsim.taxes.calc_taxes import tarif
 from gettsim.taxes.calc_taxes import tax_sched
 from gettsim.tests.auxiliary_test_tax import get_policies_for_date
 from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
     "pid",
@@ -26,11 +27,18 @@ years = [2009, 2012, 2015, 2018]
 tax_policy_data = load_tax_benefit_data()
 
 
-@pytest.mark.parametrize("year", years)
-def test_tax_sched(year):
+@pytest.fixture
+def input_data():
     file_name = "test_dfs_tax_sched.csv"
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
+
+
+@pytest.mark.parametrize("year", years)
+def test_tax_sched(input_data, year):
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
-    df = load_test_data(year, file_name, input_cols)
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     # list of tax bases
@@ -46,6 +54,5 @@ def test_tax_sched(year):
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(tax_sched, tb=tb)
-    expected = load_test_data(year, file_name, columns)
     # TODO: This test needs to be reviewed
-    assert_frame_equal(df[columns], expected, check_less_precise=0)
+    assert_frame_equal(df[columns], year_data[columns], check_less_precise=0)

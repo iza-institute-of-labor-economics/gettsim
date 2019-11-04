@@ -1,9 +1,11 @@
 import itertools
 
 import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
+from gettsim.config import ROOT_DIR
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.zve import calc_hhfreib_from2015
@@ -13,7 +15,6 @@ from gettsim.taxes.zve import vorsorge_dummy
 from gettsim.taxes.zve import zve
 from gettsim.tests.auxiliary_test_tax import get_policies_for_date
 from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
 IN_COLS = [
@@ -70,12 +71,17 @@ YEARS = [2005, 2009, 2010, 2012, 2018]
 tax_policy_data = load_tax_benefit_data()
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_zve(year, column):
+@pytest.fixture
+def input_data():
     file_name = "test_dfs_zve.csv"
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
 
-    df = load_test_data(year, file_name, IN_COLS)
 
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
+def test_zve(input_data, year, column):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[IN_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year <= 2014:
@@ -94,8 +100,7 @@ def test_zve(year, column):
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(zve, tb=tb)
-    expected = load_test_data(year, file_name, column)
 
     # TODO: We need to adress this comment. This can't be our last word!
     # allow 1€ difference, caused by strange rounding issues.
-    assert_series_equal(df[column], expected, check_less_precise=2)
+    assert_series_equal(df[column], year_data[column], check_less_precise=2)

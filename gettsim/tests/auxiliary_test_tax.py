@@ -1,22 +1,9 @@
 import datetime
 
 import numpy as np
-import pandas as pd
 import yaml
 
 from gettsim.config import ROOT_DIR
-
-
-def load_test_data(year, file_name, columns, *pd_args, **pd_kwargs):
-    """ Loads test data from csv, Excel ('xls', 'xlsx') or Open Office Sheets ('ods').
-        With OpenOffice Sheets, Boolean Variables are not correctly imported.
-    """
-
-    df = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
-
-    df_out = df.loc[df["year"].eq(year), columns]
-
-    return df_out
 
 
 def load_tax_benefit_data():

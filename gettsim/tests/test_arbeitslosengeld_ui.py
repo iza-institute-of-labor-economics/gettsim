@@ -1,12 +1,14 @@
+import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitslosengeld import ui
+from gettsim.config import ROOT_DIR
 from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.taxes.calc_taxes import tarif
 from gettsim.tests.auxiliary_test_tax import get_policies_for_date
 from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
+
 
 input_cols = [
     "pid",
@@ -30,14 +32,20 @@ years = [2010, 2011, 2015, 2019]
 tax_policy_data = load_tax_benefit_data()
 
 
-@pytest.mark.parametrize("year", years)
-def test_ui(year):
+@pytest.fixture
+def input_data():
     file_name = "test_dfs_ui.csv"
-    df = load_test_data(year, file_name, input_cols, pd_kwargs={"true_values": "TRUE"})
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
+
+
+@pytest.mark.parametrize("year", years)
+def test_ui(input_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     tb["tax_schedule"] = tarif
-    expected = load_test_data(year, file_name, OUT_COL)
     df = _apply_tax_transfer_func(
         df,
         tax_func=ui,
@@ -47,4 +55,4 @@ def test_ui(year):
         func_kwargs={"tb": tb},
     )
     # TODO: THis should be reviewed.
-    assert_series_equal(df[OUT_COL], expected, check_less_precise=3)
+    assert_series_equal(df[OUT_COL], year_data[OUT_COL], check_less_precise=3)

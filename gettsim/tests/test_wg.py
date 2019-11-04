@@ -1,13 +1,14 @@
 import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.benefits.wohngeld import wg
+from gettsim.config import ROOT_DIR
 from gettsim.tests.auxiliary_test_tax import get_policies_for_date
 from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
     "pid",
@@ -47,12 +48,17 @@ test_column = ["wohngeld_basis_hh"]
 tax_policy_data = load_tax_benefit_data()
 
 
-@pytest.mark.parametrize("year", years)
-def test_wg(year):
+@pytest.fixture
+def input_data():
     file_name = "test_dfs_wg.csv"
-    df = load_test_data(
-        year, file_name, input_cols, bool_cols=["head_tu", "child", "alleinerz"]
-    )
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
+
+
+@pytest.mark.parametrize("year", years)
+def test_wg(input_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year < 2009:
@@ -62,14 +68,20 @@ def test_wg(year):
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, tb=tb)
-    expected = load_test_data(year, file_name, test_column)
-    assert_frame_equal(df[test_column], expected)
+    assert_frame_equal(df[test_column], year_data[test_column])
+
+
+@pytest.fixture
+def input_data_2():
+    file_name = "test_dfs_wg.csv"
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
 
 
 @pytest.mark.parametrize("year", [2013])
-def test_wg_no_mietstufe_in_input_data(year):
-    file_name = "test_dfs_wg2.csv"
-    df = load_test_data(year, file_name, input_cols)
+def test_wg_no_mietstufe_in_input_data(input_data_2, year):
+    year_data = input_data_2[input_data_2["year"] == year]
+    df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year < 2009:
@@ -79,5 +91,4 @@ def test_wg_no_mietstufe_in_input_data(year):
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, tb=tb)
-    expected = load_test_data(year, file_name, test_column)
-    assert_frame_equal(df[test_column], expected)
+    assert_frame_equal(df[test_column], year_data[test_column])

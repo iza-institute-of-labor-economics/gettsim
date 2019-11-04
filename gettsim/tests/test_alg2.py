@@ -1,11 +1,12 @@
 import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.alg2 import alg2
+from gettsim.config import ROOT_DIR
 from gettsim.tests.auxiliary_test_tax import get_policies_for_date
 from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
     "pid",
@@ -50,11 +51,18 @@ years = [2006, 2009, 2011, 2013, 2016, 2019]
 tax_policy_data = load_tax_benefit_data()
 
 
-@pytest.mark.parametrize("year", years)
-def test_alg2(year):
+@pytest.fixture
+def input_data():
     file_name = "test_dfs_alg2.csv"
+    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    return out
+
+
+@pytest.mark.parametrize("year", years)
+def test_alg2(input_data, year):
     columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
-    df = load_test_data(year, file_name, input_cols)
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[input_cols].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     # if year <= 2010:
@@ -64,5 +72,4 @@ def test_alg2(year):
     for col in out_cols:
         df[col] = np.nan
     df = df.groupby("hid").apply(alg2, tb=tb)
-    expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(df[columns], expected)
+    assert_frame_equal(df[columns], year_data[columns])
