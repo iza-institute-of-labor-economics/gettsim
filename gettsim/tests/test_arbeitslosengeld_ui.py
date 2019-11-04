@@ -32,7 +32,7 @@ tax_policy_data = load_tax_benefit_data()
 
 @pytest.mark.parametrize("year", years)
 def test_ui(year):
-    file_name = "test_dfs_ui.ods"
+    file_name = "test_dfs_ui.csv"
     df = load_test_data(year, file_name, input_cols, pd_kwargs={"true_values": "TRUE"})
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year

@@ -57,7 +57,7 @@ def test_pension(year):
 
 @pytest.mark.parametrize("year", YEARS)
 def test_update_earning_points(year):
-    file_name = "test_dfs_pensions.ods"
+    file_name = "test_dfs_pensions.csv"
     df = load_test_data(year, file_name, INPUT_COLUMNS)
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")

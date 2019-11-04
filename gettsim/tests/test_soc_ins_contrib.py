@@ -40,7 +40,7 @@ def test_soc_ins_contrib(year, column):
         tb["calc_midi_contrib"] = calc_midi_contributions
     else:
         tb["calc_midi_contrib"] = no_midi
-    expected = load_test_data(year, "test_dfs_ssc.ods", column)
+    expected = load_test_data(year, "test_dfs_ssc.csv", column)
     df = _apply_tax_transfer_func(
         df,
         tax_func=soc_ins_contrib,
