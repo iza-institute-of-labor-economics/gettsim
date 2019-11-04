@@ -28,7 +28,7 @@ tax_policy_data = load_tax_benefit_data()
 
 @pytest.mark.parametrize("year", years)
 def test_tax_sched(year):
-    file_name = "test_dfs_tax_sched.ods"
+    file_name = "test_dfs_tax_sched.csv"
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
     df = load_test_data(year, file_name, input_cols)
     tb = get_policies_for_date(tax_policy_data, year=year)
@@ -47,4 +47,5 @@ def test_tax_sched(year):
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(tax_sched, tb=tb)
     expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(df[columns], expected, check_exact=False, check_less_precise=0)
+    # TODO: This test needs to be reviewed
+    assert_frame_equal(df[columns], expected, check_less_precise=0)
