@@ -34,7 +34,7 @@ tax_policy_data = load_tax_benefit_data()
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_soc_ins_contrib(year, column):
-    df = load_test_data(year, "test_dfs_ssc.ods", INPUT_COLUMNS)
+    df = load_test_data(year, "test_dfs_ssc.csv", INPUT_COLUMNS)
     tb = get_policies_for_date(tax_policy_data, year=year)
     if year >= 2003:
         tb["calc_midi_contrib"] = calc_midi_contributions

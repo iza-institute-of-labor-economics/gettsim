@@ -34,7 +34,7 @@ tax_policy_data = load_tax_benefit_data()
 @pytest.mark.parametrize("year", YEARS)
 def test_pension(year):
     column = "pensions_sim"
-    file_name = "test_dfs_pensions.ods"
+    file_name = "test_dfs_pensions.csv"
     df = load_test_data(year, file_name, INPUT_COLUMNS)
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
