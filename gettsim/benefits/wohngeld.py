@@ -1,7 +1,5 @@
 import numpy as np
 
-from gettsim.auxiliary import aggr
-
 
 def wg(household, tb):
     """ Housing benefit / Wohngeld
@@ -113,7 +111,9 @@ def calc_wg_income(household, tb, hhsize):
     # Start with income revelant for the housing beneift
     # tax-relevant share of pensions for tax unit
     household["pens_steuer"] = household["ertragsanteil"] * household["m_pensions"]
-    household["pens_steuer_tu_k"] = aggr(household, "pens_steuer", "all_tu")
+    household["pens_steuer_tu_k"] = household.groupby(["tu_id"])[
+        "pens_steuer"
+    ].transform("sum")
     # Different incomes on tu base
     for inc in [
         "m_alg1",
@@ -127,7 +127,7 @@ def calc_wg_income(household, tb, hhsize):
         "gkvbeit",
         "uhv",
     ]:
-        household[f"{inc}_tu_k"] = aggr(household, inc, "all_tu")
+        household[f"{inc}_tu_k"] = household.groupby(["tu_id"])[inc].transform("sum")
 
     household["wg_abzuege"] = calc_wg_abzuege(household, tb)
     # Relevant income is market income + transfers...
@@ -139,7 +139,9 @@ def calc_wg_income(household, tb, hhsize):
     # ... minus a couple of lump-sum deductions for handicaps,
     # children income or being single parent
     household["wg_incdeduct"] = calc_wg_income_deductions(household, tb)
-    household["wg_incdeduct_tu_k"] = aggr(household, "wg_incdeduct", "all_tu")
+    household["wg_incdeduct_tu_k"] = household.groupby(["tu_id"])[
+        "wg_incdeduct"
+    ].transform("sum")
     prelim_y = (1 - household["wg_abzuege"]) * np.maximum(
         0,
         (
