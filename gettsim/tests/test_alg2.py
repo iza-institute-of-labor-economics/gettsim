@@ -3,7 +3,8 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.alg2 import alg2
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
@@ -46,6 +47,7 @@ out_cols = [
 
 
 years = [2006, 2009, 2011, 2013, 2016, 2019]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year", years)
@@ -53,7 +55,7 @@ def test_alg2(year):
     file_name = "test_dfs_alg2.ods"
     columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     # if year <= 2010:
     #     tb["calc_regelsatz"] = regelberechnung_until_2010

@@ -230,19 +230,18 @@ def _set_min_y(prelim_y, tb, hhsize):
 
 def apply_wg_formula(household, tb, hhsize):
     # There are parameters a, b, c, depending on hh size
-    a, b, c = calc_wg_formula_factors(tb, hhsize)
     return np.maximum(
         0,
         tb["wg_factor"]
         * (
             household["M"]
-            - ((a + (b * household["M"]) + (c * household["Y"])) * household["Y"])
+            - (
+                (
+                    tb[f"wg_a_{hhsize}p"]
+                    + (tb[f"wg_b_{hhsize}p"] * household["M"])
+                    + (tb[f"wg_c_{hhsize}p"] * household["Y"])
+                )
+                * household["Y"]
+            )
         ),
     )
-
-
-def calc_wg_formula_factors(tb, hhsize):
-    a = tb["wg_a_" + str(hhsize) + "p"]
-    b = tb["wg_b_" + str(hhsize) + "p"]
-    c = tb["wg_c_" + str(hhsize) + "p"]
-    return a, b, c

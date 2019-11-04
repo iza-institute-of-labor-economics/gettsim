@@ -7,7 +7,8 @@ from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 INPUT_COLUMNS = [
@@ -28,12 +29,13 @@ INPUT_COLUMNS = [
 
 YEARS = [2002, 2010, 2018, 2019]
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_soc_ins_contrib(year, column):
     df = load_test_data(year, "test_dfs_ssc.ods", INPUT_COLUMNS)
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     if year >= 2003:
         tb["calc_midi_contrib"] = calc_midi_contributions
     else:

@@ -4,7 +4,8 @@ from pandas.testing import assert_series_equal
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.taxes.calc_taxes import tarif
-from gettsim.tests.auxiliary_test_tax import load_tb
+from gettsim.tests.auxiliary_test_tax import get_policies_for_date
+from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
 from gettsim.tests.auxiliary_test_tax import load_test_data
 
 input_cols = [
@@ -26,13 +27,14 @@ input_cols = [
 ]
 OUT_COL = "m_alg1"
 years = [2010, 2011, 2015, 2019]
+tax_policy_data = load_tax_benefit_data()
 
 
 @pytest.mark.parametrize("year", years)
 def test_ui(year):
     file_name = "test_dfs_ui.ods"
     df = load_test_data(year, file_name, input_cols, pd_kwargs={"true_values": "TRUE"})
-    tb = load_tb(year)
+    tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     tb["tax_schedule"] = tarif
     expected = load_test_data(year, file_name, OUT_COL)
