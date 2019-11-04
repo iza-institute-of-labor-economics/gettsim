@@ -49,7 +49,7 @@ test_column = ["wohngeld_basis_hh"]
 @pytest.fixture
 def input_data():
     file_name = "test_dfs_wg.csv"
-    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
@@ -72,7 +72,7 @@ def test_wg(input_data, tax_policy_data, year):
 @pytest.fixture
 def input_data_2():
     file_name = "test_dfs_wg.csv"
-    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 

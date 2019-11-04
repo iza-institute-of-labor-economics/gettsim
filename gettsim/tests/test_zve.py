@@ -72,7 +72,7 @@ YEARS = [2005, 2009, 2010, 2012, 2018]
 @pytest.fixture
 def input_data():
     file_name = "test_dfs_zve.csv"
-    out = pd.read_csv(f"{ROOT_DIR}/tests/test_data/{file_name}")
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
