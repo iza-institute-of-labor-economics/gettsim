@@ -11,5 +11,4 @@ dependencies:
   - xlrd
   - pip:
       - pre-commit
-      - pandas_ods_reader
       - restructuredtext_lint
