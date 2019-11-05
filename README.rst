@@ -27,13 +27,14 @@ GETTSIM aims at providing a depiction of the German Taxes and Transfers System t
 usable across a wide range of research applications, ranging from highly complex dynamic
 programming models to extremely detailed microsimulation studies.
 
-GETTSIM is implemented in Python and Numba, thereby achieving both flexibility and
-speed. All features are extensively tested.
+GETTSIM is implemented in Python, thereby achieving both user friendliness and
+flexibility. All features are extensively tested.
 
 The current version is usable, but probably only by the initiated. Please get in touch
-(via an issue or emailing `Hans-Martin von Gaudecker
-<https://www.iza.org/de/people/fellows/4238/hans-martin-von-gaudecker>`_) if you want to
+(ideally by joining our Zulip Chat at https://gettsim.zulipchat.com) if you want to
 use it already, else keep an eye out for what there is to come!
+
+The documentation is available under https://gettsim.readthedocs.io.
 
 
 Initiated by
