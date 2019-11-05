@@ -1,6 +1,12 @@
 .. image:: https://readthedocs.org/projects/gettsim/badge/?version=latest
-    :target: https://gettsim.readthedocs.io/en/latest
-    :alt: Documentation Status
+   :target: https://gettsim.readthedocs.io/en/latest
+   :alt: Documentation Status
+
+.. image:: https://anaconda.org/gettsim/gettsim/badges/version.svg
+   :target: https://anaconda.org/gettsim/gettsim
+
+.. image:: https://anaconda.org/gettsim/gettsim/badges/platforms.svg
+   :target: https://anaconda.org/gettsim/gettsim
 
 .. image:: https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_apis/build/status/iza-institute-of-labor-economics.gettsim?branchName=master
    :target: https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_build/latest?definitionId=1&branchName=master
@@ -38,7 +44,7 @@ You can install GETTSIM via conda with
 
 .. code-block:: bash
 
-    $ conda -c gettsim install gettsim
+    $ conda install -c gettsim gettsim
 
 
 The documentation is available under https://gettsim.readthedocs.io.
