@@ -2,13 +2,16 @@ Welcome to GETTSIM's documentation!
 ===================================
 
 .. include:: ../README.rst
-   :start-line: 25
-   :end-line: 35
+   :start-line: 32
+   :end-line: 41
+
 
 .. toctree::
    :caption: Table of Contents
    :maxdepth: 1
 
+   installation
+   getting-started
    geps
    how-to-contribute
    code-of-conduct
