@@ -62,14 +62,14 @@ Initiated by
       </a>
       &emsp;
 
-      <br>
-      <br>
-
       <a href="https://www.uni-bonn.de">
          <img src="docs/_static/images/uni_bonn_logo.png" width="150"
          alt="Universität Bonn">
       </a>
       &emsp;
+
+      <br>
+      <br>
 
       <a href="https://www.uni-kassel.de">
          <img src="docs/_static/images/uni_kassel_logo.png" width="150"
@@ -98,4 +98,6 @@ Initiated by
       <a href="https://www.iab.de/">
          <img src="docs/_static/images/iab_logo.png" width="150" alt="IAB">
       </a>
+      &emsp;
+
    </p>
