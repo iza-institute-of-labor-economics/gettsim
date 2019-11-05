@@ -14,7 +14,7 @@ project = "GETTSIM"
 copyright = "2019, GETTSIM team"
 author = "GETTSIM team"
 version = "0.2"
-release = "0.2.0dev"
+release = "0.2.0"
 
 
 # -- General configuration ---------------------------------------------------
