@@ -11,7 +11,7 @@ from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.tests.policy_for_date import get_policies_for_date
 
 
-INPUT_COLUMNS = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -39,7 +39,7 @@ def input_data():
 def test_pension(input_data, tax_policy_data, year):
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
-    df = year_data[INPUT_COLUMNS].copy()
+    df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year > 2017:
@@ -51,7 +51,7 @@ def test_pension(input_data, tax_policy_data, year):
         df,
         tax_func=pensions,
         level=["hid", "tu_id", "pid"],
-        in_cols=INPUT_COLUMNS,
+        in_cols=INPUT_COLS,
         out_cols=[column],
         func_kwargs={"tb": tb, "tb_pens": tb_pens},
     )
@@ -61,14 +61,14 @@ def test_pension(input_data, tax_policy_data, year):
 @pytest.mark.parametrize("year", YEARS)
 def test_update_earning_points(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
-    df = year_data[INPUT_COLUMNS].copy()
+    df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     df = _apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
         level=["hid", "tu_id", "pid"],
-        in_cols=INPUT_COLUMNS,
+        in_cols=INPUT_COLS,
         out_cols=[],
         func_kwargs={"tb": tb, "tb_pens": tb_pens[year]},
     )

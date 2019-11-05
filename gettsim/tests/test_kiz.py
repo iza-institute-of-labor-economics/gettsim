@@ -10,7 +10,7 @@ from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.tests.policy_for_date import get_policies_for_date
 
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -36,8 +36,8 @@ input_cols = [
     "uhv",
     "year",
 ]
-out_cols = ["kiz_temp", "kiz_incrange"]
-years = [2006, 2009, 2011, 2013, 2016, 2019]
+OUT_COLS = ["kiz_temp", "kiz_incrange"]
+YEARS = [2006, 2009, 2011, 2013, 2016, 2019]
 
 
 @pytest.fixture
@@ -47,18 +47,18 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", years)
+@pytest.mark.parametrize("year", YEARS)
 def test_kiz(input_data, tax_policy_data, year):
     columns = ["kiz_temp"]
     year_data = input_data[input_data["year"] == year]
-    df = year_data[input_cols].copy()
+    df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     if year > 2011:
         tb["childben_elig_rule"] = kg_eligibility_hours
     else:
         tb["childben_elig_rule"] = kg_eligibility_wage
-    for col in out_cols:
+    for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(kiz, tb=tb)
     assert_frame_equal(df[columns], year_data[columns], check_less_precise=True)

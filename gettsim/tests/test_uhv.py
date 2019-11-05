@@ -8,7 +8,7 @@ from gettsim.config import ROOT_DIR
 from gettsim.tests.policy_for_date import get_policies_for_date
 
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -24,8 +24,8 @@ input_cols = [
     "zveranl",
     "year",
 ]
-out_col = "uhv"
-years = [2017, 2019]
+OUT_COL = "uhv"
+YEARS = [2017, 2019]
 
 
 @pytest.fixture
@@ -35,12 +35,12 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", years)
+@pytest.mark.parametrize("year", YEARS)
 def test_uhv(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
-    df = year_data[input_cols].copy()
+    df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
-    df[out_col] = np.nan
+    df[OUT_COL] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(uhv, tb=tb)
-    assert_series_equal(df[out_col], year_data["uhv"], check_dtype=False)
+    assert_series_equal(df[OUT_COL], year_data["uhv"], check_dtype=False)

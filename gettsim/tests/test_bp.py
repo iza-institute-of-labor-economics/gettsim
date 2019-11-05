@@ -8,7 +8,7 @@ from gettsim.config import ROOT_DIR
 from gettsim.tests.policy_for_date import get_policies_for_date
 
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -28,8 +28,8 @@ input_cols = [
     "year",
 ]
 
-years = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
-out_cols = ["kiz", "wohngeld", "m_alg2"]
+YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
+OUT_COLS = ["kiz", "wohngeld", "m_alg2"]
 
 
 @pytest.fixture
@@ -39,13 +39,13 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", years)
+@pytest.mark.parametrize("year", YEARS)
 def test_kiz(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
-    df = year_data[input_cols].copy()
+    df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
-    for col in out_cols:
+    for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(benefit_priority, tb=tb)
-    assert_frame_equal(df[out_cols], year_data[out_cols], check_dtype=False)
+    assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)

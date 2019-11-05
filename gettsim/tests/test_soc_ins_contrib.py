@@ -10,7 +10,7 @@ from gettsim.social_insurance import soc_ins_contrib
 from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.tests.policy_for_date import get_policies_for_date
 
-INPUT_COLUMNS = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -40,7 +40,7 @@ def input_data():
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_soc_ins_contrib(input_data, tax_policy_data, year, column):
     year_data = input_data[input_data["year"] == year]
-    df = year_data[INPUT_COLUMNS].copy()
+    df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     if year >= 2003:
         tb["calc_midi_contrib"] = calc_midi_contributions
@@ -50,7 +50,7 @@ def test_soc_ins_contrib(input_data, tax_policy_data, year, column):
         df,
         tax_func=soc_ins_contrib,
         level=["hid", "tu_id", "pid"],
-        in_cols=INPUT_COLUMNS,
+        in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={"tb": tb},
     )

@@ -9,7 +9,7 @@ from gettsim.taxes.calc_taxes import tarif
 from gettsim.tests.policy_for_date import get_policies_for_date
 
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -27,7 +27,7 @@ input_cols = [
     "year",
 ]
 OUT_COL = "m_alg1"
-years = [2010, 2011, 2015, 2019]
+YEARS = [2010, 2011, 2015, 2019]
 
 
 @pytest.fixture
@@ -37,10 +37,10 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", years)
+@pytest.mark.parametrize("year", YEARS)
 def test_ui(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
-    df = year_data[input_cols].copy()
+    df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
     tb["tax_schedule"] = tarif
@@ -48,7 +48,7 @@ def test_ui(input_data, tax_policy_data, year):
         df,
         tax_func=ui,
         level=["hid", "tu_id", "pid"],
-        in_cols=input_cols,
+        in_cols=INPUT_COLS,
         out_cols=[OUT_COL],
         func_kwargs={"tb": tb},
     )

@@ -19,7 +19,7 @@ from gettsim.taxes.zve import vorsorge_dummy
 from gettsim.tests.policy_for_date import get_policies_for_date
 
 
-INPUT_COLUMNS = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
