@@ -69,16 +69,9 @@ def test_wg(input_data, tax_policy_data, year):
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
 
 
-@pytest.fixture
-def input_data_2():
-    file_name = "test_dfs_wg.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
-
-
 @pytest.mark.parametrize("year", [2013])
-def test_wg_no_mietstufe_in_input_data(input_data_2, tax_policy_data, year):
-    year_data = input_data_2[input_data_2["year"] == year]
+def test_wg_no_mietstufe_in_input_data(input_data, tax_policy_data, year):
+    year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
     tb["yr"] = year
