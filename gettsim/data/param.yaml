@@ -3742,7 +3742,7 @@ mietafa:
     2006-01-01:
       value: 0
       note:
-vorsorg_rv_max_2005:
+vorsorg_rv_max:
   group: zve
   name:
     de: Maximalbetrag der Altersvorsorgeaufwendungen, 2005er Rechtsstand

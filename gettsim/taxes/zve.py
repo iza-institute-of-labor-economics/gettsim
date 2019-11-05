@@ -308,18 +308,17 @@ def vorsorge2010(tax_unit, tb):
         only deduct pension contributions up to the ceiling. multiply by 2
         because it's both employee and employer contributions.
         """
-    westost = [~tax_unit["east"], tax_unit["east"]]
     rvbeit_vors = np.minimum(
-        2 * tax_unit["rvbeit"],
-        2 * tb["grvbs"] * np.select(westost, [tb["rvmaxekw"], tb["rvmaxeko"]]),
+        12 * 2 * tax_unit["rvbeit"],
+        tb["vorsorg_rv_max"] * vorsorge_year_faktor(tb["yr"]),
     )
 
     # calculate x% of relevant employer and employee contributions
     # then subtract employer contributions
     # also subtract health + care + unemployment insurance contributions
     altersvors2010 = ~tax_unit["child"] * vorsorge_year_faktor(tb["yr"]) * (
-        12 * rvbeit_vors
-    ) - (12 * 0.5 * rvbeit_vors)
+        rvbeit_vors
+    ) - (0.5 * rvbeit_vors)
 
     # These you get anyway ('Basisvorsorge').
     sonstigevors2010 = 12 * (tax_unit["pvbeit"] + 0.96 * tax_unit["gkvbeit"])
@@ -340,9 +339,11 @@ def vorsorge2005(tax_unit, tb):
 
     Background: https://bit.ly/32oqCQq
     """
-    tb["max_altersvors_2005"] = 20000
-    tb["max_sonstige_vors_2005"] = 1500
-    rvbeit_vors_max = np.minimum(tb["max_altersvors_2005"], 12 * tax_unit["rvbeit"] * 2)
+
+    rvbeit_vors_max = np.minimum(
+        tb["vorsorg_rv_max"] * vorsorge_year_faktor(tb["yr"]),
+        12 * 2 * tax_unit["rvbeit"],
+    )
     # intermediate step
     altersvors2005_int = ~tax_unit["child"] * (
         vorsorge_year_faktor(tb["yr"]) * (12 * 2 * tax_unit["rvbeit"])
@@ -351,7 +352,7 @@ def vorsorge2005(tax_unit, tb):
     altersvors2005 = np.minimum(rvbeit_vors_max, altersvors2005_int)
 
     sonstigevors2005 = ~tax_unit["child"] * np.minimum(
-        tb["max_sonstige_vors_2005"],
+        tb["vors_sonst_max"],
         12 * (tax_unit["gkvbeit"] + tax_unit["avbeit"] + tax_unit["pvbeit"]),
     ).astype(int)
     return (altersvors2005 + sonstigevors2005).astype(int)
@@ -397,16 +398,28 @@ def vorsorge2004(tax_unit, tb):
 
 
 def vorsorge04_05(tax_unit, tb):
-    """ With the 2004 reform, no taxpayer was supposed to be affected negatively.
-        Therefore, between 2005 and 2010, one needs to compute amounts
+    """ With the 2005 reform, no taxpayer was supposed to be affected negatively.
+        Therefore, one needs to compute amounts
         (2004 and 2005 regime) and take the higher one.
-        Sidenote: The 2010 ruling is *always* more beneficial than the 2005 one,
-        so no need for a check there.
     """
     vors2004 = vorsorge2004(tax_unit, tb)
     vors2005 = vorsorge2005(tax_unit, tb)
     # Take the sum of both adults in the tax unit
     return np.maximum(vors2004.sum(), vors2005.sum())
+
+
+def vorsorge04_10(tax_unit, tb):
+    """ With the 2005 reform, no taxpayer was supposed to be affected negatively.
+        After a supreme court ruling, the 2005 rule had to be changed in 2010.
+        Therefore, one needs to compute amounts
+        (2004 and 2005 regime) and take the higher one.
+        Sidenote: The 2010 ruling is *always* more beneficial than the 2005 one,
+        so no need for a check there.
+    """
+    vors2004 = vorsorge2004(tax_unit, tb)
+    vors2010 = vorsorge2010(tax_unit, tb)
+    # Take the sum of both adults in the tax unit
+    return np.maximum(vors2004.sum(), vors2010.sum())
 
 
 def vorsorge_year_faktor(year):
