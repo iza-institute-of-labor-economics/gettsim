@@ -93,5 +93,9 @@ Initiated by
          <img src="docs/_static/images/fu_berlin_logo.svg" width="150"
          alt="Freie Universität Berlin">
       </a>
+      &emsp;
 
+      <a href="https://www.iab.de/">
+         <img src="docs/_static/images/iab_logo.png" width="150" alt="IAB">
+      </a>
    </p>
