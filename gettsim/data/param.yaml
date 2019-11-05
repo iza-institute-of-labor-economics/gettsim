@@ -3742,6 +3742,33 @@ mietafa:
     2006-01-01:
       value: 0
       note:
+vorsorg_rv_max_2005:
+  group: zve
+  name:
+    de: Maximalbetrag der Altersvorsorgeaufwendungen, 2005er Rechtsstand
+    en:
+  description:
+    de: §10 Abs. 3 EStG
+    en:
+  values:
+    2005-01-01:
+      value: 20000
+      note: Art. 1 Alterseinkünftegesetz, BGBl. I S.1427 v. 5.7.2004
+    2015-01-01:
+      value: 22170
+      note: Ab 2015 knappschaftlicher Höchstbetrag, d.h. knappschaftlicher Beitragssatz * knappschaftliche Beitragsbemessungsgrenze
+    2016-01-01:
+      value: 22766
+      note: .248 * 91800
+    2017-01-01:
+      value: 23362
+      note: .248 * 94200
+    2018-01-01:
+      value: 23712
+      note: .247 * 96000
+    2019-01-01:
+      value: 24305
+      note: .247 * 98400
 vorsorg_rv_sh:
   group: zve
   name:
@@ -3806,8 +3833,11 @@ vors_sonst_max:
     en:
   values:
     2005-01-01:
+      value: 1500
+      note: Art. 1 Alterseinkünftegesetz, BGBl. I S.1427 v. 5.7.2004
+    2010-01-01:
       value: 1900
-      note:
+      note: Art. 1 vom 23.07.2009, BGBl. I S.1959.
 rentert:
   group: zve
   name:
