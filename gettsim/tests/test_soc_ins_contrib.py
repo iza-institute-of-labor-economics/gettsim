@@ -30,7 +30,7 @@ YEARS = [2002, 2010, 2018, 2019]
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def input_data():
     file_name = "test_dfs_ssc.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)

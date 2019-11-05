@@ -46,7 +46,7 @@ YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
 TEST_COLUMN = ["wohngeld_basis_hh"]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def input_data():
     file_name = "test_dfs_wg.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
@@ -69,7 +69,7 @@ def test_wg(input_data, tax_policy_data, year):
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def input_data_2():
     file_name = "test_dfs_wg2.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)

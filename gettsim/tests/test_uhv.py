@@ -28,7 +28,7 @@ OUT_COL = "uhv"
 YEARS = [2017, 2019]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def input_data():
     file_name = "test_dfs_uhv.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)

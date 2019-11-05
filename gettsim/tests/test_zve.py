@@ -69,7 +69,7 @@ TEST_COLS = ["zve_nokfb", "zve_kfb"]
 YEARS = [2005, 2009, 2010, 2012, 2018]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def input_data():
     file_name = "test_dfs_zve.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)

@@ -15,7 +15,7 @@ OUT_COLS = ["kindergeld_basis", "kindergeld_tu_basis"]
 YEARS = [2000, 2002, 2010, 2011, 2013, 2019]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def input_data():
     file_name = "test_dfs_kindergeld.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)

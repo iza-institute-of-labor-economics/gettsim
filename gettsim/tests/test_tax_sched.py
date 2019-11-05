@@ -25,7 +25,7 @@ INPUT_COLS = [
 YEARS = [2009, 2012, 2015, 2018]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def input_data():
     file_name = "test_dfs_tax_sched.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)

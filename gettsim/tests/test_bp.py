@@ -32,7 +32,7 @@ YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
 OUT_COLS = ["kiz", "wohngeld", "m_alg2"]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def input_data():
     file_name = "test_dfs_prio.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
