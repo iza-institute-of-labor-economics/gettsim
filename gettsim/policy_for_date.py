@@ -1,6 +1,9 @@
 import datetime
 
 import numpy as np
+import yaml
+
+from gettsim.config import ROOT_DIR
 
 
 def get_policies_for_date(tb_pre, year, month=1, day=1):
@@ -17,3 +20,7 @@ def get_policies_for_date(tb_pre, year, month=1, day=1):
                 policy_in_place = max(past_policies)
                 tb[key] = tb_pre[key]["values"][policy_in_place]["value"]
     return tb
+
+
+def standard_policy_data():
+    return yaml.safe_load((ROOT_DIR / "data" / "param.yaml").read_text())
