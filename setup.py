@@ -19,7 +19,7 @@ PROJECT_URLS = {
 
 setup(
     name="gettsim",
-    version="0.0.1",
+    version="0.2.0",
     description=DESCRIPTION,
     long_description=DESCRIPTION + "\n\n" + README,
     long_description_content_type="text/x-rst",
@@ -39,6 +39,9 @@ setup(
         "Programming Language :: Python :: 3.7",
     ],
     platforms="any",
+    package_data={
+        "gettsim": ["tests/test_data/*.csv", "data/param.yaml", "data/*.xlsx"]
+    },
     include_package_data=True,
     zip_safe=False,
 )

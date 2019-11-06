@@ -1,14 +1,14 @@
+import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitslosengeld import ui
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.taxes.calc_taxes import tarif
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
-input_cols = [
+
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -26,23 +26,28 @@ input_cols = [
     "year",
 ]
 OUT_COL = "m_alg1"
-years = [2010, 2011, 2015, 2019]
-tax_policy_data = load_tax_benefit_data()
+YEARS = [2010, 2011, 2015, 2019]
 
 
-@pytest.mark.parametrize("year", years)
-def test_ui(year):
-    file_name = "test_dfs_ui.ods"
-    df = load_test_data(year, file_name, input_cols, pd_kwargs={"true_values": "TRUE"})
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["tax_schedule"] = tarif
-    expected = load_test_data(year, file_name, OUT_COL)
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_ui.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_ui(input_data, tax_policy_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     df = _apply_tax_transfer_func(
         df,
         tax_func=ui,
         level=["hid", "tu_id", "pid"],
-        in_cols=input_cols,
+        in_cols=INPUT_COLS,
         out_cols=[OUT_COL],
         func_kwargs={"tb": tb},
     )
-    assert_series_equal(df[OUT_COL], expected, check_less_precise=3)
+    # TODO: THis should be reviewed.
+    assert_series_equal(df[OUT_COL], year_data[OUT_COL], check_less_precise=3)

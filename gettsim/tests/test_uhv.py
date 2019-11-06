@@ -1,14 +1,14 @@
 import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.unterhaltsvorschuss import uhv
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -24,17 +24,22 @@ input_cols = [
     "zveranl",
     "year",
 ]
-out_col = "uhv"
-years = [2017, 2019]
-tax_policy_data = load_tax_benefit_data()
+OUT_COL = "uhv"
+YEARS = [2017, 2019]
 
 
-@pytest.mark.parametrize("year", years)
-def test_uhv(year):
-    file_name = "test_dfs_uhv.ods"
-    df = load_test_data(year, file_name, input_cols)
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    df[out_col] = np.nan
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_uhv.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_uhv(input_data, tax_policy_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    df[OUT_COL] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(uhv, tb=tb)
-    expected = load_test_data(year, file_name, "uhv")
-    assert_series_equal(df[out_col], expected, check_dtype=False)
+    assert_series_equal(df[OUT_COL], year_data["uhv"], check_dtype=False)
