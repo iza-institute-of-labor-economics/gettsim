@@ -5,7 +5,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.config import ROOT_DIR
-from gettsim.tests.policy_for_date import get_policies_for_date
+from gettsim.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
@@ -43,8 +43,7 @@ def input_data():
 def test_kiz(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(benefit_priority, tb=tb)

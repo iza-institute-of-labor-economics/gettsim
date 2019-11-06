@@ -19,6 +19,7 @@ requirements:
   run:
     - python {{ python }}
     - pandas
+    - pyyaml
     - xlrd
 
 test:
@@ -28,6 +29,7 @@ test:
     - gettsim/tests/
   requires:
     - pytest
+    - pytest-cov
     - pytest-xdist
 
 

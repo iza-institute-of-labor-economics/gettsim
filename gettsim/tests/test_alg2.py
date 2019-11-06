@@ -5,7 +5,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.alg2 import alg2
 from gettsim.config import ROOT_DIR
-from gettsim.tests.policy_for_date import get_policies_for_date
+from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
     "pid",
@@ -61,8 +61,7 @@ def test_alg2(input_data, tax_policy_data, year):
     columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     # if year <= 2010:
     #     tb["calc_regelsatz"] = regelberechnung_until_2010
     # else:

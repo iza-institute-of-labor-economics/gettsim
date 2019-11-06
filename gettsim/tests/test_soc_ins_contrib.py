@@ -4,11 +4,9 @@ import pandas as pd
 import pytest
 
 from gettsim.config import ROOT_DIR
-from gettsim.social_insurance import calc_midi_contributions
-from gettsim.social_insurance import no_midi
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
     "pid",
@@ -41,11 +39,7 @@ def input_data():
 def test_soc_ins_contrib(input_data, tax_policy_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    if year >= 2003:
-        tb["calc_midi_contrib"] = calc_midi_contributions
-    else:
-        tb["calc_midi_contrib"] = no_midi
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     df = _apply_tax_transfer_func(
         df,
         tax_func=soc_ins_contrib,

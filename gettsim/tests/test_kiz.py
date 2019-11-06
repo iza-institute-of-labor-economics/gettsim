@@ -5,9 +5,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.kiz import kiz
 from gettsim.config import ROOT_DIR
-from gettsim.taxes.kindergeld import kg_eligibility_hours
-from gettsim.taxes.kindergeld import kg_eligibility_wage
-from gettsim.tests.policy_for_date import get_policies_for_date
+from gettsim.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
@@ -52,12 +50,7 @@ def test_kiz(input_data, tax_policy_data, year):
     columns = ["kiz_temp"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
-    if year > 2011:
-        tb["childben_elig_rule"] = kg_eligibility_hours
-    else:
-        tb["childben_elig_rule"] = kg_eligibility_wage
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(kiz, tb=tb)

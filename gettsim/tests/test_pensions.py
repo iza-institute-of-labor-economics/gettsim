@@ -7,8 +7,8 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
@@ -40,7 +40,7 @@ def test_pension(input_data, tax_policy_data, year):
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     tb["yr"] = year
     if year > 2017:
         tb["calc_rentenwert"] = _rentenwert_from_2018
@@ -62,7 +62,7 @@ def test_pension(input_data, tax_policy_data, year):
 def test_update_earning_points(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     df = _apply_tax_transfer_func(
         df,

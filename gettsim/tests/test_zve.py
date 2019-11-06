@@ -6,14 +6,8 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.taxes.kindergeld import kg_eligibility_hours
-from gettsim.taxes.kindergeld import kg_eligibility_wage
-from gettsim.taxes.zve import calc_hhfreib_from2015
-from gettsim.taxes.zve import calc_hhfreib_until2014
-from gettsim.taxes.zve import vorsorge2010
-from gettsim.taxes.zve import vorsorge_dummy
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.zve import zve
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 IN_COLS = [
@@ -80,21 +74,7 @@ def input_data():
 def test_zve(input_data, tax_policy_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[IN_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
-    if year <= 2014:
-        tb["calc_hhfreib"] = calc_hhfreib_until2014
-    else:
-        tb["calc_hhfreib"] = calc_hhfreib_from2015
-    if year > 2011:
-        tb["childben_elig_rule"] = kg_eligibility_hours
-    else:
-        tb["childben_elig_rule"] = kg_eligibility_wage
-    if year >= 2010:
-        tb["vorsorge"] = vorsorge2010
-    else:
-        tb["vorsorge"] = vorsorge_dummy
-
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(zve, tb=tb)

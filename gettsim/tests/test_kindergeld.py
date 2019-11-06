@@ -4,10 +4,8 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.taxes.kindergeld import kg_eligibility_hours
-from gettsim.taxes.kindergeld import kg_eligibility_wage
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.kindergeld import kindergeld
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = ["hid", "tu_id", "pid", "age", "w_hours", "ineducation", "m_wage"]
@@ -27,11 +25,7 @@ def test_kindergeld(input_data, tax_policy_data, year):
     test_column = "kindergeld_tu_basis"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    if year > 2011:
-        tb["childben_elig_rule"] = kg_eligibility_hours
-    else:
-        tb["childben_elig_rule"] = kg_eligibility_wage
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"])[INPUT_COLS + OUT_COLS].apply(kindergeld, tb=tb)
