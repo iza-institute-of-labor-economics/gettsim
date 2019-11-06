@@ -22,16 +22,52 @@ To validate the installation, start a Python shell or a Jupyter notebook and typ
 
 .. code-block:: python
 
-    import pandas as pd
-    from gettsim.tax_transfer import tax_transfer
-    from gettsim.policy_for_date import load_tax_data
-    from gettsim.policy_for_date import get_policies_for_date
+    from gettsim.tax_transfer import calculate_tax_and_transfers
 
-    raw_tax_data = load_tax_data("param.yaml")  # This is the standard tax data
     year_of_policy = 2015  # We cover 1985 to 2019
-    tax_data = get_policies_for_date(tax_policy_data, year=year)
-    tax_data_pensions = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    tax_transfer(dataset, tax_policy, tax_policy_pensions)
+    calculate_tax_and_transfers(dataset, year_of_policy)
 
 
 Where dataset is some DataFrame containing the following variables for each observation:
+
++-------------+------------------------------------------------------------------------+
+|   Variable  |Explanation                                               | Type        +
++=============+========================================================================+
+|hid          |Household identifier                                      | Int         |
++-------------+------------------------------------------------------------------------+
+|tu_id        |Tax Unit identifier                                       | Int         |
++-------------+------------------------------------------------------------------------+
+|pid          |Personal identifier                                       | Int         |
++-------------+------------------------------------------------------------------------+
+|head_tu      |Head of tax unit                                          | Bool        |
++-------------+------------------------------------------------------------------------+
+|head         |Head of Household                                         | Bool        |
++-------------+------------------------------------------------------------------------+
+|hhtyp        |                                                          | Int         |
++-------------+------------------------------------------------------------------------+
+|hhsize       |Size of household                                         | Int         |
++-------------+------------------------------------------------------------------------+
+|hhsize_tu    |Size of tax unit                                          | Int         |
++-------------+------------------------------------------------------------------------+
+|adult_num    |Number of adults in household                             | Int         |
++-------------+------------------------------------------------------------------------+
+|child0_18_num|Number of children between 0 and 18 in household          | Int         |
++-------------+------------------------------------------------------------------------+
+|hh_wealth    |Wealth of household                                       | Float       |
++-------------+------------------------------------------------------------------------+
+|m_wage       |Monthly wage of each individual                           | Float       |
++-------------+------------------------------------------------------------------------+
+|age          |Age if Individual                                         | Int         |
++-------------+------------------------------------------------------------------------+
+|selfemployed |Self-employment of Individual                             | Bool        |
++-------------+------------------------------------------------------------------------+
+|east         |Location in former east or west germany                   | Bool        |
++-------------+------------------------------------------------------------------------+
+|haskids      |Individual has kids                                       | Bool        |
++-------------+------------------------------------------------------------------------+
+|m_self       |Monthly wage of selfemployment of each individual         | Float       |
++-------------+------------------------------------------------------------------------+
+|m_pensions   |Monthly pension payments of each individual               | Float       |
++-------------+------------------------------------------------------------------------+
+|pkv          |Individual is private health insured                      | Bool        |
++-------------+------------------------------------------------------------------------+

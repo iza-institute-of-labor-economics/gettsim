@@ -6,22 +6,6 @@ from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import tax_transfer
 
 
-INPUT_COLS = [
-    "pid",
-    "hid",
-    "tu_id",
-    "m_wage",
-    "east",
-    "age",
-    "selfemployed",
-    "haskids",
-    "m_self",
-    "m_pensions",
-    "pkv",
-    "year",
-]
-
-
 YEARS = [2002, 2010, 2018, 2019]
 
 
@@ -33,7 +17,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_soc_ins_contrib(input_data, tax_policy_data, year):
+def test_tax_transfer(input_data, tax_policy_data, year):
     df = input_data[input_data["year"] == year].copy()
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
