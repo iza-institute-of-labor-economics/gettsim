@@ -7,13 +7,11 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
-INPUT_COLUMNS = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -28,46 +26,50 @@ INPUT_COLUMNS = [
 
 
 YEARS = [2010, 2012, 2015]
-tax_policy_data = load_tax_benefit_data()
+
+
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_pensions.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(year):
+def test_pension(input_data, tax_policy_data, year):
     column = "pensions_sim"
-    file_name = "test_dfs_pensions.ods"
-    df = load_test_data(year, file_name, INPUT_COLUMNS)
-    tb = get_policies_for_date(tax_policy_data, year=year)
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     tb["yr"] = year
     if year > 2017:
         tb["calc_rentenwert"] = _rentenwert_from_2018
     else:
         tb["calc_rentenwert"] = _rentenwert_until_2017
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    expected = load_test_data(year, file_name, column)
     df = _apply_tax_transfer_func(
         df,
         tax_func=pensions,
         level=["hid", "tu_id", "pid"],
-        in_cols=INPUT_COLUMNS,
+        in_cols=INPUT_COLS,
         out_cols=[column],
         func_kwargs={"tb": tb, "tb_pens": tb_pens},
     )
-    assert_array_almost_equal(df[column], expected)
+    assert_array_almost_equal(df[column], year_data[column])
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(year):
-    file_name = "test_dfs_pensions.ods"
-    df = load_test_data(year, file_name, INPUT_COLUMNS)
-    tb = get_policies_for_date(tax_policy_data, year=year)
+def test_update_earning_points(input_data, tax_policy_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    expected = load_test_data(year, file_name, "EP_end")
     df = _apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
         level=["hid", "tu_id", "pid"],
-        in_cols=INPUT_COLUMNS,
+        in_cols=INPUT_COLS,
         out_cols=[],
         func_kwargs={"tb": tb, "tb_pens": tb_pens[year]},
     )
-    assert_array_almost_equal(df["EP"], expected.values)
+    assert_array_almost_equal(df["EP"], year_data["EP_end"].values)
