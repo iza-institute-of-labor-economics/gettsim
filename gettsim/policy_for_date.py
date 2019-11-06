@@ -63,5 +63,5 @@ def get_policies_for_date(tb_pre, year, month=1, day=1):
     return tb
 
 
-def standard_policy_data():
-    return yaml.safe_load((ROOT_DIR / "data" / "param.yaml").read_text())
+def load_tax_data(file_name):
+    return yaml.safe_load((ROOT_DIR / "data" / file_name).read_text())
