@@ -7,7 +7,7 @@ from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
-from gettsim.tests.policy_for_date import get_policies_for_date
+from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
     "pid",

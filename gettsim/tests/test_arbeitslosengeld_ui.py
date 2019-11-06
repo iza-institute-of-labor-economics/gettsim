@@ -4,9 +4,9 @@ from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import _apply_tax_transfer_func
 from gettsim.taxes.calc_taxes import tarif
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [

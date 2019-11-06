@@ -6,6 +6,7 @@ from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.tax_transfer import tax_transfer
@@ -16,7 +17,6 @@ from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import vorsorge_dummy
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [

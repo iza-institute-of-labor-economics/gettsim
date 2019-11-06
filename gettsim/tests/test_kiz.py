@@ -5,9 +5,9 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.kiz import kiz
 from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [

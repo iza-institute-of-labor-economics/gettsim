@@ -6,6 +6,7 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.zve import calc_hhfreib_from2015
@@ -13,7 +14,6 @@ from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import vorsorge_dummy
 from gettsim.taxes.zve import zve
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 IN_COLS = [

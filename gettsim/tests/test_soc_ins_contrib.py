@@ -4,11 +4,11 @@ import pandas as pd
 import pytest
 
 from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
     "pid",

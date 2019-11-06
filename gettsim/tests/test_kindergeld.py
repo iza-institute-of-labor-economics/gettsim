@@ -4,10 +4,10 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.kindergeld import kindergeld
-from gettsim.tests.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = ["hid", "tu_id", "pid", "age", "w_hours", "ineducation", "m_wage"]
