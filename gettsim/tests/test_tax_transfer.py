@@ -36,6 +36,6 @@ def input_data():
 def test_soc_ins_contrib(input_data, tax_policy_data, year):
     df = input_data[input_data["year"] == year].copy()
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
-    tb = get_policies_for_date(tax_policy_data, year=year)
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     tb["zve_list"] = ["nokfb", "kfb"]
     tax_transfer(df, tb, tb_pens)

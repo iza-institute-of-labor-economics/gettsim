@@ -40,7 +40,7 @@ def input_data():
 def test_ui(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(tax_policy_data, year=year)
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     df = _apply_tax_transfer_func(
         df,
         tax_func=ui,
