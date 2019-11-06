@@ -62,7 +62,6 @@ def test_alg2(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     # if year <= 2010:
     #     tb["calc_regelsatz"] = regelberechnung_until_2010
     # else:

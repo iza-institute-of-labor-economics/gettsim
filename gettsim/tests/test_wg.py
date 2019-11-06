@@ -3,8 +3,6 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from gettsim.benefits.wohngeld import calc_max_rent_since_2009
-from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
@@ -58,11 +56,6 @@ def test_wg(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
-    if year < 2009:
-        tb["calc_max_rent"] = calc_max_rent_until_2008
-    else:
-        tb["calc_max_rent"] = calc_max_rent_since_2009
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, tb=tb)
@@ -81,11 +74,6 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, tax_policy_data, year):
     year_data = input_data_2[input_data_2["year"] == year]
     df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
-    if year < 2009:
-        tb["calc_max_rent"] = calc_max_rent_until_2008
-    else:
-        tb["calc_max_rent"] = calc_max_rent_since_2009
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, tb=tb)

@@ -40,7 +40,6 @@ def test_uhv(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
     df[OUT_COL] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(uhv, tb=tb)
     assert_series_equal(df[OUT_COL], year_data["uhv"], check_dtype=False)
