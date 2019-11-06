@@ -10,7 +10,6 @@ Welcome to GETTSIM's documentation!
    :caption: Table of Contents
    :maxdepth: 1
 
-   installation
    getting-started
    geps
    how-to-contribute
