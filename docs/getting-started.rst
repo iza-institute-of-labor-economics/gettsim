@@ -57,7 +57,7 @@ Where dataset is some DataFrame containing the following variables for each obse
 +--------------+---------------------------------------------------------+-------------+
 |m_wage        |Monthly wage of each individual                          | Float       |
 +--------------+---------------------------------------------------------+-------------+
-|age           |Age if Individual                                        | Int         |
+|age           |Age of Individual                                        | Int         |
 +--------------+---------------------------------------------------------+-------------+
 |selfemployed  |Whether individual is self-employed                      | Bool        |
 +--------------+---------------------------------------------------------+-------------+
