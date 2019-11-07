@@ -1,78 +1,78 @@
 a2an1:
   group: alg2
   name:
-    de: Einkommensanteil, der anrechnungsfrei bleibt (Intervall a2grf, a2eg1)
-    en: income share
+    de: EK-Anteil anrechnungsfrei, Intervall 1
+    en: Income share not subject to transfer withdrawal, interval 1
   description:
-    de: § 11b (4) Nr. 1 SGB II
+    de: Einkommensanteil, der anrechnungsfrei bleibt (Intervall [a2grf, a2eg1]). § 30 SGB II. Seit 01.04.2011 § 11b (4). Nr. 1 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
-    2005-01-01:
+    2005-10-01:
       value: .2
-      note:
+      note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2an2:
   group: alg2
   name:
-    de: Einkommensanteil, der anrechnungsfrei bleibt (Intervall a2eg1, a2eg1)
-    en:
+    de: EK-Anteil anrechnungsfrei Intervall 2
+    en: Income share not subject to transfer withdrawal, interval 2
   description:
-    de: § 11b (4) Nr. 2 SGB II
+    de: Einkommensanteil, der anrechnungsfrei bleibt (Intervall [a2eg1, a2eg1]). § 30 SGB II. Seit 01.04.2011 § 11b (4). Nr. 1 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
-    2005-01-01:
+    2005-10-01:
       value: .1
-      note:
+      note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2grf:
   group: alg2
   name:
-    de: Grundbetrag, der anrechnungsfrei bleibt
-    en:
+    de: Anrechnungsfreier Grundbetrag
+    en: Income amount not subject to transfer withdrawal
   description:
-    de: § 11b (3) SGB II
+    de: Grundbetrag, der anrechnungsfrei bleibt. § 11 (2) SGB II. Seit 01.04.2011 § 11b (4). Nr. 1 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
-    2005-01-01:
+    2005-10-01:
       value: 100
-      note:
+      note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2eg1:
   group: alg2
   name:
-    de: 1. Einkommensgrenze bei anzurechnendem Einkommen
-    en:
+    de: 1. EK-Grenze Anrechnung
+    en: 1st threshold transfer withdrawal
   description:
-    de: § 11b (4) Nr. 1 SGB II
+    de: 1. Einkommensgrenze bei anzurechnendem Einkommen. § 30 SGB II. Seit 01.04.2011 § 11b (4). Nr. 1 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
-    2005-01-01:
+    2005-10-01:
       value: 800
-      note:
-    2011-01-01:
+      note: G. v. 14.08.2005 BGBl. I S. 2407.
+    2011-04-01:
       value: 1000
-      note:
+      note: Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850. Artikel 5 G. v. 20.12.2011 BGBl. I 2854.
 a2eg2:
   group: alg2
   name:
-    de: 2. Einkommensgrenze bei anzurechnendem Einkommen
-    en:
+    de: 2. EK-Grenze Anrechnung
+    en: 2nd threshold transfer withdrawal
   description:
-    de: § 11b (4) Nr. 2 SGB II
+    de: 2. Einkommensgrenze bei anzurechnendem Einkommen. § 30 SGB II. Seit 01.04.2011 § 11b (4) Nr. 2 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
-    2005-01-01:
+    2005-10-01:
       value: 1200
-      note:
+      note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2eg3:
   group: alg2
   name:
-    de: 3. Einkommensgrenze bei anzurechnendem Einkommen  gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind
-    en:
+    de: 2. EK-Grenze Anrechnung (mit Kindern)
+    en: 2rd threshold transfer withdrawal (household with children)
   description:
-    de: § 11b (4) SGB II
+    de: 2. Einkommensgrenze bei anzurechnendem Einkommen. Gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 § 11b (4) Nr. 2 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
-    2005-01-01:
+    2005-10-01:
       value: 1500
-      note:
+      note: G. v. 14.08.2005 BGBl. I S. 2407.
 rs_hhvor:
   group: alg2
   name:
