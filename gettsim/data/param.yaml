@@ -376,39 +376,39 @@ a2ch14:
 a2mbch1:
   group: alg2
   name:
-    de: Mehrbedarf für allein erziehenden Elternteil von mind. einem Kind wenn Anspruch größer als nach a2mbch2
-    en:
+    de: Mehrbedarf AE, mind. einem Kind wenn Anspruch größer als nach a2mbch2
+    en: Additional need, single parent, one or more children
   description:
     de: Mehrbedarf für allein erziehenden Elternteil von mind. einem Kind wenn Anspruch größer als nach a2mbch2. Prozentsatz gilt pro Kind. § 21 (3) Nr. 2 SGB II.
     en:
   values:
     2005-01-01:
       value: .12
-      note:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbch2:
   group: alg2
   name:
-    de: Mehrbedarf für allein erziehenden Elternteil von mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren
-    en:
+    de: Mehrbedarf AE, mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren
+    en: Additional need, single parent, one child below 7 or two or three children below 16
   description:
-    de: § 21 (3) Nr. 1 SGB II
+    de: Mehrbedarf für allein erziehenden Elternteil von mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren. § 21 (3) Nr. 1 SGB II.
     en:
   values:
     2005-01-01:
       value: .36
-      note:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbchb:
   group: alg2
   name:
-    de: Mehrbedarf bei erwerbsfähigen behinderten Leistungsberechtigten
-    en:
+    de: Mehrbedarf, Behinderte
+    en: Additional need, disabled person
   description:
-    de: § 21 (4) SGB II
+    de: Mehrbedarf bei erwerbsfähigen behinderten Leistungsberechtigten. § 21 (4) SGB II.
     en:
   values:
     2005-01-01:
       value: .35
-      note:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ve:
   group: alg2
   name:
@@ -691,15 +691,15 @@ a2zu1:
 a2zu2:
   group: alg2
   name:
-    de: Maximalanteil des Mehrbedarfzuschlags für Alleinerziehende gemessen am maßgebenden Regelbedarf.
-    en:
+    de: Maximalanteil Mehrbedarf AE
+    en: Upper limit additional need for single parents
   description:
-    de: § 21 SGB II (3) 2
+    de: Maximalanteil des Mehrbedarfzuschlags für Alleinerziehende gemessen am maßgebenden Regelbedarf. § 21 SGB II (3) 2.
     en:
   values:
     2005-01-01:
       value: 60
-      note:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2_but_1:
   group: alg2
   name:
