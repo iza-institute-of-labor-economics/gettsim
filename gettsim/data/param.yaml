@@ -409,6 +409,18 @@ a2mbchb:
     2005-01-01:
       value: .35
       note: G. v. 24.12.2003 BGBl. I S. 2954.
+a2zu2:
+  group: alg2
+  name:
+    de: Maximalanteil Mehrbedarf AE
+    en: Upper limit additional need for single parents
+  description:
+    de: Maximalanteil des Mehrbedarfzuschlags für Alleinerziehende gemessen am maßgebenden Regelbedarf. § 21 SGB II (3) 2.
+    en:
+  values:
+    2005-01-01:
+      value: 60
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ve:
   group: alg2
   name:
@@ -688,18 +700,6 @@ a2zu1:
     2005-01-01:
       value: 160
       note:
-a2zu2:
-  group: alg2
-  name:
-    de: Maximalanteil Mehrbedarf AE
-    en: Upper limit additional need for single parents
-  description:
-    de: Maximalanteil des Mehrbedarfzuschlags für Alleinerziehende gemessen am maßgebenden Regelbedarf. § 21 SGB II (3) 2.
-    en:
-  values:
-    2005-01-01:
-      value: 60
-      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2_but_1:
   group: alg2
   name:
