@@ -425,242 +425,248 @@ a2ve:
   group: alg2
   name:
     de: Versicherungspauschale
-    en:
+    en: Insurance allowance
   description:
-    de: § 6 (1) Nr. 1 ALG II-V
+    de: Vom Einkommen abzusetzender Betrag für die Beiträge zu privaten Versicherungen. § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
     en:
   values:
     2005-01-01:
       value: 30
-      note:
+      note: V. v. 20.10.2004 BGBl. I S. 2622.
 a2ve1:
   group: alg2
   name:
-    de: Vermögensgrundfreibetrag je vollendetem Lebensjahr
-    en:
+    de: Vermögensgrundfreibetrag je Lebensjahr
+    en: Basic allowance per year of life
   description:
-    de: § 12 (2) Satz 1 Nr. 1 SGB II
+    de: Vermögensgrundfreibetrag je vollendetem Lebensjahr. § 12 (2) Satz 1 Nr. 1 SGB II.
     en:
   values:
     2005-01-01:
       value: 200
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 150
-      note:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2ve2:
   group: alg2
   name:
-    de: Vermögensgrundfreibetrag je vollendetem Lebensjahr, für Personen die vor dem 01. Januar 1948 geboren sind
-    en:
+    de: Vermögensgrundfreibetrag je Lebensjahr, vor 01.01.1948 geboren
+    en: Basic allowance per year of life, birth before 1948-01-01
   description:
-    de: § 65 V SGB II
+    de: Vermögensgrundfreibetrag je vollendetem Lebensjahr, für Personen die vor dem 01. Januar 1948 geboren sind. § 65 V SGB II.
     en:
   values:
     2005-01-01:
       value: 520
-      note:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2vga:
   group: alg2
   name:
-    de: Vermögensfreibetrag (geldwerte Ansprüche) je vollendetem Lebensjahr
-    en:
+    de: Vermögensfreibetrag (geldwerte Ansprüche) je Lebensjahr
+    en: Allowance (monetary claims) per year of life
   description:
-    de: §12 II Nr. 3 SGB II
+    de: Vermögensfreibetrag (geldwerte Ansprüche) je vollendetem Lebensjahr. § 12 II Nr. 3 SGB II.
     en:
   values:
     2005-01-01:
       value: 200
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 250
-      note: Artikel 1 G v 20.07.2006 BGBl. I 1706
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
     2011-01-01:
       value: 750
-      note:
+      note: G. v. 14.04.2010 BGBl. I S. 410.
 a2verst:
   group: alg2
   name:
     de: Vermögensfreibetrag für Erstausstattung
-    en:
+    en: Allowance for furniture
   description:
-    de: § 12 (2) Satz 1 Nr. 4 SGB II
+    de: Freibetrag für notwendige Anschaffungen. § 12 (2) Satz 1 Nr. 4 SGB II.
     en:
   values:
     2005-01-01:
       value: 750
-      note:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2vkf:
   group: alg2
   name:
-    de: Vermögensgrundfreibetrag für jedes leistungsberechtigte minderjährige Kind
-    en:
+    de: Vermögensgrundfreibetrag je Kind
+    en: Allowance per child
   description:
-    de: § 12 (2) Satz 1 Nr. 1a SGB II
+    de: Vermögensgrundfreibetrag für jedes leistungsberechtigte minderjährige Kind. § 12 (2) Satz 1 Nr. 1a SGB II.
     en:
   values:
     2005-01-01:
       value: 4100
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 3100
-      note:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2vki:
   group: alg2
   name:
-    de: Minimaler Vermögensgrundfreibetrag  (wenn a2ve1 darunter liegt)
-    en:
+    de: Minimaler Vermögensgrundfreibetrag
+    en: Minimum level basic allowance
   description:
-    de: § 12 (2) Satz 1 Nr. 1 SGB II
+    de: Minimaler Vermögensgrundfreibetrag (wenn a2ve1 darunter liegt). § 12 (2) Satz 1 Nr. 1 SGB II.
     en:
   values:
     2005-01-01:
       value: 4100
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 3100
-      note:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2voe1:
   group: alg2
   name:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag  (Personen, die vor dem 01. Januar 1958 geboren sind und nach dem 31. Dezember 1947)
-    en:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1948-1957 geboren
+    en: Upper limit basic allowance, born 1948-1957
   description:
-    de: § 12 (2) Satz 2 Nr. 1 SGB II
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1948-1957 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 1 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
     en:
   values:
     2005-01-01:
       value: 13000
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 9750
-      note:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
+    2008-01-01:
+      value: 9750
+      note: G. v. 20.04.2007 BGBl. I S. 554. Betrag unverändert.
 a2voe2:
   group: alg2
   name:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag (Personen, die vor dem 01.01.1948 geboren sind)
-    en:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag, vor 1948 geboren
+    en: Upper limit basic allowance, born before 1948
   description:
-    de:  § 65 V SGB II
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Abweichender Betrag für für Personen der Jahrgänge bis 1947 definiert in § 65 V SGB II.
     en:
   values:
     2005-01-01:
       value: 33800
-      note:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2voe3:
   group: alg2
   name:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag  (Personen die vor dem 01. Januar 1964 und nach dem 31. Dezember 1957 geboren sind)
-    en:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1958-1963 geboren
+    en: Upper limit basic allowance, born 1958-1963
   description:
-    de: § 12 (2) Satz 2 Nr. 2 SGB II
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1958-1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 2 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
     en:
   values:
     2005-01-01:
       value: 13000
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 9750
-      note:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
     2008-01-01:
       value: 9900
-      note: geändert durch Artikel 2 G. v. 20.04.2007 BGBl. I S. 554
+      note: G. v. 20.04.2007 BGBl. I S. 554.
 a2voe4:
   group: alg2
   name:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag  (Personen, die nach dem 31. Dezember 1963 geboren sind)
-    en:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag, nach 1963 geboren
+    en: Upper limit basic allowance, born after 1963
   description:
-    de: § 12 (2) Satz 2 Nr. 3 SGB II
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1958-1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 3 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
     en:
   values:
     2005-01-01:
       value: 13000
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 9750
-      note:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
     2008-01-01:
       value: 10050
-      note: geändert durch Artikel 2 G. v. 20.04.2007 BGBl. I S. 554
+      note: G. v. 20.04.2007 BGBl. I S. 554.
 a2vog1:
   group: alg2
   name:
-    de: Vermögensobergrenze für geldwerte Ansprüche (Personen, die vor dem 01. Januar 1958 geboren sind und nach dem 31. Dezember 1947)
-    en:
+    de: Vermögensobergrenze für geldwerte Ansprüche, 1948-1957 geboren
+    en: Upper limit allowance (monetary claims), born 1948-1957
   description:
-    de: § 12 (2) Satz 2 Nr. 1 SGB II
+    de: Vermögensobergrenze für geldwerte Ansprüche nach § 12 (2) Satz 2 Nr. 3 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1948-1957 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 1 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
     en:
   values:
     2005-01-01:
       value: 13000
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 16250
-      note:
-    2011-01-01:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
+    2008-01-01:
+      value: 16250
+      note: G. v. 20.04.2007 BGBl. I S. 554. Betrag unverändert.
+    2010-04-17:
       value: 48750
-      note:
+      note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog2:
   group: alg2
   name:
-    de: Vermögensobergrenze für geldwerte Ansprüche (Personen, die vor dem 01.01.1948 geboren sind) es gilt a2vog1=a2vog2
-    en:
+    de: Vermögensobergrenze für geldwerte Ansprüche, vor 1948 geboren
+    en: Upper limit allowance (monetary claims), born before 1948
   description:
-    de: § 12 (2) Satz 2 Nr. 1 SGB II
+    de: Vermögensobergrenze für geldwerte Ansprüche nach § 12 (2) Satz 2 Nr. 3 SGB II.
     en:
   values:
     2005-01-01:
       value: 13000
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 16250
-      note:
-    2011-01-01:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
+    2010-04-17:
       value: 48750
-      note:
+      note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog3:
   group: alg2
   name:
-    de: Vermögensobergrenze für geldwerte Ansprüche  (Personen die vor dem 01. Januar 1964 und nach dem 31. Dezember 1957 geboren sind)
-    en:
+    de: Vermögensobergrenze für geldwerte Ansprüche, 1958-1963 geboren
+    en: Upper limit allowance (monetary claims), born 1958-1963
   description:
-    de: § 12 (2) Satz 2 Nr. 2 SGB II
+    de: Vermögensobergrenze für geldwerte Ansprüche nach § 12 (2) Satz 2 Nr. 3 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1958-1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 2 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
     en:
   values:
     2005-01-01:
       value: 13000
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 16250
-      note:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
     2008-01-01:
       value: 16500
-      note: geändert durch Artikel 2 G. v. 20.04.2007 BGBl. I S. 554
-    2011-01-01:
+      note: G. v. 20.04.2007 BGBl. I S. 554.
+    2010-04-17:
       value: 49500
-      note:
+      note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog4:
   group: alg2
   name:
-    de: Vermögensobergrenze für geldwerte Ansprüche  (Personen, die nach dem 31. Dezember 1963 geboren sind)
-    en:
+    de: Vermögensobergrenze für geldwerte Ansprüche, nach 1963 geboren
+    en: Upper limit allowance (monetary claims), born after 1963
   description:
-    de: § 12 (2) Satz 2 Nr. 3 SGB II
+    de: Vermögensobergrenze für geldwerte Ansprüche nach § 12 (2) Satz 2 Nr. 3 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge nach 1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 3 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
     en:
   values:
     2005-01-01:
       value: 13000
-      note:
-    2007-01-01:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2006-08-01:
       value: 16250
-      note:
+      note: G. v. 20.07.2006 BGBl. I S. 1706.
     2008-01-01:
       value: 16750
-      note: geändert durch Artikel 2 G. v. 20.04.2007 BGBl. I S. 554
-    2011-01-01:
+      note: G. v. 20.04.2007 BGBl. I S. 554.
+    2010-04-17:
       value: 50250
-      note:
+      note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vob:
   group: alg2
   name:
