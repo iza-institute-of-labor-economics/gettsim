@@ -165,8 +165,9 @@ def _calc_kiz_regel_since_2011(household, tb):
 
 def get_wohnbedarf(yr):
     """ Specifies the percent share of living costs that is attributed to the parents
-        This is a share that is defined by the "Existenzminimumsbericht". The
-        function is called by uhv().
+        This is a share that is defined by the "Existenzminimumsbericht".
+
+        The actual tables are found in the official "Merkblatt Kinderzuschlag".
     """
     # cols: number of adults
     # rows: number of kids
@@ -234,6 +235,7 @@ def get_wohnbedarf(yr):
             [45.70, 56.04],
             [40.24, 50.49],
         ],
+        "2020": [[77, 84], [63, 72], [53, 63], [46, 56], [40, 50]],
     }
 
     return wohnbedarf[str(yr)]
