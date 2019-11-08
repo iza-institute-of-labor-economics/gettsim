@@ -865,54 +865,39 @@ a2kiz_minek_sin:
 uhv5:
   group: uhv
   name:
-    de: Unterhaltsvorschuss für Kinder unter 5 Jahren. Der Prozentsatz in §2 UVG wird angewendet auf (2 x Kinderfrebeitrag (32 (6) EStG) / 12) - Kindergeld für das 1. Kind
+    de: Unterhaltsvorschuss für Kinder unter 6 Jahren. Anteil am Kinderfreibetrag.
     en:
   description:
-    de: §2 UVG, §1612a BGB
+    de: §1612a (1) Nr.1 BGB
     en:
   values:
-    2015-01-01:
-      value: 322.5
-      note: Ausnahmsweise §11a UHV, Durchschnitt aus beiden Werten
-    2017-01-01:
-      value: 154
-      note:
-    2019-01-01:
-      value: 160
-      note:
+    2008-01-01:
+      value: .87
+      note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
 uhv11:
   group: uhv
   name:
-    de: Unterhaltsvorschuss für Kinder von 6-11 Jahren
+    de: Unterhaltsvorschuss für Kinder von 6-11 Jahren. Anteil am Kinderfreibetrag.
     en:
   description:
-    de: §2 UVG, §1612a BGB
+    de: §1612a (1) Nr.2 BGB
     en:
   values:
-    2015-01-01:
-      value: 346.5
-      note:
-    2017-01-01:
-      value: 205
-      note:
-    2019-01-01:
-      value: 212
-      note:
+    2008-01-01:
+      value: 1
+      note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
 uhv17:
   group: uhv
   name:
-    de: Unterhaltsvorschuss für Kinder von 7 bis 12 Jahren
+    de: Unterhaltsvorschuss für Kinder ab 13 Jahren. Anteil am Kinderfreibetrag
     en:
   description:
-    de: §2 UVG, §1612a BGB
+    de: §1612a (1) Nr.3 BGB
     en:
   values:
-    2017-01-01:
-      value: 273
-      note:
-    2019-01-01:
-      value: 282
-      note:
+    2008-01-01:
+      value: 1.17
+      note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
 alg1_frei:
   group: alg
   name:
@@ -3415,7 +3400,7 @@ elgzwst:
 kifreib:
   group: kinderfreibetrag
   name:
-    de: Kinderfreibetrag (sächliches Existenzminimum des Kindes sowie Betreuungs- und Erziehungs- oder Ausbildungsbedarf)
+    de: Kinderfreibetrag (sächliches Existenzminimum des Kindes sowie Betreuungs- und Erziehungs- oder Ausbildungsbedarf). Hier doppelter Wert (für Paare)
     en:
   description:
     de: § 32(6) EStG
@@ -3451,7 +3436,7 @@ kifreib:
     2010-01-01:
       value: 7008
       note:
-    2015-01-01:
+    2015-07-23:
       value: 7152
       note: geändert durch BGBl. 2015 Nr. 30
     2016-01-01:
@@ -3466,6 +3451,39 @@ kifreib:
     2019-01-01:
       value: 7620
       note:
+kifreib_s:
+  group: kinderfreibetrag
+  name:
+    de: Kinderfreibetrag (nur sächliches Existenzminimum). Hier doppelter Wert (für Paare)
+    en:
+  description:
+    de: § 32(6) EStG
+    en:
+  values:
+    2002-01-01:
+      value: 3648
+      note:
+    2009-01-01:
+      value: 3864
+      note: Art. 1 vom 22.12.2008, BGBl. I S. 2955
+    2010-01-01:
+      value: 4368
+      note: Artikel 1 vom 22.12.2009, BGBl. I S. 3950
+    2015-07-23:
+      value: 4512
+      note: geändert durch Artikel 1 vom 16.07.2015, BGBl. I S. 1202
+    2016-01-01:
+      value: 4608
+      note: geändert durch Artikel 2 vom 16.07.2015, BGBl. I S. 1202
+    2017-01-01:
+      value: 4716
+      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+    2018-01-01:
+      value: 4788
+      note: Art. 9 BGBL I. S. 3000 v. 20.12.2016
+    2019-01-01:
+      value: 4980
+      note: geändert durch Artikel 1 v. 29.11.2018 BGBl. I. S 2210
 kgage:
   group: kindergeld
   name:

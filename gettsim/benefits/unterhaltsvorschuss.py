@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def uhv(tax_unit, tb):
     """
     Since 2017, the receipt of this
@@ -19,20 +22,21 @@ def uhv_since_2017(tax_unit, tb):
         alimony, the government pays the child alimony to the mother (or the father, if
         he has the kids)
 
+
         returns:
             uhv (pd.Series): Alimony Payment on individual level
         """
-    # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
-    # Calculate them on the level of the tax unit
+    # Benefit amount depends on the tax allowance for children ("sächliches Existenzminimum")
+    # and the child benefit for the first child.
 
     tax_unit["uhv"] = 0
     # Amounts depend on age
-    tax_unit.loc[tax_unit["age"].between(0, 5) & tax_unit["alleinerz"], "uhv"] = tb[
-        "uhv5"
-    ]
-    tax_unit.loc[tax_unit["age"].between(6, 11) & tax_unit["alleinerz"], "uhv"] = tb[
-        "uhv11"
-    ]
+    tax_unit.loc[tax_unit["age"].between(0, 5) & tax_unit["alleinerz"], "uhv"] = (
+        tb["uhv5"] * tb["kifreib_s"] / 12 - tb["kgeld1"]
+    )
+    tax_unit.loc[tax_unit["age"].between(6, 11) & tax_unit["alleinerz"], "uhv"] = (
+        tb["uhv11"] * tb["kifreib_s"] / 12 - tb["kgeld1"]
+    )
     # Older kids get it only if the parent has income > 600€
     uhv_inc_tu = (
         tax_unit[
@@ -54,6 +58,9 @@ def uhv_since_2017(tax_unit, tb):
         & (tax_unit["alleinerz"])
         & (uhv_inc_tu > 600),
         "uhv",
-    ] = tb["uhv17"]
+    ] = (tb["uhv17"] * tb["kifreib_s"] / 12 - tb["kgeld1"])
+
+    # round up
+    tax_unit["uhv"] = np.ceil(tax_unit["uhv"]).astype(int)
     # TODO: Check against actual transfers
     return tax_unit
