@@ -671,50 +671,56 @@ a2we:
   group: alg2
   name:
     de: Abzugsfähige Werbungskostenpauschale
-    en:
+    en: Allowance for expenses
   description:
-    de: § 6 (1) Nr. 3 a) ALG II-V
+    de: Abzugsfähige monatliche Werbungskostenpauschale. § 6 (1) Nr. 3 a) ALG II-V. 2005-01.01 bis 2016-07-31. Betrag mit V. v. 26.07.2016 BGBl. I S. 1858 entfallen.
     en:
   values:
     2005-01-01:
       value: 15.33
-      note:
+      note: V. v. 20.10.2004 BGBl. I S. 2622. Es gilt 1/60 der ein Sechzigstel der steuerrechtlichen Werbungskostenpauschale (Parameter werbung). Berechnung werbung/60 = 920/60.
+    2011-01-01:
+      value: 15.33
+      note: V. v. 21.06.2011 BGBl. I S. 1175. Fester Betrag. Betrag unverändert.
 a2zu1:
   group: alg2
   name:
-    de: „Armutsgewöhnungszuschlag“ Bis einschließlich Dezember 2010 bestand zudem für ehemalige Arbeitslosengeldempfänger die Möglichkeit einen Zuschuss von bis zu € 160 (€ 320 für Verheiratete) pro Monat für die Dauer von maximal zwei Jahren zu beziehen.
-    en:
+    de: Befristeter Zuschlag nach Bezug von Arbeitslosengeld (2005-2010)
+    en: Temporary additional benefit after UI (2005-2010)
   description:
-    de: § 24 SGB II (alt)
+    de: Befristeter Zuschlag nach Bezug von Arbeitslosengeld ("Armutsgewöhnungszuschlag"). Bis einschließlich Dezember 2010 bestand für ehemalige Arbeitslosengeldempfänger die Möglichkeit einen Zuschuss von bis zu 160 Euro (320 für Verheiratete) pro Monat für die Dauer von maximal zwei Jahren zu beziehen. § 24 SGB II. Aufgehoben zum 01.01.2011 mit G. v. 09.12.2010 BGBl. I S. 1885.
     en:
   values:
     2005-01-01:
       value: 160
-      note:
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2_but_1:
   group: alg2
   name:
-    de: Leistungen für Bildung und Teilhabe, Persönlicher Schulbedarf, Durchschnittsbetrag pro Schulkind und Monat.
-    en:
+    de: Leistungen für Bildung und Teilhabe, Schulbedarf
+    en: Benefits for education and participation, school supplies
   description:
-    de:  §28 (2) SGB II
+    de: Leistungen für Bildung und Teilhabe, Persönlicher Schulbedarf, Durchschnittsbetrag pro Schulkind und Monat. §28 (2) SGB II.
     en:
   values:
     2011-01-01:
       value: 8.33
-      note: 70€ + 30 € / 12 Monate
+      note: G. v. 24.03.2011 BGBl. I S. 453. Berechnung 70+30/12.
 a2_but_2:
   group: alg2
   name:
-    de: Leistungen für Bildung und Teilhabe, Teilhabe am sozialen Leben, Betrag pro Kind und Monat
-    en:
+    de: Leistungen für Bildung und Teilhabe, Teilhabe am sozialen Leben
+    en: Benefits for education and participation, social activities
   description:
-    de: §28 (7) SGB II
+    de: Leistungen für Bildung und Teilhabe, Teilhabe am sozialen Leben, Betrag pro Kind und Monat. §28 (7) SGB II.
     en:
   values:
     2011-01-01:
       value: 10
-      note:
+      note: G. v. 24.03.2011 BGBl. I S. 453.
+    2019-08-01:
+      value: 15
+      note: G. v. 29.04.2019 BGBl. I S. 530.
 shmz1XII:
   group: sgbxii
   name:
