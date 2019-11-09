@@ -667,21 +667,6 @@ a2vog4:
     2010-04-17:
       value: 50250
       note: G. v. 14.04.2010 BGBl. I S. 410.
-a2vob:
-  group: alg2
-  name:
-    de:
-    en:
-  description:
-    de:
-    en:
-  values:
-    2005-01-01:
-      value: 13000
-      note:
-    2007-01-01:
-      value: 16250
-      note:
 a2we:
   group: alg2
   name:
