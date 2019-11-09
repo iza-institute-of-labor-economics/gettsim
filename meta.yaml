@@ -10,7 +10,6 @@ source:
 build:
   number: 0
 
-
 requirements:
   build:
     - python {{ python }}
@@ -19,6 +18,7 @@ requirements:
   run:
     - python {{ python }}
     - pandas
+    - pytest
     - pyyaml
     - xlrd
 
@@ -31,7 +31,8 @@ test:
     - pytest
     - pytest-cov
     - pytest-xdist
-
+  imports:
+    - gettsim
 
 about:
   home: https://github.com/iza-institute-of-labor-economics/gettsim
