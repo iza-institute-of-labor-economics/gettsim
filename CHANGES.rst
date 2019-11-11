@@ -5,6 +5,12 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
+unreleased
+----------
+
+- Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
+
+
 0.2.0 - 2019-11-06
 ------------------
 
