@@ -66,6 +66,14 @@ def get_policies_for_date(year, tax_data_raw=None, month=1, day=1):
         tax_data["calc_kiz_amount"] = calc_kiz_amount_2020
     else:
         tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
+    # TODO: We need to adapt favorability check for that. See
+    #  https://github.com/iza-institute-of-labor-economics/gettsim/issues/81 for
+    #  details.
+    # if year >= 2009:
+    #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
+    # else:
+    #     tax_data["zve_list"] = ["nokfb", "kfb"]
+    tax_data["zve_list"] = ["nokfb", "kfb"]
 
     tax_data["tax_schedule"] = tarif
     return tax_data

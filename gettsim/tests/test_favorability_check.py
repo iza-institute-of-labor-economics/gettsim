@@ -6,6 +6,7 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.favorability_check import favorability_check
 
 
@@ -35,10 +36,10 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", product(YEARS, TEST_COLUMNS))
-def test_favorability_check(input_data, year, column):
+def test_favorability_check(input_data, tax_policy_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = {"zve_list": ["nokfb", "kfb"], "yr": year}
+    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(favorability_check, tb=tb)
