@@ -7,6 +7,7 @@ dependencies:
   - pip
   - anaconda-client
   - conda-build
+  - conda-verify
   - pandas
   - pre-commit
   - pyyaml
