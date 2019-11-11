@@ -96,7 +96,7 @@ def calc_kiz_amount_2005(household, tb):
         household["kiz_ek_gross"] >= household["kiz_ek_min"]
     ) & (household["kiz_ek_net"] <= household["kiz_ek_max"])
     # Finally, calculate the amount. Adult income is partly deducted.
-    # Child income is fully deducted until 07/2019    
+    # Child income is fully deducted until 07/2019
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
         0,
