@@ -206,52 +206,60 @@ def grossinc_alg2(household):
 
 
 def einkommensanrechnungsfrei(household, tb):
-    """Determine the amount of income that is not deducted. Varies withdrawal rates
-    depending on monthly earnings."""
-    # Calculate the amount of children below the age of 18.
+    """Determine the amount of income that is not deducted. Withdrawal rates
+    depend on monthly earnings. § 30 SGB II. Since 01.04.2011 § 11b (4)."""
+
+    # Number of children below the age of 18
     child0_18_num = (household["child"] & household["age"].between(0, 18)).sum()
 
-    # 100€ is always 'free'
-    household.loc[(household["m_wage"] <= tb["a2grf"]), "ekanrefrei"] = household[
-        "m_wage"
-    ]
-    # until 1000€, you may keep 20% (withdrawal rate: 80%)
+    # Income in interval 1
+    household.loc[(household["m_wage"].between(0, tb["a2eg1"])), "ekanrefrei"] = (
+        tb["a2an1"] * household["m_wage"]
+    )
+
+    # Income in interval 2
     household.loc[
-        (household["m_wage"].between(tb["a2grf"], tb["a2eg1"])), "ekanrefrei"
-    ] = tb["a2grf"] + tb["a2an1"] * (household["m_wage"] - tb["a2grf"])
-    # from 1000 to 1200 €, you may keep only 10%
+        (household["m_wage"].between(tb["a2eg1"], tb["a2eg2"])), "ekanrefrei"
+    ] = tb["a2an1"] * tb["a2eg1"] + tb["a2an2"] * (household["m_wage"] - tb["a2eg1"])
+
+    # Income in interval 3, no kids
     household.loc[
-        (household["m_wage"].between(tb["a2eg1"], tb["a2eg2"])) & (child0_18_num == 0),
+        (household["m_wage"].between(tb["a2eg2"], tb["a2eg3"])) & (child0_18_num == 0),
         "ekanrefrei",
     ] = (
-        tb["a2grf"]
-        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
-        + tb["a2an2"] * (household["m_wage"] - tb["a2eg1"])
-    )
-    # If you have kids, this range goes until 1500 €,
-    household.loc[
-        (household["m_wage"].between(tb["a2eg1"], tb["a2eg3"])) & (child0_18_num > 0),
-        "ekanrefrei",
-    ] = (
-        tb["a2grf"]
-        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
-        + tb["a2an2"] * (household["m_wage"] - tb["a2eg1"])
-    )
-    # beyond 1200/1500€, you can't keep anything.
-    household.loc[
-        (household["m_wage"] > tb["a2eg2"]) & (child0_18_num == 0), "ekanrefrei"
-    ] = (
-        tb["a2grf"]
-        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
+        tb["a2an1"] * tb["a2eg1"]
         + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+        + tb["a2an3"] * (household["m_wage"] - tb["a2eg3"])
     )
+
+    # Income in interval 3, kids
     household.loc[
-        (household["m_wage"] > tb["a2eg3"]) & (child0_18_num > 0), "ekanrefrei"
+        (household["m_wage"].between(tb["a2eg2"], tb["a2eg3ki"])) & (child0_18_num > 0),
+        "ekanrefrei",
     ] = (
-        tb["a2grf"]
-        + tb["a2an1"] * (tb["a2eg1"] - tb["a2grf"])
-        + tb["a2an2"] * (tb["a2eg3"] - tb["a2eg1"])
+        tb["a2an1"] * tb["a2eg1"]
+        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+        + tb["a2an3"] * (household["m_wage"] - tb["a2eg3ki"])
     )
+
+    # Income beyond interval 3, no kids
+    household.loc[
+        (household["m_wage"] > tb["a2eg3"]) & (child0_18_num == 0), "ekanrefrei"
+    ] = (
+        tb["a2an1"] * tb["a2eg1"]
+        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+        + tb["a2an3"] * (tb["a2eg3"] - tb["a2eg2"])
+    )
+
+    # Income beyond interval 3, kids
+    household.loc[
+        (household["m_wage"] > tb["a2eg3ki"]) & (child0_18_num > 0), "ekanrefrei"
+    ] = (
+        tb["a2an1"] * tb["a2eg1"]
+        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+        + tb["a2an3"] * (tb["a2eg3ki"] - tb["a2eg2"])
+    )
+
     # Children income is fully deducted, except for the first 100 €.
     household.loc[(household["child"]), "ekanrefrei"] = np.maximum(
         0, household["m_wage"] - 100
