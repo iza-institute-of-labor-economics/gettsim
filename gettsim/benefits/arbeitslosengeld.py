@@ -26,7 +26,7 @@ def ui(person, tb):
 
 
 def _alg_entgelt(person, tb):
-    """ Calculating the claim for the Arbeitslosengeldgeld, depending on the current
+    """ Calculating the claim for the Arbeitslosengeld, depending on the current
     wage."""
     westost = "o" if person["east"] else "w"
     # Relevant wage is capped at the contribution thresholds

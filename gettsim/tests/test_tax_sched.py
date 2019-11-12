@@ -46,5 +46,5 @@ def test_tax_sched(input_data, tax_policy_data, year):
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(tax_sched, tb=tb)
-    # TODO: This test needs to be reviewed
-    assert_frame_equal(df[columns], year_data[columns], check_less_precise=0)
+
+    assert_frame_equal(df[columns], year_data[columns], check_dtype=False)
