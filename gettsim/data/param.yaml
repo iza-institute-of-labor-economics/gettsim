@@ -4654,7 +4654,7 @@ childcare_max:
 abgst:
   group: abgeltung
   name:
-    de: ES Abgeltungssteuer §32d (1) EStG
+    de: Abgeltungssteuer §32d (1) EStG
     en:
   description:
     de:
@@ -4755,7 +4755,7 @@ G:
       note:
     2009-01-01:
       value: 7834
-      note:
+      note: Artikel 1 StabSiG  v. 6.3.2009, BGBl I S. 416. gilt aber für den gesamten Veranlagungszeitraum 2009!
     2010-01-01:
       value: 8004
       note:
@@ -4821,7 +4821,7 @@ M:
       note:
     2009-01-01:
       value: 13139
-      note:
+      note: Artikel 1 StabSiG  v. 6.3.2009, BGBl I S. 416. gilt aber für den gesamten Veranlagungszeitraum 2009!
     2010-01-01:
       value: 13469
       note:
@@ -4872,7 +4872,7 @@ S:
       note:
     2009-01-01:
       value: 52551
-      note:
+      note: Artikel 1 StabSiG  v. 6.3.2009, BGBl I S. 416. gilt aber für den gesamten Veranlagungszeitraum 2009!
     2010-01-01:
       value: 52881
       note:
@@ -4911,7 +4911,7 @@ R:
       note:
     2009-01-01:
       value: 250400
-      note:
+      note: Artikel 1 StabSiG  v. 6.3.2009, BGBl I S. 416. gilt aber für den gesamten Veranlagungszeitraum 2009!
     2010-01-01:
       value: 250730
       note:
@@ -5229,7 +5229,7 @@ t_e:
       note:
     2009-01-01:
       value: .14
-      note:
+      note: Artikel 1 StabSiG  v. 6.3.2009, BGBl I S. 416. gilt aber für den gesamten Veranlagungszeitraum 2009!
 t_e1:
   group: tarif
   name:
