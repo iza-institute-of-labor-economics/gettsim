@@ -49,5 +49,5 @@ def test_ui(input_data, tax_policy_data, year):
         out_cols=[OUT_COL],
         func_kwargs={"tb": tb},
     )
-    # TODO: THis should be reviewed.
+
     assert_series_equal(df[OUT_COL], year_data[OUT_COL], check_less_precise=3)
