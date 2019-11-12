@@ -18,7 +18,7 @@ def tax_sched(tax_unit, tb):
 
     for inc in tb["zve_list"]:
         # apply tax tariff, round to full Euro amounts
-        tax_unit["tax_" + inc] = tb["tax_schedule"](tax_unit["zve_" + inc], tb).astype(
+        tax_unit[f"tax_{inc}"] = tb["tax_schedule"](tax_unit[f"zve_{inc}"], tb).astype(
             int
         )
         tax_unit[f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"]
