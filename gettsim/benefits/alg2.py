@@ -229,7 +229,7 @@ def einkommensanrechnungsfrei(household, tb):
     ] = (
         tb["a2an1"] * tb["a2eg1"]
         + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
-        + tb["a2an3"] * (household["m_wage"] - tb["a2eg3"])
+        + tb["a2an3"] * (household["m_wage"] - tb["a2eg2"])
     )
 
     # Income in interval 3, kids
@@ -239,7 +239,7 @@ def einkommensanrechnungsfrei(household, tb):
     ] = (
         tb["a2an1"] * tb["a2eg1"]
         + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
-        + tb["a2an3"] * (household["m_wage"] - tb["a2eg3ki"])
+        + tb["a2an3"] * (household["m_wage"] - tb["a2eg2"])
     )
 
     # Income beyond interval 3, no kids
