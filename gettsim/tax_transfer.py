@@ -19,7 +19,7 @@ from gettsim.taxes.kindergeld import kindergeld
 from gettsim.taxes.zve import zve
 
 
-def tax_transfer(df, tb, tb_pens=None):
+def tax_transfer(df, tax_data, tax_data_pensions=None):
     """ The German Tax-Transfer System.
 
     Arguments:
@@ -41,7 +41,7 @@ def tax_transfer(df, tb, tb_pens=None):
     """
 
     # set default arguments
-    tb_pens = [] if tb_pens is None else tb_pens
+    tax_data_pensions = [] if tax_data_pensions is None else tax_data_pensions
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
@@ -75,7 +75,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=person,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = [
         "m_wage_l1",
@@ -97,7 +97,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=person,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = ["m_wage", "east", "age", "year", "byear", "exper", "EP"]
     out_col = "pensions_sim"
@@ -107,7 +107,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=person,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"tb": tb, "tb_pens": tb_pens},
+        func_kwargs={"tb": tax_data, "tb_pens": tax_data_pensions},
     )
     in_cols = [
         "m_wage",
@@ -132,11 +132,7 @@ def tax_transfer(df, tb, tb_pens=None):
         "east",
         "gkvbeit",
     ]
-    out_cols = [
-        "zve_nokfb",
-        "zve_abg_nokfb",
-        "zve_kfb",
-        "zve_abg_kfb",
+    out_cols = [f"zve_{inc}" for inc in tax_data["zve_list"]] + [
         "kifreib",
         "gross_e1",
         "gross_e4",
@@ -160,21 +156,17 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
-    in_cols = [
+    in_cols = [f"zve_{inc}" for inc in tax_data["zve_list"]] + [
         "child",
-        "zve_nokfb",
-        "zve_kfb",
-        "zve_abg_kfb",
-        "zve_abg_nokfb",
         "gross_e5",
         "zveranl",
         "gross_e5_tu",
     ]
     out_cols = (
-        [f"tax_{inc}" for inc in tb["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
+        [f"tax_{inc}" for inc in tax_data["zve_list"]]
+        + [f"tax_{inc}_tu" for inc in tax_data["zve_list"]]
         + ["abgst_tu", "abgst", "soli", "soli_tu"]
     )
     df = _apply_tax_transfer_func(
@@ -183,7 +175,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = ["age", "w_hours", "ineducation", "m_wage"]
     out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
@@ -193,13 +185,11 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
-    in_cols = [
+    in_cols = [f"tax_{inc}_tu" for inc in tax_data["zve_list"]] + [
         "zveranl",
         "child",
-        "tax_nokfb_tu",
-        "tax_kfb_tu",
         "abgst_tu",
         "kindergeld_basis",
         "kindergeld_tu_basis",
@@ -217,7 +207,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = [
         "alleinerz",
@@ -238,7 +228,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = [
         "tu_id",
@@ -276,7 +266,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = [
         "hid",
@@ -318,7 +308,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = [
         "pid",
@@ -352,7 +342,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = [
         "hh_korr",
@@ -376,7 +366,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"tb": tax_data},
     )
     in_cols = [
         "m_wage",
@@ -453,5 +443,4 @@ def calculate_tax_and_transfers(dataset, policy_year):
     tax_data_pensions = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index(
         "var"
     )
-    tax_data["zve_list"] = ["nokfb", "kfb"]
     return tax_transfer(dataset, tax_data, tax_data_pensions)
