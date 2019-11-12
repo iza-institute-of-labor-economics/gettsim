@@ -25,8 +25,6 @@ def wg(household, tb):
     wg_head = household["wohngeld_basis"] * household["head_tu"]
     household.loc[:, "wohngeld_basis_hh"] = wg_head.sum()
     household = household.round({"wohngeld_basis_hh": 2})
-    # household["hhsize_tu"].describe()
-    # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return household
 
 
