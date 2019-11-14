@@ -843,7 +843,7 @@ a2kiz:
       note: G. v. 20.12.2016 BGBl. I S. 3000.
     2019-07-01:
       value: 185
-      note: geändert zum 1.7.2019 durch Artikel 1 vom 29.04.2019, BGB. I S. 530
+      note: G. v. 29.04.2019 BGBl. I S. 530.
 a2kiz_minek_cou:
   group: kiz
   name:
@@ -888,7 +888,7 @@ a2kiz_withdrawal_rate:
       note:
     2019-07-01:
       value: 0.45
-      note: geändert zum 1.7.2019 durch Artikel 1 vom 29.04.2019, BGBl I S. 530
+      note: G. v. 29.04.2019 BGBl. I S. 530.
 uhv5:
   group: uhv
   name:
@@ -3555,10 +3555,10 @@ kgeld1:
       note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
     2018-01-01:
       value: 194
-      note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBl I, S. 3000
+      note: G. v. 23.12.2016 BGBl. I S. 3000.
     2019-07-01:
       value: 204
-      note: geändert zum 1.7.2019 durch Artikel 2 vom 29.11.2018, BGBl I. S 2210
+      note: G. v. 29.11.2018 BGBl. I S. 2210.
 kgeld2:
   group: kindergeld
   name:
@@ -3609,7 +3609,7 @@ kgeld2:
       note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
     2019-07-01:
       value: 204
-      note: geändert zum 1.7.2019 durch Artikel 2 vom 29.11.2018, BGBl I. S 2210
+      note: G. v. 29.11.2018 BGBl. I S. 2210.
 kgeld3:
   group: kindergeld
   name:
@@ -3648,7 +3648,7 @@ kgeld3:
       note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
     2019-07-01:
       value: 210
-      note: geändert zum 1.7.2019 durch Artikel 2 vom 29.11.2018, BGBl I. S 2210
+      note: G. v. 29.11.2018 BGBl. I S. 2210.
 kgeld4:
   group: kindergeld
   name:
@@ -3684,7 +3684,7 @@ kgeld4:
       note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
     2019-07-01:
       value: 235
-      note: geändert zum 1.7.2019 durch Artikel 2 vom 29.11.2018, BGBl I. S 2210
+      note: G. v. 29.11.2018 BGBl. I S. 2210.
 kgfreib:
   group: kindergeld
   name:
