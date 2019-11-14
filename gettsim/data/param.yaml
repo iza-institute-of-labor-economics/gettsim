@@ -880,7 +880,7 @@ a2kiz_withdrawal_rate:
     de: Rate, mit der relevantes Einkommen auf den Kinderzuschlag angerechnet wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt.
     en: transfer withdrawal of additional child benefit
   description:
-    de: § 6a (3) BKGG, bis 01.07.2019 § 6a (4) BKGG
+    de: § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG
     en:
   values:
     2005-01-01:
@@ -889,6 +889,15 @@ a2kiz_withdrawal_rate:
     2008-10-01:
       value: 0.5
       note: G. v. 24.09.2008 BGBl. I S. 1854
+a2kiz_withdrawal_rate_child:
+  group: kiz
+  name:
+    de: Rate, mit der Einkommen des Kindes auf den Kinderzuschlag angerechnet wird. Parameter ist vor 07/2019 unwirksam, da er in der Funktion nicht auftaucht.
+    en:
+  values:
+    2005-01-01:
+      value: 1
+      note: Art. 46 v. 24.12.2003, BGBl. I. S. 2954
     2019-07-01:
       value: 0.45
       note: G. v. 29.04.2019 BGBl. I S. 530.

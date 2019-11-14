@@ -71,7 +71,7 @@ def kiz(household, tb):
     household["kiz_ek_gross"] = household["alg2_grossek_hh"]
     household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
 
-    # Deductable income from parent(s). 50% withdrawal rate until 07/19, then 45%
+    # Deductable income from parent(s). 50% withdrawal rate, 70% until 2008.
     household["kiz_ek_anr"] = np.maximum(
         0,
         tb["a2kiz_withdrawal_rate"]
@@ -121,7 +121,7 @@ def calc_kiz_amount_07_2019(household, tb):
         0,
         tb["a2kiz"] * household["child_num_kg"]
         - household["kiz_ek_anr"]
-        - tb["a2kiz_withdrawal_rate"] * household["childinc_tu"]
+        - tb["a2kiz_withdrawal_rate_child"] * household["childinc_tu"]
         - household["uhv_tu"],
     )
 
