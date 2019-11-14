@@ -109,7 +109,7 @@ def calc_kiz_amount_2005(household, tb):
     return household
 
 
-def calc_kiz_amount_2020(household, tb):
+def calc_kiz_amount_07_2019(household, tb):
     """ Kinderzuschlag since 07/2019
         - no maximum income threshold.
         - child income is only partly deducted, just as parents income

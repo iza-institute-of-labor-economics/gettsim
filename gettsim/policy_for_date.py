@@ -3,8 +3,8 @@ import datetime
 import numpy as np
 import yaml
 
+from gettsim.benefits.kiz import calc_kiz_amount_07_2019
 from gettsim.benefits.kiz import calc_kiz_amount_2005
-from gettsim.benefits.kiz import calc_kiz_amount_2020
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
@@ -63,7 +63,7 @@ def get_policies_for_date(year, tax_data_raw=None, month=1, day=1):
     else:
         tax_data["vorsorge"] = vorsorge_dummy
     if (year >= 2020) or (year == 2019 and month >= 7):
-        tax_data["calc_kiz_amount"] = calc_kiz_amount_2020
+        tax_data["calc_kiz_amount"] = calc_kiz_amount_07_2019
     else:
         tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
     # TODO: We need to adapt favorability check for that. See
