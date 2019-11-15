@@ -7,6 +7,7 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
+from gettsim.policy_for_date import get_pension_data_for_year
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import _apply_tax_transfer_func
 
@@ -36,17 +37,17 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, tax_policy_data, year):
+def test_pension(input_data, raw_tax_policy_data, raw_pension_data, year):
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    tb = get_policies_for_date(year=year, tax_data_raw=raw_tax_policy_data)
     tb["yr"] = year
     if year > 2017:
         tb["calc_rentenwert"] = _rentenwert_from_2018
     else:
         tb["calc_rentenwert"] = _rentenwert_until_2017
-    tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
+    tb_pens = get_pension_data_for_year(year)
     df = _apply_tax_transfer_func(
         df,
         tax_func=pensions,
@@ -59,17 +60,17 @@ def test_pension(input_data, tax_policy_data, year):
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, tax_policy_data, year):
+def test_update_earning_points(input_data, raw_tax_policy_data, raw_pension_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
-    tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
+    tb = get_policies_for_date(year=year, tax_data_raw=raw_tax_policy_data)
+    tb_pens = get_pension_data_for_year(year, raw_pension_data=raw_pension_data)
     df = _apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=[],
-        func_kwargs={"tb": tb, "tb_pens": tb_pens[year]},
+        func_kwargs={"tb": tb, "tb_pens": tb_pens, "yr": year},
     )
     assert_array_almost_equal(df["EP"], year_data["EP_end"].values)

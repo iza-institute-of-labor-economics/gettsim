@@ -71,10 +71,10 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_zve(input_data, tax_policy_data, year, column):
+def test_zve(input_data, raw_tax_policy_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[IN_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    tb = get_policies_for_date(year=year, tax_data_raw=raw_tax_policy_data)
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(zve, tb=tb)

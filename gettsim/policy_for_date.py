@@ -73,9 +73,9 @@ def get_policies_for_date(year, tax_data_raw=None, month=1, day=1):
     return tax_data
 
 
-def get_pension_data_for_date(raw_year, pension_data_raw=None):
-    if not pension_data_raw:
-        pension_data_raw = yaml.safe_load(
+def get_pension_data_for_year(raw_year, raw_pension_data=None):
+    if not raw_pension_data:
+        raw_pension_data = yaml.safe_load(
             (ROOT_DIR / "data" / "pension_data.yaml").read_text()
         )
     pension_data = {}
@@ -83,9 +83,9 @@ def get_pension_data_for_date(raw_year, pension_data_raw=None):
     # meanwages is only filled until 2016. The same is done in the pension function.
     year = min(raw_year, 2016)
 
-    for key in pension_data_raw:
+    for key in raw_pension_data:
         pension_data[key] = {}
-        data_years = list(pension_data_raw[key]["values"].keys())
+        data_years = list(raw_pension_data[key]["values"].keys())
         # For calculating pensions we need demographic data up to three years in the
         # past.
         for yr in range(year - 3, year + 1):
@@ -95,7 +95,7 @@ def get_pension_data_for_date(raw_year, pension_data_raw=None):
                 pension_data[key][yr] = np.nan
             else:
                 policy_year = np.max(past_data)
-                pension_data[key][yr] = pension_data_raw[key]["values"][policy_year][
+                pension_data[key][yr] = raw_pension_data[key]["values"][policy_year][
                     "value"
                 ]
     return pension_data

@@ -9,7 +9,7 @@ from gettsim.benefits.wohngeld import wg
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
-from gettsim.policy_for_date import get_pension_data_for_date
+from gettsim.policy_for_date import get_pension_data_for_year
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.taxes.calc_taxes import tax_sched
@@ -438,10 +438,10 @@ def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
 
 
 def calculate_tax_and_transfers(
-    dataset, policy_year, tax_data_raw=None, pension_data_raw=None
+    dataset, policy_year, tax_data_raw=None, raw_pension_data=None
 ):
     tax_data = get_policies_for_date(year=policy_year, tax_data_raw=tax_data_raw)
-    pension_data = get_pension_data_for_date(
-        raw_year=policy_year, pension_data_raw=pension_data_raw
+    pension_data = get_pension_data_for_year(
+        raw_year=policy_year, raw_pension_data=raw_pension_data
     )
     return tax_transfer(dataset, tax_data, pension_data)

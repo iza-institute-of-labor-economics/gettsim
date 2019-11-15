@@ -40,10 +40,10 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_kiz(input_data, tax_policy_data, year):
+def test_kiz(input_data, raw_tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    tb = get_policies_for_date(year=year, tax_data_raw=raw_tax_policy_data)
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(benefit_priority, tb=tb)

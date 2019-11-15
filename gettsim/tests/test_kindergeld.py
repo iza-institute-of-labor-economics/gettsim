@@ -21,11 +21,11 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_kindergeld(input_data, tax_policy_data, year):
+def test_kindergeld(input_data, raw_tax_policy_data, year):
     test_column = "kindergeld_tu_basis"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    tb = get_policies_for_date(year=year, tax_data_raw=raw_tax_policy_data)
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"])[INPUT_COLS + OUT_COLS].apply(kindergeld, tb=tb)

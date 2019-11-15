@@ -36,10 +36,10 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_soc_ins_contrib(input_data, tax_policy_data, year, column):
+def test_soc_ins_contrib(input_data, raw_tax_policy_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    tb = get_policies_for_date(year=year, tax_data_raw=raw_tax_policy_data)
     df = _apply_tax_transfer_func(
         df,
         tax_func=soc_ins_contrib,
