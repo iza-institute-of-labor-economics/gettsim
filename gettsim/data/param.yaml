@@ -858,7 +858,7 @@ a2kiz_minek_cou:
       note:
     2008-10-01:
       value: 900
-      note: G. v. 24.09.2008 BGBl. I S. 1854
+      note: G. v. 24.09.2008 BGBl. I S. 1854.
 a2kiz_minek_sin:
   group: kiz
   name:
@@ -873,31 +873,31 @@ a2kiz_minek_sin:
       note:
     2008-10-01:
       value: 600
-      note: G. v. 24.09.2008 BGBl. I S. 1854
+      note: G. v. 24.09.2008 BGBl. I S. 1854.
 a2kiz_withdrawal_rate:
   group: kiz
   name:
-    de: Rate, mit der relevantes Einkommen auf den Kinderzuschlag angerechnet wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt.
-    en: transfer withdrawal of additional child benefit
+    de: Minderungsrate durch Einkommen der Eltern über BMG
+    en: transfer withdrawal rate, parent's income above BMG
   description:
-    de: § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG
+    de: Rate, mit der der Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt. § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG.
     en:
   values:
     2005-01-01:
       value: 0.7
-      note: Art. 46 v. 24.12.2003, BGBl. I. S. 2954
+      note: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
     2008-10-01:
       value: 0.5
-      note: G. v. 24.09.2008 BGBl. I S. 1854
+      note: G. v. 24.09.2008 BGBl. I S. 1854.
 a2kiz_withdrawal_rate_child:
   group: kiz
   name:
-    de: Rate, mit der Einkommen des Kindes auf den Kinderzuschlag angerechnet wird. Parameter ist vor 07/2019 unwirksam, da er in der Funktion nicht auftaucht.
-    en:
+    de: Anrechnungsrate durch Kindereinkommen
+    en: rate at that child income is deducted
   values:
     2005-01-01:
       value: 1
-      note: Art. 46 v. 24.12.2003, BGBl. I. S. 2954
+      note: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
     2019-07-01:
       value: 0.45
       note: G. v. 29.04.2019 BGBl. I S. 530.
