@@ -71,3 +71,22 @@ def get_policies_for_date(year, tax_data_raw=None, month=1, day=1):
 
     tax_data["tax_schedule"] = tarif
     return tax_data
+
+
+def get_pension_data_for_date(year, pension_data_raw=None):
+    if not pension_data_raw:
+        pension_data_raw = yaml.safe_load(
+            (ROOT_DIR / "data" / "pension_data.yaml").read_text()
+        )
+    pension_data = {}
+    for key in pension_data_raw:
+        pension_data[key] = {}
+        data_years = list(pension_data_raw[key]["values"].keys())
+        # For calculating pensions we need demographic data up to three years in the
+        # past.
+        for yr in range(year - 3, year + 1):
+            policy_year = np.max([x for x in data_years if x <= yr])
+            pension_data[key][yr] = pension_data_raw[key]["values"][policy_year][
+                "value"
+            ]
+    return pension_data
