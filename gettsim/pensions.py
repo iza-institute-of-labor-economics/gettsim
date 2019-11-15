@@ -23,7 +23,7 @@ def pensions(person, tb, tb_pens):
     # meanwages is only filled until 2016
     yr = min(tb["yr"], 2016)
 
-    person = update_earnings_points(person, tb, tb_pens[yr])
+    person = update_earnings_points(person, tb, tb_pens, yr)
     # ZF: Zugangsfaktor.
     ZF = _zugangsfaktor(person)
 
@@ -37,7 +37,7 @@ def pensions(person, tb, tb_pens):
     return person
 
 
-def update_earnings_points(person, tb, tb_pens):
+def update_earnings_points(person, tb, tb_pens, yr):
     """Given earnings, social security rules, average
     earnings in a particular year and potentially other
     variables (e.g., benefits for raising children,
@@ -49,8 +49,8 @@ def update_earnings_points(person, tb, tb_pens):
 
     """
 
-    out = _ep_for_earnings(person, tb, tb_pens)
-    out += _ep_for_care_periods(person, tb, tb_pens)
+    out = _ep_for_earnings(person, tb, tb_pens, yr)
+    out += _ep_for_care_periods(person, tb, tb_pens, yr)
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
@@ -58,13 +58,15 @@ def update_earnings_points(person, tb, tb_pens):
     return person
 
 
-def _ep_for_earnings(person, tb, tb_pens):
+def _ep_for_earnings(person, tb, tb_pens, yr):
     """Return earning points for the wages earned in the last year."""
     westost = "o" if person["east"] else "w"
-    return np.minimum(person["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"]
+    return (
+        np.minimum(person["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"][yr]
+    )
 
 
-def _ep_for_care_periods(df, tb, tb_pens):
+def _ep_for_care_periods(df, tb, tb_pens, yr):
     """Return earnings points for care periods."""
     return 0.0
 
@@ -90,7 +92,7 @@ def _regelaltersgrenze(person):
 
 def _rentenwert_until_2017(tb_pens, yr):
     """For the years until 2017, we use a exogenous value for the rentenwert."""
-    return tb_pens.loc["rentenwert_ext", yr]
+    return tb_pens["rentenwert_ext"][yr]
 
 
 def _rentenwert_from_2018(tb_pens, yr):
@@ -111,7 +113,7 @@ def _rentenwert_from_2018(tb_pens, yr):
     nachhfaktor = _nachhaltigkeitsfaktor(tb_pens, yr)
 
     # Rentenwert must not be lower than in the previous year.
-    return tb_pens.loc["rentenwert_ext", yr - 1] * min(
+    return tb_pens["rentenwert_ext"][yr - 1] * min(
         1, lohnkomponente * riesterfaktor * nachhfaktor
     )
 
@@ -121,14 +123,11 @@ def _lohnkomponente(tb_pens, yr):
     the previous years. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    return tb_pens.loc["meanwages", yr - 1] / (
-        tb_pens.loc["meanwages", yr - 2]
+    return tb_pens["meanwages"][yr - 1] / (
+        tb_pens["meanwages"][yr - 2]
         * (
-            (tb_pens.loc["meanwages", yr - 2] / tb_pens.loc["meanwages", yr - 3])
-            / (
-                tb_pens.loc["meanwages_sub", yr - 2]
-                / tb_pens.loc["meanwages_sub", yr - 3]
-            )
+            (tb_pens["meanwages"][yr - 2] / tb_pens["meanwages"][yr - 3])
+            / (tb_pens["meanwages_sub"][yr - 2] / tb_pens["meanwages_sub"][yr - 3])
         )
     )
 
@@ -138,8 +137,8 @@ def _riesterfactor(tb_pens, yr):
     and the contributions to the pension insurance. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    return (100 - tb_pens.loc["ava", yr - 1] - tb_pens.loc["rvbeitrag", yr - 1]) / (
-        100 - tb_pens.loc["ava", yr - 2] - tb_pens.loc["rvbeitrag", yr - 2]
+    return (100 - tb_pens["ava"][yr - 1] - tb_pens["rvbeitrag"][yr - 1]) / (
+        100 - tb_pens["ava"][yr - 2] - tb_pens["rvbeitrag"][yr - 2]
     )
 
 
@@ -152,7 +151,7 @@ def _nachhaltigkeitsfaktor(tb_pens, yr):
     rq_last_year = _rentnerquotienten(tb_pens, yr - 1)
     rq_two_years_before = _rentnerquotienten(tb_pens, yr - 2)
     # There is an additional 'Rentenartfaktor', equal to 1 for old-age pensions.
-    return 1 + ((1 - (rq_last_year / rq_two_years_before)) * tb_pens.loc["alpha", yr])
+    return 1 + ((1 - (rq_last_year / rq_two_years_before)) * tb_pens["alpha"][yr])
 
 
 def _rentnerquotienten(tb_pens, yr):
@@ -160,7 +159,7 @@ def _rentnerquotienten(tb_pens, yr):
     contributes. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    return (tb_pens.loc["rentenvol", yr] / tb_pens.loc["eckrente", yr]) / (
-        tb_pens.loc["beitragsvol", yr]
-        / (tb_pens.loc["rvbeitrag", yr] / 100 * tb_pens.loc["eckrente", yr])
+    return (tb_pens["rentenvol"][yr] / tb_pens["eckrente"][yr]) / (
+        tb_pens["beitragsvol"][yr]
+        / (tb_pens["rvbeitrag"][yr] / 100 * tb_pens["eckrente"][yr])
     )
