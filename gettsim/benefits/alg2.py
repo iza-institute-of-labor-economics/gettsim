@@ -290,9 +290,7 @@ def einkommensanrechnungsfrei(household, tb):
         elif child0_18_num > 0:
             # Income in interval 3
             household.loc[
-                (household["m_wage"].between(tb["a2eg2"], tb["a2eg3ki"]))
-                & (child0_18_num > 0),
-                "ekanrefrei",
+                (household["m_wage"].between(tb["a2eg2"], tb["a2eg3ki"])), "ekanrefrei"
             ] = (
                 tb["a2an1"] * tb["a2eg1"]
                 + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
