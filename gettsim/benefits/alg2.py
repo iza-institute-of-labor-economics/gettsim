@@ -186,6 +186,27 @@ def alg2_inc(household):
     return alg2_ek, alg2_grossek
 
 
+def alg2_2005_nq(household, tb):
+    """ Nettoquote = Quotienten von bereinigtem Nettoeinkommen und
+    Bruttoeinkommen. Vgl. § 3 Abs. 2 Alg II-V. """
+
+    # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1 bis 5.
+    alg2_2005_bne = np.maximum(
+        household["m_wage"]
+        - household["incometax"]
+        - household["soli"]
+        - household["svbeit"]
+        - tb["a2we"]
+        - tb["a2ve"],
+        0,
+    ).fillna(0)
+
+    # Nettoquote:
+    alg2_2005_nq = alg2_2005_bne / household["m_wage"]
+
+    return alg2_2005_nq
+
+
 def grossinc_alg2(household):
     """Calculating the gross income relevant for alg2."""
     return (
@@ -209,56 +230,80 @@ def einkommensanrechnungsfrei(household, tb):
     """Determine the amount of income that is not deducted. Withdrawal rates
     depend on monthly earnings. § 30 SGB II. Since 01.04.2011 § 11b (4)."""
 
-    # Number of children below the age of 18
-    child0_18_num = (household["child"] & household["age"].between(0, 18)).sum()
-
-    # Income in interval 1
-    household.loc[(household["m_wage"].between(0, tb["a2eg1"])), "ekanrefrei"] = (
-        tb["a2an1"] * household["m_wage"]
-    )
-
-    # Income in interval 2
-    household.loc[
-        (household["m_wage"].between(tb["a2eg1"], tb["a2eg2"])), "ekanrefrei"
-    ] = tb["a2an1"] * tb["a2eg1"] + tb["a2an2"] * (household["m_wage"] - tb["a2eg1"])
-
-    # Income in interval 3, no kids
-    household.loc[
-        (household["m_wage"].between(tb["a2eg2"], tb["a2eg3"])) & (child0_18_num == 0),
-        "ekanrefrei",
-    ] = (
-        tb["a2an1"] * tb["a2eg1"]
-        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
-        + tb["a2an3"] * (household["m_wage"] - tb["a2eg2"])
-    )
-
-    # Income in interval 3, kids
-    household.loc[
-        (household["m_wage"].between(tb["a2eg2"], tb["a2eg3ki"])) & (child0_18_num > 0),
-        "ekanrefrei",
-    ] = (
-        tb["a2an1"] * tb["a2eg1"]
-        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
-        + tb["a2an3"] * (household["m_wage"] - tb["a2eg2"])
-    )
-
-    # Income beyond interval 3, no kids
-    household.loc[
-        (household["m_wage"] > tb["a2eg3"]) & (child0_18_num == 0), "ekanrefrei"
-    ] = (
-        tb["a2an1"] * tb["a2eg1"]
-        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
-        + tb["a2an3"] * (tb["a2eg3"] - tb["a2eg2"])
-    )
-
-    # Income beyond interval 3, kids
-    household.loc[
-        (household["m_wage"] > tb["a2eg3ki"]) & (child0_18_num > 0), "ekanrefrei"
-    ] = (
-        tb["a2an1"] * tb["a2eg1"]
-        + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
-        + tb["a2an3"] * (tb["a2eg3ki"] - tb["a2eg2"])
-    )
+    # TODO: Rule 2005-01-01 to 2005-09-30
+    if tb["yr"] == 2005:
+        # Nettequote
+        nq = alg2_2005_nq(household, tb)
+        # Income in interval 1
+        household.loc[(household["m_wage"].between(0, tb["a2eg1"])), "ekanrefrei"] = (
+            tb["a2an1"] * nq * household["m_wage"]
+        )
+        # Income in interval 2
+        household.loc[
+            (household["m_wage"].between(tb["a2eg1"], tb["a2eg2"])), "ekanrefrei"
+        ] = tb["a2an1"] * nq * tb["a2eg1"] + tb["a2an2"] * nq * (
+            household["m_wage"] - tb["a2eg1"]
+        )
+        # Income in interval 3
+        household.loc[
+            (household["m_wage"].between(tb["a2eg2"], tb["a2eg3"])), "ekanrefrei"
+        ] = (
+            tb["a2an1"] * nq * tb["a2eg1"]
+            + tb["a2an2"] * nq * (tb["a2eg2"] - tb["a2eg1"])
+            + tb["a2an3"] * nq * (household["m_wage"] - tb["a2eg2"])
+        )
+        # Income beyond interval 3
+        household.loc[(household["m_wage"] > tb["a2eg3"]), "ekanrefrei"] = (
+            tb["a2an1"] * nq * tb["a2eg1"]
+            + tb["a2an2"] * nq * (tb["a2eg2"] - tb["a2eg1"])
+            + tb["a2an3"] * nq * (tb["a2eg3"] - tb["a2eg2"])
+        )
+    # TODO: Rule since 2005-10-01
+    elif tb["yr"] >= 2006:
+        # Number of children below the age of 18
+        child0_18_num = (household["child"] & household["age"].between(0, 18)).sum()
+        # Income in interval 1
+        household.loc[(household["m_wage"].between(0, tb["a2eg1"])), "ekanrefrei"] = (
+            tb["a2an1"] * household["m_wage"]
+        )
+        # Income in interval 2
+        household.loc[
+            (household["m_wage"].between(tb["a2eg1"], tb["a2eg2"])), "ekanrefrei"
+        ] = tb["a2an1"] * tb["a2eg1"] + tb["a2an2"] * (
+            household["m_wage"] - tb["a2eg1"]
+        )
+        if child0_18_num == 0:
+            # Income in interval 3
+            household.loc[
+                (household["m_wage"].between(tb["a2eg2"], tb["a2eg3"])), "ekanrefrei"
+            ] = (
+                tb["a2an1"] * tb["a2eg1"]
+                + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+                + tb["a2an3"] * (household["m_wage"] - tb["a2eg2"])
+            )
+            # Income beyond interval 3
+            household.loc[(household["m_wage"] > tb["a2eg3"]), "ekanrefrei"] = (
+                tb["a2an1"] * tb["a2eg1"]
+                + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+                + tb["a2an3"] * (tb["a2eg3"] - tb["a2eg2"])
+            )
+        elif child0_18_num > 0:
+            # Income in interval 3
+            household.loc[
+                (household["m_wage"].between(tb["a2eg2"], tb["a2eg3ki"]))
+                & (child0_18_num > 0),
+                "ekanrefrei",
+            ] = (
+                tb["a2an1"] * tb["a2eg1"]
+                + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+                + tb["a2an3"] * (household["m_wage"] - tb["a2eg2"])
+            )
+            # Income beyond interval 3
+            household.loc[(household["m_wage"] > tb["a2eg3ki"]), "ekanrefrei"] = (
+                tb["a2an1"] * tb["a2eg1"]
+                + tb["a2an2"] * (tb["a2eg2"] - tb["a2eg1"])
+                + tb["a2an3"] * (tb["a2eg3ki"] - tb["a2eg2"])
+            )
 
     # Children income is fully deducted, except for the first 100 €.
     household.loc[(household["child"]), "ekanrefrei"] = np.maximum(

@@ -97,12 +97,9 @@ a2eg3ki:
     de: EK-Grenze Anrechnung (mit Kindern), Intervall 3
     en: Threshold transfer withdrawal (household with children), interval 3
   description:
-    de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit Kindern. Gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Bis 30.09.2005 gibt es keine separate Grenze für Haushalte mit minderjährigen Kindern. Deswegen wird an dieser Stelle der Wert von a2eg3 wiederholt. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit Kindern. Gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
-    2005-01-01:
-      value: 1500
-      note: G. v. 24.12.2003 BGBl. I S. 2954.
     2005-10-01:
       value: 1500
       note: G. v. 14.08.2005 BGBl. I S. 2407.
