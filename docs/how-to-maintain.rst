@@ -47,11 +47,21 @@ To release a new version of GETTSIM, do the following.
    2. Use ``bumpversion [major|minor|patch]`` to increment all version strings.
    3. Merge it to either the master or maintenance branch.
 
-3. Go to the `page for releases <https://github.com/iza-institute-of-labor-economics/
+3. The following step assigns a version and documents the release on Github. Go to the
+   `page for releases <https://github.com/iza-institute-of-labor-economics/
    gettsim/releases>`_ and draft a new release. The tag and title become ``vx.x.x``.
    Make sure to target the master or maintenance branch. A description is not necessary
    as the most important information is documented under :ref:`changes`. Release the new
    version by clicking "Publish release".
+
+4. Check out the new release tag and run
+
+   .. code-block:: bash
+
+       $ python release.py
+
+   which uploads the new release to the repository on
+   https://anaconda.org/gettsim/gettsim.
 
 
 .. _backports:
