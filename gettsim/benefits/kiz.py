@@ -52,9 +52,7 @@ def kiz(household, tb):
         household["kiz_ek_relev"] + tb["a2kiz"] * household["child_num_kg"]
     )
     # min income to be eligible for KIZ (different for singles and couples)
-    household["kiz_ek_min"] = tb["a2kiz_minek_cou"] * (household["hhtyp"] == 4) + (
-        tb["a2kiz_minek_sin"] * (household["alleinerz"])
-    )
+    household["kiz_ek_min"] = calc_min_income_kiz(household, tb)
 
     #        Übersetzung §6a BKGG auf deutsch:
     #     1. Um KIZ zu bekommen, muss das Bruttoeinkommen minus Wohngeld
@@ -94,6 +92,18 @@ def kiz(household, tb):
     # kiz["ar_base_alg2_ek"] = household["ar_base_alg2_ek"]
     # kiz["n_pens"] = household["pensioner"].sum()
     return household
+
+
+def calc_min_income_kiz(household, tb):
+    # Are there kids in the household
+    if len(household[household["child"]]) > 0:
+        # Is it a single parent household
+        if household["alleinerz"].all():
+            return tb["a2kiz_minek_sin"]
+        else:
+            return tb["a2kiz_minek_cou"]
+    else:
+        return 0
 
 
 def calc_kiz_ek(household, tb):

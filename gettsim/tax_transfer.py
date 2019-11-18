@@ -314,7 +314,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         "hid",
         "tu_id",
         "head",
-        "hhtyp",
         "hh_korr",
         "hhsize",
         "child",
