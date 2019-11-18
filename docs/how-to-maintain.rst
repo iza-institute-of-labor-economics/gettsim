@@ -19,11 +19,10 @@ Branching Model
 
 The branching model for GETTSIM is very simple.
 
-1. New major and minor releases of GETTSIM are developed on the master branch. Changes
-   dedicated to all versions should be merged into master first.
+1. New major and minor releases of GETTSIM are developed on the master branch.
 
-2. For older major and minor releases there exist branches for maintenance called
-   ``0.1`` or ``1.3``. These branches are used to develop new patch versions.
+2. For older major and minor releases there exist branches for maintenance called, for
+   example, ``0.1`` or ``1.3``. These branches are used to develop new patch versions.
 
    Once a minor version will not be supported anymore, the maintenance branch should be
    deleted.
@@ -69,8 +68,8 @@ To release a new version of GETTSIM, do the following.
 How To Backport
 ---------------
 
-Backporting is the process of applying a change to future versions of GETTSIM to older
-versions.
+Backporting is the process of re-applying a change to future versions of GETTSIM to
+older versions.
 
 Scope
 ^^^^^
