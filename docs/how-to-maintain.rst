@@ -19,17 +19,14 @@ Branching Model
 
 The branching model for GETTSIM is very simple.
 
-1. The master branch is the target of ongoing development. Every PR should be merged
-   into master.
+1. New major and minor releases of GETTSIM are developed on the master branch. Changes
+   dedicated to all versions should be merged into master first.
 
-   (The only deviation can happen with respect to backports. See :ref:`backports` for
-   more.)
+2. For older major and minor releases there exist branches for maintenance called
+   ``0.1`` or ``1.3``. These branches are used to develop new patch versions.
 
-2. There can exist branches for minor versions called, for example, ``0.1.``. The
-   branches contain changes, e.g. backports, which are not released yet. To find out how
-   to release the next patch version, see the following section. If there are no
-   additional changes waiting to be released, the branches should be deleted for
-   clarity.
+   Once a minor version will not be supported anymore, the maintenance branch should be
+   deleted.
 
 
 .. _releases:
@@ -39,26 +36,22 @@ How To Release
 
 To release a new version of GETTSIM, do the following.
 
-1. To start a new release for version ``0.2.1``, create a new milestone with the version
-   as its name on Github to collect issues and PRs which should be included in the new
-   version.
+1. To start the release for any new version, e.g., ``0.2.0``, `create a new milestone
+   <https://github.com/iza-institute-of-labor-economics/gettsim/milestones/new>`_ with
+   the version as its name on Github to collect issues and PRs. A consensus among
+   developers determines the scope of the new release.
 
-2. Once consensus is reached on which PRs to include in the release, call a halt on
-   changes to the master branch. Make sure all changes to the master branch since the
-   last version are included in the milestone.
+2. To finalize a release
 
-3. Create a PR to finalize the new release.
+   1. Update :ref:`changes` with all necessary information regarding the new release.
+   2. Use ``bumpversion [major|minor|patch]`` to increment all version strings.
+   3. Merge it to either the master or maintenance branch.
 
-   1. Update ``CHANGES.rst`` with all necessary information regarding the new release.
-   2. Use ``bump2version [major|minor|patch]`` to increment all version strings.
-   3. Merge it.
-
-4. Go to the `page for releases <https://github.com/iza-institute-of-labor-economics/
-   gettsim/releases>`_ and draft a new release. The tag and title become ``v0.2.1``.
-   Make sure to target the master branch. A description is not necessary as the most
-   important information lies in ``CHANGES.rst``.
-
-   Release the new version by clicking "Publish release".
+3. Go to the `page for releases <https://github.com/iza-institute-of-labor-economics/
+   gettsim/releases>`_ and draft a new release. The tag and title become ``vx.x.x``.
+   Make sure to target the master or maintenance branch. A description is not necessary
+   as the most important information is documented under :ref:`changes`. Release the new
+   version by clicking "Publish release".
 
 
 .. _backports:
@@ -78,20 +71,20 @@ and documentation changes. Performance enhancements and new features are not bac
 Procedure
 ^^^^^^^^^
 
-In the following we will consider an example where GETTSIM stable version is 0.2.0.
-Version 0.2.1 is currently developed on the master branch but not released. And a
-critical bug was found which should go both into master and into the minor predecessor
-0.1.8.
+In the following we will consider an example where GETTSIM's stable version is
+``0.2.0``. Version ``0.3.0`` is currently developed on the master. And a critical bug
+was found which should go both into ``0.3.0`` and ``0.2.0``.
 
-1. Create a PR which targets the master branch and includes the bug fix which should be
-   backported.
-2. Add a note to the release notes for version 0.1.9.
-3. Add a label ``backport-to-0.1.9`` to the PR.
+1. Create a PR containing the bug fix which targets the master branch.
+2. Add a note to the release notes for version 0.2.1.
+3. Add a label ``backport-to-0.2.1`` to the PR.
 4. Squash merge the PR into master and note down the commit sha.
-5. Create a new PR against branch ``0.1.``. Call the branch for the PR
+5. Create a new PR against branch ``0.2``. Call the branch for the PR
    ``backport-<#pr>`` where #pr is the PR number.
 6. Use ``git cherrypick -x <commit-sha>`` with the aforementioned commit sha to apply
    the fix to the branch. Solve any merge conflicts, etc..
-7. Add the PR to the milestone for version 0.1.9 so that all changes for a new release
-   can be collected.
-8. Follow :ref:`releases` to release 0.1.9.
+7. Add the PR to the milestone for version ``0.2.1`` so that all changes for a new
+   release can be collected.
+8. Follow :ref:`releases` to release ``0.2.1``.
+
+
