@@ -11,9 +11,10 @@ Welcome to GETTSIM's documentation!
    :maxdepth: 1
 
    getting-started
-   geps
    how-to-contribute
    how-to-maintain
+   changes
+   geps
    code-of-conduct
 
 

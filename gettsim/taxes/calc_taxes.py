@@ -15,9 +15,12 @@ def tax_sched(tax_unit, tb):
     """
 
     adult_married = (~tax_unit["child"]) & (tax_unit["zveranl"])
-    # create ts dataframe and copy three important variables
+
     for inc in tb["zve_list"]:
-        tax_unit["tax_" + inc] = tb["tax_schedule"](tax_unit["zve_" + inc], tb)
+        # apply tax tariff, round to full Euro amounts
+        tax_unit[f"tax_{inc}"] = tb["tax_schedule"](tax_unit[f"zve_{inc}"], tb).astype(
+            int
+        )
         tax_unit[f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"]
         tax_unit.loc[adult_married, f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"][
             adult_married
@@ -25,22 +28,27 @@ def tax_sched(tax_unit, tb):
 
     # Abgeltungssteuer
     tax_unit["abgst"] = abgeltung(tax_unit, tb)
-    tax_unit["abgst_tu"] = 0
+    tax_unit["abgst_tu"] = tax_unit["abgst"]
     tax_unit.loc[adult_married, "abgst_tu"] = tax_unit["abgst"][adult_married].sum()
 
-    """Solidarity Surcharge. on top of the income tax and capital income tax.
+    """Solidarity Surcharge. on top of the income tax.
     No Soli if income tax due is below € 920 (solifreigrenze)
     Then it increases with 0.2 marginal rate until 5.5% (solisatz)
     of the incometax is reached.
     As opposed to the 'standard' income tax,
     child allowance is always deducted for soli calculation
+    There is also Soli on capital income tax, but always with 5.5%. (§3 (3) S.2 SolzG 1995)
     """
 
     if tb["yr"] >= 1991:
-        tax_unit["solibasis"] = tax_unit["tax_kfb_tu"] + tax_unit["abgst_tu"]
         # Soli also in monthly terms. only for adults
         tax_unit["soli_tu"] = (
-            soli_formula(tax_unit["solibasis"], tb) * ~tax_unit["child"] * (1 / 12)
+            (
+                soli_formula(tax_unit["tax_kfb_tu"], tb)
+                + tb["solisatz"] * tax_unit["abgst_tu"]
+            )
+            * ~tax_unit["child"]
+            * (1 / 12)
         )
     else:
         tax_unit["soli_tu"] = 0
@@ -70,7 +78,7 @@ def abgeltung(tax_unit, tb):
                 tax_unit["gross_e5_tu"] - 2 * (tb["spsparf"] + tb["spwerbz"]), 0
             )
         )
-    return tax_unit_abgelt["abgst"]
+    return tax_unit_abgelt["abgst"].round(2)
 
 
 @np.vectorize
@@ -86,6 +94,7 @@ def tarif(x, tb):
         x (float): taxable income
         tb (dict): tax-benefit parameters specific to year and reform
     """
+
     if tb["yr"] < 2002:
         raise ValueError("Income Tax Pre 2002 not yet modelled!")
     else:
@@ -109,8 +118,6 @@ def tarif(x, tb):
             )
         if x > tb["R"]:
             t = t + (tb["t_r"] - tb["t_s"]) * (x - tb["R"])
-        # round down to next integer
-        # t = int(t)
         assert t >= 0
     return t
 
@@ -128,4 +135,4 @@ def soli_formula(solibasis, tb):
         np.maximum(0.2 * (solibasis - tb["solifreigrenze"]), 0),
     )
 
-    return soli
+    return soli.round(2)

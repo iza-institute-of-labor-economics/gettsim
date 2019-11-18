@@ -21,7 +21,7 @@ version = ".".join(release.split(".")[:2])
 
 # Add any Sphinx extension module names here, as strings. They can be extensions coming
 # with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ["sphinx_rtd_theme"]
+extensions = ["sphinx.ext.extlinks", "sphinx_rtd_theme"]
 
 # The master toctree document.
 master_doc = "index"
@@ -33,6 +33,11 @@ master_doc = "index"
 # ignore when looking for source files. This pattern also affects html_static_path and
 # html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+
+# -- Extensions configuration ------------------------------------------------
+
+extlinks = {"ghuser": ("https://github.com/%s", "@")}
 
 
 # -- Options for HTML output -------------------------------------------------

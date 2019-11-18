@@ -37,8 +37,6 @@ def test_tax_sched(input_data, tax_policy_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
-    # list of tax bases
-    tb["zve_list"] = ["nokfb", "kfb"]
     OUT_COLS = (
         [f"tax_{inc}" for inc in tb["zve_list"]]
         + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
@@ -48,5 +46,5 @@ def test_tax_sched(input_data, tax_policy_data, year):
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(tax_sched, tb=tb)
-    # TODO: This test needs to be reviewed
-    assert_frame_equal(df[columns], year_data[columns], check_less_precise=0)
+
+    assert_frame_equal(df[columns], year_data[columns], check_dtype=False)
