@@ -60,8 +60,8 @@ To release a new version of GETTSIM, do the following.
 
        $ python release.py
 
-   which uploads the new release to the repository on
-   https://anaconda.org/gettsim/gettsim.
+   which uploads the new release to the `repository on Anaconda.org
+   <https://anaconda.org/gettsim/gettsim>`_.
 
 
 .. _backports:
@@ -69,13 +69,13 @@ To release a new version of GETTSIM, do the following.
 How To Backport
 ---------------
 
-Backporting is the process of applying a change in future versions of GETTSIM to older
-versions
+Backporting is the process of applying a change to future versions of GETTSIM to older
+versions.
 
 Scope
 ^^^^^
 
-As backports can introduce new regressions the scope is limited to critical bug fixes
+As backports can introduce new regressions, the scope is limited to critical bug fixes
 and documentation changes. Performance enhancements and new features are not backported.
 
 Procedure
