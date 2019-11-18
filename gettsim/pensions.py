@@ -61,14 +61,15 @@ def update_earnings_points(person, tb, tb_pens, yr):
 def _ep_for_earnings(person, tb, tb_pens, yr):
     """Return earning points for the wages earned in the last year."""
     westost = "o" if person["east"] else "w"
-    return (
+    ep = (
         np.minimum(person["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"][yr]
     )
+    return ep
 
 
 def _ep_for_care_periods(df, tb, tb_pens, yr):
     """Return earnings points for care periods."""
-    return 0.0
+    return 0
 
 
 def _zugangsfaktor(person):
@@ -85,9 +86,11 @@ def _regelaltersgrenze(person):
     """Calculates the age, at which a worker is eligible to claim his full pension."""
     # If born after 1947, each birth year raises the age threshold by one month.
     if person["byear"] > 1947:
-        return np.minimum(67, ((person["byear"] - 1947) / 12) + 65)
+        regelaltersgrenz = np.minimum(67, ((person["byear"] - 1947) / 12) + 65)
     else:
-        return 65
+        regelaltersgrenz = 65
+
+    return regelaltersgrenz
 
 
 def _rentenwert_until_2017(tb_pens, yr):
@@ -113,9 +116,9 @@ def _rentenwert_from_2018(tb_pens, yr):
     nachhfaktor = _nachhaltigkeitsfaktor(tb_pens, yr)
 
     # Rentenwert must not be lower than in the previous year.
-    return tb_pens["rentenwert_ext"][yr - 1] * min(
-        1, lohnkomponente * riesterfaktor * nachhfaktor
-    )
+    renten_factor = lohnkomponente * riesterfaktor * nachhfaktor
+    rentenwert = tb_pens["rentenwert_ext"][yr - 1] * min(1, renten_factor)
+    return rentenwert
 
 
 def _lohnkomponente(tb_pens, yr):
