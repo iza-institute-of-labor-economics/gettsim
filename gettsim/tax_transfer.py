@@ -238,7 +238,7 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         "miete",
         "heizkost",
         "alleinerz",
-        "child11_num_tu",
+        "age",
         "cnstyr",
         "mietstufe",
         "m_wage",

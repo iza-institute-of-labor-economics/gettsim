@@ -18,7 +18,7 @@ INPUT_COLS = [
     "miete",
     "heizkost",
     "alleinerz",
-    "child11_num_tu",
+    "age",
     "cnstyr",
     "mietstufe",
     "m_wage",
