@@ -407,7 +407,7 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         df, tax_func=gross_income, level=household, in_cols=in_cols, out_cols=[out_col]
     )
 
-    return df
+    return drop_temp_columns(df)
 
 
 def _apply_tax_transfer_func(
@@ -439,3 +439,26 @@ def calculate_tax_and_transfers(dataset, policy_year):
         "var"
     )
     return tax_transfer(dataset, tax_data, tax_data_pensions)
+
+
+def drop_temp_columns(df):
+    return df.drop(
+        [
+            "ertragsanteil",
+            "sonder",
+            "hhfreib",
+            "altfreib",
+            "vorsorge",
+            "kindergeld_hh",
+            "kindergeld_tu",
+            "wohngeld_basis",
+            "wohngeld_basis_hh",
+            "ar_alg2_ek_hh",
+            "alg2_grossek_hh",
+            "mehrbed",
+            "ekanrefrei",
+            "kiz_temp",
+            "kiz_incrange",
+        ],
+        axis=1,
+    )
