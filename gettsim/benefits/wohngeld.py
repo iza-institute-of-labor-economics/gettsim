@@ -231,6 +231,8 @@ def _set_min_y(prelim_y, tb, household_size):
 
 
 def apply_wg_formula(household, tb, household_size):
+    # The largest household we have data on is 12.
+    household_size_max = min(household_size, 12)
     # There are parameters a, b, c, depending on hh size
     return np.maximum(
         0,
@@ -239,9 +241,9 @@ def apply_wg_formula(household, tb, household_size):
             household["M"]
             - (
                 (
-                    tb[f"wg_a_{household_size}p"]
-                    + (tb[f"wg_b_{household_size}p"] * household["M"])
-                    + (tb[f"wg_c_{household_size}p"] * household["Y"])
+                    tb[f"wg_a_{household_size_max}p"]
+                    + (tb[f"wg_b_{household_size_max}p"] * household["M"])
+                    + (tb[f"wg_c_{household_size_max}p"] * household["Y"])
                 )
                 * household["Y"]
             )
