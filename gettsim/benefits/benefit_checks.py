@@ -112,12 +112,13 @@ def wealth_test(household, tb):
     ] = tb["a2voe4"]
     household["maxvermfb_hh"] = household["maxvermfb"].sum()
 
+    household_size = household.shape[0]
     # add fixed amounts per child and adult
     household["vermfreibetr"] = np.minimum(
         household["maxvermfb_hh"],
         household["ind_freib_hh"]
         + household["child0_18_num"] * tb["a2vkf"]
-        + (household["hhsize"] - household["child0_18_num"]) * tb["a2verst"],
+        + (household_size - household["child0_18_num"]) * tb["a2verst"],
     )
 
     # If wealth exceeds the exemption, set benefits to zero
@@ -130,7 +131,7 @@ def wealth_test(household, tb):
     # Wealth test for Wohngeld
     # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
     household.loc[
-        (household["hh_wealth"] > (60000 + (30000 * (household["hhsize"] - 1)))),
+        (household["hh_wealth"] > (60000 + (30000 * (household_size - 1)))),
         "wohngeld_basis_hh",
     ] = 0
 
