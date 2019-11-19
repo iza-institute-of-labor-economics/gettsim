@@ -254,7 +254,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         "rvbeit",
         "gkvbeit",
         "handcap_degree",
-        "divdy",
         "hhsize_tu",
     ]
     out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]

@@ -34,7 +34,6 @@ INPUT_COLS = [
     "rvbeit",
     "gkvbeit",
     "handcap_degree",
-    "divdy",
     "year",
     "hhsize_tu",
 ]
