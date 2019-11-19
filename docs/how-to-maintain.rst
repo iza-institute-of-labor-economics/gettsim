@@ -33,7 +33,7 @@ The branching model for GETTSIM is very simple.
 How To Release
 --------------
 
-To release a new version of GETTSIM, do the following.
+To release a new major or minor version of GETTSIM, do the following.
 
 1. To start the release for any new version, e.g., ``0.2.0``, `create a new milestone
    <https://github.com/iza-institute-of-labor-economics/gettsim/milestones/new>`_ with
@@ -43,17 +43,26 @@ To release a new version of GETTSIM, do the following.
 2. To finalize a release
 
    1. Update :ref:`changes` with all necessary information regarding the new release.
-   2. Use ``bumpversion [major|minor|patch]`` to increment all version strings.
-   3. Merge it to either the master or maintenance branch.
+
+   2. Use ``bumpversion [major|minor|patch]`` to increment all version strings. For
+      example, to bump the version from ``0.1.x`` to ```0.2.0``, type
+
+      .. code-block:: bash
+
+          $ bumpversion minor
+
+   3. Merge it to the master branch and create a maintenance branch major.minor, i.e.,
+      ``0.2`` in this example.
 
 3. The following step assigns a version and documents the release on Github. Go to the
    `page for releases <https://github.com/iza-institute-of-labor-economics/
    gettsim/releases>`_ and draft a new release. The tag and title become ``vx.x.x``.
-   Make sure to target the master or maintenance branch. A description is not necessary
-   as the most important information is documented under :ref:`changes`. Release the new
-   version by clicking "Publish release".
+   Make sure to target the master or maintenance branch. A long description is not
+   necessary as the most important information is documented under :ref:`changes`.
+   Release the new version by clicking "Publish release".
 
-4. Check out the new release tag and run
+4. On your local machine, pull the latest changes to the repository, check out the new
+   release tag and run
 
    .. code-block:: bash
 
@@ -65,14 +74,11 @@ To release a new version of GETTSIM, do the following.
 
 .. _backports:
 
-How To Backport
----------------
+How To Maintain Previously Released Versions
+--------------------------------------------
 
-Backporting is the process of re-applying a change to future versions of GETTSIM to
-older versions.
-
-Scope
-^^^^^
+Most changes to previously released versions come in the form of backports. Backporting
+is the process of re-applying a change to future versions of GETTSIM to older versions.
 
 As backports can introduce new regressions, the scope is limited to critical bug fixes
 and documentation changes. Performance enhancements and new features are not backported.
@@ -81,8 +87,9 @@ Procedure
 ^^^^^^^^^
 
 In the following we will consider an example where GETTSIM's stable version is
-``0.2.0``. Version ``0.3.0`` is currently developed on the master. And a critical bug
-was found which should go both into ``0.3.0`` and ``0.2.0``.
+``0.2.0``. Version ``0.3.0`` is currently developed on the master branch. There is a
+maintenance branch ``0.2`` to receive patches for the ``0.2.x`` line of releases. And a
+critical bug was found, which should be fixed in both ``0.3.0`` and in ``0.2.1``.
 
 1. Create a PR containing the bug fix which targets the master branch.
 2. Add a note to the release notes for version 0.2.1.
@@ -94,7 +101,8 @@ was found which should go both into ``0.3.0`` and ``0.2.0``.
    the fix to the branch. Solve any merge conflicts, etc..
 7. Add the PR to the milestone for version ``0.2.1`` so that all changes for a new
    release can be collected.
-8. Follow :ref:`releases` to release ``0.2.1``.
+8. The release process for a patch version works as above in :ref:`releases` to release
+   ``0.2.1``; just that it is released off the maintenance branch, not off master.
 
 FAQ
 ---
