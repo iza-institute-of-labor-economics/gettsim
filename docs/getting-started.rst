@@ -112,9 +112,9 @@ Required columns in input data
 +--------------+---------------------------------------------------------+-------------+
 |EP            |Earning points for pension claim                         | Float       |
 +--------------+---------------------------------------------------------+-------------+
-|child         |Dummy: either below 18yrs, or below 25 and in education  | Bool        |
+|child         |Dummy: Either below 18yrs, or below 25 and in education  | Bool        |
 +--------------+---------------------------------------------------------+-------------+
-|pensioner     |Dummy: pensioner employment status                       | Bool        |
+|pensioner     |Dummy: Pensioner employment status                       | Bool        |
 +--------------+---------------------------------------------------------+-------------+
 |m_childcare   |Monthly childcare expenses                               | Float       |
 +--------------+---------------------------------------------------------+-------------+
@@ -128,23 +128,23 @@ Required columns in input data
 +--------------+---------------------------------------------------------+-------------+
 |heizkost      |Monthly heating expenses                                 | Float       |
 +--------------+---------------------------------------------------------+-------------+
-|renteneintritt|retirement age                                           | Int         |
+|renteneintritt|Retirement age                                           | Int         |
 +--------------+---------------------------------------------------------+-------------+
 |handcap_degree|Handicap Degree (between 0 and 100                       | Int         |
 +--------------+---------------------------------------------------------+-------------+
-|wohnfl        |size of dwelling in sqm                                  | Int         |
+|wohnfl        |Size of dwelling in square meters                        | Int         |
 +--------------+---------------------------------------------------------+-------------+
-|zveranl       |Dummy: married couple filing jointly for income tax      | Bool        |
+|zveranl       |Dummy: Married couple filing jointly for income tax      | Bool        |
 +--------------+---------------------------------------------------------+-------------+
-|ineducation   |Dummy: employment status "in education"                  | Bool        |
+|ineducation   |Dummy: Employment status "in education"                  | Bool        |
 +--------------+---------------------------------------------------------+-------------+
-|alleinerz     |Dummy: Single Parent                                     | Bool        |
+|alleinerz     |Dummy: Single parent                                     | Bool        |
 +--------------+---------------------------------------------------------+-------------+
 |eigentum      |Dummy: Owner-occupied housing                            | Bool        |
 +--------------+---------------------------------------------------------+-------------+
-|cnstyr        |Constr. Yr of Dwelling (1: <1965,2:1966-2000,3:>2000)    | Int         |
+|cnstyr        |Constr. year of dwelling (1: <1965,2:1966-2000,3:>2000)  | Int         |
 +--------------+---------------------------------------------------------+-------------+
-|m_transfers   |Sum of monthly public/pricate transfers not simulated    | Int         |
+|m_transfers   |Sum of monthly public/private transfers not simulated    | Int         |
 +--------------+---------------------------------------------------------+-------------+
 
 
@@ -158,61 +158,61 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+----------------------------------------------------+-------------+
 |   Variable        |Explanation                                         | Type        +
 +===================+====================================================+=============+
-|svbeit             |Monthly Amount Employee Soc. Sec. Contributions      | Float      |
+|svbeit             |Monthly amount employee soc. sec. contributions      | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|rvbeit             |Monthly Amount Employee Old-Age Pensions Contrib.    | Float      |
+|rvbeit             |Monthly amount employee old-age pensions contrib.    | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|avbeit             |Monthly Amount Employee Unempl. Insurance Contrib.   | Float      |
+|avbeit             |Monthly amount employee unempl. insurance contrib.   | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gkvbeit            |Monthly Amount Employee Health Insurance Contrib.    | Float      |
+|gkvbeit            |Monthly amount employee health insurance contrib.    | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|m_alg1             |Monthly Amount of Unemployment Assistance            | Float      |
+|m_alg1             |Monthly amount of unemployment assistance            | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |pensions_sim       |Monthly amount of old-age pensions                   | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e1           |Taxable Inc. from Self-Employment, individual        | Float      |
+|gross_e1           |Taxable inc. from self-employment, individual        | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e5           |Taxable Inc. from Capital, individual                | Float      |
+|gross_e5           |Taxable inc. from capital, individual                | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e6           |Taxable Inc. from Rents, individual                  | Float      |
+|gross_e6           |Taxable inc. from rents, individual                  | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e7           |Taxable Inc. from Pensions, individual               | Float      |
+|gross_e7           |Taxable inc. from pensions, individual               | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e1_tu        |Taxable Inc. from Self-Employment, couple sum        | Float      |
+|gross_e1_tu        |Taxable inc. from self-employment, couple sum        | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e4_tu        |Taxable Inc. from Earnings, couple sum               | Float      |
+|gross_e4_tu        |Taxable inc. from earnings, couple sum               | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e5_tu        |Taxable Inc. from Capital, couple sum                | Float      |
+|gross_e5_tu        |Taxable inc. from capital, couple sum                | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e6_tu        |Taxable Inc. from Rents, couple sum                  | Float      |
+|gross_e6_tu        |Taxable inc. from rents, couple sum                  | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|gross_e7_tu        |Taxable Inc. from Pensions, couple sum               | Float      |
+|gross_e7_tu        |Taxable inc. from pensions, couple sum               | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|abgst_tu           |Monthly Capital Income Tax Due, couple sum           | Float      |
+|abgst_tu           |Monthly capital income tax burden, couple sum        | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|abgst              |Monthly Capital Income Tax Due, individual           | Float      |
+|abgst              |Monthly capital income tax burden, individual        | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|soli               |Monthly Solidarity Surcharge due, individual         | Float      |
+|soli               |Monthly solidarity surcharge tax burden, individual  | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|soli_tu            |Monthly Solidarity Surcharge due, couple sum         | Float      |
+|soli_tu            |Monthly solidarity surcharge tax due, couple sum     | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|kindergeld         |Monthly Child Benefit, individual to the child       | Float      |
+|kindergeld         |Monthly child benefit, assigned to the child         | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|kindergeld_tu      |Monthly Child Benefit, household sum                 | Float      |
+|kindergeld_tu      |Monthly child benefit, sum of tax unit               | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|incometax          |Monthly Income Tax Due, individual                   | Float      |
+|incometax          |Monthly income tax burden, individual                | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|incometax_tu       |Monthly Income Tax Due, couple sum                   | Float      |
+|incometax_tu       |Monthly income tax burden, couple sum                | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|uhv                |Alimony Advance payment, individual to the child     | Float      |
+|uhv                |Alimony advance payment, assigned to the child       | Float      |
++-------------------+-----------------------------------------------------+------------+
+|uhv_hh             |Alimony advance payment, household sum               | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |regelbedarf        |Household socio-economic *need*, incl. housing cost  | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |regelsatz          |Household socio-economic *need*, lump-sum            | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|alg2_kdu           |Household Appropriate Housing Cost                   | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|uhv_hh             |Alimony Advance payment, household sum               | Float      |
+|alg2_kdu           |Appropriate housing costs for a family in *need*     | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |kiz                |Monthly additional child benefit, household sum      | Float      |
 +-------------------+-----------------------------------------------------+------------+
@@ -222,7 +222,7 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+-----------------------------------------------------+------------+
 |dpi_ind            |Monthly disposable income, individual                | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|dpi                |Monthly disposable income, household                 | Float      |
+|dpi                |Monthly disposable income, household sum             | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |gross              |Monthly market income                                | Float      |
 +-------------------+-----------------------------------------------------+------------+
