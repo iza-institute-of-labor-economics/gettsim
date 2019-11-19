@@ -13,24 +13,24 @@ def wg(household, tb):
     """
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
 
-    hhsize = household.shape[0]
+    household_size = household.shape[0]
     # Caluclate income in separate function
-    household["Y"] = calc_wg_income(household, tb, hhsize)
+    household["Y"] = calc_wg_income(household, tb, household_size)
     # Caluclate rent in separate function
-    household["M"] = calc_wg_rent(household, tb, hhsize)
+    household["M"] = calc_wg_rent(household, tb, household_size)
     # Apply Wohngeld Formel.
-    household["wohngeld_basis"] = apply_wg_formula(household, tb, hhsize)
+    household["wohngeld_basis"] = apply_wg_formula(household, tb, household_size)
 
     # Sum of wohngeld within household
     wg_head = household["wohngeld_basis"] * household["head_tu"]
     household.loc[:, "wohngeld_basis_hh"] = wg_head.sum()
     household = household.round({"wohngeld_basis_hh": 2})
-    # household["hhsize_tu"].describe()
+    # household["household_size_tu"].describe()
     # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
     return household
 
 
-def calc_wg_rent(household, tb, hhsize):
+def calc_wg_rent(household, tb, household_size):
     """
     This function yields the relevant rent for calculating the wohngeld.
     """
@@ -45,10 +45,10 @@ def calc_wg_rent(household, tb, hhsize):
     cnstyr = household["cnstyr"].iloc[0]
     # First max rent
     # Before 2009, they differed by construction year of the house
-    max_rent = tb["calc_max_rent"](tb, hhsize, cnstyr, mietstufe)
+    max_rent = tb["calc_max_rent"](tb, household_size, cnstyr, mietstufe)
 
     # Second min rent
-    min_rent = calc_min_rent(tb, hhsize)
+    min_rent = calc_min_rent(tb, household_size)
 
     # check for failed assignments
     assert not np.isnan(max_rent)
@@ -62,7 +62,7 @@ def calc_wg_rent(household, tb, hhsize):
     return np.maximum(wgmiete, min_rent)
 
 
-def calc_max_rent_since_2009(tb, hhsize, cnstyr, mietstufe):
+def calc_max_rent_since_2009(tb, household_size, cnstyr, mietstufe):
     """
     Since 2009 a different formula for the maximal acknowledged rent applies.
     Now the date of the construction is irrelevant.
@@ -71,41 +71,41 @@ def calc_max_rent_since_2009(tb, hhsize, cnstyr, mietstufe):
     """
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
-    if hhsize <= 5:
-        max_rent = tb[f"wgmax{hhsize}p_m_st{mietstufe}"]
+    if household_size <= 5:
+        max_rent = tb[f"wgmax{household_size}p_m_st{mietstufe}"]
     else:
         max_rent = tb[f"wgmax5p_m_st{mietstufe}"] + tb[
             f"wgmaxplus5_m_st{mietstufe}"
-        ] * (hhsize - 5)
+        ] * (household_size - 5)
     return max_rent
 
 
-def calc_max_rent_until_2008(tb, hhsize, cnstyr, mietstufe):
+def calc_max_rent_until_2008(tb, household_size, cnstyr, mietstufe):
     """ Before 2009, differentiate by construction year of the house and
     calculate the maximal acknowledged rent."""
     cnstyr_dict = {1: "a", 2: "m", 3: "n"}
     key = cnstyr_dict[cnstyr]
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
-    if hhsize <= 5:
-        max_rent = tb[f"wgmax{hhsize}p_{key}_st{mietstufe}"]
+    if household_size <= 5:
+        max_rent = tb[f"wgmax{household_size}p_{key}_st{mietstufe}"]
     else:
         max_rent = tb[f"wgmax5p_{key}_st{mietstufe}"] + tb[
             f"wgmaxplus5_{key}_st{mietstufe}"
-        ] * (hhsize - 5)
+        ] * (household_size - 5)
     return max_rent
 
 
-def calc_min_rent(tb, hhsize):
+def calc_min_rent(tb, household_size):
     """ The minimal acknowledged rent depending on the household size."""
-    if hhsize < 12:
-        min_rent = tb["wgmin" + str(hhsize) + "p"]
+    if household_size < 12:
+        min_rent = tb["wgmin" + str(household_size) + "p"]
     else:
         min_rent = tb["wgmin12p"]
     return min_rent
 
 
-def calc_wg_income(household, tb, hhsize):
+def calc_wg_income(household, tb, household_size):
     """ This function calculates the relevant income for the calculation of the
     wohngeld."""
     # Start with income revelant for the housing beneift
@@ -151,7 +151,7 @@ def calc_wg_income(household, tb, hhsize):
         ),
     )
     # There's a minimum Y depending on the hh size
-    return _set_min_y(prelim_y, tb, hhsize)
+    return _set_min_y(prelim_y, tb, household_size)
 
 
 def calc_wg_abzuege(household, tb):
@@ -222,15 +222,15 @@ def _calc_wg_income_deductions_since_2016(household, tb):
     return wg_incdeduct
 
 
-def _set_min_y(prelim_y, tb, hhsize):
-    if hhsize < 12:
-        min_y = np.maximum(prelim_y, tb["wgminEK" + str(hhsize) + "p"])
+def _set_min_y(prelim_y, tb, household_size):
+    if household_size < 12:
+        min_y = np.maximum(prelim_y, tb["wgminEK" + str(household_size) + "p"])
     else:
         min_y = np.maximum(prelim_y, tb["wgminEK12p"])
     return min_y
 
 
-def apply_wg_formula(household, tb, hhsize):
+def apply_wg_formula(household, tb, household_size):
     # There are parameters a, b, c, depending on hh size
     return np.maximum(
         0,
@@ -239,9 +239,9 @@ def apply_wg_formula(household, tb, hhsize):
             household["M"]
             - (
                 (
-                    tb[f"wg_a_{hhsize}p"]
-                    + (tb[f"wg_b_{hhsize}p"] * household["M"])
-                    + (tb[f"wg_c_{hhsize}p"] * household["Y"])
+                    tb[f"wg_a_{household_size}p"]
+                    + (tb[f"wg_b_{household_size}p"] * household["M"])
+                    + (tb[f"wg_c_{household_size}p"] * household["Y"])
                 )
                 * household["Y"]
             )
