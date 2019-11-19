@@ -112,9 +112,9 @@ Required columns in input data
 +--------------+---------------------------------------------------------+-------------+
 |EP            |Earning points for pension claim                         | Float       |
 +--------------+---------------------------------------------------------+-------------+
-|child         |Dummy: either below 18yrs, or below 25 and in education  | Bool        |
+|child         |Dummy: Either below 18yrs, or below 25 and in education  | Bool        |
 +--------------+---------------------------------------------------------+-------------+
-|pensioner     |Dummy: pensioner employment status                       | Bool        |
+|pensioner     |Dummy: Pensioner employment status                       | Bool        |
 +--------------+---------------------------------------------------------+-------------+
 |m_childcare   |Monthly childcare expenses                               | Float       |
 +--------------+---------------------------------------------------------+-------------+
@@ -134,11 +134,11 @@ Required columns in input data
 +--------------+---------------------------------------------------------+-------------+
 |wohnfl        |Size of dwelling in square meters                        | Int         |
 +--------------+---------------------------------------------------------+-------------+
-|zveranl       |Dummy: married couple filing jointly for income tax      | Bool        |
+|zveranl       |Dummy: Married couple filing jointly for income tax      | Bool        |
 +--------------+---------------------------------------------------------+-------------+
-|ineducation   |Dummy: employment status "in education"                  | Bool        |
+|ineducation   |Dummy: Employment status "in education"                  | Bool        |
 +--------------+---------------------------------------------------------+-------------+
-|alleinerz     |Dummy: single parent                                     | Bool        |
+|alleinerz     |Dummy: Single parent                                     | Bool        |
 +--------------+---------------------------------------------------------+-------------+
 |eigentum      |Dummy: owner-occupied housing                            | Bool        |
 +--------------+---------------------------------------------------------+-------------+
@@ -161,7 +161,7 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+----------------------------------------------------+-------------+
 |   Variable        |Explanation                                         | Type        +
 +===================+====================================================+=============+
-|svbeit             |Monthly amount employee Soc. Sec. contributions      | Float      |
+|svbeit             |Monthly amount employee soc. sec. contributions      | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |rvbeit             |Monthly amount employee old-age pensions contrib.    | Float      |
 +-------------------+-----------------------------------------------------+------------+

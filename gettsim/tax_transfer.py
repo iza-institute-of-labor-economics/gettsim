@@ -7,6 +7,7 @@ from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
+from gettsim.checks import check_boolean
 from gettsim.config import ROOT_DIR
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
@@ -39,7 +40,8 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
     The 'sub' functions may take an argument 'ref', which might be used for small
      reforms that e.g. only differ in parameters or slightly change the calculation.
     """
-
+    bool_variables = ["child", "east"]
+    check_boolean(df, bool_variables)
     # set default arguments
     tax_data_pensions = [] if tax_data_pensions is None else tax_data_pensions
     # if hyporun is False:
