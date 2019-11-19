@@ -41,7 +41,6 @@ def calc_wg_rent(household, tb, hhsize):
     else:
         mietstufe = 3
 
-    assert mietstufe in range(1, 7)
     cnstyr = household["cnstyr"].iloc[0]
     # First max rent
     # Before 2009, they differed by construction year of the house
@@ -50,15 +49,14 @@ def calc_wg_rent(household, tb, hhsize):
     # Second min rent
     min_rent = calc_min_rent(tb, hhsize)
 
-    # check for failed assignments
-    assert not np.isnan(max_rent)
-    assert not np.isnan(min_rent)
-
+    # Calculate share of tax unit wrt whole household
+    tax_unit_share = household.groupby("tu_id")["tu_id"].transform("count") / len(
+        household
+    )
     # distribute max rent among the tax units
-    max_rent_dist = max_rent * household["hh_korr"]
-
-    wgmiete = np.minimum(max_rent_dist, household["miete"] * household["hh_korr"])
-    # wg["wgheiz"] = household["heizkost"] * household["hh_korr"]
+    max_rent_dist = max_rent * tax_unit_share
+    wgmiete = np.minimum(max_rent_dist, household["miete"] * tax_unit_share)
+    # wg["wgheiz"] = household["heizkost"] * tax_unit_share
     return np.maximum(wgmiete, min_rent)
 
 

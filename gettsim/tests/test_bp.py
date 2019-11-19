@@ -12,7 +12,6 @@ INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "hh_korr",
     "hhsize",
     "child",
     "pensioner",

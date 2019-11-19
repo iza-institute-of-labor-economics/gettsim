@@ -12,7 +12,6 @@ INPUT_COLS = [
     "hid",
     "tu_id",
     "head_tu",
-    "hh_korr",
     "hhsize",
     "child",
     "miete",

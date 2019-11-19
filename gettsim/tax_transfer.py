@@ -232,7 +232,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
     in_cols = [
         "tu_id",
         "head_tu",
-        "hh_korr",
         "hhsize",
         "child",
         "miete",
@@ -314,7 +313,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         "hid",
         "tu_id",
         "head",
-        "hh_korr",
         "hhsize",
         "child",
         "pensioner",
@@ -343,7 +341,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         func_kwargs={"tb": tax_data},
     )
     in_cols = [
-        "hh_korr",
         "hhsize",
         "child",
         "pensioner",
