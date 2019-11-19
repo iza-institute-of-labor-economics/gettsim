@@ -174,10 +174,6 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+-----------------------------------------------------+------------+
 |pensions_sim       |Monthly amount of old-age pensions                   | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|zve_abg_nokfb      |Annual taxable income, no child allowance            | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|zve_abg_kfb        |Annual taxable income, including child allowance     | Float      |
-+-------------------+-----------------------------------------------------+------------+
 |kifreib            |Child Allowance                                      | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |gross_e1           |Taxable Inc. from Self-Employment, individual        | Float      |
@@ -210,9 +206,9 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+-----------------------------------------------------+------------+
 |kindergeld_tu      |Monthly Child Benefit, household sum                 | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|incometax_tu       |Monthly Income Tax Due, couple sum                   | Float      |
-+-------------------+-----------------------------------------------------+------------+
 |incometax          |Monthly Income Tax Due, individual                   | Float      |
++-------------------+-----------------------------------------------------+------------+
+|incometax_tu       |Monthly Income Tax Due, couple sum                   | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |uhv                |Alimony Advance payment, individual to the child     | Float      |
 +-------------------+-----------------------------------------------------+------------+
