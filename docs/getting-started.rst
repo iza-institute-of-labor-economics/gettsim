@@ -200,14 +200,6 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+-----------------------------------------------------+------------+
 |gross_e7_tu        |Taxable Inc. from Pensions, couple sum               | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|tax_kfb            |Monthly Income Tax Due, individual, child allow.     | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|tax_nokfb          |Monthly Income Tax Due, individual, no child allow.  | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|tax_kfb_tu         |Monthly Income Tax Due, couple sum, child allow.     | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|tax_nokfb_tu       |Monthly Income Tax Due, couple sum, no child allow.  | Float      |
-+-------------------+-----------------------------------------------------+------------+
 |abgst_tu           |Monthly Capital Income Tax Due, couple sum           | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |abgst              |Monthly Capital Income Tax Due, individual           | Float      |
@@ -216,9 +208,9 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+-----------------------------------------------------+------------+
 |soli_tu            |Monthly Solidarity Surcharge due, couple sum         | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|kindergeld_basis   |Monthly Child Benefit, individual to the child       | Float      |
+|kindergeld         |Monthly Child Benefit, individual to the child       | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|kindergeld_tu_basis|Monthly Child Benefit, household sum                 | Float      |
+|kindergeld_tu      |Monthly Child Benefit, household sum                 | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |incometax_tu       |Monthly Income Tax Due, couple sum                   | Float      |
 +-------------------+-----------------------------------------------------+------------+
