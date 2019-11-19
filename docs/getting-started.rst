@@ -174,8 +174,6 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+-----------------------------------------------------+------------+
 |pensions_sim       |Monthly amount of old-age pensions                   | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|kifreib            |Child Allowance                                      | Float      |
-+-------------------+-----------------------------------------------------+------------+
 |gross_e1           |Taxable Inc. from Self-Employment, individual        | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |gross_e5           |Taxable Inc. from Capital, individual                | Float      |

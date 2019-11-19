@@ -459,7 +459,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         "gkvbeit",
         "m_alg1",
         "pensions_sim",
-        "kifreib",
         "gross_e1",
         "gross_e5",
         "gross_e6",
