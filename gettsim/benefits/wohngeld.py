@@ -231,7 +231,7 @@ def _set_min_y(prelim_y, tb, household_size):
 
 
 def apply_wg_formula(household, tb, household_size):
-    # The largest household we have data on is 12.
+    # The largest household we have tax data to calculate wohngeld, is 12.
     household_size_max = min(household_size, 12)
     # There are parameters a, b, c, depending on hh size
     return np.maximum(
