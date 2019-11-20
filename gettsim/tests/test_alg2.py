@@ -70,3 +70,7 @@ def test_alg2(input_data, tax_policy_data, year):
         df[col] = np.nan
     df = df.groupby("hid").apply(alg2, tb=tb)
     assert_frame_equal(df[columns], year_data[columns])
+
+
+def test_():
+    assert 0
