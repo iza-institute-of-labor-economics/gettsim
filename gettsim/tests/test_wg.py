@@ -12,13 +12,11 @@ INPUT_COLS = [
     "hid",
     "tu_id",
     "head_tu",
-    "hh_korr",
-    "hhsize",
     "child",
     "miete",
     "heizkost",
     "alleinerz",
-    "child11_num_tu",
+    "age",
     "cnstyr",
     "mietstufe",
     "m_wage",
@@ -35,9 +33,7 @@ INPUT_COLS = [
     "rvbeit",
     "gkvbeit",
     "handcap_degree",
-    "divdy",
     "year",
-    "hhsize_tu",
 ]
 OUT_COLS = ["wohngeld_basis", "wohngeld_basis_hh"]
 YEARS = [2006, 2009, 2013, 2016, 2018, 2019]

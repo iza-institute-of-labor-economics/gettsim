@@ -9,8 +9,6 @@ def ui(person, tb):
 
     """
 
-    # ui["m_alg1_soep"] = df["alg_soep"].fillna(0)
-
     alg_entgelt = _alg_entgelt(person, tb)
 
     eligible = check_eligibility_alg(person)
