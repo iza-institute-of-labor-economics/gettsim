@@ -101,7 +101,7 @@ def kiz(household, tb):
 
 def calc_min_income_kiz(household, tb):
     # Are there kids in the household
-    if len(household[household["child"]]) > 0:
+    if household["child"].any() > 0:
         # Is it a single parent household
         if household["alleinerz"].all():
             return tb["a2kiz_minek_sin"]
