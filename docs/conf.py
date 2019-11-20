@@ -13,8 +13,8 @@
 project = "GETTSIM"
 copyright = "2019, GETTSIM team"
 author = "GETTSIM team"
-version = "0.2"
 release = "0.2.0"
+version = ".".join(release.split(".")[:2])
 
 
 # -- General configuration ---------------------------------------------------
