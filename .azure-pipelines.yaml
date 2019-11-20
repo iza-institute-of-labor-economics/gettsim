@@ -3,8 +3,6 @@
 # More information on how to use Anaconda with Azure Pipelines can be found here:
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/anaconda.
 
-pr: none
-
 jobs:
 - job:
   displayName: Linux
@@ -30,10 +28,8 @@ jobs:
   - bash: conda env create -n gettsim -f environment.yml
     displayName: Create Anaconda environment.
 
-  - bash: conda init
-
   - bash: |
-      conda activate gettsim
+      source activate gettsim
       conda develop .
       pytest --cov-report xml --cov=./
 
@@ -45,6 +41,7 @@ jobs:
   # The token is taken from environment variables.
   - script: bash <(curl https://codecov.io/bash) -t $(CODECOV_TOKEN)
     displayName: Upload coverage report.
+
 
 - job:
   displayName: Windows
