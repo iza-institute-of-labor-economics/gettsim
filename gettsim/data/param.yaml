@@ -1055,7 +1055,7 @@ agsatz1:
       value: .67
       note: Prüfen!
 ahsatz0:
-  group: arbeitsl_geld
+  group: arbeitsl_hilfe
   name:
     de: Höhe der Arbeitslosenhilfe im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG
     en:
@@ -1073,7 +1073,7 @@ ahsatz0:
       value: 0
       note:
 ahsatz1:
-  group: arbeitsl_geld
+  group: arbeitsl_hilfe
   name:
     de: Höhe der Arbeitslosenhilfe im Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
     en:
