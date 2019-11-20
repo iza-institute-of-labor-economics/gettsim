@@ -12,6 +12,7 @@ Welcome to GETTSIM's documentation!
 
    getting-started
    how-to-contribute
+   how-to-maintain
    changes
    geps
    code-of-conduct
