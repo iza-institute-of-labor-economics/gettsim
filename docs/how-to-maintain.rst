@@ -35,28 +35,33 @@ How To Release
 
 To release a new major or minor version of GETTSIM, do the following.
 
-1. To start the release for any new version, e.g., ``0.2.0``, `create a new milestone
-   <https://github.com/iza-institute-of-labor-economics/gettsim/milestones/new>`_ with
-   the version as its name on Github to collect issues and PRs. A consensus among
-   developers determines the scope of the new release.
+1. To start the release process for any new version, e.g., ``0.2``, first `create a new
+   milestone
+   <https://github.com/iza-institute-of-labor-economics/gettsim/milestones/new>`_  on
+   Github. Set the name to the version number (format is ``v[major].[minor]``, in this
+   example: ``v0.2``) to collect issues and PRs.
 
-2. To finalize a release
+   A consensus among developers determines the scope of the new release. Note that
+   setting up the milestone and determining the scope of the release will typically
+   happen quite some time before the next steps.
 
-   1. Update :ref:`changes` with all necessary information regarding the new release.
+2. Once all PRs in a milestone are closed:
 
-   2. Use ``bumpversion [major|minor|patch]`` to increment all version strings. For
+   a. Update :ref:`changes` with all necessary information regarding the new release.
+
+   b. Use ``bumpversion [major|minor|patch]`` to increment all version strings. For
       example, to bump the version from ``0.1.x`` to ```0.2.0``, type
 
       .. code-block:: bash
 
           $ bumpversion minor
 
-   3. Merge it to the master branch and create a maintenance branch major.minor, i.e.,
-      ``0.2`` in this example.
+   c. Merge it to the master branch and create a maintenance branch ``[major].[minor]``,
+      i.e., ``0.2`` in this example.
 
 3. The following step assigns a version and documents the release on Github. Go to the
    `page for releases <https://github.com/iza-institute-of-labor-economics/
-   gettsim/releases>`_ and draft a new release. The tag and title become ``vx.x.x``.
+   gettsim/releases>`_ and draft a new release. The tag and title become ``vx.y.z``.
    Make sure to target the master or maintenance branch. A long description is not
    necessary as the most important information is documented under :ref:`changes`.
    Release the new version by clicking "Publish release".
