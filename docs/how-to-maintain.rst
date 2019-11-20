@@ -115,8 +115,8 @@ FAQ
 **Question**: I want to re-run the Azure Pipelines test suite because a merge to the
 master branch failed due to some random error, e.g., a HTTP timeout error.
 
-**Answer**: Go to https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_build
-and select the build which merged the PR to master. On the build page, click on the
-button with the three vertical dots and choose "Edit pipeline". On the following page,
-do not edit the configuration, but select "Run" in the upper right corner. This will
-re-run the test suite.
+**Answer**: Go to
+https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_build. Make sure you are
+signed in. First click on the build which merged the PR to master. On the ensuing page,
+click on the button with the three vertical dots. Choose "Edit pipeline". Do not edit
+the configuration, but select "Run" in the upper right corner.
