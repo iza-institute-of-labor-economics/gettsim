@@ -2,7 +2,7 @@ Welcome to GETTSIM's documentation!
 ===================================
 
 .. include:: ../README.rst
-   :start-line: 32
+   :start-line: 31
    :end-line: 41
 
 
