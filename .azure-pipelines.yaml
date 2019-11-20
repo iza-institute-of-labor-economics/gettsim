@@ -35,6 +35,8 @@ jobs:
       pip install -e .
       pytest --cov-report xml --cov=./
 
+  - bash: |
+      source activate gettsim
       pre-commit install -f --install-hooks
       pre-commit run --all-files
 
