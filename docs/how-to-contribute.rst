@@ -95,3 +95,14 @@ To contribute to the project, adhere to the following process.
    your changes.
 
 7. The final PR will be merged by one of the main contributors.
+
+
+FAQ
+---
+
+**Question**: I want to re-run the Azure Pipelines test suite because some random error
+occurred, e.g., a HTTP timeout error.
+
+**Answer**: Starting from the Github page of the PR, select the tab called "Checks". In
+the upper right corner you find a button to re-run all checks. In a column on the
+left-hand-side you can re-run tests for individual platforms.
