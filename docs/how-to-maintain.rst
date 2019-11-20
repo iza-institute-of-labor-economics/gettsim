@@ -98,15 +98,14 @@ critical bug was found, which should be fixed in both ``0.3.0`` and in ``0.2.1``
 
 1. Create a PR containing the bug fix which targets the master branch.
 2. Add a note to the release notes for version 0.2.1.
-3. Add a label ``backport-to-0.2.1`` to the PR.
-4. Squash merge the PR into master and note down the commit sha.
-5. Create a new PR against branch ``0.2``. Call the branch for the PR
-   ``backport-<#pr>`` where #pr is the PR number.
-6. Use ``git cherrypick -x <commit-sha>`` with the aforementioned commit sha to apply
+3. Squash merge the PR into master and note down the commit sha.
+4. Create a new PR against branch ``0.2``. Call the branch for the PR
+   ``backport-pr#-to-0.2.1`` where # is the PR number.
+5. Use ``git cherrypick -x <commit-sha>`` with the aforementioned commit sha to apply
    the fix to the branch. Solve any merge conflicts, etc..
-7. Add the PR to the milestone for version ``0.2.1`` so that all changes for a new
+6. Add the PR to the milestone for version ``0.2.1`` so that all changes for a new
    release can be collected.
-8. The release process for a patch version works as above in :ref:`releases` to release
+7. The release process for a patch version works as above in :ref:`releases` to release
    ``0.2.1``; just that it is released off the maintenance branch, not off master.
 
 FAQ
