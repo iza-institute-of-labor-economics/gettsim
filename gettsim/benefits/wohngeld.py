@@ -193,8 +193,9 @@ def _calc_wg_income_deductions_until_2015(household, tb):
     """ calculate special deductions for handicapped, single parents
     and children who are working
     """
-    household["child_below_11_tu"] = household.groupby("tu_id")["age"].apply(
-        count_child_below_11_tu
+    household["child_below_11"] = household["age"].lt(11)
+    household["n_children_below_11_tu"] = (
+        household.groupby("tu_id")["child_below_11"].transform("sum").astype(int)
     )
     workingchild = household["child"] & (household["m_wage"] > 0)
     wg_incdeduct = (
@@ -203,17 +204,11 @@ def _calc_wg_income_deductions_until_2015(household, tb):
         + (workingchild * np.minimum(tb["wgpfb24"], household["m_wage"]))
         + (
             (household["alleinerz"] & (~household["child"]))
-            * household["child_below_11_tu"]
+            * household["n_children_below_11_tu"]
             * tb["wgpfb12"]
         )
     )
     return wg_incdeduct
-
-
-def count_child_below_11_tu(age_column):
-    child_below_11_tu = age_column.copy()
-    child_below_11_tu.loc[:] = len(age_column[age_column < 11])
-    return child_below_11_tu
 
 
 def _calc_wg_income_deductions_since_2016(household, tb):
