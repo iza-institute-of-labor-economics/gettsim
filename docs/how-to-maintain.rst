@@ -100,7 +100,7 @@ critical bug was found, which should be fixed in both ``0.3.0`` and in ``0.2.1``
 2. Add a note to the release notes for version 0.2.1.
 3. Squash merge the PR into master and note down the commit sha.
 4. Create a new PR against branch ``0.2``. Call the branch for the PR
-   ``backport-pr#-to-0.2.1`` where # is the PR number.
+   ``backport-pr[No.]-to-0.2.1`` where ``[No.]`` is the PR number.
 5. Use ``git cherrypick -x <commit-sha>`` with the aforementioned commit sha to apply
    the fix to the branch. Solve any merge conflicts, etc..
 6. Add the PR to the milestone for version ``0.2.1`` so that all changes for a new
