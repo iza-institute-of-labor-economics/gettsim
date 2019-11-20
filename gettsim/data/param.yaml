@@ -6670,6 +6670,24 @@ wg_c_12p:
     2016-01-01:
       value: .00006
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+wg_add_12plus:
+  group: wohngeld
+  name:
+    de: Zusätzlicher Betrag pro Person für Haushalte mit mehr als 12 Personen
+    en:
+  description:
+    de: §19 Abs. 3 WoGG
+    en:
+  values:
+    2001-01-01:
+      value: 40
+      note: BGBl. I vom 22.12.1999, S. 2671
+    2009-01-01:
+      value: 43
+      note: BGBl. I vom 24.09.2008, S. 1856
+    2016-01-01:
+      value: 47
+      note: geändert durch BGBl. I vom 08.10.2015, S.1617
 wghka:
   group: wohngeld
   name:

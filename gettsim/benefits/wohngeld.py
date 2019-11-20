@@ -231,10 +231,10 @@ def _set_min_y(prelim_y, tb, household_size):
 
 
 def apply_wg_formula(household, tb, household_size):
-    # The largest household we have tax data to calculate wohngeld, is 12.
+    # The formula is only valid for up to 12 household members
     household_size_max = min(household_size, 12)
     # There are parameters a, b, c, depending on hh size
-    return np.maximum(
+    wg_amount = np.maximum(
         0,
         tb["wg_factor"]
         * (
@@ -249,3 +249,10 @@ def apply_wg_formula(household, tb, household_size):
             )
         ),
     )
+    # If more than 12 persons, there is a lump-sum on top.
+    if household_size > 12:
+        wg_amount = np.minimum(
+            household["M"], wg_amount + tb["wg_add_12plus"] * (household_size - 12)
+        )
+
+    return wg_amount
