@@ -41,7 +41,6 @@ def calc_wg_rent(household, tb, hhsize):
     else:
         mietstufe = 3
 
-    assert mietstufe in range(1, 7)
     cnstyr = household["cnstyr"].iloc[0]
     # First max rent
     # Before 2009, they differed by construction year of the house
@@ -50,15 +49,14 @@ def calc_wg_rent(household, tb, hhsize):
     # Second min rent
     min_rent = calc_min_rent(tb, hhsize)
 
-    # check for failed assignments
-    assert not np.isnan(max_rent)
-    assert not np.isnan(min_rent)
-
+    # Calculate share of tax unit wrt whole household
+    tax_unit_share = household.groupby("tu_id")["tu_id"].transform("count") / len(
+        household
+    )
     # distribute max rent among the tax units
-    max_rent_dist = max_rent * household["hh_korr"]
-
-    wgmiete = np.minimum(max_rent_dist, household["miete"] * household["hh_korr"])
-    # wg["wgheiz"] = household["heizkost"] * household["hh_korr"]
+    max_rent_dist = max_rent * tax_unit_share
+    wgmiete = np.minimum(max_rent_dist, household["miete"] * tax_unit_share)
+    # wg["wgheiz"] = household["heizkost"] * tax_unit_share
     return np.maximum(wgmiete, min_rent)
 
 
@@ -195,6 +193,10 @@ def _calc_wg_income_deductions_until_2015(household, tb):
     """ calculate special deductions for handicapped, single parents
     and children who are working
     """
+    household["child_below_11"] = household["age"].lt(11)
+    household["n_children_below_11_tu"] = (
+        household.groupby("tu_id")["child_below_11"].transform("sum").astype(int)
+    )
     workingchild = household["child"] & (household["m_wage"] > 0)
     wg_incdeduct = (
         (household["handcap_degree"] > 80) * tb["wgpfbm80"]
@@ -202,7 +204,7 @@ def _calc_wg_income_deductions_until_2015(household, tb):
         + (workingchild * np.minimum(tb["wgpfb24"], household["m_wage"]))
         + (
             (household["alleinerz"] & (~household["child"]))
-            * household["child11_num_tu"]
+            * household["n_children_below_11_tu"]
             * tb["wgpfb12"]
         )
     )
