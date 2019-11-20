@@ -3,7 +3,7 @@ import pytest
 from gettsim.config import ROOT_DIR
 
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 
 def test():
