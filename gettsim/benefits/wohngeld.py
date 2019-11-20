@@ -250,6 +250,7 @@ def apply_wg_formula(household, tb, household_size):
         ),
     )
     # If more than 12 persons, there is a lump-sum on top.
+    # You may however not get more than the corrected rent "M".
     if household_size > 12:
         wg_amount = np.minimum(
             household["M"], wg_amount + tb["wg_add_12plus"] * (household_size - 12)
