@@ -30,9 +30,11 @@ jobs:
   - bash: conda env create -n gettsim -f environment.yml
     displayName: Create Anaconda environment.
 
+  - bash: conda init
+
   - bash: |
-      source activate gettsim
-      pip install -e .
+      conda activate gettsim
+      conda develop .
       pytest --cov-report xml --cov=./
 
   - bash: |
@@ -64,7 +66,7 @@ jobs:
 
   - script: |
       call activate gettsim
-      pip install -e .
+      conda develop .
       pytest
 
 
@@ -100,5 +102,5 @@ jobs:
 
   - bash: |
       source activate gettsim
-      pip install -e .
+      conda develop .
       pytest
