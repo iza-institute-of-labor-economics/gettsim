@@ -49,7 +49,8 @@ the dataset, you can use the following Python code:
 
 
 The function ``calculate_tax_and_transfers`` will update your dataset ``data`` with the
-columns specified below in :ref:`returned_cols`.
+columns specified below in :ref:`returned_cols`. Note that the dataset needs to be in
+long format, i.e. each person no matter what age has his/her own row.
 
 
 .. _required_cols:
@@ -199,7 +200,7 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+-----------------------------------------------------+------------+
 |soli_tu            |Monthly solidarity surcharge due, couple sum         | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|kindergeld         |Monthly child Benefit, individual to the child       | Float      |
+|kindergeld         |Monthly child Benefit, individual                    | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |kindergeld_tu      |Monthly child Benefit, household sum                 | Float      |
 +-------------------+-----------------------------------------------------+------------+
@@ -207,7 +208,7 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------+-----------------------------------------------------+------------+
 |incometax_tu       |Monthly income Tax Due, couple sum                   | Float      |
 +-------------------+-----------------------------------------------------+------------+
-|uhv                |Alimony advance payment, individual to the child     | Float      |
+|uhv                |Alimony advance payment, individual                  | Float      |
 +-------------------+-----------------------------------------------------+------------+
 |regelbedarf        |Household socio-economic *need*, incl. housing cost  | Float      |
 +-------------------+-----------------------------------------------------+------------+
