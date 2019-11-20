@@ -18,7 +18,6 @@ INPUT_COLS = [
     "months_ue",
     "months_ue_l1",
     "months_ue_l2",
-    "alg_soep",
     "m_pensions",
     "w_hours",
     "child_num_tu",
