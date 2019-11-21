@@ -3,8 +3,6 @@
 # More information on how to use Anaconda with Azure Pipelines can be found here:
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/anaconda.
 
-pr: none
-
 jobs:
 - job:
   displayName: Linux
@@ -32,15 +30,18 @@ jobs:
 
   - bash: |
       source activate gettsim
-      pip install -e .
+      conda develop .
       pytest --cov-report xml --cov=./
 
+  - bash: |
+      source activate gettsim
       pre-commit install -f --install-hooks
       pre-commit run --all-files
 
   # The token is taken from environment variables.
   - script: bash <(curl https://codecov.io/bash) -t $(CODECOV_TOKEN)
     displayName: Upload coverage report.
+
 
 - job:
   displayName: Windows
@@ -62,7 +63,7 @@ jobs:
 
   - script: |
       call activate gettsim
-      pip install -e .
+      conda develop .
       pytest
 
 
@@ -98,5 +99,5 @@ jobs:
 
   - bash: |
       source activate gettsim
-      pip install -e .
+      conda develop .
       pytest

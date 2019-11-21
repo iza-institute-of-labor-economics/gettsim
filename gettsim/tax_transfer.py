@@ -7,6 +7,7 @@ from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
+from gettsim.checks import check_boolean
 from gettsim.config import ROOT_DIR
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
@@ -39,7 +40,8 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
     The 'sub' functions may take an argument 'ref', which might be used for small
      reforms that e.g. only differ in parameters or slightly change the calculation.
     """
-
+    bool_variables = ["child", "east"]
+    check_boolean(df, bool_variables)
     # set default arguments
     tax_data_pensions = [] if tax_data_pensions is None else tax_data_pensions
     # if hyporun is False:
@@ -84,7 +86,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         "months_ue",
         "months_ue_l1",
         "months_ue_l2",
-        "alg_soep",
         "m_pensions",
         "w_hours",
         "child_num_tu",
@@ -233,13 +234,11 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
     in_cols = [
         "tu_id",
         "head_tu",
-        "hh_korr",
-        "hhsize",
         "child",
         "miete",
         "heizkost",
         "alleinerz",
-        "child11_num_tu",
+        "age",
         "cnstyr",
         "mietstufe",
         "m_wage",
@@ -256,8 +255,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         "rvbeit",
         "gkvbeit",
         "handcap_degree",
-        "divdy",
-        "hhsize_tu",
     ]
     out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
     df = _apply_tax_transfer_func(
@@ -315,9 +312,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         "hid",
         "tu_id",
         "head",
-        "hhtyp",
-        "hh_korr",
-        "hhsize",
         "child",
         "pensioner",
         "age",
@@ -345,8 +339,6 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
         func_kwargs={"tb": tax_data},
     )
     in_cols = [
-        "hh_korr",
-        "hhsize",
         "child",
         "pensioner",
         "age",
@@ -411,8 +403,88 @@ def tax_transfer(df, tax_data, tax_data_pensions=None):
     df = _apply_tax_transfer_func(
         df, tax_func=gross_income, level=household, in_cols=in_cols, out_cols=[out_col]
     )
-
-    return df
+    required_inputs = [
+        "hid",
+        "tu_id",
+        "pid",
+        "head_tu",
+        "head",
+        "adult_num",
+        "child0_18_num",
+        "hh_wealth",
+        "m_wage",
+        "age",
+        "selfemployed",
+        "east",
+        "haskids",
+        "m_self",
+        "m_pensions",
+        "pkv",
+        "m_wage_l1",
+        "months_ue",
+        "months_ue_l1",
+        "months_ue_l2",
+        "w_hours",
+        "child_num_tu",
+        "adult_num_tu",
+        "byear",
+        "exper",
+        "EP",
+        "child",
+        "pensioner",
+        "m_childcare",
+        "m_imputedrent",
+        "m_kapinc",
+        "m_vermiet",
+        "miete",
+        "heizkost",
+        "renteneintritt",
+        "handcap_degree",
+        "wohnfl",
+        "zveranl",
+        "ineducation",
+        "alleinerz",
+        "eigentum",
+        "cnstyr",
+        "m_transfers",
+    ]
+    desired_outputs = [
+        "svbeit",
+        "rvbeit",
+        "avbeit",
+        "gkvbeit",
+        "m_alg1",
+        "pensions_sim",
+        "gross_e1",
+        "gross_e5",
+        "gross_e6",
+        "gross_e7",
+        "gross_e1_tu",
+        "gross_e4_tu",
+        "gross_e5_tu",
+        "gross_e6_tu",
+        "gross_e7_tu",
+        "abgst_tu",
+        "abgst",
+        "soli",
+        "soli_tu",
+        "kindergeld",
+        "kindergeld_tu",
+        "incometax",
+        "incometax_tu",
+        "uhv",
+        "regelbedarf",
+        "regelsatz",
+        "alg2_kdu",
+        "uhv_hh",
+        "kiz",
+        "wohngeld",
+        "m_alg2",
+        "dpi_ind",
+        "dpi",
+        "gross",
+    ]
+    return df[required_inputs + desired_outputs]
 
 
 def _apply_tax_transfer_func(
