@@ -19,9 +19,8 @@ from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import vorsorge_dummy
 
 
-def get_policies_for_date(year, tax_data_raw=None, month=1, day=1):
-    if not tax_data_raw:
-        tax_data_raw = yaml.safe_load((ROOT_DIR / "data" / "param.yaml").read_text())
+def get_policies_for_date(year, group, month=1, day=1):
+    tax_data_raw = yaml.safe_load((ROOT_DIR / "data" / f"{group}.yaml").read_text())
     tax_data = {}
     this_year = datetime.date(year=year, month=month, day=day)
     for key in tax_data_raw:
