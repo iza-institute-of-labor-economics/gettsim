@@ -1,5 +1,5 @@
 a2an1:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: EK-Anteil anrechnungsfrei, Intervall 1
     en: Income share not subject to transfer withdrawal, interval 1
@@ -11,7 +11,7 @@ a2an1:
       value: .2
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2an2:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: EK-Anteil anrechnungsfrei Intervall 2
     en: Income share not subject to transfer withdrawal, interval 2
@@ -23,7 +23,7 @@ a2an2:
       value: .1
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2grf:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Anrechnungsfreier Grundbetrag
     en: Income amount not subject to transfer withdrawal
@@ -35,7 +35,7 @@ a2grf:
       value: 100
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2eg1:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: 1. EK-Grenze Anrechnung
     en: 1st threshold transfer withdrawal
@@ -50,7 +50,7 @@ a2eg1:
       value: 1000
       note: Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850. Artikel 5 G. v. 20.12.2011 BGBl. I 2854.
 a2eg2:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: 2. EK-Grenze Anrechnung
     en: 2nd threshold transfer withdrawal
@@ -62,7 +62,7 @@ a2eg2:
       value: 1200
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2eg3:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: 2. EK-Grenze Anrechnung (mit Kindern)
     en: 2rd threshold transfer withdrawal (household with children)
@@ -74,7 +74,7 @@ a2eg3:
       value: 1500
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 rs_hhvor:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Regelsatz
     en: Standard rate
@@ -131,7 +131,7 @@ rs_hhvor:
       value: 424
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_2adults:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Regelsatz, 2 Erwachsene
     en: Standard rate, 2 adults
@@ -167,7 +167,7 @@ rs_2adults:
       value: 382
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_madults:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Regelsatz für weitere Erwachsene
     en: Standard rate, additional adult
@@ -203,7 +203,7 @@ rs_madults:
       value: 339
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_ch0:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Regelsatz für Kinder unter 7 Jahren
     en: Standard rate for children 0-7
@@ -239,7 +239,7 @@ rs_ch0:
       value: 245
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_ch7:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Regelsatz für Kinder zwischen 7 und 13 Jahren
     en: Standard rate for children 7-13
@@ -275,7 +275,7 @@ rs_ch7:
       value: 302
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_ch14:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Regelsatz für Kinder zwischen 14 und 18 Jahren
     en: Standard rate for children 14-18
@@ -311,7 +311,7 @@ rs_ch14:
       value: 322
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 a2part:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Anteil an RS bei 2 Partnern (2005-2010)
     en: Fraction of standard rate, 2 adults
@@ -323,7 +323,7 @@ a2part:
       value: .9
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch18:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Anteil an RS für erw. HH-Mitglieder (2005-2010)
     en: Fraction of standard rate, additional adult
@@ -335,7 +335,7 @@ a2ch18:
       value: .8
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch0:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Anteil an RS für Kinder unter 0-6 (2005-2010)
     en: Fraction of standard rate, children 0-6
@@ -347,7 +347,7 @@ a2ch0:
       value: .6
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch7:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Anteil an RS für Kinder 7-13 (2009-2010)
     en: Fraction of standard rate, children 7-13
@@ -362,7 +362,7 @@ a2ch7:
       value: .7
       note: G. v. 02.03.2009 BGBl. I S. 416.
 a2ch14:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Ant. RS f. minderj. P.; Ki. ab 14; Ki. bis 25 (2005-2010)
     en: Fraction of standard rate, children 14-25
@@ -374,7 +374,7 @@ a2ch14:
       value: .8
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbch1:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Mehrbedarf AE, mind. einem Kind wenn Anspruch größer als nach a2mbch2
     en: Additional need, single parent, one or more children
@@ -386,7 +386,7 @@ a2mbch1:
       value: .12
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbch2:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Mehrbedarf AE, mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren
     en: Additional need, single parent, one child below 7 or two or three children below 16
@@ -398,7 +398,7 @@ a2mbch2:
       value: .36
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbchb:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Mehrbedarf, Behinderte
     en: Additional need, disabled person
@@ -410,7 +410,7 @@ a2mbchb:
       value: .35
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2zu2:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Maximalanteil Mehrbedarf AE
     en: Upper limit additional need for single parents
@@ -422,7 +422,7 @@ a2zu2:
       value: 60
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ve:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Versicherungspauschale
     en: Insurance allowance
@@ -434,7 +434,7 @@ a2ve:
       value: 30
       note: V. v. 20.10.2004 BGBl. I S. 2622.
 a2ve1:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensgrundfreibetrag je Lebensjahr
     en: Basic allowance per year of life
@@ -449,7 +449,7 @@ a2ve1:
       value: 150
       note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2ve2:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensgrundfreibetrag je Lebensjahr, vor 01.01.1948 geboren
     en: Basic allowance per year of life, birth before 1948-01-01
@@ -461,7 +461,7 @@ a2ve2:
       value: 520
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2vga:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensfreibetrag (geldwerte Ansprüche) je Lebensjahr
     en: Allowance (monetary claims) per year of life
@@ -479,7 +479,7 @@ a2vga:
       value: 750
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2verst:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensfreibetrag für Erstausstattung
     en: Allowance for furniture
@@ -491,7 +491,7 @@ a2verst:
       value: 750
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2vkf:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensgrundfreibetrag je Kind
     en: Allowance per child
@@ -506,7 +506,7 @@ a2vkf:
       value: 3100
       note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2vki:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Minimaler Vermögensgrundfreibetrag
     en: Minimum level basic allowance
@@ -521,7 +521,7 @@ a2vki:
       value: 3100
       note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2voe1:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1948-1957 geboren
     en: Upper limit basic allowance, born 1948-1957
@@ -539,7 +539,7 @@ a2voe1:
       value: 9750
       note: G. v. 20.04.2007 BGBl. I S. 554. Betrag unverändert.
 a2voe2:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensobergrenze für Vermögensgrundfreibetrag, vor 1948 geboren
     en: Upper limit basic allowance, born before 1948
@@ -551,7 +551,7 @@ a2voe2:
       value: 33800
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2voe3:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1958-1963 geboren
     en: Upper limit basic allowance, born 1958-1963
@@ -569,7 +569,7 @@ a2voe3:
       value: 9900
       note: G. v. 20.04.2007 BGBl. I S. 554.
 a2voe4:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensobergrenze für Vermögensgrundfreibetrag, nach 1963 geboren
     en: Upper limit basic allowance, born after 1963
@@ -587,7 +587,7 @@ a2voe4:
       value: 10050
       note: G. v. 20.04.2007 BGBl. I S. 554.
 a2vog1:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensobergrenze für geldwerte Ansprüche, 1948-1957 geboren
     en: Upper limit allowance (monetary claims), born 1948-1957
@@ -608,7 +608,7 @@ a2vog1:
       value: 48750
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog2:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensobergrenze für geldwerte Ansprüche, vor 1948 geboren
     en: Upper limit allowance (monetary claims), born before 1948
@@ -626,7 +626,7 @@ a2vog2:
       value: 48750
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog3:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensobergrenze für geldwerte Ansprüche, 1958-1963 geboren
     en: Upper limit allowance (monetary claims), born 1958-1963
@@ -647,7 +647,7 @@ a2vog3:
       value: 49500
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog4:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Vermögensobergrenze für geldwerte Ansprüche, nach 1963 geboren
     en: Upper limit allowance (monetary claims), born after 1963
@@ -668,7 +668,7 @@ a2vog4:
       value: 50250
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2we:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Abzugsfähige Werbungskostenpauschale
     en: Allowance for expenses
@@ -683,7 +683,7 @@ a2we:
       value: 15.33
       note: V. v. 21.06.2011 BGBl. I S. 1175. Fester Betrag. Betrag unverändert.
 a2zu1:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Befristeter Zuschlag nach Bezug von Arbeitslosengeld (2005-2010)
     en: Temporary additional benefit after UI (2005-2010)
@@ -695,7 +695,7 @@ a2zu1:
       value: 160
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2_but_1:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Leistungen für Bildung und Teilhabe, Schulbedarf
     en: Benefits for education and participation, school supplies
@@ -707,7 +707,7 @@ a2_but_1:
       value: 8.33
       note: G. v. 24.03.2011 BGBl. I S. 453. Berechnung 70+30/12.
 a2_but_2:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: Leistungen für Bildung und Teilhabe, Teilhabe am sozialen Leben
     en: Benefits for education and participation, social activities
@@ -722,7 +722,7 @@ a2_but_2:
       value: 15
       note: G. v. 29.04.2019 BGBl. I S. 530.
 ahvmiet:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: ALG2 Jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
     en:
@@ -737,7 +737,7 @@ ahvmiet:
       value: 0
       note:
 ahvzins:
-  group: arbeitsl_geld_2
+  group: arbeitsl_geld_2.yaml
   name:
     de: ALG2 Jährlicher Zinsbetrag, ab dem Geldvermögen unterstellt wird
     en:
