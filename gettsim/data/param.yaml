@@ -1,5 +1,5 @@
 a2an1:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: EK-Anteil anrechnungsfrei, Intervall 1
     en: Income share not subject to transfer withdrawal, interval 1
@@ -11,7 +11,7 @@ a2an1:
       value: .2
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2an2:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: EK-Anteil anrechnungsfrei Intervall 2
     en: Income share not subject to transfer withdrawal, interval 2
@@ -23,7 +23,7 @@ a2an2:
       value: .1
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2grf:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Anrechnungsfreier Grundbetrag
     en: Income amount not subject to transfer withdrawal
@@ -35,7 +35,7 @@ a2grf:
       value: 100
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2eg1:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: 1. EK-Grenze Anrechnung
     en: 1st threshold transfer withdrawal
@@ -50,7 +50,7 @@ a2eg1:
       value: 1000
       note: Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850. Artikel 5 G. v. 20.12.2011 BGBl. I 2854.
 a2eg2:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: 2. EK-Grenze Anrechnung
     en: 2nd threshold transfer withdrawal
@@ -62,7 +62,7 @@ a2eg2:
       value: 1200
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2eg3:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: 2. EK-Grenze Anrechnung (mit Kindern)
     en: 2rd threshold transfer withdrawal (household with children)
@@ -74,7 +74,7 @@ a2eg3:
       value: 1500
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 rs_hhvor:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Regelsatz
     en: Standard rate
@@ -131,7 +131,7 @@ rs_hhvor:
       value: 424
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_2adults:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Regelsatz, 2 Erwachsene
     en: Standard rate, 2 adults
@@ -167,7 +167,7 @@ rs_2adults:
       value: 382
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_madults:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Regelsatz für weitere Erwachsene
     en: Standard rate, additional adult
@@ -203,7 +203,7 @@ rs_madults:
       value: 339
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_ch0:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Regelsatz für Kinder unter 7 Jahren
     en: Standard rate for children 0-7
@@ -239,7 +239,7 @@ rs_ch0:
       value: 245
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_ch7:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Regelsatz für Kinder zwischen 7 und 13 Jahren
     en: Standard rate for children 7-13
@@ -275,7 +275,7 @@ rs_ch7:
       value: 302
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 rs_ch14:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Regelsatz für Kinder zwischen 14 und 18 Jahren
     en: Standard rate for children 14-18
@@ -311,7 +311,7 @@ rs_ch14:
       value: 322
       note: V. v. 19.10.2018 BGBl. I S. 1766.
 a2part:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Anteil an RS bei 2 Partnern (2005-2010)
     en: Fraction of standard rate, 2 adults
@@ -323,7 +323,7 @@ a2part:
       value: .9
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch18:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Anteil an RS für erw. HH-Mitglieder (2005-2010)
     en: Fraction of standard rate, additional adult
@@ -335,7 +335,7 @@ a2ch18:
       value: .8
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch0:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Anteil an RS für Kinder unter 0-6 (2005-2010)
     en: Fraction of standard rate, children 0-6
@@ -347,7 +347,7 @@ a2ch0:
       value: .6
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch7:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Anteil an RS für Kinder 7-13 (2009-2010)
     en: Fraction of standard rate, children 7-13
@@ -362,7 +362,7 @@ a2ch7:
       value: .7
       note: G. v. 02.03.2009 BGBl. I S. 416.
 a2ch14:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Ant. RS f. minderj. P.; Ki. ab 14; Ki. bis 25 (2005-2010)
     en: Fraction of standard rate, children 14-25
@@ -374,7 +374,7 @@ a2ch14:
       value: .8
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbch1:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Mehrbedarf AE, mind. einem Kind wenn Anspruch größer als nach a2mbch2
     en: Additional need, single parent, one or more children
@@ -386,7 +386,7 @@ a2mbch1:
       value: .12
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbch2:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Mehrbedarf AE, mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren
     en: Additional need, single parent, one child below 7 or two or three children below 16
@@ -398,7 +398,7 @@ a2mbch2:
       value: .36
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbchb:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Mehrbedarf, Behinderte
     en: Additional need, disabled person
@@ -410,7 +410,7 @@ a2mbchb:
       value: .35
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2zu2:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Maximalanteil Mehrbedarf AE
     en: Upper limit additional need for single parents
@@ -422,7 +422,7 @@ a2zu2:
       value: 60
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ve:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Versicherungspauschale
     en: Insurance allowance
@@ -434,7 +434,7 @@ a2ve:
       value: 30
       note: V. v. 20.10.2004 BGBl. I S. 2622.
 a2ve1:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensgrundfreibetrag je Lebensjahr
     en: Basic allowance per year of life
@@ -449,7 +449,7 @@ a2ve1:
       value: 150
       note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2ve2:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensgrundfreibetrag je Lebensjahr, vor 01.01.1948 geboren
     en: Basic allowance per year of life, birth before 1948-01-01
@@ -461,7 +461,7 @@ a2ve2:
       value: 520
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2vga:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensfreibetrag (geldwerte Ansprüche) je Lebensjahr
     en: Allowance (monetary claims) per year of life
@@ -479,7 +479,7 @@ a2vga:
       value: 750
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2verst:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensfreibetrag für Erstausstattung
     en: Allowance for furniture
@@ -491,7 +491,7 @@ a2verst:
       value: 750
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2vkf:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensgrundfreibetrag je Kind
     en: Allowance per child
@@ -506,7 +506,7 @@ a2vkf:
       value: 3100
       note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2vki:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Minimaler Vermögensgrundfreibetrag
     en: Minimum level basic allowance
@@ -521,7 +521,7 @@ a2vki:
       value: 3100
       note: G. v. 20.07.2006 BGBl. I S. 1706.
 a2voe1:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1948-1957 geboren
     en: Upper limit basic allowance, born 1948-1957
@@ -539,7 +539,7 @@ a2voe1:
       value: 9750
       note: G. v. 20.04.2007 BGBl. I S. 554. Betrag unverändert.
 a2voe2:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensobergrenze für Vermögensgrundfreibetrag, vor 1948 geboren
     en: Upper limit basic allowance, born before 1948
@@ -551,7 +551,7 @@ a2voe2:
       value: 33800
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2voe3:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1958-1963 geboren
     en: Upper limit basic allowance, born 1958-1963
@@ -569,7 +569,7 @@ a2voe3:
       value: 9900
       note: G. v. 20.04.2007 BGBl. I S. 554.
 a2voe4:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensobergrenze für Vermögensgrundfreibetrag, nach 1963 geboren
     en: Upper limit basic allowance, born after 1963
@@ -587,7 +587,7 @@ a2voe4:
       value: 10050
       note: G. v. 20.04.2007 BGBl. I S. 554.
 a2vog1:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensobergrenze für geldwerte Ansprüche, 1948-1957 geboren
     en: Upper limit allowance (monetary claims), born 1948-1957
@@ -608,7 +608,7 @@ a2vog1:
       value: 48750
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog2:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensobergrenze für geldwerte Ansprüche, vor 1948 geboren
     en: Upper limit allowance (monetary claims), born before 1948
@@ -626,7 +626,7 @@ a2vog2:
       value: 48750
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog3:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensobergrenze für geldwerte Ansprüche, 1958-1963 geboren
     en: Upper limit allowance (monetary claims), born 1958-1963
@@ -647,7 +647,7 @@ a2vog3:
       value: 49500
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2vog4:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Vermögensobergrenze für geldwerte Ansprüche, nach 1963 geboren
     en: Upper limit allowance (monetary claims), born after 1963
@@ -668,7 +668,7 @@ a2vog4:
       value: 50250
       note: G. v. 14.04.2010 BGBl. I S. 410.
 a2we:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Abzugsfähige Werbungskostenpauschale
     en: Allowance for expenses
@@ -683,7 +683,7 @@ a2we:
       value: 15.33
       note: V. v. 21.06.2011 BGBl. I S. 1175. Fester Betrag. Betrag unverändert.
 a2zu1:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Befristeter Zuschlag nach Bezug von Arbeitslosengeld (2005-2010)
     en: Temporary additional benefit after UI (2005-2010)
@@ -695,7 +695,7 @@ a2zu1:
       value: 160
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2_but_1:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Leistungen für Bildung und Teilhabe, Schulbedarf
     en: Benefits for education and participation, school supplies
@@ -707,7 +707,7 @@ a2_but_1:
       value: 8.33
       note: G. v. 24.03.2011 BGBl. I S. 453. Berechnung 70+30/12.
 a2_but_2:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: Leistungen für Bildung und Teilhabe, Teilhabe am sozialen Leben
     en: Benefits for education and participation, social activities
@@ -722,7 +722,7 @@ a2_but_2:
       value: 15
       note: G. v. 29.04.2019 BGBl. I S. 530.
 shmz1XII:
-  group: sgbxii
+  group: sozialhilfe
   name:
     de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit einem Kind  Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
     en:
@@ -737,7 +737,7 @@ shmz1XII:
       value: .12
       note:
 shmz2XII:
-  group: sgbxii
+  group: sozialhilfe
   name:
     de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit zwei Kindern  Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
     en:
@@ -752,7 +752,7 @@ shmz2XII:
       value: .24
       note:
 shmz3XII:
-  group: sgbxii
+  group: sozialhilfe
   name:
     de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit drei Kindern  Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
     en:
@@ -767,7 +767,7 @@ shmz3XII:
       value: .36
       note:
 shmz4XII:
-  group: sgbxii
+  group: sozialhilfe
   name:
     de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit vier Kindern  Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
     en:
@@ -782,7 +782,7 @@ shmz4XII:
       value: .48
       note:
 shmz5XII:
-  group: sgbxii
+  group: sozialhilfe
   name:
     de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit fünf oder mehr Kindern   Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
     en:
@@ -797,7 +797,7 @@ shmz5XII:
       value: .6
       note:
 sh14pXII:
-  group: sgbxii
+  group: sozialhilfe
   name:
     de:
     en:
@@ -812,7 +812,7 @@ sh14pXII:
       value: .8
       note:
 sh14XII:
-  group: sgbxii
+  group: sozialhilfe
   name:
     de:
     en:
@@ -827,7 +827,7 @@ sh14XII:
       value: .6
       note:
 a2kiz:
-  group: kiz
+  group: kinderzuschlag
   name:
     de: Höhe des Kinderzuschlags
     en:
@@ -842,7 +842,7 @@ a2kiz:
       value: 170
       note:  geändert zum 1.1.2017 durch Artikel 12 v. 20.12.2016, BGBL I S. 3000  vorher geändert zum  1.7.2016 durch Artikel 7 v. 16.07.2015 BGBl. I S. 1202
 a2kiz_minek_cou:
-  group: kiz
+  group: kinderzuschlag
   name:
     de: Mindesteinkommen für Paare
     en:
@@ -857,7 +857,7 @@ a2kiz_minek_cou:
       value: 900
       note:
 a2kiz_minek_sin:
-  group: kiz
+  group: kinderzuschlag
   name:
     de: Mindesteinkommen für Alleinerziehende
     en:
@@ -872,7 +872,7 @@ a2kiz_minek_sin:
       value: 600
       note:
 uhv5:
-  group: uhv
+  group: unterhalt
   name:
     de: Unterhaltsvorschuss für Kinder unter 5 Jahren. Der Prozentsatz in §2 UVG wird angewendet auf (2 x Kinderfrebeitrag (32 (6) EStG) / 12) - Kindergeld für das 1. Kind
     en:
@@ -890,7 +890,7 @@ uhv5:
       value: 160
       note:
 uhv11:
-  group: uhv
+  group: unterhalt
   name:
     de: Unterhaltsvorschuss für Kinder von 6-11 Jahren
     en:
@@ -908,7 +908,7 @@ uhv11:
       value: 212
       note:
 uhv17:
-  group: uhv
+  group: unterhalt
   name:
     de: Unterhaltsvorschuss für Kinder von 7 bis 12 Jahren
     en:
@@ -923,7 +923,7 @@ uhv17:
       value: 282
       note:
 alg1_frei:
-  group: alg
+  group: arbeitsl_geld
   name:
     de: Freibetrag bei der Anrechnung von Nebeneinkommen
     en:
@@ -935,7 +935,7 @@ alg1_frei:
       value: 165
       note: Prüfen!
 alg1_abz:
-  group: alg
+  group: arbeitsl_geld
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en:
@@ -1031,7 +1031,7 @@ alg1_abz:
       value: .2
       note:
 agsatz0:
-  group: alg
+  group: arbeitsl_geld
   name:
     de: Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG
     en:
@@ -1043,7 +1043,7 @@ agsatz0:
       value: .6
       note: Prüfen!
 agsatz1:
-  group: alg
+  group: arbeitsl_geld
   name:
     de: Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
     en:
@@ -1055,7 +1055,7 @@ agsatz1:
       value: .67
       note: Prüfen!
 ahsatz0:
-  group: alg
+  group: arbeitsl_hilfe
   name:
     de: Höhe der Arbeitslosenhilfe im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG
     en:
@@ -1073,7 +1073,7 @@ ahsatz0:
       value: 0
       note:
 ahsatz1:
-  group: alg
+  group: arbeitsl_hilfe
   name:
     de: Höhe der Arbeitslosenhilfe im Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
     en:
@@ -1091,7 +1091,7 @@ ahsatz1:
       value: 0
       note:
 alh_frei:
-  group: alh
+  group: arbeitsl_hilfe
   name:
     de: Freibetrag bei der Anrechnung von Nebeneinkommen  - bis 1999 Anteil des Einkommens (1/14)  - seit 2000 Fester Freibetrag
     en:
@@ -1109,7 +1109,7 @@ alh_frei:
       value: 0
       note:
 alh_partfrei1:
-  group: alh
+  group: arbeitsl_hilfe
   name:
     de: Pauschaler Freibetrag des Partnereinkommens (bis 1993)
     en:
@@ -1130,7 +1130,7 @@ alh_partfrei1:
       value: 0
       note:
 alh_partfrei2:
-  group: alh
+  group: arbeitsl_hilfe
   name:
     de: Freibetrag des Partnereinkommens pro unterhaltspflichtigem Kind im Haushalt (bis 1993)
     en:
@@ -1151,7 +1151,7 @@ alh_partfrei2:
       value: 0
       note:
 alh_partexist:
-  group: alh
+  group: arbeitsl_hilfe
   name:
     de: Anteil des steuerrechtlichen Existenzminimums, der als minimaler Partnerfreibetrag berücksichtigt wird (seit 1994)
     en:
@@ -1175,7 +1175,7 @@ alh_partexist:
       value: 0
       note:
 alh_maxhours:
-  group: alh
+  group: arbeitsl_hilfe
   name:
     de: Maximale Wochenarbeitszeit die als Nebenverdienst zur ALH zulässig ist
     en:
@@ -1193,7 +1193,7 @@ alh_maxhours:
       value: 0
       note:
 ahselfpausch:
-  group: alh
+  group: arbeitsl_hilfe
   name:
     de: Betriebskostenpauschalabzug bei Einkommen aus selbstständiger Tätigkeit
     en:
@@ -1208,7 +1208,7 @@ ahselfpausch:
       value: 0
       note:
 ahvmiet:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: ALG2 Jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
     en:
@@ -1223,7 +1223,7 @@ ahvmiet:
       value: 0
       note:
 ahvzins:
-  group: alg2
+  group: arbeitsl_geld_2
   name:
     de: ALG2 Jährlicher Zinsbetrag, ab dem Geldvermögen unterstellt wird
     en:
@@ -1238,7 +1238,7 @@ ahvzins:
       value: 0
       note:
 ahunt06o:
-  group: ahunt
+  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder bis 6 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -1277,7 +1277,7 @@ ahunt06o:
       value: 401
       note:
 ahunt06w:
-  group: ahunt
+  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder bis 6 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months.  Anmerkung Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -1316,7 +1316,7 @@ ahunt06w:
       value: 401
       note:
 ahunt12o:
-  group: ahunt
+  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder zwischen 6 und 12 Jahren (Ost)  ab 1.1.2008     => siehe ahunt12w  bis 31.12.2007     => gemäß Berliner Tabelle Anmerkung Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -1352,7 +1352,7 @@ ahunt12o:
       value: 459
       note:
 ahunt12w:
-  group: ahunt
+  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder zwischen 6 und 12 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -1388,7 +1388,7 @@ ahunt12w:
       value: 459
       note:
 ahunt18o:
-  group: ahunt
+  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder zwischen 12 und 18 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -1427,7 +1427,7 @@ ahunt18o:
       value: 538
       note: Frederike Lannte Kommentar  ab 2008 siehe  ahunt18w und nicht ahunt06w ?
 ahunt18pluso:
-  group: ahunt
+  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder ab 18 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007  Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -1466,7 +1466,7 @@ ahunt18pluso:
       value: 607
       note: Frederike Lannte siehe oberes Kommentar
 ahunt18plusw:
-  group: ahunt
+  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder ab 18 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -1505,7 +1505,7 @@ ahunt18plusw:
       value: 607
       note:
 ahunt18w:
-  group: ahunt
+  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder zwischen 12 und 18 Jahre (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -1544,7 +1544,7 @@ ahunt18w:
       value: 538
       note:
 shsatzo:
-  group: sh
+  group: sozialhilfe
   name:
     de: Sozialhilfe Regelsatz Ost  ab 1.1.2007     => einheitlicher Regelsatz  (rs_hhvor) 1.1.2005 - 31.12.2006     => Hartz IV-Regelsatz Ost (rs_hhvor ist ungewichteter Durchschnitt) bis 31.12.2004     => Ungewichteter Durchschnitt der Ost-Sozialhilfe-Regelsätze für den Haushaltsvorstand, ab Juli, FamRZ
     en:
@@ -1634,7 +1634,7 @@ shsatzo:
       value: 424
       note:
 shsatzw:
-  group: sh
+  group: sozialhilfe
   name:
     de: Sozialhilfe Regelsatz West  ab 1.1.2007     => einheitlicher Hatz IV-Regelsatz (rs_hhvor) 1.1.2005 - 31.12.2006     => Hartz IV-Regelsatz West (rs_hhvor ist ungewichteter Durchschnitt) bis 31.12.2004     => Ungewichteter Durchschnitt der West-Sozialhilfe-Regelsätze für den Haushaltsvorstand, ab Juli, FamRZ
     en:
@@ -1745,7 +1745,7 @@ shsatzw:
       value: 424
       note:
 sheilei:
-  group: sh
+  group: sozialhilfe
   name:
     de: Satz des Aufschlags auf die lfd. Leistungen zum Lebensunterhalt, der Sozialhilfe für die Berücksichtigung der einmaligen Leistungen 0.1 oder 0.18 oder 0
     en:
@@ -1763,7 +1763,7 @@ sheilei:
       value: 0
       note:
 shkid06c:
-  group: sh
+  group: sozialhilfe
   name:
     de: SH-Regelsatz für ein bis 6-jähriges HH-Mitglied im Verhältnis zum RS des Regelsatzes für den Haushaltsvorstand, Erzieher-Paar  (§22 BSHG, Durchf.Verord. §2)
     en:
@@ -1781,7 +1781,7 @@ shkid06c:
       value: 0
       note:
 shkid06s:
-  group: sh
+  group: sozialhilfe
   name:
     de: SH-Regelsatz für ein bis 6-jähriges HH-Mitglied im Verhältnis zum RS des Regelsatzes für den Haushaltsvorstand, Alleinerziehende  (§22 BSHG, Durchf.Verord. §2)
     en:
@@ -1799,7 +1799,7 @@ shkid06s:
       value: 0
       note:
 shkid13:
-  group: sh
+  group: sozialhilfe
   name:
     de: SH-Regelsatz für ein 7 bis 13-jähriges HH-Mitglied im Verhältnis zum RS des Haushaltsvorstands  ACHTUNG Bis inkl. 1990 gilt diese Anteil für 7-11 Jährige!  (§ 22 BSHG, Durchf.Verord. § 2)
     en:
@@ -1814,7 +1814,7 @@ shkid13:
       value: 0
       note:
 shkid17:
-  group: sh
+  group: sozialhilfe
   name:
     de: SH-Regelsatz für ein 14 bis 17-jähriges HH-Mitglied im Verhältnis zum RS des Haushaltsvorstands  ACHTUNG Bis inkl. 1990 gilt diese Anteil für 12-15 Jährige!  (§ 22 BSHG, Durchf.Verord. § 2)
     en:
@@ -1829,7 +1829,7 @@ shkid17:
       value: 0
       note:
 shkid18:
-  group: sh
+  group: sozialhilfe
   name:
     de: SH-Regelsatz für ein über 18-jähriges HH-Mitglied im Verhältnis zum RS des Haushaltsvorstands  ACHTUNG Bis inkl. 1990 gilt diese Anteil für über 16 Jährige!  (§ 22 BSHG, Durchf.Verord. § 2)
     en:
@@ -1844,7 +1844,7 @@ shkid18:
       value: 0
       note:
 shmz06:
-  group: sh
+  group: sozialhilfe
   name:
     de: Mehrbedarfszuschlag für Alleinerziehende mit einem Kind unter 7 oder zwei oder drei Kindern unter 16  (§ 23 (2) BSHG)
     en:
@@ -1862,7 +1862,7 @@ shmz06:
       value: 0
       note:
 shmz16:
-  group: sh
+  group: sozialhilfe
   name:
     de: Mehrbedarfszuschlag für Alleinerziehende ab vier Kindern unter 16  (§ 23 (2) BSHG)
     en:
@@ -1880,7 +1880,7 @@ shmz16:
       value: 0
       note:
 shmzbXII:
-  group: sh
+  group: sozialhilfe
   name:
     de: Mehrbedarfszuschlag Behinderte  (§ 30 SGB XII IV)
     en:
@@ -1898,7 +1898,7 @@ shmzbXII:
       value: .35
       note:
 shmzrXII:
-  group: sh
+  group: sozialhilfe
   name:
     de: Mehrbedarfszuschlag Rentner, Behinderte mit Kennzeichen G, Schwangere nach der 12. Schwangerschaftswoche  (§ 30 SGB XII I, II)
     en:
@@ -1913,7 +1913,7 @@ shmzrXII:
       value: .17
       note:
 shekkind:
-  group: sh
+  group: sozialhilfe
   name:
     de: Abzugsbetrag des Einkommens für jedes Kind. Änderung des § 76 II BSHG durch das  Gesetz zur Familienförderung I + II,  BGBl I S.2552 (1999) und BGBl I S.2074 (2001)  Zweck Anrechnung von Kindergeld
     en:
@@ -1931,7 +1931,7 @@ shekkind:
       value: 0
       note:
 shpverm:
-  group: sh
+  group: sozialhilfe
   name:
     de: Vermögensfreibetrag für Hilfesuchenden mcl:sc0106 Achtung Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 1  Anmerkung Formulierung unpräzise Genaue Fallunterscheidung shpverm1, shpverm2, shpverm3
     en:
@@ -1949,7 +1949,7 @@ shpverm:
       value: 2600
       note:
 shpverm1:
-  group: sh
+  group: sozialhilfe
   name:
     de: Vermögensfreibetrag für Hilfesuchenden, Tatbestand *Hilfe nach dem Dritten Kapitel des SGB XII *unter 61  Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 1
     en:
@@ -1964,7 +1964,7 @@ shpverm1:
       value: 5000
       note: geändert durch Artikel 1 V. v. 22.03.2017 BGBl. I S. 519
 shpverm2:
-  group: sh
+  group: sozialhilfe
   name:
     de: Vermögensfreibetrag für Hilfesuchenden, Tatbestand *Hilfe nach dem Dritten Kapitel des SG XII *über 60 oder volle Erwerbsminderung Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 1
     en:
@@ -1976,7 +1976,7 @@ shpverm2:
       value: 2600
       note:
 shpverm3:
-  group: sh
+  group: sozialhilfe
   name:
     de: Vermögensfreibetrag für Hilfesuchenden, Tatbestand *Hilfe nach dem Fünften bis Neunten Kapitel des SGB XII Anmerkung zuzüglich eines Betrages von 256 € Stand:2012 für jede Peron, die von der nachfragenden Person überwiegend unterhalten wird  Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 1
     en:
@@ -1988,7 +1988,7 @@ shpverm3:
       value: 2600
       note:
 shpvermp:
-  group: sh
+  group: sozialhilfe
   name:
     de: Vermögensfreibetrag für Partner des Hilfesuchenden Achtung Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 2
     en:
@@ -2003,7 +2003,7 @@ shpvermp:
       value: 500
       note:
 shvmiet:
-  group: sh
+  group: sozialhilfe
   name:
     de: jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
     en:
@@ -2018,7 +2018,7 @@ shvmiet:
       value: 0
       note:
 shwkpau:
-  group: sh
+  group: sozialhilfe
   name:
     de: monatl. Werbungskostenpauschbetrag bei der Sozialhilfe. 20 = 10 + 10, höchster PB für Fahrten zur Arbeitsstätte + PB für Arbeitsmittel  (§ 76 BSHG, Durchf.Verord § 3)
     en:
@@ -2033,7 +2033,7 @@ shwkpau:
       value: 0
       note:
 gkvbs_ag:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragssatz zur GKV (Arbeitgeber)
     en:
@@ -2114,7 +2114,7 @@ gkvbs_ag:
       value: .073
       note:
 gkvbs_an:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragssatz zur GKV (Arbeitnehmer)
     en:
@@ -2204,7 +2204,7 @@ gkvbs_an:
       value: .082
       note:
 gpvbs:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragssatz zur GPV (AN / AG) (Außerhalb Sachsens)
     en:
@@ -2237,7 +2237,7 @@ gpvbs:
       value: .01525
       note:
 gpvbs_kind:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragszuschlag für Kinderlose, älter als 23 Jahre - nicht ALG II-Empfänger
     en:
@@ -2252,7 +2252,7 @@ gpvbs_kind:
       value: .0025
       note:
 bezgr_w:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: monatl. Bezugsgröße West
     en:
@@ -2357,7 +2357,7 @@ bezgr_w:
       value: 3115
       note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
 bezgr_o:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: monatl. Bezugsgröße Ost
     en:
@@ -2447,7 +2447,7 @@ bezgr_o:
       value: 2870
       note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
 kvmaxeko:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragsbemessungsgrenze in der GKV und PV (Ost)
     en:
@@ -2543,7 +2543,7 @@ kvmaxeko:
       value: 4537.5
       note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
 kvmaxekw:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragsbemessungsgrenze in der GKV und PV (West)
     en:
@@ -2657,7 +2657,7 @@ kvmaxekw:
       value: 4537.5
       note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
 alvbs:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragssatz zur Arbeitslosenversicherung (AN / AG)
     en:
@@ -2699,7 +2699,7 @@ alvbs:
       value: .013
       note: geändert durch BGBl. I S.2651
 grvbs:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragssatz zur GRV (AN / AG)
     en:
@@ -2762,7 +2762,7 @@ grvbs:
       value: .093
       note:
 grvbs_mini:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Freiwilliger Beitragssatz zur GRV für Minijobber
     en:
@@ -2774,7 +2774,7 @@ grvbs_mini:
       value: .036
       note:
 rvmaxeko:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragsbemessungsgrenze in der GRV und ALV (Ost)
     en:
@@ -2867,7 +2867,7 @@ rvmaxeko:
       value: 6150
       note:
 rvmaxekw:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Beitragsbemessungsgrenze in der GRV und ALV (West)  (IW-Zahlen, Bundesfinanzministerium, http://www.nettoeinkommen.de/grenz.htm)
     en:
@@ -2978,7 +2978,7 @@ rvmaxekw:
       value: 6700
       note:
 midi_grenze:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Midijob-Grenze  (Höhe § 20 SGB IV (2))
     en:
@@ -2996,7 +2996,7 @@ midi_grenze:
       value: 850
       note:
 mini_grenzeo:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Minijob Grenze Ost (bis 1999 unterschiedliche Grenzen)  (Höhe § 8 SGB IV (1))
     en:
@@ -3044,7 +3044,7 @@ mini_grenzeo:
       value: 450
       note:
 mini_grenzew:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Minijob Grenze West (bis 1999 unterschiedliche Grenzen)  (Höhe § 8 SGB IV (1))
     en:
@@ -3110,7 +3110,7 @@ mini_grenzew:
       value: 450
       note:
 mini_ag_gkv:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Pauschalabgabe GKV bei geringf. Beschäftigung  § 249b SGB V
     en:
@@ -3131,7 +3131,7 @@ mini_ag_gkv:
       value: .13
       note:
 mini_ag_grv:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Pauschalabgabe GRV bei geringf. Beschäftigung  § 168 I Nr. 1b SGB VI
     en:
@@ -3149,7 +3149,7 @@ mini_ag_grv:
       value: .15
       note:
 stpag:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Pauschalabgabe Steuer bei geringf. Beschäftigung  Johannes Hermle Wirknorm §40a II EstG
     en:
@@ -3164,7 +3164,7 @@ stpag:
       value: .02
       note:
 miniuml:
-  group: soc_ins_contrib
+  group: soz_vers_beitr
   name:
     de: Sonstige Umlagen Minijobs. Es gibt noch div. Umlagen, die der AG zahlen muss (Wikipedia geringfügige Besch.) U1 für Entgeltfortzahlung U2 für Mutterschaftsurlaub U3 Insolvenzgeldumlage (Quelle Insolvenzgeldumlagesatzverordnung)  Achtung Die Umlagen werden nicht nur für Minijobs gezahlt!
     en:
@@ -3212,7 +3212,7 @@ miniuml:
       value: .011
       note: Insolvenzgeldumlage 0,06% Mutterschaft (U2) 0,14% minimum U1 0,9% Minimum
 egeg06c:
-  group: eg
+  group: erziehungsgeld
   name:
     de: Einkommensgrenze für ErzG in ersten 6 Monaten, Verheiratete
     en:
@@ -3233,7 +3233,7 @@ egeg06c:
       value: 0
       note:
 egeg06s:
-  group: eg
+  group: erziehungsgeld
   name:
     de: Einkommensgrenze für ErzG in ersten 6 Monaten, Alleinstehende
     en:
@@ -3254,7 +3254,7 @@ egeg06s:
       value: 0
       note:
 egeg07c:
-  group: eg
+  group: erziehungsgeld
   name:
     de: Untere Einkommensgrenze für ErzG ab dem 7. Monat, Verheiratete
     en:
@@ -3278,7 +3278,7 @@ egeg07c:
       value: 0
       note:
 egeg07s:
-  group: eg
+  group: erziehungsgeld
   name:
     de: Untere Einkommensgrenze für ErzG ab dem 7. Monat, Alleinstehende
     en:
@@ -3299,7 +3299,7 @@ egeg07s:
       value: 0
       note:
 egegkid:
-  group: eg
+  group: erziehungsgeld
   name:
     de: Betrag, um den sich die Einkommensgrenze für jedes weitere Kind erhöht
     en:
@@ -3320,7 +3320,7 @@ egegkid:
       value: 0
       note:
 eghoehe:
-  group: eg
+  group: erziehungsgeld
   name:
     de: Höhe des Erziehungsgeldes pro Kind, Regelbetrag
     en:
@@ -3335,7 +3335,7 @@ eghoehe:
       value: 300
       note:
 egmin:
-  group: eg
+  group: erziehungsgeld
   name:
     de: Betrag, unterhalb dem kein ErzG mehr ausgezahlt wird
     en:
@@ -3347,7 +3347,7 @@ egmin:
       value: 10
       note:
 egmind:
-  group: eg
+  group: erziehungsgeld
   name:
     de: Anteil des die untere Einkommensgrenze übersteigenden Einkommen, um den ErzG gemindert wird
     en:
@@ -3368,7 +3368,7 @@ egmind:
       value: 0
       note:
 egwaz:
-  group: eg
+  group: erziehungsgeld
   name:
     de: max. Wochenarbeitszeit für Erziehungsgeld
     en:
@@ -3383,7 +3383,7 @@ egwaz:
       value: 29
       note: .
 elgfaktor:
-  group: elg
+  group: elterngeld
   name:
     de: Faktor bei der ElG-Berechung, 2. Stufe
     en:
@@ -3395,7 +3395,7 @@ elgfaktor:
       value: .67
       note:
 elgmax:
-  group: elg
+  group: elterngeld
   name:
     de: Höchsbetrag des Elterngeldes
     en:
@@ -3407,7 +3407,7 @@ elgmax:
       value: 1800
       note:
 elgzwst:
-  group: elg
+  group: elterngeld
   name:
     de: Nettoeinkommen, bei dem 2. Stufe beginnt
     en:
@@ -3422,7 +3422,7 @@ elgzwst:
       value: 1201
       note:
 kifreib:
-  group: kinderfreibetrag
+  group: e_st_abzuege
   name:
     de: Kinderfreibetrag (sächliches Existenzminimum des Kindes sowie Betreuungs- und Erziehungs- oder Ausbildungsbedarf)
     en:
@@ -3689,7 +3689,7 @@ kgfreib:
       value: 8004
       note:
 vorsp_rv:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Bemessungsgrundlage, Vorsorgepauschale, Anteil des Beitrags der RV-Beiträge
     en:
@@ -3704,7 +3704,7 @@ vorsp_rv:
       value: .5
       note:
 vorwegab:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
     en:
@@ -3749,7 +3749,7 @@ vorwegab:
       value: 300
       note:
 vwabzc:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle Ehegatten  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
     en:
@@ -3800,7 +3800,7 @@ vwabzc:
       value: 600
       note:
 werbung:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Werbungskostenpauschbetrag bei nichtselbstständiger Arbeit
     en:
@@ -3824,7 +3824,7 @@ werbung:
       value: 1000
       note: Stand  Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854 Achtung:§ 9a Satz 1 Nummer 1 Buchstabe a in der Fassung des Artikels 1 Nummer 5 Buchstabe a des Gesetzes vom 1. November 2011 (BGBl. I S. 2131) ist erstmals für den Veranlagungszeitraum 2011 anzuwenden. 2Beim Steuerabzug vom Arbeitslohn ist er auf laufenden Arbeitslohn, der für einen nach dem 30. November 2011 endenden Lohnzahlungszeitraum gezahlt wird, und auf sonstige Bezüge, die nach dem 30. November 2011 zufließen, erstmals anzuwenden
 vorsorgpausch:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Werbungskostenpauschbetrag bei Vorsorgebezügen oder Einnahmen im Sinne des § 22 EStG Nummer 1, 1a, 1b, 1c und 5
     en:
@@ -3836,7 +3836,7 @@ vorsorgpausch:
       value: 102
       note:
 sonder:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Sonderausgaben-Pauschbetrag
     en:
@@ -3854,7 +3854,7 @@ sonder:
       value: 36
       note:
 spsparf:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Sparerfreibetrag (bis 2008) Sparerpauschbetrag (ab 2008)
     en:
@@ -3887,7 +3887,7 @@ spsparf:
       value: 801
       note:
 spwerbz:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Werbungskostenpauschbetrag bei Zinseinkünften
     en:
@@ -3902,7 +3902,7 @@ spwerbz:
       value: 0
       note:
 grundbet:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle  SEB Dies gilt nur noch, wenn Regelung von vor 2004 günstiger ist  (§ 10 (3) Nr.1, § 10c (5) EStG)
     en:
@@ -3917,7 +3917,7 @@ grundbet:
       value: 1334
       note: .
 altenth:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Höchstbetrag des Altersentlastungsbetrags  (Höhe §24a EstG)
     en:
@@ -3980,7 +3980,7 @@ altenth:
       value: 836
       note:
 altentq:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Prozentsatz des Altersentlastungsbetrags  (Höhe §24a EstG)
     en:
@@ -4034,7 +4034,7 @@ altentq:
       value: .176
       note:
 an_vorsp_al:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Anteil des Arbeitslohns  (§ 10c (2) S. 2 Nr. 2)
     en:
@@ -4055,7 +4055,7 @@ an_vorsp_al:
       value: .11
       note:
 an_vorsp_rv:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Anteil des Teils der Versorgeaufwendungen aus § 10c (2) S. 2 Nr.1  Seit 2005 20% steigt bis 2024 um je 4%punkte auf 100%  (§ 10c (2) S.4 EStG)
     en:
@@ -4088,7 +4088,7 @@ an_vorsp_rv:
       value: .44
       note: VERALTET / Nicht verwendet
 avspc:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Splittingtabelle  SEB Dies gilt nur noch, wenn Regelung von vor 2004 günstiger ist  (§ 10 (3) Nr.1, § 10c (5) EStG)
     en:
@@ -4106,7 +4106,7 @@ avspc:
       value: 2668
       note:
 bvspc:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Besondere Vorsorgepauschale Grundhöchstbetrag, Splittingtabelle  (§ 10c (3) EStG)
     en:
@@ -4127,7 +4127,7 @@ bvspc:
       value: 2268
       note:
 bvsps:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Besondere Vorsorgepauschale Grundhoechstbetrag, Grundtabelle  (§ 10c (3) EStG)
     en:
@@ -4148,7 +4148,7 @@ bvsps:
       value: 1134
       note:
 max_vorsp_al:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Maximalbetrag des Anteils der Arbeitslohns  (§ 10c (2) S. 2 Nr. 2)
     en:
@@ -4166,7 +4166,7 @@ max_vorsp_al:
       value: 1500
       note:
 hhfreib:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Entlastungsbetrag für Alleinerziehende  (§ 24b (1) EStG)  vor 2004 Haushaltsfreibetrag, § 32 (7) EStG
     en:
@@ -4196,7 +4196,7 @@ hhfreib:
       value: 1908
       note: geändert durch BGBl. Nr. 30, 16.07.2015
 hhfreib_ch:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag pro Kind ab dem 2. Kind  §24b (2) S.2 EStG
     en:
@@ -4208,7 +4208,7 @@ hhfreib_ch:
       value: 240
       note:
 kuerzquo:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschale Kuerzung des Vorwegabzugs um # Prozent der Einnahmen  SEB Vorsicht - falsch modelliert, bleibt weiterhin bei 0.16% Gilt für AN die vom AG steuerfreie Zukunftssicherungsleistungen bekommen (z.B. AG-Anteile) also für fast alle oder Leute die in der RV versicherungsfrei sind  (Höhe § 10 (3) Nr. 2 EStG)
     en:
@@ -4232,7 +4232,7 @@ kuerzquo:
       value: .16
       note:
 krzsatz:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Unterstellter Satz für Kurzarbeiter- und Schlechtwettergeld, gemessen am Bruttolohn
     en:
@@ -4244,7 +4244,7 @@ krzsatz:
       value: .4
       note:
 mietafa:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Grenze, von der an für Betriebs- und Instandhaltungskosten, die in Verb. mit Miteinnahmen anfallen, angenommen wird, sie zählen zu AfA
     en:
@@ -4259,7 +4259,7 @@ mietafa:
       value: 0
       note:
 vorsorg_rv_sh:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Anteil der Rentenversicherungsbeiträge, der abgesetzt werden kann.   §10 Abs.3 S.4-6 EStG
     en:
@@ -4313,7 +4313,7 @@ vorsorg_rv_sh:
       value: .88
       note:
 vors_sonst_max:
-  group: zve
+  group: e_st_abzuege
   name:
     de: regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt  §10 Abs. 4 EStG
     en:
@@ -4325,7 +4325,7 @@ vors_sonst_max:
       value: 1900
       note:
 rentert:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Ertragsanteil der Rente bei Rentenbeginn im 65. LJ.  ES Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht  (§ 22 Nr. 1 a) aa) EStG)
     en:
@@ -4385,7 +4385,7 @@ rentert:
       value: .78
       note:
 sauntmx:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Höchstbetrag der Unterhaltsleistungen als Sonderausgaben  (Höhe § 10 (1a) Nr. 1 EStG)
     en:
@@ -4403,7 +4403,7 @@ sauntmx:
       value: 13805
       note: .
 sbhp100:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 95% oder 100%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -4418,7 +4418,7 @@ sbhp100:
       value: 1420
       note:
 sbhp30:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 25% oder 30%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -4433,7 +4433,7 @@ sbhp30:
       value: 310
       note:
 sbhp40:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 35% oder 40%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -4448,7 +4448,7 @@ sbhp40:
       value: 430
       note:
 sbhp50:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 45% oder 50%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -4463,7 +4463,7 @@ sbhp50:
       value: 570
       note:
 sbhp60:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 55% oder 60%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -4481,7 +4481,7 @@ sbhp60:
       value: 720
       note:
 sbhp70:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 65% oder 70%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -4493,7 +4493,7 @@ sbhp70:
       value: 890
       note: .
 sbhp80:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 75% oder 80%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -4508,7 +4508,7 @@ sbhp80:
       value: 1060
       note:
 sbhp90:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 85% oder 90%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -4523,7 +4523,7 @@ sbhp90:
       value: 1230
       note:
 abfahh:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Ausbildungsfreibetrag für ein außerhalb des HH lebendes über 18 Jahre altes Kind  (Höhe §33a (2) Satz 1 EStG)
     en:
@@ -4541,7 +4541,7 @@ abfahh:
       value: 924
       note:
 abfahhg:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Ausbildungsfreibetrag, Hinzuverdienstgrenze des Kindes  (Höhe §33a (2) Satz 1 EStG)
     en:
@@ -4556,7 +4556,7 @@ abfahhg:
       value: 1848
       note:
 abfihh:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Ausbildungsfreibetrag, Ausbildungsfreibetrag für ein im HH lebendes über 18 Jahre altes Kind  (Höhe §33a (2) Satz 1 EStG)
     en:
@@ -4574,7 +4574,7 @@ abfihh:
       value: 0
       note:
 pendpausch:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Entfernungspauschale §9 I Nr.4 EStG
     en:
@@ -4607,7 +4607,7 @@ pendpausch:
       value: .3
       note:
 childcare_share:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Anteil der Betreuungsaufwendungen, der auf das zve anrechenbar ist
     en:
@@ -4619,7 +4619,7 @@ childcare_share:
       value: .6666666666666666
       note:
 childcare_max:
-  group: zve
+  group: e_st_abzuege
   name:
     de: Maximale Betreuungsaufwendung per Kind
     en:
@@ -4631,7 +4631,7 @@ childcare_max:
       value: 4000
       note:
 abgst:
-  group: abgeltung
+  group: abgelt_st
   name:
     de: ES Abgeltungssteuer §32d (1) EStG
     en:
@@ -4646,7 +4646,7 @@ abgst:
       value: .25
       note:
 solifreigrenze:
-  group: tax_sched
+  group: soli_st
   name:
     de: Soli-Freigrenze  (§ 3 (3) Nr. 2 SolzG)
     en:
@@ -4667,7 +4667,7 @@ solifreigrenze:
       value: 972
       note:
 solisatz:
-  group: tax_sched
+  group: soli_st
   name:
     de: Höhe des Solidaritätszuschlags auf die Einkommensteuer  (§ 4 SolzG sowie § 51a EStG)
     en:
@@ -4691,7 +4691,7 @@ solisatz:
       value: .055
       note:
 G:
-  group: tarif
+  group: e_st
   name:
     de: Steuerparameter, Grundfreibetrag
     en:
@@ -4760,7 +4760,7 @@ G:
       value: 9169
       note:
 M:
-  group: tarif
+  group: e_st
   name:
     de: Steuerparameter, Mittlere Stufe
     en:
@@ -4817,7 +4817,7 @@ M:
       value: 14255
       note:
 S:
-  group: tarif
+  group: e_st
   name:
     de: Steuerparameter, Hohe Stufe
     en:
@@ -4868,7 +4868,7 @@ S:
       value: 55961
       note:
 R:
-  group: tarif
+  group: e_st
   name:
     de: Steuerparameter, Reichenstufe
     en:
@@ -4907,7 +4907,7 @@ R:
       value: 265327
       note:
 t_a1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -4946,7 +4946,7 @@ t_a1:
       value: 768.85
       note:
 t_a2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -4982,7 +4982,7 @@ t_a2:
       value: 278.65
       note:
 t_a3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -4994,7 +4994,7 @@ t_a3:
       value: 151.93
       note:
 t_b1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5027,7 +5027,7 @@ t_b1:
       value: 1990
       note: .
 t_b2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5060,7 +5060,7 @@ t_b2:
       value: 2300
       note: .
 t_b3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5072,7 +5072,7 @@ t_b3:
       value: 3669
       note:
 t_c1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5096,7 +5096,7 @@ t_c1:
       value: 0
       note: .
 t_c2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5129,7 +5129,7 @@ t_c2:
       value: 857
       note: .
 t_c3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5141,7 +5141,7 @@ t_c3:
       value: 16637
       note:
 t_d1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5153,7 +5153,7 @@ t_d1:
       value: 2200
       note:
 t_d2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5165,7 +5165,7 @@ t_d2:
       value: 5040
       note:
 t_d3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5174,7 +5174,7 @@ t_d3:
     en:
   values:
 t_e:
-  group: tarif
+  group: e_st
   name:
     de: Eingangssteuersatz
     en:
@@ -5210,7 +5210,7 @@ t_e:
       value: .14
       note:
 t_e1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5228,7 +5228,7 @@ t_e1:
       value: 2911
       note: .
 t_e2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5240,7 +5240,7 @@ t_e2:
       value: 20018
       note:
 t_e3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5249,7 +5249,7 @@ t_e3:
     en:
   values:
 t_eing1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5264,7 +5264,7 @@ t_eing1:
       value: .19
       note: .
 t_eing2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5285,7 +5285,7 @@ t_eing2:
       value: -1067
       note: .
 t_einglow:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5306,7 +5306,7 @@ t_einglow:
       value: 5616
       note: .
 t_eingup:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5324,7 +5324,7 @@ t_eingup:
       value: 8153
       note: .
 t_low1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5357,7 +5357,7 @@ t_low1:
       value: 14093
       note: .
 t_low2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5387,7 +5387,7 @@ t_low2:
       value: 18089
       note: .
 t_low3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5399,7 +5399,7 @@ t_low3:
       value: 66365
       note:
 t_m:
-  group: tarif
+  group: e_st
   name:
     de: mittlerer Steuersatz
     en:
@@ -5420,7 +5420,7 @@ t_m:
       value: .2397
       note:
 t_r:
-  group: tarif
+  group: e_st
   name:
     de: Reichensteuersatz (vor 2007 t_r = t_s)
     en:
@@ -5450,7 +5450,7 @@ t_r:
       value: .45
       note:
 t_s:
-  group: tarif
+  group: e_st
   name:
     de: Spitzensteuersatz
     en:
@@ -5474,7 +5474,7 @@ t_s:
       value: .42
       note:
 t_spitz1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5495,7 +5495,7 @@ t_spitz1:
       value: .485
       note: .
 t_spitz2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5531,7 +5531,7 @@ t_spitz2:
       value: -9872
       note:
 t_spitzlow:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5555,7 +5555,7 @@ t_spitzlow:
       value: 107568
       note: .
 t_up1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5588,7 +5588,7 @@ t_up1:
       value: 18089
       note: .
 t_up2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5615,7 +5615,7 @@ t_up2:
       value: 107567
       note: .
 t_up3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5627,7 +5627,7 @@ t_up3:
       value: 120041
       note:
 t_yden1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5639,7 +5639,7 @@ t_yden1:
       value: 10000
       note:
 t_yden2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5654,7 +5654,7 @@ t_yden2:
       value: 10000
       note: .
 t_yden3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5666,7 +5666,7 @@ t_yden3:
       value: 10000
       note:
 t_ynom1:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5699,7 +5699,7 @@ t_ynom1:
       value: 14040
       note: .
 t_ynom2:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -5732,7 +5732,7 @@ t_ynom2:
       value: 18036
       note: .
 t_ynom3:
-  group: tarif
+  group: e_st
   name:
     de:
     en:
@@ -8384,7 +8384,7 @@ wgvzins:
       value: 0
       note:
 rente_alpha:
-  group: rente
+  group: ges_renten_vers
   name:
     de: Nachhaltigkeitsfaktor
     en:
@@ -8396,7 +8396,7 @@ rente_alpha:
       value: .25
       note:
 rente_dentg:
-  group: rente
+  group: ges_renten_vers
   name:
     de: Durchschnittsentgelt
     en:
@@ -8513,7 +8513,7 @@ rente_dentg:
       value: 38901
       note:
 rente_umr:
-  group: rente
+  group: ges_renten_vers
   name:
     de: Umrechnungsfaktor für neue BL bei der Berechnung der Entgeltpunkte
     en:
@@ -8627,7 +8627,7 @@ rente_umr:
       value: 1.084
       note:
 rw_west:
-  group: rente
+  group: ges_renten_vers
   name:
     de: aktueller Rentenwert Westdeutschland zum 1.1.
     en:
@@ -8705,7 +8705,7 @@ rw_west:
       value: 32.03
       note:
 rw_east:
-  group: rente
+  group: ges_renten_vers
   name:
     de: aktueller Rentenwert Ostdeutschland zum 1.1.
     en:
@@ -8783,7 +8783,7 @@ rw_east:
       value: 30.69
       note:
 ust_low:
-  group: ust
+  group: mw_st
   name:
     de: Mehrwertsteuer, ermäßigter Satz
     en:
@@ -8795,7 +8795,7 @@ ust_low:
       value: .07
       note:
 ust_high:
-  group: ust
+  group: mw_st
   name:
     de: Mehrwertsteuer, Regelsatz
     en:
