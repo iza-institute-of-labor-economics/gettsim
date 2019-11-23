@@ -115,7 +115,7 @@ def tarif(x, e_st_data):
                 * (x - e_st_data["G"])
                 + e_st_data["t_e"]
             ) * (x - e_st_data["G"])
-        if e_st_data["M"] < x <= e_st_data["S"]:
+        elif e_st_data["M"] < x <= e_st_data["S"]:
             t = (
                 (
                     (e_st_data["t_s"] - e_st_data["t_m"])
@@ -126,7 +126,7 @@ def tarif(x, e_st_data):
             ) * (x - e_st_data["M"]) + (e_st_data["M"] - e_st_data["G"]) * (
                 (e_st_data["t_m"] + e_st_data["t_e"]) / 2
             )
-        if x > e_st_data["S"]:
+        elif x > e_st_data["S"]:
             t = (
                 e_st_data["t_s"] * x
                 - e_st_data["t_s"] * e_st_data["S"]
