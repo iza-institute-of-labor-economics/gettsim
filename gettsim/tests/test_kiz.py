@@ -66,7 +66,7 @@ def test_kiz(
         df[col] = np.nan
     df = df.groupby("hid").apply(
         kiz,
-        kinderzuschlag_params=kinderzuschlag_params,
+        params=kinderzuschlag_params,
         arbeitsl_geld_2_params=arbeitsl_geld_2_params,
         kindergeld_params=kindergeld_params,
     )

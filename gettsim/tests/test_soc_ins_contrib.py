@@ -48,6 +48,6 @@ def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"soz_vers_beitr_params": soz_vers_beitr_params},
+        func_kwargs={"params": soz_vers_beitr_params},
     )
     pd.testing.assert_series_equal(df[column], year_data[column])

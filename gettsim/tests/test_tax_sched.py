@@ -65,7 +65,7 @@ def test_tax_sched(
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(
         tax_sched,
-        e_st_params=e_st_params,
+        params=e_st_params,
         e_st_abzuege_params=e_st_abzuege_params,
         soli_st_params=soli_st_params,
         abgelt_st_params=abgelt_st_params,

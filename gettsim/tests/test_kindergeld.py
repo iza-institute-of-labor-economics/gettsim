@@ -31,7 +31,7 @@ def test_kindergeld(input_data, year, kindergeld_raw_data):
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"])[INPUT_COLS + OUT_COLS].apply(
-        kindergeld, kindergeld_params=kindergeld_params
+        kindergeld, params=kindergeld_params
     )
 
     assert_series_equal(df[test_column], year_data[test_column], check_dtype=False)

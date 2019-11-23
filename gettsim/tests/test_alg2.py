@@ -68,5 +68,5 @@ def test_alg2(input_data, year):
     #     tb["calc_regelsatz"] = regelberechnung_2011_and_beyond
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(alg2, arbeitsl_geld_2_params=arbeitsl_geld_2_params)
+    df = df.groupby("hid").apply(alg2, params=arbeitsl_geld_2_params)
     assert_frame_equal(df[columns], year_data[columns])

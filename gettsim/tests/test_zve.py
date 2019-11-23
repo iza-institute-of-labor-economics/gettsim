@@ -95,7 +95,7 @@ def test_zve(
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(
         zve,
-        e_st_abzuege_params=e_st_abzuege_params,
+        params=e_st_abzuege_params,
         soz_vers_beitr_params=soz_vers_beitr_params,
         kindergeld_params=kindergeld_params,
     )

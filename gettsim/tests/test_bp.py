@@ -46,7 +46,5 @@ def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(
-        benefit_priority, arbeitsl_geld_2_params=arbeitsl_geld_2_params
-    )
+    df = df.groupby("hid").apply(benefit_priority, params=arbeitsl_geld_2_params)
     assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)

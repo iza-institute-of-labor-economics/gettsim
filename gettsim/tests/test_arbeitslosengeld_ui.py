@@ -69,7 +69,7 @@ def test_ui(
         in_cols=INPUT_COLS,
         out_cols=[OUT_COL],
         func_kwargs={
-            "arbeitsl_geld_params": arbeitsl_geld_params,
+            "params": arbeitsl_geld_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
             "e_st_abzuege_params": e_st_abzuege_params,
             "e_st_params": e_st_params,

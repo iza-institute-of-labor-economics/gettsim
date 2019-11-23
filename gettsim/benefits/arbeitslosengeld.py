@@ -3,7 +3,7 @@ from gettsim.taxes.calc_taxes import soli_formula
 
 def ui(
     person,
-    arbeitsl_geld_params,
+    params,
     soz_vers_beitr_params,
     e_st_abzuege_params,
     e_st_params,
@@ -16,7 +16,7 @@ def ui(
 
     alg_entgelt = _alg_entgelt(
         person,
-        arbeitsl_geld_params,
+        params,
         soz_vers_beitr_params,
         e_st_abzuege_params,
         e_st_params,
@@ -27,9 +27,9 @@ def ui(
 
     if eligible:
         if person["child_num_tu"].sum() == 0:
-            person["m_alg1"] = alg_entgelt * arbeitsl_geld_params["agsatz0"]
+            person["m_alg1"] = alg_entgelt * params["agsatz0"]
         else:
-            person["m_alg1"] = alg_entgelt * arbeitsl_geld_params["agsatz1"]
+            person["m_alg1"] = alg_entgelt * params["agsatz1"]
     else:
         person["m_alg1"] = 0.0
     return person
@@ -37,7 +37,7 @@ def ui(
 
 def _alg_entgelt(
     person,
-    arbeitsl_geld_params,
+    params,
     soz_vers_beitr_params,
     e_st_abzuege_params,
     e_st_params,
@@ -50,7 +50,7 @@ def _alg_entgelt(
     alg_wage = min(soz_vers_beitr_params["rvmaxek" + westost], person["m_wage_l1"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    alg_ssc = arbeitsl_geld_params["alg1_abz"] * alg_wage
+    alg_ssc = params["alg1_abz"] * alg_wage
     # assume west germany for this particular calculation
     # df['east'] = False
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff

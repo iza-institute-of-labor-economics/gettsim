@@ -56,7 +56,7 @@ def test_wg(input_data, year, wohngeld_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(wg, wohngeld_params=wohngeld_params)
+    df = df.groupby("hid").apply(wg, params=wohngeld_params)
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
 
 
@@ -76,5 +76,5 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, wohngeld_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(wg, wohngeld_params=wohngeld_params)
+    df = df.groupby("hid").apply(wg, params=wohngeld_params)
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])

@@ -50,8 +50,8 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
         in_cols=INPUT_COLS,
         out_cols=[column],
         func_kwargs={
+            "params": ges_renten_vers_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "ges_renten_vers_params": ges_renten_vers_params,
         },
     )
     assert_array_almost_equal(df[column], year_data[column])
@@ -70,8 +70,8 @@ def test_update_earning_points(input_data, year):
         in_cols=INPUT_COLS,
         out_cols=[],
         func_kwargs={
+            "params": ges_renten_vers_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "ges_renten_vers_params": ges_renten_vers_params,
             "year": year,
         },
     )

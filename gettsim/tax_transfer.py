@@ -87,7 +87,7 @@ def tax_transfer(
         level=person,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"soz_vers_beitr_params": soz_vers_beitr_params},
+        func_kwargs={"params": soz_vers_beitr_params},
     )
     in_cols = [
         "m_wage_l1",
@@ -109,7 +109,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=[out_col],
         func_kwargs={
-            "arbeitsl_geld_params": arbeitsl_geld_params,
+            "params": arbeitsl_geld_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
             "e_st_abzuege_params": e_st_abzuege_params,
             "e_st_params": e_st_params,
@@ -125,8 +125,8 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=[out_col],
         func_kwargs={
+            "params": ges_renten_vers_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "ges_renten_vers_params": ges_renten_vers_params,
         },
     )
     in_cols = [
@@ -177,7 +177,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "e_st_abzuege_params": e_st_abzuege_params,
+            "params": e_st_abzuege_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
             "kindergeld_params": kindergeld_params,
         },
@@ -200,7 +200,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "e_st_params": e_st_params,
+            "params": e_st_params,
             "e_st_abzuege_params": e_st_abzuege_params,
             "soli_st_params": soli_st_params,
             "abgelt_st_params": abgelt_st_params,
@@ -214,7 +214,7 @@ def tax_transfer(
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"kindergeld_params": kindergeld_params},
+        func_kwargs={"params": kindergeld_params},
     )
     in_cols = [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]] + [
         "zveranl",
@@ -236,7 +236,7 @@ def tax_transfer(
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"e_st_abzuege_params": e_st_abzuege_params},
+        func_kwargs={"params": e_st_abzuege_params},
     )
     in_cols = [
         "alleinerz",
@@ -257,7 +257,7 @@ def tax_transfer(
         level=tax_unit,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"unterhalt_params": unterhalt_params},
+        func_kwargs={"params": unterhalt_params},
     )
     in_cols = [
         "tu_id",
@@ -291,7 +291,7 @@ def tax_transfer(
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"wohngeld_params": wohngeld_params},
+        func_kwargs={"params": wohngeld_params},
     )
     in_cols = [
         "hid",
@@ -333,7 +333,7 @@ def tax_transfer(
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"arbeitsl_geld_2_params": arbeitsl_geld_2_params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
     in_cols = [
         "pid",
@@ -365,7 +365,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "kinderzuschlag_params": kinderzuschlag_params,
+            "params": kinderzuschlag_params,
             "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
             "kindergeld_params": kindergeld_params,
         },
@@ -390,7 +390,7 @@ def tax_transfer(
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"arbeitsl_geld_2_params": arbeitsl_geld_2_params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
     in_cols = [
         "m_wage",

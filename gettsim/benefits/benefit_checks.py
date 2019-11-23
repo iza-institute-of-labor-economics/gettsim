@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def benefit_priority(household, arbeitsl_geld_2_params):
+def benefit_priority(household, params):
     """There are three main transfers for working-age people:
         1. Unemployment Benefit / ALG2
         2. Housing Benefit / Wohngeld
@@ -15,7 +15,7 @@ def benefit_priority(household, arbeitsl_geld_2_params):
     There is no way you can receive ALG2 and Wohngeld/Kinderzuschlag at the same time!
     """
     # But first, we check whether hh wealth is too high
-    household = wealth_test(household, arbeitsl_geld_2_params)
+    household = wealth_test(household, params)
     # use these values (possibly zero now) below
     household["ar_wg_alg2_ek"] = (
         household["ar_base_alg2_ek"] + household["wohngeld_basis_hh"]
