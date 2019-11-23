@@ -1,7 +1,9 @@
 import pandas as pd
 import pytest
+import yaml
 
 from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_pension_data_for_year
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import tax_transfer
 
@@ -19,7 +21,12 @@ def input_data():
 @pytest.mark.parametrize("year", YEARS)
 def test_tax_transfer(input_data, year):
     df = input_data[input_data["year"] == year].copy()
-    pension_data = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
+    raw_pension_data = yaml.safe_load(
+        (ROOT_DIR / "data" / "pension_data.yaml").read_text()
+    )
+    pension_data = get_pension_data_for_year(
+        raw_year=year, raw_pension_data=raw_pension_data
+    )
     e_st_abzuege_data = get_policies_for_date(year=year, group="e_st_abzuege")
     e_st_data = get_policies_for_date(year=year, group="e_st")
     soli_st_data = get_policies_for_date(year=year, group="soli_st")

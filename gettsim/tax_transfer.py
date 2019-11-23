@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
@@ -8,10 +7,10 @@ from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
 from gettsim.checks import check_boolean
-from gettsim.config import ROOT_DIR
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
+from gettsim.policy_for_date import get_pension_data_for_year
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.taxes.calc_taxes import tax_sched
@@ -130,7 +129,7 @@ def tax_transfer(
         out_cols=[out_col],
         func_kwargs={
             "soz_vers_beitr_data": soz_vers_beitr_data,
-            "tb_pens": pension_data,
+            "pension_data": pension_data,
         },
     )
     in_cols = [
@@ -546,8 +545,10 @@ def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
         return tax_func(group, *func_args, **func_kwargs)
 
 
-def calculate_tax_and_transfers(dataset, policy_year):
-    pension_data = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
+def calculate_tax_and_transfers(dataset, policy_year, raw_pension_data=None):
+    pension_data = get_pension_data_for_year(
+        raw_year=policy_year, raw_pension_data=raw_pension_data
+    )
     e_st_abzuege_data = get_policies_for_date(year=policy_year, group="e_st_abzuege")
     e_st_data = get_policies_for_date(year=policy_year, group="e_st")
     soli_st_data = get_policies_for_date(year=policy_year, group="soli_st")
