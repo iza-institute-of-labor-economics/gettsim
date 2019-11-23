@@ -850,12 +850,12 @@ a2kiz_minek_cou:
     de: Mindesteinkommen für Paare
     en:
   description:
-    de: § 6a (1) Nr. 2 BKGG
+    de: § 6a (1) Nr. 2 BKGG.
     en:
   values:
     2005-01-01:
       value: 0
-      note:
+      note: no value explicitly given in the law.
     2008-10-01:
       value: 900
       note: G. v. 24.09.2008 BGBl. I S. 1854.
