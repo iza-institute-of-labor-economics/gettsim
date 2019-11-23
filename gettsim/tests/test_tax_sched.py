@@ -32,19 +32,28 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_tax_sched(input_data, tax_policy_data, year):
+def test_tax_sched(input_data, year):
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    e_st_abzuege_data = get_policies_for_date(year=year, group="e_st_abzuege")
+    e_st_data = get_policies_for_date(year=year, group="e_st")
+    soli_st_data = get_policies_for_date(year=year, group="soli_st")
+    abgelt_st_data = get_policies_for_date(year=year, group="abgelt_st")
     OUT_COLS = (
-        [f"tax_{inc}" for inc in tb["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
+        [f"tax_{inc}" for inc in e_st_abzuege_data["zve_list"]]
+        + [f"tax_{inc}_tu" for inc in e_st_abzuege_data["zve_list"]]
         + ["abgst_tu", "abgst", "soli", "soli_tu"]
     )
 
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"]).apply(tax_sched, tb=tb)
+    df = df.groupby(["hid", "tu_id"]).apply(
+        tax_sched,
+        e_st_data=e_st_data,
+        e_st_abzuege_data=e_st_abzuege_data,
+        soli_st_data=soli_st_data,
+        abgelt_st_data=abgelt_st_data,
+    )
 
     assert_frame_equal(df[columns], year_data[columns], check_dtype=False)
