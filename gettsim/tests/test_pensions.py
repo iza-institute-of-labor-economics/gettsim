@@ -1,11 +1,8 @@
 import pandas as pd
 import pytest
-import yaml
 from numpy.testing import assert_array_almost_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.pensions import _rentenwert_from_2018
-from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
 from gettsim.policy_for_date import get_policies_for_date
@@ -35,22 +32,12 @@ def input_data():
     return out
 
 
-@pytest.fixture(scope="module")
-def pension_data_raw():
-    return yaml.safe_load((ROOT_DIR / "data" / "pension_data.yaml").read_text())
-
-
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, pension_data_raw, year):
+def test_pension(input_data, year):
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
-    if year > 2017:
-        soz_vers_beitr_data["calc_rentenwert"] = _rentenwert_from_2018
-    else:
-        soz_vers_beitr_data["calc_rentenwert"] = _rentenwert_until_2017
-
     ges_renten_vers_data = get_policies_for_date(year=year, group="ges_renten_vers")
     df = _apply_tax_transfer_func(
         df,
@@ -67,7 +54,7 @@ def test_pension(input_data, pension_data_raw, year):
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, pension_data_raw, year):
+def test_update_earning_points(input_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")

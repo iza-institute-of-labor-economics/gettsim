@@ -40,10 +40,6 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
             tax_data["calc_midi_contrib"] = calc_midi_contributions
         else:
             tax_data["calc_midi_contrib"] = no_midi
-        if year > 2017:
-            tax_data["calc_rentenwert"] = _rentenwert_from_2018
-        else:
-            tax_data["calc_rentenwert"] = _rentenwert_until_2017
 
     elif group == "e_st_abzuege":
         if year <= 2014:
@@ -78,6 +74,12 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
 
     elif group == "e_st":
         tax_data["tax_schedule"] = tarif
+
+    elif group == "ges_renten_vers":
+        if year > 2017:
+            tax_data["calc_rentenwert"] = _rentenwert_from_2018
+        else:
+            tax_data["calc_rentenwert"] = _rentenwert_until_2017
 
     return tax_data
 

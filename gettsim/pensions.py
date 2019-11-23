@@ -29,7 +29,7 @@ def pensions(person, soz_vers_beitr_data, ges_renten_vers_data):
     # ZF: Zugangsfaktor.
     ZF = _zugangsfaktor(person)
 
-    rentenwert = soz_vers_beitr_data["calc_rentenwert"](ges_renten_vers_data, year)
+    rentenwert = ges_renten_vers_data["calc_rentenwert"](ges_renten_vers_data, year)
 
     # use all three components for Rentenformel.
     # It's called 'pensions_sim' to emphasize that this is simulated.
