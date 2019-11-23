@@ -39,7 +39,7 @@ def input_data():
 def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    soz_vers_beitr_data = get_policies_for_date(
+    soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
     df = _apply_tax_transfer_func(
@@ -48,6 +48,6 @@ def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"soz_vers_beitr_data": soz_vers_beitr_data},
+        func_kwargs={"soz_vers_beitr_params": soz_vers_beitr_params},
     )
     pd.testing.assert_series_equal(df[column], year_data[column])

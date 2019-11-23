@@ -20,18 +20,18 @@ from gettsim.taxes.zve import zve
 
 def tax_transfer(
     df,
-    arbeitsl_geld_2_data,
-    abgelt_st_data,
-    arbeitsl_geld_data,
-    soz_vers_beitr_data,
-    e_st_abzuege_data,
-    unterhalt_data,
-    wohngeld_data,
-    kinderzuschlag_data,
-    e_st_data,
-    soli_st_data,
-    kindergeld_data,
-    ges_renten_vers_data,
+    arbeitsl_geld_2_params,
+    abgelt_st_params,
+    arbeitsl_geld_params,
+    soz_vers_beitr_params,
+    e_st_abzuege_params,
+    unterhalt_params,
+    wohngeld_params,
+    kinderzuschlag_params,
+    e_st_params,
+    soli_st_params,
+    kindergeld_params,
+    ges_renten_vers_params,
 ):
     """ The German Tax-Transfer System.
 
@@ -87,7 +87,7 @@ def tax_transfer(
         level=person,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"soz_vers_beitr_data": soz_vers_beitr_data},
+        func_kwargs={"soz_vers_beitr_params": soz_vers_beitr_params},
     )
     in_cols = [
         "m_wage_l1",
@@ -109,11 +109,11 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=[out_col],
         func_kwargs={
-            "arbeitsl_geld_data": arbeitsl_geld_data,
-            "soz_vers_beitr_data": soz_vers_beitr_data,
-            "e_st_abzuege_data": e_st_abzuege_data,
-            "e_st_data": e_st_data,
-            "soli_st_data": soli_st_data,
+            "arbeitsl_geld_params": arbeitsl_geld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "e_st_params": e_st_params,
+            "soli_st_params": soli_st_params,
         },
     )
     in_cols = ["m_wage", "east", "age", "year", "byear", "exper", "EP"]
@@ -125,8 +125,8 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=[out_col],
         func_kwargs={
-            "soz_vers_beitr_data": soz_vers_beitr_data,
-            "ges_renten_vers_data": ges_renten_vers_data,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "ges_renten_vers_params": ges_renten_vers_params,
         },
     )
     in_cols = [
@@ -152,7 +152,7 @@ def tax_transfer(
         "east",
         "gkvbeit",
     ]
-    out_cols = [f"zve_{inc}" for inc in e_st_abzuege_data["zve_list"]] + [
+    out_cols = [f"zve_{inc}" for inc in e_st_abzuege_params["zve_list"]] + [
         "kifreib",
         "gross_e1",
         "gross_e4",
@@ -177,20 +177,20 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "e_st_abzuege_data": e_st_abzuege_data,
-            "soz_vers_beitr_data": soz_vers_beitr_data,
-            "kindergeld_data": kindergeld_data,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "kindergeld_params": kindergeld_params,
         },
     )
-    in_cols = [f"zve_{inc}" for inc in e_st_abzuege_data["zve_list"]] + [
+    in_cols = [f"zve_{inc}" for inc in e_st_abzuege_params["zve_list"]] + [
         "child",
         "gross_e5",
         "zveranl",
         "gross_e5_tu",
     ]
     out_cols = (
-        [f"tax_{inc}" for inc in e_st_abzuege_data["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in e_st_abzuege_data["zve_list"]]
+        [f"tax_{inc}" for inc in e_st_abzuege_params["zve_list"]]
+        + [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]]
         + ["abgst_tu", "abgst", "soli", "soli_tu"]
     )
     df = _apply_tax_transfer_func(
@@ -200,10 +200,10 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "e_st_data": e_st_data,
-            "e_st_abzuege_data": e_st_abzuege_data,
-            "soli_st_data": soli_st_data,
-            "abgelt_st_data": abgelt_st_data,
+            "e_st_params": e_st_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "soli_st_params": soli_st_params,
+            "abgelt_st_params": abgelt_st_params,
         },
     )
     in_cols = ["age", "w_hours", "ineducation", "m_wage"]
@@ -214,9 +214,9 @@ def tax_transfer(
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"kindergeld_data": kindergeld_data},
+        func_kwargs={"kindergeld_params": kindergeld_params},
     )
-    in_cols = [f"tax_{inc}_tu" for inc in e_st_abzuege_data["zve_list"]] + [
+    in_cols = [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]] + [
         "zveranl",
         "child",
         "abgst_tu",
@@ -236,7 +236,7 @@ def tax_transfer(
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"e_st_abzuege_data": e_st_abzuege_data},
+        func_kwargs={"e_st_abzuege_params": e_st_abzuege_params},
     )
     in_cols = [
         "alleinerz",
@@ -257,7 +257,7 @@ def tax_transfer(
         level=tax_unit,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"unterhalt_data": unterhalt_data},
+        func_kwargs={"unterhalt_params": unterhalt_params},
     )
     in_cols = [
         "tu_id",
@@ -291,7 +291,7 @@ def tax_transfer(
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"wohngeld_data": wohngeld_data},
+        func_kwargs={"wohngeld_params": wohngeld_params},
     )
     in_cols = [
         "hid",
@@ -333,7 +333,7 @@ def tax_transfer(
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"arbeitsl_geld_2_data": arbeitsl_geld_2_data},
+        func_kwargs={"arbeitsl_geld_2_params": arbeitsl_geld_2_params},
     )
     in_cols = [
         "pid",
@@ -365,9 +365,9 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "kinderzuschlag_data": kinderzuschlag_data,
-            "arbeitsl_geld_2_data": arbeitsl_geld_2_data,
-            "kindergeld_data": kindergeld_data,
+            "kinderzuschlag_params": kinderzuschlag_params,
+            "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
+            "kindergeld_params": kindergeld_params,
         },
     )
     in_cols = [
@@ -390,7 +390,7 @@ def tax_transfer(
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"arbeitsl_geld_2_data": arbeitsl_geld_2_data},
+        func_kwargs={"arbeitsl_geld_2_params": arbeitsl_geld_2_params},
     )
     in_cols = [
         "m_wage",
@@ -547,89 +547,91 @@ def calculate_tax_and_transfers(
     year,
     day=1,
     month=1,
-    arbeitsl_geld_2_data=None,
-    abgelt_st_data=None,
-    arbeitsl_geld_data=None,
-    soz_vers_beitr_data=None,
-    e_st_abzuege_data=None,
-    unterhalt_data=None,
-    wohngeld_data=None,
-    kinderzuschlag_data=None,
-    e_st_data=None,
-    soli_st_data=None,
-    kindergeld_data=None,
-    ges_renten_vers_data=None,
+    arbeitsl_geld_2_params=None,
+    abgelt_st_params=None,
+    arbeitsl_geld_params=None,
+    soz_vers_beitr_params=None,
+    e_st_abzuege_params=None,
+    unterhalt_params=None,
+    wohngeld_params=None,
+    kinderzuschlag_params=None,
+    e_st_params=None,
+    soli_st_params=None,
+    kindergeld_params=None,
+    ges_renten_vers_params=None,
 ):
-    if not ges_renten_vers_data:
-        ges_renten_vers_data = get_policies_for_date(
+    if not ges_renten_vers_params:
+        ges_renten_vers_params = get_policies_for_date(
             year=year, day=day, month=month, group="ges_renten_vers"
         )
 
-    if not e_st_abzuege_data:
-        e_st_abzuege_data = get_policies_for_date(
+    if not e_st_abzuege_params:
+        e_st_abzuege_params = get_policies_for_date(
             year=year, day=day, month=month, group="e_st_abzuege"
         )
 
-    if not e_st_data:
-        e_st_data = get_policies_for_date(year=year, day=day, month=month, group="e_st")
+    if not e_st_params:
+        e_st_params = get_policies_for_date(
+            year=year, day=day, month=month, group="e_st"
+        )
 
-    if not soli_st_data:
-        soli_st_data = get_policies_for_date(
+    if not soli_st_params:
+        soli_st_params = get_policies_for_date(
             year=year, day=day, month=month, group="soli_st"
         )
 
-    if not arbeitsl_geld_2_data:
-        arbeitsl_geld_2_data = get_policies_for_date(
+    if not arbeitsl_geld_2_params:
+        arbeitsl_geld_2_params = get_policies_for_date(
             year=year, day=day, month=month, group="arbeitsl_geld_2"
         )
 
-    if not arbeitsl_geld_data:
-        arbeitsl_geld_data = get_policies_for_date(
+    if not arbeitsl_geld_params:
+        arbeitsl_geld_params = get_policies_for_date(
             year=year, day=day, month=month, group="arbeitsl_geld"
         )
 
-    if not soz_vers_beitr_data:
-        soz_vers_beitr_data = get_policies_for_date(
+    if not soz_vers_beitr_params:
+        soz_vers_beitr_params = get_policies_for_date(
             year=year, day=day, month=month, group="soz_vers_beitr"
         )
 
-    if not unterhalt_data:
-        unterhalt_data = get_policies_for_date(
+    if not unterhalt_params:
+        unterhalt_params = get_policies_for_date(
             year=year, day=day, month=month, group="unterhalt"
         )
 
-    if not abgelt_st_data:
-        abgelt_st_data = get_policies_for_date(
+    if not abgelt_st_params:
+        abgelt_st_params = get_policies_for_date(
             year=year, day=day, month=month, group="abgelt_st"
         )
 
-    if not wohngeld_data:
-        wohngeld_data = get_policies_for_date(
+    if not wohngeld_params:
+        wohngeld_params = get_policies_for_date(
             year=year, day=day, month=month, group="wohngeld"
         )
 
-    if not kinderzuschlag_data:
-        kinderzuschlag_data = get_policies_for_date(
+    if not kinderzuschlag_params:
+        kinderzuschlag_params = get_policies_for_date(
             year=year, day=day, month=month, group="kinderzuschlag"
         )
 
-    if not kindergeld_data:
-        kindergeld_data = get_policies_for_date(
+    if not kindergeld_params:
+        kindergeld_params = get_policies_for_date(
             year=year, day=day, month=month, group="kindergeld"
         )
 
     return tax_transfer(
         dataset,
-        arbeitsl_geld_2_data=arbeitsl_geld_2_data,
-        abgelt_st_data=abgelt_st_data,
-        arbeitsl_geld_data=arbeitsl_geld_data,
-        soz_vers_beitr_data=soz_vers_beitr_data,
-        e_st_abzuege_data=e_st_abzuege_data,
-        unterhalt_data=unterhalt_data,
-        wohngeld_data=wohngeld_data,
-        kinderzuschlag_data=kinderzuschlag_data,
-        e_st_data=e_st_data,
-        soli_st_data=soli_st_data,
-        kindergeld_data=kindergeld_data,
-        ges_renten_vers_data=ges_renten_vers_data,
+        arbeitsl_geld_2_params=arbeitsl_geld_2_params,
+        abgelt_st_params=abgelt_st_params,
+        arbeitsl_geld_params=arbeitsl_geld_params,
+        soz_vers_beitr_params=soz_vers_beitr_params,
+        e_st_abzuege_params=e_st_abzuege_params,
+        unterhalt_params=unterhalt_params,
+        wohngeld_params=wohngeld_params,
+        kinderzuschlag_params=kinderzuschlag_params,
+        e_st_params=e_st_params,
+        soli_st_params=soli_st_params,
+        kindergeld_params=kindergeld_params,
+        ges_renten_vers_params=ges_renten_vers_params,
     )

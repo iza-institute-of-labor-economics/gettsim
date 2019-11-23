@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def kiz(household, kinderzuschlag_data, arbeitsl_geld_2_data, kindergeld_data):
+def kiz(household, kinderzuschlag_params, arbeitsl_geld_2_params, kindergeld_params):
     """ Kinderzuschlag / Additional Child Benefit
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
@@ -18,7 +18,7 @@ def kiz(household, kinderzuschlag_data, arbeitsl_geld_2_data, kindergeld_data):
     household["uhv_tu"] = household.groupby("tu_id")["uhv"].transform("sum")
     # First, calculate the need as for ALG2, but only for parents.
     household["kiz_ek_regel"] = calc_kiz_ek(
-        household, kinderzuschlag_data, arbeitsl_geld_2_data
+        household, kinderzuschlag_params, arbeitsl_geld_2_params
     )
 
     # Calculate share of tax unit wrt whole household
@@ -30,7 +30,7 @@ def kiz(household, kinderzuschlag_data, arbeitsl_geld_2_data, kindergeld_data):
     household["kiz_heiz"] = household["heizkost"] * tax_unit_share
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
-    wb = get_wohnbedarf(max(kinderzuschlag_data["year"], 2011))
+    wb = get_wohnbedarf(max(kinderzuschlag_params["year"], 2011))
     household["wb_eltern_share"] = 1.0
     for c in [1, 2]:
         for r in [1, 2, 3, 4]:
@@ -53,16 +53,16 @@ def kiz(household, kinderzuschlag_data, arbeitsl_geld_2_data, kindergeld_data):
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
-    household["child_num_kg"] = kindergeld_data["childben_elig_rule"](
-        household, kindergeld_data
+    household["child_num_kg"] = kindergeld_params["childben_elig_rule"](
+        household, kindergeld_params
     ).sum()
 
     household["kiz_ek_max"] = (
         household["kiz_ek_relev"]
-        + kinderzuschlag_data["a2kiz"] * household["child_num_kg"]
+        + kinderzuschlag_params["a2kiz"] * household["child_num_kg"]
     )
     # min income to be eligible for KIZ (different for singles and couples)
-    household["kiz_ek_min"] = calc_min_income_kiz(household, kinderzuschlag_data)
+    household["kiz_ek_min"] = calc_min_income_kiz(household, kinderzuschlag_params)
 
     #        Übersetzung §6a BKGG auf deutsch:
     #     1. Um KIZ zu bekommen, muss das Bruttoeinkommen minus Wohngeld
@@ -93,7 +93,7 @@ def kiz(household, kinderzuschlag_data, arbeitsl_geld_2_data, kindergeld_data):
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
         0,
-        kinderzuschlag_data["a2kiz"] * household["child_num_kg"]
+        kinderzuschlag_params["a2kiz"] * household["child_num_kg"]
         - household["kiz_ek_anr"]
         - household["uhv_tu"],
     )
@@ -104,26 +104,26 @@ def kiz(household, kinderzuschlag_data, arbeitsl_geld_2_data, kindergeld_data):
     return household
 
 
-def calc_min_income_kiz(household, kinderzuschlag_data):
+def calc_min_income_kiz(household, kinderzuschlag_params):
     # Are there kids in the household
     if household["child"].any() > 0:
         # Is it a single parent household
         if household["alleinerz"].all():
-            return kinderzuschlag_data["a2kiz_minek_sin"]
+            return kinderzuschlag_params["a2kiz_minek_sin"]
         else:
-            return kinderzuschlag_data["a2kiz_minek_cou"]
+            return kinderzuschlag_params["a2kiz_minek_cou"]
     else:
         return 0
 
 
-def calc_kiz_ek(household, kinderzuschlag_data, arbeitsl_geld_2_data):
-    if kinderzuschlag_data["year"] <= 2010:
+def calc_kiz_ek(household, kinderzuschlag_params, arbeitsl_geld_2_params):
+    if kinderzuschlag_params["year"] <= 2010:
         # not yet implemented
         calc_kiz_regel = _calc_kiz_regel_until_2010
     else:
         calc_kiz_regel = _calc_kiz_regel_since_2011
 
-    kiz_regel = calc_kiz_regel(household, arbeitsl_geld_2_data)
+    kiz_regel = calc_kiz_regel(household, arbeitsl_geld_2_params)
 
     return np.select(
         [
@@ -135,25 +135,25 @@ def calc_kiz_ek(household, kinderzuschlag_data, arbeitsl_geld_2_data):
     )
 
 
-def _calc_kiz_regel_until_2010(household, arbeitsl_geld_2_data):
+def _calc_kiz_regel_until_2010(household, arbeitsl_geld_2_params):
     """"""
     return [
-        arbeitsl_geld_2_data["rs_hhvor"] * (1 + household["mehrbed"]),
-        arbeitsl_geld_2_data["rs_hhvor"]
-        * arbeitsl_geld_2_data["a2part"]
+        arbeitsl_geld_2_params["rs_hhvor"] * (1 + household["mehrbed"]),
+        arbeitsl_geld_2_params["rs_hhvor"]
+        * arbeitsl_geld_2_params["a2part"]
         * (2 + household["mehrbed"]),
-        arbeitsl_geld_2_data["rs_hhvor"]
-        * arbeitsl_geld_2_data["a2ch18"]
+        arbeitsl_geld_2_params["rs_hhvor"]
+        * arbeitsl_geld_2_params["a2ch18"]
         * household["adult_num_tu"],
     ]
 
 
-def _calc_kiz_regel_since_2011(household, arbeitsl_geld_2_data):
+def _calc_kiz_regel_since_2011(household, arbeitsl_geld_2_params):
     return [
-        arbeitsl_geld_2_data["rs_hhvor"] * (1 + household["mehrbed"]),
-        arbeitsl_geld_2_data["rs_2adults"]
-        + ((1 + household["mehrbed"]) * arbeitsl_geld_2_data["rs_2adults"]),
-        arbeitsl_geld_2_data["rs_madults"] * household["adult_num_tu"],
+        arbeitsl_geld_2_params["rs_hhvor"] * (1 + household["mehrbed"]),
+        arbeitsl_geld_2_params["rs_2adults"]
+        + ((1 + household["mehrbed"]) * arbeitsl_geld_2_params["rs_2adults"]),
+        arbeitsl_geld_2_params["rs_madults"] * household["adult_num_tu"],
     ]
 
 

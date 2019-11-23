@@ -27,7 +27,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
 
     actual_date = datetime.date(year=year, month=month, day=day)
     if group == "ges_renten_vers":
-        load_data = load_ges_renten_vers_data
+        load_data = load_ges_renten_vers_params
     else:
         load_data = load_ordanary_data_group
 
@@ -98,7 +98,7 @@ def load_ordanary_data_group(tax_data_raw, actual_date):
     return tax_data
 
 
-def load_ges_renten_vers_data(raw_pension_data, actual_date):
+def load_ges_renten_vers_params(raw_pension_data, actual_date):
     pension_data = {}
     # meanwages is only filled until 2016. The same is done in the pension function.
     min_year = min(actual_date.year, 2016)

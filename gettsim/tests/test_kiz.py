@@ -53,21 +53,21 @@ def test_kiz(
     columns = ["kiz_temp"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    kinderzuschlag_data = get_policies_for_date(
+    kinderzuschlag_params = get_policies_for_date(
         year=year, group="kinderzuschlag", raw_group_data=kinderzuschlag_raw_data
     )
-    arbeitsl_geld_2_data = get_policies_for_date(
+    arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
-    kindergeld_data = get_policies_for_date(
+    kindergeld_params = get_policies_for_date(
         year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
     )
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(
         kiz,
-        kinderzuschlag_data=kinderzuschlag_data,
-        arbeitsl_geld_2_data=arbeitsl_geld_2_data,
-        kindergeld_data=kindergeld_data,
+        kinderzuschlag_params=kinderzuschlag_params,
+        arbeitsl_geld_2_params=arbeitsl_geld_2_params,
+        kindergeld_params=kindergeld_params,
     )
     assert_frame_equal(df[columns], year_data[columns], check_less_precise=True)

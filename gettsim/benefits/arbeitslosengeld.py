@@ -5,11 +5,11 @@ from gettsim.taxes.calc_taxes import soli_formula
 
 def ui(
     person,
-    arbeitsl_geld_data,
-    soz_vers_beitr_data,
-    e_st_abzuege_data,
-    e_st_data,
-    soli_st_data,
+    arbeitsl_geld_params,
+    soz_vers_beitr_params,
+    e_st_abzuege_params,
+    e_st_params,
+    soli_st_params,
 ):
     """Return the Unemployment Benefit based on
     employment status and income from previous years.
@@ -18,20 +18,20 @@ def ui(
 
     alg_entgelt = _alg_entgelt(
         person,
-        arbeitsl_geld_data,
-        soz_vers_beitr_data,
-        e_st_abzuege_data,
-        e_st_data,
-        soli_st_data,
+        arbeitsl_geld_params,
+        soz_vers_beitr_params,
+        e_st_abzuege_params,
+        e_st_params,
+        soli_st_params,
     )
 
     eligible = check_eligibility_alg(person)
 
     if eligible:
         if person["child_num_tu"].sum() == 0:
-            person["m_alg1"] = alg_entgelt * arbeitsl_geld_data["agsatz0"]
+            person["m_alg1"] = alg_entgelt * arbeitsl_geld_params["agsatz0"]
         else:
-            person["m_alg1"] = alg_entgelt * arbeitsl_geld_data["agsatz1"]
+            person["m_alg1"] = alg_entgelt * arbeitsl_geld_params["agsatz1"]
     else:
         person["m_alg1"] = 0.0
     return person
@@ -39,28 +39,30 @@ def ui(
 
 def _alg_entgelt(
     person,
-    arbeitsl_geld_data,
-    soz_vers_beitr_data,
-    e_st_abzuege_data,
-    e_st_data,
-    soli_st_data,
+    arbeitsl_geld_params,
+    soz_vers_beitr_params,
+    e_st_abzuege_params,
+    e_st_params,
+    soli_st_params,
 ):
     """ Calculating the claim for the Arbeitslosengeld, depending on the current
     wage."""
     westost = "o" if person["east"] else "w"
     # Relevant wage is capped at the contribution thresholds
-    alg_wage = np.minimum(soz_vers_beitr_data["rvmaxek" + westost], person["m_wage_l1"])
+    alg_wage = np.minimum(
+        soz_vers_beitr_params["rvmaxek" + westost], person["m_wage_l1"]
+    )
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    alg_ssc = arbeitsl_geld_data["alg1_abz"] * alg_wage
+    alg_ssc = arbeitsl_geld_params["alg1_abz"] * alg_wage
     # assume west germany for this particular calculation
     # df['east'] = False
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    alg_tax = e_st_data["tax_schedule"](
-        12 * alg_wage - e_st_abzuege_data["werbung"], e_st_data
+    alg_tax = e_st_params["tax_schedule"](
+        12 * alg_wage - e_st_abzuege_params["werbung"], e_st_params
     )
 
-    alg_soli = soli_formula(alg_tax, soli_st_data)
+    alg_soli = soli_formula(alg_tax, soli_st_params)
 
     return np.maximum(0, alg_wage - alg_ssc - alg_tax / 12 - alg_soli / 12)
 

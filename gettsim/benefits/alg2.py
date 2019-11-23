@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def alg2(household, arbeitsl_geld_2_data):
+def alg2(household, arbeitsl_geld_2_params):
     """ Basic Unemployment Benefit / Social Assistance
         Every household is assigend the sum of "needs" (Regelbedarf)
         These depend on the household composition (# of adults, kids in various age
@@ -10,7 +10,7 @@ def alg2(household, arbeitsl_geld_2_data):
         non-constant.
     """
 
-    household = regelsatz_alg2(household, arbeitsl_geld_2_data)
+    household = regelsatz_alg2(household, arbeitsl_geld_2_params)
 
     household["alg2_kdu"] = kdu_alg2(household)
 
@@ -21,7 +21,7 @@ def alg2(household, arbeitsl_geld_2_data):
 
     household["alg2_ek"], household["alg2_grossek"] = alg2_inc(household)
 
-    household = einkommensanrechnungsfrei(household, arbeitsl_geld_2_data)
+    household = einkommensanrechnungsfrei(household, arbeitsl_geld_2_params)
 
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
@@ -39,7 +39,7 @@ def alg2(household, arbeitsl_geld_2_data):
     return household
 
 
-def regelsatz_alg2(household, arbeitsl_geld_2_data):
+def regelsatz_alg2(household, arbeitsl_geld_2_params):
     """Creating the variables need for the calculation of the alg2 regelsatz. Then
     according to the year the appropriate function is called"""
     children_age_info = {}
@@ -51,40 +51,40 @@ def regelsatz_alg2(household, arbeitsl_geld_2_data):
     children_age_info["adult_num"] = len(household) - children_age_info["child_num"]
 
     household["mehrbed"] = mehrbedarf_alg2(
-        household, children_age_info, arbeitsl_geld_2_data
+        household, children_age_info, arbeitsl_geld_2_params
     )
     # 'Regular Need'
     # Different amounts by number of adults and age of kids
-    # arbeitsl_geld_2_data['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
+    # arbeitsl_geld_2_params['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
 
-    if arbeitsl_geld_2_data["year"] <= 2010:
+    if arbeitsl_geld_2_params["year"] <= 2010:
         calc_regelsatz = regelberechnung_until_2010
     else:
         calc_regelsatz = regelberechnung_2011_and_beyond
 
     household["regelsatz"] = calc_regelsatz(
-        household, children_age_info, arbeitsl_geld_2_data
+        household, children_age_info, arbeitsl_geld_2_params
     )
     return household
 
 
-def regelberechnung_until_2010(household, children_age_info, arbeitsl_geld_2_data):
+def regelberechnung_until_2010(household, children_age_info, arbeitsl_geld_2_params):
     if children_age_info["adult_num"] == 1:
         return (
-            arbeitsl_geld_2_data["rs_hhvor"] * (1 + household["mehrbed"])
+            arbeitsl_geld_2_params["rs_hhvor"] * (1 + household["mehrbed"])
             + (
-                arbeitsl_geld_2_data["rs_hhvor"]
-                * arbeitsl_geld_2_data["a2ch14"]
+                arbeitsl_geld_2_params["rs_hhvor"]
+                * arbeitsl_geld_2_params["a2ch14"]
                 * children_age_info["child14_24_num"]
             )
             + (
-                arbeitsl_geld_2_data["rs_hhvor"]
-                * arbeitsl_geld_2_data["a2ch7"]
+                arbeitsl_geld_2_params["rs_hhvor"]
+                * arbeitsl_geld_2_params["a2ch7"]
                 * children_age_info["child7_13_num"]
             )
             + (
-                arbeitsl_geld_2_data["rs_hhvor"]
-                * arbeitsl_geld_2_data["a2ch0"]
+                arbeitsl_geld_2_params["rs_hhvor"]
+                * arbeitsl_geld_2_params["a2ch0"]
                 * (
                     children_age_info["child0_2_num"]
                     + children_age_info["child3_6_num"]
@@ -94,29 +94,32 @@ def regelberechnung_until_2010(household, children_age_info, arbeitsl_geld_2_dat
     elif children_age_info["adult_num"] > 1:
         return (
             (
-                arbeitsl_geld_2_data["rs_hhvor"]
-                * arbeitsl_geld_2_data["a2part"]
+                arbeitsl_geld_2_params["rs_hhvor"]
+                * arbeitsl_geld_2_params["a2part"]
                 * (1 + household["mehrbed"])
-                + (arbeitsl_geld_2_data["rs_hhvor"] * arbeitsl_geld_2_data["a2part"])
                 + (
-                    arbeitsl_geld_2_data["rs_hhvor"]
-                    * arbeitsl_geld_2_data["a2ch18"]
+                    arbeitsl_geld_2_params["rs_hhvor"]
+                    * arbeitsl_geld_2_params["a2part"]
+                )
+                + (
+                    arbeitsl_geld_2_params["rs_hhvor"]
+                    * arbeitsl_geld_2_params["a2ch18"]
                     * np.maximum((children_age_info["adult_num"] - 2), 0)
                 )
             )
             + (
-                arbeitsl_geld_2_data["rs_hhvor"]
-                * arbeitsl_geld_2_data["a2ch14"]
+                arbeitsl_geld_2_params["rs_hhvor"]
+                * arbeitsl_geld_2_params["a2ch14"]
                 * children_age_info["child14_24_num"]
             )
             + (
-                arbeitsl_geld_2_data["rs_hhvor"]
-                * arbeitsl_geld_2_data["a2ch7"]
+                arbeitsl_geld_2_params["rs_hhvor"]
+                * arbeitsl_geld_2_params["a2ch7"]
                 * children_age_info["child7_13_num"]
             )
             + (
-                arbeitsl_geld_2_data["rs_hhvor"]
-                * arbeitsl_geld_2_data["a2ch0"]
+                arbeitsl_geld_2_params["rs_hhvor"]
+                * arbeitsl_geld_2_params["a2ch0"]
                 * (
                     children_age_info["child0_2_num"]
                     + children_age_info["child3_6_num"]
@@ -125,14 +128,16 @@ def regelberechnung_until_2010(household, children_age_info, arbeitsl_geld_2_dat
         )
 
 
-def regelberechnung_2011_and_beyond(household, children_age_info, arbeitsl_geld_2_data):
+def regelberechnung_2011_and_beyond(
+    household, children_age_info, arbeitsl_geld_2_params
+):
     if children_age_info["adult_num"] == 1:
         return (
-            arbeitsl_geld_2_data["rs_hhvor"] * (1 + household["mehrbed"])
-            + (arbeitsl_geld_2_data["rs_ch14"] * children_age_info["child14_24_num"])
-            + (arbeitsl_geld_2_data["rs_ch7"] * children_age_info["child7_13_num"])
+            arbeitsl_geld_2_params["rs_hhvor"] * (1 + household["mehrbed"])
+            + (arbeitsl_geld_2_params["rs_ch14"] * children_age_info["child14_24_num"])
+            + (arbeitsl_geld_2_params["rs_ch7"] * children_age_info["child7_13_num"])
             + (
-                arbeitsl_geld_2_data["rs_ch0"]
+                arbeitsl_geld_2_params["rs_ch0"]
                 * (
                     children_age_info["child0_2_num"]
                     + children_age_info["child3_6_num"]
@@ -141,16 +146,16 @@ def regelberechnung_2011_and_beyond(household, children_age_info, arbeitsl_geld_
         )
     elif children_age_info["adult_num"] > 1:
         return (
-            arbeitsl_geld_2_data["rs_2adults"] * (1 + household["mehrbed"])
-            + arbeitsl_geld_2_data["rs_2adults"]
+            arbeitsl_geld_2_params["rs_2adults"] * (1 + household["mehrbed"])
+            + arbeitsl_geld_2_params["rs_2adults"]
             + (
-                arbeitsl_geld_2_data["rs_madults"]
+                arbeitsl_geld_2_params["rs_madults"]
                 * np.maximum((children_age_info["adult_num"] - 2), 0)
             )
-            + (arbeitsl_geld_2_data["rs_ch14"] * children_age_info["child14_24_num"])
-            + (arbeitsl_geld_2_data["rs_ch7"] * children_age_info["child7_13_num"])
+            + (arbeitsl_geld_2_params["rs_ch14"] * children_age_info["child14_24_num"])
+            + (arbeitsl_geld_2_params["rs_ch7"] * children_age_info["child7_13_num"])
             + (
-                arbeitsl_geld_2_data["rs_ch0"]
+                arbeitsl_geld_2_params["rs_ch0"]
                 * (
                     children_age_info["child0_2_num"]
                     + children_age_info["child3_6_num"]
@@ -159,19 +164,19 @@ def regelberechnung_2011_and_beyond(household, children_age_info, arbeitsl_geld_
         )
 
 
-def mehrbedarf_alg2(household, children_age_info, arbeitsl_geld_2_data):
+def mehrbedarf_alg2(household, children_age_info, arbeitsl_geld_2_params):
     """ Additional need for single parents. Maximum 60% of the standard amount on top
     (a2zu2) if you have at least one kid below 6 or two or three below 15, you get
     36% on top alternatively, you get 12% per kid, depending on what's higher."""
     return household["alleinerz"] * np.minimum(
-        arbeitsl_geld_2_data["a2zu2"] / 100,
+        arbeitsl_geld_2_params["a2zu2"] / 100,
         np.maximum(
-            arbeitsl_geld_2_data["a2mbch1"] * children_age_info["child_num"],
+            arbeitsl_geld_2_params["a2mbch1"] * children_age_info["child_num"],
             (
                 (children_age_info["child0_6_num"] >= 1)
                 | (2 <= children_age_info["child0_15_num"] <= 3)
             )
-            * arbeitsl_geld_2_data["a2mbch2"],
+            * arbeitsl_geld_2_params["a2mbch2"],
         ),
     )
 
@@ -230,7 +235,7 @@ def grossinc_alg2(household):
     )
 
 
-def einkommensanrechnungsfrei(household, arbeitsl_geld_2_data):
+def einkommensanrechnungsfrei(household, arbeitsl_geld_2_params):
     """Determine the amount of income that is not deducted. Varies withdrawal rates
     depending on monthly earnings."""
     # Calculate the amount of children below the age of 18.
@@ -238,71 +243,71 @@ def einkommensanrechnungsfrei(household, arbeitsl_geld_2_data):
 
     # 100€ is always 'free'
     household.loc[
-        (household["m_wage"] <= arbeitsl_geld_2_data["a2grf"]), "ekanrefrei"
+        (household["m_wage"] <= arbeitsl_geld_2_params["a2grf"]), "ekanrefrei"
     ] = household["m_wage"]
     # until 1000€, you may keep 20% (withdrawal rate: 80%)
     household.loc[
         (
             household["m_wage"].between(
-                arbeitsl_geld_2_data["a2grf"], arbeitsl_geld_2_data["a2eg1"]
+                arbeitsl_geld_2_params["a2grf"], arbeitsl_geld_2_params["a2eg1"]
             )
         ),
         "ekanrefrei",
-    ] = arbeitsl_geld_2_data["a2grf"] + arbeitsl_geld_2_data["a2an1"] * (
-        household["m_wage"] - arbeitsl_geld_2_data["a2grf"]
+    ] = arbeitsl_geld_2_params["a2grf"] + arbeitsl_geld_2_params["a2an1"] * (
+        household["m_wage"] - arbeitsl_geld_2_params["a2grf"]
     )
     # from 1000 to 1200 €, you may keep only 10%
     household.loc[
         (
             household["m_wage"].between(
-                arbeitsl_geld_2_data["a2eg1"], arbeitsl_geld_2_data["a2eg2"]
+                arbeitsl_geld_2_params["a2eg1"], arbeitsl_geld_2_params["a2eg2"]
             )
         )
         & (child0_18_num == 0),
         "ekanrefrei",
     ] = (
-        arbeitsl_geld_2_data["a2grf"]
-        + arbeitsl_geld_2_data["a2an1"]
-        * (arbeitsl_geld_2_data["a2eg1"] - arbeitsl_geld_2_data["a2grf"])
-        + arbeitsl_geld_2_data["a2an2"]
-        * (household["m_wage"] - arbeitsl_geld_2_data["a2eg1"])
+        arbeitsl_geld_2_params["a2grf"]
+        + arbeitsl_geld_2_params["a2an1"]
+        * (arbeitsl_geld_2_params["a2eg1"] - arbeitsl_geld_2_params["a2grf"])
+        + arbeitsl_geld_2_params["a2an2"]
+        * (household["m_wage"] - arbeitsl_geld_2_params["a2eg1"])
     )
     # If you have kids, this range goes until 1500 €,
     household.loc[
         (
             household["m_wage"].between(
-                arbeitsl_geld_2_data["a2eg1"], arbeitsl_geld_2_data["a2eg3"]
+                arbeitsl_geld_2_params["a2eg1"], arbeitsl_geld_2_params["a2eg3"]
             )
         )
         & (child0_18_num > 0),
         "ekanrefrei",
     ] = (
-        arbeitsl_geld_2_data["a2grf"]
-        + arbeitsl_geld_2_data["a2an1"]
-        * (arbeitsl_geld_2_data["a2eg1"] - arbeitsl_geld_2_data["a2grf"])
-        + arbeitsl_geld_2_data["a2an2"]
-        * (household["m_wage"] - arbeitsl_geld_2_data["a2eg1"])
+        arbeitsl_geld_2_params["a2grf"]
+        + arbeitsl_geld_2_params["a2an1"]
+        * (arbeitsl_geld_2_params["a2eg1"] - arbeitsl_geld_2_params["a2grf"])
+        + arbeitsl_geld_2_params["a2an2"]
+        * (household["m_wage"] - arbeitsl_geld_2_params["a2eg1"])
     )
     # beyond 1200/1500€, you can't keep anything.
     household.loc[
-        (household["m_wage"] > arbeitsl_geld_2_data["a2eg2"]) & (child0_18_num == 0),
+        (household["m_wage"] > arbeitsl_geld_2_params["a2eg2"]) & (child0_18_num == 0),
         "ekanrefrei",
     ] = (
-        arbeitsl_geld_2_data["a2grf"]
-        + arbeitsl_geld_2_data["a2an1"]
-        * (arbeitsl_geld_2_data["a2eg1"] - arbeitsl_geld_2_data["a2grf"])
-        + arbeitsl_geld_2_data["a2an2"]
-        * (arbeitsl_geld_2_data["a2eg2"] - arbeitsl_geld_2_data["a2eg1"])
+        arbeitsl_geld_2_params["a2grf"]
+        + arbeitsl_geld_2_params["a2an1"]
+        * (arbeitsl_geld_2_params["a2eg1"] - arbeitsl_geld_2_params["a2grf"])
+        + arbeitsl_geld_2_params["a2an2"]
+        * (arbeitsl_geld_2_params["a2eg2"] - arbeitsl_geld_2_params["a2eg1"])
     )
     household.loc[
-        (household["m_wage"] > arbeitsl_geld_2_data["a2eg3"]) & (child0_18_num > 0),
+        (household["m_wage"] > arbeitsl_geld_2_params["a2eg3"]) & (child0_18_num > 0),
         "ekanrefrei",
     ] = (
-        arbeitsl_geld_2_data["a2grf"]
-        + arbeitsl_geld_2_data["a2an1"]
-        * (arbeitsl_geld_2_data["a2eg1"] - arbeitsl_geld_2_data["a2grf"])
-        + arbeitsl_geld_2_data["a2an2"]
-        * (arbeitsl_geld_2_data["a2eg3"] - arbeitsl_geld_2_data["a2eg1"])
+        arbeitsl_geld_2_params["a2grf"]
+        + arbeitsl_geld_2_params["a2an1"]
+        * (arbeitsl_geld_2_params["a2eg1"] - arbeitsl_geld_2_params["a2grf"])
+        + arbeitsl_geld_2_params["a2an2"]
+        * (arbeitsl_geld_2_params["a2eg3"] - arbeitsl_geld_2_params["a2eg1"])
     )
     # Children income is fully deducted, except for the first 100 €.
     household.loc[(household["child"]), "ekanrefrei"] = np.maximum(

@@ -1,17 +1,17 @@
-def uhv(tax_unit, unterhalt_data):
+def uhv(tax_unit, unterhalt_params):
     """
     Since 2017, the receipt of this
     UHV has been extended substantially and needs to be taken into account, since it's
     dominant to other transfers, i.e. single parents 'have to' apply for it.
     """
-    if unterhalt_data["year"] >= 2017:
-        return uhv_since_2017(tax_unit, unterhalt_data)
+    if unterhalt_params["year"] >= 2017:
+        return uhv_since_2017(tax_unit, unterhalt_params)
     else:
         tax_unit["uhv"] = 0
         return tax_unit
 
 
-def uhv_since_2017(tax_unit, unterhalt_data):
+def uhv_since_2017(tax_unit, unterhalt_params):
     """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
 
         In Germany, Single Parents get alimony payments for themselves and for their
@@ -29,10 +29,10 @@ def uhv_since_2017(tax_unit, unterhalt_data):
     # Amounts depend on age
     tax_unit.loc[
         tax_unit["age"].between(0, 5) & tax_unit["alleinerz"], "uhv"
-    ] = unterhalt_data["uhv5"]
+    ] = unterhalt_params["uhv5"]
     tax_unit.loc[
         tax_unit["age"].between(6, 11) & tax_unit["alleinerz"], "uhv"
-    ] = unterhalt_data["uhv11"]
+    ] = unterhalt_params["uhv11"]
     # Older kids get it only if the parent has income > 600€
     uhv_inc_tu = (
         tax_unit[
@@ -54,6 +54,6 @@ def uhv_since_2017(tax_unit, unterhalt_data):
         & (tax_unit["alleinerz"])
         & (uhv_inc_tu > 600),
         "uhv",
-    ] = unterhalt_data["uhv17"]
+    ] = unterhalt_params["uhv17"]
     # TODO: Check against actual transfers
     return tax_unit

@@ -37,10 +37,10 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    soz_vers_beitr_data = get_policies_for_date(
+    soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
-    ges_renten_vers_data = get_policies_for_date(
+    ges_renten_vers_params = get_policies_for_date(
         year=year, group="ges_renten_vers", raw_group_data=ges_renten_vers_raw_data
     )
     df = _apply_tax_transfer_func(
@@ -50,8 +50,8 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
         in_cols=INPUT_COLS,
         out_cols=[column],
         func_kwargs={
-            "soz_vers_beitr_data": soz_vers_beitr_data,
-            "ges_renten_vers_data": ges_renten_vers_data,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "ges_renten_vers_params": ges_renten_vers_params,
         },
     )
     assert_array_almost_equal(df[column], year_data[column])
@@ -61,8 +61,8 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
 def test_update_earning_points(input_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
-    ges_renten_vers_data = get_policies_for_date(year=year, group="ges_renten_vers")
+    soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
+    ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
     df = _apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
@@ -70,8 +70,8 @@ def test_update_earning_points(input_data, year):
         in_cols=INPUT_COLS,
         out_cols=[],
         func_kwargs={
-            "soz_vers_beitr_data": soz_vers_beitr_data,
-            "ges_renten_vers_data": ges_renten_vers_data,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "ges_renten_vers_params": ges_renten_vers_params,
             "year": year,
         },
     )

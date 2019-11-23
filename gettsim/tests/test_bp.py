@@ -41,12 +41,12 @@ def input_data():
 def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    arbeitsl_geld_2_data = get_policies_for_date(
+    arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(
-        benefit_priority, arbeitsl_geld_2_data=arbeitsl_geld_2_data
+        benefit_priority, arbeitsl_geld_2_params=arbeitsl_geld_2_params
     )
     assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)
