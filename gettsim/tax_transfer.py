@@ -543,82 +543,31 @@ def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
 
 
 def calculate_tax_and_transfers(
-    dataset,
-    year,
-    day=1,
-    month=1,
-    arbeitsl_geld_2_params=None,
-    abgelt_st_params=None,
-    arbeitsl_geld_params=None,
-    soz_vers_beitr_params=None,
-    e_st_abzuege_params=None,
-    unterhalt_params=None,
-    wohngeld_params=None,
-    kinderzuschlag_params=None,
-    e_st_params=None,
-    soli_st_params=None,
-    kindergeld_params=None,
-    ges_renten_vers_params=None,
+    dataset, year,
 ):
-    if not ges_renten_vers_params:
-        ges_renten_vers_params = get_policies_for_date(
-            year=year, day=day, month=month, group="ges_renten_vers"
-        )
+    ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
 
-    if not e_st_abzuege_params:
-        e_st_abzuege_params = get_policies_for_date(
-            year=year, day=day, month=month, group="e_st_abzuege"
-        )
+    e_st_abzuege_params = get_policies_for_date(year=year, group="e_st_abzuege")
 
-    if not e_st_params:
-        e_st_params = get_policies_for_date(
-            year=year, day=day, month=month, group="e_st"
-        )
+    e_st_params = get_policies_for_date(year=year, group="e_st")
 
-    if not soli_st_params:
-        soli_st_params = get_policies_for_date(
-            year=year, day=day, month=month, group="soli_st"
-        )
+    soli_st_params = get_policies_for_date(year=year, group="soli_st")
 
-    if not arbeitsl_geld_2_params:
-        arbeitsl_geld_2_params = get_policies_for_date(
-            year=year, day=day, month=month, group="arbeitsl_geld_2"
-        )
+    arbeitsl_geld_2_params = get_policies_for_date(year=year, group="arbeitsl_geld_2")
 
-    if not arbeitsl_geld_params:
-        arbeitsl_geld_params = get_policies_for_date(
-            year=year, day=day, month=month, group="arbeitsl_geld"
-        )
+    arbeitsl_geld_params = get_policies_for_date(year=year, group="arbeitsl_geld")
 
-    if not soz_vers_beitr_params:
-        soz_vers_beitr_params = get_policies_for_date(
-            year=year, day=day, month=month, group="soz_vers_beitr"
-        )
+    soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
 
-    if not unterhalt_params:
-        unterhalt_params = get_policies_for_date(
-            year=year, day=day, month=month, group="unterhalt"
-        )
+    unterhalt_params = get_policies_for_date(year=year, group="unterhalt")
 
-    if not abgelt_st_params:
-        abgelt_st_params = get_policies_for_date(
-            year=year, day=day, month=month, group="abgelt_st"
-        )
+    abgelt_st_params = get_policies_for_date(year=year, group="abgelt_st")
 
-    if not wohngeld_params:
-        wohngeld_params = get_policies_for_date(
-            year=year, day=day, month=month, group="wohngeld"
-        )
+    wohngeld_params = get_policies_for_date(year=year, group="wohngeld")
 
-    if not kinderzuschlag_params:
-        kinderzuschlag_params = get_policies_for_date(
-            year=year, day=day, month=month, group="kinderzuschlag"
-        )
+    kinderzuschlag_params = get_policies_for_date(year=year, group="kinderzuschlag")
 
-    if not kindergeld_params:
-        kindergeld_params = get_policies_for_date(
-            year=year, day=day, month=month, group="kindergeld"
-        )
+    kindergeld_params = get_policies_for_date(year=year, group="kindergeld")
 
     return tax_transfer(
         dataset,

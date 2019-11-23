@@ -115,7 +115,6 @@ def calc_min_income_kiz(household, params):
 
 def calc_kiz_ek(household, params, arbeitsl_geld_2_params):
     if params["year"] <= 2010:
-        # not yet implemented
         calc_kiz_regel = _calc_kiz_regel_until_2010
     else:
         calc_kiz_regel = _calc_kiz_regel_since_2011

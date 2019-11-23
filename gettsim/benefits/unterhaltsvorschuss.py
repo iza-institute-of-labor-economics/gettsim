@@ -3,6 +3,9 @@ def uhv(tax_unit, params):
     Since 2017, the receipt of this
     UHV has been extended substantially and needs to be taken into account, since it's
     dominant to other transfers, i.e. single parents 'have to' apply for it.
+
+    returns:
+    tax_unit: Updated DataFrame including uhv
     """
     if params["year"] >= 2017:
         return uhv_since_2017(tax_unit, params)
@@ -20,7 +23,7 @@ def uhv_since_2017(tax_unit, params):
         he has the kids)
 
         returns:
-            uhv (pd.Series): Alimony Payment on individual level
+            tax_unit: Updated DataFrame including uhv
         """
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
     # Calculate them on the level of the tax unit
