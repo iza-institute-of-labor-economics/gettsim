@@ -77,7 +77,7 @@ def benefit_priority(household, params):
     return household
 
 
-def wealth_test(household, arbeitsl_geld_2_params):
+def wealth_test(household, params):
     """ Checks Benefit Claim against Household wealth.
         - household: a dataframe containing information on theoretical claim of
               - ALG2
@@ -92,10 +92,10 @@ def wealth_test(household, arbeitsl_geld_2_params):
     # there are exemptions depending on individual age for adults
     household["ind_freib"] = 0
     household.loc[(household["byear"] >= 1948) & (~household["child"]), "ind_freib"] = (
-        arbeitsl_geld_2_params["a2ve1"] * household["age"]
+        params["a2ve1"] * household["age"]
     )
     household.loc[(household["byear"] < 1948), "ind_freib"] = (
-        arbeitsl_geld_2_params["a2ve2"] * household["age"]
+        params["a2ve2"] * household["age"]
     )
     # sum over individuals
     household["ind_freib_hh"] = household["ind_freib"].sum()
@@ -104,16 +104,16 @@ def wealth_test(household, arbeitsl_geld_2_params):
     household["maxvermfb"] = 0
     household.loc[
         (household["byear"] < 1948) & (~household["child"]), "maxvermfb"
-    ] = arbeitsl_geld_2_params["a2voe1"]
-    household.loc[
-        (household["byear"].between(1948, 1957)), "maxvermfb"
-    ] = arbeitsl_geld_2_params["a2voe1"]
-    household.loc[
-        (household["byear"].between(1958, 1963)), "maxvermfb"
-    ] = arbeitsl_geld_2_params["a2voe3"]
+    ] = params["a2voe1"]
+    household.loc[(household["byear"].between(1948, 1957)), "maxvermfb"] = params[
+        "a2voe1"
+    ]
+    household.loc[(household["byear"].between(1958, 1963)), "maxvermfb"] = params[
+        "a2voe3"
+    ]
     household.loc[
         (household["byear"] >= 1964) & (~household["child"]), "maxvermfb"
-    ] = arbeitsl_geld_2_params["a2voe4"]
+    ] = params["a2voe4"]
     household["maxvermfb_hh"] = household["maxvermfb"].sum()
 
     household_size = household.shape[0]
@@ -121,9 +121,8 @@ def wealth_test(household, arbeitsl_geld_2_params):
     household["vermfreibetr"] = np.minimum(
         household["maxvermfb_hh"],
         household["ind_freib_hh"]
-        + household["child0_18_num"] * arbeitsl_geld_2_params["a2vkf"]
-        + (household_size - household["child0_18_num"])
-        * arbeitsl_geld_2_params["a2verst"],
+        + household["child0_18_num"] * params["a2vkf"]
+        + (household_size - household["child0_18_num"]) * params["a2verst"],
     )
 
     # If wealth exceeds the exemption, set benefits to zero

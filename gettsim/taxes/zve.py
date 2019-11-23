@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def zve(tax_unit, params, soz_vers_beitr_params, kindergeld_params):
+def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params):
     """Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
     of the 6 branches of income is according to
     https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema
@@ -17,29 +17,31 @@ def zve(tax_unit, params, soz_vers_beitr_params, kindergeld_params):
     # create output dataframe and transter some important variables
 
     # Sonderausgaben
-    tax_unit = deductible_child_care_costs(tax_unit, params)
+    tax_unit = deductible_child_care_costs(tax_unit, e_st_abzuege_params)
 
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
     tax_unit.loc[:, "gross_e1"] = 12 * tax_unit["m_self"]
     # Earnings
-    tax_unit = calc_gross_e4(tax_unit, params, soz_vers_beitr_params)
+    tax_unit = calc_gross_e4(tax_unit, e_st_abzuege_params, soz_vers_beitr_params)
     # Capital Income
     tax_unit.loc[:, "gross_e5"] = np.maximum((12 * tax_unit["m_kapinc"]), 0)
     # Income from rents
     tax_unit.loc[:, "gross_e6"] = 12 * tax_unit["m_vermiet"]
     # Others (Pensions)
-    tax_unit = calc_gross_e7(tax_unit, params)
+    tax_unit = calc_gross_e7(tax_unit, e_st_abzuege_params)
     # Sum of incomes
-    tax_unit.loc[:, "gross_gde"] = calc_gde(tax_unit, params)
+    tax_unit.loc[:, "gross_gde"] = calc_gde(tax_unit, e_st_abzuege_params)
 
     # Gross (market) income <> sum of incomes...
     tax_unit.loc[:, "m_brutto"] = tax_unit[
         ["m_self", "m_wage", "m_kapinc", "m_vermiet", "m_pensions"]
     ].sum(axis=1)
 
-    tax_unit.loc[:, "handc_pausch"] = calc_handicap_lump_sum(tax_unit, params)
+    tax_unit.loc[:, "handc_pausch"] = calc_handicap_lump_sum(
+        tax_unit, e_st_abzuege_params
+    )
 
     # Aggregate several incomes on the taxpayer couple
     for inc in ["gross_e1", "gross_e4", "gross_e5", "gross_e6", "gross_e7"]:
@@ -50,24 +52,26 @@ def zve(tax_unit, params, soz_vers_beitr_params, kindergeld_params):
     # TAX DEDUCTIONS
     # 1. VORSORGEAUFWENDUNGEN
     # TODO: check various deductions against each other (when modelled)
-    tax_unit.loc[:, "vorsorge"] = params["vorsorge"](
-        tax_unit, params, soz_vers_beitr_params
+    tax_unit.loc[:, "vorsorge"] = e_st_abzuege_params["vorsorge"](
+        tax_unit, e_st_abzuege_params, soz_vers_beitr_params
     )
     # 2. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
-    tax_unit = calc_altfreibetrag(tax_unit, params)
+    tax_unit = calc_altfreibetrag(tax_unit, e_st_abzuege_params)
 
     # Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
-    tax_unit = params["calc_hhfreib"](tax_unit, params)
+    tax_unit = e_st_abzuege_params["calc_hhfreib"](tax_unit, e_st_abzuege_params)
 
     # Taxable income (zve)
     # For married couples, household income is split between the two.
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
-    tax_unit.loc[~tax_unit["child"], "zve_nokfb"] = zve_nokfb(tax_unit, params)
+    tax_unit.loc[~tax_unit["child"], "zve_nokfb"] = zve_nokfb(
+        tax_unit, e_st_abzuege_params
+    )
     # Tax base including capital income
-    tax_unit = zve_abg_nokfb(tax_unit, params)
+    tax_unit = zve_abg_nokfb(tax_unit, e_st_abzuege_params)
 
-    tax_unit = kinderfreibetrag(tax_unit, params, kindergeld_params)
+    tax_unit = kinderfreibetrag(tax_unit, e_st_abzuege_params, kindergeld_params)
 
     # Finally, Subtract (corrected) Child allowance
     tax_unit.loc[~tax_unit["child"], "zve_kfb"] = np.maximum(

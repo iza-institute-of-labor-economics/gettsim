@@ -51,9 +51,6 @@ def regelsatz_alg2(household, params):
     children_age_info["adult_num"] = len(household) - children_age_info["child_num"]
 
     household["mehrbed"] = mehrbedarf_alg2(household, children_age_info, params)
-    # 'Regular Need'
-    # Different amounts by number of adults and age of kids
-    # arbeitsl_geld_2_params['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
 
     if params["year"] <= 2010:
         calc_regelsatz = regelberechnung_until_2010

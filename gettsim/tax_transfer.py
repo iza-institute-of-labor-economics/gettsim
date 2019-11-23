@@ -177,7 +177,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "params": e_st_abzuege_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
             "kindergeld_params": kindergeld_params,
         },
@@ -200,7 +200,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "params": e_st_params,
+            "e_st_params": e_st_params,
             "e_st_abzuege_params": e_st_abzuege_params,
             "soli_st_params": soli_st_params,
             "abgelt_st_params": abgelt_st_params,

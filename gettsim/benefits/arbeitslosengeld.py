@@ -47,12 +47,11 @@ def _alg_entgelt(
     wage."""
     westost = "o" if person["east"] else "w"
     # Relevant wage is capped at the contribution thresholds
-    alg_wage = min(soz_vers_beitr_params["rvmaxek" + westost], person["m_wage_l1"])
+    alg_wage = min(soz_vers_beitr_params[f"rvmaxek{westost}"], person["m_wage_l1"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     alg_ssc = params["alg1_abz"] * alg_wage
-    # assume west germany for this particular calculation
-    # df['east'] = False
+
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     alg_tax = e_st_params["tax_schedule"](
         12 * alg_wage - e_st_abzuege_params["werbung"], e_st_params

@@ -2,7 +2,9 @@ import numpy as np
 import pandas as pd
 
 
-def tax_sched(tax_unit, params, e_st_abzuege_params, soli_st_params, abgelt_st_params):
+def tax_sched(
+    tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_params
+):
     """Given various forms of income and other state variables, return
     the different taxes to be paid before making favourability checks etc..
 
@@ -18,8 +20,8 @@ def tax_sched(tax_unit, params, e_st_abzuege_params, soli_st_params, abgelt_st_p
 
     for inc in e_st_abzuege_params["zve_list"]:
         # apply tax tariff, round to full Euro amounts
-        tax_unit[f"tax_{inc}"] = params["tax_schedule"](
-            tax_unit[f"zve_{inc}"], params
+        tax_unit[f"tax_{inc}"] = e_st_params["tax_schedule"](
+            tax_unit[f"zve_{inc}"], e_st_params
         ).astype(int)
         tax_unit[f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"]
         tax_unit.loc[adult_married, f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"][
@@ -61,14 +63,14 @@ def tax_sched(tax_unit, params, e_st_abzuege_params, soli_st_params, abgelt_st_p
     return tax_unit
 
 
-def abgeltung(tax_unit, params, e_st_abzuege_params):
+def abgeltung(tax_unit, e_st_params, e_st_abzuege_params):
     """ Capital Income Tax / Abgeltungsteuer
         since 2009, captial income is taxed with a flatrate of 25%.
     """
     tax_unit_abgelt = pd.DataFrame(index=tax_unit.index.copy())
     tax_unit_abgelt["abgst"] = 0
-    if params["year"] >= 2009:
-        tax_unit_abgelt.loc[~tax_unit["zveranl"], "abgst"] = params[
+    if e_st_params["year"] >= 2009:
+        tax_unit_abgelt.loc[~tax_unit["zveranl"], "abgst"] = e_st_params[
             "abgst"
         ] * np.maximum(
             tax_unit["gross_e5"]
@@ -78,7 +80,7 @@ def abgeltung(tax_unit, params, e_st_abzuege_params):
         )
         tax_unit_abgelt.loc[tax_unit["zveranl"], "abgst"] = (
             0.5
-            * params["abgst"]
+            * e_st_params["abgst"]
             * np.maximum(
                 tax_unit["gross_e5_tu"]
                 - 2 * (e_st_abzuege_params["spsparf"] + e_st_abzuege_params["spwerbz"]),
