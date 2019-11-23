@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def pensions(person, tb, tb_pens):
+def pensions(person, soz_vers_beitr_data, tb_pens):
     """
     This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
@@ -21,13 +21,13 @@ def pensions(person, tb, tb_pens):
 
     """
     # meanwages is only filled until 2016
-    yr = min(tb["yr"], 2016)
+    yr = min(soz_vers_beitr_data["yr"], 2016)
 
-    person = update_earnings_points(person, tb, tb_pens[yr])
+    person = update_earnings_points(person, soz_vers_beitr_data, tb_pens[yr])
     # ZF: Zugangsfaktor.
     ZF = _zugangsfaktor(person)
 
-    rentenwert = tb["calc_rentenwert"](tb_pens, yr)
+    rentenwert = soz_vers_beitr_data["calc_rentenwert"](tb_pens, yr)
 
     # use all three components for Rentenformel.
     # It's called 'pensions_sim' to emphasize that this is simulated.
@@ -37,7 +37,7 @@ def pensions(person, tb, tb_pens):
     return person
 
 
-def update_earnings_points(person, tb, tb_pens):
+def update_earnings_points(person, soz_vers_beitr_data, tb_pens):
     """Given earnings, social security rules, average
     earnings in a particular year and potentially other
     variables (e.g., benefits for raising children,
@@ -49,8 +49,8 @@ def update_earnings_points(person, tb, tb_pens):
 
     """
 
-    out = _ep_for_earnings(person, tb, tb_pens)
-    out += _ep_for_care_periods(person, tb, tb_pens)
+    out = _ep_for_earnings(person, soz_vers_beitr_data, tb_pens)
+    out += _ep_for_care_periods(person, soz_vers_beitr_data, tb_pens)
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
@@ -58,13 +58,16 @@ def update_earnings_points(person, tb, tb_pens):
     return person
 
 
-def _ep_for_earnings(person, tb, tb_pens):
+def _ep_for_earnings(person, soz_vers_beitr_data, tb_pens):
     """Return earning points for the wages earned in the last year."""
     westost = "o" if person["east"] else "w"
-    return np.minimum(person["m_wage"], tb["rvmaxek" + westost]) / tb_pens["meanwages"]
+    return (
+        np.minimum(person["m_wage"], soz_vers_beitr_data["rvmaxek" + westost])
+        / tb_pens["meanwages"]
+    )
 
 
-def _ep_for_care_periods(df, tb, tb_pens):
+def _ep_for_care_periods(df, soz_vers_beitr_data, tb_pens):
     """Return earnings points for care periods."""
     return 0.0
 

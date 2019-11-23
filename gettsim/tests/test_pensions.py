@@ -36,16 +36,15 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, tax_policy_data, year):
+def test_pension(input_data, year):
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
-    tb["yr"] = year
+    soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
     if year > 2017:
-        tb["calc_rentenwert"] = _rentenwert_from_2018
+        soz_vers_beitr_data["calc_rentenwert"] = _rentenwert_from_2018
     else:
-        tb["calc_rentenwert"] = _rentenwert_until_2017
+        soz_vers_beitr_data["calc_rentenwert"] = _rentenwert_until_2017
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     df = _apply_tax_transfer_func(
         df,
@@ -53,16 +52,16 @@ def test_pension(input_data, tax_policy_data, year):
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=[column],
-        func_kwargs={"tb": tb, "tb_pens": tb_pens},
+        func_kwargs={"soz_vers_beitr_data": soz_vers_beitr_data, "tb_pens": tb_pens},
     )
     assert_array_almost_equal(df[column], year_data[column])
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, tax_policy_data, year):
+def test_update_earning_points(input_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
     tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
     df = _apply_tax_transfer_func(
         df,
@@ -70,6 +69,9 @@ def test_update_earning_points(input_data, tax_policy_data, year):
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=[],
-        func_kwargs={"tb": tb, "tb_pens": tb_pens[year]},
+        func_kwargs={
+            "soz_vers_beitr_data": soz_vers_beitr_data,
+            "tb_pens": tb_pens[year],
+        },
     )
     assert_array_almost_equal(df["EP"], year_data["EP_end"].values)
