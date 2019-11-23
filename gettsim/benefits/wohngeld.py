@@ -180,7 +180,7 @@ def calc_wg_gross_income(household):
 
 
 def calc_wg_income_deductions(household, params):
-    if params["year"] < 2016:
+    if params["year"] <= 2015:
         wg_incdeduct = _calc_wg_income_deductions_until_2015(household, params)
     else:
         wg_incdeduct = _calc_wg_income_deductions_since_2016(household, params)

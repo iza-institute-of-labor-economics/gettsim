@@ -103,8 +103,7 @@ def _rentenwert_from_2018(params, year):
     """
     # Rentenwert: The monetary value of one 'entgeltpunkt'.
     # This depends, among others, of past developments.
-    # Hence, some calculations have been made
-    # in the data preparation.
+
     # First the Lohnkomponente which depands on the wage development of last years.
     lohnkomponente = _lohnkomponente(params, year)
     # Second riesterfaktor
