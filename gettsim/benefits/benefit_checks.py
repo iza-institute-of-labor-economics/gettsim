@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def benefit_priority(household, tb):
+def benefit_priority(household, arbeitsl_geld_2_data):
     """There are three main transfers for working-age people:
         1. Unemployment Benefit / ALG2
         2. Housing Benefit / Wohngeld
@@ -15,7 +15,7 @@ def benefit_priority(household, tb):
     There is no way you can receive ALG2 and Wohngeld/Kinderzuschlag at the same time!
     """
     # But first, we check whether hh wealth is too high
-    household = wealth_test(household, tb)
+    household = wealth_test(household, arbeitsl_geld_2_data)
     # use these values (possibly zero now) below
     household["ar_wg_alg2_ek"] = (
         household["ar_base_alg2_ek"] + household["wohngeld_basis_hh"]
@@ -77,7 +77,7 @@ def benefit_priority(household, tb):
     return household
 
 
-def wealth_test(household, tb):
+def wealth_test(household, arbeitsl_geld_2_data):
     """ Checks Benefit Claim against Household wealth.
         - household: a dataframe containing information on theoretical claim of
               - ALG2
@@ -92,10 +92,10 @@ def wealth_test(household, tb):
     # there are exemptions depending on individual age for adults
     household["ind_freib"] = 0
     household.loc[(household["byear"] >= 1948) & (~household["child"]), "ind_freib"] = (
-        tb["a2ve1"] * household["age"]
+        arbeitsl_geld_2_data["a2ve1"] * household["age"]
     )
     household.loc[(household["byear"] < 1948), "ind_freib"] = (
-        tb["a2ve2"] * household["age"]
+        arbeitsl_geld_2_data["a2ve2"] * household["age"]
     )
     # sum over individuals
     household["ind_freib_hh"] = household["ind_freib"].sum()
@@ -104,12 +104,16 @@ def wealth_test(household, tb):
     household["maxvermfb"] = 0
     household.loc[
         (household["byear"] < 1948) & (~household["child"]), "maxvermfb"
-    ] = tb["a2voe1"]
-    household.loc[(household["byear"].between(1948, 1957)), "maxvermfb"] = tb["a2voe1"]
-    household.loc[(household["byear"].between(1958, 1963)), "maxvermfb"] = tb["a2voe3"]
+    ] = arbeitsl_geld_2_data["a2voe1"]
+    household.loc[
+        (household["byear"].between(1948, 1957)), "maxvermfb"
+    ] = arbeitsl_geld_2_data["a2voe1"]
+    household.loc[
+        (household["byear"].between(1958, 1963)), "maxvermfb"
+    ] = arbeitsl_geld_2_data["a2voe3"]
     household.loc[
         (household["byear"] >= 1964) & (~household["child"]), "maxvermfb"
-    ] = tb["a2voe4"]
+    ] = arbeitsl_geld_2_data["a2voe4"]
     household["maxvermfb_hh"] = household["maxvermfb"].sum()
 
     household_size = household.shape[0]
@@ -117,8 +121,9 @@ def wealth_test(household, tb):
     household["vermfreibetr"] = np.minimum(
         household["maxvermfb_hh"],
         household["ind_freib_hh"]
-        + household["child0_18_num"] * tb["a2vkf"]
-        + (household_size - household["child0_18_num"]) * tb["a2verst"],
+        + household["child0_18_num"] * arbeitsl_geld_2_data["a2vkf"]
+        + (household_size - household["child0_18_num"])
+        * arbeitsl_geld_2_data["a2verst"],
     )
 
     # If wealth exceeds the exemption, set benefits to zero
