@@ -211,7 +211,8 @@ def calc_midi_long_term_care_contr(person, params):
 
 
 def no_midi(person, params):
-    """Dummy function returning nothing
+    """Dummy function returning 0 for the single contributions
     """
-    person[OUT_COLS] = 0.0
+    for col in OUT_COLS:
+        person[col] = 0.0
     return person
