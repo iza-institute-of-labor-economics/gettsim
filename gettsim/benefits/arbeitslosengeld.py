@@ -3,41 +3,64 @@ import numpy as np
 from gettsim.taxes.calc_taxes import soli_formula
 
 
-def ui(person, tb):
+def ui(
+    person,
+    arbeitsl_geld_data,
+    soz_vers_beitr_data,
+    e_st_abzuege_data,
+    e_st_data,
+    soli_st_data,
+):
     """Return the Unemployment Benefit based on
     employment status and income from previous years.
 
     """
 
-    alg_entgelt = _alg_entgelt(person, tb)
+    alg_entgelt = _alg_entgelt(
+        person,
+        arbeitsl_geld_data,
+        soz_vers_beitr_data,
+        e_st_abzuege_data,
+        e_st_data,
+        soli_st_data,
+    )
 
     eligible = check_eligibility_alg(person)
 
     if eligible:
         if person["child_num_tu"].sum() == 0:
-            person["m_alg1"] = alg_entgelt * tb["agsatz0"]
+            person["m_alg1"] = alg_entgelt * arbeitsl_geld_data["agsatz0"]
         else:
-            person["m_alg1"] = alg_entgelt * tb["agsatz1"]
+            person["m_alg1"] = alg_entgelt * arbeitsl_geld_data["agsatz1"]
     else:
         person["m_alg1"] = 0.0
     return person
 
 
-def _alg_entgelt(person, tb):
+def _alg_entgelt(
+    person,
+    arbeitsl_geld_data,
+    soz_vers_beitr_data,
+    e_st_abzuege_data,
+    e_st_data,
+    soli_st_data,
+):
     """ Calculating the claim for the Arbeitslosengeld, depending on the current
     wage."""
     westost = "o" if person["east"] else "w"
     # Relevant wage is capped at the contribution thresholds
-    alg_wage = np.minimum(tb["rvmaxek" + westost], person["m_wage_l1"])
+    alg_wage = np.minimum(soz_vers_beitr_data["rvmaxek" + westost], person["m_wage_l1"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    alg_ssc = tb["alg1_abz"] * alg_wage
+    alg_ssc = arbeitsl_geld_data["alg1_abz"] * alg_wage
     # assume west germany for this particular calculation
     # df['east'] = False
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    alg_tax = tb["tax_schedule"](12 * alg_wage - tb["werbung"], tb)
+    alg_tax = arbeitsl_geld_data["tax_schedule"](
+        12 * alg_wage - e_st_abzuege_data["werbung"], e_st_data
+    )
 
-    alg_soli = soli_formula(alg_tax, tb)
+    alg_soli = soli_formula(alg_tax, soli_st_data)
 
     return np.maximum(0, alg_wage - alg_ssc - alg_tax / 12 - alg_soli / 12)
 
