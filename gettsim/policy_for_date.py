@@ -35,38 +35,48 @@ def get_policies_for_date(year, group, month=1, day=1):
                 tax_data[key] = tax_data_raw[key]["values"][policy_in_place]["value"]
     tax_data["yr"] = year
 
-    if year >= 2003:
-        tax_data["calc_midi_contrib"] = calc_midi_contributions
-    else:
-        tax_data["calc_midi_contrib"] = no_midi
-    if year > 2017:
-        tax_data["calc_rentenwert"] = _rentenwert_from_2018
-    else:
-        tax_data["calc_rentenwert"] = _rentenwert_until_2017
-    if year <= 2014:
-        tax_data["calc_hhfreib"] = calc_hhfreib_until2014
-    else:
-        tax_data["calc_hhfreib"] = calc_hhfreib_from2015
-    if year > 2011:
-        tax_data["childben_elig_rule"] = kg_eligibility_hours
-    else:
-        tax_data["childben_elig_rule"] = kg_eligibility_wage
-    if year < 2009:
-        tax_data["calc_max_rent"] = calc_max_rent_until_2008
-    else:
-        tax_data["calc_max_rent"] = calc_max_rent_since_2009
-    if year >= 2010:
-        tax_data["vorsorge"] = vorsorge2010
-    else:
-        tax_data["vorsorge"] = vorsorge_dummy
-    # TODO: We need to adapt favorability check for that. See
-    #  https://github.com/iza-institute-of-labor-economics/gettsim/issues/81 for
-    #  details.
-    # if year >= 2009:
-    #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
-    # else:
-    #     tax_data["zve_list"] = ["nokfb", "kfb"]
-    tax_data["zve_list"] = ["nokfb", "kfb"]
+    if group == "soz_vers_beitr":
+        if year >= 2003:
+            tax_data["calc_midi_contrib"] = calc_midi_contributions
+        else:
+            tax_data["calc_midi_contrib"] = no_midi
+        if year > 2017:
+            tax_data["calc_rentenwert"] = _rentenwert_from_2018
+        else:
+            tax_data["calc_rentenwert"] = _rentenwert_until_2017
 
-    tax_data["tax_schedule"] = tarif
+    elif group == "e_st_abzuege":
+        if year <= 2014:
+            tax_data["calc_hhfreib"] = calc_hhfreib_until2014
+        else:
+            tax_data["calc_hhfreib"] = calc_hhfreib_from2015
+        if year >= 2010:
+            tax_data["vorsorge"] = vorsorge2010
+        else:
+            tax_data["vorsorge"] = vorsorge_dummy
+
+        # TODO: We need to adapt favorability check for that. See
+        #  https://github.com/iza-institute-of-labor-economics/gettsim/issues/81 for
+        #  details.
+        # if year >= 2009:
+        #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
+        # else:
+        #     tax_data["zve_list"] = ["nokfb", "kfb"]
+        tax_data["zve_list"] = ["nokfb", "kfb"]
+
+    elif group == "kindergeld":
+        if year > 2011:
+            tax_data["childben_elig_rule"] = kg_eligibility_hours
+        else:
+            tax_data["childben_elig_rule"] = kg_eligibility_wage
+
+    elif group == "wohngeld":
+        if year < 2009:
+            tax_data["calc_max_rent"] = calc_max_rent_until_2008
+        else:
+            tax_data["calc_max_rent"] = calc_max_rent_since_2009
+
+    elif group == "e_st":
+        tax_data["tax_schedule"] = tarif
+
     return tax_data

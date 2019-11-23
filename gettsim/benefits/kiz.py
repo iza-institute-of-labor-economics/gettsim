@@ -53,7 +53,7 @@ def kiz(household, kinderzuschlag_data, arbeitsl_geld_2_data, kindergeld_data):
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
-    household["child_num_kg"] = kinderzuschlag_data["childben_elig_rule"](
+    household["child_num_kg"] = kindergeld_data["childben_elig_rule"](
         household, kindergeld_data
     ).sum()
 

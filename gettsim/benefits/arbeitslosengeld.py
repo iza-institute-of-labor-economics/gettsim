@@ -56,7 +56,7 @@ def _alg_entgelt(
     # assume west germany for this particular calculation
     # df['east'] = False
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    alg_tax = arbeitsl_geld_data["tax_schedule"](
+    alg_tax = e_st_data["tax_schedule"](
         12 * alg_wage - e_st_abzuege_data["werbung"], e_st_data
     )
 
