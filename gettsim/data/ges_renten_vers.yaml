@@ -1,0 +1,399 @@
+rente_alpha:
+  group: ges_renten_vers
+  name:
+    de: Nachhaltigkeitsfaktor
+    en:
+  description:
+    de: § 68 (4) S. 6 SGB VI
+    en:
+  values:
+    2004-01-01:
+      value: .25
+      note:
+rente_dentg:
+  group: ges_renten_vers
+  name:
+    de: Durchschnittsentgelt
+    en:
+  description:
+    de: Anlage 1, SGB VI
+    en:
+  values:
+    1984-01-01:
+      value: 17533.22118998073
+      note:
+    1985-01-01:
+      value: 18041.44531988976
+      note:
+    1986-01-01:
+      value: 18727.08773257389
+      note:
+    1987-01-01:
+      value: 19288.99751000854
+      note: .
+    1988-01-01:
+      value: 19887.20901100812
+      note: .
+    1989-01-01:
+      value: 20483.8866363641
+      note:
+    1990-01-01:
+      value: 21446.64924865658
+      note: .
+    1991-01-01:
+      value: 22712.09665461722
+      note:
+    1992-01-01:
+      value: 23938.68587760695
+      note: .
+    1993-01-01:
+      value: 24633.02025227141
+      note: .
+    1994-01-01:
+      value: 25125.90562574457
+      note:
+    1995-01-01:
+      value: 25904.60316080641
+      note: .
+    1996-01-01:
+      value: 26422.54183645818
+      note: .
+    1997-01-01:
+      value: 26660.29256121442
+      note: .
+    1998-01-01:
+      value: 27060.12281230986
+      note:
+    1999-01-01:
+      value: 27357.69468716606
+      note:
+    2000-01-01:
+      value: 27740.65230618203
+      note: .
+    2001-01-01:
+      value: 28231.4925121304
+      note: .
+    2002-01-01:
+      value: 28626
+      note:
+    2003-01-01:
+      value: 28938
+      note:
+    2004-01-01:
+      value: 29060
+      note:
+    2005-01-01:
+      value: 29202
+      note:
+    2006-01-01:
+      value: 29494
+      note:
+    2007-01-01:
+      value: 29951
+      note:
+    2008-01-01:
+      value: 30625
+      note:
+    2009-01-01:
+      value: 30506
+      note:
+    2010-01-01:
+      value: 31144
+      note:
+    2011-01-01:
+      value: 32100
+      note:
+    2012-01-01:
+      value: 33002
+      note:
+    2013-01-01:
+      value: 33659
+      note:
+    2014-01-01:
+      value: 34514
+      note:
+    2015-01-01:
+      value: 35363
+      note:
+    2016-01-01:
+      value: 36267
+      note:
+    2017-01-01:
+      value: 37103
+      note:
+    2018-01-01:
+      value: 37873
+      note:
+    2019-01-01:
+      value: 38901
+      note:
+rente_umr:
+  group: ges_renten_vers
+  name:
+    de: Umrechnungsfaktor für neue BL bei der Berechnung der Entgeltpunkte
+    en:
+  description:
+    de: Anlage 10 zu SGB VI
+    en:
+  values:
+    1984-01-01:
+      value: 3.2885
+      note:
+    1985-01-01:
+      value: 3.3129
+      note:
+    1986-01-01:
+      value: 3.2968
+      note:
+    1987-01-01:
+      value: 3.2548
+      note: .
+    1988-01-01:
+      value: 3.2381
+      note: .
+    1989-01-01:
+      value: 3.233
+      note:
+    1990-01-01:
+      value: 3.0707
+      note: .
+    1991-01-01:
+      value: 1.7235
+      note:
+    1992-01-01:
+      value: 1.4393
+      note: .
+    1993-01-01:
+      value: 1.3197
+      note: .
+    1994-01-01:
+      value: 1.2687
+      note:
+    1995-01-01:
+      value: 1.2317
+      note: .
+    1996-01-01:
+      value: 1.2209
+      note: .
+    1997-01-01:
+      value: 1.2089
+      note: .
+    1998-01-01:
+      value: 1.2113
+      note:
+    1999-01-01:
+      value: 1.2054
+      note:
+    2000-01-01:
+      value: 1.203
+      note: .
+    2001-01-01:
+      value: 1.2003
+      note: .
+    2002-01-01:
+      value: 1.1972
+      note:
+    2003-01-01:
+      value: 1.1943
+      note:
+    2004-01-01:
+      value: 1.1932
+      note:
+    2005-01-01:
+      value: 1.1827
+      note:
+    2007-01-01:
+      value: 1.1841
+      note:
+    2008-01-01:
+      value: 1.1857
+      note:
+    2009-01-01:
+      value: 1.1712
+      note:
+    2010-01-01:
+      value: 1.1726
+      note:
+    2011-01-01:
+      value: 1.174
+      note:
+    2012-01-01:
+      value: 1.1785
+      note:
+    2013-01-01:
+      value: 1.1762
+      note:
+    2014-01-01:
+      value: 1.1665
+      note:
+    2015-01-01:
+      value: 1.1502
+      note:
+    2016-01-01:
+      value: 1.1415
+      note:
+    2017-01-01:
+      value: 1.1193
+      note:
+    2018-01-01:
+      value: 1.1248
+      note:
+    2019-01-01:
+      value: 1.084
+      note:
+rw_west:
+  group: ges_renten_vers
+  name:
+    de: aktueller Rentenwert Westdeutschland zum 1.1.
+    en:
+  description:
+    de: https://de.wikipedia.org/wiki/Aktueller_Rentenwert
+    en:
+  values:
+    1992-01-01:
+      value: 21.18793555677129
+      note: .
+    1993-01-01:
+      value: 21.8
+      note: .
+    1994-01-01:
+      value: 22.75
+      note:
+    1995-01-01:
+      value: 23.52
+      note: .
+    1996-01-01:
+      value: 23.64
+      note: .
+    1997-01-01:
+      value: 24.25568684394861
+      note: .
+    1998-01-01:
+      value: 24.36305813899981
+      note:
+    1999-01-01:
+      value: 24.69028494296539
+      note:
+    2000-01-01:
+      value: 24.83855958851229
+      note: .
+    2001-01-01:
+      value: 25.31406103802478
+      note: .
+    2002-01-01:
+      value: 25.86
+      note:
+    2003-01-01:
+      value: 26.13
+      note:
+    2007-01-01:
+      value: 26.27
+      note:
+    2008-01-01:
+      value: 26.56
+      note:
+    2009-01-01:
+      value: 27.2
+      note:
+    2011-01-01:
+      value: 27.47
+      note:
+    2012-01-01:
+      value: 28.07
+      note:
+    2013-01-01:
+      value: 28.14
+      note:
+    2014-01-01:
+      value: 28.61
+      note:
+    2015-01-01:
+      value: 29.21
+      note:
+    2016-01-01:
+      value: 30.45
+      note:
+    2017-01-01:
+      value: 31.03
+      note:
+    2018-01-01:
+      value: 32.03
+      note:
+rw_east:
+  group: ges_renten_vers
+  name:
+    de: aktueller Rentenwert Ostdeutschland zum 1.1.
+    en:
+  description:
+    de: https://de.wikipedia.org/wiki/Aktueller_Rentenwert
+    en:
+  values:
+    1992-01-01:
+      value: 12.05114963979487
+      note: .
+    1993-01-01:
+      value: 14.4133181309214
+      note: .
+    1994-01-01:
+      value: 17.04647131908193
+      note:
+    1995-01-01:
+      value: 18.12529718840595
+      note: .
+    1996-01-01:
+      value: 19.38818813496061
+      note: .
+    1997-01-01:
+      value: 20.71243410725881
+      note: .
+    1998-01-01:
+      value: 20.89649918448945
+      note:
+    1999-01-01:
+      value: 21.47937192905314
+      note:
+    2000-01-01:
+      value: 21.60719489935219
+      note: .
+    2001-01-01:
+      value: 22.06224467361683
+      note: .
+    2002-01-01:
+      value: 22.7
+      note:
+    2003-01-01:
+      value: 22.97
+      note:
+    2007-01-01:
+      value: 23.09
+      note:
+    2008-01-01:
+      value: 23.34
+      note:
+    2009-01-01:
+      value: 24.13
+      note:
+    2011-01-01:
+      value: 24.37
+      note:
+    2012-01-01:
+      value: 24.92
+      note:
+    2013-01-01:
+      value: 25.74
+      note:
+    2014-01-01:
+      value: 26.39
+      note:
+    2015-01-01:
+      value: 27.05
+      note:
+    2016-01-01:
+      value: 28.66
+      note:
+    2017-01-01:
+      value: 29.69
+      note:
+    2018-01-01:
+      value: 30.69
+      note:

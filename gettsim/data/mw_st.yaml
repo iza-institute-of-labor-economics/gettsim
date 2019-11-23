@@ -1,0 +1,33 @@
+ust_low:
+  group: mw_st
+  name:
+    de: Mehrwertsteuer, ermäßigter Satz
+    en:
+  description:
+    de: § 12 (2) UStG
+    en:
+  values:
+    1984-01-01:
+      value: .07
+      note:
+ust_high:
+  group: mw_st
+  name:
+    de: Mehrwertsteuer, Regelsatz
+    en:
+  description:
+    de: § 12 (1) UStG
+    en:
+  values:
+    1984-01-01:
+      value: .14
+      note:
+    1993-01-01:
+      value: .15
+      note: .
+    1999-01-01:
+      value: .16
+      note:
+    2007-01-01:
+      value: .19
+      note:

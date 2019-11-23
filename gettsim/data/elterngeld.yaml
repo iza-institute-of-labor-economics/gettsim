@@ -1,0 +1,39 @@
+elgfaktor:
+  group: elterngeld
+  name:
+    de: Faktor bei der ElG-Berechung, 2. Stufe
+    en:
+  description:
+    de: § 2 (1) BEEG
+    en:
+  values:
+    2007-01-01:
+      value: .67
+      note:
+elgmax:
+  group: elterngeld
+  name:
+    de: Höchsbetrag des Elterngeldes
+    en:
+  description:
+    de: § 2 (1) BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 1800
+      note:
+elgzwst:
+  group: elterngeld
+  name:
+    de: Nettoeinkommen, bei dem 2. Stufe beginnt
+    en:
+  description:
+    de: § 2 (2) BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 1001
+      note:
+    2013-01-01:
+      value: 1201
+      note:

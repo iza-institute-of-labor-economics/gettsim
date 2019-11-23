@@ -1,0 +1,996 @@
+kifreib:
+  group: e_st_abzuege
+  name:
+    de: Kinderfreibetrag (sächliches Existenzminimum des Kindes sowie Betreuungs- und Erziehungs- oder Ausbildungsbedarf)
+    en:
+  description:
+    de: § 32(6) EStG
+    en:
+  values:
+    1984-01-01:
+      value: 221
+      note:
+    1986-01-01:
+      value: 1270
+      note:
+    1990-01-01:
+      value: 1546
+      note: .
+    1994-01-01:
+      value: 2098
+      note:
+    1996-01-01:
+      value: 3203
+      note: .
+    1997-01-01:
+      value: 3534
+      note: .
+    2000-01-01:
+      value: 5080
+      note: .
+    2002-01-01:
+      value: 5808
+      note:
+    2009-01-01:
+      value: 6024
+      note:
+    2010-01-01:
+      value: 7008
+      note:
+    2015-01-01:
+      value: 7152
+      note: geändert durch BGBl. 2015 Nr. 30
+    2016-01-01:
+      value: 7248
+      note: geändert durch BGBl. 2015 Nr. 30
+    2017-01-01:
+      value: 7356
+      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+    2018-01-01:
+      value: 7428
+      note: Art. 9 BGBL I. S. 3000 v. 20.12.2016
+    2019-01-01:
+      value: 7620
+      note:
+vorsp_rv:
+  group: e_st_abzuege
+  name:
+    de: Bemessungsgrundlage, Vorsorgepauschale, Anteil des Beitrags der RV-Beiträge
+    en:
+  description:
+    de: § 10c (2) S. 2 Nr.1
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: .5
+      note:
+vorwegab:
+  group: e_st_abzuege
+  name:
+    de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
+    en:
+  description:
+    de: § 10 (3), (4a) EStG
+    en:
+  values:
+    1985-01-01:
+      value: 1534
+      note:
+    1989-01-01:
+      value: 2045
+      note:
+    1993-01-01:
+      value: 3068
+      note: .
+    2011-01-01:
+      value: 2700
+      note:
+    2012-01-01:
+      value: 2400
+      note:
+    2013-01-01:
+      value: 2100
+      note:
+    2014-01-01:
+      value: 1800
+      note:
+    2015-01-01:
+      value: 1500
+      note:
+    2016-01-01:
+      value: 1200
+      note:
+    2017-01-01:
+      value: 900
+      note:
+    2018-01-01:
+      value: 600
+      note:
+    2019-01-01:
+      value: 300
+      note:
+vwabzc:
+  group: e_st_abzuege
+  name:
+    de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle Ehegatten  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
+    en:
+  description:
+    de: § 10 (3), (4a) EStG
+    en:
+  values:
+    1985-01-01:
+      value: 3068
+      note:
+    1989-01-01:
+      value: 4090
+      note:
+    1993-01-01:
+      value: 6136
+      note: .
+    2007-01-01:
+      value: 6163
+      note:
+    2010-01-01:
+      value: 6136
+      note:
+    2011-01-01:
+      value: 5400
+      note:
+    2012-01-01:
+      value: 4800
+      note:
+    2013-01-01:
+      value: 4200
+      note:
+    2014-01-01:
+      value: 3600
+      note:
+    2015-01-01:
+      value: 3000
+      note:
+    2016-01-01:
+      value: 2400
+      note:
+    2017-01-01:
+      value: 1800
+      note:
+    2018-01-01:
+      value: 1200
+      note:
+    2019-01-01:
+      value: 600
+      note:
+werbung:
+  group: e_st_abzuege
+  name:
+    de: Werbungskostenpauschbetrag bei nichtselbstständiger Arbeit
+    en:
+  description:
+    de: § 9a EStG
+    en:
+  values:
+    1984-01-01:
+      value: 288
+      note:
+    1989-01-01:
+      value: 1023
+      note:
+    2002-01-01:
+      value: 1044
+      note:
+    2004-01-01:
+      value: 920
+      note:
+    2012-01-01:
+      value: 1000
+      note: Stand  Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854 Achtung:§ 9a Satz 1 Nummer 1 Buchstabe a in der Fassung des Artikels 1 Nummer 5 Buchstabe a des Gesetzes vom 1. November 2011 (BGBl. I S. 2131) ist erstmals für den Veranlagungszeitraum 2011 anzuwenden. 2Beim Steuerabzug vom Arbeitslohn ist er auf laufenden Arbeitslohn, der für einen nach dem 30. November 2011 endenden Lohnzahlungszeitraum gezahlt wird, und auf sonstige Bezüge, die nach dem 30. November 2011 zufließen, erstmals anzuwenden
+vorsorgpausch:
+  group: e_st_abzuege
+  name:
+    de: Werbungskostenpauschbetrag bei Vorsorgebezügen oder Einnahmen im Sinne des § 22 EStG Nummer 1, 1a, 1b, 1c und 5
+    en:
+  description:
+    de: §9a, 1.b, 3. EStG
+    en:
+  values:
+    2004-01-01:
+      value: 102
+      note:
+sonder:
+  group: e_st_abzuege
+  name:
+    de: Sonderausgaben-Pauschbetrag
+    en:
+  description:
+    de: § 10c EStG
+    en:
+  values:
+    1984-01-01:
+      value: 138
+      note:
+    1989-01-01:
+      value: 55
+      note:
+    2002-01-01:
+      value: 36
+      note:
+spsparf:
+  group: e_st_abzuege
+  name:
+    de: Sparerfreibetrag (bis 2008) Sparerpauschbetrag (ab 2008)
+    en:
+  description:
+    de: § 20 (9) EStG
+    en:
+  values:
+    1984-01-01:
+      value: 153
+      note:
+    1990-01-01:
+      value: 307
+      note: .
+    1993-01-01:
+      value: 3068
+      note: .
+    2000-01-01:
+      value: 1534
+      note: .
+    2002-01-01:
+      value: 1550
+      note:
+    2004-01-01:
+      value: 1370
+      note:
+    2007-01-01:
+      value: 750
+      note:
+    2009-01-01:
+      value: 801
+      note:
+spwerbz:
+  group: e_st_abzuege
+  name:
+    de: Werbungskostenpauschbetrag bei Zinseinkünften
+    en:
+  description:
+    de: § 9a EStG
+    en:
+  values:
+    1984-01-01:
+      value: 51
+      note:
+    2009-01-01:
+      value: 0
+      note:
+grundbet:
+  group: e_st_abzuege
+  name:
+    de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle  SEB Dies gilt nur noch, wenn Regelung von vor 2004 günstiger ist  (§ 10 (3) Nr.1, § 10c (5) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1985-01-01:
+      value: 1196
+      note:
+    1992-01-01:
+      value: 1334
+      note: .
+altenth:
+  group: e_st_abzuege
+  name:
+    de: Höchstbetrag des Altersentlastungsbetrags  (Höhe §24a EstG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 1534
+      note:
+    1989-01-01:
+      value: 1902
+      note:
+    2002-01-01:
+      value: 1908
+      note:
+    2005-01-01:
+      value: 1900
+      note:
+    2006-01-01:
+      value: 1824
+      note:
+    2007-01-01:
+      value: 1748
+      note:
+    2008-01-01:
+      value: 1672
+      note:
+    2009-01-01:
+      value: 1596
+      note:
+    2010-01-01:
+      value: 1520
+      note:
+    2011-01-01:
+      value: 1444
+      note:
+    2012-01-01:
+      value: 1368
+      note: Stand Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
+    2013-01-01:
+      value: 1292
+      note: EStG §24a Satz 5 (Tabelle)
+    2014-01-01:
+      value: 1216
+      note:
+    2015-01-01:
+      value: 1140
+      note:
+    2016-01-01:
+      value: 1064
+      note:
+    2017-01-01:
+      value: 988
+      note:
+    2018-01-01:
+      value: 912
+      note:
+    2019-01-01:
+      value: 836
+      note:
+altentq:
+  group: e_st_abzuege
+  name:
+    de: Prozentsatz des Altersentlastungsbetrags  (Höhe §24a EstG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: .4
+      note:
+    2006-01-01:
+      value: .384
+      note:
+    2007-01-01:
+      value: .368
+      note:
+    2008-01-01:
+      value: .352
+      note:
+    2009-01-01:
+      value: .336
+      note:
+    2010-01-01:
+      value: .32
+      note:
+    2011-01-01:
+      value: .304
+      note:
+    2012-01-01:
+      value: .288
+      note: Stand Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
+    2013-01-01:
+      value: .272
+      note: EStG §24a Satz 5 (Tabelle)
+    2014-01-01:
+      value: .256
+      note:
+    2015-01-01:
+      value: .24
+      note:
+    2016-01-01:
+      value: .224
+      note:
+    2017-01-01:
+      value: .208
+      note:
+    2018-01-01:
+      value: .192
+      note:
+    2019-01-01:
+      value: .176
+      note:
+an_vorsp_al:
+  group: e_st_abzuege
+  name:
+    de: Anteil des Arbeitslohns  (§ 10c (2) S. 2 Nr. 2)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1985-01-01:
+      value: .09
+      note:
+    1989-01-01:
+      value: .18
+      note:
+    1991-01-01:
+      value: .2
+      note:
+    2005-01-01:
+      value: .11
+      note:
+an_vorsp_rv:
+  group: e_st_abzuege
+  name:
+    de: Anteil des Teils der Versorgeaufwendungen aus § 10c (2) S. 2 Nr.1  Seit 2005 20% steigt bis 2024 um je 4%punkte auf 100%  (§ 10c (2) S.4 EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: .2
+      note:
+    2006-01-01:
+      value: .24
+      note:
+    2007-01-01:
+      value: .28
+      note:
+    2008-01-01:
+      value: .32
+      note:
+    2009-01-01:
+      value: .36
+      note:
+    2010-01-01:
+      value: .4
+      note:
+    2011-01-01:
+      value: .44
+      note: VERALTET / Nicht verwendet
+avspc:
+  group: e_st_abzuege
+  name:
+    de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Splittingtabelle  SEB Dies gilt nur noch, wenn Regelung von vor 2004 günstiger ist  (§ 10 (3) Nr.1, § 10c (5) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1985-01-01:
+      value: 2393
+      note: der Höchstbetrag hat sich hier noch durch Kinder erhöht! Darum hab ich 1984 frei gelassen, Rahmenbedingungen zu unterschiedlich
+    1992-01-01:
+      value: 2669
+      note: .
+    2002-01-01:
+      value: 2668
+      note:
+bvspc:
+  group: e_st_abzuege
+  name:
+    de: Besondere Vorsorgepauschale Grundhöchstbetrag, Splittingtabelle  (§ 10c (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1985-01-01:
+      value: 1022
+      note:
+    1989-01-01:
+      value: 2045
+      note:
+    1996-01-01:
+      value: 2264
+      note: .
+    2002-01-01:
+      value: 2268
+      note:
+bvsps:
+  group: e_st_abzuege
+  name:
+    de: Besondere Vorsorgepauschale Grundhoechstbetrag, Grundtabelle  (§ 10c (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1985-01-01:
+      value: 511
+      note: auch hier Kinderregelung
+    1989-01-01:
+      value: 1023
+      note:
+    1996-01-01:
+      value: 1132
+      note: .
+    2002-01-01:
+      value: 1134
+      note:
+max_vorsp_al:
+  group: e_st_abzuege
+  name:
+    de: Maximalbetrag des Anteils der Arbeitslohns  (§ 10c (2) S. 2 Nr. 2)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1985-01-01:
+      value: 1196
+      note:
+    1993-01-01:
+      value: 1334
+      note: .
+    2005-01-01:
+      value: 1500
+      note:
+hhfreib:
+  group: e_st_abzuege
+  name:
+    de: Entlastungsbetrag für Alleinerziehende  (§ 24b (1) EStG)  vor 2004 Haushaltsfreibetrag, § 32 (7) EStG
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 2154
+      note:
+    1986-01-01:
+      value: 2319
+      note:
+    1989-01-01:
+      value: 2871
+      note:
+    2001-01-01:
+      value: 2916
+      note: .
+    2002-01-01:
+      value: 2340
+      note:
+    2004-01-01:
+      value: 1308
+      note:
+    2015-01-01:
+      value: 1908
+      note: geändert durch BGBl. Nr. 30, 16.07.2015
+hhfreib_ch:
+  group: e_st_abzuege
+  name:
+    de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag pro Kind ab dem 2. Kind  §24b (2) S.2 EStG
+    en:
+  description:
+    de:
+    en:
+  values:
+    2015-01-01:
+      value: 240
+      note:
+kuerzquo:
+  group: e_st_abzuege
+  name:
+    de: Pauschale Kuerzung des Vorwegabzugs um # Prozent der Einnahmen  SEB Vorsicht - falsch modelliert, bleibt weiterhin bei 0.16% Gilt für AN die vom AG steuerfreie Zukunftssicherungsleistungen bekommen (z.B. AG-Anteile) also für fast alle oder Leute die in der RV versicherungsfrei sind  (Höhe § 10 (3) Nr. 2 EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1985-01-01:
+      value: .0935
+      note: entspricht Beitrag zur RV
+    1986-01-01:
+      value: .096
+      note:
+    1987-01-01:
+      value: .0935
+      note: .
+    1989-01-01:
+      value: .09
+      note: Achtung, zwei verschiedene Abzüge, einmal 9% und einmal 3%
+    1994-01-01:
+      value: .16
+      note:
+krzsatz:
+  group: e_st_abzuege
+  name:
+    de: Unterstellter Satz für Kurzarbeiter- und Schlechtwettergeld, gemessen am Bruttolohn
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: .4
+      note:
+mietafa:
+  group: e_st_abzuege
+  name:
+    de: Grenze, von der an für Betriebs- und Instandhaltungskosten, die in Verb. mit Miteinnahmen anfallen, angenommen wird, sie zählen zu AfA
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: 25000
+      note:
+    2006-01-01:
+      value: 0
+      note:
+vorsorg_rv_sh:
+  group: e_st_abzuege
+  name:
+    de: Anteil der Rentenversicherungsbeiträge, der abgesetzt werden kann.   §10 Abs.3 S.4-6 EStG
+    en:
+  description:
+    de:
+    en:
+  values:
+    2005-01-01:
+      value: .6
+      note:
+    2006-01-01:
+      value: .62
+      note:
+    2007-01-01:
+      value: .64
+      note:
+    2008-01-01:
+      value: .66
+      note:
+    2009-01-01:
+      value: .68
+      note:
+    2010-01-01:
+      value: .7
+      note:
+    2011-01-01:
+      value: .72
+      note:
+    2012-01-01:
+      value: .74
+      note:
+    2013-01-01:
+      value: .76
+      note:
+    2014-01-01:
+      value: .78
+      note:
+    2015-01-01:
+      value: .8
+      note:
+    2016-01-01:
+      value: .82
+      note:
+    2017-01-01:
+      value: .84
+      note:
+    2018-01-01:
+      value: .86
+      note:
+    2019-01-01:
+      value: .88
+      note:
+vors_sonst_max:
+  group: e_st_abzuege
+  name:
+    de: regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt  §10 Abs. 4 EStG
+    en:
+  description:
+    de:
+    en:
+  values:
+    2005-01-01:
+      value: 1900
+      note:
+rentert:
+  group: e_st_abzuege
+  name:
+    de: Ertragsanteil der Rente bei Rentenbeginn im 65. LJ.  ES Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht  (§ 22 Nr. 1 a) aa) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: .24
+      note:
+    1992-01-01:
+      value: .27
+      note: .
+    2004-01-01:
+      value: .5
+      note:
+    2006-01-01:
+      value: .52
+      note:
+    2007-01-01:
+      value: .54
+      note:
+    2008-01-01:
+      value: .5600000000000001
+      note:
+    2009-01-01:
+      value: .58
+      note:
+    2010-01-01:
+      value: .6
+      note:
+    2011-01-01:
+      value: .62
+      note:
+    2012-01-01:
+      value: .64
+      note: Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
+    2013-01-01:
+      value: .66
+      note:
+    2014-01-01:
+      value: .68
+      note:
+    2015-01-01:
+      value: .7
+      note:
+    2016-01-01:
+      value: .72
+      note:
+    2017-01-01:
+      value: .74
+      note:
+    2018-01-01:
+      value: .76
+      note:
+    2019-01-01:
+      value: .78
+      note:
+sauntmx:
+  group: e_st_abzuege
+  name:
+    de: Höchstbetrag der Unterhaltsleistungen als Sonderausgaben  (Höhe § 10 (1a) Nr. 1 EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 4602
+      note:
+    1986-01-01:
+      value: 9203
+      note:
+    1990-01-01:
+      value: 13805
+      note: .
+sbhp100:
+  group: e_st_abzuege
+  name:
+    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 95% oder 100%)  (Höhe § 33b (1), (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 1411
+      note: .
+    2002-01-01:
+      value: 1420
+      note:
+sbhp30:
+  group: e_st_abzuege
+  name:
+    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 25% oder 30%)  (Höhe § 33b (1), (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 307
+      note: .
+    2002-01-01:
+      value: 310
+      note:
+sbhp40:
+  group: e_st_abzuege
+  name:
+    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 35% oder 40%)  (Höhe § 33b (1), (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 429
+      note: .
+    2002-01-01:
+      value: 430
+      note:
+sbhp50:
+  group: e_st_abzuege
+  name:
+    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 45% oder 50%)  (Höhe § 33b (1), (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 568
+      note: .
+    2002-01-01:
+      value: 570
+      note:
+sbhp60:
+  group: e_st_abzuege
+  name:
+    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 55% oder 60%)  (Höhe § 33b (1), (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    1987-01-01:
+      value: 721
+      note: .
+    2002-01-01:
+      value: 720
+      note:
+sbhp70:
+  group: e_st_abzuege
+  name:
+    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 65% oder 70%)  (Höhe § 33b (1), (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 890
+      note: .
+sbhp80:
+  group: e_st_abzuege
+  name:
+    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 75% oder 80%)  (Höhe § 33b (1), (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 1058
+      note: .
+    2002-01-01:
+      value: 1060
+      note:
+sbhp90:
+  group: e_st_abzuege
+  name:
+    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 85% oder 90%)  (Höhe § 33b (1), (3) EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 1227
+      note: .
+    2002-01-01:
+      value: 1230
+      note:
+abfahh:
+  group: e_st_abzuege
+  name:
+    de: Ausbildungsfreibetrag für ein außerhalb des HH lebendes über 18 Jahre altes Kind  (Höhe §33a (2) Satz 1 EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 1534
+      note: .
+    1991-01-01:
+      value: 2147
+      note:
+    2002-01-01:
+      value: 924
+      note:
+abfahhg:
+  group: e_st_abzuege
+  name:
+    de: Ausbildungsfreibetrag, Hinzuverdienstgrenze des Kindes  (Höhe §33a (2) Satz 1 EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2002-01-01:
+      value: 1848
+      note:
+abfihh:
+  group: e_st_abzuege
+  name:
+    de: Ausbildungsfreibetrag, Ausbildungsfreibetrag für ein im HH lebendes über 18 Jahre altes Kind  (Höhe §33a (2) Satz 1 EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1987-01-01:
+      value: 920
+      note: .
+    1991-01-01:
+      value: 1227
+      note:
+    2002-01-01:
+      value: 0
+      note:
+pendpausch:
+  group: e_st_abzuege
+  name:
+    de: Entfernungspauschale §9 I Nr.4 EStG
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: .18
+      note:
+    1989-01-01:
+      value: .22
+      note:
+    1990-01-01:
+      value: .26
+      note: .
+    1991-01-01:
+      value: .3
+      note:
+    1992-01-01:
+      value: .33
+      note: .
+    1994-01-01:
+      value: .36
+      note:
+    2001-01-01:
+      value: .4
+      note: .
+    2004-01-01:
+      value: .3
+      note:
+childcare_share:
+  group: e_st_abzuege
+  name:
+    de: Anteil der Betreuungsaufwendungen, der auf das zve anrechenbar ist
+    en:
+  description:
+    de:
+    en:
+  values:
+    2012-01-01:
+      value: .6666666666666666
+      note:
+childcare_max:
+  group: e_st_abzuege
+  name:
+    de: Maximale Betreuungsaufwendung per Kind
+    en:
+  description:
+    de:
+    en:
+  values:
+    2012-01-01:
+      value: 4000
+      note:

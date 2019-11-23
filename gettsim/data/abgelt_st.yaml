@@ -1,0 +1,15 @@
+abgst:
+  group: abgelt_st
+  name:
+    de: ES Abgeltungssteuer §32d (1) EStG
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2009-01-01:
+      value: .25
+      note:

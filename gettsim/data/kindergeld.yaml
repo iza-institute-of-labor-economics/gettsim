@@ -1,0 +1,213 @@
+kgage:
+  group: kindergeld
+  name:
+    de: Alter, bis zu dem Kindergeld gezahlt wird
+    en:
+  description:
+    de: § 32 (4) Nr. 2 EStG
+    en:
+  values:
+    1984-01-01:
+      value: 27
+      note:
+    2007-01-01:
+      value: 25
+      note:
+kgeld1:
+  group: kindergeld
+  name:
+    de: Kindergeld, Betrag für das erste Kind
+    en:
+  description:
+    de: § 66(1) EStG
+    en:
+  values:
+    1984-01-01:
+      value: 26
+      note:
+    1992-01-01:
+      value: 36
+      note: .
+    1996-01-01:
+      value: 102
+      note: .
+    1997-01-01:
+      value: 112
+      note: .
+    1999-01-01:
+      value: 128
+      note:
+    2000-01-01:
+      value: 138
+      note: .
+    2002-01-01:
+      value: 154
+      note:
+    2009-01-01:
+      value: 164
+      note:
+    2010-01-01:
+      value: 184
+      note:
+    2015-01-01:
+      value: 188
+      note: Rafael Suchy Stand  Neugefasst durch Bek. v. 22.07.2015 BGBL. I Nr.30, S.1205 Art.5, (rückwirkend zum 01.01.2015)    zuletzt geändert durch Art. 14 G v. 22.12.2014 I S. 2417
+    2016-01-01:
+      value: 190
+      note: Rafael Suchy Stand  Neugefasst durch Bek. v. 22.07.2015 BGBL. I Nr.30, S.1205 Art.6,     zuletzt geändert durch Art. 5 BGBL I. v. 22.07.2015 I S. 1205
+    2017-01-01:
+      value: 192
+      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+    2018-01-01:
+      value: 194
+      note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
+kgeld2:
+  group: kindergeld
+  name:
+    de: Kindergeld, Betrag für das zweite Kind
+    en:
+  description:
+    de: § 66(1) EStG
+    en:
+  values:
+    1984-01-01:
+      value: 51
+      note:
+    1991-01-01:
+      value: 66
+      note:
+    1996-01-01:
+      value: 102
+      note: .
+    1997-01-01:
+      value: 112
+      note: .
+    1999-01-01:
+      value: 128
+      note:
+    2000-01-01:
+      value: 138
+      note: .
+    2002-01-01:
+      value: 154
+      note:
+    2009-01-01:
+      value: 164
+      note:
+    2010-01-01:
+      value: 184
+      note:
+    2015-01-01:
+      value: 188
+      note: Rafael Suchy Stand  Neugefasst durch Bek. v. 22.07.2015 BGBL. I Nr.30, S.1205 Art.5, (rückwirkend zum 01.01.2015)    zuletzt geändert durch Art. 14 G v. 22.12.2014 I S. 2417
+    2016-01-01:
+      value: 190
+      note: Rafael Suchy Stand  Neugefasst durch Bek. v. 22.07.2015 BGBL. I Nr.30, S.1205 Art.6,     zuletzt geändert durch Art. 5 BGBL I. v. 22.07.2015 I S. 1205
+    2017-01-01:
+      value: 192
+      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+    2018-01-01:
+      value: 194
+      note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
+kgeld3:
+  group: kindergeld
+  name:
+    de: Kindergeld, Betrag für das dritte Kind
+    en:
+  description:
+    de: § 66(1) EStG
+    en:
+  values:
+    1984-01-01:
+      value: 112
+      note:
+    1996-01-01:
+      value: 153
+      note: .
+    2002-01-01:
+      value: 154
+      note:
+    2009-01-01:
+      value: 170
+      note:
+    2010-01-01:
+      value: 190
+      note:
+    2015-01-01:
+      value: 194
+      note: Rafael Suchy Stand  Neugefasst durch Bek. v. 22.07.2015 BGBL. I Nr.30, S.1205 Art.5, (rückwirkend zum 01.01.2015)    zuletzt geändert durch Art. 14 G v. 22.12.2014 I S. 2417
+    2016-01-01:
+      value: 196
+      note: Rafael Suchy Stand  Neugefasst durch Bek. v. 22.07.2015 BGBL. I Nr.30, S.1205 Art.6,     zuletzt geändert durch Art. 5 BGBL I. v. 22.07.2015 I S. 1205
+    2017-01-01:
+      value: 198
+      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+    2018-01-01:
+      value: 200
+      note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
+kgeld4:
+  group: kindergeld
+  name:
+    de: Kindergeld, Betrag für das vierte und jedes weitere Kind
+    en:
+  description:
+    de: § 66(1) EStG
+    en:
+  values:
+    1984-01-01:
+      value: 123
+      note:
+    1996-01-01:
+      value: 179
+      note: .
+    2009-01-01:
+      value: 195
+      note:
+    2010-01-01:
+      value: 215
+      note:
+    2015-01-01:
+      value: 219
+      note: Rafael Suchy Stand  Neugefasst durch Bek. v. 22.07.2015 BGBL. I Nr.30, S.1205 Art.5, (rückwirkend zum 01.01.2015)    zuletzt geändert durch Art. 14 G v. 22.12.2014 I S. 2417
+    2016-01-01:
+      value: 221
+      note: Rafael Suchy Stand  Neugefasst durch Bek. v. 22.07.2015 BGBL. I Nr.30, S.1205 Art.6,     zuletzt geändert durch Art. 5 BGBL I. v. 22.07.2015 I S. 1205
+    2017-01-01:
+      value: 223
+      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+    2018-01-01:
+      value: 225
+      note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
+kgfreib:
+  group: kindergeld
+  name:
+    de: Einkommensgrenze der Kinder für Kindergeldanspruch  ()
+    en:
+  description:
+    de: § 32(4) Satz 2 EStG
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    1996-01-01:
+      value: 6136
+      note: .
+    1999-01-01:
+      value: 6657
+      note:
+    2000-01-01:
+      value: 6902
+      note: .
+    2001-01-01:
+      value: 7179
+      note: .
+    2002-01-01:
+      value: 7188
+      note:
+    2004-01-01:
+      value: 7680
+      note:
+    2010-01-01:
+      value: 8004
+      note:

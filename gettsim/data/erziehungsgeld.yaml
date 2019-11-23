@@ -1,0 +1,171 @@
+egeg06s:
+  group: erziehungsgeld
+  name:
+    de: Einkommensgrenze für ErzG in ersten 6 Monaten, Alleinstehende
+    en:
+  description:
+    de: § 5 (3) BErzGG
+    en:
+  values:
+    1994-01-01:
+      value: 38350
+      note:
+    2003-01-01:
+      value: 37500
+      note:
+    2004-01-01:
+      value: 23000
+      note:
+    2007-01-01:
+      value: 0
+      note:
+egeg07c:
+  group: erziehungsgeld
+  name:
+    de: Untere Einkommensgrenze für ErzG ab dem 7. Monat, Verheiratete
+    en:
+  description:
+    de: § 5 (3) BErzGG
+    en:
+  values:
+    1986-01-01:
+      value: 15032
+      note:
+    2000-01-01:
+      value: 16464
+      note: .
+    2001-01-01:
+      value: 16470
+      note: .
+    2004-01-01:
+      value: 16500
+      note:
+    2007-01-01:
+      value: 0
+      note:
+egeg07s:
+  group: erziehungsgeld
+  name:
+    de: Untere Einkommensgrenze für ErzG ab dem 7. Monat, Alleinstehende
+    en:
+  description:
+    de: § 5 (3) BErzGG
+    en:
+  values:
+    1986-01-01:
+      value: 12118
+      note:
+    2000-01-01:
+      value: 13498
+      note: .
+    2004-01-01:
+      value: 13500
+      note:
+    2007-01-01:
+      value: 0
+      note:
+egegkid:
+  group: erziehungsgeld
+  name:
+    de: Betrag, um den sich die Einkommensgrenze für jedes weitere Kind erhöht
+    en:
+  description:
+    de: § 5 (3) BErzGG
+    en:
+  values:
+    1986-01-01:
+      value: 2147
+      note:
+    2002-01-01:
+      value: 2100
+      note:
+    2004-01-01:
+      value: 3140
+      note:
+    2007-01-01:
+      value: 0
+      note:
+eghoehe:
+  group: erziehungsgeld
+  name:
+    de: Höhe des Erziehungsgeldes pro Kind, Regelbetrag
+    en:
+  description:
+    de: § 5 (1) BErzGG
+    en:
+  values:
+    1986-01-01:
+      value: 307
+      note:
+    2004-01-01:
+      value: 300
+      note:
+egmin:
+  group: erziehungsgeld
+  name:
+    de: Betrag, unterhalb dem kein ErzG mehr ausgezahlt wird
+    en:
+  description:
+    de: § 5 (5) BErzGG
+    en:
+  values:
+    1986-01-01:
+      value: 10
+      note:
+egmind:
+  group: erziehungsgeld
+  name:
+    de: Anteil des die untere Einkommensgrenze übersteigenden Einkommen, um den ErzG gemindert wird
+    en:
+  description:
+    de: § 5 (4) BErzGG
+    en:
+  values:
+    1986-01-01:
+      value: .4
+      note:
+    2001-01-01:
+      value: .042
+      note: .
+    2004-01-01:
+      value: .052
+      note:
+    2007-01-01:
+      value: 0
+      note:
+egwaz:
+  group: erziehungsgeld
+  name:
+    de: max. Wochenarbeitszeit für Erziehungsgeld
+    en:
+  description:
+    de:
+    en:
+  values:
+    1986-01-01:
+      value: 19
+      note:
+    2001-01-01:
+      value: 29
+      note: .
+egeg06c:
+  group: erziehungsgeld
+  name:
+    de: Einkommensgrenze für ErzG in ersten 6 Monaten, Verheiratete
+    en:
+  description:
+    de: § 5 (3) BErzGG
+    en:
+  values:
+    1994-01-01:
+      value: 51130
+      note:
+    2003-01-01:
+      value: 50000
+      note:
+    2004-01-01:
+      value: 30000
+      note:
+    2007-01-01:
+      value: 0
+      note:
