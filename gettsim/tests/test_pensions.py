@@ -33,12 +33,16 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, year):
+def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_data):
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
-    ges_renten_vers_data = get_policies_for_date(year=year, group="ges_renten_vers")
+    soz_vers_beitr_data = get_policies_for_date(
+        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+    )
+    ges_renten_vers_data = get_policies_for_date(
+        year=year, group="ges_renten_vers", raw_group_data=ges_renten_vers_raw_data
+    )
     df = _apply_tax_transfer_func(
         df,
         tax_func=pensions,

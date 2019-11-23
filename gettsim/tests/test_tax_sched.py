@@ -32,14 +32,29 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_tax_sched(input_data, year):
+def test_tax_sched(
+    input_data,
+    year,
+    e_st_raw_data,
+    e_st_abzuege_raw_data,
+    soli_st_raw_data,
+    abgelt_st_raw_data,
+):
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    e_st_abzuege_data = get_policies_for_date(year=year, group="e_st_abzuege")
-    e_st_data = get_policies_for_date(year=year, group="e_st")
-    soli_st_data = get_policies_for_date(year=year, group="soli_st")
-    abgelt_st_data = get_policies_for_date(year=year, group="abgelt_st")
+    e_st_abzuege_data = get_policies_for_date(
+        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    )
+    e_st_data = get_policies_for_date(
+        year=year, group="e_st", raw_group_data=e_st_raw_data
+    )
+    soli_st_data = get_policies_for_date(
+        year=year, group="soli_st", raw_group_data=soli_st_raw_data
+    )
+    abgelt_st_data = get_policies_for_date(
+        year=year, group="abgelt_st", raw_group_data=abgelt_st_raw_data
+    )
     OUT_COLS = (
         [f"tax_{inc}" for inc in e_st_abzuege_data["zve_list"]]
         + [f"tax_{inc}_tu" for inc in e_st_abzuege_data["zve_list"]]

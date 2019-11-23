@@ -43,13 +43,25 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_kiz(input_data, year):
+def test_kiz(
+    input_data,
+    year,
+    kinderzuschlag_raw_data,
+    arbeitsl_geld_2_raw_data,
+    kindergeld_raw_data,
+):
     columns = ["kiz_temp"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    kinderzuschlag_data = get_policies_for_date(year=year, group="kinderzuschlag")
-    arbeitsl_geld_2_data = get_policies_for_date(year=year, group="arbeitsl_geld_2")
-    kindergeld_data = get_policies_for_date(year=year, group="kindergeld")
+    kinderzuschlag_data = get_policies_for_date(
+        year=year, group="kinderzuschlag", raw_group_data=kinderzuschlag_raw_data
+    )
+    arbeitsl_geld_2_data = get_policies_for_date(
+        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+    )
+    kindergeld_data = get_policies_for_date(
+        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
+    )
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(

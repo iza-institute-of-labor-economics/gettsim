@@ -38,10 +38,12 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_kiz(input_data, year):
+def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    arbeitsl_geld_2_data = get_policies_for_date(year=year, group="arbeitsl_geld_2")
+    arbeitsl_geld_2_data = get_policies_for_date(
+        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+    )
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(

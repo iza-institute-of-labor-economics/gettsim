@@ -48,10 +48,12 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_wg(input_data, year):
+def test_wg(input_data, year, wohngeld_raw_data):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    wohngeld_data = get_policies_for_date(year=year, group="wohngeld")
+    wohngeld_data = get_policies_for_date(
+        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+    )
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, wohngeld_data=wohngeld_data)
@@ -66,10 +68,12 @@ def input_data_2():
 
 
 @pytest.mark.parametrize("year", [2013])
-def test_wg_no_mietstufe_in_input_data(input_data_2, year):
+def test_wg_no_mietstufe_in_input_data(input_data_2, year, wohngeld_raw_data):
     year_data = input_data_2[input_data_2["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    wohngeld_data = get_policies_for_date(year=year, group="wohngeld")
+    wohngeld_data = get_policies_for_date(
+        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+    )
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, wohngeld_data=wohngeld_data)

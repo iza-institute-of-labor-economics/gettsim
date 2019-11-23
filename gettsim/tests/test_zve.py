@@ -71,12 +71,25 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_zve(input_data, year, column):
+def test_zve(
+    input_data,
+    year,
+    column,
+    kindergeld_raw_data,
+    soz_vers_beitr_raw_data,
+    e_st_abzuege_raw_data,
+):
     year_data = input_data[input_data["year"] == year]
     df = year_data[IN_COLS].copy()
-    e_st_abzuege_data = get_policies_for_date(year=year, group="e_st_abzuege")
-    soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
-    kindergeld_data = get_policies_for_date(year=year, group="kindergeld")
+    e_st_abzuege_data = get_policies_for_date(
+        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    )
+    soz_vers_beitr_data = get_policies_for_date(
+        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+    )
+    kindergeld_data = get_policies_for_date(
+        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
+    )
 
     for col in OUT_COLS:
         df[col] = np.nan
