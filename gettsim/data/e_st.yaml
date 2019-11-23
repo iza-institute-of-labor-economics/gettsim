@@ -457,14 +457,15 @@ t_d2:
     1984-01-01:
       value: 5040
       note:
-t_d3:
-  name:
-    de:
-    en:
-  description:
-    de:
-    en:
-  values:
+# Why do we have this?
+#t_d3:
+#  name:
+#    de:
+#    en:
+#  description:
+#    de:
+#    en:
+#  values:
 t_e:
   name:
     de: Eingangssteuersatz
@@ -528,14 +529,15 @@ t_e2:
     1984-01-01:
       value: 20018
       note:
-t_e3:
-  name:
-    de:
-    en:
-  description:
-    de:
-    en:
-  values:
+# Why do we have this?
+#t_e3:
+#  name:
+#    de:
+#    en:
+#  description:
+#    de:
+#    en:
+#  values:
 t_eing1:
   name:
     de:

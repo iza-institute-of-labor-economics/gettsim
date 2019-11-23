@@ -19,21 +19,21 @@ from gettsim.taxes.zve import vorsorge2010
 from gettsim.taxes.zve import vorsorge_dummy
 
 
-def get_policies_for_date(year, group, month=1, day=1):
-    tax_data_raw = yaml.safe_load((ROOT_DIR / "data" / f"{group}.yaml").read_text())
-    tax_data = {}
-    this_year = datetime.date(year=year, month=month, day=day)
-    for key in tax_data_raw:
-        if tax_data_raw[key]["values"] is not None:
-            policy_dates = tax_data_raw[key]["values"]
-            past_policies = [x for x in policy_dates if x <= this_year]
-            if not past_policies:
-                # TODO: Should there be missing values or should the key not exist?
-                tax_data[key] = np.nan
-            else:
-                policy_in_place = np.max(past_policies)
-                tax_data[key] = tax_data_raw[key]["values"][policy_in_place]["value"]
+def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
+    if not raw_group_data:
+        raw_group_data = yaml.safe_load(
+            (ROOT_DIR / "data" / f"{group}.yaml").read_text()
+        )
+
+    actual_date = datetime.date(year=year, month=month, day=day)
+    if group == "ges_renten_vers":
+        load_data = load_ges_renten_vers_data
+    else:
+        load_data = load_ordanary_data_group
+
+    tax_data = load_data(raw_group_data, actual_date)
     tax_data["year"] = year
+    tax_data["date"] = actual_date
 
     if group == "soz_vers_beitr":
         if year >= 2003:
@@ -82,22 +82,30 @@ def get_policies_for_date(year, group, month=1, day=1):
     return tax_data
 
 
-def get_pension_data_for_year(raw_year, raw_pension_data=None):
-    if not raw_pension_data:
-        raw_pension_data = yaml.safe_load(
-            (ROOT_DIR / "data" / "pension_data.yaml").read_text()
-        )
+def load_ordanary_data_group(tax_data_raw, actual_date):
+    tax_data = {}
+    for key in tax_data_raw:
+        policy_dates = tax_data_raw[key]["values"]
+        past_policies = [x for x in policy_dates if x <= actual_date]
+        if not past_policies:
+            # TODO: Should there be missing values or should the key not exist?
+            tax_data[key] = np.nan
+        else:
+            policy_in_place = np.max(past_policies)
+            tax_data[key] = tax_data_raw[key]["values"][policy_in_place]["value"]
+    return tax_data
+
+
+def load_ges_renten_vers_data(raw_pension_data, actual_date):
     pension_data = {}
-
     # meanwages is only filled until 2016. The same is done in the pension function.
-    min_year = min(raw_year, 2016)
-
+    min_year = min(actual_date.year, 2016)
     for key in raw_pension_data:
         data_years = list(raw_pension_data[key]["values"].keys())
         # For calculating pensions we need demographic data up to three years in the
         # past.
         for year in range(min_year - 3, min_year + 1):
-            past_data = [x for x in data_years if x <= year]
+            past_data = [x for x in data_years if x.year <= year]
             if not past_data:
                 # TODO: Should there be missing values or should the key not exist?
                 pension_data[f"{key}_{year}"] = np.nan
@@ -106,5 +114,4 @@ def get_pension_data_for_year(raw_year, raw_pension_data=None):
                 pension_data[f"{key}_{year}"] = raw_pension_data[key]["values"][
                     policy_year
                 ]["value"]
-
     return pension_data

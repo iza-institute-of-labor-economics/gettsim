@@ -57,7 +57,7 @@ def regelsatz_alg2(household, arbeitsl_geld_2_data):
     # Different amounts by number of adults and age of kids
     # arbeitsl_geld_2_data['rs_hhvor'] is the basic 'Hartz IV Satz' for a single person
 
-    if arbeitsl_geld_2_data["yr"] <= 2010:
+    if arbeitsl_geld_2_data["year"] <= 2010:
         calc_regelsatz = regelberechnung_until_2010
     else:
         calc_regelsatz = regelberechnung_2011_and_beyond

@@ -40,7 +40,7 @@ def tax_sched(tax_unit, e_st_data, e_st_abzuege_data, soli_st_data, abgelt_st_da
     There is also Soli on capital income tax, but always with 5.5%. (§3 (3) S.2 SolzG 1995)
     """
 
-    if e_st_abzuege_data["yr"] >= 1991:
+    if e_st_abzuege_data["year"] >= 1991:
         # Soli also in monthly terms. only for adults
         tax_unit["soli_tu"] = (
             (
@@ -67,7 +67,7 @@ def abgeltung(tax_unit, abgelt_st_data, e_st_abzuege_data):
     """
     tax_unit_abgelt = pd.DataFrame(index=tax_unit.index.copy())
     tax_unit_abgelt["abgst"] = 0
-    if abgelt_st_data["yr"] >= 2009:
+    if abgelt_st_data["year"] >= 2009:
         tax_unit_abgelt.loc[~tax_unit["zveranl"], "abgst"] = abgelt_st_data[
             "abgst"
         ] * np.maximum(
@@ -102,7 +102,7 @@ def tarif(x, e_st_data):
         tb (dict): tax-benefit parameters specific to year and reform
     """
 
-    if e_st_data["yr"] < 2002:
+    if e_st_data["year"] < 2002:
         raise ValueError("Income Tax Pre 2002 not yet modelled!")
     else:
         t = 0.0

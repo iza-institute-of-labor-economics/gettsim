@@ -4,7 +4,7 @@ def uhv(tax_unit, unterhalt_data):
     UHV has been extended substantially and needs to be taken into account, since it's
     dominant to other transfers, i.e. single parents 'have to' apply for it.
     """
-    if unterhalt_data["yr"] >= 2017:
+    if unterhalt_data["year"] >= 2017:
         return uhv_since_2017(tax_unit, unterhalt_data)
     else:
         tax_unit["uhv"] = 0

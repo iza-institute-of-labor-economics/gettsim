@@ -10,7 +10,6 @@ from gettsim.checks import check_boolean
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
-from gettsim.policy_for_date import get_pension_data_for_year
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.taxes.calc_taxes import tax_sched
@@ -32,7 +31,7 @@ def tax_transfer(
     e_st_data,
     soli_st_data,
     kindergeld_data,
-    pension_data=None,
+    ges_renten_vers_data,
 ):
     """ The German Tax-Transfer System.
 
@@ -55,8 +54,6 @@ def tax_transfer(
     """
     bool_variables = ["child", "east"]
     check_boolean(df, bool_variables)
-    # set default arguments
-    pension_data = [] if pension_data is None else pension_data
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
@@ -129,7 +126,7 @@ def tax_transfer(
         out_cols=[out_col],
         func_kwargs={
             "soz_vers_beitr_data": soz_vers_beitr_data,
-            "pension_data": pension_data,
+            "ges_renten_vers_data": ges_renten_vers_data,
         },
     )
     in_cols = [
@@ -545,9 +542,9 @@ def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
         return tax_func(group, *func_args, **func_kwargs)
 
 
-def calculate_tax_and_transfers(dataset, policy_year, raw_pension_data=None):
-    pension_data = get_pension_data_for_year(
-        raw_year=policy_year, raw_pension_data=raw_pension_data
+def calculate_tax_and_transfers(dataset, policy_year):
+    ges_renten_vers_data = get_policies_for_date(
+        year=policy_year, group="ges_renten_vers"
     )
     e_st_abzuege_data = get_policies_for_date(year=policy_year, group="e_st_abzuege")
     e_st_data = get_policies_for_date(year=policy_year, group="e_st")
@@ -579,5 +576,5 @@ def calculate_tax_and_transfers(dataset, policy_year, raw_pension_data=None):
         e_st_data=e_st_data,
         soli_st_data=soli_st_data,
         kindergeld_data=kindergeld_data,
-        pension_data=pension_data,
+        ges_renten_vers_data=ges_renten_vers_data,
     )

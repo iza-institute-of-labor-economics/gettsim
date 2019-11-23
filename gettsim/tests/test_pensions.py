@@ -8,7 +8,6 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
-from gettsim.policy_for_date import get_pension_data_for_year
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import _apply_tax_transfer_func
 
@@ -52,9 +51,7 @@ def test_pension(input_data, pension_data_raw, year):
     else:
         soz_vers_beitr_data["calc_rentenwert"] = _rentenwert_until_2017
 
-    pension_data = get_pension_data_for_year(
-        raw_year=year, raw_pension_data=pension_data_raw
-    )
+    ges_renten_vers_data = get_policies_for_date(year=year, group="ges_renten_vers")
     df = _apply_tax_transfer_func(
         df,
         tax_func=pensions,
@@ -63,7 +60,7 @@ def test_pension(input_data, pension_data_raw, year):
         out_cols=[column],
         func_kwargs={
             "soz_vers_beitr_data": soz_vers_beitr_data,
-            "pension_data": pension_data,
+            "ges_renten_vers_data": ges_renten_vers_data,
         },
     )
     assert_array_almost_equal(df[column], year_data[column])
@@ -74,9 +71,7 @@ def test_update_earning_points(input_data, pension_data_raw, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
-    pension_data = get_pension_data_for_year(
-        raw_year=year, raw_pension_data=pension_data_raw
-    )
+    ges_renten_vers_data = get_policies_for_date(year=year, group="ges_renten_vers")
     df = _apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
@@ -85,7 +80,7 @@ def test_update_earning_points(input_data, pension_data_raw, year):
         out_cols=[],
         func_kwargs={
             "soz_vers_beitr_data": soz_vers_beitr_data,
-            "pension_data": pension_data,
+            "ges_renten_vers_data": ges_renten_vers_data,
             "year": year,
         },
     )

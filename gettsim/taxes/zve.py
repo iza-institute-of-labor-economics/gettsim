@@ -242,7 +242,7 @@ def calc_gde(tax_unit, e_st_abzuege_data):
 
     # Kapitaleinkommen im Tarif versteuern oder nicht?
     # If capital income tax with tariff, add it but account for exemptions
-    if e_st_abzuege_data["yr"] < 2009:
+    if e_st_abzuege_data["year"] < 2009:
         gross_gde += np.maximum(
             tax_unit["gross_e5"]
             - e_st_abzuege_data["spsparf"]
@@ -276,7 +276,7 @@ def deductible_child_care_costs(tax_unit, e_st_abzuege_data):
     """Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg."""
     # So far we only implement the current regulation, which is since 2012 is in place.
-    if e_st_abzuege_data["yr"] < 2012:
+    if e_st_abzuege_data["year"] < 2012:
         # For earlier years we only use the pausch value
         tax_unit.loc[~tax_unit["child"], "sonder"] = e_st_abzuege_data["sonder"]
         return tax_unit
@@ -353,7 +353,7 @@ def vorsorge2010(tax_unit, e_st_abzuege_data, soz_vers_beitr_data):
     # then subtract employer contributions
     # also subtract health + care + unemployment insurance contributions
     altersvors2010 = ~tax_unit["child"] * (
-        (0.6 + 0.02 * (np.minimum(e_st_abzuege_data["yr"], 2025) - 2005))
+        (0.6 + 0.02 * (np.minimum(e_st_abzuege_data["year"], 2025) - 2005))
         * (12 * rvbeit_vors)
         - (12 * 0.5 * rvbeit_vors)
     )
