@@ -33,7 +33,7 @@ def get_policies_for_date(year, group, month=1, day=1):
             else:
                 policy_in_place = np.max(past_policies)
                 tax_data[key] = tax_data_raw[key]["values"][policy_in_place]["value"]
-    tax_data["yr"] = year
+    tax_data["year"] = year
 
     if group == "soz_vers_beitr":
         if year >= 2003:
@@ -90,21 +90,21 @@ def get_pension_data_for_year(raw_year, raw_pension_data=None):
     pension_data = {}
 
     # meanwages is only filled until 2016. The same is done in the pension function.
-    year = min(raw_year, 2016)
+    min_year = min(raw_year, 2016)
 
     for key in raw_pension_data:
-        pension_data[key] = {}
         data_years = list(raw_pension_data[key]["values"].keys())
         # For calculating pensions we need demographic data up to three years in the
         # past.
-        for yr in range(year - 3, year + 1):
-            past_data = [x for x in data_years if x <= yr]
+        for year in range(min_year - 3, min_year + 1):
+            past_data = [x for x in data_years if x <= year]
             if not past_data:
                 # TODO: Should there be missing values or should the key not exist?
-                pension_data[key][yr] = np.nan
+                pension_data[f"{key}_{year}"] = np.nan
             else:
                 policy_year = np.max(past_data)
-                pension_data[key][yr] = raw_pension_data[key]["values"][policy_year][
-                    "value"
-                ]
+                pension_data[f"{key}_{year}"] = raw_pension_data[key]["values"][
+                    policy_year
+                ]["value"]
+
     return pension_data

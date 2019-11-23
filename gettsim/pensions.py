@@ -21,7 +21,7 @@ def pensions(person, soz_vers_beitr_data, pension_data):
 
     """
     # meanwages is only filled until 2016
-    year = min(soz_vers_beitr_data["yr"], 2016)
+    year = min(soz_vers_beitr_data["year"], 2016)
 
     person = update_earnings_points(person, soz_vers_beitr_data, pension_data, year)
     # ZF: Zugangsfaktor.
@@ -63,7 +63,7 @@ def _ep_for_earnings(person, soz_vers_beitr_data, pension_data, year):
     westost = "o" if person["east"] else "w"
     return (
         np.minimum(person["m_wage"], soz_vers_beitr_data["rvmaxek" + westost])
-        / pension_data["meanwages"][year]
+        / pension_data[f"meanwages_{year}"]
     )
 
 
@@ -93,12 +93,12 @@ def _regelaltersgrenze(person):
     return regelaltersgrenz
 
 
-def _rentenwert_until_2017(pension_data, yr):
+def _rentenwert_until_2017(pension_data, year):
     """For the years until 2017, we use a exogenous value for the rentenwert."""
-    return pension_data["rentenwert_ext"][yr]
+    return pension_data[f"rentenwert_ext_{year}"]
 
 
-def _rentenwert_from_2018(pension_data, yr):
+def _rentenwert_from_2018(pension_data, year):
     """From 2018 onwards we calculate the rentenwert with the formula given by law.
     The formula takes three factors, which will be calculated seperatly. For a
     detailed explanation see
@@ -109,63 +109,68 @@ def _rentenwert_from_2018(pension_data, yr):
     # Hence, some calculations have been made
     # in the data preparation.
     # First the Lohnkomponente which depands on the wage development of last years.
-    lohnkomponente = _lohnkomponente(pension_data, yr)
+    lohnkomponente = _lohnkomponente(pension_data, year)
     # Second riesterfaktor
-    riesterfaktor = _riesterfactor(pension_data, yr)
+    riesterfaktor = _riesterfactor(pension_data, year)
     # Nachhaltigskeitsfaktor
-    nachhfaktor = _nachhaltigkeitsfaktor(pension_data, yr)
+    nachhfaktor = _nachhaltigkeitsfaktor(pension_data, year)
 
     # Rentenwert must not be lower than in the previous year.
     renten_factor = lohnkomponente * riesterfaktor * nachhfaktor
-    rentenwert = pension_data["rentenwert_ext"][yr - 1] * min(1, renten_factor)
+    rentenwert = pension_data[f"rentenwert_ext_{year - 1}"] * min(1, renten_factor)
     return rentenwert
 
 
-def _lohnkomponente(pension_data, yr):
+def _lohnkomponente(pension_data, year):
     """Returns the lohnkomponente for each year. It deppends on the average wages of
     the previous years. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    return pension_data["meanwages"][yr - 1] / (
-        pension_data["meanwages"][yr - 2]
+    return pension_data[f"meanwages_{year - 1}"] / (
+        pension_data[f"meanwages_{year - 2}"]
         * (
-            (pension_data["meanwages"][yr - 2] / pension_data["meanwages"][yr - 3])
+            (
+                pension_data[f"meanwages_{year - 2}"]
+                / pension_data[f"meanwages_{year - 3}"]
+            )
             / (
-                pension_data["meanwages_sub"][yr - 2]
-                / pension_data["meanwages_sub"][yr - 3]
+                pension_data[f"meanwages_sub_{year - 2}"]
+                / pension_data[f"meanwages_sub_{year - 3}"]
             )
         )
     )
 
 
-def _riesterfactor(pension_data, yr):
+def _riesterfactor(pension_data, year):
     """This factor returns the riesterfactor, depending on the Altersvorsogeanteil
     and the contributions to the pension insurance. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    return (100 - pension_data["ava"][yr - 1] - pension_data["rvbeitrag"][yr - 1]) / (
-        100 - pension_data["ava"][yr - 2] - pension_data["rvbeitrag"][yr - 2]
-    )
+    return (
+        100 - pension_data[f"ava_{year - 1}"] - pension_data[f"rvbeitrag_{year - 1}"]
+    ) / (100 - pension_data[f"ava_{year - 2}"] - pension_data[f"rvbeitrag_{year - 2}"])
 
 
-def _nachhaltigkeitsfaktor(pension_data, yr):
+def _nachhaltigkeitsfaktor(pension_data, year):
     """This factor mirrors the effect of the relationship between pension insurance
     receivers and contributes on the pensions. It depends on the rentnerquotienten and
     some correcting scalar alpha. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    rq_last_year = _rentnerquotienten(pension_data, yr - 1)
-    rq_two_years_before = _rentnerquotienten(pension_data, yr - 2)
+    rq_last_year = _rentnerquotienten(pension_data, year - 1)
+    rq_two_years_before = _rentnerquotienten(pension_data, year - 2)
     # There is an additional 'Rentenartfaktor', equal to 1 for old-age pensions.
-    return 1 + ((1 - (rq_last_year / rq_two_years_before)) * pension_data["alpha"][yr])
+    return 1 + (
+        (1 - (rq_last_year / rq_two_years_before)) * pension_data[f"alpha_{year}"]
+    )
 
 
-def _rentnerquotienten(pension_data, yr):
+def _rentnerquotienten(pension_data, year):
     """The rentnerquotient is the relationship between pension insurance receivers and
     contributes. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    return (pension_data["rentenvol"][yr] / pension_data["eckrente"][yr]) / (
-        pension_data["beitragsvol"][yr]
-        / (pension_data["rvbeitrag"][yr] / 100 * pension_data["eckrente"][yr])
+    return (pension_data[f"rentenvol_{year}"] / pension_data[f"eckrente_{year}"]) / (
+        pension_data[f"beitragsvol_{year}"]
+        / (pension_data[f"rvbeitrag_{year}"] / 100 * pension_data[f"eckrente_{year}"])
     )
