@@ -28,7 +28,7 @@ def soc_ins_contrib(person, params):
     westost = "o" if person["east"] else "w"
     params_ost = {}
     for val in ["bezgr_", "mini_grenze", "kvmaxek", "rvmaxek"]:
-        params_ost[val] = params[val + westost]
+        params_ost[val] = params[f"{val}{westost}"]
 
     # ssc["above_thresh_kv"] = inout["m_wage"] > params_ost["kvmaxek"]
     #
