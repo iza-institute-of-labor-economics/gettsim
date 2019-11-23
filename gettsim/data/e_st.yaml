@@ -1,5 +1,4 @@
 G:
-  group: e_st
   name:
     de: Steuerparameter, Grundfreibetrag
     en:
@@ -68,7 +67,6 @@ G:
       value: 9169
       note:
 M:
-  group: e_st
   name:
     de: Steuerparameter, Mittlere Stufe
     en:
@@ -125,7 +123,6 @@ M:
       value: 14255
       note:
 S:
-  group: e_st
   name:
     de: Steuerparameter, Hohe Stufe
     en:
@@ -176,7 +173,6 @@ S:
       value: 55961
       note:
 R:
-  group: e_st
   name:
     de: Steuerparameter, Reichenstufe
     en:
@@ -215,7 +211,6 @@ R:
       value: 265327
       note:
 t_a1:
-  group: e_st
   name:
     de:
     en:
@@ -254,7 +249,6 @@ t_a1:
       value: 768.85
       note:
 t_a2:
-  group: e_st
   name:
     de:
     en:
@@ -290,7 +284,6 @@ t_a2:
       value: 278.65
       note:
 t_a3:
-  group: e_st
   name:
     de:
     en:
@@ -302,7 +295,6 @@ t_a3:
       value: 151.93
       note:
 t_b1:
-  group: e_st
   name:
     de:
     en:
@@ -335,7 +327,6 @@ t_b1:
       value: 1990
       note: .
 t_b2:
-  group: e_st
   name:
     de:
     en:
@@ -368,7 +359,6 @@ t_b2:
       value: 2300
       note: .
 t_b3:
-  group: e_st
   name:
     de:
     en:
@@ -380,7 +370,6 @@ t_b3:
       value: 3669
       note:
 t_c1:
-  group: e_st
   name:
     de:
     en:
@@ -404,7 +393,6 @@ t_c1:
       value: 0
       note: .
 t_c2:
-  group: e_st
   name:
     de:
     en:
@@ -437,7 +425,6 @@ t_c2:
       value: 857
       note: .
 t_c3:
-  group: e_st
   name:
     de:
     en:
@@ -449,7 +436,6 @@ t_c3:
       value: 16637
       note:
 t_d1:
-  group: e_st
   name:
     de:
     en:
@@ -461,7 +447,6 @@ t_d1:
       value: 2200
       note:
 t_d2:
-  group: e_st
   name:
     de:
     en:
@@ -473,7 +458,6 @@ t_d2:
       value: 5040
       note:
 t_d3:
-  group: e_st
   name:
     de:
     en:
@@ -482,7 +466,6 @@ t_d3:
     en:
   values:
 t_e:
-  group: e_st
   name:
     de: Eingangssteuersatz
     en:
@@ -518,7 +501,6 @@ t_e:
       value: .14
       note:
 t_e1:
-  group: e_st
   name:
     de:
     en:
@@ -536,7 +518,6 @@ t_e1:
       value: 2911
       note: .
 t_e2:
-  group: e_st
   name:
     de:
     en:
@@ -548,7 +529,6 @@ t_e2:
       value: 20018
       note:
 t_e3:
-  group: e_st
   name:
     de:
     en:
@@ -557,7 +537,6 @@ t_e3:
     en:
   values:
 t_eing1:
-  group: e_st
   name:
     de:
     en:
@@ -572,7 +551,6 @@ t_eing1:
       value: .19
       note: .
 t_eing2:
-  group: e_st
   name:
     de:
     en:
@@ -593,7 +571,6 @@ t_eing2:
       value: -1067
       note: .
 t_einglow:
-  group: e_st
   name:
     de:
     en:
@@ -614,7 +591,6 @@ t_einglow:
       value: 5616
       note: .
 t_eingup:
-  group: e_st
   name:
     de:
     en:
@@ -632,7 +608,6 @@ t_eingup:
       value: 8153
       note: .
 t_low1:
-  group: e_st
   name:
     de:
     en:
@@ -665,7 +640,6 @@ t_low1:
       value: 14093
       note: .
 t_low2:
-  group: e_st
   name:
     de:
     en:
@@ -695,7 +669,6 @@ t_low2:
       value: 18089
       note: .
 t_low3:
-  group: e_st
   name:
     de:
     en:
@@ -707,7 +680,6 @@ t_low3:
       value: 66365
       note:
 t_m:
-  group: e_st
   name:
     de: mittlerer Steuersatz
     en:
@@ -728,7 +700,6 @@ t_m:
       value: .2397
       note:
 t_r:
-  group: e_st
   name:
     de: Reichensteuersatz (vor 2007 t_r = t_s)
     en:
@@ -758,7 +729,6 @@ t_r:
       value: .45
       note:
 t_s:
-  group: e_st
   name:
     de: Spitzensteuersatz
     en:
@@ -782,7 +752,6 @@ t_s:
       value: .42
       note:
 t_spitz1:
-  group: e_st
   name:
     de:
     en:
@@ -803,7 +772,6 @@ t_spitz1:
       value: .485
       note: .
 t_spitz2:
-  group: e_st
   name:
     de:
     en:
@@ -839,7 +807,6 @@ t_spitz2:
       value: -9872
       note:
 t_spitzlow:
-  group: e_st
   name:
     de:
     en:
@@ -863,7 +830,6 @@ t_spitzlow:
       value: 107568
       note: .
 t_up1:
-  group: e_st
   name:
     de:
     en:
@@ -896,7 +862,6 @@ t_up1:
       value: 18089
       note: .
 t_up2:
-  group: e_st
   name:
     de:
     en:
@@ -923,7 +888,6 @@ t_up2:
       value: 107567
       note: .
 t_up3:
-  group: e_st
   name:
     de:
     en:
@@ -935,7 +899,6 @@ t_up3:
       value: 120041
       note:
 t_yden1:
-  group: e_st
   name:
     de:
     en:
@@ -947,7 +910,6 @@ t_yden1:
       value: 10000
       note:
 t_yden2:
-  group: e_st
   name:
     de:
     en:
@@ -962,7 +924,6 @@ t_yden2:
       value: 10000
       note: .
 t_yden3:
-  group: e_st
   name:
     de:
     en:
@@ -974,7 +935,6 @@ t_yden3:
       value: 10000
       note:
 t_ynom1:
-  group: e_st
   name:
     de:
     en:
@@ -1007,7 +967,6 @@ t_ynom1:
       value: 14040
       note: .
 t_ynom2:
-  group: e_st
   name:
     de:
     en:
@@ -1040,7 +999,6 @@ t_ynom2:
       value: 18036
       note: .
 t_ynom3:
-  group: e_st
   name:
     de:
     en:

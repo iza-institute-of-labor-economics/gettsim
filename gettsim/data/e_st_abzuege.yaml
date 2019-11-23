@@ -1,5 +1,4 @@
 kifreib:
-  group: e_st_abzuege
   name:
     de: Kinderfreibetrag (sächliches Existenzminimum des Kindes sowie Betreuungs- und Erziehungs- oder Ausbildungsbedarf)
     en:
@@ -53,7 +52,6 @@ kifreib:
       value: 7620
       note:
 vorsp_rv:
-  group: e_st_abzuege
   name:
     de: Bemessungsgrundlage, Vorsorgepauschale, Anteil des Beitrags der RV-Beiträge
     en:
@@ -68,7 +66,6 @@ vorsp_rv:
       value: .5
       note:
 vorwegab:
-  group: e_st_abzuege
   name:
     de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
     en:
@@ -113,7 +110,6 @@ vorwegab:
       value: 300
       note:
 vwabzc:
-  group: e_st_abzuege
   name:
     de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle Ehegatten  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
     en:
@@ -164,7 +160,6 @@ vwabzc:
       value: 600
       note:
 werbung:
-  group: e_st_abzuege
   name:
     de: Werbungskostenpauschbetrag bei nichtselbstständiger Arbeit
     en:
@@ -188,7 +183,6 @@ werbung:
       value: 1000
       note: Stand  Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854 Achtung:§ 9a Satz 1 Nummer 1 Buchstabe a in der Fassung des Artikels 1 Nummer 5 Buchstabe a des Gesetzes vom 1. November 2011 (BGBl. I S. 2131) ist erstmals für den Veranlagungszeitraum 2011 anzuwenden. 2Beim Steuerabzug vom Arbeitslohn ist er auf laufenden Arbeitslohn, der für einen nach dem 30. November 2011 endenden Lohnzahlungszeitraum gezahlt wird, und auf sonstige Bezüge, die nach dem 30. November 2011 zufließen, erstmals anzuwenden
 vorsorgpausch:
-  group: e_st_abzuege
   name:
     de: Werbungskostenpauschbetrag bei Vorsorgebezügen oder Einnahmen im Sinne des § 22 EStG Nummer 1, 1a, 1b, 1c und 5
     en:
@@ -200,7 +194,6 @@ vorsorgpausch:
       value: 102
       note:
 sonder:
-  group: e_st_abzuege
   name:
     de: Sonderausgaben-Pauschbetrag
     en:
@@ -218,7 +211,6 @@ sonder:
       value: 36
       note:
 spsparf:
-  group: e_st_abzuege
   name:
     de: Sparerfreibetrag (bis 2008) Sparerpauschbetrag (ab 2008)
     en:
@@ -251,7 +243,6 @@ spsparf:
       value: 801
       note:
 spwerbz:
-  group: e_st_abzuege
   name:
     de: Werbungskostenpauschbetrag bei Zinseinkünften
     en:
@@ -266,7 +257,6 @@ spwerbz:
       value: 0
       note:
 grundbet:
-  group: e_st_abzuege
   name:
     de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle  SEB Dies gilt nur noch, wenn Regelung von vor 2004 günstiger ist  (§ 10 (3) Nr.1, § 10c (5) EStG)
     en:
@@ -281,7 +271,6 @@ grundbet:
       value: 1334
       note: .
 altenth:
-  group: e_st_abzuege
   name:
     de: Höchstbetrag des Altersentlastungsbetrags  (Höhe §24a EstG)
     en:
@@ -344,7 +333,6 @@ altenth:
       value: 836
       note:
 altentq:
-  group: e_st_abzuege
   name:
     de: Prozentsatz des Altersentlastungsbetrags  (Höhe §24a EstG)
     en:
@@ -398,7 +386,6 @@ altentq:
       value: .176
       note:
 an_vorsp_al:
-  group: e_st_abzuege
   name:
     de: Anteil des Arbeitslohns  (§ 10c (2) S. 2 Nr. 2)
     en:
@@ -419,7 +406,6 @@ an_vorsp_al:
       value: .11
       note:
 an_vorsp_rv:
-  group: e_st_abzuege
   name:
     de: Anteil des Teils der Versorgeaufwendungen aus § 10c (2) S. 2 Nr.1  Seit 2005 20% steigt bis 2024 um je 4%punkte auf 100%  (§ 10c (2) S.4 EStG)
     en:
@@ -452,7 +438,6 @@ an_vorsp_rv:
       value: .44
       note: VERALTET / Nicht verwendet
 avspc:
-  group: e_st_abzuege
   name:
     de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Splittingtabelle  SEB Dies gilt nur noch, wenn Regelung von vor 2004 günstiger ist  (§ 10 (3) Nr.1, § 10c (5) EStG)
     en:
@@ -470,7 +455,6 @@ avspc:
       value: 2668
       note:
 bvspc:
-  group: e_st_abzuege
   name:
     de: Besondere Vorsorgepauschale Grundhöchstbetrag, Splittingtabelle  (§ 10c (3) EStG)
     en:
@@ -491,7 +475,6 @@ bvspc:
       value: 2268
       note:
 bvsps:
-  group: e_st_abzuege
   name:
     de: Besondere Vorsorgepauschale Grundhoechstbetrag, Grundtabelle  (§ 10c (3) EStG)
     en:
@@ -512,7 +495,6 @@ bvsps:
       value: 1134
       note:
 max_vorsp_al:
-  group: e_st_abzuege
   name:
     de: Maximalbetrag des Anteils der Arbeitslohns  (§ 10c (2) S. 2 Nr. 2)
     en:
@@ -530,7 +512,6 @@ max_vorsp_al:
       value: 1500
       note:
 hhfreib:
-  group: e_st_abzuege
   name:
     de: Entlastungsbetrag für Alleinerziehende  (§ 24b (1) EStG)  vor 2004 Haushaltsfreibetrag, § 32 (7) EStG
     en:
@@ -560,7 +541,6 @@ hhfreib:
       value: 1908
       note: geändert durch BGBl. Nr. 30, 16.07.2015
 hhfreib_ch:
-  group: e_st_abzuege
   name:
     de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag pro Kind ab dem 2. Kind  §24b (2) S.2 EStG
     en:
@@ -572,7 +552,6 @@ hhfreib_ch:
       value: 240
       note:
 kuerzquo:
-  group: e_st_abzuege
   name:
     de: Pauschale Kuerzung des Vorwegabzugs um # Prozent der Einnahmen  SEB Vorsicht - falsch modelliert, bleibt weiterhin bei 0.16% Gilt für AN die vom AG steuerfreie Zukunftssicherungsleistungen bekommen (z.B. AG-Anteile) also für fast alle oder Leute die in der RV versicherungsfrei sind  (Höhe § 10 (3) Nr. 2 EStG)
     en:
@@ -596,7 +575,6 @@ kuerzquo:
       value: .16
       note:
 krzsatz:
-  group: e_st_abzuege
   name:
     de: Unterstellter Satz für Kurzarbeiter- und Schlechtwettergeld, gemessen am Bruttolohn
     en:
@@ -608,7 +586,6 @@ krzsatz:
       value: .4
       note:
 mietafa:
-  group: e_st_abzuege
   name:
     de: Grenze, von der an für Betriebs- und Instandhaltungskosten, die in Verb. mit Miteinnahmen anfallen, angenommen wird, sie zählen zu AfA
     en:
@@ -623,7 +600,6 @@ mietafa:
       value: 0
       note:
 vorsorg_rv_sh:
-  group: e_st_abzuege
   name:
     de: Anteil der Rentenversicherungsbeiträge, der abgesetzt werden kann.   §10 Abs.3 S.4-6 EStG
     en:
@@ -677,7 +653,6 @@ vorsorg_rv_sh:
       value: .88
       note:
 vors_sonst_max:
-  group: e_st_abzuege
   name:
     de: regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt  §10 Abs. 4 EStG
     en:
@@ -689,7 +664,6 @@ vors_sonst_max:
       value: 1900
       note:
 rentert:
-  group: e_st_abzuege
   name:
     de: Ertragsanteil der Rente bei Rentenbeginn im 65. LJ.  ES Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht  (§ 22 Nr. 1 a) aa) EStG)
     en:
@@ -749,7 +723,6 @@ rentert:
       value: .78
       note:
 sauntmx:
-  group: e_st_abzuege
   name:
     de: Höchstbetrag der Unterhaltsleistungen als Sonderausgaben  (Höhe § 10 (1a) Nr. 1 EStG)
     en:
@@ -767,7 +740,6 @@ sauntmx:
       value: 13805
       note: .
 sbhp100:
-  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 95% oder 100%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -782,7 +754,6 @@ sbhp100:
       value: 1420
       note:
 sbhp30:
-  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 25% oder 30%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -797,7 +768,6 @@ sbhp30:
       value: 310
       note:
 sbhp40:
-  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 35% oder 40%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -812,7 +782,6 @@ sbhp40:
       value: 430
       note:
 sbhp50:
-  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 45% oder 50%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -827,7 +796,6 @@ sbhp50:
       value: 570
       note:
 sbhp60:
-  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 55% oder 60%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -845,7 +813,6 @@ sbhp60:
       value: 720
       note:
 sbhp70:
-  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 65% oder 70%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -857,7 +824,6 @@ sbhp70:
       value: 890
       note: .
 sbhp80:
-  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 75% oder 80%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -872,7 +838,6 @@ sbhp80:
       value: 1060
       note:
 sbhp90:
-  group: e_st_abzuege
   name:
     de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 85% oder 90%)  (Höhe § 33b (1), (3) EStG)
     en:
@@ -887,7 +852,6 @@ sbhp90:
       value: 1230
       note:
 abfahh:
-  group: e_st_abzuege
   name:
     de: Ausbildungsfreibetrag für ein außerhalb des HH lebendes über 18 Jahre altes Kind  (Höhe §33a (2) Satz 1 EStG)
     en:
@@ -905,7 +869,6 @@ abfahh:
       value: 924
       note:
 abfahhg:
-  group: e_st_abzuege
   name:
     de: Ausbildungsfreibetrag, Hinzuverdienstgrenze des Kindes  (Höhe §33a (2) Satz 1 EStG)
     en:
@@ -920,7 +883,6 @@ abfahhg:
       value: 1848
       note:
 abfihh:
-  group: e_st_abzuege
   name:
     de: Ausbildungsfreibetrag, Ausbildungsfreibetrag für ein im HH lebendes über 18 Jahre altes Kind  (Höhe §33a (2) Satz 1 EStG)
     en:
@@ -938,7 +900,6 @@ abfihh:
       value: 0
       note:
 pendpausch:
-  group: e_st_abzuege
   name:
     de: Entfernungspauschale §9 I Nr.4 EStG
     en:
@@ -971,7 +932,6 @@ pendpausch:
       value: .3
       note:
 childcare_share:
-  group: e_st_abzuege
   name:
     de: Anteil der Betreuungsaufwendungen, der auf das zve anrechenbar ist
     en:
@@ -983,7 +943,6 @@ childcare_share:
       value: .6666666666666666
       note:
 childcare_max:
-  group: e_st_abzuege
   name:
     de: Maximale Betreuungsaufwendung per Kind
     en:

@@ -1,5 +1,4 @@
 wg_factor:
-  group: wohngeld
   name:
     de: Faktor am Anfang der Wohngeldformel
     en:
@@ -17,7 +16,6 @@ wg_factor:
       value: 1.15
       note: §19 (1) aa) zuletzt geändert durch BGBl. Nr.38 vom 08.10.2015, S.1613
 wg_a_1p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 1 Person)
     en:
@@ -41,7 +39,6 @@ wg_a_1p:
       value: .04
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_2p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 2 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
     en:
@@ -65,7 +62,6 @@ wg_a_2p:
       value: .03
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_3p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 3 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
     en:
@@ -89,7 +85,6 @@ wg_a_3p:
       value: .02
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_4p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 4 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
     en:
@@ -113,7 +108,6 @@ wg_a_4p:
       value: .01
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_5p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 5 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
     en:
@@ -137,7 +131,6 @@ wg_a_5p:
       value: 0
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_6p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 6 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
     en:
@@ -161,7 +154,6 @@ wg_a_6p:
       value: -0.01
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_7p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 7 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
     en:
@@ -185,7 +177,6 @@ wg_a_7p:
       value: -0.02
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_8p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 8 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
     en:
@@ -209,7 +200,6 @@ wg_a_8p:
       value: -0.03
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_9p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 9 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
     en:
@@ -236,7 +226,6 @@ wg_a_9p:
       value: -0.04
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_10p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 10 Personen)
     en:
@@ -263,7 +252,6 @@ wg_a_10p:
       value: -0.06
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_11p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 11 Personen)
     en:
@@ -290,7 +278,6 @@ wg_a_11p:
       value: -0.1
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_12p:
-  group: wohngeld
   name:
     de: Parameter a (Haushalt mit 12 Personen)
     en:
@@ -317,7 +304,6 @@ wg_a_12p:
       value: -0.14
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_1p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 1 Person)
     en:
@@ -341,7 +327,6 @@ wg_b_1p:
       value: .00063
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_2p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 2 Personen)
     en:
@@ -368,7 +353,6 @@ wg_b_2p:
       value: .00044
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_3p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 3 Personen)
     en:
@@ -392,7 +376,6 @@ wg_b_3p:
       value: .00038
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_4p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 4 Personen)
     en:
@@ -419,7 +402,6 @@ wg_b_4p:
       value: .00034
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_5p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 5 Personen)
     en:
@@ -443,7 +425,6 @@ wg_b_5p:
       value: .0003
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_6p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 6 Personen)
     en:
@@ -470,7 +451,6 @@ wg_b_6p:
       value: .00028
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_7p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 7 Personen)
     en:
@@ -497,7 +477,6 @@ wg_b_7p:
       value: .00026
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_8p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 8 Personen)
     en:
@@ -524,7 +503,6 @@ wg_b_8p:
       value: .00023
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_9p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 9 Personen)
     en:
@@ -551,7 +529,6 @@ wg_b_9p:
       value: .0002
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_10p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 10 Personen)
     en:
@@ -578,7 +555,6 @@ wg_b_10p:
       value: .00016
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_11p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 11 Personen)
     en:
@@ -602,7 +578,6 @@ wg_b_11p:
       value: .00012
       note:
 wg_b_12p:
-  group: wohngeld
   name:
     de: Parameter b (Haushalt mit 12 Personen)
     en:
@@ -629,7 +604,6 @@ wg_b_12p:
       value: .00011
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_1p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 1 Person)
     en:
@@ -653,7 +627,6 @@ wg_c_1p:
       value: .000138
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_2p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 2 Personen)
     en:
@@ -677,7 +650,6 @@ wg_c_2p:
       value: .000103
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_3p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 3 Personen)
     en:
@@ -701,7 +673,6 @@ wg_c_3p:
       value: .000083
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_4p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 4 Personen)
     en:
@@ -725,7 +696,6 @@ wg_c_4p:
       value: .000043
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_5p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 5 Personen)
     en:
@@ -749,7 +719,6 @@ wg_c_5p:
       value: .000042
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_6p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 6 Personen)
     en:
@@ -773,7 +742,6 @@ wg_c_6p:
       value: .000036
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_7p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 7 Personen)
     en:
@@ -800,7 +768,6 @@ wg_c_7p:
       value: .000037
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_8p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 8 Personen)
     en:
@@ -824,7 +791,6 @@ wg_c_8p:
       value: .000037
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_9p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 9 Personen)
     en:
@@ -851,7 +817,6 @@ wg_c_9p:
       value: .000039
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_10p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 10 Personen)
     en:
@@ -878,7 +843,6 @@ wg_c_10p:
       value: .000045
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_11p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 11 Personen)
     en:
@@ -902,7 +866,6 @@ wg_c_11p:
       value: .000053
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_12p:
-  group: wohngeld
   name:
     de: Parameter c (Haushalt mit 12 Personen)
     en:
@@ -926,7 +889,6 @@ wg_c_12p:
       value: .00006
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_add_12plus:
-  group: wohngeld
   name:
     de: Zusätzlicher Betrag pro Person für Haushalte mit mehr als 12 Personen
     en:
@@ -944,7 +906,6 @@ wg_add_12plus:
       value: 47
       note: geändert durch BGBl. I vom 08.10.2015, S.1617
 wghka:
-  group: wohngeld
   name:
     de: Unterstellter Anteil der Heiz- und Warmwasserkosten an der Miete bei HH, bei denen diese in der Miete enthalten, aber Höhe nicht bekannt ist.
     en:
@@ -959,7 +920,6 @@ wghka:
       value: 0
       note:
 wgmax1p_a_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (1-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax1p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
     en:
@@ -980,7 +940,6 @@ wgmax1p_a_st3:
       value: 225
       note: .
 wgmax1p_n_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (1-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax1p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
     en:
@@ -1004,7 +963,6 @@ wgmax1p_n_st3:
       value: 300
       note: .
 wgmax2p_a_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (2-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax2p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
     en:
@@ -1025,7 +983,6 @@ wgmax2p_a_st3:
       value: 300
       note: .
 wgmax2p_n_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (2-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax2p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
     en:
@@ -1049,7 +1006,6 @@ wgmax2p_n_st3:
       value: 365
       note: .
 wgmax3p_a_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (3-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax3p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
     en:
@@ -1070,7 +1026,6 @@ wgmax3p_a_st3:
       value: 360
       note: .
 wgmax3p_n_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (3-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax3p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
     en:
@@ -1094,7 +1049,6 @@ wgmax3p_n_st3:
       value: 435
       note: .
 wgmax4p_a_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (4-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax4p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
     en:
@@ -1115,7 +1069,6 @@ wgmax4p_a_st3:
       value: 420
       note: .
 wgmax4p_n_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (4-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax4p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
     en:
@@ -1139,7 +1092,6 @@ wgmax4p_n_st3:
       value: 505
       note: .
 wgmax5p_a_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (5-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax5p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
     en:
@@ -1160,7 +1112,6 @@ wgmax5p_a_st3:
       value: 480
       note: .
 wgmax5p_n_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (5-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax5p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
     en:
@@ -1184,7 +1135,6 @@ wgmax5p_n_st3:
       value: 580
       note: .
 wgmaxplus5_a_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (für jede weitere Person > 5)  ab 1.1.2009    => einheitlicher Satz (siehe wgmaxplus5_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
     en:
@@ -1205,7 +1155,6 @@ wgmaxplus5_a_st3:
       value: 60
       note: .
 wgmaxplus5_n_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (für jede weitere Person > 5)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax5p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
     en:
@@ -1229,7 +1178,6 @@ wgmaxplus5_n_st3:
       value: 70
       note: .
 wgmax1p_m_st1:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1244,7 +1192,6 @@ wgmax1p_m_st1:
       value: 312
       note:
 wgmax1p_m_st2:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1259,7 +1206,6 @@ wgmax1p_m_st2:
       value: 351
       note:
 wgmax1p_m_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1289,7 +1235,6 @@ wgmax1p_m_st3:
       value: 390
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611  - auch unter http://www.wohngeld.org/wohngeldgesetz-wogg/paragraph12.html
 wgmax1p_m_st4:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1304,7 +1249,6 @@ wgmax1p_m_st4:
       value: 434
       note:
 wgmax1p_m_st5:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1319,7 +1263,6 @@ wgmax1p_m_st5:
       value: 482
       note:
 wgmax1p_m_st6:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1334,7 +1277,6 @@ wgmax1p_m_st6:
       value: 522
       note:
 wgmax2p_m_st1:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1349,7 +1291,6 @@ wgmax2p_m_st1:
       value: 378
       note:
 wgmax2p_m_st2:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1364,7 +1305,6 @@ wgmax2p_m_st2:
       value: 425
       note:
 wgmax2p_m_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1394,7 +1334,6 @@ wgmax2p_m_st3:
       value: 473
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
 wgmax2p_m_st4:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1409,7 +1348,6 @@ wgmax2p_m_st4:
       value: 526
       note:
 wgmax2p_m_st5:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1424,7 +1362,6 @@ wgmax2p_m_st5:
       value: 584
       note:
 wgmax2p_m_st6:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1439,7 +1376,6 @@ wgmax2p_m_st6:
       value: 633
       note:
 wgmax3p_m_st1:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1454,7 +1390,6 @@ wgmax3p_m_st1:
       value: 450
       note:
 wgmax3p_m_st2:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1469,7 +1404,6 @@ wgmax3p_m_st2:
       value: 506
       note:
 wgmax3p_m_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1499,7 +1433,6 @@ wgmax3p_m_st3:
       value: 563
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
 wgmax3p_m_st4:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1514,7 +1447,6 @@ wgmax3p_m_st4:
       value: 626
       note:
 wgmax3p_m_st5:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1529,7 +1461,6 @@ wgmax3p_m_st5:
       value: 695
       note:
 wgmax3p_m_st6:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1544,7 +1475,6 @@ wgmax3p_m_st6:
       value: 753
       note:
 wgmax4p_m_st1:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1559,7 +1489,6 @@ wgmax4p_m_st1:
       value: 525
       note:
 wgmax4p_m_st2:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1574,7 +1503,6 @@ wgmax4p_m_st2:
       value: 591
       note:
 wgmax4p_m_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1604,7 +1532,6 @@ wgmax4p_m_st3:
       value: 656
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
 wgmax4p_m_st4:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1619,7 +1546,6 @@ wgmax4p_m_st4:
       value: 730
       note:
 wgmax4p_m_st5:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1634,7 +1560,6 @@ wgmax4p_m_st5:
       value: 811
       note:
 wgmax4p_m_st6:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1649,7 +1574,6 @@ wgmax4p_m_st6:
       value: 879
       note:
 wgmax5p_m_st1:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1664,7 +1588,6 @@ wgmax5p_m_st1:
       value: 600
       note:
 wgmax5p_m_st2:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1679,7 +1602,6 @@ wgmax5p_m_st2:
       value: 675
       note:
 wgmax5p_m_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1709,7 +1631,6 @@ wgmax5p_m_st3:
       value: 750
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
 wgmax5p_m_st4:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1724,7 +1645,6 @@ wgmax5p_m_st4:
       value: 834
       note:
 wgmax5p_m_st5:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1739,7 +1659,6 @@ wgmax5p_m_st5:
       value: 927
       note:
 wgmax5p_m_st6:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
@@ -1754,7 +1673,6 @@ wgmax5p_m_st6:
       value: 1004
       note:
 wgmaxplus5_m_st1:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
@@ -1769,7 +1687,6 @@ wgmaxplus5_m_st1:
       value: 71
       note:
 wgmaxplus5_m_st2:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
@@ -1784,7 +1701,6 @@ wgmaxplus5_m_st2:
       value: 81
       note:
 wgmaxplus5_m_st3:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
@@ -1814,7 +1730,6 @@ wgmaxplus5_m_st3:
       value: 91
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
 wgmaxplus5_m_st4:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
@@ -1829,7 +1744,6 @@ wgmaxplus5_m_st4:
       value: 101
       note:
 wgmaxplus5_m_st5:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
@@ -1844,7 +1758,6 @@ wgmaxplus5_m_st5:
       value: 111
       note:
 wgmaxplus5_m_st6:
-  group: wohngeld
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
@@ -1859,7 +1772,6 @@ wgmaxplus5_m_st6:
       value: 126
       note:
 wgmaxheat1p:
-  group: wohngeld
   name:
     de: Höchstbeträge für Heizkosten (1-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
     en:
@@ -1877,7 +1789,6 @@ wgmaxheat1p:
       value: 0
       note:
 wgmaxheat2p:
-  group: wohngeld
   name:
     de: Höchstbeträge für Heizkosten (2-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
     en:
@@ -1895,7 +1806,6 @@ wgmaxheat2p:
       value: 0
       note:
 wgmaxheat3p:
-  group: wohngeld
   name:
     de: Höchstbeträge für Heizkosten (3-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
     en:
@@ -1913,7 +1823,6 @@ wgmaxheat3p:
       value: 0
       note:
 wgmaxheat4p:
-  group: wohngeld
   name:
     de: Höchstbeträge für Heizkosten (4-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
     en:
@@ -1931,7 +1840,6 @@ wgmaxheat4p:
       value: 0
       note:
 wgmaxheat5p:
-  group: wohngeld
   name:
     de: Höchstbeträge für Heizkosten (5-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
     en:
@@ -1949,7 +1857,6 @@ wgmaxheat5p:
       value: 0
       note:
 wgmaxheatplus5:
-  group: wohngeld
   name:
     de: Höchstbeträge für Heizkosten (für jede weitere Person > 5)  (nur von 1.1.2009 bis 31.12.2010)
     en:
@@ -1967,7 +1874,6 @@ wgmaxheatplus5:
       value: 0
       note:
 wgmin1p:
-  group: wohngeld
   name:
     de: Parameter M (1-Personen Haushalt)
     en:
@@ -1988,7 +1894,6 @@ wgmin1p:
       value: 48
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin2p:
-  group: wohngeld
   name:
     de: Parameter M (2-Personen Haushalt)
     en:
@@ -2009,7 +1914,6 @@ wgmin2p:
       value: 59
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin3p:
-  group: wohngeld
   name:
     de: Parameter M (3-Personen Haushalt)
     en:
@@ -2030,7 +1934,6 @@ wgmin3p:
       value: 70
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin4p:
-  group: wohngeld
   name:
     de: Parameter M (4-Personen Haushalt)
     en:
@@ -2051,7 +1954,6 @@ wgmin4p:
       value: 81
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin5p:
-  group: wohngeld
   name:
     de: Parameter M (5-Personen Haushalt)
     en:
@@ -2072,7 +1974,6 @@ wgmin5p:
       value: 91
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin6p:
-  group: wohngeld
   name:
     de: Parameter M (6-Personen Haushalt)
     en:
@@ -2093,7 +1994,6 @@ wgmin6p:
       value: 91
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin7p:
-  group: wohngeld
   name:
     de: Parameter M (7-Personen Haushalt)
     en:
@@ -2114,7 +2014,6 @@ wgmin7p:
       value: 102
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin8p:
-  group: wohngeld
   name:
     de: Parameter M (8-Personen Haushalt)
     en:
@@ -2135,7 +2034,6 @@ wgmin8p:
       value: 113
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin9p:
-  group: wohngeld
   name:
     de: Parameter M (9-Personen Haushalt)
     en:
@@ -2156,7 +2054,6 @@ wgmin9p:
       value: 124
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin10p:
-  group: wohngeld
   name:
     de: Parameter M (10-Personen Haushalt)
     en:
@@ -2177,7 +2074,6 @@ wgmin10p:
       value: 134
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgmin11p:
-  group: wohngeld
   name:
     de: Parameter M (11-Personen Haushalt)
     en:
@@ -2195,7 +2091,6 @@ wgmin11p:
       value: 155
       note:
 wgmin12p:
-  group: wohngeld
   name:
     de: Parameter M (12 oder mehr-Personen Haushalt)
     en:
@@ -2216,7 +2111,6 @@ wgmin12p:
       value: 263
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK1p:
-  group: wohngeld
   name:
     de: Parameter Y (1-Personen Haushalt)
     en:
@@ -2237,7 +2131,6 @@ wgminEK1p:
       value: 239
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK2p:
-  group: wohngeld
   name:
     de: Parameter Y (2-Personen Haushalt)
     en:
@@ -2258,7 +2151,6 @@ wgminEK2p:
       value: 310
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK3p:
-  group: wohngeld
   name:
     de: Parameter Y (3-Personen Haushalt)
     en:
@@ -2279,7 +2171,6 @@ wgminEK3p:
       value: 360
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK4p:
-  group: wohngeld
   name:
     de: Parameter Y (4-Personen Haushalt)
     en:
@@ -2300,7 +2191,6 @@ wgminEK4p:
       value: 389
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK5p:
-  group: wohngeld
   name:
     de: Parameter Y (5-Personen Haushalt)
     en:
@@ -2321,7 +2211,6 @@ wgminEK5p:
       value: 463
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK6p:
-  group: wohngeld
   name:
     de: Parameter Y (6-Personen Haushalt)
     en:
@@ -2342,7 +2231,6 @@ wgminEK6p:
       value: 537
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK7p:
-  group: wohngeld
   name:
     de: Parameter Y (7-Personen Haushalt)
     en:
@@ -2363,7 +2251,6 @@ wgminEK7p:
       value: 610
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK8p:
-  group: wohngeld
   name:
     de: Parameter Y (8-Personen Haushalt)
     en:
@@ -2384,7 +2271,6 @@ wgminEK8p:
       value: 684
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK9p:
-  group: wohngeld
   name:
     de: Parameter Y (9-Personen Haushalt)
     en:
@@ -2405,7 +2291,6 @@ wgminEK9p:
       value: 758
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK10p:
-  group: wohngeld
   name:
     de: Parameter Y (10-Personen Haushalt)
     en:
@@ -2426,7 +2311,6 @@ wgminEK10p:
       value: 832
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wgminEK11p:
-  group: wohngeld
   name:
     de: Parameter Y (11-Personen Haushalt)
     en:
@@ -2444,7 +2328,6 @@ wgminEK11p:
       value: 1085
       note:
 wgminEK12p:
-  group: wohngeld
   name:
     de: Parameter Y (12 oder mehr-Personen Haushalt)
     en:
@@ -2468,7 +2351,6 @@ wgminEK12p:
       value: 1255
       note:
 wgpabz0:
-  group: wohngeld
   name:
     de: Prozentualer Pauschalabzug vom Bruttoeinkommen (kein Kriterium erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
     en:
@@ -2483,7 +2365,6 @@ wgpabz0:
       value: 0
       note: neu WoGG §16 (2) entfällt - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1612
 wgpabz1:
-  group: wohngeld
   name:
     de: Prozentualer Pauschalabzug vom Bruttoeinkommen (ein Kriterium erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
     en:
@@ -2498,7 +2379,6 @@ wgpabz1:
       value: .1
       note:
 wgpabz2:
-  group: wohngeld
   name:
     de: Prozentualer Pauschalabzug vom Bruttoeinkommen (zwei Kriterien erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
     en:
@@ -2510,7 +2390,6 @@ wgpabz2:
       value: .2
       note:
 wgpabz3:
-  group: wohngeld
   name:
     de: Prozentualer Pauschalabzug vom Bruttoeinkommen (alle drei Kriterien erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
     en:
@@ -2528,7 +2407,6 @@ wgpabz3:
       value: .3
       note:
 wgpfb12:
-  group: wohngeld
   name:
     de: Monatlicher Freibetrag pro Einkommen eines Kind, das Kindergeld bekommt, (unter 12) im Haushalt
     en:
@@ -2546,7 +2424,6 @@ wgpfb12:
       value: 110
       note: neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1612
 wgpfb24:
-  group: wohngeld
   name:
     de: Maximaler monatlicher Freibetrag pro Kind, das im Haushal lebt, Einkommen bezieht und zwischen 16-24 Jahren ist
     en:
@@ -2567,7 +2444,6 @@ wgpfb24:
       value: 100
       note: neu §17 4. WoGG Kind noch nicht 25J. - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1613
 wgpfbm80:
-  group: wohngeld
   name:
     de: Monatlicher Freibetrag pro schwerbehindertes Haushaltsmitglied (ab 80 % Behinderung)
     en:
@@ -2588,7 +2464,6 @@ wgpfbm80:
       value: 125
       note:
 wgpfbu80:
-  group: wohngeld
   name:
     de: Monatlicher Freibetrag pro behindertes Haushaltsmitglied (unter 80 % Behinderung)
     en:
@@ -2609,7 +2484,6 @@ wgpfbu80:
       value: 125
       note: neu §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1612
 wgvmiet:
-  group: wohngeld
   name:
     de: Jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
     en:
@@ -2624,7 +2498,6 @@ wgvmiet:
       value: 0
       note:
 wgvzins:
-  group: wohngeld
   name:
     de: Jährlicher Zinsbetrag, ab dem Geldvermögen unterstellt wird
     en:

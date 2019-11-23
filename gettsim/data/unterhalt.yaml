@@ -1,5 +1,4 @@
 uhv5:
-  group: unterhalt
   name:
     de: Unterhaltsvorschuss für Kinder unter 5 Jahren. Der Prozentsatz in §2 UVG wird angewendet auf (2 x Kinderfrebeitrag (32 (6) EStG) / 12) - Kindergeld für das 1. Kind
     en:
@@ -17,7 +16,6 @@ uhv5:
       value: 160
       note:
 uhv11:
-  group: unterhalt
   name:
     de: Unterhaltsvorschuss für Kinder von 6-11 Jahren
     en:
@@ -35,7 +33,6 @@ uhv11:
       value: 212
       note:
 uhv17:
-  group: unterhalt
   name:
     de: Unterhaltsvorschuss für Kinder von 7 bis 12 Jahren
     en:
@@ -50,7 +47,6 @@ uhv17:
       value: 282
       note:
 ahunt06o:
-  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder bis 6 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -89,7 +85,6 @@ ahunt06o:
       value: 401
       note:
 ahunt06w:
-  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder bis 6 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months.  Anmerkung Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -128,7 +123,6 @@ ahunt06w:
       value: 401
       note:
 ahunt12o:
-  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder zwischen 6 und 12 Jahren (Ost)  ab 1.1.2008     => siehe ahunt12w  bis 31.12.2007     => gemäß Berliner Tabelle Anmerkung Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -164,7 +158,6 @@ ahunt12o:
       value: 459
       note:
 ahunt12w:
-  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder zwischen 6 und 12 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -200,7 +193,6 @@ ahunt12w:
       value: 459
       note:
 ahunt18o:
-  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder zwischen 12 und 18 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -239,7 +231,6 @@ ahunt18o:
       value: 538
       note: Frederike Lannte Kommentar  ab 2008 siehe  ahunt18w und nicht ahunt06w ?
 ahunt18pluso:
-  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder ab 18 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007  Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -278,7 +269,6 @@ ahunt18pluso:
       value: 607
       note: Frederike Lannte siehe oberes Kommentar
 ahunt18plusw:
-  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder ab 18 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
     en:
@@ -317,7 +307,6 @@ ahunt18plusw:
       value: 607
       note:
 ahunt18w:
-  group: unterhalt
   name:
     de: Unterhaltssatz für Kinder zwischen 12 und 18 Jahre (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
     en:

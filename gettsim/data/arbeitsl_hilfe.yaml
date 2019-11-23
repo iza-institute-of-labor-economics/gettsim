@@ -1,5 +1,4 @@
 ahsatz0:
-  group: arbeitsl_hilfe
   name:
     de: Höhe der Arbeitslosenhilfe im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG
     en:
@@ -17,7 +16,6 @@ ahsatz0:
       value: 0
       note:
 ahsatz1:
-  group: arbeitsl_hilfe
   name:
     de: Höhe der Arbeitslosenhilfe im Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
     en:
@@ -35,7 +33,6 @@ ahsatz1:
       value: 0
       note:
 alh_frei:
-  group: arbeitsl_hilfe
   name:
     de: Freibetrag bei der Anrechnung von Nebeneinkommen  - bis 1999 Anteil des Einkommens (1/14)  - seit 2000 Fester Freibetrag
     en:
@@ -53,7 +50,6 @@ alh_frei:
       value: 0
       note:
 alh_partfrei1:
-  group: arbeitsl_hilfe
   name:
     de: Pauschaler Freibetrag des Partnereinkommens (bis 1993)
     en:
@@ -74,7 +70,6 @@ alh_partfrei1:
       value: 0
       note:
 alh_partfrei2:
-  group: arbeitsl_hilfe
   name:
     de: Freibetrag des Partnereinkommens pro unterhaltspflichtigem Kind im Haushalt (bis 1993)
     en:
@@ -95,7 +90,6 @@ alh_partfrei2:
       value: 0
       note:
 alh_partexist:
-  group: arbeitsl_hilfe
   name:
     de: Anteil des steuerrechtlichen Existenzminimums, der als minimaler Partnerfreibetrag berücksichtigt wird (seit 1994)
     en:
@@ -119,7 +113,6 @@ alh_partexist:
       value: 0
       note:
 alh_maxhours:
-  group: arbeitsl_hilfe
   name:
     de: Maximale Wochenarbeitszeit die als Nebenverdienst zur ALH zulässig ist
     en:
@@ -137,7 +130,6 @@ alh_maxhours:
       value: 0
       note:
 ahselfpausch:
-  group: arbeitsl_hilfe
   name:
     de: Betriebskostenpauschalabzug bei Einkommen aus selbstständiger Tätigkeit
     en:

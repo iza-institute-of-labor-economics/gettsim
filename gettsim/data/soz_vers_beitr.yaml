@@ -1,5 +1,4 @@
 gkvbs_ag:
-  group: soz_vers_beitr
   name:
     de: Beitragssatz zur GKV (Arbeitgeber)
     en:
@@ -80,7 +79,6 @@ gkvbs_ag:
       value: .073
       note:
 gkvbs_an:
-  group: soz_vers_beitr
   name:
     de: Beitragssatz zur GKV (Arbeitnehmer)
     en:
@@ -170,7 +168,6 @@ gkvbs_an:
       value: .082
       note:
 gpvbs:
-  group: soz_vers_beitr
   name:
     de: Beitragssatz zur GPV (AN / AG) (Außerhalb Sachsens)
     en:
@@ -203,7 +200,6 @@ gpvbs:
       value: .01525
       note:
 gpvbs_kind:
-  group: soz_vers_beitr
   name:
     de: Beitragszuschlag für Kinderlose, älter als 23 Jahre - nicht ALG II-Empfänger
     en:
@@ -218,7 +214,6 @@ gpvbs_kind:
       value: .0025
       note:
 bezgr_w:
-  group: soz_vers_beitr
   name:
     de: monatl. Bezugsgröße West
     en:
@@ -323,7 +318,6 @@ bezgr_w:
       value: 3115
       note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
 bezgr_o:
-  group: soz_vers_beitr
   name:
     de: monatl. Bezugsgröße Ost
     en:
@@ -413,7 +407,6 @@ bezgr_o:
       value: 2870
       note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
 kvmaxeko:
-  group: soz_vers_beitr
   name:
     de: Beitragsbemessungsgrenze in der GKV und PV (Ost)
     en:
@@ -509,7 +502,6 @@ kvmaxeko:
       value: 4537.5
       note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
 kvmaxekw:
-  group: soz_vers_beitr
   name:
     de: Beitragsbemessungsgrenze in der GKV und PV (West)
     en:
@@ -623,7 +615,6 @@ kvmaxekw:
       value: 4537.5
       note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
 alvbs:
-  group: soz_vers_beitr
   name:
     de: Beitragssatz zur Arbeitslosenversicherung (AN / AG)
     en:
@@ -665,7 +656,6 @@ alvbs:
       value: .013
       note: geändert durch BGBl. I S.2651
 grvbs:
-  group: soz_vers_beitr
   name:
     de: Beitragssatz zur GRV (AN / AG)
     en:
@@ -728,7 +718,6 @@ grvbs:
       value: .093
       note:
 grvbs_mini:
-  group: soz_vers_beitr
   name:
     de: Freiwilliger Beitragssatz zur GRV für Minijobber
     en:
@@ -740,7 +729,6 @@ grvbs_mini:
       value: .036
       note:
 rvmaxeko:
-  group: soz_vers_beitr
   name:
     de: Beitragsbemessungsgrenze in der GRV und ALV (Ost)
     en:
@@ -833,7 +821,6 @@ rvmaxeko:
       value: 6150
       note:
 rvmaxekw:
-  group: soz_vers_beitr
   name:
     de: Beitragsbemessungsgrenze in der GRV und ALV (West)  (IW-Zahlen, Bundesfinanzministerium, http://www.nettoeinkommen.de/grenz.htm)
     en:
@@ -944,7 +931,6 @@ rvmaxekw:
       value: 6700
       note:
 midi_grenze:
-  group: soz_vers_beitr
   name:
     de: Midijob-Grenze  (Höhe § 20 SGB IV (2))
     en:
@@ -962,7 +948,6 @@ midi_grenze:
       value: 850
       note:
 mini_grenzeo:
-  group: soz_vers_beitr
   name:
     de: Minijob Grenze Ost (bis 1999 unterschiedliche Grenzen)  (Höhe § 8 SGB IV (1))
     en:
@@ -1010,7 +995,6 @@ mini_grenzeo:
       value: 450
       note:
 mini_grenzew:
-  group: soz_vers_beitr
   name:
     de: Minijob Grenze West (bis 1999 unterschiedliche Grenzen)  (Höhe § 8 SGB IV (1))
     en:
@@ -1076,7 +1060,6 @@ mini_grenzew:
       value: 450
       note:
 mini_ag_gkv:
-  group: soz_vers_beitr
   name:
     de: Pauschalabgabe GKV bei geringf. Beschäftigung  § 249b SGB V
     en:
@@ -1097,7 +1080,6 @@ mini_ag_gkv:
       value: .13
       note:
 mini_ag_grv:
-  group: soz_vers_beitr
   name:
     de: Pauschalabgabe GRV bei geringf. Beschäftigung  § 168 I Nr. 1b SGB VI
     en:
@@ -1115,7 +1097,6 @@ mini_ag_grv:
       value: .15
       note:
 stpag:
-  group: soz_vers_beitr
   name:
     de: Pauschalabgabe Steuer bei geringf. Beschäftigung  Johannes Hermle Wirknorm §40a II EstG
     en:
@@ -1130,7 +1111,6 @@ stpag:
       value: .02
       note:
 miniuml:
-  group: soz_vers_beitr
   name:
     de: Sonstige Umlagen Minijobs. Es gibt noch div. Umlagen, die der AG zahlen muss (Wikipedia geringfügige Besch.) U1 für Entgeltfortzahlung U2 für Mutterschaftsurlaub U3 Insolvenzgeldumlage (Quelle Insolvenzgeldumlagesatzverordnung)  Achtung Die Umlagen werden nicht nur für Minijobs gezahlt!
     en:

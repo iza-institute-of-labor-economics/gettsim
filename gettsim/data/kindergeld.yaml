@@ -1,5 +1,4 @@
 kgage:
-  group: kindergeld
   name:
     de: Alter, bis zu dem Kindergeld gezahlt wird
     en:
@@ -14,7 +13,6 @@ kgage:
       value: 25
       note:
 kgeld1:
-  group: kindergeld
   name:
     de: Kindergeld, Betrag für das erste Kind
     en:
@@ -62,7 +60,6 @@ kgeld1:
       value: 194
       note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
 kgeld2:
-  group: kindergeld
   name:
     de: Kindergeld, Betrag für das zweite Kind
     en:
@@ -110,7 +107,6 @@ kgeld2:
       value: 194
       note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
 kgeld3:
-  group: kindergeld
   name:
     de: Kindergeld, Betrag für das dritte Kind
     en:
@@ -146,7 +142,6 @@ kgeld3:
       value: 200
       note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
 kgeld4:
-  group: kindergeld
   name:
     de: Kindergeld, Betrag für das vierte und jedes weitere Kind
     en:
@@ -179,7 +174,6 @@ kgeld4:
       value: 225
       note: geändert zum 1.1.2018 durch Artikel 13 vom 23.12.2016, BGBL I, S. 3000
 kgfreib:
-  group: kindergeld
   name:
     de: Einkommensgrenze der Kinder für Kindergeldanspruch  ()
     en:

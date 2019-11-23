@@ -1,5 +1,4 @@
 ust_low:
-  group: mw_st
   name:
     de: Mehrwertsteuer, ermäßigter Satz
     en:
@@ -11,7 +10,6 @@ ust_low:
       value: .07
       note:
 ust_high:
-  group: mw_st
   name:
     de: Mehrwertsteuer, Regelsatz
     en:

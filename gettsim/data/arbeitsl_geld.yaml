@@ -1,5 +1,4 @@
 alg1_frei:
-  group: arbeitsl_geld
   name:
     de: Freibetrag bei der Anrechnung von Nebeneinkommen
     en:
@@ -11,7 +10,6 @@ alg1_frei:
       value: 165
       note: Prüfen!
 alg1_abz:
-  group: arbeitsl_geld
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en:
@@ -107,7 +105,6 @@ alg1_abz:
       value: .2
       note:
 agsatz0:
-  group: arbeitsl_geld
   name:
     de: Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG
     en:
@@ -119,7 +116,6 @@ agsatz0:
       value: .6
       note: Prüfen!
 agsatz1:
-  group: arbeitsl_geld
   name:
     de: Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
     en:

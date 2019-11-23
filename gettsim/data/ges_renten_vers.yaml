@@ -1,5 +1,4 @@
 rente_alpha:
-  group: ges_renten_vers
   name:
     de: Nachhaltigkeitsfaktor
     en:
@@ -11,7 +10,6 @@ rente_alpha:
       value: .25
       note:
 rente_dentg:
-  group: ges_renten_vers
   name:
     de: Durchschnittsentgelt
     en:
@@ -128,7 +126,6 @@ rente_dentg:
       value: 38901
       note:
 rente_umr:
-  group: ges_renten_vers
   name:
     de: Umrechnungsfaktor für neue BL bei der Berechnung der Entgeltpunkte
     en:
@@ -242,7 +239,6 @@ rente_umr:
       value: 1.084
       note:
 rw_west:
-  group: ges_renten_vers
   name:
     de: aktueller Rentenwert Westdeutschland zum 1.1.
     en:
@@ -320,7 +316,6 @@ rw_west:
       value: 32.03
       note:
 rw_east:
-  group: ges_renten_vers
   name:
     de: aktueller Rentenwert Ostdeutschland zum 1.1.
     en:

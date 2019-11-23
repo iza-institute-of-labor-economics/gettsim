@@ -1,5 +1,4 @@
 a2kiz:
-  group: kinderzuschlag
   name:
     de: Höhe des Kinderzuschlags
     en:
@@ -14,7 +13,6 @@ a2kiz:
       value: 170
       note:  geändert zum 1.1.2017 durch Artikel 12 v. 20.12.2016, BGBL I S. 3000  vorher geändert zum  1.7.2016 durch Artikel 7 v. 16.07.2015 BGBl. I S. 1202
 a2kiz_minek_cou:
-  group: kinderzuschlag
   name:
     de: Mindesteinkommen für Paare
     en:
@@ -29,7 +27,6 @@ a2kiz_minek_cou:
       value: 900
       note:
 a2kiz_minek_sin:
-  group: kinderzuschlag
   name:
     de: Mindesteinkommen für Alleinerziehende
     en:
