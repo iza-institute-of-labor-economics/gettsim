@@ -36,16 +36,16 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_soc_ins_contrib(input_data, tax_policy_data, year, column):
+def test_soc_ins_contrib(input_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
     df = _apply_tax_transfer_func(
         df,
         tax_func=soc_ins_contrib,
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"tb": tb},
+        func_kwargs={"soz_vers_beitr_data": soz_vers_beitr_data},
     )
     pd.testing.assert_series_equal(df[column], year_data[column])

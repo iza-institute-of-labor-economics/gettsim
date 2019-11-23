@@ -3,7 +3,7 @@ import numpy as np
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
 
 
-def soc_ins_contrib(person, tb):
+def soc_ins_contrib(person, soz_vers_beitr_data):
     """Calculates Social Insurance Contributions
 
     4 branches of social insurances:
@@ -26,185 +26,238 @@ def soc_ins_contrib(person, tb):
     # a couple of definitions
 
     # As there is only one household, we selcet west_ost dependent paramter in the
-    # beginning and place them in a seperate dictionary tb_ost.
+    # beginning and place them in a seperate dictionary soz_vers_beitr_data_ost.
     westost = "o" if person["east"] else "w"
-    tb_ost = {}
+    soz_vers_beitr_data_ost = {}
     for val in ["bezgr_", "mini_grenze", "kvmaxek", "rvmaxek"]:
-        tb_ost[val] = tb[val + westost]
+        soz_vers_beitr_data_ost[val] = soz_vers_beitr_data[val + westost]
 
-    # ssc["above_thresh_kv"] = inout["m_wage"] > tb_ost["kvmaxek"]
+    # ssc["above_thresh_kv"] = inout["m_wage"] > soz_vers_beitr_data_ost["kvmaxek"]
     #
-    # ssc["above_thresh_rv"] = inout["m_wage"] > tb_ost["rvmaxek"]
+    # ssc["above_thresh_rv"] = inout["m_wage"] > soz_vers_beitr_data_ost["rvmaxek"]
 
     # This is probably the point where Entgeltpunkte should be updated as well.
 
     # Check if wage is below the mini job grenze.
-    belowmini = person["m_wage"] < tb_ost["mini_grenze"]
+    belowmini = person["m_wage"] < soz_vers_beitr_data_ost["mini_grenze"]
 
     # Check if wage is in Gleitzone / Midi-Jobs
-    in_gleitzone = (tb["midi_grenze"] >= person["m_wage"]) & (
-        person["m_wage"] >= tb_ost["mini_grenze"]
+    in_gleitzone = (soz_vers_beitr_data["midi_grenze"] >= person["m_wage"]) & (
+        person["m_wage"] >= soz_vers_beitr_data_ost["mini_grenze"]
     )
 
     # Calculate accordingly the ssc
     if belowmini:
         person[OUT_COLS] = 0.0
     elif in_gleitzone:
-        # TODO: Before and in 2003 tb["midi_grenze"] is 0 and therefore we won't reach
-        #  this.
-        person = tb["calc_midi_contrib"](person, tb)
+        # TODO: Before and in 2003 soz_vers_beitr_data["midi_grenze"] is 0 and
+        #  therefore we won't reach this.
+        person = soz_vers_beitr_data["calc_midi_contrib"](person, soz_vers_beitr_data)
     else:
-        person = ssc_regular_job(person, tb, tb_ost)
+        person = ssc_regular_job(person, soz_vers_beitr_data, soz_vers_beitr_data_ost)
 
     # Self-employed may insure via the public health and care insurance.
     if person["selfemployed"] & ~person["pkv"]:
-        person["gkvbeit"] = selfemployed_gkv_ssc(person, tb, tb_ost)
-        person["pvbeit"] = selfemployed_pv_ssc(person, tb, tb_ost)
+        person["gkvbeit"] = selfemployed_gkv_ssc(
+            person, soz_vers_beitr_data, soz_vers_beitr_data_ost
+        )
+        person["pvbeit"] = selfemployed_pv_ssc(
+            person, soz_vers_beitr_data, soz_vers_beitr_data_ost
+        )
 
     # Add the health insurance contribution for pensions
-    person["gkvbeit"] += gkv_ssc_pensions(person, tb, tb_ost)
+    person["gkvbeit"] += gkv_ssc_pensions(
+        person, soz_vers_beitr_data, soz_vers_beitr_data_ost
+    )
 
     # Add the care insurance contribution for pensions
-    person["pvbeit"] += pv_ssc_pensions(person, tb, tb_ost)
+    person["pvbeit"] += pv_ssc_pensions(
+        person, soz_vers_beitr_data, soz_vers_beitr_data_ost
+    )
 
     # Sum of Social Insurance Contributions (for employees)
     person["svbeit"] = person[["rvbeit", "avbeit", "gkvbeit", "pvbeit"]].sum()
     return person
 
 
-def ssc_regular_job(person, tb, tb_ost):
+def ssc_regular_job(person, soz_vers_beitr_data, soz_vers_beitr_data_ost):
     """Calculates the ssc for a regular job with wage above the midi limit."""
     # Check if the wage is higher than the Beitragsbemessungsgrenze. If so, only the
     # value of this is used.
-    person["svwage_pens"] = np.minimum(person["m_wage"], tb_ost["rvmaxek"])
-    person["svwage_health"] = np.minimum(person["m_wage"], tb_ost["kvmaxek"])
+    person["svwage_pens"] = np.minimum(
+        person["m_wage"], soz_vers_beitr_data_ost["rvmaxek"]
+    )
+    person["svwage_health"] = np.minimum(
+        person["m_wage"], soz_vers_beitr_data_ost["kvmaxek"]
+    )
     # Then, calculate employee contributions.
     # Old-Age Pension Insurance / Rentenversicherung
-    person["rvbeit"] = tb["grvbs"] * person["svwage_pens"]
+    person["rvbeit"] = soz_vers_beitr_data["grvbs"] * person["svwage_pens"]
     # Unemployment Insurance / Arbeitslosenversicherung
-    person["avbeit"] = tb["alvbs"] * person["svwage_pens"]
+    person["avbeit"] = soz_vers_beitr_data["alvbs"] * person["svwage_pens"]
     # Health Insurance for Employees (GKV)
-    person["gkvbeit"] = tb["gkvbs_an"] * person["svwage_health"]
+    person["gkvbeit"] = soz_vers_beitr_data["gkvbs_an"] * person["svwage_health"]
     # Care Insurance / Pflegeversicherung
-    person["pvbeit"] = tb["gpvbs"] * person["svwage_health"]
+    person["pvbeit"] = soz_vers_beitr_data["gpvbs"] * person["svwage_health"]
     # If you are above 23 and without kids, you have to pay a higher rate
     if ~person["haskids"] & (person["age"] > 22):
-        person["pvbeit"] = (tb["gpvbs"] + tb["gpvbs_kind"]) * person["svwage_health"]
+        person["pvbeit"] = (
+            soz_vers_beitr_data["gpvbs"] + soz_vers_beitr_data["gpvbs_kind"]
+        ) * person["svwage_health"]
     return person
 
 
-def selfemployed_gkv_ssc(person, tb, tb_ost):
+def selfemployed_gkv_ssc(person, soz_vers_beitr_data, soz_vers_beitr_data_ost):
     """Calculates health insurance contributions. Self-employed pay the full
     contribution (employer + employee), which is either assessed on their
     self-employement income or 3/4 of the 'Bezugsgröße'"""
-    return (tb["gkvbs_an"] + tb["gkvbs_ag"]) * np.minimum(
-        person["m_self"], 0.75 * tb_ost["bezgr_"]
-    )
+    return (
+        soz_vers_beitr_data["gkvbs_an"] + soz_vers_beitr_data["gkvbs_ag"]
+    ) * np.minimum(person["m_self"], 0.75 * soz_vers_beitr_data_ost["bezgr_"])
 
 
-def selfemployed_pv_ssc(person, tb, tb_ost):
+def selfemployed_pv_ssc(person, soz_vers_beitr_data, soz_vers_beitr_data_ost):
     """Calculates care insurance contributions. Self-employed pay the full
         contribution (employer + employee), which is either assessed on their
         self-employement income or 3/4 of the 'Bezugsgröße'"""
     if ~person["haskids"] & (person["age"] > 22):
-        return 2 * tb["gpvbs"] + tb["gpvbs_kind"] * np.minimum(
-            person["m_self"], 0.75 * tb_ost["bezgr_"]
-        )
+        return 2 * soz_vers_beitr_data["gpvbs"] + soz_vers_beitr_data[
+            "gpvbs_kind"
+        ] * np.minimum(person["m_self"], 0.75 * soz_vers_beitr_data_ost["bezgr_"])
     else:
-        return 2 * tb["gpvbs"] * np.minimum(person["m_self"], 0.75 * tb_ost["bezgr_"])
+        return (
+            2
+            * soz_vers_beitr_data["gpvbs"]
+            * np.minimum(person["m_self"], 0.75 * soz_vers_beitr_data_ost["bezgr_"])
+        )
 
 
-def pv_ssc_pensions(person, tb, tb_ost):
+def pv_ssc_pensions(person, soz_vers_beitr_data, soz_vers_beitr_data_ost):
     """Calculates the care insurance contributions for pensions. It is twice the
     standard rate"""
     if ~person["haskids"] & (person["age"] > 22):
-        return (2 * tb["gpvbs"] + tb["gpvbs_kind"]) * np.minimum(
-            person["m_pensions"], tb_ost["kvmaxek"]
-        )
+        return (
+            2 * soz_vers_beitr_data["gpvbs"] + soz_vers_beitr_data["gpvbs_kind"]
+        ) * np.minimum(person["m_pensions"], soz_vers_beitr_data_ost["kvmaxek"])
     else:
-        return 2 * tb["gpvbs"] * np.minimum(person["m_pensions"], tb_ost["kvmaxek"])
+        return (
+            2
+            * soz_vers_beitr_data["gpvbs"]
+            * np.minimum(person["m_pensions"], soz_vers_beitr_data_ost["kvmaxek"])
+        )
 
 
-def gkv_ssc_pensions(person, tb, tb_ost):
+def gkv_ssc_pensions(person, soz_vers_beitr_data, soz_vers_beitr_data_ost):
     """Calculates the health insurance contributions for pensions. It is the normal
     rate"""
-    return tb["gkvbs_an"] * np.minimum(person["m_pensions"], tb_ost["kvmaxek"])
+    return soz_vers_beitr_data["gkvbs_an"] * np.minimum(
+        person["m_pensions"], soz_vers_beitr_data_ost["kvmaxek"]
+    )
 
 
-def calc_midi_contributions(person, tb):
+def calc_midi_contributions(person, soz_vers_beitr_data):
     """Calculates the ssc for midi jobs. For these jobs, the rate is not calculated
     on the wage, but on the 'bemessungsentgelt'. Contributions are usually shared
     equally by employee (AN) and employer (AG). We are actually not interested in
     employer's contributions, but we need them here as an intermediate step"""
 
-    person["bemessungsentgelt"] = calc_midi_bemessungsentgelt(person, tb)
+    person["bemessungsentgelt"] = calc_midi_bemessungsentgelt(
+        person, soz_vers_beitr_data
+    )
 
     # Again, all branches of social insurance
     # First total amount, then employer, then employee
 
     # Old-Age Pensions
-    person["rvbeit"] = calc_midi_old_age_pensions_contr(person, tb)
+    person["rvbeit"] = calc_midi_old_age_pensions_contr(person, soz_vers_beitr_data)
 
     # Health
-    person["gkvbeit"] = calc_midi_health_contr(person, tb)
+    person["gkvbeit"] = calc_midi_health_contr(person, soz_vers_beitr_data)
 
     # Unemployment
-    person["avbeit"] = calc_midi_unemployment_contr(person, tb)
+    person["avbeit"] = calc_midi_unemployment_contr(person, soz_vers_beitr_data)
 
     # Long-Term Care
-    person["pvbeit"] = calc_midi_long_term_care_contr(person, tb)
+    person["pvbeit"] = calc_midi_long_term_care_contr(person, soz_vers_beitr_data)
 
     return person
 
 
-def calc_midi_f(tb):
+def calc_midi_f(soz_vers_beitr_data):
     """ I have no idea what this function calculates. What means f?"""
-    an_anteil = tb["grvbs"] + tb["gpvbs"] + tb["alvbs"] + tb["gkvbs_an"]
-    ag_anteil = tb["grvbs"] + tb["gpvbs"] + tb["alvbs"] + tb["gkvbs_ag"]
+    an_anteil = (
+        soz_vers_beitr_data["grvbs"]
+        + soz_vers_beitr_data["gpvbs"]
+        + soz_vers_beitr_data["alvbs"]
+        + soz_vers_beitr_data["gkvbs_an"]
+    )
+    ag_anteil = (
+        soz_vers_beitr_data["grvbs"]
+        + soz_vers_beitr_data["gpvbs"]
+        + soz_vers_beitr_data["alvbs"]
+        + soz_vers_beitr_data["gkvbs_ag"]
+    )
     dbsv = an_anteil + ag_anteil
-    pauschmini = tb["mini_ag_gkv"] + tb["mini_ag_grv"] + tb["stpag"]
+    pauschmini = (
+        soz_vers_beitr_data["mini_ag_gkv"]
+        + soz_vers_beitr_data["mini_ag_grv"]
+        + soz_vers_beitr_data["stpag"]
+    )
     f = round(pauschmini / dbsv, 4)
     return f
 
 
-def calc_midi_bemessungsentgelt(person, tb):
-    f = calc_midi_f(tb)
-    return f * tb["mini_grenzew"] + (
-        (tb["midi_grenze"] / (tb["midi_grenze"] - tb["mini_grenzew"]))
-        - (tb["mini_grenzew"] / (tb["midi_grenze"] - tb["mini_grenzew"]) * f)
-    ) * (person["m_wage"] - tb["mini_grenzew"])
+def calc_midi_bemessungsentgelt(person, soz_vers_beitr_data):
+    f = calc_midi_f(soz_vers_beitr_data)
+    return f * soz_vers_beitr_data["mini_grenzew"] + (
+        (
+            soz_vers_beitr_data["midi_grenze"]
+            / (soz_vers_beitr_data["midi_grenze"] - soz_vers_beitr_data["mini_grenzew"])
+        )
+        - (
+            soz_vers_beitr_data["mini_grenzew"]
+            / (soz_vers_beitr_data["midi_grenze"] - soz_vers_beitr_data["mini_grenzew"])
+            * f
+        )
+    ) * (person["m_wage"] - soz_vers_beitr_data["mini_grenzew"])
 
 
-def calc_midi_old_age_pensions_contr(person, tb):
+def calc_midi_old_age_pensions_contr(person, soz_vers_beitr_data):
     """ Calculate old age pensions social insurance contribution for midi job."""
-    grbetr_rv = 2 * tb["grvbs"] * person["bemessungsentgelt"]
-    ag_rvbeit = tb["grvbs"] * person["m_wage"]
+    grbetr_rv = 2 * soz_vers_beitr_data["grvbs"] * person["bemessungsentgelt"]
+    ag_rvbeit = soz_vers_beitr_data["grvbs"] * person["m_wage"]
     return grbetr_rv - ag_rvbeit
 
 
-def calc_midi_health_contr(person, tb):
+def calc_midi_health_contr(person, soz_vers_beitr_data):
     """ Calculate social insurance health contributions for midi job."""
-    grbetr_gkv = (tb["gkvbs_an"] + tb["gkvbs_ag"]) * person["bemessungsentgelt"]
-    ag_gkvbeit = tb["gkvbs_ag"] * person["m_wage"]
+    grbetr_gkv = (
+        soz_vers_beitr_data["gkvbs_an"] + soz_vers_beitr_data["gkvbs_ag"]
+    ) * person["bemessungsentgelt"]
+    ag_gkvbeit = soz_vers_beitr_data["gkvbs_ag"] * person["m_wage"]
     return grbetr_gkv - ag_gkvbeit
 
 
-def calc_midi_unemployment_contr(person, tb):
-    grbetr_alv = 2 * tb["alvbs"] * person["bemessungsentgelt"]
-    ag_avbeit = tb["alvbs"] * person["m_wage"]
+def calc_midi_unemployment_contr(person, soz_vers_beitr_data):
+    grbetr_alv = 2 * soz_vers_beitr_data["alvbs"] * person["bemessungsentgelt"]
+    ag_avbeit = soz_vers_beitr_data["alvbs"] * person["m_wage"]
     return grbetr_alv - ag_avbeit
 
 
-def calc_midi_long_term_care_contr(person, tb):
-    grbetr_pv = 2 * tb["gpvbs"] * person["bemessungsentgelt"]
-    ag_pvbeit = tb["gpvbs"] * person["m_wage"]
+def calc_midi_long_term_care_contr(person, soz_vers_beitr_data):
+    grbetr_pv = 2 * soz_vers_beitr_data["gpvbs"] * person["bemessungsentgelt"]
+    ag_pvbeit = soz_vers_beitr_data["gpvbs"] * person["m_wage"]
     if ~person["haskids"] & (person["age"] > 22):
-        return grbetr_pv - ag_pvbeit + tb["gpvbs_kind"] * person["bemessungsentgelt"]
+        return (
+            grbetr_pv
+            - ag_pvbeit
+            + soz_vers_beitr_data["gpvbs_kind"] * person["bemessungsentgelt"]
+        )
     else:
         return grbetr_pv - ag_pvbeit
 
 
-def no_midi(person, tb):
+def no_midi(person, soz_vers_beitr_data):
     """Dummy function returning nothing
     """
     person[OUT_COLS] = 0.0
