@@ -1,5 +1,3 @@
-import numpy as np
-
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
 
 
@@ -88,10 +86,8 @@ def ssc_regular_job(person, soz_vers_beitr_params, soz_vers_beitr_params_ost):
     """Calculates the ssc for a regular job with wage above the midi limit."""
     # Check if the wage is higher than the Beitragsbemessungsgrenze. If so, only the
     # value of this is used.
-    person["svwage_pens"] = np.minimum(
-        person["m_wage"], soz_vers_beitr_params_ost["rvmaxek"]
-    )
-    person["svwage_health"] = np.minimum(
+    person["svwage_pens"] = min(person["m_wage"], soz_vers_beitr_params_ost["rvmaxek"])
+    person["svwage_health"] = min(
         person["m_wage"], soz_vers_beitr_params_ost["kvmaxek"]
     )
     # Then, calculate employee contributions.
@@ -117,7 +113,7 @@ def selfemployed_gkv_ssc(person, soz_vers_beitr_params, soz_vers_beitr_params_os
     self-employement income or 3/4 of the 'Bezugsgröße'"""
     return (
         soz_vers_beitr_params["gkvbs_an"] + soz_vers_beitr_params["gkvbs_ag"]
-    ) * np.minimum(person["m_self"], 0.75 * soz_vers_beitr_params_ost["bezgr_"])
+    ) * min(person["m_self"], 0.75 * soz_vers_beitr_params_ost["bezgr_"])
 
 
 def selfemployed_pv_ssc(person, soz_vers_beitr_params, soz_vers_beitr_params_ost):
@@ -127,12 +123,12 @@ def selfemployed_pv_ssc(person, soz_vers_beitr_params, soz_vers_beitr_params_ost
     if ~person["haskids"] & (person["age"] > 22):
         return 2 * soz_vers_beitr_params["gpvbs"] + soz_vers_beitr_params[
             "gpvbs_kind"
-        ] * np.minimum(person["m_self"], 0.75 * soz_vers_beitr_params_ost["bezgr_"])
+        ] * min(person["m_self"], 0.75 * soz_vers_beitr_params_ost["bezgr_"])
     else:
         return (
             2
             * soz_vers_beitr_params["gpvbs"]
-            * np.minimum(person["m_self"], 0.75 * soz_vers_beitr_params_ost["bezgr_"])
+            * min(person["m_self"], 0.75 * soz_vers_beitr_params_ost["bezgr_"])
         )
 
 
@@ -142,19 +138,19 @@ def pv_ssc_pensions(person, soz_vers_beitr_params, soz_vers_beitr_params_ost):
     if ~person["haskids"] & (person["age"] > 22):
         return (
             2 * soz_vers_beitr_params["gpvbs"] + soz_vers_beitr_params["gpvbs_kind"]
-        ) * np.minimum(person["m_pensions"], soz_vers_beitr_params_ost["kvmaxek"])
+        ) * min(person["m_pensions"], soz_vers_beitr_params_ost["kvmaxek"])
     else:
         return (
             2
             * soz_vers_beitr_params["gpvbs"]
-            * np.minimum(person["m_pensions"], soz_vers_beitr_params_ost["kvmaxek"])
+            * min(person["m_pensions"], soz_vers_beitr_params_ost["kvmaxek"])
         )
 
 
 def gkv_ssc_pensions(person, soz_vers_beitr_params, soz_vers_beitr_params_ost):
     """Calculates the health insurance contributions for pensions. It is the normal
     rate"""
-    return soz_vers_beitr_params["gkvbs_an"] * np.minimum(
+    return soz_vers_beitr_params["gkvbs_an"] * min(
         person["m_pensions"], soz_vers_beitr_params_ost["kvmaxek"]
     )
 

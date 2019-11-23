@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.taxes.calc_taxes import soli_formula
 
 
@@ -49,9 +47,7 @@ def _alg_entgelt(
     wage."""
     westost = "o" if person["east"] else "w"
     # Relevant wage is capped at the contribution thresholds
-    alg_wage = np.minimum(
-        soz_vers_beitr_params["rvmaxek" + westost], person["m_wage_l1"]
-    )
+    alg_wage = min(soz_vers_beitr_params["rvmaxek" + westost], person["m_wage_l1"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     alg_ssc = arbeitsl_geld_params["alg1_abz"] * alg_wage
@@ -64,7 +60,7 @@ def _alg_entgelt(
 
     alg_soli = soli_formula(alg_tax, soli_st_params)
 
-    return np.maximum(0, alg_wage - alg_ssc - alg_tax / 12 - alg_soli / 12)
+    return max(0, alg_wage - alg_ssc - alg_tax / 12 - alg_soli / 12)
 
 
 def check_eligibility_alg(person):

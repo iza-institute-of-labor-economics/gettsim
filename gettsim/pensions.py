@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def pensions(person, soz_vers_beitr_params, ges_renten_vers_params):
     """
     This function calculates the Old-Age Pensions claim if the agent chooses to
@@ -34,7 +31,7 @@ def pensions(person, soz_vers_beitr_params, ges_renten_vers_params):
     # use all three components for Rentenformel.
     # It's called 'pensions_sim' to emphasize that this is simulated.
 
-    person["pensions_sim"] = np.maximum(0, round(person["EP"] * ZF * rentenwert, 2))
+    person["pensions_sim"] = max(0, round(person["EP"] * ZF * rentenwert, 2))
 
     return person
 
@@ -64,7 +61,7 @@ def _ep_for_earnings(person, soz_vers_beitr_params, ges_renten_vers_params, year
     """Return earning points for the wages earned in the last year."""
     westost = "o" if person["east"] else "w"
     return (
-        np.minimum(person["m_wage"], soz_vers_beitr_params["rvmaxek" + westost])
+        min(person["m_wage"], soz_vers_beitr_params["rvmaxek" + westost])
         / ges_renten_vers_params[f"meanwages_{year}"]
     )
 
@@ -88,7 +85,7 @@ def _regelaltersgrenze(person):
     """Calculates the age, at which a worker is eligible to claim his full pension."""
     # If born after 1947, each birth year raises the age threshold by one month.
     if person["byear"] > 1947:
-        regelaltersgrenz = np.minimum(67, ((person["byear"] - 1947) / 12) + 65)
+        regelaltersgrenz = min(67, ((person["byear"] - 1947) / 12) + 65)
     else:
         regelaltersgrenz = 65
 

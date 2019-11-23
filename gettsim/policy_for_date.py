@@ -103,7 +103,7 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
     # meanwages is only filled until 2016. The same is done in the pension function.
     min_year = min(actual_date.year, 2016)
     for key in raw_pension_data:
-        data_years = list(raw_pension_data[key]["values"].keys())
+        data_years = list(raw_pension_data[key]["values"])
         # For calculating pensions we need demographic data up to three years in the
         # past.
         for year in range(min_year - 3, min_year + 1):
