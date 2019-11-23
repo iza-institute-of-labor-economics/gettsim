@@ -71,13 +71,21 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_zve(input_data, tax_policy_data, year, column):
+def test_zve(input_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[IN_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    e_st_abzuege_data = get_policies_for_date(year=year, group="e_st_abzuege")
+    soz_vers_beitr_data = get_policies_for_date(year=year, group="soz_vers_beitr")
+    kindergeld_data = get_policies_for_date(year=year, group="kindergeld")
+
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"]).apply(zve, tb=tb)
+    df = df.groupby(["hid", "tu_id"]).apply(
+        zve,
+        e_st_abzuege_data=e_st_abzuege_data,
+        soz_vers_beitr_data=soz_vers_beitr_data,
+        kindergeld_data=kindergeld_data,
+    )
 
     # TODO: We need to adress this comment. This can't be our last word!
     # allow 1€ difference, caused by strange rounding issues.
