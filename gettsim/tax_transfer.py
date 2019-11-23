@@ -542,27 +542,82 @@ def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
         return tax_func(group, *func_args, **func_kwargs)
 
 
-def calculate_tax_and_transfers(dataset, policy_year):
-    ges_renten_vers_data = get_policies_for_date(
-        year=policy_year, group="ges_renten_vers"
-    )
-    e_st_abzuege_data = get_policies_for_date(year=policy_year, group="e_st_abzuege")
-    e_st_data = get_policies_for_date(year=policy_year, group="e_st")
-    soli_st_data = get_policies_for_date(year=policy_year, group="soli_st")
-    arbeitsl_geld_2_data = get_policies_for_date(
-        year=policy_year, group="arbeitsl_geld_2"
-    )
-    arbeitsl_geld_data = get_policies_for_date(year=policy_year, group="arbeitsl_geld")
-    soz_vers_beitr_data = get_policies_for_date(
-        year=policy_year, group="soz_vers_beitr"
-    )
-    unterhalt_data = get_policies_for_date(year=policy_year, group="unterhalt")
-    abgelt_st_data = get_policies_for_date(year=policy_year, group="abgelt_st")
-    wohngeld_data = get_policies_for_date(year=policy_year, group="wohngeld")
-    kinderzuschlag_data = get_policies_for_date(
-        year=policy_year, group="kinderzuschlag"
-    )
-    kindergeld_data = get_policies_for_date(year=policy_year, group="kindergeld")
+def calculate_tax_and_transfers(
+    dataset,
+    year,
+    day=1,
+    month=1,
+    arbeitsl_geld_2_data=None,
+    abgelt_st_data=None,
+    arbeitsl_geld_data=None,
+    soz_vers_beitr_data=None,
+    e_st_abzuege_data=None,
+    unterhalt_data=None,
+    wohngeld_data=None,
+    kinderzuschlag_data=None,
+    e_st_data=None,
+    soli_st_data=None,
+    kindergeld_data=None,
+    ges_renten_vers_data=None,
+):
+    if not ges_renten_vers_data:
+        ges_renten_vers_data = get_policies_for_date(
+            year=year, day=day, month=month, group="ges_renten_vers"
+        )
+
+    if not e_st_abzuege_data:
+        e_st_abzuege_data = get_policies_for_date(
+            year=year, day=day, month=month, group="e_st_abzuege"
+        )
+
+    if not e_st_data:
+        e_st_data = get_policies_for_date(year=year, day=day, month=month, group="e_st")
+
+    if not soli_st_data:
+        soli_st_data = get_policies_for_date(
+            year=year, day=day, month=month, group="soli_st"
+        )
+
+    if not arbeitsl_geld_2_data:
+        arbeitsl_geld_2_data = get_policies_for_date(
+            year=year, day=day, month=month, group="arbeitsl_geld_2"
+        )
+
+    if not arbeitsl_geld_data:
+        arbeitsl_geld_data = get_policies_for_date(
+            year=year, day=day, month=month, group="arbeitsl_geld"
+        )
+
+    if not soz_vers_beitr_data:
+        soz_vers_beitr_data = get_policies_for_date(
+            year=year, day=day, month=month, group="soz_vers_beitr"
+        )
+
+    if not unterhalt_data:
+        unterhalt_data = get_policies_for_date(
+            year=year, day=day, month=month, group="unterhalt"
+        )
+
+    if not abgelt_st_data:
+        abgelt_st_data = get_policies_for_date(
+            year=year, day=day, month=month, group="abgelt_st"
+        )
+
+    if not wohngeld_data:
+        wohngeld_data = get_policies_for_date(
+            year=year, day=day, month=month, group="wohngeld"
+        )
+
+    if not kinderzuschlag_data:
+        kinderzuschlag_data = get_policies_for_date(
+            year=year, day=day, month=month, group="kinderzuschlag"
+        )
+
+    if not kindergeld_data:
+        kindergeld_data = get_policies_for_date(
+            year=year, day=day, month=month, group="kindergeld"
+        )
+
     return tax_transfer(
         dataset,
         arbeitsl_geld_2_data=arbeitsl_geld_2_data,
