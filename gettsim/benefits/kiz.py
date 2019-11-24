@@ -46,8 +46,7 @@ def kiz(household, tb):
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
-    household["child_kg"] = tb["childben_elig_rule"](household, tb)
-    household["child_num_kg"] = household["child_kg"].sum()
+    household["child_num_kg"] = tb["childben_elig_rule"](household, tb).sum()
 
     household["kiz_ek_max"] = (
         household["kiz_ek_relev"] + tb["a2kiz"] * household["child_num_kg"]
@@ -79,18 +78,13 @@ def kiz(household, tb):
         * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"]),
     )
 
-    # 1st step: deduct children income for each eligible child
-    household["kiz_child_deducted"] = household["child_kg"] * (
-        np.maximum(
-            0,
-            tb["a2kiz"]
-            - tb["a2kiz_withdrawal_rate_child"]
-            * (household["m_wage"] + household["uhv"]),
-        )
-    )
-    # 2nd step: deduct adult income and calculate total claim.
+    # Child income
+    household["childinc_tu"] = (household["child"] * household["m_wage"]).sum()
     household = tb["calc_kiz_amount"](household, tb)
     household["kiz_temp"] = household["kiz"].max()
+    # Transfer some variables for eligibility check
+    # kiz["ar_base_alg2_ek"] = household["ar_base_alg2_ek"]
+    # kiz["n_pens"] = household["pensioner"].sum()
     return household
 
 
@@ -105,7 +99,11 @@ def calc_kiz_amount_2005(household, tb):
     # Child income is fully deducted until 07/2019
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
-        0, household["kiz_child_deducted"].sum() - household["kiz_ek_anr"]
+        0,
+        tb["a2kiz"] * household["child_num_kg"]
+        - household["kiz_ek_anr"]
+        - household["childinc_tu"]
+        - household["uhv_tu"],
     )
 
     return household
@@ -116,8 +114,6 @@ def calc_kiz_amount_07_2019(household, tb):
         - no maximum income threshold.
         - child income is only partly deducted
     """
-
-    # 2nd step: deduct adult income
     household["kiz"] = 0
     household.loc[
         household["kiz_ek_gross"] >= household["kiz_ek_min"], "kiz"
@@ -126,6 +122,8 @@ def calc_kiz_amount_07_2019(household, tb):
         tb["a2kiz"] * household["child_num_kg"]
         - household["kiz_ek_anr"]
         - tb["a2kiz_withdrawal_rate_child"] * household["childinc_tu"]
+        - tb["a2kiz_withdrawal_rate_child"]
+        * (household["childinc_tu"] + household["kiz_ek_anr"])
         - household["uhv_tu"],
     )
 
