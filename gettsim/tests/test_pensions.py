@@ -3,13 +3,10 @@ import pytest
 from numpy.testing import assert_array_almost_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.pensions import _rentenwert_from_2018
-from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import _apply_tax_transfer_func
-
 
 INPUT_COLS = [
     "pid",
@@ -36,40 +33,46 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, tax_policy_data, year):
+def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_data):
     column = "pensions_sim"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
-    tb["yr"] = year
-    if year > 2017:
-        tb["calc_rentenwert"] = _rentenwert_from_2018
-    else:
-        tb["calc_rentenwert"] = _rentenwert_until_2017
-    tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
+    soz_vers_beitr_params = get_policies_for_date(
+        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+    )
+    ges_renten_vers_params = get_policies_for_date(
+        year=year, group="ges_renten_vers", raw_group_data=ges_renten_vers_raw_data
+    )
     df = _apply_tax_transfer_func(
         df,
         tax_func=pensions,
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=[column],
-        func_kwargs={"tb": tb, "tb_pens": tb_pens},
+        func_kwargs={
+            "params": ges_renten_vers_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+        },
     )
     assert_array_almost_equal(df[column], year_data[column])
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, tax_policy_data, year):
+def test_update_earning_points(input_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
-    tb_pens = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index("var")
+    soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
+    ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
     df = _apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=[],
-        func_kwargs={"tb": tb, "tb_pens": tb_pens[year]},
+        func_kwargs={
+            "params": ges_renten_vers_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "year": year,
+        },
     )
     assert_array_almost_equal(df["EP"], year_data["EP_end"].values)
