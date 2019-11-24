@@ -30,7 +30,6 @@ jobs:
 
   - bash: |
       source activate gettsim
-      conda develop .
       pytest --cov-report xml --cov=./
 
   - bash: |
@@ -63,7 +62,6 @@ jobs:
 
   - script: |
       call activate gettsim
-      pip install -e .
       pytest
 
 
@@ -99,5 +97,4 @@ jobs:
 
   - bash: |
       source activate gettsim
-      conda develop .
       pytest
