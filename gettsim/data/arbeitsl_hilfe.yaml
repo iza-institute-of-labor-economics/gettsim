@@ -7,10 +7,10 @@ ahsatz0:
     en:
   values:
     1984-01-01:
-      value: .56
+      value: 0.56
       note:
     1994-01-01:
-      value: .53
+      value: 0.53
       note:
     2005-01-01:
       value: 0
@@ -24,10 +24,10 @@ ahsatz1:
     en:
   values:
     1984-01-01:
-      value: .58
+      value: 0.58
       note:
     1994-01-01:
-      value: .57
+      value: 0.57
       note:
     2005-01-01:
       value: 0
@@ -41,7 +41,7 @@ alh_frei:
     en:
   values:
     1984-01-01:
-      value: .071428571
+      value: 0.071428571
       note:
     2000-01-01:
       value: 161.06
@@ -107,7 +107,7 @@ alh_partexist:
       value: 1.25
       note: .
     2003-01-01:
-      value: .8
+      value: 0.8
       note:
     2005-01-01:
       value: 0
@@ -138,7 +138,7 @@ ahselfpausch:
     en:
   values:
     1984-01-01:
-      value: .3
+      value: 0.3
       note: Prüfen!
     2005-01-01:
       value: 0

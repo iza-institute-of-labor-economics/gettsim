@@ -10,7 +10,7 @@ shmz1XII:
       value: 0
       note:
     2005-01-01:
-      value: .12
+      value: 0.12
       note:
 shmz2XII:
   name:
@@ -24,7 +24,7 @@ shmz2XII:
       value: 0
       note:
     2005-01-01:
-      value: .24
+      value: 0.24
       note:
 shmz3XII:
   name:
@@ -38,7 +38,7 @@ shmz3XII:
       value: 0
       note:
     2005-01-01:
-      value: .36
+      value: 0.36
       note:
 shmz4XII:
   name:
@@ -52,7 +52,7 @@ shmz4XII:
       value: 0
       note:
     2005-01-01:
-      value: .48
+      value: 0.48
       note:
 shmz5XII:
   name:
@@ -66,7 +66,7 @@ shmz5XII:
       value: 0
       note:
     2005-01-01:
-      value: .6
+      value: 0.6
       note:
 sh14pXII:
   name:
@@ -80,7 +80,7 @@ sh14pXII:
       value: 0
       note:
     2005-01-01:
-      value: .8
+      value: 0.8
       note:
 sh14XII:
   name:
@@ -94,7 +94,7 @@ sh14XII:
       value: 0
       note:
     2005-01-01:
-      value: .6
+      value: 0.6
       note:
 shsatzo:
   name:
@@ -307,7 +307,7 @@ sheilei:
       value: 0
       note:
     2002-01-01:
-      value: .18
+      value: 0.18
       note:
     2005-01-01:
       value: 0
@@ -321,10 +321,10 @@ shkid06c:
     en:
   values:
     1984-01-01:
-      value: .45
+      value: 0.45
       note:
     1991-01-01:
-      value: .5
+      value: 0.5
       note:
     2005-01-01:
       value: 0
@@ -338,10 +338,10 @@ shkid06s:
     en:
   values:
     1984-01-01:
-      value: .5
+      value: 0.5
       note:
     1991-01-01:
-      value: .55
+      value: 0.55
       note:
     2005-01-01:
       value: 0
@@ -355,7 +355,7 @@ shkid13:
     en:
   values:
     1984-01-01:
-      value: .65
+      value: 0.65
       note:
     2005-01-01:
       value: 0
@@ -369,7 +369,7 @@ shkid17:
     en:
   values:
     1984-01-01:
-      value: .9
+      value: 0.9
       note:
     2005-01-01:
       value: 0
@@ -383,7 +383,7 @@ shkid18:
     en:
   values:
     1984-01-01:
-      value: .8
+      value: 0.8
       note:
     2005-01-01:
       value: 0
@@ -397,10 +397,10 @@ shmz06:
     en:
   values:
     1984-01-01:
-      value: .2
+      value: 0.2
       note:
     1992-01-01:
-      value: .4
+      value: 0.4
       note: .
     2005-01-01:
       value: 0
@@ -414,10 +414,10 @@ shmz16:
     en:
   values:
     1984-01-01:
-      value: .4
+      value: 0.4
       note:
     1992-01-01:
-      value: .6
+      value: 0.6
       note: .
     2005-01-01:
       value: 0
@@ -431,13 +431,13 @@ shmzbXII:
     en:
   values:
     1984-01-01:
-      value: .2
+      value: 0.2
       note:
     1994-01-01:
-      value: .4
+      value: 0.4
       note: gabs auch schon früher, §23 (3) BSHG
     2005-01-01:
-      value: .35
+      value: 0.35
       note:
 shmzrXII:
   name:
@@ -448,10 +448,10 @@ shmzrXII:
     en:
   values:
     1984-01-01:
-      value: .2
+      value: 0.2
       note:
     2005-01-01:
-      value: .17
+      value: 0.17
       note:
 shekkind:
   name:

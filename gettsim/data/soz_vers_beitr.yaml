@@ -7,76 +7,76 @@ gkvbs_ag:
     en:
   values:
     1984-01-01:
-      value: .0572
+      value: 0.0572
       note:
     1985-01-01:
-      value: .059
+      value: 0.059
       note:
     1986-01-01:
-      value: .061
+      value: 0.061
       note:
     1987-01-01:
-      value: .0624
+      value: 0.0624
       note: .
     1988-01-01:
-      value: .0644
+      value: 0.0644
       note: .
     1989-01-01:
-      value: .0645
+      value: 0.0645
       note:
     1990-01-01:
-      value: .0625
+      value: 0.0625
       note: .
     1991-01-01:
-      value: .064
+      value: 0.064
       note:
     1993-01-01:
-      value: .067
+      value: 0.067
       note: .
     1995-01-01:
-      value: .066
+      value: 0.066
       note: .
     1997-01-01:
-      value: .067
+      value: 0.067
       note: .
     1998-01-01:
-      value: .068
+      value: 0.068
       note:
     2000-01-01:
-      value: .06785
+      value: 0.06785
       note: .
     2001-01-01:
-      value: .0679
+      value: 0.0679
       note: .
     2002-01-01:
-      value: .07
+      value: 0.07
       note:
     2003-01-01:
-      value: .072
+      value: 0.072
       note:
     2004-01-01:
-      value: .071
+      value: 0.071
       note:
     2005-01-01:
-      value: .0689
+      value: 0.0689
       note:
     2006-01-01:
-      value: .0666
+      value: 0.0666
       note:
     2007-01-01:
-      value: .0695
+      value: 0.0695
       note:
     2008-01-01:
-      value: .07
+      value: 0.07
       note:
     2009-01-01:
-      value: .073
+      value: 0.073
       note:
     2010-01-01:
-      value: .07
+      value: 0.07
       note:
     2011-01-01:
-      value: .073
+      value: 0.073
       note:
 gkvbs_an:
   name:
@@ -87,85 +87,85 @@ gkvbs_an:
     en:
   values:
     1984-01-01:
-      value: .0572
+      value: 0.0572
       note:
     1985-01-01:
-      value: .059
+      value: 0.059
       note:
     1986-01-01:
-      value: .061
+      value: 0.061
       note:
     1987-01-01:
-      value: .0624
+      value: 0.0624
       note: .
     1988-01-01:
-      value: .0644
+      value: 0.0644
       note: .
     1989-01-01:
-      value: .0645
+      value: 0.0645
       note:
     1990-01-01:
-      value: .0625
+      value: 0.0625
       note: .
     1991-01-01:
-      value: .064
+      value: 0.064
       note:
     1993-01-01:
-      value: .067
+      value: 0.067
       note: .
     1995-01-01:
-      value: .066
+      value: 0.066
       note: .
     1997-01-01:
-      value: .067
+      value: 0.067
       note: .
     1998-01-01:
-      value: .068
+      value: 0.068
       note:
     2000-01-01:
-      value: .06785
+      value: 0.06785
       note: .
     2001-01-01:
-      value: .0679
+      value: 0.0679
       note: .
     2002-01-01:
-      value: .07
+      value: 0.07
       note:
     2003-01-01:
-      value: .072
+      value: 0.072
       note:
     2004-01-01:
-      value: .071
+      value: 0.071
       note:
     2005-01-01:
-      value: .0689
+      value: 0.0689
       note:
     2006-01-01:
-      value: .0756
+      value: 0.0756
       note:
     2007-01-01:
-      value: .0785
+      value: 0.0785
       note:
     2008-01-01:
-      value: .079
+      value: 0.079
       note:
     2009-01-01:
-      value: .082
+      value: 0.082
       note:
     2010-01-01:
-      value: .079
+      value: 0.079
       note:
     2011-01-01:
-      value: .082
+      value: 0.082
       note:
     2016-01-01:
-      value: .084
+      value: 0.084
       note: Bekanntmachung Bundesanzeiger 30.12.2015 und  http://www.bmg.bund.de/ministerium/meldungen/2015/gkv-zusatzbeitrag.html
     2018-01-01:
-      value: .083
+      value: 0.083
       note:
     2019-01-01:
-      value: .082
+      value: 0.082
       note:
 gpvbs:
   name:
@@ -179,25 +179,25 @@ gpvbs:
       value: 0
       note:
     1996-01-01:
-      value: .005
+      value: 0.005
       note: .
     1997-01-01:
-      value: .0085
+      value: 0.0085
       note: .
     2008-01-01:
-      value: .00975
+      value: 0.00975
       note:
     2013-01-01:
-      value: .01025
+      value: 0.01025
       note:
     2015-01-01:
-      value: .01175
+      value: 0.01175
       note:
     2017-01-01:
-      value: .01275
+      value: 0.01275
       note:
     2019-01-01:
-      value: .01525
+      value: 0.01525
       note:
 gpvbs_kind:
   name:
@@ -211,7 +211,7 @@ gpvbs_kind:
       value: 0
       note:
     2005-01-01:
-      value: .0025
+      value: 0.0025
       note:
 bezgr_w:
   name:
@@ -623,37 +623,37 @@ alvbs:
     en:
   values:
     1984-01-01:
-      value: .023
+      value: 0.023
       note:
     1985-01-01:
-      value: .022
+      value: 0.022
       note:
     1986-01-01:
-      value: .0205
+      value: 0.0205
       note:
     1987-01-01:
-      value: .0215
+      value: 0.0215
       note: .
     1992-01-01:
-      value: .0315
+      value: 0.0315
       note: .
     1993-01-01:
-      value: .0325
+      value: 0.0325
       note: .
     2007-01-01:
-      value: .021
+      value: 0.021
       note:
     2008-01-01:
-      value: .0165
+      value: 0.0165
       note:
     2009-01-01:
-      value: .014
+      value: 0.014
       note:
     2011-01-01:
-      value: .015
+      value: 0.015
       note:
     2019-01-01:
-      value: .013
+      value: 0.013
       note: geändert durch BGBl. I S.2651
 grvbs:
   name:
@@ -664,58 +664,58 @@ grvbs:
     en:
   values:
     1984-01-01:
-      value: .0925
+      value: 0.0925
       note:
     1985-01-01:
-      value: .0935
+      value: 0.0935
       note:
     1986-01-01:
-      value: .096
+      value: 0.096
       note:
     1987-01-01:
-      value: .0935
+      value: 0.0935
       note: .
     1992-01-01:
-      value: .0885
+      value: 0.0885
       note: .
     1993-01-01:
-      value: .0875
+      value: 0.0875
       note: .
     1994-01-01:
-      value: .096
+      value: 0.096
       note:
     1995-01-01:
-      value: .093
+      value: 0.093
       note: .
     1996-01-01:
-      value: .096
+      value: 0.096
       note: .
     1997-01-01:
-      value: .1015
+      value: 0.1015
       note: .
     2000-01-01:
-      value: .0965
+      value: 0.0965
       note: .
     2001-01-01:
-      value: .0955
+      value: 0.0955
       note: .
     2003-01-01:
-      value: .0975
+      value: 0.0975
       note:
     2007-01-01:
-      value: .0995
+      value: 0.0995
       note:
     2012-01-01:
-      value: .098
+      value: 0.098
       note: Quelle http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
     2013-01-01:
-      value: .0945
+      value: 0.0945
       note: Deutsche Rentenversicherung http://www.deutsche-rentenversicherung.de/Allgemein/de/Inhalt/5_Services/wissenswertes_videotext/2012_aktuelles_zum_beitragssatz.html
     2015-01-01:
-      value: .0935
+      value: 0.0935
       note:
     2018-01-01:
-      value: .093
+      value: 0.093
       note:
 grvbs_mini:
   name:
@@ -726,7 +726,7 @@ grvbs_mini:
     en:
   values:
     2013-01-01:
-      value: .036
+      value: 0.036
       note:
 rvmaxeko:
   name:
@@ -1071,13 +1071,13 @@ mini_ag_gkv:
       value: 0
       note:
     1999-01-01:
-      value: .1
+      value: 0.1
       note:
     2004-01-01:
-      value: .11
+      value: 0.11
       note:
     2007-01-01:
-      value: .13
+      value: 0.13
       note:
 mini_ag_grv:
   name:
@@ -1091,10 +1091,10 @@ mini_ag_grv:
       value: 0
       note:
     1999-01-01:
-      value: .12
+      value: 0.12
       note:
     2007-01-01:
-      value: .15
+      value: 0.15
       note:
 stpag:
   name:
@@ -1108,7 +1108,7 @@ stpag:
       value: 0
       note:
     2004-01-01:
-      value: .02
+      value: 0.02
       note:
 miniuml:
   name:
@@ -1122,38 +1122,38 @@ miniuml:
       value: 0
       note:
     2003-01-01:
-      value: .013
+      value: 0.013
       note:
     2004-01-01:
-      value: .001
+      value: 0.001
       note:
     2009-01-01:
-      value: .0077
+      value: 0.0077
       note: U3 in diesem Jahr eingeführt, 0.1%  InsoGUmlV 2009  V. v. 02.01.2009 BGBl. I S. 6 (Nr. 1),
     2010-01-01:
-      value: .0108
+      value: 0.0108
       note: U3 in diesem Jahr 0.41%  InsoGUmlV 2010   V. v. 18.12.2009 BGBl. I S. 3938 (Nr. 80),
     2011-01-01:
-      value: .0084
+      value: 0.0084
       note: U3 in diesem Jahr 0%  InsoGUmlV 2011  V. v. 17.12.2010 BGBl. I S. 2126 (Nr. 66), Geltung ab 01.01.2011
     2012-01-01:
-      value: .0088
+      value: 0.0088
       note: U3 in diesem Jahr 0.04 Prozent  Insolvenzgeldumlagesatzverordnung 2012 - InsoGUmlV 2012  V. v. 02.12.2011 BGBl. I S. 2452 (Nr. 62), Geltung ab 01.01.2012
     2013-01-01:
-      value: .0099
+      value: 0.0099
       note: Arbeitgeberversicherungen Umlagen U1 und U2 für Minijobs sind durch die Minijobzentrale festgelegt U1 0,7 % U2 0,14 % http://www.minijob-zentrale.de/DE/0_Home/01_mj_im_gewerblichen_bereich/12_arbeitgeberversicherung ode.html   U3 ist im SGB III §360 festgelegt U3 0,15 %  Vorsicht Werte für frühere Jahre evtl. nicht richtig!  Weitere Anmerkung U1, U2 und U3 könnte man auch für Arbeitgeber von normalen Arbeitnehmern ins param einführen.  Felix Werte für die früheren Jahre müssten korrigiert sein. Siehe http://www.minijob-zentrale.de/DE/0_Home/01_mj_im_gewerblichen_bereich/04_400_euro_minijob/04_pauschalabgaben/Entwicklung_Beitraege.html?nn=360538
     2015-01-01:
-      value: .0109
+      value: 0.0109
       note:
     2016-01-01:
-      value: .0145
+      value: 0.0145
       note: sonstige Umlagen Minijob *Krankheit (U1) 1,0% *Mutterschaft (U2) 0,3% *Insolvenzgeldumlage 0,12%  - Umlagebetrag Arbeitsförderung (U3):0,15% §360 SGBIII   *https://www.minijob-zentrale.de/DE/0_Home/01_mj_im_gewerblichen_bereich/04_450_euro_minijob/04_pauschalabgaben ode.html
     2017-01-01:
-      value: .0129
+      value: 0.0129
       note:  sonstige Umlagen Minijob *Krankheit (U1) 0,9% *Mutterschaft (U2) 0,3% *Insolvenzgeldumlage 0,09%  U3 scheint weggefallen zu sein  https://www.minijob-zentrale.de/DE/01_minijobs/02_gewerblich/03_infos_fuer_arbeitgeber_und_entgeltabrechner/02_mit_welchen_abgaben_muss_ich_rechnen ode.html
     2018-01-01:
-      value: .012
+      value: 0.012
       note: Frederike Lannte ab  1. Januar 2018  Insolvenzgeldumlage 0,06% Mutterschaft (U2) 0,24% Krankheit (U1) 0,9%
     2019-01-01:
-      value: .011
+      value: 0.011
       note: Insolvenzgeldumlage 0,06% Mutterschaft (U2) 0,14% minimum U1 0,9% Minimum

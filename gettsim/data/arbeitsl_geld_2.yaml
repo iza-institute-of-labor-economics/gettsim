@@ -7,7 +7,7 @@ a2an1:
     en:
   values:
     2005-10-01:
-      value: .2
+      value: 0.2
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2an2:
   name:
@@ -18,7 +18,7 @@ a2an2:
     en:
   values:
     2005-10-01:
-      value: .1
+      value: 0.1
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2grf:
   name:
@@ -307,7 +307,7 @@ a2part:
     en:
   values:
     2005-01-01:
-      value: .9
+      value: 0.9
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch18:
   name:
@@ -318,7 +318,7 @@ a2ch18:
     en:
   values:
     2005-01-01:
-      value: .8
+      value: 0.8
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch0:
   name:
@@ -329,7 +329,7 @@ a2ch0:
     en:
   values:
     2005-01-01:
-      value: .6
+      value: 0.6
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2ch7:
   name:
@@ -340,10 +340,10 @@ a2ch7:
     en:
   values:
     2005-01-01:
-      value: .6
+      value: 0.6
       note: G. v. 24.12.2003 BGBl. I S. 2954.
     2009-07-01:
-      value: .7
+      value: 0.7
       note: G. v. 02.03.2009 BGBl. I S. 416.
 a2ch14:
   name:
@@ -354,7 +354,7 @@ a2ch14:
     en:
   values:
     2005-01-01:
-      value: .8
+      value: 0.8
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbch1:
   name:
@@ -365,7 +365,7 @@ a2mbch1:
     en:
   values:
     2005-01-01:
-      value: .12
+      value: 0.12
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbch2:
   name:
@@ -376,7 +376,7 @@ a2mbch2:
     en:
   values:
     2005-01-01:
-      value: .36
+      value: 0.36
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2mbchb:
   name:
@@ -387,7 +387,7 @@ a2mbchb:
     en:
   values:
     2005-01-01:
-      value: .35
+      value: 0.35
       note: G. v. 24.12.2003 BGBl. I S. 2954.
 a2zu2:
   name:

@@ -24,19 +24,19 @@ wg_a_1p:
     en:
   values:
     1984-01-01:
-      value: .0532
+      value: 0.0532
       note: 1984 - 2000 Parameter aus Regressionsanalyse der Wohngeldtabellen
     1990-01-01:
-      value: .0648
+      value: 0.0648
       note: .
     1992-01-01:
-      value: .0666
+      value: 0.0666
       note: .
     2001-01-01:
-      value: .063
+      value: 0.063
       note: .
     2016-01-01:
-      value: .04
+      value: 0.04
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_2p:
   name:
@@ -47,19 +47,19 @@ wg_a_2p:
     en:
   values:
     1984-01-01:
-      value: .0574
+      value: 0.0574
       note:
     1990-01-01:
-      value: .0694
+      value: 0.0694
       note: .
     1992-01-01:
-      value: .0716
+      value: 0.0716
       note: .
     2001-01-01:
-      value: .057
+      value: 0.057
       note: .
     2016-01-01:
-      value: .03
+      value: 0.03
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_3p:
   name:
@@ -70,19 +70,19 @@ wg_a_3p:
     en:
   values:
     1984-01-01:
-      value: .0612
+      value: 0.0612
       note:
     1990-01-01:
-      value: .0741
+      value: 0.0741
       note: .
     1992-01-01:
-      value: .0748
+      value: 0.0748
       note: .
     2001-01-01:
-      value: .055
+      value: 0.055
       note: .
     2016-01-01:
-      value: .02
+      value: 0.02
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_4p:
   name:
@@ -93,19 +93,19 @@ wg_a_4p:
     en:
   values:
     1984-01-01:
-      value: .0596
+      value: 0.0596
       note:
     1990-01-01:
-      value: .0669
+      value: 0.0669
       note: .
     1992-01-01:
-      value: .0671
+      value: 0.0671
       note: .
     2001-01-01:
-      value: .047
+      value: 0.047
       note: .
     2016-01-01:
-      value: .01
+      value: 0.01
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_5p:
   name:
@@ -116,16 +116,16 @@ wg_a_5p:
     en:
   values:
     1984-01-01:
-      value: .0572
+      value: 0.0572
       note:
     1990-01-01:
-      value: .064
+      value: 0.064
       note: .
     1992-01-01:
-      value: .0642
+      value: 0.0642
       note: .
     2001-01-01:
-      value: .042
+      value: 0.042
       note: .
     2016-01-01:
       value: 0
@@ -139,16 +139,16 @@ wg_a_6p:
     en:
   values:
     1984-01-01:
-      value: .0365
+      value: 0.0365
       note:
     1990-01-01:
-      value: .0445
+      value: 0.0445
       note: .
     1992-01-01:
-      value: .0463
+      value: 0.0463
       note: .
     2001-01-01:
-      value: .037
+      value: 0.037
       note: .
     2016-01-01:
       value: -0.01
@@ -162,16 +162,16 @@ wg_a_7p:
     en:
   values:
     1984-01-01:
-      value: .0129
+      value: 0.0129
       note:
     1990-01-01:
-      value: .0226
+      value: 0.0226
       note: .
     1992-01-01:
-      value: .0256
+      value: 0.0256
       note: .
     2001-01-01:
-      value: .033
+      value: 0.033
       note: .
     2016-01-01:
       value: -0.02
@@ -194,7 +194,7 @@ wg_a_8p:
       value: -0.00252
       note: .
     2001-01-01:
-      value: .023
+      value: 0.023
       note: .
     2016-01-01:
       value: -0.03
@@ -312,19 +312,19 @@ wg_b_1p:
     en:
   values:
     1984-01-01:
-      value: .00135
+      value: 0.00135
       note:
     1990-01-01:
-      value: .00102
+      value: 0.00102
       note: .
     2001-01-01:
-      value: .000796
+      value: 0.000796
       note: .
     2009-01-01:
-      value: .0007963
+      value: 0.0007963
       note:
     2016-01-01:
-      value: .00063
+      value: 0.00063
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_2p:
   name:
@@ -335,22 +335,22 @@ wg_b_2p:
     en:
   values:
     1984-01-01:
-      value: .000957
+      value: 0.000957
       note:
     1990-01-01:
-      value: .000715
+      value: 0.000715
       note: .
     1992-01-01:
-      value: .000713
+      value: 0.000713
       note: .
     2001-01-01:
-      value: .000576
+      value: 0.000576
       note: .
     2009-01-01:
-      value: .0005761
+      value: 0.0005761
       note:
     2016-01-01:
-      value: .00044
+      value: 0.00044
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_3p:
   name:
@@ -361,19 +361,19 @@ wg_b_3p:
     en:
   values:
     1984-01-01:
-      value: .00078
+      value: 0.00078
       note:
     1990-01-01:
-      value: .000604
+      value: 0.000604
       note: .
     2001-01-01:
-      value: .000518
+      value: 0.000518
       note: .
     2009-01-01:
-      value: .0005176
+      value: 0.0005176
       note:
     2016-01-01:
-      value: .00038
+      value: 0.00038
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_4p:
   name:
@@ -384,22 +384,22 @@ wg_b_4p:
     en:
   values:
     1984-01-01:
-      value: .000613
+      value: 0.000613
       note:
     1990-01-01:
-      value: .000476
+      value: 0.000476
       note: .
     1992-01-01:
-      value: .000475
+      value: 0.000475
       note: .
     2001-01-01:
-      value: .000395
+      value: 0.000395
       note: .
     2009-01-01:
-      value: .0003945
+      value: 0.0003945
       note:
     2016-01-01:
-      value: .00034
+      value: 0.00034
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_5p:
   name:
@@ -410,19 +410,19 @@ wg_b_5p:
     en:
   values:
     1984-01-01:
-      value: .000554
+      value: 0.000554
       note:
     1990-01-01:
-      value: .00043
+      value: 0.00043
       note: .
     2001-01-01:
-      value: .000348
+      value: 0.000348
       note: .
     2009-01-01:
-      value: .0003483
+      value: 0.0003483
       note:
     2016-01-01:
-      value: .0003
+      value: 0.0003
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_6p:
   name:
@@ -433,22 +433,22 @@ wg_b_6p:
     en:
   values:
     1984-01-01:
-      value: .000531
+      value: 0.000531
       note:
     1990-01-01:
-      value: .000414
+      value: 0.000414
       note: .
     1992-01-01:
-      value: .000419
+      value: 0.000419
       note: .
     2001-01-01:
-      value: .000327
+      value: 0.000327
       note: .
     2009-01-01:
-      value: .0003269
+      value: 0.0003269
       note:
     2016-01-01:
-      value: .00028
+      value: 0.00028
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_7p:
   name:
@@ -459,22 +459,22 @@ wg_b_7p:
     en:
   values:
     1984-01-01:
-      value: .000502
+      value: 0.000502
       note:
     1990-01-01:
-      value: .000397
+      value: 0.000397
       note: .
     1992-01-01:
-      value: .000404
+      value: 0.000404
       note: .
     2001-01-01:
-      value: .000313
+      value: 0.000313
       note: .
     2009-01-01:
-      value: .0003129
+      value: 0.0003129
       note:
     2016-01-01:
-      value: .00026
+      value: 0.00026
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_8p:
   name:
@@ -485,22 +485,22 @@ wg_b_8p:
     en:
   values:
     1984-01-01:
-      value: .000468
+      value: 0.000468
       note:
     1990-01-01:
-      value: .000387
+      value: 0.000387
       note: .
     1992-01-01:
-      value: .000377
+      value: 0.000377
       note: .
     2001-01-01:
-      value: .000296
+      value: 0.000296
       note: .
     2009-01-01:
-      value: .0002959
+      value: 0.0002959
       note:
     2016-01-01:
-      value: .00023
+      value: 0.00023
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_9p:
   name:
@@ -511,22 +511,22 @@ wg_b_9p:
     en:
   values:
     1984-01-01:
-      value: .000424
+      value: 0.000424
       note:
     1990-01-01:
-      value: .000337
+      value: 0.000337
       note: .
     1992-01-01:
-      value: .000377
+      value: 0.000377
       note: .
     2001-01-01:
-      value: .000225
+      value: 0.000225
       note: .
     2009-01-01:
-      value: .0002245
+      value: 0.0002245
       note:
     2016-01-01:
-      value: .0002
+      value: 0.0002
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_10p:
   name:
@@ -537,22 +537,22 @@ wg_b_10p:
     en:
   values:
     1984-01-01:
-      value: .000373
+      value: 0.000373
       note:
     1990-01-01:
-      value: .000298
+      value: 0.000298
       note: .
     1992-01-01:
-      value: .000377
+      value: 0.000377
       note: .
     2001-01-01:
-      value: .000157
+      value: 0.000157
       note: .
     2009-01-01:
-      value: .0001565
+      value: 0.0001565
       note:
     2016-01-01:
-      value: .00016
+      value: 0.00016
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_b_11p:
   name:
@@ -563,19 +563,19 @@ wg_b_11p:
     en:
   values:
     1984-01-01:
-      value: .000373
+      value: 0.000373
       note:
     1990-01-01:
-      value: .000298
+      value: 0.000298
       note: .
     1992-01-01:
-      value: .000377
+      value: 0.000377
       note: .
     2001-01-01:
-      value: .000153
+      value: 0.000153
       note: .
     2009-01-01:
-      value: .00012
+      value: 0.00012
       note:
 wg_b_12p:
   name:
@@ -586,22 +586,22 @@ wg_b_12p:
     en:
   values:
     1984-01-01:
-      value: .000373
+      value: 0.000373
       note:
     1990-01-01:
-      value: .000298
+      value: 0.000298
       note: .
     1992-01-01:
-      value: .000377
+      value: 0.000377
       note: .
     2001-01-01:
-      value: .000136
+      value: 0.000136
       note: .
     2009-01-01:
-      value: .000109
+      value: 0.000109
       note:
     2016-01-01:
-      value: .00011
+      value: 0.00011
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_1p:
   name:
@@ -612,19 +612,19 @@ wg_c_1p:
     en:
   values:
     1984-01-01:
-      value: .0000632
+      value: 0.0000632
       note:
     1990-01-01:
-      value: .0000613
+      value: 0.0000613
       note: .
     1992-01-01:
-      value: .0000579
+      value: 0.0000579
       note: .
     2001-01-01:
-      value: .00009102
+      value: 0.00009102
       note: .
     2016-01-01:
-      value: .000138
+      value: 0.000138
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_2p:
   name:
@@ -635,19 +635,19 @@ wg_c_2p:
     en:
   values:
     1984-01-01:
-      value: .0000352
+      value: 0.0000352
       note:
     1990-01-01:
-      value: .0000347
+      value: 0.0000347
       note: .
     1992-01-01:
-      value: .0000317
+      value: 0.0000317
       note: .
     2001-01-01:
-      value: .00006431
+      value: 0.00006431
       note: .
     2016-01-01:
-      value: .000103
+      value: 0.000103
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_3p:
   name:
@@ -658,19 +658,19 @@ wg_c_3p:
     en:
   values:
     1984-01-01:
-      value: .0000202
+      value: 0.0000202
       note:
     1990-01-01:
-      value: .000011
+      value: 0.000011
       note: .
     1992-01-01:
-      value: .0000102
+      value: 0.0000102
       note: .
     2001-01-01:
-      value: .0000325
+      value: 0.0000325
       note: .
     2016-01-01:
-      value: .000083
+      value: 0.000083
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_4p:
   name:
@@ -690,10 +690,10 @@ wg_c_4p:
       value: 1.63000000000e-06
       note: .
     2001-01-01:
-      value: .00002325
+      value: 0.00002325
       note: .
     2016-01-01:
-      value: .000043
+      value: 0.000043
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_5p:
   name:
@@ -713,10 +713,10 @@ wg_c_5p:
       value: 8.96000000000e-07
       note: .
     2001-01-01:
-      value: .00002151
+      value: 0.00002151
       note: .
     2016-01-01:
-      value: .000042
+      value: 0.000042
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_6p:
   name:
@@ -736,10 +736,10 @@ wg_c_6p:
       value: 1.35000000000e-06
       note: .
     2001-01-01:
-      value: .00001519
+      value: 0.00001519
       note: .
     2016-01-01:
-      value: .000036
+      value: 0.000036
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_7p:
   name:
@@ -750,7 +750,7 @@ wg_c_7p:
     en:
   values:
     1984-01-01:
-      value: .0000124
+      value: 0.0000124
       note:
     1990-01-01:
       value: 9.44000000000e-06
@@ -765,7 +765,7 @@ wg_c_7p:
       value: 8.75000000000e-06
       note:
     2016-01-01:
-      value: .000037
+      value: 0.000037
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_8p:
   name:
@@ -776,19 +776,19 @@ wg_c_8p:
     en:
   values:
     1984-01-01:
-      value: .0000253
+      value: 0.0000253
       note:
     1990-01-01:
-      value: .0000136
+      value: 0.0000136
       note: .
     1992-01-01:
-      value: .0000173
+      value: 0.0000173
       note: .
     2001-01-01:
       value: 7.44000000000e-06
       note: .
     2016-01-01:
-      value: .000037
+      value: 0.000037
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_9p:
   name:
@@ -799,22 +799,22 @@ wg_c_9p:
     en:
   values:
     1984-01-01:
-      value: .0000364
+      value: 0.0000364
       note:
     1990-01-01:
-      value: .0000308
+      value: 0.0000308
       note: .
     1992-01-01:
-      value: .0000173
+      value: 0.0000173
       note: .
     2001-01-01:
-      value: .00003522
+      value: 0.00003522
       note: .
     2009-01-01:
-      value: .00003459
+      value: 0.00003459
       note:
     2016-01-01:
-      value: .000039
+      value: 0.000039
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_10p:
   name:
@@ -825,22 +825,22 @@ wg_c_10p:
     en:
   values:
     1984-01-01:
-      value: .0000481
+      value: 0.0000481
       note:
     1990-01-01:
-      value: .0000386
+      value: 0.0000386
       note: .
     1992-01-01:
-      value: .0000173
+      value: 0.0000173
       note: .
     2001-01-01:
-      value: .00005547
+      value: 0.00005547
       note: .
     2009-01-01:
-      value: .0000514
+      value: 0.0000514
       note:
     2016-01-01:
-      value: .000045
+      value: 0.000045
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_11p:
   name:
@@ -851,19 +851,19 @@ wg_c_11p:
     en:
   values:
     1984-01-01:
-      value: .0000481
+      value: 0.0000481
       note:
     1990-01-01:
-      value: .0000386
+      value: 0.0000386
       note: .
     1992-01-01:
-      value: .0000173
+      value: 0.0000173
       note: .
     2001-01-01:
-      value: .00005686
+      value: 0.00005686
       note: .
     2016-01-01:
-      value: .000053
+      value: 0.000053
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_c_12p:
   name:
@@ -874,19 +874,19 @@ wg_c_12p:
     en:
   values:
     1984-01-01:
-      value: .0000481
+      value: 0.0000481
       note:
     1990-01-01:
-      value: .0000386
+      value: 0.0000386
       note: .
     1992-01-01:
-      value: .0000173
+      value: 0.0000173
       note: .
     2001-01-01:
-      value: .00006182
+      value: 0.00006182
       note: .
     2016-01-01:
-      value: .00006
+      value: 0.00006
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_add_12plus:
   name:
@@ -914,7 +914,7 @@ wghka:
     en:
   values:
     2002-01-01:
-      value: .2
+      value: 0.2
       note:
     2006-01-01:
       value: 0
@@ -2359,7 +2359,7 @@ wgpabz0:
     en:
   values:
     1984-01-01:
-      value: .06
+      value: 0.06
       note:
     2016-01-01:
       value: 0
@@ -2373,10 +2373,10 @@ wgpabz1:
     en:
   values:
     1984-01-01:
-      value: .125
+      value: 0.125
       note: Bedingungen sind anders, aber ähnlich, siehe z.B.  §17 WoGG_1982
     2002-01-01:
-      value: .1
+      value: 0.1
       note:
 wgpabz2:
   name:
@@ -2387,7 +2387,7 @@ wgpabz2:
     en:
   values:
     1984-01-01:
-      value: .2
+      value: 0.2
       note:
 wgpabz3:
   name:
@@ -2398,13 +2398,13 @@ wgpabz3:
     en:
   values:
     1984-01-01:
-      value: .3
+      value: 0.3
       note:
     1991-01-01:
-      value: .26
+      value: 0.26
       note:
     2002-01-01:
-      value: .3
+      value: 0.3
       note:
 wgpfb12:
   name:

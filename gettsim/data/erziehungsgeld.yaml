@@ -115,13 +115,13 @@ egmind:
     en:
   values:
     1986-01-01:
-      value: .4
+      value: 0.4
       note:
     2001-01-01:
-      value: .042
+      value: 0.042
       note: .
     2004-01-01:
-      value: .052
+      value: 0.052
       note:
     2007-01-01:
       value: 0

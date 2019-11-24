@@ -225,7 +225,7 @@ t_a1:
       value: 2.1
       note:
     1988-01-01:
-      value: .34
+      value: 0.34
       note: .
     1990-01-01:
       value: 151.94
@@ -257,7 +257,7 @@ t_a2:
     en:
   values:
     1984-01-01:
-      value: .09
+      value: 0.09
       note:
     1986-01-01:
       value: 42
@@ -475,31 +475,31 @@ t_e:
     en:
   values:
     1984-01-01:
-      value: .22
+      value: 0.22
       note:
     1990-01-01:
-      value: .19
+      value: 0.19
       note: .
     1996-01-01:
-      value: .259
+      value: 0.259
       note: .
     1999-01-01:
-      value: .239
+      value: 0.239
       note:
     2000-01-01:
-      value: .229
+      value: 0.229
       note: .
     2001-01-01:
-      value: .199
+      value: 0.199
       note: .
     2004-01-01:
-      value: .16
+      value: 0.16
       note:
     2005-01-01:
-      value: .15
+      value: 0.15
       note:
     2009-01-01:
-      value: .14
+      value: 0.14
       note:
 t_e1:
   name:
@@ -547,10 +547,10 @@ t_eing1:
     en:
   values:
     1984-01-01:
-      value: .22
+      value: 0.22
       note:
     1990-01-01:
-      value: .19
+      value: 0.19
       note: .
 t_eing2:
   name:
@@ -690,16 +690,16 @@ t_m:
     en:
   values:
     2000-01-01:
-      value: .25
+      value: 0.25
       note: .
     2001-01-01:
-      value: .23
+      value: 0.23
       note: .
     2004-01-01:
-      value: .2405
+      value: 0.2405
       note:
     2005-01-01:
-      value: .2397
+      value: 0.2397
       note:
 t_r:
   name:
@@ -710,25 +710,25 @@ t_r:
     en:
   values:
     1984-01-01:
-      value: .56
+      value: 0.56
       note:
     1990-01-01:
-      value: .53
+      value: 0.53
       note: .
     2000-01-01:
-      value: .51
+      value: 0.51
       note: .
     2001-01-01:
-      value: .485
+      value: 0.485
       note: .
     2004-01-01:
-      value: .45
+      value: 0.45
       note:
     2005-01-01:
-      value: .42
+      value: 0.42
       note:
     2007-01-01:
-      value: .45
+      value: 0.45
       note:
 t_s:
   name:
@@ -739,19 +739,19 @@ t_s:
     en:
   values:
     1990-01-01:
-      value: .53
+      value: 0.53
       note: .
     2000-01-01:
-      value: .51
+      value: 0.51
       note: .
     2001-01-01:
-      value: .485
+      value: 0.485
       note: .
     2004-01-01:
-      value: .45
+      value: 0.45
       note:
     2005-01-01:
-      value: .42
+      value: 0.42
       note:
 t_spitz1:
   name:
@@ -762,16 +762,16 @@ t_spitz1:
     en:
   values:
     1984-01-01:
-      value: .56
+      value: 0.56
       note:
     1990-01-01:
-      value: .53
+      value: 0.53
       note: .
     2000-01-01:
-      value: .51
+      value: 0.51
       note: .
     2001-01-01:
-      value: .485
+      value: 0.485
       note: .
 t_spitz2:
   name:

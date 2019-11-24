@@ -7,7 +7,7 @@ elgfaktor:
     en:
   values:
     2007-01-01:
-      value: .67
+      value: 0.67
       note:
 elgmax:
   name:

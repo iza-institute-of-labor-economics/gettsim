@@ -63,7 +63,7 @@ vorsp_rv:
       value: 0
       note:
     2005-01-01:
-      value: .5
+      value: 0.5
       note:
 vorwegab:
   name:
@@ -341,49 +341,49 @@ altentq:
     en:
   values:
     1984-01-01:
-      value: .4
+      value: 0.4
       note:
     2006-01-01:
-      value: .384
+      value: 0.384
       note:
     2007-01-01:
-      value: .368
+      value: 0.368
       note:
     2008-01-01:
-      value: .352
+      value: 0.352
       note:
     2009-01-01:
-      value: .336
+      value: 0.336
       note:
     2010-01-01:
-      value: .32
+      value: 0.32
       note:
     2011-01-01:
-      value: .304
+      value: 0.304
       note:
     2012-01-01:
-      value: .288
+      value: 0.288
       note: Stand Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
     2013-01-01:
-      value: .272
+      value: 0.272
       note: EStG §24a Satz 5 (Tabelle)
     2014-01-01:
-      value: .256
+      value: 0.256
       note:
     2015-01-01:
-      value: .24
+      value: 0.24
       note:
     2016-01-01:
-      value: .224
+      value: 0.224
       note:
     2017-01-01:
-      value: .208
+      value: 0.208
       note:
     2018-01-01:
-      value: .192
+      value: 0.192
       note:
     2019-01-01:
-      value: .176
+      value: 0.176
       note:
 an_vorsp_al:
   name:
@@ -394,16 +394,16 @@ an_vorsp_al:
     en:
   values:
     1985-01-01:
-      value: .09
+      value: 0.09
       note:
     1989-01-01:
-      value: .18
+      value: 0.18
       note:
     1991-01-01:
-      value: .2
+      value: 0.2
       note:
     2005-01-01:
-      value: .11
+      value: 0.11
       note:
 an_vorsp_rv:
   name:
@@ -417,25 +417,25 @@ an_vorsp_rv:
       value: 0
       note:
     2005-01-01:
-      value: .2
+      value: 0.2
       note:
     2006-01-01:
-      value: .24
+      value: 0.24
       note:
     2007-01-01:
-      value: .28
+      value: 0.28
       note:
     2008-01-01:
-      value: .32
+      value: 0.32
       note:
     2009-01-01:
-      value: .36
+      value: 0.36
       note:
     2010-01-01:
-      value: .4
+      value: 0.4
       note:
     2011-01-01:
-      value: .44
+      value: 0.44
       note: VERALTET / Nicht verwendet
 avspc:
   name:
@@ -560,19 +560,19 @@ kuerzquo:
     en:
   values:
     1985-01-01:
-      value: .0935
+      value: 0.0935
       note: entspricht Beitrag zur RV
     1986-01-01:
-      value: .096
+      value: 0.096
       note:
     1987-01-01:
-      value: .0935
+      value: 0.0935
       note: .
     1989-01-01:
-      value: .09
+      value: 0.09
       note: Achtung, zwei verschiedene Abzüge, einmal 9% und einmal 3%
     1994-01-01:
-      value: .16
+      value: 0.16
       note:
 krzsatz:
   name:
@@ -583,7 +583,7 @@ krzsatz:
     en:
   values:
     2002-01-01:
-      value: .4
+      value: 0.4
       note:
 mietafa:
   name:
@@ -608,49 +608,49 @@ vorsorg_rv_sh:
     en:
   values:
     2005-01-01:
-      value: .6
+      value: 0.6
       note:
     2006-01-01:
-      value: .62
+      value: 0.62
       note:
     2007-01-01:
-      value: .64
+      value: 0.64
       note:
     2008-01-01:
-      value: .66
+      value: 0.66
       note:
     2009-01-01:
-      value: .68
+      value: 0.68
       note:
     2010-01-01:
-      value: .7
+      value: 0.7
       note:
     2011-01-01:
-      value: .72
+      value: 0.72
       note:
     2012-01-01:
-      value: .74
+      value: 0.74
       note:
     2013-01-01:
-      value: .76
+      value: 0.76
       note:
     2014-01-01:
-      value: .78
+      value: 0.78
       note:
     2015-01-01:
-      value: .8
+      value: 0.8
       note:
     2016-01-01:
-      value: .82
+      value: 0.82
       note:
     2017-01-01:
-      value: .84
+      value: 0.84
       note:
     2018-01-01:
-      value: .86
+      value: 0.86
       note:
     2019-01-01:
-      value: .88
+      value: 0.88
       note:
 vors_sonst_max:
   name:
@@ -672,55 +672,55 @@ rentert:
     en:
   values:
     1984-01-01:
-      value: .24
+      value: 0.24
       note:
     1992-01-01:
-      value: .27
+      value: 0.27
       note: .
     2004-01-01:
-      value: .5
+      value: 0.5
       note:
     2006-01-01:
-      value: .52
+      value: 0.52
       note:
     2007-01-01:
-      value: .54
+      value: 0.54
       note:
     2008-01-01:
-      value: .56
+      value: 0.56
       note:
     2009-01-01:
-      value: .58
+      value: 0.58
       note:
     2010-01-01:
-      value: .6
+      value: 0.6
       note:
     2011-01-01:
-      value: .62
+      value: 0.62
       note:
     2012-01-01:
-      value: .64
+      value: 0.64
       note: Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
     2013-01-01:
-      value: .66
+      value: 0.66
       note:
     2014-01-01:
-      value: .68
+      value: 0.68
       note:
     2015-01-01:
-      value: .7
+      value: 0.7
       note:
     2016-01-01:
-      value: .72
+      value: 0.72
       note:
     2017-01-01:
-      value: .74
+      value: 0.74
       note:
     2018-01-01:
-      value: .76
+      value: 0.76
       note:
     2019-01-01:
-      value: .78
+      value: 0.78
       note:
 sauntmx:
   name:
@@ -908,28 +908,28 @@ pendpausch:
     en:
   values:
     1984-01-01:
-      value: .18
+      value: 0.18
       note:
     1989-01-01:
-      value: .22
+      value: 0.22
       note:
     1990-01-01:
-      value: .26
+      value: 0.26
       note: .
     1991-01-01:
-      value: .3
+      value: 0.3
       note:
     1992-01-01:
-      value: .33
+      value: 0.33
       note: .
     1994-01-01:
-      value: .36
+      value: 0.36
       note:
     2001-01-01:
-      value: .4
+      value: 0.4
       note: .
     2004-01-01:
-      value: .3
+      value: 0.3
       note:
 childcare_share:
   name:
@@ -940,7 +940,7 @@ childcare_share:
     en:
   values:
     2012-01-01:
-      value: .6666666666666666
+      value: 0.6666666666666666
       note:
 childcare_max:
   name:
