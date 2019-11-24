@@ -114,17 +114,16 @@ def calc_kiz_amount_07_2019(household, tb):
         - no maximum income threshold.
         - child income is only partly deducted
     """
+    print(household[["kiz_ek_anr"]])
     household["kiz"] = 0
     household.loc[
         household["kiz_ek_gross"] >= household["kiz_ek_min"], "kiz"
     ] = np.maximum(
         0,
         tb["a2kiz"] * household["child_num_kg"]
-        - household["kiz_ek_anr"]
-        - tb["a2kiz_withdrawal_rate_child"] * household["childinc_tu"]
+        - (tb["a2kiz_withdrawal_rate"] * household["kiz_ek_anr"])
         - tb["a2kiz_withdrawal_rate_child"]
-        * (household["childinc_tu"] + household["kiz_ek_anr"])
-        - household["uhv_tu"],
+        * (household["childinc_tu"] + household["uhv_tu"]),
     )
 
     return household
