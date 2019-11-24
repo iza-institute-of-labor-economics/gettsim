@@ -17,7 +17,6 @@ dependencies:
   - restructuredtext_lint
   - sphinx
   - sphinx_rtd_theme
-  - xlrd
   - pip:
     - bump2version
     - pre-commit

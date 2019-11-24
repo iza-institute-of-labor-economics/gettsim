@@ -71,13 +71,34 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_zve(input_data, tax_policy_data, year, column):
+def test_zve(
+    input_data,
+    year,
+    column,
+    kindergeld_raw_data,
+    soz_vers_beitr_raw_data,
+    e_st_abzuege_raw_data,
+):
     year_data = input_data[input_data["year"] == year]
     df = year_data[IN_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    e_st_abzuege_params = get_policies_for_date(
+        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    )
+    soz_vers_beitr_params = get_policies_for_date(
+        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+    )
+    kindergeld_params = get_policies_for_date(
+        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
+    )
+
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"]).apply(zve, tb=tb)
+    df = df.groupby(["hid", "tu_id"]).apply(
+        zve,
+        e_st_abzuege_params=e_st_abzuege_params,
+        soz_vers_beitr_params=soz_vers_beitr_params,
+        kindergeld_params=kindergeld_params,
+    )
 
     # TODO: We need to adress this comment. This can't be our last word!
     # allow 1€ difference, caused by strange rounding issues.
