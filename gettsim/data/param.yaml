@@ -889,9 +889,6 @@ a2kiz_withdrawal_rate:
     2008-10-01:
       value: 0.5
       note: G. v. 24.09.2008 BGBl. I S. 1854.
-    2020-01-01:
-      value: 0.45
-      note: G. v. 29.04.2019 BGBl. I S. 530.
 a2kiz_withdrawal_rate_child:
   group: kiz
   name:
