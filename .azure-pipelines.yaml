@@ -63,7 +63,7 @@ jobs:
 
   - script: |
       call activate gettsim
-      conda develop .
+      pip install -e .
       pytest
 
 
