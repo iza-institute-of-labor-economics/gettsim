@@ -18,9 +18,14 @@ def kiz(household, tb):
     household["uhv_tu"] = household.groupby("tu_id")["uhv"].transform("sum")
     # First, calculate the need as for ALG2, but only for parents.
     household["kiz_ek_regel"] = calc_kiz_ek(household, tb)
+
+    # Calculate share of tax unit wrt whole household
     # Add rents. First, correct rent for the case of several tax units within the HH
-    household["kiz_miete"] = household["miete"] * household["hh_korr"]
-    household["kiz_heiz"] = household["heizkost"] * household["hh_korr"]
+    tax_unit_share = household.groupby("tu_id")["tu_id"].transform("count") / len(
+        household
+    )
+    household["kiz_miete"] = household["miete"] * tax_unit_share
+    household["kiz_heiz"] = household["heizkost"] * tax_unit_share
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
     wb = get_wohnbedarf(max(tb["yr"], 2011))
@@ -52,9 +57,7 @@ def kiz(household, tb):
         household["kiz_ek_relev"] + tb["a2kiz"] * household["child_num_kg"]
     )
     # min income to be eligible for KIZ (different for singles and couples)
-    household["kiz_ek_min"] = tb["a2kiz_minek_cou"] * (household["hhtyp"] == 4) + (
-        tb["a2kiz_minek_sin"] * (household["alleinerz"])
-    )
+    household["kiz_ek_min"] = calc_min_income_kiz(household, tb)
 
     #        Übersetzung §6a BKGG auf deutsch:
     #     1. Um KIZ zu bekommen, muss das Bruttoeinkommen minus Wohngeld
@@ -127,6 +130,18 @@ def calc_kiz_amount_07_2019(household, tb):
     )
 
     return household
+
+
+def calc_min_income_kiz(household, tb):
+    # Are there kids in the household
+    if household["child"].any() > 0:
+        # Is it a single parent household
+        if household["alleinerz"].all():
+            return tb["a2kiz_minek_sin"]
+        else:
+            return tb["a2kiz_minek_cou"]
+    else:
+        return 0
 
 
 def calc_kiz_ek(household, tb):

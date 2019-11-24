@@ -18,7 +18,6 @@ INPUT_COLS = [
     "months_ue",
     "months_ue_l1",
     "months_ue_l2",
-    "alg_soep",
     "m_pensions",
     "w_hours",
     "child_num_tu",
@@ -49,5 +48,5 @@ def test_ui(input_data, tax_policy_data, year):
         out_cols=[OUT_COL],
         func_kwargs={"tb": tb},
     )
-    # TODO: THis should be reviewed.
+    # to prevent errors from rounding, allow deviations after the 3rd digit.
     assert_series_equal(df[OUT_COL], year_data[OUT_COL], check_less_precise=3)
