@@ -51,7 +51,9 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
-    household["child_kg"] = params["childben_elig_rule"](household, kindergeld_params)
+    household["child_kg"] = kindergeld_params["childben_elig_rule"](
+        household, kindergeld_params
+    )
     household["child_num_kg"] = household["child_kg"].sum()
 
     household["kiz_ek_max"] = (
@@ -77,7 +79,9 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
 
     # Deductable income. 50% withdrawal rate.
     household["kiz_ek_anr"] = np.maximum(
-        0, 0.5 * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"])
+        0,
+        params["a2kiz_withdrawal_rate"]
+        * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"]),
     )
     # 1st step: deduct children income for each eligible child
     household["kiz_childinc_deducted"] = household["child_kg"] * (
@@ -92,7 +96,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # income fully!
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
-        0, household["kiz_childinc_deducted"].sum() - 0.5 * household["kiz_ek_anr"]
+        0, household["kiz_childinc_deducted"].sum() - household["kiz_ek_anr"]
     )
     household["kiz_temp"] = household["kiz"].max()
     print(household[["kiz", "kiz_childinc_deducted", "kiz_ek_anr", "uhv", "child_kg"]])

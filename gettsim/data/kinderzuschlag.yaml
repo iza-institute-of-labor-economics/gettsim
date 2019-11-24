@@ -40,3 +40,17 @@ a2kiz_minek_sin:
     2009-01-01:
       value: 600
       note:
+a2kiz_withdrawal_rate:
+  name:
+    de: Minderungsrate durch Einkommen der Eltern über BMG
+    en: transfer withdrawal rate, parent's income above BMG
+  description:
+    de: Rate, mit der der Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt. § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG.
+    en:
+  values:
+    2005-01-01:
+      value: 0.7
+      note: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
+    2008-10-01:
+      value: 0.5
+      note: G. v. 24.09.2008 BGBl. I S. 1854.
