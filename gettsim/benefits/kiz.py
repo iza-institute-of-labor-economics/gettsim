@@ -51,7 +51,8 @@ def kiz(household, tb):
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
-    household["child_num_kg"] = tb["childben_elig_rule"](household, tb).sum()
+    household["child_kg"] = tb["childben_elig_rule"](household, tb)
+    household["child_num_kg"] = household["child_kg"].sum()
 
     household["kiz_ek_max"] = (
         household["kiz_ek_relev"] + tb["a2kiz"] * household["child_num_kg"]
@@ -78,6 +79,10 @@ def kiz(household, tb):
     household["kiz_ek_anr"] = np.maximum(
         0, 0.5 * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"])
     )
+    # 1st step: deduct children income for each eligible child
+    household["kiz_childinc_deducted"] = household["child_kg"] * (
+        np.maximum(0, tb["a2kiz"] - (household["m_wage"] + household["uhv"]))
+    )
 
     # Dummy variable whether household is in the relevant income range.
     household["kiz_incrange"] = (
@@ -87,15 +92,11 @@ def kiz(household, tb):
     # income fully!
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
-        0,
-        tb["a2kiz"] * household["child_num_kg"]
-        - household["kiz_ek_anr"]
-        - household["uhv_tu"],
+        0, household["kiz_childinc_deducted"].sum() - 0.5 * household["kiz_ek_anr"]
     )
     household["kiz_temp"] = household["kiz"].max()
-    # Transfer some variables for eligibility check
-    # kiz["ar_base_alg2_ek"] = household["ar_base_alg2_ek"]
-    # kiz["n_pens"] = household["pensioner"].sum()
+    print(household[["kiz", "kiz_childinc_deducted", "kiz_ek_anr", "uhv", "child_kg"]])
+
     return household
 
 
@@ -117,7 +118,6 @@ def calc_kiz_ek(household, tb):
         kiz_regel = _calc_kiz_regel_until_2010(household, tb)
     else:
         kiz_regel = _calc_kiz_regel_since_2011(household, tb)
-
     return np.select(
         [
             household["adult_num_tu"] == 1,
@@ -132,7 +132,7 @@ def _calc_kiz_regel_until_2010(household, tb):
     """"""
     return [
         tb["rs_hhvor"] * (1 + household["mehrbed"]),
-        tb["rs_hhvor"] * tb["a2part"] * (2 + household["mehrbed"]),
+        tb["rs_hhvor"] * tb["a2part"] * (1 + household["mehrbed"]),
         tb["rs_hhvor"] * tb["a2ch18"] * household["adult_num_tu"],
     ]
 
