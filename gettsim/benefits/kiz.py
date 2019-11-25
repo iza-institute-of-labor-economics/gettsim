@@ -6,8 +6,6 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
         their children, they can claim Kiz.
-
-        Also determines which benefit (if any) the household actually receives.
     """
 
     """ In contrast to ALG2, Kiz considers only the rental costs that are attributed
@@ -16,7 +14,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         ('jährlicher Existenzminimumsbericht')
     """
     household["uhv_tu"] = household.groupby("tu_id")["uhv"].transform("sum")
-    # First, calculate the need as for ALG2, but only for parents.
+    # First, calculate the need similar to ALG2, but only for parents.
     household["kiz_ek_regel"] = calc_kiz_ek(household, params, arbeitsl_geld_2_params)
 
     # Calculate share of tax unit wrt whole household
@@ -42,7 +40,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         ] = (wb[4][c - 1] / 100)
 
     # apply this share to living costs
-    # unlike ALG2, there is no check whether living costs are "appropriate".
+    # unlike ALG2, there is no check on whether living costs are "appropriate".
     household["kiz_ek_kdu"] = household["wb_eltern_share"] * (
         household["kiz_miete"] + household["kiz_heiz"]
     )
@@ -69,37 +67,35 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     #        plus Gesamtkinderzuschlag liegen.
     #     3. Dann wird geschaut, wie viel von dem Einkommen
     #        (Erwachsene UND Kinder !) noch auf KIZ angerechnet wird.
-    #        Wenn das zu berücksichtigende Einkommen UNTER der
+    #        Wenn das zu berücksichtigende Einkommen der Eltern UNTER der
     #        Höchsteinkommensgrenze und UNTER der Bemessungsgrundlage liegt, wird
     #        der volle KIZ gezahlt
     #        Wenn es ÜBER der Bemessungsgrundlage liegt,
-    #        wird die Differenz zur Hälfte abgezogen.
+    #        wird die Differenz zu einem gewissen Anteil abgezogen.
     household["kiz_ek_gross"] = household["alg2_grossek_hh"]
     household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
 
-    # Deductable income. 50% withdrawal rate.
-    household["kiz_ek_anr"] = np.maximum(
-        0,
-        params["a2kiz_withdrawal_rate"]
-        * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"]),
-    )
     # 1st step: deduct children income for each eligible child
     household["kiz_childinc_deducted"] = household["child_kg"] * (
         np.maximum(0, params["a2kiz"] - (household["m_wage"] + household["uhv"]))
     )
 
+    # 2nd step: Calculate the parents income that needs to be subtracted
+    household["kiz_ek_anr"] = np.maximum(
+        0,
+        params["a2kiz_withdrawal_rate"]
+        * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"]),
+    )
     # Dummy variable whether household is in the relevant income range.
     household["kiz_incrange"] = (
         household["kiz_ek_gross"] >= household["kiz_ek_min"]
     ) & (household["kiz_ek_net"] <= household["kiz_ek_max"])
-    # Finally, calculate the amount. Subtract deductable income with 50% and child
-    # income fully!
+    # Finally, calculate the amount.
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
         0, household["kiz_childinc_deducted"].sum() - household["kiz_ek_anr"]
     )
     household["kiz_temp"] = household["kiz"].max()
-    print(household[["kiz", "kiz_childinc_deducted", "kiz_ek_anr", "uhv", "child_kg"]])
 
     return household
 
