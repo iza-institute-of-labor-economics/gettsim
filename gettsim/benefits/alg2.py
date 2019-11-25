@@ -270,9 +270,5 @@ def einkommensanrechnungsfrei(household, params):
         + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
         + params["a2an2"] * (params["a2eg3"] - params["a2eg1"])
     )
-    # Children income is fully deducted, except for the first 100 €.
-    household.loc[(household["child"]), "ekanrefrei"] = np.maximum(
-        0, household["m_wage"] - 100
-    )
 
     return household
