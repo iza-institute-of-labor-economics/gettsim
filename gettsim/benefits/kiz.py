@@ -13,7 +13,6 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         This is done by some fixed share which is updated on annual basis
         ('jährlicher Existenzminimumsbericht')
     """
-    household["uhv_tu"] = household.groupby("tu_id")["uhv"].transform("sum")
     # First, calculate the need similar to ALG2, but only for parents.
     household["kiz_ek_regel"] = calc_kiz_ek(household, params, arbeitsl_geld_2_params)
 
@@ -46,18 +45,19 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     )
     household["kiz_ek_relev"] = household["kiz_ek_regel"] + household["kiz_ek_kdu"]
 
-    # There is a maximum income threshold, depending on the need, plus the potential
-    # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
+    # (§6a (1) Nr. 1 BKGG)
     household["child_kg"] = kindergeld_params["childben_elig_rule"](
         household, kindergeld_params
     )
     household["child_num_kg"] = household["child_kg"].sum()
-
+    # There is a maximum income threshold, depending on the need, plus the potential
+    # kiz receipt (§6a (1) Nr. 3 BKGG)
     household["kiz_ek_max"] = (
         household["kiz_ek_relev"] + params["a2kiz"] * household["child_num_kg"]
     )
     # min income to be eligible for KIZ (different for singles and couples)
+    # (§6a (1) Nr. 2 BKGG)
     household["kiz_ek_min"] = calc_min_income_kiz(household, params)
 
     #        Übersetzung §6a BKGG auf deutsch:
@@ -75,12 +75,13 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     household["kiz_ek_gross"] = household["alg2_grossek_hh"]
     household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
 
-    # 1st step: deduct children income for each eligible child
+    # 1st step: deduct children income for each eligible child (§6a (3) S.3 BKGG)
     household["kiz_childinc_deducted"] = household["child_kg"] * (
         np.maximum(0, params["a2kiz"] - (household["m_wage"] + household["uhv"]))
     )
 
     # 2nd step: Calculate the parents income that needs to be subtracted
+    # (§6a (6) S. 3 BKGG)
     household["kiz_ek_anr"] = np.maximum(
         0,
         params["a2kiz_withdrawal_rate"]
