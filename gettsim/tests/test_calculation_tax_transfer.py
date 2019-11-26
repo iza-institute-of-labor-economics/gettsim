@@ -16,6 +16,10 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_calc_tax_and_transfers(input_data, year):
+def test_calc_tax_and_transfers(
+    input_data, year,
+):
     df = input_data[input_data["year"] == year].copy()
-    calculate_tax_and_transfers(df, year)
+    calculate_tax_and_transfers(
+        df, year,
+    )

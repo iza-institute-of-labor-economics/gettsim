@@ -36,11 +36,15 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", product(YEARS, TEST_COLUMNS))
-def test_favorability_check(input_data, tax_policy_data, year, column):
+def test_favorability_check(input_data, year, column, e_st_abzuege_raw_data):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    e_st_abzuege_params = get_policies_for_date(
+        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"]).apply(favorability_check, tb=tb)
+    df = df.groupby(["hid", "tu_id"]).apply(
+        favorability_check, params=e_st_abzuege_params
+    )
     assert_series_equal(df[column], year_data[column])
