@@ -47,6 +47,7 @@ OUT_COLS = [
 
 
 YEARS = [2006, 2009, 2011, 2013, 2016, 2019]
+TEST_COLS = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
 
 
 @pytest.fixture(scope="module")
@@ -58,15 +59,11 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_alg2(input_data, year):
-    columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     arbeitsl_geld_2_params = get_policies_for_date(year=year, group="arbeitsl_geld_2")
-    # if year <= 2010:
-    #     tb["calc_regelsatz"] = regelberechnung_until_2010
-    # else:
-    #     tb["calc_regelsatz"] = regelberechnung_2011_and_beyond
+
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hid").apply(alg2, params=arbeitsl_geld_2_params)
-    assert_frame_equal(df[columns], year_data[columns])
+    assert_frame_equal(df[TEST_COLS], year_data[TEST_COLS])

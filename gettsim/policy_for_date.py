@@ -3,6 +3,8 @@ import datetime
 import numpy as np
 import yaml
 
+from gettsim.benefits.alg2 import regelberechnung_2011_and_beyond
+from gettsim.benefits.alg2 import regelberechnung_until_2010
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
@@ -80,6 +82,12 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
             tax_data["calc_rentenwert"] = _rentenwert_from_2018
         else:
             tax_data["calc_rentenwert"] = _rentenwert_until_2017
+
+    elif group == "":
+        if tax_data["year"] <= 2010:
+            tax_data["calc_regelsatz"] = regelberechnung_until_2010
+        else:
+            tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
 
     return tax_data
 

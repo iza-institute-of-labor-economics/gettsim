@@ -52,12 +52,10 @@ def regelsatz_alg2(household, params):
 
     household["mehrbed"] = mehrbedarf_alg2(household, children_age_info, params)
 
-    if params["year"] <= 2010:
-        calc_regelsatz = regelberechnung_until_2010
-    else:
-        calc_regelsatz = regelberechnung_2011_and_beyond
+    household["regelsatz"] = params["calc_regelsatz"](
+        household, children_age_info, params
+    )
 
-    household["regelsatz"] = calc_regelsatz(household, children_age_info, params)
     return household
 
 
