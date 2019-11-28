@@ -10,6 +10,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 - Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
 - Break up params.yaml into group-level files (:ghuser:`MaxBlesch`)
+- Corrected income deductions for additional child benefit (:ghuser:`Eric-Sommer`)
 
 
 0.2.1 - 2019-11-20

@@ -6,8 +6,6 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
         their children, they can claim Kiz.
-
-        Also determines which benefit (if any) the household actually receives.
     """
 
     """ In contrast to ALG2, Kiz considers only the rental costs that are attributed
@@ -15,8 +13,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         This is done by some fixed share which is updated on annual basis
         ('jährlicher Existenzminimumsbericht')
     """
-    household["uhv_tu"] = household.groupby("tu_id")["uhv"].transform("sum")
-    # First, calculate the need as for ALG2, but only for parents.
+    # First, calculate the need similar to ALG2, but only for parents.
     household["kiz_ek_regel"] = calc_kiz_ek(household, params, arbeitsl_geld_2_params)
 
     # Calculate share of tax unit wrt whole household
@@ -42,23 +39,25 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         ] = (wb[4][c - 1] / 100)
 
     # apply this share to living costs
-    # unlike ALG2, there is no check whether living costs are "appropriate".
+    # unlike ALG2, there is no check on whether living costs are "appropriate".
     household["kiz_ek_kdu"] = household["wb_eltern_share"] * (
         household["kiz_miete"] + household["kiz_heiz"]
     )
     household["kiz_ek_relev"] = household["kiz_ek_regel"] + household["kiz_ek_kdu"]
 
-    # There is a maximum income threshold, depending on the need, plus the potential
-    # kiz receipt
     # First, we need to count the number of children eligible to child benefit.
-    household["child_num_kg"] = kindergeld_params["childben_elig_rule"](
+    # (§6a (1) Nr. 1 BKGG)
+    household["child_kg"] = kindergeld_params["childben_elig_rule"](
         household, kindergeld_params
-    ).sum()
-
+    )
+    household["child_num_kg"] = household["child_kg"].sum()
+    # There is a maximum income threshold, depending on the need, plus the potential
+    # kiz receipt (§6a (1) Nr. 3 BKGG)
     household["kiz_ek_max"] = (
         household["kiz_ek_relev"] + params["a2kiz"] * household["child_num_kg"]
     )
     # min income to be eligible for KIZ (different for singles and couples)
+    # (§6a (1) Nr. 2 BKGG)
     household["kiz_ek_min"] = calc_min_income_kiz(household, params)
 
     #        Übersetzung §6a BKGG auf deutsch:
@@ -68,15 +67,26 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     #        plus Gesamtkinderzuschlag liegen.
     #     3. Dann wird geschaut, wie viel von dem Einkommen
     #        (Erwachsene UND Kinder !) noch auf KIZ angerechnet wird.
-    #        Wenn das zu berücksichtigende Einkommen UNTER der
+    #        Wenn das zu berücksichtigende Einkommen der Eltern UNTER der
     #        Höchsteinkommensgrenze und UNTER der Bemessungsgrundlage liegt, wird
     #        der volle KIZ gezahlt
     #        Wenn es ÜBER der Bemessungsgrundlage liegt,
-    #        wird die Differenz zur Hälfte abgezogen.
+    #        wird die Differenz zu einem gewissen Anteil abgezogen.
     household["kiz_ek_gross"] = household["alg2_grossek_hh"]
     household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
 
-    # Deductable income from parent(s). 50% withdrawal rate, 70% until 2008.
+    # 1st step: deduct children income for each eligible child (§6a (3) S.3 BKGG)
+    household["kiz_childinc_deducted"] = household["child_kg"] * (
+        np.maximum(
+            0,
+            params["a2kiz"]
+            - params["a2kiz_withdrawal_rate_child"]
+            * (household["m_wage"] + household["uhv"]),
+        )
+    )
+
+    # 2nd step: Calculate the parents income that needs to be subtracted
+    # (§6a (6) S. 3 BKGG)
     household["kiz_ek_anr"] = np.maximum(
         0,
         params["a2kiz_withdrawal_rate"]
@@ -87,48 +97,35 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     household["childinc_tu"] = (household["child"] * household["m_wage"]).sum()
     household = params["calc_kiz_amount"](household, params)
     household["kiz_temp"] = household["kiz"].max()
-    # Transfer some variables for eligibility check
-    # kiz["ar_base_alg2_ek"] = household["ar_base_alg2_ek"]
-    # kiz["n_pens"] = household["pensioner"].sum()
+
     return household
 
 
 def calc_kiz_amount_2005(household, params):
-    """ Kinderzuschlag from 2005 until 07/2019"
+    """ Kinderzuschlag Amount from 2005 until 07/2019"
     """
+
     # Dummy variable whether household is in the relevant income range.
     household["kiz_incrange"] = (
         household["kiz_ek_gross"] >= household["kiz_ek_min"]
     ) & (household["kiz_ek_net"] <= household["kiz_ek_max"])
-    # Finally, calculate the amount. Adult income is partly deducted.
-    # Child income is fully deducted until 07/2019
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
-        0,
-        params["a2kiz"] * household["child_num_kg"]
-        - household["kiz_ek_anr"]
-        - household["childinc_tu"]
-        - household["uhv_tu"],
+        0, household["kiz_childinc_deducted"].sum() - household["kiz_ek_anr"]
     )
 
     return household
 
 
 def calc_kiz_amount_07_2019(household, params):
-    """ Kinderzuschlag since 07/2019
-        - no maximum income threshold.
-        - child income is only partly deducted
+    """ Kinderzuschlag Amount since 07/2019
+        - no maximum income threshold anymore.
     """
-    print(household[["kiz_ek_anr"]])
     household["kiz"] = 0
     household.loc[
         household["kiz_ek_gross"] >= household["kiz_ek_min"], "kiz"
     ] = np.maximum(
-        0,
-        params["a2kiz"] * household["child_num_kg"]
-        - (params["a2kiz_withdrawal_rate"] * household["kiz_ek_anr"])
-        - params["a2kiz_withdrawal_rate_child"]
-        * (household["childinc_tu"] + household["uhv_tu"]),
+        0, household["kiz_childinc_deducted"].sum() - household["kiz_ek_anr"]
     )
 
     return household

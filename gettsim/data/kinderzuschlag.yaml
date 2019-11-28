@@ -44,7 +44,6 @@ a2kiz_minek_sin:
       value: 600
       note: G. v. 24.09.2008 BGBl. I S. 1854.
 a2kiz_withdrawal_rate:
-  group: kiz
   name:
     de: Minderungsrate durch Einkommen der Eltern über BMG
     en: transfer withdrawal rate, parent's income above BMG
@@ -59,7 +58,6 @@ a2kiz_withdrawal_rate:
       value: 0.5
       note: G. v. 24.09.2008 BGBl. I S. 1854.
 a2kiz_withdrawal_rate_child:
-  group: kiz
   name:
     de: Anrechnungsrate durch Kindereinkommen
     en: rate at that child income is deducted
