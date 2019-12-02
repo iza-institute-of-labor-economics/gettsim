@@ -222,10 +222,13 @@ def grossinc_alg2(household):
 
 
 def e_anr_frei(household, params):
-    """Determine the amount of income that is not deducted. Withdrawal rates
-    depend on monthly earnings and on the number of kids in the household.
-    § 30 SGB II. Since 01.04.2011 § 11b """
-    # Calculate the amount of children below the age of 18.
+    """Calculate income not subject to transfer withdrawal for the household.
+
+    Determine the gross income that is not deducted. Withdrawal rates depend
+    on monthly earnings and on the number of children in the household. § 30 SGB
+    II. Since 01.04.2011 § 11b."""
+
+    # Calculate the number of children below the age of 18.
     num_childs_0_18 = (household["child"] & household["age"].between(0, 18)).sum()
 
     if num_childs_0_18 == 0:
@@ -242,7 +245,8 @@ def e_anr_frei(household, params):
 
 
 def e_anr_frei_person(person, params, top_limit_2nd_interval):
-    """Calculates the amount of income that is not deducted for each person."""
+    """Calculate income not subject to transfer withdrawal for each person."""
+
     m_wage = person["m_wage"].iloc[0]
 
     if m_wage < params["a2grf"]:
