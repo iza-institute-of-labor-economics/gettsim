@@ -224,25 +224,25 @@ def grossinc_alg2(household):
 def e_anr_frei(household, params):
     """Determine the amount of income that is not deducted. Withdrawal rates
     depend on monthly earnings and on the number of kids in the household.
-    § 30 SGB II. Since 01.04.2011 § 11b (4) The rules are listed on
+    § 30 SGB II. Since 01.04.2011 § 11b The rules are listed on
     https://www.hartziv.org/sgb-ii/paragraph11b.html"""
     # Calculate the amount of children below the age of 18.
     num_childs_0_18 = (household["child"] & household["age"].between(0, 18)).sum()
 
     if num_childs_0_18 == 0:
-        ek_low_limit = params["a2eg2"]
+        top_limit_2nd_interval = params["a2eg2"]
     else:
-        ek_low_limit = params["a2eg3"]
+        top_limit_2nd_interval = params["a2eg3"]
 
     cols = ["m_wage", "ekanrefrei"]
     household.loc[:, cols] = household.groupby("pid")[cols].apply(
-        e_anr_frei_person, params, ek_low_limit
+        e_anr_frei_person, params, top_limit_2nd_interval
     )
 
     return household
 
 
-def e_anr_frei_person(person, params, ek_low_limit):
+def e_anr_frei_person(person, params, top_limit_2nd_interval):
     """Calculates the amount of income that is not deducted for each person."""
     m_wage = person["m_wage"].iloc[0]
 
@@ -253,7 +253,7 @@ def e_anr_frei_person(person, params, ek_low_limit):
             m_wage - params["a2grf"]
         )
 
-    elif params["a2eg1"] <= m_wage < ek_low_limit:
+    elif params["a2eg1"] <= m_wage < top_limit_2nd_interval:
         person["ekanrefrei"] = (
             params["a2grf"]
             + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
@@ -263,6 +263,6 @@ def e_anr_frei_person(person, params, ek_low_limit):
         person["ekanrefrei"] = (
             params["a2grf"]
             + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-            + params["a2an2"] * (ek_low_limit - params["a2eg1"])
+            + params["a2an2"] * (top_limit_2nd_interval - params["a2eg1"])
         )
     return person
