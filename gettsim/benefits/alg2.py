@@ -21,7 +21,7 @@ def alg2(household, params):
 
     household["alg2_ek"], household["alg2_grossek"] = alg2_inc(household)
 
-    household = einkommensanrechnungsfrei(household, params)
+    household = e_anr_frei(household, params)
 
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
@@ -219,54 +219,71 @@ def grossinc_alg2(household):
     )
 
 
-def einkommensanrechnungsfrei(household, params):
+def e_anr_frei(household, params):
     """Determine the amount of income that is not deducted. Varies withdrawal rates
-    depending on monthly earnings."""
+    depending on monthly earnings and on the number of kids in the household.
+    The rules are listed on https://www.hartziv.org/sgb-ii/paragraph11b.html"""
     # Calculate the amount of children below the age of 18.
-    child0_18_num = (household["child"] & household["age"].between(0, 18)).sum()
+    num_childs_0_18 = (household["child"] & household["age"].between(0, 18)).sum()
 
-    # 100€ is always 'free'
-    household.loc[(household["m_wage"] <= params["a2grf"]), "ekanrefrei"] = household[
-        "m_wage"
-    ]
-    # until 1000€, you may keep 20% (withdrawal rate: 80%)
-    household.loc[
-        (household["m_wage"].between(params["a2grf"], params["a2eg1"])), "ekanrefrei",
-    ] = params["a2grf"] + params["a2an1"] * (household["m_wage"] - params["a2grf"])
-    # from 1000 to 1200 €, you may keep only 10%
-    household.loc[
-        (household["m_wage"].between(params["a2eg1"], params["a2eg2"]))
-        & (child0_18_num == 0),
-        "ekanrefrei",
-    ] = (
-        params["a2grf"]
-        + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-        + params["a2an2"] * (household["m_wage"] - params["a2eg1"])
-    )
-    # If you have kids, this range goes until 1500 €,
-    household.loc[
-        (household["m_wage"].between(params["a2eg1"], params["a2eg3"]))
-        & (child0_18_num > 0),
-        "ekanrefrei",
-    ] = (
-        params["a2grf"]
-        + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-        + params["a2an2"] * (household["m_wage"] - params["a2eg1"])
-    )
-    # beyond 1200/1500€, you can't keep anything.
-    household.loc[
-        (household["m_wage"] > params["a2eg2"]) & (child0_18_num == 0), "ekanrefrei",
-    ] = (
-        params["a2grf"]
-        + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-        + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
-    )
-    household.loc[
-        (household["m_wage"] > params["a2eg3"]) & (child0_18_num > 0), "ekanrefrei",
-    ] = (
-        params["a2grf"]
-        + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-        + params["a2an2"] * (params["a2eg3"] - params["a2eg1"])
-    )
+    if num_childs_0_18 == 0:
+        household = household.groupby("pid").apply(e_anr_frei_without_kids, params)
+    else:
+        household = household.groupby("pid").apply(e_anr_frei_with_kids, params)
 
     return household
+
+
+def e_anr_frei_with_kids(person, params):
+    """Calculates the amount of income that is not deducted if the households has kids
+    between 0 and 18."""
+    m_wage = person["m_wage"].iloc[0]
+
+    if m_wage < params["a2eg1"]:
+        person["ekanrefrei"] = e_anr_frei_low_income(m_wage, params)
+
+    elif params["a2eg1"] <= m_wage < params["a2eg3"]:
+        person["ekanrefrei"] = (
+            params["a2grf"]
+            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
+            + params["a2an2"] * (m_wage - params["a2eg1"])
+        )
+    else:
+        person["ekanrefrei"] = (
+            params["a2grf"]
+            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
+            + params["a2an2"] * (params["a2eg3"] - params["a2eg1"])
+        )
+    return person
+
+
+def e_anr_frei_without_kids(person, params):
+    """Calculates the amount of income that is not deducted if the households has
+    no kids between 0 and 18."""
+    m_wage = person["m_wage"].iloc[0]
+
+    if m_wage < params["a2eg1"]:
+        person["ekanrefrei"] = e_anr_frei_low_income(m_wage, params)
+
+    elif params["a2eg1"] <= m_wage < params["a2eg2"]:
+        person["ekanrefrei"] = (
+            params["a2grf"]
+            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
+            + params["a2an2"] * (m_wage - params["a2eg1"])
+        )
+    else:
+        person["ekanrefrei"] = (
+            params["a2grf"]
+            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
+            + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
+        )
+
+    return person
+
+
+def e_anr_frei_low_income(m_wage, params):
+    """For low incomes the share of what to keep is independent of kids."""
+    if m_wage <= params["a2grf"]:
+        return m_wage
+    else:
+        return params["a2grf"] + params["a2an1"] * (m_wage - params["a2grf"])
