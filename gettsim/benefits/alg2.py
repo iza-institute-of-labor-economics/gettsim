@@ -227,22 +227,28 @@ def e_anr_frei(household, params):
     num_childs_0_18 = (household["child"] & household["age"].between(0, 18)).sum()
 
     if num_childs_0_18 == 0:
-        household = household.groupby("pid").apply(e_anr_frei_without_kids, params)
+        ek_low_limit = params["a2eg2"]
     else:
-        household = household.groupby("pid").apply(e_anr_frei_with_kids, params)
+        ek_low_limit = params["a2eg3"]
+
+    household = household.groupby("pid").apply(e_anr_frei_person, params, ek_low_limit)
 
     return household
 
 
-def e_anr_frei_with_kids(person, params):
+def e_anr_frei_person(person, params, ek_low_limit):
     """Calculates the amount of income that is not deducted if the households has kids
     between 0 and 18."""
     m_wage = person["m_wage"].iloc[0]
 
-    if m_wage < params["a2eg1"]:
-        person["ekanrefrei"] = e_anr_frei_low_income(m_wage, params)
+    if m_wage < params["a2grf"]:
+        person["ekanrefrei"] = m_wage
+    elif params["a2grf"] <= m_wage < params["a2eg1"]:
+        person["ekanrefrei"] = params["a2grf"] + params["a2an1"] * (
+            m_wage - params["a2grf"]
+        )
 
-    elif params["a2eg1"] <= m_wage < params["a2eg3"]:
+    elif params["a2eg1"] <= m_wage < ek_low_limit:
         person["ekanrefrei"] = (
             params["a2grf"]
             + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
@@ -252,38 +258,6 @@ def e_anr_frei_with_kids(person, params):
         person["ekanrefrei"] = (
             params["a2grf"]
             + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-            + params["a2an2"] * (params["a2eg3"] - params["a2eg1"])
+            + params["a2an2"] * (ek_low_limit - params["a2eg1"])
         )
     return person
-
-
-def e_anr_frei_without_kids(person, params):
-    """Calculates the amount of income that is not deducted if the households has
-    no kids between 0 and 18."""
-    m_wage = person["m_wage"].iloc[0]
-
-    if m_wage < params["a2eg1"]:
-        person["ekanrefrei"] = e_anr_frei_low_income(m_wage, params)
-
-    elif params["a2eg1"] <= m_wage < params["a2eg2"]:
-        person["ekanrefrei"] = (
-            params["a2grf"]
-            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-            + params["a2an2"] * (m_wage - params["a2eg1"])
-        )
-    else:
-        person["ekanrefrei"] = (
-            params["a2grf"]
-            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-            + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
-        )
-
-    return person
-
-
-def e_anr_frei_low_income(m_wage, params):
-    """For low incomes the share of what to keep is independent of kids."""
-    if m_wage <= params["a2grf"]:
-        return m_wage
-    else:
-        return params["a2grf"] + params["a2an1"] * (m_wage - params["a2grf"])

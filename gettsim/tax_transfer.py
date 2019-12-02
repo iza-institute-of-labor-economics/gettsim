@@ -295,6 +295,7 @@ def tax_transfer(
     )
     in_cols = [
         "hid",
+        "pid",
         "head_tu",
         "child",
         "age",
