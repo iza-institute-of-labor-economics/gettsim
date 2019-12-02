@@ -14,7 +14,6 @@ INPUT_COLS = [
     "tu_id",
     "head",
     "child",
-    "pensioner",
     "age",
     "w_hours",
     "m_wage",
@@ -32,7 +31,7 @@ INPUT_COLS = [
     "year",
 ]
 OUT_COLS = ["kiz_temp", "kiz_incrange"]
-YEARS = [2006, 2009, 2011, 2013, 2016, 2019]
+YEARS = [2006, 2009, 2011, 2013, 2016, 2017, 2019]
 
 
 @pytest.fixture(scope="module")
@@ -43,12 +42,31 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_kiz(input_data, tax_policy_data, year):
+def test_kiz(
+    input_data,
+    year,
+    kinderzuschlag_raw_data,
+    arbeitsl_geld_2_raw_data,
+    kindergeld_raw_data,
+):
     columns = ["kiz_temp"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    kinderzuschlag_params = get_policies_for_date(
+        year=year, group="kinderzuschlag", raw_group_data=kinderzuschlag_raw_data
+    )
+    arbeitsl_geld_2_params = get_policies_for_date(
+        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+    )
+    kindergeld_params = get_policies_for_date(
+        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
+    )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(kiz, tb=tb)
+    df = df.groupby("hid").apply(
+        kiz,
+        params=kinderzuschlag_params,
+        arbeitsl_geld_2_params=arbeitsl_geld_2_params,
+        kindergeld_params=kindergeld_params,
+    )
     assert_frame_equal(df[columns], year_data[columns], check_less_precise=True)
