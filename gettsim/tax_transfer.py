@@ -327,6 +327,7 @@ def tax_transfer(
         "alg2_kdu",
         "uhv_hh",
         "ekanrefrei",
+        "ar_alg2_ek",
     ]
     df = _apply_tax_transfer_func(
         df,

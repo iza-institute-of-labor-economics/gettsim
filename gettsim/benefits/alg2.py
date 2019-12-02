@@ -29,9 +29,11 @@ def alg2(household, params):
     household["ar_alg2_ek"] = np.maximum(
         household["alg2_ek"] - household["ekanrefrei"], 0
     )
+
     # Aggregate on HH
     for var in ["ar_alg2_ek", "alg2_grossek", "uhv"]:
         household[f"{var}_hh"] = household[var].sum()
+
     household["ar_base_alg2_ek"] = (
         household["ar_alg2_ek_hh"] + household["kindergeld_hh"] + household["uhv_hh"]
     )
@@ -220,9 +222,10 @@ def grossinc_alg2(household):
 
 
 def e_anr_frei(household, params):
-    """Determine the amount of income that is not deducted. Varies withdrawal rates
-    depending on monthly earnings and on the number of kids in the household.
-    The rules are listed on https://www.hartziv.org/sgb-ii/paragraph11b.html"""
+    """Determine the amount of income that is not deducted. Withdrawal rates
+    depend on monthly earnings and on the number of kids in the household.
+    § 30 SGB II. Since 01.04.2011 § 11b (4) The rules are listed on
+    https://www.hartziv.org/sgb-ii/paragraph11b.html"""
     # Calculate the amount of children below the age of 18.
     num_childs_0_18 = (household["child"] & household["age"].between(0, 18)).sum()
 
@@ -231,14 +234,16 @@ def e_anr_frei(household, params):
     else:
         ek_low_limit = params["a2eg3"]
 
-    household = household.groupby("pid").apply(e_anr_frei_person, params, ek_low_limit)
+    cols = ["m_wage", "ekanrefrei"]
+    household.loc[:, cols] = household.groupby("pid")[cols].apply(
+        e_anr_frei_person, params, ek_low_limit
+    )
 
     return household
 
 
 def e_anr_frei_person(person, params, ek_low_limit):
-    """Calculates the amount of income that is not deducted if the households has kids
-    between 0 and 18."""
+    """Calculates the amount of income that is not deducted for each person."""
     m_wage = person["m_wage"].iloc[0]
 
     if m_wage < params["a2grf"]:
