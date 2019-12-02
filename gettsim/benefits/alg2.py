@@ -224,8 +224,7 @@ def grossinc_alg2(household):
 def e_anr_frei(household, params):
     """Determine the amount of income that is not deducted. Withdrawal rates
     depend on monthly earnings and on the number of kids in the household.
-    § 30 SGB II. Since 01.04.2011 § 11b The rules are listed on
-    https://www.hartziv.org/sgb-ii/paragraph11b.html"""
+    § 30 SGB II. Since 01.04.2011 § 11b """
     # Calculate the amount of children below the age of 18.
     num_childs_0_18 = (household["child"] & household["age"].between(0, 18)).sum()
 
