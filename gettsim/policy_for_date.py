@@ -83,7 +83,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_rentenwert"] = _rentenwert_until_2017
 
-    elif group == "":
+    elif group == "arbeitsl_geld_2":
         if tax_data["year"] <= 2010:
             tax_data["calc_regelsatz"] = regelberechnung_until_2010
         else:
