@@ -236,7 +236,7 @@ def e_anr_frei(household, params):
     )
 
     cols = ["m_wage", "ekanrefrei"]
-    household[cols] = household.groupby("pid")[cols].apply(
+    household.loc[:, cols] = household.groupby("pid")[cols].apply(
         e_anr_frei_person, params, top_limit_2nd_interval
     )
 

@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
@@ -63,7 +62,8 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year):
     arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
-    for col in OUT_COLS:
-        df[col] = np.nan
+
+    df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
+
     df = df.groupby("hid", group_keys=False).apply(alg2, params=arbeitsl_geld_2_params)
     assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)

@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.benefits.benefit_checks import benefit_priority
@@ -526,8 +524,9 @@ def _apply_tax_transfer_func(
 ):
     func_args = [] if func_args is None else func_args
     func_kwargs = {} if func_kwargs is None else func_kwargs
-    for col in out_cols:
-        df[col] = np.nan
+
+    df = df.reindex(columns=df.columns.tolist() + out_cols)
+
     df.loc[:, in_cols + out_cols] = df.groupby(level)[in_cols + out_cols].apply(
         _apply_squeeze_function, tax_func, level, func_args, func_kwargs
     )
