@@ -299,7 +299,7 @@ def e_anr_frei_person_2005_01(person, params, a2eg3):
     elif params["a2eg1"] <= m_wage < params["a2eg2"]:
         person["ekanrefrei"] = params["a2an1"] * nq * params["a2eg1"] + params[
             "a2an2"
-        ] * nq * (m_wage - params["a2grf"])
+        ] * nq * (m_wage - params["a2eg1"])
 
     elif params["a2eg2"] <= m_wage < a2eg3:
         person["ekanrefrei"] = (
@@ -331,7 +331,7 @@ def e_anr_frei_person_2005_10(person, params, a2eg3):
 
     elif params["a2eg1"] <= m_wage < params["a2eg2"]:
         person["ekanrefrei"] = params["a2an1"] * params["a2eg1"] + params["a2an2"] * (
-            m_wage - params["a2grf"]
+            m_wage - params["a2eg1"]
         )
 
     elif params["a2eg2"] <= m_wage < a2eg3:
