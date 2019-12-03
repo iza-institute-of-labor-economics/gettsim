@@ -21,7 +21,7 @@ def alg2(household, params):
 
     household["alg2_ek"], household["alg2_grossek"] = alg2_inc(household)
 
-    household = einkommensanrechnungsfrei(household, params)
+    household = e_anr_frei(household, params)
 
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
@@ -29,9 +29,11 @@ def alg2(household, params):
     household["ar_alg2_ek"] = np.maximum(
         household["alg2_ek"] - household["ekanrefrei"], 0
     )
+
     # Aggregate on HH
     for var in ["ar_alg2_ek", "alg2_grossek", "uhv"]:
         household[f"{var}_hh"] = household[var].sum()
+
     household["ar_base_alg2_ek"] = (
         household["ar_alg2_ek_hh"] + household["kindergeld_hh"] + household["uhv_hh"]
     )
@@ -52,12 +54,10 @@ def regelsatz_alg2(household, params):
 
     household["mehrbed"] = mehrbedarf_alg2(household, children_age_info, params)
 
-    if params["year"] <= 2010:
-        calc_regelsatz = regelberechnung_until_2010
-    else:
-        calc_regelsatz = regelberechnung_2011_and_beyond
+    household["regelsatz"] = params["calc_regelsatz"](
+        household, children_age_info, params
+    )
 
-    household["regelsatz"] = calc_regelsatz(household, children_age_info, params)
     return household
 
 
@@ -221,58 +221,50 @@ def grossinc_alg2(household):
     )
 
 
-def einkommensanrechnungsfrei(household, params):
-    """Determine the amount of income that is not deducted. Varies withdrawal rates
-    depending on monthly earnings."""
-    # Calculate the amount of children below the age of 18.
-    child0_18_num = (household["child"] & household["age"].between(0, 18)).sum()
+def e_anr_frei(household, params):
+    """Calculate income not subject to transfer withdrawal for the household.
 
-    # 100€ is always 'free'
-    household.loc[(household["m_wage"] <= params["a2grf"]), "ekanrefrei"] = household[
-        "m_wage"
-    ]
-    # until 1000€, you may keep 20% (withdrawal rate: 80%)
-    household.loc[
-        (household["m_wage"].between(params["a2grf"], params["a2eg1"])), "ekanrefrei",
-    ] = params["a2grf"] + params["a2an1"] * (household["m_wage"] - params["a2grf"])
-    # from 1000 to 1200 €, you may keep only 10%
-    household.loc[
-        (household["m_wage"].between(params["a2eg1"], params["a2eg2"]))
-        & (child0_18_num == 0),
-        "ekanrefrei",
-    ] = (
-        params["a2grf"]
-        + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-        + params["a2an2"] * (household["m_wage"] - params["a2eg1"])
+    Determine the gross income that is not deducted. Withdrawal rates depend
+    on monthly earnings and on the number of children in the household. § 30 SGB
+    II. Since 01.04.2011 § 11b."""
+
+    # Calculate the number of children below the age of 18.
+    num_childs_0_18 = (household["child"] & (household["age"] < 18)).sum()
+
+    top_limit_2nd_interval = (
+        params["a2eg2"] if num_childs_0_18 == 0 else params["a2eg3"]
     )
-    # If you have kids, this range goes until 1500 €,
-    household.loc[
-        (household["m_wage"].between(params["a2eg1"], params["a2eg3"]))
-        & (child0_18_num > 0),
-        "ekanrefrei",
-    ] = (
-        params["a2grf"]
-        + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-        + params["a2an2"] * (household["m_wage"] - params["a2eg1"])
-    )
-    # beyond 1200/1500€, you can't keep anything.
-    household.loc[
-        (household["m_wage"] > params["a2eg2"]) & (child0_18_num == 0), "ekanrefrei",
-    ] = (
-        params["a2grf"]
-        + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-        + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
-    )
-    household.loc[
-        (household["m_wage"] > params["a2eg3"]) & (child0_18_num > 0), "ekanrefrei",
-    ] = (
-        params["a2grf"]
-        + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-        + params["a2an2"] * (params["a2eg3"] - params["a2eg1"])
-    )
-    # Children income is fully deducted, except for the first 100 €.
-    household.loc[(household["child"]), "ekanrefrei"] = np.maximum(
-        0, household["m_wage"] - 100
+
+    cols = ["m_wage", "ekanrefrei"]
+    household.loc[:, cols] = household.groupby("pid")[cols].apply(
+        e_anr_frei_person, params, top_limit_2nd_interval
     )
 
     return household
+
+
+def e_anr_frei_person(person, params, top_limit_2nd_interval):
+    """Calculate income not subject to transfer withdrawal for each person."""
+
+    m_wage = person["m_wage"].iloc[0]
+
+    if m_wage < params["a2grf"]:
+        person["ekanrefrei"] = m_wage
+    elif params["a2grf"] <= m_wage < params["a2eg1"]:
+        person["ekanrefrei"] = params["a2grf"] + params["a2an1"] * (
+            m_wage - params["a2grf"]
+        )
+
+    elif params["a2eg1"] <= m_wage < top_limit_2nd_interval:
+        person["ekanrefrei"] = (
+            params["a2grf"]
+            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
+            + params["a2an2"] * (m_wage - params["a2eg1"])
+        )
+    else:
+        person["ekanrefrei"] = (
+            params["a2grf"]
+            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
+            + params["a2an2"] * (top_limit_2nd_interval - params["a2eg1"])
+        )
+    return person

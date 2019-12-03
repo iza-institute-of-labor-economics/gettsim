@@ -72,6 +72,8 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     #        der volle KIZ gezahlt
     #        Wenn es ÜBER der Bemessungsgrundlage liegt,
     #        wird die Differenz zu einem gewissen Anteil abgezogen.
+    # TODO: Find a common name!
+
     household["kiz_ek_gross"] = household["alg2_grossek_hh"]
     household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
 
