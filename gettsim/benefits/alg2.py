@@ -202,9 +202,11 @@ def alg2_inc(household):
     return alg2_ek, alg2_grossek
 
 
-def alg2_2005_nq(household, tb):
-    """ Nettoquote = Quotienten von bereinigtem Nettoeinkommen und
-    Bruttoeinkommen. Vgl. § 3 Abs. 2 Alg II-V. """
+def alg2_2005_nq(household, params):
+    """Calculate Nettoquote
+
+    Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3
+    Abs. 2 Alg II-V."""
 
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1 bis 5.
     alg2_2005_bne = np.maximum(
@@ -212,8 +214,8 @@ def alg2_2005_nq(household, tb):
         - household["incometax"]
         - household["soli"]
         - household["svbeit"]
-        - tb["a2we"]
-        - tb["a2ve"],
+        - params["a2we"]
+        - params["a2ve"],
         0,
     ).fillna(0)
 
@@ -242,8 +244,26 @@ def grossinc_alg2(household):
     )
 
 
-def e_anr_frei(household, params):
+def e_anr_frei_2005_01(household, params):
     """Calculate income not subject to transfer withdrawal for the household.
+
+    Legislation in force 2005-01-01 to 2005-09-31.
+
+    Determine the gross income that is not deducted. Withdrawal rates depend
+    on monthly earnings. § 30 SGB II."""
+
+    cols = ["m_wage", "ekanrefrei"]
+    household.loc[:, cols] = household.groupby("pid")[cols].apply(
+        e_anr_frei_person_2005_01, params, params["a2eg3"]
+    )
+
+    return household
+
+
+def e_anr_frei_2005_10(household, params):
+    """Calculate income not subject to transfer withdrawal for the household.
+
+    Legislation in force since 2005-10-01.
 
     Determine the gross income that is not deducted. Withdrawal rates depend
     on monthly earnings and on the number of children in the household. § 30 SGB
@@ -252,40 +272,80 @@ def e_anr_frei(household, params):
     # Calculate the number of children below the age of 18.
     num_childs_0_18 = (household["child"] & (household["age"] < 18)).sum()
 
-    top_limit_2nd_interval = (
-        params["a2eg2"] if num_childs_0_18 == 0 else params["a2eg3"]
-    )
+    a2eg3 = params["a2eg2"] if num_childs_0_18 == 0 else params["a2eg3ki"]
 
     cols = ["m_wage", "ekanrefrei"]
     household.loc[:, cols] = household.groupby("pid")[cols].apply(
-        e_anr_frei_person, params, top_limit_2nd_interval
+        e_anr_frei_person_2005_10, params, a2eg3
     )
 
     return household
 
 
-def e_anr_frei_person(person, params, top_limit_2nd_interval):
-    """Calculate income not subject to transfer withdrawal for each person."""
+def e_anr_frei_person_2005_01(person, params, a2eg3):
+    """Calculate income not subject to transfer withdrawal for each person.
+
+    Legislation in force 2005-01-01 to 2005-09-31."""
 
     m_wage = person["m_wage"].iloc[0]
 
-    if m_wage < params["a2grf"]:
-        person["ekanrefrei"] = m_wage
-    elif params["a2grf"] <= m_wage < params["a2eg1"]:
-        person["ekanrefrei"] = params["a2grf"] + params["a2an1"] * (
+    # Nettoquote
+    nq = alg2_2005_nq(household, params)
+
+    # Income not deducted
+    if m_wage < params["a2eg1"]:
+        person["ekanrefrei"] = params["a2an1"] * nq * m_wage
+
+    elif params["a2eg1"] <= m_wage < params["a2eg2"]:
+        person["ekanrefrei"] = params["a2an1"] * nq * params["a2eg1"] + params[
+            "a2an2"
+        ] * nq * (m_wage - params["a2grf"])
+
+    elif params["a2eg2"] <= m_wage < a2eg3:
+        person["ekanrefrei"] = (
+            params["a2an1"] * nq * params["a2eg1"]
+            + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
+            + params["a2an3"] * nq * (m_wage - params["a2eg2"])
+        )
+
+    else:
+        person["ekanrefrei"] = (
+            params["a2an1"] * nq * params["a2eg1"]
+            + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
+            + params["a2an3"] * nq * (a2eg3 - params["a2eg2"])
+        )
+
+    return person
+
+
+def e_anr_frei_person_2005_10(person, params, a2eg3):
+    """Calculate income not subject to transfer withdrawal for each person.
+
+    Legislation in force since 2005-10-01."""
+
+    m_wage = person["m_wage"].iloc[0]
+
+    # Income not deducted
+    if m_wage < params["a2eg1"]:
+        person["ekanrefrei"] = params["a2an1"] * m_wage
+
+    elif params["a2eg1"] <= m_wage < params["a2eg2"]:
+        person["ekanrefrei"] = params["a2an1"] * params["a2eg1"] + params["a2an2"] * (
             m_wage - params["a2grf"]
         )
 
-    elif params["a2eg1"] <= m_wage < top_limit_2nd_interval:
+    elif params["a2eg1"] <= m_wage < a2eg3:
         person["ekanrefrei"] = (
-            params["a2grf"]
-            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-            + params["a2an2"] * (m_wage - params["a2eg1"])
+            params["a2an1"] * params["a2eg1"]
+            + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
+            + params["a2an3"] * (m_wage - params["a2eg2"])
         )
+
     else:
         person["ekanrefrei"] = (
-            params["a2grf"]
-            + params["a2an1"] * (params["a2eg1"] - params["a2grf"])
-            + params["a2an2"] * (top_limit_2nd_interval - params["a2eg1"])
+            params["a2an1"] * params["a2eg1"]
+            + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
+            + params["a2an3"] * (a2eg3 - params["a2eg2"])
         )
+
     return person
