@@ -80,7 +80,7 @@ def make_param_graphs(lang="de"):
             )
 
             # hover_tool.formatters = {"date": "datetime"}
-            p.line("date", "value", color="navy", source=par)
+            p.step("date", "value", color="navy", mode="after", source=par)
             p.circle("date", "value", color="navy", size=3, source=par)
             p = plotstyle(p)
             plotlist.append(p)
