@@ -45,7 +45,7 @@ OUT_COLS = [
 ]
 
 
-YEARS = [2006, 2009, 2011, 2013, 2016, 2019]
+YEARS = [2005, 2006, 2009, 2011, 2013, 2016, 2019]
 
 
 @pytest.fixture(scope="module")
@@ -66,4 +66,5 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year):
 
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
     df = df.groupby("hid", group_keys=False).apply(alg2, params=arbeitsl_geld_2_params)
+
     assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)

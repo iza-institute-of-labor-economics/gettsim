@@ -21,7 +21,7 @@ def alg2(household, params):
 
     household["alg2_ek"], household["alg2_grossek"] = alg2_inc(household)
 
-    household = e_anr_frei_2005_10(household, params)
+    household = params["calc_e_anr_frei"](household, params)
 
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
@@ -202,30 +202,6 @@ def alg2_inc(household):
     return alg2_ek, alg2_grossek
 
 
-def alg2_2005_nq(household, params):
-    """Calculate Nettoquote
-
-    Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3
-    Abs. 2 Alg II-V."""
-
-    # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1
-    # bis 5.
-    alg2_2005_bne = np.maximum(
-        household["m_wage"]
-        - household["incometax"]
-        - household["soli"]
-        - household["svbeit"]
-        - params["a2we"]
-        - params["a2ve"],
-        0,
-    ).fillna(0)
-
-    # Nettoquote:
-    alg2_2005_nq = alg2_2005_bne / household["m_wage"]
-
-    return alg2_2005_nq
-
-
 def grossinc_alg2(household):
     """Calculating the gross income relevant for alg2."""
     return (
@@ -253,7 +229,7 @@ def e_anr_frei_2005_01(household, params):
     Determine the gross income that is not deducted. Withdrawal rates depend
     on monthly earnings. § 30 SGB II."""
 
-    cols = ["m_wage", "ekanrefrei"]
+    cols = ["m_wage", "ekanrefrei", "incometax", "soli", "svbeit"]
     household.loc[:, cols] = household.groupby("pid")[cols].apply(
         e_anr_frei_person_2005_01, params, params["a2eg3"]
     )
@@ -272,15 +248,15 @@ def e_anr_frei_person_2005_01(person, params, a2eg3):
     nq = alg2_2005_nq(person, params)
 
     # Income not deducted
-    if m_wage < params["a2eg1"]:
+    if m_wage <= params["a2eg1"]:
         person["ekanrefrei"] = params["a2an1"] * nq * m_wage
 
-    elif params["a2eg1"] <= m_wage < params["a2eg2"]:
+    elif params["a2eg1"] < m_wage <= params["a2eg2"]:
         person["ekanrefrei"] = params["a2an1"] * nq * params["a2eg1"] + params[
             "a2an2"
         ] * nq * (m_wage - params["a2eg1"])
 
-    elif params["a2eg2"] <= m_wage < a2eg3:
+    elif params["a2eg2"] < m_wage <= a2eg3:
         person["ekanrefrei"] = (
             params["a2an1"] * nq * params["a2eg1"]
             + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
@@ -295,6 +271,30 @@ def e_anr_frei_person_2005_01(person, params, a2eg3):
         )
 
     return person
+
+
+def alg2_2005_nq(person, params):
+    """Calculate Nettoquote
+
+    Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3
+    Abs. 2 Alg II-V."""
+
+    # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1
+    # bis 5.
+    alg2_2005_bne = np.maximum(
+        person["m_wage"]
+        - person["incometax"]
+        - person["soli"]
+        - person["svbeit"]
+        - params["a2we"]
+        - params["a2ve"],
+        0,
+    ).fillna(0)
+
+    # Nettoquote:
+    alg2_2005_nq = alg2_2005_bne / person["m_wage"]
+
+    return alg2_2005_nq
 
 
 def e_anr_frei_2005_10(household, params):
