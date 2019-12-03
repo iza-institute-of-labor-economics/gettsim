@@ -1,6 +1,12 @@
 .. image:: https://readthedocs.org/projects/gettsim/badge/?version=latest
-    :target: https://gettsim.readthedocs.io/en/latest
-    :alt: Documentation Status
+   :target: https://gettsim.readthedocs.io/en/latest
+   :alt: Documentation Status
+
+.. image:: https://anaconda.org/gettsim/gettsim/badges/version.svg
+   :target: https://anaconda.org/gettsim/gettsim
+
+.. image:: https://anaconda.org/gettsim/gettsim/badges/platforms.svg
+   :target: https://anaconda.org/gettsim/gettsim
 
 .. image:: https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_apis/build/status/iza-institute-of-labor-economics.gettsim?branchName=master
    :target: https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_build/latest?definitionId=1&branchName=master
@@ -27,13 +33,22 @@ GETTSIM aims at providing a depiction of the German Taxes and Transfers System t
 usable across a wide range of research applications, ranging from highly complex dynamic
 programming models to extremely detailed microsimulation studies.
 
-GETTSIM is implemented in Python and Numba, thereby achieving both flexibility and
-speed. All features are extensively tested.
+GETTSIM is implemented in Python, thereby achieving both user friendliness and
+flexibility. All features are extensively tested.
 
 The current version is usable, but probably only by the initiated. Please get in touch
-(via an issue or emailing `Hans-Martin von Gaudecker
-<https://www.iza.org/de/people/fellows/4238/hans-martin-von-gaudecker>`_) if you want to
+(ideally by joining our Zulip Chat at https://gettsim.zulipchat.com) if you want to
 use it already, else keep an eye out for what there is to come!
+
+You can install GETTSIM via conda with
+
+.. code-block:: bash
+
+    $ conda install -c gettsim gettsim
+
+
+The documentation is available under https://gettsim.readthedocs.io.
+
 
 
 Initiated by
@@ -62,14 +77,14 @@ Initiated by
       </a>
       &emsp;
 
-      <br>
-      <br>
-
       <a href="https://www.uni-bonn.de">
          <img src="docs/_static/images/uni_bonn_logo.png" width="150"
          alt="Universität Bonn">
       </a>
       &emsp;
+
+      <br>
+      <br>
 
       <a href="https://www.uni-kassel.de">
          <img src="docs/_static/images/uni_kassel_logo.png" width="150"
@@ -93,5 +108,11 @@ Initiated by
          <img src="docs/_static/images/fu_berlin_logo.svg" width="150"
          alt="Freie Universität Berlin">
       </a>
+      &emsp;
+
+      <a href="https://www.iab.de/">
+         <img src="docs/_static/images/iab_logo.png" width="150" alt="IAB">
+      </a>
+      &emsp;
 
    </p>

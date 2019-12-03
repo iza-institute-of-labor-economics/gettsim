@@ -1,25 +1,19 @@
 import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.kiz import kiz
-from gettsim.taxes.kindergeld import kg_eligibility_hours
-from gettsim.taxes.kindergeld import kg_eligibility_wage
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
     "head",
-    "hhtyp",
-    "hh_korr",
-    "hhsize",
     "child",
-    "pensioner",
     "age",
     "w_hours",
     "m_wage",
@@ -36,24 +30,43 @@ input_cols = [
     "uhv",
     "year",
 ]
-out_cols = ["kiz_temp", "kiz_incrange"]
-years = [2006, 2009, 2011, 2013, 2016, 2019]
-tax_policy_data = load_tax_benefit_data()
+OUT_COLS = ["kiz_temp", "kiz_incrange"]
+YEARS = [2006, 2009, 2011, 2013, 2016, 2017, 2019]
 
 
-@pytest.mark.parametrize("year", years)
-def test_kiz(year):
-    file_name = "test_dfs_kiz.ods"
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_kiz.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_kiz(
+    input_data,
+    year,
+    kinderzuschlag_raw_data,
+    arbeitsl_geld_2_raw_data,
+    kindergeld_raw_data,
+):
     columns = ["kiz_temp"]
-    df = load_test_data(year, file_name, input_cols)
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
-    if year > 2011:
-        tb["childben_elig_rule"] = kg_eligibility_hours
-    else:
-        tb["childben_elig_rule"] = kg_eligibility_wage
-    for col in out_cols:
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    kinderzuschlag_params = get_policies_for_date(
+        year=year, group="kinderzuschlag", raw_group_data=kinderzuschlag_raw_data
+    )
+    arbeitsl_geld_2_params = get_policies_for_date(
+        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+    )
+    kindergeld_params = get_policies_for_date(
+        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
+    )
+    for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(kiz, tb=tb)
-    expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(df[columns], expected, check_dtype=False)
+    df = df.groupby("hid").apply(
+        kiz,
+        params=kinderzuschlag_params,
+        arbeitsl_geld_2_params=arbeitsl_geld_2_params,
+        kindergeld_params=kindergeld_params,
+    )
+    assert_frame_equal(df[columns], year_data[columns], check_less_precise=True)

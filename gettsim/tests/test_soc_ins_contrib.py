@@ -3,15 +3,12 @@ import itertools
 import pandas as pd
 import pytest
 
-from gettsim.social_insurance import calc_midi_contributions
-from gettsim.social_insurance import no_midi
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
 from gettsim.tax_transfer import _apply_tax_transfer_func
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
-INPUT_COLUMNS = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -29,24 +26,28 @@ INPUT_COLUMNS = [
 
 YEARS = [2002, 2010, 2018, 2019]
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
-tax_policy_data = load_tax_benefit_data()
+
+
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_ssc.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_soc_ins_contrib(year, column):
-    df = load_test_data(year, "test_dfs_ssc.ods", INPUT_COLUMNS)
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    if year >= 2003:
-        tb["calc_midi_contrib"] = calc_midi_contributions
-    else:
-        tb["calc_midi_contrib"] = no_midi
-    expected = load_test_data(year, "test_dfs_ssc.ods", column)
+def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    soz_vers_beitr_params = get_policies_for_date(
+        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+    )
     df = _apply_tax_transfer_func(
         df,
         tax_func=soc_ins_contrib,
         level=["hid", "tu_id", "pid"],
-        in_cols=INPUT_COLUMNS,
+        in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"tb": tb},
+        func_kwargs={"params": soz_vers_beitr_params},
     )
-    pd.testing.assert_series_equal(df[column], expected)
+    pd.testing.assert_series_equal(df[column], year_data[column])
