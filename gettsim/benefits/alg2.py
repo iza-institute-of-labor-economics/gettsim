@@ -247,7 +247,7 @@ def grossinc_alg2(household):
 def e_anr_frei_2005_01(household, params):
     """Calculate income not subject to transfer withdrawal for the household.
 
-    Legislation in force 2005-01-01 to 2005-09-31.
+    Legislation in force 2005-01-01 to 2005-09-30.
 
     Determine the gross income that is not deducted. Withdrawal rates depend
     on monthly earnings. § 30 SGB II."""
@@ -285,7 +285,7 @@ def e_anr_frei_2005_10(household, params):
 def e_anr_frei_person_2005_01(person, params, a2eg3):
     """Calculate income not subject to transfer withdrawal for each person.
 
-    Legislation in force 2005-01-01 to 2005-09-31."""
+    Legislation in force 2005-01-01 to 2005-09-30."""
 
     m_wage = person["m_wage"].iloc[0]
 
