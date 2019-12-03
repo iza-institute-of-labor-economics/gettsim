@@ -21,7 +21,7 @@ def alg2(household, params):
 
     household["alg2_ek"], household["alg2_grossek"] = alg2_inc(household)
 
-    household = e_anr_frei(household, params)
+    household = e_anr_frei_2005_10(household, params)
 
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
@@ -208,7 +208,8 @@ def alg2_2005_nq(household, params):
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3
     Abs. 2 Alg II-V."""
 
-    # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1 bis 5.
+    # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1
+    # bis 5.
     alg2_2005_bne = np.maximum(
         household["m_wage"]
         - household["incometax"]
@@ -260,28 +261,6 @@ def e_anr_frei_2005_01(household, params):
     return household
 
 
-def e_anr_frei_2005_10(household, params):
-    """Calculate income not subject to transfer withdrawal for the household.
-
-    Legislation in force since 2005-10-01.
-
-    Determine the gross income that is not deducted. Withdrawal rates depend
-    on monthly earnings and on the number of children in the household. § 30 SGB
-    II. Since 01.04.2011 § 11b."""
-
-    # Calculate the number of children below the age of 18.
-    num_childs_0_18 = (household["child"] & (household["age"] < 18)).sum()
-
-    a2eg3 = params["a2eg2"] if num_childs_0_18 == 0 else params["a2eg3ki"]
-
-    cols = ["m_wage", "ekanrefrei"]
-    household.loc[:, cols] = household.groupby("pid")[cols].apply(
-        e_anr_frei_person_2005_10, params, a2eg3
-    )
-
-    return household
-
-
 def e_anr_frei_person_2005_01(person, params, a2eg3):
     """Calculate income not subject to transfer withdrawal for each person.
 
@@ -290,7 +269,7 @@ def e_anr_frei_person_2005_01(person, params, a2eg3):
     m_wage = person["m_wage"].iloc[0]
 
     # Nettoquote
-    nq = alg2_2005_nq(household, params)
+    nq = alg2_2005_nq(person, params)
 
     # Income not deducted
     if m_wage < params["a2eg1"]:
@@ -316,6 +295,28 @@ def e_anr_frei_person_2005_01(person, params, a2eg3):
         )
 
     return person
+
+
+def e_anr_frei_2005_10(household, params):
+    """Calculate income not subject to transfer withdrawal for the household.
+
+    Legislation in force since 2005-10-01.
+
+    Determine the gross income that is not deducted. Withdrawal rates depend
+    on monthly earnings and on the number of children in the household. § 30 SGB
+    II. Since 01.04.2011 § 11b."""
+
+    # Calculate the number of children below the age of 18.
+    num_childs_0_18 = (household["child"] & (household["age"] < 18)).sum()
+
+    a2eg3 = params["a2eg3"] if num_childs_0_18 == 0 else params["a2eg3ki"]
+
+    cols = ["m_wage", "ekanrefrei"]
+    household.loc[:, cols] = household.groupby("pid")[cols].apply(
+        e_anr_frei_person_2005_10, params, a2eg3
+    )
+
+    return household
 
 
 def e_anr_frei_person_2005_10(person, params, a2eg3):
