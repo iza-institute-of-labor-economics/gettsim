@@ -229,15 +229,14 @@ def e_anr_frei(household, params):
     II. Since 01.04.2011 § 11b."""
 
     # Calculate the number of children below the age of 18.
-    num_childs_0_18 = (household["child"] & household["age"].between(0, 18)).sum()
+    num_childs_0_18 = (household["child"] & (household["age"] < 18)).sum()
 
-    if num_childs_0_18 == 0:
-        top_limit_2nd_interval = params["a2eg2"]
-    else:
-        top_limit_2nd_interval = params["a2eg3"]
+    top_limit_2nd_interval = (
+        params["a2eg2"] if num_childs_0_18 == 0 else params["a2eg3"]
+    )
 
     cols = ["m_wage", "ekanrefrei"]
-    household.loc[:, cols] = household.groupby("pid")[cols].apply(
+    household[cols] = household.groupby("pid")[cols].apply(
         e_anr_frei_person, params, top_limit_2nd_interval
     )
 
