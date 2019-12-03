@@ -22,6 +22,7 @@ from gettsim.taxes.zve import vorsorge_dummy
 
 
 def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
+    # First, collect numerical parameters
     if not raw_group_data:
         raw_group_data = yaml.safe_load(
             (ROOT_DIR / "data" / f"{group}.yaml").read_text()
@@ -31,12 +32,12 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
     if group == "ges_renten_vers":
         load_data = load_ges_renten_vers_params
     else:
-        load_data = load_ordanary_data_group
+        load_data = load_ordinary_data_group
 
     tax_data = load_data(raw_group_data, actual_date)
     tax_data["year"] = year
     tax_data["date"] = actual_date
-
+    # Now, treat structural changes over time and save these functions into the dict.
     if group == "soz_vers_beitr":
         if year >= 2003:
             tax_data["calc_midi_contrib"] = calc_midi_contributions
@@ -92,7 +93,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
     return tax_data
 
 
-def load_ordanary_data_group(tax_data_raw, actual_date):
+def load_ordinary_data_group(tax_data_raw, actual_date):
     tax_data = {}
     for key in tax_data_raw:
         policy_dates = tax_data_raw[key]["values"]
