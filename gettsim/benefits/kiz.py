@@ -98,6 +98,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # Child income
     household["childinc_tu"] = (household["child"] * household["m_wage"]).sum()
     household = params["calc_kiz_amount"](household, params)
+    # 'kiz_temp' is the theoretical kiz claim, before it is checked against other benefits later on.
     household["kiz_temp"] = household["kiz"].max()
 
     return household
