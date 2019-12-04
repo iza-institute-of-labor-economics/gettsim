@@ -8,9 +8,11 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.3.0 - tbd
 -----------
 
-- Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
-- Break up params.yaml into group-level files (:ghuser:`MaxBlesch`)
-- Corrected income deductions for additional child benefit (:ghuser:`Eric-Sommer`)
+* Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
+* Break up params.yaml into group-level files (:ghuser:`MaxBlesch`)
+* Corrected income deductions for additional child benefit (:ghuser:`Eric-Sommer`)
+* Implemented "Starke-Familien-Gesetz" from July 2019 on child benefits
+  (:ghuser:`Eric-Sommer`)
 
 
 0.2.1 - 2019-11-20
