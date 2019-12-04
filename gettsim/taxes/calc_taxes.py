@@ -2,7 +2,9 @@ import numpy as np
 import pandas as pd
 
 
-def tax_sched(df, tb):
+def tax_sched(
+    tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_params
+):
     """Given various forms of income and other state variables, return
     the different taxes to be paid before making favourability checks etc..
 
@@ -14,65 +16,82 @@ def tax_sched(df, tb):
 
     """
 
-    adult_married = (~df["child"]) & (df["zveranl"])
-    # create ts dataframe and copy three important variables
-    ts = pd.DataFrame(index=df.index.copy())
-    for inc in tb["zve_list"]:
-        ts["tax_" + inc] = tb["tax_schedule"](df["zve_" + inc], tb)
-        ts[f"tax_{inc}_tu"] = ts[f"tax_{inc}"]
-        ts.loc[adult_married, f"tax_{inc}_tu"] = ts[f"tax_{inc}"][adult_married].sum()
+    adult_married = (~tax_unit["child"]) & (tax_unit["zveranl"])
+
+    for inc in e_st_abzuege_params["zve_list"]:
+        # apply tax tariff, round to full Euro amounts
+        tax_unit[f"tax_{inc}"] = e_st_params["tax_schedule"](
+            tax_unit[f"zve_{inc}"], e_st_params
+        ).astype(int)
+        tax_unit[f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"]
+        tax_unit.loc[adult_married, f"tax_{inc}_tu"] = tax_unit[f"tax_{inc}"][
+            adult_married
+        ].sum()
 
     # Abgeltungssteuer
-    ts["abgst"] = abgeltung(df, tb)
-    ts["abgst_tu"] = 0
-    ts.loc[adult_married, "abgst_tu"] = ts["abgst"][adult_married].sum()
+    tax_unit["abgst"] = abgeltung(tax_unit, abgelt_st_params, e_st_abzuege_params)
+    tax_unit["abgst_tu"] = tax_unit["abgst"]
+    tax_unit.loc[adult_married, "abgst_tu"] = tax_unit["abgst"][adult_married].sum()
 
-    """Solidarity Surcharge. on top of the income tax and capital income tax.
+    """Solidarity Surcharge. on top of the income tax.
     No Soli if income tax due is below € 920 (solifreigrenze)
     Then it increases with 0.2 marginal rate until 5.5% (solisatz)
     of the incometax is reached.
     As opposed to the 'standard' income tax,
     child allowance is always deducted for soli calculation
+    There is also Soli on capital income tax, but always with 5.5%. (§3 (3) S.2 SolzG 1995)
     """
 
-    if tb["yr"] >= 1991:
-        ts["solibasis"] = ts["tax_kfb_tu"] + ts["abgst_tu"]
+    if e_st_abzuege_params["year"] >= 1991:
         # Soli also in monthly terms. only for adults
-        ts["soli_tu"] = soli_formula(ts["solibasis"], tb) * ~df["child"] * (1 / 12)
+        tax_unit["soli_tu"] = (
+            (
+                soli_formula(tax_unit["tax_kfb_tu"], soli_st_params)
+                + soli_st_params["solisatz"] * tax_unit["abgst_tu"]
+            )
+            * ~tax_unit["child"]
+            * (1 / 12)
+        )
     else:
-        ts["soli_tu"] = 0
+        tax_unit["soli_tu"] = 0
 
     # Assign Soli to individuals
-    ts["soli"] = np.select(
-        [df["zveranl"], ~df["zveranl"]], [ts["soli_tu"] / 2, ts["soli_tu"]]
+    tax_unit["soli"] = np.select(
+        [tax_unit["zveranl"], ~tax_unit["zveranl"]],
+        [tax_unit["soli_tu"] / 2, tax_unit["soli_tu"]],
     )
-    return ts[
-        [f"tax_{inc}" for inc in tb["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
-        + ["abgst_tu", "abgst", "soli", "soli_tu"]
-    ]
+    return tax_unit
 
 
-def abgeltung(df, tb):
+def abgeltung(tax_unit, e_st_params, e_st_abzuege_params):
     """ Capital Income Tax / Abgeltungsteuer
         since 2009, captial income is taxed with a flatrate of 25%.
     """
-    df_abgelt = pd.DataFrame(index=df.index.copy())
-    df_abgelt["abgst"] = 0
-    if tb["yr"] >= 2009:
-        df_abgelt.loc[~df["zveranl"], "abgst"] = tb["abgst"] * np.maximum(
-            df["gross_e5"] - tb["spsparf"] - tb["spwerbz"], 0
+    tax_unit_abgelt = pd.DataFrame(index=tax_unit.index.copy())
+    tax_unit_abgelt["abgst"] = 0
+    if e_st_params["year"] >= 2009:
+        tax_unit_abgelt.loc[~tax_unit["zveranl"], "abgst"] = e_st_params[
+            "abgst"
+        ] * np.maximum(
+            tax_unit["gross_e5"]
+            - e_st_abzuege_params["spsparf"]
+            - e_st_abzuege_params["spwerbz"],
+            0,
         )
-        df_abgelt.loc[df["zveranl"], "abgst"] = (
+        tax_unit_abgelt.loc[tax_unit["zveranl"], "abgst"] = (
             0.5
-            * tb["abgst"]
-            * np.maximum(df["gross_e5_tu"] - 2 * (tb["spsparf"] + tb["spwerbz"]), 0)
+            * e_st_params["abgst"]
+            * np.maximum(
+                tax_unit["gross_e5_tu"]
+                - 2 * (e_st_abzuege_params["spsparf"] + e_st_abzuege_params["spwerbz"]),
+                0,
+            )
         )
-    return df_abgelt["abgst"]
+    return tax_unit_abgelt["abgst"].round(2)
 
 
 @np.vectorize
-def tarif(x, tb):
+def tarif(x, params):
     """ The German Income Tax Tariff
     modelled only after 2002 so far
 
@@ -84,36 +103,39 @@ def tarif(x, tb):
         x (float): taxable income
         tb (dict): tax-benefit parameters specific to year and reform
     """
-    if tb["yr"] < 2002:
+
+    if params["year"] < 2002:
         raise ValueError("Income Tax Pre 2002 not yet modelled!")
     else:
         t = 0.0
-        if tb["G"] < x <= tb["M"]:
+        if params["G"] < x <= params["M"]:
             t = (
-                ((tb["t_m"] - tb["t_e"]) / (2 * (tb["M"] - tb["G"]))) * (x - tb["G"])
-                + tb["t_e"]
-            ) * (x - tb["G"])
-        if tb["M"] < x <= tb["S"]:
+                ((params["t_m"] - params["t_e"]) / (2 * (params["M"] - params["G"])))
+                * (x - params["G"])
+                + params["t_e"]
+            ) * (x - params["G"])
+        elif params["M"] < x <= params["S"]:
             t = (
-                ((tb["t_s"] - tb["t_m"]) / (2 * (tb["S"] - tb["M"]))) * (x - tb["M"])
-                + tb["t_m"]
-            ) * (x - tb["M"]) + (tb["M"] - tb["G"]) * ((tb["t_m"] + tb["t_e"]) / 2)
-        if x > tb["S"]:
-            t = (
-                tb["t_s"] * x
-                - tb["t_s"] * tb["S"]
-                + ((tb["t_s"] + tb["t_m"]) / 2) * (tb["S"] - tb["M"])
-                + ((tb["t_m"] + tb["t_e"]) / 2) * (tb["M"] - tb["G"])
+                ((params["t_s"] - params["t_m"]) / (2 * (params["S"] - params["M"])))
+                * (x - params["M"])
+                + params["t_m"]
+            ) * (x - params["M"]) + (params["M"] - params["G"]) * (
+                (params["t_m"] + params["t_e"]) / 2
             )
-        if x > tb["R"]:
-            t = t + (tb["t_r"] - tb["t_s"]) * (x - tb["R"])
-        # round down to next integer
-        # t = int(t)
+        elif x > params["S"]:
+            t = (
+                params["t_s"] * x
+                - params["t_s"] * params["S"]
+                + ((params["t_s"] + params["t_m"]) / 2) * (params["S"] - params["M"])
+                + ((params["t_m"] + params["t_e"]) / 2) * (params["M"] - params["G"])
+            )
+        if x > params["R"]:
+            t = t + (params["t_r"] - params["t_s"]) * (x - params["R"])
         assert t >= 0
     return t
 
 
-def soli_formula(solibasis, tb):
+def soli_formula(solibasis, params):
     """ The actual soli calculation
 
     args:
@@ -122,8 +144,8 @@ def soli_formula(solibasis, tb):
 
     """
     soli = np.minimum(
-        tb["solisatz"] * solibasis,
-        np.maximum(0.2 * (solibasis - tb["solifreigrenze"]), 0),
+        params["solisatz"] * solibasis,
+        np.maximum(0.2 * (solibasis - params["solifreigrenze"]), 0),
     )
 
-    return soli
+    return soli.round(2)

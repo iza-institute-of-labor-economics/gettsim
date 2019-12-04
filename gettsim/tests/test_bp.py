@@ -1,18 +1,17 @@
+import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.benefit_checks import benefit_priority
-from gettsim.tests.auxiliary_test_tax import load_tb
-from gettsim.tests.auxiliary_test_tax import load_test_data
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "hh_korr",
-    "hhsize",
     "child",
     "pensioner",
     "age",
@@ -23,24 +22,29 @@ input_cols = [
     "wohngeld_basis_hh",
     "regelbedarf",
     "ar_base_alg2_ek",
+    "byear",
     "year",
 ]
 
-years = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
+YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
+OUT_COLS = ["kiz", "wohngeld", "m_alg2"]
 
 
-@pytest.mark.parametrize("year", years)
-def test_kiz(year):
-    file_name = "test_dfs_prio.ods"
-    columns = ["kiz", "m_alg2", "wohngeld"]
-    df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
-    tb["yr"] = year
-    calculated = pd.DataFrame(columns=columns)
-    for hid in df["hid"].unique():
-        calculated = calculated.append(
-            benefit_priority(df[df["hid"] == hid], tb)[columns]
-        )
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_prio.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
 
-    expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(calculated, expected, check_dtype=False)
+
+@pytest.mark.parametrize("year", YEARS)
+def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    arbeitsl_geld_2_params = get_policies_for_date(
+        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+    )
+    for col in OUT_COLS:
+        df[col] = np.nan
+    df = df.groupby("hid").apply(benefit_priority, params=arbeitsl_geld_2_params)
+    assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)

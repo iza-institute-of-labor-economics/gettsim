@@ -1,35 +1,37 @@
+import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.taxes.kindergeld import kg_eligibility_hours
-from gettsim.taxes.kindergeld import kg_eligibility_wage
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.kindergeld import kindergeld
-from gettsim.tests.auxiliary_test_tax import load_tb
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
 
-input_cols = ["tu_id", "age", "w_hours", "ineducation", "m_wage"]
+INPUT_COLS = ["hid", "tu_id", "pid", "age", "w_hours", "ineducation", "m_wage"]
+OUT_COLS = ["kindergeld_basis", "kindergeld_tu_basis"]
+YEARS = [2000, 2002, 2010, 2011, 2013, 2019]
 
-years = [2000, 2002, 2010, 2011, 2013, 2019]
+
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_kindergeld.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
 
 
-@pytest.mark.parametrize("yr", years)
-def test_kindergeld(yr):
-    filename = "test_dfs_kindergeld.ods"
-    df = load_test_data(yr, filename, input_cols)
-    tb = load_tb(yr)
-    if yr > 2011:
-        tb["childben_elig_rule"] = kg_eligibility_hours
-    else:
-        tb["childben_elig_rule"] = kg_eligibility_wage
+@pytest.mark.parametrize("year", YEARS)
+def test_kindergeld(input_data, year, kindergeld_raw_data):
+    test_column = "kindergeld_tu_basis"
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    kindergeld_params = get_policies_for_date(
+        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
+    )
+    for col in OUT_COLS:
+        df[col] = np.nan
+    df = df.groupby(["hid", "tu_id"])[INPUT_COLS + OUT_COLS].apply(
+        kindergeld, params=kindergeld_params
+    )
 
-    calculated = pd.DataFrame(columns=["kindergeld_tu_basis"])
-    for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(
-            kindergeld(df[df["tu_id"] == tu_id], tb), sort=True
-        )
-
-    expected = load_test_data(yr, filename, "kindergeld_tu_basis")
-
-    assert_series_equal(calculated["kindergeld_tu_basis"], expected)
+    assert_series_equal(df[test_column], year_data[test_column], check_dtype=False)

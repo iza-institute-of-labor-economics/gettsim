@@ -1,13 +1,14 @@
+import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.unterhaltsvorschuss import uhv
-from gettsim.tests.auxiliary_test_tax import load_tb
-from gettsim.tests.auxiliary_test_tax import load_test_data
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -23,17 +24,24 @@ input_cols = [
     "zveranl",
     "year",
 ]
-years = [2017, 2019]
+OUT_COL = "uhv"
+YEARS = [2017, 2019]
 
 
-@pytest.mark.parametrize("year", years)
-def test_uhv(year):
-    file_name = "test_dfs_uhv.ods"
-    df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
-    tb["yr"] = year
-    calculated = pd.Series(name="uhv")
-    for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(uhv(df[df["tu_id"] == tu_id], tb))
-    expected = load_test_data(year, file_name, "uhv")
-    assert_series_equal(calculated, expected, check_dtype=False)
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_uhv.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_uhv(input_data, year, unterhalt_raw_data):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    unterhalt_params = get_policies_for_date(
+        year=year, group="unterhalt", raw_group_data=unterhalt_raw_data
+    )
+    df[OUT_COL] = np.nan
+    df = df.groupby(["hid", "tu_id"]).apply(uhv, params=unterhalt_params)
+    assert_series_equal(df[OUT_COL], year_data["uhv"], check_dtype=False)

@@ -1,25 +1,22 @@
+import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from gettsim.benefits.wohngeld import calc_max_rent_since_2009
-from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.benefits.wohngeld import wg
-from gettsim.tests.auxiliary_test_tax import load_tb
-from gettsim.tests.auxiliary_test_tax import load_test_data
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
     "head_tu",
-    "hh_korr",
-    "hhsize",
     "child",
     "miete",
     "heizkost",
     "alleinerz",
-    "child11_num_tu",
+    "age",
     "cnstyr",
     "mietstufe",
     "m_wage",
@@ -36,47 +33,48 @@ input_cols = [
     "rvbeit",
     "gkvbeit",
     "handcap_degree",
-    "divdy",
     "year",
-    "hhsize_tu",
 ]
-years = [2006, 2009, 2013, 2016, 2018, 2019]
+OUT_COLS = ["wohngeld_basis", "wohngeld_basis_hh"]
+YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
+TEST_COLUMN = ["wohngeld_basis_hh"]
 
 
-@pytest.mark.parametrize("year", years)
-def test_wg(year):
-    file_name = "test_dfs_wg.ods"
-    columns = ["wohngeld_basis_hh"]
-    df = load_test_data(
-        year, file_name, input_cols, bool_cols=["head_tu", "child", "alleinerz"]
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_wg.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_wg(input_data, year, wohngeld_raw_data):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    wohngeld_params = get_policies_for_date(
+        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
     )
-    tb = load_tb(year)
-    tb["yr"] = year
-    if year < 2009:
-        tb["calc_max_rent"] = calc_max_rent_until_2008
-    else:
-        tb["calc_max_rent"] = calc_max_rent_since_2009
-    calculated = pd.DataFrame(columns=columns)
-    for hid in df["hid"].unique():
-        calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
-    expected = load_test_data(year, file_name, columns)
+    for col in OUT_COLS:
+        df[col] = np.nan
+    df = df.groupby("hid").apply(wg, params=wohngeld_params)
+    assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
 
-    assert_frame_equal(calculated, expected, check_exact=False, check_less_precise=2)
+
+@pytest.fixture(scope="module")
+def input_data_2():
+    file_name = "test_dfs_wg2.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
 
 
 @pytest.mark.parametrize("year", [2013])
-def test_wg_no_mietstufe_in_input_data(year):
-    file_name = "test_dfs_wg2.csv"
-    columns = ["wohngeld_basis_hh"]
-    df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
-    tb["yr"] = year
-    if year < 2009:
-        tb["calc_max_rent"] = calc_max_rent_until_2008
-    else:
-        tb["calc_max_rent"] = calc_max_rent_since_2009
-    calculated = pd.DataFrame(columns=columns)
-    for hid in df["hid"].unique():
-        calculated = calculated.append(wg(df[df["hid"] == hid], tb)[columns])
-    expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(calculated, expected, check_exact=False, check_less_precise=2)
+def test_wg_no_mietstufe_in_input_data(input_data_2, year, wohngeld_raw_data):
+    year_data = input_data_2[input_data_2["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    wohngeld_params = get_policies_for_date(
+        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+    )
+    for col in OUT_COLS:
+        df[col] = np.nan
+    df = df.groupby("hid").apply(wg, params=wohngeld_params)
+    assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])

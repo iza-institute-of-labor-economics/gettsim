@@ -1,12 +1,13 @@
+import numpy as np
 import pandas as pd
 import pytest
+from pandas.testing import assert_frame_equal
 
-from gettsim.taxes.calc_taxes import tarif
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.calc_taxes import tax_sched
-from gettsim.tests.auxiliary_test_tax import load_tb
-from gettsim.tests.auxiliary_test_tax import load_test_data
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -20,24 +21,54 @@ input_cols = [
     "gross_e5_tu",
 ]
 
-years = [2009, 2012, 2015, 2018]
+YEARS = [2009, 2012, 2015, 2018]
 
 
-@pytest.mark.parametrize("year", years)
-def test_tax_sched(year):
-    file_name = "test_dfs_tax_sched.ods"
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_tax_sched.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_tax_sched(
+    input_data,
+    year,
+    e_st_raw_data,
+    e_st_abzuege_raw_data,
+    soli_st_raw_data,
+    abgelt_st_raw_data,
+):
     columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
-    df = load_test_data(year, file_name, input_cols)
-    tb = load_tb(year)
-    tb["yr"] = year
-    # list of tax bases
-    tb["zve_list"] = ["nokfb", "kfb"]
-    # name of tax tariff function
-    tb["tax_schedule"] = tarif
-    calculated = pd.DataFrame(columns=columns)
-    for tu_id in df["tu_id"].unique():
-        calculated = calculated.append(tax_sched(df[df["tu_id"] == tu_id], tb)[columns])
-    expected = load_test_data(year, file_name, columns)
-    pd.testing.assert_frame_equal(
-        calculated, expected, check_dtype=False, check_exact=False, check_less_precise=0
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+    e_st_abzuege_params = get_policies_for_date(
+        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
     )
+    e_st_params = get_policies_for_date(
+        year=year, group="e_st", raw_group_data=e_st_raw_data
+    )
+    soli_st_params = get_policies_for_date(
+        year=year, group="soli_st", raw_group_data=soli_st_raw_data
+    )
+    abgelt_st_params = get_policies_for_date(
+        year=year, group="abgelt_st", raw_group_data=abgelt_st_raw_data
+    )
+    OUT_COLS = (
+        [f"tax_{inc}" for inc in e_st_abzuege_params["zve_list"]]
+        + [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]]
+        + ["abgst_tu", "abgst", "soli", "soli_tu"]
+    )
+
+    for col in OUT_COLS:
+        df[col] = np.nan
+    df = df.groupby(["hid", "tu_id"]).apply(
+        tax_sched,
+        e_st_params=e_st_params,
+        e_st_abzuege_params=e_st_abzuege_params,
+        soli_st_params=soli_st_params,
+        abgelt_st_params=abgelt_st_params,
+    )
+
+    assert_frame_equal(df[columns], year_data[columns], check_dtype=False)

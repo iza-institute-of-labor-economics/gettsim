@@ -1,10 +1,7 @@
 import numpy as np
-import pandas as pd
-
-from gettsim.auxiliary import aggr
 
 
-def wg(df, tb):
+def wg(household, params):
     """ Housing benefit / Wohngeld
         Social benefit for recipients with income above basic social assistance
         Computation is very complicated, accounts for household size, income, actual
@@ -12,66 +9,56 @@ def wg(df, tb):
 
         We usually don't have information on the last item.
         Therefore we assume 'Mietstufe' 3, corresponding to an average level,
-        but other Mietstufen can be specified in `df`.
+        but other Mietstufen can be specified in `household`.
     """
     # Benefit amount depends on parameters M (rent) and Y (income) (§19 WoGG)
 
-    wg_df = pd.DataFrame(index=df.index.copy())
-    wg_df["hid"] = df["hid"]
-    wg_df["tu_id"] = df["tu_id"]
-    hhsize = df.shape[0]
+    household_size = household.shape[0]
     # Caluclate income in separate function
-    wg_df["Y"] = calc_wg_income(df, tb, hhsize)
+    household["Y"] = calc_wg_income(household, params, household_size)
     # Caluclate rent in separate function
-    wg_df["M"] = calc_wg_rent(df, tb, hhsize)
+    household["M"] = calc_wg_rent(household, params, household_size)
     # Apply Wohngeld Formel.
-    wg_df["wohngeld_basis"] = apply_wg_formula(wg_df, tb, hhsize)
+    household["wohngeld_basis"] = apply_wg_formula(household, params, household_size)
 
     # Sum of wohngeld within household
-    wg_df["wg_head"] = wg_df["wohngeld_basis"] * df["head_tu"]
-    wg_df = wg_df.join(
-        wg_df.groupby(["hid"])["wg_head"].sum(), on=["hid"], how="left", rsuffix="_hh"
-    )
-    wg_df = wg_df.rename(columns={"wg_head_hh": "wohngeld_basis_hh"})
-    wg_df = wg_df.round({"wohngeld_basis_hh": 2})
-    # df["hhsize_tu"].describe()
-    # wg.to_excel(get_settings()['DATA_PATH'] + 'wg_check_hypo.xlsx')
-    return wg_df[["wohngeld_basis", "wohngeld_basis_hh"]]
+    wg_head = household["wohngeld_basis"] * household["head_tu"]
+    household.loc[:, "wohngeld_basis_hh"] = wg_head.sum()
+    household = household.round({"wohngeld_basis_hh": 2})
+    return household
 
 
-def calc_wg_rent(df, tb, hhsize):
+def calc_wg_rent(household, params, household_size):
     """
     This function yields the relevant rent for calculating the wohngeld.
     """
     # There are also min and max values for this.
     # If 'Mietstufe' is not given, choose '3'.
-    if "mietstufe" in df.columns:
-        mietstufe = int(df["mietstufe"].iloc[0])
+    if "mietstufe" in household.columns:
+        mietstufe = int(household["mietstufe"].iloc[0])
     else:
         mietstufe = 3
 
-    assert mietstufe in range(1, 7)
-    cnstyr = df["cnstyr"].iloc[0]
+    cnstyr = household["cnstyr"].iloc[0]
     # First max rent
     # Before 2009, they differed by construction year of the house
-    max_rent = tb["calc_max_rent"](tb, hhsize, cnstyr, mietstufe)
+    max_rent = params["calc_max_rent"](params, household_size, cnstyr, mietstufe)
 
     # Second min rent
-    min_rent = calc_min_rent(tb, hhsize)
+    min_rent = calc_min_rent(params, household_size)
 
-    # check for failed assignments
-    assert not np.isnan(max_rent)
-    assert not np.isnan(min_rent)
-
+    # Calculate share of tax unit wrt whole household
+    tax_unit_share = household.groupby("tu_id")["tu_id"].transform("count") / len(
+        household
+    )
     # distribute max rent among the tax units
-    max_rent_dist = max_rent * df["hh_korr"]
-
-    wgmiete = np.minimum(max_rent_dist, df["miete"] * df["hh_korr"])
-    # wg["wgheiz"] = df["heizkost"] * df["hh_korr"]
+    max_rent_dist = max_rent * tax_unit_share
+    wgmiete = np.minimum(max_rent_dist, household["miete"] * tax_unit_share)
+    # wg["wgheiz"] = household["heizkost"] * tax_unit_share
     return np.maximum(wgmiete, min_rent)
 
 
-def calc_max_rent_since_2009(tb, hhsize, cnstyr, mietstufe):
+def calc_max_rent_since_2009(params, household_size, cnstyr, mietstufe):
     """
     Since 2009 a different formula for the maximal acknowledged rent applies.
     Now the date of the construction is irrelevant.
@@ -80,49 +67,49 @@ def calc_max_rent_since_2009(tb, hhsize, cnstyr, mietstufe):
     """
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
-    if hhsize <= 5:
-        max_rent = tb[f"wgmax{hhsize}p_m_st{mietstufe}"]
+    if household_size <= 5:
+        max_rent = params[f"wgmax{household_size}p_m_st{mietstufe}"]
     else:
-        max_rent = tb[f"wgmax5p_m_st{mietstufe}"] + tb[
+        max_rent = params[f"wgmax5p_m_st{mietstufe}"] + params[
             f"wgmaxplus5_m_st{mietstufe}"
-        ] * (hhsize - 5)
+        ] * (household_size - 5)
     return max_rent
 
 
-def calc_max_rent_until_2008(tb, hhsize, cnstyr, mietstufe):
+def calc_max_rent_until_2008(params, household_size, cnstyr, mietstufe):
     """ Before 2009, differentiate by construction year of the house and
     calculate the maximal acknowledged rent."""
     cnstyr_dict = {1: "a", 2: "m", 3: "n"}
     key = cnstyr_dict[cnstyr]
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
-    if hhsize <= 5:
-        max_rent = tb[f"wgmax{hhsize}p_{key}_st{mietstufe}"]
+    if household_size <= 5:
+        max_rent = params[f"wgmax{household_size}p_{key}_st{mietstufe}"]
     else:
-        max_rent = tb[f"wgmax5p_{key}_st{mietstufe}"] + tb[
+        max_rent = params[f"wgmax5p_{key}_st{mietstufe}"] + params[
             f"wgmaxplus5_{key}_st{mietstufe}"
-        ] * (hhsize - 5)
+        ] * (household_size - 5)
     return max_rent
 
 
-def calc_min_rent(tb, hhsize):
+def calc_min_rent(params, household_size):
     """ The minimal acknowledged rent depending on the household size."""
-    if hhsize < 12:
-        min_rent = tb["wgmin" + str(hhsize) + "p"]
+    if household_size < 12:
+        min_rent = params["wgmin" + str(household_size) + "p"]
     else:
-        min_rent = tb["wgmin12p"]
+        min_rent = params["wgmin12p"]
     return min_rent
 
 
-def calc_wg_income(df, tb, hhsize):
+def calc_wg_income(household, params, household_size):
     """ This function calculates the relevant income for the calculation of the
     wohngeld."""
-    wg_income = pd.DataFrame(index=df.index)
-    wg_income["tu_id"] = df["tu_id"]
     # Start with income revelant for the housing beneift
     # tax-relevant share of pensions for tax unit
-    wg_income["pens_steuer"] = df["ertragsanteil"] * df["m_pensions"]
-    wg_income["pens_steuer_tu_k"] = aggr(wg_income, "pens_steuer", "all_tu")
+    household["pens_steuer"] = household["ertragsanteil"] * household["m_pensions"]
+    household["pens_steuer_tu_k"] = household.groupby("tu_id")["pens_steuer"].transform(
+        "sum"
+    )
     # Different incomes on tu base
     for inc in [
         "m_alg1",
@@ -136,115 +123,137 @@ def calc_wg_income(df, tb, hhsize):
         "gkvbeit",
         "uhv",
     ]:
-        wg_income[f"{inc}_tu_k"] = aggr(df, inc, "all_tu")
+        household[f"{inc}_tu_k"] = household.groupby("tu_id")[inc].transform("sum")
 
-    wg_income["wg_abzuege"] = calc_wg_abzuege(wg_income, tb)
+    household["wg_abzuege"] = calc_wg_abzuege(household, params)
     # Relevant income is market income + transfers...
-    wg_income["wg_grossY"] = calc_wg_gross_income(wg_income)
-    wg_income["wg_otherinc"] = wg_income[
+    household["wg_grossY"] = calc_wg_gross_income(household)
+    household["wg_otherinc"] = household[
         ["m_alg1_tu_k", "m_transfers_tu_k", "pens_steuer_tu_k", "uhv_tu_k"]
     ].sum(axis=1)
 
     # ... minus a couple of lump-sum deductions for handicaps,
     # children income or being single parent
-    wg_income["wg_incdeduct"] = calc_wg_income_deductions(df, tb)
-    wg_income["wg_incdeduct_tu_k"] = aggr(wg_income, "wg_incdeduct", "all_tu")
-    prelim_y = (1 - wg_income["wg_abzuege"]) * np.maximum(
+    household["wg_incdeduct"] = calc_wg_income_deductions(household, params)
+    household["wg_incdeduct_tu_k"] = household.groupby("tu_id")[
+        "wg_incdeduct"
+    ].transform("sum")
+    prelim_y = (1 - household["wg_abzuege"]) * np.maximum(
         0,
         (
-            wg_income["wg_grossY"]
-            + wg_income["wg_otherinc"]
-            - wg_income["wg_incdeduct_tu_k"]
+            household["wg_grossY"]
+            + household["wg_otherinc"]
+            - household["wg_incdeduct_tu_k"]
         ),
     )
     # There's a minimum Y depending on the hh size
-    return _set_min_y(prelim_y, tb, hhsize)
+    return _set_min_y(prelim_y, params, household_size)
 
 
-def calc_wg_abzuege(wg_income, tb):
+def calc_wg_abzuege(household, params):
     # There share of income to be deducted is 0/10/20/30%, depending on whether
     # household is subject to income taxation and/or payroll taxes
     wg_abz = (
-        (wg_income["incometax_tu_k"] > 0) * 1
-        + (wg_income["rvbeit_tu_k"] > 0) * 1
-        + (wg_income["gkvbeit_tu_k"] > 0) * 1
+        (household["incometax_tu_k"] > 0) * 1
+        + (household["rvbeit_tu_k"] > 0) * 1
+        + (household["gkvbeit_tu_k"] > 0) * 1
     )
 
     wg_abz_amounts = {
-        0: tb["wgpabz0"],
-        1: tb["wgpabz1"],
-        2: tb["wgpabz2"],
-        3: tb["wgpabz3"],
+        0: params["wgpabz0"],
+        1: params["wgpabz1"],
+        2: params["wgpabz2"],
+        3: params["wgpabz3"],
     }
 
     return wg_abz.replace(wg_abz_amounts)
 
 
-def calc_wg_gross_income(wg_income):
+def calc_wg_gross_income(household):
     out = (
-        np.maximum(wg_income["gross_e1_tu_k"] / 12, 0)
-        + np.maximum(wg_income["gross_e4_tu_k"] / 12, 0)
-        + np.maximum(wg_income["gross_e5_tu_k"] / 12, 0)
-        + np.maximum(wg_income["gross_e6_tu_k"] / 12, 0)
+        np.maximum(household["gross_e1_tu_k"] / 12, 0)
+        + np.maximum(household["gross_e4_tu_k"] / 12, 0)
+        + np.maximum(household["gross_e5_tu_k"] / 12, 0)
+        + np.maximum(household["gross_e6_tu_k"] / 12, 0)
     )
     return out
 
 
-def calc_wg_income_deductions(df, tb):
-    if tb["yr"] < 2016:
-        wg_incdeduct = _calc_wg_income_deductions_until_2015(df, tb)
+def calc_wg_income_deductions(household, params):
+    if params["year"] <= 2015:
+        wg_incdeduct = _calc_wg_income_deductions_until_2015(household, params)
     else:
-        wg_incdeduct = _calc_wg_income_deductions_since_2016(df, tb)
+        wg_incdeduct = _calc_wg_income_deductions_since_2016(household, params)
     return wg_incdeduct
 
 
-def _calc_wg_income_deductions_until_2015(df, tb):
+def _calc_wg_income_deductions_until_2015(household, params):
     """ calculate special deductions for handicapped, single parents
     and children who are working
     """
-    workingchild = df["child"] & (df["m_wage"] > 0)
+    household["child_below_11"] = household["age"].lt(11)
+    household["n_children_below_11_tu"] = (
+        household.groupby("tu_id")["child_below_11"].transform("sum").astype(int)
+    )
+    workingchild = household["child"] & (household["m_wage"] > 0)
     wg_incdeduct = (
-        (df["handcap_degree"] > 80) * tb["wgpfbm80"]
-        + df["handcap_degree"].between(1, 80) * tb["wgpfbu80"]
-        + (workingchild * np.minimum(tb["wgpfb24"], df["m_wage"]))
-        + ((df["alleinerz"] & (~df["child"])) * df["child11_num_tu"] * tb["wgpfb12"])
+        (household["handcap_degree"] > 80) * params["wgpfbm80"]
+        + household["handcap_degree"].between(1, 80) * params["wgpfbu80"]
+        + (workingchild * np.minimum(params["wgpfb24"], household["m_wage"]))
+        + (
+            (household["alleinerz"] & (~household["child"]))
+            * household["n_children_below_11_tu"]
+            * params["wgpfb12"]
+        )
     )
     return wg_incdeduct
 
 
-def _calc_wg_income_deductions_since_2016(df, tb):
+def _calc_wg_income_deductions_since_2016(household, params):
     """ calculate special deductions for handicapped, single parents
     and children who are working
     """
-    workingchild = df["child"] & (df["m_wage"] > 0)
+    workingchild = household["child"] & (household["m_wage"] > 0)
     wg_incdeduct = (
-        (df["handcap_degree"] > 0) * tb["wgpfbm80"]
-        + (workingchild * np.minimum(tb["wgpfb24"], df["m_wage"]))
-        + (df["alleinerz"] * tb["wgpfb12"] * (~df["child"]))
+        (household["handcap_degree"] > 0) * params["wgpfbm80"]
+        + (workingchild * np.minimum(params["wgpfb24"], household["m_wage"]))
+        + (household["alleinerz"] * params["wgpfb12"] * (~household["child"]))
     )
     return wg_incdeduct
 
 
-def _set_min_y(prelim_y, tb, hhsize):
-    if hhsize < 12:
-        min_y = np.maximum(prelim_y, tb["wgminEK" + str(hhsize) + "p"])
+def _set_min_y(prelim_y, params, household_size):
+    if household_size < 12:
+        min_y = np.maximum(prelim_y, params["wgminEK" + str(household_size) + "p"])
     else:
-        min_y = np.maximum(prelim_y, tb["wgminEK12p"])
+        min_y = np.maximum(prelim_y, params["wgminEK12p"])
     return min_y
 
 
-def apply_wg_formula(wg_df, tb, hhsize):
+def apply_wg_formula(household, params, household_size):
+    # The formula is only valid for up to 12 household members
+    household_size_max = min(household_size, 12)
     # There are parameters a, b, c, depending on hh size
-    a, b, c = calc_wg_formula_factors(tb, hhsize)
-    return np.maximum(
+    wg_amount = np.maximum(
         0,
-        tb["wg_factor"]
-        * (wg_df["M"] - ((a + (b * wg_df["M"]) + (c * wg_df["Y"])) * wg_df["Y"])),
+        params["wg_factor"]
+        * (
+            household["M"]
+            - (
+                (
+                    params[f"wg_a_{household_size_max}p"]
+                    + (params[f"wg_b_{household_size_max}p"] * household["M"])
+                    + (params[f"wg_c_{household_size_max}p"] * household["Y"])
+                )
+                * household["Y"]
+            )
+        ),
     )
+    # If more than 12 persons, there is a lump-sum on top.
+    # You may however not get more than the corrected rent "M".
+    if household_size > 12:
+        wg_amount = np.minimum(
+            household["M"], wg_amount + params["wg_add_12plus"] * (household_size - 12),
+        )
 
-
-def calc_wg_formula_factors(tb, hhsize):
-    a = tb["wg_a_" + str(hhsize) + "p"]
-    b = tb["wg_b_" + str(hhsize) + "p"]
-    c = tb["wg_c_" + str(hhsize) + "p"]
-    return a, b, c
+    return wg_amount
