@@ -6,6 +6,14 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
         their children, they can claim Kiz.
+
+        A couple of criteria need to be met.
+        1. the household has to have some income
+        2. net income minus housing benefit needs has to be lower than
+           total ALG2 need plus additional child benefit.
+        3. Over a certain income threshold (which depends on housing costs,
+           and is therefore household-specific), parental income is deducted from
+           child benefit claim.
     """
 
     """ In contrast to ALG2, Kiz considers only the rental costs that are attributed
@@ -59,20 +67,6 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # min income to be eligible for KIZ (different for singles and couples)
     # (§6a (1) Nr. 2 BKGG)
     household["kiz_ek_min"] = calc_min_income_kiz(household, params)
-
-    #        Rephrasing §6a BKGG to 'non-law' German:
-    #     1. Um KIZ zu bekommen, muss das Bruttoeinkommen minus Wohngeld
-    #        und Kindergeld über 600 € (Alleinerziehende) bzw. 900 € (Paare) liegen.
-    #     2. Das Nettoeinkommen minus Wohngeld muss unterhalb des Bedarfs
-    #        plus Gesamtkinderzuschlag liegen.
-    #     3. Dann wird geschaut, wie viel von dem Einkommen
-    #        (Erwachsene UND Kinder !) noch auf KIZ angerechnet wird.
-    #        Wenn das zu berücksichtigende Einkommen der Eltern UNTER der
-    #        Höchsteinkommensgrenze und UNTER der Bemessungsgrundlage liegt, wird
-    #        der volle KIZ gezahlt
-    #        Wenn es ÜBER der Bemessungsgrundlage liegt,
-    #        wird die Differenz zu einem gewissen Anteil abgezogen.
-    # TODO: Find a common name!
 
     household["kiz_ek_gross"] = household["alg2_grossek_hh"]
     household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
