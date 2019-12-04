@@ -6,6 +6,14 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
         their children, they can claim Kiz.
+
+        A couple of criteria need to be met.
+        1. the household has to have some income
+        2. net income minus housing benefit needs has to be lower than
+           total ALG2 need plus additional child benefit.
+        3. Over a certain income threshold (which depends on housing costs,
+           and is therefore household-specific), parental income is deducted from
+           child benefit claim.
     """
 
     """ In contrast to ALG2, Kiz considers only the rental costs that are attributed
@@ -60,26 +68,17 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # (§6a (1) Nr. 2 BKGG)
     household["kiz_ek_min"] = calc_min_income_kiz(household, params)
 
-    #        Übersetzung §6a BKGG auf deutsch:
-    #     1. Um KIZ zu bekommen, muss das Bruttoeinkommen minus Wohngeld
-    #        und Kindergeld über 600 € (Alleinerziehende) bzw. 900 € (Paare) liegen.
-    #     2. Das Nettoeinkommen minus Wohngeld muss unterhalb des Bedarfs
-    #        plus Gesamtkinderzuschlag liegen.
-    #     3. Dann wird geschaut, wie viel von dem Einkommen
-    #        (Erwachsene UND Kinder !) noch auf KIZ angerechnet wird.
-    #        Wenn das zu berücksichtigende Einkommen der Eltern UNTER der
-    #        Höchsteinkommensgrenze und UNTER der Bemessungsgrundlage liegt, wird
-    #        der volle KIZ gezahlt
-    #        Wenn es ÜBER der Bemessungsgrundlage liegt,
-    #        wird die Differenz zu einem gewissen Anteil abgezogen.
-    # TODO: Find a common name!
-
     household["kiz_ek_gross"] = household["alg2_grossek_hh"]
     household["kiz_ek_net"] = household["ar_alg2_ek_hh"]
 
     # 1st step: deduct children income for each eligible child (§6a (3) S.3 BKGG)
     household["kiz_childinc_deducted"] = household["child_kg"] * (
-        np.maximum(0, params["a2kiz"] - (household["m_wage"] + household["uhv"]))
+        np.maximum(
+            0,
+            params["a2kiz"]
+            - params["a2kiz_withdrawal_rate_child"]
+            * (household["m_wage"] + household["uhv"]),
+        )
     )
 
     # 2nd step: Calculate the parents income that needs to be subtracted
@@ -89,16 +88,42 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
         params["a2kiz_withdrawal_rate"]
         * (household["ar_alg2_ek_hh"] - household["kiz_ek_relev"]),
     )
+
+    # Child income
+    household = params["calc_kiz_amount"](household, params)
+    # 'kiz_temp' is the theoretical kiz claim, before it is
+    # checked against other benefits later on.
+    household["kiz_temp"] = household["kiz"].max()
+
+    return household
+
+
+def calc_kiz_amount_2005(household, params):
+    """ Kinderzuschlag Amount from 2005 until 07/2019"
+    """
+
     # Dummy variable whether household is in the relevant income range.
     household["kiz_incrange"] = (
         household["kiz_ek_gross"] >= household["kiz_ek_min"]
     ) & (household["kiz_ek_net"] <= household["kiz_ek_max"])
-    # Finally, calculate the amount.
     household["kiz"] = 0
     household.loc[household["kiz_incrange"], "kiz"] = np.maximum(
         0, household["kiz_childinc_deducted"].sum() - household["kiz_ek_anr"]
     )
-    household["kiz_temp"] = household["kiz"].max()
+
+    return household
+
+
+def calc_kiz_amount_07_2019(household, params):
+    """ Kinderzuschlag Amount since 07/2019
+        - no maximum income threshold anymore.
+    """
+    household["kiz"] = 0
+    household.loc[
+        household["kiz_ek_gross"] >= household["kiz_ek_min"], "kiz"
+    ] = np.maximum(
+        0, household["kiz_childinc_deducted"].sum() - household["kiz_ek_anr"]
+    )
 
     return household
 
@@ -152,8 +177,9 @@ def _calc_kiz_regel_since_2011(household, params):
 
 def get_wohnbedarf(yr):
     """ Specifies the percent share of living costs that is attributed to the parents
-        This is a share that is defined by the "Existenzminimumsbericht". The
-        function is called by uhv().
+        This is a share that is defined by the "Existenzminimumsbericht".
+
+        The actual tables are found in the official "Merkblatt Kinderzuschlag".
     """
     # cols: number of adults
     # rows: number of kids
@@ -221,6 +247,7 @@ def get_wohnbedarf(yr):
             [45.70, 56.04],
             [40.24, 50.49],
         ],
+        "2020": [[77, 84], [63, 72], [53, 63], [46, 56], [40, 50]],
     }
 
     return wohnbedarf[str(yr)]
