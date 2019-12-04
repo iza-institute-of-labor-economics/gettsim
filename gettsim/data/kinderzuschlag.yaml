@@ -61,6 +61,9 @@ a2kiz_withdrawal_rate_child:
   name:
     de: Anrechnungsrate durch Kindereinkommen
     en: rate at that child income is deducted
+  description:
+    de: Rate, mit der individuelles zu berücksichtigendes Kindereinkommen beim Kinderzuschlag angerechnet wird. § 6a (3) BKGG. Bis 30.06.2019 wird Kindereinkommen zu 100% angerechnet.
+    en:
   values:
     2005-01-01:
       value: 1

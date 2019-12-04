@@ -60,7 +60,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # (§6a (1) Nr. 2 BKGG)
     household["kiz_ek_min"] = calc_min_income_kiz(household, params)
 
-    #        Übersetzung §6a BKGG auf deutsch:
+    #        Rephrasing §6a BKGG to 'non-law' German:
     #     1. Um KIZ zu bekommen, muss das Bruttoeinkommen minus Wohngeld
     #        und Kindergeld über 600 € (Alleinerziehende) bzw. 900 € (Paare) liegen.
     #     2. Das Nettoeinkommen minus Wohngeld muss unterhalb des Bedarfs
@@ -98,7 +98,8 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # Child income
     household["childinc_tu"] = (household["child"] * household["m_wage"]).sum()
     household = params["calc_kiz_amount"](household, params)
-    # 'kiz_temp' is the theoretical kiz claim, before it is checked against other benefits later on.
+    # 'kiz_temp' is the theoretical kiz claim, before it is
+    # checked against other benefits later on.
     household["kiz_temp"] = household["kiz"].max()
 
     return household
