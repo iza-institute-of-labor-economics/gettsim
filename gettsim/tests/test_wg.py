@@ -12,13 +12,11 @@ INPUT_COLS = [
     "hid",
     "tu_id",
     "head_tu",
-    "hh_korr",
-    "hhsize",
     "child",
     "miete",
     "heizkost",
     "alleinerz",
-    "child11_num_tu",
+    "age",
     "cnstyr",
     "mietstufe",
     "m_wage",
@@ -35,9 +33,7 @@ INPUT_COLS = [
     "rvbeit",
     "gkvbeit",
     "handcap_degree",
-    "divdy",
     "year",
-    "hhsize_tu",
 ]
 OUT_COLS = ["wohngeld_basis", "wohngeld_basis_hh"]
 YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
@@ -52,13 +48,15 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_wg(input_data, tax_policy_data, year):
+def test_wg(input_data, year, wohngeld_raw_data):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    wohngeld_params = get_policies_for_date(
+        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+    )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(wg, tb=tb)
+    df = df.groupby("hid").apply(wg, params=wohngeld_params)
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
 
 
@@ -70,11 +68,13 @@ def input_data_2():
 
 
 @pytest.mark.parametrize("year", [2013])
-def test_wg_no_mietstufe_in_input_data(input_data_2, tax_policy_data, year):
+def test_wg_no_mietstufe_in_input_data(input_data_2, year, wohngeld_raw_data):
     year_data = input_data_2[input_data_2["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    wohngeld_params = get_policies_for_date(
+        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+    )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(wg, tb=tb)
+    df = df.groupby("hid").apply(wg, params=wohngeld_params)
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])

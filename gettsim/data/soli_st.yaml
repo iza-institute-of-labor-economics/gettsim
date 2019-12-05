@@ -1,0 +1,43 @@
+solifreigrenze:
+  name:
+    de: Soli-Freigrenze  (§ 3 (3) Nr. 2 SolzG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    1995-01-01:
+      value: 681
+      note: .
+    1998-01-01:
+      value: 939
+      note:
+    2002-01-01:
+      value: 972
+      note:
+solisatz:
+  name:
+    de: Höhe des Solidaritätszuschlags auf die Einkommensteuer  (§ 4 SolzG sowie § 51a EStG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    1991-01-01:
+      value: 0.0375
+      note:
+    1993-01-01:
+      value: 0
+      note: .
+    1995-01-01:
+      value: 0.075
+      note: .
+    1998-01-01:
+      value: 0.055
+      note:

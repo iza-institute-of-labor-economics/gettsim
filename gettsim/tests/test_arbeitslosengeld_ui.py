@@ -18,7 +18,6 @@ INPUT_COLS = [
     "months_ue",
     "months_ue_l1",
     "months_ue_l2",
-    "alg_soep",
     "m_pensions",
     "w_hours",
     "child_num_tu",
@@ -37,17 +36,45 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_ui(input_data, tax_policy_data, year):
+def test_ui(
+    input_data,
+    year,
+    arbeitsl_geld_raw_data,
+    soz_vers_beitr_raw_data,
+    e_st_abzuege_raw_data,
+    e_st_raw_data,
+    soli_st_raw_data,
+):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    tb = get_policies_for_date(year=year, tax_data_raw=tax_policy_data)
+    arbeitsl_geld_params = get_policies_for_date(
+        year=year, group="arbeitsl_geld", raw_group_data=arbeitsl_geld_raw_data
+    )
+    soz_vers_beitr_params = get_policies_for_date(
+        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+    )
+    e_st_abzuege_params = get_policies_for_date(
+        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    )
+    e_st_params = get_policies_for_date(
+        year=year, group="e_st", raw_group_data=e_st_raw_data
+    )
+    soli_st_params = get_policies_for_date(
+        year=year, group="soli_st", raw_group_data=soli_st_raw_data
+    )
     df = _apply_tax_transfer_func(
         df,
         tax_func=ui,
         level=["hid", "tu_id", "pid"],
         in_cols=INPUT_COLS,
         out_cols=[OUT_COL],
-        func_kwargs={"tb": tb},
+        func_kwargs={
+            "params": arbeitsl_geld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "e_st_params": e_st_params,
+            "soli_st_params": soli_st_params,
+        },
     )
-    # TODO: THis should be reviewed.
+    # to prevent errors from rounding, allow deviations after the 3rd digit.
     assert_series_equal(df[OUT_COL], year_data[OUT_COL], check_less_precise=3)

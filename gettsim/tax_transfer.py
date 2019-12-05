@@ -1,13 +1,10 @@
-import numpy as np
-import pandas as pd
-
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
-from gettsim.config import ROOT_DIR
+from gettsim.checks import check_boolean
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
@@ -19,7 +16,21 @@ from gettsim.taxes.kindergeld import kindergeld
 from gettsim.taxes.zve import zve
 
 
-def tax_transfer(df, tb, tb_pens=None):
+def tax_transfer(
+    df,
+    arbeitsl_geld_2_params,
+    abgelt_st_params,
+    arbeitsl_geld_params,
+    soz_vers_beitr_params,
+    e_st_abzuege_params,
+    unterhalt_params,
+    wohngeld_params,
+    kinderzuschlag_params,
+    e_st_params,
+    soli_st_params,
+    kindergeld_params,
+    ges_renten_vers_params,
+):
     """ The German Tax-Transfer System.
 
     Arguments:
@@ -39,9 +50,8 @@ def tax_transfer(df, tb, tb_pens=None):
     The 'sub' functions may take an argument 'ref', which might be used for small
      reforms that e.g. only differ in parameters or slightly change the calculation.
     """
-
-    # set default arguments
-    tb_pens = [] if tb_pens is None else tb_pens
+    bool_variables = ["child", "east"]
+    check_boolean(df, bool_variables)
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 
@@ -75,7 +85,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=person,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"params": soz_vers_beitr_params},
     )
     in_cols = [
         "m_wage_l1",
@@ -84,7 +94,6 @@ def tax_transfer(df, tb, tb_pens=None):
         "months_ue",
         "months_ue_l1",
         "months_ue_l2",
-        "alg_soep",
         "m_pensions",
         "w_hours",
         "child_num_tu",
@@ -97,7 +106,13 @@ def tax_transfer(df, tb, tb_pens=None):
         level=person,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"tb": tb},
+        func_kwargs={
+            "params": arbeitsl_geld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "e_st_params": e_st_params,
+            "soli_st_params": soli_st_params,
+        },
     )
     in_cols = ["m_wage", "east", "age", "year", "byear", "exper", "EP"]
     out_col = "pensions_sim"
@@ -107,7 +122,10 @@ def tax_transfer(df, tb, tb_pens=None):
         level=person,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"tb": tb, "tb_pens": tb_pens},
+        func_kwargs={
+            "params": ges_renten_vers_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+        },
     )
     in_cols = [
         "m_wage",
@@ -132,11 +150,7 @@ def tax_transfer(df, tb, tb_pens=None):
         "east",
         "gkvbeit",
     ]
-    out_cols = [
-        "zve_nokfb",
-        "zve_abg_nokfb",
-        "zve_kfb",
-        "zve_abg_kfb",
+    out_cols = [f"zve_{inc}" for inc in e_st_abzuege_params["zve_list"]] + [
         "kifreib",
         "gross_e1",
         "gross_e4",
@@ -160,21 +174,21 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "kindergeld_params": kindergeld_params,
+        },
     )
-    in_cols = [
+    in_cols = [f"zve_{inc}" for inc in e_st_abzuege_params["zve_list"]] + [
         "child",
-        "zve_nokfb",
-        "zve_kfb",
-        "zve_abg_kfb",
-        "zve_abg_nokfb",
         "gross_e5",
         "zveranl",
         "gross_e5_tu",
     ]
     out_cols = (
-        [f"tax_{inc}" for inc in tb["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in tb["zve_list"]]
+        [f"tax_{inc}" for inc in e_st_abzuege_params["zve_list"]]
+        + [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]]
         + ["abgst_tu", "abgst", "soli", "soli_tu"]
     )
     df = _apply_tax_transfer_func(
@@ -183,7 +197,12 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={
+            "e_st_params": e_st_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "soli_st_params": soli_st_params,
+            "abgelt_st_params": abgelt_st_params,
+        },
     )
     in_cols = ["age", "w_hours", "ineducation", "m_wage"]
     out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
@@ -193,13 +212,11 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"params": kindergeld_params},
     )
-    in_cols = [
+    in_cols = [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]] + [
         "zveranl",
         "child",
-        "tax_nokfb_tu",
-        "tax_kfb_tu",
         "abgst_tu",
         "kindergeld_basis",
         "kindergeld_tu_basis",
@@ -217,7 +234,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"params": e_st_abzuege_params},
     )
     in_cols = [
         "alleinerz",
@@ -238,18 +255,20 @@ def tax_transfer(df, tb, tb_pens=None):
         level=tax_unit,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"tb": tb},
+        func_kwargs={
+            "params": unterhalt_params,
+            "kindergeld_params": kindergeld_params,
+            "e_st_abz_params": e_st_abzuege_params,
+        },
     )
     in_cols = [
         "tu_id",
         "head_tu",
-        "hh_korr",
-        "hhsize",
         "child",
         "miete",
         "heizkost",
         "alleinerz",
-        "child11_num_tu",
+        "age",
         "cnstyr",
         "mietstufe",
         "m_wage",
@@ -266,8 +285,6 @@ def tax_transfer(df, tb, tb_pens=None):
         "rvbeit",
         "gkvbeit",
         "handcap_degree",
-        "divdy",
-        "hhsize_tu",
     ]
     out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
     df = _apply_tax_transfer_func(
@@ -276,10 +293,11 @@ def tax_transfer(df, tb, tb_pens=None):
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"params": wohngeld_params},
     )
     in_cols = [
         "hid",
+        "pid",
         "head_tu",
         "child",
         "age",
@@ -311,6 +329,7 @@ def tax_transfer(df, tb, tb_pens=None):
         "alg2_kdu",
         "uhv_hh",
         "ekanrefrei",
+        "ar_alg2_ek",
     ]
     df = _apply_tax_transfer_func(
         df,
@@ -318,16 +337,13 @@ def tax_transfer(df, tb, tb_pens=None):
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
     in_cols = [
         "pid",
         "hid",
         "tu_id",
         "head",
-        "hhtyp",
-        "hh_korr",
-        "hhsize",
         "child",
         "pensioner",
         "age",
@@ -352,11 +368,13 @@ def tax_transfer(df, tb, tb_pens=None):
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={
+            "params": kinderzuschlag_params,
+            "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
+            "kindergeld_params": kindergeld_params,
+        },
     )
     in_cols = [
-        "hh_korr",
-        "hhsize",
         "child",
         "pensioner",
         "age",
@@ -376,7 +394,7 @@ def tax_transfer(df, tb, tb_pens=None):
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"tb": tb},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
     in_cols = [
         "m_wage",
@@ -421,8 +439,88 @@ def tax_transfer(df, tb, tb_pens=None):
     df = _apply_tax_transfer_func(
         df, tax_func=gross_income, level=household, in_cols=in_cols, out_cols=[out_col]
     )
-
-    return df
+    required_inputs = [
+        "hid",
+        "tu_id",
+        "pid",
+        "head_tu",
+        "head",
+        "adult_num",
+        "child0_18_num",
+        "hh_wealth",
+        "m_wage",
+        "age",
+        "selfemployed",
+        "east",
+        "haskids",
+        "m_self",
+        "m_pensions",
+        "pkv",
+        "m_wage_l1",
+        "months_ue",
+        "months_ue_l1",
+        "months_ue_l2",
+        "w_hours",
+        "child_num_tu",
+        "adult_num_tu",
+        "byear",
+        "exper",
+        "EP",
+        "child",
+        "pensioner",
+        "m_childcare",
+        "m_imputedrent",
+        "m_kapinc",
+        "m_vermiet",
+        "miete",
+        "heizkost",
+        "renteneintritt",
+        "handcap_degree",
+        "wohnfl",
+        "zveranl",
+        "ineducation",
+        "alleinerz",
+        "eigentum",
+        "cnstyr",
+        "m_transfers",
+    ]
+    desired_outputs = [
+        "svbeit",
+        "rvbeit",
+        "avbeit",
+        "gkvbeit",
+        "m_alg1",
+        "pensions_sim",
+        "gross_e1",
+        "gross_e5",
+        "gross_e6",
+        "gross_e7",
+        "gross_e1_tu",
+        "gross_e4_tu",
+        "gross_e5_tu",
+        "gross_e6_tu",
+        "gross_e7_tu",
+        "abgst_tu",
+        "abgst",
+        "soli",
+        "soli_tu",
+        "kindergeld",
+        "kindergeld_tu",
+        "incometax",
+        "incometax_tu",
+        "uhv",
+        "regelbedarf",
+        "regelsatz",
+        "alg2_kdu",
+        "uhv_hh",
+        "kiz",
+        "wohngeld",
+        "m_alg2",
+        "dpi_ind",
+        "dpi",
+        "gross",
+    ]
+    return df[required_inputs + desired_outputs]
 
 
 def _apply_tax_transfer_func(
@@ -430,8 +528,9 @@ def _apply_tax_transfer_func(
 ):
     func_args = [] if func_args is None else func_args
     func_kwargs = {} if func_kwargs is None else func_kwargs
-    for col in out_cols:
-        df[col] = np.nan
+
+    df = df.reindex(columns=df.columns.tolist() + out_cols)
+
     df.loc[:, in_cols + out_cols] = df.groupby(level)[in_cols + out_cols].apply(
         _apply_squeeze_function, tax_func, level, func_args, func_kwargs
     )
@@ -448,10 +547,45 @@ def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
         return tax_func(group, *func_args, **func_kwargs)
 
 
-def calculate_tax_and_transfers(dataset, policy_year):
-    tax_data = get_policies_for_date(year=policy_year)
-    tax_data_pensions = pd.read_excel(ROOT_DIR / "data" / "pensions.xlsx").set_index(
-        "var"
+def calculate_tax_and_transfers(
+    dataset, year,
+):
+    ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
+
+    e_st_abzuege_params = get_policies_for_date(year=year, group="e_st_abzuege")
+
+    e_st_params = get_policies_for_date(year=year, group="e_st")
+
+    soli_st_params = get_policies_for_date(year=year, group="soli_st")
+
+    arbeitsl_geld_2_params = get_policies_for_date(year=year, group="arbeitsl_geld_2")
+
+    arbeitsl_geld_params = get_policies_for_date(year=year, group="arbeitsl_geld")
+
+    soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
+
+    unterhalt_params = get_policies_for_date(year=year, group="unterhalt")
+
+    abgelt_st_params = get_policies_for_date(year=year, group="abgelt_st")
+
+    wohngeld_params = get_policies_for_date(year=year, group="wohngeld")
+
+    kinderzuschlag_params = get_policies_for_date(year=year, group="kinderzuschlag")
+
+    kindergeld_params = get_policies_for_date(year=year, group="kindergeld")
+
+    return tax_transfer(
+        dataset,
+        arbeitsl_geld_2_params=arbeitsl_geld_2_params,
+        abgelt_st_params=abgelt_st_params,
+        arbeitsl_geld_params=arbeitsl_geld_params,
+        soz_vers_beitr_params=soz_vers_beitr_params,
+        e_st_abzuege_params=e_st_abzuege_params,
+        unterhalt_params=unterhalt_params,
+        wohngeld_params=wohngeld_params,
+        kinderzuschlag_params=kinderzuschlag_params,
+        e_st_params=e_st_params,
+        soli_st_params=soli_st_params,
+        kindergeld_params=kindergeld_params,
+        ges_renten_vers_params=ges_renten_vers_params,
     )
-    tax_data["zve_list"] = ["nokfb", "kfb"]
-    return tax_transfer(dataset, tax_data, tax_data_pensions)

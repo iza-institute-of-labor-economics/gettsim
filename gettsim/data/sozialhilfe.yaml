@@ -1,0 +1,567 @@
+shmz1XII:
+  name:
+    de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit einem Kind  Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
+    en:
+  description:
+    de: § 30 SGB XII
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: 0.12
+      note:
+shmz2XII:
+  name:
+    de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit zwei Kindern  Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
+    en:
+  description:
+    de: § 30 SGB XII
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: 0.24
+      note:
+shmz3XII:
+  name:
+    de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit drei Kindern  Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
+    en:
+  description:
+    de: § 30 SGB XII
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: 0.36
+      note:
+shmz4XII:
+  name:
+    de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit vier Kindern  Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
+    en:
+  description:
+    de: § 30 SGB XII
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: 0.48
+      note:
+shmz5XII:
+  name:
+    de: Sozialhilfe Mehrbedarfszuschläge für Alleinerziehende mit fünf oder mehr Kindern   Es gilt bereits ein Satz von 0.36, wenn es nur ein Kind jünger als 7 oder 2 bzw. 3 Kinder unter 16 gibt!
+    en:
+  description:
+    de: § 30 SGB XII
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: 0.6
+      note:
+sh14pXII:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: 0.8
+      note:
+sh14XII:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: 0
+      note:
+    2005-01-01:
+      value: 0.6
+      note:
+shsatzo:
+  name:
+    de: Sozialhilfe Regelsatz Ost  ab 1.1.2007     => einheitlicher Regelsatz  (rs_hhvor) 1.1.2005 - 31.12.2006     => Hartz IV-Regelsatz Ost (rs_hhvor ist ungewichteter Durchschnitt) bis 31.12.2004     => Ungewichteter Durchschnitt der Ost-Sozialhilfe-Regelsätze für den Haushaltsvorstand, ab Juli, FamRZ
+    en:
+  description:
+    de:
+    en:
+  values:
+    1991-01-01:
+      value: 216
+      note:
+    1992-01-01:
+      value: 239
+      note: .
+    1993-01-01:
+      value: 253
+      note: .
+    1994-01-01:
+      value: 257
+      note:
+    1995-01-01:
+      value: 258
+      note: .
+    1996-01-01:
+      value: 261
+      note: .
+    1997-01-01:
+      value: 264
+      note: .
+    1998-01-01:
+      value: 266
+      note:
+    1999-01-01:
+      value: 268
+      note:
+    2000-01-01:
+      value: 270
+      note: .
+    2001-01-01:
+      value: 274
+      note: .
+    2002-01-01:
+      value: 279
+      note:
+    2003-01-01:
+      value: 284
+      note:
+    2004-01-01:
+      value: 285
+      note:
+    2005-01-01:
+      value: 331
+      note:
+    2007-01-01:
+      value: 347
+      note:
+    2008-01-01:
+      value: 351
+      note:
+    2009-01-01:
+      value: 359
+      note:
+    2011-01-01:
+      value: 364
+      note:
+    2012-01-01:
+      value: 374
+      note:
+    2013-01-01:
+      value: 382
+      note: Verordnung zur Bestimmug des für die Fortschreibung der Regelbedarfsstufen nach § 28a des Zwölften Buches Sozialgesetzbuch... (Regelbedarfsstufen-Fortschreibungsverordnung 2013 - RBSFV 2013) vom 18. Oktober 2013, BGBl., Seite 2173
+    2014-01-01:
+      value: 391
+      note: Regelbedarfsstufen-Fortschreibungsverordnung 2014 - RBSFV 2014  V. v. 15.10.2013 BGBl. I S. 3856 (Nr. 63), Geltung ab 01.01.2014
+    2015-01-01:
+      value: 399
+      note:
+    2016-01-01:
+      value: 404
+      note: RBSFV 2016 vom 22.Oktober 2015   - §2 BGBl. I, Nr.41 vom 27.10.2015, S.1788 (Regelbedarfsstufe 1)
+    2017-01-01:
+      value: 409
+      note:
+    2018-01-01:
+      value: 416
+      note:
+    2019-01-01:
+      value: 424
+      note:
+shsatzw:
+  name:
+    de: Sozialhilfe Regelsatz West  ab 1.1.2007     => einheitlicher Hatz IV-Regelsatz (rs_hhvor) 1.1.2005 - 31.12.2006     => Hartz IV-Regelsatz West (rs_hhvor ist ungewichteter Durchschnitt) bis 31.12.2004     => Ungewichteter Durchschnitt der West-Sozialhilfe-Regelsätze für den Haushaltsvorstand, ab Juli, FamRZ
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 179
+      note:
+    1985-01-01:
+      value: 189
+      note:
+    1986-01-01:
+      value: 199
+      note:
+    1987-01-01:
+      value: 203
+      note: .
+    1988-01-01:
+      value: 208
+      note: .
+    1989-01-01:
+      value: 214
+      note:
+    1990-01-01:
+      value: 223
+      note: .
+    1991-01-01:
+      value: 235
+      note:
+    1992-01-01:
+      value: 251
+      note: .
+    1993-01-01:
+      value: 261
+      note: .
+    1994-01-01:
+      value: 265
+      note:
+    1995-01-01:
+      value: 267
+      note: .
+    1996-01-01:
+      value: 270
+      note: .
+    1997-01-01:
+      value: 273
+      note: .
+    1998-01-01:
+      value: 276
+      note:
+    1999-01-01:
+      value: 278
+      note:
+    2000-01-01:
+      value: 280
+      note: .
+    2001-01-01:
+      value: 284
+      note: .
+    2002-01-01:
+      value: 289
+      note:
+    2003-01-01:
+      value: 294
+      note:
+    2004-01-01:
+      value: 295
+      note:
+    2005-01-01:
+      value: 345
+      note:
+    2007-01-01:
+      value: 347
+      note:
+    2008-01-01:
+      value: 351
+      note:
+    2009-01-01:
+      value: 359
+      note:
+    2011-01-01:
+      value: 364
+      note:
+    2012-01-01:
+      value: 374
+      note:
+    2013-01-01:
+      value: 382
+      note: Verordnung zur Bestimmug des für die Fortschreibung der Regelbedarfsstufen nach § 28a des Zwölften Buches Sozialgesetzbuch... (Regelbedarfsstufen-Fortschreibungsverordnung 2013 - RBSFV 2013) vom 18. Oktober 2013, BGBl., Seite 2173
+    2014-01-01:
+      value: 391
+      note: Regelbedarfsstufen-Fortschreibungsverordnung 2014 - RBSFV 2014  V. v. 15.10.2013 BGBl. I S. 3856 (Nr. 63), Geltung ab 01.01.2014
+    2015-01-01:
+      value: 399
+      note:
+    2016-01-01:
+      value: 404
+      note: RBSFV 2016 vom 22.Oktober 2015   - §2 BGBl. I, Nr.41 vom 27.10.2015, S.1788 (Regelbedarfsstufe 1)
+    2017-01-01:
+      value: 409
+      note:
+    2018-01-01:
+      value: 416
+      note:
+    2019-01-01:
+      value: 424
+      note:
+sheilei:
+  name:
+    de: Satz des Aufschlags auf die lfd. Leistungen zum Lebensunterhalt, der Sozialhilfe für die Berücksichtigung der einmaligen Leistungen 0.1 oder 0.18 oder 0
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2002-01-01:
+      value: 0.18
+      note:
+    2005-01-01:
+      value: 0
+      note:
+shkid06c:
+  name:
+    de: SH-Regelsatz für ein bis 6-jähriges HH-Mitglied im Verhältnis zum RS des Regelsatzes für den Haushaltsvorstand, Erzieher-Paar  (§22 BSHG, Durchf.Verord. §2)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.45
+      note:
+    1991-01-01:
+      value: 0.5
+      note:
+    2005-01-01:
+      value: 0
+      note:
+shkid06s:
+  name:
+    de: SH-Regelsatz für ein bis 6-jähriges HH-Mitglied im Verhältnis zum RS des Regelsatzes für den Haushaltsvorstand, Alleinerziehende  (§22 BSHG, Durchf.Verord. §2)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.5
+      note:
+    1991-01-01:
+      value: 0.55
+      note:
+    2005-01-01:
+      value: 0
+      note:
+shkid13:
+  name:
+    de: SH-Regelsatz für ein 7 bis 13-jähriges HH-Mitglied im Verhältnis zum RS des Haushaltsvorstands  ACHTUNG Bis inkl. 1990 gilt diese Anteil für 7-11 Jährige!  (§ 22 BSHG, Durchf.Verord. § 2)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.65
+      note:
+    2005-01-01:
+      value: 0
+      note:
+shkid17:
+  name:
+    de: SH-Regelsatz für ein 14 bis 17-jähriges HH-Mitglied im Verhältnis zum RS des Haushaltsvorstands  ACHTUNG Bis inkl. 1990 gilt diese Anteil für 12-15 Jährige!  (§ 22 BSHG, Durchf.Verord. § 2)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.9
+      note:
+    2005-01-01:
+      value: 0
+      note:
+shkid18:
+  name:
+    de: SH-Regelsatz für ein über 18-jähriges HH-Mitglied im Verhältnis zum RS des Haushaltsvorstands  ACHTUNG Bis inkl. 1990 gilt diese Anteil für über 16 Jährige!  (§ 22 BSHG, Durchf.Verord. § 2)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.8
+      note:
+    2005-01-01:
+      value: 0
+      note:
+shmz06:
+  name:
+    de: Mehrbedarfszuschlag für Alleinerziehende mit einem Kind unter 7 oder zwei oder drei Kindern unter 16  (§ 23 (2) BSHG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.2
+      note:
+    1992-01-01:
+      value: 0.4
+      note: .
+    2005-01-01:
+      value: 0
+      note:
+shmz16:
+  name:
+    de: Mehrbedarfszuschlag für Alleinerziehende ab vier Kindern unter 16  (§ 23 (2) BSHG)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.4
+      note:
+    1992-01-01:
+      value: 0.6
+      note: .
+    2005-01-01:
+      value: 0
+      note:
+shmzbXII:
+  name:
+    de: Mehrbedarfszuschlag Behinderte  (§ 30 SGB XII IV)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.2
+      note:
+    1994-01-01:
+      value: 0.4
+      note: gabs auch schon früher, §23 (3) BSHG
+    2005-01-01:
+      value: 0.35
+      note:
+shmzrXII:
+  name:
+    de: Mehrbedarfszuschlag Rentner, Behinderte mit Kennzeichen G, Schwangere nach der 12. Schwangerschaftswoche  (§ 30 SGB XII I, II)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.2
+      note:
+    2005-01-01:
+      value: 0.17
+      note:
+shekkind:
+  name:
+    de: Abzugsbetrag des Einkommens für jedes Kind. Änderung des § 76 II BSHG durch das  Gesetz zur Familienförderung I + II,  BGBl I S.2552 (1999) und BGBl I S.2074 (2001)  Zweck Anrechnung von Kindergeld
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2000-01-01:
+      value: 10.25
+      note: .
+    2006-01-01:
+      value: 0
+      note:
+shpverm:
+  name:
+    de: Vermögensfreibetrag für Hilfesuchenden mcl:sc0106 Achtung Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 1  Anmerkung Formulierung unpräzise Genaue Fallunterscheidung shpverm1, shpverm2, shpverm3
+    en:
+  description:
+    de:
+    en:
+  values:
+    1988-01-01:
+      value: 1278
+      note: .
+    2002-01-01:
+      value: 1279
+      note:
+    2005-01-01:
+      value: 2600
+      note:
+shpverm1:
+  name:
+    de: Vermögensfreibetrag für Hilfesuchenden, Tatbestand *Hilfe nach dem Dritten Kapitel des SGB XII *unter 61  Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 1
+    en:
+  description:
+    de:
+    en:
+  values:
+    2005-01-01:
+      value: 1600
+      note:
+    2018-01-01:
+      value: 5000
+      note: geändert durch Artikel 1 V. v. 22.03.2017 BGBl. I S. 519
+shpverm2:
+  name:
+    de: Vermögensfreibetrag für Hilfesuchenden, Tatbestand *Hilfe nach dem Dritten Kapitel des SG XII *über 60 oder volle Erwerbsminderung Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 1
+    en:
+  description:
+    de:
+    en:
+  values:
+    2005-01-01:
+      value: 2600
+      note:
+shpverm3:
+  name:
+    de: Vermögensfreibetrag für Hilfesuchenden, Tatbestand *Hilfe nach dem Fünften bis Neunten Kapitel des SGB XII Anmerkung zuzüglich eines Betrages von 256 € Stand:2012 für jede Peron, die von der nachfragenden Person überwiegend unterhalten wird  Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 1
+    en:
+  description:
+    de:
+    en:
+  values:
+    2005-01-01:
+      value: 2600
+      note:
+shpvermp:
+  name:
+    de: Vermögensfreibetrag für Partner des Hilfesuchenden Achtung Die Wirknorm ist Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch § 1 I Nr. 2
+    en:
+  description:
+    de:
+    en:
+  values:
+    1988-01-01:
+      value: 614
+      note: .
+    2018-01-01:
+      value: 500
+      note:
+shvmiet:
+  name:
+    de: jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
+    en:
+  description:
+    de: VERALTET - Sozialhilfe / SGB XII
+    en:
+  values:
+    2002-01-01:
+      value: 1200
+      note:
+    2006-01-01:
+      value: 0
+      note:
+shwkpau:
+  name:
+    de: monatl. Werbungskostenpauschbetrag bei der Sozialhilfe. 20 = 10 + 10, höchster PB für Fahrten zur Arbeitsstätte + PB für Arbeitsmittel  (§ 76 BSHG, Durchf.Verord § 3)
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: 20
+      note:
+    2005-01-01:
+      value: 0
+      note:

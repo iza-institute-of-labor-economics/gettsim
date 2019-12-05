@@ -2,7 +2,7 @@ Welcome to GETTSIM's documentation!
 ===================================
 
 .. include:: ../README.rst
-   :start-line: 32
+   :start-line: 31
    :end-line: 41
 
 
@@ -11,8 +11,10 @@ Welcome to GETTSIM's documentation!
    :maxdepth: 1
 
    getting-started
-   geps
    how-to-contribute
+   how-to-maintain
+   changes
+   geps
    code-of-conduct
 
 

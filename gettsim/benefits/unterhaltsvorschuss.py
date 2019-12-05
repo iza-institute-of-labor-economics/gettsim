@@ -1,20 +1,23 @@
 import numpy as np
 
 
-def uhv(tax_unit, tb):
+def uhv(tax_unit, params, kindergeld_params, e_st_abz_params):
     """
     Since 2017, the receipt of this
     UHV has been extended substantially and needs to be taken into account, since it's
     dominant to other transfers, i.e. single parents 'have to' apply for it.
+
+    returns:
+    tax_unit: Updated DataFrame including uhv
     """
-    if tb["yr"] >= 2017:
-        return uhv_since_2017(tax_unit, tb)
+    if params["year"] >= 2017:
+        return uhv_since_2017(tax_unit, params, kindergeld_params, e_st_abz_params)
     else:
         tax_unit["uhv"] = 0
         return tax_unit
 
 
-def uhv_since_2017(tax_unit, tb):
+def uhv_since_2017(tax_unit, params, kindergeld_params, e_st_abz_params):
     """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
 
         In Germany, Single Parents get alimony payments for themselves and for their
@@ -24,7 +27,7 @@ def uhv_since_2017(tax_unit, tb):
 
 
         returns:
-            uhv (pd.Series): Alimony Payment on individual level
+            tax_unit: Updated DataFrame including uhv
         """
     # Benefit amount depends on the tax allowance for children ("sächliches Existenzminimum")
     # and the child benefit for the first child.
@@ -32,11 +35,13 @@ def uhv_since_2017(tax_unit, tb):
     tax_unit["uhv"] = 0
     # Amounts depend on age
     tax_unit.loc[tax_unit["age"].between(0, 5) & tax_unit["alleinerz"], "uhv"] = (
-        tb["uhv5"] * tb["kifreib_s"] / 12 - tb["kgeld1"]
+        params["uhv5"] * e_st_abz_params["kifreib_s"] / 12 - kindergeld_params["kgeld1"]
     )
     tax_unit.loc[tax_unit["age"].between(6, 11) & tax_unit["alleinerz"], "uhv"] = (
-        tb["uhv11"] * tb["kifreib_s"] / 12 - tb["kgeld1"]
+        params["uhv11"] * e_st_abz_params["kifreib_s"] / 12
+        - kindergeld_params["kgeld1"]
     )
+
     # Older kids get it only if the parent has income > 600€
     uhv_inc_tu = (
         tax_unit[
@@ -58,9 +63,13 @@ def uhv_since_2017(tax_unit, tb):
         & (tax_unit["alleinerz"])
         & (uhv_inc_tu > 600),
         "uhv",
-    ] = (tb["uhv17"] * tb["kifreib_s"] / 12 - tb["kgeld1"])
+    ] = (
+        params["uhv17"] * e_st_abz_params["kifreib_s"] / 12
+        - kindergeld_params["kgeld1"]
+    )
 
     # round up
     tax_unit["uhv"] = np.ceil(tax_unit["uhv"]).astype(int)
+
     # TODO: Check against actual transfers
     return tax_unit
