@@ -308,7 +308,9 @@ def e_anr_frei_2005_10(household, params):
 
     Determine the gross income that is not deducted. Withdrawal rates depend
     on monthly earnings and on the number of children in the household. § 30 SGB
-    II. Since 01.04.2011 § 11b."""
+    II. Since 01.04.2011 § 11b.
+    
+    """
 
     # Calculate the number of children below the age of 18.
     num_childs_0_18 = (household["child"] & (household["age"] < 18)).sum()
