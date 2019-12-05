@@ -1,51 +1,36 @@
 uhv5:
   name:
-    de: Unterhaltsvorschuss für Kinder unter 5 Jahren. Der Prozentsatz in §2 UVG wird angewendet auf (2 x Kinderfrebeitrag (32 (6) EStG) / 12) - Kindergeld für das 1. Kind
+    de:  Unterhaltsvorschuss für Kinder unter 6 Jahren. Anteil am Kinderfreibetrag.
     en:
   description:
-    de: §2 UVG, §1612a BGB
+    de: §1612a (1) Nr.1 BGB
     en:
   values:
-    2015-01-01:
-      value: 322.5
-      note: Ausnahmsweise §11a UHV, Durchschnitt aus beiden Werten
-    2017-01-01:
-      value: 154
-      note:
-    2019-01-01:
-      value: 160
-      note:
+    2008-01-01:
+      value: .87
+      note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
 uhv11:
   name:
-    de: Unterhaltsvorschuss für Kinder von 6-11 Jahren
+    de: Unterhaltsvorschuss für Kinder von 6-11 Jahren. Anteil am Kinderfreibetrag.
     en:
   description:
-    de: §2 UVG, §1612a BGB
+    de:  §1612a (1) Nr.2 BGB
     en:
   values:
-    2015-01-01:
-      value: 346.5
-      note:
-    2017-01-01:
-      value: 205
-      note:
-    2019-01-01:
-      value: 212
-      note:
+    2008-01-01:
+      value: 1
+      note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
 uhv17:
   name:
-    de: Unterhaltsvorschuss für Kinder von 7 bis 12 Jahren
+    de: Unterhaltsvorschuss für Kinder ab 12 Jahren. Anteil am Kinderfreibetrag.
     en:
   description:
-    de: §2 UVG, §1612a BGB
+    de: §1612a (1) Nr.3 BGB
     en:
   values:
-    2017-01-01:
-      value: 273
-      note:
-    2019-01-01:
-      value: 282
-      note:
+    2008-01-01:
+      value: 1.17
+      note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
 ahunt06o:
   name:
     de: Unterhaltssatz für Kinder bis 6 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
