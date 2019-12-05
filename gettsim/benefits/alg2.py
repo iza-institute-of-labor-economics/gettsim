@@ -241,7 +241,7 @@ def e_anr_frei_person_2005_01(person, params, a2eg3):
     """Calculate income not subject to transfer withdrawal for each person.
 
     Legislation in force 2005-01-01 to 2005-09-30.
-    
+
     """
 
     m_wage = person["m_wage"].iloc[0]
@@ -280,12 +280,12 @@ def alg2_2005_nq(person, params):
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3
     Abs. 2 Alg II-V.
-    
+
     """
 
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1
     # bis 5.
-    alg2_2005_bne = np.maximum(
+    alg2_2005_bne = np.clip(
         person["m_wage"]
         - person["incometax"]
         - person["soli"]
@@ -293,7 +293,8 @@ def alg2_2005_nq(person, params):
         - params["a2we"]
         - params["a2ve"],
         0,
-    ).fillna(0)
+        None,
+    )
 
     # Nettoquote:
     alg2_2005_nq = alg2_2005_bne / person["m_wage"]
@@ -309,7 +310,7 @@ def e_anr_frei_2005_10(household, params):
     Determine the gross income that is not deducted. Withdrawal rates depend
     on monthly earnings and on the number of children in the household. § 30 SGB
     II. Since 01.04.2011 § 11b.
-    
+
     """
 
     # Calculate the number of children below the age of 18.
@@ -329,7 +330,7 @@ def e_anr_frei_person_2005_10(person, params, a2eg3):
     """Calculate income not subject to transfer withdrawal for each person.
 
     Legislation in force since 2005-10-01.
-    
+
     """
 
     m_wage = person["m_wage"].iloc[0]
