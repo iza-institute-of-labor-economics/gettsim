@@ -240,7 +240,9 @@ def e_anr_frei_2005_01(household, params):
 def e_anr_frei_person_2005_01(person, params, a2eg3):
     """Calculate income not subject to transfer withdrawal for each person.
 
-    Legislation in force 2005-01-01 to 2005-09-30."""
+    Legislation in force 2005-01-01 to 2005-09-30.
+    
+    """
 
     m_wage = person["m_wage"].iloc[0]
 
