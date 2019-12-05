@@ -279,7 +279,9 @@ def alg2_2005_nq(person, params):
     """Calculate Nettoquote
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3
-    Abs. 2 Alg II-V."""
+    Abs. 2 Alg II-V.
+    
+    """
 
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1
     # bis 5.
