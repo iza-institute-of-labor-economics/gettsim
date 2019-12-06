@@ -30,10 +30,7 @@ def uhv_since_2017(tax_unit, params, kindergeld_params, e_st_abz_params):
             tax_unit: Updated DataFrame including uhv
         """
     # Benefit amount depends on the tax allowance for children ("sächliches Existenzminimum")
-    # and the child benefit for the first child.
-    print(params["uhv5"])
-    print(e_st_abz_params["kifreib_s"])
-    print(kindergeld_params["kgeld1"])
+    # and the child benefit for the first child.   
     tax_unit["uhv"] = 0
     # Amounts depend on age
     tax_unit.loc[tax_unit["age"].between(0, 5) & tax_unit["alleinerz"], "uhv"] = (
