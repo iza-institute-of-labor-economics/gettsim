@@ -20,7 +20,18 @@ elgmax:
     2007-01-01:
       value: 1800
       note:
-elgzwst:
+elg_st_1:
+  name:
+    de: Nettoeinkommen, bei dem 1. Stufe beginnt
+    en:
+  description:
+    de: § 2 (2) BEEG
+    en:
+  values:
+    2013-01-01:
+      value: 1000
+      note:
+elg_st_2:
   name:
     de: Nettoeinkommen, bei dem 2. Stufe beginnt
     en:
@@ -33,4 +44,37 @@ elgzwst:
       note:
     2013-01-01:
       value: 1201
+      note:
+elgmin:
+  name:
+    de: Mindestbetrag des Elterngeldes
+    en:
+  description:
+    de: § 2 (4) BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 300
+      note:
+elg_perc_correct:
+  name:
+    de: Percentage correction for lower or high incomes
+    en:
+  description:
+    de: § 2 (2) BEEG
+    en:
+  values:
+    2013-01-01:
+      value: 0.01
+      note:
+elg_perc_correct_step:
+  name:
+    de: Income steps for percentage correction
+    en:
+  description:
+    de: § 2 (2) BEEG
+    en:
+  values:
+    2013-01-01:
+      value: 2
       note:
