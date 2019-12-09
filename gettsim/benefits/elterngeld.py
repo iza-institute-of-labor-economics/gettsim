@@ -18,6 +18,12 @@ def elt_geld(person, params):
 
 
 def calc_elterngeld_percentage(considered_wage, params):
+    """ This function calculates the percentage share of net income, which is
+    reinbursed in the time of recieving elterngeld.
+
+    According to § 2 (2) BEEG the percentage increases below elg_st_1 and decreases
+    above elg_st_2.
+    """
     if considered_wage < params["elg_st_1"]:
         wag_diff = params["elg_st_1"] - considered_wage
 
