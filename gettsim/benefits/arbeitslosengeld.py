@@ -14,7 +14,7 @@ def ui(
 
     """
 
-    alg_entgelt = proxy_net_inc_last_year(
+    alg_entgelt = proxy_net_wage_last_year(
         person,
         params,
         soz_vers_beitr_params,
@@ -35,9 +35,9 @@ def ui(
     return person
 
 
-def proxy_net_inc_last_year(
+def proxy_net_wage_last_year(
     person,
-    params,
+    arbeitsl_geld_params,
     soz_vers_beitr_params,
     e_st_abzuege_params,
     e_st_params,
@@ -50,7 +50,7 @@ def proxy_net_inc_last_year(
     alg_wage = min(soz_vers_beitr_params[f"rvmaxek{westost}"], person["m_wage_l1"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    alg_ssc = params["alg1_abz"] * alg_wage
+    alg_ssc = arbeitsl_geld_params["alg1_abz"] * alg_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     alg_tax = e_st_params["tax_schedule"](
