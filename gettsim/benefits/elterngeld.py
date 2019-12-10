@@ -14,7 +14,7 @@ def elt_geld(
     a child that is up to one year old (Elterngeld)"""
 
     if person["elt_zeit"]:
-        net_inc_last_year = proxy_net_wage_last_year(
+        net_wage_last_year = proxy_net_wage_last_year(
             person,
             arbeitsl_geld_params,
             soz_vers_beitr_params,
@@ -25,7 +25,7 @@ def elt_geld(
 
         current_net_wage = calc_net_wage(person)
 
-        considered_wage = net_inc_last_year - current_net_wage
+        considered_wage = net_wage_last_year - current_net_wage
 
         if considered_wage < 0:
             person["elt_geld"] = 0

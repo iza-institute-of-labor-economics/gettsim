@@ -78,4 +78,6 @@ def test_eltgeld(
         },
     )
 
-    assert_frame_equal(df[OUT_COLS].astype(int), year_data[OUT_COLS], check_dtype=False)
+    assert_frame_equal(
+        df[OUT_COLS].round(), year_data[OUT_COLS].round(), check_dtype=False
+    )
