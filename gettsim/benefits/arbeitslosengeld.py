@@ -57,9 +57,9 @@ def proxy_net_wage_last_year(
         12 * max_wage - e_st_abzuege_params["werbung"], e_st_params
     )
 
-    alg_soli = soli_formula(prox_tax, soli_st_params)
+    prox_soli = soli_formula(prox_tax, soli_st_params)
 
-    return max(0, max_wage - prox_ssc - prox_tax / 12 - alg_soli / 12)
+    return max(0, max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12)
 
 
 def check_eligibility_alg(person):

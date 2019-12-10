@@ -65,7 +65,7 @@ elg_perc_correct:
     en:
   values:
     2013-01-01:
-      value: 0.01
+      value: 0.001
       note:
 elg_perc_correct_step:
   name:
