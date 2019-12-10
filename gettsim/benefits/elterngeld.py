@@ -59,3 +59,19 @@ def calc_elterngeld_percentage(considered_wage, params):
         percentage = params["elgfaktor"]
 
     return percentage
+
+
+def calc_net_wage(person, e_st_abzuege_params):
+    """ Calculating the net wage of any person given taxes and social security
+    contributions.
+
+    """
+    net_wage = (
+        person["m_wage"]
+        - person["incometax"]
+        - person["soli"]
+        - person["svbeit"]
+        - e_st_abzuege_params["werbung"] / 12
+    )
+
+    return net_wage
