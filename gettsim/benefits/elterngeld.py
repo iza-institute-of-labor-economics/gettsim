@@ -23,12 +23,11 @@ def elt_geld(
             soli_st_params,
         )
 
-        current_net_wage = calc_net_wage(person, e_st_abzuege_params)
+        current_net_wage = calc_net_wage(person)
 
         considered_wage = net_inc_last_year - current_net_wage
 
         if considered_wage < 0:
-
             person["elt_geld"] = 0
 
         else:
@@ -71,17 +70,13 @@ def calc_elterngeld_percentage(considered_wage, params):
     return percentage
 
 
-def calc_net_wage(person, e_st_abzuege_params):
+def calc_net_wage(person):
     """ Calculating the net wage of any person given taxes and social security
     contributions.
 
     """
     net_wage = (
-        person["m_wage"]
-        - person["incometax"]
-        - person["soli"]
-        - person["svbeit"]
-        - e_st_abzuege_params["werbung"] / 12
+        person["m_wage"] - person["incometax"] - person["soli"] - person["svbeit"]
     )
 
     return net_wage

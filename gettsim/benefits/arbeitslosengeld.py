@@ -47,19 +47,19 @@ def proxy_net_wage_last_year(
     wage."""
     westost = "o" if person["east"] else "w"
     # Relevant wage is capped at the contribution thresholds
-    alg_wage = min(soz_vers_beitr_params[f"rvmaxek{westost}"], person["m_wage_l1"])
+    max_wage = min(soz_vers_beitr_params[f"rvmaxek{westost}"], person["m_wage_l1"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    alg_ssc = arbeitsl_geld_params["alg1_abz"] * alg_wage
+    prox_ssc = arbeitsl_geld_params["alg1_abz"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    alg_tax = e_st_params["tax_schedule"](
-        12 * alg_wage - e_st_abzuege_params["werbung"], e_st_params
+    prox_tax = e_st_params["tax_schedule"](
+        12 * max_wage - e_st_abzuege_params["werbung"], e_st_params
     )
 
-    alg_soli = soli_formula(alg_tax, soli_st_params)
+    alg_soli = soli_formula(prox_tax, soli_st_params)
 
-    return max(0, alg_wage - alg_ssc - alg_tax / 12 - alg_soli / 12)
+    return max(0, max_wage - prox_ssc - prox_tax / 12 - alg_soli / 12)
 
 
 def check_eligibility_alg(person):
