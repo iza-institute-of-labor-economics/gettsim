@@ -1,9 +1,28 @@
-def elt_geld(person, params):
+from gettsim.benefits.arbeitslosengeld import proxy_net_inc_last_year
+
+
+def elt_geld(
+    person,
+    params,
+    arbeitsl_geld_params,
+    soz_vers_beitr_params,
+    e_st_abzuege_params,
+    e_st_params,
+    soli_st_params,
+):
     """This function calculates the monthly benefits for having
     a child that is up to one year old (Elterngeld)"""
 
     if person["elt_zeit"]:
-        considered_wage = person["m_wage_l1"] - person["m_wage"]
+        net_inc_last_year = proxy_net_inc_last_year(
+            person,
+            params=arbeitsl_geld_params,
+            soz_vers_beitr_params=soz_vers_beitr_params,
+            e_st_abzuege_params=e_st_abzuege_params,
+            e_st_params=e_st_params,
+            soli_st_params=soli_st_params,
+        )
+        considered_wage = net_inc_last_year - person["m_wage"]
 
         payed_percentage = calc_elterngeld_percentage(considered_wage, params)
 

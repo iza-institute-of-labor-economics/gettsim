@@ -14,7 +14,7 @@ def ui(
 
     """
 
-    alg_entgelt = _alg_entgelt(
+    alg_entgelt = proxy_net_inc_last_year(
         person,
         params,
         soz_vers_beitr_params,
@@ -35,7 +35,7 @@ def ui(
     return person
 
 
-def _alg_entgelt(
+def proxy_net_inc_last_year(
     person,
     params,
     soz_vers_beitr_params,
