@@ -53,35 +53,35 @@ kifreib:
       note:
 kifreib_s:
   name:
-    de: Kinderfreibetrag (nur sächliches Existenzminimum). Hier doppelter Wert (für Paare)
+    de: Kinderfreibetrag (nur sächliches Existenzminimum).
     en:
   description:
     de: § 32(6) EStG
     en:
   values:
     2002-01-01:
-      value: 3648
+      value: 1824
       note:
     2009-01-01:
-      value: 3864
+      value: 1932
       note: Art. 1 vom 22.12.2008, BGBl. I S. 2955
     2010-01-01:
-      value: 4368
+      value: 2184
       note: Artikel 1 vom 22.12.2009, BGBl. I S. 3950
     2015-07-23:
-      value: 4512
+      value: 2256
       note: geändert durch Artikel 1 vom 16.07.2015, BGBl. I S. 1202
     2016-01-01:
-      value: 4608
+      value: 2304
       note: geändert durch Artikel 2 vom 16.07.2015, BGBl. I S. 1202
     2017-01-01:
-      value: 4716
+      value: 2358
       note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
     2018-01-01:
-      value: 4788
+      value: 2394
       note: Art. 9 BGBL I. S. 3000 v. 20.12.2016
     2019-01-01:
-      value: 4980
+      value: 2490
       note: geändert durch Artikel 1 v. 29.11.2018 BGBl. I. S 2210
 vorsp_rv:
   name:

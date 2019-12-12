@@ -258,7 +258,6 @@ def tax_transfer(
         func_kwargs={
             "params": unterhalt_params,
             "kindergeld_params": kindergeld_params,
-            "e_st_abz_params": e_st_abzuege_params,
         },
     )
     in_cols = [

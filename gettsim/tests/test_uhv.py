@@ -43,12 +43,8 @@ def test_uhv(input_data, year, unterhalt_raw_data):
         year=year, group="unterhalt", raw_group_data=unterhalt_raw_data
     )
     kindergeld_params = get_policies_for_date(year=year, group="kindergeld")
-    e_st_abz_params = get_policies_for_date(year=year, group="e_st_abzuege")
     df[OUT_COL] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(
-        uhv,
-        params=unterhalt_params,
-        kindergeld_params=kindergeld_params,
-        e_st_abz_params=e_st_abz_params,
+        uhv, params=unterhalt_params, kindergeld_params=kindergeld_params
     )
     assert_series_equal(df[OUT_COL], year_data["uhv"], check_dtype=False)

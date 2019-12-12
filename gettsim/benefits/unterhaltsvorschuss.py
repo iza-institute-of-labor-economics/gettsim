@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def uhv(tax_unit, params, kindergeld_params, e_st_abz_params):
+def uhv(tax_unit, params, kindergeld_params):
     """
     Since 2017, the receipt of this
     UHV has been extended substantially and needs to be taken into account, since it's
@@ -11,13 +11,13 @@ def uhv(tax_unit, params, kindergeld_params, e_st_abz_params):
     tax_unit: Updated DataFrame including uhv
     """
     if params["year"] >= 2017:
-        return uhv_since_2017(tax_unit, params, kindergeld_params, e_st_abz_params)
+        return uhv_since_2017(tax_unit, params, kindergeld_params)
     else:
         tax_unit["uhv"] = 0
         return tax_unit
 
 
-def uhv_since_2017(tax_unit, params, kindergeld_params, e_st_abz_params):
+def uhv_since_2017(tax_unit, params, kindergeld_params):
     """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
 
         In Germany, Single Parents get alimony payments for themselves and for their
