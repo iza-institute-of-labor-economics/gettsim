@@ -1,6 +1,6 @@
-uhv5:
+uhv6_share:
   name:
-    de:  Unterhaltsvorschuss für Kinder unter 6 Jahren. Anteil am Kinderfreibetrag.
+    de: Unterhaltsvorschuss für Kinder bis 6 Jahre. Anteil am Kinderfreibetrag. OBSOLET SEIT 2016.
     en:
   description:
     de: §1612a (1) Nr.1 BGB
@@ -9,9 +9,9 @@ uhv5:
     2008-01-01:
       value: .87
       note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
-uhv11:
+uhv12_share:
   name:
-    de: Unterhaltsvorschuss für Kinder von 6-11 Jahren. Anteil am Kinderfreibetrag.
+    de: Unterhaltsvorschuss für Kinder von 7-12 Jahren. Anteil am Kinderfreibetrag. OBSOLET SEIT 2016.
     en:
   description:
     de:  §1612a (1) Nr.2 BGB
@@ -20,9 +20,9 @@ uhv11:
     2008-01-01:
       value: 1
       note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
-uhv17:
+uhv17_share:
   name:
-    de: Unterhaltsvorschuss für Kinder ab 12 Jahren. Anteil am Kinderfreibetrag.
+    de: Unterhaltsvorschuss für Kinder ab 13 Jahren. Anteil am Kinderfreibetrag. OBSOLET SEIT 2016.
     en:
   description:
     de: §1612a (1) Nr.3 BGB
@@ -31,6 +31,66 @@ uhv17:
     2008-01-01:
       value: 1.17
       note: Artikel 1 vom 21.12.2007, BGBl. I S. 2631
+uhv6_amount:
+  name:
+    de: Mindestunterhalt für Kinder bis 6 Jahre
+    en:
+  description:
+    de: §1 Mindesunterhaltsverordnung (MUV)
+    en:
+  values:
+    2016-01-01:
+      value: 335
+      note: G. v. 03.12.2015, BGBl. I S. 2188
+    2017-01-01:
+      value: 342
+      note: G. v. 03.12.2015, BGBl. I S. 2188
+    2018-01-01:
+      value: 348
+      note: Artikel 1 vom 28.09.2017, BGBl. I S. 3525
+    2019-01-01:
+      value: 354
+      note: Artikel 1 vom 28.09.2017, BGBl. I S. 3525
+uhv12_amount:
+  name:
+    de: Mindestunterhalt für Kinder von 7-12 Jahren
+    en:
+  description:
+    de: §1 Mindesunterhaltsverordnung (MUV)
+    en:
+  values:
+    2016-01-01:
+      value: 384
+      note: G. v. 03.12.2015, BGBl. I S. 2188
+    2017-01-01:
+      value: 393
+      note: G. v. 03.12.2015, BGBl. I S. 2188
+    2018-01-01:
+      value: 399
+      note: Artikel 1 vom 28.09.2017, BGBl. I S. 3525
+    2019-01-01:
+      value: 406
+      note: Artikel 1 vom 28.09.2017, BGBl. I S. 3525
+uhv17_amount:
+  name:
+    de: Mindestunterhalt für Kinder von 13-17 Jahren
+    en:
+  description:
+    de: §1 Mindesunterhaltsverordnung (MUV)
+    en:
+  values:
+    2016-01-01:
+      value: 450
+      note: G. v. 03.12.2015, BGBl. I S. 2188
+    2017-01-01:
+      value: 460
+      note: G. v. 03.12.2015, BGBl. I S. 2188
+    2018-01-01:
+      value: 467
+      note: Artikel 1 vom 28.09.2017, BGBl. I S. 3525
+    2019-01-01:
+      value: 476
+      note: Artikel 1 vom 28.09.2017, BGBl. I S. 3525
 ahunt06o:
   name:
     de: Unterhaltssatz für Kinder bis 6 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
