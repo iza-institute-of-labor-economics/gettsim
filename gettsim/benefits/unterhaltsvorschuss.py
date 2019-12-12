@@ -18,7 +18,7 @@ def uhv(tax_unit, params, kindergeld_params):
 
 
 def uhv_since_2017(tax_unit, params, kindergeld_params):
-    """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
+    """ Advance on Alimony Payment / Unterhaltsvorschuss (UHV)
 
         In Germany, Single Parents get alimony payments for themselves and for their
         child from the ex partner. If the ex partner is not able to pay the child
