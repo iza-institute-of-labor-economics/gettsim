@@ -3,13 +3,20 @@ import numpy as np
 
 def uhv(tax_unit, params, kindergeld_params):
     """
-    Since 2017, the receipt of this
-    UHV has been extended substantially and needs to be taken into account, since it's
-    dominant to other transfers, i.e. single parents 'have to' apply for it.
+    Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
+
+    Single Parents get alimony payments for themselves and for their
+    child from the ex partner. If the ex partner is not able to pay the child
+    alimony, the government pays the child alimony to the mother (or the father, if
+    he has the kids)
+
+    The amount is specified in §1612a BGB and, ultimately, in Mindesunterhaltsverordnung.
 
     returns:
     tax_unit: Updated DataFrame including uhv
     """
+
+    # Before 2017, UHV was only paid up to 6 years, which is why we model it only since then.
     if params["year"] >= 2017:
         return uhv_since_2017(tax_unit, params, kindergeld_params)
     else:
@@ -18,14 +25,9 @@ def uhv(tax_unit, params, kindergeld_params):
 
 
 def uhv_since_2017(tax_unit, params, kindergeld_params):
-    """ Advanced Alimony Payment / Unterhaltsvorschuss (UHV)
+    """ UHV ruling since 2017. Before 2017, basically the same, but
+        eligibility was more restrictive.
 
-        In Germany, Single Parents get alimony payments for themselves and for their
-        child from the ex partner. If the ex partner is not able to pay the child
-        alimony, the government pays the child alimony to the mother (or the father, if
-        he has the kids)
-
-        The amount is specified in §1612a BGB
         returns:
             tax_unit: Updated DataFrame including uhv
         """
@@ -39,7 +41,6 @@ def uhv_since_2017(tax_unit, params, kindergeld_params):
     tax_unit.loc[tax_unit["age"].between(7, 12) & tax_unit["alleinerz"], "uhv"] = (
         params["uhv12_amount"] - kindergeld_params["kgeld1"]
     )
-
     # Older kids get it only if the parent has income > 600€
     uhv_inc_tu = (
         tax_unit[
@@ -59,7 +60,7 @@ def uhv_since_2017(tax_unit, params, kindergeld_params):
     tax_unit.loc[
         (tax_unit["age"].between(13, 17))
         & (tax_unit["alleinerz"])
-        & (uhv_inc_tu > 600),
+        & (uhv_inc_tu > params["uhv17_inc"]),
         "uhv",
     ] = (params["uhv17_amount"] - kindergeld_params["kgeld1"])
 
