@@ -8,7 +8,7 @@ uhv6_share:
   values:
     2008-01-01:
       value: .87
-      note: Artikel 1 G. v. 21.12.2007, BGBl. I S. 2631
+      note: Artikel 1 G. v. 21.12.2007 BGBl. I S. 2631
 uhv12_share:
   name:
     de: Unterhaltsvorschuss für Kinder von 7-12 Jahren. Anteil am Kinderfreibetrag.
@@ -19,7 +19,7 @@ uhv12_share:
   values:
     2008-01-01:
       value: 1
-      note: Artikel 1 G. v. 21.12.2007, BGBl. I S. 2631
+      note: Artikel 1 G. v. 21.12.2007 BGBl. I S. 2631
 uhv17_share:
   name:
     de: Unterhaltsvorschuss für Kinder ab 13 Jahren. Anteil am Kinderfreibetrag.
@@ -30,7 +30,7 @@ uhv17_share:
   values:
     2008-01-01:
       value: 1.17
-      note: Artikel 1 G. v. 21.12.2007, BGBl. I S. 2631
+      note: Artikel 1 G. v. 21.12.2007 BGBl. I S. 2631
 uhv6_amount:
   name:
     de: Mindestunterhalt für Kinder bis 6 Jahre
@@ -41,16 +41,16 @@ uhv6_amount:
   values:
     2016-01-01:
       value: 335
-      note: G. v. 03.12.2015, BGBl. I S. 2188
+      note: G. v. 03.12.2015 BGBl. I S. 2188
     2017-01-01:
       value: 342
-      note: G. v. 03.12.2015, BGBl. I S. 2188
+      note: G. v. 03.12.2015 BGBl. I S. 2188
     2018-01-01:
       value: 348
-      note: Artikel 1 G. v. 28.09.2017, BGBl. I S. 3525
+      note: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525
     2019-01-01:
       value: 354
-      note: Artikel 1 G. v. 28.09.2017, BGBl. I S. 3525
+      note: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525
 uhv12_amount:
   name:
     de: Mindestunterhalt für Kinder von 7-12 Jahren
@@ -61,16 +61,16 @@ uhv12_amount:
   values:
     2016-01-01:
       value: 384
-      note: G. v. 03.12.2015, BGBl. I S. 2188
+      note: G. v. 03.12.2015 BGBl. I S. 2188
     2017-01-01:
       value: 393
-      note: G. v. 03.12.2015, BGBl. I S. 2188
+      note: G. v. 03.12.2015 BGBl. I S. 2188
     2018-01-01:
       value: 399
-      note: Artikel 1 G. v. 28.09.2017, BGBl. I S. 3525
+      note: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525
     2019-01-01:
       value: 406
-      note: Artikel 1 G. v. 28.09.2017, BGBl. I S. 3525
+      note: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525
 uhv17_amount:
   name:
     de: Mindestunterhalt für Kinder von 13-17 Jahren
@@ -81,16 +81,16 @@ uhv17_amount:
   values:
     2016-01-01:
       value: 450
-      note: G. v. 03.12.2015, BGBl. I S. 2188
+      note: G. v. 03.12.2015 BGBl. I S. 2188
     2017-01-01:
       value: 460
-      note: G. v. 03.12.2015, BGBl. I S. 2188
+      note: G. v. 03.12.2015 BGBl. I S. 2188
     2018-01-01:
       value: 467
-      note: Artikel 1 G.v. 28.09.2017, BGBl. I S. 3525
+      note: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525
     2019-01-01:
       value: 476
-      note: Artikel 1 G. v. 28.09.2017, BGBl. I S. 3525
+      note: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525
 uhv17_inc:
   name:
     de: Monatliches Mindesteinkommen, um UHV für Kinder ab 13 Jahren zu erhalten
@@ -101,7 +101,7 @@ uhv17_inc:
   values:
     2017-01-01:
       value: 600
-      note: Artikel 23 G. v. 14.08.2017, BGBl. I S. 3122
+      note: Artikel 23 G. v. 14.08.2017 BGBl. I S. 3122
 ahunt06o:
   name:
     de: Unterhaltssatz für Kinder bis 6 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
