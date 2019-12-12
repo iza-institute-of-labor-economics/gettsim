@@ -25,7 +25,7 @@ def uhv_since_2017(tax_unit, params, kindergeld_params, e_st_abz_params):
         alimony, the government pays the child alimony to the mother (or the father, if
         he has the kids)
 
-
+        The amount is specified in §1612a BGB
         returns:
             tax_unit: Updated DataFrame including uhv
         """
@@ -33,12 +33,11 @@ def uhv_since_2017(tax_unit, params, kindergeld_params, e_st_abz_params):
     # and the child benefit for the first child.
     tax_unit["uhv"] = 0
     # Amounts depend on age
-    tax_unit.loc[tax_unit["age"].between(0, 5) & tax_unit["alleinerz"], "uhv"] = (
-        params["uhv5"] * e_st_abz_params["kifreib_s"] / 12 - kindergeld_params["kgeld1"]
+    tax_unit.loc[tax_unit["age"].between(0, 6) & tax_unit["alleinerz"], "uhv"] = (
+        params["uhv6_amount"] - kindergeld_params["kgeld1"]
     )
-    tax_unit.loc[tax_unit["age"].between(6, 11) & tax_unit["alleinerz"], "uhv"] = (
-        params["uhv11"] * e_st_abz_params["kifreib_s"] / 12
-        - kindergeld_params["kgeld1"]
+    tax_unit.loc[tax_unit["age"].between(7, 12) & tax_unit["alleinerz"], "uhv"] = (
+        params["uhv12_amount"] - kindergeld_params["kgeld1"]
     )
 
     # Older kids get it only if the parent has income > 600€
@@ -58,14 +57,11 @@ def uhv_since_2017(tax_unit, params, kindergeld_params, e_st_abz_params):
         .sum()
     )
     tax_unit.loc[
-        (tax_unit["age"].between(12, 17))
+        (tax_unit["age"].between(13, 17))
         & (tax_unit["alleinerz"])
         & (uhv_inc_tu > 600),
         "uhv",
-    ] = (
-        params["uhv17"] * e_st_abz_params["kifreib_s"] / 12
-        - kindergeld_params["kgeld1"]
-    )
+    ] = (params["uhv17_amount"] - kindergeld_params["kgeld1"])
 
     # round up
     tax_unit["uhv"] = np.ceil(tax_unit["uhv"]).astype(int)
