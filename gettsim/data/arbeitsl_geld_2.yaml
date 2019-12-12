@@ -710,31 +710,3 @@ a2_but_2:
     2019-08-01:
       value: 15
       note: G. v. 29.04.2019 BGBl. I S. 530.
-ahvmiet:
-  name:
-    de: ALG2 Jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 1200
-      note:
-    2006-01-01:
-      value: 0
-      note:
-ahvzins:
-  name:
-    de: ALG2 Jährlicher Zinsbetrag, ab dem Geldvermögen unterstellt wird
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 200
-      note:
-    2006-01-01:
-      value: 0
-      note:
