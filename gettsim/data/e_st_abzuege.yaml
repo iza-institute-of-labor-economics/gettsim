@@ -52,7 +52,6 @@ kifreib:
       value: 7620
       note:
 kifreib_s:
-  group: kinderfreibetrag
   name:
     de: Kinderfreibetrag (nur sächliches Existenzminimum). Hier doppelter Wert (für Paare)
     en:
