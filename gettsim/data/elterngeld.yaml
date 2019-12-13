@@ -78,3 +78,31 @@ elg_perc_correct_step:
     2013-01-01:
       value: 2
       note:
+elg_geschw_bonus_share:
+  name:
+    de: Geschwisterbonus als prozentualer Aufschlag
+    en: Sibling Bonus, percentage top-up
+  description:
+    de: §2a (1) BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 0
+      note: implizit, exisitiert vorher nicht
+    2012-09-18:
+      value: 0.1
+      note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
+elg_geschw_bonus_amount:
+  name:
+    de: Geschwisterbonus als Euro-Betrag
+    en: Sibling Bonus, absolute amount
+  description:
+    de: §2a (1) BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 0
+      note: implizit, exisitiert vorher nicht
+    2012-09-18:
+      value: 75
+      note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
