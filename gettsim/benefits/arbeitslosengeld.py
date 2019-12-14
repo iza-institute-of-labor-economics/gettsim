@@ -1,4 +1,4 @@
-from gettsim.taxes.calc_taxes import soli_formula
+from gettsim.taxes.calc_taxes import soli_formula_1995
 
 
 def ui(
@@ -57,7 +57,7 @@ def _alg_entgelt(
         12 * alg_wage - e_st_abzuege_params["werbung"], e_st_params
     )
 
-    alg_soli = soli_formula(alg_tax, soli_st_params)
+    alg_soli = soli_formula_1995(alg_tax, soli_st_params)
 
     return max(0, alg_wage - alg_ssc - alg_tax / 12 - alg_soli / 12)
 

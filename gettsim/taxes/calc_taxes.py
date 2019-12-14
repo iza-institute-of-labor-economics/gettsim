@@ -33,20 +33,26 @@ def tax_sched(
     tax_unit["abgst_tu"] = tax_unit["abgst"]
     tax_unit.loc[adult_married, "abgst_tu"] = tax_unit["abgst"][adult_married].sum()
 
-    """Solidarity Surcharge. on top of the income tax.
-    No Soli if income tax due is below € 920 (solifreigrenze)
-    Then it increases with 0.2 marginal rate until 5.5% (solisatz)
-    of the incometax is reached.
-    As opposed to the 'standard' income tax,
-    child allowance is always deducted for soli calculation
-    There is also Soli on capital income tax, but always with 5.5%. (§3 (3) S.2 SolzG 1995)
+    """Solidarity Surcharge.
+
+    Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
+    Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
     """
 
-    if e_st_abzuege_params["year"] >= 1991:
-        # Soli also in monthly terms. only for adults
+    # Soli also in monthly terms. only for adults
+    if e_st_abzuege_params["year"] == 1991 or e_st_abzuege_params["year"] == 1992:
         tax_unit["soli_tu"] = (
             (
-                soli_formula(tax_unit["tax_kfb_tu"], soli_st_params)
+                soli_formula_1991(tax_unit["tax_kfb_tu"], soli_st_params)
+                + soli_st_params["solisatz"] * tax_unit["abgst_tu"]
+            )
+            * ~tax_unit["child"]
+            * (1 / 12)
+        )
+    elif e_st_abzuege_params["year"] >= 1995:
+        tax_unit["soli_tu"] = (
+            (
+                soli_formula_1995(tax_unit["tax_kfb_tu"], soli_st_params)
                 + soli_st_params["solisatz"] * tax_unit["abgst_tu"]
             )
             * ~tax_unit["child"]
@@ -60,6 +66,7 @@ def tax_sched(
         [tax_unit["zveranl"], ~tax_unit["zveranl"]],
         [tax_unit["soli_tu"] / 2, tax_unit["soli_tu"]],
     )
+
     return tax_unit
 
 
@@ -135,17 +142,20 @@ def tarif(x, params):
     return t
 
 
-def soli_formula(solibasis, params):
-    """ The actual soli calculation
+def soli_formula_1991(solibasis, params):
+    """ Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992"""
 
-    args:
-        solibasis: taxable income, *always with Kinderfreibetrag!*
-        tb (dict): tax-benefit parameters
+    soli = params["solisatz"] * solibasis
 
-    """
+    return soli.round(2)
+
+
+def soli_formula_1995(solibasis, params):
+    """ Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995"""
+
     soli = np.minimum(
         params["solisatz"] * solibasis,
-        np.maximum(0.2 * (solibasis - params["solifreigrenze"]), 0),
+        np.maximum(params["solimax"] * (solibasis - params["solifreigrenze"]), 0),
     )
 
     return soli.round(2)
