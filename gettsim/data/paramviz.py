@@ -3,8 +3,13 @@ import glob
 import pandas as pd
 import yaml
 from bokeh.io import save
+from bokeh.layouts import column
 from bokeh.layouts import gridplot
 from bokeh.models.tools import HoverTool
+from bokeh.models.tools import ResetTool
+from bokeh.models.widgets import DataTable
+from bokeh.models.widgets import DateFormatter
+from bokeh.models.widgets import TableColumn
 from bokeh.plotting import ColumnDataSource
 from bokeh.plotting import figure
 from bokeh.plotting import output_file
@@ -44,7 +49,7 @@ def make_param_graphs(lang="de"):
     param_files = glob.glob("*.yaml")
 
     for yaml_file in param_files:
-        output_file(f"graphs/{yaml_file[:-5]}.html")
+        output_file(f"graphs/{yaml_file[:-5]}.html", title=yaml_file[:-5].title())
 
         # Read YAML
         with open(f"{yaml_file}") as f:
@@ -74,7 +79,7 @@ def make_param_graphs(lang="de"):
             p = figure(
                 title=f"{key}: {name}",
                 x_axis_type="datetime",
-                tools=[hover],
+                tools=[hover, ResetTool()],
                 plot_height=400,
                 plot_width=400,
             )
@@ -83,7 +88,23 @@ def make_param_graphs(lang="de"):
             p.step("date", "value", color="navy", mode="after", source=par)
             p.circle("date", "value", color="navy", size=3, source=par)
             p = plotstyle(p)
-            plotlist.append(p)
+            # add Data Table
+            t = DataTable(
+                source=par,
+                width=400,
+                columns=[
+                    TableColumn(
+                        field="date",
+                        title="Datum",
+                        formatter=DateFormatter(),
+                        width=100,
+                    ),
+                    TableColumn(field="value", title="Wert", width=50),
+                    TableColumn(field="note", title="Anmerkung", width=250),
+                ],
+            )
+            plot_tab = column(p, t)
+            plotlist.append(plot_tab)
         grid = gridplot(plotlist, ncols=3)
         save(grid)
 
