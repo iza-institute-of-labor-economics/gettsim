@@ -39,8 +39,13 @@ def parse_yaml(params, key, lang):
     par["date"] = pd.to_datetime(par["date"], format="%Y-%m-%d")
     par["value"] = par["value"].astype(float)
     par["note"] = par["note"].fillna("")
+    if par["value"].max() < 1:
+        unit = "share"
+    else:
+        unit = "amount"
+
     par = ColumnDataSource(par)
-    return name, descr, par
+    return name, descr, par, unit
 
 
 def make_param_graphs(lang="de"):
@@ -60,11 +65,17 @@ def make_param_graphs(lang="de"):
         plotlist = []
         for key in all_keys:
             # The DataFrame 'par' contains the data we want to plot
-            name, descr, par = parse_yaml(params, key, lang)
+            name, descr, par, unit = parse_yaml(params, key, lang)
+            # How to format the values on mouse-over
+            if unit == "amount":
+                format_str = "$y{0.}"
+            if unit == "share":
+                format_str = "$y{0.3f}"
+
             hover = HoverTool(
                 tooltips=[
                     ("Date", "@date{%F}"),
-                    ("Value", "$y{0.}"),
+                    ("Value", format_str),
                     (
                         "Note",
                         """
