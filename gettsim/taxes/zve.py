@@ -111,7 +111,11 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     nokfb_lower = tax_unit["zve_nokfb"].min()
 
     # Add both components for ease of notation.
-    kifreib_total = params["kifreib_s_exm"] + params["kifreib_bea"]
+    try:
+        kifreib_total = params["kifreib_s_exm"] + params["kifreib_bea"]
+        # 'kifreib_bea' does not exist before 2000.
+    except NameError:
+        kifreib_total = params["kifreib_s_exm"]
 
     diff_kifreib = nokfb_lower - (kifreib_total * child_num_kg)
 
