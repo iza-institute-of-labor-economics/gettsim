@@ -1,3 +1,20 @@
+solisatz:
+  name:
+    de: Zuschlagsatz
+    en: Tax rate
+  description:
+    de: Höhe des Solidaritätszuschlags auf die Bemessungsgrundlage. § 4 SolZG in den Jahren 1991 und 1992. § 4 SolZG 1995 ab 1995.
+    en:
+  values:
+    1991-01-01:
+      value: 0.0375
+      note: Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
+    1995-01-01:
+      value: 0.075
+      note: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944.
+    1998-01-01:
+      value: 0.055
+      note: Atikel 1 G. v. 21.11.1997 BGBl. I S. 2743.
 solifreigrenze:
   name:
     de: Freigrenze
@@ -18,23 +35,6 @@ solifreigrenze:
     2021-01-01:
       value: 16956
       note: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
-solisatz:
-  name:
-    de: Zuschlagsatz
-    en: Tax rate
-  description:
-    de: Höhe des Solidaritätszuschlags auf die Bemessungsgrundlage. § 4 SolZG in den Jahren 1991 und 1992. § 4 SolZG 1995 ab 1995.
-    en:
-  values:
-    1991-01-01:
-      value: 0.0375
-      note: Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
-    1995-01-01:
-      value: 0.075
-      note: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944.
-    1998-01-01:
-      value: 0.055
-      note: Atikel 1 G. v. 21.11.1997 BGBl. I S. 2743.
 solimax:
   name:
     de: Prozentsatz zur Berechnung Maximalsatz
