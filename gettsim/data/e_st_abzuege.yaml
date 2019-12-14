@@ -8,25 +8,22 @@ kifreib_s_exm:
   values:
     1984-01-01:
       value: 110
-      note:
+      note: Wert in Euro. Der Betrag laut Gesetz ist 216 DM.
     1986-01-01:
       value: 635
-      note:
+      note: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153. Wert in Euro. Der Betrag im Gesetz lautet 1242 DM.
     1990-01-01:
       value: 773
-      note: .
-    1994-01-01:
+      note: Wert in Euro. Wert laut Gesetz 1512 DM.
+    1992-01-01:
       value: 1049
-      note:
+      note: Wert in Euro. Wert laut Gesetz 2102 DM.
     1996-01-01:
       value: 1601
-      note: Art. 1. G. v. 20.10.1995 BGBl. I S. 1250
+      note: Art. 1. G. v. 20.10.1995 BGBl. I S. 1250. Wert in Euro. Laut Gesetz 261 DM pro Monat.
     1997-01-01:
       value: 1767
-      note: .
-    2000-01-01:
-      value: 1767
-      note: Art. 1 G. v. 28.12.1999 BGBl. I S. 2552
+      note: Wert in Euro. Laut Gesetz 288 DM pro Monat (ab 2000 3456 DM pro Jahr)
     2002-01-01:
       value: 1824
       note: Art. 1 G. v. 19.12.2000 BGBl. I S. 1790
@@ -61,7 +58,7 @@ kifreib_bea:
   values:
     2000-01-01:
       value: 774
-      note: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552
+      note: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552. Wert in Euro. Wert laut Gesetz 1512 DM.
     2002-01-01:
       value: 1080
       note:
