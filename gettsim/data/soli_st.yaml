@@ -15,6 +15,9 @@ solifreigrenze:
     2002-01-01:
       value: 972
       note: G. v. 15.10.2002 BGBl. I S. 4131.
+    2021-01-01:
+      value: 16956
+      note: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
 solisatz:
   name:
     de: Zuschlagsatz
@@ -43,3 +46,6 @@ solimax:
     1995-01-01:
       value: 0.2
       note: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944.
+    2021-01-01:
+      value: 0.119
+      note: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
