@@ -92,10 +92,10 @@ elg_geschw_bonus_share:
     2012-09-18:
       value: 0.1
       note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
-elg_geschw_bonus_amount:
+elg_geschw_bonus_min:
   name:
-    de: Geschwisterbonus als Euro-Betrag
-    en: Sibling Bonus, absolute amount
+    de: Minimaler Geschwisterbonus als Euro-Betrag
+    en: Sibling Bonus, minimal amount
   description:
     de: §2a (1) BEEG
     en:
@@ -105,4 +105,18 @@ elg_geschw_bonus_amount:
       note: implizit, exisitiert vorher nicht
     2012-09-18:
       value: 75
+      note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
+elg_geschw_bonus_max:
+  name:
+    de: Maximaler Geschwisterbonus als Euro-Betrag
+    en: Sibling Bonus, maximal amount
+  description:
+    de: §2a (1) BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 0
+      note: implizit, exisitiert vorher nicht
+    2012-09-18:
+      value: 180
       note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
