@@ -35,6 +35,15 @@ def elt_geld(
 
             elt_geld_calc = considered_wage * payed_percentage
 
+            if person["geschw_bonus"]:
+                bonus_calc = params["elg_geschw_bonus_share"] * elt_geld_calc
+                bonus = max(
+                    min(bonus_calc, params["elg_geschw_bonus_max"]),
+                    params["elg_geschw_bonus_min"],
+                )
+
+                elt_geld_calc += bonus
+
             person["elt_geld"] = max(
                 min(elt_geld_calc, params["elgmax"]), params["elgmin"]
             )
