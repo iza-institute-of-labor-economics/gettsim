@@ -120,3 +120,14 @@ elg_geschw_bonus_max:
     2012-09-18:
       value: 180
       note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
+soz_vers_pausch:
+  name:
+    de: Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
+    en:
+  description:
+    de: § 153 (1) Nr. 1 SGB III
+    en:
+  values:
+    2007-01-01:
+      value: 0.19
+      note:
