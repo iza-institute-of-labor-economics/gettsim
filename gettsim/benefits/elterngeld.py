@@ -66,13 +66,16 @@ def calc_consideraded_wage(
     According to § 2 (1) BEEG elterngeld is calculated by the loss of income due to
     child raising.
     """
+    # Beitragsbemessungsgrenze differs in east and west germany
+    westost = "o" if person["east"] else "w"
+
     net_wage_last_year = proxy_net_wage_last_year(
         person,
-        arbeitsl_geld_params,
-        soz_vers_beitr_params,
-        e_st_abzuege_params,
         e_st_params,
         soli_st_params,
+        beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
+        werbungs_pausch=e_st_abzuege_params["werbung"],
+        soz_vers_pausch=arbeitsl_geld_params["soz_vers_pausch"],
     )
 
     current_net_wage = calc_net_wage(person)
