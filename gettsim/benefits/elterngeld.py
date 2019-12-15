@@ -36,13 +36,8 @@ def elt_geld(
             elt_geld_calc = considered_wage * payed_percentage
 
             if person["geschw_bonus"]:
-                bonus_calc = params["elg_geschw_bonus_share"] * elt_geld_calc
-                bonus = max(
-                    min(bonus_calc, params["elg_geschw_bonus_max"]),
-                    params["elg_geschw_bonus_min"],
-                )
 
-                elt_geld_calc += bonus
+                elt_geld_calc += calc_geschw_bonus(elt_geld_calc, params)
 
             person["elt_geld"] = max(
                 min(elt_geld_calc, params["elgmax"]), params["elgmin"]
@@ -89,3 +84,16 @@ def calc_net_wage(person):
     )
 
     return net_wage
+
+
+def calc_geschw_bonus(elt_geld_calc, params):
+    """ Calculating the bonus for siblings.
+
+
+    According to § 2a parents of siblings get a bonus.
+    """
+    bonus_calc = params["elg_geschw_bonus_share"] * elt_geld_calc
+    bonus = max(
+        min(bonus_calc, params["elg_geschw_bonus_max"]), params["elg_geschw_bonus_min"],
+    )
+    return bonus

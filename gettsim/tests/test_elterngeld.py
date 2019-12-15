@@ -19,6 +19,7 @@ INPUT_COLS = [
     "soli",
     "svbeit",
     "elt_zeit",
+    "geschw_bonus",
     "year",
 ]
 
