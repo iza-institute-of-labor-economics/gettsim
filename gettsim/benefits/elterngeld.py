@@ -4,7 +4,6 @@ from gettsim.benefits.arbeitslosengeld import proxy_net_wage_last_year
 def elt_geld(
     person,
     params,
-    arbeitsl_geld_params,
     soz_vers_beitr_params,
     e_st_abzuege_params,
     e_st_params,
@@ -17,7 +16,7 @@ def elt_geld(
 
         considered_wage = calc_consideraded_wage(
             person,
-            arbeitsl_geld_params,
+            params,
             soz_vers_beitr_params,
             e_st_abzuege_params,
             e_st_params,
@@ -54,7 +53,7 @@ def calc_elt_geld(person, considered_wage, params):
 
 def calc_consideraded_wage(
     person,
-    arbeitsl_geld_params,
+    params,
     soz_vers_beitr_params,
     e_st_abzuege_params,
     e_st_params,
@@ -75,7 +74,7 @@ def calc_consideraded_wage(
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
         werbungs_pausch=e_st_abzuege_params["werbung"],
-        soz_vers_pausch=arbeitsl_geld_params["soz_vers_pausch"],
+        soz_vers_pausch=params["soz_vers_pausch"],
     )
 
     current_net_wage = calc_net_wage(person)
