@@ -16,6 +16,8 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
+from gettsim.taxes.calc_taxes import soli_formula_1991
+from gettsim.taxes.calc_taxes import soli_formula_1995
 from gettsim.taxes.calc_taxes import tarif
 from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
@@ -80,6 +82,10 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
 
     elif group == "e_st":
         tax_data["tax_schedule"] = tarif
+        if year in [1991, 1992]:
+            tax_data["soli_formula"] = soli_formula_1991
+        elif year >= 1995:
+            tax_data["soli_formula"] = soli_formula_1995
 
     elif group == "ges_renten_vers":
         if year > 2017:

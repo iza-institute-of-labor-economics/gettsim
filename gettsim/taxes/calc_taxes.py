@@ -40,19 +40,13 @@ def tax_sched(
     """
 
     # Soli also in monthly terms. only for adults
-    if e_st_abzuege_params["year"] == 1991 or e_st_abzuege_params["year"] == 1992:
+    if (
+        e_st_abzuege_params["year"] in [1991, 1992]
+        or e_st_abzuege_params["year"] >= 1995
+    ):
         tax_unit["soli_tu"] = (
             (
-                soli_formula_1991(tax_unit["tax_kfb_tu"], soli_st_params)
-                + soli_st_params["solisatz"] * tax_unit["abgst_tu"]
-            )
-            * ~tax_unit["child"]
-            * (1 / 12)
-        )
-    elif e_st_abzuege_params["year"] >= 1995:
-        tax_unit["soli_tu"] = (
-            (
-                soli_formula_1995(tax_unit["tax_kfb_tu"], soli_st_params)
+                e_st_params["soli_formula"](tax_unit["tax_kfb_tu"], soli_st_params)
                 + soli_st_params["solisatz"] * tax_unit["abgst_tu"]
             )
             * ~tax_unit["child"]
