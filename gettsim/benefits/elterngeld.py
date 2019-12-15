@@ -14,7 +14,8 @@ def elt_geld(
     a child that is up to one year old (Elterngeld)"""
 
     if person["elt_zeit"]:
-        net_wage_last_year = proxy_net_wage_last_year(
+
+        considered_wage = calc_consideraded_wage(
             person,
             arbeitsl_geld_params,
             soz_vers_beitr_params,
@@ -23,30 +24,60 @@ def elt_geld(
             soli_st_params,
         )
 
-        current_net_wage = calc_net_wage(person)
-
-        considered_wage = net_wage_last_year - current_net_wage
-
         if considered_wage < 0:
             person["elt_geld"] = 0
 
         else:
-            payed_percentage = calc_elterngeld_percentage(considered_wage, params)
 
-            elt_geld_calc = considered_wage * payed_percentage
-
-            if person["geschw_bonus"]:
-
-                elt_geld_calc += calc_geschw_bonus(elt_geld_calc, params)
-
-            person["elt_geld"] = max(
-                min(elt_geld_calc, params["elgmax"]), params["elgmin"]
-            )
+            person["elt_geld"] = calc_elt_geld(person, considered_wage, params)
 
     else:
         person["elt_geld"] = 0
 
     return person
+
+
+def calc_elt_geld(person, considered_wage, params):
+    """ Calculating elterngeld given the relevant wage and the eligibility on sibling
+    bonus.
+
+    """
+    payed_percentage = calc_elterngeld_percentage(considered_wage, params)
+
+    elt_geld_calc = considered_wage * payed_percentage
+
+    if person["geschw_bonus"]:
+        elt_geld_calc += calc_geschw_bonus(elt_geld_calc, params)
+
+    return max(min(elt_geld_calc, params["elgmax"]), params["elgmin"])
+
+
+def calc_consideraded_wage(
+    person,
+    arbeitsl_geld_params,
+    soz_vers_beitr_params,
+    e_st_abzuege_params,
+    e_st_params,
+    soli_st_params,
+):
+    """ Calculating the relevant wage for the calculation of elterngeld.
+
+
+    According to § 2 (1) BEEG elterngeld is calculated by the loss of income due to
+    child raising.
+    """
+    net_wage_last_year = proxy_net_wage_last_year(
+        person,
+        arbeitsl_geld_params,
+        soz_vers_beitr_params,
+        e_st_abzuege_params,
+        e_st_params,
+        soli_st_params,
+    )
+
+    current_net_wage = calc_net_wage(person)
+
+    return net_wage_last_year - current_net_wage
 
 
 def calc_elterngeld_percentage(considered_wage, params):
