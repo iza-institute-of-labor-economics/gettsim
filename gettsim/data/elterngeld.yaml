@@ -125,9 +125,9 @@ soz_vers_pausch:
     de: Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
     en:
   description:
-    de: § 153 (1) Nr. 1 SGB III
+    de: 0.09 (kv + pv) + 0.1 (rv) + 0.02 (av)  nach §2f BEEG
     en:
   values:
     2007-01-01:
-      value: 0.19
+      value: 0.21
       note:
