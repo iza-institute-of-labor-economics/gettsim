@@ -50,7 +50,7 @@ def calc_soli(tax_unit, params):
     # Soli also in monthly terms. only for adults
     tax_unit.loc[~tax_unit["child"], "soli_tu"] = (
         params["soli_formula"](tax_unit["tax_kfb_tu"], params)
-        + params["solisatz"] * tax_unit["abgst_tu"]
+        + params["soli_rate"] * tax_unit["abgst_tu"]
     ) * (1 / 12)
 
     # Assign Soli to individuals
@@ -136,7 +136,7 @@ def tarif(x, params):
 def soli_formula_1991_92(solibasis, params):
     """ Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992"""
 
-    soli = params["solisatz"] * solibasis
+    soli = params["soli_rate"] * solibasis
 
     return soli.round(2)
 
@@ -150,8 +150,10 @@ def soli_formula_since_1995(solibasis, params):
     """ Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995"""
 
     soli = np.minimum(
-        params["solisatz"] * solibasis,
-        np.maximum(params["solimax"] * (solibasis - params["solifreigrenze"]), 0),
+        params["soli_rate"] * solibasis,
+        np.maximum(
+            params["soli_rate_max"] * (solibasis - params["soli_freigrenze"]), 0
+        ),
     )
 
     return soli.round(2)

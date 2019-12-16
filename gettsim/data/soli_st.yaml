@@ -1,4 +1,4 @@
-solisatz:
+soli_rate:
   name:
     de: Zuschlagsatz
     en: Tax rate
@@ -15,7 +15,7 @@ solisatz:
     1998-01-01:
       value: 0.055
       note: Artikel 1 G. v. 21.11.1997 BGBl. I S. 2743.
-solifreigrenze:
+soli_freigrenze:
   name:
     de: Freigrenze
     en: Tax exempt
@@ -35,7 +35,7 @@ solifreigrenze:
     2021-01-01:
       value: 16956
       note: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
-solimax:
+soli_rate_max:
   name:
     de: Prozentsatz zur Berechnung Maximalsatz
     en: Percentage used to calculate the maximum rate
