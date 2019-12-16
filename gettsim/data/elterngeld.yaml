@@ -64,7 +64,7 @@ elg_perc_correct:
     de: § 2 (2) BEEG
     en:
   values:
-    2013-01-01:
+    2007-01-01:
       value: 0.001
       note:
 elg_perc_correct_step:
@@ -75,7 +75,7 @@ elg_perc_correct_step:
     de: § 2 (2) BEEG
     en:
   values:
-    2013-01-01:
+    2007-01-01:
       value: 2
       note:
 elg_geschw_bonus_share:
