@@ -112,8 +112,8 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
 
     # Add both components for ease of notation.
     if params["year"] >= 2000:
-        # 'kifreib_bea' does not exist before 2000.
         kifreib_total = params["kifreib_s_exm"] + params["kifreib_bea"]
+    # 'kifreib_bea' does not exist before 2000.
     else:
         kifreib_total = params["kifreib_s_exm"]
 

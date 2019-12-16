@@ -3,12 +3,12 @@ kifreib_s_exm:
     de: Kinderfreibetrag (sächliches Existenzminimum des Kindes).
     en:
   description:
-    de: § 32(6) EStG
+    de: § 32(6) EStG, früher auch Absatz 7 und 8.
     en:
   values:
-    1984-01-01:
+    1983-01-01:
       value: 110
-      note: Wert in Euro. Der Betrag laut Gesetz ist 216 DM.
+      note: Art. 1 G. v. 20.12.1985 BGBl. I S. 1857. Wert in Euro. Der Betrag laut Gesetz ist 216 DM.
     1986-01-01:
       value: 635
       note: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153. Wert in Euro. Der Betrag im Gesetz lautet 1242 DM.
@@ -17,7 +17,7 @@ kifreib_s_exm:
       note: Artikel 1 G. v. 25.07.1988 BGBl. I S. 1093. Wert in Euro. Der Betrag im Gesetz lautet 1512 DM.
     1992-01-01:
       value: 1049
-      note: Wert in Euro. Wert laut Gesetz 2102 DM.
+      note: Art. 1 G. v. 25.02.1992 BGBl. I S. 297. Wert in Euro. Wert laut Gesetz 2052 DM.
     1996-01-01:
       value: 1601
       note: Art. 1. G. v. 11.10.1995 BGBl. I S. 1250. Wert in Euro. Laut Gesetz 261 DM pro Monat.
