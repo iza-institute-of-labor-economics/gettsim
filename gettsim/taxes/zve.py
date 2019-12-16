@@ -54,6 +54,7 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     tax_unit.loc[:, "vorsorge"] = e_st_abzuege_params["vorsorge"](
         tax_unit, e_st_abzuege_params, soz_vers_beitr_params
     )
+
     # 3. Tax Deduction for elderly ("Altersentlastungsbetrag")
     # does not affect pensions.
     tax_unit = calc_altfreibetrag(tax_unit, e_st_abzuege_params)
@@ -144,7 +145,7 @@ def zve_nokfb(tax_unit, params):
     return np.maximum(
         0,
         tax_unit["gross_gde"]
-        - tax_unit["vorsorge"]
+        - tax_unit["vorsorge"].sum()
         - tax_unit["sonder"]
         - tax_unit["handc_pausch"]
         - tax_unit["hhfreib"]
@@ -399,6 +400,9 @@ def vorsorge2004(tax_unit, params, soz_vers_beitr_params):
         item_3 = np.minimum(0.5 * (vorsorg_rest - item_2), 0.5 * params["grundbet"])
     # For the married couple, the same stuff, but with tu totals.
     if tax_unit["zveranl"].max():
+        for var in ["m_wage", "rvbeit", "gkvbeit"]:
+            tax_unit[f"{var}_tu"] = tax_unit.loc[~tax_unit["child"], "m_wage"].sum()
+
         item_1 = 0.5 * np.maximum(
             2 * params["vorwegab"] - params["kuerzquo"] * 12 * tax_unit["m_wage_tu"], 0
         )
@@ -414,29 +418,30 @@ def vorsorge2004(tax_unit, params, soz_vers_beitr_params):
     return vorsorge2004
 
 
-def vorsorge04_05(tax_unit, tb):
+def vorsorge04_05(tax_unit, params, soz_vers_beitr_params):
     """ With the 2005 reform, no taxpayer was supposed to be affected negatively.
         Therefore, one needs to compute amounts
         (2004 and 2005 regime) and take the higher one.
     """
-    vors2004 = vorsorge2004(tax_unit, tb)
-    vors2005 = vorsorge2005(tax_unit, tb)
-    # Take the sum of both adults in the tax unit
-    return np.maximum(vors2004.sum(), vors2005.sum())
+    vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
+    vors2005 = vorsorge2005(tax_unit, params, soz_vers_beitr_params)
+    print(vors2004)
+    print(vors2005)
+    return np.maximum(vors2004, vors2005)
 
 
-def vorsorge04_10(tax_unit, tb):
-    """ With the 2005 reform, no taxpayer was supposed to be affected negatively.
-        After a supreme court ruling, the 2005 rule had to be changed in 2010.
+def vorsorge04_10(tax_unit, params, soz_vers_beitr_params):
+    """ After a supreme court ruling, the 2005 rule had to be changed in 2010.
         Therefore, one needs to compute amounts
-        (2004 and 2005 regime) and take the higher one.
-        Sidenote: The 2010 ruling is *always* more beneficial than the 2005 one,
-        so no need for a check there.
+        (2004 and 2010 regime) and take the higher one.
+        Sidenote: The 2010 ruling is by construction
+        *always* more beneficial than the 2005 one, so no need for a separate
+        check there.
     """
-    vors2004 = vorsorge2004(tax_unit, tb)
-    vors2010 = vorsorge2010(tax_unit, tb)
-    # Take the sum of both adults in the tax unit
-    return np.maximum(vors2004.sum(), vors2010.sum())
+    vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
+    vors2010 = vorsorge2010(tax_unit, params, soz_vers_beitr_params)
+
+    return np.maximum(vors2004, vors2010)
 
 
 def vorsorge_year_faktor(year):
