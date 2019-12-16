@@ -26,7 +26,7 @@ kifreib_s_exm:
       note: Wert in Euro. Laut Gesetz 288 DM pro Monat (ab 2000 3456 DM pro Jahr)
     2002-01-01:
       value: 1824
-      note: Art. 1 G. v. 19.12.2000 BGBl. I S. 1790
+      note: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
     2009-01-01:
       value: 1932
       note: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
@@ -61,7 +61,7 @@ kifreib_bea:
       note: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552. Wert in Euro. Wert laut Gesetz 1512 DM.
     2002-01-01:
       value: 1080
-      note:
+      note: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
     2010-01-01:
       value: 1320
       note: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
