@@ -30,11 +30,11 @@ def uhv_since_07_2017(tax_unit, params, kindergeld_params):
     # and the child benefit for the first child.
     tax_unit["uhv"] = 0
     # Amounts depend on age
-    tax_unit.loc[(tax_unit["age"] <= 6) & tax_unit["alleinerz"], "uhv"] = (
+    tax_unit.loc[(tax_unit["age"] < 6) & tax_unit["alleinerz"], "uhv"] = (
         params["uhv6_amount"] - kindergeld_params["kgeld1"]
     )
     tax_unit.loc[
-        (tax_unit["age"] >= 7) & (tax_unit["age"] <= 12) & tax_unit["alleinerz"], "uhv"
+        (tax_unit["age"] >= 6) & (tax_unit["age"] < 12) & tax_unit["alleinerz"], "uhv"
     ] = (params["uhv12_amount"] - kindergeld_params["kgeld1"])
     # Older kids get it only if the parent has income > 600€
     uhv_inc_tu = (
@@ -53,8 +53,8 @@ def uhv_since_07_2017(tax_unit, params, kindergeld_params):
         .sum()
     )
     tax_unit.loc[
-        (tax_unit["age"] >= 13)
-        & (tax_unit["age"] <= 17)
+        (tax_unit["age"] >= 12)
+        & (tax_unit["age"] < 18)
         & (tax_unit["alleinerz"])
         & (uhv_inc_tu > params["uhv17_inc"]),
         "uhv",
