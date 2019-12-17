@@ -3,8 +3,12 @@ import datetime
 import numpy as np
 import yaml
 
+from gettsim.benefits.alg2 import e_anr_frei_2005_01
+from gettsim.benefits.alg2 import e_anr_frei_2005_10
 from gettsim.benefits.alg2 import regelberechnung_2011_and_beyond
 from gettsim.benefits.alg2 import regelberechnung_until_2010
+from gettsim.benefits.kiz import calc_kiz_amount_07_2019
+from gettsim.benefits.kiz import calc_kiz_amount_2005
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
@@ -85,12 +89,22 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
             tax_data["calc_rentenwert"] = _rentenwert_from_2018
         else:
             tax_data["calc_rentenwert"] = _rentenwert_until_2017
+    elif group == "kinderzuschlag":
+        if (year >= 2020) or (year == 2019 and month >= 7):
+            tax_data["calc_kiz_amount"] = calc_kiz_amount_07_2019
+        else:
+            tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
 
     elif group == "arbeitsl_geld_2":
-        if tax_data["year"] <= 2010:
+        if year <= 2010:
             tax_data["calc_regelsatz"] = regelberechnung_until_2010
         else:
             tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
+
+        if actual_date < datetime.date(year=2005, month=10, day=1):
+            tax_data["calc_e_anr_frei"] = e_anr_frei_2005_01
+        else:
+            tax_data["calc_e_anr_frei"] = e_anr_frei_2005_10
 
     return tax_data
 

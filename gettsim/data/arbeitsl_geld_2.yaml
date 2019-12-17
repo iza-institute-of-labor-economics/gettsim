@@ -3,65 +3,94 @@ a2an1:
     de: EK-Anteil anrechnungsfrei, Intervall 1
     en: Income share not subject to transfer withdrawal, interval 1
   description:
-    de: Einkommensanteil, der anrechnungsfrei bleibt (Intervall [a2grf, a2eg1]). § 30 SGB II. Seit 01.04.2011 § 11b (4). Nr. 1 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    de: Einkommensanteil, der anrechnungsfrei bleibt, Intervall 1 [0, a2eg1]. § 30 SGB II. Seit 01.10.2005 zudem definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011 § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
+    2005-01-01:
+      value: 0.15
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
     2005-10-01:
-      value: 0.2
+      value: 1
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 a2an2:
   name:
-    de: EK-Anteil anrechnungsfrei Intervall 2
+    de: EK-Anteil anrechnungsfrei, Intervall 2
     en: Income share not subject to transfer withdrawal, interval 2
   description:
-    de: Einkommensanteil, der anrechnungsfrei bleibt (Intervall [a2eg1, a2eg1]). § 30 SGB II. Seit 01.04.2011 § 11b (4). Nr. 1 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    de: Einkommensanteil, der anrechnungsfrei bleibt, Intervall 2 [a2eg1, a2eg2]. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
+    2005-01-01:
+      value: 0.3
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
+    2005-10-01:
+      value: 0.2
+      note: G. v. 14.08.2005 BGBl. I S. 2407.
+a2an3:
+  name:
+    de: EK-Anteil anrechnungsfrei, Intervall 3
+    en: Income share not subject to transfer withdrawal, interval 3
+  description:
+    de: Einkommensanteil, der anrechnungsfrei bleibt, Intervall 3 [a2eg2, a2eg3]. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    en:
+  values:
+    2005-01-01:
+      value: 0.15
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
     2005-10-01:
       value: 0.1
       note: G. v. 14.08.2005 BGBl. I S. 2407.
-a2grf:
+a2eg1:
   name:
-    de: Anrechnungsfreier Grundbetrag
-    en: Income amount not subject to transfer withdrawal
+    de: EK-Grenze Anrechnung, Intervall 1
+    en: Threshold transfer withdrawal, interval 1
   description:
-    de: Grundbetrag, der anrechnungsfrei bleibt. § 11 (2) SGB II. Seit 01.04.2011 § 11b (4). Nr. 1 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 1. § 30 SGB II. Seit 01.10.2005 zudem definiert durch Freibetrag in § 11 SGB II. Seit 01.10.2005 identisch mit Grundbetrag, der anrechnungsfrei bleibt. § 11 (2) SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
+    2005-01-01:
+      value: 400
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
     2005-10-01:
       value: 100
       note: G. v. 14.08.2005 BGBl. I S. 2407.
-a2eg1:
+a2eg2:
   name:
-    de: 1. EK-Grenze Anrechnung
-    en: 1st threshold transfer withdrawal
+    de: EK-Grenze Anrechnung, Intervall 2
+    en: Threshold transfer withdrawal, interval 2
   description:
-    de: 1. Einkommensgrenze bei anzurechnendem Einkommen. § 30 SGB II. Seit 01.04.2011 § 11b (4). Nr. 1 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 2. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
+    2005-01-01:
+      value: 900
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
     2005-10-01:
       value: 800
       note: G. v. 14.08.2005 BGBl. I S. 2407.
     2011-04-01:
       value: 1000
       note: Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850. Artikel 5 G. v. 20.12.2011 BGBl. I 2854.
-a2eg2:
+a2eg3:
   name:
-    de: 2. EK-Grenze Anrechnung
-    en: 2nd threshold transfer withdrawal
+    de: EK-Grenze Anrechnung, Intervall 3
+    en: Threshold transfer withdrawal, interval 3
   description:
-    de: 2. Einkommensgrenze bei anzurechnendem Einkommen. § 30 SGB II. Seit 01.04.2011 § 11b (4) Nr. 2 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
+    2005-01-01:
+      value: 1500
+      note: G. v. 24.12.2003 BGBl. I S. 2954.
     2005-10-01:
       value: 1200
       note: G. v. 14.08.2005 BGBl. I S. 2407.
-a2eg3:
+a2eg3ki:
   name:
-    de: 2. EK-Grenze Anrechnung (mit Kindern)
-    en: 2rd threshold transfer withdrawal (household with children)
+    de: EK-Grenze Anrechnung (mit Kindern), Intervall 3
+    en: Threshold transfer withdrawal (household with children), interval 3
   description:
-    de: 2. Einkommensgrenze bei anzurechnendem Einkommen. Gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 § 11b (4) Nr. 2 SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit Kindern. Gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   values:
     2005-10-01:
@@ -681,31 +710,3 @@ a2_but_2:
     2019-08-01:
       value: 15
       note: G. v. 29.04.2019 BGBl. I S. 530.
-ahvmiet:
-  name:
-    de: ALG2 Jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 1200
-      note:
-    2006-01-01:
-      value: 0
-      note:
-ahvzins:
-  name:
-    de: ALG2 Jährlicher Zinsbetrag, ab dem Geldvermögen unterstellt wird
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 200
-      note:
-    2006-01-01:
-      value: 0
-      note:
