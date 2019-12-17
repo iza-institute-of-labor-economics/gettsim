@@ -1,13 +1,12 @@
-import numpy as np
+import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.alg2 import alg2
-from gettsim.tests.auxiliary_test_tax import get_policies_for_date
-from gettsim.tests.auxiliary_test_tax import load_tax_benefit_data
-from gettsim.tests.auxiliary_test_tax import load_test_data
+from gettsim.config import ROOT_DIR
+from gettsim.policy_for_date import get_policies_for_date
 
-input_cols = [
+INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
@@ -33,7 +32,7 @@ input_cols = [
     "uhv",
     "year",
 ]
-out_cols = [
+OUT_COLS = [
     "ar_base_alg2_ek",
     "ar_alg2_ek_hh",
     "alg2_grossek_hh",
@@ -46,23 +45,26 @@ out_cols = [
 ]
 
 
-years = [2006, 2009, 2011, 2013, 2016, 2019]
-tax_policy_data = load_tax_benefit_data()
+YEARS = [2005, 2006, 2009, 2011, 2013, 2016, 2019]
 
 
-@pytest.mark.parametrize("year", years)
-def test_alg2(year):
-    file_name = "test_dfs_alg2.ods"
-    columns = ["ar_base_alg2_ek", "ar_alg2_ek_hh", "regelbedarf"]
-    df = load_test_data(year, file_name, input_cols)
-    tb = get_policies_for_date(tax_policy_data, year=year)
-    tb["yr"] = year
-    # if year <= 2010:
-    #     tb["calc_regelsatz"] = regelberechnung_until_2010
-    # else:
-    #     tb["calc_regelsatz"] = regelberechnung_2011_and_beyond
-    for col in out_cols:
-        df[col] = np.nan
-    df = df.groupby("hid").apply(alg2, tb=tb)
-    expected = load_test_data(year, file_name, columns)
-    assert_frame_equal(df[columns], expected)
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_alg2.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_alg2(input_data, arbeitsl_geld_2_raw_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data[INPUT_COLS].copy()
+
+    arbeitsl_geld_2_params = get_policies_for_date(
+        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+    )
+
+    df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
+    df = df.groupby("hid", group_keys=False).apply(alg2, params=arbeitsl_geld_2_params)
+
+    assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)
