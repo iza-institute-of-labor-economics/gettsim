@@ -63,7 +63,7 @@ def test_eltgeld(
     df = _apply_tax_transfer_func(
         df,
         tax_func=elt_geld,
-        level=["hid", "tu_id", "pid"],
+        level=["hid"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={

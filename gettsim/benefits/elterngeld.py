@@ -1,8 +1,9 @@
 from gettsim.benefits.arbeitslosengeld import proxy_net_wage_last_year
+from gettsim.tax_transfer import _apply_tax_transfer_func
 
 
 def elt_geld(
-    person,
+    household,
     params,
     soz_vers_beitr_params,
     e_st_abzuege_params,
@@ -12,43 +13,61 @@ def elt_geld(
     """This function calculates the monthly benefits for having
     a child that is up to one year old (Elterngeld)"""
 
-    if person["elt_zeit"]:
+    in_cols = list(household.columns.values)
+    # Everything was already initialized
+    out_cols = []
+    household.loc[household["elt_zeit"], :] = _apply_tax_transfer_func(
+        household[household["elt_zeit"]],
+        tax_func=calc_elt_geld,
+        level=["hid", "tu_id", "pid"],
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={
+            "params": params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "e_st_params": e_st_params,
+            "soli_st_params": soli_st_params,
+        },
+    )
 
-        considered_wage = calc_consideraded_wage(
-            person,
-            params,
-            soz_vers_beitr_params,
-            e_st_abzuege_params,
-            e_st_params,
-            soli_st_params,
-        )
+    household.loc[~household["elt_zeit"], ["elt_geld"]] = 0
 
-        if considered_wage < 0:
-            person["elt_geld"] = 0
-
-        else:
-
-            person["elt_geld"] = calc_elt_geld(person, considered_wage, params)
-
-    else:
-        person["elt_geld"] = 0
-
-    return person
+    return household
 
 
-def calc_elt_geld(person, considered_wage, params):
+def calc_elt_geld(
+    person,
+    params,
+    soz_vers_beitr_params,
+    e_st_abzuege_params,
+    e_st_params,
+    soli_st_params,
+):
     """ Calculating elterngeld given the relevant wage and the eligibility on sibling
     bonus.
 
     """
-    payed_percentage = calc_elterngeld_percentage(considered_wage, params)
+    considered_wage = calc_consideraded_wage(
+        person,
+        params,
+        soz_vers_beitr_params,
+        e_st_abzuege_params,
+        e_st_params,
+        soli_st_params,
+    )
+    if considered_wage < 0:
+        person["elt_geld"] = 0
+    else:
+        payed_percentage = calc_elterngeld_percentage(considered_wage, params)
 
-    elt_geld_calc = considered_wage * payed_percentage
+        elt_geld_calc = considered_wage * payed_percentage
 
-    if person["geschw_bonus"]:
-        elt_geld_calc += calc_geschw_bonus(elt_geld_calc, params)
+        if person["geschw_bonus"]:
+            elt_geld_calc += calc_geschw_bonus(elt_geld_calc, params)
+        person["elt_geld"] = max(min(elt_geld_calc, params["elgmax"]), params["elgmin"])
 
-    return max(min(elt_geld_calc, params["elgmax"]), params["elgmin"])
+    return person
 
 
 def calc_consideraded_wage(
