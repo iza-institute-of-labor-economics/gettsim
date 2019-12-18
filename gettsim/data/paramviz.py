@@ -54,7 +54,8 @@ def make_param_graphs(lang="de"):
     param_files = glob.glob("*.yaml")
 
     for yaml_file in param_files:
-        output_file(f"graphs/{yaml_file[:-5]}.html", title=yaml_file[:-5].title())
+        file_name = yaml_file[:-5]
+        output_file(f"graphs/{file_name}.html", title=file_name.title())
 
         # Read YAML
         with open(f"{yaml_file}") as f:
@@ -118,6 +119,7 @@ def make_param_graphs(lang="de"):
             plotlist.append(plot_tab)
         grid = gridplot(plotlist, ncols=3)
         save(grid)
+        print(f"File {file_name}.html created.")
 
 
 make_param_graphs()
