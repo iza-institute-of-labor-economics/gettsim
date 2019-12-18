@@ -48,7 +48,7 @@ def calc_elt_geld(
     bonus.
 
     """
-    considered_wage = calc_consideraded_wage(
+    considered_wage = calc_considered_wage(
         person,
         params,
         soz_vers_beitr_params,
@@ -72,7 +72,7 @@ def calc_elt_geld(
     return person
 
 
-def calc_consideraded_wage(
+def calc_considered_wage(
     person,
     params,
     soz_vers_beitr_params,
