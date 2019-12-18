@@ -12,19 +12,23 @@ INPUT_COLS = [
     "hid",
     "tu_id",
     "pid",
+    "child",
     "m_wage",
     "m_wage_l1",
     "east",
     "incometax",
     "soli",
     "svbeit",
-    "elt_zeit",
-    "geschw_bonus",
-    "num_mehrling_bonus",
+    "byear",
+    "bmonth",
+    "bday",
+    "elt_geld_mon_mut",
+    "elt_geld_mon_vat",
+    "elt_geld_mon",
     "year",
 ]
 
-OUT_COLS = ["elt_geld"]
+OUT_COLS = ["elt_geld", "geschw_bonus", "num_mehrling_bonus"]
 YEARS = [2017, 2018, 2019]
 
 

@@ -1,3 +1,8 @@
+import datetime
+
+import numpy as np
+from dateutil import relativedelta
+
 from gettsim.benefits.arbeitslosengeld import proxy_net_wage_last_year
 from gettsim.tax_transfer import _apply_tax_transfer_func
 
@@ -12,6 +17,8 @@ def elt_geld(
 ):
     """This function calculates the monthly benefits for having
     a child that is up to one year old (Elterngeld)"""
+
+    household = check_eligibilities(household, params)
 
     in_cols = list(household.columns.values)
     # Everything was already initialized
@@ -151,6 +158,51 @@ def calc_geschw_bonus(elt_geld_calc, params):
     """
     bonus_calc = params["elg_geschw_bonus_share"] * elt_geld_calc
     bonus = max(
-        min(bonus_calc, params["elg_geschw_bonus_max"]), params["elg_geschw_bonus_min"],
+        min(bonus_calc, params["elg_geschw_bonus_max"]), params["elg_geschw_bonus_min"]
     )
     return bonus
+
+
+def check_eligibilities(household, params):
+    """Calculating the different claims on Elterngeld.
+
+    """
+    children = household[household["child"]]
+    # Are there any children
+    if len(children) > 0:
+        youngest_child = children[
+            (children["byear"] == np.max(children["byear"]))
+            & (children["bmonth"] == np.max(children["bmonth"]))
+        ]
+        # Get the birthdate of the youngest child(If "Mehrlinge", then just take one)
+        birth_date = datetime.date(
+            day=youngest_child["bday"].iloc[0],
+            month=youngest_child["bmonth"].iloc[0],
+            year=youngest_child["byear"].iloc[0],
+        )
+        age_youngest_child = relativedelta.relativedelta(params["date"], birth_date)
+        # The child has to be below the 14th month
+        eligible_age = (
+            age_youngest_child.years * 12 + age_youngest_child.months
+        ) <= params["max_joint_months"]
+        # The parents can only claim up to 14 month elterngeld
+        eligible_consumed = (
+            youngest_child["elt_geld_mon_mut"].iloc[0]
+            + youngest_child["elt_geld_mon_vat"].iloc[0]
+        ) <= 14
+        if eligible_age & eligible_consumed:
+            # Each parent can't claim more than 12 month
+            eligible = (
+                ~household["child"] & household["elt_geld_mon"] <= params["max_months"]
+            )
+            household.loc[eligible, "elt_zeit"] = True
+            if (len(children[children["age"] < 3]) <= 3) | (
+                len(children[children["age"] < 6]) > 2
+            ):
+                household.loc[eligible, "geschw_bonus"] = False
+                household.loc[eligible, "mehrling_bonus"] = len(youngest_child) - 1
+
+    else:
+        household["elt_zeit"] = False
+        household["geschw_bonus"] = False
+        household["mehrling_bonus"] = 0

@@ -156,3 +156,25 @@ soz_vers_pausch:
     2007-01-01:
       value: 0.21
       note:
+max_joint_months:
+  name:
+    de: Maximale Anzahl an Monaten, in denen ein Paar Elterngeld erhält
+    en:
+  description:
+    de: §4 BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 14
+      note:
+max_months:
+  name:
+    de: Maximale Anzahl an Monaten, die jedes Eltern Teil erhält
+    en:
+  description:
+    de: §4 BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 12
+      note:
