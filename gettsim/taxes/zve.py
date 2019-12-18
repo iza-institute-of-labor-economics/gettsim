@@ -110,7 +110,14 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     # Find out who has the lower zve among partners
     nokfb_lower = tax_unit["zve_nokfb"].min()
 
-    diff_kifreib = nokfb_lower - (0.5 * params["kifreib"] * child_num_kg)
+    # Add both components for ease of notation.
+    if params["year"] >= 2000:
+        kifreib_total = params["kifreib_s_exm"] + params["kifreib_bea"]
+    # 'kifreib_bea' does not exist before 2000.
+    else:
+        kifreib_total = params["kifreib_s_exm"]
+
+    diff_kifreib = nokfb_lower - (kifreib_total * child_num_kg)
 
     # If the couple is married and one earns not enough to split the kinderfeibetrag,
     # things get a bit more complicated
@@ -118,9 +125,9 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
 
         # The high earner gets half of the total kinderfreibetrag plus the amount the
         # lower earner can't claim.
-        kifreib_higher = (0.5 * params["kifreib"] * child_num_kg) + abs(diff_kifreib)
+        kifreib_higher = (kifreib_total * child_num_kg) + abs(diff_kifreib)
         # The second earner subtracts the remaining amount
-        kifreib_lower = 0.5 * params["kifreib"] * child_num_kg - abs(diff_kifreib)
+        kifreib_lower = kifreib_total * child_num_kg - abs(diff_kifreib)
         # Then we assign each earner the amount and return the series
         tax_unit.loc[
             ~tax_unit["child"] & tax_unit["zve_nokfb"] != nokfb_lower, "kifreib"
@@ -134,9 +141,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     # For non married couples or couples where both earn enough this are a lot easier.
     # Just split the kinderfreibetrag 50/50.
     else:
-        tax_unit.loc[~tax_unit["child"], "kifreib"] = (
-            0.5 * params["kifreib"] * child_num_kg
-        )
+        tax_unit.loc[~tax_unit["child"], "kifreib"] = kifreib_total * child_num_kg
         return tax_unit
 
 
