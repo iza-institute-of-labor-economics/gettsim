@@ -1,88 +1,70 @@
-kifreib:
+kifreib_s_exm:
   name:
-    de: Kinderfreibetrag (sächliches Existenzminimum des Kindes sowie Betreuungs- und Erziehungs- oder Ausbildungsbedarf). Doppelter Wert als im Gesetz (für Paare)
+    de: Kinderfreibetrag (sächliches Existenzminimum des Kindes).
     en:
   description:
-    de: § 32(6) EStG
+    de: § 32(6) EStG, früher auch Absatz 7 und 8.
     en:
   values:
-    1984-01-01:
-      value: 221
-      note:
+    1983-01-01:
+      value: 110
+      note: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857. Wert in Euro. Der Betrag laut Gesetz ist 216 DM.
     1986-01-01:
-      value: 1270
-      note:
+      value: 635
+      note: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153. Wert in Euro. Der Betrag im Gesetz lautet 1242 DM.
     1990-01-01:
-      value: 1546
-      note: .
-    1994-01-01:
-      value: 2098
-      note:
+      value: 773
+      note: Artikel 1 G. v. 25.07.1988 BGBl. I S. 1093. Wert in Euro. Der Betrag im Gesetz lautet 1512 DM.
+    1992-01-01:
+      value: 1049
+      note: Art. 1 G. v. 25.02.1992 BGBl. I S. 297. Wert in Euro. Wert laut Gesetz 2052 DM.
     1996-01-01:
-      value: 3203
-      note: .
+      value: 1601
+      note: Art. 1. G. v. 11.10.1995 BGBl. I S. 1250. Wert in Euro. Laut Gesetz 261 DM pro Monat.
     1997-01-01:
-      value: 3534
-      note: .
-    2000-01-01:
-      value: 5080
-      note: .
-    2002-01-01:
-      value: 5808
-      note:
-    2009-01-01:
-      value: 6024
-      note:
-    2010-01-01:
-      value: 7008
-      note:
-    2015-07-23:
-      value: 7152
-      note: geändert durch BGBl. 2015 Nr. 30
-    2016-01-01:
-      value: 7248
-      note: geändert durch BGBl. 2015 Nr. 30
-    2017-01-01:
-      value: 7356
-      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
-    2018-01-01:
-      value: 7428
-      note: Art. 9 BGBL I. S. 3000 v. 20.12.2016
-    2019-01-01:
-      value: 7620
-      note:
-kifreib_s:
-  name:
-    de: Kinderfreibetrag (nur sächliches Existenzminimum).
-    en:
-  description:
-    de: § 32(6) EStG
-    en:
-  values:
+      value: 1767
+      note: Wert in Euro. Laut Gesetz 288 DM pro Monat (ab 2000 3456 DM pro Jahr)
     2002-01-01:
       value: 1824
-      note: Artikel 1 G. v. 16.08.2001 BGBl. I S. 2074.
+      note: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
     2009-01-01:
       value: 1932
-      note: Art. 1 vom 22.12.2008, BGBl. I S. 2955
+      note: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
     2010-01-01:
       value: 2184
-      note: Artikel 1 vom 22.12.2009, BGBl. I S. 3950
-    2015-07-23:
+      note: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
+    2015-01-01:
       value: 2256
-      note: geändert durch Artikel 1 vom 16.07.2015, BGBl. I S. 1202
+      note: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
     2016-01-01:
       value: 2304
-      note: geändert durch Artikel 2 vom 16.07.2015, BGBl. I S. 1202
+      note: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
     2017-01-01:
       value: 2358
-      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+      note: Art. 8 G. v. 20.12.2016 BGBl. I. S. 3000
     2018-01-01:
       value: 2394
-      note: Art. 9 BGBL I. S. 3000 v. 20.12.2016
+      note: Art. 9 G. v. 20.12.2016 BGBl. I. S. 3000
     2019-01-01:
       value: 2490
-      note: geändert durch Artikel 1 v. 29.11.2018 BGBl. I. S 2210
+      note: Art. 1 G. v. 29.11.2018 BGBl. I S. 2210
+kifreib_bea:
+  name:
+    de: Kinderfreibetrag. Betreuungs-, Erziehungs-, Ausbildungsfreibetrag.
+    en:
+  description:
+    de: §32 (6) EStG, seit 2000.
+    en:
+  values:
+    2000-01-01:
+      value: 774
+      note: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552. Wert in Euro. Wert laut Gesetz 1512 DM.
+    2002-01-01:
+      value: 1080
+      note: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
+    2010-01-01:
+      value: 1320
+      note: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
 vorsp_rv:
   name:
     de: Bemessungsgrundlage, Vorsorgepauschale, Anteil des Beitrags der RV-Beiträge
