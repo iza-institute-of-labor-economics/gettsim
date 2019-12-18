@@ -118,7 +118,10 @@ def calc_elterngeld_percentage(considered_wage, params):
         wag_diff = considered_wage - params["elg_st_2"]
 
         number_steps = wag_diff / params["elg_perc_correct_step"]
-        percentage = params["elgfaktor"] - number_steps * params["elg_perc_correct"]
+        percentage = max(
+            params["elgfaktor"] - number_steps * params["elg_perc_correct"],
+            params["perc_deduct_limit"],
+        )
 
     else:
         percentage = params["elgfaktor"]

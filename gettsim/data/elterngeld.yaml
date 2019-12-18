@@ -67,6 +67,20 @@ elg_perc_correct:
     2007-01-01:
       value: 0.001
       note:
+perc_deduct_limit:
+  name:
+    de: Percentage deduction limit for higher incomes
+    en:
+  description:
+    de: § 2 (2) BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 0.67
+      note: implizit, exisitiert vorher nicht
+    2011-01-01:
+      value: 0.65
+      note:
 elg_perc_correct_step:
   name:
     de: Income steps for percentage correction
