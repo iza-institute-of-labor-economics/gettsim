@@ -20,6 +20,7 @@ INPUT_COLS = [
     "svbeit",
     "elt_zeit",
     "geschw_bonus",
+    "num_mehrling_bonus",
     "year",
 ]
 

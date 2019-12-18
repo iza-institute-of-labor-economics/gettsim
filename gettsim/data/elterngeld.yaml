@@ -3,7 +3,7 @@ elgfaktor:
     de: Faktor bei der ElG-Berechung, 2. Stufe
     en:
   description:
-    de: § 2 (1) BEEG
+    de: § 2 BEEG
     en:
   values:
     2007-01-01:
@@ -14,7 +14,7 @@ elgmax:
     de: Höchsbetrag des Elterngeldes
     en:
   description:
-    de: § 2 (1) BEEG
+    de: § 2 BEEG
     en:
   values:
     2007-01-01:
@@ -25,7 +25,7 @@ elg_st_1:
     de: Nettoeinkommen, bei dem 1. Stufe beginnt
     en:
   description:
-    de: § 2 (2) BEEG
+    de: § 2 BEEG
     en:
   values:
     2013-01-01:
@@ -36,7 +36,7 @@ elg_st_2:
     de: Nettoeinkommen, bei dem 2. Stufe beginnt
     en:
   description:
-    de: § 2 (2) BEEG
+    de: § 2 BEEG
     en:
   values:
     2007-01-01:
@@ -50,7 +50,7 @@ elgmin:
     de: Mindestbetrag des Elterngeldes
     en:
   description:
-    de: § 2 (4) BEEG
+    de: § 2 BEEG
     en:
   values:
     2007-01-01:
@@ -61,7 +61,7 @@ elg_perc_correct:
     de: Percentage correction for lower or high incomes
     en:
   description:
-    de: § 2 (2) BEEG
+    de: § 2 BEEG
     en:
   values:
     2007-01-01:
@@ -72,7 +72,7 @@ perc_deduct_limit:
     de: Percentage deduction limit for higher incomes
     en:
   description:
-    de: § 2 (2) BEEG
+    de: § 2 BEEG
     en:
   values:
     2007-01-01:
@@ -86,7 +86,7 @@ elg_perc_correct_step:
     de: Income steps for percentage correction
     en:
   description:
-    de: § 2 (2) BEEG
+    de: § 2 BEEG
     en:
   values:
     2007-01-01:
@@ -97,7 +97,7 @@ elg_geschw_bonus_share:
     de: Geschwisterbonus als prozentualer Aufschlag
     en: Sibling Bonus, percentage top-up
   description:
-    de: §2a (1) BEEG
+    de: §2 BEEG
     en:
   values:
     2007-01-01:
@@ -111,7 +111,7 @@ elg_geschw_bonus_min:
     de: Minimaler Geschwisterbonus als Euro-Betrag
     en: Sibling Bonus, minimal amount
   description:
-    de: §2a (1) BEEG
+    de: §2  BEEG
     en:
   values:
     2007-01-01:
@@ -125,7 +125,7 @@ elg_geschw_bonus_max:
     de: Maximaler Geschwisterbonus als Euro-Betrag
     en: Sibling Bonus, maximal amount
   description:
-    de: §2a (1) BEEG
+    de: §2 BEEG
     en:
   values:
     2007-01-01:
@@ -134,6 +134,17 @@ elg_geschw_bonus_max:
     2012-09-18:
       value: 180
       note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
+mehrling_bonus:
+  name:
+    de: Pauschale für jedes weiter Mehrlingskind
+    en: Twin, triplet bonus per additional child
+  description:
+    de: §2 BEEG
+    en:
+  values:
+    2007-01-01:
+      value: 300
+      note:
 soz_vers_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Nettoeinkommens

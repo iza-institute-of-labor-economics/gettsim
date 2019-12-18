@@ -63,9 +63,11 @@ def calc_elt_geld(
 
         elt_geld_calc = considered_wage * payed_percentage
 
+        prelim_elt_geld = max(min(elt_geld_calc, params["elgmax"]), params["elgmin"])
         if person["geschw_bonus"]:
-            elt_geld_calc += calc_geschw_bonus(elt_geld_calc, params)
-        person["elt_geld"] = max(min(elt_geld_calc, params["elgmax"]), params["elgmin"])
+            prelim_elt_geld += calc_geschw_bonus(elt_geld_calc, params)
+        prelim_elt_geld += person["num_mehrling_bonus"] * params["mehrling_bonus"]
+        person["elt_geld"] = prelim_elt_geld
 
     return person
 
