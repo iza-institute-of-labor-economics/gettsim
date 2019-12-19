@@ -3,7 +3,7 @@ wg_factor:
     de: Faktor am Anfang der Wohngeldformel
     en:
   description:
-    de: Anlage 2 WoGG zu §19 Abs. 2 WoGG
+    de: §19 (1) WoGG
     en:
   values:
     1984-01-01:
@@ -20,7 +20,7 @@ wg_a_1p:
     de: Parameter a (Haushalt mit 1 Person)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -40,10 +40,10 @@ wg_a_1p:
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_2p:
   name:
-    de: Parameter a (Haushalt mit 2 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
+    de: Parameter a (Haushalt mit 2 Personen)  (WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)))
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -63,10 +63,10 @@ wg_a_2p:
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_3p:
   name:
-    de: Parameter a (Haushalt mit 3 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
+    de: Parameter a (Haushalt mit 3 Personen)  (WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)))
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -86,10 +86,10 @@ wg_a_3p:
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_4p:
   name:
-    de: Parameter a (Haushalt mit 4 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
+    de: Parameter a (Haushalt mit 4 Personen)  (WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)))
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -109,10 +109,10 @@ wg_a_4p:
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_5p:
   name:
-    de: Parameter a (Haushalt mit 5 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
+    de: Parameter a (Haushalt mit 5 Personen)  (WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)))
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -132,10 +132,10 @@ wg_a_5p:
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_6p:
   name:
-    de: Parameter a (Haushalt mit 6 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
+    de: Parameter a (Haushalt mit 6 Personen)  (WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)))
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -155,10 +155,10 @@ wg_a_6p:
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_7p:
   name:
-    de: Parameter a (Haushalt mit 7 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
+    de: Parameter a (Haushalt mit 7 Personen)  (WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)))
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -178,10 +178,10 @@ wg_a_7p:
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_8p:
   name:
-    de: Parameter a (Haushalt mit 8 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
+    de: Parameter a (Haushalt mit 8 Personen)  (WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)))
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -201,10 +201,10 @@ wg_a_8p:
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
 wg_a_9p:
   name:
-    de: Parameter a (Haushalt mit 9 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
+    de: Parameter a (Haushalt mit 9 Personen)  (WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)))
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -230,7 +230,7 @@ wg_a_10p:
     de: Parameter a (Haushalt mit 10 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -256,7 +256,7 @@ wg_a_11p:
     de: Parameter a (Haushalt mit 11 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -282,7 +282,7 @@ wg_a_12p:
     de: Parameter a (Haushalt mit 12 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -308,7 +308,7 @@ wg_b_1p:
     de: Parameter b (Haushalt mit 1 Person)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -326,12 +326,15 @@ wg_b_1p:
     2016-01-01:
       value: 0.00063
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.00058
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_2p:
   name:
     de: Parameter b (Haushalt mit 2 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -352,12 +355,15 @@ wg_b_2p:
     2016-01-01:
       value: 0.00044
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000405
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_3p:
   name:
     de: Parameter b (Haushalt mit 3 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -375,12 +381,15 @@ wg_b_3p:
     2016-01-01:
       value: 0.00038
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.00035
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_4p:
   name:
     de: Parameter b (Haushalt mit 4 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -401,12 +410,15 @@ wg_b_4p:
     2016-01-01:
       value: 0.00034
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000313
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_5p:
   name:
     de: Parameter b (Haushalt mit 5 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -424,12 +436,15 @@ wg_b_5p:
     2016-01-01:
       value: 0.0003
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000276
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_6p:
   name:
     de: Parameter b (Haushalt mit 6 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -450,12 +465,15 @@ wg_b_6p:
     2016-01-01:
       value: 0.00028
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000258
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_7p:
   name:
     de: Parameter b (Haushalt mit 7 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -476,12 +494,15 @@ wg_b_7p:
     2016-01-01:
       value: 0.00026
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000239
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_8p:
   name:
     de: Parameter b (Haushalt mit 8 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -502,12 +523,15 @@ wg_b_8p:
     2016-01-01:
       value: 0.00023
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000212
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_9p:
   name:
     de: Parameter b (Haushalt mit 9 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -528,12 +552,15 @@ wg_b_9p:
     2016-01-01:
       value: 0.0002
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000184
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_10p:
   name:
     de: Parameter b (Haushalt mit 10 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -554,12 +581,15 @@ wg_b_10p:
     2016-01-01:
       value: 0.00016
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000147
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_11p:
   name:
     de: Parameter b (Haushalt mit 11 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -577,12 +607,15 @@ wg_b_11p:
     2009-01-01:
       value: 0.00012
       note:
+    2020-01-01:
+      value: 0.00011
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_b_12p:
   name:
     de: Parameter b (Haushalt mit 12 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -603,12 +636,15 @@ wg_b_12p:
     2016-01-01:
       value: 0.00011
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000101
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_1p:
   name:
     de: Parameter c (Haushalt mit 1 Person)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -626,12 +662,15 @@ wg_c_1p:
     2016-01-01:
       value: 0.000138
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000118
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_2p:
   name:
     de: Parameter c (Haushalt mit 2 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -649,12 +688,15 @@ wg_c_2p:
     2016-01-01:
       value: 0.000103
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000088
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_3p:
   name:
     de: Parameter c (Haushalt mit 3 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -672,12 +714,15 @@ wg_c_3p:
     2016-01-01:
       value: 0.000083
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000709
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_4p:
   name:
     de: Parameter c (Haushalt mit 4 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -695,12 +740,15 @@ wg_c_4p:
     2016-01-01:
       value: 0.000043
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.000368
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_5p:
   name:
     de: Parameter c (Haushalt mit 5 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -718,12 +766,15 @@ wg_c_5p:
     2016-01-01:
       value: 0.000042
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000359
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_6p:
   name:
     de: Parameter c (Haushalt mit 6 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -741,12 +792,15 @@ wg_c_6p:
     2016-01-01:
       value: 0.000036
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000308
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_7p:
   name:
     de: Parameter c (Haushalt mit 7 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -767,12 +821,15 @@ wg_c_7p:
     2016-01-01:
       value: 0.000037
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000316
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_8p:
   name:
     de: Parameter c (Haushalt mit 8 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -790,12 +847,15 @@ wg_c_8p:
     2016-01-01:
       value: 0.000037
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000316
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_9p:
   name:
     de: Parameter c (Haushalt mit 9 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -816,12 +876,15 @@ wg_c_9p:
     2016-01-01:
       value: 0.000039
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000333
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_10p:
   name:
     de: Parameter c (Haushalt mit 10 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -842,12 +905,15 @@ wg_c_10p:
     2016-01-01:
       value: 0.000045
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000385
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_11p:
   name:
     de: Parameter c (Haushalt mit 11 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -865,12 +931,15 @@ wg_c_11p:
     2016-01-01:
       value: 0.000053
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000453
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_c_12p:
   name:
     de: Parameter c (Haushalt mit 12 Personen)
     en:
   description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
+    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
     en:
   values:
     1984-01-01:
@@ -888,6 +957,9 @@ wg_c_12p:
     2016-01-01:
       value: 0.00006
       note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 0.0000513
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wg_add_12plus:
   name:
     de: Zusätzlicher Betrag pro Person für Haushalte mit mehr als 12 Personen
@@ -904,7 +976,10 @@ wg_add_12plus:
       note: BGBl. I vom 24.09.2008, S. 1856
     2016-01-01:
       value: 47
-      note: geändert durch BGBl. I vom 08.10.2015, S.1617
+      note: G. v. 08.10.2015 BGBl. I S.1617
+    2020-01-01:
+      value: 51
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wghka:
   name:
     de: Unterstellter Anteil der Heiz- und Warmwasserkosten an der Miete bei HH, bei denen diese in der Miete enthalten, aber Höhe nicht bekannt ist.
@@ -1182,7 +1257,7 @@ wgmax1p_m_st1:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1191,12 +1266,15 @@ wgmax1p_m_st1:
     2016-01-01:
       value: 312
       note:
+    2020-01-01:
+      value: 338
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax1p_m_st2:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, vorher §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1205,12 +1283,15 @@ wgmax1p_m_st2:
     2016-01-01:
       value: 351
       note:
+    2020-01-01:
+      value: 381
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax1p_m_st3:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     1984-01-01:
@@ -1234,12 +1315,15 @@ wgmax1p_m_st3:
     2016-01-01:
       value: 390
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611  - auch unter http://www.wohngeld.org/wohngeldgesetz-wogg/paragraph12.html
+    2020-01-01:
+      value: 426
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax1p_m_st4:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1248,12 +1332,15 @@ wgmax1p_m_st4:
     2016-01-01:
       value: 434
       note:
+    2020-01-01:
+      value: 478
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax1p_m_st5:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1262,12 +1349,15 @@ wgmax1p_m_st5:
     2016-01-01:
       value: 482
       note:
+    2020-01-01:
+      value: 525
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax1p_m_st6:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1276,12 +1366,26 @@ wgmax1p_m_st6:
     2016-01-01:
       value: 522
       note:
+    2020-01-01:
+      value: 575
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+wgmax1p_m_st7:
+  name:
+    de: Höchstbeträge für Miete und Belastung (Mietstufe VII) (1-Personen-Haushalt).
+    en:
+  description:
+    de: Anlage 1 WoGG
+    en:
+  values:
+    2020-01-01:
+      value: 633
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax2p_m_st1:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1290,12 +1394,15 @@ wgmax2p_m_st1:
     2016-01-01:
       value: 378
       note:
+    2020-01-01:
+      value: 409
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax2p_m_st2:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1304,12 +1411,15 @@ wgmax2p_m_st2:
     2016-01-01:
       value: 425
       note:
+    2020-01-01:
+      value: 461
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax2p_m_st3:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     1984-01-01:
@@ -1333,12 +1443,15 @@ wgmax2p_m_st3:
     2016-01-01:
       value: 473
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
+    2020-01-01:
+      value: 516
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax2p_m_st4:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1347,12 +1460,15 @@ wgmax2p_m_st4:
     2016-01-01:
       value: 526
       note:
+    2020-01-01:
+      value: 579
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax2p_m_st5:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1361,12 +1477,15 @@ wgmax2p_m_st5:
     2016-01-01:
       value: 584
       note:
+    2020-01-01:
+      value: 636
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax2p_m_st6:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1375,12 +1494,26 @@ wgmax2p_m_st6:
     2016-01-01:
       value: 633
       note:
+    2020-01-01:
+      value: 697
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+wgmax2p_m_st7:
+  name:
+    de: Höchstbeträge für Miete und Belastung (Mietstufe VII) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
+    en:
+  description:
+    de: Anlage 1 WoGG
+    en:
+  values:
+    2020-01-01:
+      value: 767
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax3p_m_st1:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1389,12 +1522,15 @@ wgmax3p_m_st1:
     2016-01-01:
       value: 450
       note:
+    2020-01-01:
+      value: 487
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax3p_m_st2:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1403,12 +1539,15 @@ wgmax3p_m_st2:
     2016-01-01:
       value: 506
       note:
+    2020-01-01:
+      value: 549
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax3p_m_st3:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     1984-01-01:
@@ -1432,12 +1571,15 @@ wgmax3p_m_st3:
     2016-01-01:
       value: 563
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
+    2020-01-01:
+      value: 614
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax3p_m_st4:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1446,12 +1588,15 @@ wgmax3p_m_st4:
     2016-01-01:
       value: 626
       note:
+    2020-01-01:
+      value: 689
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax3p_m_st5:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1460,12 +1605,15 @@ wgmax3p_m_st5:
     2016-01-01:
       value: 695
       note:
+    2020-01-01:
+      value: 757
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax3p_m_st6:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1474,12 +1622,26 @@ wgmax3p_m_st6:
     2016-01-01:
       value: 753
       note:
+    2020-01-01:
+      value: 830
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+wgmax3p_m_st7:
+  name:
+    de: Höchstbeträge für Miete und Belastung (Mietstufe VII) (3-Personen-Haushalt)
+    en:
+  description:
+    de: Anlage 1 WoGG
+    en:
+  values:
+    2020-01-01:
+      value: 912
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax4p_m_st1:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1488,12 +1650,15 @@ wgmax4p_m_st1:
     2016-01-01:
       value: 525
       note:
+    2020-01-01:
+      value: 568
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax4p_m_st2:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1502,12 +1667,15 @@ wgmax4p_m_st2:
     2016-01-01:
       value: 591
       note:
+    2020-01-01:
+      value: 641
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax4p_m_st3:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     1984-01-01:
@@ -1531,12 +1699,15 @@ wgmax4p_m_st3:
     2016-01-01:
       value: 656
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
+    2020-01-01:
+      value: 716
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax4p_m_st4:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1545,12 +1716,15 @@ wgmax4p_m_st4:
     2016-01-01:
       value: 730
       note:
+    2020-01-01:
+      value: 803
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax4p_m_st5:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1559,12 +1733,15 @@ wgmax4p_m_st5:
     2016-01-01:
       value: 811
       note:
+    2020-01-01:
+      value: 884
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax4p_m_st6:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1573,12 +1750,26 @@ wgmax4p_m_st6:
     2016-01-01:
       value: 879
       note:
+    2020-01-01:
+      value: 968
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+wgmax4p_m_st7:
+  name:
+    de: Höchstbeträge für Miete und Belastung (Mietstufe VII) (4-Personen-Haushalt)
+    en:
+  description:
+    de: Anlage 1 WoGG
+    en:
+  values:
+    2020-01-01:
+      value: 693
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax5p_m_st1:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1587,12 +1778,15 @@ wgmax5p_m_st1:
     2016-01-01:
       value: 600
       note:
+    2020-01-01:
+      value: 649
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax5p_m_st2:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1601,12 +1795,15 @@ wgmax5p_m_st2:
     2016-01-01:
       value: 675
       note:
+    2020-01-01:
+      value: 732
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax5p_m_st3:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     1984-01-01:
@@ -1630,12 +1827,15 @@ wgmax5p_m_st3:
     2016-01-01:
       value: 750
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
+    2020-01-01:
+      value: 818
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax5p_m_st4:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1644,12 +1844,15 @@ wgmax5p_m_st4:
     2016-01-01:
       value: 834
       note:
+    2020-01-01:
+      value: 918
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax5p_m_st5:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1658,12 +1861,15 @@ wgmax5p_m_st5:
     2016-01-01:
       value: 927
       note:
+    2020-01-01:
+      value: 1010
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmax5p_m_st6:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1672,12 +1878,26 @@ wgmax5p_m_st6:
     2016-01-01:
       value: 1004
       note:
+    2020-01-01:
+      value: 1106
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+wgmax5p_m_st7:
+  name:
+    de: Höchstbeträge für Miete und Belastung (Mietstufe VII) (5-Personen-Haushalt)
+    en:
+  description:
+    de: Anlage 1 WoGG
+    en:
+  values:
+    2020-01-01:
+      value: 1217
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmaxplus5_m_st1:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe I) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1686,12 +1906,15 @@ wgmaxplus5_m_st1:
     2016-01-01:
       value: 71
       note:
+    2020-01-01:
+      value: 77
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmaxplus5_m_st2:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe II) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1700,12 +1923,15 @@ wgmaxplus5_m_st2:
     2016-01-01:
       value: 81
       note:
+    2020-01-01:
+      value: 88
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmaxplus5_m_st3:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe III) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     1984-01-01:
@@ -1729,12 +1955,15 @@ wgmaxplus5_m_st3:
     2016-01-01:
       value: 91
       note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
+    2020-01-01:
+      value: 99
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmaxplus5_m_st4:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1743,12 +1972,15 @@ wgmaxplus5_m_st4:
     2016-01-01:
       value: 101
       note:
+    2020-01-01:
+      value: 111
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmaxplus5_m_st5:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe V) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1757,12 +1989,15 @@ wgmaxplus5_m_st5:
     2016-01-01:
       value: 111
       note:
+    2020-01-01:
+      value: 121
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmaxplus5_m_st6:
   name:
     de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
     en:
   description:
-    de:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
   values:
     2009-01-01:
@@ -1771,6 +2006,20 @@ wgmaxplus5_m_st6:
     2016-01-01:
       value: 126
       note:
+    2020-01-01:
+      value: 139
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+wgmaxplus5_m_st7:
+  name:
+    de: Höchstbeträge für Miete und Belastung (Mietstufe VII)
+    en:
+  description:
+    de: Anlage 1 WoGG
+    en:
+  values:
+    2020-01-01:
+      value: 153
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmaxheat1p:
   name:
     de: Höchstbeträge für Heizkosten (1-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
@@ -1875,10 +2124,10 @@ wgmaxheatplus5:
       note:
 wgmin1p:
   name:
-    de: Parameter M (1-Personen Haushalt)
+    de: Minimalwert für Parameter M (1-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -1892,13 +2141,16 @@ wgmin1p:
       note:
     2016-01-01:
       value: 48
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+      note: WoGG Anlage 2 (zu §19 (2)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 52
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin2p:
   name:
-    de: Parameter M (2-Personen Haushalt)
+    de: Minimalwert für Parameter M (2-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -1913,12 +2165,15 @@ wgmin2p:
     2016-01-01:
       value: 59
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 64
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin3p:
   name:
-    de: Parameter M (3-Personen Haushalt)
+    de: Minimalwert für Parameter M (3-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -1933,12 +2188,15 @@ wgmin3p:
     2016-01-01:
       value: 70
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 76
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin4p:
   name:
-    de: Parameter M (4-Personen Haushalt)
+    de: Minimalwert für Parameter M (4-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -1953,12 +2211,15 @@ wgmin4p:
     2016-01-01:
       value: 81
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 88
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin5p:
   name:
-    de: Parameter M (5-Personen Haushalt)
+    de: Minimalwert für Parameter M (5-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -1973,12 +2234,15 @@ wgmin5p:
     2016-01-01:
       value: 91
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 99
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin6p:
   name:
-    de: Parameter M (6-Personen Haushalt)
+    de: Minimalwert für Parameter M (6-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -1993,12 +2257,15 @@ wgmin6p:
     2016-01-01:
       value: 91
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 99
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin7p:
   name:
-    de: Parameter M (7-Personen Haushalt)
+    de: Minimalwert für Parameter M (7-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2013,12 +2280,15 @@ wgmin7p:
     2016-01-01:
       value: 102
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 111
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin8p:
   name:
-    de: Parameter M (8-Personen Haushalt)
+    de: Minimalwert für Parameter M (8-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2033,12 +2303,15 @@ wgmin8p:
     2016-01-01:
       value: 113
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 123
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin9p:
   name:
-    de: Parameter M (9-Personen Haushalt)
+    de: Minimalwert für Parameter M (9-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2053,12 +2326,15 @@ wgmin9p:
     2016-01-01:
       value: 124
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 135
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin10p:
   name:
-    de: Parameter M (10-Personen Haushalt)
+    de: Minimalwert für Parameter M (10-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2073,12 +2349,15 @@ wgmin10p:
     2016-01-01:
       value: 134
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 146
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin11p:
   name:
-    de: Parameter M (11-Personen Haushalt)
+    de: Minimalwert für Parameter M (11-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2090,12 +2369,15 @@ wgmin11p:
     2009-01-01:
       value: 155
       note:
+    2020-01-01:
+      value: 180
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgmin12p:
   name:
-    de: Parameter M (12 oder mehr-Personen Haushalt)
+    de: Minimalwert für Parameter M (12 oder mehr-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2110,12 +2392,15 @@ wgmin12p:
     2016-01-01:
       value: 263
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 286
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK1p:
   name:
-    de: Parameter Y (1-Personen Haushalt)
+    de: Minimalwert für Parameter Y (1-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2130,12 +2415,15 @@ wgminEK1p:
     2016-01-01:
       value: 239
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 275
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK2p:
   name:
-    de: Parameter Y (2-Personen Haushalt)
+    de: Minimalwert für Parameter Y (2-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2150,12 +2438,15 @@ wgminEK2p:
     2016-01-01:
       value: 310
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 357
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK3p:
   name:
-    de: Parameter Y (3-Personen Haushalt)
+    de: Minimalwert für Parameter Y (3-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2170,12 +2461,15 @@ wgminEK3p:
     2016-01-01:
       value: 360
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 414
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK4p:
   name:
-    de: Parameter Y (4-Personen Haushalt)
+    de: Minimalwert für Parameter Y (4-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2190,12 +2484,15 @@ wgminEK4p:
     2016-01-01:
       value: 389
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 447
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK5p:
   name:
-    de: Parameter Y (5-Personen Haushalt)
+    de: Minimalwert für Parameter Y (5-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2210,12 +2507,15 @@ wgminEK5p:
     2016-01-01:
       value: 463
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 532
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK6p:
   name:
-    de: Parameter Y (6-Personen Haushalt)
+    de: Minimalwert für Parameter Y (6-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2230,12 +2530,15 @@ wgminEK6p:
     2016-01-01:
       value: 537
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 618
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK7p:
   name:
-    de: Parameter Y (7-Personen Haushalt)
+    de: Minimalwert für Parameter Y (7-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2250,12 +2553,15 @@ wgminEK7p:
     2016-01-01:
       value: 610
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 702
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK8p:
   name:
-    de: Parameter Y (8-Personen Haushalt)
+    de: Minimalwert für Parameter Y (8-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2270,12 +2576,15 @@ wgminEK8p:
     2016-01-01:
       value: 684
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 787
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK9p:
   name:
-    de: Parameter Y (9-Personen Haushalt)
+    de: Minimalwert für Parameter Y (9-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2290,12 +2599,15 @@ wgminEK9p:
     2016-01-01:
       value: 758
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 872
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK10p:
   name:
-    de: Parameter Y (10-Personen Haushalt)
+    de: Minimalwert für Parameter Y (10-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2310,12 +2622,15 @@ wgminEK10p:
     2016-01-01:
       value: 832
       note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
+    2020-01-01:
+      value: 957
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK11p:
   name:
-    de: Parameter Y (11-Personen Haushalt)
+    de: Minimalwert für Parameter Y (11-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2327,12 +2642,15 @@ wgminEK11p:
     2009-01-01:
       value: 1085
       note:
+    2020-01-01:
+      value: 1248
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgminEK12p:
   name:
-    de: Parameter Y (12 oder mehr-Personen Haushalt)
+    de: Minimalwert für Parameter Y (12 oder mehr-Personen Haushalt)
     en:
   description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
     en:
   values:
     1984-01-01:
@@ -2350,6 +2668,9 @@ wgminEK12p:
     2019-01-01:
       value: 1255
       note:
+    2020-01-01:
+      value: 1443
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgpabz0:
   name:
     de: Prozentualer Pauschalabzug vom Bruttoeinkommen (kein Kriterium erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
@@ -2448,7 +2769,7 @@ wgpfbm80:
     de: Monatlicher Freibetrag pro schwerbehindertes Haushaltsmitglied (ab 80 % Behinderung)
     en:
   description:
-    de: § 17 (1) WoGG
+    de: § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG) Seit 2016 ab 100% Behinderungsgrad, vorher 80%. Betrag im Gesetz durch 12 geteilt.
     en:
   values:
     1984-01-01:
@@ -2463,12 +2784,15 @@ wgpfbm80:
     2002-01-01:
       value: 125
       note:
+    2020-01-01:
+      value: 150
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 wgpfbu80:
   name:
-    de: Monatlicher Freibetrag pro behindertes Haushaltsmitglied (unter 80 % Behinderung)
+    de: Monatlicher Freibetrag pro behindertes Haushaltsmitglied.
     en:
   description:
-    de: § 17 (2) WoGG
+    de:
     en:
   values:
     1984-01-01:
