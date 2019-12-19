@@ -1,9 +1,9 @@
 gkvbs_ag:
   name:
-    de: Beitragssatz zur GKV (Arbeitgeber)
-    en:
+    de: Beitragssatz zur Gesetzlichen Krankenversicherung (Arbeitgeber)
+    en: Contribution rate to statutory health insurance (employer share)
   description:
-    de: §§ 241, 249 (1) SGB V
+    de: §§ 241, 249 (1) SGB V. Halber Wert des gesetzlichen Wertes.
     en:
   values:
     1984-01-01:
@@ -80,10 +80,10 @@ gkvbs_ag:
       note:
 gkvbs_an:
   name:
-    de: Beitragssatz zur GKV (Arbeitnehmer)
-    en:
+    de: Beitragssatz zur Gesetzlichen Krankenversicherung (Arbeitnehmer)
+    en: Contribution rate to statutory health insurance (employer share)
   description:
-    de: §§ 241, 249 (1) SGB V, ab 2015 auch §242a SGB V
+    de: §§ 241, 249 (1) SGB V, ab 2015 auch §242a SGB V. Halber Betrag aus §214 plus durchschnittlicher Zusatzbeitrag laut Veröffentlichung der Bundesregierung.
     en:
   values:
     1984-01-01:
@@ -167,12 +167,15 @@ gkvbs_an:
     2019-01-01:
       value: 0.082
       note:
+    2020-01-01:
+      value: 0.084
+      note: https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
 gpvbs:
   name:
-    de: Beitragssatz zur GPV (AN / AG) (Außerhalb Sachsens)
-    en:
+    de: Beitragssatz zur Gesetzlichen Pflegeversicherung (Arbeitgeber und -nehmer)
+    en: Contribution rate to statutory care insurance for both employer and employee
   description:
-    de: § 55 (1) SGB XI
+    de: § 55 (1) SGB XI. Hälfte des im Gesetz angegebenen Werts.
     en:
   values:
     1984-01-01:
@@ -201,10 +204,10 @@ gpvbs:
       note:
 gpvbs_kind:
   name:
-    de: Beitragszuschlag für Kinderlose, älter als 23 Jahre - nicht ALG II-Empfänger
-    en:
+    de: PflV-Beitragszuschlag für Kinderlose
+    en: Top-up on care insurance contribution for childless persons
   description:
-    de: § 55 (3) SGB XI
+    de: § 55 (3) SGB XI. Falls über 23 Jahre.
     en:
   values:
     1984-01-01:
@@ -317,6 +320,9 @@ bezgr_w:
     2019-01-01:
       value: 3115
       note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
+    2020-01-01:
+      value: 3185
+      note: Sozialversicherungs-Rechengrößenverordnung 2020
 bezgr_o:
   name:
     de: monatl. Bezugsgröße Ost
@@ -406,10 +412,13 @@ bezgr_o:
     2019-01-01:
       value: 2870
       note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
+    2020-01-01:
+      value: 3010
+      note: Sozialversicherungs-Rechengrößenverordnung 2020
 kvmaxeko:
   name:
     de: Beitragsbemessungsgrenze in der GKV und PV (Ost)
-    en:
+    en: Income Threshold for Health and Care Insurance. East Germany
   description:
     de: u.a. Bundesfinanzministerium
     en:
@@ -501,10 +510,13 @@ kvmaxeko:
     2019-01-01:
       value: 4537.5
       note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
+    2020-01-01:
+      value: 4687.5
+      note: Sozialversicherungs-Rechengrößenverordnung 2020
 kvmaxekw:
   name:
     de: Beitragsbemessungsgrenze in der GKV und PV (West)
-    en:
+    en: Income Threshold for Health and Care Insurance. West Germany
   description:
     de: u.a. Bundesfinanzministerium
     en:
@@ -614,12 +626,15 @@ kvmaxekw:
     2019-01-01:
       value: 4537.5
       note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
+    2020-01-01:
+      value: 4687.5
+      note: Sozialversicherungs-Rechengrößenverordnung 2020
 alvbs:
   name:
     de: Beitragssatz zur Arbeitslosenversicherung (AN / AG)
-    en:
+    en: Contribution rate to statutory unemployment insurance
   description:
-    de: Höhe § 341 (2) SGB III
+    de: Höhe § 341 (2) SGB III. Hälfte des gesetzlichen Werts.
     en:
   values:
     1984-01-01:
@@ -655,6 +670,9 @@ alvbs:
     2019-01-01:
       value: 0.013
       note: geändert durch BGBl. I S.2651
+    2020-01-01:
+      value: 0.012
+      note: https://www.bundesregierung.de/breg-de/aktuelles/beitrag-alv-1693634
 grvbs:
   name:
     de: Beitragssatz zur GRV (AN / AG)
@@ -731,7 +749,7 @@ grvbs_mini:
 rvmaxeko:
   name:
     de: Beitragsbemessungsgrenze in der GRV und ALV (Ost)
-    en:
+    en: Income Threshold for Pension und Unemployment Insurance (East Germany)
   description:
     de: https://de.wikipedia.org/wiki/Beitragsbemessungsgrenze
     en:
@@ -820,10 +838,13 @@ rvmaxeko:
     2019-01-01:
       value: 6150
       note:
+    2020-01-01:
+      value: 6450
+      note: Sozialversicherungs-Rechengrößenverordnung 2020
 rvmaxekw:
   name:
-    de: Beitragsbemessungsgrenze in der GRV und ALV (West)  (IW-Zahlen, Bundesfinanzministerium, http://www.nettoeinkommen.de/grenz.htm)
-    en:
+    de: Beitragsbemessungsgrenze in der GRV und ALV (West)
+    en: Income Threshold for Pension und Unemployment Insurance (East Germany)
   description:
     de: https://de.wikipedia.org/wiki/Beitragsbemessungsgrenze
     en:
@@ -930,6 +951,9 @@ rvmaxekw:
     2019-01-01:
       value: 6700
       note:
+    2020-01-01:
+      value: 6900
+      note: Sozialversicherungs-Rechengrößenverordnung 2020
 midi_grenze:
   name:
     de: Midijob-Grenze  (Höhe § 20 SGB IV (2))
@@ -947,6 +971,9 @@ midi_grenze:
     2013-01-01:
       value: 850
       note:
+    2019-07-01:
+      value: 1300
+      note: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
 mini_grenzeo:
   name:
     de: Minijob Grenze Ost (bis 1999 unterschiedliche Grenzen)  (Höhe § 8 SGB IV (1))
