@@ -1,7 +1,7 @@
 G:
   name:
     de: Grundfreibetrag
-    en: Basic Tax Allowance
+    en: Basic Income Tax Allowance
   description:
     de: §32a EStG
     en:
@@ -72,7 +72,7 @@ G:
 M:
   name:
     de: Mittlere Stufe des Steuertarifs
-    en:
+    en: Middle Step of the Tax Schedule
   description:
     de: §32a EStG
     en:
@@ -131,7 +131,7 @@ M:
 S:
   name:
     de: Hohe Stufe des Steuertarifs
-    en:
+    en: High Step of the Tax Schedule
   description:
     de: §32a EStG
     en:
@@ -481,7 +481,7 @@ t_d2:
 t_e:
   name:
     de: Eingangssteuersatz
-    en:
+    en: Entry Marginal Income Tax Rate
   description:
     de: §32a EStG, ergibt sich durch Division mit 1000 aus dem Wert in der ersten Stufe.
     en:
@@ -696,7 +696,7 @@ t_low3:
 t_m:
   name:
     de: mittlerer Steuersatz
-    en:
+    en: Marginal Income Tax Rate at medium step
   description:
     de: §32a EStG, ergibt sich durch Division mit 1000 aus dem Wert in der ersten Stufe.
     en:
@@ -715,10 +715,10 @@ t_m:
       note:
 t_r:
   name:
-    de: Reichensteuersatz (vor 2007 t_r = t_s)
-    en:
+    de: Reichensteuersatz.
+    en: Marginal Tax Rate for the Rich.
   description:
-    de: §32a EStG
+    de: §32a EStG. Gibt es erst seit 2007. Vorher aus Kompatibilitätsgründen teilweise identisch mit t_s
     en:
   values:
     1984-01-01:
@@ -745,7 +745,7 @@ t_r:
 t_s:
   name:
     de: Spitzensteuersatz
-    en:
+    en: Top Marginal Income Tax Rate
   description:
     de: §32a EStG
     en:
