@@ -36,7 +36,7 @@ uhv6_amount:
     de: Mindestunterhalt für Kinder bis 6 Jahre
     en:
   description:
-    de: §1 Mindesunterhaltsverordnung (MUV)
+    de: Mindestunterhalt für Kinder von in der ersten Altersstufe (bis zur Vollendung des sechsten Lebensjahrs, nach § 1612a BGB). § 1 Mindesunterhaltsverordnung.
     en:
   values:
     2016-01-01:
@@ -62,7 +62,7 @@ uhv12_amount:
     de: Mindestunterhalt für Kinder von 7-12 Jahren
     en:
   description:
-    de: §1 Mindesunterhaltsverordnung (MUV)
+    de: Mindestunterhalt für Kinder von in der zweiten Altersstufe (vom siebten bis zur Vollendung des zwölften Lebensjahrs, nach § 1612a BGB). § 1 Mindesunterhaltsverordnung.
     en:
   values:
     2016-01-01:
@@ -114,7 +114,7 @@ uhv17_inc:
     de: Monatliches Mindesteinkommen, um UHV für Kinder ab 13 Jahren zu erhalten
     en:
   description:
-    de: §1 (1a) Nr. 2
+    de: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
     en:
   values:
     2017-01-01:
