@@ -93,6 +93,8 @@ Required columns in input data
 +--------------+---------------------------------------------------------+-------------+
 |pkv           |Whether individual is (only) privately health insured    | Bool        |
 +--------------+---------------------------------------------------------+-------------+
+|priv_pens_exp |Monthly contributions to private pension insurance       | Float       |
++--------------+---------------------------------------------------------+-------------+
 |m_wage_l1     |Average monthly earnings, previous year                  | Float       |
 +--------------+---------------------------------------------------------+-------------+
 |months_ue     |Months in unemployment, current year                     | Float       |

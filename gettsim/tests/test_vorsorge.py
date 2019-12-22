@@ -7,72 +7,38 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.taxes.zve import zve
+from gettsim.taxes.zve import vorsorge2004, vorsorge04_05, vorsorge04_10
 
 
 IN_COLS = [
     "pid",
-    "hid",
     "tu_id",
     "m_wage",
-    "m_self",
-    "m_kapinc",
-    "m_vermiet",
-    "renteneintritt",
-    "m_pensions",
-    "w_hours",
-    "ineducation",
-    "zveranl",
     "child",
-    "m_childcare",
-    "handcap_degree",
-    "rvbeit",
     "priv_pension_exp",
+    "rvbeit",
     "avbeit",
     "pvbeit",
-    "alleinerz",
-    "age",
-    "child_num_tu",
     "year",
-    "east",
     "gkvbeit",
+    "zveranl"
 ]
 OUT_COLS = [
-    "zve_nokfb",
-    "zve_abg_nokfb",
-    "zve_kfb",
-    "zve_abg_kfb",
-    "kifreib",
-    "gross_e1",
-    "gross_e4",
-    "gross_e5",
-    "gross_e6",
-    "gross_e7",
-    "gross_e1_tu",
-    "gross_e4_tu",
-    "gross_e5_tu",
-    "gross_e6_tu",
-    "gross_e7_tu",
-    "ertragsanteil",
-    "sonder",
-    "hhfreib",
-    "altfreib",
-    "vorsorge",
+    "vorsorge"
 ]
 
-TEST_COLS = ["zve_nokfb", "zve_kfb"]
-YEARS = [2005, 2009, 2010, 2012, 2018]
-
+TEST_COLS = ["vorsorge"]
+YEARS = [2005, 2010, 2025]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_zve.csv"
+    file_name = "test_dfs_vorsorge.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_zve(
+def test_vorsorge(
     input_data,
     year,
     column,
@@ -88,21 +54,21 @@ def test_zve(
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
-    kindergeld_params = get_policies_for_date(
-        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
-    )
+    if year >= 2010:
+        e_st_abzuege_params["vorsorge"] = vorsorge04_10
+    elif year >= 2005:
+        e_st_abzuege_params["vorsorge"] = vorsorge04_05
+    elif year <= 2004:
+        e_st_abzuege_params["vorsorge"] = vorsorge2004
 
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"]).apply(
-        zve,
-        e_st_abzuege_params=e_st_abzuege_params,
-        soz_vers_beitr_params=soz_vers_beitr_params,
-        kindergeld_params=kindergeld_params,
+    df = df.groupby("tu_id").apply(
+        e_st_abzuege_params["vorsorge"],
+        params=e_st_abzuege_params,
+        soz_vers_beitr_params=soz_vers_beitr_params,        
     )
 
-    # TODO: We need to adress this comment. This can't be our last word!
-    # allow 1€ difference, caused by strange rounding issues.
     assert_series_equal(
         df[column], year_data[column], check_less_precise=2, check_dtype=False
     )

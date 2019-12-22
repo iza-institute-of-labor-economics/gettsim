@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-
+import math
 
 def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params):
     """Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
@@ -52,6 +52,11 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     # Sonderausgaben
     tax_unit = deductible_child_care_costs(tax_unit, e_st_abzuege_params)
     # 2. VORSORGEAUFWENDUNGEN (technically a special case of "Sonderausgaben")
+    """
+    Vorsorgeaufwendungen': Deduct part of your social insurance contributions
+                           from your taxable income.
+    This regulation has been changed often in recent years.
+    """
     tax_unit.loc[:, "vorsorge"] = e_st_abzuege_params["vorsorge"](
         tax_unit, e_st_abzuege_params, soz_vers_beitr_params
     )
@@ -62,7 +67,7 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     # 4.. Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
     tax_unit = e_st_abzuege_params["calc_hhfreib"](tax_unit, e_st_abzuege_params)
 
-    # Taxable income (zve)
+    # Taxable income (zve = zu versteuerndes Einkommen)
     # For married couples, household income is split between the two.
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
     tax_unit.loc[~tax_unit["child"], "zve_nokfb"] = zve_nokfb(
@@ -71,8 +76,8 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     # Tax base including capital income
     tax_unit = zve_abg_nokfb(tax_unit, e_st_abzuege_params)
 
-    tax_unit = kinderfreibetrag(tax_unit, e_st_abzuege_params, kindergeld_params)
-
+    tax_unit["kifreib"] = kinderfreibetrag(tax_unit, e_st_abzuege_params, kindergeld_params)
+    
     # Finally, Subtract (corrected) Child allowance
     tax_unit.loc[~tax_unit["child"], "zve_kfb"] = np.maximum(
         tax_unit["zve_nokfb"] - tax_unit["kifreib"], 0
@@ -80,6 +85,7 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     tax_unit.loc[~tax_unit["child"], "zve_abg_kfb"] = np.maximum(
         tax_unit["zve_abg_nokfb"] - tax_unit["kifreib"], 0
     )
+    # Finally, Subtract (corrected) Child allowance
     # Finally, modify married couples income according to Splitting rule,
     # i.e. each partner get assigned half of the total income
     for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
@@ -89,6 +95,7 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
         tax_unit.loc[adult_married, "zve_" + incdef] = (
             0.5 * tax_unit["zve_" + incdef + "_tu"]
         )
+
     return tax_unit
 
 
@@ -117,7 +124,6 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
         kifreib_total = params["kifreib_s_exm"]
 
     diff_kifreib = nokfb_lower - (kifreib_total * child_num_kg)
-
     # If the couple is married and one earns not enough to split the kinderfeibetrag,
     # things get a bit more complicated
     if diff_kifreib < 0 & tax_unit[~tax_unit["child"]]["zveranl"].all():
@@ -135,14 +141,14 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
         tax_unit.loc[
             ~tax_unit["child"] & tax_unit["zve_nokfb"] == nokfb_lower, "kifreib"
         ] = kifreib_lower
-
-        return tax_unit
+        
+        return tax_unit["kifreib"]
 
     # For non married couples or couples where both earn enough this are a lot easier.
     # Just split the kinderfreibetrag 50/50.
     else:
         tax_unit.loc[~tax_unit["child"], "kifreib"] = kifreib_total * child_num_kg
-        return tax_unit
+        return tax_unit["kifreib"]
 
 
 def zve_nokfb(tax_unit, params):
@@ -166,7 +172,7 @@ def zve_abg_nokfb(tax_unit, params):
             0,
             tax_unit["gross_gde"]
             + np.maximum(
-                0, tax_unit["gross_e5"] - 2 * params["spsparf"] - 2 * params["spwerbz"],
+                0, tax_unit["gross_e5"] - 2 * params["spsparf"] - 2 * params["spwerbz"]
             )
             - tax_unit["vorsorge"]
             - tax_unit["sonder"]
@@ -179,7 +185,7 @@ def zve_abg_nokfb(tax_unit, params):
             0,
             tax_unit["gross_gde"]
             + np.maximum(
-                0, tax_unit["gross_e5"] - params["spsparf"] - params["spwerbz"],
+                0, tax_unit["gross_e5"] - params["spsparf"] - params["spwerbz"]
             )
             - tax_unit["vorsorge"]
             - tax_unit["sonder"]
@@ -240,7 +246,7 @@ def calc_gde(tax_unit, params):
     # If capital income tax with tariff, add it but account for exemptions
     if params["year"] < 2009:
         gross_gde += np.maximum(
-            tax_unit["gross_e5"] - params["spsparf"] - params["spwerbz"], 0,
+            tax_unit["gross_e5"] - params["spsparf"] - params["spwerbz"], 0
         )
     return gross_gde
 
@@ -314,67 +320,57 @@ def calc_gross_e7(tax_unit, params):
 
 
 def vorsorge2010(tax_unit, params, soz_vers_beitr_params):
-    """'Vorsorgeaufwendungen': Deduct part of your social insurance contributions
-        from your taxable income.
-        This regulation has been changed often in recent years. In order not to make
-        anyone worse off, the old regulation was maintained. Nowadays the older
-        regulations don't play a large role (i.e. the new one is more beneficial most of
-         the times) but they'd need to be implemented if earlier years are modelled.
-        Vorsorgeaufwendungen until 2004
-        TODO
-        Vorsorgeaufwendungen since 2010
+    """ Vorsorgeaufwendungen 2010 regime
         § 10 (3) EStG
         The share of deductable pension contributions increases each year by 2 pp.
         ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
         4% from health contributions are not deductable.
         only deduct pension contributions up to the ceiling. multiply by 2
         because it's both employee and employer contributions.
+
+        Other contributions can also be deducted.
+
+        This ruling differs to vorsorge2005() only in the treatment of other contributions.
         """
-    rvbeit_vors = np.minimum(
-        12 * 2 * tax_unit["rvbeit"] + 12 * tax_unit["priv_pension_exp"],
-        params["vorsorg_rv_max"] * vorsorge_year_faktor(params["year"]),
-    )
 
-    # calculate x% of relevant employer and employee contributions
+    # calculate x% of relevant employer and employee contributions and private contributions
     # then subtract employer contributions
+    altersvors2010_int = ~tax_unit["child"] * vorsorge_year_faktor(params["year"]) * (
+        12 * 2 * tax_unit["rvbeit"] + 12 * tax_unit["priv_pension_exp"]
+    ) - (12 * tax_unit["rvbeit"])
+    # Check whether we are above the maximum
+    altersvors2010 = np.minimum(altersvors2010_int, params["vorsorg_rv_max"])
     # also subtract health + care + unemployment insurance contributions
-    altersvors2010 = ~tax_unit["child"] * vorsorge_year_faktor(params["year"]) * (
-        rvbeit_vors
-    ) - (0.5 * rvbeit_vors) 
-
     # These you get anyway ('Basisvorsorge').
-    sonstigevors2010 = 12 * (tax_unit["pvbeit"] + 0.96 * tax_unit["gkvbeit"])
+    sonstigevors2010 = 12 * (
+        tax_unit["pvbeit"] + (1 - params["vorsorg_krank_minder"]) * tax_unit["gkvbeit"]
+    )
     # maybe add avbeit, but do not exceed 1900€.
     sonstigevors2010 = np.maximum(
         sonstigevors2010,
         np.minimum(
-            sonstigevors2010 + 12 * tax_unit["avbeit"], params["vors_sonst_max"],
+            sonstigevors2010 + 12 * tax_unit["avbeit"], params["vors_sonst_max"]
         ),
     )
     return altersvors2010.astype(int) + sonstigevors2010.astype(int)
 
 
 def vorsorge2005(tax_unit, params, soz_vers_beitr_params):
-    """ Vorsorgeaufwendungen pre 2010
+    """ Vorsorgeaufwendungen 2005 to 2010
     Pension contributions are accounted for up to €20k.
     From this, a certain share can actually be deducted,
     starting with 60% in 2005.
-    Other deductions are just added, up to a ceiling of 1500 p.a. for standard employees.
-
-    Background: https://bit.ly/32oqCQq
+    Other deductions are simply added up, up to a ceiling of 1500 p.a. for standard employees.
     """
 
-    rvbeit_vors_max = np.minimum(
-        params["vorsorg_rv_max"] * vorsorge_year_faktor(params["year"]),
-        12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pension_exp"])
-    )
     # intermediate step.
     altersvors2005_int = ~tax_unit["child"] * (
-        vorsorge_year_faktor(params["year"]) * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pension_exp"])) 
-        - (12 * tax_unit["rvbeit"]) 
-    ).astype(int)    
+        vorsorge_year_faktor(params["year"])
+        * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pension_exp"]))
+        - (12 * tax_unit["rvbeit"])
+    ).astype(int)
 
-    altersvors2005 = np.minimum(rvbeit_vors_max, altersvors2005_int)
+    altersvors2005 = np.minimum(params["vorsorg_rv_max"], altersvors2005_int)
 
     sonstigevors2005 = ~tax_unit["child"] * np.minimum(
         params["vors_sonst_max"],
@@ -433,24 +429,22 @@ def vorsorge04_05(tax_unit, params, soz_vers_beitr_params):
     """
     vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
     vors2005 = vorsorge2005(tax_unit, params, soz_vers_beitr_params)
-    print(f"Vors 2004: {vors2004}")
-    print(f"Vors 2005: {vors2005}")
-    return pd.DataFrame({'vorsorge': np.maximum(vors2004, vors2005)})
+    
+    return pd.DataFrame({"vorsorge": np.maximum(vors2004, vors2005)})
 
 
 def vorsorge04_10(tax_unit, params, soz_vers_beitr_params):
     """ After a supreme court ruling, the 2005 rule had to be changed in 2010.
         Therefore, one needs to compute amounts
-        (2004 and 2010 regime) and take the higher one.
+        (2004 and 2010 regime) and take the higher one. (§10 (3a) EStG).
         Sidenote: The 2010 ruling is by construction
-        *always* more beneficial than the 2005 one, so no need for a separate
-        check there.
+        *always* more or equally beneficial than the 2005 one,
+        so no need for a separate check there.
     """
     vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
     vors2010 = vorsorge2010(tax_unit, params, soz_vers_beitr_params)
-    print(f"Vors 2004: {vors2004}")
-    print(f"Vors 2010: {vors2010}")
-    return pd.DataFrame({'vorsorge': np.maximum(vors2004, vors2010)})
+    
+    return pd.DataFrame({"vorsorge": np.maximum(vors2004, vors2010)})
 
 
 def vorsorge_year_faktor(year):
