@@ -7,7 +7,9 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.taxes.zve import vorsorge2004, vorsorge04_05, vorsorge04_10
+from gettsim.taxes.zve import vorsorge04_05
+from gettsim.taxes.zve import vorsorge04_10
+from gettsim.taxes.zve import vorsorge2004
 
 
 IN_COLS = [
@@ -21,14 +23,13 @@ IN_COLS = [
     "pvbeit",
     "year",
     "gkvbeit",
-    "zveranl"
+    "zveranl",
 ]
-OUT_COLS = [
-    "vorsorge"
-]
+OUT_COLS = ["vorsorge"]
 
 TEST_COLS = ["vorsorge"]
 YEARS = [2005, 2010, 2025]
+
 
 @pytest.fixture(scope="module")
 def input_data():
@@ -66,7 +67,7 @@ def test_vorsorge(
     df = df.groupby("tu_id").apply(
         e_st_abzuege_params["vorsorge"],
         params=e_st_abzuege_params,
-        soz_vers_beitr_params=soz_vers_beitr_params,        
+        soz_vers_beitr_params=soz_vers_beitr_params,
     )
 
     assert_series_equal(
