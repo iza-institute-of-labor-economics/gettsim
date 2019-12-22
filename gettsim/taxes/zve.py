@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 
 
-
 def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params):
     """Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
     of the 6 branches of income is according to
@@ -77,8 +76,10 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     # Tax base including capital income
     tax_unit = zve_abg_nokfb(tax_unit, e_st_abzuege_params)
 
-    tax_unit["kifreib"] = kinderfreibetrag(tax_unit, e_st_abzuege_params, kindergeld_params)
-    
+    tax_unit["kifreib"] = kinderfreibetrag(
+        tax_unit, e_st_abzuege_params, kindergeld_params
+    )
+
     # Finally, Subtract (corrected) Child allowance
     tax_unit.loc[~tax_unit["child"], "zve_kfb"] = np.maximum(
         tax_unit["zve_nokfb"] - tax_unit["kifreib"], 0
@@ -142,7 +143,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
         tax_unit.loc[
             ~tax_unit["child"] & tax_unit["zve_nokfb"] == nokfb_lower, "kifreib"
         ] = kifreib_lower
-        
+
         return tax_unit["kifreib"]
 
     # For non married couples or couples where both earn enough this are a lot easier.
@@ -430,7 +431,7 @@ def vorsorge04_05(tax_unit, params, soz_vers_beitr_params):
     """
     vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
     vors2005 = vorsorge2005(tax_unit, params, soz_vers_beitr_params)
-    
+
     return pd.DataFrame({"vorsorge": np.maximum(vors2004, vors2005)})
 
 
@@ -444,7 +445,7 @@ def vorsorge04_10(tax_unit, params, soz_vers_beitr_params):
     """
     vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
     vors2010 = vorsorge2010(tax_unit, params, soz_vers_beitr_params)
-    
+
     return pd.DataFrame({"vorsorge": np.maximum(vors2004, vors2010)})
 
 
