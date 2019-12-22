@@ -706,6 +706,17 @@ vorsorg_rv_max:
     2019-01-01:
       value: 24305
       note: .247 * 98400
+vorsorg_krank_minder:
+  name:
+    de: Anteil, um den Krankenversicherungsbeiträge gemindert werden bei abhängig Beschäftigten.
+    en:
+  description:
+    de: §10 (3) a) S.4 EStG
+    en:
+  values:
+    2009-07-23:
+      value: 0.04
+      note: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 rentert:
   name:
     de: Ertragsanteil der Rente bei Rentenbeginn im 65. LJ.  ES Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht  (§ 22 Nr. 1 a) aa) EStG)

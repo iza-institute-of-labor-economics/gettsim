@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 
 def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params):
@@ -150,7 +151,7 @@ def zve_nokfb(tax_unit, params):
     return np.maximum(
         0,
         tax_unit["gross_gde"]
-        - tax_unit["vorsorge"].sum()
+        - tax_unit["vorsorge"]
         - tax_unit["sonder"]
         - tax_unit["handc_pausch"]
         - tax_unit["hhfreib"]
@@ -330,7 +331,7 @@ def vorsorge2010(tax_unit, params, soz_vers_beitr_params):
         because it's both employee and employer contributions.
         """
     rvbeit_vors = np.minimum(
-        12 * 2 * tax_unit["rvbeit"],
+        12 * 2 * tax_unit["rvbeit"] + 12 * tax_unit["priv_pension_exp"],
         params["vorsorg_rv_max"] * vorsorge_year_faktor(params["year"]),
     )
 
@@ -339,7 +340,7 @@ def vorsorge2010(tax_unit, params, soz_vers_beitr_params):
     # also subtract health + care + unemployment insurance contributions
     altersvors2010 = ~tax_unit["child"] * vorsorge_year_faktor(params["year"]) * (
         rvbeit_vors
-    ) - (0.5 * rvbeit_vors)
+    ) - (0.5 * rvbeit_vors) 
 
     # These you get anyway ('Basisvorsorge').
     sonstigevors2010 = 12 * (tax_unit["pvbeit"] + 0.96 * tax_unit["gkvbeit"])
@@ -365,19 +366,21 @@ def vorsorge2005(tax_unit, params, soz_vers_beitr_params):
 
     rvbeit_vors_max = np.minimum(
         params["vorsorg_rv_max"] * vorsorge_year_faktor(params["year"]),
-        12 * 2 * tax_unit["rvbeit"],
+        12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pension_exp"])
     )
-    # intermediate step
+    # intermediate step.
     altersvors2005_int = ~tax_unit["child"] * (
-        vorsorge_year_faktor(params["year"]) * (12 * 2 * tax_unit["rvbeit"])
-        - (12 * tax_unit["rvbeit"])
-    ).astype(int)
+        vorsorge_year_faktor(params["year"]) * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pension_exp"])) 
+        - (12 * tax_unit["rvbeit"]) 
+    ).astype(int)    
+
     altersvors2005 = np.minimum(rvbeit_vors_max, altersvors2005_int)
 
     sonstigevors2005 = ~tax_unit["child"] * np.minimum(
         params["vors_sonst_max"],
         12 * (tax_unit["gkvbeit"] + tax_unit["avbeit"] + tax_unit["pvbeit"]),
     ).astype(int)
+
     return (altersvors2005 + sonstigevors2005).astype(int)
 
 
@@ -430,9 +433,9 @@ def vorsorge04_05(tax_unit, params, soz_vers_beitr_params):
     """
     vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
     vors2005 = vorsorge2005(tax_unit, params, soz_vers_beitr_params)
-    print(vors2004)
-    print(vors2005)
-    return np.maximum(vors2004, vors2005)
+    print(f"Vors 2004: {vors2004}")
+    print(f"Vors 2005: {vors2005}")
+    return pd.DataFrame({'vorsorge': np.maximum(vors2004, vors2005)})
 
 
 def vorsorge04_10(tax_unit, params, soz_vers_beitr_params):
@@ -445,8 +448,9 @@ def vorsorge04_10(tax_unit, params, soz_vers_beitr_params):
     """
     vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
     vors2010 = vorsorge2010(tax_unit, params, soz_vers_beitr_params)
-
-    return np.maximum(vors2004, vors2010)
+    print(f"Vors 2004: {vors2004}")
+    print(f"Vors 2010: {vors2010}")
+    return pd.DataFrame({'vorsorge': np.maximum(vors2004, vors2010)})
 
 
 def vorsorge_year_faktor(year):
