@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-import math
+
+
 
 def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params):
     """Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
