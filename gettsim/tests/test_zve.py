@@ -101,8 +101,6 @@ def test_zve(
         kindergeld_params=kindergeld_params,
     )
 
-    # TODO: We need to adress this comment. This can't be our last word!
-    # allow 1€ difference, caused by strange rounding issues.
     assert_series_equal(
         df[column], year_data[column], check_less_precise=2, check_dtype=False
     )

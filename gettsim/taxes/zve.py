@@ -75,9 +75,7 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     # Tax base including capital income
     tax_unit = zve_abg_nokfb(tax_unit, e_st_abzuege_params)
     # Calculate Child Tax Allowance
-    tax_unit["kifreib"] = kinderfreibetrag(
-        tax_unit, e_st_abzuege_params, kindergeld_params
-    )
+    tax_unit = kinderfreibetrag(tax_unit, e_st_abzuege_params, kindergeld_params)
 
     # Subtract (corrected) Child allowance
     tax_unit.loc[~tax_unit["child"], "zve_kfb"] = np.maximum(
@@ -142,13 +140,13 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
             ~tax_unit["child"] & tax_unit["zve_nokfb"] == nokfb_lower, "kifreib"
         ] = kifreib_lower
 
-        return tax_unit["kifreib"]
+        return tax_unit
 
     # For non married couples or couples where both earn enough this are a lot easier.
     # Just split the kinderfreibetrag 50/50.
     else:
         tax_unit.loc[~tax_unit["child"], "kifreib"] = kifreib_total * child_num_kg
-        return tax_unit["kifreib"]
+        return tax_unit
 
 
 def zve_nokfb(tax_unit, params):
@@ -338,7 +336,7 @@ def vorsorge2010(tax_unit, params, soz_vers_beitr_params):
     altersvors2010 = calc_altersvors_aufwend(tax_unit, params)
 
     # also subtract health + care + unemployment insurance contributions
-    # These you get anyway ('Basisvorsorge').
+    # 'Basisvorsorge': Health and old-age care contributiosn are deducted anyway.
     sonstigevors2010 = 12 * (
         tax_unit["pvbeit"] + (1 - params["vorsorg_krank_minder"]) * tax_unit["gkvbeit"]
     )
