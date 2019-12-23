@@ -322,7 +322,7 @@ bezgr_w:
       note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
     2020-01-01:
       value: 3185
-      note: Sozialversicherungs-Rechengrößenverordnung 2020
+      note: §2 V. v. 17.12.2019 BGBl. I S. 2848
 bezgr_o:
   name:
     de: monatl. Bezugsgröße Ost
@@ -414,7 +414,7 @@ bezgr_o:
       note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
     2020-01-01:
       value: 3010
-      note: Sozialversicherungs-Rechengrößenverordnung 2020
+      note: §2 V. v. 17.12.2019 BGBl. I S. 2848
 kvmaxeko:
   name:
     de: Beitragsbemessungsgrenze in der GKV und PV (Ost)
@@ -512,13 +512,13 @@ kvmaxeko:
       note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
     2020-01-01:
       value: 4687.5
-      note: Sozialversicherungs-Rechengrößenverordnung 2020
+      note: §4 V. v. 17.12.2019 BGBl. I S. 2848
 kvmaxekw:
   name:
     de: Beitragsbemessungsgrenze in der GKV und PV (West)
     en: Income Threshold for Health and Care Insurance. West Germany
   description:
-    de: u.a. Bundesfinanzministerium
+    de:
     en:
   values:
     1984-01-01:
@@ -628,7 +628,7 @@ kvmaxekw:
       note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
     2020-01-01:
       value: 4687.5
-      note: Sozialversicherungs-Rechengrößenverordnung 2020
+      note: §4 V. v. 17.12.2019 BGBl. I S. 2848
 alvbs:
   name:
     de: Beitragssatz zur Arbeitslosenversicherung (AN / AG)
@@ -675,8 +675,8 @@ alvbs:
       note: https://www.bundesregierung.de/breg-de/aktuelles/beitrag-alv-1693634
 grvbs:
   name:
-    de: Beitragssatz zur GRV (AN / AG)
-    en:
+    de: Beitragssatz zur Gesetzlichen Rentenversicherung (AN / AG)
+    en: Contribution rate to statutory pension insurance (for both employers and employees)
   description:
     de:
     en:
@@ -840,7 +840,7 @@ rvmaxeko:
       note:
     2020-01-01:
       value: 6450
-      note: Sozialversicherungs-Rechengrößenverordnung 2020
+      note: §3 (2) Nr. 1 V. v. 17.12.2019 BGBl. I S. 2848
 rvmaxekw:
   name:
     de: Beitragsbemessungsgrenze in der GRV und ALV (West)
@@ -953,7 +953,7 @@ rvmaxekw:
       note:
     2020-01-01:
       value: 6900
-      note: Sozialversicherungs-Rechengrößenverordnung 2020
+      note: §3 (1) Nr. 1 V. v. 17.12.2019 BGBl. I S. 2848
 midi_grenze:
   name:
     de: Midijob-Grenze  (Höhe § 20 SGB IV (2))
@@ -1125,10 +1125,10 @@ mini_ag_grv:
       note:
 stpag:
   name:
-    de: Pauschalabgabe Steuer bei geringf. Beschäftigung  Johannes Hermle Wirknorm §40a II EstG
+    de: Pauschalabgabe Steuer bei geringf. Beschäftigung
     en:
   description:
-    de:
+    de: §40a (2a) EstG.
     en:
   values:
     1984-01-01:
