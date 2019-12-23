@@ -11,8 +11,6 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
 * Break up params.yaml into group-level files (:ghuser:`MaxBlesch`)
 * Corrected income deductions for additional child benefit (:ghuser:`Eric-Sommer`)
-* Implemented pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser: `Eric-Sommer`)
-* Corrected income deductions for additional child benefit (:ghuser:`Eric-Sommer`)
 * Implemented "Starke-Familien-Gesetz" from July 2019 on child benefits
   (:ghuser:`Eric-Sommer`)
 * Remove child specific ALG II withdrawal and refactoring of ALG II
@@ -22,6 +20,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Child tax allowance modelled as two separate items. (:ghuser:`Eric-Sommer`)
 * Alimony advance payment (*Unterhaltsvorschuss*) now modelled more in line
   with the law (:ghuser:`Eric-Sommer`)
+* Implemented pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser: `Eric-Sommer`)
 
 
 0.2.1 - 2019-11-20
