@@ -685,7 +685,7 @@ vorsorg_rv_max:
     de: Maximalbetrag der Altersvorsorgeaufwendungen, 2005er Rechtsstand
     en:
   description:
-    de: §10 Abs. 3 EStG
+    de: §10 (3) EStG, Anlage 2 SGB VI
     en:
   values:
     2005-01-01:
@@ -706,6 +706,9 @@ vorsorg_rv_max:
     2019-01-01:
       value: 24305
       note: .247 * 98400
+    2020-01-01:
+      value: 25046
+      note: Art. 3 V. v. 17.12.2019 BGBl I S. 2848. .247 * 101400
 vorsorg_krank_minder:
   name:
     de: Anteil, um den Krankenversicherungsbeiträge gemindert werden bei abhängig Beschäftigten.
