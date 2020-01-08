@@ -317,7 +317,7 @@ def calc_gross_e7(tax_unit, params):
     return tax_unit
 
 
-def vorsorge2010(tax_unit, params, soz_vers_beitr_params):
+def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     """ Vorsorgeaufwendungen 2010 regime
         § 10 (3) EStG
         The share of deductable pension contributions increases each year by 2 pp.
@@ -333,24 +333,22 @@ def vorsorge2010(tax_unit, params, soz_vers_beitr_params):
 
     # calculate x% of relevant employer and employee contributions and private contributions
     # then subtract employer contributions
-    altersvors2010 = calc_altersvors_aufwend(tax_unit, params)
+    altersvors = calc_altersvors_aufwend(tax_unit, params)
 
     # also subtract health + care + unemployment insurance contributions
-    # 'Basisvorsorge': Health and old-age care contributiosn are deducted anyway.
-    sonstigevors2010 = 12 * (
+    # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
+    sonstigevors = 12 * (
         tax_unit["pvbeit"] + (1 - params["vorsorg_krank_minder"]) * tax_unit["gkvbeit"]
     )
     # maybe add avbeit, but do not exceed 1900€.
-    sonstigevors2010 = np.maximum(
-        sonstigevors2010,
-        np.minimum(
-            sonstigevors2010 + 12 * tax_unit["avbeit"], params["vors_sonst_max"]
-        ),
+    sonstigevors = np.maximum(
+        sonstigevors,
+        np.minimum(sonstigevors + 12 * tax_unit["avbeit"], params["vors_sonst_max"]),
     )
-    return altersvors2010.astype(int) + sonstigevors2010.astype(int)
+    return altersvors.astype(int) + sonstigevors.astype(int)
 
 
-def vorsorge2005(tax_unit, params, soz_vers_beitr_params):
+def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
     """ Vorsorgeaufwendungen 2005 to 2010
     Pension contributions are accounted for up to €20k.
     From this, a certain share can actually be deducted,
@@ -358,17 +356,17 @@ def vorsorge2005(tax_unit, params, soz_vers_beitr_params):
     Other deductions are simply added up, up to a ceiling of 1500 p.a. for standard employees.
     """
 
-    altersvors2005 = calc_altersvors_aufwend(tax_unit, params)
+    altersvors = calc_altersvors_aufwend(tax_unit, params)
 
-    sonstigevors2005 = ~tax_unit["child"] * np.minimum(
+    sonstigevors = ~tax_unit["child"] * np.minimum(
         params["vors_sonst_max"],
         12 * (tax_unit["gkvbeit"] + tax_unit["avbeit"] + tax_unit["pvbeit"]),
     ).astype(int)
 
-    return (altersvors2005 + sonstigevors2005).astype(int)
+    return (altersvors + sonstigevors).astype(int)
 
 
-def vorsorge2004(tax_unit, params, soz_vers_beitr_params):
+def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
     """ Vorsorgeaufwendungen up until 2004.
         - only pension and health contributions.
     """
@@ -404,24 +402,24 @@ def vorsorge2004(tax_unit, params, soz_vers_beitr_params):
         item_2 = 0.5 * np.minimum(params["grundbet"], vorsorg_rest)
         item_3 = 0.5 * np.minimum((vorsorg_rest - item_2), 2 * params["grundbet"])
 
-    # Finally, add up all three amounts and assign in to the adults.
-    vorsorge2004 = ~tax_unit["child"] * (item_1 + item_2 + item_3).astype(int)
+    # Finally, add up all three amounts and assign it to the adults.
+    vorsorge = ~tax_unit["child"] * (item_1 + item_2 + item_3).astype(int)
 
-    return vorsorge2004
+    return vorsorge
 
 
-def vorsorge04_05(tax_unit, params, soz_vers_beitr_params):
+def vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
     """ With the 2005 reform, no taxpayer was supposed to be affected negatively.
         Therefore, one needs to compute amounts
         (2004 and 2005 regime) and take the higher one.
     """
-    vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
-    vors2005 = vorsorge2005(tax_unit, params, soz_vers_beitr_params)
+    vors2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
+    vors2005 = _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params)
 
     return pd.DataFrame({"vorsorge": np.maximum(vors2004, vors2005)})
 
 
-def vorsorge04_10(tax_unit, params, soz_vers_beitr_params):
+def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     """ After a supreme court ruling, the 2005 rule had to be changed in 2010.
         Therefore, one needs to compute amounts
         (2004 and 2010 regime) and take the higher one. (§10 (3a) EStG).
@@ -429,8 +427,8 @@ def vorsorge04_10(tax_unit, params, soz_vers_beitr_params):
         *always* more or equally beneficial than the 2005 one,
         so no need for a separate check there.
     """
-    vors2004 = vorsorge2004(tax_unit, params, soz_vers_beitr_params)
-    vors2010 = vorsorge2010(tax_unit, params, soz_vers_beitr_params)
+    vors2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
+    vors2010 = _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params)
 
     return pd.DataFrame({"vorsorge": np.maximum(vors2004, vors2010)})
 
@@ -441,7 +439,7 @@ def calc_altersvors_aufwend(tax_unit, params):
     # intermediate step.
     altersvors_int = ~tax_unit["child"] * (
         vorsorge_year_faktor(params["year"])
-        * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pension_exp"]))
+        * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["pr_pension_contr"]))
         - (12 * tax_unit["rvbeit"])
     ).astype(int)
 

@@ -7,9 +7,9 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.taxes.zve import vorsorge04_05
-from gettsim.taxes.zve import vorsorge04_10
-from gettsim.taxes.zve import vorsorge2004
+from gettsim.taxes.zve import vorsorge_pre_2005
+from gettsim.taxes.zve import vorsorge_since_2005
+from gettsim.taxes.zve import vorsorge_since_2010
 
 
 IN_COLS = [
@@ -56,11 +56,11 @@ def test_vorsorge(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
     if year >= 2010:
-        e_st_abzuege_params["vorsorge"] = vorsorge04_10
+        e_st_abzuege_params["vorsorge"] = vorsorge_since_2010
     elif year >= 2005:
-        e_st_abzuege_params["vorsorge"] = vorsorge04_05
+        e_st_abzuege_params["vorsorge"] = vorsorge_since_2005
     elif year <= 2004:
-        e_st_abzuege_params["vorsorge"] = vorsorge2004
+        e_st_abzuege_params["vorsorge"] = vorsorge_pre_2005
 
     for col in OUT_COLS:
         df[col] = np.nan
