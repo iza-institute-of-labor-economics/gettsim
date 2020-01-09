@@ -439,7 +439,7 @@ def calc_altersvors_aufwend(tax_unit, params):
     # intermediate step.
     altersvors_int = ~tax_unit["child"] * (
         vorsorge_year_faktor(params["year"])
-        * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["pr_pension_contr"]))
+        * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pens_contr"]))
         - (12 * tax_unit["rvbeit"])
     ).astype(int)
 

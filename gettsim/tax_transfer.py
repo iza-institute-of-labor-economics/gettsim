@@ -139,7 +139,7 @@ def tax_transfer(
         "zveranl",
         "child",
         "m_childcare",
-        "pr_pension_contr",
+        "priv_pens_contr",
         "handcap_degree",
         "rvbeit",
         "avbeit",
