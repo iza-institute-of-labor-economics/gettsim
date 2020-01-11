@@ -1,155 +1,123 @@
-====================================
-GEP 1 - Convention on Variable Names
-====================================
+==========================
+GEP 1 — Naming Conventions
+==========================
 
-:Author: `Eric Sommer <https://github.com/Eric-Sommer>`
+:Author: `Eric Sommer <https://github.com/Eric-Sommer>`_
+:Author: `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_
 :Status: Provisional
 :Type: Standards
 :Created: 2019-11-04
 
 
-This GEP specifies a framework on how to name variables bearing information on persons or
-households. These usually come as columns in dataframes or, sometimes, as standard python
-variables. They should therefore not be confused with *parameters* or other variables 
-needed during run-time. A convention on variable names should make the code easier to 
-understand and to maintain. In addition, it should lower the requirement to consult
-the documentation.
+Abstract
+--------
 
-There are three types of variables:
-1. Input variables: what the user feeds into the model.
-2. Intermediate variables: variables calculated during run-time in `gettsim`, but which 
-   are not returned by default.
-3. Output variables.
+This GEP pins down naming conventions for GETTSIM — general rules for what data columns,
+parameters, Python identifiers (functions, variables), etc. should be called. In a
+nutshell and without explanations, these conventions are:
 
-General Guidelines
-^^^^^^^^^^^^^^^^^^ 
-- lower case letters only. Exceptions are specified below.
-- longer names should be interrupted with underscores, e.g. `alg2_anzurechnendes_ek`
-- use of booelan type for dummy variables rather than integer. Boolean variables can be negated easily 
-  (mind the difference between `~` and `not` in pandas vs. core python) and make the code easier to read.
+* Names follow standard Python conventions (``lowercase_with_underscores``)
+* Names should be long enough to be readable, but
+  * For column names in the user-facing API, there is a hard limit of 15 characters
+  * For others, there is a soft limit of 15 and a hard limit of 20 characters
+* The language should generally be German
+
+We explain the background for these choices below
 
 
-Input Variables
-^^^^^^^^^^^^^^^
+Motivation and Scope
+--------------------
 
-First letter specifies type of variable
-----------------------------------------
-In the spirit of the Euromod_ framework, I suggest that the type of a variable is indicated by its first letter
+Naming conventions are important in order to build and maintain GETTSIM as a coherent
+library. Since many people with different backgrounds and tastes work on it, it is
+particularly important to clearly document our rules for naming things.
 
+There are three basic building blocks of the code:
 
-+--------------+-----------------------------------+----------------------------------------------------------+
-| First letter | Type of Variable                  | Examples                                                 |
-+==============+===================================+==========================================================+
-| d            | demographic                       | dage, dchild, dnchildren, dsex, deast, dmarried, dhhsize |
-+--------------+-----------------------------------+----------------------------------------------------------+
-| y            | market income                     | ywage, yself, ycap, yrent                                |
-+--------------+-----------------------------------+----------------------------------------------------------+
-| l            | labor market                      |  lhrs, lstatus                                           |
-+--------------+-----------------------------------+----------------------------------------------------------+
-| b            | benefits (i.e. non-market income) | balim, boldagepen, bsocass                               |
-+--------------+-----------------------------------+----------------------------------------------------------+
-| h            | housing                           | hsize, hrent, hheat                                      |
-+--------------+-----------------------------------+----------------------------------------------------------+
-| x            | expenses                          | xchildcare                                               |
-+--------------+-----------------------------------+----------------------------------------------------------+
-| a            | assets/wealth                     |  afinancial, aproperty                                   |
-+--------------+-----------------------------------+----------------------------------------------------------+
-
-The table above demonstrates the virtue of the first letter identification. `hsize` can easily be misunderstood as the household size, which is a demographic variable. The first letter `h` avoids this misinterpretation.
-
-Identifiers (`pid`, `hid`, `tu_id`) constitute a special form of input variables, along with pointers to ids within the household.
-
-If applicable, the last UPPERCASE letter specifies the time frame
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-When modelling the tax-ben system, it is easy to lose track on which period a particular variable is defined (e.g. wage is defined on the monthly or yearly level). For this reason, we could indicate by the last letter the reference time frame for this variable. This applies both to input (incomes) as well as intermediate variables (taxable income, relevant income for some benefit).
+1. The input and output data, including any values stored intermediately. The scope of
+   this GEP are the column identifiers. The index and the variable contents are defined
+   elsewhere (could link if we have something).
+2. The parameters of the tax transfer system, as detailed in the YAML files.
+3. Python identifiers, that is, variables and functions.
 
 
-+-------------+------------+----------------+
-| Last Letter | Time Frame | Example        |
-+=============+============+================+
-| D           | Day        |                |
-+-------------+------------+----------------+
-| W           | Week       | lhrsW          |
-+-------------+------------+----------------+
-| M           | Month      | hrentM, ywageM |
-+-------------+------------+----------------+
-| Y           | Year       | zveY           |
-+-------------+------------+----------------+
+General considerations
+----------------------
+
+Even though the working language of GETTSIM is English, all of 1. (column names) and 2.
+(parameters of the taxes and transfers system) should be specified in German. Any
+translation of detailed rules---e.g., ....---is doomed to fail is likely to lead to more
+confusion than clarity. Non-German speakers would need to look things up, anyhow.
 
 
-Intermediate Variables
-^^^^^^^^^^^^^^^^^^^^^^
+Column names (a.k.a. "variables" in Stata)
+------------------------------------------
 
-As there are many intermediate variables which greatly differ in their type and which are often only useful within the particular function, there is no need to specify too detailed conventions. However,
+We impose a hard limit of 15 characters for all column names that are part of the API,
+i.e., those that are an input to or an output of GETTSIM's main simulation functions.
+This is for the benefit of Stata users, who face a strict limit of 32 characters for
+their column names. Furthermore, where developers using other languages may store
+different experiments in different variables, Stata users' only chance to distinguish
+them is to append characters to the column names.
 
-1. use names which reflect the legal issue in *German*
-2. explain the variable in a comment *above* its definition
-3. maximum variable length: ??
+If a column is only for internal use, it should start with an underscore.
 
-Output Variables
-^^^^^^^^^^^^^^^^
+Even though not implemented at the time of this writing, we plan to allow users to pass
+in English column names and get English column names back. Potentially also standardised
+variables...
 
-**All output is in monthly terms!**
+Parameters of the taxes and transfers system
+--------------------------------------------
 
+* Stored by group. This group should not re-appear in the name.
+* Use Python containers like tuples and namedtuples (the mutable versions of these,
+  i.e., lists and dictionaries, might be better known) where relevant. E.g., instead of
+  ``steuer_tarif_stufe_0_max = 15000``, ..., ``steuer_tarif_stufe_3_max = 60000`` and
+  ``steuer_tarif_rate_0 = 0``, ..., ``steuer_tarif_stufe_4 = 0.55``, use::
 
-+-------------------------------+----------------------------------+-------------+------------------+
-| Type                          | Variable                         | Name        | attributed to    |
-+===============================+==================================+=============+==================+
-| Income Aggregates             | Gross Income                     | inc_gross   | household_head   |
-+                               +----------------------------------+-------------+------------------+
-|                               | Disp. Income                     | inc_disp    | household_head   |
-+                               +----------------------------------+-------------+------------------+
-|                               | Net Income                       | inc_net     | household_head   |
-+-------------------------------+----------------------------------+-------------+------------------+
-| Market Incomes                | *identical to input data*        |             | individual       |
-+-------------------------------+----------------------------------+-------------+------------------+
-| Taxes                         | All income-related taxes         | tax_total   | household_head   |
-+                               +----------------------------------+-------------+------------------+
-|                               | Income Tax                       | tax_inc     | household_head   |
-+                               +----------------------------------+-------------+------------------+
-|                               | Solidarity Surcharge             | tax_soli    | household_head   |
-+                               +----------------------------------+-------------+------------------+
-|                               | Capital Income Tax               | tax_capinc  | household_head   |
-+-------------------------------+----------------------------------+-------------+------------------+
-| Social Security Contributions | All (no employer contributions!) | ssc_total   | individual       |
-+                               +----------------------------------+-------------+------------------+
-|                               | Old-Age Pension                  | ssc_pens    | individual       |
-+                               +----------------------------------+-------------+------------------+
-|                               | Health Care                      | ssc_health  | individual       |
-+                               +----------------------------------+-------------+------------------+
-|                               | Unemployment Insurance           | ssc_ue      | individual       |
-+                               +----------------------------------+-------------+------------------+
-|                               | Care                             | ssc_care    | individual       |
-+-------------------------------+----------------------------------+-------------+------------------+
-| Benefits                      | All                              | ben_total   | household head   |
-+                               +----------------------------------+-------------+------------------+
-|                               | Child Benefit                    | ben_ch      | individual child |
-+                               +----------------------------------+-------------+------------------+
-|                               | Unemployment Benefit (ALG II)    | ben_alg2    | household head   |
-+                               +----------------------------------+-------------+------------------+
-|                               | Unemployment Insurance           | ben_ui      | individual       |
-+                               +----------------------------------+-------------+------------------+
-|                               | Alimony Advance Payment          | ben_uhv     | individual child |
-+                               +----------------------------------+-------------+------------------+
-|                               | Social Assistance                | ben_sa      | household head   |
-+                               +----------------------------------+-------------+------------------+
-|                               | Additional Child Benefit         | ben_addch   | household head   |
-+-------------------------------+----------------------------------+-------------+------------------+
+      steuer_tarif: {
+          15000: 0,
+          25000: 0.15,
+          40000: 0.3,
+          60000: 0.45,
+          infty: 0.55
+      }
 
 
-**Issues to clarify:**
+Python Identifiers (Functions, Variables)
+-----------------------------------------
 
-1. How do we deal with tax-benefit items which we don't simulate but take from the input data? (e.g. pensions, alimony payments)
-2. The output returns data as one row per person. We have to think on how to attribute outputs in a meaningful manner. At the same time, calculation of income aggregates should be straightforward.
+The length of a variable name should be proportional to its scope. In a list
+comprehension or short loop, it might be an acceptable name for the running variable,
+but variables that are used at many different places should have descriptive names.
 
-Documentation
-^^^^^^^^^^^^^ 
+The name of variables should reflect the content or meaning of the variable and not the
+type. As for column names and parameters, in some casees it might be useful to append an
+underscore plus either of {``y``, ``m``, ``w``, ``d``} to indicate the timeframe.
 
-In the medium-term, or along with this GEP, we need a list with the definition for input and output variables. It should contain
+Function names should contain a verb. Moreover, the length of a function name is
+typically inversely proportional to its scope. The public functions like maximize and
+minimize can have very short names. At a lower level of abstraction you typically need
+more words to describe what a function does.
 
-1. variable name
-2. description
-3. range of allowed values
+
+Alternatives
+------------
+
+* More English
+* More info
+* Use standard
+
+Discussion
+----------
+
+
+References and Footnotes
+------------------------
 
 .. _Euromod: https://www.euromod.ac.uk/sites/default/files/working-papers/EMTN-1.1.pdf
+
+Copyright
+---------
+
+This document has been placed in the public domain.
