@@ -21,8 +21,10 @@ nutshell and without explanations, these conventions are:
 
 * Names follow standard Python conventions (``lowercase_with_underscores``)
 * Names should be long enough to be readable, but
-  * For column names in the user-facing API, there is a hard limit of 15 characters
-  * For others, there is a soft limit of 15 and a hard limit of 20 characters
+
+  - For column names in the user-facing API, there is a hard limit of 15 characters
+  - For others, there is a soft limit of 15 and a hard limit of 20 characters
+
 * The language should generally be German
 
 We explain the background for these choices below.
