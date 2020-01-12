@@ -1,12 +1,15 @@
+.. _gep-1:
+
 ==========================
 GEP 1 — Naming Conventions
 ==========================
 
 :Author: `Eric Sommer <https://github.com/Eric-Sommer>`_
 :Author: `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_
-:Status: Provisional
-:Type: Standards
+:Status: Draft
+:Type: Standards Track
 :Created: 2019-11-04
+:Resolution: <url> (required for Accepted | Rejected | Withdrawn)
 
 
 Abstract
