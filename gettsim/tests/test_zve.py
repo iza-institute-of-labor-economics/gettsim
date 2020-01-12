@@ -27,7 +27,7 @@ IN_COLS = [
     "m_childcare",
     "handcap_degree",
     "rvbeit",
-    "pr_pension_contr",
+    "priv_pens_contr",
     "avbeit",
     "pvbeit",
     "alleinerz",

@@ -1,4 +1,4 @@
-hid,tu_id,pid,m_wage,m_self,m_kapinc,m_vermiet,renteneintritt,w_hours,ineducation,m_pensions,east,zveranl,child,m_childcare,handcap_degree,rvbeit,pr_pension_contr,avbeit,gkvbeit,pvbeit,alleinerz,age,child_num_tu,year,zve_nokfb,zve_kfb,zve_abg_nokfb,zve_abg_kfb,,vorsorg,gross_gde,kifreib,sonstigevors,zve_nokfb_ind,d_zve,d_zu_kfb,zve_temp
+hid,tu_id,pid,m_wage,m_self,m_kapinc,m_vermiet,renteneintritt,w_hours,ineducation,m_pensions,east,zveranl,child,m_childcare,handcap_degree,rvbeit,priv_pens_contr,avbeit,gkvbeit,pvbeit,alleinerz,age,child_num_tu,year,zve_nokfb,zve_kfb,zve_abg_nokfb,zve_abg_kfb,,vorsorg,gross_gde,kifreib,sonstigevors,zve_nokfb_ind,d_zve,d_zu_kfb,zve_temp
 1,1,1,300,0,100,0,2043,40,FALSE,0,FALSE,FALSE,FALSE,0,0,0,0,0,0,0,FALSE,40,0,2018,0.00,0.00,363,363,,0,0,0,0,,,,
 2,2,2,600,0,100,0,2043,40,FALSE,0,FALSE,FALSE,FALSE,0,0,60,0,12,48,9,FALSE,40,0,2018,4842.00,4842.00,5241,5241,,1322,6200,0,804,518,,,
 3,3,3,900,0,100,0,2043,40,FALSE,0,FALSE,FALSE,FALSE,0,0,90,0,18,72,13.5,FALSE,40,0,2018,7780.00,7780.00,8179,8179,,1984,9800,0,1207,,,,

@@ -17,7 +17,7 @@ IN_COLS = [
     "tu_id",
     "m_wage",
     "child",
-    "pr_pension_contr",
+    "priv_pens_contr",
     "rvbeit",
     "avbeit",
     "pvbeit",
