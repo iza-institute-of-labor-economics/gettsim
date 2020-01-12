@@ -25,7 +25,7 @@ nutshell and without explanations, these conventions are:
   * For others, there is a soft limit of 15 and a hard limit of 20 characters
 * The language should generally be German
 
-We explain the background for these choices below
+We explain the background for these choices below.
 
 
 Motivation and Scope
@@ -42,6 +42,9 @@ There are three basic building blocks of the code:
    elsewhere (could link if we have something).
 2. The parameters of the tax transfer system, as detailed in the YAML files.
 3. Python identifiers, that is, variables and functions.
+
+The general rules and considerations apply in the same way to similar concepts, e.g.,
+groups of parameters.
 
 
 General considerations
@@ -102,6 +105,14 @@ Function names should contain a verb. Moreover, the length of a function name is
 typically inversely proportional to its scope. The public functions like maximize and
 minimize can have very short names. At a lower level of abstraction you typically need
 more words to describe what a function does.
+
+
+Examples
+--------
+
+.. todo::
+
+    Add an example. E.g. our discussion on the parameter group ``arbeitsl_geld``
 
 
 Alternatives
