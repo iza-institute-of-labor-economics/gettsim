@@ -28,7 +28,7 @@ IN_COLS = [
 OUT_COLS = ["vorsorge"]
 
 TEST_COLS = ["vorsorge"]
-YEARS = [2005, 2010, 2025]
+YEARS = [2004, 2005, 2010, 2012, 2025]
 
 
 @pytest.fixture(scope="module")

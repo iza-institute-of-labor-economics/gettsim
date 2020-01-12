@@ -334,7 +334,6 @@ def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     # calculate x% of relevant employer and employee contributions and private contributions
     # then subtract employer contributions
     altersvors = calc_altersvors_aufwend(tax_unit, params)
-
     # also subtract health + care + unemployment insurance contributions
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstigevors = 12 * (
@@ -366,7 +365,7 @@ def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
     return (altersvors + sonstigevors).astype(int)
 
 
-def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
+def _vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
     """ Vorsorgeaufwendungen up until 2004.
         - only pension and health contributions.
     """
@@ -404,8 +403,14 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
 
     # Finally, add up all three amounts and assign it to the adults.
     vorsorge = ~tax_unit["child"] * (item_1 + item_2 + item_3).astype(int)
-
+    # The test requires a named item. If there is only one value, create a list.
     return vorsorge
+
+
+def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
+    return pd.DataFrame(
+        {"vorsorge": _vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)}
+    )
 
 
 def vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
@@ -436,14 +441,13 @@ def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
 def calc_altersvors_aufwend(tax_unit, params):
     """ Calculates deductible old-age contributions since 2005
     """
-    # intermediate step.
-    altersvors_int = ~tax_unit["child"] * (
+    altersvors = ~tax_unit["child"] * (
         vorsorge_year_faktor(params["year"])
         * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["pr_pension_contr"]))
         - (12 * tax_unit["rvbeit"])
     ).astype(int)
 
-    return np.minimum(params["vorsorg_rv_max"], altersvors_int)
+    return np.minimum(params["vorsorg_rv_max"], altersvors)
 
 
 def vorsorge_year_faktor(year):
