@@ -1,11 +1,11 @@
 tu_id,pid,m_wage,zveranl,child,priv_pens_contr,rvbeit,avbeit,gkvbeit,pvbeit,age,year,,vorsorge,vorsorge2004,vorsorge2005,vorsorge2010,quelle
 2,3,3500,FALSE,FALSE,334,500,0,0,0,40,2005,,3600,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-2,11,0,FALSE,TRUE,0,0,0,0,0,0,0,,0,,,,
+2,11,0,FALSE,TRUE,0,0,0,0,0,0,2005,,0,,,,
 3,4,3500,FALSE,FALSE,334,500,0,0,0,40,2010,,5200,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
 4,5,3500,FALSE,FALSE,334,500,0,0,0,40,2025,,10000,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
 5,6,3500,FALSE,FALSE,0,500,0,0,0,40,2005,,2001,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
 6,7,3500,FALSE,FALSE,0,500,0,0,0,40,2010,,2400,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-6,12,0,FALSE,TRUE,0,0,0,0,0,0,0,,0,,,,
+6,12,0,FALSE,TRUE,0,0,0,0,0,0,2010,,0,,,,
 7,8,3500,FALSE,FALSE,0,500,0,0,0,40,2025,,6000,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
 8,9,4166.66666666667,FALSE,FALSE,0,406.25,0,133.33,0,40,2005,,2475,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
 9,10,1666.66666666667,FALSE,FALSE,0,162.5,0,133.33,0,40,2005,,2001,2001,1890,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980

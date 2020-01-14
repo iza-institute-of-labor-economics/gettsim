@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 
 def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params):
@@ -365,7 +364,7 @@ def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
     return (altersvors + sonstigevors).astype(int)
 
 
-def _vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
+def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
     """ Vorsorgeaufwendungen up until 2004.
         - only pension and health contributions.
     """
@@ -407,12 +406,6 @@ def _vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
     return vorsorge
 
 
-def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
-    return pd.DataFrame(
-        {"vorsorge": _vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)}
-    )
-
-
 def vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
     """ With the 2005 reform, no taxpayer was supposed to be affected negatively.
         Therefore, one needs to compute amounts
@@ -421,7 +414,7 @@ def vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
     vors2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
     vors2005 = _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params)
 
-    return pd.DataFrame({"vorsorge": np.maximum(vors2004, vors2005)})
+    return np.maximum(vors2004, vors2005)
 
 
 def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
@@ -435,7 +428,7 @@ def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     vors2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
     vors2010 = _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params)
 
-    return pd.DataFrame({"vorsorge": np.maximum(vors2004, vors2010)})
+    return np.maximum(vors2004, vors2010)
 
 
 def calc_altersvors_aufwend(tax_unit, params):
@@ -451,7 +444,7 @@ def calc_altersvors_aufwend(tax_unit, params):
 
 
 def vorsorge_year_faktor(year):
-    """ at several points in the calculation of *Vorsorgeaufwendungen*,
+    """ in the calculation of *Vorsorgeaufwendungen*,
     there is year-dependent factor to be calculated.
 
     year: int

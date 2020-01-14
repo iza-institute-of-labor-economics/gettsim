@@ -56,19 +56,19 @@ def test_vorsorge(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
     if year >= 2010:
-        e_st_abzuege_params["vorsorge"] = vorsorge_since_2010
+        calc_vorsorge = vorsorge_since_2010
     elif year >= 2005:
-        e_st_abzuege_params["vorsorge"] = vorsorge_since_2005
+        calc_vorsorge = vorsorge_since_2005
     elif year <= 2004:
-        e_st_abzuege_params["vorsorge"] = vorsorge_pre_2005
+        calc_vorsorge = vorsorge_pre_2005
 
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby("tu_id").apply(
-        e_st_abzuege_params["vorsorge"],
-        params=e_st_abzuege_params,
-        soz_vers_beitr_params=soz_vers_beitr_params,
-    )
+    df["vorsorge"] = np.nan
+    for tu in df["tu_id"].unique():
+        df.loc[df["tu_id"] == tu, "vorsorge"] = calc_vorsorge(
+            df[df["tu_id"] == tu],
+            params=e_st_abzuege_params,
+            soz_vers_beitr_params=soz_vers_beitr_params,
+        )
 
     assert_series_equal(
         df[column], year_data[column], check_less_precise=2, check_dtype=False
