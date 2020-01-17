@@ -92,6 +92,108 @@ Parameters of the taxes and transfers system
       }
 
 
+Parameter Documentation
+-----------------------
+
+Parameters stored in the parameter database have basic documentation provided by a ``name`` and a ``descripion`` key.
+Furthermore, every introduction of a new parameter or value change has a reference to a law or a source.
+
+the `name` key
+
+* short name without stating the realm (e.g. "ALG II" or "Kinderzuschlag") again
+* is not a sentence
+* should always have a `de` and `en` translation
+
+Example::
+
+      name:
+        de: Regelsatz
+        en: Standard rate
+
+The `description` key
+
+* a good and full explanation of the parameter
+* show the § and Gesetzbuch/Paragraph (history) of that parameter
+* It should mention bigger amendments/Neufassungen and be as helpful as possible to make sense of that parameter
+* if an english translation is added it should state the same information
+
+Example::
+
+      description:
+        de: Einkommensanteil, der anrechnungsfrei bleibt, Intervall 2 [a2eg1, a2eg2]. § 30 SGB II. Seit 01.04.2011 § 11b SGB II.
+        en: Income share not subject to transfer withdrawal, interval 2 [a2eg1, a2eg2]. § 30 SGB II. Since 01.04.2011 § 11b SGB II.
+
+
+the `value` key:
+
+* the value as defined in the law
+* values in percentages can alternatively be expressed to the base of one
+* add a leading zero for values smaller than 1 and greater than -1
+* DM values have to be converted to Euro using the excange rate 1:1.95583.
+
+Example 1::
+
+      values:
+        2005-01-01:
+          value: 1500
+          note: G. v. 24.12.2003 BGBl. I S. 2954.
+        2005-10-01:
+          value: 1200
+          note: G. v. 14.08.2005 BGBl. I S. 2407.
+
+Example 2::
+
+      values:
+        1995-01-01:
+          value: 681
+          note: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944. Wert in Euro. Der Betrag im Gesetz lautet 1332 DM.
+        1998-01-01:
+          value: 939
+          note: Artikel 1 G. v. 21.11.1997 BGBl. I S. 2743. Wert in Euro. Der Betrag im Gesetz lautet 1836 DM.
+        2002-01-01:
+          value: 972
+          note: G. v. 15.10.2002 BGBl. I S. 4131.
+        2021-01-01:
+          value: 16956
+          note: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
+
+the `note` key:
+
+* cites the law (Gesetz "G. v."), decree (Verordnung "V. v.") or proclamation (Bekanntmachung "B. v.") that changes the law
+* in German
+* follows the style ``Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. I S. [SSSS]. [optional note].``
+* do not add information "geändert durch" (it is always a change) or the date the law gets into force (this is exaclty the date key in the previous line)
+* the page should be the first page of the law/decree/proclamation, not the exact page of the parameter
+* ``[optional note]`` can be added. In some rare cases you can add a date/value for a parameter that did not change the parameter. This is usually the case when a whole block of parameters is changed but one of the parameters did not change (by coincidence or not). In these cases there the same value is still listed in the BGBl. Add a "Betrag unverändert." to the note. This is also to signal that the BGBl. has been taken into account. If a parameter is calculated the note will also give information on the calculation. If the value has been converted from DM to Euro the original DM value should be added to the note key.
+
+
+Example::
+
+      values:
+        2005-01-01:
+          value: 338
+          note: G. v. 24.12.2003 BGBl. I S. 2954. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
+        2005-07-01:
+          value: 338
+          note: B. v. 01.09.2005 BGBl. I S. 2718. Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
+        2006-07-01:
+          value: 345
+          note: B. v. 20.07.2006 BGBl. I S. 1702.
+        2007-07-01:
+          value: 347
+          note: B. v. 18.06.2007 BGBl. I S. 1139.
+        2008-07-01:
+          value: 351
+          note: B. v. 26.06.2008 BGBl. I S. 1102.
+        2009-07-01:
+          value: 359
+          note: B. v. 17.06.2009 BGBl. I S. 1342.
+        2010-07-01:
+          value: 359
+          note: B. v. 07.06.2010 BGBl. I S. 820. Betrag unverändert.
+
+
+
 Python Identifiers (Functions, Variables)
 -----------------------------------------
 
