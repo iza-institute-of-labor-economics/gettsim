@@ -698,7 +698,7 @@ t_m:
     de: mittlerer Steuersatz
     en: Marginal Income Tax Rate at medium step
   description:
-    de: §32a EStG, ergibt sich durch Division mit 1000 aus dem Wert in der ersten Stufe.
+    de: §32a EStG, ergibt sich durch Division mit 1000 aus dem Wert in der mittleren Stufe.
     en:
   values:
     2000-01-01:
