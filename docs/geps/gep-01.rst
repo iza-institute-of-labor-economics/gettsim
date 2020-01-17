@@ -23,9 +23,10 @@ nutshell and without explanations, these conventions are:
 * Names should be long enough to be readable, but
 
   - For column names in the user-facing API, there is a hard limit of 15 characters
-  - For others, there is a soft limit of 15 and a hard limit of 20 characters
+  - For other column names, there is a soft limit of 15 and a hard limit of 20 characters
 
-* The language should generally be German
+* The language should generally be English in all coding efforts and documentation.
+  German should be used for all institutional features for precision.
 
 We explain the background for these choices below.
 
@@ -39,9 +40,7 @@ particularly important to clearly document our rules for naming things.
 
 There are three basic building blocks of the code:
 
-1. The input and output data, including any values stored intermediately. The scope of
-   this GEP are the column identifiers. The index and the variable contents are defined
-   elsewhere (could link if we have something).
+1. The input and output data, including any values stored intermediately.
 2. The parameters of the tax transfer system, as detailed in the YAML files.
 3. Python identifiers, that is, variables and functions.
 
@@ -54,8 +53,8 @@ General considerations
 
 Even though the working language of GETTSIM is English, all of 1. (column names) and 2.
 (parameters of the taxes and transfers system) should be specified in German. Any
-translation of detailed rules---e.g., ....---is doomed to fail is likely to lead to more
-confusion than clarity. Non-German speakers would need to look things up, anyhow.
+translation of detailed rules---e.g., ....---is likely to lead to more confusion than
+clarity. Non-German speakers would need to look things up, anyhow.
 
 
 Column names (a.k.a. "variables" in Stata)
@@ -72,14 +71,29 @@ If a column is only for internal use, it should start with an underscore.
 
 Even though not implemented at the time of this writing, we plan to allow users to pass
 in English column names and get English column names back. Potentially also standardised
-variables...
+variables like in `EUROMOD <https://www.euromod.ac.uk/>`_ or the ... standard.
 
 Parameters of the taxes and transfers system
 --------------------------------------------
 
-* Stored by group. This group should not re-appear in the name.
+[merge this with @mjbloemer's parts below]
+
+* The parameters are stored by group (e.g., ``arbeitsl_geld``, ``kinderzuschlag``).
+  These groups or their abbreviations should not re-appear in the name.
 * Use Python containers like tuples and namedtuples (the mutable versions of these,
-  i.e., lists and dictionaries, might be better known) where relevant. E.g., instead of
+  i.e., lists and dictionaries, might be better known) where relevant.
+
+E.g., instead of ``kgeld1: 204``, ``kgeld2: 204``, ``kgeld3: 210``, and ``kgeld4: 235`` in the file ``kindergeld.yaml``, use
+
+    .. code-block:: yaml
+
+        beträge:
+          - 204
+          - 204
+          - 210
+          - 235
+
+
   ``steuer_tarif_stufe_0_max = 15000``, ..., ``steuer_tarif_stufe_3_max = 60000`` and
   ``steuer_tarif_rate_0 = 0``, ..., ``steuer_tarif_stufe_4 = 0.55``, use::
 
@@ -95,14 +109,14 @@ Parameters of the taxes and transfers system
 Parameter Documentation
 -----------------------
 
-Parameters stored in the parameter database have basic documentation provided by a ``name`` and a ``descripion`` key.
-Furthermore, every introduction of a new parameter or value change has a reference to a law or a source.
+Parameters stored in the parameter database have basic documentation provided by a
+``name`` and a ``descripion`` key. Furthermore, every introduction of a new parameter or
+value change has a reference to a law or a source.
 
-the `name` key
-
-* short name without stating the realm (e.g. "ALG II" or "Kinderzuschlag") again
-* is not a sentence
-* should always have a `de` and `en` translation
+The ``name`` key has two sub-keys `de` and `en`, which are
+* short names without stating the realm (e.g. "ALG II" or "Kinderzuschlag") again
+* not sentences
+* Correctly capitalised
 
 Example::
 
@@ -110,12 +124,11 @@ Example::
         de: Regelsatz
         en: Standard rate
 
-The `description` key
-
-* a good and full explanation of the parameter
+The `description` key has two sub-keys `de` and `en`, which
+* are good and full explanations of the parameter
 * show the § and Gesetzbuch/Paragraph (history) of that parameter
-* It should mention bigger amendments/Neufassungen and be as helpful as possible to make sense of that parameter
-* if an english translation is added it should state the same information
+* mention bigger amendments/Neufassungen and be as helpful as possible to
+  make sense of that parameter
 
 Example::
 
@@ -124,9 +137,8 @@ Example::
         en: Income share not subject to transfer withdrawal, interval 2 [a2eg1, a2eg2]. § 30 SGB II. Since 01.04.2011 § 11b SGB II.
 
 
-the `value` key:
-
-* the value as defined in the law
+The `values` key
+* contains the value as defined in the law
 * values in percentages can alternatively be expressed to the base of one
 * add a leading zero for values smaller than 1 and greater than -1
 * DM values have to be converted to Euro using the excange rate 1:1.95583.
@@ -162,7 +174,7 @@ the `note` key:
 * cites the law (Gesetz "G. v."), decree (Verordnung "V. v.") or proclamation (Bekanntmachung "B. v.") that changes the law
 * in German
 * follows the style ``Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. I S. [SSSS]. [optional note].``
-* do not add information "geändert durch" (it is always a change) or the date the law gets into force (this is exaclty the date key in the previous line)
+* do not add information "geändert durch" (it is always a change) or the date the law comes into force (this is exactly the date key in the previous line)
 * the page should be the first page of the law/decree/proclamation, not the exact page of the parameter
 * ``[optional note]`` can be added. In some rare cases you can add a date/value for a parameter that did not change the parameter. This is usually the case when a whole block of parameters is changed but one of the parameters did not change (by coincidence or not). In these cases there the same value is still listed in the BGBl. Add a "Betrag unverändert." to the note. This is also to signal that the BGBl. has been taken into account. If a parameter is calculated the note will also give information on the calculation. If the value has been converted from DM to Euro the original DM value should be added to the note key.
 
