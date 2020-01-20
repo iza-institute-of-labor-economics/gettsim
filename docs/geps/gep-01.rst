@@ -119,7 +119,9 @@ The ``name`` key has two sub-keys `de` and `en`, which are
 * not sentences
 * Correctly capitalised
 
-Example::
+Example:
+
+.. code-block:: yaml
 
       name:
         de: Regelsatz
@@ -132,7 +134,9 @@ The `description` key has two sub-keys `de` and `en`, which
 * mention bigger amendments/Neufassungen and be as helpful as possible to
   make sense of that parameter
 
-Example::
+Example:
+
+.. code-block:: yaml
 
       description:
         de: Einkommensanteil, der anrechnungsfrei bleibt, Intervall 2 [a2eg1, a2eg2]. § 30 SGB II. Seit 01.04.2011 § 11b SGB II.
@@ -146,7 +150,9 @@ The `values` key
 * add a leading zero for values smaller than 1 and greater than -1
 * DM values have to be converted to Euro using the excange rate 1:1.95583.
 
-Example 1::
+Example 1:
+
+.. code-block:: yaml
 
       values:
         2005-01-01:
@@ -156,7 +162,9 @@ Example 1::
           value: 1200
           note: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
 
-Example 2::
+Example 2:
+
+.. code-block:: yaml
 
       values:
         1995-01-01:
@@ -183,7 +191,9 @@ the `note` key:
 * ``[optional note]`` can be added. In some rare cases you can add a date/value for a parameter that did not change the parameter. This is usually the case when a whole block of parameters is changed but one of the parameters did not change (by coincidence or not). In these cases there the same value is still listed in the BGBl. Add a "Betrag unverändert." to the note. This is also to signal that the BGBl. has been taken into account. If a parameter is calculated the note will also give information on the calculation. If the value has been converted from DM to Euro the original DM value should be added to the note key.
 
 
-Example::
+Example:
+
+.. code-block:: yaml
 
       values:
         2005-01-01:
