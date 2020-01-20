@@ -151,10 +151,10 @@ Example 1::
       values:
         2005-01-01:
           value: 1500
-          note: G. v. 24.12.2003 BGBl. I S. 2954.
+          note: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
         2005-10-01:
           value: 1200
-          note: G. v. 14.08.2005 BGBl. I S. 2407.
+          note: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
 
 Example 2::
 
@@ -167,10 +167,11 @@ Example 2::
           note: Artikel 1 G. v. 21.11.1997 BGBl. I S. 2743. Wert in Euro. Der Betrag im Gesetz lautet 1836 DM.
         2002-01-01:
           value: 972
-          note: G. v. 15.10.2002 BGBl. I S. 4131.
+          note: B. v. 15.10.2002 BGBl. I S. 4130.
         2021-01-01:
           value: 16956
           note: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
+
 
 the `note` key:
 
@@ -187,7 +188,7 @@ Example::
       values:
         2005-01-01:
           value: 338
-          note: G. v. 24.12.2003 BGBl. I S. 2954. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
+          note: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
         2005-07-01:
           value: 338
           note: B. v. 01.09.2005 BGBl. I S. 2718. Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
@@ -206,7 +207,12 @@ Example::
         2010-07-01:
           value: 359
           note: B. v. 07.06.2010 BGBl. I S. 820. Betrag unverändert.
-
+        2011-01-01:
+          value: 364
+          note: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
+        2012-01-01:
+          value: 374
+          note: B. v. 20.10.2011 BGBl. I S. 2093.
 
 
 Python Identifiers (Functions, Variables)
