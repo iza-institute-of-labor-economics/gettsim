@@ -114,6 +114,7 @@ Parameters stored in the parameter database have basic documentation provided by
 value change has a reference to a law or a source.
 
 The ``name`` key has two sub-keys `de` and `en`, which are
+
 * short names without stating the realm (e.g. "ALG II" or "Kinderzuschlag") again
 * not sentences
 * Correctly capitalised
@@ -125,6 +126,7 @@ Example::
         en: Standard rate
 
 The `description` key has two sub-keys `de` and `en`, which
+
 * are good and full explanations of the parameter
 * show the § and Gesetzbuch/Paragraph (history) of that parameter
 * mention bigger amendments/Neufassungen and be as helpful as possible to
@@ -138,6 +140,7 @@ Example::
 
 
 The `values` key
+
 * contains the value as defined in the law
 * values in percentages can alternatively be expressed to the base of one
 * add a leading zero for values smaller than 1 and greater than -1
