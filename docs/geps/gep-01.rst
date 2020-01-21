@@ -94,7 +94,10 @@ variables like in `EUROMOD <https://www.euromod.ac.uk/>`_ or the `CNEF <https://
 Parameters of the taxes and transfers system
 --------------------------------------------
 
-In many ways, the parameters of the taxes and transfers system are the core of GETTSIM. Along with the functions operating on them and the input data, they determine all quantities of interest. Cleanly documenting the sources of these parameters requires particular care. Hence, this is by far the longest section.
+In many ways, the parameters of the taxes and transfers system are the core of GETTSIM.
+Along with the functions operating on them and the input data, they determine all
+quantities of interest. Cleanly documenting the sources of these parameters requires
+particular care. Hence, this is by far the longest section.
 
 General rules
 +++++++++++++
@@ -103,7 +106,8 @@ General rules
   These groups or abbreviations thereof should not re-appear in the name of the
   parameter.
 * The parameters make use of Python containers like tuples and namedtuples (the mutable
-  versions of these, i.e., lists and dictionaries, might be better known) where relevant.
+  versions of these, i.e., lists and dictionaries, might be better known) where
+  relevant.
 * The input of the parameters data via a set of
   [yaml](https://yaml.org/spec/1.2/spec.html)-files, which pin down these structures.
 
@@ -113,7 +117,8 @@ Structure of the YAML files
 
 Each YAML file contains a number of parameters at the outermost level of indentation.
 Each of these parameters then has at least three keys: ``name``, ``description``, and
-``value``. Values usually change over time; each time a value is introduced or changed the law or regulation doing so is referenced along with the numerical
+``value``. Values usually change over time; each time a value is introduced or changed
+the respective law or regulation is referenced along with the numerical value.
 
 1. The ``name`` key has two sub-keys ``de`` and ``en``, which are
 
@@ -267,7 +272,6 @@ Discussion
 References and Footnotes
 ------------------------
 
-.. _Euromod: https://www.euromod.ac.uk/sites/default/files/working-papers/EMTN-1.1.pdf
 
 Copyright
 ---------
