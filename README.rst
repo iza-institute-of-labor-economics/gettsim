@@ -29,16 +29,18 @@
    </p>
 
 
-GETTSIM aims at providing a depiction of the German Taxes and Transfers System that is
-usable across a wide range of research applications, ranging from highly complex dynamic
+GETTSIM provides a depiction of the German Taxes and Transfers System that will be
+usable in a wide array of research applications, ranging from highly complex dynamic
 programming models to extremely detailed microsimulation studies.
 
 GETTSIM is implemented in Python, thereby achieving both user friendliness and
 flexibility. All features are extensively tested.
 
-The current version is usable, but probably only by the initiated. Please get in touch
-(ideally by joining our Zulip Chat at https://gettsim.zulipchat.com) if you want to
-use it already, else keep an eye out for what there is to come!
+The current version is usable and should yield reasonably correct results. Development
+has valued correctness over speed so far. Hence, GETTSIM is rather slow at this point in
+time and the API is subject to change. If you want to use the current version, help in
+GETTSIM's development, etc., we invite you to get in touch (ideally by joining our Zulip
+Chat at https://gettsim.zulipchat.com), else keep an eye out for what there is to come!
 
 You can install GETTSIM via conda with
 
@@ -47,7 +49,7 @@ You can install GETTSIM via conda with
     $ conda install -c gettsim gettsim
 
 
-The documentation is available under https://gettsim.readthedocs.io.
+The documentation is available at https://gettsim.readthedocs.io.
 
 
 
