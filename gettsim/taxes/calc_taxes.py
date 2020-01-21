@@ -43,6 +43,14 @@ def calc_soli(tax_unit, params):
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
     Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
+
+    The Solidarity Surcharge is an additional tax on top of the income tax which
+    is the tax base. As opposed to the 'standard' income tax, child allowance is
+    always deducted for tax base calculation.
+
+    There is also Solidarity Surcharge on the Capital Income Tax, but always
+    with Solidarity Surcharge tax rate and no tax exempt level. §3 (3) S.2
+    SolzG 1995.
     """
 
     tax_unit["soli_tu"] = 0
@@ -133,21 +141,19 @@ def tarif(x, params):
     return t
 
 
+def no_soli(solibasis, params):
+    """ There was no Solidaritätszuschlaggesetz before 1991 and in 1993/1994 """
+    return 0
+
 def soli_formula_1991_92(solibasis, params):
-    """ Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992"""
+    """ Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992 """
 
     soli = params["soli_rate"] * solibasis
 
     return soli.round(2)
 
-
-def no_soli(solibasis, params):
-    """ There was no Solidaritätszuschlaggesetz in 1993/1994"""
-    return 0
-
-
 def soli_formula_since_1995(solibasis, params):
-    """ Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995"""
+    """ Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995 """
 
     soli = np.minimum(
         params["soli_rate"] * solibasis,
