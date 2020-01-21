@@ -20,11 +20,12 @@ This GEP pins down naming conventions for GETTSIM — general rules for what dat
 parameters, Python identifiers (functions, variables), etc. should be called. In a
 nutshell and without explanations, these conventions are:
 
-* Names follow standard Python conventions (``lowercase_with_underscores``)
+* Names follow standard Python conventions (``lowercase_with_underscores``).
 * Names should be long enough to be readable, but
 
-  - For column names in the user-facing API, there is a hard limit of 15 characters
-  - For other column names, there is a soft limit of 15 and a hard limit of 20 characters
+  - for column names in the user-facing API, there is a hard limit of 15 characters;
+  - for other column names, there is a soft limit of 15 and a hard limit of 25
+    characters.
 
 * The language should generally be English in all coding efforts and documentation.
   German should be used for all institutional features and directly corresponding
@@ -61,8 +62,11 @@ General considerations
 Even though the working language of GETTSIM is English, all of 1. (column names) and 2.
 (parameters of the taxes and transfers system) should be specified in German. Any
 translation of detailed rules---e.g., distinguishing between Arbeitslosengeld 2 and
-Sozialhilfe---is likely to lead to more confusion than clarity. Non-German speakers
-would need to look things up, anyhow.
+Sozialhilfe, or between Erziehungsgeld, Elterngeld, and Elterngeld+---is likely to lead
+to more confusion than clarity. The main issue here is that often economic concepts
+behind the different programmes are the same (in the examples, social assistance and
+parental leave benefits, respectively), but often the names of laws change upon major
+policy updates. Non-German speakers would need to look things up, anyhow.
 
 Since Python natively supports UTF-8 characters, we use correct spelling everywhere and
 do not make efforts to restrict ourselves to ASCII characters. This choice is made for
@@ -80,15 +84,20 @@ their column names. Furthermore, where developers using other languages may stor
 different experiments in different variables, Stata users' only chance to distinguish
 them is to append characters to the column names.
 
-If a column is only for internal use, it should start with an underscore.
+If a column is only present for internal use, it should start with an underscore.
 
 Even though not implemented at the time of this writing, we plan to allow users to pass
 in English column names and get English column names back. Potentially also standardised
-variables like in `EUROMOD <https://www.euromod.ac.uk/>`__ or the `CNEF <https://cnef.ehe.osu.edu/data/>` standard.
+variables like in `EUROMOD <https://www.euromod.ac.uk/>`_ or the `CNEF <https://cnef.ehe.osu.edu/data/>`_ standard.
 
 
 Parameters of the taxes and transfers system
 --------------------------------------------
+
+In many ways, the parameters of the taxes and transfers system are the core of GETTSIM. Along with the functions operating on them and the input data, they determine all quantities of interest. Cleanly documenting the sources of these parameters requires particular care. Hence, this is by far the longest section.
+
+General rules
++++++++++++++
 
 * The parameters are stored by group (e.g., ``arbeitsl_geld``, ``kinderzuschlag``).
   These groups or abbreviations thereof should not re-appear in the name of the
@@ -108,17 +117,18 @@ Each of these parameters then has at least three keys: ``name``, ``description``
 
 1. The ``name`` key has two sub-keys ``de`` and ``en``, which are
 
-   * short names without stating the realm (e.g. "ALG II" or "Kinderzuschlag") again
-   * not sentences
-   * Correctly capitalised
+   * short names without stating the realm (e.g. "Arbeitslosengeld II" or
+     "Kinderzuschlag") again,
+   * not sentences,
+   * correctly capitalised.
 
-   Example:
+   Example (from ``arbeitsl_geld_2``):
 
    .. code-block:: yaml
 
         name:
-            de: Regelsatz
-            en: Standard rate
+          de: Regelsatz
+          en: Standard rate
 
 2. The ``description`` key has two sub-keys ``de`` and ``en``, which
 
@@ -132,8 +142,8 @@ Each of these parameters then has at least three keys: ``name``, ``description``
    .. code-block:: yaml
 
         description:
-            de: Einkommensanteil, der anrechnungsfrei bleibt, Intervall 2 [a2eg1, a2eg2]. § 30 SGB II. Seit 01.04.2011 § 11b SGB II.
-            en: Income share not subject to transfer withdrawal, interval 2 [a2eg1, a2eg2]. § 30 SGB II. Since 01.04.2011 § 11b SGB II.
+          de: Einkommensanteil, der anrechnungsfrei bleibt, Intervall 2 [a2eg1, a2eg2]. § 30 SGB II. Seit 01.04.2011 § 11b SGB II.
+          en: Income share not subject to transfer withdrawal, interval 2 [a2eg1, a2eg2]. § 30 SGB II. Since 01.04.2011 § 11b SGB II.
 
 
 3. The ``value`` key
