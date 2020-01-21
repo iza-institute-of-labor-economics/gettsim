@@ -104,10 +104,9 @@ Structure of the YAML files
 
 Each YAML file contains a number of parameters at the outermost level of indentation.
 Each of these parameters then has at least three keys: ``name``, ``description``, and
-``values``.  key. Furthermore, every introduction of a new parameter
-or value change has a reference to a law or a source.
+``value``. Values usually change over time; each time a value is introduced or changed the law or regulation doing so is referenced along with the numerical
 
-1. The ``name`` key has two sub-keys `de` and `en`, which are
+1. The ``name`` key has two sub-keys ``de`` and ``en``, which are
 
    * short names without stating the realm (e.g. "ALG II" or "Kinderzuschlag") again
    * not sentences
@@ -121,7 +120,7 @@ or value change has a reference to a law or a source.
             de: Regelsatz
             en: Standard rate
 
-2. The `description` key has two sub-keys `de` and `en`, which
+2. The ``description`` key has two sub-keys ``de`` and ``en``, which
 
    * are good and full explanations of the parameter
    * show the § and Gesetzbuch/Paragraph (history) of that parameter
@@ -137,7 +136,7 @@ or value change has a reference to a law or a source.
             en: Income share not subject to transfer withdrawal, interval 2 [a2eg1, a2eg2]. § 30 SGB II. Since 01.04.2011 § 11b SGB II.
 
 
-3. The `values` key
+3. The ``value`` key
 
    * contains the value as defined in the law
    * values in percentages can alternatively be expressed to the base of one
@@ -148,7 +147,7 @@ or value change has a reference to a law or a source.
 
    .. code-block:: yaml
 
-        values:
+        value:
             2005-01-01:
                 value: 1500
                 note: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
