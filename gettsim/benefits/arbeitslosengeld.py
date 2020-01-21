@@ -1,5 +1,3 @@
-""""""
-
 
 def ui(
     person,
