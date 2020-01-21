@@ -255,7 +255,10 @@ def tax_transfer(
         level=tax_unit,
         in_cols=in_cols,
         out_cols=[out_col],
-        func_kwargs={"params": unterhalt_params},
+        func_kwargs={
+            "params": unterhalt_params,
+            "kindergeld_params": kindergeld_params,
+        },
     )
     in_cols = [
         "tu_id",
