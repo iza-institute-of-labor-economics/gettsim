@@ -335,7 +335,7 @@ altenth:
       note: Stand Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
     2013-01-01:
       value: 1292
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2014-01-01:
       value: 1216
       note:
@@ -356,16 +356,16 @@ altenth:
       note:
     2020-01-01:
       value: 760
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2021-01-01:
       value: 722
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2022-01-01:
       value: 684
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2023-01-01:
       value: 646
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
 altentq:
   name:
     de: Anteil des Altersentlastungsbetrags
@@ -421,16 +421,16 @@ altentq:
       note:
     2020-01-01:
       value: 0.16
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2021-01-01:
       value: 0.152
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2022-01-01:
       value: 0.144
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2023-01-01:
       value: 0.136
-      note:
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
 an_vorsp_al:
   name:
     de: Anteil des Arbeitslohns
