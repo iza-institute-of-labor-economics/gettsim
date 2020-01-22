@@ -145,12 +145,14 @@ def no_soli(solibasis, params):
     """ There was no Solidaritätszuschlaggesetz before 1991 and in 1993/1994 """
     return 0
 
+
 def soli_formula_1991_92(solibasis, params):
     """ Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992 """
 
     soli = params["soli_rate"] * solibasis
 
     return soli.round(2)
+
 
 def soli_formula_since_1995(solibasis, params):
     """ Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995 """
