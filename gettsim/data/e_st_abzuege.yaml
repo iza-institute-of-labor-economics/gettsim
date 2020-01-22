@@ -588,10 +588,10 @@ hhfreib:
       note: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
 hhfreib_ch:
   name:
-    de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag pro Kind ab dem 2. Kind
-    en: Income Tax Allowance for Single Parents; additional amount for each child after the second one.
+    de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag
+    en: Income Tax Allowance for Single Parents; additional amount
   description:
-    de: §24b (2) S. 2
+    de: §24b (2) S. 2 EStG. Alleinerziehenden-Entlastungsbetrag, Zusatzbetrag pro Kind ab dem 2. Kind.
     en:
   values:
     2015-01-01:
@@ -599,7 +599,7 @@ hhfreib_ch:
       note: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
 kuerzquo:
   name:
-    de: Pauschale Kuerzung des Vorwegabzugs um
+    de: Kürzung des Vorwegabzugs
     en:
   description:
     de:
@@ -711,10 +711,10 @@ vors_sonst_max:
       note:
 rentert:
   name:
-    de: Ertragsanteil der Rente bei Rentenbeginn im 65. LJ. Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht.
+    de: Ertragsanteil der Rente
     en:
   description:
-    de: § 22 Nr. 1 a) aa) EStG
+    de: § 22 Nr. 1 a) aa) EStG. Ertragsanteil der Rente bei Rentenbeginn im 65. Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht.
     en:
   values:
     1984-01-01:
@@ -787,7 +787,7 @@ sauntmx:
       note: .
 sbhp100:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 95% oder 100%)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 95% oder 100%)
     en:
   description:
     de: § 33b (3) EStG
@@ -801,7 +801,7 @@ sbhp100:
       note:
 sbhp30:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 25% oder 30%)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 25% oder 30%)
     en:
   description:
     de: § 33b (3) EStG
@@ -815,7 +815,7 @@ sbhp30:
       note:
 sbhp40:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 35% oder 40%)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 35% oder 40%)
     en:
   description:
     de: § 33b (3) EStG
@@ -829,7 +829,7 @@ sbhp40:
       note:
 sbhp50:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 45% oder 50%)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 45% oder 50%)
     en:
   description:
     de: § 33b (3) EStG
@@ -843,7 +843,7 @@ sbhp50:
       note:
 sbhp60:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 55% oder 60%)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 55% oder 60%)
     en:
   description:
     de: § 33b (3) EStG
@@ -860,7 +860,7 @@ sbhp60:
       note:
 sbhp70:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 65% oder 70%)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 65% oder 70%)
     en:
   description:
     de: § 33b (3) EStG
@@ -871,7 +871,7 @@ sbhp70:
       note: .
 sbhp80:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 75% oder 80%)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 75% oder 80%)
     en:
   description:
     de: § 33b (3) EStG
@@ -885,7 +885,7 @@ sbhp80:
       note:
 sbhp90:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 85% oder 90%)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 85% oder 90%)
     en:
   description:
     de: § 33b (3) EStG
