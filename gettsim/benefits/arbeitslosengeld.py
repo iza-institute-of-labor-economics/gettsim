@@ -1,3 +1,5 @@
+"""This module contains functions related to "Arbeitslosengeld"."""
+
 
 def ui(
     person,
