@@ -126,8 +126,6 @@ vorwegab:
     2019-01-01:
       value: 300
       note:
-    2020-01-01:
-      value: 0
 vwabzc:
   name:
     de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle Ehegatten  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
@@ -177,9 +175,6 @@ vwabzc:
       note:
     2019-01-01:
       value: 600
-      note:
-    2020-01-01:
-      value: 0
       note:
 werbung:
   name:
