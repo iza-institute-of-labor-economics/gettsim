@@ -20,7 +20,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Child tax allowance modelled as two separate items. (:ghuser:`Eric-Sommer`)
 * Alimony advance payment (*Unterhaltsvorschuss*) now modelled more in line
   with the law (:ghuser:`Eric-Sommer`)
-* Implemented pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser: `Eric-Sommer`)
+* Implement Art. 3 of *Familienentlastungsgesetz* on income tax tariff and child tax
+  allowance becoming effective in 2020 (:ghuser: `Eric-Sommer`)
+* Implement pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser: `Eric-Sommer`)
+
 
 
 0.2.1 - 2019-11-20

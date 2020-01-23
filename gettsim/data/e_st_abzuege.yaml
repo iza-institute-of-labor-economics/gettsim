@@ -1,9 +1,9 @@
 kifreib_s_exm:
   name:
     de: Kinderfreibetrag (sächliches Existenzminimum des Kindes).
-    en:
+    en: Basic Income Tax Allowance for children
   description:
-    de: § 32(6) EStG, früher auch Absatz 7 und 8.
+    de: § 32(6) EStG, früher auch Absatz 7 und 8. Wird verdoppelt für gemeinsam veranlagte Paare.
     en:
   values:
     1983-01-01:
@@ -48,10 +48,13 @@ kifreib_s_exm:
     2019-01-01:
       value: 2490
       note: Art. 1 G. v. 29.11.2018 BGBl. I S. 2210
+    2020-01-01:
+      value: 2586
+      note: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
 kifreib_bea:
   name:
     de: Kinderfreibetrag. Betreuungs-, Erziehungs-, Ausbildungsfreibetrag.
-    en:
+    en: Income Tax Allowance for child care and education.
   description:
     de: §32 (6) EStG, seit 2000.
     en:
@@ -81,7 +84,7 @@ vorsp_rv:
       note:
 vorwegab:
   name:
-    de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
+    de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle
     en:
   description:
     de: § 10 (3), (4a) EStG
@@ -176,7 +179,7 @@ vwabzc:
 werbung:
   name:
     de: Werbungskostenpauschbetrag bei nichtselbstständiger Arbeit
-    en:
+    en: Lump-sum deduction for employment income
   description:
     de: § 9a EStG
     en:
@@ -195,7 +198,7 @@ werbung:
       note:
     2012-01-01:
       value: 1000
-      note: Stand  Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854 Achtung:§ 9a Satz 1 Nummer 1 Buchstabe a in der Fassung des Artikels 1 Nummer 5 Buchstabe a des Gesetzes vom 1. November 2011 (BGBl. I S. 2131) ist erstmals für den Veranlagungszeitraum 2011 anzuwenden. 2Beim Steuerabzug vom Arbeitslohn ist er auf laufenden Arbeitslohn, der für einen nach dem 30. November 2011 endenden Lohnzahlungszeitraum gezahlt wird, und auf sonstige Bezüge, die nach dem 30. November 2011 zufließen, erstmals anzuwenden
+      note: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131. Für Lohnsteuerabzug gültig ab 2011-11-05.
 vorsorgpausch:
   name:
     de: Werbungskostenpauschbetrag bei Vorsorgebezügen oder Einnahmen im Sinne des § 22 EStG Nummer 1, 1a, 1b, 1c und 5
@@ -210,7 +213,7 @@ vorsorgpausch:
 sonder:
   name:
     de: Sonderausgaben-Pauschbetrag
-    en:
+    en: Lump-sum deduction for other expenses
   description:
     de: § 10c EStG
     en:
@@ -227,9 +230,9 @@ sonder:
 spsparf:
   name:
     de: Sparerfreibetrag (bis 2008) Sparerpauschbetrag (ab 2008)
-    en:
+    en: Allowance for Capital Gains
   description:
-    de: § 20 (9) EStG
+    de: § 20 (9) EStG. Wert für Singles.
     en:
   values:
     1984-01-01:
@@ -272,10 +275,10 @@ spwerbz:
       note:
 grundbet:
   name:
-    de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle  SEB Dies gilt nur noch, wenn Regelung von vor 2004 günstiger ist  (§ 10 (3) Nr.1, § 10c (5) EStG)
+    de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle
     en:
   description:
-    de:
+    de: §10 (3) EStG bis 2004.
     en:
   values:
     1985-01-01:
@@ -286,10 +289,10 @@ grundbet:
       note: .
 altenth:
   name:
-    de: Höchstbetrag des Altersentlastungsbetrags  (Höhe §24a EstG)
-    en:
+    de: Höchstbetrag des Altersentlastungsbetrags
+    en: Maximum Amount of Tax Credit for older employees.
   description:
-    de:
+    de: 24a EStG S. 5. Tabelle legt die Werte bis 2040.
     en:
   values:
     1984-01-01:
@@ -327,7 +330,7 @@ altenth:
       note: Stand Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
     2013-01-01:
       value: 1292
-      note: EStG §24a Satz 5 (Tabelle)
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2014-01-01:
       value: 1216
       note:
@@ -346,12 +349,24 @@ altenth:
     2019-01-01:
       value: 836
       note:
+    2020-01-01:
+      value: 760
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+    2021-01-01:
+      value: 722
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+    2022-01-01:
+      value: 684
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+    2023-01-01:
+      value: 646
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
 altentq:
   name:
-    de: Prozentsatz des Altersentlastungsbetrags  (Höhe §24a EstG)
-    en:
+    de: Anteil des Altersentlastungsbetrags
+    en: Income share subject to tax credit for older employees.
   description:
-    de:
+    de: §24a EStG S.5. Tabelle legt alle Werte bis 2040 fest.
     en:
   values:
     1984-01-01:
@@ -399,9 +414,21 @@ altentq:
     2019-01-01:
       value: 0.176
       note:
+    2020-01-01:
+      value: 0.16
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+    2021-01-01:
+      value: 0.152
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+    2022-01-01:
+      value: 0.144
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+    2023-01-01:
+      value: 0.136
+      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
 an_vorsp_al:
   name:
-    de: Anteil des Arbeitslohns  (§ 10c (2) S. 2 Nr. 2)
+    de: Anteil des Arbeitslohns
     en:
   description:
     de:
@@ -461,7 +488,7 @@ avspc:
   values:
     1985-01-01:
       value: 2393
-      note: der Höchstbetrag hat sich hier noch durch Kinder erhöht! Darum hab ich 1984 frei gelassen, Rahmenbedingungen zu unterschiedlich
+      note: der Höchstbetrag hat sich hier noch durch Kinder erhöht!
     1992-01-01:
       value: 2669
       note: .
@@ -527,10 +554,10 @@ max_vorsp_al:
       note:
 hhfreib:
   name:
-    de: Entlastungsbetrag für Alleinerziehende  (§ 24b (1) EStG)  vor 2004 Haushaltsfreibetrag, § 32 (7) EStG
-    en:
+    de: Entlastungsbetrag für Alleinerziehende
+    en: Income Tax Allowance for Single Parents
   description:
-    de:
+    de: § 24b (1) EStG. vor 2004 "Haushaltsfreibetrag", § 32 (7) EStG
     en:
   values:
     1984-01-01:
@@ -553,21 +580,21 @@ hhfreib:
       note:
     2015-01-01:
       value: 1908
-      note: geändert durch BGBl. Nr. 30, 16.07.2015
+      note: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
 hhfreib_ch:
   name:
-    de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag pro Kind ab dem 2. Kind  §24b (2) S.2 EStG
-    en:
+    de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag
+    en: Income Tax Allowance for Single Parents; additional amount
   description:
-    de:
+    de: §24b (2) S. 2 EStG. Alleinerziehenden-Entlastungsbetrag, Zusatzbetrag pro Kind ab dem 2. Kind.
     en:
   values:
     2015-01-01:
       value: 240
-      note:
+      note: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
 kuerzquo:
   name:
-    de: Pauschale Kuerzung des Vorwegabzugs um # Prozent der Einnahmen  SEB Vorsicht - falsch modelliert, bleibt weiterhin bei 0.16% Gilt für AN die vom AG steuerfreie Zukunftssicherungsleistungen bekommen (z.B. AG-Anteile) also für fast alle oder Leute die in der RV versicherungsfrei sind  (Höhe § 10 (3) Nr. 2 EStG)
+    de: Kürzung des Vorwegabzugs
     en:
   description:
     de:
@@ -615,10 +642,10 @@ mietafa:
       note:
 vorsorg_rv_sh:
   name:
-    de: Anteil der Rentenversicherungsbeiträge, der abgesetzt werden kann.   §10 Abs.3 S.4-6 EStG
+    de: Anteil der Rentenversicherungsbeiträge, der abgesetzt werden kann.
     en:
   description:
-    de:
+    de: §10 Abs.3 S.4-6 EStG. Wird nicht verwendet, sondern selbst berechnet.
     en:
   values:
     2005-01-01:
@@ -668,10 +695,10 @@ vorsorg_rv_sh:
       note:
 vors_sonst_max:
   name:
-    de: regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt  §10 Abs. 4 EStG
+    de: regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt.
     en:
   description:
-    de:
+    de: §10 Abs. 4 S.1 EStG
     en:
   values:
     2005-01-01:
@@ -722,10 +749,10 @@ vorsorg_krank_minder:
       note: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 rentert:
   name:
-    de: Ertragsanteil der Rente bei Rentenbeginn im 65. LJ.  ES Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht  (§ 22 Nr. 1 a) aa) EStG)
+    de: Ertragsanteil der Rente
     en:
   description:
-    de:
+    de: § 22 Nr. 1 a) aa) EStG. Ertragsanteil der Rente bei Rentenbeginn im 65. Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht.
     en:
   values:
     1984-01-01:
@@ -781,10 +808,10 @@ rentert:
       note:
 sauntmx:
   name:
-    de: Höchstbetrag der Unterhaltsleistungen als Sonderausgaben  (Höhe § 10 (1a) Nr. 1 EStG)
+    de: Höchstbetrag der Unterhaltsleistungen als Sonderausgaben
     en:
   description:
-    de:
+    de: § 10 (1a) Nr. 1 EStG
     en:
   values:
     1984-01-01:
@@ -798,10 +825,10 @@ sauntmx:
       note: .
 sbhp100:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 95% oder 100%)  (Höhe § 33b (1), (3) EStG)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 95% oder 100%)
     en:
   description:
-    de:
+    de: § 33b (3) EStG
     en:
   values:
     1987-01-01:
@@ -812,10 +839,10 @@ sbhp100:
       note:
 sbhp30:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 25% oder 30%)  (Höhe § 33b (1), (3) EStG)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 25% oder 30%)
     en:
   description:
-    de:
+    de: § 33b (3) EStG
     en:
   values:
     1987-01-01:
@@ -826,10 +853,10 @@ sbhp30:
       note:
 sbhp40:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 35% oder 40%)  (Höhe § 33b (1), (3) EStG)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 35% oder 40%)
     en:
   description:
-    de:
+    de: § 33b (3) EStG
     en:
   values:
     1987-01-01:
@@ -840,10 +867,10 @@ sbhp40:
       note:
 sbhp50:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 45% oder 50%)  (Höhe § 33b (1), (3) EStG)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 45% oder 50%)
     en:
   description:
-    de:
+    de: § 33b (3) EStG
     en:
   values:
     1987-01-01:
@@ -854,10 +881,10 @@ sbhp50:
       note:
 sbhp60:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 55% oder 60%)  (Höhe § 33b (1), (3) EStG)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 55% oder 60%)
     en:
   description:
-    de:
+    de: § 33b (3) EStG
     en:
   values:
     1984-01-01:
@@ -871,10 +898,10 @@ sbhp60:
       note:
 sbhp70:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 65% oder 70%)  (Höhe § 33b (1), (3) EStG)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 65% oder 70%)
     en:
   description:
-    de:
+    de: § 33b (3) EStG
     en:
   values:
     1987-01-01:
@@ -882,10 +909,10 @@ sbhp70:
       note: .
 sbhp80:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 75% oder 80%)  (Höhe § 33b (1), (3) EStG)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 75% oder 80%)
     en:
   description:
-    de:
+    de: § 33b (3) EStG
     en:
   values:
     1987-01-01:
@@ -896,10 +923,10 @@ sbhp80:
       note:
 sbhp90:
   name:
-    de: Pauschbeträge für behinderte Menschen, Hinterbliebene und Pflegepersonen (Grad der Behinderung 85% oder 90%)  (Höhe § 33b (1), (3) EStG)
+    de: Behinderten-Pauschbeträge (Grad der Behinderung 85% oder 90%)
     en:
   description:
-    de:
+    de: § 33b (3) EStG
     en:
   values:
     1987-01-01:
@@ -910,10 +937,10 @@ sbhp90:
       note:
 abfahh:
   name:
-    de: Ausbildungsfreibetrag für ein außerhalb des HH lebendes über 18 Jahre altes Kind  (Höhe §33a (2) Satz 1 EStG)
+    de: Ausbildungsfreibetrag für ein außerhalb des HH lebendes über 18 Jahre altes Kind
     en:
   description:
-    de:
+    de: §33a (2) S. 1 EStG
     en:
   values:
     1987-01-01:
@@ -927,10 +954,10 @@ abfahh:
       note:
 abfahhg:
   name:
-    de: Ausbildungsfreibetrag, Hinzuverdienstgrenze des Kindes  (Höhe §33a (2) Satz 1 EStG)
+    de: Ausbildungsfreibetrag, Hinzuverdienstgrenze des Kindes
     en:
   description:
-    de:
+    de: Höhe §33a (2) Satz 1 EStG. Existiert spätestens seit 2005 nicht mehr.
     en:
   values:
     1984-01-01:
@@ -941,10 +968,10 @@ abfahhg:
       note:
 abfihh:
   name:
-    de: Ausbildungsfreibetrag, Ausbildungsfreibetrag für ein im HH lebendes über 18 Jahre altes Kind  (Höhe §33a (2) Satz 1 EStG)
+    de: Ausbildungsfreibetrag, Ausbildungsfreibetrag für ein im HH lebendes über 18 Jahre altes Kind
     en:
   description:
-    de:
+    de: Höhe §33a (2) Satz 1 EStG. Existiert spätestens seit 2005 nicht mehr.
     en:
   values:
     1987-01-01:
@@ -958,10 +985,10 @@ abfihh:
       note:
 pendpausch:
   name:
-    de: Entfernungspauschale §9 I Nr.4 EStG
+    de: Entfernungspauschale
     en:
   description:
-    de:
+    de: §9 (1) Nr.4 EStG. Euro pro Kilometer Pendelstrecke.
     en:
   values:
     1984-01-01:
@@ -990,23 +1017,23 @@ pendpausch:
       note:
 childcare_share:
   name:
-    de: Anteil der Betreuungsaufwendungen, der auf das zve anrechenbar ist
-    en:
+    de: Anteil der Betreuungsaufwendungen, der auf das zu versteuernde Einkommen anrechenbar ist
+    en: Share of child care expenses which can be deducted
   description:
-    de:
+    de: §10 (1) Nr. 5
     en:
   values:
     2012-01-01:
       value: 0.6666666666666666
-      note:
+      note: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
 childcare_max:
   name:
     de: Maximale Betreuungsaufwendung per Kind
-    en:
+    en: Maximum amount of deductable child care expenses per child
   description:
-    de:
+    de: §10 (1) Nr. 5
     en:
   values:
     2012-01-01:
       value: 4000
-      note:
+      note: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
