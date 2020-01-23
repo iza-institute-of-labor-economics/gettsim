@@ -3,7 +3,7 @@ Welcome to GETTSIM's documentation!
 
 .. include:: ../README.rst
    :start-line: 31
-   :end-line: 41
+   :end-line: 44
 
 
 .. toctree::
