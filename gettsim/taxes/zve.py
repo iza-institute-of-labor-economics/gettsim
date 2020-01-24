@@ -372,10 +372,14 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
     # Distinguish between married and singles
     # Single Taxpayer
     if not tax_unit["zveranl"].max():
-        # Amount 1: Basic deduction, based on earnings. Usually zero.
-        item_1 = np.maximum(
-            params["vorwegab"] - params["kuerzquo"] * 12 * tax_unit["m_wage"], 0
-        )
+        if params["year"] <= 2019:
+            # Amount 1: Basic deduction, based on earnings. Usually zero.
+            item_1 = np.maximum(
+                params["vorwegab"] - params["kuerzquo"] * 12 * tax_unit["m_wage"], 0
+            )
+        else:
+            # No "vorwegab" anymore after 2019.
+            item_1 = 0
         # calcuate the remaining amount.
         vorsorg_rest = np.maximum(
             12 * (tax_unit["rvbeit"] + tax_unit["gkvbeit"]) - item_1, 0
@@ -390,10 +394,15 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
     if tax_unit["zveranl"].max():
         for var in ["m_wage", "rvbeit", "gkvbeit"]:
             tax_unit[f"{var}_tu"] = tax_unit.loc[~tax_unit["child"], "m_wage"].sum()
+        if params["year"] == 2019:
+            item_1 = 0.5 * np.maximum(
+                2 * params["vorwegab"]
+                - params["kuerzquo"] * 12 * tax_unit["m_wage_tu"],
+                0,
+            )
+        else:
+            item_1 = 0
 
-        item_1 = 0.5 * np.maximum(
-            2 * params["vorwegab"] - params["kuerzquo"] * 12 * tax_unit["m_wage_tu"], 0
-        )
         vorsorg_rest = 0.5 * np.maximum(
             12 * (tax_unit["rvbeit_tu"] + tax_unit["gkvbeit_tu"]) - item_1, 0
         )
