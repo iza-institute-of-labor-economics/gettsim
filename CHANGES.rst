@@ -22,7 +22,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   with the law (:ghuser:`Eric-Sommer`)
 * Implement Art. 3 of *Familienentlastungsgesetz* on income tax tariff and child tax
   allowance becoming effective in 2020
-* Implement 2020 reform increasing housing benefit (*Wohngeldstärkungsgesetz*) (:ghuser:`Eric-Sommer`)
+* Implement 2020 reform increasing housing benefit (*Wohngeldstärkungsgesetz*)
+  (:ghuser:`Eric-Sommer`)
 
 
 0.2.1 - 2019-11-20
