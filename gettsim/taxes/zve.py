@@ -394,7 +394,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
     if tax_unit["zveranl"].max():
         for var in ["m_wage", "rvbeit", "gkvbeit"]:
             tax_unit[f"{var}_tu"] = tax_unit.loc[~tax_unit["child"], "m_wage"].sum()
-        if params["year"] == 2019:
+        if params["year"] <= 2019:
             item_1 = 0.5 * np.maximum(
                 2 * params["vorwegab"]
                 - params["kuerzquo"] * 12 * tax_unit["m_wage_tu"],
