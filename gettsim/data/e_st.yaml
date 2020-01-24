@@ -1,7 +1,7 @@
 G:
   name:
-    de: Steuerparameter, Grundfreibetrag
-    en:
+    de: Grundfreibetrag
+    en: Basic Income Tax Allowance
   description:
     de: §32a EStG
     en:
@@ -66,10 +66,13 @@ G:
     2019-01-01:
       value: 9169
       note:
+    2020-01-01:
+      value: 9408
+      note: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
 M:
   name:
-    de: Steuerparameter, Mittlere Stufe
-    en:
+    de: Mittlere Stufe des Steuertarifs
+    en: Middle Step of the Tax Schedule
   description:
     de: §32a EStG
     en:
@@ -122,10 +125,13 @@ M:
     2019-01-01:
       value: 14255
       note:
+    2020-01-01:
+      value: 14532
+      note: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
 S:
   name:
-    de: Steuerparameter, Hohe Stufe
-    en:
+    de: Hohe Stufe des Steuertarifs
+    en: High Step of the Tax Schedule
   description:
     de: §32a EStG
     en:
@@ -172,9 +178,12 @@ S:
     2019-01-01:
       value: 55961
       note:
+    2020-01-01:
+      value: 57051
+      note: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
 R:
   name:
-    de: Steuerparameter, Reichenstufe
+    de: Reichenstufe des Steuertarifs
     en:
   description:
     de: §32a EStG
@@ -210,6 +219,9 @@ R:
     2019-01-01:
       value: 265327
       note:
+    2020-01-01:
+      value: 270501
+      note: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
 t_a1:
   name:
     de:
@@ -469,9 +481,9 @@ t_d2:
 t_e:
   name:
     de: Eingangssteuersatz
-    en:
+    en: Entry Marginal Income Tax Rate
   description:
-    de: §32a EStG
+    de: §32a EStG, ergibt sich durch Division mit 1000 aus dem Wert in der ersten Stufe.
     en:
   values:
     1984-01-01:
@@ -684,9 +696,9 @@ t_low3:
 t_m:
   name:
     de: mittlerer Steuersatz
-    en:
+    en: Marginal Income Tax Rate at medium step
   description:
-    de: §32a EStG
+    de: §32a EStG, ergibt sich durch Division mit 1000 aus dem Wert in der mittleren Stufe.
     en:
   values:
     2000-01-01:
@@ -703,10 +715,10 @@ t_m:
       note:
 t_r:
   name:
-    de: Reichensteuersatz (vor 2007 t_r = t_s)
-    en:
+    de: Reichensteuersatz.
+    en: Marginal Tax Rate for the Rich.
   description:
-    de: §32a EStG
+    de: §32a EStG. Gibt es erst seit 2007. Vorher aus Kompatibilitätsgründen teilweise identisch mit t_s
     en:
   values:
     1984-01-01:
@@ -733,7 +745,7 @@ t_r:
 t_s:
   name:
     de: Spitzensteuersatz
-    en:
+    en: Top Marginal Income Tax Rate
   description:
     de: §32a EStG
     en:
