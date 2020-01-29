@@ -150,19 +150,24 @@ the respective law or regulation is referenced along with the numerical value.
           de: Einkommensanteil, der anrechnungsfrei bleibt, Intervall 2 [a2eg1, a2eg2]. § 30 SGB II. Seit 01.04.2011 § 11b SGB II.
           en: Income share not subject to transfer withdrawal, interval 2 [a2eg1, a2eg2]. § 30 SGB II. Since 01.04.2011 § 11b SGB II.
 
+3. The ``values`` key
 
-3. The ``value`` key
+   * contains all historical values for a specific parameters
+   * these are differentiated by the date (YYYY-MM-DD) at which the
+     parameter came or will come into force
+
+4. The ``value`` key
 
    * contains the value as defined in the law
    * values in percentages can alternatively be expressed to the base of one
    * add a leading zero for values smaller than 1 and greater than -1
-   * DM values have to be converted to Euro using the excange rate 1:1.95583.
+   * DM values have to be converted to Euro using the exchange rate 1:1.95583.
 
    Example 1:
 
    .. code-block:: yaml
 
-        value:
+        values:
             2005-01-01:
                 value: 1500
                 note: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
@@ -194,7 +199,7 @@ the respective law or regulation is referenced along with the numerical value.
    * cites the law (Gesetz "G. v."), decree (Verordnung "V. v.") or proclamation (Bekanntmachung "B. v.") that changes the law
    * in German
    * follows the style ``Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. I S. [SSSS]. [optional note].``
-   * do not add information "geändert durch" (it is always a change) or the date the law comes into force (this is exactly the date key in the previous line)
+   * do not add information "geändert durch" (it is always a change) or the date the law comes into force (this is exactly the date key above the ``value`` entry)
    * the page should be the first page of the law/decree/proclamation, not the exact page of the parameter
    * ``[optional note]`` can be added. In some rare cases you can add a date/value for a parameter that did not change the parameter. This is usually the case when a whole block of parameters is changed but one of the parameters did not change (by coincidence or not). In these cases there the same value is still listed in the BGBl. Add a "Betrag unverändert." to the note. This is also to signal that the BGBl. has been taken into account. If a parameter is calculated the note will also give information on the calculation. If the value has been converted from DM to Euro the original DM value should be added to the note key.
 
