@@ -1,3 +1,47 @@
+e_anr_frei:
+  name:
+    de: Anrechnungsfreie Einkommensanteile
+    en: Income shares not subject to transfer withdrawal
+  description:
+    de: Einkommensanteile, die anrechnungsfrei bleiben. § 30 SGB II. Seit 01.10.2005 zudem definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011 § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+    en:
+  type: piecewise_linear
+  values:
+    2005-01-01:
+      - upper_threshold: 400
+        rate: 0.15
+        intercept_at_lower_threshold: 0
+        note: G. v. 24.12.2003 BGBl. I S. 2964.
+      - upper_threshold: 900
+        rate: 0.3
+        intercept_at_lower_threshold: null
+        note: G. v. 24.12.2003 BGBl. I S. 2964.
+      - upper_threshold: 1500
+        rate: 0.15
+        intercept_at_lower_threshold: null
+        note: G. v. 24.12.2003 BGBl. I S. 2964.
+      - upper_threshold: inf
+        rate: 0
+        intercept_at_lower_threshold: null
+        note: Making this explicit.
+    2005-10-01:
+      - upper_threshold: 100
+        rate: 0.0
+        intercept_at_lower_threshold: 0
+        note: G. v. 14.08.2005 BGBl. I S. 2407.
+      - upper_threshold: 800
+        rate: 0.2
+        intercept_at_lower_threshold: null
+        note: G. v. 14.08.2005 BGBl. I S. 2407.
+      - upper_threshold: 1200
+        rate: 0.1
+        intercept_at_lower_threshold: null
+        note: G. v. 14.08.2005 BGBl. I S. 2407.
+      - upper_threshold: inf
+        rate: 0
+        intercept_at_lower_threshold: null
+        note: Making this explicit.
+
 a2an1:
   name:
     de: EK-Anteil anrechnungsfrei, Intervall 1
