@@ -152,6 +152,9 @@ rs_hhvor:
     2019-01-01:
       value: 424
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 432
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_2adults:
   name:
     de: Regelsatz, 2 Erwachsene
@@ -187,6 +190,9 @@ rs_2adults:
     2019-01-01:
       value: 382
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 389
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_madults:
   name:
     de: Regelsatz für weitere Erwachsene
@@ -222,6 +228,9 @@ rs_madults:
     2019-01-01:
       value: 339
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 345
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_ch0:
   name:
     de: Regelsatz für Kinder unter 7 Jahren
@@ -257,6 +266,9 @@ rs_ch0:
     2019-01-01:
       value: 245
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 250
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_ch7:
   name:
     de: Regelsatz für Kinder zwischen 7 und 13 Jahren
@@ -292,6 +304,9 @@ rs_ch7:
     2019-01-01:
       value: 302
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 308
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_ch14:
   name:
     de: Regelsatz für Kinder zwischen 14 und 18 Jahren
@@ -327,6 +342,9 @@ rs_ch14:
     2019-01-01:
       value: 322
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 328
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 a2part:
   name:
     de: Anteil an RS bei 2 Partnern (2005-2010)
