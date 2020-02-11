@@ -26,7 +26,7 @@ e_anr_frei:
         note: Making this explicit.
     2005-10-01:
       - upper_threshold: 100
-        rate: 0.0
+        rate: 1
         intercept_at_lower_threshold: 0
         note: G. v. 14.08.2005 BGBl. I S. 2407.
       - upper_threshold: 800

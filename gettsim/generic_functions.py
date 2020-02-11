@@ -1,4 +1,4 @@
-"""Generic functions that are often used for the calculation o taxes and transfers.
+"""Generic functions that are often used for the calculation of taxes and transfers.
 
 """
 import numpy as np
@@ -26,9 +26,10 @@ def fill_intercepts_at_lower_thresholds(
 
     intercepts_at_lower_thresholds = np.zeros(upper_thresholds.shape) * np.nan
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
-    for i, up_thr in enumerate(upper_thresholds[1:]):
+    i = 1
+    for i, up_thr in enumerate(np.append(0, upper_thresholds[0:-1])):
         intercepts_at_lower_thresholds[i] = fun(
-            up_thr, upper_thresholds, intercepts_at_lower_thresholds, "left"
+            up_thr, upper_thresholds, rates, intercepts_at_lower_thresholds, side="left"
         )
 
     return intercepts_at_lower_thresholds
@@ -57,6 +58,6 @@ def piecewise_linear(
 
     idx = np.searchsorted(upper_thresholds, value, side=side)
     intcpt = intercepts_at_lower_thresholds[idx]
-    out = intcpt + (value - intcpt) * rates[idx]
+    out = intcpt + (value - np.append(0, upper_thresholds)[idx]) * rates[idx]
 
     return out
