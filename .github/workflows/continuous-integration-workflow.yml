@@ -36,7 +36,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Run pre-commits.
-        if: runner.os == 'Linux' && matrix.python-version == '3.7'
         shell: bash -l {0}
         run: |
           pre-commit install -f --install-hooks
