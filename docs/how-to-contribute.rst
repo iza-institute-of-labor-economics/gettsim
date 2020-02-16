@@ -100,8 +100,11 @@ To contribute to the project, adhere to the following process.
 FAQ
 ---
 
+.. The following question is duplicated in `how-to-maintain.rst`.
+
 **Question**: I want to re-run the tests defined in the Github Actions workflow because
 some random error occurred, e.g., a HTTP timeout error. How can I do it?
 
 **Answer**: Starting from the Github page of the PR, select the tab called "Checks". In
-the upper right corner you find a button to re-run all checks.
+the upper right corner you find a button to re-run all checks. Note the option is only
+available for failed builds.
