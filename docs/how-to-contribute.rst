@@ -87,8 +87,8 @@ To contribute to the project, adhere to the following process.
    accomplish and how you did it.
 
    The PR also starts a complete run of the test suite on a continuous integration
-   server. The status of the tests is shown in the PR. You can follow the links to Azure
-   Pipelines to get more details on why the tests failed. Reiterate on your changes
+   server. The status of the tests is shown in the PR. You can follow the links to
+   Github Actions to get more details on why the tests failed. Reiterate on your changes
    until the tests pass on the remote machine.
 
 6. Ask one of the main contributors to review your changes. Include their remarks in
@@ -100,9 +100,11 @@ To contribute to the project, adhere to the following process.
 FAQ
 ---
 
-**Question**: I want to re-run the Azure Pipelines test suite because some random error
-occurred, e.g., a HTTP timeout error.
+.. The following question is duplicated in `how-to-maintain.rst`.
+
+**Question**: I want to re-run the tests defined in the Github Actions workflow because
+some random error occurred, e.g., a HTTP timeout error. How can I do it?
 
 **Answer**: Starting from the Github page of the PR, select the tab called "Checks". In
-the upper right corner you find a button to re-run all checks. In a column on the
-left-hand-side you can re-run tests for individual platforms.
+the upper right corner you find a button to re-run all checks. Note the option is only
+available for failed builds.
