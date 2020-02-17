@@ -8,7 +8,6 @@
 .. image:: https://anaconda.org/gettsim/gettsim/badges/platforms.svg
    :target: https://anaconda.org/gettsim/gettsim
 
-
 .. image:: https://github.com/iza-institute-of-labor-economics/gettsim/workflows/Continuous%20Integration%20Workflow/badge.svg?branch=master
    :target: https://github.com/iza-institute-of-labor-economics/gettsim/actions?query=branch%3Amaster
    :alt: Continuous Integration Workflow
