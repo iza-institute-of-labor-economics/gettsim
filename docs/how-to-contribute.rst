@@ -87,8 +87,8 @@ To contribute to the project, adhere to the following process.
    accomplish and how you did it.
 
    The PR also starts a complete run of the test suite on a continuous integration
-   server. The status of the tests is shown in the PR. You can follow the links to Azure
-   Pipelines to get more details on why the tests failed. Reiterate on your changes
+   server. The status of the tests is shown in the PR. You can follow the links to
+   Github Actions to get more details on why the tests failed. Reiterate on your changes
    until the tests pass on the remote machine.
 
 6. Ask one of the main contributors to review your changes. Include their remarks in
