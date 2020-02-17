@@ -100,9 +100,11 @@ To contribute to the project, adhere to the following process.
 FAQ
 ---
 
-**Question**: I want to re-run the Azure Pipelines test suite because some random error
-occurred, e.g., a HTTP timeout error.
+.. The following question is duplicated in `how-to-maintain.rst`.
+
+**Question**: I want to re-run the tests defined in the Github Actions workflow because
+some random error occurred, e.g., a HTTP timeout error. How can I do it?
 
 **Answer**: Starting from the Github page of the PR, select the tab called "Checks". In
-the upper right corner you find a button to re-run all checks. In a column on the
-left-hand-side you can re-run tests for individual platforms.
+the upper right corner you find a button to re-run all checks. Note the option is only
+available for failed builds.
