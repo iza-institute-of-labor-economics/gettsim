@@ -111,11 +111,11 @@ critical bug was found, which should be fixed in both ``0.3.0`` and in ``0.2.1``
 FAQ
 ---
 
-**Question**: I want to re-run the Azure Pipelines test suite because a merge to the
-master branch failed due to some random error, e.g., a HTTP timeout error.
+.. The following question is duplicated in `how-to-contribute.rst`.
 
-**Answer**: Go to
-https://dev.azure.com/iza-institute-of-labor-economics/gettsim/_build. Make sure you are
-signed in. First click on the build which merged the PR to master. On the ensuing page,
-click on the button with the three vertical dots. Choose "Edit pipeline". Do not edit
-the configuration, but select "Run" in the upper right corner.
+**Question**: I want to re-run the tests defined in the Github Actions workflow because
+some random error occurred, e.g., a HTTP timeout error. How can I do it?
+
+**Answer**: Starting from the Github page of the PR, select the tab called "Checks". In
+the upper right corner you find a button to re-run all checks. Note the option is only
+available for failed builds.
