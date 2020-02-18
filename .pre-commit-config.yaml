@@ -7,7 +7,7 @@ repos:
     -   id: reorder-python-imports
         files: '(\.pyi?|wscript)$'
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.4.0
+    rev: v2.5.0
     hooks:
     -   id: check-yaml
         exclude: 'meta\.yaml'
@@ -21,7 +21,7 @@ repos:
         args: [--autofix, --no-sort-keys]
     -   id: trailing-whitespace
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v1.26.1
+    rev: v1.26.2
     hooks:
     -   id: pyupgrade
         args: [
@@ -40,7 +40,7 @@ repos:
         files: '(\.pyi?|wscript)$'
         language_version: python3.7
 -   repo: https://github.com/PyCQA/doc8
-    rev: 0.8.1rc2
+    rev: 0.8.1rc3
     hooks:
         -   id: doc8
             args: [--max-line-length, "88"]
