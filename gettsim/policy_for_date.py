@@ -9,6 +9,8 @@ from gettsim.benefits.alg2 import regelberechnung_2011_and_beyond
 from gettsim.benefits.alg2 import regelberechnung_until_2010
 from gettsim.benefits.kiz import calc_kiz_amount_07_2019
 from gettsim.benefits.kiz import calc_kiz_amount_2005
+from gettsim.benefits.unterhaltsvorschuss import uhv_pre_07_2017
+from gettsim.benefits.unterhaltsvorschuss import uhv_since_07_2017
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
@@ -103,6 +105,12 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
             tax_data["calc_e_anr_frei"] = e_anr_frei_2005_01
         else:
             tax_data["calc_e_anr_frei"] = e_anr_frei_2005_10
+    # Before 07/2017, UHV was only paid up to 6 years, which is why we model it only since then.
+    elif group == "unterhalt":
+        if year >= 2018 or (year == 2017 & month >= 7):
+            tax_data["uhv_calc"] = uhv_since_07_2017
+        else:
+            tax_data["uhv_calc"] = uhv_pre_07_2017
 
     return tax_data
 

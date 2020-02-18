@@ -1,5 +1,5 @@
 Changes
-=======
+^^^^^^^
 
 This is a record of all past ``gettsim`` releases and what went into them in reverse
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
@@ -18,6 +18,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Add ALG II transfer withdrawal 2005-01-01 to 2005-09-30
   (:ghuser:`mjbloemer`, :ghuser:`MaxBlesch`)
 * Child tax allowance modelled as two separate items. (:ghuser:`Eric-Sommer`)
+* Alimony advance payment (*Unterhaltsvorschuss*) now modelled more in line
+  with the law (:ghuser:`Eric-Sommer`)
+* Implement Art. 3 of *Familienentlastungsgesetz* on income tax tariff and child tax
+  allowance becoming effective in 2020
 
 
 0.2.1 - 2019-11-20
