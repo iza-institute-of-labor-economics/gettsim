@@ -98,10 +98,10 @@ a2eg3ki:
       note: G. v. 14.08.2005 BGBl. I S. 2407.
 rs_hhvor:
   name:
-    de: Regelsatz. Regelbedarfsstufe 1.
+    de: Regelsatz.
     en: Standard rate
   description:
-    de: Regelsatz. § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S. 3159.
+    de: Regelsatz. Seit 2011 Regelbedarfsstufe 1. § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S. 3159.
     en:
   values:
     2005-01-01:
@@ -157,10 +157,10 @@ rs_hhvor:
       note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_2adults:
   name:
-    de: Regelsatz, 2 Erwachsene. Regelbedarfsstufe 2.
+    de: Regelsatz, 2 Erwachsene.
     en: Standard rate, 2 adults
   description:
-    de: Regelsatz, wenn 2 Erwachsene im Haushalt sind. § 20 IV SGB II. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Früher waren es 90% des Regelsatzes (vgl. Parameter a2part), seit 2011 fester Satz. Dieser gilt für beide Erwachsene.
+    de: Regelsatz, wenn 2 Erwachsene im Haushalt sind. Seit 2011 Regelbedarfsstufe 2. § 20 IV SGB II. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Früher waren es 90% des Regelsatzes (vgl. Parameter a2part), seit 2011 fester Satz. Dieser gilt für beide Erwachsene.
     en:
   values:
     2011-01-01:
@@ -195,10 +195,10 @@ rs_2adults:
       note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_madults:
   name:
-    de: Regelsatz für weitere Erwachsene. Regelbedarfsstufe 3.
+    de: Regelsatz für weitere Erwachsene.
     en: Standard rate, additional adult
   description:
-    de: Regelsatz des, für alle weiteren Erwachsenen. § 20 III Nr. 2 SGB II. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Früher waren es 80% des Regelsatzes (vgl. Parameter a2ch18), seit 2011 fester Satz. Dieser gilt für jeden weiteren Erwachsenen.
+    de: Regelsatz für alle weiteren Erwachsenen. Seit 2011 Regelbedarfsstufe 3. § 20 III Nr. 2 SGB II. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Früher waren es 80% des Regelsatzes (vgl. Parameter a2ch18), seit 2011 fester Satz.
     en:
   values:
     2011-01-01:
