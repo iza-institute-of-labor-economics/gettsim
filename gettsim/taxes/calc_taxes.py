@@ -28,7 +28,7 @@ def tax_sched(
             adult_married
         ].sum()
 
-    tax_unit["lohnsteuer"] = lohnsteuer(tax_unit, e_st_params)
+    # tax_unit["lohnsteuer"] = lohnsteuer(tax_unit, e_st_params)
 
     # Abgeltungssteuer
     tax_unit["abgst"] = abgeltung(tax_unit, abgelt_st_params, e_st_abzuege_params)
@@ -153,35 +153,49 @@ def soli_formula(solibasis, params):
     return soli.round(2)
 
 
-def lohnsteuer(tax_unit, e_st_params):
+def calc_lohnsteuer(tax_unit, params, e_st_abzuege_params, soli_st_params):
     """ Calculates Lohnsteuer = withholding tax on earnings, paid monthly by the employer.
 
         Apply the income tax tariff, but individually and with different exemptions,
         determined by the 'Steuerklasse'
     """
     # Steuerklasse 1 gets the basic exemption. Default value. Also holds for Steuerklasse 4
-    tax_unit["lohnsteuer_abzüge"] = e_st_params["G"]
+    tax_unit["lohnsteuer_abzüge"] = params["G"]
     # Steuerklasse 2 for single parents.
     tax_unit.loc[tax_unit["e_st_klasse"] == 2, "lohnsteuer_abzüge"] = (
-        e_st_params["G"] + e_st_params["hhfreib"]
+        params["G"] + e_st_abzuege_params["hhfreib"]
     )
     # Steuerklasse 3: married. get twice the basic exemption
-    tax_unit.loc[tax_unit["e_st_klasse"] == 3, "lohnsteuer_abzüge"] = (
-        2 * e_st_params["G"]
-    )
+    tax_unit.loc[tax_unit["e_st_klasse"] == 3, "lohnsteuer_abzüge"] = 2 * params["G"]
     # Steuerklasse 5: married and if partner has klasse 3. No exemption
     tax_unit.loc[tax_unit["e_st_klasse"] == 5, "lohnsteuer_abzüge"] = 0
 
     tax_unit.loc[tax_unit["e_st_klasse"] != 6, "lohnsteuer_abzüge"] += (
-        e_st_params["werbung"]
-        + e_st_params["sonder"]
+        e_st_abzuege_params["werbung"]
+        + e_st_abzuege_params["sonder"]
         + calc_vorsorgepauschale(tax_unit)
     )
-    tax_unit["lohnsteuer_inc"] = tax_unit["m_wage"] * 12 - tax_unit["lohnsteuer_abzüge"]
-    tax_unit["lohnsteuer"] = tax_unit["y_wage"].apply(tarif)
 
-    return tax_unit["lohnsteuer"]
+    # Kinderfreibetrag. Split it for Steuerklasse 4
+    tax_unit["lohnsteuer_kinderfreibetrag"] = tax_unit["child_num_kg"] * (
+        e_st_abzuege_params["kifreib_s_exm"] + e_st_abzuege_params["kifreib_bea"]
+    )
+    tax_unit.loc[tax_unit["e_st_klasse"] == 4, "lohnsteuer_kinderfreibetrag"] = (
+        tax_unit["lohnsteuer_kinderfreibetrag"] / 2
+    )
+
+    tax_unit["lohnsteuer_inc"] = tax_unit["m_wage"] * 12 - tax_unit["lohnsteuer_abzüge"]
+    tax_unit["lohnsteuer"] = tarif(tax_unit["lohnsteuer_inc"], params).astype(int)
+    print(tax_unit["lohnsteuer"])
+    # For Soli, subtract Kinderfreibetrag!
+    tax_unit["lohnsteuer_soli"] = soli_formula(
+        tax_unit["lohnsteuer_inc"] - tax_unit["lohnsteuer_kinderfreibetrag"],
+        soli_st_params,
+    )
+
+    return tax_unit[["lohnsteuer", "lohnsteuer_soli"]]
 
 
 def calc_vorsorgepauschale(tax_unit):
+
     return 0.0
