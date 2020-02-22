@@ -24,13 +24,13 @@ INPUT_COLS = [
     "byear",
     "bmonth",
     "bday",
-    "elt_geld_mon_mut",
-    "elt_geld_mon_vat",
-    "elt_geld_mon",
+    "elterngeld_mon_mut",
+    "elterngeld_mon_vat",
+    "elterngeld_mon",
     "year",
 ]
 
-OUT_COLS = ["elt_geld", "geschw_bonus", "num_mehrlinge", "elt_zeit"]
+OUT_COLS = ["elterngeld", "geschw_bonus", "num_mehrlinge", "elternzeit_anspruch"]
 YEARS = [2017, 2018, 2019]
 
 

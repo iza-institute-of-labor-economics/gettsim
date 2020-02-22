@@ -23,9 +23,9 @@ def elterngeld(
     in_cols = list(household.columns.values)
     # Everything was already initialized
     out_cols = []
-    household.loc[household["elt_zeit"], :] = _apply_tax_transfer_func(
-        household[household["elt_zeit"]],
-        tax_func=calc_elt_geld,
+    household.loc[household["elternzeit_anspruch"], :] = _apply_tax_transfer_func(
+        household[household["elternzeit_anspruch"]],
+        tax_func=calc_elterngeld,
         level=["hid", "tu_id", "pid"],
         in_cols=in_cols,
         out_cols=out_cols,
@@ -38,12 +38,12 @@ def elterngeld(
         },
     )
 
-    household.loc[~household["elt_zeit"], ["elt_geld"]] = 0
+    household.loc[~household["elternzeit_anspruch"], ["elterngeld"]] = 0
 
     return household
 
 
-def calc_elt_geld(
+def calc_elterngeld(
     person,
     params,
     soz_vers_beitr_params,
@@ -64,17 +64,19 @@ def calc_elt_geld(
         soli_st_params,
     )
     if considered_wage < 0:
-        person["elt_geld"] = 0
+        person["elterngeld"] = 0
     else:
         payed_percentage = calc_elterngeld_percentage(considered_wage, params)
 
-        elt_geld_calc = considered_wage * payed_percentage
+        elterngeld_calc = considered_wage * payed_percentage
 
-        prelim_elt_geld = max(min(elt_geld_calc, params["elgmax"]), params["elgmin"])
+        prelim_elterngeld = max(
+            min(elterngeld_calc, params["elgmax"]), params["elgmin"]
+        )
         if person["geschw_bonus"]:
-            prelim_elt_geld += calc_geschw_bonus(elt_geld_calc, params)
-        prelim_elt_geld += person["num_mehrlinge"] * params["mehrling_bonus"]
-        person["elt_geld"] = prelim_elt_geld
+            prelim_elterngeld += calc_geschw_bonus(elterngeld_calc, params)
+        prelim_elterngeld += person["num_mehrlinge"] * params["mehrling_bonus"]
+        person["elterngeld"] = prelim_elterngeld
 
     return person
 
@@ -150,13 +152,13 @@ def calc_net_wage(person):
     return net_wage
 
 
-def calc_geschw_bonus(elt_geld_calc, params):
+def calc_geschw_bonus(elterngeld_calc, params):
     """ Calculating the bonus for siblings.
 
 
     According to § 2a parents of siblings get a bonus.
     """
-    bonus_calc = params["elg_geschw_bonus_share"] * elt_geld_calc
+    bonus_calc = params["elg_geschw_bonus_share"] * elterngeld_calc
     bonus = max(
         min(bonus_calc, params["elg_geschw_bonus_max"]), params["elg_geschw_bonus_min"]
     )
@@ -164,10 +166,11 @@ def calc_geschw_bonus(elt_geld_calc, params):
 
 
 def check_eligibilities(household, params):
-    """Calculating the different claims on Elterngeld.
+    """Check if a parent is eligible for elterngeld. If so, then also check if it is
+    eligible for multiple or sibling bonus.
 
     """
-    household["elt_zeit"] = False
+    household["elternzeit_anspruch"] = False
     household["geschw_bonus"] = False
     household["num_mehrlinge"] = 0
 
@@ -191,17 +194,17 @@ def check_eligibilities(household, params):
         ) <= params["max_joint_months"]
         # The parents can only claim up to 14 month elterngeld
         eligible_consumed = (
-            youngest_child["elt_geld_mon_mut"].iloc[0]
-            + youngest_child["elt_geld_mon_vat"].iloc[0]
+            youngest_child["elterngeld_mon_mut"].iloc[0]
+            + youngest_child["elterngeld_mon_vat"].iloc[0]
         ) <= 14
 
         if eligible_age & eligible_consumed:
             # Each parent can't claim more than 12 month
             eligible = ~household["child"] & (
-                household["elt_geld_mon"] <= params["max_months"]
+                household["elterngeld_mon"] <= params["max_months"]
             )
 
-            household.loc[eligible, "elt_zeit"] = True
+            household.loc[eligible, "elternzeit_anspruch"] = True
 
             if (len(children[(params["year"] - children["byear"]) < 3]) == 2) | (
                 len(children[(params["year"] - children["byear"]) < 6]) > 2
