@@ -1,8 +1,10 @@
+import itertools
+
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
-from gettsim.benefits.elterngeld import elt_geld
+from gettsim.benefits.elterngeld import elterngeld
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import _apply_tax_transfer_func
@@ -28,7 +30,7 @@ INPUT_COLS = [
     "year",
 ]
 
-OUT_COLS = ["elt_geld", "geschw_bonus", "num_mehrling_bonus"]
+OUT_COLS = ["elt_geld", "geschw_bonus", "num_mehrlinge", "elt_zeit"]
 YEARS = [2017, 2018, 2019]
 
 
@@ -39,9 +41,10 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_eltgeld(
     year,
+    column,
     arbeitsl_geld_raw_data,
     soz_vers_beitr_raw_data,
     e_st_abzuege_raw_data,
@@ -67,7 +70,7 @@ def test_eltgeld(
 
     df = _apply_tax_transfer_func(
         df,
-        tax_func=elt_geld,
+        tax_func=elterngeld,
         level=["hid"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
@@ -80,6 +83,10 @@ def test_eltgeld(
         },
     )
 
-    assert_frame_equal(
-        df[OUT_COLS].round(), year_data[OUT_COLS].round(), check_dtype=False
+    assert_series_equal(
+        df[column],
+        year_data[column],
+        check_dtype=False,
+        check_exact=False,
+        check_less_precise=2,
     )
