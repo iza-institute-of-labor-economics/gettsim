@@ -78,6 +78,9 @@ gkvbs_ag:
     2011-01-01:
       value: 0.073
       note:
+    2019-01-01:
+      value: 0.0785
+      note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
 gkvbs_an:
   name:
     de: Beitragssatz zur Gesetzlichen Krankenversicherung (Arbeitnehmer)
@@ -165,11 +168,8 @@ gkvbs_an:
       value: 0.083
       note:
     2019-01-01:
-      value: 0.082
-      note:
-    2020-01-01:
-      value: 0.084
-      note: https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
+      value: 0.0785
+      note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
 gpvbs:
   name:
     de: Beitragssatz zur Gesetzlichen Pflegeversicherung (Arbeitgeber und -nehmer)
