@@ -8,40 +8,59 @@ e_anr_frei:
   type: piecewise_linear
   values:
     2005-01-01:
-      - upper_threshold: 400
-        rate: 0.15
-        intercept_at_lower_threshold: 0
-        note: G. v. 24.12.2003 BGBl. I S. 2964.
-      - upper_threshold: 900
-        rate: 0.3
-        intercept_at_lower_threshold: null
-        note: G. v. 24.12.2003 BGBl. I S. 2964.
-      - upper_threshold: 1500
-        rate: 0.15
-        intercept_at_lower_threshold: null
-        note: G. v. 24.12.2003 BGBl. I S. 2964.
-      - upper_threshold: inf
-        rate: 0
-        intercept_at_lower_threshold: null
-        note: Making this explicit.
+        reference: G. v. 24.12.2003 BGBl. I S. 2964.
+        0:
+            lower_threshold: 0
+            upper_threshold: 400
+            rate: 0.15
+            intercept_at_lower_threshold: 0
+        1:
+            upper_threshold: 800
+            rate: 0.3
+        2:
+            upper_threshold: 1200
+            rate: 0.15
+        3:
+            upper_threshold: inf
+            rate: 0
+            note: Making this explicit.
     2005-10-01:
-      - upper_threshold: 100
-        rate: 1
-        intercept_at_lower_threshold: 0
-        note: G. v. 14.08.2005 BGBl. I S. 2407.
-      - upper_threshold: 800
-        rate: 0.2
-        intercept_at_lower_threshold: null
-        note: G. v. 14.08.2005 BGBl. I S. 2407.
-      - upper_threshold: 1200
-        rate: 0.1
-        intercept_at_lower_threshold: null
-        note: G. v. 14.08.2005 BGBl. I S. 2407.
-      - upper_threshold: inf
-        rate: 0
-        intercept_at_lower_threshold: null
-        note: Making this explicit.
-
+        reference: G. v. 14.08.2005 BGBl. I S. 2407.
+        0:
+            lower_threshold: 0
+            upper_threshold: 100
+            rate: 0.0
+            intercept_at_lower_threshold: 0
+        1:
+            upper_threshold: 800
+            rate: 0.2
+        2:
+            upper_threshold: 1200
+            rate: 0.1
+        3:
+            upper_threshold: inf
+            rate: 0
+            intercept_at_lower_threshold: null
+    2011-04-01:
+        reference: G. v. 20.12.2011 BGBl. I 2854.
+        note: Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850. Artikel 5.          ToDo    Check these laws -- did they really happen months after the date of the policy change? I cannot fina anything...
+        deviation_from: previous
+        1:
+            upper_threshold: 1000
+e_anr_frei_kinder:
+    name:
+        de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
+        en:
+    description:
+        de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit Kindern. Gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+        en:
+    note: Ersetzt Parameter in e_anr_frei, falls nicht vorhanden
+    values:
+        2005-10-01:
+            reference: G. v. 14.08.2005 BGBl. I S. 2407.
+            deviation_from: arbeitsl_geld_2.e_anr_frei
+            2:
+                upper_threshold: 1500
 a2an1:
   name:
     de: EK-Anteil anrechnungsfrei, Intervall 1
