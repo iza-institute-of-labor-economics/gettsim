@@ -79,8 +79,11 @@ gkvbs_ag:
       value: 0.073
       note:
     2019-01-01:
+      value: 0.0775
+      note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387. Durchschnittlicher zusatzbeitragssatz 0,9%
+    2020-01-01:
       value: 0.0785
-      note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
+      note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
 gkvbs_an:
   name:
     de: Beitragssatz zur Gesetzlichen Krankenversicherung (Arbeitnehmer)
@@ -168,8 +171,11 @@ gkvbs_an:
       value: 0.083
       note:
     2019-01-01:
-      value: 0.0785
+      value: 0.0775
       note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
+    2020-01-01:
+      value: 0.0785
+      note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
 gpvbs:
   name:
     de: Beitragssatz zur Gesetzlichen Pflegeversicherung (Arbeitgeber und -nehmer)
