@@ -24,7 +24,7 @@ INPUT_COLS = [
 ]
 
 
-YEARS = [2002, 2010, 2018, 2019]
+YEARS = [2002, 2010, 2018, 2019, 2020]
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
 
 
