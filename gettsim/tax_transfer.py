@@ -4,7 +4,7 @@ from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
-from gettsim.checks import check_boolean
+from gettsim.checks import check_data
 from gettsim.incomes import disposable_income
 from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
@@ -50,8 +50,8 @@ def tax_transfer(
     The 'sub' functions may take an argument 'ref', which might be used for small
      reforms that e.g. only differ in parameters or slightly change the calculation.
     """
-    bool_variables = ["child", "east"]
-    check_boolean(df, bool_variables)
+
+    check_data(df)
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
 

@@ -5,7 +5,7 @@ from gettsim.config import ROOT_DIR
 from gettsim.tax_transfer import calculate_tax_and_transfers
 
 
-YEARS = [2002, 2010, 2018, 2019]
+YEARS = [2002, 2010, 2012, 2013, 2014, 2018, 2019]
 
 
 @pytest.fixture(scope="module")
