@@ -14,8 +14,10 @@ GEP 2 — Internal Representation of Data on Individuals and Households
 Abstract
 --------
 
-This GEP lays out how GETTSIM stores the user-provided data and passes it around to the
-functions calculating taxes and transfers.
+This GEP lays out how GETTSIM stores the user-provided data (be it from the SOEP, EVS,
+example indidviduals...) and passes it around to the functions calculating taxes and
+transfers.
+
 
 Motivation and Scope
 --------------------
@@ -28,30 +30,65 @@ explicitly address the scope of and key requirements for the proposed change.
 Usage and Impact
 ----------------
 
-This section describes how users of GETTSIM will use features described in this GEP. It
-should be comprised mainly of code examples that wouldn't be possible without acceptance
-and implementation of this GEP, as well as the impact the proposed changes would have on
-the ecosystem. This section should be written from the perspective of the users of
-GETTSIM, and the benefits it will provide them; and as such, it should include
-implementation details only if necessary to explain the functionality.
+* Primarily internal / relevant for developers — highest-level interface can be easily
+  adjusted
+* Affects users only via the interface of lower-level functions (they might want to
+  call those or override them)
 
-
-Backward compatibility
-----------------------
-
-This section describes the ways in which the GEP breaks backward compatibility.
-
-The `#general/geps`_ topic will contain the GEP up to and including this section. This
-is to avoid losing users who are not interested in implementation details and instead
-focus the discussion on usage and impact of the intended features.
 
 
 Detailed description
 --------------------
 
-This section should provide a detailed description of the proposed change. It should
-include examples of how the new functionality would be used, intended use-cases and
-pseudo-code illustrating its use.
+Main idea: adhere to normal forms (see pages https://www.wiwi.uni-bonn.de/gaudecker/_static/prog_econ/2019/09_data_management.pdf).
+
+1. Values do not have any internal structure
+2. Tables do not contain redundant information
+3. No structure in variable names (always use "long" format, not "wide" format)
+
+1. and 3. should be uncontroversial, for 2., there are two potential ways forward, see
+below.
+
+Some things that will be the case for sure:
+
+* Anything variable that exists at a level that is above the lowe
+
+.. note::
+
+    We might get by without steuersubjekt (tax unit) by just tracing out relations
+    between people and eligibility; I leave it in for now.
+
+
+A: Strict adherence to 2nd normal form
+---------------------------------------
+
+* 3+ different tables (bedarfsgemeinschaft, steuersubjekt, person, ?).
+* Indexes would be ``jahr`` :math:`\times` {``bedarfsgemeinschaft``, ``steuersubjekt``,
+  ``person``}
+
+
+B: One table with MultiIndex
+----------------------------
+
+* Index would be ``jahr`` :math:`\times` ``bedarfsgemeinschaft`` :math:`\times`
+  ``steuersubjekt`` :math:`\times` ``person``
+* Any variable relevant at a level higher than ``person`` will be filled in the same
+  way for all persons belonging to that unit.
+
+
+Pro A:
+
+* Very obvious what is the correct level meant
+* Never a need to append anything like ``_hh`` to a variable
+
+Pro B:
+
+* Most of the time, calculations at ``higher-up`` levels require information from the
+  person level (as opposed to aggregates only). E.g., for a lot of Arbeitslosengeld II -
+  stuff we have to check person-by person. One might as well just work with that
+  directly and avoid lots of merges.
+* More natural for people not used to the SQL-like way of doing things.
+
 
 
 Related Work
