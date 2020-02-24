@@ -9,15 +9,12 @@ def check_data(df):
     positive_vars = ["mietstufe", "wohnfl", "miete"]
     for var in positive_vars:
         try:
-            print(var)
-            print(df[var].min())
             assert df[var].min() > 0
         except ValueError:
             print(f"{var} must be strictly positive.")
-            print(df[var].describe())
 
     try:
-        assert df.notna().all()
+        assert df.notna().all().all()
     except ValueError:
         print("")
 
