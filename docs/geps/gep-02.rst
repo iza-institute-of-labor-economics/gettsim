@@ -4,11 +4,17 @@
 GEP 2 — Internal Representation of Data on Individuals and Households
 =====================================================================
 
-:Author: `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_
-:Status: Draft
-:Type: Standards Track
-:Created: <date created on, in yyyy-mm-dd format>
-:Resolution: <url> (required for Accepted | Rejected | Withdrawn)
++------------+-------------------------------------------------------------------------+
+| Author     | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
++------------+-------------------------------------------------------------------------+
+| Status     | Draft                                                                   |
++------------+-------------------------------------------------------------------------+
+| Type       | Standards Track                                                         |
++------------+-------------------------------------------------------------------------+
+| Created    | 2020-02-22                                                              |
++------------+-------------------------------------------------------------------------+
+| Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
++------------+-------------------------------------------------------------------------+
 
 
 Abstract
