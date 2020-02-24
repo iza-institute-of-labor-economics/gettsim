@@ -197,7 +197,8 @@ def check_eligibilities(household, params):
             youngest_child["elterngeld_mon_mut"].iloc[0]
             + youngest_child["elterngeld_mon_vat"].iloc[0]
         ) <= 14
-
+        # Parents are eligible for elterngeld, if the child is young enough and they
+        # have not yet consumed all elterngeld months.
         if eligible_age & eligible_consumed:
             # Each parent can't claim more than 12 month
             eligible = ~household["child"] & (
