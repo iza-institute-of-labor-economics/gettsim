@@ -61,6 +61,7 @@ e_anr_frei_kinder:
             deviation_from: arbeitsl_geld_2.e_anr_frei
             2:
                 upper_threshold: 1500
+
 a2an1:
   name:
     de: EK-Anteil anrechnungsfrei, Intervall 1
