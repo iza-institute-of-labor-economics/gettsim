@@ -16,7 +16,7 @@ def check_data(df):
     try:
         assert df.notna().all().all()
     except ValueError:
-        print("")
+        print("NaN value encountered in input data")
 
     try:
         assert (df.groupby("hid")["head"].sum() == 1).all()
