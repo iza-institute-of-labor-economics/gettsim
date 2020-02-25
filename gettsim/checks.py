@@ -1,5 +1,15 @@
 def check_data(df):
-    bool_variables = ["child", "east", "female"]
+    bool_variables = [
+        "child",
+        "east",
+        "female",
+        "head",
+        "haskids",
+        "pkv",
+        "ineducation",
+        "eigentum",
+        "pensioner",
+    ]
     for variable in bool_variables:
         try:
             assert df[variable].dtype == bool
@@ -20,6 +30,7 @@ def check_data(df):
 
     try:
         assert (df.groupby("hid")["head"].sum() == 1).all()
+        assert (df.groupby("hid_tu")["head_tu"].sum() == 1).all()
     except ValueError:
         print("There must be exactly one household head per household.")
         print(df["hid"].first())
