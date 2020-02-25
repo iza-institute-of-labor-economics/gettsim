@@ -78,13 +78,20 @@ entry is added.
    * mention bigger amendments / Neufassungen and be as helpful as possible to
      make sense of that parameter.
 
-    Example:
+     Example:
 
-   .. code-block:: yaml
+     .. code-block:: yaml
 
-       description:
-           de: Einkommensanteile, aufgrund derer die Leistungen des Arbeitslosengelds II nicht vermindert werden. § 30 SGB II. Seit 01.10.2005 zudem definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011 § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
-           en: Shares of income which do not lead to tapering of Arbeitslosengeld II benefits.
+        description:
+            de: >
+                Einkommensanteile, aufgrund derer die Leistungen des Arbeitslosengelds
+                II nicht vermindert werden. § 30 SGB II. Seit 01.10.2005 zudem definiert
+                durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011
+                § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850.
+                Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
+            en: >
+                Shares of income which do not lead to tapering of Arbeitslosengeld II
+                benefits.
 
 3. The YYYY-MM-DD key(s)
 
@@ -127,7 +134,11 @@ The general idea is to make the replication of the laws very obvious. If the law
 includes a table, we will have a dictionary with keys 0, 1, 2, .... If the law includes
 a formula, it should be included. Etc.
 
-The following goes through several cases.
+The following walks through several cases.
+
+.. todo::
+
+    Make these cases close to exhaustive.
 
 * The simplest case is a single parameter, which should be specified as:
 
@@ -135,13 +146,15 @@ The following goes through several cases.
 
       value: 520
 
-* Shares can reference another parameter if that is fixed by law in a given year.
+* Values may reference another parameter if that is fixed by law in a given year. That
+  is, it must not depend on anything else or individual-level data. So this would not
+  work, for example, for income tax schedules. Example:
 
   .. code-block:: yaml
 
-      value: arbeitsl_geld_2.reg_bed * 0.6
+      value: arbeitsl_geld_2.regelbedarf * 0.6
 
-plus
+
 * More complex: A piecewise linear function
 
     .. code-block:: yaml
@@ -176,15 +189,15 @@ plus
   representations via SymPy or the like.
 
 * If a parameter ceases to be relevant, is superseded by something else, ... there must
-  be a ``YYYY-MM-DD`` key with an entry:
+  be a ``YYYY-MM-DD`` key with an entry ``value: null`` regardless of the previous
+  strucuture of the ``value``. Ideally, there would be a ``reference`` and potentially a
+  ``note`` key. Example:
 
   .. code-block:: yaml
 
       value: null
       note: Arbeitslosenhilfe is superseded by arbeitsl_geld_2
 
-  regardless of the previous strucuture of the ``value``. Ideally, there would be a
-  ``reference`` and potentially a ``note`` key.
 
 .. todo::
 
@@ -197,10 +210,9 @@ plus
     * values in percentages can alternatively be expressed to the base of one
     * DM values have to be converted to Euro using the exchange rate 1:1.95583.
 
-    HM: If we allow for both % and fractions, we need to add a ``unit`` key. Then we can
-    trivially allow for DM values, which would be nice for being close to the laws.
-    I would be all for that ``unit`` key, but want to throw it out there first.
-
+    HMG: If we allow for both % and fractions, we must add a ``unit`` key. Then we can
+    trivially allow for DM values, which would be nice for being close to the laws. I
+    would be all for that ``unit`` key, but want to throw it out here first.
 
 
 [YYYY-MM-DD].note
