@@ -188,10 +188,12 @@ def check_eligibilities(household, params):
             year=youngest_child["byear"].iloc[0].astype(int),
         )
         age_youngest_child = relativedelta.relativedelta(params["date"], birth_date)
+        # Age in months
+        age_months = age_youngest_child.years * 12 + age_youngest_child.months
+        if (age_months < 0) or (age_months == 0 & age_youngest_child.days < 0):
+            raise ValueError(f"Individual {youngest_child.pid.iloc[0]} not born yet.")
         # The child has to be below the 14th month
-        eligible_age = (
-            age_youngest_child.years * 12 + age_youngest_child.months
-        ) <= params["max_joint_months"]
+        eligible_age = age_months <= params["max_joint_months"]
         # The parents can only claim up to 14 month elterngeld
         eligible_consumed = (
             youngest_child["elterngeld_mon_mut"].iloc[0]
