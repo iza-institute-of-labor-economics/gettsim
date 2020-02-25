@@ -30,7 +30,7 @@ def check_data(df):
 
     try:
         assert (df.groupby("hid")["head"].sum() == 1).all()
-        assert (df.groupby("hid_tu")["head_tu"].sum() == 1).all()
+        assert (df.groupby("tu_id")["head_tu"].sum() == 1).all()
     except ValueError:
         print("There must be exactly one household head per household.")
         print(df["hid"].first())
