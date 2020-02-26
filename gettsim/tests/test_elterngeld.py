@@ -44,6 +44,7 @@ def input_data():
 def test_eltgeld(
     year,
     column,
+    elterngeld_raw_data,
     arbeitsl_geld_raw_data,
     soz_vers_beitr_raw_data,
     e_st_abzuege_raw_data,
@@ -53,7 +54,9 @@ def test_eltgeld(
 ):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    elterngeld_params = get_policies_for_date(year=year, group="elterngeld")
+    elterngeld_params = get_policies_for_date(
+        year=year, group="elterngeld", raw_group_data=elterngeld_raw_data
+    )
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
