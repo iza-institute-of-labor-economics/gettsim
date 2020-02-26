@@ -82,7 +82,7 @@ vorsp_rv:
     2005-01-01:
       value: 0.5
       note:
-vorwegab:
+vorwegabzug:
   name:
     de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle
     en:

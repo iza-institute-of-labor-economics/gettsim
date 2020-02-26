@@ -15,6 +15,7 @@ IN_COLS = [
     "hid",
     "tu_id",
     "m_wage",
+    "m_childcare",
     "m_self",
     "m_kapinc",
     "m_vermiet",
@@ -24,7 +25,6 @@ IN_COLS = [
     "ineducation",
     "zveranl",
     "child",
-    "m_childcare",
     "handcap_degree",
     "rvbeit",
     "priv_pens_contr",
@@ -81,7 +81,7 @@ def test_zve(
     e_st_abzuege_raw_data,
 ):
     year_data = input_data[input_data["year"] == year]
-    df = year_data[IN_COLS].copy()    
+    df = year_data[IN_COLS].copy()
     e_st_abzuege_params = get_policies_for_date(
         year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
     )

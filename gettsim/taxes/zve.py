@@ -11,7 +11,7 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
         - abgeltungssteuer vs. taxing capital income in the tariff
         It's always the most favorable for the taxpayer, but you know that only after
          applying the tax schedule
-    """    
+    """
     adult_married = ~tax_unit["child"] & tax_unit["zveranl"]
     # married = [tax_unit['zveranl'], ~tax_unit['zveranl']]
     # create output dataframe and transter some important variables
@@ -106,7 +106,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
 
     # Count number of children eligible for Child Benefit.
     # Child allowance is only received for these kids.
-    child_num_kg = kindergeld_params["childben_elig_rule"](
+    kigeld_kinder = kindergeld_params["childben_elig_rule"](
         tax_unit, kindergeld_params
     ).sum()
 
@@ -120,16 +120,16 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     else:
         kifreib_total = params["kifreib_s_exm"]
 
-    diff_kifreib = nokfb_lower - (kifreib_total * child_num_kg)
+    diff_kifreib = nokfb_lower - (kifreib_total * kigeld_kinder)
     # If the couple is married and one earns not enough to split the kinderfeibetrag,
     # things get a bit more complicated
     if diff_kifreib < 0 & tax_unit[~tax_unit["child"]]["zveranl"].all():
 
         # The high earner gets half of the total kinderfreibetrag plus the amount the
         # lower earner can't claim.
-        kifreib_higher = (kifreib_total * child_num_kg) + abs(diff_kifreib)
+        kifreib_higher = (kifreib_total * kigeld_kinder) + abs(diff_kifreib)
         # The second earner subtracts the remaining amount
-        kifreib_lower = kifreib_total * child_num_kg - abs(diff_kifreib)
+        kifreib_lower = kifreib_total * kigeld_kinder - abs(diff_kifreib)
         # Then we assign each earner the amount and return the series
 
         tax_unit.loc[
@@ -144,7 +144,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     # For non married couples or couples where both earn enough this are a lot easier.
     # Just split the kinderfreibetrag 50/50.
     else:
-        tax_unit.loc[~tax_unit["child"], "kifreib"] = kifreib_total * child_num_kg
+        tax_unit.loc[~tax_unit["child"], "kifreib"] = kifreib_total * kigeld_kinder
         return tax_unit
 
 
@@ -335,15 +335,15 @@ def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     altersvors = calc_altersvors_aufwend(tax_unit, params)
     # also subtract health + care + unemployment insurance contributions
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
-    sonstigevors = 12 * (
+    sonstige_vors = 12 * (
         tax_unit["pvbeit"] + (1 - params["vorsorg_krank_minder"]) * tax_unit["gkvbeit"]
     )
     # maybe add avbeit, but do not exceed 1900€.
-    sonstigevors = np.maximum(
-        sonstigevors,
-        np.minimum(sonstigevors + 12 * tax_unit["avbeit"], params["vors_sonst_max"]),
+    sonstige_vors = np.maximum(
+        sonstige_vors,
+        np.minimum(sonstige_vors + 12 * tax_unit["avbeit"], params["vors_sonst_max"]),
     )
-    return altersvors.astype(int) + sonstigevors.astype(int)
+    return altersvors.astype(int) + sonstige_vors.astype(int)
 
 
 def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
@@ -356,12 +356,12 @@ def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
 
     altersvors = calc_altersvors_aufwend(tax_unit, params)
 
-    sonstigevors = ~tax_unit["child"] * np.minimum(
+    sonstige_vors = ~tax_unit["child"] * np.minimum(
         params["vors_sonst_max"],
         12 * (tax_unit["gkvbeit"] + tax_unit["avbeit"] + tax_unit["pvbeit"]),
     ).astype(int)
 
-    return (altersvors + sonstigevors).astype(int)
+    return (altersvors + sonstige_vors).astype(int)
 
 
 def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
@@ -375,10 +375,10 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         if params["year"] <= 2019:
             # Amount 1: Basic deduction, based on earnings. Usually zero.
             item_1 = np.maximum(
-                params["vorwegab"] - params["kuerzquo"] * 12 * tax_unit["m_wage"], 0
+                params["vorwegabzug"] - params["kuerzquo"] * 12 * tax_unit["m_wage"], 0
             )
         else:
-            # No "vorwegab" anymore after 2019.
+            # No "vorwegabzug" anymore after 2019.
             item_1 = 0
         # calcuate the remaining amount.
         vorsorg_rest = np.maximum(
@@ -396,7 +396,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             tax_unit[f"{var}_tu"] = tax_unit.loc[~tax_unit["child"], "m_wage"].sum()
         if params["year"] <= 2019:
             item_1 = 0.5 * np.maximum(
-                2 * params["vorwegab"]
+                2 * params["vorwegabzug"]
                 - params["kuerzquo"] * 12 * tax_unit["m_wage_tu"],
                 0,
             )
@@ -420,10 +420,10 @@ def vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
         Therefore, one needs to compute amounts
         (2004 and 2005 regime) and take the higher one.
     """
-    vors2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
+    vors_2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
     vors2005 = _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params)
 
-    return np.maximum(vors2004, vors2005)
+    return np.maximum(vors_2004, vors2005)
 
 
 def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
@@ -434,10 +434,10 @@ def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
         *always* more or equally beneficial than the 2005 one,
         so no need for a separate check there.
     """
-    vors2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
+    vors_2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
     vors2010 = _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params)
 
-    return np.maximum(vors2004, vors2010)
+    return np.maximum(vors_2004, vors2010)
 
 
 def calc_altersvors_aufwend(tax_unit, params):
