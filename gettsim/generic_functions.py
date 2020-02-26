@@ -46,17 +46,16 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
             dict of 3 arrays for calc_e_anr_frei: upper_thresholds, rates and
             intercepts_at_lower_thresholds.
         """
-    keys_without_reference = list(list_of_dicts.keys())
-    keys_without_reference.remove("reference")
+    keys = sorted(key for key in list_of_dicts.keys() if type(key) == int)
 
     # Create and fill upper_thresholds-Array
-    upper_thresholds = np.zeros(len(keys_without_reference))
-    for k in keys_without_reference:
+    upper_thresholds = np.zeros(len(keys))
+    for k in keys:
         upper_thresholds[k] = list_of_dicts[k]["upper_threshold"]
 
     # Create and fill rates-Array
-    rates = np.zeros(len(keys_without_reference))
-    for k in keys_without_reference:
+    rates = np.zeros(len(keys))
+    for k in keys:
         rates[k] = list_of_dicts[k]["rate"]
 
     # To-Do: Create and fill intercepts-Array
