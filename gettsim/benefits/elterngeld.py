@@ -3,8 +3,8 @@ import datetime
 import numpy as np
 from dateutil import relativedelta
 
+from gettsim.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.benefits.arbeitslosengeld import proxy_net_wage_last_year
-from gettsim.tax_transfer import _apply_tax_transfer_func
 
 
 def elterngeld(
@@ -23,7 +23,7 @@ def elterngeld(
     in_cols = list(household.columns.values)
     # Everything was already initialized
     out_cols = []
-    household.loc[household["elternzeit_anspruch"], :] = _apply_tax_transfer_func(
+    household.loc[household["elternzeit_anspruch"], :] = apply_tax_transfer_func(
         household[household["elternzeit_anspruch"]],
         tax_func=calc_elterngeld,
         level=["hid", "tu_id", "pid"],

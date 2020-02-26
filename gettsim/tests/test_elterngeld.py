@@ -4,11 +4,10 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
+from gettsim.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.benefits.elterngeld import elterngeld
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.tax_transfer import _apply_tax_transfer_func
-
 
 INPUT_COLS = [
     "hid",
@@ -68,7 +67,7 @@ def test_eltgeld(
         year=year, group="soli_st", raw_group_data=soli_st_raw_data
     )
 
-    df = _apply_tax_transfer_func(
+    df = apply_tax_transfer_func(
         df,
         tax_func=elterngeld,
         level=["hid"],

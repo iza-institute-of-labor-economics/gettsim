@@ -2,11 +2,10 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
+from gettsim.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.tax_transfer import _apply_tax_transfer_func
-
 
 INPUT_COLS = [
     "pid",
@@ -62,7 +61,7 @@ def test_ui(
     soli_st_params = get_policies_for_date(
         year=year, group="soli_st", raw_group_data=soli_st_raw_data
     )
-    df = _apply_tax_transfer_func(
+    df = apply_tax_transfer_func(
         df,
         tax_func=ui,
         level=["hid", "tu_id", "pid"],
