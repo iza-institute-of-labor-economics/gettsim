@@ -90,41 +90,6 @@ def tax_transfer(
         out_cols=out_cols,
         func_kwargs={"params": soz_vers_beitr_params},
     )
-    in_cols = [
-        "hid",
-        "tu_id",
-        "pid",
-        "child",
-        "m_wage",
-        "m_wage_l1",
-        "east",
-        "incometax",
-        "soli",
-        "svbeit",
-        "byear",
-        "bmonth",
-        "bday",
-        "elterngeld_mon_mut",
-        "elterngeld_mon_vat",
-        "elterngeld_mon",
-        "year",
-    ]
-    out_cols = ["elterngeld", "geschw_bonus", "num_mehrlinge", "elternzeit_anspruch"]
-
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=elterngeld,
-        level=["hid"],
-        in_cols=in_cols,
-        out_cols=out_cols,
-        func_kwargs={
-            "params": elterngeld_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "e_st_abzuege_params": e_st_abzuege_params,
-            "e_st_params": e_st_params,
-            "soli_st_params": soli_st_params,
-        },
-    )
 
     in_cols = [
         "m_wage_l1",
@@ -243,6 +208,7 @@ def tax_transfer(
             "abgelt_st_params": abgelt_st_params,
         },
     )
+
     in_cols = ["age", "w_hours", "ineducation", "m_wage"]
     out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
     df = apply_tax_transfer_func(
@@ -275,6 +241,43 @@ def tax_transfer(
         out_cols=out_cols,
         func_kwargs={"params": e_st_abzuege_params},
     )
+
+    in_cols = [
+        "hid",
+        "tu_id",
+        "pid",
+        "child",
+        "m_wage",
+        "m_wage_l1",
+        "east",
+        "incometax",
+        "soli",
+        "svbeit",
+        "byear",
+        "bmonth",
+        "bday",
+        "elterngeld_mon_mut",
+        "elterngeld_mon_vat",
+        "elterngeld_mon",
+        "year",
+    ]
+    out_cols = ["elterngeld", "geschw_bonus", "num_mehrlinge", "elternzeit_anspruch"]
+
+    df = apply_tax_transfer_func(
+        df,
+        tax_func=elterngeld,
+        level=["hid"],
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={
+            "params": elterngeld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "e_st_params": e_st_params,
+            "soli_st_params": soli_st_params,
+        },
+    )
+
     in_cols = [
         "alleinerz",
         "age",
