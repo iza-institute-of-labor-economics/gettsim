@@ -98,16 +98,3 @@ def piecewise_linear(
     intcpt = intercepts_at_lower_thresholds[idx]
     out = intcpt + (value - np.append(0, upper_thresholds)[idx]) * rates[idx]
     return out
-
-
-def piecewise_linear_alt(value, upper_thresholds, lower_thresholds, rates, side):
-    if (value < lower_thresholds[0]) or (value > upper_thresholds[-1]):
-        out = np.nan
-    else:
-        idx = np.searchsorted(upper_thresholds, value, side=side)
-        intcpt = fill_intercepts_at_lower_thresholds(
-            upper_thresholds, rates, 0, piecewise_linear
-        )
-        print(f"intcpt: {idx}")
-        out = intcpt
-    return out
