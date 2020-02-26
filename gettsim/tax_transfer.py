@@ -1,6 +1,7 @@
 from gettsim.benefits.alg2 import alg2
 from gettsim.benefits.arbeitslosengeld import ui
 from gettsim.benefits.benefit_checks import benefit_priority
+from gettsim.benefits.elterngeld import elterngeld
 from gettsim.benefits.kiz import kiz
 from gettsim.benefits.unterhaltsvorschuss import uhv
 from gettsim.benefits.wohngeld import wg
@@ -23,6 +24,7 @@ def tax_transfer(
     arbeitsl_geld_params,
     soz_vers_beitr_params,
     e_st_abzuege_params,
+    elterngeld_params,
     unterhalt_params,
     wohngeld_params,
     kinderzuschlag_params,
@@ -87,6 +89,42 @@ def tax_transfer(
         out_cols=out_cols,
         func_kwargs={"params": soz_vers_beitr_params},
     )
+    in_cols = [
+        "hid",
+        "tu_id",
+        "pid",
+        "child",
+        "m_wage",
+        "m_wage_l1",
+        "east",
+        "incometax",
+        "soli",
+        "svbeit",
+        "byear",
+        "bmonth",
+        "bday",
+        "elterngeld_mon_mut",
+        "elterngeld_mon_vat",
+        "elterngeld_mon",
+        "year",
+    ]
+    out_cols = ["elterngeld", "geschw_bonus", "num_mehrlinge", "elternzeit_anspruch"]
+
+    df = _apply_tax_transfer_func(
+        df,
+        tax_func=elterngeld,
+        level=["hid"],
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={
+            "params": elterngeld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "e_st_abzuege_params": e_st_abzuege_params,
+            "e_st_params": e_st_params,
+            "soli_st_params": soli_st_params,
+        },
+    )
+
     in_cols = [
         "m_wage_l1",
         "east",
@@ -575,6 +613,8 @@ def calculate_tax_and_transfers(
 
     kindergeld_params = get_policies_for_date(year=year, group="kindergeld")
 
+    elterngeld_params = get_policies_for_date(year=year, group="elterngeld")
+
     return tax_transfer(
         dataset,
         arbeitsl_geld_2_params=arbeitsl_geld_2_params,
@@ -582,6 +622,7 @@ def calculate_tax_and_transfers(
         arbeitsl_geld_params=arbeitsl_geld_params,
         soz_vers_beitr_params=soz_vers_beitr_params,
         e_st_abzuege_params=e_st_abzuege_params,
+        elterngeld_params=elterngeld_params,
         unterhalt_params=unterhalt_params,
         wohngeld_params=wohngeld_params,
         kinderzuschlag_params=kinderzuschlag_params,
