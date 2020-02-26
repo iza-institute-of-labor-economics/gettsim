@@ -60,7 +60,7 @@ OUT_COLS = [
     "vorsorge",
 ]
 
-TEST_COLS = ["zve_nokfb", "zve_kfb"]
+TEST_COLS = ["zve_nokfb", "zve_kfb", "altfreib"]
 YEARS = [2005, 2009, 2010, 2012, 2018]
 
 
@@ -81,7 +81,7 @@ def test_zve(
     e_st_abzuege_raw_data,
 ):
     year_data = input_data[input_data["year"] == year]
-    df = year_data[IN_COLS].copy()
+    df = year_data[IN_COLS].copy()    
     e_st_abzuege_params = get_policies_for_date(
         year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
     )
