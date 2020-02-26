@@ -59,7 +59,7 @@ OUT_COLS = [
     "vorsorge",
 ]
 
-TEST_COLS = ["zve_nokfb", "zve_kfb"]
+TEST_COLS = ["zve_nokfb", "zve_kfb", "altfreib"]
 YEARS = [2005, 2009, 2010, 2012, 2018]
 
 
@@ -102,4 +102,6 @@ def test_zve(
 
     # TODO: We need to adress this comment. This can't be our last word!
     # allow 1€ difference, caused by strange rounding issues.
-    assert_series_equal(df[column], year_data[column], check_less_precise=2)
+    assert_series_equal(
+        df[column], year_data[column], check_less_precise=2, check_dtype=False
+    )
