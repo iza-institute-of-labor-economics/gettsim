@@ -1,3 +1,7 @@
+"""This module contains auxiliary functions to apply the tax transfer functions on
+household, tax unit or individual level."""
+
+
 def apply_tax_transfer_func(
     df, tax_func, level, in_cols, out_cols, func_args=None, func_kwargs=None
 ):
