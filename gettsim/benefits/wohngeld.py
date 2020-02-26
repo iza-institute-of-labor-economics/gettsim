@@ -122,6 +122,7 @@ def calc_wg_income(household, params, household_size):
         "rvbeit",
         "gkvbeit",
         "uhv",
+        "elterngeld",
     ]:
         household[f"{inc}_tu_k"] = household.groupby("tu_id")[inc].transform("sum")
 

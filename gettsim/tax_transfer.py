@@ -318,6 +318,7 @@ def tax_transfer(
         "m_alg1",
         "m_transfers",
         "uhv",
+        "elterngeld",
         "gross_e1",
         "gross_e4",
         "gross_e5",
