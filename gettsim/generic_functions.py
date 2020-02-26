@@ -38,29 +38,39 @@ def fill_intercepts_at_lower_thresholds(
 def get_dict_of_arrays_piecewise_linear(list_of_dicts):
     """Extract the relevant parameters for e_anr_frei.
 
-    Args:
-        list_of_dicts: list_of_dicts specifying upper_thresholds and
-              respective rates for a given legislature time.
+        Args:
+            list_of_dicts: list_of_dicts specifying upper_thresholds and
+                  respective rates for a given legislature time.
 
-    Returns:
-        dict of 3 arrays for calc_e_anr_frei: upper_thresholds, rates and
-        intercepts_at_lower_thresholds.
-    """
-    upper_thresholds = np.array([d["upper_threshold"] for d in list_of_dicts],
-                                dtype=np.float)
-    rates = np.array([d["rate"] for d in list_of_dicts], dtype=np.float)
-    intercepts = fill_intercepts_at_lower_thresholds(
-        upper_thresholds, rates, 0, piecewise_linear
-    )
+        Returns:
+            dict of 3 arrays for calc_e_anr_frei: upper_thresholds, rates and
+            intercepts_at_lower_thresholds.
+        """
+    keys_without_reference = list(list_of_dicts.keys())
+    keys_without_reference.remove("reference")
+
+    # Create and fill upper_thresholds-Array
+    upper_thresholds = np.zeros(len(keys_without_reference))
+    for k in keys_without_reference:
+        upper_thresholds[k] = list_of_dicts[k]["upper_threshold"]
+
+    # Create and fill rates-Array
+    rates = np.zeros(len(keys_without_reference))
+    for k in keys_without_reference:
+        rates[k] = list_of_dicts[k]["rate"]
+
+    # To-Do: Create and fill intercepts-Array
+    # intercepts = fill_intercepts_at_lower_thresholds(
+    #    upper_thresholds, rates, 0, piecewise_linear
+    # )
 
     out = {
         "upper_thresholds": upper_thresholds,
         "rates": rates,
-        "intercepts": intercepts,
+        # "intercepts": intercepts,
     }
 
     return out
-
 
 
 def piecewise_linear(
@@ -87,5 +97,17 @@ def piecewise_linear(
     idx = np.searchsorted(upper_thresholds, value, side=side)
     intcpt = intercepts_at_lower_thresholds[idx]
     out = intcpt + (value - np.append(0, upper_thresholds)[idx]) * rates[idx]
+    return out
 
+
+def piecewise_linear_alt(value, upper_thresholds, lower_thresholds, rates, side):
+    if (value < lower_thresholds[0]) or (value > upper_thresholds[-1]):
+        out = np.nan
+    else:
+        idx = np.searchsorted(upper_thresholds, value, side=side)
+        intcpt = fill_intercepts_at_lower_thresholds(
+            upper_thresholds, rates, 0, piecewise_linear
+        )
+        print(f"intcpt: {idx}")
+        out = intcpt
     return out
