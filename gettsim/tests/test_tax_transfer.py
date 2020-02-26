@@ -70,6 +70,9 @@ def test_tax_transfer(
     kindergeld_params = get_policies_for_date(
         year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
     )
+
+    elterngeld_params = get_policies_for_date(year=year, group="elterngeld")
+
     tax_transfer(
         df,
         arbeitsl_geld_2_params=arbeitsl_geld_2_params,
@@ -77,6 +80,7 @@ def test_tax_transfer(
         arbeitsl_geld_params=arbeitsl_geld_params,
         soz_vers_beitr_params=soz_vers_beitr_params,
         e_st_abzuege_params=e_st_abzuege_params,
+        elterngeld_params=elterngeld_params,
         unterhalt_params=unterhalt_params,
         wohngeld_params=wohngeld_params,
         kinderzuschlag_params=kinderzuschlag_params,
