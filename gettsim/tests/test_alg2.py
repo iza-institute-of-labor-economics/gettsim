@@ -30,6 +30,7 @@ INPUT_COLS = [
     "svbeit",
     "kindergeld_hh",
     "uhv",
+    "elterngeld",
     "year",
 ]
 OUT_COLS = [

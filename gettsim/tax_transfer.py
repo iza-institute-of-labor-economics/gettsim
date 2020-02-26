@@ -360,6 +360,7 @@ def tax_transfer(
         "svbeit",
         "kindergeld_hh",
         "uhv",
+        "elterngeld",
     ]
     out_cols = [
         "ar_base_alg2_ek",
