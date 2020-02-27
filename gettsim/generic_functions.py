@@ -5,13 +5,13 @@ import numpy as np
 
 
 def fill_intercepts_at_lower_thresholds(
-    upper_thresholds, rates, lower_thresholds, intercept_at_lowest_threshold, fun
+    lower_thresholds, upper_thresholds, rates, intercept_at_lowest_threshold, fun
 ):
     """Return an array with intercepts at the lower thresholds so that the
     piecewise *fun* is smooth.
 
     Args:
-
+        lower_thresholds (1-d float): The lower thresholds defining the intervals
         upper_thresholds (1-d float): The upper thresholds defining the intervals
         rates (1-d float): The slope in the interval below the corresponding element
             of *upper_thresholds*
@@ -30,9 +30,9 @@ def fill_intercepts_at_lower_thresholds(
     for i, up_thr in enumerate(lower_thresholds):
         intercepts_at_lower_thresholds[i] = fun(
             up_thr,
+            lower_thresholds,
             upper_thresholds,
             rates,
-            lower_thresholds,
             intercepts_at_lower_thresholds,
             side="left",
         )
@@ -48,45 +48,46 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
                   respective rates for a given legislature time.
 
         Returns:
-            dict of 3 arrays for calc_e_anr_frei: upper_thresholds, rates and
-            intercepts_at_lower_thresholds.
+            dict of 4 arrays for calc_e_anr_frei: lower_thresholds,
+                upper_thresholds, rates and
+                intercepts_at_lower_thresholds.
         """
     keys = sorted(key for key in list_of_dicts.keys() if type(key) == int)
 
+    # Extract lower thresholds.
+    lower_thresholds = np.zeros(len(keys))
+    for interval in keys:
+        if "lower_threshold" in list_of_dicts[interval]:
+            lower_thresholds[interval] = list_of_dicts[interval]["lower_threshold"]
+        elif "upper_threshold" in list_of_dicts[interval - 1]:
+            lower_thresholds[interval] = list_of_dicts[interval - 1]["upper_threshold"]
+        else:
+            print("missing interval boundry")
+
     # Create and fill upper_thresholds-Array
     upper_thresholds = np.zeros(len(keys))
-    for k in keys:
-        if "upper_threshold" in list_of_dicts[k]:
-            upper_thresholds[k] = list_of_dicts[k]["upper_threshold"]
-        elif "lower_threshold" in list_of_dicts[k + 1]:
-            upper_thresholds[k] = list_of_dicts[k + 1]["lower_threshold"]
+    for interval in keys:
+        if "upper_threshold" in list_of_dicts[interval]:
+            upper_thresholds[interval] = list_of_dicts[interval]["upper_threshold"]
+        elif "lower_threshold" in list_of_dicts[interval + 1]:
+            upper_thresholds[interval] = list_of_dicts[interval + 1]["lower_threshold"]
         else:
             print("missing interval boundry")
 
     # Create and fill rates-Array
     rates = np.zeros(len(keys))
-    for k in keys:
-        rates[k] = list_of_dicts[k]["rate"]
-
-    # Extract lower thresholds.
-    lower_thresholds = np.zeros(len(keys))
-    for k in keys:
-        if "lower_threshold" in list_of_dicts[k]:
-            lower_thresholds[k] = list_of_dicts[k]["lower_threshold"]
-        elif "upper_threshold" in list_of_dicts[k - 1]:
-            lower_thresholds[k] = list_of_dicts[k - 1]["upper_threshold"]
-        else:
-            print("missing interval boundry")
+    for interval in keys:
+        rates[interval] = list_of_dicts[interval]["rate"]
 
     # Create and fill intercepts-Array
     intercepts = fill_intercepts_at_lower_thresholds(
-        upper_thresholds, rates, lower_thresholds, 0, piecewise_linear
+        lower_thresholds, upper_thresholds, rates, 0, piecewise_linear
     )
 
     out = {
+        "lower_thresholds": lower_thresholds,
         "upper_thresholds": upper_thresholds,
         "rates": rates,
-        "lower_thresholds": lower_thresholds,
         "intercepts": intercepts,
     }
 
@@ -95,9 +96,9 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
 
 def piecewise_linear(
     value,
+    lower_thresholds,
     upper_thresholds,
     rates,
-    lower_thresholds,
     intercepts_at_lower_thresholds,
     side,
 ):
@@ -105,6 +106,7 @@ def piecewise_linear(
 
     Args:
         value (float, >0): The value that the function is applied to.
+        lower_thresholds (1-d float): The lower thresholds defining the intervals
         upper_thresholds (1-d float): The upper thresholds defining the intervals
         rates (1-d float): The slope in the interval below the corresponding element
             of *upper_thresholds*
@@ -112,7 +114,7 @@ def piecewise_linear(
 
     The lowest threshold is implicit as 0.
 
-    All three arrays must the same length and sorted by upper_thresholds. None of this
+    All 4 arrays must the same length and sorted by upper_thresholds. None of this
     is checked here.
 
     Todo: This should be checked upon creation of the arrays!
