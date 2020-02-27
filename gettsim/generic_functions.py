@@ -53,6 +53,19 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
                 intercepts_at_lower_thresholds.
         """
     keys = sorted(key for key in list_of_dicts.keys() if type(key) == int)
+    # Check if keys are consecutive numbers and starting at 0.
+    if keys[0] != 0:
+        raise ValueError(
+            "The keys of the passed list of dictionaries do not start with 0."
+        )
+
+    for n in keys:
+        if n == len(keys) - 1:
+            break
+        if keys[n] != keys[n + 1] - 1:
+            raise ValueError(
+                "The keys of the passed list of dictionaries are not consecutive numbers."
+            )
 
     # Extract lower thresholds.
     lower_thresholds = np.zeros(len(keys))
@@ -62,7 +75,9 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
         elif "upper_threshold" in list_of_dicts[interval - 1]:
             lower_thresholds[interval] = list_of_dicts[interval - 1]["upper_threshold"]
         else:
-            print("missing interval boundry")
+            raise ValueError(
+                "Missing interval boundary"
+            )  # To-Do: Rewrite this to be more specific.
 
     # Create and fill upper_thresholds-Array
     upper_thresholds = np.zeros(len(keys))
@@ -72,7 +87,9 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
         elif "lower_threshold" in list_of_dicts[interval + 1]:
             upper_thresholds[interval] = list_of_dicts[interval + 1]["lower_threshold"]
         else:
-            print("missing interval boundry")
+            raise ValueError(
+                "Missing interval boundary"
+            )  # To-Do: Rewrite this to be more specific.
 
     # Create and fill rates-Array
     rates = np.zeros(len(keys))
