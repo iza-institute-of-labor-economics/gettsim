@@ -130,6 +130,11 @@ type (i.e., int, dict, list, ...). As for column names and parameters, in some c
 might be useful to append an underscore plus one of {``j``, ``m``, ``w``, ``t``} to
 indicate the time unit.
 
+Across variations that include the same identifier, this identifier should not be
+changed, even if it leads to long variable names (e.g., ``kinderfreibetrag``,
+``zu_verst_e_ohne_kinderfreibetrag``). This makes searching for that identifier easier
+and less error-prone.
+
 Function names should contain a verb. Moreover, the length of a function name is
 typically inversely proportional to its scope. The public functions like maximize and
 minimize can have very short names. At a lower level of abstraction you typically need
