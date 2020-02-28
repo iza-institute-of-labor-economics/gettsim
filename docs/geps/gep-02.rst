@@ -84,8 +84,10 @@ B: One table with MultiIndex
 
 Pro A:
 
-* Very obvious what is the correct level meant
-* Never a need to append anything like ``_hh`` to a variable
+* Very obvious what is the correct level for a particular variable
+* Never a need to append anything like ``_hh`` to a variable as this is encoded in the
+  table name
+* Less need to work with MultiIndex, which might not be straightforward.
 
 Pro B:
 
