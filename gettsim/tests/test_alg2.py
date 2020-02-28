@@ -1,6 +1,8 @@
+import itertools
+
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
 from gettsim.benefits.alg2 import alg2
 from gettsim.config import ROOT_DIR
@@ -56,8 +58,8 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_alg2(input_data, arbeitsl_geld_2_raw_data, year):
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
 
@@ -68,4 +70,4 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year):
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
     df = df.groupby("hid", group_keys=False).apply(alg2, params=arbeitsl_geld_2_params)
 
-    assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)
+    assert_series_equal(df[column], year_data[column], check_dtype=False)

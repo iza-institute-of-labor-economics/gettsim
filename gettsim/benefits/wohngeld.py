@@ -130,7 +130,13 @@ def calc_wg_income(household, params, household_size):
     # Relevant income is market income + transfers...
     household["wg_grossY"] = calc_wg_gross_income(household)
     household["wg_otherinc"] = household[
-        ["m_alg1_tu_k", "m_transfers_tu_k", "pens_steuer_tu_k", "uhv_tu_k"]
+        [
+            "m_alg1_tu_k",
+            "m_transfers_tu_k",
+            "pens_steuer_tu_k",
+            "uhv_tu_k",
+            "elterngeld_tu_k",
+        ]
     ].sum(axis=1)
 
     # ... minus a couple of lump-sum deductions for handicaps,
