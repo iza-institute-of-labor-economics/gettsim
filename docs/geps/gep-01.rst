@@ -29,6 +29,8 @@ columns, parameters, Python identifiers (functions, variables), etc. should be n
 a nutshell and without explanations, these conventions are:
 
 * Names follow standard Python conventions (``lowercase_with_underscores``).
+  Abbreviations of words that form a part of these names are always followed by an
+  underscore, unless it is the last word.
 * Names should be long enough to be readable, but
 
   - for column names in the user-facing API, there is a hard limit of 15 characters;
