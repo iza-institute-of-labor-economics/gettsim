@@ -441,26 +441,19 @@ def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
 
 
 def calc_altersvors_aufwend(tax_unit, params):
-    """ Calculates deductible old-age contributions since 2005
+    """ Calculates deductible old-age contributions since 2005.
+        The share of deductible contributions increases each year.
+        Do not use this function for years prior to 2005!
     """
+    einführungsfaktor = 0.6 + 0.02 * (min(params["year"], 2025) - 2005)
+
     altersvors = ~tax_unit["child"] * (
-        vorsorge_year_faktor(params["year"])
+        einführungsfaktor
         * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pens_contr"]))
         - (12 * tax_unit["rvbeit"])
     ).astype(int)
 
     return np.minimum(params["vorsorg_rv_max"], altersvors)
-
-
-def vorsorge_year_faktor(year):
-    """ in the calculation of *Vorsorgeaufwendungen*,
-    there is year-dependent factor to be calculated.
-
-    year: int
-
-    returns the factor
-    """
-    return 0.6 + 0.02 * (min(year, 2025) - 2005)
 
 
 def calc_hhfreib_until2014(tax_unit, params):
