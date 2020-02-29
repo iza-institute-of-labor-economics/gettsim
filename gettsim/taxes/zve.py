@@ -421,9 +421,9 @@ def vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
         (2004 and 2005 regime) and take the higher one.
     """
     vors_2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
-    vors2005 = _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params)
+    vors_2005 = _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params)
 
-    return np.maximum(vors_2004, vors2005)
+    return np.maximum(vors_2004, vors_2005)
 
 
 def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
@@ -435,9 +435,9 @@ def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
         so no need for a separate check there.
     """
     vors_2004 = vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params)
-    vors2010 = _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params)
+    vors_2010 = _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params)
 
-    return np.maximum(vors_2004, vors2010)
+    return np.maximum(vors_2004, vors_2010)
 
 
 def calc_altersvors_aufwend(tax_unit, params):
