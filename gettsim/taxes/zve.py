@@ -441,13 +441,12 @@ def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
 
 
 def calc_altersvors_aufwend(tax_unit, params):
-    """Return the amount of contributions to retirement savings
-    that is deductible from taxable income. **This function becomes relevant
-    in 2005, do not use it for prior year**.
+    """Return the amount of contributions to retirement savings that is deductible from
+    taxable income. **This function becomes relevant in 2005, do not use it for prior
+    year**.
 
-    The share of deductible contributions increases each
-    year from 60% in 2005 to 100% in 2025.
-
+    The share of deductible contributions increases each year from 60% in 2005 to 100%
+    in 2025.
     """
 
     einführungsfaktor = 0.6 + 0.02 * (min(params["year"], 2025) - 2005)
