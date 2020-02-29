@@ -214,6 +214,7 @@ def grossinc_alg2(household):
                 "m_kapinc",
                 "m_pensions",
                 "m_alg1",
+                "elterngeld",
             ]
         ]
         .sum(axis=1)

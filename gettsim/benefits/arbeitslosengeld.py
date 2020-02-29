@@ -13,14 +13,16 @@ def ui(
     employment status and income from previous years.
 
     """
+    # Beitragsbemessungsgrenze differs in east and west germany
+    westost = "o" if person["east"] else "w"
 
-    alg_entgelt = _alg_entgelt(
+    alg_entgelt = proxy_net_wage_last_year(
         person,
-        params,
-        soz_vers_beitr_params,
-        e_st_abzuege_params,
         e_st_params,
         soli_st_params,
+        beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
+        werbungs_pausch=e_st_abzuege_params["werbung"],
+        soz_vers_pausch=params["soz_vers_pausch"],
     )
 
     eligible = check_eligibility_alg(person)
@@ -35,31 +37,29 @@ def ui(
     return person
 
 
-def _alg_entgelt(
+def proxy_net_wage_last_year(
     person,
-    params,
-    soz_vers_beitr_params,
-    e_st_abzuege_params,
     e_st_params,
     soli_st_params,
+    beit_bem_grenz,
+    werbungs_pausch,
+    soz_vers_pausch,
 ):
     """ Calculating the claim for the Arbeitslosengeld, depending on the current
     wage."""
-    westost = "o" if person["east"] else "w"
+
     # Relevant wage is capped at the contribution thresholds
-    alg_wage = min(soz_vers_beitr_params[f"rvmaxek{westost}"], person["m_wage_l1"])
+    max_wage = min(beit_bem_grenz, person["m_wage_l1"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    alg_ssc = params["alg1_abz"] * alg_wage
+    prox_ssc = soz_vers_pausch * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    alg_tax = e_st_params["tax_schedule"](
-        12 * alg_wage - e_st_abzuege_params["werbung"], e_st_params
-    )
+    prox_tax = e_st_params["tax_schedule"](12 * max_wage - werbungs_pausch, e_st_params)
 
-    alg_soli = soli_formula(alg_tax, soli_st_params)
+    prox_soli = soli_formula(prox_tax, soli_st_params)
 
-    return max(0, alg_wage - alg_ssc - alg_tax / 12 - alg_soli / 12)
+    return max(0, max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12)
 
 
 def check_eligibility_alg(person):
