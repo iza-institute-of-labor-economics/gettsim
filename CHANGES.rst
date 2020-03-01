@@ -30,6 +30,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Implement pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser:`Eric-Sommer`)
 * Implement 2020 reform increasing housing benefit (*Wohngeldstärkungsgesetz*)
   (:ghuser:`Eric-Sommer`)
+* Regroup wohngeld parameters according to GEP-3 (:ghuser:`MaxBlesch`)
 
 
 0.2.1 - 2019-11-20
