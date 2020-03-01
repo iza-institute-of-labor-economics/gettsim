@@ -5,7 +5,6 @@ from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import tax_transfer
 
-
 YEARS = [2002, 2010, 2018, 2019]
 
 
