@@ -23,8 +23,9 @@ from gettsim.taxes.kindergeld import kg_eligibility_hours
 from gettsim.taxes.kindergeld import kg_eligibility_wage
 from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
-from gettsim.taxes.zve import vorsorge2010
-from gettsim.taxes.zve import vorsorge_dummy
+from gettsim.taxes.zve import vorsorge_pre_2005
+from gettsim.taxes.zve import vorsorge_since_2005
+from gettsim.taxes.zve import vorsorge_since_2010
 
 
 def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
@@ -55,9 +56,11 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_hhfreib"] = calc_hhfreib_from2015
         if year >= 2010:
-            tax_data["vorsorge"] = vorsorge2010
-        else:
-            tax_data["vorsorge"] = vorsorge_dummy
+            tax_data["vorsorge"] = vorsorge_since_2010
+        elif year >= 2005:
+            tax_data["vorsorge"] = vorsorge_since_2005
+        elif year <= 2004:
+            tax_data["vorsorge"] = vorsorge_pre_2005
 
         # TODO: We need to adapt favorability check for that. See
         #  https://github.com/iza-institute-of-labor-economics/gettsim/issues/81 for
