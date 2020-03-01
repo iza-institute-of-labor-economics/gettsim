@@ -15,6 +15,7 @@ IN_COLS = [
     "hid",
     "tu_id",
     "m_wage",
+    "m_childcare",
     "m_self",
     "m_kapinc",
     "m_vermiet",
@@ -24,9 +25,9 @@ IN_COLS = [
     "ineducation",
     "zveranl",
     "child",
-    "m_childcare",
     "handcap_degree",
     "rvbeit",
+    "priv_pens_contr",
     "avbeit",
     "pvbeit",
     "alleinerz",
@@ -100,8 +101,6 @@ def test_zve(
         kindergeld_params=kindergeld_params,
     )
 
-    # TODO: We need to adress this comment. This can't be our last word!
-    # allow 1€ difference, caused by strange rounding issues.
     assert_series_equal(
         df[column], year_data[column], check_less_precise=2, check_dtype=False
     )
