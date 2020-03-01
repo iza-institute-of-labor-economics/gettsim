@@ -24,9 +24,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   allowance becoming effective in 2020 (:ghuser:`Eric-Sommer`)
 * Implement parity in health care contributions since
     2019 and 2020 contribution rates (:ghuser:`Eric-Sommer`)
-* Added *Elterngeld* calculation(:ghuser:`MaxBlesch`, :ghuser:`boryana-ilieva`)
+* Add *Elterngeld* calculation (:ghuser:`MaxBlesch`, :ghuser:`boryana-ilieva`)
+* Fix Soli 1991 calculation, improve Soli 1995 calculation, add 2021 Soli
+  parameters and add Soli tests (:ghuser:`mjbloemer`, :ghuser:`MaxBlesch`)
 * Implement pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser:`Eric-Sommer`)
-
 
 
 0.2.1 - 2019-11-20

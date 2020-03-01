@@ -1,4 +1,4 @@
-from gettsim.taxes.calc_taxes import soli_formula
+"""This module contains functions related to "Arbeitslosengeld"."""
 
 
 def ui(
@@ -57,7 +57,7 @@ def proxy_net_wage_last_year(
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_tax = e_st_params["tax_schedule"](12 * max_wage - werbungs_pausch, e_st_params)
 
-    prox_soli = soli_formula(prox_tax, soli_st_params)
+    prox_soli = soli_st_params["soli_formula"](prox_tax, soli_st_params)
 
     return max(0, max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12)
 
