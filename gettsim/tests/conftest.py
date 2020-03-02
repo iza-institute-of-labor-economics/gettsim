@@ -62,3 +62,8 @@ def kindergeld_raw_data():
 @pytest.fixture(scope="session")
 def soz_vers_beitr_raw_data():
     return yaml.safe_load((ROOT_DIR / "data" / "soz_vers_beitr.yaml").read_text())
+
+
+@pytest.fixture(scope="session")
+def elterngeld_raw_data():
+    return yaml.safe_load((ROOT_DIR / "data" / "elterngeld.yaml").read_text())

@@ -5,7 +5,6 @@ from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.tax_transfer import tax_transfer
 
-
 YEARS = [2002, 2010, 2018, 2019]
 
 
@@ -32,6 +31,7 @@ def test_tax_transfer(
     wohngeld_raw_data,
     kinderzuschlag_raw_data,
     kindergeld_raw_data,
+    elterngeld_raw_data,
 ):
     df = input_data[input_data["year"] == year].copy()
     ges_renten_vers_params = get_policies_for_date(
@@ -70,6 +70,11 @@ def test_tax_transfer(
     kindergeld_params = get_policies_for_date(
         year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
     )
+
+    elterngeld_params = get_policies_for_date(
+        year=year, group="elterngeld", raw_group_data=elterngeld_raw_data
+    )
+
     tax_transfer(
         df,
         arbeitsl_geld_2_params=arbeitsl_geld_2_params,
@@ -77,6 +82,7 @@ def test_tax_transfer(
         arbeitsl_geld_params=arbeitsl_geld_params,
         soz_vers_beitr_params=soz_vers_beitr_params,
         e_st_abzuege_params=e_st_abzuege_params,
+        elterngeld_params=elterngeld_params,
         unterhalt_params=unterhalt_params,
         wohngeld_params=wohngeld_params,
         kinderzuschlag_params=kinderzuschlag_params,

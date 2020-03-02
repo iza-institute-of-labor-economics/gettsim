@@ -9,7 +9,7 @@ alg1_frei:
     1984-01-01:
       value: 165
       note: Prüfen!
-alg1_abz:
+soz_vers_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en:
