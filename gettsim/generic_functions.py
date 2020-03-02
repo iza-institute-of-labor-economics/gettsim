@@ -26,7 +26,6 @@ def fill_intercepts_at_lower_thresholds(
 
     intercepts_at_lower_thresholds = np.zeros(upper_thresholds.shape) * np.nan
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
-    i = 1
     for i, up_thr in enumerate(lower_thresholds):
         intercepts_at_lower_thresholds[i] = fun(
             up_thr,
@@ -36,12 +35,11 @@ def fill_intercepts_at_lower_thresholds(
             intercepts_at_lower_thresholds,
             side="left",
         )
-
     return intercepts_at_lower_thresholds
 
 
 def get_dict_of_arrays_piecewise_linear(list_of_dicts):
-    """Extract the relevant parameters for e_anr_frei.
+    """Extracts parameters from a YAML-File and returns them as Python-dictionary.
 
         Args:
             list_of_dicts: list_of_dicts specifying upper_thresholds and
@@ -58,7 +56,6 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
         raise ValueError(
             "The keys of the passed list of dictionaries do not start with 0."
         )
-
     for n in keys:
         if n == len(keys) - 1:
             break
@@ -69,6 +66,13 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
 
     # Extract lower thresholds.
     lower_thresholds = np.zeros(len(keys))
+
+    # Check if lowest threshold exists.
+    if list_of_dicts[0]["lower_threshold"] is None:
+        raise ValueError(
+            "The first dict of the passed list needs to contain a lower_threshold value."
+        )
+
     for interval in keys:
         if "lower_threshold" in list_of_dicts[interval]:
             lower_thresholds[interval] = list_of_dicts[interval]["lower_threshold"]
@@ -76,8 +80,9 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
             lower_thresholds[interval] = list_of_dicts[interval - 1]["upper_threshold"]
         else:
             raise ValueError(
-                "Missing interval boundary"
-            )  # To-Do: Rewrite this to be more specific.
+                f"Current Key: {interval}. The previous dictionary "
+                f"needs an upper_threshold value."
+            )
 
     # Create and fill upper_thresholds-Array
     upper_thresholds = np.zeros(len(keys))
@@ -88,18 +93,32 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
             upper_thresholds[interval] = list_of_dicts[interval + 1]["lower_threshold"]
         else:
             raise ValueError(
-                "Missing interval boundary"
-            )  # To-Do: Rewrite this to be more specific.
+                f"Current Key: {interval}. Either this dictionary needs to "
+                f"contain an upper_threshold value or the next dictionary "
+                f"needs to contain a lower_threshold value."
+            )
 
     # Create and fill rates-Array
     rates = np.zeros(len(keys))
     for interval in keys:
-        rates[interval] = list_of_dicts[interval]["rate"]
+        if "rate" in list_of_dicts[interval]:
+            rates[interval] = list_of_dicts[interval]["rate"]
+        else:
+            raise ValueError(
+                f"Current Key: {interval}. The current dictionary has no rate specified."
+            )
 
     # Create and fill intercepts-Array
     intercepts = fill_intercepts_at_lower_thresholds(
         lower_thresholds, upper_thresholds, rates, 0, piecewise_linear
     )
+
+    # Check if created intercepts-Array has the same size as the other three.
+    if len(lower_thresholds) != len(intercepts):
+        raise ValueError(
+            "The generated intercepts array doesn't have "
+            "the same length as the other arrays."
+        )
 
     out = {
         "lower_thresholds": lower_thresholds,
@@ -128,6 +147,7 @@ def piecewise_linear(
         rates (1-d float): The slope in the interval below the corresponding element
             of *upper_thresholds*
         intercepts_at_lower_thresholds (1-d float):
+        side: Parameter is passed to the searchsorted-function.
 
     The lowest threshold is implicit as 0.
 
