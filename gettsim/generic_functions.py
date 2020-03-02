@@ -68,7 +68,7 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
     lower_thresholds = np.zeros(len(keys))
 
     # Check if lowest threshold exists.
-    if list_of_dicts[0]["lower_threshold"] is None:
+    if "lower_threshold" not in list_of_dicts[0]:
         raise ValueError(
             "The first dictionary of the passed list needs to contain a lower_threshold value."
         )
@@ -87,6 +87,13 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
 
     # Create and fill upper_thresholds-Array
     upper_thresholds = np.zeros(len(keys))
+
+    # Check if highest upper_threshold exists.
+    if "upper_thresholds" not in list_of_dicts[-1]:
+        raise ValueError(
+            "The last dictionary needs to contain a upper_threshold value."
+        )
+
     for interval in keys:
         if "upper_threshold" in list_of_dicts[interval]:
             upper_thresholds[interval] = list_of_dicts[interval]["upper_threshold"]
@@ -110,9 +117,39 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
             )
 
     # Create and fill intercepts-Array
-    intercepts = fill_intercepts_at_lower_thresholds(
-        lower_thresholds, upper_thresholds, rates, 0, piecewise_linear
-    )
+    intercepts = np.zeros(len(keys))
+    all_intercepts_supplied = True
+
+    if "intercept_at_lower_threshold" not in list_of_dicts[0]:
+        raise ValueError(
+            "The first dictionary needs an intercept, because either "
+            "the lowest intercept or all intercepts must be passed."
+        )
+
+    # Check if all intercepts are supplied.
+    for interval in keys:
+        if "intercept_at_lower_threshold" not in list_of_dicts[interval]:
+            all_intercepts_supplied = False
+
+    # If all intercepts are supplied, take the supplied ones.
+    if all_intercepts_supplied:
+        for interval in keys:
+            intercepts[interval] = list_of_dicts[interval][
+                "intercept_at_lower_threshold"
+            ]
+
+    # To Do: -----
+    # Insert check, if more than one, but not all intercepts are supplied. In this
+    # case we should raise an error, because either all or only the lowest one
+    # should be supplied.
+    # -----
+
+    # If only the first intercept is supplied, use fill_intercepts_at_lower_thresholds
+    # to fill the missing ones.
+    if not all_intercepts_supplied:
+        intercepts = fill_intercepts_at_lower_thresholds(
+            lower_thresholds, upper_thresholds, rates, 0, piecewise_linear
+        )
 
     # Check if created intercepts-Array has the same size as the other three.
     if len(lower_thresholds) != len(intercepts):
