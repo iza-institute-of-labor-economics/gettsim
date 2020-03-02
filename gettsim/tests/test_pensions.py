@@ -2,11 +2,11 @@ import pandas as pd
 import pytest
 from numpy.testing import assert_array_almost_equal
 
+from gettsim.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.config import ROOT_DIR
 from gettsim.pensions import pensions
 from gettsim.pensions import update_earnings_points
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.tax_transfer import _apply_tax_transfer_func
 
 INPUT_COLS = [
     "pid",
@@ -43,7 +43,7 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
     ges_renten_vers_params = get_policies_for_date(
         year=year, group="ges_renten_vers", raw_group_data=ges_renten_vers_raw_data
     )
-    df = _apply_tax_transfer_func(
+    df = apply_tax_transfer_func(
         df,
         tax_func=pensions,
         level=["hid", "tu_id", "pid"],
@@ -63,7 +63,7 @@ def test_update_earning_points(input_data, year):
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
     ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
-    df = _apply_tax_transfer_func(
+    df = apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
         level=["hid", "tu_id", "pid"],
