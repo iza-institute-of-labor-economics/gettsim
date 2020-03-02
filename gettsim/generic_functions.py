@@ -70,7 +70,7 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
     # Check if lowest threshold exists.
     if list_of_dicts[0]["lower_threshold"] is None:
         raise ValueError(
-            "The first dict of the passed list needs to contain a lower_threshold value."
+            "The first dictionary of the passed list needs to contain a lower_threshold value."
         )
 
     for interval in keys:
@@ -80,8 +80,9 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
             lower_thresholds[interval] = list_of_dicts[interval - 1]["upper_threshold"]
         else:
             raise ValueError(
-                f"Current Key: {interval}. The previous dictionary "
-                f"needs an upper_threshold value."
+                f"Current Key: {interval}. Either this dictionary needs to "
+                f"contain a lower_thresholds value or the previous dictionary "
+                f"needs to contain an upper_threshold value."
             )
 
     # Create and fill upper_thresholds-Array
