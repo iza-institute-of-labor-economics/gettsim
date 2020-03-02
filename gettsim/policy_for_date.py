@@ -161,3 +161,17 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
                     policy_year
                 ]["value"]
     return pension_data
+
+
+def load_regrouped_wohngeld(tax_data_raw, actual_date):
+    tax_data = {}
+    for key in tax_data_raw:
+        policy_dates = tax_data_raw[key]["values"]
+        past_policies = [x for x in policy_dates if x <= actual_date]
+        if not past_policies:
+            # TODO: Should there be missing values or should the key not exist?
+            tax_data[key] = np.nan
+        else:
+            policy_in_place = np.max(past_policies)
+            tax_data[key] = tax_data_raw[key]["values"][policy_in_place]["value"]
+    return tax_data

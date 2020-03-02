@@ -264,3 +264,33 @@ def apply_wg_formula(household, params, household_size):
         )
 
     return wg_amount
+
+
+def regrouped_wohngeld_formel(household, params, household_size):
+    # The formula is only valid for up to 12 household members
+    household_size_max = min(household_size, 12)
+    koeffizenten = params["koeffizienten"][household_size_max]
+    # There are parameters a, b, c, depending on hh size
+    wg_amount = np.maximum(
+        0,
+        params["faktor"]
+        * (
+            household["M"]
+            - (
+                (
+                    koeffizenten["a"]
+                    + (koeffizenten["b"] * household["M"])
+                    + (koeffizenten["c"] * household["Y"])
+                )
+                * household["Y"]
+            )
+        ),
+    )
+    # If more than 12 persons, there is a lump-sum on top.
+    # You may however not get more than the corrected rent "M".
+    if household_size > 12:
+        wg_amount = np.minimum(
+            household["M"], wg_amount + params["bonus_12_mehr"] * (household_size - 12),
+        )
+
+    return wg_amount
