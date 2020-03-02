@@ -137,12 +137,17 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
             intercepts[interval] = list_of_dicts[interval][
                 "intercept_at_lower_threshold"
             ]
-
-    # To Do: -----
-    # Insert check, if more than one, but not all intercepts are supplied. In this
-    # case we should raise an error, because either all or only the lowest one
-    # should be supplied.
-    # -----
+    else:
+        for interval in keys:
+            if (
+                interval != 0
+                and "intercept_at_lower_threshold" in list_of_dicts[interval]
+            ):
+                raise ValueError(
+                    "More than one, but not all intercepts are supplied. "
+                    "The dictionaries should contain either only the lowest intercept "
+                    "or all intercepts."
+                )
 
     # If only the first intercept is supplied, use fill_intercepts_at_lower_thresholds
     # to fill the missing ones.
