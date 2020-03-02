@@ -175,8 +175,8 @@ Alternatives
 Discussion
 ----------
 
-GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
-
+* GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
+* Discussion on provisional acceptance: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs/near/189539859
 
 Copyright
 ---------
