@@ -122,25 +122,20 @@ Python Identifiers (Functions, Variables)
 Python identifiers should generally be in English, unless they refer to a specific law
 or set of laws, which is where the same reasoning applies as above.
 
-The length of a variable name tends to be proportional to its scope. In a list
-comprehension or a short loop, ``i`` might be an acceptable name for the running
-variable. Variables that are used at many different places should have descriptive
-names.
-
-The name of variables should reflect the content or meaning of the variable and not the
-type (i.e., int, dict, list, ...). As for column names and parameters, in some cases it
-might be useful to append an underscore plus one of {``j``, ``m``, ``w``, ``t``} to
-indicate the time unit.
-
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., ``kinderfreibetrag``,
 ``zu_verst_e_ohne_kinderfreibetrag``). This makes searching for that identifier easier
 and less error-prone.
 
-Function names should contain a verb. Moreover, the length of a function name is
-typically inversely proportional to its scope. The public functions like maximize and
-minimize can have very short names. At a lower level of abstraction you typically need
-more words to describe what a function does.
+The length of an identifier name tends to be proportional to its scope. In a list
+comprehension or a short loop, ``i`` might be an acceptable name for the running
+variable. A function that is used in many different places should have a descriptive
+name.
+
+The name of variables should reflect the content or meaning of the variable and not the
+type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
+cases it might be useful to append an underscore plus one of {``j``, ``m``, ``w``,
+``t``} to indicate the time unit.
 
 
 Examples
@@ -180,9 +175,7 @@ Alternatives
 Discussion
 ----------
 
-GitHub PR
-
-Zulip discussion
+GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
 
 
 Copyright
