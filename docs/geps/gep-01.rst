@@ -146,9 +146,19 @@ more words to describe what a function does.
 Examples
 --------
 
-.. todo::
-
-    Add our discussion on naming the parameter group ``arbeitsl_geld`` as example.
+As an example we can consider the naming of the parameter group ``arbeitsl_geld``. The
+original name for this group of parameters was the abbreviation ``alg``. This will seem
+like a suitable candidate for native speakers who are familiar with the German social
+security system, as the abbreviation is commonly used to refer to this type of
+unemployment benefit. However, acronyms are generally not self-explanatory and users
+unfamiliar with them will thus not be able to guess their meaning without looking it up.
+More meaningful alternatives could be ``alo_geld`` or ``arb_los_geld``. These names
+uses abbreviations of the compounds of the term "Arbeitslosengeld" that the group name is
+supposed to reflect, and connect them in a pythonic manner through underscores. However,
+``alo_geld`` still leaves much room for interpretation and ``arb_los_geld`` separates
+the term in an odd way. The final choice ``arbeitsl_geld`` avoids all the disadvantages
+of the other options as it is an unambivalent, natural, and minimal abbreviation of the
+original term it is supposed to represent.
 
 
 Alternatives
