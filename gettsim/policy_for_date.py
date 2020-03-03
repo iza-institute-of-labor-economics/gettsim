@@ -168,11 +168,10 @@ def load_regrouped_wohngeld(year, month=1, day=1):
 
     actual_date = datetime.date(year=year, month=month, day=day)
     tax_data = {}
-    policy_dates = []
     for param in tax_data_raw:
-        for key in tax_data_raw[param].keys():
-            if type(key) == datetime.date:
-                policy_dates += [key]
+        policy_dates = sorted(
+            key for key in tax_data_raw[param].keys() if type(key) == datetime.date
+        )
         past_policies = [x for x in policy_dates if x <= actual_date]
         if not past_policies:
             # TODO: Should there be missing values or should the key not exist?
