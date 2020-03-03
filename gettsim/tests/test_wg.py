@@ -1,11 +1,14 @@
 import numpy as np
 import pandas as pd
 import pytest
+from numpy.testing import assert_allclose
 from pandas.testing import assert_frame_equal
 
+from gettsim.benefits.wohngeld import regrouped_wohngeld_formel
 from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
+from gettsim.policy_for_date import load_regrouped_wohngeld
 
 INPUT_COLS = [
     "pid",
@@ -59,6 +62,24 @@ def test_wg(input_data, year, wohngeld_raw_data):
         df[col] = np.nan
     df = df.groupby("hid").apply(wg, params=wohngeld_params)
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_regrouped_wohngeld_formula(input_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data.copy()
+    wohngeld_params = load_regrouped_wohngeld(year)
+
+    for hid in df["hid"].unique():
+        hh_size = len(df[df["hid"] == hid])
+        wohngeld_basis = regrouped_wohngeld_formel(
+            df[df["hid"] == hid], wohngeld_params, hh_size
+        )
+        assert_allclose(
+            year_data[year_data["hid"] == hid]["wohngeld_basis_hh"].iloc[0],
+            wohngeld_basis.iloc[0],
+            atol=0.1,
+        )
 
 
 @pytest.fixture(scope="module")

@@ -163,15 +163,23 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
     return pension_data
 
 
-def load_regrouped_wohngeld(tax_data_raw, actual_date):
+def load_regrouped_wohngeld(year, month=1, day=1):
+    tax_data_raw = yaml.safe_load((ROOT_DIR / "data" / "wohngeld_neu.yaml").read_text())
+
+    actual_date = datetime.date(year=year, month=month, day=day)
     tax_data = {}
-    for key in tax_data_raw:
-        policy_dates = tax_data_raw[key]["values"]
+    policy_dates = []
+    for param in tax_data_raw:
+        for key in tax_data_raw[param].keys():
+            if type(key) == datetime.date:
+                policy_dates += [key]
         past_policies = [x for x in policy_dates if x <= actual_date]
         if not past_policies:
             # TODO: Should there be missing values or should the key not exist?
-            tax_data[key] = np.nan
+            tax_data[param] = np.nan
         else:
             policy_in_place = np.max(past_policies)
-            tax_data[key] = tax_data_raw[key]["values"][policy_in_place]["value"]
+            tax_data[param] = tax_data_raw[param][policy_in_place]["value"]
+    tax_data["year"] = year
+    tax_data["date"] = actual_date
     return tax_data

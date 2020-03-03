@@ -16,13 +16,13 @@ faktor:
         reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
 
 koeffizienten:
-
     name:
       de: Parameter a, b, c der Wohngeldformel
       en:
     description:
       de:  WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
       en:
+    note: The keys from 1 to 12 below refer to the household size.
     1984-01-01:
       note: Parameter aus Regressionsanalyse der Wohngeldtabellen
       value:
