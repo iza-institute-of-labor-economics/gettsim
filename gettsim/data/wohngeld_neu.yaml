@@ -10,10 +10,10 @@ faktor:
         reference:
     2009-01-01:
         value: 1.08
-        reference:
+        reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
     2016-01-01:
         value: 1.15
-        reference: BGBl. Nr.38 vom 08.10.2015, S.1613
+        reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
 
 koeffizienten:
 
@@ -177,6 +177,7 @@ koeffizienten:
           b: 0.000377
           c: 0.0000173
     2001-01-01:
+      reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
       value:
         1:
           a: 0.063
@@ -227,6 +228,7 @@ koeffizienten:
           b: 0.000136
           c: 0.00006182
     2009-01-01:
+      reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
       value:
         1:
           a: 0.063
@@ -276,58 +278,8 @@ koeffizienten:
           a: -0.0899
           b: 0.000109
           c: 0.00006182
-    2015-01-01:
-      value:
-        1:
-          a: 0.063
-          b: 0.0007963
-          c: 0.00009102
-        2:
-          a: 0.057
-          b: 0.0005761
-          c: 0.00006431
-        3:
-          a: 0.055
-          b: 0.0005176
-          c: 0.0000325
-        4:
-          a: 0.047
-          b: 0.0003945
-          c: 0.00002325
-        5:
-          a: 0.042
-          b: 0.0003483
-          c: 0.00002151
-        6:
-          a: 0.037
-          b: 0.0003269
-          c: 0.00001519
-        7:
-          a: 0.033
-          b: 0.0003129
-          c: 8.75e-06
-        8:
-          a: 0.023
-          b: 0.0002959
-          c: 7.44e-06
-        9:
-          a: -0.0197
-          b: 0.0002245
-          c: 0.00003459
-        10:
-          a: -0.0401
-          b: 0.0001565
-          c: 0.0000514
-        11:
-          a: -0.066
-          b: 0.00012
-          c: 0.00005686
-        12:
-          a: -0.0899
-          b: 0.000109
-          c: 0.00006182
     2016-01-01:
-      reference: BGBl Nr.38 vom 08.10.2015, S.1617
+      reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
       value:
         1:
           a: 0.04
@@ -438,13 +390,13 @@ bonus_12_mehr:
     en:
   2001-01-01:
     value: 40
-    reference: BGBl. I vom 22.12.1999, S. 2671
+    reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
   2009-01-01:
     value: 43
-    reference: BGBl. I vom 24.09.2008, S. 1856
+    reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
   2016-01-01:
     value: 47
-    reference: G. v. 08.10.2015 BGBl. I S.1617
+    reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
   2020-01-01:
     value: 51
     reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
