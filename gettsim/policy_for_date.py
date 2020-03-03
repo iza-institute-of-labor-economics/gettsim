@@ -177,8 +177,16 @@ def load_regrouped_wohngeld(year, month=1, day=1):
             # TODO: Should there be missing values or should the key not exist?
             tax_data[param] = np.nan
         else:
-            policy_in_place = np.max(past_policies)
-            tax_data[param] = tax_data_raw[param][policy_in_place]["value"]
+            policy_in_place = tax_data_raw[param][np.max(past_policies)]
+            if "scalar" in policy_in_place.keys():
+                tax_data[param] = policy_in_place["scalar"]
+            else:
+                value_keys = sorted(
+                    key for key in policy_in_place.keys() if type(key) == int
+                )
+                tax_data[param] = {}
+                for key in value_keys:
+                    tax_data[param][key] = policy_in_place[key]
     tax_data["year"] = year
     tax_data["date"] = actual_date
     return tax_data
