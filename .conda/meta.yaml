@@ -23,7 +23,7 @@ requirements:
 
 test:
   commands:
-    # We cannot call pytest directly because the source files lay in
+    # We cannot call pytest directly because the source files rest in
     # ../work_moved_gettsim_* and not in the cwd.
     - python -c "import gettsim; gettsim.test()"
   files:
