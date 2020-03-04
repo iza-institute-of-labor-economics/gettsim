@@ -5,7 +5,7 @@ package:
   version: {{ data.get('version') }}
 
 source:
-  path: ../gettsim
+  path: ../../gettsim
 
 build:
   number: 0
@@ -23,7 +23,9 @@ requirements:
 
 test:
   commands:
-    - pytest
+    # We cannot call pytest directly because the source files lay in
+    # ../work_moved_gettsim_* and not in the cwd.
+    - python -c "import gettsim; gettsim.test()"
   files:
     - gettsim/tests/
   requires:
