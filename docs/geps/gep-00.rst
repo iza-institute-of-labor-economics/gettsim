@@ -178,9 +178,9 @@ more feedback and looking for opportunities to compromise.
 
 If the final comment period passes without any substantive objections, then the GEP can
 officially be marked ``Accepted``. You should send a follow-up message notifying the
-community (celebratory emoji optional but encouraged :tada: :sparkles:), and then update
-the GEP by setting its ``:Status:`` to ``Accepted``, and its ``:Resolution:`` header to
-a link to your follow-up message.
+community (celebratory emoji optional but encouraged 🎉✨), and then update the GEP
+by setting its ``:Status:`` to ``Accepted``, and its ``:Resolution:`` header to a link
+to your follow-up message.
 
 If there *are* substantive objections, then the GEP remains in ``Draft`` state,
 discussion continues as normal, and it can be proposed for acceptance again later once
