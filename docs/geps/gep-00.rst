@@ -178,7 +178,7 @@ more feedback and looking for opportunities to compromise.
 
 If the final comment period passes without any substantive objections, then the GEP can
 officially be marked ``Accepted``. You should send a follow-up message notifying the
-community (celebratory emoji optional but encouraged :tada::sparkles:), and then update
+community (celebratory emoji optional but encouraged :tada: :sparkles:), and then update
 the GEP by setting its ``:Status:`` to ``Accepted``, and its ``:Resolution:`` header to
 a link to your follow-up message.
 
