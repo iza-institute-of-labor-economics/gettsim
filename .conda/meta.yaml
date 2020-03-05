@@ -8,15 +8,15 @@ source:
   path: ../../gettsim
 
 build:
-  number: 0
+  noarch: python
 
 requirements:
   build:
-    - python {{ python }}
+    - python
     - setuptools
 
   run:
-    - python {{ python }}
+    - python >=3.6
     - pandas
     - pytest
     - pyyaml
@@ -26,12 +26,6 @@ test:
     # We cannot call pytest directly because the source files rest in
     # ../work_moved_gettsim_[0-9]+ and not in the cwd.
     - python -c "import gettsim; gettsim.test()"
-  files:
-    - gettsim/tests/
-  requires:
-    - pytest
-    - pytest-cov
-    - pytest-xdist
   imports:
     - gettsim
 

@@ -5,28 +5,13 @@ before you run the script. The steps for this are explained here:
 https://conda.io/docs/user-guide/tutorials/build-pkgs.html
 
 """
-from os.path import join
-from os.path import split
-from subprocess import run
+from pathlib import Path
 
 from conda_build.api import build
-from conda_build.api import convert
+
+
+REPO = (Path(__file__).parent / "..").resolve()
 
 
 if __name__ == "__main__":
-    platforms = ["osx-64", "linux-32", "linux-64", "win-32", "win-64"]
-    built_packages = build(".", need_source_download=False)
-    converted_packages = []
-
-    for path in built_packages:
-        helper, package_name = split(path)
-        out_root, os = split(helper)
-        pfs = [pf for pf in platforms if pf != os]
-        convert(path, output_dir=out_root, platforms=pfs)
-        for pf in pfs:
-            converted_packages.append(join(out_root, pf, package_name))
-
-    all_packages = built_packages + converted_packages
-    for package in all_packages:
-        _, package_name = split(package)
-        run(["anaconda", "upload", "--user", "gettsim", package])
+    build(str(REPO), user="gettsim", need_source_download=False)
