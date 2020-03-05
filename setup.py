@@ -19,13 +19,13 @@ PROJECT_URLS = {
 
 setup(
     name="gettsim",
-    version="0.2.1dev0",
+    version="0.2.1",
     description=DESCRIPTION,
     long_description=DESCRIPTION + "\n\n" + README,
     long_description_content_type="text/x-rst",
     author="Hans-Martin von Gaudecker",
     author_email="gaudecker@iza.org",
-    python_requires=">=3.6.0",
+    python_requires=">=3.6",
     url="https://gettsim.readthedocs.io",
     project_urls=PROJECT_URLS,
     packages=find_packages(),
