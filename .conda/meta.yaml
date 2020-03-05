@@ -24,7 +24,7 @@ requirements:
 test:
   commands:
     # We cannot call pytest directly because the source files rest in
-    # ../work_moved_gettsim_* and not in the cwd.
+    # ../work_moved_gettsim_[0-9]+ and not in the cwd.
     - python -c "import gettsim; gettsim.test()"
   files:
     - gettsim/tests/
