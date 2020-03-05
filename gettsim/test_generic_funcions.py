@@ -122,7 +122,7 @@ def test_get_dict_of_arrays_piecewise_linear_len(input_data):
 def test_get_dict_of_arrays_piecewise_linear_wrong_key(input_data):
     with pytest.raises(
         ValueError,
-        match="The keys of the passed list of dictionaries " "do not start with 0.",
+        match="The keys of the passed list of dictionaries do not start with 0.",
     ):
         get_dict_of_arrays_piecewise_linear(input_data["dict_wrong_key"])
 
@@ -158,7 +158,7 @@ def test_get_dict_of_arrays_piecewise_linear_missing_threshold(input_data):
 def test_get_dict_of_arrays_piecewise_linear_missing_rate(input_data):
     with pytest.raises(
         ValueError,
-        match="Current Key: 1. The current " "dictionary has no rate specified.",
+        match="Current Key: 1. The current dictionary has no rate specified.",
     ):
         get_dict_of_arrays_piecewise_linear(input_data["dict_missing_rate"])
 
