@@ -89,7 +89,7 @@ def get_dict_of_arrays_piecewise_linear(list_of_dicts):
     upper_thresholds = np.zeros(len(keys))
 
     # Check if highest upper_threshold exists.
-    if "upper_threshold" not in list_of_dicts[-1]:
+    if "upper_threshold" not in list_of_dicts[keys[-1]]:
         raise ValueError(
             "The last dictionary needs to contain a upper_threshold value."
         )
