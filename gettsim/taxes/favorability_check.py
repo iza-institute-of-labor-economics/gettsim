@@ -18,11 +18,11 @@ def favorability_check(tax_unit, params):
     # relevant incometax
     tax_unit.loc[:, "eink_st_tu"] = 0
     # Income Tax in monthly terms! And write only to parents
-    tax_unit.loc[~tax_unit["kind"], "incometax_tu"] = (
-        tax_unit["tax_" + max_inc + "_tu"] / 12
+    tax_unit.loc[~tax_unit["kind"], "eink_st_tu"] = (
+        tax_unit["_st_" + max_inc + "_tu"] / 12
     )
     # set kindergeld to zero if necessary.
-    if (not ("nokfb" in max_inc)) | (params["year"] <= 1996):
+    if (not ("kein_kind_freib" in max_inc)) | (params["year"] <= 1996):
         tax_unit.loc[:, "kindergeld"] = 0
         tax_unit.loc[:, "kindergeld_tu"] = 0
     if "abg" in max_inc:
@@ -48,7 +48,7 @@ def get_max_inc(tax_unit, params):
         inc_list += [tax_unit["_st_" + inc + "_tu"].max()]
         # for those tax bases without capital taxes in tariff,
         # add abgeltungssteuer
-        if "abg" not in inc:
+        if "abgelt" not in inc:
             inc_list[i] += tax_unit["abgelt_st_tu"].iloc[0]
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
