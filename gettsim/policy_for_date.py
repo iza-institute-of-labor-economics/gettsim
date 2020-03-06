@@ -18,9 +18,9 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
-from gettsim.taxes.calc_taxes import tarif
-from gettsim.taxes.kindergeld import kg_eligibility_hours
-from gettsim.taxes.kindergeld import kg_eligibility_wage
+from gettsim.taxes.e_st import st_tarif
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.soli_st import keine_soli_st
 from gettsim.taxes.soli_st import soli_st_formel_1991_92
 from gettsim.taxes.soli_st import soli_st_formel_seit_1995
@@ -76,9 +76,9 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
 
     elif group == "kindergeld":
         if year > 2011:
-            tax_data["childben_elig_rule"] = kg_eligibility_hours
+            tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_stunden
         else:
-            tax_data["childben_elig_rule"] = kg_eligibility_wage
+            tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_lohn
 
     elif group == "wohngeld":
         if year < 2009:
@@ -87,7 +87,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
             tax_data["calc_max_rent"] = calc_max_rent_since_2009
 
     elif group == "e_st":
-        tax_data["tax_schedule"] = tarif
+        tax_data["tax_schedule"] = st_tarif
 
     elif group == "soli_st":
         if year in [1991, 1992]:

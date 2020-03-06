@@ -55,7 +55,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
 
     # First, we need to count the number of children eligible to child benefit.
     # (§6a (1) Nr. 1 BKGG)
-    household["child_kg"] = kindergeld_params["childben_elig_rule"](
+    household["child_kg"] = kindergeld_params["kindergeld_anspruch_regel"](
         household, kindergeld_params
     )
     household["child_num_kg"] = household["child_kg"].sum()

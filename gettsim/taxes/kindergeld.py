@@ -14,7 +14,7 @@ def kindergeld(tax_unit, params):
             kindergeld_tu_basis: Kindergeld summed up within the tax unit
     """
 
-    child_count = params["childben_elig_rule"](tax_unit, params).cumsum()
+    child_count = params["kindergeld_anspruch_regel"](tax_unit, params).cumsum()
 
     kg_amounts = {
         1: params["kgeld1"],
@@ -29,31 +29,31 @@ def kindergeld(tax_unit, params):
     return tax_unit
 
 
-def kg_eligibility_hours(tax_unit, params):
+def kindergeld_anspruch_nach_stunden(tax_unit, params):
     """ Nowadays, kids must not work more than 20 hour
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
     """
-    elig = tax_unit["age"] <= 18
-    elig[
+    anspruch = tax_unit["age"] <= 18
+    anspruch[
         (tax_unit["age"].between(19, params["kgage"]))
         & tax_unit["ineducation"]
         & (tax_unit["w_hours"] <= 20)
     ] = True
 
-    return elig
+    return anspruch
 
 
-def kg_eligibility_wage(tax_unit, params):
+def kindergeld_anspruch_nach_lohn(tax_unit, params):
     """ Before 2011, there was an income ceiling for children
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
     """
-    elig = tax_unit["age"] <= 18
-    elig[
+    anspruch = tax_unit["age"] <= 18
+    anspruch[
         (tax_unit["age"].between(19, params["kgage"]))
         & tax_unit["ineducation"]
         & (tax_unit["m_wage"] <= params["kgfreib"] / 12)
     ] = True
 
-    return elig
+    return anspruch
