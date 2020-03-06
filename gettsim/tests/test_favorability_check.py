@@ -14,18 +14,18 @@ INPUT_COLS = [
     "hid",
     "tu_id",
     "pid",
-    "zveranl",
-    "child",
-    "tax_nokfb_tu",
-    "tax_kfb_tu",
+    "gem_veranlagt",
+    "kind",
+    "_st_kein_kind_freib_tu",
+    "_st_kind_freib_tu",
     "abgelt_st_tu",
     "kindergeld_basis",
     "kindergeld_tu_basis",
     "year",
 ]
-OUT_COLS = ["incometax_tu", "incometax", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
+OUT_COLS = ["eink_st_tu", "eink_st", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
 YEARS = [2010, 2012, 2016]
-TEST_COLUMNS = ["incometax_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
+TEST_COLUMNS = ["eink_st_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
 
 
 @pytest.fixture(scope="module")

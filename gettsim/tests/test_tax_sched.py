@@ -11,14 +11,14 @@ INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "child",
-    "zve_nokfb",
-    "zve_kfb",
-    "zve_abg_kfb",
-    "zve_abg_nokfb",
-    "gross_e5",
-    "zveranl",
-    "gross_e5_tu",
+    "kind",
+    "_zu_versteuerndes_eink_kein_kind_freib",
+    "_zu_versteuerndes_eink_kind_freib",
+    "_zu_versteuerndes_eink_abgelt_st_kind_freib",
+    "_zu_versteuerndes_eink_abgelt_st_kein_kind_freib",
+    "brutto_eink_5",
+    "gem_veranlagt",
+    "brutto_eink_5_tu",
 ]
 
 YEARS = [2009, 2012, 2015, 2018]
@@ -40,7 +40,13 @@ def test_tax_sched(
     soli_st_raw_data,
     abgelt_st_raw_data,
 ):
-    columns = ["tax_nokfb", "tax_kfb", "abgelt_st", "soli", "soli_tu"]
+    columns = [
+        "_st_kein_kind_freib_tu",
+        "_st_kind_freib_tu",
+        "abgelt_st",
+        "soli_st",
+        "soli_st_tu",
+    ]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     e_st_abzuege_params = get_policies_for_date(
@@ -56,9 +62,9 @@ def test_tax_sched(
         year=year, group="abgelt_st", raw_group_data=abgelt_st_raw_data
     )
     OUT_COLS = (
-        [f"tax_{inc}" for inc in e_st_abzuege_params["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]]
-        + ["abgelt_st_tu", "abgelt_st", "soli", "soli_tu"]
+        [f"_st_{inc}" for inc in e_st_abzuege_params["eink_arten"]]
+        + [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]]
+        + ["abgelt_st_tu", "abgelt_st", "soli_st", "soli_st_tu"]
     )
 
     for col in OUT_COLS:

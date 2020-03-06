@@ -12,8 +12,8 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
         It's always the most favorable for the taxpayer, but you know that only after
          applying the tax schedule
     """
-    adult_married = ~tax_unit["child"] & tax_unit["zveranl"]
-    # married = [tax_unit['zveranl'], ~tax_unit['zveranl']]
+    adult_married = ~tax_unit["child"] & tax_unit["gem_veranlagt"]
+    # married = [tax_unit['gem_veranlagt'], ~tax_unit['gem_veranlagt']]
     # create output dataframe and transter some important variables
 
     ####################################################
@@ -123,7 +123,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     diff_kifreib = nokfb_lower - (kifreib_total * kigeld_kinder)
     # If the couple is married and one earns not enough to split the kinderfeibetrag,
     # things get a bit more complicated
-    if diff_kifreib < 0 & tax_unit[~tax_unit["child"]]["zveranl"].all():
+    if diff_kifreib < 0 & tax_unit[~tax_unit["child"]]["gem_veranlagt"].all():
 
         # The high earner gets half of the total kinderfreibetrag plus the amount the
         # lower earner can't claim.
@@ -164,7 +164,7 @@ def zve_nokfb(tax_unit, params):
 
 def zve_abg_nokfb(tax_unit, params):
     """Calculates the zve with capital income in the tax base."""
-    if tax_unit[~tax_unit["child"]]["zveranl"].all():
+    if tax_unit[~tax_unit["child"]]["gem_veranlagt"].all():
         tax_unit.loc[~tax_unit["child"], "zve_abg_nokfb"] = np.maximum(
             0,
             tax_unit["gross_gde"]
@@ -371,7 +371,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
 
     # Distinguish between married and singles
     # Single Taxpayer
-    if not tax_unit["zveranl"].max():
+    if not tax_unit["gem_veranlagt"].max():
         if params["year"] <= 2019:
             # Amount 1: Basic deduction, based on earnings. Usually zero.
             item_1 = np.maximum(
@@ -391,7 +391,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         # (up until 50% of 'Grundhöchstbetrag')
         item_3 = np.minimum(0.5 * (vorsorg_rest - item_2), 0.5 * params["grundbet"])
     # For the married couple, the same stuff, but with tu totals.
-    if tax_unit["zveranl"].max():
+    if tax_unit["gem_veranlagt"].max():
         for var in ["m_wage", "rvbeit", "gkvbeit"]:
             tax_unit[f"{var}_tu"] = tax_unit.loc[~tax_unit["child"], "m_wage"].sum()
         if params["year"] <= 2019:

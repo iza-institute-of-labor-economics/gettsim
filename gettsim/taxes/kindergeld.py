@@ -34,11 +34,11 @@ def kindergeld_anspruch_nach_stunden(tax_unit, params):
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
     """
-    anspruch = tax_unit["age"] <= 18
+    anspruch = tax_unit["alter"] <= 18
     anspruch[
-        (tax_unit["age"].between(19, params["kgage"]))
-        & tax_unit["ineducation"]
-        & (tax_unit["w_hours"] <= 20)
+        (tax_unit["alter"].between(19, params["kgage"]))
+        & tax_unit["in_ausbildung"]
+        & (tax_unit["arbeitsstund_w"] <= 20)
     ] = True
 
     return anspruch
@@ -49,11 +49,11 @@ def kindergeld_anspruch_nach_lohn(tax_unit, params):
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
     """
-    anspruch = tax_unit["age"] <= 18
+    anspruch = tax_unit["alter"] <= 18
     anspruch[
-        (tax_unit["age"].between(19, params["kgage"]))
-        & tax_unit["ineducation"]
-        & (tax_unit["m_wage"] <= params["kgfreib"] / 12)
+        (tax_unit["alter"].between(19, params["kgage"]))
+        & tax_unit["in_ausbildung"]
+        & (tax_unit["lohn_m"] <= params["kgfreib"] / 12)
     ] = True
 
     return anspruch
