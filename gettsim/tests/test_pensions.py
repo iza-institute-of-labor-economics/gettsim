@@ -12,12 +12,11 @@ INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "m_wage",
-    "east",
-    "age",
+    "lohn_m",
+    "ostdeutsch",
+    "alter",
     "year",
-    "byear",
-    "exper",
+    "geburtsjahr",
     "EP",
 ]
 

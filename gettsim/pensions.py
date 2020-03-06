@@ -57,9 +57,9 @@ def update_earnings_points(person, params, soz_vers_beitr_params, year):
 
 def _ep_for_earnings(person, params, soz_vers_beitr_params, year):
     """Return earning points for the wages earned in the last year."""
-    westost = "o" if person["east"] else "w"
+    westost = "o" if person["ostdeutsch"] else "w"
     return (
-        min(person["m_wage"], soz_vers_beitr_params["rvmaxek" + westost])
+        min(person["lohn_m"], soz_vers_beitr_params["rvmaxek" + westost])
         / params[f"meanwages_{year}"]
     )
 
@@ -76,18 +76,18 @@ def _zugangsfaktor(person):
     claim."""
     regelaltersgrenze = _regelaltersgrenze(person)
 
-    return (person["age"] - regelaltersgrenze) * 0.036 + 1
+    return (person["alter"] - regelaltersgrenze) * 0.036 + 1
 
 
 def _regelaltersgrenze(person):
     """Calculates the age, at which a worker is eligible to claim his full pension."""
     # If born after 1947, each birth year raises the age threshold by one month.
-    if person["byear"] > 1947:
-        regelaltersgrenz = min(67, ((person["byear"] - 1947) / 12) + 65)
+    if person["geburtsjahr"] > 1947:
+        regelaltersgrenze = min(67, ((person["geburtsjahr"] - 1947) / 12) + 65)
     else:
-        regelaltersgrenz = 65
+        regelaltersgrenze = 65
 
-    return regelaltersgrenz
+    return regelaltersgrenze
 
 
 def _rentenwert_until_2017(params, year):

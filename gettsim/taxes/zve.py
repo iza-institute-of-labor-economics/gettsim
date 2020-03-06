@@ -333,16 +333,16 @@ def calc_gross_e7(tax_unit, params):
     """ Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
     pensions."""
     # The share of pensions subject to income taxation
-    tax_unit.loc[tax_unit["rente_eint_alter"] <= 2004, "ertragsanteil"] = 0.27
+    tax_unit.loc[tax_unit["rente_eint_jahr"] <= 2004, "_ertragsanteil"] = 0.27
     tax_unit.loc[
-        tax_unit["rente_eint_alter"].between(2005, 2020), "ertragsanteil"
-    ] = 0.5 + 0.02 * (tax_unit["rente_eint_alter"] - 2005)
+        tax_unit["rente_eint_jahr"].between(2005, 2020), "_ertragsanteil"
+    ] = 0.5 + 0.02 * (tax_unit["rente_eint_jahr"] - 2005)
     tax_unit.loc[
-        tax_unit["rente_eint_alter"].between(2021, 2040), "ertragsanteil"
-    ] = 0.8 + 0.01 * (tax_unit["rente_eint_alter"] - 2020)
-    tax_unit.loc[tax_unit["rente_eint_alter"] >= 2041, "ertragsanteil"] = 1
+        tax_unit["rente_eint_jahr"].between(2021, 2040), "_ertragsanteil"
+    ] = 0.8 + 0.01 * (tax_unit["rente_eint_jahr"] - 2020)
+    tax_unit.loc[tax_unit["rente_eint_jahr"] >= 2041, "_ertragsanteil"] = 1
     tax_unit.loc[:, "brutto_eink_7"] = np.maximum(
-        12 * (tax_unit["ertragsanteil"] * tax_unit["rente_m"])
+        12 * (tax_unit["_ertragsanteil"] * tax_unit["rente_m"])
         - params["vorsorgpausch"],
         0,
     )

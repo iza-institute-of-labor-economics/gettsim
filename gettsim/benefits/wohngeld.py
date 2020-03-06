@@ -22,7 +22,7 @@ def wg(household, params):
     household["wohngeld_basis"] = apply_wg_formula(household, params, household_size)
 
     # Sum of wohngeld within household
-    wg_head = household["wohngeld_basis"] * household["head_tu"]
+    wg_head = household["wohngeld_basis"] * household["tu_vorstand"]
     household.loc[:, "wohngeld_basis_hh"] = wg_head.sum()
     household = household.round({"wohngeld_basis_hh": 2})
     return household
@@ -39,7 +39,7 @@ def calc_wg_rent(household, params, household_size):
     else:
         mietstufe = 3
 
-    cnstyr = household["cnstyr"].iloc[0]
+    cnstyr = household["baujahr"].iloc[0]
     # First max rent
     # Before 2009, they differed by construction year of the house
     max_rent = params["calc_max_rent"](params, household_size, cnstyr, mietstufe)
@@ -53,7 +53,7 @@ def calc_wg_rent(household, params, household_size):
     )
     # distribute max rent among the tax units
     max_rent_dist = max_rent * tax_unit_share
-    wgmiete = np.minimum(max_rent_dist, household["miete"] * tax_unit_share)
+    wgmiete = np.minimum(max_rent_dist, household["kaltmiete_m"] * tax_unit_share)
     # wg["wgheiz"] = household["heizkost"] * tax_unit_share
     return np.maximum(wgmiete, min_rent)
 
@@ -106,51 +106,52 @@ def calc_wg_income(household, params, household_size):
     wohngeld."""
     # Start with income revelant for the housing beneift
     # tax-relevant share of pensions for tax unit
-    household["pens_steuer"] = household["ertragsanteil"] * household["m_pensions"]
-    household["pens_steuer_tu_k"] = household.groupby("tu_id")["pens_steuer"].transform(
+    household["_st_rente"] = household["_ertragsanteil"] * household["rente_m"]
+    household["_st_rente_tu_k"] = household.groupby("tu_id")["_st_rente"].transform(
         "sum"
     )
     # Different incomes on tu base
     for inc in [
-        "m_alg1",
-        "m_transfers",
-        "gross_e1",
-        "gross_e4",
-        "gross_e5",
-        "gross_e6",
-        "incometax",
-        "rvbeit",
-        "gkvbeit",
-        "uhv",
+        "arbeitsl_geld_m",
+        "sonstig_eink_m",
+        "brutto_eink_1",
+        "brutto_eink_4",
+        "brutto_eink_5",
+        "brutto_eink_6",
+        "eink_st",
+        "rentenv_beit_m",
+        "krankv_beit_m",
+        "unterhalt_vors_m",
         "elterngeld",
     ]:
+        # TODO Why is there a k in the end? It does not differ from the usual tu sum!
         household[f"{inc}_tu_k"] = household.groupby("tu_id")[inc].transform("sum")
 
-    household["wg_abzuege"] = calc_wg_abzuege(household, params)
+    household["_wohngeld_abzüge"] = calc_wg_abzuege(household, params)
     # Relevant income is market income + transfers...
-    household["wg_grossY"] = calc_wg_gross_income(household)
-    household["wg_otherinc"] = household[
+    household["_wohngeld_brutto_eink"] = calc_wg_gross_income(household)
+    household["_wohngeld_sonstiges_eink"] = household[
         [
-            "m_alg1_tu_k",
-            "m_transfers_tu_k",
-            "pens_steuer_tu_k",
-            "uhv_tu_k",
+            "arbeitsl_geld_m_tu_k",
+            "sonstig_eink_m_tu_k",
+            "_st_rente_tu_k",
+            "unterhalt_vors_m_tu_k",
             "elterngeld_tu_k",
         ]
     ].sum(axis=1)
 
     # ... minus a couple of lump-sum deductions for handicaps,
     # children income or being single parent
-    household["wg_incdeduct"] = calc_wg_income_deductions(household, params)
-    household["wg_incdeduct_tu_k"] = household.groupby("tu_id")[
-        "wg_incdeduct"
+    household["_wohngeld_eink_abzüge"] = calc_wg_income_deductions(household, params)
+    household["_wohngeld_eink_abzüge_tu_k"] = household.groupby("tu_id")[
+        "_wohngeld_eink_abzüge"
     ].transform("sum")
-    prelim_y = (1 - household["wg_abzuege"]) * np.maximum(
+    prelim_y = (1 - household["_wohngeld_abzüge"]) * np.maximum(
         0,
         (
-            household["wg_grossY"]
-            + household["wg_otherinc"]
-            - household["wg_incdeduct_tu_k"]
+            household["_wohngeld_brutto_eink"]
+            + household["_wohngeld_sonstiges_eink"]
+            - household["_wohngeld_eink_abzüge_tu_k"]
         ),
     )
     # There's a minimum Y depending on the hh size
@@ -161,9 +162,9 @@ def calc_wg_abzuege(household, params):
     # There share of income to be deducted is 0/10/20/30%, depending on whether
     # household is subject to income taxation and/or payroll taxes
     wg_abz = (
-        (household["incometax_tu_k"] > 0) * 1
-        + (household["rvbeit_tu_k"] > 0) * 1
-        + (household["gkvbeit_tu_k"] > 0) * 1
+        (household["eink_st_tu_k"] > 0) * 1
+        + (household["rentenv_beit_m_tu_k"] > 0) * 1
+        + (household["krankv_beit_m_tu_k"] > 0) * 1
     )
 
     wg_abz_amounts = {
@@ -178,10 +179,10 @@ def calc_wg_abzuege(household, params):
 
 def calc_wg_gross_income(household):
     out = (
-        np.maximum(household["gross_e1_tu_k"] / 12, 0)
-        + np.maximum(household["gross_e4_tu_k"] / 12, 0)
-        + np.maximum(household["gross_e5_tu_k"] / 12, 0)
-        + np.maximum(household["gross_e6_tu_k"] / 12, 0)
+        np.maximum(household["brutto_eink_1_tu_k"] / 12, 0)
+        + np.maximum(household["brutto_eink_4_tu_k"] / 12, 0)
+        + np.maximum(household["brutto_eink_5_tu_k"] / 12, 0)
+        + np.maximum(household["brutto_eink_6_tu_k"] / 12, 0)
     )
     return out
 
@@ -198,18 +199,18 @@ def _calc_wg_income_deductions_until_2015(household, params):
     """ calculate special deductions for handicapped, single parents
     and children who are working
     """
-    household["child_below_11"] = household["age"].lt(11)
-    household["n_children_below_11_tu"] = (
-        household.groupby("tu_id")["child_below_11"].transform("sum").astype(int)
+    household["_kind_unter_11"] = household["alter"].lt(11)
+    household["_anzahl_kinder_unter_11"] = (
+        household.groupby("tu_id")["_kind_unter_11"].transform("sum").astype(int)
     )
-    workingchild = household["child"] & (household["m_wage"] > 0)
+    workingchild = household["kind"] & (household["lohn_m"] > 0)
     wg_incdeduct = (
-        (household["handcap_degree"] > 80) * params["wgpfbm80"]
-        + household["handcap_degree"].between(1, 80) * params["wgpfbu80"]
-        + (workingchild * np.minimum(params["wgpfb24"], household["m_wage"]))
+        (household["behinderungsgrad"] > 80) * params["wgpfbm80"]
+        + household["behinderungsgrad"].between(1, 80) * params["wgpfbu80"]
+        + (workingchild * np.minimum(params["wgpfb24"], household["lohn_m"]))
         + (
-            (household["alleinerz"] & (~household["child"]))
-            * household["n_children_below_11_tu"]
+            (household["alleinerziehend"] & (~household["kind"]))
+            * household["_anzahl_kinder_unter_11"]
             * params["wgpfb12"]
         )
     )
@@ -220,11 +221,11 @@ def _calc_wg_income_deductions_since_2016(household, params):
     """ calculate special deductions for handicapped, single parents
     and children who are working
     """
-    workingchild = household["child"] & (household["m_wage"] > 0)
+    workingchild = household["kind"] & (household["lohn_m"] > 0)
     wg_incdeduct = (
-        (household["handcap_degree"] > 0) * params["wgpfbm80"]
-        + (workingchild * np.minimum(params["wgpfb24"], household["m_wage"]))
-        + (household["alleinerz"] * params["wgpfb12"] * (~household["child"]))
+        (household["behinderungsgrad"] > 0) * params["wgpfbm80"]
+        + (workingchild * np.minimum(params["wgpfb24"], household["lohn_m"]))
+        + (household["alleinerziehend"] * params["wgpfb12"] * (~household["kind"]))
     )
     return wg_incdeduct
 
