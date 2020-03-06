@@ -13,23 +13,23 @@ INPUT_COLS = [
     "hid",
     "tu_id",
     "pid",
-    "child",
-    "m_wage",
-    "m_wage_l1",
-    "east",
-    "incometax",
-    "soli",
-    "svbeit",
-    "byear",
-    "bmonth",
-    "bday",
-    "elterngeld_mon_mut",
-    "elterngeld_mon_vat",
-    "elterngeld_mon",
+    "kind",
+    "lohn_m",
+    "dur_eink_vorj_m",
+    "ostdeutsch",
+    "eink_st",
+    "soli_st",
+    "sozialv_beit_m",
+    "geburtsjahr",
+    "geburtsmonat",
+    "geburtstag",
+    "elterngeld_mut_m",
+    "elterngeld_vat_m",
+    "elterngeld_m",
     "year",
 ]
 
-OUT_COLS = ["elterngeld", "geschw_bonus", "num_mehrlinge", "elternzeit_anspruch"]
+OUT_COLS = ["elterngeld", "geschw_bonus", "anz_mehrlinge", "elternzeit_anspruch"]
 YEARS = [2017, 2018, 2019]
 
 

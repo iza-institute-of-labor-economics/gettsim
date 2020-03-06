@@ -75,7 +75,7 @@ def calc_elterngeld(
         )
         if person["geschw_bonus"]:
             prelim_elterngeld += calc_geschw_bonus(elterngeld_calc, params)
-        prelim_elterngeld += person["num_mehrlinge"] * params["mehrling_bonus"]
+        prelim_elterngeld += person["anz_mehrlinge"] * params["mehrling_bonus"]
         person["elterngeld"] = prelim_elterngeld
 
     return person
@@ -96,7 +96,7 @@ def calc_considered_wage(
     child raising.
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["east"] else "w"
+    westost = "o" if person["ostdeutsch"] else "w"
 
     net_wage_last_year = proxy_net_wage_last_year(
         person,
@@ -146,7 +146,10 @@ def calc_net_wage(person):
 
     """
     net_wage = (
-        person["m_wage"] - person["incometax"] - person["soli"] - person["svbeit"]
+        person["lohn_m"]
+        - person["eink_st"]
+        - person["soli_st"]
+        - person["sozialv_beit_m"]
     )
 
     return net_wage
@@ -172,20 +175,20 @@ def check_eligibilities(household, params):
     """
     household["elternzeit_anspruch"] = False
     household["geschw_bonus"] = False
-    household["num_mehrlinge"] = 0
+    household["anz_mehrlinge"] = 0
 
-    children = household[household["child"]]
+    children = household[household["kind"]]
     # Are there any children
     if len(children) > 0:
         youngest_child = children[
-            (children["byear"] == np.max(children["byear"]))
-            & (children["bmonth"] == np.max(children["bmonth"]))
+            (children["geburtsjahr"] == np.max(children["geburtsjahr"]))
+            & (children["geburtsmonat"] == np.max(children["geburtsmonat"]))
         ]
         # Get the birthdate of the youngest child(If "Mehrlinge", then just take one)
         birth_date = datetime.date(
-            day=youngest_child["bday"].iloc[0].astype(int),
-            month=youngest_child["bmonth"].iloc[0].astype(int),
-            year=youngest_child["byear"].iloc[0].astype(int),
+            day=youngest_child["geburtstag"].iloc[0].astype(int),
+            month=youngest_child["geburtsmonat"].iloc[0].astype(int),
+            year=youngest_child["geburtsjahr"].iloc[0].astype(int),
         )
         age_youngest_child = relativedelta.relativedelta(params["date"], birth_date)
         # Age in months
@@ -196,23 +199,23 @@ def check_eligibilities(household, params):
         eligible_age = age_months <= params["max_joint_months"]
         # The parents can only claim up to 14 month elterngeld
         eligible_consumed = (
-            youngest_child["elterngeld_mon_mut"].iloc[0]
-            + youngest_child["elterngeld_mon_vat"].iloc[0]
+            youngest_child["elterngeld_mut_m"].iloc[0]
+            + youngest_child["elterngeld_vat_m"].iloc[0]
         ) <= 14
         # Parents are eligible for elterngeld, if the child is young enough and they
         # have not yet consumed all elterngeld months.
         if eligible_age & eligible_consumed:
             # Each parent can't claim more than 12 month
-            eligible = ~household["child"] & (
-                household["elterngeld_mon"] <= params["max_months"]
+            eligible = ~household["kind"] & (
+                household["elterngeld_m"] <= params["max_months"]
             )
 
             household.loc[eligible, "elternzeit_anspruch"] = True
 
-            if (len(children[(params["year"] - children["byear"]) < 3]) == 2) | (
-                len(children[(params["year"] - children["byear"]) < 6]) > 2
+            if (len(children[(params["year"] - children["geburtsjahr"]) < 3]) == 2) | (
+                len(children[(params["year"] - children["geburtsjahr"]) < 6]) > 2
             ):
                 household.loc[eligible, "geschw_bonus"] = True
-                household.loc[eligible, "num_mehrlinge"] = len(youngest_child) - 1
+                household.loc[eligible, "anz_mehrlinge"] = len(youngest_child) - 1
 
     return household
