@@ -106,7 +106,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
 
     # Count number of children eligible for Child Benefit.
     # Child allowance is only received for these kids.
-    kigeld_kinder = kindergeld_params["childben_elig_rule"](
+    kigeld_kinder = kindergeld_params["kindergeld_anspruch_regel"](
         tax_unit, kindergeld_params
     ).sum()
 
