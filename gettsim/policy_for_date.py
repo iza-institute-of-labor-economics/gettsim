@@ -72,7 +72,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
         # else:
         #     tax_data["zve_list"] = ["nokfb", "kfb"]
-        tax_data["zve_list"] = ["nokfb", "kfb"]
+        tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
 
     elif group == "kindergeld":
         if year > 2011:
@@ -87,7 +87,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
             tax_data["calc_max_rent"] = calc_max_rent_since_2009
 
     elif group == "e_st":
-        tax_data["tax_schedule"] = st_tarif
+        tax_data["st_tarif"] = st_tarif
 
     elif group == "soli_st":
         if year in [1991, 1992]:
