@@ -71,7 +71,7 @@ To release a new major or minor version of GETTSIM, do the following.
 
    .. code-block:: bash
 
-       $ python .conda/release.py
+       $ conda build . --user gettsim
 
    which uploads the new release to the `repository on Anaconda.org
    <https://anaconda.org/gettsim/gettsim>`_.

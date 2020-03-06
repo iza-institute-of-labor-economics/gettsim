@@ -22,10 +22,12 @@ requirements:
     - pyyaml
 
 test:
+  source_files:
+    - gettsim/data/*
+    - gettsim/tests/*
+    - setup.cfg
   commands:
-    # We cannot call pytest directly because the source files rest in
-    # ../work_moved_gettsim_[0-9]+ and not in the cwd.
-    - python -c "import gettsim; gettsim.test()"
+    - pytest
   imports:
     - gettsim
 
