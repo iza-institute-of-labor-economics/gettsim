@@ -194,7 +194,7 @@ def tax_transfer(
     out_cols = (
         [f"tax_{inc}" for inc in e_st_abzuege_params["zve_list"]]
         + [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]]
-        + ["abgst_tu", "abgst", "soli", "soli_tu"]
+        + ["abgelt_st_tu", "abgelt_st", "soli", "soli_tu"]
     )
     df = apply_tax_transfer_func(
         df,
@@ -223,7 +223,7 @@ def tax_transfer(
     in_cols = [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]] + [
         "zveranl",
         "child",
-        "abgst_tu",
+        "abgelt_st_tu",
         "kindergeld_basis",
         "kindergeld_tu_basis",
     ]
@@ -452,7 +452,7 @@ def tax_transfer(
         "uhv",
         "incometax",
         "soli",
-        "abgst",
+        "abgelt_st",
         "gkvbeit",
         "rvbeit",
         "pvbeit",
@@ -544,8 +544,8 @@ def tax_transfer(
         "gross_e5_tu",
         "gross_e6_tu",
         "gross_e7_tu",
-        "abgst_tu",
-        "abgst",
+        "abgelt_st_tu",
+        "abgelt_st",
         "soli",
         "soli_tu",
         "kindergeld",

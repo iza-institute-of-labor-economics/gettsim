@@ -21,7 +21,7 @@ def soli_st(tax_unit, params):
     # Soli also in monthly terms. only for adults
     tax_unit.loc[~tax_unit["child"], "soli_tu"] = (
         params["soli_formula"](tax_unit["tax_kfb_tu"], params)
-        + params["soli_rate"] * tax_unit["abgst_tu"]
+        + params["soli_rate"] * tax_unit["abgelt_st_tu"]
     ) * (1 / 12)
 
     # Assign Soli to individuals

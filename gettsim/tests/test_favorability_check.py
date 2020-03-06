@@ -18,7 +18,7 @@ INPUT_COLS = [
     "child",
     "tax_nokfb_tu",
     "tax_kfb_tu",
-    "abgst_tu",
+    "abgelt_st_tu",
     "kindergeld_basis",
     "kindergeld_tu_basis",
     "year",

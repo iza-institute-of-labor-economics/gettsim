@@ -40,7 +40,7 @@ def test_tax_sched(
     soli_st_raw_data,
     abgelt_st_raw_data,
 ):
-    columns = ["tax_nokfb", "tax_kfb", "abgst", "soli", "soli_tu"]
+    columns = ["tax_nokfb", "tax_kfb", "abgelt_st", "soli", "soli_tu"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     e_st_abzuege_params = get_policies_for_date(
@@ -58,7 +58,7 @@ def test_tax_sched(
     OUT_COLS = (
         [f"tax_{inc}" for inc in e_st_abzuege_params["zve_list"]]
         + [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]]
-        + ["abgst_tu", "abgst", "soli", "soli_tu"]
+        + ["abgelt_st_tu", "abgelt_st", "soli", "soli_tu"]
     )
 
     for col in OUT_COLS:

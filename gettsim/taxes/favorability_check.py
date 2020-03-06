@@ -26,8 +26,8 @@ def favorability_check(tax_unit, params):
         tax_unit.loc[:, "kindergeld"] = 0
         tax_unit.loc[:, "kindergeld_tu"] = 0
     if "abg" in max_inc:
-        tax_unit.loc[:, "abgst"] = 0
-        tax_unit.loc[:, "abgst_tu"] = 0
+        tax_unit.loc[:, "abgelt_st"] = 0
+        tax_unit.loc[:, "abgelt_st_tu"] = 0
     # Aggregate Child benefit on the household level, as we could have several
     # tax_units in one household.
     tax_unit["kindergeld_hh"] = tax_unit["kindergeld"].sum()
@@ -49,7 +49,7 @@ def get_max_inc(tax_unit, params):
         # for those tax bases without capital taxes in tariff,
         # add abgeltungssteuer
         if "abg" not in inc:
-            inc_list[i] += tax_unit["abgst_tu"].iloc[0]
+            inc_list[i] += tax_unit["abgelt_st_tu"].iloc[0]
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
         if ("nokfb" in inc) | (params["year"] <= 1996):

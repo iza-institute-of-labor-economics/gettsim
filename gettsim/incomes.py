@@ -15,7 +15,7 @@ def disposable_income(household):
             "uhv",
         ]
     ].sum(axis=1) - household[
-        ["incometax", "soli", "abgst", "gkvbeit", "rvbeit", "pvbeit", "avbeit"]
+        ["incometax", "soli", "abgelt_st", "gkvbeit", "rvbeit", "pvbeit", "avbeit"]
     ].sum(
         axis=1
     )
