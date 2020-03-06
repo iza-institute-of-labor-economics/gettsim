@@ -12,24 +12,24 @@ INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "child",
-    "age",
-    "w_hours",
-    "m_wage",
-    "ineducation",
-    "miete",
-    "heizkost",
-    "alleinerz",
+    "kind",
+    "alter",
+    "arbeitsstund_w",
+    "lohn_m",
+    "in_ausbildung",
+    "kaltmiete_m",
+    "heizkost_m",
+    "alleinerziehend",
     "mehrbed",
-    "adult_num_tu",
-    "child_num_tu",
-    "alg2_grossek_hh",
-    "ar_alg2_ek_hh",
+    "anz_erw_tu",
+    "anz_kinder_tu",
+    "arbeitsl_geld_2_brutto_eink_hh",
+    "sum_arbeitsl_geld_2_eink_hh",
     "kindergeld_hh",
-    "uhv",
+    "unterhalt_vors_m",
     "year",
 ]
-OUT_COLS = ["kiz_temp", "kiz_incrange"]
+OUT_COLS = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]
 YEARS = [2006, 2009, 2011, 2013, 2016, 2017, 2019, 2020]
 
 
@@ -48,7 +48,7 @@ def test_kiz(
     arbeitsl_geld_2_raw_data,
     kindergeld_raw_data,
 ):
-    columns = ["kiz_temp"]
+    columns = ["kinderzuschlag_temp"]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     kinderzuschlag_params = get_policies_for_date(
