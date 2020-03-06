@@ -51,7 +51,7 @@ def kindergeld_anspruch_nach_lohn(tax_unit, params):
     """
     anspruch = tax_unit["alter"] <= 18
     anspruch[
-        (tax_unit["age"].between(19, params["kgage"]))
+        (tax_unit["alter"].between(19, params["kgage"]))
         & tax_unit["in_ausbildung"]
         & (tax_unit["lohn_m"] <= params["kgfreib"] / 12)
     ] = True

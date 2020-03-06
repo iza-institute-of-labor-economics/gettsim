@@ -8,7 +8,15 @@ from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.kindergeld import kindergeld
 
 
-INPUT_COLS = ["hid", "tu_id", "pid", "age", "w_hours", "ineducation", "m_wage"]
+INPUT_COLS = [
+    "hid",
+    "tu_id",
+    "pid",
+    "alter",
+    "arbeitsstund_w",
+    "in_ausbildung",
+    "lohn_m",
+]
 OUT_COLS = ["kindergeld_basis", "kindergeld_tu_basis"]
 YEARS = [2000, 2002, 2010, 2011, 2013, 2019]
 
