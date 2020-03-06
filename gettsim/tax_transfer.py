@@ -12,7 +12,7 @@ from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
-from gettsim.taxes.calc_taxes import tax_sched
+from gettsim.taxes.e_st import e_st
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.taxes.kindergeld import kindergeld
 from gettsim.taxes.zve import zve
@@ -198,7 +198,7 @@ def tax_transfer(
     )
     df = apply_tax_transfer_func(
         df,
-        tax_func=tax_sched,
+        tax_func=e_st,
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,

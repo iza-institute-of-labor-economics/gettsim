@@ -5,7 +5,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.taxes.calc_taxes import tax_sched
+from gettsim.taxes.e_st import e_st
 
 INPUT_COLS = [
     "pid",
@@ -64,7 +64,7 @@ def test_tax_sched(
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hid", "tu_id"]).apply(
-        tax_sched,
+        e_st,
         e_st_params=e_st_params,
         e_st_abzuege_params=e_st_abzuege_params,
         soli_st_params=soli_st_params,

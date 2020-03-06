@@ -4,9 +4,7 @@ from gettsim.taxes.abgelt_st import abgelt_st
 from gettsim.taxes.soli_st import soli_st
 
 
-def tax_sched(
-    tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_params
-):
+def e_st(tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_params):
     """Given various forms of income and other state variables, return
     the different taxes to be paid before making favourability checks etc..
 
@@ -41,7 +39,7 @@ def tax_sched(
 
 
 @np.vectorize
-def tarif(x, params):
+def st_tarif(x, params):
     """ The German Income Tax Tariff
     modelled only after 2002 so far
 
