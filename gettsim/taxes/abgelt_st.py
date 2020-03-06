@@ -8,7 +8,7 @@ def abgelt_st(tax_unit, e_st_params, e_st_abzuege_params):
     tax_unit["abgelt_st"] = 0
     if e_st_params["year"] >= 2009:
         tax_unit.loc[~tax_unit["zveranl"], "abgelt_st"] = e_st_params[
-            "abgelt_st"
+            "abgst"
         ] * np.maximum(
             tax_unit["gross_e5"]
             - e_st_abzuege_params["spsparf"]
@@ -19,7 +19,7 @@ def abgelt_st(tax_unit, e_st_params, e_st_abzuege_params):
         )
         tax_unit.loc[tax_unit["zveranl"], "abgelt_st"] = (
             0.5
-            * e_st_params["abgelt_st"]
+            * e_st_params["abgst"]
             * np.maximum(
                 tax_unit["gross_e5_tu"]
                 - 2 * (e_st_abzuege_params["spsparf"] + e_st_abzuege_params["spwerbz"]),
