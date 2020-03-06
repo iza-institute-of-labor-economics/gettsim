@@ -15,15 +15,15 @@ from gettsim.taxes.zve import vorsorge_since_2010
 IN_COLS = [
     "pid",
     "tu_id",
-    "m_wage",
-    "child",
-    "priv_pens_contr",
-    "rvbeit",
-    "avbeit",
-    "pvbeit",
+    "lohn_m",
+    "kind",
+    "prv_rente_beit_m",
+    "rentenv_beit_m",
+    "arbeitsl_beit_m",
+    "pflegev_beit_m",
     "year",
-    "gkvbeit",
-    "zveranl",
+    "krankv_beit_m",
+    "gem_veranlagt",
 ]
 OUT_COLS = ["vorsorge"]
 

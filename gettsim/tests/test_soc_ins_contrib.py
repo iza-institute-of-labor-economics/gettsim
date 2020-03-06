@@ -12,20 +12,26 @@ INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "m_wage",
-    "east",
-    "age",
-    "selfemployed",
-    "haskids",
-    "m_self",
-    "m_pensions",
-    "pkv",
+    "lohn_m",
+    "ostdeutsch",
+    "alter",
+    "selbstständig",
+    "hat_kinder",
+    "eink_selbstst_m",
+    "rente_m",
+    "prv_krank_vers",
     "year",
 ]
 
 
 YEARS = [2002, 2010, 2018, 2019, 2020]
-OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
+OUT_COLS = [
+    "sozialv_beit_m",
+    "rentenv_beit_m",
+    "arbeitsl_beit_m",
+    "krankv_beit_m",
+    "pflegev_beit_m",
+]
 
 
 @pytest.fixture(scope="module")
@@ -50,4 +56,5 @@ def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
         out_cols=OUT_COLS,
         func_kwargs={"params": soz_vers_beitr_params},
     )
+
     pd.testing.assert_series_equal(df[column], year_data[column])
