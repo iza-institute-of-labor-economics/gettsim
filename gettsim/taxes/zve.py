@@ -12,36 +12,42 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
         It's always the most favorable for the taxpayer, but you know that only after
          applying the tax schedule
     """
-    adult_married = ~tax_unit["child"] & tax_unit["gem_veranlagt"]
+    adult_married = ~tax_unit["kind"] & tax_unit["gem_veranlagt"]
     # married = [tax_unit['gem_veranlagt'], ~tax_unit['gem_veranlagt']]
     # create output dataframe and transter some important variables
 
     ####################################################
     # Income components on annual basis
     # Income from Self-Employment
-    tax_unit.loc[:, "gross_e1"] = 12 * tax_unit["m_self"]
+    tax_unit.loc[:, "brutto_eink_1"] = 12 * tax_unit["eink_selbstst_m"]
     # Earnings
     tax_unit = calc_gross_e4(tax_unit, e_st_abzuege_params, soz_vers_beitr_params)
     # Capital Income
-    tax_unit.loc[:, "gross_e5"] = np.maximum((12 * tax_unit["m_kapinc"]), 0)
+    tax_unit.loc[:, "brutto_eink_5"] = np.maximum((12 * tax_unit["kapital_eink_m"]), 0)
     # Income from rents
-    tax_unit.loc[:, "gross_e6"] = 12 * tax_unit["m_vermiet"]
+    tax_unit.loc[:, "brutto_eink_6"] = 12 * tax_unit["vermiet_eink_m"]
     # Others (Pensions)
     tax_unit = calc_gross_e7(tax_unit, e_st_abzuege_params)
     # Sum of incomes
-    tax_unit.loc[:, "gross_gde"] = calc_gde(tax_unit, e_st_abzuege_params)
+    tax_unit.loc[:, "sum_brutto_eink"] = calc_gde(tax_unit, e_st_abzuege_params)
 
-    # Gross (market) income <> sum of incomes...
-    tax_unit.loc[:, "m_brutto"] = tax_unit[
-        ["m_self", "m_wage", "m_kapinc", "m_vermiet", "m_pensions"]
-    ].sum(axis=1)
+    # # Gross (market) income <> sum of incomes...
+    # tax_unit.loc[:, "m_brutto"] = tax_unit[
+    #     ["m_self", "m_wage", "m_kapinc", "m_vermiet", "m_pensions"]
+    # ].sum(axis=1)
 
-    tax_unit.loc[:, "handc_pausch"] = calc_handicap_lump_sum(
+    tax_unit.loc[:, "behinderungsgrad_pauschalbetrag"] = calc_handicap_lump_sum(
         tax_unit, e_st_abzuege_params
     )
 
     # Aggregate several incomes on the taxpayer couple
-    for inc in ["gross_e1", "gross_e4", "gross_e5", "gross_e6", "gross_e7"]:
+    for inc in [
+        "brutto_eink_1",
+        "brutto_eink_4",
+        "brutto_eink_5",
+        "brutto_eink_6",
+        "brutto_eink_7",
+    ]:
         tax_unit.loc[adult_married, inc + "_tu"] = tax_unit.loc[
             adult_married, inc
         ].sum()
@@ -68,29 +74,38 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     # Taxable income (zve = zu versteuerndes Einkommen)
     # For married couples, household income is split between the two.
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
-    tax_unit.loc[~tax_unit["child"], "zve_nokfb"] = zve_nokfb(
-        tax_unit, e_st_abzuege_params
-    )
+    tax_unit.loc[
+        ~tax_unit["kind"], "_zu_versteuerndes_eink_kein_kind_freib"
+    ] = zve_nokfb(tax_unit, e_st_abzuege_params)
     # Tax base including capital income
     tax_unit = zve_abg_nokfb(tax_unit, e_st_abzuege_params)
     # Calculate Child Tax Allowance
     tax_unit = kinderfreibetrag(tax_unit, e_st_abzuege_params, kindergeld_params)
 
     # Subtract (corrected) Child allowance
-    tax_unit.loc[~tax_unit["child"], "zve_kfb"] = np.maximum(
-        tax_unit["zve_nokfb"] - tax_unit["kifreib"], 0
+    tax_unit.loc[~tax_unit["kind"], "_zu_versteuerndes_eink_kind_freib"] = np.maximum(
+        tax_unit["_zu_versteuerndes_eink_kein_kind_freib"] - tax_unit["kind_freib"], 0
     )
-    tax_unit.loc[~tax_unit["child"], "zve_abg_kfb"] = np.maximum(
-        tax_unit["zve_abg_nokfb"] - tax_unit["kifreib"], 0
+    tax_unit.loc[
+        ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_kind_freib"
+    ] = np.maximum(
+        tax_unit["_zu_versteuerndes_eink_abgelt_st_kein_kind_freib"]
+        - tax_unit["kind_freib"],
+        0,
     )
     # Finally, modify married couples income according to Splitting rule,
     # i.e. each partner get assigned half of the total income
-    for incdef in ["nokfb", "abg_nokfb", "kfb", "abg_kfb"]:
-        tax_unit.loc[:, "zve_" + incdef + "_tu"] = tax_unit.loc[
-            adult_married, "zve_" + incdef
+    for incdef in [
+        "kein_kind_freib",
+        "abgelt_st_kein_kind_freib",
+        "kind_freib",
+        "abgelt_st_kind_freib",
+    ]:
+        tax_unit.loc[:, "_zu_versteuerndes_eink_" + incdef + "_tu"] = tax_unit.loc[
+            adult_married, "_zu_versteuerndes_eink_" + incdef
         ].sum()
-        tax_unit.loc[adult_married, "zve_" + incdef] = (
-            0.5 * tax_unit["zve_" + incdef + "_tu"]
+        tax_unit.loc[adult_married, "_zu_versteuerndes_eink_" + incdef] = (
+            0.5 * tax_unit["_zu_versteuerndes_eink_" + incdef + "_tu"]
         )
 
     return tax_unit
@@ -111,7 +126,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     ).sum()
 
     # Find out who has the lower zve among partners
-    nokfb_lower = tax_unit["zve_nokfb"].min()
+    nokfb_lower = tax_unit["_zu_versteuerndes_eink_kein_kind_freib"].min()
 
     # Add both components for ease of notation.
     if params["year"] >= 2000:
@@ -123,7 +138,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     diff_kifreib = nokfb_lower - (kifreib_total * kigeld_kinder)
     # If the couple is married and one earns not enough to split the kinderfeibetrag,
     # things get a bit more complicated
-    if diff_kifreib < 0 & tax_unit[~tax_unit["child"]]["gem_veranlagt"].all():
+    if diff_kifreib < 0 & tax_unit[~tax_unit["kind"]]["gem_veranlagt"].all():
 
         # The high earner gets half of the total kinderfreibetrag plus the amount the
         # lower earner can't claim.
@@ -133,10 +148,14 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
         # Then we assign each earner the amount and return the series
 
         tax_unit.loc[
-            ~tax_unit["child"] & tax_unit["zve_nokfb"] != nokfb_lower, "kifreib"
+            ~tax_unit["kind"] & tax_unit["_zu_versteuerndes_eink_kein_kind_freib"]
+            != nokfb_lower,
+            "kind_freib",
         ] = kifreib_higher
         tax_unit.loc[
-            ~tax_unit["child"] & tax_unit["zve_nokfb"] == nokfb_lower, "kifreib"
+            ~tax_unit["kind"] & tax_unit["_zu_versteuerndes_eink_kein_kind_freib"]
+            == nokfb_lower,
+            "kind_freib",
         ] = kifreib_lower
 
         return tax_unit
@@ -144,7 +163,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     # For non married couples or couples where both earn enough this are a lot easier.
     # Just split the kinderfreibetrag 50/50.
     else:
-        tax_unit.loc[~tax_unit["child"], "kifreib"] = kifreib_total * kigeld_kinder
+        tax_unit.loc[~tax_unit["kind"], "kind_freib"] = kifreib_total * kigeld_kinder
         return tax_unit
 
 
@@ -153,55 +172,67 @@ def zve_nokfb(tax_unit, params):
 
     return np.maximum(
         0,
-        tax_unit["gross_gde"]
+        tax_unit["sum_brutto_eink"]
         - tax_unit["vorsorge"]
         - tax_unit["sonder"]
-        - tax_unit["handc_pausch"]
-        - tax_unit["hhfreib"]
-        - tax_unit["altfreib"],
+        - tax_unit["behinderungsgrad_pauschalbetrag"]
+        - tax_unit["hh_freib"]
+        - tax_unit["altersfreib"],
     )
 
 
 def zve_abg_nokfb(tax_unit, params):
     """Calculates the zve with capital income in the tax base."""
-    if tax_unit[~tax_unit["child"]]["gem_veranlagt"].all():
-        tax_unit.loc[~tax_unit["child"], "zve_abg_nokfb"] = np.maximum(
+    if tax_unit[~tax_unit["kind"]]["gem_veranlagt"].all():
+        tax_unit.loc[
+            ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_kein_kind_freib"
+        ] = np.maximum(
             0,
-            tax_unit["gross_gde"]
+            tax_unit["sum_brutto_eink"]
             + np.maximum(
-                0, tax_unit["gross_e5"] - 2 * params["spsparf"] - 2 * params["spwerbz"]
+                0,
+                tax_unit["brutto_eink_5"]
+                - 2 * params["spsparf"]
+                - 2 * params["spwerbz"],
             )
             - tax_unit["vorsorge"]
             - tax_unit["sonder"]
-            - tax_unit["handc_pausch"]
-            - tax_unit["hhfreib"]
-            - tax_unit["altfreib"],
+            - tax_unit["behinderungsgrad_pauschalbetrag"]
+            - tax_unit["hh_freib"]
+            - tax_unit["altersfreib"],
         )
     else:
-        tax_unit.loc[~tax_unit["child"], "zve_abg_nokfb"] = np.maximum(
+        tax_unit.loc[
+            ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_kein_kind_freib"
+        ] = np.maximum(
             0,
-            tax_unit["gross_gde"]
+            tax_unit["sum_brutto_eink"]
             + np.maximum(
-                0, tax_unit["gross_e5"] - params["spsparf"] - params["spwerbz"]
+                0, tax_unit["brutto_eink_5"] - params["spsparf"] - params["spwerbz"]
             )
             - tax_unit["vorsorge"]
             - tax_unit["sonder"]
-            - tax_unit["handc_pausch"]
-            - tax_unit["hhfreib"]
-            - tax_unit["altfreib"],
+            - tax_unit["behinderungsgrad_pauschalbetrag"]
+            - tax_unit["hh_freib"]
+            - tax_unit["altersfreib"],
         )
     return tax_unit
 
 
 def calc_altfreibetrag(tax_unit, params):
     """Calculates the deductions for elderly. Not tested yet!!!"""
-    tax_unit["altfreib"] = 0.0
-    tax_unit.loc[tax_unit["age"] > 64, "altfreib"] = np.minimum(
+    tax_unit["altersfreib"] = 0.0
+    tax_unit.loc[tax_unit["alter"] > 64, "altersfreib"] = np.minimum(
         params["altentq"]
         * 12
         * (
-            tax_unit["m_wage"]
-            + np.maximum(0, tax_unit[["m_kapinc", "m_self", "m_vermiet"]].sum(axis=1))
+            tax_unit["lohn_m"]
+            + np.maximum(
+                0,
+                tax_unit[["kapital_eink_m", "eink_selbstst_m", "vermiet_eink_m"]].sum(
+                    axis=1
+                ),
+            )
         ),
         params["altenth"],
     )
@@ -212,12 +243,12 @@ def calc_handicap_lump_sum(tax_unit, params):
     """Calculate the different deductions for different handicap degrees."""
     # Behinderten-Pauschbeträge
     hc_degrees = [
-        tax_unit["handcap_degree"].between(45, 50),
-        tax_unit["handcap_degree"].between(51, 60),
-        tax_unit["handcap_degree"].between(61, 70),
-        tax_unit["handcap_degree"].between(71, 80),
-        tax_unit["handcap_degree"].between(81, 90),
-        tax_unit["handcap_degree"].between(91, 100),
+        tax_unit["behinderungsgrad"].between(45, 50),
+        tax_unit["behinderungsgrad"].between(51, 60),
+        tax_unit["behinderungsgrad"].between(61, 70),
+        tax_unit["behinderungsgrad"].between(71, 80),
+        tax_unit["behinderungsgrad"].between(81, 90),
+        tax_unit["behinderungsgrad"].between(91, 100),
     ]
     hc_pausch = [
         params["sbhp50"],
@@ -233,7 +264,9 @@ def calc_handicap_lump_sum(tax_unit, params):
 def calc_gde(tax_unit, params):
     """Calculates sum of the taxable income. It depends on the year if capital
     income, counts into the sum."""
-    gross_gde = tax_unit[["gross_e1", "gross_e4", "gross_e6", "gross_e7"]].sum(axis=1)
+    gross_gde = tax_unit[
+        ["brutto_eink_1", "brutto_eink_4", "brutto_eink_6", "brutto_eink_7"]
+    ].sum(axis=1)
 
     # Add UBI to taxable income
     # if ref == "UBI":
@@ -243,7 +276,7 @@ def calc_gde(tax_unit, params):
     # If capital income tax with tariff, add it but account for exemptions
     if params["year"] < 2009:
         gross_gde += np.maximum(
-            tax_unit["gross_e5"] - params["spsparf"] - params["spwerbz"], 0
+            tax_unit["brutto_eink_5"] - params["spsparf"] - params["spwerbz"], 0
         )
     return gross_gde
 
@@ -252,19 +285,19 @@ def calc_gross_e4(tax_unit, params, soz_vers_beitr_params):
     """Calculates the gross incomes of non selfemployed work. The wage is reducted by a
     lump sum payment for 'Werbungskosten'"""
 
-    tax_unit.loc[:, "gross_e4"] = 12 * tax_unit["m_wage"]
+    tax_unit.loc[:, "brutto_eink_4"] = 12 * tax_unit["lohn_m"]
     # Every adult with some wage, gets a lump sum payment for Werbungskosten
-    tax_unit.loc[(~tax_unit["child"]) & (tax_unit["m_wage"] > 0), "gross_e4"] -= params[
-        "werbung"
-    ]
+    tax_unit.loc[
+        (~tax_unit["kind"]) & (tax_unit["lohn_m"] > 0), "brutto_eink_4"
+    ] -= params["werbung"]
 
     # If they earn less the mini job limit, then their relevant gross income is 0
-    if tax_unit.east.iloc[0]:
+    if tax_unit["ostdeutsch"].iloc[0]:
         mini = soz_vers_beitr_params["mini_grenzeo"]
     else:
         mini = soz_vers_beitr_params["mini_grenzew"]
 
-    tax_unit.loc[tax_unit["m_wage"] <= mini, "gross_e4"] = 0
+    tax_unit.loc[tax_unit["lohn_m"] <= mini, "brutto_eink_4"] = 0
     return tax_unit
 
 
@@ -274,23 +307,23 @@ def deductible_child_care_costs(tax_unit, params):
     # So far we only implement the current regulation, which has been in place since 2012.
     if params["year"] < 2012:
         # For earlier years we only use the pausch value
-        tax_unit.loc[~tax_unit["child"], "sonder"] = params["sonder"]
+        tax_unit.loc[~tax_unit["kind"], "sonder"] = params["sonder"]
         return tax_unit
     else:
-        adult_num = len(tax_unit[~tax_unit["child"]])
+        adult_num = len(tax_unit[~tax_unit["kind"]])
         # The maximal amount to claim is 4000 per child. We only count the claim for
         # children under 14. By law the parents are also to allow to claim for disabled
         # children til the age of 25.
-        eligible = tax_unit["age"] <= 14
+        eligible = tax_unit["alter"] <= 14
 
         deductible_costs = (
             eligible
-            * np.minimum(params["childcare_max"], 12 * tax_unit["m_childcare"])
+            * np.minimum(params["childcare_max"], 12 * tax_unit["kind_betr_kost_m"])
             * params["childcare_share"]
             / adult_num
         )
         # If parents can't claim anything, they get a pausch value.
-        tax_unit.loc[~tax_unit["child"], "sonder"] = max(
+        tax_unit.loc[~tax_unit["kind"], "sonder"] = max(
             np.sum(deductible_costs), params["sonder"]
         )
         return tax_unit
@@ -300,16 +333,16 @@ def calc_gross_e7(tax_unit, params):
     """ Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
     pensions."""
     # The share of pensions subject to income taxation
-    tax_unit.loc[tax_unit["renteneintritt"] <= 2004, "ertragsanteil"] = 0.27
+    tax_unit.loc[tax_unit["rente_eint_alter"] <= 2004, "ertragsanteil"] = 0.27
     tax_unit.loc[
-        tax_unit["renteneintritt"].between(2005, 2020), "ertragsanteil"
-    ] = 0.5 + 0.02 * (tax_unit["renteneintritt"] - 2005)
+        tax_unit["rente_eint_alter"].between(2005, 2020), "ertragsanteil"
+    ] = 0.5 + 0.02 * (tax_unit["rente_eint_alter"] - 2005)
     tax_unit.loc[
-        tax_unit["renteneintritt"].between(2021, 2040), "ertragsanteil"
-    ] = 0.8 + 0.01 * (tax_unit["renteneintritt"] - 2020)
-    tax_unit.loc[tax_unit["renteneintritt"] >= 2041, "ertragsanteil"] = 1
-    tax_unit.loc[:, "gross_e7"] = np.maximum(
-        12 * (tax_unit["ertragsanteil"] * tax_unit["m_pensions"])
+        tax_unit["rente_eint_alter"].between(2021, 2040), "ertragsanteil"
+    ] = 0.8 + 0.01 * (tax_unit["rente_eint_alter"] - 2020)
+    tax_unit.loc[tax_unit["rente_eint_alter"] >= 2041, "ertragsanteil"] = 1
+    tax_unit.loc[:, "brutto_eink_7"] = np.maximum(
+        12 * (tax_unit["ertragsanteil"] * tax_unit["rente_m"])
         - params["vorsorgpausch"],
         0,
     )
@@ -336,12 +369,15 @@ def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     # also subtract health + care + unemployment insurance contributions
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
-        tax_unit["pvbeit"] + (1 - params["vorsorg_krank_minder"]) * tax_unit["gkvbeit"]
+        tax_unit["pflegev_beit_m"]
+        + (1 - params["vorsorg_krank_minder"]) * tax_unit["krankv_beit_m"]
     )
     # maybe add avbeit, but do not exceed 1900€.
     sonstige_vors = np.maximum(
         sonstige_vors,
-        np.minimum(sonstige_vors + 12 * tax_unit["avbeit"], params["vors_sonst_max"]),
+        np.minimum(
+            sonstige_vors + 12 * tax_unit["arbeitsl_beit_m"], params["vors_sonst_max"]
+        ),
     )
     return altersvors.astype(int) + sonstige_vors.astype(int)
 
@@ -356,9 +392,14 @@ def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
 
     altersvors = calc_altersvors_aufwend(tax_unit, params)
 
-    sonstige_vors = ~tax_unit["child"] * np.minimum(
+    sonstige_vors = ~tax_unit["kind"] * np.minimum(
         params["vors_sonst_max"],
-        12 * (tax_unit["gkvbeit"] + tax_unit["avbeit"] + tax_unit["pvbeit"]),
+        12
+        * (
+            tax_unit["krankv_beit_m"]
+            + tax_unit["arbeitsl_beit_m"]
+            + tax_unit["pflegev_beit_m"]
+        ),
     ).astype(int)
 
     return (altersvors + sonstige_vors).astype(int)
@@ -375,14 +416,14 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         if params["year"] <= 2019:
             # Amount 1: Basic deduction, based on earnings. Usually zero.
             item_1 = np.maximum(
-                params["vorwegabzug"] - params["kuerzquo"] * 12 * tax_unit["m_wage"], 0
+                params["vorwegabzug"] - params["kuerzquo"] * 12 * tax_unit["lohn_m"], 0
             )
         else:
             # No "vorwegabzug" anymore after 2019.
             item_1 = 0
         # calcuate the remaining amount.
         vorsorg_rest = np.maximum(
-            12 * (tax_unit["rvbeit"] + tax_unit["gkvbeit"]) - item_1, 0
+            12 * (tax_unit["rentenv_beit_m"] + tax_unit["krankv_beit_m"]) - item_1, 0
         )
         # Deduct a 'Grundhöchstbetrag' (1334€ in 2004),
         # or the actual expenses if lower (which is unlikely)
@@ -392,25 +433,28 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         item_3 = np.minimum(0.5 * (vorsorg_rest - item_2), 0.5 * params["grundbet"])
     # For the married couple, the same stuff, but with tu totals.
     if tax_unit["gem_veranlagt"].max():
-        for var in ["m_wage", "rvbeit", "gkvbeit"]:
-            tax_unit[f"{var}_tu"] = tax_unit.loc[~tax_unit["child"], "m_wage"].sum()
+        for var in ["lohn_m", "rentenv_beit_m", "krankv_beit_m"]:
+            # TODO: Shouldnt here be summe over the variables?
+            tax_unit[f"{var}_tu"] = tax_unit.loc[~tax_unit["kind"], "lohn_m"].sum()
         if params["year"] <= 2019:
             item_1 = 0.5 * np.maximum(
                 2 * params["vorwegabzug"]
-                - params["kuerzquo"] * 12 * tax_unit["m_wage_tu"],
+                - params["kuerzquo"] * 12 * tax_unit["lohn_m_tu"],
                 0,
             )
         else:
             item_1 = 0
 
         vorsorg_rest = 0.5 * np.maximum(
-            12 * (tax_unit["rvbeit_tu"] + tax_unit["gkvbeit_tu"]) - item_1, 0
+            12 * (tax_unit["rentenv_beit_m_tu"] + tax_unit["krankv_beit_m_tu"])
+            - item_1,
+            0,
         )
         item_2 = 0.5 * np.minimum(params["grundbet"], vorsorg_rest)
         item_3 = 0.5 * np.minimum((vorsorg_rest - item_2), 2 * params["grundbet"])
 
     # Finally, add up all three amounts and assign it to the adults.
-    vorsorge = ~tax_unit["child"] * (item_1 + item_2 + item_3).astype(int)
+    vorsorge = ~tax_unit["kind"] * (item_1 + item_2 + item_3).astype(int)
     # The test requires a named item. If there is only one value, create a list.
     return vorsorge
 
@@ -451,10 +495,10 @@ def calc_altersvors_aufwend(tax_unit, params):
 
     einführungsfaktor = 0.6 + 0.02 * (min(params["year"], 2025) - 2005)
 
-    altersvors = ~tax_unit["child"] * (
+    altersvors = ~tax_unit["kind"] * (
         einführungsfaktor
-        * (12 * 2 * tax_unit["rvbeit"] + (12 * tax_unit["priv_pens_contr"]))
-        - (12 * tax_unit["rvbeit"])
+        * (12 * 2 * tax_unit["rentenv_beit_m"] + (12 * tax_unit["prv_rente_beit_m"]))
+        - (12 * tax_unit["rentenv_beit_m"])
     ).astype(int)
 
     return np.minimum(params["vorsorg_rv_max"], altersvors)
@@ -463,16 +507,16 @@ def calc_altersvors_aufwend(tax_unit, params):
 def calc_hhfreib_until2014(tax_unit, params):
     """Calculates tax reduction for single parents. Used to be called
     'Haushaltsfreibetrag'"""
-    tax_unit["hhfreib"] = 0.0
-    tax_unit.loc[tax_unit["alleinerz"], "hhfreib"] = params["hhfreib"]
+    tax_unit["hh_freib"] = 0.0
+    tax_unit.loc[tax_unit["alleinerziehend"], "hh_freib"] = params["hhfreib"]
     return tax_unit
 
 
 def calc_hhfreib_from2015(tax_unit, params):
     """Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'"""
-    tax_unit["hhfreib"] = 0.0
-    tax_unit.loc[tax_unit["alleinerz"], "hhfreib"] = params["hhfreib"] + (
-        (tax_unit["child"].sum() - 1) * params["hhfreib_ch"]
+    tax_unit["hh_freib"] = 0.0
+    tax_unit.loc[tax_unit["alleinerziehend"], "hh_freib"] = params["hhfreib"] + (
+        (tax_unit["kind"].sum() - 1) * params["hhfreib_ch"]
     )
     return tax_unit
