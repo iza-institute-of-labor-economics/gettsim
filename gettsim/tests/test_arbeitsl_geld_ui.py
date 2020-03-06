@@ -11,19 +11,19 @@ INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "m_wage_l1",
-    "east",
-    "child",
-    "months_ue",
-    "months_ue_l1",
-    "months_ue_l2",
-    "m_pensions",
-    "w_hours",
-    "child_num_tu",
-    "age",
+    "dur_eink_vorj_m",
+    "ostdeutsch",
+    "kind",
+    "m_arbeitsl",
+    "m_arbeitsl_vorj",
+    "m_arbeitsl_vor2j",
+    "rente_m",
+    "arbeitsstund_w",
+    "anz_kinder_tu",
+    "alter",
     "year",
 ]
-OUT_COL = "m_alg1"
+OUT_COL = "arbeitsl_geld_m"
 YEARS = [2010, 2011, 2015, 2019]
 
 
