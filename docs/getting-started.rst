@@ -69,8 +69,6 @@ Required columns in input data
 +--------------------+---------------------------------------------------------+-------+
 |head_tu             |Whether individual is head of tax unit                   | bool  |
 +--------------------+---------------------------------------------------------+-------+
-|head                |Whether individual is head of household                  | bool  |
-+--------------------+---------------------------------------------------------+-------+
 |adult_num           |Number of adults in household                            | int   |
 +--------------------+---------------------------------------------------------+-------+
 |child0_18_num       |Number of children between 0 and 18 in household         | int   |
