@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 
+from gettsim.taxes.soli_st import soli_st
+
 
 def tax_sched(
     tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_params
@@ -33,39 +35,8 @@ def tax_sched(
     tax_unit["abgst_tu"] = tax_unit["abgst"]
     tax_unit.loc[adult_married, "abgst_tu"] = tax_unit["abgst"][adult_married].sum()
 
-    tax_unit = calc_soli(tax_unit, soli_st_params)
+    tax_unit = soli_st(tax_unit, soli_st_params)
 
-    return tax_unit
-
-
-def calc_soli(tax_unit, params):
-    """Solidarity Surcharge.
-
-    Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
-    Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
-
-    The Solidarity Surcharge is an additional tax on top of the income tax which
-    is the tax base. As opposed to the 'standard' income tax, child allowance is
-    always deducted for tax base calculation.
-
-    There is also Solidarity Surcharge on the Capital Income Tax, but always
-    with Solidarity Surcharge tax rate and no tax exempt level. §3 (3) S.2
-    SolzG 1995.
-    """
-
-    tax_unit["soli_tu"] = 0
-
-    # Soli also in monthly terms. only for adults
-    tax_unit.loc[~tax_unit["child"], "soli_tu"] = (
-        params["soli_formula"](tax_unit["tax_kfb_tu"], params)
-        + params["soli_rate"] * tax_unit["abgst_tu"]
-    ) * (1 / 12)
-
-    # Assign Soli to individuals
-    tax_unit["soli"] = np.select(
-        [tax_unit["zveranl"], ~tax_unit["zveranl"]],
-        [tax_unit["soli_tu"] / 2, tax_unit["soli_tu"]],
-    )
     return tax_unit
 
 
@@ -139,29 +110,3 @@ def tarif(x, params):
             t = t + (params["t_r"] - params["t_s"]) * (x - params["R"])
         assert t >= 0
     return t
-
-
-def no_soli(solibasis, params):
-    """ There was no Solidaritätszuschlaggesetz before 1991 and in 1993/1994 """
-    return 0
-
-
-def soli_formula_1991_92(solibasis, params):
-    """ Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992 """
-
-    soli = params["soli_rate"] * solibasis
-
-    return soli.round(2)
-
-
-def soli_formula_since_1995(solibasis, params):
-    """ Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995 """
-
-    soli = np.minimum(
-        params["soli_rate"] * solibasis,
-        np.maximum(
-            params["soli_rate_max"] * (solibasis - params["soli_freigrenze"]), 0
-        ),
-    )
-
-    return soli.round(2)
