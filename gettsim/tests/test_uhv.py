@@ -12,19 +12,19 @@ INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "alleinerz",
-    "age",
-    "m_wage",
-    "m_transfers",
-    "m_kapinc",
-    "m_vermiet",
-    "m_self",
-    "m_alg1",
-    "m_pensions",
-    "zveranl",
+    "alleinerziehend",
+    "alter",
+    "lohn_m",
+    "sonstig_eink_m",
+    "kapital_eink_m",
+    "vermiet_eink_m",
+    "eink_selbstst_m",
+    "arbeitsl_geld_m",
+    "rente_m",
+    "gem_veranlagt",
     "year",
 ]
-OUT_COL = "uhv"
+OUT_COL = "unterhalt_vors_m"
 YEARS = [2017, 2018, 2019]
 
 
@@ -47,7 +47,7 @@ def test_uhv(input_data, year, unterhalt_raw_data):
     df = df.groupby(["hid", "tu_id"]).apply(
         uhv, params=unterhalt_params, kindergeld_params=kindergeld_params
     )
-    assert_series_equal(df[OUT_COL], year_data["uhv"], check_dtype=False)
+    assert_series_equal(df[OUT_COL], year_data["unterhalt_vors_m"], check_dtype=False)
 
 
 @pytest.fixture(scope="module")
@@ -69,4 +69,4 @@ def test_uhv_07_2019(input_data_2, year, unterhalt_raw_data):
     df = df.groupby(["hid", "tu_id"]).apply(
         uhv, params=unterhalt_params, kindergeld_params=kindergeld_params
     )
-    assert_series_equal(df[OUT_COL], year_data["uhv"], check_dtype=False)
+    assert_series_equal(df[OUT_COL], year_data["unterhalt_vors_m"], check_dtype=False)
