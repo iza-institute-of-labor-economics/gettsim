@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.alg2 import alg2
+from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 

@@ -3,14 +3,14 @@ import datetime
 import numpy as np
 import yaml
 
-from gettsim.benefits.alg2 import e_anr_frei_2005_01
-from gettsim.benefits.alg2 import e_anr_frei_2005_10
-from gettsim.benefits.alg2 import regelberechnung_2011_and_beyond
-from gettsim.benefits.alg2 import regelberechnung_until_2010
-from gettsim.benefits.kiz import calc_kiz_amount_07_2019
-from gettsim.benefits.kiz import calc_kiz_amount_2005
-from gettsim.benefits.unterhaltsvorschuss import uhv_pre_07_2017
-from gettsim.benefits.unterhaltsvorschuss import uhv_since_07_2017
+from gettsim.benefits.arbeitsl_geld_2 import e_anr_frei_2005_01
+from gettsim.benefits.arbeitsl_geld_2 import e_anr_frei_2005_10
+from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
+from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
+from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
+from gettsim.benefits.kinderzuschlag import calc_kiz_amount_2005
+from gettsim.benefits.unterhalt import uhv_pre_07_2017
+from gettsim.benefits.unterhalt import uhv_since_07_2017
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
