@@ -17,62 +17,66 @@ def benefit_priority(household, params):
     # But first, we check whether hh wealth is too high
     household = wealth_test(household, params)
     # use these values (possibly zero now) below
-    household["ar_wg_alg2_ek"] = (
-        household["ar_base_alg2_ek"] + household["wohngeld_basis_hh"]
+    household["sum_wohngeld_m_arbeitsl_geld_2_eink"] = (
+        household["sum_basis_arbeitsl_geld_2_eink"] + household["wohngeld_basis_hh"]
     )
-    household["ar_kiz_alg2_ek"] = household["ar_base_alg2_ek"] + household["kiz_temp"]
-    household["ar_wgkiz_alg2_ek"] = (
-        household["ar_base_alg2_ek"]
+    household["sum_kinderzuschlag_arbeitsl_geld_2_eink"] = (
+        household["sum_basis_arbeitsl_geld_2_eink"] + household["kinderzuschlag_temp"]
+    )
+    household["sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink"] = (
+        household["sum_basis_arbeitsl_geld_2_eink"]
         + household["wohngeld_basis_hh"]
-        + household["kiz_temp"]
+        + household["kinderzuschlag_temp"]
     )
 
     # calculate difference between transfers and the household need
-    for v in ["base", "wg", "kiz", "wgkiz"]:
+    for v in ["basis", "wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
         household["fehlbedarf_" + v] = (
-            household["regelbedarf"] - household["ar_" + v + "_alg2_ek"]
+            household["regelbedarf_m"] - household["sum_" + v + "_arbeitsl_geld_2_eink"]
         )
-        household["m_alg2_" + v] = np.maximum(household["fehlbedarf_" + v], 0)
+        household["arbeitsl_geld_2_m_" + v] = np.maximum(
+            household["fehlbedarf_" + v], 0
+        )
 
     # check whether any of wg kiz or wg+kiz joint imply a fulfilled need.
-    for v in ["wg", "kiz", "wgkiz"]:
-        household[v + "_vorrang"] = (household["m_alg2_" + v] == 0) & (
-            household["m_alg2_base"] > 0
+    for v in ["wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
+        household[v + "_vorrang"] = (household["arbeitsl_geld_2_m_" + v] == 0) & (
+            household["arbeitsl_geld_2_m_basis"] > 0
         )
 
     # initialize final benefits
-    household["m_alg2"] = household["m_alg2_base"]
-    household["kiz"] = household["kiz_temp"]
-    household["wohngeld"] = household["wohngeld_basis_hh"]
+    household["arbeitsl_geld_2_m"] = household["arbeitsl_geld_2_m_basis"]
+    household["kinderzuschlag"] = household["kinderzuschlag_temp"]
+    household["wohngeld_m"] = household["wohngeld_basis_hh"]
 
     # If this is the case set alg2 to zero.
     household.loc[
-        (household["wg_vorrang"])
-        | (household["kiz_vorrang"])
-        | (household["wgkiz_vorrang"]),
-        "m_alg2",
+        (household["wohngeld_m_vorrang"])
+        | (household["kinderzuschlag_vorrang"])
+        | (household["wohngeld_m_kinderzuschlag_vorrang"]),
+        "arbeitsl_geld_2_m",
     ] = 0
     # If other benefits are not sufficient, set THEM to zero instead.
     household.loc[
-        (~household["wg_vorrang"])
-        & (~household["wgkiz_vorrang"])
-        & (household["m_alg2_base"] > 0),
-        "wohngeld",
+        (~household["wohngeld_m_vorrang"])
+        & (~household["wohngeld_m_kinderzuschlag_vorrang"])
+        & (household["arbeitsl_geld_2_m_basis"] > 0),
+        "wohngeld_m",
     ] = 0
     household.loc[
-        (~household["kiz_vorrang"])
-        & (~household["wgkiz_vorrang"])
-        & (household["m_alg2_base"] > 0),
-        "kiz",
+        (~household["kinderzuschlag_vorrang"])
+        & (~household["wohngeld_m_kinderzuschlag_vorrang"])
+        & (household["arbeitsl_geld_2_m_basis"] > 0),
+        "kinderzuschlag",
     ] = 0
 
     # Pensioners do not receive Kiz or Wohngeld.
     # They actually do not receive ALGII, too. Instead,
     # they get 'Grundleistung im Alter', which pays the same amount.
-    household["n_pens"] = household["pensioner"].sum()
+    household["anz_rentner"] = household["rentner"].sum()
 
-    for ben in ["kiz", "wohngeld", "m_alg2"]:
-        household.loc[household["n_pens"] > 0, ben] = 0
+    for ben in ["kinderzuschlag", "wohngeld_m", "arbeitsl_geld_2_m"]:
+        household.loc[household["anz_rentner"] > 0, ben] = 0
 
     return household
 
@@ -91,11 +95,11 @@ def wealth_test(household, params):
 
     # there are exemptions depending on individual age for adults
     household["ind_freib"] = 0
-    household.loc[(household["byear"] >= 1948) & (~household["child"]), "ind_freib"] = (
-        params["a2ve1"] * household["age"]
-    )
-    household.loc[(household["byear"] < 1948), "ind_freib"] = (
-        params["a2ve2"] * household["age"]
+    household.loc[
+        (household["geburtsjahr"] >= 1948) & (~household["kind"]), "ind_freib"
+    ] = (params["a2ve1"] * household["alter"])
+    household.loc[(household["geburtsjahr"] < 1948), "ind_freib"] = (
+        params["a2ve2"] * household["alter"]
     )
     # sum over individuals
     household["ind_freib_hh"] = household["ind_freib"].sum()
@@ -103,16 +107,16 @@ def wealth_test(household, params):
     # there is an overall maximum exemption
     household["maxvermfb"] = 0
     household.loc[
-        (household["byear"] < 1948) & (~household["child"]), "maxvermfb"
+        (household["geburtsjahr"] < 1948) & (~household["kind"]), "maxvermfb"
     ] = params["a2voe1"]
-    household.loc[(household["byear"].between(1948, 1957)), "maxvermfb"] = params[
+    household.loc[(household["geburtsjahr"].between(1948, 1957)), "maxvermfb"] = params[
         "a2voe1"
     ]
-    household.loc[(household["byear"].between(1958, 1963)), "maxvermfb"] = params[
+    household.loc[(household["geburtsjahr"].between(1958, 1963)), "maxvermfb"] = params[
         "a2voe3"
     ]
     household.loc[
-        (household["byear"] >= 1964) & (~household["child"]), "maxvermfb"
+        (household["geburtsjahr"] >= 1964) & (~household["kind"]), "maxvermfb"
     ] = params["a2voe4"]
     household["maxvermfb_hh"] = household["maxvermfb"].sum()
 
@@ -121,21 +125,23 @@ def wealth_test(household, params):
     household["vermfreibetr"] = np.minimum(
         household["maxvermfb_hh"],
         household["ind_freib_hh"]
-        + household["child0_18_num"] * params["a2vkf"]
-        + (household_size - household["child0_18_num"]) * params["a2verst"],
+        + household["anz_minderj_hh"] * params["a2vkf"]
+        + (household_size - household["anz_minderj_hh"]) * params["a2verst"],
     )
 
     # If wealth exceeds the exemption, set benefits to zero
     # (since ALG2 is not yet calculated, just set the need to zero)
     household.loc[
-        (household["hh_wealth"] > household["vermfreibetr"]), "regelbedarf"
+        (household["hh_vermögen"] > household["vermfreibetr"]), "regelbedarf_m"
     ] = 0
-    household.loc[(household["hh_wealth"] > household["vermfreibetr"]), "kiz_temp"] = 0
+    household.loc[
+        (household["hh_vermögen"] > household["vermfreibetr"]), "kinderzuschlag_temp"
+    ] = 0
 
     # Wealth test for Wohngeld
     # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
     household.loc[
-        (household["hh_wealth"] > (60_000 + (30_000 * (household_size - 1)))),
+        (household["hh_vermögen"] > (60_000 + (30_000 * (household_size - 1)))),
         "wohngeld_basis_hh",
     ] = 0
 

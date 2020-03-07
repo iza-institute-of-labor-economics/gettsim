@@ -36,7 +36,7 @@ INPUT_COLS = [
     "year",
 ]
 OUT_COLS = [
-    "anr_basis_arbeitsl_geld_2_eink",
+    "sum_basis_arbeitsl_geld_2_eink",
     "sum_arbeitsl_geld_2_eink",
     "arbeitsl_geld_2_brutto_eink_hh",
     "mehrbed",

@@ -12,22 +12,22 @@ INPUT_COLS = [
     "pid",
     "hid",
     "tu_id",
-    "child",
-    "pensioner",
-    "age",
-    "hh_wealth",
-    "adult_num",
-    "child0_18_num",
-    "kiz_temp",
+    "kind",
+    "rentner",
+    "alter",
+    "hh_vermögen",
+    "anz_erw_hh",
+    "anz_minderj_hh",
+    "kinderzuschlag_temp",
     "wohngeld_basis_hh",
-    "regelbedarf",
-    "ar_base_alg2_ek",
-    "byear",
+    "regelbedarf_m",
+    "sum_basis_arbeitsl_geld_2_eink",
+    "geburtsjahr",
     "year",
 ]
 
 YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
-OUT_COLS = ["kiz", "wohngeld", "m_alg2"]
+OUT_COLS = ["kinderzuschlag", "wohngeld_m", "arbeitsl_geld_2_m"]
 
 
 @pytest.fixture(scope="module")
