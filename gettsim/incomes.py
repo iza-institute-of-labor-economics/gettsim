@@ -47,7 +47,7 @@ def gross_income(household):
         household[
             [
                 "lohn_m",
-                "kinderzuschl_m",
+                "kapital_eink_m",
                 "eink_selbstst_m",
                 "vermiet_eink_m",
                 "eigenheim_ersp_m",

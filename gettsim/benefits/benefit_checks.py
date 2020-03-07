@@ -46,7 +46,7 @@ def benefit_priority(household, params):
 
     # initialize final benefits
     household["arbeitsl_geld_2_m"] = household["arbeitsl_geld_2_m_basis"]
-    household["kinderzuschlag"] = household["kinderzuschlag_temp"]
+    household["kinderzuschlag_m"] = household["kinderzuschlag_temp"]
     household["wohngeld_m"] = household["wohngeld_basis_hh"]
 
     # If this is the case set alg2 to zero.
@@ -67,7 +67,7 @@ def benefit_priority(household, params):
         (~household["kinderzuschlag_vorrang"])
         & (~household["wohngeld_m_kinderzuschlag_vorrang"])
         & (household["arbeitsl_geld_2_m_basis"] > 0),
-        "kinderzuschlag",
+        "kinderzuschlag_m",
     ] = 0
 
     # Pensioners do not receive Kiz or Wohngeld.
@@ -75,7 +75,7 @@ def benefit_priority(household, params):
     # they get 'Grundleistung im Alter', which pays the same amount.
     household["anz_rentner"] = household["rentner"].sum()
 
-    for ben in ["kinderzuschlag", "wohngeld_m", "arbeitsl_geld_2_m"]:
+    for ben in ["kinderzuschlag_m", "wohngeld_m", "arbeitsl_geld_2_m"]:
         household.loc[household["anz_rentner"] > 0, ben] = 0
 
     return household

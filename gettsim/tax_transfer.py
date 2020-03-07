@@ -98,7 +98,7 @@ def tax_transfer(
     )
 
     in_cols = [
-        "m_arbeitsl",
+        "dur_eink_vorj_m",
         "ostdeutsch",
         "kind",
         "m_arbeitsl",
@@ -109,7 +109,7 @@ def tax_transfer(
         "anz_kinder_tu",
         "alter",
     ]
-    out_col = "m_alg1"
+    out_col = "arbeitsl_geld_m"
     df = apply_tax_transfer_func(
         df,
         tax_func=ui,
@@ -262,9 +262,9 @@ def tax_transfer(
         "geburtsjahr",
         "geburtsmonat",
         "geburtstag",
-        "elterngeld_mon_mut",
-        "elterngeld_mon_vat",
-        "elterngeld_mon",
+        "m_elterngeld_mut",
+        "m_elterngeld_vat",
+        "m_elterngeld",
         "year",
     ]
     out_cols = ["elterngeld", "geschw_bonus", "anz_mehrlinge", "elternzeit_anspruch"]
@@ -288,7 +288,7 @@ def tax_transfer(
         "alleinerziehend",
         "alter",
         "lohn_m",
-        "m_transfers",
+        "sonstig_eink_m",
         "kapital_eink_m",
         "vermiet_eink_m",
         "eink_selbstst_m",
@@ -297,6 +297,7 @@ def tax_transfer(
         "gem_veranlagt",
     ]
     out_col = "unterhalt_vors_m"
+
     df = apply_tax_transfer_func(
         df,
         tax_func=uhv,
@@ -310,10 +311,10 @@ def tax_transfer(
     )
     in_cols = [
         "tu_id",
-        "head_tu",
+        "tu_vorstand",
         "kind",
         "kaltmiete_m",
-        "heizkost",
+        "heizkost_m",
         "alleinerziehend",
         "alter",
         "baujahr",
@@ -346,11 +347,11 @@ def tax_transfer(
     in_cols = [
         "hid",
         "pid",
-        "head_tu",
+        "tu_vorstand",
         "kind",
         "alter",
         "kaltmiete_m",
-        "heizkost",
+        "heizkost_m",
         "wohnfläche",
         "wohneigentum",
         "alleinerziehend",
@@ -369,16 +370,16 @@ def tax_transfer(
         "elterngeld",
     ]
     out_cols = [
-        "ar_base_alg2_ek",
-        "ar_alg2_ek_hh",
-        "alg2_grossek_hh",
+        "sum_basis_arbeitsl_geld_2_eink",
+        "sum_arbeitsl_geld_2_eink_hh",
+        "arbeitsl_geld_2_brutto_eink_hh",
         "mehrbed",
         "regelbedarf_m",
         "regelsatz_m",
         "kost_unterk_m",
-        "uhv_hh",
-        "ekanrefrei",
-        "ar_alg2_ek",
+        "unterhalt_vors_m_hh",
+        "eink_anrech_frei",
+        "sum_arbeitsl_geld_2_eink",
     ]
     df = apply_tax_transfer_func(
         df,
@@ -404,12 +405,12 @@ def tax_transfer(
         "mehrbed",
         "anz_erw_tu",
         "anz_kinder_tu",
-        "alg2_grossek_hh",
-        "ar_alg2_ek_hh",
+        "arbeitsl_geld_2_brutto_eink_hh",
+        "sum_arbeitsl_geld_2_eink_hh",
         "kindergeld_hh",
         "unterhalt_vors_m",
     ]
-    out_cols = ["kiz_temp", "kiz_incrange"]
+    out_cols = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]
     df = apply_tax_transfer_func(
         df,
         tax_func=kiz,
@@ -429,13 +430,13 @@ def tax_transfer(
         "hh_vermögen",
         "anz_erw_hh",
         "anz_minderj_hh",
-        "kiz_temp",
+        "kinderzuschlag_temp",
         "wohngeld_basis_hh",
         "regelbedarf_m",
-        "ar_base_alg2_ek",
+        "sum_basis_arbeitsl_geld_2_eink",
         "geburtsjahr",
     ]
-    out_cols = ["kinderzuschlag_m", "wohngeld", "arbeitsl_geld_2_m"]
+    out_cols = ["kinderzuschlag_m", "wohngeld_m", "arbeitsl_geld_2_m"]
     df = apply_tax_transfer_func(
         df,
         tax_func=benefit_priority,
@@ -558,7 +559,7 @@ def tax_transfer(
         "regelbedarf_m",
         "regelsatz_m",
         "kost_unterk_m",
-        "uhv_hh",
+        "unterhalt_vors_m_hh",
         "kinderzuschlag_m",
         "wohngeld_m",
         "arbeitsl_geld_2_m",
