@@ -53,7 +53,7 @@ def tax_transfer(
     The 'sub' functions may take an argument 'ref', which might be used for small
      reforms that e.g. only differ in parameters or slightly change the calculation.
     """
-    bool_variables = ["kind", "east"]
+    bool_variables = ["kind", "ostdeutsch"]
     check_boolean(df, bool_variables)
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
@@ -72,8 +72,8 @@ def tax_transfer(
     # We start with the top layer, which is household id. We treat this as the
     # "Bedarfsgemeinschaft" in German tax law.
     in_cols = [
-        "m_wage",
-        "east",
+        "lohn_m",
+        "ostdeutsch",
         "alter",
         "selbstständig",
         "hat_kinder",
@@ -83,7 +83,7 @@ def tax_transfer(
     ]
     out_cols = [
         "sozialv_beit_m",
-        "rvbeit",
+        "rentenv_beit_m",
         "arbeitsl_beit_m",
         "krankv_beit_m",
         "pflegev_beit_m",
@@ -99,9 +99,9 @@ def tax_transfer(
 
     in_cols = [
         "m_arbeitsl",
-        "east",
+        "ostdeutsch",
         "kind",
-        "months_ue",
+        "m_arbeitsl",
         "m_arbeitsl_vorj",
         "m_arbeitsl_vor2j",
         "rente_m",
@@ -124,7 +124,7 @@ def tax_transfer(
             "soli_st_params": soli_st_params,
         },
     )
-    in_cols = ["m_wage", "east", "alter", "year", "geburtsjahr", "exper", "EP"]
+    in_cols = ["lohn_m", "ostdeutsch", "alter", "year", "geburtsjahr", "exper", "EP"]
     out_col = "rente_anspr_m"
     df = apply_tax_transfer_func(
         df,
@@ -138,45 +138,47 @@ def tax_transfer(
         },
     )
     in_cols = [
-        "m_wage",
+        "lohn_m",
         "eink_selbstst_m",
         "kapital_eink_m",
         "vermiet_eink_m",
         "rente_eint_jahr",
         "rente_m",
         "arbeitsstund_w",
-        "ineducation",
+        "in_ausbildung",
         "gem_veranlagt",
         "kind",
         "kind_betr_kost_m",
         "prv_rente_beit_m",
         "behinderungsgrad",
-        "rvbeit",
+        "rentenv_beit_m",
         "arbeitsl_beit_m",
         "pflegev_beit_m",
         "alleinerziehend",
         "alter",
         "anz_kinder_tu",
         "year",
-        "east",
+        "ostdeutsch",
         "krankv_beit_m",
     ]
-    out_cols = [f"zve_{inc}" for inc in e_st_abzuege_params["zve_list"]] + [
-        "kifreib",
+    out_cols = [
+        f"_zu_versteuerndes_eink_{inc}" for inc in e_st_abzuege_params["eink_arten"]
+    ] + [
+        "kind_freib",
         "brutto_eink_1",
-        "gross_e4",
+        "brutto_eink_4",
         "brutto_eink_5",
-        "gross_e6",
+        "brutto_eink_6",
         "brutto_eink_7",
-        "gross_e1_tu",
-        "gross_e4_tu",
-        "gross_e5_tu",
-        "gross_e6_tu",
-        "gross_e7_tu",
-        "ertragsanteil",
+        "brutto_eink_1_tu",
+        "brutto_eink_4_tu",
+        "brutto_eink_5_tu",
+        "brutto_eink_6_tu",
+        "brutto_eink_7_tu",
+        "_ertragsanteil",
         "sonder",
-        "hhfreib",
-        "altfreib",
+        "hh_freib",
+        "altersfreib",
         "vorsorge",
     ]
     df = apply_tax_transfer_func(
@@ -191,15 +193,12 @@ def tax_transfer(
             "kindergeld_params": kindergeld_params,
         },
     )
-    in_cols = [f"zve_{inc}" for inc in e_st_abzuege_params["zve_list"]] + [
-        "kind",
-        "brutto_eink_5",
-        "gem_veranlagt",
-        "gross_e5_tu",
-    ]
+    in_cols = [
+        f"_zu_versteuerndes_eink_{inc}" for inc in e_st_abzuege_params["eink_arten"]
+    ] + ["kind", "brutto_eink_5", "gem_veranlagt", "brutto_eink_5_tu"]
     out_cols = (
-        [f"tax_{inc}" for inc in e_st_abzuege_params["zve_list"]]
-        + [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]]
+        [f"_st_{inc}" for inc in e_st_abzuege_params["eink_arten"]]
+        + [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]]
         + ["abgelt_st_tu", "abgelt_st", "soli_st", "soli_st_tu"]
     )
     df = apply_tax_transfer_func(
@@ -216,7 +215,7 @@ def tax_transfer(
         },
     )
 
-    in_cols = ["alter", "arbeitsstund_w", "ineducation", "m_wage"]
+    in_cols = ["alter", "arbeitsstund_w", "in_ausbildung", "lohn_m"]
     out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
     df = apply_tax_transfer_func(
         df,
@@ -226,7 +225,7 @@ def tax_transfer(
         out_cols=out_cols,
         func_kwargs={"params": kindergeld_params},
     )
-    in_cols = [f"tax_{inc}_tu" for inc in e_st_abzuege_params["zve_list"]] + [
+    in_cols = [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]] + [
         "gem_veranlagt",
         "kind",
         "abgelt_st_tu",
@@ -254,9 +253,9 @@ def tax_transfer(
         "tu_id",
         "pid",
         "kind",
-        "m_wage",
+        "lohn_m",
         "dur_eink_vorj_m",
-        "east",
+        "ostdeutsch",
         "eink_st",
         "soli_st",
         "sozialv_beit_m",
@@ -268,7 +267,7 @@ def tax_transfer(
         "elterngeld_mon",
         "year",
     ]
-    out_cols = ["elterngeld", "geschw_bonus", "num_mehrlinge", "elternzeit_anspruch"]
+    out_cols = ["elterngeld", "geschw_bonus", "anz_mehrlinge", "elternzeit_anspruch"]
 
     df = apply_tax_transfer_func(
         df,
@@ -288,7 +287,7 @@ def tax_transfer(
     in_cols = [
         "alleinerziehend",
         "alter",
-        "m_wage",
+        "lohn_m",
         "m_transfers",
         "kapital_eink_m",
         "vermiet_eink_m",
@@ -319,19 +318,19 @@ def tax_transfer(
         "alter",
         "baujahr",
         "mietstufe",
-        "m_wage",
+        "lohn_m",
         "rente_m",
-        "ertragsanteil",
+        "_ertragsanteil",
         "arbeitsl_geld_m",
         "sonstig_eink_m",
         "unterhalt_vors_m",
         "elterngeld",
         "brutto_eink_1",
-        "gross_e4",
+        "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
         "eink_st",
-        "rvbeit",
+        "rentenv_beit_m",
         "krankv_beit_m",
         "behinderungsgrad",
     ]
@@ -355,7 +354,7 @@ def tax_transfer(
         "wohnfläche",
         "wohneigentum",
         "alleinerziehend",
-        "m_wage",
+        "lohn_m",
         "rente_m",
         "kapital_eink_m",
         "arbeitsl_geld_m",
@@ -397,7 +396,7 @@ def tax_transfer(
         "rentner",
         "alter",
         "arbeitsstund_w",
-        "m_wage",
+        "lohn_m",
         "in_ausbildung",
         "kaltmiete_m",
         "heizkost_m",
@@ -499,13 +498,13 @@ def tax_transfer(
         "lohn_m",
         "alter",
         "selbstständig",
-        "east",
+        "ostdeutsch",
         "hat_kinder",
         "eink_selbstst_m",
         "rente_m",
         "prv_krank_vers",
         "dur_eink_vorj_m",
-        "months_ue",
+        "m_arbeitsl",
         "m_arbeitsl_vorj",
         "m_arbeitsl_vor2j",
         "arbeitsstund_w",
@@ -542,11 +541,11 @@ def tax_transfer(
         "brutto_eink_5",
         "brutto_eink_6",
         "brutto_eink_7",
-        "gross_e1_tu",
-        "gross_e4_tu",
-        "gross_e5_tu",
-        "gross_e6_tu",
-        "gross_e7_tu",
+        "brutto_eink_1_tu",
+        "brutto_eink_4_tu",
+        "brutto_eink_5_tu",
+        "brutto_eink_6_tu",
+        "brutto_eink_7_tu",
         "abgelt_st_tu",
         "abgelt_st",
         "soli_st",
