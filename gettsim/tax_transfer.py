@@ -78,7 +78,7 @@ def tax_transfer(
         "selbstständig",
         "hat_kinder",
         "eink_selbstst_m",
-        "m_pensions",
+        "rente_m",
         "prv_krank_vers",
     ]
     out_cols = [
@@ -104,7 +104,7 @@ def tax_transfer(
         "months_ue",
         "m_arbeitsl_vorj",
         "m_arbeitsl_vor2j",
-        "m_pensions",
+        "rente_m",
         "arbeitsstund_w",
         "anz_kinder_tu",
         "alter",
@@ -143,7 +143,7 @@ def tax_transfer(
         "kapital_eink_m",
         "vermiet_eink_m",
         "rente_eint_jahr",
-        "m_pensions",
+        "rente_m",
         "arbeitsstund_w",
         "ineducation",
         "gem_veranlagt",
@@ -294,7 +294,7 @@ def tax_transfer(
         "vermiet_eink_m",
         "eink_selbstst_m",
         "arbeitsl_geld_m",
-        "m_pensions",
+        "rente_m",
         "gem_veranlagt",
     ]
     out_col = "unterhalt_vors_m"
@@ -320,7 +320,7 @@ def tax_transfer(
         "baujahr",
         "mietstufe",
         "m_wage",
-        "m_pensions",
+        "rente_m",
         "ertragsanteil",
         "arbeitsl_geld_m",
         "sonstig_eink_m",
@@ -356,7 +356,7 @@ def tax_transfer(
         "wohneigentum",
         "alleinerziehend",
         "m_wage",
-        "m_pensions",
+        "rente_m",
         "kapital_eink_m",
         "arbeitsl_geld_m",
         "sonstig_eink_m",
@@ -451,7 +451,7 @@ def tax_transfer(
         "eink_selbstst_m",
         "vermiet_eink_m",
         # "eigenheim_ersp_m", We need to discuss this!
-        "m_pensions",
+        "rente_m",
         "sonstig_eink_m",
         "kindergeld",
         "unterhalt_vors_m",
