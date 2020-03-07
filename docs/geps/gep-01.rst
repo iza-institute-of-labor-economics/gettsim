@@ -33,8 +33,8 @@ a nutshell and without explanations, these conventions are:
   underscore, unless it is the last word.
 * Names should be long enough to be readable, but
 
-  - for column names in the user-facing API, there is a hard limit of 15 characters;
-  - for other column names, there is a soft limit of 15 and a hard limit of 25
+  - for column names in the user-facing API, there is a hard limit of 17 characters;
+  - for other column names, there is a soft limit of 17 and a hard limit of 25
     characters.
 
 * The language should generally be English in all coding efforts and documentation.
@@ -84,7 +84,7 @@ in English. For column names, we always allow a pure ASCII option, see the next 
 Column names (a.k.a. "variables" in Stata)
 ------------------------------------------
 
-We impose a hard limit of 15 characters for all column names that are part of the API,
+We impose a hard limit of 17 characters for all column names that are part of the API,
 i.e., those that are an input to or an output of GETTSIM's main simulation functions.
 This is for the benefit of Stata users, who face a strict limit of 32 characters for
 their column names. Furthermore, where developers using other languages may store
