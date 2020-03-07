@@ -17,54 +17,56 @@ def benefit_priority(household, params):
     # But first, we check whether hh wealth is too high
     household = wealth_test(household, params)
     # use these values (possibly zero now) below
-    household["sum_wohngeld_arbeitsl_geld_2_eink"] = (
+    household["sum_wohngeld_m_arbeitsl_geld_2_eink"] = (
         household["sum_basis_arbeitsl_geld_2_eink"] + household["wohngeld_basis_hh"]
     )
     household["sum_kinderzuschlag_arbeitsl_geld_2_eink"] = (
         household["sum_basis_arbeitsl_geld_2_eink"] + household["kinderzuschlag_temp"]
     )
-    household["sum_wohngeld_kinderzuschlag_arbeitsl_geld_2_eink"] = (
+    household["sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink"] = (
         household["sum_basis_arbeitsl_geld_2_eink"]
         + household["wohngeld_basis_hh"]
         + household["kinderzuschlag_temp"]
     )
 
     # calculate difference between transfers and the household need
-    for v in ["basis", "wohngeld", "kinderzuschlag", "wohngeld_kinderzuschlag"]:
+    for v in ["basis", "wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
         household["fehlbedarf_" + v] = (
             household["regelbedarf_m"] - household["sum_" + v + "_arbeitsl_geld_2_eink"]
         )
-        household["arbeitsl_geld_2_m" + v] = np.maximum(household["fehlbedarf_" + v], 0)
+        household["arbeitsl_geld_2_m_" + v] = np.maximum(
+            household["fehlbedarf_" + v], 0
+        )
 
     # check whether any of wg kiz or wg+kiz joint imply a fulfilled need.
-    for v in ["wohngeld", "kinderzuschlag", "wohngeld_kinderzuschlag"]:
-        household[v + "_vorrang"] = (household["arbeitsl_geld_2_m" + v] == 0) & (
+    for v in ["wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
+        household[v + "_vorrang"] = (household["arbeitsl_geld_2_m_" + v] == 0) & (
             household["arbeitsl_geld_2_m_basis"] > 0
         )
 
     # initialize final benefits
     household["arbeitsl_geld_2_m"] = household["arbeitsl_geld_2_m_basis"]
     household["kinderzuschlag"] = household["kinderzuschlag_temp"]
-    household["wohngeld"] = household["wohngeld_basis_hh"]
+    household["wohngeld_m"] = household["wohngeld_basis_hh"]
 
     # If this is the case set alg2 to zero.
     household.loc[
-        (household["wohngeld_vorrang"])
+        (household["wohngeld_m_vorrang"])
         | (household["kinderzuschlag_vorrang"])
-        | (household["wohngeld_kinderzuschlag_vorrang"]),
+        | (household["wohngeld_m_kinderzuschlag_vorrang"]),
         "arbeitsl_geld_2_m",
     ] = 0
     # If other benefits are not sufficient, set THEM to zero instead.
     household.loc[
-        (~household["wohngeld_vorrang"])
-        & (~household["wohngeld_kinderzuschlag_vorrang"])
+        (~household["wohngeld_m_vorrang"])
+        & (~household["wohngeld_m_kinderzuschlag_vorrang"])
         & (household["arbeitsl_geld_2_m_basis"] > 0),
         "wohngeld_m",
     ] = 0
     household.loc[
         (~household["kinderzuschlag_vorrang"])
-        & (~household["wohngeld_kinderzuschlag_vorrang"])
-        & (household["arbeitsl_geld_2__m_basis"] > 0),
+        & (~household["wohngeld_m_kinderzuschlag_vorrang"])
+        & (household["arbeitsl_geld_2_m_basis"] > 0),
         "kinderzuschlag",
     ] = 0
 
