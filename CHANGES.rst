@@ -28,6 +28,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Fix Soli 1991 calculation, improve Soli 1995 calculation, add 2021 Soli
   parameters and add Soli tests (:ghuser:`mjbloemer`, :ghuser:`MaxBlesch`)
 * Implement pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser:`Eric-Sommer`)
+* ``gettsim`` is released as a conda noarch package (:ghuser:`tobiasraabe`)
 
 
 0.2.1 - 2019-11-20

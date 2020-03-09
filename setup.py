@@ -39,7 +39,9 @@ setup(
         "Programming Language :: Python :: 3.7",
     ],
     platforms="any",
-    package_data={"gettsim": ["tests/test_data/*.csv", "data/*.yaml", "data/*.xlsx"]},
+    package_data={
+        "gettsim": ["tests/test_data/*.csv", "tests/test_data/*.ods", "data/*.yaml"]
+    },
     include_package_data=True,
     zip_safe=False,
 )
