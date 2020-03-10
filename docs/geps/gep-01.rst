@@ -17,6 +17,8 @@ GEP 1 — Naming Conventions
 +------------+-------------------------------------------------------------------------+
 | Created    | 2019-11-04                                                              |
 +------------+-------------------------------------------------------------------------+
+| Updated    | 2020-03-10                                                              |
++------------+-------------------------------------------------------------------------+
 | Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
 +------------+-------------------------------------------------------------------------+
 
@@ -170,6 +172,38 @@ Alternatives
 * Do something like EUROMOD and include some hierarchy in column names (e.g. start with
   ``d_`` for demographics). Should not be necessary if column names have clear enough
   names. If anything, we would achieve this via a MultiIndex for the columns.
+
+
+A final note
+------------
+
+No styleguide in the world can be complete or always be applicable. Python's  `PEP-8
+<https://www.python.org/dev/peps/pep-0008/>`_ has the wonderful section called `A
+Foolish Consistency is the Hobgoblin of Little Minds
+<https://www.python.org/dev/peps/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds>`_
+for that. Quoting from there:
+
+    A style guide is about consistency. Consistency with this style guide is important.
+    Consistency within a project is more important. Consistency within one module or
+    function is the most important.
+
+    However, know when to be inconsistent -- sometimes style guide recommendations just
+    aren't applicable. When in doubt, use your best judgment. Look at other examples and
+    decide what looks best. And don't hesitate to ask!
+
+    In particular: do not break backwards compatibility just to comply with this PEP!
+
+    Some other good reasons to ignore a particular guideline:
+
+        1. When applying the guideline would make the code less readable, even for
+           someone who is used to reading code that follows this PEP.
+        2. To be consistent with surrounding code that also breaks it (maybe for
+           historic reasons) -- although this is also an opportunity to clean up someone
+           else's mess (in true XP style).
+        3. Because the code in question predates the introduction of the guideline and
+           there is no other reason to be modifying that code.
+        4. When the code needs to remain compatible with older versions of Python that
+           don't support the feature recommended by the style guide.
 
 
 Discussion
