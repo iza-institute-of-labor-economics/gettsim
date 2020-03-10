@@ -5,36 +5,36 @@ package:
   version: {{ data.get('version') }}
 
 source:
-  path: ../gettsim
+  path: ../../gettsim
 
 build:
-  number: 0
+  noarch: python
 
 requirements:
   build:
-    - python {{ python }}
+    - python
     - setuptools
 
   run:
-    - python {{ python }}
+    - python >=3.6
     - pandas
     - pytest
     - pyyaml
 
 test:
+  source_files:
+    - gettsim/data
+    - gettsim/tests
+    - setup.cfg
   commands:
     - pytest
-  files:
-    - gettsim/tests/
-  requires:
-    - pytest
-    - pytest-cov
-    - pytest-xdist
   imports:
     - gettsim
 
 about:
   home: https://github.com/iza-institute-of-labor-economics/gettsim
-  license: AGPLv3
+  license: {{ data.get('license') }}
   license_file: LICENSE
-  summary: German tax and transfer simulator.
+  summary: {{ data.get('description') }}
+  dev_url: https://github.com/iza-institute-of-labor-economics/gettsim
+  doc_url: {{ data.get('url') }}
