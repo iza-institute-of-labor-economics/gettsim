@@ -3,10 +3,10 @@ import itertools
 import pandas as pd
 import pytest
 
+from gettsim.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
-from gettsim.tax_transfer import _apply_tax_transfer_func
 
 INPUT_COLS = [
     "pid",
@@ -24,7 +24,7 @@ INPUT_COLS = [
 ]
 
 
-YEARS = [2002, 2010, 2018, 2019]
+YEARS = [2002, 2010, 2018, 2019, 2020]
 OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
 
 
@@ -42,7 +42,7 @@ def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
-    df = _apply_tax_transfer_func(
+    df = apply_tax_transfer_func(
         df,
         tax_func=soc_ins_contrib,
         level=["hid", "tu_id", "pid"],

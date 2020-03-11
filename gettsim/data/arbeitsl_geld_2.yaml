@@ -165,7 +165,7 @@ rs_hhvor:
     de: Regelsatz
     en: Standard rate
   description:
-    de: Regelsatz. § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S. 3159.
+    de: Regelsatz. Seit 2011 Regelbedarfsstufe 1. § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S. 3159.
     en:
   values:
     2005-01-01:
@@ -216,12 +216,15 @@ rs_hhvor:
     2019-01-01:
       value: 424
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 432
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_2adults:
   name:
     de: Regelsatz, 2 Erwachsene
     en: Standard rate, 2 adults
   description:
-    de: Regelsatz, wenn 2 Erwachsene im Haushalt sind. § 20 IV SGB II. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Früher waren es 90% des Regelsatzes (vgl. Parameter a2part), seit 2011 fester Satz. Dieser gilt für beide Erwachsene.
+    de: Regelsatz, wenn 2 Erwachsene im Haushalt sind. Seit 2011 Regelbedarfsstufe 2. § 20 IV SGB II. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Früher waren es 90% des Regelsatzes (vgl. Parameter a2part), seit 2011 fester Satz. Dieser gilt für beide Erwachsene.
     en:
   values:
     2011-01-01:
@@ -251,12 +254,15 @@ rs_2adults:
     2019-01-01:
       value: 382
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 389
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_madults:
   name:
     de: Regelsatz für weitere Erwachsene
     en: Standard rate, additional adult
   description:
-    de: Regelsatz des, für alle weiteren Erwachsenen. § 20 III Nr. 2 SGB II. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Früher waren es 80% des Regelsatzes (vgl. Parameter a2ch18), seit 2011 fester Satz. Dieser gilt für jeden weiteren Erwachsenen.
+    de: Regelsatz für alle weiteren Erwachsenen. Seit 2011 Regelbedarfsstufe 3. § 20 III Nr. 2 SGB II. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Früher waren es 80% des Regelsatzes (vgl. Parameter a2ch18), seit 2011 fester Satz.
     en:
   values:
     2011-01-01:
@@ -286,9 +292,12 @@ rs_madults:
     2019-01-01:
       value: 339
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 345
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_ch0:
   name:
-    de: Regelsatz für Kinder unter 7 Jahren
+    de: Regelsatz für Kinder unter 7 Jahren. Regelbedarfsstufe 6.
     en: Standard rate for children 0-7
   description:
     de: Regelsatz für Kinder unter 7 Jahren. § 20 V SGB II. Bis 31.12.2010 wird stattdessen der Anteilswert a2ch0 verwendet.
@@ -321,9 +330,12 @@ rs_ch0:
     2019-01-01:
       value: 245
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 250
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_ch7:
   name:
-    de: Regelsatz für Kinder zwischen 7 und 13 Jahren
+    de: Regelsatz für Kinder zwischen 7 und 13 Jahren. Regelbedarfsstufe 5.
     en: Standard rate for children 7-13
   description:
     de: Regelsatz für Kinder zwischen 7 und 13 Jahren. § 20 V SGB II. Bis 31.12.2010 wird stattdessen der Anteilswert a2ch7 verwendet.
@@ -356,9 +368,12 @@ rs_ch7:
     2019-01-01:
       value: 302
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 308
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 rs_ch14:
   name:
-    de: Regelsatz für Kinder zwischen 14 und 18 Jahren
+    de: Regelsatz für Kinder zwischen 14 und 18 Jahren. Regelbedarfsstufe 4.
     en: Standard rate for children 14-18
   description:
     de: Regelsatz für Kinder zwischen 14 und 18 Jahren. § 20 V SGB II. Bis 31.12.2010 wird stattdessen der Anteilswert a2ch14 verwendet.
@@ -391,6 +406,9 @@ rs_ch14:
     2019-01-01:
       value: 322
       note: V. v. 19.10.2018 BGBl. I S. 1766.
+    2020-01-01:
+      value: 328
+      note: V. v. 15.10.2019 BGBl. I S. 1452.
 a2part:
   name:
     de: Anteil an RS bei 2 Partnern (2005-2010)

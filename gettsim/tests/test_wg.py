@@ -22,6 +22,7 @@ INPUT_COLS = [
     "m_wage",
     "m_pensions",
     "ertragsanteil",
+    "elterngeld",
     "m_alg1",
     "m_transfers",
     "uhv",
