@@ -25,7 +25,7 @@ setup(
     long_description_content_type="text/x-rst",
     author="Hans-Martin von Gaudecker",
     author_email="gaudecker@iza.org",
-    python_requires=">=3.6.0",
+    python_requires=">=3.6",
     url="https://gettsim.readthedocs.io",
     project_urls=PROJECT_URLS,
     packages=find_packages(),
@@ -40,7 +40,7 @@ setup(
     ],
     platforms="any",
     package_data={
-        "gettsim": ["tests/test_data/*.csv", "data/param.yaml", "data/*.xlsx"]
+        "gettsim": ["tests/test_data/*.csv", "tests/test_data/*.ods", "data/*.yaml"]
     },
     include_package_data=True,
     zip_safe=False,
