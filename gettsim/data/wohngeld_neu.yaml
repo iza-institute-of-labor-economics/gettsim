@@ -424,8 +424,90 @@ max_miete:
   description:
     de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
     en:
-  note: Die Werte sind nach Anzahl Personen - Mietstufe geordnet - Baujahr des Hauses
+  note: Die Werte sind nach Anzahl Personen - Baujahr des Hauses -Mietstufe geordnet
   1984-01-01:
     1:
-      1:
+      a:
         1:
+      m:
+        1:
+        2:
+        3: 166
+        4:
+        5:
+        6:
+
+min_miete:
+  name:
+    de: Minimalwert für Parameter M
+    en:
+  description:
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
+    en:
+  1984-01-01:
+    1: 0
+    2: 0
+    3: 0
+    4: 0
+    5: 0
+    6: 0
+    7: 0
+    8: 0
+    9: 0
+    10: 0
+    11: 0
+    12: 0
+  2001-01-01:
+    1: 22.5
+    2: 22.5
+    3: 27.5
+    4: 32.5
+    5: 32.5
+    6: 32.5
+    7: 35
+    8: 35
+    9: 37.5
+    10: 37.5
+    11: 75
+    12: 155
+  2009-01-01:
+    1: 45
+    2: 55
+    3: 65
+    4: 75
+    5: 85
+    6: 85
+    7: 95
+    8: 105
+    9: 115
+    10: 125
+    11: 155
+    12: 245
+  2016-01-01:
+    reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
+    1: 48
+    2: 59
+    3: 70
+    4: 81
+    5: 91
+    6: 91
+    7: 102
+    8: 113
+    9: 124
+    10: 134
+    11: 155
+    12: 263
+  2020-01-01:
+    reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+    1: 52
+    2: 64
+    3: 76
+    4: 88
+    5: 99
+    6: 99
+    7: 111
+    8: 123
+    9: 135
+    10: 146
+    11: 180
+    12: 286
