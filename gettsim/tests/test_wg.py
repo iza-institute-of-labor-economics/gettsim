@@ -7,6 +7,8 @@ from numpy.testing import assert_allclose
 from pandas.testing import assert_frame_equal
 from pandas.testing import assert_series_equal
 
+from gettsim.benefits.wohngeld import calc_min_rent
+from gettsim.benefits.wohngeld import calc_min_rent_regrouped
 from gettsim.benefits.wohngeld import calc_wg_abzuege_regrouped
 from gettsim.benefits.wohngeld import regrouped_wohngeld_formel
 from gettsim.benefits.wohngeld import wg
@@ -85,6 +87,26 @@ def test_regrouped_wohngeld_formula(input_data, year):
             year_data[year_data["hid"] == hid]["wohngeld_basis_hh"].iloc[0],
             wohngeld_basis.iloc[0],
             atol=0.1,
+        )
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_regrouped_wohngeld_min_rent(input_data, wohngeld_raw_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data.copy()
+
+    actual_date = datetime.date(year=year, month=1, day=1)
+    wohngeld_params = load_regrouped_wohngeld(actual_date)
+
+    wohngeld_params_org = get_policies_for_date(
+        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+    )
+
+    for hid in df["hid"].unique():
+        hh_size = len(df[df["hid"] == hid])
+
+        assert calc_min_rent_regrouped(wohngeld_params, hh_size) == calc_min_rent(
+            wohngeld_params_org, hh_size
         )
 
 

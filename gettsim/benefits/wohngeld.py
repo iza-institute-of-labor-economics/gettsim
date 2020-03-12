@@ -101,6 +101,12 @@ def calc_min_rent(params, household_size):
     return min_rent
 
 
+def calc_min_rent_regrouped(params, household_size):
+    """ The minimal acknowledged rent depending on the household size."""
+    min_rent = params["min_miete"][min(household_size, 12)]
+    return min_rent
+
+
 def calc_wg_income(household, params, household_size):
     """ This function calculates the relevant income for the calculation of the
     wohngeld."""
