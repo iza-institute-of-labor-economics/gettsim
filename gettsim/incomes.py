@@ -2,7 +2,7 @@ import numpy as np
 
 
 def disposable_income(household):
-    household["dpi_ind"] = household[
+    household["verfüg_eink_m"] = household[
         [
             "bruttolohn_m",
             "kapital_eink_m",
@@ -12,24 +12,24 @@ def disposable_income(household):
             "ges_rente_m",
             "sonstig_eink_m",
             "kindergeld",
-            "unterhalt_vors_m",
+            "unterhaltsvors_m",
         ]
     ].sum(axis=1) - household[
         [
             "eink_st",
             "soli_st",
             "abgelt_st",
-            "krankv_beit_m",
+            "ges_krankv_beit_m",
             "rentenv_beit_m",
             "pflegev_beit_m",
-            "arbeitsl_beit_m",
+            "arbeitsl_v_beit_m",
         ]
     ].sum(
         axis=1
     )
 
     # Disposible income on hh level
-    household["dpi"] = round(
+    household["verfüg_eink_hh_m"] = round(
         np.maximum(
             0,
             sum(household["verfüg_eink_m"])
@@ -42,20 +42,20 @@ def disposable_income(household):
     return household
 
 
-def gross_income(household):
-    household["gross"] = round(
-        household[
-            [
-                "bruttolohn_m",
-                "kapital_eink_m",
-                "eink_selbstst_m",
-                "vermiet_eink_m",
-                "miete_unterstellt",
-                "ges_rente_m",
-                "sonstig_eink_m",
-                "kindergeld",
-            ]
-        ].sum(axis=1),
-        2,
-    )
-    return household
+# def gross_income(household):
+#    household["brutto_eink"] = round(
+#        household[
+#            [
+#                "bruttolohn_m",
+#                "kapital_eink_m",
+#                "eink_selbstst_m",
+#                "vermiet_eink_m",
+#                "miete_unterstellt",
+#                "ges_rente_m",
+#                "sonstig_eink_m",
+#                "kindergeld",
+#            ]
+#        ].sum(axis=1),
+#        2,
+#    )
+#    return household

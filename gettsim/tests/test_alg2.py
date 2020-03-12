@@ -31,7 +31,7 @@ INPUT_COLS = [
     "soli_st",
     "sozialv_beit_m",
     "kindergeld_hh",
-    "unterhalt_vors_m",
+    "unterhaltsvors_m",
     "elterngeld",
     "year",
 ]
@@ -43,7 +43,7 @@ OUT_COLS = [
     "regelbedarf_m",
     "regelsatz_m",
     "kost_unterk_m",
-    "unterhalt_vors_m_hh",
+    "unterhaltsvors_m_hh",
     "eink_anrech_frei",
 ]
 

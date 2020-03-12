@@ -24,7 +24,7 @@ INPUT_COLS = [
     "gem_veranlagt",
     "year",
 ]
-OUT_COL = "unterhalt_vors_m"
+OUT_COL = "unterhaltsvors_m"
 YEARS = [2017, 2018, 2019]
 
 
@@ -47,7 +47,7 @@ def test_uhv(input_data, year, unterhalt_raw_data):
     df = df.groupby(["hh_id", "tu_id"]).apply(
         uhv, params=unterhalt_params, kindergeld_params=kindergeld_params
     )
-    assert_series_equal(df[OUT_COL], year_data["unterhalt_vors_m"], check_dtype=False)
+    assert_series_equal(df[OUT_COL], year_data["unterhaltsvors_m"], check_dtype=False)
 
 
 @pytest.fixture(scope="module")
@@ -69,4 +69,4 @@ def test_uhv_07_2019(input_data_2, year, unterhalt_raw_data):
     df = df.groupby(["hh_id", "tu_id"]).apply(
         uhv, params=unterhalt_params, kindergeld_params=kindergeld_params
     )
-    assert_series_equal(df[OUT_COL], year_data["unterhalt_vors_m"], check_dtype=False)
+    assert_series_equal(df[OUT_COL], year_data["unterhaltsvors_m"], check_dtype=False)

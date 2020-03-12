@@ -28,14 +28,14 @@ IN_COLS = [
     "behinderungsgrad",
     "rentenv_beit_m",
     "prv_rente_beit_m",
-    "arbeitsl_beit_m",
+    "arbeitsl_v_beit_m",
     "pflegev_beit_m",
     "alleinerziehend",
     "alter",
     "anz_kinder_tu",
     "year",
     "wohnort_st",
-    "krankv_beit_m",
+    "ges_krankv_beit_m",
 ]
 OUT_COLS = [
     "_zu_versteuerndes_eink_kein_kind_freib",

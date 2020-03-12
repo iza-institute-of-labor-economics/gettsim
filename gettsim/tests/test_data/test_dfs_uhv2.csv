@@ -1,3 +1,3 @@
-,hh_id,tu_id,p_id,alleinerziehend,alter,bruttolohn_m,eink_selbstst_m,sonstig_eink_m,arbeitsl_geld_m,ges_rente_m,kapital_eink_m,vermiet_eink_m,gem_veranlagt,year,unterhalt_vors_m
+,hh_id,tu_id,p_id,alleinerziehend,alter,bruttolohn_m,eink_selbstst_m,sonstig_eink_m,arbeitsl_geld_m,ges_rente_m,kapital_eink_m,vermiet_eink_m,gem_veranlagt,year,unterhaltsvors_m
 0,1,1,23,True,40,0,0,0,0,0,0,0,False,2019,0
 1,1,1,25,True,8,0,0,0,0,0,0,0,False,2019,202

@@ -370,13 +370,13 @@ def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
         tax_unit["pflegev_beit_m"]
-        + (1 - params["vorsorg_krank_minder"]) * tax_unit["krankv_beit_m"]
+        + (1 - params["vorsorg_krank_minder"]) * tax_unit["ges_krankv_beit_m"]
     )
     # maybe add avbeit, but do not exceed 1900€.
     sonstige_vors = np.maximum(
         sonstige_vors,
         np.minimum(
-            sonstige_vors + 12 * tax_unit["arbeitsl_beit_m"], params["vors_sonst_max"]
+            sonstige_vors + 12 * tax_unit["arbeitsl_v_beit_m"], params["vors_sonst_max"]
         ),
     )
     return altersvors.astype(int) + sonstige_vors.astype(int)
@@ -396,8 +396,8 @@ def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
         params["vors_sonst_max"],
         12
         * (
-            tax_unit["krankv_beit_m"]
-            + tax_unit["arbeitsl_beit_m"]
+            tax_unit["ges_krankv_beit_m"]
+            + tax_unit["arbeitsl_v_beit_m"]
             + tax_unit["pflegev_beit_m"]
         ),
     ).astype(int)
@@ -425,7 +425,8 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             item_1 = 0
         # calcuate the remaining amount.
         vorsorg_rest = np.maximum(
-            12 * (tax_unit["rentenv_beit_m"] + tax_unit["krankv_beit_m"]) - item_1, 0
+            12 * (tax_unit["rentenv_beit_m"] + tax_unit["ges_krankv_beit_m"]) - item_1,
+            0,
         )
         # Deduct a 'Grundhöchstbetrag' (1334€ in 2004),
         # or the actual expenses if lower (which is unlikely)
@@ -435,7 +436,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         item_3 = np.minimum(0.5 * (vorsorg_rest - item_2), 0.5 * params["grundbet"])
     # For the married couple, the same stuff, but with tu totals.
     if tax_unit["gem_veranlagt"].max():
-        for var in ["bruttolohn_m", "rentenv_beit_m", "krankv_beit_m"]:
+        for var in ["bruttolohn_m", "rentenv_beit_m", "ges_krankv_beit_m"]:
             # TODO: Shouldnt here be summe over the variables?
             tax_unit[f"{var}_tu"] = tax_unit.loc[
                 ~tax_unit["kind"], "bruttolohn_m"
@@ -450,7 +451,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             item_1 = 0
 
         vorsorg_rest = 0.5 * np.maximum(
-            12 * (tax_unit["rentenv_beit_m_tu"] + tax_unit["krankv_beit_m_tu"])
+            12 * (tax_unit["rentenv_beit_m_tu"] + tax_unit["ges_krankv_beit_m_tu"])
             - item_1,
             0,
         )

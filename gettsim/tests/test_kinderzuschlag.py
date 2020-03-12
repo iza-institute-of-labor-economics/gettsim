@@ -26,7 +26,7 @@ INPUT_COLS = [
     "arbeitsl_geld_2_brutto_eink_hh",
     "sum_arbeitsl_geld_2_eink_hh",
     "kindergeld_hh",
-    "unterhalt_vors_m",
+    "unterhaltsvors_m",
     "year",
 ]
 OUT_COLS = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]

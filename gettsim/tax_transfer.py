@@ -8,7 +8,6 @@ from gettsim.benefits.unterhalt import uhv
 from gettsim.benefits.wohngeld import wg
 from gettsim.checks import check_boolean
 from gettsim.incomes import disposable_income
-from gettsim.incomes import gross_income
 from gettsim.pensions import pensions
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
@@ -84,8 +83,8 @@ def tax_transfer(
     out_cols = [
         "sozialv_beit_m",
         "rentenv_beit_m",
-        "arbeitsl_beit_m",
-        "krankv_beit_m",
+        "arbeitsl_v_beit_m",
+        "ges_krankv_beit_m",
         "pflegev_beit_m",
     ]
     df = apply_tax_transfer_func(
@@ -152,14 +151,14 @@ def tax_transfer(
         "prv_rente_beit_m",
         "behinderungsgrad",
         "rentenv_beit_m",
-        "arbeitsl_beit_m",
+        "arbeitsl_v_beit_m",
         "pflegev_beit_m",
         "alleinerziehend",
         "alter",
         "anz_kinder_tu",
         "year",
         "wohnort_st",
-        "krankv_beit_m",
+        "ges_krankv_beit_m",
     ]
     out_cols = [
         f"_zu_versteuerndes_eink_{inc}" for inc in e_st_abzuege_params["eink_arten"]
@@ -296,7 +295,7 @@ def tax_transfer(
         "ges_rente_m",
         "gem_veranlagt",
     ]
-    out_col = "unterhalt_vors_m"
+    out_col = "unterhaltsvors_m"
 
     df = apply_tax_transfer_func(
         df,
@@ -324,7 +323,7 @@ def tax_transfer(
         "_ertragsanteil",
         "arbeitsl_geld_m",
         "sonstig_eink_m",
-        "unterhalt_vors_m",
+        "unterhaltsvors_m",
         "elterngeld",
         "brutto_eink_1",
         "brutto_eink_4",
@@ -332,7 +331,7 @@ def tax_transfer(
         "brutto_eink_6",
         "eink_st",
         "rentenv_beit_m",
-        "krankv_beit_m",
+        "ges_krankv_beit_m",
         "behinderungsgrad",
     ]
     out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
@@ -366,7 +365,7 @@ def tax_transfer(
         "soli_st",
         "sozialv_beit_m",
         "kindergeld_hh",
-        "unterhalt_vors_m",
+        "unterhaltsvors_m",
         "elterngeld",
     ]
     out_cols = [
@@ -377,7 +376,7 @@ def tax_transfer(
         "regelbedarf_m",
         "regelsatz_m",
         "kost_unterk_m",
-        "unterhalt_vors_m_hh",
+        "unterhaltsvors_m_hh",
         "eink_anrech_frei",
         "sum_arbeitsl_geld_2_eink",
     ]
@@ -408,7 +407,7 @@ def tax_transfer(
         "arbeitsl_geld_2_brutto_eink_hh",
         "sum_arbeitsl_geld_2_eink_hh",
         "kindergeld_hh",
-        "unterhalt_vors_m",
+        "unterhaltsvors_m",
     ]
     out_cols = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]
     df = apply_tax_transfer_func(
@@ -454,14 +453,14 @@ def tax_transfer(
         "ges_rente_m",
         "sonstig_eink_m",
         "kindergeld",
-        "unterhalt_vors_m",
+        "unterhaltsvors_m",
         "eink_st",
         "soli_st",
         "abgelt_st",
-        "krankv_beit_m",
+        "ges_krankv_beit_m",
         "rentenv_beit_m",
         "pflegev_beit_m",
-        "arbeitsl_beit_m",
+        "arbeitsl_v_beit_m",
         "kinderzuschlag_m",
         "wohngeld_m",
         "arbeitsl_geld_2_m",
@@ -474,20 +473,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
     )
-    in_cols = [
-        "bruttolohn_m",
-        "kapital_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "miete_unterstellt",
-        "ges_rente_m",
-        "sonstig_eink_m",
-        "kindergeld",
-    ]
-    out_col = "brutto_eink"
-    df = apply_tax_transfer_func(
-        df, tax_func=gross_income, level=household, in_cols=in_cols, out_cols=[out_col]
-    )
+
     required_inputs = [
         "hh_id",
         "tu_id",
@@ -534,8 +520,8 @@ def tax_transfer(
     desired_outputs = [
         "sozialv_beit_m",
         "rentenv_beit_m",
-        "arbeitsl_beit_m",
-        "krankv_beit_m",
+        "arbeitsl_v_beit_m",
+        "ges_krankv_beit_m",
         "arbeitsl_geld_m",
         "rente_anspr_m",
         "brutto_eink_1",
@@ -555,17 +541,16 @@ def tax_transfer(
         "kindergeld_tu",
         "eink_st",
         "eink_st_tu",
-        "unterhalt_vors_m",
+        "unterhaltsvors_m",
         "regelbedarf_m",
         "regelsatz_m",
         "kost_unterk_m",
-        "unterhalt_vors_m_hh",
+        "unterhaltsvors_m_hh",
         "kinderzuschlag_m",
         "wohngeld_m",
         "arbeitsl_geld_2_m",
         "verfüg_eink_m",
         "verfüg_eink_hh_m",
-        "brutto_eink",
     ]
     return df[required_inputs + desired_outputs]
 

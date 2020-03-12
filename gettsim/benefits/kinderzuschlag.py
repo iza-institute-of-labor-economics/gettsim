@@ -87,7 +87,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
             0,
             params["a2kiz"]
             - params["a2kiz_withdrawal_rate_child"]
-            * (household["bruttolohn_m"] + household["unterhalt_vors_m"]),
+            * (household["bruttolohn_m"] + household["unterhaltsvors_m"]),
         )
     )
 

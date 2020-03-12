@@ -19,10 +19,10 @@ IN_COLS = [
     "kind",
     "prv_rente_beit_m",
     "rentenv_beit_m",
-    "arbeitsl_beit_m",
+    "arbeitsl_v_beit_m",
     "pflegev_beit_m",
     "year",
-    "krankv_beit_m",
+    "ges_krankv_beit_m",
     "gem_veranlagt",
 ]
 OUT_COLS = ["vorsorge"]

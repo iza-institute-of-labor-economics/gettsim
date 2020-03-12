@@ -120,8 +120,8 @@ def calc_wg_income(household, params, household_size):
         "brutto_eink_6",
         "eink_st",
         "rentenv_beit_m",
-        "krankv_beit_m",
-        "unterhalt_vors_m",
+        "ges_krankv_beit_m",
+        "unterhaltsvors_m",
         "elterngeld",
     ]:
         # TODO Why is there a k in the end? It does not differ from the usual tu sum!
@@ -135,7 +135,7 @@ def calc_wg_income(household, params, household_size):
             "arbeitsl_geld_m_tu_k",
             "sonstig_eink_m_tu_k",
             "_st_rente_tu_k",
-            "unterhalt_vors_m_tu_k",
+            "unterhaltsvors_m_tu_k",
             "elterngeld_tu_k",
         ]
     ].sum(axis=1)
@@ -164,7 +164,7 @@ def calc_wg_abzuege(household, params):
     wg_abz = (
         (household["eink_st_tu_k"] > 0) * 1
         + (household["rentenv_beit_m_tu_k"] > 0) * 1
-        + (household["krankv_beit_m_tu_k"] > 0) * 1
+        + (household["ges_krankv_beit_m_tu_k"] > 0) * 1
     )
 
     wg_abz_amounts = {

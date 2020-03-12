@@ -1,8 +1,8 @@
 OUT_COLS = [
     "sozialv_beit_m",
     "rentenv_beit_m",
-    "arbeitsl_beit_m",
-    "krankv_beit_m",
+    "arbeitsl_v_beit_m",
+    "ges_krankv_beit_m",
     "pflegev_beit_m",
 ]
 
@@ -62,18 +62,18 @@ def soc_ins_contrib(person, params):
 
     # Self-employed may insure via the public health and care insurance.
     if person["selbstständig"] & ~person["prv_krankv_beit_m"]:
-        person["krankv_beit_m"] = selfemployed_gkv_ssc(person, params, params_ost)
+        person["ges_krankv_beit_m"] = selfemployed_gkv_ssc(person, params, params_ost)
         person["pflegev_beit_m"] = selfemployed_pv_ssc(person, params, params_ost)
 
     # Add the health insurance contribution for pensions
-    person["krankv_beit_m"] += gkv_ssc_pensions(person, params, params_ost)
+    person["ges_krankv_beit_m"] += gkv_ssc_pensions(person, params, params_ost)
 
     # Add the care insurance contribution for pensions
     person["pflegev_beit_m"] += pv_ssc_pensions(person, params, params_ost)
 
     # Sum of Social Insurance Contributions (for employees)
     person["sozialv_beit_m"] = person[
-        ["rentenv_beit_m", "arbeitsl_beit_m", "krankv_beit_m", "pflegev_beit_m"]
+        ["rentenv_beit_m", "arbeitsl_v_beit_m", "ges_krankv_beit_m", "pflegev_beit_m"]
     ].sum()
     return person
 
@@ -88,9 +88,9 @@ def ssc_regular_job(person, params, params_ost):
     # Old-Age Pension Insurance / Rentenversicherung
     person["rentenv_beit_m"] = params["grvbs"] * person["_lohn_rentenv"]
     # Unemployment Insurance / Arbeitslosenversicherung
-    person["arbeitsl_beit_m"] = params["alvbs"] * person["_lohn_rentenv"]
+    person["arbeitsl_v_beit_m"] = params["alvbs"] * person["_lohn_rentenv"]
     # Health Insurance for Employees (GKV)
-    person["krankv_beit_m"] = params["gkvbs_an"] * person["_lohn_krankv"]
+    person["ges_krankv_beit_m"] = params["gkvbs_an"] * person["_lohn_krankv"]
     # Care Insurance / Pflegeversicherung
     person["pflegev_beit_m"] = params["gpvbs"] * person["_lohn_krankv"]
     # If you are above 23 and without kids, you have to pay a higher rate
@@ -158,10 +158,10 @@ def calc_midi_contributions(person, params):
     person["rentenv_beit_m"] = calc_midi_old_age_pensions_contr(person, params)
 
     # Health
-    person["krankv_beit_m"] = calc_midi_health_contr(person, params)
+    person["ges_krankv_beit_m"] = calc_midi_health_contr(person, params)
 
     # Unemployment
-    person["arbeitsl_beit_m"] = calc_midi_unemployment_contr(person, params)
+    person["arbeitsl_v_beit_m"] = calc_midi_unemployment_contr(person, params)
 
     # Long-Term Care
     person["pflegev_beit_m"] = calc_midi_long_term_care_contr(person, params)

@@ -1,4 +1,4 @@
-hh_id,tu_id,p_id,alleinerziehend,alter,bruttolohn_m,eink_selbstst_m,sonstig_eink_m,arbeitsl_geld_m,ges_rente_m,kapital_eink_m,vermiet_eink_m,gem_veranlagt,year,,,,unterhalt_vors_m
+hh_id,tu_id,p_id,alleinerziehend,alter,bruttolohn_m,eink_selbstst_m,sonstig_eink_m,arbeitsl_geld_m,ges_rente_m,kapital_eink_m,vermiet_eink_m,gem_veranlagt,year,,,,unterhaltsvors_m
 1,1,23,FALSE,40,0,0,0,0,0,0,0,FALSE,2017,,,,0
 1,1,25,FALSE,35,0,0,0,0,0,0,0,FALSE,2017,,,,0
 1,1,27,FALSE,8,0,0,0,0,0,0,0,FALSE,2017,,,,0
