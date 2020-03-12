@@ -160,8 +160,6 @@ Note that if one of these columns exists, it will be overwritten.
 +------------------------+-----------------------------------------------------+-------+
 |   Variable             |Explanation                                          | type  |
 +========================+=====================================================+=======+
-|sozialv_beit_m          |Monthly amount employee soc. sec. contributions      | float |
-+------------------------+-----------------------------------------------------+-------+
 |rentenv_beit_m          |Monthly amount employee old-age pensions contrib.    | float |
 +------------------------+-----------------------------------------------------+-------+
 |arbeitsl_v_beit_m       |Monthly amount employee unempl. insurance contrib.   | float |
@@ -198,5 +196,6 @@ Note that if one of these columns exists, it will be overwritten.
 +------------------------+-----------------------------------------------------+-------+
 |verfüg_eink_m           |Monthly disposable income, individual                | float |
 +------------------------+-----------------------------------------------------+-------+
-|verfüg_eink_hh_m        |Monthly disposable income, household sum             | float |
+|verfüg_eink_hh_m        |Monthly disposable income including household level  | float |
+|                        |benefits, household sum                              |       |
 +------------------------+-----------------------------------------------------+-------+
