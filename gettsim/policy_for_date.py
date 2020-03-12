@@ -163,16 +163,15 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
     return pension_data
 
 
-def load_regrouped_wohngeld(year, month=1, day=1):
+def load_regrouped_wohngeld(policy_date):
     tax_data_raw = yaml.safe_load((ROOT_DIR / "data" / "wohngeld_neu.yaml").read_text())
 
-    actual_date = datetime.date(year=year, month=month, day=day)
     tax_data = {}
     for param in tax_data_raw:
         policy_dates = sorted(
             key for key in tax_data_raw[param].keys() if type(key) == datetime.date
         )
-        past_policies = [x for x in policy_dates if x <= actual_date]
+        past_policies = [x for x in policy_dates if x <= policy_date]
         if not past_policies:
             # TODO: Should there be missing values or should the key not exist?
             tax_data[param] = np.nan
@@ -181,12 +180,31 @@ def load_regrouped_wohngeld(year, month=1, day=1):
             if "scalar" in policy_in_place.keys():
                 tax_data[param] = policy_in_place["scalar"]
             else:
-                value_keys = sorted(
-                    key for key in policy_in_place.keys() if type(key) == int
-                )
-                tax_data[param] = {}
-                for key in value_keys:
-                    tax_data[param][key] = policy_in_place[key]
-    tax_data["year"] = year
-    tax_data["date"] = actual_date
+                if "deviation_from" in policy_in_place.keys():
+                    if policy_in_place["deviation_from"] == "previous":
+                        new_date = np.max(past_policies) - datetime.timedelta(days=1)
+                        tax_data[param] = load_regrouped_wohngeld(new_date)[param]
+                        value_keys = sorted(
+                            key for key in policy_in_place.keys() if type(key) == int
+                        )
+
+                        for key in value_keys:
+                            if type(policy_in_place[key]) == dict:
+                                nested_keys = policy_in_place.keys()
+                                for nested_key in nested_keys:
+                                    tax_data[param][key][nested_key] = policy_in_place[
+                                        key
+                                    ][nested_key]
+                            else:
+                                tax_data[param][key] = policy_in_place[key]
+
+                else:
+                    value_keys = sorted(
+                        key for key in policy_in_place.keys() if type(key) == int
+                    )
+                    tax_data[param] = {}
+                    for key in value_keys:
+                        tax_data[param][key] = policy_in_place[key]
+    tax_data["year"] = policy_date.year
+    tax_data["date"] = policy_date
     return tax_data

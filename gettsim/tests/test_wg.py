@@ -1,3 +1,5 @@
+import datetime
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -70,7 +72,9 @@ def test_wg(input_data, year, wohngeld_raw_data):
 def test_regrouped_wohngeld_formula(input_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data.copy()
-    wohngeld_params = load_regrouped_wohngeld(year)
+
+    actual_date = datetime.date(year=year, month=1, day=1)
+    wohngeld_params = load_regrouped_wohngeld(actual_date)
 
     for hid in df["hid"].unique():
         hh_size = len(df[df["hid"] == hid])
@@ -88,7 +92,8 @@ def test_regrouped_wohngeld_formula(input_data, year):
 def test_regrouped_wohngeld_abzuege(input_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data.copy()
-    wohngeld_params = load_regrouped_wohngeld(year)
+    actual_date = datetime.date(year=year, month=1, day=1)
+    wohngeld_params = load_regrouped_wohngeld(actual_date)
 
     for hid in df["hid"].unique():
         for inc in [

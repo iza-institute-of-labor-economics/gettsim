@@ -407,20 +407,15 @@ abzug_stufen:
       2: 0.2
       3: 0.3
     1991-01-01:
-      0: 0.06
-      1: 0.125
-      2: 0.2
+      deviation_from: previous
       3: 0.26
     2002-01-01:
-      0: 0.06
+      deviation_from: previous
       1: 0.1
-      2: 0.2
       3: 0.3
     2016-01-01:
+      deviation_from: previous
       0: 0
-      1: 0.1
-      2: 0.2
-      3: 0.3
 
 max_miete:
   name:
