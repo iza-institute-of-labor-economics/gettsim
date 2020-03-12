@@ -268,8 +268,7 @@ def apply_wg_formula(household, params, household_size):
 
 def regrouped_wohngeld_formel(household, params, household_size):
     # The formula is only valid for up to 12 household members
-    household_size_max = min(household_size, 12)
-    koeffizenten = params["koeffizienten"][household_size_max]
+    koeffizenten = params["koeffizienten"][min(household_size, 12)]
     # There are parameters a, b, c, depending on hh size
     wg_amount = np.maximum(
         0,
@@ -290,7 +289,8 @@ def regrouped_wohngeld_formel(household, params, household_size):
     # You may however not get more than the corrected rent "M".
     if household_size > 12:
         wg_amount = np.minimum(
-            household["M"], wg_amount + params["bonus_12_mehr"] * (household_size - 12),
+            household["M"],
+            np.max(wg_amount, 0) + params["bonus_12_mehr"] * (household_size - 12),
         )
 
     return wg_amount
