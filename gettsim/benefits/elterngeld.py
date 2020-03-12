@@ -96,7 +96,7 @@ def calc_considered_wage(
     child raising.
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["wohnort_st"] else "w"
+    westost = "o" if person["wohnort_ost"] else "w"
 
     net_wage_last_year = proxy_net_wage_last_year(
         person,

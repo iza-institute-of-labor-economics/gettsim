@@ -16,7 +16,7 @@ INPUT_COLS = [
     "kind",
     "bruttolohn_m",
     "bruttolohn_vorj_m",
-    "wohnort_st",
+    "wohnort_ost",
     "eink_st",
     "soli_st",
     "sozialv_beit_m",

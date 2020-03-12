@@ -31,7 +31,7 @@ def soc_ins_contrib(person, params):
 
     # As there is only one household, we selcet west_ost dependent paramter in the
     # beginning and place them in a seperate dictionary params_ost.
-    westost = "o" if person["wohnort_st"] else "w"
+    westost = "o" if person["wohnort_ost"] else "w"
     params_ost = {}
     for val in ["bezgr_", "mini_grenze", "kvmaxek", "rvmaxek"]:
         params_ost[val] = params[f"{val}{westost}"]

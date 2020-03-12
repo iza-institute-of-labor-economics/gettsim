@@ -14,7 +14,7 @@ def ui(
 
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["wohnort_st"] else "w"
+    westost = "o" if person["wohnort_ost"] else "w"
 
     alg_entgelt = proxy_net_wage_last_year(
         person,

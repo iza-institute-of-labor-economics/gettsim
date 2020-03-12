@@ -13,7 +13,7 @@ INPUT_COLS = [
     "hh_id",
     "tu_id",
     "bruttolohn_m",
-    "wohnort_st",
+    "wohnort_ost",
     "alter",
     "selbstständig",
     "hat_kinder",

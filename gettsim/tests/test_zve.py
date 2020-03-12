@@ -34,7 +34,7 @@ IN_COLS = [
     "alter",
     "anz_kinder_tu",
     "year",
-    "wohnort_st",
+    "wohnort_ost",
     "ges_krankv_beit_m",
 ]
 OUT_COLS = [

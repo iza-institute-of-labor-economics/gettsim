@@ -57,7 +57,7 @@ def update_earnings_points(person, params, soz_vers_beitr_params, year):
 
 def _ep_for_earnings(person, params, soz_vers_beitr_params, year):
     """Return earning points for the wages earned in the last year."""
-    westost = "o" if person["wohnort_st"] else "w"
+    westost = "o" if person["wohnort_ost"] else "w"
     return (
         min(person["bruttolohn_m"], soz_vers_beitr_params["rvmaxek" + westost])
         / params[f"meanwages_{year}"]

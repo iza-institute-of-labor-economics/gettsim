@@ -52,7 +52,7 @@ def tax_transfer(
     The 'sub' functions may take an argument 'ref', which might be used for small
      reforms that e.g. only differ in parameters or slightly change the calculation.
     """
-    bool_variables = ["kind", "wohnort_st"]
+    bool_variables = ["kind", "wohnort_ost"]
     check_boolean(df, bool_variables)
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
@@ -72,7 +72,7 @@ def tax_transfer(
     # "Bedarfsgemeinschaft" in German tax law.
     in_cols = [
         "bruttolohn_m",
-        "wohnort_st",
+        "wohnort_ost",
         "alter",
         "selbstständig",
         "hat_kinder",
@@ -98,7 +98,7 @@ def tax_transfer(
 
     in_cols = [
         "bruttolohn_vorj_m",
-        "wohnort_st",
+        "wohnort_ost",
         "kind",
         "arbeitsl_lfdj_m",
         "arbeitsl_vorj_m",
@@ -123,7 +123,7 @@ def tax_transfer(
             "soli_st_params": soli_st_params,
         },
     )
-    in_cols = ["bruttolohn_m", "wohnort_st", "alter", "year", "geburtsjahr", "EP"]
+    in_cols = ["bruttolohn_m", "wohnort_ost", "alter", "year", "geburtsjahr", "EP"]
     out_col = "rente_anspr_m"
     df = apply_tax_transfer_func(
         df,
@@ -157,7 +157,7 @@ def tax_transfer(
         "alter",
         "anz_kinder_tu",
         "year",
-        "wohnort_st",
+        "wohnort_ost",
         "ges_krankv_beit_m",
     ]
     out_cols = [
@@ -254,7 +254,7 @@ def tax_transfer(
         "kind",
         "bruttolohn_m",
         "bruttolohn_vorj_m",
-        "wohnort_st",
+        "wohnort_ost",
         "eink_st",
         "soli_st",
         "sozialv_beit_m",
@@ -485,7 +485,7 @@ def tax_transfer(
         "bruttolohn_m",
         "alter",
         "selbstständig",
-        "wohnort_st",
+        "wohnort_ost",
         "hat_kinder",
         "eink_selbstst_m",
         "ges_rente_m",
