@@ -48,7 +48,7 @@ You can install GETTSIM via conda with
 
 .. code-block:: bash
 
-    $ conda install -c gettsim gettsim
+    $ conda install -c gettsim -c conda-forge gettsim
 
 
 The documentation is available at https://gettsim.readthedocs.io.
