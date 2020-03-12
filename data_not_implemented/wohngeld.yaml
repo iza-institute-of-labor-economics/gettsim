@@ -1,0 +1,130 @@
+wgmaxheat1p:
+  name:
+    de: Höchstbeträge für Heizkosten (1-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2009-01-01:
+      value: 24
+      note:
+    2011-01-01:
+      value: 0
+      note:
+wgmaxheat2p:
+  name:
+    de: Höchstbeträge für Heizkosten (2-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2009-01-01:
+      value: 31
+      note:
+    2011-01-01:
+      value: 0
+      note:
+wgmaxheat3p:
+  name:
+    de: Höchstbeträge für Heizkosten (3-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2009-01-01:
+      value: 37
+      note:
+    2011-01-01:
+      value: 0
+      note:
+wgmaxheat4p:
+  name:
+    de: Höchstbeträge für Heizkosten (4-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2009-01-01:
+      value: 43
+      note:
+    2011-01-01:
+      value: 0
+      note:
+wgmaxheat5p:
+  name:
+    de: Höchstbeträge für Heizkosten (5-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2009-01-01:
+      value: 49
+      note:
+    2011-01-01:
+      value: 0
+      note:
+wgmaxheatplus5:
+  name:
+    de: Höchstbeträge für Heizkosten (für jede weitere Person > 5)  (nur von 1.1.2009 bis 31.12.2010)
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0
+      note:
+    2009-01-01:
+      value: 6
+      note:
+    2011-01-01:
+      value: 0
+      note:
+wgvmiet:
+  name:
+    de: Jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: 1200
+      note:
+    2006-01-01:
+      value: 0
+      note:
+wgvzins:
+  name:
+    de: Jährlicher Zinsbetrag, ab dem Geldvermögen unterstellt wird
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: 200
+      note:
+    2006-01-01:
+      value: 0
+      note:
