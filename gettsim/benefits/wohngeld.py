@@ -172,8 +172,19 @@ def calc_wg_abzuege(household, params):
         2: params["wgpabz2"],
         3: params["wgpabz3"],
     }
-
     return wg_abz.replace(wg_abz_amounts)
+
+
+def calc_wg_abzuege_regrouped(household, params):
+    # There share of income to be deducted is 0/10/20/30%, depending on whether
+    # household is subject to income taxation and/or payroll taxes
+    wg_abz = (
+        (household["incometax_tu_k"] > 0) * 1
+        + (household["rvbeit_tu_k"] > 0) * 1
+        + (household["gkvbeit_tu_k"] > 0) * 1
+    )
+
+    return wg_abz.replace(params["abzug_stufen"])
 
 
 def calc_wg_gross_income(household):

@@ -3,7 +3,9 @@ import pandas as pd
 import pytest
 from numpy.testing import assert_allclose
 from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
+from gettsim.benefits.wohngeld import calc_wg_abzuege_regrouped
 from gettsim.benefits.wohngeld import regrouped_wohngeld_formel
 from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
@@ -79,6 +81,36 @@ def test_regrouped_wohngeld_formula(input_data, year):
             year_data[year_data["hid"] == hid]["wohngeld_basis_hh"].iloc[0],
             wohngeld_basis.iloc[0],
             atol=0.1,
+        )
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_regrouped_wohngeld_abzuege(input_data, year):
+    year_data = input_data[input_data["year"] == year]
+    df = year_data.copy()
+    wohngeld_params = load_regrouped_wohngeld(year)
+
+    for hid in df["hid"].unique():
+        for inc in [
+            "m_alg1",
+            "m_transfers",
+            "gross_e1",
+            "gross_e4",
+            "gross_e5",
+            "gross_e6",
+            "incometax",
+            "rvbeit",
+            "gkvbeit",
+            "uhv",
+            "elterngeld",
+        ]:
+            df[f"{inc}_tu_k"] = df.groupby("tu_id")[inc].transform("sum")
+        abzuege = calc_wg_abzuege_regrouped(df[df["hid"] == hid], wohngeld_params,)
+        assert_series_equal(
+            year_data[year_data["hid"] == hid]["wg_abzuege"],
+            abzuege,
+            check_dtype=False,
+            check_names=False,
         )
 
 
