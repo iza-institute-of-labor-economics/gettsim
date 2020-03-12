@@ -8,8 +8,8 @@ from gettsim.policy_for_date import get_policies_for_date
 from gettsim.taxes.e_st import e_st
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
     "kind",
     "_zu_versteuerndes_eink_kein_kind_freib",
@@ -69,7 +69,7 @@ def test_tax_sched(
 
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"]).apply(
+    df = df.groupby(["hh_id", "tu_id"]).apply(
         e_st,
         e_st_params=e_st_params,
         e_st_abzuege_params=e_st_abzuege_params,

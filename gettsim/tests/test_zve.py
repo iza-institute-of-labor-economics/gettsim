@@ -11,17 +11,17 @@ from gettsim.taxes.zve import zve
 
 
 IN_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
-    "lohn_m",
-    "kind_betr_kost_m",
+    "bruttolohn_m",
+    "betreuungskost_m",
     "eink_selbstst_m",
     "kapital_eink_m",
     "vermiet_eink_m",
-    "rente_eint_jahr",
-    "rente_m",
-    "arbeitsstund_w",
+    "jahr_renteneintr",
+    "ges_rente_m",
+    "arbeitsstunden_w",
     "in_ausbildung",
     "gem_veranlagt",
     "kind",
@@ -34,7 +34,7 @@ IN_COLS = [
     "alter",
     "anz_kinder_tu",
     "year",
-    "ostdeutsch",
+    "wohnort_st",
     "krankv_beit_m",
 ]
 OUT_COLS = [
@@ -98,7 +98,7 @@ def test_zve(
 
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"]).apply(
+    df = df.groupby(["hh_id", "tu_id"]).apply(
         zve,
         e_st_abzuege_params=e_st_abzuege_params,
         soz_vers_beitr_params=soz_vers_beitr_params,

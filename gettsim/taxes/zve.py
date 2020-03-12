@@ -226,7 +226,7 @@ def calc_altfreibetrag(tax_unit, params):
         params["altentq"]
         * 12
         * (
-            tax_unit["lohn_m"]
+            tax_unit["bruttolohn_m"]
             + np.maximum(
                 0,
                 tax_unit[["kapital_eink_m", "eink_selbstst_m", "vermiet_eink_m"]].sum(
@@ -285,19 +285,19 @@ def calc_gross_e4(tax_unit, params, soz_vers_beitr_params):
     """Calculates the gross incomes of non selfemployed work. The wage is reducted by a
     lump sum payment for 'Werbungskosten'"""
 
-    tax_unit.loc[:, "brutto_eink_4"] = 12 * tax_unit["lohn_m"]
+    tax_unit.loc[:, "brutto_eink_4"] = 12 * tax_unit["bruttolohn_m"]
     # Every adult with some wage, gets a lump sum payment for Werbungskosten
     tax_unit.loc[
-        (~tax_unit["kind"]) & (tax_unit["lohn_m"] > 0), "brutto_eink_4"
+        (~tax_unit["kind"]) & (tax_unit["bruttolohn_m"] > 0), "brutto_eink_4"
     ] -= params["werbung"]
 
     # If they earn less the mini job limit, then their relevant gross income is 0
-    if tax_unit["ostdeutsch"].iloc[0]:
+    if tax_unit["wohnort_st"].iloc[0]:
         mini = soz_vers_beitr_params["mini_grenzeo"]
     else:
         mini = soz_vers_beitr_params["mini_grenzew"]
 
-    tax_unit.loc[tax_unit["lohn_m"] <= mini, "brutto_eink_4"] = 0
+    tax_unit.loc[tax_unit["bruttolohn_m"] <= mini, "brutto_eink_4"] = 0
     return tax_unit
 
 
@@ -318,7 +318,7 @@ def deductible_child_care_costs(tax_unit, params):
 
         deductible_costs = (
             eligible
-            * np.minimum(params["childcare_max"], 12 * tax_unit["kind_betr_kost_m"])
+            * np.minimum(params["childcare_max"], 12 * tax_unit["betreuungskost_m"])
             * params["childcare_share"]
             / adult_num
         )
@@ -333,16 +333,16 @@ def calc_gross_e7(tax_unit, params):
     """ Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
     pensions."""
     # The share of pensions subject to income taxation
-    tax_unit.loc[tax_unit["rente_eint_jahr"] <= 2004, "_ertragsanteil"] = 0.27
+    tax_unit.loc[tax_unit["jahr_renteneintr"] <= 2004, "_ertragsanteil"] = 0.27
     tax_unit.loc[
-        tax_unit["rente_eint_jahr"].between(2005, 2020), "_ertragsanteil"
-    ] = 0.5 + 0.02 * (tax_unit["rente_eint_jahr"] - 2005)
+        tax_unit["jahr_renteneintr"].between(2005, 2020), "_ertragsanteil"
+    ] = 0.5 + 0.02 * (tax_unit["jahr_renteneintr"] - 2005)
     tax_unit.loc[
-        tax_unit["rente_eint_jahr"].between(2021, 2040), "_ertragsanteil"
-    ] = 0.8 + 0.01 * (tax_unit["rente_eint_jahr"] - 2020)
-    tax_unit.loc[tax_unit["rente_eint_jahr"] >= 2041, "_ertragsanteil"] = 1
+        tax_unit["jahr_renteneintr"].between(2021, 2040), "_ertragsanteil"
+    ] = 0.8 + 0.01 * (tax_unit["jahr_renteneintr"] - 2020)
+    tax_unit.loc[tax_unit["jahr_renteneintr"] >= 2041, "_ertragsanteil"] = 1
     tax_unit.loc[:, "brutto_eink_7"] = np.maximum(
-        12 * (tax_unit["_ertragsanteil"] * tax_unit["rente_m"])
+        12 * (tax_unit["_ertragsanteil"] * tax_unit["ges_rente_m"])
         - params["vorsorgpausch"],
         0,
     )
@@ -416,7 +416,9 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         if params["year"] <= 2019:
             # Amount 1: Basic deduction, based on earnings. Usually zero.
             item_1 = np.maximum(
-                params["vorwegabzug"] - params["kuerzquo"] * 12 * tax_unit["lohn_m"], 0
+                params["vorwegabzug"]
+                - params["kuerzquo"] * 12 * tax_unit["bruttolohn_m"],
+                0,
             )
         else:
             # No "vorwegabzug" anymore after 2019.
@@ -433,13 +435,15 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         item_3 = np.minimum(0.5 * (vorsorg_rest - item_2), 0.5 * params["grundbet"])
     # For the married couple, the same stuff, but with tu totals.
     if tax_unit["gem_veranlagt"].max():
-        for var in ["lohn_m", "rentenv_beit_m", "krankv_beit_m"]:
+        for var in ["bruttolohn_m", "rentenv_beit_m", "krankv_beit_m"]:
             # TODO: Shouldnt here be summe over the variables?
-            tax_unit[f"{var}_tu"] = tax_unit.loc[~tax_unit["kind"], "lohn_m"].sum()
+            tax_unit[f"{var}_tu"] = tax_unit.loc[
+                ~tax_unit["kind"], "bruttolohn_m"
+            ].sum()
         if params["year"] <= 2019:
             item_1 = 0.5 * np.maximum(
                 2 * params["vorwegabzug"]
-                - params["kuerzquo"] * 12 * tax_unit["lohn_m_tu"],
+                - params["kuerzquo"] * 12 * tax_unit["bruttolohn_m_tu"],
                 0,
             )
         else:

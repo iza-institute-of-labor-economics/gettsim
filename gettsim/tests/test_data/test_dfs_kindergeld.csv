@@ -1,4 +1,4 @@
-hid,tu_id,pid,alter,arbeitsstund_w,in_ausbildung,lohn_m,year,kindergeld_tu_basis
+hh_id,tu_id,p_id,alter,arbeitsstunden_w,in_ausbildung,bruttolohn_m,year,kindergeld_tu_basis
 1,1,1,45,40,FALSE,3000,2019,588
 1,1,2,40,0,FALSE,0,2019,588
 1,1,3,24,30,TRUE,700,2019,588

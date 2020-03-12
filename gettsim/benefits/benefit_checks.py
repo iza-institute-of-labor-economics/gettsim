@@ -132,16 +132,16 @@ def wealth_test(household, params):
     # If wealth exceeds the exemption, set benefits to zero
     # (since ALG2 is not yet calculated, just set the need to zero)
     household.loc[
-        (household["hh_vermögen"] > household["vermfreibetr"]), "regelbedarf_m"
+        (household["vermögen_hh"] > household["vermfreibetr"]), "regelbedarf_m"
     ] = 0
     household.loc[
-        (household["hh_vermögen"] > household["vermfreibetr"]), "kinderzuschlag_temp"
+        (household["vermögen_hh"] > household["vermfreibetr"]), "kinderzuschlag_temp"
     ] = 0
 
     # Wealth test for Wohngeld
     # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
     household.loc[
-        (household["hh_vermögen"] > (60_000 + (30_000 * (household_size - 1)))),
+        (household["vermögen_hh"] > (60_000 + (30_000 * (household_size - 1)))),
         "wohngeld_basis_hh",
     ] = 0
 

@@ -9,13 +9,13 @@ from gettsim.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
     "kind",
     "alter",
-    "arbeitsstund_w",
-    "lohn_m",
+    "arbeitsstunden_w",
+    "bruttolohn_m",
     "in_ausbildung",
     "kaltmiete_m",
     "heizkost_m",
@@ -62,7 +62,7 @@ def test_kiz(
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(
+    df = df.groupby("hh_id").apply(
         kiz,
         params=kinderzuschlag_params,
         arbeitsl_geld_2_params=arbeitsl_geld_2_params,

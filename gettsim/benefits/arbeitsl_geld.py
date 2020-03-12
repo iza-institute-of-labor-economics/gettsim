@@ -14,7 +14,7 @@ def ui(
 
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["ostdeutsch"] else "w"
+    westost = "o" if person["wohnort_st"] else "w"
 
     alg_entgelt = proxy_net_wage_last_year(
         person,
@@ -49,7 +49,7 @@ def proxy_net_wage_last_year(
     wage."""
 
     # Relevant wage is capped at the contribution thresholds
-    max_wage = min(beit_bem_grenz, person["dur_eink_vorj_m"])
+    max_wage = min(beit_bem_grenz, person["bruttolohn_vorj_m"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = soz_vers_pausch * max_wage
@@ -67,7 +67,9 @@ def check_eligibility_alg(person):
     other variables.."""
     # Months of unemployment beforehand.
     mts_ue = (
-        person["m_arbeitsl"] + person["m_arbeitsl_vorj"] + person["m_arbeitsl_vor2j"]
+        person["arbeitsl_lfdj_m"]
+        + person["arbeitsl_vorj_m"]
+        + person["arbeitsl_vor2j_m"]
     )
     # BENEFIT AMOUNT
     # Check Eligiblity.
@@ -77,6 +79,6 @@ def check_eligibility_alg(person):
     return (
         (1 <= mts_ue <= 12)
         & (person["alter"] < 65)
-        & (person["rente_m"] == 0)
-        & (person["arbeitsstund_w"] < 15)
+        & (person["ges_rente_m"] == 0)
+        & (person["arbeitsstunden_w"] < 15)
     )

@@ -43,12 +43,12 @@ def uhv_since_07_2017(tax_unit, params, kindergeld_params):
     uhv_inc_tu = (
         tax_unit[
             [
-                "lohn_m",
+                "bruttolohn_m",
                 "sonstig_eink_m",
                 "eink_selbstst_m",
                 "vermiet_eink_m",
                 "kapital_eink_m",
-                "rente_m",
+                "ges_rente_m",
                 "arbeitsl_geld_m",
             ]
         ]

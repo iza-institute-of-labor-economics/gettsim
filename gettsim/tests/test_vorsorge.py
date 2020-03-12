@@ -13,9 +13,9 @@ from gettsim.taxes.zve import vorsorge_since_2010
 
 
 IN_COLS = [
-    "pid",
+    "p_id",
     "tu_id",
-    "lohn_m",
+    "bruttolohn_m",
     "kind",
     "prv_rente_beit_m",
     "rentenv_beit_m",

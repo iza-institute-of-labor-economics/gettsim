@@ -184,7 +184,7 @@ def kdu_alg2(household):
         (household["kaltmiete_m"] + household["heizkost_m"]) / household["wohnfläche"],
         10,
     )
-    if household["wohneigentum"].iloc[0]:
+    if household["bewohnt_eigentum"].iloc[0]:
         wohnfl_justified = np.minimum(
             household["wohnfläche"], 80 + np.maximum(0, (len(household) - 2) * 20)
         )
@@ -217,12 +217,12 @@ def grossinc_alg2(household):
     return (
         household[
             [
-                "lohn_m",
+                "bruttolohn_m",
                 "sonstig_eink_m",
                 "eink_selbstst_m",
                 "vermiet_eink_m",
                 "kapital_eink_m",
-                "rente_m",
+                "ges_rente_m",
                 "arbeitsl_geld_m",
                 "elterngeld",
             ]
@@ -240,8 +240,8 @@ def e_anr_frei_2005_01(household, params):
     Determine the gross income that is not deducted. Withdrawal rates depend
     on monthly earnings. § 30 SGB II."""
 
-    cols = ["lohn_m", "eink_anrech_frei", "eink_st", "soli_st", "sozialv_beit_m"]
-    household.loc[:, cols] = household.groupby("pid")[cols].apply(
+    cols = ["bruttolohn_m", "eink_anrech_frei", "eink_st", "soli_st", "sozialv_beit_m"]
+    household.loc[:, cols] = household.groupby("p_id")[cols].apply(
         e_anr_frei_person_2005_01, params, params["a2eg3"]
     )
 
@@ -255,7 +255,7 @@ def e_anr_frei_person_2005_01(person, params, a2eg3):
 
     """
 
-    m_wage = person["lohn_m"].iloc[0]
+    m_wage = person["bruttolohn_m"].iloc[0]
 
     # Nettoquote
     nq = alg2_2005_nq(person, params)
@@ -297,7 +297,7 @@ def alg2_2005_nq(person, params):
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1
     # bis 5.
     alg2_2005_bne = np.clip(
-        person["lohn_m"]
+        person["bruttolohn_m"]
         - person["eink_st"]
         - person["soli_st"]
         - person["sozialv_beit_m"]
@@ -308,7 +308,7 @@ def alg2_2005_nq(person, params):
     )
 
     # Nettoquote:
-    alg2_2005_nq = alg2_2005_bne / person["lohn_m"]
+    alg2_2005_nq = alg2_2005_bne / person["bruttolohn_m"]
 
     return alg2_2005_nq
 
@@ -329,8 +329,8 @@ def e_anr_frei_2005_10(household, params):
 
     a2eg3 = params["a2eg3"] if num_childs_0_18 == 0 else params["a2eg3ki"]
 
-    cols = ["lohn_m", "eink_anrech_frei"]
-    household.loc[:, cols] = household.groupby("pid")[cols].apply(
+    cols = ["bruttolohn_m", "eink_anrech_frei"]
+    household.loc[:, cols] = household.groupby("p_id")[cols].apply(
         e_anr_frei_person_2005_10, params, a2eg3
     )
 
@@ -344,7 +344,7 @@ def e_anr_frei_person_2005_10(person, params, a2eg3):
 
     """
 
-    m_wage = person["lohn_m"].iloc[0]
+    m_wage = person["bruttolohn_m"].iloc[0]
 
     # Income not deducted
     if m_wage < params["a2eg1"]:

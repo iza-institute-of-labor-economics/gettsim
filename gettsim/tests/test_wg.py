@@ -8,8 +8,8 @@ from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
     "tu_vorstand",
     "kind",
@@ -17,10 +17,10 @@ INPUT_COLS = [
     "heizkost_m",
     "alleinerziehend",
     "alter",
-    "baujahr",
+    "immobilie_baujahr",
     "mietstufe",
-    "lohn_m",
-    "rente_m",
+    "bruttolohn_m",
+    "ges_rente_m",
     "_ertragsanteil",
     "elterngeld",
     "arbeitsl_geld_m",
@@ -57,7 +57,7 @@ def test_wg(input_data, year, wohngeld_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(wg, params=wohngeld_params)
+    df = df.groupby("hh_id").apply(wg, params=wohngeld_params)
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
 
 
@@ -77,5 +77,5 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, wohngeld_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(wg, params=wohngeld_params)
+    df = df.groupby("hh_id").apply(wg, params=wohngeld_params)
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])

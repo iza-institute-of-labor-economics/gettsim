@@ -19,7 +19,7 @@ def apply_tax_transfer_func(
 
 
 def _apply_squeeze_function(group, tax_func, level, func_args, func_kwargs):
-    if level == ["hid", "tu_id", "pid"]:
+    if level == ["hh_id", "tu_id", "p_id"]:
         person = tax_func(group.squeeze(), *func_args, **func_kwargs)
         for var in person.index:
             group.loc[:, var] = person[var]

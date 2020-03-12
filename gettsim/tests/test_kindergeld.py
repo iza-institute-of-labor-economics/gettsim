@@ -9,13 +9,13 @@ from gettsim.taxes.kindergeld import kindergeld
 
 
 INPUT_COLS = [
-    "hid",
+    "hh_id",
     "tu_id",
-    "pid",
+    "p_id",
     "alter",
-    "arbeitsstund_w",
+    "arbeitsstunden_w",
     "in_ausbildung",
-    "lohn_m",
+    "bruttolohn_m",
 ]
 OUT_COLS = ["kindergeld_basis", "kindergeld_tu_basis"]
 YEARS = [2000, 2002, 2010, 2011, 2013, 2019]
@@ -38,7 +38,7 @@ def test_kindergeld(input_data, year, kindergeld_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"])[INPUT_COLS + OUT_COLS].apply(
+    df = df.groupby(["hh_id", "tu_id"])[INPUT_COLS + OUT_COLS].apply(
         kindergeld, params=kindergeld_params
     )
 

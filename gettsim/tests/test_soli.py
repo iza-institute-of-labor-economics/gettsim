@@ -5,7 +5,7 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 
-INPUT_COLS = ["pid", "hid", "tu_id", "solibasis"]
+INPUT_COLS = ["p_id", "hh_id", "tu_id", "solibasis"]
 
 YEARS = [1991, 1993, 1996, 1999, 2003, 2022]
 

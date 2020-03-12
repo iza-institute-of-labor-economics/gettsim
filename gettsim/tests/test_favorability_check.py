@@ -11,9 +11,9 @@ from gettsim.taxes.favorability_check import favorability_check
 
 
 INPUT_COLS = [
-    "hid",
+    "hh_id",
     "tu_id",
-    "pid",
+    "p_id",
     "gem_veranlagt",
     "kind",
     "_st_kein_kind_freib_tu",
@@ -44,7 +44,7 @@ def test_favorability_check(input_data, year, column, e_st_abzuege_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"]).apply(
+    df = df.groupby(["hh_id", "tu_id"]).apply(
         favorability_check, params=e_st_abzuege_params
     )
     assert_series_equal(df[column], year_data[column])

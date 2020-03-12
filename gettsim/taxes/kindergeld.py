@@ -38,7 +38,7 @@ def kindergeld_anspruch_nach_stunden(tax_unit, params):
     anspruch[
         (tax_unit["alter"].between(19, params["kgage"]))
         & tax_unit["in_ausbildung"]
-        & (tax_unit["arbeitsstund_w"] <= 20)
+        & (tax_unit["arbeitsstunden_w"] <= 20)
     ] = True
 
     return anspruch
@@ -53,7 +53,7 @@ def kindergeld_anspruch_nach_lohn(tax_unit, params):
     anspruch[
         (tax_unit["alter"].between(19, params["kgage"]))
         & tax_unit["in_ausbildung"]
-        & (tax_unit["lohn_m"] <= params["kgfreib"] / 12)
+        & (tax_unit["bruttolohn_m"] <= params["kgfreib"] / 12)
     ] = True
 
     return anspruch

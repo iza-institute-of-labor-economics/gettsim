@@ -1,4 +1,4 @@
-hid,tu_id,pid,gem_veranlagt,kind,_st_kein_kind_freib_tu,_st_abgelt_st_kein_kind_freib_tu,_st_kind_freib_tu,_st_abgelt_st_kind_freib_tu,abgelt_st_tu,kindergeld_basis,kindergeld_tu_basis,year,,eink_st_tu,kindergeld,kindergeld_hh,kindergeld_tu,,nettax_nokfb_tu,nettax_kfb_tu
+hh_id,tu_id,p_id,gem_veranlagt,kind,_st_kein_kind_freib_tu,_st_abgelt_st_kein_kind_freib_tu,_st_kind_freib_tu,_st_abgelt_st_kind_freib_tu,abgelt_st_tu,kindergeld_basis,kindergeld_tu_basis,year,,eink_st_tu,kindergeld,kindergeld_hh,kindergeld_tu,,nettax_nokfb_tu,nettax_kfb_tu
 1,1,1,TRUE,FALSE,10000,10000,7000,7000,0,0,194,2016,,583.3333333,0,0,0,,7672,7000
 1,1,2,TRUE,FALSE,10000,10000,7000,7000,0,0,194,2016,,583.3333333,0,0,0,,7672,7000
 1,1,3,FALSE,TRUE,0,0,0,0,0,194,194,2016,,0.0000000,0,0,0,,0,0

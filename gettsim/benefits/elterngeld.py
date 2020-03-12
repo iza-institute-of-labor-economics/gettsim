@@ -26,7 +26,7 @@ def elterngeld(
     household.loc[household["elternzeit_anspruch"], :] = apply_tax_transfer_func(
         household[household["elternzeit_anspruch"]],
         tax_func=calc_elterngeld,
-        level=["hid", "tu_id", "pid"],
+        level=["hh_id", "tu_id", "p_id"],
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
@@ -96,7 +96,7 @@ def calc_considered_wage(
     child raising.
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["ostdeutsch"] else "w"
+    westost = "o" if person["wohnort_st"] else "w"
 
     net_wage_last_year = proxy_net_wage_last_year(
         person,
@@ -146,7 +146,7 @@ def calc_net_wage(person):
 
     """
     net_wage = (
-        person["lohn_m"]
+        person["bruttolohn_m"]
         - person["eink_st"]
         - person["soli_st"]
         - person["sozialv_beit_m"]
@@ -194,7 +194,7 @@ def check_eligibilities(household, params):
         # Age in months
         age_months = age_youngest_child.years * 12 + age_youngest_child.months
         if (age_months < 0) or (age_months == 0 & age_youngest_child.days < 0):
-            raise ValueError(f"Individual {youngest_child.pid.iloc[0]} not born yet.")
+            raise ValueError(f"Individual {youngest_child.p_id.iloc[0]} not born yet.")
         # The child has to be below the 14th month
         eligible_age = age_months <= params["max_joint_months"]
         # The parents can only claim up to 14 month elterngeld

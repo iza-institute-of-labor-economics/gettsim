@@ -8,17 +8,17 @@ from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
-    "dur_eink_vorj_m",
-    "ostdeutsch",
+    "bruttolohn_vorj_m",
+    "wohnort_st",
     "kind",
-    "m_arbeitsl",
-    "m_arbeitsl_vorj",
-    "m_arbeitsl_vor2j",
-    "rente_m",
-    "arbeitsstund_w",
+    "arbeitsl_lfdj_m",
+    "arbeitsl_vorj_m",
+    "arbeitsl_vor2j_m",
+    "ges_rente_m",
+    "arbeitsstunden_w",
     "anz_kinder_tu",
     "alter",
     "year",
@@ -64,7 +64,7 @@ def test_ui(
     df = apply_tax_transfer_func(
         df,
         tax_func=ui,
-        level=["hid", "tu_id", "pid"],
+        level=["hh_id", "tu_id", "p_id"],
         in_cols=INPUT_COLS,
         out_cols=[OUT_COL],
         func_kwargs={

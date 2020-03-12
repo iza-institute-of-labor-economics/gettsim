@@ -9,17 +9,17 @@ from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
-    "lohn_m",
-    "ostdeutsch",
+    "bruttolohn_m",
+    "wohnort_st",
     "alter",
     "selbstständig",
     "hat_kinder",
     "eink_selbstst_m",
-    "rente_m",
-    "prv_krank_vers",
+    "ges_rente_m",
+    "prv_krankv_beit_m",
     "year",
 ]
 
@@ -51,7 +51,7 @@ def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
     df = apply_tax_transfer_func(
         df,
         tax_func=soc_ins_contrib,
-        level=["hid", "tu_id", "pid"],
+        level=["hh_id", "tu_id", "p_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={"params": soz_vers_beitr_params},

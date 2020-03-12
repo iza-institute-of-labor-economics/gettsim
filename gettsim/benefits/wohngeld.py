@@ -39,7 +39,7 @@ def calc_wg_rent(household, params, household_size):
     else:
         mietstufe = 3
 
-    cnstyr = household["baujahr"].iloc[0]
+    cnstyr = household["immobilie_baujahr"].iloc[0]
     # First max rent
     # Before 2009, they differed by construction year of the house
     max_rent = params["calc_max_rent"](params, household_size, cnstyr, mietstufe)
@@ -106,7 +106,7 @@ def calc_wg_income(household, params, household_size):
     wohngeld."""
     # Start with income revelant for the housing beneift
     # tax-relevant share of pensions for tax unit
-    household["_st_rente"] = household["_ertragsanteil"] * household["rente_m"]
+    household["_st_rente"] = household["_ertragsanteil"] * household["ges_rente_m"]
     household["_st_rente_tu_k"] = household.groupby("tu_id")["_st_rente"].transform(
         "sum"
     )
@@ -203,11 +203,11 @@ def _calc_wg_income_deductions_until_2015(household, params):
     household["_anzahl_kinder_unter_11"] = (
         household.groupby("tu_id")["_kind_unter_11"].transform("sum").astype(int)
     )
-    workingchild = household["kind"] & (household["lohn_m"] > 0)
+    workingchild = household["kind"] & (household["bruttolohn_m"] > 0)
     wg_incdeduct = (
         (household["behinderungsgrad"] > 80) * params["wgpfbm80"]
         + household["behinderungsgrad"].between(1, 80) * params["wgpfbu80"]
-        + (workingchild * np.minimum(params["wgpfb24"], household["lohn_m"]))
+        + (workingchild * np.minimum(params["wgpfb24"], household["bruttolohn_m"]))
         + (
             (household["alleinerziehend"] & (~household["kind"]))
             * household["_anzahl_kinder_unter_11"]
@@ -221,10 +221,10 @@ def _calc_wg_income_deductions_since_2016(household, params):
     """ calculate special deductions for handicapped, single parents
     and children who are working
     """
-    workingchild = household["kind"] & (household["lohn_m"] > 0)
+    workingchild = household["kind"] & (household["bruttolohn_m"] > 0)
     wg_incdeduct = (
         (household["behinderungsgrad"] > 0) * params["wgpfbm80"]
-        + (workingchild * np.minimum(params["wgpfb24"], household["lohn_m"]))
+        + (workingchild * np.minimum(params["wgpfb24"], household["bruttolohn_m"]))
         + (household["alleinerziehend"] * params["wgpfb12"] * (~household["kind"]))
     )
     return wg_incdeduct

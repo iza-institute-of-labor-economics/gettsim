@@ -9,11 +9,11 @@ from gettsim.pensions import update_earnings_points
 from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
-    "lohn_m",
-    "ostdeutsch",
+    "bruttolohn_m",
+    "wohnort_st",
     "alter",
     "year",
     "geburtsjahr",
@@ -45,7 +45,7 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
     df = apply_tax_transfer_func(
         df,
         tax_func=pensions,
-        level=["hid", "tu_id", "pid"],
+        level=["hh_id", "tu_id", "p_id"],
         in_cols=INPUT_COLS,
         out_cols=[column],
         func_kwargs={
@@ -65,7 +65,7 @@ def test_update_earning_points(input_data, year):
     df = apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
-        level=["hid", "tu_id", "pid"],
+        level=["hh_id", "tu_id", "p_id"],
         in_cols=INPUT_COLS,
         out_cols=[],
         func_kwargs={

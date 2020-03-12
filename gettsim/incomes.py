@@ -4,12 +4,12 @@ import numpy as np
 def disposable_income(household):
     household["dpi_ind"] = household[
         [
-            "lohn_m",
+            "bruttolohn_m",
             "kapital_eink_m",
             "eink_selbstst_m",
             "vermiet_eink_m",
-            # "eigenheim_ersp_m", We need to discuss this!
-            "rente_m",
+            # "miete_unterstellt", We need to discuss this!
+            "ges_rente_m",
             "sonstig_eink_m",
             "kindergeld",
             "unterhalt_vors_m",
@@ -46,12 +46,12 @@ def gross_income(household):
     household["gross"] = round(
         household[
             [
-                "lohn_m",
+                "bruttolohn_m",
                 "kapital_eink_m",
                 "eink_selbstst_m",
                 "vermiet_eink_m",
-                "eigenheim_ersp_m",
-                "rente_m",
+                "miete_unterstellt",
+                "ges_rente_m",
                 "sonstig_eink_m",
                 "kindergeld",
             ]

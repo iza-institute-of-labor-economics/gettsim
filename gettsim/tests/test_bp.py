@@ -9,14 +9,14 @@ from gettsim.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
     "kind",
     "rentner",
     "alter",
-    "hh_vermögen",
-    "anz_erw_hh",
+    "vermögen_hh",
+    "anz_erwachsene_hh",
     "anz_minderj_hh",
     "kinderzuschlag_temp",
     "wohngeld_basis_hh",
@@ -46,5 +46,5 @@ def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(benefit_priority, params=arbeitsl_geld_2_params)
+    df = df.groupby("hh_id").apply(benefit_priority, params=arbeitsl_geld_2_params)
     assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)

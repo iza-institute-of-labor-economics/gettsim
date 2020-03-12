@@ -9,8 +9,8 @@ from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
     "vorstand_tu",
     "kind",
@@ -18,10 +18,10 @@ INPUT_COLS = [
     "kaltmiete_m",
     "heizkost_m",
     "wohnfläche",
-    "wohneigentum",
+    "bewohnt_eigentum",
     "alleinerziehend",
-    "lohn_m",
-    "rente_m",
+    "bruttolohn_m",
+    "ges_rente_m",
     "kapital_eink_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
@@ -68,6 +68,8 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
     )
 
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
-    df = df.groupby("hid", group_keys=False).apply(alg2, params=arbeitsl_geld_2_params)
+    df = df.groupby("hh_id", group_keys=False).apply(
+        alg2, params=arbeitsl_geld_2_params
+    )
 
     assert_series_equal(df[column], year_data[column], check_dtype=False)

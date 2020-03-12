@@ -10,13 +10,13 @@ from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
-    "hid",
+    "hh_id",
     "tu_id",
-    "pid",
+    "p_id",
     "kind",
-    "lohn_m",
-    "dur_eink_vorj_m",
-    "ostdeutsch",
+    "bruttolohn_m",
+    "bruttolohn_vorj_m",
+    "wohnort_st",
     "eink_st",
     "soli_st",
     "sozialv_beit_m",
@@ -73,7 +73,7 @@ def test_eltgeld(
     df = apply_tax_transfer_func(
         df,
         tax_func=elterngeld,
-        level=["hid"],
+        level=["hh_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
@@ -94,7 +94,7 @@ def test_eltgeld(
     )
 
 
-# hid 7 in test cases is for the calculator on
+# hh_id 7 in test cases is for the calculator on
 # https://familienportal.de/familienportal/meta/egr. The result of the calculator is
 # 10 Euro off the result from gettsim. We need to discuss if we should adapt the
 # calculation of the proxy wage of last year or anything else.

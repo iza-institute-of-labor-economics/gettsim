@@ -53,7 +53,7 @@ def tax_transfer(
     The 'sub' functions may take an argument 'ref', which might be used for small
      reforms that e.g. only differ in parameters or slightly change the calculation.
     """
-    bool_variables = ["kind", "ostdeutsch"]
+    bool_variables = ["kind", "wohnort_st"]
     check_boolean(df, bool_variables)
     # if hyporun is False:
     # df = uprate(df, datayear, settings['taxyear'], settings['MAIN_PATH'])
@@ -61,9 +61,9 @@ def tax_transfer(
     # We initialize all output columns.
     # for column in OUT_PUT:
     # df[column] = 0.0
-    household = ["hid"]
-    tax_unit = ["hid", "tu_id"]
-    person = ["hid", "tu_id", "pid"]
+    household = ["hh_id"]
+    tax_unit = ["hh_id", "tu_id"]
+    person = ["hh_id", "tu_id", "p_id"]
     if df.groupby(person).ngroups != len(df):
         raise ValueError(
             "Household, tax unit and person identifier don't provide "
@@ -72,14 +72,14 @@ def tax_transfer(
     # We start with the top layer, which is household id. We treat this as the
     # "Bedarfsgemeinschaft" in German tax law.
     in_cols = [
-        "lohn_m",
-        "ostdeutsch",
+        "bruttolohn_m",
+        "wohnort_st",
         "alter",
         "selbstständig",
         "hat_kinder",
         "eink_selbstst_m",
-        "rente_m",
-        "prv_krank_vers",
+        "ges_rente_m",
+        "prv_krankv_beit_m",
     ]
     out_cols = [
         "sozialv_beit_m",
@@ -98,14 +98,14 @@ def tax_transfer(
     )
 
     in_cols = [
-        "dur_eink_vorj_m",
-        "ostdeutsch",
+        "bruttolohn_vorj_m",
+        "wohnort_st",
         "kind",
-        "m_arbeitsl",
-        "m_arbeitsl_vorj",
-        "m_arbeitsl_vor2j",
-        "rente_m",
-        "arbeitsstund_w",
+        "arbeitsl_lfdj_m",
+        "arbeitsl_vorj_m",
+        "arbeitsl_vor2j_m",
+        "ges_rente_m",
+        "arbeitsstunden_w",
         "anz_kinder_tu",
         "alter",
     ]
@@ -124,7 +124,7 @@ def tax_transfer(
             "soli_st_params": soli_st_params,
         },
     )
-    in_cols = ["lohn_m", "ostdeutsch", "alter", "year", "geburtsjahr", "exper", "EP"]
+    in_cols = ["bruttolohn_m", "wohnort_st", "alter", "year", "geburtsjahr", "EP"]
     out_col = "rente_anspr_m"
     df = apply_tax_transfer_func(
         df,
@@ -138,17 +138,17 @@ def tax_transfer(
         },
     )
     in_cols = [
-        "lohn_m",
+        "bruttolohn_m",
         "eink_selbstst_m",
         "kapital_eink_m",
         "vermiet_eink_m",
-        "rente_eint_jahr",
-        "rente_m",
-        "arbeitsstund_w",
+        "jahr_renteneintr",
+        "ges_rente_m",
+        "arbeitsstunden_w",
         "in_ausbildung",
         "gem_veranlagt",
         "kind",
-        "kind_betr_kost_m",
+        "betreuungskost_m",
         "prv_rente_beit_m",
         "behinderungsgrad",
         "rentenv_beit_m",
@@ -158,7 +158,7 @@ def tax_transfer(
         "alter",
         "anz_kinder_tu",
         "year",
-        "ostdeutsch",
+        "wohnort_st",
         "krankv_beit_m",
     ]
     out_cols = [
@@ -215,7 +215,7 @@ def tax_transfer(
         },
     )
 
-    in_cols = ["alter", "arbeitsstund_w", "in_ausbildung", "lohn_m"]
+    in_cols = ["alter", "arbeitsstunden_w", "in_ausbildung", "bruttolohn_m"]
     out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
     df = apply_tax_transfer_func(
         df,
@@ -249,13 +249,13 @@ def tax_transfer(
     )
 
     in_cols = [
-        "hid",
+        "hh_id",
         "tu_id",
-        "pid",
+        "p_id",
         "kind",
-        "lohn_m",
-        "dur_eink_vorj_m",
-        "ostdeutsch",
+        "bruttolohn_m",
+        "bruttolohn_vorj_m",
+        "wohnort_st",
         "eink_st",
         "soli_st",
         "sozialv_beit_m",
@@ -272,7 +272,7 @@ def tax_transfer(
     df = apply_tax_transfer_func(
         df,
         tax_func=elterngeld,
-        level=["hid"],
+        level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
@@ -287,13 +287,13 @@ def tax_transfer(
     in_cols = [
         "alleinerziehend",
         "alter",
-        "lohn_m",
+        "bruttolohn_m",
         "sonstig_eink_m",
         "kapital_eink_m",
         "vermiet_eink_m",
         "eink_selbstst_m",
         "arbeitsl_geld_m",
-        "rente_m",
+        "ges_rente_m",
         "gem_veranlagt",
     ]
     out_col = "unterhalt_vors_m"
@@ -317,10 +317,10 @@ def tax_transfer(
         "heizkost_m",
         "alleinerziehend",
         "alter",
-        "baujahr",
+        "immobilie_baujahr",
         "mietstufe",
-        "lohn_m",
-        "rente_m",
+        "bruttolohn_m",
+        "ges_rente_m",
         "_ertragsanteil",
         "arbeitsl_geld_m",
         "sonstig_eink_m",
@@ -345,18 +345,18 @@ def tax_transfer(
         func_kwargs={"params": wohngeld_params},
     )
     in_cols = [
-        "hid",
-        "pid",
+        "hh_id",
+        "p_id",
         "tu_vorstand",
         "kind",
         "alter",
         "kaltmiete_m",
         "heizkost_m",
         "wohnfläche",
-        "wohneigentum",
+        "bewohnt_eigentum",
         "alleinerziehend",
-        "lohn_m",
-        "rente_m",
+        "bruttolohn_m",
+        "ges_rente_m",
         "kapital_eink_m",
         "arbeitsl_geld_m",
         "sonstig_eink_m",
@@ -390,14 +390,14 @@ def tax_transfer(
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
     in_cols = [
-        "pid",
-        "hid",
+        "p_id",
+        "hh_id",
         "tu_id",
         "kind",
         "rentner",
         "alter",
-        "arbeitsstund_w",
-        "lohn_m",
+        "arbeitsstunden_w",
+        "bruttolohn_m",
         "in_ausbildung",
         "kaltmiete_m",
         "heizkost_m",
@@ -427,8 +427,8 @@ def tax_transfer(
         "kind",
         "rentner",
         "alter",
-        "hh_vermögen",
-        "anz_erw_hh",
+        "vermögen_hh",
+        "anz_erwachsene_hh",
         "anz_minderj_hh",
         "kinderzuschlag_temp",
         "wohngeld_basis_hh",
@@ -446,12 +446,12 @@ def tax_transfer(
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
     in_cols = [
-        "lohn_m",
+        "bruttolohn_m",
         "kapital_eink_m",
         "eink_selbstst_m",
         "vermiet_eink_m",
-        # "eigenheim_ersp_m", We need to discuss this!
-        "rente_m",
+        # "miete_unterstellt", We need to discuss this!
+        "ges_rente_m",
         "sonstig_eink_m",
         "kindergeld",
         "unterhalt_vors_m",
@@ -475,12 +475,12 @@ def tax_transfer(
         out_cols=out_cols,
     )
     in_cols = [
-        "lohn_m",
+        "bruttolohn_m",
         "kapital_eink_m",
         "eink_selbstst_m",
         "vermiet_eink_m",
-        "eigenheim_ersp_m",
-        "rente_m",
+        "miete_unterstellt",
+        "ges_rente_m",
         "sonstig_eink_m",
         "kindergeld",
     ]
@@ -489,46 +489,46 @@ def tax_transfer(
         df, tax_func=gross_income, level=household, in_cols=in_cols, out_cols=[out_col]
     )
     required_inputs = [
-        "hid",
+        "hh_id",
         "tu_id",
-        "pid",
+        "p_id",
         "tu_vorstand",
-        "anz_erw_hh",
+        "anz_erwachsene_hh",
         "anz_minderj_hh",
-        "hh_vermögen",
-        "lohn_m",
+        "vermögen_hh",
+        "bruttolohn_m",
         "alter",
         "selbstständig",
-        "ostdeutsch",
+        "wohnort_st",
         "hat_kinder",
         "eink_selbstst_m",
-        "rente_m",
-        "prv_krank_vers",
-        "dur_eink_vorj_m",
-        "m_arbeitsl",
-        "m_arbeitsl_vorj",
-        "m_arbeitsl_vor2j",
-        "arbeitsstund_w",
+        "ges_rente_m",
+        "prv_krankv_beit_m",
+        "bruttolohn_vorj_m",
+        "arbeitsl_lfdj_m",
+        "arbeitsl_vorj_m",
+        "arbeitsl_vor2j_m",
+        "arbeitsstunden_w",
         "anz_kinder_tu",
         "anz_erw_tu",
         "geburtsjahr",
         "EP",
         "kind",
         "rentner",
-        "kind_betr_kost_m",
-        "eigenheim_ersp_m",
+        "betreuungskost_m",
+        "miete_unterstellt",
         "kapital_eink_m",
         "vermiet_eink_m",
         "kaltmiete_m",
         "heizkost_m",
-        "rente_eint_jahr",
+        "jahr_renteneintr",
         "behinderungsgrad",
         "wohnfläche",
         "gem_veranlagt",
         "in_ausbildung",
         "alleinerziehend",
-        "wohneigentum",
-        "baujahr",
+        "bewohnt_eigentum",
+        "immobilie_baujahr",
         "sonstig_eink_m",
     ]
     desired_outputs = [
