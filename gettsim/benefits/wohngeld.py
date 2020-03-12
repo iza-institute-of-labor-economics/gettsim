@@ -238,6 +238,7 @@ def _calc_wg_income_deductions_since_2016(household, params):
     and children who are working
     """
     workingchild = household["child"] & (household["m_wage"] > 0)
+
     wg_incdeduct = (
         (household["handcap_degree"] > 0) * params["wgpfbm80"]
         + (workingchild * np.minimum(params["wgpfb24"], household["m_wage"]))

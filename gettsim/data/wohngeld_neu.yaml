@@ -604,6 +604,34 @@ freib_kinder:
       12: 50
       24: 50
     2016-01-01:
+      note: neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch nicht 25J.
       reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
       12: 110
       24: 100
+
+freib_behinderung:
+  name:
+    de: Monatlicher Freibetrag pro behindertes Haushaltsmitglied über und unter 80%.
+    en:
+  description:
+    de: § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG) Seit 2016 ab 100% Behinderungsgrad, vorher 80%. Betrag im Gesetz durch 12 geteilt.
+    en:
+    1984-01-01:
+      ab80: 102
+      u80: 0
+    1986-01-01:
+      deviated_from: previous
+      ab80: 51
+    1991-01-01:
+      ab80: 128
+      u80: 102
+    2002-01-01:
+      ab80: 125
+      u80: 100
+    2016-01-01:
+      deviated_from: previous
+      u80: 125
+      note: neu §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1612
+    2020-01-01:
+      ab80: 150
+      note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
