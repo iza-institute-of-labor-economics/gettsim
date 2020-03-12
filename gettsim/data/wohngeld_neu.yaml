@@ -421,3 +421,16 @@ abzug_stufen:
       1: 0.1
       2: 0.2
       3: 0.3
+
+max_miete:
+  name:
+    de: Höchstbeträge für Miete und Belastung
+    en:
+  description:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
+    en:
+  note: Die Werte sind nach Anzahl Personen - Mietstufe geordnet - Baujahr des Hauses
+  1984-01-01:
+    1:
+      1:
+        1:
