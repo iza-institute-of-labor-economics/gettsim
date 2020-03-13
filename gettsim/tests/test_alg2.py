@@ -33,7 +33,7 @@ INPUT_COLS = [
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld",
-    "year",
+    "jahr",
 ]
 OUT_COLS = [
     "sum_basis_arbeitsl_geld_2_eink",
@@ -60,7 +60,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
     arbeitsl_geld_2_params = get_policies_for_date(

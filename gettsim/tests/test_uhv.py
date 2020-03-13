@@ -22,7 +22,7 @@ INPUT_COLS = [
     "arbeitsl_geld_m",
     "ges_rente_m",
     "gem_veranlagt",
-    "year",
+    "jahr",
 ]
 OUT_COL = "unterhaltsvors_m"
 YEARS = [2017, 2018, 2019]
@@ -37,7 +37,7 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_uhv(input_data, year, unterhalt_raw_data):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     unterhalt_params = get_policies_for_date(
         year=year, group="unterhalt", raw_group_data=unterhalt_raw_data
@@ -59,7 +59,7 @@ def input_data_2():
 
 @pytest.mark.parametrize("year", [2019])
 def test_uhv_07_2019(input_data_2, year, unterhalt_raw_data):
-    year_data = input_data_2[input_data_2["year"] == year]
+    year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     unterhalt_params = get_policies_for_date(
         year=year, group="unterhalt", raw_group_data=unterhalt_raw_data, month=8

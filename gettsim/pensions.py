@@ -18,7 +18,7 @@ def pensions(person, params, soz_vers_beitr_params):
 
     """
     # meanwages is only filled until 2016
-    year = min(params["year"], 2016)
+    year = min(params["jahr"], 2016)
 
     person = update_earnings_points(person, params, soz_vers_beitr_params, year)
     # ZF: Zugangsfaktor.

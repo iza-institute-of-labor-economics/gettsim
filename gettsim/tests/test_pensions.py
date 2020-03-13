@@ -15,7 +15,7 @@ INPUT_COLS = [
     "bruttolohn_m",
     "wohnort_ost",
     "alter",
-    "year",
+    "jahr",
     "geburtsjahr",
     "EP",
 ]
@@ -34,7 +34,7 @@ def input_data():
 @pytest.mark.parametrize("year", YEARS)
 def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_data):
     column = "pensions_sim"
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
@@ -58,7 +58,7 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
 
 @pytest.mark.parametrize("year", YEARS)
 def test_update_earning_points(input_data, year):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
     ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")

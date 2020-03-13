@@ -1,4 +1,4 @@
-hh_id,tu_id,p_id,bruttolohn_m,wohnort_ost,alter,selbstständig,hat_kinder,eink_selbstst_m,ges_rente_m,prv_krankv_beit_m,year,sozialv_beit_m,,,,,bemes,rentenv_beit_m,pflegev_beit_m,ges_krankv_beit_m,arbeitsl_v_beit_m,,
+"hh_id","tu_id","p_id","bruttolohn_m","wohnort_ost","alter","selbstständig","hat_kinder","eink_selbstst_m","ges_rente_m","prv_krankv_beit_m","jahr","sozialv_beit_m",,,,,"bemes","rentenv_beit_m","pflegev_beit_m","ges_krankv_beit_m","arbeitsl_v_beit_m",,
 1,1,8,300,FALSE,25,FALSE,FALSE,0,0,FALSE,2018,0.00000,,,,,148.22063,0.00000,0.00000,0.00000,0.00000,,
 2,2,9,600,FALSE,25,FALSE,FALSE,0,0,FALSE,2018,96.15375,,,,,531.00938,42.96774,7.21826,39.03746,6.93028,,
 3,3,34,900,FALSE,25,FALSE,FALSE,0,0,FALSE,2018,185.62500,,,,,913.79813,83.70000,13.72500,74.70000,13.50000,,
@@ -13,4 +13,4 @@ hh_id,tu_id,p_id,bruttolohn_m,wohnort_ost,alter,selbstständig,hat_kinder,eink_s
 12,12,369,8000,FALSE,20,FALSE,TRUE,0,0,FALSE,2010,957.06250,,,,,9738.80000,547.25000,36.56250,296.25000,77.00000,,
 13,13,111,700,FALSE,20,FALSE,FALSE,0,0,FALSE,2002,144.55000,,,,,675.85000,66.85000,5.95000,49.00000,22.75000,,
 14,14,4684,0,FALSE,40,TRUE,TRUE,2500,0,FALSE,2019,433.37438,,,,,-193.20000,0.00000,71.25563,362.11875,0.00000,,
-15,15,222,3000,FALSE,40,FALSE,FALSE,0,0,FALSE,2020,603.75,,,,,,279,53.25,235.5,36,,Sozialversicherungs-Rechner auf www.barmer.de
+15,15,222,3000,"FALSE",40,"FALSE","FALSE",0,0,"FALSE",2020,603.75,,,,,,279,53.25,235.5,36,,"Sozialversicherungs-Rechner auf www.barmer.de"

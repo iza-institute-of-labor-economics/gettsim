@@ -33,7 +33,7 @@ def test_tax_transfer(
     kindergeld_raw_data,
     elterngeld_raw_data,
 ):
-    df = input_data[input_data["year"] == year].copy()
+    df = input_data[input_data["jahr"] == year].copy()
 
     ges_renten_vers_params = get_policies_for_date(
         year=year, group="ges_renten_vers", raw_group_data=ges_renten_vers_raw_data

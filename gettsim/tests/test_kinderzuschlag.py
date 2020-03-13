@@ -27,7 +27,7 @@ INPUT_COLS = [
     "sum_arbeitsl_geld_2_eink_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
-    "year",
+    "jahr",
 ]
 OUT_COLS = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]
 YEARS = [2006, 2009, 2011, 2013, 2016, 2017, 2019, 2020]
@@ -49,7 +49,7 @@ def test_kiz(
     kindergeld_raw_data,
 ):
     columns = ["kinderzuschlag_temp"]
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     kinderzuschlag_params = get_policies_for_date(
         year=year, group="kinderzuschlag", raw_group_data=kinderzuschlag_raw_data

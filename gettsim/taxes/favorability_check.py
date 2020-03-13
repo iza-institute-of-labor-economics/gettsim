@@ -22,7 +22,7 @@ def favorability_check(tax_unit, params):
         tax_unit["_st_" + max_inc + "_tu"] / 12
     )
     # set kindergeld to zero if necessary.
-    if (not ("kein_kind_freib" in max_inc)) | (params["year"] <= 1996):
+    if (not ("kein_kind_freib" in max_inc)) | (params["jahr"] <= 1996):
         tax_unit.loc[:, "kindergeld_m"] = 0
         tax_unit.loc[:, "kindergeld_m_tu"] = 0
     if "abg" in max_inc:
@@ -52,7 +52,7 @@ def get_max_inc(tax_unit, params):
             inc_list[i] += tax_unit["abgelt_st_m_tu"].iloc[0]
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
-        if ("kein_kind_freib" in inc) | (params["year"] <= 1996):
+        if ("kein_kind_freib" in inc) | (params["jahr"] <= 1996):
             inc_list[i] -= (12 * tax_unit["kindergeld_m_tu_basis"]).iloc[0]
 
     # get the maximum income, i.e. the minimum payment burden

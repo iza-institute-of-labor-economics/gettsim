@@ -20,7 +20,7 @@ INPUT_COLS = [
     "eink_selbstst_m",
     "ges_rente_m",
     "prv_krankv_beit_m",
-    "year",
+    "jahr",
 ]
 
 
@@ -43,7 +43,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data

@@ -21,7 +21,7 @@ INPUT_COLS = [
     "abgelt_st_m_tu",
     "kindergeld_m_basis",
     "kindergeld_m_tu_basis",
-    "year",
+    "jahr",
 ]
 OUT_COLS = [
     "eink_st_m_tu",
@@ -43,7 +43,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", product(YEARS, TEST_COLUMNS))
 def test_favorability_check(input_data, year, column, e_st_abzuege_raw_data):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     e_st_abzuege_params = get_policies_for_date(
         year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data

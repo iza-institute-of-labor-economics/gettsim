@@ -21,7 +21,7 @@ def input_data():
 def test_tax_sched(
     input_data, year, soli_st_raw_data,
 ):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
     soli_st_params = get_policies_for_date(

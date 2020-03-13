@@ -212,8 +212,8 @@ def check_eligibilities(household, params):
 
             household.loc[eligible, "elternzeit_anspruch"] = True
 
-            if (len(children[(params["year"] - children["geburtsjahr"]) < 3]) == 2) | (
-                len(children[(params["year"] - children["geburtsjahr"]) < 6]) > 2
+            if (len(children[(params["jahr"] - children["geburtsjahr"]) < 3]) == 2) | (
+                len(children[(params["jahr"] - children["geburtsjahr"]) < 6]) > 2
             ):
                 household.loc[eligible, "geschw_bonus"] = True
                 household.loc[eligible, "anz_mehrlinge"] = len(youngest_child) - 1

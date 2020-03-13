@@ -47,7 +47,7 @@ def test_tax_sched(
         "soli_st_m",
         "soli_st_m_tu",
     ]
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     e_st_abzuege_params = get_policies_for_date(
         year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data

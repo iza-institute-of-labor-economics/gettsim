@@ -129,7 +129,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     nokfb_lower = tax_unit["_zu_versteuerndes_eink_kein_kind_freib"].min()
 
     # Add both components for ease of notation.
-    if params["year"] >= 2000:
+    if params["jahr"] >= 2000:
         kifreib_total = params["kifreib_s_exm"] + params["kifreib_bea"]
     # 'kifreib_bea' does not exist before 2000.
     else:
@@ -274,7 +274,7 @@ def calc_gde(tax_unit, params):
 
     # Kapitaleinkommen im Tarif versteuern oder nicht?
     # If capital income tax with tariff, add it but account for exemptions
-    if params["year"] < 2009:
+    if params["jahr"] < 2009:
         gross_gde += np.maximum(
             tax_unit["brutto_eink_5"] - params["spsparf"] - params["spwerbz"], 0
         )
@@ -305,7 +305,7 @@ def deductible_child_care_costs(tax_unit, params):
     """Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg."""
     # So far we only implement the current regulation, which has been in place since 2012.
-    if params["year"] < 2012:
+    if params["jahr"] < 2012:
         # For earlier years we only use the pausch value
         tax_unit.loc[~tax_unit["kind"], "sonder"] = params["sonder"]
         return tax_unit
@@ -413,7 +413,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
     # Distinguish between married and singles
     # Single Taxpayer
     if not tax_unit["gem_veranlagt"].max():
-        if params["year"] <= 2019:
+        if params["jahr"] <= 2019:
             # Amount 1: Basic deduction, based on earnings. Usually zero.
             item_1 = np.maximum(
                 params["vorwegabzug"]
@@ -441,7 +441,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             tax_unit[f"{var}_tu"] = tax_unit.loc[
                 ~tax_unit["kind"], "bruttolohn_m"
             ].sum()
-        if params["year"] <= 2019:
+        if params["jahr"] <= 2019:
             item_1 = 0.5 * np.maximum(
                 2 * params["vorwegabzug"]
                 - params["kuerzquo"] * 12 * tax_unit["bruttolohn_m_tu"],
@@ -498,7 +498,7 @@ def calc_altersvors_aufwend(tax_unit, params):
     in 2025.
     """
 
-    einführungsfaktor = 0.6 + 0.02 * (min(params["year"], 2025) - 2005)
+    einführungsfaktor = 0.6 + 0.02 * (min(params["jahr"], 2025) - 2005)
 
     altersvors = ~tax_unit["kind"] * (
         einführungsfaktor

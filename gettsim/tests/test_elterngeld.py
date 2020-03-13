@@ -26,7 +26,7 @@ INPUT_COLS = [
     "m_elterngeld_mut",
     "m_elterngeld_vat",
     "m_elterngeld",
-    "year",
+    "jahr",
 ]
 
 OUT_COLS = ["elterngeld", "geschw_bonus", "anz_mehrlinge", "elternzeit_anspruch"]
@@ -52,7 +52,7 @@ def test_eltgeld(
     soli_st_raw_data,
     input_data,
 ):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     elterngeld_params = get_policies_for_date(
         year=year, group="elterngeld", raw_group_data=elterngeld_raw_data

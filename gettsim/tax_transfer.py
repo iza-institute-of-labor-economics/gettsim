@@ -123,7 +123,7 @@ def tax_transfer(
             "soli_st_params": soli_st_params,
         },
     )
-    in_cols = ["bruttolohn_m", "wohnort_ost", "alter", "year", "geburtsjahr", "EP"]
+    in_cols = ["bruttolohn_m", "wohnort_ost", "alter", "jahr", "geburtsjahr", "EP"]
     out_col = "rente_anspr_m"
     df = apply_tax_transfer_func(
         df,
@@ -156,7 +156,7 @@ def tax_transfer(
         "alleinerziehend",
         "alter",
         "anz_kinder_tu",
-        "year",
+        "jahr",
         "wohnort_ost",
         "ges_krankv_beit_m",
     ]
@@ -264,7 +264,7 @@ def tax_transfer(
         "m_elterngeld_mut",
         "m_elterngeld_vat",
         "m_elterngeld",
-        "year",
+        "jahr",
     ]
     out_cols = ["elterngeld", "geschw_bonus", "anz_mehrlinge", "elternzeit_anspruch"]
 

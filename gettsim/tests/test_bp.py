@@ -23,7 +23,7 @@ INPUT_COLS = [
     "regelbedarf_m",
     "sum_basis_arbeitsl_geld_2_eink",
     "geburtsjahr",
-    "year",
+    "jahr",
 ]
 
 YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
@@ -39,7 +39,7 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data

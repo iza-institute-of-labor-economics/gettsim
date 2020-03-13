@@ -21,7 +21,7 @@ IN_COLS = [
     "rentenv_beit_m",
     "arbeitsl_v_beit_m",
     "pflegev_beit_m",
-    "year",
+    "jahr",
     "ges_krankv_beit_m",
     "gem_veranlagt",
 ]
@@ -47,7 +47,7 @@ def test_vorsorge(
     soz_vers_beitr_raw_data,
     e_st_abzuege_raw_data,
 ):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
     e_st_abzuege_params = get_policies_for_date(
         year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data

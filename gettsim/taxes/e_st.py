@@ -54,7 +54,7 @@ def st_tarif(x, params):
         tb (dict): tax-benefit parameters specific to year and reform
     """
 
-    if params["year"] < 2002:
+    if params["jahr"] < 2002:
         raise ValueError("Income Tax Pre 2002 not yet modelled!")
     else:
         eink_steuer = 0.0

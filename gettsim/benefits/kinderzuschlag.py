@@ -35,7 +35,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     household["kinderzuschlag_heizkost_m"] = household["heizkost_m"] * tax_unit_share
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
-    wb = get_wohnbedarf(max(params["year"], 2011))
+    wb = get_wohnbedarf(max(params["jahr"], 2011))
     household["wohnbedarf_eltern_anteil"] = 1.0
     for c in [1, 2]:
         for r in [1, 2, 3, 4]:
@@ -161,7 +161,7 @@ def calc_min_income_kiz(household, params):
 
 
 def calc_kiz_ek(household, params, arbeitsl_geld_2_params):
-    if params["year"] <= 2010:
+    if params["jahr"] <= 2010:
         calc_kiz_regel = _calc_kiz_regel_until_2010
     else:
         calc_kiz_regel = _calc_kiz_regel_since_2011
