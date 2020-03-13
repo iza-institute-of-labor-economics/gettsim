@@ -417,26 +417,6 @@ abzug_stufen:
       deviation_from: previous
       0: 0
 
-max_miete:
-  name:
-    de: Höchstbeträge für Miete und Belastung
-    en:
-  description:
-    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
-    en:
-  note: Die Werte sind nach Anzahl Personen - Baujahr des Hauses -Mietstufe geordnet
-  1984-01-01:
-    1:
-      a:
-        1:
-      m:
-        1:
-        2:
-        3: 166
-        4:
-        5:
-        6:
-
 min_miete:
   name:
     de: Minimalwert für Parameter M
@@ -629,9 +609,104 @@ freib_behinderung:
       ab80: 125
       u80: 100
     2016-01-01:
-      deviated_from: previous
-      u80: 125
-      note: neu §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1612
+      reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
+      scalar: 125
+      note: neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
     2020-01-01:
-      ab80: 150
+      scalar: 150
       note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+
+max_miete:
+  name:
+    de: Höchstbeträge für Miete und Belastung
+    en:
+  description:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG
+    en:
+  note: Die Werte sind nach Anzahl Personen - Baujahr des Hauses -Mietstufe geordnet.
+  1984-01-01:
+    1:
+      a:
+        3: 135
+      m:
+        3: 166
+      n:
+        3: 178
+    2:
+      a:
+        3: 171
+      m:
+        3: 217
+      n:
+        3: 235
+    3:
+      a:
+        3: 207
+      m:
+        3: 263
+      n:
+        3: 286
+    4:
+      a:
+        3: 245
+      m:
+        3: 304
+      n:
+        3: 304
+    5:
+      a:
+        3: 281
+      m:
+        3: 348
+      n:
+        3: 378
+    5plus:
+      a:
+        3: 34
+      m:
+        3: 42
+      n:
+        3: 47
+  1985-01-01:
+    1:
+      a:
+        3: 163
+      m:
+        3: 194
+      n:
+        3: 207
+    2:
+      a:
+        3:
+      m:
+        3:
+      n:
+        3:
+    3:
+      a:
+        3:
+      m:
+        3:
+      n:
+        3:
+    4:
+      a:
+        3:
+      m:
+        3:
+      n:
+        3:
+    5:
+      a:
+        3:
+      m:
+        3:
+      n:
+        3:
+    5plus:
+      a:
+        3:
+      m:
+        3:
+      n:
+        3:
