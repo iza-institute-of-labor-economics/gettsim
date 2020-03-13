@@ -10,8 +10,8 @@ def kindergeld(tax_unit, params):
 
     Returns:
         pd.series:
-            kindergeld_basis: Kindergeld on the individual level
-            kindergeld_tu_basis: Kindergeld summed up within the tax unit
+            kindergeld_m_basis: Kindergeld on the individual level
+            kindergeld_m_tu_basis: Kindergeld summed up within the tax unit
     """
 
     child_count = params["kindergeld_anspruch_regel"](tax_unit, params).cumsum()
@@ -22,9 +22,9 @@ def kindergeld(tax_unit, params):
         3: params["kgeld3"],
         4: params["kgeld4"],
     }
-    tax_unit["kindergeld_basis"] = child_count.replace(kg_amounts)
-    tax_unit.loc[child_count > 4, "kindergeld_basis"] = params["kgeld4"]
-    tax_unit["kindergeld_tu_basis"] = np.sum(tax_unit["kindergeld_basis"])
+    tax_unit["kindergeld_m_basis"] = child_count.replace(kg_amounts)
+    tax_unit.loc[child_count > 4, "kindergeld_m_basis"] = params["kgeld4"]
+    tax_unit["kindergeld_m_tu_basis"] = np.sum(tax_unit["kindergeld_m_basis"])
 
     return tax_unit
 

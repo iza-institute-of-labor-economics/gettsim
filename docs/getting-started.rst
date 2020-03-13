@@ -177,7 +177,7 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------------+----------------------------------------------------+-------+
 | soli_st                 | Monthly solidarity surcharge due, individual       | float |
 +-------------------------+----------------------------------------------------+-------+
-| kindergeld              | Monthly child Benefit, individual                  | float |
+| kindergeld_m            | Monthly child Benefit, individual                  | float |
 +-------------------------+----------------------------------------------------+-------+
 | eink_st                 | Monthly income Tax Due, individual                 | float |
 +-------------------------+----------------------------------------------------+-------+

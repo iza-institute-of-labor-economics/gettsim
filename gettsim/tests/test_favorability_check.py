@@ -19,13 +19,19 @@ INPUT_COLS = [
     "_st_kein_kind_freib_tu",
     "_st_kind_freib_tu",
     "abgelt_st_tu",
-    "kindergeld_basis",
-    "kindergeld_tu_basis",
+    "kindergeld_m_basis",
+    "kindergeld_m_tu_basis",
     "year",
 ]
-OUT_COLS = ["eink_st_tu", "eink_st", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
+OUT_COLS = [
+    "eink_st_tu",
+    "eink_st",
+    "kindergeld_m",
+    "kindergeld_m_hh",
+    "kindergeld_m_tu",
+]
 YEARS = [2010, 2012, 2016]
-TEST_COLUMNS = ["eink_st_tu", "kindergeld", "kindergeld_hh", "kindergeld_tu"]
+TEST_COLUMNS = ["eink_st_tu", "kindergeld_m", "kindergeld_m_hh", "kindergeld_m_tu"]
 
 
 @pytest.fixture(scope="module")

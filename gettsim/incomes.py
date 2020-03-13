@@ -11,7 +11,7 @@ def disposable_income(household):
             # "miete_unterstellt", We need to discuss this!
             "ges_rente_m",
             "sonstig_eink_m",
-            "kindergeld",
+            "kindergeld_m",
             "unterhaltsvors_m",
         ]
     ].sum(axis=1) - household[
@@ -53,7 +53,7 @@ def disposable_income(household):
 #                "miete_unterstellt",
 #                "ges_rente_m",
 #                "sonstig_eink_m",
-#                "kindergeld",
+#                "kindergeld_m",
 #            ]
 #        ].sum(axis=1),
 #        2,

@@ -11,8 +11,8 @@ def favorability_check(tax_unit, params):
         set to zero. A similar check applies to whether it is more profitable to
         tax capital incomes with the standard 25% rate or to include it in the tariff.
     """
-    tax_unit["kindergeld"] = tax_unit["kindergeld_basis"]
-    tax_unit["kindergeld_tu"] = tax_unit["kindergeld_tu_basis"]
+    tax_unit["kindergeld_m"] = tax_unit["kindergeld_m_basis"]
+    tax_unit["kindergeld_m_tu"] = tax_unit["kindergeld_m_tu_basis"]
     # get the maximum income
     max_inc = get_max_inc(tax_unit, params)
     # relevant incometax
@@ -23,14 +23,14 @@ def favorability_check(tax_unit, params):
     )
     # set kindergeld to zero if necessary.
     if (not ("kein_kind_freib" in max_inc)) | (params["year"] <= 1996):
-        tax_unit.loc[:, "kindergeld"] = 0
-        tax_unit.loc[:, "kindergeld_tu"] = 0
+        tax_unit.loc[:, "kindergeld_m"] = 0
+        tax_unit.loc[:, "kindergeld_m_tu"] = 0
     if "abg" in max_inc:
         tax_unit.loc[:, "abgelt_st"] = 0
         tax_unit.loc[:, "abgelt_st_tu"] = 0
     # Aggregate Child benefit on the household level, as we could have several
     # tax_units in one household.
-    tax_unit["kindergeld_hh"] = tax_unit["kindergeld"].sum()
+    tax_unit["kindergeld_m_hh"] = tax_unit["kindergeld_m"].sum()
     # Assign Income tax to individuals
     tax_unit["eink_st"] = np.select(
         [tax_unit["gem_veranlagt"], ~tax_unit["gem_veranlagt"]],
@@ -53,7 +53,7 @@ def get_max_inc(tax_unit, params):
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
         if ("kein_kind_freib" in inc) | (params["year"] <= 1996):
-            inc_list[i] -= (12 * tax_unit["kindergeld_tu_basis"]).iloc[0]
+            inc_list[i] -= (12 * tax_unit["kindergeld_m_tu_basis"]).iloc[0]
 
     # get the maximum income, i.e. the minimum payment burden
     return params["eink_arten"][np.argmin(inc_list)]

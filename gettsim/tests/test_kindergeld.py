@@ -17,7 +17,7 @@ INPUT_COLS = [
     "in_ausbildung",
     "bruttolohn_m",
 ]
-OUT_COLS = ["kindergeld_basis", "kindergeld_tu_basis"]
+OUT_COLS = ["kindergeld_m_basis", "kindergeld_m_tu_basis"]
 YEARS = [2000, 2002, 2010, 2011, 2013, 2019]
 
 
@@ -30,7 +30,7 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_kindergeld(input_data, year, kindergeld_raw_data):
-    test_column = "kindergeld_tu_basis"
+    test_column = "kindergeld_m_tu_basis"
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     kindergeld_params = get_policies_for_date(

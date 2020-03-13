@@ -25,7 +25,7 @@ INPUT_COLS = [
     "anz_kinder_tu",
     "arbeitsl_geld_2_brutto_eink_hh",
     "sum_arbeitsl_geld_2_eink_hh",
-    "kindergeld_hh",
+    "kindergeld_m_hh",
     "unterhaltsvors_m",
     "year",
 ]

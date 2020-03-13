@@ -43,7 +43,7 @@ def alg2(household, params):
 
     household["sum_basis_arbeitsl_geld_2_eink"] = (
         household["sum_arbeitsl_geld_2_eink_hh"]
-        + household["kindergeld_hh"]
+        + household["kindergeld_m_hh"]
         + household["unterhaltsvors_m_hh"]
     )
 

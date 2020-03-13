@@ -215,7 +215,7 @@ def tax_transfer(
     )
 
     in_cols = ["alter", "arbeitsstunden_w", "in_ausbildung", "bruttolohn_m"]
-    out_cols = ["kindergeld_basis", "kindergeld_tu_basis"]
+    out_cols = ["kindergeld_m_basis", "kindergeld_m_tu_basis"]
     df = apply_tax_transfer_func(
         df,
         tax_func=kindergeld,
@@ -228,15 +228,15 @@ def tax_transfer(
         "gem_veranlagt",
         "kind",
         "abgelt_st_tu",
-        "kindergeld_basis",
-        "kindergeld_tu_basis",
+        "kindergeld_m_basis",
+        "kindergeld_m_tu_basis",
     ]
     out_cols = [
         "eink_st_tu",
         "eink_st",
-        "kindergeld",
-        "kindergeld_hh",
-        "kindergeld_tu",
+        "kindergeld_m",
+        "kindergeld_m_hh",
+        "kindergeld_m_tu",
     ]
     df = apply_tax_transfer_func(
         df,
@@ -364,7 +364,7 @@ def tax_transfer(
         "eink_st",
         "soli_st",
         "sozialv_beit_m",
-        "kindergeld_hh",
+        "kindergeld_m_hh",
         "unterhaltsvors_m",
         "elterngeld",
     ]
@@ -406,7 +406,7 @@ def tax_transfer(
         "anz_kinder_tu",
         "arbeitsl_geld_2_brutto_eink_hh",
         "sum_arbeitsl_geld_2_eink_hh",
-        "kindergeld_hh",
+        "kindergeld_m_hh",
         "unterhaltsvors_m",
     ]
     out_cols = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]
@@ -452,7 +452,7 @@ def tax_transfer(
         # "miete_unterstellt", We need to discuss this!
         "ges_rente_m",
         "sonstig_eink_m",
-        "kindergeld",
+        "kindergeld_m",
         "unterhaltsvors_m",
         "eink_st",
         "soli_st",
@@ -527,8 +527,8 @@ def tax_transfer(
         "abgelt_st",
         "soli_st",
         "soli_st_tu",
-        "kindergeld",
-        "kindergeld_tu",
+        "kindergeld_m",
+        "kindergeld_m_tu",
         "eink_st",
         "eink_st_tu",
         "unterhaltsvors_m",
