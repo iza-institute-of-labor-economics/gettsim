@@ -38,7 +38,7 @@ def elterngeld(
         },
     )
 
-    household.loc[~household["elternzeit_anspruch"], ["elterngeld"]] = 0
+    household.loc[~household["elternzeit_anspruch"], ["elterngeld_m"]] = 0
 
     return household
 
@@ -64,7 +64,7 @@ def calc_elterngeld(
         soli_st_params,
     )
     if considered_wage < 0:
-        person["elterngeld"] = 0
+        person["elterngeld_m"] = 0
     else:
         payed_percentage = calc_elterngeld_percentage(considered_wage, params)
 
@@ -76,7 +76,7 @@ def calc_elterngeld(
         if person["geschw_bonus"]:
             prelim_elterngeld += calc_geschw_bonus(elterngeld_calc, params)
         prelim_elterngeld += person["anz_mehrlinge"] * params["mehrling_bonus"]
-        person["elterngeld"] = prelim_elterngeld
+        person["elterngeld_m"] = prelim_elterngeld
 
     return person
 

@@ -22,7 +22,7 @@ INPUT_COLS = [
     "bruttolohn_m",
     "ges_rente_m",
     "_ertragsanteil",
-    "elterngeld",
+    "elterngeld_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
     "unterhaltsvors_m",

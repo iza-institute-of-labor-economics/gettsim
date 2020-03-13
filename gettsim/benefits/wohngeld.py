@@ -122,7 +122,7 @@ def calc_wg_income(household, params, household_size):
         "rentenv_beit_m",
         "ges_krankv_beit_m",
         "unterhaltsvors_m",
-        "elterngeld",
+        "elterngeld_m",
     ]:
         # TODO Why is there a k in the end? It does not differ from the usual tu sum!
         household[f"{inc}_tu_k"] = household.groupby("tu_id")[inc].transform("sum")
@@ -136,7 +136,7 @@ def calc_wg_income(household, params, household_size):
             "sonstig_eink_m_tu_k",
             "_st_rente_tu_k",
             "unterhaltsvors_m_tu_k",
-            "elterngeld_tu_k",
+            "elterngeld_m_tu_k",
         ]
     ].sum(axis=1)
 

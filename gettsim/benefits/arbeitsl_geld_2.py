@@ -224,7 +224,7 @@ def grossinc_alg2(household):
                 "kapital_eink_m",
                 "ges_rente_m",
                 "arbeitsl_geld_m",
-                "elterngeld",
+                "elterngeld_m",
             ]
         ]
         .sum(axis=1)

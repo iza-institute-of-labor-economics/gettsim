@@ -266,7 +266,7 @@ def tax_transfer(
         "m_elterngeld",
         "jahr",
     ]
-    out_cols = ["elterngeld", "geschw_bonus", "anz_mehrlinge", "elternzeit_anspruch"]
+    out_cols = ["elterngeld_m", "geschw_bonus", "anz_mehrlinge", "elternzeit_anspruch"]
 
     df = apply_tax_transfer_func(
         df,
@@ -324,7 +324,7 @@ def tax_transfer(
         "arbeitsl_geld_m",
         "sonstig_eink_m",
         "unterhaltsvors_m",
-        "elterngeld",
+        "elterngeld_m",
         "brutto_eink_1",
         "brutto_eink_4",
         "brutto_eink_5",
@@ -366,7 +366,7 @@ def tax_transfer(
         "sozialv_beit_m",
         "kindergeld_m_hh",
         "unterhaltsvors_m",
-        "elterngeld",
+        "elterngeld_m",
     ]
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
