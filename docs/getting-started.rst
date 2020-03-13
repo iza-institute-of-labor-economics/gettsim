@@ -191,6 +191,8 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------------+----------------------------------------------------+-------+
 | kinderzuschlag_m        | Monthly additional child benefit, household sum    | float |
 +-------------------------+----------------------------------------------------+-------+
+| elterngeld_m            | Monthly elterngeld, individual                     | float |
++-------------------------+----------------------------------------------------+-------+
 | wohngeld_m              | Monthly housing benefit, household sum             | float |
 +-------------------------+----------------------------------------------------+-------+
 | arbeitsl_geld_2_m       | Monthly social assistance, household sum           | float |
