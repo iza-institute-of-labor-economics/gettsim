@@ -377,7 +377,7 @@ def tax_transfer(
         "regelsatz_m",
         "kost_unterk_m",
         "unterhaltsvors_m_hh",
-        "eink_anrech_frei",
+        "eink_anrechn_frei",
         "sum_arbeitsl_geld_2_eink",
     ]
     df = apply_tax_transfer_func(
@@ -465,7 +465,7 @@ def tax_transfer(
         "wohngeld_m",
         "arbeitsl_geld_2_m",
     ]
-    out_cols = ["verfüg_eink_m", "verfüg_eink_hh_m"]
+    out_cols = ["verfügb_eink_m", "verfügb_eink_hh_m"]
     df = apply_tax_transfer_func(
         df,
         tax_func=disposable_income,
@@ -538,8 +538,8 @@ def tax_transfer(
         "kinderzuschlag_m",
         "wohngeld_m",
         "arbeitsl_geld_2_m",
-        "verfüg_eink_m",
-        "verfüg_eink_hh_m",
+        "verfügb_eink_m",
+        "verfügb_eink_hh_m",
     ]
     return df[required_inputs + desired_outputs]
 

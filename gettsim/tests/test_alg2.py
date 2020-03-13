@@ -44,7 +44,7 @@ OUT_COLS = [
     "regelsatz_m",
     "kost_unterk_m",
     "unterhaltsvors_m_hh",
-    "eink_anrech_frei",
+    "eink_anrechn_frei",
 ]
 
 

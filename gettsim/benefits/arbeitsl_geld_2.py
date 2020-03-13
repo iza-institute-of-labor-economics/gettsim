@@ -30,7 +30,7 @@ def alg2(household, params):
     # relevant income. this will be calculated later when several benefits have to be
     # compared.
     household["sum_arbeitsl_geld_2_eink"] = np.maximum(
-        household["arbeitsl_geld_2_eink"] - household["eink_anrech_frei"], 0
+        household["arbeitsl_geld_2_eink"] - household["eink_anrechn_frei"], 0
     )
 
     # Aggregate on HH
@@ -242,7 +242,7 @@ def e_anr_frei_2005_01(household, params):
 
     cols = [
         "bruttolohn_m",
-        "eink_anrech_frei",
+        "eink_anrechn_frei",
         "eink_st_m",
         "soli_st_m",
         "sozialv_beit_m",
@@ -268,22 +268,22 @@ def e_anr_frei_person_2005_01(person, params, a2eg3):
 
     # Income not deducted
     if m_wage <= params["a2eg1"]:
-        person["eink_anrech_frei"] = params["a2an1"] * nq * m_wage
+        person["eink_anrechn_frei"] = params["a2an1"] * nq * m_wage
 
     elif params["a2eg1"] < m_wage <= params["a2eg2"]:
-        person["eink_anrech_frei"] = params["a2an1"] * nq * params["a2eg1"] + params[
+        person["eink_anrechn_frei"] = params["a2an1"] * nq * params["a2eg1"] + params[
             "a2an2"
         ] * nq * (m_wage - params["a2eg1"])
 
     elif params["a2eg2"] < m_wage <= a2eg3:
-        person["eink_anrech_frei"] = (
+        person["eink_anrechn_frei"] = (
             params["a2an1"] * nq * params["a2eg1"]
             + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
             + params["a2an3"] * nq * (m_wage - params["a2eg2"])
         )
 
     else:
-        person["eink_anrech_frei"] = (
+        person["eink_anrechn_frei"] = (
             params["a2an1"] * nq * params["a2eg1"]
             + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
             + params["a2an3"] * nq * (a2eg3 - params["a2eg2"])
@@ -335,7 +335,7 @@ def e_anr_frei_2005_10(household, params):
 
     a2eg3 = params["a2eg3"] if num_childs_0_18 == 0 else params["a2eg3ki"]
 
-    cols = ["bruttolohn_m", "eink_anrech_frei"]
+    cols = ["bruttolohn_m", "eink_anrechn_frei"]
     household.loc[:, cols] = household.groupby("p_id")[cols].apply(
         e_anr_frei_person_2005_10, params, a2eg3
     )
@@ -354,22 +354,22 @@ def e_anr_frei_person_2005_10(person, params, a2eg3):
 
     # Income not deducted
     if m_wage < params["a2eg1"]:
-        person["eink_anrech_frei"] = params["a2an1"] * m_wage
+        person["eink_anrechn_frei"] = params["a2an1"] * m_wage
 
     elif params["a2eg1"] <= m_wage < params["a2eg2"]:
-        person["eink_anrech_frei"] = params["a2an1"] * params["a2eg1"] + params[
+        person["eink_anrechn_frei"] = params["a2an1"] * params["a2eg1"] + params[
             "a2an2"
         ] * (m_wage - params["a2eg1"])
 
     elif params["a2eg2"] <= m_wage < a2eg3:
-        person["eink_anrech_frei"] = (
+        person["eink_anrechn_frei"] = (
             params["a2an1"] * params["a2eg1"]
             + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
             + params["a2an3"] * (m_wage - params["a2eg2"])
         )
 
     else:
-        person["eink_anrech_frei"] = (
+        person["eink_anrechn_frei"] = (
             params["a2an1"] * params["a2eg1"]
             + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
             + params["a2an3"] * (a2eg3 - params["a2eg2"])

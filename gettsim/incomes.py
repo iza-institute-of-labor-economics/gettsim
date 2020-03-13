@@ -2,7 +2,7 @@ import numpy as np
 
 
 def disposable_income(household):
-    household["verfüg_eink_m"] = household[
+    household["verfügb_eink_m"] = household[
         [
             "bruttolohn_m",
             "kapital_eink_m",
@@ -29,10 +29,10 @@ def disposable_income(household):
     )
 
     # Disposible income on hh level
-    household["verfüg_eink_hh_m"] = round(
+    household["verfügb_eink_hh_m"] = round(
         np.maximum(
             0,
-            sum(household["verfüg_eink_m"])
+            sum(household["verfügb_eink_m"])
             + household["arbeitsl_geld_2_m"]
             + household["wohngeld_m"]
             + household["kinderzuschlag_m"],

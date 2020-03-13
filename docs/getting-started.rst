@@ -195,8 +195,8 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------------+----------------------------------------------------+-------+
 | arbeitsl_geld_2_m       | Monthly social assistance, household sum           | float |
 +-------------------------+----------------------------------------------------+-------+
-| verfüg_eink_m           | Monthly disposable income, individual              | float |
+| verfügb_eink_m          | Monthly disposable income, individual              | float |
 +-------------------------+----------------------------------------------------+-------+
-| verfüg_eink_hh_m        | Monthly disposable income including household      | float |
+| verfügb_eink_hh_m       | Monthly disposable income including household      | float |
 |                         | level benefits, household sum                      |       |
 +-------------------------+----------------------------------------------------+-------+
