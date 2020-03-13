@@ -1,9 +1,4 @@
-OUT_COLS = [
-    "rentenv_beit_m",
-    "arbeitsl_v_beit_m",
-    "ges_krankv_beit_m",
-    "pflegev_beit_m",
-]
+"""This module contains the calculation of the social insurance contribution."""
 
 
 def soc_ins_contrib(person, params):
@@ -51,7 +46,14 @@ def soc_ins_contrib(person, params):
 
     # Calculate accordingly the ssc
     if belowmini:
-        person[OUT_COLS] = 0.0
+        person[
+            [
+                "rentenv_beit_m",
+                "arbeitsl_v_beit_m",
+                "ges_krankv_beit_m",
+                "pflegev_beit_m",
+            ]
+        ] = 0.0
     elif in_gleitzone:
         # TODO: Before and in 2003 params["midi_grenze"] is 0 and
         #  therefore we won't reach this.
@@ -226,6 +228,11 @@ def calc_midi_long_term_care_contr(person, params):
 def no_midi(person, params):
     """Dummy function returning 0 for the single contributions
     """
-    for col in OUT_COLS:
+    for col in [
+        "rentenv_beit_m",
+        "arbeitsl_v_beit_m",
+        "ges_krankv_beit_m",
+        "pflegev_beit_m",
+    ]:
         person[col] = 0.0
     return person
