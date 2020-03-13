@@ -266,7 +266,7 @@ def tax_transfer(
         "m_elterngeld",
         "jahr",
     ]
-    out_cols = ["elterngeld_m", "geschw_bonus", "anz_mehrlinge", "elternzeit_anspruch"]
+    out_cols = ["elterngeld_m"]
 
     df = apply_tax_transfer_func(
         df,

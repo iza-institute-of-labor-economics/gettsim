@@ -75,7 +75,7 @@ def calc_elterngeld(
         )
         if person["geschw_bonus"]:
             prelim_elterngeld += calc_geschw_bonus(elterngeld_calc, params)
-        prelim_elterngeld += person["anz_mehrlinge"] * params["mehrling_bonus"]
+        prelim_elterngeld += person["anz_mehrlinge_bonus"] * params["mehrling_bonus"]
         person["elterngeld_m"] = prelim_elterngeld
 
     return person
@@ -175,7 +175,7 @@ def check_eligibilities(household, params):
     """
     household["elternzeit_anspruch"] = False
     household["geschw_bonus"] = False
-    household["anz_mehrlinge"] = 0
+    household["anz_mehrlinge_bonus"] = 0
 
     children = household[household["kind"]]
     # Are there any children
@@ -216,6 +216,10 @@ def check_eligibilities(household, params):
                 len(children[(params["jahr"] - children["geburtsjahr"]) < 6]) > 2
             ):
                 household.loc[eligible, "geschw_bonus"] = True
-                household.loc[eligible, "anz_mehrlinge"] = len(youngest_child) - 1
+                # Checking if there are multiples
+                if len(youngest_child) > 0:
+                    household.loc[eligible, "anz_mehrlinge_bonus"] = (
+                        len(youngest_child) - 1
+                    )
 
     return household
