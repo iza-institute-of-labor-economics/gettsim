@@ -81,7 +81,7 @@ Required columns in input data
 +---------------------+--------------------------------------------------------+-------+
 | selbstständig       | Whether individual is self-employed                    | bool  |
 +---------------------+--------------------------------------------------------+-------+
-| wohnort_ost         | Whether location in former east or west germany        | bool  |
+| wohnort_ost         | Whether location in former East or West Germany        | bool  |
 +---------------------+--------------------------------------------------------+-------+
 | hat_kinder          | Whether individual has kids                            | bool  |
 +---------------------+--------------------------------------------------------+-------+
