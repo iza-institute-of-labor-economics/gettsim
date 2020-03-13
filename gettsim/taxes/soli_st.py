@@ -16,18 +16,18 @@ def soli_st(tax_unit, params):
     SolzG 1995.
     """
 
-    tax_unit["soli_st_tu"] = 0
+    tax_unit["soli_st_m_tu"] = 0
 
     # Soli also in monthly terms. only for adults
-    tax_unit.loc[~tax_unit["kind"], "soli_st_tu"] = (
+    tax_unit.loc[~tax_unit["kind"], "soli_st_m_tu"] = (
         params["soli_formula"](tax_unit["_st_kind_freib_tu"], params)
-        + params["soli_rate"] * tax_unit["abgelt_st_tu"]
+        + params["soli_rate"] * tax_unit["abgelt_st_m_tu"]
     ) * (1 / 12)
 
     # Assign Soli to individuals
-    tax_unit["soli_st"] = np.select(
+    tax_unit["soli_st_m"] = np.select(
         [tax_unit["gem_veranlagt"], ~tax_unit["gem_veranlagt"]],
-        [tax_unit["soli_st_tu"] / 2, tax_unit["soli_st_tu"]],
+        [tax_unit["soli_st_m_tu"] / 2, tax_unit["soli_st_m_tu"]],
     )
     return tax_unit
 

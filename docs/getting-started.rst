@@ -173,15 +173,15 @@ Note that if one of these columns exists, it will be overwritten.
 +-------------------------+----------------------------------------------------+-------+
 | rente_anspr_m           | Monthly amount of old-age pensions                 | float |
 +-------------------------+----------------------------------------------------+-------+
-| abgelt_st               | Monthly capital income tax due, individual         | float |
+| abgelt_st_m             | Monthly capital income tax due, individual         | float |
 +-------------------------+----------------------------------------------------+-------+
-| soli_st                 | Monthly solidarity surcharge due, individual       | float |
+| soli_st_m               | Monthly solidarity surcharge due, individual       | float |
 +-------------------------+----------------------------------------------------+-------+
 | kindergeld_m            | Monthly child Benefit, individual                  | float |
 +-------------------------+----------------------------------------------------+-------+
-| eink_st                 | Monthly income Tax Due, individual                 | float |
+| eink_st_m               | Monthly income Tax Due, individual                 | float |
 +-------------------------+----------------------------------------------------+-------+
-| eink_st_tu              | Monthly income Tax Due, couple sum                 | float |
+| eink_st_m_tu            | Monthly income Tax Due, couple sum                 | float |
 +-------------------------+----------------------------------------------------+-------+
 | unterhaltsvors_m        | Alimony advance payment, individual                | float |
 +-------------------------+----------------------------------------------------+-------+

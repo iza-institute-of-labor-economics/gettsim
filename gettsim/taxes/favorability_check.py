@@ -16,9 +16,9 @@ def favorability_check(tax_unit, params):
     # get the maximum income
     max_inc = get_max_inc(tax_unit, params)
     # relevant incometax
-    tax_unit.loc[:, "eink_st_tu"] = 0
+    tax_unit.loc[:, "eink_st_m_tu"] = 0
     # Income Tax in monthly terms! And write only to parents
-    tax_unit.loc[~tax_unit["kind"], "eink_st_tu"] = (
+    tax_unit.loc[~tax_unit["kind"], "eink_st_m_tu"] = (
         tax_unit["_st_" + max_inc + "_tu"] / 12
     )
     # set kindergeld to zero if necessary.
@@ -26,15 +26,15 @@ def favorability_check(tax_unit, params):
         tax_unit.loc[:, "kindergeld_m"] = 0
         tax_unit.loc[:, "kindergeld_m_tu"] = 0
     if "abg" in max_inc:
-        tax_unit.loc[:, "abgelt_st"] = 0
-        tax_unit.loc[:, "abgelt_st_tu"] = 0
+        tax_unit.loc[:, "abgelt_st_m"] = 0
+        tax_unit.loc[:, "abgelt_st_m_tu"] = 0
     # Aggregate Child benefit on the household level, as we could have several
     # tax_units in one household.
     tax_unit["kindergeld_m_hh"] = tax_unit["kindergeld_m"].sum()
     # Assign Income tax to individuals
-    tax_unit["eink_st"] = np.select(
+    tax_unit["eink_st_m"] = np.select(
         [tax_unit["gem_veranlagt"], ~tax_unit["gem_veranlagt"]],
-        [tax_unit["eink_st_tu"] / 2, tax_unit["eink_st_tu"]],
+        [tax_unit["eink_st_m_tu"] / 2, tax_unit["eink_st_m_tu"]],
     )
 
     return tax_unit
@@ -49,7 +49,7 @@ def get_max_inc(tax_unit, params):
         # for those tax bases without capital taxes in tariff,
         # add abgeltungssteuer
         if "abgelt" not in inc:
-            inc_list[i] += tax_unit["abgelt_st_tu"].iloc[0]
+            inc_list[i] += tax_unit["abgelt_st_m_tu"].iloc[0]
         # For those tax bases without kfb, subtract kindergeld.
         # Before 1996, both child allowance and child benefit could be claimed
         if ("kein_kind_freib" in inc) | (params["year"] <= 1996):

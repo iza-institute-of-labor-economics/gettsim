@@ -203,8 +203,8 @@ def alg2_inc(household):
     # ...deduct income tax and social security contributions
     alg2_ek = np.maximum(
         alg2_grossek
-        - household["eink_st"]
-        - household["soli_st"]
+        - household["eink_st_m"]
+        - household["soli_st_m"]
         - household["sozialv_beit_m"],
         0,
     ).fillna(0)
@@ -240,7 +240,13 @@ def e_anr_frei_2005_01(household, params):
     Determine the gross income that is not deducted. Withdrawal rates depend
     on monthly earnings. § 30 SGB II."""
 
-    cols = ["bruttolohn_m", "eink_anrech_frei", "eink_st", "soli_st", "sozialv_beit_m"]
+    cols = [
+        "bruttolohn_m",
+        "eink_anrech_frei",
+        "eink_st_m",
+        "soli_st_m",
+        "sozialv_beit_m",
+    ]
     household.loc[:, cols] = household.groupby("p_id")[cols].apply(
         e_anr_frei_person_2005_01, params, params["a2eg3"]
     )
@@ -298,8 +304,8 @@ def alg2_2005_nq(person, params):
     # bis 5.
     alg2_2005_bne = np.clip(
         person["bruttolohn_m"]
-        - person["eink_st"]
-        - person["soli_st"]
+        - person["eink_st_m"]
+        - person["soli_st_m"]
         - person["sozialv_beit_m"]
         - params["a2we"]
         - params["a2ve"],

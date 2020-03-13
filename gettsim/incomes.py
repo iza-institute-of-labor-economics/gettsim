@@ -16,9 +16,9 @@ def disposable_income(household):
         ]
     ].sum(axis=1) - household[
         [
-            "eink_st",
-            "soli_st",
-            "abgelt_st",
+            "eink_st_m",
+            "soli_st_m",
+            "abgelt_st_m",
             "ges_krankv_beit_m",
             "rentenv_beit_m",
             "pflegev_beit_m",

@@ -30,7 +30,7 @@ INPUT_COLS = [
     "brutto_eink_4",
     "brutto_eink_5",
     "brutto_eink_6",
-    "eink_st",
+    "eink_st_m",
     "rentenv_beit_m",
     "ges_krankv_beit_m",
     "behinderungsgrad",

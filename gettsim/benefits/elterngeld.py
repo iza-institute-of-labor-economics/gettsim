@@ -147,8 +147,8 @@ def calc_net_wage(person):
     """
     net_wage = (
         person["bruttolohn_m"]
-        - person["eink_st"]
-        - person["soli_st"]
+        - person["eink_st_m"]
+        - person["soli_st_m"]
         - person["sozialv_beit_m"]
     )
 

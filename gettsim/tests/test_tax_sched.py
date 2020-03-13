@@ -14,8 +14,8 @@ INPUT_COLS = [
     "kind",
     "_zu_versteuerndes_eink_kein_kind_freib",
     "_zu_versteuerndes_eink_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_kein_kind_freib",
+    "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
+    "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
     "brutto_eink_5",
     "gem_veranlagt",
     "brutto_eink_5_tu",
@@ -43,9 +43,9 @@ def test_tax_sched(
     columns = [
         "_st_kein_kind_freib_tu",
         "_st_kind_freib_tu",
-        "abgelt_st",
-        "soli_st",
-        "soli_st_tu",
+        "abgelt_st_m",
+        "soli_st_m",
+        "soli_st_m_tu",
     ]
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
@@ -64,7 +64,7 @@ def test_tax_sched(
     OUT_COLS = (
         [f"_st_{inc}" for inc in e_st_abzuege_params["eink_arten"]]
         + [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]]
-        + ["abgelt_st_tu", "abgelt_st", "soli_st", "soli_st_tu"]
+        + ["abgelt_st_m_tu", "abgelt_st_m", "soli_st_m", "soli_st_m_tu"]
     )
 
     for col in OUT_COLS:

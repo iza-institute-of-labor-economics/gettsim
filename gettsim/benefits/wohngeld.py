@@ -118,7 +118,7 @@ def calc_wg_income(household, params, household_size):
         "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
-        "eink_st",
+        "eink_st_m",
         "rentenv_beit_m",
         "ges_krankv_beit_m",
         "unterhaltsvors_m",
@@ -162,7 +162,7 @@ def calc_wg_abzuege(household, params):
     # There share of income to be deducted is 0/10/20/30%, depending on whether
     # household is subject to income taxation and/or payroll taxes
     wg_abz = (
-        (household["eink_st_tu_k"] > 0) * 1
+        (household["eink_st_m_tu_k"] > 0) * 1
         + (household["rentenv_beit_m_tu_k"] > 0) * 1
         + (household["ges_krankv_beit_m_tu_k"] > 0) * 1
     )

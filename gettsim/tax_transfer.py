@@ -198,7 +198,7 @@ def tax_transfer(
     out_cols = (
         [f"_st_{inc}" for inc in e_st_abzuege_params["eink_arten"]]
         + [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]]
-        + ["abgelt_st_tu", "abgelt_st", "soli_st", "soli_st_tu"]
+        + ["abgelt_st_m_tu", "abgelt_st_m", "soli_st_m", "soli_st_m_tu"]
     )
     df = apply_tax_transfer_func(
         df,
@@ -227,13 +227,13 @@ def tax_transfer(
     in_cols = [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]] + [
         "gem_veranlagt",
         "kind",
-        "abgelt_st_tu",
+        "abgelt_st_m_tu",
         "kindergeld_m_basis",
         "kindergeld_m_tu_basis",
     ]
     out_cols = [
-        "eink_st_tu",
-        "eink_st",
+        "eink_st_m_tu",
+        "eink_st_m",
         "kindergeld_m",
         "kindergeld_m_hh",
         "kindergeld_m_tu",
@@ -255,8 +255,8 @@ def tax_transfer(
         "bruttolohn_m",
         "bruttolohn_vorj_m",
         "wohnort_ost",
-        "eink_st",
-        "soli_st",
+        "eink_st_m",
+        "soli_st_m",
         "sozialv_beit_m",
         "geburtsjahr",
         "geburtsmonat",
@@ -329,7 +329,7 @@ def tax_transfer(
         "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
-        "eink_st",
+        "eink_st_m",
         "rentenv_beit_m",
         "ges_krankv_beit_m",
         "behinderungsgrad",
@@ -361,8 +361,8 @@ def tax_transfer(
         "sonstig_eink_m",
         "eink_selbstst_m",
         "vermiet_eink_m",
-        "eink_st",
-        "soli_st",
+        "eink_st_m",
+        "soli_st_m",
         "sozialv_beit_m",
         "kindergeld_m_hh",
         "unterhaltsvors_m",
@@ -454,9 +454,9 @@ def tax_transfer(
         "sonstig_eink_m",
         "kindergeld_m",
         "unterhaltsvors_m",
-        "eink_st",
-        "soli_st",
-        "abgelt_st",
+        "eink_st_m",
+        "soli_st_m",
+        "abgelt_st_m",
         "ges_krankv_beit_m",
         "rentenv_beit_m",
         "pflegev_beit_m",
@@ -524,13 +524,13 @@ def tax_transfer(
         "pflegev_beit_m",
         "arbeitsl_geld_m",
         "rente_anspr_m",
-        "abgelt_st",
-        "soli_st",
-        "soli_st_tu",
+        "abgelt_st_m",
+        "soli_st_m",
+        "soli_st_m_tu",
         "kindergeld_m",
         "kindergeld_m_tu",
-        "eink_st",
-        "eink_st_tu",
+        "eink_st_m",
+        "eink_st_m_tu",
         "unterhaltsvors_m",
         "regelsatz_m",
         "kost_unterk_m",

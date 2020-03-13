@@ -30,8 +30,8 @@ def e_st(tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_p
 
     # Abgeltungssteuer
     tax_unit = abgelt_st(tax_unit, abgelt_st_params, e_st_abzuege_params)
-    tax_unit["abgelt_st_tu"] = tax_unit["abgelt_st"]
-    tax_unit.loc[adult_married, "abgelt_st_tu"] = tax_unit["abgelt_st"][
+    tax_unit["abgelt_st_m_tu"] = tax_unit["abgelt_st_m"]
+    tax_unit.loc[adult_married, "abgelt_st_m_tu"] = tax_unit["abgelt_st_m"][
         adult_married
     ].sum()
 

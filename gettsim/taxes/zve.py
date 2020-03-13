@@ -87,9 +87,9 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
         tax_unit["_zu_versteuerndes_eink_kein_kind_freib"] - tax_unit["kind_freib"], 0
     )
     tax_unit.loc[
-        ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_kind_freib"
+        ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_m_kind_freib"
     ] = np.maximum(
-        tax_unit["_zu_versteuerndes_eink_abgelt_st_kein_kind_freib"]
+        tax_unit["_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib"]
         - tax_unit["kind_freib"],
         0,
     )
@@ -97,9 +97,9 @@ def zve(tax_unit, e_st_abzuege_params, soz_vers_beitr_params, kindergeld_params)
     # i.e. each partner get assigned half of the total income
     for incdef in [
         "kein_kind_freib",
-        "abgelt_st_kein_kind_freib",
+        "abgelt_st_m_kein_kind_freib",
         "kind_freib",
-        "abgelt_st_kind_freib",
+        "abgelt_st_m_kind_freib",
     ]:
         tax_unit.loc[:, "_zu_versteuerndes_eink_" + incdef + "_tu"] = tax_unit.loc[
             adult_married, "_zu_versteuerndes_eink_" + incdef
@@ -185,7 +185,7 @@ def zve_abg_nokfb(tax_unit, params):
     """Calculates the zve with capital income in the tax base."""
     if tax_unit[~tax_unit["kind"]]["gem_veranlagt"].all():
         tax_unit.loc[
-            ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_kein_kind_freib"
+            ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib"
         ] = np.maximum(
             0,
             tax_unit["sum_brutto_eink"]
@@ -203,7 +203,7 @@ def zve_abg_nokfb(tax_unit, params):
         )
     else:
         tax_unit.loc[
-            ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_kein_kind_freib"
+            ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib"
         ] = np.maximum(
             0,
             tax_unit["sum_brutto_eink"]
