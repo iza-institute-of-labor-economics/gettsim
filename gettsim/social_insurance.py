@@ -1,5 +1,4 @@
 OUT_COLS = [
-    "sozialv_beit_m",
     "rentenv_beit_m",
     "arbeitsl_v_beit_m",
     "ges_krankv_beit_m",
