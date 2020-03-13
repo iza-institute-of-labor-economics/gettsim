@@ -128,3 +128,17 @@ wgvzins:
     2006-01-01:
       value: 0
       note:
+wghka:
+  name:
+    de: Unterstellter Anteil der Heiz- und Warmwasserkosten an der Miete bei HH, bei denen diese in der Miete enthalten, aber Höhe nicht bekannt ist.
+    en:
+  description:
+    de:
+    en:
+  values:
+    2002-01-01:
+      value: 0.2
+      note:
+    2006-01-01:
+      value: 0
+      note:
