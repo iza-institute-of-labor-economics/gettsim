@@ -82,12 +82,12 @@ def test_zve(
     column,
     kindergeld_raw_data,
     soz_vers_beitr_raw_data,
-    e_st_abzuege_raw_data,
+    eink_st_abzuege_raw_data,
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
-    e_st_abzuege_params = get_policies_for_date(
-        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    eink_st_abzuege_params = get_policies_for_date(
+        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
     )
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
@@ -100,7 +100,7 @@ def test_zve(
         df[col] = np.nan
     df = df.groupby(["hh_id", "tu_id"]).apply(
         zve,
-        e_st_abzuege_params=e_st_abzuege_params,
+        eink_st_abzuege_params=eink_st_abzuege_params,
         soz_vers_beitr_params=soz_vers_beitr_params,
         kindergeld_params=kindergeld_params,
     )

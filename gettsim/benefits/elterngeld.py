@@ -11,8 +11,8 @@ def elterngeld(
     household,
     params,
     soz_vers_beitr_params,
-    e_st_abzuege_params,
-    e_st_params,
+    eink_st_abzuege_params,
+    eink_st_params,
     soli_st_params,
 ):
     """This function calculates the monthly benefits for having
@@ -32,8 +32,8 @@ def elterngeld(
         func_kwargs={
             "params": params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "e_st_abzuege_params": e_st_abzuege_params,
-            "e_st_params": e_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
             "soli_st_params": soli_st_params,
         },
     )
@@ -47,8 +47,8 @@ def calc_elterngeld(
     person,
     params,
     soz_vers_beitr_params,
-    e_st_abzuege_params,
-    e_st_params,
+    eink_st_abzuege_params,
+    eink_st_params,
     soli_st_params,
 ):
     """ Calculating elterngeld given the relevant wage and the eligibility on sibling
@@ -59,8 +59,8 @@ def calc_elterngeld(
         person,
         params,
         soz_vers_beitr_params,
-        e_st_abzuege_params,
-        e_st_params,
+        eink_st_abzuege_params,
+        eink_st_params,
         soli_st_params,
     )
     if considered_wage < 0:
@@ -85,8 +85,8 @@ def calc_considered_wage(
     person,
     params,
     soz_vers_beitr_params,
-    e_st_abzuege_params,
-    e_st_params,
+    eink_st_abzuege_params,
+    eink_st_params,
     soli_st_params,
 ):
     """ Calculating the relevant wage for the calculation of elterngeld.
@@ -100,10 +100,10 @@ def calc_considered_wage(
 
     net_wage_last_year = proxy_net_wage_last_year(
         person,
-        e_st_params,
+        eink_st_params,
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
-        werbungs_pausch=e_st_abzuege_params["werbung"],
+        werbungs_pausch=eink_st_abzuege_params["werbung"],
         soz_vers_pausch=params["soz_vers_pausch"],
     )
 

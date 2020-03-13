@@ -5,8 +5,8 @@ def ui(
     person,
     params,
     soz_vers_beitr_params,
-    e_st_abzuege_params,
-    e_st_params,
+    eink_st_abzuege_params,
+    eink_st_params,
     soli_st_params,
 ):
     """Return the Unemployment Benefit based on
@@ -18,10 +18,10 @@ def ui(
 
     alg_entgelt = proxy_net_wage_last_year(
         person,
-        e_st_params,
+        eink_st_params,
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
-        werbungs_pausch=e_st_abzuege_params["werbung"],
+        werbungs_pausch=eink_st_abzuege_params["werbung"],
         soz_vers_pausch=params["soz_vers_pausch"],
     )
 
@@ -39,7 +39,7 @@ def ui(
 
 def proxy_net_wage_last_year(
     person,
-    e_st_params,
+    eink_st_params,
     soli_st_params,
     beit_bem_grenz,
     werbungs_pausch,
@@ -55,7 +55,9 @@ def proxy_net_wage_last_year(
     prox_ssc = soz_vers_pausch * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = e_st_params["st_tarif"](12 * max_wage - werbungs_pausch, e_st_params)
+    prox_tax = eink_st_params["st_tarif"](
+        12 * max_wage - werbungs_pausch, eink_st_params
+    )
 
     prox_soli = soli_st_params["soli_formula"](prox_tax, soli_st_params)
 

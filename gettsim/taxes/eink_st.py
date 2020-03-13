@@ -4,7 +4,9 @@ from gettsim.taxes.abgelt_st import abgelt_st
 from gettsim.taxes.soli_st import soli_st
 
 
-def e_st(tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_params):
+def eink_st(
+    tax_unit, eink_st_params, eink_st_abzuege_params, soli_st_params, abgelt_st_params
+):
     """Given various forms of income and other state variables, return
     the different taxes to be paid before making favourability checks etc..
 
@@ -18,10 +20,10 @@ def e_st(tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_p
 
     adult_married = (~tax_unit["kind"]) & (tax_unit["gem_veranlagt"])
 
-    for inc in e_st_abzuege_params["eink_arten"]:
+    for inc in eink_st_abzuege_params["eink_arten"]:
         # apply tax tariff, round to full Euro amounts
-        tax_unit[f"_st_{inc}"] = e_st_params["st_tarif"](
-            tax_unit[f"_zu_versteuerndes_eink_{inc}"], e_st_params
+        tax_unit[f"_st_{inc}"] = eink_st_params["st_tarif"](
+            tax_unit[f"_zu_versteuerndes_eink_{inc}"], eink_st_params
         ).astype(int)
         tax_unit[f"_st_{inc}_tu"] = tax_unit[f"_st_{inc}"]
         tax_unit.loc[adult_married, f"_st_{inc}_tu"] = tax_unit[f"_st_{inc}"][
@@ -29,7 +31,7 @@ def e_st(tax_unit, e_st_params, e_st_abzuege_params, soli_st_params, abgelt_st_p
         ].sum()
 
     # Abgeltungssteuer
-    tax_unit = abgelt_st(tax_unit, abgelt_st_params, e_st_abzuege_params)
+    tax_unit = abgelt_st(tax_unit, abgelt_st_params, eink_st_abzuege_params)
     tax_unit["abgelt_st_m_tu"] = tax_unit["abgelt_st_m"]
     tax_unit.loc[adult_married, "abgelt_st_m_tu"] = tax_unit["abgelt_st_m"][
         adult_married

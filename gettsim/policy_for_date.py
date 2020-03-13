@@ -18,7 +18,7 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
-from gettsim.taxes.e_st import st_tarif
+from gettsim.taxes.eink_st import st_tarif
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.soli_st import keine_soli_st
@@ -53,7 +53,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_midi_contrib"] = no_midi
 
-    elif group == "e_st_abzuege":
+    elif group == "eink_st_abzuege":
         if year <= 2014:
             tax_data["calc_hhfreib"] = calc_hhfreib_until2014
         else:
@@ -86,7 +86,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_max_rent"] = calc_max_rent_since_2009
 
-    elif group == "e_st":
+    elif group == "eink_st":
         tax_data["st_tarif"] = st_tarif
 
     elif group == "soli_st":

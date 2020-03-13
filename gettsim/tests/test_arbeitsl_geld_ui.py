@@ -40,8 +40,8 @@ def test_ui(
     year,
     arbeitsl_geld_raw_data,
     soz_vers_beitr_raw_data,
-    e_st_abzuege_raw_data,
-    e_st_raw_data,
+    eink_st_abzuege_raw_data,
+    eink_st_raw_data,
     soli_st_raw_data,
 ):
     year_data = input_data[input_data["jahr"] == year]
@@ -52,11 +52,11 @@ def test_ui(
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
-    e_st_abzuege_params = get_policies_for_date(
-        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    eink_st_abzuege_params = get_policies_for_date(
+        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
     )
-    e_st_params = get_policies_for_date(
-        year=year, group="e_st", raw_group_data=e_st_raw_data
+    eink_st_params = get_policies_for_date(
+        year=year, group="eink_st", raw_group_data=eink_st_raw_data
     )
     soli_st_params = get_policies_for_date(
         year=year, group="soli_st", raw_group_data=soli_st_raw_data
@@ -70,8 +70,8 @@ def test_ui(
         func_kwargs={
             "params": arbeitsl_geld_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "e_st_abzuege_params": e_st_abzuege_params,
-            "e_st_params": e_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
             "soli_st_params": soli_st_params,
         },
     )

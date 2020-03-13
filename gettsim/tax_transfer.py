@@ -11,7 +11,7 @@ from gettsim.incomes import disposable_income
 from gettsim.pensions import pensions
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
-from gettsim.taxes.e_st import e_st
+from gettsim.taxes.eink_st import eink_st
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.taxes.kindergeld import kindergeld
 from gettsim.taxes.zve import zve
@@ -23,12 +23,12 @@ def tax_transfer(
     abgelt_st_params,
     arbeitsl_geld_params,
     soz_vers_beitr_params,
-    e_st_abzuege_params,
+    eink_st_abzuege_params,
     elterngeld_params,
     unterhalt_params,
     wohngeld_params,
     kinderzuschlag_params,
-    e_st_params,
+    eink_st_params,
     soli_st_params,
     kindergeld_params,
     ges_renten_vers_params,
@@ -118,8 +118,8 @@ def tax_transfer(
         func_kwargs={
             "params": arbeitsl_geld_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "e_st_abzuege_params": e_st_abzuege_params,
-            "e_st_params": e_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
             "soli_st_params": soli_st_params,
         },
     )
@@ -161,7 +161,7 @@ def tax_transfer(
         "ges_krankv_beit_m",
     ]
     out_cols = [
-        f"_zu_versteuerndes_eink_{inc}" for inc in e_st_abzuege_params["eink_arten"]
+        f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
     ] + [
         "kind_freib",
         "brutto_eink_1",
@@ -187,28 +187,28 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "e_st_abzuege_params": e_st_abzuege_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
             "kindergeld_params": kindergeld_params,
         },
     )
     in_cols = [
-        f"_zu_versteuerndes_eink_{inc}" for inc in e_st_abzuege_params["eink_arten"]
+        f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
     ] + ["kind", "brutto_eink_5", "gem_veranlagt", "brutto_eink_5_tu"]
     out_cols = (
-        [f"_st_{inc}" for inc in e_st_abzuege_params["eink_arten"]]
-        + [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]]
+        [f"_st_{inc}" for inc in eink_st_abzuege_params["eink_arten"]]
+        + [f"_st_{inc}_tu" for inc in eink_st_abzuege_params["eink_arten"]]
         + ["abgelt_st_m_tu", "abgelt_st_m", "soli_st_m", "soli_st_m_tu"]
     )
     df = apply_tax_transfer_func(
         df,
-        tax_func=e_st,
+        tax_func=eink_st,
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
-            "e_st_params": e_st_params,
-            "e_st_abzuege_params": e_st_abzuege_params,
+            "eink_st_params": eink_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
             "soli_st_params": soli_st_params,
             "abgelt_st_params": abgelt_st_params,
         },
@@ -224,7 +224,7 @@ def tax_transfer(
         out_cols=out_cols,
         func_kwargs={"params": kindergeld_params},
     )
-    in_cols = [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]] + [
+    in_cols = [f"_st_{inc}_tu" for inc in eink_st_abzuege_params["eink_arten"]] + [
         "gem_veranlagt",
         "kind",
         "abgelt_st_m_tu",
@@ -244,7 +244,7 @@ def tax_transfer(
         level=tax_unit,
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": e_st_abzuege_params},
+        func_kwargs={"params": eink_st_abzuege_params},
     )
 
     in_cols = [
@@ -277,8 +277,8 @@ def tax_transfer(
         func_kwargs={
             "params": elterngeld_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "e_st_abzuege_params": e_st_abzuege_params,
-            "e_st_params": e_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
             "soli_st_params": soli_st_params,
         },
     )
@@ -549,9 +549,9 @@ def calculate_tax_and_transfers(
 ):
     ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
 
-    e_st_abzuege_params = get_policies_for_date(year=year, group="e_st_abzuege")
+    eink_st_abzuege_params = get_policies_for_date(year=year, group="eink_st_abzuege")
 
-    e_st_params = get_policies_for_date(year=year, group="e_st")
+    eink_st_params = get_policies_for_date(year=year, group="eink_st")
 
     soli_st_params = get_policies_for_date(year=year, group="soli_st")
 
@@ -579,12 +579,12 @@ def calculate_tax_and_transfers(
         abgelt_st_params=abgelt_st_params,
         arbeitsl_geld_params=arbeitsl_geld_params,
         soz_vers_beitr_params=soz_vers_beitr_params,
-        e_st_abzuege_params=e_st_abzuege_params,
+        eink_st_abzuege_params=eink_st_abzuege_params,
         elterngeld_params=elterngeld_params,
         unterhalt_params=unterhalt_params,
         wohngeld_params=wohngeld_params,
         kinderzuschlag_params=kinderzuschlag_params,
-        e_st_params=e_st_params,
+        eink_st_params=eink_st_params,
         soli_st_params=soli_st_params,
         kindergeld_params=kindergeld_params,
         ges_renten_vers_params=ges_renten_vers_params,

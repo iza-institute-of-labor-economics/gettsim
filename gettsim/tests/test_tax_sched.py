@@ -5,7 +5,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.taxes.e_st import e_st
+from gettsim.taxes.eink_st import eink_st
 
 INPUT_COLS = [
     "p_id",
@@ -35,8 +35,8 @@ def input_data():
 def test_tax_sched(
     input_data,
     year,
-    e_st_raw_data,
-    e_st_abzuege_raw_data,
+    eink_st_raw_data,
+    eink_st_abzuege_raw_data,
     soli_st_raw_data,
     abgelt_st_raw_data,
 ):
@@ -49,11 +49,11 @@ def test_tax_sched(
     ]
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    e_st_abzuege_params = get_policies_for_date(
-        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    eink_st_abzuege_params = get_policies_for_date(
+        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
     )
-    e_st_params = get_policies_for_date(
-        year=year, group="e_st", raw_group_data=e_st_raw_data
+    eink_st_params = get_policies_for_date(
+        year=year, group="eink_st", raw_group_data=eink_st_raw_data
     )
     soli_st_params = get_policies_for_date(
         year=year, group="soli_st", raw_group_data=soli_st_raw_data
@@ -62,17 +62,17 @@ def test_tax_sched(
         year=year, group="abgelt_st", raw_group_data=abgelt_st_raw_data
     )
     OUT_COLS = (
-        [f"_st_{inc}" for inc in e_st_abzuege_params["eink_arten"]]
-        + [f"_st_{inc}_tu" for inc in e_st_abzuege_params["eink_arten"]]
+        [f"_st_{inc}" for inc in eink_st_abzuege_params["eink_arten"]]
+        + [f"_st_{inc}_tu" for inc in eink_st_abzuege_params["eink_arten"]]
         + ["abgelt_st_m_tu", "abgelt_st_m", "soli_st_m", "soli_st_m_tu"]
     )
 
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby(["hh_id", "tu_id"]).apply(
-        e_st,
-        e_st_params=e_st_params,
-        e_st_abzuege_params=e_st_abzuege_params,
+        eink_st,
+        eink_st_params=eink_st_params,
+        eink_st_abzuege_params=eink_st_abzuege_params,
         soli_st_params=soli_st_params,
         abgelt_st_params=abgelt_st_params,
     )
