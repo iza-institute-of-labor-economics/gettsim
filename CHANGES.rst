@@ -29,6 +29,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   parameters and add Soli tests (:ghuser:`mjbloemer`, :ghuser:`MaxBlesch`)
 * Implement pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser:`Eric-Sommer`)
 * ``gettsim`` is released as a conda noarch package (:ghuser:`tobiasraabe`)
+* Renamed all data columns to german names (:ghuser:`amageh`, :ghuser:`MaxBlesch` )
 
 
 0.2.1 - 2019-11-20
