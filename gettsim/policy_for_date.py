@@ -45,7 +45,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
 
     tax_data = load_data(raw_group_data, actual_date)
     tax_data["jahr"] = year
-    tax_data["date"] = actual_date
+    tax_data["datum"] = actual_date
 
     if group == "soz_vers_beitr":
         if year >= 2003:

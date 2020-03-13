@@ -190,7 +190,7 @@ def check_eligibilities(household, params):
             month=youngest_child["geburtsmonat"].iloc[0].astype(int),
             year=youngest_child["geburtsjahr"].iloc[0].astype(int),
         )
-        age_youngest_child = relativedelta.relativedelta(params["date"], birth_date)
+        age_youngest_child = relativedelta.relativedelta(params["datum"], birth_date)
         # Age in months
         age_months = age_youngest_child.years * 12 + age_youngest_child.months
         if (age_months < 0) or (age_months == 0 & age_youngest_child.days < 0):
