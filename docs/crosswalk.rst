@@ -66,7 +66,7 @@ Required input columns
 +-----------------+-------------------+------------------------------------------------+
 | byear           | geburtsjahr       | Year of birth                                  |
 +-----------------+-------------------+------------------------------------------------+
-| exper           | j_arbeitserf      | Earning points for pension claim               |
+| EP              | entgelt_punkte    | Earning points for pension claim               |
 +-----------------+-------------------+------------------------------------------------+
 | child           | kind              | Dummy: Either below 18yrs, or below 25 and in  |
 |                 |                   | education                                      |
@@ -135,6 +135,8 @@ Columns returned by the simulator
 | m_alg1          | arbeitsl_geld_m   | Monthly amount of unemployment assistance      |
 +-----------------+-------------------+------------------------------------------------+
 | pensions_sim    | rente_anspr_m     | Monthly amount of old-age pensions             |
++-----------------+-------------------+------------------------------------------------+
+| EP              | entgelt_punkte    | Updated earning points for pension claim       |
 +-----------------+-------------------+------------------------------------------------+
 | gross_e1        | —                 |                                                |
 +-----------------+-------------------+------------------------------------------------+

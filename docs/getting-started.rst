@@ -109,7 +109,7 @@ Required columns in input data
 +---------------------+--------------------------------------------------------+-------+
 | geburtsjahr         | Year of birth                                          | int   |
 +---------------------+--------------------------------------------------------+-------+
-| j_arbeitserf        | Earning points for pension claim                       | float |
+| entgelt_punkte      | Earning points for pension claim                       | float |
 +---------------------+--------------------------------------------------------+-------+
 | kind                | Dummy: Either below 18yrs, or below 25 and in          | bool  |
 |                     | education                                              |       |
@@ -172,6 +172,8 @@ Note that if one of these columns exists, it will be overwritten.
 | arbeitsl_geld_m         | Monthly amount of unemployment assistance          | float |
 +-------------------------+----------------------------------------------------+-------+
 | rente_anspr_m           | Monthly amount of old-age pensions                 | float |
++-------------------------+----------------------------------------------------+-------+
+| entgelt_punkte          | Updated earning points for pension claim           | float |
 +-------------------------+----------------------------------------------------+-------+
 | abgelt_st_m             | Monthly capital income tax due, individual         | float |
 +-------------------------+----------------------------------------------------+-------+

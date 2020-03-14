@@ -123,7 +123,14 @@ def tax_transfer(
             "soli_st_params": soli_st_params,
         },
     )
-    in_cols = ["bruttolohn_m", "wohnort_ost", "alter", "jahr", "geburtsjahr", "EP"]
+    in_cols = [
+        "bruttolohn_m",
+        "wohnort_ost",
+        "alter",
+        "jahr",
+        "geburtsjahr",
+        "entgelt_punkte",
+    ]
     out_col = "rente_anspr_m"
     df = apply_tax_transfer_func(
         df,
@@ -498,7 +505,7 @@ def tax_transfer(
         "anz_kinder_tu",
         "anz_erw_tu",
         "geburtsjahr",
-        "EP",
+        "entgelt_punkte",
         "kind",
         "rentner",
         "betreuungskost_m",
@@ -524,6 +531,7 @@ def tax_transfer(
         "pflegev_beit_m",
         "arbeitsl_geld_m",
         "rente_anspr_m",
+        "entgelt_punkte",
         "abgelt_st_m",
         "soli_st_m",
         "soli_st_m_tu",

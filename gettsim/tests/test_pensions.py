@@ -17,7 +17,7 @@ INPUT_COLS = [
     "alter",
     "jahr",
     "geburtsjahr",
-    "EP",
+    "entgelt_punkte",
 ]
 
 
@@ -33,7 +33,7 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_data):
-    column = "pensions_sim"
+    column = "rente_anspr_m"
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_params = get_policies_for_date(
@@ -74,4 +74,4 @@ def test_update_earning_points(input_data, year):
             "year": year,
         },
     )
-    assert_array_almost_equal(df["EP"], year_data["EP_end"].values)
+    assert_array_almost_equal(df["entgelt_punkte"], year_data["EP_end"].values)
