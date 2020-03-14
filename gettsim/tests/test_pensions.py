@@ -17,7 +17,7 @@ INPUT_COLS = [
     "alter",
     "jahr",
     "geburtsjahr",
-    "entgelt_punkte",
+    "entgeltpunkte",
 ]
 
 
@@ -74,4 +74,4 @@ def test_update_earning_points(input_data, year):
             "year": year,
         },
     )
-    assert_array_almost_equal(df["entgelt_punkte"], year_data["EP_end"].values)
+    assert_array_almost_equal(df["entgeltpunkte"], year_data["EP_end"].values)

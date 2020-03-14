@@ -129,7 +129,7 @@ def tax_transfer(
         "alter",
         "jahr",
         "geburtsjahr",
-        "entgelt_punkte",
+        "entgeltpunkte",
     ]
     out_col = "rente_anspr_m"
     df = apply_tax_transfer_func(
@@ -505,7 +505,7 @@ def tax_transfer(
         "anz_kinder_tu",
         "anz_erw_tu",
         "geburtsjahr",
-        "entgelt_punkte",
+        "entgeltpunkte",
         "kind",
         "rentner",
         "betreuungskost_m",
@@ -531,7 +531,7 @@ def tax_transfer(
         "pflegev_beit_m",
         "arbeitsl_geld_m",
         "rente_anspr_m",
-        "entgelt_punkte",
+        "entgeltpunkte",
         "abgelt_st_m",
         "soli_st_m",
         "soli_st_m_tu",

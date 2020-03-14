@@ -1,4 +1,4 @@
-"hh_id","tu_id","p_id","bruttolohn_m","wohnort_ost","alter","jahr","geburtsjahr","exper","avg_ep","entgelt_punkte",,,"EP_end","regelaltersgrenze","ZF","rente_anspr_m",,
+"hh_id","tu_id","p_id","bruttolohn_m","wohnort_ost","alter","jahr","geburtsjahr","exper","avg_ep","entgeltpunkte",,,"EP_end","regelaltersgrenze","ZF","rente_anspr_m",,
 1,1,8,300,FALSE,57,2015,1958,39,0.8968,34.9752,,,34.9842779743529,65.9166666666667,0.679,693.86,,"red variables are just for local use"
 2,2,9,600,FALSE,58,2015,1957,40,0.9021,36.084,,,36.1021559487058,65.8333333333333,0.718,757.16,,
 3,3,34,900,FALSE,33,2015,1982,15,0.7131,10.6965,,,10.7237339230587,67,-0.224,0,,

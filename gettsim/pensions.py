@@ -30,7 +30,7 @@ def pensions(person, params, soz_vers_beitr_params):
     # It's called 'pensions_sim' to emphasize that this is simulated.
 
     person["rente_anspr_m"] = max(
-        0, round(person["entgelt_punkte"] * ZF * rentenwert, 2)
+        0, round(person["entgeltpunkte"] * ZF * rentenwert, 2)
     )
 
     return person
@@ -53,7 +53,7 @@ def update_earnings_points(person, params, soz_vers_beitr_params, year):
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
-    person["entgelt_punkte"] += out
+    person["entgeltpunkte"] += out
     return person
 
 
