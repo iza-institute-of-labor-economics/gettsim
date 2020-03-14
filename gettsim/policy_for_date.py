@@ -3,14 +3,14 @@ import datetime
 import numpy as np
 import yaml
 
-from gettsim.benefits.alg2 import e_anr_frei_2005_01
-from gettsim.benefits.alg2 import e_anr_frei_2005_10
-from gettsim.benefits.alg2 import regelberechnung_2011_and_beyond
-from gettsim.benefits.alg2 import regelberechnung_until_2010
-from gettsim.benefits.kiz import calc_kiz_amount_07_2019
-from gettsim.benefits.kiz import calc_kiz_amount_2005
-from gettsim.benefits.unterhaltsvorschuss import uhv_pre_07_2017
-from gettsim.benefits.unterhaltsvorschuss import uhv_since_07_2017
+from gettsim.benefits.arbeitsl_geld_2 import e_anr_frei_2005_01
+from gettsim.benefits.arbeitsl_geld_2 import e_anr_frei_2005_10
+from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
+from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
+from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
+from gettsim.benefits.kinderzuschlag import calc_kiz_amount_2005
+from gettsim.benefits.unterhalt import uhv_pre_07_2017
+from gettsim.benefits.unterhalt import uhv_since_07_2017
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
@@ -18,12 +18,12 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
-from gettsim.taxes.calc_taxes import no_soli
-from gettsim.taxes.calc_taxes import soli_formula_1991_92
-from gettsim.taxes.calc_taxes import soli_formula_since_1995
-from gettsim.taxes.calc_taxes import tarif
-from gettsim.taxes.kindergeld import kg_eligibility_hours
-from gettsim.taxes.kindergeld import kg_eligibility_wage
+from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
+from gettsim.taxes.soli_st import keine_soli_st
+from gettsim.taxes.soli_st import soli_st_formel_1991_92
+from gettsim.taxes.soli_st import soli_st_formel_seit_1995
 from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.taxes.zve import vorsorge_pre_2005
@@ -44,8 +44,8 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         load_data = load_ordanary_data_group
 
     tax_data = load_data(raw_group_data, actual_date)
-    tax_data["year"] = year
-    tax_data["date"] = actual_date
+    tax_data["jahr"] = year
+    tax_data["datum"] = actual_date
 
     if group == "soz_vers_beitr":
         if year >= 2003:
@@ -53,7 +53,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_midi_contrib"] = no_midi
 
-    elif group == "e_st_abzuege":
+    elif group == "eink_st_abzuege":
         if year <= 2014:
             tax_data["calc_hhfreib"] = calc_hhfreib_until2014
         else:
@@ -72,13 +72,13 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
         # else:
         #     tax_data["zve_list"] = ["nokfb", "kfb"]
-        tax_data["zve_list"] = ["nokfb", "kfb"]
+        tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
 
     elif group == "kindergeld":
         if year > 2011:
-            tax_data["childben_elig_rule"] = kg_eligibility_hours
+            tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_stunden
         else:
-            tax_data["childben_elig_rule"] = kg_eligibility_wage
+            tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_lohn
 
     elif group == "wohngeld":
         if year < 2009:
@@ -86,16 +86,16 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_max_rent"] = calc_max_rent_since_2009
 
-    elif group == "e_st":
-        tax_data["tax_schedule"] = tarif
+    elif group == "eink_st":
+        tax_data["st_tarif"] = st_tarif
 
     elif group == "soli_st":
         if year in [1991, 1992]:
-            tax_data["soli_formula"] = soli_formula_1991_92
+            tax_data["soli_formula"] = soli_st_formel_1991_92
         elif year >= 1995:
-            tax_data["soli_formula"] = soli_formula_since_1995
+            tax_data["soli_formula"] = soli_st_formel_seit_1995
         else:
-            tax_data["soli_formula"] = no_soli
+            tax_data["soli_formula"] = keine_soli_st
 
     elif group == "ges_renten_vers":
         if year > 2017:

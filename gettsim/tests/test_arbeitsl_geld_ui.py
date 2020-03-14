@@ -3,27 +3,27 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.benefits.arbeitslosengeld import ui
+from gettsim.benefits.arbeitsl_geld import ui
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
-    "m_wage_l1",
-    "east",
-    "child",
-    "months_ue",
-    "months_ue_l1",
-    "months_ue_l2",
-    "m_pensions",
-    "w_hours",
-    "child_num_tu",
-    "age",
-    "year",
+    "bruttolohn_vorj_m",
+    "wohnort_ost",
+    "kind",
+    "arbeitsl_lfdj_m",
+    "arbeitsl_vorj_m",
+    "arbeitsl_vor2j_m",
+    "ges_rente_m",
+    "arbeitsstunden_w",
+    "anz_kinder_tu",
+    "alter",
+    "jahr",
 ]
-OUT_COL = "m_alg1"
+OUT_COL = "arbeitsl_geld_m"
 YEARS = [2010, 2011, 2015, 2019]
 
 
@@ -40,11 +40,11 @@ def test_ui(
     year,
     arbeitsl_geld_raw_data,
     soz_vers_beitr_raw_data,
-    e_st_abzuege_raw_data,
-    e_st_raw_data,
+    eink_st_abzuege_raw_data,
+    eink_st_raw_data,
     soli_st_raw_data,
 ):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     arbeitsl_geld_params = get_policies_for_date(
         year=year, group="arbeitsl_geld", raw_group_data=arbeitsl_geld_raw_data
@@ -52,11 +52,11 @@ def test_ui(
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
-    e_st_abzuege_params = get_policies_for_date(
-        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    eink_st_abzuege_params = get_policies_for_date(
+        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
     )
-    e_st_params = get_policies_for_date(
-        year=year, group="e_st", raw_group_data=e_st_raw_data
+    eink_st_params = get_policies_for_date(
+        year=year, group="eink_st", raw_group_data=eink_st_raw_data
     )
     soli_st_params = get_policies_for_date(
         year=year, group="soli_st", raw_group_data=soli_st_raw_data
@@ -64,14 +64,14 @@ def test_ui(
     df = apply_tax_transfer_func(
         df,
         tax_func=ui,
-        level=["hid", "tu_id", "pid"],
+        level=["hh_id", "tu_id", "p_id"],
         in_cols=INPUT_COLS,
         out_cols=[OUT_COL],
         func_kwargs={
             "params": arbeitsl_geld_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "e_st_abzuege_params": e_st_abzuege_params,
-            "e_st_params": e_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
             "soli_st_params": soli_st_params,
         },
     )

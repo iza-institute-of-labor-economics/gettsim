@@ -32,7 +32,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Implement 2020 reform increasing housing benefit (*Wohngeldstärkungsgesetz*)
   (:ghuser:`Eric-Sommer`)
 * Regroup wohngeld parameters according to GEP-3 (:ghuser:`MaxBlesch`)
-
+* Renamed all data columns to German names (:ghuser:`amageh`, :ghuser:`MaxBlesch` )
 
 0.2.1 - 2019-11-20
 ------------------
