@@ -104,7 +104,7 @@ Required input columns
 | cnstyr          | immobilie_baujahr | Construction year of dwelling                  |
 |                 |                   | (1: <1965,2:1966-2000,3:>2000)                 |
 +-----------------+-------------------+------------------------------------------------+
-| m_transfers     | prv_transfers_m   | Sum of monthly public/private transfers not    |
+| m_transfers     | sonstig_eink_m    | Sum of monthly public/private transfers not    |
 |                 |                   | simulated. E.g. transfers from parents,        |
 |                 |                   | alimonies, maternity leave payments. Will be   |
 |                 |                   | split up in future releases.                   |
