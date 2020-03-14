@@ -5,8 +5,8 @@ def ui(
     person,
     params,
     soz_vers_beitr_params,
-    e_st_abzuege_params,
-    e_st_params,
+    eink_st_abzuege_params,
+    eink_st_params,
     soli_st_params,
 ):
     """Return the Unemployment Benefit based on
@@ -14,32 +14,32 @@ def ui(
 
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["east"] else "w"
+    westost = "o" if person["wohnort_ost"] else "w"
 
     alg_entgelt = proxy_net_wage_last_year(
         person,
-        e_st_params,
+        eink_st_params,
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
-        werbungs_pausch=e_st_abzuege_params["werbung"],
+        werbungs_pausch=eink_st_abzuege_params["werbung"],
         soz_vers_pausch=params["soz_vers_pausch"],
     )
 
     eligible = check_eligibility_alg(person)
 
     if eligible:
-        if person["child_num_tu"].sum() == 0:
-            person["m_alg1"] = alg_entgelt * params["agsatz0"]
+        if person["anz_kinder_tu"].sum() == 0:
+            person["arbeitsl_geld_m"] = alg_entgelt * params["agsatz0"]
         else:
-            person["m_alg1"] = alg_entgelt * params["agsatz1"]
+            person["arbeitsl_geld_m"] = alg_entgelt * params["agsatz1"]
     else:
-        person["m_alg1"] = 0.0
+        person["arbeitsl_geld_m"] = 0.0
     return person
 
 
 def proxy_net_wage_last_year(
     person,
-    e_st_params,
+    eink_st_params,
     soli_st_params,
     beit_bem_grenz,
     werbungs_pausch,
@@ -49,13 +49,15 @@ def proxy_net_wage_last_year(
     wage."""
 
     # Relevant wage is capped at the contribution thresholds
-    max_wage = min(beit_bem_grenz, person["m_wage_l1"])
+    max_wage = min(beit_bem_grenz, person["bruttolohn_vorj_m"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = soz_vers_pausch * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = e_st_params["tax_schedule"](12 * max_wage - werbungs_pausch, e_st_params)
+    prox_tax = eink_st_params["st_tarif"](
+        12 * max_wage - werbungs_pausch, eink_st_params
+    )
 
     prox_soli = soli_st_params["soli_formula"](prox_tax, soli_st_params)
 
@@ -66,7 +68,11 @@ def check_eligibility_alg(person):
     """Checking eligibility, depending on the months worked beforehand, the age and
     other variables.."""
     # Months of unemployment beforehand.
-    mts_ue = person["months_ue"] + person["months_ue_l1"] + person["months_ue_l2"]
+    mts_ue = (
+        person["arbeitsl_lfdj_m"]
+        + person["arbeitsl_vorj_m"]
+        + person["arbeitsl_vor2j_m"]
+    )
     # BENEFIT AMOUNT
     # Check Eligiblity.
     # Then different rates for parent and non-parents
@@ -74,7 +80,7 @@ def check_eligibility_alg(person):
     # there are different replacement rates depending on presence of children
     return (
         (1 <= mts_ue <= 12)
-        & (person["age"] < 65)
-        & (person["m_pensions"] == 0)
-        & (person["w_hours"] < 15)
+        & (person["alter"] < 65)
+        & (person["ges_rente_m"] == 0)
+        & (person["arbeitsstunden_w"] < 15)
     )
