@@ -623,8 +623,8 @@ max_miete:
   description:
     de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG.
     en:
-  note: Die Werte sind nach Anzahl Personen - Baujahr des Hauses (vor 2009) - Mietstufe geordnet. Alle Werte in Euro.
-  1984-01-01:
+  note: Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) - Mietstufe geordnet. Alle Werte in vollen Euro.
+  1981-01-01:
     1:
       1965:
         1: 130
@@ -727,6 +727,7 @@ max_miete:
         1: 45
         2: 47
         3: 48
+    reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
     note: Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Außerdem wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen
   1985-01-01:
     1:
@@ -879,7 +880,8 @@ max_miete:
         3: 51
         4: 56
         5: 59
-    note: Art. 1 G. v. 11.07.1985, BGBl I S. 1318. Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+    reference: Art. 1 G. v. 11.07.1985 BGBl I S. 1318.
+    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   1990-01-01:
     1:
       1965:
@@ -1055,7 +1057,8 @@ max_miete:
         4: 56
         5: 59
         6: 61
-    note: Art. 1 G. v. 13.12.1989, BGBl I S. 2148. Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+    reference: Art. 1 G. v. 13.12.1989 BGBl I S. 2148.
+    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   1990-10-01:
     1:
       1965:
@@ -1189,7 +1192,8 @@ max_miete:
         4: 56
         5: 59
         6: 61
-    note: Art. 1 G. v. 10.08.1990, BGBl I S. 1522. Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+    reference: Art. 1 G. v. 10.08.1990 BGBl I S. 1522.
+    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   1993-01-01:
     1:
       1965:
@@ -1365,7 +1369,8 @@ max_miete:
         4: 69
         5: 74
         6: 79
-    note: Neufassung WoGG v. 11.02.1993, BGBl I S. 183. Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+    reference: Neufassung WoGG v. 11.02.1993 BGBl I S. 183.
+    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
 2001-01-01:
   1:
     1965:
@@ -1498,7 +1503,8 @@ max_miete:
       4: 75
       5: 80
       6: 90
-  note: Art. 5 G. v. 22.12.1999, BGBl I S. 2671. Nimmt die Umrechnung in Euro-Umrechnung von 2002 vorweg.
+  reference: Art. 5 G. v. 22.12.1999, BGBl I S. 2671.
+  note: Nimmt die Umrechnung in Euro von 2002 vorweg.
 2009-01-01:
   1:
     1: 292
@@ -1542,7 +1548,7 @@ max_miete:
     4: 83
     5: 88
     6: 99
-  note: Art. 1 G. v. 24.09.2008, BGBl I S. 1856.
+  reference: Art. 1 G. v. 24.09.2008, BGBl I S. 1856.
 2016-01-01:
   1:
     1: 312
@@ -1586,7 +1592,7 @@ max_miete:
     4: 101
     5: 111
     6: 126
-  note: Art. 1 G. v. 02.10.2015, BGBl I S. 1610.
+  reference: Art. 1 G. v. 02.10.2015, BGBl I S. 1610.
 2020-01-01:
   1:
     1: 338
@@ -1636,5 +1642,5 @@ max_miete:
     5: 121
     6: 139
     7: 153
-  note: Art. 1 G. v. 30.11.2019, BGBl I S. 1877.
+  reference: Art. 1 G. v. 30.11.2019, BGBl I S. 1877.
 
