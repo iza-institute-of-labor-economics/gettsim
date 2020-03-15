@@ -3,18 +3,12 @@ import datetime
 import numpy as np
 import pandas as pd
 import pytest
-from numpy.testing import assert_allclose
 from pandas.testing import assert_frame_equal
-from pandas.testing import assert_series_equal
 
-from gettsim.benefits.wohngeld import calc_min_rent
-from gettsim.benefits.wohngeld import calc_min_rent_regrouped
-from gettsim.benefits.wohngeld import calc_wg_abzuege_regrouped
-from gettsim.benefits.wohngeld import regrouped_wohngeld_formel
 from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.policy_for_date import load_regrouped_wohngeld
+
 
 INPUT_COLS = [
     "p_id",
@@ -68,77 +62,6 @@ def test_wg(input_data, year, wohngeld_raw_data):
         df[col] = np.nan
     df = df.groupby("hh_id").apply(wg, params=wohngeld_params)
     assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
-
-
-@pytest.mark.parametrize("year", YEARS)
-def test_regrouped_wohngeld_formula(input_data, year):
-    year_data = input_data[input_data["jahr"] == year]
-    df = year_data.copy()
-
-    actual_date = datetime.date(year=year, month=1, day=1)
-    wohngeld_params = load_regrouped_wohngeld(actual_date)
-
-    for hid in df["hh_id"].unique():
-        hh_size = len(df[df["hh_id"] == hid])
-        wohngeld_basis = regrouped_wohngeld_formel(
-            df[df["hh_id"] == hid], wohngeld_params, hh_size
-        )
-        assert_allclose(
-            year_data[year_data["hh_id"] == hid]["wohngeld_basis_hh"].iloc[0],
-            wohngeld_basis.iloc[0],
-            atol=0.1,
-        )
-
-
-@pytest.mark.parametrize("year", YEARS)
-def test_regrouped_wohngeld_min_rent(input_data, wohngeld_raw_data, year):
-    year_data = input_data[input_data["jahr"] == year]
-    df = year_data.copy()
-
-    actual_date = datetime.date(year=year, month=1, day=1)
-    wohngeld_params = load_regrouped_wohngeld(actual_date)
-
-    wohngeld_params_org = get_policies_for_date(
-        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
-    )
-
-    for hid in df["hh_id"].unique():
-        hh_size = len(df[df["hh_id"] == hid])
-
-        assert calc_min_rent_regrouped(wohngeld_params, hh_size) == calc_min_rent(
-            wohngeld_params_org, hh_size
-        )
-
-
-@pytest.mark.parametrize("year", YEARS)
-def test_regrouped_wohngeld_abzuege(input_data, year):
-    year_data = input_data[input_data["jahr"] == year]
-    df = year_data.copy()
-    actual_date = datetime.date(year=year, month=1, day=1)
-    wohngeld_params = load_regrouped_wohngeld(actual_date)
-
-    for hid in df["hh_id"].unique():
-        for inc in [
-            "arbeitsl_geld_m",
-            "sonstig_eink_m",
-            "brutto_eink_1",
-            "brutto_eink_4",
-            "brutto_eink_5",
-            "brutto_eink_6",
-            "eink_st_m",
-            "rentenv_beit_m",
-            "ges_krankv_beit_m",
-            "unterhaltsvors_m",
-            "elterngeld_m",
-        ]:
-            df[f"{inc}_tu_k"] = df.groupby("tu_id")[inc].transform("sum")
-        abzuege = calc_wg_abzuege_regrouped(df[df["hh_id"] == hid], wohngeld_params,)
-        assert_series_equal(
-            year_data[year_data["hh_id"] == hid]["_wohngeld_abzüge"],
-            abzuege,
-            check_dtype=False,
-            check_names=False,
-        )
 
 
 @pytest.fixture(scope="module")
