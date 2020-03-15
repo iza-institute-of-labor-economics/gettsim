@@ -166,7 +166,7 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
 
 
 def load_regrouped_wohngeld(tax_data_raw, policy_date):
-    additional_keys = ["note", "reference", "deviated_from"]
+    additional_keys = ["note", "reference", "deviation_from"]
     tax_data = {}
     for param in tax_data_raw:
         policy_dates = sorted(
@@ -206,16 +206,12 @@ def load_regrouped_wohngeld(tax_data_raw, policy_date):
                                 tax_data[param][key] = policy_in_place[key]
 
                 else:
-                    try:
-                        value_keys = sorted(
-                            key
-                            for key in policy_in_place.keys()
-                            if key not in additional_keys
-                        )
-                    except:
-                        import pdb
 
-                        pdb.set_trace()
+                    value_keys = sorted(
+                        key
+                        for key in policy_in_place.keys()
+                        if key not in additional_keys
+                    )
                     tax_data[param] = {}
                     for key in value_keys:
                         tax_data[param][key] = policy_in_place[key]

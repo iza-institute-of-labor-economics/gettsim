@@ -68,7 +68,7 @@ def calc_max_rent_since_2009(params, household_size, cnstyr, mietstufe):
     """
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
-    max_miete = params["max_miete"][np.min(household_size, 5)][mietstufe]
+    max_miete = params["max_miete"][min(household_size, 5)][mietstufe]
     if household_size > 5:
         max_miete += params["max_miete"][6][mietstufe] * (household_size - 5)
     return max_miete
@@ -95,7 +95,7 @@ def calc_max_rent_until_2008(params, household_size, constr_year, mietstufe):
     calculate the maximal acknowledged rent."""
 
     max_miete_dict = params["max_miete"]
-    constr_year_dict = max_miete_dict[np.min(household_size, 5)]
+    constr_year_dict = max_miete_dict[min(household_size, 5)]
     constr_year_category = min(
         year_limit
         for year_limit in constr_year_dict.keys()
@@ -262,9 +262,7 @@ def _calc_wg_income_deductions_since_2016(household, params):
     and children who are working
     """
     workingchild = household["kind"] & (household["bruttolohn_m"] > 0)
-    import pdb
 
-    pdb.set_trace()
     wg_incdeduct = (
         (household["behinderungsgrad"] > 0) * params["freib_behinderung"]
         + (
@@ -281,10 +279,8 @@ def _calc_wg_income_deductions_since_2016(household, params):
 
 
 def _set_min_y(prelim_y, params, household_size):
-    if household_size < 12:
-        min_y = np.maximum(prelim_y, params[f"wgminEK{household_size}p"])
-    else:
-        min_y = np.maximum(prelim_y, params["wgminEK12p"])
+    # Households larger then 12 get assigned the value of a 12 person household
+    min_y = np.maximum(prelim_y, params["min_eink"][min(household_size, 12)])
     return min_y
 
 
