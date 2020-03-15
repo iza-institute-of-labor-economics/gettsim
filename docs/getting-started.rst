@@ -145,7 +145,6 @@ Required columns in input data
 | bewohnt_eigentum    | Dummy: owner-occupied housing                          | bool  |
 +---------------------+--------------------------------------------------------+-------+
 | immobilie_baujahr   | Construction year of dwelling                          | int   |
-|                     | (1: <1965,2:1966-2000,3:>2000)                         |       |
 +---------------------+--------------------------------------------------------+-------+
 | sonstig_eink_m      | Sum of monthly public/private transfers not simulated. | int   |
 |                     | E.g. transfers from parents, alimonies, maternity      |       |
