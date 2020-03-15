@@ -41,7 +41,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
     if group == "ges_renten_vers":
         load_data = load_ges_renten_vers_params
     elif group == "wohngeld":
-        load_data = load_regrouped_wohngeld
+        load_data = load_regrouped_data
     else:
         load_data = load_ordanary_data_group
 
@@ -165,7 +165,7 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
     return pension_data
 
 
-def load_regrouped_wohngeld(tax_data_raw, policy_date):
+def load_regrouped_data(tax_data_raw, policy_date):
     additional_keys = ["note", "reference", "deviation_from"]
     tax_data = {}
     for param in tax_data_raw:
@@ -186,10 +186,10 @@ def load_regrouped_wohngeld(tax_data_raw, policy_date):
                 if "deviation_from" in policy_in_place.keys():
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
-                        tax_data[param] = load_regrouped_wohngeld(
-                            tax_data_raw, new_date
-                        )[param]
-                        value_keys = sorted(
+                        tax_data[param] = load_regrouped_data(tax_data_raw, new_date)[
+                            param
+                        ]
+                        value_keys = (
                             key
                             for key in policy_in_place.keys()
                             if key not in additional_keys
@@ -206,8 +206,7 @@ def load_regrouped_wohngeld(tax_data_raw, policy_date):
                                 tax_data[param][key] = policy_in_place[key]
 
                 else:
-
-                    value_keys = sorted(
+                    value_keys = (
                         key
                         for key in policy_in_place.keys()
                         if key not in additional_keys

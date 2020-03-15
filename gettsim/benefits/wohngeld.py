@@ -70,7 +70,7 @@ def calc_max_rent_since_2009(params, household_size, cnstyr, mietstufe):
     # afterwards, fix amount for every additional hh member
     max_miete = params["max_miete"][min(household_size, 5)][mietstufe]
     if household_size > 5:
-        max_miete += params["max_miete"][6][mietstufe] * (household_size - 5)
+        max_miete += params["max_miete"]["5plus"][mietstufe] * (household_size - 5)
     return max_miete
 
 
@@ -105,7 +105,7 @@ def calc_max_rent_until_2008(params, household_size, constr_year, mietstufe):
     # fixed amounts for the households with size 1 to 5
     # afterwards, fix amount for every additional hh member
     if household_size > 5:
-        max_miete += max_miete_dict[6][constr_year_category][mietstufe] * (
+        max_miete += max_miete_dict["5plus"][constr_year_category][mietstufe] * (
             household_size - 5
         )
     return max_miete
