@@ -95,7 +95,7 @@ def calc_max_rent_until_2008(params, household_size, cnstyr, mietstufe):
 def calc_min_rent(params, household_size):
     """ The minimal acknowledged rent depending on the household size."""
     if household_size < 12:
-        min_rent = params["wgmin" + str(household_size) + "p"]
+        min_rent = params[f"wgmin{household_size}p"]
     else:
         min_rent = params["wgmin12p"]
     return min_rent
@@ -249,7 +249,7 @@ def _calc_wg_income_deductions_since_2016(household, params):
 
 def _set_min_y(prelim_y, params, household_size):
     if household_size < 12:
-        min_y = np.maximum(prelim_y, params["wgminEK" + str(household_size) + "p"])
+        min_y = np.maximum(prelim_y, params[f"wgminEK{household_size}p"])
     else:
         min_y = np.maximum(prelim_y, params["wgminEK12p"])
     return min_y
