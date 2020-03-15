@@ -45,7 +45,7 @@ def generate_arrays(dict_list):
 
 
 # --- Testrun
-with open("./data/arbeitsl_geld_2.yaml") as file:
+with open("./data/arbeitsl_geld_2_neu.yaml") as file:
     arbeitsl_geld_2 = yaml.full_load(file)
 
 testdate_1 = datetime.date(2005, 1, 1)
