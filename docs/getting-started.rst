@@ -128,6 +128,8 @@ Required columns in input data
 +---------------------+--------------------------------------------------------+-------+
 | heizkost_m          | Monthly heating expenses                               | float |
 +---------------------+--------------------------------------------------------+-------+
+| mietstufe           | Level of rent in community                             | int   |
++---------------------+--------------------------------------------------------+-------+
 | jahr_renteneintr    | Statutory retirement age (might be in the future)      | int   |
 +---------------------+--------------------------------------------------------+-------+
 | behinderungsgrad    | Handicap degree (between 0 and 100)                    | int   |

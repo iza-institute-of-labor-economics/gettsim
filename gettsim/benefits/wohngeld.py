@@ -32,13 +32,14 @@ def calc_wg_rent(household, params, household_size):
     """
     This function yields the relevant rent for calculating the wohngeld.
     """
-    # There are also min and max values for this.
-    # If 'Mietstufe' is not given, choose '3'.
-    if "mietstufe" in household.columns:
-        mietstufe = int(household["mietstufe"].iloc[0])
-    else:
-        mietstufe = 3
+    # # There are also min and max values for this.
+    # # If 'Mietstufe' is not given, choose '3'.
+    # if "mietstufe" in household.columns:
+    #     mietstufe = int(household["mietstufe"].iloc[0])
+    # else:
+    #     mietstufe = 3
 
+    mietstufe = household["mietstufe"].iloc[0]
     cnstyr = household["immobilie_baujahr"].iloc[0]
     # First max rent
     # Before 2009, they differed by construction year of the house
@@ -90,6 +91,27 @@ def calc_max_rent_until_2008(params, household_size, cnstyr, mietstufe):
             f"wgmaxplus5_{key}_st{mietstufe}"
         ] * (household_size - 5)
     return max_rent
+
+
+def calc_max_rent_until_2008_regrouped(params, household_size, constr_year, mietstufe):
+    """ Before 2009, differentiate by construction year of the house and
+    calculate the maximal acknowledged rent."""
+
+    max_miete_dict = params["max_miete"]
+    constr_year_dict = max_miete_dict[np.min(household_size, 5)]
+    constr_year_category = min(
+        year_limit
+        for year_limit in constr_year_dict.keys()
+        if constr_year <= year_limit
+    )
+    max_miete = constr_year_dict[constr_year_category][mietstufe]
+    # fixed amounts for the households with size 1 to 5
+    # afterwards, fix amount for every additional hh member
+    if household_size > 5:
+        max_miete += max_miete_dict[6][constr_year_category][mietstufe] * (
+            household_size - 5
+        )
+    return max_miete
 
 
 def calc_min_rent(params, household_size):
