@@ -129,6 +129,7 @@ Required columns in input data
 | heizkost_m          | Monthly heating expenses                               | float |
 +---------------------+--------------------------------------------------------+-------+
 | mietstufe           | Level of rent in community                             | int   |
+|                     | If not given in data: Average is 3 after 1985, 2 before|       |
 +---------------------+--------------------------------------------------------+-------+
 | jahr_renteneintr    | Statutory retirement age (might be in the future)      | int   |
 +---------------------+--------------------------------------------------------+-------+
