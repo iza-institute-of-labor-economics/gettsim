@@ -74,22 +74,6 @@ def calc_max_rent_since_2009(params, household_size, cnstyr, mietstufe):
     return max_miete
 
 
-# def calc_max_rent_until_2008(params, household_size, cnstyr, mietstufe):
-#     """ Before 2009, differentiate by construction year of the house and
-#     calculate the maximal acknowledged rent."""
-#     cnstyr_dict = {1: "a", 2: "m", 3: "n"}
-#     key = cnstyr_dict[cnstyr]
-#     # fixed amounts for the households with size 1 to 5
-#     # afterwards, fix amount for every additional hh member
-#     if household_size <= 5:
-#         max_rent = params[f"wgmax{household_size}p_{key}_st{mietstufe}"]
-#     else:
-#         max_rent = params[f"wgmax5p_{key}_st{mietstufe}"] + params[
-#             f"wgmaxplus5_{key}_st{mietstufe}"
-#         ] * (household_size - 5)
-#     return max_rent
-
-
 def calc_max_rent_until_2008(params, household_size, constr_year, mietstufe):
     """ Before 2009, differentiate by construction year of the house and
     calculate the maximal acknowledged rent."""
@@ -109,15 +93,6 @@ def calc_max_rent_until_2008(params, household_size, constr_year, mietstufe):
             household_size - 5
         )
     return max_miete
-
-
-# def calc_min_rent(params, household_size):
-#     """ The minimal acknowledged rent depending on the household size."""
-#     if household_size < 12:
-#         min_rent = params[f"wgmin{household_size}p"]
-#     else:
-#         min_rent = params["wgmin12p"]
-#     return min_rent
 
 
 def calc_min_rent(params, household_size):
@@ -181,24 +156,6 @@ def calc_wg_income(household, params, household_size):
     )
     # There's a minimum Y depending on the hh size
     return _set_min_y(prelim_y, params, household_size)
-
-
-# def calc_wg_abzuege(household, params):
-#     # There share of income to be deducted is 0/10/20/30%, depending on whether
-#     # household is subject to income taxation and/or payroll taxes
-#     wg_abz = (
-#         (household["eink_st_m_tu_k"] > 0) * 1
-#         + (household["rentenv_beit_m_tu_k"] > 0) * 1
-#         + (household["ges_krankv_beit_m_tu_k"] > 0) * 1
-#     )
-#
-#     wg_abz_amounts = {
-#         0: params["wgpabz0"],
-#         1: params["wgpabz1"],
-#         2: params["wgpabz2"],
-#         3: params["wgpabz3"],
-#     }
-#     return wg_abz.replace(wg_abz_amounts)
 
 
 def calc_wg_abzuege(household, params):
@@ -282,35 +239,6 @@ def _set_min_y(prelim_y, params, household_size):
     # Households larger then 12 get assigned the value of a 12 person household
     min_y = np.maximum(prelim_y, params["min_eink"][min(household_size, 12)])
     return min_y
-
-
-# def apply_wg_formula(household, params, household_size):
-#     # The formula is only valid for up to 12 household members
-#     household_size_max = min(household_size, 12)
-#     # There are parameters a, b, c, depending on hh size
-#     wg_amount = np.maximum(
-#         0,
-#         params["wg_factor"]
-#         * (
-#             household["M"]
-#             - (
-#                 (
-#                     params[f"wg_a_{household_size_max}p"]
-#                     + (params[f"wg_b_{household_size_max}p"] * household["M"])
-#                     + (params[f"wg_c_{household_size_max}p"] * household["Y"])
-#                 )
-#                 * household["Y"]
-#             )
-#         ),
-#     )
-#     # If more than 12 persons, there is a lump-sum on top.
-#     # You may however not get more than the corrected rent "M".
-#     if household_size > 12:
-#         wg_amount = np.minimum(
-#             household["M"], wg_amount + params["wg_add_12plus"] * (household_size - 12),
-#         )
-#
-#     return wg_amount
 
 
 def apply_wg_formula(household, params, household_size):
