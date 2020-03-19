@@ -7,6 +7,7 @@ from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 
+
 INPUT_COLS = [
     "p_id",
     "hh_id",
@@ -18,6 +19,7 @@ INPUT_COLS = [
     "alleinerziehend",
     "alter",
     "immobilie_baujahr",
+    "kindergeld_anspruch",
     "mietstufe",
     "bruttolohn_m",
     "ges_rente_m",

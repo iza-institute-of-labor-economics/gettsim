@@ -244,6 +244,7 @@ def tax_transfer(
         "kindergeld_m",
         "kindergeld_m_hh",
         "kindergeld_m_tu",
+        "kindergeld_anspruch",
     ]
     df = apply_tax_transfer_func(
         df,
@@ -323,6 +324,7 @@ def tax_transfer(
         "heizkost_m",
         "alleinerziehend",
         "alter",
+        "kindergeld_anspruch",
         "immobilie_baujahr",
         "mietstufe",
         "bruttolohn_m",
@@ -406,6 +408,7 @@ def tax_transfer(
         "bruttolohn_m",
         "in_ausbildung",
         "kaltmiete_m",
+        "kindergeld_anspruch",
         "heizkost_m",
         "alleinerziehend",
         "mehrbed",

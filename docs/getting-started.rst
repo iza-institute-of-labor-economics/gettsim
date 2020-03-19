@@ -128,6 +128,9 @@ Required columns in input data
 +---------------------+--------------------------------------------------------+-------+
 | heizkost_m          | Monthly heating expenses                               | float |
 +---------------------+--------------------------------------------------------+-------+
+| mietstufe           | Level of rent in community                             | int   |
+|                     | If not given in data: Average is 3 after 1985, 2 before|       |
++---------------------+--------------------------------------------------------+-------+
 | jahr_renteneintr    | Statutory retirement age (might be in the future)      | int   |
 +---------------------+--------------------------------------------------------+-------+
 | behinderungsgrad    | Handicap degree (between 0 and 100)                    | int   |
@@ -143,9 +146,8 @@ Required columns in input data
 | bewohnt_eigentum    | Dummy: owner-occupied housing                          | bool  |
 +---------------------+--------------------------------------------------------+-------+
 | immobilie_baujahr   | Construction year of dwelling                          | int   |
-|                     | (1: <1965,2:1966-2000,3:>2000)                         |       |
 +---------------------+--------------------------------------------------------+-------+
-| prv_transfers_m     | Sum of monthly public/private transfers not simulated. | int   |
+| sonstig_eink_m      | Sum of monthly public/private transfers not simulated. | int   |
 |                     | E.g. transfers from parents, alimonies, maternity      |       |
 |                     | leave payments. Will be split up in future releases.   |       |
 +---------------------+--------------------------------------------------------+-------+
