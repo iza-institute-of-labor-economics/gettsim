@@ -21,7 +21,18 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Alimony advance payment (*Unterhaltsvorschuss*) now modelled more in line
   with the law (:ghuser:`Eric-Sommer`)
 * Implement Art. 3 of *Familienentlastungsgesetz* on income tax tariff and child tax
-  allowance becoming effective in 2020
+  allowance becoming effective in 2020 (:ghuser:`Eric-Sommer`)
+* Implement parity in health care contributions since
+  2019 and 2020 contribution rates (:ghuser:`Eric-Sommer`)
+* Add *Elterngeld* calculation (:ghuser:`MaxBlesch`, :ghuser:`boryana-ilieva`)
+* Fix Soli 1991 calculation, improve Soli 1995 calculation, add 2021 Soli
+  parameters and add Soli tests (:ghuser:`mjbloemer`, :ghuser:`MaxBlesch`)
+* Implement pre-2010 ruling on *Vorsorgeaufwendungen* (:ghuser:`Eric-Sommer`)
+* ``gettsim`` is released as a conda noarch package (:ghuser:`tobiasraabe`)
+* Implement 2020 reform increasing housing benefit (*Wohngeldstärkungsgesetz*) and
+  complete parameters on past benefits (:ghuser:`Eric-Sommer`)
+* Regroup wohngeld parameters according to GEP-3 (:ghuser:`MaxBlesch`)
+* Renamed all data columns to German names (:ghuser:`amageh`, :ghuser:`MaxBlesch` )
 
 
 0.2.1 - 2019-11-20

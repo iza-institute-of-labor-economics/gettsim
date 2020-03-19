@@ -9,25 +9,25 @@ from gettsim.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
-    "child",
-    "pensioner",
-    "age",
-    "hh_wealth",
-    "adult_num",
-    "child0_18_num",
-    "kiz_temp",
+    "kind",
+    "rentner",
+    "alter",
+    "vermögen_hh",
+    "anz_erwachsene_hh",
+    "anz_minderj_hh",
+    "kinderzuschlag_temp",
     "wohngeld_basis_hh",
-    "regelbedarf",
-    "ar_base_alg2_ek",
-    "byear",
-    "year",
+    "regelbedarf_m",
+    "sum_basis_arbeitsl_geld_2_eink",
+    "geburtsjahr",
+    "jahr",
 ]
 
 YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
-OUT_COLS = ["kiz", "wohngeld", "m_alg2"]
+OUT_COLS = ["kinderzuschlag_m", "wohngeld_m", "arbeitsl_geld_2_m"]
 
 
 @pytest.fixture(scope="module")
@@ -39,12 +39,12 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby("hid").apply(benefit_priority, params=arbeitsl_geld_2_params)
+    df = df.groupby("hh_id").apply(benefit_priority, params=arbeitsl_geld_2_params)
     assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)

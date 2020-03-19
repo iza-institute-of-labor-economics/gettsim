@@ -14,7 +14,7 @@ With conda available on your path, installing GETTSIM is as simple as typing
 
 .. code-block:: bash
 
-    $ conda install -c gettsim gettsim
+    $ conda install -c gettsim -c conda-forge gettsim
 
 in a command shell.
 
@@ -58,98 +58,99 @@ long format, i.e. each person no matter what age has his/her own row.
 Required columns in input data
 -------------------------------
 
-+--------------+---------------------------------------------------------+-------------+
-|   Variable   |Explanation                                              | Type        |
-+==============+=========================================================+=============+
-|hid           |Household identifier                                     | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|tu_id         |Tax Unit identifier                                      | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|pid           |Personal identifier                                      | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|head_tu       |Whether individual is head of tax unit                   | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|head          |Whether individual is head of household                  | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|adult_num     |Number of adults in household                            | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|child0_18_num |Number of children between 0 and 18 in household         | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|hh_wealth     |Wealth of household                                      | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|m_wage        |Monthly wage of each individual                          | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|age           |Age of Individual                                        | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|selfemployed  |Whether individual is self-employed                      | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|east          |Whether location in former east or west germany          | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|haskids       |Whether individual has kids                              | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|m_self        |Monthly wage of selfemployment of each individual        | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|m_pensions    |Monthly pension payments of each individual              | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|pkv           |Whether individual is (only) privately health insured    | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|m_wage_l1     |Average monthly earnings, previous year                  | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|months_ue     |Months in unemployment, current year                     | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|months_ue_l1  |Months in unemployment, previous year                    | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|months_ue_l2  |Months in unemployment, two years before                 | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|w_hours       |Weekly working hours of individual                       | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|child_num_tu  |Number of children in tax unit                           | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|adult_num_tu  |Number of adults in tax unit                             | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|byear         |Year of birth                                            | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|exper         |Labor market experience, in years                        | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|EP            |Earning points for pension claim                         | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|child         |Dummy: Either below 18yrs, or below 25 and in education  | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|pensioner     |Dummy: Pensioner employment status                       | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|m_childcare   |Monthly childcare expenses                               | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|m_imputedrent |Monthly value of owner-occupied housing                  | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|m_kapinc      |Monthly capital income                                   | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|m_vermiet     |Monthly rental income                                    | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|miete         |Monthly rent expenses (without heating)                  | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|heizkost      |Monthly heating expenses                                 | Float       |
-+--------------+---------------------------------------------------------+-------------+
-|renteneintritt|Statutory retirement age (might be in the future)        | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|handcap_degree|Handicap degree (between 0 and 100)                      | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|wohnfl        |Size of dwelling in square meters                        | Int         |
-+--------------+---------------------------------------------------------+-------------+
-|zveranl       |Dummy: Married couple filing jointly for income tax      | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|ineducation   |Dummy: Employment status "in education"                  | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|alleinerz     |Dummy: Single parent                                     | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|eigentum      |Dummy: owner-occupied housing                            | Bool        |
-+--------------+---------------------------------------------------------+-------------+
-|cnstyr        |Construction year of dwelling                            | Int         |
-|              |(1: <1965,2:1966-2000,3:>2000)                           |             |
-+--------------+---------------------------------------------------------+-------------+
-|m_transfers   |Sum of monthly public/private transfers not simulated.   | Int         |
-|              |E.g. transfers from parents, alimonies,                  |             |
-|              |maternity leave payments                                 |             |
-+--------------+---------------------------------------------------------+-------------+
++---------------------+--------------------------------------------------------+-------+
+|    Variable         | Explanation                                            | Type  |
++=====================+========================================================+=======+
+| hh_id               | Household identifier                                   | int   |
++---------------------+--------------------------------------------------------+-------+
+| tu_id               | Tax Unit identifier                                    | int   |
++---------------------+--------------------------------------------------------+-------+
+| p_id                | Personal identifier                                    | int   |
++---------------------+--------------------------------------------------------+-------+
+| tu_vorstand         | Whether individual is head of tax unit                 | bool  |
++---------------------+--------------------------------------------------------+-------+
+| anz_erwachsene_hh   | Number of adults in household                          | int   |
++---------------------+--------------------------------------------------------+-------+
+| anz_minderj_hh      | Number of children between 0 and 18 in household       | int   |
++---------------------+--------------------------------------------------------+-------+
+| vermögen_hh         | Wealth of household                                    | float |
++---------------------+--------------------------------------------------------+-------+
+| bruttolohn_m        | Monthly wage of each individual                        | float |
++---------------------+--------------------------------------------------------+-------+
+| alter               | Age of Individual                                      | int   |
++---------------------+--------------------------------------------------------+-------+
+| selbstständig       | Whether individual is self-employed                    | bool  |
++---------------------+--------------------------------------------------------+-------+
+| wohnort_ost         | Whether location in former East or West Germany        | bool  |
++---------------------+--------------------------------------------------------+-------+
+| hat_kinder          | Whether individual has kids                            | bool  |
++---------------------+--------------------------------------------------------+-------+
+| eink_selbstst_m     | Monthly wage of selfemployment of each individual      | float |
++---------------------+--------------------------------------------------------+-------+
+| ges_rente_m         | Monthly pension payments of each individual            | float |
++---------------------+--------------------------------------------------------+-------+
+| prv_krankv_beit_m   | Whether individual is (only) privately health insured  | bool  |
++---------------------+--------------------------------------------------------+-------+
+| prv_rente_beit_m    | Monthly contributions to private pension insurance     | float |
++---------------------+--------------------------------------------------------+-------+
+| bruttolohn_vorj_m   | Average monthly earnings, previous year                | float |
++---------------------+--------------------------------------------------------+-------+
+| arbeitsl_lfdj_m     | Months in unemployment, current year                   | float |
++---------------------+--------------------------------------------------------+-------+
+| arbeitsl_vorj_m     | Months in unemployment, previous year                  | float |
++---------------------+--------------------------------------------------------+-------+
+| arbeitsl_vor2j_m    | Months in unemployment, two years before               | float |
++---------------------+--------------------------------------------------------+-------+
+| arbeitsstunden_w    | Weekly working hours of individual                     | int   |
++---------------------+--------------------------------------------------------+-------+
+| anz_kinder_tu       | Number of children in tax unit                         | int   |
++---------------------+--------------------------------------------------------+-------+
+| anz_erw_tu          | Number of adults in tax unit                           | int   |
++---------------------+--------------------------------------------------------+-------+
+| geburtsjahr         | Year of birth                                          | int   |
++---------------------+--------------------------------------------------------+-------+
+| entgeltpunkte       | Earning points for pension claim                       | float |
++---------------------+--------------------------------------------------------+-------+
+| kind                | Dummy: Either below 18yrs, or below 25 and in          | bool  |
+|                     | education                                              |       |
++---------------------+--------------------------------------------------------+-------+
+| rentner             | Dummy: Pensioner employment status                     | bool  |
++---------------------+--------------------------------------------------------+-------+
+| betreuungskost_m    | Monthly childcare expenses                             | float |
++---------------------+--------------------------------------------------------+-------+
+| miete_unterstellt   | Monthly value of owner-occupied housing                | float |
++---------------------+--------------------------------------------------------+-------+
+| kapital_eink_m      | Monthly capital income                                 | float |
++---------------------+--------------------------------------------------------+-------+
+| vermiet_eink_m      | Monthly rental income                                  | float |
++---------------------+--------------------------------------------------------+-------+
+| kaltmiete_m         | Monthly rent expenses (without heating)                | float |
++---------------------+--------------------------------------------------------+-------+
+| heizkost_m          | Monthly heating expenses                               | float |
++---------------------+--------------------------------------------------------+-------+
+| mietstufe           | Level of rent in community                             | int   |
+|                     | If not given in data: Average is 3 after 1985, 2 before|       |
++---------------------+--------------------------------------------------------+-------+
+| jahr_renteneintr    | Statutory retirement age (might be in the future)      | int   |
++---------------------+--------------------------------------------------------+-------+
+| behinderungsgrad    | Handicap degree (between 0 and 100)                    | int   |
++---------------------+--------------------------------------------------------+-------+
+| wohnfläche          | Size of dwelling in square meters                      | int   |
++---------------------+--------------------------------------------------------+-------+
+| gem_veranlagt       | Dummy: Married couple filing jointly for income tax    | bool  |
++---------------------+--------------------------------------------------------+-------+
+| in_ausbildung       | Dummy: Employment status "in education"                | bool  |
++---------------------+--------------------------------------------------------+-------+
+| alleinerziehend     | Dummy: Single parent                                   | bool  |
++---------------------+--------------------------------------------------------+-------+
+| bewohnt_eigentum    | Dummy: owner-occupied housing                          | bool  |
++---------------------+--------------------------------------------------------+-------+
+| immobilie_baujahr   | Construction year of dwelling                          | int   |
++---------------------+--------------------------------------------------------+-------+
+| sonstig_eink_m      | Sum of monthly public/private transfers not simulated. | int   |
+|                     | E.g. transfers from parents, alimonies, maternity      |       |
+|                     | leave payments. Will be split up in future releases.   |       |
++---------------------+--------------------------------------------------------+-------+
 
 
 .. _returned_cols:
@@ -159,74 +160,49 @@ Columns returned by the simulator
 
 Note that if one of these columns exists, it will be overwritten.
 
-+-------------------+-----------------------------------------------------+------------+
-|   Variable        |Explanation                                          | Type       |
-+===================+=====================================================+============+
-|svbeit             |Monthly amount employee soc. sec. contributions      | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|rvbeit             |Monthly amount employee old-age pensions contrib.    | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|avbeit             |Monthly amount employee unempl. insurance contrib.   | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gkvbeit            |Monthly amount employee health insurance contrib.    | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|m_alg1             |Monthly amount of unemployment assistance            | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|pensions_sim       |Monthly amount of old-age pensions                   | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e1           |Inc. from self-employment subject to tax, individual | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e5           |Inc. from Capital subject to tax, individual         | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e6           |Inc. from Rents subject to tax, individual           | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e7           |Inc. from Pensions subject to tax, individual        | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e1_tu        |Inc. from Self-Employment subject to tax, couple sum | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e4_tu        |Inc. from Earnings subject to tax, couple sum        | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e5_tu        |Inc. from Capital subject to tax, couple sum         | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e6_tu        |Inc. from Rents subject to tax, couple sum           | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross_e7_tu        |Inc. from Pensions subject to tax, couple sum        | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|abgst_tu           |Monthly capital cncome tax due, couple sum           | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|abgst              |Monthly capital cncome tax due, individual           | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|soli               |Monthly solidarity surcharge due, individual         | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|soli_tu            |Monthly solidarity surcharge due, couple sum         | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|kindergeld         |Monthly child Benefit, individual                    | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|kindergeld_tu      |Monthly child Benefit, household sum                 | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|incometax          |Monthly income Tax Due, individual                   | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|incometax_tu       |Monthly income Tax Due, couple sum                   | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|uhv                |Alimony advance payment, individual                  | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|regelbedarf        |Household socio-economic *need*, incl. housing cost  | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|regelsatz          |Household socio-economic *need*, lump-sum            | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|alg2_kdu           |Housing cost covered by social assistance            | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|uhv_hh             |Alimony advance payment, household sum               | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|kiz                |Monthly additional child benefit, household sum      | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|wohngeld           |Monthly housing benefit, household sum               | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|m_alg2             |Monthly social assistance, household sum             | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|dpi_ind            |Monthly disposable income, individual                | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|dpi                |Monthly disposable income, household sum             | Float      |
-+-------------------+-----------------------------------------------------+------------+
-|gross              |Monthly market income                                | Float      |
-+-------------------+-----------------------------------------------------+------------+
++-------------------------+----------------------------------------------------+-------+
+|    Variable             | Explanation                                        | type  |
++=========================+====================================================+=======+
+| rentenv_beit_m          | Monthly amount employee old-age pensions contrib.  | float |
++-------------------------+----------------------------------------------------+-------+
+| arbeitsl_v_beit_m       | Monthly amount employee unempl. insurance contrib. | float |
++-------------------------+----------------------------------------------------+-------+
+| ges_krankv_beit_m       | Monthly amount employee health insurance contrib.  | float |
++-------------------------+----------------------------------------------------+-------+
+| pflegev_beit_m          | Monthly amount of long term care insurance         | float |
++-------------------------+----------------------------------------------------+-------+
+| arbeitsl_geld_m         | Monthly amount of unemployment assistance          | float |
++-------------------------+----------------------------------------------------+-------+
+| rente_anspr_m           | Monthly amount of old-age pensions                 | float |
++-------------------------+----------------------------------------------------+-------+
+| entgeltpunkte           | Updated earning points for pension claim           | float |
++-------------------------+----------------------------------------------------+-------+
+| abgelt_st_m             | Monthly capital income tax due, individual         | float |
++-------------------------+----------------------------------------------------+-------+
+| soli_st_m               | Monthly solidarity surcharge due, individual       | float |
++-------------------------+----------------------------------------------------+-------+
+| kindergeld_m            | Monthly child Benefit, individual                  | float |
++-------------------------+----------------------------------------------------+-------+
+| eink_st_m               | Monthly income Tax Due, individual                 | float |
++-------------------------+----------------------------------------------------+-------+
+| eink_st_m_tu            | Monthly income Tax Due, couple sum                 | float |
++-------------------------+----------------------------------------------------+-------+
+| unterhaltsvors_m        | Alimony advance payment, individual                | float |
++-------------------------+----------------------------------------------------+-------+
+| regelsatz_m             | Household socio-economic *need*, lump-sum          | float |
++-------------------------+----------------------------------------------------+-------+
+| kost_unterk_m           | Housing cost covered by social assistance          | float |
++-------------------------+----------------------------------------------------+-------+
+| kinderzuschlag_m        | Monthly additional child benefit, household sum    | float |
++-------------------------+----------------------------------------------------+-------+
+| elterngeld_m            | Monthly elterngeld, individual                     | float |
++-------------------------+----------------------------------------------------+-------+
+| wohngeld_m              | Monthly housing benefit, household sum             | float |
++-------------------------+----------------------------------------------------+-------+
+| arbeitsl_geld_2_m       | Monthly social assistance, household sum           | float |
++-------------------------+----------------------------------------------------+-------+
+| verfügb_eink_m          | Monthly disposable income, individual              | float |
++-------------------------+----------------------------------------------------+-------+
+| verfügb_eink_hh_m       | Monthly disposable income including household      | float |
+|                         | level benefits, household sum                      |       |
++-------------------------+----------------------------------------------------+-------+

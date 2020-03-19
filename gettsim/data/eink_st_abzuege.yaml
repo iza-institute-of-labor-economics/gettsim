@@ -82,7 +82,7 @@ vorsp_rv:
     2005-01-01:
       value: 0.5
       note:
-vorwegab:
+vorwegabzug:
   name:
     de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle
     en:
@@ -702,8 +702,51 @@ vors_sonst_max:
     en:
   values:
     2005-01-01:
+      value: 1500
+      note: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
+    2010-01-01:
       value: 1900
-      note:
+      note: Art. 1 G. v. 23.07.2009 BGBl. I S.1959.
+vorsorg_rv_max:
+  name:
+    de: Maximalbetrag der Altersvorsorgeaufwendungen, 2005er Rechtsstand
+    en:
+  description:
+    de: §10 (3) EStG, Anlage 2 SGB VI
+    en:
+  values:
+    2005-01-01:
+      value: 20000
+      note: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
+    2015-01-01:
+      value: 22170
+      note: Ab 2015 knappschaftlicher Höchstbetrag, d.h. knappschaftlicher Beitragssatz * knappschaftliche Beitragsbemessungsgrenze
+    2016-01-01:
+      value: 22766
+      note: .248 * 91800
+    2017-01-01:
+      value: 23362
+      note: .248 * 94200
+    2018-01-01:
+      value: 23712
+      note: .247 * 96000
+    2019-01-01:
+      value: 24305
+      note: .247 * 98400
+    2020-01-01:
+      value: 25046
+      note: Art. 3 V. v. 17.12.2019 BGBl I S. 2848. .247 * 101400
+vorsorg_krank_minder:
+  name:
+    de: Anteil, um den Krankenversicherungsbeiträge gemindert werden bei abhängig Beschäftigten.
+    en:
+  description:
+    de: §10 (3) a) S.4 EStG
+    en:
+  values:
+    2009-07-23:
+      value: 0.04
+      note: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 rentert:
   name:
     de: Ertragsanteil der Rente

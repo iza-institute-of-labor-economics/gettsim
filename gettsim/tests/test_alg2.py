@@ -1,47 +1,50 @@
+import itertools
+
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
-from gettsim.benefits.alg2 import alg2
+from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
-    "head_tu",
-    "child",
-    "age",
-    "miete",
-    "heizkost",
-    "wohnfl",
-    "eigentum",
-    "alleinerz",
-    "m_wage",
-    "m_pensions",
-    "m_kapinc",
-    "m_alg1",
-    "m_transfers",
-    "m_self",
-    "m_vermiet",
-    "incometax",
-    "soli",
-    "svbeit",
-    "kindergeld_hh",
-    "uhv",
-    "year",
+    "vorstand_tu",
+    "kind",
+    "alter",
+    "kaltmiete_m",
+    "heizkost_m",
+    "wohnfläche",
+    "bewohnt_eigentum",
+    "alleinerziehend",
+    "bruttolohn_m",
+    "ges_rente_m",
+    "kapital_eink_m",
+    "arbeitsl_geld_m",
+    "sonstig_eink_m",
+    "eink_selbstst_m",
+    "vermiet_eink_m",
+    "eink_st_m",
+    "soli_st_m",
+    "sozialv_beit_m",
+    "kindergeld_m_hh",
+    "unterhaltsvors_m",
+    "elterngeld_m",
+    "jahr",
 ]
 OUT_COLS = [
-    "ar_base_alg2_ek",
-    "ar_alg2_ek_hh",
-    "alg2_grossek_hh",
+    "sum_basis_arbeitsl_geld_2_eink",
+    "sum_arbeitsl_geld_2_eink",
+    "arbeitsl_geld_2_brutto_eink_hh",
     "mehrbed",
-    "regelbedarf",
-    "regelsatz",
-    "alg2_kdu",
-    "uhv_hh",
-    "ekanrefrei",
+    "regelbedarf_m",
+    "regelsatz_m",
+    "kost_unterk_m",
+    "unterhaltsvors_m_hh",
+    "eink_anrechn_frei",
 ]
 
 
@@ -55,9 +58,9 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_alg2(input_data, arbeitsl_geld_2_raw_data, year):
-    year_data = input_data[input_data["year"] == year]
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
     arbeitsl_geld_2_params = get_policies_for_date(
@@ -65,6 +68,8 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year):
     )
 
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
-    df = df.groupby("hid", group_keys=False).apply(alg2, params=arbeitsl_geld_2_params)
+    df = df.groupby("hh_id", group_keys=False).apply(
+        alg2, params=arbeitsl_geld_2_params
+    )
 
-    assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)
+    assert_series_equal(df[column], year_data[column], check_dtype=False)

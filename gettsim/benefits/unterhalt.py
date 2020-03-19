@@ -28,40 +28,43 @@ def uhv_since_07_2017(tax_unit, params, kindergeld_params):
         """
     # Benefit amount depends on the tax allowance for children ("sächliches Existenzminimum")
     # and the child benefit for the first child.
-    tax_unit["uhv"] = 0
+    tax_unit["unterhaltsvors_m"] = 0
     # Amounts depend on age
-    tax_unit.loc[(tax_unit["age"] < 6) & tax_unit["alleinerz"], "uhv"] = (
-        params["uhv6_amount"] - kindergeld_params["kgeld1"]
-    )
     tax_unit.loc[
-        (tax_unit["age"] >= 6) & (tax_unit["age"] < 12) & tax_unit["alleinerz"], "uhv"
+        (tax_unit["alter"] < 6) & tax_unit["alleinerziehend"], "unterhaltsvors_m"
+    ] = (params["uhv6_amount"] - kindergeld_params["kgeld1"])
+    tax_unit.loc[
+        (tax_unit["alter"] >= 6)
+        & (tax_unit["alter"] < 12)
+        & tax_unit["alleinerziehend"],
+        "unterhaltsvors_m",
     ] = (params["uhv12_amount"] - kindergeld_params["kgeld1"])
     # Older kids get it only if the parent has income > 600€
     uhv_inc_tu = (
         tax_unit[
             [
-                "m_wage",
-                "m_transfers",
-                "m_self",
-                "m_vermiet",
-                "m_kapinc",
-                "m_pensions",
-                "m_alg1",
+                "bruttolohn_m",
+                "sonstig_eink_m",
+                "eink_selbstst_m",
+                "vermiet_eink_m",
+                "kapital_eink_m",
+                "ges_rente_m",
+                "arbeitsl_geld_m",
             ]
         ]
         .sum()
         .sum()
     )
     tax_unit.loc[
-        (tax_unit["age"] >= 12)
-        & (tax_unit["age"] < 18)
-        & (tax_unit["alleinerz"])
+        (tax_unit["alter"] >= 12)
+        & (tax_unit["alter"] < 18)
+        & (tax_unit["alleinerziehend"])
         & (uhv_inc_tu > params["uhv17_inc"]),
-        "uhv",
+        "unterhaltsvors_m",
     ] = (params["uhv17_amount"] - kindergeld_params["kgeld1"])
 
     # round up
-    tax_unit["uhv"] = np.ceil(tax_unit["uhv"]).astype(int)
+    tax_unit["unterhaltsvors_m"] = np.ceil(tax_unit["unterhaltsvors_m"]).astype(int)
 
     # TODO: Check against actual transfers
     return tax_unit
@@ -71,5 +74,5 @@ def uhv_pre_07_2017(tax_unit, params, kindergeld_params):
     """
     UHV before 07/2017. Not implemented yet, as it was only paid for 6 years.
     """
-    tax_unit["uhv"] = 0
+    tax_unit["unterhaltsvors_m"] = 0
     return tax_unit
