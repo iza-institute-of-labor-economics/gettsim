@@ -197,6 +197,7 @@ def _calc_wg_income_deductions_until_2015(household, params):
         household.groupby("tu_id")["_kind_unter_11"].transform("sum").astype(int)
     )
     workingchild = household["kind"] & (household["bruttolohn_m"] > 0)
+
     wg_incdeduct = (
         (household["behinderungsgrad"] > 80) * params["freib_behinderung"]["ab80"]
         + household["behinderungsgrad"].between(1, 80)
@@ -243,11 +244,11 @@ def _set_min_y(prelim_y, params, household_size):
 
 def apply_wg_formula(household, params, household_size):
     # The formula is only valid for up to 12 household members
-    koeffizenten = params["koeffizienten"][min(household_size, 12)]
+    koeffizenten = params["koeffizienten_berechnungsformel"][min(household_size, 12)]
     # There are parameters a, b, c, depending on hh size
     wg_amount = np.maximum(
         0,
-        params["faktor"]
+        params["faktor_berechnungsformel"]
         * (
             household["M"]
             - (
