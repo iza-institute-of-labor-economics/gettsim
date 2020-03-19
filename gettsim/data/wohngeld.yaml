@@ -1,4 +1,4 @@
-faktor:
+faktor_berechnungsformel:
     name:
         de: Faktor am Anfang der Wohngeldformel
         en:
@@ -14,7 +14,7 @@ faktor:
     2016-01-01:
         scalar: 1.15
         reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
-koeffizienten:
+koeffizienten_berechnungsformel:
     name:
       de: Parameter a, b, c der Wohngeldformel
       en:
