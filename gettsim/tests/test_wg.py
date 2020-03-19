@@ -19,6 +19,7 @@ INPUT_COLS = [
     "alleinerziehend",
     "alter",
     "immobilie_baujahr",
+    "kindergeld_anspruch",
     "mietstufe",
     "bruttolohn_m",
     "ges_rente_m",

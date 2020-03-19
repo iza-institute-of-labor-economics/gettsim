@@ -196,7 +196,11 @@ def _calc_wg_income_deductions_until_2015(household, params):
     household["_anzahl_kinder_unter_11"] = (
         household.groupby("tu_id")["_kind_unter_11"].transform("sum").astype(int)
     )
-    workingchild = household["kind"] & (household["bruttolohn_m"] > 0)
+    workingchild = (
+        household["kind"]
+        & (household["bruttolohn_m"] > 0)
+        & household["kindergeld_anspruch"]
+    )
 
     wg_incdeduct = (
         (household["behinderungsgrad"] > 80) * params["freib_behinderung"]["ab80"]
@@ -219,7 +223,11 @@ def _calc_wg_income_deductions_since_2016(household, params):
     """ calculate special deductions for handicapped, single parents
     and children who are working
     """
-    workingchild = household["kind"] & (household["bruttolohn_m"] > 0)
+    workingchild = (
+        household["kind"]
+        & (household["bruttolohn_m"] > 0)
+        & household["kindergeld_anspruch"]
+    )
 
     wg_incdeduct = (
         (household["behinderungsgrad"] > 0) * params["freib_behinderung"]

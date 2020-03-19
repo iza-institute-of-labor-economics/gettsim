@@ -62,10 +62,10 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
 
     # First, we need to count the number of children eligible to child benefit.
     # (§6a (1) Nr. 1 BKGG)kdu
-    household["kind_anspruch"] = kindergeld_params["kindergeld_anspruch_regel"](
+    household["kindergeld_anspruch"] = kindergeld_params["kindergeld_anspruch_regel"](
         household, kindergeld_params
     )
-    household["anz_kinder_anspruch"] = household["kind_anspruch"].sum()
+    household["anz_kinder_anspruch"] = household["kindergeld_anspruch"].sum()
     # There is a maximum income threshold, depending on the need, plus the potential
     # kiz receipt (§6a (1) Nr. 3 BKGG)
     household["kinderzuschlag_eink_max"] = (
@@ -82,7 +82,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     household["kinderzuschlag_eink_netto"] = household["sum_arbeitsl_geld_2_eink_hh"]
 
     # 1st step: deduct children income for each eligible child (§6a (3) S.3 BKGG)
-    household["kinderzuschlag_kindereink_abzug"] = household["kind_anspruch"] * (
+    household["kinderzuschlag_kindereink_abzug"] = household["kindergeld_anspruch"] * (
         np.maximum(
             0,
             params["a2kiz"]

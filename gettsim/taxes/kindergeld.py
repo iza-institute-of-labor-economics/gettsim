@@ -14,7 +14,9 @@ def kindergeld(tax_unit, params):
             kindergeld_m_tu_basis: Kindergeld summed up within the tax unit
     """
 
-    child_count = params["kindergeld_anspruch_regel"](tax_unit, params).cumsum()
+    tax_unit["kindeld_anspruch"] = params["kindergeld_anspruch_regel"](
+        tax_unit, params
+    ).cumsum()
 
     kg_amounts = {
         1: params["kgeld1"],
@@ -22,8 +24,10 @@ def kindergeld(tax_unit, params):
         3: params["kgeld3"],
         4: params["kgeld4"],
     }
-    tax_unit["kindergeld_m_basis"] = child_count.replace(kg_amounts)
-    tax_unit.loc[child_count > 4, "kindergeld_m_basis"] = params["kgeld4"]
+    tax_unit["kindergeld_m_basis"] = tax_unit["kindeld_anspruch"].replace(kg_amounts)
+    tax_unit.loc[tax_unit["kindeld_anspruch"] > 4, "kindergeld_m_basis"] = params[
+        "kgeld4"
+    ]
     tax_unit["kindergeld_m_tu_basis"] = np.sum(tax_unit["kindergeld_m_basis"])
 
     return tax_unit
