@@ -19,7 +19,7 @@ def input_data():
 def test_calc_tax_and_transfers(
     input_data, year,
 ):
-    df = input_data[input_data["year"] == year].copy()
+    df = input_data[input_data["jahr"] == year].copy()
     calculate_tax_and_transfers(
         df, year,
     )
