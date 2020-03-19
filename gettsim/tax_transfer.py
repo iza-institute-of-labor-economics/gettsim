@@ -408,6 +408,7 @@ def tax_transfer(
         "bruttolohn_m",
         "in_ausbildung",
         "kaltmiete_m",
+        "kindergeld_anspruch",
         "heizkost_m",
         "alleinerziehend",
         "mehrbed",

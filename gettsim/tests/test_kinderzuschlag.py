@@ -20,6 +20,7 @@ INPUT_COLS = [
     "kaltmiete_m",
     "heizkost_m",
     "alleinerziehend",
+    "kindergeld_anspruch",
     "mehrbed",
     "anz_erw_tu",
     "anz_kinder_tu",
