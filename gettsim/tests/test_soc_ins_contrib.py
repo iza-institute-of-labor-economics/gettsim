@@ -9,23 +9,29 @@ from gettsim.policy_for_date import get_policies_for_date
 from gettsim.social_insurance import soc_ins_contrib
 
 INPUT_COLS = [
-    "pid",
-    "hid",
+    "p_id",
+    "hh_id",
     "tu_id",
-    "m_wage",
-    "east",
-    "age",
-    "selfemployed",
-    "haskids",
-    "m_self",
-    "m_pensions",
-    "pkv",
-    "year",
+    "bruttolohn_m",
+    "wohnort_ost",
+    "alter",
+    "selbstständig",
+    "hat_kinder",
+    "eink_selbstst_m",
+    "ges_rente_m",
+    "prv_krankv_beit_m",
+    "jahr",
 ]
 
 
 YEARS = [2002, 2010, 2018, 2019, 2020]
-OUT_COLS = ["svbeit", "rvbeit", "avbeit", "gkvbeit", "pvbeit"]
+OUT_COLS = [
+    "sozialv_beit_m",
+    "rentenv_beit_m",
+    "arbeitsl_v_beit_m",
+    "ges_krankv_beit_m",
+    "pflegev_beit_m",
+]
 
 
 @pytest.fixture(scope="module")
@@ -37,7 +43,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
@@ -45,9 +51,10 @@ def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
     df = apply_tax_transfer_func(
         df,
         tax_func=soc_ins_contrib,
-        level=["hid", "tu_id", "pid"],
+        level=["hh_id", "tu_id", "p_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={"params": soz_vers_beitr_params},
     )
+
     pd.testing.assert_series_equal(df[column], year_data[column])

@@ -3,14 +3,14 @@ import datetime
 import numpy as np
 import yaml
 
-from gettsim.benefits.alg2 import e_anr_frei_2005_01
-from gettsim.benefits.alg2 import e_anr_frei_2005_10
-from gettsim.benefits.alg2 import regelberechnung_2011_and_beyond
-from gettsim.benefits.alg2 import regelberechnung_until_2010
-from gettsim.benefits.kiz import calc_kiz_amount_07_2019
-from gettsim.benefits.kiz import calc_kiz_amount_2005
-from gettsim.benefits.unterhaltsvorschuss import uhv_pre_07_2017
-from gettsim.benefits.unterhaltsvorschuss import uhv_since_07_2017
+from gettsim.benefits.arbeitsl_geld_2 import e_anr_frei_2005_01
+from gettsim.benefits.arbeitsl_geld_2 import e_anr_frei_2005_10
+from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
+from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
+from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
+from gettsim.benefits.kinderzuschlag import calc_kiz_amount_2005
+from gettsim.benefits.unterhalt import uhv_pre_07_2017
+from gettsim.benefits.unterhalt import uhv_since_07_2017
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
@@ -18,12 +18,12 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
-from gettsim.taxes.calc_taxes import no_soli
-from gettsim.taxes.calc_taxes import soli_formula_1991_92
-from gettsim.taxes.calc_taxes import soli_formula_since_1995
-from gettsim.taxes.calc_taxes import tarif
-from gettsim.taxes.kindergeld import kg_eligibility_hours
-from gettsim.taxes.kindergeld import kg_eligibility_wage
+from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
+from gettsim.taxes.soli_st import keine_soli_st
+from gettsim.taxes.soli_st import soli_st_formel_1991_92
+from gettsim.taxes.soli_st import soli_st_formel_seit_1995
 from gettsim.taxes.zve import calc_hhfreib_from2015
 from gettsim.taxes.zve import calc_hhfreib_until2014
 from gettsim.taxes.zve import vorsorge_pre_2005
@@ -40,12 +40,14 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
     actual_date = datetime.date(year=year, month=month, day=day)
     if group == "ges_renten_vers":
         load_data = load_ges_renten_vers_params
+    elif group == "wohngeld":
+        load_data = load_regrouped_data
     else:
         load_data = load_ordanary_data_group
 
     tax_data = load_data(raw_group_data, actual_date)
-    tax_data["year"] = year
-    tax_data["date"] = actual_date
+    tax_data["jahr"] = year
+    tax_data["datum"] = actual_date
 
     if group == "soz_vers_beitr":
         if year >= 2003:
@@ -53,7 +55,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_midi_contrib"] = no_midi
 
-    elif group == "e_st_abzuege":
+    elif group == "eink_st_abzuege":
         if year <= 2014:
             tax_data["calc_hhfreib"] = calc_hhfreib_until2014
         else:
@@ -72,13 +74,13 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
         # else:
         #     tax_data["zve_list"] = ["nokfb", "kfb"]
-        tax_data["zve_list"] = ["nokfb", "kfb"]
+        tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
 
     elif group == "kindergeld":
         if year > 2011:
-            tax_data["childben_elig_rule"] = kg_eligibility_hours
+            tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_stunden
         else:
-            tax_data["childben_elig_rule"] = kg_eligibility_wage
+            tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_lohn
 
     elif group == "wohngeld":
         if year < 2009:
@@ -86,16 +88,16 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_max_rent"] = calc_max_rent_since_2009
 
-    elif group == "e_st":
-        tax_data["tax_schedule"] = tarif
+    elif group == "eink_st":
+        tax_data["st_tarif"] = st_tarif
 
     elif group == "soli_st":
         if year in [1991, 1992]:
-            tax_data["soli_formula"] = soli_formula_1991_92
+            tax_data["soli_formula"] = soli_st_formel_1991_92
         elif year >= 1995:
-            tax_data["soli_formula"] = soli_formula_since_1995
+            tax_data["soli_formula"] = soli_st_formel_seit_1995
         else:
-            tax_data["soli_formula"] = no_soli
+            tax_data["soli_formula"] = keine_soli_st
 
     elif group == "ges_renten_vers":
         if year > 2017:
@@ -161,3 +163,57 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
                     policy_year
                 ]["value"]
     return pension_data
+
+
+def load_regrouped_data(tax_data_raw, policy_date):
+    additional_keys = ["note", "reference", "deviation_from"]
+    tax_data = {}
+    for param in tax_data_raw:
+        policy_dates = sorted(
+            key for key in tax_data_raw[param].keys() if type(key) == datetime.date
+        )
+
+        past_policies = [x for x in policy_dates if x <= policy_date]
+
+        if not past_policies:
+            # TODO: Should there be missing values or should the key not exist?
+            tax_data[param] = np.nan
+        else:
+            policy_in_place = tax_data_raw[param][np.max(past_policies)]
+            if "scalar" in policy_in_place.keys():
+                tax_data[param] = policy_in_place["scalar"]
+            else:
+                if "deviation_from" in policy_in_place.keys():
+                    if policy_in_place["deviation_from"] == "previous":
+                        new_date = np.max(past_policies) - datetime.timedelta(days=1)
+                        tax_data[param] = load_regrouped_data(tax_data_raw, new_date)[
+                            param
+                        ]
+                        value_keys = (
+                            key
+                            for key in policy_in_place.keys()
+                            if key not in additional_keys
+                        )
+
+                        for key in value_keys:
+                            if type(policy_in_place[key]) == dict:
+                                nested_keys = policy_in_place.keys()
+                                for nested_key in nested_keys:
+                                    tax_data[param][key][nested_key] = policy_in_place[
+                                        key
+                                    ][nested_key]
+                            else:
+                                tax_data[param][key] = policy_in_place[key]
+
+                else:
+                    value_keys = (
+                        key
+                        for key in policy_in_place.keys()
+                        if key not in additional_keys
+                    )
+                    tax_data[param] = {}
+                    for key in value_keys:
+                        tax_data[param][key] = policy_in_place[key]
+    tax_data["year"] = policy_date.year
+    tax_data["date"] = policy_date
+    return tax_data
