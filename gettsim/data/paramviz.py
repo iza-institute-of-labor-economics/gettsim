@@ -1,3 +1,4 @@
+import datetime
 import glob
 
 import pandas as pd
@@ -23,18 +24,30 @@ def plotstyle(p):
     return p
 
 
-def parse_yaml(params, key, lang):
+def parse_yaml(params, key, lang, grouped=False):
     # Legal name of parameter
     name = params[key]["name"][lang]
     descr = params[key]["description"][lang]
-
     par = pd.DataFrame(columns=["date", "value", "note"])
-    for d in params[key]["values"].keys():
-        date = d
-        value = params[key]["values"][d]["value"]
-        note = params[key]["values"][d]["note"]
-        row = {"date": date, "value": value, "note": note}
-        par = par.append(row, ignore_index=True)
+    if not grouped:
+        # Ungrouped parameters
+        for d in params[key]["values"].keys():
+            date = d
+            value = params[key]["values"][d]["value"]
+            note = params[key]["values"][d]["note"]
+            row = {"date": date, "value": value, "note": note}
+            par = par.append(row, ignore_index=True)
+    else:
+        # Grouped Parameters
+        all_dates = [key for key in params[key].keys() if type(key) == datetime.date]
+        for d in all_dates:
+            if "scalar" in params[key][d].keys():
+                row = {
+                    "date": d,
+                    "value": params[key][d]["scalar"],
+                    "note": params[key][d]["reference"],
+                }
+                par = par.append(row, ignore_index=True)
     # Some cleaning
     par["date"] = pd.to_datetime(par["date"], format="%Y-%m-%d")
     par["value"] = par["value"].astype(float)
@@ -60,13 +73,15 @@ def make_param_graphs(lang="de"):
         # Read YAML
         with open(f"{yaml_file}") as f:
             params = yaml.safe_load(f)
-
         # Internal name of parameter
         all_keys = params.keys()
         plotlist = []
         for key in all_keys:
-            # The DataFrame 'par' contains the data we want to plot
-            name, descr, par, unit = parse_yaml(params, key, lang)
+            if "wohngeld" not in yaml_file:
+                # The DataFrame 'par' contains the data we want to plot
+                name, descr, par, unit = parse_yaml(params, key, lang)
+            else:
+                name, descr, par, unit = parse_yaml(params, key, lang, True)
             # How to format the values on mouse-over
             if unit == "amount":
                 format_str = "$y{0.}"
@@ -98,7 +113,7 @@ def make_param_graphs(lang="de"):
 
             # hover_tool.formatters = {"date": "datetime"}
             p.step("date", "value", color="navy", mode="after", source=par)
-            p.circle("date", "value", color="navy", size=3, source=par)
+            p.circle("date", "value", color="navy", size=4, source=par)
             p = plotstyle(p)
             # add Data Table
             t = DataTable(
@@ -117,7 +132,9 @@ def make_param_graphs(lang="de"):
             )
             plot_tab = column(p, t)
             plotlist.append(plot_tab)
+
         grid = gridplot(plotlist, ncols=3)
+
         save(grid)
         print(f"File {file_name}.html created.")
 
