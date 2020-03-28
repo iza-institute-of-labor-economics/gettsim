@@ -43,7 +43,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
     elif group == "wohngeld":
         load_data = load_regrouped_data
     else:
-        load_data = load_ordanary_data_group
+        load_data = load_ordinary_data_group
 
     tax_data = load_data(raw_group_data, actual_date)
     tax_data["jahr"] = year
@@ -130,7 +130,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
     return tax_data
 
 
-def load_ordanary_data_group(tax_data_raw, actual_date):
+def load_ordinary_data_group(tax_data_raw, actual_date):
     tax_data = {}
     for key in tax_data_raw:
         policy_dates = tax_data_raw[key]["values"]
