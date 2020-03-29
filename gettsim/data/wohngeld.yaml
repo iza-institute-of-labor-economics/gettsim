@@ -416,6 +416,7 @@ abzug_stufen:
     2016-01-01:
       deviation_from: previous
       0: 0
+      reference: Art. G. v. 02.10.2015 BGBl I S. 1610
 
 min_miete:
   name:
@@ -613,8 +614,8 @@ freib_behinderung:
     scalar: 125
     note: neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
   2020-01-01:
+    reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
     scalar: 150
-    note: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
 
 max_miete:
   name:
@@ -728,7 +729,7 @@ max_miete:
         2: 47
         3: 48
     reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
-    note: Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Außerdem wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen
+    note: Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
   1985-01-01:
     1:
       1965:
