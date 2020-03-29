@@ -93,7 +93,8 @@ entry is added.
                 Shares of income which do not lead to tapering of Arbeitslosengeld II
                 benefits.
 
-3. The ``unit`` key informs on the unit of the values (Euro or DM if monetary, or some share).
+3. The ``unit`` key informs on the unit of the values (Euro or DM if monetary,
+    or some share).
 
    * In rare cases (e.g. child benefit age threshold), it might be omitted.
    * possible values: ``euro``, ``dm``, ``share``, ``percentage``.
