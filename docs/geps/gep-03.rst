@@ -93,7 +93,36 @@ entry is added.
                 Shares of income which do not lead to tapering of Arbeitslosengeld II
                 benefits.
 
-3. The YYYY-MM-DD key(s)
+3. The ``unit`` key informs on the unit of the values (Euro or DM if monetary, or some share).
+
+   * In rare cases (e.g. child benefit age threshold), it might be omitted.
+   * possible values: ``euro``, ``dm``, ``share``, ``percentage``.
+
+   Example:
+
+   .. code-block:: yaml
+
+    kgeld1:
+      name:
+        de: Kindergeld, Betrag für das erste Kind
+        [...]
+      unit: euro
+
+4. The ``time`` key informs on the reference period of the values, if applicable
+
+   * possible values: ``year``, ``month``, ``week``, ``day``.
+
+   Example:
+
+   .. code-block:: yaml
+
+    kg_stunden:
+      name:
+        de: maximale Arbeitsstunden für Kindergeldanspruch
+        [...]
+      time: week
+
+5. The YYYY-MM-DD key(s)
 
    * hold all historical values for a specific parameter or set of parameters in the
      ``value`` subkey;
