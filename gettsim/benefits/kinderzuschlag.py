@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
+def kiz(household, params, arbeitsl_geld_2_params):
     """ Kinderzuschlag / Additional Child Benefit
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
@@ -191,3 +191,10 @@ def _calc_kiz_regel_since_2011(household, params):
         params["rs_2adults"] + ((1 + household["mehrbed"]) * params["rs_2adults"]),
         params["rs_madults"] * household["anz_erw_tu"],
     ]
+
+
+def kiz_dummy(household, params, arbeitsl_geld_2_params):
+    """ Dummy function to return a bunch of zero values if called before 2005. """
+    household["kinderzuschlag_temp"] = np.zeros((len(household), 1))
+    household["kinderzuschlag_eink_spanne"] = np.zeros((len(household), 1))
+    return household

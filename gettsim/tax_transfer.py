@@ -3,7 +3,6 @@ from gettsim.benefits.arbeitsl_geld import ui
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.elterngeld import elterngeld
-from gettsim.benefits.kinderzuschlag import kiz
 from gettsim.benefits.unterhalt import uhv
 from gettsim.benefits.wohngeld import wg
 from gettsim.checks import check_boolean
@@ -422,14 +421,13 @@ def tax_transfer(
     out_cols = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]
     df = apply_tax_transfer_func(
         df,
-        tax_func=kiz,
+        tax_func=kinderzuschlag_params["calc_kiz"],
         level=household,
         in_cols=in_cols,
         out_cols=out_cols,
         func_kwargs={
             "params": kinderzuschlag_params,
             "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
-            "kindergeld_params": kindergeld_params,
         },
     )
     in_cols = [

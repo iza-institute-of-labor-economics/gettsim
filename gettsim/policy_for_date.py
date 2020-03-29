@@ -9,6 +9,8 @@ from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
 from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
 from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
 from gettsim.benefits.kinderzuschlag import calc_kiz_amount_2005
+from gettsim.benefits.kinderzuschlag import kiz
+from gettsim.benefits.kinderzuschlag import kiz_dummy
 from gettsim.benefits.unterhalt import uhv_pre_07_2017
 from gettsim.benefits.unterhalt import uhv_since_07_2017
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
@@ -105,6 +107,10 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_rentenwert"] = _rentenwert_until_2017
     elif group == "kinderzuschlag":
+        if year < 2004:
+            tax_data["calc_kiz"] = kiz_dummy
+        else:
+            tax_data["calc_kiz"] = kiz
         if (year >= 2020) or (year == 2019 and month >= 7):
             tax_data["calc_kiz_amount"] = calc_kiz_amount_07_2019
         else:
