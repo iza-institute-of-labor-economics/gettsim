@@ -187,7 +187,7 @@ kgeld4:
       note: G. v. 29.11.2018 BGBl. I S. 2210.
 kgfreib:
   name:
-    de: Einkommensgrenze der Kinder für Kindergeldanspruch  ()
+    de: Einkommensgrenze der Kinder für Kindergeldanspruch
     en:
   description:
     de: § 32(4) Satz 2 EStG
@@ -217,3 +217,15 @@ kgfreib:
     2010-01-01:
       value: 8004
       note:
+kg_stundengrenze:
+  name:
+    de: Stundengrenze für Kindergeldanspruch
+    en: Working hours threshold for child benefit eligibility
+  description:
+    de: §32 (4) S. 3. Maximale Anzahl von erlaubten Wochenstunden des Kindes für den Bezug von Kindergeld
+    en:
+  values:
+    2012-01-01:
+      value: 20
+      note: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131
+
