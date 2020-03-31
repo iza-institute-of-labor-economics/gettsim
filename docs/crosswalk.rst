@@ -102,7 +102,6 @@ Required input columns
 | eigentum        | bewohnt_eigentum  | Dummy: owner-occupied housing                  |
 +-----------------+-------------------+------------------------------------------------+
 | cnstyr          | immobilie_baujahr | Construction year of dwelling                  |
-|                 |                   | (1: <1965,2:1966-2000,3:>2000)                 |
 +-----------------+-------------------+------------------------------------------------+
 | m_transfers     | sonstig_eink_m    | Sum of monthly public/private transfers not    |
 |                 |                   | simulated. E.g. transfers from parents,        |
