@@ -2,11 +2,13 @@ import itertools
 
 import pandas as pd
 import pytest
+import yaml
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
 from gettsim.policy_for_date import get_policies_for_date
+from gettsim.policy_for_date import load_regrouped_data
 
 INPUT_COLS = [
     "p_id",
@@ -48,7 +50,7 @@ OUT_COLS = [
 ]
 
 
-YEARS = [2005, 2006, 2009, 2011, 2013, 2016, 2019]
+YEARS = [2019]
 
 
 @pytest.fixture(scope="module")
@@ -60,11 +62,17 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
+    raw_group_data = yaml.safe_load(
+        (ROOT_DIR / "data" / "arbeitsl_geld_2_neu.yaml").read_text()
+    )
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
     arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+    )
+    arbeitsl_geld_2_params_neu = load_regrouped_data(
+        raw_group_data, arbeitsl_geld_2_params["datum"]
     )
 
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)

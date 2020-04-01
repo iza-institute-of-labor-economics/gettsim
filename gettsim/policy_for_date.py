@@ -1,4 +1,6 @@
 import datetime
+import operator
+from functools import reduce
 
 import numpy as np
 import yaml
@@ -203,7 +205,7 @@ def load_regrouped_data(tax_data_raw, policy_date):
 
                         for key in value_keys:
                             if type(policy_in_place[key]) == dict:
-                                nested_keys = policy_in_place.keys()
+                                nested_keys = policy_in_place[key].keys()
                                 for nested_key in nested_keys:
                                     tax_data[param][key][nested_key] = policy_in_place[
                                         key
@@ -223,3 +225,25 @@ def load_regrouped_data(tax_data_raw, policy_date):
     tax_data["year"] = policy_date.year
     tax_data["date"] = policy_date
     return tax_data
+
+
+def transfer_dictionary(orig_dict, new_dict, key_list):
+    # To call recursive, always check if object is a dict
+    if type(new_dict) == dict:
+        for key in new_dict.keys():
+            key_list += [key]
+            new_dict = transfer_dictionary(orig_dict, new_dict[key], key_list)
+    else:
+        selected_value = get_by_path(orig_dict, key_list)
+        set_by_path(new_dict, key_list, selected_value)
+    return new_dict
+
+
+def get_by_path(data_dict, key_list):
+    """Access a nested object in root by item sequence."""
+    return reduce(operator.getitem, key_list, data_dict)
+
+
+def set_by_path(data_dict, key_list, value):
+    """Set a value in a nested object in root by item sequence."""
+    get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
