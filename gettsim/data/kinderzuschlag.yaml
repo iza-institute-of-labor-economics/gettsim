@@ -71,3 +71,59 @@ a2kiz_withdrawal_rate_child:
     2019-07-01:
       value: 0.45
       note: G. v. 29.04.2019 BGBl. I S. 530.
+wohnbedarf_eltern:
+  name:
+    de: Untersteller Anteil des Eltern-Wohnbedarfs (Prozentanteil)
+    en: Fictitious share of living cost attributed to parents (percentage share)
+  description:
+    de: Für die Berechnung des Kinderzuschlags ist der Bedarf für Unterkunft und Heizung zwischen Eltern und Kindern aufzuteilen (§6a (5) S.3 BKGG). Quelle ist der regelmäßig erscheinende Existenzminumsbericht der Bundesregierung. Der Anteil ergibt sich durch Verrechnung der Anteile der Kosten der Unterkunft und Heizung am Existenzminumum. Der erste Parameter ist die Anzahl der Eltern (1 oder 2), der zweite die Anzahl der Kinder (1,2,3,4,4+)
+    en:
+  values:
+    2005-01-01:
+      value: {1: [76.88, 58.85, 48.81, 41.69, 36.39],
+              2: [83.19, 70.97, 61.97, 55.00, 49.44]}
+      reference: 5. Existenzminimumsbericht, Bundestag Drucksache 15/2462, Übersicht 3
+    2008-01-01:
+      value: {1: [75.53, 57.34, 47.26, 40.19, 34.97],
+              2: [83.20, 71.23, 62.27, 55.31, 49.78]}
+      reference: 6. Existenzminimumsbericht, Bundestag Drucksache 16/3265, Übersicht 3
+    2010-01-01:
+      value: {1: [75.9, 61.16, 51.21, 44.05, 38.65],
+              2: [83.11, 71.1, 62.12, 55.15, 49.59]}
+      reference: 7. Existenzminimumsbericht, Bundestag Drucksache 16/11065, Übersicht 3
+    2012-01-01:
+      value: {1: [76.34, 61.74, 51.82, 44.65, 39.23],
+              2: [83.14, 71.15, 62.18, 55.22, 49.66]}
+      reference: 8. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 4
+    2013-01-01:
+      value: {1: [76.03, 61.33, 51.39, 44.23, 38.82],
+               2: [83.14, 71.15, 62.18, 55.22, 49.66]}
+      reference: 9. Existenzminimumsbericht, Bundestag Drucksache 17/11425, Übersicht 5
+    2014-01-01:
+      value: {1: [76.69, 62.20, 52.31, 45.13, 39.69],
+               2: [83.30, 71.38, 62.45, 55.50, 49.95]}
+      reference: 9. Existenzminimumsbericht, Bundestag Drucksache 17/11425, Übersicht 5
+    2015-01-01:
+      value: {1: [76.69, 62.20, 52.31, 45.13, 39.69],
+               2: [83.30, 71.38, 62.45, 55.50, 49.95]}
+      reference: 10. Existenzminimumsbericht, Bundestag Drucksache 18/3893, Übersicht 4
+    2016-01-01:
+      value: {1: [76.64, 62.13, 52.24, 45.06, 39.62],
+               2: [83.16, 71.17, 62.20, 55.24, 49.69]}
+      reference: 10. Existenzminimumsbericht, Bundestag Drucksache 18/3893, Übersicht 4
+    2017-01-01:
+      value: {1: [77.25, 62.93, 53.09, 45.92, 40.45],
+               2: [83.16, 71.17, 62.20, 55.24, 49.69]}
+      reference: 11. Existenzminimumsbericht, Bundestag Drucksache 18/10220, Übersicht 4
+    2018-01-01:
+      value: {1: [77.24, 62.92, 53.08, 45.90, 40.43],
+               2: [83.25, 71.30, 62.36, 55.41, 49.85]}
+      reference: 11. Existenzminimumsbericht, Bundestag Drucksache 18/10220, Übersicht 4
+    2019-01-01:
+      value: {1: [77.10, 62.73, 52.88, 45.70, 40.24],
+               2: [83.60, 71.93, 62.96, 56.04, 50.49]}
+      reference: 12. Existenzminimumsbericht, Bundestag Drucksache 19/5400, Übersicht 4
+    2020-01-01:
+      value: {1: [77, 63, 53, 46, 40],
+               2: [84, 72, 63, 56, 50]}
+      reference: 12. Existenzminimumsbericht, Bundestag Drucksache 19/5400, Übersicht 4

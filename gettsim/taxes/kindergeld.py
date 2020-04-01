@@ -42,7 +42,7 @@ def kindergeld_anspruch_nach_stunden(tax_unit, params):
     anspruch[
         (tax_unit["alter"].between(19, params["kgage"]))
         & tax_unit["in_ausbildung"]
-        & (tax_unit["arbeitsstunden_w"] <= 20)
+        & (tax_unit["arbeitsstunden_w"] <= params["kg_stundengrenze"])
     ] = True
 
     return anspruch
