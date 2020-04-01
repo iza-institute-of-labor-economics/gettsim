@@ -191,51 +191,40 @@ def load_regrouped_data(tax_data_raw, policy_date):
             if "scalar" in policy_in_place.keys():
                 tax_data[param] = policy_in_place["scalar"]
             else:
+                tax_data[param] = {}
                 if "deviation_from" in policy_in_place.keys():
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
                         tax_data[param] = load_regrouped_data(tax_data_raw, new_date)[
                             param
                         ]
-                        value_keys = (
-                            key
-                            for key in policy_in_place.keys()
-                            if key not in additional_keys
-                        )
+                value_keys = (
+                    key for key in policy_in_place.keys() if key not in additional_keys
+                )
 
-                        for key in value_keys:
-                            if type(policy_in_place[key]) == dict:
-                                nested_keys = policy_in_place[key].keys()
-                                for nested_key in nested_keys:
-                                    tax_data[param][key][nested_key] = policy_in_place[
-                                        key
-                                    ][nested_key]
-                            else:
-                                tax_data[param][key] = policy_in_place[key]
-
-                else:
-                    value_keys = (
-                        key
-                        for key in policy_in_place.keys()
-                        if key not in additional_keys
+                for key in value_keys:
+                    key_list = []
+                    if key not in tax_data[param].keys():
+                        tax_data[param][key] = {}
+                    tax_data[param][key] = transfer_dictionary(
+                        policy_in_place[key], tax_data[param][key], key_list
                     )
-                    tax_data[param] = {}
-                    for key in value_keys:
-                        tax_data[param][key] = policy_in_place[key]
     tax_data["year"] = policy_date.year
     tax_data["date"] = policy_date
     return tax_data
 
 
-def transfer_dictionary(orig_dict, new_dict, key_list):
+def transfer_dictionary(remaining_dict, new_dict, key_list):
     # To call recursive, always check if object is a dict
-    if type(new_dict) == dict:
-        for key in new_dict.keys():
-            key_list += [key]
-            new_dict = transfer_dictionary(orig_dict, new_dict[key], key_list)
+    if type(remaining_dict) == dict:
+        for key in remaining_dict.keys():
+            key_list_updated = key_list + [key]
+            new_dict = transfer_dictionary(
+                remaining_dict[key], new_dict, key_list_updated
+            )
     else:
-        selected_value = get_by_path(orig_dict, key_list)
-        set_by_path(new_dict, key_list, selected_value)
+        # Now remaining dict is just a scalar
+        set_by_path(new_dict, key_list, remaining_dict)
     return new_dict
 
 

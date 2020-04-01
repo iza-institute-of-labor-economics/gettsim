@@ -74,7 +74,9 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
     arbeitsl_geld_2_params_neu = load_regrouped_data(
         raw_group_data, arbeitsl_geld_2_params["datum"]
     )
+    import pdb
 
+    pdb.set_trace()
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
     df = df.groupby("hh_id", group_keys=False).apply(
         alg2, params=arbeitsl_geld_2_params
