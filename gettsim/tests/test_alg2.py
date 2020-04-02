@@ -2,14 +2,19 @@ import itertools
 
 import pandas as pd
 import pytest
-import yaml
 from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
-from gettsim.generic_functions import get_piecewise_parameters
 from gettsim.policy_for_date import get_policies_for_date
-from gettsim.policy_for_date import load_regrouped_data
+
+# import yaml
+
+# from gettsim.policy_for_date import load_regrouped_data
+
+# from gettsim.generic_functions import create_piecewise_function
+# from gettsim.generic_functions import get_piecewise_parameters
+# from gettsim.piecewise_functions import piecewise_linear
 
 INPUT_COLS = [
     "p_id",
@@ -63,24 +68,29 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
-    raw_group_data = yaml.safe_load(
-        (ROOT_DIR / "data" / "arbeitsl_geld_2_neu.yaml").read_text()
-    )
+    # raw_group_data = yaml.safe_load(
+    #     (ROOT_DIR / "data" / "arbeitsl_geld_2_neu.yaml").read_text()
+    # )
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
     arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
-    arbeitsl_geld_2_params_neu = load_regrouped_data(
-        arbeitsl_geld_2_params["datum"],
-        group="arbeitsl_geld_2",
-        raw_group_data=raw_group_data,
-    )
-    # get_piecewise_parameters(arbeitsl_geld_2_params_neu["e_anr_frei"], "e_anr_frei")
-    import pdb
-
-    pdb.set_trace()
+    # arbeitsl_geld_2_params_neu = load_regrouped_data(
+    #     arbeitsl_geld_2_params["datum"],
+    #     group="arbeitsl_geld_2",
+    #     raw_group_data=raw_group_data,
+    # )
+    # piece_params = get_piecewise_parameters(
+    #     arbeitsl_geld_2_params_neu["e_anr_frei"], "e_anr_frei", piecewise_linear
+    # )
+    # func = create_piecewise_function(
+    #     arbeitsl_geld_2_params_neu["e_anr_frei"], "e_anr_frei", "linear"
+    # )
+    # import pdb
+    #
+    # pdb.set_trace()
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
     df = df.groupby("hh_id", group_keys=False).apply(
         alg2, params=arbeitsl_geld_2_params
