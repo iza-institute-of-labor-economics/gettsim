@@ -2,10 +2,145 @@
 
 
 """
+from functools import partial
+
 import numpy as np
 
+from gettsim.piecewise_functions import piecewise_linear
 
-def fill_intercepts_at_lower_thresholds(
+
+def create_piecewise_function(params, parameter, piecewise_type):
+    if piecewise_type == "linear":
+        piecewise_elements = get_piecewise_parameters(
+            params, parameter, piecewise_linear
+        )
+        piecewise_function = partial(piecewise_linear, **piecewise_elements)
+    return piecewise_function
+
+
+def get_piecewise_parameters(parameter_dict, parameter, piecewise_func):
+    """Extract parameters from a yaml-File that define the piecewise_linear function
+    and return them as dictionary."""
+    keys = sorted(key for key in parameter_dict.keys() if type(key) == int)
+    # Check if keys are consecutive numbers and starting at 0.
+
+    if keys != list(range(len(keys))):
+        raise ValueError(
+            f"The keys of {parameter} do not start with 0 or are not consecutive numbers."
+        )
+
+    # Extract lower thresholds.
+    lower_thresholds, upper_thresholds = check_threholds(
+        parameter_dict, parameter, keys
+    )
+
+    # Create and fill rates-array
+    rates = check_rates(parameter_dict, parameter, keys)
+
+    # Create and fill interecept-array
+    intercepts = check_intercepts(
+        parameter_dict,
+        parameter,
+        lower_thresholds,
+        upper_thresholds,
+        rates,
+        keys,
+        piecewise_func,
+    )
+
+    piecewise_elements = {
+        "lower_thresholds": lower_thresholds,
+        "upper_thresholds": upper_thresholds,
+        "rates": rates,
+        "intercepts_at_lower_thresholds": intercepts,
+    }
+
+    return piecewise_elements
+
+
+def check_threholds(parameter_dict, parameter, keys):
+    lower_thresholds = np.zeros(len(keys))
+    upper_thresholds = np.zeros(len(keys))
+
+    # Check if lowest threshold exists.
+    if "lower_threshold" not in parameter_dict[0]:
+        raise ValueError(
+            f"The first piece of {parameter} needs to contain a lower_threshold value."
+        )
+    lower_thresholds[0] = parameter_dict[0]["lower_threshold"]
+
+    # Check if highest upper_threshold exists.
+    if "upper_threshold" not in parameter_dict[keys[-1]]:
+        raise ValueError(
+            f"The last piece of {parameter} needs to contain an upper_threshold value."
+        )
+    upper_thresholds[keys[-1]] = parameter_dict[keys[-1]]["upper_threshold"]
+
+    for interval in keys[1:]:
+        if "lower_threshold" in parameter_dict[interval]:
+            lower_thresholds[interval] = parameter_dict[interval]["lower_threshold"]
+        elif "upper_threshold" in parameter_dict[interval - 1]:
+            lower_thresholds[interval] = parameter_dict[interval - 1]["upper_threshold"]
+        else:
+            raise ValueError(
+                f"In {interval} of {parameter} is no lower upper threshold or an upper in the piece before."
+            )
+
+    for interval in keys[:-1]:
+        if "upper_threshold" in parameter_dict[interval]:
+            upper_thresholds[interval] = parameter_dict[interval]["upper_threshold"]
+        elif "lower_threshold" in parameter_dict[interval + 1]:
+            upper_thresholds[interval] = parameter_dict[interval + 1]["lower_threshold"]
+        else:
+            raise ValueError(
+                f"In {interval} of {parameter} is no upper threshold or a lower threshold in the piece after."
+            )
+    return lower_thresholds, upper_thresholds
+
+
+def check_rates(parameter_dict, parameter, keys):
+    rates = np.zeros(len(keys))
+    for interval in keys:
+        if "rate" in parameter_dict[interval]:
+            rates[interval] = parameter_dict[interval]["rate"]
+        else:
+            raise ValueError(
+                f"In {interval} of {parameter} there is no rate specified."
+            )
+    return rates
+
+
+def check_intercepts(
+    parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys, func
+):
+    intercepts = np.zeros(len(keys))
+    count_intercepts_supplied = 1
+
+    if "intercept_at_lower_threshold" not in parameter_dict[0]:
+        raise ValueError(f"The first piece of {parameter} needs an intercept.")
+    else:
+        intercepts[0] = parameter_dict[0]["intercept_at_lower_threshold"]
+        # Check if all intercepts are supplied.
+        for interval in keys[1:]:
+            if "intercept_at_lower_threshold" in parameter_dict[interval]:
+                count_intercepts_supplied += 1
+                intercepts[interval] = parameter_dict[interval][
+                    "intercept_at_lower_threshold"
+                ]
+        if (count_intercepts_supplied > 1) & (count_intercepts_supplied != len(keys)):
+            raise ValueError(
+                "More than one, but not all intercepts are supplied. "
+                "The dictionaries should contain either only the lowest intercept "
+                "or all intercepts."
+            )
+        else:
+            intercepts = create_intercepts(
+                lower_thresholds, upper_thresholds, rates, intercepts[0], func
+            )
+    return intercepts
+
+
+def create_intercepts(
     lower_thresholds, upper_thresholds, rates, intercept_at_lowest_threshold, fun
 ):
     """Return an array with intercepts at the lower thresholds, i.e. the output
@@ -24,193 +159,14 @@ def fill_intercepts_at_lower_thresholds(
 
     """
 
-    intercepts_at_lower_thresholds = np.zeros(upper_thresholds.shape) * np.nan
+    intercepts_at_lower_thresholds = np.full_like(upper_thresholds, np.nan)
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
-    for i, up_thr in enumerate(lower_thresholds):
-        intercepts_at_lower_thresholds[i] = fun(
+    for i, up_thr in enumerate(upper_thresholds[:-1]):
+        intercepts_at_lower_thresholds[i + 1] = fun(
             up_thr,
             lower_thresholds,
             upper_thresholds,
             rates,
             intercepts_at_lower_thresholds,
-            side="left",
         )
     return intercepts_at_lower_thresholds
-
-
-def get_dict_of_arrays_piecewise_linear(parameter_dict):
-    """Extract parameters from a YAML-File that define the piecewise_linear function
-    and return them as Python-dictionary.
-
-        Args:
-            parameter_dict: dictionary specifying the intervals and parameters
-                            for a given legislature time. Keys are the ennumerated
-                            intervals of the function starting with 0. Values are
-                            dictionaries specifying lower_threshold, upper_threshold
-                            (each threshold must be defined by at least one
-                            of them) and rate of the respective interval. Either only
-                            the first interval intercept_at_lower_threshold or all of
-                            them need to be given.
-
-
-        Returns:
-            dictionary of 4 arrays as input for piecewise_linear:
-                lower_thresholds,
-                upper_thresholds,
-                rates and
-                intercepts_at_lower_thresholds.
-
-
-        """
-    keys = sorted(key for key in parameter_dict.keys() if type(key) == int)
-    # Check if keys are consecutive numbers and starting at 0.
-    if keys[0] != 0:
-        raise ValueError(
-            "The keys of the passed list of dictionaries do not start with 0."
-        )
-    for n in keys:
-        if n == len(keys) - 1:
-            break
-        if keys[n] != keys[n + 1] - 1:
-            raise ValueError(
-                "The keys of the passed list of dictionaries are not consecutive numbers."
-            )
-
-    # Extract lower thresholds.
-    lower_thresholds = np.zeros(len(keys))
-
-    # Check if lowest threshold exists.
-    if "lower_threshold" not in parameter_dict[0]:
-        raise ValueError(
-            "The first dictionary of the passed list needs to contain a lower_threshold value."
-        )
-
-    for interval in keys:
-        if "lower_threshold" in parameter_dict[interval]:
-            lower_thresholds[interval] = parameter_dict[interval]["lower_threshold"]
-        elif "upper_threshold" in parameter_dict[interval - 1]:
-            lower_thresholds[interval] = parameter_dict[interval - 1]["upper_threshold"]
-        else:
-            raise ValueError(
-                f"Current Key: {interval}. Either this dictionary needs to "
-                f"contain a lower_thresholds value or the previous dictionary "
-                f"needs to contain an upper_threshold value."
-            )
-
-    # Create and fill upper_thresholds-Array
-    upper_thresholds = np.zeros(len(keys))
-
-    # Check if highest upper_threshold exists.
-    if "upper_threshold" not in parameter_dict[keys[-1]]:
-        raise ValueError(
-            "The last dictionary needs to contain a upper_threshold value."
-        )
-
-    for interval in keys:
-        if "upper_threshold" in parameter_dict[interval]:
-            upper_thresholds[interval] = parameter_dict[interval]["upper_threshold"]
-        elif "lower_threshold" in parameter_dict[interval + 1]:
-            upper_thresholds[interval] = parameter_dict[interval + 1]["lower_threshold"]
-        else:
-            raise ValueError(
-                f"Current Key: {interval}. Either this dictionary needs to "
-                f"contain an upper_threshold value or the next dictionary "
-                f"needs to contain a lower_threshold value."
-            )
-
-    # Create and fill rates-Array
-    rates = np.zeros(len(keys))
-    for interval in keys:
-        if "rate" in parameter_dict[interval]:
-            rates[interval] = parameter_dict[interval]["rate"]
-        else:
-            raise ValueError(
-                f"Current Key: {interval}. The current dictionary has no rate specified."
-            )
-
-    # Create and fill intercepts-Array
-    intercepts = np.zeros(len(keys))
-    all_intercepts_supplied = True
-
-    if "intercept_at_lower_threshold" not in parameter_dict[0]:
-        raise ValueError(
-            "The first dictionary needs an intercept, because either "
-            "the lowest intercept or all intercepts must be passed."
-        )
-
-    # Check if all intercepts are supplied.
-    for interval in keys:
-        if "intercept_at_lower_threshold" not in parameter_dict[interval]:
-            all_intercepts_supplied = False
-
-    # If all intercepts are supplied, take the supplied ones.
-    if all_intercepts_supplied:
-        for interval in keys:
-            intercepts[interval] = parameter_dict[interval][
-                "intercept_at_lower_threshold"
-            ]
-    else:
-        for interval in keys:
-            if (
-                interval != 0
-                and "intercept_at_lower_threshold" in parameter_dict[interval]
-            ):
-                raise ValueError(
-                    "More than one, but not all intercepts are supplied. "
-                    "The dictionaries should contain either only the lowest intercept "
-                    "or all intercepts."
-                )
-
-    # If only the first intercept is supplied, use fill_intercepts_at_lower_thresholds
-    # to fill the missing ones.
-    if not all_intercepts_supplied:
-        intercepts = fill_intercepts_at_lower_thresholds(
-            lower_thresholds, upper_thresholds, rates, 0, piecewise_linear
-        )
-
-    # Check if created intercepts-Array has the same size as the other three.
-    if len(lower_thresholds) != len(intercepts):
-        raise ValueError(
-            "The generated intercepts array doesn't have "
-            "the same length as the other arrays."
-        )
-
-    out = {
-        "lower_thresholds": lower_thresholds,
-        "upper_thresholds": upper_thresholds,
-        "rates": rates,
-        "intercepts": intercepts,
-    }
-
-    return out
-
-
-def piecewise_linear(
-    value,
-    lower_thresholds,
-    upper_thresholds,
-    rates,
-    intercepts_at_lower_thresholds,
-    side,
-):
-    """Return a fraction of *value* defined by a piecewise linear function.
-
-    Args:
-        value (float, >0): The value that the function is applied to.
-        lower_thresholds (1-d float): The lower thresholds defining the intervals
-        upper_thresholds (1-d float): The upper thresholds defining the intervals
-        rates (1-d float): The slope in the interval below the corresponding element
-            of *upper_thresholds*
-        intercepts_at_lower_thresholds (1-d float): the fraction piecewise_linear
-            calculates at the respective thresholds
-        side: Parameter is passed to the searchsorted-function.
-
-
-    """
-    if (value < lower_thresholds[0]) or (value > upper_thresholds[-1]):
-        out = np.nan
-    else:
-        idx = np.searchsorted(upper_thresholds, value, side=side)
-        intcpt = intercepts_at_lower_thresholds[idx]
-        out = intcpt + (value - lower_thresholds[idx]) * rates[idx]
-    return out

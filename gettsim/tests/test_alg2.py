@@ -7,6 +7,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
+from gettsim.generic_functions import get_piecewise_parameters
 from gettsim.policy_for_date import get_policies_for_date
 from gettsim.policy_for_date import load_regrouped_data
 
@@ -72,8 +73,11 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
     arbeitsl_geld_2_params_neu = load_regrouped_data(
-        raw_group_data, arbeitsl_geld_2_params["datum"]
+        arbeitsl_geld_2_params["datum"],
+        group="arbeitsl_geld_2",
+        raw_group_data=raw_group_data,
     )
+    # get_piecewise_parameters(arbeitsl_geld_2_params_neu["e_anr_frei"], "e_anr_frei")
     import pdb
 
     pdb.set_trace()

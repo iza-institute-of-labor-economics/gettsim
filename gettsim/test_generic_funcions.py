@@ -4,9 +4,9 @@
 import numpy as np
 import pytest
 
-from gettsim.generic_functions import fill_intercepts_at_lower_thresholds
-from gettsim.generic_functions import get_dict_of_arrays_piecewise_linear
-from gettsim.generic_functions import piecewise_linear
+from gettsim.generic_functions import create_intercepts
+from gettsim.generic_functions import get_piecewise_parameters
+from gettsim.piecewise_functions import piecewise_linear
 
 
 @pytest.fixture
@@ -99,7 +99,7 @@ def expected_outcome():
 
 
 def test_fill_intercepts_at_lower_thresholds(input_data, expected_outcome):
-    icpts = fill_intercepts_at_lower_thresholds(
+    icpts = create_intercepts(
         input_data["lower_thresholds"],
         input_data["upper_thresholds"],
         input_data["rates"],
@@ -110,7 +110,7 @@ def test_fill_intercepts_at_lower_thresholds(input_data, expected_outcome):
 
 
 def test_get_dict_of_arrays_piecewise_linear_len(input_data):
-    arrays = get_dict_of_arrays_piecewise_linear(input_data["dict"])
+    arrays = get_piecewise_parameters(input_data["dict"])
     assert (
         len(arrays["lower_thresholds"])
         == len(arrays["upper_thresholds"])
@@ -124,7 +124,7 @@ def test_get_dict_of_arrays_piecewise_linear_wrong_key(input_data):
         ValueError,
         match="The keys of the passed list of dictionaries do not start with 0.",
     ):
-        get_dict_of_arrays_piecewise_linear(input_data["dict_wrong_key"])
+        get_piecewise_parameters(input_data["dict_wrong_key"])
 
 
 def test_get_dict_of_arrays_piecewise_linear_missing_lowest_threshold(input_data):
@@ -133,7 +133,7 @@ def test_get_dict_of_arrays_piecewise_linear_missing_lowest_threshold(input_data
         match="The first dictionary of the passed list needs "
         "to contain a lower_threshold value.",
     ):
-        get_dict_of_arrays_piecewise_linear(input_data["dict_missing_lowest_threshold"])
+        get_piecewise_parameters(input_data["dict_missing_lowest_threshold"])
 
 
 def test_get_dict_of_arrays_piecewise_linear_omit_key(input_data):
@@ -142,7 +142,7 @@ def test_get_dict_of_arrays_piecewise_linear_omit_key(input_data):
         match="The keys of the passed list of dictionaries "
         "are not consecutive numbers.",
     ):
-        get_dict_of_arrays_piecewise_linear(input_data["dict_omit_key"])
+        get_piecewise_parameters(input_data["dict_omit_key"])
 
 
 def test_get_dict_of_arrays_piecewise_linear_missing_threshold(input_data):
@@ -152,7 +152,7 @@ def test_get_dict_of_arrays_piecewise_linear_missing_threshold(input_data):
         "contain a lower_thresholds value or the previous "
         "dictionary needs to contain an upper_threshold value.",
     ):
-        get_dict_of_arrays_piecewise_linear(input_data["dict_missing_threshold"])
+        get_piecewise_parameters(input_data["dict_missing_threshold"])
 
 
 def test_get_dict_of_arrays_piecewise_linear_missing_rate(input_data):
@@ -160,7 +160,7 @@ def test_get_dict_of_arrays_piecewise_linear_missing_rate(input_data):
         ValueError,
         match="Current Key: 1. The current dictionary has no rate specified.",
     ):
-        get_dict_of_arrays_piecewise_linear(input_data["dict_missing_rate"])
+        get_piecewise_parameters(input_data["dict_missing_rate"])
 
 
 def test_get_dict_of_arrays_piecewise_linear_no_intercept(input_data):
@@ -170,7 +170,7 @@ def test_get_dict_of_arrays_piecewise_linear_no_intercept(input_data):
         "because either the lowest intercept or all "
         "intercepts must be passed.",
     ):
-        get_dict_of_arrays_piecewise_linear(input_data["dict_no_intercept"])
+        get_piecewise_parameters(input_data["dict_no_intercept"])
 
 
 def test_piecewise_linear(input_data, expected_outcome):

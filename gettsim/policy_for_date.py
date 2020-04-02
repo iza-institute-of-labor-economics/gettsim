@@ -43,13 +43,14 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
 
     actual_date = datetime.date(year=year, month=month, day=day)
     if group == "ges_renten_vers":
-        load_data = load_ges_renten_vers_params
+        tax_data = load_ges_renten_vers_params(raw_group_data, actual_date)
     elif group == "wohngeld":
-        load_data = load_regrouped_data
+        tax_data = load_regrouped_data(
+            actual_date, group, raw_group_data=raw_group_data
+        )
     else:
-        load_data = load_ordinary_data_group
+        tax_data = load_ordinary_data_group(raw_group_data, actual_date)
 
-    tax_data = load_data(raw_group_data, actual_date)
     tax_data["jahr"] = year
     tax_data["datum"] = actual_date
 
@@ -173,12 +174,18 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
     return pension_data
 
 
-def load_regrouped_data(tax_data_raw, policy_date):
+def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None):
+    if not raw_group_data:
+        raw_group_data = yaml.safe_load(
+            (ROOT_DIR / "data" / f"{group}.yaml").read_text()
+        )
     additional_keys = ["note", "reference", "deviation_from"]
     tax_data = {}
-    for param in tax_data_raw:
+    if not parameters:
+        parameters = raw_group_data.keys()
+    for param in parameters:
         policy_dates = sorted(
-            key for key in tax_data_raw[param].keys() if type(key) == datetime.date
+            key for key in raw_group_data[param].keys() if type(key) == datetime.date
         )
 
         past_policies = [x for x in policy_dates if x <= policy_date]
@@ -187,28 +194,42 @@ def load_regrouped_data(tax_data_raw, policy_date):
             # TODO: Should there be missing values or should the key not exist?
             tax_data[param] = np.nan
         else:
-            policy_in_place = tax_data_raw[param][np.max(past_policies)]
+            policy_in_place = raw_group_data[param][np.max(past_policies)]
             if "scalar" in policy_in_place.keys():
                 tax_data[param] = policy_in_place["scalar"]
             else:
                 tax_data[param] = {}
-                if "deviation_from" in policy_in_place.keys():
-                    if policy_in_place["deviation_from"] == "previous":
-                        new_date = np.max(past_policies) - datetime.timedelta(days=1)
-                        tax_data[param] = load_regrouped_data(tax_data_raw, new_date)[
-                            param
-                        ]
                 value_keys = (
                     key for key in policy_in_place.keys() if key not in additional_keys
                 )
+                if "deviation_from" in policy_in_place.keys():
+                    if policy_in_place["deviation_from"] == "previous":
+                        new_date = np.max(past_policies) - datetime.timedelta(days=1)
+                        tax_data[param] = load_regrouped_data(
+                            new_date,
+                            "arbeitsl_geld_2_neu",
+                            raw_group_data=raw_group_data,
+                            parameters=[param],
+                        )[param]
+                    elif "." in policy_in_place["deviation_from"]:
+                        path_list = policy_in_place["deviation_from"].split(".")
+                        tax_data[param] = load_regrouped_data(
+                            policy_date,
+                            path_list[0],
+                            raw_group_data=raw_group_data,
+                            parameters=[path_list[1]],
+                        )[path_list[1]]
 
-                for key in value_keys:
-                    key_list = []
-                    if key not in tax_data[param].keys():
-                        tax_data[param][key] = {}
-                    tax_data[param][key] = transfer_dictionary(
-                        policy_in_place[key], tax_data[param][key], key_list
-                    )
+                    for key in value_keys:
+                        key_list = []
+                        tax_data[param][key] = transfer_dictionary(
+                            policy_in_place[key], tax_data[param][key], key_list
+                        )
+                else:
+
+                    for key in value_keys:
+                        tax_data[param][key] = policy_in_place[key]
+
     tax_data["year"] = policy_date.year
     tax_data["date"] = policy_date
     return tax_data
@@ -222,6 +243,8 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
             new_dict = transfer_dictionary(
                 remaining_dict[key], new_dict, key_list_updated
             )
+    elif len(key_list) == 0:
+        return remaining_dict
     else:
         # Now remaining dict is just a scalar
         set_by_path(new_dict, key_list, remaining_dict)

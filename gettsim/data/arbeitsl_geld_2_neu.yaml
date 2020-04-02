@@ -39,7 +39,6 @@ e_anr_frei:
       3:
           upper_threshold: inf
           rate: 0
-          intercept_at_lower_threshold: null
   2011-04-01:
       reference: G. v. 20.12.2011 BGBl. I 2854.
       note: Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850. Artikel 5.          ToDo    Check these laws -- did they really happen months after the date of the policy change? I cannot fina anything...
@@ -56,6 +55,6 @@ e_anr_frei_kinder:
     note: Ersetzt Parameter in e_anr_frei, falls nicht vorhanden
     2005-10-01:
         reference: G. v. 14.08.2005 BGBl. I S. 2407.
-        deviation_from: arbeitsl_geld_2.e_anr_frei
+        deviation_from: arbeitsl_geld_2_neu.e_anr_frei
         2:
             upper_threshold: 1500
