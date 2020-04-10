@@ -2,20 +2,7 @@
 
 
 """
-from functools import partial
-
 import numpy as np
-
-from gettsim.piecewise_functions import piecewise_linear
-
-
-def create_piecewise_function(params, parameter, piecewise_type):
-    if piecewise_type == "linear":
-        piecewise_elements = get_piecewise_parameters(
-            params, parameter, piecewise_linear
-        )
-        piecewise_function = partial(piecewise_linear, **piecewise_elements)
-    return piecewise_function
 
 
 def get_piecewise_parameters(parameter_dict, parameter, piecewise_func):

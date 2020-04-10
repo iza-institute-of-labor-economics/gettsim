@@ -1,4 +1,9 @@
+import datetime
+from functools import partial
+
 import numpy as np
+
+from gettsim.piecewise_functions import piecewise_linear
 
 
 def alg2(household, params):
@@ -24,6 +29,9 @@ def alg2(household, params):
         household["arbeitsl_geld_2_brutto_eink"],
     ) = alg2_inc(household)
 
+    import pdb
+
+    pdb.set_trace()
     household = params["calc_e_anr_frei"](household, params)
 
     # the final alg2 amount is the difference between the theoretical need and the
@@ -376,3 +384,24 @@ def e_anr_frei_person_2005_10(person, params, a2eg3):
         )
 
     return person
+
+
+def regrouped_ein_anr_frei(household, params):
+    """Calculate income not subject to transfer withdrawal for each person.
+
+    """
+    # If there live kids in the household, we select different parameters.
+    if household["child"].any():
+        e_anr_frei_params = params["e_anr_frei_kinder"]
+    else:
+        e_anr_frei_params = params["e_anr_frei"]
+
+    # In the first version of alg2, the rates were multiplied by the nettoquote.
+    if params["datum"] < datetime.date(year=2005, month=10, day=1):
+        e_anr_frei_params["rates"] *= alg2_2005_nq(household, params)
+
+    piecewise_function = partial(piecewise_linear, **e_anr_frei_params)
+
+    household["eink_anrechn_frei"] = household["bruttolohn_m"].apply(piecewise_function)
+
+    return household

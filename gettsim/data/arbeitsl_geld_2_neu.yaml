@@ -14,10 +14,10 @@ e_anr_frei:
           rate: 0.15
           intercept_at_lower_threshold: 0
       1:
-          upper_threshold: 800
+          upper_threshold: 900
           rate: 0.3
       2:
-          upper_threshold: 1200
+          upper_threshold: 1500
           rate: 0.15
       3:
           upper_threshold: inf
@@ -31,10 +31,10 @@ e_anr_frei:
           rate: 1.0
           intercept_at_lower_threshold: 0
       1:
-          upper_threshold: 1000
+          upper_threshold: 800
           rate: 0.2
       2:
-          upper_threshold: 1500
+          upper_threshold: 1200
           rate: 0.1
       3:
           upper_threshold: inf

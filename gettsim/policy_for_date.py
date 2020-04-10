@@ -232,6 +232,7 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
 
     tax_data["year"] = policy_date.year
     tax_data["date"] = policy_date
+
     return tax_data
 
 
