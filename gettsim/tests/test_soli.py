@@ -3,7 +3,7 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 INPUT_COLS = ["p_id", "hh_id", "tu_id", "solibasis"]
 

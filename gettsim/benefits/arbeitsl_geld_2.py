@@ -3,7 +3,7 @@ from functools import partial
 
 import numpy as np
 
-from gettsim.piecewise_functions import piecewise_linear
+from gettsim.pre_processing.piecewise_functions import piecewise_linear
 
 
 def alg2(household, params):
@@ -29,9 +29,6 @@ def alg2(household, params):
         household["arbeitsl_geld_2_brutto_eink"],
     ) = alg2_inc(household)
 
-    import pdb
-
-    pdb.set_trace()
     household = params["calc_e_anr_frei"](household, params)
 
     # the final alg2 amount is the difference between the theoretical need and the

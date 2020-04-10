@@ -3,8 +3,8 @@ import datetime
 import numpy as np
 from dateutil import relativedelta
 
-from gettsim.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.benefits.arbeitsl_geld import proxy_net_wage_last_year
+from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 
 
 def elterngeld(

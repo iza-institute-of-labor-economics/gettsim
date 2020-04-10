@@ -8,14 +8,14 @@ from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 import yaml
 
-from gettsim.policy_for_date import load_regrouped_data
+from gettsim.pre_processing.policy_for_date import load_regrouped_data
 
-from gettsim.generic_functions import get_piecewise_parameters
-from gettsim.piecewise_functions import piecewise_linear
+from gettsim.pre_processing.generic_functions import get_piecewise_parameters
+from gettsim.pre_processing.piecewise_functions import piecewise_linear
 
 INPUT_COLS = [
     "p_id",
@@ -102,7 +102,7 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
     df = df.groupby("hh_id", group_keys=False).apply(
         alg2, params=arbeitsl_geld_2_params
     )
-    import pdb
-
-    pdb.set_trace()
+    # import pdb
+    #
+    # pdb.set_trace()
     assert_series_equal(df[column], year_data[column], check_dtype=False)
