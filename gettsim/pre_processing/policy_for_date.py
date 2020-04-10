@@ -257,8 +257,8 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
                     for key in value_keys:
                         tax_data[param][key] = policy_in_place[key]
 
-    tax_data["year"] = policy_date.year
-    tax_data["date"] = policy_date
+    tax_data["jahr"] = policy_date.year
+    tax_data["datum"] = policy_date
 
     return tax_data
 

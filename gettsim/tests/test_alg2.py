@@ -6,7 +6,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.arbeitsl_geld_2 import alg2
+from gettsim.benefits.arbeitsl_geld_2 import alg2, regrouped_ein_anr_frei
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
@@ -69,9 +69,6 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
-    raw_group_data = yaml.safe_load(
-        (ROOT_DIR / "data" / "arbeitsl_geld_2_neu.yaml").read_text()
-    )
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
@@ -79,21 +76,40 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
 
+    df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
+    df = df.groupby("hh_id", group_keys=False).apply(
+        alg2, params=arbeitsl_geld_2_params
+    )
+    assert_series_equal(df[column], year_data[column], check_dtype=False)
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_regrouped_alg2(input_data, arbeitsl_geld_2_raw_data, year):
+    year_data = input_data[input_data["jahr"] == year]
+    df = year_data[INPUT_COLS].copy()
+
+    arbeitsl_geld_2_params = get_policies_for_date(
+        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+    )
+    raw_group_data = yaml.safe_load(
+        (ROOT_DIR / "data" / "arbeitsl_geld_2_neu.yaml").read_text()
+    )
     arbeitsl_geld_2_params_neu = process_data(
         arbeitsl_geld_2_params["datum"],
         group="arbeitsl_geld_2_neu",
         raw_group_data=raw_group_data,
     )
+    arbeitsl_geld_2_params_neu["a2we"] = arbeitsl_geld_2_params["a2we"]
+    arbeitsl_geld_2_params_neu["a2ve"] = arbeitsl_geld_2_params["a2ve"]
 
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
-    df = df.groupby("hh_id", group_keys=False).apply(
+
+    df1 = df.groupby("hh_id", group_keys=False).apply(
         alg2, params=arbeitsl_geld_2_params
     )
-    # import pdb
-    #
-    # pdb.set_trace()
-    assert_series_equal(df[column], year_data[column], check_dtype=False)
-
-
-# @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-# def test_regrouped_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
+    df2 = df.groupby("hh_id", group_keys=False).apply(
+        regrouped_ein_anr_frei, params=arbeitsl_geld_2_params_neu
+    )
+    assert_series_equal(
+        df1["eink_anrechn_frei"], df2["eink_anrechn_frei"], check_dtype=False
+    )

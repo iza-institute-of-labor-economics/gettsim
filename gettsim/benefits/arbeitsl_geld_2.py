@@ -389,7 +389,7 @@ def regrouped_ein_anr_frei(household, params):
 
     """
     # If there live kids in the household, we select different parameters.
-    if household["child"].any():
+    if household["kind"].any():
         e_anr_frei_params = params["e_anr_frei_kinder"]
     else:
         e_anr_frei_params = params["e_anr_frei"]
@@ -403,8 +403,8 @@ def regrouped_ein_anr_frei(household, params):
     ]
     # Everything was already initialized
     out_cols = []
-    household.loc[household["elternzeit_anspruch"], :] = apply_tax_transfer_func(
-        household[household["elternzeit_anspruch"]],
+    household = apply_tax_transfer_func(
+        household,
         tax_func=eink_anr_frei_person,
         level=["hh_id", "tu_id", "p_id"],
         in_cols=in_cols,
