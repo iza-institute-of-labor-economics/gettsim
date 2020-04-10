@@ -12,7 +12,7 @@ from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 import yaml
 
-from gettsim.pre_processing.policy_for_date import load_regrouped_data
+from gettsim.pre_processing.policy_for_date import load_regrouped_data, process_data
 
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_linear
@@ -57,7 +57,7 @@ OUT_COLS = [
 ]
 
 
-YEARS = [2019]
+YEARS = [2005, 2006, 2009, 2011, 2013, 2016, 2019]
 
 
 @pytest.fixture(scope="module")
@@ -78,26 +78,13 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
     arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
-    arbeitsl_geld_2_params_neu = load_regrouped_data(
+
+    arbeitsl_geld_2_params_neu = process_data(
         arbeitsl_geld_2_params["datum"],
-        group="arbeitsl_geld_2",
+        group="arbeitsl_geld_2_neu",
         raw_group_data=raw_group_data,
     )
-    for param in PIECEWISE_LIN_FUNCS:
-        if param in arbeitsl_geld_2_params_neu.keys():
-            arbeitsl_geld_2_params_neu[param] = get_piecewise_parameters(
-                arbeitsl_geld_2_params_neu[param], param, piecewise_linear
-            )
 
-    # piece_params = get_piecewise_parameters(
-    #     arbeitsl_geld_2_params_neu["e_anr_frei"], "e_anr_frei", piecewise_linear
-    # )
-    # func = create_piecewise_function(
-    #     arbeitsl_geld_2_params_neu["e_anr_frei"], "e_anr_frei", "linear"
-    # )
-    # import pdb
-    #
-    # pdb.set_trace()
     df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
     df = df.groupby("hh_id", group_keys=False).apply(
         alg2, params=arbeitsl_geld_2_params
@@ -106,3 +93,7 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
     #
     # pdb.set_trace()
     assert_series_equal(df[column], year_data[column], check_dtype=False)
+
+
+# @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+# def test_regrouped_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):

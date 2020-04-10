@@ -3,6 +3,7 @@ from functools import partial
 
 import numpy as np
 
+from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.pre_processing.piecewise_functions import piecewise_linear
 
 
@@ -393,12 +394,33 @@ def regrouped_ein_anr_frei(household, params):
     else:
         e_anr_frei_params = params["e_anr_frei"]
 
-    # In the first version of alg2, the rates were multiplied by the nettoquote.
-    if params["datum"] < datetime.date(year=2005, month=10, day=1):
-        e_anr_frei_params["rates"] *= alg2_2005_nq(household, params)
-
-    piecewise_function = partial(piecewise_linear, **e_anr_frei_params)
-
-    household["eink_anrechn_frei"] = household["bruttolohn_m"].apply(piecewise_function)
+    in_cols = [
+        "bruttolohn_m",
+        "eink_anrechn_frei",
+        "eink_st_m",
+        "soli_st_m",
+        "sozialv_beit_m",
+    ]
+    # Everything was already initialized
+    out_cols = []
+    household.loc[household["elternzeit_anspruch"], :] = apply_tax_transfer_func(
+        household[household["elternzeit_anspruch"]],
+        tax_func=eink_anr_frei_person,
+        level=["hh_id", "tu_id", "p_id"],
+        in_cols=in_cols,
+        out_cols=out_cols,
+        func_kwargs={"e_anr_frei_params": e_anr_frei_params, "params": params,},
+    )
 
     return household
+
+
+def eink_anr_frei_person(person, e_anr_frei_params, params):
+    # In the first version of alg2, the rates were multiplied by the nettoquote.
+    if params["datum"] < datetime.date(year=2005, month=10, day=1):
+        e_anr_frei_params["rates"] *= alg2_2005_nq(person, params)
+
+    person["eink_anrechn_frei"] = piecewise_linear(
+        person["bruttolohn_m"], **e_anr_frei_params
+    )
+    return person

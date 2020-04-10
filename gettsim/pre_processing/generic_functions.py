@@ -8,6 +8,7 @@ import numpy as np
 def get_piecewise_parameters(parameter_dict, parameter, piecewise_func):
     """Extract parameters from a yaml-File that define the piecewise_linear function
     and return them as dictionary."""
+
     keys = sorted(key for key in parameter_dict.keys() if type(key) == int)
     # Check if keys are consecutive numbers and starting at 0.
 

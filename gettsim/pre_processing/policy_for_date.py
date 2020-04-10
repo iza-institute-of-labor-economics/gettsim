@@ -20,6 +20,8 @@ from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
+from gettsim.pre_processing.generic_functions import get_piecewise_parameters
+from gettsim.pre_processing.piecewise_functions import piecewise_linear
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.taxes.eink_st import st_tarif
@@ -174,6 +176,19 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
     return pension_data
 
 
+def process_data(policy_date, group, raw_group_data=None, parameters=None):
+    tax_data = load_regrouped_data(
+        policy_date, group, raw_group_data=None, parameters=None
+    )
+    if group == "arbeitsl_geld_2_neu":
+        for param in ["e_anr_frei_kinder", "e_anr_frei"]:
+            tax_data[param] = get_piecewise_parameters(
+                tax_data[param], param, piecewise_linear
+            )
+
+    return tax_data
+
+
 def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None):
     if not raw_group_data:
         raw_group_data = yaml.safe_load(
@@ -191,8 +206,21 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
         past_policies = [x for x in policy_dates if x <= policy_date]
 
         if not past_policies:
-            # TODO: Should there be missing values or should the key not exist?
-            tax_data[param] = np.nan
+            # If no policy exists, then we check if the policy maybe agrees right now
+            # with another one.
+            if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
+                future_policy = raw_group_data[param][np.min(policy_dates)]
+                if "." in future_policy["deviation_from"]:
+                    path_list = future_policy["deviation_from"].split(".")
+                    tax_data[param] = load_regrouped_data(
+                        policy_date,
+                        path_list[0],
+                        raw_group_data=raw_group_data,
+                        parameters=[path_list[1]],
+                    )[path_list[1]]
+            else:
+                # TODO: Should there be missing values or should the key not exist?
+                tax_data[param] = np.nan
         else:
             policy_in_place = raw_group_data[param][np.max(past_policies)]
             if "scalar" in policy_in_place.keys():
@@ -219,7 +247,6 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
                             raw_group_data=raw_group_data,
                             parameters=[path_list[1]],
                         )[path_list[1]]
-
                     for key in value_keys:
                         key_list = []
                         tax_data[param][key] = transfer_dictionary(
