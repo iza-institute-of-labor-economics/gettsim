@@ -15,6 +15,7 @@ def alg2(household, params):
         parents. Income and wealth is tested for, the transfer withdrawal rate is
         non-constant.
     """
+
     household = mehrbedarf_alg2(household, params)
 
     household = params["calc_regelsatz"](household, params)
@@ -36,6 +37,7 @@ def alg2(household, params):
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
     # compared.
+
     household["sum_arbeitsl_geld_2_eink"] = np.maximum(
         household["arbeitsl_geld_2_eink"] - household["eink_anrechn_frei"], 0
     )
