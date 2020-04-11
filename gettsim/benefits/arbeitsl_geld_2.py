@@ -1,5 +1,5 @@
+import copy
 import datetime
-from functools import partial
 
 import numpy as np
 
@@ -390,9 +390,9 @@ def regrouped_ein_anr_frei(household, params):
     """
     # If there live kids in the household, we select different parameters.
     if household["kind"].any():
-        e_anr_frei_params = params["e_anr_frei_kinder"]
+        e_anr_frei_params = copy.deepcopy(params["e_anr_frei_kinder"])
     else:
-        e_anr_frei_params = params["e_anr_frei"]
+        e_anr_frei_params = copy.deepcopy(params["e_anr_frei"])
 
     in_cols = [
         "bruttolohn_m",
@@ -417,10 +417,14 @@ def regrouped_ein_anr_frei(household, params):
 
 def eink_anr_frei_person(person, e_anr_frei_params, params):
     # In the first version of alg2, the rates were multiplied by the nettoquote.
+    rates_modified = False
+    individual_params = copy.deepcopy(e_anr_frei_params)
+
     if params["datum"] < datetime.date(year=2005, month=10, day=1):
-        e_anr_frei_params["rates"] *= alg2_2005_nq(person, params)
+        individual_params["rates"] *= alg2_2005_nq(person, params)
+        rates_modified = True
 
     person["eink_anrechn_frei"] = piecewise_linear(
-        person["bruttolohn_m"], **e_anr_frei_params
+        person["bruttolohn_m"], **individual_params, rates_modified=rates_modified
     )
     return person

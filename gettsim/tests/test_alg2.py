@@ -99,6 +99,7 @@ def test_regrouped_alg2(input_data, arbeitsl_geld_2_raw_data, year):
         group="arbeitsl_geld_2_neu",
         raw_group_data=raw_group_data,
     )
+
     arbeitsl_geld_2_params_neu["a2we"] = arbeitsl_geld_2_params["a2we"]
     arbeitsl_geld_2_params_neu["a2ve"] = arbeitsl_geld_2_params["a2ve"]
 

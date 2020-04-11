@@ -1,3 +1,4 @@
+import copy
 import datetime
 import operator
 from functools import reduce
@@ -178,7 +179,7 @@ def load_ges_renten_vers_params(raw_pension_data, actual_date):
 
 def process_data(policy_date, group, raw_group_data=None, parameters=None):
     tax_data = load_regrouped_data(
-        policy_date, group, raw_group_data=None, parameters=None
+        policy_date, group, raw_group_data=raw_group_data, parameters=parameters
     )
     if group == "arbeitsl_geld_2_neu":
         for param in ["e_anr_frei_kinder", "e_anr_frei"]:
@@ -250,10 +251,11 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
                     for key in value_keys:
                         key_list = []
                         tax_data[param][key] = transfer_dictionary(
-                            policy_in_place[key], tax_data[param][key], key_list
+                            policy_in_place[key],
+                            copy.deepcopy(tax_data[param][key]),
+                            key_list,
                         )
                 else:
-
                     for key in value_keys:
                         tax_data[param][key] = policy_in_place[key]
 
