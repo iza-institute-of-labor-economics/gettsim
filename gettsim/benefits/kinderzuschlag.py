@@ -179,17 +179,21 @@ def calc_kiz_ek(household, params, arbeitsl_geld_2_params):
 def _calc_kiz_regel_until_2010(household, params):
     """"""
     return [
-        params["rs_hhvor"] * (1 + household["mehrbed"]),
-        params["rs_hhvor"] * params["a2part"] * (2 + household["mehrbed"]),
-        params["rs_hhvor"] * params["a2ch18"] * household["anz_erw_tu"],
+        params["regelsatz"] * (1 + household["mehrbed"]),
+        params["regelsatz"]
+        * params["anteil_regelsatz"]["zwei_erwachsene"]
+        * (2 + household["mehrbed"]),
+        params["regelsatz"]
+        * params["anteil_regelsatz"]["weitere_erwachsene"]
+        * household["anz_erw_tu"],
     ]
 
 
 def _calc_kiz_regel_since_2011(household, params):
     return [
-        params["rs_hhvor"] * (1 + household["mehrbed"]),
-        params["rs_2adults"] + ((1 + household["mehrbed"]) * params["rs_2adults"]),
-        params["rs_madults"] * household["anz_erw_tu"],
+        params["regelsatz"][1] * (1 + household["mehrbed"]),
+        params["regelsatz"][2] * (2 + household["mehrbed"]),
+        params["regelsatz"][3] * household["anz_erw_tu"],
     ]
 
 
