@@ -172,10 +172,11 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
         policy_date, group, raw_group_data=raw_group_data, parameters=parameters
     )
     if group == "arbeitsl_geld_2":
-        for param in ["e_anr_frei_kinder", "e_anr_frei"]:
-            tax_data[param] = get_piecewise_parameters(
-                tax_data[param], param, piecewise_linear
-            )
+        if tax_data["jahr"] >= 2005:
+            for param in ["e_anr_frei_kinder", "e_anr_frei"]:
+                tax_data[param] = get_piecewise_parameters(
+                    tax_data[param], param, piecewise_linear
+                )
         if tax_data["jahr"] <= 2010:
             tax_data["calc_regelsatz"] = regelberechnung_until_2010
         else:

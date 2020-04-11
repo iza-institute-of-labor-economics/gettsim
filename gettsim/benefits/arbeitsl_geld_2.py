@@ -15,6 +15,10 @@ def alg2(household, params):
         parents. Income and wealth is tested for, the transfer withdrawal rate is
         non-constant.
     """
+    if params["jahr"] < 2005:
+        # warnings.warn("Arbeitslosengeld 2 existiert erst ab 2005 und wurde deshalb "
+        #               "nicht berechnet.")
+        return household
 
     household = mehrbedarf_alg2(household, params)
 

@@ -353,6 +353,7 @@ def tax_transfer(
     )
     in_cols = [
         "hh_id",
+        "tu_id",
         "p_id",
         "tu_vorstand",
         "kind",
