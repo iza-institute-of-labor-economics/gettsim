@@ -59,7 +59,6 @@ def alg2(household, params):
         + household["kindergeld_m_hh"]
         + household["unterhaltsvors_m_hh"]
     )
-
     return household
 
 
