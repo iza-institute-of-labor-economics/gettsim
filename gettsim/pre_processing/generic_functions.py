@@ -71,7 +71,8 @@ def check_threholds(parameter_dict, parameter, keys):
             lower_thresholds[interval] = parameter_dict[interval - 1]["upper_threshold"]
         else:
             raise ValueError(
-                f"In {interval} of {parameter} is no lower upper threshold or an upper in the piece before."
+                f"In {interval} of {parameter} is no lower upper threshold or an upper"
+                f" in the piece before."
             )
 
     for interval in keys[:-1]:
@@ -81,7 +82,8 @@ def check_threholds(parameter_dict, parameter, keys):
             upper_thresholds[interval] = parameter_dict[interval + 1]["lower_threshold"]
         else:
             raise ValueError(
-                f"In {interval} of {parameter} is no upper threshold or a lower threshold in the piece after."
+                f"In {interval} of {parameter} is no upper threshold or a lower"
+                f" threshold in the piece after."
             )
     return lower_thresholds, upper_thresholds
 
