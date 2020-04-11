@@ -78,21 +78,12 @@ def regelsatz_alg2(household, params):
 
 def regelberechnung_until_2010(household, children_age_info, params):
     if children_age_info["anz_erw"] == 1:
-        return (
-            params["rs_hhvor"] * (1 + household["mehrbed"])
+        return params["rs_hhvor"] * (
+            (1 + household["mehrbed"])
+            + (params["a2ch14"] * children_age_info["child14_24_num"])
+            + (params["a2ch7"] * children_age_info["child7_13_num"])
             + (
-                params["rs_hhvor"]
-                * params["a2ch14"]
-                * children_age_info["child14_24_num"]
-            )
-            + (
-                params["rs_hhvor"]
-                * params["a2ch7"]
-                * children_age_info["child7_13_num"]
-            )
-            + (
-                params["rs_hhvor"]
-                * params["a2ch0"]
+                params["a2ch0"]
                 * (
                     children_age_info["child0_2_num"]
                     + children_age_info["child3_6_num"]
@@ -409,7 +400,7 @@ def regrouped_ein_anr_frei(household, params):
         level=["hh_id", "tu_id", "p_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"e_anr_frei_params": e_anr_frei_params, "params": params,},
+        func_kwargs={"e_anr_frei_params": e_anr_frei_params, "params": params},
     )
 
     return household
