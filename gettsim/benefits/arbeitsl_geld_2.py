@@ -205,66 +205,6 @@ def grossinc_alg2(household):
     )
 
 
-# def e_anr_frei_2005_01(household, params):
-#     """Calculate income not subject to transfer withdrawal for the household.
-#
-#     Legislation in force 2005-01-01 to 2005-09-30.
-#
-#     Determine the gross income that is not deducted. Withdrawal rates depend
-#     on monthly earnings. § 30 SGB II."""
-#
-#     cols = [
-#         "bruttolohn_m",
-#         "eink_anrechn_frei",
-#         "eink_st_m",
-#         "soli_st_m",
-#         "sozialv_beit_m",
-#     ]
-#     household.loc[:, cols] = household.groupby("p_id")[cols].apply(
-#         e_anr_frei_person_2005_01, params, params["a2eg3"]
-#     )
-#
-#     return household
-#
-#
-# def e_anr_frei_person_2005_01(person, params, a2eg3):
-#     """Calculate income not subject to transfer withdrawal for each person.
-#
-#     Legislation in force 2005-01-01 to 2005-09-30.
-#
-#     """
-#
-#     m_wage = person["bruttolohn_m"].iloc[0]
-#
-#     # Nettoquote
-#     nq = alg2_2005_nq(person, params)
-#
-#     # Income not deducted
-#     if m_wage <= params["a2eg1"]:
-#         person["eink_anrechn_frei"] = params["a2an1"] * nq * m_wage
-#
-#     elif params["a2eg1"] < m_wage <= params["a2eg2"]:
-#         person["eink_anrechn_frei"] = params["a2an1"] * nq * params["a2eg1"] + params[
-#             "a2an2"
-#         ] * nq * (m_wage - params["a2eg1"])
-#
-#     elif params["a2eg2"] < m_wage <= a2eg3:
-#         person["eink_anrechn_frei"] = (
-#             params["a2an1"] * nq * params["a2eg1"]
-#             + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
-#             + params["a2an3"] * nq * (m_wage - params["a2eg2"])
-#         )
-#
-#     else:
-#         person["eink_anrechn_frei"] = (
-#             params["a2an1"] * nq * params["a2eg1"]
-#             + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
-#             + params["a2an3"] * nq * (a2eg3 - params["a2eg2"])
-#         )
-#
-#     return person
-
-
 def alg2_2005_nq(person, params):
     """Calculate Nettoquote
 
@@ -290,65 +230,6 @@ def alg2_2005_nq(person, params):
     alg2_2005_nq = alg2_2005_bne / person["bruttolohn_m"]
 
     return alg2_2005_nq
-
-
-# def e_anr_frei_2005_10(household, params):
-#     """Calculate income not subject to transfer withdrawal for the household.
-#
-#     Legislation in force since 2005-10-01.
-#
-#     Determine the gross income that is not deducted. Withdrawal rates depend
-#     on monthly earnings and on the number of children in the household. § 30 SGB
-#     II. Since 01.04.2011 § 11b.
-#
-#     """
-#
-#     # Calculate the number of children below the age of 18.
-#     num_childs_0_18 = (household["kind"] & (household["alter"] < 18)).sum()
-#
-#     a2eg3 = params["a2eg3"] if num_childs_0_18 == 0 else params["a2eg3ki"]
-#
-#     cols = ["bruttolohn_m", "eink_anrechn_frei"]
-#     household.loc[:, cols] = household.groupby("p_id")[cols].apply(
-#         e_anr_frei_person_2005_10, params, a2eg3
-#     )
-#
-#     return household
-#
-#
-# def e_anr_frei_person_2005_10(person, params, a2eg3):
-#     """Calculate income not subject to transfer withdrawal for each person.
-#
-#     Legislation in force since 2005-10-01.
-#
-#     """
-#
-#     m_wage = person["bruttolohn_m"].iloc[0]
-#
-#     # Income not deducted
-#     if m_wage < params["a2eg1"]:
-#         person["eink_anrechn_frei"] = params["a2an1"] * m_wage
-#
-#     elif params["a2eg1"] <= m_wage < params["a2eg2"]:
-#         person["eink_anrechn_frei"] = params["a2an1"] * params["a2eg1"] + params[
-#             "a2an2"
-#         ] * (m_wage - params["a2eg1"])
-#
-#     elif params["a2eg2"] <= m_wage < a2eg3:
-#         person["eink_anrechn_frei"] = (
-#             params["a2an1"] * params["a2eg1"]
-#             + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
-#             + params["a2an3"] * (m_wage - params["a2eg2"])
-#         )
-#
-#     else:
-#         person["eink_anrechn_frei"] = (
-#             params["a2an1"] * params["a2eg1"]
-#             + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
-#             + params["a2an3"] * (a2eg3 - params["a2eg2"])
-#         )
-#
-#     return person
 
 
 def eink_anr_frei(household, params):
