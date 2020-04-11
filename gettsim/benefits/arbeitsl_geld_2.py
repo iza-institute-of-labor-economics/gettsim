@@ -61,11 +61,11 @@ def regelsatz_alg2(household, params):
     according to the year the appropriate function is called"""
     children_age_info = {}
     for age in [(0, 6), (0, 15), (14, 24), (7, 13), (3, 6), (0, 2)]:
-        children_age_info["child{}_{}_num".format(age[0], age[1])] = (
+        children_age_info["anzahl_{}_{}".format(age[0], age[1])] = (
             household["kind"] & household["alter"].between(age[0], age[1])
         ).sum()
-    children_age_info["anz_kinder"] = household["kind"].sum()
-    children_age_info["anz_erw"] = len(household) - children_age_info["anz_kinder"]
+    children_age_info["anzahl_kinder"] = household["kind"].sum()
+    children_age_info["anzahl_erw"] = len(household) - children_age_info["anz_kinder"]
 
     household["mehrbed"] = mehrbedarf_alg2(household, children_age_info, params)
 
@@ -122,35 +122,59 @@ def regelberechnung_until_2010(household, children_age_info, params):
         )
 
 
-def regelberechnung_2011_and_beyond(household, children_age_info, params):
-    if children_age_info["anz_erw"] == 1:
-        return (
-            params["rs_hhvor"] * (1 + household["mehrbed"])
-            + (params["rs_ch14"] * children_age_info["child14_24_num"])
-            + (params["rs_ch7"] * children_age_info["child7_13_num"])
+def regrouped_regelberechnung_until_2010(household, params):
+    num_adults = len(household) - household["kind"].sum()
+    kinder_satz = 0
+    for age_lims in [(0, 6), (7, 13), (14, 25)]:
+        kinder_satz += (
+            params["regelsatz"]
+            * params["anteil_regelsatz"][f"kinder_{age_lims[0]}_{age_lims[1]}"]
+            * (
+                household["kind"] & household["alter"].between(age_lims[0], age_lims[1])
+            ).sum()
+        )
+
+    if num_adults == 1:
+        household["regelsatz_m"] = params["regelsatz"] * (1 + household["mehrbed"])
+    elif num_adults > 1:
+        household["regelsatz_m"] = params["regelsatz"] * (
+            params["anteil_regelsatz"]["zwei_erwachsene"] * (2 + household["mehrbed"])
             + (
-                params["rs_ch0"]
-                * (
-                    children_age_info["child0_2_num"]
-                    + children_age_info["child3_6_num"]
-                )
+                params["anteil_regelsatz"]["weitere_erwachsene"]
+                * np.maximum((num_adults - 2), 0)
             )
         )
-    elif children_age_info["anz_erw"] > 1:
-        return (
-            params["rs_2adults"] * (1 + household["mehrbed"])
-            + params["rs_2adults"]
-            + (params["rs_madults"] * np.maximum((children_age_info["anz_erw"] - 2), 0))
-            + (params["rs_ch14"] * children_age_info["child14_24_num"])
-            + (params["rs_ch7"] * children_age_info["child7_13_num"])
-            + (
-                params["rs_ch0"]
-                * (
-                    children_age_info["child0_2_num"]
-                    + children_age_info["child3_6_num"]
-                )
-            )
+    household["regelsatz_m"] += kinder_satz
+
+    return household
+
+
+def regelberechnung_2011_and_beyond(household, params):
+
+    num_adults = len(household) - household["kind"].sum()
+    kinder_satz = 0
+    # We count the "Regelbedarfstufen" from 6 downwards.
+    for i, age_lims in enumerate([(0, 6), (7, 13), (14, 25)]):
+        kinder_satz += (
+            params["regelsatz"][6 - i]
+            * (
+                household["kind"] & household["alter"].between(age_lims[0], age_lims[1])
+            ).sum()
         )
+
+    # Single adult has "Regelbedarfstufe" 0
+    if num_adults == 1:
+        household["regelsatz_m"] = params["regelsatz"][0] * (1 + household["mehrbed"])
+
+    # Two adults are "Regelbedarstufe" 2. More are 3.
+    elif num_adults > 1:
+        household["regelsatz_m"] = params["regelsatz"][1] * (
+            2 + household["mehrbed"]
+        ) + (params["regelsatz"][2] * np.maximum((num_adults - 2), 0))
+
+    household["regelsatz_m"] += kinder_satz
+
+    return household
 
 
 def mehrbedarf_alg2(household, children_age_info, params):
