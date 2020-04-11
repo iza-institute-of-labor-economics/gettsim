@@ -15,8 +15,9 @@ def alg2(household, params):
         parents. Income and wealth is tested for, the transfer withdrawal rate is
         non-constant.
     """
+    household = mehrbedarf_alg2(household, params)
 
-    household = regelsatz_alg2(household, params)
+    household = params["calc_regelsatz"](household, params)
 
     household["kost_unterk_m"] = kdu_alg2(household)
 
@@ -30,7 +31,7 @@ def alg2(household, params):
         household["arbeitsl_geld_2_brutto_eink"],
     ) = alg2_inc(household)
 
-    household = params["calc_e_anr_frei"](household, params)
+    household = eink_anr_frei(household, params)
 
     # the final alg2 amount is the difference between the theoretical need and the
     # relevant income. this will be calculated later when several benefits have to be
@@ -56,76 +57,10 @@ def alg2(household, params):
     return household
 
 
-def regelsatz_alg2(household, params):
-    """Creating the variables need for the calculation of the alg2 regelsatz. Then
-    according to the year the appropriate function is called"""
-    children_age_info = {}
-    for age in [(0, 6), (0, 15), (14, 24), (7, 13), (3, 6), (0, 2)]:
-        children_age_info["anzahl_{}_{}".format(age[0], age[1])] = (
-            household["kind"] & household["alter"].between(age[0], age[1])
-        ).sum()
-    children_age_info["anzahl_kinder"] = household["kind"].sum()
-    children_age_info["anzahl_erw"] = len(household) - children_age_info["anz_kinder"]
-
-    household["mehrbed"] = mehrbedarf_alg2(household, children_age_info, params)
-
-    household["regelsatz_m"] = params["calc_regelsatz"](
-        household, children_age_info, params
-    )
-
-    return household
-
-
-def regelberechnung_until_2010(household, children_age_info, params):
-    if children_age_info["anz_erw"] == 1:
-        return params["rs_hhvor"] * (
-            (1 + household["mehrbed"])
-            + (params["a2ch14"] * children_age_info["child14_24_num"])
-            + (params["a2ch7"] * children_age_info["child7_13_num"])
-            + (
-                params["a2ch0"]
-                * (
-                    children_age_info["child0_2_num"]
-                    + children_age_info["child3_6_num"]
-                )
-            )
-        )
-    elif children_age_info["anz_erw"] > 1:
-        return (
-            (
-                params["rs_hhvor"] * params["a2part"] * (1 + household["mehrbed"])
-                + (params["rs_hhvor"] * params["a2part"])
-                + (
-                    params["rs_hhvor"]
-                    * params["a2ch18"]
-                    * np.maximum((children_age_info["anz_erw"] - 2), 0)
-                )
-            )
-            + (
-                params["rs_hhvor"]
-                * params["a2ch14"]
-                * children_age_info["child14_24_num"]
-            )
-            + (
-                params["rs_hhvor"]
-                * params["a2ch7"]
-                * children_age_info["child7_13_num"]
-            )
-            + (
-                params["rs_hhvor"]
-                * params["a2ch0"]
-                * (
-                    children_age_info["child0_2_num"]
-                    + children_age_info["child3_6_num"]
-                )
-            )
-        )
-
-
-def regrouped_regelberechnung_until_2010(household, params):
+def regelberechnung_until_2010(household, params):
     num_adults = len(household) - household["kind"].sum()
     kinder_satz = 0
-    for age_lims in [(0, 6), (7, 13), (14, 25)]:
+    for age_lims in [(0, 6), (7, 13), (14, 24)]:
         kinder_satz += (
             params["regelsatz"]
             * params["anteil_regelsatz"][f"kinder_{age_lims[0]}_{age_lims[1]}"]
@@ -164,34 +99,45 @@ def regelberechnung_2011_and_beyond(household, params):
 
     # Single adult has "Regelbedarfstufe" 0
     if num_adults == 1:
-        household["regelsatz_m"] = params["regelsatz"][0] * (1 + household["mehrbed"])
+        household["regelsatz_m"] = params["regelsatz"][1] * (1 + household["mehrbed"])
 
     # Two adults are "Regelbedarstufe" 2. More are 3.
     elif num_adults > 1:
-        household["regelsatz_m"] = params["regelsatz"][1] * (
+        household["regelsatz_m"] = params["regelsatz"][2] * (
             2 + household["mehrbed"]
-        ) + (params["regelsatz"][2] * np.maximum((num_adults - 2), 0))
+        ) + (params["regelsatz"][3] * np.maximum((num_adults - 2), 0))
 
     household["regelsatz_m"] += kinder_satz
 
     return household
 
 
-def mehrbedarf_alg2(household, children_age_info, params):
+def mehrbedarf_alg2(household, params):
     """ Additional need for single parents. Maximum 60% of the standard amount on top
     (a2zu2) if you have at least one kid below 6 or two or three below 15, you get
     36% on top alternatively, you get 12% per kid, depending on what's higher."""
-    return household["alleinerziehend"] * np.minimum(
+    children_age_info = {}
+    for age in [(0, 6), (0, 15)]:
+        children_age_info["anzahl_{}_{}".format(age[0], age[1])] = (
+            household["kind"] & household["alter"].between(age[0], age[1])
+        ).sum()
+    children_age_info["anzahl_kinder"] = household["kind"].sum()
+    children_age_info["anzahl_erw"] = (
+        len(household) - children_age_info["anzahl_kinder"]
+    )
+
+    household["mehrbed"] = household["alleinerziehend"] * np.minimum(
         params["a2zu2"] / 100,
         np.maximum(
-            params["a2mbch1"] * children_age_info["anz_kinder"],
+            params["a2mbch1"] * children_age_info["anzahl_kinder"],
             (
-                (children_age_info["child0_6_num"] >= 1)
-                | (2 <= children_age_info["child0_15_num"] <= 3)
+                (children_age_info["anzahl_0_6"] >= 1)
+                | (2 <= children_age_info["anzahl_0_15"] <= 3)
             )
             * params["a2mbch2"],
         ),
     )
+    return household
 
 
 def kdu_alg2(household):
@@ -253,64 +199,64 @@ def grossinc_alg2(household):
     )
 
 
-def e_anr_frei_2005_01(household, params):
-    """Calculate income not subject to transfer withdrawal for the household.
-
-    Legislation in force 2005-01-01 to 2005-09-30.
-
-    Determine the gross income that is not deducted. Withdrawal rates depend
-    on monthly earnings. § 30 SGB II."""
-
-    cols = [
-        "bruttolohn_m",
-        "eink_anrechn_frei",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-    ]
-    household.loc[:, cols] = household.groupby("p_id")[cols].apply(
-        e_anr_frei_person_2005_01, params, params["a2eg3"]
-    )
-
-    return household
-
-
-def e_anr_frei_person_2005_01(person, params, a2eg3):
-    """Calculate income not subject to transfer withdrawal for each person.
-
-    Legislation in force 2005-01-01 to 2005-09-30.
-
-    """
-
-    m_wage = person["bruttolohn_m"].iloc[0]
-
-    # Nettoquote
-    nq = alg2_2005_nq(person, params)
-
-    # Income not deducted
-    if m_wage <= params["a2eg1"]:
-        person["eink_anrechn_frei"] = params["a2an1"] * nq * m_wage
-
-    elif params["a2eg1"] < m_wage <= params["a2eg2"]:
-        person["eink_anrechn_frei"] = params["a2an1"] * nq * params["a2eg1"] + params[
-            "a2an2"
-        ] * nq * (m_wage - params["a2eg1"])
-
-    elif params["a2eg2"] < m_wage <= a2eg3:
-        person["eink_anrechn_frei"] = (
-            params["a2an1"] * nq * params["a2eg1"]
-            + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
-            + params["a2an3"] * nq * (m_wage - params["a2eg2"])
-        )
-
-    else:
-        person["eink_anrechn_frei"] = (
-            params["a2an1"] * nq * params["a2eg1"]
-            + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
-            + params["a2an3"] * nq * (a2eg3 - params["a2eg2"])
-        )
-
-    return person
+# def e_anr_frei_2005_01(household, params):
+#     """Calculate income not subject to transfer withdrawal for the household.
+#
+#     Legislation in force 2005-01-01 to 2005-09-30.
+#
+#     Determine the gross income that is not deducted. Withdrawal rates depend
+#     on monthly earnings. § 30 SGB II."""
+#
+#     cols = [
+#         "bruttolohn_m",
+#         "eink_anrechn_frei",
+#         "eink_st_m",
+#         "soli_st_m",
+#         "sozialv_beit_m",
+#     ]
+#     household.loc[:, cols] = household.groupby("p_id")[cols].apply(
+#         e_anr_frei_person_2005_01, params, params["a2eg3"]
+#     )
+#
+#     return household
+#
+#
+# def e_anr_frei_person_2005_01(person, params, a2eg3):
+#     """Calculate income not subject to transfer withdrawal for each person.
+#
+#     Legislation in force 2005-01-01 to 2005-09-30.
+#
+#     """
+#
+#     m_wage = person["bruttolohn_m"].iloc[0]
+#
+#     # Nettoquote
+#     nq = alg2_2005_nq(person, params)
+#
+#     # Income not deducted
+#     if m_wage <= params["a2eg1"]:
+#         person["eink_anrechn_frei"] = params["a2an1"] * nq * m_wage
+#
+#     elif params["a2eg1"] < m_wage <= params["a2eg2"]:
+#         person["eink_anrechn_frei"] = params["a2an1"] * nq * params["a2eg1"] + params[
+#             "a2an2"
+#         ] * nq * (m_wage - params["a2eg1"])
+#
+#     elif params["a2eg2"] < m_wage <= a2eg3:
+#         person["eink_anrechn_frei"] = (
+#             params["a2an1"] * nq * params["a2eg1"]
+#             + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
+#             + params["a2an3"] * nq * (m_wage - params["a2eg2"])
+#         )
+#
+#     else:
+#         person["eink_anrechn_frei"] = (
+#             params["a2an1"] * nq * params["a2eg1"]
+#             + params["a2an2"] * nq * (params["a2eg2"] - params["a2eg1"])
+#             + params["a2an3"] * nq * (a2eg3 - params["a2eg2"])
+#         )
+#
+#     return person
 
 
 def alg2_2005_nq(person, params):
@@ -340,66 +286,66 @@ def alg2_2005_nq(person, params):
     return alg2_2005_nq
 
 
-def e_anr_frei_2005_10(household, params):
-    """Calculate income not subject to transfer withdrawal for the household.
+# def e_anr_frei_2005_10(household, params):
+#     """Calculate income not subject to transfer withdrawal for the household.
+#
+#     Legislation in force since 2005-10-01.
+#
+#     Determine the gross income that is not deducted. Withdrawal rates depend
+#     on monthly earnings and on the number of children in the household. § 30 SGB
+#     II. Since 01.04.2011 § 11b.
+#
+#     """
+#
+#     # Calculate the number of children below the age of 18.
+#     num_childs_0_18 = (household["kind"] & (household["alter"] < 18)).sum()
+#
+#     a2eg3 = params["a2eg3"] if num_childs_0_18 == 0 else params["a2eg3ki"]
+#
+#     cols = ["bruttolohn_m", "eink_anrechn_frei"]
+#     household.loc[:, cols] = household.groupby("p_id")[cols].apply(
+#         e_anr_frei_person_2005_10, params, a2eg3
+#     )
+#
+#     return household
+#
+#
+# def e_anr_frei_person_2005_10(person, params, a2eg3):
+#     """Calculate income not subject to transfer withdrawal for each person.
+#
+#     Legislation in force since 2005-10-01.
+#
+#     """
+#
+#     m_wage = person["bruttolohn_m"].iloc[0]
+#
+#     # Income not deducted
+#     if m_wage < params["a2eg1"]:
+#         person["eink_anrechn_frei"] = params["a2an1"] * m_wage
+#
+#     elif params["a2eg1"] <= m_wage < params["a2eg2"]:
+#         person["eink_anrechn_frei"] = params["a2an1"] * params["a2eg1"] + params[
+#             "a2an2"
+#         ] * (m_wage - params["a2eg1"])
+#
+#     elif params["a2eg2"] <= m_wage < a2eg3:
+#         person["eink_anrechn_frei"] = (
+#             params["a2an1"] * params["a2eg1"]
+#             + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
+#             + params["a2an3"] * (m_wage - params["a2eg2"])
+#         )
+#
+#     else:
+#         person["eink_anrechn_frei"] = (
+#             params["a2an1"] * params["a2eg1"]
+#             + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
+#             + params["a2an3"] * (a2eg3 - params["a2eg2"])
+#         )
+#
+#     return person
 
-    Legislation in force since 2005-10-01.
 
-    Determine the gross income that is not deducted. Withdrawal rates depend
-    on monthly earnings and on the number of children in the household. § 30 SGB
-    II. Since 01.04.2011 § 11b.
-
-    """
-
-    # Calculate the number of children below the age of 18.
-    num_childs_0_18 = (household["kind"] & (household["alter"] < 18)).sum()
-
-    a2eg3 = params["a2eg3"] if num_childs_0_18 == 0 else params["a2eg3ki"]
-
-    cols = ["bruttolohn_m", "eink_anrechn_frei"]
-    household.loc[:, cols] = household.groupby("p_id")[cols].apply(
-        e_anr_frei_person_2005_10, params, a2eg3
-    )
-
-    return household
-
-
-def e_anr_frei_person_2005_10(person, params, a2eg3):
-    """Calculate income not subject to transfer withdrawal for each person.
-
-    Legislation in force since 2005-10-01.
-
-    """
-
-    m_wage = person["bruttolohn_m"].iloc[0]
-
-    # Income not deducted
-    if m_wage < params["a2eg1"]:
-        person["eink_anrechn_frei"] = params["a2an1"] * m_wage
-
-    elif params["a2eg1"] <= m_wage < params["a2eg2"]:
-        person["eink_anrechn_frei"] = params["a2an1"] * params["a2eg1"] + params[
-            "a2an2"
-        ] * (m_wage - params["a2eg1"])
-
-    elif params["a2eg2"] <= m_wage < a2eg3:
-        person["eink_anrechn_frei"] = (
-            params["a2an1"] * params["a2eg1"]
-            + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
-            + params["a2an3"] * (m_wage - params["a2eg2"])
-        )
-
-    else:
-        person["eink_anrechn_frei"] = (
-            params["a2an1"] * params["a2eg1"]
-            + params["a2an2"] * (params["a2eg2"] - params["a2eg1"])
-            + params["a2an3"] * (a2eg3 - params["a2eg2"])
-        )
-
-    return person
-
-
-def regrouped_ein_anr_frei(household, params):
+def eink_anr_frei(household, params):
     """Calculate income not subject to transfer withdrawal for each person.
 
     """
@@ -426,7 +372,6 @@ def regrouped_ein_anr_frei(household, params):
         out_cols=out_cols,
         func_kwargs={"e_anr_frei_params": e_anr_frei_params, "params": params},
     )
-
     return household
 
 
@@ -443,3 +388,49 @@ def eink_anr_frei_person(person, e_anr_frei_params, params):
         person["bruttolohn_m"], **individual_params, rates_modified=rates_modified
     )
     return person
+
+
+def regelberechnung_until_2010_old(household, children_age_info, params):
+    if children_age_info["anz_erw"] == 1:
+        return params["rs_hhvor"] * (
+            (1 + household["mehrbed"])
+            + (params["a2ch14"] * children_age_info["child14_24_num"])
+            + (params["a2ch7"] * children_age_info["child7_13_num"])
+            + (
+                params["a2ch0"]
+                * (
+                    children_age_info["child0_2_num"]
+                    + children_age_info["child3_6_num"]
+                )
+            )
+        )
+    elif children_age_info["anz_erw"] > 1:
+        return (
+            (
+                params["rs_hhvor"] * params["a2part"] * (1 + household["mehrbed"])
+                + (params["rs_hhvor"] * params["a2part"])
+                + (
+                    params["rs_hhvor"]
+                    * params["a2ch18"]
+                    * np.maximum((children_age_info["anz_erw"] - 2), 0)
+                )
+            )
+            + (
+                params["rs_hhvor"]
+                * params["a2ch14"]
+                * children_age_info["child14_24_num"]
+            )
+            + (
+                params["rs_hhvor"]
+                * params["a2ch7"]
+                * children_age_info["child7_13_num"]
+            )
+            + (
+                params["rs_hhvor"]
+                * params["a2ch0"]
+                * (
+                    children_age_info["child0_2_num"]
+                    + children_age_info["child3_6_num"]
+                )
+            )
+        )

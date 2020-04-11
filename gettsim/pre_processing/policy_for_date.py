@@ -6,8 +6,6 @@ from functools import reduce
 import numpy as np
 import yaml
 
-from gettsim.benefits.arbeitsl_geld_2 import e_anr_frei_2005_01
-from gettsim.benefits.arbeitsl_geld_2 import e_anr_frei_2005_10
 from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
 from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
 from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
@@ -51,6 +49,8 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         tax_data = load_regrouped_data(
             actual_date, group, raw_group_data=raw_group_data
         )
+    elif group == "arbeitsl_geld_2":
+        tax_data = process_data(actual_date, group, raw_group_data=raw_group_data)
     else:
         tax_data = load_ordinary_data_group(raw_group_data, actual_date)
 
@@ -122,16 +122,6 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
 
-    elif group == "arbeitsl_geld_2":
-        if year <= 2010:
-            tax_data["calc_regelsatz"] = regelberechnung_until_2010
-        else:
-            tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
-
-        if actual_date < datetime.date(year=2005, month=10, day=1):
-            tax_data["calc_e_anr_frei"] = e_anr_frei_2005_01
-        else:
-            tax_data["calc_e_anr_frei"] = e_anr_frei_2005_10
     # Before 07/2017, UHV was only paid up to 6 years, which is why we model it only since then.
     elif group == "unterhalt":
         if year >= 2018 or (year == 2017 & month >= 7):
@@ -181,11 +171,15 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
     tax_data = load_regrouped_data(
         policy_date, group, raw_group_data=raw_group_data, parameters=parameters
     )
-    if group == "arbeitsl_geld_2_neu":
+    if group == "arbeitsl_geld_2":
         for param in ["e_anr_frei_kinder", "e_anr_frei"]:
             tax_data[param] = get_piecewise_parameters(
                 tax_data[param], param, piecewise_linear
             )
+        if tax_data["jahr"] <= 2010:
+            tax_data["calc_regelsatz"] = regelberechnung_until_2010
+        else:
+            tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
 
     return tax_data
 
