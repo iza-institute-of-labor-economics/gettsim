@@ -1,5 +1,3 @@
-PIECEWISE_LIN_FUNCS = ["e_anr_frei", "e_anr_frei_kinder"]
-
 import itertools
 
 import pandas as pd
@@ -8,8 +6,8 @@ from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
