@@ -13,7 +13,6 @@ def kindergeld(tax_unit, params):
             kindergeld_m_basis: Kindergeld on the individual level
             kindergeld_m_tu_basis: Kindergeld summed up within the tax unit
     """
-    print(params)
     tax_unit["kindeld_anspruch"] = params["kindergeld_anspruch_regel"](
         tax_unit, params
     ).cumsum()
