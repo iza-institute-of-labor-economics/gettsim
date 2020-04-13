@@ -1,1039 +1,564 @@
-kifreib_s_exm:
+Kinderfreibetrag_sächl_exmin:
   name:
     de: Kinderfreibetrag (sächliches Existenzminimum des Kindes).
     en: Basic Income Tax Allowance for children
   description:
-    de: § 32(6) EStG, früher auch Absatz 7 und 8. Wird verdoppelt für gemeinsam veranlagte Paare.
+    de: § 32 (6) EStG, früher auch Absatz 7 und 8. Wird verdoppelt für gemeinsam veranlagte Paare.
     en:
-  values:
-    1983-01-01:
-      value: 110
-      note: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857. Wert in Euro. Der Betrag laut Gesetz ist 216 DM.
-    1986-01-01:
-      value: 635
-      note: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153. Wert in Euro. Der Betrag im Gesetz lautet 1242 DM.
-    1990-01-01:
-      value: 773
-      note: Artikel 1 G. v. 25.07.1988 BGBl. I S. 1093. Wert in Euro. Der Betrag im Gesetz lautet 1512 DM.
-    1992-01-01:
-      value: 1049
-      note: Art. 1 G. v. 25.02.1992 BGBl. I S. 297. Wert in Euro. Wert laut Gesetz 2052 DM.
-    1996-01-01:
-      value: 1601
-      note: Art. 1. G. v. 11.10.1995 BGBl. I S. 1250. Wert in Euro. Laut Gesetz 261 DM pro Monat.
-    1997-01-01:
-      value: 1767
-      note: Wert in Euro. Laut Gesetz 288 DM pro Monat (ab 2000 3456 DM pro Jahr)
-    2002-01-01:
-      value: 1824
-      note: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
-    2009-01-01:
-      value: 1932
-      note: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
-    2010-01-01:
-      value: 2184
-      note: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
-    2015-01-01:
-      value: 2256
-      note: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
-    2016-01-01:
-      value: 2304
-      note: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
-    2017-01-01:
-      value: 2358
-      note: Art. 8 G. v. 20.12.2016 BGBl. I. S. 3000
-    2018-01-01:
-      value: 2394
-      note: Art. 9 G. v. 20.12.2016 BGBl. I. S. 3000
-    2019-01-01:
-      value: 2490
-      note: Art. 1 G. v. 29.11.2018 BGBl. I S. 2210
-    2020-01-01:
-      value: 2586
-      note: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
-kifreib_bea:
+  unit: euro
+  time: year
+  1983-01-01:
+    scalar: 110
+    reference: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857.
+    note: Der Betrag laut Gesetz ist 216 DM.
+  1986-01-01:
+    scalar: 635
+    reference: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153.
+    note: Der Betrag im Gesetz lautet 1242 DM.
+  1990-01-01:
+    scalar: 773
+    reference: Artikel 1 G. v. 25.07.1988 BGBl. I S. 1093.
+    note: Der Betrag im Gesetz lautet 1512 DM.
+  1992-01-01:
+    scalar: 1049
+    reference: Art. 1 G. v. 25.02.1992 BGBl. I S. 297.
+    note: Wert laut Gesetz 2052 DM.
+  1996-01-01:
+    scalar: 1601
+    reference: Art. 1. G. v. 11.10.1995 BGBl. I S. 1250.
+    note: Laut Gesetz 261 DM pro Monat.
+  1997-01-01:
+    scalar: 1767
+    reference:
+    note: Laut Gesetz 288 DM pro Monat (ab 2000 3456 DM pro Jahr)
+  2002-01-01:
+    scalar: 1824
+    reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
+  2009-01-01:
+    scalar: 1932
+    reference: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
+  2010-01-01:
+    scalar: 2184
+    reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
+  2015-01-01:
+    scalar: 2256
+    reference: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
+  2016-01-01:
+    scalar: 2304
+    reference: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
+  2017-01-01:
+    scalar: 2358
+    reference: Art. 8 G. v. 20.12.2016 BGBl. I. S. 3000
+  2018-01-01:
+    scalar: 2394
+    reference: Art. 9 G. v. 20.12.2016 BGBl. I. S. 3000
+  2019-01-01:
+    scalar: 2490
+    reference: Art. 1 G. v. 29.11.2018 BGBl. I S. 2210
+  2020-01-01:
+    scalar: 2586
+    reference: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
+
+kinderfreibetrag_betr_erz_ausb:
   name:
     de: Kinderfreibetrag. Betreuungs-, Erziehungs-, Ausbildungsfreibetrag.
     en: Income Tax Allowance for child care and education.
   description:
     de: §32 (6) EStG, seit 2000.
     en:
-  values:
-    2000-01-01:
-      value: 774
-      note: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552. Wert in Euro. Wert laut Gesetz 1512 DM.
-    2002-01-01:
-      value: 1080
-      note: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
-    2010-01-01:
-      value: 1320
-      note: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
-vorsp_rv:
+  unit: euro
+  time: year
+  2000-01-01:
+    scalar: 774
+    reference: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552.
+    note: Wert laut Gesetz 1512 DM.
+  2002-01-01:
+    scalar: 1080
+    reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
+  2010-01-01:
+    scalar: 1320
+    reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
+
+vorsorge2004_vorwegabzug:
   name:
-    de: Bemessungsgrundlage, Vorsorgepauschale, Anteil des Beitrags der RV-Beiträge
-    en:
+    de: Vorwegabzug der Vorsorgeaufwendungen der Rechtslage vor 2004.
+    en: Lump sum deduction for precautionary expenses, before 2004.
   description:
-    de: § 10c (2) S. 2 Nr.1
+    de: § 10 (4a) EStG. Früher §10 (3) EStG. Hier steht jeweils der Wert für den Steuerpflichtigen. Wird verdoppelt für gemeinsam veranlagte Ehegatten. Der gesamte Zeitverlauf wurde bereits 2005 festgelegt.
     en:
-  values:
-    2002-01-01:
-      value: 0
-      note:
-    2005-01-01:
-      value: 0.5
-      note:
-vorwegabzug:
+  unit: euro
+  time: year
+  1985-01-01:
+    scalar: 1534
+    reference:
+  1989-01-01:
+    scalar: 2045
+    reference:
+  1993-01-01:
+    scalar: 3068
+    reference: .
+  2011-01-01:
+    scalar: 2700
+    reference:
+  2012-01-01:
+    scalar: 2400
+    reference:
+  2013-01-01:
+    scalar: 2100
+    reference:
+  2014-01-01:
+    scalar: 1800
+    reference:
+  2015-01-01:
+    scalar: 1500
+    reference:
+  2016-01-01:
+    scalar: 1200
+    reference:
+  2017-01-01:
+    scalar: 900
+    reference:
+  2018-01-01:
+    scalar: 600
+    reference:
+  2019-01-01:
+    scalar: 300
+    reference:
+
+werbungskostenpauschale:
   name:
-    de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle
-    en:
+    de: Werbungskostenpauschbetrag bei nichtselbstständiger Arbeit.
+    en: Lump-sum deduction for employment income.
   description:
-    de: § 10 (3), (4a) EStG
-    en:
-  values:
-    1985-01-01:
-      value: 1534
-      note:
-    1989-01-01:
-      value: 2045
-      note:
-    1993-01-01:
-      value: 3068
-      note: .
-    2011-01-01:
-      value: 2700
-      note:
-    2012-01-01:
-      value: 2400
-      note:
-    2013-01-01:
-      value: 2100
-      note:
-    2014-01-01:
-      value: 1800
-      note:
-    2015-01-01:
-      value: 1500
-      note:
-    2016-01-01:
-      value: 1200
-      note:
-    2017-01-01:
-      value: 900
-      note:
-    2018-01-01:
-      value: 600
-      note:
-    2019-01-01:
-      value: 300
-      note:
-vwabzc:
-  name:
-    de: Vorwegabzug fuer Versicherungsbeitraeg, Grundtabelle Ehegatten  Vorsicht - § 10 (1), (3) EStG teilweise verfassungswidrig (Beschluß des Bundesverfassungsgericht vom 13.02.2008 - 2 BvL 1/06)
-    en:
-  description:
-    de: § 10 (3), (4a) EStG
-    en:
-  values:
-    1985-01-01:
-      value: 3068
-      note:
-    1989-01-01:
-      value: 4090
-      note:
-    1993-01-01:
-      value: 6136
-      note: .
-    2007-01-01:
-      value: 6163
-      note:
-    2010-01-01:
-      value: 6136
-      note:
-    2011-01-01:
-      value: 5400
-      note:
-    2012-01-01:
-      value: 4800
-      note:
-    2013-01-01:
-      value: 4200
-      note:
-    2014-01-01:
-      value: 3600
-      note:
-    2015-01-01:
-      value: 3000
-      note:
-    2016-01-01:
-      value: 2400
-      note:
-    2017-01-01:
-      value: 1800
-      note:
-    2018-01-01:
-      value: 1200
-      note:
-    2019-01-01:
-      value: 600
-      note:
-werbung:
-  name:
-    de: Werbungskostenpauschbetrag bei nichtselbstständiger Arbeit
-    en: Lump-sum deduction for employment income
-  description:
-    de: § 9a EStG
-    en:
-  values:
-    1984-01-01:
-      value: 288
-      note:
-    1989-01-01:
-      value: 1023
-      note:
-    2002-01-01:
-      value: 1044
-      note:
-    2004-01-01:
-      value: 920
-      note:
-    2012-01-01:
-      value: 1000
-      note: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131. Für Lohnsteuerabzug gültig ab 2011-11-05.
-vorsorgpausch:
-  name:
-    de: Werbungskostenpauschbetrag bei Vorsorgebezügen oder Einnahmen im Sinne des § 22 EStG Nummer 1, 1a, 1b, 1c und 5
-    en:
-  description:
-    de: §9a, 1.b, 3. EStG
-    en:
-  values:
-    2004-01-01:
-      value: 102
-      note:
-sonder:
+    de: § 9a Nr. 1a) EStG
+    en: This is the minimum amount deducted from any employment income.
+  unit: euro
+  time: year
+  1975-01-01:
+    scalar: 288
+    note: 564 DM
+  1990-01-01:
+    scalar: 1044
+    reference:
+    note: 2000 DM.
+  2004-01-01:
+    scalar: 920
+    reference:
+  2012-01-01:
+    scalar: 1000
+    reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131.
+    note: Für Lohnsteuerabzug gültig ab 2011-11-05.
+
+sonderausgabenpauschbetrag:
   name:
     de: Sonderausgaben-Pauschbetrag
     en: Lump-sum deduction for other expenses
   description:
     de: § 10c EStG
     en:
-  values:
-    1984-01-01:
-      value: 138
-      note:
-    1989-01-01:
-      value: 55
-      note:
-    2002-01-01:
-      value: 36
-      note:
-spsparf:
+  unit: euro
+  time: year
+  1984-01-01:
+    scalar: 138
+    reference:
+  1988-01-01:
+    scalar: 55
+    reference: Art. 1 G. v. 25.07.1988, BGBl. I S. 1093
+    note: 108 DM. Rückdatiert auf das gesamte Jahr.
+  2002-01-01:
+    scalar: 36
+    note: Art. 1 G. v. 19.12.2000, BGBl. I S. 1790
+
+sparerpauschbetrag:
   name:
-    de: Sparerfreibetrag (bis 2008) Sparerpauschbetrag (ab 2008)
+    de: Sparerpauschbetrag
     en: Allowance for Capital Gains
   description:
-    de: § 20 (9) EStG. Wert für Singles.
+    de: § 20 (9) EStG. Früher § 20 (4) EStG. Wert für Singles. Wird verdoppelt für gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
     en:
-  values:
-    1984-01-01:
-      value: 153
-      note:
-    1990-01-01:
-      value: 307
-      note: .
-    1993-01-01:
-      value: 3068
-      note: .
-    2000-01-01:
-      value: 1534
-      note: .
-    2002-01-01:
-      value: 1550
-      note:
-    2004-01-01:
-      value: 1370
-      note:
-    2007-01-01:
-      value: 750
-      note:
-    2009-01-01:
-      value: 801
-      note:
-spwerbz:
+  unit: euro
+  time: year
+  1975-01-01:
+    scalar: 153
+    note: 300 DM.
+  1990-01-01:
+    scalar: 307
+    note: 600 DM.
+  1993-01-01:
+    scalar: 3068
+    note: 6000 DM.
+  2000-01-01:
+    scalar: 1534
+    note: 3000 DM
+  2002-01-01:
+    scalar: 1550
+    reference: Art. 1 G. v. 19.12.2000 BGBl I S. 1790.
+  2004-01-01:
+    scalar: 1370
+    note:
+  2007-01-01:
+    scalar: 750
+    note:
+  2009-01-01:
+    scalar: 801
+    reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
+    note: Integration von Werbungskostenpauschbetrag für Zinseinkünfte in Sparerpauschbetrag.
+sparer_werbungskosten_pausch:
   name:
     de: Werbungskostenpauschbetrag bei Zinseinkünften
     en:
   description:
-    de: § 9a EStG
+    de: § 9a EStG, bis 2009
     en:
-  values:
-    1984-01-01:
-      value: 51
-      note:
-    2009-01-01:
-      value: 0
-      note:
-grundbet:
+  unit: euro
+  time: year
+  1975-01-01:
+    scalar: 51
+    note: 100 DM.
+  2009-01-01:
+    scalar: 0
+    note:
+
+vors2004_grundhöchstbetrag:
   name:
     de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle
     en:
   description:
     de: §10 (3) EStG bis 2004.
     en:
-  values:
-    1985-01-01:
-      value: 1196
-      note:
-    1992-01-01:
-      value: 1334
-      note: .
-altenth:
+  unit: euro
+  time: year
+  1985-01-01:
+    scalar: 1196
+    reference:
+  1992-01-01:
+    scalar: 1334
+    reference: .
+
+altersentlastungsbetrag_max:
   name:
     de: Höchstbetrag des Altersentlastungsbetrags
     en: Maximum Amount of Tax Credit for older employees.
   description:
-    de: 24a EStG S. 5. Tabelle legt die Werte bis 2040.
-    en:
-  values:
-    1984-01-01:
-      value: 1534
-      note:
-    1989-01-01:
-      value: 1902
-      note:
-    2002-01-01:
-      value: 1908
-      note:
-    2005-01-01:
-      value: 1900
-      note:
-    2006-01-01:
-      value: 1824
-      note:
-    2007-01-01:
-      value: 1748
-      note:
-    2008-01-01:
-      value: 1672
-      note:
-    2009-01-01:
-      value: 1596
-      note:
-    2010-01-01:
-      value: 1520
-      note:
-    2011-01-01:
-      value: 1444
-      note:
-    2012-01-01:
-      value: 1368
-      note: Stand Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
-    2013-01-01:
-      value: 1292
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-    2014-01-01:
-      value: 1216
-      note:
-    2015-01-01:
-      value: 1140
-      note:
-    2016-01-01:
-      value: 1064
-      note:
-    2017-01-01:
-      value: 988
-      note:
-    2018-01-01:
-      value: 912
-      note:
-    2019-01-01:
-      value: 836
-      note:
-    2020-01-01:
-      value: 760
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-    2021-01-01:
-      value: 722
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-    2022-01-01:
-      value: 684
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-    2023-01-01:
-      value: 646
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-altentq:
+    de: 24a EStG S. 5. Tabelle legt die Werte bis 2040 fest.
+    en: If someone receives employment income above the age of 40, a share up to this amount is deducted.
+  unit: euro
+  time: year
+  1984-01-01:
+    scalar: 1534
+    reference:
+  1989-01-01:
+    scalar: 1902
+    reference:
+  2002-01-01:
+    scalar: 1908
+    reference:
+  2005-01-01:
+    scalar: 1900
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2006-01-01:
+    scalar: 1824
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2007-01-01:
+    scalar: 1748
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2008-01-01:
+    scalar: 1672
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2009-01-01:
+    scalar: 1596
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2010-01-01:
+    scalar: 1520
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2011-01-01:
+    scalar: 1444
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2012-01-01:
+    scalar: 1368
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2013-01-01:
+    scalar: 1292
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2014-01-01:
+    scalar: 1216
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2015-01-01:
+    scalar: 1140
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2016-01-01:
+    scalar: 1064
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2017-01-01:
+    scalar: 988
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2018-01-01:
+    scalar: 912
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2019-01-01:
+    scalar: 836
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2020-01-01:
+    scalar: 760
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2021-01-01:
+    scalar: 722
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2022-01-01:
+    scalar: 684
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2023-01-01:
+    scalar: 646
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+
+altersentlastung_quote:
   name:
     de: Anteil des Altersentlastungsbetrags
-    en: Income share subject to tax credit for older employees.
+    en: Income share deducted for older employees.
   description:
     de: §24a EStG S.5. Tabelle legt alle Werte bis 2040 fest.
     en:
-  values:
-    1984-01-01:
-      value: 0.4
-      note:
-    2006-01-01:
-      value: 0.384
-      note:
-    2007-01-01:
-      value: 0.368
-      note:
-    2008-01-01:
-      value: 0.352
-      note:
-    2009-01-01:
-      value: 0.336
-      note:
-    2010-01-01:
-      value: 0.32
-      note:
-    2011-01-01:
-      value: 0.304
-      note:
-    2012-01-01:
-      value: 0.288
-      note: Stand Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
-    2013-01-01:
-      value: 0.272
-      note: EStG §24a Satz 5 (Tabelle)
-    2014-01-01:
-      value: 0.256
-      note:
-    2015-01-01:
-      value: 0.24
-      note:
-    2016-01-01:
-      value: 0.224
-      note:
-    2017-01-01:
-      value: 0.208
-      note:
-    2018-01-01:
-      value: 0.192
-      note:
-    2019-01-01:
-      value: 0.176
-      note:
-    2020-01-01:
-      value: 0.16
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-    2021-01-01:
-      value: 0.152
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-    2022-01-01:
-      value: 0.144
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-    2023-01-01:
-      value: 0.136
-      note: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
-an_vorsp_al:
-  name:
-    de: Anteil des Arbeitslohns
-    en:
-  description:
-    de:
-    en:
-  values:
-    1985-01-01:
-      value: 0.09
-      note:
-    1989-01-01:
-      value: 0.18
-      note:
-    1991-01-01:
-      value: 0.2
-      note:
-    2005-01-01:
-      value: 0.11
-      note:
-an_vorsp_rv:
-  name:
-    de: Anteil des Teils der Versorgeaufwendungen aus § 10c (2) S. 2 Nr.1  Seit 2005 20% steigt bis 2024 um je 4%punkte auf 100%  (§ 10c (2) S.4 EStG)
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 0
-      note:
-    2005-01-01:
-      value: 0.2
-      note:
-    2006-01-01:
-      value: 0.24
-      note:
-    2007-01-01:
-      value: 0.28
-      note:
-    2008-01-01:
-      value: 0.32
-      note:
-    2009-01-01:
-      value: 0.36
-      note:
-    2010-01-01:
-      value: 0.4
-      note:
-    2011-01-01:
-      value: 0.44
-      note: VERALTET / Nicht verwendet
-avspc:
-  name:
-    de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Splittingtabelle  SEB Dies gilt nur noch, wenn Regelung von vor 2004 günstiger ist  (§ 10 (3) Nr.1, § 10c (5) EStG)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1985-01-01:
-      value: 2393
-      note: der Höchstbetrag hat sich hier noch durch Kinder erhöht!
-    1992-01-01:
-      value: 2669
-      note: .
-    2002-01-01:
-      value: 2668
-      note:
-bvspc:
-  name:
-    de: Besondere Vorsorgepauschale Grundhöchstbetrag, Splittingtabelle  (§ 10c (3) EStG)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1985-01-01:
-      value: 1022
-      note:
-    1989-01-01:
-      value: 2045
-      note:
-    1996-01-01:
-      value: 2264
-      note: .
-    2002-01-01:
-      value: 2268
-      note:
-bvsps:
-  name:
-    de: Besondere Vorsorgepauschale Grundhoechstbetrag, Grundtabelle  (§ 10c (3) EStG)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1985-01-01:
-      value: 511
-      note: auch hier Kinderregelung
-    1989-01-01:
-      value: 1023
-      note:
-    1996-01-01:
-      value: 1132
-      note: .
-    2002-01-01:
-      value: 1134
-      note:
-max_vorsp_al:
-  name:
-    de: Maximalbetrag des Anteils der Arbeitslohns  (§ 10c (2) S. 2 Nr. 2)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1985-01-01:
-      value: 1196
-      note:
-    1993-01-01:
-      value: 1334
-      note: .
-    2005-01-01:
-      value: 1500
-      note:
-hhfreib:
+  unit: share
+  1984-01-01:
+    scalar: 0.4
+    reference:
+  2006-01-01:
+    scalar: 0.384
+    reference:
+  2007-01-01:
+    scalar: 0.368
+    reference:
+  2008-01-01:
+    scalar: 0.352
+    reference:
+  2009-01-01:
+    scalar: 0.336
+    reference:
+  2010-01-01:
+    scalar: 0.32
+    reference:
+  2011-01-01:
+    scalar: 0.304
+    reference:
+  2012-01-01:
+    scalar: 0.288
+    reference:
+  2013-01-01:
+    scalar: 0.272
+    reference:
+  2014-01-01:
+    scalar: 0.256
+    reference:
+  2015-01-01:
+    scalar: 0.24
+    reference:
+  2016-01-01:
+    scalar: 0.224
+    reference:
+  2017-01-01:
+    scalar: 0.208
+    reference:
+  2018-01-01:
+    scalar: 0.192
+    reference:
+  2019-01-01:
+    scalar: 0.176
+    reference:
+  2020-01-01:
+    scalar: 0.16
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2021-01-01:
+    scalar: 0.152
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2022-01-01:
+    scalar: 0.144
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+  2023-01-01:
+    scalar: 0.136
+    reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
+
+alleinerziehenden_freibetrag:
   name:
     de: Entlastungsbetrag für Alleinerziehende
     en: Income Tax Allowance for Single Parents
   description:
     de: § 24b (1) EStG. vor 2004 "Haushaltsfreibetrag", § 32 (7) EStG
     en:
-  values:
-    1984-01-01:
-      value: 2154
-      note:
-    1986-01-01:
-      value: 2319
-      note:
-    1989-01-01:
-      value: 2871
-      note:
-    2001-01-01:
-      value: 2916
-      note: .
-    2002-01-01:
-      value: 2340
-      note:
-    2004-01-01:
-      value: 1308
-      note:
-    2015-01-01:
-      value: 1908
-      note: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
-hhfreib_ch:
+  unit: euro
+  time: year
+  1984-01-01:
+    scalar: 2154
+    reference:
+  1986-01-01:
+    scalar: 2319
+    reference:
+  1989-01-01:
+    scalar: 2871
+    reference:
+  2001-01-01:
+    scalar: 2916
+    reference: .
+  2002-01-01:
+    scalar: 2340
+    reference:
+  2004-01-01:
+    scalar: 1308
+    reference:
+  2015-01-01:
+    scalar: 1908
+    reference: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
+
+alleinerziehenden_freibetrag_zusatz:
   name:
     de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag
     en: Income Tax Allowance for Single Parents; additional amount
   description:
     de: §24b (2) S. 2 EStG. Alleinerziehenden-Entlastungsbetrag, Zusatzbetrag pro Kind ab dem 2. Kind.
     en:
-  values:
-    2015-01-01:
-      value: 240
-      note: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
-kuerzquo:
+  unit: euro
+  time: year
+  2015-01-01:
+    scalar: 240
+    reference: Art. 1 G. vs. 16.07.2015 BGBl. I S.1202
+
+vorsorge2004_kürzung_vorwegabzug:
   name:
-    de: Kürzung des Vorwegabzugs
+    de: Kürzung des Vorwegabzugs für Vorsorgeaufwendungen vor 2004.
     en:
   description:
-    de:
+    de: §10 (3) S. 2 EStG (vor 2004). Der Vorwegabzug wird pauschal um einen Anteil gekürzt bei abhängig Beschäftigten (vereinfacht).
     en:
-  values:
-    1985-01-01:
-      value: 0.0935
-      note: entspricht Beitrag zur RV
-    1986-01-01:
-      value: 0.096
-      note:
-    1987-01-01:
-      value: 0.0935
-      note: .
-    1989-01-01:
-      value: 0.09
-      note: Achtung, zwei verschiedene Abzüge, einmal 9% und einmal 3%
-    1994-01-01:
-      value: 0.16
-      note:
-krzsatz:
-  name:
-    de: Unterstellter Satz für Kurzarbeiter- und Schlechtwettergeld, gemessen am Bruttolohn
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 0.4
-      note:
-mietafa:
-  name:
-    de: Grenze, von der an für Betriebs- und Instandhaltungskosten, die in Verb. mit Miteinnahmen anfallen, angenommen wird, sie zählen zu AfA
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 25000
-      note:
-    2006-01-01:
-      value: 0
-      note:
-vorsorg_rv_sh:
-  name:
-    de: Anteil der Rentenversicherungsbeiträge, der abgesetzt werden kann.
-    en:
-  description:
-    de: §10 Abs.3 S.4-6 EStG. Wird nicht verwendet, sondern selbst berechnet.
-    en:
-  values:
-    2005-01-01:
-      value: 0.6
-      note:
-    2006-01-01:
-      value: 0.62
-      note:
-    2007-01-01:
-      value: 0.64
-      note:
-    2008-01-01:
-      value: 0.66
-      note:
-    2009-01-01:
-      value: 0.68
-      note:
-    2010-01-01:
-      value: 0.7
-      note:
-    2011-01-01:
-      value: 0.72
-      note:
-    2012-01-01:
-      value: 0.74
-      note:
-    2013-01-01:
-      value: 0.76
-      note:
-    2014-01-01:
-      value: 0.78
-      note:
-    2015-01-01:
-      value: 0.8
-      note:
-    2016-01-01:
-      value: 0.82
-      note:
-    2017-01-01:
-      value: 0.84
-      note:
-    2018-01-01:
-      value: 0.86
-      note:
-    2019-01-01:
-      value: 0.88
-      note:
-vors_sonst_max:
+  unit: share
+  1985-01-01:
+    scalar: 0.0935
+    note: entspricht Beitrag zur RV
+  1986-01-01:
+    scalar: 0.096
+    note:
+  1987-01-01:
+    scalar: 0.0935
+    note: .
+  1989-01-01:
+    scalar: 0.12
+    reference: Art. 1 G. v. 25.07.1988 BGBl. I S. 1093
+    note: 9% für GRV-Versicherte und 3% für GKV-Versicherte
+  1994-01-01:
+    scalar: 0.16
+    reference: Art. 1 G. v. 21.12.1993 BGBl. I S. 2310.
+
+vorsorge_sonstige_aufw_max:
   name:
     de: regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt.
     en:
   description:
     de: §10 Abs. 4 S.1 EStG
     en:
-  values:
-    2005-01-01:
-      value: 1500
-      note: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
-    2010-01-01:
-      value: 1900
-      note: Art. 1 G. v. 23.07.2009 BGBl. I S.1959.
-vorsorg_rv_max:
+  unit: euro
+  time: year
+  2005-01-01:
+    scalar: 1500
+    reference: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
+  2010-01-01:
+    scalar: 1900
+    reference: Art. 1 G. v. 23.07.2009 BGBl. I S.1959.
+
+vorsorge_altersaufw_max:
   name:
     de: Maximalbetrag der Altersvorsorgeaufwendungen, 2005er Rechtsstand
     en:
   description:
     de: §10 (3) EStG, Anlage 2 SGB VI
     en:
-  values:
-    2005-01-01:
-      value: 20000
-      note: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
-    2015-01-01:
-      value: 22170
-      note: Ab 2015 knappschaftlicher Höchstbetrag, d.h. knappschaftlicher Beitragssatz * knappschaftliche Beitragsbemessungsgrenze
-    2016-01-01:
-      value: 22766
-      note: .248 * 91800
-    2017-01-01:
-      value: 23362
-      note: .248 * 94200
-    2018-01-01:
-      value: 23712
-      note: .247 * 96000
-    2019-01-01:
-      value: 24305
-      note: .247 * 98400
-    2020-01-01:
-      value: 25046
-      note: Art. 3 V. v. 17.12.2019 BGBl I S. 2848. .247 * 101400
-vorsorg_krank_minder:
+  unit: euro
+  time: year
+  2005-01-01:
+    scalar: 20000
+    note: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
+  2015-01-01:
+    scalar: 22170
+    note: Ab 2015 knappschaftlicher Höchstbetrag, d.h. knappschaftlicher Beitragssatz * knappschaftliche Beitragsbemessungsgrenze
+  2016-01-01:
+    scalar: 22766
+    note: .248 * 91800
+  2017-01-01:
+    scalar: 23362
+    note: .248 * 94200
+  2018-01-01:
+    scalar: 23712
+    note: .247 * 96000
+  2019-01-01:
+    scalar: 24305
+    note: .247 * 98400
+  2020-01-01:
+    scalar: 25046
+    reference: Art. 3 V. v. 17.12.2019 BGBl I S. 2848.
+    note: .247 * 101400
+
+vorsorg_kranken_minderung:
   name:
     de: Anteil, um den Krankenversicherungsbeiträge gemindert werden bei abhängig Beschäftigten.
     en:
   description:
     de: §10 (3) a) S.4 EStG
     en:
-  values:
-    2009-07-23:
-      value: 0.04
-      note: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
-rentert:
+  unit: share
+  2009-07-23:
+    scalar: 0.04
+    reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
+
+behinderten_pausch_betrag:
   name:
-    de: Ertragsanteil der Rente
-    en:
-  description:
-    de: § 22 Nr. 1 a) aa) EStG. Ertragsanteil der Rente bei Rentenbeginn im 65. Macht keinen Sinn, zu parametrisieren, weil es um das Renteneintrittsalter geht.
-    en:
-  values:
-    1984-01-01:
-      value: 0.24
-      note:
-    1992-01-01:
-      value: 0.27
-      note: .
-    2004-01-01:
-      value: 0.5
-      note:
-    2006-01-01:
-      value: 0.52
-      note:
-    2007-01-01:
-      value: 0.54
-      note:
-    2008-01-01:
-      value: 0.56
-      note:
-    2009-01-01:
-      value: 0.58
-      note:
-    2010-01-01:
-      value: 0.6
-      note:
-    2011-01-01:
-      value: 0.62
-      note:
-    2012-01-01:
-      value: 0.64
-      note: Neugefasst durch Bek. v. 8.10.2009 I 3366, 3862,   zuletzt geändert durch Art. 20 G v. 20.12.2011 I 2854
-    2013-01-01:
-      value: 0.66
-      note:
-    2014-01-01:
-      value: 0.68
-      note:
-    2015-01-01:
-      value: 0.7
-      note:
-    2016-01-01:
-      value: 0.72
-      note:
-    2017-01-01:
-      value: 0.74
-      note:
-    2018-01-01:
-      value: 0.76
-      note:
-    2019-01-01:
-      value: 0.78
-      note:
-sauntmx:
-  name:
-    de: Höchstbetrag der Unterhaltsleistungen als Sonderausgaben
-    en:
-  description:
-    de: § 10 (1a) Nr. 1 EStG
-    en:
-  values:
-    1984-01-01:
-      value: 4602
-      note:
-    1986-01-01:
-      value: 9203
-      note:
-    1990-01-01:
-      value: 13805
-      note: .
-sbhp100:
-  name:
-    de: Behinderten-Pauschbeträge (Grad der Behinderung 95% oder 100%)
-    en:
+    de: Behinderten-Pauschbetrag, in Abhängigkeit des Behinderungsgrads.
+    en: Tax Credit for disabled, depending on degree of disability.
   description:
     de: § 33b (3) EStG
     en:
-  values:
-    1987-01-01:
-      value: 1411
-      note: .
-    2002-01-01:
-      value: 1420
-      note:
-sbhp30:
-  name:
-    de: Behinderten-Pauschbeträge (Grad der Behinderung 25% oder 30%)
-    en:
-  description:
-    de: § 33b (3) EStG
-    en:
-  values:
-    1987-01-01:
-      value: 307
-      note: .
-    2002-01-01:
-      value: 310
-      note:
-sbhp40:
-  name:
-    de: Behinderten-Pauschbeträge (Grad der Behinderung 35% oder 40%)
-    en:
-  description:
-    de: § 33b (3) EStG
-    en:
-  values:
-    1987-01-01:
-      value: 429
-      note: .
-    2002-01-01:
-      value: 430
-      note:
-sbhp50:
-  name:
-    de: Behinderten-Pauschbeträge (Grad der Behinderung 45% oder 50%)
-    en:
-  description:
-    de: § 33b (3) EStG
-    en:
-  values:
-    1987-01-01:
-      value: 568
-      note: .
-    2002-01-01:
-      value: 570
-      note:
-sbhp60:
-  name:
-    de: Behinderten-Pauschbeträge (Grad der Behinderung 55% oder 60%)
-    en:
-  description:
-    de: § 33b (3) EStG
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    1987-01-01:
-      value: 721
-      note: .
-    2002-01-01:
-      value: 720
-      note:
-sbhp70:
-  name:
-    de: Behinderten-Pauschbeträge (Grad der Behinderung 65% oder 70%)
-    en:
-  description:
-    de: § 33b (3) EStG
-    en:
-  values:
-    1987-01-01:
-      value: 890
-      note: .
-sbhp80:
-  name:
-    de: Behinderten-Pauschbeträge (Grad der Behinderung 75% oder 80%)
-    en:
-  description:
-    de: § 33b (3) EStG
-    en:
-  values:
-    1987-01-01:
-      value: 1058
-      note: .
-    2002-01-01:
-      value: 1060
-      note:
-sbhp90:
-  name:
-    de: Behinderten-Pauschbeträge (Grad der Behinderung 85% oder 90%)
-    en:
-  description:
-    de: § 33b (3) EStG
-    en:
-  values:
-    1987-01-01:
-      value: 1227
-      note: .
-    2002-01-01:
-      value: 1230
-      note:
-abfahh:
-  name:
-    de: Ausbildungsfreibetrag für ein außerhalb des HH lebendes über 18 Jahre altes Kind
-    en:
-  description:
-    de: §33a (2) S. 1 EStG
-    en:
-  values:
-    1987-01-01:
-      value: 1534
-      note: .
-    1991-01-01:
-      value: 2147
-      note:
-    2002-01-01:
-      value: 924
-      note:
-abfahhg:
-  name:
-    de: Ausbildungsfreibetrag, Hinzuverdienstgrenze des Kindes
-    en:
-  description:
-    de: Höhe §33a (2) Satz 1 EStG. Existiert spätestens seit 2005 nicht mehr.
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2002-01-01:
-      value: 1848
-      note:
-abfihh:
-  name:
-    de: Ausbildungsfreibetrag, Ausbildungsfreibetrag für ein im HH lebendes über 18 Jahre altes Kind
-    en:
-  description:
-    de: Höhe §33a (2) Satz 1 EStG. Existiert spätestens seit 2005 nicht mehr.
-    en:
-  values:
-    1987-01-01:
-      value: 920
-      note: .
-    1991-01-01:
-      value: 1227
-      note:
-    2002-01-01:
-      value: 0
-      note:
-pendpausch:
-  name:
-    de: Entfernungspauschale
-    en:
-  description:
-    de: §9 (1) Nr.4 EStG. Euro pro Kilometer Pendelstrecke.
-    en:
-  values:
-    1984-01-01:
-      value: 0.18
-      note:
-    1989-01-01:
-      value: 0.22
-      note:
-    1990-01-01:
-      value: 0.26
-      note: .
-    1991-01-01:
-      value: 0.3
-      note:
-    1992-01-01:
-      value: 0.33
-      note: .
-    1994-01-01:
-      value: 0.36
-      note:
-    2001-01-01:
-      value: 0.4
-      note: .
-    2004-01-01:
-      value: 0.3
-      note:
-childcare_share:
+  unit: euro
+  time: year
+  1987-01-01:
+    reference:
+    25: 307
+    35: 429
+    45: 568
+    55: 721
+    65: 890
+    75: 1058
+    85: 1227
+    95: 1411
+    note: Umrechnung von DM-Werten.
+  2002-01-01:
+    reference: Art. 1 G. v. 19.12.2000 BGBl. I S. 1790.
+    25: 310
+    35: 430
+    45: 570
+    55: 720
+    65: 890
+    75: 1060
+    85: 1230
+    95: 1420
+
+
+kinderbetreuungskosten_abz_anteil:
   name:
     de: Anteil der Betreuungsaufwendungen, der auf das zu versteuernde Einkommen anrechenbar ist
     en: Share of child care expenses which can be deducted
   description:
-    de: §10 (1) Nr. 5
+    de: §10 (1) Nr. 5 EStG
     en:
-  values:
-    2012-01-01:
-      value: 0.6666666666666666
-      note: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
-childcare_max:
+  unit: share
+  2012-01-01:
+    scalar: 0.6666666
+    reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
+
+kinderbetreuungskosten_abz_maximum:
   name:
-    de: Maximale Betreuungsaufwendung per Kind
+    de: Maximal abziehbare Betreuungsaufwendungen pro Kind
     en: Maximum amount of deductable child care expenses per child
   description:
-    de: §10 (1) Nr. 5
+    de: §10 (1) Nr. 5 EStG
     en:
-  values:
-    2012-01-01:
-      value: 4000
-      note: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
+  unit: euro
+  time: year
+  2012-01-01:
+    scalar: 4000
+    reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131

@@ -11,8 +11,8 @@ def abgelt_st(tax_unit, eink_st_params, eink_st_abzuege_params):
             "abgst"
         ] * np.maximum(
             tax_unit["brutto_eink_5"]
-            - eink_st_abzuege_params["spsparf"]
-            - eink_st_abzuege_params["spwerbz"],
+            - eink_st_abzuege_params["sparerpauschbetrag"]
+            - eink_st_abzuege_params["sparer_werbungskosten_pausch"],
             0,
         ).round(
             2
@@ -24,8 +24,8 @@ def abgelt_st(tax_unit, eink_st_params, eink_st_abzuege_params):
                 tax_unit["brutto_eink_5_tu"]
                 - 2
                 * (
-                    eink_st_abzuege_params["spsparf"]
-                    + eink_st_abzuege_params["spwerbz"]
+                    eink_st_abzuege_params["sparerpauschbetrag"]
+                    + eink_st_abzuege_params["sparer_werbungskosten_pausch"]
                 ),
                 0,
             )
