@@ -128,19 +128,19 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     # Find out who has the lower zve among partners
     nokfb_lower = tax_unit["_zu_versteuerndes_eink_kein_kind_freib"].min()
 
-    # Add both components for ease of notation.
+    # Add both components of Child Allowance for ease of notation.
     if params["jahr"] >= 2000:
         kifreib_total = (
-            params["Kinderfreibetrag_sächl_exmin"]
+            params["kinderfreibetrag_sächl_exmin"]
             + params["kinderfreibetrag_betr_erz_ausb"]
         )
     # 'kifreib_bezt_erz_ausb' does not exist before 2000.
     else:
-        kifreib_total = params["Kinderfreibetrag_sächl_exmin"]
+        kifreib_total = params["kinderfreibetrag_sächl_exmin"]
 
     diff_kifreib = nokfb_lower - (kifreib_total * kigeld_kinder)
-    # If the couple is married and one earns not enough to split the kinderfeibetrag,
-    # things get a bit more complicated
+    # If the couple is married and one partner does not earn enough
+    # to split the kinderfeibetrag, things get a bit more complicated.
     if diff_kifreib < 0 & tax_unit[~tax_unit["kind"]]["gem_veranlagt"].all():
 
         # The high earner gets half of the total kinderfreibetrag plus the amount the
@@ -148,8 +148,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
         kifreib_higher = (kifreib_total * kigeld_kinder) + abs(diff_kifreib)
         # The second earner subtracts the remaining amount
         kifreib_lower = kifreib_total * kigeld_kinder - abs(diff_kifreib)
-        # Then we assign each earner the amount and return the series
-
+        # Then we assign each adult the amount and return the series
         tax_unit.loc[
             ~tax_unit["kind"] & tax_unit["_zu_versteuerndes_eink_kein_kind_freib"]
             != nokfb_lower,
@@ -160,7 +159,6 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
             == nokfb_lower,
             "kind_freib",
         ] = kifreib_lower
-
         return tax_unit
 
     # For non married couples or couples where both earn enough this are a lot easier.
@@ -248,6 +246,7 @@ def calc_altfreibetrag(tax_unit, params):
 def calc_handicap_lump_sum(tax_unit, params):
     """Calculate the different deductions for different handicap degrees."""
     # Behinderten-Pauschbeträge
+    # Pick the correct one based on handicap degree
     hc_degrees = [
         tax_unit["behinderungsgrad"].between(25, 30),
         tax_unit["behinderungsgrad"].between(35, 40),
@@ -259,7 +258,9 @@ def calc_handicap_lump_sum(tax_unit, params):
         tax_unit["behinderungsgrad"].between(95, 100),
     ]
 
-    return np.nan_to_num(np.select(hc_degrees, params["behinderten_pausch_betrag"]))
+    return np.nan_to_num(
+        np.select(hc_degrees, params["behinderten_pausch_betrag"].values())
+    )
 
 
 def calc_gde(tax_unit, params):
