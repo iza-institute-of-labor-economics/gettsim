@@ -32,13 +32,13 @@ def uhv_since_07_2017(tax_unit, params, kindergeld_params):
     # Amounts depend on age
     tax_unit.loc[
         (tax_unit["alter"] < 6) & tax_unit["alleinerziehend"], "unterhaltsvors_m"
-    ] = (params["uhv6_amount"] - kindergeld_params["kgeld1"])
+    ] = (params["uhv6_amount"] - kindergeld_params["kindergeld"][1])
     tax_unit.loc[
         (tax_unit["alter"] >= 6)
         & (tax_unit["alter"] < 12)
         & tax_unit["alleinerziehend"],
         "unterhaltsvors_m",
-    ] = (params["uhv12_amount"] - kindergeld_params["kgeld1"])
+    ] = (params["uhv12_amount"] - kindergeld_params["kindergeld"][1])
     # Older kids get it only if the parent has income > 600€
     uhv_inc_tu = (
         tax_unit[
@@ -61,7 +61,7 @@ def uhv_since_07_2017(tax_unit, params, kindergeld_params):
         & (tax_unit["alleinerziehend"])
         & (uhv_inc_tu > params["uhv17_inc"]),
         "unterhaltsvors_m",
-    ] = (params["uhv17_amount"] - kindergeld_params["kgeld1"])
+    ] = (params["uhv17_amount"] - kindergeld_params["kindergeld"][1])
 
     # round up
     tax_unit["unterhaltsvors_m"] = np.ceil(tax_unit["unterhaltsvors_m"]).astype(int)

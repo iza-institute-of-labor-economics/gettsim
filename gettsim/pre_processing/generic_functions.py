@@ -14,7 +14,8 @@ def get_piecewise_parameters(parameter_dict, parameter, piecewise_func):
 
     if keys != list(range(len(keys))):
         raise ValueError(
-            f"The keys of {parameter} do not start with 0 or are not consecutive numbers."
+            f"The keys of {parameter} do not start with 0 or are not consecutive"
+            f" numbers."
         )
 
     # Extract lower thresholds.
