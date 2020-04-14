@@ -16,7 +16,8 @@ def eink_st_raw_data():
 
 @pytest.fixture(scope="session")
 def eink_st_abzuege_raw_data():
-    return yaml.safe_load((ROOT_DIR / "data" / "eink_st_abzuege.yaml").read_text())
+    with open(ROOT_DIR / "data" / "eink_st_abzuege.yaml", encoding="utf8") as yml:
+        return yaml.safe_load(yml)
 
 
 @pytest.fixture(scope="session")
