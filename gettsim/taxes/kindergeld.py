@@ -13,21 +13,17 @@ def kindergeld(tax_unit, params):
             kindergeld_m_basis: Kindergeld on the individual level
             kindergeld_m_tu_basis: Kindergeld summed up within the tax unit
     """
-
-    tax_unit["kindeld_anspruch"] = params["kindergeld_anspruch_regel"](
+    tax_unit["kindergeld_anspruch"] = params["kindergeld_anspruch_regel"](
         tax_unit, params
     ).cumsum()
-
-    kg_amounts = {
-        1: params["kgeld1"],
-        2: params["kgeld2"],
-        3: params["kgeld3"],
-        4: params["kgeld4"],
-    }
-    tax_unit["kindergeld_m_basis"] = tax_unit["kindeld_anspruch"].replace(kg_amounts)
-    tax_unit.loc[tax_unit["kindeld_anspruch"] > 4, "kindergeld_m_basis"] = params[
-        "kgeld4"
-    ]
+    # Kindergeld_Anspruch is the cumulative sum eligible children.
+    # This maps to the dictionary key for the kindergeld amount
+    tax_unit["kindergeld_m_basis"] = tax_unit["kindergeld_anspruch"].replace(
+        params["kindergeld"]
+    )
+    tax_unit.loc[tax_unit["kindergeld_anspruch"] > 4, "kindergeld_m_basis"] = params[
+        "kindergeld"
+    ][4]
     tax_unit["kindergeld_m_tu_basis"] = np.sum(tax_unit["kindergeld_m_basis"])
 
     return tax_unit
@@ -40,9 +36,9 @@ def kindergeld_anspruch_nach_stunden(tax_unit, params):
     """
     anspruch = tax_unit["alter"] <= 18
     anspruch[
-        (tax_unit["alter"].between(19, params["kgage"]))
+        (tax_unit["alter"].between(19, params["kindergeld_hoechstalter"]))
         & tax_unit["in_ausbildung"]
-        & (tax_unit["arbeitsstunden_w"] <= params["kg_stundengrenze"])
+        & (tax_unit["arbeitsstunden_w"] <= params["kindergeld_stundengrenze"])
     ] = True
 
     return anspruch
@@ -55,9 +51,9 @@ def kindergeld_anspruch_nach_lohn(tax_unit, params):
     """
     anspruch = tax_unit["alter"] <= 18
     anspruch[
-        (tax_unit["alter"].between(19, params["kgage"]))
+        (tax_unit["alter"].between(19, params["kindergeld_hoechstalter"]))
         & tax_unit["in_ausbildung"]
-        & (tax_unit["bruttolohn_m"] <= params["kgfreib"] / 12)
+        & (tax_unit["bruttolohn_m"] <= params["kindergeld_einkommensgrenze"] / 12)
     ] = True
 
     return anspruch
