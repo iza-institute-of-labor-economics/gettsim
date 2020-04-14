@@ -194,7 +194,7 @@ def zve_abg_nokfb(tax_unit, params):
                 0,
                 tax_unit["brutto_eink_5"]
                 - 2 * params["sparerpauschbetrag"]
-                - 2 * params["sparer_werbungskosten_pausch"],
+                - 2 * params["sparer_werbungskosten_pauschbetrag"],
             )
             - tax_unit["vorsorge"]
             - tax_unit["sonder"]
@@ -212,7 +212,7 @@ def zve_abg_nokfb(tax_unit, params):
                 0,
                 tax_unit["brutto_eink_5"]
                 - params["sparerpauschbetrag"]
-                - params["sparer_werbungskosten_pausch"],
+                - params["sparer_werbungskosten_pauschbetrag"],
             )
             - tax_unit["vorsorge"]
             - tax_unit["sonder"]
@@ -280,7 +280,7 @@ def calc_gde(tax_unit, params):
         gross_gde += np.maximum(
             tax_unit["brutto_eink_5"]
             - params["sparerpauschbetrag"]
-            - params["sparer_werbungskosten_pausch"],
+            - params["sparer_werbungskosten_pauschbetrag"],
             0,
         )
     return gross_gde
@@ -376,7 +376,7 @@ def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
         tax_unit["pflegev_beit_m"]
-        + (1 - params["vorsorg_kranken_minderung"]) * tax_unit["ges_krankv_beit_m"]
+        + (1 - params["vorsorge_kranken_minderung"]) * tax_unit["ges_krankv_beit_m"]
     )
     # maybe add avbeit, but do not exceed 1900€.
     sonstige_vors = np.maximum(
@@ -424,7 +424,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             # Amount 1: Basic deduction, based on earnings. Usually zero.
             item_1 = np.maximum(
                 params["vorsorge2004_vorwegabzug"]
-                - params["vorsorge2004_kürzung_vorwegabzug"]
+                - params["vorsorge2004_kuerzung_vorwegabzug"]
                 * 12
                 * tax_unit["bruttolohn_m"],
                 0,
@@ -439,11 +439,12 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         )
         # Deduct a 'Grundhöchstbetrag' (1334€ in 2004),
         # or the actual expenses if lower (which is unlikely)
-        item_2 = np.minimum(params["vors2004_grundhöchstbetrag"], vorsorg_rest)
+        item_2 = np.minimum(params["vorsorge_2004_grundhöchstbetrag"], vorsorg_rest)
         # From what is left from vorsorg_rest, you may deduct 50%.
         # (up until 50% of 'Grundhöchstbetrag')
         item_3 = np.minimum(
-            0.5 * (vorsorg_rest - item_2), 0.5 * params["vors2004_grundhöchstbetrag"]
+            0.5 * (vorsorg_rest - item_2),
+            0.5 * params["vorsorge_2004_grundhöchstbetrag"],
         )
     # For the married couple, the same stuff, but with tu totals.
     if tax_unit["gem_veranlagt"].max():
@@ -455,7 +456,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         if params["jahr"] <= 2019:
             item_1 = 0.5 * np.maximum(
                 2 * params["vorsorge2004_vorwegabzug"]
-                - params["vorsorge2004_kürzung_vorwegabzug"]
+                - params["vorsorge2004_kuerzung_vorwegabzug"]
                 * 12
                 * tax_unit["bruttolohn_m_tu"],
                 0,
@@ -468,9 +469,11 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             - item_1,
             0,
         )
-        item_2 = 0.5 * np.minimum(params["vors2004_grundhöchstbetrag"], vorsorg_rest)
+        item_2 = 0.5 * np.minimum(
+            params["vorsorge_2004_grundhöchstbetrag"], vorsorg_rest
+        )
         item_3 = 0.5 * np.minimum(
-            (vorsorg_rest - item_2), 2 * params["vors2004_grundhöchstbetrag"]
+            (vorsorg_rest - item_2), 2 * params["vorsorge_2004_grundhöchstbetrag"]
         )
 
     # Finally, add up all three amounts and assign it to the adults.

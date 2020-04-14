@@ -203,7 +203,7 @@ sparerpauschbetrag:
     scalar: 801
     reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
     note: Integration von Werbungskostenpauschbetrag für Zinseinkünfte in Sparerpauschbetrag.
-sparer_werbungskosten_pausch:
+sparer_werbungskosten_pauschbetrag:
   name:
     de: Werbungskostenpauschbetrag bei Zinseinkünften
     en:
@@ -219,7 +219,7 @@ sparer_werbungskosten_pausch:
     scalar: 0
     note:
 
-vors2004_grundhöchstbetrag:
+vorsorge_2004_grundhöchstbetrag:
   name:
     de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle
     en:
@@ -421,7 +421,7 @@ alleinerziehenden_freibetrag_zusatz:
     scalar: 240
     reference: Art. 1 G. vs. 16.07.2015 BGBl. I S.1202
 
-vorsorge2004_kürzung_vorwegabzug:
+vorsorge2004_kuerzung_vorwegabzug:
   name:
     de: Kürzung des Vorwegabzugs für Vorsorgeaufwendungen vor 2004.
     en:
@@ -494,7 +494,7 @@ vorsorge_altersaufw_max:
     reference: Art. 3 V. v. 17.12.2019 BGBl I S. 2848.
     note: .247 * 101400
 
-vorsorg_kranken_minderung:
+vorsorge_kranken_minderung:
   name:
     de: Anteil, um den Krankenversicherungsbeiträge gemindert werden bei abhängig Beschäftigten.
     en:
