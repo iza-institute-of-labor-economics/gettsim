@@ -13,14 +13,15 @@ def kindergeld(tax_unit, params):
             kindergeld_m_basis: Kindergeld on the individual level
             kindergeld_m_tu_basis: Kindergeld summed up within the tax unit
     """
-    tax_unit["kindeld_anspruch"] = params["kindergeld_anspruch_regel"](
+    tax_unit["kindergeld_anspruch"] = params["kindergeld_anspruch_regel"](
         tax_unit, params
     ).cumsum()
-
-    tax_unit["kindergeld_m_basis"] = tax_unit["kindeld_anspruch"].replace(
+    # Kindergeld_Anspruch is the cumulative sum eligible children.
+    # This maps to the dictionary key for the kindergeld amount
+    tax_unit["kindergeld_m_basis"] = tax_unit["kindergeld_anspruch"].replace(
         params["kindergeld"]
     )
-    tax_unit.loc[tax_unit["kindeld_anspruch"] > 4, "kindergeld_m_basis"] = params[
+    tax_unit.loc[tax_unit["kindergeld_anspruch"] > 4, "kindergeld_m_basis"] = params[
         "kindergeld"
     ][4]
     tax_unit["kindergeld_m_tu_basis"] = np.sum(tax_unit["kindergeld_m_basis"])
