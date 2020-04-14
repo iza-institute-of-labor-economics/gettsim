@@ -28,6 +28,7 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     tax_unit.loc[:, "brutto_eink_6"] = 12 * tax_unit["vermiet_eink_m"]
     # Others (Pensions)
     tax_unit = calc_gross_e7(tax_unit, eink_st_abzuege_params)
+
     # Sum of incomes
     tax_unit.loc[:, "sum_brutto_eink"] = calc_gde(tax_unit, eink_st_abzuege_params)
 
