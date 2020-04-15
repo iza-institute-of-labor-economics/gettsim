@@ -421,7 +421,7 @@ alleinerziehenden_freibetrag_zusatz:
     scalar: 240
     reference: Art. 1 G. vs. 16.07.2015 BGBl. I S.1202
 
-vorsorge2004_kuerzung_vorwegabzug:
+vorsorge2004_kürzung_vorwegabzug:
   name:
     de: Kürzung des Vorwegabzugs für Vorsorgeaufwendungen vor 2004.
     en:

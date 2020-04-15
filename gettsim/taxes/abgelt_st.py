@@ -8,7 +8,7 @@ def abgelt_st(tax_unit, eink_st_params, eink_st_abzuege_params):
     tax_unit["abgelt_st_m"] = 0
     if eink_st_params["jahr"] >= 2009:
         tax_unit.loc[~tax_unit["gem_veranlagt"], "abgelt_st_m"] = eink_st_params[
-            "abgeltungssteuer_satz"
+            "abgelt_st_satz"
         ] * np.maximum(
             tax_unit["brutto_eink_5"]
             - eink_st_abzuege_params["sparerpauschbetrag"]
@@ -19,7 +19,7 @@ def abgelt_st(tax_unit, eink_st_params, eink_st_abzuege_params):
         )
         tax_unit.loc[tax_unit["gem_veranlagt"], "abgelt_st_m"] = (
             0.5
-            * eink_st_params["abgeltungssteuer_satz"]
+            * eink_st_params["abgelt_st_satz"]
             * np.maximum(
                 tax_unit["brutto_eink_5_tu"]
                 - 2

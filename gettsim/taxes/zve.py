@@ -425,7 +425,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             # Amount 1: Basic deduction, based on earnings. Usually zero.
             item_1 = np.maximum(
                 params["vorsorge2004_vorwegabzug"]
-                - params["vorsorge2004_kuerzung_vorwegabzug"]
+                - params["vorsorge2004_kürzung_vorwegabzug"]
                 * 12
                 * tax_unit["bruttolohn_m"],
                 0,
@@ -457,7 +457,7 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         if params["jahr"] <= 2019:
             item_1 = 0.5 * np.maximum(
                 2 * params["vorsorge2004_vorwegabzug"]
-                - params["vorsorge2004_kuerzung_vorwegabzug"]
+                - params["vorsorge2004_kürzung_vorwegabzug"]
                 * 12
                 * tax_unit["bruttolohn_m_tu"],
                 0,
