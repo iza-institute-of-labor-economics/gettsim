@@ -36,7 +36,6 @@ def kiz(household, params, arbeitsl_geld_2_params):
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
     wb = params["wohnbedarf_eltern_anteil"]
-    print(wb)
     household["wohnbedarf_eltern_anteil"] = 1.0
     for ad in [1, 2]:
         for ki in [1, 2, 3, 4]:
