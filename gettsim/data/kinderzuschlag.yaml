@@ -27,7 +27,7 @@ kinder_zuschlag_min_eink_paare:
   time: month
   2005-01-01:
     scalar: 0
-    reference: kein expliziter Wert im Gesetz.
+    note: kein expliziter Wert im Gesetz.
   2008-10-01:
     scalar: 900
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
@@ -42,7 +42,7 @@ kinder_zuschlag_min_eink_alleinerz:
   time: month
   2005-01-01:
     scalar: 0
-    reference: kein expliziter Wert im Gesetz.
+    note: kein expliziter Wert im Gesetz.
   2008-10-01:
     scalar: 600
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
@@ -89,39 +89,39 @@ wohnbedarf_eltern_anteil:
   2008-01-01:
     1: [.7553, .5734, .4726, .4019, .3497]
     2: [.8320, .7123, .6227, .5531, .4978]
-    reference: 6 Existenzminimumsbericht, .Bundestag Drucksache 16/3265, Übersicht 3
+    reference: 6. Existenzminimumsbericht, .Bundestag Drucksache 16/3265, Übersicht 3
   2010-01-01:
     1: [.759, .6116, .5121, .4405, .3865]
     2: [.8311, .711, .6212, .5515, .4959]
-    reference: 7 Existenzminimumsbericht, .Bundestag Drucksache 16/11065, Übersicht 3
+    reference: 7. Existenzminimumsbericht, .Bundestag Drucksache 16/11065, Übersicht 3
   2012-01-01:
     1: [.7634, .6174, .5182, .4465, .3923]
     2: [.8314, .7115, .6218, .5522, .4966]
-    reference: 8 Existenzminimumsbericht, .Bundestag Drucksache 17/5550, Übersicht 4
+    reference: 8. Existenzminimumsbericht, .Bundestag Drucksache 17/5550, Übersicht 4
   2013-01-01:
     1: [.7603, .6133, .5139, .4423, .3882]
     2: [.8314, .7115, .6218, .5522, .4966]
-    reference: 9 Existenzminimumsbericht, .Bundestag Drucksache 17/11425, Übersicht 5
+    reference: 9. Existenzminimumsbericht, .Bundestag Drucksache 17/11425, Übersicht 5
   2014-01-01:
     1: [.7669, .6220, .5231, .4513, .3969]
     2: [.8330, .7138, .6245, .5550, .4995]
-    reference: 9 Existenzminimumsbericht, .Bundestag Drucksache 17/11425, Übersicht 5
+    reference: 9. Existenzminimumsbericht, .Bundestag Drucksache 17/11425, Übersicht 5
   2015-01-01:
     1: [.7669, .6220, .5231, .4513, .3969]
     2: [.8330, .7138, .6245, .5550, .4995]
-    reference: 10 Existenzminimumsbericht, .Bundestag Drucksache 18/3893, Übersicht 4
+    reference: 10. Existenzminimumsbericht, .Bundestag Drucksache 18/3893, Übersicht 4
   2016-01-01:
     1: [.7664, .6213, .5224, .4506, .3962]
     2: [.8316, .7117, .6220, .5524, .4969]
-    reference: 10 Existenzminimumsbericht, .Bundestag Drucksache 18/3893, Übersicht 4
+    reference: 10. Existenzminimumsbericht, .Bundestag Drucksache 18/3893, Übersicht 4
   2017-01-01:
     1: [.7725, .6293, .5309, .4592, .4045]
     2: [.8316, .7117, .6220, .5524, .4969]
-    reference: 11 Existenzminimumsbericht, .Bundestag Drucksache 18/10220, Übersicht 4
+    reference: 11. Existenzminimumsbericht, .Bundestag Drucksache 18/10220, Übersicht 4
   2018-01-01:
     1: [.7724, .6292, .5308, .4590, .4043]
     2: [.8325, .7130, .6236, .5541, .4985]
-    reference: 11 Existenzminimumsbericht, .Bundestag Drucksache 18/10220, Übersicht 4
+    reference: 11. Existenzminimumsbericht, .Bundestag Drucksache 18/10220, Übersicht 4
   2019-01-01:
     1: [.7710, .6273, .5288, .4570, .4024]
     2: [.8360, .7193, .6296, .5604, .5049]
