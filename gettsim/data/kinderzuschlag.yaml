@@ -79,7 +79,7 @@ wohnbedarf_eltern_anteil:
     de: Untersteller Anteil des Eltern-Wohnbedarfs (Prozentanteil)
     en: Fictitious share of living cost attributed to parents (percentage share)
   description:
-    de: §6a (5) S.3 BKGG. Für die Berechnung des Kinderzuschlags ist der Bedarf für Unterkunft und Heizung zwischen Eltern und Kindern aufzuteilen. Quelle ist der regelmäßig erscheinende Existenzminumsbericht der Bundesregierung. Der Anteil ergibt sich durch Verrechnung der Anteile der Kosten der Unterkunft und Heizung am Existenzminumum. Der erste Parameter ist die Anzahl der Eltern (1 oder 2), der zweite die Anzahl der Kinder (1,2,3,4,4+)
+    de: §6a (5) S.3 BKGG. Für die Berechnung des Kinderzuschlags ist der Bedarf für Unterkunft und Heizung zwischen Eltern und Kindern aufzuteilen. Quelle ist der regelmäßig erscheinende Existenzminumsbericht der Bundesregierung. Der Anteil ergibt sich durch Verrechnung der Anteile der Kosten der Unterkunft und Heizung am Existenzminumum. Der erste Parameter ist die Anzahl der Eltern (1 oder 2), der zweite die Anzahl der Kinder (1,2,3,4,4+). Die Anteile sind git auch im "Merkblatt Kinderzuschlag" angegeben.
     en: The first parameter (1,2) denotes the number of adults, the second one the number of children (1,2,3,4,4+) in the household.
   unit: share
   2005-01-01:
