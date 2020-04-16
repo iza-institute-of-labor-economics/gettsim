@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def piecewise_linear(
+def piecewise_polynominal(
     value,
     lower_thresholds,
     upper_thresholds,
@@ -24,22 +24,36 @@ def piecewise_linear(
 
 
     """
+
+    # Check if value lies within the defined range.
     if (value < lower_thresholds[0]) or (value > upper_thresholds[-1]):
-        out = np.nan
-    else:
-        index_interval = np.searchsorted(upper_thresholds, value, side="left")
-        if rates_modified:
-            # Calculate new intercept
-            intercept_interval = 0
-            for interval in range(index_interval):
-                intercept_interval += rates[interval] * (
+        return np.nan
+
+    # If linear function and one dimensional rate array: reshape rates
+    if len(rates.shape) == 1:
+        rates = rates.reshape(1, rates.shape[0])
+
+    index_interval = np.searchsorted(upper_thresholds, value, side="left")
+    if rates_modified:
+        # Calculate new intercept
+        intercept_interval = 0
+        for interval in range(index_interval):
+            for pol in range(1, rates.shape[0] + 1):
+                intercept_interval += (rates[pol - 1, interval] ** pol) * (
                     upper_thresholds[interval] - lower_thresholds[interval]
                 )
 
-        else:
-            intercept_interval = intercepts_at_lower_thresholds[index_interval]
+    else:
+        intercept_interval = intercepts_at_lower_thresholds[index_interval]
 
-        lower_thresehold_interval = lower_thresholds[index_interval]
-        rate_interval = rates[index_interval]
-        out = intercept_interval + (value - lower_thresehold_interval) * rate_interval
+    # Select threshold and calculate corresponding increment into interval
+    lower_thresehold_interval = lower_thresholds[index_interval]
+    increment_to_calc = value - lower_thresehold_interval
+
+    out = intercept_interval
+    for pol in range(1, rates.shape[0] + 1):
+        intercept_interval += (
+            rates[pol - 1, index_interval] ** pol
+        ) * increment_to_calc
+
     return out

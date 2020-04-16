@@ -20,7 +20,7 @@ from gettsim.config import ROOT_DIR
 from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
-from gettsim.pre_processing.piecewise_functions import piecewise_linear
+from gettsim.pre_processing.piecewise_functions import piecewise_polynominal
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.taxes.eink_st import st_tarif
@@ -175,7 +175,7 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
         if tax_data["jahr"] >= 2005:
             for param in ["e_anr_frei_kinder", "e_anr_frei"]:
                 tax_data[param] = get_piecewise_parameters(
-                    tax_data[param], param, piecewise_linear
+                    tax_data[param], param, piecewise_polynominal
                 )
         if tax_data["jahr"] <= 2010:
             tax_data["calc_regelsatz"] = regelberechnung_until_2010

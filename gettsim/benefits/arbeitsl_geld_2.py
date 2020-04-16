@@ -4,7 +4,7 @@ import datetime
 import numpy as np
 
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.pre_processing.piecewise_functions import piecewise_linear
+from gettsim.pre_processing.piecewise_functions import piecewise_polynominal
 
 
 def alg2(household, params):
@@ -270,7 +270,7 @@ def eink_anr_frei_person(person, e_anr_frei_params, params):
         individual_params["rates"] *= alg2_2005_nq(person, params)
         rates_modified = True
 
-    person["eink_anrechn_frei"] = piecewise_linear(
+    person["eink_anrechn_frei"] = piecewise_polynominal(
         person["bruttolohn_m"], **individual_params, rates_modified=rates_modified
     )
     return person
