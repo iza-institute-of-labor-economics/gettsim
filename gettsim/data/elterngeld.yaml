@@ -1,125 +1,115 @@
-elgfaktor:
+elterngeld_faktor:
   name:
     de: Faktor bei der ElG-Berechung, 2. Stufe
-    en:
+    en: Replacement Rate of Parental Benefit, second bracket.
   description:
-    de: § 2 BEEG
+    de: § 2 (1) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 0.67
-      note:
-elgmax:
+  unit: share
+  2007-01-01:
+    scalar: 0.67
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_höchstbetrag:
   name:
     de: Höchsbetrag des Elterngeldes
-    en:
+    en: Maximum Parental Benefit
   description:
-    de: § 2 BEEG
+    de: § 2 (1) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 1800
-      note:
-elg_st_1:
+  unit: euro
+  time: month
+  2007-01-01:
+    scalar: 1800
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_nettoeinkommen_stufen:
   name:
-    de: Nettoeinkommen, bei dem 1. Stufe beginnt
-    en:
+    de: Nettoeinkommen an 1. und 2. Stufe
+    en: Net income where the first and second bracket starts
   description:
-    de: § 2 BEEG
+    de: § 2 (2) BEEG. Maßgeblich ist das durchschnittlich erzielte monatliche Einkommen vor der Geburt
     en:
-  values:
-    2013-01-01:
-      value: 1000
-      note:
-elg_st_2:
-  name:
-    de: Nettoeinkommen, bei dem 2. Stufe beginnt
-    en:
-  description:
-    de: § 2 BEEG
-    en:
-  values:
-    2007-01-01:
-      value: 1001
-      note:
-    2013-01-01:
-      value: 1201
-      note:
-elgmin:
+  unit: euro
+  time: month
+  2007-01-01:
+    1: 1000
+    2: 1001
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+  2011-01-01:
+    1: 1000
+    2: 1201
+  reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+elterngeld_mindestbetrag:
   name:
     de: Mindestbetrag des Elterngeldes
-    en:
+    en: Minimum amount of parental benefit
   description:
-    de: § 2 BEEG
+    de: § 2 (5) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 300
-      note:
-elg_perc_correct:
+  unit: euro
+  time: month
+  2007-01-01:
+    scalar: 300
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_prozent_korrektur:
   name:
-    de: Percentage correction for lower or high incomes
-    en:
+    de: Korrektur des Prozentsatzes für hohe und niedrige Einkommen
+    en: Percentage correction for lower or high incomes
   description:
-    de: § 2 BEEG
+    de: § 2 (2) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 0.001
-      note:
-perc_deduct_limit:
+  unit: share
+  2007-01-01:
+    scalar: 0.001
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_prozent_minimum:
   name:
-    de: Percentage deduction limit for higher incomes
-    en:
+    de: Minimaler Anteil des Elterngelds am vorherigen Nettoeinkommen
+    en: Percentage deduction limit for higher incomes
   description:
-    de: § 2 BEEG
+    de: § 2 (2) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 0.67
-      note: implizit, exisitiert vorher nicht
-    2011-01-01:
-      value: 0.65
-      note:
-elg_perc_correct_step:
+  unit: share
+  2007-01-01:
+    scalar: 0.67
+    note: implizit, exisitiert vorher nicht
+  2011-01-01:
+    scalar: 0.65
+    reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+elterngeld_eink_schritt_korrektur:
   name:
-    de: Income steps for percentage correction
-    en:
+    de: Einkommensschritte für die Korrektur
+    en: Income steps for percentage correction
   description:
-    de: § 2 BEEG
+    de: § 2 (2) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 2
-      note:
-elg_geschw_bonus_share:
+  unit: euro
+  time: month
+  2007-01-01:
+    scalar: 2
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_geschw_bonus_aufschlag:
   name:
     de: Geschwisterbonus als prozentualer Aufschlag
     en: Sibling Bonus, percentage top-up
   description:
-    de: §2 BEEG
+    de: § 2a (1) BEEG. Früher § 2 (4) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 0
-      note: implizit, exisitiert vorher nicht
-    2012-09-18:
-      value: 0.1
-      note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
-elg_geschw_bonus_min:
+  unit: share
+  2007-01-01:
+    scalar: 0.1
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_geschwister_bonus_minimum:
   name:
     de: Minimaler Geschwisterbonus als Euro-Betrag
     en: Sibling Bonus, minimal amount
   description:
-    de: §2  BEEG
+    de: § 2a (1) BEEG. Früher §2 (4)  BEEG
     en:
-  values:
-    2007-01-01:
-      value: 0
-      note: implizit, exisitiert vorher nicht
-    2012-09-18:
-      value: 75
-      note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
+  unit: euro
+  time: month
+  2007-01-01:
+    scalar: 75
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 elg_geschw_bonus_max:
   name:
     de: Maximaler Geschwisterbonus als Euro-Betrag
@@ -127,54 +117,54 @@ elg_geschw_bonus_max:
   description:
     de: §2 BEEG
     en:
-  values:
-    2007-01-01:
-      value: 0
-      note: implizit, exisitiert vorher nicht
-    2012-09-18:
-      value: 180
-      note: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
-mehrling_bonus:
+  2007-01-01:
+    scalar: 0
+    note: implizit, exisitiert vorher nicht
+  2012-09-18:
+    scalar: 180
+    reference: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
+    note: EXISITERT NICHT
+elterngeld_mehrling_bonus:
   name:
-    de: Pauschale für jedes weiter Mehrlingskind
+    de: Pauschale für jedes weitere Mehrlingskind
     en: Twin, triplet bonus per additional child
   description:
-    de: §2 BEEG
+    de: § 2a (4) BEEG, früher §2 (6) BEEG.
     en:
-  values:
-    2007-01-01:
-      value: 300
-      note:
-soz_vers_pausch:
+  unit: euro
+  time: month
+  2007-01-01:
+    scalar: 300
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_soz_versich_pauschale:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
     en:
   description:
-    de: 0.09 (kv + pv) + 0.1 (rv) + 0.02 (av)  nach §2f BEEG
+    de: §2f BEEG. Vor 2012 waren es die eigentlichen Pflichtbeiträge.
     en:
-  values:
-    2007-01-01:
-      value: 0.21
-      note:
-max_joint_months:
+  unit: share
+  2012-09-18:
+    scalar: 0.21
+    reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
+    note: .09 + .1 + .02
+elterngeld_max_monate_paar:
   name:
     de: Maximale Anzahl an Monaten, in denen ein Paar Elterngeld erhält
-    en:
+    en: Maximum number of months a couple may receive parental benefit.
   description:
-    de: §4 BEEG
+    de: § 4 (3) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 14
-      note:
-max_months:
+  2007-01-01:
+    scalar: 14
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_max_monate_ind:
   name:
-    de: Maximale Anzahl an Monaten, die jedes Eltern Teil erhält
-    en:
+    de: Maximale Anzahl an Monaten, die jedes Elternteil Elterngeld erhält
+    en: Maximum number of months an individual parent may receive parental benefit.
   description:
-    de: §4 BEEG
+    de: § 4 (3) BEEG
     en:
-  values:
-    2007-01-01:
-      value: 12
-      note:
+  2007-01-01:
+    scalar: 12
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748

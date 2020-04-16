@@ -54,6 +54,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         "arbeitsl_geld",
         "arbeitsl_geld_2",
         "eink_st_abzuege",
+        "elterngeld",
         "kindergeld",
         "kinderzuschlag",
     ]:
