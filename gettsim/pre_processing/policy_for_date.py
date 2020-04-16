@@ -171,14 +171,19 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
     tax_data = load_regrouped_data(
         policy_date, group, raw_group_data=raw_group_data, parameters=parameters
     )
+
+    for param in tax_data:
+        if type(tax_data[param]) == dict:
+            if "type" in tax_data[param]:
+                if tax_data[param]["type"].startswith("piecewise"):
+                    tax_data[param] = get_piecewise_parameters(
+                        tax_data[param],
+                        param,
+                        piecewise_polynominal,
+                        func_type=tax_data[param]["type"].split("_")[1],
+                    )
+
     if group == "arbeitsl_geld_2":
-        # import pdb
-        # pdb.set_trace()
-        if tax_data["jahr"] >= 2005:
-            for param in ["e_anr_frei_kinder", "e_anr_frei"]:
-                tax_data[param] = get_piecewise_parameters(
-                    tax_data[param], param, piecewise_polynominal
-                )
         if tax_data["jahr"] <= 2010:
             tax_data["calc_regelsatz"] = regelberechnung_until_2010
         else:

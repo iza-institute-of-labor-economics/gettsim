@@ -29,10 +29,6 @@ def piecewise_polynominal(
     if (value < lower_thresholds[0]) or (value > upper_thresholds[-1]):
         return np.nan
 
-    # If linear function and one dimensional rate array: reshape rates
-    if len(rates.shape) == 1:
-        rates = rates.reshape(1, rates.shape[0])
-
     index_interval = np.searchsorted(upper_thresholds, value, side="left")
     if rates_modified:
         # Calculate new intercept
