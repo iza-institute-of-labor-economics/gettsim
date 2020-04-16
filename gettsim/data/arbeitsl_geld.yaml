@@ -14,12 +14,12 @@ arbeitsl_geld_freibetrag:
   2002-01-01:
     scalar: 165
     reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
-sozial_versich_pauschale:
+sozial_versich_pauschale_alg:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en: Fictitious social security contribution rate
   description:
-    de: § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt.
+    de: § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt. ACHTUNG! Beim Elterngeld gibt es eine ähnliche Größe.
     en:
   unit: share
   1984-01-01:
@@ -141,7 +141,7 @@ arbeitl_geld_stundengrenze:
     en:
   1969-07-01:
     scalar: 20
-    note:
+    reference:
   1986-01-01:
     scalar: 19
     reference: Art. 1 G. v. 20.12.1985 BGBl I S. 2484
