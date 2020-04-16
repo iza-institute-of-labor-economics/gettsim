@@ -1,4 +1,4 @@
-kinder_zuschlag:
+kinderzuschlag:
   name:
     de: Höhe des Kinderzuschlags
     en: Additional child benefit
@@ -16,7 +16,7 @@ kinder_zuschlag:
   2019-07-01:
     scalar: 185
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
-kinder_zuschlag_min_eink_paare:
+kinderzuschlag_min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
     en: Minimum income to be eligible for add. child benefit (couples)
@@ -31,7 +31,7 @@ kinder_zuschlag_min_eink_paare:
   2008-10-01:
     scalar: 900
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-kinder_zuschlag_min_eink_alleinerz:
+kinderzuschlag_min_eink_alleinerz:
   name:
     de: Mindesteinkommen für Alleinerziehende
     en: Minimum income for single parents
@@ -46,7 +46,7 @@ kinder_zuschlag_min_eink_alleinerz:
   2008-10-01:
     scalar: 600
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-kinder_zuschlag_transferentzug_eltern:
+kinderzuschlag_transferentzug_eltern:
   name:
     de: Minderungsrate durch Einkommen der Eltern über BMG
     en: transfer withdrawal rate for parent's income
@@ -60,7 +60,7 @@ kinder_zuschlag_transferentzug_eltern:
   2008-10-01:
     scalar: 0.5
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-kinder_zuschlag_transferentzug_kind:
+kinderzuschlag_transferentzug_kind:
   name:
     de: Minderungsrate durch Einkommen des Kindes
     en: Rate at which child income is deducted
