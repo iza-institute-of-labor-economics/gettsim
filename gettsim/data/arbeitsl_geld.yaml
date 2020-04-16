@@ -1,151 +1,156 @@
-alg1_frei:
+arbeitsl_geld_freibetrag:
   name:
     de: Freibetrag bei der Anrechnung von Nebeneinkommen
-    en:
+    en: Income which is not deducted from unemployment benefit.
   description:
-    de: §155 SGB III, vorher § 141 (1) SGB III
+    de: § 155 SGB III, vorher § 141 (1) S. 1
     en:
-  values:
-    1984-01-01:
-      value: 165
-      note: Prüfen!
-soz_vers_pausch:
+  unit: euro
+  time: month
+  1999-08-01:
+    scalar: 161
+    reference: Art. 1 g. v. 21.07.1999 BGBl. I S. 1648
+    note: Originalwert 315 DM.
+  2002-01-01:
+    scalar: 165
+    reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
+sozial_versich_pauschale:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
-    en:
+    en: Fictitious social security contribution rate
   description:
-    de: § 153 (1) Nr. 1 SGB III
+    de: § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt.
     en:
-  values:
-    1984-01-01:
-      value: 0.1727
-      note:
-    1985-01-01:
-      value: 0.1745
-      note:
-    1986-01-01:
-      value: 0.1775
-      note:
-    1987-01-01:
-      value: 0.1774
-      note: .
-    1988-01-01:
-      value: 0.1794
-      note: .
-    1989-01-01:
-      value: 0.1795
-      note:
-    1990-01-01:
-      value: 0.1775
-      note: .
-    1991-01-01:
-      value: 0.179
-      note:
-    1992-01-01:
-      value: 0.184
-      note: .
-    1993-01-01:
-      value: 0.187
-      note: .
-    1994-01-01:
-      value: 0.1955
-      note:
-    1995-01-01:
-      value: 0.1915
-      note: .
-    1996-01-01:
-      value: 0.1995
-      note: .
-    1997-01-01:
-      value: 0.2095
-      note: .
-    1998-01-01:
-      value: 0.2105
-      note:
-    2000-01-01:
-      value: 0.20535
-      note: .
-    2001-01-01:
-      value: 0.2044
-      note: .
-    2002-01-01:
-      value: 0.2065
-      note:
-    2003-01-01:
-      value: 0.2105
-      note:
-    2004-01-01:
-      value: 0.2095
-      note:
-    2005-01-01:
-      value: 0.2074
-      note:
-    2006-01-01:
-      value: 0.2141
-      note:
-    2007-01-01:
-      value: 0.2075
-      note:
-    2008-01-01:
-      value: 0.20475
-      note:
-    2009-01-01:
-      value: 0.20525
-      note:
-    2010-01-01:
-      value: 0.20225
-      note:
-    2011-01-01:
-      value: 0.20625
-      note:
-    2012-01-01:
-      value: 0.21
-      note:
-    2019-01-01:
-      value: 0.2
-      note:
-agsatz0:
+  unit: share
+  1984-01-01:
+    scalar: 0.1727
+    reference:
+  1985-01-01:
+    scalar: 0.1745
+    reference:
+  1986-01-01:
+    scalar: 0.1775
+    reference:
+  1987-01-01:
+    scalar: 0.1774
+    reference: .
+  1988-01-01:
+    scalar: 0.1794
+    reference: .
+  1989-01-01:
+    scalar: 0.1795
+    reference:
+  1990-01-01:
+    scalar: 0.1775
+    reference: .
+  1991-01-01:
+    scalar: 0.179
+    reference:
+  1992-01-01:
+    scalar: 0.184
+    reference: .
+  1993-01-01:
+    scalar: 0.187
+    reference: .
+  1994-01-01:
+    scalar: 0.1955
+    reference:
+  1995-01-01:
+    scalar: 0.1915
+    reference: .
+  1996-01-01:
+    scalar: 0.1995
+    reference: .
+  1997-01-01:
+    scalar: 0.2095
+    reference: .
+  1998-01-01:
+    scalar: 0.2105
+    reference:
+  2000-01-01:
+    scalar: 0.20535
+    reference: .
+  2001-01-01:
+    scalar: 0.2044
+    reference: .
+  2002-01-01:
+    scalar: 0.2065
+    reference:
+  2003-01-01:
+    scalar: 0.2105
+    reference:
+  2004-01-01:
+    scalar: 0.2095
+    reference:
+  2005-01-01:
+    scalar: 0.2074
+    reference:
+  2006-01-01:
+    scalar: 0.2141
+    reference:
+  2007-01-01:
+    scalar: 0.2075
+    reference:
+  2008-01-01:
+    scalar: 0.20475
+    reference:
+  2009-01-01:
+    scalar: 0.20525
+    reference:
+  2010-01-01:
+    scalar: 0.20225
+    reference:
+  2011-01-01:
+    scalar: 0.20625
+    reference:
+  2012-01-01:
+    scalar: 0.21
+    reference: Art. 2 G. v. 20.12.2011 BGBl. I S. 2854
+  2019-01-01:
+    scalar: 0.2
+    reference: Art. 1 G. v. 18.12.2018 BGBl. I S. 2651
+arbeitsl_geld_satz_ohne_kinder:
   name:
-    de: Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG
-    en:
+    de: Anteil des Arbeitslosengelds für Personen ohne Kinder (allgemeiner Leistungssatz)
+    en: Replacement Rate Unemployment Benefit, for childless persons.
   description:
-    de: §149 Nr. 2 SGB III, vorher § 129 (2) SGB III
+    de: §149 Nr. 2 SGB III, vorher § 129 (2) SGB III. Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG.
     en:
-  values:
-    1984-01-01:
-      value: 0.6
-      note: Prüfen!
-agsatz1:
+  unit: share
+  1998-08-01:
+    scalar: 0.6
+    reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
+    note: Vielleicht schon vorher geändert.
+arbeitsl_geld_satz_mit_kindern:
   name:
-    de: Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
-    en:
+    de: Anteil des Arbeitslosengelds für Personen mit Kindern (erhöhter Leistungssatz)
+    en: Replacement Rate Unemployment Benefit for persons with children.
   description:
-    de: §149 Nr. 1 SGB III, vorher §129 Nr. 1 SGB III
+    de: §149 Nr. 1 SGB III, vorher §129 Nr. 1 SGB III. Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
     en:
-  values:
-    1984-01-01:
-      value: 0.67
-      note: Prüfen!
-ag_stundengrenze:
+  1998-08-01:
+    scalar: 0.67
+    reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
+    note: Vielleicht schon vorher geändert.
+arbeitl_geld_stundengrenze:
   name:
     de: Stundengrenze für Bezug von Arbeitslosengeld
     en: Working hours limit to receive unemployment benefit
   description:
     de: §138 (3) SGB III, früher auch §102 (2) AFG. Grenze, ab der nicht mehr Arbeitslosigkeit unterstellt wird.
     en:
-  values:
-    1969-07-01:
-      value: 20
-      note:
-    1986-01-01:
-      value: 19
-      note: Art. 1 G. v. 20.12.1985 BGBl I S. 2484
-    1989-01-01:
-      value: 18
-      note: Art. 1 G. v. 20.12.1988 BGBl I S. 2343
-    2012-04-01:
-      value: 15
-      note: Art. 2 G. v. 20.12.2011 BGBl I S. 2854
+  1969-07-01:
+    scalar: 20
+    note:
+  1986-01-01:
+    scalar: 19
+    reference: Art. 1 G. v. 20.12.1985 BGBl I S. 2484
+  1989-01-01:
+    scalar: 18
+    reference: Art. 1 G. v. 20.12.1988 BGBl I S. 2343
+  2012-04-01:
+    scalar: 15
+    reference: Art. 2 G. v. 20.12.2011 BGBl I S. 2854
 
 
 
