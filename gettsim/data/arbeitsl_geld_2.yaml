@@ -53,6 +53,7 @@ e_anr_frei_kinder:
         de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit Kindern. Gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
         en:
     note: Ersetzt Parameter in e_anr_frei, falls nicht vorhanden
+    type: piecewise_linear
     2005-10-01:
         reference: G. v. 14.08.2005 BGBl. I S. 2407.
         deviation_from: arbeitsl_geld_2.e_anr_frei

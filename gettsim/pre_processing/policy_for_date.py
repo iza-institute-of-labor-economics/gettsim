@@ -172,6 +172,8 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
         policy_date, group, raw_group_data=raw_group_data, parameters=parameters
     )
     if group == "arbeitsl_geld_2":
+        # import pdb
+        # pdb.set_trace()
         if tax_data["jahr"] >= 2005:
             for param in ["e_anr_frei_kinder", "e_anr_frei"]:
                 tax_data[param] = get_piecewise_parameters(
@@ -223,6 +225,8 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
                 tax_data[param] = policy_in_place["scalar"]
             else:
                 tax_data[param] = {}
+                if "type" in raw_group_data[param]:
+                    tax_data[param]["type"] = raw_group_data[param]["type"]
                 value_keys = (
                     key for key in policy_in_place.keys() if key not in additional_keys
                 )
