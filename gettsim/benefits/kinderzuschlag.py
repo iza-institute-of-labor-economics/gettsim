@@ -35,19 +35,19 @@ def kiz(household, params, arbeitsl_geld_2_params):
     household["kinderzuschlag_heizkost_m"] = household["heizkost_m"] * tax_unit_share
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
-    wb = params["wohnbedarf_eltern"]
+    wb = params["wohnbedarf_eltern_anteil"]
     household["wohnbedarf_eltern_anteil"] = 1.0
     for ad in [1, 2]:
         for ki in [1, 2, 3, 4]:
             household.loc[
                 (household["anz_kinder_tu"] == ki) & (household["anz_erw_tu"] == ad),
                 "wohnbedarf_eltern_anteil",
-            ] = (wb[ad][ki - 1] / 100)
+            ] = wb[ad][ki - 1]
         # if more than 4 children
         household.loc[
             (household["anz_kinder_tu"] >= 5) & (household["anz_erw_tu"] == ad),
             "wohnbedarf_eltern_anteil",
-        ] = (wb[ad][4] / 100)
+        ] = wb[ad][4]
 
     # apply this share to living costs
     # unlike ALG2, there is no check on whether living costs are "appropriate".
@@ -68,7 +68,7 @@ def kiz(household, params, arbeitsl_geld_2_params):
     # kiz receipt (§6a (1) Nr. 3 BKGG)
     household["kinderzuschlag_eink_max"] = (
         household["kinderzuschlag_eink_relev"]
-        + params["a2kiz"] * household["anz_kinder_anspruch"]
+        + params["kinderzuschlag"] * household["anz_kinder_anspruch"]
     )
     # min income to be eligible for KIZ (different for singles and couples)
     # (§6a (1) Nr. 2 BKGG)
@@ -83,8 +83,8 @@ def kiz(household, params, arbeitsl_geld_2_params):
     household["kinderzuschlag_kindereink_abzug"] = household["kindergeld_anspruch"] * (
         np.maximum(
             0,
-            params["a2kiz"]
-            - params["a2kiz_withdrawal_rate_child"]
+            params["kinderzuschlag"]
+            - params["kinderzuschlag_transferentzug_kind"]
             * (household["bruttolohn_m"] + household["unterhaltsvors_m"]),
         )
     )
@@ -93,7 +93,7 @@ def kiz(household, params, arbeitsl_geld_2_params):
     # (§6a (6) S. 3 BKGG)
     household["kinderzuschlag_eink_anrechn"] = np.maximum(
         0,
-        params["a2kiz_withdrawal_rate"]
+        params["kinderzuschlag_transferentzug_eltern"]
         * (
             household["sum_arbeitsl_geld_2_eink_hh"]
             - household["kinderzuschlag_eink_relev"]
@@ -151,9 +151,9 @@ def calc_min_income_kiz(household, params):
     if household["kind"].any() > 0:
         # Is it a single parent household
         if household["alleinerziehend"].all():
-            return params["a2kiz_minek_sin"]
+            return params["kinderzuschlag_min_eink_alleinerz"]
         else:
-            return params["a2kiz_minek_cou"]
+            return params["kinderzuschlag_min_eink_paare"]
     else:
         return 0
 
