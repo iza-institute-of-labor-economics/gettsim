@@ -32,10 +32,11 @@ def parse_yaml(params, key, lang, grouped=False):
     if not grouped:
         # Ungrouped parameters
         for d in params[key]["values"].keys():
-            date = d
-            value = params[key]["values"][d]["value"]
-            note = params[key]["values"][d]["note"]
-            row = {"date": date, "value": value, "note": note}
+            row = {
+                "date": d,
+                "value": params[key]["values"][d]["value"],
+                "note": params[key]["values"][d]["note"],
+            }
             par = par.append(row, ignore_index=True)
     else:
         # Grouped Parameters
@@ -47,7 +48,14 @@ def parse_yaml(params, key, lang, grouped=False):
                     "value": params[key][d]["scalar"],
                     "note": params[key][d]["reference"],
                 }
-                par = par.append(row, ignore_index=True)
+            else:
+                row = {
+                    "date": d,
+                    "value": params[key][d],
+                    "note": params[key][d]["reference"],
+                }
+            par = par.append(row, ignore_index=True)
+
     # Some cleaning
     par["date"] = pd.to_datetime(par["date"], format="%Y-%m-%d")
     par["value"] = par["value"].astype(float)
@@ -67,6 +75,7 @@ def make_param_graphs(lang="de"):
     param_files = glob.glob("*.yaml")
 
     for yaml_file in param_files:
+        # for yaml_file in ["wohngeld.yaml"]:
         file_name = yaml_file[:-5]
         output_file(f"graphs/{file_name}.html", title=file_name.title())
 
@@ -83,10 +92,10 @@ def make_param_graphs(lang="de"):
             else:
                 name, descr, par, unit = parse_yaml(params, key, lang, True)
             # How to format the values on mouse-over
-            if unit == "amount":
-                format_str = "$y{0.}"
             if unit == "share":
                 format_str = "$y{0.3f}"
+            else:
+                format_str = "$y{0.}"
 
             hover = HoverTool(
                 tooltips=[
@@ -132,7 +141,7 @@ def make_param_graphs(lang="de"):
             )
             plot_tab = column(p, t)
             plotlist.append(plot_tab)
-
+        # Return grid in 3 columns
         grid = gridplot(plotlist, ncols=3)
 
         save(grid)

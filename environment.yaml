@@ -6,7 +6,7 @@ dependencies:
   - python=3.7
   - pip
   - anaconda-client
-  - bokeh
+  - bokeh=1.4
   - conda-build
   - conda-verify
   - pandas
