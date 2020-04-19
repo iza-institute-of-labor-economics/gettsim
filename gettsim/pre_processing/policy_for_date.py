@@ -50,10 +50,11 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
             actual_date, group, raw_group_data=raw_group_data
         )
     elif group in [
-        "arbeitsl_geld_2",
-        "kindergeld",
-        "eink_st_abzuege",
         "abgelt_st",
+        "arbeitsl_geld",
+        "arbeitsl_geld_2",
+        "eink_st_abzuege",
+        "kindergeld",
         "kinderzuschlag",
     ]:
         tax_data = process_data(actual_date, group, raw_group_data=raw_group_data)

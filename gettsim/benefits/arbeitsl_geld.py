@@ -22,16 +22,20 @@ def ui(
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
         werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
-        soz_vers_pausch=params["soz_vers_pausch"],
+        soz_vers_pauschale=params["soz_vers_pauschale_arbeitsl_geld"],
     )
 
     eligible = check_eligibility_alg(person, params)
 
     if eligible:
         if person["anz_kinder_tu"].sum() == 0:
-            person["arbeitsl_geld_m"] = alg_entgelt * params["agsatz0"]
+            person["arbeitsl_geld_m"] = (
+                alg_entgelt * params["arbeitsl_geld_satz_ohne_kinder"]
+            )
         else:
-            person["arbeitsl_geld_m"] = alg_entgelt * params["agsatz1"]
+            person["arbeitsl_geld_m"] = (
+                alg_entgelt * params["arbeitsl_geld_satz_mit_kindern"]
+            )
     else:
         person["arbeitsl_geld_m"] = 0.0
     return person
@@ -43,16 +47,18 @@ def proxy_net_wage_last_year(
     soli_st_params,
     beit_bem_grenz,
     werbungs_pausch,
-    soz_vers_pausch,
+    soz_vers_pauschale,
 ):
-    """ Calculating the claim for the Arbeitslosengeld, depending on the current
-    wage."""
+    """ Calculating the claim for benefits depending on previous wage.
+    - Arbeitslosengeld
+    - Elterngeld
+    """
 
     # Relevant wage is capped at the contribution thresholds
     max_wage = min(beit_bem_grenz, person["bruttolohn_vorj_m"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = soz_vers_pausch * max_wage
+    prox_ssc = soz_vers_pauschale * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_tax = eink_st_params["st_tarif"](
@@ -82,5 +88,5 @@ def check_eligibility_alg(person, params):
         (1 <= mts_ue <= 12)
         & (person["alter"] < 65)
         & (person["ges_rente_m"] == 0)
-        & (person["arbeitsstunden_w"] < params["ag_stundengrenze"])
+        & (person["arbeitsstunden_w"] < params["arbeitsl_geld_stundengrenze"])
     )
