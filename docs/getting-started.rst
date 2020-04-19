@@ -147,6 +147,16 @@ Required columns in input data
 +---------------------+--------------------------------------------------------+-------+
 | immobilie_baujahr   | Construction year of dwelling                          | int   |
 +---------------------+--------------------------------------------------------+-------+
+| geburtsmonat        | Month of Birth                                         | int   |
++---------------------+--------------------------------------------------------+-------+
+| geburtstag          | Day (1-31) of Birth                                    | int   |
++---------------------+--------------------------------------------------------+-------+
+| m_elterngeld_vat    | Dummy: Father receives parental benefit                | bool  |
++---------------------+--------------------------------------------------------+-------+
+| m_elterngeld_mut    | Dummy: Mother receives parental benefit                | bool  |
++---------------------+--------------------------------------------------------+-------+
+| m_elterngeld        | Parental Benefit received by both parents              | int   |
++---------------------+--------------------------------------------------------+-------+
 | sonstig_eink_m      | Sum of monthly public/private transfers not simulated. | int   |
 |                     | E.g. transfers from parents, alimonies, maternity      |       |
 |                     | leave payments. Will be split up in future releases.   |       |

@@ -5,7 +5,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.kinderzuschlag import kiz
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
@@ -58,15 +58,12 @@ def test_kiz(
     arbeitsl_geld_2_params = get_policies_for_date(
         year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
     )
-    kindergeld_params = get_policies_for_date(
-        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
-    )
+
     for col in OUT_COLS:
         df[col] = np.nan
     df = df.groupby("hh_id").apply(
         kiz,
         params=kinderzuschlag_params,
         arbeitsl_geld_2_params=arbeitsl_geld_2_params,
-        kindergeld_params=kindergeld_params,
     )
     assert_frame_equal(df[columns], year_data[columns], check_less_precise=True)

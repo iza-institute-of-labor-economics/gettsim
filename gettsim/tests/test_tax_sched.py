@@ -4,7 +4,7 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
 from gettsim.taxes.eink_st import eink_st
 
 INPUT_COLS = [

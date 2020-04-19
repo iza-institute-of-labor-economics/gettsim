@@ -126,3 +126,26 @@ agsatz1:
     1984-01-01:
       value: 0.67
       note: Prüfen!
+ag_stundengrenze:
+  name:
+    de: Stundengrenze für Bezug von Arbeitslosengeld
+    en: Working hours limit to receive unemployment benefit
+  description:
+    de: §138 (3) SGB III, früher auch §102 (2) AFG. Grenze, ab der nicht mehr Arbeitslosigkeit unterstellt wird.
+    en:
+  values:
+    1969-07-01:
+      value: 20
+      note:
+    1986-01-01:
+      value: 19
+      note: Art. 1 G. v. 20.12.1985 BGBl I S. 2484
+    1989-01-01:
+      value: 18
+      note: Art. 1 G. v. 20.12.1988 BGBl I S. 2343
+    2012-04-01:
+      value: 15
+      note: Art. 2 G. v. 20.12.2011 BGBl I S. 2854
+
+
+

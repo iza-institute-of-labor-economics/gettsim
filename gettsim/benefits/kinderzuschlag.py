@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
+def kiz(household, params, arbeitsl_geld_2_params):
     """ Kinderzuschlag / Additional Child Benefit
         The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they
         would be eligible to ALG2 due to the fact that their claim rises because of
@@ -35,18 +35,19 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     household["kinderzuschlag_heizkost_m"] = household["heizkost_m"] * tax_unit_share
     # The actual living need is again broken down to the parents.
     # There is a specific share for this, taken from the function 'wohnbedarf'.
-    wb = get_wohnbedarf(max(params["jahr"], 2011))
+    wb = params["wohnbedarf_eltern_anteil"]
     household["wohnbedarf_eltern_anteil"] = 1.0
-    for c in [1, 2]:
-        for r in [1, 2, 3, 4]:
+    for ad in [1, 2]:
+        for ki in [1, 2, 3, 4]:
             household.loc[
-                (household["anz_kinder_tu"] == r) & (household["anz_erw_tu"] == c),
+                (household["anz_kinder_tu"] == ki) & (household["anz_erw_tu"] == ad),
                 "wohnbedarf_eltern_anteil",
-            ] = (wb[r - 1][c - 1] / 100)
+            ] = wb[ad][ki - 1]
+        # if more than 4 children
         household.loc[
-            (household["anz_kinder_tu"] >= 5) & (household["anz_erw_tu"] == c),
+            (household["anz_kinder_tu"] >= 5) & (household["anz_erw_tu"] == ad),
             "wohnbedarf_eltern_anteil",
-        ] = (wb[4][c - 1] / 100)
+        ] = wb[ad][4]
 
     # apply this share to living costs
     # unlike ALG2, there is no check on whether living costs are "appropriate".
@@ -67,7 +68,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # kiz receipt (§6a (1) Nr. 3 BKGG)
     household["kinderzuschlag_eink_max"] = (
         household["kinderzuschlag_eink_relev"]
-        + params["a2kiz"] * household["anz_kinder_anspruch"]
+        + params["kinderzuschlag"] * household["anz_kinder_anspruch"]
     )
     # min income to be eligible for KIZ (different for singles and couples)
     # (§6a (1) Nr. 2 BKGG)
@@ -82,8 +83,8 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     household["kinderzuschlag_kindereink_abzug"] = household["kindergeld_anspruch"] * (
         np.maximum(
             0,
-            params["a2kiz"]
-            - params["a2kiz_withdrawal_rate_child"]
+            params["kinderzuschlag"]
+            - params["kinderzuschlag_transferentzug_kind"]
             * (household["bruttolohn_m"] + household["unterhaltsvors_m"]),
         )
     )
@@ -92,7 +93,7 @@ def kiz(household, params, arbeitsl_geld_2_params, kindergeld_params):
     # (§6a (6) S. 3 BKGG)
     household["kinderzuschlag_eink_anrechn"] = np.maximum(
         0,
-        params["a2kiz_withdrawal_rate"]
+        params["kinderzuschlag_transferentzug_eltern"]
         * (
             household["sum_arbeitsl_geld_2_eink_hh"]
             - household["kinderzuschlag_eink_relev"]
@@ -150,9 +151,9 @@ def calc_min_income_kiz(household, params):
     if household["kind"].any() > 0:
         # Is it a single parent household
         if household["alleinerziehend"].all():
-            return params["a2kiz_minek_sin"]
+            return params["kinderzuschlag_min_eink_alleinerz"]
         else:
-            return params["a2kiz_minek_cou"]
+            return params["kinderzuschlag_min_eink_paare"]
     else:
         return 0
 
@@ -178,93 +179,26 @@ def calc_kiz_ek(household, params, arbeitsl_geld_2_params):
 def _calc_kiz_regel_until_2010(household, params):
     """"""
     return [
-        params["rs_hhvor"] * (1 + household["mehrbed"]),
-        params["rs_hhvor"] * params["a2part"] * (2 + household["mehrbed"]),
-        params["rs_hhvor"] * params["a2ch18"] * household["anz_erw_tu"],
+        params["regelsatz"] * (1 + household["mehrbed"]),
+        params["regelsatz"]
+        * params["anteil_regelsatz"]["zwei_erwachsene"]
+        * (2 + household["mehrbed"]),
+        params["regelsatz"]
+        * params["anteil_regelsatz"]["weitere_erwachsene"]
+        * household["anz_erw_tu"],
     ]
 
 
 def _calc_kiz_regel_since_2011(household, params):
     return [
-        params["rs_hhvor"] * (1 + household["mehrbed"]),
-        params["rs_2adults"] + ((1 + household["mehrbed"]) * params["rs_2adults"]),
-        params["rs_madults"] * household["anz_erw_tu"],
+        params["regelsatz"][1] * (1 + household["mehrbed"]),
+        params["regelsatz"][2] * (2 + household["mehrbed"]),
+        params["regelsatz"][3] * household["anz_erw_tu"],
     ]
 
 
-def get_wohnbedarf(yr):
-    """ Specifies the percent share of living costs that is attributed to the parents
-        This is a share that is defined by the "Existenzminimumsbericht".
-
-        The actual tables are found in the official "Merkblatt Kinderzuschlag".
-    """
-    # cols: number of adults
-    # rows: number of kids
-    wohnbedarf = {
-        "2011": [
-            [75.90, 83.11],
-            [61.16, 71.10],
-            [51.21, 62.12],
-            [44.05, 55.15],
-            [38.65, 49.59],
-        ],
-        "2012": [
-            [76.34, 83.14],
-            [61.74, 71.15],
-            [51.82, 62.18],
-            [44.65, 55.22],
-            [39.23, 49.66],
-        ],
-        "2013": [
-            [76.34, 83.14],
-            [61.74, 71.15],
-            [51.82, 62.18],
-            [44.65, 55.22],
-            [39.23, 49.66],
-        ],
-        "2014": [
-            [76.69, 83.30],
-            [62.20, 71.38],
-            [52.31, 62.45],
-            [45.13, 55.50],
-            [39.69, 49.95],
-        ],
-        "2015": [
-            [76.69, 83.30],
-            [62.20, 71.38],
-            [52.31, 62.45],
-            [45.13, 55.50],
-            [39.69, 49.95],
-        ],
-        "2016": [
-            [77.25, 83.16],
-            [62.93, 71.17],
-            [53.09, 62.20],
-            [45.92, 55.24],
-            [40.45, 49.69],
-        ],
-        "2017": [
-            [77.25, 83.16],
-            [62.93, 71.17],
-            [53.09, 62.20],
-            [45.92, 55.24],
-            [40.45, 49.69],
-        ],
-        "2018": [
-            [77.24, 83.25],
-            [62.92, 71.30],
-            [53.08, 62.36],
-            [45.90, 55.41],
-            [40.43, 49.85],
-        ],
-        "2019": [
-            [77.10, 83.60],
-            [62.73, 71.93],
-            [52.88, 62.96],
-            [45.70, 56.04],
-            [40.24, 50.49],
-        ],
-        "2020": [[77, 84], [63, 72], [53, 63], [46, 56], [40, 50]],
-    }
-
-    return wohnbedarf[str(yr)]
+def kiz_dummy(household, params, arbeitsl_geld_2_params):
+    """ Dummy function to return a bunch of zero values if called before 2005. """
+    household["kinderzuschlag_temp"] = np.zeros((len(household), 1))
+    household["kinderzuschlag_eink_spanne"] = np.zeros((len(household), 1))
+    return household

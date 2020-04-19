@@ -21,11 +21,11 @@ def ui(
         eink_st_params,
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
-        werbungs_pausch=eink_st_abzuege_params["werbung"],
+        werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
         soz_vers_pausch=params["soz_vers_pausch"],
     )
 
-    eligible = check_eligibility_alg(person)
+    eligible = check_eligibility_alg(person, params)
 
     if eligible:
         if person["anz_kinder_tu"].sum() == 0:
@@ -64,7 +64,7 @@ def proxy_net_wage_last_year(
     return max(0, max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12)
 
 
-def check_eligibility_alg(person):
+def check_eligibility_alg(person, params):
     """Checking eligibility, depending on the months worked beforehand, the age and
     other variables.."""
     # Months of unemployment beforehand.
@@ -82,5 +82,5 @@ def check_eligibility_alg(person):
         (1 <= mts_ue <= 12)
         & (person["alter"] < 65)
         & (person["ges_rente_m"] == 0)
-        & (person["arbeitsstunden_w"] < 15)
+        & (person["arbeitsstunden_w"] < params["ag_stundengrenze"])
     )

@@ -3,8 +3,8 @@ import datetime
 import numpy as np
 from dateutil import relativedelta
 
-from gettsim.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.benefits.arbeitsl_geld import proxy_net_wage_last_year
+from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 
 
 def elterngeld(
@@ -103,7 +103,7 @@ def calc_considered_wage(
         eink_st_params,
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
-        werbungs_pausch=eink_st_abzuege_params["werbung"],
+        werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
         soz_vers_pausch=params["soz_vers_pausch"],
     )
 

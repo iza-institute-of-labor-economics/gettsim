@@ -28,6 +28,7 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     tax_unit.loc[:, "brutto_eink_6"] = 12 * tax_unit["vermiet_eink_m"]
     # Others (Pensions)
     tax_unit = calc_gross_e7(tax_unit, eink_st_abzuege_params)
+
     # Sum of incomes
     tax_unit.loc[:, "sum_brutto_eink"] = calc_gde(tax_unit, eink_st_abzuege_params)
 
@@ -128,16 +129,19 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     # Find out who has the lower zve among partners
     nokfb_lower = tax_unit["_zu_versteuerndes_eink_kein_kind_freib"].min()
 
-    # Add both components for ease of notation.
+    # Add both components of Child Allowance for ease of notation.
     if params["jahr"] >= 2000:
-        kifreib_total = params["kifreib_s_exm"] + params["kifreib_bea"]
-    # 'kifreib_bea' does not exist before 2000.
+        kifreib_total = (
+            params["kinderfreibetrag_sächl_exmin"]
+            + params["kinderfreibetrag_betr_erz_ausb"]
+        )
+    # 'kifreib_bezt_erz_ausb' does not exist before 2000.
     else:
-        kifreib_total = params["kifreib_s_exm"]
+        kifreib_total = params["kinderfreibetrag_sächl_exmin"]
 
     diff_kifreib = nokfb_lower - (kifreib_total * kigeld_kinder)
-    # If the couple is married and one earns not enough to split the kinderfeibetrag,
-    # things get a bit more complicated
+    # If the couple is married and one partner does not earn enough
+    # to split the kinderfeibetrag, things get a bit more complicated.
     if diff_kifreib < 0 & tax_unit[~tax_unit["kind"]]["gem_veranlagt"].all():
 
         # The high earner gets half of the total kinderfreibetrag plus the amount the
@@ -145,8 +149,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
         kifreib_higher = (kifreib_total * kigeld_kinder) + abs(diff_kifreib)
         # The second earner subtracts the remaining amount
         kifreib_lower = kifreib_total * kigeld_kinder - abs(diff_kifreib)
-        # Then we assign each earner the amount and return the series
-
+        # Then we assign each adult the amount and return the series
         tax_unit.loc[
             ~tax_unit["kind"] & tax_unit["_zu_versteuerndes_eink_kein_kind_freib"]
             != nokfb_lower,
@@ -157,7 +160,6 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
             == nokfb_lower,
             "kind_freib",
         ] = kifreib_lower
-
         return tax_unit
 
     # For non married couples or couples where both earn enough this are a lot easier.
@@ -192,8 +194,8 @@ def zve_abg_nokfb(tax_unit, params):
             + np.maximum(
                 0,
                 tax_unit["brutto_eink_5"]
-                - 2 * params["spsparf"]
-                - 2 * params["spwerbz"],
+                - 2 * params["sparerpauschbetrag"]
+                - 2 * params["sparer_werbungskosten_pauschbetrag"],
             )
             - tax_unit["vorsorge"]
             - tax_unit["sonder"]
@@ -208,7 +210,10 @@ def zve_abg_nokfb(tax_unit, params):
             0,
             tax_unit["sum_brutto_eink"]
             + np.maximum(
-                0, tax_unit["brutto_eink_5"] - params["spsparf"] - params["spwerbz"]
+                0,
+                tax_unit["brutto_eink_5"]
+                - params["sparerpauschbetrag"]
+                - params["sparer_werbungskosten_pauschbetrag"],
             )
             - tax_unit["vorsorge"]
             - tax_unit["sonder"]
@@ -223,7 +228,7 @@ def calc_altfreibetrag(tax_unit, params):
     """Calculates the deductions for elderly. Not tested yet!!!"""
     tax_unit["altersfreib"] = 0.0
     tax_unit.loc[tax_unit["alter"] > 64, "altersfreib"] = np.minimum(
-        params["altentq"]
+        params["altersentlastung_quote"]
         * 12
         * (
             tax_unit["bruttolohn_m"]
@@ -234,7 +239,7 @@ def calc_altfreibetrag(tax_unit, params):
                 ),
             )
         ),
-        params["altenth"],
+        params["altersentlastungsbetrag_max"],
     )
     return tax_unit
 
@@ -242,23 +247,21 @@ def calc_altfreibetrag(tax_unit, params):
 def calc_handicap_lump_sum(tax_unit, params):
     """Calculate the different deductions for different handicap degrees."""
     # Behinderten-Pauschbeträge
+    # Pick the correct one based on handicap degree
     hc_degrees = [
+        tax_unit["behinderungsgrad"].between(25, 30),
+        tax_unit["behinderungsgrad"].between(35, 40),
         tax_unit["behinderungsgrad"].between(45, 50),
-        tax_unit["behinderungsgrad"].between(51, 60),
-        tax_unit["behinderungsgrad"].between(61, 70),
-        tax_unit["behinderungsgrad"].between(71, 80),
-        tax_unit["behinderungsgrad"].between(81, 90),
-        tax_unit["behinderungsgrad"].between(91, 100),
+        tax_unit["behinderungsgrad"].between(55, 60),
+        tax_unit["behinderungsgrad"].between(65, 70),
+        tax_unit["behinderungsgrad"].between(75, 80),
+        tax_unit["behinderungsgrad"].between(85, 90),
+        tax_unit["behinderungsgrad"].between(95, 100),
     ]
-    hc_pausch = [
-        params["sbhp50"],
-        params["sbhp60"],
-        params["sbhp70"],
-        params["sbhp80"],
-        params["sbhp90"],
-        params["sbhp100"],
-    ]
-    return np.nan_to_num(np.select(hc_degrees, hc_pausch))
+
+    return np.nan_to_num(
+        np.select(hc_degrees, params["behinderten_pausch_betrag"].values())
+    )
 
 
 def calc_gde(tax_unit, params):
@@ -276,7 +279,10 @@ def calc_gde(tax_unit, params):
     # If capital income tax with tariff, add it but account for exemptions
     if params["jahr"] < 2009:
         gross_gde += np.maximum(
-            tax_unit["brutto_eink_5"] - params["spsparf"] - params["spwerbz"], 0
+            tax_unit["brutto_eink_5"]
+            - params["sparerpauschbetrag"]
+            - params["sparer_werbungskosten_pauschbetrag"],
+            0,
         )
     return gross_gde
 
@@ -289,7 +295,7 @@ def calc_gross_e4(tax_unit, params, soz_vers_beitr_params):
     # Every adult with some wage, gets a lump sum payment for Werbungskosten
     tax_unit.loc[
         (~tax_unit["kind"]) & (tax_unit["bruttolohn_m"] > 0), "brutto_eink_4"
-    ] -= params["werbung"]
+    ] -= params["werbungskostenpauschale"]
 
     # If they earn less the mini job limit, then their relevant gross income is 0
     if tax_unit["wohnort_ost"].iloc[0]:
@@ -307,7 +313,7 @@ def deductible_child_care_costs(tax_unit, params):
     # So far we only implement the current regulation, which has been in place since 2012.
     if params["jahr"] < 2012:
         # For earlier years we only use the pausch value
-        tax_unit.loc[~tax_unit["kind"], "sonder"] = params["sonder"]
+        tax_unit.loc[~tax_unit["kind"], "sonder"] = params["sonderausgabenpauschbetrag"]
         return tax_unit
     else:
         adult_num = len(tax_unit[~tax_unit["kind"]])
@@ -318,13 +324,16 @@ def deductible_child_care_costs(tax_unit, params):
 
         deductible_costs = (
             eligible
-            * np.minimum(params["childcare_max"], 12 * tax_unit["betreuungskost_m"])
-            * params["childcare_share"]
+            * np.minimum(
+                params["kinderbetreuungskosten_abz_maximum"],
+                12 * tax_unit["betreuungskost_m"],
+            )
+            * params["kinderbetreuungskosten_abz_anteil"]
             / adult_num
         )
         # If parents can't claim anything, they get a pausch value.
         tax_unit.loc[~tax_unit["kind"], "sonder"] = max(
-            np.sum(deductible_costs), params["sonder"]
+            np.sum(deductible_costs), params["sonderausgabenpauschbetrag"]
         )
         return tax_unit
 
@@ -342,9 +351,7 @@ def calc_gross_e7(tax_unit, params):
     ] = 0.8 + 0.01 * (tax_unit["jahr_renteneintr"] - 2020)
     tax_unit.loc[tax_unit["jahr_renteneintr"] >= 2041, "_ertragsanteil"] = 1
     tax_unit.loc[:, "brutto_eink_7"] = np.maximum(
-        12 * (tax_unit["_ertragsanteil"] * tax_unit["ges_rente_m"])
-        - params["vorsorgpausch"],
-        0,
+        12 * (tax_unit["_ertragsanteil"] * tax_unit["ges_rente_m"]), 0,
     )
     return tax_unit
 
@@ -370,13 +377,14 @@ def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
         tax_unit["pflegev_beit_m"]
-        + (1 - params["vorsorg_krank_minder"]) * tax_unit["ges_krankv_beit_m"]
+        + (1 - params["vorsorge_kranken_minderung"]) * tax_unit["ges_krankv_beit_m"]
     )
     # maybe add avbeit, but do not exceed 1900€.
     sonstige_vors = np.maximum(
         sonstige_vors,
         np.minimum(
-            sonstige_vors + 12 * tax_unit["arbeitsl_v_beit_m"], params["vors_sonst_max"]
+            sonstige_vors + 12 * tax_unit["arbeitsl_v_beit_m"],
+            params["vorsorge_sonstige_aufw_max"],
         ),
     )
     return altersvors.astype(int) + sonstige_vors.astype(int)
@@ -393,7 +401,7 @@ def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
     altersvors = calc_altersvors_aufwend(tax_unit, params)
 
     sonstige_vors = ~tax_unit["kind"] * np.minimum(
-        params["vors_sonst_max"],
+        params["vorsorge_sonstige_aufw_max"],
         12
         * (
             tax_unit["ges_krankv_beit_m"]
@@ -416,8 +424,10 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         if params["jahr"] <= 2019:
             # Amount 1: Basic deduction, based on earnings. Usually zero.
             item_1 = np.maximum(
-                params["vorwegabzug"]
-                - params["kuerzquo"] * 12 * tax_unit["bruttolohn_m"],
+                params["vorsorge2004_vorwegabzug"]
+                - params["vorsorge2004_kürzung_vorwegabzug"]
+                * 12
+                * tax_unit["bruttolohn_m"],
                 0,
             )
         else:
@@ -430,10 +440,13 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         )
         # Deduct a 'Grundhöchstbetrag' (1334€ in 2004),
         # or the actual expenses if lower (which is unlikely)
-        item_2 = np.minimum(params["grundbet"], vorsorg_rest)
+        item_2 = np.minimum(params["vorsorge_2004_grundhöchstbetrag"], vorsorg_rest)
         # From what is left from vorsorg_rest, you may deduct 50%.
         # (up until 50% of 'Grundhöchstbetrag')
-        item_3 = np.minimum(0.5 * (vorsorg_rest - item_2), 0.5 * params["grundbet"])
+        item_3 = np.minimum(
+            0.5 * (vorsorg_rest - item_2),
+            0.5 * params["vorsorge_2004_grundhöchstbetrag"],
+        )
     # For the married couple, the same stuff, but with tu totals.
     if tax_unit["gem_veranlagt"].max():
         for var in ["bruttolohn_m", "rentenv_beit_m", "ges_krankv_beit_m"]:
@@ -443,8 +456,10 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             ].sum()
         if params["jahr"] <= 2019:
             item_1 = 0.5 * np.maximum(
-                2 * params["vorwegabzug"]
-                - params["kuerzquo"] * 12 * tax_unit["bruttolohn_m_tu"],
+                2 * params["vorsorge2004_vorwegabzug"]
+                - params["vorsorge2004_kürzung_vorwegabzug"]
+                * 12
+                * tax_unit["bruttolohn_m_tu"],
                 0,
             )
         else:
@@ -455,12 +470,15 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
             - item_1,
             0,
         )
-        item_2 = 0.5 * np.minimum(params["grundbet"], vorsorg_rest)
-        item_3 = 0.5 * np.minimum((vorsorg_rest - item_2), 2 * params["grundbet"])
+        item_2 = 0.5 * np.minimum(
+            params["vorsorge_2004_grundhöchstbetrag"], vorsorg_rest
+        )
+        item_3 = 0.5 * np.minimum(
+            (vorsorg_rest - item_2), 2 * params["vorsorge_2004_grundhöchstbetrag"]
+        )
 
     # Finally, add up all three amounts and assign it to the adults.
     vorsorge = ~tax_unit["kind"] * (item_1 + item_2 + item_3).astype(int)
-    # The test requires a named item. If there is only one value, create a list.
     return vorsorge
 
 
@@ -506,14 +524,16 @@ def calc_altersvors_aufwend(tax_unit, params):
         - (12 * tax_unit["rentenv_beit_m"])
     ).astype(int)
 
-    return np.minimum(params["vorsorg_rv_max"], altersvors)
+    return np.minimum(params["vorsorge_altersaufw_max"], altersvors)
 
 
 def calc_hhfreib_until2014(tax_unit, params):
     """Calculates tax reduction for single parents. Used to be called
     'Haushaltsfreibetrag'"""
     tax_unit["hh_freib"] = 0.0
-    tax_unit.loc[tax_unit["alleinerziehend"], "hh_freib"] = params["hhfreib"]
+    tax_unit.loc[tax_unit["alleinerziehend"], "hh_freib"] = params[
+        "alleinerziehenden_freibetrag"
+    ]
     return tax_unit
 
 
@@ -521,7 +541,7 @@ def calc_hhfreib_from2015(tax_unit, params):
     """Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'"""
     tax_unit["hh_freib"] = 0.0
-    tax_unit.loc[tax_unit["alleinerziehend"], "hh_freib"] = params["hhfreib"] + (
-        (tax_unit["kind"].sum() - 1) * params["hhfreib_ch"]
-    )
+    tax_unit.loc[tax_unit["alleinerziehend"], "hh_freib"] = params[
+        "alleinerziehenden_freibetrag"
+    ] + ((tax_unit["kind"].sum() - 1) * params["alleinerziehenden_freibetrag_zusatz"])
     return tax_unit
