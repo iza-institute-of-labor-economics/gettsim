@@ -24,7 +24,6 @@ koeffizienten_berechnungsformel:
     note: The keys from 1 to 12 below refer to the household size.
     1984-01-01:
       note: Parameter aus Regressionsanalyse der Wohngeldtabellen
-      reference:
       1:
         a: 0.0532
         b: 0.00135
@@ -75,7 +74,6 @@ koeffizienten_berechnungsformel:
         c: 0.0000481
     1990-01-01:
       note: Parameter aus Regressionsanalyse der Wohngeldtabellen
-      reference:
       1:
         a: 0.0648
         b: 0.00102
@@ -126,7 +124,6 @@ koeffizienten_berechnungsformel:
         c: 0.0000386
     1992-01-01:
       note: Parameter aus Regressionsanalyse der Wohngeldtabellen
-      reference:
       1:
         a: 0.0666
         b: 0.00102
@@ -409,16 +406,13 @@ abzug_stufen:
       1: 0.125
       2: 0.2
       3: 0.3
-      reference:
     1991-01-01:
       deviation_from: previous
       3: 0.26
-      reference:
     2002-01-01:
       deviation_from: previous
       1: 0.1
       3: 0.3
-      reference:
     2016-01-01:
       deviation_from: previous
       0: 0
@@ -444,7 +438,6 @@ min_miete:
     10: 0
     11: 0
     12: 0
-    reference:
   2001-01-01:
     1: 22.5
     2: 22.5
@@ -458,7 +451,6 @@ min_miete:
     10: 37.5
     11: 75
     12: 155
-    reference:
   2009-01-01:
     1: 45
     2: 55
@@ -472,7 +464,6 @@ min_miete:
     10: 125
     11: 155
     12: 245
-    reference:
   2016-01-01:
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
     1: 48
@@ -522,7 +513,6 @@ min_eink:
     10: 0
     11: 0
     12: 0
-    reference:
   2001-01-01:
     1: 120
     2: 150
@@ -536,7 +526,6 @@ min_eink:
     10: 730
     11: 1000
     12: 1175
-    reference:
   2009-01-01:
     1: 205
     2: 245
@@ -550,7 +539,6 @@ min_eink:
     10: 805
     11: 1085
     12: 1255
-    reference:
   2016-01-01:
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
     1: 239
@@ -590,15 +578,12 @@ freib_kinder:
   1984-01-01:
     12: 51
     24: 0
-    reference:
   2001-01-01:
     deviation_from: previous
     24: 51
-    reference:
   2002-01-01:
     12: 50
     24: 50
-    reference:
   2016-01-01:
     note: neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch nicht 25J.
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
@@ -615,19 +600,15 @@ freib_behinderung:
   1984-01-01:
     ab80: 102
     u80: 0
-    reference:
   1986-01-01:
     deviation_from: previous
     ab80: 51
-    reference:
   1991-01-01:
     ab80: 128
     u80: 102
-    reference:
   2002-01-01:
     ab80: 125
     u80: 100
-    reference:
   2016-01-01:
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
     scalar: 125
