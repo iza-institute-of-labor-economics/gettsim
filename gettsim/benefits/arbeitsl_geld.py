@@ -22,7 +22,7 @@ def ui(
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
         werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
-        sozial_versich_pauschale=params["sozial_versich_pauschale_arbeitsl_geld"],
+        soz_vers_pauschale=params["soz_vers_pauschale_arbeitsl_geld"],
     )
 
     eligible = check_eligibility_alg(person, params)
@@ -47,7 +47,7 @@ def proxy_net_wage_last_year(
     soli_st_params,
     beit_bem_grenz,
     werbungs_pausch,
-    sozial_versich_pauschale,
+    soz_vers_pauschale,
 ):
     """ Calculating the claim for benefits depending on previous wage.
     - Arbeitslosengeld
@@ -58,7 +58,7 @@ def proxy_net_wage_last_year(
     max_wage = min(beit_bem_grenz, person["bruttolohn_vorj_m"])
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = sozial_versich_pauschale * max_wage
+    prox_ssc = soz_vers_pauschale * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_tax = eink_st_params["st_tarif"](

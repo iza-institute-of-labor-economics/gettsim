@@ -104,7 +104,7 @@ def calc_considered_wage(
         soli_st_params,
         beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
         werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
-        sozial_versich_pauschale=params["soz_vers_pausch"],
+        soz_vers_pauschale=params["soz_vers_pausch"],
     )
 
     current_net_wage = calc_net_wage(person)
