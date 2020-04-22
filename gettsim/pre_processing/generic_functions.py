@@ -178,7 +178,6 @@ def create_intercepts(
 
 
     """
-
     intercepts_at_lower_thresholds = np.full_like(upper_thresholds, np.nan)
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
     for i, up_thr in enumerate(upper_thresholds[:-1]):

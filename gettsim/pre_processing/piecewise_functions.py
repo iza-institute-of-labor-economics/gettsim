@@ -1,4 +1,8 @@
+import copy
+
 import numpy as np
+
+from gettsim.pre_processing.generic_functions import check_threholds
 
 
 def piecewise_polynominal(
@@ -48,8 +52,24 @@ def piecewise_polynominal(
 
     out = intercept_interval
     for pol in range(1, rates.shape[0] + 1):
-        intercept_interval += (
-            rates[pol - 1, index_interval] ** pol
-        ) * increment_to_calc
-
+        out += rates[pol - 1, index_interval] * (increment_to_calc ** pol)
     return out
+
+
+def add_progressionsvorbehalt(param_dict, parameter):
+    """
+    If no quadratic rate is given, add rate according to the
+    progressionsvorbehalt formula.
+    """
+    out_dict = copy.deepcopy(param_dict)
+    interval_keys = sorted(key for key in out_dict.keys() if type(key) == int)
+    # Check and extract lower thresholds.
+    lower_thresholds, upper_thresholds = check_threholds(
+        param_dict, parameter, interval_keys
+    )
+    for key in interval_keys:
+        if "rate_quadratic" not in out_dict[key]:
+            out_dict[key]["rate_quadratic"] = (
+                out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
+            ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
+    return out_dict

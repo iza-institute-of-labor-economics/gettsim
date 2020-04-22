@@ -20,10 +20,10 @@ from gettsim.config import ROOT_DIR
 from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
+from gettsim.pre_processing.piecewise_functions import add_progressionsvorbehalt
 from gettsim.pre_processing.piecewise_functions import piecewise_polynominal
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
-from gettsim.taxes.eink_st import st_tarif
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.soli_st import keine_soli_st
@@ -49,7 +49,13 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         tax_data = load_regrouped_data(
             actual_date, group, raw_group_data=raw_group_data
         )
-    elif group in ["arbeitsl_geld_2", "kindergeld", "eink_st_abzuege", "abgelt_st"]:
+    elif group in [
+        "arbeitsl_geld_2",
+        "kindergeld",
+        "eink_st_abzuege",
+        "abgelt_st",
+        "eink_st",
+    ]:
         tax_data = process_data(actual_date, group, raw_group_data=raw_group_data)
     else:
         tax_data = load_ordinary_data_group(raw_group_data, actual_date)
@@ -95,9 +101,6 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
             tax_data["calc_max_rent"] = calc_max_rent_until_2008
         else:
             tax_data["calc_max_rent"] = calc_max_rent_since_2009
-
-    elif group == "eink_st":
-        tax_data["st_tarif"] = st_tarif
 
     elif group == "soli_st":
         if year in [1991, 1992]:
@@ -171,11 +174,15 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
     tax_data = load_regrouped_data(
         policy_date, group, raw_group_data=raw_group_data, parameters=parameters
     )
-
     for param in tax_data:
         if type(tax_data[param]) == dict:
             if "type" in tax_data[param]:
                 if tax_data[param]["type"].startswith("piecewise"):
+                    if "progressionsvorbehalt" in tax_data[param]:
+                        if tax_data[param]["progressionsvorbehalt"]:
+                            tax_data[param] = add_progressionsvorbehalt(
+                                tax_data[param], param
+                            )
                     tax_data[param] = get_piecewise_parameters(
                         tax_data[param],
                         param,
@@ -197,7 +204,8 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
         raw_group_data = yaml.safe_load(
             (ROOT_DIR / "data" / f"{group}.yaml").read_text(encoding="utf-8")
         )
-    additional_keys = ["note", "reference", "deviation_from"]
+    # Keys from the raw file which will not be transferred
+    not_trans_keys = ["note", "reference", "deviation_from"]
     tax_data = {}
     if not parameters:
         parameters = raw_group_data.keys()
@@ -230,10 +238,13 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
                 tax_data[param] = policy_in_place["scalar"]
             else:
                 tax_data[param] = {}
-                if "type" in raw_group_data[param]:
-                    tax_data[param]["type"] = raw_group_data[param]["type"]
+                # Keys which if given are transferred
+                add_trans_keys = ["type", "progressionsvorbehalt"]
+                for key in add_trans_keys:
+                    if key in raw_group_data[param]:
+                        tax_data[param][key] = raw_group_data[param][key]
                 value_keys = (
-                    key for key in policy_in_place.keys() if key not in additional_keys
+                    key for key in policy_in_place.keys() if key not in not_trans_keys
                 )
                 if "deviation_from" in policy_in_place.keys():
                     if policy_in_place["deviation_from"] == "previous":
