@@ -271,6 +271,13 @@ def eink_anr_frei_person(person, e_anr_frei_params, params):
         rates_modified = True
 
     person["eink_anrechn_frei"] = piecewise_polynominal(
-        person["bruttolohn_m"], **individual_params, rates_modified=rates_modified
+        person["bruttolohn_m"],
+        lower_thresholds=individual_params["lower_thresholds"],
+        upper_thresholds=individual_params["upper_thresholds"],
+        rates=individual_params["rates"],
+        intercepts_at_lower_thresholds=individual_params[
+            "intercepts_at_lower_thresholds"
+        ],
+        rates_modified=rates_modified,
     )
     return person

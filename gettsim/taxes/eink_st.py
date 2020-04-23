@@ -59,5 +59,13 @@ def st_tarif(x, params):
         params (dict): tax-benefit parameters specific to year and reform
     """
 
-    eink_st = piecewise_polynominal(x, **params["eink_st_tarif"])
+    eink_st = piecewise_polynominal(
+        x,
+        lower_thresholds=params["eink_st_tarif"]["lower_thresholds"],
+        upper_thresholds=params["eink_st_tarif"]["upper_thresholds"],
+        rates=params["eink_st_tarif"]["rates"],
+        intercepts_at_lower_thresholds=params["eink_st_tarif"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
     return eink_st
