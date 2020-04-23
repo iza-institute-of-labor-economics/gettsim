@@ -108,17 +108,20 @@ eink_st_tarif:
       upper_threshold: 8130
   2014-01-01:
     deviation_from: previous
-    note: Gesetz zum Abbau der kalten Progression v. 20.2.2013, BGBl I S.283
+    note: Gesetz zum Abbau der kalten Progression
+    reference: G. v. 20.2.2013, BGBl I S.283
     0:
       upper_threshold: 8354
   2015-01-01:
     deviation_from: previous
-    note: Gesetz z. Anhebung des Gfb, des Kfb, des Kindergeldes und des Kiz, BGBl. Nr. 30 2015
+    note: Gesetz z. Anhebung des Gfb, des Kfb, des Kindergeldes und des Kiz
+    reference: G. v. 15.07.2015, BGBl. Nr. 30 2015
     0:
       upper_threshold: 8472
   2016-01-01:
     deviation_from: previous
-    note: Gesetz z. Anhebung des Gfb, des Kfb, des Kindergeldes und des Kiz, BGBl. Nr. 30 2015
+    note: Gesetz z. Anhebung des Gfb, des Kfb, des Kindergeldes und des Kiz
+    reference: G. v. 15.07.2015, BGBl. Nr. 30 2015
     0:
       upper_threshold: 8652
     1:
@@ -129,7 +132,7 @@ eink_st_tarif:
       upper_threshold: 254446
   2017-01-01:
     deviation_from: previous
-    note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+    reference: Artikel 8 G. v. 20.12.2016, BGBl I S. 3000
     0:
       upper_threshold: 8820
     1:
@@ -140,7 +143,7 @@ eink_st_tarif:
       upper_threshold: 256303
   2018-01-01:
     deviation_from: previous
-    note: geändert zum 1.1.2018 durch Artikel 9 vom 23.12.2016, BGBL I, S. 3000
+    reference: Artikel 9 G. v 23.12.2016, BGBL I, S. 3000
     0:
       upper_threshold: 9000
     1:
