@@ -56,10 +56,10 @@ def piecewise_polynominal(
     return out
 
 
-def add_progressionsvorbehalt(param_dict, parameter):
+def add_progressionsfaktor(param_dict, parameter):
     """
     If no quadratic rate is given, add rate according to the
-    progressionsvorbehalt formula.
+    progressionsfaktor formula.
     """
     out_dict = copy.deepcopy(param_dict)
     interval_keys = sorted(key for key in out_dict.keys() if type(key) == int)

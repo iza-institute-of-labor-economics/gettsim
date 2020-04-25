@@ -6,10 +6,10 @@ eink_st_tarif:
     de: §32a EStG
     en:
   note:
-    de: Der quadratische Anstieg wird nach der Formel des Progressionsvorbehalt von gettsim berechnet.
-    en: The quadratic rate is calculated by gettsim with the formula of the Progressionsvorbehalt.
+    de: Der quadratische Anstieg wird nach der Formel des Progressionsfaktors von gettsim berechnet. Er bewirkt, dass der Grenzsteuersatz linear ansteigt und so sprunghafte Übergänge zwischen den Tarifzonen vermieden werden
+    en: The quadratic rate is calculated by gettsim with the formula of the Progressionsfaktor. He guratnees that the marginal tax rate increases linear and there are no jumps between income sections.
   type: piecewise_quadratic
-  progressionsvorbehalt: True
+  progressionsfaktor: True
   2002-01-01:
     0:
       lower_threshold: 0

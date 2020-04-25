@@ -20,7 +20,7 @@ from gettsim.config import ROOT_DIR
 from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
-from gettsim.pre_processing.piecewise_functions import add_progressionsvorbehalt
+from gettsim.pre_processing.piecewise_functions import add_progressionsfaktor
 from gettsim.pre_processing.piecewise_functions import piecewise_polynominal
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
@@ -180,9 +180,9 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
         if type(tax_data[param]) == dict:
             if "type" in tax_data[param]:
                 if tax_data[param]["type"].startswith("piecewise"):
-                    if "progressionsvorbehalt" in tax_data[param]:
-                        if tax_data[param]["progressionsvorbehalt"]:
-                            tax_data[param] = add_progressionsvorbehalt(
+                    if "progressionsfaktor" in tax_data[param]:
+                        if tax_data[param]["progressionsfaktor"]:
+                            tax_data[param] = add_progressionsfaktor(
                                 tax_data[param], param
                             )
                     tax_data[param] = get_piecewise_parameters(
@@ -241,7 +241,7 @@ def load_regrouped_data(policy_date, group, raw_group_data=None, parameters=None
             else:
                 tax_data[param] = {}
                 # Keys which if given are transferred
-                add_trans_keys = ["type", "progressionsvorbehalt"]
+                add_trans_keys = ["type", "progressionsfaktor"]
                 for key in add_trans_keys:
                     if key in raw_group_data[param]:
                         tax_data[param][key] = raw_group_data[param][key]
