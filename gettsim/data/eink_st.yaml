@@ -24,7 +24,7 @@ eink_st_tarif:
       upper_threshold: 55007
       rate_linear: 0.23
     3:
-      upper_threshold: 61377
+      upper_threshold: inf
       rate_linear: 0.485
       rate_quadratic: 0
   2004-01-01:
@@ -40,7 +40,7 @@ eink_st_tarif:
       upper_threshold: 52151
       rate_linear: 0.2405
     3:
-      upper_threshold: 61377
+      upper_threshold: inf
       rate_linear: 0.45
       rate_quadratic: 0
   2005-01-01:
