@@ -5,24 +5,25 @@ import numpy as np
 from gettsim.pre_processing.generic_functions import check_threholds
 
 
-def piecewise_polynominal(
-    value,
+def piecewise_polynomial(
+    x,
     lower_thresholds,
     upper_thresholds,
     rates,
     intercepts_at_lower_thresholds,
     rates_modified=False,
 ):
-    """Return a fraction of *value* defined by a piecewise linear function.
+    """Calculate value of the piecewise function at x. The function is defined by the
+    other input arrays.
 
     Args:
-        value (float, >0): The value that the function is applied to.
-        lower_thresholds (1-d float): The lower thresholds defining the intervals
-        upper_thresholds (1-d float): The upper thresholds defining the intervals
-        rates (1-d float): The slope in the interval below the corresponding element
-            of *upper_thresholds*
-        intercepts_at_lower_thresholds (1-d float): the fraction piecewise_linear
-            calculates at the respective thresholds
+        x (float, >0): The value that the function is applied to.
+        lower_thresholds (1-d array): The lower thresholds of each interval.
+        upper_thresholds (1-d array): The upper thresholds each interval.
+        rates (n-d arry): The slope in each interval. Where n is the degree of the
+        polynomial function.
+        intercepts_at_lower_thresholds (1-d array): The intercepts at the lower
+        threshold of each interval.
         rates_modified: Boolean variable indicating, that intercepts can't be used
         anymore.
 
@@ -30,10 +31,10 @@ def piecewise_polynominal(
     """
 
     # Check if value lies within the defined range.
-    if (value < lower_thresholds[0]) or (value > upper_thresholds[-1]):
+    if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]):
         return np.nan
 
-    index_interval = np.searchsorted(upper_thresholds, value, side="left")
+    index_interval = np.searchsorted(upper_thresholds, x, side="left")
     if rates_modified:
         # Calculate new intercept
         intercept_interval = 0
@@ -48,7 +49,7 @@ def piecewise_polynominal(
 
     # Select threshold and calculate corresponding increment into interval
     lower_thresehold_interval = lower_thresholds[index_interval]
-    increment_to_calc = value - lower_thresehold_interval
+    increment_to_calc = x - lower_thresehold_interval
 
     out = intercept_interval
     for pol in range(1, rates.shape[0] + 1):

@@ -1,6 +1,6 @@
 import numpy as np
 
-from gettsim.pre_processing.piecewise_functions import piecewise_polynominal
+from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.abgelt_st import abgelt_st
 from gettsim.taxes.soli_st import soli_st
 
@@ -59,7 +59,7 @@ def st_tarif(x, params):
         params (dict): tax-benefit parameters specific to year and reform
     """
 
-    eink_st = piecewise_polynominal(
+    eink_st = piecewise_polynomial(
         x,
         lower_thresholds=params["eink_st_tarif"]["lower_thresholds"],
         upper_thresholds=params["eink_st_tarif"]["upper_thresholds"],

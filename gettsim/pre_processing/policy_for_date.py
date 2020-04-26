@@ -21,7 +21,7 @@ from gettsim.pensions import _rentenwert_from_2018
 from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import add_progressionsfaktor
-from gettsim.pre_processing.piecewise_functions import piecewise_polynominal
+from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.social_insurance import calc_midi_contributions
 from gettsim.social_insurance import no_midi
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
@@ -188,7 +188,7 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
                     tax_data[param] = get_piecewise_parameters(
                         tax_data[param],
                         param,
-                        piecewise_polynominal,
+                        piecewise_polynomial,
                         func_type=tax_data[param]["type"].split("_")[1],
                     )
 
