@@ -59,8 +59,16 @@ def piecewise_polynomial(
 
 def add_progressionsfaktor(param_dict, parameter):
     """
-    If no quadratic rate is given, add rate according to the
-    progressionsfaktor formula.
+    The german tax tarif is defined on several income intervals with distinct
+    marginal tax rates at the thresholds. To ensure an almost linear increase of
+    the average tax rate, the german tax tarif is defined as a quadratic function,
+    where the quadratic rate is the so called linear Progressionsfaktor. For its
+    calculation one needs the lower (low_thres) and upper (upper_thres) of the
+    interval as well as the marginal tax rate of the interval (rate_iv) and of the
+    following interval (rate_fiv). The formula is then given by:
+
+    (rate_fiv - rate_iv) / (2 * (upper_thres - low_thres))
+
     """
     out_dict = copy.deepcopy(param_dict)
     interval_keys = sorted(key for key in out_dict.keys() if type(key) == int)
