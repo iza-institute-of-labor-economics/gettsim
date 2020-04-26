@@ -169,10 +169,7 @@ def calc_geschw_bonus(elterngeld_calc, params):
     According to § 2a parents of siblings get a bonus.
     """
     bonus_calc = params["elterngeld_geschw_bonus_aufschlag"] * elterngeld_calc
-    bonus = max(
-        min(bonus_calc, params["elg_geschw_bonus_max"]),
-        params["elterngeld_geschwister_bonus_minimum"],
-    )
+    bonus = max(bonus_calc, params["elterngeld_geschwister_bonus_minimum"],)
     return bonus
 
 

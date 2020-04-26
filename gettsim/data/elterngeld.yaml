@@ -110,20 +110,6 @@ elterngeld_geschwister_bonus_minimum:
   2007-01-01:
     scalar: 75
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-elg_geschw_bonus_max:
-  name:
-    de: Maximaler Geschwisterbonus als Euro-Betrag
-    en: Sibling Bonus, maximal amount
-  description:
-    de: §2 BEEG
-    en:
-  2007-01-01:
-    scalar: 0
-    note: implizit, exisitiert vorher nicht
-  2012-09-18:
-    scalar: 180
-    reference: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
-    note: EXISITERT NICHT
 elterngeld_mehrling_bonus:
   name:
     de: Pauschale für jedes weitere Mehrlingskind
