@@ -1,0 +1,944 @@
+G:
+  name:
+    de: Grundfreibetrag
+    en: Basic Income Tax Allowance
+  description:
+    de: §32a EStG
+    en:
+  values:
+    1984-01-01:
+      value: 2154
+      note:
+    1986-01-01:
+      value: 2319
+      note:
+    1988-01-01:
+      value: 2430
+      note: .
+    1990-01-01:
+      value: 2871
+      note: .
+    1996-01-01:
+      value: 6184
+      note: .
+    1998-01-01:
+      value: 6322
+      note:
+    1999-01-01:
+      value: 6681
+      note:
+    2000-01-01:
+      value: 6902
+      note: .
+    2001-01-01:
+      value: 7206
+      note: .
+    2002-01-01:
+      value: 7235
+      note:
+    2004-01-01:
+      value: 7664
+      note:
+    2009-01-01:
+      value: 7834
+      note:
+    2010-01-01:
+      value: 8004
+      note:
+    2013-01-01:
+      value: 8130
+      note:
+    2014-01-01:
+      value: 8354
+      note: Gesetz zum Abbau der kalten Progression v. 20.2.2013, BGBl I S.283
+    2015-01-01:
+      value: 8472
+      note: Gesetz z. Anhebung des Gfb, des Kfb, des Kindergeldes und des Kiz, BGBl. Nr. 30 2015
+    2016-01-01:
+      value: 8652
+      note: Gesetz z. Anhebung des Gfb, des Kfb, des Kindergeldes und des Kiz, BGBl. Nr. 30 2015
+    2017-01-01:
+      value: 8820
+      note: geändert durch Artikel 8 v. 20.12.2016, BGBl I S. 3000
+    2018-01-01:
+      value: 9000
+      note: geändert zum 1.1.2018 durch Artikel 9 vom 23.12.2016, BGBL I, S. 3000
+    2019-01-01:
+      value: 9169
+      note:
+    2020-01-01:
+      value: 9408
+      note: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
+M:
+  name:
+    de: Mittlere Stufe des Steuertarifs
+    en: Middle Step of the Tax Schedule
+  description:
+    de: §32a EStG
+    en:
+  values:
+    1984-01-01:
+      value: 9203
+      note:
+    1986-01-01:
+      value: 9221
+      note:
+    1990-01-01:
+      value: 4169
+      note: .
+    1996-01-01:
+      value: 28492
+      note: .
+    1998-01-01:
+      value: 29984
+      note:
+    1999-01-01:
+      value: 8724
+      note:
+    2000-01-01:
+      value: 8945
+      note: .
+    2001-01-01:
+      value: 9249
+      note: .
+    2002-01-01:
+      value: 9251
+      note:
+    2004-01-01:
+      value: 12739
+      note:
+    2009-01-01:
+      value: 13139
+      note:
+    2010-01-01:
+      value: 13469
+      note:
+    2016-01-01:
+      value: 13669
+      note:
+    2017-01-01:
+      value: 13769
+      note:
+    2018-01-01:
+      value: 13996
+      note:
+    2019-01-01:
+      value: 14255
+      note:
+    2020-01-01:
+      value: 14532
+      note: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
+S:
+  name:
+    de: Hohe Stufe des Steuertarifs
+    en: High Step of the Tax Schedule
+  description:
+    de: §32a EStG
+    en:
+  values:
+    1984-01-01:
+      value: 30678
+      note:
+    1986-01-01:
+      value: 40917
+      note:
+    1990-01-01:
+      value: 61376
+      note: .
+    1999-01-01:
+      value: 33932
+      note:
+    2000-01-01:
+      value: 58643
+      note: .
+    2001-01-01:
+      value: 54998
+      note: .
+R:
+  name:
+    de: Reichenstufe des Steuertarifs
+    en:
+  description:
+    de: §32a EStG
+    en:
+  values:
+    1984-01-01:
+      value: 66467
+      note: Dies ist keine wirkliche Reichensteuer, sondern die vierte Tarifstufe
+    1986-01-01:
+      value: 66484
+      note:
+    1999-01-01:
+      value: 61377
+      note: auch das ist keine Reichensteuer
+t_a1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 3.05
+      note:
+    1986-01-01:
+      value: 2.1
+      note:
+    1988-01-01:
+      value: 0.34
+      note: .
+    1990-01-01:
+      value: 151.94
+      note: .
+    1996-01-01:
+      value: 86.63
+      note: .
+    1998-01-01:
+      value: 91.19
+      note:
+    1999-01-01:
+      value: 350.35
+      note:
+    2000-01-01:
+      value: 262.76
+      note: .
+    2001-01-01:
+      value: 387.89
+      note: .
+    2002-01-01:
+      value: 768.85
+      note:
+t_a2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.09
+      note:
+    1986-01-01:
+      value: 42
+      note:
+    1988-01-01:
+      value: 70
+      note: .
+    1996-01-01:
+      value: 151.91
+      note: .
+    1998-01-01:
+      value: 151.96
+      note:
+    1999-01-01:
+      value: 101.31
+      note:
+    2000-01-01:
+      value: 133.74
+      note: .
+    2001-01-01:
+      value: 142.49
+      note: .
+    2002-01-01:
+      value: 278.65
+      note:
+t_a3:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1999-01-01:
+      value: 151.93
+      note:
+t_b1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: -73.76
+      note:
+    1986-01-01:
+      value: -56.02
+      note:
+    1988-01-01:
+      value: -21.58
+      note: .
+    1990-01-01:
+      value: 1900
+      note: .
+    1996-01-01:
+      value: 2590
+      note: .
+    1999-01-01:
+      value: 2390
+      note:
+    2000-01-01:
+      value: 2290
+      note: .
+    2001-01-01:
+      value: 1990
+      note: .
+t_b2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: -5.45
+      note:
+    1986-01-01:
+      value: 5180
+      note:
+    1988-01-01:
+      value: 4900
+      note: .
+    1996-01-01:
+      value: 3346
+      note: .
+    1998-01-01:
+      value: 3434
+      note:
+    1999-01-01:
+      value: 2670
+      note:
+    2000-01-01:
+      value: 2500
+      note: .
+    2001-01-01:
+      value: 2300
+      note: .
+t_b3:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1999-01-01:
+      value: 3669
+      note:
+t_c1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 695
+      note:
+    1986-01-01:
+      value: 600
+      note:
+    1988-01-01:
+      value: 392
+      note: .
+    1990-01-01:
+      value: 472
+      note: .
+    1996-01-01:
+      value: 0
+      note: .
+t_c2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 88.13
+      note:
+    1986-01-01:
+      value: 29417
+      note:
+    1988-01-01:
+      value: 26974
+      note: .
+    1996-01-01:
+      value: 12949
+      note: .
+    1998-01-01:
+      value: 13938
+      note:
+    1999-01-01:
+      value: 1011
+      note:
+    2000-01-01:
+      value: 957
+      note: .
+    2001-01-01:
+      value: 857
+      note: .
+t_c3:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1999-01-01:
+      value: 16637
+      note:
+t_d1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 2200
+      note:
+t_d2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 5040
+      note:
+# Why do we have this?
+#t_d3:
+#  name:
+#    de:
+#    en:
+#  description:
+#    de:
+#    en:
+#  values:
+t_e:
+  name:
+    de: Eingangssteuersatz
+    en: Entry Marginal Income Tax Rate
+  description:
+    de: §32a EStG, ergibt sich durch Division mit 1000 aus dem Wert in der ersten Stufe.
+    en:
+  values:
+    1984-01-01:
+      value: 0.22
+      note:
+    1990-01-01:
+      value: 0.19
+      note: .
+    1996-01-01:
+      value: 0.259
+      note: .
+    1999-01-01:
+      value: 0.239
+      note:
+    2000-01-01:
+      value: 0.229
+      note: .
+    2001-01-01:
+      value: 0.199
+      note: .
+t_e1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 3034
+      note:
+    1986-01-01:
+      value: 2962
+      note:
+    1988-01-01:
+      value: 2911
+      note: .
+t_e2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 20018
+      note:
+# Why do we have this?
+#t_e3:
+#  name:
+#    de:
+#    en:
+#  description:
+#    de:
+#    en:
+#  values:
+t_eing1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.22
+      note:
+    1990-01-01:
+      value: 0.19
+      note: .
+t_eing2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: -926
+      note:
+    1986-01-01:
+      value: -998
+      note:
+    1988-01-01:
+      value: -1045
+      note: .
+    1990-01-01:
+      value: -1067
+      note: .
+t_einglow:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 4212
+      note:
+    1986-01-01:
+      value: 4536
+      note:
+    1988-01-01:
+      value: 4752
+      note: .
+    1990-01-01:
+      value: 5616
+      note: .
+t_eingup:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 18000
+      note:
+    1986-01-01:
+      value: 18035
+      note:
+    1990-01-01:
+      value: 8153
+      note: .
+t_low1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 18000
+      note:
+    1986-01-01:
+      value: 18035
+      note:
+    1990-01-01:
+      value: 8153
+      note: .
+    1996-01-01:
+      value: 12095
+      note: .
+    1998-01-01:
+      value: 12365
+      note:
+    1999-01-01:
+      value: 13067
+      note:
+    2000-01-01:
+      value: 13499
+      note: .
+    2001-01-01:
+      value: 14093
+      note: .
+t_low2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 60000
+      note:
+    1986-01-01:
+      value: 80027
+      note:
+    1996-01-01:
+      value: 55727
+      note: .
+    1998-01-01:
+      value: 58643
+      note:
+    1999-01-01:
+      value: 17063
+      note:
+    2000-01-01:
+      value: 17495
+      note: .
+    2001-01-01:
+      value: 18089
+      note: .
+t_low3:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1999-01-01:
+      value: 66365
+      note:
+t_m:
+  name:
+    de: mittlerer Steuersatz
+    en: Marginal Income Tax Rate at medium step
+  description:
+    de: §32a EStG, ergibt sich durch Division mit 1000 aus dem Wert in der mittleren Stufe.
+    en:
+  values:
+    2000-01-01:
+      value: 0.25
+      note: .
+    2001-01-01:
+      value: 0.23
+      note: .
+t_r:
+  name:
+    de: Reichensteuersatz.
+    en: Marginal Tax Rate for the Rich.
+  description:
+    de: §32a EStG. Gibt es erst seit 2007. Vorher aus Kompatibilitätsgründen teilweise identisch mit t_s
+    en:
+  values:
+    1984-01-01:
+      value: 0.56
+      note:
+    1990-01-01:
+      value: 0.53
+      note: .
+    2000-01-01:
+      value: 0.51
+      note: .
+    2001-01-01:
+      value: 0.485
+      note: .
+t_s:
+  name:
+    de: Spitzensteuersatz
+    en: Top Marginal Income Tax Rate
+  description:
+    de: §32a EStG
+    en:
+  values:
+    1990-01-01:
+      value: 0.53
+      note: .
+    2000-01-01:
+      value: 0.51
+      note: .
+    2001-01-01:
+      value: 0.485
+      note: .
+t_spitz1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 0.56
+      note:
+    1990-01-01:
+      value: 0.53
+      note: .
+    2000-01-01:
+      value: 0.51
+      note: .
+    2001-01-01:
+      value: 0.485
+      note: .
+t_spitz2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: -14837
+      note:
+    1986-01-01:
+      value: -16433
+      note:
+    1988-01-01:
+      value: -19651
+      note: .
+    1990-01-01:
+      value: -22842
+      note: .
+    1998-01-01:
+      value: -22843
+      note:
+    1999-01-01:
+      value: -22886
+      note:
+    2000-01-01:
+      value: -20575
+      note: .
+    2001-01-01:
+      value: -19299
+      note: .
+    2002-01-01:
+      value: -9872
+      note:
+t_spitzlow:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 130000
+      note:
+    1986-01-01:
+      value: 130032
+      note:
+    1990-01-01:
+      value: 120042
+      note: .
+    2000-01-01:
+      value: 114696
+      note: .
+    2001-01-01:
+      value: 107568
+      note: .
+t_up1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 59999
+      note:
+    1986-01-01:
+      value: 80027
+      note:
+    1990-01-01:
+      value: 120041
+      note: .
+    1996-01-01:
+      value: 55727
+      note: .
+    1998-01-01:
+      value: 58643
+      note:
+    1999-01-01:
+      value: 17063
+      note:
+    2000-01-01:
+      value: 17495
+      note: .
+    2001-01-01:
+      value: 18089
+      note: .
+t_up2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 129999
+      note:
+    1986-01-01:
+      value: 130031
+      note:
+    1996-01-01:
+      value: 120041
+      note: .
+    1999-01-01:
+      value: 66365
+      note:
+    2000-01-01:
+      value: 114695
+      note: .
+    2001-01-01:
+      value: 107567
+      note: .
+t_up3:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1999-01-01:
+      value: 120041
+      note:
+t_yden1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 10000
+      note:
+t_yden2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 10000
+      note:
+    1996-01-01:
+      value: 10000
+      note: .
+t_yden3:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1999-01-01:
+      value: 10000
+      note:
+t_ynom1:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 18000
+      note:
+    1988-01-01:
+      value: 17982
+      note: .
+    1990-01-01:
+      value: 8100
+      note: .
+    1996-01-01:
+      value: 12042
+      note: .
+    1998-01-01:
+      value: 12312
+      note:
+    1999-01-01:
+      value: 13014
+      note:
+    2000-01-01:
+      value: 13446
+      note: .
+    2001-01-01:
+      value: 14040
+      note: .
+t_ynom2:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1984-01-01:
+      value: 60000
+      note:
+    1986-01-01:
+      value: 80000
+      note:
+    1988-01-01:
+      value: 79974
+      note: .
+    1996-01-01:
+      value: 55674
+      note: .
+    1998-01-01:
+      value: 58590
+      note:
+    1999-01-01:
+      value: 17010
+      note:
+    2000-01-01:
+      value: 17442
+      note: .
+    2001-01-01:
+      value: 18036
+      note: .
+t_ynom3:
+  name:
+    de:
+    en:
+  description:
+    de:
+    en:
+  values:
+    1999-01-01:
+      value: 66312
+      note:
