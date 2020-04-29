@@ -22,8 +22,8 @@ from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import add_progressionsfaktor
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.social_insurance import calc_midi_contributions
-from gettsim.social_insurance import no_midi
+from gettsim.soz_vers import calc_midi_contributions
+from gettsim.soz_vers import no_midi
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.soli_st import keine_soli_st
