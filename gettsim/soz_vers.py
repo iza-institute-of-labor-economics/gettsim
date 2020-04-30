@@ -171,7 +171,9 @@ def calc_midi_contributions(person, params):
 
 
 def calc_midi_f(params):
-    """ I have no idea what this function calculates. What means f?"""
+
+    # Todo: I have no idea what this function calculates. What means f?
+
     an_anteil = params["grvbs"] + params["gpvbs"] + params["alvbs"] + params["gkvbs_an"]
     ag_anteil = params["grvbs"] + params["gpvbs"] + params["alvbs"] + params["gkvbs_ag"]
     dbsv = an_anteil + ag_anteil

@@ -1,0 +1,229 @@
+soz_vers_beitr:
+  name:
+    de: Beitragssätze zu den gesetzlichen Sozialversicherungen
+    en: Contribution rate to statutory social insurances
+  description:
+    de:
+    en:
+  1984-01-01:
+    ges_krankv:
+      ag: 0.0572
+      an: 0.0572
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.023
+    rentenv: 0.0925
+  1985-01-01:
+    ges_krankv:
+      ag: 0.059
+      an: 0.059
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.022
+    rentenv: 0.0935
+  1986-01-01:
+    ges_krankv:
+      ag: 0.061
+      an: 0.061
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0205
+    rentenv: 0.096
+  1987-01-01:
+    ges_krankv:
+      ag: 0.0624
+      an: 0.0624
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0215
+    rentenv: 0.0935
+  1988-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0644
+      an: 0.0644
+  1989-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0645
+      an: 0.0645
+  1990-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0625
+      an: 0.0625
+  1991-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.064
+      an: 0.064
+  1992-01-01:
+    deviation_from: previous
+    arbeitsl_v: 0.0315
+    rentenv: 0.0885
+  1993-01-01:
+    ges_krankv:
+      ag: 0.067
+      an: 0.067
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0325
+    rentenv: 0.0875
+  1994-01-01:
+    deviation_from: previous
+    rentenv: 0.096
+  1995-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.066
+      an: 0.066
+    rentenv: 0.093
+  1996-01-01:
+    deviation_from: previous
+    rentenv: 0.096
+    pflegev:
+      standard: 0.005
+  1997-01-01:
+    ges_krankv:
+      ag: 0.067
+      an: 0.067
+    pflegev:
+      standard: 0.0085
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0325
+    rentenv: 0.1015
+  1998-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.068
+      an: 0.068
+  2000-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.06785
+      an: 0.06785
+    rentenv: 0.0965
+  2001-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0679
+      an: 0.0679
+    rentenv: 0.0955
+  2002-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.07
+      an: 0.07
+  2003-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.072
+      an: 0.072
+    rentenv: 0.0975
+  2004-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.071
+      an: 0.071
+  2005-01-01:
+    ges_krankv:
+      ag: 0.0689
+      an: 0.0689
+    pflegev:
+      standard: 0.0085
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.0325
+    rentenv: 0.0975
+  2006-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0666
+      an: 0.0756
+  2007-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0695
+      an: 0.0785
+    arbeitsl_v: 0.021
+    rentenv: 0.0995
+  2008-01-01:
+    ges_krankv:
+      ag: 0.07
+      an: 0.079
+    pflegev:
+      standard: 0.00975
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.016
+    rentenv: 0.0995
+  2009-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.073
+      an: 0.082
+    arbeitsl_v: 0.014
+  2010-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.07
+      an: 0.079
+  2011-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.073
+      an: 0.082
+    arbeitsl_v: 0.015
+  2012-01-01:
+    deviation_from: previous
+    rentenv: 0.098
+    note: Quelle http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
+  2013-01-01:
+    deviation_from: previous
+    rentenv: 0.0945
+    pflegev:
+      standard: 0.01025
+  2015-01-01:
+    ges_krankv:
+      ag: 0.073
+      an: 0.082
+    pflegev:
+      standard: 0.01175
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.015
+    rentenv: 0.0935
+  2016-01-01:
+    deviation_from: previous
+    ges_krankv:
+      an: 0.084
+  2017-01-01:
+    deviation_from: previous
+    pflegev:
+      standard: 0.01275
+  2018-01-01:
+    deviation_from: previous
+    rentenv: 0.093
+  2019-01-01:
+    ges_krankv:
+      ag: 0.0775
+      an: 0.0775
+    pflegev:
+      standard: 0.01525
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.013
+    rentenv: 0.0935
+  2020-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0785
+      an: 0.0785
+    arbeitsl_v: 0.012
+
+
+
+
+
+
