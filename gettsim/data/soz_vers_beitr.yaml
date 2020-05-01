@@ -206,6 +206,8 @@ soz_vers_beitr:
       standard: 0.01275
   2018-01-01:
     deviation_from: previous
+    ges_krankv:
+      an: 0.083
     rentenv: 0.093
   2019-01-01:
     note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387. Durchschnittlicher zusatzbeitragssatz 0,9%
@@ -216,7 +218,7 @@ soz_vers_beitr:
       standard: 0.01525
       zusatz_kinderlos: 0.0025
     arbeitsl_v: 0.013
-    rentenv: 0.0935
+    rentenv: 0.093
   2020-01-01:
     note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
     deviation_from: previous

@@ -192,9 +192,6 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
                         piecewise_polynomial,
                         func_type=tax_data[param]["type"].split("_")[1],
                     )
-    import pdb
-
-    pdb.set_trace()
     if group == "arbeitsl_geld_2":
         if tax_data["jahr"] <= 2010:
             tax_data["calc_regelsatz"] = regelberechnung_until_2010
