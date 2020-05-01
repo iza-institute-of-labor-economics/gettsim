@@ -126,18 +126,17 @@ def calc_elterngeld_percentage(considered_wage, params):
     if considered_wage < params["elterngeld_nettoeinkommen_stufen"][1]:
         wag_diff = params["elterngeld_nettoeinkommen_stufen"][1] - considered_wage
 
-        number_steps = wag_diff / params["elterngeld_prozent_korrektur"]
+        number_steps = wag_diff / params["elterngeld_eink_schritt_korrektur"]
 
         percentage = (
             params["elterngeld_faktor"]
             + number_steps * params["elterngeld_prozent_korrektur"]
         )
-        print(considered_wage, wag_diff, number_steps, percentage)
 
     elif considered_wage > params["elterngeld_nettoeinkommen_stufen"][2]:
         wag_diff = considered_wage - params["elterngeld_nettoeinkommen_stufen"][2]
 
-        number_steps = wag_diff / params["elterngeld_prozent_korrektur"]
+        number_steps = wag_diff / params["elterngeld_eink_schritt_korrektur"]
         percentage = max(
             params["elterngeld_faktor"]
             - number_steps * params["elterngeld_prozent_korrektur"],
