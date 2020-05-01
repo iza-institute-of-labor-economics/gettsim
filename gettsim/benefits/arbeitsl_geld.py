@@ -15,13 +15,13 @@ def ui(
 
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["wohnort_ost"] else "w"
+    wohnort = "ost" if person["wohnort_ost"] else "west"
 
     alg_entgelt = proxy_net_wage_last_year(
         person,
         eink_st_params,
         soli_st_params,
-        beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
+        beit_bem_grenz=soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
         werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
         soz_vers_pauschale=params["soz_vers_pauschale_arbeitsl_geld"],
     )
