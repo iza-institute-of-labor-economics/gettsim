@@ -721,3 +721,27 @@ eink_grenzen:
     deviation_from: previous
     reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
     midi_job: 1300
+
+ag_abgaben_geringf:
+  name:
+    de: Pauschalabgaben bei geringf. Beschäftigung
+    en:
+  description:
+    de: § 249b SGB V, § 168 I Nr. 1b SGB VI
+    en:
+  1984-01-01:
+    ges_krankenv: 0
+    rentenv: 0
+    st: 0
+  1999-01-01:
+    ges_krankenv: 0.1
+    rentenv: 0.12
+    st: 0
+  2004-01-01:
+    ges_krankenv: 0.11
+    rentenv: 0.12
+    st: 0.02
+  2007-01-01:
+    ges_krankenv: 0.13
+    rentenv: 0.15
+    st: 0.02
