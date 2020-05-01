@@ -27,9 +27,11 @@ def soc_ins_contrib(person, params):
     # beginning.
     wohnort = "ost" if person["wohnort_ost"] else "west"
 
-    # ssc["above_thresh_kv"] = inout["m_wage"] > params["beitr_bemess_grenze"]["ges_krankv"][wohnort]
+    # ssc["above_thresh_kv"] =
+    # inout["m_wage"] > params["beitr_bemess_grenze"]["ges_krankv"][wohnort]
     #
-    # ssc["above_thresh_rv"] = inout["m_wage"] >params["beitr_bemess_grenze"]["rentenv"][wohnort]
+    # ssc["above_thresh_rv"] =
+    # inout["m_wage"] >params["beitr_bemess_grenze"]["rentenv"][wohnort]
 
     # This is probably the point where Entgeltpunkte should be updated as well.
 
