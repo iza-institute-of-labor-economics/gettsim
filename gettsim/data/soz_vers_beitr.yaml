@@ -197,6 +197,7 @@ soz_vers_beitr:
     rentenv: 0.0935
   2016-01-01:
     deviation_from: previous
+    note: Bekanntmachung Bundesanzeiger 30.12.2015 und  http://www.bmg.bund.de/ministerium/meldungen/2015/gkv-zusatzbeitrag.html
     ges_krankv:
       an: 0.084
   2017-01-01:
@@ -207,6 +208,7 @@ soz_vers_beitr:
     deviation_from: previous
     rentenv: 0.093
   2019-01-01:
+    note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387. Durchschnittlicher zusatzbeitragssatz 0,9%
     ges_krankv:
       ag: 0.0775
       an: 0.0775
@@ -216,6 +218,7 @@ soz_vers_beitr:
     arbeitsl_v: 0.013
     rentenv: 0.0935
   2020-01-01:
+    note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
     deviation_from: previous
     ges_krankv:
       ag: 0.0785
@@ -446,6 +449,7 @@ beitr_bemess_grenze:
     rentenv:
       west: 5950
       ost: 5000
+    note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
   2015-01-01:
     ges_krankv:
       west: 4125
@@ -460,6 +464,7 @@ beitr_bemess_grenze:
     rentenv:
       west: 6200
       ost: 5400
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
   2017-01-01:
     ges_krankv:
       west: 4350
@@ -467,6 +472,7 @@ beitr_bemess_grenze:
     rentenv:
       west: 6350
       ost: 5700
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
   2018-01-01:
     ges_krankv:
       west: 4425
@@ -488,3 +494,230 @@ beitr_bemess_grenze:
     rentenv:
       west: 6900
       ost: 6450
+    reference: V. v. 17.12.2019 BGBl. I S. 2848
+
+bezugsgröße:
+  name:
+    de: monatl. Bezugsgröße
+    en:
+  description:
+    de: https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
+    en:
+  1984-01-01:
+    west: 1396
+    ost: 0
+  1985-01-01:
+    deviation_from: previous
+    west: 1432
+  1986-01-01:
+    deviation_from: previous
+    west: 1467
+  1987-01-01:
+    deviation_from: previous
+    west: 1539
+  1988-01-01:
+    deviation_from: previous
+    west: 1575
+  1989-01-01:
+    deviation_from: previous
+    west: 1611
+  1990-01-01:
+    west: 1682
+    ost: 715.8086336747059
+  1991-01-01:
+    west: 1718
+    ost: 787.3894970421765
+  1992-01-01:
+    west: 1790
+    ost: 1073.712950512059
+  1993-01-01:
+    west: 1897
+    ost: 1395.826835665677
+  1994-01-01:
+    west: 2004
+    ost: 1574.778994084353
+  1995-01-01:
+    west: 2076
+    ost: 1682.150289135559
+  1996-01-01:
+    west: 2112
+    ost: 1789.521584186765
+  1997-01-01:
+    west: 2183
+    ost: 1861.102447554235
+  1998-01-01:
+    west: 2219
+    ost: 1896.892879237971
+  1999-01-01:
+    west: 2255
+    ost: 1896.892879237971
+  2000-01-01:
+    west: 2291
+    ost: 1861.102447554235
+  2001-01-01:
+    deviation_from: previous
+    ost: 1932.683310921706
+  2002-01-01:
+    west: 2345
+    ost: 1960
+  2003-01-01:
+    west: 2380
+    ost: 1995
+  2004-01-01:
+    west: 2415
+    ost: 2030
+  2006-01-01:
+    west: 2450
+    ost: 2065
+  2007-01-01:
+    deviation_from: previous
+    ost: 2100
+  2008-01-01:
+    deviation_from: previous
+    west: 2485
+  2009-01-01:
+    west: 2520
+    ost: 2135
+  2010-01-01:
+    west: 2555
+    ost: 2170
+  2011-01-01:
+    deviation_from: previous
+    ost: 2240
+  2012-01-01:
+    deviation_from: previous
+    west: 2625
+  2013-01-01:
+    west: 2695
+    ost: 2275
+  2014-01-01:
+    note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+    west: 2765
+    ost: 2345
+  2015-01-01:
+    west: 2835
+    ost: 2415
+  2016-01-01:
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+    west: 2905
+    ost: 2520
+  2017-01-01:
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+    west: 2975
+    ost: 2660
+  2018-01-01:
+    west: 3045
+    ost: 2695
+  2019-01-01:
+    note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
+    west: 3115
+    ost: 2870
+  2020-01-01:
+    reference: §2 V. v. 17.12.2019 BGBl. I S. 2848
+    west: 3185
+    ost: 3010
+
+eink_grenzen:
+  name:
+    de: Midijob-Grenze  (Höhe § 20 SGB IV (2)) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
+    en:
+  description:
+    de:
+    en:
+  1984-01-01:
+    mini_job:
+      west: 199
+      ost: 0
+    midi_job: 0
+  1985-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 205
+  1986-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 210
+  1987-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 220
+  1988-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 225
+  1989-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 230
+  1990-01-01:
+    mini_job:
+      west: 240
+      ost: 102
+    midi_job: 0
+  1991-01-01:
+    mini_job:
+      west: 245
+      ost: 120
+    midi_job: 0
+  1992-01-01:
+    mini_job:
+      west: 256
+      ost: 153
+    midi_job: 0
+  1993-01-01:
+    mini_job:
+      west: 271
+      ost: 199
+    midi_job: 0
+  1994-01-01:
+    mini_job:
+      west: 286
+      ost: 225
+    midi_job: 0
+  1995-01-01:
+    mini_job:
+      west: 297
+      ost: 240
+    midi_job: 0
+  1996-01-01:
+    mini_job:
+      west: 302
+      ost: 256
+    midi_job: 0
+  1997-01-01:
+    mini_job:
+      west: 312
+      ost: 266
+    midi_job: 0
+  1998-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 317
+  1999-01-01:
+    mini_job:
+      west: 322
+      ost: 271
+    midi_job: 0
+  2000-01-01:
+    deviation_from: previous
+    mini_job:
+      ost: 322
+  2002-01-01:
+    mini_job:
+      west: 325
+      ost: 325
+    midi_job: 0
+  2004-01-01:
+    mini_job:
+      west: 400
+      ost: 400
+    midi_job: 800
+  2013-01-01:
+    mini_job:
+      west: 450
+      ost: 450
+    midi_job: 850
+  2019-01-01:
+    deviation_from: previous
+    reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
+    midi_job: 1300
