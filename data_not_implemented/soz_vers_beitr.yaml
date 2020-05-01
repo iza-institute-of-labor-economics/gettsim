@@ -45,3 +45,14 @@ miniuml:
     2019-01-01:
       value: 0.011
       note: Insolvenzgeldumlage 0,06% Mutterschaft (U2) 0,14% minimum U1 0,9% Minimum
+grvbs_mini:
+  name:
+    de: Freiwilliger Beitragssatz zur GRV für Minijobber
+    en:
+  description:
+    de:
+    en:
+  values:
+    2013-01-01:
+      value: 0.036
+      note:

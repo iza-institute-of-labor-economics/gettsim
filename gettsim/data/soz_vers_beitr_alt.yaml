@@ -741,17 +741,6 @@ grvbs:
     2018-01-01:
       value: 0.093
       note:
-grvbs_mini:
-  name:
-    de: Freiwilliger Beitragssatz zur GRV für Minijobber
-    en:
-  description:
-    de:
-    en:
-  values:
-    2013-01-01:
-      value: 0.036
-      note:
 rvmaxeko:
   name:
     de: Beitragsbemessungsgrenze in der GRV und ALV (Ost)
