@@ -214,18 +214,6 @@ mehrbedarf_anteil:
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
 
-
-a2ve:
-  name:
-    de: Versicherungspauschale
-    en: Insurance allowance
-  description:
-    de: Vom Einkommen abzusetzender Betrag für die Beiträge zu privaten Versicherungen. § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
-    en:
-  2005-01-01:
-    scalar: 30
-    note: V. v. 20.10.2004 BGBl. I S. 2622.
-
 a2ve1:
   name:
     de: Vermögensgrundfreibetrag je Lebensjahr
@@ -328,18 +316,22 @@ a2voe4:
     scalar: 10050
     note: G. v. 20.04.2007 BGBl. I S. 554.
 
-a2we:
+abzugsfähige_pausch:
   name:
-    de: Abzugsfähige Werbungskostenpauschale
-    en: Allowance for expenses
+    de: Abzugsfähige Pauschalen für Werbungskosten und Versicherung
+    en: Allowance for expenses and insurance
   description:
-    de: Abzugsfähige monatliche Werbungskostenpauschale. § 6 (1) Nr. 3 a) ALG II-V. 2005-01.01 bis 2016-07-31. Betrag mit V. v. 26.07.2016 BGBl. I S. 1858 entfallen.
+    de_1: § 6 (1) Nr. 3 a) ALG II-V. 2005-01.01 bis 2016-07-31. Betrag mit V. v. 26.07.2016 BGBl. I S. 1858 entfallen. Wie entfallen?
+    de_2: § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
     en:
+  type: Euro
+  time: month
   2005-01-01:
-    scalar: 15.33
-    note: V. v. 20.10.2004 BGBl. I S. 2622. Es gilt 1/60 der ein Sechzigstel der steuerrechtlichen Werbungskostenpauschale (Parameter werbung). Berechnung werbung/60 = 920/60.
+    werbung: 15.33
+    versicherung: 30
+    reference: V. v. 20.10.2004 BGBl. I S. 2622
   2011-01-01:
-    scalar: 15.33
-    note: V. v. 21.06.2011 BGBl. I S. 1175. Fester Betrag. Betrag unverändert.
-
-
+    deviation_from: previous
+    werbung: 15.33
+    reference: V. v. 21.06.2011 BGBl. I S. 1175.
+    note: Fester Betrag. Betrag unverändert. Warum haben wir das? Es ändert sich nichts

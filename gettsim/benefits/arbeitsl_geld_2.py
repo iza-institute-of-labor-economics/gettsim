@@ -221,8 +221,8 @@ def alg2_2005_nq(person, params):
         - person["eink_st_m"]
         - person["soli_st_m"]
         - person["sozialv_beit_m"]
-        - params["a2we"]
-        - params["a2ve"],
+        - params["abzugsfähige_pausch"]["werbung"]
+        - params["abzugsfähige_pausch"]["versicherung"],
         0,
         None,
     )
