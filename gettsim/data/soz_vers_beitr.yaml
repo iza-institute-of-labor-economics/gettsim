@@ -604,7 +604,7 @@ bezugsgröße:
 geringfügige_eink_grenzen:
   name:
     de: Gleitzone (Midijob Grenze)  (Höhe § 20 SGB IV (2)) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
-    en:
+    en: Thresholds for marginal employment ('mini' and 'midi' jobs)
   description:
     de:
     en:
