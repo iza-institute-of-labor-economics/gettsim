@@ -214,106 +214,40 @@ mehrbedarf_anteil:
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
 
-a2ve1:
+vermögensfreibetrag:
   name:
-    de: Vermögensgrundfreibetrag je Lebensjahr
-    en: Basic allowance per year of life
+    de_1: Vermögensgrundfreibetrag je Lebensjahr, nach Geburtsjahr, erst ab 2008 unterschiedlich
+    de_2: Vermögensfreibetrag für Erstausstattung
+    de_3: Vermögensgrundfreibetrag je Kind
+    en_1: Basic allowance per year of life, sorted by year of birth, starting 2008 different
+    en_2: Allowance for furniture
+    en_3: Allowance per child
   description:
-    de: Vermögensgrundfreibetrag je vollendetem Lebensjahr. § 12 (2) Satz 1 Nr. 1 SGB II.
+    de: § 12 (2) Satz 1 Nr. 1 SGB II.
     en:
+  type: Euro
   2005-01-01:
-    scalar: 200
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
+    standard: 200
+    vor_1948: 520
+    1948_bis_1957: 13000
+    1958_bis_1963: 13000
+    nach_1963: 13000
+    ausstattung: 750
+    kind: 4100
+    reference: G. v. 24.12.2003 BGBl. I S. 2954.
   2006-08-01:
-    scalar: 150
-    note: G. v. 20.07.2006 BGBl. I S. 1706.
-
-a2ve2:
-  name:
-    de: Vermögensgrundfreibetrag je Lebensjahr, vor 01.01.1948 geboren
-    en: Basic allowance per year of life, birth before 1948-01-01
-  description:
-    de: Vermögensgrundfreibetrag je vollendetem Lebensjahr, für Personen die vor dem 01. Januar 1948 geboren sind. § 65 V SGB II.
-    en:
-  2005-01-01:
-    scalar: 520
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
-
-
-a2verst:
-  name:
-    de: Vermögensfreibetrag für Erstausstattung
-    en: Allowance for furniture
-  description:
-    de: Freibetrag für notwendige Anschaffungen. § 12 (2) Satz 1 Nr. 4 SGB II.
-    en:
-  2005-01-01:
-    scalar: 750
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
-
-a2vkf:
-  name:
-    de: Vermögensgrundfreibetrag je Kind
-    en: Allowance per child
-  description:
-    de: Vermögensgrundfreibetrag für jedes leistungsberechtigte minderjährige Kind. § 12 (2) Satz 1 Nr. 1a SGB II.
-    en:
-  2005-01-01:
-    scalar: 4100
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
-  2006-08-01:
-    scalar: 3100
-    note: G. v. 20.07.2006 BGBl. I S. 1706.
-
-a2voe1:
-  name:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1948-1957 geboren
-    en: Upper limit basic allowance, born 1948-1957
-  description:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1948-1957 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 1 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
-    en:
-  2005-01-01:
-    scalar: 13000
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
-  2006-08-01:
-    scalar: 9750
-    note: G. v. 20.07.2006 BGBl. I S. 1706.
+    deviation_from: previous
+    standard: 150
+    1948_bis_1957: 9750
+    1958_bis_1963: 9750
+    nach_1963: 9750
+    kind: 3100
+    reference: G. v. 20.07.2006 BGBl. I S. 1706.
   2008-01-01:
-    scalar: 9750
-    note: G. v. 20.04.2007 BGBl. I S. 554. Betrag unverändert.
-
-a2voe3:
-  name:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1958-1963 geboren
-    en: Upper limit basic allowance, born 1958-1963
-  description:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1958-1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 2 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
-    en:
-  2005-01-01:
-    scalar: 13000
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
-  2006-08-01:
-    scalar: 9750
-    note: G. v. 20.07.2006 BGBl. I S. 1706.
-  2008-01-01:
-    scalar: 9900
-    note: G. v. 20.04.2007 BGBl. I S. 554.
-
-a2voe4:
-  name:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag, nach 1963 geboren
-    en: Upper limit basic allowance, born after 1963
-  description:
-    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1958-1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 3 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
-    en:
-  2005-01-01:
-    scalar: 13000
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
-  2006-08-01:
-    scalar: 9750
-    note: G. v. 20.07.2006 BGBl. I S. 1706.
-  2008-01-01:
-    scalar: 10050
+    deviation_from: previous
+    1948_bis_1957: 9750
+    1958_bis_1963: 9900
+    nach_1963: 10050
     note: G. v. 20.04.2007 BGBl. I S. 554.
 
 abzugsfähige_pausch:
