@@ -66,7 +66,7 @@ regelsatz:
     en: Standard rate
   description:
     de: Seit 2011 6 Regelbedarfsstufen. § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S. 3159.
-    en:
+    en: Since 2011, individuals are assigned benefit amounts by their "Regelbedarfsstufe" (1 to 6); 1, Single Adult; 2, Adults in a partner relationship; 3, Adults not in a partner relationship; 4, Children 14 to 18 years; 5, Children 6 to 13 years; 6, Children 0 to 5 years.
   2005-01-01:
     scalar: 338
     reference: G. v. 24.12.2003 BGBl. I S. 2954. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
