@@ -299,9 +299,9 @@ def calc_gross_e4(tax_unit, params, soz_vers_beitr_params):
 
     # If they earn less the mini job limit, then their relevant gross income is 0
     if tax_unit["wohnort_ost"].iloc[0]:
-        mini = soz_vers_beitr_params["mini_grenzeo"]
+        mini = soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["ost"]
     else:
-        mini = soz_vers_beitr_params["mini_grenzew"]
+        mini = soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
 
     tax_unit.loc[tax_unit["bruttolohn_m"] <= mini, "brutto_eink_4"] = 0
     return tax_unit
