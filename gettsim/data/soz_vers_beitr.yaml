@@ -235,50 +235,38 @@ beitr_bemess_grenze:
     de: Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist die gleiche.
     en:
   note:
-    de: Vor 1990 Ost und West sind gleich.
+    de:
     en:
   1984-01-01:
     ges_krankv:
       west: 1994
-      ost: 1994
     rentenv:
       west: 2659
-      ost: 2659
   1985-01-01:
     ges_krankv:
       west: 2071
-      ost: 2071
     rentenv:
       west: 2761
-      ost: 2761
   1986-01-01:
     ges_krankv:
       west: 2147
-      ost: 2147
     rentenv:
       west: 2863
-      ost: 2863
   1987-01-01:
     ges_krankv:
       west: 2186
-      ost: 2186
     rentenv:
       west: 2914
-      ost: 2914
   1988-01-01:
     ges_krankv:
       west: 2301
-      ost: 2301
     rentenv:
       west: 3068
-      ost: 3068
   1989-01-01:
     ges_krankv:
       west: 2339
-      ost: 2339
     rentenv:
       west: 3119
-      ost: 3119
   1990-01-01:
     ges_krankv:
       west: 2416
@@ -507,21 +495,15 @@ bezugsgröße:
     en:
   1984-01-01:
     west: 1396
-    ost: 0
   1985-01-01:
-    deviation_from: previous
     west: 1432
   1986-01-01:
-    deviation_from: previous
     west: 1467
   1987-01-01:
-    deviation_from: previous
     west: 1539
   1988-01-01:
-    deviation_from: previous
     west: 1575
   1989-01-01:
-    deviation_from: previous
     west: 1611
   1990-01-01:
     west: 1682
@@ -629,7 +611,6 @@ eink_grenzen:
   1984-01-01:
     mini_job:
       west: 199
-      ost: 0
     midi_job: 0
   1985-01-01:
     deviation_from: previous
