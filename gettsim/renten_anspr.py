@@ -1,4 +1,4 @@
-def pensions(person, params, soz_vers_beitr_params):
+def pensions(person, renten_daten, soz_vers_beitr_params):
     """
     This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
@@ -17,14 +17,16 @@ def pensions(person, params, soz_vers_beitr_params):
       value (to be improved)
 
     """
-    # meanwages is only filled until 2016
-    year = min(params["jahr"], 2016)
+    # We only have exogenous pension data from 2005 til 2016.
+    year = soz_vers_beitr_params["jahr"]
+    if year > 2016 or year < 2005:
+        return person
 
-    person = update_earnings_points(person, params, soz_vers_beitr_params, year)
+    person = update_earnings_points(person, soz_vers_beitr_params, renten_daten)
     # ZF: Zugangsfaktor.
     ZF = _zugangsfaktor(person)
 
-    rentenwert = params["calc_rentenwert"](params, year)
+    rentenwert = renten_daten["rentenwert"][year]
 
     # use all three components for Rentenformel.
     # It's called 'pensions_sim' to emphasize that this is simulated.
@@ -36,7 +38,7 @@ def pensions(person, params, soz_vers_beitr_params):
     return person
 
 
-def update_earnings_points(person, params, soz_vers_beitr_params, year):
+def update_earnings_points(person, soz_vers_beitr_params, renten_daten):
     """Given earnings, social security rules, average
     earnings in a particular year and potentially other
     variables (e.g., benefits for raising children,
@@ -48,8 +50,12 @@ def update_earnings_points(person, params, soz_vers_beitr_params, year):
 
     """
 
-    out = _ep_for_earnings(person, params, soz_vers_beitr_params, year)
-    out += _ep_for_care_periods(person, soz_vers_beitr_params, params)
+    durchschnittslohn_dt = renten_daten["durchschnittslohn"][
+        soz_vers_beitr_params["jahr"]
+    ]
+
+    out = _ep_for_earnings(person, soz_vers_beitr_params, durchschnittslohn_dt)
+    out += _ep_for_care_periods(person, soz_vers_beitr_params)
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
@@ -57,7 +63,7 @@ def update_earnings_points(person, params, soz_vers_beitr_params, year):
     return person
 
 
-def _ep_for_earnings(person, params, soz_vers_beitr_params, year):
+def _ep_for_earnings(person, soz_vers_beitr_params, durchschnittslohn_dt):
     """Return earning points for the wages earned in the last year."""
     wohnort = "ost" if person["wohnort_ost"] else "west"
     return (
@@ -65,11 +71,11 @@ def _ep_for_earnings(person, params, soz_vers_beitr_params, year):
             person["bruttolohn_m"],
             soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
         )
-        / params[f"meanwages_{year}"]
+        / durchschnittslohn_dt
     )
 
 
-def _ep_for_care_periods(df, params, soz_vers_beitr_params):
+def _ep_for_care_periods(df, soz_vers_beitr_params):
     """Return earnings points for care periods."""
     return 0
 
@@ -93,80 +99,3 @@ def _regelaltersgrenze(person):
         regelaltersgrenze = 65
 
     return regelaltersgrenze
-
-
-def _rentenwert_until_2017(params, year):
-    """For the years until 2017, we use a exogenous value for the rentenwert."""
-    return params[f"rentenwert_ext_{year}"]
-
-
-def _rentenwert_from_2018(params, year):
-    """From 2018 onwards we calculate the rentenwert with the formula given by law.
-    The formula takes three factors, which will be calculated seperatly. For a
-    detailed explanation see
-    https://de.wikipedia.org/wiki/Rentenanpassungsformel
-    """
-    # Rentenwert: The monetary value of one 'entgeltpunkt'.
-    # This depends, among others, of past developments.
-
-    # First the Lohnkomponente which depands on the wage development of last years.
-    lohnkomponente = _lohnkomponente(params, year)
-    # Second riesterfaktor
-    riesterfaktor = _riesterfactor(params, year)
-    # Nachhaltigskeitsfaktor
-    nachhfaktor = _nachhaltigkeitsfaktor(params, year)
-
-    # Rentenwert must not be lower than in the previous year.
-    renten_factor = lohnkomponente * riesterfaktor * nachhfaktor
-    rentenwert = params[f"rentenwert_ext_{year - 1}"] * min(1, renten_factor)
-    return rentenwert
-
-
-def _lohnkomponente(params, year):
-    """Returns the lohnkomponente for each year. It deppends on the average wages of
-    the previous years. For details see
-    https://de.wikipedia.org/wiki/Rentenanpassungsformel
-    """
-    return params[f"meanwages_{year - 1}"] / (
-        params[f"meanwages_{year - 2}"]
-        * (
-            (params[f"meanwages_{year - 2}"] / params[f"meanwages_{year - 3}"])
-            / (
-                params[f"meanwages_sub_{year - 2}"]
-                / params[f"meanwages_sub_{year - 3}"]
-            )
-        )
-    )
-
-
-def _riesterfactor(params, year):
-    """This factor returns the riesterfactor, depending on the Altersvorsogeanteil
-    and the contributions to the pension insurance. For details see
-    https://de.wikipedia.org/wiki/Rentenanpassungsformel
-    """
-    return (100 - params[f"ava_{year - 1}"] - params[f"rvbeitrag_{year - 1}"]) / (
-        100 - params[f"ava_{year - 2}"] - params[f"rvbeitrag_{year - 2}"]
-    )
-
-
-def _nachhaltigkeitsfaktor(params, year):
-    """This factor mirrors the effect of the relationship between pension insurance
-    receivers and contributes on the pensions. It depends on the rentnerquotienten and
-    some correcting scalar alpha. For details see
-    https://de.wikipedia.org/wiki/Rentenanpassungsformel
-    """
-    rq_last_year = _rentnerquotienten(params, year - 1)
-    rq_two_years_before = _rentnerquotienten(params, year - 2)
-    # There is an additional 'Rentenartfaktor', equal to 1 for old-age pensions.
-    return 1 + ((1 - (rq_last_year / rq_two_years_before)) * params[f"alpha_{year}"])
-
-
-def _rentnerquotienten(params, year):
-    """The rentnerquotient is the relationship between pension insurance receivers and
-    contributes. For details see
-    https://de.wikipedia.org/wiki/Rentenanpassungsformel
-    """
-    return (params[f"rentenvol_{year}"] / params[f"eckrente_{year}"]) / (
-        params[f"beitragsvol_{year}"]
-        / (params[f"rvbeitrag_{year}"] / 100 * params[f"eckrente_{year}"])
-    )

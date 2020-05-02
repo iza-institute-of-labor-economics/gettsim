@@ -32,15 +32,12 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_data):
+def test_pension(input_data, year, renten_daten, soz_vers_beitr_raw_data):
     column = "rente_anspr_m"
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
-    )
-    ges_renten_vers_params = get_policies_for_date(
-        year=year, group="ges_renten_vers", raw_group_data=ges_renten_vers_raw_data
     )
     df = apply_tax_transfer_func(
         df,
@@ -49,7 +46,7 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
         in_cols=INPUT_COLS,
         out_cols=[column],
         func_kwargs={
-            "params": ges_renten_vers_params,
+            "renten_daten": renten_daten,
             "soz_vers_beitr_params": soz_vers_beitr_params,
         },
     )
@@ -57,11 +54,10 @@ def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, year):
+def test_update_earning_points(input_data, renten_daten, year):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
-    ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
     df = apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,
@@ -69,9 +65,8 @@ def test_update_earning_points(input_data, year):
         in_cols=INPUT_COLS,
         out_cols=[],
         func_kwargs={
-            "params": ges_renten_vers_params,
+            "renten_daten": renten_daten,
             "soz_vers_beitr_params": soz_vers_beitr_params,
-            "year": year,
         },
     )
     assert_array_almost_equal(df["entgeltpunkte"], year_data["EP_end"].values)
