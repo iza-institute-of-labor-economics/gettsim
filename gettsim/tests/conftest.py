@@ -2,13 +2,9 @@ import pytest
 import yaml
 
 from gettsim.config import ROOT_DIR
-
-
-@pytest.fixture(scope="session")
-def ges_renten_vers_raw_data():
-    return yaml.safe_load(
-        (ROOT_DIR / "data" / "ges_renten_vers.yaml").read_text(encoding="utf-8")
-    )
+from gettsim.pre_processing.exogene_renten_daten.lade_renten_daten import (
+    lade_exogene_renten_daten,
+)
 
 
 @pytest.fixture(scope="session")
@@ -16,6 +12,11 @@ def eink_st_raw_data():
     return yaml.safe_load(
         (ROOT_DIR / "data" / "eink_st.yaml").read_text(encoding="utf-8")
     )
+
+
+@pytest.fixture(scope="session")
+def renten_daten():
+    return lade_exogene_renten_daten()
 
 
 @pytest.fixture(scope="session")

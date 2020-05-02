@@ -6,6 +6,9 @@ from gettsim.benefits.unterhalt import uhv
 from gettsim.benefits.wohngeld import wg
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.pre_processing.checks import check_boolean
+from gettsim.pre_processing.exogene_renten_daten.lade_renten_daten import (
+    lade_exogene_renten_daten,
+)
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 from gettsim.renten_anspr import pensions
 from gettsim.soz_vers import soc_ins_contrib
@@ -30,7 +33,7 @@ def tax_transfer(
     eink_st_params,
     soli_st_params,
     kindergeld_params,
-    ges_renten_vers_params,
+    renten_daten,
 ):
     """ The German Tax-Transfer System.
 
@@ -138,7 +141,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=[out_col],
         func_kwargs={
-            "params": ges_renten_vers_params,
+            "renten_daten": renten_daten,
             "soz_vers_beitr_params": soz_vers_beitr_params,
         },
     )
@@ -557,7 +560,7 @@ def tax_transfer(
 def calculate_tax_and_transfers(
     dataset, year,
 ):
-    ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
+    renten_daten = lade_exogene_renten_daten()
 
     eink_st_abzuege_params = get_policies_for_date(year=year, group="eink_st_abzuege")
 
@@ -597,5 +600,5 @@ def calculate_tax_and_transfers(
         eink_st_params=eink_st_params,
         soli_st_params=soli_st_params,
         kindergeld_params=kindergeld_params,
-        ges_renten_vers_params=ges_renten_vers_params,
+        renten_daten=renten_daten,
     )

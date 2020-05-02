@@ -20,8 +20,6 @@ from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import add_progressionsfaktor
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.renten_anspr import _rentenwert_from_2018
-from gettsim.renten_anspr import _rentenwert_until_2017
 from gettsim.soz_vers import calc_midi_contributions
 from gettsim.soz_vers import no_midi
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
@@ -43,9 +41,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         )
 
     actual_date = datetime.date(year=year, month=month, day=day)
-    if group == "ges_renten_vers":
-        tax_data = load_ges_renten_vers_params(raw_group_data, actual_date)
-    elif group == "wohngeld":
+    if group == "wohngeld":
         tax_data = load_regrouped_data(
             actual_date, group, raw_group_data=raw_group_data
         )
@@ -114,11 +110,6 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["soli_formula"] = keine_soli_st
 
-    elif group == "ges_renten_vers":
-        if year > 2017:
-            tax_data["calc_rentenwert"] = _rentenwert_from_2018
-        else:
-            tax_data["calc_rentenwert"] = _rentenwert_until_2017
     elif group == "kinderzuschlag":
         if year < 2004:
             tax_data["calc_kiz"] = kiz_dummy
@@ -151,27 +142,6 @@ def load_ordinary_data_group(tax_data_raw, actual_date):
             policy_in_place = np.max(past_policies)
             tax_data[key] = tax_data_raw[key]["values"][policy_in_place]["value"]
     return tax_data
-
-
-def load_ges_renten_vers_params(raw_pension_data, actual_date):
-    pension_data = {}
-    # meanwages is only filled until 2016. The same is done in the pension function.
-    min_year = min(actual_date.year, 2016)
-    for key in raw_pension_data:
-        data_years = list(raw_pension_data[key]["values"])
-        # For calculating pensions we need demographic data up to three years in the
-        # past.
-        for year in range(min_year - 3, min_year + 1):
-            past_data = [x for x in data_years if x.year <= year]
-            if not past_data:
-                # TODO: Should there be missing values or should the key not exist?
-                pension_data[f"{key}_{year}"] = np.nan
-            else:
-                policy_year = np.max(past_data)
-                pension_data[f"{key}_{year}"] = raw_pension_data[key]["values"][
-                    policy_year
-                ]["value"]
-    return pension_data
 
 
 def process_data(policy_date, group, raw_group_data=None, parameters=None):
