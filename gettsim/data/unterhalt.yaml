@@ -3,8 +3,8 @@ mindestunterhalt:
     de: Mindestunterhalt für Kinder
     en: Minimum Child Alimony
   description:
-    de: § 1612a BGB, § 1 Mindesunterhaltsverordnung. Mindestunterhalt für Kinder in Abhängigkeit des Alters.
-    en:
+    de: § 1612a BGB, § 1 Mindesunterhaltsverordnung. Mindestunterhalt für Kinder in Abhängigkeit des Alters (unter 6, unter 12, bis 17 Jahre)
+    en: Minimum Child Alimony depending on age of child (below 6, below 12, up to 17 years).
   type: euro
   time: month
   2016-01-01:
