@@ -5,7 +5,7 @@
 import numpy as np
 
 
-def get_piecewise_parameters(parameter_dict, parameter, piecewise_func):
+def get_piecewise_parameters(parameter_dict, parameter, piecewise_func, func_type):
     """Extract parameters from a yaml-File that define the piecewise_linear function
     and return them as dictionary."""
 
@@ -24,7 +24,7 @@ def get_piecewise_parameters(parameter_dict, parameter, piecewise_func):
     )
 
     # Create and fill rates-array
-    rates = check_rates(parameter_dict, parameter, keys)
+    rates = check_rates(parameter_dict, parameter, keys, func_type)
 
     # Create and fill interecept-array
     intercepts = check_intercepts(
@@ -89,15 +89,44 @@ def check_threholds(parameter_dict, parameter, keys):
     return lower_thresholds, upper_thresholds
 
 
-def check_rates(parameter_dict, parameter, keys):
-    rates = np.zeros(len(keys))
-    for interval in keys:
-        if "rate" in parameter_dict[interval]:
-            rates[interval] = parameter_dict[interval]["rate"]
-        else:
-            raise ValueError(
-                f"In {interval} of {parameter} there is no rate specified."
-            )
+def check_rates(parameter_dict, parameter, keys, func_type):
+    """
+    Select rates depending on piecewise function type.
+    """
+    options_dict = {
+        "quadratic": {
+            "necessary_keys": ["rate_linear", "rate_quadratic"],
+            "rates_size": 2,
+        },
+        "cubic": {
+            "necessary_keys": ["rate_linear", "rate_quadratic", "rate_cubic"],
+            "rates_size": 3,
+        },
+    }
+    # Allow for specification of rate with "rate" and "rate_linear"
+    if func_type == "linear":
+        rates = np.zeros((1, len(keys)))
+        for interval in keys:
+            if "rate" in parameter_dict[interval]:
+                rates[0, interval] = parameter_dict[interval]["rate"]
+            elif "rate_linear" in parameter_dict[interval]:
+                rates[0, interval] = parameter_dict[interval]["rate_linear"]
+            else:
+                raise ValueError(
+                    f"In {interval} of {parameter} there is no rate specified."
+                )
+    elif func_type in options_dict:
+        rates = np.zeros((options_dict[func_type]["rates_size"], len(keys)))
+        for i, rate_type in enumerate(options_dict[func_type]["necessary_keys"]):
+            for interval in keys:
+                if rate_type in parameter_dict[interval]:
+                    rates[i, interval] = parameter_dict[interval][rate_type]
+                else:
+                    raise ValueError(
+                        f"In {interval} of {parameter} {rate_type} is missing."
+                    )
+    else:
+        raise ValueError(f"Piecewise function {func_type} not specified.")
     return rates
 
 
@@ -149,7 +178,6 @@ def create_intercepts(
 
 
     """
-
     intercepts_at_lower_thresholds = np.full_like(upper_thresholds, np.nan)
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
     for i, up_thr in enumerate(upper_thresholds[:-1]):

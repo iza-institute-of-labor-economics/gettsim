@@ -100,15 +100,15 @@ def calc_considered_wage(
     child raising.
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["wohnort_ost"] else "w"
+    wohnort = "ost" if person["wohnort_ost"] else "west"
 
     net_wage_last_year = proxy_net_wage_last_year(
         person,
         eink_st_params,
         soli_st_params,
-        beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
+        beit_bem_grenz=soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
         werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
-        sozial_versich_pauschale_alg=params["elterngeld_soz_versich_pauschale"],
+        soz_vers_pausch=params["elterngeld_soz_vers_pausch"],
     )
 
     current_net_wage = calc_net_wage(person)

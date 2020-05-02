@@ -122,7 +122,7 @@ elterngeld_mehrling_bonus:
   2007-01-01:
     scalar: 300
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-elterngeld_soz_versich_pauschale:
+elterngeld_soz_vers_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
     en:

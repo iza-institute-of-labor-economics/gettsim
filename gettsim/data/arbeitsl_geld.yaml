@@ -14,7 +14,7 @@ arbeitsl_geld_freibetrag:
   2002-01-01:
     scalar: 165
     reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
-sozial_versich_pauschale_alg:
+soz_vers_pausch_arbeitsl_geld:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en: Fictitious social security contribution rate
@@ -132,7 +132,7 @@ arbeitsl_geld_satz_mit_kindern:
     scalar: 0.67
     reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
     note: Vielleicht schon vorher geändert.
-arbeitl_geld_stundengrenze:
+arbeitsl_geld_stundengrenze:
   name:
     de: Stundengrenze für Bezug von Arbeitslosengeld
     en: Working hours limit to receive unemployment benefit
