@@ -31,7 +31,7 @@ def piecewise_polynomial(
     """
 
     # Check if value lies within the defined range.
-    if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]):
+    if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or np.isnan(x):
         return np.nan
 
     index_interval = np.searchsorted(upper_thresholds, x, side="left")
