@@ -14,7 +14,7 @@ arbeitsl_geld_freibetrag:
   2002-01-01:
     scalar: 165
     reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
-soz_vers_pauschale_arbeitsl_geld:
+soz_vers_pausch_arbeitsl_geld:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en: Fictitious social security contribution rate
