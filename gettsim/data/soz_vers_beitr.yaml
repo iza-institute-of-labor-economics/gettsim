@@ -601,7 +601,7 @@ bezugsgröße:
     west: 3185
     ost: 3010
 
-eink_grenzen:
+geringfügige_eink_grenzen:
   name:
     de: Midijob-Grenze  (Höhe § 20 SGB IV (2)) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
     en:

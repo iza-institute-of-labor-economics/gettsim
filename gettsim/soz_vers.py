@@ -36,11 +36,17 @@ def soc_ins_contrib(person, params):
     # This is probably the point where Entgeltpunkte should be updated as well.
 
     # Check if wage is below the mini job grenze.
-    belowmini = person["bruttolohn_m"] < params["eink_grenzen"]["mini_job"][wohnort]
+    belowmini = (
+        person["bruttolohn_m"]
+        < params["geringfügige_eink_grenzen"]["mini_job"][wohnort]
+    )
 
     # Check if wage is in Gleitzone / Midi-Jobs
-    in_gleitzone = (params["eink_grenzen"]["midi_job"] >= person["bruttolohn_m"]) & (
-        person["bruttolohn_m"] >= params["eink_grenzen"]["mini_job"][wohnort]
+    in_gleitzone = (
+        params["geringfügige_eink_grenzen"]["midi_job"] >= person["bruttolohn_m"]
+    ) & (
+        person["bruttolohn_m"]
+        >= params["geringfügige_eink_grenzen"]["mini_job"][wohnort]
     )
 
     # Calculate accordingly the ssc
@@ -225,23 +231,25 @@ def calc_midi_f(params):
 
 def calc_midi_bemessungsentgelt(person, params):
     f = calc_midi_f(params)
-    return f * params["eink_grenzen"]["mini_job"]["west"] + (
+    return f * params["geringfügige_eink_grenzen"]["mini_job"]["west"] + (
         (
-            params["eink_grenzen"]["midi_job"]
+            params["geringfügige_eink_grenzen"]["midi_job"]
             / (
-                params["eink_grenzen"]["midi_job"]
-                - params["eink_grenzen"]["mini_job"]["west"]
+                params["geringfügige_eink_grenzen"]["midi_job"]
+                - params["geringfügige_eink_grenzen"]["mini_job"]["west"]
             )
         )
         - (
-            params["eink_grenzen"]["mini_job"]["west"]
+            params["geringfügige_eink_grenzen"]["mini_job"]["west"]
             / (
-                params["eink_grenzen"]["midi_job"]
-                - params["eink_grenzen"]["mini_job"]["west"]
+                params["geringfügige_eink_grenzen"]["midi_job"]
+                - params["geringfügige_eink_grenzen"]["mini_job"]["west"]
             )
             * f
         )
-    ) * (person["bruttolohn_m"] - params["eink_grenzen"]["mini_job"]["west"])
+    ) * (
+        person["bruttolohn_m"] - params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+    )
 
 
 def calc_midi_old_age_pensions_contr(person, params):
