@@ -5,6 +5,7 @@ soz_vers_beitr:
   description:
     de:
     en:
+  type: share
   1984-01-01:
     ges_krankv:
       ag: 0.0572
@@ -237,6 +238,8 @@ beitr_bemess_grenze:
   note:
     de:
     en:
+  type: Euro
+  time: month
   1984-01-01:
     ges_krankv:
       west: 1994
@@ -493,6 +496,8 @@ bezugsgröße:
   description:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
     en:
+  type: Euro
+  time: month
   1984-01-01:
     west: 1396
   1985-01-01:
@@ -608,6 +613,8 @@ geringfügige_eink_grenzen:
   description:
     de: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
     en:
+  type: Euro
+  time: month
   1984-01-01:
     mini_job:
       west: 199
@@ -712,6 +719,7 @@ ag_abgaben_geringf:
   description:
     de: § 249b SGB V, § 168 I Nr. 1b SGB VI
     en:
+  type: share
   1984-01-01:
     ges_krankenv: 0
     rentenv: 0
