@@ -5,7 +5,7 @@ elterngeld_faktor:
   description:
     de: § 2 (1) BEEG
     en:
-  type: share
+  unit: share
   2007-01-01:
     scalar: 0.67
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -16,7 +16,7 @@ elterngeld_höchstbetrag:
   description:
     de: § 2 (1) BEEG
     en:
-  type: Euro
+  unit: Euro
   time: month
   2007-01-01:
     scalar: 1800
@@ -28,7 +28,7 @@ elterngeld_nettoeinkommen_stufen:
   description:
     de: § 2 (2) BEEG. Maßgeblich ist das durchschnittlich erzielte monatliche Einkommen vor der Geburt
     en:
-  type: Euro
+  unit: Euro
   time: month
   2007-01-01:
     1: 1000
@@ -45,7 +45,7 @@ elterngeld_mindestbetrag:
   description:
     de: § 2 (5) BEEG
     en:
-  type: Euro
+  unit: Euro
   time: month
   2007-01-01:
     scalar: 300
@@ -57,7 +57,7 @@ elterngeld_prozent_korrektur:
   description:
     de: § 2 (2) BEEG
     en:
-  type: share
+  unit: share
   2007-01-01:
     scalar: 0.001
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -68,7 +68,7 @@ elterngeld_prozent_minimum:
   description:
     de: § 2 (2) BEEG
     en:
-  type: share
+  unit: share
   2007-01-01:
     scalar: 0.67
     note: implizit, exisitiert vorher nicht
@@ -82,7 +82,7 @@ elterngeld_eink_schritt_korrektur:
   description:
     de: § 2 (2) BEEG
     en:
-  type: Euro
+  unit: Euro
   time: month
   2007-01-01:
     scalar: 2
@@ -94,7 +94,7 @@ elterngeld_geschw_bonus_aufschlag:
   description:
     de: § 2a (1) BEEG. Früher § 2 (4) BEEG
     en:
-  type: share
+  unit: share
   2007-01-01:
     scalar: 0.1
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -105,7 +105,7 @@ elterngeld_geschwister_bonus_minimum:
   description:
     de: § 2a (1) BEEG. Früher §2 (4)  BEEG
     en:
-  type: Euro
+  unit: Euro
   time: month
   2007-01-01:
     scalar: 75
@@ -117,7 +117,7 @@ elterngeld_mehrling_bonus:
   description:
     de: § 2a (4) BEEG, früher §2 (6) BEEG.
     en:
-  type: Euro
+  unit: Euro
   time: month
   2007-01-01:
     scalar: 300
@@ -129,7 +129,7 @@ elterngeld_soz_vers_pausch:
   description:
     de: §2f BEEG. Vor 2012 waren es die eigentlichen Pflichtbeiträge.
     en:
-  type: share
+  unit: share
   2012-09-18:
     scalar: 0.21
     reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878

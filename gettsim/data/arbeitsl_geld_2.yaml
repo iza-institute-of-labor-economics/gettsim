@@ -71,7 +71,7 @@ regelsatz:
   note:
     de: Regelbedafstufen (1 bis 6); 1, Alleinstehender Erwachsener; 2, Paare; 3, Erwachsene ohne Patnerschaft; 4, Kinder 14 bis 18; 5, Kinder 6 bis 15; 6, Kinder 0 bis 5
     en: Regelbedarfsstufe (1 to 6); 1, Single Adult; 2, Adults in a partner relationship; 3, Adults not in a partner relationship; 4, Children 14 to 18 years; 5, Children 6 to 13 years; 6, Children 0 to 5 years.
-  type: Euro
+  unit: Euro
   time: month
   2005-01-01:
     scalar: 338
@@ -185,7 +185,7 @@ anteil_regelsatz:
   note:
     de: 2005-2010 der Regelsatz für weitere Haushaltsmitglieder wurden als Anteil des Standardsatzes bestimmt.
     en:
-  type: share
+  unit: share
   2005-01-01:
     zwei_erwachsene: 0.9
     weitere_erwachsene: 0.8
@@ -209,7 +209,7 @@ mehrbedarf_anteil:
   description:
     de: § 21 (3) Nr. 1 SGB II.
     en:
-  type: share
+  unit: share
   time: month
   2005-01-01:
     min_1_kind: 0.12
@@ -228,7 +228,7 @@ vermögensfreibetrag:
   description:
     de: § 12 (2) Satz 1 Nr. 1 SGB II.
     en:
-  type: Euro
+  unit: Euro
   2005-01-01:
     standard: 200
     vor_1948: 520
@@ -261,7 +261,7 @@ abzugsfähige_pausch:
     de_1: § 6 (1) Nr. 3 a) ALG II-V. 2005-01.01 bis 2016-07-31. Betrag mit V. v. 26.07.2016 BGBl. I S. 1858 entfallen. Wie entfallen?
     de_2: § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
     en:
-  type: Euro
+  unit: Euro
   time: month
   2005-01-01:
     werbung: 15.33

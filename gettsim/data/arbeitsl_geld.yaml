@@ -5,7 +5,7 @@ arbeitsl_geld_freibetrag:
   description:
     de: § 155 SGB III, vorher § 141 (1) S. 1
     en:
-  type: Euro
+  unit: Euro
   time: month
   1999-08-01:
     scalar: 161
@@ -21,7 +21,7 @@ soz_vers_pausch_arbeitsl_geld:
   description:
     de: § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt. ACHTUNG! Beim Elterngeld gibt es eine ähnliche Größe.
     en:
-  type: share
+  unit: share
   1984-01-01:
     scalar: 0.1727
     reference:
@@ -116,7 +116,7 @@ arbeitsl_geld_satz_ohne_kinder:
   description:
     de: §149 Nr. 2 SGB III, vorher § 129 (2) SGB III. Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG.
     en:
-  type: share
+  unit: share
   1998-08-01:
     scalar: 0.6
     reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594

@@ -19,7 +19,7 @@ kindergeld:
   description:
     de: § 66 (1) EStG. Identische Werte in §6 (1) BKGG, diese sind aber nur für beschränkt steuerpflichtige relevant (d.h. Ausländer mit Erwerbstätigkeit in Deutschland). Für Werte vor 2002, siehe 'BMF - Datensammlung zur Steuerpolitik'
     en:
-  type: Euro
+  unit: Euro
   time: month
   1975-01-01:
     reference:
@@ -155,7 +155,7 @@ kindergeld_einkommensgrenze:
   description:
     de: § 32 (4) EStG. Wurde 2012 durch eine Höchstgrenze der gearbeiteten Stunden ersetzt.
     en:
-  type: Euro
+  unit: Euro
   time: year
   1984-01-01:
     scalar: 0
@@ -191,7 +191,7 @@ kindergeld_stundengrenze:
   description:
     de: §32 (4) S. 3 EStG. Maximale Anzahl von erlaubten Wochenstunden des Kindes für den Bezug von Kindergeld
     en:
-  type: hours
+  unit: hours
   time: week
   2012-01-01:
     scalar: 20
