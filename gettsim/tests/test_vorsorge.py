@@ -7,9 +7,9 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.taxes.zve import vorsorge_pre_2005
-from gettsim.taxes.zve import vorsorge_since_2005
-from gettsim.taxes.zve import vorsorge_since_2010
+from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
+from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
+from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
 
 
 IN_COLS = [

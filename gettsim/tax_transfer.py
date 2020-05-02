@@ -4,16 +4,16 @@ from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.elterngeld import elterngeld
 from gettsim.benefits.unterhalt import uhv
 from gettsim.benefits.wohngeld import wg
-from gettsim.incomes import disposable_income
-from gettsim.pensions import pensions
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.pre_processing.checks import check_boolean
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.renten_anspr import pensions
 from gettsim.soz_vers import soc_ins_contrib
 from gettsim.taxes.eink_st import eink_st
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.taxes.kindergeld import kindergeld
-from gettsim.taxes.zve import zve
+from gettsim.taxes.zu_versteuerndes_eink import zve
+from gettsim.verfügb_eink import disposable_income
 
 
 def tax_transfer(

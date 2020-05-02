@@ -3,10 +3,10 @@ import pytest
 from numpy.testing import assert_array_almost_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.pensions import pensions
-from gettsim.pensions import update_earnings_points
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.renten_anspr import pensions
+from gettsim.renten_anspr import update_earnings_points
 
 INPUT_COLS = [
     "p_id",
