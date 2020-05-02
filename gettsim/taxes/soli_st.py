@@ -17,7 +17,9 @@ def soli_st(tax_unit, params):
     """
 
     tax_unit["soli_st_m_tu"] = 0
+    import pdb
 
+    pdb.set_trace()
     # Soli also in monthly terms. only for adults
     tax_unit.loc[~tax_unit["kind"], "soli_st_m_tu"] = (
         params["soli_formula"](tax_unit["_st_kind_freib_tu"], params)
@@ -32,27 +34,11 @@ def soli_st(tax_unit, params):
     return tax_unit
 
 
-def keine_soli_st(solibasis, params):
-    """ There was no Solidaritätszuschlaggesetz before 1991 and in 1993/1994 """
-    return 0
-
-
-def soli_st_formel_1991_92(solibasis, params):
-    """ Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992 """
-
-    soli = params["soli_rate"] * solibasis
-
-    return soli.round(2)
-
-
-def soli_st_formel_seit_1995(solibasis, params):
-    """ Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995 """
-
-    soli = np.minimum(
-        params["soli_rate"] * solibasis,
-        np.maximum(
-            params["soli_rate_max"] * (solibasis - params["soli_freigrenze"]), 0
-        ),
-    )
-
-    return soli.round(2)
+def get_uebergangs_threholds(soli_st_satz, soli_st_uebergang, freigrenze):
+    """
+    This function calculates the upper threshold for interval 1 for the piecewise
+    function in soli_st.yaml.  Interval 1 is used to moderate the start of soli
+    taxation. It uses the three parameters actually given in the law.
+    """
+    threshold = freigrenze / (1 - soli_st_satz / soli_st_uebergang)
+    return threshold

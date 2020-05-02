@@ -24,9 +24,6 @@ from gettsim.soz_vers import calc_midi_contributions
 from gettsim.soz_vers import no_midi
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
-from gettsim.taxes.soli_st import keine_soli_st
-from gettsim.taxes.soli_st import soli_st_formel_1991_92
-from gettsim.taxes.soli_st import soli_st_formel_seit_1995
 from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_from2015
 from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_until2014
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
@@ -41,25 +38,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         )
 
     actual_date = datetime.date(year=year, month=month, day=day)
-    if group == "wohngeld":
-        tax_data = load_regrouped_data(
-            actual_date, group, raw_group_data=raw_group_data
-        )
-    elif group in [
-        "abgelt_st",
-        "arbeitsl_geld",
-        "arbeitsl_geld_2",
-        "eink_st",
-        "eink_st_abzuege",
-        "elterngeld",
-        "kindergeld",
-        "kinderzuschlag",
-        "soz_vers_beitr",
-        "unterhalt",
-    ]:
-        tax_data = process_data(actual_date, group, raw_group_data=raw_group_data)
-    else:
-        tax_data = load_ordinary_data_group(raw_group_data, actual_date)
+    tax_data = process_data(actual_date, group, raw_group_data=raw_group_data)
 
     tax_data["jahr"] = year
     tax_data["datum"] = actual_date
@@ -103,14 +82,6 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["calc_max_rent"] = calc_max_rent_since_2009
 
-    elif group == "soli_st":
-        if year in [1991, 1992]:
-            tax_data["soli_formula"] = soli_st_formel_1991_92
-        elif year >= 1995:
-            tax_data["soli_formula"] = soli_st_formel_seit_1995
-        else:
-            tax_data["soli_formula"] = keine_soli_st
-
     elif group == "kinderzuschlag":
         if year < 2004:
             tax_data["calc_kiz"] = kiz_dummy
@@ -128,20 +99,6 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         else:
             tax_data["uhv_calc"] = uhv_pre_07_2017
 
-    return tax_data
-
-
-def load_ordinary_data_group(tax_data_raw, actual_date):
-    tax_data = {}
-    for key in tax_data_raw:
-        policy_dates = tax_data_raw[key]["values"]
-        past_policies = [x for x in policy_dates if x <= actual_date]
-        if not past_policies:
-            # TODO: Should there be missing values or should the key not exist?
-            tax_data[key] = np.nan
-        else:
-            policy_in_place = np.max(past_policies)
-            tax_data[key] = tax_data_raw[key]["values"][policy_in_place]["value"]
     return tax_data
 
 
