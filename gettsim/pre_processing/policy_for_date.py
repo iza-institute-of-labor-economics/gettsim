@@ -17,23 +17,23 @@ from gettsim.benefits.unterhalt import uhv_since_07_2017
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
-from gettsim.pensions import _rentenwert_from_2018
-from gettsim.pensions import _rentenwert_until_2017
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import add_progressionsfaktor
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.social_insurance import calc_midi_contributions
-from gettsim.social_insurance import no_midi
+from gettsim.renten_anspr import _rentenwert_from_2018
+from gettsim.renten_anspr import _rentenwert_until_2017
+from gettsim.soz_vers import calc_midi_contributions
+from gettsim.soz_vers import no_midi
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.soli_st import keine_soli_st
 from gettsim.taxes.soli_st import soli_st_formel_1991_92
 from gettsim.taxes.soli_st import soli_st_formel_seit_1995
-from gettsim.taxes.zve import calc_hhfreib_from2015
-from gettsim.taxes.zve import calc_hhfreib_until2014
-from gettsim.taxes.zve import vorsorge_pre_2005
-from gettsim.taxes.zve import vorsorge_since_2005
-from gettsim.taxes.zve import vorsorge_since_2010
+from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_from2015
+from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_until2014
+from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
+from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
+from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
 
 
 def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
@@ -54,9 +54,11 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         "arbeitsl_geld",
         "arbeitsl_geld_2",
         "eink_st_abzuege",
+        "elterngeld",
         "kindergeld",
         "kinderzuschlag",
         "eink_st",
+        "soz_vers_beitr",
     ]:
         tax_data = process_data(actual_date, group, raw_group_data=raw_group_data)
     else:
@@ -191,6 +193,8 @@ def process_data(policy_date, group, raw_group_data=None, parameters=None):
                         piecewise_polynomial,
                         func_type=tax_data[param]["type"].split("_")[1],
                     )
+            for key in ["type", "progressionsfaktor"]:
+                tax_data[param].pop(key, None)
 
     if group == "arbeitsl_geld_2":
         if tax_data["jahr"] <= 2010:

@@ -14,6 +14,9 @@ def benefit_priority(household, params):
     If the household need cannot be covered via Wohngeld, he has to apply for ALG2.
     There is no way you can receive ALG2 and Wohngeld/Kinderzuschlag at the same time!
     """
+    # Before 2005 no Unemployment benefit is calculated and thus return a nan dataframe.
+    if params["jahr"] < 2005:
+        return household
     # But first, we check whether hh wealth is too high
     household = wealth_test(household, params)
     # use these values (possibly zero now) below
@@ -93,40 +96,41 @@ def wealth_test(household, params):
     For Wohngeld, there is a lump-sum amount depending on the household size
     """
 
+    verm_freib = params["vermögensfreibetrag"]
     # there are exemptions depending on individual age for adults
     household["ind_freib"] = 0
     household.loc[
         (household["geburtsjahr"] >= 1948) & (~household["kind"]), "ind_freib"
-    ] = (params["a2ve1"] * household["alter"])
+    ] = (verm_freib["standard"] * household["alter"])
     household.loc[(household["geburtsjahr"] < 1948), "ind_freib"] = (
-        params["a2ve2"] * household["alter"]
+        verm_freib["vor_1948"] * household["alter"]
     )
     # sum over individuals
     household["ind_freib_hh"] = household["ind_freib"].sum()
 
     # there is an overall maximum exemption
-    household["maxvermfb"] = 0
+    household["max_verm_freib"] = 0
     household.loc[
-        (household["geburtsjahr"] < 1948) & (~household["kind"]), "maxvermfb"
-    ] = params["a2voe1"]
-    household.loc[(household["geburtsjahr"].between(1948, 1957)), "maxvermfb"] = params[
-        "a2voe1"
-    ]
-    household.loc[(household["geburtsjahr"].between(1958, 1963)), "maxvermfb"] = params[
-        "a2voe3"
-    ]
+        (household["geburtsjahr"] < 1948) & (~household["kind"]), "max_verm_freib"
+    ] = verm_freib["1948_bis_1957"]
     household.loc[
-        (household["geburtsjahr"] >= 1964) & (~household["kind"]), "maxvermfb"
-    ] = params["a2voe4"]
-    household["maxvermfb_hh"] = household["maxvermfb"].sum()
+        (household["geburtsjahr"].between(1948, 1957)), "max_verm_freib"
+    ] = verm_freib["1948_bis_1957"]
+    household.loc[
+        (household["geburtsjahr"].between(1958, 1963)), "max_verm_freib"
+    ] = verm_freib["1958_bis_1963"]
+    household.loc[
+        (household["geburtsjahr"] >= 1964) & (~household["kind"]), "max_verm_freib"
+    ] = verm_freib["nach_1963"]
+    household["max_verm_freib_hh"] = household["max_verm_freib"].sum()
 
     household_size = household.shape[0]
     # add fixed amounts per child and adult
     household["vermfreibetr"] = np.minimum(
-        household["maxvermfb_hh"],
+        household["max_verm_freib_hh"],
         household["ind_freib_hh"]
-        + household["anz_minderj_hh"] * params["a2vkf"]
-        + (household_size - household["anz_minderj_hh"]) * params["a2verst"],
+        + household["anz_minderj_hh"] * verm_freib["kind"]
+        + (household_size - household["anz_minderj_hh"]) * verm_freib["ausstattung"],
     )
 
     # If wealth exceeds the exemption, set benefits to zero
