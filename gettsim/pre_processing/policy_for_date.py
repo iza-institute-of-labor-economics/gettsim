@@ -53,12 +53,13 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
         "abgelt_st",
         "arbeitsl_geld",
         "arbeitsl_geld_2",
+        "eink_st",
         "eink_st_abzuege",
         "elterngeld",
         "kindergeld",
         "kinderzuschlag",
-        "eink_st",
         "soz_vers_beitr",
+        "unterhalt",
     ]:
         tax_data = process_data(actual_date, group, raw_group_data=raw_group_data)
     else:
