@@ -5,7 +5,7 @@ kinderzuschlag:
   description:
     de: § 6a (2) BKGG. Betrag pro Kind
     en: Amount per child.
-  unit: euro
+  type: Euro
   time: month
   2005-01-01:
     scalar: 140
@@ -23,7 +23,7 @@ kinderzuschlag_min_eink_paare:
   description:
     de: § 6a (1) Nr. 2 BKGG.
     en:
-  unit: euro
+  type: Euro
   time: month
   2005-01-01:
     scalar: 0
@@ -38,7 +38,7 @@ kinderzuschlag_min_eink_alleinerz:
   description:
     de: § 6a (1) Nr. 2 BKGG.
     en:
-  unit: euro
+  type: Euro
   time: month
   2005-01-01:
     scalar: 0
@@ -53,7 +53,7 @@ kinderzuschlag_transferentzug_eltern:
   description:
     de: § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG. Rate, mit der der Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt.
     en:
-  unit: share
+  type: share
   2005-01-01:
     scalar: 0.7
     reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
@@ -81,7 +81,7 @@ wohnbedarf_eltern_anteil:
   description:
     de: §6a (5) S.3 BKGG. Für die Berechnung des Kinderzuschlags ist der Bedarf für Unterkunft und Heizung zwischen Eltern und Kindern aufzuteilen. Quelle ist der regelmäßig erscheinende Existenzminumsbericht der Bundesregierung. Der Anteil ergibt sich durch Verrechnung der Anteile der Kosten der Unterkunft und Heizung am Existenzminumum. Der erste Parameter ist die Anzahl der Eltern (1 oder 2), der zweite die Anzahl der Kinder (1,2,3,4,4+). Die Anteile sind git auch im "Merkblatt Kinderzuschlag" angegeben.
     en: The first parameter (1,2) denotes the number of adults, the second one the number of children (1,2,3,4,4+) in the household.
-  unit: share
+  type: share
   2005-01-01:
     1: [.7688, .5885, .4881, .4169, .3639]
     2: [.8319, .7097, .6197, .5500, .4944]

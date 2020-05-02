@@ -6,6 +6,7 @@ e_anr_frei:
     de: Einkommensanteile, die anrechnungsfrei bleiben. § 30 SGB II. Seit 01.10.2005 zudem definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011 § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   type: piecewise_linear
+  time: month
   2005-01-01:
       reference: G. v. 24.12.2003 BGBl. I S. 2964.
       0:
@@ -67,6 +68,8 @@ regelsatz:
   description:
     de: Seit 2011 6 Regelbedarfsstufen. § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S. 3159.
     en: Since 2011, individuals are assigned benefit amounts by their "Regelbedarfsstufe" (1 to 6); 1, Single Adult; 2, Adults in a partner relationship; 3, Adults not in a partner relationship; 4, Children 14 to 18 years; 5, Children 6 to 13 years; 6, Children 0 to 5 years.
+  type: Euro
+  time: moth
   2005-01-01:
     scalar: 338
     reference: G. v. 24.12.2003 BGBl. I S. 2954. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
@@ -179,6 +182,7 @@ anteil_regelsatz:
   note:
     de: 2005-2010 der Regelsatz für weitere Haushaltsmitglieder wurden als Anteil des Standardsatzes bestimmt.
     en:
+  type: share
   2005-01-01:
     zwei_erwachsene: 0.9
     weitere_erwachsene: 0.8
