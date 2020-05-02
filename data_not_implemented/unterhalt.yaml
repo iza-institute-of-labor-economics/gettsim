@@ -1,0 +1,331 @@
+uhv6_share:
+  name:
+    de: Unterhaltsvorschuss für Kinder bis 6 Jahre. Anteil am Kinderfreibetrag.
+    en:
+  description:
+    de: §1612a (1) Nr.1 BGB
+    en:
+  values:
+    2008-01-01:
+      value: .87
+      note: Artikel 1 G. v. 21.12.2007 BGBl. I S. 2631
+uhv12_share:
+  name:
+    de: Unterhaltsvorschuss für Kinder von 7-12 Jahren. Anteil am Kinderfreibetrag.
+    en:
+  description:
+    de:  §1612a (1) Nr.2 BGB
+    en:
+  values:
+    2008-01-01:
+      value: 1
+      note: Artikel 1 G. v. 21.12.2007 BGBl. I S. 2631
+uhv17_share:
+  name:
+    de: Unterhaltsvorschuss für Kinder ab 13 Jahren. Anteil am Kinderfreibetrag.
+    en:
+  description:
+    de: §1612a (1) Nr.3 BGB
+    en:
+  values:
+    2008-01-01:
+      value: 1.17
+      note: Artikel 1 G. v. 21.12.2007 BGBl. I S. 2631
+ahunt06o:
+  name:
+    de: Unterhaltssatz für Kinder bis 6 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
+    en:
+  description:
+    de: Berliner Tabelle
+    en:
+  values:
+    2002-01-01:
+      value: 301
+      note: http://www.forum-familienrecht.de eu/dateien/05/168_2001.pdf
+    2003-01-01:
+      value: 319
+      note: Werte ab 01.07.2003 http://www.forum-familienrecht.de eu/dateien/0303/s_126_128.pdf
+    2005-01-01:
+      value: 327
+      note: Werte ab 01.07.2005 http://www.dnoti.de/DOC/2005/berliner_tabelle_2005.pdf
+    2007-01-01:
+      value: 324
+      note: Werte ab 01.07.2007 http://www.anwaltssuchdienst.de/content/berliner_2007.asp
+    2008-01-01:
+      value: 335
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2008/ddorftab2008.pdf
+    2009-01-01:
+      value: 338
+      note: http://www.sfz.uni-mainz.de/Dateien/2009_ddorfer_tab.pdf
+    2010-01-01:
+      value: 381
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2010/Duesseldorfer_Tabelle_Stand_01_01_2010.pdf
+    2016-01-01:
+      value: 402
+      note: Werte für Nettoeinkommen zwischen 2701 und 3100€ gem. Düsseldorfer Tabelle (Stand 01.01.2016) olg-duesseldorf.nrw.de
+    2017-01-01:
+      value: 411
+      note:
+    2018-01-01:
+      value: 401
+      note:
+ahunt06w:
+  name:
+    de: Unterhaltssatz für Kinder bis 6 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months.  Anmerkung Vor 2008 angenommenes Income 2800-3200 Euro
+    en:
+  description:
+    de: Düsseldorfer Tabelle
+    en:
+  values:
+    2002-01-01:
+      value: 301
+      note: http://www.famrb.de/duess_tab_.pdf
+    2003-01-01:
+      value: 319
+      note: Werte ab 01.07.2003 http://www.treffpunkteltern.de/article.php?sid=256
+    2005-01-01:
+      value: 327
+      note: Werte ab 01.07.2005 http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2005/2005-07-01_duess-tab.pdf
+    2007-01-01:
+      value: 324
+      note: Werte ab 01.07.2007 http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2007/2007-07-01_ddorftab.pdf
+    2008-01-01:
+      value: 335
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2008/ddorftab2008.pdf
+    2009-01-01:
+      value: 338
+      note: http://www.sfz.uni-mainz.de/Dateien/2009_ddorfer_tab.pdf
+    2010-01-01:
+      value: 381
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2010/Duesseldorfer_Tabelle_Stand_01_01_2010.pdf
+    2016-01-01:
+      value: 402
+      note: Werte für Nettoeinkommen zwischen 2701 und 3100€ gem. Düsseldorfer Tabelle (Stand 01.01.2016) olg-duesseldorf.nrw.de
+    2017-01-01:
+      value: 411
+      note:
+    2018-01-01:
+      value: 401
+      note:
+ahunt12o:
+  name:
+    de: Unterhaltssatz für Kinder zwischen 6 und 12 Jahren (Ost)  ab 1.1.2008     => siehe ahunt12w  bis 31.12.2007     => gemäß Berliner Tabelle Anmerkung Vor 2008 angenommenes Income 2800-3200 Euro
+    en:
+  description:
+    de: Berliner Tabelle
+    en:
+  values:
+    2002-01-01:
+      value: 365
+      note: http://www.forum-familienrecht.de eu/dateien/05/168_2001.pdf
+    2003-01-01:
+      value: 386
+      note: Werte ab 01.07.2003 http://www.forum-familienrecht.de eu/dateien/0303/s_126_128.pdf
+    2005-01-01:
+      value: 396
+      note: Werte ab 01.07.2005 http://www.dnoti.de/DOC/2005/berliner_tabelle_2005.pdf
+    2007-01-01:
+      value: 392
+      note: Werte ab 01.07.2007 http://www.anwaltssuchdienst.de/content/berliner_2007.asp
+    2008-01-01:
+      value: 387
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2008/ddorftab2008.pdf
+    2010-01-01:
+      value: 437
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2010/Duesseldorfer_Tabelle_Stand_01_01_2010.pdf
+    2016-01-01:
+      value: 461
+      note: Werte für Nettoeinkommen zwischen 2701 und 3100€ gem. Düsseldorfer Tabelle (Stand 01.01.2016) olg-duesseldorf.nrw.de
+    2017-01-01:
+      value: 472
+      note:
+    2018-01-01:
+      value: 459
+      note:
+ahunt12w:
+  name:
+    de: Unterhaltssatz für Kinder zwischen 6 und 12 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
+    en:
+  description:
+    de: Düsseldorfer Tabelle
+    en:
+  values:
+    2002-01-01:
+      value: 365
+      note: http://www.famrb.de/duess_tab_.pdf
+    2003-01-01:
+      value: 386
+      note: Werte ab 01.07.2003 http://www.treffpunkteltern.de/article.php?sid=256
+    2005-01-01:
+      value: 396
+      note: Werte ab 01.07.2005 http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2005/2005-07-01_duess-tab.pdf
+    2007-01-01:
+      value: 392
+      note: Werte ab 01.07.2007 http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2007/2007-07-01_ddorftab.pdf
+    2008-01-01:
+      value: 387
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2008/ddorftab2008.pdf
+    2010-01-01:
+      value: 437
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2010/Duesseldorfer_Tabelle_Stand_01_01_2010.pdf
+    2016-01-01:
+      value: 461
+      note: Werte für Nettoeinkommen zwischen 2701 und 3100€ gem. Düsseldorfer Tabelle (Stand 01.01.2016) olg-duesseldorf.nrw.de
+    2017-01-01:
+      value: 472
+      note:
+    2018-01-01:
+      value: 459
+      note:
+ahunt18o:
+  name:
+    de: Unterhaltssatz für Kinder zwischen 12 und 18 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007   Vor 2008 angenommenes Income 2800-3200 Euro
+    en:
+  description:
+    de: Berliner Tabelle
+    en:
+  values:
+    2002-01-01:
+      value: 431
+      note: http://www.forum-familienrecht.de eu/dateien/05/168_2001.pdf
+    2003-01-01:
+      value: 455
+      note: Werte ab 01.07.2003 http://www.forum-familienrecht.de eu/dateien/0303/s_126_128.pdf
+    2005-01-01:
+      value: 466
+      note: Werte ab 01.07.2005 http://www.dnoti.de/DOC/2005/berliner_tabelle_2005.pdf
+    2007-01-01:
+      value: 461
+      note: Werte ab 01.07.2007 http://www.anwaltssuchdienst.de/content/berliner_2007.asp
+    2008-01-01:
+      value: 438
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2008/ddorftab2008.pdf
+    2009-01-01:
+      value: 453
+      note: http://www.sfz.uni-mainz.de/Dateien/2009_ddorfer_tab.pdf
+    2010-01-01:
+      value: 512
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2010/Duesseldorfer_Tabelle_Stand_01_01_2010.pdf
+    2016-01-01:
+      value: 540
+      note: Werte für Nettoeinkommen zwischen 2701 und 3100€ gem. Düsseldorfer Tabelle (Stand 01.01.2016) olg-duesseldorf.nrw.de
+    2017-01-01:
+      value: 552
+      note:
+    2018-01-01:
+      value: 538
+      note: Frederike Lannte Kommentar  ab 2008 siehe  ahunt18w und nicht ahunt06w ?
+ahunt18pluso:
+  name:
+    de: Unterhaltssatz für Kinder ab 18 Jahren (Ost)  ab 1.1.2008     => siehe ahunt06w  bis 31.12.2007  Vor 2008 angenommenes Income 2800-3200 Euro
+    en:
+  description:
+    de: Berliner Tabelle
+    en:
+  values:
+    2002-01-01:
+      value: 431
+      note: http://www.forum-familienrecht.de eu/dateien/05/168_2001.pdf
+    2003-01-01:
+      value: 455
+      note: Werte ab 01.07.2003 http://www.forum-familienrecht.de eu/dateien/0303/s_126_128.pdf
+    2005-01-01:
+      value: 466
+      note: Werte ab 01.07.2005 http://www.dnoti.de/DOC/2005/berliner_tabelle_2005.pdf
+    2007-01-01:
+      value: 530
+      note: Werte ab 01.07.2007 http://www.anwaltssuchdienst.de/content/berliner_2007.asp
+    2008-01-01:
+      value: 490
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2008/ddorftab2008.pdf
+    2009-01-01:
+      value: 519
+      note: http://www.sfz.uni-mainz.de/Dateien/2009_ddorfer_tab.pdf
+    2010-01-01:
+      value: 586
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2010/Duesseldorfer_Tabelle_Stand_01_01_2010.pdf
+    2016-01-01:
+      value: 620
+      note: Werte für Nettoeinkommen zwischen 2701 und 3100€ gem. Düsseldorfer Tabelle (Stand 01.01.2016) olg-duesseldorf.nrw.de
+    2017-01-01:
+      value: 633
+      note:
+    2018-01-01:
+      value: 607
+      note: Frederike Lannte siehe oberes Kommentar
+ahunt18plusw:
+  name:
+    de: Unterhaltssatz für Kinder ab 18 Jahren (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
+    en:
+  description:
+    de: Düsseldorfer Tabelle
+    en:
+  values:
+    2002-01-01:
+      value: 498
+      note: http://www.famrb.de/duess_tab_.pdf
+    2003-01-01:
+      value: 524
+      note: Werte ab 01.07.2003 http://www.treffpunkteltern.de/article.php?sid=256
+    2005-01-01:
+      value: 536
+      note: Werte ab 01.07.2005 http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2005/2005-07-01_duess-tab.pdf
+    2007-01-01:
+      value: 530
+      note: Werte ab 01.07.2007 http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2007/2007-07-01_ddorftab.pdf
+    2008-01-01:
+      value: 490
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2008/ddorftab2008.pdf
+    2009-01-01:
+      value: 519
+      note: http://www.sfz.uni-mainz.de/Dateien/2009_ddorfer_tab.pdf
+    2010-01-01:
+      value: 586
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2010/Duesseldorfer_Tabelle_Stand_01_01_2010.pdf
+    2016-01-01:
+      value: 620
+      note: Werte für Nettoeinkommen zwischen 2701 und 3100€ gem. Düsseldorfer Tabelle (Stand 01.01.2016) olg-duesseldorf.nrw.de
+    2017-01-01:
+      value: 633
+      note:
+    2018-01-01:
+      value: 607
+      note:
+ahunt18w:
+  name:
+    de: Unterhaltssatz für Kinder zwischen 12 und 18 Jahre (West)  Problem - Unterhalt depends on the net income of the household. Up to now only one number was reported. Should be extended, using percentage wage for different income groups and base category (TODO). Right now we assume an average income of 2701 - 3100 euros per months. Vor 2008 angenommenes Income 2800-3200 Euro
+    en:
+  description:
+    de: Düsseldorfer Tabelle
+    en:
+  values:
+    2002-01-01:
+      value: 431
+      note: http://www.famrb.de/duess_tab_.pdf
+    2003-01-01:
+      value: 455
+      note: Werte ab 01.07.2003 http://www.treffpunkteltern.de/article.php?sid=256
+    2005-01-01:
+      value: 466
+      note: Werte ab 01.07.2005 http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2005/2005-07-01_duess-tab.pdf
+    2007-01-01:
+      value: 461
+      note: Werte ab 01.07.2007 http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2007/2007-07-01_ddorftab.pdf
+    2008-01-01:
+      value: 438
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2008/ddorftab2008.pdf
+    2009-01-01:
+      value: 453
+      note: http://www.sfz.uni-mainz.de/Dateien/2009_ddorfer_tab.pdf
+    2010-01-01:
+      value: 512
+      note: http://www.olg-duesseldorf.nrw.de/07service/07_ddorftab/07_ddorf_tab_2010/Duesseldorfer_Tabelle_Stand_01_01_2010.pdf
+    2016-01-01:
+      value: 540
+      note: Werte für Nettoeinkommen zwischen 2701 und 3100€ gem. Düsseldorfer Tabelle (Stand 01.01.2016) olg-duesseldorf.nrw.de
+    2017-01-01:
+      value: 552
+      note:
+    2018-01-01:
+      value: 538
+      note:
