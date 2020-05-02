@@ -229,7 +229,7 @@ soz_vers_beitr:
 
 beitr_bemess_grenze:
   name:
-    de: Beitragsbemessungsgrenzen für die Sozialversihcerungsbeiträge
+    de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
     en: Income Threshold for social insurance.
   description:
     de: Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist die gleiche.
