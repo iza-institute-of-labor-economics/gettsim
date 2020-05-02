@@ -204,8 +204,9 @@ def calc_midi_contributions(person, params):
 
 
 def calc_midi_f(params):
-
-    # Todo: I have no idea what this function calculates. What means f?
+    """
+    This calculates the factor F from the formula in § 163 (10) SGB VI.
+    """
 
     an_anteil = (
         params["soz_vers_beitr"]["rentenv"]
