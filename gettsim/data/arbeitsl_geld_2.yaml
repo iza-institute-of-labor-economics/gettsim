@@ -195,38 +195,25 @@ anteil_regelsatz:
     reference: G. v. 02.03.2009 BGBl. I S. 416.
     kinder_7_13: 0.7
 
-a2mbch1:
+mehrbedarf_anteil:
   name:
-    de: Mehrbedarf AE, mind. einem Kind wenn Anspruch größer als nach a2mbch2
-    en: Additional need, single parent, one or more children
+    de_1: Mehrbedarf AE, mind. einem Kind wenn Anspruch größer als nach für Kinder unter 7
+    de_2: Mehrbedarf AE, mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren
+    de_3: Maximalanteil Mehrbedarf für Alleinerziehende gemessen am maßgebenden Regelbedarf
+    en_1: Additional need, single parent, one or more children
+    en_2: Additional need, single parent, one child below 7 or two or three children below 16
+    en_3: Upper limit additional need for single parents
   description:
-    de: Mehrbedarf für allein erziehenden Elternteil von mind. einem Kind wenn Anspruch größer als nach a2mbch2. Prozentsatz gilt pro Kind. § 21 (3) Nr. 2 SGB II.
+    de: § 21 (3) Nr. 1 SGB II.
     en:
+  type: share
+  time: month
   2005-01-01:
-    scalar: 0.12
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
+    min_1_kind: 0.12
+    kind_unter_7_oder_mehr: 0.36
+    max: 0.6
+    reference: G. v. 24.12.2003 BGBl. I S. 2954.
 
-a2mbch2:
-  name:
-    de: Mehrbedarf AE, mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren
-    en: Additional need, single parent, one child below 7 or two or three children below 16
-  description:
-    de: Mehrbedarf für allein erziehenden Elternteil von mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren. § 21 (3) Nr. 1 SGB II.
-    en:
-  2005-01-01:
-    scalar: 0.36
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
-
-a2zu2:
-  name:
-    de: Maximalanteil Mehrbedarf AE
-    en: Upper limit additional need for single parents
-  description:
-    de: Maximalanteil des Mehrbedarfzuschlags für Alleinerziehende gemessen am maßgebenden Regelbedarf. § 21 SGB II (3) 2.
-    en:
-  2005-01-01:
-    scalar: 60
-    note: G. v. 24.12.2003 BGBl. I S. 2954.
 
 a2ve:
   name:

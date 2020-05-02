@@ -133,14 +133,15 @@ def mehrbedarf_alg2(household, params):
     )
 
     household["mehrbed"] = household["alleinerziehend"] * np.minimum(
-        params["a2zu2"] / 100,
+        params["mehrbedarf_anteil"]["max"],
         np.maximum(
-            params["a2mbch1"] * children_age_info["anzahl_kinder"],
+            params["mehrbedarf_anteil"]["min_1_kind"]
+            * children_age_info["anzahl_kinder"],
             (
                 (children_age_info["anzahl_0_6"] >= 1)
                 | (2 <= children_age_info["anzahl_0_15"] <= 3)
             )
-            * params["a2mbch2"],
+            * params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"],
         ),
     )
     return household
