@@ -10,13 +10,13 @@ def ges_renten_vers_raw_data():
 
 
 @pytest.fixture(scope="session")
-def e_st_raw_data():
-    return yaml.safe_load((ROOT_DIR / "data" / "e_st.yaml").read_text())
+def eink_st_raw_data():
+    return yaml.safe_load((ROOT_DIR / "data" / "eink_st.yaml").read_text())
 
 
 @pytest.fixture(scope="session")
-def e_st_abzuege_raw_data():
-    return yaml.safe_load((ROOT_DIR / "data" / "e_st_abzuege.yaml").read_text())
+def eink_st_abzuege_raw_data():
+    return yaml.safe_load((ROOT_DIR / "data" / "eink_st_abzuege.yaml").read_text())
 
 
 @pytest.fixture(scope="session")

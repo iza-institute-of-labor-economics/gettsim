@@ -11,6 +11,7 @@ Welcome to GETTSIM's documentation!
    :maxdepth: 1
 
    getting-started
+   crosswalk
    how-to-contribute
    how-to-maintain
    changes

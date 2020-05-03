@@ -13,17 +13,17 @@ from gettsim.taxes.zve import vorsorge_since_2010
 
 
 IN_COLS = [
-    "pid",
+    "p_id",
     "tu_id",
-    "m_wage",
-    "child",
-    "priv_pens_contr",
-    "rvbeit",
-    "avbeit",
-    "pvbeit",
-    "year",
-    "gkvbeit",
-    "zveranl",
+    "bruttolohn_m",
+    "kind",
+    "prv_rente_beit_m",
+    "rentenv_beit_m",
+    "arbeitsl_v_beit_m",
+    "pflegev_beit_m",
+    "jahr",
+    "ges_krankv_beit_m",
+    "gem_veranlagt",
 ]
 OUT_COLS = ["vorsorge"]
 
@@ -45,12 +45,12 @@ def test_vorsorge(
     column,
     kindergeld_raw_data,
     soz_vers_beitr_raw_data,
-    e_st_abzuege_raw_data,
+    eink_st_abzuege_raw_data,
 ):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
-    e_st_abzuege_params = get_policies_for_date(
-        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
+    eink_st_abzuege_params = get_policies_for_date(
+        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
     )
     soz_vers_beitr_params = get_policies_for_date(
         year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
@@ -66,7 +66,7 @@ def test_vorsorge(
     for tu in df["tu_id"].unique():
         df.loc[df["tu_id"] == tu, "vorsorge"] = calc_vorsorge(
             df[df["tu_id"] == tu],
-            params=e_st_abzuege_params,
+            params=eink_st_abzuege_params,
             soz_vers_beitr_params=soz_vers_beitr_params,
         )
 

@@ -1,2513 +1,1647 @@
-wg_factor:
-  name:
-    de: Faktor am Anfang der Wohngeldformel
-    en:
-  description:
-    de: Anlage 2 WoGG zu §19 Abs. 2 WoGG
-    en:
-  values:
+faktor_berechnungsformel:
+    name:
+        de: Faktor am Anfang der Wohngeldformel
+        en:
+    description:
+        de: Anlage 2 WoGG zu §19 Abs. 2 WoGG
+        en:
     1984-01-01:
-      value: 1
-      note:
+        scalar: 1
+        reference:
     2009-01-01:
-      value: 1.08
-      note:
+        scalar: 1.08
+        reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
     2016-01-01:
-      value: 1.15
-      note: §19 (1) aa) zuletzt geändert durch BGBl. Nr.38 vom 08.10.2015, S.1613
-wg_a_1p:
-  name:
-    de: Parameter a (Haushalt mit 1 Person)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
+        scalar: 1.15
+        reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
+koeffizienten_berechnungsformel:
+    name:
+      de: Parameter a, b, c der Wohngeldformel
+      en:
+    description:
+      de:  WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
+      en:
+    note: The keys from 1 to 12 below refer to the household size.
     1984-01-01:
-      value: 0.0532
-      note: 1984 - 2000 Parameter aus Regressionsanalyse der Wohngeldtabellen
+      note: Parameter aus Regressionsanalyse der Wohngeldtabellen
+      1:
+        a: 0.0532
+        b: 0.00135
+        c: 0.0000632
+      2:
+        a: 0.0574
+        b: 0.000957
+        c: 0.0000352
+      3:
+        a: 0.0612
+        b: 0.00078
+        c: 0.0000202
+      4:
+        a: 0.0596
+        b: 0.000613
+        c: 2.78e-06
+      5:
+        a: 0.0572
+        b: 0.000554
+        c: 5.38e-07
+      6:
+        a: 0.0365
+        b: 0.000531
+        c: 4.62e-06
+      7:
+        a: 0.0129
+        b: 0.000502
+        c: 0.0000124
+      8:
+        a: -0.0176
+        b: 0.000468
+        c: 0.0000253
+      9:
+        a: -0.0397
+        b: 0.000424
+        c: 0.0000364
+      10:
+        a: -0.0595
+        b: 0.000373
+        c: 0.0000481
+      11:
+        a: -0.0595
+        b: 0.000373
+        c: 0.0000481
+      12:
+        a: -0.0595
+        b: 0.000373
+        c: 0.0000481
     1990-01-01:
-      value: 0.0648
-      note: .
+      note: Parameter aus Regressionsanalyse der Wohngeldtabellen
+      1:
+        a: 0.0648
+        b: 0.00102
+        c: 0.0000613
+      2:
+        a: 0.0694
+        b: 0.000715
+        c: 0.0000347
+      3:
+        a: 0.0741
+        b: 0.000604
+        c: 0.000011
+      4:
+        a: 0.0669
+        b: 0.000476
+        c: 1.75e-06
+      5:
+        a: 0.064
+        b: 0.00043
+        c: 9.14e-07
+      6:
+        a: 0.0445
+        b: 0.000414
+        c: 4.02e-06
+      7:
+        a: 0.0226
+        b: 0.000397
+        c: 9.44e-06
+      8:
+        a: -0.0005
+        b: 0.000387
+        c: 0.0000136
+      9:
+        a: -0.0281
+        b: 0.000337
+        c: 0.0000308
+      10:
+        a: -0.0455
+        b: 0.000298
+        c: 0.0000386
+      11:
+        a: -0.0455
+        b: 0.000298
+        c: 0.0000386
+      12:
+        a: -0.0455
+        b: 0.000298
+        c: 0.0000386
     1992-01-01:
-      value: 0.0666
-      note: .
+      note: Parameter aus Regressionsanalyse der Wohngeldtabellen
+      1:
+        a: 0.0666
+        b: 0.00102
+        c: 0.0000579
+      2:
+        a: 0.0716
+        b: 0.000713
+        c: 0.0000317
+      3:
+        a: 0.0748
+        b: 0.000604
+        c: 0.0000102
+      4:
+        a: 0.0671
+        b: 0.000475
+        c: 1.63e-06
+      5:
+        a: 0.0642
+        b: 0.00043
+        c: 8.96e-07
+      6:
+        a: 0.0463
+        b: 0.000419
+        c: 1.35e-06
+      7:
+        a: 0.0256
+        b: 0.000404
+        c: 5.66e-06
+      8:
+        a: -0.00252
+        b: 0.000377
+        c: 0.0000173
+      9:
+        a: -0.00252
+        b: 0.000377
+        c: 0.0000173
+      10:
+        a: -0.00252
+        b: 0.000377
+        c: 0.0000173
+      11:
+        a: -0.00252
+        b: 0.000377
+        c: 0.0000173
+      12:
+        a: -0.00252
+        b: 0.000377
+        c: 0.0000173
     2001-01-01:
-      value: 0.063
-      note: .
-    2016-01-01:
-      value: 0.04
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_2p:
-  name:
-    de: Parameter a (Haushalt mit 2 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0574
-      note:
-    1990-01-01:
-      value: 0.0694
-      note: .
-    1992-01-01:
-      value: 0.0716
-      note: .
-    2001-01-01:
-      value: 0.057
-      note: .
-    2016-01-01:
-      value: 0.03
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_3p:
-  name:
-    de: Parameter a (Haushalt mit 3 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0612
-      note:
-    1990-01-01:
-      value: 0.0741
-      note: .
-    1992-01-01:
-      value: 0.0748
-      note: .
-    2001-01-01:
-      value: 0.055
-      note: .
-    2016-01-01:
-      value: 0.02
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_4p:
-  name:
-    de: Parameter a (Haushalt mit 4 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0596
-      note:
-    1990-01-01:
-      value: 0.0669
-      note: .
-    1992-01-01:
-      value: 0.0671
-      note: .
-    2001-01-01:
-      value: 0.047
-      note: .
-    2016-01-01:
-      value: 0.01
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_5p:
-  name:
-    de: Parameter a (Haushalt mit 5 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0572
-      note:
-    1990-01-01:
-      value: 0.064
-      note: .
-    1992-01-01:
-      value: 0.0642
-      note: .
-    2001-01-01:
-      value: 0.042
-      note: .
-    2016-01-01:
-      value: 0
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_6p:
-  name:
-    de: Parameter a (Haushalt mit 6 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0365
-      note:
-    1990-01-01:
-      value: 0.0445
-      note: .
-    1992-01-01:
-      value: 0.0463
-      note: .
-    2001-01-01:
-      value: 0.037
-      note: .
-    2016-01-01:
-      value: -0.01
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_7p:
-  name:
-    de: Parameter a (Haushalt mit 7 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0129
-      note:
-    1990-01-01:
-      value: 0.0226
-      note: .
-    1992-01-01:
-      value: 0.0256
-      note: .
-    2001-01-01:
-      value: 0.033
-      note: .
-    2016-01-01:
-      value: -0.02
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_8p:
-  name:
-    de: Parameter a (Haushalt mit 8 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: -0.0176
-      note:
-    1990-01-01:
-      value: -0.0005
-      note: .
-    1992-01-01:
-      value: -0.00252
-      note: .
-    2001-01-01:
-      value: 0.023
-      note: .
-    2016-01-01:
-      value: -0.03
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_9p:
-  name:
-    de: Parameter a (Haushalt mit 9 Personen)  (WoGG - Anlage 1 (zu § 19 Abs. 1))
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: -0.0397
-      note:
-    1990-01-01:
-      value: -0.0281
-      note: .
-    1992-01-01:
-      value: -0.00252
-      note: .
-    2001-01-01:
-      value: -0.017
-      note: .
+      reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
+      1:
+        a: 0.063
+        b: 0.000796
+        c: 0.00009102
+      2:
+        a: 0.057
+        b: 0.000576
+        c: 0.00006431
+      3:
+        a: 0.055
+        b: 0.000518
+        c: 0.0000325
+      4:
+        a: 0.047
+        b: 0.000395
+        c: 0.00002325
+      5:
+        a: 0.042
+        b: 0.000348
+        c: 0.00002151
+      6:
+        a: 0.037
+        b: 0.000327
+        c: 0.00001519
+      7:
+        a: 0.033
+        b: 0.000313
+        c: 8.745e-06
+      8:
+        a: 0.023
+        b: 0.000296
+        c: 7.44e-06
+      9:
+        a: -0.017
+        b: 0.000225
+        c: 0.00003522
+      10:
+        a: -0.037
+        b: 0.000157
+        c: 0.00005547
+      11:
+        a: -0.067
+        b: 0.000153
+        c: 0.00005686
+      12:
+        a: -0.092
+        b: 0.000136
+        c: 0.00006182
     2009-01-01:
-      value: -0.0197
-      note:
+      reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
+      1:
+        a: 0.063
+        b: 0.0007963
+        c: 0.00009102
+      2:
+        a: 0.057
+        b: 0.0005761
+        c: 0.00006431
+      3:
+        a: 0.055
+        b: 0.0005176
+        c: 0.0000325
+      4:
+        a: 0.047
+        b: 0.0003945
+        c: 0.00002325
+      5:
+        a: 0.042
+        b: 0.0003483
+        c: 0.00002151
+      6:
+        a: 0.037
+        b: 0.0003269
+        c: 0.00001519
+      7:
+        a: 0.033
+        b: 0.0003129
+        c: 8.745e-06
+      8:
+        a: 0.023
+        b: 0.0002959
+        c: 7.44e-06
+      9:
+        a: -0.0197
+        b: 0.0002245
+        c: 0.00003459
+      10:
+        a: -0.0401
+        b: 0.0001565
+        c: 0.0000514
+      11:
+        a: -0.066
+        b: 0.00012
+        c: 0.00005686
+      12:
+        a: -0.0899
+        b: 0.000109
+        c: 0.00006182
     2016-01-01:
-      value: -0.04
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_10p:
-  name:
-    de: Parameter a (Haushalt mit 10 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: -0.0595
-      note:
-    1990-01-01:
-      value: -0.0455
-      note: .
-    1992-01-01:
-      value: -0.00252
-      note: .
-    2001-01-01:
-      value: -0.037
-      note: .
-    2009-01-01:
-      value: -0.0401
-      note:
-    2016-01-01:
-      value: -0.06
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_11p:
-  name:
-    de: Parameter a (Haushalt mit 11 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: -0.0595
-      note:
-    1990-01-01:
-      value: -0.0455
-      note: .
-    1992-01-01:
-      value: -0.00252
-      note: .
-    2001-01-01:
-      value: -0.067
-      note: .
-    2009-01-01:
-      value: -0.066
-      note:
-    2016-01-01:
-      value: -0.1
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_a_12p:
-  name:
-    de: Parameter a (Haushalt mit 12 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: -0.0595
-      note:
-    1990-01-01:
-      value: -0.0455
-      note: .
-    1992-01-01:
-      value: -0.00252
-      note: .
-    2001-01-01:
-      value: -0.092
-      note: .
-    2009-01-01:
-      value: -0.0899
-      note:
-    2016-01-01:
-      value: -0.14
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_1p:
-  name:
-    de: Parameter b (Haushalt mit 1 Person)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.00135
-      note:
-    1990-01-01:
-      value: 0.00102
-      note: .
-    2001-01-01:
-      value: 0.000796
-      note: .
-    2009-01-01:
-      value: 0.0007963
-      note:
-    2016-01-01:
-      value: 0.00063
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_2p:
-  name:
-    de: Parameter b (Haushalt mit 2 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000957
-      note:
-    1990-01-01:
-      value: 0.000715
-      note: .
-    1992-01-01:
-      value: 0.000713
-      note: .
-    2001-01-01:
-      value: 0.000576
-      note: .
-    2009-01-01:
-      value: 0.0005761
-      note:
-    2016-01-01:
-      value: 0.00044
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_3p:
-  name:
-    de: Parameter b (Haushalt mit 3 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.00078
-      note:
-    1990-01-01:
-      value: 0.000604
-      note: .
-    2001-01-01:
-      value: 0.000518
-      note: .
-    2009-01-01:
-      value: 0.0005176
-      note:
-    2016-01-01:
-      value: 0.00038
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_4p:
-  name:
-    de: Parameter b (Haushalt mit 4 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000613
-      note:
-    1990-01-01:
-      value: 0.000476
-      note: .
-    1992-01-01:
-      value: 0.000475
-      note: .
-    2001-01-01:
-      value: 0.000395
-      note: .
-    2009-01-01:
-      value: 0.0003945
-      note:
-    2016-01-01:
-      value: 0.00034
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_5p:
-  name:
-    de: Parameter b (Haushalt mit 5 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000554
-      note:
-    1990-01-01:
-      value: 0.00043
-      note: .
-    2001-01-01:
-      value: 0.000348
-      note: .
-    2009-01-01:
-      value: 0.0003483
-      note:
-    2016-01-01:
-      value: 0.0003
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_6p:
-  name:
-    de: Parameter b (Haushalt mit 6 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000531
-      note:
-    1990-01-01:
-      value: 0.000414
-      note: .
-    1992-01-01:
-      value: 0.000419
-      note: .
-    2001-01-01:
-      value: 0.000327
-      note: .
-    2009-01-01:
-      value: 0.0003269
-      note:
-    2016-01-01:
-      value: 0.00028
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_7p:
-  name:
-    de: Parameter b (Haushalt mit 7 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000502
-      note:
-    1990-01-01:
-      value: 0.000397
-      note: .
-    1992-01-01:
-      value: 0.000404
-      note: .
-    2001-01-01:
-      value: 0.000313
-      note: .
-    2009-01-01:
-      value: 0.0003129
-      note:
-    2016-01-01:
-      value: 0.00026
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_8p:
-  name:
-    de: Parameter b (Haushalt mit 8 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000468
-      note:
-    1990-01-01:
-      value: 0.000387
-      note: .
-    1992-01-01:
-      value: 0.000377
-      note: .
-    2001-01-01:
-      value: 0.000296
-      note: .
-    2009-01-01:
-      value: 0.0002959
-      note:
-    2016-01-01:
-      value: 0.00023
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_9p:
-  name:
-    de: Parameter b (Haushalt mit 9 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000424
-      note:
-    1990-01-01:
-      value: 0.000337
-      note: .
-    1992-01-01:
-      value: 0.000377
-      note: .
-    2001-01-01:
-      value: 0.000225
-      note: .
-    2009-01-01:
-      value: 0.0002245
-      note:
-    2016-01-01:
-      value: 0.0002
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_10p:
-  name:
-    de: Parameter b (Haushalt mit 10 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000373
-      note:
-    1990-01-01:
-      value: 0.000298
-      note: .
-    1992-01-01:
-      value: 0.000377
-      note: .
-    2001-01-01:
-      value: 0.000157
-      note: .
-    2009-01-01:
-      value: 0.0001565
-      note:
-    2016-01-01:
-      value: 0.00016
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_b_11p:
-  name:
-    de: Parameter b (Haushalt mit 11 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000373
-      note:
-    1990-01-01:
-      value: 0.000298
-      note: .
-    1992-01-01:
-      value: 0.000377
-      note: .
-    2001-01-01:
-      value: 0.000153
-      note: .
-    2009-01-01:
-      value: 0.00012
-      note:
-wg_b_12p:
-  name:
-    de: Parameter b (Haushalt mit 12 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.000373
-      note:
-    1990-01-01:
-      value: 0.000298
-      note: .
-    1992-01-01:
-      value: 0.000377
-      note: .
-    2001-01-01:
-      value: 0.000136
-      note: .
-    2009-01-01:
-      value: 0.000109
-      note:
-    2016-01-01:
-      value: 0.00011
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_1p:
-  name:
-    de: Parameter c (Haushalt mit 1 Person)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000632
-      note:
-    1990-01-01:
-      value: 0.0000613
-      note: .
-    1992-01-01:
-      value: 0.0000579
-      note: .
-    2001-01-01:
-      value: 0.00009102
-      note: .
-    2016-01-01:
-      value: 0.000138
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_2p:
-  name:
-    de: Parameter c (Haushalt mit 2 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000352
-      note:
-    1990-01-01:
-      value: 0.0000347
-      note: .
-    1992-01-01:
-      value: 0.0000317
-      note: .
-    2001-01-01:
-      value: 0.00006431
-      note: .
-    2016-01-01:
-      value: 0.000103
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_3p:
-  name:
-    de: Parameter c (Haushalt mit 3 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000202
-      note:
-    1990-01-01:
-      value: 0.000011
-      note: .
-    1992-01-01:
-      value: 0.0000102
-      note: .
-    2001-01-01:
-      value: 0.0000325
-      note: .
-    2016-01-01:
-      value: 0.000083
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_4p:
-  name:
-    de: Parameter c (Haushalt mit 4 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 2.78000000000e-06
-      note:
-    1990-01-01:
-      value: 1.75000000000e-06
-      note: .
-    1992-01-01:
-      value: 1.63000000000e-06
-      note: .
-    2001-01-01:
-      value: 0.00002325
-      note: .
-    2016-01-01:
-      value: 0.000043
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_5p:
-  name:
-    de: Parameter c (Haushalt mit 5 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 5.38000000000e-07
-      note:
-    1990-01-01:
-      value: 9.14000000000e-07
-      note: .
-    1992-01-01:
-      value: 8.96000000000e-07
-      note: .
-    2001-01-01:
-      value: 0.00002151
-      note: .
-    2016-01-01:
-      value: 0.000042
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_6p:
-  name:
-    de: Parameter c (Haushalt mit 6 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 4.62000000000e-06
-      note:
-    1990-01-01:
-      value: 4.02000000000e-06
-      note: .
-    1992-01-01:
-      value: 1.35000000000e-06
-      note: .
-    2001-01-01:
-      value: 0.00001519
-      note: .
-    2016-01-01:
-      value: 0.000036
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_7p:
-  name:
-    de: Parameter c (Haushalt mit 7 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000124
-      note:
-    1990-01-01:
-      value: 9.44000000000e-06
-      note: .
-    1992-01-01:
-      value: 5.66000000000e-06
-      note: .
-    2001-01-01:
-      value: 8.74500000000e-06
-      note: .
-    2015-01-01:
-      value: 8.75000000000e-06
-      note:
-    2016-01-01:
-      value: 0.000037
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_8p:
-  name:
-    de: Parameter c (Haushalt mit 8 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000253
-      note:
-    1990-01-01:
-      value: 0.0000136
-      note: .
-    1992-01-01:
-      value: 0.0000173
-      note: .
-    2001-01-01:
-      value: 7.44000000000e-06
-      note: .
-    2016-01-01:
-      value: 0.000037
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_9p:
-  name:
-    de: Parameter c (Haushalt mit 9 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000364
-      note:
-    1990-01-01:
-      value: 0.0000308
-      note: .
-    1992-01-01:
-      value: 0.0000173
-      note: .
-    2001-01-01:
-      value: 0.00003522
-      note: .
-    2009-01-01:
-      value: 0.00003459
-      note:
-    2016-01-01:
-      value: 0.000039
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_10p:
-  name:
-    de: Parameter c (Haushalt mit 10 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000481
-      note:
-    1990-01-01:
-      value: 0.0000386
-      note: .
-    1992-01-01:
-      value: 0.0000173
-      note: .
-    2001-01-01:
-      value: 0.00005547
-      note: .
-    2009-01-01:
-      value: 0.0000514
-      note:
-    2016-01-01:
-      value: 0.000045
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_11p:
-  name:
-    de: Parameter c (Haushalt mit 11 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000481
-      note:
-    1990-01-01:
-      value: 0.0000386
-      note: .
-    1992-01-01:
-      value: 0.0000173
-      note: .
-    2001-01-01:
-      value: 0.00005686
-      note: .
-    2016-01-01:
-      value: 0.000053
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_c_12p:
-  name:
-    de: Parameter c (Haushalt mit 12 Personen)
-    en:
-  description:
-    de: WoGG - Anlage 1 (zu § 19 Abs. 1)
-    en:
-  values:
-    1984-01-01:
-      value: 0.0000481
-      note:
-    1990-01-01:
-      value: 0.0000386
-      note: .
-    1992-01-01:
-      value: 0.0000173
-      note: .
-    2001-01-01:
-      value: 0.00006182
-      note: .
-    2016-01-01:
-      value: 0.00006
-      note: WoGG Anlage 1 (zu §19 (1)) - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wg_add_12plus:
+      reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
+      1:
+        a: 0.04
+        b: 0.00063
+        c: 0.000138
+      2:
+        a: 0.03
+        b: 0.00044
+        c: 0.000103
+      3:
+        a: 0.02
+        b: 0.00038
+        c: 0.000083
+      4:
+        a: 0.01
+        b: 0.00034
+        c: 0.000043
+      5:
+        a: 0
+        b: 0.0003
+        c: 0.000042
+      6:
+        a: -0.01
+        b: 0.00028
+        c: 0.000036
+      7:
+        a: -0.02
+        b: 0.00026
+        c: 0.000037
+      8:
+        a: -0.03
+        b: 0.00023
+        c: 0.000037
+      9:
+        a: -0.04
+        b: 0.0002
+        c: 0.000039
+      10:
+        a: -0.06
+        b: 0.00016
+        c: 0.000045
+      11:
+        a: -0.1
+        b: 0.00012
+        c: 0.000053
+      12:
+        a: -0.14
+        b: 0.00011
+        c: 0.00006
+    2020-01-01:
+      reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+      1:
+        a: 0.04
+        b: 0.00058
+        c: 0.000118
+      2:
+        a: 0.03
+        b: 0.000405
+        c: 0.000088
+      3:
+        a: 0.02
+        b: 0.00035
+        c: 0.0000709
+      4:
+        a: 0.01
+        b: 0.000313
+        c: 0.000368
+      5:
+        a: 0
+        b: 0.000276
+        c: 0.0000359
+      6:
+        a: -0.01
+        b: 0.000258
+        c: 0.0000308
+      7:
+        a: -0.02
+        b: 0.000239
+        c: 0.0000316
+      8:
+        a: -0.03
+        b: 0.000212
+        c: 0.0000316
+      9:
+        a: -0.04
+        b: 0.000184
+        c: 0.0000333
+      10:
+        a: -0.06
+        b: 0.000147
+        c: 0.0000385
+      11:
+        a: -0.1
+        b: 0.00011
+        c: 0.0000453
+      12:
+        a: -0.14
+        b: 0.000101
+        c: 0.0000513
+
+bonus_12_mehr:
   name:
     de: Zusätzlicher Betrag pro Person für Haushalte mit mehr als 12 Personen
     en:
   description:
     de: §19 Abs. 3 WoGG
     en:
-  values:
-    2001-01-01:
-      value: 40
-      note: BGBl. I vom 22.12.1999, S. 2671
-    2009-01-01:
-      value: 43
-      note: BGBl. I vom 24.09.2008, S. 1856
-    2016-01-01:
-      value: 47
-      note: geändert durch BGBl. I vom 08.10.2015, S.1617
-wghka:
-  name:
-    de: Unterstellter Anteil der Heiz- und Warmwasserkosten an der Miete bei HH, bei denen diese in der Miete enthalten, aber Höhe nicht bekannt ist.
-    en:
-  description:
-    de:
-    en:
-  values:
+  2001-01-01:
+    scalar: 40
+    reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
+  2009-01-01:
+    scalar: 43
+    reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
+  2016-01-01:
+    scalar: 47
+    reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
+  2020-01-01:
+    scalar: 51
+    reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+
+abzug_stufen:
+    name:
+      de: Prozentualer Pauschalabzug vom Bruttoeinkommen, falls 0, 1, 2, 3 Kriterien erfüllt sind
+      en:
+    description:
+      de: § 16 (1, 2) WoGG
+      en:
+    note: Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
+    1984-01-01:
+      0: 0.06
+      1: 0.125
+      2: 0.2
+      3: 0.3
+    1991-01-01:
+      deviation_from: previous
+      3: 0.26
     2002-01-01:
-      value: 0.2
-      note:
-    2006-01-01:
-      value: 0
-      note:
-wgmax1p_a_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (1-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax1p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 135
-      note:
-    1985-01-01:
-      value: 163
-      note:
-    1991-01-01:
-      value: 181
-      note:
-    2001-01-01:
-      value: 225
-      note: .
-wgmax1p_n_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (1-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax1p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 178
-      note:
-    1985-01-01:
-      value: 207
-      note:
-    1991-01-01:
-      value: 220
-      note:
-    1993-01-01:
-      value: 258
-      note: .
-    2001-01-01:
-      value: 300
-      note: .
-wgmax2p_a_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (2-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax2p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 171
-      note:
-    1985-01-01:
-      value: 212
-      note:
-    1991-01-01:
-      value: 233
-      note:
-    2001-01-01:
-      value: 300
-      note: .
-wgmax2p_n_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (2-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax2p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 235
-      note:
-    1985-01-01:
-      value: 268
-      note:
-    1991-01-01:
-      value: 284
-      note:
-    1993-01-01:
-      value: 335
-      note: .
-    2001-01-01:
-      value: 365
-      note: .
-wgmax3p_a_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (3-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax3p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 207
-      note:
-    1985-01-01:
-      value: 253
-      note:
-    1991-01-01:
-      value: 279
-      note:
-    2001-01-01:
-      value: 360
-      note: .
-wgmax3p_n_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (3-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax3p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 286
-      note:
-    1985-01-01:
-      value: 320
-      note:
-    1991-01-01:
-      value: 340
-      note:
-    1993-01-01:
-      value: 401
-      note: .
-    2001-01-01:
-      value: 435
-      note: .
-wgmax4p_a_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (4-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax4p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 245
-      note:
-    1985-01-01:
-      value: 294
-      note:
-    1991-01-01:
-      value: 324
-      note:
-    2001-01-01:
-      value: 420
-      note: .
-wgmax4p_n_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (4-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax4p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 304
-      note:
-    1985-01-01:
-      value: 373
-      note:
-    1991-01-01:
-      value: 394
-      note:
-    1993-01-01:
-      value: 465
-      note: .
-    2001-01-01:
-      value: 505
-      note: .
-wgmax5p_a_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (5-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax5p_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 281
-      note:
-    1985-01-01:
-      value: 337
-      note:
-    1991-01-01:
-      value: 371
-      note:
-    2001-01-01:
-      value: 480
-      note: .
-wgmax5p_n_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (5-Personen-Haushalt)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax5p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 378
-      note:
-    1985-01-01:
-      value: 424
-      note:
-    1991-01-01:
-      value: 450
-      note:
-    1993-01-01:
-      value: 529
-      note: .
-    2001-01-01:
-      value: 580
-      note: .
-wgmaxplus5_a_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (für jede weitere Person > 5)  ab 1.1.2009    => einheitlicher Satz (siehe wgmaxplus5_m) bis 31.12.2008    => (a) alt (Baujahr < 1965)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 34
-      note:
-    1985-01-01:
-      value: 41
-      note:
-    1991-01-01:
-      value: 46
-      note:
-    2001-01-01:
-      value: 60
-      note: .
-wgmaxplus5_n_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (für jede weitere Person > 5)  ab 1.1.2009    => einheitlicher Satz (siehe wgmax5p_m) bis 31.12.2008    => (n) neu (Baujahr > 1992)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 47
-      note:
-    1985-01-01:
-      value: 51
-      note:
-    1991-01-01:
-      value: 56
-      note:
-    1993-01-01:
-      value: 64
-      note: .
-    2001-01-01:
-      value: 70
-      note: .
-wgmax1p_m_st1:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe I) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 292
-      note:
+      deviation_from: previous
+      1: 0.1
+      3: 0.3
     2016-01-01:
-      value: 312
-      note:
-wgmax1p_m_st2:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe II) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 308
-      note:
-    2016-01-01:
-      value: 351
-      note:
-wgmax1p_m_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 166
-      note:
-    1985-01-01:
-      value: 194
-      note:
-    1991-01-01:
-      value: 208
-      note:
-    1993-01-01:
-      value: 220
-      note: .
-    2001-01-01:
-      value: 245
-      note: .
-    2009-01-01:
-      value: 330
-      note:
-    2016-01-01:
-      value: 390
-      note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611  - auch unter http://www.wohngeld.org/wohngeldgesetz-wogg/paragraph12.html
-wgmax1p_m_st4:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 358
-      note:
-    2016-01-01:
-      value: 434
-      note:
-wgmax1p_m_st5:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe V) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 385
-      note:
-    2016-01-01:
-      value: 482
-      note:
-wgmax1p_m_st6:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (1-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 407
-      note:
-    2016-01-01:
-      value: 522
-      note:
-wgmax2p_m_st1:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe I) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 352
-      note:
-    2016-01-01:
-      value: 378
-      note:
-wgmax2p_m_st2:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe II) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 380
-      note:
-    2016-01-01:
-      value: 425
-      note:
-wgmax2p_m_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 217
-      note:
-    1985-01-01:
-      value: 238
-      note:
-    1991-01-01:
-      value: 268
-      note:
-    1993-01-01:
-      value: 284
-      note: .
-    2001-01-01:
-      value: 330
-      note: .
-    2009-01-01:
-      value: 402
-      note:
-    2016-01-01:
-      value: 473
-      note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
-wgmax2p_m_st4:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 435
-      note:
-    2016-01-01:
-      value: 526
-      note:
-wgmax2p_m_st5:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe V) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 468
-      note:
-    2016-01-01:
-      value: 584
-      note:
-wgmax2p_m_st6:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (2-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 501
-      note:
-    2016-01-01:
-      value: 633
-      note:
-wgmax3p_m_st1:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe I) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 424
-      note:
-    2016-01-01:
-      value: 450
-      note:
-wgmax3p_m_st2:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe II) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 451
-      note:
-    2016-01-01:
-      value: 506
-      note:
-wgmax3p_m_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 263
-      note:
-    1985-01-01:
-      value: 299
-      note:
-    1991-01-01:
-      value: 320
-      note:
-    1993-01-01:
-      value: 340
-      note: .
-    2001-01-01:
-      value: 390
-      note: .
-    2009-01-01:
-      value: 479
-      note:
-    2016-01-01:
-      value: 563
-      note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
-wgmax3p_m_st4:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 517
-      note:
-    2016-01-01:
-      value: 626
-      note:
-wgmax3p_m_st5:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe V) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 556
-      note:
-    2016-01-01:
-      value: 695
-      note:
-wgmax3p_m_st6:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (3-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 594
-      note:
-    2016-01-01:
-      value: 753
-      note:
-wgmax4p_m_st1:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe I) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 490
-      note:
-    2016-01-01:
-      value: 525
-      note:
-wgmax4p_m_st2:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe II) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 523
-      note:
-    2016-01-01:
-      value: 591
-      note:
-wgmax4p_m_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 304
-      note:
-    1985-01-01:
-      value: 348
-      note:
-    1991-01-01:
-      value: 371
-      note:
-    1993-01-01:
-      value: 394
-      note: .
-    2001-01-01:
-      value: 455
-      note: .
-    2009-01-01:
-      value: 556
-      note:
-    2016-01-01:
-      value: 656
-      note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
-wgmax4p_m_st4:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 600
-      note:
-    2016-01-01:
-      value: 730
-      note:
-wgmax4p_m_st5:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe V) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 649
-      note:
-    2016-01-01:
-      value: 811
-      note:
-wgmax4p_m_st6:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (4-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 693
-      note:
-    2016-01-01:
-      value: 879
-      note:
-wgmax5p_m_st1:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe I) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 561
-      note:
-    2016-01-01:
-      value: 600
-      note:
-wgmax5p_m_st2:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe II) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 600
-      note:
-    2016-01-01:
-      value: 675
-      note:
-wgmax5p_m_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 348
-      note:
-    1985-01-01:
-      value: 396
-      note:
-    1991-01-01:
-      value: 422
-      note:
-    1993-01-01:
-      value: 450
-      note: .
-    2001-01-01:
-      value: 520
-      note: .
-    2009-01-01:
-      value: 638
-      note:
-    2016-01-01:
-      value: 750
-      note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
-wgmax5p_m_st4:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 688
-      note:
-    2016-01-01:
-      value: 834
-      note:
-wgmax5p_m_st5:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe V) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 737
-      note:
-    2016-01-01:
-      value: 927
-      note:
-wgmax5p_m_st6:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (5-Personen-Haushalt), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 787
-      note:
-    2016-01-01:
-      value: 1004
-      note:
-wgmaxplus5_m_st1:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe I) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 66
-      note:
-    2016-01-01:
-      value: 71
-      note:
-wgmaxplus5_m_st2:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe II) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 72
-      note:
-    2016-01-01:
-      value: 81
-      note:
-wgmaxplus5_m_st3:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe III) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 42
-      note:
-    1985-01-01:
-      value: 49
-      note:
-    1991-01-01:
-      value: 54
-      note:
-    1993-01-01:
-      value: 56
-      note: .
-    2001-01-01:
-      value: 65
-      note: .
-    2009-01-01:
-      value: 77
-      note:
-    2016-01-01:
-      value: 91
-      note: §12 WoGG (1)a   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1611
-wgmaxplus5_m_st4:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe IV) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 83
-      note:
-    2016-01-01:
-      value: 101
-      note:
-wgmaxplus5_m_st5:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe V) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 88
-      note:
-    2016-01-01:
-      value: 111
-      note:
-wgmaxplus5_m_st6:
-  name:
-    de: Höchstbeträge für Miete und Belastung (Mietstufe VI) (für jede weitere Person > 5), einheitlicher Satz für alle Baujahre
-    en:
-  description:
-    de:
-    en:
-  values:
-    2009-01-01:
-      value: 99
-      note:
-    2016-01-01:
-      value: 126
-      note:
-wgmaxheat1p:
-  name:
-    de: Höchstbeträge für Heizkosten (1-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2009-01-01:
-      value: 24
-      note:
-    2011-01-01:
-      value: 0
-      note:
-wgmaxheat2p:
-  name:
-    de: Höchstbeträge für Heizkosten (2-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2009-01-01:
-      value: 31
-      note:
-    2011-01-01:
-      value: 0
-      note:
-wgmaxheat3p:
-  name:
-    de: Höchstbeträge für Heizkosten (3-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2009-01-01:
-      value: 37
-      note:
-    2011-01-01:
-      value: 0
-      note:
-wgmaxheat4p:
-  name:
-    de: Höchstbeträge für Heizkosten (4-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2009-01-01:
-      value: 43
-      note:
-    2011-01-01:
-      value: 0
-      note:
-wgmaxheat5p:
-  name:
-    de: Höchstbeträge für Heizkosten (5-Personen-Haushalt)  (nur von 1.1.2009 bis 31.12.2010)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2009-01-01:
-      value: 49
-      note:
-    2011-01-01:
-      value: 0
-      note:
-wgmaxheatplus5:
-  name:
-    de: Höchstbeträge für Heizkosten (für jede weitere Person > 5)  (nur von 1.1.2009 bis 31.12.2010)
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2009-01-01:
-      value: 6
-      note:
-    2011-01-01:
-      value: 0
-      note:
-wgmin1p:
-  name:
-    de: Parameter M (1-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 22.5
-      note: .
-    2009-01-01:
-      value: 45
-      note:
-    2016-01-01:
-      value: 48
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin2p:
-  name:
-    de: Parameter M (2-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 22.5
-      note: .
-    2009-01-01:
-      value: 55
-      note:
-    2016-01-01:
-      value: 59
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin3p:
-  name:
-    de: Parameter M (3-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 27.5
-      note: .
-    2009-01-01:
-      value: 65
-      note:
-    2016-01-01:
-      value: 70
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin4p:
-  name:
-    de: Parameter M (4-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 32.5
-      note: .
-    2009-01-01:
-      value: 75
-      note:
-    2016-01-01:
-      value: 81
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin5p:
-  name:
-    de: Parameter M (5-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 32.5
-      note: .
-    2009-01-01:
-      value: 85
-      note:
-    2016-01-01:
-      value: 91
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin6p:
-  name:
-    de: Parameter M (6-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 32.5
-      note: .
-    2009-01-01:
-      value: 85
-      note:
-    2016-01-01:
-      value: 91
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin7p:
-  name:
-    de: Parameter M (7-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 35
-      note: .
-    2009-01-01:
-      value: 95
-      note:
-    2016-01-01:
-      value: 102
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin8p:
-  name:
-    de: Parameter M (8-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 35
-      note: .
-    2009-01-01:
-      value: 105
-      note:
-    2016-01-01:
-      value: 113
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin9p:
-  name:
-    de: Parameter M (9-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 37.5
-      note: .
-    2009-01-01:
-      value: 115
-      note:
-    2016-01-01:
-      value: 124
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin10p:
-  name:
-    de: Parameter M (10-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 37.5
-      note: .
-    2009-01-01:
-      value: 125
-      note:
-    2016-01-01:
-      value: 134
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgmin11p:
-  name:
-    de: Parameter M (11-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 75
-      note: .
-    2009-01-01:
-      value: 155
-      note:
-wgmin12p:
-  name:
-    de: Parameter M (12 oder mehr-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 155
-      note: .
-    2009-01-01:
-      value: 245
-      note:
-    2016-01-01:
-      value: 263
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK1p:
-  name:
-    de: Parameter Y (1-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 120
-      note: .
-    2009-01-01:
-      value: 205
-      note:
-    2016-01-01:
-      value: 239
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK2p:
-  name:
-    de: Parameter Y (2-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 150
-      note: .
-    2009-01-01:
-      value: 245
-      note:
-    2016-01-01:
-      value: 310
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK3p:
-  name:
-    de: Parameter Y (3-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 200
-      note: .
-    2009-01-01:
-      value: 265
-      note:
-    2016-01-01:
-      value: 360
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK4p:
-  name:
-    de: Parameter Y (4-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 250
-      note: .
-    2009-01-01:
-      value: 315
-      note:
-    2016-01-01:
-      value: 389
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK5p:
-  name:
-    de: Parameter Y (5-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 285
-      note: .
-    2009-01-01:
-      value: 345
-      note:
-    2016-01-01:
-      value: 463
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK6p:
-  name:
-    de: Parameter Y (6-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 320
-      note: .
-    2009-01-01:
-      value: 365
-      note:
-    2016-01-01:
-      value: 537
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK7p:
-  name:
-    de: Parameter Y (7-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 355
-      note: .
-    2009-01-01:
-      value: 385
-      note:
-    2016-01-01:
-      value: 610
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK8p:
-  name:
-    de: Parameter Y (8-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 385
-      note: .
-    2009-01-01:
-      value: 415
-      note:
-    2016-01-01:
-      value: 684
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK9p:
-  name:
-    de: Parameter Y (9-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 555
-      note: .
-    2009-01-01:
-      value: 585
-      note:
-    2016-01-01:
-      value: 758
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK10p:
-  name:
-    de: Parameter Y (10-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 730
-      note: .
-    2009-01-01:
-      value: 805
-      note:
-    2016-01-01:
-      value: 832
-      note: WoGG Anlage 2 (zu §19 (2))   - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1617
-wgminEK11p:
-  name:
-    de: Parameter Y (11-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 1000
-      note: .
-    2009-01-01:
-      value: 1085
-      note:
-wgminEK12p:
-  name:
-    de: Parameter Y (12 oder mehr-Personen Haushalt)
-    en:
-  description:
-    de: WoGG - Anlage 2 (zu § 19 Abs. 2)
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 1175
-      note: .
-    2009-01-01:
-      value: 1255
-      note:
-    2018-01-01:
-      value: 1225
-      note:
-    2019-01-01:
-      value: 1255
-      note:
-wgpabz0:
-  name:
-    de: Prozentualer Pauschalabzug vom Bruttoeinkommen (kein Kriterium erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
-    en:
-  description:
-    de: § 16 (2) WoGG
-    en:
-  values:
-    1984-01-01:
-      value: 0.06
-      note:
-    2016-01-01:
-      value: 0
-      note: neu WoGG §16 (2) entfällt - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1612
-wgpabz1:
-  name:
-    de: Prozentualer Pauschalabzug vom Bruttoeinkommen (ein Kriterium erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
-    en:
-  description:
-    de: § 16 (1) WoGG
-    en:
-  values:
-    1984-01-01:
-      value: 0.125
-      note: Bedingungen sind anders, aber ähnlich, siehe z.B.  §17 WoGG_1982
-    2002-01-01:
-      value: 0.1
-      note:
-wgpabz2:
-  name:
-    de: Prozentualer Pauschalabzug vom Bruttoeinkommen (zwei Kriterien erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0.2
-      note:
-wgpabz3:
-  name:
-    de: Prozentualer Pauschalabzug vom Bruttoeinkommen (alle drei Kriterien erfüllt)  Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
-    en:
-  description:
-    de: § 16 (1) WoGG
-    en:
-  values:
-    1984-01-01:
-      value: 0.3
-      note:
-    1991-01-01:
-      value: 0.26
-      note:
-    2002-01-01:
-      value: 0.3
-      note:
-wgpfb12:
-  name:
-    de: Monatlicher Freibetrag pro Einkommen eines Kind, das Kindergeld bekommt, (unter 12) im Haushalt
-    en:
-  description:
-    de: § 17 (4) WoGG
-    en:
-  values:
-    1984-01-01:
-      value: 51
-      note:
-    2002-01-01:
-      value: 50
-      note:
-    2016-01-01:
-      value: 110
-      note: neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1612
-wgpfb24:
-  name:
-    de: Maximaler monatlicher Freibetrag pro Kind, das im Haushal lebt, Einkommen bezieht und zwischen 16-24 Jahren ist
-    en:
-  description:
-    de: § 17 (5) WoGG
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2001-01-01:
-      value: 51
-      note: .
-    2002-01-01:
-      value: 50
-      note:
-    2016-01-01:
-      value: 100
-      note: neu §17 4. WoGG Kind noch nicht 25J. - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1613
-wgpfbm80:
-  name:
-    de: Monatlicher Freibetrag pro schwerbehindertes Haushaltsmitglied (ab 80 % Behinderung)
-    en:
-  description:
-    de: § 17 (1) WoGG
-    en:
-  values:
-    1984-01-01:
-      value: 102
-      note:
-    1986-01-01:
-      value: 51
-      note:
-    1991-01-01:
-      value: 128
-      note:
-    2002-01-01:
-      value: 125
-      note:
-wgpfbu80:
-  name:
-    de: Monatlicher Freibetrag pro behindertes Haushaltsmitglied (unter 80 % Behinderung)
-    en:
-  description:
-    de: § 17 (2) WoGG
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    1991-01-01:
-      value: 102
-      note:
-    2002-01-01:
-      value: 100
-      note:
-    2016-01-01:
-      value: 125
-      note: neu §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege - zuletzt geändert durch BGBl Nr.38 vom 08.10.2015, S.1612
-wgvmiet:
-  name:
-    de: Jährliche Mieteinnahmen, ab denen Immobilienvermögen unterstellt wird
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 1200
-      note:
-    2006-01-01:
-      value: 0
-      note:
-wgvzins:
-  name:
-    de: Jährlicher Zinsbetrag, ab dem Geldvermögen unterstellt wird
-    en:
-  description:
-    de:
-    en:
-  values:
-    2002-01-01:
-      value: 200
-      note:
-    2006-01-01:
-      value: 0
-      note:
+      deviation_from: previous
+      0: 0
+      reference: Art. G. v. 02.10.2015 BGBl I S. 1610
+
+min_miete:
+  name:
+    de: Minimalwert für Parameter M
+    en:
+  description:
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
+    en:
+  1984-01-01:
+    1: 0
+    2: 0
+    3: 0
+    4: 0
+    5: 0
+    6: 0
+    7: 0
+    8: 0
+    9: 0
+    10: 0
+    11: 0
+    12: 0
+  2001-01-01:
+    1: 22.5
+    2: 22.5
+    3: 27.5
+    4: 32.5
+    5: 32.5
+    6: 32.5
+    7: 35
+    8: 35
+    9: 37.5
+    10: 37.5
+    11: 75
+    12: 155
+  2009-01-01:
+    1: 45
+    2: 55
+    3: 65
+    4: 75
+    5: 85
+    6: 85
+    7: 95
+    8: 105
+    9: 115
+    10: 125
+    11: 155
+    12: 245
+  2016-01-01:
+    reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
+    1: 48
+    2: 59
+    3: 70
+    4: 81
+    5: 91
+    6: 91
+    7: 102
+    8: 113
+    9: 124
+    10: 134
+    11: 155
+    12: 263
+  2020-01-01:
+    reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+    1: 52
+    2: 64
+    3: 76
+    4: 88
+    5: 99
+    6: 99
+    7: 111
+    8: 123
+    9: 135
+    10: 146
+    11: 180
+    12: 286
+
+min_eink:
+  name:
+    de: Minimalwert für Parameter Y
+    en:
+  description:
+    de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
+    en:
+  1984-01-01:
+    1: 0
+    2: 0
+    3: 0
+    4: 0
+    5: 0
+    6: 0
+    7: 0
+    8: 0
+    9: 0
+    10: 0
+    11: 0
+    12: 0
+  2001-01-01:
+    1: 120
+    2: 150
+    3: 200
+    4: 250
+    5: 285
+    6: 320
+    7: 355
+    8: 385
+    9: 555
+    10: 730
+    11: 1000
+    12: 1175
+  2009-01-01:
+    1: 205
+    2: 245
+    3: 265
+    4: 315
+    5: 345
+    6: 365
+    7: 385
+    8: 415
+    9: 585
+    10: 805
+    11: 1085
+    12: 1255
+  2016-01-01:
+    reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
+    1: 239
+    2: 310
+    3: 360
+    4: 389
+    5: 463
+    6: 537
+    7: 610
+    8: 684
+    9: 758
+    10: 832
+    11: 1085
+    12: 1255
+  2020-01-01:
+    reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+    1: 275
+    2: 357
+    3: 414
+    4: 447
+    5: 532
+    6: 618
+    7: 702
+    8: 787
+    9: 872
+    10: 957
+    11: 1248
+    12: 1443
+
+freib_kinder:
+  name:
+    de: Monatlicher Freibetrag pro Einkommen eines Kindes, das Kindergeld bekommt im Haushalt
+    en:
+  description:
+    de: § 17 (4/5) WoGG
+    en:
+  1984-01-01:
+    12: 51
+    24: 0
+  2001-01-01:
+    deviation_from: previous
+    24: 51
+  2002-01-01:
+    12: 50
+    24: 50
+  2016-01-01:
+    note: neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch nicht 25J.
+    reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
+    12: 110
+    24: 100
+
+freib_behinderung:
+  name:
+    de: Monatlicher Freibetrag pro behindertes Haushaltsmitglied über und unter 80%.
+    en:
+  description:
+    de: § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG) Seit 2016 ab 100% Behinderungsgrad, vorher 80%. Betrag im Gesetz durch 12 geteilt.
+    en:
+  1984-01-01:
+    ab80: 102
+    u80: 0
+  1986-01-01:
+    deviation_from: previous
+    ab80: 51
+  1991-01-01:
+    ab80: 128
+    u80: 102
+  2002-01-01:
+    ab80: 125
+    u80: 100
+  2016-01-01:
+    reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
+    scalar: 125
+    note: neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
+  2020-01-01:
+    reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+    scalar: 150
+
+max_miete:
+  name:
+    de: Höchstbeträge für Miete und Belastung
+    en:
+  description:
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG.
+    en:
+  note: Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) - Mietstufe geordnet. Alle Werte in vollen Euro.
+  1981-01-01:
+    1:
+      1965:
+        1: 130
+        2: 135
+        3: 143
+      1971:
+        1: 148
+        2: 153
+        3: 161
+      1977:
+        1: 161
+        2: 166
+        3: 174
+      2009:
+        1: 169
+        2: 179
+        3: 189
+    2:
+      1965:
+        1: 164
+        2: 171
+        3: 182
+      1971:
+        1: 189
+        2: 197
+        3: 207
+      1977:
+        1: 210
+        2: 217
+        3: 228
+      2009:
+        1: 225
+        2: 235
+        3: 245
+    3:
+      1965:
+        1: 199
+        2: 207
+        3: 215
+      1971:
+        1: 233
+        2: 240
+        3: 251
+      1977:
+        1: 256
+        2: 263
+        3: 274
+      2009:
+        1: 276
+        2: 286
+        3: 297
+    4:
+      1965:
+        1: 235
+        2: 245
+        3: 258
+      1971:
+        1: 266
+        2: 276
+        3: 289
+      1977:
+        1: 294
+        2: 304
+        3: 317
+      2009:
+        1: 320
+        2: 332
+        3: 345
+    5:
+      1965:
+        1: 268
+        2: 281
+        3: 294
+      1971:
+        1: 304
+        2: 314
+        3: 330
+      1977:
+        1: 335
+        2: 348
+        3: 363
+      2009:
+        1: 366
+        2: 378
+        3: 394
+    5plus:
+      1965:
+        1: 33
+        2: 34
+        3: 36
+      1971:
+        1: 37
+        2: 39
+        3: 40
+      1977:
+        1: 41
+        2: 42
+        3: 44
+      2009:
+        1: 45
+        2: 47
+        3: 48
+    reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
+    note: Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
+  1985-01-01:
+    1:
+      1965:
+        1: 146
+        2: 156
+        3: 164
+        4: 174
+        5: 184
+      1971:
+        1: 161
+        2: 174
+        3: 184
+        4: 194
+        5: 207
+      1977:
+        1: 171
+        2: 182
+        3: 194
+        4: 205
+        5: 217
+      2009:
+        1: 184
+        2: 194
+        3: 207
+        4: 220
+        5: 233
+    2:
+      1965:
+        1: 187
+        2: 199
+        3: 212
+        4: 225
+        5: 238
+      1971:
+        1: 210
+        2: 222
+        3: 238
+        4: 251
+        5: 266
+      1977:
+        1: 220
+        2: 235
+        3: 251
+        4: 266
+        5: 281
+      2009:
+        1: 235
+        2: 253
+        3: 268
+        4: 284
+        5: 302
+    3:
+      1965:
+        1: 222
+        2: 238
+        3: 253
+        4: 268
+        5: 284
+      1971:
+        1: 251
+        2: 266
+        3: 284
+        4: 299
+        5: 317
+      1977:
+        1: 263
+        2: 281
+        3: 299
+        4: 317
+        5: 335
+      2009:
+        1: 281
+        2: 302
+        3: 320
+        4: 340
+        5: 358
+    4:
+      1965:
+        1: 261
+        2: 279
+        3: 294
+        4: 312
+        5: 330
+      1971:
+        1: 289
+        2: 309
+        3: 330
+        4: 350
+        5: 368
+      1977:
+        1: 307
+        2: 327
+        3: 348
+        4: 368
+        5: 389
+      2009:
+        1: 327
+        2: 350
+        3: 373
+        4: 396
+        5: 417
+    5:
+      1965:
+        1: 297
+        2: 317
+        3: 337
+        4: 355
+        5: 376
+      1971:
+        1: 330
+        2: 353
+        3: 376
+        4: 399
+        5: 419
+      1977:
+        1: 348
+        2: 373
+        3: 396
+        4: 419
+        5: 442
+      2009:
+        1: 373
+        2: 399
+        3: 424
+        4: 450
+        5: 476
+    5plus:
+      1965:
+        1: 36
+        2: 38
+        3: 41
+        4: 43
+        5: 46
+      1971:
+        1: 41
+        2: 43
+        3: 46
+        4: 49
+        5: 51
+      1977:
+        1: 41
+        2: 43
+        3: 46
+        4: 49
+        5: 51
+      2009:
+        1: 46
+        2: 49
+        3: 51
+        4: 56
+        5: 59
+    reference: Art. 1 G. v. 11.07.1985 BGBl I S. 1318.
+    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+  1990-01-01:
+    1:
+      1965:
+        1: 146
+        2: 156
+        3: 164
+        4: 174
+        5: 184
+        6: 194
+      1971:
+        1: 161
+        2: 174
+        3: 184
+        4: 194
+        5: 207
+        6: 220
+      1977:
+        1: 171
+        2: 182
+        3: 194
+        4: 205
+        5: 217
+        6: 230
+      2009:
+        1: 184
+        2: 194
+        3: 207
+        4: 220
+        5: 233
+        6: 245
+    2:
+      1965:
+        1: 187
+        2: 199
+        3: 212
+        4: 225
+        5: 238
+        6: 251
+      1971:
+        1: 210
+        2: 222
+        3: 238
+        4: 251
+        5: 266
+        6: 281
+      1977:
+        1: 220
+        2: 235
+        3: 251
+        4: 266
+        5: 281
+        6: 297
+      2009:
+        1: 235
+        2: 253
+        3: 268
+        4: 284
+        5: 302
+        6: 320
+    3:
+      1965:
+        1: 222
+        2: 238
+        3: 253
+        4: 268
+        5: 284
+        6: 299
+      1971:
+        1: 251
+        2: 266
+        3: 284
+        4: 299
+        5: 317
+        6: 335
+      1977:
+        1: 263
+        2: 281
+        3: 299
+        4: 317
+        5: 335
+        6: 353
+      2009:
+        1: 281
+        2: 302
+        3: 320
+        4: 340
+        5: 358
+        6: 376
+    4:
+      1965:
+        1: 261
+        2: 279
+        3: 294
+        4: 312
+        5: 330
+        6: 348
+      1971:
+        1: 289
+        2: 309
+        3: 330
+        4: 350
+        5: 368
+        6: 386
+      1977:
+        1: 307
+        2: 327
+        3: 348
+        4: 368
+        5: 389
+        6: 409
+      2009:
+        1: 327
+        2: 350
+        3: 373
+        4: 396
+        5: 417
+        6: 437
+    5:
+      1965:
+        1: 297
+        2: 317
+        3: 337
+        4: 355
+        5: 376
+        6: 396
+      1971:
+        1: 330
+        2: 353
+        3: 376
+        4: 399
+        5: 419
+        6: 440
+      1977:
+        1: 348
+        2: 373
+        3: 396
+        4: 419
+        5: 442
+        6: 465
+      2009:
+        1: 373
+        2: 399
+        3: 424
+        4: 450
+        5: 476
+        6: 501
+    5plus:
+      1965:
+        1: 36
+        2: 38
+        3: 41
+        4: 43
+        5: 46
+        6: 49
+      1971:
+        1: 41
+        2: 43
+        3: 46
+        4: 49
+        5: 51
+        6: 54
+      1977:
+        1: 43
+        2: 46
+        3: 49
+        4: 51
+        5: 54
+        6: 56
+      2009:
+        1: 46
+        2: 49
+        3: 51
+        4: 56
+        5: 59
+        6: 61
+    reference: Art. 1 G. v. 13.12.1989 BGBl I S. 2148.
+    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+  1990-10-01:
+    1:
+      1965:
+        1: 159
+        2: 171
+        3: 182
+        4: 194
+        5: 210
+        6: 225
+      1977:
+        1: 182
+        2: 194
+        3: 207
+        4: 222
+        5: 240
+        6: 256
+      2009:
+        1: 194
+        2: 207
+        3: 220
+        4: 238
+        5: 256
+        6: 274
+    2:
+      1965:
+        1: 205
+        2: 220
+        3: 233
+        4: 253
+        5: 271
+        6: 289
+      1977:
+        1: 235
+        2: 251
+        3: 268
+        4: 289
+        5: 309
+        6: 332
+      2009:
+        1: 251
+        2: 268
+        3: 284
+        4: 307
+        5: 330
+        6: 353
+    3:
+      1965:
+        1: 245
+        2: 263
+        3: 279
+        4: 302
+        5: 325
+        6: 345
+      1977:
+        1: 281
+        2: 299
+        3: 320
+        4: 345
+        5: 371
+        6: 396
+      2009:
+        1: 299
+        2: 320
+        3: 340
+        4: 366
+        5: 394
+        6: 422
+    4:
+      1965:
+        1: 286
+        2: 304
+        3: 325
+        4: 350
+        5: 376
+        6: 401
+      1977:
+        1: 327
+        2: 348
+        3: 371
+        4: 401
+        5: 429
+        6: 460
+      2009:
+        1: 348
+        2: 371
+        3: 394
+        4: 427
+        5: 458
+        6: 488
+    5:
+      1965:
+        1: 325
+        2: 348
+        3: 371
+        4: 399
+        5: 429
+        6: 458
+      1977:
+        1: 373
+        2: 396
+        3: 422
+        4: 458
+        5: 491
+        6: 524
+      2009:
+        1: 396
+        2: 422
+        3: 450
+        4: 486
+        5: 522
+        6: 557
+    5plus:
+      1965:
+        1: 41
+        2: 43
+        3: 46
+        4: 49
+        5: 54
+        6: 56
+      1977:
+        1: 46
+        2: 51
+        3: 54
+        4: 56
+        5: 61
+        6: 64
+      2009:
+        1: 49
+        2: 51
+        3: 54
+        4: 56
+        5: 61
+        6: 64
+    reference: Art. 1 G. v. 10.08.1990 BGBl I S. 1522.
+    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+  1993-01-01:
+    1:
+      1965:
+        1: 159
+        2: 171
+        3: 182
+        4: 194
+        5: 210
+        6: 225
+      1977:
+        1: 182
+        2: 194
+        3: 207
+        4: 222
+        5: 240
+        6: 256
+      1991:
+        1: 194
+        2: 207
+        3: 220
+        4: 238
+        5: 256
+        6: 274
+      2009:
+        1: 228
+        2: 243
+        3: 258
+        4: 279
+        5: 299
+        6: 320
+    2:
+      1965:
+        1: 205
+        2: 220
+        3: 233
+        4: 253
+        5: 271
+        6: 289
+      1977:
+        1: 235
+        2: 251
+        3: 268
+        4: 289
+        5: 309
+        6: 332
+      1991:
+        1: 251
+        2: 268
+        3: 284
+        4: 307
+        5: 330
+        6: 353
+      2009:
+        1: 294
+        2: 314
+        3: 335
+        4: 360
+        5: 389
+        6: 414
+    3:
+      1965:
+        1: 245
+        2: 263
+        3: 279
+        4: 302
+        5: 325
+        6: 345
+      1977:
+        1: 281
+        2: 299
+        3: 320
+        4: 345
+        5: 371
+        6: 396
+      1991:
+        1: 299
+        2: 320
+        3: 340
+        4: 366
+        5: 394
+        6: 422
+      2009:
+        1: 353
+        2: 378
+        3: 401
+        4: 435
+        5: 465
+        6: 496
+    4:
+      1965:
+        1: 286
+        2: 304
+        3: 325
+        4: 350
+        5: 376
+        6: 401
+      1977:
+        1: 327
+        2: 348
+        3: 371
+        4: 401
+        5: 429
+        6: 460
+      1991:
+        1: 348
+        2: 371
+        3: 394
+        4: 427
+        5: 458
+        6: 488
+      2009:
+        1: 409
+        2: 437
+        3: 465
+        4: 504
+        5: 539
+        6: 437
+    5:
+      1965:
+        1: 325
+        2: 348
+        3: 371
+        4: 399
+        5: 429
+        6: 458
+      1977:
+        1: 373
+        2: 396
+        3: 422
+        4: 458
+        5: 491
+        6: 524
+      1991:
+        1: 396
+        2: 422
+        3: 450
+        4: 486
+        5: 522
+        6: 557
+      2009:
+        1: 465
+        2: 499
+        3: 529
+        4: 573
+        5: 614
+        6: 657
+    5plus:
+      1965:
+        1: 41
+        2: 43
+        3: 46
+        4: 49
+        5: 54
+        6: 56
+      1977:
+        1: 46
+        2: 51
+        3: 54
+        4: 56
+        5: 61
+        6: 64
+      1991:
+        1: 49
+        2: 54
+        3: 56
+        4: 61
+        5: 64
+        6: 69
+      2009:
+        1: 56
+        2: 61
+        3: 64
+        4: 69
+        5: 74
+        6: 79
+    reference: Neufassung WoGG v. 11.02.1993 BGBl I S. 183.
+    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+  2001-01-01:
+    1:
+      1965:
+        1: 200
+        2: 210
+        3: 225
+        4: 245
+        5: 260
+        6: 280
+      1991:
+        1: 215
+        2: 230
+        3: 245
+        4: 265
+        5: 285
+        6: 305
+      2009:
+        1: 265
+        2: 280
+        3: 300
+        4: 325
+        5: 350
+        6: 370
+    2:
+      1965:
+        1: 265
+        2: 285
+        3: 300
+        4: 325
+        5: 350
+        6: 375
+      1991:
+        1: 290
+        2: 310
+        3: 330
+        4: 355
+        5: 380
+        6: 405
+      2009:
+        1: 320
+        2: 345
+        3: 365
+        4: 395
+        5: 425
+        6: 455
+    3:
+      1965:
+        1: 322
+        2: 340
+        3: 360
+        4: 390
+        5: 420
+        6: 445
+      1991:
+        1: 345
+        2: 365
+        3: 390
+        4: 420
+        5: 455
+        6: 485
+      2009:
+        1: 385
+        2: 410
+        3: 435
+        4: 470
+        5: 505
+        6: 540
+    4:
+      1965:
+        1: 370
+        2: 395
+        3: 420
+        4: 454
+        5: 520
+      1991:
+        1: 400
+        2: 425
+        3: 455
+        4: 490
+        5: 525
+        6: 565
+      2009:
+        1: 445
+        2: 475
+        3: 505
+        4: 545
+        5: 590
+        6: 630
+    5:
+      1965:
+        1: 420
+        2: 450
+        3: 480
+        4: 515
+        5: 555
+        6: 595
+      1991:
+        1: 455
+        2: 485
+        3: 520
+        4: 560
+        5: 600
+        6: 640
+      2009:
+        1: 510
+        2: 545
+        3: 580
+        4: 625
+        5: 670
+        6: 715
+    5plus:
+      1965:
+        1: 50
+        2: 55
+        3: 60
+        4: 65
+        5: 70
+        6: 75
+      1991:
+        1: 55
+        2: 60
+        3: 65
+        4: 70
+        5: 75
+        6: 80
+      2009:
+        1: 60
+        2: 65
+        3: 70
+        4: 75
+        5: 80
+        6: 90
+    reference: Art. 5 G. v. 22.12.1999, BGBl I S. 2671.
+    note: Nimmt die Umrechnung in Euro von 2002 vorweg.
+  2009-01-01:
+    1:
+      1: 292
+      2: 308
+      3: 330
+      4: 358
+      5: 385
+      6: 407
+    2:
+      1: 352
+      2: 380
+      3: 402
+      4: 435
+      5: 468
+      6: 501
+    3:
+      1: 424
+      2: 451
+      3: 479
+      4: 517
+      5: 556
+      6: 594
+    4:
+      1: 490
+      2: 523
+      3: 556
+      4: 600
+      5: 649
+      6: 693
+    5:
+      1: 561
+      2: 600
+      3: 638
+      4: 688
+      5: 737
+      6: 787
+    5plus:
+      1: 66
+      2: 72
+      3: 77
+      4: 83
+      5: 88
+      6: 99
+    reference: Art. 1 G. v. 24.09.2008, BGBl I S. 1856.
+  2016-01-01:
+    1:
+      1: 312
+      2: 351
+      3: 390
+      4: 434
+      5: 482
+      6: 522
+    2:
+      1: 378
+      2: 425
+      3: 473
+      4: 526
+      5: 584
+      6: 633
+    3:
+      1: 450
+      2: 506
+      3: 563
+      4: 626
+      5: 695
+      6: 753
+    4:
+      1: 525
+      2: 591
+      3: 656
+      4: 730
+      5: 811
+      6: 879
+    5:
+      1: 600
+      2: 675
+      3: 750
+      4: 834
+      5: 927
+      6: 1004
+    5plus:
+      1: 71
+      2: 81
+      3: 91
+      4: 101
+      5: 111
+      6: 126
+    reference: Art. 1 G. v. 02.10.2015, BGBl I S. 1610.
+  2020-01-01:
+    1:
+      1: 338
+      2: 381
+      3: 426
+      4: 478
+      5: 525
+      6: 575
+      7: 633
+    2:
+      1: 409
+      2: 461
+      3: 516
+      4: 579
+      5: 636
+      6: 697
+      7: 767
+    3:
+      1: 487
+      2: 549
+      3: 614
+      4: 689
+      5: 757
+      6: 830
+      7: 912
+    4:
+      1: 568
+      2: 641
+      3: 716
+      4: 803
+      5: 884
+      6: 968
+      7: 1065
+    5:
+      1: 649
+      2: 732
+      3: 818
+      4: 918
+      5: 1010
+      6: 1106
+      7: 1217
+    5plus:
+      1: 77
+      2: 88
+      3: 99
+      4: 111
+      5: 121
+      6: 139
+      7: 153
+    reference: Art. 1 G. v. 30.11.2019, BGBl I S. 1877.
+
