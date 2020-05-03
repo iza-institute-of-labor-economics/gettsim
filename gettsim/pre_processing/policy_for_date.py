@@ -20,8 +20,6 @@ from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import add_progressionsfaktor
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.soz_vers import calc_midi_contributions
-from gettsim.soz_vers import no_midi
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_from2015
@@ -43,13 +41,7 @@ def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
     tax_data["jahr"] = year
     tax_data["datum"] = actual_date
 
-    if group == "soz_vers_beitr":
-        if year >= 2003:
-            tax_data["calc_midi_contrib"] = calc_midi_contributions
-        else:
-            tax_data["calc_midi_contrib"] = no_midi
-
-    elif group == "eink_st_abzuege":
+    if group == "eink_st_abzuege":
         if year <= 2014:
             tax_data["calc_hhfreib"] = calc_hhfreib_until2014
         else:

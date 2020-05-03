@@ -62,7 +62,7 @@ def soc_ins_contrib(person, params):
     elif in_gleitzone:
         # TODO: Before and in 2003 params["midi_grenze"] is 0 and
         #  therefore we won't reach this.
-        person = params["calc_midi_contrib"](person, params)
+        person = calc_midi_contributions(person, params)
     else:
         person = ssc_regular_job(person, params, wohnort)
 
@@ -294,16 +294,3 @@ def calc_midi_long_term_care_contr(person, params):
         )
     else:
         return grbetr_pv - ag_pvbeit
-
-
-def no_midi(person, params):
-    """Dummy function returning 0 for the single contributions
-    """
-    for col in [
-        "rentenv_beit_m",
-        "arbeitsl_v_beit_m",
-        "ges_krankv_beit_m",
-        "pflegev_beit_m",
-    ]:
-        person[col] = 0.0
-    return person
