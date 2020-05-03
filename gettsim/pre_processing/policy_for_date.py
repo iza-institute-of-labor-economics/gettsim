@@ -18,8 +18,8 @@ from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
-from gettsim.pre_processing.piecewise_functions import add_progressionsfaktor
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+from gettsim.taxes.eink_st import add_progressionsfaktor
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_from2015

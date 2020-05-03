@@ -1,5 +1,8 @@
+import copy
+
 import numpy as np
 
+from gettsim.pre_processing.generic_functions import check_threholds
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.abgelt_st import abgelt_st
 from gettsim.taxes.soli_st import soli_st
@@ -69,3 +72,30 @@ def st_tarif(x, params):
         ],
     )
     return eink_st
+
+
+def add_progressionsfaktor(param_dict, parameter):
+    """
+    The german tax tarif is defined on several income intervals with distinct
+    marginal tax rates at the thresholds. To ensure an almost linear increase of
+    the average tax rate, the german tax tarif is defined as a quadratic function,
+    where the quadratic rate is the so called linear Progressionsfaktor. For its
+    calculation one needs the lower (low_thres) and upper (upper_thres) of the
+    interval as well as the marginal tax rate of the interval (rate_iv) and of the
+    following interval (rate_fiv). The formula is then given by:
+
+    (rate_fiv - rate_iv) / (2 * (upper_thres - low_thres))
+
+    """
+    out_dict = copy.deepcopy(param_dict)
+    interval_keys = sorted(key for key in out_dict.keys() if type(key) == int)
+    # Check and extract lower thresholds.
+    lower_thresholds, upper_thresholds = check_threholds(
+        param_dict, parameter, interval_keys
+    )
+    for key in interval_keys:
+        if "rate_quadratic" not in out_dict[key]:
+            out_dict[key]["rate_quadratic"] = (
+                out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
+            ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
+    return out_dict
