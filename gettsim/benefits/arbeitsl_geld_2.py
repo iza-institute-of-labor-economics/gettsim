@@ -96,7 +96,7 @@ def regelberechnung_2011_and_beyond(household, params):
 
     num_adults = len(household) - household["kind"].sum()
 
-    # For adults we treat in the different order from 1 to 3.
+    # Regelbedarsstufen 1 to 3 are for adults in different civil status.
     # Single adult has "Regelbedarfstufe" 1
     if num_adults == 1:
         household["regelsatz_m"] = params["regelsatz"][1] * (
