@@ -21,7 +21,7 @@ INPUT_COLS = [
     "heizkost_m",
     "alleinerziehend",
     "kindergeld_anspruch",
-    "mehrbed",
+    "alleinerziehenden_mehrbedarf",
     "anz_erw_tu",
     "anz_kinder_tu",
     "arbeitsl_geld_2_brutto_eink_hh",

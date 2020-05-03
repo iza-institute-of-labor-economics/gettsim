@@ -41,7 +41,7 @@ OUT_COLS = [
     "sum_basis_arbeitsl_geld_2_eink",
     "sum_arbeitsl_geld_2_eink",
     "arbeitsl_geld_2_brutto_eink_hh",
-    "mehrbed",
+    "alleinerziehenden_mehrbedarf",
     "regelbedarf_m",
     "regelsatz_m",
     "kost_unterk_m",

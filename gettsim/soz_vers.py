@@ -27,12 +27,6 @@ def soc_ins_contrib(person, params):
     # beginning.
     wohnort = "ost" if person["wohnort_ost"] else "west"
 
-    # ssc["above_thresh_kv"] =
-    # inout["m_wage"] > params["beitr_bemess_grenze"]["ges_krankv"][wohnort]
-    #
-    # ssc["above_thresh_rv"] =
-    # inout["m_wage"] >params["beitr_bemess_grenze"]["rentenv"][wohnort]
-
     # This is probably the point where Entgeltpunkte should be updated as well.
 
     # Check if wage is below the mini job grenze.
@@ -113,10 +107,10 @@ def ssc_regular_job(person, params, wohnort):
     )
     # If you are above 23 and without kids, you have to pay a higher rate
     if ~person["hat_kinder"] & (person["alter"] > 22):
-        person["pflegev_beit_m"] = (
-            params["soz_vers_beitr"]["pflegev"]["standard"]
-            + params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
-        ) * person["_lohn_krankv"]
+        person["pflegev_beit_m"] += (
+            params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
+            * person["_lohn_krankv"]
+        )
     return person
 
 
@@ -179,8 +173,7 @@ def gkv_ssc_pensions(person, params, wohnort):
 
 def calc_midi_contributions(person, params):
     """Calculates the ssc for midi jobs. For these jobs, the rate is not calculated
-    on the wage, but on the 'bemessungsentgelt'. Contributions are usually shared
-    equally by employee (AN) and employer (AG). We are actually not interested in
+    on the wage, but on the 'bemessungsentgelt'. We are actually not interested in
     employer's contributions, but we need them here as an intermediate step"""
 
     person["_bemessungsentgelt"] = calc_midi_bemessungsentgelt(person, params)

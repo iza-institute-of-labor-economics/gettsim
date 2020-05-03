@@ -75,10 +75,13 @@ def regelberechnung_until_2010(household, params):
         )
 
     if num_adults == 1:
-        household["regelsatz_m"] = params["regelsatz"] * (1 + household["mehrbed"])
+        household["regelsatz_m"] = params["regelsatz"] * (
+            1 + household["alleinerziehenden_mehrbedarf"]
+        )
     elif num_adults > 1:
         household["regelsatz_m"] = params["regelsatz"] * (
-            params["anteil_regelsatz"]["zwei_erwachsene"] * (2 + household["mehrbed"])
+            params["anteil_regelsatz"]["zwei_erwachsene"]
+            * (2 + household["alleinerziehenden_mehrbedarf"])
             + (
                 params["anteil_regelsatz"]["weitere_erwachsene"]
                 * np.maximum((num_adults - 2), 0)
@@ -105,12 +108,14 @@ def regelberechnung_2011_and_beyond(household, params):
     # For adults we treat in the different order from 1 to 3.
     # Single adult has "Regelbedarfstufe" 1
     if num_adults == 1:
-        household["regelsatz_m"] = params["regelsatz"][1] * (1 + household["mehrbed"])
+        household["regelsatz_m"] = params["regelsatz"][1] * (
+            1 + household["alleinerziehenden_mehrbedarf"]
+        )
 
     # Two adults are "Regelbedarstufe" 2. More are 3.
     elif num_adults > 1:
         household["regelsatz_m"] = params["regelsatz"][2] * (
-            2 + household["mehrbed"]
+            2 + household["alleinerziehenden_mehrbedarf"]
         ) + (params["regelsatz"][3] * np.maximum((num_adults - 2), 0))
 
     household["regelsatz_m"] += kinder_satz_m
@@ -132,7 +137,9 @@ def mehrbedarf_alg2(household, params):
         len(household) - children_age_info["anzahl_kinder"]
     )
 
-    household["mehrbed"] = household["alleinerziehend"] * np.minimum(
+    household["alleinerziehenden_mehrbedarf"] = household[
+        "alleinerziehend"
+    ] * np.minimum(
         params["mehrbedarf_anteil"]["max"],
         np.maximum(
             params["mehrbedarf_anteil"]["min_1_kind"]
