@@ -95,15 +95,6 @@ def regelberechnung_until_2010(household, params):
 def regelberechnung_2011_and_beyond(household, params):
 
     num_adults = len(household) - household["kind"].sum()
-    kinder_satz_m = 0
-    # For kids we count the "Regelbedarfstufen" from 6 to 4 downwards.
-    for i, age_lims in enumerate([(0, 6), (7, 13), (14, 25)]):
-        kinder_satz_m += (
-            params["regelsatz"][6 - i]
-            * (
-                household["kind"] & household["alter"].between(age_lims[0], age_lims[1])
-            ).sum()
-        )
 
     # For adults we treat in the different order from 1 to 3.
     # Single adult has "Regelbedarfstufe" 1
@@ -117,6 +108,16 @@ def regelberechnung_2011_and_beyond(household, params):
         household["regelsatz_m"] = params["regelsatz"][2] * (
             2 + household["alleinerziehenden_mehrbedarf"]
         ) + (params["regelsatz"][3] * np.maximum((num_adults - 2), 0))
+
+    kinder_satz_m = 0
+    # Regelbedarfsstufen 4 to 6 are for children in different age ranges.
+    for i, age_lims in enumerate([(14, 25), (7, 13), (0, 6)]):
+        kinder_satz_m += (
+            params["regelsatz"][4 + i]
+            * (
+                household["kind"] & household["alter"].between(age_lims[0], age_lims[1])
+            ).sum()
+        )
 
     household["regelsatz_m"] += kinder_satz_m
 
