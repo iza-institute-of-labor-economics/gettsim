@@ -3,7 +3,7 @@ import numpy as np
 
 def benefit_priority(household, params):
     """There are three main transfers for working-age people:
-        1. Unemployment Benefit / ALG2
+        1. Basic social security / ALG2
         2. Housing Benefit / Wohngeld
         3. Additional Child Benefit / Kinderzuschlag
 
@@ -14,7 +14,8 @@ def benefit_priority(household, params):
     If the household need cannot be covered via Wohngeld, he has to apply for ALG2.
     There is no way you can receive ALG2 and Wohngeld/Kinderzuschlag at the same time!
     """
-    # Before 2005 no Unemployment benefit is calculated and thus return a nan dataframe.
+    # Before 2005 no basic social security (=ALG2) is implemented so far and thus
+    # return a nan dataframe.
     if params["jahr"] < 2005:
         return household
     # But first, we check whether hh wealth is too high
