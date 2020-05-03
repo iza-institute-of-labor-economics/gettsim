@@ -42,11 +42,14 @@ def soli_st(tax_unit, params):
     return tax_unit
 
 
-def get_uebergangs_threholds(soli_st_satz, soli_st_uebergang, freigrenze):
+def transition_threshold(soli_st_satz, soli_st_uebergang, freigrenze):
     """
     This function calculates the upper threshold for interval 1 for the piecewise
     function in soli_st.yaml.  Interval 1 is used to moderate the start of soli
-    taxation. It uses the three parameters actually given in the law.
+    taxation. From this threshold om, the regular soli rate("soli_st_satz") is
+    applied to the basis of soli calculation. Before the transition rate (
+    "soli_st_uebergang") is applied to the difference of basis and "freigrenze". It
+    uses the three parameters actually given in the law.
     """
     threshold = freigrenze / (1 - soli_st_satz / soli_st_uebergang)
     return threshold

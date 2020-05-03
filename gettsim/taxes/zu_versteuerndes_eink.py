@@ -276,7 +276,8 @@ def calc_gde(tax_unit, params):
     #    zve.loc[:, "gross_gde"] = zve["gross_gde"] + (tax_unit["ubi"] * 12)
 
     # Kapitaleinkommen im Tarif versteuern oder nicht?
-    # If capital income tax with tariff, add it but account for exemptions
+    # If capital income tax with tarif, add capital income to tax base but account
+    # for exemptions
     if params["jahr"] < 2009:
         gross_gde += np.maximum(
             tax_unit["brutto_eink_5"]
