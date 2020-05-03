@@ -34,6 +34,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Regroup wohngeld parameters according to GEP-3 (:ghuser:`MaxBlesch`)
 * Renamed all data columns to German names (:ghuser:`amageh`, :ghuser:`MaxBlesch`)
 * Renamed and regrouped all param files (:ghuser:`Eric-Sommer`, :ghuser:`MaxBlesch`)
+* Added generic/piecewise functions (:ghuser:`johannesgoldbeck`,
+  :ghuser:`ppoepperling`, :ghuser:`MaxBlesch`)
 
 
 0.2.1 - 2019-11-20
