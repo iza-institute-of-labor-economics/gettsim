@@ -9,11 +9,12 @@ arbeitsl_geld_freibetrag:
   time: month
   1999-08-01:
     scalar: 161
-    reference: Art. 1 g. v. 21.07.1999 BGBl. I S. 1648
+    reference: Art. 1 G. v. 21.07.1999 BGBl. I S. 1648
     note: Originalwert 315 DM.
   2002-01-01:
     scalar: 165
     reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
+
 soz_vers_pausch_arbeitsl_geld:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts

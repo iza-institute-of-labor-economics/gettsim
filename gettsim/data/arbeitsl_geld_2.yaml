@@ -8,7 +8,7 @@ e_anr_frei:
   type: piecewise_linear
   time: month
   2005-01-01:
-      reference: G. v. 24.12.2003 BGBl. I S. 2964.
+      reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
       0:
           lower_threshold: 0
           upper_threshold: 400
@@ -25,7 +25,7 @@ e_anr_frei:
           rate: 0
           note: Making this explicit.
   2005-10-01:
-      reference: G. v. 14.08.2005 BGBl. I S. 2407.
+      reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
       0:
           lower_threshold: 0
           upper_threshold: 100
@@ -41,7 +41,7 @@ e_anr_frei:
           upper_threshold: inf
           rate: 0
   2011-04-01:
-      reference: G. v. 20.12.2011 BGBl. I 2854.
+      reference: Artikel 1 G. v. 20.12.2011 BGBl. I 2854.
       note: Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850. Artikel 5.          ToDo    Check these laws -- did they really happen months after the date of the policy change? I cannot fina anything...
       deviation_from: previous
       1:
@@ -56,14 +56,14 @@ e_anr_frei_kinder:
     note: Ersetzt Parameter in e_anr_frei, falls nicht vorhanden
     type: piecewise_linear
     2005-10-01:
-        reference: G. v. 14.08.2005 BGBl. I S. 2407.
+        reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
         deviation_from: arbeitsl_geld_2.e_anr_frei
         2:
             upper_threshold: 1500
 
 regelsatz:
   name:
-    de: Regelsatz, seit Beträge differenzieren sich nach Regelbedarfsstufen
+    de: Regelsatz, seit 2001 Beträge differenzieren sich nach Regelbedarfsstufen
     en: Standard rate, since 2011 amounts differ by "Regelbedarfsstufen"
   description:
     de: § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S. 3159.
@@ -75,7 +75,7 @@ regelsatz:
   time: month
   2005-01-01:
     scalar: 338
-    reference: G. v. 24.12.2003 BGBl. I S. 2954. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
+    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
   2005-07-01:
     scalar: 338
     reference: B. v. 01.09.2005 BGBl. I S. 2718. Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
@@ -101,7 +101,7 @@ regelsatz:
     4: 287
     5: 251
     6: 215
-    reference: G. v. 24.03.2011 BGBl. I S. 453.
+    reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
   2012-01-01:
     1: 374
     2: 337
@@ -192,10 +192,10 @@ anteil_regelsatz:
     kinder_0_6: 0.6
     kinder_7_13: 0.6
     kinder_14_24: 0.8
-    reference: G. v. 24.12.2003 BGBl. I S. 2954.
+    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2009-07-01:
     deviation_from: previous
-    reference: G. v. 02.03.2009 BGBl. I S. 416.
+    reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
     kinder_7_13: 0.7
 
 mehrbedarf_anteil:
@@ -237,7 +237,7 @@ vermögensfreibetrag:
     nach_1963: 13000
     ausstattung: 750
     kind: 4100
-    reference: G. v. 24.12.2003 BGBl. I S. 2954.
+    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2006-08-01:
     deviation_from: previous
     standard: 150
@@ -245,13 +245,13 @@ vermögensfreibetrag:
     1958_bis_1963: 9750
     nach_1963: 9750
     kind: 3100
-    reference: G. v. 20.07.2006 BGBl. I S. 1706.
+    reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2008-01-01:
     deviation_from: previous
     1948_bis_1957: 9750
     1958_bis_1963: 9900
     nach_1963: 10050
-    note: G. v. 20.04.2007 BGBl. I S. 554.
+    note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
 
 abzugsfähige_pausch:
   name:
