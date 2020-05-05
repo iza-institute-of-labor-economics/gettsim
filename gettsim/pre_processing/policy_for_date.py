@@ -12,8 +12,6 @@ from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
 from gettsim.benefits.kinderzuschlag import calc_kiz_amount_2005
 from gettsim.benefits.kinderzuschlag import kiz
 from gettsim.benefits.kinderzuschlag import kiz_dummy
-from gettsim.benefits.unterhalt import uhv_pre_07_2017
-from gettsim.benefits.unterhalt import uhv_since_07_2017
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
@@ -101,13 +99,6 @@ def get_policies_for_date(policy_date, group, raw_group_data=None, parameters=No
             tax_data["calc_kiz_amount"] = calc_kiz_amount_07_2019
         else:
             tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
-
-    # Before 07/2017, UHV was only paid up to 6 years, which is why we model it only since then.
-    elif group == "unterhalt":
-        if year >= 2018 or (year == 2017 & month >= 7):
-            tax_data["uhv_calc"] = uhv_since_07_2017
-        else:
-            tax_data["uhv_calc"] = uhv_pre_07_2017
 
     tax_data["jahr"] = year
     tax_data["datum"] = policy_date
