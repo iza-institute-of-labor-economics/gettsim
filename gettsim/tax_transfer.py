@@ -1,3 +1,5 @@
+from datetime import date
+
 from gettsim.benefits.arbeitsl_geld import ui
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.benefits.benefit_checks import benefit_priority
@@ -560,31 +562,46 @@ def tax_transfer(
 def calculate_tax_and_transfers(
     dataset, year,
 ):
+    policy_date = date(year, 1, 1)
     renten_daten = lade_exogene_renten_daten()
 
-    eink_st_abzuege_params = get_policies_for_date(year=year, group="eink_st_abzuege")
+    eink_st_abzuege_params = get_policies_for_date(
+        policy_date=policy_date, group="eink_st_abzuege"
+    )
 
-    eink_st_params = get_policies_for_date(year=year, group="eink_st")
+    eink_st_params = get_policies_for_date(policy_date=policy_date, group="eink_st")
 
-    soli_st_params = get_policies_for_date(year=year, group="soli_st")
+    soli_st_params = get_policies_for_date(policy_date=policy_date, group="soli_st")
 
-    arbeitsl_geld_2_params = get_policies_for_date(year=year, group="arbeitsl_geld_2")
+    arbeitsl_geld_2_params = get_policies_for_date(
+        policy_date=policy_date, group="arbeitsl_geld_2"
+    )
 
-    arbeitsl_geld_params = get_policies_for_date(year=year, group="arbeitsl_geld")
+    arbeitsl_geld_params = get_policies_for_date(
+        policy_date=policy_date, group="arbeitsl_geld"
+    )
 
-    soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
+    soz_vers_beitr_params = get_policies_for_date(
+        policy_date=policy_date, group="soz_vers_beitr"
+    )
 
-    unterhalt_params = get_policies_for_date(year=year, group="unterhalt")
+    unterhalt_params = get_policies_for_date(policy_date=policy_date, group="unterhalt")
 
-    abgelt_st_params = get_policies_for_date(year=year, group="abgelt_st")
+    abgelt_st_params = get_policies_for_date(policy_date=policy_date, group="abgelt_st")
 
-    wohngeld_params = get_policies_for_date(year=year, group="wohngeld")
+    wohngeld_params = get_policies_for_date(policy_date=policy_date, group="wohngeld")
 
-    kinderzuschlag_params = get_policies_for_date(year=year, group="kinderzuschlag")
+    kinderzuschlag_params = get_policies_for_date(
+        policy_date=policy_date, group="kinderzuschlag"
+    )
 
-    kindergeld_params = get_policies_for_date(year=year, group="kindergeld")
+    kindergeld_params = get_policies_for_date(
+        policy_date=policy_date, group="kindergeld"
+    )
 
-    elterngeld_params = get_policies_for_date(year=year, group="elterngeld")
+    elterngeld_params = get_policies_for_date(
+        policy_date=policy_date, group="elterngeld"
+    )
 
     return tax_transfer(
         dataset,

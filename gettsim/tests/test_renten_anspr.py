@@ -1,3 +1,5 @@
+from datetime import date
+
 import pandas as pd
 import pytest
 from numpy.testing import assert_array_almost_equal
@@ -36,8 +38,11 @@ def test_pension(input_data, year, renten_daten, soz_vers_beitr_raw_data):
     column = "rente_anspr_m"
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+    policy_date = date(year, 1, 1)
     soz_vers_beitr_params = get_policies_for_date(
-        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+        policy_date=policy_date,
+        group="soz_vers_beitr",
+        raw_group_data=soz_vers_beitr_raw_data,
     )
     df = apply_tax_transfer_func(
         df,
@@ -57,7 +62,10 @@ def test_pension(input_data, year, renten_daten, soz_vers_beitr_raw_data):
 def test_update_earning_points(input_data, renten_daten, year):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
+    policy_date = date(year, 1, 1)
+    soz_vers_beitr_params = get_policies_for_date(
+        policy_date=policy_date, group="soz_vers_beitr"
+    )
     df = apply_tax_transfer_func(
         df,
         tax_func=update_earnings_points,

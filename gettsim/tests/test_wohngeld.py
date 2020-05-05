@@ -1,3 +1,5 @@
+from datetime import date
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -54,8 +56,9 @@ def input_data():
 def test_wg(input_data, year, wohngeld_raw_data):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+    policy_date = date(year, 1, 1)
     wohngeld_params = get_policies_for_date(
-        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+        policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
     )
     for col in OUT_COLS:
         df[col] = np.nan
@@ -74,8 +77,9 @@ def input_data_2():
 def test_wg_no_mietstufe_in_input_data(input_data_2, year, wohngeld_raw_data):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+    policy_date = date(year, 1, 1)
     wohngeld_params = get_policies_for_date(
-        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+        policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
     )
     for col in OUT_COLS:
         df[col] = np.nan

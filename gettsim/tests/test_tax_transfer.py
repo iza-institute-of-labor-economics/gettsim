@@ -1,3 +1,5 @@
+from datetime import date
+
 import pandas as pd
 import pytest
 
@@ -35,43 +37,53 @@ def test_tax_transfer(
     elterngeld_raw_data,
 ):
     df = input_data[input_data["jahr"] == year].copy()
-
+    policy_date = date(year, 1, 1)
     eink_st_abzuege_params = get_policies_for_date(
-        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
+        policy_date=policy_date,
+        group="eink_st_abzuege",
+        raw_group_data=eink_st_abzuege_raw_data,
     )
     eink_st_params = get_policies_for_date(
-        year=year, group="eink_st", raw_group_data=eink_st_raw_data
+        policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
     )
     soli_st_params = get_policies_for_date(
-        year=year, group="soli_st", raw_group_data=soli_st_raw_data
+        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
     )
     arbeitsl_geld_2_params = get_policies_for_date(
-        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+        policy_date=policy_date,
+        group="arbeitsl_geld_2",
+        raw_group_data=arbeitsl_geld_2_raw_data,
     )
     arbeitsl_geld_params = get_policies_for_date(
-        year=year, group="arbeitsl_geld", raw_group_data=arbeitsl_geld_raw_data
+        policy_date=policy_date,
+        group="arbeitsl_geld",
+        raw_group_data=arbeitsl_geld_raw_data,
     )
     soz_vers_beitr_params = get_policies_for_date(
-        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+        policy_date=policy_date,
+        group="soz_vers_beitr",
+        raw_group_data=soz_vers_beitr_raw_data,
     )
     unterhalt_params = get_policies_for_date(
-        year=year, group="unterhalt", raw_group_data=unterhalt_raw_data
+        policy_date=policy_date, group="unterhalt", raw_group_data=unterhalt_raw_data
     )
     abgelt_st_params = get_policies_for_date(
-        year=year, group="abgelt_st", raw_group_data=abgelt_st_raw_data
+        policy_date=policy_date, group="abgelt_st", raw_group_data=abgelt_st_raw_data
     )
     wohngeld_params = get_policies_for_date(
-        year=year, group="wohngeld", raw_group_data=wohngeld_raw_data
+        policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
     )
     kinderzuschlag_params = get_policies_for_date(
-        year=year, group="kinderzuschlag", raw_group_data=kinderzuschlag_raw_data
+        policy_date=policy_date,
+        group="kinderzuschlag",
+        raw_group_data=kinderzuschlag_raw_data,
     )
     kindergeld_params = get_policies_for_date(
-        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
+        policy_date=policy_date, group="kindergeld", raw_group_data=kindergeld_raw_data
     )
 
     elterngeld_params = get_policies_for_date(
-        year=year, group="elterngeld", raw_group_data=elterngeld_raw_data
+        policy_date=policy_date, group="elterngeld", raw_group_data=elterngeld_raw_data
     )
 
     tax_transfer(

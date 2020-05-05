@@ -1,4 +1,5 @@
 import itertools
+from datetime import date
 
 import numpy as np
 import pandas as pd
@@ -49,11 +50,16 @@ def test_vorsorge(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
+    policy_date = date(year, 1, 1)
     eink_st_abzuege_params = get_policies_for_date(
-        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
+        policy_date=policy_date,
+        group="eink_st_abzuege",
+        raw_group_data=eink_st_abzuege_raw_data,
     )
     soz_vers_beitr_params = get_policies_for_date(
-        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+        policy_date=policy_date,
+        group="soz_vers_beitr",
+        raw_group_data=soz_vers_beitr_raw_data,
     )
     if year >= 2010:
         calc_vorsorge = vorsorge_since_2010

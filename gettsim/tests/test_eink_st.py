@@ -1,4 +1,5 @@
 import itertools
+from datetime import date
 
 import numpy as np
 import pandas as pd
@@ -50,18 +51,21 @@ def test_tax_sched(
     soli_st_raw_data,
     abgelt_st_raw_data,
 ):
+    policy_date = date(year, 1, 1)
     eink_st_params = get_policies_for_date(
-        year=year, group="eink_st", raw_group_data=eink_st_raw_data
+        policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
     )
 
     eink_st_abzuege_params = get_policies_for_date(
-        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
+        policy_date=policy_date,
+        group="eink_st_abzuege",
+        raw_group_data=eink_st_abzuege_raw_data,
     )
     soli_st_params = get_policies_for_date(
-        year=year, group="soli_st", raw_group_data=soli_st_raw_data
+        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
     )
     abgelt_st_params = get_policies_for_date(
-        year=year, group="abgelt_st", raw_group_data=abgelt_st_raw_data
+        policy_date=policy_date, group="abgelt_st", raw_group_data=abgelt_st_raw_data
     )
     OUT_COLS = (
         [f"_st_{inc}" for inc in eink_st_abzuege_params["eink_arten"]]

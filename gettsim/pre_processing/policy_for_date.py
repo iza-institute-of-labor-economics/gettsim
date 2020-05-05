@@ -29,19 +29,7 @@ from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
 
 
-def get_policies_for_date(year, group, month=1, day=1, raw_group_data=None):
-    if not raw_group_data:
-        raw_group_data = yaml.safe_load(
-            (ROOT_DIR / "data" / f"{group}.yaml").read_text(encoding="utf-8")
-        )
-
-    actual_date = datetime.date(year=year, month=month, day=day)
-    tax_data = process_data(actual_date, group, raw_group_data=raw_group_data)
-
-    return tax_data
-
-
-def process_data(policy_date, group, raw_group_data=None, parameters=None):
+def get_policies_for_date(policy_date, group, raw_group_data=None, parameters=None):
     tax_data = load_data(
         policy_date, group, raw_group_data=raw_group_data, parameters=parameters
     )

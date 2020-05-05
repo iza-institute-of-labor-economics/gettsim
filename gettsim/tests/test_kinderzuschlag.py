@@ -1,3 +1,5 @@
+from datetime import date
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -52,11 +54,16 @@ def test_kiz(
     columns = ["kinderzuschlag_temp"]
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+    policy_date = date(year, 1, 1)
     kinderzuschlag_params = get_policies_for_date(
-        year=year, group="kinderzuschlag", raw_group_data=kinderzuschlag_raw_data
+        policy_date=policy_date,
+        group="kinderzuschlag",
+        raw_group_data=kinderzuschlag_raw_data,
     )
     arbeitsl_geld_2_params = get_policies_for_date(
-        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+        policy_date=policy_date,
+        group="arbeitsl_geld_2",
+        raw_group_data=arbeitsl_geld_2_raw_data,
     )
 
     for col in OUT_COLS:
