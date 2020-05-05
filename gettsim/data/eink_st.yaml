@@ -6,8 +6,13 @@ eink_st_tarif:
     de: §32a EStG
     en:
   note:
-    de: Der quadratische Anstieg in den mittleren Intervallen wird nach der Formel des Progressionsfaktors berechnet. Einzelheiten sind im docstring der Funktion add_progressionsfaktor beschrieben.
-    en: The quadratic rate is calculated by gettsim with the formula of the Progressionsfaktor. For details see the docstring of add_progressionsfaktor.
+    de: >-
+      Der quadratische Anstieg in den mittleren Intervallen wird nach der Formel
+      des Progressionsfaktors berechnet. Einzelheiten sind im docstring der Funktion
+      add_progressionsfaktor beschrieben.
+    en: >-
+      The quadratic rate is calculated by gettsim with the formula of the
+      Progressionsfaktor. For details see the docstring of add_progressionsfaktor.
   type: piecewise_quadratic
   progressionsfaktor: True
   2002-01-01:

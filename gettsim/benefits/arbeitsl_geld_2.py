@@ -247,9 +247,9 @@ def eink_anr_frei(household, params):
     """
     # If there live kids in the household, we select different parameters.
     if household["kind"].any():
-        e_anr_frei_params = copy.deepcopy(params["e_anr_frei_kinder"])
+        eink_anr_frei_params = copy.deepcopy(params["eink_anr_frei_kinder"])
     else:
-        e_anr_frei_params = copy.deepcopy(params["e_anr_frei"])
+        eink_anr_frei_params = copy.deepcopy(params["eink_anr_frei"])
 
     in_cols = [
         "bruttolohn_m",
@@ -266,15 +266,15 @@ def eink_anr_frei(household, params):
         level=["hh_id", "tu_id", "p_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"e_anr_frei_params": e_anr_frei_params, "params": params},
+        func_kwargs={"eink_anr_frei_params": eink_anr_frei_params, "params": params},
     )
     return household
 
 
-def eink_anr_frei_person(person, e_anr_frei_params, params):
+def eink_anr_frei_person(person, eink_anr_frei_params, params):
     # In the first version of alg2, the rates were multiplied by the nettoquote.
     rates_modified = False
-    individual_params = copy.deepcopy(e_anr_frei_params)
+    individual_params = copy.deepcopy(eink_anr_frei_params)
 
     if params["datum"] < datetime.date(year=2005, month=10, day=1):
         individual_params["rates"] *= alg2_2005_nq(person, params)

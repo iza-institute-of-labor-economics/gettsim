@@ -20,7 +20,9 @@ soz_vers_pausch_arbeitsl_geld:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en: Fictitious social security contribution rate
   description:
-    de: § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt. ACHTUNG! Beim Elterngeld gibt es eine ähnliche Größe.
+    de: >-
+        § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt.
+        ACHTUNG! Beim Elterngeld gibt es eine ähnliche Größe.
     en:
   unit: share
   1984-01-01:
@@ -112,10 +114,13 @@ soz_vers_pausch_arbeitsl_geld:
     reference: Art. 1 G. v. 18.12.2018 BGBl. I S. 2651
 arbeitsl_geld_satz_ohne_kinder:
   name:
-    de: Anteil des Arbeitslosengelds für Personen ohne Kinder (allgemeiner Leistungssatz)
+    de: >-
+      Anteil des Arbeitslosengelds für Personen ohne Kinder (allgemeiner Leistungssatz)
     en: Replacement Rate Unemployment Benefit, for childless persons.
   description:
-    de: §149 Nr. 2 SGB III, vorher § 129 (2) SGB III. Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG.
+    de: >-
+      §149 Nr. 2 SGB III, vorher § 129 (2) SGB III. Höhe des Arbeitslosengeldes im
+      Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG.
     en:
   unit: share
   1998-08-01:
@@ -127,7 +132,9 @@ arbeitsl_geld_satz_mit_kindern:
     de: Anteil des Arbeitslosengelds für Personen mit Kindern (erhöhter Leistungssatz)
     en: Replacement Rate Unemployment Benefit for persons with children.
   description:
-    de: §149 Nr. 1 SGB III, vorher §129 Nr. 1 SGB III. Höhe des Arbeitslosengeldes im Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
+    de: >-
+      §149 Nr. 1 SGB III, vorher §129 Nr. 1 SGB III. Höhe des Arbeitslosengeldes im
+      Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
     en:
   1998-08-01:
     scalar: 0.67
@@ -138,7 +145,9 @@ arbeitsl_geld_stundengrenze:
     de: Stundengrenze für Bezug von Arbeitslosengeld
     en: Working hours limit to receive unemployment benefit
   description:
-    de: §138 (3) SGB III, früher auch §102 (2) AFG. Grenze, ab der nicht mehr Arbeitslosigkeit unterstellt wird.
+    de: >-
+      §138 (3) SGB III, früher auch §102 (2) AFG. Grenze, ab der nicht mehr
+      Arbeitslosigkeit unterstellt wird.
     en:
   1969-07-01:
     scalar: 20
