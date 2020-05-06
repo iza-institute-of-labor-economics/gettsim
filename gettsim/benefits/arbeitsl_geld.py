@@ -1,4 +1,6 @@
 """This module contains functions related to "Arbeitslosengeld"."""
+from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+from gettsim.taxes.eink_st import st_tarif
 
 
 def ui(
@@ -14,24 +16,28 @@ def ui(
 
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    westost = "o" if person["wohnort_ost"] else "w"
+    wohnort = "ost" if person["wohnort_ost"] else "west"
 
     alg_entgelt = proxy_net_wage_last_year(
         person,
         eink_st_params,
         soli_st_params,
-        beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
-        werbungs_pausch=eink_st_abzuege_params["werbung"],
-        soz_vers_pausch=params["soz_vers_pausch"],
+        beit_bem_grenz=soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
+        werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
+        soz_vers_pausch=params["soz_vers_pausch_arbeitsl_geld"],
     )
 
     eligible = check_eligibility_alg(person, params)
 
     if eligible:
         if person["anz_kinder_tu"].sum() == 0:
-            person["arbeitsl_geld_m"] = alg_entgelt * params["agsatz0"]
+            person["arbeitsl_geld_m"] = (
+                alg_entgelt * params["arbeitsl_geld_satz_ohne_kinder"]
+            )
         else:
-            person["arbeitsl_geld_m"] = alg_entgelt * params["agsatz1"]
+            person["arbeitsl_geld_m"] = (
+                alg_entgelt * params["arbeitsl_geld_satz_mit_kindern"]
+            )
     else:
         person["arbeitsl_geld_m"] = 0.0
     return person
@@ -45,8 +51,10 @@ def proxy_net_wage_last_year(
     werbungs_pausch,
     soz_vers_pausch,
 ):
-    """ Calculating the claim for the Arbeitslosengeld, depending on the current
-    wage."""
+    """ Calculating the claim for benefits depending on previous wage.
+    - Arbeitslosengeld
+    - Elterngeld
+    """
 
     # Relevant wage is capped at the contribution thresholds
     max_wage = min(beit_bem_grenz, person["bruttolohn_vorj_m"])
@@ -55,11 +63,17 @@ def proxy_net_wage_last_year(
     prox_ssc = soz_vers_pausch * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = eink_st_params["st_tarif"](
-        12 * max_wage - werbungs_pausch, eink_st_params
-    )
+    prox_tax = st_tarif(12 * max_wage - werbungs_pausch, eink_st_params)
 
-    prox_soli = soli_st_params["soli_formula"](prox_tax, soli_st_params)
+    prox_soli = piecewise_polynomial(
+        prox_tax,
+        lower_thresholds=soli_st_params["soli_st"]["lower_thresholds"],
+        upper_thresholds=soli_st_params["soli_st"]["upper_thresholds"],
+        rates=soli_st_params["soli_st"]["rates"],
+        intercepts_at_lower_thresholds=soli_st_params["soli_st"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
 
     return max(0, max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12)
 
@@ -82,5 +96,5 @@ def check_eligibility_alg(person, params):
         (1 <= mts_ue <= 12)
         & (person["alter"] < 65)
         & (person["ges_rente_m"] == 0)
-        & (person["arbeitsstunden_w"] < params["ag_stundengrenze"])
+        & (person["arbeitsstunden_w"] < params["arbeitsl_geld_stundengrenze"])
     )

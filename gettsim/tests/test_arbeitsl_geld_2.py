@@ -1,4 +1,5 @@
 import itertools
+from datetime import date
 
 import pandas as pd
 import pytest
@@ -6,7 +7,9 @@ from pandas.testing import assert_series_equal
 
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
+from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
+
 
 INPUT_COLS = [
     "p_id",
@@ -39,12 +42,14 @@ OUT_COLS = [
     "sum_basis_arbeitsl_geld_2_eink",
     "sum_arbeitsl_geld_2_eink",
     "arbeitsl_geld_2_brutto_eink_hh",
-    "mehrbed",
+    "alleinerziehenden_mehrbedarf",
     "regelbedarf_m",
     "regelsatz_m",
     "kost_unterk_m",
     "unterhaltsvors_m_hh",
     "eink_anrechn_frei",
+    "arbeitsl_geld_2_eink",
+    "sum_arbeitsl_geld_2_eink_hh",
 ]
 
 
@@ -62,14 +67,20 @@ def input_data():
 def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-
+    policy_date = date(year, 1, 1)
     arbeitsl_geld_2_params = get_policies_for_date(
-        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+        policy_date=policy_date,
+        group="arbeitsl_geld_2",
+        raw_group_data=arbeitsl_geld_2_raw_data,
     )
 
-    df = df.reindex(columns=df.columns.tolist() + OUT_COLS)
-    df = df.groupby("hh_id", group_keys=False).apply(
-        alg2, params=arbeitsl_geld_2_params
+    df = apply_tax_transfer_func(
+        df,
+        tax_func=alg2,
+        level=["hh_id"],
+        in_cols=INPUT_COLS,
+        out_cols=OUT_COLS,
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     assert_series_equal(df[column], year_data[column], check_dtype=False)

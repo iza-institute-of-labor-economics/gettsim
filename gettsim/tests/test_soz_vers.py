@@ -1,12 +1,13 @@
 import itertools
+from datetime import date
 
 import pandas as pd
 import pytest
 
-from gettsim.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
-from gettsim.social_insurance import soc_ins_contrib
+from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.soz_vers import soc_ins_contrib
 
 INPUT_COLS = [
     "p_id",
@@ -45,8 +46,11 @@ def input_data():
 def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+    policy_date = date(year, 1, 1)
     soz_vers_beitr_params = get_policies_for_date(
-        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+        policy_date=policy_date,
+        group="soz_vers_beitr",
+        raw_group_data=soz_vers_beitr_raw_data,
     )
     df = apply_tax_transfer_func(
         df,

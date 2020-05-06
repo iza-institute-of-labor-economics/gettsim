@@ -1,3 +1,5 @@
+from datetime import date
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -5,7 +7,7 @@ from pandas.testing import assert_frame_equal
 
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
 INPUT_COLS = [
@@ -41,8 +43,11 @@ def input_data():
 def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+    policy_date = date(year, 1, 1)
     arbeitsl_geld_2_params = get_policies_for_date(
-        year=year, group="arbeitsl_geld_2", raw_group_data=arbeitsl_geld_2_raw_data
+        policy_date=policy_date,
+        group="arbeitsl_geld_2",
+        raw_group_data=arbeitsl_geld_2_raw_data,
     )
     for col in OUT_COLS:
         df[col] = np.nan

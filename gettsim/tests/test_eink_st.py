@@ -1,10 +1,13 @@
+import itertools
+from datetime import date
+
 import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
 from gettsim.taxes.eink_st import eink_st
 
 INPUT_COLS = [
@@ -21,6 +24,13 @@ INPUT_COLS = [
     "brutto_eink_5_tu",
 ]
 
+TEST_COLUMNS = [
+    "_st_kein_kind_freib_tu",
+    "_st_kind_freib_tu",
+    "abgelt_st_m",
+    "soli_st_m",
+    "soli_st_m_tu",
+]
 YEARS = [2009, 2012, 2015, 2018]
 
 
@@ -31,41 +41,40 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMNS))
 def test_tax_sched(
     input_data,
     year,
+    column,
     eink_st_raw_data,
     eink_st_abzuege_raw_data,
     soli_st_raw_data,
     abgelt_st_raw_data,
 ):
-    columns = [
-        "_st_kein_kind_freib_tu",
-        "_st_kind_freib_tu",
-        "abgelt_st_m",
-        "soli_st_m",
-        "soli_st_m_tu",
-    ]
-    year_data = input_data[input_data["jahr"] == year]
-    df = year_data[INPUT_COLS].copy()
-    eink_st_abzuege_params = get_policies_for_date(
-        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
-    )
+    policy_date = date(year, 1, 1)
     eink_st_params = get_policies_for_date(
-        year=year, group="eink_st", raw_group_data=eink_st_raw_data
+        policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
+    )
+
+    eink_st_abzuege_params = get_policies_for_date(
+        policy_date=policy_date,
+        group="eink_st_abzuege",
+        raw_group_data=eink_st_abzuege_raw_data,
     )
     soli_st_params = get_policies_for_date(
-        year=year, group="soli_st", raw_group_data=soli_st_raw_data
+        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
     )
     abgelt_st_params = get_policies_for_date(
-        year=year, group="abgelt_st", raw_group_data=abgelt_st_raw_data
+        policy_date=policy_date, group="abgelt_st", raw_group_data=abgelt_st_raw_data
     )
     OUT_COLS = (
         [f"_st_{inc}" for inc in eink_st_abzuege_params["eink_arten"]]
         + [f"_st_{inc}_tu" for inc in eink_st_abzuege_params["eink_arten"]]
         + ["abgelt_st_m_tu", "abgelt_st_m", "soli_st_m", "soli_st_m_tu"]
     )
+
+    year_data = input_data[input_data["jahr"] == year]
+    df = year_data[INPUT_COLS].copy()
 
     for col in OUT_COLS:
         df[col] = np.nan
@@ -76,7 +85,6 @@ def test_tax_sched(
         soli_st_params=soli_st_params,
         abgelt_st_params=abgelt_st_params,
     )
-
-    assert_frame_equal(
-        df[columns], year_data[columns], check_dtype=False, check_less_precise=1
+    assert_series_equal(
+        df[column], year_data[column], check_dtype=False, check_less_precise=1
     )

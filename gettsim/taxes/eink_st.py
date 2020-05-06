@@ -1,5 +1,9 @@
+import copy
+
 import numpy as np
 
+from gettsim.pre_processing.generic_functions import check_threholds
+from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.abgelt_st import abgelt_st
 from gettsim.taxes.soli_st import soli_st
 
@@ -17,12 +21,14 @@ def eink_st(
         * Capital income tax (Abgeltungssteuer)
 
     """
+    if eink_st_params["jahr"] < 2002:
+        raise ValueError("Income Tax Pre 2002 not yet modelled!")
 
     adult_married = (~tax_unit["kind"]) & (tax_unit["gem_veranlagt"])
 
     for inc in eink_st_abzuege_params["eink_arten"]:
         # apply tax tariff, round to full Euro amounts
-        tax_unit[f"_st_{inc}"] = eink_st_params["st_tarif"](
+        tax_unit[f"_st_{inc}"] = st_tarif(
             tax_unit[f"_zu_versteuerndes_eink_{inc}"], eink_st_params
         ).astype(int)
         tax_unit[f"_st_{inc}_tu"] = tax_unit[f"_st_{inc}"]
@@ -53,37 +59,43 @@ def st_tarif(x, params):
 
     args:
         x (float): taxable income
-        tb (dict): tax-benefit parameters specific to year and reform
+        params (dict): tax-benefit parameters specific to year and reform
     """
 
-    if params["jahr"] < 2002:
-        raise ValueError("Income Tax Pre 2002 not yet modelled!")
-    else:
-        eink_steuer = 0.0
-        if params["G"] < x <= params["M"]:
-            eink_steuer = (
-                ((params["t_m"] - params["t_e"]) / (2 * (params["M"] - params["G"])))
-                * (x - params["G"])
-                + params["t_e"]
-            ) * (x - params["G"])
-        elif params["M"] < x <= params["S"]:
-            eink_steuer = (
-                ((params["t_s"] - params["t_m"]) / (2 * (params["S"] - params["M"])))
-                * (x - params["M"])
-                + params["t_m"]
-            ) * (x - params["M"]) + (params["M"] - params["G"]) * (
-                (params["t_m"] + params["t_e"]) / 2
-            )
-        elif x > params["S"]:
-            eink_steuer = (
-                params["t_s"] * x
-                - params["t_s"] * params["S"]
-                + ((params["t_s"] + params["t_m"]) / 2) * (params["S"] - params["M"])
-                + ((params["t_m"] + params["t_e"]) / 2) * (params["M"] - params["G"])
-            )
-        if x > params["R"]:
-            eink_steuer = eink_steuer + (params["t_r"] - params["t_s"]) * (
-                x - params["R"]
-            )
-        assert eink_steuer >= 0
-    return eink_steuer
+    eink_st = piecewise_polynomial(
+        x,
+        lower_thresholds=params["eink_st_tarif"]["lower_thresholds"],
+        upper_thresholds=params["eink_st_tarif"]["upper_thresholds"],
+        rates=params["eink_st_tarif"]["rates"],
+        intercepts_at_lower_thresholds=params["eink_st_tarif"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
+    return eink_st
+
+
+def add_progressionsfaktor(param_dict, parameter):
+    """
+    The german tax tarif is defined on several income intervals with distinct
+    marginal tax rates at the thresholds. To ensure an almost linear increase of
+    the average tax rate, the german tax tarif is defined as a quadratic function,
+    where the quadratic rate is the so called linear Progressionsfaktor. For its
+    calculation one needs the lower (low_thres) and upper (upper_thres) of the
+    interval as well as the marginal tax rate of the interval (rate_iv) and of the
+    following interval (rate_fiv). The formula is then given by:
+
+    (rate_fiv - rate_iv) / (2 * (upper_thres - low_thres))
+
+    """
+    out_dict = copy.deepcopy(param_dict)
+    interval_keys = sorted(key for key in out_dict.keys() if type(key) == int)
+    # Check and extract lower thresholds.
+    lower_thresholds, upper_thresholds = check_threholds(
+        param_dict, parameter, interval_keys
+    )
+    for key in interval_keys:
+        if "rate_quadratic" not in out_dict[key]:
+            out_dict[key]["rate_quadratic"] = (
+                out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
+            ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
+    return out_dict

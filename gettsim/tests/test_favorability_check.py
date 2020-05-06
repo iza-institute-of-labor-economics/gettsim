@@ -1,3 +1,4 @@
+from datetime import date
 from itertools import product
 
 import numpy as np
@@ -6,7 +7,7 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
 from gettsim.taxes.favorability_check import favorability_check
 
 
@@ -45,8 +46,11 @@ def input_data():
 def test_favorability_check(input_data, year, column, eink_st_abzuege_raw_data):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+    policy_date = date(year, 1, 1)
     eink_st_abzuege_params = get_policies_for_date(
-        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
+        policy_date=policy_date,
+        group="eink_st_abzuege",
+        raw_group_data=eink_st_abzuege_raw_data,
     )
     for col in OUT_COLS:
         df[col] = np.nan

@@ -1,1192 +1,738 @@
-gkvbs_ag:
+soz_vers_beitr:
   name:
-    de: Beitragssatz zur Gesetzlichen Krankenversicherung (Arbeitgeber)
-    en: Contribution rate to statutory health insurance (employer share)
-  description:
-    de: §§ 241, 249 (1) SGB V. Halber Wert des gesetzlichen Wertes.
-    en:
-  values:
-    1984-01-01:
-      value: 0.0572
-      note:
-    1985-01-01:
-      value: 0.059
-      note:
-    1986-01-01:
-      value: 0.061
-      note:
-    1987-01-01:
-      value: 0.0624
-      note: .
-    1988-01-01:
-      value: 0.0644
-      note: .
-    1989-01-01:
-      value: 0.0645
-      note:
-    1990-01-01:
-      value: 0.0625
-      note: .
-    1991-01-01:
-      value: 0.064
-      note:
-    1993-01-01:
-      value: 0.067
-      note: .
-    1995-01-01:
-      value: 0.066
-      note: .
-    1997-01-01:
-      value: 0.067
-      note: .
-    1998-01-01:
-      value: 0.068
-      note:
-    2000-01-01:
-      value: 0.06785
-      note: .
-    2001-01-01:
-      value: 0.0679
-      note: .
-    2002-01-01:
-      value: 0.07
-      note:
-    2003-01-01:
-      value: 0.072
-      note:
-    2004-01-01:
-      value: 0.071
-      note:
-    2005-01-01:
-      value: 0.0689
-      note:
-    2006-01-01:
-      value: 0.0666
-      note:
-    2007-01-01:
-      value: 0.0695
-      note:
-    2008-01-01:
-      value: 0.07
-      note:
-    2009-01-01:
-      value: 0.073
-      note:
-    2010-01-01:
-      value: 0.07
-      note:
-    2011-01-01:
-      value: 0.073
-      note:
-    2019-01-01:
-      value: 0.0775
-      note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387. Durchschnittlicher zusatzbeitragssatz 0,9%
-    2020-01-01:
-      value: 0.0785
-      note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
-gkvbs_an:
-  name:
-    de: Beitragssatz zur Gesetzlichen Krankenversicherung (Arbeitnehmer)
-    en: Contribution rate to statutory health insurance (employer share)
-  description:
-    de: §§ 241, 249 (1) SGB V, ab 2015 auch §242a SGB V. Halber Betrag aus §214 plus durchschnittlicher Zusatzbeitrag laut Veröffentlichung der Bundesregierung.
-    en:
-  values:
-    1984-01-01:
-      value: 0.0572
-      note:
-    1985-01-01:
-      value: 0.059
-      note:
-    1986-01-01:
-      value: 0.061
-      note:
-    1987-01-01:
-      value: 0.0624
-      note: .
-    1988-01-01:
-      value: 0.0644
-      note: .
-    1989-01-01:
-      value: 0.0645
-      note:
-    1990-01-01:
-      value: 0.0625
-      note: .
-    1991-01-01:
-      value: 0.064
-      note:
-    1993-01-01:
-      value: 0.067
-      note: .
-    1995-01-01:
-      value: 0.066
-      note: .
-    1997-01-01:
-      value: 0.067
-      note: .
-    1998-01-01:
-      value: 0.068
-      note:
-    2000-01-01:
-      value: 0.06785
-      note: .
-    2001-01-01:
-      value: 0.0679
-      note: .
-    2002-01-01:
-      value: 0.07
-      note:
-    2003-01-01:
-      value: 0.072
-      note:
-    2004-01-01:
-      value: 0.071
-      note:
-    2005-01-01:
-      value: 0.0689
-      note:
-    2006-01-01:
-      value: 0.0756
-      note:
-    2007-01-01:
-      value: 0.0785
-      note:
-    2008-01-01:
-      value: 0.079
-      note:
-    2009-01-01:
-      value: 0.082
-      note:
-    2010-01-01:
-      value: 0.079
-      note:
-    2011-01-01:
-      value: 0.082
-      note:
-    2016-01-01:
-      value: 0.084
-      note: Bekanntmachung Bundesanzeiger 30.12.2015 und  http://www.bmg.bund.de/ministerium/meldungen/2015/gkv-zusatzbeitrag.html
-    2018-01-01:
-      value: 0.083
-      note:
-    2019-01-01:
-      value: 0.0775
-      note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
-    2020-01-01:
-      value: 0.0785
-      note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
-gpvbs:
-  name:
-    de: Beitragssatz zur Gesetzlichen Pflegeversicherung (Arbeitgeber und -nehmer)
-    en: Contribution rate to statutory care insurance for both employer and employee
-  description:
-    de: § 55 (1) SGB XI. Hälfte des im Gesetz angegebenen Werts.
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    1996-01-01:
-      value: 0.005
-      note: .
-    1997-01-01:
-      value: 0.0085
-      note: .
-    2008-01-01:
-      value: 0.00975
-      note:
-    2013-01-01:
-      value: 0.01025
-      note:
-    2015-01-01:
-      value: 0.01175
-      note:
-    2017-01-01:
-      value: 0.01275
-      note:
-    2019-01-01:
-      value: 0.01525
-      note:
-gpvbs_kind:
-  name:
-    de: PflV-Beitragszuschlag für Kinderlose
-    en: Top-up on care insurance contribution for childless persons
-  description:
-    de: § 55 (3) SGB XI. Falls über 23 Jahre.
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2005-01-01:
-      value: 0.0025
-      note:
-bezgr_w:
-  name:
-    de: monatl. Bezugsgröße West
-    en:
-  description:
-    de: https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
-    en:
-  values:
-    1984-01-01:
-      value: 1396
-      note:
-    1985-01-01:
-      value: 1432
-      note:
-    1986-01-01:
-      value: 1467
-      note:
-    1987-01-01:
-      value: 1539
-      note: .
-    1988-01-01:
-      value: 1575
-      note: .
-    1989-01-01:
-      value: 1611
-      note:
-    1990-01-01:
-      value: 1682
-      note: .
-    1991-01-01:
-      value: 1718
-      note:
-    1992-01-01:
-      value: 1790
-      note: .
-    1993-01-01:
-      value: 1897
-      note: .
-    1994-01-01:
-      value: 2004
-      note:
-    1995-01-01:
-      value: 2076
-      note: .
-    1996-01-01:
-      value: 2112
-      note: .
-    1997-01-01:
-      value: 2183
-      note: .
-    1998-01-01:
-      value: 2219
-      note:
-    1999-01-01:
-      value: 2255
-      note:
-    2000-01-01:
-      value: 2291
-      note: .
-    2002-01-01:
-      value: 2345
-      note:
-    2003-01-01:
-      value: 2380
-      note:
-    2004-01-01:
-      value: 2415
-      note:
-    2006-01-01:
-      value: 2450
-      note:
-    2008-01-01:
-      value: 2485
-      note:
-    2009-01-01:
-      value: 2520
-      note:
-    2010-01-01:
-      value: 2555
-      note:
-    2012-01-01:
-      value: 2625
-      note:
-    2013-01-01:
-      value: 2695
-      note:
-    2014-01-01:
-      value: 2765
-      note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    2015-01-01:
-      value: 2835
-      note:
-    2016-01-01:
-      value: 2905
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    2017-01-01:
-      value: 2975
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    2018-01-01:
-      value: 3045
-      note:
-    2019-01-01:
-      value: 3115
-      note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
-    2020-01-01:
-      value: 3185
-      note: §2 V. v. 17.12.2019 BGBl. I S. 2848
-bezgr_o:
-  name:
-    de: monatl. Bezugsgröße Ost
-    en:
-  description:
-    de: https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    1990-01-01:
-      value: 715.8086336747059
-      note: .
-    1991-01-01:
-      value: 787.3894970421765
-      note:
-    1992-01-01:
-      value: 1073.712950512059
-      note: .
-    1993-01-01:
-      value: 1395.826835665677
-      note: .
-    1994-01-01:
-      value: 1574.778994084353
-      note:
-    1995-01-01:
-      value: 1682.150289135559
-      note: .
-    1996-01-01:
-      value: 1789.521584186765
-      note: .
-    1997-01-01:
-      value: 1861.102447554235
-      note: .
-    1999-01-01:
-      value: 1896.892879237971
-      note:
-    2000-01-01:
-      value: 1861.102447554235
-      note: .
-    2001-01-01:
-      value: 1932.683310921706
-      note: .
-    2002-01-01:
-      value: 1960
-      note:
-    2003-01-01:
-      value: 1995
-      note:
-    2004-01-01:
-      value: 2030
-      note:
-    2006-01-01:
-      value: 2065
-      note:
-    2007-01-01:
-      value: 2100
-      note:
-    2009-01-01:
-      value: 2135
-      note:
-    2010-01-01:
-      value: 2170
-      note:
-    2011-01-01:
-      value: 2240
-      note:
-    2013-01-01:
-      value: 2275
-      note:
-    2014-01-01:
-      value: 2345
-      note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    2015-01-01:
-      value: 2415
-      note:
-    2016-01-01:
-      value: 2520
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    2017-01-01:
-      value: 2660
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    2018-01-01:
-      value: 2695
-      note:
-    2019-01-01:
-      value: 2870
-      note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
-    2020-01-01:
-      value: 3010
-      note: §2 V. v. 17.12.2019 BGBl. I S. 2848
-kvmaxeko:
-  name:
-    de: Beitragsbemessungsgrenze in der GKV und PV (Ost)
-    en: Income Threshold for Health and Care Insurance. East Germany
-  description:
-    de: u.a. Bundesfinanzministerium
-    en:
-  values:
-    1990-01-01:
-      value: 1035
-      note: .
-    1991-01-01:
-      value: 1151
-      note:
-    1992-01-01:
-      value: 1841
-      note: .
-    1993-01-01:
-      value: 2032
-      note: .
-    1994-01-01:
-      value: 2262
-      note:
-    1995-01-01:
-      value: 2454
-      note: .
-    1996-01-01:
-      value: 2608
-      note: .
-    1997-01-01:
-      value: 2723
-      note: .
-    1998-01-01:
-      value: 2684
-      note:
-    1999-01-01:
-      value: 2761
-      note:
-    2000-01-01:
-      value: 2723
-      note: .
-    2001-01-01:
-      value: 3336
-      note: .
-    2002-01-01:
-      value: 3375
-      note:
-    2003-01-01:
-      value: 3450
-      note:
-    2004-01-01:
-      value: 3488
-      note:
-    2005-01-01:
-      value: 3525
-      note:
-    2006-01-01:
-      value: 3562.5
-      note:
-    2008-01-01:
-      value: 3600
-      note:
-    2009-01-01:
-      value: 3675
-      note:
-    2010-01-01:
-      value: 3750
-      note:
-    2011-01-01:
-      value: 3712.5
-      note:
-    2012-01-01:
-      value: 3825
-      note:
-    2013-01-01:
-      value: 3937.5
-      note: Gesundheitsministerium http://www.bmg.bund.de/pflege/pflegeversicherung/beitragssatz-beitragshoehe/beitragsbemessungsgrenze.html
-    2014-01-01:
-      value: 4050
-      note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    2015-01-01:
-      value: 4125
-      note:
-    2016-01-01:
-      value: 4237.5
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    2017-01-01:
-      value: 4350
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    2018-01-01:
-      value: 4425
-      note:
-    2019-01-01:
-      value: 4537.5
-      note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
-    2020-01-01:
-      value: 4687.5
-      note: §4 V. v. 17.12.2019 BGBl. I S. 2848
-kvmaxekw:
-  name:
-    de: Beitragsbemessungsgrenze in der GKV und PV (West)
-    en: Income Threshold for Health and Care Insurance. West Germany
+    de: Beitragssätze zu den gesetzlichen Sozialversicherungen
+    en: Contribution rate to statutory social insurances
   description:
     de:
     en:
-  values:
-    1984-01-01:
-      value: 1994
-      note:
-    1985-01-01:
-      value: 2071
-      note:
-    1986-01-01:
-      value: 2147
-      note:
-    1987-01-01:
-      value: 2186
-      note: .
-    1988-01-01:
-      value: 2301
-      note: .
-    1989-01-01:
-      value: 2339
-      note:
-    1990-01-01:
-      value: 2416
-      note: .
-    1991-01-01:
-      value: 2493
-      note:
-    1992-01-01:
-      value: 2608
-      note: .
-    1993-01-01:
-      value: 2761
-      note: .
-    1994-01-01:
-      value: 2914
-      note:
-    1995-01-01:
-      value: 2991
-      note: .
-    1996-01-01:
-      value: 3068
-      note: .
-    1997-01-01:
-      value: 3144
-      note: .
-    1998-01-01:
-      value: 3221
-      note:
-    1999-01-01:
-      value: 3259
-      note:
-    2000-01-01:
-      value: 3298
-      note: .
-    2001-01-01:
-      value: 3336
-      note: .
-    2002-01-01:
-      value: 3375
-      note:
-    2003-01-01:
-      value: 3450
-      note:
-    2004-01-01:
-      value: 3488
-      note:
-    2005-01-01:
-      value: 3525
-      note:
-    2006-01-01:
-      value: 3562.5
-      note:
-    2008-01-01:
-      value: 3600
-      note:
-    2009-01-01:
-      value: 3675
-      note:
-    2010-01-01:
-      value: 3750
-      note:
-    2011-01-01:
-      value: 3712.5
-      note:
-    2012-01-01:
-      value: 3825
-      note:
-    2013-01-01:
-      value: 3937.5
-      note:
-    2014-01-01:
-      value: 4050
-      note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    2015-01-01:
-      value: 4125
-      note:
-    2016-01-01:
-      value: 4237.5
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    2017-01-01:
-      value: 4350
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    2018-01-01:
-      value: 4425
-      note:
-    2019-01-01:
-      value: 4537.5
-      note: https://www.bundesregierung.de/breg-de/suche eue-beitragsbemessungsgrenzen-1535600
-    2020-01-01:
-      value: 4687.5
-      note: §4 V. v. 17.12.2019 BGBl. I S. 2848
-alvbs:
+  unit: share
+  1984-01-01:
+    ges_krankv:
+      ag: 0.0572
+      an: 0.0572
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.023
+    rentenv: 0.0925
+  1985-01-01:
+    ges_krankv:
+      ag: 0.059
+      an: 0.059
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.022
+    rentenv: 0.0935
+  1986-01-01:
+    ges_krankv:
+      ag: 0.061
+      an: 0.061
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0205
+    rentenv: 0.096
+  1987-01-01:
+    ges_krankv:
+      ag: 0.0624
+      an: 0.0624
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0215
+    rentenv: 0.0935
+  1988-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0644
+      an: 0.0644
+  1989-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0645
+      an: 0.0645
+  1990-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0625
+      an: 0.0625
+  1991-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.064
+      an: 0.064
+  1992-01-01:
+    deviation_from: previous
+    arbeitsl_v: 0.0315
+    rentenv: 0.0885
+  1993-01-01:
+    ges_krankv:
+      ag: 0.067
+      an: 0.067
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0325
+    rentenv: 0.0875
+  1994-01-01:
+    deviation_from: previous
+    rentenv: 0.096
+  1995-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.066
+      an: 0.066
+    rentenv: 0.093
+  1996-01-01:
+    deviation_from: previous
+    rentenv: 0.096
+    pflegev:
+      standard: 0.005
+  1997-01-01:
+    ges_krankv:
+      ag: 0.067
+      an: 0.067
+    pflegev:
+      standard: 0.0085
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0325
+    rentenv: 0.1015
+  1998-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.068
+      an: 0.068
+  2000-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.06785
+      an: 0.06785
+    rentenv: 0.0965
+  2001-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0679
+      an: 0.0679
+    rentenv: 0.0955
+  2002-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.07
+      an: 0.07
+  2003-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.072
+      an: 0.072
+    rentenv: 0.0975
+  2004-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.071
+      an: 0.071
+  2005-01-01:
+    ges_krankv:
+      ag: 0.0689
+      an: 0.0689
+    pflegev:
+      standard: 0.0085
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.0325
+    rentenv: 0.0975
+  2006-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0666
+      an: 0.0756
+  2007-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0695
+      an: 0.0785
+    arbeitsl_v: 0.021
+    rentenv: 0.0995
+  2008-01-01:
+    ges_krankv:
+      ag: 0.07
+      an: 0.079
+    pflegev:
+      standard: 0.00975
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.016
+    rentenv: 0.0995
+  2009-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.073
+      an: 0.082
+    arbeitsl_v: 0.014
+  2010-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.07
+      an: 0.079
+  2011-01-01:
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.073
+      an: 0.082
+    arbeitsl_v: 0.015
+  2012-01-01:
+    deviation_from: previous
+    rentenv: 0.098
+    note: Quelle http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
+  2013-01-01:
+    deviation_from: previous
+    rentenv: 0.0945
+    pflegev:
+      standard: 0.01025
+  2015-01-01:
+    ges_krankv:
+      ag: 0.073
+      an: 0.082
+    pflegev:
+      standard: 0.01175
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.015
+    rentenv: 0.0935
+  2016-01-01:
+    deviation_from: previous
+    note: Bekanntmachung Bundesanzeiger 30.12.2015 und  http://www.bmg.bund.de/ministerium/meldungen/2015/gkv-zusatzbeitrag.html
+    ges_krankv:
+      an: 0.084
+  2017-01-01:
+    deviation_from: previous
+    pflegev:
+      standard: 0.01275
+  2018-01-01:
+    deviation_from: previous
+    ges_krankv:
+      an: 0.083
+    rentenv: 0.093
+  2019-01-01:
+    note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387. Durchschnittlicher zusatzbeitragssatz 0,9%
+    ges_krankv:
+      ag: 0.0775
+      an: 0.0775
+    pflegev:
+      standard: 0.01525
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.013
+    rentenv: 0.093
+  2020-01-01:
+    note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
+    deviation_from: previous
+    ges_krankv:
+      ag: 0.0785
+      an: 0.0785
+    arbeitsl_v: 0.012
+
+beitr_bemess_grenze:
   name:
-    de: Beitragssatz zur Arbeitslosenversicherung (AN / AG)
-    en: Contribution rate to statutory unemployment insurance
+    de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
+    en: Income Threshold for social insurance.
   description:
-    de: Höhe § 341 (2) SGB III. Hälfte des gesetzlichen Werts.
+    de: Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist die gleiche.
     en:
-  values:
-    1984-01-01:
-      value: 0.023
-      note:
-    1985-01-01:
-      value: 0.022
-      note:
-    1986-01-01:
-      value: 0.0205
-      note:
-    1987-01-01:
-      value: 0.0215
-      note: .
-    1992-01-01:
-      value: 0.0315
-      note: .
-    1993-01-01:
-      value: 0.0325
-      note: .
-    2007-01-01:
-      value: 0.021
-      note:
-    2008-01-01:
-      value: 0.0165
-      note:
-    2009-01-01:
-      value: 0.014
-      note:
-    2011-01-01:
-      value: 0.015
-      note:
-    2019-01-01:
-      value: 0.013
-      note: geändert durch BGBl. I S.2651
-    2020-01-01:
-      value: 0.012
-      note: https://www.bundesregierung.de/breg-de/aktuelles/beitrag-alv-1693634
-grvbs:
-  name:
-    de: Beitragssatz zur Gesetzlichen Rentenversicherung (AN / AG)
-    en: Contribution rate to statutory pension insurance (for both employers and employees)
-  description:
+  note:
     de:
     en:
-  values:
-    1984-01-01:
-      value: 0.0925
-      note:
-    1985-01-01:
-      value: 0.0935
-      note:
-    1986-01-01:
-      value: 0.096
-      note:
-    1987-01-01:
-      value: 0.0935
-      note: .
-    1992-01-01:
-      value: 0.0885
-      note: .
-    1993-01-01:
-      value: 0.0875
-      note: .
-    1994-01-01:
-      value: 0.096
-      note:
-    1995-01-01:
-      value: 0.093
-      note: .
-    1996-01-01:
-      value: 0.096
-      note: .
-    1997-01-01:
-      value: 0.1015
-      note: .
-    2000-01-01:
-      value: 0.0965
-      note: .
-    2001-01-01:
-      value: 0.0955
-      note: .
-    2003-01-01:
-      value: 0.0975
-      note:
-    2007-01-01:
-      value: 0.0995
-      note:
-    2012-01-01:
-      value: 0.098
-      note: Quelle http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
-    2013-01-01:
-      value: 0.0945
-      note: Deutsche Rentenversicherung http://www.deutsche-rentenversicherung.de/Allgemein/de/Inhalt/5_Services/wissenswertes_videotext/2012_aktuelles_zum_beitragssatz.html
-    2015-01-01:
-      value: 0.0935
-      note:
-    2018-01-01:
-      value: 0.093
-      note:
-grvbs_mini:
+  unit: Euro
+  time: month
+  1984-01-01:
+    ges_krankv:
+      west: 1994
+    rentenv:
+      west: 2659
+  1985-01-01:
+    ges_krankv:
+      west: 2071
+    rentenv:
+      west: 2761
+  1986-01-01:
+    ges_krankv:
+      west: 2147
+    rentenv:
+      west: 2863
+  1987-01-01:
+    ges_krankv:
+      west: 2186
+    rentenv:
+      west: 2914
+  1988-01-01:
+    ges_krankv:
+      west: 2301
+    rentenv:
+      west: 3068
+  1989-01-01:
+    ges_krankv:
+      west: 2339
+    rentenv:
+      west: 3119
+  1990-01-01:
+    ges_krankv:
+      west: 2416
+      ost: 1035
+    rentenv:
+      west: 3221
+      ost: 1380
+  1991-01-01:
+    ges_krankv:
+      west: 2493
+      ost: 1151
+    rentenv:
+      west: 3323
+      ost: 1534
+  1992-01-01:
+    ges_krankv:
+      west: 2608
+      ost: 1841
+    rentenv:
+      west: 3477
+      ost: 2454
+  1993-01-01:
+    ges_krankv:
+      west: 2761
+      ost: 2032
+    rentenv:
+      west: 3681
+      ost: 2710
+  1994-01-01:
+    ges_krankv:
+      west: 2914
+      ost: 2262
+    rentenv:
+      west: 3886
+      ost: 3017
+  1995-01-01:
+    ges_krankv:
+      west: 2991
+      ost: 2454
+    rentenv:
+      west: 3988
+      ost: 3272
+  1996-01-01:
+    ges_krankv:
+      west: 3068
+      ost: 2608
+    rentenv:
+      west: 4090
+      ost: 3477
+  1997-01-01:
+    ges_krankv:
+      west: 3144
+      ost: 2723
+    rentenv:
+      west: 4193
+      ost: 3630
+  1998-01-01:
+    ges_krankv:
+      west: 3221
+      ost: 2684
+    rentenv:
+      west: 4295
+      ost: 3579
+  1999-01-01:
+    ges_krankv:
+      west: 3259
+      ost: 2761
+    rentenv:
+      west: 4339
+      ost: 3681
+  2000-01-01:
+    ges_krankv:
+      west: 3298
+      ost: 2723
+    rentenv:
+      west: 4397
+      ost: 3630
+  2001-01-01:
+    ges_krankv:
+      west: 3336
+      ost: 3336
+    rentenv:
+      west: 4448
+      ost: 3732
+  2002-01-01:
+    ges_krankv:
+      west: 3375
+      ost: 3375
+    rentenv:
+      west: 4500
+      ost: 3750
+  2003-01-01:
+    ges_krankv:
+      west: 3450
+      ost: 3375
+    rentenv:
+      west: 5100
+      ost: 4250
+  2004-01-01:
+    ges_krankv:
+      west: 3488
+      ost: 3488
+    rentenv:
+      west: 5150
+      ost: 4350
+  2005-01-01:
+    ges_krankv:
+      west: 3525
+      ost: 3525
+    rentenv:
+      west: 5200
+      ost: 4400
+  2006-01-01:
+    ges_krankv:
+      west: 3562.5
+      ost: 3562.5
+    rentenv:
+      west: 5250
+      ost: 4400
+  2007-01-01:
+    deviation_from: previous
+    rentenv:
+      ost: 4550
+  2008-01-01:
+    ges_krankv:
+      west: 3600
+      ost: 3600
+    rentenv:
+      west: 5300
+      ost: 4500
+  2009-01-01:
+    ges_krankv:
+      west: 3675
+      ost: 3675
+    rentenv:
+      west: 5400
+      ost: 4550
+  2010-01-01:
+    ges_krankv:
+      west: 3750
+      ost: 3750
+    rentenv:
+      west: 5500
+      ost: 4650
+  2011-01-01:
+    deviation_from: previous
+    ges_krankv:
+      west: 3712.5
+      ost: 3712.5
+    rentenv:
+      ost: 4800
+  2012-01-01:
+    deviation_from: previous
+    ges_krankv:
+      west: 3825
+      ost: 3825
+    rentenv:
+      west: 5600
+  2013-01-01:
+    ges_krankv:
+      west: 3937.5
+      ost: 3937.5
+    rentenv:
+      west: 5800
+      ost: 4900
+  2014-01-01:
+    ges_krankv:
+      west: 4050
+      ost: 4050
+    rentenv:
+      west: 5950
+      ost: 5000
+    note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+  2015-01-01:
+    ges_krankv:
+      west: 4125
+      ost: 4125
+    rentenv:
+      west: 6050
+      ost: 5200
+  2016-01-01:
+    ges_krankv:
+      west: 4237.5
+      ost: 4237.5
+    rentenv:
+      west: 6200
+      ost: 5400
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+  2017-01-01:
+    ges_krankv:
+      west: 4350
+      ost: 4350
+    rentenv:
+      west: 6350
+      ost: 5700
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+  2018-01-01:
+    ges_krankv:
+      west: 4425
+      ost: 4425
+    rentenv:
+      west: 6500
+      ost: 5800
+  2019-01-01:
+    ges_krankv:
+      west: 4537.5
+      ost: 4537.5
+    rentenv:
+      west: 6700
+      ost: 6150
+  2020-01-01:
+    ges_krankv:
+      west: 4687.5
+      ost: 4687.5
+    rentenv:
+      west: 6900
+      ost: 6450
+    reference: V. v. 17.12.2019 BGBl. I S. 2848
+
+bezugsgröße:
   name:
-    de: Freiwilliger Beitragssatz zur GRV für Minijobber
+    de: monatl. Bezugsgröße
     en:
   description:
-    de:
+    de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
     en:
-  values:
-    2013-01-01:
-      value: 0.036
-      note:
-rvmaxeko:
+  unit: Euro
+  time: month
+  1984-01-01:
+    west: 1396
+  1985-01-01:
+    west: 1432
+  1986-01-01:
+    west: 1467
+  1987-01-01:
+    west: 1539
+  1988-01-01:
+    west: 1575
+  1989-01-01:
+    west: 1611
+  1990-01-01:
+    west: 1682
+    ost: 715.8086336747059
+  1991-01-01:
+    west: 1718
+    ost: 787.3894970421765
+  1992-01-01:
+    west: 1790
+    ost: 1073.712950512059
+  1993-01-01:
+    west: 1897
+    ost: 1395.826835665677
+  1994-01-01:
+    west: 2004
+    ost: 1574.778994084353
+  1995-01-01:
+    west: 2076
+    ost: 1682.150289135559
+  1996-01-01:
+    west: 2112
+    ost: 1789.521584186765
+  1997-01-01:
+    west: 2183
+    ost: 1861.102447554235
+  1998-01-01:
+    west: 2219
+    ost: 1896.892879237971
+  1999-01-01:
+    west: 2255
+    ost: 1896.892879237971
+  2000-01-01:
+    west: 2291
+    ost: 1861.102447554235
+  2001-01-01:
+    deviation_from: previous
+    ost: 1932.683310921706
+  2002-01-01:
+    west: 2345
+    ost: 1960
+  2003-01-01:
+    west: 2380
+    ost: 1995
+  2004-01-01:
+    west: 2415
+    ost: 2030
+  2006-01-01:
+    west: 2450
+    ost: 2065
+  2007-01-01:
+    deviation_from: previous
+    ost: 2100
+  2008-01-01:
+    deviation_from: previous
+    west: 2485
+  2009-01-01:
+    west: 2520
+    ost: 2135
+  2010-01-01:
+    west: 2555
+    ost: 2170
+  2011-01-01:
+    deviation_from: previous
+    ost: 2240
+  2012-01-01:
+    deviation_from: previous
+    west: 2625
+  2013-01-01:
+    west: 2695
+    ost: 2275
+  2014-01-01:
+    note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+    west: 2765
+    ost: 2345
+  2015-01-01:
+    west: 2835
+    ost: 2415
+  2016-01-01:
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+    west: 2905
+    ost: 2520
+  2017-01-01:
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+    west: 2975
+    ost: 2660
+  2018-01-01:
+    west: 3045
+    ost: 2695
+  2019-01-01:
+    note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
+    west: 3115
+    ost: 2870
+  2020-01-01:
+    reference: §2 V. v. 17.12.2019 BGBl. I S. 2848
+    west: 3185
+    ost: 3010
+
+geringfügige_eink_grenzen:
   name:
-    de: Beitragsbemessungsgrenze in der GRV und ALV (Ost)
-    en: Income Threshold for Pension und Unemployment Insurance (East Germany)
+    de: Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
+    en: Thresholds for marginal employment ('mini' and 'midi' jobs)
   description:
-    de: https://de.wikipedia.org/wiki/Beitragsbemessungsgrenze
+    de: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
     en:
-  values:
-    1990-01-01:
-      value: 1380
-      note: .
-    1991-01-01:
-      value: 1534
-      note:
-    1992-01-01:
-      value: 2454
-      note: .
-    1993-01-01:
-      value: 2710
-      note: .
-    1994-01-01:
-      value: 3017
-      note:
-    1995-01-01:
-      value: 3272
-      note: .
-    1996-01-01:
-      value: 3477
-      note: .
-    1997-01-01:
-      value: 3630
-      note: .
-    1998-01-01:
-      value: 3579
-      note:
-    1999-01-01:
-      value: 3681
-      note:
-    2000-01-01:
-      value: 3630
-      note: .
-    2001-01-01:
-      value: 3732
-      note: .
-    2002-01-01:
-      value: 3750
-      note:
-    2003-01-01:
-      value: 4250
-      note:
-    2004-01-01:
-      value: 4350
-      note:
-    2005-01-01:
-      value: 4400
-      note:
-    2007-01-01:
-      value: 4550
-      note:
-    2008-01-01:
-      value: 4500
-      note:
-    2009-01-01:
-      value: 4550
-      note:
-    2010-01-01:
-      value: 4650
-      note:
-    2011-01-01:
-      value: 4800
-      note:
-    2013-01-01:
-      value: 4900
-      note:
-    2014-01-01:
-      value: 5000
-      note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    2015-01-01:
-      value: 5200
-      note:
-    2016-01-01:
-      value: 5400
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    2017-01-01:
-      value: 5700
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    2018-01-01:
-      value: 5800
-      note:
-    2019-01-01:
-      value: 6150
-      note:
-    2020-01-01:
-      value: 6450
-      note: §3 (2) Nr. 1 V. v. 17.12.2019 BGBl. I S. 2848
-rvmaxekw:
+  unit: Euro
+  time: month
+  1984-01-01:
+    mini_job:
+      west: 199
+    midi_job: 0
+  1985-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 205
+  1986-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 210
+  1987-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 220
+  1988-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 225
+  1989-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 230
+  1990-01-01:
+    mini_job:
+      west: 240
+      ost: 102
+    midi_job: 0
+  1991-01-01:
+    mini_job:
+      west: 245
+      ost: 120
+    midi_job: 0
+  1992-01-01:
+    mini_job:
+      west: 256
+      ost: 153
+    midi_job: 0
+  1993-01-01:
+    mini_job:
+      west: 271
+      ost: 199
+    midi_job: 0
+  1994-01-01:
+    mini_job:
+      west: 286
+      ost: 225
+    midi_job: 0
+  1995-01-01:
+    mini_job:
+      west: 297
+      ost: 240
+    midi_job: 0
+  1996-01-01:
+    mini_job:
+      west: 302
+      ost: 256
+    midi_job: 0
+  1997-01-01:
+    mini_job:
+      west: 312
+      ost: 266
+    midi_job: 0
+  1998-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 317
+  1999-01-01:
+    mini_job:
+      west: 322
+      ost: 271
+    midi_job: 0
+  2000-01-01:
+    deviation_from: previous
+    mini_job:
+      ost: 322
+  2002-01-01:
+    mini_job:
+      west: 325
+      ost: 325
+    midi_job: 0
+  2004-01-01:
+    mini_job:
+      west: 400
+      ost: 400
+    midi_job: 800
+  2013-01-01:
+    mini_job:
+      west: 450
+      ost: 450
+    midi_job: 850
+  2019-01-01:
+    deviation_from: previous
+    reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
+    midi_job: 1300
+
+ag_abgaben_geringf:
   name:
-    de: Beitragsbemessungsgrenze in der GRV und ALV (West)
-    en: Income Threshold for Pension und Unemployment Insurance (East Germany)
-  description:
-    de: https://de.wikipedia.org/wiki/Beitragsbemessungsgrenze
-    en:
-  values:
-    1984-01-01:
-      value: 2659
-      note:
-    1985-01-01:
-      value: 2761
-      note:
-    1986-01-01:
-      value: 2863
-      note:
-    1987-01-01:
-      value: 2914
-      note: .
-    1988-01-01:
-      value: 3068
-      note: .
-    1989-01-01:
-      value: 3119
-      note:
-    1990-01-01:
-      value: 3221
-      note: .
-    1991-01-01:
-      value: 3323
-      note:
-    1992-01-01:
-      value: 3477
-      note: .
-    1993-01-01:
-      value: 3681
-      note: .
-    1994-01-01:
-      value: 3886
-      note:
-    1995-01-01:
-      value: 3988
-      note: .
-    1996-01-01:
-      value: 4090
-      note: .
-    1997-01-01:
-      value: 4193
-      note: .
-    1998-01-01:
-      value: 4295
-      note:
-    1999-01-01:
-      value: 4339
-      note:
-    2000-01-01:
-      value: 4397
-      note: .
-    2001-01-01:
-      value: 4448
-      note: .
-    2002-01-01:
-      value: 4500
-      note:
-    2003-01-01:
-      value: 5100
-      note:
-    2004-01-01:
-      value: 5150
-      note:
-    2005-01-01:
-      value: 5200
-      note:
-    2006-01-01:
-      value: 5250
-      note:
-    2008-01-01:
-      value: 5300
-      note:
-    2009-01-01:
-      value: 5400
-      note:
-    2010-01-01:
-      value: 5500
-      note:
-    2012-01-01:
-      value: 5600
-      note:
-    2013-01-01:
-      value: 5800
-      note:
-    2014-01-01:
-      value: 5950
-      note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    2015-01-01:
-      value: 6050
-      note:
-    2016-01-01:
-      value: 6200
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    2017-01-01:
-      value: 6350
-      note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    2018-01-01:
-      value: 6500
-      note:
-    2019-01-01:
-      value: 6700
-      note:
-    2020-01-01:
-      value: 6900
-      note: §3 (1) Nr. 1 V. v. 17.12.2019 BGBl. I S. 2848
-midi_grenze:
-  name:
-    de: Midijob-Grenze  (Höhe § 20 SGB IV (2))
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2004-01-01:
-      value: 800
-      note:
-    2013-01-01:
-      value: 850
-      note:
-    2019-07-01:
-      value: 1300
-      note: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
-mini_grenzeo:
-  name:
-    de: Minijob Grenze Ost (bis 1999 unterschiedliche Grenzen)  (Höhe § 8 SGB IV (1))
+    de: Pauschalabgaben bei geringf. Beschäftigung
     en:
   description:
-    de:
+    de: § 249b SGB V, § 168 I Nr. 1b SGB VI
     en:
-  values:
-    1990-01-01:
-      value: 102
-      note: .
-    1991-01-01:
-      value: 120
-      note:
-    1992-01-01:
-      value: 153
-      note: .
-    1993-01-01:
-      value: 199
-      note: .
-    1994-01-01:
-      value: 225
-      note:
-    1995-01-01:
-      value: 240
-      note: .
-    1996-01-01:
-      value: 256
-      note: .
-    1997-01-01:
-      value: 266
-      note: .
-    1999-01-01:
-      value: 271
-      note:
-    2000-01-01:
-      value: 322
-      note: .
-    2002-01-01:
-      value: 325
-      note:
-    2004-01-01:
-      value: 400
-      note:
-    2013-01-01:
-      value: 450
-      note:
-mini_grenzew:
-  name:
-    de: Minijob Grenze West (bis 1999 unterschiedliche Grenzen)  (Höhe § 8 SGB IV (1))
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 199
-      note:
-    1985-01-01:
-      value: 205
-      note:
-    1986-01-01:
-      value: 210
-      note:
-    1987-01-01:
-      value: 220
-      note: .
-    1988-01-01:
-      value: 225
-      note: .
-    1989-01-01:
-      value: 230
-      note:
-    1990-01-01:
-      value: 240
-      note: .
-    1991-01-01:
-      value: 245
-      note:
-    1992-01-01:
-      value: 256
-      note: .
-    1993-01-01:
-      value: 271
-      note: .
-    1994-01-01:
-      value: 286
-      note:
-    1995-01-01:
-      value: 297
-      note: .
-    1996-01-01:
-      value: 302
-      note: .
-    1997-01-01:
-      value: 312
-      note: .
-    1998-01-01:
-      value: 317
-      note:
-    1999-01-01:
-      value: 322
-      note:
-    2002-01-01:
-      value: 325
-      note:
-    2004-01-01:
-      value: 400
-      note:
-    2013-01-01:
-      value: 450
-      note:
-mini_ag_gkv:
-  name:
-    de: Pauschalabgabe GKV bei geringf. Beschäftigung  § 249b SGB V
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    1999-01-01:
-      value: 0.1
-      note:
-    2004-01-01:
-      value: 0.11
-      note:
-    2007-01-01:
-      value: 0.13
-      note:
-mini_ag_grv:
-  name:
-    de: Pauschalabgabe GRV bei geringf. Beschäftigung  § 168 I Nr. 1b SGB VI
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    1999-01-01:
-      value: 0.12
-      note:
-    2007-01-01:
-      value: 0.15
-      note:
-stpag:
-  name:
-    de: Pauschalabgabe Steuer bei geringf. Beschäftigung
-    en:
-  description:
-    de: §40a (2a) EstG.
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2004-01-01:
-      value: 0.02
-      note:
-miniuml:
-  name:
-    de: Sonstige Umlagen Minijobs. Es gibt noch div. Umlagen, die der AG zahlen muss (Wikipedia geringfügige Besch.) U1 für Entgeltfortzahlung U2 für Mutterschaftsurlaub U3 Insolvenzgeldumlage (Quelle Insolvenzgeldumlagesatzverordnung)  Achtung Die Umlagen werden nicht nur für Minijobs gezahlt!
-    en:
-  description:
-    de:
-    en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2003-01-01:
-      value: 0.013
-      note:
-    2004-01-01:
-      value: 0.001
-      note:
-    2009-01-01:
-      value: 0.0077
-      note: U3 in diesem Jahr eingeführt, 0.1%  InsoGUmlV 2009  V. v. 02.01.2009 BGBl. I S. 6 (Nr. 1),
-    2010-01-01:
-      value: 0.0108
-      note: U3 in diesem Jahr 0.41%  InsoGUmlV 2010   V. v. 18.12.2009 BGBl. I S. 3938 (Nr. 80),
-    2011-01-01:
-      value: 0.0084
-      note: U3 in diesem Jahr 0%  InsoGUmlV 2011  V. v. 17.12.2010 BGBl. I S. 2126 (Nr. 66), Geltung ab 01.01.2011
-    2012-01-01:
-      value: 0.0088
-      note: U3 in diesem Jahr 0.04 Prozent  Insolvenzgeldumlagesatzverordnung 2012 - InsoGUmlV 2012  V. v. 02.12.2011 BGBl. I S. 2452 (Nr. 62), Geltung ab 01.01.2012
-    2013-01-01:
-      value: 0.0099
-      note: Arbeitgeberversicherungen Umlagen U1 und U2 für Minijobs sind durch die Minijobzentrale festgelegt U1 0,7 % U2 0,14 % http://www.minijob-zentrale.de/DE/0_Home/01_mj_im_gewerblichen_bereich/12_arbeitgeberversicherung ode.html   U3 ist im SGB III §360 festgelegt U3 0,15 %  Vorsicht Werte für frühere Jahre evtl. nicht richtig!  Weitere Anmerkung U1, U2 und U3 könnte man auch für Arbeitgeber von normalen Arbeitnehmern ins param einführen.  Felix Werte für die früheren Jahre müssten korrigiert sein. Siehe http://www.minijob-zentrale.de/DE/0_Home/01_mj_im_gewerblichen_bereich/04_400_euro_minijob/04_pauschalabgaben/Entwicklung_Beitraege.html?nn=360538
-    2015-01-01:
-      value: 0.0109
-      note:
-    2016-01-01:
-      value: 0.0145
-      note: sonstige Umlagen Minijob *Krankheit (U1) 1,0% *Mutterschaft (U2) 0,3% *Insolvenzgeldumlage 0,12%  - Umlagebetrag Arbeitsförderung (U3):0,15% §360 SGBIII   *https://www.minijob-zentrale.de/DE/0_Home/01_mj_im_gewerblichen_bereich/04_450_euro_minijob/04_pauschalabgaben ode.html
-    2017-01-01:
-      value: 0.0129
-      note:  sonstige Umlagen Minijob *Krankheit (U1) 0,9% *Mutterschaft (U2) 0,3% *Insolvenzgeldumlage 0,09%  U3 scheint weggefallen zu sein  https://www.minijob-zentrale.de/DE/01_minijobs/02_gewerblich/03_infos_fuer_arbeitgeber_und_entgeltabrechner/02_mit_welchen_abgaben_muss_ich_rechnen ode.html
-    2018-01-01:
-      value: 0.012
-      note: Frederike Lannte ab  1. Januar 2018  Insolvenzgeldumlage 0,06% Mutterschaft (U2) 0,24% Krankheit (U1) 0,9%
-    2019-01-01:
-      value: 0.011
-      note: Insolvenzgeldumlage 0,06% Mutterschaft (U2) 0,14% minimum U1 0,9% Minimum
+  unit: share
+  1984-01-01:
+    ges_krankenv: 0
+    rentenv: 0
+    st: 0
+  1999-01-01:
+    ges_krankenv: 0.1
+    rentenv: 0.12
+    st: 0
+  2004-01-01:
+    ges_krankenv: 0.11
+    rentenv: 0.12
+    st: 0.02
+  2007-01-01:
+    ges_krankenv: 0.13
+    rentenv: 0.15
+    st: 0.02

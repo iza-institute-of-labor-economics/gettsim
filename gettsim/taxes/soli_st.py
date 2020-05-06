@@ -1,5 +1,7 @@
 import numpy as np
 
+from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+
 
 def soli_st(tax_unit, params):
     """Solidarity Surcharge.
@@ -20,8 +22,16 @@ def soli_st(tax_unit, params):
 
     # Soli also in monthly terms. only for adults
     tax_unit.loc[~tax_unit["kind"], "soli_st_m_tu"] = (
-        params["soli_formula"](tax_unit["_st_kind_freib_tu"], params)
-        + params["soli_rate"] * tax_unit["abgelt_st_m_tu"]
+        tax_unit["_st_kind_freib_tu"].apply(
+            piecewise_polynomial,
+            args=(
+                params["soli_st"]["lower_thresholds"],
+                params["soli_st"]["upper_thresholds"],
+                params["soli_st"]["rates"],
+                params["soli_st"]["intercepts_at_lower_thresholds"],
+            ),
+        )
+        + params["soli_st"]["rates"][0, -1] * tax_unit["abgelt_st_m_tu"]
     ) * (1 / 12)
 
     # Assign Soli to individuals
@@ -32,27 +42,14 @@ def soli_st(tax_unit, params):
     return tax_unit
 
 
-def keine_soli_st(solibasis, params):
-    """ There was no Solidaritätszuschlaggesetz before 1991 and in 1993/1994 """
-    return 0
-
-
-def soli_st_formel_1991_92(solibasis, params):
-    """ Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992 """
-
-    soli = params["soli_rate"] * solibasis
-
-    return soli.round(2)
-
-
-def soli_st_formel_seit_1995(solibasis, params):
-    """ Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995 """
-
-    soli = np.minimum(
-        params["soli_rate"] * solibasis,
-        np.maximum(
-            params["soli_rate_max"] * (solibasis - params["soli_freigrenze"]), 0
-        ),
-    )
-
-    return soli.round(2)
+def transition_threshold(soli_st_satz, soli_st_uebergang, freigrenze):
+    """
+    This function calculates the upper threshold for interval 1 for the piecewise
+    function in soli_st.yaml.  Interval 1 is used to moderate the start of soli
+    taxation. From this threshold om, the regular soli rate("soli_st_satz") is
+    applied to the basis of soli calculation. Before the transition rate (
+    "soli_st_uebergang") is applied to the difference of basis and "freigrenze". It
+    uses the three parameters actually given in the law.
+    """
+    threshold = freigrenze / (1 - soli_st_satz / soli_st_uebergang)
+    return threshold
