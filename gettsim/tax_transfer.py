@@ -82,13 +82,13 @@ def tax_transfer(
         "hat_kinder",
         "eink_selbstst_m",
         "ges_rente_m",
-        "prv_krankv_beit_m",
+        "prv_krankenv_beit_m",
     ]
     out_cols = [
         "sozialv_beit_m",
         "rentenv_beit_m",
         "arbeitsl_v_beit_m",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
         "pflegev_beit_m",
     ]
     df = apply_tax_transfer_func(
@@ -169,7 +169,7 @@ def tax_transfer(
         "anz_kinder_tu",
         "jahr",
         "wohnort_ost",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
     ]
     out_cols = [
         f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
@@ -344,7 +344,7 @@ def tax_transfer(
         "brutto_eink_6",
         "eink_st_m",
         "rentenv_beit_m",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
         "behinderungsgrad",
     ]
     out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
@@ -471,7 +471,7 @@ def tax_transfer(
         "eink_st_m",
         "soli_st_m",
         "abgelt_st_m",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
         "rentenv_beit_m",
         "pflegev_beit_m",
         "arbeitsl_v_beit_m",
@@ -503,7 +503,7 @@ def tax_transfer(
         "hat_kinder",
         "eink_selbstst_m",
         "ges_rente_m",
-        "prv_krankv_beit_m",
+        "prv_krankenv_beit_m",
         "bruttolohn_vorj_m",
         "arbeitsl_lfdj_m",
         "arbeitsl_vorj_m",
@@ -534,7 +534,7 @@ def tax_transfer(
     desired_outputs = [
         "rentenv_beit_m",
         "arbeitsl_v_beit_m",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
         "pflegev_beit_m",
         "arbeitsl_geld_m",
         "rente_anspr_m",

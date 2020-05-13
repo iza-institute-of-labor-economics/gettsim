@@ -49,7 +49,7 @@ def soc_ins_contrib(person, params):
             [
                 "rentenv_beit_m",
                 "arbeitsl_v_beit_m",
-                "ges_krankv_beit_m",
+                "ges_krankenv_beit_m",
                 "pflegev_beit_m",
             ]
         ] = 0.0
@@ -61,19 +61,19 @@ def soc_ins_contrib(person, params):
         person = ssc_regular_job(person, params, wohnort)
 
     # Self-employed may insure via the public health and care insurance.
-    if person["selbstständig"] & ~person["prv_krankv_beit_m"]:
-        person["ges_krankv_beit_m"] = selfemployed_gkv_ssc(person, params, wohnort)
+    if person["selbstständig"] & ~person["prv_krankenv_beit_m"]:
+        person["ges_krankenv_beit_m"] = selfemployed_gkv_ssc(person, params, wohnort)
         person["pflegev_beit_m"] = selfemployed_pv_ssc(person, params, wohnort)
 
     # Add the health insurance contribution for pensions
-    person["ges_krankv_beit_m"] += gkv_ssc_pensions(person, params, wohnort)
+    person["ges_krankenv_beit_m"] += gkv_ssc_pensions(person, params, wohnort)
 
     # Add the care insurance contribution for pensions
     person["pflegev_beit_m"] += pv_ssc_pensions(person, params, wohnort)
 
     # Sum of Social Insurance Contributions (for employees)
     person["sozialv_beit_m"] = person[
-        ["rentenv_beit_m", "arbeitsl_v_beit_m", "ges_krankv_beit_m", "pflegev_beit_m"]
+        ["rentenv_beit_m", "arbeitsl_v_beit_m", "ges_krankenv_beit_m", "pflegev_beit_m"]
     ].sum()
     return person
 
@@ -85,8 +85,8 @@ def ssc_regular_job(person, params, wohnort):
     person["_lohn_rentenv"] = min(
         person["bruttolohn_m"], params["beitr_bemess_grenze"]["rentenv"][wohnort]
     )
-    person["_lohn_krankv"] = min(
-        person["bruttolohn_m"], params["beitr_bemess_grenze"]["ges_krankv"][wohnort]
+    person["_lohn_krankenv"] = min(
+        person["bruttolohn_m"], params["beitr_bemess_grenze"]["ges_krankenv"][wohnort]
     )
     # Then, calculate employee contributions.
     # Old-Age Pension Insurance / Rentenversicherung
@@ -98,18 +98,18 @@ def ssc_regular_job(person, params, wohnort):
         params["soz_vers_beitr"]["arbeitsl_v"] * person["_lohn_rentenv"]
     )
     # Health Insurance for Employees (GKV)
-    person["ges_krankv_beit_m"] = (
-        params["soz_vers_beitr"]["ges_krankv"]["an"] * person["_lohn_krankv"]
+    person["ges_krankenv_beit_m"] = (
+        params["soz_vers_beitr"]["ges_krankenv"]["an"] * person["_lohn_krankenv"]
     )
     # Care Insurance / Pflegeversicherung
     person["pflegev_beit_m"] = (
-        params["soz_vers_beitr"]["pflegev"]["standard"] * person["_lohn_krankv"]
+        params["soz_vers_beitr"]["pflegev"]["standard"] * person["_lohn_krankenv"]
     )
     # If you are above 23 and without kids, you have to pay a higher rate
     if ~person["hat_kinder"] & (person["alter"] > 22):
         person["pflegev_beit_m"] += (
             params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
-            * person["_lohn_krankv"]
+            * person["_lohn_krankenv"]
         )
     return person
 
@@ -119,8 +119,8 @@ def selfemployed_gkv_ssc(person, params, wohnort):
     contribution (employer + employee), which is either assessed on their
     self-employement income or 3/4 of the 'Bezugsgröße'"""
     return (
-        params["soz_vers_beitr"]["ges_krankv"]["an"]
-        + params["soz_vers_beitr"]["ges_krankv"]["ag"]
+        params["soz_vers_beitr"]["ges_krankenv"]["an"]
+        + params["soz_vers_beitr"]["ges_krankenv"]["ag"]
     ) * min(person["eink_selbstst_m"], 0.75 * params["bezugsgröße"][wohnort])
 
 
@@ -150,7 +150,8 @@ def pv_ssc_pensions(person, params, wohnort):
             2 * params["soz_vers_beitr"]["pflegev"]["standard"]
             + params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
         ) * min(
-            person["ges_rente_m"], params["beitr_bemess_grenze"]["ges_krankv"][wohnort]
+            person["ges_rente_m"],
+            params["beitr_bemess_grenze"]["ges_krankenv"][wohnort],
         )
     else:
         return (
@@ -158,7 +159,7 @@ def pv_ssc_pensions(person, params, wohnort):
             * params["soz_vers_beitr"]["pflegev"]["standard"]
             * min(
                 person["ges_rente_m"],
-                params["beitr_bemess_grenze"]["ges_krankv"][wohnort],
+                params["beitr_bemess_grenze"]["ges_krankenv"][wohnort],
             )
         )
 
@@ -166,8 +167,8 @@ def pv_ssc_pensions(person, params, wohnort):
 def gkv_ssc_pensions(person, params, wohnort):
     """Calculates the health insurance contributions for pensions. It is the normal
     rate"""
-    return params["soz_vers_beitr"]["ges_krankv"]["an"] * min(
-        person["ges_rente_m"], params["beitr_bemess_grenze"]["ges_krankv"][wohnort]
+    return params["soz_vers_beitr"]["ges_krankenv"]["an"] * min(
+        person["ges_rente_m"], params["beitr_bemess_grenze"]["ges_krankenv"][wohnort]
     )
 
 
@@ -185,7 +186,7 @@ def calc_midi_contributions(person, params):
     person["rentenv_beit_m"] = calc_midi_old_age_pensions_contr(person, params)
 
     # Health
-    person["ges_krankv_beit_m"] = calc_midi_health_contr(person, params)
+    person["ges_krankenv_beit_m"] = calc_midi_health_contr(person, params)
 
     # Unemployment
     person["arbeitsl_v_beit_m"] = calc_midi_unemployment_contr(person, params)
@@ -205,13 +206,13 @@ def calc_midi_f(params):
         params["soz_vers_beitr"]["rentenv"]
         + params["soz_vers_beitr"]["pflegev"]["standard"]
         + params["soz_vers_beitr"]["arbeitsl_v"]
-        + params["soz_vers_beitr"]["ges_krankv"]["an"]
+        + params["soz_vers_beitr"]["ges_krankenv"]["an"]
     )
     ag_anteil = (
         params["soz_vers_beitr"]["rentenv"]
         + params["soz_vers_beitr"]["pflegev"]["standard"]
         + params["soz_vers_beitr"]["arbeitsl_v"]
-        + params["soz_vers_beitr"]["ges_krankv"]["ag"]
+        + params["soz_vers_beitr"]["ges_krankenv"]["ag"]
     )
     dbsv = an_anteil + ag_anteil
     pauschmini = (
@@ -256,10 +257,10 @@ def calc_midi_old_age_pensions_contr(person, params):
 def calc_midi_health_contr(person, params):
     """ Calculate social insurance health contributions for midi job."""
     grbetr_gkv = (
-        params["soz_vers_beitr"]["ges_krankv"]["an"]
-        + params["soz_vers_beitr"]["ges_krankv"]["ag"]
+        params["soz_vers_beitr"]["ges_krankenv"]["an"]
+        + params["soz_vers_beitr"]["ges_krankenv"]["ag"]
     ) * person["_bemessungsentgelt"]
-    ag_gkvbeit = params["soz_vers_beitr"]["ges_krankv"]["ag"] * person["bruttolohn_m"]
+    ag_gkvbeit = params["soz_vers_beitr"]["ges_krankenv"]["ag"] * person["bruttolohn_m"]
     return grbetr_gkv - ag_gkvbeit
 
 

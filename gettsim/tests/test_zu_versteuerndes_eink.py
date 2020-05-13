@@ -36,7 +36,7 @@ IN_COLS = [
     "anz_kinder_tu",
     "jahr",
     "wohnort_ost",
-    "ges_krankv_beit_m",
+    "ges_krankenv_beit_m",
 ]
 OUT_COLS = [
     "_zu_versteuerndes_eink_kein_kind_freib",
