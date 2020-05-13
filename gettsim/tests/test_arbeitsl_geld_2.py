@@ -5,9 +5,8 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -74,13 +73,8 @@ def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
         raw_group_data=arbeitsl_geld_2_raw_data,
     )
 
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=alg2,
-        level=["hh_id"],
-        in_cols=INPUT_COLS,
-        out_cols=OUT_COLS,
-        func_kwargs={"params": arbeitsl_geld_2_params},
+    result = compute_taxes_and_transfers(
+        dict(df), targets=column, params=arbeitsl_geld_2_params
     )
 
-    assert_series_equal(df[column], year_data[column], check_dtype=False)
+    assert_series_equal(result, year_data[column], check_dtype=False)

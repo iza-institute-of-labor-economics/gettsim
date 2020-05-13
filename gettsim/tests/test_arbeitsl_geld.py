@@ -4,9 +4,8 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.arbeitsl_geld import ui
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
@@ -25,7 +24,6 @@ INPUT_COLS = [
     "alter",
     "jahr",
 ]
-OUT_COL = "arbeitsl_geld_m"
 YEARS = [2010, 2011, 2015, 2019]
 
 
@@ -70,19 +68,18 @@ def test_ui(
     soli_st_params = get_policies_for_date(
         policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
     )
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=ui,
-        level=["hh_id", "tu_id", "p_id"],
-        in_cols=INPUT_COLS,
-        out_cols=[OUT_COL],
-        func_kwargs={
-            "params": arbeitsl_geld_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "eink_st_abzuege_params": eink_st_abzuege_params,
-            "eink_st_params": eink_st_params,
-            "soli_st_params": soli_st_params,
-        },
+
+    params_dict = {
+        "arbeitsl_geld_params": arbeitsl_geld_params,
+        "soz_vers_beitr_params": soz_vers_beitr_params,
+        "eink_st_abzuege_params": eink_st_abzuege_params,
+        "eink_st_params": eink_st_params,
+        "soli_st_params": soli_st_params,
+    }
+
+    result = compute_taxes_and_transfers(
+        dict(df), targets="arbeitsl_geld_m", params=params_dict
     )
+
     # to prevent errors from rounding, allow deviations after the 3rd digit.
-    assert_series_equal(df[OUT_COL], year_data[OUT_COL], check_less_precise=3)
+    assert_series_equal(result, year_data["arbeitsl_geld_m"], check_less_precise=3)

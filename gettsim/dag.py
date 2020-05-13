@@ -41,12 +41,14 @@ def compute_taxes_and_transfers(
 
     internal_functions = {}
     internal_function_files = [
-        "arbeitsl_v_rentenv.py",
-        "krankenv_pflegev.py",
-        "eink_grenzen.py",
+        "soz_vers/arbeitsl_v_rentenv.py",
+        "soz_vers/krankenv_pflegev.py",
+        "soz_vers/eink_grenzen.py",
+        # "benefits/arbeitsl_geld_dag.py",
+        "benefits/arbeitsl_geld_2_dag.py",
     ]
     for file in internal_function_files:
-        new_funcs = load_functions(Path(__file__).parent / "soz_vers" / file)
+        new_funcs = load_functions(Path(__file__).parent / file)
         internal_functions.update(new_funcs)
 
     func_dict = create_function_dict(user_functions, internal_functions, params)
