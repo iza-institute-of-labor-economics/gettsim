@@ -45,7 +45,8 @@ def compute_taxes_and_transfers(
         "soz_vers/krankenv_pflegev.py",
         "soz_vers/eink_grenzen.py",
         # "benefits/arbeitsl_geld_dag.py",
-        "benefits/arbeitsl_geld_2_dag.py",
+        # "benefits/arbeitsl_geld_2_dag.py",
+        "benefits/benefit_checks_dag.py",
     ]
     for file in internal_function_files:
         new_funcs = load_functions(Path(__file__).parent / file)

@@ -1,11 +1,9 @@
 from datetime import date
-
-import numpy as np
+import itertools
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
-
-from gettsim.benefits.benefit_checks import benefit_priority
+from pandas.testing import assert_series_equal
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
@@ -39,8 +37,8 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+def test_kiz(input_data, year, column, arbeitsl_geld_2_raw_data):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
@@ -49,7 +47,7 @@ def test_kiz(input_data, year, arbeitsl_geld_2_raw_data):
         group="arbeitsl_geld_2",
         raw_group_data=arbeitsl_geld_2_raw_data,
     )
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby("hh_id").apply(benefit_priority, params=arbeitsl_geld_2_params)
-    assert_frame_equal(df[OUT_COLS], year_data[OUT_COLS], check_dtype=False)
+    result = compute_taxes_and_transfers(
+        dict(df), targets=column, params=arbeitsl_geld_2_params
+    )
+    assert_series_equal(result, year_data[column], check_dtype=False)
