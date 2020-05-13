@@ -16,4 +16,5 @@ These GEPs are currently in place:
    geps/gep-00.rst
    geps/gep-01.rst
    geps/gep-03.rst
+   geps/gep-04.rst
    geps/gep-template
