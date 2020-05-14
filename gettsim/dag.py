@@ -80,6 +80,11 @@ def create_function_dict(user_functions, internal_functions, data, params):
         user_functions (dict): Dictionary with user provided functions. The keys are the
             names of the function. The values are either callables or strings with
             absolute or relative import paths to a function.
+        internal_functions (dict): Dictionary of functions provided by `gettsim`.
+        data (dict): Dictionary of input data. Necessary to remove functions whose
+            result is already in the input data.
+        params (dict): Dictionary of parameters which is partialed to the function such
+            that `params` are invisible to the DAG.
 
     Returns:
         dict: Dictionary mapping function names to callables.
