@@ -41,9 +41,7 @@ def compute_taxes_and_transfers(
 
     internal_functions = {}
     internal_function_files = [
-        "soz_vers/arbeitsl_v_rentenv.py",
-        "soz_vers/krankenv_pflegev.py",
-        "soz_vers/eink_grenzen.py",
+        "soz_vers",
         # "benefits/arbeitsl_geld_dag.py",
         # "benefits/arbeitsl_geld_2_dag.py",
         # "benefits/benefit_checks_dag.py",
@@ -163,27 +161,26 @@ def execute_dag(func_dict, dag, data, targets):
         targets (list):
 
     Returns:
-        dict: Dictionary of pd.Series with the results.
+        dict: Dictionary of pd.Series with the resulting data.
 
     """
     # Needed for garbage collection.
     visited_nodes = set(data)
-    results = data.copy()
 
     for task in nx.topological_sort(dag):
-        if task not in results:
+        if task not in data:
             if task in func_dict:
-                kwargs = _dict_subset(results, dag.predecessors(task))
-                results[task] = func_dict[task](**kwargs)
+                kwargs = _dict_subset(data, dag.predecessors(task))
+                data[task] = func_dict[task](**kwargs)
             else:
                 raise KeyError(f"Missing variable or function: {task}")
 
             visited_nodes.add(task)
 
             if targets != "all":
-                results = collect_garbage(results, task, visited_nodes, targets, dag)
+                data = collect_garbage(data, task, visited_nodes, targets, dag)
 
-    return results
+    return data
 
 
 def _dict_subset(dictionary, keys):
