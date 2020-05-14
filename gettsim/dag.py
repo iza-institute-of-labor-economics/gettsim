@@ -42,16 +42,16 @@ def compute_taxes_and_transfers(
     internal_functions = {}
     internal_function_files = [
         "soz_vers",
-        # "benefits/arbeitsl_geld_dag.py",
-        # "benefits/arbeitsl_geld_2_dag.py",
-        # "benefits/benefit_checks_dag.py",
+        "benefits/arbeitsl_geld_dag.py",
+        "benefits/arbeitsl_geld_2_dag.py",
+        "benefits/benefit_checks_dag.py",
         "benefits/elterngeld_dag.py",
     ]
     for file in internal_function_files:
         new_funcs = load_functions(Path(__file__).parent / file)
         internal_functions.update(new_funcs)
 
-    func_dict = create_function_dict(user_functions, internal_functions, params)
+    func_dict = create_function_dict(user_functions, internal_functions, data, params)
 
     dag = create_dag(func_dict)
 
@@ -73,7 +73,7 @@ def compute_taxes_and_transfers(
     return results
 
 
-def create_function_dict(user_functions, internal_functions, params):
+def create_function_dict(user_functions, internal_functions, data, params):
     """Create a dictionary of all functions that will appear in the DAG.
 
     Args:
@@ -87,6 +87,10 @@ def create_function_dict(user_functions, internal_functions, params):
     """
     functions = {**internal_functions, **user_functions}
 
+    # Remove functions whose results can be found in the data.
+    functions = {k: v for k, v in functions.items() if k not in data}
+
+    # Partial the parameters to the function such that they are invisible to the DAG.
     partialed = {
         name: partial(func, params=params)
         if "params" in inspect.getfullargspec(func).args
