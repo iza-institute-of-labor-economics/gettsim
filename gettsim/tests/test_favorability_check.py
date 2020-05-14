@@ -1,14 +1,14 @@
 from datetime import date
 from itertools import product
 
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.taxes.favorability_check import favorability_check
+from gettsim.tests.auxiliary import select_output_by_level
 
 
 INPUT_COLS = [
@@ -52,7 +52,11 @@ def test_favorability_check(input_data, year, column, eink_st_abzuege_raw_data):
         group="eink_st_abzuege",
         raw_group_data=eink_st_abzuege_raw_data,
     )
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby().apply(favorability_check, params=eink_st_abzuege_params)
-    assert_series_equal(df[column], year_data[column])
+    calc_result = compute_taxes_and_transfers(
+        dict(df), targets=column, params=eink_st_abzuege_params
+    )
+
+    expected_result = select_output_by_level(column, year_data)
+    assert_series_equal(
+        calc_result, expected_result, check_dtype=False, check_names=False
+    )
