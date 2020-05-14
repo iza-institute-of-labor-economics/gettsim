@@ -2,6 +2,18 @@ import pandas as pd
 
 
 def select_output_by_level(out_col, year_data, dtype=float):
+    """
+    Create shorter Series if variable is on household or tax unit level.
+    Parameters
+    ----------
+    out_col
+    year_data
+    dtype
+
+    Returns
+    -------
+
+    """
     if "_tu" in out_col:
         grouped_id = "tu_id"
     elif "_hh" in out_col:
