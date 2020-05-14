@@ -48,6 +48,7 @@ def compute_taxes_and_transfers(
         "benefits/elterngeld_dag.py",
         "benefits/kinderzuschlag_dag.py",
         "benefits/unterhalt_dag.py",
+        "benefits/wohngeld_dag.py",
     ]
     for file in internal_function_files:
         new_funcs = load_functions(Path(__file__).parent / file)

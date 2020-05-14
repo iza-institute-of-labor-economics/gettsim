@@ -1,12 +1,12 @@
+import itertools
 from datetime import date
 
-import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
-from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -52,18 +52,18 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_wg(input_data, year, wohngeld_raw_data):
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMN))
+def test_wg(input_data, year, column, wohngeld_raw_data):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
     wohngeld_params = get_policies_for_date(
         policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
     )
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby("hh_id").apply(wg, params=wohngeld_params)
-    assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
+    result = compute_taxes_and_transfers(
+        dict(df), targets=column, params=wohngeld_params
+    )
+    assert_series_equal(result, year_data[column])
 
 
 @pytest.fixture(scope="module")
@@ -73,15 +73,16 @@ def input_data_2():
     return out
 
 
-@pytest.mark.parametrize("year", [2013])
-def test_wg_no_mietstufe_in_input_data(input_data_2, year, wohngeld_raw_data):
+@pytest.mark.parametrize("year, column", itertools.product([2013], TEST_COLUMN))
+def test_wg_no_mietstufe_in_input_data(input_data_2, year, column, wohngeld_raw_data):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
     wohngeld_params = get_policies_for_date(
         policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
     )
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby("hh_id").apply(wg, params=wohngeld_params)
-    assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
+
+    result = compute_taxes_and_transfers(
+        dict(df), targets=column, params=wohngeld_params
+    )
+    assert_series_equal(result, year_data[column])
