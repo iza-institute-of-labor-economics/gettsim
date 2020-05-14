@@ -1,10 +1,12 @@
-from datetime import date
 import itertools
+from datetime import date
+
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from gettsim.dag import compute_taxes_and_transfers
+
 from gettsim.config import ROOT_DIR
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
