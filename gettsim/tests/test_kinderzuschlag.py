@@ -1,12 +1,12 @@
+import itertools
 from datetime import date
 
-import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
-from gettsim.benefits.kinderzuschlag import kiz
 from gettsim.config import ROOT_DIR
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -32,7 +32,7 @@ INPUT_COLS = [
     "unterhaltsvors_m",
     "jahr",
 ]
-OUT_COLS = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]
+OUT_COLS = ["kinderzuschlag_temp"]
 YEARS = [2006, 2009, 2011, 2013, 2016, 2017, 2019, 2020]
 
 
@@ -43,15 +43,15 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_kiz(
     input_data,
     year,
+    column,
     kinderzuschlag_raw_data,
     arbeitsl_geld_2_raw_data,
     kindergeld_raw_data,
 ):
-    columns = ["kinderzuschlag_temp"]
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
@@ -65,12 +65,10 @@ def test_kiz(
         group="arbeitsl_geld_2",
         raw_group_data=arbeitsl_geld_2_raw_data,
     )
+    params_dict = {
+        "kinderzuschlag_params": kinderzuschlag_params,
+        "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
+    }
 
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby("hh_id").apply(
-        kiz,
-        params=kinderzuschlag_params,
-        arbeitsl_geld_2_params=arbeitsl_geld_2_params,
-    )
-    assert_frame_equal(df[columns], year_data[columns], check_less_precise=True)
+    result = compute_taxes_and_transfers(dict(df), targets=column, params=params_dict)
+    assert_series_equal(result, year_data[column], check_less_precise=True)
