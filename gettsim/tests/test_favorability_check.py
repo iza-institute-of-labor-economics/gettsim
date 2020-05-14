@@ -54,7 +54,5 @@ def test_favorability_check(input_data, year, column, eink_st_abzuege_raw_data):
     )
     for col in OUT_COLS:
         df[col] = np.nan
-    df = df.groupby(["hh_id", "tu_id"]).apply(
-        favorability_check, params=eink_st_abzuege_params
-    )
+    df = df.groupby().apply(favorability_check, params=eink_st_abzuege_params)
     assert_series_equal(df[column], year_data[column])
