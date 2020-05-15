@@ -7,6 +7,9 @@ from gettsim.tests.test_wohngeld import OUT_COLS
 
 
 def wohngeld_basis_hh(
+    hh_id,
+    tu_id,
+    p_id,
     tu_vorstand,
     kind,
     kaltmiete_m,
@@ -37,6 +40,9 @@ def wohngeld_basis_hh(
 
     df = pd.concat(
         [
+            hh_id,
+            tu_id,
+            p_id,
             tu_vorstand,
             kind,
             kaltmiete_m,
