@@ -101,6 +101,7 @@ def pflegev_beitr_regulär_beschäftigt(
     -------
     Pandas Series containing monthly care insurance contributions for self employed
     income.
+
     """
     out = lohn_krankenv_regulär_beschäftigt.multiply(
         params["soz_vers_beitr"]["pflegev"]["standard"]

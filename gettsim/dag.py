@@ -1,6 +1,6 @@
 import copy
+import functools
 import inspect
-from functools import partial
 from pathlib import Path
 
 import networkx as nx
@@ -101,15 +101,19 @@ def create_function_dict(user_functions, internal_functions, data, params):
     # Remove functions whose results can be found in the data.
     functions = {k: v for k, v in functions.items() if k not in data}
 
-    # Partial the parameters to the function such that they are invisible to the DAG.
-    partialed = {
-        name: partial(func, params=params)
-        if "params" in inspect.getfullargspec(func).args
-        else func
-        for name, func in functions.items()
-    }
+    partialed_functions = {}
+    for name, function in functions.items():
+        partial_params = {
+            i: params[i[:-7]]
+            for i in inspect.getfullargspec(function).args
+            if "_params" in i
+        }
+        if "params" in inspect.getfullargspec(function).args:
+            partial_params["params"] = params
 
-    return partialed
+        partialed_functions[name] = functools.partial(function, **partial_params)
+
+    return partialed_functions
 
 
 def create_dag(func_dict):
