@@ -70,5 +70,5 @@ def test_kiz(
         "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
     }
 
-    result = compute_taxes_and_transfers(dict(df), targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
     assert_series_equal(result, year_data[column], check_less_precise=True)

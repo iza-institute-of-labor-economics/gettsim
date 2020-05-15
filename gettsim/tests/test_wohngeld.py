@@ -61,7 +61,7 @@ def test_wg(input_data, year, column, wohngeld_raw_data):
         policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
     )
     result = compute_taxes_and_transfers(
-        dict(df), targets=column, params=wohngeld_params
+        df, targets=column, params=wohngeld_params
     )
     assert_series_equal(result, year_data[column])
 
@@ -83,6 +83,6 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column, wohngeld_raw_
     )
 
     result = compute_taxes_and_transfers(
-        dict(df), targets=column, params=wohngeld_params
+        df, targets=column, params=wohngeld_params
     )
     assert_series_equal(result, year_data[column])

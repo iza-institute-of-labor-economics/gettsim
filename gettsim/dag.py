@@ -9,7 +9,7 @@ from gettsim.functions_loader import load_functions
 
 
 def compute_taxes_and_transfers(
-    data, functions=None, params=None, targets="all", return_dag=False
+    data, functions=None, columns=None, params=None, targets="all", return_dag=False
 ):
     """Simulate a tax and transfers system specified in model_spec.
 
@@ -19,6 +19,8 @@ def compute_taxes_and_transfers(
             names of the function. The values are either callables or strings with
             absolute or relative import paths to a function. If functions have the
             same name as an existing gettsim function they override that function.
+        columns (str or list of str): Names of columns which are preferred over function
+            defined in the tax and transfer system.
         params (dict): A pandas Series or dictionary with user provided parameters.
             Currently just mapping a parameter name to a parameter value, in the
             future we will need more metadata. If parameters have the same name as
@@ -33,8 +35,16 @@ def compute_taxes_and_transfers(
     """
     data = copy.deepcopy(data)
 
+    if isinstance(data, pd.DataFrame):
+        data = dict(data)
+
     if isinstance(targets, str) and targets != "all":
         targets = [targets]
+
+    if columns is None:
+        columns = []
+    elif isinstance(columns, str):
+        columns = [columns]
 
     user_functions = [] if functions is None else functions
     user_functions = load_functions(user_functions)
@@ -59,7 +69,11 @@ def compute_taxes_and_transfers(
         new_funcs = load_functions(Path(__file__).parent / file)
         internal_functions.update(new_funcs)
 
-    func_dict = create_function_dict(user_functions, internal_functions, data, params)
+    func_dict = create_function_dict(
+        user_functions, internal_functions, columns, params
+    )
+
+    warn_if_functions_and_columns_overlap(data, func_dict)
 
     dag = create_dag(func_dict)
 
@@ -81,7 +95,7 @@ def compute_taxes_and_transfers(
     return results
 
 
-def create_function_dict(user_functions, internal_functions, data, params):
+def create_function_dict(user_functions, internal_functions, user_columns, params):
     """Create a dictionary of all functions that will appear in the DAG.
 
     Args:
@@ -89,8 +103,7 @@ def create_function_dict(user_functions, internal_functions, data, params):
             names of the function. The values are either callables or strings with
             absolute or relative import paths to a function.
         internal_functions (dict): Dictionary of functions provided by `gettsim`.
-        data (dict): Dictionary of input data. Necessary to remove functions whose
-            result is already in the input data.
+        user_columns (list): Name of columns which are prioritized over functions.
         params (dict): Dictionary of parameters which is partialed to the function such
             that `params` are invisible to the DAG.
 
@@ -100,8 +113,8 @@ def create_function_dict(user_functions, internal_functions, data, params):
     """
     functions = {**internal_functions, **user_functions}
 
-    # Remove functions whose results can be found in the data.
-    functions = {k: v for k, v in functions.items() if k not in data}
+    # Remove functions whose results can be found in the `user_columns`.
+    functions = {k: v for k, v in functions.items() if k not in user_columns}
 
     partialed_functions = {}
     for name, function in functions.items():
@@ -116,6 +129,27 @@ def create_function_dict(user_functions, internal_functions, data, params):
         partialed_functions[name] = functools.partial(function, **partial_params)
 
     return partialed_functions
+
+
+def warn_if_functions_and_columns_overlap(func_dict, data):
+    overlap = [name for name in func_dict if name in data]
+    n_cols = len(overlap)
+    formatted = ", ".join(overlap)
+
+    raise ValueError(textwrap.dedent(
+        f"""
+        Your data provides {formatted}, which {'is' if n_cols == 1 else 'are'} already
+        present among the functions of the taxes and transfers system.
+
+        - If you want a data column to be used instead of calculating it within GETTSIM,
+          please specify it among the *user_columns*.
+        - If you want a data column to be calculated internally by GETTSIM, do not pass it
+          to {the_function_you_called_if_available} / GETTSIM.
+
+        """
+
+    ))
+
 
 
 def create_dag(func_dict):

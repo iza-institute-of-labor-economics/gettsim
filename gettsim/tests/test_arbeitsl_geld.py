@@ -53,7 +53,7 @@ def test_ui(
     )
 
     result = compute_taxes_and_transfers(
-        dict(df), targets="arbeitsl_geld_m", params=params_dict
+        df, targets="arbeitsl_geld_m", params=params_dict
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.

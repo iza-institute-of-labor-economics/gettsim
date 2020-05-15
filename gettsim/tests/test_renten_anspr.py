@@ -47,7 +47,7 @@ def test_pension(input_data, year, renten_daten, soz_vers_beitr_raw_data):
         "soz_vers_beitr_params": soz_vers_beitr_params,
     }
     calc_result = compute_taxes_and_transfers(
-        dict(df), targets=column, params=params_dict
+        df, targets=column, params=params_dict
     )
     assert_series_equal(calc_result, year_data[column])
 

@@ -53,7 +53,7 @@ def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
     )
 
     results = compute_taxes_and_transfers(
-        dict(df), targets=column, params=soz_vers_beitr_params
+        df, targets=column, params=soz_vers_beitr_params
     )
 
     pd.testing.assert_series_equal(results, year_data[column])

@@ -52,7 +52,7 @@ def test_uhv(input_data, year, column, unterhalt_raw_data):
         "unterhalt_params": unterhalt_params,
         "kindergeld_params": kindergeld_params,
     }
-    result = compute_taxes_and_transfers(dict(df), targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
 
     assert_series_equal(result, year_data[column], check_dtype=False)
 
@@ -79,5 +79,5 @@ def test_uhv_07_2019(input_data_2, year, column, unterhalt_raw_data):
         "unterhalt_params": unterhalt_params,
         "kindergeld_params": kindergeld_params,
     }
-    result = compute_taxes_and_transfers(dict(df), targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
     assert_series_equal(result, year_data[column], check_dtype=False)

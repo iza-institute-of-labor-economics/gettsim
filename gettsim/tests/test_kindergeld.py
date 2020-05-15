@@ -41,7 +41,7 @@ def test_kindergeld(input_data, year, column, kindergeld_raw_data):
         policy_date=policy_date, group="kindergeld", raw_group_data=kindergeld_raw_data
     )
     calc_result = compute_taxes_and_transfers(
-        dict(df), targets=column, params=kindergeld_params
+        df, targets=column, params=kindergeld_params
     )
 
     expected_result = select_output_by_level(column, year_data)

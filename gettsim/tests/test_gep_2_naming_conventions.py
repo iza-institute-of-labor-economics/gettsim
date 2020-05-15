@@ -1,5 +1,7 @@
 import pytest
-from gettsim.config import ROOT_DIR, GEP_2_CHARACTER_LIMIT
+
+from gettsim.config import GEP_2_CHARACTER_LIMIT
+from gettsim.config import ROOT_DIR
 from gettsim.functions_loader import load_functions
 
 

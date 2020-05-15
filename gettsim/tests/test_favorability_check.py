@@ -53,7 +53,7 @@ def test_favorability_check(input_data, year, column, eink_st_abzuege_raw_data):
         raw_group_data=eink_st_abzuege_raw_data,
     )
     calc_result = compute_taxes_and_transfers(
-        dict(df), targets=column, params=eink_st_abzuege_params
+        df, targets=column, params=eink_st_abzuege_params
     )
 
     expected_result = select_output_by_level(column, year_data)

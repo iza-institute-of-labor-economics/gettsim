@@ -87,7 +87,7 @@ def test_eltgeld(
         "eink_st_params": eink_st_params,
         "soli_st_params": soli_st_params,
     }
-    result = compute_taxes_and_transfers(dict(df), targets=column, params=params)
+    result = compute_taxes_and_transfers(df, targets=column, params=params)
 
     assert_series_equal(
         result,
