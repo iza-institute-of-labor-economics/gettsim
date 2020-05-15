@@ -44,11 +44,11 @@ def test_ui(
     params_dict = get_policies_for_date(
         policy_date=policy_date,
         groups=[
-            "arbeitsl_geld_params",
-            "soz_vers_beitr_params",
-            "eink_st_abzuege_params",
-            "eink_st_params",
-            "soli_st_params",
+            "arbeitsl_geld",
+            "soz_vers_beitr",
+            "eink_st_abzuege",
+            "eink_st",
+            "soli_st",
         ],
     )
 
