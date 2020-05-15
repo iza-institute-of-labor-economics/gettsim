@@ -78,35 +78,15 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
 def test_zve(
-    input_data,
-    year,
-    column,
-    kindergeld_raw_data,
-    soz_vers_beitr_raw_data,
-    eink_st_abzuege_raw_data,
+    input_data, year, column,
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    eink_st_abzuege_params = get_policies_for_date(
+    params_dict = get_policies_for_date(
         policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
+        groups=["eink_st_abzuege", "eink_st_abzuege", "kindergeld"],
     )
-    soz_vers_beitr_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="soz_vers_beitr",
-        raw_group_data=soz_vers_beitr_raw_data,
-    )
-    kindergeld_params = get_policies_for_date(
-        policy_date=policy_date, group="kindergeld", raw_group_data=kindergeld_raw_data
-    )
-
-    params_dict = {
-        "eink_st_abzuege_params": eink_st_abzuege_params,
-        "soz_vers_beitr_params": soz_vers_beitr_params,
-        "kindergeld_params": kindergeld_params,
-    }
 
     result = compute_taxes_and_transfers(dict(df), targets=column, params=params_dict)
 

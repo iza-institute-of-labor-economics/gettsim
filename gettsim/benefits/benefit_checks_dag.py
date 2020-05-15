@@ -22,7 +22,7 @@ def kinderzuschlag_m(
     sum_basis_arbeitsl_geld_2_eink,
     geburtsjahr,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
 
     df = pd.concat(
@@ -52,7 +52,7 @@ def kinderzuschlag_m(
         level=["hh_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["kinderzuschlag_m"]
@@ -74,7 +74,7 @@ def wohngeld_m(
     sum_basis_arbeitsl_geld_2_eink,
     geburtsjahr,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -103,7 +103,7 @@ def wohngeld_m(
         level=["hh_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["wohngeld_m"]
@@ -125,7 +125,7 @@ def arbeitsl_geld_2_m(
     sum_basis_arbeitsl_geld_2_eink,
     geburtsjahr,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -154,7 +154,7 @@ def arbeitsl_geld_2_m(
         level=["hh_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["arbeitsl_geld_2_m"]

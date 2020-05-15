@@ -32,7 +32,9 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     jahr,
     wohnort_ost,
     ges_krankenv_beit_m,
-    params,
+    eink_st_abzuege_params,
+    soz_vers_beitr_params,
+    kindergeld_params,
 ):
 
     df = pd.concat(
@@ -73,9 +75,9 @@ def _zu_versteuerndes_eink_kein_kind_freib(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
-            "kindergeld_params": params["kindergeld_params"],
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "kindergeld_params": kindergeld_params,
         },
     )
 
@@ -108,7 +110,9 @@ def altersfreib(
     jahr,
     wohnort_ost,
     ges_krankenv_beit_m,
-    params,
+    eink_st_abzuege_params,
+    soz_vers_beitr_params,
+    kindergeld_params,
 ):
 
     df = pd.concat(
@@ -149,9 +153,9 @@ def altersfreib(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
-            "kindergeld_params": params["kindergeld_params"],
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "kindergeld_params": kindergeld_params,
         },
     )
 
@@ -184,7 +188,9 @@ def _zu_versteuerndes_eink_kind_freib(
     jahr,
     wohnort_ost,
     ges_krankenv_beit_m,
-    params,
+    eink_st_abzuege_params,
+    soz_vers_beitr_params,
+    kindergeld_params,
 ):
 
     df = pd.concat(
@@ -225,9 +231,9 @@ def _zu_versteuerndes_eink_kind_freib(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
-            "kindergeld_params": params["kindergeld_params"],
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "kindergeld_params": kindergeld_params,
         },
     )
 

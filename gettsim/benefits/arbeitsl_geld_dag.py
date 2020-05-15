@@ -19,7 +19,11 @@ def arbeitsl_geld_m(
     anz_kinder_tu,
     alter,
     jahr,
-    params,
+    arbeitsl_geld_params,
+    soz_vers_beitr_params,
+    eink_st_abzuege_params,
+    eink_st_params,
+    soli_st_params,
 ):
     df = pd.concat(
         [
@@ -65,11 +69,11 @@ def arbeitsl_geld_m(
         in_cols=in_cols,
         out_cols=["arbeitsl_geld_m"],
         func_kwargs={
-            "params": params["arbeitsl_geld_params"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "eink_st_params": params["eink_st_params"],
-            "soli_st_params": params["soli_st_params"],
+            "params": arbeitsl_geld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
+            "soli_st_params": soli_st_params,
         },
     )
 

@@ -27,83 +27,111 @@ from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
 
 
-def get_policies_for_date(policy_date, group, raw_group_data=None, parameters=None):
-    tax_data = load_data(
-        policy_date, group, raw_group_data=raw_group_data, parameters=parameters
-    )
+def get_policies_for_date(policy_date, groups="all"):
+    all_params_groups = [
+        "eink_st",
+        "soli_st",
+        "arbeitsl_geld_2",
+        "arbeitsl_geld",
+        "soz_vers_beitr",
+        "unterhalt",
+        "abgelt_st",
+        "wohngeld",
+        "kinderzuschlag",
+        "kindergeld",
+        "elterngeld",
+    ]
+    if type(groups) == list:
+        group_list = groups
+    elif type(groups) == str:
+        if groups == "all":
+            group_list = all_params_groups
+        elif groups in all_params_groups:
+            group_list = [groups]
+        else:
+            raise ValueError(f"{groups} is not a category for groups.")
+    else:
+        raise ValueError(f"{groups} is not a string or list.")
+
+    params_dict = {}
     year = policy_date.year
     month = policy_date.month
-    for param in tax_data:
-        if type(tax_data[param]) == dict:
-            if "type" in tax_data[param]:
-                if tax_data[param]["type"].startswith("piecewise"):
-                    if "progressionsfaktor" in tax_data[param]:
-                        if tax_data[param]["progressionsfaktor"]:
-                            tax_data[param] = add_progressionsfaktor(
-                                tax_data[param], param
-                            )
-                    tax_data[param] = get_piecewise_parameters(
-                        tax_data[param],
-                        param,
-                        piecewise_polynomial,
-                        func_type=tax_data[param]["type"].split("_")[1],
-                    )
-            for key in ["type", "progressionsfaktor"]:
-                tax_data[param].pop(key, None)
 
-    if group == "arbeitsl_geld_2":
-        if tax_data["jahr"] <= 2010:
-            tax_data["calc_regelsatz"] = regelberechnung_until_2010
-        else:
-            tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
+    for group in group_list:
+        tax_data = load_data(policy_date, group)
 
-    elif group == "eink_st_abzuege":
-        if year <= 2014:
-            tax_data["calc_hhfreib"] = calc_hhfreib_until2014
-        else:
-            tax_data["calc_hhfreib"] = calc_hhfreib_from2015
-        if year >= 2010:
-            tax_data["vorsorge"] = vorsorge_since_2010
-        elif year >= 2005:
-            tax_data["vorsorge"] = vorsorge_since_2005
-        elif year <= 2004:
-            tax_data["vorsorge"] = vorsorge_pre_2005
+        for param in tax_data:
+            if type(tax_data[param]) == dict:
+                if "type" in tax_data[param]:
+                    if tax_data[param]["type"].startswith("piecewise"):
+                        if "progressionsfaktor" in tax_data[param]:
+                            if tax_data[param]["progressionsfaktor"]:
+                                tax_data[param] = add_progressionsfaktor(
+                                    tax_data[param], param
+                                )
+                        tax_data[param] = get_piecewise_parameters(
+                            tax_data[param],
+                            param,
+                            piecewise_polynomial,
+                            func_type=tax_data[param]["type"].split("_")[1],
+                        )
+                for key in ["type", "progressionsfaktor"]:
+                    tax_data[param].pop(key, None)
 
-        # TODO: We need to adapt favorability check for that. See
-        #  https://github.com/iza-institute-of-labor-economics/gettsim/issues/81 for
-        #  details.
-        # if year >= 2009:
-        #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
-        # else:
-        #     tax_data["zve_list"] = ["nokfb", "kfb"]
-        tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
+        if group == "arbeitsl_geld_2":
+            if tax_data["jahr"] <= 2010:
+                tax_data["calc_regelsatz"] = regelberechnung_until_2010
+            else:
+                tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
 
-    elif group == "kindergeld":
-        if year > 2011:
-            tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_stunden
-        else:
-            tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_lohn
+        elif group == "eink_st_abzuege":
+            if year <= 2014:
+                tax_data["calc_hhfreib"] = calc_hhfreib_until2014
+            else:
+                tax_data["calc_hhfreib"] = calc_hhfreib_from2015
+            if year >= 2010:
+                tax_data["vorsorge"] = vorsorge_since_2010
+            elif year >= 2005:
+                tax_data["vorsorge"] = vorsorge_since_2005
+            elif year <= 2004:
+                tax_data["vorsorge"] = vorsorge_pre_2005
 
-    elif group == "wohngeld":
-        if year < 2009:
-            tax_data["calc_max_rent"] = calc_max_rent_until_2008
-        else:
-            tax_data["calc_max_rent"] = calc_max_rent_since_2009
+            # TODO: We need to adapt favorability check for that. See
+            #  https://github.com/iza-institute-of-labor-economics/gettsim/issues/81 for
+            #  details.
+            # if year >= 2009:
+            #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
+            # else:
+            #     tax_data["zve_list"] = ["nokfb", "kfb"]
+            tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
 
-    elif group == "kinderzuschlag":
-        if year < 2004:
-            tax_data["calc_kiz"] = kiz_dummy
-        else:
-            tax_data["calc_kiz"] = kiz
-        if (year >= 2020) or (year == 2019 and month >= 7):
-            tax_data["calc_kiz_amount"] = calc_kiz_amount_07_2019
-        else:
-            tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
+        elif group == "kindergeld":
+            if year > 2011:
+                tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_stunden
+            else:
+                tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_lohn
 
-    tax_data["jahr"] = year
-    tax_data["datum"] = policy_date
+        elif group == "wohngeld":
+            if year < 2009:
+                tax_data["calc_max_rent"] = calc_max_rent_until_2008
+            else:
+                tax_data["calc_max_rent"] = calc_max_rent_since_2009
 
-    return tax_data
+        elif group == "kinderzuschlag":
+            if year < 2004:
+                tax_data["calc_kiz"] = kiz_dummy
+            else:
+                tax_data["calc_kiz"] = kiz
+            if (year >= 2020) or (year == 2019 and month >= 7):
+                tax_data["calc_kiz_amount"] = calc_kiz_amount_07_2019
+            else:
+                tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
+
+        tax_data["jahr"] = year
+        tax_data["datum"] = policy_date
+        params_dict[group] = tax_data
+
+    return params_dict
 
 
 def load_data(policy_date, group, raw_group_data=None, parameters=None):

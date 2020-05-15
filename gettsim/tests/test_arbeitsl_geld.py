@@ -36,46 +36,21 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_ui(
-    input_data,
-    year,
-    arbeitsl_geld_raw_data,
-    soz_vers_beitr_raw_data,
-    eink_st_abzuege_raw_data,
-    eink_st_raw_data,
-    soli_st_raw_data,
+    input_data, year,
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    arbeitsl_geld_params = get_policies_for_date(
+    params_dict = get_policies_for_date(
         policy_date=policy_date,
-        group="arbeitsl_geld",
-        raw_group_data=arbeitsl_geld_raw_data,
+        groups=[
+            "arbeitsl_geld_params",
+            "soz_vers_beitr_params",
+            "eink_st_abzuege_params",
+            "eink_st_params",
+            "soli_st_params",
+        ],
     )
-    soz_vers_beitr_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="soz_vers_beitr",
-        raw_group_data=soz_vers_beitr_raw_data,
-    )
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
-    )
-    eink_st_params = get_policies_for_date(
-        policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
-    )
-    soli_st_params = get_policies_for_date(
-        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
-    )
-
-    params_dict = {
-        "arbeitsl_geld_params": arbeitsl_geld_params,
-        "soz_vers_beitr_params": soz_vers_beitr_params,
-        "eink_st_abzuege_params": eink_st_abzuege_params,
-        "eink_st_params": eink_st_params,
-        "soli_st_params": soli_st_params,
-    }
 
     result = compute_taxes_and_transfers(
         dict(df), targets="arbeitsl_geld_m", params=params_dict
