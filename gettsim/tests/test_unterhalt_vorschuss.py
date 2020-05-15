@@ -46,7 +46,9 @@ def test_uhv(input_data, year, column):
         policy_date=policy_date, groups=["unterhalt", "kindergeld"]
     )
 
-    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(
+        df, user_columns=["arbeitsl_geld_m"], targets=column, params=params_dict
+    )
 
     assert_series_equal(result, year_data[column], check_dtype=False)
 
@@ -66,5 +68,7 @@ def test_uhv_07_2019(input_data_2, year, column):
     params_dict = get_policies_for_date(
         policy_date=policy_date, groups=["unterhalt", "kindergeld"]
     )
-    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(
+        df, user_columns=["arbeitsl_geld_m"], targets=column, params=params_dict
+    )
     assert_series_equal(result, year_data[column], check_dtype=False)

@@ -50,7 +50,16 @@ def test_favorability_check(input_data, year, column):
     params_dict = get_policies_for_date(
         policy_date=policy_date, groups="eink_st_abzuege",
     )
-    calc_result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    columns = [
+        "_st_kein_kind_freib_tu",
+        "_st_kind_freib_tu",
+        "abgelt_st_m_tu",
+        "kindergeld_m_basis",
+        "kindergeld_m_tu_basis",
+    ]
+    calc_result = compute_taxes_and_transfers(
+        df, user_columns=columns, targets=column, params=params_dict
+    )
 
     expected_result = select_output_by_level(column, year_data)
     assert_series_equal(

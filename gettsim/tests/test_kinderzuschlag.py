@@ -53,7 +53,16 @@ def test_kiz(
     params_dict = get_policies_for_date(
         policy_date=policy_date, groups=["kinderzuschlag", "arbeitsl_geld_2"],
     )
+    columns = [
+        "alleinerziehenden_mehrbedarf",
+        "arbeitsl_geld_2_brutto_eink_hh",
+        "sum_arbeitsl_geld_2_eink_hh",
+        "kindergeld_m_hh",
+        "unterhaltsvors_m",
+    ]
 
-    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(
+        df, user_columns=columns, targets=column, params=params_dict
+    )
 
     assert_series_equal(result, year_data[column], check_less_precise=True)
