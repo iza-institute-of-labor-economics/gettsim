@@ -1,17 +1,17 @@
 import itertools
 from datetime import date
 
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.taxes.zu_versteuerndes_eink import zve
+from gettsim.tests.auxiliary import select_output_by_level
 
 
-IN_COLS = [
+INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
@@ -86,7 +86,7 @@ def test_zve(
     eink_st_abzuege_raw_data,
 ):
     year_data = input_data[input_data["jahr"] == year]
-    df = year_data[IN_COLS].copy()
+    df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
     eink_st_abzuege_params = get_policies_for_date(
         policy_date=policy_date,
@@ -102,15 +102,20 @@ def test_zve(
         policy_date=policy_date, group="kindergeld", raw_group_data=kindergeld_raw_data
     )
 
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby(["hh_id", "tu_id"]).apply(
-        zve,
-        eink_st_abzuege_params=eink_st_abzuege_params,
-        soz_vers_beitr_params=soz_vers_beitr_params,
-        kindergeld_params=kindergeld_params,
-    )
+    params_dict = {
+        "eink_st_abzuege_params": eink_st_abzuege_params,
+        "soz_vers_beitr_params": soz_vers_beitr_params,
+        "kindergeld_params": kindergeld_params,
+    }
+
+    result = compute_taxes_and_transfers(dict(df), targets=column, params=params_dict)
+
+    expected_result = select_output_by_level(column, year_data)
 
     assert_series_equal(
-        df[column], year_data[column], check_less_precise=2, check_dtype=False
+        result,
+        expected_result,
+        check_dtype=False,
+        check_less_precise=1,
+        check_names=False,
     )
