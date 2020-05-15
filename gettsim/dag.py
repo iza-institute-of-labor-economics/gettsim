@@ -20,24 +20,33 @@ def compute_taxes_and_transfers(
 ):
     """Simulate a tax and transfers system specified in model_spec.
 
-    Args:
-        data (dict): User provided dataset as dictionary of Series.
-        user_functions (dict): Dictionary with user provided functions. The keys are the
-            names of the function. The values are either callables or strings with
-            absolute or relative import paths to a function. If functions have the
-            same name as an existing gettsim function they override that function.
-        columns (str or list of str): Names of columns which are preferred over function
-            defined in the tax and transfer system.
-        params (dict): A pandas Series or dictionary with user provided parameters.
-            Currently just mapping a parameter name to a parameter value, in the
-            future we will need more metadata. If parameters have the same name as
-            an existing parameter from the gettsim parameters database at the
-            specified date they override that parameter.
-        targets (list): List of strings with names of functions whose output is actually
-            needed by the user. By default, all results are returned.
+    Parameters
+    ----------
+    data : dict
+        User provided dataset as dictionary of Series.
+    user_functions : dict
+        Dictionary with user provided functions. The keys are the names of the function.
+        The values are either callables or strings with absolute or relative import
+        paths to a function. If functions have the same name as an existing gettsim
+        function they override that function.
+    columns : str list of str
+        Names of columns which are preferred over function defined in the tax and
+        transfer system.
+    params : dict
+        A pandas Series or dictionary with user provided parameters. Currently just
+        mapping a parameter name to a parameter value, in the future we will need more
+        metadata. If parameters have the same name as an existing parameter from the
+        gettsim parameters database at the specified date they override that parameter.
+    targets : list
+        List of strings with names of functions whose output is actually needed by the
+        user. By default, all results are returned.
 
-    Returns:
-        dict: Dictionary of Series containing the target quantities.
+    Returns
+    -------
+    results : dict of pandas.Series
+        Dictionary of Series containing the target quantities.
+    dag : networkx.DiGraph or None
+        The dag produced by the tax and transfer system.
 
     """
     data = copy.deepcopy(data)
@@ -80,7 +89,7 @@ def compute_taxes_and_transfers(
         user_functions, internal_functions, user_columns, params
     )
 
-    warn_if_functions_and_columns_overlap(data, func_dict)
+    fail_if_functions_and_columns_overlap(data, func_dict)
 
     dag = create_dag(func_dict)
 
@@ -105,17 +114,24 @@ def compute_taxes_and_transfers(
 def create_function_dict(user_functions, internal_functions, user_columns, params):
     """Create a dictionary of all functions that will appear in the DAG.
 
-    Args:
-        user_functions (dict): Dictionary with user provided functions. The keys are the
-            names of the function. The values are either callables or strings with
-            absolute or relative import paths to a function.
-        internal_functions (dict): Dictionary of functions provided by `gettsim`.
-        user_columns (list): Name of columns which are prioritized over functions.
-        params (dict): Dictionary of parameters which is partialed to the function such
-            that `params` are invisible to the DAG.
+    Parameters
+    ----------
+    user_functions : dict
+        Dictionary with user provided functions. The keys are the names of the function.
+        The values are either callables or strings with absolute or relative import
+        paths to a function.
+    internal_functions : dict
+        Dictionary of functions provided by `gettsim`.
+    user_columns : list
+        Name of columns which are prioritized over functions.
+    params : dict
+        Dictionary of parameters which is partialed to the function such that `params`
+        are invisible to the DAG.
 
-    Returns:
-        dict: Dictionary mapping function names to callables.
+    Returns
+    -------
+    partialed_functions : dict
+        Dictionary mapping function names to callables with partialed parameters.
 
     """
     functions = {**internal_functions, **user_functions}
@@ -138,7 +154,22 @@ def create_function_dict(user_functions, internal_functions, user_columns, param
     return partialed_functions
 
 
-def warn_if_functions_and_columns_overlap(func_dict, data):
+def fail_if_functions_and_columns_overlap(func_dict, data):
+    """Fail if functions which compute columns overlap with existing columns.
+
+    Parameters
+    ----------
+    func_dict : dict
+        Dictionary of function with partialed parameters.
+    data : dict of pandas.Series
+        Dictionary containing data columns as Series.
+
+    Raises
+    ------
+    ValueError
+        Fail if functions which compute columns overlap with existing columns.
+
+    """
     overlap = [name for name in func_dict if name in data]
     n_cols = len(overlap)
     formatted = ", ".join(overlap)
@@ -162,12 +193,16 @@ def warn_if_functions_and_columns_overlap(func_dict, data):
 def create_dag(func_dict):
     """Create a directed acyclic graph (DAG) capturing dependencies between functions.
 
-    Args:
-        func_dict (dict): Maps function names to functions.
+    Parameters
+    ----------
+    func_dict : dict
+        Maps function names to functions.
 
-    Returns:
-        dict: The DAG, represented as a dictionary of lists that maps function names
-            to a list of its data dependencies.
+    Returns
+    -------
+    networkx.DiGraph
+        The DAG, represented as a dictionary of lists that maps function names to a list
+        of its data dependencies.
 
     """
     dag_dict = {
@@ -179,12 +214,17 @@ def create_dag(func_dict):
 def prune_dag(dag, targets):
     """Prune the dag.
 
-    Args:
-        dag (nx.DiGraph): The unpruned DAG.
-        targets (list): Variables of interest.
+    Parameters
+    ----------
+    dag : networkx.DiGraph
+        The unpruned DAG.
+    targets : list
+        Variables of interest.
 
-    Returns:
-        dag (nx.DiGraph): Pruned DAG.
+    Returns
+    -------
+    dag : networkx.DiGraph
+        Pruned DAG.
 
     """
     # Go through the DAG from the targets to the bottom and collect all visited nodes.
@@ -216,14 +256,18 @@ def execute_dag(func_dict, dag, data, targets):
     The main reason for writing an own implementation is to explore how difficult it
     would to avoid dask as a dependency.
 
-    Args:
-        func_dict (dict): Maps function names to functions.
-        dag (nx.DiGraph)
-        data (dict):
-        targets (list):
+    Parameters
+    ----------
+    func_dict : dict
+        Maps function names to functions.
+    dag : networkx.DiGraph
+    data : dict
+    targets : list
 
-    Returns:
-        dict: Dictionary of pd.Series with the resulting data.
+    Returns
+    -------
+    data : dict
+        Dictionary of pd.Series with the resulting data.
 
     """
     # Needed for garbage collection.
@@ -255,14 +299,16 @@ def collect_garbage(results, task, visited_nodes, targets, dag):
     If all descendants of a node have been evaluated, the information in the node
     becomes redundant and can be removed to save memory.
 
-    Args:
-        results (dict)
-        task (str)
-        visited_nodes (set)
-        dag (nx.DiGraph)
+    Parameters
+    ----------
+    results : dict
+    task : str
+    visited_nodes : set
+    dag : networkx.DiGraph
 
-    Returns:
-        results (dict)
+    Returns
+    -------
+    results : dict
 
     """
     for ancestor in dag.predecessors(task):
