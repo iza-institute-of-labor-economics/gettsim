@@ -15,7 +15,8 @@ def rente_anspr_m(
     geburtsjahr,
     entgeltpunkte,
     jahr,
-    params,
+    renten_daten_params,
+    soz_vers_beitr_params,
 ):
 
     df = pd.concat(
@@ -40,8 +41,8 @@ def rente_anspr_m(
         in_cols=INPUT_COLS,
         out_cols=["rente_anspr_m"],
         func_kwargs={
-            "renten_daten": params["renten_daten"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
+            "renten_daten": renten_daten_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
         },
     )
 

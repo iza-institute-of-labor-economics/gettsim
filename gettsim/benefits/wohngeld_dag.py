@@ -35,7 +35,7 @@ def wohngeld_basis_hh(
     ges_krankenv_beit_m,
     behinderungsgrad,
     jahr,
-    params,
+    wohngeld_params,
 ):
 
     df = pd.concat(
@@ -78,7 +78,7 @@ def wohngeld_basis_hh(
         level=["hh_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"params": params},
+        func_kwargs={"params": wohngeld_params},
     )
 
     return df["wohngeld_basis_hh"]

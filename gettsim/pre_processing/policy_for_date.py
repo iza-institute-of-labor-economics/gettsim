@@ -30,6 +30,7 @@ from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
 def get_policies_for_date(policy_date, groups="all"):
     all_params_groups = [
         "eink_st",
+        "eink_st_abzuege",
         "soli_st",
         "arbeitsl_geld_2",
         "arbeitsl_geld",

@@ -49,7 +49,7 @@ def arbeitsl_v_beitr_m(
     return arbeitsl_v_beitr_m
 
 
-def arbeitsl_v_regular_job(lohn_rente_regulär_beschäftigt, params):
+def arbeitsl_v_regular_job(lohn_rente_regulär_beschäftigt, soz_vers_beitr_params):
     """
     Calculates unemployment insurance contributions for regualr jobs.
 
@@ -58,19 +58,19 @@ def arbeitsl_v_regular_job(lohn_rente_regulär_beschäftigt, params):
     lohn_rente_regulär_beschäftigt : pd.Series
                                      Wage subject to pension and unemployment insurance
                                      contributions.
-    params
+    soz_vers_beitr_params
 
     Returns
     -------
 
     """
     out = lohn_rente_regulär_beschäftigt.multiply(
-        params["soz_vers_beitr"]["arbeitsl_v"]
+        soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
     return out.rename("arbeitsl_v_regular_job")
 
 
-def rentenv_beitr_regular_job(lohn_rente_regulär_beschäftigt, params):
+def rentenv_beitr_regular_job(lohn_rente_regulär_beschäftigt, soz_vers_beitr_params):
     """
     Calculates pension insurance contributions for regualr jobs.
 
@@ -79,17 +79,19 @@ def rentenv_beitr_regular_job(lohn_rente_regulär_beschäftigt, params):
     lohn_rente_regulär_beschäftigt : pd.Series
                                      Wage subject to pension and unemployment
                                      insurance contributions.
-    params
+    soz_vers_beitr_params
 
     Returns
     -------
 
     """
-    out = lohn_rente_regulär_beschäftigt.multiply(params["soz_vers_beitr"]["rentenv"])
+    out = lohn_rente_regulär_beschäftigt.multiply(
+        soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
+    )
     return out.rename("rentenv_beitr_regular_job")
 
 
-def rentenv_beitr_bemess_grenze(wohnort_ost, params):
+def rentenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
     """
     Selecting the threshold up to which income is subject to pension insurance
     contribution
@@ -98,7 +100,7 @@ def rentenv_beitr_bemess_grenze(wohnort_ost, params):
     ----------
     wohnort_ost : pd.Series
                   Boolean variable indicating individual living in east germany.
-    params
+    soz_vers_beitr_params
 
     Returns
     -------
@@ -107,8 +109,8 @@ def rentenv_beitr_bemess_grenze(wohnort_ost, params):
     out = np.select(
         [wohnort_ost, ~wohnort_ost],
         [
-            params["beitr_bemess_grenze"]["rentenv"]["ost"],
-            params["beitr_bemess_grenze"]["rentenv"]["west"],
+            soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
+            soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
         ],
     )
     return pd.Series(
@@ -146,7 +148,7 @@ def lohn_rente_regulär_beschäftigt(
     return out.rename("lohn_rente_regulär_beschäftigt")
 
 
-def ges_beitr_arbeitsl_v_midi_job(midi_job_bemessungsentgelt, params):
+def ges_beitr_arbeitsl_v_midi_job(midi_job_bemessungsentgelt, soz_vers_beitr_params):
     """
     Calculating the sum of employee and employer unemployment insurance contribution.
 
@@ -155,19 +157,19 @@ def ges_beitr_arbeitsl_v_midi_job(midi_job_bemessungsentgelt, params):
     midi_job_bemessungsentgelt : pd.Series
                                  The Bemessungsentgelt subject to social insurance
                                  contributions.
-    params
+    soz_vers_beitr_params
 
     Returns
     -------
 
     """
     out = midi_job_bemessungsentgelt.multiply(
-        2 * params["soz_vers_beitr"]["arbeitsl_v"]
+        2 * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
     return out.rename("ges_beitr_arbeitsl_v_midi_job")
 
 
-def ges_beitr_rentenv_midi_job(midi_job_bemessungsentgelt, params):
+def ges_beitr_rentenv_midi_job(midi_job_bemessungsentgelt, soz_vers_beitr_params):
     """
     Calculating the sum of employee and employer pension insurance contribution.
 
@@ -176,17 +178,19 @@ def ges_beitr_rentenv_midi_job(midi_job_bemessungsentgelt, params):
     midi_job_bemessungsentgelt : pd.Series
                                  The Bemessungsentgelt subject to social insurance
                                  contributions.
-    params
+    soz_vers_beitr_params
 
     Returns
     -------
 
     """
-    out = midi_job_bemessungsentgelt.multiply(2 * params["soz_vers_beitr"]["rentenv"])
+    out = midi_job_bemessungsentgelt.multiply(
+        2 * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
+    )
     return out.rename("ges_beitr_rentenv_midi_job")
 
 
-def ag_beitr_rentenv_midi_job(bruttolohn_m, in_gleitzone, params):
+def ag_beitr_rentenv_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
     """
     Calculating the employer pension insurance contribution.
 
@@ -196,18 +200,20 @@ def ag_beitr_rentenv_midi_job(bruttolohn_m, in_gleitzone, params):
                    The wage of each individual.
     in_gleitzone : pd.Series
                    Boolean Series indicating midi job regulation.
-    params
+    soz_vers_beitr_params
 
     Returns
     -------
 
     """
     bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
-    out = bruttolohn_m_in_gleitzone.multiply(params["soz_vers_beitr"]["rentenv"])
+    out = bruttolohn_m_in_gleitzone.multiply(
+        soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
+    )
     return out.rename("ag_beitr_rentenv_midi_job")
 
 
-def ag_beitr_arbeitsl_v_midi_job(bruttolohn_m, in_gleitzone, params):
+def ag_beitr_arbeitsl_v_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
     """
     Calculating the employer unemployment insurance contribution.
 
@@ -217,14 +223,16 @@ def ag_beitr_arbeitsl_v_midi_job(bruttolohn_m, in_gleitzone, params):
                    The wage of each individual.
     in_gleitzone : pd.Series
                    Boolean Series indicating midi job regulation.
-    params
+    soz_vers_beitr_params
 
     Returns
     -------
 
     """
     bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
-    out = bruttolohn_m_in_gleitzone.multiply(params["soz_vers_beitr"]["arbeitsl_v"])
+    out = bruttolohn_m_in_gleitzone.multiply(
+        soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
+    )
     return out.rename("ag_beitr_arbeitsl_v_midi_job")
 
 

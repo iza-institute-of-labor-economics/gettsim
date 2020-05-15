@@ -18,7 +18,7 @@ def eink_st_m_tu(
     kindergeld_m_basis,
     kindergeld_m_tu_basis,
     jahr,
-    params,
+    eink_st_abzuege_params,
 ):
 
     df = pd.concat(
@@ -44,7 +44,7 @@ def eink_st_m_tu(
         level=["hh_id", "tu_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"params": params},
+        func_kwargs={"params": eink_st_abzuege_params},
     )
     # Right now, we only select the max. Will be changed when function comes in place!
     return df["eink_st_m_tu"].groupby(tu_id).apply(max)
@@ -62,7 +62,7 @@ def kindergeld_m(
     kindergeld_m_basis,
     kindergeld_m_tu_basis,
     jahr,
-    params,
+    eink_st_abzuege_params,
 ):
 
     df = pd.concat(
@@ -88,7 +88,7 @@ def kindergeld_m(
         level=["hh_id", "tu_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"params": params},
+        func_kwargs={"params": eink_st_abzuege_params},
     )
 
     return df["kindergeld_m"]

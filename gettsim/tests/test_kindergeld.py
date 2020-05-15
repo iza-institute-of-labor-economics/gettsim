@@ -32,16 +32,14 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_kindergeld(input_data, year, column, kindergeld_raw_data):
+def test_kindergeld(input_data, year, column):
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    kindergeld_params = get_policies_for_date(
-        policy_date=policy_date, group="kindergeld", raw_group_data=kindergeld_raw_data
-    )
+    params_dict = get_policies_for_date(policy_date=policy_date, groups="kindergeld")
     calc_result = compute_taxes_and_transfers(
-        dict(df), targets=column, params=kindergeld_params
+        dict(df), targets=column, params=params_dict
     )
 
     expected_result = select_output_by_level(column, year_data)

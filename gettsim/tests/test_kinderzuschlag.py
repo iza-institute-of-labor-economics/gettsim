@@ -45,30 +45,15 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_kiz(
-    input_data,
-    year,
-    column,
-    kinderzuschlag_raw_data,
-    arbeitsl_geld_2_raw_data,
-    kindergeld_raw_data,
+    input_data, year, column,
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    kinderzuschlag_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="kinderzuschlag",
-        raw_group_data=kinderzuschlag_raw_data,
+    params_dict = get_policies_for_date(
+        policy_date=policy_date, groups=["kinderzuschlag", "arbeitsl_geld_2"],
     )
-    arbeitsl_geld_2_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="arbeitsl_geld_2",
-        raw_group_data=arbeitsl_geld_2_raw_data,
-    )
-    params_dict = {
-        "kinderzuschlag_params": kinderzuschlag_params,
-        "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
-    }
 
     result = compute_taxes_and_transfers(dict(df), targets=column, params=params_dict)
+
     assert_series_equal(result, year_data[column], check_less_precise=True)

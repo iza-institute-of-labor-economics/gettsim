@@ -7,7 +7,14 @@ from gettsim.tests.test_kindergeld import OUT_COLS
 
 
 def kindergeld_m_basis(
-    hh_id, tu_id, p_id, alter, arbeitsstunden_w, in_ausbildung, bruttolohn_m, params,
+    hh_id,
+    tu_id,
+    p_id,
+    alter,
+    arbeitsstunden_w,
+    in_ausbildung,
+    bruttolohn_m,
+    kindergeld_params,
 ):
 
     df = pd.concat(
@@ -21,7 +28,7 @@ def kindergeld_m_basis(
         level=["hh_id", "tu_id"],
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
-        func_kwargs={"params": params},
+        func_kwargs={"params": kindergeld_params},
     )
 
     return df["kindergeld_m_basis"]
