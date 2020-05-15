@@ -108,7 +108,7 @@ def create_function_dict(user_functions, internal_functions, data, params):
         partial_params = {
             i: params[i[:-7]]
             for i in inspect.getfullargspec(function).args
-            if "_params" in i
+            if i.endswith("_params") and i[:-7] in params
         }
         if "params" in inspect.getfullargspec(function).args:
             partial_params["params"] = params
