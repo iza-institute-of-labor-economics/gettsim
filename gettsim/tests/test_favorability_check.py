@@ -43,18 +43,14 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", product(YEARS, TEST_COLUMNS))
-def test_favorability_check(input_data, year, column, eink_st_abzuege_raw_data):
+def test_favorability_check(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
+    params_dict = get_policies_for_date(
+        policy_date=policy_date, groups="eink_st_abzuege",
     )
-    calc_result = compute_taxes_and_transfers(
-        df, targets=column, params=eink_st_abzuege_params
-    )
+    calc_result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
 
     expected_result = select_output_by_level(column, year_data)
     assert_series_equal(

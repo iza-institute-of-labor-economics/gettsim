@@ -53,16 +53,12 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMN))
-def test_wg(input_data, year, column, wohngeld_raw_data):
+def test_wg(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    wohngeld_params = get_policies_for_date(
-        policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
-    )
-    result = compute_taxes_and_transfers(
-        df, targets=column, params=wohngeld_params
-    )
+    params_dict = get_policies_for_date(policy_date=policy_date, groups="wohngeld")
+    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
     assert_series_equal(result, year_data[column])
 
 
@@ -74,15 +70,11 @@ def input_data_2():
 
 
 @pytest.mark.parametrize("year, column", itertools.product([2013], TEST_COLUMN))
-def test_wg_no_mietstufe_in_input_data(input_data_2, year, column, wohngeld_raw_data):
+def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    wohngeld_params = get_policies_for_date(
-        policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
-    )
+    params_dict = get_policies_for_date(policy_date=policy_date, groups="wohngeld")
 
-    result = compute_taxes_and_transfers(
-        df, targets=column, params=wohngeld_params
-    )
+    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
     assert_series_equal(result, year_data[column])

@@ -47,47 +47,23 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_eltgeld(
-    year,
-    column,
-    elterngeld_raw_data,
-    arbeitsl_geld_raw_data,
-    soz_vers_beitr_raw_data,
-    eink_st_abzuege_raw_data,
-    eink_st_raw_data,
-    soli_st_raw_data,
-    input_data,
+    year, column, input_data,
 ):
     policy_date = date(year, 1, 1)
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    elterngeld_params = get_policies_for_date(
-        policy_date=policy_date, group="elterngeld", raw_group_data=elterngeld_raw_data
-    )
-    soz_vers_beitr_params = get_policies_for_date(
+    params_dict = get_policies_for_date(
         policy_date=policy_date,
-        group="soz_vers_beitr",
-        raw_group_data=soz_vers_beitr_raw_data,
-    )
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
-    )
-    eink_st_params = get_policies_for_date(
-        policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
-    )
-    soli_st_params = get_policies_for_date(
-        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
+        groups=[
+            "elterngeld",
+            "soz_vers_beitr",
+            "eink_st_abzuege",
+            "eink_st",
+            "soli_st",
+        ],
     )
 
-    params = {
-        "elterngeld_params": elterngeld_params,
-        "soz_vers_beitr_params": soz_vers_beitr_params,
-        "eink_st_abzuege_params": eink_st_abzuege_params,
-        "eink_st_params": eink_st_params,
-        "soli_st_params": soli_st_params,
-    }
-    result = compute_taxes_and_transfers(df, targets=column, params=params)
+    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
 
     assert_series_equal(
         result,

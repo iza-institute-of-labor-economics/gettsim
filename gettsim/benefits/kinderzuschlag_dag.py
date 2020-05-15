@@ -27,7 +27,8 @@ def kinderzuschlag_temp(
     kindergeld_m_hh,
     unterhaltsvors_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
+    kinderzuschlag_params,
 ):
 
     df = pd.concat(
@@ -63,8 +64,8 @@ def kinderzuschlag_temp(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "params": params["kinderzuschlag_params"],
-            "arbeitsl_geld_2_params": params["arbeitsl_geld_2_params"],
+            "params": kinderzuschlag_params,
+            "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
         },
     )
 

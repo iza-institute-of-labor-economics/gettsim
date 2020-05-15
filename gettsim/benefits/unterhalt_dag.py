@@ -21,7 +21,8 @@ def unterhaltsvors_m(
     ges_rente_m,
     gem_veranlagt,
     jahr,
-    params,
+    unterhalt_params,
+    kindergeld_params,
 ):
 
     df = pd.concat(
@@ -51,8 +52,8 @@ def unterhaltsvors_m(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "params": params["unterhalt_params"],
-            "kindergeld_params": params["kindergeld_params"],
+            "params": unterhalt_params,
+            "kindergeld_params": kindergeld_params,
         },
     )
 

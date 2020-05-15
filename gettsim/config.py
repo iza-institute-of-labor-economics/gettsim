@@ -4,4 +4,4 @@ from pathlib import Path
 # circular import.
 ROOT_DIR = Path(__file__).parent
 
-GEP_2_CHARACTER_LIMIT = 17
+GEP_1_CHARACTER_LIMIT = 17

@@ -24,7 +24,11 @@ def elterngeld_m(
     m_elterngeld_vat,
     m_elterngeld,
     jahr,
-    params,
+    elterngeld_params,
+    soz_vers_beitr_params,
+    eink_st_abzuege_params,
+    eink_st_params,
+    soli_st_params,
 ):
     df = pd.concat(
         [
@@ -55,11 +59,11 @@ def elterngeld_m(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "params": params["elterngeld_params"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "eink_st_params": params["eink_st_params"],
-            "soli_st_params": params["soli_st_params"],
+            "params": elterngeld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
+            "soli_st_params": soli_st_params,
         },
     )
 
@@ -84,7 +88,11 @@ def geschw_bonus(
     m_elterngeld_vat,
     m_elterngeld,
     jahr,
-    params,
+    elterngeld_params,
+    soz_vers_beitr_params,
+    eink_st_abzuege_params,
+    eink_st_params,
+    soli_st_params,
 ):
     df = pd.concat(
         [
@@ -115,11 +123,11 @@ def geschw_bonus(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "params": params["elterngeld_params"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "eink_st_params": params["eink_st_params"],
-            "soli_st_params": params["soli_st_params"],
+            "params": elterngeld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
+            "soli_st_params": soli_st_params,
         },
     )
 
@@ -144,7 +152,11 @@ def anz_mehrlinge_bonus(
     m_elterngeld_vat,
     m_elterngeld,
     jahr,
-    params,
+    elterngeld_params,
+    soz_vers_beitr_params,
+    eink_st_abzuege_params,
+    eink_st_params,
+    soli_st_params,
 ):
     df = pd.concat(
         [
@@ -175,11 +187,11 @@ def anz_mehrlinge_bonus(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "params": params["elterngeld_params"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "eink_st_params": params["eink_st_params"],
-            "soli_st_params": params["soli_st_params"],
+            "params": elterngeld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
+            "soli_st_params": soli_st_params,
         },
     )
 
@@ -204,7 +216,11 @@ def elternzeit_anspruch(
     m_elterngeld_vat,
     m_elterngeld,
     jahr,
-    params,
+    elterngeld_params,
+    soz_vers_beitr_params,
+    eink_st_abzuege_params,
+    eink_st_params,
+    soli_st_params,
 ):
     df = pd.concat(
         [
@@ -235,11 +251,11 @@ def elternzeit_anspruch(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "params": params["elterngeld_params"],
-            "soz_vers_beitr_params": params["soz_vers_beitr_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "eink_st_params": params["eink_st_params"],
-            "soli_st_params": params["soli_st_params"],
+            "params": elterngeld_params,
+            "soz_vers_beitr_params": soz_vers_beitr_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "eink_st_params": eink_st_params,
+            "soli_st_params": soli_st_params,
         },
     )
 

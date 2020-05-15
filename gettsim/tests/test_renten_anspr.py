@@ -32,23 +32,17 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, year, renten_daten, soz_vers_beitr_raw_data):
+def test_pension(input_data, year, renten_daten):
     column = "rente_anspr_m"
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    soz_vers_beitr_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="soz_vers_beitr",
-        raw_group_data=soz_vers_beitr_raw_data,
+    params_dict = get_policies_for_date(
+        policy_date=policy_date, groups="soz_vers_beitr",
     )
-    params_dict = {
-        "renten_daten": renten_daten,
-        "soz_vers_beitr_params": soz_vers_beitr_params,
-    }
-    calc_result = compute_taxes_and_transfers(
-        df, targets=column, params=params_dict
-    )
+    params_dict["renten_daten"] = renten_daten
+
+    calc_result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
     assert_series_equal(calc_result, year_data[column])
 
 
