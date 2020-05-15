@@ -70,7 +70,16 @@ def test_alg2(input_data, year, column):
     params_dict = get_policies_for_date(
         policy_date=policy_date, groups="arbeitsl_geld_2",
     )
+    columns = [
+        "arbeitsl_geld_m",
+        "soli_st_m",
+        "kindergeld_m_hh",
+        "unterhaltsvors_m",
+        "elterngeld_m",
+    ]
 
-    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(
+        df, user_columns=columns, targets=column, params=params_dict
+    )
 
     assert_series_equal(result, year_data[column], check_dtype=False)

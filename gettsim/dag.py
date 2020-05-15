@@ -1,21 +1,28 @@
 import copy
 import functools
 import inspect
+import textwrap
 from pathlib import Path
 
 import networkx as nx
+import pandas as pd
 
 from gettsim.functions_loader import load_functions
 
 
 def compute_taxes_and_transfers(
-    data, functions=None, columns=None, params=None, targets="all", return_dag=False
+    data,
+    user_functions=None,
+    user_columns=None,
+    params=None,
+    targets="all",
+    return_dag=False,
 ):
     """Simulate a tax and transfers system specified in model_spec.
 
     Args:
         data (dict): User provided dataset as dictionary of Series.
-        functions (dict): Dictionary with user provided functions. The keys are the
+        user_functions (dict): Dictionary with user provided functions. The keys are the
             names of the function. The values are either callables or strings with
             absolute or relative import paths to a function. If functions have the
             same name as an existing gettsim function they override that function.
@@ -41,12 +48,12 @@ def compute_taxes_and_transfers(
     if isinstance(targets, str) and targets != "all":
         targets = [targets]
 
-    if columns is None:
-        columns = []
-    elif isinstance(columns, str):
-        columns = [columns]
+    if user_columns is None:
+        user_columns = []
+    elif isinstance(user_columns, str):
+        user_columns = [user_columns]
 
-    user_functions = [] if functions is None else functions
+    user_functions = [] if user_functions is None else user_functions
     user_functions = load_functions(user_functions)
 
     internal_functions = {}
@@ -70,7 +77,7 @@ def compute_taxes_and_transfers(
         internal_functions.update(new_funcs)
 
     func_dict = create_function_dict(
-        user_functions, internal_functions, columns, params
+        user_functions, internal_functions, user_columns, params
     )
 
     warn_if_functions_and_columns_overlap(data, func_dict)
@@ -136,20 +143,20 @@ def warn_if_functions_and_columns_overlap(func_dict, data):
     n_cols = len(overlap)
     formatted = ", ".join(overlap)
 
-    raise ValueError(textwrap.dedent(
-        f"""
-        Your data provides {formatted}, which {'is' if n_cols == 1 else 'are'} already
-        present among the functions of the taxes and transfers system.
+    if overlap:
+        raise ValueError(
+            textwrap.dedent(
+                f"""
+                Your data provides {formatted}, which {'is' if n_cols == 1 else 'are'}
+                already present among the functions of the taxes and transfers system.
 
-        - If you want a data column to be used instead of calculating it within GETTSIM,
-          please specify it among the *user_columns*.
-        - If you want a data column to be calculated internally by GETTSIM, do not pass it
-          to {the_function_you_called_if_available} / GETTSIM.
-
-        """
-
-    ))
-
+                - If you want a data column to be used instead of calculating it within
+                  GETTSIM, please specify it among the *user_columns* as {overlap}.
+                - If you want a data column to be calculated internally by GETTSIM, do
+                  not pass it along the rest of the *data*.
+                """
+            )
+        )
 
 
 def create_dag(func_dict):

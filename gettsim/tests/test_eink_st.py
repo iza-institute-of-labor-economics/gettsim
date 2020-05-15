@@ -67,8 +67,14 @@ def test_tax_sched(
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+    columns = [
+        "_zu_versteuerndes_eink_kein_kind_freib",
+        "_zu_versteuerndes_eink_kind_freib",
+    ]
 
-    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(
+        df, user_columns=columns, targets=column, params=params_dict
+    )
 
     expected_result = select_output_by_level(column, year_data)
 

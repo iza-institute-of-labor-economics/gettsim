@@ -44,9 +44,17 @@ def test_benefit_checks(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
+    columns = [
+        "kinderzuschlag_temp",
+        "wohngeld_basis_hh",
+        "regelbedarf_m",
+        "sum_basis_arbeitsl_geld_2_eink",
+    ]
 
     params_dict = get_policies_for_date(
         policy_date=policy_date, groups="arbeitsl_geld_2",
     )
-    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(
+        df, user_columns=columns, targets=column, params=params_dict
+    )
     assert_series_equal(result, year_data[column], check_dtype=False)
