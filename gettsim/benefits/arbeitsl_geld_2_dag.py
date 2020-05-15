@@ -30,7 +30,7 @@ def sum_basis_arbeitsl_geld_2_eink(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -111,7 +111,7 @@ def sum_basis_arbeitsl_geld_2_eink(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["sum_basis_arbeitsl_geld_2_eink"]
@@ -143,7 +143,7 @@ def sum_arbeitsl_geld_2_eink(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
 
     df = pd.concat(
@@ -225,7 +225,7 @@ def sum_arbeitsl_geld_2_eink(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["sum_arbeitsl_geld_2_eink"]
@@ -257,7 +257,7 @@ def arbeitsl_geld_2_brutto_eink_hh(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -338,7 +338,7 @@ def arbeitsl_geld_2_brutto_eink_hh(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["arbeitsl_geld_2_brutto_eink_hh"]
@@ -370,7 +370,7 @@ def alleinerziehenden_mehrbedarf(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -451,7 +451,7 @@ def alleinerziehenden_mehrbedarf(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["alleinerziehenden_mehrbedarf"]
@@ -483,7 +483,7 @@ def regelbedarf_m(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -564,7 +564,7 @@ def regelbedarf_m(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["regelbedarf_m"]
@@ -596,7 +596,7 @@ def regelsatz_m(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -677,7 +677,7 @@ def regelsatz_m(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["regelsatz_m"]
@@ -709,7 +709,7 @@ def kost_unterk_m(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -790,7 +790,7 @@ def kost_unterk_m(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["kost_unterk_m"]
@@ -822,7 +822,7 @@ def unterhaltsvors_m_hh(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -903,7 +903,7 @@ def unterhaltsvors_m_hh(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["unterhaltsvors_m_hh"]
@@ -935,7 +935,7 @@ def eink_anrechn_frei(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -1016,7 +1016,7 @@ def eink_anrechn_frei(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["eink_anrechn_frei"]
@@ -1048,7 +1048,7 @@ def arbeitsl_geld_2_eink(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -1129,7 +1129,7 @@ def arbeitsl_geld_2_eink(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["arbeitsl_geld_2_eink"]
@@ -1161,7 +1161,7 @@ def sum_arbeitsl_geld_2_eink_hh(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
-    params,
+    arbeitsl_geld_2_params,
 ):
     df = pd.concat(
         [
@@ -1242,7 +1242,7 @@ def sum_arbeitsl_geld_2_eink_hh(
         level=["hh_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"params": params},
+        func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["sum_arbeitsl_geld_2_eink_hh"]

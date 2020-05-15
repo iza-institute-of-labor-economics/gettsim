@@ -18,7 +18,10 @@ def abgelt_st_m(
     brutto_eink_5,
     gem_veranlagt,
     brutto_eink_5_tu,
-    params,
+    eink_st_params,
+    eink_st_abzuege_params,
+    soli_st_params,
+    abgelt_st_params,
 ):
 
     df = pd.concat(
@@ -45,10 +48,10 @@ def abgelt_st_m(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "eink_st_params": params["eink_st_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "soli_st_params": params["soli_st_params"],
-            "abgelt_st_params": params["abgelt_st_params"],
+            "eink_st_params": eink_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "soli_st_params": soli_st_params,
+            "abgelt_st_params": abgelt_st_params,
         },
     )
 
@@ -72,7 +75,10 @@ def soli_st_m(
     brutto_eink_5,
     gem_veranlagt,
     brutto_eink_5_tu,
-    params,
+    eink_st_params,
+    eink_st_abzuege_params,
+    soli_st_params,
+    abgelt_st_params,
 ):
 
     df = pd.concat(
@@ -99,10 +105,10 @@ def soli_st_m(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "eink_st_params": params["eink_st_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "soli_st_params": params["soli_st_params"],
-            "abgelt_st_params": params["abgelt_st_params"],
+            "eink_st_params": eink_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "soli_st_params": soli_st_params,
+            "abgelt_st_params": abgelt_st_params,
         },
     )
 
@@ -126,7 +132,10 @@ def _st_kein_kind_freib(
     brutto_eink_5,
     gem_veranlagt,
     brutto_eink_5_tu,
-    params,
+    eink_st_params,
+    eink_st_abzuege_params,
+    soli_st_params,
+    abgelt_st_params,
 ):
 
     df = pd.concat(
@@ -153,10 +162,10 @@ def _st_kein_kind_freib(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "eink_st_params": params["eink_st_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "soli_st_params": params["soli_st_params"],
-            "abgelt_st_params": params["abgelt_st_params"],
+            "eink_st_params": eink_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "soli_st_params": soli_st_params,
+            "abgelt_st_params": abgelt_st_params,
         },
     )
 
@@ -180,7 +189,10 @@ def _st_kind_freib(
     brutto_eink_5,
     gem_veranlagt,
     brutto_eink_5_tu,
-    params,
+    eink_st_params,
+    eink_st_abzuege_params,
+    soli_st_params,
+    abgelt_st_params,
 ):
 
     df = pd.concat(
@@ -207,10 +219,10 @@ def _st_kind_freib(
         in_cols=INPUT_COLS,
         out_cols=OUT_COLS,
         func_kwargs={
-            "eink_st_params": params["eink_st_params"],
-            "eink_st_abzuege_params": params["eink_st_abzuege_params"],
-            "soli_st_params": params["soli_st_params"],
-            "abgelt_st_params": params["abgelt_st_params"],
+            "eink_st_params": eink_st_params,
+            "eink_st_abzuege_params": eink_st_abzuege_params,
+            "soli_st_params": soli_st_params,
+            "abgelt_st_params": abgelt_st_params,
         },
     )
 
