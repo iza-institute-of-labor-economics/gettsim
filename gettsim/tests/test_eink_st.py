@@ -70,6 +70,8 @@ def test_tax_sched(
     columns = [
         "_zu_versteuerndes_eink_kein_kind_freib",
         "_zu_versteuerndes_eink_kind_freib",
+        "brutto_eink_5",
+        "brutto_eink_5_tu",
     ]
 
     result = compute_taxes_and_transfers(
