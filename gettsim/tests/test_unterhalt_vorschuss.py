@@ -1,12 +1,12 @@
+import itertools
 from datetime import date
 
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.unterhalt import uhv
 from gettsim.config import ROOT_DIR
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -26,7 +26,7 @@ INPUT_COLS = [
     "gem_veranlagt",
     "jahr",
 ]
-OUT_COL = "unterhaltsvors_m"
+OUT_COLS = ["unterhaltsvors_m"]
 YEARS = [2017, 2018, 2019]
 
 
@@ -37,22 +37,20 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_uhv(input_data, year, unterhalt_raw_data):
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+def test_uhv(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    unterhalt_params = get_policies_for_date(
-        policy_date=policy_date, group="unterhalt", raw_group_data=unterhalt_raw_data
+    params_dict = get_policies_for_date(
+        policy_date=policy_date, groups=["unterhalt", "kindergeld"]
     )
-    kindergeld_params = get_policies_for_date(
-        policy_date=policy_date, group="kindergeld"
+
+    result = compute_taxes_and_transfers(
+        df, user_columns=["arbeitsl_geld_m"], targets=column, params=params_dict
     )
-    df[OUT_COL] = np.nan
-    df = df.groupby(["hh_id", "tu_id"]).apply(
-        uhv, params=unterhalt_params, kindergeld_params=kindergeld_params
-    )
-    assert_series_equal(df[OUT_COL], year_data["unterhaltsvors_m"], check_dtype=False)
+
+    assert_series_equal(result, year_data[column], check_dtype=False)
 
 
 @pytest.fixture(scope="module")
@@ -62,19 +60,15 @@ def input_data_2():
     return out
 
 
-@pytest.mark.parametrize("year", [2019])
-def test_uhv_07_2019(input_data_2, year, unterhalt_raw_data):
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+def test_uhv_07_2019(input_data_2, year, column):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 8, 1)
-    unterhalt_params = get_policies_for_date(
-        policy_date=policy_date, group="unterhalt", raw_group_data=unterhalt_raw_data
+    params_dict = get_policies_for_date(
+        policy_date=policy_date, groups=["unterhalt", "kindergeld"]
     )
-    kindergeld_params = get_policies_for_date(
-        policy_date=policy_date, group="kindergeld"
+    result = compute_taxes_and_transfers(
+        df, user_columns=["arbeitsl_geld_m"], targets=column, params=params_dict
     )
-    df[OUT_COL] = np.nan
-    df = df.groupby(["hh_id", "tu_id"]).apply(
-        uhv, params=unterhalt_params, kindergeld_params=kindergeld_params
-    )
-    assert_series_equal(df[OUT_COL], year_data["unterhaltsvors_m"], check_dtype=False)
+    assert_series_equal(result, year_data[column], check_dtype=False)

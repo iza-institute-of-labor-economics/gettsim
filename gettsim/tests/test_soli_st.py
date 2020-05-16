@@ -22,22 +22,20 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_soli_st(
-    input_data, year, soli_st_raw_data,
+    input_data, year,
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    soli_st_params = get_policies_for_date(
-        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
-    )
+    params_dict = get_policies_for_date(policy_date=policy_date, groups="soli_st")
 
     df["soli"] = df["solibasis"].apply(
         piecewise_polynomial,
         args=(
-            soli_st_params["soli_st"]["lower_thresholds"],
-            soli_st_params["soli_st"]["upper_thresholds"],
-            soli_st_params["soli_st"]["rates"],
-            soli_st_params["soli_st"]["intercepts_at_lower_thresholds"],
+            params_dict["soli_st"]["soli_st"]["lower_thresholds"],
+            params_dict["soli_st"]["soli_st"]["upper_thresholds"],
+            params_dict["soli_st"]["soli_st"]["rates"],
+            params_dict["soli_st"]["soli_st"]["intercepts_at_lower_thresholds"],
         ),
     )
     assert_series_equal(

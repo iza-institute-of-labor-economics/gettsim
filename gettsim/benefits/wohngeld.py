@@ -120,7 +120,7 @@ def calc_wg_income(household, params, household_size):
         "brutto_eink_6",
         "eink_st_m",
         "rentenv_beit_m",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
         "unterhaltsvors_m",
         "elterngeld_m",
     ]:
@@ -164,7 +164,7 @@ def calc_wg_abzuege(household, params):
     wg_abz = (
         (household["eink_st_m_tu_k"] > 0) * 1
         + (household["rentenv_beit_m_tu_k"] > 0) * 1
-        + (household["ges_krankv_beit_m_tu_k"] > 0) * 1
+        + (household["ges_krankenv_beit_m_tu_k"] > 0) * 1
     )
 
     return wg_abz.replace(params["abzug_stufen"])

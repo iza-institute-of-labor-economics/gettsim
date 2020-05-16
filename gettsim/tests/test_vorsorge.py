@@ -23,7 +23,7 @@ IN_COLS = [
     "arbeitsl_v_beit_m",
     "pflegev_beit_m",
     "jahr",
-    "ges_krankv_beit_m",
+    "ges_krankenv_beit_m",
     "gem_veranlagt",
 ]
 OUT_COLS = ["vorsorge"]
@@ -41,25 +41,13 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
 def test_vorsorge(
-    input_data,
-    year,
-    column,
-    kindergeld_raw_data,
-    soz_vers_beitr_raw_data,
-    eink_st_abzuege_raw_data,
+    input_data, year, column,
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
     policy_date = date(year, 1, 1)
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
-    )
-    soz_vers_beitr_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="soz_vers_beitr",
-        raw_group_data=soz_vers_beitr_raw_data,
+    params_dict = get_policies_for_date(
+        policy_date=policy_date, groups=["eink_st_abzuege", "soz_vers_beitr"],
     )
     if year >= 2010:
         calc_vorsorge = vorsorge_since_2010
@@ -72,8 +60,8 @@ def test_vorsorge(
     for tu in df["tu_id"].unique():
         df.loc[df["tu_id"] == tu, "vorsorge"] = calc_vorsorge(
             df[df["tu_id"] == tu],
-            params=eink_st_abzuege_params,
-            soz_vers_beitr_params=soz_vers_beitr_params,
+            params=params_dict["eink_st_abzuege"],
+            soz_vers_beitr_params=params_dict["soz_vers_beitr"],
         )
 
     assert_series_equal(
