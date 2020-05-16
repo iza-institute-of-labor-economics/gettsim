@@ -16,8 +16,6 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     # married = [tax_unit['gem_veranlagt'], ~tax_unit['gem_veranlagt']]
     # create output dataframe and transter some important variables
     ####################################################
-    # Others (Pensions)
-    tax_unit = calc_gross_e7(tax_unit, eink_st_abzuege_params)
 
     # Sum of incomes
     tax_unit.loc[:, "sum_brutto_eink"] = calc_gde(tax_unit, eink_st_abzuege_params)
@@ -307,24 +305,6 @@ def deductible_child_care_costs(tax_unit, params):
             np.sum(deductible_costs), params["sonderausgabenpauschbetrag"]
         )
         return tax_unit
-
-
-def calc_gross_e7(tax_unit, params):
-    """ Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
-    pensions."""
-    # The share of pensions subject to income taxation
-    tax_unit.loc[tax_unit["jahr_renteneintr"] <= 2004, "_ertragsanteil"] = 0.27
-    tax_unit.loc[
-        tax_unit["jahr_renteneintr"].between(2005, 2020), "_ertragsanteil"
-    ] = 0.5 + 0.02 * (tax_unit["jahr_renteneintr"] - 2005)
-    tax_unit.loc[
-        tax_unit["jahr_renteneintr"].between(2021, 2040), "_ertragsanteil"
-    ] = 0.8 + 0.01 * (tax_unit["jahr_renteneintr"] - 2020)
-    tax_unit.loc[tax_unit["jahr_renteneintr"] >= 2041, "_ertragsanteil"] = 1
-    tax_unit.loc[:, "brutto_eink_7"] = np.maximum(
-        12 * (tax_unit["_ertragsanteil"] * tax_unit["ges_rente_m"]), 0,
-    )
-    return tax_unit
 
 
 def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):

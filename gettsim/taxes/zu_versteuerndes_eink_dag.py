@@ -34,6 +34,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     brutto_eink_4,
     brutto_eink_5,
     brutto_eink_6,
+    brutto_eink_7,
     ges_krankenv_beit_m,
     eink_st_abzuege_params,
     soz_vers_beitr_params,
@@ -69,6 +70,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
             brutto_eink_4,
             brutto_eink_5,
             brutto_eink_6,
+            brutto_eink_7,
             wohnort_ost,
             ges_krankenv_beit_m,
         ],
@@ -81,8 +83,6 @@ def _zu_versteuerndes_eink_kein_kind_freib(
         "_zu_versteuerndes_eink_kind_freib",
         "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
         "kind_freib",
-        "brutto_eink_7",
-        "brutto_eink_7_tu",
         "_ertragsanteil",
         "sonder",
         "hh_freib",
@@ -395,3 +395,61 @@ def brutto_eink_6_tu(brutto_eink_6, tu_id):
     """
     out = brutto_eink_6.groupby(tu_id).apply(sum)
     return out.rename("brutto_eink_6_tu")
+
+
+def brutto_eink_7(ges_rente_m, _ertragsanteil):
+    """
+    Calculates the gross income of 'Sonsitge Einkünfte'. In our case that's only
+    pensions.
+
+    Parameters
+    ----------
+    ges_rente_m
+    _ertragsanteil
+
+    Returns
+    -------
+
+    """
+    out = _ertragsanteil.multiply(12 * ges_rente_m)
+    return out.rename("brutto_eink_7")
+
+
+def brutto_eink_7_tu(brutto_eink_7, tu_id):
+    """
+
+    Parameters
+    ----------
+    brutto_eink_7
+    tu_id
+
+    Returns
+    -------
+
+    """
+    out = brutto_eink_7.groupby(tu_id).apply(sum)
+    return out.rename("brutto_eink_7_tu")
+
+
+def _ertragsanteil(jahr_renteneintr):
+    """
+    Calculate the share of pensions subject to income taxation.
+
+    Parameters
+    ----------
+    jahr_renteneintr
+
+    Returns
+    -------
+
+    """
+    out = pd.Series(index=jahr_renteneintr.index, name="_ertragsanteil", dtype=float)
+    out.loc[jahr_renteneintr <= 2004] = 0.27
+    out.loc[jahr_renteneintr.between(2005, 2020)] = 0.5 + 0.02 * (
+        jahr_renteneintr - 2005
+    )
+    out.loc[jahr_renteneintr.between(2021, 2040)] = 0.8 + 0.01 * (
+        jahr_renteneintr - 2020
+    )
+    out.loc[jahr_renteneintr >= 2041] = 1
+    return out
