@@ -16,10 +16,6 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     # married = [tax_unit['gem_veranlagt'], ~tax_unit['gem_veranlagt']]
     # create output dataframe and transter some important variables
     ####################################################
-
-    # Sum of incomes
-    tax_unit.loc[:, "sum_brutto_eink"] = calc_gde(tax_unit, eink_st_abzuege_params)
-
     # TAX DEDUCTIONS
     # 1. Allgemeine Sonderausgaben - Special Expenses
     # Sonderausgaben

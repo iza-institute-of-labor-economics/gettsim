@@ -35,6 +35,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     brutto_eink_5,
     brutto_eink_6,
     brutto_eink_7,
+    sum_brutto_eink,
     behinderungsgrad_pauschalbetrag,
     ges_krankenv_beit_m,
     eink_st_abzuege_params,
@@ -72,6 +73,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
             brutto_eink_5,
             brutto_eink_6,
             brutto_eink_7,
+            sum_brutto_eink,
             behinderungsgrad_pauschalbetrag,
             wohnort_ost,
             ges_krankenv_beit_m,
@@ -472,7 +474,7 @@ def sum_brutto_eink(brutto_eink_1, brutto_eink_4, brutto_eink_6, brutto_eink_7):
 
     """
     out = brutto_eink_1 + brutto_eink_4 + brutto_eink_6 + brutto_eink_7
-    return out.rename("_sum_brutto_eink_ohne_kapital")
+    return out.rename("sum_brutto_eink")
 
 
 def _sum_brutto_eink_mit_kapital(
