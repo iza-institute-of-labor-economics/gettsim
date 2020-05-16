@@ -15,17 +15,9 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     adult_married = ~tax_unit["kind"] & tax_unit["gem_veranlagt"]
     # married = [tax_unit['gem_veranlagt'], ~tax_unit['gem_veranlagt']]
     # create output dataframe and transter some important variables
-
     ####################################################
-    # Income components on annual basis
-    # Income from Self-Employment
-    tax_unit.loc[:, "brutto_eink_1"] = 12 * tax_unit["eink_selbstst_m"]
     # Earnings
     tax_unit = calc_gross_e4(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params)
-    # Capital Income
-    tax_unit.loc[:, "brutto_eink_5"] = np.maximum((12 * tax_unit["kapital_eink_m"]), 0)
-    # Income from rents
-    tax_unit.loc[:, "brutto_eink_6"] = 12 * tax_unit["vermiet_eink_m"]
     # Others (Pensions)
     tax_unit = calc_gross_e7(tax_unit, eink_st_abzuege_params)
 
@@ -292,7 +284,6 @@ def calc_gross_e4(tax_unit, params, soz_vers_beitr_params):
     """Calculates the gross incomes of non selfemployed work. The wage is reducted by a
     lump sum payment for 'Werbungskosten'"""
 
-    tax_unit.loc[:, "brutto_eink_4"] = 12 * tax_unit["bruttolohn_m"]
     # Every adult with some wage, gets a lump sum payment for Werbungskosten
     tax_unit.loc[
         (~tax_unit["kind"]) & (tax_unit["bruttolohn_m"] > 0), "brutto_eink_4"
