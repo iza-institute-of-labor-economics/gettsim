@@ -87,9 +87,6 @@ def test_zve(
         policy_date=policy_date,
         groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld"],
     )
-    import pdb
-
-    pdb.set_trace()
 
     result = compute_taxes_and_transfers(
         df, targets=column, user_functions=policy_func_dict, params=params_dict

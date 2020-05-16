@@ -472,7 +472,7 @@ def _sum_brutto_eink_ohne_kapital(
 
     """
     out = brutto_eink_1 + brutto_eink_4 + brutto_eink_6 + brutto_eink_7
-    out.rename("_sum_brutto_eink_ohne_kapital")
+    return out.rename("_sum_brutto_eink_ohne_kapital")
 
 
 def _sum_brutto_eink_mit_kapital(
