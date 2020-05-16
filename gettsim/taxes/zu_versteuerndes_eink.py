@@ -20,27 +20,6 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     # Sum of incomes
     tax_unit.loc[:, "sum_brutto_eink"] = calc_gde(tax_unit, eink_st_abzuege_params)
 
-    # # Gross (market) income <> sum of incomes...
-    # tax_unit.loc[:, "m_brutto"] = tax_unit[
-    #     ["m_self", "m_wage", "m_kapinc", "m_vermiet", "m_pensions"]
-    # ].sum(axis=1)
-
-    tax_unit.loc[:, "behinderungsgrad_pauschalbetrag"] = calc_handicap_lump_sum(
-        tax_unit, eink_st_abzuege_params
-    )
-
-    # Aggregate several incomes on the taxpayer couple
-    for inc in [
-        "brutto_eink_1",
-        "brutto_eink_4",
-        "brutto_eink_5",
-        "brutto_eink_6",
-        "brutto_eink_7",
-    ]:
-        tax_unit.loc[adult_married, inc + "_tu"] = tax_unit.loc[
-            adult_married, inc
-        ].sum()
-
     # TAX DEDUCTIONS
     # 1. Allgemeine Sonderausgaben - Special Expenses
     # Sonderausgaben
@@ -230,26 +209,6 @@ def calc_altfreibetrag(tax_unit, params):
         params["altersentlastungsbetrag_max"],
     )
     return tax_unit
-
-
-def calc_handicap_lump_sum(tax_unit, params):
-    """Calculate the different deductions for different handicap degrees."""
-    # Behinderten-Pauschbeträge
-    # Pick the correct one based on handicap degree
-    hc_degrees = [
-        tax_unit["behinderungsgrad"].between(25, 30),
-        tax_unit["behinderungsgrad"].between(35, 40),
-        tax_unit["behinderungsgrad"].between(45, 50),
-        tax_unit["behinderungsgrad"].between(55, 60),
-        tax_unit["behinderungsgrad"].between(65, 70),
-        tax_unit["behinderungsgrad"].between(75, 80),
-        tax_unit["behinderungsgrad"].between(85, 90),
-        tax_unit["behinderungsgrad"].between(95, 100),
-    ]
-
-    return np.nan_to_num(
-        np.select(hc_degrees, params["behinderten_pausch_betrag"].values())
-    )
 
 
 def calc_gde(tax_unit, params):

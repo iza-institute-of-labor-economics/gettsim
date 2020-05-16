@@ -25,8 +25,9 @@ from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_until2014
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
-from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_mit_kapital
-from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_ohne_kapital
+
+# from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_mit_kapital
+# from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_ohne_kapital
 
 
 def get_policies_for_date(policy_date, groups="all"):
@@ -135,10 +136,10 @@ def get_policies_for_date(policy_date, groups="all"):
         params_dict[group] = tax_data
 
     policy_func_dict = {}
-    if year < 2009:
-        policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_mit_kapital
-    else:
-        policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_ohne_kapital
+    # if year < 2009:
+    #     policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_mit_kapital
+    # else:
+    #     policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_ohne_kapital
 
     return params_dict, policy_func_dict
 

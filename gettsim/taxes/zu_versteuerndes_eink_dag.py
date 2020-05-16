@@ -35,6 +35,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     brutto_eink_5,
     brutto_eink_6,
     brutto_eink_7,
+    behinderungsgrad_pauschalbetrag,
     ges_krankenv_beit_m,
     eink_st_abzuege_params,
     soz_vers_beitr_params,
@@ -71,6 +72,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
             brutto_eink_5,
             brutto_eink_6,
             brutto_eink_7,
+            behinderungsgrad_pauschalbetrag,
             wohnort_ost,
             ges_krankenv_beit_m,
         ],
@@ -455,9 +457,7 @@ def _ertragsanteil(jahr_renteneintr):
     return out
 
 
-def _sum_brutto_eink_ohne_kapital(
-    brutto_eink_1, brutto_eink_4, brutto_eink_6, brutto_eink_7
-):
+def sum_brutto_eink(brutto_eink_1, brutto_eink_4, brutto_eink_6, brutto_eink_7):
     """
     Since 2009 capital income is not subject to noraml taxation.
     Parameters
@@ -485,3 +485,38 @@ def _sum_brutto_eink_mit_kapital(
         0,
     )
     return out.rename("_sum_brutto_eink_mit_kapital")
+
+
+def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
+    """
+    Calculate the different deductions for different handicap degrees.
+
+    Parameters
+    ----------
+    behinderungsgrad
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
+    behinderungsgrad_stufe = [
+        behinderungsgrad.between(25, 30),
+        behinderungsgrad.between(35, 40),
+        behinderungsgrad.between(45, 50),
+        behinderungsgrad.between(55, 60),
+        behinderungsgrad.between(65, 70),
+        behinderungsgrad.between(75, 80),
+        behinderungsgrad.between(85, 90),
+        behinderungsgrad.between(95, 100),
+    ]
+
+    out = np.nan_to_num(
+        np.select(
+            behinderungsgrad_stufe,
+            eink_st_abzuege_params["behinderten_pausch_betrag"].values(),
+        )
+    )
+    return pd.Series(
+        data=out, index=behinderungsgrad.index, name="behinderungsgrad_pauschalbetrag"
+    )
