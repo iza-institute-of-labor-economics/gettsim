@@ -16,8 +16,6 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     # married = [tax_unit['gem_veranlagt'], ~tax_unit['gem_veranlagt']]
     # create output dataframe and transter some important variables
     ####################################################
-    # Earnings
-    tax_unit = calc_gross_e4(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params)
     # Others (Pensions)
     tax_unit = calc_gross_e7(tax_unit, eink_st_abzuege_params)
 
@@ -278,25 +276,6 @@ def calc_gde(tax_unit, params):
             0,
         )
     return gross_gde
-
-
-def calc_gross_e4(tax_unit, params, soz_vers_beitr_params):
-    """Calculates the gross incomes of non selfemployed work. The wage is reducted by a
-    lump sum payment for 'Werbungskosten'"""
-
-    # Every adult with some wage, gets a lump sum payment for Werbungskosten
-    tax_unit.loc[
-        (~tax_unit["kind"]) & (tax_unit["bruttolohn_m"] > 0), "brutto_eink_4"
-    ] -= params["werbungskostenpauschale"]
-
-    # If they earn less the mini job limit, then their relevant gross income is 0
-    if tax_unit["wohnort_ost"].iloc[0]:
-        mini = soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["ost"]
-    else:
-        mini = soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
-
-    tax_unit.loc[tax_unit["bruttolohn_m"] <= mini, "brutto_eink_4"] = 0
-    return tax_unit
 
 
 def deductible_child_care_costs(tax_unit, params):
