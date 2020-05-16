@@ -1,7 +1,6 @@
 import numpy as np
 
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.abgelt_st import abgelt_st
 
 
 def eink_st(
@@ -31,15 +30,6 @@ def eink_st(
         tax_unit.loc[adult_married, f"_st_{inc}_tu"] = tax_unit[f"_st_{inc}"][
             adult_married
         ].sum()
-
-    # Abgeltungssteuer
-    tax_unit = abgelt_st(tax_unit, abgelt_st_params, eink_st_abzuege_params)
-    tax_unit["abgelt_st_m_tu"] = tax_unit["abgelt_st_m"]
-    tax_unit.loc[adult_married, "abgelt_st_m_tu"] = tax_unit["abgelt_st_m"][
-        adult_married
-    ].sum()
-
-    # tax_unit = soli_st(tax_unit, soli_st_params)
 
     return tax_unit
 

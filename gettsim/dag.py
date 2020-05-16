@@ -81,6 +81,7 @@ def compute_taxes_and_transfers(
         "taxes/eink_st_dag.py",
         "taxes/zu_versteuerndes_eink_dag.py",
         "taxes/soli_st.py",
+        "taxes/abgelt_st.py",
     ]
     for file in internal_function_files:
         new_funcs = load_functions(Path(__file__).parent / file)

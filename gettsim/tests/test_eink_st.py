@@ -22,7 +22,6 @@ INPUT_COLS = [
     "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
     "brutto_eink_5",
     "gem_veranlagt",
-    "brutto_eink_5_tu",
 ]
 
 TEST_COLUMNS = [
@@ -71,7 +70,6 @@ def test_tax_sched(
         "_zu_versteuerndes_eink_kein_kind_freib",
         "_zu_versteuerndes_eink_kind_freib",
         "brutto_eink_5",
-        "brutto_eink_5_tu",
     ]
 
     result = compute_taxes_and_transfers(
@@ -86,4 +84,5 @@ def test_tax_sched(
         check_dtype=False,
         check_less_precise=1,
         check_names=False,
+        check_index_type=False,
     )
