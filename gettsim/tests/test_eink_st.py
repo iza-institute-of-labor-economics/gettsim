@@ -60,7 +60,7 @@ def test_tax_sched(
 ):
     policy_date = date(year, 1, 1)
 
-    params_dict = get_policies_for_date(
+    params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date,
         groups=["eink_st", "eink_st_abzuege", "soli_st", "abgelt_st"],
     )

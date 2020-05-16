@@ -453,3 +453,35 @@ def _ertragsanteil(jahr_renteneintr):
     )
     out.loc[jahr_renteneintr >= 2041] = 1
     return out
+
+
+def _sum_brutto_eink_ohne_kapital(
+    brutto_eink_1, brutto_eink_4, brutto_eink_6, brutto_eink_7
+):
+    """
+    Since 2009 capital income is not subject to noraml taxation.
+    Parameters
+    ----------
+    brutto_eink_1
+    brutto_eink_4
+    brutto_eink_6
+    brutto_eink_7
+
+    Returns
+    -------
+
+    """
+    out = brutto_eink_1 + brutto_eink_4 + brutto_eink_6 + brutto_eink_7
+    out.rename("_sum_brutto_eink_ohne_kapital")
+
+
+def _sum_brutto_eink_mit_kapital(
+    _sum_brutto_eink_ohne_kapital, brutto_eink_5, eink_st_abzuege_params
+):
+    out = _sum_brutto_eink_ohne_kapital + np.maximum(
+        brutto_eink_5
+        - eink_st_abzuege_params["sparerpauschbetrag"]
+        - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"],
+        0,
+    )
+    return out.rename("_sum_brutto_eink_mit_kapital")

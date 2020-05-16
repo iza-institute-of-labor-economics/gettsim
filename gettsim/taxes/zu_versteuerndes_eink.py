@@ -259,10 +259,6 @@ def calc_gde(tax_unit, params):
         ["brutto_eink_1", "brutto_eink_4", "brutto_eink_6", "brutto_eink_7"]
     ].sum(axis=1)
 
-    # Add UBI to taxable income
-    # if ref == "UBI":
-    #    zve.loc[:, "gross_gde"] = zve["gross_gde"] + (tax_unit["ubi"] * 12)
-
     # Kapitaleinkommen im Tarif versteuern oder nicht?
     # If capital income tax with tarif, add capital income to tax base but account
     # for exemptions

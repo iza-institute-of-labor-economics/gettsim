@@ -42,7 +42,7 @@ def test_uhv(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    params_dict = get_policies_for_date(
+    params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date, groups=["unterhalt", "kindergeld"]
     )
 
@@ -65,7 +65,7 @@ def test_uhv_07_2019(input_data_2, year, column):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 8, 1)
-    params_dict = get_policies_for_date(
+    params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date, groups=["unterhalt", "kindergeld"]
     )
     result = compute_taxes_and_transfers(

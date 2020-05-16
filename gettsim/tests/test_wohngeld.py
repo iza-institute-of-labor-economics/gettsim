@@ -57,7 +57,9 @@ def test_wg(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    params_dict = get_policies_for_date(policy_date=policy_date, groups="wohngeld")
+    params_dict, policy_func_dict = get_policies_for_date(
+        policy_date=policy_date, groups="wohngeld"
+    )
     columns = ["elterngeld_m", "arbeitsl_geld_m", "unterhaltsvors_m"]
     result = compute_taxes_and_transfers(
         df, user_columns=columns, targets=column, params=params_dict
@@ -77,7 +79,9 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    params_dict = get_policies_for_date(policy_date=policy_date, groups="wohngeld")
+    params_dict, policy_func_dict = get_policies_for_date(
+        policy_date=policy_date, groups="wohngeld"
+    )
     columns = ["elterngeld_m", "arbeitsl_geld_m", "unterhaltsvors_m"]
 
     result = compute_taxes_and_transfers(

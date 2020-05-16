@@ -83,12 +83,17 @@ def test_zve(
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    params_dict = get_policies_for_date(
+    params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date,
         groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld"],
     )
+    import pdb
 
-    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    pdb.set_trace()
+
+    result = compute_taxes_and_transfers(
+        df, targets=column, user_functions=policy_func_dict, params=params_dict
+    )
 
     expected_result = select_output_by_level(column, year_data)
 
