@@ -1,37 +1,59 @@
 import numpy as np
+import pandas as pd
 
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
-def eink_st(
-    tax_unit, eink_st_params, eink_st_abzuege_params, soli_st_params, abgelt_st_params
-):
-    """Given various forms of income and other state variables, return
-    the different taxes to be paid before making favourability checks etc..
+def _st_kein_kind_freib(_zu_versteuerndes_eink_kein_kind_freib, eink_st_params):
+    """
 
-    In particular
+    Parameters
+    ----------
+    _zu_versteuerndes_eink_kein_kind_freib
+    eink_st_params
 
-        * Income tax (Einkommensteuer)
-        * Solidarity Surcharge (Solidaritätszuschlag)
-        * Capital income tax (Abgeltungssteuer)
+    Returns
+    -------
 
     """
     if eink_st_params["jahr"] < 2002:
         raise ValueError("Income Tax Pre 2002 not yet modelled!")
+    out = st_tarif(_zu_versteuerndes_eink_kein_kind_freib, eink_st_params)
+    return pd.Series(
+        index=_zu_versteuerndes_eink_kein_kind_freib.index,
+        data=out,
+        name="_st_kein_kind_freib",
+    )
 
-    adult_married = (~tax_unit["kind"]) & (tax_unit["gem_veranlagt"])
 
-    for inc in eink_st_abzuege_params["eink_arten"]:
-        # apply tax tariff, round to full Euro amounts
-        tax_unit[f"_st_{inc}"] = st_tarif(
-            tax_unit[f"_zu_versteuerndes_eink_{inc}"], eink_st_params
-        ).astype(int)
-        tax_unit[f"_st_{inc}_tu"] = tax_unit[f"_st_{inc}"]
-        tax_unit.loc[adult_married, f"_st_{inc}_tu"] = tax_unit[f"_st_{inc}"][
-            adult_married
-        ].sum()
+def _st_kein_kind_freib_tu(_st_kein_kind_freib, tu_id):
+    out = _st_kein_kind_freib.groupby(tu_id).apply(sum)
+    return out.rename("_st_kein_kind_freib_tu")
 
-    return tax_unit
+
+def _st_kind_freib(_zu_versteuerndes_eink_kind_freib, eink_st_params):
+    """
+
+    Parameters
+    ----------
+    _zu_versteuerndes_eink_kind_freib
+    eink_st_params
+
+    Returns
+    -------
+
+    """
+    if eink_st_params["jahr"] < 2002:
+        raise ValueError("Income Tax Pre 2002 not yet modelled!")
+    out = st_tarif(_zu_versteuerndes_eink_kind_freib, eink_st_params)
+    return pd.Series(
+        index=_zu_versteuerndes_eink_kind_freib.index, data=out, name="_st_kind_freib"
+    )
+
+
+def _st_kind_freib_tu(_st_kind_freib, tu_id):
+    out = _st_kind_freib.groupby(tu_id).apply(sum)
+    return out.rename("_st_kind_freib_tu")
 
 
 @np.vectorize
@@ -47,7 +69,6 @@ def st_tarif(x, params):
         x (float): taxable income
         params (dict): tax-benefit parameters specific to year and reform
     """
-
     eink_st = piecewise_polynomial(
         x,
         lower_thresholds=params["eink_st_tarif"]["lower_thresholds"],
