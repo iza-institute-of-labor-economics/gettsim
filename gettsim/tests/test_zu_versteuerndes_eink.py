@@ -88,7 +88,9 @@ def test_zve(
         groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld"],
     )
 
-    result = compute_taxes_and_transfers(df, targets=column, params=params_dict)
+    result = compute_taxes_and_transfers(
+        df, user_functions=policy_func_dict, targets=column, params=params_dict
+    )
 
     expected_result = select_output_by_level(column, year_data)
 

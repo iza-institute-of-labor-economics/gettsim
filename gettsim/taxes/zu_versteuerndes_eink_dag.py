@@ -459,7 +459,9 @@ def _ertragsanteil(jahr_renteneintr):
     return out
 
 
-def sum_brutto_eink(brutto_eink_1, brutto_eink_4, brutto_eink_6, brutto_eink_7):
+def _sum_brutto_eink_ohne_kapital(
+    brutto_eink_1, brutto_eink_4, brutto_eink_6, brutto_eink_7
+):
     """
     Since 2009 capital income is not subject to noraml taxation.
     Parameters
