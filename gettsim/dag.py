@@ -173,7 +173,7 @@ def fail_if_user_columns_are_not_in_data(data, columns):
     """
     unused_user_columns = sorted(set(columns) - set(data))
     n_cols = len(unused_user_columns)
-    formatted = "    \n".join(unused_user_columns)
+    formatted = "\t\n".join(unused_user_columns)
 
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
@@ -195,7 +195,7 @@ def fail_if_user_columns_are_not_in_data(data, columns):
                 calculated internally by GETTSIM, remove it from the *user_columns* you
                 pass to GETTSIM.
 
-                {'' if n_cols == 1 else ''' You need to pick one option for each column
+                {'' if n_cols == 1 else '''You need to pick one option for each column
                 that appears in the list above.'''}
                 """
             )
@@ -241,7 +241,7 @@ def fail_if_user_functions_and_user_columns_overlap(data, func_dict):
                 calculated internally by GETTSIM, remove it from the *data* you pass to
                 GETTSIM.
 
-                {'' if n_cols == 1 else ''' You need to pick one option for each column
+                {'' if n_cols == 1 else '''You need to pick one option for each column
                 that appears in the list above.'''}
                 """
             )
