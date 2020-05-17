@@ -182,18 +182,19 @@ def fail_if_functions_and_columns_overlap(func_dict, data):
 
                     {formatted}
 
-                {'This is' if n_cols == 1 else 'These are'} already present among the functions of the taxes and
-                transfers system.
+                {'This is' if n_cols == 1 else 'These are'} already present among the
+                functions of the taxes and transfers system.
 
-                If you want {'this' if n_cols == 1 else 'a'} data column to be used instead of calculating it within
-                GETTSIM, please specify it among the *user_columns*.
+                If you want {'this' if n_cols == 1 else 'a'} data column to be used
+                instead of calculating it within GETTSIM, please specify it among the
+                *user_columns*.
 
-                If you want {'this' if n_cols == 1 else 'a'} data column to be calculated internally by GETTSIM, remove it from the *data* you pass to GETTSIM.
+                If you want {'this' if n_cols == 1 else 'a'} data column to be
+                calculated internally by GETTSIM, remove it from the *data* you pass to
+                GETTSIM.
 
-                {'' if n_cols == 1 else '''
-                You need to pick one option for each column that appears in the list
-                above.'''
-                }
+                {'' if n_cols == 1 else ''' You need to pick one option for each column
+                that appears in the list above.'''}
                 """
             )
         )
