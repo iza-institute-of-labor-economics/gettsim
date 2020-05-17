@@ -485,7 +485,7 @@ def _sum_brutto_eink_mit_kapital(
     out = _sum_brutto_eink_ohne_kapital + (
         brutto_eink_5
         - eink_st_abzuege_params["sparerpauschbetrag"]
-        - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"],
+        - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     ).clip(lower=0)
     return out.rename("sum_brutto_eink")
 

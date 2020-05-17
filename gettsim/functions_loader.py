@@ -66,7 +66,7 @@ def _handle_paths(sources):
         if isinstance(source, str):
             source = Path(source)
 
-        if source.is_dir():
+        if isinstance(source, Path) and source.is_dir():
             modules = list(source.rglob("*.py"))
             new_sources.extend(modules)
 
