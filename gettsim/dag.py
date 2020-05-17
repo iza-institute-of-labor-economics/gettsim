@@ -170,21 +170,30 @@ def fail_if_functions_and_columns_overlap(func_dict, data):
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    overlap = [name for name in func_dict if name in data]
+    overlap = sorted(name for name in func_dict if name in data)
     n_cols = len(overlap)
-    formatted = ", ".join(overlap)
+    formatted = "    \n".join(overlap)
 
     if overlap:
         raise ValueError(
             textwrap.dedent(
                 f"""
-                Your data provides {formatted}, which {'is' if n_cols == 1 else 'are'}
-                already present among the functions of the taxes and transfers system.
+                Your data provides the column{'' if n_cols == 1 else 's'}:
 
-                - If you want a data column to be used instead of calculating it within
-                  GETTSIM, please specify it among the *user_columns* as {overlap}.
-                - If you want a data column to be calculated internally by GETTSIM, do
-                  not pass it along the rest of the *data*.
+                    {formatted}
+
+                {'This is' if n_cols == 1 else 'These are'} already present among the functions of the taxes and
+                transfers system.
+
+                If you want {'this' if n_cols == 1 else 'a'} data column to be used instead of calculating it within
+                GETTSIM, please specify it among the *user_columns*.
+
+                If you want {'this' if n_cols == 1 else 'a'} data column to be calculated internally by GETTSIM, remove it from the *data* you pass to GETTSIM.
+
+                {'' if n_cols == 1 else '''
+                You need to pick one option for each column that appears in the list
+                above.'''
+                }
                 """
             )
         )
