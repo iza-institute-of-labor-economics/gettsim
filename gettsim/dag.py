@@ -89,7 +89,8 @@ def compute_taxes_and_transfers(
         user_functions, internal_functions, user_columns, params
     )
 
-    fail_if_functions_and_columns_overlap(data, func_dict)
+    fail_if_user_columns_are_not_in_data(data, user_columns)
+    fail_if_user_functions_and_user_columns_overlap(data, func_dict)
 
     dag = create_dag(func_dict)
 
@@ -154,7 +155,54 @@ def create_function_dict(user_functions, internal_functions, user_columns, param
     return partialed_functions
 
 
-def fail_if_functions_and_columns_overlap(func_dict, data):
+def fail_if_user_columns_are_not_in_data(data, columns):
+    """Fail if functions which compute columns overlap with existing columns.
+
+    Parameters
+    ----------
+    func_dict : dict
+        Dictionary of function with partialed parameters.
+    data : dict of pandas.Series
+        Dictionary containing data columns as Series.
+
+    Raises
+    ------
+    ValueError
+        Fail if functions which compute columns overlap with existing columns.
+
+    """
+    unused_user_columns = sorted(set(columns) - set(data))
+    n_cols = len(unused_user_columns)
+    formatted = "    \n".join(unused_user_columns)
+
+    column_sg_pl = "column" if n_cols == 1 else "columns"
+
+    if unused_user_columns:
+        raise ValueError(
+            textwrap.dedent(
+                f"""
+                You passed the following user {column_sg_pl}:
+
+                    {formatted}
+
+                {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in
+                the data.
+
+                If you want {'this' if n_cols == 1 else 'a'} data column to be used
+                instead of calculating it within GETTSIM, please add it to *data*.
+
+                If you want {'this' if n_cols == 1 else 'a'} data column to be
+                calculated internally by GETTSIM, remove it from the *user_columns* you
+                pass to GETTSIM.
+
+                {'' if n_cols == 1 else ''' You need to pick one option for each column
+                that appears in the list above.'''}
+                """
+            )
+        )
+
+
+def fail_if_user_functions_and_user_columns_overlap(data, func_dict):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
@@ -172,7 +220,7 @@ def fail_if_functions_and_columns_overlap(func_dict, data):
     """
     overlap = sorted(name for name in func_dict if name in data)
     n_cols = len(overlap)
-    formatted = "    \n".join(overlap)
+    formatted = "\t\n".join(overlap)
 
     if overlap:
         raise ValueError(
