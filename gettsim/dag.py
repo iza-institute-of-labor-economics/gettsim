@@ -90,7 +90,10 @@ def compute_taxes_and_transfers(
     )
 
     fail_if_user_columns_are_not_in_data(data, user_columns)
-    fail_if_user_functions_and_user_columns_overlap(data, func_dict)
+    for func_dict, name in zip(
+        [internal_functions, user_functions], ["internal", "user"]
+    ):
+        fail_if_functions_and_user_columns_overlap(data, func_dict, name)
 
     dag = create_dag(func_dict)
 
@@ -178,31 +181,29 @@ def fail_if_user_columns_are_not_in_data(data, columns):
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
     if unused_user_columns:
-        raise ValueError(
-            textwrap.dedent(
-                f"""
-                You passed the following user {column_sg_pl}:
+        message = format_text_for_cmdline(
+            f"""You passed the following user {column_sg_pl}:
 
-                    {formatted}
+                {formatted}
 
-                {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in
-                the data.
+            {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in the
+            data.
 
-                If you want {'this' if n_cols == 1 else 'a'} data column to be used
-                instead of calculating it within GETTSIM, please add it to *data*.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be used
+            instead of calculating it within GETTSIM, please add it to *data*.
 
-                If you want {'this' if n_cols == 1 else 'a'} data column to be
-                calculated internally by GETTSIM, remove it from the *user_columns* you
-                pass to GETTSIM.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be
+            calculated internally by GETTSIM, remove it from the *user_columns* you
+            pass to GETTSIM.
 
-                {'' if n_cols == 1 else '''You need to pick one option for each column
-                that appears in the list above.'''}
-                """
-            )
+            {'' if n_cols == 1 else '''You need to pick one option for each column that
+            appears in the list above.'''}
+            """
         )
+        raise ValueError(message)
 
 
-def fail_if_user_functions_and_user_columns_overlap(data, func_dict):
+def fail_if_functions_and_user_columns_overlap(data, func_dict, type_):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
@@ -223,29 +224,27 @@ def fail_if_user_functions_and_user_columns_overlap(data, func_dict):
     formatted = "\t\n".join(overlap)
 
     if overlap:
-        raise ValueError(
-            textwrap.dedent(
-                f"""
-                Your data provides the column{'' if n_cols == 1 else 's'}:
+        text = format_text_for_cmdline(
+            f"""Your data provides the column{'' if n_cols == 1 else 's'}:
 
-                    {formatted}
+                {formatted}
 
-                {'This is' if n_cols == 1 else 'These are'} already present among the
-                functions of the taxes and transfers system.
+            {'This is' if n_cols == 1 else 'These are'} already present among the
+            {type_} functions of the taxes and transfers system.
 
-                If you want {'this' if n_cols == 1 else 'a'} data column to be used
-                instead of calculating it within GETTSIM, please specify it among the
-                *user_columns*.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be used
+            instead of calculating it within GETTSIM, please specify it among the
+            *user_columns*{'.' if type_ == 'interal' else ''' or remove the function
+            from *user_functions*.'''}
 
-                If you want {'this' if n_cols == 1 else 'a'} data column to be
-                calculated internally by GETTSIM, remove it from the *data* you pass to
-                GETTSIM.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
+            by {type_} functions, remove it from the *data* you pass to GETTSIM.
 
-                {'' if n_cols == 1 else '''You need to pick one option for each column
-                that appears in the list above.'''}
-                """
-            )
+            {'' if n_cols == 1 else '''You need to pick one option for each column that
+            appears in the list above.'''}
+            """
         )
+        raise ValueError(text)
 
 
 def create_dag(func_dict):
@@ -378,3 +377,31 @@ def collect_garbage(results, task, visited_nodes, targets, dag):
             del results[ancestor]
 
     return results
+
+
+def format_text_for_cmdline(text, width=79):
+    """Format exception messages and warnings for the cmdline.
+
+    Parameter
+    ---------
+    text : str
+        The text which can include multiple paragraphs separated by two newlines.
+    width : int
+        The text will be wrapped by `width` characters.
+
+    Returns
+    -------
+    formatted_text : str
+        Correctly dedented, wrapped text.
+
+    """
+    paragraphs = text.split("\n\n")
+    wrapped_paragraphs = []
+    for paragraph in paragraphs:
+        dendented_paragraph = textwrap.dedent(paragraph)
+        wrapped_paragraph = textwrap.fill(dendented_paragraph, width=width)
+        wrapped_paragraphs.append(wrapped_paragraph)
+
+    formatted_text = "\n\n".join(wrapped_paragraphs)
+
+    return formatted_text
