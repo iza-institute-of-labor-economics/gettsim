@@ -85,17 +85,15 @@ def compute_taxes_and_transfers(
         new_funcs = load_functions(Path(__file__).parent / file)
         internal_functions.update(new_funcs)
 
-    func_dict = create_function_dict(
+    functions = create_function_dict(
         user_functions, internal_functions, user_columns, params
     )
 
     fail_if_user_columns_are_not_in_data(data, user_columns)
-    for func_dict, name in zip(
-        [internal_functions, user_functions], ["internal", "user"]
-    ):
-        fail_if_functions_and_user_columns_overlap(data, func_dict, name)
+    for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
+        fail_if_functions_and_user_columns_overlap(data, funcs, name)
 
-    dag = create_dag(func_dict)
+    dag = create_dag(functions)
 
     if targets != "all":
         dag = prune_dag(dag, targets)
@@ -104,7 +102,7 @@ def compute_taxes_and_transfers(
         relevant_columns = set(data) & set(dag.nodes)
         data = _dict_subset(data, relevant_columns)
 
-    results = execute_dag(func_dict, dag, data, targets)
+    results = execute_dag(functions, dag, data, targets)
 
     if len(results) == 1:
         results = list(results.values())[0]
@@ -163,10 +161,10 @@ def fail_if_user_columns_are_not_in_data(data, columns):
 
     Parameters
     ----------
-    func_dict : dict
-        Dictionary of function with partialed parameters.
     data : dict of pandas.Series
         Dictionary containing data columns as Series.
+    columns : list of str
+        List of column names.
 
     Raises
     ------
@@ -203,15 +201,15 @@ def fail_if_user_columns_are_not_in_data(data, columns):
         raise ValueError(message)
 
 
-def fail_if_functions_and_user_columns_overlap(data, func_dict, type_):
+def fail_if_functions_and_user_columns_overlap(data, functions, type_):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
     ----------
-    func_dict : dict
-        Dictionary of function with partialed parameters.
     data : dict of pandas.Series
         Dictionary containing data columns as Series.
+    functions : dict
+        Dictionary of functions.
 
     Raises
     ------
@@ -219,7 +217,7 @@ def fail_if_functions_and_user_columns_overlap(data, func_dict, type_):
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    overlap = sorted(name for name in func_dict if name in data)
+    overlap = sorted(name for name in functions if name in data)
     n_cols = len(overlap)
     formatted = "\t\n".join(overlap)
 
