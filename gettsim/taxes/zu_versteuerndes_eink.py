@@ -124,26 +124,6 @@ def zve_nokfb(tax_unit, params):
     )
 
 
-def calc_gde(tax_unit, params):
-    """Calculates sum of the taxable income. It depends on the year if capital
-    income, counts into the sum."""
-    gross_gde = tax_unit[
-        ["brutto_eink_1", "brutto_eink_4", "brutto_eink_6", "brutto_eink_7"]
-    ].sum(axis=1)
-
-    # Kapitaleinkommen im Tarif versteuern oder nicht?
-    # If capital income tax with tarif, add capital income to tax base but account
-    # for exemptions
-    if params["jahr"] < 2009:
-        gross_gde += np.maximum(
-            tax_unit["brutto_eink_5"]
-            - params["sparerpauschbetrag"]
-            - params["sparer_werbungskosten_pauschbetrag"],
-            0,
-        )
-    return gross_gde
-
-
 def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     """ Vorsorgeaufwendungen 2010 regime
         § 10 (3) EStG
