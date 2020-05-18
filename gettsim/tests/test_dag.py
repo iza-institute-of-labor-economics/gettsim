@@ -18,4 +18,4 @@ def test_fail_if_user_functions_and_user_columns_overlap(type_):
     data = {"a": None}
 
     with pytest.raises(ValueError):
-        fail_if_functions_and_user_columns_overlap(data, func_dict, type_)
+        fail_if_functions_and_user_columns_overlap(data, func_dict, type_, [])

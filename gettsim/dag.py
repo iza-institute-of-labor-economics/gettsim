@@ -85,13 +85,13 @@ def compute_taxes_and_transfers(
         new_funcs = load_functions(Path(__file__).parent / file)
         internal_functions.update(new_funcs)
 
+    fail_if_user_columns_are_not_in_data(data, user_columns)
+    for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
+        fail_if_functions_and_user_columns_overlap(data, funcs, name, user_columns)
+
     functions = create_function_dict(
         user_functions, internal_functions, user_columns, params
     )
-
-    fail_if_user_columns_are_not_in_data(data, user_columns)
-    for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
-        fail_if_functions_and_user_columns_overlap(data, funcs, name)
 
     dag = create_dag(functions)
 
@@ -174,7 +174,6 @@ def fail_if_user_columns_are_not_in_data(data, columns):
     """
     unused_user_columns = sorted(set(columns) - set(data))
     n_cols = len(unused_user_columns)
-    formatted = "\t\n".join(unused_user_columns)
 
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
@@ -182,7 +181,7 @@ def fail_if_user_columns_are_not_in_data(data, columns):
         message = format_text_for_cmdline(
             f"""You passed the following user {column_sg_pl}:
 
-                {formatted}
+            {unused_user_columns}
 
             {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in the
             data.
@@ -201,7 +200,7 @@ def fail_if_user_columns_are_not_in_data(data, columns):
         raise ValueError(message)
 
 
-def fail_if_functions_and_user_columns_overlap(data, functions, type_):
+def fail_if_functions_and_user_columns_overlap(data, functions, type_, user_columns):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
@@ -210,6 +209,10 @@ def fail_if_functions_and_user_columns_overlap(data, functions, type_):
         Dictionary containing data columns as Series.
     functions : dict
         Dictionary of functions.
+    type_ : {"internal", "user"}
+        Source of the functions.
+    user_columns : list of str
+        Columns provided by the user.
 
     Raises
     ------
@@ -217,22 +220,23 @@ def fail_if_functions_and_user_columns_overlap(data, functions, type_):
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    overlap = sorted(name for name in functions if name in data)
+    overlap = sorted(
+        name for name in functions if name in data and name not in user_columns
+    )
     n_cols = len(overlap)
-    formatted = "\t\n".join(overlap)
 
     if overlap:
         text = format_text_for_cmdline(
             f"""Your data provides the column{'' if n_cols == 1 else 's'}:
 
-                {formatted}
+            {overlap}
 
             {'This is' if n_cols == 1 else 'These are'} already present among the
             {type_} functions of the taxes and transfers system.
 
             If you want {'this' if n_cols == 1 else 'a'} data column to be used
             instead of calculating it within GETTSIM, please specify it among the
-            *user_columns*{'.' if type_ == 'interal' else ''' or remove the function
+            *user_columns*{'.' if type_ == 'internal' else ''' or remove the function
             from *user_functions*.'''}
 
             If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
