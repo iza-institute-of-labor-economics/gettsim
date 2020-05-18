@@ -5,9 +5,8 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -64,23 +63,23 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_alg2(input_data, arbeitsl_geld_2_raw_data, year, column):
+def test_alg2(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    arbeitsl_geld_2_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="arbeitsl_geld_2",
-        raw_group_data=arbeitsl_geld_2_raw_data,
+    params_dict = get_policies_for_date(
+        policy_date=policy_date, groups="arbeitsl_geld_2",
+    )
+    columns = [
+        "arbeitsl_geld_m",
+        "soli_st_m",
+        "kindergeld_m_hh",
+        "unterhaltsvors_m",
+        "elterngeld_m",
+    ]
+
+    result = compute_taxes_and_transfers(
+        df, user_columns=columns, targets=column, params=params_dict
     )
 
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=alg2,
-        level=["hh_id"],
-        in_cols=INPUT_COLS,
-        out_cols=OUT_COLS,
-        func_kwargs={"params": arbeitsl_geld_2_params},
-    )
-
-    assert_series_equal(df[column], year_data[column], check_dtype=False)
+    assert_series_equal(result, year_data[column], check_dtype=False)

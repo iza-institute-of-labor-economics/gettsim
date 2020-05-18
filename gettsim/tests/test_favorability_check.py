@@ -1,14 +1,14 @@
 from datetime import date
 from itertools import product
 
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
+from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.taxes.favorability_check import favorability_check
+from gettsim.tests.auxiliary import select_output_by_level
 
 
 INPUT_COLS = [
@@ -43,18 +43,25 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", product(YEARS, TEST_COLUMNS))
-def test_favorability_check(input_data, year, column, eink_st_abzuege_raw_data):
+def test_favorability_check(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
+    params_dict = get_policies_for_date(
+        policy_date=policy_date, groups="eink_st_abzuege",
     )
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby(["hh_id", "tu_id"]).apply(
-        favorability_check, params=eink_st_abzuege_params
+    columns = [
+        "_st_kein_kind_freib_tu",
+        "_st_kind_freib_tu",
+        "abgelt_st_m_tu",
+        "kindergeld_m_basis",
+        "kindergeld_m_tu_basis",
+    ]
+    calc_result = compute_taxes_and_transfers(
+        df, user_columns=columns, targets=column, params=params_dict
     )
-    assert_series_equal(df[column], year_data[column])
+
+    expected_result = select_output_by_level(column, year_data)
+    assert_series_equal(
+        calc_result, expected_result, check_dtype=False, check_names=False
+    )
