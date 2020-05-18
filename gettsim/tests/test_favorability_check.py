@@ -66,7 +66,11 @@ def test_favorability_check(input_data, year, column):
             data_series, data["tu_id"], data["hh_id"]
         )
     calc_result = compute_taxes_and_transfers(
-        data, user_columns=columns, targets=column, params=params_dict
+        data,
+        user_functions=policy_func_dict,
+        user_columns=columns,
+        targets=column,
+        params=params_dict,
     )
 
     expected_result = select_output_by_level(column, year_data)

@@ -18,6 +18,10 @@ from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
+from gettsim.taxes.favorability_check import eink_st_m_tu_ab_1997
+from gettsim.taxes.favorability_check import eink_st_m_tu_bis_1996
+from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
+from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
@@ -25,8 +29,8 @@ from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
 from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_ohne_kapital
+from gettsim.taxes.zu_versteuerndes_eink_dag import hh_freib_bis_2014
 from gettsim.taxes.zu_versteuerndes_eink_dag import hh_freib_seit_2015
-from gettsim.taxes.zu_versteuerndes_eink_dag import hh_freib_vor_2014
 
 
 def get_policies_for_date(policy_date, groups="all"):
@@ -130,9 +134,16 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_ohne_kapital
 
     if year <= 2014:
-        policy_func_dict["hh_freib"] = hh_freib_vor_2014
+        policy_func_dict["hh_freib"] = hh_freib_bis_2014
     else:
         policy_func_dict["hh_freib"] = hh_freib_seit_2015
+
+    if year <= 1996:
+        policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_bis_1996
+        policy_func_dict["kindergeld_m"] = kindergeld_m_bis_1996
+    else:
+        policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_ab_1997
+        policy_func_dict["kindergeld_m"] = kindergeld_m_ab_1997
 
     return params_dict, policy_func_dict
 

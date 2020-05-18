@@ -450,7 +450,7 @@ def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
     )
 
 
-def hh_freib_vor_2014(alleinerziehend, eink_st_abzuege_params):
+def hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
     """
     Calculates tax reduction for single parents. Used to be called
     'Haushaltsfreibetrag'
