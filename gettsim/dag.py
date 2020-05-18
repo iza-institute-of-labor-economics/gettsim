@@ -175,14 +175,23 @@ def fail_if_user_columns_are_not_in_data(data, columns):
     unused_user_columns = sorted(set(columns) - set(data))
     n_cols = len(unused_user_columns)
 
+    formatted = '",\n    "'.join(unused_user_columns)
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
     if unused_user_columns:
-        message = format_text_for_cmdline(
-            f"""You passed the following user {column_sg_pl}:
+        first_part = format_text_for_cmdline(
+            f"You passed the following user {column_sg_pl}:"
+        )
+        list_ = textwrap.dedent(
+            """
+            [
+                "{formatted}",
+            ]
+            """
+        ).format(formatted=formatted)
 
-            {unused_user_columns}
-
+        second_part = format_text_for_cmdline(
+            f"""
             {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in the
             data.
 
@@ -197,7 +206,7 @@ def fail_if_user_columns_are_not_in_data(data, columns):
             appears in the list above.'''}
             """
         )
-        raise ValueError(message)
+        raise ValueError("\n".join([first_part, list_, second_part]))
 
 
 def fail_if_functions_and_user_columns_overlap(data, functions, type_, user_columns):
@@ -225,12 +234,23 @@ def fail_if_functions_and_user_columns_overlap(data, functions, type_, user_colu
     )
     n_cols = len(overlap)
 
+    formatted = '",\n    "'.join(overlap)
+
     if overlap:
-        text = format_text_for_cmdline(
-            f"""Your data provides the column{'' if n_cols == 1 else 's'}:
+        first_part = format_text_for_cmdline(
+            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
+        )
 
-            {overlap}
+        list_ = textwrap.dedent(
+            """
+            [
+                "{formatted}",
+            ]
+            """
+        ).format(formatted=formatted)
 
+        second_part = format_text_for_cmdline(
+            f"""
             {'This is' if n_cols == 1 else 'These are'} already present among the
             {type_} functions of the taxes and transfers system.
 
@@ -246,7 +266,7 @@ def fail_if_functions_and_user_columns_overlap(data, functions, type_, user_colu
             appears in the list above.'''}
             """
         )
-        raise ValueError(text)
+        raise ValueError("\n".join([first_part, list_, second_part]))
 
 
 def create_dag(func_dict):
@@ -397,6 +417,7 @@ def format_text_for_cmdline(text, width=79):
         Correctly dedented, wrapped text.
 
     """
+    text = text.lstrip("\n")
     paragraphs = text.split("\n\n")
     wrapped_paragraphs = []
     for paragraph in paragraphs:
