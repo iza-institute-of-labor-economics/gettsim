@@ -7,13 +7,13 @@ from gettsim.tests.test_favorability_check import INPUT_COLS
 from gettsim.tests.test_favorability_check import OUT_COLS
 
 
-def min_st(
-    _st_kein_kind_freib_tu,
-    _st_kind_freib_tu,
-    kindergeld_m_tu_basis,
-    eink_st_abzuege_params,
-):
-    st_kein_kind_freib = _st_kein_kind_freib_tu - kindergeld_m_tu_basis
+# def min_st(
+#     _st_kein_kind_freib_tu,
+#     _st_kind_freib_tu,
+#     kindergeld_m_tu_basis,
+#     eink_st_abzuege_params,
+# ):
+#     st_kein_kind_freib = _st_kein_kind_freib_tu - kindergeld_m_tu_basis
 
 
 def eink_st_m_tu(

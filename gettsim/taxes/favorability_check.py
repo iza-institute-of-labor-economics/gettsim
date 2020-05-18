@@ -25,9 +25,6 @@ def favorability_check(tax_unit, params):
     if (not ("kein_kind_freib" in max_inc)) | (params["jahr"] <= 1996):
         tax_unit.loc[:, "kindergeld_m"] = 0
         tax_unit.loc[:, "kindergeld_m_tu"] = 0
-    if "abg" in max_inc:
-        tax_unit.loc[:, "abgelt_st_m"] = 0
-        tax_unit.loc[:, "abgelt_st_m_tu"] = 0
 
     return tax_unit
 
