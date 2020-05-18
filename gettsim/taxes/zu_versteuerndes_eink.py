@@ -19,7 +19,6 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     # TAX DEDUCTIONS
     # 1. Allgemeine Sonderausgaben - Special Expenses
     # Sonderausgaben
-    tax_unit = deductible_child_care_costs(tax_unit, eink_st_abzuege_params)
     # 2. VORSORGEAUFWENDUNGEN (technically a special case of "Sonderausgaben")
     """
     Social insurance contributions can be partly deducted from taxable income
@@ -53,9 +52,7 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     # i.e. each partner get assigned half of the total income
     for incdef in [
         "kein_kind_freib",
-        "abgelt_st_m_kein_kind_freib",
         "kind_freib",
-        "abgelt_st_m_kind_freib",
     ]:
         tax_unit.loc[:, "_zu_versteuerndes_eink_" + incdef + "_tu"] = tax_unit.loc[
             adult_married, "_zu_versteuerndes_eink_" + incdef
@@ -82,15 +79,7 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
     # Find out who has the lower zve among partners
     nokfb_lower = tax_unit["_zu_versteuerndes_eink_kein_kind_freib"].min()
 
-    # Add both components of Child Allowance for ease of notation.
-    if params["jahr"] >= 2000:
-        kifreib_total = (
-            params["kinderfreibetrag_sächl_exmin"]
-            + params["kinderfreibetrag_betr_erz_ausb"]
-        )
-    # 'kifreib_bezt_erz_ausb' does not exist before 2000.
-    else:
-        kifreib_total = params["kinderfreibetrag_sächl_exmin"]
+    kifreib_total = sum(params["kinderfreibetrag"].values())
 
     diff_kifreib = nokfb_lower - (kifreib_total * kigeld_kinder)
     # If the couple is married and one partner does not earn enough
@@ -128,7 +117,7 @@ def zve_nokfb(tax_unit, params):
         0,
         tax_unit["sum_brutto_eink"]
         - tax_unit["vorsorge"]
-        - tax_unit["sonder"]
+        - tax_unit["sonderausgaben"]
         - tax_unit["behinderungsgrad_pauschalbetrag"]
         - tax_unit["hh_freib"]
         - tax_unit["altersfreib"],
@@ -153,37 +142,6 @@ def calc_gde(tax_unit, params):
             0,
         )
     return gross_gde
-
-
-def deductible_child_care_costs(tax_unit, params):
-    """Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
-    details here https://www.buzer.de/s1.htm?a=10&g=estg."""
-    # So far we only implement the current regulation, which has been in place since 2012.
-    if params["jahr"] < 2012:
-        # For earlier years we only use the pausch value
-        tax_unit.loc[~tax_unit["kind"], "sonder"] = params["sonderausgabenpauschbetrag"]
-        return tax_unit
-    else:
-        adult_num = len(tax_unit[~tax_unit["kind"]])
-        # The maximal amount to claim is 4000 per child. We only count the claim for
-        # children under 14. By law the parents are also to allow to claim for disabled
-        # children til the age of 25.
-        eligible = tax_unit["alter"] <= 14
-
-        deductible_costs = (
-            eligible
-            * np.minimum(
-                params["kinderbetreuungskosten_abz_maximum"],
-                12 * tax_unit["betreuungskost_m"],
-            )
-            * params["kinderbetreuungskosten_abz_anteil"]
-            / adult_num
-        )
-        # If parents can't claim anything, they get a pausch value.
-        tax_unit.loc[~tax_unit["kind"], "sonder"] = max(
-            np.sum(deductible_costs), params["sonderausgabenpauschbetrag"]
-        )
-        return tax_unit
 
 
 def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):

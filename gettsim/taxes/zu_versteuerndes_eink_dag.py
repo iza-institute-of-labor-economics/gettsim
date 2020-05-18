@@ -35,6 +35,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     brutto_eink_5,
     brutto_eink_6,
     brutto_eink_7,
+    sonderausgaben,
     sum_brutto_eink,
     _kindergeld_anspruch,
     hh_freib,
@@ -79,6 +80,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
             sum_brutto_eink,
             _kindergeld_anspruch,
             altersfreib,
+            sonderausgaben,
             behinderungsgrad_pauschalbetrag,
             wohnort_ost,
             ges_krankenv_beit_m,
@@ -93,7 +95,6 @@ def _zu_versteuerndes_eink_kein_kind_freib(
         "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
         "kind_freib",
         "_ertragsanteil",
-        "sonder",
         "vorsorge",
     ]
 
@@ -531,3 +532,49 @@ def altersfreib(
         )
     ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])
     return out
+
+
+def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
+    """
+    Until 2011, we just use the lumpsum payment.
+    Parameters
+    ----------
+    kind
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
+    out = pd.Series(index=kind.index, data=0, dtype=float, name="sonderausgaben")
+    out.loc[~kind] = eink_st_abzuege_params["sonderausgabenpauschbetrag"]
+    return out
+
+
+def _sonderausgaben_ab_2012(betreuungskost_m, tu_id, kind, eink_st_abzuege_params):
+    """
+    Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
+    details here https://www.buzer.de/s1.htm?a=10&g=estg.
+    Parameters
+    ----------
+    betreuungskost_m
+    tu_id
+    kind
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
+    abziehbare_betreuungskosten = betreuungskost_m.multiply(12).clip(
+        upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
+    )
+    anz_erwachsene_in_tu = ((~kind).astype(int)).groupby(tu_id).transform(sum)
+    berechtigte_kinder = (kind.astype(int)).groupby(tu_id).transform(sum)
+    out = (
+        berechtigte_kinder.multiply(abziehbare_betreuungskosten)
+        .multiply(eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"])
+        .divide(anz_erwachsene_in_tu)
+    )
+    out.loc[kind] = 0
+    return out.rename("sonderausgaben")

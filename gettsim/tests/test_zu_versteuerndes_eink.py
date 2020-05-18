@@ -40,9 +40,7 @@ INPUT_COLS = [
 ]
 OUT_COLS = [
     "_zu_versteuerndes_eink_kein_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
     "_zu_versteuerndes_eink_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
     "kind_freib",
     "brutto_eink_1",
     "brutto_eink_4",
