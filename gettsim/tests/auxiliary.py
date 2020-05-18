@@ -26,3 +26,26 @@ def select_output_by_level(out_col, year_data, dtype=float):
     for index in out.index:
         out.loc[index] = year_data[year_data[grouped_id] == index][out_col].iloc[0]
     return out
+
+
+def select_input_by_level(data_series, tu_id, hh_id):
+    """
+
+    Parameters
+    ----------
+    data_series
+    tu_id
+    hh_id
+    dtype
+
+    Returns
+    -------
+
+    """
+    if "_tu" in data_series.name:
+        out = data_series.groupby(tu_id).apply(max)
+    elif "_hh" in data_series.name:
+        out = data_series.groupby(hh_id).apply(max)
+    else:
+        out = data_series
+    return out

@@ -7,57 +7,37 @@ from gettsim.tests.test_favorability_check import INPUT_COLS
 from gettsim.tests.test_favorability_check import OUT_COLS
 
 
-# def min_st(
-#     _st_kein_kind_freib_tu,
-#     _st_kind_freib_tu,
-#     kindergeld_m_tu_basis,
-#     eink_st_abzuege_params,
-# ):
-#     st_kein_kind_freib = _st_kein_kind_freib_tu - kindergeld_m_tu_basis
+def _beantrage_kind_freib_tu(
+    _st_kein_kind_freib_tu, kindergeld_m_tu_basis, _st_kind_freib_tu
+):
+    st_kein_kind_freib = _st_kein_kind_freib_tu - 12 * kindergeld_m_tu_basis
+    out = st_kein_kind_freib > _st_kind_freib_tu
+    return out.rename("_beantrage_kind_freib_tu")
 
 
 def eink_st_m_tu(
-    hh_id,
-    tu_id,
-    p_id,
-    gem_veranlagt,
-    kind,
-    _st_kein_kind_freib_tu,
-    _st_kind_freib_tu,
-    abgelt_st_m_tu,
-    kindergeld_m_basis,
-    kindergeld_m_tu_basis,
-    jahr,
-    eink_st_abzuege_params,
+    _st_kein_kind_freib_tu, _st_kind_freib_tu, _beantrage_kind_freib_tu,
 ):
+    """
 
-    df = pd.concat(
-        [
-            hh_id,
-            tu_id,
-            p_id,
-            gem_veranlagt,
-            kind,
-            _st_kein_kind_freib_tu,
-            _st_kind_freib_tu,
-            abgelt_st_m_tu,
-            kindergeld_m_basis,
-            kindergeld_m_tu_basis,
-            jahr,
-        ],
-        axis=1,
-    )
+    Parameters
+    ----------
+    _st_kein_kind_freib_tu
+    _st_kind_freib_tu
+    _beantrage_kind_freib_tu
 
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=favorability_check,
-        level=["hh_id", "tu_id"],
-        in_cols=INPUT_COLS,
-        out_cols=OUT_COLS,
-        func_kwargs={"params": eink_st_abzuege_params},
+    Returns
+    -------
+
+    """
+    out = pd.Series(index=_beantrage_kind_freib_tu.index, name="eink_st_m_tu")
+    out.loc[_beantrage_kind_freib_tu] = (
+        _st_kind_freib_tu.loc[_beantrage_kind_freib_tu] / 12
     )
-    # Right now, we only select the max. Will be changed when function comes in place!
-    return df["eink_st_m_tu"].groupby(tu_id).apply(max)
+    out.loc[~_beantrage_kind_freib_tu] = (
+        _st_kein_kind_freib_tu.loc[~_beantrage_kind_freib_tu] / 12
+    )
+    return out
 
 
 def eink_st_m(eink_st_m_tu, gem_veranlagt, kind, tu_id):
