@@ -36,6 +36,8 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     brutto_eink_6,
     brutto_eink_7,
     sum_brutto_eink,
+    hh_freib,
+    altersfreib,
     behinderungsgrad_pauschalbetrag,
     ges_krankenv_beit_m,
     eink_st_abzuege_params,
@@ -74,13 +76,14 @@ def _zu_versteuerndes_eink_kein_kind_freib(
             brutto_eink_6,
             brutto_eink_7,
             sum_brutto_eink,
+            altersfreib,
             behinderungsgrad_pauschalbetrag,
             wohnort_ost,
             ges_krankenv_beit_m,
+            hh_freib,
         ],
         axis=1,
     )
-
     out_cols = [
         "_zu_versteuerndes_eink_kein_kind_freib",
         "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
@@ -89,8 +92,6 @@ def _zu_versteuerndes_eink_kein_kind_freib(
         "kind_freib",
         "_ertragsanteil",
         "sonder",
-        "hh_freib",
-        "altersfreib",
         "vorsorge",
     ]
 
@@ -110,82 +111,6 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     return df["_zu_versteuerndes_eink_kein_kind_freib"]
 
 
-# def altersfreib(
-#     p_id,
-#     hh_id,
-#     tu_id,
-#     bruttolohn_m,
-#     betreuungskost_m,
-#     eink_selbstst_m,
-#     kapital_eink_m,
-#     vermiet_eink_m,
-#     jahr_renteneintr,
-#     ges_rente_m,
-#     arbeitsstunden_w,
-#     in_ausbildung,
-#     gem_veranlagt,
-#     kind,
-#     behinderungsgrad,
-#     rentenv_beit_m,
-#     prv_rente_beit_m,
-#     arbeitsl_v_beit_m,
-#     pflegev_beit_m,
-#     alleinerziehend,
-#     alter,
-#     anz_kinder_tu,
-#     jahr,
-#     wohnort_ost,
-#     ges_krankenv_beit_m,
-#     eink_st_abzuege_params,
-#     soz_vers_beitr_params,
-#     kindergeld_params,
-# ):
-#
-#     df = pd.concat(
-#         [
-#             p_id,
-#             hh_id,
-#             tu_id,
-#             bruttolohn_m,
-#             betreuungskost_m,
-#             eink_selbstst_m,
-#             kapital_eink_m,
-#             vermiet_eink_m,
-#             jahr_renteneintr,
-#             ges_rente_m,
-#             arbeitsstunden_w,
-#             in_ausbildung,
-#             gem_veranlagt,
-#             kind,
-#             behinderungsgrad,
-#             rentenv_beit_m,
-#             prv_rente_beit_m,
-#             arbeitsl_v_beit_m,
-#             pflegev_beit_m,
-#             alleinerziehend,
-#             alter,
-#             anz_kinder_tu,
-#             jahr,
-#             wohnort_ost,
-#             ges_krankenv_beit_m,
-#         ],
-#         axis=1,
-#     )
-#
-#     df = apply_tax_transfer_func(
-#         df,
-#         tax_func=zve,
-#         level=["hh_id", "tu_id"],
-#         in_cols=INPUT_COLS,
-#         out_cols=OUT_COLS,
-#         func_kwargs={
-#             "eink_st_abzuege_params": eink_st_abzuege_params,
-#             "soz_vers_beitr_params": soz_vers_beitr_params,
-#             "kindergeld_params": kindergeld_params,
-#         },
-#     )
-#
-#     return df["altersfreib"]
 #
 #
 # def _zu_versteuerndes_eink_kind_freib(
@@ -523,3 +448,84 @@ def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
     return pd.Series(
         data=out, index=behinderungsgrad.index, name="behinderungsgrad_pauschalbetrag"
     )
+
+
+def hh_freib_vor_2014(alleinerziehend, eink_st_abzuege_params):
+    """
+    Calculates tax reduction for single parents. Used to be called
+    'Haushaltsfreibetrag'
+
+    Parameters
+    ----------
+    alleinerziehend
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
+    out = pd.Series(index=alleinerziehend.index, name="hh_freib", data=0, dtype=float)
+    out.loc[alleinerziehend] = eink_st_abzuege_params["alleinerziehenden_freibetrag"]
+    return out
+
+
+def hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
+    """
+    Calculates tax reduction for single parents. Since 2015, it increases with
+    number of children. Used to be called 'Haushaltsfreibetrag'
+
+    Parameters
+    ----------
+    alleinerziehend
+    kind
+    tu_id
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
+    out = pd.Series(index=alleinerziehend.index, name="hh_freib", data=0, dtype=float)
+    anz_kinder = kind.groupby(tu_id).apply(sum)
+    out.loc[alleinerziehend] = (
+        eink_st_abzuege_params["alleinerziehenden_freibetrag"]
+        + tu_id.replace(anz_kinder)
+        * eink_st_abzuege_params["alleinerziehenden_freibetrag_zusatz"]
+    )
+    return out
+
+
+def altersfreib(
+    bruttolohn_m,
+    alter,
+    kapital_eink_m,
+    eink_selbstst_m,
+    vermiet_eink_m,
+    eink_st_abzuege_params,
+):
+    """
+    Calculates the deductions for elderly. Not tested yet!
+
+    Parameters
+    ----------
+    bruttolohn_m
+    alter
+    kapital_eink_m
+    eink_selbstst_m
+    vermiet_eink_m
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
+    out = pd.Series(index=bruttolohn_m.index, name="altersfreib", data=0, dtype=float)
+    out.loc[alter > 64] = (
+        eink_st_abzuege_params["altersentlastung_quote"]
+        * 12
+        * (
+            bruttolohn_m
+            + (kapital_eink_m + eink_selbstst_m + vermiet_eink_m).clip(lower=0)
+        )
+    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])
+    return out

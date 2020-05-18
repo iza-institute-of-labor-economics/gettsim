@@ -20,13 +20,13 @@ from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
-from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_from2015
-from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_until2014
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
 from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_ohne_kapital
+from gettsim.taxes.zu_versteuerndes_eink_dag import hh_freib_seit_2015
+from gettsim.taxes.zu_versteuerndes_eink_dag import hh_freib_vor_2014
 
 
 def get_policies_for_date(policy_date, groups="all"):
@@ -88,10 +88,6 @@ def get_policies_for_date(policy_date, groups="all"):
                 tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
 
         elif group == "eink_st_abzuege":
-            if year <= 2014:
-                tax_data["calc_hhfreib"] = calc_hhfreib_until2014
-            else:
-                tax_data["calc_hhfreib"] = calc_hhfreib_from2015
             if year >= 2010:
                 tax_data["vorsorge"] = vorsorge_since_2010
             elif year >= 2005:
@@ -99,13 +95,6 @@ def get_policies_for_date(policy_date, groups="all"):
             elif year <= 2004:
                 tax_data["vorsorge"] = vorsorge_pre_2005
 
-            # TODO: We need to adapt favorability check for that. See
-            #  https://github.com/iza-institute-of-labor-economics/gettsim/issues/81 for
-            #  details.
-            # if year >= 2009:
-            #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
-            # else:
-            #     tax_data["zve_list"] = ["nokfb", "kfb"]
             tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
 
         elif group == "kindergeld":
@@ -139,6 +128,11 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_mit_kapital
     else:
         policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_ohne_kapital
+
+    if year <= 2014:
+        policy_func_dict["hh_freib"] = hh_freib_vor_2014
+    else:
+        policy_func_dict["hh_freib"] = hh_freib_seit_2015
 
     return params_dict, policy_func_dict
 

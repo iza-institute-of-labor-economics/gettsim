@@ -69,6 +69,7 @@ def test_wg(input_data, year, column):
         "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
+        "eink_st_m",
     ]
     result = compute_taxes_and_transfers(
         df, user_columns=columns, targets=column, params=params_dict
@@ -100,6 +101,7 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
         "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
+        "eink_st_m",
     ]
 
     result = compute_taxes_and_transfers(

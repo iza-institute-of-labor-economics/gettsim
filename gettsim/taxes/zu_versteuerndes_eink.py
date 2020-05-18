@@ -29,20 +29,12 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
         tax_unit, eink_st_abzuege_params, soz_vers_beitr_params
     )
 
-    # 3. Tax Deduction for elderly ("Altersentlastungsbetrag")
-    # does not affect pensions.
-    tax_unit = calc_altfreibetrag(tax_unit, eink_st_abzuege_params)
-    # 4.. Entlastungsbetrag für Alleinerziehende: Tax Deduction for Single Parents.
-    tax_unit = eink_st_abzuege_params["calc_hhfreib"](tax_unit, eink_st_abzuege_params)
-
     # Taxable income (zve = zu versteuerndes Einkommen)
     # For married couples, household income is split between the two.
     # Without child allowance / Ohne Kinderfreibetrag (nokfb):
     tax_unit.loc[
         ~tax_unit["kind"], "_zu_versteuerndes_eink_kein_kind_freib"
     ] = zve_nokfb(tax_unit, eink_st_abzuege_params)
-    # Tax base including capital income
-    tax_unit = zve_abg_nokfb(tax_unit, eink_st_abzuege_params)
     # Calculate Child Tax Allowance
     tax_unit = kinderfreibetrag(tax_unit, eink_st_abzuege_params, kindergeld_params)
 
@@ -134,7 +126,6 @@ def kinderfreibetrag(tax_unit, params, kindergeld_params):
 
 def zve_nokfb(tax_unit, params):
     """Calculate zve with no 'kinderfreibetrag'."""
-
     return np.maximum(
         0,
         tax_unit["sum_brutto_eink"]
@@ -144,67 +135,6 @@ def zve_nokfb(tax_unit, params):
         - tax_unit["hh_freib"]
         - tax_unit["altersfreib"],
     )
-
-
-def zve_abg_nokfb(tax_unit, params):
-    """Calculates the zve with capital income in the tax base."""
-    if tax_unit[~tax_unit["kind"]]["gem_veranlagt"].all():
-        tax_unit.loc[
-            ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib"
-        ] = np.maximum(
-            0,
-            tax_unit["sum_brutto_eink"]
-            + np.maximum(
-                0,
-                tax_unit["brutto_eink_5"]
-                - 2 * params["sparerpauschbetrag"]
-                - 2 * params["sparer_werbungskosten_pauschbetrag"],
-            )
-            - tax_unit["vorsorge"]
-            - tax_unit["sonder"]
-            - tax_unit["behinderungsgrad_pauschalbetrag"]
-            - tax_unit["hh_freib"]
-            - tax_unit["altersfreib"],
-        )
-    else:
-        tax_unit.loc[
-            ~tax_unit["kind"], "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib"
-        ] = np.maximum(
-            0,
-            tax_unit["sum_brutto_eink"]
-            + np.maximum(
-                0,
-                tax_unit["brutto_eink_5"]
-                - params["sparerpauschbetrag"]
-                - params["sparer_werbungskosten_pauschbetrag"],
-            )
-            - tax_unit["vorsorge"]
-            - tax_unit["sonder"]
-            - tax_unit["behinderungsgrad_pauschalbetrag"]
-            - tax_unit["hh_freib"]
-            - tax_unit["altersfreib"],
-        )
-    return tax_unit
-
-
-def calc_altfreibetrag(tax_unit, params):
-    """Calculates the deductions for elderly. Not tested yet!!!"""
-    tax_unit["altersfreib"] = 0.0
-    tax_unit.loc[tax_unit["alter"] > 64, "altersfreib"] = np.minimum(
-        params["altersentlastung_quote"]
-        * 12
-        * (
-            tax_unit["bruttolohn_m"]
-            + np.maximum(
-                0,
-                tax_unit[["kapital_eink_m", "eink_selbstst_m", "vermiet_eink_m"]].sum(
-                    axis=1
-                ),
-            )
-        ),
-        params["altersentlastungsbetrag_max"],
-    )
-    return tax_unit
 
 
 def calc_gde(tax_unit, params):
@@ -428,23 +358,3 @@ def calc_altersvors_aufwend(tax_unit, params):
     ).astype(int)
 
     return np.minimum(params["vorsorge_altersaufw_max"], altersvors)
-
-
-def calc_hhfreib_until2014(tax_unit, params):
-    """Calculates tax reduction for single parents. Used to be called
-    'Haushaltsfreibetrag'"""
-    tax_unit["hh_freib"] = 0.0
-    tax_unit.loc[tax_unit["alleinerziehend"], "hh_freib"] = params[
-        "alleinerziehenden_freibetrag"
-    ]
-    return tax_unit
-
-
-def calc_hhfreib_from2015(tax_unit, params):
-    """Calculates tax reduction for single parents. Since 2015, it increases with
-    number of children. Used to be called 'Haushaltsfreibetrag'"""
-    tax_unit["hh_freib"] = 0.0
-    tax_unit.loc[tax_unit["alleinerziehend"], "hh_freib"] = params[
-        "alleinerziehenden_freibetrag"
-    ] + ((tax_unit["kind"].sum() - 1) * params["alleinerziehenden_freibetrag_zusatz"])
-    return tax_unit

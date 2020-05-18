@@ -64,7 +64,7 @@ OUT_COLS = [
 TEST_COLS = [
     "_zu_versteuerndes_eink_kein_kind_freib",
     # "_zu_versteuerndes_eink_kind_freib",
-    # "altersfreib",
+    "altersfreib",
 ]
 YEARS = [2005, 2009, 2010, 2012, 2018]
 
