@@ -75,7 +75,7 @@ def compute_taxes_and_transfers(
         "benefits/kinderzuschlag_dag.py",
         "benefits/unterhalt_dag.py",
         "benefits/wohngeld_dag.py",
-        "taxes/kindergeld_dag.py",
+        "taxes/kindergeld.py",
         "renten_anspruch_dag.py",
         "taxes/favorability_check.py",
         "taxes/eink_st.py",

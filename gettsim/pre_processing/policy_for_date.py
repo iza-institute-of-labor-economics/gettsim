@@ -22,8 +22,8 @@ from gettsim.taxes.favorability_check import eink_st_m_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_m_tu_bis_1996
 from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
 from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
-from gettsim.taxes.kindergeld_dag import _kindergeld_anspruch_nach_lohn
-from gettsim.taxes.kindergeld_dag import _kindergeld_anspruch_nach_stunden
+from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_lohn
+from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
 from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010

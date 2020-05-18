@@ -1,22 +1,99 @@
-def kindergeld(tax_unit, params):
-    """ Child Benefit (kindergeld)
-    Basic Amount for each child. Parents receive child benefit for every child up to
-    18 years. Above, they get it only up to kindergeld_params["kgage"] if the child is
-    a) in education and
-    b) not working too much / not receiving too much income (depending on the year)
+import pandas as pd
 
-    Returns:
-        pd.series:
-            kindergeld_m_basis: Kindergeld on the individual level
-            kindergeld_m_tu_basis: Kindergeld summed up within the tax unit
+
+def kindergeld_m_basis(
+    tu_id, _kindergeld_anspruch, kindergeld_params,
+):
     """
-    tax_unit["kindergeld_anspruch"] = tax_unit["_kindergeld_anspruch"].cumsum()
+
+    Parameters
+    ----------
+    tu_id
+    _kindergeld_anspruch
+    kindergeld_params
+
+    Returns
+    -------
+
+    """
     # Kindergeld_Anspruch is the cumulative sum of eligible children.
-    # This maps to the dictionary key for the kindergeld amount
-    tax_unit["kindergeld_m_basis"] = tax_unit["kindergeld_anspruch"].replace(
-        params["kindergeld"]
+    kulmulative_anspruch = _kindergeld_anspruch.groupby(tu_id).transform(
+        pd.Series.cumsum
     )
-    tax_unit.loc[tax_unit["kindergeld_anspruch"] > 4, "kindergeld_m_basis"] = params[
-        "kindergeld"
-    ][4]
-    return tax_unit
+    out = kulmulative_anspruch.replace(kindergeld_params["kindergeld"])
+    out.loc[kulmulative_anspruch > 4] = kindergeld_params["kindergeld"][4]
+    return out
+
+
+def kindergeld_m_tu_basis(kindergeld_m_basis, tu_id):
+    """
+
+    Parameters
+    ----------
+    kindergeld_m_basis
+    tu_id
+
+    Returns
+    -------
+
+    """
+    out = kindergeld_m_basis.groupby(tu_id).apply(sum)
+    return out.rename("kindergeld_m_tu_basis")
+
+
+def _kindergeld_anspruch_nach_stunden(
+    alter, in_ausbildung, arbeitsstunden_w, kindergeld_params
+):
+    """
+    Nowadays, kids must not work more than 20 hour
+    returns a boolean variable whether a specific person is a child eligible for
+    child benefit
+
+    Parameters
+    ----------
+    alter
+    in_ausbildung
+    arbeitsstunden_w
+    kindergeld_params
+
+    Returns
+    -------
+
+    """
+    out = alter <= 18
+    out.loc[
+        (alter.between(19, kindergeld_params["kindergeld_hoechstalter"]))
+        & in_ausbildung
+        & (arbeitsstunden_w <= kindergeld_params["kindergeld_stundengrenze"])
+    ] = True
+
+    return out.rename("_kindergeld_anspruch")
+
+
+def _kindergeld_anspruch_nach_lohn(
+    alter, in_ausbildung, bruttolohn_m, kindergeld_params
+):
+    """
+    Before 2011, there was an income ceiling for children
+    returns a boolean variable whether a specific person is a child eligible for
+    child benefit
+
+    Parameters
+    ----------
+    alter
+    kindergeld_params
+    in_ausbildung
+    bruttolohn_m
+
+    Returns
+    -------
+
+    """
+    out = alter <= 18
+    out.loc[
+        (alter.between(19, kindergeld_params["kindergeld_hoechstalter"]))
+        & in_ausbildung
+        & (bruttolohn_m <= kindergeld_params["kindergeld_einkommensgrenze"] / 12)
+    ] = True
+
+    return out.rename("_kindergeld_anspruch")
