@@ -40,6 +40,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     _kindergeld_anspruch,
     hh_freib,
     altersfreib,
+    _altervorsorge_aufwend,
     behinderungsgrad_pauschalbetrag,
     ges_krankenv_beit_m,
     eink_st_abzuege_params,
@@ -81,6 +82,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
             _kindergeld_anspruch,
             altersfreib,
             sonderausgaben,
+            _altervorsorge_aufwend,
             behinderungsgrad_pauschalbetrag,
             wohnort_ost,
             ges_krankenv_beit_m,
@@ -572,9 +574,41 @@ def _sonderausgaben_ab_2012(betreuungskost_m, tu_id, kind, eink_st_abzuege_param
     anz_erwachsene_in_tu = ((~kind).astype(int)).groupby(tu_id).transform(sum)
     berechtigte_kinder = (kind.astype(int)).groupby(tu_id).transform(sum)
     out = (
-        berechtigte_kinder.multiply(abziehbare_betreuungskosten)
-        .multiply(eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"])
-        .divide(anz_erwachsene_in_tu)
-    )
+        berechtigte_kinder
+        * abziehbare_betreuungskosten
+        * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
+    ).divide(anz_erwachsene_in_tu)
+
     out.loc[kind] = 0
     return out.rename("sonderausgaben")
+
+
+def _altervorsorge_aufwend(
+    kind, rentenv_beit_m, prv_rente_beit_m, eink_st_abzuege_params
+):
+    """
+    Return the amount of contributions to retirement savings that is deductible from
+    taxable income. **This function becomes relevant in 2005, do not use it for prior
+    year**.
+
+    The share of deductible contributions increases each year from 60% in 2005 to 100%
+    in 2025.
+
+    Parameters
+    ----------
+    kind
+    rentenv_beit_m
+    prv_rente_beit_m
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
+    einführungsfaktor = 0.6 + 0.02 * (min(eink_st_abzuege_params["jahr"], 2025) - 2005)
+    out = (
+        (einführungsfaktor * (2 * rentenv_beit_m + prv_rente_beit_m) - rentenv_beit_m)
+        * 12
+    ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])
+    out.loc[kind] = 0
+    return out.rename("_altervorsorge_aufwend")

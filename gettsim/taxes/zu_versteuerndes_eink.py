@@ -160,7 +160,7 @@ def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
 
     # calculate x% of relevant employer and employee contributions and private contributions
     # then subtract employer contributions
-    altersvors = calc_altersvors_aufwend(tax_unit, params)
+    altersvors = tax_unit["_altervorsorge_aufwend"]
     # also subtract health + care + unemployment insurance contributions
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
@@ -186,7 +186,7 @@ def _vorsorge_since_2005(tax_unit, params, soz_vers_beitr_params):
     Other deductions are simply added up, up to a ceiling of 1500 p.a. for standard employees.
     """
 
-    altersvors = calc_altersvors_aufwend(tax_unit, params)
+    altersvors = tax_unit["_altervorsorge_aufwend"]
 
     sonstige_vors = ~tax_unit["kind"] * np.minimum(
         params["vorsorge_sonstige_aufw_max"],
@@ -294,23 +294,3 @@ def vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):
     vors_2010 = _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params)
 
     return np.maximum(vors_2004, vors_2010)
-
-
-def calc_altersvors_aufwend(tax_unit, params):
-    """Return the amount of contributions to retirement savings that is deductible from
-    taxable income. **This function becomes relevant in 2005, do not use it for prior
-    year**.
-
-    The share of deductible contributions increases each year from 60% in 2005 to 100%
-    in 2025.
-    """
-
-    einführungsfaktor = 0.6 + 0.02 * (min(params["jahr"], 2025) - 2005)
-
-    altersvors = ~tax_unit["kind"] * (
-        einführungsfaktor
-        * (12 * 2 * tax_unit["rentenv_beit_m"] + (12 * tax_unit["prv_rente_beit_m"]))
-        - (12 * tax_unit["rentenv_beit_m"])
-    ).astype(int)
-
-    return np.minimum(params["vorsorge_altersaufw_max"], altersvors)
