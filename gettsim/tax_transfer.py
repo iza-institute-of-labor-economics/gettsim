@@ -1,6 +1,5 @@
 from datetime import date
 
-from gettsim.benefits.arbeitsl_geld import ui
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.elterngeld import elterngeld
@@ -12,8 +11,6 @@ from gettsim.pre_processing.exogene_renten_daten.lade_renten_daten import (
     lade_exogene_renten_daten,
 )
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.renten_anspr import pensions
-from gettsim.soz_vers import soc_ins_contrib
 from gettsim.taxes.eink_st import eink_st
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.taxes.kindergeld import kindergeld
@@ -72,81 +69,7 @@ def tax_transfer(
             "Household, tax unit and person identifier don't provide "
             "distinguishable individuals."
         )
-    # We start with the top layer, which is household id. We treat this as the
-    # "Bedarfsgemeinschaft" in German tax law.
-    in_cols = [
-        "bruttolohn_m",
-        "wohnort_ost",
-        "alter",
-        "selbstständig",
-        "hat_kinder",
-        "eink_selbstst_m",
-        "ges_rente_m",
-        "prv_krankv_beit_m",
-    ]
-    out_cols = [
-        "sozialv_beit_m",
-        "rentenv_beit_m",
-        "arbeitsl_v_beit_m",
-        "ges_krankv_beit_m",
-        "pflegev_beit_m",
-    ]
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=soc_ins_contrib,
-        level=person,
-        in_cols=in_cols,
-        out_cols=out_cols,
-        func_kwargs={"params": soz_vers_beitr_params},
-    )
 
-    in_cols = [
-        "bruttolohn_vorj_m",
-        "wohnort_ost",
-        "kind",
-        "arbeitsl_lfdj_m",
-        "arbeitsl_vorj_m",
-        "arbeitsl_vor2j_m",
-        "ges_rente_m",
-        "arbeitsstunden_w",
-        "anz_kinder_tu",
-        "alter",
-    ]
-    out_col = "arbeitsl_geld_m"
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=ui,
-        level=person,
-        in_cols=in_cols,
-        out_cols=[out_col],
-        func_kwargs={
-            "params": arbeitsl_geld_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "eink_st_abzuege_params": eink_st_abzuege_params,
-            "eink_st_params": eink_st_params,
-            "soli_st_params": soli_st_params,
-        },
-    )
-    in_cols = [
-        "bruttolohn_m",
-        "wohnort_ost",
-        "alter",
-        "jahr",
-        "geburtsjahr",
-        "entgeltpunkte",
-    ]
-    out_col = "rente_anspr_m"
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=pensions,
-        level=person,
-        in_cols=in_cols,
-        out_cols=[out_col],
-        func_kwargs={
-            "renten_daten": renten_daten,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-        },
-    )
     in_cols = [
         "bruttolohn_m",
         "eink_selbstst_m",
@@ -169,7 +92,7 @@ def tax_transfer(
         "anz_kinder_tu",
         "jahr",
         "wohnort_ost",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
     ]
     out_cols = [
         f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
@@ -344,7 +267,7 @@ def tax_transfer(
         "brutto_eink_6",
         "eink_st_m",
         "rentenv_beit_m",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
         "behinderungsgrad",
     ]
     out_cols = ["wohngeld_basis", "wohngeld_basis_hh"]
@@ -471,7 +394,7 @@ def tax_transfer(
         "eink_st_m",
         "soli_st_m",
         "abgelt_st_m",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
         "rentenv_beit_m",
         "pflegev_beit_m",
         "arbeitsl_v_beit_m",
@@ -503,7 +426,7 @@ def tax_transfer(
         "hat_kinder",
         "eink_selbstst_m",
         "ges_rente_m",
-        "prv_krankv_beit_m",
+        "prv_krankenv_beit_m",
         "bruttolohn_vorj_m",
         "arbeitsl_lfdj_m",
         "arbeitsl_vorj_m",
@@ -534,7 +457,7 @@ def tax_transfer(
     desired_outputs = [
         "rentenv_beit_m",
         "arbeitsl_v_beit_m",
-        "ges_krankv_beit_m",
+        "ges_krankenv_beit_m",
         "pflegev_beit_m",
         "arbeitsl_geld_m",
         "rente_anspr_m",
