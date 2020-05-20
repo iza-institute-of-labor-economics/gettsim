@@ -1,7 +1,18 @@
 import numpy as np
 
+from gettsim._numpy import numpy_vectorize
 
-def _piecewise_polynomial(
+
+@numpy_vectorize(
+    excluded=[
+        "lower_thresholds",
+        "upper_thresholds",
+        "rates",
+        "intercepts_at_lower_thresholds",
+        "rates_modified",
+    ]
+)
+def piecewise_polynomial(
     x,
     lower_thresholds,
     upper_thresholds,
@@ -63,15 +74,3 @@ def _piecewise_polynomial(
         out += rates[pol - 1, index_interval] * (increment_to_calc ** pol)
 
     return out
-
-
-piecewise_polynomial = np.vectorize(
-    _piecewise_polynomial,
-    excluded=[
-        "lower_thresholds",
-        "upper_thresholds",
-        "rates",
-        "intercepts_at_lower_thresholds",
-        "rates_modified",
-    ],
-)
