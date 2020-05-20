@@ -110,11 +110,23 @@ def vorsorge(
             "kindergeld_params": kindergeld_params,
         },
     )
-
     return df["vorsorge"]
 
 
 def _zu_versteuerndes_eink_kein_kind_freib(
+    _zu_versteuerndes_eink_kein_kind_freib_vorläufig, kind, anz_erwachsene_in_tu, tu_id
+):
+
+    zve_tu = (
+        (_zu_versteuerndes_eink_kein_kind_freib_vorläufig.loc[~kind])
+        .groupby(tu_id)
+        .transform(sum)
+    )
+    out = zve_tu / anz_erwachsene_in_tu.loc[~kind]
+    out.rename("_zu_versteuerndes_eink_kein_kind_freib")
+
+
+def _zu_versteuerndes_eink_kein_kind_freib_vorläufig(
     sum_brutto_eink,
     vorsorge,
     sonderausgaben,
@@ -122,7 +134,6 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     hh_freib,
     altersfreib,
 ):
-
     out = (
         sum_brutto_eink
         - vorsorge
@@ -131,87 +142,24 @@ def _zu_versteuerndes_eink_kein_kind_freib(
         - hh_freib
         - altersfreib
     ).clip(lower=0)
-    return out.rename("_zu_verst_eink_kein_kinderfreib")
+    return out.rename("_zu_versteuerndes_eink_kein_kind_freib_vorläufig")
 
 
-# def _zu_versteuerndes_eink_kind_freib(
-#     p_id,
-#     hh_id,
-#     tu_id,
-#     bruttolohn_m,
-#     betreuungskost_m,
-#     eink_selbstst_m,
-#     kapital_eink_m,
-#     vermiet_eink_m,
-#     jahr_renteneintr,
-#     ges_rente_m,
-#     arbeitsstunden_w,
-#     in_ausbildung,
-#     gem_veranlagt,
-#     kind,
-#     behinderungsgrad,
-#     rentenv_beit_m,
-#     prv_rente_beit_m,
-#     arbeitsl_v_beit_m,
-#     pflegev_beit_m,
-#     alleinerziehend,
-#     alter,
-#     anz_kinder_tu,
-#     jahr,
-#     kinderfreib,
-#     wohnort_ost,
-#     ges_krankenv_beit_m,
-#     eink_st_abzuege_params,
-#     soz_vers_beitr_params,
-#     kindergeld_params,
-# ):
-#
-#     df = pd.concat(
-#         [
-#             p_id,
-#             hh_id,
-#             tu_id,
-#             bruttolohn_m,
-#             betreuungskost_m,
-#             eink_selbstst_m,
-#             kapital_eink_m,
-#             vermiet_eink_m,
-#             jahr_renteneintr,
-#             ges_rente_m,
-#             arbeitsstunden_w,
-#             in_ausbildung,
-#             gem_veranlagt,
-#             kind,
-#             behinderungsgrad,
-#             rentenv_beit_m,
-#             prv_rente_beit_m,
-#             arbeitsl_v_beit_m,
-#             pflegev_beit_m,
-#             alleinerziehend,
-#             kinderfreib,
-#             alter,
-#             anz_kinder_tu,
-#             jahr,
-#             wohnort_ost,
-#             ges_krankenv_beit_m,
-#         ],
-#         axis=1,
-#     )
-#
-#     # df = apply_tax_transfer_func(
-#     #     df,
-#     #     tax_func=zve,
-#     #     level=["hh_id", "tu_id"],
-#     #     in_cols=INPUT_COLS,
-#     #     out_cols=OUT_COLS,
-#     #     func_kwargs={
-#     #         "eink_st_abzuege_params": eink_st_abzuege_params,
-#     #         "soz_vers_beitr_params": soz_vers_beitr_params,
-#     #         "kindergeld_params": kindergeld_params,
-#     #     },
-#     # )
-#
-#     return df["_zu_versteuerndes_eink_kind_freib"]
+def _zu_versteuerndes_eink_kind_freib(
+    _zu_versteuerndes_eink_kein_kind_freib_vorläufig,
+    kind,
+    anz_erwachsene_in_tu,
+    kinderfreib,
+    tu_id,
+):
+    zu_vers_eink_kinderfreib = (
+        _zu_versteuerndes_eink_kein_kind_freib_vorläufig - kinderfreib.loc[~kind]
+    )
+    zu_verst_eink_tu = (
+        (zu_vers_eink_kinderfreib.loc[~kind]).groupby(tu_id).transform(sum)
+    )
+    out = zu_verst_eink_tu / anz_erwachsene_in_tu.loc[~kind]
+    return out.rename["_zu_versteuerndes_eink_kind_freib"]
 
 
 def brutto_eink_1(eink_selbstst_m):
@@ -571,7 +519,9 @@ def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
     return out
 
 
-def _sonderausgaben_ab_2012(betreuungskost_m, tu_id, kind, eink_st_abzuege_params):
+def _sonderausgaben_ab_2012(
+    betreuungskost_m, tu_id, kind, anz_erwachsene_in_tu, eink_st_abzuege_params
+):
     """
     Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
@@ -581,6 +531,7 @@ def _sonderausgaben_ab_2012(betreuungskost_m, tu_id, kind, eink_st_abzuege_param
     tu_id
     kind
     eink_st_abzuege_params
+    anz_erwachsene_in_tu
 
     Returns
     -------
@@ -589,7 +540,7 @@ def _sonderausgaben_ab_2012(betreuungskost_m, tu_id, kind, eink_st_abzuege_param
     abziehbare_betreuungskosten = betreuungskost_m.multiply(12).clip(
         upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
     )
-    anz_erwachsene_in_tu = ((~kind).astype(int)).groupby(tu_id).transform(sum)
+
     berechtigte_kinder = (kind.astype(int)).groupby(tu_id).transform(sum)
     out = (
         berechtigte_kinder
@@ -635,7 +586,7 @@ def _altervorsorge_aufwend(
 def kinderfreib(
     _kindergeld_anspruch,
     kind,
-    _zu_versteuerndes_eink_kein_kind_freib,
+    _zu_versteuerndes_eink_kein_kind_freib_vorläufig,
     tu_id,
     eink_st_abzuege_params,
 ):
@@ -651,7 +602,7 @@ def kinderfreib(
     # If in a tax unit one adult earns less than the kinderfreib, we transfer the
     # difference
     diff_kinderfreib = (
-        _zu_versteuerndes_eink_kein_kind_freib.loc[~kind] - raw_kinderfreib
+        _zu_versteuerndes_eink_kein_kind_freib_vorläufig.loc[~kind] - raw_kinderfreib
     )
     # Get the transfers for each concerned tax unit, indexed with the tax unit.
     transfer_tu = diff_kinderfreib.loc[diff_kinderfreib < 0].reindex(
@@ -670,3 +621,8 @@ def kinderfreib(
     ].add(transfers.loc[diff_kinderfreib < 0], fill_value=0)
 
     return out
+
+
+def anz_erwachsene_in_tu(tu_id, kind):
+    out = ((~kind).astype(int)).groupby(tu_id).transform(sum)
+    return out.rename("anz_erwachsene_in_tu")
