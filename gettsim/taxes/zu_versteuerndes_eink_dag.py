@@ -155,9 +155,7 @@ def _zu_versteuerndes_eink_kind_freib(
     kinderfreib,
     tu_id,
 ):
-    import pdb
 
-    pdb.set_trace()
     zu_vers_eink_kinderfreib = (
         _zu_versteuerndes_eink_kein_kind_freib_vorläufig[~kind] - kinderfreib.loc[~kind]
     )

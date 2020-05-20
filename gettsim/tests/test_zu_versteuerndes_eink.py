@@ -60,7 +60,7 @@ OUT_COLS = [
 ]
 
 TEST_COLS = [
-    # "_zu_versteuerndes_eink_kein_kind_freib",
+    "_zu_versteuerndes_eink_kein_kind_freib",
     "_zu_versteuerndes_eink_kind_freib",
     "kinderfreib",
     "altersfreib",
@@ -93,11 +93,10 @@ def test_zve(
     )
 
     expected_result = select_output_by_level(column, year_data)
-
     assert_series_equal(
         result,
         expected_result,
         check_dtype=False,
-        check_less_precise=1,
+        check_less_precise=0,
         check_names=False,
     )
