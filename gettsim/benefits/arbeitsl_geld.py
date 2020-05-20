@@ -15,21 +15,9 @@ def ui(
     employment status and income from previous years.
 
     """
-    # Beitragsbemessungsgrenze differs in east and west germany
-    wohnort = "ost" if person["wohnort_ost"] else "west"
+    alg_entgelt = person["proxy_eink_vorj"]
 
-    alg_entgelt = proxy_net_wage_last_year(
-        person,
-        eink_st_params,
-        soli_st_params,
-        beit_bem_grenz=soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
-        werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
-        soz_vers_pausch=params["soz_vers_pausch_arbeitsl_geld"],
-    )
-
-    eligible = check_eligibility_alg(person, params)
-
-    if eligible:
+    if person["berechtigt_für_arbeitsl_geld"]:
         if person["anz_kinder_tu"].sum() == 0:
             person["arbeitsl_geld_m"] = (
                 alg_entgelt * params["arbeitsl_geld_satz_ohne_kinder"]
@@ -39,7 +27,8 @@ def ui(
                 alg_entgelt * params["arbeitsl_geld_satz_mit_kindern"]
             )
     else:
-        person["arbeitsl_geld_m"] = 0.0
+        person["arbeitsl_geld_m"] = 0
+
     return person
 
 
@@ -76,25 +65,3 @@ def proxy_net_wage_last_year(
     )
 
     return max(0, max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12)
-
-
-def check_eligibility_alg(person, params):
-    """Checking eligibility, depending on the months worked beforehand, the age and
-    other variables.."""
-    # Months of unemployment beforehand.
-    mts_ue = (
-        person["arbeitsl_lfdj_m"]
-        + person["arbeitsl_vorj_m"]
-        + person["arbeitsl_vor2j_m"]
-    )
-    # BENEFIT AMOUNT
-    # Check Eligiblity.
-    # Then different rates for parent and non-parents
-    # Take into account actual wages
-    # there are different replacement rates depending on presence of children
-    return (
-        (1 <= mts_ue <= 12)
-        & (person["alter"] < 65)
-        & (person["ges_rente_m"] == 0)
-        & (person["arbeitsstunden_w"] < params["arbeitsl_geld_stundengrenze"])
-    )

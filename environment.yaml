@@ -9,6 +9,7 @@ dependencies:
   - conda-build
   - conda-verify
   - pandas
+  - pdbpp
   - pre-commit
   - pyyaml
   - pytest

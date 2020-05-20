@@ -21,12 +21,12 @@ def soli_st_m_tu(_st_kind_freib_tu, abgelt_st_m_tu, soli_st_params):
     out = (
         _st_kind_freib_tu.apply(
             piecewise_polynomial,
-            args=(
-                soli_st_params["soli_st"]["lower_thresholds"],
-                soli_st_params["soli_st"]["upper_thresholds"],
-                soli_st_params["soli_st"]["rates"],
-                soli_st_params["soli_st"]["intercepts_at_lower_thresholds"],
-            ),
+            lower_thresholds=soli_st_params["soli_st"]["lower_thresholds"],
+            upper_thresholds=soli_st_params["soli_st"]["upper_thresholds"],
+            rates=soli_st_params["soli_st"]["rates"],
+            intercepts_at_lower_thresholds=soli_st_params["soli_st"][
+                "intercepts_at_lower_thresholds"
+            ],
         )
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_m_tu
     ) * (1 / 12)

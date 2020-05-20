@@ -279,7 +279,7 @@ def execute_dag(func_dict, dag, data, targets):
         if task not in data:
             if task in func_dict:
                 kwargs = _dict_subset(data, dag.predecessors(task))
-                data[task] = func_dict[task](**kwargs)
+                data[task] = func_dict[task](**kwargs).rename(task)
             else:
                 raise KeyError(f"Missing variable or function: {task}")
 

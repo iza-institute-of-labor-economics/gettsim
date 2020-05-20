@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def piecewise_polynomial(
+def _piecewise_polynomial(
     x,
     lower_thresholds,
     upper_thresholds,
@@ -51,3 +51,15 @@ def piecewise_polynomial(
     for pol in range(1, rates.shape[0] + 1):
         out += rates[pol - 1, index_interval] * (increment_to_calc ** pol)
     return out
+
+
+piecewise_polynomial = np.vectorize(
+    _piecewise_polynomial,
+    excluded=[
+        "lower_thresholds",
+        "upper_thresholds",
+        "rates",
+        "intercepts_at_lower_thresholds",
+        "rates_modified",
+    ],
+)
