@@ -145,9 +145,6 @@ def _zu_versteuerndes_eink_kein_kind_freib_vorläufig(
         - hh_freib
         - altersfreib
     ).clip(lower=0)
-    import pdb
-
-    pdb.set_trace()
     return out.rename("_zu_versteuerndes_eink_kein_kind_freib_vorläufig")
 
 
