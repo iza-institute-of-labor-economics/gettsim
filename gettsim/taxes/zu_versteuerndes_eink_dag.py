@@ -5,7 +5,7 @@ from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.taxes.zu_versteuerndes_eink import zve
 
 
-def _zu_versteuerndes_eink_kein_kind_freib(
+def vorsorge(
     p_id,
     hh_id,
     tu_id,
@@ -92,9 +92,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
     )
     out_cols = [
         "_zu_versteuerndes_eink_kein_kind_freib",
-        "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
         "_zu_versteuerndes_eink_kind_freib",
-        "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
         "kind_freib",
         "_ertragsanteil",
         "vorsorge",
@@ -113,11 +111,29 @@ def _zu_versteuerndes_eink_kein_kind_freib(
         },
     )
 
-    return df["_zu_versteuerndes_eink_kein_kind_freib"]
+    return df["vorsorge"]
 
 
-#
-#
+def _zu_versteuerndes_eink_kein_kind_freib(
+    sum_brutto_eink,
+    vorsorge,
+    sonderausgaben,
+    behinderungsgrad_pauschalbetrag,
+    hh_freib,
+    altersfreib,
+):
+
+    out = (
+        sum_brutto_eink
+        - vorsorge
+        - sonderausgaben
+        - behinderungsgrad_pauschalbetrag
+        - hh_freib
+        - altersfreib
+    ).clip(lower=0)
+    return out.rename("_zu_verst_eink_kein_kinderfreib")
+
+
 # def _zu_versteuerndes_eink_kind_freib(
 #     p_id,
 #     hh_id,
@@ -142,6 +158,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
 #     alter,
 #     anz_kinder_tu,
 #     jahr,
+#     kinderfreib,
 #     wohnort_ost,
 #     ges_krankenv_beit_m,
 #     eink_st_abzuege_params,
@@ -171,6 +188,7 @@ def _zu_versteuerndes_eink_kein_kind_freib(
 #             arbeitsl_v_beit_m,
 #             pflegev_beit_m,
 #             alleinerziehend,
+#             kinderfreib,
 #             alter,
 #             anz_kinder_tu,
 #             jahr,
@@ -180,18 +198,18 @@ def _zu_versteuerndes_eink_kein_kind_freib(
 #         axis=1,
 #     )
 #
-#     df = apply_tax_transfer_func(
-#         df,
-#         tax_func=zve,
-#         level=["hh_id", "tu_id"],
-#         in_cols=INPUT_COLS,
-#         out_cols=OUT_COLS,
-#         func_kwargs={
-#             "eink_st_abzuege_params": eink_st_abzuege_params,
-#             "soz_vers_beitr_params": soz_vers_beitr_params,
-#             "kindergeld_params": kindergeld_params,
-#         },
-#     )
+#     # df = apply_tax_transfer_func(
+#     #     df,
+#     #     tax_func=zve,
+#     #     level=["hh_id", "tu_id"],
+#     #     in_cols=INPUT_COLS,
+#     #     out_cols=OUT_COLS,
+#     #     func_kwargs={
+#     #         "eink_st_abzuege_params": eink_st_abzuege_params,
+#     #         "soz_vers_beitr_params": soz_vers_beitr_params,
+#     #         "kindergeld_params": kindergeld_params,
+#     #     },
+#     # )
 #
 #     return df["_zu_versteuerndes_eink_kind_freib"]
 
@@ -612,3 +630,43 @@ def _altervorsorge_aufwend(
     ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])
     out.loc[kind] = 0
     return out.rename("_altervorsorge_aufwend")
+
+
+def kinderfreib(
+    _kindergeld_anspruch,
+    kind,
+    _zu_versteuerndes_eink_kein_kind_freib,
+    tu_id,
+    eink_st_abzuege_params,
+):
+    # Calculate the possible kinderfreibetrag
+    kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
+    # Count number of children eligible for Child Benefit.
+    # Child allowance is only received for these kids.
+    anz_kindergeld_kind = (
+        (_kindergeld_anspruch.astype(int)).groupby(tu_id).transform(sum)
+    )
+    raw_kinderfreib = kifreib_total * anz_kindergeld_kind[~kind]
+
+    # If in a tax unit one adult earns less than the kinderfreib, we transfer the
+    # difference
+    diff_kinderfreib = (
+        _zu_versteuerndes_eink_kein_kind_freib.loc[~kind] - raw_kinderfreib
+    )
+    # Get the transfers for each concerned tax unit, indexed with the tax unit.
+    transfer_tu = diff_kinderfreib.loc[diff_kinderfreib < 0].reindex(
+        index=tu_id[~kind].loc[diff_kinderfreib < 0]
+    )
+    # Assign negative transfers to adults in tax unit
+    transfers = tu_id[~kind & (diff_kinderfreib < 0)].replace(transfer_tu)
+    out = pd.Series(index=kind.index, data=0, dtype=float, name="kinderfreib")
+
+    # Transfers are saved as negative values and therefore need to be substracted
+    out.loc[~kind & (diff_kinderfreib > 0)] = raw_kinderfreib.loc[
+        diff_kinderfreib > 0
+    ].subtract(transfers.loc[diff_kinderfreib > 0], fill_value=0)
+    out.loc[~kind & (diff_kinderfreib < 0)] = raw_kinderfreib.loc[
+        diff_kinderfreib < 0
+    ].add(transfers.loc[diff_kinderfreib < 0], fill_value=0)
+
+    return out
