@@ -22,10 +22,6 @@ def piecewise_polynomial(
 ):
     """Calculate value of the piecewise function at `x`.
 
-    This function works only for floats. To make it accept arrays for `x`, the function
-    is vectorized with :func:`np.vectorize` below while keeping all other arguments
-    except `x` as they are. This only works if the other arguments are passed as kwargs.
-
     Parameters
     ----------
     x : float
