@@ -32,6 +32,11 @@ def ges_krankenv_beitr_m(
     return ges_krankenv_beitr_m
 
 
+def ges_krankenv_beitr_m_tu(ges_krankenv_beitr_m, tu_id):
+    out = ges_krankenv_beitr_m.groupby(tu_id).apply(sum)
+    return out.rename("ges_krankenv_beitr_m_tu")
+
+
 def pflegev_beitr_m(
     geringfügig_beschäftigt,
     pflegev_beitr_rente,

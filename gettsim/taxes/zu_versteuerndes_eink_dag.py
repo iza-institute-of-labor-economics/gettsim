@@ -3,6 +3,7 @@ import copy
 import numpy as np
 import pandas as pd
 
+from gettsim._numpy import numpy_vectorize
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.taxes.zu_versteuerndes_eink import zve
 
@@ -631,3 +632,102 @@ def kinderfreib(
 def anz_erwachsene_in_tu(tu_id, kind):
     out = ((~kind).astype(int)).groupby(tu_id).transform(sum)
     return out.rename("anz_erwachsene_in_tu")
+
+
+def gemeinsam_veranlagt(tu_id, anz_erwachsene_in_tu):
+    out = tu_id.replace(anz_erwachsene_in_tu == 2)
+    return out.rename("gemeinsam_veranlagt")
+
+
+def gemeinsam_veranlagte_tu(gemeinsam_veranlagt, tu_id):
+    out = tu_id.loc[gemeinsam_veranlagt]
+    return out.rename("gemeinsam_veranlagte_tu")
+
+
+def vorsorge_bis_2004(
+    _lohn_vorsorgeabzug_single,
+    _lohn_vorsorgeabzug_tu,
+    ges_krankenv_beit_m,
+    rentenv_beit_m,
+    ges_krankenv_beit_m_tu,
+    rentenv_beit_m_tu,
+    tu_id,
+    gemeinsam_veranlagte_tu,
+    gem_veranlagt,
+    eink_st_abzuege_params,
+):
+    out = copy.deepcopy(ges_krankenv_beit_m) * 0
+    out.loc[~gem_veranlagt] = berechne_vorsorge_bis_2004(
+        _lohn_vorsorgeabzug_single,
+        ges_krankenv_beit_m.loc[~gem_veranlagt],
+        rentenv_beit_m.loc[~gem_veranlagt],
+        1,
+        eink_st_abzuege_params,
+    )
+    vorsorge_tu = berechne_vorsorge_bis_2004(
+        _lohn_vorsorgeabzug_tu,
+        ges_krankenv_beit_m_tu.loc[gemeinsam_veranlagte_tu],
+        rentenv_beit_m_tu.loc[gemeinsam_veranlagte_tu],
+        2,
+        eink_st_abzuege_params,
+    )
+    out.loc[gem_veranlagt] = tu_id[gem_veranlagt].replace(vorsorge_tu)
+    return out.rename("vorsorge_bis_2004")
+
+
+def _lohn_vorsorgeabzug_bis_2019_tu(
+    bruttolohn_m_tu, gemeinsam_veranlagte_tu, eink_st_abzuege_params
+):
+    out = (
+        eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
+        - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
+        * 12
+        * bruttolohn_m_tu.loc[gemeinsam_veranlagte_tu]
+    ).clip(lower=0)
+    return out.rename("_lohn_vorsorgeabzug_bis_2019_tu")
+
+
+def _lohn_vorsorge_bis_2019_single(
+    bruttolohn_m, gemeinsam_veranlagt, eink_st_abzuege_params
+):
+    out = 0.5 * (
+        2 * eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
+        - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
+        * 12
+        * bruttolohn_m.loc[~gemeinsam_veranlagt]
+    ).clip(lower=0)
+    out.rename("_lohn_vorsorge_vor_2019_single")
+
+
+def _lohn_vorsorge_ab_2019_single(gemeinsam_veranlagt):
+    out = gemeinsam_veranlagt.loc[gemeinsam_veranlagt].astype(int) * 0
+    return out.rename("_lohn_vorsorge_bis_2019_single")
+
+
+def _lohn_vorsorge_ab_2019_tu(gemeinsam_veranlagte_tu):
+    out = gemeinsam_veranlagte_tu.loc[gemeinsam_veranlagte_tu].astype(int) * 0
+    return out.rename("_lohn_vorsorge_bis_2019_tu")
+
+
+@numpy_vectorize(excluded=["anzahl_erwachsene", "eink_st_abzuege_params"])
+def berechne_vorsorge_bis_2004(
+    lohn_vorsorge,
+    krankenv_beitr,
+    rentenv_beitr,
+    anzahl_erwachsene,
+    eink_st_abzuege_params,
+):
+
+    item_1 = (1 / anzahl_erwachsene)(
+        12 * (rentenv_beitr + krankenv_beitr) - lohn_vorsorge
+    ).clip(lower=0)
+    item_2 = (1 / anzahl_erwachsene) * item_1.clip(
+        lower=eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"]
+    )
+
+    item_3 = 0.5 * np.minimum(
+        (item_1 - item_2),
+        anzahl_erwachsene * eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"],
+    )
+    out = item_1 + item_2 + item_3
+    return out

@@ -116,9 +116,8 @@ def vorsorge_pre_2005(tax_unit, params, soz_vers_beitr_params):
         item_2 = np.minimum(params["vorsorge_2004_grundhöchstbetrag"], vorsorg_rest)
         # From what is left from vorsorg_rest, you may deduct 50%.
         # (up until 50% of 'Grundhöchstbetrag')
-        item_3 = np.minimum(
-            0.5 * (vorsorg_rest - item_2),
-            0.5 * params["vorsorge_2004_grundhöchstbetrag"],
+        item_3 = 0.5 * np.minimum(
+            (vorsorg_rest - item_2), params["vorsorge_2004_grundhöchstbetrag"],
         )
     # For the married couple, the same stuff, but with tu totals.
     if tax_unit["gem_veranlagt"].max():
