@@ -12,8 +12,6 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
         It's always the most favorable for the taxpayer, but you know that only after
          applying the tax schedule
     """
-    adult_married = ~tax_unit["kind"] & tax_unit["gem_veranlagt"]
-    # married = [tax_unit['gem_veranlagt'], ~tax_unit['gem_veranlagt']]
     # create output dataframe and transter some important variables
     ####################################################
     # TAX DEDUCTIONS
@@ -27,92 +25,7 @@ def zve(tax_unit, eink_st_abzuege_params, soz_vers_beitr_params, kindergeld_para
     tax_unit.loc[:, "vorsorge"] = eink_st_abzuege_params["vorsorge"](
         tax_unit, eink_st_abzuege_params, soz_vers_beitr_params
     )
-
-    # Taxable income (zve = zu versteuerndes Einkommen)
-    # For married couples, household income is split between the two.
-    # Without child allowance / Ohne Kinderfreibetrag (nokfb):
-    tax_unit.loc[
-        ~tax_unit["kind"], "_zu_versteuerndes_eink_kein_kind_freib"
-    ] = zve_nokfb(tax_unit, eink_st_abzuege_params)
-    # Calculate Child Tax Allowance
-    tax_unit = kinderfreibetrag(tax_unit, eink_st_abzuege_params, kindergeld_params)
-    # Subtract (corrected) Child allowance
-    tax_unit.loc[~tax_unit["kind"], "_zu_versteuerndes_eink_kind_freib"] = np.maximum(
-        tax_unit["_zu_versteuerndes_eink_kein_kind_freib"] - tax_unit["kind_freib"], 0
-    )
-    # Finally, modify married couples income according to Splitting rule,
-    # i.e. each partner get assigned half of the total income
-    for incdef in [
-        "kein_kind_freib",
-        "kind_freib",
-    ]:
-        tax_unit.loc[:, "_zu_versteuerndes_eink_" + incdef + "_tu"] = tax_unit.loc[
-            adult_married, "_zu_versteuerndes_eink_" + incdef
-        ].sum()
-        tax_unit.loc[adult_married, "_zu_versteuerndes_eink_" + incdef] = (
-            0.5 * tax_unit["_zu_versteuerndes_eink_" + incdef + "_tu"]
-        )
     return tax_unit
-
-
-def kinderfreibetrag(tax_unit, params, kindergeld_params):
-    """Calculate zve with Child Allowance (Kinderfreibetrag)"""
-    tax_unit["kifreib"] = 0.0
-    #
-    # Married couples may share deductions if one partner does not need it.
-    # For non-married, just deduct half the amount for each child.
-    # TODO: Check whether this is correct for non-married couples
-
-    # Count number of children eligible for Child Benefit.
-    # Child allowance is only received for these kids.
-    kigeld_kinder = tax_unit["_kindergeld_anspruch"].sum()
-
-    # Find out who has the lower zve among partners
-    nokfb_lower = tax_unit["_zu_versteuerndes_eink_kein_kind_freib"].min()
-
-    kifreib_total = sum(params["kinderfreibetrag"].values())
-
-    diff_kifreib = nokfb_lower - (kifreib_total * kigeld_kinder)
-    # If the couple is married and one partner does not earn enough
-    # to split the kinderfeibetrag, things get a bit more complicated.
-    if diff_kifreib < 0 & tax_unit[~tax_unit["kind"]]["gem_veranlagt"].all():
-
-        # The high earner gets half of the total kinderfreibetrag plus the amount the
-        # lower earner can't claim.
-        kifreib_higher = (kifreib_total * kigeld_kinder) + abs(diff_kifreib)
-        # The second earner subtracts the remaining amount
-        kifreib_lower = kifreib_total * kigeld_kinder - abs(diff_kifreib)
-        # Then we assign each adult the amount and return the series
-        tax_unit.loc[
-            ~tax_unit["kind"] & tax_unit["_zu_versteuerndes_eink_kein_kind_freib"]
-            != nokfb_lower,
-            "kind_freib",
-        ] = kifreib_higher
-        tax_unit.loc[
-            ~tax_unit["kind"] & tax_unit["_zu_versteuerndes_eink_kein_kind_freib"]
-            == nokfb_lower,
-            "kind_freib",
-        ] = kifreib_lower
-        return tax_unit
-
-    # For non married couples or couples where both earn enough this are a lot easier.
-    # Just split the kinderfreibetrag 50/50.
-    else:
-        tax_unit.loc[~tax_unit["kind"], "kind_freib"] = kifreib_total * kigeld_kinder
-        return tax_unit
-
-
-def zve_nokfb(tax_unit, params):
-    """Calculate zve with no 'kinderfreibetrag'."""
-    return np.maximum(
-        0,
-        tax_unit["sum_brutto_eink"]
-        - tax_unit["vorsorge"]
-        - tax_unit["sonderausgaben"]
-        - tax_unit["behinderungsgrad_pauschalbetrag"]
-        - tax_unit["hh_freib"]
-        - tax_unit["altersfreib"],
-    )
 
 
 def _vorsorge_since_2010(tax_unit, params, soz_vers_beitr_params):

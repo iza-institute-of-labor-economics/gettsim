@@ -97,6 +97,6 @@ def test_zve(
         result,
         expected_result,
         check_dtype=False,
-        check_less_precise=0,
+        check_less_precise=1,
         check_names=False,
     )
