@@ -184,9 +184,9 @@ def create_intercepts(
     for i, up_thr in enumerate(upper_thresholds[:-1]):
         intercepts_at_lower_thresholds[i + 1] = fun(
             up_thr,
-            lower_thresholds,
-            upper_thresholds,
-            rates,
-            intercepts_at_lower_thresholds,
+            lower_thresholds=lower_thresholds,
+            upper_thresholds=upper_thresholds,
+            rates=rates,
+            intercepts_at_lower_thresholds=intercepts_at_lower_thresholds,
         )
     return intercepts_at_lower_thresholds
