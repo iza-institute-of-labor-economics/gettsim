@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 import pandas as pd
 
@@ -122,8 +124,9 @@ def _zu_versteuerndes_eink_kein_kind_freib(
         .groupby(tu_id)
         .transform(sum)
     )
-    out = zve_tu / anz_erwachsene_in_tu.loc[~kind]
-    out.rename("_zu_versteuerndes_eink_kein_kind_freib")
+    out = copy.deepcopy(_zu_versteuerndes_eink_kein_kind_freib_vorläufig)
+    out.loc[~kind] = zve_tu / anz_erwachsene_in_tu.loc[~kind]
+    return out.rename("_zu_versteuerndes_eink_kein_kind_freib")
 
 
 def _zu_versteuerndes_eink_kein_kind_freib_vorläufig(
@@ -142,6 +145,9 @@ def _zu_versteuerndes_eink_kein_kind_freib_vorläufig(
         - hh_freib
         - altersfreib
     ).clip(lower=0)
+    import pdb
+
+    pdb.set_trace()
     return out.rename("_zu_versteuerndes_eink_kein_kind_freib_vorläufig")
 
 
@@ -152,14 +158,18 @@ def _zu_versteuerndes_eink_kind_freib(
     kinderfreib,
     tu_id,
 ):
+    import pdb
+
+    pdb.set_trace()
     zu_vers_eink_kinderfreib = (
-        _zu_versteuerndes_eink_kein_kind_freib_vorläufig - kinderfreib.loc[~kind]
+        _zu_versteuerndes_eink_kein_kind_freib_vorläufig[~kind] - kinderfreib.loc[~kind]
     )
     zu_verst_eink_tu = (
         (zu_vers_eink_kinderfreib.loc[~kind]).groupby(tu_id).transform(sum)
     )
-    out = zu_verst_eink_tu / anz_erwachsene_in_tu.loc[~kind]
-    return out.rename["_zu_versteuerndes_eink_kind_freib"]
+    out = copy.deepcopy(_zu_versteuerndes_eink_kein_kind_freib_vorläufig)
+    out.loc[~kind] = zu_verst_eink_tu / anz_erwachsene_in_tu.loc[~kind]
+    return out.rename("_zu_versteuerndes_eink_kind_freib")
 
 
 def brutto_eink_1(eink_selbstst_m):
