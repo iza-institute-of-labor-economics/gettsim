@@ -17,6 +17,19 @@ import pandas as pd
 def _zu_verst_eink_kein_kinderfreib(
     _zu_verst_eink_kein_kinderfreib_vorläufig, kind, anz_erwachsene_in_tu, tu_id
 ):
+    """
+
+    Parameters
+    ----------
+    _zu_verst_eink_kein_kinderfreib_vorläufig
+    kind
+    anz_erwachsene_in_tu
+    tu_id
+
+    Returns
+    -------
+
+    """
 
     zve_tu = (
         (_zu_verst_eink_kein_kinderfreib_vorläufig.loc[~kind])
@@ -36,6 +49,21 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
     hh_freib,
     altersfreib,
 ):
+    """
+
+    Parameters
+    ----------
+    sum_brutto_eink
+    vorsorge
+    sonderausgaben
+    behinderungsgrad_pauschalbetrag
+    hh_freib
+    altersfreib
+
+    Returns
+    -------
+
+    """
     out = (
         sum_brutto_eink
         - vorsorge
@@ -54,6 +82,20 @@ def _zu_verst_eink_kinderfreib(
     kinderfreib,
     tu_id,
 ):
+    """
+
+    Parameters
+    ----------
+    _zu_verst_eink_kein_kinderfreib_vorläufig
+    kind
+    anz_erwachsene_in_tu
+    kinderfreib
+    tu_id
+
+    Returns
+    -------
+
+    """
 
     zu_vers_eink_kinderfreib = (
         _zu_verst_eink_kein_kinderfreib_vorläufig[~kind] - kinderfreib.loc[~kind]
