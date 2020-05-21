@@ -214,33 +214,6 @@ def grossinc_alg2(household):
     )
 
 
-def alg2_2005_nq(person, params):
-    """Calculate Nettoquote
-
-    Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3
-    Abs. 2 Alg II-V.
-
-    """
-
-    # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit. Nach § 11 Abs. 2 Nr. 1
-    # bis 5.
-    alg2_2005_bne = np.clip(
-        person["bruttolohn_m"]
-        - person["eink_st_m"]
-        - person["soli_st_m"]
-        - person["sozialv_beit_m"]
-        - params["abzugsfähige_pausch"]["werbung"]
-        - params["abzugsfähige_pausch"]["versicherung"],
-        0,
-        None,
-    )
-
-    # Nettoquote:
-    alg2_2005_nq = alg2_2005_bne / person["bruttolohn_m"]
-
-    return alg2_2005_nq
-
-
 def eink_anr_frei(household, params):
     """Calculate income not subject to transfer withdrawal for each person.
 
@@ -257,6 +230,7 @@ def eink_anr_frei(household, params):
         "eink_st_m",
         "soli_st_m",
         "sozialv_beit_m",
+        "arbeitsl_geld_2_2005_netto_quote",
     ]
     # Everything was already initialized
     out_cols = []
@@ -277,7 +251,7 @@ def eink_anr_frei_person(person, eink_anr_frei_params, params):
     individual_params = copy.deepcopy(eink_anr_frei_params)
 
     if params["datum"] < datetime.date(year=2005, month=10, day=1):
-        individual_params["rates"] *= alg2_2005_nq(person, params)
+        individual_params["rates"] *= person["arbeitsl_geld_2_2005_netto_quote"]
         rates_modified = True
 
     person["eink_anrechn_frei"] = piecewise_polynomial(

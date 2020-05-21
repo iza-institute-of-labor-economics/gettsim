@@ -37,6 +37,7 @@ INPUT_COLS = [
     "elterngeld_m",
     "jahr",
 ]
+
 OUT_COLS = [
     "sum_basis_arbeitsl_geld_2_eink",
     "sum_arbeitsl_geld_2_eink",

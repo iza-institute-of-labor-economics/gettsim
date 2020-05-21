@@ -12,7 +12,8 @@ def uhv(tax_unit, params, kindergeld_params):
     alimony, the government pays the child alimony to the mother (or the father, if
     he has the kids)
 
-    The amount is specified in §1612a BGB and, ultimately, in Mindesunterhaltsverordnung.
+    The amount is specified in §1612a BGB and, ultimately, in
+    Mindesunterhaltsverordnung.
 
     returns:
     tax_unit: Updated DataFrame including uhv

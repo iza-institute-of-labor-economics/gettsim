@@ -30,6 +30,7 @@ def sum_basis_arbeitsl_geld_2_eink(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -59,37 +60,10 @@ def sum_basis_arbeitsl_geld_2_eink(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -109,7 +83,7 @@ def sum_basis_arbeitsl_geld_2_eink(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -143,6 +117,7 @@ def sum_arbeitsl_geld_2_eink(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
 
@@ -173,37 +148,10 @@ def sum_arbeitsl_geld_2_eink(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -223,7 +171,7 @@ def sum_arbeitsl_geld_2_eink(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -257,6 +205,7 @@ def arbeitsl_geld_2_brutto_eink_hh(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -286,37 +235,10 @@ def arbeitsl_geld_2_brutto_eink_hh(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -336,7 +258,7 @@ def arbeitsl_geld_2_brutto_eink_hh(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -370,6 +292,7 @@ def alleinerziehenden_mehrbedarf(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -399,37 +322,10 @@ def alleinerziehenden_mehrbedarf(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -449,7 +345,7 @@ def alleinerziehenden_mehrbedarf(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -483,6 +379,7 @@ def regelbedarf_m(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -512,37 +409,10 @@ def regelbedarf_m(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -562,7 +432,7 @@ def regelbedarf_m(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -596,6 +466,7 @@ def regelsatz_m(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -625,37 +496,10 @@ def regelsatz_m(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -675,7 +519,7 @@ def regelsatz_m(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -709,6 +553,7 @@ def kost_unterk_m(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -738,37 +583,10 @@ def kost_unterk_m(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -788,7 +606,7 @@ def kost_unterk_m(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -822,6 +640,7 @@ def unterhaltsvors_m_hh(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -851,37 +670,10 @@ def unterhaltsvors_m_hh(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -901,7 +693,7 @@ def unterhaltsvors_m_hh(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -935,6 +727,7 @@ def eink_anrechn_frei(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -964,37 +757,10 @@ def eink_anrechn_frei(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -1014,7 +780,7 @@ def eink_anrechn_frei(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -1048,6 +814,7 @@ def arbeitsl_geld_2_eink(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -1077,37 +844,10 @@ def arbeitsl_geld_2_eink(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -1127,7 +867,7 @@ def arbeitsl_geld_2_eink(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -1161,6 +901,7 @@ def sum_arbeitsl_geld_2_eink_hh(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    arbeitsl_geld_2_2005_netto_quote,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -1190,37 +931,10 @@ def sum_arbeitsl_geld_2_eink_hh(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            arbeitsl_geld_2_2005_netto_quote,
         ],
         axis=1,
     )
-
-    in_cols = [
-        "p_id",
-        "hh_id",
-        "tu_id",
-        "vorstand_tu",
-        "kind",
-        "alter",
-        "kaltmiete_m",
-        "heizkost_m",
-        "wohnfläche",
-        "bewohnt_eigentum",
-        "alleinerziehend",
-        "bruttolohn_m",
-        "ges_rente_m",
-        "kapital_eink_m",
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "eink_selbstst_m",
-        "vermiet_eink_m",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "jahr",
-    ]
 
     out_cols = [
         "sum_basis_arbeitsl_geld_2_eink",
@@ -1240,9 +954,32 @@ def sum_arbeitsl_geld_2_eink_hh(
         df,
         tax_func=alg2,
         level=["hh_id"],
-        in_cols=in_cols,
+        in_cols=df.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["sum_arbeitsl_geld_2_eink_hh"]
+
+
+def arbeitsl_geld_2_2005_netto_quote(
+    bruttolohn_m, eink_st_m, soli_st_m, sozialv_beit_m, arbeitsl_geld_2_params
+):
+    """Calculate Nettoquote.
+
+    Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
+
+    """
+    # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit nach § 11 Abs. 2 Nr. 1-5.
+    alg2_2005_bne = (
+        bruttolohn_m
+        - eink_st_m
+        - soli_st_m
+        - sozialv_beit_m
+        - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
+        - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
+    ).clip(lower=0)
+
+    arbeitsl_geld_2_2005_netto_quote = alg2_2005_bne / bruttolohn_m
+
+    return arbeitsl_geld_2_2005_netto_quote
