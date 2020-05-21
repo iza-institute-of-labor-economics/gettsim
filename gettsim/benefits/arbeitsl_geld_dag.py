@@ -50,7 +50,6 @@ def berechtigt_für_arbeitsl_geld(
 
 def proxy_eink_vorj_arbeitsl_geld(
     beitr_bemess_grenze_rentenv,
-    wohnort_ost,
     bruttolohn_vorj_m,
     arbeitsl_geld_params,
     eink_st_params,

@@ -3,7 +3,6 @@ import datetime
 import numpy as np
 from dateutil import relativedelta
 
-from gettsim.benefits.arbeitsl_geld import proxy_net_wage_last_year
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 
 
@@ -20,14 +19,13 @@ def elterngeld(
 
     household = check_eligibilities(household, params)
 
-    in_cols = list(household.columns.values)
     # Everything was already initialized
     out_cols = []
     household.loc[household["elternzeit_anspruch"], :] = apply_tax_transfer_func(
         household[household["elternzeit_anspruch"]],
         tax_func=calc_elterngeld,
         level=["hh_id", "tu_id", "p_id"],
-        in_cols=in_cols,
+        in_cols=household.columns.tolist(),
         out_cols=out_cols,
         func_kwargs={
             "params": params,
@@ -99,17 +97,7 @@ def calc_considered_wage(
     According to § 2 (1) BEEG elterngeld is calculated by the loss of income due to
     child raising.
     """
-    # Beitragsbemessungsgrenze differs in east and west germany
-    wohnort = "ost" if person["wohnort_ost"] else "west"
-
-    net_wage_last_year = proxy_net_wage_last_year(
-        person,
-        eink_st_params,
-        soli_st_params,
-        beit_bem_grenz=soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
-        werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
-        soz_vers_pausch=params["elterngeld_soz_vers_pausch"],
-    )
+    net_wage_last_year = person["proxy_eink_vorj_elterngeld"]
 
     current_net_wage = calc_net_wage(person)
 
@@ -120,8 +108,9 @@ def calc_elterngeld_percentage(considered_wage, params):
     """ This function calculates the percentage share of net income, which is
     reimbursed when receiving elterngeld.
 
-    According to § 2 (2) BEEG the percentage increases below the first step and decreases
-    above the second step until elterngeld_prozent_minimum.
+    According to § 2 (2) BEEG the percentage increases below the first step and
+    decreases above the second step until elterngeld_prozent_minimum.
+
     """
     if considered_wage < params["elterngeld_nettoeinkommen_stufen"][1]:
         wag_diff = params["elterngeld_nettoeinkommen_stufen"][1] - considered_wage
