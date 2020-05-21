@@ -14,18 +14,18 @@ def rentenv_beitr_m(
     geringfügig_beschäftigt, rentenv_beitr_regular_job, an_beitr_rentenv_midi_job,
 ):
 
-    rentenv_beitr_m = pd.Series(
+    out = pd.Series(
         index=geringfügig_beschäftigt.index, name="rentenv_beitr_m", dtype=float
     )
 
     # Set contribution 0 for people in minijob
-    rentenv_beitr_m.loc[geringfügig_beschäftigt] = 0
+    out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
-    rentenv_beitr_m.loc[an_beitr_rentenv_midi_job.index] = an_beitr_rentenv_midi_job
-    rentenv_beitr_m.loc[rentenv_beitr_regular_job.index] = rentenv_beitr_regular_job
+    out.loc[an_beitr_rentenv_midi_job.index] = an_beitr_rentenv_midi_job
+    out.loc[rentenv_beitr_regular_job.index] = rentenv_beitr_regular_job
 
-    return rentenv_beitr_m
+    return out
 
 
 def rentenv_beitr_m_tu(rentenv_beitr_m, tu_id):
@@ -36,20 +36,18 @@ def rentenv_beitr_m_tu(rentenv_beitr_m, tu_id):
 def arbeitsl_v_beitr_m(
     geringfügig_beschäftigt, an_beitr_arbeitsl_v_midi_job, arbeitsl_v_regular_job,
 ):
-    arbeitsl_v_beitr_m = pd.Series(
+    out = pd.Series(
         index=geringfügig_beschäftigt.index, name="arbeitsl_v_beitr_m", dtype=float
     )
 
     # Set contribution 0 for people in minijob
-    arbeitsl_v_beitr_m.loc[geringfügig_beschäftigt] = 0
+    out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
-    arbeitsl_v_beitr_m.loc[
-        an_beitr_arbeitsl_v_midi_job.index
-    ] = an_beitr_arbeitsl_v_midi_job
-    arbeitsl_v_beitr_m.loc[arbeitsl_v_regular_job.index] = arbeitsl_v_regular_job
+    out.loc[an_beitr_arbeitsl_v_midi_job.index] = an_beitr_arbeitsl_v_midi_job
+    out.loc[arbeitsl_v_regular_job.index] = arbeitsl_v_regular_job
 
-    return arbeitsl_v_beitr_m
+    return out
 
 
 def arbeitsl_v_regular_job(lohn_rente_regulär_beschäftigt, soz_vers_beitr_params):
