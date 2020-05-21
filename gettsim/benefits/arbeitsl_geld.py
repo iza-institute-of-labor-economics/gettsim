@@ -3,35 +3,6 @@ from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
 
 
-def ui(
-    person,
-    params,
-    soz_vers_beitr_params,
-    eink_st_abzuege_params,
-    eink_st_params,
-    soli_st_params,
-):
-    """Return the Unemployment Benefit based on
-    employment status and income from previous years.
-
-    """
-    alg_entgelt = person["proxy_eink_vorj"]
-
-    if person["berechtigt_für_arbeitsl_geld"]:
-        if person["anz_kinder_tu"].sum() == 0:
-            person["arbeitsl_geld_m"] = (
-                alg_entgelt * params["arbeitsl_geld_satz_ohne_kinder"]
-            )
-        else:
-            person["arbeitsl_geld_m"] = (
-                alg_entgelt * params["arbeitsl_geld_satz_mit_kindern"]
-            )
-    else:
-        person["arbeitsl_geld_m"] = 0
-
-    return person
-
-
 def proxy_net_wage_last_year(
     person,
     eink_st_params,
