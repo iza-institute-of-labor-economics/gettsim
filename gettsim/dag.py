@@ -85,13 +85,15 @@ def compute_taxes_and_transfers(
         new_funcs = load_functions(Path(__file__).parent / file)
         internal_functions.update(new_funcs)
 
-    func_dict = create_function_dict(
+    fail_if_user_columns_are_not_in_data(data, user_columns)
+    for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
+        fail_if_functions_and_user_columns_overlap(data, funcs, name, user_columns)
+
+    functions = create_function_dict(
         user_functions, internal_functions, user_columns, params
     )
 
-    fail_if_functions_and_columns_overlap(data, func_dict)
-
-    dag = create_dag(func_dict)
+    dag = create_dag(functions)
 
     if targets != "all":
         dag = prune_dag(dag, targets)
@@ -100,7 +102,7 @@ def compute_taxes_and_transfers(
         relevant_columns = set(data) & set(dag.nodes)
         data = _dict_subset(data, relevant_columns)
 
-    results = execute_dag(func_dict, dag, data, targets)
+    results = execute_dag(functions, dag, data, targets)
 
     if len(results) == 1:
         results = list(results.values())[0]
@@ -154,15 +156,15 @@ def create_function_dict(user_functions, internal_functions, user_columns, param
     return partialed_functions
 
 
-def fail_if_functions_and_columns_overlap(func_dict, data):
+def fail_if_user_columns_are_not_in_data(data, columns):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
     ----------
-    func_dict : dict
-        Dictionary of function with partialed parameters.
     data : dict of pandas.Series
         Dictionary containing data columns as Series.
+    columns : list of str
+        List of column names.
 
     Raises
     ------
@@ -170,24 +172,101 @@ def fail_if_functions_and_columns_overlap(func_dict, data):
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    overlap = [name for name in func_dict if name in data]
+    unused_user_columns = sorted(set(columns) - set(data))
+    n_cols = len(unused_user_columns)
+
+    formatted = '",\n    "'.join(unused_user_columns)
+    column_sg_pl = "column" if n_cols == 1 else "columns"
+
+    if unused_user_columns:
+        first_part = format_text_for_cmdline(
+            f"You passed the following user {column_sg_pl}:"
+        )
+        list_ = textwrap.dedent(
+            """
+            [
+                "{formatted}",
+            ]
+            """
+        ).format(formatted=formatted)
+
+        second_part = format_text_for_cmdline(
+            f"""
+            {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in the
+            data.
+
+            If you want {'this' if n_cols == 1 else 'a'} data column to be used
+            instead of calculating it within GETTSIM, please add it to *data*.
+
+            If you want {'this' if n_cols == 1 else 'a'} data column to be
+            calculated internally by GETTSIM, remove it from the *user_columns* you
+            pass to GETTSIM.
+
+            {'' if n_cols == 1 else '''You need to pick one option for each column that
+            appears in the list above.'''}
+            """
+        )
+        raise ValueError("\n".join([first_part, list_, second_part]))
+
+
+def fail_if_functions_and_user_columns_overlap(data, functions, type_, user_columns):
+    """Fail if functions which compute columns overlap with existing columns.
+
+    Parameters
+    ----------
+    data : dict of pandas.Series
+        Dictionary containing data columns as Series.
+    functions : dict
+        Dictionary of functions.
+    type_ : {"internal", "user"}
+        Source of the functions.
+    user_columns : list of str
+        Columns provided by the user.
+
+    Raises
+    ------
+    ValueError
+        Fail if functions which compute columns overlap with existing columns.
+
+    """
+    overlap = sorted(
+        name for name in functions if name in data and name not in user_columns
+    )
     n_cols = len(overlap)
-    formatted = ", ".join(overlap)
+
+    formatted = '",\n    "'.join(overlap)
 
     if overlap:
-        raise ValueError(
-            textwrap.dedent(
-                f"""
-                Your data provides {formatted}, which {'is' if n_cols == 1 else 'are'}
-                already present among the functions of the taxes and transfers system.
-
-                - If you want a data column to be used instead of calculating it within
-                  GETTSIM, please specify it among the *user_columns* as {overlap}.
-                - If you want a data column to be calculated internally by GETTSIM, do
-                  not pass it along the rest of the *data*.
-                """
-            )
+        first_part = format_text_for_cmdline(
+            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
         )
+
+        list_ = textwrap.dedent(
+            """
+            [
+                "{formatted}",
+            ]
+            """
+        ).format(formatted=formatted)
+
+        second_part = format_text_for_cmdline(
+            f"""
+            {'This is' if n_cols == 1 else 'These are'} already present among the
+            {type_} functions of the taxes and transfers system.
+
+            If you want {'this' if n_cols == 1 else 'a'} data column to be used
+            instead of calculating it within GETTSIM, please specify it among the
+            *user_columns*{'.' if type_ == 'internal' else ''' or remove the function
+            from *user_functions*.'''}
+
+            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
+            by {type_} functions, remove it from the *data* you pass to GETTSIM.
+
+            {'' if n_cols == 1 else '''You need to pick one option for each column that
+            appears in the list above.'''}
+            """
+        )
+        raise ValueError("\n".join([first_part, list_, second_part]))
 
 
 def create_dag(func_dict):
@@ -320,3 +399,32 @@ def collect_garbage(results, task, visited_nodes, targets, dag):
             del results[ancestor]
 
     return results
+
+
+def format_text_for_cmdline(text, width=79):
+    """Format exception messages and warnings for the cmdline.
+
+    Parameter
+    ---------
+    text : str
+        The text which can include multiple paragraphs separated by two newlines.
+    width : int
+        The text will be wrapped by `width` characters.
+
+    Returns
+    -------
+    formatted_text : str
+        Correctly dedented, wrapped text.
+
+    """
+    text = text.lstrip("\n")
+    paragraphs = text.split("\n\n")
+    wrapped_paragraphs = []
+    for paragraph in paragraphs:
+        dendented_paragraph = textwrap.dedent(paragraph)
+        wrapped_paragraph = textwrap.fill(dendented_paragraph, width=width)
+        wrapped_paragraphs.append(wrapped_paragraph)
+
+    formatted_text = "\n\n".join(wrapped_paragraphs)
+
+    return formatted_text
