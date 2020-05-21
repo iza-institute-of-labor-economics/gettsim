@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from gettsim.benefits.arbeitsl_geld import ui
@@ -52,24 +51,6 @@ def arbeitsl_geld_m(
         axis=1,
     )
 
-    # in_cols = [
-    #     "p_id",
-    #     "hh_id",
-    #     "tu_id",
-    #     "bruttolohn_vorj_m",
-    #     "wohnort_ost",
-    #     "kind",
-    #     "arbeitsl_lfdj_m",
-    #     "arbeitsl_vorj_m",
-    #     "arbeitsl_vor2j_m",
-    #     "ges_rente_m",
-    #     "arbeitsstunden_w",
-    #     "anz_kinder_tu",
-    #     "alter",
-    #     "jahr",
-    #     "berechtigt_für_arbeitsl_geld",
-    # ]
-
     df = apply_tax_transfer_func(
         df,
         tax_func=ui,
@@ -111,6 +92,7 @@ def berechtigt_für_arbeitsl_geld(
 
 
 def proxy_eink_vorj(
+    beitr_bemess_grenze_rentenv,
     wohnort_ost,
     bruttolohn_vorj_m,
     arbeitsl_geld_params,
@@ -125,11 +107,6 @@ def proxy_eink_vorj(
     - Elterngeld
 
     """
-    beitr_bemess_grenze_rentenv = np.where(
-        wohnort_ost,
-        soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
-        soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
-    )
     # Relevant wage is capped at the contribution thresholds
     max_wage = bruttolohn_vorj_m.clip(lower=None, upper=beitr_bemess_grenze_rentenv)
 
@@ -153,3 +130,12 @@ def proxy_eink_vorj(
     )
 
     return (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0)
+
+
+def beitr_bemess_grenze_rentenv(wohnort_ost, soz_vers_beitr_params):
+    return wohnort_ost.replace(
+        {
+            True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
+            False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
+        }
+    )
