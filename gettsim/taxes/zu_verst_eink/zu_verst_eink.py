@@ -17,21 +17,21 @@ import pandas as pd
 from gettsim._numpy import numpy_vectorize
 
 
-def _zu_versteuerndes_eink_kein_kind_freib(
-    _zu_versteuerndes_eink_kein_kind_freib_vorläufig, kind, anz_erwachsene_in_tu, tu_id
+def _zu_verst_eink_kein_kinderfreib(
+    _zu_verst_eink_kein_kinderfreib_vorläufig, kind, anz_erwachsene_in_tu, tu_id
 ):
 
     zve_tu = (
-        (_zu_versteuerndes_eink_kein_kind_freib_vorläufig.loc[~kind])
+        (_zu_verst_eink_kein_kinderfreib_vorläufig.loc[~kind])
         .groupby(tu_id)
         .transform(sum)
     )
-    out = copy.deepcopy(_zu_versteuerndes_eink_kein_kind_freib_vorläufig)
+    out = copy.deepcopy(_zu_verst_eink_kein_kinderfreib_vorläufig)
     out.loc[~kind] = zve_tu / anz_erwachsene_in_tu.loc[~kind]
-    return out.rename("_zu_versteuerndes_eink_kein_kind_freib")
+    return out.rename("_zu_verst_eink_kein_kinderfreib")
 
 
-def _zu_versteuerndes_eink_kein_kind_freib_vorläufig(
+def _zu_verst_eink_kein_kinderfreib_vorläufig(
     sum_brutto_eink,
     vorsorge,
     sonderausgaben,
@@ -47,11 +47,11 @@ def _zu_versteuerndes_eink_kein_kind_freib_vorläufig(
         - hh_freib
         - altersfreib
     ).clip(lower=0)
-    return out.rename("_zu_versteuerndes_eink_kein_kind_freib_vorläufig")
+    return out.rename("_zu_verst_eink_kein_kinderfreib_vorläufig")
 
 
 def _zu_versteuerndes_eink_kind_freib(
-    _zu_versteuerndes_eink_kein_kind_freib_vorläufig,
+    _zu_verst_eink_kein_kinderfreib_vorläufig,
     kind,
     anz_erwachsene_in_tu,
     kinderfreib,
@@ -59,12 +59,12 @@ def _zu_versteuerndes_eink_kind_freib(
 ):
 
     zu_vers_eink_kinderfreib = (
-        _zu_versteuerndes_eink_kein_kind_freib_vorläufig[~kind] - kinderfreib.loc[~kind]
+        _zu_verst_eink_kein_kinderfreib_vorläufig[~kind] - kinderfreib.loc[~kind]
     )
     zu_verst_eink_tu = (
         (zu_vers_eink_kinderfreib.loc[~kind]).groupby(tu_id).transform(sum)
     )
-    out = copy.deepcopy(_zu_versteuerndes_eink_kein_kind_freib_vorläufig)
+    out = copy.deepcopy(_zu_verst_eink_kein_kinderfreib_vorläufig)
     out.loc[~kind] = zu_verst_eink_tu / anz_erwachsene_in_tu.loc[~kind]
     return out.rename("_zu_versteuerndes_eink_kind_freib")
 
@@ -493,7 +493,7 @@ def _altervorsorge_aufwend(
 def kinderfreib(
     _kindergeld_anspruch,
     kind,
-    _zu_versteuerndes_eink_kein_kind_freib_vorläufig,
+    _zu_verst_eink_kein_kinderfreib_vorläufig,
     tu_id,
     eink_st_abzuege_params,
 ):
@@ -509,7 +509,7 @@ def kinderfreib(
     # If in a tax unit one adult earns less than the kinderfreib, we transfer the
     # difference
     diff_kinderfreib = (
-        _zu_versteuerndes_eink_kein_kind_freib_vorläufig.loc[~kind] - raw_kinderfreib
+        _zu_verst_eink_kein_kinderfreib_vorläufig.loc[~kind] - raw_kinderfreib
     )
     # Get the transfers for each concerned tax unit, indexed with the tax unit.
     transfer_tu = diff_kinderfreib.loc[diff_kinderfreib < 0].reindex(

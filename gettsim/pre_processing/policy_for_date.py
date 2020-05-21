@@ -24,19 +24,19 @@ from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
 from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
 from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_stunden
-from gettsim.taxes.zu_versteuerndes_eink import _lohn_vorsorge_ab_2020_single
-from gettsim.taxes.zu_versteuerndes_eink import _lohn_vorsorge_ab_2020_tu
-from gettsim.taxes.zu_versteuerndes_eink import _lohn_vorsorge_bis_2019_single
-from gettsim.taxes.zu_versteuerndes_eink import _lohn_vorsorgeabzug_bis_2019_tu
-from gettsim.taxes.zu_versteuerndes_eink import _sonderausgaben_ab_2012
-from gettsim.taxes.zu_versteuerndes_eink import _sonderausgaben_bis_2011
-from gettsim.taxes.zu_versteuerndes_eink import _sum_brutto_eink_mit_kapital
-from gettsim.taxes.zu_versteuerndes_eink import _sum_brutto_eink_ohne_kapital
-from gettsim.taxes.zu_versteuerndes_eink import hh_freib_bis_2014
-from gettsim.taxes.zu_versteuerndes_eink import hh_freib_seit_2015
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_2005_bis_2009
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_ab_2010
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_bis_2004
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import _lohn_vorsorge_ab_2020_single
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import _lohn_vorsorge_ab_2020_tu
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import _lohn_vorsorge_bis_2019_single
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import _lohn_vorsorgeabzug_bis_2019_tu
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import _sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import _sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import _sum_brutto_eink_mit_kapital
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import _sum_brutto_eink_ohne_kapital
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import hh_freib_bis_2014
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import hh_freib_seit_2015
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import vorsorge_2005_bis_2009
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import vorsorge_ab_2010
+from gettsim.taxes.zu_verst_eink.zu_verst_eink import vorsorge_bis_2004
 
 
 def get_policies_for_date(policy_date, groups="all"):

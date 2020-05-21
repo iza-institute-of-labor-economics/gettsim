@@ -39,7 +39,7 @@ INPUT_COLS = [
     "ges_krankenv_beitr_m",
 ]
 OUT_COLS = [
-    "_zu_versteuerndes_eink_kein_kind_freib",
+    "_zu_verst_eink_kein_kinderfreib",
     "_zu_versteuerndes_eink_kind_freib",
     "kind_freib",
     "brutto_eink_1",
@@ -60,7 +60,7 @@ OUT_COLS = [
 ]
 
 TEST_COLS = [
-    "_zu_versteuerndes_eink_kein_kind_freib",
+    "_zu_verst_eink_kein_kinderfreib",
     "_zu_versteuerndes_eink_kind_freib",
     "kinderfreib",
     "altersfreib",
