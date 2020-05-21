@@ -40,7 +40,7 @@ INPUT_COLS = [
 ]
 OUT_COLS = [
     "_zu_verst_eink_kein_kinderfreib",
-    "_zu_versteuerndes_eink_kind_freib",
+    "_zu_verst_eink_kinderfreib",
     "kind_freib",
     "brutto_eink_1",
     "brutto_eink_4",
@@ -61,7 +61,7 @@ OUT_COLS = [
 
 TEST_COLS = [
     "_zu_verst_eink_kein_kinderfreib",
-    "_zu_versteuerndes_eink_kind_freib",
+    "_zu_verst_eink_kinderfreib",
     "kinderfreib",
     "altersfreib",
     "sum_brutto_eink",

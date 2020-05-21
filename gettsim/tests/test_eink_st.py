@@ -17,7 +17,7 @@ INPUT_COLS = [
     "tu_id",
     "kind",
     "_zu_verst_eink_kein_kinderfreib",
-    "_zu_versteuerndes_eink_kind_freib",
+    "_zu_verst_eink_kinderfreib",
     "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
     "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
     "brutto_eink_5",
@@ -68,7 +68,7 @@ def test_tax_sched(
     df = year_data[INPUT_COLS].copy()
     columns = [
         "_zu_verst_eink_kein_kinderfreib",
-        "_zu_versteuerndes_eink_kind_freib",
+        "_zu_verst_eink_kinderfreib",
         "brutto_eink_5",
     ]
 
