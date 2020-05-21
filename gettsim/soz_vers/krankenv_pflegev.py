@@ -10,26 +10,27 @@ def ges_krankenv_beitr_m(
     an_beitr_krankenv_midi_job,
 ):
 
-    ges_krankenv_beitr_m = pd.Series(
+    out = pd.Series(
         index=geringfügig_beschäftigt.index, name="ges_krankenv_beitr_m", dtype=float
     )
 
-    ges_krankenv_beitr_m.loc[geringfügig_beschäftigt] = 0
+    out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
-    ges_krankenv_beitr_m.loc[
-        an_beitr_krankenv_midi_job.index
-    ] = an_beitr_krankenv_midi_job
-    ges_krankenv_beitr_m.loc[
+    out.loc[an_beitr_krankenv_midi_job.index] = an_beitr_krankenv_midi_job
+    out.loc[
         krankenv_beitr_regulär_beschäftigt.index
     ] = krankenv_beitr_regulär_beschäftigt
-    ges_krankenv_beitr_m.loc[
-        ges_krankenv_beitr_selbst.index
-    ] = ges_krankenv_beitr_selbst
+    out.loc[ges_krankenv_beitr_selbst.index] = ges_krankenv_beitr_selbst
 
     # Add the health insurance contribution for pensions
-    ges_krankenv_beitr_m += ges_krankenv_beitr_rente
-    return ges_krankenv_beitr_m
+    out += ges_krankenv_beitr_rente
+    return out
+
+
+def ges_krankenv_beitr_m_tu(ges_krankenv_beitr_m, tu_id):
+    out = ges_krankenv_beitr_m.groupby(tu_id).apply(sum)
+    return out.rename("ges_krankenv_beitr_m_tu")
 
 
 def pflegev_beitr_m(
@@ -40,23 +41,21 @@ def pflegev_beitr_m(
     an_beitr_pflegev_midi_job,
 ):
 
-    pflegev_beitr_m = pd.Series(
+    out = pd.Series(
         index=geringfügig_beschäftigt.index, name="pflegev_beitr_m", dtype=float
     )
 
-    pflegev_beitr_m.loc[geringfügig_beschäftigt] = 0
+    out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
-    pflegev_beitr_m.loc[an_beitr_pflegev_midi_job.index] = an_beitr_pflegev_midi_job
-    pflegev_beitr_m.loc[
-        pflegev_beitr_regulär_beschäftigt.index
-    ] = pflegev_beitr_regulär_beschäftigt
-    pflegev_beitr_m.loc[pflegev_beitr_selbst.index] = pflegev_beitr_selbst
+    out.loc[an_beitr_pflegev_midi_job.index] = an_beitr_pflegev_midi_job
+    out.loc[pflegev_beitr_regulär_beschäftigt.index] = pflegev_beitr_regulär_beschäftigt
+    out.loc[pflegev_beitr_selbst.index] = pflegev_beitr_selbst
 
     # Add the care insurance contribution for pensions
-    pflegev_beitr_m += pflegev_beitr_rente
+    out += pflegev_beitr_rente
 
-    return pflegev_beitr_m
+    return out
 
 
 def krankenv_beitr_regulär_beschäftigt(

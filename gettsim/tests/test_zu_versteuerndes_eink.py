@@ -36,11 +36,11 @@ INPUT_COLS = [
     "anz_kinder_tu",
     "jahr",
     "wohnort_ost",
-    "ges_krankenv_beit_m",
+    "ges_krankenv_beitr_m",
 ]
 OUT_COLS = [
-    "_zu_versteuerndes_eink_kein_kind_freib",
-    "_zu_versteuerndes_eink_kind_freib",
+    "_zu_verst_eink_kein_kinderfreib",
+    "_zu_verst_eink_kinderfreib",
     "kind_freib",
     "brutto_eink_1",
     "brutto_eink_4",
@@ -60,9 +60,11 @@ OUT_COLS = [
 ]
 
 TEST_COLS = [
-    "_zu_versteuerndes_eink_kein_kind_freib",
-    # "_zu_versteuerndes_eink_kind_freib",
+    "_zu_verst_eink_kein_kinderfreib",
+    "_zu_verst_eink_kinderfreib",
+    "kinderfreib",
     "altersfreib",
+    "sum_brutto_eink",
 ]
 YEARS = [2005, 2009, 2010, 2012, 2018]
 
@@ -86,12 +88,16 @@ def test_zve(
         groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld"],
     )
 
+    user_columns = ["ges_krankenv_beitr_m"]
     result = compute_taxes_and_transfers(
-        df, user_functions=policy_func_dict, targets=column, params=params_dict
+        df,
+        user_columns=user_columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
 
     expected_result = select_output_by_level(column, year_data)
-
     assert_series_equal(
         result,
         expected_result,

@@ -24,15 +24,19 @@ from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
 from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
 from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_stunden
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
-from gettsim.taxes.zu_versteuerndes_eink_dag import _sonderausgaben_ab_2012
-from gettsim.taxes.zu_versteuerndes_eink_dag import _sonderausgaben_bis_2011
-from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_mit_kapital
-from gettsim.taxes.zu_versteuerndes_eink_dag import _sum_brutto_eink_ohne_kapital
-from gettsim.taxes.zu_versteuerndes_eink_dag import hh_freib_bis_2014
-from gettsim.taxes.zu_versteuerndes_eink_dag import hh_freib_seit_2015
+from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_mit_kapital
+from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_ohne_kapital
+from gettsim.taxes.zu_verst_eink.freibeträge import _sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibeträge import _sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibeträge import hh_freib_bis_2014
+from gettsim.taxes.zu_verst_eink.freibeträge import hh_freib_seit_2015
+from gettsim.taxes.zu_verst_eink.vorsorge import _lohn_vorsorge_ab_2020_single
+from gettsim.taxes.zu_verst_eink.vorsorge import _lohn_vorsorge_ab_2020_tu
+from gettsim.taxes.zu_verst_eink.vorsorge import _lohn_vorsorge_bis_2019_single
+from gettsim.taxes.zu_verst_eink.vorsorge import _lohn_vorsorgeabzug_bis_2019_tu
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_2005_bis_2009
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2010
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
 
 
 def get_policies_for_date(policy_date, groups="all"):
@@ -94,12 +98,6 @@ def get_policies_for_date(policy_date, groups="all"):
                 tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
 
         elif group == "eink_st_abzuege":
-            if year >= 2010:
-                tax_data["vorsorge"] = vorsorge_since_2010
-            elif year >= 2005:
-                tax_data["vorsorge"] = vorsorge_since_2005
-            elif year <= 2004:
-                tax_data["vorsorge"] = vorsorge_pre_2005
 
             tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
 
@@ -150,6 +148,20 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["sonderausgaben"] = _sonderausgaben_ab_2012
     else:
         policy_func_dict["sonderausgaben"] = _sonderausgaben_bis_2011
+
+    if year >= 2010:
+        policy_func_dict["vorsorge"] = vorsorge_ab_2010
+    elif 2009 >= year >= 2005:
+        policy_func_dict["vorsorge"] = vorsorge_2005_bis_2009
+    elif year <= 2004:
+        policy_func_dict["vorsorge"] = vorsorge_bis_2004
+
+    if year <= 2019:
+        policy_func_dict["_lohn_vorsorgeabzug_single"] = _lohn_vorsorge_bis_2019_single
+        policy_func_dict["_lohn_vorsorgeabzug_tu"] = _lohn_vorsorgeabzug_bis_2019_tu
+    else:
+        policy_func_dict["_lohn_vorsorgeabzug_single"] = _lohn_vorsorge_ab_2020_single
+        policy_func_dict["_lohn_vorsorgeabzug_tu"] = _lohn_vorsorge_ab_2020_tu
 
     return params_dict, policy_func_dict
 
