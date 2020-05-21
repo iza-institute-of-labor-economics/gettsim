@@ -36,7 +36,7 @@ INPUT_COLS = [
     "anz_kinder_tu",
     "jahr",
     "wohnort_ost",
-    "ges_krankenv_beit_m",
+    "ges_krankenv_beitr_m",
 ]
 OUT_COLS = [
     "_zu_versteuerndes_eink_kein_kind_freib",
@@ -88,8 +88,13 @@ def test_zve(
         groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld"],
     )
 
+    user_columns = ["ges_krankenv_beitr_m"]
     result = compute_taxes_and_transfers(
-        df, user_functions=policy_func_dict, targets=column, params=params_dict
+        df,
+        user_columns=user_columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
 
     expected_result = select_output_by_level(column, year_data)
