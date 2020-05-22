@@ -49,6 +49,7 @@ def wohngeld_basis_hh(
     elterngeld_m_per_tu,
     _wohngeld_abzüge,
     _wohngeld_brutto_eink,
+    _wohngeld_sonstiges_eink,
     wohngeld_params,
 ):
 
@@ -96,6 +97,7 @@ def wohngeld_basis_hh(
             elterngeld_m_per_tu,
             _wohngeld_abzüge,
             _wohngeld_brutto_eink,
+            _wohngeld_sonstiges_eink,
         ],
         axis=1,
     )
@@ -166,3 +168,19 @@ def _wohngeld_brutto_eink(
         + brutto_eink_5_per_tu.clip(lower=0)
         + brutto_eink_6_per_tu.clip(lower=0)
     ) / 12
+
+
+def _wohngeld_sonstiges_eink(
+    arbeitsl_geld_m_per_tu,
+    sonstig_eink_m_per_tu,
+    _st_rente_per_tu,
+    unterhaltsvors_m_per_tu,
+    elterngeld_m_per_tu,
+):
+    return (
+        arbeitsl_geld_m_per_tu
+        + sonstig_eink_m_per_tu
+        + _st_rente_per_tu
+        + unterhaltsvors_m_per_tu
+        + elterngeld_m_per_tu
+    )

@@ -103,17 +103,6 @@ def calc_min_rent(params, household_size):
 
 def calc_wg_income(household, params, household_size):
     """Calculate the relevant income for the calculation of the wohngeld."""
-    # Relevant income is market income + transfers...
-    household["_wohngeld_sonstiges_eink"] = household[
-        [
-            "arbeitsl_geld_m_per_tu",
-            "sonstig_eink_m_per_tu",
-            "_st_rente_per_tu",
-            "unterhaltsvors_m_per_tu",
-            "elterngeld_m_per_tu",
-        ]
-    ].sum(axis=1)
-
     # ... minus a couple of lump-sum deductions for handicaps,
     # children income or being single parent
     household["_wohngeld_eink_abzüge"] = calc_wg_income_deductions(household, params)
