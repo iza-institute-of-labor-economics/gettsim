@@ -12,8 +12,6 @@ from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
 from gettsim.benefits.kinderzuschlag import calc_kiz_amount_2005
 from gettsim.benefits.kinderzuschlag import kiz
 from gettsim.benefits.kinderzuschlag import kiz_dummy
-from gettsim.benefits.wohngeld import calc_max_rent_since_2009
-from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
@@ -100,12 +98,6 @@ def get_policies_for_date(policy_date, groups="all"):
         elif group == "eink_st_abzuege":
 
             tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
-
-        elif group == "wohngeld":
-            if year < 2009:
-                tax_data["calc_max_rent"] = calc_max_rent_until_2008
-            else:
-                tax_data["calc_max_rent"] = calc_max_rent_since_2009
 
         elif group == "kinderzuschlag":
             if year < 2004:

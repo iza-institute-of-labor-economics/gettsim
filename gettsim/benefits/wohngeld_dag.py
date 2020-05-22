@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from gettsim.benefits.wohngeld import wg
@@ -54,6 +55,7 @@ def wohngeld_basis_hh(
     _wohngeld_eink_abzüge,
     _wohngeld_eink,
     _wohngeld_min_miete,
+    _wohngeld_max_miete,
     wohngeld_params,
 ):
 
@@ -106,6 +108,7 @@ def wohngeld_basis_hh(
             _wohngeld_eink_abzüge,
             _wohngeld_eink,
             _wohngeld_min_miete,
+            _wohngeld_max_miete,
         ],
         axis=1,
     )
@@ -313,3 +316,79 @@ def _wohngeld_min_miete(haushalts_größe, wohngeld_params):
         for hh_size in haushalts_größe
     ]
     return pd.Series(index=haushalts_größe.index, data=data)
+
+
+def _wohngeld_max_miete(
+    tu_id,
+    kaltmiete_m,
+    _wohngeld_max_miete_bis_2008,
+    _wohngeld_max_miete_ab_2009,
+    haushalts_größe,
+    _wohngeld_min_miete,
+):
+    """Calculate the relevant rent for the wohngeld."""
+    max_miete = (
+        _wohngeld_max_miete_bis_2008
+        if _wohngeld_max_miete_ab_2009.empty
+        else _wohngeld_max_miete_ab_2009
+    )
+
+    tax_unit_shares = tu_id.groupby(tu_id).transform("count") / haushalts_größe
+
+    wg_miete = (max_miete.clip(upper=kaltmiete_m) * tax_unit_shares).clip(
+        lower=_wohngeld_min_miete
+    )
+    # wg["wgheiz"] = household["heizkost"] * tax_unit_share
+
+    return wg_miete
+
+
+def _wohngeld_max_miete_bis_2008(
+    jahr, mietstufe, immobilie_baujahr, haushalts_größe, wohngeld_params
+):
+    bis_2008 = jahr <= 2008
+
+    if bis_2008.any():
+        # Get yearly cutoff in params which is closest and above the construction year
+        # of the property. We assume that the same cutoffs exist for each household
+        # size.
+        yearly_cutoffs = sorted(wohngeld_params["max_miete"][1], reverse=True)
+        conditions = [immobilie_baujahr <= cutoff for cutoff in yearly_cutoffs]
+        constr_year_category = np.select(conditions, yearly_cutoffs)
+
+        data = [
+            wohngeld_params["max_miete"][hh_größe][constr_year][ms]
+            if hh_größe <= 5
+            else wohngeld_params["max_miete"][5][constr_year][ms]
+            + wohngeld_params["max_miete"]["5plus"][constr_year][ms] * (hh_größe - 5)
+            for hh_größe, constr_year, ms in zip(
+                haushalts_größe, constr_year_category, mietstufe
+            )
+        ]
+
+        max_miete = pd.Series(index=jahr.index, data=data)
+
+    else:
+        max_miete = pd.Series(dtype=float)
+
+    return max_miete
+
+
+def _wohngeld_max_miete_ab_2009(jahr, mietstufe, haushalts_größe, wohngeld_params):
+    ab_2009 = 2009 <= jahr
+
+    if ab_2009.any():
+        data = [
+            wohngeld_params["max_miete"][hh_größe][ms]
+            if hh_größe <= 5
+            else wohngeld_params["max_miete"][5][ms]
+            + wohngeld_params["max_miete"]["5plus"][ms] * (hh_größe - 5)
+            for hh_größe, ms in zip(haushalts_größe, mietstufe)
+        ]
+
+        max_miete = pd.Series(index=jahr.index, data=data)
+
+    else:
+        max_miete = pd.Series(dtype=float)
+
+    return max_miete
