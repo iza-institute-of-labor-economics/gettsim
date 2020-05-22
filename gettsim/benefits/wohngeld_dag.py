@@ -202,6 +202,7 @@ def _wohngeld_max_miete(
     kaltmiete_m,
     _wohngeld_max_miete_bis_2008,
     _wohngeld_max_miete_ab_2009,
+    tax_unit_share,
     haushalts_größe,
     _wohngeld_min_miete,
 ):
@@ -212,9 +213,7 @@ def _wohngeld_max_miete(
         else _wohngeld_max_miete_ab_2009
     )
 
-    tax_unit_shares = tu_id.groupby(tu_id).transform("count") / haushalts_größe
-
-    wg_miete = (max_miete.clip(upper=kaltmiete_m) * tax_unit_shares).clip(
+    wg_miete = (max_miete.clip(upper=kaltmiete_m) * tax_unit_share).clip(
         lower=_wohngeld_min_miete
     )
     # wg["wgheiz"] = household["heizkost"] * tax_unit_share
@@ -335,3 +334,7 @@ for inc in [
     )
 
     exec(f"{inc}_per_tu = __new_function")
+
+
+def tax_unit_share(tu_id, haushalts_größe):
+    return tu_id.groupby(tu_id).transform("count") / haushalts_größe
