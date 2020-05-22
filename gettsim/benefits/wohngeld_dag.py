@@ -1,158 +1,37 @@
 import numpy as np
 import pandas as pd
 
-from gettsim.benefits.wohngeld import wg
 from gettsim.dynamic_function_generation import create_function
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.tests.test_wohngeld import OUT_COLS
 
 
 def wohngeld_basis_hh(
-    hh_id,
     tu_id,
-    p_id,
-    tu_vorstand,
-    kind,
-    kaltmiete_m,
-    heizkost_m,
-    alleinerziehend,
-    alter,
-    immobilie_baujahr,
-    kindergeld_anspruch,
-    mietstufe,
-    bruttolohn_m,
-    ges_rente_m,
-    _ertragsanteil,
-    elterngeld_m,
-    arbeitsl_geld_m,
-    sonstig_eink_m,
-    unterhaltsvors_m,
-    brutto_eink_1,
-    brutto_eink_4,
-    brutto_eink_5,
-    brutto_eink_6,
-    eink_st_m,
-    rentenv_beit_m,
-    ges_krankenv_beit_m,
-    behinderungsgrad,
-    jahr,
-    _st_rente_per_tu,
-    arbeitsl_geld_m_per_tu,
-    sonstig_eink_m_per_tu,
-    brutto_eink_1_per_tu,
-    brutto_eink_4_per_tu,
-    brutto_eink_5_per_tu,
-    brutto_eink_6_per_tu,
-    eink_st_m_per_tu,
-    rentenv_beit_m_per_tu,
-    ges_krankenv_beit_m_per_tu,
-    unterhaltsvors_m_per_tu,
-    elterngeld_m_per_tu,
-    _wohngeld_abzüge,
-    _wohngeld_brutto_eink,
-    _wohngeld_sonstiges_eink,
-    _anzahl_kinder_unter_11_per_tu,
-    _wohngeld_eink_abzüge,
     _wohngeld_eink,
-    _wohngeld_min_miete,
     _wohngeld_max_miete,
+    wohngeld_basis,
+    tu_vorstand,
     wohngeld_params,
 ):
+    """Compute "Wohngeld" or housing benefits.
 
-    df = pd.concat(
-        [
-            hh_id,
-            tu_id,
-            p_id,
-            tu_vorstand,
-            kind,
-            kaltmiete_m,
-            heizkost_m,
-            alleinerziehend,
-            alter,
-            immobilie_baujahr,
-            kindergeld_anspruch,
-            mietstufe,
-            bruttolohn_m,
-            ges_rente_m,
-            _ertragsanteil,
-            elterngeld_m,
-            arbeitsl_geld_m,
-            sonstig_eink_m,
-            unterhaltsvors_m,
-            brutto_eink_1,
-            brutto_eink_4,
-            brutto_eink_5,
-            brutto_eink_6,
-            eink_st_m,
-            rentenv_beit_m,
-            ges_krankenv_beit_m,
-            behinderungsgrad,
-            jahr,
-            _st_rente_per_tu,
-            arbeitsl_geld_m_per_tu,
-            sonstig_eink_m_per_tu,
-            brutto_eink_1_per_tu,
-            brutto_eink_4_per_tu,
-            brutto_eink_5_per_tu,
-            brutto_eink_6_per_tu,
-            eink_st_m_per_tu,
-            rentenv_beit_m_per_tu,
-            ges_krankenv_beit_m_per_tu,
-            unterhaltsvors_m_per_tu,
-            elterngeld_m_per_tu,
-            _wohngeld_abzüge,
-            _wohngeld_brutto_eink,
-            _wohngeld_sonstiges_eink,
-            _anzahl_kinder_unter_11_per_tu,
-            _wohngeld_eink_abzüge,
-            _wohngeld_eink,
-            _wohngeld_min_miete,
-            _wohngeld_max_miete,
-        ],
-        axis=1,
-    )
+    Social benefit for recipients with income above basic social assistance Computation
+    is very complicated, accounts for household size, income, actual rent and differs on
+    the municipality level ('Mietstufe' (1,...,6)).
 
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=wg,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
-        func_kwargs={"params": wohngeld_params},
-    )
+    We usually don't have information on the last item. Therefore we assume 'Mietstufe'
+    3, corresponding to an average level, but other Mietstufen can be specified in
+    `household`.
 
-    return df["wohngeld_basis_hh"]
+    Benefit amount depends on parameters `_wohngeld_max_miete` (rent) and
+    `_wohngeld_eink` (income) (§19 WoGG).
+
+    """
+    return (wohngeld_basis * tu_vorstand).groupby(tu_id).transform("sum").round(2)
 
 
 def _st_rente_per_tu(tu_id, _ertragsanteil, ges_rente_m):
     _st_rente = _ertragsanteil * ges_rente_m
     return _st_rente.groupby(tu_id).transform("sum")
-
-
-def _groupby_sum(group, variable):
-    """TODO: Rewrite to simple sum."""
-    return variable.groupby(group).transform("sum")
-
-
-for inc in [
-    "arbeitsl_geld_m",
-    "sonstig_eink_m",
-    "brutto_eink_1",
-    "brutto_eink_4",
-    "brutto_eink_5",
-    "brutto_eink_6",
-    "eink_st_m",
-    "rentenv_beit_m",
-    "ges_krankenv_beit_m",
-    "unterhaltsvors_m",
-    "elterngeld_m",
-]:
-    __new_function = create_function(
-        _groupby_sum, inc + "_per_tu", {"group": "tu_id", "variable": inc}
-    )
-
-    exec(f"{inc}_per_tu = __new_function")
 
 
 def _wohngeld_abzüge(
@@ -392,3 +271,67 @@ def _wohngeld_max_miete_ab_2009(jahr, mietstufe, haushalts_größe, wohngeld_par
         max_miete = pd.Series(dtype=float)
 
     return max_miete
+
+
+def wohngeld_basis(
+    haushalts_größe, _wohngeld_eink, _wohngeld_max_miete, wohngeld_params
+):
+    koeffizienten = [
+        wohngeld_params["koeffizienten_berechnungsformel"][hh_größe]
+        for hh_größe in haushalts_größe.clip(upper=12)
+    ]
+
+    koeffizienten_a = [koeffizient["a"] for koeffizient in koeffizienten]
+    koeffizienten_b = [koeffizient["b"] for koeffizient in koeffizienten]
+    koeffizienten_c = [koeffizient["c"] for koeffizient in koeffizienten]
+
+    wg_amount = (
+        wohngeld_params["faktor_berechnungsformel"]
+        * (
+            _wohngeld_max_miete
+            - (
+                (
+                    koeffizienten_a
+                    + (koeffizienten_b * _wohngeld_max_miete)
+                    + (koeffizienten_c * _wohngeld_eink)
+                )
+                * _wohngeld_eink
+            )
+        )
+    ).clip(lower=0)
+
+    # If more than 12 persons, there is a lump-sum on top. You may however not get more
+    # than the corrected rent `_wohngeld_max_miete`.
+    wg_amount_more_than_12 = (
+        wg_amount.clip(lower=0)
+        + wohngeld_params["bonus_12_mehr"] * (haushalts_größe - 12)
+    ).clip(upper=_wohngeld_max_miete)
+
+    wg_amount = wg_amount.where(haushalts_größe <= 12, wg_amount_more_than_12)
+
+    return wg_amount
+
+
+def _groupby_sum(group, variable):
+    """TODO: Rewrite to simple sum."""
+    return variable.groupby(group).transform("sum")
+
+
+for inc in [
+    "arbeitsl_geld_m",
+    "sonstig_eink_m",
+    "brutto_eink_1",
+    "brutto_eink_4",
+    "brutto_eink_5",
+    "brutto_eink_6",
+    "eink_st_m",
+    "rentenv_beit_m",
+    "ges_krankenv_beit_m",
+    "unterhaltsvors_m",
+    "elterngeld_m",
+]:
+    __new_function = create_function(
+        _groupby_sum, inc + "_per_tu", {"group": "tu_id", "variable": inc}
+    )
+
+    exec(f"{inc}_per_tu = __new_function")
