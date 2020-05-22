@@ -8,10 +8,6 @@ import yaml
 
 from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
 from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
-from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
-from gettsim.benefits.kinderzuschlag import calc_kiz_amount_2005
-from gettsim.benefits.kinderzuschlag import kiz
-from gettsim.benefits.kinderzuschlag import kiz_dummy
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
@@ -66,7 +62,6 @@ def get_policies_for_date(policy_date, groups="all"):
 
     params_dict = {}
     year = policy_date.year
-    month = policy_date.month
 
     for group in group_list:
         tax_data = load_data(policy_date, group)
@@ -98,16 +93,6 @@ def get_policies_for_date(policy_date, groups="all"):
         elif group == "eink_st_abzuege":
 
             tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
-
-        elif group == "kinderzuschlag":
-            if year < 2004:
-                tax_data["calc_kiz"] = kiz_dummy
-            else:
-                tax_data["calc_kiz"] = kiz
-            if (year >= 2020) or (year == 2019 and month >= 7):
-                tax_data["calc_kiz_amount"] = calc_kiz_amount_07_2019
-            else:
-                tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
 
         tax_data["jahr"] = year
         tax_data["datum"] = policy_date

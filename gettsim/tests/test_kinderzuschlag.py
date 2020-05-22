@@ -65,4 +65,6 @@ def test_kiz(
         df, user_columns=columns, targets=column, params=params_dict
     )
 
-    assert_series_equal(result, year_data[column], check_less_precise=True)
+    assert_series_equal(
+        result, year_data[column], check_less_precise=True, check_index_type=False
+    )

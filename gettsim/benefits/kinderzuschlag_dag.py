@@ -1,100 +1,6 @@
 import numpy as np
 import pandas as pd
 
-from gettsim.benefits.kinderzuschlag import kiz
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.tests.test_kinderzuschlag import OUT_COLS
-
-
-def kinderzuschlag_temp(
-    p_id,
-    hh_id,
-    tu_id,
-    kind,
-    alter,
-    arbeitsstunden_w,
-    bruttolohn_m,
-    in_ausbildung,
-    kaltmiete_m,
-    heizkost_m,
-    alleinerziehend,
-    kindergeld_anspruch,
-    alleinerziehenden_mehrbedarf,
-    anz_erw_tu,
-    anz_kinder_tu,
-    arbeitsl_geld_2_brutto_eink_hh,
-    sum_arbeitsl_geld_2_eink_hh,
-    kindergeld_m_hh,
-    unterhaltsvors_m,
-    jahr,
-    kinderzuschlag_eink_regel,
-    kinderzuschlag_kaltmiete_m,
-    kinderzuschlag_heizkost_m,
-    kinderzuschlag_kosten_unterk_m,
-    wohnbedarf_eltern_anteil,
-    kinderzuschlag_eink_relev,
-    anz_kinder_anspruch_per_hh,
-    kinderzuschlag_eink_max,
-    kinderzuschlag_eink_min,
-    kinderzuschlag_kindereink_abzug,
-    kinderzuschlag_eink_anrechn,
-    kinderzuschlag_eink_spanne,
-    arbeitsl_geld_2_params,
-    kinderzuschlag_params,
-):
-
-    df = pd.concat(
-        [
-            p_id,
-            hh_id,
-            tu_id,
-            kind,
-            alter,
-            arbeitsstunden_w,
-            bruttolohn_m,
-            in_ausbildung,
-            kaltmiete_m,
-            heizkost_m,
-            alleinerziehend,
-            kindergeld_anspruch,
-            alleinerziehenden_mehrbedarf,
-            anz_erw_tu,
-            anz_kinder_tu,
-            arbeitsl_geld_2_brutto_eink_hh,
-            sum_arbeitsl_geld_2_eink_hh,
-            kindergeld_m_hh,
-            unterhaltsvors_m,
-            jahr,
-            kinderzuschlag_eink_regel,
-            kinderzuschlag_kaltmiete_m,
-            kinderzuschlag_heizkost_m,
-            kinderzuschlag_kosten_unterk_m,
-            anz_kinder_anspruch_per_hh,
-            wohnbedarf_eltern_anteil,
-            kinderzuschlag_eink_relev,
-            kinderzuschlag_eink_max,
-            kinderzuschlag_eink_min,
-            kinderzuschlag_kindereink_abzug,
-            kinderzuschlag_eink_anrechn,
-            kinderzuschlag_eink_spanne,
-        ],
-        axis=1,
-    )
-
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=kiz,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
-        func_kwargs={
-            "params": kinderzuschlag_params,
-            "arbeitsl_geld_2_params": arbeitsl_geld_2_params,
-        },
-    )
-
-    return df["kinderzuschlag_temp"]
-
 
 def kinderzuschlag_eink_regel(
     kinderzuschlag_eink_regel_bis_2010, kinderzuschlag_eink_regel_ab_2011
@@ -272,25 +178,159 @@ def kinderzuschlag_eink_anrechn(
 
 
 def kinderzuschlag_eink_spanne(
+    kinderzuschlag_eink_spanne_bis_2004, kinderzuschlag_eink_spanne_ab_2005
+):
+    return (
+        kinderzuschlag_eink_spanne_bis_2004
+        if kinderzuschlag_eink_spanne_ab_2005.empty
+        else kinderzuschlag_eink_spanne_ab_2005
+    )
+
+
+def kinderzuschlag_eink_spanne_bis_2004(jahr):
+    bis_2004 = jahr <= 2004
+
+    if bis_2004.all():
+        eink_spanne = pd.Series(index=jahr.index, data=0)
+
+    else:
+        eink_spanne = pd.Series(dtype=float)
+
+    return eink_spanne
+
+
+def kinderzuschlag_eink_spanne_ab_2005(
+    jahr,
     arbeitsl_geld_2_brutto_eink_hh,
     kinderzuschlag_eink_min,
     kinderzuschlag_eink_max,
     sum_arbeitsl_geld_2_eink_hh,
 ):
     """Calculate a dummy for whether the household is in the correct income range."""
-    return (arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
-        sum_arbeitsl_geld_2_eink_hh <= kinderzuschlag_eink_max
+    ab_2005 = 2005 <= jahr
+
+    if ab_2005.all():
+        eink_spanne = (arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
+            sum_arbeitsl_geld_2_eink_hh <= kinderzuschlag_eink_max
+        )
+
+    else:
+        eink_spanne = pd.Series(dtype=float)
+
+    return eink_spanne
+
+
+def kinderzuschlag(kinderzuschlag_ab_2005_bis_juni_2019, kinderzuschlag_ab_juli_2019):
+    """Kinderzuschlag / Additional Child Benefit
+
+    The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they would
+    be eligible to ALG2 due to the fact that their claim rises because of their
+    children, they can claim Kiz.
+
+    A couple of criteria need to be met.
+
+    1. the household has to have some income
+
+    2. net income minus housing benefit needs has to be lower than total ALG2 need plus
+       additional child benefit.
+
+    3. Over a certain income threshold (which depends on housing costs, and is therefore
+       household-specific), parental income is deducted from child benefit claim.
+
+    In contrast to ALG2, Kiz considers only the rental costs that are attributed to the
+    parents. This is done by some fixed share which is updated on annual basis
+    ('jährlicher Existenzminimumsbericht')
+
+    """
+    return (
+        kinderzuschlag_ab_2005_bis_juni_2019
+        if kinderzuschlag_ab_juli_2019.empty
+        else kinderzuschlag_ab_juli_2019
     )
 
 
-# def kinderzuschlag():
-#     pass
+def kinderzuschlag_ab_juli_2019(
+    hh_id,
+    jahr,
+    arbeitsl_geld_2_brutto_eink_hh,
+    kinderzuschlag_eink_min,
+    kinderzuschlag_kindereink_abzug,
+    kinderzuschlag_eink_anrechn,
+    params,
+):
+    ab_2019 = 2019 <= jahr
+
+    if ab_2019.all():
+        kinderzuschlag = pd.Series(index=kinderzuschlag_eink_min.index, data=0)
+        condition = arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min
+        kinderzuschlag.loc[condition] = (
+            kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
+            - kinderzuschlag_eink_anrechn
+        ).clip(lower=0)
+
+    else:
+        kinderzuschlag = pd.Series(dtype=float)
+
+    return kinderzuschlag
 
 
-# def kinderzuschlag_ab_juli_2019():
-#     pass
+def kinderzuschlag_ab_2005_bis_juni_2019(
+    hh_id,
+    jahr,
+    kinderzuschlag_eink_spanne,
+    kinderzuschlag_kindereink_abzug,
+    kinderzuschlag_eink_anrechn,
+):
+    """Calculate Kinderzuschlag from 2005 until June 2019."""
+    ab_2005_bis_2018 = (2005 <= jahr) & (jahr <= 2018)
+
+    if ab_2005_bis_2018.all():
+        kinderzuschlag = pd.Series(index=kinderzuschlag_eink_spanne.index, data=0)
+        kinderzuschlag.loc[kinderzuschlag_eink_spanne] = (
+            kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
+            - kinderzuschlag_eink_anrechn
+        ).clip(lower=0)
+
+    else:
+        kinderzuschlag = pd.Series(dtype=float)
+
+    return kinderzuschlag
 
 
-# def kinderzuschlag_ab_2005_bis_juni_2019():
-#     """Calculate Kinderzuschlag from 2005 until June 2019."""
-#     pass
+def kinderzuschlag_temp(kinderzuschlag_temp_bis_2004, kinderzuschlag_temp_ab_2005):
+    """Calculate kinderzuschlag_temp.
+
+    'kiz_temp' is the theoretical kiz claim, before it is checked against other benefits
+    later on.
+
+    """
+    return (
+        kinderzuschlag_temp_bis_2004
+        if kinderzuschlag_temp_ab_2005.empty
+        else kinderzuschlag_temp_ab_2005
+    )
+
+
+def kinderzuschlag_temp_ab_2005(jahr, hh_id, kinderzuschlag):
+    ab_2005 = 2005 <= jahr
+
+    if ab_2005.all():
+        temp = kinderzuschlag.groupby(hh_id).transform("max")
+
+    else:
+        temp = pd.Series(dtype=float)
+
+    return temp
+
+
+def kinderzuschlag_temp_bis_2004(jahr):
+    """Calculate dummy to return a bunch of zero values if called before 2005."""
+    bis_2004 = jahr <= 2004
+
+    if bis_2004.all():
+        temp = pd.Series(index=jahr.index, data=0)
+
+    else:
+        temp = pd.Series(dtype=float)
+
+    return temp
