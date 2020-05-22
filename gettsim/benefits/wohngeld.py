@@ -102,48 +102,23 @@ def calc_min_rent(params, household_size):
 
 
 def calc_wg_income(household, params, household_size):
-    """ This function calculates the relevant income for the calculation of the
-    wohngeld."""
-    # Start with income revelant for the housing beneift
-    # tax-relevant share of pensions for tax unit
-    household["_st_rente"] = household["_ertragsanteil"] * household["ges_rente_m"]
-    household["_st_rente_tu_k"] = household.groupby("tu_id")["_st_rente"].transform(
-        "sum"
-    )
-    # Different incomes on tu base
-    for inc in [
-        "arbeitsl_geld_m",
-        "sonstig_eink_m",
-        "brutto_eink_1",
-        "brutto_eink_4",
-        "brutto_eink_5",
-        "brutto_eink_6",
-        "eink_st_m",
-        "rentenv_beit_m",
-        "ges_krankenv_beit_m",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-    ]:
-        # TODO Why is there a k in the end? It does not differ from the usual tu sum!
-        household[f"{inc}_tu_k"] = household.groupby("tu_id")[inc].transform("sum")
-
-    household["_wohngeld_abzüge"] = calc_wg_abzuege(household, params)
+    """Calculate the relevant income for the calculation of the wohngeld."""
     # Relevant income is market income + transfers...
     household["_wohngeld_brutto_eink"] = calc_wg_gross_income(household)
     household["_wohngeld_sonstiges_eink"] = household[
         [
-            "arbeitsl_geld_m_tu_k",
-            "sonstig_eink_m_tu_k",
-            "_st_rente_tu_k",
-            "unterhaltsvors_m_tu_k",
-            "elterngeld_m_tu_k",
+            "arbeitsl_geld_m_per_tu",
+            "sonstig_eink_m_per_tu",
+            "_st_rente_per_tu",
+            "unterhaltsvors_m_per_tu",
+            "elterngeld_m_per_tu",
         ]
     ].sum(axis=1)
 
     # ... minus a couple of lump-sum deductions for handicaps,
     # children income or being single parent
     household["_wohngeld_eink_abzüge"] = calc_wg_income_deductions(household, params)
-    household["_wohngeld_eink_abzüge_tu_k"] = household.groupby("tu_id")[
+    household["_wohngeld_eink_abzüge_per_tu"] = household.groupby("tu_id")[
         "_wohngeld_eink_abzüge"
     ].transform("sum")
     prelim_y = (1 - household["_wohngeld_abzüge"]) * np.maximum(
@@ -151,31 +126,19 @@ def calc_wg_income(household, params, household_size):
         (
             household["_wohngeld_brutto_eink"]
             + household["_wohngeld_sonstiges_eink"]
-            - household["_wohngeld_eink_abzüge_tu_k"]
+            - household["_wohngeld_eink_abzüge_per_tu"]
         ),
     )
     # There's a minimum Y depending on the hh size
     return _set_min_y(prelim_y, params, household_size)
 
 
-def calc_wg_abzuege(household, params):
-    # There share of income to be deducted is 0/10/20/30%, depending on whether
-    # household is subject to income taxation and/or payroll taxes
-    wg_abz = (
-        (household["eink_st_m_tu_k"] > 0) * 1
-        + (household["rentenv_beit_m_tu_k"] > 0) * 1
-        + (household["ges_krankenv_beit_m_tu_k"] > 0) * 1
-    )
-
-    return wg_abz.replace(params["abzug_stufen"])
-
-
 def calc_wg_gross_income(household):
     out = (
-        np.maximum(household["brutto_eink_1_tu_k"] / 12, 0)
-        + np.maximum(household["brutto_eink_4_tu_k"] / 12, 0)
-        + np.maximum(household["brutto_eink_5_tu_k"] / 12, 0)
-        + np.maximum(household["brutto_eink_6_tu_k"] / 12, 0)
+        np.maximum(household["brutto_eink_1_per_tu"] / 12, 0)
+        + np.maximum(household["brutto_eink_4_per_tu"] / 12, 0)
+        + np.maximum(household["brutto_eink_5_per_tu"] / 12, 0)
+        + np.maximum(household["brutto_eink_6_per_tu"] / 12, 0)
     )
     return out
 
