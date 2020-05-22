@@ -35,14 +35,6 @@ def kiz(household, params, arbeitsl_geld_2_params):
 def calc_kiz_amount_2005(household, params):
     """ Kinderzuschlag Amount from 2005 until 07/2019"
     """
-
-    # Dummy variable whether household is in the relevant income range.
-    household["kinderzuschlag_eink_spanne"] = (
-        household["arbeitsl_geld_2_brutto_eink_hh"]
-        >= household["kinderzuschlag_eink_min"]
-    ) & (
-        household["sum_arbeitsl_geld_2_eink_hh"] <= household["kinderzuschlag_eink_max"]
-    )
     household["kinderzuschlag"] = 0
     household.loc[
         household["kinderzuschlag_eink_spanne"], "kinderzuschlag"

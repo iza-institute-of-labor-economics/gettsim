@@ -38,6 +38,7 @@ def kinderzuschlag_temp(
     kinderzuschlag_eink_min,
     kinderzuschlag_kindereink_abzug,
     kinderzuschlag_eink_anrechn,
+    kinderzuschlag_eink_spanne,
     arbeitsl_geld_2_params,
     kinderzuschlag_params,
 ):
@@ -75,6 +76,7 @@ def kinderzuschlag_temp(
             kinderzuschlag_eink_min,
             kinderzuschlag_kindereink_abzug,
             kinderzuschlag_eink_anrechn,
+            kinderzuschlag_eink_spanne,
         ],
         axis=1,
     )
@@ -269,6 +271,18 @@ def kinderzuschlag_eink_anrechn(
     ).clip(lower=0)
 
 
+def kinderzuschlag_eink_spanne(
+    arbeitsl_geld_2_brutto_eink_hh,
+    kinderzuschlag_eink_min,
+    kinderzuschlag_eink_max,
+    sum_arbeitsl_geld_2_eink_hh,
+):
+    """Calculate a dummy for whether the household is in the correct income range."""
+    return (arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
+        sum_arbeitsl_geld_2_eink_hh <= kinderzuschlag_eink_max
+    )
+
+
 # def kinderzuschlag():
 #     pass
 
@@ -278,4 +292,5 @@ def kinderzuschlag_eink_anrechn(
 
 
 # def kinderzuschlag_ab_2005_bis_juni_2019():
+#     """Calculate Kinderzuschlag from 2005 until June 2019."""
 #     pass
