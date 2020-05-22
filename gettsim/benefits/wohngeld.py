@@ -15,7 +15,7 @@ def wg(household, params):
 
     household_size = household.shape[0]
     # Caluclate income in separate function
-    household["Y"] = calc_wg_income(household, params, household_size)
+    household["Y"] = household["_wohngeld_eink"]
     # Caluclate rent in separate function
     household["M"] = calc_wg_rent(household, params, household_size)
     # Apply Wohngeld Formel.
@@ -45,9 +45,6 @@ def calc_wg_rent(household, params, household_size):
     # Before 2009, they differed by construction year of the house
     max_rent = params["calc_max_rent"](params, household_size, cnstyr, mietstufe)
 
-    # Second min rent
-    min_rent = calc_min_rent(params, household_size)
-
     # Calculate share of tax unit wrt whole household
     tax_unit_share = household.groupby("tu_id")["tu_id"].transform("count") / len(
         household
@@ -56,7 +53,7 @@ def calc_wg_rent(household, params, household_size):
     max_rent_dist = max_rent * tax_unit_share
     wgmiete = np.minimum(max_rent_dist, household["kaltmiete_m"] * tax_unit_share)
     # wg["wgheiz"] = household["heizkost"] * tax_unit_share
-    return np.maximum(wgmiete, min_rent)
+    return np.maximum(wgmiete, household["_wohngeld_min_miete"])
 
 
 def calc_max_rent_since_2009(params, household_size, cnstyr, mietstufe):
@@ -93,35 +90,6 @@ def calc_max_rent_until_2008(params, household_size, constr_year, mietstufe):
             household_size - 5
         )
     return max_miete
-
-
-def calc_min_rent(params, household_size):
-    """ The minimal acknowledged rent depending on the household size."""
-    min_rent = params["min_miete"][min(household_size, 12)]
-    return min_rent
-
-
-def calc_wg_income(household, params, household_size):
-    """Calculate the relevant income for the calculation of the wohngeld."""
-    household["_wohngeld_eink_abzüge_per_tu"] = household.groupby("tu_id")[
-        "_wohngeld_eink_abzüge"
-    ].transform("sum")
-    prelim_y = (1 - household["_wohngeld_abzüge"]) * np.maximum(
-        0,
-        (
-            household["_wohngeld_brutto_eink"]
-            + household["_wohngeld_sonstiges_eink"]
-            - household["_wohngeld_eink_abzüge_per_tu"]
-        ),
-    )
-    # There's a minimum Y depending on the hh size
-    return _set_min_y(prelim_y, params, household_size)
-
-
-def _set_min_y(prelim_y, params, household_size):
-    # Households larger then 12 get assigned the value of a 12 person household
-    min_y = np.maximum(prelim_y, params["min_eink"][min(household_size, 12)])
-    return min_y
 
 
 def apply_wg_formula(household, params, household_size):

@@ -52,6 +52,8 @@ def wohngeld_basis_hh(
     _wohngeld_sonstiges_eink,
     _anzahl_kinder_unter_11_per_tu,
     _wohngeld_eink_abzüge,
+    _wohngeld_eink,
+    _wohngeld_min_miete,
     wohngeld_params,
 ):
 
@@ -102,6 +104,8 @@ def wohngeld_basis_hh(
             _wohngeld_sonstiges_eink,
             _anzahl_kinder_unter_11_per_tu,
             _wohngeld_eink_abzüge,
+            _wohngeld_eink,
+            _wohngeld_min_miete,
         ],
         axis=1,
     )
@@ -270,3 +274,42 @@ def _wohngeld_eink_abzüge_ab_2016(
         abzüge = pd.Series(dtype=float)
 
     return abzüge
+
+
+def _wohngeld_eink(
+    tu_id,
+    haushalts_größe,
+    _wohngeld_eink_abzüge,
+    _wohngeld_abzüge,
+    _wohngeld_brutto_eink,
+    _wohngeld_sonstiges_eink,
+    wohngeld_params,
+):
+    _wohngeld_eink_abzüge_per_tu = _wohngeld_eink_abzüge.groupby(tu_id).transform("sum")
+
+    vorläufiges_eink = (1 - _wohngeld_abzüge) * (
+        _wohngeld_brutto_eink + _wohngeld_sonstiges_eink - _wohngeld_eink_abzüge_per_tu
+    )
+
+    unteres_eink = [
+        wohngeld_params["min_eink"][hh_size]
+        if hh_size < 12
+        else wohngeld_params["min_eink"][12]
+        for hh_size in haushalts_größe
+    ]
+
+    return vorläufiges_eink.clip(lower=unteres_eink)
+
+
+def haushalts_größe(hh_id):
+    return hh_id.groupby(hh_id).transform("size")
+
+
+def _wohngeld_min_miete(haushalts_größe, wohngeld_params):
+    data = [
+        wohngeld_params["min_miete"][hh_size]
+        if hh_size < 12
+        else wohngeld_params["min_miete"][12]
+        for hh_size in haushalts_größe
+    ]
+    return pd.Series(index=haushalts_größe.index, data=data)
