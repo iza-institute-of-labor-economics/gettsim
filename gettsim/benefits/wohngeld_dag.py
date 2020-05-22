@@ -48,6 +48,7 @@ def wohngeld_basis_hh(
     unterhaltsvors_m_per_tu,
     elterngeld_m_per_tu,
     _wohngeld_abzüge,
+    _wohngeld_brutto_eink,
     wohngeld_params,
 ):
 
@@ -94,6 +95,7 @@ def wohngeld_basis_hh(
             unterhaltsvors_m_per_tu,
             elterngeld_m_per_tu,
             _wohngeld_abzüge,
+            _wohngeld_brutto_eink,
         ],
         axis=1,
     )
@@ -150,3 +152,17 @@ def _wohngeld_abzüge(
     )
 
     return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
+
+
+def _wohngeld_brutto_eink(
+    brutto_eink_1_per_tu,
+    brutto_eink_4_per_tu,
+    brutto_eink_5_per_tu,
+    brutto_eink_6_per_tu,
+):
+    return (
+        brutto_eink_1_per_tu.clip(lower=0)
+        + brutto_eink_4_per_tu.clip(lower=0)
+        + brutto_eink_5_per_tu.clip(lower=0)
+        + brutto_eink_6_per_tu.clip(lower=0)
+    ) / 12

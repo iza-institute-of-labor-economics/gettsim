@@ -104,7 +104,6 @@ def calc_min_rent(params, household_size):
 def calc_wg_income(household, params, household_size):
     """Calculate the relevant income for the calculation of the wohngeld."""
     # Relevant income is market income + transfers...
-    household["_wohngeld_brutto_eink"] = calc_wg_gross_income(household)
     household["_wohngeld_sonstiges_eink"] = household[
         [
             "arbeitsl_geld_m_per_tu",
@@ -131,16 +130,6 @@ def calc_wg_income(household, params, household_size):
     )
     # There's a minimum Y depending on the hh size
     return _set_min_y(prelim_y, params, household_size)
-
-
-def calc_wg_gross_income(household):
-    out = (
-        np.maximum(household["brutto_eink_1_per_tu"] / 12, 0)
-        + np.maximum(household["brutto_eink_4_per_tu"] / 12, 0)
-        + np.maximum(household["brutto_eink_5_per_tu"] / 12, 0)
-        + np.maximum(household["brutto_eink_6_per_tu"] / 12, 0)
-    )
-    return out
 
 
 def calc_wg_income_deductions(household, params):
