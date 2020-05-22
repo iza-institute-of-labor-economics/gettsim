@@ -103,9 +103,6 @@ def calc_min_rent(params, household_size):
 
 def calc_wg_income(household, params, household_size):
     """Calculate the relevant income for the calculation of the wohngeld."""
-    # ... minus a couple of lump-sum deductions for handicaps,
-    # children income or being single parent
-    household["_wohngeld_eink_abzüge"] = calc_wg_income_deductions(household, params)
     household["_wohngeld_eink_abzüge_per_tu"] = household.groupby("tu_id")[
         "_wohngeld_eink_abzüge"
     ].transform("sum")
@@ -119,62 +116,6 @@ def calc_wg_income(household, params, household_size):
     )
     # There's a minimum Y depending on the hh size
     return _set_min_y(prelim_y, params, household_size)
-
-
-def calc_wg_income_deductions(household, params):
-    if params["jahr"] <= 2015:
-        wg_incdeduct = _calc_wg_income_deductions_until_2015(household, params)
-    else:
-        wg_incdeduct = _calc_wg_income_deductions_since_2016(household, params)
-    return wg_incdeduct
-
-
-def _calc_wg_income_deductions_until_2015(household, params):
-    """ calculate special deductions for handicapped, single parents
-    and children who are working
-    """
-    household["_kind_unter_11"] = household["alter"].lt(11)
-    household["_anzahl_kinder_unter_11"] = (
-        household.groupby("tu_id")["_kind_unter_11"].transform("sum").astype(int)
-    )
-    workingchild = (household["bruttolohn_m"] > 0) & household["kindergeld_anspruch"]
-
-    wg_incdeduct = (
-        (household["behinderungsgrad"] > 80) * params["freib_behinderung"]["ab80"]
-        + household["behinderungsgrad"].between(1, 80)
-        * params["freib_behinderung"]["u80"]
-        + (
-            workingchild
-            * np.minimum(params["freib_kinder"][24], household["bruttolohn_m"])
-        )
-        + (
-            (household["alleinerziehend"] & (~household["kind"]))
-            * household["_anzahl_kinder_unter_11"]
-            * params["freib_kinder"][12]
-        )
-    )
-    return wg_incdeduct
-
-
-def _calc_wg_income_deductions_since_2016(household, params):
-    """ calculate special deductions for handicapped, single parents
-    and children who are working
-    """
-    workingchild = (household["bruttolohn_m"] > 0) & household["kindergeld_anspruch"]
-
-    wg_incdeduct = (
-        (household["behinderungsgrad"] > 0) * params["freib_behinderung"]
-        + (
-            workingchild
-            * np.minimum(params["freib_kinder"][24], household["bruttolohn_m"])
-        )
-        + (
-            household["alleinerziehend"]
-            * params["freib_kinder"][12]
-            * (~household["kind"])
-        )
-    )
-    return wg_incdeduct
 
 
 def _set_min_y(prelim_y, params, household_size):
