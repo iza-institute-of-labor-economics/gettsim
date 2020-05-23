@@ -31,7 +31,7 @@ INPUT_COLS = [
 
 OUT_COLS = [
     "elterngeld_m",
-    "geschw_bonus",
+    "berechtigt_für_geschw_bonus",
     "anz_mehrlinge_bonus",
     "elternzeit_anspruch",
 ]

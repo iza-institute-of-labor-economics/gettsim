@@ -33,6 +33,11 @@ def elterngeld_m(
     jüngstes_kind,
     elternzeit_anspruch,
     anz_mehrlinge_bonus,
+    berechtigt_für_geschw_bonus,
+    netto_eink,
+    elterngeld_eink_relev,
+    elterngeld_anteil_eink_erlass,
+    elterngeld_eink_erlass,
     geschw_bonus,
     elterngeld_params,
     soz_vers_beitr_params,
@@ -67,6 +72,11 @@ def elterngeld_m(
             jüngstes_kind,
             elternzeit_anspruch,
             anz_mehrlinge_bonus,
+            berechtigt_für_geschw_bonus,
+            netto_eink,
+            elterngeld_eink_relev,
+            elterngeld_anteil_eink_erlass,
+            elterngeld_eink_erlass,
             geschw_bonus,
         ],
         axis=1,
@@ -210,7 +220,9 @@ def elternzeit_anspruch(
     return eligible
 
 
-def geschw_bonus(hh_id, geburtsjahr, elternzeit_anspruch, elterngeld_params):
+def berechtigt_für_geschw_bonus(
+    hh_id, geburtsjahr, elternzeit_anspruch, elterngeld_params
+):
     under_age_three = elterngeld_params["jahr"] - geburtsjahr < 3
     under_age_six = elterngeld_params["jahr"] - geburtsjahr < 6
 
@@ -222,6 +234,84 @@ def geschw_bonus(hh_id, geburtsjahr, elternzeit_anspruch, elterngeld_params):
     return bonus
 
 
-def anz_mehrlinge_bonus(hh_id, elternzeit_anspruch, geschw_bonus, jüngstes_kind):
+def anz_mehrlinge_bonus(hh_id, elternzeit_anspruch, jüngstes_kind):
     mehrlinge = jüngstes_kind.groupby(hh_id).transform("sum")
     return elternzeit_anspruch * (mehrlinge - 1)
+
+
+def netto_eink(bruttolohn_m, eink_st_m, soli_st_m, sozialv_beit_m):
+    """Calculate the net wage given taxes and social security contributions."""
+    return bruttolohn_m - eink_st_m - soli_st_m - sozialv_beit_m
+
+
+def elterngeld_eink_relev(proxy_eink_vorj_elterngeld, netto_eink):
+    """Calculating the relevant wage for the calculation of elterngeld.
+
+    According to § 2 (1) BEEG elterngeld is calculated by the loss of income due to
+    child raising.
+
+    """
+    return proxy_eink_vorj_elterngeld - netto_eink
+
+
+def elterngeld_anteil_eink_erlass(elterngeld_eink_relev, elterngeld_params):
+    """Calculate the share of net income which is reimbursed when receiving elterngeld.
+
+    According to § 2 (2) BEEG the percentage increases below the first step and
+    decreases above the second step until elterngeld_prozent_minimum.
+
+    """
+    conditions = [
+        elterngeld_eink_relev
+        < elterngeld_params["elterngeld_nettoeinkommen_stufen"][1],
+        elterngeld_eink_relev
+        > elterngeld_params["elterngeld_nettoeinkommen_stufen"][2],
+        True,
+    ]
+
+    choices = [
+        (
+            elterngeld_params["elterngeld_nettoeinkommen_stufen"][1]
+            - elterngeld_eink_relev
+        )
+        / elterngeld_params["elterngeld_eink_schritt_korrektur"]
+        * elterngeld_params["elterngeld_prozent_korrektur"]
+        + elterngeld_params["elterngeld_faktor"],
+        (
+            elterngeld_params["elterngeld_faktor"]
+            - (
+                elterngeld_eink_relev
+                - elterngeld_params["elterngeld_nettoeinkommen_stufen"][2]
+            )
+            / elterngeld_params["elterngeld_eink_schritt_korrektur"]
+        ).clip(lower=elterngeld_params["elterngeld_prozent_minimum"]),
+        elterngeld_params["elterngeld_faktor"],
+    ]
+
+    data = np.select(conditions, choices)
+
+    return pd.Series(index=elterngeld_eink_relev.index, data=data)
+
+
+def elterngeld_eink_erlass(elterngeld_eink_relev, elterngeld_anteil_eink_erlass):
+    return elterngeld_eink_relev * elterngeld_anteil_eink_erlass
+
+
+def geschw_bonus(
+    elterngeld_eink_erlass, berechtigt_für_geschw_bonus, elterngeld_params
+):
+    """ Calculating the bonus for siblings.
+
+    According to § 2a parents of siblings get a bonus.
+
+    """
+    return (
+        (
+            elterngeld_params["elterngeld_geschw_bonus_aufschlag"]
+            * elterngeld_eink_erlass
+        ).clip(lower=elterngeld_params["elterngeld_geschwister_bonus_minimum"])
+        * berechtigt_für_geschw_bonus
+    )
+
+
+# def elterngeld_m
