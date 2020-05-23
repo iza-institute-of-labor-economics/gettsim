@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from gettsim.benefits.elterngeld import elterngeld
@@ -26,6 +27,11 @@ def elterngeld_m(
     m_elterngeld,
     jahr,
     proxy_eink_vorj_elterngeld,
+    date_of_birth,
+    alter_jüngstes_kind,
+    alter_jüngstes_kind_tage,
+    alter_jüngstes_kind_monate,
+    jüngstes_kind,
     elterngeld_params,
     soz_vers_beitr_params,
     eink_st_abzuege_params,
@@ -52,6 +58,11 @@ def elterngeld_m(
             m_elterngeld,
             jahr,
             proxy_eink_vorj_elterngeld,
+            date_of_birth,
+            alter_jüngstes_kind,
+            alter_jüngstes_kind_tage,
+            alter_jüngstes_kind_monate,
+            jüngstes_kind,
         ],
         axis=1,
     )
@@ -92,6 +103,11 @@ def geschw_bonus(
     m_elterngeld,
     jahr,
     proxy_eink_vorj_elterngeld,
+    date_of_birth,
+    alter_jüngstes_kind,
+    alter_jüngstes_kind_tage,
+    alter_jüngstes_kind_monate,
+    jüngstes_kind,
     elterngeld_params,
     soz_vers_beitr_params,
     eink_st_abzuege_params,
@@ -118,6 +134,11 @@ def geschw_bonus(
             m_elterngeld,
             jahr,
             proxy_eink_vorj_elterngeld,
+            date_of_birth,
+            alter_jüngstes_kind,
+            alter_jüngstes_kind_tage,
+            alter_jüngstes_kind_monate,
+            jüngstes_kind,
         ],
         axis=1,
     )
@@ -158,6 +179,11 @@ def anz_mehrlinge_bonus(
     m_elterngeld,
     jahr,
     proxy_eink_vorj_elterngeld,
+    date_of_birth,
+    alter_jüngstes_kind,
+    alter_jüngstes_kind_tage,
+    alter_jüngstes_kind_monate,
+    jüngstes_kind,
     elterngeld_params,
     soz_vers_beitr_params,
     eink_st_abzuege_params,
@@ -184,6 +210,11 @@ def anz_mehrlinge_bonus(
             m_elterngeld,
             jahr,
             proxy_eink_vorj_elterngeld,
+            date_of_birth,
+            alter_jüngstes_kind,
+            alter_jüngstes_kind_tage,
+            alter_jüngstes_kind_monate,
+            jüngstes_kind,
         ],
         axis=1,
     )
@@ -224,6 +255,11 @@ def elternzeit_anspruch(
     m_elterngeld,
     jahr,
     proxy_eink_vorj_elterngeld,
+    date_of_birth,
+    alter_jüngstes_kind,
+    alter_jüngstes_kind_tage,
+    alter_jüngstes_kind_monate,
+    jüngstes_kind,
     elterngeld_params,
     soz_vers_beitr_params,
     eink_st_abzuege_params,
@@ -250,6 +286,11 @@ def elternzeit_anspruch(
             m_elterngeld,
             jahr,
             proxy_eink_vorj_elterngeld,
+            date_of_birth,
+            alter_jüngstes_kind,
+            alter_jüngstes_kind_tage,
+            alter_jüngstes_kind_monate,
+            jüngstes_kind,
         ],
         axis=1,
     )
@@ -311,3 +352,47 @@ def proxy_eink_vorj_elterngeld(
     return (
         (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0).fillna(0)
     )
+
+
+def date_of_birth(geburtsjahr, geburtsmonat, geburtstag):
+    return pd.to_datetime(
+        pd.concat(
+            [
+                geburtsjahr.rename("year"),
+                geburtsmonat.rename("month"),
+                geburtstag.rename("day"),
+            ],
+            axis=1,
+        )
+    )
+
+
+def alter_jüngstes_kind(hh_id, date_of_birth, kind):
+    alter_jüngstes_kind = date_of_birth.loc[kind].groupby(hh_id).max()
+    # Re-index to get NaT for households without children.
+    alter_jüngstes_kind = alter_jüngstes_kind.reindex(index=hh_id.unique())
+    # Replace hh_ids with timestamps and re-cast to `datetime64[ns]` if there was no kid
+    # which yields object dtype.
+    return hh_id.replace(alter_jüngstes_kind).astype("datetime64[ns]")
+
+
+def jüngstes_kind(date_of_birth, alter_jüngstes_kind):
+    return date_of_birth == alter_jüngstes_kind
+
+
+def alter_jüngstes_kind_tage(hh_id, alter_jüngstes_kind, elterngeld_params):
+    """Calculate the age of the youngest child in days."""
+    date = pd.to_datetime(elterngeld_params["datum"])
+    age_in_days = date - alter_jüngstes_kind
+
+    # Check was formerly implemented in `check_eligibilities` for elterngeld.
+    unborn_children = age_in_days.dt.total_seconds() < 0
+    if unborn_children.any():
+        hh_ids = hh_id[unborn_children].unique()
+        raise ValueError(f"Households with ids {hh_ids} have unborn children.")
+
+    return age_in_days
+
+
+def alter_jüngstes_kind_monate(alter_jüngstes_kind_tage):
+    return alter_jüngstes_kind_tage / np.timedelta64(1, "M")

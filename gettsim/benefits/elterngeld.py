@@ -1,8 +1,3 @@
-import datetime
-
-import numpy as np
-from dateutil import relativedelta
-
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 
 
@@ -176,27 +171,14 @@ def check_eligibilities(household, params):
     children = household[household["kind"]]
     # Are there any children
     if len(children) > 0:
-        youngest_child = children[
-            (children["geburtsjahr"] == np.max(children["geburtsjahr"]))
-            & (children["geburtsmonat"] == np.max(children["geburtsmonat"]))
-        ]
-        # Get the birthdate of the youngest child(If "Mehrlinge", then just take one)
-        birth_date = datetime.date(
-            day=youngest_child["geburtstag"].iloc[0].astype(int),
-            month=youngest_child["geburtsmonat"].iloc[0].astype(int),
-            year=youngest_child["geburtsjahr"].iloc[0].astype(int),
-        )
-        age_youngest_child = relativedelta.relativedelta(params["datum"], birth_date)
-        # Age in months
-        age_months = age_youngest_child.years * 12 + age_youngest_child.months
-        if (age_months < 0) or (age_months == 0 & age_youngest_child.days < 0):
-            raise ValueError(f"Individual {youngest_child.p_id.iloc[0]} not born yet.")
+        age_months = int(household["alter_jüngstes_kind_monate"].min())
+
         # The child has to be below the 14th month
         eligible_age = age_months <= params["elterngeld_max_monate_paar"]
         # The parents can only claim up to 14 month elterngeld
         eligible_consumed = (
-            youngest_child["m_elterngeld_mut"].iloc[0]
-            + youngest_child["m_elterngeld_vat"].iloc[0]
+            household["m_elterngeld_mut"].loc[household["jüngstes_kind"]].iloc[0]
+            + household["m_elterngeld_vat"].loc[household["jüngstes_kind"]].iloc[0]
         ) <= 14
         # Parents are eligible for elterngeld, if the child is young enough and they
         # have not yet consumed all elterngeld months.
@@ -213,9 +195,9 @@ def check_eligibilities(household, params):
             ):
                 household.loc[eligible, "geschw_bonus"] = True
                 # Checking if there are multiples
-                if len(youngest_child) > 0:
+                if household["jüngstes_kind"].sum() > 0:
                     household.loc[eligible, "anz_mehrlinge_bonus"] = (
-                        len(youngest_child) - 1
+                        household["jüngstes_kind"].sum() - 1
                     )
 
     return household
