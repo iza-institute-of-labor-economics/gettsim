@@ -5,7 +5,6 @@ from gettsim.benefits.elterngeld import elterngeld
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
-from gettsim.tests.test_elterngeld import OUT_COLS
 
 
 def elterngeld_m(
@@ -32,6 +31,9 @@ def elterngeld_m(
     alter_jüngstes_kind_tage,
     alter_jüngstes_kind_monate,
     jüngstes_kind,
+    elternzeit_anspruch,
+    anz_mehrlinge_bonus,
+    geschw_bonus,
     elterngeld_params,
     soz_vers_beitr_params,
     eink_st_abzuege_params,
@@ -63,15 +65,19 @@ def elterngeld_m(
             alter_jüngstes_kind_tage,
             alter_jüngstes_kind_monate,
             jüngstes_kind,
+            elternzeit_anspruch,
+            anz_mehrlinge_bonus,
+            geschw_bonus,
         ],
         axis=1,
     )
+
     df = apply_tax_transfer_func(
         df,
         tax_func=elterngeld,
         level=["hh_id"],
         in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
+        out_cols=["elterngeld_m"],
         func_kwargs={
             "params": elterngeld_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
@@ -82,234 +88,6 @@ def elterngeld_m(
     )
 
     return df["elterngeld_m"]
-
-
-def geschw_bonus(
-    hh_id,
-    tu_id,
-    p_id,
-    kind,
-    bruttolohn_m,
-    bruttolohn_vorj_m,
-    wohnort_ost,
-    eink_st_m,
-    soli_st_m,
-    sozialv_beit_m,
-    geburtsjahr,
-    geburtsmonat,
-    geburtstag,
-    m_elterngeld_mut,
-    m_elterngeld_vat,
-    m_elterngeld,
-    jahr,
-    proxy_eink_vorj_elterngeld,
-    date_of_birth,
-    alter_jüngstes_kind,
-    alter_jüngstes_kind_tage,
-    alter_jüngstes_kind_monate,
-    jüngstes_kind,
-    elterngeld_params,
-    soz_vers_beitr_params,
-    eink_st_abzuege_params,
-    eink_st_params,
-    soli_st_params,
-):
-    df = pd.concat(
-        [
-            hh_id,
-            tu_id,
-            p_id,
-            kind,
-            bruttolohn_m,
-            bruttolohn_vorj_m,
-            wohnort_ost,
-            eink_st_m,
-            soli_st_m,
-            sozialv_beit_m,
-            geburtsjahr,
-            geburtsmonat,
-            geburtstag,
-            m_elterngeld_mut,
-            m_elterngeld_vat,
-            m_elterngeld,
-            jahr,
-            proxy_eink_vorj_elterngeld,
-            date_of_birth,
-            alter_jüngstes_kind,
-            alter_jüngstes_kind_tage,
-            alter_jüngstes_kind_monate,
-            jüngstes_kind,
-        ],
-        axis=1,
-    )
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=elterngeld,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
-        func_kwargs={
-            "params": elterngeld_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "eink_st_abzuege_params": eink_st_abzuege_params,
-            "eink_st_params": eink_st_params,
-            "soli_st_params": soli_st_params,
-        },
-    )
-
-    return df["geschw_bonus"]
-
-
-def anz_mehrlinge_bonus(
-    hh_id,
-    tu_id,
-    p_id,
-    kind,
-    bruttolohn_m,
-    bruttolohn_vorj_m,
-    wohnort_ost,
-    eink_st_m,
-    soli_st_m,
-    sozialv_beit_m,
-    geburtsjahr,
-    geburtsmonat,
-    geburtstag,
-    m_elterngeld_mut,
-    m_elterngeld_vat,
-    m_elterngeld,
-    jahr,
-    proxy_eink_vorj_elterngeld,
-    date_of_birth,
-    alter_jüngstes_kind,
-    alter_jüngstes_kind_tage,
-    alter_jüngstes_kind_monate,
-    jüngstes_kind,
-    elterngeld_params,
-    soz_vers_beitr_params,
-    eink_st_abzuege_params,
-    eink_st_params,
-    soli_st_params,
-):
-    df = pd.concat(
-        [
-            hh_id,
-            tu_id,
-            p_id,
-            kind,
-            bruttolohn_m,
-            bruttolohn_vorj_m,
-            wohnort_ost,
-            eink_st_m,
-            soli_st_m,
-            sozialv_beit_m,
-            geburtsjahr,
-            geburtsmonat,
-            geburtstag,
-            m_elterngeld_mut,
-            m_elterngeld_vat,
-            m_elterngeld,
-            jahr,
-            proxy_eink_vorj_elterngeld,
-            date_of_birth,
-            alter_jüngstes_kind,
-            alter_jüngstes_kind_tage,
-            alter_jüngstes_kind_monate,
-            jüngstes_kind,
-        ],
-        axis=1,
-    )
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=elterngeld,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
-        func_kwargs={
-            "params": elterngeld_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "eink_st_abzuege_params": eink_st_abzuege_params,
-            "eink_st_params": eink_st_params,
-            "soli_st_params": soli_st_params,
-        },
-    )
-
-    return df["anz_mehrlinge_bonus"]
-
-
-def elternzeit_anspruch(
-    hh_id,
-    tu_id,
-    p_id,
-    kind,
-    bruttolohn_m,
-    bruttolohn_vorj_m,
-    wohnort_ost,
-    eink_st_m,
-    soli_st_m,
-    sozialv_beit_m,
-    geburtsjahr,
-    geburtsmonat,
-    geburtstag,
-    m_elterngeld_mut,
-    m_elterngeld_vat,
-    m_elterngeld,
-    jahr,
-    proxy_eink_vorj_elterngeld,
-    date_of_birth,
-    alter_jüngstes_kind,
-    alter_jüngstes_kind_tage,
-    alter_jüngstes_kind_monate,
-    jüngstes_kind,
-    elterngeld_params,
-    soz_vers_beitr_params,
-    eink_st_abzuege_params,
-    eink_st_params,
-    soli_st_params,
-):
-    df = pd.concat(
-        [
-            hh_id,
-            tu_id,
-            p_id,
-            kind,
-            bruttolohn_m,
-            bruttolohn_vorj_m,
-            wohnort_ost,
-            eink_st_m,
-            soli_st_m,
-            sozialv_beit_m,
-            geburtsjahr,
-            geburtsmonat,
-            geburtstag,
-            m_elterngeld_mut,
-            m_elterngeld_vat,
-            m_elterngeld,
-            jahr,
-            proxy_eink_vorj_elterngeld,
-            date_of_birth,
-            alter_jüngstes_kind,
-            alter_jüngstes_kind_tage,
-            alter_jüngstes_kind_monate,
-            jüngstes_kind,
-        ],
-        axis=1,
-    )
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=elterngeld,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
-        func_kwargs={
-            "params": elterngeld_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "eink_st_abzuege_params": eink_st_abzuege_params,
-            "eink_st_params": eink_st_params,
-            "soli_st_params": soli_st_params,
-        },
-    )
-
-    return df["elternzeit_anspruch"]
 
 
 def proxy_eink_vorj_elterngeld(
@@ -396,3 +174,54 @@ def alter_jüngstes_kind_tage(hh_id, alter_jüngstes_kind, elterngeld_params):
 
 def alter_jüngstes_kind_monate(alter_jüngstes_kind_tage):
     return alter_jüngstes_kind_tage / np.timedelta64(1, "M")
+
+
+def elternzeit_anspruch(
+    hh_id,
+    alter_jüngstes_kind_monate,
+    m_elterngeld_mut,
+    m_elterngeld_vat,
+    kind,
+    m_elterngeld,
+    elterngeld_params,
+):
+    eligible_age = (
+        (alter_jüngstes_kind_monate <= elterngeld_params["elterngeld_max_monate_paar"])
+        .groupby(hh_id)
+        .transform("any")
+    )
+
+    eligible_consumed = (
+        (
+            m_elterngeld_mut + m_elterngeld_vat
+            < elterngeld_params["elterngeld_max_monate_paar"]
+        )
+        .groupby(hh_id)
+        .transform("any")
+    )
+
+    eligible = (
+        eligible_age
+        & eligible_consumed
+        & ~kind
+        & (m_elterngeld <= elterngeld_params["elterngeld_max_monate_ind"])
+    )
+
+    return eligible
+
+
+def geschw_bonus(hh_id, geburtsjahr, elternzeit_anspruch, elterngeld_params):
+    under_age_three = elterngeld_params["jahr"] - geburtsjahr < 3
+    under_age_six = elterngeld_params["jahr"] - geburtsjahr < 6
+
+    bonus = (
+        (under_age_three.groupby(hh_id).transform("sum") == 2)
+        | (under_age_six.groupby(hh_id).transform("sum") > 2)
+    ) & elternzeit_anspruch
+
+    return bonus
+
+
+def anz_mehrlinge_bonus(hh_id, elternzeit_anspruch, geschw_bonus, jüngstes_kind):
+    mehrlinge = jüngstes_kind.groupby(hh_id).transform("sum")
+    return elternzeit_anspruch * (mehrlinge - 1)

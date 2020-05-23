@@ -10,10 +10,9 @@ def elterngeld(
     soli_st_params,
 ):
     """This function calculates the monthly benefits for having
-    a child that is up to one year old (Elterngeld)"""
+    a child that is up to one year old (Elterngeld)
 
-    household = check_eligibilities(household, params)
-
+    """
     # Everything was already initialized
     out_cols = []
     household.loc[household["elternzeit_anspruch"], :] = apply_tax_transfer_func(
@@ -155,49 +154,5 @@ def calc_geschw_bonus(elterngeld_calc, params):
     According to § 2a parents of siblings get a bonus.
     """
     bonus_calc = params["elterngeld_geschw_bonus_aufschlag"] * elterngeld_calc
-    bonus = max(bonus_calc, params["elterngeld_geschwister_bonus_minimum"],)
+    bonus = max(bonus_calc, params["elterngeld_geschwister_bonus_minimum"])
     return bonus
-
-
-def check_eligibilities(household, params):
-    """Check if a parent is eligible for elterngeld. If so, then also check if it is
-    eligible for multiple or sibling bonus.
-
-    """
-    household["elternzeit_anspruch"] = False
-    household["geschw_bonus"] = False
-    household["anz_mehrlinge_bonus"] = 0
-
-    children = household[household["kind"]]
-    # Are there any children
-    if len(children) > 0:
-        age_months = int(household["alter_jüngstes_kind_monate"].min())
-
-        # The child has to be below the 14th month
-        eligible_age = age_months <= params["elterngeld_max_monate_paar"]
-        # The parents can only claim up to 14 month elterngeld
-        eligible_consumed = (
-            household["m_elterngeld_mut"].loc[household["jüngstes_kind"]].iloc[0]
-            + household["m_elterngeld_vat"].loc[household["jüngstes_kind"]].iloc[0]
-        ) <= 14
-        # Parents are eligible for elterngeld, if the child is young enough and they
-        # have not yet consumed all elterngeld months.
-        if eligible_age & eligible_consumed:
-            # Each parent can't claim more than 12 month
-            eligible = ~household["kind"] & (
-                household["m_elterngeld"] <= params["elterngeld_max_monate_ind"]
-            )
-
-            household.loc[eligible, "elternzeit_anspruch"] = True
-
-            if (len(children[(params["jahr"] - children["geburtsjahr"]) < 3]) == 2) | (
-                len(children[(params["jahr"] - children["geburtsjahr"]) < 6]) > 2
-            ):
-                household.loc[eligible, "geschw_bonus"] = True
-                # Checking if there are multiples
-                if household["jüngstes_kind"].sum() > 0:
-                    household.loc[eligible, "anz_mehrlinge_bonus"] = (
-                        household["jüngstes_kind"].sum() - 1
-                    )
-
-    return household
