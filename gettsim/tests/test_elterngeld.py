@@ -32,7 +32,7 @@ INPUT_COLS = [
 OUT_COLS = [
     "elterngeld_m",
     "berechtigt_für_geschw_bonus",
-    "anz_mehrlinge_bonus",
+    "anz_mehrlinge_anspruch",
     "elternzeit_anspruch",
 ]
 YEARS = [2017, 2018, 2019]
@@ -49,6 +49,14 @@ def input_data():
 def test_eltgeld(
     year, column, input_data,
 ):
+    """Run tests to validate elterngeld.
+
+    hh_id 7 in test cases is for the calculator on
+    https://familienportal.de/familienportal/meta/egr. The result of the calculator is
+    10 Euro off the result from gettsim. We need to discuss if we should adapt the
+    calculation of the proxy wage of last year or anything else.
+
+    """
     policy_date = date(year, 1, 1)
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
@@ -75,9 +83,3 @@ def test_eltgeld(
         check_exact=False,
         check_less_precise=2,
     )
-
-
-# hh_id 7 in test cases is for the calculator on
-# https://familienportal.de/familienportal/meta/egr. The result of the calculator is
-# 10 Euro off the result from gettsim. We need to discuss if we should adapt the
-# calculation of the proxy wage of last year or anything else.
