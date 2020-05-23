@@ -1,8 +1,8 @@
+import numpy as np
 import pandas as pd
 
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.tests.test_benefit_checks import INPUT_COLS
 from gettsim.tests.test_benefit_checks import OUT_COLS
 
 
@@ -22,6 +22,10 @@ def kinderzuschlag_m(
     sum_basis_arbeitsl_geld_2_eink,
     geburtsjahr,
     jahr,
+    freibetrag_alter,
+    freibetrag_alter_per_hh,
+    freibetrag_vermögen_max,
+    freibetrag_vermögen_max_per_hh,
     arbeitsl_geld_2_params,
 ):
 
@@ -42,6 +46,10 @@ def kinderzuschlag_m(
             sum_basis_arbeitsl_geld_2_eink,
             geburtsjahr,
             jahr,
+            freibetrag_alter,
+            freibetrag_alter_per_hh,
+            freibetrag_vermögen_max,
+            freibetrag_vermögen_max_per_hh,
         ],
         axis=1,
     )
@@ -50,7 +58,7 @@ def kinderzuschlag_m(
         df,
         tax_func=benefit_priority,
         level=["hh_id"],
-        in_cols=INPUT_COLS,
+        in_cols=df.columns.tolist(),
         out_cols=OUT_COLS,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -74,6 +82,10 @@ def wohngeld_m(
     sum_basis_arbeitsl_geld_2_eink,
     geburtsjahr,
     jahr,
+    freibetrag_alter,
+    freibetrag_alter_per_hh,
+    freibetrag_vermögen_max,
+    freibetrag_vermögen_max_per_hh,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -93,6 +105,10 @@ def wohngeld_m(
             sum_basis_arbeitsl_geld_2_eink,
             geburtsjahr,
             jahr,
+            freibetrag_alter,
+            freibetrag_alter_per_hh,
+            freibetrag_vermögen_max,
+            freibetrag_vermögen_max_per_hh,
         ],
         axis=1,
     )
@@ -101,7 +117,7 @@ def wohngeld_m(
         df,
         tax_func=benefit_priority,
         level=["hh_id"],
-        in_cols=INPUT_COLS,
+        in_cols=df.columns.tolist(),
         out_cols=OUT_COLS,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
@@ -125,6 +141,10 @@ def arbeitsl_geld_2_m(
     sum_basis_arbeitsl_geld_2_eink,
     geburtsjahr,
     jahr,
+    freibetrag_alter,
+    freibetrag_alter_per_hh,
+    freibetrag_vermögen_max,
+    freibetrag_vermögen_max_per_hh,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -144,6 +164,10 @@ def arbeitsl_geld_2_m(
             sum_basis_arbeitsl_geld_2_eink,
             geburtsjahr,
             jahr,
+            freibetrag_alter,
+            freibetrag_alter_per_hh,
+            freibetrag_vermögen_max,
+            freibetrag_vermögen_max_per_hh,
         ],
         axis=1,
     )
@@ -152,9 +176,56 @@ def arbeitsl_geld_2_m(
         df,
         tax_func=benefit_priority,
         level=["hh_id"],
-        in_cols=INPUT_COLS,
+        in_cols=df.columns.tolist(),
         out_cols=OUT_COLS,
         func_kwargs={"params": arbeitsl_geld_2_params},
     )
 
     return df["arbeitsl_geld_2_m"]
+
+
+def freibetrag_alter(kind, alter, geburtsjahr, arbeitsl_geld_2_params):
+    """Calculate exemptions based on individuals age."""
+    conditions = [
+        geburtsjahr < 1948,
+        (1948 <= geburtsjahr) & ~kind,
+        True,
+    ]
+
+    choices = [
+        arbeitsl_geld_2_params["vermögensfreibetrag"]["vor_1948"] * alter,
+        arbeitsl_geld_2_params["vermögensfreibetrag"]["standard"] * alter,
+        0,
+    ]
+
+    data = np.select(conditions, choices)
+
+    return pd.Series(index=alter.index, data=data)
+
+
+def freibetrag_alter_per_hh(hh_id, freibetrag_alter):
+    return freibetrag_alter.groupby(hh_id).transform("sum")
+
+
+def freibetrag_vermögen_max(geburtsjahr, kind, arbeitsl_geld_2_params):
+    conditions = [
+        geburtsjahr < 1957,
+        (1958 <= geburtsjahr) & (geburtsjahr <= 1963),
+        (1964 <= geburtsjahr) & ~kind,
+        True,
+    ]
+
+    choices = [
+        arbeitsl_geld_2_params["vermögensfreibetrag"]["1948_bis_1957"],
+        arbeitsl_geld_2_params["vermögensfreibetrag"]["1958_bis_1963"],
+        arbeitsl_geld_2_params["vermögensfreibetrag"]["nach_1963"],
+        0,
+    ]
+
+    data = np.select(conditions, choices)
+
+    return pd.Series(index=geburtsjahr.index, data=data)
+
+
+def freibetrag_vermögen_max_per_hh(hh_id, freibetrag_vermögen_max):
+    return freibetrag_vermögen_max.groupby(hh_id).transform("sum")

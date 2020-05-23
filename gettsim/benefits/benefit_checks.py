@@ -98,38 +98,12 @@ def wealth_test(household, params):
     """
 
     verm_freib = params["vermögensfreibetrag"]
-    # there are exemptions depending on individual age for adults
-    household["ind_freib"] = 0
-    household.loc[
-        (household["geburtsjahr"] >= 1948) & (~household["kind"]), "ind_freib"
-    ] = (verm_freib["standard"] * household["alter"])
-    household.loc[(household["geburtsjahr"] < 1948), "ind_freib"] = (
-        verm_freib["vor_1948"] * household["alter"]
-    )
-    # sum over individuals
-    household["ind_freib_hh"] = household["ind_freib"].sum()
-
-    # there is an overall maximum exemption
-    household["max_verm_freib"] = 0
-    household.loc[
-        (household["geburtsjahr"] < 1948) & (~household["kind"]), "max_verm_freib"
-    ] = verm_freib["1948_bis_1957"]
-    household.loc[
-        (household["geburtsjahr"].between(1948, 1957)), "max_verm_freib"
-    ] = verm_freib["1948_bis_1957"]
-    household.loc[
-        (household["geburtsjahr"].between(1958, 1963)), "max_verm_freib"
-    ] = verm_freib["1958_bis_1963"]
-    household.loc[
-        (household["geburtsjahr"] >= 1964) & (~household["kind"]), "max_verm_freib"
-    ] = verm_freib["nach_1963"]
-    household["max_verm_freib_hh"] = household["max_verm_freib"].sum()
 
     household_size = household.shape[0]
     # add fixed amounts per child and adult
     household["vermfreibetr"] = np.minimum(
-        household["max_verm_freib_hh"],
-        household["ind_freib_hh"]
+        household["freibetrag_vermögen_max_per_hh"],
+        household["freibetrag_alter_per_hh"]
         + household["anz_minderj_hh"] * verm_freib["kind"]
         + (household_size - household["anz_minderj_hh"]) * verm_freib["ausstattung"],
     )
