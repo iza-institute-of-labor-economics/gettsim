@@ -26,6 +26,9 @@ def kinderzuschlag_m(
     freibetrag_alter_per_hh,
     freibetrag_vermögen_max,
     freibetrag_vermögen_max_per_hh,
+    freibetrag_vermögen,
+    # regelbedarf_m_angepasst,
+    # kinderzuschlag_temp_angepasst,
     arbeitsl_geld_2_params,
 ):
 
@@ -50,6 +53,9 @@ def kinderzuschlag_m(
             freibetrag_alter_per_hh,
             freibetrag_vermögen_max,
             freibetrag_vermögen_max_per_hh,
+            freibetrag_vermögen,
+            # regelbedarf_m_angepasst,
+            # kinderzuschlag_temp_angepasst,
         ],
         axis=1,
     )
@@ -86,6 +92,9 @@ def wohngeld_m(
     freibetrag_alter_per_hh,
     freibetrag_vermögen_max,
     freibetrag_vermögen_max_per_hh,
+    freibetrag_vermögen,
+    # regelbedarf_m_angepasst,
+    # kinderzuschlag_temp_angepasst,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -109,6 +118,9 @@ def wohngeld_m(
             freibetrag_alter_per_hh,
             freibetrag_vermögen_max,
             freibetrag_vermögen_max_per_hh,
+            freibetrag_vermögen,
+            # regelbedarf_m_angepasst,
+            # kinderzuschlag_temp_angepasst,
         ],
         axis=1,
     )
@@ -145,6 +157,9 @@ def arbeitsl_geld_2_m(
     freibetrag_alter_per_hh,
     freibetrag_vermögen_max,
     freibetrag_vermögen_max_per_hh,
+    freibetrag_vermögen,
+    # regelbedarf_m_angepasst,
+    # kinderzuschlag_temp_angepasst,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -168,6 +183,9 @@ def arbeitsl_geld_2_m(
             freibetrag_alter_per_hh,
             freibetrag_vermögen_max,
             freibetrag_vermögen_max_per_hh,
+            freibetrag_vermögen,
+            # regelbedarf_m_angepasst,
+            # kinderzuschlag_temp_angepasst,
         ],
         axis=1,
     )
@@ -229,3 +247,35 @@ def freibetrag_vermögen_max(geburtsjahr, kind, arbeitsl_geld_2_params):
 
 def freibetrag_vermögen_max_per_hh(hh_id, freibetrag_vermögen_max):
     return freibetrag_vermögen_max.groupby(hh_id).transform("sum")
+
+
+def freibetrag_vermögen(
+    freibetrag_alter_per_hh,
+    anz_minderj_hh,
+    kind,
+    haushaltsgröße,
+    freibetrag_vermögen_max_per_hh,
+    arbeitsl_geld_2_params,
+):
+    return (
+        freibetrag_alter_per_hh
+        + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag"]["kind"]
+        + (haushaltsgröße - anz_minderj_hh)
+        * arbeitsl_geld_2_params["vermögensfreibetrag"]["ausstattung"]
+    ).clip(upper=freibetrag_vermögen_max_per_hh)
+
+
+# def regelbedarf_m_angepasst(regelbedarf_m, vermögen_hh, freibetrag_vermögen):
+#     """Adjust regelbedarf_m.
+
+#     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
+#     calculated, just set the need to zero)
+
+#     """
+#     return regelbedarf_m.where(vermögen_hh <= freibetrag_vermögen, 0)
+
+
+# def kinderzuschlag_temp_angepasst(
+#     kinderzuschlag_temp, vermögen_hh, freibetrag_vermögen
+# ):
+#     return kinderzuschlag_temp.where(vermögen_hh <= freibetrag_vermögen, 0)

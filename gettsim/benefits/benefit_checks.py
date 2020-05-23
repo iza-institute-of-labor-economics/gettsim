@@ -96,25 +96,16 @@ def wealth_test(household, params):
     For ALG2 and Kiz, there are wealth exemptions for every year.
     For Wohngeld, there is a lump-sum amount depending on the household size
     """
-
-    verm_freib = params["vermögensfreibetrag"]
-
     household_size = household.shape[0]
-    # add fixed amounts per child and adult
-    household["vermfreibetr"] = np.minimum(
-        household["freibetrag_vermögen_max_per_hh"],
-        household["freibetrag_alter_per_hh"]
-        + household["anz_minderj_hh"] * verm_freib["kind"]
-        + (household_size - household["anz_minderj_hh"]) * verm_freib["ausstattung"],
-    )
 
     # If wealth exceeds the exemption, set benefits to zero
     # (since ALG2 is not yet calculated, just set the need to zero)
     household.loc[
-        (household["vermögen_hh"] > household["vermfreibetr"]), "regelbedarf_m"
+        (household["vermögen_hh"] > household["freibetrag_vermögen"]), "regelbedarf_m"
     ] = 0
     household.loc[
-        (household["vermögen_hh"] > household["vermfreibetr"]), "kinderzuschlag_temp"
+        (household["vermögen_hh"] > household["freibetrag_vermögen"]),
+        "kinderzuschlag_temp",
     ] = 0
 
     # Wealth test for Wohngeld
