@@ -160,7 +160,7 @@ def _wohngeld_eink_abzüge_ab_2016(
 
 def _wohngeld_eink(
     tu_id,
-    haushalts_größe,
+    haushaltsgröße,
     _wohngeld_eink_abzüge,
     _wohngeld_abzüge,
     _wohngeld_brutto_eink,
@@ -173,28 +173,17 @@ def _wohngeld_eink(
         _wohngeld_brutto_eink + _wohngeld_sonstiges_eink - _wohngeld_eink_abzüge_per_tu
     )
 
-    unteres_eink = [
-        wohngeld_params["min_eink"][hh_size]
-        if hh_size < 12
-        else wohngeld_params["min_eink"][12]
-        for hh_size in haushalts_größe
-    ]
+    unteres_eink = haushaltsgröße.clip(upper=12).replace(wohngeld_params["min_eink"])
 
     return vorläufiges_eink.clip(lower=unteres_eink)
 
 
-def haushalts_größe(hh_id):
+def haushaltsgröße(hh_id):
     return hh_id.groupby(hh_id).transform("size")
 
 
-def _wohngeld_min_miete(haushalts_größe, wohngeld_params):
-    data = [
-        wohngeld_params["min_miete"][hh_size]
-        if hh_size < 12
-        else wohngeld_params["min_miete"][12]
-        for hh_size in haushalts_größe
-    ]
-    return pd.Series(index=haushalts_größe.index, data=data)
+def _wohngeld_min_miete(haushaltsgröße, wohngeld_params):
+    return haushaltsgröße.clip(upper=12).replace(wohngeld_params["min_miete"])
 
 
 def _wohngeld_max_miete(
@@ -203,7 +192,7 @@ def _wohngeld_max_miete(
     _wohngeld_max_miete_bis_2008,
     _wohngeld_max_miete_ab_2009,
     tax_unit_share,
-    haushalts_größe,
+    haushaltsgröße,
     _wohngeld_min_miete,
 ):
     """Calculate the relevant rent for the wohngeld."""
@@ -222,7 +211,7 @@ def _wohngeld_max_miete(
 
 
 def _wohngeld_max_miete_bis_2008(
-    jahr, mietstufe, immobilie_baujahr, haushalts_größe, wohngeld_params
+    jahr, mietstufe, immobilie_baujahr, haushaltsgröße, wohngeld_params
 ):
     bis_2008 = jahr <= 2008
 
@@ -240,7 +229,7 @@ def _wohngeld_max_miete_bis_2008(
             else wohngeld_params["max_miete"][5][constr_year][ms]
             + wohngeld_params["max_miete"]["5plus"][constr_year][ms] * (hh_größe - 5)
             for hh_größe, constr_year, ms in zip(
-                haushalts_größe, constr_year_category, mietstufe
+                haushaltsgröße, constr_year_category, mietstufe
             )
         ]
 
@@ -252,7 +241,7 @@ def _wohngeld_max_miete_bis_2008(
     return max_miete
 
 
-def _wohngeld_max_miete_ab_2009(jahr, mietstufe, haushalts_größe, wohngeld_params):
+def _wohngeld_max_miete_ab_2009(jahr, mietstufe, haushaltsgröße, wohngeld_params):
     ab_2009 = 2009 <= jahr
 
     if ab_2009.any():
@@ -261,7 +250,7 @@ def _wohngeld_max_miete_ab_2009(jahr, mietstufe, haushalts_größe, wohngeld_par
             if hh_größe <= 5
             else wohngeld_params["max_miete"][5][ms]
             + wohngeld_params["max_miete"]["5plus"][ms] * (hh_größe - 5)
-            for hh_größe, ms in zip(haushalts_größe, mietstufe)
+            for hh_größe, ms in zip(haushaltsgröße, mietstufe)
         ]
 
         max_miete = pd.Series(index=jahr.index, data=data)
@@ -273,11 +262,11 @@ def _wohngeld_max_miete_ab_2009(jahr, mietstufe, haushalts_größe, wohngeld_par
 
 
 def wohngeld_basis(
-    haushalts_größe, _wohngeld_eink, _wohngeld_max_miete, wohngeld_params
+    haushaltsgröße, _wohngeld_eink, _wohngeld_max_miete, wohngeld_params
 ):
     koeffizienten = [
         wohngeld_params["koeffizienten_berechnungsformel"][hh_größe]
-        for hh_größe in haushalts_größe.clip(upper=12)
+        for hh_größe in haushaltsgröße.clip(upper=12)
     ]
 
     koeffizienten_a = [koeffizient["a"] for koeffizient in koeffizienten]
@@ -303,10 +292,10 @@ def wohngeld_basis(
     # than the corrected rent `_wohngeld_max_miete`.
     wg_amount_more_than_12 = (
         wg_amount.clip(lower=0)
-        + wohngeld_params["bonus_12_mehr"] * (haushalts_größe - 12)
+        + wohngeld_params["bonus_12_mehr"] * (haushaltsgröße - 12)
     ).clip(upper=_wohngeld_max_miete)
 
-    wg_amount = wg_amount.where(haushalts_größe <= 12, wg_amount_more_than_12)
+    wg_amount = wg_amount.where(haushaltsgröße <= 12, wg_amount_more_than_12)
 
     return wg_amount
 
@@ -336,5 +325,5 @@ for inc in [
     exec(f"{inc}_per_tu = __new_function")
 
 
-def tax_unit_share(tu_id, haushalts_größe):
-    return tu_id.groupby(tu_id).transform("count") / haushalts_größe
+def tax_unit_share(tu_id, haushaltsgröße):
+    return tu_id.groupby(tu_id).transform("count") / haushaltsgröße
