@@ -1,6 +1,6 @@
 """
 Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
-    of the 6 branches of income is according to
+    of the 7 branches of income is according to
     https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema
 
         In fact, you need several taxable incomes because of
