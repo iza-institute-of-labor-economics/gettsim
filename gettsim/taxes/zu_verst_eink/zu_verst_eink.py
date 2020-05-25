@@ -147,7 +147,7 @@ def gemeinsam_veranlagt(tu_id, anz_erwachsene_in_tu):
 
 
 def gemeinsam_veranlagte_tu(gemeinsam_veranlagt, tu_id):
-    out = gemeinsam_veranlagt.groupby(tu_id).apply(all)
+    out = gemeinsam_veranlagt.groupby(tu_id).apply(any)
     return out.rename("gemeinsam_veranlagte_tu")
 
 

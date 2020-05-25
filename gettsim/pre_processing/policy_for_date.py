@@ -18,10 +18,10 @@ from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
-from gettsim.taxes.favorability_check import eink_st_m_tu_ab_1997
-from gettsim.taxes.favorability_check import eink_st_m_tu_bis_1996
-from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
-from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
+from gettsim.taxes.favorability_check import _eink_st_m_tu_ab_1997
+from gettsim.taxes.favorability_check import _eink_st_m_tu_bis_1996
+from gettsim.taxes.favorability_check import _kindergeld_m_ab_1997
+from gettsim.taxes.favorability_check import _kindergeld_m_bis_1996
 from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_mit_kapital
@@ -130,11 +130,11 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["hh_freib"] = hh_freib_seit_2015
 
     if year <= 1996:
-        policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_bis_1996
-        policy_func_dict["kindergeld_m"] = kindergeld_m_bis_1996
+        policy_func_dict["eink_st_m_tu"] = _eink_st_m_tu_bis_1996
+        policy_func_dict["kindergeld_m"] = _kindergeld_m_bis_1996
     else:
-        policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_ab_1997
-        policy_func_dict["kindergeld_m"] = kindergeld_m_ab_1997
+        policy_func_dict["eink_st_m_tu"] = _eink_st_m_tu_ab_1997
+        policy_func_dict["kindergeld_m"] = _kindergeld_m_ab_1997
 
     if year > 2011:
         policy_func_dict["_kindergeld_anspruch"] = _kindergeld_anspruch_nach_stunden

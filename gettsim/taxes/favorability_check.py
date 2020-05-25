@@ -34,7 +34,7 @@ def _beantrage_kind_freib_tu(
     return out.rename("_beantrage_kind_freib_tu")
 
 
-def eink_st_m_tu_bis_1996(_st_kind_freib_tu):
+def _eink_st_m_tu_bis_1996(_st_kind_freib_tu):
     """
     Until 1996 individuals could claim child allowance and recieve child benefit.
     Therefore the tax burden is allways smaller.
@@ -50,7 +50,7 @@ def eink_st_m_tu_bis_1996(_st_kind_freib_tu):
     return out.rename("eink_st_m_tu")
 
 
-def eink_st_m_tu_ab_1997(
+def _eink_st_m_tu_ab_1997(
     _st_kein_kind_freib_tu, _st_kind_freib_tu, _beantrage_kind_freib_tu,
 ):
     """
@@ -93,7 +93,7 @@ def eink_st_m(eink_st_m_tu, gem_veranlagt, kind, tu_id):
     return pd.Series(data=out, index=tu_id.index, name="eink_st_m")
 
 
-def kindergeld_m_bis_1996(kindergeld_m_basis):
+def _kindergeld_m_bis_1996(kindergeld_m_basis):
     """
     Until 1996 individuals could claim child allowance and recieve child benefit.
 
@@ -109,7 +109,7 @@ def kindergeld_m_bis_1996(kindergeld_m_basis):
     out.rename("kindergeld_m")
 
 
-def kindergeld_m_ab_1997(
+def _kindergeld_m_ab_1997(
     _beantrage_kind_freib_tu, kindergeld_m_basis, tu_id,
 ):
     """

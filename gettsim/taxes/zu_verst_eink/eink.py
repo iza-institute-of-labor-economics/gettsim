@@ -193,6 +193,18 @@ def _sum_brutto_eink_ohne_kapital(
 def _sum_brutto_eink_mit_kapital(
     _sum_brutto_eink_ohne_kapital, brutto_eink_5, eink_st_abzuege_params
 ):
+    """
+
+    Parameters
+    ----------
+    _sum_brutto_eink_ohne_kapital
+    brutto_eink_5
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
     out = _sum_brutto_eink_ohne_kapital + (
         brutto_eink_5
         - eink_st_abzuege_params["sparerpauschbetrag"]

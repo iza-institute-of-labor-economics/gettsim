@@ -159,7 +159,7 @@ def _vorsorge_bis_2004(
 ):
 
     out = copy.deepcopy(ges_krankenv_beitr_m) * 0
-    out.loc[~gem_veranlagt & ~kind] = berechne_vorsorge_bis_2004(
+    out.loc[~gem_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
         _lohn_vorsorge_bis_2019_single.loc[~kind],
         ges_krankenv_beitr_m.loc[~gem_veranlagt & ~kind],
         rentenv_beitr_m.loc[~gem_veranlagt & ~kind],
@@ -167,7 +167,7 @@ def _vorsorge_bis_2004(
         eink_st_abzuege_params,
     )
 
-    vorsorge_tu = berechne_vorsorge_bis_2004(
+    vorsorge_tu = _berechne_vorsorge_bis_2004(
         _lohn_vorsorgeabzug_bis_2019_tu,
         ges_krankenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
         rentenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
@@ -205,7 +205,7 @@ def _lohn_vorsorgeabzug_bis_2019_tu(
 @numpy_vectorize(
     excluded=["anzahl_erwachsene", "eink_st_abzuege_params"], otypes=[float]
 )
-def berechne_vorsorge_bis_2004(
+def _berechne_vorsorge_bis_2004(
     lohn_vorsorge,
     krankenv_beitr,
     rentenv_beitr,
