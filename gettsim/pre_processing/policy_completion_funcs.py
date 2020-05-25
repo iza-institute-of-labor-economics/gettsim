@@ -12,8 +12,8 @@ from gettsim.pre_processing.generic_functions import check_threholds
 def transition_threshold(soli_st_satz, soli_st_uebergang, freigrenze):
     """
     This function calculates the upper threshold for interval 1 for the piecewise
-    function in soli_st.yaml.  Interval 1 is used to moderate the start of soli
-    taxation. From this threshold om, the regular soli rate("soli_st_satz") is
+    function in soli_st.yaml. Interval 1 is used to moderate the start of soli
+    taxation. From this threshold on, the regular soli rate("soli_st_satz") is
     applied to the basis of soli calculation. Before the transition rate (
     "soli_st_uebergang") is applied to the difference of basis and "freigrenze". It
     uses the three parameters actually given in the law.
@@ -24,12 +24,12 @@ def transition_threshold(soli_st_satz, soli_st_uebergang, freigrenze):
 
 def add_progressionsfaktor(param_dict, parameter):
     """
-    The german tax tarif is defined on several income intervals with distinct
+    The German tax tariff is defined on several income intervals with distinct
     marginal tax rates at the thresholds. To ensure an almost linear increase of
-    the average tax rate, the german tax tarif is defined as a quadratic function,
+    the average tax rate, the German tax tariff is defined as a quadratic function,
     where the quadratic rate is the so called linear Progressionsfaktor. For its
-    calculation one needs the lower (low_thres) and upper (upper_thres) of the
-    interval as well as the marginal tax rate of the interval (rate_iv) and of the
+    calculation one needs the lower (low_thres) and upper (upper_thres) thresholds of
+    the interval as well as the marginal tax rate of the interval (rate_iv) and of the
     following interval (rate_fiv). The formula is then given by:
 
     (rate_fiv - rate_iv) / (2 * (upper_thres - low_thres))

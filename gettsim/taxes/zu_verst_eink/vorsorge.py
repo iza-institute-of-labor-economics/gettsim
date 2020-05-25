@@ -8,8 +8,8 @@ from gettsim._numpy import numpy_vectorize
 def _vorsorge_alternative_2005_bis_2009(
     _altervorsorge_aufwend,
     ges_krankenv_beitr_m,
-    arbeitsl_v_beit_m,
-    pflegev_beit_m,
+    arbeitsl_v_beitr_m,
+    pflegev_beitr_m,
     kind,
     eink_st_abzuege_params,
 ):
@@ -24,8 +24,8 @@ def _vorsorge_alternative_2005_bis_2009(
     ----------
     _altervorsorge_aufwend
     ges_krankenv_beitr_m
-    arbeitsl_v_beit_m
-    pflegev_beit_m
+    arbeitsl_v_beitr_m
+    pflegev_beitr_m
     eink_st_abzuege_params
 
     Returns
@@ -34,7 +34,7 @@ def _vorsorge_alternative_2005_bis_2009(
     """
     out = copy.deepcopy(_altervorsorge_aufwend) * 0
     sum_vorsorge = (
-        12 * (ges_krankenv_beitr_m + arbeitsl_v_beit_m + pflegev_beit_m)
+        12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + pflegev_beitr_m)
     ).clip(upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"])
     out.loc[~kind] = (
         sum_vorsorge.loc[~kind] + _altervorsorge_aufwend.loc[~kind]
@@ -91,9 +91,9 @@ def vorsorge_ab_2010(vorsorge_bis_2004, _vorsorge_alternative_ab_2010):
 
 def _vorsorge_alternative_ab_2010(
     _altervorsorge_aufwend,
-    pflegev_beit_m,
+    pflegev_beitr_m,
     ges_krankenv_beitr_m,
-    arbeitsl_v_beit_m,
+    arbeitsl_v_beitr_m,
     kind,
     eink_st_abzuege_params,
 ):
@@ -113,9 +113,9 @@ def _vorsorge_alternative_ab_2010(
     Parameters
     ----------
     _altervorsorge_aufwend
-    pflegev_beit_m
+    pflegev_beitr_m
     ges_krankenv_beitr_m
-    arbeitsl_v_beit_m
+    arbeitsl_v_beitr_m
     eink_st_abzuege_params
 
     Returns
@@ -125,13 +125,13 @@ def _vorsorge_alternative_ab_2010(
     out = copy.deepcopy(_altervorsorge_aufwend) * 0
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
-        pflegev_beit_m.loc[~kind]
+        pflegev_beitr_m.loc[~kind]
         + (1 - eink_st_abzuege_params["vorsorge_kranken_minderung"])
         * ges_krankenv_beitr_m.loc[~kind]
     )
     # maybe add unemployment insurance, but do not exceed 1900€.
     out.loc[~kind] = sonstige_vors.clip(
-        lower=(sonstige_vors + 12 * arbeitsl_v_beit_m.loc[~kind]).clip(
+        lower=(sonstige_vors + 12 * arbeitsl_v_beitr_m.loc[~kind]).clip(
             upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
         )
     )
@@ -143,7 +143,7 @@ def vorsorge_bis_2004(
     _lohn_vorsorgeabzug_single,
     _lohn_vorsorgeabzug_tu,
     ges_krankenv_beitr_m,
-    rentenv_beit_m,
+    rentenv_beitr_m,
     ges_krankenv_beitr_m_tu,
     rentenv_beitr_m_tu,
     tu_id,
@@ -156,10 +156,11 @@ def vorsorge_bis_2004(
     out.loc[~gem_veranlagt & ~kind] = berechne_vorsorge_bis_2004(
         _lohn_vorsorgeabzug_single.loc[~kind],
         ges_krankenv_beitr_m.loc[~gem_veranlagt & ~kind],
-        rentenv_beit_m.loc[~gem_veranlagt & ~kind],
+        rentenv_beitr_m.loc[~gem_veranlagt & ~kind],
         1,
         eink_st_abzuege_params,
     )
+
     vorsorge_tu = berechne_vorsorge_bis_2004(
         _lohn_vorsorgeabzug_tu,
         ges_krankenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
@@ -196,7 +197,7 @@ def _lohn_vorsorgeabzug_bis_2019_tu(
 
 
 def _lohn_vorsorge_ab_2020_single(gemeinsam_veranlagt):
-    out = gemeinsam_veranlagt.loc[gemeinsam_veranlagt].astype(int) * 0
+    out = gemeinsam_veranlagt.loc[~gemeinsam_veranlagt].astype(int) * 0
     return out.rename("_lohn_vorsorge_bis_2019_single")
 
 

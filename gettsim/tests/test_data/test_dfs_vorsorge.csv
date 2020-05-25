@@ -1,4 +1,4 @@
-tu_id,p_id,bruttolohn_m,gem_veranlagt,kind,prv_rente_beit_m,rentenv_beit_m,arbeitsl_v_beit_m,ges_krankenv_beit_m,pflegev_beit_m,alter,jahr,,vorsorge,vorsorge2004,vorsorge2005,vorsorge2010,quelle
+tu_id,p_id,bruttolohn_m,gem_veranlagt,kind,prv_rente_beitr_m,rentenv_beitr_m,arbeitsl_v_beitr_m,ges_krankenv_beitr_m,pflegev_beitr_m,alter,jahr,,vorsorge,vorsorge2004,vorsorge2005,vorsorge2010,quelle
 2,3,3500,FALSE,FALSE,334,500,0,0,0,40,2005,,3600,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
 2,11,0,FALSE,TRUE,0,0,0,0,0,0,2005,,0,,,,
 3,4,3500,FALSE,FALSE,334,500,0,0,0,40,2010,,5200,,,,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980

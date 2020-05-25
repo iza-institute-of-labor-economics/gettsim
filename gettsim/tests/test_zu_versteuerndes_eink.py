@@ -27,10 +27,10 @@ INPUT_COLS = [
     "gem_veranlagt",
     "kind",
     "behinderungsgrad",
-    "rentenv_beit_m",
-    "prv_rente_beit_m",
-    "arbeitsl_v_beit_m",
-    "pflegev_beit_m",
+    "rentenv_beitr_m",
+    "prv_rente_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "pflegev_beitr_m",
     "alleinerziehend",
     "alter",
     "anz_kinder_tu",
@@ -88,7 +88,12 @@ def test_zve(
         groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld"],
     )
 
-    user_columns = ["ges_krankenv_beitr_m"]
+    user_columns = [
+        "ges_krankenv_beitr_m",
+        "arbeitsl_v_beitr_m",
+        "pflegev_beitr_m",
+        "rentenv_beitr_m",
+    ]
     result = compute_taxes_and_transfers(
         df,
         user_columns=user_columns,

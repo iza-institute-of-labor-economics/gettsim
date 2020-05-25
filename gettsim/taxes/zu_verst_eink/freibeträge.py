@@ -169,7 +169,7 @@ def _sonderausgaben_ab_2012(
 
 
 def _altervorsorge_aufwend(
-    kind, rentenv_beit_m, prv_rente_beit_m, eink_st_abzuege_params
+    kind, rentenv_beitr_m, prv_rente_beitr_m, eink_st_abzuege_params
 ):
     """
     Return the amount of contributions to retirement savings that is deductible from
@@ -182,8 +182,8 @@ def _altervorsorge_aufwend(
     Parameters
     ----------
     kind
-    rentenv_beit_m
-    prv_rente_beit_m
+    rentenv_beitr_m
+    prv_rente_beitr_m
     eink_st_abzuege_params
 
     Returns
@@ -192,7 +192,10 @@ def _altervorsorge_aufwend(
     """
     einführungsfaktor = 0.6 + 0.02 * (min(eink_st_abzuege_params["jahr"], 2025) - 2005)
     out = (
-        (einführungsfaktor * (2 * rentenv_beit_m + prv_rente_beit_m) - rentenv_beit_m)
+        (
+            einführungsfaktor * (2 * rentenv_beitr_m + prv_rente_beitr_m)
+            - rentenv_beitr_m
+        )
         * 12
     ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])
     out.loc[kind] = 0
