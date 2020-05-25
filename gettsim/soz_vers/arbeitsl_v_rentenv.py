@@ -5,6 +5,20 @@ import pandas as pd
 def sozialv_beitr_m(
     pflegev_beitr_m, ges_krankenv_beitr_m, rentenv_beitr_m, arbeitsl_v_beitr_m
 ):
+    """
+    Sum of all social insurance contributions.
+
+    Parameters
+    ----------
+    pflegev_beitr_m
+    ges_krankenv_beitr_m
+    rentenv_beitr_m
+    arbeitsl_v_beitr_m
+
+    Returns
+    -------
+
+    """
     out = pflegev_beitr_m + ges_krankenv_beitr_m + rentenv_beitr_m + arbeitsl_v_beitr_m
 
     return out.rename("sozialv_beitr_m")
@@ -13,6 +27,19 @@ def sozialv_beitr_m(
 def rentenv_beitr_m(
     geringfügig_beschäftigt, rentenv_beitr_regular_job, an_beitr_rentenv_midi_job,
 ):
+    """
+    Calculate the contribution for each individual to the pension insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+    rentenv_beitr_regular_job
+    an_beitr_rentenv_midi_job
+
+    Returns
+    -------
+
+    """
 
     out = pd.Series(
         index=geringfügig_beschäftigt.index, name="rentenv_beitr_m", dtype=float
@@ -29,6 +56,18 @@ def rentenv_beitr_m(
 
 
 def rentenv_beitr_m_tu(rentenv_beitr_m, tu_id):
+    """
+    Calculate the contribution of each tax unit to the pension insurance.
+
+    Parameters
+    ----------
+    rentenv_beitr_m
+    tu_id
+
+    Returns
+    -------
+
+    """
     out = rentenv_beitr_m.groupby(tu_id).apply(sum)
     return out.rename("rentenv_beitr_m_tu")
 
@@ -36,6 +75,19 @@ def rentenv_beitr_m_tu(rentenv_beitr_m, tu_id):
 def arbeitsl_v_beitr_m(
     geringfügig_beschäftigt, an_beitr_arbeitsl_v_midi_job, arbeitsl_v_regular_job,
 ):
+    """
+    Calculate the contribution for each individual to the unemployment insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+    an_beitr_arbeitsl_v_midi_job
+    arbeitsl_v_regular_job
+
+    Returns
+    -------
+
+    """
     out = pd.Series(
         index=geringfügig_beschäftigt.index, name="arbeitsl_v_beitr_m", dtype=float
     )
