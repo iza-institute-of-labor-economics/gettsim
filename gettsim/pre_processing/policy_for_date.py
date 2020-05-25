@@ -30,13 +30,10 @@ from gettsim.taxes.zu_verst_eink.freibeträge import _sonderausgaben_ab_2012
 from gettsim.taxes.zu_verst_eink.freibeträge import _sonderausgaben_bis_2011
 from gettsim.taxes.zu_verst_eink.freibeträge import hh_freib_bis_2014
 from gettsim.taxes.zu_verst_eink.freibeträge import hh_freib_seit_2015
-from gettsim.taxes.zu_verst_eink.vorsorge import _lohn_vorsorge_ab_2020_single
-from gettsim.taxes.zu_verst_eink.vorsorge import _lohn_vorsorge_ab_2020_tu
-from gettsim.taxes.zu_verst_eink.vorsorge import _lohn_vorsorge_bis_2019_single
-from gettsim.taxes.zu_verst_eink.vorsorge import _lohn_vorsorgeabzug_bis_2019_tu
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_2005_bis_2009
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2010
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
+from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2005_vs_pre_2005
+from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2010_vs_pre_2005
+from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_ab_2010
+from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_bis_2004
 
 
 def get_policies_for_date(policy_date, groups="all"):
@@ -149,19 +146,14 @@ def get_policies_for_date(policy_date, groups="all"):
     else:
         policy_func_dict["sonderausgaben"] = _sonderausgaben_bis_2011
 
-    if year >= 2010:
-        policy_func_dict["vorsorge"] = vorsorge_ab_2010
-    elif 2009 >= year >= 2005:
-        policy_func_dict["vorsorge"] = vorsorge_2005_bis_2009
+    if year >= 2020:
+        policy_func_dict["vorsorge"] = _vorsorge_ab_2010
+    elif 2020 > year >= 2010:
+        policy_func_dict["vorsorge"] = _vorsorge_2010_vs_pre_2005
+    elif 2010 > year >= 2005:
+        policy_func_dict["vorsorge"] = _vorsorge_2005_vs_pre_2005
     elif year <= 2004:
-        policy_func_dict["vorsorge"] = vorsorge_bis_2004
-
-    if year <= 2019:
-        policy_func_dict["_lohn_vorsorgeabzug_single"] = _lohn_vorsorge_bis_2019_single
-        policy_func_dict["_lohn_vorsorgeabzug_tu"] = _lohn_vorsorgeabzug_bis_2019_tu
-    else:
-        policy_func_dict["_lohn_vorsorgeabzug_single"] = _lohn_vorsorge_ab_2020_single
-        policy_func_dict["_lohn_vorsorgeabzug_tu"] = _lohn_vorsorge_ab_2020_tu
+        policy_func_dict["vorsorge"] = _vorsorge_bis_2004
 
     return params_dict, policy_func_dict
 
