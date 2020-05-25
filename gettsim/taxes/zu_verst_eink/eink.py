@@ -34,13 +34,15 @@ def brutto_eink_1_tu(brutto_eink_1, tu_id):
     return out.rename("brutto_eink_1_tu")
 
 
-def brutto_eink_4(bruttolohn_m, geringfügig_beschäftigt, eink_st_abzuege_params):
+def brutto_eink_4(bruttolohn_m, _geringfügig_beschäftigt, eink_st_abzuege_params):
     """
     Calculates the gross incomes of non selfemployed work. The wage is reducted by a
     lump sum payment for 'Werbungskosten'
     Parameters
     ----------
     bruttolohn_m
+    _geringfügig_beschäftigt
+    eink_st_abzuege_params
 
     Returns
     -------
@@ -52,7 +54,7 @@ def brutto_eink_4(bruttolohn_m, geringfügig_beschäftigt, eink_st_abzuege_param
         ),
         0,
     )
-    out.loc[geringfügig_beschäftigt] = 0
+    out.loc[_geringfügig_beschäftigt] = 0
     return out.rename("brutto_eink_4")
 
 

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def mini_job_grenze(wohnort_ost, soz_vers_beitr_params):
+def _mini_job_grenze(wohnort_ost, soz_vers_beitr_params):
     """
     Calculating the wage threshold for marginal employment.
     Parameters
@@ -23,17 +23,17 @@ def mini_job_grenze(wohnort_ost, soz_vers_beitr_params):
             soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"],
         ],
     )
-    return pd.Series(index=wohnort_ost.index, data=out, name="mini_job_grenze")
+    return pd.Series(index=wohnort_ost.index, data=out, name="_mini_job_grenze")
 
 
-def geringfügig_beschäftigt(bruttolohn_m, mini_job_grenze):
+def _geringfügig_beschäftigt(bruttolohn_m, _mini_job_grenze):
     """
     Checking if individual earns less then marginal employment threshold.
     Parameters
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    mini_job_grenze : np.array
+    _mini_job_grenze : np.array
                       Array containing the income threshold for marginal employment.
 
     Returns
@@ -42,11 +42,11 @@ def geringfügig_beschäftigt(bruttolohn_m, mini_job_grenze):
     employed.
 
     """
-    out = bruttolohn_m.le(mini_job_grenze)
-    return out.rename("geringfügig_beschäftigt")
+    out = bruttolohn_m.le(_mini_job_grenze)
+    return out.rename("_geringfügig_beschäftigt")
 
 
-def in_gleitzone(bruttolohn_m, geringfügig_beschäftigt, soz_vers_beitr_params):
+def _in_gleitzone(bruttolohn_m, _geringfügig_beschäftigt, soz_vers_beitr_params):
     """
     Checking if individual earns less then threshold for regular employment,
     but more then threshold of marginal employment.
@@ -55,7 +55,7 @@ def in_gleitzone(bruttolohn_m, geringfügig_beschäftigt, soz_vers_beitr_params)
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    geringfügig_beschäftigt : pd.Series
+    _geringfügig_beschäftigt : pd.Series
                               Boolean Series indicating marginal employment.
     soz_vers_beitr_params
 
@@ -66,11 +66,11 @@ def in_gleitzone(bruttolohn_m, geringfügig_beschäftigt, soz_vers_beitr_params)
     """
     out = (
         bruttolohn_m.le(soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"])
-    ) & (~geringfügig_beschäftigt)
-    return out.rename("in_gleitzone")
+    ) & (~_geringfügig_beschäftigt)
+    return out.rename("_in_gleitzone")
 
 
-def midi_job_bemessungsentgelt(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
+def _midi_job_bemessungsentgelt(bruttolohn_m, _in_gleitzone, soz_vers_beitr_params):
     """
     Calcualting the bemessungsentgelt for midi jobs which then will be subject to
     social insurances.
@@ -79,7 +79,7 @@ def midi_job_bemessungsentgelt(bruttolohn_m, in_gleitzone, soz_vers_beitr_params
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    in_gleitzone : pd.Series
+    _in_gleitzone : pd.Series
                    Boolean Series indicating midi job regulation.
     soz_vers_beitr_params
 
@@ -119,7 +119,7 @@ def midi_job_bemessungsentgelt(bruttolohn_m, in_gleitzone, soz_vers_beitr_params
         f * soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
     )
     lohn_über_mini = (
-        bruttolohn_m.loc[in_gleitzone]
+        bruttolohn_m.loc[_in_gleitzone]
         - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
     )
     gewichtete_midi_job_rate = (
@@ -137,10 +137,10 @@ def midi_job_bemessungsentgelt(bruttolohn_m, in_gleitzone, soz_vers_beitr_params
         * f
     )
     out = mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
-    return out.rename("midi_job_bemessungsentgelt")
+    return out.rename("_midi_job_bemessungsentgelt")
 
 
-def regulär_beschäftigt(bruttolohn_m, soz_vers_beitr_params):
+def _regulär_beschäftigt(bruttolohn_m, soz_vers_beitr_params):
     """
     Creating boolean Series indicating regular employment.
     Parameters
@@ -156,4 +156,4 @@ def regulär_beschäftigt(bruttolohn_m, soz_vers_beitr_params):
     out = bruttolohn_m.ge(
         soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
     )
-    return out.rename("regulär_beschäftigt")
+    return out.rename("_regulär_beschäftigt")

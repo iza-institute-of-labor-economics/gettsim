@@ -18,7 +18,7 @@ def _st_kein_kind_freib(_zu_verst_eink_kein_kinderfreib, eink_st_params):
     """
     if eink_st_params["jahr"] < 2002:
         raise ValueError("Income Tax Pre 2002 not yet modelled!")
-    out = st_tarif(_zu_verst_eink_kein_kinderfreib, eink_st_params)
+    out = _st_tarif(_zu_verst_eink_kein_kinderfreib, eink_st_params)
     return pd.Series(
         index=_zu_verst_eink_kein_kinderfreib.index,
         data=out,
@@ -45,7 +45,7 @@ def _st_kind_freib(_zu_verst_eink_kinderfreib, eink_st_params):
     """
     if eink_st_params["jahr"] < 2002:
         raise ValueError("Income Tax Pre 2002 not yet modelled!")
-    out = st_tarif(_zu_verst_eink_kinderfreib, eink_st_params)
+    out = _st_tarif(_zu_verst_eink_kinderfreib, eink_st_params)
     return pd.Series(
         index=_zu_verst_eink_kinderfreib.index, data=out, name="_st_kind_freib"
     )
@@ -57,7 +57,7 @@ def _st_kind_freib_tu(_st_kind_freib, tu_id):
 
 
 @np.vectorize
-def st_tarif(x, params):
+def _st_tarif(x, params):
     """ The German Income Tax Tariff
     modelled only after 2002 so far
 

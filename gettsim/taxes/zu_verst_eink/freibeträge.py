@@ -37,7 +37,7 @@ def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
     )
 
 
-def hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
+def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
     """
     Calculates tax reduction for single parents. Used to be called
     'Haushaltsfreibetrag'
@@ -56,7 +56,7 @@ def hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
     return out
 
 
-def hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
+def _hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
     """
     Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'

@@ -1,6 +1,6 @@
 """This module contains functions related to "Arbeitslosengeld"."""
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _st_tarif
 
 
 def ui(
@@ -63,7 +63,7 @@ def proxy_net_wage_last_year(
     prox_ssc = soz_vers_pausch * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = st_tarif(12 * max_wage - werbungs_pausch, eink_st_params)
+    prox_tax = _st_tarif(12 * max_wage - werbungs_pausch, eink_st_params)
 
     prox_soli = piecewise_polynomial(
         prox_tax,
