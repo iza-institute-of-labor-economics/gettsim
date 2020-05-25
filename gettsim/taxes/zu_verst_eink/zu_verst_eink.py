@@ -2,7 +2,7 @@
 Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
     of the 7 branches of income is according to
     https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema
-
+The income types 1 to 3 according to the law are subsumed under the first income type (business income). The distinction is important as there are different deduction rules for each income type.
         In fact, you need several taxable incomes because of
         - child allowance vs. child benefit
         - abgeltungssteuer vs. taxing capital income in the tariff
