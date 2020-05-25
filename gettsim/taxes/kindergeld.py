@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def kindergeld_m_basis(
+def _kindergeld_m_basis(
     tu_id, _kindergeld_anspruch, kindergeld_params,
 ):
     """
@@ -25,20 +25,20 @@ def kindergeld_m_basis(
     return out
 
 
-def kindergeld_m_tu_basis(kindergeld_m_basis, tu_id):
+def _kindergeld_m_tu_basis(_kindergeld_m_basis, tu_id):
     """
 
     Parameters
     ----------
-    kindergeld_m_basis
+    _kindergeld_m_basis
     tu_id
 
     Returns
     -------
 
     """
-    out = kindergeld_m_basis.groupby(tu_id).apply(sum)
-    return out.rename("kindergeld_m_tu_basis")
+    out = _kindergeld_m_basis.groupby(tu_id).apply(sum)
+    return out.rename("_kindergeld_m_tu_basis")
 
 
 def _kindergeld_anspruch_nach_stunden(

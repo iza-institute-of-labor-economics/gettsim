@@ -19,9 +19,9 @@ INPUT_COLS = [
     "in_ausbildung",
     "bruttolohn_m",
 ]
-OUT_COLS = ["kindergeld_m_basis", "kindergeld_m_tu_basis"]
+OUT_COLS = ["_kindergeld_m_basis", "_kindergeld_m_tu_basis"]
 YEARS = [2000, 2002, 2010, 2011, 2013, 2019]
-TEST_COLS = ["kindergeld_m_tu_basis"]
+TEST_COLS = ["_kindergeld_m_tu_basis"]
 
 
 @pytest.fixture(scope="module")

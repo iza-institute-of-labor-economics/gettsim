@@ -149,7 +149,7 @@
 #     )
 #
 #     in_cols = ["alter", "arbeitsstunden_w", "in_ausbildung", "bruttolohn_m"]
-#     out_cols = ["kindergeld_m_basis", "kindergeld_m_tu_basis"]
+#     out_cols = ["_kindergeld_m_basis", "_kindergeld_m_tu_basis"]
 #     df = apply_tax_transfer_func(
 #         df,
 #         tax_func=kindergeld,
@@ -162,8 +162,8 @@
 #         "gem_veranlagt",
 #         "kind",
 #         "abgelt_st_m_tu",
-#         "kindergeld_m_basis",
-#         "kindergeld_m_tu_basis",
+#         "_kindergeld_m_basis",
+#         "_kindergeld_m_tu_basis",
 #     ]
 #     out_cols = [
 #         "eink_st_m_tu",
