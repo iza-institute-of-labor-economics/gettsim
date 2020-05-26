@@ -1,12 +1,8 @@
-import numpy as np
-import pandas as pd
-
-
 def sozialv_beitr_m(
     pflegev_beitr_m, ges_krankenv_beitr_m, rentenv_beitr_m, arbeitsl_v_beitr_m
 ):
-    """
-    Sum of all social insurance contributions.
+    """Sum of all social insurance contributions.
+
 
     Parameters
     ----------
@@ -25,8 +21,7 @@ def sozialv_beitr_m(
 def rentenv_beitr_m(
     _geringfügig_beschäftigt, _rentenv_beitr_regular_job, _an_beitr_rentenv_midi_job,
 ):
-    """
-    Calculate the contribution for each individual to the pension insurance.
+    """Contribution for each individual to the pension insurance.
 
     Parameters
     ----------
@@ -39,9 +34,7 @@ def rentenv_beitr_m(
 
     """
 
-    out = pd.Series(
-        index=_geringfügig_beschäftigt.index, name="rentenv_beitr_m", dtype=float
-    )
+    out = _geringfügig_beschäftigt.astype(float) * 0
 
     # Set contribution 0 for people in minijob
     out.loc[_geringfügig_beschäftigt] = 0
@@ -85,9 +78,7 @@ def arbeitsl_v_beitr_m(
     -------
 
     """
-    out = pd.Series(
-        index=_geringfügig_beschäftigt.index, name="arbeitsl_v_beitr_m", dtype=float
-    )
+    out = _geringfügig_beschäftigt.astype(float) * 0
 
     # Set contribution 0 for people in minijob
     out.loc[_geringfügig_beschäftigt] = 0
@@ -99,13 +90,15 @@ def arbeitsl_v_beitr_m(
     return out
 
 
-def _arbeitsl_v_regular_job(__ges_beitr_arbeitsl_v_midi_job, soz_vers_beitr_params):
+def _arbeitsl_v_regular_job(
+    _ges_beitr_arbeitsl_v_midi_jobreturn, soz_vers_beitr_params
+):
     """
     Calculates unemployment insurance contributions for regualr jobs.
 
     Parameters
     ----------
-    __ges_beitr_arbeitsl_v_midi_job : pd.Series
+    _ges_beitr_arbeitsl_v_midi_jobreturn : pd.Series
                                      Wage subject to pension and unemployment insurance
                                      contributions.
     soz_vers_beitr_params
@@ -114,19 +107,20 @@ def _arbeitsl_v_regular_job(__ges_beitr_arbeitsl_v_midi_job, soz_vers_beitr_para
     -------
 
     """
-    out = __ges_beitr_arbeitsl_v_midi_job.multiply(
+    return _ges_beitr_arbeitsl_v_midi_jobreturn.multiply(
         soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
-    return out.rename("_arbeitsl_v_regular_job")
 
 
-def _rentenv_beitr_regular_job(__ges_beitr_arbeitsl_v_midi_job, soz_vers_beitr_params):
+def _rentenv_beitr_regular_job(
+    _ges_beitr_arbeitsl_v_midi_jobreturn, soz_vers_beitr_params
+):
     """
     Calculates pension insurance contributions for regualr jobs.
 
     Parameters
     ----------
-    __ges_beitr_arbeitsl_v_midi_job : pd.Series
+    _ges_beitr_arbeitsl_v_midi_jobreturn : pd.Series
                                      Wage subject to pension and unemployment
                                      insurance contributions.
     soz_vers_beitr_params
@@ -135,10 +129,9 @@ def _rentenv_beitr_regular_job(__ges_beitr_arbeitsl_v_midi_job, soz_vers_beitr_p
     -------
 
     """
-    out = __ges_beitr_arbeitsl_v_midi_job.multiply(
+    return _ges_beitr_arbeitsl_v_midi_jobreturn.multiply(
         soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     )
-    return out.rename("_rentenv_beitr_regular_job")
 
 
 def _rentenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
@@ -156,19 +149,15 @@ def _rentenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
     -------
 
     """
-    out = np.select(
-        [wohnort_ost, ~wohnort_ost],
-        [
-            soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
-            soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
-        ],
-    )
-    return pd.Series(
-        index=wohnort_ost.index, data=out, name="_rentenv_beitr_bemess_grenze"
+    return wohnort_ost.replace(
+        {
+            True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
+            False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
+        }
     )
 
 
-def __ges_beitr_arbeitsl_v_midi_job(
+def _ges_beitr_arbeitsl_v_midi_jobreturn(
     bruttolohn_m, _rentenv_beitr_bemess_grenze, _regulär_beschäftigt
 ):
     """
@@ -195,7 +184,7 @@ def __ges_beitr_arbeitsl_v_midi_job(
     out = bruttolohn_m__regulär_beschäftigt.where(
         bruttolohn_m__regulär_beschäftigt < bemess_grenze, bemess_grenze
     )
-    return out.rename("__ges_beitr_arbeitsl_v_midi_job")
+    return out.rename("_ges_beitr_arbeitsl_v_midi_jobreturn")
 
 
 def ges_beitr_arbeitsl_v_midi_job(_midi_job_bemessungsentgelt, soz_vers_beitr_params):
