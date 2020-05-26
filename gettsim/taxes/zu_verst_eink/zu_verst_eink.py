@@ -13,8 +13,6 @@ for each income type. In fact, you need several taxable incomes because of
 It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
-import copy
-
 import pandas as pd
 
 
@@ -40,9 +38,9 @@ def _zu_verst_eink_kein_kinderfreib(
         .groupby(tu_id)
         .transform(sum)
     )
-    out = copy.deepcopy(_zu_verst_eink_kein_kinderfreib_vorläufig)
+    out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
     out.loc[~kind] = zve_tu / anz_erwachsene_in_tu.loc[~kind]
-    return out.rename("_zu_verst_eink_kein_kinderfreib")
+    return out
 
 
 def _zu_verst_eink_kein_kinderfreib_vorläufig(
@@ -76,7 +74,7 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
         - hh_freib
         - altersfreib
     ).clip(lower=0)
-    return out.rename("_zu_verst_eink_kein_kinderfreib_vorläufig")
+    return out
 
 
 def _zu_verst_eink_kinderfreib(
@@ -107,9 +105,9 @@ def _zu_verst_eink_kinderfreib(
     zu_verst_eink_tu = (
         (zu_vers_eink_kinderfreib.loc[~kind]).groupby(tu_id).transform(sum)
     )
-    out = copy.deepcopy(_zu_verst_eink_kein_kinderfreib_vorläufig)
+    out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
     out.loc[~kind] = zu_verst_eink_tu / anz_erwachsene_in_tu.loc[~kind]
-    return out.rename("_zu_verst_eink_kinderfreib")
+    return out
 
 
 def _ertragsanteil(jahr_renteneintr):
