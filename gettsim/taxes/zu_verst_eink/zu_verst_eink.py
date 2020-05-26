@@ -141,7 +141,7 @@ def anz_erwachsene_in_tu(tu_id, kind):
     return out.rename("anz_erwachsene_in_tu")
 
 
-def gemeinsam_veranlagt(tu_id, anz_erwachsene_in_tu):
+def gemeinsam_veranlagt(anz_erwachsene_in_tu):
     out = anz_erwachsene_in_tu == 2
     return out.rename("gemeinsam_veranlagt")
 
