@@ -3,7 +3,9 @@ import pandas as pd
 
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.tests.test_benefit_checks import OUT_COLS
+
+
+OUT_COLS = ["kinderzuschlag_m", "wohngeld_m", "arbeitsl_geld_2_m"]
 
 
 def kinderzuschlag_m(
@@ -27,8 +29,9 @@ def kinderzuschlag_m(
     freibetrag_vermögen_max,
     freibetrag_vermögen_max_per_hh,
     freibetrag_vermögen,
-    # regelbedarf_m_angepasst,
-    # kinderzuschlag_temp_angepasst,
+    regelbedarf_m_vorläufig,
+    kinderzuschlag_temp_vorläufig,
+    wohngeld_basis_hh_vorläufig,
     arbeitsl_geld_2_params,
 ):
 
@@ -54,8 +57,9 @@ def kinderzuschlag_m(
             freibetrag_vermögen_max,
             freibetrag_vermögen_max_per_hh,
             freibetrag_vermögen,
-            # regelbedarf_m_angepasst,
-            # kinderzuschlag_temp_angepasst,
+            regelbedarf_m_vorläufig,
+            kinderzuschlag_temp_vorläufig,
+            wohngeld_basis_hh_vorläufig,
         ],
         axis=1,
     )
@@ -93,8 +97,9 @@ def wohngeld_m(
     freibetrag_vermögen_max,
     freibetrag_vermögen_max_per_hh,
     freibetrag_vermögen,
-    # regelbedarf_m_angepasst,
-    # kinderzuschlag_temp_angepasst,
+    regelbedarf_m_vorläufig,
+    kinderzuschlag_temp_vorläufig,
+    wohngeld_basis_hh_vorläufig,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -119,8 +124,9 @@ def wohngeld_m(
             freibetrag_vermögen_max,
             freibetrag_vermögen_max_per_hh,
             freibetrag_vermögen,
-            # regelbedarf_m_angepasst,
-            # kinderzuschlag_temp_angepasst,
+            regelbedarf_m_vorläufig,
+            kinderzuschlag_temp_vorläufig,
+            wohngeld_basis_hh_vorläufig,
         ],
         axis=1,
     )
@@ -158,8 +164,9 @@ def arbeitsl_geld_2_m(
     freibetrag_vermögen_max,
     freibetrag_vermögen_max_per_hh,
     freibetrag_vermögen,
-    # regelbedarf_m_angepasst,
-    # kinderzuschlag_temp_angepasst,
+    regelbedarf_m_vorläufig,
+    kinderzuschlag_temp_vorläufig,
+    wohngeld_basis_hh_vorläufig,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -184,8 +191,9 @@ def arbeitsl_geld_2_m(
             freibetrag_vermögen_max,
             freibetrag_vermögen_max_per_hh,
             freibetrag_vermögen,
-            # regelbedarf_m_angepasst,
-            # kinderzuschlag_temp_angepasst,
+            regelbedarf_m_vorläufig,
+            kinderzuschlag_temp_vorläufig,
+            wohngeld_basis_hh_vorläufig,
         ],
         axis=1,
     )
@@ -265,17 +273,57 @@ def freibetrag_vermögen(
     ).clip(upper=freibetrag_vermögen_max_per_hh)
 
 
-# def regelbedarf_m_angepasst(regelbedarf_m, vermögen_hh, freibetrag_vermögen):
-#     """Adjust regelbedarf_m.
-
-#     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
-#     calculated, just set the need to zero)
-
-#     """
-#     return regelbedarf_m.where(vermögen_hh <= freibetrag_vermögen, 0)
+def regelbedarf_m_vorläufig_bis_2004(regelbedarf_m):
+    return regelbedarf_m
 
 
-# def kinderzuschlag_temp_angepasst(
-#     kinderzuschlag_temp, vermögen_hh, freibetrag_vermögen
-# ):
-#     return kinderzuschlag_temp.where(vermögen_hh <= freibetrag_vermögen, 0)
+def regelbedarf_m_vorläufig_ab_2005(regelbedarf_m, vermögen_hh, freibetrag_vermögen):
+    """Set regelbedarf_m to zero if it exceeds the wealth exemption.
+
+    If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
+    calculated, just set the need to zero)
+
+    TODO: Remove the check vor `vermögen_hh`
+
+    """
+    return regelbedarf_m.where(
+        vermögen_hh.isna() | (vermögen_hh <= freibetrag_vermögen), 0
+    )
+
+
+def kinderzuschlag_temp_vorläufig_bis_2004(kinderzuschlag_temp):
+    return kinderzuschlag_temp
+
+
+def kinderzuschlag_temp_vorläufig_ab_2005(
+    kinderzuschlag_temp, vermögen_hh, freibetrag_vermögen
+):
+    """Set kindergeldzuschlag_temp to zero if it exceeds the wealth exemption.
+
+    TODO: Remove the check vor `vermögen_hh`.
+
+    """
+    return kinderzuschlag_temp.where(
+        vermögen_hh.isna() | (vermögen_hh <= freibetrag_vermögen), 0
+    )
+
+
+def wohngeld_basis_hh_vorläufig_bis_2004(wohngeld_basis_hh):
+    return wohngeld_basis_hh
+
+
+def wohngeld_basis_hh_vorläufig_ab_2005(wohngeld_basis_hh, vermögen_hh, haushaltsgröße):
+    """Calculate a lump sum payment for wohngeld
+
+    The payment depends on the wealth of the household and the number of household
+    members.
+
+    60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
+
+    TODO: Need to write numbers to params.
+
+    TODO: Remove the check vor `vermögen_hh`
+
+    """
+    condition = vermögen_hh <= (60_000 + (30_000 * (haushaltsgröße - 1)))
+    return wohngeld_basis_hh.where(vermögen_hh.isna() | condition, 0)

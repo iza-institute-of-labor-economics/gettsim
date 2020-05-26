@@ -8,6 +8,12 @@ import yaml
 
 from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
 from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
+from gettsim.benefits.benefit_checks_dag import kinderzuschlag_temp_vorläufig_ab_2005
+from gettsim.benefits.benefit_checks_dag import kinderzuschlag_temp_vorläufig_bis_2004
+from gettsim.benefits.benefit_checks_dag import regelbedarf_m_vorläufig_ab_2005
+from gettsim.benefits.benefit_checks_dag import regelbedarf_m_vorläufig_bis_2004
+from gettsim.benefits.benefit_checks_dag import wohngeld_basis_hh_vorläufig_ab_2005
+from gettsim.benefits.benefit_checks_dag import wohngeld_basis_hh_vorläufig_bis_2004
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
@@ -139,6 +145,23 @@ def get_policies_for_date(policy_date, groups="all"):
     else:
         policy_func_dict["_lohn_vorsorgeabzug_single"] = _lohn_vorsorge_ab_2020_single
         policy_func_dict["_lohn_vorsorgeabzug_tu"] = _lohn_vorsorge_ab_2020_tu
+
+    if year < 2005:
+        policy_func_dict[
+            "kinderzuschlag_temp_vorläufig"
+        ] = kinderzuschlag_temp_vorläufig_bis_2004
+        policy_func_dict["regelbedarf_m_vorläufig"] = regelbedarf_m_vorläufig_bis_2004
+        policy_func_dict[
+            "wohngeld_basis_hh_vorläufig"
+        ] = wohngeld_basis_hh_vorläufig_bis_2004
+    else:
+        policy_func_dict[
+            "kinderzuschlag_temp_vorläufig"
+        ] = kinderzuschlag_temp_vorläufig_ab_2005
+        policy_func_dict["regelbedarf_m_vorläufig"] = regelbedarf_m_vorläufig_ab_2005
+        policy_func_dict[
+            "wohngeld_basis_hh_vorläufig"
+        ] = wohngeld_basis_hh_vorläufig_ab_2005
 
     return params_dict, policy_func_dict
 

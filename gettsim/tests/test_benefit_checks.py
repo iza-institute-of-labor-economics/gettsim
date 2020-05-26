@@ -41,6 +41,13 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_benefit_checks(input_data, year, column):
+    """Test the benefit checks.
+
+    The tests require `vermögen_hh` which is NaN in the input data. This leads to
+    confusing behavior. Maybe we should test whether the original data contains no NaNs,
+    if it is possible.
+
+    """
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
@@ -55,6 +62,10 @@ def test_benefit_checks(input_data, year, column):
         policy_date=policy_date, groups="arbeitsl_geld_2",
     )
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        df,
+        user_columns=columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
     assert_series_equal(result, year_data[column], check_dtype=False)

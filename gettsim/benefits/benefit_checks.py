@@ -14,29 +14,26 @@ def benefit_priority(household, params):
     If the household need cannot be covered via Wohngeld, he has to apply for ALG2.
     There is no way you can receive ALG2 and Wohngeld/Kinderzuschlag at the same time!
     """
-    # Before 2005 no basic social security (=ALG2) is implemented so far and thus
-    # return a nan dataframe.
-    if params["jahr"] < 2005:
-        return household
-    # But first, we check whether hh wealth is too high
-    household = wealth_test(household, params)
     # use these values (possibly zero now) below
     household["sum_wohngeld_m_arbeitsl_geld_2_eink"] = (
-        household["sum_basis_arbeitsl_geld_2_eink"] + household["wohngeld_basis_hh"]
+        household["sum_basis_arbeitsl_geld_2_eink"]
+        + household["wohngeld_basis_hh_vorläufig"]
     )
     household["sum_kinderzuschlag_arbeitsl_geld_2_eink"] = (
-        household["sum_basis_arbeitsl_geld_2_eink"] + household["kinderzuschlag_temp"]
+        household["sum_basis_arbeitsl_geld_2_eink"]
+        + household["kinderzuschlag_temp_vorläufig"]
     )
     household["sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink"] = (
         household["sum_basis_arbeitsl_geld_2_eink"]
-        + household["wohngeld_basis_hh"]
-        + household["kinderzuschlag_temp"]
+        + household["wohngeld_basis_hh_vorläufig"]
+        + household["kinderzuschlag_temp_vorläufig"]
     )
 
     # calculate difference between transfers and the household need
     for v in ["basis", "wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
         household["fehlbedarf_" + v] = (
-            household["regelbedarf_m"] - household["sum_" + v + "_arbeitsl_geld_2_eink"]
+            household["regelbedarf_m_vorläufig"]
+            - household["sum_" + v + "_arbeitsl_geld_2_eink"]
         )
         household["arbeitsl_geld_2_m_" + v] = np.maximum(
             household["fehlbedarf_" + v], 0
@@ -50,8 +47,8 @@ def benefit_priority(household, params):
 
     # initialize final benefits
     household["arbeitsl_geld_2_m"] = household["arbeitsl_geld_2_m_basis"]
-    household["kinderzuschlag_m"] = household["kinderzuschlag_temp"]
-    household["wohngeld_m"] = household["wohngeld_basis_hh"]
+    household["kinderzuschlag_m"] = household["kinderzuschlag_temp_vorläufig"]
+    household["wohngeld_m"] = household["wohngeld_basis_hh_vorläufig"]
 
     # If this is the case set alg2 to zero.
     household.loc[
@@ -81,38 +78,5 @@ def benefit_priority(household, params):
 
     for ben in ["kinderzuschlag_m", "wohngeld_m", "arbeitsl_geld_2_m"]:
         household.loc[household["anz_rentner"] > 0, ben] = 0
-
-    return household
-
-
-def wealth_test(household, params):
-    """ Checks Benefit Claim against Household wealth.
-        - household: a dataframe containing information on theoretical claim of
-              - ALG2
-              - Kiz
-              - Wohngeld
-          as well as age of each hh member
-
-    For ALG2 and Kiz, there are wealth exemptions for every year.
-    For Wohngeld, there is a lump-sum amount depending on the household size
-    """
-    household_size = household.shape[0]
-
-    # If wealth exceeds the exemption, set benefits to zero
-    # (since ALG2 is not yet calculated, just set the need to zero)
-    household.loc[
-        (household["vermögen_hh"] > household["freibetrag_vermögen"]), "regelbedarf_m"
-    ] = 0
-    household.loc[
-        (household["vermögen_hh"] > household["freibetrag_vermögen"]),
-        "kinderzuschlag_temp",
-    ] = 0
-
-    # Wealth test for Wohngeld
-    # 60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
-    household.loc[
-        (household["vermögen_hh"] > (60_000 + (30_000 * (household_size - 1)))),
-        "wohngeld_basis_hh",
-    ] = 0
 
     return household
