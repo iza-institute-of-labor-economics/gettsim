@@ -283,12 +283,8 @@ def regelbedarf_m_vorläufig_ab_2005(regelbedarf_m, vermögen_hh, freibetrag_ver
     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
     calculated, just set the need to zero)
 
-    TODO: Remove the check vor `vermögen_hh`
-
     """
-    return regelbedarf_m.where(
-        vermögen_hh.isna() | (vermögen_hh <= freibetrag_vermögen), 0
-    )
+    return regelbedarf_m.where(vermögen_hh <= freibetrag_vermögen, 0)
 
 
 def kinderzuschlag_temp_vorläufig_bis_2004(kinderzuschlag_temp):
@@ -298,14 +294,8 @@ def kinderzuschlag_temp_vorläufig_bis_2004(kinderzuschlag_temp):
 def kinderzuschlag_temp_vorläufig_ab_2005(
     kinderzuschlag_temp, vermögen_hh, freibetrag_vermögen
 ):
-    """Set kindergeldzuschlag_temp to zero if it exceeds the wealth exemption.
-
-    TODO: Remove the check vor `vermögen_hh`.
-
-    """
-    return kinderzuschlag_temp.where(
-        vermögen_hh.isna() | (vermögen_hh <= freibetrag_vermögen), 0
-    )
+    """Set kindergeldzuschlag_temp to zero if it exceeds the wealth exemption."""
+    return kinderzuschlag_temp.where(vermögen_hh <= freibetrag_vermögen, 0)
 
 
 def wohngeld_basis_hh_vorläufig_bis_2004(wohngeld_basis_hh):
@@ -322,8 +312,6 @@ def wohngeld_basis_hh_vorläufig_ab_2005(wohngeld_basis_hh, vermögen_hh, hausha
 
     TODO: Need to write numbers to params.
 
-    TODO: Remove the check vor `vermögen_hh`
-
     """
     condition = vermögen_hh <= (60_000 + (30_000 * (haushaltsgröße - 1)))
-    return wohngeld_basis_hh.where(vermögen_hh.isna() | condition, 0)
+    return wohngeld_basis_hh.where(condition, 0)
