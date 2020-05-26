@@ -20,8 +20,6 @@ def alg2(household, params):
         #               "nicht berechnet.")
         return household
 
-    household = mehrbedarf_alg2(household, params)
-
     household = params["calc_regelsatz"](household, params)
 
     # After introduction of Hartz IV until 2010, people becoming unemployed
@@ -91,37 +89,6 @@ def regelberechnung_2011_and_beyond(household, params):
 
     household["regelsatz_m"] += kinder_satz_m
 
-    return household
-
-
-def mehrbedarf_alg2(household, params):
-    """ Additional need for single parents. Maximum 60% of the standard amount on top
-    (a2zu2) if you have at least one kid below 6 or two or three below 15, you get
-    36% on top alternatively, you get 12% per kid, depending on what's higher."""
-    children_age_info = {}
-    for age in [(0, 6), (0, 15)]:
-        children_age_info["anzahl_{}_{}".format(age[0], age[1])] = (
-            household["kind"] & household["alter"].between(age[0], age[1])
-        ).sum()
-    children_age_info["anzahl_kinder"] = household["kind"].sum()
-    children_age_info["anzahl_erw"] = (
-        len(household) - children_age_info["anzahl_kinder"]
-    )
-
-    household["alleinerziehenden_mehrbedarf"] = household[
-        "alleinerziehend"
-    ] * np.minimum(
-        params["mehrbedarf_anteil"]["max"],
-        np.maximum(
-            params["mehrbedarf_anteil"]["min_1_kind"]
-            * children_age_info["anzahl_kinder"],
-            (
-                (children_age_info["anzahl_0_6"] >= 1)
-                | (2 <= children_age_info["anzahl_0_15"] <= 3)
-            )
-            * params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"],
-        ),
-    )
     return household
 
 
