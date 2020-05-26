@@ -75,22 +75,7 @@ def _anzahl_kinder_unter_11_per_tu(tu_id, alter):
     return (alter < 11).groupby(tu_id).transform("sum")
 
 
-def _wohngeld_eink_abzüge(
-    _wohngeld_eink_abzüge_bis_2015, _wohngeld_eink_abzüge_ab_2016
-):
-    """
-    Calculate deductions for handicapped, single parents and children who are working.
-
-    """
-    return (
-        _wohngeld_eink_abzüge_bis_2015
-        if _wohngeld_eink_abzüge_ab_2016.empty
-        else _wohngeld_eink_abzüge_ab_2016
-    )
-
-
-def _wohngeld_eink_abzüge_bis_2015(
-    jahr,
+def wohngeld_eink_abzüge_bis_2015(
     bruttolohn_m,
     kindergeld_anspruch,
     behinderungsgrad,
@@ -99,36 +84,27 @@ def _wohngeld_eink_abzüge_bis_2015(
     _anzahl_kinder_unter_11_per_tu,
     wohngeld_params,
 ):
-    bis_2015 = jahr <= 2015
+    workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
 
-    if bis_2015.any():
-        workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
-
-        abzüge = (
-            (behinderungsgrad > 80) * wohngeld_params["freib_behinderung"]["ab80"]
-            + ((1 <= behinderungsgrad) & (behinderungsgrad <= 80))
-            * wohngeld_params["freib_behinderung"]["u80"]
-            + (
-                workingchild
-                * bruttolohn_m.clip(
-                    lower=None, upper=wohngeld_params["freib_kinder"][24]
-                )
-            )
-            + (
-                (alleinerziehend & ~kind)
-                * _anzahl_kinder_unter_11_per_tu
-                * wohngeld_params["freib_kinder"][12]
-            )
+    abzüge = (
+        (behinderungsgrad > 80) * wohngeld_params["freib_behinderung"]["ab80"]
+        + ((1 <= behinderungsgrad) & (behinderungsgrad <= 80))
+        * wohngeld_params["freib_behinderung"]["u80"]
+        + (
+            workingchild
+            * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder"][24])
         )
-
-    else:
-        abzüge = pd.Series(dtype=float)
+        + (
+            (alleinerziehend & ~kind)
+            * _anzahl_kinder_unter_11_per_tu
+            * wohngeld_params["freib_kinder"][12]
+        )
+    )
 
     return abzüge
 
 
-def _wohngeld_eink_abzüge_ab_2016(
-    jahr,
+def wohngeld_eink_abzüge_ab_2016(
     bruttolohn_m,
     kindergeld_anspruch,
     behinderungsgrad,
@@ -136,19 +112,14 @@ def _wohngeld_eink_abzüge_ab_2016(
     kind,
     wohngeld_params,
 ):
-    ab_2016 = 2016 <= jahr
+    workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
 
-    if ab_2016.any():
-        workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
-
-        abzüge = (
-            (behinderungsgrad > 0) * wohngeld_params["freib_behinderung"]
-            + workingchild
-            * bruttolohn_m.clip(lower=0, upper=wohngeld_params["freib_kinder"][24])
-            + alleinerziehend * wohngeld_params["freib_kinder"][12] * ~kind
-        )
-    else:
-        abzüge = pd.Series(dtype=float)
+    abzüge = (
+        (behinderungsgrad > 0) * wohngeld_params["freib_behinderung"]
+        + workingchild
+        * bruttolohn_m.clip(lower=0, upper=wohngeld_params["freib_kinder"][24])
+        + alleinerziehend * wohngeld_params["freib_kinder"][12] * ~kind
+    )
 
     return abzüge
 
@@ -156,13 +127,13 @@ def _wohngeld_eink_abzüge_ab_2016(
 def _wohngeld_eink(
     tu_id,
     haushaltsgröße,
-    _wohngeld_eink_abzüge,
+    wohngeld_eink_abzüge,
     _wohngeld_abzüge,
     _wohngeld_brutto_eink,
     _wohngeld_sonstiges_eink,
     wohngeld_params,
 ):
-    _wohngeld_eink_abzüge_per_tu = _wohngeld_eink_abzüge.groupby(tu_id).transform("sum")
+    _wohngeld_eink_abzüge_per_tu = wohngeld_eink_abzüge.groupby(tu_id).transform("sum")
 
     vorläufiges_eink = (1 - _wohngeld_abzüge) * (
         _wohngeld_brutto_eink + _wohngeld_sonstiges_eink - _wohngeld_eink_abzüge_per_tu
