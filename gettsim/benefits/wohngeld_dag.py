@@ -5,12 +5,7 @@ from gettsim.dynamic_function_generation import create_function
 
 
 def wohngeld_basis_hh(
-    tu_id,
-    _wohngeld_eink,
-    _wohngeld_max_miete,
-    wohngeld_basis,
-    tu_vorstand,
-    wohngeld_params,
+    tu_id, wohngeld_basis, tu_vorstand,
 ):
     """Compute "Wohngeld" or housing benefits.
 
@@ -187,12 +182,10 @@ def _wohngeld_min_miete(haushaltsgröße, wohngeld_params):
 
 
 def _wohngeld_max_miete(
-    tu_id,
     kaltmiete_m,
     _wohngeld_max_miete_bis_2008,
     _wohngeld_max_miete_ab_2009,
     tax_unit_share,
-    haushaltsgröße,
     _wohngeld_min_miete,
 ):
     """Calculate the relevant rent for the wohngeld."""

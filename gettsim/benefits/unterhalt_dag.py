@@ -8,7 +8,6 @@ def unterhaltsvors_m(
     tu_id,
     alleinerziehend,
     alter,
-    bruttolohn_m,
     unterhaltsvorschuss_eink_per_tu,
     unterhalt_params,
     kindergeld_params,

@@ -256,7 +256,6 @@ def kinderzuschlag_ab_juli_2019(
     kinderzuschlag_eink_min,
     kinderzuschlag_kindereink_abzug,
     kinderzuschlag_eink_anrechn,
-    params,
 ):
     ab_2019 = 2019 <= jahr
 

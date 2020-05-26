@@ -54,7 +54,6 @@ def freibetrag_vermögen_max_per_hh(hh_id, freibetrag_vermögen_max):
 def freibetrag_vermögen(
     freibetrag_alter_per_hh,
     anz_minderj_hh,
-    kind,
     haushaltsgröße,
     freibetrag_vermögen_max_per_hh,
     arbeitsl_geld_2_params,
