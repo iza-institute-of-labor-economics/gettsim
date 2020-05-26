@@ -14,21 +14,6 @@ def benefit_priority(household, params):
     If the household need cannot be covered via Wohngeld, he has to apply for ALG2.
     There is no way you can receive ALG2 and Wohngeld/Kinderzuschlag at the same time!
     """
-    # use these values (possibly zero now) below
-    household["sum_wohngeld_m_arbeitsl_geld_2_eink"] = (
-        household["sum_basis_arbeitsl_geld_2_eink"]
-        + household["wohngeld_basis_hh_vorläufig"]
-    )
-    household["sum_kinderzuschlag_arbeitsl_geld_2_eink"] = (
-        household["sum_basis_arbeitsl_geld_2_eink"]
-        + household["kinderzuschlag_temp_vorläufig"]
-    )
-    household["sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink"] = (
-        household["sum_basis_arbeitsl_geld_2_eink"]
-        + household["wohngeld_basis_hh_vorläufig"]
-        + household["kinderzuschlag_temp_vorläufig"]
-    )
-
     # calculate difference between transfers and the household need
     for v in ["basis", "wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
         household["fehlbedarf_" + v] = (

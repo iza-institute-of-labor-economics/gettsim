@@ -32,6 +32,9 @@ def kinderzuschlag_m(
     regelbedarf_m_vorläufig,
     kinderzuschlag_temp_vorläufig,
     wohngeld_basis_hh_vorläufig,
+    sum_wohngeld_m_arbeitsl_geld_2_eink,
+    sum_kinderzuschlag_arbeitsl_geld_2_eink,
+    sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
     arbeitsl_geld_2_params,
 ):
 
@@ -60,6 +63,9 @@ def kinderzuschlag_m(
             regelbedarf_m_vorläufig,
             kinderzuschlag_temp_vorläufig,
             wohngeld_basis_hh_vorläufig,
+            sum_wohngeld_m_arbeitsl_geld_2_eink,
+            sum_kinderzuschlag_arbeitsl_geld_2_eink,
+            sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
         ],
         axis=1,
     )
@@ -100,6 +106,9 @@ def wohngeld_m(
     regelbedarf_m_vorläufig,
     kinderzuschlag_temp_vorläufig,
     wohngeld_basis_hh_vorläufig,
+    sum_wohngeld_m_arbeitsl_geld_2_eink,
+    sum_kinderzuschlag_arbeitsl_geld_2_eink,
+    sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -127,6 +136,9 @@ def wohngeld_m(
             regelbedarf_m_vorläufig,
             kinderzuschlag_temp_vorläufig,
             wohngeld_basis_hh_vorläufig,
+            sum_wohngeld_m_arbeitsl_geld_2_eink,
+            sum_kinderzuschlag_arbeitsl_geld_2_eink,
+            sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
         ],
         axis=1,
     )
@@ -167,6 +179,9 @@ def arbeitsl_geld_2_m(
     regelbedarf_m_vorläufig,
     kinderzuschlag_temp_vorläufig,
     wohngeld_basis_hh_vorläufig,
+    sum_wohngeld_m_arbeitsl_geld_2_eink,
+    sum_kinderzuschlag_arbeitsl_geld_2_eink,
+    sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
     arbeitsl_geld_2_params,
 ):
     df = pd.concat(
@@ -194,6 +209,9 @@ def arbeitsl_geld_2_m(
             regelbedarf_m_vorläufig,
             kinderzuschlag_temp_vorläufig,
             wohngeld_basis_hh_vorläufig,
+            sum_wohngeld_m_arbeitsl_geld_2_eink,
+            sum_kinderzuschlag_arbeitsl_geld_2_eink,
+            sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
         ],
         axis=1,
     )
@@ -315,3 +333,27 @@ def wohngeld_basis_hh_vorläufig_ab_2005(wohngeld_basis_hh, vermögen_hh, hausha
     """
     condition = vermögen_hh <= (60_000 + (30_000 * (haushaltsgröße - 1)))
     return wohngeld_basis_hh.where(condition, 0)
+
+
+def sum_wohngeld_m_arbeitsl_geld_2_eink(
+    sum_basis_arbeitsl_geld_2_eink, wohngeld_basis_hh_vorläufig
+):
+    return sum_basis_arbeitsl_geld_2_eink + wohngeld_basis_hh_vorläufig
+
+
+def sum_kinderzuschlag_arbeitsl_geld_2_eink(
+    sum_basis_arbeitsl_geld_2_eink, kinderzuschlag_temp_vorläufig
+):
+    return sum_basis_arbeitsl_geld_2_eink + kinderzuschlag_temp_vorläufig
+
+
+def sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink(
+    sum_basis_arbeitsl_geld_2_eink,
+    wohngeld_basis_hh_vorläufig,
+    kinderzuschlag_temp_vorläufig,
+):
+    return (
+        sum_basis_arbeitsl_geld_2_eink
+        + wohngeld_basis_hh_vorläufig
+        + kinderzuschlag_temp_vorläufig
+    )
