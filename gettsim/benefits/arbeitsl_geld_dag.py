@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _st_tarif
 
 
 def arbeitsl_geld_m(
@@ -55,7 +55,6 @@ def proxy_eink_vorj_arbeitsl_geld(
     eink_st_params,
     eink_st_abzuege_params,
     soli_st_params,
-    soz_vers_beitr_params,
 ):
     """Calculating the claim for benefits depending on previous wage."""
     # Relevant wage is capped at the contribution thresholds
@@ -65,7 +64,7 @@ def proxy_eink_vorj_arbeitsl_geld(
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch_arbeitsl_geld"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = st_tarif(
+    prox_tax = _st_tarif(
         12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
     )

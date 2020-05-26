@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _st_tarif
 
 
 def elterngeld_m(
@@ -32,13 +32,11 @@ def elterngeld_m(
 
 def proxy_eink_vorj_elterngeld(
     beitr_bemess_grenze_rentenv,
-    wohnort_ost,
     bruttolohn_vorj_m,
     elterngeld_params,
     eink_st_params,
     eink_st_abzuege_params,
     soli_st_params,
-    soz_vers_beitr_params,
 ):
     """Calculating the claim for benefits depending on previous wage.
 
@@ -52,7 +50,7 @@ def proxy_eink_vorj_elterngeld(
     prox_ssc = elterngeld_params["elterngeld_soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = st_tarif(
+    prox_tax = _st_tarif(
         12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
     )
