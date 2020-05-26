@@ -104,8 +104,9 @@ def _arbeitsl_v_regular_job(
     -------
 
     """
-    return _ges_beitr_arbeitsl_v_midi_jobreturn.multiply(
-        soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
+    return (
+        _ges_beitr_arbeitsl_v_midi_jobreturn
+        * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
 
 
@@ -125,8 +126,9 @@ def _rentenv_beitr_regular_job(
     -------
 
     """
-    return _ges_beitr_arbeitsl_v_midi_jobreturn.multiply(
-        soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
+    return (
+        _ges_beitr_arbeitsl_v_midi_jobreturn
+        * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     )
 
 
@@ -151,7 +153,7 @@ def _rentenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
             True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
             False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
         }
-    )
+    ).astype(float)
 
 
 def _ges_beitr_arbeitsl_v_midi_jobreturn(
@@ -238,8 +240,8 @@ def _ag_beitr_rentenv_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_param
 
     """
     bruttolohn_m__in_gleitzone = bruttolohn_m.loc[_in_gleitzone]
-    out = bruttolohn_m__in_gleitzone.multiply(
-        soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
+    out = (
+        bruttolohn_m__in_gleitzone * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     )
     return out.rename("_ag_beitr_rentenv_midi_job")
 
