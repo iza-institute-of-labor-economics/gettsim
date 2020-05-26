@@ -1,16 +1,14 @@
-import numpy as np
-import pandas as pd
-
-
 def abgelt_st_m(gem_veranlagt, kind, abgelt_st_m_tu, tu_id):
     """ Capital Income Tax / Abgeltungsteuer
         since 2009, captial income is taxed with a flatrate of 25%.
     """
-    out = np.select(
-        [gem_veranlagt & ~kind, ~gem_veranlagt & ~kind, kind],
-        [tu_id.replace(abgelt_st_m_tu) / 2, tu_id.replace(abgelt_st_m_tu), 0],
-    )
-    return pd.Series(data=out, index=tu_id.index, name="abgelt_st_m")
+    # First assign all individuals the tax unit value
+    out = tu_id.replace(abgelt_st_m_tu)
+    # Half it for married couples
+    out.loc[gem_veranlagt] /= 2
+    # Set it to zero for kids
+    out.loc[kind] = 0
+    return out
 
 
 def abgelt_st_m_tu(_zu_verst_kapital_eink_tu, abgelt_st_params):
@@ -43,9 +41,10 @@ def _zu_verst_kapital_eink_tu(
     -------
 
     """
+    multi_plikations_faktor = gemeinsam_veranlagte_tu.replace({True: 2, False: 1})
     out = (
         brutto_eink_5_tu
-        - np.select([gemeinsam_veranlagte_tu, ~gemeinsam_veranlagte_tu], [2, 1])
+        - multi_plikations_faktor
         * (
             eink_st_abzuege_params["sparerpauschbetrag"]
             + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
