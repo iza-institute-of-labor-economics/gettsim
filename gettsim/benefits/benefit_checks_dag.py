@@ -150,6 +150,7 @@ for outcome in ["basis", "wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzusch
         },
     )
     exec(f"{function_name} = __new_function")
+    del __new_function
 
 
 def _vorrang_check(variable, arbeitsl_geld_2_m_basis):
@@ -163,6 +164,7 @@ for variable in ["wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
         _vorrang_check, function_name, {"variable": f"arbeitsl_geld_2_m_{variable}"}
     )
     exec(f"{function_name} = __new_function")
+    del __new_function
 
 
 def anz_rentner_per_hh(hh_id, rentner):

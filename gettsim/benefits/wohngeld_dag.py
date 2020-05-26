@@ -271,6 +271,7 @@ for inc in [
     )
 
     exec(f"{function_name} = __new_function")
+    del __new_function
 
 
 def tax_unit_share(tu_id, haushaltsgröße):
