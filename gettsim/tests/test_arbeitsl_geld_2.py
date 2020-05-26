@@ -8,7 +8,6 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import check_for_bool
 from gettsim.tests.auxiliary import select_input_by_level
 from gettsim.tests.auxiliary import select_output_by_level
 
@@ -61,9 +60,7 @@ YEARS = [2005, 2006, 2009, 2011, 2013, 2016, 2019]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_alg2.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_alg2.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
@@ -77,9 +74,8 @@ def test_alg2(input_data, year, column):
 
     data = dict(df)
     for column_name, data_series in data.items():
-        data[column_name] = check_for_bool(data_series)
         data[column_name] = select_input_by_level(
-            data[column_name], data["tu_id"], data["hh_id"]
+            data_series, data["tu_id"], data["hh_id"]
         )
 
     columns = [
