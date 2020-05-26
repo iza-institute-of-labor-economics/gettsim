@@ -8,6 +8,8 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.tests.auxiliary import select_input_by_level
+from gettsim.tests.auxiliary import select_output_by_level
 
 
 INPUT_COLS = [
@@ -39,16 +41,16 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    "sum_basis_arbeitsl_geld_2_eink",
+    "sum_basis_arbeitsl_geld_2_eink_hh",
     "sum_arbeitsl_geld_2_eink",
     "arbeitsl_geld_2_brutto_eink_hh",
-    "alleinerziehenden_mehrbedarf",
-    "regelbedarf_m",
-    "regelsatz_m",
-    "kost_unterk_m",
+    # "alleinerziehenden_mehrbedarf",
+    # "regelbedarf_m",
+    # "regelsatz_m",
+    # "kost_unterk_m",
     "unterhaltsvors_m_hh",
-    "eink_anrechn_frei",
-    "arbeitsl_geld_2_eink",
+    # "eink_anrechn_frei",
+    "_arbeitsl_geld_2_eink",
     "sum_arbeitsl_geld_2_eink_hh",
 ]
 
@@ -71,6 +73,13 @@ def test_alg2(input_data, year, column):
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date, groups="arbeitsl_geld_2",
     )
+
+    data = dict(df)
+    for column_name, data_series in data.items():
+        data[column_name] = select_input_by_level(
+            data_series, data["tu_id"], data["hh_id"]
+        )
+
     columns = [
         "arbeitsl_geld_m",
         "soli_st_m",
@@ -81,7 +90,7 @@ def test_alg2(input_data, year, column):
     ]
 
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        data, user_columns=columns, targets=column, params=params_dict
     )
-
-    assert_series_equal(result, year_data[column], check_dtype=False)
+    expected_result = select_output_by_level(column, year_data)
+    assert_series_equal(result, expected_result, check_dtype=False, check_names=False)

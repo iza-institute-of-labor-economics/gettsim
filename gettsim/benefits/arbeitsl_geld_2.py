@@ -31,34 +31,8 @@ def alg2(household, params):
 
     household["regelbedarf_m"] = household["regelsatz_m"] + household["kost_unterk_m"]
 
-    (
-        household["arbeitsl_geld_2_eink"],
-        household["arbeitsl_geld_2_brutto_eink"],
-    ) = alg2_inc(household)
-
     household = eink_anr_frei(household, params)
 
-    # the final alg2 amount is the difference between the theoretical need and the
-    # relevant income. this will be calculated later when several benefits have to be
-    # compared.
-
-    household["sum_arbeitsl_geld_2_eink"] = np.maximum(
-        household["arbeitsl_geld_2_eink"] - household["eink_anrechn_frei"], 0
-    )
-
-    # Aggregate on HH
-    for var in [
-        "sum_arbeitsl_geld_2_eink",
-        "arbeitsl_geld_2_brutto_eink",
-        "unterhaltsvors_m",
-    ]:
-        household[f"{var}_hh"] = household[var].sum()
-
-    household["sum_basis_arbeitsl_geld_2_eink"] = (
-        household["sum_arbeitsl_geld_2_eink_hh"]
-        + household["kindergeld_m_hh"]
-        + household["unterhaltsvors_m_hh"]
-    )
     return household
 
 
@@ -176,42 +150,6 @@ def kdu_alg2(household):
         )
 
     return rent_per_sqm * wohnfl_justified
-
-
-def alg2_inc(household):
-    """Relevant income of alg2."""
-    # Income relevant to check against ALG2 claim
-    alg2_grossek = grossinc_alg2(household)
-    # ...deduct income tax and social security contributions
-    alg2_ek = np.maximum(
-        alg2_grossek
-        - household["eink_st_m"]
-        - household["soli_st_m"]
-        - household["sozialv_beit_m"],
-        0,
-    ).fillna(0)
-
-    return alg2_ek, alg2_grossek
-
-
-def grossinc_alg2(household):
-    """Calculating the gross income relevant for alg2."""
-    return (
-        household[
-            [
-                "bruttolohn_m",
-                "sonstig_eink_m",
-                "eink_selbstst_m",
-                "vermiet_eink_m",
-                "kapital_eink_m",
-                "ges_rente_m",
-                "arbeitsl_geld_m",
-                "elterngeld_m",
-            ]
-        ]
-        .sum(axis=1)
-        .fillna(0)
-    )
 
 
 def eink_anr_frei(household, params):
