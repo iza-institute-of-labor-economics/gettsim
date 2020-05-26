@@ -70,7 +70,7 @@ def _st_tarif(x, params):
         params (dict): tax-benefit parameters specific to year and reform
     """
     eink_st = piecewise_polynomial(
-        x,
+        x=x,
         lower_thresholds=params["eink_st_tarif"]["lower_thresholds"],
         upper_thresholds=params["eink_st_tarif"]["upper_thresholds"],
         rates=params["eink_st_tarif"]["rates"],

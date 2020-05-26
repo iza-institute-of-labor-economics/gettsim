@@ -66,7 +66,7 @@ def proxy_net_wage_last_year(
     prox_tax = _st_tarif(12 * max_wage - werbungs_pausch, eink_st_params)
 
     prox_soli = piecewise_polynomial(
-        prox_tax,
+        x=prox_tax,
         lower_thresholds=soli_st_params["soli_st"]["lower_thresholds"],
         upper_thresholds=soli_st_params["soli_st"]["upper_thresholds"],
         rates=soli_st_params["soli_st"]["rates"],
