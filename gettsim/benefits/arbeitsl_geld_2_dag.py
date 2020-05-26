@@ -1,3 +1,5 @@
+import copy
+
 import pandas as pd
 
 from gettsim.benefits.arbeitsl_geld_2 import alg2
@@ -87,7 +89,6 @@ def alleinerziehenden_mehrbedarf(
         "alleinerziehenden_mehrbedarf",
         "regelbedarf_m",
         "regelsatz_m",
-        "kost_unterk_m",
         "unterhaltsvors_m_hh",
         "eink_anrechn_frei",
         "arbeitsl_geld_2_eink",
@@ -106,87 +107,19 @@ def alleinerziehenden_mehrbedarf(
     return df["alleinerziehenden_mehrbedarf"]
 
 
-def regelbedarf_m(
-    p_id,
-    hh_id,
-    tu_id,
-    kind,
-    alter,
-    kaltmiete_m,
-    heizkost_m,
-    wohnfläche,
-    bewohnt_eigentum,
-    alleinerziehend,
-    bruttolohn_m,
-    ges_rente_m,
-    kapital_eink_m,
-    arbeitsl_geld_m,
-    sonstig_eink_m,
-    eink_selbstst_m,
-    vermiet_eink_m,
-    eink_st_m,
-    soli_st_m,
-    sozialv_beit_m,
-    unterhaltsvors_m,
-    elterngeld_m,
-    jahr,
-    arbeitsl_geld_2_2005_netto_quote,
-    arbeitsl_geld_2_params,
-):
-    df = pd.concat(
-        [
-            p_id,
-            hh_id,
-            tu_id,
-            kind,
-            alter,
-            kaltmiete_m,
-            heizkost_m,
-            wohnfläche,
-            bewohnt_eigentum,
-            alleinerziehend,
-            bruttolohn_m,
-            ges_rente_m,
-            kapital_eink_m,
-            arbeitsl_geld_m,
-            sonstig_eink_m,
-            eink_selbstst_m,
-            vermiet_eink_m,
-            eink_st_m,
-            soli_st_m,
-            sozialv_beit_m,
-            unterhaltsvors_m,
-            elterngeld_m,
-            jahr,
-            arbeitsl_geld_2_2005_netto_quote,
-        ],
-        axis=1,
-    )
+def regelbedarf_m(regelsatz_m, kost_unterk_m):
+    """
 
-    out_cols = [
-        "sum_basis_arbeitsl_geld_2_eink",
-        "sum_arbeitsl_geld_2_eink",
-        "arbeitsl_geld_2_brutto_eink_hh",
-        "alleinerziehenden_mehrbedarf",
-        "regelbedarf_m",
-        "regelsatz_m",
-        "kost_unterk_m",
-        "unterhaltsvors_m_hh",
-        "eink_anrechn_frei",
-        "arbeitsl_geld_2_eink",
-        "sum_arbeitsl_geld_2_eink_hh",
-    ]
+    Parameters
+    ----------
+    regelsatz_m
+    kost_unterk_m
 
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=alg2,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=out_cols,
-        func_kwargs={"params": arbeitsl_geld_2_params},
-    )
+    Returns
+    -------
 
-    return df["regelbedarf_m"]
+    """
+    return regelsatz_m + kost_unterk_m
 
 
 def regelsatz_m(
@@ -195,10 +128,6 @@ def regelsatz_m(
     tu_id,
     kind,
     alter,
-    kaltmiete_m,
-    heizkost_m,
-    wohnfläche,
-    bewohnt_eigentum,
     alleinerziehend,
     bruttolohn_m,
     ges_rente_m,
@@ -223,10 +152,6 @@ def regelsatz_m(
             tu_id,
             kind,
             alter,
-            kaltmiete_m,
-            heizkost_m,
-            wohnfläche,
-            bewohnt_eigentum,
             alleinerziehend,
             bruttolohn_m,
             ges_rente_m,
@@ -253,7 +178,6 @@ def regelsatz_m(
         "alleinerziehenden_mehrbedarf",
         "regelbedarf_m",
         "regelsatz_m",
-        "kost_unterk_m",
         "unterhaltsvors_m_hh",
         "eink_anrechn_frei",
         "arbeitsl_geld_2_eink",
@@ -270,89 +194,6 @@ def regelsatz_m(
     )
 
     return df["regelsatz_m"]
-
-
-def kost_unterk_m(
-    p_id,
-    hh_id,
-    tu_id,
-    kind,
-    alter,
-    kaltmiete_m,
-    heizkost_m,
-    wohnfläche,
-    bewohnt_eigentum,
-    alleinerziehend,
-    bruttolohn_m,
-    ges_rente_m,
-    kapital_eink_m,
-    arbeitsl_geld_m,
-    sonstig_eink_m,
-    eink_selbstst_m,
-    vermiet_eink_m,
-    eink_st_m,
-    soli_st_m,
-    sozialv_beit_m,
-    unterhaltsvors_m,
-    elterngeld_m,
-    jahr,
-    arbeitsl_geld_2_2005_netto_quote,
-    arbeitsl_geld_2_params,
-):
-    df = pd.concat(
-        [
-            p_id,
-            hh_id,
-            tu_id,
-            kind,
-            alter,
-            kaltmiete_m,
-            heizkost_m,
-            wohnfläche,
-            bewohnt_eigentum,
-            alleinerziehend,
-            bruttolohn_m,
-            ges_rente_m,
-            kapital_eink_m,
-            arbeitsl_geld_m,
-            sonstig_eink_m,
-            eink_selbstst_m,
-            vermiet_eink_m,
-            eink_st_m,
-            soli_st_m,
-            sozialv_beit_m,
-            unterhaltsvors_m,
-            elterngeld_m,
-            jahr,
-            arbeitsl_geld_2_2005_netto_quote,
-        ],
-        axis=1,
-    )
-
-    out_cols = [
-        "sum_basis_arbeitsl_geld_2_eink",
-        "sum_arbeitsl_geld_2_eink",
-        "arbeitsl_geld_2_brutto_eink_hh",
-        "alleinerziehenden_mehrbedarf",
-        "regelbedarf_m",
-        "regelsatz_m",
-        "kost_unterk_m",
-        "unterhaltsvors_m_hh",
-        "eink_anrechn_frei",
-        "arbeitsl_geld_2_eink",
-        "sum_arbeitsl_geld_2_eink_hh",
-    ]
-
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=alg2,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=out_cols,
-        func_kwargs={"params": arbeitsl_geld_2_params},
-    )
-
-    return df["kost_unterk_m"]
 
 
 def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
@@ -424,8 +265,6 @@ def eink_anrechn_frei(
         "alleinerziehenden_mehrbedarf",
         "regelbedarf_m",
         "regelsatz_m",
-        "kost_unterk_m",
-        "unterhaltsvors_m_hh",
         "eink_anrechn_frei",
         "arbeitsl_geld_2_eink",
         "sum_arbeitsl_geld_2_eink_hh",
@@ -547,5 +386,55 @@ def _arbeitsl_geld_2_eink(
     return out.rename("_arbeitsl_geld_2_eink")
 
 
-# def miete_pro_sqm(kaltmiete_m, heizkost_m, wohnfläche):
-#     (kaltmiete_m + heizkost_m) / wohnfläche
+def _miete_pro_sqm(kaltmiete_m, heizkost_m, wohnfläche):
+    """
+
+    Parameters
+    ----------
+    kaltmiete_m
+    heizkost_m
+    wohnfläche
+
+    Returns
+    -------
+
+    """
+    out = ((kaltmiete_m + heizkost_m) / wohnfläche).clip(upper=10)
+    return out.rename("miete_pro_sqm")
+
+
+def _berechtigte_wohnfläche(wohnfläche, bewohnt_eigentum, hh_größe, hh_id):
+    out = copy.deepcopy(wohnfläche) * 0
+    hh_größe_individual = hh_id.replace(hh_größe)
+    out.loc[bewohnt_eigentum] = wohnfläche.loc[bewohnt_eigentum].clip(
+        upper=(80 + (hh_größe_individual.loc[bewohnt_eigentum] - 2).clip(lower=0) * 20)
+    )
+    out.loc[~bewohnt_eigentum] = wohnfläche.loc[~bewohnt_eigentum].clip(
+        upper=(45 + (hh_größe_individual.loc[~bewohnt_eigentum] - 1).clip(lower=0) * 15)
+    )
+    return out
+
+
+def kost_unterk_m(_berechtigte_wohnfläche, _miete_pro_sqm):
+    """
+    Only 'appropriate' housing costs are paid. Two possible options:
+    1. Just pay rents no matter what
+    return household["miete"] + household["heizkost"]
+    2. Add restrictions regarding flat size and rent per square meter (set it 10€,
+    slightly above average)
+
+    Parameters
+    ----------
+    _berechtigte_wohnfläche
+    _miete_pro_sqm
+
+    Returns
+    -------
+
+    """
+    return _berechtigte_wohnfläche * _miete_pro_sqm
+
+
+def hh_größe(hh_id):
+    out = (hh_id.astype(int)).groupby(hh_id).size()
+    return out.rename("hh_größe")

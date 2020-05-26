@@ -49,3 +49,10 @@ def select_input_by_level(data_series, tu_id, hh_id):
     else:
         out = data_series
     return out
+
+
+def check_for_bool(column):
+    if isinstance(column.iloc[0], bool):
+        return column.astype(bool)
+    else:
+        return column

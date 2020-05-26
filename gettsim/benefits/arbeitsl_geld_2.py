@@ -24,12 +24,8 @@ def alg2(household, params):
 
     household = params["calc_regelsatz"](household, params)
 
-    household["kost_unterk_m"] = kdu_alg2(household)
-
     # After introduction of Hartz IV until 2010, people becoming unemployed
     # received something on top to smooth the transition. not yet modelled...
-
-    household["regelbedarf_m"] = household["regelsatz_m"] + household["kost_unterk_m"]
 
     household = eink_anr_frei(household, params)
 
@@ -127,29 +123,6 @@ def mehrbedarf_alg2(household, params):
         ),
     )
     return household
-
-
-def kdu_alg2(household):
-    # kdu = Kosten der Unterkunft
-    """Only 'appropriate' housing costs are paid. Two possible options:
-    1. Just pay rents no matter what
-    return household["miete"] + household["heizkost"]
-    2. Add restrictions regarding flat size and rent per square meter (set it 10€,
-    slightly above average)"""
-    rent_per_sqm = np.minimum(
-        (household["kaltmiete_m"] + household["heizkost_m"]) / household["wohnfläche"],
-        10,
-    )
-    if household["bewohnt_eigentum"].iloc[0]:
-        wohnfl_justified = np.minimum(
-            household["wohnfläche"], 80 + np.maximum(0, (len(household) - 2) * 20)
-        )
-    else:
-        wohnfl_justified = np.minimum(
-            household["wohnfläche"], (45 + (len(household) - 1) * 15)
-        )
-
-    return rent_per_sqm * wohnfl_justified
 
 
 def eink_anr_frei(household, params):

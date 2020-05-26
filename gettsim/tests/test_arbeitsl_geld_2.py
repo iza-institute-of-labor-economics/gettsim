@@ -8,6 +8,7 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.tests.auxiliary import check_for_bool
 from gettsim.tests.auxiliary import select_input_by_level
 from gettsim.tests.auxiliary import select_output_by_level
 
@@ -45,9 +46,9 @@ OUT_COLS = [
     "sum_arbeitsl_geld_2_eink",
     "arbeitsl_geld_2_brutto_eink_hh",
     # "alleinerziehenden_mehrbedarf",
-    # "regelbedarf_m",
-    # "regelsatz_m",
-    # "kost_unterk_m",
+    "regelbedarf_m",
+    "regelsatz_m",
+    "kost_unterk_m",
     "unterhaltsvors_m_hh",
     # "eink_anrechn_frei",
     "_arbeitsl_geld_2_eink",
@@ -76,8 +77,9 @@ def test_alg2(input_data, year, column):
 
     data = dict(df)
     for column_name, data_series in data.items():
+        data[column_name] = check_for_bool(data_series)
         data[column_name] = select_input_by_level(
-            data_series, data["tu_id"], data["hh_id"]
+            data[column_name], data["tu_id"], data["hh_id"]
         )
 
     columns = [
