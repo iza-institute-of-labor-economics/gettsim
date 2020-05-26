@@ -18,6 +18,8 @@ def soli_st_m_tu(_st_kind_freib_tu, abgelt_st_m_tu, soli_st_params):
     with Solidarity Surcharge tax rate and no tax exempt level. §3 (3) S.2
     SolzG 1995.
     """
+    # import pdb
+    # pdb.set_trace()
     out = (
         _st_kind_freib_tu.apply(
             piecewise_polynomial,

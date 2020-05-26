@@ -95,7 +95,7 @@
 #         "ges_krankenv_beit_m",
 #     ]
 #     out_cols = [
-#         f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
+#  f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
 #     ] + [
 #         "kind_freib",
 #         "brutto_eink_1",
@@ -127,7 +127,7 @@
 #         },
 #     )
 #     in_cols = [
-#         f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
+#    f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
 #     ] + ["kind", "brutto_eink_5", "gem_veranlagt", "brutto_eink_5_tu"]
 #     out_cols = (
 #         [f"_st_{inc}" for inc in eink_st_abzuege_params["eink_arten"]]
@@ -149,7 +149,7 @@
 #     )
 #
 #     in_cols = ["alter", "arbeitsstunden_w", "in_ausbildung", "bruttolohn_m"]
-#     out_cols = ["kindergeld_m_basis", "kindergeld_m_tu_basis"]
+#     out_cols = ["_kindergeld_m_basis", "_kindergeld_m_tu_basis"]
 #     df = apply_tax_transfer_func(
 #         df,
 #         tax_func=kindergeld,
@@ -162,8 +162,8 @@
 #         "gem_veranlagt",
 #         "kind",
 #         "abgelt_st_m_tu",
-#         "kindergeld_m_basis",
-#         "kindergeld_m_tu_basis",
+#         "_kindergeld_m_basis",
+#         "_kindergeld_m_tu_basis",
 #     ]
 #     out_cols = [
 #         "eink_st_m_tu",
@@ -508,9 +508,9 @@
 #         policy_date=policy_date, group="soz_vers_beitr"
 #     )
 #
-#     unterhalt_params = get_policies_for_date(policy_date=policy_date, group="unterhalt")
+#   unterhalt_params = get_policies_for_date(policy_date=policy_date, group="unterhalt")
 #
-#     abgelt_st_params = get_policies_for_date(policy_date=policy_date, group="abgelt_st")
+#   abgelt_st_params = get_policies_for_date(policy_date=policy_date, group="abgelt_st")
 #
 #     wohngeld_params = get_policies_for_date(policy_date=policy_date, group="wohngeld")
 #

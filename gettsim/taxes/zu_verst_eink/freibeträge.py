@@ -37,7 +37,7 @@ def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
     )
 
 
-def hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
+def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
     """
     Calculates tax reduction for single parents. Used to be called
     'Haushaltsfreibetrag'
@@ -56,7 +56,7 @@ def hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
     return out
 
 
-def hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
+def _hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
     """
     Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
@@ -169,7 +169,7 @@ def _sonderausgaben_ab_2012(
 
 
 def _altervorsorge_aufwend(
-    kind, rentenv_beit_m, prv_rente_beit_m, eink_st_abzuege_params
+    kind, rentenv_beitr_m, prv_rente_beitr_m, eink_st_abzuege_params
 ):
     """
     Return the amount of contributions to retirement savings that is deductible from
@@ -182,8 +182,8 @@ def _altervorsorge_aufwend(
     Parameters
     ----------
     kind
-    rentenv_beit_m
-    prv_rente_beit_m
+    rentenv_beitr_m
+    prv_rente_beitr_m
     eink_st_abzuege_params
 
     Returns
@@ -192,7 +192,10 @@ def _altervorsorge_aufwend(
     """
     einführungsfaktor = 0.6 + 0.02 * (min(eink_st_abzuege_params["jahr"], 2025) - 2005)
     out = (
-        (einführungsfaktor * (2 * rentenv_beit_m + prv_rente_beit_m) - rentenv_beit_m)
+        (
+            einführungsfaktor * (2 * rentenv_beitr_m + prv_rente_beitr_m)
+            - rentenv_beitr_m
+        )
         * 12
     ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])
     out.loc[kind] = 0

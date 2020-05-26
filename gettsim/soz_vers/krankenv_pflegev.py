@@ -3,24 +3,24 @@ import pandas as pd
 
 
 def ges_krankenv_beitr_m(
-    geringfügig_beschäftigt,
+    _geringfügig_beschäftigt,
     ges_krankenv_beitr_rente,
     ges_krankenv_beitr_selbst,
-    krankenv_beitr_regulär_beschäftigt,
+    krankenv_beitr__regulär_beschäftigt,
     an_beitr_krankenv_midi_job,
 ):
 
     out = pd.Series(
-        index=geringfügig_beschäftigt.index, name="ges_krankenv_beitr_m", dtype=float
+        index=_geringfügig_beschäftigt.index, name="ges_krankenv_beitr_m", dtype=float
     )
 
-    out.loc[geringfügig_beschäftigt] = 0
+    out.loc[_geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
     out.loc[an_beitr_krankenv_midi_job.index] = an_beitr_krankenv_midi_job
     out.loc[
-        krankenv_beitr_regulär_beschäftigt.index
-    ] = krankenv_beitr_regulär_beschäftigt
+        krankenv_beitr__regulär_beschäftigt.index
+    ] = krankenv_beitr__regulär_beschäftigt
     out.loc[ges_krankenv_beitr_selbst.index] = ges_krankenv_beitr_selbst
 
     # Add the health insurance contribution for pensions
@@ -34,22 +34,24 @@ def ges_krankenv_beitr_m_tu(ges_krankenv_beitr_m, tu_id):
 
 
 def pflegev_beitr_m(
-    geringfügig_beschäftigt,
+    _geringfügig_beschäftigt,
     pflegev_beitr_rente,
     pflegev_beitr_selbst,
-    pflegev_beitr_regulär_beschäftigt,
+    pflegev_beitr__regulär_beschäftigt,
     an_beitr_pflegev_midi_job,
 ):
 
     out = pd.Series(
-        index=geringfügig_beschäftigt.index, name="pflegev_beitr_m", dtype=float
+        index=_geringfügig_beschäftigt.index, name="pflegev_beitr_m", dtype=float
     )
 
-    out.loc[geringfügig_beschäftigt] = 0
+    out.loc[_geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
     out.loc[an_beitr_pflegev_midi_job.index] = an_beitr_pflegev_midi_job
-    out.loc[pflegev_beitr_regulär_beschäftigt.index] = pflegev_beitr_regulär_beschäftigt
+    out.loc[
+        pflegev_beitr__regulär_beschäftigt.index
+    ] = pflegev_beitr__regulär_beschäftigt
     out.loc[pflegev_beitr_selbst.index] = pflegev_beitr_selbst
 
     # Add the care insurance contribution for pensions
@@ -58,15 +60,15 @@ def pflegev_beitr_m(
     return out
 
 
-def krankenv_beitr_regulär_beschäftigt(
-    lohn_krankenv_regulär_beschäftigt, soz_vers_beitr_params
+def krankenv_beitr__regulär_beschäftigt(
+    lohn_krankenv__regulär_beschäftigt, soz_vers_beitr_params
 ):
     """
     Calculates health insurance contributions for regualr jobs
 
     Parameters
     ----------
-    lohn_krankenv_regulär_beschäftigt : pd.Series
+    lohn_krankenv__regulär_beschäftigt : pd.Series
                                       Wage subject to health and care insurance
     soz_vers_beitr_params
 
@@ -77,13 +79,13 @@ def krankenv_beitr_regulär_beschäftigt(
     """
     out = (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        * lohn_krankenv_regulär_beschäftigt
+        * lohn_krankenv__regulär_beschäftigt
     )
-    return out.rename("krankenv_beitr_regulär_beschäftigt")
+    return out.rename("krankenv_beitr__regulär_beschäftigt")
 
 
-def pflegev_beitr_regulär_beschäftigt(
-    pflegev_zusatz_kinderlos, lohn_krankenv_regulär_beschäftigt, soz_vers_beitr_params
+def pflegev_beitr__regulär_beschäftigt(
+    pflegev_zusatz_kinderlos, lohn_krankenv__regulär_beschäftigt, soz_vers_beitr_params
 ):
     """
     Calculates care insurance contributions for regular jobs.
@@ -94,7 +96,7 @@ def pflegev_beitr_regulär_beschäftigt(
                                Pandas Series indicating addtional care insurance
                                contribution for childless individuals.
 
-    lohn_krankenv_regulär_beschäftigt : pd.Series
+    lohn_krankenv__regulär_beschäftigt : pd.Series
                                       Wage subject to health and care insurance
     soz_vers_beitr_params
 
@@ -104,19 +106,19 @@ def pflegev_beitr_regulär_beschäftigt(
     income.
 
     """
-    out = lohn_krankenv_regulär_beschäftigt.multiply(
+    out = lohn_krankenv__regulär_beschäftigt.multiply(
         soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
     )
-    zusatz_kinderlos = lohn_krankenv_regulär_beschäftigt.loc[
+    zusatz_kinderlos = lohn_krankenv__regulär_beschäftigt.loc[
         pflegev_zusatz_kinderlos
     ].multiply(soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"])
 
     out.loc[pflegev_zusatz_kinderlos] += zusatz_kinderlos
-    return out.rename("pflegev_beitr_regulär_beschäftigt")
+    return out.rename("pflegev_beitr__regulär_beschäftigt")
 
 
-def lohn_krankenv_regulär_beschäftigt(
-    bruttolohn_m, krankenv_beitr_bemess_grenze, regulär_beschäftigt
+def lohn_krankenv__regulär_beschäftigt(
+    bruttolohn_m, krankenv_beitr_bemess_grenze, _regulär_beschäftigt
 ):
     """
     Calculate the wage, which is subject to pension insurance contributions.
@@ -125,7 +127,7 @@ def lohn_krankenv_regulär_beschäftigt(
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    regulär_beschäftigt : pd.Series
+    _regulär_beschäftigt : pd.Series
                           Boolean Series indicating regular employment.
     krankenv_beitr_bemess_grenze : pd.Series
                                  Threshold for wage subject to health insurance
@@ -136,12 +138,12 @@ def lohn_krankenv_regulär_beschäftigt(
     -------
 
     """
-    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[regulär_beschäftigt]
-    bemess_grenze = krankenv_beitr_bemess_grenze.loc[regulär_beschäftigt]
-    out = bruttolohn_m_regulär_beschäftigt.where(
-        bruttolohn_m_regulär_beschäftigt < bemess_grenze, bemess_grenze
+    bruttolohn_m__regulär_beschäftigt = bruttolohn_m.loc[_regulär_beschäftigt]
+    bemess_grenze = krankenv_beitr_bemess_grenze.loc[_regulär_beschäftigt]
+    out = bruttolohn_m__regulär_beschäftigt.where(
+        bruttolohn_m__regulär_beschäftigt < bemess_grenze, bemess_grenze
     )
-    return out.rename("lohn_krankenv_regulär_beschäftigt")
+    return out.rename("lohn_krankenv__regulär_beschäftigt")
 
 
 def ges_krankenv_beitr_selbst(krankenv_pflichtig_eink_selbst, soz_vers_beitr_params):
@@ -366,13 +368,13 @@ def ges_krankenv_beitr_rente(krankenv_pflichtig_rente, soz_vers_beitr_params):
     return out.rename("ges_krankenv_beitr_rente")
 
 
-def ges_beitr_krankenv_midi_job(midi_job_bemessungsentgelt, soz_vers_beitr_params):
+def ges_beitr_krankenv_midi_job(_midi_job_bemessungsentgelt, soz_vers_beitr_params):
     """
     Calculating the sum of employee and employer health insurance contribution.
 
     Parameters
     ----------
-    midi_job_bemessungsentgelt : pd.Series
+    _midi_job_bemessungsentgelt : pd.Series
                                  The Bemessungsentgelt subject to social insurance
                                  contributions.
     soz_vers_beitr_params
@@ -384,11 +386,11 @@ def ges_beitr_krankenv_midi_job(midi_job_bemessungsentgelt, soz_vers_beitr_param
     out = (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
         + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
-    ) * midi_job_bemessungsentgelt
+    ) * _midi_job_bemessungsentgelt
     return out.rename("ges_beitr_krankenv_midi_job")
 
 
-def ag_beitr_krankenv_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
+def ag_beitr_krankenv_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_params):
     """
     Calculating the employer health insurance contribution.
 
@@ -396,7 +398,7 @@ def ag_beitr_krankenv_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    in_gleitzone : pd.Series
+    _in_gleitzone : pd.Series
                    Boolean Series indicating midi job regulation.
     soz_vers_beitr_params
 
@@ -404,8 +406,8 @@ def ag_beitr_krankenv_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params
     -------
 
     """
-    bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
-    out = bruttolohn_m_in_gleitzone.multiply(
+    bruttolohn_m__in_gleitzone = bruttolohn_m.loc[_in_gleitzone]
+    out = bruttolohn_m__in_gleitzone.multiply(
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
     )
     return out.rename("ag_beitr_krankenv_midi_job")
@@ -453,7 +455,7 @@ def an_beitr_krankenv_midi_job(ges_beitr_krankenv_midi_job, ag_beitr_krankenv_mi
     return out.rename("an_beitr_krankenv_midi_job")
 
 
-def ag_beitr_pflegev_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
+def ag_beitr_pflegev_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_params):
     """
     Calculating the employer care insurance contribution.
 
@@ -461,7 +463,7 @@ def ag_beitr_pflegev_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params)
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    in_gleitzone : pd.Series
+    _in_gleitzone : pd.Series
                    Boolean Series indicating midi job regulation.
     soz_vers_beitr_params
 
@@ -469,15 +471,15 @@ def ag_beitr_pflegev_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params)
     -------
 
     """
-    bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
-    out = bruttolohn_m_in_gleitzone.multiply(
+    bruttolohn_m__in_gleitzone = bruttolohn_m.loc[_in_gleitzone]
+    out = bruttolohn_m__in_gleitzone.multiply(
         soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
     )
     return out.rename("ag_beitr_pflegev_midi_job")
 
 
 def ges_beitr_pflegev_midi_job(
-    pflegev_zusatz_kinderlos, midi_job_bemessungsentgelt, soz_vers_beitr_params
+    pflegev_zusatz_kinderlos, _midi_job_bemessungsentgelt, soz_vers_beitr_params
 ):
     """
     Calculating the sum of employee and employer care insurance contribution.
@@ -488,7 +490,7 @@ def ges_beitr_pflegev_midi_job(
                                Pandas Series indicating addtional care insurance
                                contribution for childless individuals.
 
-    midi_job_bemessungsentgelt : pd.Series
+    _midi_job_bemessungsentgelt : pd.Series
                                  The Bemessungsentgelt subject to social insurance
                                  contributions.
     soz_vers_beitr_params
@@ -497,10 +499,10 @@ def ges_beitr_pflegev_midi_job(
     -------
 
     """
-    out = midi_job_bemessungsentgelt.multiply(
+    out = _midi_job_bemessungsentgelt.multiply(
         2 * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
     )
-    zusatz_kinderlos = midi_job_bemessungsentgelt.loc[
+    zusatz_kinderlos = _midi_job_bemessungsentgelt.loc[
         pflegev_zusatz_kinderlos
     ].multiply(soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"])
 

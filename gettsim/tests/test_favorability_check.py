@@ -21,8 +21,8 @@ INPUT_COLS = [
     "_st_kein_kind_freib_tu",
     "_st_kind_freib_tu",
     "abgelt_st_m_tu",
-    "kindergeld_m_basis",
-    "kindergeld_m_tu_basis",
+    "_kindergeld_m_basis",
+    "_kindergeld_m_tu_basis",
     "jahr",
 ]
 OUT_COLS = [
@@ -55,8 +55,8 @@ def test_favorability_check(input_data, year, column):
         "_st_kein_kind_freib_tu",
         "_st_kind_freib_tu",
         "abgelt_st_m_tu",
-        "kindergeld_m_basis",
-        "kindergeld_m_tu_basis",
+        "_kindergeld_m_basis",
+        "_kindergeld_m_tu_basis",
     ]
 
     data = dict(df)

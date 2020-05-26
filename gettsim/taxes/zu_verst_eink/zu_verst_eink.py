@@ -1,13 +1,17 @@
 """
 Calculate taxable income (zve = zu versteuerndes Einkommen). The calculation
-    of the 6 branches of income is according to
-    https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema
+of the 7 branches of income is according to
+https://de.wikipedia.org/wiki/Einkommensteuer_(Deutschland)#Rechenschema
 
-        In fact, you need several taxable incomes because of
-        - child allowance vs. child benefit
-        - abgeltungssteuer vs. taxing capital income in the tariff
-        It's always the most favorable for the taxpayer, but you know that only after
-         applying the tax schedule
+The income types 1 to 3 according to the law are subsumed under the first income typ
+(business income). The distinction is important as there are different deduction rules
+for each income type. In fact, you need several taxable incomes because of
+
+- child allowance vs. child benefit
+- abgeltungssteuer vs. taxing capital income in the tariff ( not implemented yet, #81)
+
+It's always the most favorable for the taxpayer, but you know that only after
+applying the tax schedule.
 """
 import copy
 
@@ -137,13 +141,13 @@ def anz_erwachsene_in_tu(tu_id, kind):
     return out.rename("anz_erwachsene_in_tu")
 
 
-def gemeinsam_veranlagt(tu_id, anz_erwachsene_in_tu):
+def gemeinsam_veranlagt(anz_erwachsene_in_tu):
     out = anz_erwachsene_in_tu == 2
     return out.rename("gemeinsam_veranlagt")
 
 
 def gemeinsam_veranlagte_tu(gemeinsam_veranlagt, tu_id):
-    out = gemeinsam_veranlagt.groupby(tu_id).apply(all)
+    out = gemeinsam_veranlagt.groupby(tu_id).apply(any)
     return out.rename("gemeinsam_veranlagte_tu")
 
 

@@ -34,13 +34,15 @@ def brutto_eink_1_tu(brutto_eink_1, tu_id):
     return out.rename("brutto_eink_1_tu")
 
 
-def brutto_eink_4(bruttolohn_m, geringfügig_beschäftigt, eink_st_abzuege_params):
+def brutto_eink_4(bruttolohn_m, _geringfügig_beschäftigt, eink_st_abzuege_params):
     """
     Calculates the gross incomes of non selfemployed work. The wage is reducted by a
     lump sum payment for 'Werbungskosten'
     Parameters
     ----------
     bruttolohn_m
+    _geringfügig_beschäftigt
+    eink_st_abzuege_params
 
     Returns
     -------
@@ -52,7 +54,7 @@ def brutto_eink_4(bruttolohn_m, geringfügig_beschäftigt, eink_st_abzuege_param
         ),
         0,
     )
-    out.loc[geringfügig_beschäftigt] = 0
+    out.loc[_geringfügig_beschäftigt] = 0
     return out.rename("brutto_eink_4")
 
 
@@ -193,6 +195,18 @@ def _sum_brutto_eink_ohne_kapital(
 def _sum_brutto_eink_mit_kapital(
     _sum_brutto_eink_ohne_kapital, brutto_eink_5, eink_st_abzuege_params
 ):
+    """
+
+    Parameters
+    ----------
+    _sum_brutto_eink_ohne_kapital
+    brutto_eink_5
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
     out = _sum_brutto_eink_ohne_kapital + (
         brutto_eink_5
         - eink_st_abzuege_params["sparerpauschbetrag"]
