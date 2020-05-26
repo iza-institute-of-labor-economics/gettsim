@@ -16,6 +16,8 @@ from gettsim.benefits.benefit_checks_dag import wohngeld_basis_hh_vorläufig_ab_
 from gettsim.benefits.benefit_checks_dag import wohngeld_basis_hh_vorläufig_bis_2004
 from gettsim.benefits.wohngeld_dag import wohngeld_eink_abzüge_ab_2016
 from gettsim.benefits.wohngeld_dag import wohngeld_eink_abzüge_bis_2015
+from gettsim.benefits.wohngeld_dag import wohngeld_max_miete_ab_2009
+from gettsim.benefits.wohngeld_dag import wohngeld_max_miete_bis_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.generic_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
@@ -144,6 +146,11 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_bis_2015
     else:
         policy_func_dict["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_ab_2016
+
+    if year <= 2008:
+        policy_func_dict["wohngeld_max_miete"] = wohngeld_max_miete_bis_2008
+    else:
+        policy_func_dict["wohngeld_max_miete"] = wohngeld_max_miete_ab_2009
 
     if year < 2005:
         policy_func_dict[
