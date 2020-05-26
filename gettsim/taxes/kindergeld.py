@@ -15,8 +15,7 @@ def _kindergeld_m_basis(
     """
     # Kindergeld_Anspruch is the cumulative sum of eligible children.
     kulmulative_anspruch = _kindergeld_anspruch.groupby(tu_id).transform("cumsum")
-    out = kulmulative_anspruch.replace(kindergeld_params["kindergeld"])
-    out.loc[kulmulative_anspruch > 4] = kindergeld_params["kindergeld"][4]
+    out = kulmulative_anspruch.clip(upper=4).replace(kindergeld_params["kindergeld"])
     return out
 
 
