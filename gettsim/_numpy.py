@@ -6,7 +6,6 @@ def numpy_vectorize(
 ):
     """Vectorize a function with :func:`numpy.vectorize`.
 
-
     This decorator exposes :func:`numpy.vectorize` completely with all keyword arguments
     which is not possible with the generic function.
 

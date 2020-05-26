@@ -19,9 +19,7 @@ def sozialv_beitr_m(
     -------
 
     """
-    out = pflegev_beitr_m + ges_krankenv_beitr_m + rentenv_beitr_m + arbeitsl_v_beitr_m
-
-    return out.rename("sozialv_beitr_m")
+    return pflegev_beitr_m + ges_krankenv_beitr_m + rentenv_beitr_m + arbeitsl_v_beitr_m
 
 
 def rentenv_beitr_m(
@@ -68,8 +66,7 @@ def rentenv_beitr_m_tu(rentenv_beitr_m, tu_id):
     -------
 
     """
-    out = rentenv_beitr_m.groupby(tu_id).apply(sum)
-    return out.rename("rentenv_beitr_m_tu")
+    return rentenv_beitr_m.groupby(tu_id).apply(sum)
 
 
 def arbeitsl_v_beitr_m(

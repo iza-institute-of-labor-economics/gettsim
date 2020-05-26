@@ -83,8 +83,6 @@ def _vorsorge_2010_vs_pre_2005(_vorsorge_bis_2004, _vorsorge_ab_2010):
     -------
 
     """
-    # import pdb
-    # pdb.set_trace()
     old_reform = _vorsorge_bis_2004 > _vorsorge_ab_2010
     out = copy.deepcopy(_vorsorge_ab_2010)
     out.loc[old_reform] = _vorsorge_bis_2004.loc[old_reform]
