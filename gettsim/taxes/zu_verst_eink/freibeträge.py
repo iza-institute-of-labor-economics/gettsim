@@ -3,8 +3,7 @@ import pandas as pd
 
 
 def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
-    """
-    Calculate the different deductions for different handicap degrees.
+    """Calculate the different deductions for different handicap degrees.
 
     Parameters
     ----------
@@ -32,9 +31,8 @@ def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
             eink_st_abzuege_params["behinderten_pausch_betrag"].values(),
         )
     )
-    return pd.Series(
-        data=out, index=behinderungsgrad.index, name="behinderungsgrad_pauschalbetrag"
-    )
+
+    return pd.Series(data=out, index=behinderungsgrad.index)
 
 
 def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
@@ -51,12 +49,12 @@ def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
     -------
 
     """
-    out = pd.Series(index=alleinerziehend.index, name="hh_freib", data=0, dtype=float)
+    out = alleinerziehend.astype(float) * 0
     out.loc[alleinerziehend] = eink_st_abzuege_params["alleinerziehenden_freibetrag"]
     return out
 
 
-def _hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
+def _hh_freib_seit_2015(alleinerziehend, _anz_kinder_in_tu, eink_st_abzuege_params):
     """
     Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
@@ -72,11 +70,10 @@ def _hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
     -------
 
     """
-    out = pd.Series(index=alleinerziehend.index, name="hh_freib", data=0, dtype=float)
-    anz_kinder = kind.groupby(tu_id).apply(sum)
+    out = alleinerziehend.astype(float) * 0
     out.loc[alleinerziehend] = (
         eink_st_abzuege_params["alleinerziehenden_freibetrag"]
-        + tu_id.replace(anz_kinder)
+        + _anz_kinder_in_tu.loc[alleinerziehend]
         * eink_st_abzuege_params["alleinerziehenden_freibetrag_zusatz"]
     )
     return out
@@ -106,7 +103,7 @@ def altersfreib(
     -------
 
     """
-    out = pd.Series(index=bruttolohn_m.index, name="altersfreib", data=0, dtype=float)
+    out = bruttolohn_m * 0
     out.loc[alter > 64] = (
         eink_st_abzuege_params["altersentlastung_quote"]
         * 12
@@ -130,7 +127,7 @@ def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
     -------
 
     """
-    out = pd.Series(index=kind.index, data=0, dtype=float, name="sonderausgaben")
+    out = kind.astype(float) * 0
     out.loc[~kind] = eink_st_abzuege_params["sonderausgabenpauschbetrag"]
     return out
 
@@ -153,7 +150,7 @@ def _sonderausgaben_ab_2012(
     -------
 
     """
-    abziehbare_betreuungskosten = betreuungskost_m.multiply(12).clip(
+    abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
         upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
     )
 
@@ -165,7 +162,7 @@ def _sonderausgaben_ab_2012(
     ).divide(anz_erwachsene_in_tu)
 
     out.loc[kind] = 0
-    return out.rename("sonderausgaben")
+    return out
 
 
 def _altervorsorge_aufwend(
@@ -199,7 +196,7 @@ def _altervorsorge_aufwend(
         * 12
     ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])
     out.loc[kind] = 0
-    return out.rename("_altervorsorge_aufwend")
+    return out
 
 
 def kinderfreib(

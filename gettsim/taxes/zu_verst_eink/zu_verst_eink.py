@@ -136,21 +136,21 @@ def _ertragsanteil(jahr_renteneintr):
     return out
 
 
+def _anz_kinder_in_tu(tu_id, kind):
+    return (kind.astype(int)).groupby(tu_id).transform(sum)
+
+
 def anz_erwachsene_in_tu(tu_id, kind):
-    out = ((~kind).astype(int)).groupby(tu_id).transform(sum)
-    return out.rename("anz_erwachsene_in_tu")
+    return ((~kind).astype(int)).groupby(tu_id).transform(sum)
 
 
 def gemeinsam_veranlagt(anz_erwachsene_in_tu):
-    out = anz_erwachsene_in_tu == 2
-    return out.rename("gemeinsam_veranlagt")
+    return anz_erwachsene_in_tu == 2
 
 
 def gemeinsam_veranlagte_tu(gemeinsam_veranlagt, tu_id):
-    out = gemeinsam_veranlagt.groupby(tu_id).apply(any)
-    return out.rename("gemeinsam_veranlagte_tu")
+    return gemeinsam_veranlagt.groupby(tu_id).apply(any)
 
 
 def bruttolohn_m_tu(bruttolohn_m, tu_id):
-    out = bruttolohn_m.groupby(tu_id).apply(sum)
-    return out.rename("bruttolohn_m_tu")
+    return bruttolohn_m.groupby(tu_id).apply(sum)

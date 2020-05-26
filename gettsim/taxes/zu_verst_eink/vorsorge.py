@@ -1,5 +1,3 @@
-import copy
-
 import numpy as np
 
 from gettsim._numpy import numpy_vectorize
@@ -33,7 +31,7 @@ def _vorsorge_alternative_2005_bis_2009(
     -------
 
     """
-    out = copy.deepcopy(_altervorsorge_aufwend) * 0
+    out = _altervorsorge_aufwend * 0
     sum_vorsorge = (
         12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + pflegev_beitr_m)
     ).clip(upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"])
@@ -58,10 +56,7 @@ def _vorsorge_2005_vs_pre_2005(_vorsorge_alternative_2005_bis_2009, _vorsorge_bi
     -------
 
     """
-    old_reform = _vorsorge_bis_2004 > _vorsorge_alternative_2005_bis_2009
-    out = copy.deepcopy(_vorsorge_alternative_2005_bis_2009)
-    out.loc[old_reform] = _vorsorge_bis_2004.loc[old_reform]
-    return out.rename("vorsorge")
+    return _vorsorge_bis_2004.clip(lower=_vorsorge_alternative_2005_bis_2009)
 
 
 def _vorsorge_2010_vs_pre_2005(_vorsorge_bis_2004, _vorsorge_ab_2010):
@@ -83,10 +78,7 @@ def _vorsorge_2010_vs_pre_2005(_vorsorge_bis_2004, _vorsorge_ab_2010):
     -------
 
     """
-    old_reform = _vorsorge_bis_2004 > _vorsorge_ab_2010
-    out = copy.deepcopy(_vorsorge_ab_2010)
-    out.loc[old_reform] = _vorsorge_bis_2004.loc[old_reform]
-    return out.rename("vorsorge")
+    return _vorsorge_bis_2004.clip(lower=_vorsorge_ab_2010)
 
 
 def _vorsorge_ab_2010(
@@ -126,7 +118,7 @@ def _vorsorge_ab_2010(
     -------
 
     """
-    out = copy.deepcopy(_altervorsorge_aufwend) * 0
+    out = _altervorsorge_aufwend * 0
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
         pflegev_beitr_m.loc[~kind]
@@ -140,7 +132,7 @@ def _vorsorge_ab_2010(
         )
     )
     out.loc[~kind] += _altervorsorge_aufwend.loc[~kind]
-    return out.rename("vorsorge")
+    return out
 
 
 def _vorsorge_bis_2004(
@@ -157,7 +149,7 @@ def _vorsorge_bis_2004(
     eink_st_abzuege_params,
 ):
 
-    out = copy.deepcopy(ges_krankenv_beitr_m) * 0
+    out = ges_krankenv_beitr_m * 0
     out.loc[~gem_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
         _lohn_vorsorge_bis_2019_single.loc[~kind],
         ges_krankenv_beitr_m.loc[~gem_veranlagt & ~kind],
@@ -174,7 +166,7 @@ def _vorsorge_bis_2004(
         eink_st_abzuege_params,
     )
     out.loc[gem_veranlagt & ~kind] = tu_id[gem_veranlagt].replace(vorsorge_tu)
-    return out.rename("vorsorge")
+    return out
 
 
 def _lohn_vorsorge_bis_2019_single(
@@ -186,7 +178,7 @@ def _lohn_vorsorge_bis_2019_single(
         * 12
         * bruttolohn_m.loc[~gemeinsam_veranlagt]
     ).clip(lower=0)
-    return out.rename("_lohn_vorsorge_bis_2019_single")
+    return out
 
 
 def _lohn_vorsorgeabzug_bis_2019_tu(
@@ -198,7 +190,7 @@ def _lohn_vorsorgeabzug_bis_2019_tu(
         * 12
         * bruttolohn_m_tu.loc[gemeinsam_veranlagte_tu]
     ).clip(lower=0)
-    return out.rename("_lohn_vorsorgeabzug_bis_2019_tu")
+    return out
 
 
 @numpy_vectorize(
