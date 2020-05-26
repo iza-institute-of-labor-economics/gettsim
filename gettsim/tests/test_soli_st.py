@@ -31,12 +31,12 @@ def test_soli_st(
 
     df["soli"] = df["solibasis"].apply(
         piecewise_polynomial,
-        args=(
-            params_dict["soli_st"]["soli_st"]["lower_thresholds"],
-            params_dict["soli_st"]["soli_st"]["upper_thresholds"],
-            params_dict["soli_st"]["soli_st"]["rates"],
-            params_dict["soli_st"]["soli_st"]["intercepts_at_lower_thresholds"],
-        ),
+        lower_thresholds=params_dict["soli_st"]["soli_st"]["lower_thresholds"],
+        upper_thresholds=params_dict["soli_st"]["soli_st"]["upper_thresholds"],
+        rates=params_dict["soli_st"]["soli_st"]["rates"],
+        intercepts_at_lower_thresholds=params_dict["soli_st"]["soli_st"][
+            "intercepts_at_lower_thresholds"
+        ],
     )
     assert_series_equal(
         df["soli"], year_data["soli"], check_dtype=False, check_names=False

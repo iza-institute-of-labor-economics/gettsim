@@ -24,12 +24,12 @@ def soli_st(tax_unit, params):
     tax_unit.loc[~tax_unit["kind"], "soli_st_m_tu"] = (
         tax_unit["_st_kind_freib_tu"].apply(
             piecewise_polynomial,
-            args=(
-                params["soli_st"]["lower_thresholds"],
-                params["soli_st"]["upper_thresholds"],
-                params["soli_st"]["rates"],
-                params["soli_st"]["intercepts_at_lower_thresholds"],
-            ),
+            lower_thresholds=params["soli_st"]["lower_thresholds"],
+            upper_thresholds=params["soli_st"]["upper_thresholds"],
+            rates=params["soli_st"]["rates"],
+            intercepts_at_lower_thresholds=params["soli_st"][
+                "intercepts_at_lower_thresholds"
+            ],
         )
         + params["soli_st"]["rates"][0, -1] * tax_unit["abgelt_st_m_tu"]
     ) * (1 / 12)
