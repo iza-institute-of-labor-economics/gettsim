@@ -1,10 +1,7 @@
-import pandas as pd
-
-
 def _kindergeld_m_basis(
     tu_id, _kindergeld_anspruch, kindergeld_params,
 ):
-    """
+    """Calculate the preliminary kindergeld.
 
     Parameters
     ----------
@@ -17,16 +14,14 @@ def _kindergeld_m_basis(
 
     """
     # Kindergeld_Anspruch is the cumulative sum of eligible children.
-    kulmulative_anspruch = _kindergeld_anspruch.groupby(tu_id).transform(
-        pd.Series.cumsum
-    )
+    kulmulative_anspruch = _kindergeld_anspruch.groupby(tu_id).transform("cumsum")
     out = kulmulative_anspruch.replace(kindergeld_params["kindergeld"])
     out.loc[kulmulative_anspruch > 4] = kindergeld_params["kindergeld"][4]
     return out
 
 
 def _kindergeld_m_tu_basis(_kindergeld_m_basis, tu_id):
-    """
+    """Aggregate the preliminary kindergeld on tax unit level.
 
     Parameters
     ----------
