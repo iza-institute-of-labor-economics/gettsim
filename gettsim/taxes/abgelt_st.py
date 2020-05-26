@@ -25,8 +25,7 @@ def abgelt_st_m_tu(_zu_verst_kapital_eink_tu, abgelt_st_params):
     -------
 
     """
-    out = abgelt_st_params["abgelt_st_satz"] * _zu_verst_kapital_eink_tu
-    return out.rename("abgelt_st_m_tu")
+    return abgelt_st_params["abgelt_st_satz"] * _zu_verst_kapital_eink_tu
 
 
 def _zu_verst_kapital_eink_tu(
@@ -52,4 +51,4 @@ def _zu_verst_kapital_eink_tu(
             + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
         )
     ).clip(lower=0)
-    return out.rename("zu_verst_kapital_eink_tu")
+    return out
