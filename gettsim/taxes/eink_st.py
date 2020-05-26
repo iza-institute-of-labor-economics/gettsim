@@ -1,11 +1,10 @@
 import numpy as np
-import pandas as pd
 
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
 def _st_kein_kind_freib(_zu_verst_eink_kein_kinderfreib, eink_st_params):
-    """
+    """ Taxes without child allowance.
 
     Parameters
     ----------
@@ -16,23 +15,15 @@ def _st_kein_kind_freib(_zu_verst_eink_kein_kinderfreib, eink_st_params):
     -------
 
     """
-    if eink_st_params["jahr"] < 2002:
-        raise ValueError("Income Tax Pre 2002 not yet modelled!")
-    out = _st_tarif(_zu_verst_eink_kein_kinderfreib, eink_st_params)
-    return pd.Series(
-        index=_zu_verst_eink_kein_kinderfreib.index,
-        data=out,
-        name="_st_kein_kind_freib",
-    )
+    return _zu_verst_eink_kein_kinderfreib.apply(_st_tarif, params=eink_st_params)
 
 
 def _st_kein_kind_freib_tu(_st_kein_kind_freib, tu_id):
-    out = _st_kein_kind_freib.groupby(tu_id).apply(sum)
-    return out.rename("_st_kein_kind_freib_tu")
+    return _st_kein_kind_freib.groupby(tu_id).apply(sum)
 
 
 def _st_kind_freib(_zu_verst_eink_kinderfreib, eink_st_params):
-    """
+    """Taxes with child allowance.
 
     Parameters
     ----------
@@ -43,23 +34,17 @@ def _st_kind_freib(_zu_verst_eink_kinderfreib, eink_st_params):
     -------
 
     """
-    if eink_st_params["jahr"] < 2002:
-        raise ValueError("Income Tax Pre 2002 not yet modelled!")
-    out = _st_tarif(_zu_verst_eink_kinderfreib, eink_st_params)
-    return pd.Series(
-        index=_zu_verst_eink_kinderfreib.index, data=out, name="_st_kind_freib"
-    )
+    return _zu_verst_eink_kinderfreib.apply(_st_tarif, params=eink_st_params)
 
 
 def _st_kind_freib_tu(_st_kind_freib, tu_id):
-    out = _st_kind_freib.groupby(tu_id).apply(sum)
-    return out.rename("_st_kind_freib_tu")
+    return _st_kind_freib.groupby(tu_id).apply(sum)
 
 
 @np.vectorize
 def _st_tarif(x, params):
-    """ The German Income Tax Tariff
-    modelled only after 2002 so far
+    """ The German Income Tax Tariff.
+     Modelled only after 2002 so far.
 
     It's not calculated as in the tax code, but rather a gemoetric decomposition of the
     area beneath the marginal tax rate function.
