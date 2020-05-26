@@ -1,231 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from gettsim.benefits.benefit_checks import benefit_priority
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-
-
-OUT_COLS = ["kinderzuschlag_m", "wohngeld_m", "arbeitsl_geld_2_m"]
-
-
-def kinderzuschlag_m(
-    p_id,
-    hh_id,
-    tu_id,
-    kind,
-    rentner,
-    alter,
-    vermögen_hh,
-    anz_erwachsene_hh,
-    anz_minderj_hh,
-    kinderzuschlag_temp,
-    wohngeld_basis_hh,
-    regelbedarf_m,
-    sum_basis_arbeitsl_geld_2_eink,
-    geburtsjahr,
-    jahr,
-    freibetrag_alter,
-    freibetrag_alter_per_hh,
-    freibetrag_vermögen_max,
-    freibetrag_vermögen_max_per_hh,
-    freibetrag_vermögen,
-    regelbedarf_m_vorläufig,
-    kinderzuschlag_temp_vorläufig,
-    wohngeld_basis_hh_vorläufig,
-    sum_wohngeld_m_arbeitsl_geld_2_eink,
-    sum_kinderzuschlag_arbeitsl_geld_2_eink,
-    sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
-    arbeitsl_geld_2_params,
-):
-
-    df = pd.concat(
-        [
-            p_id,
-            hh_id,
-            tu_id,
-            kind,
-            rentner,
-            alter,
-            vermögen_hh,
-            anz_erwachsene_hh,
-            anz_minderj_hh,
-            kinderzuschlag_temp,
-            wohngeld_basis_hh,
-            regelbedarf_m,
-            sum_basis_arbeitsl_geld_2_eink,
-            geburtsjahr,
-            jahr,
-            freibetrag_alter,
-            freibetrag_alter_per_hh,
-            freibetrag_vermögen_max,
-            freibetrag_vermögen_max_per_hh,
-            freibetrag_vermögen,
-            regelbedarf_m_vorläufig,
-            kinderzuschlag_temp_vorläufig,
-            wohngeld_basis_hh_vorläufig,
-            sum_wohngeld_m_arbeitsl_geld_2_eink,
-            sum_kinderzuschlag_arbeitsl_geld_2_eink,
-            sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
-        ],
-        axis=1,
-    )
-
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=benefit_priority,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
-        func_kwargs={"params": arbeitsl_geld_2_params},
-    )
-
-    return df["kinderzuschlag_m"]
-
-
-def wohngeld_m(
-    p_id,
-    hh_id,
-    tu_id,
-    kind,
-    rentner,
-    alter,
-    vermögen_hh,
-    anz_erwachsene_hh,
-    anz_minderj_hh,
-    kinderzuschlag_temp,
-    wohngeld_basis_hh,
-    regelbedarf_m,
-    sum_basis_arbeitsl_geld_2_eink,
-    geburtsjahr,
-    jahr,
-    freibetrag_alter,
-    freibetrag_alter_per_hh,
-    freibetrag_vermögen_max,
-    freibetrag_vermögen_max_per_hh,
-    freibetrag_vermögen,
-    regelbedarf_m_vorläufig,
-    kinderzuschlag_temp_vorläufig,
-    wohngeld_basis_hh_vorläufig,
-    sum_wohngeld_m_arbeitsl_geld_2_eink,
-    sum_kinderzuschlag_arbeitsl_geld_2_eink,
-    sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
-    arbeitsl_geld_2_params,
-):
-    df = pd.concat(
-        [
-            p_id,
-            hh_id,
-            tu_id,
-            kind,
-            rentner,
-            alter,
-            vermögen_hh,
-            anz_erwachsene_hh,
-            anz_minderj_hh,
-            kinderzuschlag_temp,
-            wohngeld_basis_hh,
-            regelbedarf_m,
-            sum_basis_arbeitsl_geld_2_eink,
-            geburtsjahr,
-            jahr,
-            freibetrag_alter,
-            freibetrag_alter_per_hh,
-            freibetrag_vermögen_max,
-            freibetrag_vermögen_max_per_hh,
-            freibetrag_vermögen,
-            regelbedarf_m_vorläufig,
-            kinderzuschlag_temp_vorläufig,
-            wohngeld_basis_hh_vorläufig,
-            sum_wohngeld_m_arbeitsl_geld_2_eink,
-            sum_kinderzuschlag_arbeitsl_geld_2_eink,
-            sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
-        ],
-        axis=1,
-    )
-
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=benefit_priority,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
-        func_kwargs={"params": arbeitsl_geld_2_params},
-    )
-
-    return df["wohngeld_m"]
-
-
-def arbeitsl_geld_2_m(
-    p_id,
-    hh_id,
-    tu_id,
-    kind,
-    rentner,
-    alter,
-    vermögen_hh,
-    anz_erwachsene_hh,
-    anz_minderj_hh,
-    kinderzuschlag_temp,
-    wohngeld_basis_hh,
-    regelbedarf_m,
-    sum_basis_arbeitsl_geld_2_eink,
-    geburtsjahr,
-    jahr,
-    freibetrag_alter,
-    freibetrag_alter_per_hh,
-    freibetrag_vermögen_max,
-    freibetrag_vermögen_max_per_hh,
-    freibetrag_vermögen,
-    regelbedarf_m_vorläufig,
-    kinderzuschlag_temp_vorläufig,
-    wohngeld_basis_hh_vorläufig,
-    sum_wohngeld_m_arbeitsl_geld_2_eink,
-    sum_kinderzuschlag_arbeitsl_geld_2_eink,
-    sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
-    arbeitsl_geld_2_params,
-):
-    df = pd.concat(
-        [
-            p_id,
-            hh_id,
-            tu_id,
-            kind,
-            rentner,
-            alter,
-            vermögen_hh,
-            anz_erwachsene_hh,
-            anz_minderj_hh,
-            kinderzuschlag_temp,
-            wohngeld_basis_hh,
-            regelbedarf_m,
-            sum_basis_arbeitsl_geld_2_eink,
-            geburtsjahr,
-            jahr,
-            freibetrag_alter,
-            freibetrag_alter_per_hh,
-            freibetrag_vermögen_max,
-            freibetrag_vermögen_max_per_hh,
-            freibetrag_vermögen,
-            regelbedarf_m_vorläufig,
-            kinderzuschlag_temp_vorläufig,
-            wohngeld_basis_hh_vorläufig,
-            sum_wohngeld_m_arbeitsl_geld_2_eink,
-            sum_kinderzuschlag_arbeitsl_geld_2_eink,
-            sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink,
-        ],
-        axis=1,
-    )
-
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=benefit_priority,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=OUT_COLS,
-        func_kwargs={"params": arbeitsl_geld_2_params},
-    )
-
-    return df["arbeitsl_geld_2_m"]
+from gettsim.dynamic_function_generation import create_function
 
 
 def freibetrag_alter(kind, alter, geburtsjahr, arbeitsl_geld_2_params):
@@ -312,7 +88,7 @@ def kinderzuschlag_temp_vorläufig_bis_2004(kinderzuschlag_temp):
 def kinderzuschlag_temp_vorläufig_ab_2005(
     kinderzuschlag_temp, vermögen_hh, freibetrag_vermögen
 ):
-    """Set kindergeldzuschlag_temp to zero if it exceeds the wealth exemption."""
+    """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption."""
     return kinderzuschlag_temp.where(vermögen_hh <= freibetrag_vermögen, 0)
 
 
@@ -357,3 +133,81 @@ def sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink(
         + wohngeld_basis_hh_vorläufig
         + kinderzuschlag_temp_vorläufig
     )
+
+
+def _subtract_and_clip_at_zero(minuend, subtrahend):
+    return (minuend - subtrahend).clip(lower=0)
+
+
+for outcome in ["basis", "wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
+    function_name = f"arbeitsl_geld_2_m_{outcome}"
+
+    __new_function = create_function(
+        _subtract_and_clip_at_zero,
+        function_name,
+        {
+            "minuend": "regelbedarf_m_vorläufig",
+            "subtrahend": f"sum_{outcome}_arbeitsl_geld_2_eink",
+        },
+    )
+    exec(f"{function_name} = __new_function")
+
+
+def _vorrang_check(variable, arbeitsl_geld_2_m_basis):
+    return (variable == 0) & (arbeitsl_geld_2_m_basis > 0)
+
+
+for variable in ["wohngeld_m", "kinderzuschlag", "wohngeld_m_kinderzuschlag"]:
+    function_name = f"{variable}_vorrang"
+
+    __new_function = create_function(
+        _vorrang_check, function_name, {"variable": f"arbeitsl_geld_2_m_{variable}"}
+    )
+    exec(f"{function_name} = __new_function")
+
+
+def anz_rentner_per_hh(hh_id, rentner):
+    return rentner.groupby(hh_id).transform("sum")
+
+
+def arbeitsl_geld_2_m(
+    arbeitsl_geld_2_m_basis,
+    wohngeld_m_vorrang,
+    kinderzuschlag_vorrang,
+    wohngeld_m_kinderzuschlag_vorrang,
+    anz_rentner_per_hh,
+):
+    cond = (
+        wohngeld_m_vorrang | kinderzuschlag_vorrang | wohngeld_m_kinderzuschlag_vorrang
+    )
+    return arbeitsl_geld_2_m_basis.where(~cond & (anz_rentner_per_hh == 0), 0)
+
+
+def wohngeld_m(
+    wohngeld_basis_hh_vorläufig,
+    wohngeld_m_vorrang,
+    wohngeld_m_kinderzuschlag_vorrang,
+    arbeitsl_geld_2_m_basis,
+    anz_rentner_per_hh,
+):
+    cond = (
+        ~wohngeld_m_vorrang
+        & ~wohngeld_m_kinderzuschlag_vorrang
+        & (arbeitsl_geld_2_m_basis > 0)
+    )
+    return wohngeld_basis_hh_vorläufig.where(~cond & (anz_rentner_per_hh == 0), 0)
+
+
+def kinderzuschlag_m(
+    kinderzuschlag_temp_vorläufig,
+    kinderzuschlag_vorrang,
+    wohngeld_m_kinderzuschlag_vorrang,
+    arbeitsl_geld_2_m_basis,
+    anz_rentner_per_hh,
+):
+    cond = (
+        ~kinderzuschlag_vorrang
+        & ~wohngeld_m_kinderzuschlag_vorrang
+        & (arbeitsl_geld_2_m_basis > 0)
+    )
+    return kinderzuschlag_temp_vorläufig.where(~cond & (anz_rentner_per_hh == 0), 0)

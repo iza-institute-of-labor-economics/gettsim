@@ -318,11 +318,13 @@ for inc in [
     "unterhaltsvors_m",
     "elterngeld_m",
 ]:
+    function_name = f"{inc}_per_tu"
+
     __new_function = create_function(
-        _groupby_sum, inc + "_per_tu", {"group": "tu_id", "variable": inc}
+        _groupby_sum, function_name, {"group": "tu_id", "variable": inc}
     )
 
-    exec(f"{inc}_per_tu = __new_function")
+    exec(f"{function_name} = __new_function")
 
 
 def tax_unit_share(tu_id, haushaltsgröße):
