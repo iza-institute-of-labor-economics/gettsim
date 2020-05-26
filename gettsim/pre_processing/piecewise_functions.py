@@ -44,10 +44,12 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
+    # import pdb
+    # pdb.set_trace()
     # Check if value lies within the defined range.
     if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or np.isnan(x):
         return np.nan
-
+    # pdb.set_trace()
     index_interval = np.searchsorted(upper_thresholds, x, side="left")
     if rates_modified:
         # Calculate new intercept
