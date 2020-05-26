@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
@@ -11,13 +10,14 @@ def arbeitsl_geld_m(
     proxy_eink_vorj_arbeitsl_geld,
     arbeitsl_geld_params,
 ):
-    arbeitsl_geld_m = pd.Series(index=berechtigt_für_arbeitsl_geld.index, data=0)
-
-    arbeitsl_geld_satz = np.where(
-        anz_kinder_tu == 0,
-        arbeitsl_geld_params["arbeitsl_geld_satz_ohne_kinder"],
-        arbeitsl_geld_params["arbeitsl_geld_satz_mit_kindern"],
+    arbeitsl_geld_satz = (anz_kinder_tu == 0).replace(
+        {
+            True: arbeitsl_geld_params["arbeitsl_geld_satz_ohne_kinder"],
+            False: arbeitsl_geld_params["arbeitsl_geld_satz_mit_kindern"],
+        }
     )
+
+    arbeitsl_geld_m = pd.Series(index=berechtigt_für_arbeitsl_geld.index, data=0)
 
     arbeitsl_geld_m[berechtigt_für_arbeitsl_geld] = (
         proxy_eink_vorj_arbeitsl_geld * arbeitsl_geld_satz
@@ -83,10 +83,9 @@ def proxy_eink_vorj_arbeitsl_geld(
 
 
 def beitr_bemess_grenze_rentenv(wohnort_ost, soz_vers_beitr_params):
-    data = np.where(
-        wohnort_ost,
-        soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
-        soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
+    return wohnort_ost.replace(
+        {
+            True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
+            False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
+        }
     )
-
-    return pd.Series(index=wohnort_ost.index, data=data)

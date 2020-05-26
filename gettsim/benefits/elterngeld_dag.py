@@ -44,7 +44,7 @@ def proxy_eink_vorj_elterngeld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=beitr_bemess_grenze_rentenv)
+    max_wage = bruttolohn_vorj_m.clip(upper=beitr_bemess_grenze_rentenv)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = elterngeld_params["elterngeld_soz_vers_pausch"] * max_wage

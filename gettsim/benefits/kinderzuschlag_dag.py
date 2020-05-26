@@ -2,60 +2,38 @@ import numpy as np
 import pandas as pd
 
 
-def kinderzuschlag_eink_regel(
-    kinderzuschlag_eink_regel_bis_2010, kinderzuschlag_eink_regel_ab_2011
-):
-    return (
-        kinderzuschlag_eink_regel_bis_2010
-        if kinderzuschlag_eink_regel_ab_2011.empty
-        else kinderzuschlag_eink_regel_ab_2011
-    )
-
-
 def kinderzuschlag_eink_regel_bis_2010(
-    jahr, alleinerziehenden_mehrbedarf, anz_erw_tu, arbeitsl_geld_2_params
+    alleinerziehenden_mehrbedarf, anz_erw_tu, arbeitsl_geld_2_params
 ):
-    bis_2010 = jahr <= 2010
+    choices = [
+        arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf),
+        arbeitsl_geld_2_params["regelsatz"]
+        * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
+        * (2 + alleinerziehenden_mehrbedarf),
+        arbeitsl_geld_2_params["regelsatz"]
+        * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
+        * anz_erw_tu,
+    ]
 
-    if bis_2010.all():
-        choices = [
-            arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf),
-            arbeitsl_geld_2_params["regelsatz"]
-            * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
-            * (2 + alleinerziehenden_mehrbedarf),
-            arbeitsl_geld_2_params["regelsatz"]
-            * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
-            * anz_erw_tu,
-        ]
+    data = np.select([anz_erw_tu == 1, anz_erw_tu == 2, anz_erw_tu > 2], choices,)
 
-        data = np.select([anz_erw_tu == 1, anz_erw_tu == 2, anz_erw_tu > 2], choices,)
-
-        eink_regel = pd.Series(index=jahr.index, data=data)
-
-    else:
-        eink_regel = pd.Series(dtype=float)
+    eink_regel = pd.Series(index=alleinerziehenden_mehrbedarf.index, data=data)
 
     return eink_regel
 
 
 def kinderzuschlag_eink_regel_ab_2011(
-    jahr, alleinerziehenden_mehrbedarf, anz_erw_tu, arbeitsl_geld_2_params
+    alleinerziehenden_mehrbedarf, anz_erw_tu, arbeitsl_geld_2_params
 ):
-    ab_2011 = 2011 <= jahr
+    choices = [
+        arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),
+        arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf),
+        arbeitsl_geld_2_params["regelsatz"][3] * anz_erw_tu,
+    ]
 
-    if ab_2011.all():
-        choices = [
-            arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),
-            arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf),
-            arbeitsl_geld_2_params["regelsatz"][3] * anz_erw_tu,
-        ]
+    data = np.select([anz_erw_tu == 1, anz_erw_tu == 2, anz_erw_tu > 2], choices,)
 
-        data = np.select([anz_erw_tu == 1, anz_erw_tu == 2, anz_erw_tu > 2], choices,)
-
-        eink_regel = pd.Series(index=jahr.index, data=data)
-
-    else:
-        eink_regel = pd.Series(dtype=float)
+    eink_regel = pd.Series(index=alleinerziehenden_mehrbedarf.index, data=data)
 
     return eink_regel
 
@@ -220,7 +198,13 @@ def kinderzuschlag_eink_spanne_ab_2005(
     return eink_spanne
 
 
-def kinderzuschlag(kinderzuschlag_ab_2005_bis_juni_2019, kinderzuschlag_ab_juli_2019):
+def kinderzuschlag_ab_juli_2019(
+    hh_id,
+    arbeitsl_geld_2_brutto_eink_hh,
+    kinderzuschlag_eink_min,
+    kinderzuschlag_kindereink_abzug,
+    kinderzuschlag_eink_anrechn,
+):
     """Kinderzuschlag / Additional Child Benefit
 
     The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they would
@@ -242,94 +226,67 @@ def kinderzuschlag(kinderzuschlag_ab_2005_bis_juni_2019, kinderzuschlag_ab_juli_
     ('jährlicher Existenzminimumsbericht')
 
     """
-    return (
-        kinderzuschlag_ab_2005_bis_juni_2019
-        if kinderzuschlag_ab_juli_2019.empty
-        else kinderzuschlag_ab_juli_2019
-    )
-
-
-def kinderzuschlag_ab_juli_2019(
-    hh_id,
-    jahr,
-    arbeitsl_geld_2_brutto_eink_hh,
-    kinderzuschlag_eink_min,
-    kinderzuschlag_kindereink_abzug,
-    kinderzuschlag_eink_anrechn,
-):
-    ab_2019 = 2019 <= jahr
-
-    if ab_2019.all():
-        kinderzuschlag = pd.Series(index=kinderzuschlag_eink_min.index, data=0)
-        condition = arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min
-        kinderzuschlag.loc[condition] = (
-            kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
-            - kinderzuschlag_eink_anrechn
-        ).clip(lower=0)
-
-    else:
-        kinderzuschlag = pd.Series(dtype=float)
+    kinderzuschlag = pd.Series(index=kinderzuschlag_eink_min.index, data=0)
+    condition = arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min
+    kinderzuschlag.loc[condition] = (
+        kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
+        - kinderzuschlag_eink_anrechn
+    ).clip(lower=0)
 
     return kinderzuschlag
 
 
 def kinderzuschlag_ab_2005_bis_juni_2019(
     hh_id,
-    jahr,
     kinderzuschlag_eink_spanne,
     kinderzuschlag_kindereink_abzug,
     kinderzuschlag_eink_anrechn,
 ):
-    """Calculate Kinderzuschlag from 2005 until June 2019."""
-    ab_2005_bis_2018 = (2005 <= jahr) & (jahr <= 2018)
+    """Kinderzuschlag / Additional Child Benefit
 
-    if ab_2005_bis_2018.all():
-        kinderzuschlag = pd.Series(index=kinderzuschlag_eink_spanne.index, data=0)
-        kinderzuschlag.loc[kinderzuschlag_eink_spanne] = (
-            kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
-            - kinderzuschlag_eink_anrechn
-        ).clip(lower=0)
+    The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they would
+    be eligible to ALG2 due to the fact that their claim rises because of their
+    children, they can claim Kiz.
 
-    else:
-        kinderzuschlag = pd.Series(dtype=float)
+    A couple of criteria need to be met.
+
+    1. the household has to have some income
+
+    2. net income minus housing benefit needs has to be lower than total ALG2 need plus
+       additional child benefit.
+
+    3. Over a certain income threshold (which depends on housing costs, and is therefore
+       household-specific), parental income is deducted from child benefit claim.
+
+    In contrast to ALG2, Kiz considers only the rental costs that are attributed to the
+    parents. This is done by some fixed share which is updated on annual basis
+    ('jährlicher Existenzminimumsbericht')
+
+    """
+    kinderzuschlag = pd.Series(index=kinderzuschlag_eink_spanne.index, data=0)
+    kinderzuschlag.loc[kinderzuschlag_eink_spanne] = (
+        kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
+        - kinderzuschlag_eink_anrechn
+    ).clip(lower=0)
 
     return kinderzuschlag
 
 
-def kinderzuschlag_temp(kinderzuschlag_temp_bis_2004, kinderzuschlag_temp_ab_2005):
-    """Calculate kinderzuschlag_temp.
+def kinderzuschlag_temp_ab_2005(hh_id, kinderzuschlag):
+    """Calculate kinderzuschlag_temp since 2005.
 
     'kiz_temp' is the theoretical kiz claim, before it is checked against other benefits
     later on.
 
     """
-    return (
-        kinderzuschlag_temp_bis_2004
-        if kinderzuschlag_temp_ab_2005.empty
-        else kinderzuschlag_temp_ab_2005
-    )
+    return kinderzuschlag.groupby(hh_id).transform("max")
 
 
-def kinderzuschlag_temp_ab_2005(jahr, hh_id, kinderzuschlag):
-    ab_2005 = 2005 <= jahr
+def kinderzuschlag_temp_bis_2004(p_id):
+    """Calculate kinderzuschlag_temp until 2004.
 
-    if ab_2005.all():
-        temp = kinderzuschlag.groupby(hh_id).transform("max")
+    'kiz_temp' is the theoretical kiz claim, before it is checked against other benefits
+    later on.
 
-    else:
-        temp = pd.Series(dtype=float)
-
-    return temp
-
-
-def kinderzuschlag_temp_bis_2004(jahr):
-    """Calculate dummy to return a bunch of zero values if called before 2005."""
-    bis_2004 = jahr <= 2004
-
-    if bis_2004.all():
-        temp = pd.Series(index=jahr.index, data=0)
-
-    else:
-        temp = pd.Series(dtype=float)
-
-    return temp
+    """
+    return pd.Series(index=p_id.index, data=0)

@@ -62,7 +62,11 @@ def test_kiz(
     ]
 
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        df,
+        user_columns=columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
 
     assert_series_equal(
