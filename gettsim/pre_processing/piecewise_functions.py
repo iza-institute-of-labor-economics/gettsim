@@ -242,7 +242,7 @@ def check_rates(parameter_dict, parameter, keys, func_type):
 def check_intercepts(
     parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys, func
 ):
-    """Check and transfer raw rates data.
+    """Check and transfer raw intercepte data. If necessary create intercepts.
 
     Transfer and check raw rates data, which needs to be specified in a
     piecewise_polynomial layout in the yaml file.
@@ -291,8 +291,7 @@ def check_intercepts(
 def create_intercepts(
     lower_thresholds, upper_thresholds, rates, intercept_at_lowest_threshold, fun
 ):
-    """Return an array with intercepts at the lower thresholds, i.e. the output
-    piecewise_polynomial calculates for each threshold as input value respectively.
+    """Create intercepts from raw data.
 
     Parameters
     ----------
