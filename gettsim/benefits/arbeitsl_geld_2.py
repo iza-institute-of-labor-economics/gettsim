@@ -1,8 +1,6 @@
 import copy
 import datetime
 
-import numpy as np
-
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
@@ -20,56 +18,10 @@ def alg2(household, params):
         #               "nicht berechnet.")
         return household
 
-    household = params["calc_regelsatz"](household, params)
-
     # After introduction of Hartz IV until 2010, people becoming unemployed
     # received something on top to smooth the transition. not yet modelled...
 
     household = eink_anr_frei(household, params)
-
-    return household
-
-
-def regelberechnung_until_2010(household, params):
-    num_adults = len(household) - household["kind"].sum()
-
-    if num_adults == 1:
-        household["regelsatz_m"] = params["regelsatz"] * (
-            1 + household["alleinerziehenden_mehrbedarf"]
-        )
-    elif num_adults > 1:
-        household["regelsatz_m"] = params["regelsatz"] * (
-            params["anteil_regelsatz"]["zwei_erwachsene"]
-            * (2 + household["alleinerziehenden_mehrbedarf"])
-            + (
-                params["anteil_regelsatz"]["weitere_erwachsene"]
-                * np.maximum((num_adults - 2), 0)
-            )
-        )
-
-    household["regelsatz_m"] += household["kindersatz_m"]
-
-    return household
-
-
-def regelberechnung_2011_and_beyond(household, params):
-
-    num_adults = len(household) - household["kind"].sum()
-
-    # Regelbedarsstufen 1 to 3 are for adults in different civil status.
-    # Single adult has "Regelbedarfstufe" 1
-    if num_adults == 1:
-        household["regelsatz_m"] = params["regelsatz"][1] * (
-            1 + household["alleinerziehenden_mehrbedarf"]
-        )
-
-    # Two adults are "Regelbedarstufe" 2. More are 3.
-    elif num_adults > 1:
-        household["regelsatz_m"] = params["regelsatz"][2] * (
-            2 + household["alleinerziehenden_mehrbedarf"]
-        ) + (params["regelsatz"][3] * np.maximum((num_adults - 2), 0))
-
-    household["regelsatz_m"] += household["kindersatz_m"]
 
     return household
 

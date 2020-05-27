@@ -1,5 +1,6 @@
 import copy
 
+import numpy as np
 import pandas as pd
 
 from gettsim.benefits.arbeitsl_geld_2 import alg2
@@ -33,88 +34,6 @@ def regelbedarf_m(regelsatz_m, kost_unterk_m):
 
     """
     return regelsatz_m + kost_unterk_m
-
-
-def regelsatz_m(
-    p_id,
-    hh_id,
-    tu_id,
-    kind,
-    alter,
-    alleinerziehend,
-    alleinerziehenden_mehrbedarf,
-    bruttolohn_m,
-    ges_rente_m,
-    kapital_eink_m,
-    arbeitsl_geld_m,
-    sonstig_eink_m,
-    eink_selbstst_m,
-    vermiet_eink_m,
-    eink_st_m,
-    soli_st_m,
-    sozialv_beit_m,
-    unterhaltsvors_m,
-    elterngeld_m,
-    jahr,
-    kindersatz_m,
-    anz_kind_zwischen_0_6_per_hh,
-    anz_kind_zwischen_0_15_per_hh,
-    arbeitsl_geld_2_2005_netto_quote,
-    arbeitsl_geld_2_params,
-):
-    df = pd.concat(
-        [
-            p_id,
-            hh_id,
-            tu_id,
-            kind,
-            alter,
-            alleinerziehend,
-            alleinerziehenden_mehrbedarf,
-            bruttolohn_m,
-            ges_rente_m,
-            kapital_eink_m,
-            arbeitsl_geld_m,
-            sonstig_eink_m,
-            eink_selbstst_m,
-            vermiet_eink_m,
-            eink_st_m,
-            soli_st_m,
-            sozialv_beit_m,
-            unterhaltsvors_m,
-            elterngeld_m,
-            jahr,
-            kindersatz_m,
-            anz_kind_zwischen_0_6_per_hh,
-            anz_kind_zwischen_0_15_per_hh,
-            arbeitsl_geld_2_2005_netto_quote,
-        ],
-        axis=1,
-    )
-
-    out_cols = [
-        "sum_basis_arbeitsl_geld_2_eink",
-        "sum_arbeitsl_geld_2_eink",
-        "arbeitsl_geld_2_brutto_eink_hh",
-        "alleinerziehenden_mehrbedarf",
-        "regelbedarf_m",
-        "regelsatz_m",
-        "unterhaltsvors_m_hh",
-        "eink_anrechn_frei",
-        "arbeitsl_geld_2_eink",
-        "sum_arbeitsl_geld_2_eink_hh",
-    ]
-
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=alg2,
-        level=["hh_id"],
-        in_cols=df.columns.tolist(),
-        out_cols=out_cols,
-        func_kwargs={"params": arbeitsl_geld_2_params},
-    )
-
-    return df["regelsatz_m"]
 
 
 def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
@@ -450,4 +369,41 @@ def kindersatz_m_ab_2011(
     return per_child.groupby(hh_id).transform("sum")
 
 
-# def regelsatz_m():
+def regelsatz_m_bis_2010(
+    anz_erwachsene_per_hh,
+    alleinerziehenden_mehrbedarf,
+    kindersatz_m,
+    arbeitsl_geld_2_params,
+):
+    data = np.where(
+        anz_erwachsene_per_hh == 1,
+        arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf),
+        arbeitsl_geld_2_params["regelsatz"]
+        * (
+            (2 + alleinerziehenden_mehrbedarf)
+            * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
+            + (anz_erwachsene_per_hh - 2).clip(lower=0)
+            * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
+        ),
+    )
+
+    return kindersatz_m + data
+
+
+def regelsatz_m_ab_2011(
+    anz_erwachsene_per_hh,
+    alleinerziehenden_mehrbedarf,
+    kindersatz_m,
+    arbeitsl_geld_2_params,
+):
+    data = np.where(
+        anz_erwachsene_per_hh == 1,
+        arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),
+        arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf)
+        + (
+            arbeitsl_geld_2_params["regelsatz"][3]
+            * (anz_erwachsene_per_hh - 2).clip(lower=0)
+        ),
+    )
+
+    return kindersatz_m + data

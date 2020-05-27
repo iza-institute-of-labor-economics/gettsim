@@ -6,10 +6,10 @@ from functools import reduce
 import numpy as np
 import yaml
 
-from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
-from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
 from gettsim.benefits.arbeitsl_geld_2_dag import kindersatz_m_ab_2011
 from gettsim.benefits.arbeitsl_geld_2_dag import kindersatz_m_bis_2010
+from gettsim.benefits.arbeitsl_geld_2_dag import regelsatz_m_ab_2011
+from gettsim.benefits.arbeitsl_geld_2_dag import regelsatz_m_bis_2010
 from gettsim.benefits.benefit_checks_dag import kinderzuschlag_temp_vorläufig_ab_2005
 from gettsim.benefits.benefit_checks_dag import kinderzuschlag_temp_vorläufig_bis_2004
 from gettsim.benefits.benefit_checks_dag import regelbedarf_m_vorläufig_ab_2005
@@ -99,13 +99,7 @@ def get_policies_for_date(policy_date, groups="all"):
                 for key in ["type", "progressionsfaktor"]:
                     tax_data[param].pop(key, None)
 
-        if group == "arbeitsl_geld_2":
-            if tax_data["jahr"] <= 2010:
-                tax_data["calc_regelsatz"] = regelberechnung_until_2010
-            else:
-                tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
-
-        elif group == "eink_st_abzuege":
+        if group == "eink_st_abzuege":
 
             tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
 
@@ -198,8 +192,10 @@ def get_policies_for_date(policy_date, groups="all"):
 
     if year <= 2010:
         policy_func_dict["kindersatz_m"] = kindersatz_m_bis_2010
+        policy_func_dict["regelsatz_m"] = regelsatz_m_bis_2010
     else:
         policy_func_dict["kindersatz_m"] = kindersatz_m_ab_2011
+        policy_func_dict["regelsatz_m"] = regelsatz_m_ab_2011
 
     return params_dict, policy_func_dict
 
