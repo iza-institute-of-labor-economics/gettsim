@@ -32,15 +32,6 @@ def alg2(household, params):
 
 def regelberechnung_until_2010(household, params):
     num_adults = len(household) - household["kind"].sum()
-    kinder_satz_m = 0
-    for age_lims in [(0, 6), (7, 13), (14, 24)]:
-        kinder_satz_m += (
-            params["regelsatz"]
-            * params["anteil_regelsatz"][f"kinder_{age_lims[0]}_{age_lims[1]}"]
-            * (
-                household["kind"] & household["alter"].between(age_lims[0], age_lims[1])
-            ).sum()
-        )
 
     if num_adults == 1:
         household["regelsatz_m"] = params["regelsatz"] * (
@@ -55,7 +46,8 @@ def regelberechnung_until_2010(household, params):
                 * np.maximum((num_adults - 2), 0)
             )
         )
-    household["regelsatz_m"] += kinder_satz_m
+
+    household["regelsatz_m"] += household["kindersatz_m"]
 
     return household
 
@@ -77,17 +69,7 @@ def regelberechnung_2011_and_beyond(household, params):
             2 + household["alleinerziehenden_mehrbedarf"]
         ) + (params["regelsatz"][3] * np.maximum((num_adults - 2), 0))
 
-    kinder_satz_m = 0
-    # Regelbedarfsstufen 4 to 6 are for children in different age ranges.
-    for i, age_lims in enumerate([(14, 25), (7, 13), (0, 6)]):
-        kinder_satz_m += (
-            params["regelsatz"][4 + i]
-            * (
-                household["kind"] & household["alter"].between(age_lims[0], age_lims[1])
-            ).sum()
-        )
-
-    household["regelsatz_m"] += kinder_satz_m
+    household["regelsatz_m"] += household["kindersatz_m"]
 
     return household
 

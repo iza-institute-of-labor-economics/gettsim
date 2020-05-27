@@ -88,7 +88,11 @@ def test_alg2(input_data, year, column):
     ]
 
     result = compute_taxes_and_transfers(
-        data, user_columns=columns, targets=column, params=params_dict
+        data,
+        user_columns=columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
     expected_result = select_output_by_level(column, year_data)
     assert_series_equal(result, expected_result, check_dtype=False, check_names=False)

@@ -20,92 +20,6 @@ def arbeitsl_geld_2_brutto_eink_hh(_arbeitsl_geld_2_brutto_eink, hh_id):
     return _arbeitsl_geld_2_brutto_eink.groupby(hh_id).sum()
 
 
-# def alleinerziehenden_mehrbedarf(
-#     p_id,
-#     hh_id,
-#     tu_id,
-#     kind,
-#     alter,
-#     kaltmiete_m,
-#     heizkost_m,
-#     wohnfläche,
-#     bewohnt_eigentum,
-#     alleinerziehend,
-#     bruttolohn_m,
-#     ges_rente_m,
-#     kapital_eink_m,
-#     arbeitsl_geld_m,
-#     sonstig_eink_m,
-#     eink_selbstst_m,
-#     vermiet_eink_m,
-#     eink_st_m,
-#     soli_st_m,
-#     sozialv_beit_m,
-#     unterhaltsvors_m,
-#     elterngeld_m,
-#     jahr,
-#     anz_kind_zwischen_0_6_per_hh,
-#     anz_kind_zwischen_0_15_per_hh,
-#     arbeitsl_geld_2_2005_netto_quote,
-#     arbeitsl_geld_2_params,
-# ):
-#     df = pd.concat(
-#         [
-#             p_id,
-#             hh_id,
-#             tu_id,
-#             kind,
-#             alter,
-#             kaltmiete_m,
-#             heizkost_m,
-#             wohnfläche,
-#             bewohnt_eigentum,
-#             alleinerziehend,
-#             bruttolohn_m,
-#             ges_rente_m,
-#             kapital_eink_m,
-#             arbeitsl_geld_m,
-#             sonstig_eink_m,
-#             eink_selbstst_m,
-#             vermiet_eink_m,
-#             eink_st_m,
-#             soli_st_m,
-#             sozialv_beit_m,
-#             unterhaltsvors_m,
-#             elterngeld_m,
-#             jahr,
-#             anz_kind_zwischen_0_6_per_hh,
-#             anz_kind_zwischen_0_15_per_hh,
-#             arbeitsl_geld_2_2005_netto_quote,
-#         ],
-#         axis=1,
-#     )
-
-#     out_cols = [
-#         "sum_basis_arbeitsl_geld_2_eink",
-#         "sum_arbeitsl_geld_2_eink",
-#         "arbeitsl_geld_2_brutto_eink_hh",
-#         "alleinerziehenden_mehrbedarf",
-#         "regelbedarf_m",
-#         "regelsatz_m",
-#         "unterhaltsvors_m_hh",
-#         "eink_anrechn_frei",
-#         "arbeitsl_geld_2_eink",
-#         "sum_arbeitsl_geld_2_eink_hh",
-#     ]
-
-#     df = apply_tax_transfer_func(
-#         df,
-#         tax_func=alg2,
-#         level=["hh_id"],
-#         in_cols=df.columns.tolist(),
-#         out_cols=out_cols,
-#         func_kwargs={"params": arbeitsl_geld_2_params},
-#     )
-
-#     return df["alleinerziehenden_mehrbedarf"]
-
-
 def regelbedarf_m(regelsatz_m, kost_unterk_m):
     """
 
@@ -142,6 +56,7 @@ def regelsatz_m(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    kindersatz_m,
     anz_kind_zwischen_0_6_per_hh,
     anz_kind_zwischen_0_15_per_hh,
     arbeitsl_geld_2_2005_netto_quote,
@@ -169,6 +84,7 @@ def regelsatz_m(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            kindersatz_m,
             anz_kind_zwischen_0_6_per_hh,
             anz_kind_zwischen_0_15_per_hh,
             arbeitsl_geld_2_2005_netto_quote,
@@ -230,6 +146,7 @@ def eink_anrechn_frei(
     unterhaltsvors_m,
     elterngeld_m,
     jahr,
+    kindersatz_m,
     anz_kind_zwischen_0_6_per_hh,
     anz_kind_zwischen_0_15_per_hh,
     arbeitsl_geld_2_2005_netto_quote,
@@ -261,6 +178,7 @@ def eink_anrechn_frei(
             unterhaltsvors_m,
             elterngeld_m,
             jahr,
+            kindersatz_m,
             anz_kind_zwischen_0_6_per_hh,
             anz_kind_zwischen_0_15_per_hh,
             arbeitsl_geld_2_2005_netto_quote,
@@ -451,8 +369,24 @@ def anz_kind_zwischen_0_15_per_hh(hh_id, kind, alter):
     return (kind & alter_0_bis_15).groupby(hh_id).transform("sum")
 
 
+def kind_zwischen_0_6(kind, alter):
+    return kind & (0 <= alter) & (alter <= 6)
+
+
+def kind_zwischen_7_13(kind, alter):
+    return kind & (7 <= alter) & (alter <= 13)
+
+
+def kind_zwischen_14_24(kind, alter):
+    return kind & (14 <= alter) & (alter <= 24)
+
+
 def anz_kinder_per_hh(hh_id, kind):
     return kind.groupby(hh_id).transform("sum")
+
+
+def anz_erwachsene_per_hh(hh_id, kind):
+    return (~kind).groupby(hh_id).transform("sum")
 
 
 def alleinerziehenden_mehrbedarf(
@@ -480,3 +414,40 @@ def alleinerziehenden_mehrbedarf(
     return alleinerziehend * value.clip(
         lower=lower, upper=arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
     )
+
+
+def kindersatz_m_bis_2010(
+    hh_id,
+    kind_zwischen_0_6,
+    kind_zwischen_7_13,
+    kind_zwischen_14_24,
+    arbeitsl_geld_2_params,
+):
+    anteile = arbeitsl_geld_2_params["anteil_regelsatz"]
+
+    per_child = arbeitsl_geld_2_params["regelsatz"] * (
+        anteile["kinder_0_6"] * kind_zwischen_0_6
+        + anteile["kinder_7_13"] * kind_zwischen_7_13
+        + anteile["kinder_14_24"] * kind_zwischen_14_24
+    )
+
+    return per_child.groupby(hh_id).transform("sum")
+
+
+def kindersatz_m_ab_2011(
+    hh_id,
+    kind_zwischen_0_6,
+    kind_zwischen_7_13,
+    kind_zwischen_14_24,
+    arbeitsl_geld_2_params,
+):
+    per_child = (
+        arbeitsl_geld_2_params["regelsatz"][6] * kind_zwischen_0_6
+        + arbeitsl_geld_2_params["regelsatz"][5] * kind_zwischen_7_13
+        + arbeitsl_geld_2_params["regelsatz"][4] * kind_zwischen_14_24
+    )
+
+    return per_child.groupby(hh_id).transform("sum")
+
+
+# def regelsatz_m():
