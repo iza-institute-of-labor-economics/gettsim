@@ -31,8 +31,7 @@ def _kindergeld_m_tu_basis(_kindergeld_m_basis, tu_id):
     -------
 
     """
-    out = _kindergeld_m_basis.groupby(tu_id).apply(sum)
-    return out.rename("_kindergeld_m_tu_basis")
+    return _kindergeld_m_basis.groupby(tu_id).apply(sum)
 
 
 def _kindergeld_anspruch_nach_stunden(
@@ -61,7 +60,7 @@ def _kindergeld_anspruch_nach_stunden(
         & (arbeitsstunden_w <= kindergeld_params["kindergeld_stundengrenze"])
     ] = True
 
-    return out.rename("_kindergeld_anspruch")
+    return out
 
 
 def _kindergeld_anspruch_nach_lohn(
@@ -90,4 +89,4 @@ def _kindergeld_anspruch_nach_lohn(
         & (bruttolohn_m <= kindergeld_params["kindergeld_einkommensgrenze"] / 12)
     ] = True
 
-    return out.rename("_kindergeld_anspruch")
+    return out

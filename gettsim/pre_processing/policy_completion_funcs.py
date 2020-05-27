@@ -6,7 +6,7 @@ each tax update, the rule to calculate them remains the same.
 """
 import copy
 
-from gettsim.pre_processing.generic_functions import check_threholds
+from gettsim.pre_processing.piecewise_functions import check_threholds
 
 
 def transition_threshold(soli_st_satz, soli_st_uebergang, freigrenze):

@@ -63,8 +63,7 @@ def brutto_eink_4_tu(brutto_eink_4, tu_id):
     -------
 
     """
-    out = brutto_eink_4.groupby(tu_id).apply(sum)
-    return out.rename("brutto_eink_4_tu")
+    return brutto_eink_4.groupby(tu_id).apply(sum)
 
 
 def brutto_eink_5(kapital_eink_m):
@@ -79,8 +78,7 @@ def brutto_eink_5(kapital_eink_m):
     -------
 
     """
-    out = np.maximum(12 * kapital_eink_m, 0)
-    return out.rename("brutto_eink_5")
+    return np.maximum(12 * kapital_eink_m, 0)
 
 
 def brutto_eink_5_tu(brutto_eink_5, tu_id):

@@ -38,7 +38,7 @@ def _vorsorge_alternative_2005_bis_2009(
     out.loc[~kind] = (
         sum_vorsorge.loc[~kind] + _altervorsorge_aufwend.loc[~kind]
     ).astype(int)
-    return out.rename("_vorsorge_alternative_2005_bis_2010")
+    return out
 
 
 def _vorsorge_2005_vs_pre_2005(_vorsorge_alternative_2005_bis_2009, _vorsorge_bis_2004):

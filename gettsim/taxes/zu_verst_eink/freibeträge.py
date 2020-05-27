@@ -159,7 +159,7 @@ def _sonderausgaben_ab_2012(
         berechtigte_kinder
         * abziehbare_betreuungskosten
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
-    ).divide(anz_erwachsene_in_tu)
+    ) / anz_erwachsene_in_tu
 
     out.loc[kind] = 0
     return out
