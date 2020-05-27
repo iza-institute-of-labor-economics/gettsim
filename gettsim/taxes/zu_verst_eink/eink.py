@@ -28,7 +28,7 @@ def brutto_eink_1_tu(brutto_eink_1, tu_id):
     -------
 
     """
-    return brutto_eink_1.groupby(tu_id).apply(sum)
+    return brutto_eink_1.groupby(tu_id).sum()
 
 
 def brutto_eink_4(bruttolohn_m, _geringfügig_beschäftigt, eink_st_abzuege_params):
@@ -63,7 +63,7 @@ def brutto_eink_4_tu(brutto_eink_4, tu_id):
     -------
 
     """
-    return brutto_eink_4.groupby(tu_id).apply(sum)
+    return brutto_eink_4.groupby(tu_id).sum()
 
 
 def brutto_eink_5(kapital_eink_m):
@@ -78,7 +78,7 @@ def brutto_eink_5(kapital_eink_m):
     -------
 
     """
-    return np.maximum(12 * kapital_eink_m, 0)
+    return (12 * kapital_eink_m).clip(lower=0)
 
 
 def brutto_eink_5_tu(brutto_eink_5, tu_id):
@@ -93,7 +93,7 @@ def brutto_eink_5_tu(brutto_eink_5, tu_id):
     -------
 
     """
-    return brutto_eink_5.groupby(tu_id).apply(sum)
+    return brutto_eink_5.groupby(tu_id).sum()
 
 
 def brutto_eink_6(vermiet_eink_m):
@@ -122,7 +122,7 @@ def brutto_eink_6_tu(brutto_eink_6, tu_id):
     -------
 
     """
-    return brutto_eink_6.groupby(tu_id).apply(sum)
+    return brutto_eink_6.groupby(tu_id).sum()
 
 
 def brutto_eink_7(ges_rente_m, _ertragsanteil):
@@ -154,7 +154,7 @@ def brutto_eink_7_tu(brutto_eink_7, tu_id):
     -------
 
     """
-    return brutto_eink_7.groupby(tu_id).apply(sum)
+    return brutto_eink_7.groupby(tu_id).sum()
 
 
 def _sum_brutto_eink_ohne_kapital(
@@ -192,9 +192,8 @@ def _sum_brutto_eink_mit_kapital(
     -------
 
     """
-    out = _sum_brutto_eink_ohne_kapital + (
+    return _sum_brutto_eink_ohne_kapital + (
         brutto_eink_5
         - eink_st_abzuege_params["sparerpauschbetrag"]
         - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     ).clip(lower=0)
-    return out

@@ -37,7 +37,7 @@ def _vorsorge_alternative_2005_bis_2009(
     ).clip(upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"])
     out.loc[~kind] = (
         sum_vorsorge.loc[~kind] + _altervorsorge_aufwend.loc[~kind]
-    ).astype(int)
+    )
     return out
 
 

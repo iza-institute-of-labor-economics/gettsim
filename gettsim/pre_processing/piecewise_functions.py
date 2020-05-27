@@ -89,7 +89,7 @@ def get_piecewise_parameters(parameter_dict, parameter, piecewise_func, func_typ
     """
 
     # Get all interval keys.
-    keys = sorted(key for key in parameter_dict.keys() if type(key) == int)
+    keys = sorted(key for key in parameter_dict if isinstance(key, int))
 
     # Check if keys are consecutive numbers and starting at 0.
     if keys != list(range(len(keys))):

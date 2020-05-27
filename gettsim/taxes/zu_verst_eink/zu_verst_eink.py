@@ -147,8 +147,8 @@ def gemeinsam_veranlagt(anz_erwachsene_in_tu):
 
 
 def gemeinsam_veranlagte_tu(gemeinsam_veranlagt, tu_id):
-    return gemeinsam_veranlagt.groupby(tu_id).apply(any)
+    return gemeinsam_veranlagt.groupby(tu_id).any()
 
 
 def bruttolohn_m_tu(bruttolohn_m, tu_id):
-    return bruttolohn_m.groupby(tu_id).apply(sum)
+    return bruttolohn_m.groupby(tu_id).sum()

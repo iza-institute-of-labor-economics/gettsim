@@ -31,7 +31,7 @@ def _kindergeld_m_tu_basis(_kindergeld_m_basis, tu_id):
     -------
 
     """
-    return _kindergeld_m_basis.groupby(tu_id).apply(sum)
+    return _kindergeld_m_basis.groupby(tu_id).sum()
 
 
 def _kindergeld_anspruch_nach_stunden(

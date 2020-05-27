@@ -24,7 +24,7 @@ def transition_threshold(soli_st_satz, soli_st_uebergang, freigrenze):
 
 
 def add_progressionsfaktor(param_dict, parameter):
-    """ Quadratic factor of tax tariff function.
+    """Quadratic factor of tax tariff function.
 
     The German tax tariff is defined on several income intervals with distinct
     marginal tax rates at the thresholds. To ensure an almost linear increase of
@@ -38,7 +38,7 @@ def add_progressionsfaktor(param_dict, parameter):
 
     """
     out_dict = copy.deepcopy(param_dict)
-    interval_keys = sorted(key for key in out_dict.keys() if type(key) == int)
+    interval_keys = sorted(key for key in out_dict if isinstance(key, int))
     # Check and extract lower thresholds.
     lower_thresholds, upper_thresholds = check_threholds(
         param_dict, parameter, interval_keys

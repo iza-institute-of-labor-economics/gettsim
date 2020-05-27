@@ -154,7 +154,7 @@ def _sonderausgaben_ab_2012(
         upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
     )
 
-    berechtigte_kinder = (kind.astype(int)).groupby(tu_id).transform(sum)
+    berechtigte_kinder = kind.groupby(tu_id).transform(sum)
     out = (
         berechtigte_kinder
         * abziehbare_betreuungskosten
