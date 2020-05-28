@@ -1,8 +1,10 @@
 import numpy as np
 
 from gettsim._numpy import numpy_vectorize
+from gettsim._numpy import try_to_pandas
 
 
+@try_to_pandas
 @numpy_vectorize(
     excluded=[
         "lower_thresholds",

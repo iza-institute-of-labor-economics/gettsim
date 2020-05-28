@@ -1,4 +1,25 @@
 import numpy as np
+import pandas as pd
+
+
+def try_to_pandas(func):
+    """Try to convert the output of the function to a :class:`pandas.Series`.
+
+    This decorator can be used to wrap functions vectorized with :func:`numpy_vectorize`
+    to ensure that the output is a :class:`pandas.Series` if the input was a series.
+
+    It is assumed that the potential series or array is the first positional argument.
+
+    """
+
+    def wrapper(x, *args, **kwargs):
+        index = x.index if isinstance(x, pd.Series) else None
+        out = func(x, *args, **kwargs)
+        out = pd.Series(index=index, data=out) if index is not None else out
+
+        return out
+
+    return wrapper
 
 
 def numpy_vectorize(
