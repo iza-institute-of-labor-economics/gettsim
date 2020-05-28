@@ -36,10 +36,7 @@ def rentenv_beitr_m(
 
     out = _geringfügig_beschäftigt.astype(float) * 0
 
-    # Set contribution 0 for people in minijob
-    out.loc[_geringfügig_beschäftigt] = 0
-
-    # Assign calculated contributions
+    # Assign calculated contributions, for minijobs it remains 0
     out.loc[_an_beitr_rentenv_midi_job.index] = _an_beitr_rentenv_midi_job
     out.loc[_rentenv_beitr_regular_job.index] = _rentenv_beitr_regular_job
 
@@ -78,10 +75,7 @@ def arbeitsl_v_beitr_m(
     """
     out = _geringfügig_beschäftigt.astype(float) * 0
 
-    # Set contribution 0 for people in minijob
-    out.loc[_geringfügig_beschäftigt] = 0
-
-    # Assign calculated contributions
+    # Assign calculated contributions, for minijobs it remains 0
     out.loc[_an_beitr_arbeitsl_v_midi_job.index] = _an_beitr_arbeitsl_v_midi_job
     out.loc[_arbeitsl_v_regular_job.index] = _arbeitsl_v_regular_job
 
