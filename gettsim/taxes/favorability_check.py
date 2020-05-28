@@ -142,7 +142,7 @@ def kindergeld_m_hh(kindergeld_m, hh_id):
     -------
 
     """
-    return kindergeld_m.groupby(hh_id).apply(sum)
+    return kindergeld_m.groupby(hh_id).sum()
 
 
 def kindergeld_m_tu(kindergeld_m, tu_id):
@@ -157,4 +157,4 @@ def kindergeld_m_tu(kindergeld_m, tu_id):
     -------
 
     """
-    return kindergeld_m.groupby(tu_id).apply(sum)
+    return kindergeld_m.groupby(tu_id).sum()

@@ -19,7 +19,7 @@ def _st_kein_kind_freib(_zu_verst_eink_kein_kinderfreib, eink_st_params):
 
 
 def _st_kein_kind_freib_tu(_st_kein_kind_freib, tu_id):
-    return _st_kein_kind_freib.groupby(tu_id).apply(sum)
+    return _st_kein_kind_freib.groupby(tu_id).sum()
 
 
 def _st_kind_freib(_zu_verst_eink_kinderfreib, eink_st_params):
@@ -38,7 +38,7 @@ def _st_kind_freib(_zu_verst_eink_kinderfreib, eink_st_params):
 
 
 def _st_kind_freib_tu(_st_kind_freib, tu_id):
-    return _st_kind_freib.groupby(tu_id).apply(sum)
+    return _st_kind_freib.groupby(tu_id).sum()
 
 
 @np.vectorize

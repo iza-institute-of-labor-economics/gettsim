@@ -50,7 +50,7 @@ def ges_krankenv_beitr_m_tu(ges_krankenv_beitr_m, tu_id):
     -------
 
     """
-    return ges_krankenv_beitr_m.groupby(tu_id).apply(sum)
+    return ges_krankenv_beitr_m.groupby(tu_id).sum()
 
 
 def pflegev_beitr_m(

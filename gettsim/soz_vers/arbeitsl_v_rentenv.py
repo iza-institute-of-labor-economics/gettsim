@@ -58,7 +58,7 @@ def rentenv_beitr_m_tu(rentenv_beitr_m, tu_id):
     -------
 
     """
-    return rentenv_beitr_m.groupby(tu_id).apply(sum)
+    return rentenv_beitr_m.groupby(tu_id).sum()
 
 
 def arbeitsl_v_beitr_m(
