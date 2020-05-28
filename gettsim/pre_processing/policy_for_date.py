@@ -99,11 +99,6 @@ def get_policies_for_date(policy_date, groups="all"):
                 for key in ["type", "progressionsfaktor"]:
                     tax_data[param].pop(key, None)
 
-        if group == "eink_st_abzuege":
-
-            tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
-
-        tax_data["jahr"] = year
         tax_data["datum"] = policy_date
         params_dict[group] = tax_data
 

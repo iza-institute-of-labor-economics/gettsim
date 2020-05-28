@@ -16,7 +16,6 @@ INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
-    "vorstand_tu",
     "kind",
     "alter",
     "kaltmiete_m",

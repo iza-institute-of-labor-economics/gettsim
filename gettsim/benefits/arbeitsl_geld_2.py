@@ -39,9 +39,6 @@ def eink_anr_frei(household, params):
     in_cols = [
         "bruttolohn_m",
         "eink_anrechn_frei",
-        "eink_st_m",
-        "soli_st_m",
-        "sozialv_beit_m",
         "arbeitsl_geld_2_2005_netto_quote",
     ]
     # Everything was already initialized

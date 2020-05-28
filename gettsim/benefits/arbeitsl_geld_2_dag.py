@@ -1,5 +1,3 @@
-import copy
-
 import numpy as np
 import pandas as pd
 
@@ -10,14 +8,48 @@ from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 def sum_basis_arbeitsl_geld_2_eink_hh(
     sum_arbeitsl_geld_2_eink_hh, kindergeld_m_hh, unterhaltsvors_m_hh
 ):
+    """
+
+    Parameters
+    ----------
+    sum_arbeitsl_geld_2_eink_hh
+    kindergeld_m_hh
+    unterhaltsvors_m_hh
+
+    Returns
+    -------
+
+    """
     return sum_arbeitsl_geld_2_eink_hh + kindergeld_m_hh + unterhaltsvors_m_hh
 
 
 def sum_arbeitsl_geld_2_eink(_arbeitsl_geld_2_eink, eink_anrechn_frei):
+    """
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_eink
+    eink_anrechn_frei
+
+    Returns
+    -------
+
+    """
     return (_arbeitsl_geld_2_eink - eink_anrechn_frei).clip(lower=0)
 
 
 def arbeitsl_geld_2_brutto_eink_hh(_arbeitsl_geld_2_brutto_eink, hh_id):
+    """
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_brutto_eink
+    hh_id
+
+    Returns
+    -------
+
+    """
     return _arbeitsl_geld_2_brutto_eink.groupby(hh_id).sum()
 
 
@@ -37,6 +69,17 @@ def regelbedarf_m(regelsatz_m, kost_unterk_m):
 
 
 def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
+    """
+
+    Parameters
+    ----------
+    unterhaltsvors_m
+    hh_id
+
+    Returns
+    -------
+
+    """
     return unterhaltsvors_m.groupby(hh_id).sum()
 
 
@@ -248,7 +291,19 @@ def _miete_pro_sqm(kaltmiete_m, heizkost_m, wohnfläche):
 
 
 def _berechtigte_wohnfläche(wohnfläche, bewohnt_eigentum, haushaltsgröße):
-    out = copy.deepcopy(wohnfläche) * 0
+    """
+
+    Parameters
+    ----------
+    wohnfläche
+    bewohnt_eigentum
+    haushaltsgröße
+
+    Returns
+    -------
+
+    """
+    out = wohnfläche * 0
     out.loc[bewohnt_eigentum] = wohnfläche.loc[bewohnt_eigentum].clip(
         upper=(80 + (haushaltsgröße.loc[bewohnt_eigentum] - 2).clip(lower=0) * 20)
     )
