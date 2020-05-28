@@ -3,13 +3,18 @@ import pandas as pd
 
 
 def piecewise_polynomial(
-    x, thresholds, rates, intercepts_at_lower_thresholds, individual_rates=False,
+    x,
+    thresholds,
+    rates,
+    intercepts_at_lower_thresholds,
+    individual_rates=False,
+    rates_multiplier=None,
 ):
     """Calculate value of the piecewise function at `x`.
 
     Parameters
     ----------
-    x : float
+    x : series
         The value that the function is applied to.
     lower_thresholds : numpy.ndarray
         A one-dimensional array containing lower thresholds of each interval.
@@ -20,7 +25,7 @@ def piecewise_polynomial(
         to the nth polynomial.
     intercepts_at_lower_thresholds : numpy.ndarray
         The intercepts at the lower threshold of each interval.
-    rates_modified : bool
+    individual_rates : bool
         Boolean variable indicating, that intercepts can't be used anymore.
 
     Returns
@@ -35,7 +40,25 @@ def piecewise_polynomial(
         {i: v for i, v in enumerate(thresholds[:-1])}
     )
     increment_to_calc = x - thresholds_individual
-    if not individual_rates:
+
+    if individual_rates:
+        out = x * 0
+        for i in binned.cat.categories[1, :-1]:
+            threshold_incr = thresholds[i] - thresholds[i - 1]
+            for pol in range(1, rates.shape[0] + 1):
+                out.loc[binned >= i] += (
+                    rates_multiplier.loc[binned >= i]
+                    * rates[pol - 1, i - 1]
+                    * threshold_incr ** pol
+                )
+            for pol in range(1, rates.shape[0] + 1):
+                out += (
+                    binned.replace({i: v for i, v in enumerate(rates[pol - 1, :])})
+                    * rates_multiplier
+                    * (increment_to_calc ** pol)
+                )
+
+    else:
         out = binned.replace(
             {i: v for i, v in enumerate(intercepts_at_lower_thresholds)}
         )

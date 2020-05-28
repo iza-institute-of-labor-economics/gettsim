@@ -41,6 +41,7 @@ def eink_anr_frei(household, params):
         "eink_anrechn_frei",
         "arbeitsl_geld_2_2005_netto_quote",
     ]
+    breakpoint()
     # Everything was already initialized
     out_cols = []
     household = apply_tax_transfer_func(
@@ -60,17 +61,18 @@ def eink_anr_frei_person(person, eink_anr_frei_params, params):
     individual_params = copy.deepcopy(eink_anr_frei_params)
 
     if params["datum"] < datetime.date(year=2005, month=10, day=1):
+        breakpoint()
         individual_params["rates"] *= person["arbeitsl_geld_2_2005_netto_quote"]
         rates_modified = True
 
-    person["eink_anrechn_frei"] = piecewise_polynomial(
-        x=person["bruttolohn_m"],
-        lower_thresholds=individual_params["lower_thresholds"],
-        upper_thresholds=individual_params["upper_thresholds"],
-        rates=individual_params["rates"],
-        intercepts_at_lower_thresholds=individual_params[
-            "intercepts_at_lower_thresholds"
-        ],
-        rates_modified=rates_modified,
-    )
+    # person["eink_anrechn_frei"] = piecewise_polynomial(
+    #     x=person["bruttolohn_m"],
+    #     lower_thresholds=individual_params["lower_thresholds"],
+    #     upper_thresholds=individual_params["upper_thresholds"],
+    #     rates=individual_params["rates"],
+    #     intercepts_at_lower_thresholds=individual_params[
+    #         "intercepts_at_lower_thresholds"
+    #     ],
+    #     rates_modified=rates_modified,
+    # )
     return person
