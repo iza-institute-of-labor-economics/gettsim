@@ -70,7 +70,7 @@ def test_eltgeld(
             "soli_st",
         ],
     )
-    columns = ["soli_st_m", "eink_st_m"]
+    columns = ["soli_st_m", "eink_st_m", "sozialv_beitr_m"]
 
     result = compute_taxes_and_transfers(
         df, user_columns=columns, targets=column, params=params_dict
