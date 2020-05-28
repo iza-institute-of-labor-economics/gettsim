@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
+def behinderungsgrad_pauschbetrag(behinderungsgrad, eink_st_abzuege_params):
     """Calculate the different deductions for different handicap degrees.
 
     Parameters
@@ -28,7 +28,7 @@ def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
     out = np.nan_to_num(
         np.select(
             behinderungsgrad_stufe,
-            eink_st_abzuege_params["behinderten_pausch_betrag"].values(),
+            eink_st_abzuege_params["behinderten_pauschbetrag"].values(),
         )
     )
 

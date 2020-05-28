@@ -47,7 +47,7 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
     sum_brutto_eink,
     vorsorge,
     sonderausgaben,
-    behinderungsgrad_pauschalbetrag,
+    behinderungsgrad_pauschbetrag,
     hh_freib,
     altersfreib,
 ):
@@ -58,7 +58,7 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
     sum_brutto_eink
     vorsorge
     sonderausgaben
-    behinderungsgrad_pauschalbetrag
+    behinderungsgrad_pauschbetrag
     hh_freib
     altersfreib
 
@@ -70,7 +70,7 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
         sum_brutto_eink
         - vorsorge
         - sonderausgaben
-        - behinderungsgrad_pauschalbetrag
+        - behinderungsgrad_pauschbetrag
         - hh_freib
         - altersfreib
     ).clip(lower=0)
