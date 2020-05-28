@@ -55,7 +55,8 @@ def _kindergeld_anspruch_nach_stunden(
     """
     out = alter <= 18
     out = out | (
-        (alter.between(19, kindergeld_params["kindergeld_hoechstalter"]))
+        (19 <= alter)
+        & (alter <= kindergeld_params["kindergeld_hoechstalter"])
         & in_ausbildung
         & (arbeitsstunden_w <= kindergeld_params["kindergeld_stundengrenze"])
     )
@@ -84,7 +85,8 @@ def _kindergeld_anspruch_nach_lohn(
     """
     out = alter <= 18
     out = out | (
-        (alter.between(19, kindergeld_params["kindergeld_hoechstalter"]))
+        (19 <= alter)
+        & (alter <= kindergeld_params["kindergeld_hoechstalter"])
         & in_ausbildung
         & (bruttolohn_m <= kindergeld_params["kindergeld_einkommensgrenze"] / 12)
     )
