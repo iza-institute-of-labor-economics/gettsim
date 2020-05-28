@@ -35,9 +35,7 @@ def _vorsorge_alternative_2005_bis_2009(
     sum_vorsorge = (
         12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + pflegev_beitr_m)
     ).clip(upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"])
-    out.loc[~kind] = (
-        sum_vorsorge.loc[~kind] + _altervorsorge_aufwend.loc[~kind]
-    )
+    out.loc[~kind] = sum_vorsorge.loc[~kind] + _altervorsorge_aufwend.loc[~kind]
     return out
 
 
