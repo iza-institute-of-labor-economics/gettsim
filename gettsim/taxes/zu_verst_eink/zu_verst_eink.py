@@ -13,7 +13,7 @@ for each income type. In fact, you need several taxable incomes because of
 It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
-import pandas as pd
+from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
 def _zu_verst_eink_kein_kinderfreib(
@@ -110,9 +110,8 @@ def _zu_verst_eink_kinderfreib(
     return out
 
 
-def _ertragsanteil(jahr_renteneintr):
-    """
-    Calculate the share of pensions subject to income taxation.
+def _ertragsanteil(jahr_renteneintr, eink_st_params):
+    """Calculate the share of pensions subject to income taxation.
 
     Parameters
     ----------
@@ -122,15 +121,15 @@ def _ertragsanteil(jahr_renteneintr):
     -------
 
     """
-    out = pd.Series(index=jahr_renteneintr.index, name="_ertragsanteil", dtype=float)
-    out.loc[jahr_renteneintr <= 2004] = 0.27
-    out.loc[jahr_renteneintr.between(2005, 2020)] = 0.5 + 0.02 * (
-        jahr_renteneintr - 2005
+    out = piecewise_polynomial(
+        x=jahr_renteneintr,
+        lower_thresholds=eink_st_params["ertragsanteil"]["lower_thresholds"],
+        upper_thresholds=eink_st_params["ertragsanteil"]["upper_thresholds"],
+        rates=eink_st_params["ertragsanteil"]["rates"],
+        intercepts_at_lower_thresholds=eink_st_params["ertragsanteil"][
+            "intercepts_at_lower_thresholds"
+        ],
     )
-    out.loc[jahr_renteneintr.between(2021, 2040)] = 0.8 + 0.01 * (
-        jahr_renteneintr - 2020
-    )
-    out.loc[jahr_renteneintr >= 2041] = 1
     return out
 
 

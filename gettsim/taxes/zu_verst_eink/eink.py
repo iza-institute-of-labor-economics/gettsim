@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def brutto_eink_1(eink_selbstst_m):
     """Income from Self-Employment
 

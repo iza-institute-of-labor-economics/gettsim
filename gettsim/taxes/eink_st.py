@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
@@ -15,7 +13,7 @@ def _st_kein_kind_freib(_zu_verst_eink_kein_kinderfreib, eink_st_params):
     -------
 
     """
-    return _zu_verst_eink_kein_kinderfreib.apply(_st_tarif, params=eink_st_params)
+    return _st_tarif(_zu_verst_eink_kein_kinderfreib, params=eink_st_params)
 
 
 def _st_kein_kind_freib_tu(_st_kein_kind_freib, tu_id):
@@ -34,14 +32,13 @@ def _st_kind_freib(_zu_verst_eink_kinderfreib, eink_st_params):
     -------
 
     """
-    return _zu_verst_eink_kinderfreib.apply(_st_tarif, params=eink_st_params)
+    return _st_tarif(_zu_verst_eink_kinderfreib, params=eink_st_params)
 
 
 def _st_kind_freib_tu(_st_kind_freib, tu_id):
     return _st_kind_freib.groupby(tu_id).sum()
 
 
-@np.vectorize
 def _st_tarif(x, params):
     """ The German Income Tax Tariff.
      Modelled only after 2002 so far.
@@ -51,7 +48,7 @@ def _st_tarif(x, params):
     This facilitates the implementation of alternative tax schedules
 
     args:
-        x (float): taxable income
+        x (Series): taxable income
         params (dict): tax-benefit parameters specific to year and reform
     """
     eink_st = piecewise_polynomial(

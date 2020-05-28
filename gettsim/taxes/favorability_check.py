@@ -8,7 +8,6 @@ the child allowance (kind_freib), but without child benefit. The most beneficial
 set to zero. A similar check applies to whether it is more profitable to
 tax capital incomes with the standard 25% rate or to include it in the tariff.
 """
-import copy
 
 
 def _beantrage_kind_freib_tu(
@@ -123,7 +122,7 @@ def _kindergeld_m_ab_1997(
 
     """
     _beantrage_kind_freib = tu_id.replace(_beantrage_kind_freib_tu)
-    out = copy.deepcopy(_kindergeld_m_basis)
+    out = _kindergeld_m_basis
     out.loc[_beantrage_kind_freib] = 0
     return out
 
