@@ -16,8 +16,8 @@ def soli_st_m_tu(_st_kind_freib_tu, abgelt_st_m_tu, soli_st_params):
     SolzG 1995.
     """
     out = (
-        _st_kind_freib_tu.apply(
-            piecewise_polynomial,
+        piecewise_polynomial(
+            _st_kind_freib_tu,
             lower_thresholds=soli_st_params["soli_st"]["lower_thresholds"],
             upper_thresholds=soli_st_params["soli_st"]["upper_thresholds"],
             rates=soli_st_params["soli_st"]["rates"],
