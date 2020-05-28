@@ -68,13 +68,7 @@ def compute_taxes_and_transfers(
     internal_functions = {}
     internal_function_files = [
         "soz_vers",
-        "benefits/arbeitsl_geld_dag.py",
-        "benefits/arbeitsl_geld_2_dag.py",
-        "benefits/benefit_checks_dag.py",
-        "benefits/elterngeld_dag.py",
-        "benefits/kinderzuschlag_dag.py",
-        "benefits/unterhalt_dag.py",
-        "benefits/wohngeld_dag.py",
+        "benefits",
         "renten_anspruch_dag.py",
         "taxes",
     ]
