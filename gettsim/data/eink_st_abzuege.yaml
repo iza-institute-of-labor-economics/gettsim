@@ -505,7 +505,7 @@ vorsorge_kranken_minderung:
     scalar: 0.04
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 
-behinderten_pausch_betrag:
+behinderten_pauschbetrag:
   name:
     de: Behinderten-Pauschbetrag, in Abhängigkeit des Behinderungsgrads.
     en: Tax Credit for disabled, depending on degree of disability.

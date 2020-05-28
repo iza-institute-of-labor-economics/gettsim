@@ -1,10 +1,8 @@
-import numpy as np
 import pandas as pd
 
 
-def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
-    """
-    Calculate the different deductions for different handicap degrees.
+def behinderungsgrad_pauschbetrag(behinderungsgrad, eink_st_abzuege_params):
+    """Calculate the different deductions for different handicap degrees.
 
     Parameters
     ----------
@@ -15,26 +13,31 @@ def behinderungsgrad_pauschalbetrag(behinderungsgrad, eink_st_abzuege_params):
     -------
 
     """
-    behinderungsgrad_stufe = [
-        behinderungsgrad.between(25, 30),
-        behinderungsgrad.between(35, 40),
-        behinderungsgrad.between(45, 50),
-        behinderungsgrad.between(55, 60),
-        behinderungsgrad.between(65, 70),
-        behinderungsgrad.between(75, 80),
-        behinderungsgrad.between(85, 90),
-        behinderungsgrad.between(95, 100),
+
+    betragsgrenzen = [
+        (25, 30),
+        (35, 40),
+        (45, 50),
+        (55, 60),
+        (65, 70),
+        (75, 80),
+        (85, 90),
+        (95, 100),
     ]
 
-    out = np.nan_to_num(
-        np.select(
-            behinderungsgrad_stufe,
-            eink_st_abzuege_params["behinderten_pausch_betrag"].values(),
+    # Create output Series with 0 pauschbetrag for all low degrees of disability
+    out = behinderungsgrad.replace(to_replace=[0, 5, 10, 15, 20], value=0)
+
+    # Assign all individuals their corresponding pauschbetrag
+    for untere_grenze, obere_grenze in betragsgrenzen:
+        degree_cond = (behinderungsgrad >= untere_grenze) & (
+            behinderungsgrad <= obere_grenze
         )
-    )
-    return pd.Series(
-        data=out, index=behinderungsgrad.index, name="behinderungsgrad_pauschalbetrag"
-    )
+        out.loc[degree_cond] = eink_st_abzuege_params["behinderten_pauschbetrag"][
+            untere_grenze
+        ]
+
+    return out
 
 
 def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
@@ -51,12 +54,12 @@ def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
     -------
 
     """
-    out = pd.Series(index=alleinerziehend.index, name="hh_freib", data=0, dtype=float)
+    out = alleinerziehend.astype(float) * 0
     out.loc[alleinerziehend] = eink_st_abzuege_params["alleinerziehenden_freibetrag"]
     return out
 
 
-def _hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
+def _hh_freib_seit_2015(alleinerziehend, _anz_kinder_in_tu, eink_st_abzuege_params):
     """
     Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
@@ -64,19 +67,16 @@ def _hh_freib_seit_2015(alleinerziehend, kind, tu_id, eink_st_abzuege_params):
     Parameters
     ----------
     alleinerziehend
-    kind
-    tu_id
     eink_st_abzuege_params
 
     Returns
     -------
 
     """
-    out = pd.Series(index=alleinerziehend.index, name="hh_freib", data=0, dtype=float)
-    anz_kinder = kind.groupby(tu_id).apply(sum)
+    out = alleinerziehend.astype(float) * 0
     out.loc[alleinerziehend] = (
         eink_st_abzuege_params["alleinerziehenden_freibetrag"]
-        + tu_id.replace(anz_kinder)
+        + _anz_kinder_in_tu.loc[alleinerziehend]
         * eink_st_abzuege_params["alleinerziehenden_freibetrag_zusatz"]
     )
     return out
@@ -106,7 +106,7 @@ def altersfreib(
     -------
 
     """
-    out = pd.Series(index=bruttolohn_m.index, name="altersfreib", data=0, dtype=float)
+    out = bruttolohn_m * 0
     out.loc[alter > 64] = (
         eink_st_abzuege_params["altersentlastung_quote"]
         * 12
@@ -130,7 +130,7 @@ def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
     -------
 
     """
-    out = pd.Series(index=kind.index, data=0, dtype=float, name="sonderausgaben")
+    out = kind.astype(float) * 0
     out.loc[~kind] = eink_st_abzuege_params["sonderausgabenpauschbetrag"]
     return out
 
@@ -153,19 +153,19 @@ def _sonderausgaben_ab_2012(
     -------
 
     """
-    abziehbare_betreuungskosten = betreuungskost_m.multiply(12).clip(
+    abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
         upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
     )
 
-    berechtigte_kinder = (kind.astype(int)).groupby(tu_id).transform(sum)
+    berechtigte_kinder = kind.groupby(tu_id).transform(sum)
     out = (
         berechtigte_kinder
         * abziehbare_betreuungskosten
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
-    ).divide(anz_erwachsene_in_tu)
+    ) / anz_erwachsene_in_tu
 
     out.loc[kind] = 0
-    return out.rename("sonderausgaben")
+    return out
 
 
 def _altervorsorge_aufwend(
@@ -199,7 +199,7 @@ def _altervorsorge_aufwend(
         * 12
     ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])
     out.loc[kind] = 0
-    return out.rename("_altervorsorge_aufwend")
+    return out
 
 
 def kinderfreib(

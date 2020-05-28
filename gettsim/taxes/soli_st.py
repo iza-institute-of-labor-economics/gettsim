@@ -1,6 +1,3 @@
-import numpy as np
-import pandas as pd
-
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
@@ -30,12 +27,11 @@ def soli_st_m_tu(_st_kind_freib_tu, abgelt_st_m_tu, soli_st_params):
         )
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_m_tu
     ) * (1 / 12)
-    return out.rename("soli_st_m_tu")
+    return out
 
 
 def soli_st_m(soli_st_m_tu, gem_veranlagt, kind, tu_id):
-    """
-    Assign Soli to individuals. Kids get 0.
+    """Assign Soli to individuals. Kids get 0.
 
     Parameters
     ----------
@@ -48,8 +44,10 @@ def soli_st_m(soli_st_m_tu, gem_veranlagt, kind, tu_id):
     -------
 
     """
-    out = np.select(
-        [gem_veranlagt & ~kind, ~gem_veranlagt & ~kind, kind],
-        [tu_id.replace(soli_st_m_tu) / 2, tu_id.replace(soli_st_m_tu), 0],
-    )
-    return pd.Series(data=out, index=tu_id.index, name="soli_st_m")
+    # First assign all individuals the tax unit value
+    out = tu_id.replace(soli_st_m_tu)
+    # Half it for married couples
+    out.loc[gem_veranlagt] /= 2
+    # Set it to zero for kids
+    out.loc[kind] = 0
+    return out

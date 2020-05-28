@@ -13,8 +13,6 @@ for each income type. In fact, you need several taxable incomes because of
 It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
-import copy
-
 import pandas as pd
 
 
@@ -40,16 +38,16 @@ def _zu_verst_eink_kein_kinderfreib(
         .groupby(tu_id)
         .transform(sum)
     )
-    out = copy.deepcopy(_zu_verst_eink_kein_kinderfreib_vorläufig)
+    out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
     out.loc[~kind] = zve_tu / anz_erwachsene_in_tu.loc[~kind]
-    return out.rename("_zu_verst_eink_kein_kinderfreib")
+    return out
 
 
 def _zu_verst_eink_kein_kinderfreib_vorläufig(
     sum_brutto_eink,
     vorsorge,
     sonderausgaben,
-    behinderungsgrad_pauschalbetrag,
+    behinderungsgrad_pauschbetrag,
     hh_freib,
     altersfreib,
 ):
@@ -60,7 +58,7 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
     sum_brutto_eink
     vorsorge
     sonderausgaben
-    behinderungsgrad_pauschalbetrag
+    behinderungsgrad_pauschbetrag
     hh_freib
     altersfreib
 
@@ -72,11 +70,11 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
         sum_brutto_eink
         - vorsorge
         - sonderausgaben
-        - behinderungsgrad_pauschalbetrag
+        - behinderungsgrad_pauschbetrag
         - hh_freib
         - altersfreib
     ).clip(lower=0)
-    return out.rename("_zu_verst_eink_kein_kinderfreib_vorläufig")
+    return out
 
 
 def _zu_verst_eink_kinderfreib(
@@ -107,9 +105,9 @@ def _zu_verst_eink_kinderfreib(
     zu_verst_eink_tu = (
         (zu_vers_eink_kinderfreib.loc[~kind]).groupby(tu_id).transform(sum)
     )
-    out = copy.deepcopy(_zu_verst_eink_kein_kinderfreib_vorläufig)
+    out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
     out.loc[~kind] = zu_verst_eink_tu / anz_erwachsene_in_tu.loc[~kind]
-    return out.rename("_zu_verst_eink_kinderfreib")
+    return out
 
 
 def _ertragsanteil(jahr_renteneintr):
@@ -136,21 +134,21 @@ def _ertragsanteil(jahr_renteneintr):
     return out
 
 
+def _anz_kinder_in_tu(tu_id, kind):
+    return (kind.astype(int)).groupby(tu_id).transform(sum)
+
+
 def anz_erwachsene_in_tu(tu_id, kind):
-    out = ((~kind).astype(int)).groupby(tu_id).transform(sum)
-    return out.rename("anz_erwachsene_in_tu")
+    return ((~kind).astype(int)).groupby(tu_id).transform(sum)
 
 
 def gemeinsam_veranlagt(anz_erwachsene_in_tu):
-    out = anz_erwachsene_in_tu == 2
-    return out.rename("gemeinsam_veranlagt")
+    return anz_erwachsene_in_tu == 2
 
 
 def gemeinsam_veranlagte_tu(gemeinsam_veranlagt, tu_id):
-    out = gemeinsam_veranlagt.groupby(tu_id).apply(any)
-    return out.rename("gemeinsam_veranlagte_tu")
+    return gemeinsam_veranlagt.groupby(tu_id).any()
 
 
 def bruttolohn_m_tu(bruttolohn_m, tu_id):
-    out = bruttolohn_m.groupby(tu_id).apply(sum)
-    return out.rename("bruttolohn_m_tu")
+    return bruttolohn_m.groupby(tu_id).sum()

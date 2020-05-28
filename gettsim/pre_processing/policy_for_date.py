@@ -27,7 +27,7 @@ from gettsim.benefits.wohngeld_dag import wohngeld_eink_abzüge_bis_2015
 from gettsim.benefits.wohngeld_dag import wohngeld_max_miete_ab_2009
 from gettsim.benefits.wohngeld_dag import wohngeld_max_miete_bis_2008
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.generic_functions import get_piecewise_parameters
+from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
 from gettsim.taxes.favorability_check import _eink_st_m_tu_ab_1997

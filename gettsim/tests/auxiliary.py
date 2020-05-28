@@ -43,9 +43,9 @@ def select_input_by_level(data_series, tu_id, hh_id):
 
     """
     if "_tu" in data_series.name:
-        out = data_series.groupby(tu_id).apply(max)
+        out = data_series.groupby(tu_id).max()
     elif "_hh" in data_series.name:
-        out = data_series.groupby(hh_id).apply(max)
+        out = data_series.groupby(hh_id).max()
     else:
         out = data_series
     return out
