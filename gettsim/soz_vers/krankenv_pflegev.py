@@ -25,6 +25,7 @@ def ges_krankenv_beitr_m(
 
     out = _geringfügig_beschäftigt.astype(float) * np.nan
 
+    # Set to 0 for minijobs
     out.loc[_geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
@@ -76,6 +77,7 @@ def pflegev_beitr_m(
     """
     out = _geringfügig_beschäftigt.astype(float) * np.nan
 
+    # Set to 0 for minijobs
     out.loc[_geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
