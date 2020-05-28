@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 
@@ -14,25 +13,31 @@ def behinderungsgrad_pauschbetrag(behinderungsgrad, eink_st_abzuege_params):
     -------
 
     """
-    behinderungsgrad_stufe = [
-        behinderungsgrad.between(25, 30),
-        behinderungsgrad.between(35, 40),
-        behinderungsgrad.between(45, 50),
-        behinderungsgrad.between(55, 60),
-        behinderungsgrad.between(65, 70),
-        behinderungsgrad.between(75, 80),
-        behinderungsgrad.between(85, 90),
-        behinderungsgrad.between(95, 100),
+
+    betragsgrenzen = [
+        (25, 30),
+        (35, 40),
+        (45, 50),
+        (55, 60),
+        (65, 70),
+        (75, 80),
+        (85, 90),
+        (95, 100),
     ]
 
-    out = np.nan_to_num(
-        np.select(
-            behinderungsgrad_stufe,
-            eink_st_abzuege_params["behinderten_pauschbetrag"].values(),
-        )
-    )
+    # Create output Series with 0 pauschbetrag for all low degrees of disability
+    out = behinderungsgrad.replace(to_replace=[0, 5, 10, 15, 20], value=0)
 
-    return pd.Series(data=out, index=behinderungsgrad.index)
+    # Assign all individuals their corresponding pauschbetrag
+    for untere_grenze, obere_grenze in betragsgrenzen:
+        degree_cond = (behinderungsgrad >= untere_grenze) & (
+            behinderungsgrad <= obere_grenze
+        )
+        out.loc[degree_cond] = eink_st_abzuege_params["behinderten_pauschbetrag"][
+            untere_grenze
+        ]
+
+    return out
 
 
 def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
@@ -62,8 +67,6 @@ def _hh_freib_seit_2015(alleinerziehend, _anz_kinder_in_tu, eink_st_abzuege_para
     Parameters
     ----------
     alleinerziehend
-    kind
-    tu_id
     eink_st_abzuege_params
 
     Returns
