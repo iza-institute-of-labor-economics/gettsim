@@ -166,9 +166,9 @@ def anz_mehrlinge_anspruch(hh_id, elternzeit_anspruch, jüngstes_kind):
     return elternzeit_anspruch * (mehrlinge - 1)
 
 
-def netto_eink(bruttolohn_m, eink_st_m, soli_st_m, sozialv_beit_m):
+def netto_eink(bruttolohn_m, eink_st_m, soli_st_m, sozialv_beitr_m):
     """Calculate the net wage given taxes and social security contributions."""
-    return bruttolohn_m - eink_st_m - soli_st_m - sozialv_beit_m
+    return bruttolohn_m - eink_st_m - soli_st_m - sozialv_beitr_m
 
 
 def elterngeld_eink_relev(proxy_eink_vorj_elterngeld, netto_eink):

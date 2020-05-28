@@ -1,7 +1,5 @@
 import numpy as np
 
-from gettsim.dynamic_function_generation import create_function
-
 
 def wohngeld_basis_hh(
     tu_id, wohngeld_basis, tu_vorstand,
@@ -23,50 +21,47 @@ def wohngeld_basis_hh(
     return (wohngeld_basis * tu_vorstand).groupby(tu_id).transform("sum").round(2)
 
 
-def _st_rente_per_tu(tu_id, _ertragsanteil, ges_rente_m):
+def _st_rente_tu(tu_id, _ertragsanteil, ges_rente_m):
     _st_rente = _ertragsanteil * ges_rente_m
-    return _st_rente.groupby(tu_id).transform("sum")
+    return _st_rente.groupby(tu_id).sum()
 
 
-def _wohngeld_abzüge(
-    eink_st_m_per_tu, rentenv_beit_m_per_tu, ges_krankenv_beit_m_per_tu, wohngeld_params
+def _wohngeld_abzüge_tu(
+    eink_st_m_tu, rentenv_beitr_m_tu, ges_krankenv_beitr_m_tu, wohngeld_params
 ):
     abzug_stufen = (
-        (eink_st_m_per_tu > 0) * 1
-        + (rentenv_beit_m_per_tu > 0)
-        + (ges_krankenv_beit_m_per_tu > 0)
+        (eink_st_m_tu > 0) * 1
+        + (rentenv_beitr_m_tu > 0)
+        + (ges_krankenv_beitr_m_tu > 0)
     )
 
     return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
 
 
-def _wohngeld_brutto_eink(
-    brutto_eink_1_per_tu,
-    brutto_eink_4_per_tu,
-    brutto_eink_5_per_tu,
-    brutto_eink_6_per_tu,
+def _wohngeld_brutto_eink_tu(
+    brutto_eink_1_tu, brutto_eink_4_tu, brutto_eink_5_tu, brutto_eink_6_tu,
 ):
     return (
-        brutto_eink_1_per_tu.clip(lower=0)
-        + brutto_eink_4_per_tu.clip(lower=0)
-        + brutto_eink_5_per_tu.clip(lower=0)
-        + brutto_eink_6_per_tu.clip(lower=0)
+        brutto_eink_1_tu.clip(lower=0)
+        + brutto_eink_4_tu.clip(lower=0)
+        + brutto_eink_5_tu.clip(lower=0)
+        + brutto_eink_6_tu.clip(lower=0)
     ) / 12
 
 
-def _wohngeld_sonstiges_eink(
-    arbeitsl_geld_m_per_tu,
-    sonstig_eink_m_per_tu,
-    _st_rente_per_tu,
-    unterhaltsvors_m_per_tu,
-    elterngeld_m_per_tu,
+def _wohngeld_sonstiges_eink_tu(
+    arbeitsl_geld_m_tu,
+    sonstig_eink_m_tu,
+    _st_rente_tu,
+    unterhaltsvors_m_tu,
+    elterngeld_m_tu,
 ):
     return (
-        arbeitsl_geld_m_per_tu
-        + sonstig_eink_m_per_tu
-        + _st_rente_per_tu
-        + unterhaltsvors_m_per_tu
-        + elterngeld_m_per_tu
+        arbeitsl_geld_m_tu
+        + sonstig_eink_m_tu
+        + _st_rente_tu
+        + unterhaltsvors_m_tu
+        + elterngeld_m_tu
     )
 
 
@@ -127,20 +122,22 @@ def _wohngeld_eink(
     tu_id,
     haushaltsgröße,
     wohngeld_eink_abzüge,
-    _wohngeld_abzüge,
-    _wohngeld_brutto_eink,
-    _wohngeld_sonstiges_eink,
+    _wohngeld_abzüge_tu,
+    _wohngeld_brutto_eink_tu,
+    _wohngeld_sonstiges_eink_tu,
     wohngeld_params,
 ):
-    _wohngeld_eink_abzüge_per_tu = wohngeld_eink_abzüge.groupby(tu_id).transform("sum")
+    _wohngeld_eink_abzüge_tu = wohngeld_eink_abzüge.groupby(tu_id).sum()
 
-    vorläufiges_eink = (1 - _wohngeld_abzüge) * (
-        _wohngeld_brutto_eink + _wohngeld_sonstiges_eink - _wohngeld_eink_abzüge_per_tu
+    vorläufiges_eink = (1 - _wohngeld_abzüge_tu) * (
+        _wohngeld_brutto_eink_tu
+        + _wohngeld_sonstiges_eink_tu
+        - _wohngeld_eink_abzüge_tu
     )
 
     unteres_eink = haushaltsgröße.clip(upper=12).replace(wohngeld_params["min_eink"])
 
-    return vorläufiges_eink.clip(lower=unteres_eink)
+    return tu_id.replace(vorläufiges_eink).clip(lower=unteres_eink)
 
 
 def haushaltsgröße(hh_id):
@@ -246,33 +243,21 @@ def wohngeld_basis(haushaltsgröße, _wohngeld_eink, wohngeld_max_miete, wohngel
     return wg_amount
 
 
-def _groupby_sum(group, variable):
-    """TODO: Rewrite to simple sum."""
-    return variable.groupby(group).transform("sum")
-
-
-for inc in [
-    "arbeitsl_geld_m",
-    "sonstig_eink_m",
-    "brutto_eink_1",
-    "brutto_eink_4",
-    "brutto_eink_5",
-    "brutto_eink_6",
-    "eink_st_m",
-    "rentenv_beit_m",
-    "ges_krankenv_beit_m",
-    "unterhaltsvors_m",
-    "elterngeld_m",
-]:
-    function_name = f"{inc}_per_tu"
-
-    __new_function = create_function(
-        _groupby_sum, function_name, {"group": "tu_id", "variable": inc}
-    )
-
-    exec(f"{function_name} = __new_function")
-    del __new_function
-
-
 def tax_unit_share(tu_id, haushaltsgröße):
     return tu_id.groupby(tu_id).transform("count") / haushaltsgröße
+
+
+def arbeitsl_geld_m_tu(arbeitsl_geld_m, tu_id):
+    return arbeitsl_geld_m.groupby(tu_id).sum()
+
+
+def sonstig_eink_m_tu(sonstig_eink_m, tu_id):
+    return sonstig_eink_m.groupby(tu_id).sum()
+
+
+def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
+    return unterhaltsvors_m.groupby(tu_id).sum()
+
+
+def elterngeld_m_tu(elterngeld_m, tu_id):
+    return elterngeld_m.groupby(tu_id).sum()

@@ -35,8 +35,8 @@ INPUT_COLS = [
     "brutto_eink_5",
     "brutto_eink_6",
     "eink_st_m",
-    "rentenv_beit_m",
-    "ges_krankenv_beit_m",
+    "rentenv_beitr_m",
+    "ges_krankenv_beitr_m",
     "behinderungsgrad",
     "jahr",
 ]
@@ -70,7 +70,11 @@ def test_wg(input_data, year, column):
         "brutto_eink_5",
         "brutto_eink_6",
         "eink_st_m",
+        "ges_krankenv_beitr_m",
+        "rentenv_beitr_m",
     ]
+    policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_from_data
+
     result = compute_taxes_and_transfers(
         df,
         user_columns=columns,
@@ -106,7 +110,11 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
         "brutto_eink_5",
         "brutto_eink_6",
         "eink_st_m",
+        "ges_krankenv_beitr_m",
+        "rentenv_beitr_m",
     ]
+
+    policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_from_data
 
     result = compute_taxes_and_transfers(
         df,
@@ -116,3 +124,7 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
         params=params_dict,
     )
     assert_series_equal(result, year_data[column])
+
+
+def eink_st_m_tu_from_data(eink_st_m, tu_id):
+    return eink_st_m.groupby(tu_id).sum()

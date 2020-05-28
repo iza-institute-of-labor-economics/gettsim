@@ -32,7 +32,7 @@ INPUT_COLS = [
     "vermiet_eink_m",
     "eink_st_m",
     "soli_st_m",
-    "sozialv_beit_m",
+    "sozialv_beitr_m",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",

@@ -19,7 +19,7 @@ INPUT_COLS = [
     "wohnort_ost",
     "eink_st_m",
     "soli_st_m",
-    "sozialv_beit_m",
+    "sozialv_beitr_m",
     "geburtsjahr",
     "geburtsmonat",
     "geburtstag",

@@ -97,7 +97,7 @@ def sum_arbeitsl_geld_2_eink_hh(sum_arbeitsl_geld_2_eink, hh_id):
 
 
 def arbeitsl_geld_2_2005_netto_quote(
-    bruttolohn_m, eink_st_m, soli_st_m, sozialv_beit_m, arbeitsl_geld_2_params
+    bruttolohn_m, eink_st_m, soli_st_m, sozialv_beitr_m, arbeitsl_geld_2_params
 ):
     """Calculate Nettoquote.
 
@@ -109,7 +109,7 @@ def arbeitsl_geld_2_2005_netto_quote(
         bruttolohn_m
         - eink_st_m
         - soli_st_m
-        - sozialv_beit_m
+        - sozialv_beitr_m
         - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
         - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
     ).clip(lower=0)
@@ -161,7 +161,7 @@ def _arbeitsl_geld_2_brutto_eink(
 
 
 def _arbeitsl_geld_2_eink(
-    _arbeitsl_geld_2_brutto_eink, eink_st_m, soli_st_m, sozialv_beit_m
+    _arbeitsl_geld_2_brutto_eink, eink_st_m, soli_st_m, sozialv_beitr_m
 ):
     """
     Relevant net income of alg2. The function deducts income tax and social security
@@ -172,15 +172,15 @@ def _arbeitsl_geld_2_eink(
     _arbeitsl_geld_2_brutto_eink
     eink_st_m
     soli_st_m
-    sozialv_beit_m
+    sozialv_beitr_m
 
     Returns
     -------
 
     """
-    return (_arbeitsl_geld_2_brutto_eink - eink_st_m - soli_st_m - sozialv_beit_m).clip(
-        lower=0
-    )
+    return (
+        _arbeitsl_geld_2_brutto_eink - eink_st_m - soli_st_m - sozialv_beitr_m
+    ).clip(lower=0)
 
 
 def _miete_pro_sqm(kaltmiete_m, heizkost_m, wohnfläche):
