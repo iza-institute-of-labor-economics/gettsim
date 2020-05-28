@@ -1,59 +1,94 @@
-import numpy as np
+def _kindergeld_m_basis(
+    tu_id, _kindergeld_anspruch, kindergeld_params,
+):
+    """Calculate the preliminary kindergeld.
 
+    Parameters
+    ----------
+    tu_id
+    _kindergeld_anspruch
+    kindergeld_params
 
-def kindergeld(tax_unit, params):
-    """ Child Benefit (kindergeld)
-    Basic Amount for each child. Parents receive child benefit for every child up to
-    18 years. Above, they get it only up to kindergeld_params["kgage"] if the child is
-    a) in education and
-    b) not working too much / not receiving too much income (depending on the year)
+    Returns
+    -------
 
-    Returns:
-        pd.series:
-            kindergeld_m_basis: Kindergeld on the individual level
-            kindergeld_m_tu_basis: Kindergeld summed up within the tax unit
     """
-    tax_unit["kindergeld_anspruch"] = params["kindergeld_anspruch_regel"](
-        tax_unit, params
-    ).cumsum()
     # Kindergeld_Anspruch is the cumulative sum of eligible children.
-    # This maps to the dictionary key for the kindergeld amount
-    tax_unit["kindergeld_m_basis"] = tax_unit["kindergeld_anspruch"].replace(
-        params["kindergeld"]
+    kulmulative_anspruch = _kindergeld_anspruch.groupby(tu_id).transform("cumsum")
+    out = kulmulative_anspruch.clip(upper=4).replace(kindergeld_params["kindergeld"])
+    return out
+
+
+def _kindergeld_m_tu_basis(_kindergeld_m_basis, tu_id):
+    """Aggregate the preliminary kindergeld on tax unit level.
+
+    Parameters
+    ----------
+    _kindergeld_m_basis
+    tu_id
+
+    Returns
+    -------
+
+    """
+    return _kindergeld_m_basis.groupby(tu_id).sum()
+
+
+def _kindergeld_anspruch_nach_stunden(
+    alter, in_ausbildung, arbeitsstunden_w, kindergeld_params
+):
+    """
+    Nowadays, kids must not work more than 20 hour
+    returns a boolean variable whether a specific person is a child eligible for
+    child benefit
+
+    Parameters
+    ----------
+    alter
+    in_ausbildung
+    arbeitsstunden_w
+    kindergeld_params
+
+    Returns
+    -------
+
+    """
+    out = alter <= 18
+    out = out | (
+        (19 <= alter)
+        & (alter <= kindergeld_params["kindergeld_hoechstalter"])
+        & in_ausbildung
+        & (arbeitsstunden_w <= kindergeld_params["kindergeld_stundengrenze"])
     )
-    tax_unit.loc[tax_unit["kindergeld_anspruch"] > 4, "kindergeld_m_basis"] = params[
-        "kindergeld"
-    ][4]
-    tax_unit["kindergeld_m_tu_basis"] = np.sum(tax_unit["kindergeld_m_basis"])
 
-    return tax_unit
+    return out
 
 
-def kindergeld_anspruch_nach_stunden(tax_unit, params):
-    """ Nowadays, kids must not work more than 20 hour
+def _kindergeld_anspruch_nach_lohn(
+    alter, in_ausbildung, bruttolohn_m, kindergeld_params
+):
+    """
+    Before 2011, there was an income ceiling for children
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
+
+    Parameters
+    ----------
+    alter
+    kindergeld_params
+    in_ausbildung
+    bruttolohn_m
+
+    Returns
+    -------
+
     """
-    anspruch = tax_unit["alter"] <= 18
-    anspruch[
-        (tax_unit["alter"].between(19, params["kindergeld_hoechstalter"]))
-        & tax_unit["in_ausbildung"]
-        & (tax_unit["arbeitsstunden_w"] <= params["kindergeld_stundengrenze"])
-    ] = True
+    out = alter <= 18
+    out = out | (
+        (19 <= alter)
+        & (alter <= kindergeld_params["kindergeld_hoechstalter"])
+        & in_ausbildung
+        & (bruttolohn_m <= kindergeld_params["kindergeld_einkommensgrenze"] / 12)
+    )
 
-    return anspruch
-
-
-def kindergeld_anspruch_nach_lohn(tax_unit, params):
-    """ Before 2011, there was an income ceiling for children
-    returns a boolean variable whether a specific person is a child eligible for
-    child benefit
-    """
-    anspruch = tax_unit["alter"] <= 18
-    anspruch[
-        (tax_unit["alter"].between(19, params["kindergeld_hoechstalter"]))
-        & tax_unit["in_ausbildung"]
-        & (tax_unit["bruttolohn_m"] <= params["kindergeld_einkommensgrenze"] / 12)
-    ] = True
-
-    return anspruch
+    return out

@@ -75,11 +75,8 @@ def compute_taxes_and_transfers(
         "benefits/kinderzuschlag_dag.py",
         "benefits/unterhalt_dag.py",
         "benefits/wohngeld_dag.py",
-        "taxes/kindergeld_dag.py",
         "renten_anspruch_dag.py",
-        "taxes/favorability_check_dag.py",
-        "taxes/eink_st_dag.py",
-        "taxes/zu_versteuerndes_eink_dag.py",
+        "taxes",
     ]
     for file in internal_function_files:
         new_funcs = load_functions(Path(__file__).parent / file)
@@ -356,7 +353,7 @@ def execute_dag(func_dict, dag, data, targets):
         if task not in data:
             if task in func_dict:
                 kwargs = _dict_subset(data, dag.predecessors(task))
-                data[task] = func_dict[task](**kwargs)
+                data[task] = func_dict[task](**kwargs).rename(task)
             else:
                 raise KeyError(f"Missing variable or function: {task}")
 

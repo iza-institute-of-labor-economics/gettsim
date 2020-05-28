@@ -51,7 +51,7 @@ def test_benefit_checks(input_data, year, column):
         "sum_basis_arbeitsl_geld_2_eink",
     ]
 
-    params_dict = get_policies_for_date(
+    params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date, groups="arbeitsl_geld_2",
     )
     result = compute_taxes_and_transfers(

@@ -16,13 +16,12 @@ INPUT_COLS = [
     "hh_id",
     "tu_id",
     "kind",
-    "_zu_versteuerndes_eink_kein_kind_freib",
-    "_zu_versteuerndes_eink_kind_freib",
+    "_zu_verst_eink_kein_kinderfreib",
+    "_zu_verst_eink_kinderfreib",
     "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
     "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
     "brutto_eink_5",
     "gem_veranlagt",
-    "brutto_eink_5_tu",
 ]
 
 TEST_COLUMNS = [
@@ -60,7 +59,7 @@ def test_tax_sched(
 ):
     policy_date = date(year, 1, 1)
 
-    params_dict = get_policies_for_date(
+    params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date,
         groups=["eink_st", "eink_st_abzuege", "soli_st", "abgelt_st"],
     )
@@ -68,8 +67,9 @@ def test_tax_sched(
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     columns = [
-        "_zu_versteuerndes_eink_kein_kind_freib",
-        "_zu_versteuerndes_eink_kind_freib",
+        "_zu_verst_eink_kein_kinderfreib",
+        "_zu_verst_eink_kinderfreib",
+        "brutto_eink_5",
     ]
 
     result = compute_taxes_and_transfers(
@@ -84,4 +84,5 @@ def test_tax_sched(
         check_dtype=False,
         check_less_precise=1,
         check_names=False,
+        check_index_type=False,
     )

@@ -15,16 +15,25 @@ from gettsim.benefits.kinderzuschlag import kiz_dummy
 from gettsim.benefits.wohngeld import calc_max_rent_since_2009
 from gettsim.benefits.wohngeld import calc_max_rent_until_2008
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.generic_functions import get_piecewise_parameters
+from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import add_progressionsfaktor
-from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
-from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
-from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_from2015
-from gettsim.taxes.zu_versteuerndes_eink import calc_hhfreib_until2014
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
+from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
+from gettsim.taxes.favorability_check import _eink_st_m_tu_ab_1997
+from gettsim.taxes.favorability_check import _eink_st_m_tu_bis_1996
+from gettsim.taxes.favorability_check import _kindergeld_m_ab_1997
+from gettsim.taxes.favorability_check import _kindergeld_m_bis_1996
+from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_lohn
+from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_stunden
+from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_mit_kapital
+from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_ohne_kapital
+from gettsim.taxes.zu_verst_eink.freibeträge import _hh_freib_bis_2014
+from gettsim.taxes.zu_verst_eink.freibeträge import _hh_freib_seit_2015
+from gettsim.taxes.zu_verst_eink.freibeträge import _sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibeträge import _sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2005_vs_pre_2005
+from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2010_vs_pre_2005
+from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_ab_2010
+from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_bis_2004
 
 
 def get_policies_for_date(policy_date, groups="all"):
@@ -86,31 +95,8 @@ def get_policies_for_date(policy_date, groups="all"):
                 tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
 
         elif group == "eink_st_abzuege":
-            if year <= 2014:
-                tax_data["calc_hhfreib"] = calc_hhfreib_until2014
-            else:
-                tax_data["calc_hhfreib"] = calc_hhfreib_from2015
-            if year >= 2010:
-                tax_data["vorsorge"] = vorsorge_since_2010
-            elif year >= 2005:
-                tax_data["vorsorge"] = vorsorge_since_2005
-            elif year <= 2004:
-                tax_data["vorsorge"] = vorsorge_pre_2005
 
-            # TODO: We need to adapt favorability check for that. See
-            #  https://github.com/iza-institute-of-labor-economics/gettsim/issues/81 for
-            #  details.
-            # if year >= 2009:
-            #     tax_data["zve_list"] = ["nokfb", "kfb", "abg_nokfb", "abg_kfb"]
-            # else:
-            #     tax_data["zve_list"] = ["nokfb", "kfb"]
             tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
-
-        elif group == "kindergeld":
-            if year > 2011:
-                tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_stunden
-            else:
-                tax_data["kindergeld_anspruch_regel"] = kindergeld_anspruch_nach_lohn
 
         elif group == "wohngeld":
             if year < 2009:
@@ -132,7 +118,44 @@ def get_policies_for_date(policy_date, groups="all"):
         tax_data["datum"] = policy_date
         params_dict[group] = tax_data
 
-    return params_dict
+    policy_func_dict = {}
+    if year < 2009:
+        policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_mit_kapital
+    else:
+        policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_ohne_kapital
+
+    if year <= 2014:
+        policy_func_dict["hh_freib"] = _hh_freib_bis_2014
+    else:
+        policy_func_dict["hh_freib"] = _hh_freib_seit_2015
+
+    if year <= 1996:
+        policy_func_dict["eink_st_m_tu"] = _eink_st_m_tu_bis_1996
+        policy_func_dict["kindergeld_m"] = _kindergeld_m_bis_1996
+    else:
+        policy_func_dict["eink_st_m_tu"] = _eink_st_m_tu_ab_1997
+        policy_func_dict["kindergeld_m"] = _kindergeld_m_ab_1997
+
+    if year > 2011:
+        policy_func_dict["_kindergeld_anspruch"] = _kindergeld_anspruch_nach_stunden
+    else:
+        policy_func_dict["_kindergeld_anspruch"] = _kindergeld_anspruch_nach_lohn
+
+    if year > 2011:
+        policy_func_dict["sonderausgaben"] = _sonderausgaben_ab_2012
+    else:
+        policy_func_dict["sonderausgaben"] = _sonderausgaben_bis_2011
+
+    if year >= 2020:
+        policy_func_dict["vorsorge"] = _vorsorge_ab_2010
+    elif 2020 > year >= 2010:
+        policy_func_dict["vorsorge"] = _vorsorge_2010_vs_pre_2005
+    elif 2010 > year >= 2005:
+        policy_func_dict["vorsorge"] = _vorsorge_2005_vs_pre_2005
+    elif year <= 2004:
+        policy_func_dict["vorsorge"] = _vorsorge_bis_2004
+
+    return params_dict, policy_func_dict
 
 
 def load_data(policy_date, group, raw_group_data=None, parameters=None):

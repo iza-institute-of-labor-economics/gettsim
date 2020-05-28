@@ -6,6 +6,9 @@ abgelt_st_satz:
     de:  §32d (1) EStG
     en:
   unit: share
+  1984-01-01:
+    scalar: 0
+    note: It didn't exist for 2009.
   2009-01-01:
     scalar: 0.25
     reference: Art. 1 G. v. 14.08.2007
