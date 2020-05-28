@@ -57,8 +57,7 @@ def proxy_eink_vorj_elterngeld(
 
     prox_soli = piecewise_polynomial(
         prox_tax,
-        lower_thresholds=soli_st_params["soli_st"]["lower_thresholds"],
-        upper_thresholds=soli_st_params["soli_st"]["upper_thresholds"],
+        thresholds=soli_st_params["soli_st"]["thresholds"],
         rates=soli_st_params["soli_st"]["rates"],
         intercepts_at_lower_thresholds=soli_st_params["soli_st"][
             "intercepts_at_lower_thresholds"

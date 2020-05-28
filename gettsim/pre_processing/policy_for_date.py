@@ -6,6 +6,8 @@ from functools import reduce
 import numpy as np
 import yaml
 
+from gettsim.benefits.arbeitsl_geld_2_dag import eink_anr_frei_ab_10_2005
+from gettsim.benefits.arbeitsl_geld_2_dag import eink_anr_frei_bis_10_2005
 from gettsim.benefits.arbeitsl_geld_2_dag import kindersatz_m_ab_2011
 from gettsim.benefits.arbeitsl_geld_2_dag import kindersatz_m_bis_2010
 from gettsim.benefits.arbeitsl_geld_2_dag import regelsatz_m_ab_2011
@@ -189,6 +191,11 @@ def get_policies_for_date(policy_date, groups="all"):
     else:
         policy_func_dict["kindersatz_m"] = kindersatz_m_ab_2011
         policy_func_dict["regelsatz_m"] = regelsatz_m_ab_2011
+
+    if policy_date <= datetime.date(year=2005, month=10, day=1):
+        policy_func_dict["eink_anr_frei"] = eink_anr_frei_bis_10_2005
+    else:
+        policy_func_dict["eink_anr_frei"] = eink_anr_frei_ab_10_2005
 
     return params_dict, policy_func_dict
 

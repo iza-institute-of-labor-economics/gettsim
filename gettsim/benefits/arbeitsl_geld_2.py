@@ -30,7 +30,7 @@ def eink_anr_frei(household, params):
     """Calculate income not subject to transfer withdrawal for each person.
 
     """
-    # If there live kids in the household, we select different parameters.
+    # If there live kid s in the household, we select different parameters.
     if household["kind"].any():
         eink_anr_frei_params = copy.deepcopy(params["eink_anr_frei_kinder"])
     else:
@@ -65,14 +65,14 @@ def eink_anr_frei_person(person, eink_anr_frei_params, params):
         individual_params["rates"] *= person["arbeitsl_geld_2_2005_netto_quote"]
         rates_modified = True
 
-    # person["eink_anrechn_frei"] = piecewise_polynomial(
-    #     x=person["bruttolohn_m"],
-    #     lower_thresholds=individual_params["lower_thresholds"],
-    #     upper_thresholds=individual_params["upper_thresholds"],
-    #     rates=individual_params["rates"],
-    #     intercepts_at_lower_thresholds=individual_params[
-    #         "intercepts_at_lower_thresholds"
-    #     ],
-    #     rates_modified=rates_modified,
-    # )
+    person["eink_anrechn_frei"] = piecewise_polynomial(
+        x=person["bruttolohn_m"],
+        lower_thresholds=individual_params["lower_thresholds"],
+        upper_thresholds=individual_params["upper_thresholds"],
+        rates=individual_params["rates"],
+        intercepts_at_lower_thresholds=individual_params[
+            "intercepts_at_lower_thresholds"
+        ],
+        rates_modified=rates_modified,
+    )
     return person

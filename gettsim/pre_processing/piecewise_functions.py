@@ -34,16 +34,16 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
-
+    if x.empty:
+        return x
     binned = pd.cut(x, bins=thresholds, right=False, labels=range(len(thresholds) - 1))
     thresholds_individual = binned.replace(
         {i: v for i, v in enumerate(thresholds[:-1])}
     )
     increment_to_calc = x - thresholds_individual
-
     if individual_rates:
         out = x * 0
-        for i in binned.cat.categories[1, :-1]:
+        for i in binned.cat.categories[1:-1]:
             threshold_incr = thresholds[i] - thresholds[i - 1]
             for pol in range(1, rates.shape[0] + 1):
                 out.loc[binned >= i] += (
@@ -51,12 +51,12 @@ def piecewise_polynomial(
                     * rates[pol - 1, i - 1]
                     * threshold_incr ** pol
                 )
-            for pol in range(1, rates.shape[0] + 1):
-                out += (
-                    binned.replace({i: v for i, v in enumerate(rates[pol - 1, :])})
-                    * rates_multiplier
-                    * (increment_to_calc ** pol)
-                )
+        for pol in range(1, rates.shape[0] + 1):
+            out += (
+                binned.replace({i: v for i, v in enumerate(rates[pol - 1, :])})
+                * rates_multiplier
+                * (increment_to_calc ** pol)
+            )
 
     else:
         out = binned.replace(
