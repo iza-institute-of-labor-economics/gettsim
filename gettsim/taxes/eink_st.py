@@ -53,8 +53,7 @@ def _st_tarif(x, params):
     """
     eink_st = piecewise_polynomial(
         x=x,
-        lower_thresholds=params["eink_st_tarif"]["lower_thresholds"],
-        upper_thresholds=params["eink_st_tarif"]["upper_thresholds"],
+        thresholds=params["eink_st_tarif"]["thresholds"],
         rates=params["eink_st_tarif"]["rates"],
         intercepts_at_lower_thresholds=params["eink_st_tarif"][
             "intercepts_at_lower_thresholds"

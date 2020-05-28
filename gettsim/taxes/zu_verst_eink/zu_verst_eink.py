@@ -123,8 +123,7 @@ def _ertragsanteil(jahr_renteneintr, eink_st_params):
     """
     out = piecewise_polynomial(
         x=jahr_renteneintr,
-        lower_thresholds=eink_st_params["ertragsanteil"]["lower_thresholds"],
-        upper_thresholds=eink_st_params["ertragsanteil"]["upper_thresholds"],
+        thresholds=eink_st_params["ertragsanteil"]["thresholds"],
         rates=eink_st_params["ertragsanteil"]["rates"],
         intercepts_at_lower_thresholds=eink_st_params["ertragsanteil"][
             "intercepts_at_lower_thresholds"

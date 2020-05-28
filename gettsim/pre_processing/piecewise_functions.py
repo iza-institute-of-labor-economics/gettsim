@@ -1,26 +1,9 @@
 import numpy as np
-
-from gettsim._numpy import numpy_vectorize
-from gettsim._numpy import try_to_pandas
+import pandas as pd
 
 
-@try_to_pandas
-@numpy_vectorize(
-    excluded=[
-        "lower_thresholds",
-        "upper_thresholds",
-        "rates",
-        "intercepts_at_lower_thresholds",
-        "rates_modified",
-    ]
-)
 def piecewise_polynomial(
-    x,
-    lower_thresholds,
-    upper_thresholds,
-    rates,
-    intercepts_at_lower_thresholds,
-    rates_modified=False,
+    x, thresholds, rates, intercepts_at_lower_thresholds, individual_rates=False,
 ):
     """Calculate value of the piecewise function at `x`.
 
@@ -46,34 +29,52 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
-    # Check if value lies within the defined range.
-    if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or np.isnan(x):
-        return np.nan
-    index_interval = np.searchsorted(upper_thresholds, x, side="left")
-    if rates_modified:
-        # Calculate new intercept
-        intercept_interval = 0
-        for interval in range(index_interval):
-            for pol in range(1, rates.shape[0] + 1):
-                intercept_interval += (rates[pol - 1, interval] ** pol) * (
-                    upper_thresholds[interval] - lower_thresholds[interval]
-                )
 
-    else:
-        intercept_interval = intercepts_at_lower_thresholds[index_interval]
+    binned = pd.cut(x, bins=thresholds, right=False, labels=range(len(thresholds) - 1))
+    thresholds_individual = binned.replace(
+        {i: v for i, v in enumerate(thresholds[:-1])}
+    )
+    increment_to_calc = x - thresholds_individual
+    if not individual_rates:
+        out = binned.replace(
+            {i: v for i, v in enumerate(intercepts_at_lower_thresholds)}
+        )
 
-    # Select threshold and calculate corresponding increment into interval
-    lower_thresehold_interval = lower_thresholds[index_interval]
-    increment_to_calc = x - lower_thresehold_interval
+        for pol in range(1, rates.shape[0] + 1):
+            out += binned.replace({i: v for i, v in enumerate(rates[pol - 1, :])}) * (
+                increment_to_calc ** pol
+            )
 
-    out = intercept_interval
-    for pol in range(1, rates.shape[0] + 1):
-        out += rates[pol - 1, index_interval] * (increment_to_calc ** pol)
+    return out
+
+    # # Check if value lies within the defined range.
+    # if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or np.isnan(x):
+    #     return np.nan
+    # index_interval = np.searchsorted(upper_thresholds, x, side="left")
+    # if rates_modified:
+    #     # Calculate new intercept
+    #     intercept_interval = 0
+    #     for interval in range(index_interval):
+    #         for pol in range(1, rates.shape[0] + 1):
+    #             intercept_interval += (rates[pol - 1, interval] ** pol) * (
+    #                 upper_thresholds[interval] - lower_thresholds[interval]
+    #             )
+    #
+    # else:
+    #     intercept_interval = intercepts_at_lower_thresholds[index_interval]
+    #
+    # # Select threshold and calculate corresponding increment into interval
+    # lower_thresehold_interval = lower_thresholds[index_interval]
+    # increment_to_calc = x - lower_thresehold_interval
+    #
+    # out = intercept_interval
+    # for pol in range(1, rates.shape[0] + 1):
+    #     out += rates[pol - 1, index_interval] * (increment_to_calc ** pol)
 
     return out
 
 
-def get_piecewise_parameters(parameter_dict, parameter, piecewise_func, func_type):
+def get_piecewise_parameters(parameter_dict, parameter, func_type):
     """Create the objects for piecewise polynomial.
 
 
@@ -82,7 +83,6 @@ def get_piecewise_parameters(parameter_dict, parameter, piecewise_func, func_typ
     ----------
     parameter_dict
     parameter
-    piecewise_func
     func_type
 
     Returns
@@ -110,18 +110,11 @@ def get_piecewise_parameters(parameter_dict, parameter, piecewise_func, func_typ
 
     # Create and fill interecept-array
     intercepts = check_intercepts(
-        parameter_dict,
-        parameter,
-        lower_thresholds,
-        upper_thresholds,
-        rates,
-        keys,
-        piecewise_func,
+        parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys,
     )
 
     piecewise_elements = {
-        "lower_thresholds": lower_thresholds,
-        "upper_thresholds": upper_thresholds,
+        "thresholds": sorted([lower_thresholds[0], *upper_thresholds]),
         "rates": rates,
         "intercepts_at_lower_thresholds": intercepts,
     }
@@ -242,7 +235,7 @@ def check_rates(parameter_dict, parameter, keys, func_type):
 
 
 def check_intercepts(
-    parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys, func
+    parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys
 ):
     """Check and transfer raw intercepte data. If necessary create intercepts.
 
@@ -257,7 +250,6 @@ def check_intercepts(
     upper_thresholds
     rates
     keys
-    func
 
     Returns
     -------
@@ -285,13 +277,13 @@ def check_intercepts(
             )
         else:
             intercepts = create_intercepts(
-                lower_thresholds, upper_thresholds, rates, intercepts[0], func
+                lower_thresholds, upper_thresholds, rates, intercepts[0]
             )
     return intercepts
 
 
 def create_intercepts(
-    lower_thresholds, upper_thresholds, rates, intercept_at_lowest_threshold, fun
+    lower_thresholds, upper_thresholds, rates, intercept_at_lowest_threshold
 ):
     """Create intercepts from raw data.
 
@@ -323,7 +315,7 @@ def create_intercepts(
     intercepts_at_lower_thresholds = np.full_like(upper_thresholds, np.nan)
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
     for i, up_thr in enumerate(upper_thresholds[:-1]):
-        intercepts_at_lower_thresholds[i + 1] = fun(
+        intercepts_at_lower_thresholds[i + 1] = piecewise_polynomial_float(
             x=up_thr,
             lower_thresholds=lower_thresholds,
             upper_thresholds=upper_thresholds,
@@ -331,3 +323,63 @@ def create_intercepts(
             intercepts_at_lower_thresholds=intercepts_at_lower_thresholds,
         )
     return intercepts_at_lower_thresholds
+
+
+def piecewise_polynomial_float(
+    x,
+    lower_thresholds,
+    upper_thresholds,
+    rates,
+    intercepts_at_lower_thresholds,
+    rates_modified=False,
+):
+    """Calculate value of the piecewise function at `x`.
+
+    Parameters
+    ----------
+    x : float
+        The value that the function is applied to.
+    lower_thresholds : numpy.ndarray
+        A one-dimensional array containing lower thresholds of each interval.
+    upper_thresholds : numpy.ndarray
+        A one-dimensional array containing upper thresholds each interval.
+    rates : numpy.ndarray
+        A two-dimensional array where columns are interval sections and rows correspond
+        to the nth polynomial.
+    intercepts_at_lower_thresholds : numpy.ndarray
+        The intercepts at the lower threshold of each interval.
+    rates_modified : bool
+        Boolean variable indicating, that intercepts can't be used anymore.
+
+    Returns
+    -------
+    out : float
+        The value of `x` under the piecewise function.
+
+    """
+
+    # Check if value lies within the defined range.
+    if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or np.isnan(x):
+        return np.nan
+    index_interval = np.searchsorted(upper_thresholds, x, side="left")
+    if rates_modified:
+        # Calculate new intercept
+        intercept_interval = 0
+        for interval in range(index_interval):
+            for pol in range(1, rates.shape[0] + 1):
+                intercept_interval += (rates[pol - 1, interval] ** pol) * (
+                    upper_thresholds[interval] - lower_thresholds[interval]
+                )
+
+    else:
+        intercept_interval = intercepts_at_lower_thresholds[index_interval]
+
+    # Select threshold and calculate corresponding increment into interval
+    lower_thresehold_interval = lower_thresholds[index_interval]
+    increment_to_calc = x - lower_thresehold_interval
+
+    out = intercept_interval
+    for pol in range(1, rates.shape[0] + 1):
+        out += rates[pol - 1, index_interval] * (increment_to_calc ** pol)
+
+    return out

@@ -15,11 +15,11 @@ def soli_st_m_tu(_st_kind_freib_tu, abgelt_st_m_tu, soli_st_params):
     with Solidarity Surcharge tax rate and no tax exempt level. §3 (3) S.2
     SolzG 1995.
     """
+
     out = (
         piecewise_polynomial(
             _st_kind_freib_tu,
-            lower_thresholds=soli_st_params["soli_st"]["lower_thresholds"],
-            upper_thresholds=soli_st_params["soli_st"]["upper_thresholds"],
+            thresholds=soli_st_params["soli_st"]["thresholds"],
             rates=soli_st_params["soli_st"]["rates"],
             intercepts_at_lower_thresholds=soli_st_params["soli_st"][
                 "intercepts_at_lower_thresholds"

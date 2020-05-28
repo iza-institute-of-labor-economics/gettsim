@@ -28,7 +28,6 @@ from gettsim.benefits.wohngeld_dag import wohngeld_max_miete_ab_2009
 from gettsim.benefits.wohngeld_dag import wohngeld_max_miete_bis_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
 from gettsim.taxes.favorability_check import _eink_st_m_tu_ab_1997
 from gettsim.taxes.favorability_check import _eink_st_m_tu_bis_1996
@@ -93,7 +92,6 @@ def get_policies_for_date(policy_date, groups="all"):
                         tax_data[param] = get_piecewise_parameters(
                             tax_data[param],
                             param,
-                            piecewise_polynomial,
                             func_type=tax_data[param]["type"].split("_")[1],
                         )
                 for key in ["type", "progressionsfaktor"]:
