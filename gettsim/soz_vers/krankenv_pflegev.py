@@ -329,7 +329,7 @@ def krankenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
             True: soz_vers_beitr_params["beitr_bemess_grenze"]["ges_krankenv"]["ost"],
             False: soz_vers_beitr_params["beitr_bemess_grenze"]["ges_krankenv"]["west"],
         }
-    ).astype(float)
+    )
 
 
 def pflegev_beitr_rente(
