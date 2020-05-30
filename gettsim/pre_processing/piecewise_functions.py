@@ -45,6 +45,7 @@ def piecewise_polynomial(
     # If each individual has its own rates or the rates are scaled, we can't use the
     # intercept, which was generated in the parameter loading.
     if rates_multiplier is not None:
+        # Initialize Series containing 0 for all individuals
         out = x * 0
         # Go through all intervals except the last
         for i in range(1, num_intervals):
