@@ -29,12 +29,14 @@ def piecewise_polynomial(
 
     """
 
+    num_intervals = len(thresholds) - 1
+    degree_polynomial = rates.shape[0]
     # If now individual is transferred, we return an empty series
     if x.empty:
         return x
     # Check in which interval each individual is. The thresholds are not exclusive on
     # the right side!
-    binned = pd.cut(x, bins=thresholds, right=False, labels=range(len(thresholds) - 1))
+    binned = pd.cut(x, bins=thresholds, right=False, labels=range(num_intervals))
     # Create series with last threshold for each individual
     thresholds_individual = binned.replace(dict(enumerate(thresholds[:-1])))
     # Increment for each individual in the corresponding interval
@@ -44,9 +46,10 @@ def piecewise_polynomial(
     # intercept, which was generated in the parameter loading.
     if rates_multiplier is not None:
         out = x * 0
-        for i in binned.cat.categories[1:-1]:
+        # Go through all intervals except the last
+        for i in range(1, num_intervals):
             threshold_incr = thresholds[i] - thresholds[i - 1]
-            for pol in range(1, rates.shape[0] + 1):
+            for pol in range(1, degree_polynomial + 1):
                 # We only calculate the intercepts for individuals who are in this or
                 # higher interval. Hence we have to use the individual rates.
                 out.loc[binned >= i] += (
@@ -64,7 +67,7 @@ def piecewise_polynomial(
     rates_multiplier = 1 if rates_multiplier is None else rates_multiplier
 
     # Now add the evaluation of the increment
-    for pol in range(1, rates.shape[0] + 1):
+    for pol in range(1, degree_polynomial + 1):
         out += (
             binned.replace(dict(enumerate(rates[pol - 1, :])))
             * rates_multiplier
