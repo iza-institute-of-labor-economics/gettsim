@@ -21,9 +21,8 @@ def wohngeld_basis_hh(
     return (wohngeld_basis * tu_vorstand).groupby(tu_id).transform("sum").round(2)
 
 
-def _st_rente_tu(tu_id, _ertragsanteil, ges_rente_m):
-    _st_rente = _ertragsanteil * ges_rente_m
-    return _st_rente.groupby(tu_id).sum()
+def _zu_verst_ges_rente_tu(_zu_verst_ges_rente, tu_id):
+    return _zu_verst_ges_rente.groupby(tu_id).sum()
 
 
 def _wohngeld_abzüge_tu(
@@ -34,32 +33,32 @@ def _wohngeld_abzüge_tu(
         + (rentenv_beitr_m_tu > 0)
         + (ges_krankenv_beitr_m_tu > 0)
     )
-
     return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
+
+
+def _zu_verst_ges_rente(_ertragsanteil, ges_rente_m):
+    return _ertragsanteil * ges_rente_m
 
 
 def _wohngeld_brutto_eink_tu(
     brutto_eink_1_tu, brutto_eink_4_tu, brutto_eink_5_tu, brutto_eink_6_tu,
 ):
     return (
-        brutto_eink_1_tu.clip(lower=0)
-        + brutto_eink_4_tu.clip(lower=0)
-        + brutto_eink_5_tu.clip(lower=0)
-        + brutto_eink_6_tu.clip(lower=0)
+        brutto_eink_1_tu + brutto_eink_4_tu + brutto_eink_5_tu + brutto_eink_6_tu
     ) / 12
 
 
 def _wohngeld_sonstiges_eink_tu(
     arbeitsl_geld_m_tu,
     sonstig_eink_m_tu,
-    _st_rente_tu,
+    _zu_verst_ges_rente_tu,
     unterhaltsvors_m_tu,
     elterngeld_m_tu,
 ):
     return (
         arbeitsl_geld_m_tu
         + sonstig_eink_m_tu
-        + _st_rente_tu
+        + _zu_verst_ges_rente_tu
         + unterhaltsvors_m_tu
         + elterngeld_m_tu
     )
@@ -71,21 +70,19 @@ def _anzahl_kinder_unter_11_per_tu(tu_id, alter):
 
 def wohngeld_eink_abzüge_bis_2015(
     bruttolohn_m,
-    kindergeld_anspruch,
+    arbeitende_kinder,
     behinderungsgrad,
     alleinerziehend,
     kind,
     _anzahl_kinder_unter_11_per_tu,
     wohngeld_params,
 ):
-    workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
-
     abzüge = (
         (behinderungsgrad > 80) * wohngeld_params["freib_behinderung"]["ab80"]
         + ((1 <= behinderungsgrad) & (behinderungsgrad <= 80))
         * wohngeld_params["freib_behinderung"]["u80"]
         + (
-            workingchild
+            arbeitende_kinder
             * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder"][24])
         )
         + (
@@ -96,6 +93,10 @@ def wohngeld_eink_abzüge_bis_2015(
     )
 
     return abzüge
+
+
+def arbeitende_kinder(bruttolohn_m, kindergeld_anspruch):
+    return (bruttolohn_m > 0) & kindergeld_anspruch
 
 
 def wohngeld_eink_abzüge_ab_2016(
