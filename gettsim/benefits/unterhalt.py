@@ -1,7 +1,4 @@
-import datetime
-
 import numpy as np
-import pandas as pd
 
 
 def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
@@ -52,16 +49,9 @@ def unterhaltsvors_m(
     Mindesunterhaltsverordnung.
 
     """
-    out = pd.Series(index=tu_id.index, data=np.nan)
 
-    # UHV before 07/2017. Not implemented yet, as it was only paid for 6 years. So we
-    # return nans.
-    if unterhalt_params["datum"] < datetime.date(2017, 7, 1):
-        return out
-
-    # Benefit amount depends on the tax allowance for children ("sächliches
-    # Existenzminimum") and the child benefit for the first child.
-    out = out.fillna(0)
+    # Initialize output Series
+    out = tu_id * 0
 
     # The right-hand-side variable is aggregated by tax units whereas we need personal
     # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
