@@ -406,7 +406,6 @@ def eink_anr_frei_bis_10_2005(
         intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
             "intercepts_at_lower_thresholds"
         ],
-        individual_rates=True,
         rates_multiplier=arbeitsl_geld_2_2005_netto_quote,
     )
 

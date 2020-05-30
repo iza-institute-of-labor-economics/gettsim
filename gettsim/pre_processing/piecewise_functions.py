@@ -3,12 +3,7 @@ import pandas as pd
 
 
 def piecewise_polynomial(
-    x,
-    thresholds,
-    rates,
-    intercepts_at_lower_thresholds,
-    individual_rates=False,
-    rates_multiplier=None,
+    x, thresholds, rates, intercepts_at_lower_thresholds, rates_multiplier=None,
 ):
     """Calculate value of the piecewise function at `x`.
 
@@ -23,11 +18,9 @@ def piecewise_polynomial(
             correspond to the nth polynomial.
     intercepts_at_lower_thresholds : numpy.ndarray
         The intercepts at the lower threshold of each interval.
-    individual_rates : bool
-                        Boolean variable indicating, that each individual has it's
-                        own rates.
-    rates_multiplier : pd.Series
-                       Multiplier to create individual rates.
+    rates_multiplier : pd.Series, float
+                       Multiplier to create individual or scaled rates. If given and
+                       not equal to 1, the function also calculates new intercepts.
 
     Returns
     -------
@@ -35,6 +28,7 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
+
     # If now individual is transferred, we return an empty series
     if x.empty:
         return x
@@ -42,15 +36,13 @@ def piecewise_polynomial(
     # the right side!
     binned = pd.cut(x, bins=thresholds, right=False, labels=range(len(thresholds) - 1))
     # Create series with last threshold for each individual
-    thresholds_individual = binned.replace(
-        {i: v for i, v in enumerate(thresholds[:-1])}
-    )
+    thresholds_individual = binned.replace(dict(enumerate(thresholds[:-1])))
     # Increment for each individual in the corresponding interval
     increment_to_calc = x - thresholds_individual
 
-    # If each individual has its own rates, we can't use the intercept, which was
-    # generated in the parameter loading.
-    if individual_rates:
+    # If each individual has its own rates or the rates are scaled, we can't use the
+    # intercept, which was generated in the parameter loading.
+    if rates_multiplier is not None:
         out = x * 0
         for i in binned.cat.categories[1:-1]:
             threshold_incr = thresholds[i] - thresholds[i - 1]
@@ -62,25 +54,22 @@ def piecewise_polynomial(
                     * rates[pol - 1, i - 1]
                     * threshold_incr ** pol
                 )
-        # Now add the evaluation of the increment
-        for pol in range(1, rates.shape[0] + 1):
-            out += (
-                binned.replace({i: v for i, v in enumerate(rates[pol - 1, :])})
-                * rates_multiplier
-                * (increment_to_calc ** pol)
-            )
 
-    # If everyone has the same rates, things are a lot easier.
+    # If rates remain the same, everything is a lot easier.
     else:
         # We assign each individual the pre-calculated intercept.
-        out = binned.replace(
-            {i: v for i, v in enumerate(intercepts_at_lower_thresholds)}
+        out = binned.replace(dict(enumerate(intercepts_at_lower_thresholds)))
+
+    # Intialize a multiplyer for 1 if it is not given.
+    rates_multiplier = 1 if rates_multiplier is None else rates_multiplier
+
+    # Now add the evaluation of the increment
+    for pol in range(1, rates.shape[0] + 1):
+        out += (
+            binned.replace(dict(enumerate(rates[pol - 1, :])))
+            * rates_multiplier
+            * (increment_to_calc ** pol)
         )
-        # Then we add the corresponding evaluation of the increment.
-        for pol in range(1, rates.shape[0] + 1):
-            out += binned.replace({i: v for i, v in enumerate(rates[pol - 1, :])}) * (
-                increment_to_calc ** pol
-            )
 
     return out
 
