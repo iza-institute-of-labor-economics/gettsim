@@ -181,7 +181,7 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["kinderzuschlag"] = kinderzuschlag_ab_juli_2019
 
     if year <= 2004:
-        policy_func_dict["kinderzuschlag_temp"] = kinderzuschlag_temp_bis_2004
+        policy_func_dict["_kinderzuschlag_temp"] = kinderzuschlag_temp_bis_2004
     else:
         policy_func_dict["kinderzuschlag_temp"] = kinderzuschlag_temp_ab_2005
 

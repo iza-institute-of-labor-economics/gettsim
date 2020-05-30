@@ -52,21 +52,21 @@ def unterhaltsvors_m(
     Mindesunterhaltsverordnung.
 
     """
-    unterhaltsvors_m = pd.Series(index=tu_id.index, data=np.nan)
+    out = pd.Series(index=tu_id.index, data=np.nan)
 
     # UHV before 07/2017. Not implemented yet, as it was only paid for 6 years. So we
     # return nans.
     if unterhalt_params["datum"] < datetime.date(2017, 7, 1):
-        return unterhaltsvors_m
+        return out
 
     # Benefit amount depends on the tax allowance for children ("sächliches
     # Existenzminimum") and the child benefit for the first child.
-    unterhaltsvors_m = unterhaltsvors_m.fillna(0)
+    out = out.fillna(0)
 
     # The right-hand-side variable is aggregated by tax units whereas we need personal
     # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
     # index because it is
-    unterhaltsvorschuss_eink = unterhaltsvorschuss_eink_tu[tu_id].to_numpy()
+    unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu)
 
     conditions = [
         (alter < 6) & alleinerziehend,
@@ -87,10 +87,10 @@ def unterhaltsvors_m(
         (unterhalt_params["mindestunterhalt"][17] - kindergeld_params["kindergeld"][1]),
     ]
 
-    unterhaltsvors_m[:] = np.ceil(np.select(conditions, choices)).astype(int)
+    out[:] = np.ceil(np.select(conditions, choices)).astype(int)
 
     # TODO: Check against actual transfers
-    return unterhaltsvors_m
+    return out
 
 
 def unterhaltsvorschuss_eink_tu(
