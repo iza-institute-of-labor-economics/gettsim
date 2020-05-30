@@ -66,21 +66,6 @@ def regelbedarf_m(regelsatz_m, kost_unterk_m):
     return regelsatz_m + kost_unterk_m
 
 
-def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
-    """
-
-    Parameters
-    ----------
-    unterhaltsvors_m
-    hh_id
-
-    Returns
-    -------
-
-    """
-    return unterhaltsvors_m.groupby(hh_id).sum()
-
-
 def sum_arbeitsl_geld_2_eink_hh(sum_arbeitsl_geld_2_eink, hh_id):
     """
 

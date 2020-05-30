@@ -1,7 +1,13 @@
-import pandas as pd
-
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _st_tarif
+
+
+def arbeitsl_geld_m_tu(arbeitsl_geld_m, tu_id):
+    return arbeitsl_geld_m.groupby(tu_id).sum()
+
+
+def arbeitsl_geld_m_hh(arbeitsl_geld_m, hh_id):
+    return arbeitsl_geld_m.groupby(hh_id).sum()
 
 
 def arbeitsl_geld_m(
@@ -17,7 +23,7 @@ def arbeitsl_geld_m(
         }
     )
 
-    arbeitsl_geld_m = pd.Series(index=berechtigt_für_arbeitsl_geld.index, data=0)
+    arbeitsl_geld_m = berechtigt_für_arbeitsl_geld.astype(float) * 0
 
     arbeitsl_geld_m[berechtigt_für_arbeitsl_geld] = (
         proxy_eink_vorj_arbeitsl_geld * arbeitsl_geld_satz

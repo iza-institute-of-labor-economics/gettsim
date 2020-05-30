@@ -5,6 +5,14 @@ from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _st_tarif
 
 
+def elterngeld_m_tu(elterngeld_m, tu_id):
+    return elterngeld_m.groupby(tu_id).sum()
+
+
+def elterngeld_m_hh(elterngeld_m, hh_id):
+    return elterngeld_m.groupby(hh_id).sum()
+
+
 def elterngeld_m(
     elterngeld_eink_relev,
     elternzeit_anspruch,

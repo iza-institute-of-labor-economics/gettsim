@@ -247,17 +247,5 @@ def tax_unit_share(tu_id, haushaltsgröße):
     return tu_id.groupby(tu_id).transform("count") / haushaltsgröße
 
 
-def arbeitsl_geld_m_tu(arbeitsl_geld_m, tu_id):
-    return arbeitsl_geld_m.groupby(tu_id).sum()
-
-
 def sonstig_eink_m_tu(sonstig_eink_m, tu_id):
     return sonstig_eink_m.groupby(tu_id).sum()
-
-
-def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
-    return unterhaltsvors_m.groupby(tu_id).sum()
-
-
-def elterngeld_m_tu(elterngeld_m, tu_id):
-    return elterngeld_m.groupby(tu_id).sum()

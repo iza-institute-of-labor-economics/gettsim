@@ -4,11 +4,41 @@ import numpy as np
 import pandas as pd
 
 
+def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
+    """
+
+    Parameters
+    ----------
+    unterhaltsvors_m
+    tu_id
+
+    Returns
+    -------
+
+    """
+    return unterhaltsvors_m.groupby(tu_id).sum()
+
+
+def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
+    """
+
+    Parameters
+    ----------
+    unterhaltsvors_m
+    hh_id
+
+    Returns
+    -------
+
+    """
+    return unterhaltsvors_m.groupby(hh_id).sum()
+
+
 def unterhaltsvors_m(
     tu_id,
     alleinerziehend,
     alter,
-    unterhaltsvorschuss_eink_per_tu,
+    unterhaltsvorschuss_eink_tu,
     unterhalt_params,
     kindergeld_params,
 ):
@@ -36,7 +66,7 @@ def unterhaltsvors_m(
     # The right-hand-side variable is aggregated by tax units whereas we need personal
     # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
     # index because it is
-    unterhaltsvorschuss_eink = unterhaltsvorschuss_eink_per_tu[tu_id].to_numpy()
+    unterhaltsvorschuss_eink = unterhaltsvorschuss_eink_tu[tu_id].to_numpy()
 
     conditions = [
         (alter < 6) & alleinerziehend,
@@ -63,25 +93,39 @@ def unterhaltsvors_m(
     return unterhaltsvors_m
 
 
-def unterhaltsvorschuss_eink_per_tu(
-    tu_id,
-    bruttolohn_m,
-    sonstig_eink_m,
-    eink_selbstst_m,
-    vermiet_eink_m,
-    kapital_eink_m,
-    ges_rente_m,
-    arbeitsl_geld_m,
+def unterhaltsvorschuss_eink_tu(
+    bruttolohn_m_tu,
+    sonstig_eink_m_tu,
+    eink_selbstst_m_tu,
+    vermiet_eink_m_tu,
+    kapital_eink_m_tu,
+    ges_rente_m_tu,
+    arbeitsl_geld_m_tu,
 ):
-    unterhaltsvorschuss_eink_per_tu = bruttolohn_m.groupby(tu_id).sum()
-    for s in [
-        sonstig_eink_m,
-        eink_selbstst_m,
-        vermiet_eink_m,
-        kapital_eink_m,
-        ges_rente_m,
-        arbeitsl_geld_m,
-    ]:
-        unterhaltsvorschuss_eink_per_tu += s.groupby(tu_id).sum()
+    out = (
+        bruttolohn_m_tu
+        + sonstig_eink_m_tu
+        + eink_selbstst_m_tu
+        + vermiet_eink_m_tu
+        + kapital_eink_m_tu
+        + ges_rente_m_tu
+        + arbeitsl_geld_m_tu
+    )
 
-    return unterhaltsvorschuss_eink_per_tu
+    return out
+
+
+def eink_selbstst_m_tu(eink_selbstst_m, tu_id):
+    return eink_selbstst_m.groupby(tu_id).sum()
+
+
+def vermiet_eink_m_tu(vermiet_eink_m, tu_id):
+    return vermiet_eink_m.groupby(tu_id).sum()
+
+
+def kapital_eink_m_tu(kapital_eink_m, tu_id):
+    return kapital_eink_m.groupby(tu_id).sum()
+
+
+def ges_rente_m_tu(ges_rente_m, tu_id):
+    return ges_rente_m.groupby(tu_id).sum()
