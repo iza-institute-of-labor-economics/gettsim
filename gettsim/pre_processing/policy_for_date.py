@@ -12,12 +12,6 @@ from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_ab_2011
 from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_bis_2010
 from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
 from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
-from gettsim.benefits.benefit_checks import kinderzuschlag_temp_vorläufig_ab_2005
-from gettsim.benefits.benefit_checks import kinderzuschlag_temp_vorläufig_bis_2004
-from gettsim.benefits.benefit_checks import regelbedarf_m_vorläufig_ab_2005
-from gettsim.benefits.benefit_checks import regelbedarf_m_vorläufig_bis_2004
-from gettsim.benefits.benefit_checks import wohngeld_basis_hh_vorläufig_ab_2005
-from gettsim.benefits.benefit_checks import wohngeld_basis_hh_vorläufig_bis_2004
 from gettsim.benefits.kinderzuschlag.kinderzuschlag import (
     kinderzuschlag_ab_2005_bis_juni_2019,
 )
@@ -152,23 +146,6 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["wohngeld_max_miete"] = wohngeld_max_miete_bis_2008
     else:
         policy_func_dict["wohngeld_max_miete"] = wohngeld_max_miete_ab_2009
-
-    if year < 2005:
-        policy_func_dict[
-            "kinderzuschlag_temp_vorläufig"
-        ] = kinderzuschlag_temp_vorläufig_bis_2004
-        policy_func_dict["regelbedarf_m_vorläufig"] = regelbedarf_m_vorläufig_bis_2004
-        policy_func_dict[
-            "wohngeld_basis_hh_vorläufig"
-        ] = wohngeld_basis_hh_vorläufig_bis_2004
-    else:
-        policy_func_dict[
-            "kinderzuschlag_temp_vorläufig"
-        ] = kinderzuschlag_temp_vorläufig_ab_2005
-        policy_func_dict["regelbedarf_m_vorläufig"] = regelbedarf_m_vorläufig_ab_2005
-        policy_func_dict[
-            "wohngeld_basis_hh_vorläufig"
-        ] = wohngeld_basis_hh_vorläufig_ab_2005
 
     if year <= 2010:
         policy_func_dict[
