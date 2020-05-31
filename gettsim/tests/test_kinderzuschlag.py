@@ -8,7 +8,7 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-
+from gettsim.tests.auxiliary import select_input_by_level
 
 INPUT_COLS = [
     "p_id",
@@ -61,9 +61,14 @@ def test_kiz(
         "_arbeitsl_geld_2_brutto_eink_hh",
         "kindergeld_anspruch",
     ]
+    data = dict(df)
+    for column_name, data_series in data.items():
+        data[column_name] = select_input_by_level(
+            data_series, data["tu_id"], data["hh_id"]
+        )
 
     result = compute_taxes_and_transfers(
-        df,
+        data,
         user_columns=columns,
         user_functions=policy_func_dict,
         targets=column,

@@ -42,8 +42,10 @@ def kinderzuschlag_ab_juli_2019(
     -------
 
     """
-    out = _arbeitsl_geld_2_brutto_eink_hh * 0
-    condition = _arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min
+    out = hh_id * 0
+    condition = (
+        hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
+    )
     out.loc[condition] = (
         kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
         - kinderzuschlag_eink_anrechn

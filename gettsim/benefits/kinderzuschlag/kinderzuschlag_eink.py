@@ -36,7 +36,7 @@ def kinderzuschlag_eink_regel_bis_2010(
 
 
 def kinderzuschlag_eink_regel_ab_2011(
-    alleinerziehenden_mehrbedarf, anz_erw_tu, arbeitsl_geld_2_params
+    tu_id, alleinerziehenden_mehrbedarf, anz_erw_tu, arbeitsl_geld_2_params
 ):
     """This function creates "kinderzuschlag_eink_regel" since 2011.
 
@@ -50,13 +50,16 @@ def kinderzuschlag_eink_regel_ab_2011(
     -------
 
     """
+    erwachsene_in_tu = tu_id.replace(anz_erw_tu)
     choices = [
         arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf),
-        arbeitsl_geld_2_params["regelsatz"][3] * anz_erw_tu,
+        arbeitsl_geld_2_params["regelsatz"][3] * erwachsene_in_tu,
     ]
 
-    data = np.select([anz_erw_tu == 1, anz_erw_tu == 2, anz_erw_tu > 2], choices,)
+    data = np.select(
+        [erwachsene_in_tu == 1, erwachsene_in_tu == 2, erwachsene_in_tu > 2], choices,
+    )
 
     eink_regel = pd.Series(index=alleinerziehenden_mehrbedarf.index, data=data)
 
@@ -121,38 +124,17 @@ def kinderzuschlag_kindereink_abzug(
 
 
 def kinderzuschlag_eink_anrechn(
-    arbeitsl_geld_2_eink_hh, kinderzuschlag_eink_relev, kinderzuschlag_params
+    hh_id, arbeitsl_geld_2_eink_hh, kinderzuschlag_eink_relev, kinderzuschlag_params
 ):
     """Calculate the parents income that needs to be subtracted (§6a (6) S. 3 BKGG)."""
     return (
         kinderzuschlag_params["kinderzuschlag_transferentzug_eltern"]
-        * (arbeitsl_geld_2_eink_hh - kinderzuschlag_eink_relev)
+        * (hh_id.replace(arbeitsl_geld_2_eink_hh) - kinderzuschlag_eink_relev)
     ).clip(lower=0)
 
 
 def kinderzuschlag_eink_spanne(
-    kinderzuschlag_eink_spanne_bis_2004, kinderzuschlag_eink_spanne_ab_2005
-):
-    return (
-        kinderzuschlag_eink_spanne_bis_2004
-        if kinderzuschlag_eink_spanne_ab_2005.empty
-        else kinderzuschlag_eink_spanne_ab_2005
-    )
-
-
-def kinderzuschlag_eink_spanne_bis_2004(jahr):
-    bis_2004 = jahr <= 2004
-
-    if bis_2004.all():
-        eink_spanne = pd.Series(index=jahr.index, data=0)
-
-    else:
-        eink_spanne = pd.Series(dtype=float)
-
-    return eink_spanne
-
-
-def kinderzuschlag_eink_spanne_ab_2005(
+    hh_id,
     _arbeitsl_geld_2_brutto_eink_hh,
     kinderzuschlag_eink_min,
     kinderzuschlag_eink_max,
@@ -160,8 +142,8 @@ def kinderzuschlag_eink_spanne_ab_2005(
 ):
     """Calculate a dummy for whether the household is in the correct income range."""
 
-    eink_spanne = (_arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
-        arbeitsl_geld_2_eink_hh <= kinderzuschlag_eink_max
-    )
+    eink_spanne = (
+        hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
+    ) & (hh_id.replace(arbeitsl_geld_2_eink_hh) <= kinderzuschlag_eink_max)
 
     return eink_spanne
