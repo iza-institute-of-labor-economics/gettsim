@@ -18,12 +18,16 @@ from gettsim.benefits.benefit_checks import regelbedarf_m_vorläufig_ab_2005
 from gettsim.benefits.benefit_checks import regelbedarf_m_vorläufig_bis_2004
 from gettsim.benefits.benefit_checks import wohngeld_basis_hh_vorläufig_ab_2005
 from gettsim.benefits.benefit_checks import wohngeld_basis_hh_vorläufig_bis_2004
-from gettsim.benefits.kinderzuschlag import kinderzuschlag_ab_2005_bis_juni_2019
-from gettsim.benefits.kinderzuschlag import kinderzuschlag_ab_juli_2019
-from gettsim.benefits.kinderzuschlag import kinderzuschlag_eink_regel_ab_2011
-from gettsim.benefits.kinderzuschlag import kinderzuschlag_eink_regel_bis_2010
-from gettsim.benefits.kinderzuschlag import kinderzuschlag_temp_ab_2005
-from gettsim.benefits.kinderzuschlag import kinderzuschlag_temp_bis_2004
+from gettsim.benefits.kinderzuschlag.kinderzuschlag import (
+    kinderzuschlag_ab_2005_bis_juni_2019,
+)
+from gettsim.benefits.kinderzuschlag.kinderzuschlag import kinderzuschlag_ab_juli_2019
+from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
+    kinderzuschlag_eink_regel_ab_2011,
+)
+from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
+    kinderzuschlag_eink_regel_bis_2010,
+)
 from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.benefits.wohngeld import wohngeld_max_miete_ab_2009
@@ -176,14 +180,11 @@ def get_policies_for_date(policy_date, groups="all"):
         ] = kinderzuschlag_eink_regel_ab_2011
 
     if 2005 <= year <= 2019:
-        policy_func_dict["kinderzuschlag"] = kinderzuschlag_ab_2005_bis_juni_2019
+        policy_func_dict[
+            "_kinderzuschlag_m_vorläufig"
+        ] = kinderzuschlag_ab_2005_bis_juni_2019
     else:
-        policy_func_dict["kinderzuschlag"] = kinderzuschlag_ab_juli_2019
-
-    if year <= 2004:
-        policy_func_dict["_kinderzuschlag_temp"] = kinderzuschlag_temp_bis_2004
-    else:
-        policy_func_dict["kinderzuschlag_temp"] = kinderzuschlag_temp_ab_2005
+        policy_func_dict["_kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
 
     if year <= 2010:
         policy_func_dict["kindersatz_m"] = kindersatz_m_bis_2010
