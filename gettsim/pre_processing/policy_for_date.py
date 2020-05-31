@@ -6,12 +6,12 @@ from functools import reduce
 import numpy as np
 import yaml
 
-from gettsim.benefits.arbeitsl_geld_2 import eink_anr_frei_ab_10_2005
-from gettsim.benefits.arbeitsl_geld_2 import eink_anr_frei_bis_10_2005
-from gettsim.benefits.arbeitsl_geld_2 import kindersatz_m_ab_2011
-from gettsim.benefits.arbeitsl_geld_2 import kindersatz_m_bis_2010
-from gettsim.benefits.arbeitsl_geld_2 import regelsatz_m_ab_2011
-from gettsim.benefits.arbeitsl_geld_2 import regelsatz_m_bis_2010
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_ab_2011
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_bis_2010
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_ab_2011
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_bis_2010
+from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
+from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
 from gettsim.benefits.benefit_checks import kinderzuschlag_temp_vorläufig_ab_2005
 from gettsim.benefits.benefit_checks import kinderzuschlag_temp_vorläufig_bis_2004
 from gettsim.benefits.benefit_checks import regelbedarf_m_vorläufig_ab_2005

@@ -50,6 +50,7 @@ def test_benefit_checks(input_data, year, column):
         "wohngeld_basis_hh",
         "regelbedarf_m",
         "sum_basis_arbeitsl_geld_2_eink",
+        "anz_erwachsene_hh",
     ]
 
     params_dict, policy_func_dict = get_policies_for_date(

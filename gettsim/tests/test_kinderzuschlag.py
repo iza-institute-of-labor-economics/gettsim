@@ -27,7 +27,7 @@ INPUT_COLS = [
     "anz_erw_tu",
     "anz_kinder_tu",
     "arbeitsl_geld_2_brutto_eink_hh",
-    "sum_arbeitsl_geld_2_eink_hh",
+    "eink_anr_arbeitsl_geld_2_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
@@ -56,7 +56,7 @@ def test_kiz(
     columns = [
         "alleinerziehenden_mehrbedarf",
         "arbeitsl_geld_2_brutto_eink_hh",
-        "sum_arbeitsl_geld_2_eink_hh",
+        "eink_anr_arbeitsl_geld_2_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m",
     ]

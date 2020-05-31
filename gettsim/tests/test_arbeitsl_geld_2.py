@@ -40,8 +40,8 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    "sum_basis_arbeitsl_geld_2_eink_hh",
-    "sum_arbeitsl_geld_2_eink",
+    # "sum_basis_arbeitsl_geld_2_eink_hh",
+    "eink_anr_arbeitsl_geld_2",
     "arbeitsl_geld_2_brutto_eink_hh",
     "alleinerziehenden_mehrbedarf",
     "regelbedarf_m",
@@ -50,7 +50,7 @@ OUT_COLS = [
     "unterhaltsvors_m_hh",
     "eink_anr_frei",
     "_arbeitsl_geld_2_eink",
-    "sum_arbeitsl_geld_2_eink_hh",
+    "eink_anr_arbeitsl_geld_2_hh",
 ]
 
 

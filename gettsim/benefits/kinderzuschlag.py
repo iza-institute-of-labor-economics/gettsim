@@ -146,12 +146,12 @@ def kinderzuschlag_kindereink_abzug(
 
 
 def kinderzuschlag_eink_anrechn(
-    sum_arbeitsl_geld_2_eink_hh, kinderzuschlag_eink_relev, kinderzuschlag_params
+    eink_anr_arbeitsl_geld_2_hh, kinderzuschlag_eink_relev, kinderzuschlag_params
 ):
     """Calculate the parents income that needs to be subtracted (§6a (6) S. 3 BKGG)."""
     return (
         kinderzuschlag_params["kinderzuschlag_transferentzug_eltern"]
-        * (sum_arbeitsl_geld_2_eink_hh - kinderzuschlag_eink_relev)
+        * (eink_anr_arbeitsl_geld_2_hh - kinderzuschlag_eink_relev)
     ).clip(lower=0)
 
 
@@ -182,14 +182,14 @@ def kinderzuschlag_eink_spanne_ab_2005(
     arbeitsl_geld_2_brutto_eink_hh,
     kinderzuschlag_eink_min,
     kinderzuschlag_eink_max,
-    sum_arbeitsl_geld_2_eink_hh,
+    eink_anr_arbeitsl_geld_2_hh,
 ):
     """Calculate a dummy for whether the household is in the correct income range."""
     ab_2005 = 2005 <= jahr
 
     if ab_2005.all():
         eink_spanne = (arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
-            sum_arbeitsl_geld_2_eink_hh <= kinderzuschlag_eink_max
+            eink_anr_arbeitsl_geld_2_hh <= kinderzuschlag_eink_max
         )
 
     else:
