@@ -13,10 +13,10 @@ def _regelbedarf_m_vermögens_check(regelbedarf_m, vermögen_hh, freibetrag_verm
 
 
 def _kinderzuschlag_m_vermögens_check(
-    kinderzuschlag_temp, vermögen_hh, freibetrag_vermögen
+    _kinderzuschlag_m_vorläufig, vermögen_hh, freibetrag_vermögen
 ):
     """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption."""
-    return kinderzuschlag_temp.where(vermögen_hh <= freibetrag_vermögen, 0)
+    return _kinderzuschlag_m_vorläufig.where(vermögen_hh <= freibetrag_vermögen, 0)
 
 
 def _wohngeld_basis_hh_vermögens_check(wohngeld_basis_hh, vermögen_hh, haushaltsgröße):

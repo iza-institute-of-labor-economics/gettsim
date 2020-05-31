@@ -28,7 +28,7 @@ def kinderzuschlag_ab_juli_2019(
     kinderzuschlag_kindereink_abzug,
     kinderzuschlag_eink_anrechn,
 ):
-    """Creates "kinderzuschlag" since 07/2019.
+    """Creates "_kinderzuschlag_m_vorläufig" since 07/2019.
 
     Parameters
     ----------
@@ -58,7 +58,7 @@ def kinderzuschlag_ab_2005_bis_juni_2019(
     kinderzuschlag_kindereink_abzug,
     kinderzuschlag_eink_anrechn,
 ):
-    """Creates "kinderzuschlag" until 06/2019.
+    """Creates "_kinderzuschlag_m_vorläufig" until 06/2019.
 
     Parameters
     ----------
