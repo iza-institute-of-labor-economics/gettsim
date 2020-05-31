@@ -59,6 +59,7 @@ def test_kiz(
         "kindergeld_m_hh",
         "unterhaltsvors_m",
         "_arbeitsl_geld_2_brutto_eink_hh",
+        "kindergeld_anspruch",
     ]
 
     result = compute_taxes_and_transfers(

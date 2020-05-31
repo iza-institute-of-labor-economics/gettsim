@@ -16,7 +16,6 @@ INPUT_COLS = [
     "hh_id",
     "tu_id",
     "p_id",
-    "gem_veranlagt",
     "kind",
     "_st_kein_kind_freib_tu",
     "_st_kind_freib_tu",

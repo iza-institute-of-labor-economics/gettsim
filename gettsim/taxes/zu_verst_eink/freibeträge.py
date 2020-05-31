@@ -74,7 +74,7 @@ def altersfreib(
     bruttolohn_m,
     alter,
     kapital_eink_m,
-    eink_selbstst_m,
+    eink_selbst_m,
     vermiet_eink_m,
     eink_st_abzuege_params,
 ):
@@ -86,7 +86,7 @@ def altersfreib(
     bruttolohn_m
     alter
     kapital_eink_m
-    eink_selbstst_m
+    eink_selbst_m
     vermiet_eink_m
     eink_st_abzuege_params
 
@@ -100,7 +100,7 @@ def altersfreib(
         * 12
         * (
             bruttolohn_m
-            + (kapital_eink_m + eink_selbstst_m + vermiet_eink_m).clip(lower=0)
+            + (kapital_eink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
         )
     ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])
     return out
@@ -191,7 +191,7 @@ def _altervorsorge_aufwend(
 
 
 def kinderfreib(
-    _kindergeld_anspruch,
+    kindergeld_anspruch,
     kind,
     _zu_verst_eink_kein_kinderfreib_vorläufig,
     tu_id,
@@ -202,7 +202,7 @@ def kinderfreib(
     # Count number of children eligible for Child Benefit.
     # Child allowance is only received for these kids.
     anz_kindergeld_kind = (
-        (_kindergeld_anspruch.astype(int)).groupby(tu_id).transform(sum)
+        (kindergeld_anspruch.astype(int)).groupby(tu_id).transform(sum)
     )
     raw_kinderfreib = kifreib_total * anz_kindergeld_kind[~kind]
 

@@ -137,16 +137,16 @@ def _vorsorge_bis_2004(
     rentenv_beitr_m_tu,
     tu_id,
     gemeinsam_veranlagte_tu,
-    gem_veranlagt,
+    gemeinsam_veranlagt,
     kind,
     eink_st_abzuege_params,
 ):
 
     out = ges_krankenv_beitr_m * 0
-    out.loc[~gem_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
+    out.loc[~gemeinsam_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
         _lohn_vorsorge_bis_2019_single.loc[~kind],
-        ges_krankenv_beitr_m.loc[~gem_veranlagt & ~kind],
-        rentenv_beitr_m.loc[~gem_veranlagt & ~kind],
+        ges_krankenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
+        rentenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
         1,
         eink_st_abzuege_params,
     )
@@ -158,7 +158,9 @@ def _vorsorge_bis_2004(
         2,
         eink_st_abzuege_params,
     )
-    out.loc[gem_veranlagt & ~kind] = tu_id[gem_veranlagt].replace(vorsorge_tu)
+    out.loc[gemeinsam_veranlagt & ~kind] = tu_id[gemeinsam_veranlagt].replace(
+        vorsorge_tu
+    )
     return out
 
 

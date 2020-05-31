@@ -86,7 +86,7 @@ def unterhaltsvors_m(
 def unterhaltsvorschuss_eink_tu(
     bruttolohn_m_tu,
     sonstig_eink_m_tu,
-    eink_selbstst_m_tu,
+    eink_selbst_m_tu,
     vermiet_eink_m_tu,
     kapital_eink_m_tu,
     ges_rente_m_tu,
@@ -95,7 +95,7 @@ def unterhaltsvorschuss_eink_tu(
     out = (
         bruttolohn_m_tu
         + sonstig_eink_m_tu
-        + eink_selbstst_m_tu
+        + eink_selbst_m_tu
         + vermiet_eink_m_tu
         + kapital_eink_m_tu
         + ges_rente_m_tu
@@ -105,8 +105,8 @@ def unterhaltsvorschuss_eink_tu(
     return out
 
 
-def eink_selbstst_m_tu(eink_selbstst_m, tu_id):
-    return eink_selbstst_m.groupby(tu_id).sum()
+def eink_selbst_m_tu(eink_selbst_m, tu_id):
+    return eink_selbst_m.groupby(tu_id).sum()
 
 
 def vermiet_eink_m_tu(vermiet_eink_m, tu_id):

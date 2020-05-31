@@ -67,13 +67,13 @@ def _eink_st_m_tu_ab_1997(
     return out
 
 
-def eink_st_m(eink_st_m_tu, gem_veranlagt, kind, tu_id):
+def eink_st_m(eink_st_m_tu, gemeinsam_veranlagt, kind, tu_id):
     """Assign Income tax to individuals.
 
     Parameters
     ----------
     eink_st_m_tu
-    gem_veranlagt
+    gemeinsam_veranlagt
     kind
     tu_id
 
@@ -84,7 +84,7 @@ def eink_st_m(eink_st_m_tu, gem_veranlagt, kind, tu_id):
     # First assign all individuals the tax unit value
     out = tu_id.replace(eink_st_m_tu)
     # Half it for married couples
-    out.loc[gem_veranlagt] /= 2
+    out.loc[gemeinsam_veranlagt] /= 2
     # Set it to zero for kids
     out.loc[kind] = 0
     return out

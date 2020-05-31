@@ -20,10 +20,9 @@ INPUT_COLS = [
     "sonstig_eink_m",
     "kapital_eink_m",
     "vermiet_eink_m",
-    "eink_selbstst_m",
+    "eink_selbst_m",
     "arbeitsl_geld_m",
     "ges_rente_m",
-    "gem_veranlagt",
     "jahr",
     "monat",
 ]

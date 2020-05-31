@@ -33,8 +33,8 @@ from gettsim.taxes.favorability_check import _eink_st_m_tu_ab_1997
 from gettsim.taxes.favorability_check import _eink_st_m_tu_bis_1996
 from gettsim.taxes.favorability_check import _kindergeld_m_ab_1997
 from gettsim.taxes.favorability_check import _kindergeld_m_bis_1996
-from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_lohn
-from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_stunden
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_ohne_kapital
 from gettsim.taxes.zu_verst_eink.freibeträge import _hh_freib_bis_2014
@@ -119,9 +119,9 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["kindergeld_m"] = _kindergeld_m_ab_1997
 
     if year > 2011:
-        policy_func_dict["_kindergeld_anspruch"] = _kindergeld_anspruch_nach_stunden
+        policy_func_dict["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
     else:
-        policy_func_dict["_kindergeld_anspruch"] = _kindergeld_anspruch_nach_lohn
+        policy_func_dict["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
 
     if year > 2011:
         policy_func_dict["sonderausgaben"] = _sonderausgaben_ab_2012

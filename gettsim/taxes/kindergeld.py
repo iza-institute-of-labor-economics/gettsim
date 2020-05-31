@@ -1,12 +1,12 @@
 def _kindergeld_m_basis(
-    tu_id, _kindergeld_anspruch, kindergeld_params,
+    tu_id, kindergeld_anspruch, kindergeld_params,
 ):
     """Calculate the preliminary kindergeld.
 
     Parameters
     ----------
     tu_id
-    _kindergeld_anspruch
+    kindergeld_anspruch
     kindergeld_params
 
     Returns
@@ -14,7 +14,7 @@ def _kindergeld_m_basis(
 
     """
     # Kindergeld_Anspruch is the cumulative sum of eligible children.
-    kulmulative_anspruch = _kindergeld_anspruch.groupby(tu_id).transform("cumsum")
+    kulmulative_anspruch = kindergeld_anspruch.groupby(tu_id).transform("cumsum")
     out = kulmulative_anspruch.clip(upper=4).replace(kindergeld_params["kindergeld"])
     return out
 
@@ -34,7 +34,7 @@ def _kindergeld_m_tu_basis(_kindergeld_m_basis, tu_id):
     return _kindergeld_m_basis.groupby(tu_id).sum()
 
 
-def _kindergeld_anspruch_nach_stunden(
+def kindergeld_anspruch_nach_stunden(
     alter, in_ausbildung, arbeitsstunden_w, kindergeld_params
 ):
     """
@@ -64,7 +64,7 @@ def _kindergeld_anspruch_nach_stunden(
     return out
 
 
-def _kindergeld_anspruch_nach_lohn(
+def kindergeld_anspruch_nach_lohn(
     alter, in_ausbildung, bruttolohn_m, kindergeld_params
 ):
     """

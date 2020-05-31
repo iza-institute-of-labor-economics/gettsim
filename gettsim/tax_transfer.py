@@ -72,14 +72,14 @@
 #
 #     in_cols = [
 #         "bruttolohn_m",
-#         "eink_selbstst_m",
+#         "eink_selbst_m",
 #         "kapital_eink_m",
 #         "vermiet_eink_m",
 #         "jahr_renteneintr",
 #         "ges_rente_m",
 #         "arbeitsstunden_w",
 #         "in_ausbildung",
-#         "gem_veranlagt",
+#         "gemeinsam_veranlagt",
 #         "kind",
 #         "betreuungskost_m",
 #         "prv_rente_beit_m",
@@ -128,7 +128,7 @@
 #     )
 #     in_cols = [
 #    f"_zu_versteuerndes_eink_{inc}" for inc in eink_st_abzuege_params["eink_arten"]
-#     ] + ["kind", "brutto_eink_5", "gem_veranlagt", "brutto_eink_5_tu"]
+#     ] + ["kind", "brutto_eink_5", "gemeinsam_veranlagt", "brutto_eink_5_tu"]
 #     out_cols = (
 #         [f"_st_{inc}" for inc in eink_st_abzuege_params["eink_arten"]]
 #         + [f"_st_{inc}_tu" for inc in eink_st_abzuege_params["eink_arten"]]
@@ -159,7 +159,7 @@
 #         func_kwargs={"params": kindergeld_params},
 #     )
 #     in_cols = [f"_st_{inc}_tu" for inc in eink_st_abzuege_params["eink_arten"]] + [
-#         "gem_veranlagt",
+#         "gemeinsam_veranlagt",
 #         "kind",
 #         "abgelt_st_m_tu",
 #         "_kindergeld_m_basis",
@@ -225,10 +225,10 @@
 #         "sonstig_eink_m",
 #         "kapital_eink_m",
 #         "vermiet_eink_m",
-#         "eink_selbstst_m",
+#         "eink_selbst_m",
 #         "arbeitsl_geld_m",
 #         "ges_rente_m",
-#         "gem_veranlagt",
+#         "gemeinsam_veranlagt",
 #     ]
 #     out_col = "unterhaltsvors_m"
 #
@@ -296,7 +296,7 @@
 #         "kapital_eink_m",
 #         "arbeitsl_geld_m",
 #         "sonstig_eink_m",
-#         "eink_selbstst_m",
+#         "eink_selbst_m",
 #         "vermiet_eink_m",
 #         "eink_st_m",
 #         "soli_st_m",
@@ -384,7 +384,7 @@
 #     in_cols = [
 #         "bruttolohn_m",
 #         "kapital_eink_m",
-#         "eink_selbstst_m",
+#         "eink_selbst_m",
 #         "vermiet_eink_m",
 #         # "miete_unterstellt", We need to discuss this!
 #         "ges_rente_m",
@@ -424,7 +424,7 @@
 #         "selbstständig",
 #         "wohnort_ost",
 #         "hat_kinder",
-#         "eink_selbstst_m",
+#         "eink_selbst_m",
 #         "ges_rente_m",
 #         "prv_krankenv_beit_m",
 #         "bruttolohn_vorj_m",
@@ -447,7 +447,7 @@
 #         "jahr_renteneintr",
 #         "behinderungsgrad",
 #         "wohnfläche",
-#         "gem_veranlagt",
+#         "gemeinsam_veranlagt",
 #         "in_ausbildung",
 #         "alleinerziehend",
 #         "bewohnt_eigentum",

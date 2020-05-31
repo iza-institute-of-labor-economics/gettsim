@@ -6,7 +6,7 @@ def disposable_income(household):
         [
             "bruttolohn_m",
             "kapital_eink_m",
-            "eink_selbstst_m",
+            "eink_selbst_m",
             "vermiet_eink_m",
             # "miete_unterstellt", We need to discuss this!
             "ges_rente_m",
@@ -48,7 +48,7 @@ def disposable_income(household):
 #            [
 #                "bruttolohn_m",
 #                "kapital_eink_m",
-#                "eink_selbstst_m",
+#                "eink_selbst_m",
 #                "vermiet_eink_m",
 #                "miete_unterstellt",
 #                "ges_rente_m",

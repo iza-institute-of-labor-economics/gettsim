@@ -72,6 +72,7 @@ def test_wg(input_data, year, column):
         "eink_st_m",
         "ges_krankenv_beitr_m",
         "rentenv_beitr_m",
+        "kindergeld_anspruch",
     ]
     policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_from_data
 
@@ -112,6 +113,7 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
         "eink_st_m",
         "ges_krankenv_beitr_m",
         "rentenv_beitr_m",
+        "kindergeld_anspruch",
     ]
 
     policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_from_data

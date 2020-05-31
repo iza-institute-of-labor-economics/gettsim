@@ -7,7 +7,7 @@ from gettsim.config import ROOT_DIR
 from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
-YEARS = [2002, 2010, 2018, 2019]
+YEARS = [2019]
 
 
 @pytest.fixture(scope="module")

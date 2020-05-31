@@ -153,21 +153,15 @@ def kinderzuschlag_eink_spanne_bis_2004(jahr):
 
 
 def kinderzuschlag_eink_spanne_ab_2005(
-    jahr,
     _arbeitsl_geld_2_brutto_eink_hh,
     kinderzuschlag_eink_min,
     kinderzuschlag_eink_max,
     arbeitsl_geld_2_eink_hh,
 ):
     """Calculate a dummy for whether the household is in the correct income range."""
-    ab_2005 = 2005 <= jahr
 
-    if ab_2005.all():
-        eink_spanne = (_arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
-            arbeitsl_geld_2_eink_hh <= kinderzuschlag_eink_max
-        )
-
-    else:
-        eink_spanne = pd.Series(dtype=float)
+    eink_spanne = (_arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
+        arbeitsl_geld_2_eink_hh <= kinderzuschlag_eink_max
+    )
 
     return eink_spanne

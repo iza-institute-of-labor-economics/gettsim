@@ -57,7 +57,7 @@ def _arbeitsl_geld_2_brutto_eink_hh(_arbeitsl_geld_2_brutto_eink, hh_id):
 def _arbeitsl_geld_2_brutto_eink(
     bruttolohn_m,
     sonstig_eink_m,
-    eink_selbstst_m,
+    eink_selbst_m,
     vermiet_eink_m,
     kapital_eink_m,
     ges_rente_m,
@@ -71,7 +71,7 @@ def _arbeitsl_geld_2_brutto_eink(
     ----------
     bruttolohn_m
     sonstig_eink_m
-    eink_selbstst_m
+    eink_selbst_m
     vermiet_eink_m
     kapital_eink_m
     ges_rente_m
@@ -86,7 +86,7 @@ def _arbeitsl_geld_2_brutto_eink(
     return (
         bruttolohn_m
         + sonstig_eink_m
-        + eink_selbstst_m
+        + eink_selbst_m
         + vermiet_eink_m
         + kapital_eink_m
         + ges_rente_m

@@ -28,7 +28,7 @@ INPUT_COLS = [
     "kapital_eink_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
-    "eink_selbstst_m",
+    "eink_selbst_m",
     "vermiet_eink_m",
     "eink_st_m",
     "soli_st_m",
