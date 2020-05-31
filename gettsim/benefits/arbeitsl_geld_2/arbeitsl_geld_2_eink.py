@@ -1,19 +1,45 @@
-def eink_anr_arbeitsl_geld_2(_arbeitsl_geld_2_eink, eink_anr_frei):
+def arbeitsl_geld_2_eink_hh(arbeitsl_geld_2_eink, hh_id):
     """
 
     Parameters
     ----------
-    _arbeitsl_geld_2_eink
+    arbeitsl_geld_2_eink
+    hh_id
+
+    Returns
+    -------
+
+    """
+    return arbeitsl_geld_2_eink.groupby(hh_id).sum()
+
+
+def arbeitsl_geld_2_eink(
+    _arbeitsl_geld_2_brutto_eink, eink_st_m, soli_st_m, sozialv_beitr_m, eink_anr_frei
+):
+    """
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_brutto_eink
+    sozialv_beitr_m
+    eink_st_m
+    soli_st_m
     eink_anr_frei
 
     Returns
     -------
 
     """
-    return (_arbeitsl_geld_2_eink - eink_anr_frei).clip(lower=0)
+    return (
+        _arbeitsl_geld_2_brutto_eink
+        - eink_st_m
+        - soli_st_m
+        - sozialv_beitr_m
+        - eink_anr_frei
+    ).clip(lower=0)
 
 
-def arbeitsl_geld_2_brutto_eink_hh(_arbeitsl_geld_2_brutto_eink, hh_id):
+def _arbeitsl_geld_2_brutto_eink_hh(_arbeitsl_geld_2_brutto_eink, hh_id):
     """
 
     Parameters
@@ -26,44 +52,6 @@ def arbeitsl_geld_2_brutto_eink_hh(_arbeitsl_geld_2_brutto_eink, hh_id):
 
     """
     return _arbeitsl_geld_2_brutto_eink.groupby(hh_id).sum()
-
-
-def _arbeitsl_geld_2_eink(
-    _arbeitsl_geld_2_brutto_eink, eink_st_m, soli_st_m, sozialv_beitr_m
-):
-    """
-    Relevant net income of alg2. The function deducts income tax and social security
-    contributions.
-
-    Parameters
-    ----------
-    _arbeitsl_geld_2_brutto_eink
-    eink_st_m
-    soli_st_m
-    sozialv_beitr_m
-
-    Returns
-    -------
-
-    """
-    return (
-        _arbeitsl_geld_2_brutto_eink - eink_st_m - soli_st_m - sozialv_beitr_m
-    ).clip(lower=0)
-
-
-def eink_anr_arbeitsl_geld_2_hh(eink_anr_arbeitsl_geld_2, hh_id):
-    """
-
-    Parameters
-    ----------
-    eink_anr_arbeitsl_geld_2
-    hh_id
-
-    Returns
-    -------
-
-    """
-    return eink_anr_arbeitsl_geld_2.groupby(hh_id).sum()
 
 
 def _arbeitsl_geld_2_brutto_eink(

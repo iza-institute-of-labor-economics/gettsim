@@ -146,12 +146,12 @@ def kinderzuschlag_kindereink_abzug(
 
 
 def kinderzuschlag_eink_anrechn(
-    eink_anr_arbeitsl_geld_2_hh, kinderzuschlag_eink_relev, kinderzuschlag_params
+    arbeitsl_geld_2_eink_hh, kinderzuschlag_eink_relev, kinderzuschlag_params
 ):
     """Calculate the parents income that needs to be subtracted (§6a (6) S. 3 BKGG)."""
     return (
         kinderzuschlag_params["kinderzuschlag_transferentzug_eltern"]
-        * (eink_anr_arbeitsl_geld_2_hh - kinderzuschlag_eink_relev)
+        * (arbeitsl_geld_2_eink_hh - kinderzuschlag_eink_relev)
     ).clip(lower=0)
 
 
@@ -179,17 +179,17 @@ def kinderzuschlag_eink_spanne_bis_2004(jahr):
 
 def kinderzuschlag_eink_spanne_ab_2005(
     jahr,
-    arbeitsl_geld_2_brutto_eink_hh,
+    _arbeitsl_geld_2_brutto_eink_hh,
     kinderzuschlag_eink_min,
     kinderzuschlag_eink_max,
-    eink_anr_arbeitsl_geld_2_hh,
+    arbeitsl_geld_2_eink_hh,
 ):
     """Calculate a dummy for whether the household is in the correct income range."""
     ab_2005 = 2005 <= jahr
 
     if ab_2005.all():
-        eink_spanne = (arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
-            eink_anr_arbeitsl_geld_2_hh <= kinderzuschlag_eink_max
+        eink_spanne = (_arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min) & (
+            arbeitsl_geld_2_eink_hh <= kinderzuschlag_eink_max
         )
 
     else:
@@ -200,7 +200,7 @@ def kinderzuschlag_eink_spanne_ab_2005(
 
 def kinderzuschlag_ab_juli_2019(
     hh_id,
-    arbeitsl_geld_2_brutto_eink_hh,
+    _arbeitsl_geld_2_brutto_eink_hh,
     kinderzuschlag_eink_min,
     kinderzuschlag_kindereink_abzug,
     kinderzuschlag_eink_anrechn,
@@ -227,7 +227,7 @@ def kinderzuschlag_ab_juli_2019(
 
     """
     kinderzuschlag = pd.Series(index=kinderzuschlag_eink_min.index, data=0)
-    condition = arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min
+    condition = _arbeitsl_geld_2_brutto_eink_hh >= kinderzuschlag_eink_min
     kinderzuschlag.loc[condition] = (
         kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
         - kinderzuschlag_eink_anrechn

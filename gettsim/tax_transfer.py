@@ -307,7 +307,7 @@
 #     ]
 #     out_cols = [
 #         "sum_basis_arbeitsl_geld_2_eink",
-#         "eink_anr_arbeitsl_geld_2_hh",
+#         "arbeitsl_geld_2_eink_hh",
 #         "arbeitsl_geld_2_brutto_eink_hh",
 #         "alleinerziehenden_mehrbedarf",
 #         "regelbedarf_m",
@@ -315,7 +315,7 @@
 #         "kost_unterk_m",
 #         "unterhaltsvors_m_hh",
 #         "eink_anrechn_frei",
-#         "eink_anr_arbeitsl_geld_2",
+#         "arbeitsl_geld_2_eink",
 #     ]
 #     df = apply_tax_transfer_func(
 #         df,
@@ -343,7 +343,7 @@
 #         "anz_erw_tu",
 #         "anz_kinder_tu",
 #         "arbeitsl_geld_2_brutto_eink_hh",
-#         "eink_anr_arbeitsl_geld_2_hh",
+#         "arbeitsl_geld_2_eink_hh",
 #         "kindergeld_m_hh",
 #         "unterhaltsvors_m",
 #     ]
