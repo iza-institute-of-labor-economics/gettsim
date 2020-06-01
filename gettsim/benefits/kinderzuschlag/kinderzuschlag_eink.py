@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def kinderzuschlag_eink_regel_bis_2010(
-    alleinerziehenden_mehrbedarf, anz_erw_tu, arbeitsl_geld_2_params
+    tu_id, alleinerziehenden_mehrbedarf, anz_erwachsene_tu, arbeitsl_geld_2_params
 ):
     """This function creates "kinderzuschlag_eink_regel" until 2010.
 
@@ -11,13 +11,14 @@ def kinderzuschlag_eink_regel_bis_2010(
     Parameters
     ----------
     alleinerziehenden_mehrbedarf
-    anz_erw_tu
+    anz_erwachsene_tu
     arbeitsl_geld_2_params
 
     Returns
     -------
 
     """
+    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     choices = [
         arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"]
@@ -25,10 +26,12 @@ def kinderzuschlag_eink_regel_bis_2010(
         * (2 + alleinerziehenden_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"]
         * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
-        * anz_erw_tu,
+        * erwachsene_in_tu,
     ]
 
-    data = np.select([anz_erw_tu == 1, anz_erw_tu == 2, anz_erw_tu > 2], choices,)
+    data = np.select(
+        [erwachsene_in_tu == 1, erwachsene_in_tu == 2, erwachsene_in_tu > 2], choices,
+    )
 
     eink_regel = pd.Series(index=alleinerziehenden_mehrbedarf.index, data=data)
 
@@ -36,21 +39,21 @@ def kinderzuschlag_eink_regel_bis_2010(
 
 
 def kinderzuschlag_eink_regel_ab_2011(
-    tu_id, alleinerziehenden_mehrbedarf, anz_erw_tu, arbeitsl_geld_2_params
+    tu_id, alleinerziehenden_mehrbedarf, anz_erwachsene_tu, arbeitsl_geld_2_params
 ):
     """This function creates "kinderzuschlag_eink_regel" since 2011.
 
     Parameters
     ----------
     alleinerziehenden_mehrbedarf
-    anz_erw_tu
+    anz_erwachsene_tu
     arbeitsl_geld_2_params
 
     Returns
     -------
 
     """
-    erwachsene_in_tu = tu_id.replace(anz_erw_tu)
+    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     choices = [
         arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf),

@@ -17,7 +17,7 @@ from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
 def _zu_verst_eink_kein_kinderfreib(
-    _zu_verst_eink_kein_kinderfreib_vorläufig, kind, anz_erwachsene_in_tu, tu_id
+    _zu_verst_eink_kein_kinderfreib_vorläufig, kind, anz_erwachsene_tu, tu_id
 ):
     """
 
@@ -25,7 +25,7 @@ def _zu_verst_eink_kein_kinderfreib(
     ----------
     _zu_verst_eink_kein_kinderfreib_vorläufig
     kind
-    anz_erwachsene_in_tu
+    anz_erwachsene_tu
     tu_id
 
     Returns
@@ -39,7 +39,7 @@ def _zu_verst_eink_kein_kinderfreib(
         .transform(sum)
     )
     out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
-    out.loc[~kind] = zve_tu / anz_erwachsene_in_tu.loc[~kind]
+    out.loc[~kind] = zve_tu / tu_id.replace(anz_erwachsene_tu).loc[~kind]
     return out
 
 
@@ -80,7 +80,7 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
 def _zu_verst_eink_kinderfreib(
     _zu_verst_eink_kein_kinderfreib_vorläufig,
     kind,
-    anz_erwachsene_in_tu,
+    anz_erwachsene_tu,
     kinderfreib,
     tu_id,
 ):
@@ -90,7 +90,7 @@ def _zu_verst_eink_kinderfreib(
     ----------
     _zu_verst_eink_kein_kinderfreib_vorläufig
     kind
-    anz_erwachsene_in_tu
+    anz_erwachsene_tu
     kinderfreib
     tu_id
 
@@ -106,7 +106,7 @@ def _zu_verst_eink_kinderfreib(
         (zu_vers_eink_kinderfreib.loc[~kind]).groupby(tu_id).transform(sum)
     )
     out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
-    out.loc[~kind] = zu_verst_eink_tu / anz_erwachsene_in_tu.loc[~kind]
+    out.loc[~kind] = zu_verst_eink_tu / tu_id.replace(anz_erwachsene_tu).loc[~kind]
     return out
 
 
@@ -136,12 +136,12 @@ def _anz_kinder_in_tu(tu_id, kind):
     return (kind.astype(int)).groupby(tu_id).transform(sum)
 
 
-def anz_erwachsene_in_tu(tu_id, kind):
-    return ((~kind).astype(int)).groupby(tu_id).transform(sum)
+def anz_erwachsene_tu(tu_id, kind):
+    return (~kind).groupby(tu_id).sum()
 
 
-def gemeinsam_veranlagt(anz_erwachsene_in_tu):
-    return anz_erwachsene_in_tu == 2
+def gemeinsam_veranlagt(tu_id, anz_erwachsene_tu):
+    return tu_id.replace(anz_erwachsene_tu) == 2
 
 
 def gemeinsam_veranlagte_tu(gemeinsam_veranlagt, tu_id):

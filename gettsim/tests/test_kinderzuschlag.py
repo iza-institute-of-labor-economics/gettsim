@@ -24,7 +24,6 @@ INPUT_COLS = [
     "alleinerziehend",
     "kindergeld_anspruch",
     "alleinerziehenden_mehrbedarf",
-    "anz_erw_tu",
     "anz_kinder_tu",
     "_arbeitsl_geld_2_brutto_eink_hh",
     "arbeitsl_geld_2_eink_hh",
@@ -74,7 +73,10 @@ def test_kiz(
         targets=column,
         params=params_dict,
     )
-
     assert_series_equal(
-        result, year_data[column], check_less_precise=True, check_index_type=False
+        result,
+        year_data[column],
+        check_less_precise=True,
+        check_index_type=False,
+        check_dtype=False,
     )

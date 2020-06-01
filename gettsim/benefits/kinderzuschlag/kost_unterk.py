@@ -23,10 +23,12 @@ def kinderzuschlag_heizkost_m(heizkost_m, tax_unit_share):
     return heizkost_m * tax_unit_share
 
 
-def wohnbedarf_eltern_anteil(tu_id, anz_kinder_tu, anz_erw_tu, kinderzuschlag_params):
+def wohnbedarf_eltern_anteil(
+    tu_id, anz_kinder_tu, anz_erwachsene_tu, kinderzuschlag_params
+):
     """Calculate living needs broken down to the parents."""
     kinder_in_tu = tu_id.replace(anz_kinder_tu)
-    erwachsene_in_tu = tu_id.replace(anz_erw_tu)
+    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     conditions = []
     choices = []
     for n_adults in [1, 2]:
