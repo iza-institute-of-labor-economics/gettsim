@@ -7,6 +7,81 @@ from gettsim.config import ROOT_DIR
 from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
+REQUIRED_INPUTS = [
+    "hh_id",
+    "tu_id",
+    "p_id",
+    "tu_vorstand",
+    "anz_minderj_hh",
+    "vermögen_hh",
+    "bruttolohn_m",
+    "alter",
+    "selbstständig",
+    "wohnort_ost",
+    "hat_kinder",
+    "eink_selbst_m",
+    "ges_rente_m",
+    "prv_krankenv",
+    "prv_rente_beitr_m",
+    "bruttolohn_vorj_m",
+    "arbeitsl_lfdj_m",
+    "arbeitsl_vorj_m",
+    "arbeitsl_vor2j_m",
+    "arbeitsstunden_w",
+    "anz_kinder_tu",
+    "anz_erw_tu",
+    "geburtsjahr",
+    "geburtstag",
+    "geburtsmonat",
+    "mietstufe",
+    "entgeltpunkte",
+    "kind",
+    "rentner",
+    "betreuungskost_m",
+    "miete_unterstellt",
+    "kapital_eink_m",
+    "vermiet_eink_m",
+    "kaltmiete_m",
+    "heizkost_m",
+    "jahr_renteneintr",
+    "behinderungsgrad",
+    "wohnfläche",
+    "m_elterngeld",
+    "m_elterngeld_vat",
+    "m_elterngeld_mut",
+    "in_ausbildung",
+    "alleinerziehend",
+    "bewohnt_eigentum",
+    "immobilie_baujahr",
+    "sonstig_eink_m",
+    "jahr",
+]
+DESIRED_OUTPUTS = [
+    "rentenv_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "ges_krankenv_beitr_m",
+    "pflegev_beitr_m",
+    "arbeitsl_geld_m",
+    "rente_anspr_m",
+    "entgeltpunkte",
+    "abgelt_st_m",
+    "soli_st_m",
+    "soli_st_m_tu",
+    "kindergeld_m",
+    "kindergeld_m_tu",
+    "eink_st_m",
+    "eink_st_m_tu",
+    "unterhaltsvors_m",
+    "regelsatz_m",
+    "kost_unterk_m",
+    "unterhaltsvors_m_hh",
+    "kinderzuschlag_m",
+    "wohngeld_m",
+    "arbeitsl_geld_2_m",
+    # "verfügb_eink_m",
+    # "verfügb_eink_hh_m",
+]
+
 YEARS = [2019]
 
 
@@ -21,36 +96,14 @@ def input_data():
 def test_tax_transfer(
     input_data, year, renten_daten,
 ):
-    df = input_data[input_data["jahr"] == year].copy()
+    year_data = input_data[input_data["jahr"] == year].copy()
+    df = year_data[REQUIRED_INPUTS].copy()
     policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date, groups="all"
     )
     params_dict["renten_daten"] = renten_daten
 
-    outputs = [
-        "rentenv_beitr_m",
-        "arbeitsl_v_beitr_m",
-        "ges_krankenv_beitr_m",
-        "pflegev_beitr_m",
-        "arbeitsl_geld_m",
-        "rente_anspr_m",
-        "entgeltpunkte",
-        "abgelt_st_m",
-        "soli_st_m",
-        "soli_st_m_tu",
-        "kindergeld_m",
-        "kindergeld_m_tu",
-        "eink_st_m",
-        "eink_st_m_tu",
-        "unterhaltsvors_m",
-        "regelsatz_m",
-        "kost_unterk_m",
-        "unterhaltsvors_m_hh",
-        "kinderzuschlag_m",
-        "wohngeld_m",
-        "arbeitsl_geld_2_m",
-    ]
     compute_taxes_and_transfers(
-        df, targets=outputs, user_functions=policy_func_dict, params=params_dict
+        df, targets=DESIRED_OUTPUTS, user_functions=policy_func_dict, params=params_dict
     )
