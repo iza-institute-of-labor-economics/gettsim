@@ -76,19 +76,21 @@ def kindersatz_m_ab_2011(
 
 
 def regelsatz_m_bis_2010(
+    hh_id,
     anz_erwachsene_hh,
     alleinerziehenden_mehrbedarf,
     kindersatz_m,
     arbeitsl_geld_2_params,
 ):
+    anz_erwachsene_in_hh = hh_id.replace(anz_erwachsene_hh)
     data = np.where(
-        anz_erwachsene_hh == 1,
+        anz_erwachsene_in_hh == 1,
         arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"]
         * (
             (2 + alleinerziehenden_mehrbedarf)
             * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
-            + (anz_erwachsene_hh - 2).clip(lower=0)
+            + (anz_erwachsene_in_hh - 2).clip(lower=0)
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
         ),
     )
@@ -97,18 +99,20 @@ def regelsatz_m_bis_2010(
 
 
 def regelsatz_m_ab_2011(
+    hh_id,
     anz_erwachsene_hh,
     alleinerziehenden_mehrbedarf,
     kindersatz_m,
     arbeitsl_geld_2_params,
 ):
+    anz_erwachsene_in_hh = hh_id.replace(anz_erwachsene_hh)
     data = np.where(
-        anz_erwachsene_hh == 1,
+        anz_erwachsene_in_hh == 1,
         arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf)
         + (
             arbeitsl_geld_2_params["regelsatz"][3]
-            * (anz_erwachsene_hh - 2).clip(lower=0)
+            * (anz_erwachsene_in_hh - 2).clip(lower=0)
         ),
     )
 

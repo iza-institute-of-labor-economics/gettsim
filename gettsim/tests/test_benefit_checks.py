@@ -18,7 +18,6 @@ INPUT_COLS = [
     "rentner",
     "alter",
     "vermögen_hh",
-    "anz_erwachsene_hh",
     "anz_minderj_hh",
     "_kinderzuschlag_m_vorläufig",
     "wohngeld_basis_hh",
@@ -50,7 +49,6 @@ def test_benefit_checks(input_data, year, column):
         "wohngeld_basis_hh",
         "regelbedarf_m",
         "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
-        "anz_erwachsene_hh",
     ]
 
     params_dict, policy_func_dict = get_policies_for_date(
