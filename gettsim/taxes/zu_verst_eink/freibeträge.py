@@ -124,7 +124,7 @@ def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
 
 
 def _sonderausgaben_ab_2012(
-    betreuungskost_m, tu_id, kind, anz_erwachsene_tu, eink_st_abzuege_params
+    betreuungskost_m, tu_id, kind, _anz_erwachsene_tu, eink_st_abzuege_params
 ):
     """
     Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
@@ -135,13 +135,13 @@ def _sonderausgaben_ab_2012(
     tu_id
     kind
     eink_st_abzuege_params
-    anz_erwachsene_tu
+    _anz_erwachsene_tu
 
     Returns
     -------
 
     """
-    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
+    erwachsene_in_tu = tu_id.replace(_anz_erwachsene_tu)
     abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
         upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
     )
