@@ -71,6 +71,7 @@ def compute_taxes_and_transfers(
         "benefits",
         "renten_anspruch_dag.py",
         "taxes",
+        "demographic_vars.py",
     ]
     for file in internal_function_files:
         new_funcs = load_functions(Path(__file__).parent / file)
