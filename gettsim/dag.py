@@ -99,7 +99,7 @@ def compute_taxes_and_transfers(
         relevant_columns = set(data) & set(dag.nodes)
         data = _dict_subset(data, relevant_columns)
 
-    results = execute_dag(functions, dag, data, targets)
+    results = execute_dag(dag, data, targets)
 
     if len(results) == 1:
         results = list(results.values())[0]
@@ -281,10 +281,19 @@ def create_dag(func_dict):
         of its data dependencies.
 
     """
-    dag_dict = {
-        name: inspect.getfullargspec(func).args for name, func in func_dict.items()
-    }
-    return nx.DiGraph(dag_dict).reverse()
+    dag = nx.DiGraph()
+    for name, function in func_dict.items():
+        dag.add_node(name, function=function)
+        for dependency in inspect.getfullargspec(function).args:
+            attr = (
+                {"function": func_dict.get(dependency)}
+                if dependency in func_dict
+                else {}
+            )
+            dag.add_node(dependency, **attr)
+            dag.add_edge(dependency, name)
+
+    return dag
 
 
 def prune_dag(dag, targets):
@@ -322,7 +331,7 @@ def prune_dag(dag, targets):
     return dag
 
 
-def execute_dag(func_dict, dag, data, targets):
+def execute_dag(dag, data, targets):
     """Naive serial scheduler for our tasks.
 
     We will probably use some existing scheduler instead. Interesting sources are:
@@ -334,8 +343,6 @@ def execute_dag(func_dict, dag, data, targets):
 
     Parameters
     ----------
-    func_dict : dict
-        Maps function names to functions.
     dag : networkx.DiGraph
     data : dict
     targets : list
@@ -351,9 +358,9 @@ def execute_dag(func_dict, dag, data, targets):
 
     for task in nx.topological_sort(dag):
         if task not in data:
-            if task in func_dict:
+            if "function" in dag.nodes[task]:
                 kwargs = _dict_subset(data, dag.predecessors(task))
-                data[task] = func_dict[task](**kwargs).rename(task)
+                data[task] = dag.nodes[task]["function"](**kwargs).rename(task)
             else:
                 raise KeyError(f"Missing variable or function: {task}")
 
