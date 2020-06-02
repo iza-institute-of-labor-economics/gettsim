@@ -191,41 +191,34 @@ def _altervorsorge_aufwend(
     return out
 
 
-def kinderfreib(
-    kindergeld_anspruch,
-    kind,
-    _zu_verst_eink_kein_kinderfreib_vorläufig,
-    tu_id,
-    eink_st_abzuege_params,
+def kinderfreib_tu(
+    anz_kindergeld_kinder_tu, _anz_erwachsene_tu, eink_st_abzuege_params
 ):
-    # Calculate the possible kinderfreibetrag
+    """Sum over all child allowances.
+
+    Parameters
+    ----------
+    anz_kindergeld_kinder_tu
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
-    # Count number of children eligible for Child Benefit.
-    # Child allowance is only received for these kids.
-    anz_kindergeld_kind = (
-        (kindergeld_anspruch.astype(int)).groupby(tu_id).transform(sum)
-    )
-    raw_kinderfreib = kifreib_total * anz_kindergeld_kind[~kind]
+    return kifreib_total * anz_kindergeld_kinder_tu * _anz_erwachsene_tu
 
-    # If in a tax unit one adult earns less than the kinderfreib, we transfer the
-    # difference
-    diff_kinderfreib = (
-        _zu_verst_eink_kein_kinderfreib_vorläufig.loc[~kind] - raw_kinderfreib
-    )
-    # Get the transfers for each concerned tax unit, indexed with the tax unit.
-    transfer_tu = diff_kinderfreib.loc[diff_kinderfreib < 0].reindex(
-        index=tu_id[~kind].loc[diff_kinderfreib < 0]
-    )
-    # Assign negative transfers to adults in tax unit
-    transfers = tu_id[~kind & (diff_kinderfreib < 0)].replace(transfer_tu)
-    out = kind.astype(float) * 0
 
-    # Transfers are saved as negative values and therefore need to be substracted
-    out.loc[~kind & (diff_kinderfreib > 0)] = raw_kinderfreib.loc[
-        diff_kinderfreib > 0
-    ].subtract(transfers.loc[diff_kinderfreib > 0], fill_value=0)
-    out.loc[~kind & (diff_kinderfreib < 0)] = raw_kinderfreib.loc[
-        diff_kinderfreib < 0
-    ].add(transfers.loc[diff_kinderfreib < 0], fill_value=0)
+def anz_kindergeld_kinder_tu(tu_id, kindergeld_anspruch):
+    """Count number of children eligible for Child Benefit.
 
-    return out
+    Parameters
+    ----------
+    tu_id
+    kindergeld_anspruch
+
+    Returns
+    -------
+
+    """
+    return kindergeld_anspruch.groupby(tu_id).sum()

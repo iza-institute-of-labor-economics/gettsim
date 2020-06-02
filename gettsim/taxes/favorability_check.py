@@ -29,7 +29,7 @@ def _beantrage_kind_freib_tu(
     return st_kein_kind_freib > _st_kind_freib_tu
 
 
-def _eink_st_m_tu_bis_1996(_st_kind_freib_tu):
+def _eink_st_tu_bis_1996(_st_kind_freib_tu):
     """Income tax calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
@@ -45,7 +45,7 @@ def _eink_st_m_tu_bis_1996(_st_kind_freib_tu):
     return _st_kind_freib_tu
 
 
-def _eink_st_m_tu_ab_1997(
+def _eink_st_tu_ab_1997(
     _st_kein_kind_freib_tu, _st_kind_freib_tu, _beantrage_kind_freib_tu,
 ):
     """Income tax calculation since 1997.
@@ -60,33 +60,8 @@ def _eink_st_m_tu_ab_1997(
     -------
 
     """
-    out = _st_kein_kind_freib_tu / 12
-    out.loc[_beantrage_kind_freib_tu] = (
-        _st_kind_freib_tu.loc[_beantrage_kind_freib_tu] / 12
-    )
-    return out
-
-
-def eink_st_m(eink_st_m_tu, gemeinsam_veranlagt, kind, tu_id):
-    """Assign Income tax to individuals.
-
-    Parameters
-    ----------
-    eink_st_m_tu
-    gemeinsam_veranlagt
-    kind
-    tu_id
-
-    Returns
-    -------
-
-    """
-    # First assign all individuals the tax unit value
-    out = tu_id.replace(eink_st_m_tu)
-    # Half it for married couples
-    out.loc[gemeinsam_veranlagt] /= 2
-    # Set it to zero for kids
-    out.loc[kind] = 0
+    out = _st_kein_kind_freib_tu
+    out.loc[_beantrage_kind_freib_tu] = _st_kind_freib_tu.loc[_beantrage_kind_freib_tu]
     return out
 
 
