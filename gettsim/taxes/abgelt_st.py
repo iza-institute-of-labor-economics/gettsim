@@ -1,11 +1,11 @@
-def abgelt_st_m(gem_veranlagt, kind, abgelt_st_m_tu, tu_id):
+def abgelt_st_m(gemeinsam_veranlagt, kind, abgelt_st_m_tu, tu_id):
     """ Capital Income Tax / Abgeltungsteuer
         since 2009, captial income is taxed with a flatrate of 25%.
     """
     # First assign all individuals the tax unit value
     out = tu_id.replace(abgelt_st_m_tu)
     # Half it for married couples
-    out.loc[gem_veranlagt] /= 2
+    out.loc[gemeinsam_veranlagt] /= 2
     # Set it to zero for kids
     out.loc[kind] = 0
     return out

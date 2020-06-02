@@ -17,14 +17,13 @@ INPUT_COLS = [
     "tu_id",
     "bruttolohn_m",
     "betreuungskost_m",
-    "eink_selbstst_m",
+    "eink_selbst_m",
     "kapital_eink_m",
     "vermiet_eink_m",
     "jahr_renteneintr",
     "ges_rente_m",
     "arbeitsstunden_w",
     "in_ausbildung",
-    "gem_veranlagt",
     "kind",
     "behinderungsgrad",
     "rentenv_beitr_m",
@@ -85,7 +84,7 @@ def test_zve(
     policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date,
-        groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld"],
+        groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld", "eink_st"],
     )
 
     user_columns = [

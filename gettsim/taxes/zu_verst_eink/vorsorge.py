@@ -1,8 +1,3 @@
-import numpy as np
-
-from gettsim._numpy import numpy_vectorize
-
-
 def _vorsorge_alternative_2005_bis_2009(
     _altervorsorge_aufwend,
     ges_krankenv_beitr_m,
@@ -142,16 +137,16 @@ def _vorsorge_bis_2004(
     rentenv_beitr_m_tu,
     tu_id,
     gemeinsam_veranlagte_tu,
-    gem_veranlagt,
+    gemeinsam_veranlagt,
     kind,
     eink_st_abzuege_params,
 ):
 
     out = ges_krankenv_beitr_m * 0
-    out.loc[~gem_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
+    out.loc[~gemeinsam_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
         _lohn_vorsorge_bis_2019_single.loc[~kind],
-        ges_krankenv_beitr_m.loc[~gem_veranlagt & ~kind],
-        rentenv_beitr_m.loc[~gem_veranlagt & ~kind],
+        ges_krankenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
+        rentenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
         1,
         eink_st_abzuege_params,
     )
@@ -163,7 +158,9 @@ def _vorsorge_bis_2004(
         2,
         eink_st_abzuege_params,
     )
-    out.loc[gem_veranlagt & ~kind] = tu_id[gem_veranlagt].replace(vorsorge_tu)
+    out.loc[gemeinsam_veranlagt & ~kind] = tu_id[gemeinsam_veranlagt].replace(
+        vorsorge_tu
+    )
     return out
 
 
@@ -191,9 +188,6 @@ def _lohn_vorsorgeabzug_bis_2019_tu(
     return out
 
 
-@numpy_vectorize(
-    excluded=["anzahl_erwachsene", "eink_st_abzuege_params"], otypes=[float]
-)
 def _berechne_vorsorge_bis_2004(
     lohn_vorsorge,
     krankenv_beitr,
@@ -201,16 +195,16 @@ def _berechne_vorsorge_bis_2004(
     anzahl_erwachsene,
     eink_st_abzuege_params,
 ):
-    item_1 = (1 / anzahl_erwachsene) * max(
-        12 * (rentenv_beitr + krankenv_beitr) - lohn_vorsorge, 0
-    )
-    item_2 = (1 / anzahl_erwachsene) * min(
-        item_1, eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"]
+    item_1 = (1 / anzahl_erwachsene) * (
+        12 * (rentenv_beitr + krankenv_beitr) - lohn_vorsorge
+    ).clip(lower=0)
+    item_2 = (1 / anzahl_erwachsene) * item_1.clip(
+        upper=eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"]
     )
 
-    item_3 = 0.5 * np.minimum(
-        (item_1 - item_2),
-        anzahl_erwachsene * eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"],
+    item_3 = 0.5 * (item_1 - item_2).clip(
+        upper=anzahl_erwachsene
+        * eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"]
     )
     out = (lohn_vorsorge + item_2 + item_3).astype(int)
     return out

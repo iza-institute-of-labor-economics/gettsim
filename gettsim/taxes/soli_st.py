@@ -15,11 +15,11 @@ def soli_st_m_tu(_st_kind_freib_tu, abgelt_st_m_tu, soli_st_params):
     with Solidarity Surcharge tax rate and no tax exempt level. §3 (3) S.2
     SolzG 1995.
     """
+
     out = (
-        _st_kind_freib_tu.apply(
-            piecewise_polynomial,
-            lower_thresholds=soli_st_params["soli_st"]["lower_thresholds"],
-            upper_thresholds=soli_st_params["soli_st"]["upper_thresholds"],
+        piecewise_polynomial(
+            _st_kind_freib_tu,
+            thresholds=soli_st_params["soli_st"]["thresholds"],
             rates=soli_st_params["soli_st"]["rates"],
             intercepts_at_lower_thresholds=soli_st_params["soli_st"][
                 "intercepts_at_lower_thresholds"
@@ -30,13 +30,13 @@ def soli_st_m_tu(_st_kind_freib_tu, abgelt_st_m_tu, soli_st_params):
     return out
 
 
-def soli_st_m(soli_st_m_tu, gem_veranlagt, kind, tu_id):
+def soli_st_m(soli_st_m_tu, gemeinsam_veranlagt, kind, tu_id):
     """Assign Soli to individuals. Kids get 0.
 
     Parameters
     ----------
     soli_st_m_tu
-    gem_veranlagt
+    gemeinsam_veranlagt
     kind
     tu_id
 
@@ -47,7 +47,7 @@ def soli_st_m(soli_st_m_tu, gem_veranlagt, kind, tu_id):
     # First assign all individuals the tax unit value
     out = tu_id.replace(soli_st_m_tu)
     # Half it for married couples
-    out.loc[gem_veranlagt] /= 2
+    out.loc[gemeinsam_veranlagt] /= 2
     # Set it to zero for kids
     out.loc[kind] = 0
     return out

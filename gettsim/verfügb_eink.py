@@ -6,7 +6,7 @@ def disposable_income(household):
         [
             "bruttolohn_m",
             "kapital_eink_m",
-            "eink_selbstst_m",
+            "eink_selbst_m",
             "vermiet_eink_m",
             # "miete_unterstellt", We need to discuss this!
             "ges_rente_m",
@@ -19,10 +19,10 @@ def disposable_income(household):
             "eink_st_m",
             "soli_st_m",
             "abgelt_st_m",
-            "ges_krankenv_beit_m",
-            "rentenv_beit_m",
-            "pflegev_beit_m",
-            "arbeitsl_v_beit_m",
+            "ges_krankenv_beitr_m",
+            "rentenv_beitr_m",
+            "pflegev_beitr_m",
+            "arbeitsl_v_beitr_m",
         ]
     ].sum(
         axis=1
@@ -48,7 +48,7 @@ def disposable_income(household):
 #            [
 #                "bruttolohn_m",
 #                "kapital_eink_m",
-#                "eink_selbstst_m",
+#                "eink_selbst_m",
 #                "vermiet_eink_m",
 #                "miete_unterstellt",
 #                "ges_rente_m",

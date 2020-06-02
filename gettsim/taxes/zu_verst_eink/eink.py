@@ -1,18 +1,15 @@
-import numpy as np
-
-
-def brutto_eink_1(eink_selbstst_m):
+def brutto_eink_1(eink_selbst_m):
     """Income from Self-Employment
 
     Parameters
     ----------
-    eink_selbstst_m
+    eink_selbst_m
 
     Returns
     -------
 
     """
-    return 12 * eink_selbstst_m.clip(lower=0)
+    return 12 * eink_selbst_m.clip(lower=0)
 
 
 def brutto_eink_1_tu(brutto_eink_1, tu_id):

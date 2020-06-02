@@ -21,7 +21,6 @@ INPUT_COLS = [
     "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
     "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
     "brutto_eink_5",
-    "gem_veranlagt",
 ]
 
 TEST_COLUMNS = [

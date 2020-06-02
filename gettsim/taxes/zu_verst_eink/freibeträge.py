@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -13,29 +14,16 @@ def behinderungsgrad_pauschbetrag(behinderungsgrad, eink_st_abzuege_params):
     -------
 
     """
-
-    betragsgrenzen = [
-        (25, 30),
-        (35, 40),
-        (45, 50),
-        (55, 60),
-        (65, 70),
-        (75, 80),
-        (85, 90),
-        (95, 100),
-    ]
-
-    # Create output Series with 0 pauschbetrag for all low degrees of disability
-    out = behinderungsgrad.replace(to_replace=[0, 5, 10, 15, 20], value=0)
-
-    # Assign all individuals their corresponding pauschbetrag
-    for untere_grenze, obere_grenze in betragsgrenzen:
-        degree_cond = (behinderungsgrad >= untere_grenze) & (
-            behinderungsgrad <= obere_grenze
-        )
-        out.loc[degree_cond] = eink_st_abzuege_params["behinderten_pauschbetrag"][
-            untere_grenze
-        ]
+    # Get disability degree thresholds
+    bins = sorted(eink_st_abzuege_params["behinderten_pauschbetrag"])
+    # Create corresponding bins
+    binned = pd.cut(behinderungsgrad, bins=bins + [np.inf], right=False, labels=bins)
+    # Replace values in the intervals
+    out = (
+        binned.replace(eink_st_abzuege_params["behinderten_pauschbetrag"])
+        .astype(float)
+        .fillna(0)
+    )
 
     return out
 
@@ -86,7 +74,7 @@ def altersfreib(
     bruttolohn_m,
     alter,
     kapital_eink_m,
-    eink_selbstst_m,
+    eink_selbst_m,
     vermiet_eink_m,
     eink_st_abzuege_params,
 ):
@@ -98,7 +86,7 @@ def altersfreib(
     bruttolohn_m
     alter
     kapital_eink_m
-    eink_selbstst_m
+    eink_selbst_m
     vermiet_eink_m
     eink_st_abzuege_params
 
@@ -112,7 +100,7 @@ def altersfreib(
         * 12
         * (
             bruttolohn_m
-            + (kapital_eink_m + eink_selbstst_m + vermiet_eink_m).clip(lower=0)
+            + (kapital_eink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
         )
     ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])
     return out
@@ -136,7 +124,7 @@ def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
 
 
 def _sonderausgaben_ab_2012(
-    betreuungskost_m, tu_id, kind, anz_erwachsene_in_tu, eink_st_abzuege_params
+    betreuungskost_m, tu_id, kind, _anz_erwachsene_tu, eink_st_abzuege_params
 ):
     """
     Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
@@ -147,12 +135,13 @@ def _sonderausgaben_ab_2012(
     tu_id
     kind
     eink_st_abzuege_params
-    anz_erwachsene_in_tu
+    _anz_erwachsene_tu
 
     Returns
     -------
 
     """
+    erwachsene_in_tu = tu_id.replace(_anz_erwachsene_tu)
     abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
         upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
     )
@@ -162,7 +151,7 @@ def _sonderausgaben_ab_2012(
         berechtigte_kinder
         * abziehbare_betreuungskosten
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
-    ) / anz_erwachsene_in_tu
+    ) / erwachsene_in_tu
 
     out.loc[kind] = 0
     return out
@@ -203,7 +192,7 @@ def _altervorsorge_aufwend(
 
 
 def kinderfreib(
-    _kindergeld_anspruch,
+    kindergeld_anspruch,
     kind,
     _zu_verst_eink_kein_kinderfreib_vorläufig,
     tu_id,
@@ -214,7 +203,7 @@ def kinderfreib(
     # Count number of children eligible for Child Benefit.
     # Child allowance is only received for these kids.
     anz_kindergeld_kind = (
-        (_kindergeld_anspruch.astype(int)).groupby(tu_id).transform(sum)
+        (kindergeld_anspruch.astype(int)).groupby(tu_id).transform(sum)
     )
     raw_kinderfreib = kifreib_total * anz_kindergeld_kind[~kind]
 
@@ -229,7 +218,7 @@ def kinderfreib(
     )
     # Assign negative transfers to adults in tax unit
     transfers = tu_id[~kind & (diff_kinderfreib < 0)].replace(transfer_tu)
-    out = pd.Series(index=kind.index, data=0, dtype=float, name="kinderfreib")
+    out = kind.astype(float) * 0
 
     # Transfers are saved as negative values and therefore need to be substracted
     out.loc[~kind & (diff_kinderfreib > 0)] = raw_kinderfreib.loc[
