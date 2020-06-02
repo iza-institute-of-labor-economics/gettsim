@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def sozialv_beitr_m(
     pflegev_beitr_m, ges_krankenv_beitr_m, rentenv_beitr_m, arbeitsl_v_beitr_m
 ):
@@ -34,9 +37,9 @@ def rentenv_beitr_m(
 
     """
 
-    out = _geringfügig_beschäftigt.astype(float) * 0
+    out = _geringfügig_beschäftigt.astype(float) * np.nan
 
-    # Set contribution 0 for people in minijob
+    # Set to 0 for minijobs
     out.loc[_geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
@@ -76,12 +79,12 @@ def arbeitsl_v_beitr_m(
     -------
 
     """
-    out = _geringfügig_beschäftigt.astype(float) * 0
+    out = _geringfügig_beschäftigt.astype(float) * np.nan
 
-    # Set contribution 0 for people in minijob
+    # Set to 0 for minijobs
     out.loc[_geringfügig_beschäftigt] = 0
 
-    # Assign calculated contributions
+    # Assign calculated contributions, for minijobs it remains 0
     out.loc[_an_beitr_arbeitsl_v_midi_job.index] = _an_beitr_arbeitsl_v_midi_job
     out.loc[_arbeitsl_v_regular_job.index] = _arbeitsl_v_regular_job
 
@@ -153,7 +156,7 @@ def _rentenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
             True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
             False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
         }
-    ).astype(float)
+    )
 
 
 def _ges_beitr_arbeitsl_v_midi_jobreturn(
@@ -243,7 +246,7 @@ def _ag_beitr_rentenv_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_param
     out = (
         bruttolohn_m__in_gleitzone * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     )
-    return out.rename("_ag_beitr_rentenv_midi_job")
+    return out
 
 
 def _ag_beitr_arbeitsl_v_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_params):

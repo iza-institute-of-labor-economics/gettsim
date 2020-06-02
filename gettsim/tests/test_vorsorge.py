@@ -22,7 +22,6 @@ IN_COLS = [
     "pflegev_beitr_m",
     "jahr",
     "ges_krankenv_beitr_m",
-    "gem_veranlagt",
 ]
 OUT_COLS = ["vorsorge"]
 

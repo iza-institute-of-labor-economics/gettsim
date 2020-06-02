@@ -5,6 +5,14 @@ from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _st_tarif
 
 
+def elterngeld_m_tu(elterngeld_m, tu_id):
+    return elterngeld_m.groupby(tu_id).sum()
+
+
+def elterngeld_m_hh(elterngeld_m, hh_id):
+    return elterngeld_m.groupby(hh_id).sum()
+
+
 def elterngeld_m(
     elterngeld_eink_relev,
     elternzeit_anspruch,
@@ -57,8 +65,7 @@ def proxy_eink_vorj_elterngeld(
 
     prox_soli = piecewise_polynomial(
         prox_tax,
-        lower_thresholds=soli_st_params["soli_st"]["lower_thresholds"],
-        upper_thresholds=soli_st_params["soli_st"]["upper_thresholds"],
+        thresholds=soli_st_params["soli_st"]["thresholds"],
         rates=soli_st_params["soli_st"]["rates"],
         intercepts_at_lower_thresholds=soli_st_params["soli_st"][
             "intercepts_at_lower_thresholds"
@@ -167,9 +174,9 @@ def anz_mehrlinge_anspruch(hh_id, elternzeit_anspruch, jüngstes_kind):
     return elternzeit_anspruch * (mehrlinge - 1)
 
 
-def netto_eink(bruttolohn_m, eink_st_m, soli_st_m, sozialv_beit_m):
+def netto_eink(bruttolohn_m, eink_st_m, soli_st_m, sozialv_beitr_m):
     """Calculate the net wage given taxes and social security contributions."""
-    return bruttolohn_m - eink_st_m - soli_st_m - sozialv_beit_m
+    return bruttolohn_m - eink_st_m - soli_st_m - sozialv_beitr_m
 
 
 def elterngeld_eink_relev(proxy_eink_vorj_elterngeld, netto_eink):

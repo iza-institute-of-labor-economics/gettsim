@@ -13,11 +13,11 @@ for each income type. In fact, you need several taxable incomes because of
 It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
-import pandas as pd
+from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
 def _zu_verst_eink_kein_kinderfreib(
-    _zu_verst_eink_kein_kinderfreib_vorläufig, kind, anz_erwachsene_in_tu, tu_id
+    _zu_verst_eink_kein_kinderfreib_vorläufig, kind, _anz_erwachsene_tu, tu_id
 ):
     """
 
@@ -25,7 +25,7 @@ def _zu_verst_eink_kein_kinderfreib(
     ----------
     _zu_verst_eink_kein_kinderfreib_vorläufig
     kind
-    anz_erwachsene_in_tu
+    _anz_erwachsene_tu
     tu_id
 
     Returns
@@ -39,7 +39,7 @@ def _zu_verst_eink_kein_kinderfreib(
         .transform(sum)
     )
     out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
-    out.loc[~kind] = zve_tu / anz_erwachsene_in_tu.loc[~kind]
+    out.loc[~kind] = zve_tu / tu_id.replace(_anz_erwachsene_tu).loc[~kind]
     return out
 
 
@@ -80,7 +80,7 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
 def _zu_verst_eink_kinderfreib(
     _zu_verst_eink_kein_kinderfreib_vorläufig,
     kind,
-    anz_erwachsene_in_tu,
+    _anz_erwachsene_tu,
     kinderfreib,
     tu_id,
 ):
@@ -90,7 +90,7 @@ def _zu_verst_eink_kinderfreib(
     ----------
     _zu_verst_eink_kein_kinderfreib_vorläufig
     kind
-    anz_erwachsene_in_tu
+    _anz_erwachsene_tu
     kinderfreib
     tu_id
 
@@ -106,13 +106,12 @@ def _zu_verst_eink_kinderfreib(
         (zu_vers_eink_kinderfreib.loc[~kind]).groupby(tu_id).transform(sum)
     )
     out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
-    out.loc[~kind] = zu_verst_eink_tu / anz_erwachsene_in_tu.loc[~kind]
+    out.loc[~kind] = zu_verst_eink_tu / tu_id.replace(_anz_erwachsene_tu).loc[~kind]
     return out
 
 
-def _ertragsanteil(jahr_renteneintr):
-    """
-    Calculate the share of pensions subject to income taxation.
+def _ertragsanteil(jahr_renteneintr, eink_st_params):
+    """Calculate the share of pensions subject to income taxation.
 
     Parameters
     ----------
@@ -122,33 +121,12 @@ def _ertragsanteil(jahr_renteneintr):
     -------
 
     """
-    out = pd.Series(index=jahr_renteneintr.index, name="_ertragsanteil", dtype=float)
-    out.loc[jahr_renteneintr <= 2004] = 0.27
-    out.loc[jahr_renteneintr.between(2005, 2020)] = 0.5 + 0.02 * (
-        jahr_renteneintr - 2005
+    out = piecewise_polynomial(
+        x=jahr_renteneintr,
+        thresholds=eink_st_params["ertragsanteil"]["thresholds"],
+        rates=eink_st_params["ertragsanteil"]["rates"],
+        intercepts_at_lower_thresholds=eink_st_params["ertragsanteil"][
+            "intercepts_at_lower_thresholds"
+        ],
     )
-    out.loc[jahr_renteneintr.between(2021, 2040)] = 0.8 + 0.01 * (
-        jahr_renteneintr - 2020
-    )
-    out.loc[jahr_renteneintr >= 2041] = 1
     return out
-
-
-def _anz_kinder_in_tu(tu_id, kind):
-    return (kind.astype(int)).groupby(tu_id).transform(sum)
-
-
-def anz_erwachsene_in_tu(tu_id, kind):
-    return ((~kind).astype(int)).groupby(tu_id).transform(sum)
-
-
-def gemeinsam_veranlagt(anz_erwachsene_in_tu):
-    return anz_erwachsene_in_tu == 2
-
-
-def gemeinsam_veranlagte_tu(gemeinsam_veranlagt, tu_id):
-    return gemeinsam_veranlagt.groupby(tu_id).any()
-
-
-def bruttolohn_m_tu(bruttolohn_m, tu_id):
-    return bruttolohn_m.groupby(tu_id).sum()

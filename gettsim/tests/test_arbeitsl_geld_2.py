@@ -16,7 +16,6 @@ INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
-    "vorstand_tu",
     "kind",
     "alter",
     "kaltmiete_m",
@@ -29,11 +28,11 @@ INPUT_COLS = [
     "kapital_eink_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
-    "eink_selbstst_m",
+    "eink_selbst_m",
     "vermiet_eink_m",
     "eink_st_m",
     "soli_st_m",
-    "sozialv_beit_m",
+    "sozialv_beitr_m",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
@@ -41,17 +40,15 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    "sum_basis_arbeitsl_geld_2_eink_hh",
-    "sum_arbeitsl_geld_2_eink",
-    "arbeitsl_geld_2_brutto_eink_hh",
-    # "alleinerziehenden_mehrbedarf",
+    "_arbeitsl_geld_2_brutto_eink_hh",
+    "alleinerziehenden_mehrbedarf",
     "regelbedarf_m",
     "regelsatz_m",
     "kost_unterk_m",
     "unterhaltsvors_m_hh",
-    # "eink_anrechn_frei",
-    "_arbeitsl_geld_2_eink",
-    "sum_arbeitsl_geld_2_eink_hh",
+    "eink_anr_frei",
+    "arbeitsl_geld_2_eink",
+    "arbeitsl_geld_2_eink_hh",
 ]
 
 
@@ -85,6 +82,7 @@ def test_alg2(input_data, year, column):
         "unterhaltsvors_m",
         "elterngeld_m",
         "eink_st_m",
+        "sozialv_beitr_m",
     ]
 
     result = compute_taxes_and_transfers(
