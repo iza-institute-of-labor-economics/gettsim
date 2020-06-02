@@ -350,7 +350,11 @@ def execute_dag(func_dict, dag, data, targets):
                 kwargs = _dict_subset(data, dag.predecessors(task))
                 data[task] = func_dict[task](**kwargs).rename(task)
             else:
-                raise KeyError(f"Missing variable or function: {task}")
+                dependants = list(dag.successors(task))
+                raise KeyError(
+                    f"Missing variable or function '{task}'. It is required to compute "
+                    f"{dependants}."
+                )
 
             visited_nodes.add(task)
 
