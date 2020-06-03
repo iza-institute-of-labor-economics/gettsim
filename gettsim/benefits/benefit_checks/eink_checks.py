@@ -35,10 +35,6 @@ def sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink(
     )
 
 
-def _subtract_and_clip_at_zero(minuend, subtrahend):
-    return (minuend - subtrahend).clip(lower=0)
-
-
 def arbeitsl_geld_2_m_wohngeld_m_kinderzuschlag(
     _regelbedarf_m_vermögens_check, sum_wohngeld_m_kinderzuschlag_arbeitsl_geld_2_eink
 ):
