@@ -6,7 +6,7 @@ import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 from gettsim.tests.auxiliary import select_input_by_level
 from gettsim.tests.auxiliary import select_output_by_level
@@ -86,7 +86,7 @@ def test_alg2(input_data, year, column):
     ]
 
     result = compute_taxes_and_transfers(
-        data,
+        df,
         user_columns=columns,
         user_functions=policy_func_dict,
         targets=column,
