@@ -73,7 +73,7 @@ def test_eltgeld(
     df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
     df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
 
-    columns = ["soli_st_tu", "eink_st_tu", "sozialv_beitr_m"]
+    columns = ["soli_st_tu", "sozialv_beitr_m"]
 
     result = compute_taxes_and_transfers(
         df, user_columns=columns, targets=column, params=params_dict

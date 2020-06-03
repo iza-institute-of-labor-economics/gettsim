@@ -315,9 +315,10 @@ def _fail_if_user_columns_are_not_in_functions(
         formatted = '",\n    "'.join(unnecessary_user_columns)
         intro = _format_text_for_cmdline(
             f"""
-            You passed the following user column{'' if n_cols == 1 else 's'} which are
-            unnecessary because there is no corresponding function in the internal or
-            user functions.
+            You passed the following user column{'' if n_cols == 1 else 's'} which {'is'
+            if n_cols == 1 else 'are'} unnecessary because there {'is' if n_cols == 1
+            else 'are'} no corresponding function{'' if n_cols == 1 else 's'} in the
+            internal or user functions.
             """
         )
         list_ = textwrap.dedent(
