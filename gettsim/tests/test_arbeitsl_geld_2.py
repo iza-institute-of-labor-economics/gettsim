@@ -30,8 +30,8 @@ INPUT_COLS = [
     "sonstig_eink_m",
     "eink_selbst_m",
     "vermiet_eink_m",
-    "eink_st_m",
-    "soli_st_m",
+    "eink_st_tu",
+    "soli_st_tu",
     "sozialv_beitr_m",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
@@ -77,11 +77,11 @@ def test_alg2(input_data, year, column):
 
     columns = [
         "arbeitsl_geld_m",
-        "soli_st_m",
+        "soli_st_tu",
         "kindergeld_m_hh",
         "unterhaltsvors_m",
         "elterngeld_m",
-        "eink_st_m",
+        "eink_st_tu",
         "sozialv_beitr_m",
     ]
 

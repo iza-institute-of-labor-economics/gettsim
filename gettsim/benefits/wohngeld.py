@@ -26,12 +26,10 @@ def _zu_verst_ges_rente_tu(_zu_verst_ges_rente, tu_id):
 
 
 def _wohngeld_abzüge_tu(
-    eink_st_m_tu, rentenv_beitr_m_tu, ges_krankenv_beitr_m_tu, wohngeld_params
+    eink_st_tu, rentenv_beitr_m_tu, ges_krankenv_beitr_m_tu, wohngeld_params
 ):
     abzug_stufen = (
-        (eink_st_m_tu > 0) * 1
-        + (rentenv_beitr_m_tu > 0)
-        + (ges_krankenv_beitr_m_tu > 0)
+        (eink_st_tu > 0) * 1 + (rentenv_beitr_m_tu > 0) + (ges_krankenv_beitr_m_tu > 0)
     )
     return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
 

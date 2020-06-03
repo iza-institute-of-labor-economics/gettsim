@@ -74,7 +74,7 @@ def test_wg(input_data, year, column):
         "rentenv_beitr_m",
         "kindergeld_anspruch",
     ]
-    policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_from_data
+    policy_func_dict["eink_st_tu"] = eink_st_m_tu_from_data
 
     result = compute_taxes_and_transfers(
         df,
@@ -116,7 +116,7 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
         "kindergeld_anspruch",
     ]
 
-    policy_func_dict["eink_st_m_tu"] = eink_st_m_tu_from_data
+    policy_func_dict["eink_st_tu"] = eink_st_m_tu_from_data
 
     result = compute_taxes_and_transfers(
         df,

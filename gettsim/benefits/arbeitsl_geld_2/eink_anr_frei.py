@@ -39,7 +39,7 @@ def eink_anr_frei_ab_10_2005(
 
 
 def arbeitsl_geld_2_2005_netto_quote(
-    bruttolohn_m, eink_st_m, soli_st_m, sozialv_beitr_m, arbeitsl_geld_2_params
+    bruttolohn_m, nettolohn_m, arbeitsl_geld_2_params,
 ):
     """Calculate Nettoquote.
 
@@ -48,10 +48,7 @@ def arbeitsl_geld_2_2005_netto_quote(
     """
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit nach § 11 Abs. 2 Nr. 1-5.
     alg2_2005_bne = (
-        bruttolohn_m
-        - eink_st_m
-        - soli_st_m
-        - sozialv_beitr_m
+        nettolohn_m
         - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
         - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
     ).clip(lower=0)
