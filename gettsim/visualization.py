@@ -36,9 +36,43 @@ source code: @source_code{safe}
 """
 
 
-def plot_dag(dag, plot_kwargs=None, node_kwargs=None, edge_kwargs=None):
+def plot_dag(
+    dag,
+    selectors=None,
+    highlighters=None,
+    plot_kwargs=None,
+    node_kwargs=None,
+    edge_kwargs=None,
+):
+    """Plot the dag of the tax and transfer system.
+
+    Parameters
+    ----------
+    dag : networkx.DiGraph
+        The DAG of the tax and transfers system.
+    selectors : str or list of str or dict or list of dict or list of str and dict
+        Selectors allow to you to select and de-select nodes in the graph for
+        visualization. For the full list of options, see the tutorial about
+        `visualization <../docs/tutorials/visualize.ipynb>`_. By default, all nodes are
+        shown.
+    highlighters : str or list of str or dict of list of dict or list of dict and str
+        Highlighters allow to mark nodes so that they can be found more easily. For the
+        full list of options, see the tutorial about `visualization
+        <../docs/tutorials/visualize.ipynb>`_. By default, no node is highlighted.
+    plot_kwargs : dict
+        Additional keyword arguments passed to :class:`bokeh.models.Plot`.
+    node_kwargs : dict
+        Additional keyword arguments passed to :class:`bokeh.models.Circle`. For
+        example, change the color with `{"fill_color": "orange"}`.
+    edge_kwargs : dict
+        Additional keyword arguments passed to :class:`bokeh.models.MultiLine`. For
+        example, change the color with `{"fill_color": "green"}`.
+
+    """
     dag = copy.deepcopy(dag)
 
+    selectors = {} if selectors is None else selectors
+    highlighters = {} if highlighters is None else highlighters
     plot_kwargs = {} if plot_kwargs is None else plot_kwargs
     node_kwargs = {} if node_kwargs is None else node_kwargs
     edge_kwargs = {} if edge_kwargs is None else edge_kwargs
@@ -47,7 +81,7 @@ def plot_dag(dag, plot_kwargs=None, node_kwargs=None, edge_kwargs=None):
 
     plot = Plot(**{**PLOT_KWARGS_DEFAULTS, **plot_kwargs})
 
-    plot.title.text = "Tax and Transfer System - 2018 - Target: sum_brutto_eink"
+    plot.title.text = "Tax and Transfer System"
 
     node_hover_tool = HoverTool(tooltips=TOOLTIPS)
 
@@ -75,7 +109,7 @@ def _replace_functions_with_source_code(dag):
 
     Parameters
     ----------
-    dag : nx.DiGraph
+    dag : networkx.DiGraph
         The graph whose nodes can contain Python functions in the node attributes.
 
     Returns
