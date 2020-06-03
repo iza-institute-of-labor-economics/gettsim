@@ -1,5 +1,3 @@
-from datetime import date
-
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
@@ -39,9 +37,8 @@ def test_ui(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date,
+        policy_date=str(year),
         groups=[
             "arbeitsl_geld",
             "soz_vers_beitr",

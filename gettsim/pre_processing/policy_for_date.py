@@ -4,6 +4,7 @@ import operator
 from functools import reduce
 
 import numpy as np
+import pandas as pd
 import yaml
 
 from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_ab_2011
@@ -48,6 +49,9 @@ from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_bis_2004
 
 
 def get_policies_for_date(policy_date, groups="all"):
+    if isinstance(policy_date, str):
+        policy_date = pd.to_datetime(policy_date)
+
     all_params_groups = [
         "eink_st",
         "eink_st_abzuege",

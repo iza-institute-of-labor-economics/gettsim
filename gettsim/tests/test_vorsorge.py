@@ -1,5 +1,4 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
@@ -42,9 +41,8 @@ def test_vorsorge(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups=["eink_st_abzuege", "soz_vers_beitr"],
+        policy_date=str(year), groups=["eink_st_abzuege", "soz_vers_beitr"],
     )
     user_columns = [
         "ges_krankenv_beitr_m",

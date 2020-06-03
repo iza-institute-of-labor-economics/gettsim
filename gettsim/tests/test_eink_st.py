@@ -1,5 +1,4 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
@@ -41,10 +40,8 @@ def input_data():
 def test_tax_sched(
     input_data, year, column,
 ):
-    policy_date = date(year, 1, 1)
-
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date,
+        policy_date=str(year),
         groups=["eink_st", "eink_st_abzuege", "soli_st", "abgelt_st"],
     )
 

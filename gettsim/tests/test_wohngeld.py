@@ -1,5 +1,4 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
@@ -55,9 +54,8 @@ def input_data():
 def test_wg(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="wohngeld"
+        policy_date=str(year), groups="wohngeld"
     )
     columns = [
         "elterngeld_m",
@@ -95,9 +93,8 @@ def input_data_2():
 def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="wohngeld"
+        policy_date=str(year), groups="wohngeld"
     )
     columns = [
         "elterngeld_m",

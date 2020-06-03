@@ -1,5 +1,3 @@
-from datetime import date
-
 import pandas as pd
 import pytest
 
@@ -93,9 +91,8 @@ def test_tax_transfer(
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[REQUIRED_INPUTS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="all"
+        policy_date=str(year), groups="all"
     )
     # params_dict["renten_daten"] = renten_daten
 
