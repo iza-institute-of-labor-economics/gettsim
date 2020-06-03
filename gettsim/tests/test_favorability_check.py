@@ -8,7 +8,6 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_input_by_level
 from gettsim.tests.auxiliary import select_output_by_level
 
 
@@ -51,14 +50,8 @@ def test_favorability_check(input_data, year, column):
         "_kindergeld_m_tu_basis",
     ]
 
-    data = dict(df)
-
-    for column_name, data_series in data.items():
-        data[column_name] = select_input_by_level(
-            data_series, data["tu_id"], data["hh_id"]
-        )
     calc_result = compute_taxes_and_transfers(
-        data,
+        df,
         user_functions=policy_func_dict,
         user_columns=columns,
         targets=column,
