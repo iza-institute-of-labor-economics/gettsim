@@ -58,3 +58,11 @@ def kinder_in_hh(kind, hh_id):
 
 def kinder_in_hh_individual(hh_id, kinder_in_hh):
     return hh_id.replace(kinder_in_hh).astype(bool)
+
+
+def haushaltsgröße(hh_id):
+    return hh_id.groupby(hh_id).transform("size")
+
+
+def haushaltsgröße_hh(hh_id):
+    return hh_id.groupby(hh_id).size()

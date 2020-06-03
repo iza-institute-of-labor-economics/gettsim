@@ -2,24 +2,26 @@ import numpy as np
 import pandas as pd
 
 
-def _regelbedarf_m_vermögens_check(regelbedarf_m, vermögen_hh, freibetrag_vermögen):
+def _regelbedarf_m_vermögens_check(regelbedarf_m, unter_vermögens_freibetrag):
     """Set regelbedarf_m to zero if it exceeds the wealth exemption.
 
     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
     calculated, just set the need to zero)
 
     """
-    return regelbedarf_m.where(vermögen_hh <= freibetrag_vermögen, 0)
+    return regelbedarf_m.where(unter_vermögens_freibetrag, 0)
 
 
 def _kinderzuschlag_m_vermögens_check(
-    _kinderzuschlag_m_vorläufig, vermögen_hh, freibetrag_vermögen
+    _kinderzuschlag_m_vorläufig, unter_vermögens_freibetrag
 ):
     """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption."""
-    return _kinderzuschlag_m_vorläufig.where(vermögen_hh <= freibetrag_vermögen, 0)
+    return _kinderzuschlag_m_vorläufig.where(unter_vermögens_freibetrag, 0)
 
 
-def _wohngeld_basis_hh_vermögens_check(wohngeld_basis_hh, vermögen_hh, haushaltsgröße):
+def _wohngeld_basis_hh_vermögens_check(
+    hh_id, wohngeld_basis_hh, vermögen_hh, haushaltsgröße
+):
     """Calculate a lump sum payment for wohngeld
 
     The payment depends on the wealth of the household and the number of household
@@ -30,8 +32,12 @@ def _wohngeld_basis_hh_vermögens_check(wohngeld_basis_hh, vermögen_hh, haushal
     TODO: Need to write numbers to params.
 
     """
-    condition = vermögen_hh <= (60_000 + (30_000 * (haushaltsgröße - 1)))
-    return wohngeld_basis_hh.where(condition, 0)
+    condition = hh_id.replace(vermögen_hh) <= (60_000 + (30_000 * (haushaltsgröße - 1)))
+    return hh_id.replace(wohngeld_basis_hh).where(condition, 0)
+
+
+def unter_vermögens_freibetrag(hh_id, vermögen_hh, freibetrag_vermögen_hh):
+    return hh_id.replace(vermögen_hh <= freibetrag_vermögen_hh)
 
 
 def freibetrag_alter(kind, alter, geburtsjahr, arbeitsl_geld_2_params):
@@ -50,8 +56,8 @@ def freibetrag_alter(kind, alter, geburtsjahr, arbeitsl_geld_2_params):
     return out
 
 
-def freibetrag_alter_per_hh(hh_id, freibetrag_alter):
-    return freibetrag_alter.groupby(hh_id).transform("sum")
+def freibetrag_alter_hh(hh_id, freibetrag_alter):
+    return freibetrag_alter.groupby(hh_id).sum()
 
 
 def freibetrag_vermögen_max(geburtsjahr, kind, arbeitsl_geld_2_params):
@@ -74,20 +80,20 @@ def freibetrag_vermögen_max(geburtsjahr, kind, arbeitsl_geld_2_params):
     return pd.Series(index=geburtsjahr.index, data=data)
 
 
-def freibetrag_vermögen_max_per_hh(hh_id, freibetrag_vermögen_max):
-    return freibetrag_vermögen_max.groupby(hh_id).transform("sum")
+def freibetrag_vermögen_max_hh(hh_id, freibetrag_vermögen_max):
+    return freibetrag_vermögen_max.groupby(hh_id).sum()
 
 
-def freibetrag_vermögen(
-    freibetrag_alter_per_hh,
+def freibetrag_vermögen_hh(
+    freibetrag_alter_hh,
     anz_minderj_hh,
-    haushaltsgröße,
-    freibetrag_vermögen_max_per_hh,
+    haushaltsgröße_hh,
+    freibetrag_vermögen_max_hh,
     arbeitsl_geld_2_params,
 ):
     return (
-        freibetrag_alter_per_hh
+        freibetrag_alter_hh
         + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag"]["kind"]
-        + (haushaltsgröße - anz_minderj_hh)
+        + (haushaltsgröße_hh - anz_minderj_hh)
         * arbeitsl_geld_2_params["vermögensfreibetrag"]["ausstattung"]
-    ).clip(upper=freibetrag_vermögen_max_per_hh)
+    ).clip(upper=freibetrag_vermögen_max_hh)
