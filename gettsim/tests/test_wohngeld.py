@@ -40,7 +40,6 @@ INPUT_COLS = [
     "behinderungsgrad",
     "jahr",
 ]
-OUT_COLS = ["wohngeld_basis", "wohngeld_basis_hh"]
 YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
 TEST_COLUMN = ["wohngeld_basis_hh"]
 
@@ -69,7 +68,6 @@ def test_wg(input_data, year, column):
         "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
-        "eink_st_m",
         "ges_krankenv_beitr_m",
         "rentenv_beitr_m",
         "kindergeld_anspruch",
@@ -110,7 +108,6 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
         "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
-        "eink_st_m",
         "ges_krankenv_beitr_m",
         "rentenv_beitr_m",
         "kindergeld_anspruch",
