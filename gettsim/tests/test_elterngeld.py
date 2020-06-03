@@ -70,13 +70,13 @@ def test_eltgeld(
             "soli_st",
         ],
     )
-    data = dict(df)
-    data["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).sum() * 12
-    data["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).sum() * 12
+    df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+    df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+
     columns = ["soli_st_tu", "eink_st_tu", "sozialv_beitr_m"]
 
     result = compute_taxes_and_transfers(
-        data, user_columns=columns, targets=column, params=params_dict
+        df, user_columns=columns, targets=column, params=params_dict
     )
 
     assert_series_equal(
