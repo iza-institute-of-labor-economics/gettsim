@@ -7,7 +7,6 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_output_by_level
 
 
 INPUT_COLS = [
@@ -28,9 +27,9 @@ TEST_COLUMNS = ["eink_st_tu", "kindergeld_m", "kindergeld_m_hh", "kindergeld_m_t
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_favorability_check.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(
+        ROOT_DIR / "tests" / "test_data" / "test_dfs_favorability_check.csv"
+    )
 
 
 @pytest.mark.parametrize("year, column", product(YEARS, TEST_COLUMNS))
@@ -56,7 +55,6 @@ def test_favorability_check(input_data, year, column):
         params=params_dict,
     )
 
-    expected_result = select_output_by_level(column, year_data)
     assert_series_equal(
-        calc_result, expected_result, check_dtype=False, check_names=False
+        calc_result, year_data[column], check_dtype=False, check_names=False
     )

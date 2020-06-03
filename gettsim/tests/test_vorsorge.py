@@ -7,7 +7,6 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_output_by_level
 
 
 IN_COLS = [
@@ -59,8 +58,6 @@ def test_vorsorge(
         params=params_dict,
     )
 
-    expected_result = select_output_by_level(column, year_data)
-
     assert_series_equal(
-        result, expected_result, check_less_precise=2, check_dtype=False
+        result, year_data[column], check_less_precise=2, check_dtype=False
     )

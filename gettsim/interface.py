@@ -59,6 +59,7 @@ def compute_taxes_and_transfers(
     data = copy.deepcopy(data)
 
     data = _process_data(data)
+    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
     data = _reduce_data(data)
 
     if isinstance(targets, str):
@@ -90,17 +91,20 @@ def compute_taxes_and_transfers(
 
     dag = create_dag(functions)
 
-    if targets is not None:
+    if targets:
         dag = prune_dag(dag, targets)
 
         # Remove columns in data which are not used in the DAG.
-        relevant_columns = set(data) & set(dag.nodes)
+        relevant_columns = set(data) & set(dag.nodes) | (
+            set(data) & {"p_id", "hh_id", "tu_id"}
+        )
         data = _dict_subset(data, relevant_columns)
 
     results = execute_dag(dag, data, targets)
 
-    if len(results) == 1:
-        results = list(results.values())[0]
+    results = _expand_data(results, ids)
+    results = pd.DataFrame(results)
+    results = results[targets] if len(targets) > 1 else results[targets[0]]
 
     if return_dag:
         results = (results, dag)
@@ -184,6 +188,25 @@ def _reduce_data(data):
                     """
                 )
                 warnings.warn(message, category=PendingDeprecationWarning)
+
+    return data
+
+
+def _expand_data(data, ids):
+    """Expand series in data.
+
+    Take the reduced variable which has the group id as index. Then, use the series
+    which assigns each individual a group id and index the reduced variable. This create
+    a series which has the correct length and values, but the index is the group id.
+    Thus, assign the correct index.
+
+    """
+    for name, s in data.items():
+        for level in ["hh", "tu"]:
+            if f"_{level}_" in name or name.endswith(f"_{level}"):
+                expanded_s = s.loc[ids[f"{level}_id"]]
+                expanded_s.index = ids[f"{level}_id"].index
+                data[name] = expanded_s
 
     return data
 

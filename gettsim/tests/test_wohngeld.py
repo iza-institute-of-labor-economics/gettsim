@@ -45,9 +45,7 @@ TEST_COLUMN = ["wohngeld_basis_hh"]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_wg.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMN))
@@ -84,9 +82,7 @@ def test_wg(input_data, year, column):
 
 @pytest.fixture(scope="module")
 def input_data_2():
-    file_name = "test_dfs_wg2.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg2.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product([2013], TEST_COLUMN))

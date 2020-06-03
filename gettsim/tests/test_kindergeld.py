@@ -7,7 +7,6 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_output_by_level
 
 INPUT_COLS = [
     "hh_id",
@@ -43,8 +42,6 @@ def test_kindergeld(input_data, year, column):
         df, user_functions=policy_func_dict, targets=column, params=params_dict
     )
 
-    expected_result = select_output_by_level(column, year_data)
-
     assert_series_equal(
-        calc_result, expected_result, check_dtype=False, check_names=False
+        calc_result, year_data[column], check_dtype=False, check_names=False
     )

@@ -116,4 +116,4 @@ def test_zve(
 
 
 def sum_test_data_tu(column, year_data):
-    return year_data[column].groupby(year_data["tu_id"]).sum()
+    return year_data[column].groupby(year_data["tu_id"]).transform("sum")

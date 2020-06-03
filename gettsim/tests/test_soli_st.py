@@ -5,7 +5,6 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_output_by_level
 
 INPUT_COLS = ["p_id", "hh_id", "tu_id", "kind", "_st_kind_freib_tu", "abgelt_st_tu"]
 
@@ -34,8 +33,6 @@ def test_soli_st(
     results = compute_taxes_and_transfers(
         df, user_columns=user_cols, targets="soli_st_tu", params=params_dict
     )
-    expected_result = select_output_by_level("soli_st_tu", year_data)
-
     assert_series_equal(
-        results, expected_result, check_dtype=False, check_names=False,
+        results, year_data["soli_st_tu"], check_dtype=False, check_names=False,
     )

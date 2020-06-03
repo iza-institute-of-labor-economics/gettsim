@@ -93,19 +93,13 @@ def prune_dag(dag, targets):
         Pruned DAG.
 
     """
-    # Go through the DAG from the targets to the bottom and collect all visited nodes.
-    visited_nodes = set(targets)
-    visited_nodes_changed = True
-    while visited_nodes_changed:
-        n_visited_nodes = len(visited_nodes)
-        for node in visited_nodes:
-            visited_nodes = visited_nodes.union(nx.ancestors(dag, node))
+    all_ancestors = set(targets)
+    for target in targets:
+        all_ancestors = all_ancestors | set(nx.ancestors(dag, target))
 
-        visited_nodes_changed = n_visited_nodes != len(visited_nodes)
-
-    # Redundant nodes are nodes not visited going from the targets through the graph.
     all_nodes = set(dag.nodes)
-    redundant_nodes = all_nodes - visited_nodes
+
+    redundant_nodes = all_nodes - all_ancestors
 
     dag.remove_nodes_from(redundant_nodes)
 

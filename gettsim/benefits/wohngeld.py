@@ -2,7 +2,7 @@ import numpy as np
 
 
 def wohngeld_basis_hh(
-    tu_id, wohngeld_basis, tu_vorstand,
+    hh_id, wohngeld_basis, tu_vorstand,
 ):
     """Compute "Wohngeld" or housing benefits.
 
@@ -18,7 +18,7 @@ def wohngeld_basis_hh(
     `_wohngeld_eink` (income) (§19 WoGG).
 
     """
-    return (wohngeld_basis * tu_vorstand).groupby(tu_id).transform("sum").round(2)
+    return (wohngeld_basis * tu_vorstand).groupby(hh_id).sum().round(2)
 
 
 def _zu_verst_ges_rente_tu(_zu_verst_ges_rente, tu_id):
