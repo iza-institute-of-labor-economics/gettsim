@@ -61,7 +61,7 @@ def compute_taxes_and_transfers(
     data = _process_data(data)
     data = _reduce_data(data)
 
-    if isinstance(targets, str) and targets is not None:
+    if isinstance(targets, str):
         targets = [targets]
 
     if user_columns is None:
@@ -97,7 +97,7 @@ def compute_taxes_and_transfers(
         relevant_columns = set(data) & set(dag.nodes)
         data = _dict_subset(data, relevant_columns)
 
-    results = execute_dag(functions, dag, data, targets)
+    results = execute_dag(dag, data, targets)
 
     if len(results) == 1:
         results = list(results.values())[0]
