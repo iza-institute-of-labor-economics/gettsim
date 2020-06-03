@@ -13,7 +13,7 @@
 project = "GETTSIM"
 copyright = "2019, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
-release = "0.2.1"
+release = "0.3.0"
 version = ".".join(release.split(".")[:2])
 
 
