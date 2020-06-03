@@ -1,12 +1,13 @@
-"""
-This module contains the 'Higher-Yield Test':
-It compares the tax burden that results from various definitions of the tax base.
-Most importantly, it compares the tax burden without applying the child
-allowance (kein_kind_freib) AND receiving child benefit with the tax burden including
-the child allowance (kind_freib), but without child benefit. The most beneficial
-(for the household) is chosen. If child allowance is claimed, kindergeld is
-set to zero. A similar check applies to whether it is more profitable to
-tax capital incomes with the standard 25% rate or to include it in the tariff.
+"""This module contains the 'Higher-Yield Test':
+
+It compares the tax burden that results from various definitions of the tax base. Most
+importantly, it compares the tax burden without applying the child allowance
+(kein_kind_freib) AND receiving child benefit with the tax burden including the child
+allowance (kind_freib), but without child benefit. The most beneficial (for the
+household) is chosen. If child allowance is claimed, kindergeld is set to zero. A
+similar check applies to whether it is more profitable to tax capital incomes with the
+standard 25% rate or to include it in the tariff.
+
 """
 
 
@@ -105,8 +106,9 @@ def _kindergeld_m_ab_1997(
 def kindergeld_m_hh(kindergeld_m, hh_id):
     """Aggregate Child benefit on the household level.
 
-    Aggregate Child benefit on the household level, as we could have several
-    tax_units in one household.
+    Aggregate Child benefit on the household level, as we could have several tax_units
+    in one household.
+
     Parameters
     ----------
     kindergeld_m

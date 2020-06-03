@@ -47,28 +47,28 @@ def create_function_dict(user_functions, internal_functions, user_columns, param
     return partialed_functions
 
 
-def create_dag(func_dict):
+def create_dag(functions):
     """Create a directed acyclic graph (DAG) capturing dependencies between functions.
 
     Parameters
     ----------
-    func_dict : dict
-        Maps function names to functions.
+    functions : dict
+        Dictionary containing functions to build the DAG.
 
     Returns
     -------
-    networkx.DiGraph
+    dag : networkx.DiGraph
         The DAG, represented as a dictionary of lists that maps function names to a list
         of its data dependencies.
 
     """
     dag = nx.DiGraph()
-    for name, function in func_dict.items():
+    for name, function in functions.items():
         dag.add_node(name, function=function)
         for dependency in inspect.getfullargspec(function).args:
             attr = (
-                {"function": func_dict.get(dependency)}
-                if dependency in func_dict
+                {"function": functions.get(dependency)}
+                if dependency in functions
                 else {}
             )
             dag.add_node(dependency, **attr)
@@ -110,6 +110,7 @@ def execute_dag(dag, data, targets):
     """Naive serial scheduler for our tasks.
 
     We will probably use some existing scheduler instead. Interesting sources are:
+
     - https://ipython.org/ipython-doc/3/parallel/dag_dependencies.html
     - https://docs.dask.org/en/latest/graphs.html
 
@@ -119,6 +120,7 @@ def execute_dag(dag, data, targets):
     Parameters
     ----------
     dag : networkx.DiGraph
+        The DAG.
     data : dict
     targets : list
 
@@ -158,27 +160,30 @@ def _dict_subset(dictionary, keys):
 def collect_garbage(results, task, visited_nodes, targets, dag):
     """Remove data which is no longer necessary.
 
-    If all descendants of a node have been evaluated, the information in the node
-    becomes redundant and can be removed to save memory.
+    Loop over all dependencies of the current `task`. If a dependency is no longer
+    needed, remove it.
 
     Parameters
     ----------
     results : dict
+        Dictionary containing `pandas.Series` as values.
     task : str
-    visited_nodes : set
+        The name of the variable which was just computed.
+    visited_nodes : set of str
+        The set of nodes which have been visited before.
     dag : networkx.DiGraph
+        The DAG.
 
     Returns
     -------
     results : dict
+        Dictionary where some values might have been removed by the garbage collection.
 
     """
-    for ancestor in dag.predecessors(task):
-        is_obsolete = all(
-            successor in visited_nodes for successor in dag.successors(ancestor)
-        )
+    for pre in dag.predecessors(task):
+        is_obsolete = all(succ in visited_nodes for succ in dag.successors(pre))
 
-        if is_obsolete and ancestor not in targets:
-            del results[ancestor]
+        if is_obsolete and pre not in targets:
+            del results[pre]
 
     return results

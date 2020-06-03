@@ -47,7 +47,7 @@ def test_favorability_check(input_data, year, column):
         "_kindergeld_m_tu_basis",
     ]
 
-    calc_result = compute_taxes_and_transfers(
+    result = compute_taxes_and_transfers(
         df,
         user_functions=policy_func_dict,
         user_columns=columns,
@@ -55,6 +55,4 @@ def test_favorability_check(input_data, year, column):
         params=params_dict,
     )
 
-    assert_series_equal(
-        calc_result, year_data[column], check_dtype=False, check_names=False
-    )
+    assert_series_equal(result, year_data[column], check_dtype=False, check_names=False)

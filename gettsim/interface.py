@@ -1,6 +1,5 @@
 import copy
 import textwrap
-import warnings
 from pathlib import Path
 
 import pandas as pd
@@ -179,15 +178,6 @@ def _reduce_data(data):
                 groups = data[f"{level}_id"]
                 reduced_s = _reduce_series_to_value_per_group(name, s, level, groups)
                 data[name] = reduced_s
-
-            if f"_{level}_" in name:
-                message = _format_text_for_cmdline(
-                    """
-                    Using '_hh_' or '_tu_' in variable names to indicate a reduced
-                    variable will be deprecated. Use '_hh' or '_tu' as a suffix instead.
-                    """
-                )
-                warnings.warn(message, category=PendingDeprecationWarning)
 
     return data
 
