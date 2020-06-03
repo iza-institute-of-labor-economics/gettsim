@@ -20,7 +20,6 @@ INPUT_COLS = [
     "arbeitsl_vor2j_m",
     "ges_rente_m",
     "arbeitsstunden_w",
-    "anz_kinder_tu",
     "alter",
     "jahr",
 ]

@@ -24,7 +24,6 @@ INPUT_COLS = [
     "alleinerziehend",
     "kindergeld_anspruch",
     "alleinerziehenden_mehrbedarf",
-    "anz_kinder_tu",
     "_arbeitsl_geld_2_brutto_eink_hh",
     "arbeitsl_geld_2_eink_hh",
     "kindergeld_m_hh",
