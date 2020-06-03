@@ -69,7 +69,6 @@ def compute_taxes_and_transfers(
     internal_function_files = [
         "soz_vers",
         "benefits",
-        "renten_anspruch_dag.py",
         "taxes",
         "demographic_vars.py",
     ]

@@ -60,8 +60,8 @@ DESIRED_OUTPUTS = [
     "ges_krankenv_beitr_m",
     "pflegev_beitr_m",
     "arbeitsl_geld_m",
-    "rente_anspr_m",
-    "entgeltpunkte",
+    # "rente_anspr_m",
+    # "entgeltpunkte",
     "abgelt_st_tu",
     "soli_st_tu",
     "kindergeld_m",
@@ -90,7 +90,7 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_tax_transfer(
-    input_data, year, renten_daten,
+    input_data, year,
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[REQUIRED_INPUTS].copy()
@@ -98,7 +98,7 @@ def test_tax_transfer(
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date, groups="all"
     )
-    params_dict["renten_daten"] = renten_daten
+    # params_dict["renten_daten"] = renten_daten
 
     compute_taxes_and_transfers(
         df, targets=DESIRED_OUTPUTS, user_functions=policy_func_dict, params=params_dict
