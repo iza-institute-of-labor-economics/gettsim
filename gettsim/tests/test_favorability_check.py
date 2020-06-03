@@ -16,24 +16,16 @@ INPUT_COLS = [
     "hh_id",
     "tu_id",
     "p_id",
-    "gem_veranlagt",
     "kind",
     "_st_kein_kind_freib_tu",
     "_st_kind_freib_tu",
-    "abgelt_st_m_tu",
+    "abgelt_st_tu",
     "_kindergeld_m_basis",
     "_kindergeld_m_tu_basis",
     "jahr",
 ]
-OUT_COLS = [
-    "eink_st_m_tu",
-    "eink_st_m",
-    "kindergeld_m",
-    "kindergeld_m_hh",
-    "kindergeld_m_tu",
-]
 YEARS = [2010, 2012, 2016]
-TEST_COLUMNS = ["eink_st_m_tu", "kindergeld_m", "kindergeld_m_hh", "kindergeld_m_tu"]
+TEST_COLUMNS = ["eink_st_tu", "kindergeld_m", "kindergeld_m_hh", "kindergeld_m_tu"]
 
 
 @pytest.fixture(scope="module")
@@ -54,7 +46,7 @@ def test_favorability_check(input_data, year, column):
     columns = [
         "_st_kein_kind_freib_tu",
         "_st_kind_freib_tu",
-        "abgelt_st_m_tu",
+        "abgelt_st_tu",
         "_kindergeld_m_basis",
         "_kindergeld_m_tu_basis",
     ]

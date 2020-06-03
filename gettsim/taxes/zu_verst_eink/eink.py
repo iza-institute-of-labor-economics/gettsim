@@ -1,15 +1,18 @@
-def brutto_eink_1(eink_selbstst_m):
+from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+
+
+def brutto_eink_1(eink_selbst_m):
     """Income from Self-Employment
 
     Parameters
     ----------
-    eink_selbstst_m
+    eink_selbst_m
 
     Returns
     -------
 
     """
-    return 12 * eink_selbstst_m.clip(lower=0)
+    return 12 * eink_selbst_m.clip(lower=0)
 
 
 def brutto_eink_1_tu(brutto_eink_1, tu_id):
@@ -194,3 +197,25 @@ def _sum_brutto_eink_mit_kapital(
         - eink_st_abzuege_params["sparerpauschbetrag"]
         - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     ).clip(lower=0)
+
+
+def _ertragsanteil(jahr_renteneintr, eink_st_params):
+    """Calculate the share of pensions subject to income taxation.
+
+    Parameters
+    ----------
+    jahr_renteneintr
+
+    Returns
+    -------
+
+    """
+    out = piecewise_polynomial(
+        x=jahr_renteneintr,
+        thresholds=eink_st_params["ertragsanteil"]["thresholds"],
+        rates=eink_st_params["ertragsanteil"]["rates"],
+        intercepts_at_lower_thresholds=eink_st_params["ertragsanteil"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
+    return out

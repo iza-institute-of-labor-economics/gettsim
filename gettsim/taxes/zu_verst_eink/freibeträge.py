@@ -74,7 +74,7 @@ def altersfreib(
     bruttolohn_m,
     alter,
     kapital_eink_m,
-    eink_selbstst_m,
+    eink_selbst_m,
     vermiet_eink_m,
     eink_st_abzuege_params,
 ):
@@ -86,7 +86,7 @@ def altersfreib(
     bruttolohn_m
     alter
     kapital_eink_m
-    eink_selbstst_m
+    eink_selbst_m
     vermiet_eink_m
     eink_st_abzuege_params
 
@@ -100,7 +100,7 @@ def altersfreib(
         * 12
         * (
             bruttolohn_m
-            + (kapital_eink_m + eink_selbstst_m + vermiet_eink_m).clip(lower=0)
+            + (kapital_eink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
         )
     ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])
     return out
@@ -124,7 +124,7 @@ def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
 
 
 def _sonderausgaben_ab_2012(
-    betreuungskost_m, tu_id, kind, anz_erwachsene_in_tu, eink_st_abzuege_params
+    betreuungskost_m, tu_id, kind, _anz_erwachsene_tu, eink_st_abzuege_params
 ):
     """
     Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
@@ -135,12 +135,13 @@ def _sonderausgaben_ab_2012(
     tu_id
     kind
     eink_st_abzuege_params
-    anz_erwachsene_in_tu
+    _anz_erwachsene_tu
 
     Returns
     -------
 
     """
+    erwachsene_in_tu = tu_id.replace(_anz_erwachsene_tu)
     abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
         upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
     )
@@ -150,7 +151,7 @@ def _sonderausgaben_ab_2012(
         berechtigte_kinder
         * abziehbare_betreuungskosten
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
-    ) / anz_erwachsene_in_tu
+    ) / erwachsene_in_tu
 
     out.loc[kind] = 0
     return out
@@ -190,41 +191,34 @@ def _altervorsorge_aufwend(
     return out
 
 
-def kinderfreib(
-    _kindergeld_anspruch,
-    kind,
-    _zu_verst_eink_kein_kinderfreib_vorläufig,
-    tu_id,
-    eink_st_abzuege_params,
+def kinderfreib_tu(
+    anz_kindergeld_kinder_tu, _anz_erwachsene_tu, eink_st_abzuege_params
 ):
-    # Calculate the possible kinderfreibetrag
+    """Sum over all child allowances.
+
+    Parameters
+    ----------
+    anz_kindergeld_kinder_tu
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
-    # Count number of children eligible for Child Benefit.
-    # Child allowance is only received for these kids.
-    anz_kindergeld_kind = (
-        (_kindergeld_anspruch.astype(int)).groupby(tu_id).transform(sum)
-    )
-    raw_kinderfreib = kifreib_total * anz_kindergeld_kind[~kind]
+    return kifreib_total * anz_kindergeld_kinder_tu * _anz_erwachsene_tu
 
-    # If in a tax unit one adult earns less than the kinderfreib, we transfer the
-    # difference
-    diff_kinderfreib = (
-        _zu_verst_eink_kein_kinderfreib_vorläufig.loc[~kind] - raw_kinderfreib
-    )
-    # Get the transfers for each concerned tax unit, indexed with the tax unit.
-    transfer_tu = diff_kinderfreib.loc[diff_kinderfreib < 0].reindex(
-        index=tu_id[~kind].loc[diff_kinderfreib < 0]
-    )
-    # Assign negative transfers to adults in tax unit
-    transfers = tu_id[~kind & (diff_kinderfreib < 0)].replace(transfer_tu)
-    out = kind.astype(float) * 0
 
-    # Transfers are saved as negative values and therefore need to be substracted
-    out.loc[~kind & (diff_kinderfreib > 0)] = raw_kinderfreib.loc[
-        diff_kinderfreib > 0
-    ].subtract(transfers.loc[diff_kinderfreib > 0], fill_value=0)
-    out.loc[~kind & (diff_kinderfreib < 0)] = raw_kinderfreib.loc[
-        diff_kinderfreib < 0
-    ].add(transfers.loc[diff_kinderfreib < 0], fill_value=0)
+def anz_kindergeld_kinder_tu(tu_id, kindergeld_anspruch):
+    """Count number of children eligible for Child Benefit.
 
-    return out
+    Parameters
+    ----------
+    tu_id
+    kindergeld_anspruch
+
+    Returns
+    -------
+
+    """
+    return kindergeld_anspruch.groupby(tu_id).sum()

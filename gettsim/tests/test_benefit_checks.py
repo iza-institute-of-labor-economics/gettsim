@@ -18,12 +18,11 @@ INPUT_COLS = [
     "rentner",
     "alter",
     "vermögen_hh",
-    "anz_erwachsene_hh",
     "anz_minderj_hh",
-    "kinderzuschlag_temp",
+    "_kinderzuschlag_m_vorläufig",
     "wohngeld_basis_hh",
     "regelbedarf_m",
-    "sum_basis_arbeitsl_geld_2_eink",
+    "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
     "geburtsjahr",
     "jahr",
 ]
@@ -41,20 +40,25 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_benefit_checks(input_data, year, column):
+    """Test the benefit checks."""
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_date = date(year, 1, 1)
     columns = [
-        "kinderzuschlag_temp",
+        "_kinderzuschlag_m_vorläufig",
         "wohngeld_basis_hh",
         "regelbedarf_m",
-        "sum_basis_arbeitsl_geld_2_eink",
+        "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
     ]
 
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=policy_date, groups="arbeitsl_geld_2",
     )
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        df,
+        user_columns=columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
     assert_series_equal(result, year_data[column], check_dtype=False)

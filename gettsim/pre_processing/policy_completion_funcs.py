@@ -40,7 +40,7 @@ def add_progressionsfaktor(param_dict, parameter):
     out_dict = copy.deepcopy(param_dict)
     interval_keys = sorted(key for key in out_dict if isinstance(key, int))
     # Check and extract lower thresholds.
-    lower_thresholds, upper_thresholds = check_threholds(
+    lower_thresholds, upper_thresholds, thresholds = check_threholds(
         param_dict, parameter, interval_keys
     )
     for key in interval_keys:

@@ -8,7 +8,6 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_output_by_level
 
 
 INPUT_COLS = [
@@ -17,14 +16,13 @@ INPUT_COLS = [
     "tu_id",
     "bruttolohn_m",
     "betreuungskost_m",
-    "eink_selbstst_m",
+    "eink_selbst_m",
     "kapital_eink_m",
     "vermiet_eink_m",
     "jahr_renteneintr",
     "ges_rente_m",
     "arbeitsstunden_w",
     "in_ausbildung",
-    "gem_veranlagt",
     "kind",
     "behinderungsgrad",
     "rentenv_beitr_m",
@@ -60,9 +58,9 @@ OUT_COLS = [
 ]
 
 TEST_COLS = [
-    "_zu_verst_eink_kein_kinderfreib",
-    "_zu_verst_eink_kinderfreib",
-    "kinderfreib",
+    "_zu_verst_eink_kein_kinderfreib_tu",
+    "_zu_verst_eink_kinderfreib_tu",
+    "kinderfreib_tu",
     "altersfreib",
     "sum_brutto_eink",
 ]
@@ -102,7 +100,15 @@ def test_zve(
         params=params_dict,
     )
 
-    expected_result = select_output_by_level(column, year_data)
+    if column == "kindergeld_tu":
+        expected_result = sum_test_data_tu("kindergeld", year_data)
+    elif column == "_zu_verst_eink_kein_kinderfreib_tu":
+        expected_result = sum_test_data_tu("_zu_verst_eink_kein_kinderfreib", year_data)
+    elif column == "_zu_verst_eink_kinderfreib_tu":
+        expected_result = sum_test_data_tu("_zu_verst_eink_kinderfreib", year_data)
+    else:
+        expected_result = result
+
     assert_series_equal(
         result,
         expected_result,
@@ -110,3 +116,7 @@ def test_zve(
         check_less_precise=1,
         check_names=False,
     )
+
+
+def sum_test_data_tu(column, year_data):
+    return year_data[column].groupby(year_data["tu_id"]).sum()

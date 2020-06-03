@@ -8,7 +8,7 @@ from pandas.testing import assert_series_equal
 from gettsim.config import ROOT_DIR
 from gettsim.dag import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-
+from gettsim.tests.auxiliary import select_input_by_level
 
 INPUT_COLS = [
     "p_id",
@@ -24,15 +24,14 @@ INPUT_COLS = [
     "alleinerziehend",
     "kindergeld_anspruch",
     "alleinerziehenden_mehrbedarf",
-    "anz_erw_tu",
     "anz_kinder_tu",
-    "arbeitsl_geld_2_brutto_eink_hh",
-    "sum_arbeitsl_geld_2_eink_hh",
+    "_arbeitsl_geld_2_brutto_eink_hh",
+    "arbeitsl_geld_2_eink_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
 ]
-OUT_COLS = ["kinderzuschlag_temp"]
+OUT_COLS = ["_kinderzuschlag_m_vorläufig"]
 YEARS = [2006, 2009, 2011, 2013, 2016, 2017, 2019, 2020]
 
 
@@ -55,14 +54,29 @@ def test_kiz(
     )
     columns = [
         "alleinerziehenden_mehrbedarf",
-        "arbeitsl_geld_2_brutto_eink_hh",
-        "sum_arbeitsl_geld_2_eink_hh",
+        "arbeitsl_geld_2_eink_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m",
+        "_arbeitsl_geld_2_brutto_eink_hh",
+        "kindergeld_anspruch",
     ]
+    data = dict(df)
+    for column_name, data_series in data.items():
+        data[column_name] = select_input_by_level(
+            data_series, data["tu_id"], data["hh_id"]
+        )
 
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        data,
+        user_columns=columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
-
-    assert_series_equal(result, year_data[column], check_less_precise=True)
+    assert_series_equal(
+        result,
+        year_data[column],
+        check_less_precise=True,
+        check_index_type=False,
+        check_dtype=False,
+    )

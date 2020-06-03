@@ -68,15 +68,9 @@ def compute_taxes_and_transfers(
     internal_functions = {}
     internal_function_files = [
         "soz_vers",
-        "benefits/arbeitsl_geld_dag.py",
-        "benefits/arbeitsl_geld_2_dag.py",
-        "benefits/benefit_checks_dag.py",
-        "benefits/elterngeld_dag.py",
-        "benefits/kinderzuschlag_dag.py",
-        "benefits/unterhalt_dag.py",
-        "benefits/wohngeld_dag.py",
-        "renten_anspruch_dag.py",
+        "benefits",
         "taxes",
+        "demographic_vars.py",
     ]
     for file in internal_function_files:
         new_funcs = load_functions(Path(__file__).parent / file)
@@ -355,7 +349,11 @@ def execute_dag(func_dict, dag, data, targets):
                 kwargs = _dict_subset(data, dag.predecessors(task))
                 data[task] = func_dict[task](**kwargs).rename(task)
             else:
-                raise KeyError(f"Missing variable or function: {task}")
+                dependants = list(dag.successors(task))
+                raise KeyError(
+                    f"Missing variable or function '{task}'. It is required to compute "
+                    f"{dependants}."
+                )
 
             visited_nodes.add(task)
 

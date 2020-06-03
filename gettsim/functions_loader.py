@@ -1,5 +1,6 @@
 import importlib
 import inspect
+import warnings
 from pathlib import Path
 
 
@@ -41,6 +42,14 @@ def load_functions(sources):
                 for name, func in inspect.getmembers(source)
                 if _is_function_defined_in_module(func, source.__name__)
             }
+
+            # Test whether there are duplicate functions.
+            overlapping_functions = set(functions_defined_in_module) & set(functions)
+            if overlapping_functions:
+                warnings.warn(
+                    "The following functions are already defined: "
+                    f"{overlapping_functions}."
+                )
 
             functions = {**functions, **functions_defined_in_module}
 

@@ -18,30 +18,14 @@ INPUT_COLS = [
     "kind",
     "_zu_verst_eink_kein_kinderfreib",
     "_zu_verst_eink_kinderfreib",
-    "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
     "brutto_eink_5",
-    "gem_veranlagt",
 ]
 
 TEST_COLUMNS = [
     "_st_kein_kind_freib_tu",
     "_st_kind_freib_tu",
-    "abgelt_st_m",
-    "abgelt_st_m_tu",
-    "soli_st_m",
-    "soli_st_m_tu",
-]
-
-OUT_COLS = [
-    "_st_kein_kind_freib_tu",
-    "_st_kind_freib_tu",
-    "_st_kein_kind_freib",
-    "_st_kind_freib",
-    "abgelt_st_m",
-    "abgelt_st_m_tu",
-    "soli_st_m",
-    "soli_st_m_tu",
+    "abgelt_st_tu",
+    "soli_st_tu",
 ]
 YEARS = [2009, 2012, 2015, 2018]
 
@@ -66,14 +50,25 @@ def test_tax_sched(
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
+
+    data = dict(df)
+
+    data["_zu_verst_eink_kein_kinderfreib_tu"] = (
+        df["_zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).sum()
+    )
+
+    data["_zu_verst_eink_kinderfreib_tu"] = (
+        df["_zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).sum()
+    )
+
     columns = [
-        "_zu_verst_eink_kein_kinderfreib",
-        "_zu_verst_eink_kinderfreib",
+        "_zu_verst_eink_kein_kinderfreib_tu",
+        "_zu_verst_eink_kinderfreib_tu",
         "brutto_eink_5",
     ]
 
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        data, user_columns=columns, targets=column, params=params_dict
     )
 
     expected_result = select_output_by_level(column, year_data)

@@ -6,24 +6,35 @@ from functools import reduce
 import numpy as np
 import yaml
 
-from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_2011_and_beyond
-from gettsim.benefits.arbeitsl_geld_2 import regelberechnung_until_2010
-from gettsim.benefits.kinderzuschlag import calc_kiz_amount_07_2019
-from gettsim.benefits.kinderzuschlag import calc_kiz_amount_2005
-from gettsim.benefits.kinderzuschlag import kiz
-from gettsim.benefits.kinderzuschlag import kiz_dummy
-from gettsim.benefits.wohngeld import calc_max_rent_since_2009
-from gettsim.benefits.wohngeld import calc_max_rent_until_2008
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_ab_2011
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_bis_2010
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_ab_2011
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_bis_2010
+from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
+from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
+from gettsim.benefits.kinderzuschlag.kinderzuschlag import (
+    kinderzuschlag_ab_2005_bis_juni_2019,
+)
+from gettsim.benefits.kinderzuschlag.kinderzuschlag import kinderzuschlag_ab_juli_2019
+from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
+    kinderzuschlag_eink_regel_ab_2011,
+)
+from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
+    kinderzuschlag_eink_regel_bis_2010,
+)
+from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_ab_2016
+from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_bis_2015
+from gettsim.benefits.wohngeld import wohngeld_max_miete_ab_2009
+from gettsim.benefits.wohngeld import wohngeld_max_miete_bis_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
-from gettsim.taxes.favorability_check import _eink_st_m_tu_ab_1997
-from gettsim.taxes.favorability_check import _eink_st_m_tu_bis_1996
+from gettsim.taxes.favorability_check import _eink_st_tu_ab_1997
+from gettsim.taxes.favorability_check import _eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import _kindergeld_m_ab_1997
 from gettsim.taxes.favorability_check import _kindergeld_m_bis_1996
-from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_lohn
-from gettsim.taxes.kindergeld import _kindergeld_anspruch_nach_stunden
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
+from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_ohne_kapital
 from gettsim.taxes.zu_verst_eink.freibeträge import _hh_freib_bis_2014
@@ -65,7 +76,6 @@ def get_policies_for_date(policy_date, groups="all"):
 
     params_dict = {}
     year = policy_date.year
-    month = policy_date.month
 
     for group in group_list:
         tax_data = load_data(policy_date, group)
@@ -82,39 +92,11 @@ def get_policies_for_date(policy_date, groups="all"):
                         tax_data[param] = get_piecewise_parameters(
                             tax_data[param],
                             param,
-                            piecewise_polynomial,
                             func_type=tax_data[param]["type"].split("_")[1],
                         )
                 for key in ["type", "progressionsfaktor"]:
                     tax_data[param].pop(key, None)
 
-        if group == "arbeitsl_geld_2":
-            if tax_data["jahr"] <= 2010:
-                tax_data["calc_regelsatz"] = regelberechnung_until_2010
-            else:
-                tax_data["calc_regelsatz"] = regelberechnung_2011_and_beyond
-
-        elif group == "eink_st_abzuege":
-
-            tax_data["eink_arten"] = ["kein_kind_freib", "kind_freib"]
-
-        elif group == "wohngeld":
-            if year < 2009:
-                tax_data["calc_max_rent"] = calc_max_rent_until_2008
-            else:
-                tax_data["calc_max_rent"] = calc_max_rent_since_2009
-
-        elif group == "kinderzuschlag":
-            if year < 2004:
-                tax_data["calc_kiz"] = kiz_dummy
-            else:
-                tax_data["calc_kiz"] = kiz
-            if (year >= 2020) or (year == 2019 and month >= 7):
-                tax_data["calc_kiz_amount"] = calc_kiz_amount_07_2019
-            else:
-                tax_data["calc_kiz_amount"] = calc_kiz_amount_2005
-
-        tax_data["jahr"] = year
         tax_data["datum"] = policy_date
         params_dict[group] = tax_data
 
@@ -130,16 +112,16 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["hh_freib"] = _hh_freib_seit_2015
 
     if year <= 1996:
-        policy_func_dict["eink_st_m_tu"] = _eink_st_m_tu_bis_1996
+        policy_func_dict["eink_st_tu"] = _eink_st_tu_bis_1996
         policy_func_dict["kindergeld_m"] = _kindergeld_m_bis_1996
     else:
-        policy_func_dict["eink_st_m_tu"] = _eink_st_m_tu_ab_1997
+        policy_func_dict["eink_st_tu"] = _eink_st_tu_ab_1997
         policy_func_dict["kindergeld_m"] = _kindergeld_m_ab_1997
 
     if year > 2011:
-        policy_func_dict["_kindergeld_anspruch"] = _kindergeld_anspruch_nach_stunden
+        policy_func_dict["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
     else:
-        policy_func_dict["_kindergeld_anspruch"] = _kindergeld_anspruch_nach_lohn
+        policy_func_dict["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
 
     if year > 2011:
         policy_func_dict["sonderausgaben"] = _sonderausgaben_ab_2012
@@ -154,6 +136,44 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["vorsorge"] = _vorsorge_2005_vs_pre_2005
     elif year <= 2004:
         policy_func_dict["vorsorge"] = _vorsorge_bis_2004
+
+    if year <= 2015:
+        policy_func_dict["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_bis_2015
+    else:
+        policy_func_dict["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_ab_2016
+
+    if year <= 2008:
+        policy_func_dict["wohngeld_max_miete"] = wohngeld_max_miete_bis_2008
+    else:
+        policy_func_dict["wohngeld_max_miete"] = wohngeld_max_miete_ab_2009
+
+    if year <= 2010:
+        policy_func_dict[
+            "kinderzuschlag_eink_regel"
+        ] = kinderzuschlag_eink_regel_bis_2010
+    else:
+        policy_func_dict[
+            "kinderzuschlag_eink_regel"
+        ] = kinderzuschlag_eink_regel_ab_2011
+
+    if 2005 <= year <= 2019:
+        policy_func_dict[
+            "_kinderzuschlag_m_vorläufig"
+        ] = kinderzuschlag_ab_2005_bis_juni_2019
+    else:
+        policy_func_dict["_kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
+
+    if year <= 2010:
+        policy_func_dict["kindersatz_m"] = kindersatz_m_bis_2010
+        policy_func_dict["regelsatz_m"] = regelsatz_m_bis_2010
+    else:
+        policy_func_dict["kindersatz_m"] = kindersatz_m_ab_2011
+        policy_func_dict["regelsatz_m"] = regelsatz_m_ab_2011
+
+    if policy_date <= datetime.date(year=2005, month=10, day=1):
+        policy_func_dict["eink_anr_frei"] = eink_anr_frei_bis_10_2005
+    else:
+        policy_func_dict["eink_anr_frei"] = eink_anr_frei_ab_10_2005
 
     return params_dict, policy_func_dict
 
