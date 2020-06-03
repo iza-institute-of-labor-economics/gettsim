@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from gettsim.config import INTERNAL_FUNCTION_FILES
 from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
@@ -72,19 +73,16 @@ def compute_taxes_and_transfers(
     user_functions = load_functions(user_functions)
 
     internal_functions = {}
-    internal_function_files = [
-        "soz_vers",
-        "benefits",
-        "taxes",
-        "demographic_vars.py",
-    ]
-    for file in internal_function_files:
+    for file in INTERNAL_FUNCTION_FILES:
         new_funcs = load_functions(Path(__file__).parent / file)
         internal_functions.update(new_funcs)
 
     _fail_if_user_columns_are_not_in_data(data, user_columns)
+    _fail_if_user_columns_are_not_in_functions(
+        user_columns, internal_functions, user_functions
+    )
     for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
-        _fail_if_functions_and_user_columns_overlap(data, funcs, name, user_columns)
+        _fail_if_functions_and_columns_overlap(data, funcs, name, user_columns)
 
     functions = create_function_dict(
         user_functions, internal_functions, user_columns, params
@@ -179,12 +177,13 @@ def _reduce_data(data):
                 data[name] = reduced_s
 
             if f"_{level}_" in name:
-                warnings.warn(
-                    "Using '_hh_' or '_tu_' in variable names to indicate a reduced "
-                    "variable will be deprecated. Use '_hh' or '_tu' as a suffix "
-                    "instead.",
-                    category=PendingDeprecationWarning,
+                message = _format_text_for_cmdline(
+                    """
+                    Using '_hh_' or '_tu_' in variable names to indicate a reduced
+                    variable will be deprecated. Use '_hh' or '_tu' as a suffix instead.
+                    """
                 )
+                warnings.warn(message, category=PendingDeprecationWarning)
 
     return data
 
@@ -212,10 +211,20 @@ def _reduce_series_to_value_per_group(name, s, level, groups):
     grouper = s.groupby(groups)
     max_value = grouper.transform("max")
     if not (max_value == s).all():
-        raise ValueError(
-            f"Column '{name}' cannot be reduced to one value per `{level}_id` "
-            "because there is not one unique value for each group."
+        message = _format_text_for_cmdline(
+            f"""
+            Column '{name}' has not one unique value per group defined by `{level}_id`
+            which is necessary to reduce the variable.
+
+            Variables are automatically reduced to one value per group if the variable
+            name contains an indicator like '_hh_' or '_tu_' or ends with '_hh' or
+            '_tu'.
+
+            To fix the error, assign the same value to each group or remove the
+            indicator from the variable name.
+            """
         )
+        raise ValueError(message)
 
     return grouper.max()
 
@@ -273,7 +282,55 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
         raise ValueError("\n".join([first_part, list_, second_part]))
 
 
-def _fail_if_functions_and_user_columns_overlap(data, functions, type_, user_columns):
+def _fail_if_user_columns_are_not_in_functions(
+    user_columns, internal_functions, user_functions
+):
+    """Fail if user columns are not found in functions.
+
+    Parameters
+    ----------
+    user_columns : str list of str
+        Names of columns which are preferred over function defined in the tax and
+        transfer system.
+    internal_functions : dict
+        Dictionary with internally defined functions.
+    user_functions : dict
+        Dictionary with user provided functions. The keys are the names of the function.
+        The values are either callables or strings with absolute or relative import
+        paths to a function. If functions have the same name as an existing gettsim
+        function they override that function.
+
+    Raises
+    ------
+    ValueError
+        Fail if the user columns are not found in internal or user functions.
+
+    """
+    unnecessary_user_columns = (
+        set(user_columns) - set(internal_functions) - set(user_functions)
+    )
+
+    if unnecessary_user_columns:
+        n_cols = len(unnecessary_user_columns)
+        formatted = '",\n    "'.join(unnecessary_user_columns)
+        intro = _format_text_for_cmdline(
+            f"""
+            You passed the following user column{'' if n_cols == 1 else 's'} which are
+            unnecessary because there is no corresponding function in the internal or
+            user functions.
+            """
+        )
+        list_ = textwrap.dedent(
+            """
+            [
+                "{formatted}",
+            ]
+            """
+        ).format(formatted=formatted)
+        raise ValueError("\n".join([intro, list_]))
+
+
+def _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
@@ -296,11 +353,10 @@ def _fail_if_functions_and_user_columns_overlap(data, functions, type_, user_col
     overlap = sorted(
         name for name in functions if name in data and name not in user_columns
     )
-    n_cols = len(overlap)
-
-    formatted = '",\n    "'.join(overlap)
 
     if overlap:
+        n_cols = len(overlap)
+        formatted = '",\n    "'.join(overlap)
         first_part = _format_text_for_cmdline(
             f"Your data provides the column{'' if n_cols == 1 else 's'}:"
         )

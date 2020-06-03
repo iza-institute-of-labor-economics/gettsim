@@ -5,3 +5,10 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).parent
 
 GEP_1_CHARACTER_LIMIT = 17
+
+INTERNAL_FUNCTION_FILES = [
+    "soz_vers",
+    "benefits",
+    "taxes",
+    "demographic_vars.py",
+]
