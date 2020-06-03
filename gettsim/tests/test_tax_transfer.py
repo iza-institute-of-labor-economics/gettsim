@@ -28,7 +28,6 @@ REQUIRED_INPUTS = [
     "arbeitsl_vorj_m",
     "arbeitsl_vor2j_m",
     "arbeitsstunden_w",
-    "anz_kinder_tu",
     "geburtsjahr",
     "geburtstag",
     "geburtsmonat",

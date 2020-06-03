@@ -31,7 +31,6 @@ INPUT_COLS = [
     "pflegev_beitr_m",
     "alleinerziehend",
     "alter",
-    "anz_kinder_tu",
     "jahr",
     "wohnort_ost",
     "ges_krankenv_beitr_m",
