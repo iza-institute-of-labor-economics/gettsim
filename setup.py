@@ -40,7 +40,12 @@ setup(
     ],
     platforms="any",
     package_data={
-        "gettsim": ["tests/test_data/*.csv", "tests/test_data/*.ods", "data/*.yaml"]
+        "gettsim": [
+            "data/*.yaml",
+            "pre_processing/exogene_renten_daten/*.yaml",
+            "tests/test_data/*.csv",
+            "tests/test_data/*.ods",
+        ]
     },
     include_package_data=True,
     zip_safe=False,
