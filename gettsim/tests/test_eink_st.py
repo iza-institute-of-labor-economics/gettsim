@@ -51,14 +51,12 @@ def test_tax_sched(
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
-    data = dict(df)
-
-    data["_zu_verst_eink_kein_kinderfreib_tu"] = (
-        df["_zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).sum()
+    df["_zu_verst_eink_kein_kinderfreib_tu"] = (
+        df["_zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
 
-    data["_zu_verst_eink_kinderfreib_tu"] = (
-        df["_zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).sum()
+    df["_zu_verst_eink_kinderfreib_tu"] = (
+        df["_zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
 
     columns = [
@@ -68,7 +66,7 @@ def test_tax_sched(
     ]
 
     result = compute_taxes_and_transfers(
-        data, user_columns=columns, targets=column, params=params_dict
+        df, user_columns=columns, targets=column, params=params_dict
     )
 
     expected_result = select_output_by_level(column, year_data)

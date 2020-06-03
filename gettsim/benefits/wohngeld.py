@@ -139,10 +139,6 @@ def _wohngeld_eink(
     return tu_id.replace(vorläufiges_eink).clip(lower=unteres_eink)
 
 
-def haushaltsgröße(hh_id):
-    return hh_id.groupby(hh_id).transform("size")
-
-
 def _wohngeld_min_miete(haushaltsgröße, wohngeld_params):
     return haushaltsgröße.clip(upper=12).replace(wohngeld_params["min_miete"])
 
