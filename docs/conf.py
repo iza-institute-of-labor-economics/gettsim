@@ -14,7 +14,7 @@ import datetime as dt
 # -- Project information -----------------------------------------------------
 
 project = "GETTSIM"
-copyright = f"{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
+copyright = f"2019-{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
 release = "0.3.0"
 version = ".".join(release.split(".")[:2])
@@ -56,6 +56,12 @@ todo_emit_warnings = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for a list of
 # builtin themes.
 html_theme = "sphinx_rtd_theme"
+html_logo = "_static/images/gettsim_logo.svg"
+
+html_theme_options = {
+    "logo_only": True,
+    "display_version": False,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here, relative
 # to this directory. They are copied after the builtin static files, so a file named
