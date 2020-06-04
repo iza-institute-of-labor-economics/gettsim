@@ -1,42 +1,48 @@
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
-def _st_kein_kind_freib(_zu_verst_eink_kein_kinderfreib, eink_st_params):
+def _st_kein_kind_freib_tu(
+    _zu_verst_eink_kein_kinderfreib_tu, _anz_erwachsene_tu, eink_st_params
+):
     """ Taxes without child allowance.
 
     Parameters
     ----------
-    _zu_verst_eink_kein_kinderfreib
+    _zu_verst_eink_kein_kinderfreib_tu
+    _anz_erwachsene_tu
     eink_st_params
 
     Returns
     -------
 
     """
-    return _st_tarif(_zu_verst_eink_kein_kinderfreib, params=eink_st_params)
+    zu_verst_eink_per_indiv = _zu_verst_eink_kein_kinderfreib_tu / _anz_erwachsene_tu
+
+    return _anz_erwachsene_tu * _st_tarif(
+        zu_verst_eink_per_indiv, params=eink_st_params
+    )
 
 
-def _st_kein_kind_freib_tu(_st_kein_kind_freib, tu_id):
-    return _st_kein_kind_freib.groupby(tu_id).sum()
-
-
-def _st_kind_freib(_zu_verst_eink_kinderfreib, eink_st_params):
+def _st_kind_freib_tu(
+    _zu_verst_eink_kinderfreib_tu, _anz_erwachsene_tu, eink_st_params
+):
     """Taxes with child allowance.
 
     Parameters
     ----------
-    _zu_verst_eink_kinderfreib
+    _zu_verst_eink_kinderfreib_tu
+    _anz_erwachsene_tu
     eink_st_params
 
     Returns
     -------
 
     """
-    return _st_tarif(_zu_verst_eink_kinderfreib, params=eink_st_params)
+    zu_verst_eink_per_indiv = _zu_verst_eink_kinderfreib_tu / _anz_erwachsene_tu
 
-
-def _st_kind_freib_tu(_st_kind_freib, tu_id):
-    return _st_kind_freib.groupby(tu_id).sum()
+    return _anz_erwachsene_tu * _st_tarif(
+        zu_verst_eink_per_indiv, params=eink_st_params
+    )
 
 
 def _st_tarif(x, params):

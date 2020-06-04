@@ -6,4 +6,5 @@ Tutorials help you to get started with gettsim.
 
 .. toctree::
 
+   interface
    visualize

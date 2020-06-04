@@ -1,14 +1,12 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_output_by_level
 
 
 INPUT_COLS = [
@@ -32,7 +30,6 @@ INPUT_COLS = [
     "pflegev_beitr_m",
     "alleinerziehend",
     "alter",
-    "anz_kinder_tu",
     "jahr",
     "wohnort_ost",
     "ges_krankenv_beitr_m",
@@ -59,9 +56,9 @@ OUT_COLS = [
 ]
 
 TEST_COLS = [
-    "_zu_verst_eink_kein_kinderfreib",
-    "_zu_verst_eink_kinderfreib",
-    "kinderfreib",
+    "_zu_verst_eink_kein_kinderfreib_tu",
+    "_zu_verst_eink_kinderfreib_tu",
+    "kinderfreib_tu",
     "altersfreib",
     "sum_brutto_eink",
 ]
@@ -81,9 +78,8 @@ def test_zve(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date,
+        policy_date=str(year),
         groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld", "eink_st"],
     )
 
@@ -101,7 +97,15 @@ def test_zve(
         params=params_dict,
     )
 
-    expected_result = select_output_by_level(column, year_data)
+    if column == "kindergeld_tu":
+        expected_result = sum_test_data_tu("kindergeld", year_data)
+    elif column == "_zu_verst_eink_kein_kinderfreib_tu":
+        expected_result = sum_test_data_tu("_zu_verst_eink_kein_kinderfreib", year_data)
+    elif column == "_zu_verst_eink_kinderfreib_tu":
+        expected_result = sum_test_data_tu("_zu_verst_eink_kinderfreib", year_data)
+    else:
+        expected_result = result
+
     assert_series_equal(
         result,
         expected_result,
@@ -109,3 +113,7 @@ def test_zve(
         check_less_precise=1,
         check_names=False,
     )
+
+
+def sum_test_data_tu(column, year_data):
+    return year_data[column].groupby(year_data["tu_id"]).transform("sum")

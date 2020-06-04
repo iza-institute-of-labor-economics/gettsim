@@ -1,12 +1,11 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -46,9 +45,8 @@ def test_uhv(input_data, year, column, month):
         (input_data["jahr"] == year) & (input_data["monat"] == month)
     ]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, month, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups=["unterhalt", "kindergeld"]
+        policy_date=f"{year}-{month}", groups=["unterhalt", "kindergeld"]
     )
 
     result = compute_taxes_and_transfers(

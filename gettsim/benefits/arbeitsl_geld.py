@@ -11,12 +11,13 @@ def arbeitsl_geld_m_hh(arbeitsl_geld_m, hh_id):
 
 
 def arbeitsl_geld_m(
+    tu_id,
     anz_kinder_tu,
     berechtigt_für_arbeitsl_geld,
     proxy_eink_vorj_arbeitsl_geld,
     arbeitsl_geld_params,
 ):
-    arbeitsl_geld_satz = (anz_kinder_tu == 0).replace(
+    arbeitsl_geld_satz = (tu_id.replace(anz_kinder_tu) == 0).replace(
         {
             True: arbeitsl_geld_params["arbeitsl_geld_satz_ohne_kinder"],
             False: arbeitsl_geld_params["arbeitsl_geld_satz_mit_kindern"],

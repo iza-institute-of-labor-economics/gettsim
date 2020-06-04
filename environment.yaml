@@ -9,6 +9,8 @@ dependencies:
   - bokeh
   - conda-build
   - conda-verify
+  - nbsphinx
+  - networkx
   - pandas
   - pdbpp
   - pre-commit
@@ -17,7 +19,6 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-xdist
-  - networkx
   - restructuredtext_lint
   - sphinx
   - sphinx_rtd_theme

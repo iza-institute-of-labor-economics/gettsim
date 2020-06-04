@@ -1,14 +1,12 @@
-from datetime import date
-
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
-INPUT_COLS = ["p_id", "hh_id", "tu_id", "_st_kind_freib_tu", "abgelt_st_m_tu"]
+INPUT_COLS = ["p_id", "hh_id", "tu_id", "kind", "_st_kind_freib_tu", "abgelt_st_tu"]
 
 YEARS = [1991, 1993, 1996, 1999, 2003, 2022]
 
@@ -26,15 +24,15 @@ def test_soli_st(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
 
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="soli_st",
+        policy_date=str(year), groups="soli_st",
     )
-    user_cols = ["_st_kind_freib_tu", "abgelt_st_m_tu"]
+
+    user_cols = ["_st_kind_freib_tu", "abgelt_st_tu"]
     results = compute_taxes_and_transfers(
-        df, user_columns=user_cols, targets="soli_st_m_tu", params=params_dict
+        df, user_columns=user_cols, targets="soli_st_tu", params=params_dict
     )
     assert_series_equal(
-        results, year_data["soli_st_m_tu"], check_dtype=False, check_names=False
+        results, year_data["soli_st_tu"], check_dtype=False, check_names=False,
     )

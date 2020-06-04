@@ -13,43 +13,16 @@ for each income type. In fact, you need several taxable incomes because of
 It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
 
-def _zu_verst_eink_kein_kinderfreib(
-    _zu_verst_eink_kein_kinderfreib_vorläufig, kind, _anz_erwachsene_tu, tu_id
-):
-    """
-
-    Parameters
-    ----------
-    _zu_verst_eink_kein_kinderfreib_vorläufig
-    kind
-    _anz_erwachsene_tu
-    tu_id
-
-    Returns
-    -------
-
-    """
-
-    zve_tu = (
-        (_zu_verst_eink_kein_kinderfreib_vorläufig.loc[~kind])
-        .groupby(tu_id)
-        .transform(sum)
-    )
-    out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
-    out.loc[~kind] = zve_tu / tu_id.replace(_anz_erwachsene_tu).loc[~kind]
-    return out
-
-
-def _zu_verst_eink_kein_kinderfreib_vorläufig(
+def _zu_verst_eink_kein_kinderfreib_tu(
     sum_brutto_eink,
     vorsorge,
     sonderausgaben,
     behinderungsgrad_pauschbetrag,
     hh_freib,
     altersfreib,
+    tu_id,
 ):
     """
 
@@ -61,11 +34,13 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
     behinderungsgrad_pauschbetrag
     hh_freib
     altersfreib
+    tu_id
 
     Returns
     -------
 
     """
+
     out = (
         sum_brutto_eink
         - vorsorge
@@ -74,59 +49,22 @@ def _zu_verst_eink_kein_kinderfreib_vorläufig(
         - hh_freib
         - altersfreib
     ).clip(lower=0)
-    return out
+
+    return out.groupby(tu_id).sum()
 
 
-def _zu_verst_eink_kinderfreib(
-    _zu_verst_eink_kein_kinderfreib_vorläufig,
-    kind,
-    _anz_erwachsene_tu,
-    kinderfreib,
-    tu_id,
+def _zu_verst_eink_kinderfreib_tu(
+    _zu_verst_eink_kein_kinderfreib_tu, kinderfreib_tu,
 ):
     """
 
     Parameters
     ----------
-    _zu_verst_eink_kein_kinderfreib_vorläufig
-    kind
-    _anz_erwachsene_tu
-    kinderfreib
-    tu_id
+    _zu_verst_eink_kein_kinderfreib_tu
+    kinderfreib_tu
 
     Returns
     -------
 
     """
-
-    zu_vers_eink_kinderfreib = (
-        _zu_verst_eink_kein_kinderfreib_vorläufig[~kind] - kinderfreib.loc[~kind]
-    )
-    zu_verst_eink_tu = (
-        (zu_vers_eink_kinderfreib.loc[~kind]).groupby(tu_id).transform(sum)
-    )
-    out = _zu_verst_eink_kein_kinderfreib_vorläufig * 0
-    out.loc[~kind] = zu_verst_eink_tu / tu_id.replace(_anz_erwachsene_tu).loc[~kind]
-    return out
-
-
-def _ertragsanteil(jahr_renteneintr, eink_st_params):
-    """Calculate the share of pensions subject to income taxation.
-
-    Parameters
-    ----------
-    jahr_renteneintr
-
-    Returns
-    -------
-
-    """
-    out = piecewise_polynomial(
-        x=jahr_renteneintr,
-        thresholds=eink_st_params["ertragsanteil"]["thresholds"],
-        rates=eink_st_params["ertragsanteil"]["rates"],
-        intercepts_at_lower_thresholds=eink_st_params["ertragsanteil"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-    return out
+    return _zu_verst_eink_kein_kinderfreib_tu - kinderfreib_tu

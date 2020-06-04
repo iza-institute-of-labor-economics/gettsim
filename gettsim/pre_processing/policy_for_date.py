@@ -4,6 +4,7 @@ import operator
 from functools import reduce
 
 import numpy as np
+import pandas as pd
 import yaml
 
 from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_ab_2011
@@ -29,18 +30,18 @@ from gettsim.benefits.wohngeld import wohngeld_max_miete_bis_2008
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
-from gettsim.taxes.favorability_check import _eink_st_m_tu_ab_1997
-from gettsim.taxes.favorability_check import _eink_st_m_tu_bis_1996
+from gettsim.taxes.favorability_check import _eink_st_tu_ab_1997
+from gettsim.taxes.favorability_check import _eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import _kindergeld_m_ab_1997
 from gettsim.taxes.favorability_check import _kindergeld_m_bis_1996
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_ohne_kapital
-from gettsim.taxes.zu_verst_eink.freibeträge import _hh_freib_bis_2014
-from gettsim.taxes.zu_verst_eink.freibeträge import _hh_freib_seit_2015
-from gettsim.taxes.zu_verst_eink.freibeträge import _sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibeträge import _sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibetraege import _hh_freib_bis_2014
+from gettsim.taxes.zu_verst_eink.freibetraege import _hh_freib_seit_2015
+from gettsim.taxes.zu_verst_eink.freibetraege import _sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibetraege import _sonderausgaben_bis_2011
 from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2005_vs_pre_2005
 from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2010_vs_pre_2005
 from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_ab_2010
@@ -48,6 +49,9 @@ from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_bis_2004
 
 
 def get_policies_for_date(policy_date, groups="all"):
+    if isinstance(policy_date, str):
+        policy_date = pd.to_datetime(policy_date)
+
     all_params_groups = [
         "eink_st",
         "eink_st_abzuege",
@@ -112,10 +116,10 @@ def get_policies_for_date(policy_date, groups="all"):
         policy_func_dict["hh_freib"] = _hh_freib_seit_2015
 
     if year <= 1996:
-        policy_func_dict["eink_st_m_tu"] = _eink_st_m_tu_bis_1996
+        policy_func_dict["eink_st_tu"] = _eink_st_tu_bis_1996
         policy_func_dict["kindergeld_m"] = _kindergeld_m_bis_1996
     else:
-        policy_func_dict["eink_st_m_tu"] = _eink_st_m_tu_ab_1997
+        policy_func_dict["eink_st_tu"] = _eink_st_tu_ab_1997
         policy_func_dict["kindergeld_m"] = _kindergeld_m_ab_1997
 
     if year > 2011:

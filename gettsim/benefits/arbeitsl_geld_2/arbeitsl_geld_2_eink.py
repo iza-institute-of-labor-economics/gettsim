@@ -14,7 +14,13 @@ def arbeitsl_geld_2_eink_hh(arbeitsl_geld_2_eink, hh_id):
 
 
 def arbeitsl_geld_2_eink(
-    _arbeitsl_geld_2_brutto_eink, eink_st_m, soli_st_m, sozialv_beitr_m, eink_anr_frei
+    _arbeitsl_geld_2_brutto_eink,
+    eink_st_tu,
+    tu_id,
+    soli_st_tu,
+    _anz_erwachsene_tu,
+    sozialv_beitr_m,
+    eink_anr_frei,
 ):
     """
 
@@ -22,18 +28,21 @@ def arbeitsl_geld_2_eink(
     ----------
     _arbeitsl_geld_2_brutto_eink
     sozialv_beitr_m
-    eink_st_m
-    soli_st_m
+    eink_st_tu
+    tu_id
+    soli_st_tu
+    _anz_erwachsene_tu
     eink_anr_frei
 
     Returns
     -------
 
     """
+    # breakpoint()
     return (
         _arbeitsl_geld_2_brutto_eink
-        - eink_st_m
-        - soli_st_m
+        - tu_id.replace((eink_st_tu / _anz_erwachsene_tu) / 12)
+        - tu_id.replace((soli_st_tu / _anz_erwachsene_tu) / 12)
         - sozialv_beitr_m
         - eink_anr_frei
     ).clip(lower=0)
@@ -82,7 +91,6 @@ def _arbeitsl_geld_2_brutto_eink(
     -------
 
     """
-
     return (
         bruttolohn_m
         + sonstig_eink_m

@@ -174,19 +174,41 @@ def anz_mehrlinge_anspruch(hh_id, elternzeit_anspruch, jüngstes_kind):
     return elternzeit_anspruch * (mehrlinge - 1)
 
 
-def netto_eink(bruttolohn_m, eink_st_m, soli_st_m, sozialv_beitr_m):
-    """Calculate the net wage given taxes and social security contributions."""
-    return bruttolohn_m - eink_st_m - soli_st_m - sozialv_beitr_m
+def nettolohn_m(
+    bruttolohn_m, tu_id, eink_st_tu, soli_st_tu, _anz_erwachsene_tu, sozialv_beitr_m
+):
+    """Calculate the net wage given taxes and social security contributions.
 
 
-def elterngeld_eink_relev(proxy_eink_vorj_elterngeld, netto_eink):
+    Parameters
+    ----------
+    bruttolohn_m
+    tu_id
+    eink_st_tu
+    soli_st_tu
+    _anz_erwachsene_tu
+    sozialv_beitr_m
+
+    Returns
+    -------
+
+    """
+    return (
+        bruttolohn_m
+        - tu_id.replace((eink_st_tu / _anz_erwachsene_tu) / 12)
+        - tu_id.replace((soli_st_tu / _anz_erwachsene_tu) / 12)
+        - sozialv_beitr_m
+    ).clip(lower=0)
+
+
+def elterngeld_eink_relev(proxy_eink_vorj_elterngeld, nettolohn_m):
     """Calculating the relevant wage for the calculation of elterngeld.
 
     According to § 2 (1) BEEG elterngeld is calculated by the loss of income due to
     child raising.
 
     """
-    return proxy_eink_vorj_elterngeld - netto_eink
+    return proxy_eink_vorj_elterngeld - nettolohn_m
 
 
 def elterngeld_anteil_eink_erlass(elterngeld_eink_relev, elterngeld_params):

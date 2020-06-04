@@ -1,10 +1,8 @@
-from datetime import date
-
 import pandas as pd
 import pytest
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 REQUIRED_INPUTS = [
@@ -28,7 +26,6 @@ REQUIRED_INPUTS = [
     "arbeitsl_vorj_m",
     "arbeitsl_vor2j_m",
     "arbeitsstunden_w",
-    "anz_kinder_tu",
     "geburtsjahr",
     "geburtstag",
     "geburtsmonat",
@@ -60,15 +57,13 @@ DESIRED_OUTPUTS = [
     "ges_krankenv_beitr_m",
     "pflegev_beitr_m",
     "arbeitsl_geld_m",
-    "rente_anspr_m",
-    "entgeltpunkte",
-    "abgelt_st_m",
-    "soli_st_m",
-    "soli_st_m_tu",
+    # "rente_anspr_m",
+    # "entgeltpunkte",
+    "abgelt_st_tu",
+    "soli_st_tu",
     "kindergeld_m",
     "kindergeld_m_tu",
-    "eink_st_m",
-    "eink_st_m_tu",
+    "eink_st_tu",
     "unterhaltsvors_m",
     "regelsatz_m",
     "kost_unterk_m",
@@ -92,15 +87,14 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_tax_transfer(
-    input_data, year, renten_daten,
+    input_data, year,
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[REQUIRED_INPUTS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="all"
+        policy_date=str(year), groups="all"
     )
-    params_dict["renten_daten"] = renten_daten
+    # params_dict["renten_daten"] = renten_daten
 
     compute_taxes_and_transfers(
         df, targets=DESIRED_OUTPUTS, user_functions=policy_func_dict, params=params_dict

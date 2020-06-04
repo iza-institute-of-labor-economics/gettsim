@@ -1,14 +1,12 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_output_by_level
 
 INPUT_COLS = [
     "hh_id",
@@ -36,17 +34,14 @@ def test_kindergeld(input_data, year, column):
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="kindergeld"
+        policy_date=str(year), groups="kindergeld"
     )
 
     calc_result = compute_taxes_and_transfers(
         df, user_functions=policy_func_dict, targets=column, params=params_dict
     )
 
-    expected_result = select_output_by_level(column, year_data)
-
     assert_series_equal(
-        calc_result, expected_result, check_dtype=False, check_names=False
+        calc_result, year_data[column], check_dtype=False, check_names=False
     )
