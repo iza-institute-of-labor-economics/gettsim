@@ -1,17 +1,20 @@
-# Configuration file for the Sphinx documentation builder.
-# This file only contains a selection of the most common options. For a full list see
-# the documentation: http://www.sphinx-doc.org/en/master/config.
+# Configuration file for the Sphinx documentation builder. This file only contains a
+# selection of the most common options. For a full list see the documentation:
+# http://www.sphinx-doc.org/en/master/config.
 # -- Path setup --------------------------------------------------------------
 # If extensions (or modules to document with autodoc) are in another directory, add
 # these directories to sys.path here. If the directory is relative to the documentation
 # root, use os.path.abspath to make it absolute, like shown here.
+import datetime as dt
+
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
+
 # -- Project information -----------------------------------------------------
 
 project = "GETTSIM"
-copyright = "2019, GETTSIM team"  # noqa: A001
+copyright = f"{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
 release = "0.3.0"
 version = ".".join(release.split(".")[:2])
@@ -22,6 +25,7 @@ version = ".".join(release.split(".")[:2])
 # Add any Sphinx extension module names here, as strings. They can be extensions coming
 # with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
+    "nbsphinx",
     "sphinx.ext.extlinks",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
@@ -57,3 +61,5 @@ html_theme = "sphinx_rtd_theme"
 # to this directory. They are copied after the builtin static files, so a file named
 # "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+html_css_files = ["css/custom.css"]

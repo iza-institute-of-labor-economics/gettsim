@@ -8,6 +8,7 @@ dependencies:
   - anaconda-client
   - conda-build
   - conda-verify
+  - nbsphinx
   - networkx
   - pandas
   - pdbpp
