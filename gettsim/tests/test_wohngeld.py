@@ -1,12 +1,11 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -40,25 +39,21 @@ INPUT_COLS = [
     "behinderungsgrad",
     "jahr",
 ]
-OUT_COLS = ["wohngeld_basis", "wohngeld_basis_hh"]
 YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
 TEST_COLUMN = ["wohngeld_basis_hh"]
 
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_wg.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMN))
 def test_wg(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="wohngeld"
+        policy_date=str(year), groups="wohngeld"
     )
     columns = [
         "elterngeld_m",
@@ -69,7 +64,6 @@ def test_wg(input_data, year, column):
         "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
-        "eink_st_m",
         "ges_krankenv_beitr_m",
         "rentenv_beitr_m",
         "kindergeld_anspruch",
@@ -88,18 +82,15 @@ def test_wg(input_data, year, column):
 
 @pytest.fixture(scope="module")
 def input_data_2():
-    file_name = "test_dfs_wg2.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg2.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product([2013], TEST_COLUMN))
 def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="wohngeld"
+        policy_date=str(year), groups="wohngeld"
     )
     columns = [
         "elterngeld_m",
@@ -110,7 +101,6 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
         "brutto_eink_4",
         "brutto_eink_5",
         "brutto_eink_6",
-        "eink_st_m",
         "ges_krankenv_beitr_m",
         "rentenv_beitr_m",
         "kindergeld_anspruch",

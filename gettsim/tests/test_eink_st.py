@@ -1,14 +1,12 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.tests.auxiliary import select_output_by_level
 
 
 INPUT_COLS = [
@@ -41,24 +39,20 @@ def input_data():
 def test_tax_sched(
     input_data, year, column,
 ):
-    policy_date = date(year, 1, 1)
-
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date,
+        policy_date=str(year),
         groups=["eink_st", "eink_st_abzuege", "soli_st", "abgelt_st"],
     )
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
-    data = dict(df)
-
-    data["_zu_verst_eink_kein_kinderfreib_tu"] = (
-        df["_zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).sum()
+    df["_zu_verst_eink_kein_kinderfreib_tu"] = (
+        df["_zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
 
-    data["_zu_verst_eink_kinderfreib_tu"] = (
-        df["_zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).sum()
+    df["_zu_verst_eink_kinderfreib_tu"] = (
+        df["_zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
 
     columns = [
@@ -68,14 +62,12 @@ def test_tax_sched(
     ]
 
     result = compute_taxes_and_transfers(
-        data, user_columns=columns, targets=column, params=params_dict
+        df, user_columns=columns, targets=column, params=params_dict
     )
-
-    expected_result = select_output_by_level(column, year_data)
 
     assert_series_equal(
         result,
-        expected_result,
+        year_data[column],
         check_dtype=False,
         check_less_precise=1,
         check_names=False,

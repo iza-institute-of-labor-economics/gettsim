@@ -1,12 +1,11 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -31,7 +30,6 @@ INPUT_COLS = [
     "pflegev_beitr_m",
     "alleinerziehend",
     "alter",
-    "anz_kinder_tu",
     "jahr",
     "wohnort_ost",
     "ges_krankenv_beitr_m",
@@ -80,9 +78,8 @@ def test_zve(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date,
+        policy_date=str(year),
         groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld", "eink_st"],
     )
 
@@ -119,4 +116,4 @@ def test_zve(
 
 
 def sum_test_data_tu(column, year_data):
-    return year_data[column].groupby(year_data["tu_id"]).sum()
+    return year_data[column].groupby(year_data["tu_id"]).transform("sum")

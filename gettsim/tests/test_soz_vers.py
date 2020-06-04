@@ -1,11 +1,10 @@
-import datetime
 import itertools
 
 import pandas as pd
 import pytest
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
@@ -45,9 +44,8 @@ def input_data():
 def test_soc_ins_contrib(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = datetime.date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="soz_vers_beitr",
+        policy_date=str(year), groups="soz_vers_beitr",
     )
 
     results = compute_taxes_and_transfers(df, targets=column, params=params_dict)

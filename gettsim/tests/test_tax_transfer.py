@@ -1,10 +1,8 @@
-from datetime import date
-
 import pandas as pd
 import pytest
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 REQUIRED_INPUTS = [
@@ -28,7 +26,6 @@ REQUIRED_INPUTS = [
     "arbeitsl_vorj_m",
     "arbeitsl_vor2j_m",
     "arbeitsstunden_w",
-    "anz_kinder_tu",
     "geburtsjahr",
     "geburtstag",
     "geburtsmonat",
@@ -94,9 +91,8 @@ def test_tax_transfer(
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[REQUIRED_INPUTS].copy()
-    policy_date = date(year, 1, 1)
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date, groups="all"
+        policy_date=str(year), groups="all"
     )
     # params_dict["renten_daten"] = renten_daten
 

@@ -1,12 +1,11 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
@@ -57,11 +56,10 @@ def test_eltgeld(
     calculation of the proxy wage of last year or anything else.
 
     """
-    policy_date = date(year, 1, 1)
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=policy_date,
+        policy_date=str(year),
         groups=[
             "elterngeld",
             "soz_vers_beitr",
@@ -70,13 +68,13 @@ def test_eltgeld(
             "soli_st",
         ],
     )
-    data = dict(df)
-    data["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).sum() * 12
-    data["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).sum() * 12
-    columns = ["soli_st_tu", "eink_st_tu", "sozialv_beitr_m"]
+    df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+    df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+
+    columns = ["soli_st_tu", "sozialv_beitr_m"]
 
     result = compute_taxes_and_transfers(
-        data, user_columns=columns, targets=column, params=params_dict
+        df, user_columns=columns, targets=column, params=params_dict
     )
 
     assert_series_equal(
