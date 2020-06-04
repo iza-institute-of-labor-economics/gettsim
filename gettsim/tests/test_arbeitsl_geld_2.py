@@ -8,6 +8,7 @@ from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
+
 INPUT_COLS = [
     "p_id",
     "hh_id",
