@@ -11,7 +11,7 @@ With conda available on your path, installing GETTSIM is as simple as typing
 
 .. code-block:: bash
 
-    $ conda install -c gettsim -c conda-forge gettsim
+    conda install -c gettsim -c conda-forge gettsim
 
 in a command shell.
 
