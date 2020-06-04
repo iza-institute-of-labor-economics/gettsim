@@ -8,6 +8,8 @@ dependencies:
   - anaconda-client
   - conda-build
   - conda-verify
+  - nbsphinx
+  - networkx
   - pandas
   - pdbpp
   - pre-commit
@@ -15,8 +17,6 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-xdist
-  - nbsphinx
-  - networkx
   - restructuredtext_lint
   - sphinx
   - sphinx_rtd_theme
