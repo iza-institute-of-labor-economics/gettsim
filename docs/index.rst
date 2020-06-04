@@ -16,7 +16,6 @@ Welcome to GETTSIM's documentation!
    :caption: Table of Contents
    :maxdepth: 1
 
-   getting-started
    tutorials/index
    crosswalk
    how-to-contribute

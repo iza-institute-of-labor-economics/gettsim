@@ -21,6 +21,7 @@ dependencies:
   - pytest-xdist
   - restructuredtext_lint
   - sphinx
+  - sphinx-copybutton
   - sphinx_rtd_theme
   - pip:
     - bump2version
