@@ -16,7 +16,7 @@ import datetime as dt
 project = "GETTSIM"
 copyright = f"{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
-release = "0.3.0"
+release = "0.3.1"
 version = ".".join(release.split(".")[:2])
 
 
