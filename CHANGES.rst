@@ -10,10 +10,19 @@ x.x.x - 2020-
 -------------
 
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
-  plot as well as some other ameliorations to the documentation.
+  plot as well as some other ameliorations to the documentation (:ghuser:`tobiasraabe`).
 
 
-0.3.0 - 2020-06-03
+0.3.1 - 2020-06-05
+------------------
+
+* :gh:`188` removes misleading code bits from the documentation and adds a copy-button
+  (:ghuser:`tobiasraabe`).
+* :gh:`191` adds a skip and a warning if `gettsim.test()` is repeatedly called
+  (:ghuser:`tobiasraabe`).
+
+
+0.3.0 - 2020-06-04
 ------------------
 
 * Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
