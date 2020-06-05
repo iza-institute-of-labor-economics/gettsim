@@ -5,6 +5,11 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
+0.3.x - 2020-06-xx
+------------------
+
+* :gh:`188` adds a skip and a warning if `gettsim.test()` is repeatedly called.
+
 0.3.0 - 2020-06-03
 ------------------
 

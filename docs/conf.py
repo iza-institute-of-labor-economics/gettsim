@@ -48,7 +48,11 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Extensions configuration ------------------------------------------------
 
-extlinks = {"ghuser": ("https://github.com/%s", "@")}
+extlinks = {
+    "ghuser": ("https://github.com/%s", "@"),
+    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pulls/%s", "#"),
+}
+
 todo_include_todos = True
 todo_emit_warnings = True
 
