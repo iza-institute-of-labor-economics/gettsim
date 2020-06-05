@@ -71,11 +71,14 @@ def plot_dag(
     """
     dag = copy.deepcopy(dag)
 
-    selectors = {} if selectors is None else selectors
-    highlighters = {} if highlighters is None else highlighters
+    selectors = [] if selectors is None else _to_list(selectors)
+    highlighters = [] if highlighters is None else _to_list(highlighters)
     plot_kwargs = {} if plot_kwargs is None else plot_kwargs
     node_kwargs = {} if node_kwargs is None else node_kwargs
     edge_kwargs = {} if edge_kwargs is None else edge_kwargs
+
+    dag = _select_nodes_in_dag(dag, selectors)
+    dag = _highlight_nodes_in_dag(dag, highlighters)
 
     dag = _replace_functions_with_source_code(dag)
 
@@ -102,6 +105,15 @@ def plot_dag(
     show(plot)
 
     return plot
+
+
+def _select_nodes_in_dag(dag, selectors):
+    """Select nodes in the DAG based on the selectors."""
+    return dag
+
+
+def _highlight_nodes_in_dag(dag, highlighters):
+    return dag
 
 
 def _replace_functions_with_source_code(dag):
@@ -199,3 +211,29 @@ def _create_pydot_layout(dag):
         layout[k] = v / (max_x, max_y) * 2 - 1
 
     return layout
+
+
+def _to_list(scalar_or_iter):
+    """Convert scalars and iterables to list.
+
+    Parameters
+    ----------
+    scalar_or_iter : str or list
+
+    Returns
+    -------
+    list
+
+    Examples
+    --------
+    >>> _to_list("a")
+    ['a']
+    >>> _to_list(["b"])
+    ['b']
+
+    """
+    return (
+        [scalar_or_iter]
+        if isinstance(scalar_or_iter, str) or isinstance(scalar_or_iter, dict)
+        else list(scalar_or_iter)
+    )
