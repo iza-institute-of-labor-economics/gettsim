@@ -16,7 +16,7 @@ import datetime as dt
 project = "GETTSIM"
 copyright = f"{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
-release = "0.3.0"
+release = "0.3.1"
 version = ".".join(release.split(".")[:2])
 
 
@@ -48,7 +48,11 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Extensions configuration ------------------------------------------------
 
-extlinks = {"ghuser": ("https://github.com/%s", "@")}
+extlinks = {
+    "ghuser": ("https://github.com/%s", "@"),
+    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pulls/%s", "#"),
+}
+
 todo_include_todos = True
 todo_emit_warnings = True
 
