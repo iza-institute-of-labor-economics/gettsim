@@ -7,4 +7,4 @@ Tutorials help you to get started with gettsim.
 .. toctree::
 
    installation
-   interface
+   interface-for-subset-of-gettsim
