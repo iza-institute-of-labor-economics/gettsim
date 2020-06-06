@@ -1,11 +1,9 @@
-from datetime import date
-
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
@@ -20,7 +18,6 @@ INPUT_COLS = [
     "arbeitsl_vor2j_m",
     "ges_rente_m",
     "arbeitsstunden_w",
-    "anz_kinder_tu",
     "alter",
     "jahr",
 ]
@@ -40,9 +37,8 @@ def test_ui(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
-    params_dict = get_policies_for_date(
-        policy_date=policy_date,
+    params_dict, policy_func_dict = get_policies_for_date(
+        policy_date=str(year),
         groups=[
             "arbeitsl_geld",
             "soz_vers_beitr",
@@ -57,4 +53,6 @@ def test_ui(
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.
-    assert_series_equal(result, year_data["arbeitsl_geld_m"], check_less_precise=3)
+    assert_series_equal(
+        result, year_data["arbeitsl_geld_m"], check_less_precise=3, check_dtype=False,
+    )

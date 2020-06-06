@@ -1,12 +1,22 @@
 Changes
-^^^^^^^
+=======
 
 This is a record of all past ``gettsim`` releases and what went into them in reverse
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.3.0 - tbd
------------
+
+0.3.1 - 2020-06-05
+------------------
+
+* :gh:`188` removes misleading code bits from the documentation and adds a copy-button
+  (:ghuser:`tobiasraabe`).
+* :gh:`191` adds a skip and a warning if `gettsim.test()` is repeatedly called
+  (:ghuser:`tobiasraabe`).
+
+
+0.3.0 - 2020-06-04
+------------------
 
 * Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
 * Break up params.yaml into group-level files (:ghuser:`MaxBlesch`)
@@ -36,6 +46,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Renamed and regrouped all param files (:ghuser:`Eric-Sommer`, :ghuser:`MaxBlesch`)
 * Added generic/piecewise functions (:ghuser:`johannesgoldbeck`,
   :ghuser:`ppoepperling`, :ghuser:`MaxBlesch`)
+* A series of pull requests established the new DAG-based backend and refactored the
+  calculation of benefits, taxes, and social insurance (:ghuser:`MaxBlesch`,
+  :ghuser:`tobiasraabe`)
+* Error messages for the new interface (:ghuser:`hmgaudecker`, :ghuser:`tobiasraabe`).
 
 
 0.2.1 - 2019-11-20

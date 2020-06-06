@@ -1,12 +1,11 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
@@ -35,52 +34,89 @@ INPUT_COLS = [
     "brutto_eink_5",
     "brutto_eink_6",
     "eink_st_m",
-    "rentenv_beit_m",
-    "ges_krankenv_beit_m",
+    "rentenv_beitr_m",
+    "ges_krankenv_beitr_m",
     "behinderungsgrad",
     "jahr",
 ]
-OUT_COLS = ["wohngeld_basis", "wohngeld_basis_hh"]
 YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
 TEST_COLUMN = ["wohngeld_basis_hh"]
 
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_wg.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMN))
 def test_wg(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
-    params_dict = get_policies_for_date(policy_date=policy_date, groups="wohngeld")
-    columns = ["elterngeld_m", "arbeitsl_geld_m", "unterhaltsvors_m"]
+    params_dict, policy_func_dict = get_policies_for_date(
+        policy_date=str(year), groups="wohngeld"
+    )
+    columns = [
+        "elterngeld_m",
+        "arbeitsl_geld_m",
+        "unterhaltsvors_m",
+        "_ertragsanteil",
+        "brutto_eink_1",
+        "brutto_eink_4",
+        "brutto_eink_5",
+        "brutto_eink_6",
+        "ges_krankenv_beitr_m",
+        "rentenv_beitr_m",
+        "kindergeld_anspruch",
+    ]
+    policy_func_dict["eink_st_tu"] = eink_st_m_tu_from_data
+
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        df,
+        user_columns=columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
     assert_series_equal(result, year_data[column])
 
 
 @pytest.fixture(scope="module")
 def input_data_2():
-    file_name = "test_dfs_wg2.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg2.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product([2013], TEST_COLUMN))
 def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
-    params_dict = get_policies_for_date(policy_date=policy_date, groups="wohngeld")
-    columns = ["elterngeld_m", "arbeitsl_geld_m", "unterhaltsvors_m"]
+    params_dict, policy_func_dict = get_policies_for_date(
+        policy_date=str(year), groups="wohngeld"
+    )
+    columns = [
+        "elterngeld_m",
+        "arbeitsl_geld_m",
+        "unterhaltsvors_m",
+        "_ertragsanteil",
+        "brutto_eink_1",
+        "brutto_eink_4",
+        "brutto_eink_5",
+        "brutto_eink_6",
+        "ges_krankenv_beitr_m",
+        "rentenv_beitr_m",
+        "kindergeld_anspruch",
+    ]
+
+    policy_func_dict["eink_st_tu"] = eink_st_m_tu_from_data
 
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        df,
+        user_columns=columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
     )
     assert_series_equal(result, year_data[column])
+
+
+def eink_st_m_tu_from_data(eink_st_m, tu_id):
+    return eink_st_m.groupby(tu_id).sum()

@@ -8,15 +8,18 @@ dependencies:
   - anaconda-client
   - conda-build
   - conda-verify
+  - nbsphinx
+  - networkx
   - pandas
+  - pdbpp
   - pre-commit
   - pyyaml
   - pytest
   - pytest-cov
   - pytest-xdist
-  - networkx
   - restructuredtext_lint
   - sphinx
+  - sphinx-copybutton
   - sphinx_rtd_theme
   - pip:
     - bump2version

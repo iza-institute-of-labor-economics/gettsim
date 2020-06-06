@@ -1,59 +1,136 @@
-import numpy as np
+"""This module contains the 'Higher-Yield Test':
+
+It compares the tax burden that results from various definitions of the tax base. Most
+importantly, it compares the tax burden without applying the child allowance
+(kein_kind_freib) AND receiving child benefit with the tax burden including the child
+allowance (kind_freib), but without child benefit. The most beneficial (for the
+household) is chosen. If child allowance is claimed, kindergeld is set to zero. A
+similar check applies to whether it is more profitable to tax capital incomes with the
+standard 25% rate or to include it in the tariff.
+
+"""
 
 
-def favorability_check(tax_unit, params):
-    """ 'Higher-Yield Test'
-        compares the tax burden that results from various definitions of the tax base
-        Most importantly, it compares the tax burden without applying the child
-        allowance (_nokfb) AND receiving child benefit with the tax burden including
-        the child allowance (_kfb), but without child benefit. The most beneficial (
-        for the household) is chosen. If child allowance is claimed, kindergeld is
-        set to zero. A similar check applies to whether it is more profitable to
-        tax capital incomes with the standard 25% rate or to include it in the tariff.
+def _beantrage_kind_freib_tu(
+    _st_kein_kind_freib_tu, _kindergeld_m_tu_basis, _st_kind_freib_tu
+):
+    """Check if individual claims child allowance.
+
+    Parameters
+    ----------
+    _st_kein_kind_freib_tu
+    _kindergeld_m_tu_basis
+    _st_kind_freib_tu
+
+    Returns
+    -------
+
     """
-    tax_unit["kindergeld_m"] = tax_unit["kindergeld_m_basis"]
-    tax_unit["kindergeld_m_tu"] = tax_unit["kindergeld_m_tu_basis"]
-    # get the maximum income
-    max_inc = get_max_inc(tax_unit, params)
-    # relevant incometax
-    tax_unit.loc[:, "eink_st_m_tu"] = 0
-    # Income Tax in monthly terms! And write only to parents
-    tax_unit.loc[~tax_unit["kind"], "eink_st_m_tu"] = (
-        tax_unit["_st_" + max_inc + "_tu"] / 12
-    )
-    # set kindergeld to zero if necessary.
-    if (not ("kein_kind_freib" in max_inc)) | (params["jahr"] <= 1996):
-        tax_unit.loc[:, "kindergeld_m"] = 0
-        tax_unit.loc[:, "kindergeld_m_tu"] = 0
-    if "abg" in max_inc:
-        tax_unit.loc[:, "abgelt_st_m"] = 0
-        tax_unit.loc[:, "abgelt_st_m_tu"] = 0
-    # Aggregate Child benefit on the household level, as we could have several
-    # tax_units in one household.
-    tax_unit["kindergeld_m_hh"] = tax_unit["kindergeld_m"].sum()
-    # Assign Income tax to individuals
-    tax_unit["eink_st_m"] = np.select(
-        [tax_unit["gem_veranlagt"], ~tax_unit["gem_veranlagt"]],
-        [tax_unit["eink_st_m_tu"] / 2, tax_unit["eink_st_m_tu"]],
-    )
-
-    return tax_unit
+    st_kein_kind_freib = _st_kein_kind_freib_tu - 12 * _kindergeld_m_tu_basis
+    return st_kein_kind_freib > _st_kind_freib_tu
 
 
-def get_max_inc(tax_unit, params):
-    """The maximal income is selected considering taxing methods differing in the
-    policies on  Kinderfreibetrag or Abgeltungssteuer. """
-    inc_list = []
-    for i, inc in enumerate(params["eink_arten"]):
-        inc_list += [tax_unit["_st_" + inc + "_tu"].max()]
-        # for those tax bases without capital taxes in tariff,
-        # add abgeltungssteuer
-        if "abgelt" not in inc:
-            inc_list[i] += tax_unit["abgelt_st_m_tu"].iloc[0]
-        # For those tax bases without kfb, subtract kindergeld.
-        # Before 1996, both child allowance and child benefit could be claimed
-        if ("kein_kind_freib" in inc) | (params["jahr"] <= 1996):
-            inc_list[i] -= (12 * tax_unit["kindergeld_m_tu_basis"]).iloc[0]
+def _eink_st_tu_bis_1996(_st_kind_freib_tu):
+    """Income tax calculation until 1996.
 
-    # get the maximum income, i.e. the minimum payment burden
-    return params["eink_arten"][np.argmin(inc_list)]
+    Until 1996 individuals could claim child allowance and recieve child benefit.
+    Therefore the tax burden is allways smaller.
+    Parameters
+    ----------
+    _st_kind_freib_tu
+
+    Returns
+    -------
+
+    """
+    return _st_kind_freib_tu
+
+
+def _eink_st_tu_ab_1997(
+    _st_kein_kind_freib_tu, _st_kind_freib_tu, _beantrage_kind_freib_tu,
+):
+    """Income tax calculation since 1997.
+
+    Parameters
+    ----------
+    _st_kein_kind_freib_tu
+    _st_kind_freib_tu
+    _beantrage_kind_freib_tu
+
+    Returns
+    -------
+
+    """
+    out = _st_kein_kind_freib_tu
+    out.loc[_beantrage_kind_freib_tu] = _st_kind_freib_tu.loc[_beantrage_kind_freib_tu]
+    return out
+
+
+def _kindergeld_m_bis_1996(_kindergeld_m_basis):
+    """Kindergeld calculation until 1996.
+
+    Until 1996 individuals could claim child allowance and recieve child benefit.
+
+    Parameters
+    ----------
+    _kindergeld_m_basis
+
+    Returns
+    -------
+
+    """
+    return _kindergeld_m_basis
+
+
+def _kindergeld_m_ab_1997(
+    _beantrage_kind_freib_tu, _kindergeld_m_basis, tu_id,
+):
+    """Kindergeld calculation since 1997.
+
+    Parameters
+    ----------
+    _beantrage_kind_freib_tu
+    _kindergeld_m_basis
+    tu_id
+
+    Returns
+    -------
+
+    """
+    _beantrage_kind_freib = tu_id.replace(_beantrage_kind_freib_tu)
+    out = _kindergeld_m_basis
+    out.loc[_beantrage_kind_freib] = 0
+    return out
+
+
+def kindergeld_m_hh(kindergeld_m, hh_id):
+    """Aggregate Child benefit on the household level.
+
+    Aggregate Child benefit on the household level, as we could have several tax_units
+    in one household.
+
+    Parameters
+    ----------
+    kindergeld_m
+    hh_id
+
+    Returns
+    -------
+
+    """
+    return kindergeld_m.groupby(hh_id).sum()
+
+
+def kindergeld_m_tu(kindergeld_m, tu_id):
+    """Aggregate Child benefit on the tax unit level.
+
+    Parameters
+    ----------
+    kindergeld_m
+    tu_id
+
+    Returns
+    -------
+
+    """
+    return kindergeld_m.groupby(tu_id).sum()

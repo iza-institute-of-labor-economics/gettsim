@@ -1,67 +1,121 @@
-import datetime
-
 import numpy as np
 
 
-def uhv(tax_unit, params, kindergeld_params):
-    """
-    Advance on Alimony Payment / Unterhaltsvorschuss (UHV)
-
-    Single Parents get alimony payments for themselves and for their
-    child from the ex partner. If the ex partner is not able to pay the child
-    alimony, the government pays the child alimony to the mother (or the father, if
-    he has the kids)
-
-    The amount is specified in §1612a BGB and, ultimately, in Mindesunterhaltsverordnung.
-
-    returns:
-    tax_unit: Updated DataFrame including uhv
+def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
     """
 
-    # UHV before 07/2017. Not implemented yet, as it was only paid for 6 years. So we
-    # return nans
-    if params["datum"] < datetime.date(2017, 7, 1):
-        return tax_unit
+    Parameters
+    ----------
+    unterhaltsvors_m
+    tu_id
 
-    # Benefit amount depends on the tax allowance for children ("sächliches
-    # Existenzminimum") and the child benefit for the first child.
-    tax_unit["unterhaltsvors_m"] = 0
-    # Amounts depend on age
-    tax_unit.loc[
-        (tax_unit["alter"] < 6) & tax_unit["alleinerziehend"], "unterhaltsvors_m"
-    ] = (params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1])
-    tax_unit.loc[
-        (tax_unit["alter"] >= 6)
-        & (tax_unit["alter"] < 12)
-        & tax_unit["alleinerziehend"],
-        "unterhaltsvors_m",
-    ] = (params["mindestunterhalt"][12] - kindergeld_params["kindergeld"][1])
-    # Older kids get it only if the parent has income > 600€
-    uhv_inc_tu = (
-        tax_unit[
-            [
-                "bruttolohn_m",
-                "sonstig_eink_m",
-                "eink_selbstst_m",
-                "vermiet_eink_m",
-                "kapital_eink_m",
-                "ges_rente_m",
-                "arbeitsl_geld_m",
-            ]
-        ]
-        .sum()
-        .sum()
-    )
-    tax_unit.loc[
-        (tax_unit["alter"] >= 12)
-        & (tax_unit["alter"] < 18)
-        & (tax_unit["alleinerziehend"])
-        & (uhv_inc_tu > params["unterhaltsvorschuss_mindesteinkommen"]),
-        "unterhaltsvors_m",
-    ] = (params["mindestunterhalt"][17] - kindergeld_params["kindergeld"][1])
+    Returns
+    -------
 
-    # round up
-    tax_unit["unterhaltsvors_m"] = np.ceil(tax_unit["unterhaltsvors_m"]).astype(int)
+    """
+    return unterhaltsvors_m.groupby(tu_id).sum()
+
+
+def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
+    """
+
+    Parameters
+    ----------
+    unterhaltsvors_m
+    hh_id
+
+    Returns
+    -------
+
+    """
+    return unterhaltsvors_m.groupby(hh_id).sum()
+
+
+def unterhaltsvors_m(
+    tu_id,
+    alleinerziehend,
+    alter,
+    unterhaltsvorschuss_eink_tu,
+    unterhalt_params,
+    kindergeld_params,
+):
+    """Advance on Alimony Payment / Unterhaltsvorschuss (UHV)
+
+    Single Parents get alimony payments for themselves and for their child from the ex
+    partner. If the ex partner is not able to pay the child alimony, the government pays
+    the child alimony to the mother (or the father, if he has the kids)
+
+    The amount is specified in §1612a BGB and, ultimately, in
+    Mindesunterhaltsverordnung.
+
+    """
+
+    # Initialize output Series
+    out = tu_id * 0
+
+    # The right-hand-side variable is aggregated by tax units whereas we need personal
+    # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
+    # index because it is
+    unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu)
+
+    conditions = [
+        (alter < 6) & alleinerziehend,
+        (alter >= 6) & (alter < 12) & alleinerziehend,
+        # Older kids get it only if the parent has income > 600€.
+        (alter >= 12)
+        & (alter < 18)
+        & alleinerziehend
+        & (
+            unterhaltsvorschuss_eink
+            > unterhalt_params["unterhaltsvorschuss_mindesteinkommen"]
+        ),
+    ]
+
+    choices = [
+        (unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]),
+        (unterhalt_params["mindestunterhalt"][12] - kindergeld_params["kindergeld"][1]),
+        (unterhalt_params["mindestunterhalt"][17] - kindergeld_params["kindergeld"][1]),
+    ]
+
+    out[:] = np.ceil(np.select(conditions, choices)).astype(int)
 
     # TODO: Check against actual transfers
-    return tax_unit
+    return out
+
+
+def unterhaltsvorschuss_eink_tu(
+    bruttolohn_m_tu,
+    sonstig_eink_m_tu,
+    eink_selbst_m_tu,
+    vermiet_eink_m_tu,
+    kapital_eink_m_tu,
+    ges_rente_m_tu,
+    arbeitsl_geld_m_tu,
+):
+    out = (
+        bruttolohn_m_tu
+        + sonstig_eink_m_tu
+        + eink_selbst_m_tu
+        + vermiet_eink_m_tu
+        + kapital_eink_m_tu
+        + ges_rente_m_tu
+        + arbeitsl_geld_m_tu
+    )
+
+    return out
+
+
+def eink_selbst_m_tu(eink_selbst_m, tu_id):
+    return eink_selbst_m.groupby(tu_id).sum()
+
+
+def vermiet_eink_m_tu(vermiet_eink_m, tu_id):
+    return vermiet_eink_m.groupby(tu_id).sum()
+
+
+def kapital_eink_m_tu(kapital_eink_m, tu_id):
+    return kapital_eink_m.groupby(tu_id).sum()
+
+
+def ges_rente_m_tu(ges_rente_m, tu_id):
+    return ges_rente_m.groupby(tu_id).sum()

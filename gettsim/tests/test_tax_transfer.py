@@ -1,116 +1,101 @@
-# from datetime import date
-#
-# import pandas as pd
-# import pytest
-#
-# from gettsim.config import ROOT_DIR
-# from gettsim.pre_processing.policy_for_date import get_policies_for_date
-# from gettsim.tax_transfer import tax_transfer
-# from gettsim.tax_transfer import calculate_tax_and_transfers
-#
-#
-#
-# YEARS = [2002, 2010, 2018, 2019]
-#
-#
-# @pytest.fixture(scope="module")
-# def input_data():
-#     file_name = "test_dfs_tax_transfer.csv"
-#     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-#     return out
-#
-#
-# @pytest.mark.parametrize("year", YEARS)
-# def test_tax_transfer(
-#     input_data,
-#     year,
-#     eink_st_abzuege_raw_data,
-#     renten_daten,
-#     eink_st_raw_data,
-#     soli_st_raw_data,
-#     arbeitsl_geld_2_raw_data,
-#     arbeitsl_geld_raw_data,
-#     soz_vers_beitr_raw_data,
-#     unterhalt_raw_data,
-#     abgelt_st_raw_data,
-#     wohngeld_raw_data,
-#     kinderzuschlag_raw_data,
-#     kindergeld_raw_data,
-#     elterngeld_raw_data,
-# ):
-#     df = input_data[input_data["jahr"] == year].copy()
-#     policy_date = date(year, 1, 1)
-#     eink_st_abzuege_params = get_policies_for_date(
-#         policy_date=policy_date,
-#         group="eink_st_abzuege",
-#         raw_group_data=eink_st_abzuege_raw_data,
-#     )
-#     eink_st_params = get_policies_for_date(
-#         policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
-#     )
-#     soli_st_params = get_policies_for_date(
-#         policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
-#     )
-#     arbeitsl_geld_2_params = get_policies_for_date(
-#         policy_date=policy_date,
-#         group="arbeitsl_geld_2",
-#         raw_group_data=arbeitsl_geld_2_raw_data,
-#     )
-#     arbeitsl_geld_params = get_policies_for_date(
-#         policy_date=policy_date,
-#         group="arbeitsl_geld",
-#         raw_group_data=arbeitsl_geld_raw_data,
-#     )
-#     soz_vers_beitr_params = get_policies_for_date(
-#         policy_date=policy_date,
-#         group="soz_vers_beitr",
-#         raw_group_data=soz_vers_beitr_raw_data,
-#     )
-#     unterhalt_params = get_policies_for_date(
-#         policy_date=policy_date, group="unterhalt", raw_group_data=unterhalt_raw_data
-#     )
-#     abgelt_st_params = get_policies_for_date(
-#         policy_date=policy_date, group="abgelt_st", raw_group_data=abgelt_st_raw_data
-#     )
-#     wohngeld_params = get_policies_for_date(
-#         policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
-#     )
-#     kinderzuschlag_params = get_policies_for_date(
-#         policy_date=policy_date,
-#         group="kinderzuschlag",
-#         raw_group_data=kinderzuschlag_raw_data,
-#     )
-#     kindergeld_params = get_policies_for_date(
-#         policy_date=policy_date, group="kindergeld", raw_group_data=kindergeld_raw_data
-#     )
-#
-#     elterngeld_params = get_policies_for_date(
-#         policy_date=policy_date, group="elterngeld", raw_group_data=elterngeld_raw_data
-#     )
-#
-#     tax_transfer(
-#         df,
-#         arbeitsl_geld_2_params=arbeitsl_geld_2_params,
-#         abgelt_st_params=abgelt_st_params,
-#         arbeitsl_geld_params=arbeitsl_geld_params,
-#         soz_vers_beitr_params=soz_vers_beitr_params,
-#         eink_st_abzuege_params=eink_st_abzuege_params,
-#         elterngeld_params=elterngeld_params,
-#         unterhalt_params=unterhalt_params,
-#         wohngeld_params=wohngeld_params,
-#         kinderzuschlag_params=kinderzuschlag_params,
-#         eink_st_params=eink_st_params,
-#         soli_st_params=soli_st_params,
-#         kindergeld_params=kindergeld_params,
-#         renten_daten=renten_daten,
-#     )
-#
-# @pytest.mark.parametrize("year", YEARS)
-# def test_calc_tax_and_transfers(
-#     input_data, year,
-# ):
-#     df = input_data[input_data["jahr"] == year].copy()
-#     calculate_tax_and_transfers(
-#         df, year,
-#     )
-#
+import pandas as pd
+import pytest
+
+from gettsim.config import ROOT_DIR
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.pre_processing.policy_for_date import get_policies_for_date
+
+REQUIRED_INPUTS = [
+    "hh_id",
+    "tu_id",
+    "p_id",
+    "tu_vorstand",
+    "anz_minderj_hh",
+    "vermögen_hh",
+    "bruttolohn_m",
+    "alter",
+    "selbstständig",
+    "wohnort_ost",
+    "hat_kinder",
+    "eink_selbst_m",
+    "ges_rente_m",
+    "prv_krankenv",
+    "prv_rente_beitr_m",
+    "bruttolohn_vorj_m",
+    "arbeitsl_lfdj_m",
+    "arbeitsl_vorj_m",
+    "arbeitsl_vor2j_m",
+    "arbeitsstunden_w",
+    "geburtsjahr",
+    "geburtstag",
+    "geburtsmonat",
+    "mietstufe",
+    "entgeltpunkte",
+    "kind",
+    "rentner",
+    "betreuungskost_m",
+    "kapital_eink_m",
+    "vermiet_eink_m",
+    "kaltmiete_m",
+    "heizkost_m",
+    "jahr_renteneintr",
+    "behinderungsgrad",
+    "wohnfläche",
+    "m_elterngeld",
+    "m_elterngeld_vat",
+    "m_elterngeld_mut",
+    "in_ausbildung",
+    "alleinerziehend",
+    "bewohnt_eigentum",
+    "immobilie_baujahr",
+    "sonstig_eink_m",
+    "jahr",
+]
+DESIRED_OUTPUTS = [
+    "rentenv_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "ges_krankenv_beitr_m",
+    "pflegev_beitr_m",
+    "arbeitsl_geld_m",
+    # "rente_anspr_m",
+    # "entgeltpunkte",
+    "abgelt_st_tu",
+    "soli_st_tu",
+    "kindergeld_m",
+    "kindergeld_m_tu",
+    "eink_st_tu",
+    "unterhaltsvors_m",
+    "regelsatz_m",
+    "kost_unterk_m",
+    "unterhaltsvors_m_hh",
+    "kinderzuschlag_m",
+    "wohngeld_m",
+    "arbeitsl_geld_2_m",
+    # "verfügb_eink_m",
+    # "verfügb_eink_hh_m",
+]
+
+YEARS = [2019]
+
+
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_tax_transfer.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_tax_transfer(
+    input_data, year,
+):
+    year_data = input_data[input_data["jahr"] == year].copy()
+    df = year_data[REQUIRED_INPUTS].copy()
+    params_dict, policy_func_dict = get_policies_for_date(
+        policy_date=str(year), groups="all"
+    )
+    # params_dict["renten_daten"] = renten_daten
+
+    compute_taxes_and_transfers(
+        df, targets=DESIRED_OUTPUTS, user_functions=policy_func_dict, params=params_dict
+    )
