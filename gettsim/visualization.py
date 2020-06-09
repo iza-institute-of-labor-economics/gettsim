@@ -19,6 +19,8 @@ from pygments import highlight
 from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
+from gettsim.interface import FORMATTED_LIST
+
 
 EDGE_KWARGS_DEFAULTS = {"line_color": Spectral4[3], "line_alpha": 0.8, "line_width": 1}
 NODE_KWARGS_DEFAULTS = {"size": 15, "fill_color": Spectral4[0]}
@@ -107,12 +109,20 @@ def plot_dag(
     return plot
 
 
-def _select_nodes_in_dag(dag, selectors):
+def _select_nodes_in_dag(dag, raw_selectors):
     """Select nodes in the DAG based on the selectors."""
+    raw_selectors = _convert_non_dict_selectors(raw_selectors)
+    selectors, deselectors = _separate_selectors_and_deselectors(raw_selectors)
+    dag = _apply_selectors_and_deselectors(dag, selectors, deselectors)
+
+    if len(dag.nodes) == 0:
+        raise ValueError("After selection and de-selection, the DAG contains no nodes.")
+
     return dag
 
 
 def _highlight_nodes_in_dag(dag, highlighters):
+    highlighters
     return dag
 
 
@@ -237,3 +247,124 @@ def _to_list(scalar_or_iter):
         if isinstance(scalar_or_iter, str) or isinstance(scalar_or_iter, dict)
         else list(scalar_or_iter)
     )
+
+
+def _validate_selectors(selectors):
+    for selector in selectors:
+        if not isinstance(selector, str) or not (
+            isinstance(selector, dict) and "node" in selector and "type" in selector
+        ):
+            raise ValueError("A selector has to be a str or a dictionary.")
+
+        if selector["type"] in ["neighbors", "neighbours"]:
+            if selector["order"] < 1:
+                raise ValueError("The order of neighbors cannot be smaller than one.")
+
+
+def _convert_non_dict_selectors(selectors_):
+    selectors = [i for i in selectors_ if isinstance(i, dict)]
+    str_selectors = [i for i in selectors_ if not isinstance(i, dict)]
+
+    if str_selectors:
+        selector = {"node": str_selectors, "type": "nodes", "select": True}
+        selectors += [selector]
+
+    return selectors
+
+
+def _separate_selectors_and_deselectors(selectors_):
+    selectors = []
+    deselectors = []
+    for selector in selectors_:
+        if selector.get("select", True):
+            selectors.append(selector)
+        else:
+            deselectors.append(selector)
+
+    return selectors, deselectors
+
+
+def _apply_selectors_and_deselectors(dag, selectors, deselectors):
+    if selectors:
+        selected_nodes = set().union(
+            *[_get_selected_nodes(dag, selector) for selector in selectors]
+        )
+    else:
+        selected_nodes = set(dag.nodes)
+
+    selected_nodes_not_in_dag = selected_nodes - set(dag.nodes)
+    if selected_nodes_not_in_dag:
+        formatted = '",\n    "'.join(selected_nodes_not_in_dag)
+        raise ValueError(
+            "The following selected nodes are not in the DAG:"
+            f"\n{FORMATTED_LIST.format(formatted=formatted)}"
+        )
+
+    deselected_nodes = set().union(
+        *[_get_selected_nodes(dag, deselector) for deselector in deselectors]
+    )
+    deselected_nodes_not_in_dag = deselected_nodes - set(dag.nodes)
+    if deselected_nodes_not_in_dag:
+        formatted = '",\n    "'.join(deselected_nodes_not_in_dag)
+        raise ValueError(
+            "The following de-selected nodes are not in the DAG:"
+            f"\n{FORMATTED_LIST.format(formatted=formatted)}"
+        )
+
+    nodes_to_be_removed = set(dag.nodes) - set(selected_nodes) | set(deselected_nodes)
+
+    dag.remove_nodes_from(nodes_to_be_removed)
+
+    return dag
+
+
+def _get_selected_nodes(dag, selector):
+    if selector["type"] == "nodes":
+        selected_nodes = selector["node"]
+    elif selector["type"] == "ancestors":
+        selected_nodes = _node_and_ancestors(dag, selector["node"])
+    elif selector["type"] == "descendants":
+        selected_nodes = _node_and_descendants(dag, selector["node"])
+    elif selector["type"] in ["neighbors", "neighbours"]:
+        selected_nodes = list(
+            _kth_order_neighbors(dag, selector["node"], selector["order"])
+        )
+    else:
+        raise NotImplementedError(f"Selector type '{selector['type']}' is not defined.")
+
+    return set(selected_nodes)
+
+
+def _node_and_ancestors(dag, node):
+    return [node] + list(nx.ancestors(dag, node))
+
+
+def _node_and_descendants(dag, node):
+    return [node] + list(nx.descendants(dag, node))
+
+
+def _kth_order_neighbors(dag, node, order):
+    yield node
+
+    if 1 <= order:
+        for predecessor in dag.predecessors(node):
+            yield from _kth_order_predecessors(dag, predecessor, order=order - 1)
+
+        for successor in dag.successors(node):
+            yield from _kth_order_successors(dag, successor, order=order - 1)
+
+
+def _kth_order_predecessors(dag, node, order):
+    yield node
+
+    if 1 <= order:
+        for predecessor in dag.predecessors(node):
+            yield from _kth_order_predecessors(dag, predecessor, order=order - 1)
+
+
+def _kth_order_successors(dag, node, order):
+    yield node
+
+    if 1 <= order:
+        for successor in dag.successors(node):
+            yield from _kth_order_successors(dag, successor, order=order - 1)

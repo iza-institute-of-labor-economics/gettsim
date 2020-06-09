@@ -13,6 +13,13 @@ from gettsim.dag import prune_dag
 from gettsim.functions_loader import load_functions
 
 
+FORMATTED_LIST = """
+[
+    "{formatted}",
+]
+"""
+
+
 def compute_taxes_and_transfers(
     data,
     user_functions=None,
@@ -268,13 +275,7 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
         first_part = _format_text_for_cmdline(
             f"You passed the following user {column_sg_pl}:"
         )
-        list_ = textwrap.dedent(
-            """
-            [
-                "{formatted}",
-            ]
-            """
-        ).format(formatted=formatted)
+        list_ = FORMATTED_LIST.format(formatted=formatted)
 
         second_part = _format_text_for_cmdline(
             f"""
@@ -334,13 +335,7 @@ def _fail_if_user_columns_are_not_in_functions(
             internal or user functions.
             """
         )
-        list_ = textwrap.dedent(
-            """
-            [
-                "{formatted}",
-            ]
-            """
-        ).format(formatted=formatted)
+        list_ = FORMATTED_LIST.format(formatted=formatted)
         raise ValueError("\n".join([intro, list_]))
 
 
@@ -375,13 +370,7 @@ def _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns)
             f"Your data provides the column{'' if n_cols == 1 else 's'}:"
         )
 
-        list_ = textwrap.dedent(
-            """
-            [
-                "{formatted}",
-            ]
-            """
-        ).format(formatted=formatted)
+        list_ = FORMATTED_LIST.format(formatted=formatted)
 
         second_part = _format_text_for_cmdline(
             f"""
