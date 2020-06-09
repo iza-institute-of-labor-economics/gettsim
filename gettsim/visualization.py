@@ -16,6 +16,7 @@ from bokeh.models import MultiLine
 from bokeh.models import Plot
 from bokeh.models import Range1d
 from bokeh.models import ResetTool
+from bokeh.models import Title
 from bokeh.palettes import Spectral4
 from bokeh.plotting import from_networkx
 from pygments import highlight
@@ -28,13 +29,13 @@ from gettsim.interface import FORMATTED_LIST
 EDGE_KWARGS_DEFAULTS = {"line_color": Spectral4[3], "line_alpha": 0.8, "line_width": 1}
 NODE_KWARGS_DEFAULTS = {"size": 15, "fill_color": Spectral4[0]}
 PLOT_KWARGS_DEFAULTS = {
-    "plot_width": 800,
-    "plot_height": 800,
-    "x_range": Range1d(-1.1, 1.1),
-    "y_range": Range1d(-1.1, 1.1),
+    "plot_width": 600,
+    "plot_height": 600,
+    "x_range": Range1d(-1.3, 1.3),
+    "y_range": Range1d(-1.3, 1.3),
 }
 LABEL_KWARGS_DEFAULT = {
-    "x_offset": 8,
+    "x_offset": -30,
     "y_offset": 8,
     "render_mode": "canvas",
     "text_font_size": "12px",
@@ -94,9 +95,10 @@ def plot_dag(
 
     dag = _replace_functions_with_source_code(dag)
 
+    plot_kwargs["title"] = _to_bokeh_title(
+        plot_kwargs.get("title", "Tax and Transfer System")
+    )
     plot = Plot(**{**PLOT_KWARGS_DEFAULTS, **plot_kwargs})
-
-    plot.title.text = "Tax and Transfer System"
 
     node_hover_tool = HoverTool(tooltips=TOOLTIPS)
 
@@ -130,6 +132,12 @@ def plot_dag(
     show(plot)
 
     return plot
+
+
+def _to_bokeh_title(title):
+    t = Title()
+    t.text = title
+    return t
 
 
 def _select_nodes_in_dag(dag, raw_selectors):
