@@ -92,7 +92,8 @@ def plot_dag(
 
     plot.add_tools(node_hover_tool, BoxZoomTool(), ResetTool())
 
-    graph_renderer = from_networkx(dag, _create_pydot_layout(dag))
+    layout = _create_pydot_layout(dag)
+    graph_renderer = from_networkx(dag, layout, scale=1, center=(0, 0))
 
     graph_renderer.node_renderer.glyph = Circle(
         **{**NODE_KWARGS_DEFAULTS, **node_kwargs}
@@ -214,11 +215,16 @@ def _create_pydot_layout(dag):
     }
 
     # Convert nonnegative integer coordinates from the layout to unit cube.
+    min_x = min(i[0] for i in layout.values())
+    min_y = min(i[1] for i in layout.values())
+    min_ = np.array([min_x, min_y])
+
     max_x = max(i[0] for i in layout.values())
     max_y = max(i[1] for i in layout.values())
+    max_ = np.array([max_x, max_y])
 
     for k, v in layout.items():
-        layout[k] = v / (max_x, max_y) * 2 - 1
+        layout[k] = (v - (max_ + min_) / 2) / ((max_ - min_) / 2).clip(1)
 
     return layout
 
@@ -320,14 +326,14 @@ def _apply_selectors_and_deselectors(dag, selectors, deselectors):
 
 def _get_selected_nodes(dag, selector):
     if selector["type"] == "nodes":
-        selected_nodes = selector["node"]
+        selected_nodes = _to_list(selector["node"])
     elif selector["type"] == "ancestors":
         selected_nodes = _node_and_ancestors(dag, selector["node"])
     elif selector["type"] == "descendants":
         selected_nodes = _node_and_descendants(dag, selector["node"])
     elif selector["type"] in ["neighbors", "neighbours"]:
         selected_nodes = list(
-            _kth_order_neighbors(dag, selector["node"], selector["order"])
+            _kth_order_neighbors(dag, selector["node"], selector.get("order", 1))
         )
     else:
         raise NotImplementedError(f"Selector type '{selector['type']}' is not defined.")
