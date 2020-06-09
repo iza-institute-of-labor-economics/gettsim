@@ -4,11 +4,14 @@ import inspect
 
 import networkx as nx
 import numpy as np
+import pandas as pd
 from bokeh.io import output_notebook
 from bokeh.io import show
 from bokeh.models import BoxZoomTool
 from bokeh.models import Circle
+from bokeh.models import ColumnDataSource
 from bokeh.models import HoverTool
+from bokeh.models import LabelSet
 from bokeh.models import MultiLine
 from bokeh.models import Plot
 from bokeh.models import Range1d
@@ -30,6 +33,12 @@ PLOT_KWARGS_DEFAULTS = {
     "x_range": Range1d(-1.1, 1.1),
     "y_range": Range1d(-1.1, 1.1),
 }
+LABEL_KWARGS_DEFAULT = {
+    "x_offset": 8,
+    "y_offset": 8,
+    "render_mode": "canvas",
+    "text_font_size": "12px",
+}
 
 
 TOOLTIPS = """
@@ -41,10 +50,11 @@ source code: @source_code{safe}
 def plot_dag(
     dag,
     selectors=None,
-    highlighters=None,
+    labels=True,
     plot_kwargs=None,
     node_kwargs=None,
     edge_kwargs=None,
+    label_kwargs=None,
 ):
     """Plot the dag of the tax and transfer system.
 
@@ -57,10 +67,8 @@ def plot_dag(
         visualization. For the full list of options, see the tutorial about
         `visualization <../docs/tutorials/visualize.ipynb>`_. By default, all nodes are
         shown.
-    highlighters : str or list of str or dict of list of dict or list of dict and str
-        Highlighters allow to mark nodes so that they can be found more easily. For the
-        full list of options, see the tutorial about `visualization
-        <../docs/tutorials/visualize.ipynb>`_. By default, no node is highlighted.
+    labels : bool, default False
+        Annotate nodes with labels.
     plot_kwargs : dict
         Additional keyword arguments passed to :class:`bokeh.models.Plot`.
     node_kwargs : dict
@@ -69,18 +77,20 @@ def plot_dag(
     edge_kwargs : dict
         Additional keyword arguments passed to :class:`bokeh.models.MultiLine`. For
         example, change the color with `{"fill_color": "green"}`.
+    label_kwargs : dict
+        Additional keyword arguments passed to :class:`bokeh.models.LabelSet`. For
+        example, change the fontsize with `{"text_font_size": "12px"}`.
 
     """
     dag = copy.deepcopy(dag)
 
     selectors = [] if selectors is None else _to_list(selectors)
-    highlighters = [] if highlighters is None else _to_list(highlighters)
     plot_kwargs = {} if plot_kwargs is None else plot_kwargs
     node_kwargs = {} if node_kwargs is None else node_kwargs
     edge_kwargs = {} if edge_kwargs is None else edge_kwargs
+    label_kwargs = {} if label_kwargs is None else label_kwargs
 
     dag = _select_nodes_in_dag(dag, selectors)
-    dag = _highlight_nodes_in_dag(dag, highlighters)
 
     dag = _replace_functions_with_source_code(dag)
 
@@ -101,8 +111,20 @@ def plot_dag(
     graph_renderer.edge_renderer.glyph = MultiLine(
         **{**EDGE_KWARGS_DEFAULTS, **edge_kwargs}
     )
-
     plot.renderers.append(graph_renderer)
+
+    if labels:
+        source = ColumnDataSource(
+            pd.DataFrame(layout).T.rename(columns={0: "x", 1: "y"})
+        )
+        labels = LabelSet(
+            x="x",
+            y="y",
+            text="index",
+            source=source,
+            **{**LABEL_KWARGS_DEFAULT, **label_kwargs},
+        )
+        plot.add_layout(labels)
 
     output_notebook()
     show(plot)
@@ -119,11 +141,6 @@ def _select_nodes_in_dag(dag, raw_selectors):
     if len(dag.nodes) == 0:
         raise ValueError("After selection and de-selection, the DAG contains no nodes.")
 
-    return dag
-
-
-def _highlight_nodes_in_dag(dag, highlighters):
-    highlighters
     return dag
 
 
