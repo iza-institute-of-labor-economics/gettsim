@@ -11,6 +11,7 @@ PATHS_TO_INTERNAL_FUNCTIONS = [
     ROOT_DIR / "benefits",
     ROOT_DIR / "taxes",
     ROOT_DIR / "demographic_vars.py",
+    ROOT_DIR / "renten_anspruch_dag.py
 ]
 """list of Paths: List of paths to internal functions.
 
