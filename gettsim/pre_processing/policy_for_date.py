@@ -57,21 +57,19 @@ def get_policies_for_date(policy_date, groups="all"):
 
     Parameters
     ----------
-    policy_date : datetime.date, str, int
-                  The date for which the policy system is set up.
+    policy_date : int, str, datetime.date, pandas.Timestamp
+        The date for which the policy system is set up.
     groups : list, str
-             The group or a list of groups which parameters are loaded. Default is
-             all parameters
+        The group or a list of groups which parameters are loaded. Default is all
+        parameters
 
     Returns
     -------
     params_dict : dict
-                Dictionary of parameters grouped in policy system compartments given
-                in groups.
+        Dictionary of parameters grouped in policy system compartments given in groups.
     policy_func_dict : dict
-                Dictionary of time dependent policy reforms. Keys are the
-                variable names they create.
-
+        Dictionary of time dependent policy reforms. Keys are the variable names they
+        create.
 
     """
     # Check policy date for correct format and transfer to datetime.date
@@ -100,14 +98,14 @@ def align_parameters(tax_data):
     Parameters
     ----------
     tax_data : dict
-            Loaded raw tax data.
+        Loaded raw tax data.
 
     Returns
     -------
 
     """
     for param in tax_data:
-        if type(tax_data[param]) == dict:
+        if isinstance(tax_data[param], dict):
             if "type" in tax_data[param]:
                 if tax_data[param]["type"].startswith("piecewise"):
                     if "progressionsfaktor" in tax_data[param]:
