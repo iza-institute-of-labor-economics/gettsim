@@ -80,7 +80,7 @@ def test_zve(
     df = year_data[INPUT_COLS].copy()
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=str(year),
-        groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld", "eink_st"],
+        policy_groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld", "eink_st"],
     )
 
     user_columns = [

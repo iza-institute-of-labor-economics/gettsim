@@ -49,7 +49,7 @@ from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_ab_2010
 from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_bis_2004
 
 
-def get_policies_for_date(policy_date, groups="all"):
+def get_policies_for_date(policy_date, policy_groups="all"):
     """Get the state of the policy system for a particular date.
 
     The function returns time dependent policy reforms (functions) as well as the
@@ -59,7 +59,7 @@ def get_policies_for_date(policy_date, groups="all"):
     ----------
     policy_date : int, str, datetime.date
         The date for which the policy system is set up.
-    groups : list, str
+    policy_groups : list, str
         The group or a list of groups which parameters are loaded. Default is all
         parameters
 
@@ -76,7 +76,7 @@ def get_policies_for_date(policy_date, groups="all"):
     policy_date = _parse_date(policy_date)
 
     # Check groups argument for correct format and transfer to list.
-    group_list = _parse_parameter_groups(groups)
+    group_list = _parse_parameter_groups(policy_groups)
 
     params_dict = {}
 
@@ -124,12 +124,12 @@ def align_parameters(tax_data):
     return tax_data
 
 
-def _parse_parameter_groups(groups):
+def _parse_parameter_groups(policy_groups):
     """Check group argument for correct format and transfer to list.
 
     Parameters
     ----------
-    groups : list, str
+    policy_groups : list, str
         The group or a list of groups which parameters are loaded. Default is
         all parameters
 
@@ -139,23 +139,25 @@ def _parse_parameter_groups(groups):
 
     """
 
-    if isinstance(groups, list):
-        misspelled = [group for group in groups if group not in INTERNAL_PARAM_GROUPS]
+    if isinstance(policy_groups, list):
+        misspelled = [
+            group for group in policy_groups if group not in INTERNAL_PARAM_GROUPS
+        ]
         if not misspelled:
-            out = groups
+            out = policy_groups
         else:
             raise ValueError(
                 f"""The groups {misspelled} are not in the internal yaml files."""
             )
-    elif isinstance(groups, str):
-        if groups == "all":
+    elif isinstance(policy_groups, str):
+        if policy_groups == "all":
             out = INTERNAL_PARAM_GROUPS
-        elif groups in INTERNAL_PARAM_GROUPS:
-            out = [groups]
+        elif policy_groups in INTERNAL_PARAM_GROUPS:
+            out = [policy_groups]
         else:
-            raise ValueError(f"{groups} is not a category for groups.")
+            raise ValueError(f"{policy_groups} is not a category for groups.")
     else:
-        raise ValueError(f"{groups} is not a string or list.")
+        raise ValueError(f"{policy_groups} is not a string or list.")
 
     return out
 

@@ -50,7 +50,7 @@ def test_benefit_checks(input_data, year, column):
     ]
 
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=str(year), groups="arbeitsl_geld_2",
+        policy_date=str(year), policy_groups="arbeitsl_geld_2",
     )
     result = compute_taxes_and_transfers(
         df,
