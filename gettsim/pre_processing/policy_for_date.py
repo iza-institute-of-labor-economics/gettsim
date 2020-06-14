@@ -57,7 +57,7 @@ def get_policies_for_date(policy_date, groups="all"):
 
     Parameters
     ----------
-    policy_date : int, str, datetime.date, pandas.Timestamp
+    policy_date : int, str, datetime.date
         The date for which the policy system is set up.
     groups : list, str
         The group or a list of groups which parameters are loaded. Default is all
@@ -166,7 +166,7 @@ def check_date(policy_date):
                 The date for which the policy system is set up.
     """
     if isinstance(policy_date, str):
-        policy_date = pd.to_datetime(policy_date)
+        policy_date = pd.to_datetime(policy_date).date()
     elif isinstance(policy_date, int):
         policy_date = datetime.date(year=policy_date, month=1, day=1)
     return policy_date
