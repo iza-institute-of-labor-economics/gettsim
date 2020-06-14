@@ -49,9 +49,25 @@ from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_bis_2004
 
 
 def get_policies_for_date(policy_date, groups="all"):
-    if isinstance(policy_date, str):
-        policy_date = pd.to_datetime(policy_date)
+    """Get the state of the policy system for a particular date.
 
+    The function returns time dependent policy reforms (functions) as well as the
+    corresponding parameters for the current policy system.
+
+    Parameters
+    ----------
+    policy_date : datetime.date, str, int
+                  The date for which the policy system is set up.
+    groups : list, str
+             The group or a list of groups which parameters are loaded. Default is
+             all parameters
+
+    Returns
+    -------
+
+
+    """
+    policy_date = check_date(policy_date)
     all_params_groups = [
         "eink_st",
         "eink_st_abzuege",
@@ -79,7 +95,6 @@ def get_policies_for_date(policy_date, groups="all"):
         raise ValueError(f"{groups} is not a string or list.")
 
     params_dict = {}
-    year = policy_date.year
 
     for group in group_list:
         tax_data = load_data(policy_date, group)
@@ -104,6 +119,33 @@ def get_policies_for_date(policy_date, groups="all"):
         tax_data["datum"] = policy_date
         params_dict[group] = tax_data
 
+    policy_func_dict = load_reforms_for_date(policy_date)
+
+    return params_dict, policy_func_dict
+
+
+def check_date(policy_date):
+    """Check the policy date for different input formats.
+
+    Parameters
+    ----------
+    policy_date : datetime.date, str, int
+                The date for which the policy system is set up.
+
+    Returns
+    -------
+    policy_date : datetime.date
+                The date for which the policy system is set up.
+    """
+    if isinstance(policy_date, str):
+        policy_date = pd.to_datetime(policy_date)
+    elif isinstance(policy_date, int):
+        policy_date = datetime.date(year=policy_date, month=1, day=1)
+    return policy_date
+
+
+def load_reforms_for_date(policy_date):
+    year = policy_date.year
     policy_func_dict = {}
     if year < 2009:
         policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_mit_kapital
@@ -179,14 +221,13 @@ def get_policies_for_date(policy_date, groups="all"):
     else:
         policy_func_dict["eink_anr_frei"] = eink_anr_frei_ab_10_2005
 
-    return params_dict, policy_func_dict
+    return policy_func_dict
 
 
-def load_data(policy_date, group, raw_group_data=None, parameters=None):
-    if not raw_group_data:
-        raw_group_data = yaml.safe_load(
-            (ROOT_DIR / "data" / f"{group}.yaml").read_text(encoding="utf-8")
-        )
+def load_data(policy_date, group, parameters=None):
+    raw_group_data = yaml.safe_load(
+        (ROOT_DIR / "data" / f"{group}.yaml").read_text(encoding="utf-8")
+    )
 
     # Keys from the raw file which will not be transferred
     not_trans_keys = ["note", "reference", "deviation_from"]
@@ -208,10 +249,7 @@ def load_data(policy_date, group, raw_group_data=None, parameters=None):
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     tax_data[param] = load_data(
-                        policy_date,
-                        path_list[0],
-                        raw_group_data=raw_group_data,
-                        parameters=[path_list[1]],
+                        policy_date, path_list[0], parameters=[path_list[1]],
                     )[path_list[1]]
             else:
                 # TODO: Should there be missing values or should the key not exist?
@@ -234,18 +272,12 @@ def load_data(policy_date, group, raw_group_data=None, parameters=None):
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
                         tax_data[param] = load_data(
-                            new_date,
-                            group,
-                            raw_group_data=raw_group_data,
-                            parameters=[param],
+                            new_date, group, parameters=[param],
                         )[param]
                     elif "." in policy_in_place["deviation_from"]:
                         path_list = policy_in_place["deviation_from"].split(".")
                         tax_data[param] = load_data(
-                            policy_date,
-                            path_list[0],
-                            raw_group_data=raw_group_data,
-                            parameters=[path_list[1]],
+                            policy_date, path_list[0], parameters=[path_list[1]],
                         )[path_list[1]]
                     for key in value_keys:
                         key_list = []
