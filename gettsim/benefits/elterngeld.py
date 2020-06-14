@@ -158,8 +158,8 @@ def elternzeit_anspruch(
 def berechtigt_für_geschw_bonus(
     hh_id, geburtsjahr, elternzeit_anspruch, elterngeld_params
 ):
-    under_age_three = elterngeld_params["jahr"] - geburtsjahr < 3
-    under_age_six = elterngeld_params["jahr"] - geburtsjahr < 6
+    under_age_three = elterngeld_params["datum"].year - geburtsjahr < 3
+    under_age_six = elterngeld_params["datum"].year - geburtsjahr < 6
 
     bonus = (
         (under_age_three.groupby(hh_id).transform("sum") == 2)

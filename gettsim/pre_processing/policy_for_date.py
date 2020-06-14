@@ -67,7 +67,70 @@ def get_policies_for_date(policy_date, groups="all"):
 
 
     """
+    # Check policy date for correct format and transfer to datetime.date
     policy_date = check_date(policy_date)
+
+    # Check groups argument for correct format and transfer to list.
+    group_list = check_groups(groups)
+
+    params_dict = {}
+
+    for group in group_list:
+        tax_data = load_data(policy_date, group)
+
+        params_dict[group] = align_parameters(tax_data)
+
+    policy_func_dict = load_reforms_for_date(policy_date)
+
+    return params_dict, policy_func_dict
+
+
+def align_parameters(tax_data):
+    """Check if parameters are stored in implicit structures and align to general
+    structure.
+
+    Parameters
+    ----------
+    tax_data : dict
+            Loaded raw tax data.
+
+    Returns
+    -------
+
+    """
+    for param in tax_data:
+        if type(tax_data[param]) == dict:
+            if "type" in tax_data[param]:
+                if tax_data[param]["type"].startswith("piecewise"):
+                    if "progressionsfaktor" in tax_data[param]:
+                        if tax_data[param]["progressionsfaktor"]:
+                            tax_data[param] = add_progressionsfaktor(
+                                tax_data[param], param
+                            )
+                    tax_data[param] = get_piecewise_parameters(
+                        tax_data[param],
+                        param,
+                        func_type=tax_data[param]["type"].split("_")[1],
+                    )
+            for key in ["type", "progressionsfaktor"]:
+                tax_data[param].pop(key, None)
+
+    return tax_data
+
+
+def check_groups(groups):
+    """Check group argument for correct format and transfer to list.
+
+    Parameters
+    ----------
+    groups : list, str
+            The group or a list of groups which parameters are loaded. Default is
+             all parameters
+
+    Returns
+    -------
+
+    """
     all_params_groups = [
         "eink_st",
         "eink_st_abzuege",
@@ -82,46 +145,18 @@ def get_policies_for_date(policy_date, groups="all"):
         "kindergeld",
         "elterngeld",
     ]
+
     if type(groups) == list:
-        group_list = groups
+        return groups
     elif type(groups) == str:
         if groups == "all":
-            group_list = all_params_groups
+            return all_params_groups
         elif groups in all_params_groups:
-            group_list = [groups]
+            return [groups]
         else:
             raise ValueError(f"{groups} is not a category for groups.")
     else:
         raise ValueError(f"{groups} is not a string or list.")
-
-    params_dict = {}
-
-    for group in group_list:
-        tax_data = load_data(policy_date, group)
-
-        for param in tax_data:
-            if type(tax_data[param]) == dict:
-                if "type" in tax_data[param]:
-                    if tax_data[param]["type"].startswith("piecewise"):
-                        if "progressionsfaktor" in tax_data[param]:
-                            if tax_data[param]["progressionsfaktor"]:
-                                tax_data[param] = add_progressionsfaktor(
-                                    tax_data[param], param
-                                )
-                        tax_data[param] = get_piecewise_parameters(
-                            tax_data[param],
-                            param,
-                            func_type=tax_data[param]["type"].split("_")[1],
-                        )
-                for key in ["type", "progressionsfaktor"]:
-                    tax_data[param].pop(key, None)
-
-        tax_data["datum"] = policy_date
-        params_dict[group] = tax_data
-
-    policy_func_dict = load_reforms_for_date(policy_date)
-
-    return params_dict, policy_func_dict
 
 
 def check_date(policy_date):
@@ -290,7 +325,6 @@ def load_data(policy_date, group, parameters=None):
                     for key in value_keys:
                         tax_data[param][key] = policy_in_place[key]
 
-    tax_data["jahr"] = policy_date.year
     tax_data["datum"] = policy_date
 
     return tax_data

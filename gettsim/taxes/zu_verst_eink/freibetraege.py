@@ -179,7 +179,9 @@ def _altervorsorge_aufwend(
     -------
 
     """
-    einführungsfaktor = 0.6 + 0.02 * (min(eink_st_abzuege_params["jahr"], 2025) - 2005)
+    einführungsfaktor = 0.6 + 0.02 * (
+        min(eink_st_abzuege_params["datum"].year, 2025) - 2005
+    )
     out = (
         (
             einführungsfaktor * (2 * rentenv_beitr_m + prv_rente_beitr_m)

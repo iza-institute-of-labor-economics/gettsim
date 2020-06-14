@@ -12,3 +12,5 @@ INTERNAL_FUNCTION_FILES = [
     "taxes",
     "demographic_vars.py",
 ]
+
+INTERNAL_PARAM_GROUPS = []
