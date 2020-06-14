@@ -65,6 +65,12 @@ def get_policies_for_date(policy_date, groups="all"):
 
     Returns
     -------
+    params_dict : dict
+                Dictionary of parameters grouped in policy system compartments given
+                in groups.
+    policy_func_dict : dict
+                Dictionary of time dependent policy reforms. Keys are the
+                variable names they create.
 
 
     """
@@ -79,6 +85,7 @@ def get_policies_for_date(policy_date, groups="all"):
     for group in group_list:
         tax_data = load_data(policy_date, group)
 
+        # Align paramters for e.g. piecewise polynomial functions
         params_dict[group] = align_parameters(tax_data)
 
     policy_func_dict = load_reforms_for_date(policy_date)
@@ -130,6 +137,7 @@ def check_groups(groups):
 
     Returns
     -------
+    List of groups to be loaded.
 
     """
 
@@ -167,6 +175,20 @@ def check_date(policy_date):
 
 
 def load_reforms_for_date(policy_date):
+    """Load time dependet policy reforms.
+
+    Parameters
+    ----------
+    policy_date : datetime.date
+            The date for which the policy system is set up.
+
+    Returns
+    -------
+    policy_func_dict : dict
+                    Dictionary of time dependent policy reforms. Keys are the
+                    variable names they create.
+
+    """
     year = policy_date.year
     policy_func_dict = {}
     if year < 2009:
