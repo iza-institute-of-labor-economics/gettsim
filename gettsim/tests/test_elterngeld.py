@@ -59,7 +59,7 @@ def test_eltgeld(
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=str(year),
+        policy_date=year,
         policy_groups=[
             "elterngeld",
             "soz_vers_beitr",

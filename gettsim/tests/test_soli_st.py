@@ -26,7 +26,7 @@ def test_soli_st(
     df = year_data[INPUT_COLS].copy()
 
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=str(year), policy_groups="soli_st",
+        policy_date=year, policy_groups="soli_st",
     )
 
     user_cols = ["_st_kind_freib_tu", "abgelt_st_tu"]
