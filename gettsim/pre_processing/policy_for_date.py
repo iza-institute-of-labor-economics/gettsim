@@ -86,14 +86,14 @@ def get_policies_for_date(policy_date, policy_groups="all"):
         tax_data = _load_parameter_group_from_yaml(policy_date, group)
 
         # Align paramters for e.g. piecewise polynomial functions
-        params_dict[group] = align_parameters(tax_data)
+        params_dict[group] = _parse_parameters(tax_data)
 
     policy_func_dict = load_reforms_for_date(policy_date)
 
     return params_dict, policy_func_dict
 
 
-def align_parameters(tax_data):
+def _parse_parameters(tax_data):
     """Check if parameters are stored in implicit structures and align to general
     structure.
 
@@ -104,6 +104,8 @@ def align_parameters(tax_data):
 
     Returns
     -------
+    tax_data : dict
+        Parsed parameters ready to use in gettsim.
 
     """
     for param in tax_data:
