@@ -188,7 +188,7 @@ def _parse_date(policy_date):
     Parameters
     ----------
     policy_date : datetime.date, str, int
-                The date for which the policy system is set up.
+        The date for which the policy system is set up.
 
     Returns
     -------
@@ -208,7 +208,7 @@ def load_reforms_for_date(policy_date):
     Parameters
     ----------
     policy_date : datetime.date
-            The date for which the policy system is set up.
+        The date for which the policy system is set up.
 
     Returns
     -------
@@ -306,7 +306,7 @@ def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
     group : string
         Policy system compartment.
     parameters : list
-            List of parameters to be loaded. Only relevant for in function calls.
+        List of parameters to be loaded. Only relevant for in function calls.
 
     Returns
     -------
