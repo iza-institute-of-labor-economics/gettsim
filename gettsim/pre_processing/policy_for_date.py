@@ -269,6 +269,24 @@ def load_reforms_for_date(policy_date):
 
 
 def load_data(policy_date, group, parameters=None):
+    """Load data from raw yaml group file.
+
+    Parameters
+    ----------
+    policy_date : datetime.date
+        The date for which the policy system is set up.
+    group : string
+        Policy system compartment.
+    parameters : list
+            List of parameters to be loaded. Only relevant for in function calls.
+
+    Returns
+    -------
+    tax_data : dict
+            Dictionary of parameters loaded from raw yaml file and striped of
+            unnecessary keys.
+
+    """
     raw_group_data = yaml.safe_load(
         (ROOT_DIR / "data" / f"{group}.yaml").read_text(encoding="utf-8")
     )
