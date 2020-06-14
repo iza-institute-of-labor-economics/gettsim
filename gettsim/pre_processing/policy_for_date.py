@@ -139,7 +139,7 @@ def _parse_parameter_groups(policy_groups):
 
     Returns
     -------
-    List of groups to be loaded.
+        List of groups to be loaded.
 
     """
     if isinstance(policy_groups, list):
@@ -193,7 +193,7 @@ def _parse_date(policy_date):
     Returns
     -------
     policy_date : datetime.date
-                The date for which the policy system is set up.
+        The date for which the policy system is set up.
     """
     if isinstance(policy_date, str):
         policy_date = pd.to_datetime(policy_date).date()
@@ -213,8 +213,8 @@ def load_reforms_for_date(policy_date):
     Returns
     -------
     policy_func_dict : dict
-                    Dictionary of time dependent policy reforms. Keys are the
-                    variable names they create.
+        Dictionary of time dependent policy reforms. Keys are the variable names they
+        create.
 
     """
     year = policy_date.year
@@ -311,8 +311,8 @@ def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
     Returns
     -------
     tax_data : dict
-            Dictionary of parameters loaded from raw yaml file and striped of
-            unnecessary keys.
+        Dictionary of parameters loaded from raw yaml file and striped of
+        unnecessary keys.
 
     """
     raw_group_data = yaml.safe_load(
