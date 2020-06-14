@@ -1,7 +1,6 @@
 import copy
 import datetime
 import operator
-import textwrap
 from functools import reduce
 
 import numpy as np
@@ -30,6 +29,7 @@ from gettsim.benefits.wohngeld import wohngeld_max_miete_ab_2009
 from gettsim.benefits.wohngeld import wohngeld_max_miete_bis_2008
 from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
+from gettsim.interface import create_linewise_printed_list
 from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
 from gettsim.taxes.favorability_check import _eink_st_tu_ab_1997
@@ -140,15 +140,6 @@ def _parse_parameter_groups(policy_groups):
     List of groups to be loaded.
 
     """
-
-    formatted_internal_groups = '",\n    "'.join(INTERNAL_PARAM_GROUPS)
-    list_formatted_internal_groups = textwrap.dedent(
-        """
-        [
-            "{formatted_internal_groups}",
-        ]
-        """
-    ).format(formatted_internal_groups=formatted_internal_groups)
     if isinstance(policy_groups, list):
         misspelled = [
             group for group in policy_groups if group not in INTERNAL_PARAM_GROUPS
@@ -157,16 +148,12 @@ def _parse_parameter_groups(policy_groups):
             out = policy_groups
         else:
             part_1 = "The groups"
-            misspelled_formatted = '",\n    "'.join(misspelled)
-            list_1 = textwrap.dedent(
-                """
-                [
-                    "{misspelled_formatted}",
-                ]
-                """
-            ).format(misspelled_formatted=misspelled_formatted)
+            list_1 = create_linewise_printed_list(misspelled)
             part_2 = "are not in the internal yaml files."
             part_3 = "Possible group names are:"
+            list_formatted_internal_groups = create_linewise_printed_list(
+                INTERNAL_PARAM_GROUPS
+            )
 
             raise ValueError(
                 "\n".join(
@@ -181,6 +168,9 @@ def _parse_parameter_groups(policy_groups):
         else:
             part_1 = f"{policy_groups} is not a valid group name."
             part_2 = "Possible group names are:"
+            list_formatted_internal_groups = create_linewise_printed_list(
+                INTERNAL_PARAM_GROUPS
+            )
             raise ValueError(
                 "\n".join([part_1, part_2, list_formatted_internal_groups])
             )
