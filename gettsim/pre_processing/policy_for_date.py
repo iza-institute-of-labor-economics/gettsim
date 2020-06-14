@@ -53,7 +53,7 @@ def get_policies_for_date(policy_date, groups="all"):
     """Get the state of the policy system for a particular date.
 
     The function returns time dependent policy reforms (functions) as well as the
-    corresponding parameters for the current policy system.
+    policy parameters for the current policy system.
 
     Parameters
     ----------
