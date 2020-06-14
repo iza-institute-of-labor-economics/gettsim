@@ -1,6 +1,7 @@
 import copy
 import datetime
 import operator
+import textwrap
 from functools import reduce
 
 import numpy as np
@@ -60,8 +61,9 @@ def get_policies_for_date(policy_date, policy_groups="all"):
     policy_date : int, str, datetime.date
         The date for which the policy system is set up.
     policy_groups : list, str
-        The group or a list of groups which parameters are loaded. Default is all
-        parameters
+        The group or a list of groups which parameters are loaded. If an invalid
+        name is given, a list of all possible values is printed. Default is to load all
+        parameter groups.
 
     Returns
     -------
@@ -139,6 +141,14 @@ def _parse_parameter_groups(policy_groups):
 
     """
 
+    formatted_internal_groups = '",\n    "'.join(INTERNAL_PARAM_GROUPS)
+    list_formatted_internal_groups = textwrap.dedent(
+        """
+        [
+            "{formatted_internal_groups}",
+        ]
+        """
+    ).format(formatted_internal_groups=formatted_internal_groups)
     if isinstance(policy_groups, list):
         misspelled = [
             group for group in policy_groups if group not in INTERNAL_PARAM_GROUPS
@@ -146,8 +156,22 @@ def _parse_parameter_groups(policy_groups):
         if not misspelled:
             out = policy_groups
         else:
+            part_1 = "The groups"
+            misspelled_formatted = '",\n    "'.join(misspelled)
+            list_1 = textwrap.dedent(
+                """
+                [
+                    "{misspelled_formatted}",
+                ]
+                """
+            ).format(misspelled_formatted=misspelled_formatted)
+            part_2 = "are not in the internal yaml files."
+            part_3 = "Possible group names are:"
+
             raise ValueError(
-                f"""The groups {misspelled} are not in the internal yaml files."""
+                "\n".join(
+                    [part_1, list_1, part_2, part_3, list_formatted_internal_groups]
+                )
             )
     elif isinstance(policy_groups, str):
         if policy_groups == "all":
@@ -155,7 +179,11 @@ def _parse_parameter_groups(policy_groups):
         elif policy_groups in INTERNAL_PARAM_GROUPS:
             out = [policy_groups]
         else:
-            raise ValueError(f"{policy_groups} is not a category for groups.")
+            part_1 = f"{policy_groups} is not a valid group name."
+            part_2 = "Possible group names are:"
+            raise ValueError(
+                "\n".join([part_1, part_2, list_formatted_internal_groups])
+            )
     else:
         raise ValueError(f"{policy_groups} is not a string or list.")
 
