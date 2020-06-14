@@ -13,4 +13,17 @@ INTERNAL_FUNCTION_FILES = [
     "demographic_vars.py",
 ]
 
-INTERNAL_PARAM_GROUPS = []
+INTERNAL_PARAM_GROUPS = [
+    "eink_st",
+    "eink_st_abzuege",
+    "soli_st",
+    "arbeitsl_geld_2",
+    "arbeitsl_geld",
+    "soz_vers_beitr",
+    "unterhalt",
+    "abgelt_st",
+    "wohngeld",
+    "kinderzuschlag",
+    "kindergeld",
+    "elterngeld",
+]

@@ -27,6 +27,7 @@ from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.benefits.wohngeld import wohngeld_max_miete_ab_2009
 from gettsim.benefits.wohngeld import wohngeld_max_miete_bis_2008
+from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
@@ -131,27 +132,13 @@ def check_groups(groups):
     -------
 
     """
-    all_params_groups = [
-        "eink_st",
-        "eink_st_abzuege",
-        "soli_st",
-        "arbeitsl_geld_2",
-        "arbeitsl_geld",
-        "soz_vers_beitr",
-        "unterhalt",
-        "abgelt_st",
-        "wohngeld",
-        "kinderzuschlag",
-        "kindergeld",
-        "elterngeld",
-    ]
 
     if type(groups) == list:
         return groups
     elif type(groups) == str:
         if groups == "all":
-            return all_params_groups
-        elif groups in all_params_groups:
+            return INTERNAL_PARAM_GROUPS
+        elif groups in INTERNAL_PARAM_GROUPS:
             return [groups]
         else:
             raise ValueError(f"{groups} is not a category for groups.")
