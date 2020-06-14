@@ -73,7 +73,7 @@ def get_policies_for_date(policy_date, groups="all"):
 
     """
     # Check policy date for correct format and transfer to datetime.date
-    policy_date = check_date(policy_date)
+    policy_date = _parse_date(policy_date)
 
     # Check groups argument for correct format and transfer to list.
     group_list = check_groups(groups)
@@ -130,8 +130,8 @@ def check_groups(groups):
     Parameters
     ----------
     groups : list, str
-            The group or a list of groups which parameters are loaded. Default is
-             all parameters
+        The group or a list of groups which parameters are loaded. Default is
+        all parameters
 
     Returns
     -------
@@ -139,20 +139,28 @@ def check_groups(groups):
 
     """
 
-    if type(groups) == list:
-        return groups
-    elif type(groups) == str:
+    if isinstance(groups, list):
+        misspelled = [group for group in groups if group not in INTERNAL_PARAM_GROUPS]
+        if not misspelled:
+            out = groups
+        else:
+            raise ValueError(
+                f"""The groups {misspelled} are not in the internal yaml files."""
+            )
+    elif isinstance(groups, str):
         if groups == "all":
-            return INTERNAL_PARAM_GROUPS
+            out = INTERNAL_PARAM_GROUPS
         elif groups in INTERNAL_PARAM_GROUPS:
-            return [groups]
+            out = [groups]
         else:
             raise ValueError(f"{groups} is not a category for groups.")
     else:
         raise ValueError(f"{groups} is not a string or list.")
 
+    return out
 
-def check_date(policy_date):
+
+def _parse_date(policy_date):
     """Check the policy date for different input formats.
 
     Parameters
@@ -296,7 +304,9 @@ def load_data(policy_date, group, parameters=None):
         parameters = raw_group_data.keys()
     for param in parameters:
         policy_dates = sorted(
-            key for key in raw_group_data[param].keys() if type(key) == datetime.date
+            key
+            for key in raw_group_data[param].keys()
+            if isinstance(key, datetime.date)
         )
 
         past_policies = [x for x in policy_dates if x <= policy_date]
@@ -357,7 +367,7 @@ def load_data(policy_date, group, parameters=None):
 
 def transfer_dictionary(remaining_dict, new_dict, key_list):
     # To call recursive, always check if object is a dict
-    if type(remaining_dict) == dict:
+    if isinstance(remaining_dict, dict):
         for key in remaining_dict.keys():
             key_list_updated = key_list + [key]
             new_dict = transfer_dictionary(
