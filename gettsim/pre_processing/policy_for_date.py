@@ -76,12 +76,12 @@ def get_policies_for_date(policy_date, groups="all"):
     policy_date = _parse_date(policy_date)
 
     # Check groups argument for correct format and transfer to list.
-    group_list = check_groups(groups)
+    group_list = _parse_parameter_groups(groups)
 
     params_dict = {}
 
     for group in group_list:
-        tax_data = load_data(policy_date, group)
+        tax_data = _load_parameter_group_from_yaml(policy_date, group)
 
         # Align paramters for e.g. piecewise polynomial functions
         params_dict[group] = align_parameters(tax_data)
@@ -124,7 +124,7 @@ def align_parameters(tax_data):
     return tax_data
 
 
-def check_groups(groups):
+def _parse_parameter_groups(groups):
     """Check group argument for correct format and transfer to list.
 
     Parameters
@@ -274,7 +274,7 @@ def load_reforms_for_date(policy_date):
     return policy_func_dict
 
 
-def load_data(policy_date, group, parameters=None):
+def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
     """Load data from raw yaml group file.
 
     Parameters
@@ -318,7 +318,7 @@ def load_data(policy_date, group, parameters=None):
                 future_policy = raw_group_data[param][np.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
-                    tax_data[param] = load_data(
+                    tax_data[param] = _load_parameter_group_from_yaml(
                         policy_date, path_list[0], parameters=[path_list[1]],
                     )[path_list[1]]
             else:
@@ -341,12 +341,12 @@ def load_data(policy_date, group, parameters=None):
                 if "deviation_from" in policy_in_place.keys():
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
-                        tax_data[param] = load_data(
+                        tax_data[param] = _load_parameter_group_from_yaml(
                             new_date, group, parameters=[param],
                         )[param]
                     elif "." in policy_in_place["deviation_from"]:
                         path_list = policy_in_place["deviation_from"].split(".")
-                        tax_data[param] = load_data(
+                        tax_data[param] = _load_parameter_group_from_yaml(
                             policy_date, path_list[0], parameters=[path_list[1]],
                         )[path_list[1]]
                     for key in value_keys:
