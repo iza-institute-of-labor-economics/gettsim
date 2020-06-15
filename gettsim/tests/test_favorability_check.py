@@ -37,7 +37,7 @@ def test_favorability_check(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=str(year), groups="eink_st_abzuege",
+        policy_date=year, policy_groups="eink_st_abzuege",
     )
     columns = [
         "_st_kein_kind_freib_tu",

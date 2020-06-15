@@ -46,7 +46,7 @@ def test_uhv(input_data, year, column, month):
     ]
     df = year_data[INPUT_COLS].copy()
     params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=f"{year}-{month}", groups=["unterhalt", "kindergeld"]
+        policy_date=f"{year}-{month}", policy_groups=["unterhalt", "kindergeld"]
     )
 
     result = compute_taxes_and_transfers(

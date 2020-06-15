@@ -13,13 +13,6 @@ from gettsim.dag import prune_dag
 from gettsim.functions_loader import load_functions
 
 
-FORMATTED_LIST = """
-[
-    "{formatted}",
-]
-"""
-
-
 def compute_taxes_and_transfers(
     data,
     user_functions=None,
@@ -268,14 +261,13 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
     unused_user_columns = sorted(set(columns) - set(data))
     n_cols = len(unused_user_columns)
 
-    formatted = '",\n    "'.join(unused_user_columns)
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
     if unused_user_columns:
         first_part = _format_text_for_cmdline(
             f"You passed the following user {column_sg_pl}:"
         )
-        list_ = FORMATTED_LIST.format(formatted=formatted)
+        list_ = create_linewise_printed_list(unused_user_columns)
 
         second_part = _format_text_for_cmdline(
             f"""
@@ -326,7 +318,6 @@ def _fail_if_user_columns_are_not_in_functions(
 
     if unnecessary_user_columns:
         n_cols = len(unnecessary_user_columns)
-        formatted = '",\n    "'.join(unnecessary_user_columns)
         intro = _format_text_for_cmdline(
             f"""
             You passed the following user column{'' if n_cols == 1 else 's'} which {'is'
@@ -335,7 +326,7 @@ def _fail_if_user_columns_are_not_in_functions(
             internal or user functions.
             """
         )
-        list_ = FORMATTED_LIST.format(formatted=formatted)
+        list_ = create_linewise_printed_list(unnecessary_user_columns)
         raise ValueError("\n".join([intro, list_]))
 
 
@@ -365,12 +356,11 @@ def _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns)
 
     if overlap:
         n_cols = len(overlap)
-        formatted = '",\n    "'.join(overlap)
         first_part = _format_text_for_cmdline(
             f"Your data provides the column{'' if n_cols == 1 else 's'}:"
         )
 
-        list_ = FORMATTED_LIST.format(formatted=formatted)
+        list_ = create_linewise_printed_list(overlap)
 
         second_part = _format_text_for_cmdline(
             f"""
@@ -419,3 +409,14 @@ def _format_text_for_cmdline(text, width=79):
     formatted_text = "\n\n".join(wrapped_paragraphs)
 
     return formatted_text
+
+
+def create_linewise_printed_list(list_):
+    formatted_list = '",\n    "'.join(list_)
+    return textwrap.dedent(
+        """
+        [
+            "{formatted_list}",
+        ]
+        """
+    ).format(formatted_list=formatted_list)
