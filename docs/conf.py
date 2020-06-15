@@ -26,7 +26,6 @@ version = ".".join(release.split(".")[:2])
 extensions = [
     "nbsphinx",
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
     "sphinx.ext.extlinks",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
@@ -34,8 +33,6 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
     "sphinx_rtd_theme",
-    "sphinx.ext.autosummary",
-    "sphinx_autopackagesummary",
 ]
 
 # The master toctree document.
