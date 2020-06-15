@@ -17,6 +17,7 @@ Welcome to GETTSIM's documentation!
    changes
    geps
    code-of-conduct
+   functions
 
 
 Initiated by
