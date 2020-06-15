@@ -53,7 +53,7 @@ autodoc_default_options = {
     "private-members": True,
     "special-members": True,
 }
-autodoc_mock_imports = ["numpy", "pandas"]
+autodoc_mock_imports = ["numpy", "pandas", "pytest"]
 
 autosummary_generate = True
 
