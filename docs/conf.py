@@ -31,8 +31,11 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
     "sphinx_copybutton",
     "sphinx_rtd_theme",
+    "sphinx.ext.autosummary",
+    "sphinx_autopackagesummary",
 ]
 
 # The master toctree document.
@@ -46,13 +49,16 @@ master_doc = "index"
 # html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-
 # -- Extensions configuration ------------------------------------------------
 
+autodoc_default_options = {
+    "members": True,
+    "private-members": True,
+    "special-members": True,
+}
 autodoc_mock_imports = ["numpy", "pandas"]
 
 autosummary_generate = True
-
 
 extlinks = {
     "ghuser": ("https://github.com/%s", "@"),
