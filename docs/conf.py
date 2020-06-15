@@ -31,7 +31,6 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
-    "sphinx_automodapi.automodapi",
     "sphinx_copybutton",
     "sphinx_rtd_theme",
 ]
