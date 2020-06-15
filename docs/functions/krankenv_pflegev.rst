@@ -1,4 +1,7 @@
 Krankenversicherung / Pflegeversicherung
 ========================================
 
-.. automodule:: gettsim.soz_vers.krankenv_pflegev
+.. autosummary::
+   :toctree: _generated
+
+   gettsim.soz_vers.krankenv_pflegev
