@@ -1,4 +1,7 @@
 Einkommensgrenzen
 =================
 
-.. automodule:: gettsim.soz_vers.eink_grenzen
+.. autosummary::
+   :toctree: _generated
+
+   gettsim.soz_vers.eink_grenzen
