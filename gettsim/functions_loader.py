@@ -2,6 +2,26 @@ import importlib
 import inspect
 from pathlib import Path
 
+from gettsim.config import ROOT_DIR
+
+
+def convert_paths_to_internal_functions_to_imports(paths):
+    """Convert paths to modules for gettsim's internal functions to imports.
+
+    Example
+    -------
+    >>> path = ROOT_DIR / "demographic_vars.py"
+    >>> convert_paths_to_internal_functions_to_imports(path)
+    ['gettsim.demographic_vars']
+
+    """
+    paths = paths if isinstance(paths, list) else [paths]
+    ps = _search_directories_recursively_for_python_files(paths)
+    ps = [Path("gettsim") / p.relative_to(ROOT_DIR) for p in ps]
+    import_strings = [p.with_suffix("").as_posix().replace("/", ".") for p in ps]
+
+    return import_strings
+
 
 def load_functions(sources):
     """Load functions.
