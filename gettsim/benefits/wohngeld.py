@@ -1,3 +1,4 @@
+"""This module provides functions to compute "Wohngeld" (residence allowance)."""
 import numpy as np
 
 

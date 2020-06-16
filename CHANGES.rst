@@ -6,6 +6,13 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
+0.3.2 - 2020-06-xx
+------------------
+
+* :gh:`197` adds all functions which build the tax and transfer system to the
+  documentation.
+
+
 0.3.1 - 2020-06-05
 ------------------
 

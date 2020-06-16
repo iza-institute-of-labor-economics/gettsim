@@ -92,7 +92,7 @@ Zu versteuerndes Einkommen
 .. autosummary::
    :toctree: _generated
 
-   gettsim.taxes.eink
-   gettsim.taxes.freibetraege
-   gettsim.taxes.vorsorge
-   gettsim.taxes.zu_verst_eink
+   gettsim.taxes.zu_verst_eink.eink
+   gettsim.taxes.zu_verst_eink.freibetraege
+   gettsim.taxes.zu_verst_eink.vorsorge
+   gettsim.taxes.zu_verst_eink.zu_verst_eink
