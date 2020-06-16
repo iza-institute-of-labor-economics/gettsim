@@ -30,7 +30,9 @@ def test_load_modules():
 
 
 def test_load_path():
-    assert load_functions(Path(__file__, "..", "..", "soz_vers", "krankenv_pflegev.py"))
+    assert load_functions(
+        Path(__file__).parent.joinpath("..", "soz_vers", "krankenv_pflegev.py")
+    )
 
 
 def test_special_attribute_module_is_set(tmp_path):
