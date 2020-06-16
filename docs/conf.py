@@ -50,7 +50,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 extlinks = {
     "ghuser": ("https://github.com/%s", "@"),
-    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pulls/%s", "#"),
+    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
 }
 
 todo_include_todos = True
