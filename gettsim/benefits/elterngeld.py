@@ -1,3 +1,4 @@
+"""This module provides functions to compute "Elterngeld" (parental money)."""
 import numpy as np
 import pandas as pd
 

@@ -6,11 +6,13 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
-0.3.2 - 2020-06-05
+0.3.2 - 2020-06-xx
 ------------------
 
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
   plot as well as some other ameliorations to the documentation (:ghuser:`tobiasraabe`).
+* :gh:`197` adds all functions which build the tax and transfer system to the
+  documentation.
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
 

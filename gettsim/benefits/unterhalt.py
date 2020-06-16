@@ -1,3 +1,4 @@
+"""This module provides functions to compute "Unterhalt" (alimony)."""
 import numpy as np
 
 

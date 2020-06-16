@@ -1,12 +1,12 @@
 def _mini_job_grenze(wohnort_ost, soz_vers_beitr_params):
-    """
-    Calculating the wage threshold for marginal employment.
+    """Calculating the wage threshold for marginal employment.
+
     Parameters
     ----------
     wohnort_ost : pd.Series
-                  Boolean variable indicating individual living in east germany.
+        Boolean variable indicating individual living in east germany.
     soz_vers_beitr_params : dict
-             Dictionary containing the policy parameters
+        Dictionary containing the policy parameters
 
     Returns
     -------

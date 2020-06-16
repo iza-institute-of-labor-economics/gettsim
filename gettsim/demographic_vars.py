@@ -1,3 +1,6 @@
+"""This module provides functions to compute demographic variables."""
+
+
 def _anz_kinder_in_tu(tu_id, kind):
     return (kind.astype(int)).groupby(tu_id).transform(sum)
 
