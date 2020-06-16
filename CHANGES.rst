@@ -6,6 +6,13 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
+0.3.2 - 2020-06-05
+------------------
+
+* :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
+  to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
+
+
 0.3.1 - 2020-06-05
 ------------------
 
