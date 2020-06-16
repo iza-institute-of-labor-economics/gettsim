@@ -55,7 +55,15 @@ autodoc_default_options = {
     "special-members": True,
     "undoc-members": True,
 }
-autodoc_mock_imports = ["networkx", "numpy", "pandas", "pytest", "yaml"]
+autodoc_mock_imports = [
+    "bokeh",
+    "networkx",
+    "numpy",
+    "pandas",
+    "pygments",
+    "pytest",
+    "yaml",
+]
 
 autosummary_generate = True
 

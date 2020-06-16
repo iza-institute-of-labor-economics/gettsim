@@ -19,7 +19,6 @@ from bokeh.models import Range1d
 from bokeh.models import ResetTool
 from bokeh.models import TapTool
 from bokeh.models import Title
-from bokeh.palettes import Spectral4
 from bokeh.plotting import from_networkx
 from pygments import highlight
 from pygments import lexers
@@ -28,8 +27,8 @@ from pygments.formatters import HtmlFormatter
 from gettsim.interface import create_linewise_printed_list
 
 
-EDGE_KWARGS_DEFAULTS = {"line_color": Spectral4[3], "line_alpha": 0.8, "line_width": 1}
-NODE_KWARGS_DEFAULTS = {"size": 15, "fill_color": Spectral4[0]}
+EDGE_KWARGS_DEFAULTS = {"line_color": "red", "line_alpha": 0.8, "line_width": 1}
+NODE_KWARGS_DEFAULTS = {"size": 15, "fill_color": "blue"}
 PLOT_KWARGS_DEFAULTS = {
     "plot_width": 600,
     "plot_height": 600,
