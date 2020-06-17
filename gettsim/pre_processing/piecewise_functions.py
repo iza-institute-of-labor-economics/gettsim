@@ -160,6 +160,10 @@ def check_threholds(parameter_dict, parameter, keys):
         )
     upper_thresholds[keys[-1]] = parameter_dict[keys[-1]]["upper_threshold"]
 
+    # Check if the function is defined on the complete real line
+    if (upper_thresholds[keys[-1]] != np.inf) | (lower_thresholds[0] != -np.inf):
+        raise ValueError(f"{parameter} needs to be defined on the compleate real line.")
+
     for interval in keys[1:]:
         if "lower_threshold" in parameter_dict[interval]:
             lower_thresholds[interval] = parameter_dict[interval]["lower_threshold"]
