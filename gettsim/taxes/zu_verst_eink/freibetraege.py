@@ -47,7 +47,9 @@ def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
     return out
 
 
-def _hh_freib_seit_2015(alleinerziehend, _anz_kinder_in_tu, eink_st_abzuege_params):
+def _hh_freib_seit_2015(
+    tu_id, alleinerziehend, _anz_kinder_in_tu, eink_st_abzuege_params
+):
     """
     Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
@@ -64,7 +66,7 @@ def _hh_freib_seit_2015(alleinerziehend, _anz_kinder_in_tu, eink_st_abzuege_para
     out = alleinerziehend.astype(float) * 0
     out.loc[alleinerziehend] = (
         eink_st_abzuege_params["alleinerziehenden_freibetrag"]
-        + _anz_kinder_in_tu.loc[alleinerziehend]
+        + _anz_kinder_in_tu.loc[tu_id.loc[alleinerziehend]]
         * eink_st_abzuege_params["alleinerziehenden_freibetrag_zusatz"]
     )
     return out
