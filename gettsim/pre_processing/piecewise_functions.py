@@ -346,7 +346,7 @@ def create_intercepts(
     intercepts_at_lower_thresholds = np.full_like(upper_thresholds, np.nan)
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
     for i, up_thr in enumerate(upper_thresholds[:-1]):
-        intercepts_at_lower_thresholds[i + 1] = piecewise_polynomial_float(
+        intercepts_at_lower_thresholds[i + 1] = calculate_intercepts(
             x=up_thr,
             lower_thresholds=lower_thresholds,
             upper_thresholds=upper_thresholds,
@@ -356,10 +356,10 @@ def create_intercepts(
     return intercepts_at_lower_thresholds
 
 
-def piecewise_polynomial_float(
+def calculate_intercepts(
     x, lower_thresholds, upper_thresholds, rates, intercepts_at_lower_thresholds,
 ):
-    """Calculate value of the piecewise function at `x`.
+    """This function is used to calculate the intercepts from the raw data.
 
     Parameters
     ----------
@@ -374,8 +374,6 @@ def piecewise_polynomial_float(
         to the nth polynomial.
     intercepts_at_lower_thresholds : numpy.ndarray
         The intercepts at the lower threshold of each interval.
-    rates_modified : bool
-        Boolean variable indicating, that intercepts can't be used anymore.
 
     Returns
     -------
