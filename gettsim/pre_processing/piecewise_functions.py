@@ -51,13 +51,19 @@ def piecewise_polynomial(
     # Increment for each individual in the corresponding interval
     increment_to_calc = x - thresholds_individual
 
+    # Check if any value is in the lowest interval.
+    if 0 in binned.values:
+        if intercepts_at_lower_thresholds[0] == np.nan:
+            raise ValueError(f"In {x.name} is a value outside the determined range.")
+
     # If each individual has its own rates or the rates are scaled, we can't use the
     # intercept, which was generated in the parameter loading.
     if rates_multiplier is not None:
         # Initialize Series containing 0 for all individuals
         out = x * 0
-        # Go through all intervals except the last
-        for i in range(1, num_intervals):
+        out += intercepts_at_lower_thresholds[0]
+        # Go through all intervals except the first and last
+        for i in range(2, num_intervals):
             threshold_incr = thresholds[i] - thresholds[i - 1]
             for pol in range(1, degree_polynomial + 1):
                 # We only calculate the intercepts for individuals who are in this or
@@ -83,13 +89,6 @@ def piecewise_polynomial(
             * rates_multiplier
             * (increment_to_calc ** pol)
         )
-
-    # Check if any value is in the lowest interval.
-    if 0 in binned.values:
-        if intercepts_at_lower_thresholds[0] == np.nan:
-            raise ValueError(f"In {x.name} is a value outside the determined range.")
-        else:
-            out.loc[binned == 0] = intercepts_at_lower_thresholds[0]
 
     return out
 
