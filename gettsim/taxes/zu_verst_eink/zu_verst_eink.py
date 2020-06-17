@@ -20,7 +20,7 @@ def _zu_verst_eink_kein_kinderfreib_tu(
     vorsorge,
     sonderausgaben,
     behinderungsgrad_pauschbetrag,
-    hh_freib,
+    alleinerziehend_freib_tu,
     altersfreib,
     tu_id,
 ):
@@ -46,7 +46,7 @@ def _zu_verst_eink_kein_kinderfreib_tu(
         - vorsorge
         - sonderausgaben
         - behinderungsgrad_pauschbetrag
-        - tu_id.replace(hh_freib)
+        - tu_id.replace(alleinerziehend_freib_tu)
         - altersfreib
     ).clip(lower=0)
     return out.groupby(tu_id).sum()
