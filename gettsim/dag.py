@@ -143,10 +143,12 @@ def execute_dag(dag, data, targets, debug):
                 kwargs = _dict_subset(data, dag.predecessors(task))
                 try:
                     data[task] = dag.nodes[task]["function"](**kwargs).rename(task)
-                except Exception:
+                except Exception as e:
                     if debug:
                         traceback.print_exc()
                         skipped_nodes = skipped_nodes.union(nx.descendants(dag, task))
+                    else:
+                        raise e
 
             else:
                 dependants = list(dag.successors(task))
