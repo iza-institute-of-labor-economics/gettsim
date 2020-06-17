@@ -1,5 +1,5 @@
 def _anz_kinder_in_tu(tu_id, kind):
-    return (kind.astype(int)).groupby(tu_id).transform(sum)
+    return (kind.astype(int)).groupby(tu_id).sum()
 
 
 def _anz_erwachsene_tu(tu_id, kind):
