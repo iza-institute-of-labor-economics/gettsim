@@ -20,6 +20,7 @@ def compute_taxes_and_transfers(
     params=None,
     targets=None,
     return_dag=False,
+    debug=False,
 ):
     """Compute taxes and transfers.
 
@@ -46,6 +47,13 @@ def compute_taxes_and_transfers(
         returned.
     return_dag : bool
         Indicates whether the DAG should be returned as well for inspection.
+    debug : bool
+        The debug mode does the following:
+
+        1. All necessary inputs and all computed variables are returned.
+        2. If an exception occurs while computing one variable, the exception is
+           printed, but not raised. The computation of all dependent variables is
+           skipped.
 
     Returns
     -------
@@ -99,11 +107,17 @@ def compute_taxes_and_transfers(
         )
         data = _dict_subset(data, relevant_columns)
 
-    results = execute_dag(dag, data, targets)
+    results = execute_dag(dag, data, targets, debug)
 
     results = _expand_data(results, ids)
     results = pd.DataFrame(results)
-    results = results[targets] if len(targets) > 1 else results[targets[0]]
+
+    if debug:
+        pass
+    elif len(targets) == 1:
+        results = results[targets[0]]
+    else:
+        results = results[targets]
 
     if return_dag:
         results = (results, dag)

@@ -1,5 +1,6 @@
 import functools
 import inspect
+import traceback
 
 import networkx as nx
 
@@ -106,7 +107,7 @@ def prune_dag(dag, targets):
     return dag
 
 
-def execute_dag(dag, data, targets):
+def execute_dag(dag, data, targets, debug):
     """Naive serial scheduler for our tasks.
 
     We will probably use some existing scheduler instead. Interesting sources are:
@@ -123,6 +124,8 @@ def execute_dag(dag, data, targets):
         The DAG.
     data : dict
     targets : list
+    debug : bool
+        Indicator for debug mode.
 
     Returns
     -------
@@ -132,12 +135,19 @@ def execute_dag(dag, data, targets):
     """
     # Needed for garbage collection.
     visited_nodes = set(data)
+    skipped_nodes = set()
 
     for task in nx.topological_sort(dag):
-        if task not in data:
+        if task not in data and task not in skipped_nodes:
             if "function" in dag.nodes[task]:
                 kwargs = _dict_subset(data, dag.predecessors(task))
-                data[task] = dag.nodes[task]["function"](**kwargs).rename(task)
+                try:
+                    data[task] = dag.nodes[task]["function"](**kwargs).rename(task)
+                except Exception:
+                    if debug:
+                        traceback.print_exc()
+                        skipped_nodes = skipped_nodes.union(nx.descendants(dag, task))
+
             else:
                 dependants = list(dag.successors(task))
                 raise KeyError(
@@ -147,7 +157,7 @@ def execute_dag(dag, data, targets):
 
             visited_nodes.add(task)
 
-            if targets:
+            if targets and not debug:
                 data = collect_garbage(data, task, visited_nodes, targets, dag)
 
     return data
