@@ -28,15 +28,24 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
+    # If no individual is transferred, we return an empty series
+    if x.empty:
+        return x
+    # Check if missing data is given
+    if x.isnull().values.any():
+        raise ValueError(f"There is missing data in {x.name}.")
 
     num_intervals = len(thresholds) - 1
     degree_polynomial = rates.shape[0]
-    # If now individual is transferred, we return an empty series
-    if x.empty:
-        return x
     # Check in which interval each individual is. The thresholds are not exclusive on
     # the right side!
-    binned = pd.cut(x, bins=thresholds, right=False, labels=range(num_intervals))
+    binned = pd.cut(
+        x,
+        bins=thresholds,
+        right=False,
+        include_lowest=True,
+        labels=range(num_intervals),
+    )
     # Create series with last threshold for each individual
     thresholds_individual = binned.replace(dict(enumerate(thresholds[:-1])))
     # Increment for each individual in the corresponding interval
@@ -74,6 +83,13 @@ def piecewise_polynomial(
             * rates_multiplier
             * (increment_to_calc ** pol)
         )
+
+    # Check if any value is in the lowest interval.
+    if 0 in binned.values:
+        if intercepts_at_lower_thresholds[0] == np.nan:
+            raise ValueError(f"In {x.name} is a value outside the determined range.")
+        else:
+            out.loc[binned == 0] = intercepts_at_lower_thresholds[0]
 
     return out
 
@@ -116,7 +132,6 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
     intercepts = check_intercepts(
         parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys,
     )
-
     piecewise_elements = {
         "thresholds": thresholds,
         "rates": rates,
@@ -340,12 +355,7 @@ def create_intercepts(
 
 
 def piecewise_polynomial_float(
-    x,
-    lower_thresholds,
-    upper_thresholds,
-    rates,
-    intercepts_at_lower_thresholds,
-    rates_modified=False,
+    x, lower_thresholds, upper_thresholds, rates, intercepts_at_lower_thresholds,
 ):
     """Calculate value of the piecewise function at `x`.
 
@@ -376,20 +386,14 @@ def piecewise_polynomial_float(
     if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or np.isnan(x):
         return np.nan
     index_interval = np.searchsorted(upper_thresholds, x, side="left")
-    if rates_modified:
-        # Calculate new intercept
-        intercept_interval = 0
-        for interval in range(index_interval):
-            for pol in range(1, rates.shape[0] + 1):
-                intercept_interval += (rates[pol - 1, interval] ** pol) * (
-                    upper_thresholds[interval] - lower_thresholds[interval]
-                )
-
-    else:
-        intercept_interval = intercepts_at_lower_thresholds[index_interval]
+    intercept_interval = intercepts_at_lower_thresholds[index_interval]
 
     # Select threshold and calculate corresponding increment into interval
     lower_thresehold_interval = lower_thresholds[index_interval]
+
+    if lower_thresehold_interval == -np.inf:
+        return intercept_interval
+
     increment_to_calc = x - lower_thresehold_interval
 
     out = intercept_interval
