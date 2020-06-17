@@ -60,6 +60,7 @@ TEST_COLS = [
     "_zu_verst_eink_kinderfreib_tu",
     "kinderfreib_tu",
     "altersfreib",
+    "hh_freib",
     "sum_brutto_eink",
 ]
 YEARS = [2005, 2009, 2010, 2012, 2018]
