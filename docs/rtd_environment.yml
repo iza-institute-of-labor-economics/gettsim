@@ -5,8 +5,14 @@ dependencies:
   - ipython
   - nbsphinx
   - numpydoc
-  - pytest
   - sphinx
   - sphinx-automodapi
   - sphinx-copybutton
   - sphinx_rtd_theme
+
+  # Modules necessary since sphinx-automodapi cannot mock modules.
+  - networkx
+  - numpy
+  - pandas
+  - pytest
+  - pyyaml
