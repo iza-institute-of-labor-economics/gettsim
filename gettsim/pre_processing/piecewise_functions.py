@@ -31,9 +31,9 @@ def piecewise_polynomial(
     # If no individual is transferred, we return an empty series
     if x.empty:
         return x
-    # # Check if missing data is given
-    # if x.isnull().values.any():
-    #     raise ValueError(f"There is missing data in {x.name}.")
+    # Check if missing data is given
+    if x.isnull().values.any():
+        raise ValueError(f"There is missing data in {x.name}.")
 
     num_intervals = len(thresholds) - 1
     degree_polynomial = rates.shape[0]
