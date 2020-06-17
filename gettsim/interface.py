@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from gettsim.config import INTERNAL_FUNCTION_FILES
+from gettsim.config import ORDER_OF_IDS
 from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
@@ -113,11 +114,12 @@ def compute_taxes_and_transfers(
     results = pd.DataFrame(results)
 
     if debug:
-        pass
+        results = _reorder_columns(results)
     elif len(targets) == 1:
         results = results[targets[0]]
     else:
         results = results[targets]
+        results = _reorder_columns(results)
 
     if return_dag:
         results = (results, dag)
@@ -434,3 +436,11 @@ def create_linewise_printed_list(list_):
         ]
         """
     ).format(formatted_list=formatted_list)
+
+
+def _reorder_columns(results):
+    ids_in_data = {"hh_id", "p_id", "tu_id"} & set(results.columns)
+    sorted_ids = sorted(ids_in_data, key=lambda x: ORDER_OF_IDS[x])
+    remaining_columns = [i for i in results.columns if i not in sorted_ids]
+
+    return results[sorted_ids + remaining_columns]
