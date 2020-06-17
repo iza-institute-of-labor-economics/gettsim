@@ -5,6 +5,7 @@ dependencies:
   - ipython
   - nbsphinx
   - numpydoc
+  - pytest
   - sphinx
   - sphinx-automodapi
   - sphinx-copybutton

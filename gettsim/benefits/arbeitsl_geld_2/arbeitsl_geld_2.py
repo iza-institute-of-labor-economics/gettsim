@@ -2,7 +2,7 @@ import numpy as np
 
 
 def regelbedarf_m(regelsatz_m, kost_unterk_m):
-    """
+    """Monthly amount to ensure subsistence.
 
     Parameters
     ----------
