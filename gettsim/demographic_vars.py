@@ -45,7 +45,7 @@ def anz_kinder_hh(hh_id, kind):
 
 
 def anz_kinder_tu(tu_id, kind):
-    return kind.groupby(tu_id).sum()
+    return (kind.astype(int)).groupby(tu_id).sum()
 
 
 def anz_erwachsene_hh(hh_id, kind):
