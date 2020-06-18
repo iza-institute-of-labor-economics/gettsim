@@ -37,7 +37,7 @@ REQUIRED_INPUTS = [
     "kapital_eink_m",
     "vermiet_eink_m",
     "kaltmiete_m_hh",
-    "heizkost_m_hh",
+    "heizkosten_m_hh",
     "jahr_renteneintr",
     "behinderungsgrad",
     "wohnfläche_hh",

@@ -16,7 +16,7 @@ INPUT_COLS = [
     "kind",
     "alter",
     "kaltmiete_m_hh",
-    "heizkost_m_hh",
+    "heizkosten_m_hh",
     "wohnfläche_hh",
     "bewohnt_eigentum_hh",
     "alleinerziehend",

@@ -18,7 +18,7 @@ INPUT_COLS = [
     "bruttolohn_m",
     "in_ausbildung",
     "kaltmiete_m_hh",
-    "heizkost_m_hh",
+    "heizkosten_m_hh",
     "alleinerziehend",
     "kindergeld_anspruch",
     "alleinerziehenden_mehrbedarf_hh",
