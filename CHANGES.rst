@@ -9,11 +9,13 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.3.2 - 2020-06-xx
 ------------------
 
-* :gh:`197` adds all functions which build the tax and transfer system to the
-  documentation (:ghuser:`tobiasraabe`).
+* :gh:`206` fixes several bugs in `arbeitsl_geld_2` and related transfers, calculating
+  them at the appropriate (household) level (:ghuser:`MaxBlesch`).
+* :gh:`202` fixes bugs that surfaced for negative incomes (:ghuser:`MaxBlesch`).
 * :gh:`200` adds a debug mode to gettsim and documents the feature
   (:ghuser:`tobiasraabe`).
-* :gh:`202` fixes bugs that surfaced for negative incomes (:ghuser:`MaxBlesch`).
+* :gh:`197` adds all functions which build the tax and transfer system to the
+  documentation (:ghuser:`tobiasraabe`).
 * :gh:`196` adds docstring to `policy_for_date.py` and improves its interface
   (:ghuser:`MaxBlesch`).
 
