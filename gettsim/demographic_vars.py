@@ -1,3 +1,7 @@
+def alleinerziehend_tu(tu_id, alleinerziehend):
+    return alleinerziehend.groupby(tu_id).any()
+
+
 def _anz_kinder_in_tu(tu_id, kind):
     return (kind.astype(int)).groupby(tu_id).sum()
 
@@ -45,7 +49,7 @@ def anz_kinder_hh(hh_id, kind):
 
 
 def anz_kinder_tu(tu_id, kind):
-    return kind.groupby(tu_id).transform("sum")
+    return (kind.astype(int)).groupby(tu_id).sum()
 
 
 def anz_erwachsene_hh(hh_id, kind):

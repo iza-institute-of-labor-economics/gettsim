@@ -40,10 +40,10 @@ from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_ohne_kapital
-from gettsim.taxes.zu_verst_eink.freibetraege import _hh_freib_bis_2014
-from gettsim.taxes.zu_verst_eink.freibetraege import _hh_freib_seit_2015
 from gettsim.taxes.zu_verst_eink.freibetraege import _sonderausgaben_ab_2012
 from gettsim.taxes.zu_verst_eink.freibetraege import _sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_ab_2015
+from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_bis_2014
 from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2005_vs_pre_2005
 from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2010_vs_pre_2005
 from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_ab_2010
@@ -225,9 +225,9 @@ def load_reforms_for_date(policy_date):
         policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_ohne_kapital
 
     if year <= 2014:
-        policy_func_dict["hh_freib"] = _hh_freib_bis_2014
+        policy_func_dict["alleinerziehend_freib_tu"] = alleinerziehend_freib_tu_bis_2014
     else:
-        policy_func_dict["hh_freib"] = _hh_freib_seit_2015
+        policy_func_dict["alleinerziehend_freib_tu"] = alleinerziehend_freib_tu_ab_2015
 
     if year <= 1996:
         policy_func_dict["eink_st_tu"] = _eink_st_tu_bis_1996
