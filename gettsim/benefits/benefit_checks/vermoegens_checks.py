@@ -2,21 +2,25 @@ import numpy as np
 import pandas as pd
 
 
-def _regelbedarf_m_vermögens_check(regelbedarf_m, unter_vermögens_freibetrag):
+def _regelbedarf_m_vermögens_check(
+    hh_id, regelbedarf_m_hh, unter_vermögens_freibetrag_hh
+):
     """Set regelbedarf_m to zero if it exceeds the wealth exemption.
 
     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
     calculated, just set the need to zero)
 
     """
-    return regelbedarf_m.where(unter_vermögens_freibetrag, 0)
+    return hh_id.replace(regelbedarf_m_hh.where(unter_vermögens_freibetrag_hh, 0))
 
 
 def _kinderzuschlag_m_vermögens_check(
-    _kinderzuschlag_m_vorläufig, unter_vermögens_freibetrag
+    _kinderzuschlag_m_vorläufig, unter_vermögens_freibetrag_hh, hh_id
 ):
     """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption."""
-    return _kinderzuschlag_m_vorläufig.where(unter_vermögens_freibetrag, 0)
+    return _kinderzuschlag_m_vorläufig.where(
+        hh_id.replace(unter_vermögens_freibetrag_hh), 0
+    )
 
 
 def _wohngeld_basis_hh_vermögens_check(
@@ -36,8 +40,8 @@ def _wohngeld_basis_hh_vermögens_check(
     return hh_id.replace(wohngeld_basis_hh).where(condition, 0)
 
 
-def unter_vermögens_freibetrag(hh_id, vermögen_hh, freibetrag_vermögen_hh):
-    return hh_id.replace(vermögen_hh <= freibetrag_vermögen_hh)
+def unter_vermögens_freibetrag_hh(vermögen_hh, freibetrag_vermögen_hh):
+    return vermögen_hh <= freibetrag_vermögen_hh
 
 
 def freibetrag_alter(kind, alter, geburtsjahr, arbeitsl_geld_2_params):

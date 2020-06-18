@@ -39,7 +39,7 @@ INPUT_COLS = [
 OUT_COLS = [
     "_arbeitsl_geld_2_brutto_eink_hh",
     "alleinerziehenden_mehrbedarf_hh",
-    "regelbedarf_m",
+    "regelbedarf_m_hh",
     "regelsatz_m_hh",
     "kost_unterk_m_hh",
     "unterhaltsvors_m_hh",

@@ -1,16 +1,3 @@
-def arbeitsl_geld_2_m(
-    arbeitsl_geld_2_m_basis,
-    wohngeld_m_vorrang,
-    kinderzuschlag_vorrang,
-    wohngeld_m_kinderzuschlag_vorrang,
-    anz_rentner_per_hh,
-):
-    cond = (
-        wohngeld_m_vorrang | kinderzuschlag_vorrang | wohngeld_m_kinderzuschlag_vorrang
-    )
-    return arbeitsl_geld_2_m_basis.where(~cond & (anz_rentner_per_hh == 0), 0)
-
-
 def wohngeld_m(
     _wohngeld_basis_hh_vermögens_check,
     wohngeld_m_vorrang,

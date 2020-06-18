@@ -20,7 +20,7 @@ INPUT_COLS = [
     "anz_minderj_hh",
     "_kinderzuschlag_m_vorläufig",
     "wohngeld_basis_hh",
-    "regelbedarf_m",
+    "regelbedarf_m_hh",
     "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
     "geburtsjahr",
     "jahr",
@@ -45,7 +45,7 @@ def test_benefit_checks(input_data, year, column):
     columns = [
         "_kinderzuschlag_m_vorläufig",
         "wohngeld_basis_hh",
-        "regelbedarf_m",
+        "regelbedarf_m_hh",
         "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
     ]
 
