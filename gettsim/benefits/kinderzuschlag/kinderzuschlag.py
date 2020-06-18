@@ -22,14 +22,14 @@ Kinderzuschlag / Additional Child Benefit
 
 
 def kinderzuschlag_m_hh(
-    _kinderzuschlag_vorläufig_m_vermögens_check_hh,
+    kinderzuschlag_vermögens_check_hh,
     kinderzuschlag_vorrang_hh,
-    wohngeld_m_kinderzuschlag_vorrang_hh,
+    wohngeld_kinderzuschlag_vorrang_hh,
     anz_rentner_hh,
 ):
-    cond = ~kinderzuschlag_vorrang_hh & ~wohngeld_m_kinderzuschlag_vorrang_hh
-    _kinderzuschlag_vorläufig_m_vermögens_check_hh.loc[cond | (anz_rentner_hh != 0)] = 0
-    return _kinderzuschlag_vorläufig_m_vermögens_check_hh
+    cond = ~kinderzuschlag_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh
+    kinderzuschlag_vermögens_check_hh.loc[cond | (anz_rentner_hh != 0)] = 0
+    return kinderzuschlag_vermögens_check_hh
 
 
 def _kinderzuschlag_m_vorläufig_hh(_kinderzuschlag_m_vorläufig, hh_id):

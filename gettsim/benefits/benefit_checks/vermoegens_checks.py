@@ -13,7 +13,7 @@ def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibe
     return regelbedarf_m_hh
 
 
-def _kinderzuschlag_vorläufig_m_vermögens_check_hh(
+def kinderzuschlag_vermögens_check_hh(
     _kinderzuschlag_m_vorläufig_hh, unter_vermögens_freibetrag_hh
 ):
     """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption."""
@@ -22,9 +22,7 @@ def _kinderzuschlag_vorläufig_m_vermögens_check_hh(
     return _kinderzuschlag_m_vorläufig_hh
 
 
-def _wohngeld_basis_hh_vermögens_check_hh(
-    wohngeld_basis_hh, vermögen_hh, haushaltsgröße_hh
-):
+def wohngeld_vermögens_check_hh(wohngeld_basis_hh, vermögen_hh, haushaltsgröße_hh):
     """Calculate a lump sum payment for wohngeld
 
     The payment depends on the wealth of the household and the number of household
