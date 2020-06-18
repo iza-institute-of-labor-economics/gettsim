@@ -30,7 +30,7 @@ def _beantrage_kind_freib_tu(
     return st_kein_kind_freib > _st_kind_freib_tu
 
 
-def _eink_st_tu_bis_1996(_st_kind_freib_tu):
+def eink_st_tu_bis_1996(_st_kind_freib_tu):
     """Income tax calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
@@ -46,7 +46,7 @@ def _eink_st_tu_bis_1996(_st_kind_freib_tu):
     return _st_kind_freib_tu
 
 
-def _eink_st_tu_ab_1997(
+def eink_st_tu_ab_1997(
     _st_kein_kind_freib_tu, _st_kind_freib_tu, _beantrage_kind_freib_tu,
 ):
     """Income tax calculation since 1997.
@@ -66,7 +66,7 @@ def _eink_st_tu_ab_1997(
     return out
 
 
-def _kindergeld_m_bis_1996(_kindergeld_m_basis):
+def kindergeld_m_bis_1996(_kindergeld_m_basis):
     """Kindergeld calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
@@ -82,7 +82,7 @@ def _kindergeld_m_bis_1996(_kindergeld_m_basis):
     return _kindergeld_m_basis
 
 
-def _kindergeld_m_ab_1997(
+def kindergeld_m_ab_1997(
     _beantrage_kind_freib_tu, _kindergeld_m_basis, tu_id,
 ):
     """Kindergeld calculation since 1997.

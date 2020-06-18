@@ -151,10 +151,10 @@ def execute_dag(dag, data, targets, debug):
                         raise e
 
             else:
-                dependants = list(dag.successors(task))
+                successors = list(dag.successors(task))
                 raise KeyError(
                     f"Missing variable or function '{task}'. It is required to compute "
-                    f"{dependants}."
+                    f"{successors}."
                 )
 
             visited_nodes.add(task)

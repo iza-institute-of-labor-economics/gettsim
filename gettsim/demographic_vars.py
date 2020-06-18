@@ -1,3 +1,6 @@
+"""This module provides functions to compute demographic variables."""
+
+
 def alleinerziehend_tu(tu_id, alleinerziehend):
     return alleinerziehend.groupby(tu_id).any()
 
