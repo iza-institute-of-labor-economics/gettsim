@@ -1,30 +1,14 @@
-def wohngeld_m(
-    _wohngeld_basis_hh_vermögens_check,
-    wohngeld_m_vorrang,
-    wohngeld_m_kinderzuschlag_vorrang,
-    arbeitsl_geld_2_m_basis,
-    anz_rentner_per_hh,
-):
-    cond = (
-        ~wohngeld_m_vorrang
-        & ~wohngeld_m_kinderzuschlag_vorrang
-        & (arbeitsl_geld_2_m_basis > 0)
-    )
-    return _wohngeld_basis_hh_vermögens_check.where(
-        ~cond & (anz_rentner_per_hh == 0), 0
-    )
+def wohngeld_m_vorrang(arbeitsl_geld_2_m_wohngeld_m, arbeitsl_geld_2_m_basis):
+    return (arbeitsl_geld_2_m_wohngeld_m == 0) & (arbeitsl_geld_2_m_basis > 0)
 
 
-def kinderzuschlag_m(
-    _kinderzuschlag_m_vermögens_check,
-    kinderzuschlag_vorrang,
-    wohngeld_m_kinderzuschlag_vorrang,
-    arbeitsl_geld_2_m_basis,
-    anz_rentner_per_hh,
+def kinderzuschlag_vorrang(arbeitsl_geld_2_m_kinderzuschlag, arbeitsl_geld_2_m_basis):
+    return (arbeitsl_geld_2_m_kinderzuschlag == 0) & (arbeitsl_geld_2_m_basis > 0)
+
+
+def wohngeld_m_kinderzuschlag_vorrang(
+    arbeitsl_geld_2_m_wohngeld_m_kinderzuschlag, arbeitsl_geld_2_m_basis
 ):
-    cond = (
-        ~kinderzuschlag_vorrang
-        & ~wohngeld_m_kinderzuschlag_vorrang
-        & (arbeitsl_geld_2_m_basis > 0)
+    return (arbeitsl_geld_2_m_wohngeld_m_kinderzuschlag == 0) & (
+        arbeitsl_geld_2_m_basis > 0
     )
-    return _kinderzuschlag_m_vermögens_check.where(~cond & (anz_rentner_per_hh == 0), 0)

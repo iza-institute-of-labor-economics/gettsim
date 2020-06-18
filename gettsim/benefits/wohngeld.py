@@ -1,6 +1,23 @@
 import numpy as np
 
 
+def wohngeld_m(
+    _wohngeld_basis_hh_vermögens_check,
+    wohngeld_m_vorrang,
+    wohngeld_m_kinderzuschlag_vorrang,
+    arbeitsl_geld_2_m_basis,
+    anz_rentner_per_hh,
+):
+    cond = (
+        ~wohngeld_m_vorrang
+        & ~wohngeld_m_kinderzuschlag_vorrang
+        & (arbeitsl_geld_2_m_basis > 0)
+    )
+    return _wohngeld_basis_hh_vermögens_check.where(
+        ~cond & (anz_rentner_per_hh == 0), 0
+    )
+
+
 def wohngeld_basis_hh(
     hh_id, wohngeld_basis, tu_vorstand,
 ):
