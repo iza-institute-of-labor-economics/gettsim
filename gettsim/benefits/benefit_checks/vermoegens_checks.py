@@ -2,16 +2,14 @@ import numpy as np
 import pandas as pd
 
 
-def _regelbedarf_m_vermögens_check(
-    hh_id, regelbedarf_m_hh, unter_vermögens_freibetrag_hh
-):
+def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibetrag_hh):
     """Set regelbedarf_m to zero if it exceeds the wealth exemption.
 
     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
     calculated, just set the need to zero)
 
     """
-    return hh_id.replace(regelbedarf_m_hh.where(unter_vermögens_freibetrag_hh, 0))
+    return regelbedarf_m_hh.where(unter_vermögens_freibetrag_hh, 0)
 
 
 def _kinderzuschlag_m_vermögens_check(

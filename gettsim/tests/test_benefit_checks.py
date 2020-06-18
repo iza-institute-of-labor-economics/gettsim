@@ -21,7 +21,9 @@ INPUT_COLS = [
     "_kinderzuschlag_m_vorläufig",
     "wohngeld_basis_hh",
     "regelbedarf_m_hh",
-    "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
+    "kindergeld_m_hh",
+    "unterhaltsvors_m_hh",
+    "arbeitsl_geld_2_eink_hh",
     "geburtsjahr",
     "jahr",
 ]
@@ -46,7 +48,9 @@ def test_benefit_checks(input_data, year, column):
         "_kinderzuschlag_m_vorläufig",
         "wohngeld_basis_hh",
         "regelbedarf_m_hh",
-        "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
+        "kindergeld_m_hh",
+        "unterhaltsvors_m_hh",
+        "arbeitsl_geld_2_eink_hh",
     ]
 
     params_dict, policy_func_dict = get_policies_for_date(
