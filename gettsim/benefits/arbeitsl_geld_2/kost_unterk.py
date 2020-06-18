@@ -1,19 +1,19 @@
-def kost_unterk_m_hh(berechtigte_wohnfläche_hh, miete_pro_sqm_hh):
+def kost_unterk_m_hh(berechtigte_wohnfläche_hh, miete_pro_qm_hh):
     """Justified costs of living.
 
     Parameters
     ----------
     berechtigte_wohnfläche_hh
-    miete_pro_sqm_hh
+    miete_pro_qm_hh
 
     Returns
     -------
 
     """
-    return berechtigte_wohnfläche_hh * miete_pro_sqm_hh
+    return berechtigte_wohnfläche_hh * miete_pro_qm_hh
 
 
-def miete_pro_sqm_hh(kaltmiete_m_hh, heizkosten_m_hh, wohnfläche_hh):
+def miete_pro_qm_hh(kaltmiete_m_hh, heizkosten_m_hh, wohnfläche_hh):
     """
 
     Parameters
