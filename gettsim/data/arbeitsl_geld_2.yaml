@@ -14,36 +14,43 @@ eink_anr_frei:
   2005-01-01:
       reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
       0:
-          lower_threshold: 0
-          upper_threshold: 400
-          rate: 0.15
-          intercept_at_lower_threshold: 0
+        lower_threshold: -inf
+        upper_threshold: 0
+        rate: 0
+        intercept_at_lower_threshold: 0
       1:
-          upper_threshold: 900
-          rate: 0.3
+        lower_threshold: 0
+        upper_threshold: 400
+        rate: 0.15
       2:
-          upper_threshold: 1500
-          rate: 0.15
+        upper_threshold: 900
+        rate: 0.3
       3:
-          upper_threshold: inf
-          rate: 0
-          note: Making this explicit.
+        upper_threshold: 1500
+        rate: 0.15
+      4:
+        upper_threshold: inf
+        rate: 0
   2005-10-01:
       reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
       0:
-          lower_threshold: 0
-          upper_threshold: 100
-          rate: 1.0
-          intercept_at_lower_threshold: 0
+        lower_threshold: -inf
+        upper_threshold: 0
+        rate: 0
+        intercept_at_lower_threshold: 0
       1:
-          upper_threshold: 800
-          rate: 0.2
+        lower_threshold: 0
+        upper_threshold: 100
+        rate: 1.0
       2:
-          upper_threshold: 1200
-          rate: 0.1
+        upper_threshold: 800
+        rate: 0.2
       3:
-          upper_threshold: inf
-          rate: 0
+        upper_threshold: 1200
+        rate: 0.1
+      4:
+        upper_threshold: inf
+        rate: 0
   2011-04-01:
       reference: Artikel 1 G. v. 20.12.2011 BGBl. I 2854.
       note: >-
@@ -52,8 +59,8 @@ eink_anr_frei:
           ToDo: Check these laws -- did they really happen months
           after the date of the policy change? I cannot fina anything...
       deviation_from: previous
-      1:
-          upper_threshold: 1000
+      2:
+        upper_threshold: 1000
 eink_anr_frei_kinder:
     name:
         de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
@@ -71,7 +78,7 @@ eink_anr_frei_kinder:
     2005-10-01:
         reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
         deviation_from: arbeitsl_geld_2.eink_anr_frei
-        2:
+        3:
             upper_threshold: 1500
 
 regelsatz:

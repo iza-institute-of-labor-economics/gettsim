@@ -4,7 +4,7 @@ from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 def eink_anr_frei_bis_10_2005(
     bruttolohn_m, arbeitsl_geld_2_2005_netto_quote, arbeitsl_geld_2_params
 ):
-    return piecewise_polynomial(
+    out = piecewise_polynomial(
         x=bruttolohn_m,
         thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
         rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
@@ -13,6 +13,7 @@ def eink_anr_frei_bis_10_2005(
         ],
         rates_multiplier=arbeitsl_geld_2_2005_netto_quote,
     )
+    return out
 
 
 def eink_anr_frei_ab_10_2005(

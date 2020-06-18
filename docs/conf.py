@@ -62,7 +62,7 @@ autodoc_mock_imports = ["networkx", "numpy", "pandas", "pytest", "yaml"]
 
 extlinks = {
     "ghuser": ("https://github.com/%s", "@"),
-    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pulls/%s", "#"),
+    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
 }
 
 numpydoc_show_class_members = False
