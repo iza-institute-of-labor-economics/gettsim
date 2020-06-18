@@ -31,9 +31,6 @@ def piecewise_polynomial(
     # If no individual is transferred, we return an empty series
     if x.empty:
         return x
-    # # Check if missing data is given
-    # if x.isnull().values.any():
-    #     raise ValueError(f"There is missing data in {x.name}.")
 
     num_intervals = len(thresholds) - 1
     degree_polynomial = rates.shape[0]
@@ -179,7 +176,7 @@ def check_threholds(parameter_dict, parameter, keys):
 
     # Check if the function is defined on the complete real line
     if (upper_thresholds[keys[-1]] != np.inf) | (lower_thresholds[0] != -np.inf):
-        raise ValueError(f"{parameter} needs to be defined on the compleate real line.")
+        raise ValueError(f"{parameter} needs to be defined on the entire real line.")
 
     for interval in keys[1:]:
         if "lower_threshold" in parameter_dict[interval]:
@@ -359,7 +356,7 @@ def create_intercepts(
 def calculate_intercepts(
     x, lower_thresholds, upper_thresholds, rates, intercepts_at_lower_thresholds,
 ):
-    """This function is used to calculate the intercepts from the raw data.
+    """Calculate the intercepts from the raw data.
 
     Parameters
     ----------
@@ -389,12 +386,12 @@ def calculate_intercepts(
     intercept_interval = intercepts_at_lower_thresholds[index_interval]
 
     # Select threshold and calculate corresponding increment into interval
-    lower_thresehold_interval = lower_thresholds[index_interval]
+    lower_threshold_interval = lower_thresholds[index_interval]
 
-    if lower_thresehold_interval == -np.inf:
+    if lower_threshold_interval == -np.inf:
         return intercept_interval
 
-    increment_to_calc = x - lower_thresehold_interval
+    increment_to_calc = x - lower_threshold_interval
 
     out = intercept_interval
     for pol in range(1, rates.shape[0] + 1):

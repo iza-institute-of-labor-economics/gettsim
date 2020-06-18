@@ -50,7 +50,7 @@ from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_ab_2010
 from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_bis_2004
 
 
-def get_policies_for_date(policy_date, policy_groups="all", groups=None):
+def get_policies_for_date(policy_date, policy_groups="all"):
     """Get the state of the policy system for a particular date.
 
     The function returns time dependent policy reforms (functions) as well as the
@@ -78,10 +78,8 @@ def get_policies_for_date(policy_date, policy_groups="all", groups=None):
     # Check policy date for correct format and transfer to datetime.date
     policy_date = _parse_date(policy_date)
 
-    # Synchronize keywords
-    sync_groups = _sync_keywords(policy_groups, groups)
     # Check groups argument for correct format and transfer to list.
-    group_list = _parse_parameter_groups(sync_groups)
+    group_list = _parse_parameter_groups(policy_groups)
 
     params_dict = {}
 
@@ -94,37 +92,6 @@ def get_policies_for_date(policy_date, policy_groups="all", groups=None):
     policy_func_dict = load_reforms_for_date(policy_date)
 
     return params_dict, policy_func_dict
-
-
-def _sync_keywords(policy_groups, groups):
-    """We will allow for groups and policy_groups as keywords in get_policies_for_date.
-
-    This function syncronizes both inputs. grroups will be depreciated in future
-    versions.
-
-    Parameters
-    ----------
-    policy_groups, groups : list, str
-        The group or a list of groups which parameters are loaded. If an invalid
-        name is given, a list of all possible values is printed. Default is to load all
-        parameter groups. The keyword group will be completly replaced in future
-        versions.
-
-    Returns
-    -------
-
-    """
-    if not groups:
-        out = policy_groups
-    else:
-        if policy_groups != "all":
-            raise ValueError(
-                "Both keywords groups and policy_groups were given. "
-                "Please only provide one."
-            )
-        else:
-            out = groups
-    return out
 
 
 def _parse_parameters(tax_data):
