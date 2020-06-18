@@ -1,5 +1,5 @@
 def abgelt_st_tu(_zu_verst_kapital_eink_tu, abgelt_st_params):
-    """
+    """Abgeltungssteuer per tax unit.
 
     Parameters
     ----------
@@ -16,7 +16,7 @@ def abgelt_st_tu(_zu_verst_kapital_eink_tu, abgelt_st_params):
 def _zu_verst_kapital_eink_tu(
     brutto_eink_5_tu, _anz_erwachsene_tu, eink_st_abzuege_params
 ):
-    """
+    """Taxable income per tax unit.
 
     Parameters
     ----------

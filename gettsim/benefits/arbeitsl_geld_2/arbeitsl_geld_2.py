@@ -20,7 +20,7 @@ def arbeitsl_geld_2_m_hh(
 
 
 def regelbedarf_m_hh(regelsatz_m_hh, kost_unterk_m_hh):
-    """
+    """Basic monthly subsistence level, including cost of dwelling.
 
     Parameters
     ----------

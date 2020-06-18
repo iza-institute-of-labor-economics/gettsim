@@ -265,7 +265,7 @@ def bezugsgröße(wohnort_ost, soz_vers_beitr_params):
 
 
 def krankenv_pflichtig_eink_selbst(
-    eink_selbst_m, bezugsgröße, selbsständig_ges_krankenv
+    eink_selbst_m, bezugsgröße, selbstständig_ges_krankenv
 ):
     """Choose the amount selfemployed income which is subject to health insurance
     contribution.
@@ -277,7 +277,7 @@ def krankenv_pflichtig_eink_selbst(
 
     bezugsgröße : pd.Series
                   Threshold for income subcect to health insurance.
-    selbsständig_ges_krankenv: pd.Series
+    selbstständig_ges_krankenv: pd.Series
                              Boolean Series indicating selfemployed and public health
                              insured.
 
@@ -285,8 +285,8 @@ def krankenv_pflichtig_eink_selbst(
     -------
 
     """
-    bezugsgröße_selbstv = bezugsgröße.loc[selbsständig_ges_krankenv]
-    eink_selbst_m_selbstv = eink_selbst_m.loc[selbsständig_ges_krankenv]
+    bezugsgröße_selbstv = bezugsgröße.loc[selbstständig_ges_krankenv]
+    eink_selbst_m_selbstv = eink_selbst_m.loc[selbstständig_ges_krankenv]
     dreiviertel_bezugsgröße = bezugsgröße_selbstv * 0.75
     return eink_selbst_m_selbstv.clip(upper=dreiviertel_bezugsgröße)
 
@@ -533,7 +533,7 @@ def ges_beitr_pflegev_midi_job(
     return out
 
 
-def selbsständig_ges_krankenv(selbstständig, prv_krankenv):
+def selbstständig_ges_krankenv(selbstständig, prv_krankenv):
     """
     Create boolean Series indicating selfemployed insures via public health insurance.
 

@@ -108,7 +108,7 @@ def altersfreib(
     return out
 
 
-def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
+def sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
     """
     Until 2011, we just use the lumpsum payment.
     Parameters
@@ -125,7 +125,7 @@ def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
     return out
 
 
-def _sonderausgaben_ab_2012(
+def sonderausgaben_ab_2012(
     betreuungskost_m, tu_id, kind, _anz_erwachsene_tu, eink_st_abzuege_params
 ):
     """

@@ -1,3 +1,6 @@
+"""Functions to compute unemployment benefits (Arbeitslosengeld).
+
+"""
 from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _st_tarif
 

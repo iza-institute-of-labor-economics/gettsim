@@ -1,4 +1,4 @@
-def _vorsorge_alternative_2005_bis_2009(
+def _vorsorge_alternative_ab_2005_bis_2009(
     _altervorsorge_aufwend,
     ges_krankenv_beitr_m,
     arbeitsl_v_beitr_m,
@@ -34,47 +34,49 @@ def _vorsorge_alternative_2005_bis_2009(
     return out
 
 
-def _vorsorge_2005_vs_pre_2005(_vorsorge_alternative_2005_bis_2009, _vorsorge_bis_2004):
+def vorsorge_ab_2005_bis_2009(
+    _vorsorge_alternative_ab_2005_bis_2009, vorsorge_bis_2004
+):
     """
     With the 2005 reform, no taxpayer was supposed to be affected negatively.
-    Therefore, one needs to compute amounts
-    (2004 and 2005 regime) and take the higher one.
+    Therefore, one needs to compute amounts under the 2004 and 2005 regimes
+    and take the more favourable one.
 
     Parameters
     ----------
-    _vorsorge_alternative_2005_bis_2009
-    _vorsorge_bis_2004
+    _vorsorge_alternative_ab_2005_bis_2009
+    vorsorge_bis_2004
 
     Returns
     -------
 
     """
-    return _vorsorge_bis_2004.clip(lower=_vorsorge_alternative_2005_bis_2009)
+    return vorsorge_bis_2004.clip(lower=_vorsorge_alternative_ab_2005_bis_2009)
 
 
-def _vorsorge_2010_vs_pre_2005(_vorsorge_bis_2004, _vorsorge_ab_2010):
+def vorsorge_ab_2010_bis_2019(vorsorge_bis_2004, vorsorge_ab_2020):
     """
     After a supreme court ruling, the 2005 rule had to be changed in 2010.
-    Therefore, one needs to compute amounts
-    (2004 and 2010 regime) and take the higher one. (§10 (3a) EStG).
-    Sidenote: The 2010 ruling is by construction
-    *always* more or equally beneficial than the 2005 one,
-    so no need for a separate check there.
+    Therefore, one needs to compute amounts under the 2004 and 2010 regimes
+    and take the more favourable one. (§10 (3a) EStG).
+
+    Sidenote: The 2010 rules are by construction at least as beneficial as
+    the 2005 regime, so there is no need for a separate check.
 
 
     Parameters
     ----------
-    _vorsorge_bis_2004
-    _vorsorge_ab_2010
+    vorsorge_bis_2004
+    vorsorge_ab_2020
 
     Returns
     -------
 
     """
-    return _vorsorge_bis_2004.clip(lower=_vorsorge_ab_2010)
+    return vorsorge_bis_2004.clip(lower=vorsorge_ab_2020)
 
 
-def _vorsorge_ab_2010(
+def vorsorge_ab_2020(
     _altervorsorge_aufwend,
     pflegev_beitr_m,
     ges_krankenv_beitr_m,
@@ -83,21 +85,8 @@ def _vorsorge_ab_2010(
     eink_st_abzuege_params,
 ):
     """
-    Vorsorgeaufwendungen 2010 regime
-    § 10 (3) EStG
-    The share of deductable pension contributions increases each year by 2 pp.
-    ('nachgelagerte Besteuerung'). In 2018, it's 86%. Add other contributions;
-    4% from health contributions are not deductable.
-    only deduct pension contributions up to the ceiling. multiply by 2
-    because it's both employee and employer contributions.
-
-    Contributions to other security branches can also be deducted.
-
-    This ruling differs to vorsorge2005() only in the treatment of other contributions.
-
-    By 2020 this rule is by construction the more benefical and the checking against
-    the the pre 2005 rule is not necessary any more. Thus this function is directly
-    assigned to generate the vorsorge data.
+    Vorsorgeaufwendungen after the regime implemented in 2010 is in full effect,
+    see § 10 (3) EStG.
 
     Parameters
     ----------
@@ -128,7 +117,7 @@ def _vorsorge_ab_2010(
     return out
 
 
-def _vorsorge_bis_2004(
+def vorsorge_bis_2004(
     _lohn_vorsorge_bis_2019_single,
     _lohn_vorsorgeabzug_bis_2019_tu,
     ges_krankenv_beitr_m,
