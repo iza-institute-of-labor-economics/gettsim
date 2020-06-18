@@ -47,7 +47,7 @@ REQUIRED_INPUTS = [
     "in_ausbildung",
     "alleinerziehend",
     "bewohnt_eigentum_hh",
-    "immobilie_baujahr",
+    "immobilie_baujahr_hh",
     "sonstig_eink_m",
     "jahr",
 ]

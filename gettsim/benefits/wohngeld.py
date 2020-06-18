@@ -156,7 +156,7 @@ def _wohngeld_min_miete(haushaltsgröße, wohngeld_params):
 
 def wohngeld_max_miete_bis_2008(
     mietstufe,
-    immobilie_baujahr,
+    immobilie_baujahr_hh,
     haushaltsgröße,
     hh_id,
     kaltmiete_m_hh,
@@ -164,6 +164,7 @@ def wohngeld_max_miete_bis_2008(
     _wohngeld_min_miete,
     wohngeld_params,
 ):
+    immobilie_baujahr = hh_id.replace(immobilie_baujahr_hh)
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
     # size.

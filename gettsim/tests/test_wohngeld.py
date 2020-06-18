@@ -18,7 +18,7 @@ INPUT_COLS = [
     "kaltmiete_m_hh",
     "alleinerziehend",
     "alter",
-    "immobilie_baujahr",
+    "immobilie_baujahr_hh",
     "kindergeld_anspruch",
     "mietstufe",
     "bruttolohn_m",
