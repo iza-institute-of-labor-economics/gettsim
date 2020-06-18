@@ -2,16 +2,18 @@ import numpy as np
 
 
 def arbeitsl_geld_2_m(
-    arbeitsl_geld_2_m_basis,
+    arbeitsl_geld_2_m_minus_eink,
     wohngeld_m_vorrang,
     kinderzuschlag_vorrang,
     wohngeld_m_kinderzuschlag_vorrang,
     anz_rentner_per_hh,
 ):
+    out = arbeitsl_geld_2_m_minus_eink.clip(lower=0)
     cond = (
         wohngeld_m_vorrang | kinderzuschlag_vorrang | wohngeld_m_kinderzuschlag_vorrang
     )
-    return arbeitsl_geld_2_m_basis.where(~cond & (anz_rentner_per_hh == 0), 0)
+    out.loc[cond | (anz_rentner_per_hh != 0)] = 0
+    return out
 
 
 def regelbedarf_m_hh(regelsatz_m_hh, kost_unterk_m_hh):

@@ -6,10 +6,15 @@ def _sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m(
     return sum_eink
 
 
-def arbeitsl_geld_2_m_basis(
+def arbeitsl_geld_2_m_minus_eink(
     _regelbedarf_m_vermögens_check, _sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m
 ):
-    return (
+    out = (
         _regelbedarf_m_vermögens_check
         - _sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m
-    ).clip(lower=0)
+    )
+    return out
+
+
+def arbeitsl_geld_2_m_basis(arbeitsl_geld_2_m_minus_eink):
+    return arbeitsl_geld_2_m_minus_eink.clip(lower=0)
