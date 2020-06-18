@@ -28,12 +28,12 @@ def bruttolohn_m_tu(bruttolohn_m, tu_id):
 
 def anz_kind_zwischen_0_6_hh(hh_id, kind, alter):
     alter_0_bis_6 = (0 <= alter) & (alter <= 6)
-    return (kind & alter_0_bis_6).astype(int).groupby(hh_id).sum()
+    return ((kind & alter_0_bis_6).astype(int)).groupby(hh_id).sum()
 
 
 def anz_kind_zwischen_0_15_hh(hh_id, kind, alter):
     alter_0_bis_15 = (0 <= alter) & (alter <= 15)
-    return (kind & alter_0_bis_15).astype(int).groupby(hh_id).sum()
+    return ((kind & alter_0_bis_15).astype(int)).groupby(hh_id).sum()
 
 
 def kind_zwischen_0_6(kind, alter):
