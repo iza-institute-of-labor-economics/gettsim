@@ -6,15 +6,16 @@ def arbeitsl_geld_2_m_hh(
     wohngeld_vorrang_hh,
     kinderzuschlag_vorrang_hh,
     wohngeld_kinderzuschlag_vorrang_hh,
-    anz_rentner_hh,
+    rentner_in_hh,
 ):
     out = arbeitsl_geld_2_m_minus_eink_hh.clip(lower=0)
     cond = (
         wohngeld_vorrang_hh
         | kinderzuschlag_vorrang_hh
         | wohngeld_kinderzuschlag_vorrang_hh
+        | rentner_in_hh
     )
-    out.loc[cond | (anz_rentner_hh != 0)] = 0
+    out.loc[cond] = 0
     return out
 
 

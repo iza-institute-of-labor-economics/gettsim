@@ -5,10 +5,10 @@ def wohngeld_m_hh(
     wohngeld_vermögens_check_hh,
     wohngeld_vorrang_hh,
     wohngeld_kinderzuschlag_vorrang_hh,
-    anz_rentner_hh,
+    rentner_in_hh,
 ):
-    cond = ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh
-    wohngeld_vermögens_check_hh.loc[cond | (anz_rentner_hh != 0)] = 0
+    cond = ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh | rentner_in_hh
+    wohngeld_vermögens_check_hh.loc[cond] = 0
     return wohngeld_vermögens_check_hh
 
 
