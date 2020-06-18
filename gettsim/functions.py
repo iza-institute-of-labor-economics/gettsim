@@ -1,3 +1,9 @@
+"""Import all functions to a central place in order to automatically create the overview
+in the documentation.
+
+"""
+
+
 from gettsim.benefits.arbeitsl_geld import *  # noqa: F401, F403
 from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import *  # noqa: F401, F403
 from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2_eink import *  # noqa: F401, F403
