@@ -6,5 +6,14 @@ dependencies:
   - nbsphinx
   - numpydoc
   - sphinx
+  - sphinx-automodapi
   - sphinx-copybutton
   - sphinx_rtd_theme
+
+  # Modules necessary since sphinx-automodapi cannot mock modules. See
+  # https://github.com/astropy/sphinx-automodapi/issues/77.
+  - networkx
+  - numpy
+  - pandas
+  - pytest
+  - pyyaml

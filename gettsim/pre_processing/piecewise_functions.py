@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def piecewise_polynomial(
-    x, thresholds, rates, intercepts_at_lower_thresholds, rates_multiplier=None,
+    x, thresholds, rates, intercepts_at_lower_thresholds, rates_multiplier=None
 ):
     """Calculate value of the piecewise function at `x`.
 
@@ -28,27 +28,39 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
+    # If no individual is transferred, we return an empty series
+    if x.empty:
+        return x
 
     num_intervals = len(thresholds) - 1
     degree_polynomial = rates.shape[0]
-    # If now individual is transferred, we return an empty series
-    if x.empty:
-        return x
     # Check in which interval each individual is. The thresholds are not exclusive on
     # the right side!
-    binned = pd.cut(x, bins=thresholds, right=False, labels=range(num_intervals))
+    binned = pd.cut(
+        x,
+        bins=thresholds,
+        right=False,
+        include_lowest=True,
+        labels=range(num_intervals),
+    )
     # Create series with last threshold for each individual
     thresholds_individual = binned.replace(dict(enumerate(thresholds[:-1])))
     # Increment for each individual in the corresponding interval
     increment_to_calc = x - thresholds_individual
+
+    # Check if any value is in the lowest interval.
+    if 0 in binned.array:
+        if intercepts_at_lower_thresholds[0] == np.nan:
+            raise ValueError(f"In {x.name} is a value outside the determined range.")
 
     # If each individual has its own rates or the rates are scaled, we can't use the
     # intercept, which was generated in the parameter loading.
     if rates_multiplier is not None:
         # Initialize Series containing 0 for all individuals
         out = x * 0
-        # Go through all intervals except the last
-        for i in range(1, num_intervals):
+        out += intercepts_at_lower_thresholds[0]
+        # Go through all intervals except the first and last
+        for i in range(2, num_intervals):
             threshold_incr = thresholds[i] - thresholds[i - 1]
             for pol in range(1, degree_polynomial + 1):
                 # We only calculate the intercepts for individuals who are in this or
@@ -74,6 +86,9 @@ def piecewise_polynomial(
             * rates_multiplier
             * (increment_to_calc ** pol)
         )
+
+    # For those in interval zero, the above equations yield wrong results
+    out.loc[binned == 0] = intercepts_at_lower_thresholds[0]
 
     return out
 
@@ -114,9 +129,8 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
 
     # Create and fill interecept-array
     intercepts = check_intercepts(
-        parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys,
+        parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys
     )
-
     piecewise_elements = {
         "thresholds": thresholds,
         "rates": rates,
@@ -159,6 +173,10 @@ def check_threholds(parameter_dict, parameter, keys):
             f"The last piece of {parameter} needs to contain an upper_threshold value."
         )
     upper_thresholds[keys[-1]] = parameter_dict[keys[-1]]["upper_threshold"]
+
+    # Check if the function is defined on the complete real line
+    if (upper_thresholds[keys[-1]] != np.inf) | (lower_thresholds[0] != -np.inf):
+        raise ValueError(f"{parameter} needs to be defined on the entire real line.")
 
     for interval in keys[1:]:
         if "lower_threshold" in parameter_dict[interval]:
@@ -325,7 +343,7 @@ def create_intercepts(
     intercepts_at_lower_thresholds = np.full_like(upper_thresholds, np.nan)
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
     for i, up_thr in enumerate(upper_thresholds[:-1]):
-        intercepts_at_lower_thresholds[i + 1] = piecewise_polynomial_float(
+        intercepts_at_lower_thresholds[i + 1] = calculate_intercepts(
             x=up_thr,
             lower_thresholds=lower_thresholds,
             upper_thresholds=upper_thresholds,
@@ -335,15 +353,10 @@ def create_intercepts(
     return intercepts_at_lower_thresholds
 
 
-def piecewise_polynomial_float(
-    x,
-    lower_thresholds,
-    upper_thresholds,
-    rates,
-    intercepts_at_lower_thresholds,
-    rates_modified=False,
+def calculate_intercepts(
+    x, lower_thresholds, upper_thresholds, rates, intercepts_at_lower_thresholds
 ):
-    """Calculate value of the piecewise function at `x`.
+    """Calculate the intercepts from the raw data.
 
     Parameters
     ----------
@@ -358,8 +371,6 @@ def piecewise_polynomial_float(
         to the nth polynomial.
     intercepts_at_lower_thresholds : numpy.ndarray
         The intercepts at the lower threshold of each interval.
-    rates_modified : bool
-        Boolean variable indicating, that intercepts can't be used anymore.
 
     Returns
     -------
@@ -372,21 +383,15 @@ def piecewise_polynomial_float(
     if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or np.isnan(x):
         return np.nan
     index_interval = np.searchsorted(upper_thresholds, x, side="left")
-    if rates_modified:
-        # Calculate new intercept
-        intercept_interval = 0
-        for interval in range(index_interval):
-            for pol in range(1, rates.shape[0] + 1):
-                intercept_interval += (rates[pol - 1, interval] ** pol) * (
-                    upper_thresholds[interval] - lower_thresholds[interval]
-                )
-
-    else:
-        intercept_interval = intercepts_at_lower_thresholds[index_interval]
+    intercept_interval = intercepts_at_lower_thresholds[index_interval]
 
     # Select threshold and calculate corresponding increment into interval
-    lower_thresehold_interval = lower_thresholds[index_interval]
-    increment_to_calc = x - lower_thresehold_interval
+    lower_threshold_interval = lower_thresholds[index_interval]
+
+    if lower_threshold_interval == -np.inf:
+        return intercept_interval
+
+    increment_to_calc = x - lower_threshold_interval
 
     out = intercept_interval
     for pol in range(1, rates.shape[0] + 1):

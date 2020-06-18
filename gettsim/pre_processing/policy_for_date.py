@@ -32,22 +32,22 @@ from gettsim.config import ROOT_DIR
 from gettsim.interface import create_linewise_printed_list
 from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
 from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
-from gettsim.taxes.favorability_check import _eink_st_tu_ab_1997
-from gettsim.taxes.favorability_check import _eink_st_tu_bis_1996
-from gettsim.taxes.favorability_check import _kindergeld_m_ab_1997
-from gettsim.taxes.favorability_check import _kindergeld_m_bis_1996
+from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
+from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
+from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
+from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
-from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_mit_kapital
-from gettsim.taxes.zu_verst_eink.eink import _sum_brutto_eink_ohne_kapital
-from gettsim.taxes.zu_verst_eink.freibetraege import _hh_freib_bis_2014
-from gettsim.taxes.zu_verst_eink.freibetraege import _hh_freib_seit_2015
-from gettsim.taxes.zu_verst_eink.freibetraege import _sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibetraege import _sonderausgaben_bis_2011
-from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2005_vs_pre_2005
-from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_2010_vs_pre_2005
-from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_ab_2010
-from gettsim.taxes.zu_verst_eink.vorsorge import _vorsorge_bis_2004
+from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_mit_kapital
+from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_ohne_kapital
+from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_ab_2015
+from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_bis_2014
+from gettsim.taxes.zu_verst_eink.freibetraege import sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibetraege import sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2005_bis_2009
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2010_bis_2019
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
 
 
 def get_policies_for_date(policy_date, policy_groups="all"):
@@ -220,21 +220,21 @@ def load_reforms_for_date(policy_date):
     year = policy_date.year
     policy_func_dict = {}
     if year < 2009:
-        policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_mit_kapital
+        policy_func_dict["sum_brutto_eink"] = sum_brutto_eink_mit_kapital
     else:
-        policy_func_dict["sum_brutto_eink"] = _sum_brutto_eink_ohne_kapital
+        policy_func_dict["sum_brutto_eink"] = sum_brutto_eink_ohne_kapital
 
     if year <= 2014:
-        policy_func_dict["hh_freib"] = _hh_freib_bis_2014
+        policy_func_dict["alleinerziehend_freib_tu"] = alleinerziehend_freib_tu_bis_2014
     else:
-        policy_func_dict["hh_freib"] = _hh_freib_seit_2015
+        policy_func_dict["alleinerziehend_freib_tu"] = alleinerziehend_freib_tu_ab_2015
 
     if year <= 1996:
-        policy_func_dict["eink_st_tu"] = _eink_st_tu_bis_1996
-        policy_func_dict["kindergeld_m"] = _kindergeld_m_bis_1996
+        policy_func_dict["eink_st_tu"] = eink_st_tu_bis_1996
+        policy_func_dict["kindergeld_m"] = kindergeld_m_bis_1996
     else:
-        policy_func_dict["eink_st_tu"] = _eink_st_tu_ab_1997
-        policy_func_dict["kindergeld_m"] = _kindergeld_m_ab_1997
+        policy_func_dict["eink_st_tu"] = eink_st_tu_ab_1997
+        policy_func_dict["kindergeld_m"] = kindergeld_m_ab_1997
 
     if year > 2011:
         policy_func_dict["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
@@ -242,18 +242,18 @@ def load_reforms_for_date(policy_date):
         policy_func_dict["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
 
     if year > 2011:
-        policy_func_dict["sonderausgaben"] = _sonderausgaben_ab_2012
+        policy_func_dict["sonderausgaben"] = sonderausgaben_ab_2012
     else:
-        policy_func_dict["sonderausgaben"] = _sonderausgaben_bis_2011
+        policy_func_dict["sonderausgaben"] = sonderausgaben_bis_2011
 
     if year >= 2020:
-        policy_func_dict["vorsorge"] = _vorsorge_ab_2010
+        policy_func_dict["vorsorge"] = vorsorge_ab_2020
     elif 2020 > year >= 2010:
-        policy_func_dict["vorsorge"] = _vorsorge_2010_vs_pre_2005
+        policy_func_dict["vorsorge"] = vorsorge_ab_2010_bis_2019
     elif 2010 > year >= 2005:
-        policy_func_dict["vorsorge"] = _vorsorge_2005_vs_pre_2005
+        policy_func_dict["vorsorge"] = vorsorge_ab_2005_bis_2009
     elif year <= 2004:
-        policy_func_dict["vorsorge"] = _vorsorge_bis_2004
+        policy_func_dict["vorsorge"] = vorsorge_bis_2004
 
     if year <= 2015:
         policy_func_dict["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_bis_2015
@@ -341,7 +341,7 @@ def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     tax_data[param] = _load_parameter_group_from_yaml(
-                        policy_date, path_list[0], parameters=[path_list[1]],
+                        policy_date, path_list[0], parameters=[path_list[1]]
                     )[path_list[1]]
             else:
                 # TODO: Should there be missing values or should the key not exist?
@@ -364,12 +364,12 @@ def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
                         tax_data[param] = _load_parameter_group_from_yaml(
-                            new_date, group, parameters=[param],
+                            new_date, group, parameters=[param]
                         )[param]
                     elif "." in policy_in_place["deviation_from"]:
                         path_list = policy_in_place["deviation_from"].split(".")
                         tax_data[param] = _load_parameter_group_from_yaml(
-                            policy_date, path_list[0], parameters=[path_list[1]],
+                            policy_date, path_list[0], parameters=[path_list[1]]
                         )[path_list[1]]
                     for key in value_keys:
                         key_list = []

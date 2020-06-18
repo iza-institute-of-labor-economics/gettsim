@@ -10,3 +10,4 @@ Tutorials help you to get started with gettsim.
    interface
    visualize
    user_functions
+   debugging

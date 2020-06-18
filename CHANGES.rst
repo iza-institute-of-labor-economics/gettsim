@@ -1,5 +1,5 @@
 Changes
-=======
+========
 
 This is a record of all past ``gettsim`` releases and what went into them in reverse
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
@@ -11,10 +11,15 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
   plot as well as some other ameliorations to the documentation (:ghuser:`tobiasraabe`).
+* :gh:`196` adds docstring to `policy_for_date.py` and improves its interface
+  (:ghuser:`MaxBlesch`).
 * :gh:`197` adds all functions which build the tax and transfer system to the
-  documentation.
+  documentation (:ghuser:`tobiasraabe`).
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
+* :gh:`200` adds a debug mode to gettsim and documents the feature
+  (:ghuser:`tobiasraabe`).
+* :gh:`202` fixes bugs that surfaced for negative incomes (:ghuser:`MaxBlesch`).
 
 
 0.3.1 - 2020-06-05

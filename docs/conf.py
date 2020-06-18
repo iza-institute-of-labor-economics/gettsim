@@ -25,6 +25,7 @@ version = ".".join(release.split(".")[:2])
 # with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     "nbsphinx",
+    "sphinx_automodapi.automodapi",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.extlinks",
@@ -40,7 +41,7 @@ extensions = [
 master_doc = "index"
 
 # Add any paths that contain templates here, relative to this directory.
-# templates_path = ['_templates']
+# templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and directories to
 # ignore when looking for source files. This pattern also affects html_static_path and
@@ -48,6 +49,8 @@ master_doc = "index"
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Extensions configuration ------------------------------------------------
+
+add_module_names = False
 
 autodoc_default_options = {
     "members": True,
@@ -65,12 +68,12 @@ autodoc_mock_imports = [
     "yaml",
 ]
 
-autosummary_generate = True
-
 extlinks = {
     "ghuser": ("https://github.com/%s", "@"),
     "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
 }
+
+numpydoc_show_class_members = False
 
 todo_include_todos = True
 todo_emit_warnings = True

@@ -1,4 +1,4 @@
-"""Includes functions for modeling unemployment and pension insurance."""
+"""Functions for modeling unemployment and pension insurance."""
 import numpy as np
 
 

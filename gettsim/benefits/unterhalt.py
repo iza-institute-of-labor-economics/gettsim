@@ -1,9 +1,11 @@
-"""This module provides functions to compute "Unterhalt" (alimony)."""
+"""This module provides functions to compute alimony payments (Unterhalt)."""
 import numpy as np
 
 
 def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
-    """
+    """Monthly child support advance payment per tax unit.
+
+   Made by government if the parent who has to pay does not.
 
     Parameters
     ----------
@@ -18,7 +20,9 @@ def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
 
 
 def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
-    """
+    """Monthly child support advance payment per household.
+
+   Made by government if the parent who has to pay does not.
 
     Parameters
     ----------
