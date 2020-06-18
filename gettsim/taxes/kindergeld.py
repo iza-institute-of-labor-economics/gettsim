@@ -1,6 +1,4 @@
-def _kindergeld_m_basis(
-    tu_id, kindergeld_anspruch, kindergeld_params,
-):
+def _kindergeld_m_basis(tu_id, kindergeld_anspruch, kindergeld_params):
     """Calculate the preliminary kindergeld.
 
     Parameters
@@ -14,12 +12,12 @@ def _kindergeld_m_basis(
 
     """
     # Kindergeld_Anspruch is the cumulative sum of eligible children.
-    kulmulative_anspruch = (
+    kumulativer_anspruch = (
         (kindergeld_anspruch.astype(int)).groupby(tu_id).transform("cumsum")
     )
     # Make sure that only eligible children get assigned kindergeld
-    kulmulative_anspruch.loc[~kindergeld_anspruch] = 0
-    out = kulmulative_anspruch.clip(upper=4).replace(kindergeld_params["kindergeld"])
+    kumulativer_anspruch.loc[~kindergeld_anspruch] = 0
+    out = kumulativer_anspruch.clip(upper=4).replace(kindergeld_params["kindergeld"])
     return out
 
 
