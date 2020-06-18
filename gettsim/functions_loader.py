@@ -4,12 +4,14 @@ import warnings
 from pathlib import Path
 
 
-def load_functions(sources):
+def load_functions(sources, allow_imported_members=False):
     """Load functions.
 
     Parameters
     ----------
     sources : List of path_like, function, module, dictionary of functions
+    allow_imported_members : bool
+        Should imported members also be collected from a module?
 
     Returns
     -------
@@ -40,12 +42,15 @@ def load_functions(sources):
             functions_defined_in_module = {
                 name: func
                 for name, func in inspect.getmembers(source)
-                if _is_function_defined_in_module(func, source.__name__)
+                if inspect.isfunction(func)
+                and _is_function_defined_in_module(
+                    func, source.__name__, allow_imported_members
+                )
             }
 
             # Test whether there are duplicate functions.
             overlapping_functions = set(functions_defined_in_module) & set(functions)
-            if overlapping_functions:
+            if overlapping_functions and not allow_imported_members:
                 warnings.warn(
                     "The following functions are already defined: "
                     f"{overlapping_functions}."
@@ -59,8 +64,8 @@ def load_functions(sources):
     return functions
 
 
-def _is_function_defined_in_module(func, module):
-    return inspect.isfunction(func) and func.__module__ == module
+def _is_function_defined_in_module(func, module, allow_imported_members):
+    return func.__module__ == module or allow_imported_members
 
 
 def _handle_paths(sources):
