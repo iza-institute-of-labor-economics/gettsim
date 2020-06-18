@@ -88,7 +88,6 @@ def vorsorge_ab_2020(
     Vorsorgeaufwendungen after the regime implemented in 2010 is in full effect,
     see § 10 (3) EStG.
 
-2
     Parameters
     ----------
     _altervorsorge_aufwend
