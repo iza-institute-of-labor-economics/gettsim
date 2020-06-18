@@ -175,7 +175,6 @@ def _replace_functions_with_source_code(dag):
                 source = inspect.getsource(function.func)
             else:
                 source = inspect.getsource(function)
-            breakpoint()
             dag.nodes[node]["source_code"] = _highlight_source_code(source)
         else:
             dag.nodes[node]["source_code"] = "Column in data"
