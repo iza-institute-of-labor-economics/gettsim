@@ -60,11 +60,10 @@ def get_policies_for_date(policy_date, policy_groups="all"):
     ----------
     policy_date : int, str, datetime.date
         The date for which the policy system is set up.
-    policy_groups, groups : list, str
+    policy_groups : list, str
         The group or a list of groups which parameters are loaded. If an invalid
         name is given, a list of all possible values is printed. Default is to load all
-        parameter groups. The keyword group will be completly replaced in future
-        versions.
+        parameter groups.
 
     Returns
     -------
