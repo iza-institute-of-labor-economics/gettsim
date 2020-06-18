@@ -1,5 +1,5 @@
 def _mini_job_grenze(wohnort_ost, soz_vers_beitr_params):
-    """Calculating the wage threshold for marginal employment.
+    """Wage threshold for marginal employment exempt from Social Insurance contributions.
 
     Parameters
     ----------
