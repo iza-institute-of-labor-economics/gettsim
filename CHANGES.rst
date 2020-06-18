@@ -6,6 +6,13 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
+0.3.2 - 2020-06-xx
+------------------
+
+* :gh:`200` adds a debug mode to gettsim and documents the feature
+  (:ghuser:`tobiasraabe`).
+
+
 0.3.1 - 2020-06-05
 ------------------
 
