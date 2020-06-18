@@ -13,11 +13,9 @@ from bokeh.models import ColumnDataSource
 from bokeh.models import HoverTool
 from bokeh.models import LabelSet
 from bokeh.models import MultiLine
-from bokeh.models import OpenURL
 from bokeh.models import Plot
 from bokeh.models import Range1d
 from bokeh.models import ResetTool
-from bokeh.models import TapTool
 from bokeh.models import Title
 from bokeh.plotting import from_networkx
 from pygments import highlight
