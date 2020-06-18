@@ -47,7 +47,7 @@ def alleinerziehend_freib_tu_bis_2014(alleinerziehend_tu, eink_st_abzuege_params
     return out
 
 
-def alleinerziehend_freib_tu_seit_2015(
+def alleinerziehend_freib_tu_ab_2015(
     alleinerziehend_tu, anz_kinder_tu, eink_st_abzuege_params
 ):
     """
