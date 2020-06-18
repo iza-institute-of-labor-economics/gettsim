@@ -17,7 +17,7 @@ eink_st_tarif:
   progressionsfaktor: True
   2002-01-01:
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       upper_threshold: 7235
       rate_linear: 0
       rate_quadratic: 0
@@ -34,7 +34,7 @@ eink_st_tarif:
       rate_quadratic: 0
   2004-01-01:
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       upper_threshold: 7664
       rate_linear: 0
       intercept_at_lower_threshold: 0
@@ -50,7 +50,7 @@ eink_st_tarif:
       rate_quadratic: 0
   2005-01-01:
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       upper_threshold: 7664
       rate_linear: 0
       rate_quadratic: 0
@@ -67,7 +67,7 @@ eink_st_tarif:
       rate_quadratic: 0
   2007-01-01:
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       upper_threshold: 7664
       rate_linear: 0
       rate_quadratic: 0
@@ -199,7 +199,7 @@ ertragsanteil:
   type: piecewise_linear
   2002-01-01:
     0:
-      lower_threshold: 1980
+      lower_threshold: -inf
       upper_threshold: 2005
       rate_linear: 0
       intercept_at_lower_threshold: 0.27
