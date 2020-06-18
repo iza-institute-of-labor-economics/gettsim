@@ -13,8 +13,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
         internal_function_files, allow_imported_members=True
     )
 
-    # Fix because private functions are not imported in functions.py. Remove when all
-    # functions in the DAG became public.
+    # Private functions are not imported in functions.py.
     internal_functions = {
         k: v for k, v in internal_functions.items() if not k.startswith("_")
     }
