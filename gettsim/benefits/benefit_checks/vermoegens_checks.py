@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 
 def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibetrag_hh):
@@ -42,7 +41,9 @@ def unter_vermögens_freibetrag_hh(vermögen_hh, freibetrag_vermögen_hh):
     return vermögen_hh <= freibetrag_vermögen_hh
 
 
-def freibetrag_alter(kind, alter, geburtsjahr, arbeitsl_geld_2_params):
+def freibetrag_vermögen_anspruch_hh(
+    hh_id, kind, alter, geburtsjahr, arbeitsl_geld_2_params
+):
     """Calculate exemptions based on individuals age."""
 
     out = alter * 0
@@ -55,14 +56,10 @@ def freibetrag_alter(kind, alter, geburtsjahr, arbeitsl_geld_2_params):
         * alter.loc[(1948 <= geburtsjahr) & ~kind]
     )
 
-    return out
+    return out.groupby(hh_id).sum()
 
 
-def freibetrag_alter_hh(hh_id, freibetrag_alter):
-    return freibetrag_alter.groupby(hh_id).sum()
-
-
-def freibetrag_vermögen_max(geburtsjahr, kind, arbeitsl_geld_2_params):
+def max_freibetrag_vermögen_hh(hh_id, geburtsjahr, kind, arbeitsl_geld_2_params):
     conditions = [
         geburtsjahr < 1957,
         (1958 <= geburtsjahr) & (geburtsjahr <= 1963),
@@ -78,24 +75,22 @@ def freibetrag_vermögen_max(geburtsjahr, kind, arbeitsl_geld_2_params):
     ]
 
     data = np.select(conditions, choices)
+    out = geburtsjahr * 0.0 + data
 
-    return pd.Series(index=geburtsjahr.index, data=data)
-
-
-def freibetrag_vermögen_max_hh(hh_id, freibetrag_vermögen_max):
-    return freibetrag_vermögen_max.groupby(hh_id).sum()
+    return out.groupby(hh_id).sum()
 
 
 def freibetrag_vermögen_hh(
-    freibetrag_alter_hh,
+    freibetrag_vermögen_anspruch_hh,
     anz_minderj_hh,
     haushaltsgröße_hh,
-    freibetrag_vermögen_max_hh,
+    max_freibetrag_vermögen_hh,
     arbeitsl_geld_2_params,
 ):
-    return (
-        freibetrag_alter_hh
+    out = (
+        freibetrag_vermögen_anspruch_hh
         + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag"]["kind"]
         + (haushaltsgröße_hh - anz_minderj_hh)
         * arbeitsl_geld_2_params["vermögensfreibetrag"]["ausstattung"]
-    ).clip(upper=freibetrag_vermögen_max_hh)
+    ).clip(upper=max_freibetrag_vermögen_hh)
+    return out
