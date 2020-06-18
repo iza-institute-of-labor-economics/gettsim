@@ -50,7 +50,7 @@ OUT_COLS = [
     "brutto_eink_7_tu",
     "_ertragsanteil",
     "sonder",
-    "hh_freib",
+    "alleinerziehend_freib_tu",
     "altersfreib",
     "vorsorge",
 ]
@@ -60,9 +60,10 @@ TEST_COLS = [
     "_zu_verst_eink_kinderfreib_tu",
     "kinderfreib_tu",
     "altersfreib",
+    "alleinerziehend_freib_tu",
     "sum_brutto_eink",
 ]
-YEARS = [2005, 2009, 2010, 2012, 2018]
+YEARS = [2005, 2009, 2010, 2012, 2018, 2019]
 
 
 @pytest.fixture(scope="module")
@@ -103,8 +104,10 @@ def test_zve(
         expected_result = sum_test_data_tu("_zu_verst_eink_kein_kinderfreib", year_data)
     elif column == "_zu_verst_eink_kinderfreib_tu":
         expected_result = sum_test_data_tu("_zu_verst_eink_kinderfreib", year_data)
+    elif column == "kinderfreib_tu":
+        expected_result = sum_test_data_tu("kinderfreib", year_data)
     else:
-        expected_result = result
+        expected_result = year_data[column]
 
     assert_series_equal(
         result,
