@@ -147,7 +147,8 @@ def wohngeld_max_miete_bis_2008(
     mietstufe,
     immobilie_baujahr,
     haushaltsgröße,
-    kaltmiete_m,
+    hh_id,
+    kaltmiete_m_hh,
     tax_unit_share,
     _wohngeld_min_miete,
     wohngeld_params,
@@ -169,10 +170,9 @@ def wohngeld_max_miete_bis_2008(
         )
     ]
 
-    wg_miete = (np.clip(data, a_min=None, a_max=kaltmiete_m) * tax_unit_share).clip(
-        lower=_wohngeld_min_miete
-    )
-    # wg["wgheiz"] = household["heizkost"] * tax_unit_share
+    wg_miete = (
+        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+    ).clip(lower=_wohngeld_min_miete)
 
     return wg_miete
 
@@ -180,7 +180,8 @@ def wohngeld_max_miete_bis_2008(
 def wohngeld_max_miete_ab_2009(
     mietstufe,
     haushaltsgröße,
-    kaltmiete_m,
+    hh_id,
+    kaltmiete_m_hh,
     tax_unit_share,
     _wohngeld_min_miete,
     wohngeld_params,
@@ -193,10 +194,9 @@ def wohngeld_max_miete_ab_2009(
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 
-    wg_miete = (np.clip(data, a_min=None, a_max=kaltmiete_m) * tax_unit_share).clip(
-        lower=_wohngeld_min_miete
-    )
-    # wg["wgheiz"] = household["heizkost"] * tax_unit_share
+    wg_miete = (
+        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+    ).clip(lower=_wohngeld_min_miete)
 
     return wg_miete
 

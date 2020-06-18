@@ -2,6 +2,10 @@ def alleinerziehend_tu(tu_id, alleinerziehend):
     return alleinerziehend.groupby(tu_id).any()
 
 
+def alleinerziehend_hh(hh_id, alleinerziehend):
+    return alleinerziehend.groupby(hh_id).any()
+
+
 def _anz_kinder_in_tu(tu_id, kind):
     return (kind.astype(int)).groupby(tu_id).sum()
 
@@ -22,14 +26,14 @@ def bruttolohn_m_tu(bruttolohn_m, tu_id):
     return bruttolohn_m.groupby(tu_id).sum()
 
 
-def anz_kind_zwischen_0_6_per_hh(hh_id, kind, alter):
+def anz_kind_zwischen_0_6_hh(hh_id, kind, alter):
     alter_0_bis_6 = (0 <= alter) & (alter <= 6)
-    return (kind & alter_0_bis_6).groupby(hh_id).transform("sum")
+    return (kind & alter_0_bis_6).astype(int).groupby(hh_id).sum()
 
 
-def anz_kind_zwischen_0_15_per_hh(hh_id, kind, alter):
+def anz_kind_zwischen_0_15_hh(hh_id, kind, alter):
     alter_0_bis_15 = (0 <= alter) & (alter <= 15)
-    return (kind & alter_0_bis_15).groupby(hh_id).transform("sum")
+    return (kind & alter_0_bis_15).astype(int).groupby(hh_id).sum()
 
 
 def kind_zwischen_0_6(kind, alter):
@@ -45,7 +49,7 @@ def kind_zwischen_14_24(kind, alter):
 
 
 def anz_kinder_hh(hh_id, kind):
-    return kind.groupby(hh_id).transform("sum")
+    return kind.astype(int).groupby(hh_id).sum()
 
 
 def anz_kinder_tu(tu_id, kind):
@@ -72,17 +76,17 @@ def haushaltsgröße_hh(hh_id):
     return hh_id.groupby(hh_id).size()
 
 
-def bewohnt_eigentum_hh(hh_id, bewohnt_eigentum):
-    return bewohnt_eigentum.groupby(hh_id).all()
-
-
-def wohnfläche_hh(hh_id, wohnfläche):
-    return wohnfläche.groupby(hh_id).max()
-
-
-def kaltmiete_m_hh(hh_id, kaltmiete_m):
-    return kaltmiete_m.groupby(hh_id).max()
-
-
-def heizkost_m_hh(hh_id, heizkost_m):
-    return heizkost_m.groupby(hh_id).max()
+# def bewohnt_eigentum_hh(hh_id, bewohnt_eigentum):
+#     return bewohnt_eigentum.groupby(hh_id).all()
+#
+#
+# def wohnfläche_hh(hh_id, wohnfläche):
+#     return wohnfläche.groupby(hh_id).max()
+#
+#
+# def kaltmiete_m_hh(hh_id, kaltmiete_m):
+#     return kaltmiete_m.groupby(hh_id).max()
+#
+#
+# def heizkost_m_hh(hh_id, heizkost_m):
+#     return heizkost_m.groupby(hh_id).max()

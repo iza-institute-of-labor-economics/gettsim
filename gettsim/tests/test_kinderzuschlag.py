@@ -17,11 +17,11 @@ INPUT_COLS = [
     "arbeitsstunden_w",
     "bruttolohn_m",
     "in_ausbildung",
-    "kaltmiete_m",
-    "heizkost_m",
+    "kaltmiete_m_hh",
+    "heizkost_m_hh",
     "alleinerziehend",
     "kindergeld_anspruch",
-    "alleinerziehenden_mehrbedarf",
+    "alleinerziehenden_mehrbedarf_hh",
     "_arbeitsl_geld_2_brutto_eink_hh",
     "arbeitsl_geld_2_eink_hh",
     "kindergeld_m_hh",
@@ -50,7 +50,7 @@ def test_kiz(
         policy_date=year, policy_groups=["kinderzuschlag", "arbeitsl_geld_2"],
     )
     columns = [
-        "alleinerziehenden_mehrbedarf",
+        "alleinerziehenden_mehrbedarf_hh",
         "arbeitsl_geld_2_eink_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m",

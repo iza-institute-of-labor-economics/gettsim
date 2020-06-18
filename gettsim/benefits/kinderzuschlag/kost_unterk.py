@@ -15,12 +15,12 @@ def kinderzuschlag_kosten_unterk_m(
     )
 
 
-def kinderzuschlag_kaltmiete_m(kaltmiete_m, tax_unit_share):
-    return kaltmiete_m * tax_unit_share
+def kinderzuschlag_kaltmiete_m(hh_id, kaltmiete_m_hh, tax_unit_share):
+    return hh_id.replace(kaltmiete_m_hh) * tax_unit_share
 
 
-def kinderzuschlag_heizkost_m(heizkost_m, tax_unit_share):
-    return heizkost_m * tax_unit_share
+def kinderzuschlag_heizkost_m(hh_id, heizkost_m_hh, tax_unit_share):
+    return hh_id.replace(heizkost_m_hh) * tax_unit_share
 
 
 def wohnbedarf_eltern_anteil(

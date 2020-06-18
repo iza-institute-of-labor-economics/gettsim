@@ -15,10 +15,10 @@ INPUT_COLS = [
     "tu_id",
     "kind",
     "alter",
-    "kaltmiete_m",
-    "heizkost_m",
-    "wohnfläche",
-    "bewohnt_eigentum",
+    "kaltmiete_m_hh",
+    "heizkost_m_hh",
+    "wohnfläche_hh",
+    "bewohnt_eigentum_hh",
     "alleinerziehend",
     "bruttolohn_m",
     "ges_rente_m",
@@ -37,15 +37,15 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    # "_arbeitsl_geld_2_brutto_eink_hh",
-    # "alleinerziehenden_mehrbedarf",
+    "_arbeitsl_geld_2_brutto_eink_hh",
+    "alleinerziehenden_mehrbedarf_hh",
     "regelbedarf_m",
-    # "regelsatz_m",
+    "regelsatz_m_hh",
     "kost_unterk_m_hh",
-    # "unterhaltsvors_m_hh",
-    # "eink_anr_frei",
-    # "arbeitsl_geld_2_eink",
-    # "arbeitsl_geld_2_eink_hh",
+    "unterhaltsvors_m_hh",
+    "eink_anr_frei",
+    "arbeitsl_geld_2_eink",
+    "arbeitsl_geld_2_eink_hh",
 ]
 
 
