@@ -1,4 +1,4 @@
-"""This module provides functions to compute "Unterhalt" (alimony)."""
+"""This module provides functions to compute alimony payments (Unterhalt)."""
 import numpy as np
 
 
