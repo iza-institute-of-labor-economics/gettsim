@@ -10,7 +10,8 @@ dependencies:
   - sphinx-copybutton
   - sphinx_rtd_theme
 
-  # Modules necessary since sphinx-automodapi cannot mock modules.
+  # Modules necessary since sphinx-automodapi cannot mock modules. See
+  # https://github.com/astropy/sphinx-automodapi/issues/77.
   - networkx
   - numpy
   - pandas
