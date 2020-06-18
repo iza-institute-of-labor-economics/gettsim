@@ -1,15 +1,15 @@
 import numpy as np
 
 
-def wohngeld_m(
-    _wohngeld_basis_hh_vermögens_check,
-    wohngeld_m_vorrang,
-    wohngeld_m_kinderzuschlag_vorrang,
-    anz_rentner_per_hh,
+def wohngeld_m_hh(
+    _wohngeld_basis_hh_vermögens_check_hh,
+    wohngeld_m_vorrang_hh,
+    wohngeld_m_kinderzuschlag_vorrang_hh,
+    anz_rentner_hh,
 ):
-    cond = ~wohngeld_m_vorrang & ~wohngeld_m_kinderzuschlag_vorrang
-    _wohngeld_basis_hh_vermögens_check.loc[cond | (anz_rentner_per_hh != 0)] = 0
-    return _wohngeld_basis_hh_vermögens_check
+    cond = ~wohngeld_m_vorrang_hh & ~wohngeld_m_kinderzuschlag_vorrang_hh
+    _wohngeld_basis_hh_vermögens_check_hh.loc[cond | (anz_rentner_hh != 0)] = 0
+    return _wohngeld_basis_hh_vermögens_check_hh
 
 
 def wohngeld_basis_hh(

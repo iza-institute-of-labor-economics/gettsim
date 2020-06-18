@@ -68,9 +68,9 @@ DESIRED_OUTPUTS = [
     "regelsatz_m_hh",
     "kost_unterk_m_hh",
     "unterhaltsvors_m_hh",
-    "kinderzuschlag_m",
-    "wohngeld_m",
-    "arbeitsl_geld_2_m",
+    "kinderzuschlag_m_hh",
+    "wohngeld_m_hh",
+    "arbeitsl_geld_2_m_hh",
     # "verfügb_eink_m",
     # "verfügb_eink_hh_m",
 ]

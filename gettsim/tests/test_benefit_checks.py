@@ -29,7 +29,7 @@ INPUT_COLS = [
 ]
 
 YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
-OUT_COLS = ["kinderzuschlag_m", "wohngeld_m", "arbeitsl_geld_2_m"]
+OUT_COLS = ["kinderzuschlag_m_hh", "wohngeld_m_hh", "arbeitsl_geld_2_m_hh"]
 
 
 @pytest.fixture(scope="module")

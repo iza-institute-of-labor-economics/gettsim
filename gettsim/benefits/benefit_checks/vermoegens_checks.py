@@ -9,20 +9,21 @@ def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibe
     calculated, just set the need to zero)
 
     """
-    return regelbedarf_m_hh.where(unter_vermögens_freibetrag_hh, 0)
+    regelbedarf_m_hh.loc[~unter_vermögens_freibetrag_hh] = 0
+    return regelbedarf_m_hh
 
 
-def _kinderzuschlag_m_vermögens_check(
-    _kinderzuschlag_m_vorläufig, unter_vermögens_freibetrag_hh, hh_id
+def _kinderzuschlag_vorläufig_m_vermögens_check_hh(
+    _kinderzuschlag_m_vorläufig_hh, unter_vermögens_freibetrag_hh
 ):
     """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption."""
-    return _kinderzuschlag_m_vorläufig.where(
-        hh_id.replace(unter_vermögens_freibetrag_hh), 0
-    )
+
+    _kinderzuschlag_m_vorläufig_hh.loc[~unter_vermögens_freibetrag_hh] = 0
+    return _kinderzuschlag_m_vorläufig_hh
 
 
-def _wohngeld_basis_hh_vermögens_check(
-    hh_id, wohngeld_basis_hh, vermögen_hh, haushaltsgröße
+def _wohngeld_basis_hh_vermögens_check_hh(
+    wohngeld_basis_hh, vermögen_hh, haushaltsgröße_hh
 ):
     """Calculate a lump sum payment for wohngeld
 
@@ -34,8 +35,9 @@ def _wohngeld_basis_hh_vermögens_check(
     TODO: Need to write numbers to params.
 
     """
-    condition = hh_id.replace(vermögen_hh) <= (60_000 + (30_000 * (haushaltsgröße - 1)))
-    return hh_id.replace(wohngeld_basis_hh).where(condition, 0)
+    condition = vermögen_hh <= (60_000 + (30_000 * (haushaltsgröße_hh - 1)))
+    wohngeld_basis_hh.loc[~condition] = 0
+    return wohngeld_basis_hh
 
 
 def unter_vermögens_freibetrag_hh(vermögen_hh, freibetrag_vermögen_hh):

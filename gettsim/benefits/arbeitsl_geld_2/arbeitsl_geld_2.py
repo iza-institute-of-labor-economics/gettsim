@@ -1,18 +1,20 @@
 import numpy as np
 
 
-def arbeitsl_geld_2_m(
-    arbeitsl_geld_2_m_minus_eink,
-    wohngeld_m_vorrang,
-    kinderzuschlag_vorrang,
-    wohngeld_m_kinderzuschlag_vorrang,
-    anz_rentner_per_hh,
+def arbeitsl_geld_2_m_hh(
+    arbeitsl_geld_2_m_minus_eink_hh,
+    wohngeld_m_vorrang_hh,
+    kinderzuschlag_vorrang_hh,
+    wohngeld_m_kinderzuschlag_vorrang_hh,
+    anz_rentner_hh,
 ):
-    out = arbeitsl_geld_2_m_minus_eink.clip(lower=0)
+    out = arbeitsl_geld_2_m_minus_eink_hh.clip(lower=0)
     cond = (
-        wohngeld_m_vorrang | kinderzuschlag_vorrang | wohngeld_m_kinderzuschlag_vorrang
+        wohngeld_m_vorrang_hh
+        | kinderzuschlag_vorrang_hh
+        | wohngeld_m_kinderzuschlag_vorrang_hh
     )
-    out.loc[cond | (anz_rentner_per_hh != 0)] = 0
+    out.loc[cond | (anz_rentner_hh != 0)] = 0
     return out
 
 

@@ -76,5 +76,5 @@ def haushaltsgröße_hh(hh_id):
     return hh_id.groupby(hh_id).size()
 
 
-def anz_rentner_per_hh(hh_id, rentner):
-    return rentner.groupby(hh_id).transform("sum")
+def anz_rentner_hh(hh_id, rentner):
+    return (rentner.astype(int)).groupby(hh_id).sum()
