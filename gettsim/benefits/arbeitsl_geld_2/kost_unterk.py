@@ -1,4 +1,4 @@
-def kost_unterk_m(_berechtigte_wohnfläche, _miete_pro_sqm):
+def kost_unterk_m_hh(berechtigte_wohnfläche_hh, miete_pro_sqm_hh):
     """
     Only 'appropriate' housing costs are paid. Two possible options:
     1. Just pay rents no matter what
@@ -8,50 +8,52 @@ def kost_unterk_m(_berechtigte_wohnfläche, _miete_pro_sqm):
 
     Parameters
     ----------
-    _berechtigte_wohnfläche
-    _miete_pro_sqm
+    berechtigte_wohnfläche_hh
+    miete_pro_sqm_hh
 
     Returns
     -------
 
     """
-    return _berechtigte_wohnfläche * _miete_pro_sqm
+    return berechtigte_wohnfläche_hh * miete_pro_sqm_hh
 
 
-def _miete_pro_sqm(kaltmiete_m, heizkost_m, wohnfläche):
+def miete_pro_sqm_hh(kaltmiete_m_hh, heizkost_m_hh, wohnfläche_hh):
     """
 
     Parameters
     ----------
-    kaltmiete_m
-    heizkost_m
-    wohnfläche
+    kaltmiete_m_hh
+    heizkost_m_hh
+    wohnfläche_hh
 
     Returns
     -------
 
     """
-    return ((kaltmiete_m + heizkost_m) / wohnfläche).clip(upper=10)
+    return ((kaltmiete_m_hh + heizkost_m_hh) / wohnfläche_hh).clip(upper=10)
 
 
-def _berechtigte_wohnfläche(wohnfläche, bewohnt_eigentum, haushaltsgröße):
+def berechtigte_wohnfläche_hh(wohnfläche_hh, bewohnt_eigentum_hh, haushaltsgröße_hh):
     """
 
     Parameters
     ----------
-    wohnfläche
-    bewohnt_eigentum
-    haushaltsgröße
+    wohnfläche_hh
+    bewohnt_eigentum_hh
+    haushaltsgröße_hh
 
     Returns
     -------
 
     """
-    out = wohnfläche * 0
-    out.loc[bewohnt_eigentum] = wohnfläche.loc[bewohnt_eigentum].clip(
-        upper=(80 + (haushaltsgröße.loc[bewohnt_eigentum] - 2).clip(lower=0) * 20)
+    out = wohnfläche_hh * 0
+    out.loc[bewohnt_eigentum_hh] = wohnfläche_hh.loc[bewohnt_eigentum_hh].clip(
+        upper=(80 + (haushaltsgröße_hh.loc[bewohnt_eigentum_hh] - 2).clip(lower=0) * 20)
     )
-    out.loc[~bewohnt_eigentum] = wohnfläche.loc[~bewohnt_eigentum].clip(
-        upper=(45 + (haushaltsgröße.loc[~bewohnt_eigentum] - 1).clip(lower=0) * 15)
+    out.loc[~bewohnt_eigentum_hh] = wohnfläche_hh.loc[~bewohnt_eigentum_hh].clip(
+        upper=(
+            45 + (haushaltsgröße_hh.loc[~bewohnt_eigentum_hh] - 1).clip(lower=0) * 15
+        )
     )
     return out

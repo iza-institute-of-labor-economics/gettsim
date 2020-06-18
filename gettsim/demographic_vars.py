@@ -70,3 +70,19 @@ def haushaltsgröße(hh_id):
 
 def haushaltsgröße_hh(hh_id):
     return hh_id.groupby(hh_id).size()
+
+
+def bewohnt_eigentum_hh(hh_id, bewohnt_eigentum):
+    return bewohnt_eigentum.groupby(hh_id).all()
+
+
+def wohnfläche_hh(hh_id, wohnfläche):
+    return wohnfläche.groupby(hh_id).max()
+
+
+def kaltmiete_m_hh(hh_id, kaltmiete_m):
+    return kaltmiete_m.groupby(hh_id).max()
+
+
+def heizkost_m_hh(hh_id, heizkost_m):
+    return heizkost_m.groupby(hh_id).max()

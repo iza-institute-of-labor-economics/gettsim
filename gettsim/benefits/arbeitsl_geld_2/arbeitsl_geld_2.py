@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def regelbedarf_m(regelsatz_m, kost_unterk_m):
+def regelbedarf_m(regelsatz_m, hh_id, kost_unterk_m_hh):
     """
 
     Parameters
@@ -13,7 +13,7 @@ def regelbedarf_m(regelsatz_m, kost_unterk_m):
     -------
 
     """
-    return regelsatz_m + kost_unterk_m
+    return regelsatz_m + hh_id.replace(kost_unterk_m_hh)
 
 
 def alleinerziehenden_mehrbedarf(
