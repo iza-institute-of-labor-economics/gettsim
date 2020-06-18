@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def piecewise_polynomial(
-    x, thresholds, rates, intercepts_at_lower_thresholds, rates_multiplier=None,
+    x, thresholds, rates, intercepts_at_lower_thresholds, rates_multiplier=None
 ):
     """Calculate value of the piecewise function at `x`.
 
@@ -49,7 +49,7 @@ def piecewise_polynomial(
     increment_to_calc = x - thresholds_individual
 
     # Check if any value is in the lowest interval.
-    if 0 in binned.values:
+    if 0 in binned.array:
         if intercepts_at_lower_thresholds[0] == np.nan:
             raise ValueError(f"In {x.name} is a value outside the determined range.")
 
@@ -129,7 +129,7 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
 
     # Create and fill interecept-array
     intercepts = check_intercepts(
-        parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys,
+        parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys
     )
     piecewise_elements = {
         "thresholds": thresholds,
@@ -354,7 +354,7 @@ def create_intercepts(
 
 
 def calculate_intercepts(
-    x, lower_thresholds, upper_thresholds, rates, intercepts_at_lower_thresholds,
+    x, lower_thresholds, upper_thresholds, rates, intercepts_at_lower_thresholds
 ):
     """Calculate the intercepts from the raw data.
 
