@@ -21,6 +21,8 @@ def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
 
 def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
     """Monthly child support advance payment per household.
+   
+   Made by government if the parent who has to pay does not.
 
     Parameters
     ----------
