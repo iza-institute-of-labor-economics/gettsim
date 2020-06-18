@@ -8,7 +8,6 @@ from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2_eink import *  # noqa: F40
 from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import *  # noqa: F401, F403
 from gettsim.benefits.arbeitsl_geld_2.kost_unterk import *  # noqa: F401, F403
 from gettsim.benefits.benefit_checks.benefit_checks import *  # noqa: F401, F403
-from gettsim.benefits.benefit_checks.eink_checks import *  # noqa: F401, F403
 from gettsim.benefits.benefit_checks.vermoegens_checks import *  # noqa: F401, F403
 from gettsim.benefits.elterngeld import *  # noqa: F401, F403
 from gettsim.benefits.kinderzuschlag.kinderzuschlag import *  # noqa: F401, F403
