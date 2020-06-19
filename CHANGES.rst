@@ -6,18 +6,20 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
-0.3.2 - 2020-06-xx
+0.3.2 - 2020-06-19
 ------------------
 
-* :gh:`206` fixes several bugs in `arbeitsl_geld_2` and related transfers, calculating
-  them at the appropriate (household) level (:ghuser:`MaxBlesch`).
-* :gh:`202` fixes bugs that surfaced for negative incomes (:ghuser:`MaxBlesch`).
-* :gh:`200` adds a debug mode to gettsim and documents the feature
-  (:ghuser:`tobiasraabe`).
-* :gh:`197` adds all functions which build the tax and transfer system to the
-  documentation (:ghuser:`tobiasraabe`).
 * :gh:`196` adds docstring to `policy_for_date.py` and improves its interface
   (:ghuser:`MaxBlesch`).
+* :gh:`197` adds all functions which build the tax and transfer system to the
+  documentation (:ghuser:`tobiasraabe`).
+* :gh:`200` adds a debug mode to gettsim and documents the feature
+  (:ghuser:`tobiasraabe`).
+* :gh:`201` improves the calculation of ``hh_freib`` and renames it to
+  ``alleinerziehend_freib`` (:ghuser:`MaxBlesch`, :ghuser:`tobiasraabe`).
+* :gh:`202` fixes bugs that surfaced for negative incomes (:ghuser:`MaxBlesch`).
+* :gh:`206` fixes several bugs in `arbeitsl_geld_2` and related transfers, calculating
+  them at the appropriate (household) level (:ghuser:`MaxBlesch`).
 
 0.3.1 - 2020-06-05
 ------------------
