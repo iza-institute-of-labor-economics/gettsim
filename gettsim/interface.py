@@ -210,7 +210,10 @@ def _expand_data(data, ids):
     for name, s in data.items():
         for level in ["hh", "tu"]:
             if f"_{level}_" in name or name.endswith(f"_{level}"):
-                expanded_s = s.loc[ids[f"{level}_id"]]
+                try:
+                    expanded_s = s.loc[ids[f"{level}_id"]]
+                except KeyError:
+                    raise KeyError(f"Cannot expand {name} to level {level}")
                 expanded_s.index = ids[f"{level}_id"].index
                 data[name] = expanded_s
 
