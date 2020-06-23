@@ -213,7 +213,13 @@ def _expand_data(data, ids):
                 try:
                     expanded_s = s.loc[ids[f"{level}_id"]]
                 except KeyError:
-                    raise KeyError(f"Cannot expand {name} to level {level}")
+                    raise KeyError(
+                        f"Variable '{name}' is not a reduced series with one value per "
+                        f"value in '{level}'. If it is not a reduced series, change the"
+                        f" name such that it does not include '_{level}_' or ends with "
+                        f"`_{level}`. If it should be a reduced series, fix the "
+                        "function."
+                    )
                 expanded_s.index = ids[f"{level}_id"].index
                 data[name] = expanded_s
 
