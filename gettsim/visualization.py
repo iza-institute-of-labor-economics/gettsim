@@ -71,8 +71,11 @@ def plot_dag(
         visualization. For the full list of options, see the tutorial about
         `visualization <../docs/tutorials/visualize.ipynb>`_. By default, all nodes are
         shown.
-    labels : bool, default False
+    labels : bool, default True
         Annotate nodes with labels.
+    tooltips : bool, default False
+        Experimental feature which makes the source code of the functions accessible as
+        a tooltip. Sometimes, the tooltip is not properly displayed.
     plot_kwargs : dict
         Additional keyword arguments passed to :class:`bokeh.models.Plot`.
     node_kwargs : dict
