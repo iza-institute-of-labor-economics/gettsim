@@ -6,7 +6,7 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
-0.x.x - 2020-06-xx
+0.3.3 - 2020-06-xx
 ------------------
 
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
