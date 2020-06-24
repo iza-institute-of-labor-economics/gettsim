@@ -5,13 +5,13 @@ from pathlib import Path
 from gettsim.config import ROOT_DIR
 
 
-def convert_paths_to_internal_functions_to_imports(paths):
+def convert_paths_to_import_strings(paths):
     """Convert paths to modules for gettsim's internal functions to imports.
 
     Example
     -------
     >>> path = ROOT_DIR / "demographic_vars.py"
-    >>> convert_paths_to_internal_functions_to_imports(path)
+    >>> convert_paths_to_import_strings(path)
     ['gettsim.demographic_vars']
 
     """

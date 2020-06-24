@@ -5,13 +5,11 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-
 0.4.0 - 2020-xx-xx
 ------------------
 
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
   plot as well as some other ameliorations to the documentation (:ghuser:`tobiasraabe`).
-
 
 0.3.3 - 2020-06-xx
 ------------------

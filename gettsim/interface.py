@@ -10,7 +10,7 @@ from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
 from gettsim.dag import execute_dag
 from gettsim.dag import prune_dag
-from gettsim.functions_loader import convert_paths_to_internal_functions_to_imports
+from gettsim.functions_loader import convert_paths_to_import_strings
 from gettsim.functions_loader import load_functions
 
 
@@ -81,7 +81,7 @@ def compute_taxes_and_transfers(
     user_functions = [] if user_functions is None else user_functions
     user_functions = load_functions(user_functions)
 
-    imports = convert_paths_to_internal_functions_to_imports(INTERNAL_FUNCTION_FILES)
+    imports = convert_paths_to_import_strings(INTERNAL_FUNCTION_FILES)
     internal_functions = load_functions(imports)
 
     _fail_if_user_columns_are_not_in_data(data, user_columns)
