@@ -50,4 +50,4 @@ def test_soc_ins_contrib(input_data, year, column):
 
     results = compute_taxes_and_transfers(df, targets=column, params=params_dict)
 
-    pd.testing.assert_series_equal(results, year_data[column])
+    pd.testing.assert_series_equal(results[column], year_data[column])

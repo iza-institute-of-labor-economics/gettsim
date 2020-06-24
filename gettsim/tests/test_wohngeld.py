@@ -76,7 +76,7 @@ def test_wg(input_data, year, column):
         targets=column,
         params=params_dict,
     )
-    assert_series_equal(result, year_data[column])
+    assert_series_equal(result[column], year_data[column])
 
 
 @pytest.fixture(scope="module")
@@ -114,7 +114,7 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
         targets=column,
         params=params_dict,
     )
-    assert_series_equal(result, year_data[column])
+    assert_series_equal(result[column], year_data[column])
 
 
 def eink_st_m_tu_from_data(eink_st_m, tu_id):

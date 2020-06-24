@@ -43,5 +43,5 @@ def test_kindergeld(input_data, year, column):
     )
 
     assert_series_equal(
-        calc_result, year_data[column], check_dtype=False, check_names=False
+        calc_result[column], year_data[column], check_dtype=False, check_names=False
     )

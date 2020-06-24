@@ -55,4 +55,6 @@ def test_favorability_check(input_data, year, column):
         params=params_dict,
     )
 
-    assert_series_equal(result, year_data[column], check_dtype=False, check_names=False)
+    assert_series_equal(
+        result[column], year_data[column], check_dtype=False, check_names=False
+    )

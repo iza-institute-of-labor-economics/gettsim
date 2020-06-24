@@ -59,5 +59,5 @@ def test_vorsorge(
     )
 
     assert_series_equal(
-        result, year_data[column], check_less_precise=2, check_dtype=False
+        result[column], year_data[column], check_less_precise=2, check_dtype=False
     )

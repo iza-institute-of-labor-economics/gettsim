@@ -6,6 +6,13 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
+0.4.0 - 2020-xx-xx
+------------------
+
+* :gh:`212` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
+  DataFrame and removes the `return_dag` option.
+
+
 0.3.2 - 2020-06-19
 ------------------
 
