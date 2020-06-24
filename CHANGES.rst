@@ -6,6 +6,12 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
+0.3.3 - 2020-xx-xx
+------------------
+
+* :gh:`214` adds a check for missing root nodes (:ghuser:`tobiasraabe`).
+
+
 0.3.2 - 2020-06-19
 ------------------
 
