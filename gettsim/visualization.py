@@ -13,15 +13,18 @@ from bokeh.models import ColumnDataSource
 from bokeh.models import HoverTool
 from bokeh.models import LabelSet
 from bokeh.models import MultiLine
+from bokeh.models import OpenURL
 from bokeh.models import Plot
 from bokeh.models import Range1d
 from bokeh.models import ResetTool
+from bokeh.models import TapTool
 from bokeh.models import Title
 from bokeh.plotting import from_networkx
 from pygments import highlight
 from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
+import gettsim
 from gettsim.interface import create_linewise_printed_list
 
 
@@ -51,6 +54,7 @@ def plot_dag(
     dag,
     selectors=None,
     labels=True,
+    tooltips=False,
     plot_kwargs=None,
     node_kwargs=None,
     edge_kwargs=None,
@@ -92,6 +96,9 @@ def plot_dag(
 
     dag = _select_nodes_in_dag(dag, selectors)
 
+    dag = _add_url_to_dag(dag)
+    # Even if we do not use the source codes as tooltips, we need to remove the
+    # functions.
     dag = _replace_functions_with_source_code(dag)
 
     plot_kwargs["title"] = _to_bokeh_title(
@@ -99,20 +106,24 @@ def plot_dag(
     )
     plot = Plot(**{**PLOT_KWARGS_DEFAULTS, **plot_kwargs})
 
-    node_hover_tool = HoverTool(tooltips=TOOLTIPS)
-
-    plot.add_tools(node_hover_tool, BoxZoomTool(), ResetTool())
-
     layout = _create_pydot_layout(dag)
     graph_renderer = from_networkx(dag, layout, scale=1, center=(0, 0))
 
     graph_renderer.node_renderer.glyph = Circle(
         **{**NODE_KWARGS_DEFAULTS, **node_kwargs}
     )
+
     graph_renderer.edge_renderer.glyph = MultiLine(
         **{**EDGE_KWARGS_DEFAULTS, **edge_kwargs}
     )
     plot.renderers.append(graph_renderer)
+
+    tools = [BoxZoomTool(), ResetTool()]
+    tools.append(TapTool(callback=OpenURL(url="@url")))
+    if tooltips:
+        tools.append(HoverTool(tooltips=TOOLTIPS))
+
+    plot.add_tools(*tools)
 
     if labels:
         source = ColumnDataSource(
@@ -149,6 +160,32 @@ def _select_nodes_in_dag(dag, raw_selectors):
         raise ValueError("After selection and de-selection, the DAG contains no nodes.")
 
     return dag
+
+
+def _add_url_to_dag(dag):
+    for node in dag.nodes:
+        # Retrieve the name from the function because some functions are defined for
+        # time periods and the node name will point to a non-existent function, but the
+        # function name is a valid target. E.g., wohngeld_eink_abzüge and
+        # wohngeld_eink_abzüge_bis_2015.
+        if "function" in dag.nodes[node]:
+            # Fix for partialed functions.
+            try:
+                name = dag.nodes[node]["function"].__name__
+            except AttributeError:
+                name = name = dag.nodes[node]["function"].func.__name__
+        else:
+            name = node
+        dag.nodes[node]["url"] = _create_url(name)
+
+    return dag
+
+
+def _create_url(func_name):
+    return (
+        f"https://gettsim.readthedocs.io/en/v{gettsim.__version__}/functions.html"
+        f"#gettsim.functions.{func_name}"
+    )
 
 
 def _replace_functions_with_source_code(dag):
