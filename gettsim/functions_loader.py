@@ -52,10 +52,12 @@ def load_functions(sources, allow_imported_members=False):
         if callable(source):
             source = {source.__name__: source}
 
-        if isinstance(source, dict) and all(callable(i) for i in source.values()):
+        if isinstance(source, dict) and all(
+            inspect.isfunction(i) for i in source.values()
+        ):
             # Test whether there are duplicate functions.
             duplicated_functions = set(source) & set(functions)
-            if duplicated_functions:
+            if duplicated_functions and not allow_imported_members:
                 formatted = _format_duplicated_functions(
                     duplicated_functions, functions, source
                 )
@@ -71,10 +73,6 @@ def load_functions(sources, allow_imported_members=False):
             )
 
     return functions
-
-
-def _is_function_defined_in_module(func, module, allow_imported_members):
-    return func.__module__ == module or allow_imported_members
 
 
 def _convert_some_strings_to_paths(sources):
@@ -142,10 +140,11 @@ def _convert_paths_and_strings_to_dicts_of_functions(sources, allow_imported_mem
 
             functions_defined_in_module = {
                 name: func
-                for name, func in inspect.getmembers(out)
-                if _is_function_defined_in_module(
-                    func, out.__name__, allow_imported_members
+                for name, func in inspect.getmembers(
+                    out, lambda x: inspect.isfunction(x)
                 )
+                if allow_imported_members
+                or _is_function_defined_in_module(func, out.__name__)
             }
         else:
             functions_defined_in_module = source
@@ -153,6 +152,10 @@ def _convert_paths_and_strings_to_dicts_of_functions(sources, allow_imported_mem
         new_sources.append(functions_defined_in_module)
 
     return new_sources
+
+
+def _is_function_defined_in_module(func, module):
+    return func.__module__ == module
 
 
 def _format_duplicated_functions(duplicated_functions, functions, source):
