@@ -9,7 +9,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.4.0 - 2020-xx-xx
 ------------------
 
-* :gh:`212` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
+* :gh:`213` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
   DataFrame and removes the `return_dag` option.
 
 
