@@ -206,17 +206,24 @@ def _expand_data(data, ids):
 
     """
     for name, s in data.items():
-        for level in ["hh", "tu"]:
+        for level, level_name in {"hh": "household", "tu": "tax unit"}.items():
             if f"_{level}_" in name or name.endswith(f"_{level}"):
                 try:
                     expanded_s = s.loc[ids[f"{level}_id"]]
                 except KeyError:
                     raise KeyError(
-                        f"Variable '{name}' is not a reduced series with one value per "
-                        f"value in '{level}'. If it is not a reduced series, change the"
-                        f" name such that it does not include '_{level}_' or ends with "
-                        f"`_{level}`. If it should be a reduced series, fix the "
-                        "function."
+                        f"The variable name '{name}' implies that it is a variable\n"
+                        f"varying at the level of a '{level_name}'. That is, there \n"
+                        f"must be one value per unique '{level}_id'.\n\n"
+                        f"This is not the case.\n\n"
+                        f"You will need to do one of the following:\n\n"
+                        f"    - In case the correct level of the variable '{name}'\n"
+                        f"      is not the '{level}'. In this case, the\n"
+                        f"      name must neither include '_{level}_' nor end with "
+                        f"      '_{level}'\n\n"
+                        f"    - In case that the correct level is the 'level_name',\n"
+                        f"      change the function '{name}' so that it returns a\n."
+                        f"      series indexed by '{level}'."
                     )
                 expanded_s.index = ids[f"{level}_id"].index
                 data[name] = expanded_s
