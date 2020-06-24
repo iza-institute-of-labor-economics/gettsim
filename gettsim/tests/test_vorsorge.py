@@ -12,6 +12,7 @@ from gettsim.pre_processing.policy_for_date import get_policies_for_date
 IN_COLS = [
     "p_id",
     "tu_id",
+    "hh_id",
     "bruttolohn_m",
     "kind",
     "prv_rente_beitr_m",
