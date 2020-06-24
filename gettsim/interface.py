@@ -4,6 +4,7 @@ import textwrap
 import pandas as pd
 
 from gettsim.config import INTERNAL_FUNCTION_FILES
+from gettsim.config import ORDER_OF_IDS
 from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
@@ -20,6 +21,7 @@ def compute_taxes_and_transfers(
     params=None,
     targets=None,
     return_dag=False,
+    debug=False,
 ):
     """Compute taxes and transfers.
 
@@ -46,6 +48,13 @@ def compute_taxes_and_transfers(
         returned.
     return_dag : bool
         Indicates whether the DAG should be returned as well for inspection.
+    debug : bool
+        The debug mode does the following:
+
+        1. All necessary inputs and all computed variables are returned.
+        2. If an exception occurs while computing one variable, the exception is
+           printed, but not raised. The computation of all dependent variables is
+           skipped.
 
     Returns
     -------
@@ -97,11 +106,18 @@ def compute_taxes_and_transfers(
         )
         data = _dict_subset(data, relevant_columns)
 
-    results = execute_dag(dag, data, targets)
+    results = execute_dag(dag, data, targets, debug)
 
     results = _expand_data(results, ids)
     results = pd.DataFrame(results)
-    results = results[targets] if len(targets) > 1 else results[targets[0]]
+
+    if debug:
+        results = _reorder_columns(results)
+    elif len(targets) == 1:
+        results = results[targets[0]]
+    else:
+        results = results[targets]
+        results = _reorder_columns(results)
 
     if return_dag:
         results = (results, dag)
@@ -192,7 +208,16 @@ def _expand_data(data, ids):
     for name, s in data.items():
         for level in ["hh", "tu"]:
             if f"_{level}_" in name or name.endswith(f"_{level}"):
-                expanded_s = s.loc[ids[f"{level}_id"]]
+                try:
+                    expanded_s = s.loc[ids[f"{level}_id"]]
+                except KeyError:
+                    raise KeyError(
+                        f"Variable '{name}' is not a reduced series with one value per "
+                        f"value in '{level}'. If it is not a reduced series, change the"
+                        f" name such that it does not include '_{level}_' or ends with "
+                        f"`_{level}`. If it should be a reduced series, fix the "
+                        "function."
+                    )
                 expanded_s.index = ids[f"{level}_id"].index
                 data[name] = expanded_s
 
@@ -418,3 +443,11 @@ def create_linewise_printed_list(list_):
         ]
         """
     ).format(formatted_list=formatted_list)
+
+
+def _reorder_columns(results):
+    ids_in_data = {"hh_id", "p_id", "tu_id"} & set(results.columns)
+    sorted_ids = sorted(ids_in_data, key=lambda x: ORDER_OF_IDS[x])
+    remaining_columns = [i for i in results.columns if i not in sorted_ids]
+
+    return results[sorted_ids + remaining_columns]

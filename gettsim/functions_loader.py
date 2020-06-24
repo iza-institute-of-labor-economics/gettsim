@@ -23,13 +23,15 @@ def convert_paths_to_internal_functions_to_imports(paths):
     return import_strings
 
 
-def load_functions(sources):
+def load_functions(sources, allow_imported_members=False):
     """Load functions.
 
     Parameters
     ----------
     sources : str, pathlib.Path, function, module, dictionary of functions
         Sources from where to load functions.
+    allow_imported_members : bool
+        Should imported members also be collected from a module?
 
     Returns
     -------
@@ -41,7 +43,9 @@ def load_functions(sources):
     sources = sources if isinstance(sources, list) else [sources]
     sources = _convert_some_strings_to_paths(sources)
     sources = _search_directories_recursively_for_python_files(sources)
-    sources = _convert_paths_and_strings_to_dicts_of_functions(sources)
+    sources = _convert_paths_and_strings_to_dicts_of_functions(
+        sources, allow_imported_members
+    )
 
     functions = {}
     for source in sources:
@@ -69,8 +73,8 @@ def load_functions(sources):
     return functions
 
 
-def _is_function_defined_in_module(func, module):
-    return inspect.isfunction(func) and func.__module__ == module
+def _is_function_defined_in_module(func, module, allow_imported_members):
+    return func.__module__ == module or allow_imported_members
 
 
 def _convert_some_strings_to_paths(sources):
@@ -117,7 +121,7 @@ def _search_directories_recursively_for_python_files(sources):
     return new_sources
 
 
-def _convert_paths_and_strings_to_dicts_of_functions(sources):
+def _convert_paths_and_strings_to_dicts_of_functions(sources, allow_imported_members):
     """Convert paths and strings to dictionaries of functions.
 
     1. Paths point to modules which are loaded.
@@ -139,7 +143,9 @@ def _convert_paths_and_strings_to_dicts_of_functions(sources):
             functions_defined_in_module = {
                 name: func
                 for name, func in inspect.getmembers(out)
-                if _is_function_defined_in_module(func, out.__name__)
+                if _is_function_defined_in_module(
+                    func, out.__name__, allow_imported_members
+                )
             }
         else:
             functions_defined_in_module = source

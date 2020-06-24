@@ -20,14 +20,16 @@ INPUT_COLS = [
     "anz_minderj_hh",
     "_kinderzuschlag_m_vorläufig",
     "wohngeld_basis_hh",
-    "regelbedarf_m",
-    "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
+    "regelbedarf_m_hh",
+    "kindergeld_m_hh",
+    "unterhaltsvors_m_hh",
+    "arbeitsl_geld_2_eink_hh",
     "geburtsjahr",
     "jahr",
 ]
 
 YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
-OUT_COLS = ["kinderzuschlag_m", "wohngeld_m", "arbeitsl_geld_2_m"]
+OUT_COLS = ["kinderzuschlag_m_hh", "wohngeld_m_hh", "arbeitsl_geld_2_m_hh"]
 
 
 @pytest.fixture(scope="module")
@@ -45,8 +47,10 @@ def test_benefit_checks(input_data, year, column):
     columns = [
         "_kinderzuschlag_m_vorläufig",
         "wohngeld_basis_hh",
-        "regelbedarf_m",
-        "_sum_arbeitsl_geld_2_unterhaltsvors_kindergeld_m",
+        "regelbedarf_m_hh",
+        "kindergeld_m_hh",
+        "unterhaltsvors_m_hh",
+        "arbeitsl_geld_2_eink_hh",
     ]
 
     params_dict, policy_func_dict = get_policies_for_date(

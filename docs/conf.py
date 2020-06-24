@@ -6,19 +6,18 @@
 # these directories to sys.path here. If the directory is relative to the documentation
 # root, use os.path.abspath to make it absolute, like shown here.
 import datetime as dt
+import os
+import sys
 
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
 project = "GETTSIM"
 copyright = f"{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
-release = "0.3.1"
+release = "0.3.2"
 version = ".".join(release.split(".")[:2])
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -26,10 +25,14 @@ version = ".".join(release.split(".")[:2])
 # with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     "nbsphinx",
+    "sphinx_automodapi.automodapi",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.extlinks",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
     "sphinx_copybutton",
     "sphinx_rtd_theme",
 ]
@@ -38,20 +41,31 @@ extensions = [
 master_doc = "index"
 
 # Add any paths that contain templates here, relative to this directory.
-# templates_path = ['_templates']
+# templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and directories to
 # ignore when looking for source files. This pattern also affects html_static_path and
 # html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-
 # -- Extensions configuration ------------------------------------------------
+
+add_module_names = False
+
+autodoc_default_options = {
+    "members": True,
+    "private-members": True,
+    "special-members": True,
+    "undoc-members": True,
+}
+autodoc_mock_imports = ["networkx", "numpy", "pandas", "pytest", "yaml"]
 
 extlinks = {
     "ghuser": ("https://github.com/%s", "@"),
     "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
 }
+
+numpydoc_show_class_members = False
 
 todo_include_todos = True
 todo_emit_warnings = True

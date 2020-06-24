@@ -28,43 +28,45 @@ def behinderungsgrad_pauschbetrag(behinderungsgrad, eink_st_abzuege_params):
     return out
 
 
-def _hh_freib_bis_2014(alleinerziehend, eink_st_abzuege_params):
+def alleinerziehend_freib_tu_bis_2014(alleinerziehend_tu, eink_st_abzuege_params):
     """
     Calculates tax reduction for single parents. Used to be called
     'Haushaltsfreibetrag'
 
     Parameters
     ----------
-    alleinerziehend
+    alleinerziehend_tu
     eink_st_abzuege_params
 
     Returns
     -------
 
     """
-    out = alleinerziehend.astype(float) * 0
-    out.loc[alleinerziehend] = eink_st_abzuege_params["alleinerziehenden_freibetrag"]
+    out = alleinerziehend_tu.astype(float) * 0
+    out.loc[alleinerziehend_tu] = eink_st_abzuege_params["alleinerziehenden_freibetrag"]
     return out
 
 
-def _hh_freib_seit_2015(alleinerziehend, _anz_kinder_in_tu, eink_st_abzuege_params):
+def alleinerziehend_freib_tu_ab_2015(
+    alleinerziehend_tu, anz_kinder_tu, eink_st_abzuege_params
+):
     """
     Calculates tax reduction for single parents. Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
 
     Parameters
     ----------
-    alleinerziehend
+    alleinerziehend_tu
     eink_st_abzuege_params
 
     Returns
     -------
 
     """
-    out = alleinerziehend.astype(float) * 0
-    out.loc[alleinerziehend] = (
+    out = alleinerziehend_tu.astype(float) * 0
+    out.loc[alleinerziehend_tu] = (
         eink_st_abzuege_params["alleinerziehenden_freibetrag"]
-        + _anz_kinder_in_tu.loc[alleinerziehend]
+        + anz_kinder_tu.loc[alleinerziehend_tu]
         * eink_st_abzuege_params["alleinerziehenden_freibetrag_zusatz"]
     )
     return out
@@ -106,7 +108,7 @@ def altersfreib(
     return out
 
 
-def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
+def sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
     """
     Until 2011, we just use the lumpsum payment.
     Parameters
@@ -123,7 +125,7 @@ def _sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
     return out
 
 
-def _sonderausgaben_ab_2012(
+def sonderausgaben_ab_2012(
     betreuungskost_m, tu_id, kind, _anz_erwachsene_tu, eink_st_abzuege_params
 ):
     """

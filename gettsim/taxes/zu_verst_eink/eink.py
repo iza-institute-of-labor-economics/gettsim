@@ -157,7 +157,7 @@ def brutto_eink_7_tu(brutto_eink_7, tu_id):
     return brutto_eink_7.groupby(tu_id).sum()
 
 
-def _sum_brutto_eink_ohne_kapital(
+def sum_brutto_eink_ohne_kapital(
     brutto_eink_1, brutto_eink_4, brutto_eink_6, brutto_eink_7
 ):
     """Sum of gross incomes without capital income.
@@ -177,14 +177,14 @@ def _sum_brutto_eink_ohne_kapital(
     return brutto_eink_1 + brutto_eink_4 + brutto_eink_6 + brutto_eink_7
 
 
-def _sum_brutto_eink_mit_kapital(
-    _sum_brutto_eink_ohne_kapital, brutto_eink_5, eink_st_abzuege_params
+def sum_brutto_eink_mit_kapital(
+    sum_brutto_eink_ohne_kapital, brutto_eink_5, eink_st_abzuege_params
 ):
     """Sum of gross incomes with capital income.
 
     Parameters
     ----------
-    _sum_brutto_eink_ohne_kapital
+    sum_brutto_eink_ohne_kapital
     brutto_eink_5
     eink_st_abzuege_params
 
@@ -192,7 +192,7 @@ def _sum_brutto_eink_mit_kapital(
     -------
 
     """
-    return _sum_brutto_eink_ohne_kapital + (
+    return sum_brutto_eink_ohne_kapital + (
         brutto_eink_5
         - eink_st_abzuege_params["sparerpauschbetrag"]
         - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]

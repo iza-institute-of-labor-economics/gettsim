@@ -1,26 +1,44 @@
 import numpy as np
 
 
-def regelbedarf_m(regelsatz_m, kost_unterk_m):
-    """
+def arbeitsl_geld_2_m_hh(
+    arbeitsl_geld_2_m_minus_eink_hh,
+    wohngeld_vorrang_hh,
+    kinderzuschlag_vorrang_hh,
+    wohngeld_kinderzuschlag_vorrang_hh,
+    rentner_in_hh,
+):
+    out = arbeitsl_geld_2_m_minus_eink_hh.clip(lower=0)
+    cond = (
+        wohngeld_vorrang_hh
+        | kinderzuschlag_vorrang_hh
+        | wohngeld_kinderzuschlag_vorrang_hh
+        | rentner_in_hh
+    )
+    out.loc[cond] = 0
+    return out
+
+
+def regelbedarf_m_hh(regelsatz_m_hh, kost_unterk_m_hh):
+    """Basic monthly subsistence level, including cost of dwelling.
 
     Parameters
     ----------
-    regelsatz_m
-    kost_unterk_m
+    regelsatz_m_hh
+    kost_unterk_m_hh
 
     Returns
     -------
 
     """
-    return regelsatz_m + kost_unterk_m
+    return regelsatz_m_hh + kost_unterk_m_hh
 
 
-def alleinerziehenden_mehrbedarf(
-    alleinerziehend,
+def alleinerziehenden_mehrbedarf_hh(
+    alleinerziehend_hh,
     anz_kinder_hh,
-    anz_kind_zwischen_0_6_per_hh,
-    anz_kind_zwischen_0_15_per_hh,
+    anz_kind_zwischen_0_6_hh,
+    anz_kind_zwischen_0_15_hh,
     arbeitsl_geld_2_params,
 ):
     """Compute alleinerziehenden_mehrbedarf.
@@ -32,16 +50,17 @@ def alleinerziehenden_mehrbedarf(
     """
     lower = arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
     value = (
-        (anz_kind_zwischen_0_6_per_hh >= 1)
-        | ((2 <= anz_kind_zwischen_0_15_per_hh) & (anz_kind_zwischen_0_15_per_hh <= 3))
+        (anz_kind_zwischen_0_6_hh >= 1)
+        | ((2 <= anz_kind_zwischen_0_15_hh) & (anz_kind_zwischen_0_15_hh <= 3))
     ) * arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
 
-    return alleinerziehend * value.clip(
+    out = alleinerziehend_hh * value.clip(
         lower=lower, upper=arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
     )
+    return out
 
 
-def kindersatz_m_bis_2010(
+def kindersatz_m_hh_bis_2010(
     hh_id,
     kind_zwischen_0_6,
     kind_zwischen_7_13,
@@ -56,10 +75,10 @@ def kindersatz_m_bis_2010(
         + anteile["kinder_14_24"] * kind_zwischen_14_24
     )
 
-    return per_child.groupby(hh_id).transform("sum")
+    return per_child.groupby(hh_id).sum()
 
 
-def kindersatz_m_ab_2011(
+def kindersatz_m_hh_ab_2011(
     hh_id,
     kind_zwischen_0_6,
     kind_zwischen_7_13,
@@ -72,48 +91,44 @@ def kindersatz_m_ab_2011(
         + arbeitsl_geld_2_params["regelsatz"][4] * kind_zwischen_14_24
     )
 
-    return per_child.groupby(hh_id).transform("sum")
+    return per_child.groupby(hh_id).sum()
 
 
-def regelsatz_m_bis_2010(
-    hh_id,
+def regelsatz_m_hh_bis_2010(
     anz_erwachsene_hh,
-    alleinerziehenden_mehrbedarf,
-    kindersatz_m,
+    alleinerziehenden_mehrbedarf_hh,
+    kindersatz_m_hh,
     arbeitsl_geld_2_params,
 ):
-    anz_erwachsene_in_hh = hh_id.replace(anz_erwachsene_hh)
     data = np.where(
-        anz_erwachsene_in_hh == 1,
-        arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf),
+        anz_erwachsene_hh == 1,
+        arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf_hh),
         arbeitsl_geld_2_params["regelsatz"]
         * (
-            (2 + alleinerziehenden_mehrbedarf)
+            (2 + alleinerziehenden_mehrbedarf_hh)
             * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
-            + (anz_erwachsene_in_hh - 2).clip(lower=0)
+            + (anz_erwachsene_hh - 2).clip(lower=0)
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
         ),
     )
 
-    return kindersatz_m + data
+    return kindersatz_m_hh + data
 
 
-def regelsatz_m_ab_2011(
-    hh_id,
+def regelsatz_m_hh_ab_2011(
     anz_erwachsene_hh,
-    alleinerziehenden_mehrbedarf,
-    kindersatz_m,
+    alleinerziehenden_mehrbedarf_hh,
+    kindersatz_m_hh,
     arbeitsl_geld_2_params,
 ):
-    anz_erwachsene_in_hh = hh_id.replace(anz_erwachsene_hh)
     data = np.where(
-        anz_erwachsene_in_hh == 1,
-        arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),
-        arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf)
+        anz_erwachsene_hh == 1,
+        arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf_hh),
+        arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf_hh)
         + (
             arbeitsl_geld_2_params["regelsatz"][3]
-            * (anz_erwachsene_in_hh - 2).clip(lower=0)
+            * (anz_erwachsene_hh - 2).clip(lower=0)
         ),
     )
 
-    return kindersatz_m + data
+    return kindersatz_m_hh + data
