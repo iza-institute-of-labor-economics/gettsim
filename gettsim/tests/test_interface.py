@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from gettsim import compute_taxes_and_transfers
 from gettsim.interface import _expand_data
 from gettsim.interface import _fail_if_functions_and_columns_overlap
 from gettsim.interface import _fail_if_user_columns_are_not_in_data
@@ -68,3 +69,27 @@ def test_expand_data_raise_error():
 
     with pytest.raises(KeyError):
         _expand_data(data, ids)
+
+
+def test_missing_root_nodes_raises_error():
+    n_individuals = 5
+    df = pd.DataFrame(index=np.arange(n_individuals))
+
+    def b(a):
+        return a
+
+    with pytest.raises(ValueError, match="The following data columns are missing."):
+        compute_taxes_and_transfers(df, targets="b", user_functions=b)
+
+
+def test_function_without_data_dependency_is_not_mistaken_for_data():
+    n_individuals = 5
+    df = pd.DataFrame(index=np.arange(n_individuals))
+
+    def a():
+        return pd.Series(range(n_individuals))
+
+    def b(a):
+        return a
+
+    compute_taxes_and_transfers(df, targets="b", user_functions=[a, b])
