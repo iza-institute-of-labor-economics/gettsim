@@ -1,7 +1,10 @@
 from contextlib import contextmanager
 
+import numpy as np
+import pandas as pd
 import pytest
 
+from gettsim.interface import _expand_data
 from gettsim.interface import _fail_if_functions_and_columns_overlap
 from gettsim.interface import _fail_if_user_columns_are_not_in_data
 from gettsim.interface import _fail_if_user_columns_are_not_in_functions
@@ -55,3 +58,13 @@ def test_fail_if_functions_and_columns_overlap(
 ):
     with expectation:
         _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns)
+
+
+def test_expand_data_raise_error():
+    data = {"wrong_variable_hh": pd.Series(data=np.arange(4), index=np.arange(4))}
+    ids = pd.Series(
+        data=np.arange(8), index=np.arange(4).repeat(2), name="hh_id"
+    ).to_frame()
+
+    with pytest.raises(KeyError):
+        _expand_data(data, ids)

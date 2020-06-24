@@ -11,6 +11,13 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
   plot as well as some other ameliorations to the documentation (:ghuser:`tobiasraabe`).
+* :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
+  to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
+
+
+0.3.2 - 2020-06-19
+------------------
+
 * :gh:`196` adds docstring to `policy_for_date.py` and improves its interface
   (:ghuser:`MaxBlesch`).
 * :gh:`197` adds all functions which build the tax and transfer system to the
@@ -19,7 +26,11 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
 * :gh:`200` adds a debug mode to gettsim and documents the feature
   (:ghuser:`tobiasraabe`).
+* :gh:`201` improves the calculation of ``hh_freib`` and renames it to
+  ``alleinerziehend_freib`` (:ghuser:`MaxBlesch`, :ghuser:`tobiasraabe`).
 * :gh:`202` fixes bugs that surfaced for negative incomes (:ghuser:`MaxBlesch`).
+* :gh:`206` fixes several bugs in `arbeitsl_geld_2` and related transfers, calculating
+  them at the appropriate (household) level (:ghuser:`MaxBlesch`).
 
 
 0.3.1 - 2020-06-05

@@ -16,10 +16,9 @@ def eink_anr_frei_bis_10_2005(
     return out
 
 
-def eink_anr_frei_ab_10_2005(
-    bruttolohn_m, kinder_in_hh_individual, arbeitsl_geld_2_params
-):
+def eink_anr_frei_ab_10_2005(hh_id, bruttolohn_m, kinder_in_hh, arbeitsl_geld_2_params):
     out = bruttolohn_m * 0
+    kinder_in_hh_individual = hh_id.replace(kinder_in_hh).astype(bool)
     out.loc[kinder_in_hh_individual] = piecewise_polynomial(
         x=bruttolohn_m.loc[kinder_in_hh_individual],
         thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
@@ -39,9 +38,7 @@ def eink_anr_frei_ab_10_2005(
     return out
 
 
-def arbeitsl_geld_2_2005_netto_quote(
-    bruttolohn_m, nettolohn_m, arbeitsl_geld_2_params,
-):
+def arbeitsl_geld_2_2005_netto_quote(bruttolohn_m, nettolohn_m, arbeitsl_geld_2_params):
     """Calculate Nettoquote.
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.

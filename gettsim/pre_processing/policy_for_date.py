@@ -7,10 +7,10 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_ab_2011
-from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_bis_2010
-from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_ab_2011
-from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_bis_2010
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_ab_2011
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_bis_2010
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_2011
+from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
 from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
 from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
 from gettsim.benefits.kinderzuschlag.kinderzuschlag import (
@@ -282,11 +282,11 @@ def load_reforms_for_date(policy_date):
         policy_func_dict["_kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
 
     if year <= 2010:
-        policy_func_dict["kindersatz_m"] = kindersatz_m_bis_2010
-        policy_func_dict["regelsatz_m"] = regelsatz_m_bis_2010
+        policy_func_dict["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010
+        policy_func_dict["regelsatz_m_hh"] = regelsatz_m_hh_bis_2010
     else:
-        policy_func_dict["kindersatz_m"] = kindersatz_m_ab_2011
-        policy_func_dict["regelsatz_m"] = regelsatz_m_ab_2011
+        policy_func_dict["kindersatz_m_hh"] = kindersatz_m_hh_ab_2011
+        policy_func_dict["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
 
     if policy_date <= datetime.date(year=2005, month=10, day=1):
         policy_func_dict["eink_anr_frei"] = eink_anr_frei_bis_10_2005
