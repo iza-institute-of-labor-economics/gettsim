@@ -6,7 +6,7 @@ ROOT_DIR = Path(__file__).parent
 
 GEP_1_CHARACTER_LIMIT = 17
 
-INTERNAL_FUNCTION_FILES = [
+PATHS_TO_INTERNAL_FUNCTIONS = [
     ROOT_DIR / "soz_vers",
     ROOT_DIR / "benefits",
     ROOT_DIR / "taxes",

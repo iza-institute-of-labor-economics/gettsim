@@ -3,8 +3,8 @@ import textwrap
 
 import pandas as pd
 
-from gettsim.config import INTERNAL_FUNCTION_FILES
 from gettsim.config import ORDER_OF_IDS
+from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
@@ -81,7 +81,7 @@ def compute_taxes_and_transfers(
     user_functions = [] if user_functions is None else user_functions
     user_functions = load_functions(user_functions)
 
-    imports = convert_paths_to_import_strings(INTERNAL_FUNCTION_FILES)
+    imports = convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     internal_functions = load_functions(imports)
 
     _fail_if_user_columns_are_not_in_data(data, user_columns)
