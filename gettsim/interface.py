@@ -10,8 +10,8 @@ from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
 from gettsim.dag import execute_dag
-from gettsim.dag import prune_dag
 from gettsim.functions_loader import load_functions
+from gettsim.shared import format_list_linewise
 
 
 def compute_taxes_and_transfers(
@@ -20,7 +20,6 @@ def compute_taxes_and_transfers(
     user_columns=None,
     params=None,
     targets=None,
-    return_dag=False,
     debug=False,
 ):
     """Compute taxes and transfers.
@@ -46,8 +45,6 @@ def compute_taxes_and_transfers(
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, `targets` is `None` and all results are
         returned.
-    return_dag : bool
-        Indicates whether the DAG should be returned as well for inspection.
     debug : bool
         The debug mode does the following:
 
@@ -60,8 +57,6 @@ def compute_taxes_and_transfers(
     -------
     results : dict of pandas.Series
         Dictionary of Series containing the target quantities.
-    dag : networkx.DiGraph or None
-        The dag produced by the tax and transfer system.
 
     """
     data = copy.deepcopy(data)
@@ -97,16 +92,7 @@ def compute_taxes_and_transfers(
         user_functions, internal_functions, user_columns, params
     )
 
-    dag = create_dag(functions)
-
-    if targets:
-        dag = prune_dag(dag, targets)
-
-        # Remove columns in data which are not used in the DAG.
-        relevant_columns = set(data) & set(dag.nodes) | (
-            set(data) & {"p_id", "hh_id", "tu_id"}
-        )
-        data = _dict_subset(data, relevant_columns)
+    dag = create_dag(functions, targets, user_columns)
 
     results = execute_dag(dag, data, targets, debug)
 
@@ -120,9 +106,6 @@ def compute_taxes_and_transfers(
     else:
         results = results[targets]
         results = _reorder_columns(results)
-
-    if return_dag:
-        results = (results, dag)
 
     return results
 
@@ -292,7 +275,7 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
         first_part = _format_text_for_cmdline(
             f"You passed the following user {column_sg_pl}:"
         )
-        list_ = create_linewise_printed_list(unused_user_columns)
+        list_ = format_list_linewise(unused_user_columns)
 
         second_part = _format_text_for_cmdline(
             f"""
@@ -351,7 +334,7 @@ def _fail_if_user_columns_are_not_in_functions(
             internal or user functions.
             """
         )
-        list_ = create_linewise_printed_list(unnecessary_user_columns)
+        list_ = format_list_linewise(unnecessary_user_columns)
         raise ValueError("\n".join([intro, list_]))
 
 
@@ -385,7 +368,7 @@ def _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns)
             f"Your data provides the column{'' if n_cols == 1 else 's'}:"
         )
 
-        list_ = create_linewise_printed_list(overlap)
+        list_ = format_list_linewise(overlap)
 
         second_part = _format_text_for_cmdline(
             f"""
@@ -434,17 +417,6 @@ def _format_text_for_cmdline(text, width=79):
     formatted_text = "\n\n".join(wrapped_paragraphs)
 
     return formatted_text
-
-
-def create_linewise_printed_list(list_):
-    formatted_list = '",\n    "'.join(list_)
-    return textwrap.dedent(
-        """
-        [
-            "{formatted_list}",
-        ]
-        """
-    ).format(formatted_list=formatted_list)
 
 
 def _reorder_columns(results):

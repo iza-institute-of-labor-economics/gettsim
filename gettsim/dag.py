@@ -4,9 +4,11 @@ import traceback
 
 import networkx as nx
 
+from gettsim.shared import format_list_linewise
+
 
 def create_function_dict(user_functions, internal_functions, user_columns, params):
-    """Create a dictionary of all functions that will appear in the DAG.
+    """Create a dictionary of all functions that are available.
 
     Parameters
     ----------
@@ -37,10 +39,10 @@ def create_function_dict(user_functions, internal_functions, user_columns, param
     for name, function in functions.items():
         partial_params = {
             i: params[i[:-7]]
-            for i in inspect.getfullargspec(function).args
+            for i in _get_names_of_arguments_without_defaults(function)
             if i.endswith("_params") and i[:-7] in params
         }
-        if "params" in inspect.getfullargspec(function).args:
+        if "params" in _get_names_of_arguments_without_defaults(function):
             partial_params["params"] = params
 
         partialed_functions[name] = functools.partial(function, **partial_params)
@@ -48,25 +50,73 @@ def create_function_dict(user_functions, internal_functions, user_columns, param
     return partialed_functions
 
 
-def create_dag(functions):
-    """Create a directed acyclic graph (DAG) capturing dependencies between functions.
+def create_dag(functions, targets=None, columns_overriding_functions=None):
+    """Create the DAG for the defined tax and transfer system.
 
     Parameters
     ----------
-    functions : dict
+    functions : dict of callables
+        A dictionary of callables which define the tax and transfer system.
+
+    Returns
+    -------
+    dag : networkx.DiGraph
+        The DAG of the tax and transfer system.
+    targets : list of str
+        The targets which should be computed. They limit the DAG in the way that only
+        ancestors of these nodes need to be considered.
+    columns_overriding_functions : list of str
+        The nodes which are provided by columns in the data and do not need to be
+        computed. These columns limit the depth of the DAG.
+
+    """
+    if targets is None:
+        targets = []
+    elif isinstance(targets, str):
+        targets = [targets]
+
+    if columns_overriding_functions is None:
+        columns_overriding_functions = []
+    elif isinstance(columns_overriding_functions, str):
+        columns_overriding_functions = [columns_overriding_functions]
+
+    _fail_if_targets_not_in_functions(functions, targets)
+
+    dag = _create_complete_dag(functions)
+
+    if targets:
+        dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
+    # _fail_if_columns_overriding_functions_are_not_in_dag(
+    #     dag, columns_overriding_functions
+    # )
+    dag = _remove_unused_ancestors_of_columns_overriding_functions(
+        dag, columns_overriding_functions
+    )
+
+    return dag
+
+
+def _create_complete_dag(functions):
+    """Create the complete DAG.
+
+    This DAG is constructed from all functions and not pruned by specified root nodes or
+    targets.
+
+    Parameters
+    ----------
+    functions : dict of callables
         Dictionary containing functions to build the DAG.
 
     Returns
     -------
     dag : networkx.DiGraph
-        The DAG, represented as a dictionary of lists that maps function names to a list
-        of its data dependencies.
+        The complete DAG of the tax and transfer system.
 
     """
     dag = nx.DiGraph()
     for name, function in functions.items():
         dag.add_node(name, function=function)
-        for dependency in inspect.getfullargspec(function).args:
+        for dependency in _get_names_of_arguments_without_defaults(function):
             attr = (
                 {"function": functions.get(dependency)}
                 if dependency in functions
@@ -78,15 +128,66 @@ def create_dag(functions):
     return dag
 
 
-def prune_dag(dag, targets):
-    """Prune the dag.
+def _get_names_of_arguments_without_defaults(function):
+    """Get argument names without defaults.
+
+    The detection of argument names also works for partialed functions.
+
+    Examples
+    --------
+    >>> def func(a, b): pass
+    >>> _get_names_of_arguments_without_defaults(func)
+    ['a', 'b']
+    >>> import functools
+    >>> func_ = functools.partial(func, a=1)
+    >>> _get_names_of_arguments_without_defaults(func_)
+    ['b']
+
+    """
+    parameters = inspect.signature(function).parameters
+
+    argument_names_without_defaults = []
+    for parameter in parameters:
+        if parameters[parameter].default == parameters[parameter].empty:
+            argument_names_without_defaults.append(parameter)
+
+    return argument_names_without_defaults
+
+
+def _fail_if_targets_not_in_functions(functions, targets):
+    """Fail if targets are not in functions.
+
+    Parameters
+    ----------
+    functions : dict of callables
+        Dictionary containing functions to build the DAG.
+    targets : list of str
+        The targets which should be computed. They limit the DAG in the way that only
+        ancestors of these nodes need to be considered.
+
+    Raises
+    ------
+    ValueError
+        Raised if ``targets`` are not in functions.
+
+    """
+    targets_not_in_functions = set(targets) - set(functions)
+    if targets_not_in_functions:
+        formatted = format_list_linewise(targets_not_in_functions)
+        raise ValueError(
+            f"The following targets have no corresponding function:\n{formatted}"
+        )
+
+
+def _limit_dag_to_targets_and_their_ancestors(dag, targets):
+    """Limit DAG to targets and their ancestors.
 
     Parameters
     ----------
     dag : networkx.DiGraph
-        The unpruned DAG.
-    targets : list
-        Variables of interest.
+        The complete DAG.
+    targets : list of str
+        Variables which should be computed.
 
     Returns
     -------
@@ -94,17 +195,103 @@ def prune_dag(dag, targets):
         Pruned DAG.
 
     """
-    all_ancestors = set(targets)
+    used_nodes = set(targets)
     for target in targets:
-        all_ancestors = all_ancestors | set(nx.ancestors(dag, target))
+        used_nodes = used_nodes | set(nx.ancestors(dag, target))
 
     all_nodes = set(dag.nodes)
 
-    redundant_nodes = all_nodes - all_ancestors
+    unused_nodes = all_nodes - used_nodes
 
-    dag.remove_nodes_from(redundant_nodes)
+    dag.remove_nodes_from(unused_nodes)
 
     return dag
+
+
+def _fail_if_columns_overriding_functions_are_not_in_dag(
+    dag, columns_overriding_functions
+):
+    """Fail if ``columns_overriding_functions`` are not in DAG.
+
+    TODO: Apparently, the check is pretty harsh to our tests which compute and test
+    column by column and not all at once. Deactivated for now. Needs discussion.
+
+    Parameters
+    ----------
+    dag : networkx.DiGraph
+        The DAG which is limited to targets and their ancestors.
+    columns_overriding_functions : list of str
+        The nodes which are provided by columns in the data and do not need to be
+        computed. These columns limit the depth of the DAG.
+
+    Raises
+    ------
+    ValueError
+        Raised if there are columns in 'columns_overriding_functions' which are not
+        necessary.
+
+    """
+    unused_columns = set(columns_overriding_functions) - set(dag.nodes)
+    if unused_columns:
+        formatted = format_list_linewise(unused_columns)
+        raise ValueError(
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+        )
+
+
+def _remove_unused_ancestors_of_columns_overriding_functions(
+    dag, columns_overriding_functions
+):
+    """Remove unused ancestors of ``columns_overriding_functions``.
+
+    If a node is not computed because it is provided by the data, ancestors of the node
+    can become irrelevant. Thus, remove predecessors which are only used to compute
+    variables found in data.
+
+    Parameters
+    ----------
+    dag : networkx.DiGraph
+        The DAG which is limited to targets and their ancestors.
+    columns_overriding_functions : list of str
+        The nodes which are provided by columns in the data and do not need to be
+        computed. These columns limit the depth of the DAG.
+
+    Returns
+    -------
+    dag : networkx.DiGraph
+        A DAG which contains only nodes which need to be computed.
+
+    """
+    unused_nodes = set()
+    for name in columns_overriding_functions:
+        # This if-clause is necessary as long as there are nodes from
+        # ``columns_overriding_functions`` which are unused. Corresponds to
+        # ``_fail_if_columns_overriding_functions_are_not_in_dag``.
+        if name in dag.nodes:
+            _find_unused_ancestors(
+                dag, name, set(columns_overriding_functions), unused_nodes
+            )
+
+    dag.remove_nodes_from(unused_nodes)
+
+    return dag
+
+
+def _find_unused_ancestors(dag, name, columns_overriding_functions, unused_nodes):
+    """Find unused ancestors which are nodes which solely produce unused columns.
+
+    Note that this function changes ``unused_columns`` in-place.
+
+    """
+    for predecessor in dag.predecessors(name):
+        if all(
+            successor in unused_nodes | columns_overriding_functions
+            for successor in dag.successors(predecessor)
+        ):
+            unused_nodes.add(predecessor)
+            _find_unused_ancestors(
+                dag, predecessor, columns_overriding_functions, unused_nodes
+            )
 
 
 def execute_dag(dag, data, targets, debug):
