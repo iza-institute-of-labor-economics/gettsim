@@ -63,6 +63,4 @@ def test_benefit_checks(input_data, year, column):
         targets=column,
         params=params_dict,
     )
-    if year == 2009:
-        breakpoint()
     assert_series_equal(result, year_data[column], check_dtype=False)
