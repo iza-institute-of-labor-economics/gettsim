@@ -1,3 +1,4 @@
+import collections
 import copy
 import pprint
 import textwrap
@@ -73,6 +74,7 @@ def compute_taxes_and_transfers(
 
     if isinstance(targets, str):
         targets = [targets]
+    _fail_if_targets_are_not_unique(targets)
 
     if user_columns is None:
         user_columns = []
@@ -270,6 +272,32 @@ def _reduce_series_to_value_per_group(name, s, level, groups):
         raise ValueError(message)
 
     return grouper.max()
+
+
+def _fail_if_targets_are_not_unique(targets):
+    """Fail if targets are not unique.
+
+    Example
+    -------
+    >>> _fail_if_targets_are_not_unique(["a", "a", "b", "c", "c", "c"])
+    Traceback (most recent call last):
+     ...
+    ValueError: The following targets are given multiple times, but should be unique:
+    <BLANKLINE>
+    [
+        "a",
+        "c",
+    ]
+    <BLANKLINE>
+
+    """
+    dupls = [item for item, count in collections.Counter(targets).items() if count > 1]
+    if dupls:
+        formatted = create_linewise_printed_list(dupls)
+        raise ValueError(
+            "The following targets are given multiple times, but should be unique:"
+            f"\n{formatted}"
+        )
 
 
 def _fail_if_user_columns_are_not_in_data(data, columns):
