@@ -146,7 +146,7 @@ def kinderzuschlag_eink_anrechn(
     ).clip(lower=0)
 
 
-def kinderzuschlag_eink_spanne_bis_2019(
+def kinderzuschlag_eink_spanne(
     hh_id,
     _arbeitsl_geld_2_brutto_eink_hh,
     kinderzuschlag_eink_min,
@@ -159,25 +159,4 @@ def kinderzuschlag_eink_spanne_bis_2019(
         hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
     ) & (hh_id.replace(arbeitsl_geld_2_eink_hh) <= kinderzuschlag_eink_max)
 
-    return eink_spanne
-
-
-def kinderzuschlag_eink_spanne_ab_2020(
-    hh_id, _arbeitsl_geld_2_brutto_eink_hh, kinderzuschlag_eink_min
-):
-    """Since 2020, there is no max income for kinderzuschlag.
-
-    Parameters
-    ----------
-    hh_id
-    _arbeitsl_geld_2_brutto_eink_hh
-    kinderzuschlag_eink_min
-
-    Returns
-    -------
-
-    """
-    eink_spanne = (
-        hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
-    )
     return eink_spanne

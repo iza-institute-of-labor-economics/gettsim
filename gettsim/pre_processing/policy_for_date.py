@@ -23,12 +23,6 @@ from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
 from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
     kinderzuschlag_eink_regel_bis_2010,
 )
-from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_spanne_ab_2020,
-)
-from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_spanne_bis_2019,
-)
 from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.benefits.wohngeld import wohngeld_max_miete_ab_2009
@@ -298,15 +292,6 @@ def load_reforms_for_date(policy_date):
         policy_func_dict["eink_anr_frei"] = eink_anr_frei_bis_10_2005
     else:
         policy_func_dict["eink_anr_frei"] = eink_anr_frei_ab_10_2005
-
-    if year >= 2020:
-        policy_func_dict[
-            "kinderzuschlag_eink_spanne"
-        ] = kinderzuschlag_eink_spanne_ab_2020
-    else:
-        policy_func_dict[
-            "kinderzuschlag_eink_spanne"
-        ] = kinderzuschlag_eink_spanne_bis_2019
 
     return policy_func_dict
 
