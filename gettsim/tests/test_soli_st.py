@@ -33,6 +33,4 @@ def test_soli_st(
     results = compute_taxes_and_transfers(
         df, user_columns=user_cols, targets="soli_st_tu", params=params_dict
     )
-    assert_series_equal(
-        results, year_data["soli_st_tu"], check_dtype=False, check_names=False,
-    )
+    assert_series_equal(results, year_data["soli_st_tu"], check_dtype=False)
