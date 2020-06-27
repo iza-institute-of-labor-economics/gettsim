@@ -6,6 +6,13 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
+0.3.3 - 2020-xx-xx
+------------------
+
+* :gh:`214` adds a check for missing root nodes (:ghuser:`tobiasraabe`).
+* :gh:`215` adds a check for duplicate ``targets`` (:ghuser:`tobiasraabe`).
+
+
 0.3.2 - 2020-06-19
 ------------------
 
@@ -20,6 +27,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`202` fixes bugs that surfaced for negative incomes (:ghuser:`MaxBlesch`).
 * :gh:`206` fixes several bugs in `arbeitsl_geld_2` and related transfers, calculating
   them at the appropriate (household) level (:ghuser:`MaxBlesch`).
+
 
 0.3.1 - 2020-06-05
 ------------------
