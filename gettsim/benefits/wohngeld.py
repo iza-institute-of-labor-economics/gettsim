@@ -32,6 +32,7 @@ def wohngeld_basis_hh(
     """
     # ToDo: When thinking about calculating wohngeld on the correct level, we need
     # account for multiple tax units in one household. The following is the old code!
+    # See #218.
     # out = (wohngeld_basis * tu_vorstand).groupby(hh_id).sum().round(2)
     out = wohngeld_basis.groupby(hh_id).max().round(2)
     return out
