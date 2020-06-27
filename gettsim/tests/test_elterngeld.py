@@ -78,9 +78,5 @@ def test_eltgeld(
     )
 
     assert_series_equal(
-        result,
-        year_data[column],
-        check_dtype=False,
-        check_exact=False,
-        check_less_precise=2,
+        result, year_data[column], check_dtype=False, check_less_precise=2,
     )
