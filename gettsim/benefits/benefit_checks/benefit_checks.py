@@ -16,15 +16,13 @@ def arbeitsl_geld_2_m_minus_eink_hh(
 def wohngeld_vorrang_hh(
     wohngeld_vermögens_check_hh, arbeitsl_geld_2_m_minus_eink_hh,
 ):
-    out = wohngeld_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
-    return out
+    return wohngeld_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
 
 
 def kinderzuschlag_vorrang_hh(
     kinderzuschlag_vermögens_check_hh, arbeitsl_geld_2_m_minus_eink_hh,
 ):
-    out = kinderzuschlag_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
-    return out
+    return kinderzuschlag_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
 
 
 def wohngeld_kinderzuschlag_vorrang_hh(
@@ -35,5 +33,4 @@ def wohngeld_kinderzuschlag_vorrang_hh(
     sum_wohngeld_kinderzuschlag = (
         wohngeld_vermögens_check_hh + kinderzuschlag_vermögens_check_hh
     )
-    out = sum_wohngeld_kinderzuschlag >= arbeitsl_geld_2_m_minus_eink_hh
-    return out
+    return sum_wohngeld_kinderzuschlag >= arbeitsl_geld_2_m_minus_eink_hh
