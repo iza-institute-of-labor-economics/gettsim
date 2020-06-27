@@ -11,6 +11,9 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 * :gh:`214` adds a check for missing root nodes (:ghuser:`tobiasraabe`).
 * :gh:`215` adds a check for duplicate ``targets`` (:ghuser:`tobiasraabe`).
+* :gh:`216` fixed calculation of kindergeldzuschlag and wohngeld. Changed check
+  against arbeitsl_geld_2 (:ghuser:`tobiasraabe`).
+
 
 
 0.3.2 - 2020-06-19
