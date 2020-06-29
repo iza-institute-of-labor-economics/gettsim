@@ -93,6 +93,7 @@ def create_dag(functions, targets=None, columns_overriding_functions=None):
     # _fail_if_columns_overriding_functions_are_not_in_dag(
     #     dag, columns_overriding_functions
     # )
+
     dag = _remove_unused_ancestors_of_columns_overriding_functions(
         dag, columns_overriding_functions
     )
