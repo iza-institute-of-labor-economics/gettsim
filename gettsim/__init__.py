@@ -12,11 +12,11 @@ __version__ = "0.3.2"
 COUNTER_TEST_EXECUTIONS = itertools.count()
 
 
-def test():
+def test(*args):
     n_test_executions = next(COUNTER_TEST_EXECUTIONS)
 
     if n_test_executions == 0:
-        pytest.main([str(ROOT_DIR)])
+        pytest.main([str(ROOT_DIR), *args])
     else:
         warnings.warn(
             "Repeated execution of the test suite is not possible. Start a new Python"

@@ -5,6 +5,7 @@ import pandas as pd
 import pytest
 
 from gettsim import compute_taxes_and_transfers
+from gettsim import test
 from gettsim.interface import _expand_data
 from gettsim.interface import _fail_if_functions_and_columns_overlap
 from gettsim.interface import _fail_if_user_columns_are_not_in_data
@@ -98,3 +99,14 @@ def test_function_without_data_dependency_is_not_mistaken_for_data():
         return a
 
     compute_taxes_and_transfers(df, targets="b", user_functions=[a, b])
+
+
+def test_consecutive_internal_test_runs(capsys):
+    test("--collect-only")
+
+    captured = capsys.readouterr()
+    assert captured.out.startswith("======")
+    assert not captured.err
+
+    with pytest.warns(UserWarning, match="Repeated execution of the test suite"):
+        test("--collect-only")
