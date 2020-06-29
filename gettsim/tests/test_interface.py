@@ -42,19 +42,17 @@ def test_fail_if_user_columns_are_not_in_functions(
 
 
 @pytest.mark.parametrize(
-    "data, functions, type_, user_columns, expectation",
+    "columns, functions, type_, expectation",
     [
-        ({"dupl": None}, {"dupl": None}, "internal", [], pytest.raises(ValueError)),
-        ({}, {}, "internal", [], does_not_raise()),
-        ({"dupl": None}, {"dupl": None}, "user", [], pytest.raises(ValueError)),
-        ({}, {}, "user", [], does_not_raise()),
+        ({"dupl": None}, {"dupl": None}, "internal", pytest.raises(ValueError)),
+        ({}, {}, "internal", does_not_raise()),
+        ({"dupl": None}, {"dupl": None}, "user", pytest.raises(ValueError)),
+        ({}, {}, "user", does_not_raise()),
     ],
 )
-def test_fail_if_functions_and_columns_overlap(
-    data, functions, type_, user_columns, expectation
-):
+def test_fail_if_functions_and_columns_overlap(columns, functions, type_, expectation):
     with expectation:
-        _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns)
+        _fail_if_functions_and_columns_overlap(columns, functions, type_)
 
 
 def test_expand_data_raise_error():

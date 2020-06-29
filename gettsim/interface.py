@@ -90,8 +90,9 @@ def compute_taxes_and_transfers(
     _fail_if_user_columns_are_not_in_functions(
         user_columns, internal_functions, user_functions
     )
+    columns = set(data) - set(user_columns)
     for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
-        _fail_if_functions_and_columns_overlap(data, funcs, name, user_columns)
+        _fail_if_functions_and_columns_overlap(columns, funcs, name)
 
     functions = create_function_dict(
         user_functions, internal_functions, user_columns, params
@@ -370,13 +371,13 @@ def _fail_if_user_columns_are_not_in_functions(
         raise ValueError("\n".join([intro, list_]))
 
 
-def _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns):
+def _fail_if_functions_and_columns_overlap(columns, functions, type_):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
     ----------
-    data : dict of pandas.Series
-        Dictionary containing data columns as Series.
+    columns : list of str
+        List of strings containing column names.
     functions : dict
         Dictionary of functions.
     type_ : {"internal", "user"}
@@ -390,10 +391,7 @@ def _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns)
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    overlap = sorted(
-        name for name in functions if name in data and name not in user_columns
-    )
-
+    overlap = sorted(name for name in functions if name in columns)
     if overlap:
         n_cols = len(overlap)
         first_part = _format_text_for_cmdline(
