@@ -9,7 +9,6 @@ REQUIRED_INPUTS = [
     "hh_id",
     "tu_id",
     "p_id",
-    "tu_vorstand",
     "anz_minderj_hh",
     "vermögen_hh",
     "bruttolohn_m",

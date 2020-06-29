@@ -16,19 +16,13 @@ def arbeitsl_geld_2_m_minus_eink_hh(
 def wohngeld_vorrang_hh(
     wohngeld_vermögens_check_hh, arbeitsl_geld_2_m_minus_eink_hh,
 ):
-    rest_arbeitsl_geld_2 = (
-        arbeitsl_geld_2_m_minus_eink_hh - wohngeld_vermögens_check_hh
-    ).clip(lower=0)
-    return (rest_arbeitsl_geld_2 == 0) & (arbeitsl_geld_2_m_minus_eink_hh > 0)
+    return wohngeld_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
 
 
 def kinderzuschlag_vorrang_hh(
     kinderzuschlag_vermögens_check_hh, arbeitsl_geld_2_m_minus_eink_hh,
 ):
-    rest_arbeitsl_geld_2 = (
-        arbeitsl_geld_2_m_minus_eink_hh - kinderzuschlag_vermögens_check_hh
-    ).clip(lower=0)
-    return (rest_arbeitsl_geld_2 == 0) & (arbeitsl_geld_2_m_minus_eink_hh > 0)
+    return kinderzuschlag_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
 
 
 def wohngeld_kinderzuschlag_vorrang_hh(
@@ -36,9 +30,7 @@ def wohngeld_kinderzuschlag_vorrang_hh(
     kinderzuschlag_vermögens_check_hh,
     arbeitsl_geld_2_m_minus_eink_hh,
 ):
-    rest_arbeitsl_geld_2 = (
-        arbeitsl_geld_2_m_minus_eink_hh
-        - wohngeld_vermögens_check_hh
-        - kinderzuschlag_vermögens_check_hh
-    ).clip(lower=0)
-    return (rest_arbeitsl_geld_2 == 0) & (arbeitsl_geld_2_m_minus_eink_hh > 0)
+    sum_wohngeld_kinderzuschlag = (
+        wohngeld_vermögens_check_hh + kinderzuschlag_vermögens_check_hh
+    )
+    return sum_wohngeld_kinderzuschlag >= arbeitsl_geld_2_m_minus_eink_hh
