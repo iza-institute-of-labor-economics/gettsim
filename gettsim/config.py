@@ -12,6 +12,11 @@ PATHS_TO_INTERNAL_FUNCTIONS = [
     ROOT_DIR / "taxes",
     ROOT_DIR / "demographic_vars.py",
 ]
+"""list of Paths: List of paths to internal functions.
+
+If a path is a directory, all Python files are recursively collected from that folder.
+
+"""
 
 INTERNAL_PARAM_GROUPS = [
     "eink_st",
