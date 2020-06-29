@@ -2,17 +2,17 @@ import collections
 import copy
 import pprint
 import textwrap
-from pathlib import Path
 
 import pandas as pd
 
-from gettsim.config import INTERNAL_FUNCTION_FILES
 from gettsim.config import ORDER_OF_IDS
+from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
 from gettsim.dag import execute_dag
 from gettsim.dag import prune_dag
+from gettsim.functions_loader import convert_paths_to_import_strings
 from gettsim.functions_loader import load_functions
 
 
@@ -86,10 +86,8 @@ def compute_taxes_and_transfers(
     user_functions = [] if user_functions is None else user_functions
     user_functions = load_functions(user_functions)
 
-    internal_functions = {}
-    for file in INTERNAL_FUNCTION_FILES:
-        new_funcs = load_functions(Path(__file__).parent / file)
-        internal_functions.update(new_funcs)
+    imports = convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
+    internal_functions = load_functions(imports)
 
     _fail_if_user_columns_are_not_in_data(data, user_columns)
     _fail_if_user_columns_are_not_in_functions(
