@@ -6,11 +6,23 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
-0.3.3 - 2020-06-xx
+0.4.0 - 2020-xx-xx
 ------------------
 
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
+
+
+0.3.3 - 2020-06-27
+------------------
+
+* :gh:`212` improves the error message when reduced series could not be expanded with an
+  id variable and fixes a related error in the internal functions
+  (:ghuser:`hmgaudecker`, :ghuser:`tobiasraabe`).
+* :gh:`214` adds a check for missing root nodes (:ghuser:`tobiasraabe`).
+* :gh:`215` adds a check for duplicate ``targets`` (:ghuser:`tobiasraabe`).
+* :gh:`216` fixed calculation of kindergeldzuschlag and wohngeld. Changed check
+  against arbeitsl_geld_2 (:ghuser:`tobiasraabe`).
 
 
 0.3.2 - 2020-06-19

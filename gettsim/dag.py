@@ -43,7 +43,11 @@ def create_function_dict(user_functions, internal_functions, user_columns, param
         if "params" in inspect.getfullargspec(function).args:
             partial_params["params"] = params
 
-        partialed_functions[name] = functools.partial(function, **partial_params)
+        partialed_functions[name] = (
+            functools.partial(function, **partial_params)
+            if partial_params
+            else function
+        )
 
     return partialed_functions
 
