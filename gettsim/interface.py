@@ -1,4 +1,3 @@
-import collections
 import copy
 import pprint
 import textwrap
@@ -14,6 +13,7 @@ from gettsim.dag import create_function_dict
 from gettsim.dag import execute_dag
 from gettsim.functions_loader import load_functions
 from gettsim.shared import format_list_linewise
+from gettsim.shared import parse_to_list_of_strings
 
 
 def compute_taxes_and_transfers(
@@ -67,14 +67,10 @@ def compute_taxes_and_transfers(
     ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
     data = _reduce_data(data)
 
-    if isinstance(targets, str):
-        targets = [targets]
-    _fail_if_targets_are_not_unique(targets)
-
-    if user_columns is None:
-        user_columns = []
-    elif isinstance(user_columns, str):
-        user_columns = [user_columns]
+    targets = parse_to_list_of_strings(targets, "targets")
+    columns_overriding_functions = parse_to_list_of_strings(
+        user_columns, "user_columns"
+    )
 
     params = {} if params is None else params
 
@@ -86,19 +82,19 @@ def compute_taxes_and_transfers(
         new_funcs = load_functions(Path(__file__).parent / file)
         internal_functions.update(new_funcs)
 
-    _fail_if_user_columns_are_not_in_data(data, user_columns)
+    _fail_if_user_columns_are_not_in_data(data, columns_overriding_functions)
     _fail_if_user_columns_are_not_in_functions(
-        user_columns, internal_functions, user_functions
+        columns_overriding_functions, internal_functions, user_functions
     )
-    columns = set(data) - set(user_columns)
+    columns = set(data) - set(columns_overriding_functions)
     for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
         _fail_if_functions_and_columns_overlap(columns, funcs, name)
 
     functions = create_function_dict(
-        user_functions, internal_functions, user_columns, params
+        user_functions, internal_functions, columns_overriding_functions, params
     )
 
-    dag = create_dag(functions, targets, user_columns)
+    dag = create_dag(functions, targets, columns_overriding_functions)
 
     _fail_if_root_nodes_are_missing(dag, data)
 
@@ -256,32 +252,6 @@ def _reduce_series_to_value_per_group(name, s, level, groups):
         raise ValueError(message)
 
     return grouper.max()
-
-
-def _fail_if_targets_are_not_unique(targets):
-    """Fail if targets are not unique.
-
-    Example
-    -------
-    >>> _fail_if_targets_are_not_unique(["a", "a", "b", "c", "c", "c"])
-    Traceback (most recent call last):
-     ...
-    ValueError: The following targets are given multiple times, but should be unique:
-    <BLANKLINE>
-    [
-        "a",
-        "c",
-    ]
-    <BLANKLINE>
-
-    """
-    dupls = [item for item, count in collections.Counter(targets).items() if count > 1]
-    if dupls:
-        formatted = format_list_linewise(dupls)
-        raise ValueError(
-            "The following targets are given multiple times, but should be unique:"
-            f"\n{formatted}"
-        )
 
 
 def _fail_if_user_columns_are_not_in_data(data, columns):

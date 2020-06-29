@@ -5,6 +5,7 @@ import traceback
 import networkx as nx
 
 from gettsim.shared import format_list_linewise
+from gettsim.shared import parse_to_list_of_strings
 
 
 def create_function_dict(user_functions, internal_functions, user_columns, params):
@@ -54,7 +55,7 @@ def create_function_dict(user_functions, internal_functions, user_columns, param
     return partialed_functions
 
 
-def create_dag(functions, targets=None, columns_overriding_functions=None):
+def create_dag(functions=None, targets=None, columns_overriding_functions=None):
     """Create the DAG for the defined tax and transfer system.
 
     Parameters
@@ -74,15 +75,13 @@ def create_dag(functions, targets=None, columns_overriding_functions=None):
         computed. These columns limit the depth of the DAG.
 
     """
-    if targets is None:
-        targets = []
-    elif isinstance(targets, str):
-        targets = [targets]
+    functions = [] if functions is None else functions
+    targets = parse_to_list_of_strings(targets, "targets")
+    columns_overriding_functions = parse_to_list_of_strings(
+        columns_overriding_functions, "columns_overriding_functions"
+    )
 
-    if columns_overriding_functions is None:
-        columns_overriding_functions = []
-    elif isinstance(columns_overriding_functions, str):
-        columns_overriding_functions = [columns_overriding_functions]
+    user_functions = load_functions(functions)
 
     _fail_if_targets_not_in_functions(functions, targets)
 
