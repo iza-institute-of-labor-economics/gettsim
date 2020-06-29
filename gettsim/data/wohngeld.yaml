@@ -339,7 +339,7 @@ koeffizienten_berechnungsformel:
       4:
         a: 0.01
         b: 0.000313
-        c: 0.000368
+        c: 0.0000368
       5:
         a: 0
         b: 0.000276
