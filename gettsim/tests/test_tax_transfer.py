@@ -96,5 +96,5 @@ def test_tax_transfer(
     # params_dict["renten_daten"] = renten_daten
 
     compute_taxes_and_transfers(
-        df, targets=DESIRED_OUTPUTS, user_functions=policy_func_dict, params=params_dict
+        df, targets=DESIRED_OUTPUTS, functions=policy_func_dict, params=params_dict
     )

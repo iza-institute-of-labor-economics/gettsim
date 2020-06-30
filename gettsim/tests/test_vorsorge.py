@@ -54,7 +54,7 @@ def test_vorsorge(
     result = compute_taxes_and_transfers(
         df,
         user_columns=user_columns,
-        user_functions=policy_func_dict,
+        functions=policy_func_dict,
         targets=column,
         params=params_dict,
     )

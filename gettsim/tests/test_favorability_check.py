@@ -49,7 +49,7 @@ def test_favorability_check(input_data, year, column):
 
     result = compute_taxes_and_transfers(
         df,
-        user_functions=policy_func_dict,
+        functions=policy_func_dict,
         user_columns=columns,
         targets=column,
         params=params_dict,

@@ -8,5 +8,5 @@ Tutorials help you to get started with gettsim.
 
    installation
    interface
-   user_functions
+   functions
    debugging

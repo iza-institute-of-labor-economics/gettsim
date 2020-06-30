@@ -19,7 +19,7 @@ from gettsim.shared import parse_to_list_of_strings
 
 def compute_taxes_and_transfers(
     data,
-    user_functions=None,
+    functions=None,
     user_columns=None,
     params=None,
     targets=None,
@@ -32,7 +32,7 @@ def compute_taxes_and_transfers(
     ----------
     data : pandas.Series or pandas.DataFrame or dict of pandas.Series
         Data provided by the user.
-    user_functions : dict
+    functions : dict
         Dictionary with user provided functions. The keys are the names of the function.
         The values are either callables or strings with absolute or relative import
         paths to a function. If functions have the same name as an existing gettsim
@@ -78,15 +78,13 @@ def compute_taxes_and_transfers(
 
     _fail_if_user_columns_are_not_in_data(data, columns_overriding_functions)
 
-    user_functions, internal_functions = load_user_and_internal_functions(
-        user_functions
-    )
+    functions, internal_functions = load_user_and_internal_functions(functions)
 
     columns = set(data) - set(columns_overriding_functions)
-    for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
+    for funcs, name in zip([internal_functions, functions], ["internal", "user"]):
         _fail_if_functions_and_columns_overlap(columns, funcs, name)
 
-    functions = {**internal_functions, **user_functions}
+    functions = {**internal_functions, **functions}
     functions = {
         k: v for k, v in functions.items() if k not in columns_overriding_functions
     }
@@ -341,7 +339,7 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
     functions : dict
         Dictionary of functions.
     type_ : {"internal", "user"}
-        Source of the functions.
+        Source of the functions. "user" means functions passed by the user.
     user_columns : list of str
         Columns provided by the user.
 
@@ -351,6 +349,7 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
         Fail if functions which compute columns overlap with existing columns.
 
     """
+    type_str = "internal " if type_ == "internal" else ""
     overlap = sorted(name for name in functions if name in columns)
     if overlap:
         n_cols = len(overlap)
@@ -363,15 +362,15 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
         second_part = _format_text_for_cmdline(
             f"""
             {'This is' if n_cols == 1 else 'These are'} already present among the
-            {type_} functions of the taxes and transfers system.
+            {type_str}functions of the taxes and transfers system.
 
             If you want {'this' if n_cols == 1 else 'a'} data column to be used
             instead of calculating it within GETTSIM, please specify it among the
             *user_columns*{'.' if type_ == 'internal' else ''' or remove the function
-            from *user_functions*.'''}
+            from *functions*.'''}
 
             If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
-            by {type_} functions, remove it from the *data* you pass to GETTSIM.
+            by {type_str}functions, remove it from the *data* you pass to GETTSIM.
 
             {'' if n_cols == 1 else '''You need to pick one option for each column that
             appears in the list above.'''}

@@ -59,7 +59,7 @@ def test_benefit_checks(input_data, year, column):
     result = compute_taxes_and_transfers(
         df,
         user_columns=columns,
-        user_functions=policy_func_dict,
+        functions=policy_func_dict,
         targets=column,
         params=params_dict,
     )
