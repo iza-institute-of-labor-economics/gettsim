@@ -1,16 +1,18 @@
+import collections
 import copy
+import pprint
 import textwrap
-from pathlib import Path
 
 import pandas as pd
 
-from gettsim.config import INTERNAL_FUNCTION_FILES
 from gettsim.config import ORDER_OF_IDS
+from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
 from gettsim.dag import execute_dag
 from gettsim.dag import prune_dag
+from gettsim.functions_loader import convert_paths_to_import_strings
 from gettsim.functions_loader import load_functions
 
 
@@ -36,7 +38,7 @@ def compute_taxes_and_transfers(
     user_columns : str list of str
         Names of columns which are preferred over function defined in the tax and
         transfer system.
-    params : dict
+    params : dict, default None
         A pandas Series or dictionary with user provided parameters. Currently just
         mapping a parameter name to a parameter value, in the future we will need more
         metadata. If parameters have the same name as an existing parameter from the
@@ -69,19 +71,20 @@ def compute_taxes_and_transfers(
 
     if isinstance(targets, str):
         targets = [targets]
+    _fail_if_targets_are_not_unique(targets)
 
     if user_columns is None:
         user_columns = []
     elif isinstance(user_columns, str):
         user_columns = [user_columns]
 
+    params = {} if params is None else params
+
     user_functions = [] if user_functions is None else user_functions
     user_functions = load_functions(user_functions)
 
-    internal_functions = {}
-    for file in INTERNAL_FUNCTION_FILES:
-        new_funcs = load_functions(Path(__file__).parent / file)
-        internal_functions.update(new_funcs)
+    imports = convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
+    internal_functions = load_functions(imports)
 
     _fail_if_user_columns_are_not_in_data(data, user_columns)
     _fail_if_user_columns_are_not_in_functions(
@@ -104,6 +107,8 @@ def compute_taxes_and_transfers(
             set(data) & {"p_id", "hh_id", "tu_id"}
         )
         data = _dict_subset(data, relevant_columns)
+
+    _fail_if_root_nodes_are_missing(dag, data)
 
     results = execute_dag(dag, data, targets, debug)
 
@@ -258,6 +263,32 @@ def _reduce_series_to_value_per_group(name, s, level, groups):
     return grouper.max()
 
 
+def _fail_if_targets_are_not_unique(targets):
+    """Fail if targets are not unique.
+
+    Example
+    -------
+    >>> _fail_if_targets_are_not_unique(["a", "a", "b", "c", "c", "c"])
+    Traceback (most recent call last):
+     ...
+    ValueError: The following targets are given multiple times, but should be unique:
+    <BLANKLINE>
+    [
+        "a",
+        "c",
+    ]
+    <BLANKLINE>
+
+    """
+    dupls = [item for item, count in collections.Counter(targets).items() if count > 1]
+    if dupls:
+        formatted = create_linewise_printed_list(dupls)
+        raise ValueError(
+            "The following targets are given multiple times, but should be unique:"
+            f"\n{formatted}"
+        )
+
+
 def _fail_if_user_columns_are_not_in_data(data, columns):
     """Fail if functions which compute columns overlap with existing columns.
 
@@ -337,9 +368,8 @@ def _fail_if_user_columns_are_not_in_functions(
         intro = _format_text_for_cmdline(
             f"""
             You passed the following user column{'' if n_cols == 1 else 's'} which {'is'
-            if n_cols == 1 else 'are'} unnecessary because there {'is' if n_cols == 1
-            else 'are'} no corresponding function{'' if n_cols == 1 else 's'} in the
-            internal or user functions.
+            if n_cols == 1 else 'are'} unnecessary because no functions require them as
+            inputs.
             """
         )
         list_ = create_linewise_printed_list(unnecessary_user_columns)
@@ -444,3 +474,21 @@ def _reorder_columns(results):
     remaining_columns = [i for i in results.columns if i not in sorted_ids]
 
     return results[sorted_ids + remaining_columns]
+
+
+def _fail_if_root_nodes_are_missing(dag, data):
+    missing_nodes = []
+    for node in _root_nodes(dag):
+        if node not in data and "function" not in dag.nodes[node]:
+            missing_nodes.append(node)
+
+    if missing_nodes:
+        formatted = pprint.pformat(missing_nodes)
+        raise ValueError(f"The following data columns are missing.\n\n{formatted}")
+
+
+def _root_nodes(dag):
+    for node in dag.nodes:
+        has_no_parents = len(list(dag.predecessors(node))) == 0
+        if has_no_parents:
+            yield node

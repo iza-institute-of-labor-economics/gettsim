@@ -82,6 +82,4 @@ def test_alg2(input_data, year, column):
         targets=column,
         params=params_dict,
     )
-    assert_series_equal(
-        result[column], year_data[column], check_dtype=False, check_names=False
-    )
+    assert_series_equal(result[column], year_data[column], check_dtype=False)

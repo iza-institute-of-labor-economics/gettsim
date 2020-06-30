@@ -34,8 +34,5 @@ def test_soli_st(
         df, user_columns=user_cols, targets="soli_st_tu", params=params_dict
     )
     assert_series_equal(
-        results["soli_st_tu"],
-        year_data["soli_st_tu"],
-        check_dtype=False,
-        check_names=False,
+        results["soli_st_tu"], year_data["soli_st_tu"], check_dtype=False,
     )
