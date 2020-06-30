@@ -25,20 +25,17 @@ def test_fail_if_user_columns_are_not_in_data(data, user_columns, expectation):
 
 
 @pytest.mark.parametrize(
-    "user_columns, internal_functions, user_functions, expectation",
+    "user_columns, functions, expectation",
     [
-        (["not_in_functions"], {}, {}, pytest.raises(ValueError)),
-        (["in_functions"], {"in_functions": None}, {}, does_not_raise()),
-        (["in_functions"], {}, {"in_functions": None}, does_not_raise()),
+        (["not_in_functions"], {}, pytest.raises(ValueError)),
+        (["in_functions"], {"in_functions": None}, does_not_raise()),
     ],
 )
 def test_fail_if_user_columns_are_not_in_functions(
-    user_columns, internal_functions, user_functions, expectation
+    user_columns, functions, expectation
 ):
     with expectation:
-        _fail_if_user_columns_are_not_in_functions(
-            user_columns, internal_functions, user_functions
-        )
+        _fail_if_user_columns_are_not_in_functions(user_columns, functions)
 
 
 @pytest.mark.parametrize(

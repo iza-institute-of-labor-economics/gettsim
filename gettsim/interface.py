@@ -8,8 +8,9 @@ from gettsim.config import ORDER_OF_IDS
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
-from gettsim.dag import create_function_dict
 from gettsim.dag import execute_dag
+from gettsim.dag import partial_parameters_to_functions
+from gettsim.dag import remove_parameter_nodes
 from gettsim.functions_loader import convert_paths_to_import_strings
 from gettsim.functions_loader import load_functions
 from gettsim.shared import format_list_linewise
@@ -67,6 +68,7 @@ def compute_taxes_and_transfers(
     ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
     data = _reduce_data(data)
 
+    user_functions = [] if user_functions is None else user_functions
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
         user_columns, "user_columns"
@@ -74,25 +76,18 @@ def compute_taxes_and_transfers(
 
     params = {} if params is None else params
 
-    user_functions = [] if user_functions is None else user_functions
-    user_functions = load_functions(user_functions)
+    _fail_if_user_columns_are_not_in_data(data, columns_overriding_functions)
 
+    user_functions = load_functions(user_functions)
     imports = convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     internal_functions = load_functions(imports)
-
-    _fail_if_user_columns_are_not_in_data(data, columns_overriding_functions)
-    _fail_if_user_columns_are_not_in_functions(
-        columns_overriding_functions, internal_functions, user_functions
-    )
     columns = set(data) - set(columns_overriding_functions)
     for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
         _fail_if_functions_and_columns_overlap(columns, funcs, name)
 
-    functions = create_function_dict(
-        user_functions, internal_functions, columns_overriding_functions, params
-    )
-
-    dag = create_dag(functions, targets, columns_overriding_functions)
+    dag = create_dag(user_functions, targets, columns_overriding_functions)
+    dag = partial_parameters_to_functions(dag, params)
+    dag = remove_parameter_nodes(dag)
 
     _fail_if_root_nodes_are_missing(dag, data)
 
@@ -298,9 +293,7 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
         raise ValueError("\n".join([first_part, list_, second_part]))
 
 
-def _fail_if_user_columns_are_not_in_functions(
-    user_columns, internal_functions, user_functions
-):
+def _fail_if_user_columns_are_not_in_functions(user_columns, functions):
     """Fail if user columns are not found in functions.
 
     Parameters
@@ -308,13 +301,8 @@ def _fail_if_user_columns_are_not_in_functions(
     user_columns : str list of str
         Names of columns which are preferred over function defined in the tax and
         transfer system.
-    internal_functions : dict
-        Dictionary with internally defined functions.
-    user_functions : dict
-        Dictionary with user provided functions. The keys are the names of the function.
-        The values are either callables or strings with absolute or relative import
-        paths to a function. If functions have the same name as an existing gettsim
-        function they override that function.
+    functions : dict of callables
+        A dictionary of functions.
 
     Raises
     ------
@@ -322,10 +310,7 @@ def _fail_if_user_columns_are_not_in_functions(
         Fail if the user columns are not found in internal or user functions.
 
     """
-    unnecessary_user_columns = (
-        set(user_columns) - set(internal_functions) - set(user_functions)
-    )
-
+    unnecessary_user_columns = set(user_columns) - set(functions)
     if unnecessary_user_columns:
         n_cols = len(unnecessary_user_columns)
         intro = _format_text_for_cmdline(
