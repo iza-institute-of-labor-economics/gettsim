@@ -1,3 +1,4 @@
+import inspect
 import textwrap
 
 
@@ -30,3 +31,29 @@ def parse_to_list_of_strings(user_input, name):
         )
 
     return sorted(set(user_input))
+
+
+def get_names_of_arguments_without_defaults(function):
+    """Get argument names without defaults.
+
+    The detection of argument names also works for partialed functions.
+
+    Examples
+    --------
+    >>> def func(a, b): pass
+    >>> get_names_of_arguments_without_defaults(func)
+    ['a', 'b']
+    >>> import functools
+    >>> func_ = functools.partial(func, a=1)
+    >>> get_names_of_arguments_without_defaults(func_)
+    ['b']
+
+    """
+    parameters = inspect.signature(function).parameters
+
+    argument_names_without_defaults = []
+    for parameter in parameters:
+        if parameters[parameter].default == parameters[parameter].empty:
+            argument_names_without_defaults.append(parameter)
+
+    return argument_names_without_defaults

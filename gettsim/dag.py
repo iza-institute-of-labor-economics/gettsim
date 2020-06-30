@@ -1,13 +1,18 @@
-import functools
-import inspect
 import traceback
+import warnings
 
 import networkx as nx
 
 from gettsim.shared import format_list_linewise
+from gettsim.shared import get_names_of_arguments_without_defaults
 
 
-def create_dag(functions=None, targets=None, columns_overriding_functions=None):
+def create_dag(
+    functions=None,
+    targets=None,
+    columns_overriding_functions=None,
+    is_minimal_specification="ignore",
+):
     """Create the DAG for the defined tax and transfer system.
 
     Parameters
@@ -19,6 +24,9 @@ def create_dag(functions=None, targets=None, columns_overriding_functions=None):
     columns_overriding_functions : str or list of str, default None
         The nodes which are provided by columns in the data and do not need to be
         computed.
+    is_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimalistic configuration
+        should be silenced, emitted as warnings or errors.
 
     Returns
     -------
@@ -26,64 +34,22 @@ def create_dag(functions=None, targets=None, columns_overriding_functions=None):
         The DAG of the tax and transfer system.
 
     """
+    if is_minimal_specification not in ["ignore", "warn", "raise"]:
+        raise ValueError(
+            "'is_minimal_specification' must be one of ['ignore', 'warn', 'raise']."
+        )
+
     dag = _create_complete_dag(functions)
 
     if targets:
         dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
-    # _fail_if_columns_overriding_functions_are_not_in_dag(
-    #     dag, columns_overriding_functions
-    # )
+    _fail_if_columns_overriding_functions_are_not_in_dag(
+        dag, columns_overriding_functions, is_minimal_specification
+    )
 
     dag = _remove_unused_ancestors_of_columns_overriding_functions(
         dag, columns_overriding_functions
     )
-
-    return dag
-
-
-def partial_parameters_to_functions(functions, params):
-    """Create a dictionary of all functions that are available.
-
-    Parameters
-    ----------
-    functions : dict of callable
-        Dictionary of functions which are either internal or user provided functions.
-    params : dict
-        Dictionary of parameters which is partialed to the function such that `params`
-        are invisible to the DAG.
-
-    Returns
-    -------
-    partialed_functions : dict of callable
-        Dictionary mapping function names to callables with partialed parameters.
-
-    """
-    partialed_functions = {}
-    for name, function in functions.items():
-        partial_params = {
-            i: params[i[:-7]]
-            for i in _get_names_of_arguments_without_defaults(function)
-            if i.endswith("_params") and i[:-7] in params
-        }
-
-        # Fix old functions which requested the whole dictionary. Test if removable.
-        if "params" in _get_names_of_arguments_without_defaults(function):
-            partial_params["params"] = params
-
-        partialed_functions[name] = (
-            functools.partial(function, **partial_params)
-            if partial_params
-            else function
-        )
-
-    return partialed_functions
-
-
-def remove_parameter_nodes(dag):
-    """Remove parameter nodes from DAG."""
-    for node in list(dag.nodes):
-        if node == "params" or node.endswith("_params"):
-            dag.remove_node(node)
 
     return dag
 
@@ -105,45 +71,18 @@ def _create_complete_dag(functions):
         The complete DAG of the tax and transfer system.
 
     """
-    dag = nx.DiGraph()
+    # Construct DAG from dictionary.
+    functions_arguments_dict = {
+        name: get_names_of_arguments_without_defaults(function)
+        for name, function in functions.items()
+    }
+    dag = nx.DiGraph(functions_arguments_dict).reverse()
+
+    # Save functions in DAG.
     for name, function in functions.items():
-        dag.add_node(name, function=function)
-        for dependency in _get_names_of_arguments_without_defaults(function):
-            attr = (
-                {"function": functions.get(dependency)}
-                if dependency in functions
-                else {}
-            )
-            dag.add_node(dependency, **attr)
-            dag.add_edge(dependency, name)
+        dag.nodes[name]["function"] = function
 
     return dag
-
-
-def _get_names_of_arguments_without_defaults(function):
-    """Get argument names without defaults.
-
-    The detection of argument names also works for partialed functions.
-
-    Examples
-    --------
-    >>> def func(a, b): pass
-    >>> _get_names_of_arguments_without_defaults(func)
-    ['a', 'b']
-    >>> import functools
-    >>> func_ = functools.partial(func, a=1)
-    >>> _get_names_of_arguments_without_defaults(func_)
-    ['b']
-
-    """
-    parameters = inspect.signature(function).parameters
-
-    argument_names_without_defaults = []
-    for parameter in parameters:
-        if parameters[parameter].default == parameters[parameter].empty:
-            argument_names_without_defaults.append(parameter)
-
-    return argument_names_without_defaults
 
 
 def _fail_if_targets_not_in_functions(functions, targets):
@@ -201,7 +140,7 @@ def _limit_dag_to_targets_and_their_ancestors(dag, targets):
 
 
 def _fail_if_columns_overriding_functions_are_not_in_dag(
-    dag, columns_overriding_functions
+    dag, columns_overriding_functions, is_minimal_specification
 ):
     """Fail if ``columns_overriding_functions`` are not in DAG.
 
@@ -215,17 +154,29 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
     columns_overriding_functions : list of str
         The nodes which are provided by columns in the data and do not need to be
         computed. These columns limit the depth of the DAG.
+    is_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimalistic configuration
+        should be silenced, emitted as warnings or errors.
 
+    Warnings
+    --------
+    UserWarning
+        Warns if there are columns in 'columns_overriding_functions' which are not
+        necessary and ``is_minimal_specification`` is set to "warn".
     Raises
     ------
     ValueError
         Raised if there are columns in 'columns_overriding_functions' which are not
-        necessary.
+        necessary and ``is_minimal_specification`` is set to "raise".
 
     """
     unused_columns = set(columns_overriding_functions) - set(dag.nodes)
-    if unused_columns:
-        formatted = format_list_linewise(unused_columns)
+    formatted = format_list_linewise(unused_columns)
+    if unused_columns and is_minimal_specification == "warn":
+        warnings.warn(
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+        )
+    elif unused_columns and is_minimal_specification == "raise":
         raise ValueError(
             f"The following 'columns_overriding_functions' are unused:\n{formatted}"
         )

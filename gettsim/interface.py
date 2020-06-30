@@ -1,6 +1,8 @@
 import copy
+import functools
 import pprint
 import textwrap
+import warnings
 
 import pandas as pd
 
@@ -9,9 +11,9 @@ from gettsim.dag import _dict_subset
 from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
 from gettsim.dag import execute_dag
-from gettsim.dag import partial_parameters_to_functions
 from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
+from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 
 
@@ -22,6 +24,7 @@ def compute_taxes_and_transfers(
     params=None,
     targets=None,
     debug=False,
+    is_minimal_specification="ignore",
 ):
     """Compute taxes and transfers.
 
@@ -90,9 +93,13 @@ def compute_taxes_and_transfers(
     _fail_if_targets_not_in_functions(functions, targets)
 
     functions = partial_parameters_to_functions(functions, params)
-    dag = create_dag(user_functions, targets, columns_overriding_functions)
+
+    dag = create_dag(
+        functions, targets, columns_overriding_functions, is_minimal_specification
+    )
 
     _fail_if_root_nodes_are_missing(dag, data)
+    _fail_if_more_than_necessary_data_is_passed(dag, data, is_minimal_specification)
 
     results = execute_dag(dag, data, targets, debug)
 
@@ -421,8 +428,57 @@ def _fail_if_root_nodes_are_missing(dag, data):
         raise ValueError(f"The following data columns are missing.\n\n{formatted}")
 
 
+def _fail_if_more_than_necessary_data_is_passed(dag, data, is_minimal_specification):
+    root_nodes = set(_root_nodes(dag))
+    unnecessary_data = set(data) - root_nodes
+    formatted = format_list_linewise(unnecessary_data)
+    message = f"The following columns in 'data' are unused.\n\n{formatted}"
+    if unnecessary_data and is_minimal_specification == "warn":
+        warnings.warn(message)
+    elif unnecessary_data and is_minimal_specification == "raise":
+        raise ValueError(message)
+
+
 def _root_nodes(dag):
     for node in dag.nodes:
         has_no_parents = len(list(dag.predecessors(node))) == 0
         if has_no_parents:
             yield node
+
+
+def partial_parameters_to_functions(functions, params):
+    """Create a dictionary of all functions that are available.
+
+    Parameters
+    ----------
+    functions : dict of callable
+        Dictionary of functions which are either internal or user provided functions.
+    params : dict
+        Dictionary of parameters which is partialed to the function such that `params`
+        are invisible to the DAG.
+
+    Returns
+    -------
+    partialed_functions : dict of callable
+        Dictionary mapping function names to callables with partialed parameters.
+
+    """
+    partialed_functions = {}
+    for name, function in functions.items():
+        partial_params = {
+            i: params[i[:-7]]
+            for i in get_names_of_arguments_without_defaults(function)
+            if i.endswith("_params") and i[:-7] in params
+        }
+
+        # Fix old functions which requested the whole dictionary. Test if removable.
+        if "params" in get_names_of_arguments_without_defaults(function):
+            partial_params["params"] = params
+
+        partialed_functions[name] = (
+            functools.partial(function, **partial_params)
+            if partial_params
+            else function
+        )
+
+    return partialed_functions
