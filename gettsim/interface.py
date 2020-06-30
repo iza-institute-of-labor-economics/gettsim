@@ -20,7 +20,7 @@ from gettsim.shared import parse_to_list_of_strings
 def compute_taxes_and_transfers(
     data,
     functions=None,
-    user_columns=None,
+    columns_overriding_functions=None,
     params=None,
     targets=None,
     debug=False,
@@ -37,7 +37,7 @@ def compute_taxes_and_transfers(
         The values are either callables or strings with absolute or relative import
         paths to a function. If functions have the same name as an existing gettsim
         function they override that function.
-    user_columns : str list of str
+    columns_overriding_functions : str list of str
         Names of columns which are preferred over function defined in the tax and
         transfer system.
     params : dict, default None
@@ -71,12 +71,14 @@ def compute_taxes_and_transfers(
 
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
-        user_columns, "user_columns"
+        columns_overriding_functions, "columns_overriding_functions"
     )
 
     params = {} if params is None else params
 
-    _fail_if_user_columns_are_not_in_data(data, columns_overriding_functions)
+    _fail_if_columns_overriding_functions_are_not_in_data(
+        data, columns_overriding_functions
+    )
 
     functions, internal_functions = load_user_and_internal_functions(functions)
 
@@ -252,7 +254,7 @@ def _reduce_series_to_value_per_group(name, s, level, groups):
     return grouper.max()
 
 
-def _fail_if_user_columns_are_not_in_data(data, columns):
+def _fail_if_columns_overriding_functions_are_not_in_data(data, columns):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
@@ -268,16 +270,16 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    unused_user_columns = sorted(set(columns) - set(data))
-    n_cols = len(unused_user_columns)
+    unused_columns_overriding_functions = sorted(set(columns) - set(data))
+    n_cols = len(unused_columns_overriding_functions)
 
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
-    if unused_user_columns:
+    if unused_columns_overriding_functions:
         first_part = _format_text_for_cmdline(
             f"You passed the following user {column_sg_pl}:"
         )
-        list_ = format_list_linewise(unused_user_columns)
+        list_ = format_list_linewise(unused_columns_overriding_functions)
 
         second_part = _format_text_for_cmdline(
             f"""
@@ -287,8 +289,8 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
             If you want {'this' if n_cols == 1 else 'a'} data column to be used
             instead of calculating it within GETTSIM, please add it to *data*.
 
-            If you want {'this' if n_cols == 1 else 'a'} data column to be
-            calculated internally by GETTSIM, remove it from the *user_columns* you
+            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
+            internally by GETTSIM, remove it from the *columns_overriding_functions* you
             pass to GETTSIM.
 
             {'' if n_cols == 1 else '''You need to pick one option for each column that
@@ -298,12 +300,14 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
         raise ValueError("\n".join([first_part, list_, second_part]))
 
 
-def _fail_if_user_columns_are_not_in_functions(user_columns, functions):
+def _fail_if_columns_overriding_functions_are_not_in_functions(
+    columns_overriding_functions, functions
+):
     """Fail if user columns are not found in functions.
 
     Parameters
     ----------
-    user_columns : str list of str
+    columns_overriding_functions : str list of str
         Names of columns which are preferred over function defined in the tax and
         transfer system.
     functions : dict of callable
@@ -315,9 +319,11 @@ def _fail_if_user_columns_are_not_in_functions(user_columns, functions):
         Fail if the user columns are not found in internal or user functions.
 
     """
-    unnecessary_user_columns = set(user_columns) - set(functions)
-    if unnecessary_user_columns:
-        n_cols = len(unnecessary_user_columns)
+    unnecessary_columns_overriding_functions = set(columns_overriding_functions) - set(
+        functions
+    )
+    if unnecessary_columns_overriding_functions:
+        n_cols = len(unnecessary_columns_overriding_functions)
         intro = _format_text_for_cmdline(
             f"""
             You passed the following user column{'' if n_cols == 1 else 's'} which {'is'
@@ -325,7 +331,7 @@ def _fail_if_user_columns_are_not_in_functions(user_columns, functions):
             inputs.
             """
         )
-        list_ = format_list_linewise(unnecessary_user_columns)
+        list_ = format_list_linewise(unnecessary_columns_overriding_functions)
         raise ValueError("\n".join([intro, list_]))
 
 
@@ -340,7 +346,7 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
         Dictionary of functions.
     type_ : {"internal", "user"}
         Source of the functions. "user" means functions passed by the user.
-    user_columns : list of str
+    columns_overriding_functions : list of str
         Columns provided by the user.
 
     Raises
@@ -366,8 +372,8 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
 
             If you want {'this' if n_cols == 1 else 'a'} data column to be used
             instead of calculating it within GETTSIM, please specify it among the
-            *user_columns*{'.' if type_ == 'internal' else ''' or remove the function
-            from *functions*.'''}
+            *columns_overriding_functions*{'.' if type_ == 'internal' else ''' or remove
+            the function from *functions*.'''}
 
             If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
             by {type_str}functions, remove it from the *data* you pass to GETTSIM.

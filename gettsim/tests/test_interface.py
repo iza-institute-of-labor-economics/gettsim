@@ -7,35 +7,41 @@ import pytest
 from gettsim import compute_taxes_and_transfers
 from gettsim import test
 from gettsim.interface import _expand_data
+from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
+from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_functions_and_columns_overlap
-from gettsim.interface import _fail_if_user_columns_are_not_in_data
-from gettsim.interface import _fail_if_user_columns_are_not_in_functions
 
 
 @pytest.mark.parametrize(
-    "data, user_columns, expectation",
+    "data, columns_overriding_functions, expectation",
     [
         ({}, ["not_in_data"], pytest.raises(ValueError)),
         ({"in_data": None}, ["in_data"], does_not_raise()),
     ],
 )
-def test_fail_if_user_columns_are_not_in_data(data, user_columns, expectation):
+def test_fail_if_columns_overriding_functions_are_not_in_data(
+    data, columns_overriding_functions, expectation
+):
     with expectation:
-        _fail_if_user_columns_are_not_in_data(data, user_columns)
+        _fail_if_columns_overriding_functions_are_not_in_data(
+            data, columns_overriding_functions
+        )
 
 
 @pytest.mark.parametrize(
-    "user_columns, functions, expectation",
+    "columns_overriding_functions, functions, expectation",
     [
         (["not_in_functions"], {}, pytest.raises(ValueError)),
         (["in_functions"], {"in_functions": None}, does_not_raise()),
     ],
 )
-def test_fail_if_user_columns_are_not_in_functions(
-    user_columns, functions, expectation
+def test_fail_if_columns_overriding_functions_are_not_in_functions(
+    columns_overriding_functions, functions, expectation
 ):
     with expectation:
-        _fail_if_user_columns_are_not_in_functions(user_columns, functions)
+        _fail_if_columns_overriding_functions_are_not_in_functions(
+            columns_overriding_functions, functions
+        )
 
 
 @pytest.mark.parametrize(

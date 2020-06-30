@@ -74,7 +74,7 @@ def test_eltgeld(
     columns = ["soli_st_tu", "sozialv_beitr_m"]
 
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        df, columns_overriding_functions=columns, targets=column, params=params_dict
     )
 
     assert_series_equal(

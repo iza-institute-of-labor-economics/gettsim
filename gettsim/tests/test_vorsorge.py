@@ -44,7 +44,7 @@ def test_vorsorge(
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=year, policy_groups=["eink_st_abzuege", "soz_vers_beitr"],
     )
-    user_columns = [
+    columns_overriding_functions = [
         "ges_krankenv_beitr_m",
         "arbeitsl_v_beitr_m",
         "pflegev_beitr_m",
@@ -53,7 +53,7 @@ def test_vorsorge(
 
     result = compute_taxes_and_transfers(
         df,
-        user_columns=user_columns,
+        columns_overriding_functions=columns_overriding_functions,
         functions=policy_func_dict,
         targets=column,
         params=params_dict,
