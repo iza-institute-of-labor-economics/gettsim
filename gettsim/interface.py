@@ -303,7 +303,7 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data, columns):
 def _fail_if_columns_overriding_functions_are_not_in_functions(
     columns_overriding_functions, functions
 ):
-    """Fail if user columns are not found in functions.
+    """Fail if ``columns_overriding_functions`` are not found in functions.
 
     Parameters
     ----------
@@ -316,7 +316,8 @@ def _fail_if_columns_overriding_functions_are_not_in_functions(
     Raises
     ------
     ValueError
-        Fail if the user columns are not found in internal or user functions.
+        Fail if some ``columns_overriding_functions`` are not found in internal or user
+        functions.
 
     """
     unnecessary_columns_overriding_functions = set(columns_overriding_functions) - set(
@@ -362,9 +363,7 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
         first_part = _format_text_for_cmdline(
             f"Your data provides the column{'' if n_cols == 1 else 's'}:"
         )
-
-        list_ = format_list_linewise(overlap)
-
+        formatted = format_list_linewise(overlap)
         second_part = _format_text_for_cmdline(
             f"""
             {'This is' if n_cols == 1 else 'These are'} already present among the
@@ -382,7 +381,7 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
             appears in the list above.'''}
             """
         )
-        raise ValueError("\n".join([first_part, list_, second_part]))
+        raise ValueError("\n".join([first_part, formatted, second_part]))
 
 
 def _format_text_for_cmdline(text, width=79):
