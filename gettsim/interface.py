@@ -308,7 +308,7 @@ def _fail_if_user_columns_are_not_in_functions(user_columns, functions):
     user_columns : str list of str
         Names of columns which are preferred over function defined in the tax and
         transfer system.
-    functions : dict of callables
+    functions : dict of callable
         A dictionary of functions.
 
     Raises

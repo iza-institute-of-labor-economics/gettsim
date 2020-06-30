@@ -43,6 +43,7 @@ def create_dag(
 
     if targets:
         dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
+
     _fail_if_columns_overriding_functions_are_not_in_dag(
         dag, columns_overriding_functions, is_minimal_specification
     )
@@ -62,7 +63,7 @@ def _create_complete_dag(functions):
 
     Parameters
     ----------
-    functions : dict of callables
+    functions : dict of callable
         Dictionary containing functions to build the DAG.
 
     Returns
@@ -90,7 +91,7 @@ def _fail_if_targets_not_in_functions(functions, targets):
 
     Parameters
     ----------
-    functions : dict of callables
+    functions : dict of callable
         Dictionary containing functions to build the DAG.
     targets : list of str
         The targets which should be computed. They limit the DAG in the way that only
