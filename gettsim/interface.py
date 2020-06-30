@@ -22,7 +22,6 @@ def compute_taxes_and_transfers(
     user_columns=None,
     params=None,
     targets=None,
-    return_dag=False,
     debug=False,
 ):
     """Compute taxes and transfers.
@@ -48,8 +47,6 @@ def compute_taxes_and_transfers(
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, `targets` is `None` and all results are
         returned.
-    return_dag : bool
-        Indicates whether the DAG should be returned as well for inspection.
     debug : bool
         The debug mode does the following:
 
@@ -118,16 +115,10 @@ def compute_taxes_and_transfers(
     results = _expand_data(results, ids)
     results = pd.DataFrame(results)
 
-    if debug:
-        results = _reorder_columns(results)
-    elif len(targets) == 1:
-        results = results[targets[0]]
-    else:
+    if not debug:
         results = results[targets]
-        results = _reorder_columns(results)
 
-    if return_dag:
-        results = (results, dag)
+    results = _reorder_columns(results)
 
     return results
 
