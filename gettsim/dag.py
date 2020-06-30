@@ -4,11 +4,7 @@ import traceback
 
 import networkx as nx
 
-from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from gettsim.functions_loader import convert_paths_to_import_strings
-from gettsim.functions_loader import load_functions
 from gettsim.shared import format_list_linewise
-from gettsim.shared import parse_to_list_of_strings
 
 
 def create_dag(functions=None, targets=None, columns_overriding_functions=None):
@@ -30,22 +26,6 @@ def create_dag(functions=None, targets=None, columns_overriding_functions=None):
         The DAG of the tax and transfer system.
 
     """
-    functions = [] if functions is None else functions
-    targets = parse_to_list_of_strings(targets, "targets")
-    columns_overriding_functions = parse_to_list_of_strings(
-        columns_overriding_functions, "columns_overriding_functions"
-    )
-
-    user_functions = load_functions(functions)
-    imports = convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
-    internal_functions = load_functions(imports)
-
-    functions = {**internal_functions, **user_functions}
-    functions = {
-        k: v for k, v in functions.items() if k not in columns_overriding_functions
-    }
-    _fail_if_targets_not_in_functions(functions, targets)
-
     dag = _create_complete_dag(functions)
 
     if targets:
@@ -61,12 +41,12 @@ def create_dag(functions=None, targets=None, columns_overriding_functions=None):
     return dag
 
 
-def partial_parameters_to_functions(dag, params):
+def partial_parameters_to_functions(functions, params):
     """Create a dictionary of all functions that are available.
 
     Parameters
     ----------
-    dag : networkx.DiGraph
+    functions : dict of callable
         Dictionary of functions which are either internal or user provided functions.
     params : dict
         Dictionary of parameters which is partialed to the function such that `params`
@@ -78,24 +58,25 @@ def partial_parameters_to_functions(dag, params):
         Dictionary mapping function names to callables with partialed parameters.
 
     """
-    for node in dag.nodes:
-        if "function" in dag.nodes[node]:
-            function = dag.nodes[node]["function"]
-            partial_params = {
-                i: params[i[:-7]]
-                for i in _get_names_of_arguments_without_defaults(function)
-                if i.endswith("_params") and i[:-7] in params
-            }
-            if "params" in _get_names_of_arguments_without_defaults(function):
-                partial_params["params"] = params
+    partialed_functions = {}
+    for name, function in functions.items():
+        partial_params = {
+            i: params[i[:-7]]
+            for i in _get_names_of_arguments_without_defaults(function)
+            if i.endswith("_params") and i[:-7] in params
+        }
 
-            dag.nodes[node]["function"] = (
-                functools.partial(function, **partial_params)
-                if partial_params
-                else function
-            )
+        # Fix old functions which requested the whole dictionary. Test if removable.
+        if "params" in _get_names_of_arguments_without_defaults(function):
+            partial_params["params"] = params
 
-    return dag
+        partialed_functions[name] = (
+            functools.partial(function, **partial_params)
+            if partial_params
+            else function
+        )
+
+    return partialed_functions
 
 
 def remove_parameter_nodes(dag):

@@ -5,14 +5,12 @@ import textwrap
 import pandas as pd
 
 from gettsim.config import ORDER_OF_IDS
-from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.dag import _dict_subset
+from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
 from gettsim.dag import execute_dag
 from gettsim.dag import partial_parameters_to_functions
-from gettsim.dag import remove_parameter_nodes
-from gettsim.functions_loader import convert_paths_to_import_strings
-from gettsim.functions_loader import load_functions
+from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import parse_to_list_of_strings
 
@@ -65,10 +63,9 @@ def compute_taxes_and_transfers(
     data = copy.deepcopy(data)
 
     data = _process_data(data)
-    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
     data = _reduce_data(data)
+    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
 
-    user_functions = [] if user_functions is None else user_functions
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
         user_columns, "user_columns"
@@ -78,16 +75,22 @@ def compute_taxes_and_transfers(
 
     _fail_if_user_columns_are_not_in_data(data, columns_overriding_functions)
 
-    user_functions = load_functions(user_functions)
-    imports = convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
-    internal_functions = load_functions(imports)
+    user_functions, internal_functions = load_user_and_internal_functions(
+        user_functions
+    )
+
     columns = set(data) - set(columns_overriding_functions)
     for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
         _fail_if_functions_and_columns_overlap(columns, funcs, name)
 
+    functions = {**internal_functions, **user_functions}
+    functions = {
+        k: v for k, v in functions.items() if k not in columns_overriding_functions
+    }
+    _fail_if_targets_not_in_functions(functions, targets)
+
+    functions = partial_parameters_to_functions(functions, params)
     dag = create_dag(user_functions, targets, columns_overriding_functions)
-    dag = partial_parameters_to_functions(dag, params)
-    dag = remove_parameter_nodes(dag)
 
     _fail_if_root_nodes_are_missing(dag, data)
 
