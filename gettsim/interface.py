@@ -99,13 +99,10 @@ def compute_taxes_and_transfers(
     results = _expand_data(results, ids)
     results = pd.DataFrame(results)
 
-    if debug:
-        results = _reorder_columns(results)
-    elif len(targets) == 1:
-        results = results[targets[0]]
-    else:
+    if not debug:
         results = results[targets]
-        results = _reorder_columns(results)
+
+    results = _reorder_columns(results)
 
     return results
 

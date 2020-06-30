@@ -53,4 +53,4 @@ def test_uhv(input_data, year, column, month):
         df, user_columns=["arbeitsl_geld_m"], targets=column, params=params_dict
     )
 
-    assert_series_equal(result, year_data[column], check_dtype=False)
+    assert_series_equal(result[column], year_data[column], check_dtype=False)

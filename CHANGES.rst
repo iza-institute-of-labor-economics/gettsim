@@ -11,6 +11,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
+* :gh:`213` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
+  DataFrame and removes the `return_dag` option (:ghuser:`tobiasraabe`).
 * :gh:`219` refactors the DAG and makes it independent from the main interface
   (:ghuser:`tobiasraabe`).
 

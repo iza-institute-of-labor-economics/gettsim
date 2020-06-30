@@ -67,5 +67,5 @@ def test_kiz(
     )
 
     assert_series_equal(
-        result, year_data[column], check_dtype=False,
+        result[column], year_data[column], check_dtype=False,
     )
