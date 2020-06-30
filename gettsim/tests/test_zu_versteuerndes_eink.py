@@ -2,7 +2,7 @@ import itertools
 
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
@@ -107,11 +107,11 @@ def test_zve(
     elif column == "kinderfreib_tu":
         expected_result = sum_test_data_tu("kinderfreib", year_data)
     else:
-        expected_result = year_data[[column]]
+        expected_result = year_data[column]
 
     # TODO: There are large differences for the 2018 test. See #217.
-    assert_frame_equal(
-        result, expected_result, check_dtype=False, check_less_precise=1,
+    assert_series_equal(
+        result[column], expected_result, check_dtype=False, check_less_precise=1,
     )
 
 
@@ -121,5 +121,4 @@ def sum_test_data_tu(column, year_data):
         .groupby(year_data["tu_id"])
         .transform("sum")
         .rename(column + "_tu")
-        .to_frame()
     )
