@@ -195,4 +195,6 @@ def test_increasing_hh_size(input_data_single_household, year, mietstufe):
         df = pd.concat([df, df_org], ignore_index=True)
         df.loc[i, "pid"] = i + 1
         if i > 0:
-            assert result.iloc[0] > old_result.iloc[0]
+            old_wohngeld = old_result.iloc[0]
+            wohngeld = result.iloc[0]
+            assert wohngeld > old_wohngeld
