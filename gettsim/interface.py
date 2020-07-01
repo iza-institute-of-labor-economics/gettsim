@@ -24,7 +24,7 @@ def compute_taxes_and_transfers(
     params=None,
     targets=None,
     debug=False,
-    is_minimal_specification="ignore",
+    check_minimal_specification="ignore",
 ):
     """Compute taxes and transfers.
 
@@ -56,6 +56,10 @@ def compute_taxes_and_transfers(
         2. If an exception occurs while computing one variable, the exception is
            printed, but not raised. The computation of all dependent variables is
            skipped.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimalistic configuration
+        should be silenced, emitted as warnings or errors.
+
 
     Returns
     -------
@@ -95,11 +99,11 @@ def compute_taxes_and_transfers(
     functions = partial_parameters_to_functions(functions, params)
 
     dag = create_dag(
-        functions, targets, columns_overriding_functions, is_minimal_specification
+        functions, targets, columns_overriding_functions, check_minimal_specification
     )
 
     _fail_if_root_nodes_are_missing(dag, data)
-    _fail_if_more_than_necessary_data_is_passed(dag, data, is_minimal_specification)
+    _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
 
     results = execute_dag(dag, data, targets, debug)
 
@@ -432,14 +436,14 @@ def _fail_if_root_nodes_are_missing(dag, data):
         raise ValueError(f"The following data columns are missing.\n\n{formatted}")
 
 
-def _fail_if_more_than_necessary_data_is_passed(dag, data, is_minimal_specification):
+def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification):
     root_nodes = set(_root_nodes(dag))
     unnecessary_data = set(data) - root_nodes
     formatted = format_list_linewise(unnecessary_data)
     message = f"The following columns in 'data' are unused.\n\n{formatted}"
-    if unnecessary_data and is_minimal_specification == "warn":
+    if unnecessary_data and check_minimal_specification == "warn":
         warnings.warn(message)
-    elif unnecessary_data and is_minimal_specification == "raise":
+    elif unnecessary_data and check_minimal_specification == "raise":
         raise ValueError(message)
 
 
