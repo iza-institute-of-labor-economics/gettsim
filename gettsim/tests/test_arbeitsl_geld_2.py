@@ -61,9 +61,7 @@ def input_data():
 def test_alg2(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(
-        date=year, policy_groups="arbeitsl_geld_2",
-    )
+    params_dict, policy_func_dict = set_up_policy_environment(date=year)
 
     columns = [
         "arbeitsl_geld_m",

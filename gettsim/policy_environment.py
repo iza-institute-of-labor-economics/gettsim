@@ -31,7 +31,6 @@ from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_threholds
 from gettsim.piecewise_functions import get_piecewise_parameters
-from gettsim.shared import format_list_linewise
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
@@ -50,17 +49,13 @@ from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
 
 
-def set_up_policy_environment(date, policy_groups="all"):
+def set_up_policy_environment(date):
     """Set up the policy environment for a particular date.
 
     Parameters
     ----------
     date : int, str, datetime.date
         The date for which the policy system is set up.
-    policy_groups : list, str
-        The group or a list of groups which parameters are loaded. If an invalid
-        name is given, a list of all possible values is printed. Default is to load all
-        parameter groups.
 
     Returns
     -------
@@ -74,12 +69,8 @@ def set_up_policy_environment(date, policy_groups="all"):
     # Check policy date for correct format and transfer to datetime.date
     date = _parse_date(date)
 
-    # Check groups argument for correct format and transfer to list.
-    group_list = _parse_parameter_groups(policy_groups)
-
     params = {}
-
-    for group in group_list:
+    for group in INTERNAL_PARAM_GROUPS:
         tax_data = _load_parameter_group_from_yaml(date, group)
 
         # Align paramters for e.g. piecewise polynomial functions
@@ -123,56 +114,6 @@ def _parse_parameters(tax_data):
                 tax_data[param].pop(key, None)
 
     return tax_data
-
-
-def _parse_parameter_groups(policy_groups):
-    """Check group argument for correct format and transfer to list.
-
-    Parameters
-    ----------
-    policy_groups : list, str
-        The group or a list of groups which parameters are loaded. Default is
-        all parameters
-
-    Returns
-    -------
-        List of groups to be loaded.
-
-    """
-    if isinstance(policy_groups, list):
-        misspelled = [
-            group for group in policy_groups if group not in INTERNAL_PARAM_GROUPS
-        ]
-        if not misspelled:
-            out = policy_groups
-        else:
-            part_1 = "The groups"
-            list_1 = format_list_linewise(misspelled)
-            part_2 = "are not in the internal yaml files."
-            part_3 = "Possible group names are:"
-            list_formatted_internal_groups = format_list_linewise(INTERNAL_PARAM_GROUPS)
-
-            raise ValueError(
-                "\n".join(
-                    [part_1, list_1, part_2, part_3, list_formatted_internal_groups]
-                )
-            )
-    elif isinstance(policy_groups, str):
-        if policy_groups == "all":
-            out = INTERNAL_PARAM_GROUPS
-        elif policy_groups in INTERNAL_PARAM_GROUPS:
-            out = [policy_groups]
-        else:
-            part_1 = f"{policy_groups} is not a valid group name."
-            part_2 = "Possible group names are:"
-            list_formatted_internal_groups = format_list_linewise(INTERNAL_PARAM_GROUPS)
-            raise ValueError(
-                "\n".join([part_1, part_2, list_formatted_internal_groups])
-            )
-    else:
-        raise ValueError(f"{policy_groups} is not a string or list.")
-
-    return out
 
 
 def _parse_date(date):

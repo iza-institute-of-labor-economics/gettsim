@@ -79,10 +79,7 @@ def test_zve(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(
-        date=year,
-        policy_groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld", "eink_st"],
-    )
+    params_dict, policy_func_dict = set_up_policy_environment(date=year)
 
     columns_overriding_functions = [
         "ges_krankenv_beitr_m",

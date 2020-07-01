@@ -58,16 +58,7 @@ def test_eltgeld(
     """
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(
-        date=year,
-        policy_groups=[
-            "elterngeld",
-            "soz_vers_beitr",
-            "eink_st_abzuege",
-            "eink_st",
-            "soli_st",
-        ],
-    )
+    params_dict, policy_func_dict = set_up_policy_environment(date=year,)
     df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
     df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
 

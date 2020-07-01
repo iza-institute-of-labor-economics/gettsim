@@ -53,9 +53,7 @@ def test_benefit_checks(input_data, year, column):
         "arbeitsl_geld_2_eink_hh",
     ]
 
-    params_dict, policy_func_dict = set_up_policy_environment(
-        date=year, policy_groups="arbeitsl_geld_2",
-    )
+    params_dict, policy_func_dict = set_up_policy_environment(date=year)
     result = compute_taxes_and_transfers(
         df,
         columns_overriding_functions=columns,

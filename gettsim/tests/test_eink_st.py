@@ -39,9 +39,7 @@ def input_data():
 def test_tax_sched(
     input_data, year, column,
 ):
-    params_dict, policy_func_dict = set_up_policy_environment(
-        date=year, policy_groups=["eink_st", "eink_st_abzuege", "soli_st", "abgelt_st"],
-    )
+    params_dict, policy_func_dict = set_up_policy_environment(date=year)
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()

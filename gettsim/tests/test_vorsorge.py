@@ -41,9 +41,7 @@ def test_vorsorge(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(
-        date=year, policy_groups=["eink_st_abzuege", "soz_vers_beitr"],
-    )
+    params_dict, policy_func_dict = set_up_policy_environment(date=year)
     columns_overriding_functions = [
         "ges_krankenv_beitr_m",
         "arbeitsl_v_beitr_m",

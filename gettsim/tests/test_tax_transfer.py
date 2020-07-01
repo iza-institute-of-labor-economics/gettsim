@@ -90,9 +90,7 @@ def test_tax_transfer(
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[REQUIRED_INPUTS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(
-        date=year, policy_groups="all"
-    )
+    params_dict, policy_func_dict = set_up_policy_environment(date=year)
     # params_dict["renten_daten"] = renten_daten
 
     compute_taxes_and_transfers(
