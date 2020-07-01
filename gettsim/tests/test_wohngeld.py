@@ -133,7 +133,6 @@ def input_data_single_household():
             "alter": 30,
             "immobilie_baujahr_hh": 1970,
             "kindergeld_anspruch": False,
-            "mietstufe": 3,
             "bruttolohn_m": 0,
             "ges_rente_m": 0,
             "_ertragsanteil": 0,
@@ -155,9 +154,14 @@ def input_data_single_household():
     return df
 
 
-def test_increasing_hh_size(input_data_single_household):
-    year = 2010
+POLICY_YEARS = [2009, 2016, 2020]
+MIETSTUFEN = range(1, 7)
+
+
+@pytest.mark.parametrize("year, mietstufe", itertools.product(POLICY_YEARS, MIETSTUFEN))
+def test_increasing_hh_size(input_data_single_household, year, mietstufe):
     column = "wohngeld_basis_hh"
+    input_data_single_household["mietstufe"] = mietstufe
     df_org = df = input_data_single_household
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=year, policy_groups="wohngeld"
@@ -178,9 +182,10 @@ def test_increasing_hh_size(input_data_single_household):
     ]
 
     max_hh_size = 12
-    results = [0] * max_hh_size
+    result = pd.Series(dtype=float)
     for i in range(max_hh_size):
-        results[i] = compute_taxes_and_transfers(
+        old_result = result
+        result = compute_taxes_and_transfers(
             df,
             user_columns=columns,
             user_functions=policy_func_dict,
@@ -190,4 +195,4 @@ def test_increasing_hh_size(input_data_single_household):
         df = pd.concat([df, df_org], ignore_index=True)
         df.loc[i, "pid"] = i + 1
         if i > 0:
-            assert results[i].iloc[0] > results[i - 1].iloc[0]
+            assert result.iloc[0] > old_result.iloc[0]
