@@ -79,44 +79,6 @@ def test_wg(input_data, year, column):
     assert_series_equal(result, year_data[column])
 
 
-@pytest.fixture(scope="module")
-def input_data_2():
-    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg2.csv")
-
-
-@pytest.mark.parametrize("year, column", itertools.product([2013], TEST_COLUMN))
-def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
-    year_data = input_data_2[input_data_2["jahr"] == year]
-    df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=year, policy_groups="wohngeld"
-    )
-    columns = [
-        "elterngeld_m",
-        "arbeitsl_geld_m",
-        "unterhaltsvors_m",
-        "_ertragsanteil",
-        "brutto_eink_1",
-        "brutto_eink_4",
-        "brutto_eink_5",
-        "brutto_eink_6",
-        "ges_krankenv_beitr_m",
-        "rentenv_beitr_m",
-        "kindergeld_anspruch",
-    ]
-
-    policy_func_dict["eink_st_tu"] = eink_st_m_tu_from_data
-
-    result = compute_taxes_and_transfers(
-        df,
-        user_columns=columns,
-        user_functions=policy_func_dict,
-        targets=column,
-        params=params_dict,
-    )
-    assert_series_equal(result, year_data[column])
-
-
 def eink_st_m_tu_from_data(eink_st_m, tu_id):
     return eink_st_m.groupby(tu_id).sum()
 
