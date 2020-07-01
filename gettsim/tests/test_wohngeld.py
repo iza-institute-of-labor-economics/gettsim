@@ -120,9 +120,12 @@ def eink_st_m_tu_from_data(eink_st_m, tu_id):
     return eink_st_m.groupby(tu_id).sum()
 
 
+MAX_HH_SIZE = 12
+
+
 @pytest.fixture(scope="module")
-def input_data_single_household():
-    df = pd.DataFrame(
+def input_data_households():
+    end_df = df = df_org = pd.DataFrame(
         data={
             "p_id": 0,
             "hh_id": 0,
@@ -137,6 +140,7 @@ def input_data_single_household():
             "ges_rente_m": 0,
             "_ertragsanteil": 0,
             "elterngeld_m": 0,
+            "mietstufe": 0,
             "arbeitsl_geld_m": 0,
             "sonstig_eink_m": 0,
             "unterhaltsvors_m": 0,
@@ -151,7 +155,14 @@ def input_data_single_household():
         },
         index=[0],
     )
-    return df
+
+    for i in range(1, MAX_HH_SIZE):
+        df = pd.concat([df, df_org], ignore_index=True)
+        df.loc[:, "tu_id"] = i
+        df.loc[:, "hh_id"] = i
+        end_df = pd.concat([end_df, df], ignore_index=True)
+    end_df.loc[:, "p_id"] = end_df.index
+    return end_df
 
 
 POLICY_YEARS = [2009, 2016, 2020]
@@ -159,10 +170,8 @@ MIETSTUFEN = range(1, 7)
 
 
 @pytest.mark.parametrize("year, mietstufe", itertools.product(POLICY_YEARS, MIETSTUFEN))
-def test_increasing_hh_size(input_data_single_household, year, mietstufe):
+def test_increasing_hh_size(input_data_households, year, mietstufe):
     column = "wohngeld_basis_hh"
-    input_data_single_household["mietstufe"] = mietstufe
-    df_org = df = input_data_single_household
     params_dict, policy_func_dict = get_policies_for_date(
         policy_date=year, policy_groups="wohngeld"
     )
@@ -180,21 +189,15 @@ def test_increasing_hh_size(input_data_single_household, year, mietstufe):
         "rentenv_beitr_m",
         "kindergeld_anspruch",
     ]
+    input_data_households.loc[:"mietstufe"] = mietstufe
 
-    max_hh_size = 12
-    result = pd.Series(dtype=float)
-    for i in range(max_hh_size):
-        old_result = result
-        result = compute_taxes_and_transfers(
-            df,
-            user_columns=columns,
-            user_functions=policy_func_dict,
-            targets=column,
-            params=params_dict,
-        )
-        df = pd.concat([df, df_org], ignore_index=True)
-        df.loc[i, "pid"] = i + 1
-        if i > 0:
-            old_wohngeld = old_result.iloc[0]
-            wohngeld = result.iloc[0]
-            assert wohngeld > old_wohngeld
+    result = compute_taxes_and_transfers(
+        input_data_households,
+        user_columns=columns,
+        user_functions=policy_func_dict,
+        targets=column,
+        params=params_dict,
+    )
+    hh_id = input_data_households["hh_id"]
+    for i in sorted(hh_id.unique())[:-1]:
+        assert result[hh_id == i].iloc[0] < result[hh_id == i + 1].iloc[0]
