@@ -6,7 +6,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.policy_environment import set_up_policy_environment
 
 
 INPUT_COLS = [
@@ -45,8 +45,8 @@ def test_uhv(input_data, year, column, month):
         (input_data["jahr"] == year) & (input_data["monat"] == month)
     ]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=f"{year}-{month}", policy_groups=["unterhalt", "kindergeld"]
+    params_dict, policy_func_dict = set_up_policy_environment(
+        date=f"{year}-{month}", policy_groups=["unterhalt", "kindergeld"]
     )
 
     result = compute_taxes_and_transfers(

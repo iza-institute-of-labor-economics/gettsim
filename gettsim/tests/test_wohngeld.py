@@ -6,7 +6,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.policy_environment import set_up_policy_environment
 
 
 INPUT_COLS = [
@@ -50,8 +50,8 @@ def input_data():
 def test_wg(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=year, policy_groups="wohngeld"
+    params_dict, policy_func_dict = set_up_policy_environment(
+        date=year, policy_groups="wohngeld"
     )
     columns = [
         "elterngeld_m",
@@ -87,8 +87,8 @@ def input_data_2():
 def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
     year_data = input_data_2[input_data_2["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=year, policy_groups="wohngeld"
+    params_dict, policy_func_dict = set_up_policy_environment(
+        date=year, policy_groups="wohngeld"
     )
     columns = [
         "elterngeld_m",

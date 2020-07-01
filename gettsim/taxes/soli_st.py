@@ -1,4 +1,4 @@
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+from gettsim.piecewise_functions import piecewise_polynomial
 
 
 def soli_st_tu(_st_kind_freib_tu, _anz_erwachsene_tu, abgelt_st_tu, soli_st_params):

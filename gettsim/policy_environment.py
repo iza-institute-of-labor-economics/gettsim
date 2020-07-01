@@ -29,8 +29,8 @@ from gettsim.benefits.wohngeld import wohngeld_max_miete_ab_2009
 from gettsim.benefits.wohngeld import wohngeld_max_miete_bis_2008
 from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.piecewise_functions import get_piecewise_parameters
-from gettsim.pre_processing.policy_completion_funcs import add_progressionsfaktor
+from gettsim.piecewise_functions import check_threholds
+from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.shared import format_list_linewise
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
@@ -50,15 +50,12 @@ from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
 
 
-def get_policies_for_date(policy_date, policy_groups="all"):
-    """Get the state of the policy system for a particular date.
-
-    The function returns time dependent policy reforms (functions) as well as the
-    policy parameters for the current policy system.
+def set_up_policy_environment(date, policy_groups="all"):
+    """Set up the policy environment for a particular date.
 
     Parameters
     ----------
-    policy_date : int, str, datetime.date
+    date : int, str, datetime.date
         The date for which the policy system is set up.
     policy_groups : list, str
         The group or a list of groups which parameters are loaded. If an invalid
@@ -67,30 +64,30 @@ def get_policies_for_date(policy_date, policy_groups="all"):
 
     Returns
     -------
-    params_dict : dict
+    params : dict
         Dictionary of parameters grouped in policy system compartments given in groups.
-    policy_func_dict : dict
+    functions : dict
         Dictionary of time dependent policy reforms. Keys are the variable names they
         create.
 
     """
     # Check policy date for correct format and transfer to datetime.date
-    policy_date = _parse_date(policy_date)
+    date = _parse_date(date)
 
     # Check groups argument for correct format and transfer to list.
     group_list = _parse_parameter_groups(policy_groups)
 
-    params_dict = {}
+    params = {}
 
     for group in group_list:
-        tax_data = _load_parameter_group_from_yaml(policy_date, group)
+        tax_data = _load_parameter_group_from_yaml(date, group)
 
         # Align paramters for e.g. piecewise polynomial functions
-        params_dict[group] = _parse_parameters(tax_data)
+        params[group] = _parse_parameters(tax_data)
 
-    policy_func_dict = load_reforms_for_date(policy_date)
+    functions = load_reforms_for_date(date)
 
-    return params_dict, policy_func_dict
+    return params, functions
 
 
 def _parse_parameters(tax_data):
@@ -178,32 +175,32 @@ def _parse_parameter_groups(policy_groups):
     return out
 
 
-def _parse_date(policy_date):
+def _parse_date(date):
     """Check the policy date for different input formats.
 
     Parameters
     ----------
-    policy_date : datetime.date, str, int
+    date : datetime.date, str, int
         The date for which the policy system is set up.
 
     Returns
     -------
-    policy_date : datetime.date
+    date : datetime.date
         The date for which the policy system is set up.
     """
-    if isinstance(policy_date, str):
-        policy_date = pd.to_datetime(policy_date).date()
-    elif isinstance(policy_date, int):
-        policy_date = datetime.date(year=policy_date, month=1, day=1)
-    return policy_date
+    if isinstance(date, str):
+        date = pd.to_datetime(date).date()
+    elif isinstance(date, int):
+        date = datetime.date(year=date, month=1, day=1)
+    return date
 
 
-def load_reforms_for_date(policy_date):
+def load_reforms_for_date(date):
     """Load time dependet policy reforms.
 
     Parameters
     ----------
-    policy_date : datetime.date
+    date : datetime.date
         The date for which the policy system is set up.
 
     Returns
@@ -213,7 +210,7 @@ def load_reforms_for_date(policy_date):
         create.
 
     """
-    year = policy_date.year
+    year = date.year
     policy_func_dict = {}
     if year < 2009:
         policy_func_dict["sum_brutto_eink"] = sum_brutto_eink_mit_kapital
@@ -284,7 +281,7 @@ def load_reforms_for_date(policy_date):
         policy_func_dict["kindersatz_m_hh"] = kindersatz_m_hh_ab_2011
         policy_func_dict["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
 
-    if policy_date <= datetime.date(year=2005, month=10, day=1):
+    if date <= datetime.date(year=2005, month=10, day=1):
         policy_func_dict["eink_anr_frei"] = eink_anr_frei_bis_10_2005
     else:
         policy_func_dict["eink_anr_frei"] = eink_anr_frei_ab_10_2005
@@ -292,12 +289,12 @@ def load_reforms_for_date(policy_date):
     return policy_func_dict
 
 
-def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
+def _load_parameter_group_from_yaml(date, group, parameters=None):
     """Load data from raw yaml group file.
 
     Parameters
     ----------
-    policy_date : datetime.date
+    date : datetime.date
         The date for which the policy system is set up.
     group : string
         Policy system compartment.
@@ -321,23 +318,23 @@ def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
     if not parameters:
         parameters = raw_group_data.keys()
     for param in parameters:
-        policy_dates = sorted(
+        dates = sorted(
             key
             for key in raw_group_data[param].keys()
             if isinstance(key, datetime.date)
         )
 
-        past_policies = [x for x in policy_dates if x <= policy_date]
+        past_policies = [x for x in dates if x <= date]
 
         if not past_policies:
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
-            if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
-                future_policy = raw_group_data[param][np.min(policy_dates)]
+            if "deviation_from" in raw_group_data[param][np.min(dates)].keys():
+                future_policy = raw_group_data[param][np.min(dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     tax_data[param] = _load_parameter_group_from_yaml(
-                        policy_date, path_list[0], parameters=[path_list[1]]
+                        date, path_list[0], parameters=[path_list[1]]
                     )[path_list[1]]
             else:
                 # TODO: Should there be missing values or should the key not exist?
@@ -365,7 +362,7 @@ def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
                     elif "." in policy_in_place["deviation_from"]:
                         path_list = policy_in_place["deviation_from"].split(".")
                         tax_data[param] = _load_parameter_group_from_yaml(
-                            policy_date, path_list[0], parameters=[path_list[1]]
+                            date, path_list[0], parameters=[path_list[1]]
                         )[path_list[1]]
                     for key in value_keys:
                         key_list = []
@@ -378,7 +375,7 @@ def _load_parameter_group_from_yaml(policy_date, group, parameters=None):
                     for key in value_keys:
                         tax_data[param][key] = policy_in_place[key]
 
-    tax_data["datum"] = policy_date
+    tax_data["datum"] = date
 
     return tax_data
 
@@ -407,3 +404,31 @@ def get_by_path(data_dict, key_list):
 def set_by_path(data_dict, key_list, value):
     """Set a value in a nested object in root by item sequence."""
     get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
+
+
+def add_progressionsfaktor(param_dict, parameter):
+    """Quadratic factor of tax tariff function.
+
+    The German tax tariff is defined on several income intervals with distinct
+    marginal tax rates at the thresholds. To ensure an almost linear increase of
+    the average tax rate, the German tax tariff is defined as a quadratic function,
+    where the quadratic rate is the so called linear Progressionsfaktor. For its
+    calculation one needs the lower (low_thres) and upper (upper_thres) thresholds of
+    the interval as well as the marginal tax rate of the interval (rate_iv) and of the
+    following interval (rate_fiv). The formula is then given by:
+
+    (rate_fiv - rate_iv) / (2 * (upper_thres - low_thres))
+
+    """
+    out_dict = copy.deepcopy(param_dict)
+    interval_keys = sorted(key for key in out_dict if isinstance(key, int))
+    # Check and extract lower thresholds.
+    lower_thresholds, upper_thresholds, thresholds = check_threholds(
+        param_dict, parameter, interval_keys
+    )
+    for key in interval_keys:
+        if "rate_quadratic" not in out_dict[key]:
+            out_dict[key]["rate_quadratic"] = (
+                out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
+            ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
+    return out_dict

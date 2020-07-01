@@ -6,7 +6,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.policy_environment import set_up_policy_environment
 
 
 INPUT_COLS = [
@@ -39,9 +39,8 @@ def input_data():
 def test_tax_sched(
     input_data, year, column,
 ):
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=year,
-        policy_groups=["eink_st", "eink_st_abzuege", "soli_st", "abgelt_st"],
+    params_dict, policy_func_dict = set_up_policy_environment(
+        date=year, policy_groups=["eink_st", "eink_st_abzuege", "soli_st", "abgelt_st"],
     )
 
     year_data = input_data[input_data["jahr"] == year]
