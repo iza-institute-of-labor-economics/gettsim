@@ -1,6 +1,5 @@
 import copy
 import functools
-import pprint
 import textwrap
 import warnings
 
@@ -69,10 +68,6 @@ def compute_taxes_and_transfers(
     """
     data = copy.deepcopy(data)
 
-    data = _process_data(data)
-    data = _reduce_data(data)
-    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
-
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"
@@ -104,6 +99,10 @@ def compute_taxes_and_transfers(
 
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
+
+    data = _process_data(data)
+    data = _reduce_data(data)
+    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
 
     results = execute_dag(dag, data, targets, debug)
 
@@ -432,8 +431,8 @@ def _fail_if_root_nodes_are_missing(dag, data):
             missing_nodes.append(node)
 
     if missing_nodes:
-        formatted = pprint.pformat(missing_nodes)
-        raise ValueError(f"The following data columns are missing.\n\n{formatted}")
+        formatted = format_list_linewise(missing_nodes)
+        raise ValueError(f"The following data columns are missing.\n{formatted}")
 
 
 def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification):
