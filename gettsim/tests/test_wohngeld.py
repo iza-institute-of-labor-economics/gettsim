@@ -76,7 +76,7 @@ def test_wg(input_data, year, column):
         targets=column,
         params=params_dict,
     )
-    assert_series_equal(result, year_data[column])
+    assert_series_equal(result[column], year_data[column])
 
 
 def eink_st_m_tu_from_data(eink_st_m, tu_id):
@@ -91,8 +91,8 @@ def input_data_households():
     df = pd.DataFrame(
         data={
             "p_id": 0,
-            "hh_id": np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1)),
-            "tu_id": np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1)),
+            "hh_id": 0,
+            "tu_id": 0,
             "kind": False,
             "kaltmiete_m_hh": 200,
             "alleinerziehend": False,
@@ -119,6 +119,8 @@ def input_data_households():
         index=range(int((MAX_HH_SIZE * (MAX_HH_SIZE + 1)) / 2)),
     )
     df["p_id"] = df.index
+    df["hh_id"] = np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1))
+    df["tu_id"] = np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1))
 
     return df
 
@@ -147,7 +149,7 @@ def test_increasing_hh_size(input_data_households, year, mietstufe):
         "rentenv_beitr_m",
         "kindergeld_anspruch",
     ]
-    input_data_households.loc[:"mietstufe"] = mietstufe
+    input_data_households["mietstufe"] = mietstufe
 
     result = compute_taxes_and_transfers(
         input_data_households,
@@ -158,4 +160,6 @@ def test_increasing_hh_size(input_data_households, year, mietstufe):
     )
     hh_id = input_data_households["hh_id"]
     for i in sorted(hh_id.unique())[:-1]:
-        assert result[hh_id == i].iloc[0] < result[hh_id == i + 1].iloc[0]
+        assert (
+            result[hh_id == i][column].iloc[0] < result[hh_id == i + 1][column].iloc[0]
+        )

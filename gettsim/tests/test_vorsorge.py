@@ -61,5 +61,5 @@ def test_vorsorge(
 
     # TODO: Here our test values are off by about 5 euro. We should revisit. See #217.
     assert_series_equal(
-        result, year_data[column], check_less_precise=1, check_dtype=False
+        result[column], year_data[column], check_less_precise=1, check_dtype=False
     )

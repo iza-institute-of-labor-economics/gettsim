@@ -54,5 +54,8 @@ def test_ui(
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.
     assert_series_equal(
-        result, year_data["arbeitsl_geld_m"], check_less_precise=3, check_dtype=False,
+        result["arbeitsl_geld_m"],
+        year_data["arbeitsl_geld_m"],
+        check_less_precise=3,
+        check_dtype=False,
     )

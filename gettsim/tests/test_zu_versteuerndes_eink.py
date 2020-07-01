@@ -111,10 +111,14 @@ def test_zve(
 
     # TODO: There are large differences for the 2018 test. See #217.
     assert_series_equal(
-        result, expected_result, check_dtype=False, check_less_precise=1,
+        result[column], expected_result, check_dtype=False, check_less_precise=1,
     )
 
 
 def sum_test_data_tu(column, year_data):
-    out = year_data[column].groupby(year_data["tu_id"]).transform("sum")
-    return out.rename(column + "_tu")
+    return (
+        year_data[column]
+        .groupby(year_data["tu_id"])
+        .transform("sum")
+        .rename(column + "_tu")
+    )
