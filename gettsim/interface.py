@@ -2,17 +2,17 @@ import collections
 import copy
 import pprint
 import textwrap
-from pathlib import Path
 
 import pandas as pd
 
-from gettsim.config import INTERNAL_FUNCTION_FILES
 from gettsim.config import ORDER_OF_IDS
+from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.dag import _dict_subset
 from gettsim.dag import create_dag
 from gettsim.dag import create_function_dict
 from gettsim.dag import execute_dag
 from gettsim.dag import prune_dag
+from gettsim.functions_loader import convert_paths_to_import_strings
 from gettsim.functions_loader import load_functions
 
 
@@ -22,7 +22,6 @@ def compute_taxes_and_transfers(
     user_columns=None,
     params=None,
     targets=None,
-    return_dag=False,
     debug=False,
 ):
     """Compute taxes and transfers.
@@ -48,8 +47,6 @@ def compute_taxes_and_transfers(
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, `targets` is `None` and all results are
         returned.
-    return_dag : bool
-        Indicates whether the DAG should be returned as well for inspection.
     debug : bool
         The debug mode does the following:
 
@@ -86,10 +83,8 @@ def compute_taxes_and_transfers(
     user_functions = [] if user_functions is None else user_functions
     user_functions = load_functions(user_functions)
 
-    internal_functions = {}
-    for file in INTERNAL_FUNCTION_FILES:
-        new_funcs = load_functions(Path(__file__).parent / file)
-        internal_functions.update(new_funcs)
+    imports = convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
+    internal_functions = load_functions(imports)
 
     _fail_if_user_columns_are_not_in_data(data, user_columns)
     _fail_if_user_columns_are_not_in_functions(
@@ -120,16 +115,10 @@ def compute_taxes_and_transfers(
     results = _expand_data(results, ids)
     results = pd.DataFrame(results)
 
-    if debug:
-        results = _reorder_columns(results)
-    elif len(targets) == 1:
-        results = results[targets[0]]
-    else:
+    if not debug:
         results = results[targets]
-        results = _reorder_columns(results)
 
-    if return_dag:
-        results = (results, dag)
+    results = _reorder_columns(results)
 
     return results
 
