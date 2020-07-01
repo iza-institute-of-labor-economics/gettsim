@@ -1,4 +1,3 @@
-import copy
 import functools
 import inspect
 
@@ -25,6 +24,7 @@ from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
 import gettsim
+from gettsim.dag import create_dag
 from gettsim.interface import create_linewise_printed_list
 
 
@@ -51,7 +51,10 @@ source code: @source_code{safe}
 
 
 def plot_dag(
-    dag,
+    functions=None,
+    targets=None,
+    columns_overriding_functions=None,
+    is_minimal_specification="ignore",
     selectors=None,
     labels=True,
     tooltips=False,
@@ -89,7 +92,9 @@ def plot_dag(
         example, change the fontsize with `{"text_font_size": "12px"}`.
 
     """
-    dag = copy.deepcopy(dag)
+    dag = create_dag(
+        functions, targets, columns_overriding_functions, is_minimal_specification
+    )
 
     selectors = [] if selectors is None else _to_list(selectors)
     plot_kwargs = {} if plot_kwargs is None else plot_kwargs

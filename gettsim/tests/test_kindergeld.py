@@ -39,9 +39,7 @@ def test_kindergeld(input_data, year, column):
     )
 
     calc_result = compute_taxes_and_transfers(
-        df, user_functions=policy_func_dict, targets=column, params=params_dict
+        df, functions=policy_func_dict, targets=column, params=params_dict
     )
 
-    assert_series_equal(
-        calc_result, year_data[column], check_dtype=False, check_names=False
-    )
+    assert_series_equal(calc_result[column], year_data[column], check_dtype=False)

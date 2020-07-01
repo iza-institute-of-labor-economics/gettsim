@@ -31,8 +31,11 @@ def test_soli_st(
 
     user_cols = ["_st_kind_freib_tu", "abgelt_st_tu"]
     results = compute_taxes_and_transfers(
-        df, user_columns=user_cols, targets="soli_st_tu", params=params_dict
+        df,
+        columns_overriding_functions=user_cols,
+        targets="soli_st_tu",
+        params=params_dict,
     )
     assert_series_equal(
-        results, year_data["soli_st_tu"], check_dtype=False, check_names=False,
+        results["soli_st_tu"], year_data["soli_st_tu"], check_dtype=False,
     )

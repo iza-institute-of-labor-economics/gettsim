@@ -62,14 +62,9 @@ def test_tax_sched(
     ]
 
     result = compute_taxes_and_transfers(
-        df, user_columns=columns, targets=column, params=params_dict
+        df, columns_overriding_functions=columns, targets=column, params=params_dict
     )
 
     assert_series_equal(
-        result,
-        year_data[column],
-        check_dtype=False,
-        check_less_precise=1,
-        check_names=False,
-        check_index_type=False,
+        result[column], year_data[column], check_dtype=False, check_less_precise=2,
     )

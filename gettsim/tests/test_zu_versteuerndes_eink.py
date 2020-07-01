@@ -84,7 +84,7 @@ def test_zve(
         policy_groups=["eink_st_abzuege", "soz_vers_beitr", "kindergeld", "eink_st"],
     )
 
-    user_columns = [
+    columns_overriding_functions = [
         "ges_krankenv_beitr_m",
         "arbeitsl_v_beitr_m",
         "pflegev_beitr_m",
@@ -92,8 +92,8 @@ def test_zve(
     ]
     result = compute_taxes_and_transfers(
         df,
-        user_columns=user_columns,
-        user_functions=policy_func_dict,
+        columns_overriding_functions=columns_overriding_functions,
+        functions=policy_func_dict,
         targets=column,
         params=params_dict,
     )
@@ -109,14 +109,16 @@ def test_zve(
     else:
         expected_result = year_data[column]
 
+    # TODO: There are large differences for the 2018 test. See #217.
     assert_series_equal(
-        result,
-        expected_result,
-        check_dtype=False,
-        check_less_precise=1,
-        check_names=False,
+        result[column], expected_result, check_dtype=False, check_less_precise=1,
     )
 
 
 def sum_test_data_tu(column, year_data):
-    return year_data[column].groupby(year_data["tu_id"]).transform("sum")
+    return (
+        year_data[column]
+        .groupby(year_data["tu_id"])
+        .transform("sum")
+        .rename(column + "_tu")
+    )

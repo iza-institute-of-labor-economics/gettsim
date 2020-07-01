@@ -10,5 +10,5 @@ Tutorials help you to get started with gettsim.
    installation
    interface
    visualize
-   user_functions
+   functions
    debugging

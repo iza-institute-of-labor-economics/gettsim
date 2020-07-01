@@ -1,15 +1,17 @@
-from gettsim.config import INTERNAL_FUNCTION_FILES
+from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
-from gettsim.functions_loader import load_functions
+from gettsim.functions_loader import _load_functions
 
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
-    documented_functions = load_functions(
+    documented_functions = _load_functions(
         ROOT_DIR / "functions.py", allow_imported_members=True
     )
 
-    internal_function_files = [ROOT_DIR.joinpath(p) for p in INTERNAL_FUNCTION_FILES]
-    internal_functions = load_functions(
+    internal_function_files = [
+        ROOT_DIR.joinpath(p) for p in PATHS_TO_INTERNAL_FUNCTIONS
+    ]
+    internal_functions = _load_functions(
         internal_function_files, allow_imported_members=True
     )
 

@@ -49,10 +49,10 @@ def test_favorability_check(input_data, year, column):
 
     result = compute_taxes_and_transfers(
         df,
-        user_functions=policy_func_dict,
-        user_columns=columns,
+        functions=policy_func_dict,
+        columns_overriding_functions=columns,
         targets=column,
         params=params_dict,
     )
 
-    assert_series_equal(result, year_data[column], check_dtype=False, check_names=False)
+    assert_series_equal(result[column], year_data[column], check_dtype=False)

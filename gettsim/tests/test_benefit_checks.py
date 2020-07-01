@@ -58,9 +58,9 @@ def test_benefit_checks(input_data, year, column):
     )
     result = compute_taxes_and_transfers(
         df,
-        user_columns=columns,
-        user_functions=policy_func_dict,
+        columns_overriding_functions=columns,
+        functions=policy_func_dict,
         targets=column,
         params=params_dict,
     )
-    assert_series_equal(result, year_data[column], check_dtype=False)
+    assert_series_equal(result[column], year_data[column], check_dtype=False)

@@ -14,7 +14,7 @@ def wohngeld_m_hh(
 
 
 def wohngeld_basis_hh(
-    hh_id, wohngeld_basis, tu_vorstand,
+    hh_id, wohngeld_basis,
 ):
     """Compute "Wohngeld" or housing benefits.
 
@@ -30,7 +30,12 @@ def wohngeld_basis_hh(
     `_wohngeld_eink` (income) (§19 WoGG).
 
     """
-    return (wohngeld_basis * tu_vorstand).groupby(hh_id).sum().round(2)
+    # ToDo: When thinking about calculating wohngeld on the correct level, we need
+    # account for multiple tax units in one household. The following is the old code!
+    # See #218.
+    # out = (wohngeld_basis * tu_vorstand).groupby(hh_id).sum().round(2)
+    out = wohngeld_basis.groupby(hh_id).max().round(2)
+    return out
 
 
 def _zu_verst_ges_rente_tu(_zu_verst_ges_rente, tu_id):

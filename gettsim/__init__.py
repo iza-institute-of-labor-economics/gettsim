@@ -8,16 +8,16 @@ from gettsim.interface import compute_taxes_and_transfers  # noqa: F401
 from gettsim.pre_processing.policy_for_date import get_policies_for_date  # noqa: F401
 from gettsim.visualization import plot_dag  # noqa: F401
 
-__version__ = "0.3.2"
+__version__ = "0.3.3"
 
 COUNTER_TEST_EXECUTIONS = itertools.count()
 
 
-def test():
+def test(*args):
     n_test_executions = next(COUNTER_TEST_EXECUTIONS)
 
     if n_test_executions == 0:
-        pytest.main([str(ROOT_DIR)])
+        pytest.main([str(ROOT_DIR), *args])
     else:
         warnings.warn(
             "Repeated execution of the test suite is not possible. Start a new Python "

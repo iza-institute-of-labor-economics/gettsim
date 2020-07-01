@@ -60,16 +60,12 @@ def test_kiz(
 
     result = compute_taxes_and_transfers(
         df,
-        user_columns=columns,
-        user_functions=policy_func_dict,
+        columns_overriding_functions=columns,
+        functions=policy_func_dict,
         targets=column,
         params=params_dict,
     )
 
     assert_series_equal(
-        result,
-        year_data[column],
-        check_less_precise=True,
-        check_index_type=False,
-        check_dtype=False,
+        result[column], year_data[column], check_dtype=False,
     )
