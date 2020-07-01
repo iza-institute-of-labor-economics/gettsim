@@ -1,5 +1,6 @@
 import itertools
 
+import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
@@ -125,11 +126,11 @@ MAX_HH_SIZE = 12
 
 @pytest.fixture(scope="module")
 def input_data_households():
-    end_df = df = df_org = pd.DataFrame(
+    df = pd.DataFrame(
         data={
             "p_id": 0,
-            "hh_id": 0,
-            "tu_id": 0,
+            "hh_id": np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1)),
+            "tu_id": np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1)),
             "kind": False,
             "kaltmiete_m_hh": 200,
             "alleinerziehend": False,
@@ -153,16 +154,11 @@ def input_data_households():
             "ges_krankenv_beitr_m": 0,
             "behinderungsgrad": 0,
         },
-        index=[0],
+        index=range(int((MAX_HH_SIZE * (MAX_HH_SIZE + 1)) / 2)),
     )
+    df["p_id"] = df.index
 
-    for i in range(1, MAX_HH_SIZE):
-        df = pd.concat([df, df_org], ignore_index=True)
-        df.loc[:, "tu_id"] = i
-        df.loc[:, "hh_id"] = i
-        end_df = pd.concat([end_df, df], ignore_index=True)
-    end_df.loc[:, "p_id"] = end_df.index
-    return end_df
+    return df
 
 
 POLICY_YEARS = [2009, 2016, 2020]
