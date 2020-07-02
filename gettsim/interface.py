@@ -30,24 +30,21 @@ def compute_taxes_and_transfers(
     Parameters
     ----------
     data : pandas.DataFrame
-        Data provided by the user.
-    params : dict, default None
-        A pandas Series or dictionary with user provided parameters. Currently just
-        mapping a parameter name to a parameter value, in the future we will need more
-        metadata. If parameters have the same name as an existing parameter from the
-        gettsim parameters database at the specified date they override that parameter.
-    functions : dict
-        Dictionary with user provided functions. The keys are the names of the function.
-        The values are either callables or strings with absolute or relative import
-        paths to a function. If functions have the same name as an existing gettsim
-        function they override that function.
-    targets : str or list of str or None
+        The data provided by the user.
+    params : dict
+        A dictionary with parameters which form the tax and transfer system.
+    functions : str, pathlib.Path, callable, module, imports statements, dict
+        Functions can be anything of the specified types and a list of the same objects.
+        If the object is a dictionary, the keys of the dictionary are used as a name
+        instead of the function name. For all other objects, the name is inferred from
+        the function name.
+    targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
-        needed by the user. By default, `targets` is `None` and all results are
-        returned.
+        needed by the user. By default, ``targets`` is ``None`` and all key outputs as
+        defined by `gettsim.config.ALL_TARGETS` are returned.
     columns_overriding_functions : str list of str
-        Names of columns which are preferred over function defined in the tax and
-        transfer system.
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimalistic configuration
         should be silenced, emitted as warnings or errors.

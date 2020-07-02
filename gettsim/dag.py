@@ -18,13 +18,18 @@ def create_dag(
 
     Parameters
     ----------
-    targets : str or list of str, default None
-        The targets which should be computed.
-    functions : dict of callable, default None
-        A dictionary of callables which define the tax and transfer system.
-    columns_overriding_functions : str or list of str, default None
-        The nodes which are provided by columns in the data and do not need to be
-        computed.
+    functions : str, pathlib.Path, callable, module, imports statements, dict
+        Functions can be anything of the specified types and a list of the same objects.
+        If the object is a dictionary, the keys of the dictionary are used as a name
+        instead of the function name. For all other objects, the name is inferred from
+        the function name.
+    targets : str, list of str, default None
+        String or list of strings with names of functions whose output is actually
+        needed by the user. By default, ``targets`` is ``None`` and all key outputs as
+        defined by `gettsim.config.ALL_TARGETS` are returned.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimalistic configuration
         should be silenced, emitted as warnings or errors.

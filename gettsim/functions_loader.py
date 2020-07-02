@@ -39,7 +39,7 @@ def _load_functions(sources, allow_imported_members=False):
 
     Parameters
     ----------
-    sources : str, pathlib.Path, function, module, dictionary of functions
+    sources : str, pathlib.Path, function, module, imports statements
         Sources from where to load functions.
     allow_imported_members : bool
         Should imported members also be collected from a module?
