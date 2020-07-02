@@ -48,9 +48,9 @@ def test_uhv(input_data, year, column, month):
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-{month}")
 
     result = compute_taxes_and_transfers(
-        df,
-        policy_params,
-        policy_functions,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=column,
         columns_overriding_functions=["arbeitsl_geld_m"],
     )

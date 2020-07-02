@@ -40,7 +40,10 @@ def test_ui(
     policy_params, policy_functions = set_up_policy_environment(date=year,)
 
     result = compute_taxes_and_transfers(
-        df, policy_params, policy_functions, targets="arbeitsl_geld_m"
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets="arbeitsl_geld_m",
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.

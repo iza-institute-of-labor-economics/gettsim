@@ -72,5 +72,5 @@ def test_tax_transfer(
     # params["renten_daten"] = renten_daten
 
     compute_taxes_and_transfers(
-        df, policy_params, policy_functions, targets=ALL_TARGETS
+        data=df, params=policy_params, functions=policy_functions, targets=ALL_TARGETS
     )

@@ -88,9 +88,9 @@ def test_zve(
         "rentenv_beitr_m",
     ]
     result = compute_taxes_and_transfers(
-        df,
-        policy_params,
-        policy_functions,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=target,
         columns_overriding_functions=columns_overriding_functions,
     )

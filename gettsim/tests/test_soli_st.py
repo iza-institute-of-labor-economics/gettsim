@@ -29,9 +29,9 @@ def test_soli_st(
 
     user_cols = ["_st_kind_freib_tu", "abgelt_st_tu"]
     results = compute_taxes_and_transfers(
-        df,
-        policy_params,
-        policy_functions,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets="soli_st_tu",
         columns_overriding_functions=user_cols,
     )

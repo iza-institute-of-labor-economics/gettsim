@@ -55,9 +55,9 @@ def test_benefit_checks(input_data, year, column):
 
     policy_params, policy_functions = set_up_policy_environment(date=year)
     result = compute_taxes_and_transfers(
-        df,
-        policy_params,
-        policy_functions,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=column,
         columns_overriding_functions=columns,
     )

@@ -67,9 +67,9 @@ def test_wg(input_data, year, column):
     policy_functions["eink_st_tu"] = eink_st_m_tu_from_data
 
     result = compute_taxes_and_transfers(
-        df,
-        policy_params,
-        policy_functions,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=column,
         columns_overriding_functions=columns,
     )
@@ -103,9 +103,9 @@ def test_wg_no_mietstufe_in_input_data(input_data_2, year, column):
     policy_functions["eink_st_tu"] = eink_st_m_tu_from_data
 
     result = compute_taxes_and_transfers(
-        df,
-        policy_params,
-        policy_functions,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=column,
         columns_overriding_functions=columns,
     )

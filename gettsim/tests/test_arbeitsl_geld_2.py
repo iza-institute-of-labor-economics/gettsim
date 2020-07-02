@@ -74,9 +74,9 @@ def test_alg2(input_data, year, column):
     ]
 
     result = compute_taxes_and_transfers(
-        df,
-        policy_params,
-        policy_functions,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=column,
         columns_overriding_functions=columns,
     )
