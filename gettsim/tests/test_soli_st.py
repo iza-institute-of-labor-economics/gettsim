@@ -25,11 +25,15 @@ def test_soli_st(
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
-    params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = set_up_policy_environment(date=year)
 
     user_cols = ["_st_kind_freib_tu", "abgelt_st_tu"]
     results = compute_taxes_and_transfers(
-        df, params=params, targets="soli_st_tu", columns_overriding_functions=user_cols,
+        df,
+        policy_params,
+        policy_functions,
+        targets="soli_st_tu",
+        columns_overriding_functions=user_cols,
     )
     assert_series_equal(
         results["soli_st_tu"], year_data["soli_st_tu"], check_dtype=False,

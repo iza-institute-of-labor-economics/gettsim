@@ -35,13 +35,13 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
 def test_vorsorge(
-    input_data, year, column,
+    input_data, year, target,
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
-    params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = set_up_policy_environment(date=year)
     columns_overriding_functions = [
         "ges_krankenv_beitr_m",
         "arbeitsl_v_beitr_m",
@@ -51,13 +51,13 @@ def test_vorsorge(
 
     result = compute_taxes_and_transfers(
         df,
-        params=params,
-        functions=policy_functions,
-        targets=column,
+        policy_params,
+        policy_functions,
+        targets=target,
         columns_overriding_functions=columns_overriding_functions,
     )
 
     # TODO: Here our test values are off by about 5 euro. We should revisit. See #217.
     assert_series_equal(
-        result[column], year_data[column], check_less_precise=1, check_dtype=False
+        result[target], year_data[target], check_less_precise=1, check_dtype=False
     )

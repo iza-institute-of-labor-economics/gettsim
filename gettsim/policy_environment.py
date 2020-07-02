@@ -243,8 +243,9 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         unnecessary keys.
 
     """
-    raw_group_data = yaml.safe_load(
-        (ROOT_DIR / "data" / f"{group}.yaml").read_text(encoding="utf-8")
+    raw_group_data = yaml.load(
+        (ROOT_DIR / "data" / f"{group}.yaml").read_text(encoding="utf-8"),
+        Loader=yaml.CLoader,
     )
 
     # Keys from the raw file which will not be transferred

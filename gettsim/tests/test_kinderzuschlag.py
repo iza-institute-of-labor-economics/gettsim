@@ -46,7 +46,7 @@ def test_kiz(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = set_up_policy_environment(date=year)
     columns = [
         "alleinerziehenden_mehrbedarf_hh",
         "arbeitsl_geld_2_eink_hh",
@@ -58,8 +58,8 @@ def test_kiz(
 
     result = compute_taxes_and_transfers(
         df,
-        params=params,
-        functions=policy_functions,
+        policy_params,
+        policy_functions,
         targets=column,
         columns_overriding_functions=columns,
     )

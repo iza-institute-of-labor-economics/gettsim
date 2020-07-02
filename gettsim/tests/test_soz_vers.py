@@ -44,8 +44,10 @@ def input_data():
 def test_soc_ins_contrib(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    results = compute_taxes_and_transfers(df, params=params, targets=column)
+    results = compute_taxes_and_transfers(
+        df, policy_params, policy_functions, targets=column
+    )
 
     pd.testing.assert_series_equal(results[column], year_data[column])

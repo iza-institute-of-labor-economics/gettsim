@@ -29,15 +29,15 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
-def test_kindergeld(input_data, year, column):
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
+def test_kindergeld(input_data, year, target):
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = set_up_policy_environment(date=year)
 
     calc_result = compute_taxes_and_transfers(
-        df, params=params, functions=policy_functions, targets=column
+        df, policy_params, policy_functions, targets=target
     )
 
-    assert_series_equal(calc_result[column], year_data[column], check_dtype=False)
+    assert_series_equal(calc_result[target], year_data[target], check_dtype=False)

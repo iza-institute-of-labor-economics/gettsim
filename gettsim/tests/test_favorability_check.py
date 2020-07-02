@@ -32,12 +32,12 @@ def input_data():
     )
 
 
-@pytest.mark.parametrize("year, column", product(YEARS, TEST_COLUMNS))
-def test_favorability_check(input_data, year, column):
+@pytest.mark.parametrize("year, target", product(YEARS, TEST_COLUMNS))
+def test_favorability_check(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params, policy_functions = set_up_policy_environment(date=year)
-    columns = [
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+    columns_overriding_functions = [
         "_st_kein_kind_freib_tu",
         "_st_kind_freib_tu",
         "abgelt_st_tu",
@@ -47,10 +47,10 @@ def test_favorability_check(input_data, year, column):
 
     result = compute_taxes_and_transfers(
         df,
-        params=params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=columns,
+        policy_params,
+        policy_functions,
+        targets=target,
+        columns_overriding_functions=columns_overriding_functions,
     )
 
-    assert_series_equal(result[column], year_data[column], check_dtype=False)
+    assert_series_equal(result[target], year_data[target], check_dtype=False)
