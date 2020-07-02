@@ -10,6 +10,7 @@ from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 
+# Variables for the standard wohngeld test.
 INPUT_COLS = [
     "p_id",
     "hh_id",
@@ -40,6 +41,11 @@ INPUT_COLS = [
 ]
 YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
 TEST_COLUMN = ["wohngeld_basis_hh"]
+
+# Variables for test of wohngeld with increasing size.
+MAX_HH_SIZE = 12
+POLICY_YEARS = [2009, 2016, 2020]
+MIETSTUFEN = range(1, 7)
 
 
 @pytest.fixture(scope="module")
@@ -83,9 +89,6 @@ def eink_st_m_tu_from_data(eink_st_m, tu_id):
     return eink_st_m.groupby(tu_id).sum()
 
 
-MAX_HH_SIZE = 12
-
-
 @pytest.fixture(scope="module")
 def input_data_households():
     df = pd.DataFrame(
@@ -120,10 +123,6 @@ def input_data_households():
     df["p_id"] = df.index
 
     return df
-
-
-POLICY_YEARS = [2009, 2016, 2020]
-MIETSTUFEN = range(1, 7)
 
 
 @pytest.mark.parametrize("year, mietstufe", itertools.product(POLICY_YEARS, MIETSTUFEN))
