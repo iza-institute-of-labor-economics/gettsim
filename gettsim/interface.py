@@ -1,4 +1,3 @@
-import copy
 import functools
 import textwrap
 import warnings
@@ -29,7 +28,7 @@ def compute_taxes_and_transfers(
 
     Parameters
     ----------
-    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+    data : pandas.DataFrame
         Data provided by the user.
     functions : dict
         Dictionary with user provided functions. The keys are the names of the function.
@@ -62,44 +61,47 @@ def compute_taxes_and_transfers(
 
     Returns
     -------
-    results : dict of pandas.Series
-        Dictionary of Series containing the target quantities.
+    results : pandas.DataFrame
+        DataFrame containing computed variables.
 
     """
-    data = copy.deepcopy(data)
-
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"
     )
-
     params = {} if params is None else params
 
     _fail_if_columns_overriding_functions_are_not_in_data(
         data, columns_overriding_functions
     )
 
+    # Load functions and perform checks.
     functions, internal_functions = load_user_and_internal_functions(functions)
-
     columns = set(data) - set(columns_overriding_functions)
     for funcs, name in zip([internal_functions, functions], ["internal", "user"]):
         _fail_if_functions_and_columns_overlap(columns, funcs, name)
 
+    # Create one dictionary of functions and perform check.
     functions = {**internal_functions, **functions}
     functions = {
         k: v for k, v in functions.items() if k not in columns_overriding_functions
     }
     _fail_if_targets_not_in_functions(functions, targets)
 
+    # Partial parameters to functions such that they disappear in the DAG.
     functions = partial_parameters_to_functions(functions, params)
 
+    # Create DAG and perform checks which depend on data which is not part of the DAG
+    # interface.
     dag = create_dag(
         functions, targets, columns_overriding_functions, check_minimal_specification
     )
-
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
 
+    # We delay the data preparation as long as possible such that other checks can fail
+    # before this.
+    data = data.copy(deep=True)
     data = _process_data(data)
     data = _reduce_data(data)
     ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
