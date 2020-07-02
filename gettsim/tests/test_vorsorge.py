@@ -41,7 +41,7 @@ def test_vorsorge(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(date=year)
+    params, policy_functions = set_up_policy_environment(date=year)
     columns_overriding_functions = [
         "ges_krankenv_beitr_m",
         "arbeitsl_v_beitr_m",
@@ -51,10 +51,10 @@ def test_vorsorge(
 
     result = compute_taxes_and_transfers(
         df,
-        columns_overriding_functions=columns_overriding_functions,
-        functions=policy_func_dict,
+        params=params,
+        functions=policy_functions,
         targets=column,
-        params=params_dict,
+        columns_overriding_functions=columns_overriding_functions,
     )
 
     # TODO: Here our test values are off by about 5 euro. We should revisit. See #217.

@@ -4,6 +4,7 @@ import warnings
 
 import pandas as pd
 
+from gettsim.config import ALL_TARGETS
 from gettsim.config import ORDER_OF_IDS
 from gettsim.dag import _dict_subset
 from gettsim.dag import _fail_if_targets_not_in_functions
@@ -17,12 +18,12 @@ from gettsim.shared import parse_to_list_of_strings
 
 def compute_taxes_and_transfers(
     data,
-    functions=None,
-    columns_overriding_functions=None,
-    params=None,
+    params,
+    functions,
     targets=None,
-    debug=False,
+    columns_overriding_functions=None,
     check_minimal_specification="ignore",
+    debug=False,
 ):
     """Compute taxes and transfers.
 
@@ -30,23 +31,26 @@ def compute_taxes_and_transfers(
     ----------
     data : pandas.DataFrame
         Data provided by the user.
-    functions : dict
-        Dictionary with user provided functions. The keys are the names of the function.
-        The values are either callables or strings with absolute or relative import
-        paths to a function. If functions have the same name as an existing gettsim
-        function they override that function.
-    columns_overriding_functions : str list of str
-        Names of columns which are preferred over function defined in the tax and
-        transfer system.
     params : dict, default None
         A pandas Series or dictionary with user provided parameters. Currently just
         mapping a parameter name to a parameter value, in the future we will need more
         metadata. If parameters have the same name as an existing parameter from the
         gettsim parameters database at the specified date they override that parameter.
+    functions : dict
+        Dictionary with user provided functions. The keys are the names of the function.
+        The values are either callables or strings with absolute or relative import
+        paths to a function. If functions have the same name as an existing gettsim
+        function they override that function.
     targets : str or list of str or None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, `targets` is `None` and all results are
         returned.
+    columns_overriding_functions : str list of str
+        Names of columns which are preferred over function defined in the tax and
+        transfer system.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimalistic configuration
+        should be silenced, emitted as warnings or errors.
     debug : bool
         The debug mode does the following:
 
@@ -54,10 +58,6 @@ def compute_taxes_and_transfers(
         2. If an exception occurs while computing one variable, the exception is
            printed, but not raised. The computation of all dependent variables is
            skipped.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimalistic configuration
-        should be silenced, emitted as warnings or errors.
-
 
     Returns
     -------
@@ -65,6 +65,7 @@ def compute_taxes_and_transfers(
         DataFrame containing computed variables.
 
     """
+    targets = ALL_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"

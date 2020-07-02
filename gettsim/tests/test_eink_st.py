@@ -39,7 +39,7 @@ def input_data():
 def test_tax_sched(
     input_data, year, column,
 ):
-    params_dict, policy_func_dict = set_up_policy_environment(date=year)
+    params, policy_functions = set_up_policy_environment(date=year)
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
@@ -59,7 +59,7 @@ def test_tax_sched(
     ]
 
     result = compute_taxes_and_transfers(
-        df, columns_overriding_functions=columns, targets=column, params=params_dict
+        df, params=params, targets=column, columns_overriding_functions=columns
     )
 
     assert_series_equal(

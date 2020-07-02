@@ -37,10 +37,10 @@ def test_ui(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(date=year,)
+    params, policy_functions = set_up_policy_environment(date=year,)
 
     result = compute_taxes_and_transfers(
-        df, targets="arbeitsl_geld_m", params=params_dict
+        df, params, policy_functions, targets="arbeitsl_geld_m"
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.

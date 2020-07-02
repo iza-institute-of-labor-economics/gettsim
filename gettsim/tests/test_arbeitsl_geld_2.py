@@ -61,7 +61,7 @@ def input_data():
 def test_alg2(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(date=year)
+    params, policy_functions = set_up_policy_environment(date=year)
 
     columns = [
         "arbeitsl_geld_m",
@@ -75,9 +75,9 @@ def test_alg2(input_data, year, column):
 
     result = compute_taxes_and_transfers(
         df,
-        columns_overriding_functions=columns,
-        functions=policy_func_dict,
+        params=params,
+        functions=policy_functions,
         targets=column,
-        params=params_dict,
+        columns_overriding_functions=columns,
     )
     assert_series_equal(result[column], year_data[column], check_dtype=False)

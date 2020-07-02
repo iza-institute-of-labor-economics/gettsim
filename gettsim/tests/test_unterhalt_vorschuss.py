@@ -45,13 +45,13 @@ def test_uhv(input_data, year, column, month):
         (input_data["jahr"] == year) & (input_data["monat"] == month)
     ]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(date=f"{year}-{month}")
+    params, policy_functions = set_up_policy_environment(date=f"{year}-{month}")
 
     result = compute_taxes_and_transfers(
         df,
-        columns_overriding_functions=["arbeitsl_geld_m"],
+        params=params,
         targets=column,
-        params=params_dict,
+        columns_overriding_functions=["arbeitsl_geld_m"],
     )
 
     assert_series_equal(result[column], year_data[column], check_dtype=False)

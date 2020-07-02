@@ -34,3 +34,27 @@ INTERNAL_PARAM_GROUPS = [
 ]
 
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
+
+ALL_TARGETS = [
+    "rentenv_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "ges_krankenv_beitr_m",
+    "pflegev_beitr_m",
+    "arbeitsl_geld_m",
+    # "rente_anspr_m",
+    # "entgeltpunkte",
+    "abgelt_st_tu",
+    "soli_st_tu",
+    "kindergeld_m",
+    "kindergeld_m_tu",
+    "eink_st_tu",
+    "unterhaltsvors_m",
+    "regelsatz_m_hh",
+    "kost_unterk_m_hh",
+    "unterhaltsvors_m_hh",
+    "kinderzuschlag_m_hh",
+    "wohngeld_m_hh",
+    "arbeitsl_geld_2_m_hh",
+    # "verfügb_eink_m",
+    # "verfügb_eink_hh_m",
+]

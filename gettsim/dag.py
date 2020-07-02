@@ -3,12 +3,13 @@ import warnings
 
 import networkx as nx
 
+from gettsim.config import ALL_TARGETS
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 
 
 def create_dag(
-    functions=None,
+    functions,
     targets=None,
     columns_overriding_functions=None,
     check_minimal_specification="ignore",
@@ -34,6 +35,7 @@ def create_dag(
         The DAG of the tax and transfer system.
 
     """
+    targets = ALL_TARGETS if targets is None else targets
     if check_minimal_specification not in ["ignore", "warn", "raise"]:
         raise ValueError(
             "'check_minimal_specification' must be one of ['ignore', 'warn', 'raise']."

@@ -58,14 +58,14 @@ def test_eltgeld(
     """
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = set_up_policy_environment(date=year,)
+    params, policy_functions = set_up_policy_environment(date=year,)
     df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
     df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
 
     columns = ["soli_st_tu", "sozialv_beitr_m"]
 
     result = compute_taxes_and_transfers(
-        df, columns_overriding_functions=columns, targets=column, params=params_dict
+        df, params=params, targets=column, columns_overriding_functions=columns
     )
 
     assert_series_equal(

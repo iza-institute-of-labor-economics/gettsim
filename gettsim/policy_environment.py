@@ -146,88 +146,82 @@ def load_reforms_for_date(date):
 
     Returns
     -------
-    policy_func_dict : dict
+    functions : dict
         Dictionary of time dependent policy reforms. Keys are the variable names they
         create.
 
     """
     year = date.year
-    policy_func_dict = {}
+    functions = {}
     if year < 2009:
-        policy_func_dict["sum_brutto_eink"] = sum_brutto_eink_mit_kapital
+        functions["sum_brutto_eink"] = sum_brutto_eink_mit_kapital
     else:
-        policy_func_dict["sum_brutto_eink"] = sum_brutto_eink_ohne_kapital
+        functions["sum_brutto_eink"] = sum_brutto_eink_ohne_kapital
 
     if year <= 2014:
-        policy_func_dict["alleinerziehend_freib_tu"] = alleinerziehend_freib_tu_bis_2014
+        functions["alleinerziehend_freib_tu"] = alleinerziehend_freib_tu_bis_2014
     else:
-        policy_func_dict["alleinerziehend_freib_tu"] = alleinerziehend_freib_tu_ab_2015
+        functions["alleinerziehend_freib_tu"] = alleinerziehend_freib_tu_ab_2015
 
     if year <= 1996:
-        policy_func_dict["eink_st_tu"] = eink_st_tu_bis_1996
-        policy_func_dict["kindergeld_m"] = kindergeld_m_bis_1996
+        functions["eink_st_tu"] = eink_st_tu_bis_1996
+        functions["kindergeld_m"] = kindergeld_m_bis_1996
     else:
-        policy_func_dict["eink_st_tu"] = eink_st_tu_ab_1997
-        policy_func_dict["kindergeld_m"] = kindergeld_m_ab_1997
+        functions["eink_st_tu"] = eink_st_tu_ab_1997
+        functions["kindergeld_m"] = kindergeld_m_ab_1997
 
     if year > 2011:
-        policy_func_dict["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
+        functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
     else:
-        policy_func_dict["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
+        functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
 
     if year > 2011:
-        policy_func_dict["sonderausgaben"] = sonderausgaben_ab_2012
+        functions["sonderausgaben"] = sonderausgaben_ab_2012
     else:
-        policy_func_dict["sonderausgaben"] = sonderausgaben_bis_2011
+        functions["sonderausgaben"] = sonderausgaben_bis_2011
 
     if year >= 2020:
-        policy_func_dict["vorsorge"] = vorsorge_ab_2020
+        functions["vorsorge"] = vorsorge_ab_2020
     elif 2020 > year >= 2010:
-        policy_func_dict["vorsorge"] = vorsorge_ab_2010_bis_2019
+        functions["vorsorge"] = vorsorge_ab_2010_bis_2019
     elif 2010 > year >= 2005:
-        policy_func_dict["vorsorge"] = vorsorge_ab_2005_bis_2009
+        functions["vorsorge"] = vorsorge_ab_2005_bis_2009
     elif year <= 2004:
-        policy_func_dict["vorsorge"] = vorsorge_bis_2004
+        functions["vorsorge"] = vorsorge_bis_2004
 
     if year <= 2015:
-        policy_func_dict["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_bis_2015
+        functions["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_bis_2015
     else:
-        policy_func_dict["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_ab_2016
+        functions["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_ab_2016
 
     if year <= 2008:
-        policy_func_dict["wohngeld_max_miete"] = wohngeld_max_miete_bis_2008
+        functions["wohngeld_max_miete"] = wohngeld_max_miete_bis_2008
     else:
-        policy_func_dict["wohngeld_max_miete"] = wohngeld_max_miete_ab_2009
+        functions["wohngeld_max_miete"] = wohngeld_max_miete_ab_2009
 
     if year <= 2010:
-        policy_func_dict[
-            "kinderzuschlag_eink_regel"
-        ] = kinderzuschlag_eink_regel_bis_2010
+        functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_bis_2010
     else:
-        policy_func_dict[
-            "kinderzuschlag_eink_regel"
-        ] = kinderzuschlag_eink_regel_ab_2011
+        functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_ab_2011
 
     if 2005 <= year <= 2019:
-        policy_func_dict[
-            "_kinderzuschlag_m_vorläufig"
-        ] = kinderzuschlag_ab_2005_bis_juni_2019
+        functions["_kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_2005_bis_juni_2019
     else:
-        policy_func_dict["_kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
+        functions["_kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
 
     if year <= 2010:
-        policy_func_dict["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010
-        policy_func_dict["regelsatz_m_hh"] = regelsatz_m_hh_bis_2010
+        functions["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010
+        functions["regelsatz_m_hh"] = regelsatz_m_hh_bis_2010
     else:
-        policy_func_dict["kindersatz_m_hh"] = kindersatz_m_hh_ab_2011
-        policy_func_dict["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
+        functions["kindersatz_m_hh"] = kindersatz_m_hh_ab_2011
+        functions["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
 
     if date <= datetime.date(year=2005, month=10, day=1):
-        policy_func_dict["eink_anr_frei"] = eink_anr_frei_bis_10_2005
+        functions["eink_anr_frei"] = eink_anr_frei_bis_10_2005
     else:
-        policy_func_dict["eink_anr_frei"] = eink_anr_frei_ab_10_2005
+        functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
 
-    return policy_func_dict
+    return functions
 
 
 def _load_parameter_group_from_yaml(date, group, parameters=None):
