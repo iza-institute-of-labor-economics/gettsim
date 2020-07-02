@@ -116,7 +116,6 @@ def input_data_households():
             "ges_krankenv_beitr_m": 0,
             "behinderungsgrad": 0,
         },
-        index=range(int((MAX_HH_SIZE * (MAX_HH_SIZE + 1)) / 2)),
     )
     df["p_id"] = df.index
 
