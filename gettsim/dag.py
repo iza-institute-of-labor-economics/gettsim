@@ -145,7 +145,7 @@ def _limit_dag_to_targets_and_their_ancestors(dag, targets):
 def _fail_if_columns_overriding_functions_are_not_in_dag(
     dag, columns_overriding_functions, check_minimal_specification
 ):
-    """Fail if ``columns_overriding_functions`` are not in DAG.
+    """Fail if ``columns_overriding_functions`` are not in the DAG.
 
     TODO: Apparently, the check is pretty harsh to our tests which compute and test
     column by column and not all at once. Deactivated for now. Needs discussion.
