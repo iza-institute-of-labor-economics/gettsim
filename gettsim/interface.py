@@ -32,12 +32,12 @@ def compute_taxes_and_transfers(
     data : pandas.DataFrame
         The data provided by the user.
     params : dict
-        A dictionary with parameters which form the tax and transfer system.
+        A dictionary with parameters from the policy environment.
     functions : str, pathlib.Path, callable, module, imports statements, dict
-        Functions can be anything of the specified types and a list of the same objects.
-        If the object is a dictionary, the keys of the dictionary are used as a name
-        instead of the function name. For all other objects, the name is inferred from
-        the function name.
+        Function from the policy environment. Functions can be anything of the specified
+        types and a list of the same objects. If the object is a dictionary, the keys of
+        the dictionary are used as a name instead of the function name. For all other
+        objects, the name is inferred from the function name.
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
@@ -46,8 +46,8 @@ def compute_taxes_and_transfers(
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimalistic configuration
-        should be silenced, emitted as warnings or errors.
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
     debug : bool
         The debug mode does the following:
 

@@ -40,14 +40,14 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_soc_ins_contrib(input_data, year, column):
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
+def test_soc_ins_contrib(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
     results = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column
+        data=df, params=policy_params, functions=policy_functions, targets=target
     )
 
-    pd.testing.assert_series_equal(results[column], year_data[column])
+    pd.testing.assert_series_equal(results[target], year_data[target])

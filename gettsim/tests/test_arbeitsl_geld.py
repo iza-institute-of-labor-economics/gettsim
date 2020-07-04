@@ -37,7 +37,7 @@ def test_ui(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=year,)
+    policy_params, policy_functions = set_up_policy_environment(date=year)
 
     result = compute_taxes_and_transfers(
         data=df,
