@@ -8,5 +8,5 @@ Tutorials help you to get started with gettsim.
 
    installation
    interface
-   functions
+   changing_the_policy_environment
    debugging

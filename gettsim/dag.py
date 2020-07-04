@@ -31,8 +31,8 @@ def create_dag(
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimalistic configuration
-        should be silenced, emitted as warnings or errors.
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
 
     Returns
     -------
@@ -151,9 +151,6 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
     dag, columns_overriding_functions, check_minimal_specification
 ):
     """Fail if ``columns_overriding_functions`` are not in the DAG.
-
-    TODO: Apparently, the check is pretty harsh to our tests which compute and test
-    column by column and not all at once. Deactivated for now. Needs discussion.
 
     Parameters
     ----------
