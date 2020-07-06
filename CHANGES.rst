@@ -20,6 +20,13 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   and some more changes.
 
 
+0.3.4 - 2020-xx-xx
+------------------
+
+* :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
+  (:ghuser:`hmgaudecker`, :ghuser:`MaxBlesch`)
+
+
 0.3.3 - 2020-06-27
 ------------------
 
