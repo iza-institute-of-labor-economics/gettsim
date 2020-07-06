@@ -1,5 +1,5 @@
 =========================================
-GEP 4 — A DAG-based Computational Backend
+GEP 4 — A DAG—based Computational Backend
 =========================================
 
 +------------+---------------------------------------------------------------+
@@ -152,7 +152,7 @@ Implementation
 --------------
 
 There are multiple PRs which incrementally rewrote gettsim in version 0.3 and 0.4. See
-`<../changes.rst>`_ for the linked PRs.
+the `release notes <../changes.rst>`_ for the linked PRs.
 
 
 Alternatives
@@ -165,13 +165,7 @@ computational advantages.
 Discussion
 ----------
 
-*Under development.*
-
-This section may just be a bullet list including links to any discussions regarding the
-GEP:
-
-- Links to relevant GitHub issues, pull requests.
-- Discussion on XXX
+*Not applicable.*
 
 
 References and Footnotes

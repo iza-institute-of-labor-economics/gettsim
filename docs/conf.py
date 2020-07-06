@@ -29,6 +29,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.extlinks",
+    "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
@@ -63,6 +64,12 @@ autodoc_mock_imports = ["networkx", "numpy", "pandas", "pytest", "yaml"]
 extlinks = {
     "ghuser": ("https://github.com/%s", "@"),
     "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
+}
+
+intersphinx_mapping = {
+    "numpy": ("https://docs.scipy.org/doc/numpy", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
+    "python": ("https://docs.python.org/3.7", None),
 }
 
 numpydoc_show_class_members = False
