@@ -13,6 +13,11 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
 * :gh:`213` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
   DataFrame and removes the `return_dag` option (:ghuser:`tobiasraabe`).
+* :gh:`219` refactors the DAG and makes it independent from the main interface
+  (:ghuser:`tobiasraabe`). The PR also changes the names of interface arguments:
+  ``functions`` instead of ``user_functions``, ``set_up_policy_environment`` instead of
+  ``get_policy_for_date``, ``columns_overriding_functions`` instead of ``user_columns``
+  and some more changes.
 
 
 0.3.4 - 2020-xx-xx

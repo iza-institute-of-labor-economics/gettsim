@@ -1,64 +1,61 @@
-from contextlib import contextmanager
+from contextlib import ExitStack as does_not_raise  # noqa: N813
 
 import numpy as np
 import pandas as pd
 import pytest
 
 from gettsim import compute_taxes_and_transfers
+from gettsim import test
 from gettsim.interface import _expand_data
+from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
+from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_functions_and_columns_overlap
-from gettsim.interface import _fail_if_user_columns_are_not_in_data
-from gettsim.interface import _fail_if_user_columns_are_not_in_functions
-
-
-@contextmanager
-def does_not_raise():
-    yield
 
 
 @pytest.mark.parametrize(
-    "data, user_columns, expectation",
+    "data, columns_overriding_functions, expectation",
     [
         ({}, ["not_in_data"], pytest.raises(ValueError)),
         ({"in_data": None}, ["in_data"], does_not_raise()),
     ],
 )
-def test_fail_if_user_columns_are_not_in_data(data, user_columns, expectation):
-    with expectation:
-        _fail_if_user_columns_are_not_in_data(data, user_columns)
-
-
-@pytest.mark.parametrize(
-    "user_columns, internal_functions, user_functions, expectation",
-    [
-        (["not_in_functions"], {}, {}, pytest.raises(ValueError)),
-        (["in_functions"], {"in_functions": None}, {}, does_not_raise()),
-        (["in_functions"], {}, {"in_functions": None}, does_not_raise()),
-    ],
-)
-def test_fail_if_user_columns_are_not_in_functions(
-    user_columns, internal_functions, user_functions, expectation
+def test_fail_if_columns_overriding_functions_are_not_in_data(
+    data, columns_overriding_functions, expectation
 ):
     with expectation:
-        _fail_if_user_columns_are_not_in_functions(
-            user_columns, internal_functions, user_functions
+        _fail_if_columns_overriding_functions_are_not_in_data(
+            data, columns_overriding_functions
         )
 
 
 @pytest.mark.parametrize(
-    "data, functions, type_, user_columns, expectation",
+    "columns_overriding_functions, functions, expectation",
     [
-        ({"dupl": None}, {"dupl": None}, "internal", [], pytest.raises(ValueError)),
-        ({}, {}, "internal", [], does_not_raise()),
-        ({"dupl": None}, {"dupl": None}, "user", [], pytest.raises(ValueError)),
-        ({}, {}, "user", [], does_not_raise()),
+        (["not_in_functions"], {}, pytest.raises(ValueError)),
+        (["in_functions"], {"in_functions": None}, does_not_raise()),
     ],
 )
-def test_fail_if_functions_and_columns_overlap(
-    data, functions, type_, user_columns, expectation
+def test_fail_if_columns_overriding_functions_are_not_in_functions(
+    columns_overriding_functions, functions, expectation
 ):
     with expectation:
-        _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns)
+        _fail_if_columns_overriding_functions_are_not_in_functions(
+            columns_overriding_functions, functions
+        )
+
+
+@pytest.mark.parametrize(
+    "columns, functions, type_, expectation",
+    [
+        ({"dupl": None}, {"dupl": None}, "internal", pytest.raises(ValueError)),
+        ({}, {}, "internal", does_not_raise()),
+        ({"dupl": None}, {"dupl": None}, "user", pytest.raises(ValueError)),
+        ({}, {}, "user", does_not_raise()),
+    ],
+)
+def test_fail_if_functions_and_columns_overlap(columns, functions, type_, expectation):
+    with expectation:
+        _fail_if_functions_and_columns_overlap(columns, functions, type_)
 
 
 def test_expand_data_raise_error():
@@ -82,9 +79,9 @@ def test_missing_root_nodes_raises_error():
         return b
 
     with pytest.raises(
-        ValueError, match=r"""The following data columns are missing[.\n'"\[]+a['"]\]"""
+        ValueError, match="The following data columns are missing",
     ):
-        compute_taxes_and_transfers(df, targets="c", user_functions=[b, c])
+        compute_taxes_and_transfers(df, {}, functions=[b, c], targets="c")
 
 
 def test_function_without_data_dependency_is_not_mistaken_for_data():
@@ -97,4 +94,11 @@ def test_function_without_data_dependency_is_not_mistaken_for_data():
     def b(a):
         return a
 
-    compute_taxes_and_transfers(df, targets="b", user_functions=[a, b])
+    compute_taxes_and_transfers(df, {}, functions=[a, b], targets="b")
+
+
+def test_consecutive_internal_test_runs():
+    test("--collect-only")
+
+    with pytest.warns(UserWarning, match="Repeated execution of the test suite"):
+        test("--collect-only")

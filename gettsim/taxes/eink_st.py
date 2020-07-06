@@ -1,4 +1,4 @@
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+from gettsim.piecewise_functions import piecewise_polynomial
 
 
 def _st_kein_kind_freib_tu(
