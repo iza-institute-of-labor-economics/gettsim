@@ -35,7 +35,7 @@ INTERNAL_PARAM_GROUPS = [
 
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
 
-ALL_TARGETS = [
+DEFAULT_TARGETS = [
     "rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",

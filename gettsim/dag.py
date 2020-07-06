@@ -3,7 +3,7 @@ import warnings
 
 import networkx as nx
 
-from gettsim.config import ALL_TARGETS
+from gettsim.config import DEFAULT_TARGETS
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 
@@ -26,7 +26,7 @@ def create_dag(
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
-        defined by `gettsim.config.ALL_TARGETS` are returned.
+        defined by `gettsim.config.DEFAULT_TARGETS` are returned.
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
@@ -40,7 +40,7 @@ def create_dag(
         The DAG of the tax and transfer system.
 
     """
-    targets = ALL_TARGETS if targets is None else targets
+    targets = DEFAULT_TARGETS if targets is None else targets
     if check_minimal_specification not in ["ignore", "warn", "raise"]:
         raise ValueError(
             "'check_minimal_specification' must be one of ['ignore', 'warn', 'raise']."

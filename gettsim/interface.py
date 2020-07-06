@@ -4,7 +4,7 @@ import warnings
 
 import pandas as pd
 
-from gettsim.config import ALL_TARGETS
+from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import ORDER_OF_IDS
 from gettsim.dag import _dict_subset
 from gettsim.dag import _fail_if_targets_not_in_functions
@@ -41,7 +41,7 @@ def compute_taxes_and_transfers(
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
-        defined by `gettsim.config.ALL_TARGETS` are returned.
+        defined by `gettsim.config.DEFAULT_TARGETS` are returned.
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
@@ -62,7 +62,7 @@ def compute_taxes_and_transfers(
         DataFrame containing computed variables.
 
     """
-    targets = ALL_TARGETS if targets is None else targets
+    targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"

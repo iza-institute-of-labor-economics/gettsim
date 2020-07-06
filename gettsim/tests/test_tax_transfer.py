@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from gettsim.config import ALL_TARGETS
+from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.policy_environment import set_up_policy_environment
@@ -72,5 +72,8 @@ def test_tax_transfer(
     # params["renten_daten"] = renten_daten
 
     compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=ALL_TARGETS
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=DEFAULT_TARGETS,
     )
