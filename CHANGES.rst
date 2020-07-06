@@ -10,7 +10,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 ------------------
 
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
-  plot as well as some other ameliorations to the documentation (:ghuser:`tobiasraabe`).
+  plot and documentation improvements (:ghuser:`tobiasraabe`).
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
 * :gh:`213` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
