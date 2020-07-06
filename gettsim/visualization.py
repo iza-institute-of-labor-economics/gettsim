@@ -54,7 +54,7 @@ def plot_dag(
     functions=None,
     targets=None,
     columns_overriding_functions=None,
-    is_minimal_specification="ignore",
+    check_minimal_specification="ignore",
     selectors=None,
     labels=True,
     tooltips=False,
@@ -67,8 +67,20 @@ def plot_dag(
 
     Parameters
     ----------
-    dag : networkx.DiGraph
-        The DAG of the tax and transfers system.
+    functions : str, pathlib.Path, callable, module, imports statements, dict
+        Functions can be anything of the specified types and a list of the same objects.
+        If the object is a dictionary, the keys of the dictionary are used as a name
+        instead of the function name. For all other objects, the name is inferred from
+        the function name.
+    targets : str, list of str
+        String or list of strings with names of functions whose output is actually
+        needed by the user.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
     selectors : str or list of str or dict or list of dict or list of str and dict
         Selectors allow to you to select and de-select nodes in the graph for
         visualization. For the full list of options, see the tutorial about
@@ -93,7 +105,7 @@ def plot_dag(
 
     """
     dag = create_dag(
-        functions, targets, columns_overriding_functions, is_minimal_specification
+        functions, targets, columns_overriding_functions, check_minimal_specification
     )
 
     selectors = [] if selectors is None else _to_list(selectors)
