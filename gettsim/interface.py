@@ -87,7 +87,7 @@ def compute_taxes_and_transfers(
     _fail_if_targets_not_in_functions(functions, targets)
 
     # Partial parameters to functions such that they disappear in the DAG.
-    functions = partial_parameters_to_functions(functions, params)
+    functions = _partial_parameters_to_functions(functions, params)
 
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
@@ -460,7 +460,7 @@ def _root_nodes(dag):
             yield node
 
 
-def partial_parameters_to_functions(functions, params):
+def _partial_parameters_to_functions(functions, params):
     """Create a dictionary of all functions that are available.
 
     Parameters

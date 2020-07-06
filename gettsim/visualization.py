@@ -6,12 +6,13 @@ import numpy as np
 import pandas as pd
 from bokeh.io import output_notebook
 from bokeh.io import show
+from bokeh.models import Arrow
 from bokeh.models import BoxZoomTool
 from bokeh.models import Circle
 from bokeh.models import ColumnDataSource
 from bokeh.models import HoverTool
 from bokeh.models import LabelSet
-from bokeh.models import MultiLine
+from bokeh.models import NormalHead
 from bokeh.models import OpenURL
 from bokeh.models import Plot
 from bokeh.models import Range1d
@@ -24,11 +25,17 @@ from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
 import gettsim
+from gettsim.config import DEFAULT_TARGETS
+from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
+from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
+from gettsim.shared import get_names_of_arguments_without_defaults
+from gettsim.shared import parse_to_list_of_strings
 
 
-EDGE_KWARGS_DEFAULTS = {"line_color": "red", "line_alpha": 0.8, "line_width": 1}
+ARROW_KWARGS_DEFAULTS = {"size": 7, "fill_color": "red"}
+EDGE_KWARGS_DEFAULTS = {"line_color": "red", "line_width": 1}
 NODE_KWARGS_DEFAULTS = {"size": 15, "fill_color": "blue"}
 PLOT_KWARGS_DEFAULTS = {
     "plot_width": 600,
@@ -51,7 +58,7 @@ source code: @source_code{safe}
 
 
 def plot_dag(
-    functions=None,
+    functions,
     targets=None,
     columns_overriding_functions=None,
     check_minimal_specification="ignore",
@@ -59,9 +66,10 @@ def plot_dag(
     labels=True,
     tooltips=False,
     plot_kwargs=None,
-    node_kwargs=None,
+    arrow_kwargs=None,
     edge_kwargs=None,
     label_kwargs=None,
+    node_kwargs=None,
 ):
     """Plot the dag of the tax and transfer system.
 
@@ -93,26 +101,49 @@ def plot_dag(
         a tooltip. Sometimes, the tooltip is not properly displayed.
     plot_kwargs : dict
         Additional keyword arguments passed to :class:`bokeh.models.Plot`.
-    node_kwargs : dict
-        Additional keyword arguments passed to :class:`bokeh.models.Circle`. For
-        example, change the color with `{"fill_color": "orange"}`.
+    arrow_kwargs : dict
+        Additional keyword arguments passed to :class:`bokeh.models.Arrow`. For example,
+        change the size of the head with ``{"size": 10}``.
     edge_kwargs : dict
         Additional keyword arguments passed to :class:`bokeh.models.MultiLine`. For
-        example, change the color with `{"fill_color": "green"}`.
+        example, change the color with ``{"fill_color": "green"}``.
     label_kwargs : dict
         Additional keyword arguments passed to :class:`bokeh.models.LabelSet`. For
-        example, change the fontsize with `{"text_font_size": "12px"}`.
+        example, change the fontsize with ``{"text_font_size": "12px"}``.
+    node_kwargs : dict
+        Additional keyword arguments passed to :class:`bokeh.models.Circle`. For
+        example, change the color with ``{"fill_color": "orange"}``.
 
     """
+    targets = DEFAULT_TARGETS if targets is None else targets
+    targets = parse_to_list_of_strings(targets, "targets")
+    columns_overriding_functions = parse_to_list_of_strings(
+        columns_overriding_functions, "columns_overriding_functions"
+    )
+
+    # Load functions and perform checks.
+    functions, internal_functions = load_user_and_internal_functions(functions)
+
+    # Create one dictionary of functions and perform check.
+    functions = {**internal_functions, **functions}
+    functions = {
+        k: v for k, v in functions.items() if k not in columns_overriding_functions
+    }
+    _fail_if_targets_not_in_functions(functions, targets)
+
+    # Partial parameters to functions such that they disappear in the DAG.
+    functions = _mock_parameters_arguments(functions)
+
     dag = create_dag(
         functions, targets, columns_overriding_functions, check_minimal_specification
     )
 
     selectors = [] if selectors is None else _to_list(selectors)
     plot_kwargs = {} if plot_kwargs is None else plot_kwargs
-    node_kwargs = {} if node_kwargs is None else node_kwargs
+    arrow_kwargs = {} if arrow_kwargs is None else arrow_kwargs
     edge_kwargs = {} if edge_kwargs is None else edge_kwargs
     label_kwargs = {} if label_kwargs is None else label_kwargs
+    node_kwargs = {} if node_kwargs is None else node_kwargs
 
     dag = _select_nodes_in_dag(dag, selectors)
 
@@ -133,9 +164,25 @@ def plot_dag(
         **{**NODE_KWARGS_DEFAULTS, **node_kwargs}
     )
 
-    graph_renderer.edge_renderer.glyph = MultiLine(
-        **{**EDGE_KWARGS_DEFAULTS, **edge_kwargs}
-    )
+    graph_renderer.edge_renderer.visible = False
+    for (
+        _,
+        (start_node, end_node),
+    ) in graph_renderer.edge_renderer.data_source.to_df().iterrows():
+        (x_start, y_start), (x_end, y_end) = _compute_arrow_coordinates(
+            layout[start_node], layout[end_node]
+        )
+        plot.add_layout(
+            Arrow(
+                end=NormalHead(**{**ARROW_KWARGS_DEFAULTS, **arrow_kwargs}),
+                x_start=x_start,
+                y_start=y_start,
+                x_end=x_end,
+                y_end=y_end,
+                **{**EDGE_KWARGS_DEFAULTS, **edge_kwargs},
+            )
+        )
+
     plot.renderers.append(graph_renderer)
 
     tools = [BoxZoomTool(), ResetTool()]
@@ -162,6 +209,34 @@ def plot_dag(
     show(plot)
 
     return plot
+
+
+def _mock_parameters_arguments(functions):
+    """Mock the parameter arguments.
+
+    Functions have parameter arguments which should not be visible while plotting the
+    DAG. Thus, partial empty dictionaries to the functions.
+
+    """
+    mocked_functions = {}
+    for name, function in functions.items():
+        partial_params = {
+            i: {}
+            for i in get_names_of_arguments_without_defaults(function)
+            if i.endswith("_params")
+        }
+
+        # Fix old functions which requested the whole dictionary. Test if removable.
+        if "params" in get_names_of_arguments_without_defaults(function):
+            partial_params["params"] = {}
+
+        mocked_functions[name] = (
+            functools.partial(function, **partial_params)
+            if partial_params
+            else function
+        )
+
+    return mocked_functions
 
 
 def _to_bokeh_title(title):
@@ -308,6 +383,18 @@ def _create_pydot_layout(dag):
         layout[k] = (v - (max_ + min_) / 2) / ((max_ - min_) / 2).clip(1)
 
     return layout
+
+
+def _compute_arrow_coordinates(start, end, scalar=0.05):
+    """Compute arrow coordinates.
+
+    This function computes the coordinates of the tail and the head of the arrow. The
+    scalar compresses the arrow such that its tail and head do not overlap with the
+    nodes.
+
+    """
+    unit_vector = (end - start) / np.sum(np.abs(end - start))
+    return start + unit_vector * scalar, end - unit_vector * scalar
 
 
 def _to_list(scalar_or_iter):

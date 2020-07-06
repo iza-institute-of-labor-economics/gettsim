@@ -9,5 +9,5 @@ Tutorials help you to get started with gettsim.
 
    installation
    interface
-   visualize
+   visualizing_the_system
    debugging
