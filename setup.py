@@ -19,13 +19,13 @@ PROJECT_URLS = {
 
 setup(
     name="gettsim",
-    version="0.2.1",
+    version="0.3.3",
     description=DESCRIPTION,
     long_description=DESCRIPTION + "\n\n" + README,
     long_description_content_type="text/x-rst",
     author="Hans-Martin von Gaudecker",
     author_email="gaudecker@iza.org",
-    python_requires=">=3.6.0",
+    python_requires=">=3.6",
     url="https://gettsim.readthedocs.io",
     project_urls=PROJECT_URLS,
     packages=find_packages(),
@@ -40,7 +40,12 @@ setup(
     ],
     platforms="any",
     package_data={
-        "gettsim": ["tests/test_data/*.csv", "data/param.yaml", "data/*.xlsx"]
+        "gettsim": [
+            "data/*.yaml",
+            "pre_processing/exogene_renten_daten/*.yaml",
+            "tests/test_data/*.csv",
+            "tests/test_data/*.ods",
+        ]
     },
     include_package_data=True,
     zip_safe=False,

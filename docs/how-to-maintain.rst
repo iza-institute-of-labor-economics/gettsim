@@ -47,16 +47,27 @@ To release a new major or minor version of GETTSIM, do the following.
 
 2. Once all PRs in a milestone are closed:
 
-   a. Update :ref:`changes` with all necessary information regarding the new release.
+   a. Create a new branch and PR to do some changes.
 
-   b. Use ``bumpversion [major|minor|patch]`` to increment all version strings. For
+   b. Update :ref:`changes` with all necessary information regarding the new release.
+
+   c. Use ``bumpversion [major|minor|patch]`` to increment all version strings. For
       example, to bump the version from ``0.1.x`` to ```0.2.0``, type
 
       .. code-block:: bash
 
           $ bumpversion minor
 
-   c. Merge it to the master branch and create a maintenance branch ``[major].[minor]``,
+   d. Test whether the conda package can be built successfully. Go inside the root
+      folder of the repository and type
+
+      .. code-block:: bash
+
+          conda build .
+
+      Fix all occurring issues.
+
+   e. Merge it to the master branch and create a maintenance branch ``[major].[minor]``,
       i.e., ``0.2`` in this example.
 
 3. The following step assigns a version and documents the release on Github. Go to the
@@ -71,7 +82,7 @@ To release a new major or minor version of GETTSIM, do the following.
 
    .. code-block:: bash
 
-       $ python release.py
+       $ conda build . --user gettsim
 
    which uploads the new release to the `repository on Anaconda.org
    <https://anaconda.org/gettsim/gettsim>`_.

@@ -1,59 +1,96 @@
-import numpy as np
+def _kindergeld_m_basis(tu_id, kindergeld_anspruch, kindergeld_params):
+    """Calculate the preliminary kindergeld.
 
+    Parameters
+    ----------
+    tu_id
+    kindergeld_anspruch
+    kindergeld_params
 
-def kindergeld(tax_unit, params):
-    """ Child Benefit (kindergeld)
-    Basic Amount for each child. Parents receive child benefit for every child up to
-    18 years. Above, they get it only up to kindergeld_params["kgage"] if the child is
-    a) in education and
-    b) not working too much / not receiving too much income (depending on the year)
+    Returns
+    -------
 
-    Returns:
-        pd.series:
-            kindergeld_basis: Kindergeld on the individual level
-            kindergeld_tu_basis: Kindergeld summed up within the tax unit
     """
-
-    child_count = params["childben_elig_rule"](tax_unit, params).cumsum()
-
-    kg_amounts = {
-        1: params["kgeld1"],
-        2: params["kgeld2"],
-        3: params["kgeld3"],
-        4: params["kgeld4"],
-    }
-    tax_unit["kindergeld_basis"] = child_count.replace(kg_amounts)
-    tax_unit.loc[child_count > 4, "kindergeld_basis"] = params["kgeld4"]
-    tax_unit["kindergeld_tu_basis"] = np.sum(tax_unit["kindergeld_basis"])
-
-    return tax_unit
+    # Kindergeld_Anspruch is the cumulative sum of eligible children.
+    kumulativer_anspruch = (
+        (kindergeld_anspruch.astype(int)).groupby(tu_id).transform("cumsum")
+    )
+    # Make sure that only eligible children get assigned kindergeld
+    kumulativer_anspruch.loc[~kindergeld_anspruch] = 0
+    out = kumulativer_anspruch.clip(upper=4).replace(kindergeld_params["kindergeld"])
+    return out
 
 
-def kg_eligibility_hours(tax_unit, params):
-    """ Nowadays, kids must not work more than 20 hour
+def _kindergeld_m_tu_basis(_kindergeld_m_basis, tu_id):
+    """Aggregate the preliminary kindergeld on tax unit level.
+
+    Parameters
+    ----------
+    _kindergeld_m_basis
+    tu_id
+
+    Returns
+    -------
+
+    """
+    return _kindergeld_m_basis.groupby(tu_id).sum()
+
+
+def kindergeld_anspruch_nach_stunden(
+    alter, in_ausbildung, arbeitsstunden_w, kindergeld_params
+):
+    """
+    Nowadays, kids must not work more than 20 hour
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
+
+    Parameters
+    ----------
+    alter
+    in_ausbildung
+    arbeitsstunden_w
+    kindergeld_params
+
+    Returns
+    -------
+
     """
-    elig = tax_unit["age"] <= 18
-    elig[
-        (tax_unit["age"].between(19, params["kgage"]))
-        & tax_unit["ineducation"]
-        & (tax_unit["w_hours"] <= 20)
-    ] = True
+    out = alter <= 18
+    out = out | (
+        (19 <= alter)
+        & (alter <= kindergeld_params["kindergeld_hoechstalter"])
+        & in_ausbildung
+        & (arbeitsstunden_w <= kindergeld_params["kindergeld_stundengrenze"])
+    )
 
-    return elig
+    return out
 
 
-def kg_eligibility_wage(tax_unit, params):
-    """ Before 2011, there was an income ceiling for children
+def kindergeld_anspruch_nach_lohn(
+    alter, in_ausbildung, bruttolohn_m, kindergeld_params
+):
+    """
+    Before 2011, there was an income ceiling for children
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
-    """
-    elig = tax_unit["age"] <= 18
-    elig[
-        (tax_unit["age"].between(19, params["kgage"]))
-        & tax_unit["ineducation"]
-        & (tax_unit["m_wage"] <= params["kgfreib"] / 12)
-    ] = True
 
-    return elig
+    Parameters
+    ----------
+    alter
+    kindergeld_params
+    in_ausbildung
+    bruttolohn_m
+
+    Returns
+    -------
+
+    """
+    out = alter <= 18
+    out = out | (
+        (19 <= alter)
+        & (alter <= kindergeld_params["kindergeld_hoechstalter"])
+        & in_ausbildung
+        & (bruttolohn_m <= kindergeld_params["kindergeld_einkommensgrenze"] / 12)
+    )
+
+    return out

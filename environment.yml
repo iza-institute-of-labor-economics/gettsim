@@ -1,6 +1,5 @@
 name: gettsim
 channels:
-  - defaults
   - conda-forge
 dependencies:
   - python=3.7
@@ -8,7 +7,11 @@ dependencies:
   - anaconda-client
   - conda-build
   - conda-verify
+  - jupyterlab
+  - nbsphinx
+  - networkx
   - pandas
+  - pdbpp
   - pre-commit
   - pyyaml
   - pytest
@@ -16,8 +19,8 @@ dependencies:
   - pytest-xdist
   - restructuredtext_lint
   - sphinx
+  - sphinx-automodapi
+  - sphinx-copybutton
   - sphinx_rtd_theme
   - pip:
     - bump2version
-    - pre-commit
-    - restructuredtext_lint
