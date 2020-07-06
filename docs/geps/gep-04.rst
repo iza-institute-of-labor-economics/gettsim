@@ -61,10 +61,54 @@ of functions in the correct order and pass in the correct data and parameters. T
 function in this collection will receive the intermediate outcomes and calculate the
 requested target variable.
 
-Splitting complex calculations into smaller pieces has a lot of advantages:
+Splitting complex calculations into smaller pieces has a lot of the usual advantages of
+why we use functions in the first place: readability, simplicity, lower maintenance
+costs (see single-responsibility principle). Another advantage is that each function is
+a potential entrypoint for a researcher to change the tax and transfer system if she is
+able to replace this function with her own version.
 
-- Functions are less complex, more readable, easier to maintain.
--
+Two questions arise.
+
+1. How do we know which data and parameters to pass to the functions?
+
+To solve the first problem, we were inspired by `pytest and its fixtures
+<https://docs.pytest.org/en/stable/fixture.html>`_. The idea is that every variable has
+a name which is also a valid variable name in Python (cannot start with number,
+alphanumeric, lower- and uppercase, underscores). Then, a function inside the tax and
+transfer system uses this name as an input argument. See the following, intentionally
+abstract and incorrect example.
+
+.. code-block:: python
+
+    def kindergeld(anz_kinder_hh, kindergeld_params):
+        pass
+
+The function :func:`kindergeld` requires the variable ``anz_kinder_hh`` which is the
+number of children per household. When the function is called, a :class:`pandas.Series`
+with the information is passed to this argument. The same happens to the parameters
+where ``"kindergeld"`` is a single parameter-topic inside the collection of all
+parameters and ``kindergeld_params`` is a dictionary.
+
+The result of this function is again a :class:`pandas.Series` which has the name
+``kindergeld``, the same name as the function. Another function, say
+
+.. code-block:: python
+
+    def benefits(kindergeld, arbeitsl_geld_2, params):
+        pass
+
+would need to have ``kindergeld`` as a name for an input argument to request this
+:class:`pandas.Series`.
+
+2. How do we ensure the order in which functions are called?
+
+The second problem calls for a real classic of computer science. We can visualize the
+relationship between functions and their input variables in a tree diagram where nodes
+are variables in the data or computed by functions. Edges are pointing from from input
+variables to other variables which require them to be computed.
+
+
+CONTINUE HERE!
 
 
 Setup of the DAG
