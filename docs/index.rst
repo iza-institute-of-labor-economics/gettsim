@@ -11,6 +11,7 @@ Welcome to GETTSIM's documentation!
    :maxdepth: 1
 
    tutorials/index
+   how_to_guides/index
    crosswalk
    how-to-contribute
    how-to-maintain

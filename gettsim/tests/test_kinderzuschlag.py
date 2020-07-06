@@ -6,7 +6,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.policy_environment import set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
@@ -46,9 +46,7 @@ def test_kiz(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=year, policy_groups=["kinderzuschlag", "arbeitsl_geld_2"],
-    )
+    policy_params, policy_functions = set_up_policy_environment(date=year)
     columns = [
         "alleinerziehenden_mehrbedarf_hh",
         "arbeitsl_geld_2_eink_hh",
@@ -59,11 +57,11 @@ def test_kiz(
     ]
 
     result = compute_taxes_and_transfers(
-        df,
-        user_columns=columns,
-        user_functions=policy_func_dict,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=column,
-        params=params_dict,
+        columns_overriding_functions=columns,
     )
 
     assert_series_equal(
