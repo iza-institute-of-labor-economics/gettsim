@@ -1,3 +1,0 @@
-,p_id,hh_id,tu_id,tu_vorstand,kind,kindergeld_anspruch,kaltmiete_m,heizkost_m,alleinerziehend,alter,immobilie_baujahr,mietstufe,bruttolohn_m,ges_rente_m,_ertragsanteil,arbeitsl_geld_m,sonstig_eink_m,unterhaltsvors_m,elterngeld_m,brutto_eink_1,brutto_eink_4,brutto_eink_5,brutto_eink_6,eink_st_m,rentenv_beit_m,ges_krankenv_beit_m,behinderungsgrad,jahr,hhsize_tu,wohngeld_basis_hh
-3,18,2,2,True,False,FALSE,400,80,False,50,3,3,800,0,0,0,100,0,0,0,10000,0,0,0,100,80,50,2013,2,194.17
-4,19,2,2,False,False,FALSE,400,80,False,55,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2013,2,194.17

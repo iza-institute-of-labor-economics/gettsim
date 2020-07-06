@@ -1,33 +1,39 @@
-import numpy as np
+def abgelt_st_tu(_zu_verst_kapital_eink_tu, abgelt_st_params):
+    """Abgeltungssteuer per tax unit.
 
+    Parameters
+    ----------
+    _zu_verst_kapital_eink_tu
+    abgelt_st_params
 
-def abgelt_st(tax_unit, eink_st_params, eink_st_abzuege_params):
-    """ Capital Income Tax / Abgeltungsteuer
-        since 2009, captial income is taxed with a flatrate of 25%.
+    Returns
+    -------
+
     """
-    tax_unit["abgelt_st_m"] = 0
-    if eink_st_params["jahr"] >= 2009:
-        tax_unit.loc[~tax_unit["gem_veranlagt"], "abgelt_st_m"] = eink_st_params[
-            "abgelt_st_satz"
-        ] * np.maximum(
-            tax_unit["brutto_eink_5"]
-            - eink_st_abzuege_params["sparerpauschbetrag"]
-            - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"],
-            0,
-        ).round(
-            2
+    return abgelt_st_params["abgelt_st_satz"] * _zu_verst_kapital_eink_tu
+
+
+def _zu_verst_kapital_eink_tu(
+    brutto_eink_5_tu, _anz_erwachsene_tu, eink_st_abzuege_params
+):
+    """Taxable income per tax unit.
+
+    Parameters
+    ----------
+    brutto_eink_5_tu
+    _anz_erwachsene_tu
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
+    out = (
+        brutto_eink_5_tu
+        - _anz_erwachsene_tu
+        * (
+            eink_st_abzuege_params["sparerpauschbetrag"]
+            + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
         )
-        tax_unit.loc[tax_unit["gem_veranlagt"], "abgelt_st_m"] = (
-            0.5
-            * eink_st_params["abgelt_st_satz"]
-            * np.maximum(
-                tax_unit["brutto_eink_5_tu"]
-                - 2
-                * (
-                    eink_st_abzuege_params["sparerpauschbetrag"]
-                    + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
-                ),
-                0,
-            )
-        ).round(2)
-    return tax_unit
+    ).clip(lower=0)
+    return out

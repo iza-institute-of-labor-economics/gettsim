@@ -1,12 +1,11 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.dag import compute_taxes_and_transfers
+from gettsim.interface import compute_taxes_and_transfers
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
 
 INPUT_COLS = [
@@ -19,7 +18,7 @@ INPUT_COLS = [
     "wohnort_ost",
     "eink_st_m",
     "soli_st_m",
-    "sozialv_beit_m",
+    "sozialv_beitr_m",
     "geburtsjahr",
     "geburtsmonat",
     "geburtstag",
@@ -31,8 +30,8 @@ INPUT_COLS = [
 
 OUT_COLS = [
     "elterngeld_m",
-    "geschw_bonus",
-    "anz_mehrlinge_bonus",
+    "berechtigt_für_geschw_bonus",
+    "anz_mehrlinge_anspruch",
     "elternzeit_anspruch",
 ]
 YEARS = [2017, 2018, 2019]
@@ -49,12 +48,19 @@ def input_data():
 def test_eltgeld(
     year, column, input_data,
 ):
-    policy_date = date(year, 1, 1)
+    """Run tests to validate elterngeld.
+
+    hh_id 7 in test cases is for the calculator on
+    https://familienportal.de/familienportal/meta/egr. The result of the calculator is
+    10 Euro off the result from gettsim. We need to discuss if we should adapt the
+    calculation of the proxy wage of last year or anything else.
+
+    """
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict = get_policies_for_date(
-        policy_date=policy_date,
-        groups=[
+    params_dict, policy_func_dict = get_policies_for_date(
+        policy_date=year,
+        policy_groups=[
             "elterngeld",
             "soz_vers_beitr",
             "eink_st_abzuege",
@@ -62,22 +68,15 @@ def test_eltgeld(
             "soli_st",
         ],
     )
-    columns = ["soli_st_m"]
+    df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+    df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+
+    columns = ["soli_st_tu", "sozialv_beitr_m"]
 
     result = compute_taxes_and_transfers(
         df, user_columns=columns, targets=column, params=params_dict
     )
 
     assert_series_equal(
-        result,
-        year_data[column],
-        check_dtype=False,
-        check_exact=False,
-        check_less_precise=2,
+        result[column], year_data[column], check_dtype=False, check_less_precise=2,
     )
-
-
-# hh_id 7 in test cases is for the calculator on
-# https://familienportal.de/familienportal/meta/egr. The result of the calculator is
-# 10 Euro off the result from gettsim. We need to discuss if we should adapt the
-# calculation of the proxy wage of last year or anything else.

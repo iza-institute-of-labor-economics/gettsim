@@ -10,20 +10,24 @@ soli_st:
     reference:
       Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
     0:
+      lower_threshold: -inf
+      rate: 0
+      intercept_at_lower_threshold: 0
+      upper_threshold: 0
+    1:
       lower_threshold: 0
       rate: 0.0375
-      intercept_at_lower_threshold: 0
       upper_threshold: inf
   1993-01-01:
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       rate: 0
       intercept_at_lower_threshold: 0
       upper_threshold: inf
   1995-01-01:
     reference: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944.
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       intercept_at_lower_threshold: 0
       rate: 0
       upper_threshold: 681
@@ -36,7 +40,7 @@ soli_st:
   1998-01-01:
     reference: Artikel 1 G. v. 21.11.1997 BGBl. I S. 2743.
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       upper_threshold: 939
       rate: 0
       intercept_at_lower_threshold: 0
@@ -49,7 +53,7 @@ soli_st:
   2002-01-01:
     reference: G. v. 15.10.2002 BGBl. I S. 4131.
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       upper_threshold: 972
       rate: 0
       intercept_at_lower_threshold: 0
@@ -62,7 +66,7 @@ soli_st:
   2021-01-01:
     reference: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
     0:
-      lower_threshold: 0
+      lower_threshold: -inf
       upper_threshold: 16956
       rate: 0
       intercept_at_lower_threshold: 0

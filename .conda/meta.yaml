@@ -5,7 +5,7 @@ package:
   version: {{ data.get('version') }}
 
 source:
-  path: ../../gettsim
+  path: ../
 
 build:
   noarch: python
@@ -17,6 +17,7 @@ requirements:
 
   run:
     - python >=3.6
+    - networkx
     - pandas
     - pytest
     - pyyaml

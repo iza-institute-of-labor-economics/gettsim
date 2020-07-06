@@ -1,83 +1,82 @@
-kinderfreibetrag_sächl_exmin:
+kinderfreibetrag:
   name:
-    de: Kinderfreibetrag (sächliches Existenzminimum des Kindes).
+    de: >-
+      Kinderfreibetrag (sächliches Existenzminimum des Kindes,
+      seit 2000 auch der Freibetrag für Betreuungs-, Erziehungs-
+      und Ausbildungskosten)
     en: Basic Income Tax Allowance for children
   description:
-    de: § 32 (6) EStG, früher auch Absatz 7 und 8. Wird verdoppelt für gemeinsam veranlagte Paare.
+    de: >-
+      § 32 (6) EStG, früher auch Absatz 7 und 8. Wird verdoppelt für gemeinsam
+      veranlagte Paare. §32 (6) EStG, seit 2000.
     en:
   unit: Euro
   time: year
   1983-01-01:
-    scalar: 110
+    sächl_existenzmin: 110
     reference: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857.
     note: Der Betrag laut Gesetz ist 216 DM.
   1986-01-01:
-    scalar: 635
+    sächl_existenzmin: 635
     reference: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153.
     note: Der Betrag im Gesetz lautet 1242 DM.
   1990-01-01:
-    scalar: 773
+    sächl_existenzmin: 773
     reference: Artikel 1 G. v. 25.07.1988 BGBl. I S. 1093.
     note: Der Betrag im Gesetz lautet 1512 DM.
   1992-01-01:
-    scalar: 1049
+    sächl_existenzmin: 1049
     reference: Art. 1 G. v. 25.02.1992 BGBl. I S. 297.
     note: Wert laut Gesetz 2052 DM.
   1996-01-01:
-    scalar: 1601
+    sächl_existenzmin: 1601
     reference: Art. 1. G. v. 11.10.1995 BGBl. I S. 1250.
     note: Laut Gesetz 261 DM pro Monat.
   1997-01-01:
-    scalar: 1767
+    sächl_existenzmin: 1767
     reference:
     note: Laut Gesetz 288 DM pro Monat (ab 2000 3456 DM pro Jahr)
+  2000-01-01:
+    beitr_erz_ausb: 774
+    sächl_existenzmin: 1767
+    reference: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552.
+    note: Wert für beitr_erz_ausb laut Gesetz 1512 DM.
   2002-01-01:
-    scalar: 1824
+    beitr_erz_ausb: 1080
+    sächl_existenzmin: 1824
     reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
   2009-01-01:
-    scalar: 1932
+    deviation_from: previous
+    sächl_existenzmin: 1932
     reference: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
   2010-01-01:
-    scalar: 2184
+    beitr_erz_ausb: 1320
+    sächl_existenzmin: 2184
     reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
   2015-01-01:
-    scalar: 2256
+    deviation_from: previous
+    sächl_existenzmin: 2256
     reference: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
   2016-01-01:
-    scalar: 2304
+    deviation_from: previous
+    sächl_existenzmin: 2304
     reference: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
   2017-01-01:
-    scalar: 2358
+    deviation_from: previous
+    sächl_existenzmin: 2358
     reference: Art. 8 G. v. 20.12.2016 BGBl. I. S. 3000
   2018-01-01:
-    scalar: 2394
+    deviation_from: previous
+    sächl_existenzmin: 2394
     reference: Art. 9 G. v. 20.12.2016 BGBl. I. S. 3000
   2019-01-01:
-    scalar: 2490
+    deviation_from: previous
+    sächl_existenzmin: 2490
     reference: Art. 1 G. v. 29.11.2018 BGBl. I S. 2210
   2020-01-01:
-    scalar: 2586
+    deviation_from: previous
+    sächl_existenzmin: 2586
     reference: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
-
-kinderfreibetrag_betr_erz_ausb:
-  name:
-    de: Kinderfreibetrag. Betreuungs-, Erziehungs-, Ausbildungsfreibetrag.
-    en: Income Tax Allowance for child care and education.
-  description:
-    de: §32 (6) EStG, seit 2000.
-    en:
-  unit: Euro
-  time: year
-  2000-01-01:
-    scalar: 774
-    reference: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552.
-    note: Wert laut Gesetz 1512 DM.
-  2002-01-01:
-    scalar: 1080
-    reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
-  2010-01-01:
-    scalar: 1320
-    reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
 
 vorsorge2004_vorwegabzug:
   name:
@@ -506,7 +505,7 @@ vorsorge_kranken_minderung:
     scalar: 0.04
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 
-behinderten_pausch_betrag:
+behinderten_pauschbetrag:
   name:
     de: Behinderten-Pauschbetrag, in Abhängigkeit des Behinderungsgrads.
     en: Tax Credit for disabled, depending on degree of disability.

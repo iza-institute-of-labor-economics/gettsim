@@ -1,31 +1,39 @@
-# Configuration file for the Sphinx documentation builder.
-# This file only contains a selection of the most common options. For a full list see
-# the documentation: http://www.sphinx-doc.org/en/master/config.
+# Configuration file for the Sphinx documentation builder. This file only contains a
+# selection of the most common options. For a full list see the documentation:
+# http://www.sphinx-doc.org/en/master/config.
 # -- Path setup --------------------------------------------------------------
 # If extensions (or modules to document with autodoc) are in another directory, add
 # these directories to sys.path here. If the directory is relative to the documentation
 # root, use os.path.abspath to make it absolute, like shown here.
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import datetime as dt
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(".."))
+
 # -- Project information -----------------------------------------------------
 
 project = "GETTSIM"
-copyright = "2019, GETTSIM team"
+copyright = f"{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
-release = "0.2.1"
+release = "0.3.3"
 version = ".".join(release.split(".")[:2])
-
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be extensions coming
 # with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
+    "nbsphinx",
+    "sphinx_automodapi.automodapi",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.extlinks",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
+    "sphinx_copybutton",
     "sphinx_rtd_theme",
 ]
 
@@ -33,17 +41,32 @@ extensions = [
 master_doc = "index"
 
 # Add any paths that contain templates here, relative to this directory.
-# templates_path = ['_templates']
+# templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and directories to
 # ignore when looking for source files. This pattern also affects html_static_path and
 # html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-
 # -- Extensions configuration ------------------------------------------------
 
-extlinks = {"ghuser": ("https://github.com/%s", "@")}
+add_module_names = False
+
+autodoc_default_options = {
+    "members": True,
+    "private-members": True,
+    "special-members": True,
+    "undoc-members": True,
+}
+autodoc_mock_imports = ["networkx", "numpy", "pandas", "pytest", "yaml"]
+
+extlinks = {
+    "ghuser": ("https://github.com/%s", "@"),
+    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
+}
+
+numpydoc_show_class_members = False
+
 todo_include_todos = True
 todo_emit_warnings = True
 
@@ -57,3 +80,5 @@ html_theme = "sphinx_rtd_theme"
 # to this directory. They are copied after the builtin static files, so a file named
 # "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+html_css_files = ["css/custom.css"]

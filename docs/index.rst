@@ -10,13 +10,15 @@ Welcome to GETTSIM's documentation!
    :caption: Table of Contents
    :maxdepth: 1
 
-   getting-started
+   tutorials/index
    crosswalk
    how-to-contribute
    how-to-maintain
    changes
    geps
    code-of-conduct
+   functions
+   glossary
 
 
 Initiated by

@@ -21,15 +21,12 @@ GEP 4 — A DAG-based Computational Backend
 +------------+---------------------------------------------------------------+
 
 
-
 Abstract
 --------
 
-This GEP lays out the plan to build a DAG-based computational backend for gettsim. A
-directed acyclic graph (DAG) is common way to represent the relation between multiple
-tasks which depend on each other via inputs and targets. The same is true for gettsim
-where taxes and transfers depend on a multitude of observed variables in the data or on
-pre-computed values based on the data and parameters.
+This GEP explains the DAG-based computational backend for gettsim which does not only
+increase performance, but, and more importantly, offers a way to make small changes to
+an existing policy environment.
 
 
 Motivation and Scope
@@ -37,15 +34,91 @@ Motivation and Scope
 
 The change is motivated by two primary reasons.
 
-1. gettsim should not only deliver a fixed state of a tax and transfer system, it should
-   also offer a comprehensive but simple API to alter the system.
+1. A tax and transfer system is constantly evolving in many dimensions due to the
+   decisions of policy makers. But, it is not enough to represent the state of the tax
+   and transfer at any given point in time, because researchers want to study the
+   effects of counterfactual scenarios. In these scenarios, they introduce their own
+   changes which can be more local - changing the functional form of an existing policy
+   - or more global - replacing the social benefits system with a universal basic
+   income.
 
-2. gettsim is slow because the current structure does not allow to model only a specific
-   part of the tax and transfer system while shutting all unrelated computation down.
+2. Computing taxes and transfers with gettsim takes a long time. The major reason is
+   that the current implementation does not use vectorization. The second reason is that
+   it is not possible to limit the computations to a set of target variables which the
+   researcher is ultimately interested in.
+
+
+Solution
+--------
+
+At the core of the solution is the following observation. To compute variables in the
+tax and transfer system, the user starts with some input data. A variable in the tax and
+transfer system can be computed by a function which receives the data and parameters as
+inputs and yields the variable. Since a single function might become too complex, we
+could split up the function into multiple functions which receive the data and
+parameters and compute intermediate outcomes. Then, the task is to call the collection
+of functions in the correct order and pass in the correct data and parameters. The last
+function in this collection will receive the intermediate outcomes and calculate the
+requested target variable.
+
+Splitting complex calculations into smaller pieces has a lot of the usual advantages of
+why we use functions in the first place: readability, simplicity, lower maintenance
+costs (see single-responsibility principle). Another advantage is that each function is
+a potential entrypoint for a researcher to change the tax and transfer system if she is
+able to replace this function with her own version.
+
+Two questions arise.
+
+1. How do we know which data and parameters to pass to the functions?
+
+To solve the first problem, we were inspired by `pytest and its fixtures
+<https://docs.pytest.org/en/stable/fixture.html>`_. The idea is that every variable has
+a name which is also a valid variable name in Python (cannot start with number,
+alphanumeric, lower- and uppercase, underscores). Then, a function inside the tax and
+transfer system uses this name as an input argument. See the following, intentionally
+abstract and incorrect example.
+
+.. code-block:: python
+
+    def kindergeld(anz_kinder_hh, kindergeld_params):
+        pass
+
+The function :func:`kindergeld` requires the variable ``anz_kinder_hh`` which is the
+number of children per household. When the function is called, a :class:`pandas.Series`
+with the information is passed to this argument. The same happens to the parameters
+where ``"kindergeld"`` is a single parameter-topic inside the collection of all
+parameters and ``kindergeld_params`` is a dictionary.
+
+The result of this function is again a :class:`pandas.Series` which has the name
+``kindergeld``, the same name as the function. Another function, say
+
+.. code-block:: python
+
+    def benefits(kindergeld, arbeitsl_geld_2, params):
+        pass
+
+would need to have ``kindergeld`` as a name for an input argument to request this
+:class:`pandas.Series`.
+
+2. How do we ensure the order in which functions are called?
+
+The second problem calls for a real classic of computer science. We can visualize the
+relationship between functions and their input variables in a tree diagram where nodes
+are variables in the data or computed by functions. Edges are pointing from from input
+variables to other variables which require them to be computed.
+
+
+CONTINUE HERE!
 
 
 Setup of the DAG
 ----------------
+
+A directed acyclic
+graph (DAG) is common way to represent the relation between multiple tasks which depend
+on each other via inputs and targets. The same is true for gettsim where taxes and
+transfers depend on a multitude of observed variables in the data or on pre-computed
+values based on the data and parameters.
 
 Before we explain how the user interface changes, it is necessary to understand how the
 DAG is created and especially how the interdependency between variables is traced. We
