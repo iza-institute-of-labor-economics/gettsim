@@ -3,15 +3,14 @@ import warnings
 
 import networkx as nx
 
-from gettsim.config import DEFAULT_TARGETS
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 
 
 def create_dag(
     functions,
-    targets=None,
-    columns_overriding_functions=None,
+    targets,
+    columns_overriding_functions,
     check_minimal_specification="ignore",
 ):
     """Create the DAG for the defined tax and transfer system.
@@ -23,10 +22,9 @@ def create_dag(
         If the object is a dictionary, the keys of the dictionary are used as a name
         instead of the function name. For all other objects, the name is inferred from
         the function name.
-    targets : str, list of str, default None
+    targets : str, list of str
         String or list of strings with names of functions whose output is actually
-        needed by the user. By default, ``targets`` is ``None`` and all key outputs as
-        defined by `gettsim.config.DEFAULT_TARGETS` are returned.
+        needed by the user.
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
@@ -40,7 +38,6 @@ def create_dag(
         The DAG of the tax and transfer system.
 
     """
-    targets = DEFAULT_TARGETS if targets is None else targets
     if check_minimal_specification not in ["ignore", "warn", "raise"]:
         raise ValueError(
             "'check_minimal_specification' must be one of ['ignore', 'warn', 'raise']."
@@ -48,8 +45,7 @@ def create_dag(
 
     dag = _create_complete_dag(functions)
 
-    if targets:
-        dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
+    dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
 
     _fail_if_columns_overriding_functions_are_not_in_dag(
         dag, columns_overriding_functions, check_minimal_specification
@@ -294,7 +290,7 @@ def execute_dag(dag, data, targets, debug):
 
             visited_nodes.add(task)
 
-            if targets and not debug:
+            if not debug:
                 data = collect_garbage(data, task, visited_nodes, targets, dag)
 
     return data

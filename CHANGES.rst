@@ -15,8 +15,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   DataFrame and removes the `return_dag` option (:ghuser:`tobiasraabe`).
 * :gh:`219` refactors the DAG and makes it independent from the main interface
   (:ghuser:`tobiasraabe`). The PR also changes the names of interface arguments:
-  ``user_functions`` to ``functions``, ``get_policy_for_date`` to
-  ``set_up_policy_environment``, ``user_columns`` to ``columns_overriding_functions``
+  ``functions`` instead of ``user_functions``, ``set_up_policy_environment`` instead of
+  ``get_policy_for_date``, ``columns_overriding_functions`` instead of ``user_columns``
   and some more changes.
 
 
