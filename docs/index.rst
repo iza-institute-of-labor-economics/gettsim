@@ -16,7 +16,7 @@ Welcome to GETTSIM's documentation!
    how-to-contribute
    how-to-maintain
    changes
-   geps
+   geps/index
    code-of-conduct
    functions
    glossary
