@@ -25,7 +25,7 @@ from pygments.formatters import HtmlFormatter
 
 import gettsim
 from gettsim.dag import create_dag
-from gettsim.interface import create_linewise_printed_list
+from gettsim.shared import format_list_linewise
 
 
 EDGE_KWARGS_DEFAULTS = {"line_color": "red", "line_alpha": 0.8, "line_width": 1}
@@ -371,7 +371,7 @@ def _apply_selectors_and_deselectors(dag, selectors, deselectors):
     if selected_nodes_not_in_dag:
         raise ValueError(
             "The following selected nodes are not in the DAG:"
-            f"\n{create_linewise_printed_list(selected_nodes_not_in_dag)}"
+            f"\n{format_list_linewise(selected_nodes_not_in_dag)}"
         )
 
     deselected_nodes = set().union(
@@ -381,7 +381,7 @@ def _apply_selectors_and_deselectors(dag, selectors, deselectors):
     if deselected_nodes_not_in_dag:
         raise ValueError(
             "The following de-selected nodes are not in the DAG:"
-            f"\n{create_linewise_printed_list(deselected_nodes_not_in_dag)}"
+            f"\n{format_list_linewise(deselected_nodes_not_in_dag)}"
         )
 
     nodes_to_be_removed = set(dag.nodes) - set(selected_nodes) | set(deselected_nodes)
