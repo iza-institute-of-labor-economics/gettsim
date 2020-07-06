@@ -5,6 +5,7 @@ dependencies:
   - python=3.7
   - pip
   - anaconda-client
+  - bokeh
   - conda-build
   - conda-verify
   - jupyterlab
@@ -13,6 +14,7 @@ dependencies:
   - pandas
   - pdbpp
   - pre-commit
+  - pydot
   - pyyaml
   - pytest
   - pytest-cov

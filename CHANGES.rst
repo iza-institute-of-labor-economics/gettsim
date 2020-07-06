@@ -9,6 +9,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.4.0 - 2020-xx-xx
 ------------------
 
+* :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
+  plot and documentation improvements (:ghuser:`tobiasraabe`).
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
 * :gh:`213` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
@@ -46,6 +48,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   (:ghuser:`MaxBlesch`).
 * :gh:`197` adds all functions which build the tax and transfer system to the
   documentation (:ghuser:`tobiasraabe`).
+* :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
+  to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
 * :gh:`200` adds a debug mode to gettsim and documents the feature
   (:ghuser:`tobiasraabe`).
 * :gh:`201` improves the calculation of ``hh_freib`` and renames it to
