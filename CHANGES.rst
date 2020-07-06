@@ -5,21 +5,28 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
+
 0.4.0 - 2020-xx-xx
 ------------------
 
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
   plot as well as some other ameliorations to the documentation (:ghuser:`tobiasraabe`).
-
-0.4.0 - 2020-xx-xx
-------------------
-
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
   to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
 * :gh:`213` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
   DataFrame and removes the `return_dag` option (:ghuser:`tobiasraabe`).
 * :gh:`219` refactors the DAG and makes it independent from the main interface
-  (:ghuser:`tobiasraabe`).
+  (:ghuser:`tobiasraabe`). The PR also changes the names of interface arguments:
+  ``functions`` instead of ``user_functions``, ``set_up_policy_environment`` instead of
+  ``get_policy_for_date``, ``columns_overriding_functions`` instead of ``user_columns``
+  and some more changes.
+
+
+0.3.4 - 2020-xx-xx
+------------------
+
+* :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
+  (:ghuser:`hmgaudecker`, :ghuser:`MaxBlesch`)
 
 
 0.3.3 - 2020-06-27

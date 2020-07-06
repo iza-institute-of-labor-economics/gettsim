@@ -39,7 +39,7 @@ def _load_functions(sources, allow_imported_members=False):
 
     Parameters
     ----------
-    sources : str, pathlib.Path, function, module, dictionary of functions
+    sources : str, pathlib.Path, function, module, imports statements
         Sources from where to load functions.
     allow_imported_members : bool
         Should imported members also be collected from a module?
@@ -52,7 +52,6 @@ def _load_functions(sources, allow_imported_members=False):
 
     """
     sources = sources if isinstance(sources, list) else [sources]
-    sources = _convert_some_strings_to_paths(sources)
     sources = _search_directories_recursively_for_python_files(sources)
     sources = _convert_paths_and_strings_to_dicts_of_functions(
         sources, allow_imported_members
@@ -66,16 +65,6 @@ def _load_functions(sources, allow_imported_members=False):
         if isinstance(source, dict) and all(
             inspect.isfunction(i) for i in source.values()
         ):
-            # Test whether there are duplicate functions.
-            duplicated_functions = set(source) & set(functions)
-            if duplicated_functions and not allow_imported_members:
-                formatted = _format_duplicated_functions(
-                    duplicated_functions, functions, source
-                )
-                raise ValueError(
-                    f"The following functions are defined multiple times:\n{formatted}"
-                )
-
             functions = {**functions, **source}
 
         else:
@@ -84,31 +73,6 @@ def _load_functions(sources, allow_imported_members=False):
             )
 
     return functions
-
-
-def _convert_some_strings_to_paths(sources):
-    """Handle strings in sources.
-
-    Strings are evaluated by :func:`importlib.utils.find_spec` to see whether it is a
-    module import. If an error occurs or it returns None, the string is converted to a
-    path.
-
-    """
-    new_sources = []
-    for source in sources:
-        if isinstance(source, str):
-            try:
-                out = importlib.util.find_spec(source)
-            except ValueError:
-                out = Path(source)
-            else:
-                out = Path(source) if out is None else source
-        else:
-            out = source
-
-        new_sources.append(source)
-
-    return new_sources
 
 
 def _search_directories_recursively_for_python_files(sources):

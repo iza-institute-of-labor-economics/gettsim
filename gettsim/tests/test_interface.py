@@ -79,9 +79,9 @@ def test_missing_root_nodes_raises_error():
         return b
 
     with pytest.raises(
-        ValueError, match=r"""The following data columns are missing[.\n'"\[]+a['"]\]"""
+        ValueError, match="The following data columns are missing",
     ):
-        compute_taxes_and_transfers(df, targets="c", functions=[b, c])
+        compute_taxes_and_transfers(df, {}, functions=[b, c], targets="c")
 
 
 def test_function_without_data_dependency_is_not_mistaken_for_data():
@@ -94,7 +94,7 @@ def test_function_without_data_dependency_is_not_mistaken_for_data():
     def b(a):
         return a
 
-    compute_taxes_and_transfers(df, targets="b", functions=[a, b])
+    compute_taxes_and_transfers(df, {}, functions=[a, b], targets="b")
 
 
 def test_consecutive_internal_test_runs():

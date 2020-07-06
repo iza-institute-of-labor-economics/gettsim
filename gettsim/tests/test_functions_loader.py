@@ -1,8 +1,6 @@
 import textwrap
 from pathlib import Path
 
-import pytest
-
 from gettsim.functions_loader import _load_functions
 
 
@@ -12,11 +10,6 @@ def func():
 
 def test_load_function():
     assert _load_functions(func) == {"func": func}
-
-
-def test_raise_error_on_duplicated_functions():
-    with pytest.raises(ValueError):
-        _load_functions([func, func])
 
 
 def test_renaming_functions():

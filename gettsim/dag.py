@@ -8,25 +8,29 @@ from gettsim.shared import get_names_of_arguments_without_defaults
 
 
 def create_dag(
-    functions=None,
-    targets=None,
-    columns_overriding_functions=None,
-    is_minimal_specification="ignore",
+    functions,
+    targets,
+    columns_overriding_functions,
+    check_minimal_specification="ignore",
 ):
     """Create the DAG for the defined tax and transfer system.
 
     Parameters
     ----------
-    targets : str or list of str, default None
-        The targets which should be computed.
-    functions : dict of callable, default None
-        A dictionary of callables which define the tax and transfer system.
-    columns_overriding_functions : str or list of str, default None
-        The nodes which are provided by columns in the data and do not need to be
-        computed.
-    is_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimalistic configuration
-        should be silenced, emitted as warnings or errors.
+    functions : str, pathlib.Path, callable, module, imports statements, dict
+        Functions can be anything of the specified types and a list of the same objects.
+        If the object is a dictionary, the keys of the dictionary are used as a name
+        instead of the function name. For all other objects, the name is inferred from
+        the function name.
+    targets : str, list of str
+        String or list of strings with names of functions whose output is actually
+        needed by the user.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
 
     Returns
     -------
@@ -34,18 +38,17 @@ def create_dag(
         The DAG of the tax and transfer system.
 
     """
-    if is_minimal_specification not in ["ignore", "warn", "raise"]:
+    if check_minimal_specification not in ["ignore", "warn", "raise"]:
         raise ValueError(
-            "'is_minimal_specification' must be one of ['ignore', 'warn', 'raise']."
+            "'check_minimal_specification' must be one of ['ignore', 'warn', 'raise']."
         )
 
     dag = _create_complete_dag(functions)
 
-    if targets:
-        dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
+    dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
 
     _fail_if_columns_overriding_functions_are_not_in_dag(
-        dag, columns_overriding_functions, is_minimal_specification
+        dag, columns_overriding_functions, check_minimal_specification
     )
 
     dag = _remove_unused_ancestors_of_columns_overriding_functions(
@@ -141,12 +144,9 @@ def _limit_dag_to_targets_and_their_ancestors(dag, targets):
 
 
 def _fail_if_columns_overriding_functions_are_not_in_dag(
-    dag, columns_overriding_functions, is_minimal_specification
+    dag, columns_overriding_functions, check_minimal_specification
 ):
-    """Fail if ``columns_overriding_functions`` are not in DAG.
-
-    TODO: Apparently, the check is pretty harsh to our tests which compute and test
-    column by column and not all at once. Deactivated for now. Needs discussion.
+    """Fail if ``columns_overriding_functions`` are not in the DAG.
 
     Parameters
     ----------
@@ -155,7 +155,7 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
     columns_overriding_functions : list of str
         The nodes which are provided by columns in the data and do not need to be
         computed. These columns limit the depth of the DAG.
-    is_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimalistic configuration
         should be silenced, emitted as warnings or errors.
 
@@ -163,21 +163,21 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
     --------
     UserWarning
         Warns if there are columns in 'columns_overriding_functions' which are not
-        necessary and ``is_minimal_specification`` is set to "warn".
+        necessary and ``check_minimal_specification`` is set to "warn".
     Raises
     ------
     ValueError
         Raised if there are columns in 'columns_overriding_functions' which are not
-        necessary and ``is_minimal_specification`` is set to "raise".
+        necessary and ``check_minimal_specification`` is set to "raise".
 
     """
     unused_columns = set(columns_overriding_functions) - set(dag.nodes)
     formatted = format_list_linewise(unused_columns)
-    if unused_columns and is_minimal_specification == "warn":
+    if unused_columns and check_minimal_specification == "warn":
         warnings.warn(
             f"The following 'columns_overriding_functions' are unused:\n{formatted}"
         )
-    elif unused_columns and is_minimal_specification == "raise":
+    elif unused_columns and check_minimal_specification == "raise":
         raise ValueError(
             f"The following 'columns_overriding_functions' are unused:\n{formatted}"
         )
@@ -290,7 +290,7 @@ def execute_dag(dag, data, targets, debug):
 
             visited_nodes.add(task)
 
-            if targets and not debug:
+            if not debug:
                 data = collect_garbage(data, task, visited_nodes, targets, dag)
 
     return data

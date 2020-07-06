@@ -1,4 +1,4 @@
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+from gettsim.piecewise_functions import piecewise_polynomial
 
 
 def eink_anr_frei_bis_10_2005(

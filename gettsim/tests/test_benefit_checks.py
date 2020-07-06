@@ -6,7 +6,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.policy_environment import set_up_policy_environment
 
 
 INPUT_COLS = [
@@ -34,9 +34,7 @@ OUT_COLS = ["kinderzuschlag_m_hh", "wohngeld_m_hh", "arbeitsl_geld_2_m_hh"]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_prio.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_prio.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
@@ -53,14 +51,12 @@ def test_benefit_checks(input_data, year, column):
         "arbeitsl_geld_2_eink_hh",
     ]
 
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=year, policy_groups="arbeitsl_geld_2",
-    )
+    policy_params, policy_functions = set_up_policy_environment(date=year)
     result = compute_taxes_and_transfers(
-        df,
-        columns_overriding_functions=columns,
-        functions=policy_func_dict,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=column,
-        params=params_dict,
+        columns_overriding_functions=columns,
     )
     assert_series_equal(result[column], year_data[column], check_dtype=False)
