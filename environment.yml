@@ -2,7 +2,7 @@ name: gettsim
 channels:
   - conda-forge
 dependencies:
-  - python>=3.7
+  - python
   - pip
   - anaconda-client
   - bokeh
