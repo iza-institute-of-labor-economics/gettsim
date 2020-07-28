@@ -5,9 +5,10 @@ package:
   version: {{ data.get('version') }}
 
 source:
-  path: ../
+  git_url: ../
 
 build:
+  number: 0
   noarch: python
 
 requirements:
@@ -21,6 +22,7 @@ requirements:
     - networkx
     - pandas
     - pydot
+    - pygments
     - pytest
     - pyyaml
 

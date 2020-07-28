@@ -15,6 +15,7 @@ dependencies:
   - pdbpp
   - pre-commit
   - pydot
+  - pygments
   - pyyaml
   - pytest
   - pytest-cov
