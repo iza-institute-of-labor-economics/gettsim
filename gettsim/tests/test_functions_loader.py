@@ -1,7 +1,7 @@
 import textwrap
 
-from gettsim.functions_loader import _load_functions
 from gettsim.config import ROOT_DIR
+from gettsim.functions_loader import _load_functions
 
 
 def func():
