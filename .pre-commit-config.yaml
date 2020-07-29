@@ -2,7 +2,7 @@
 exclude: ^\.
 repos:
 -   repo: https://github.com/asottile/reorder_python_imports
-    rev: v2.3.0
+    rev: v2.3.4
     hooks:
     -   id: reorder-python-imports
         files: '(\.pyi?|wscript)$'
@@ -20,7 +20,7 @@ repos:
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v2.4.3
+    rev: v2.7.2
     hooks:
     -   id: pyupgrade
         args: [
@@ -44,7 +44,7 @@ repos:
         -   id: doc8
             args: [--max-line-length, "88"]
 -   repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.1
+    rev: 3.8.3
     hooks:
     -   id: flake8
         files: '(\.py|wscript)$'
