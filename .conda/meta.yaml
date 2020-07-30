@@ -5,9 +5,10 @@ package:
   version: {{ data.get('version') }}
 
 source:
-  path: ../
+  git_url: ../
 
 build:
+  number: 0
   noarch: python
 
 requirements:
@@ -23,6 +24,8 @@ requirements:
     - pyyaml
 
 test:
+  requires:
+    - pytest
   source_files:
     - gettsim/data
     - gettsim/tests
