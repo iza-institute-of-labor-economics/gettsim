@@ -6,6 +6,22 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
+0.4.0 - 2020-xx-xx
+------------------
+
+* :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
+  to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
+* :gh:`213` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
+  DataFrame and removes the `return_dag` option (:ghuser:`tobiasraabe`).
+
+
+0.3.4 - 2020-07-30
+------------------
+
+* :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld
+  (:ghuser:`hmgaudecker`, :ghuser:`MaxBlesch`).
+
+
 0.3.3 - 2020-06-27
 ------------------
 

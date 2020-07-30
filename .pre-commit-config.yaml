@@ -37,7 +37,6 @@ repos:
     hooks:
     -   id: black
         files: '(\.pyi?|wscript)$'
-        language_version: python3.7
 -   repo: https://github.com/PyCQA/doc8
     rev: 0.8.1rc3
     hooks:
