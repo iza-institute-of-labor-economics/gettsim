@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "GETTSIM"
-copyright = f"{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
+copyright = f"2019-{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
 release = "0.3.3"
 version = ".".join(release.split(".")[:2])
@@ -59,7 +59,15 @@ autodoc_default_options = {
     "special-members": True,
     "undoc-members": True,
 }
-autodoc_mock_imports = ["networkx", "numpy", "pandas", "pytest", "yaml"]
+autodoc_mock_imports = [
+    "bokeh",
+    "networkx",
+    "numpy",
+    "pandas",
+    "pygments",
+    "pytest",
+    "yaml",
+]
 
 extlinks = {
     "ghuser": ("https://github.com/%s", "@"),
@@ -82,6 +90,12 @@ todo_emit_warnings = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for a list of
 # builtin themes.
 html_theme = "sphinx_rtd_theme"
+html_logo = "_static/images/gettsim_logo.svg"
+
+html_theme_options = {
+    "logo_only": True,
+    "display_version": False,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here, relative
 # to this directory. They are copied after the builtin static files, so a file named

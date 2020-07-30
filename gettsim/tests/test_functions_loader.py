@@ -1,6 +1,6 @@
 import textwrap
-from pathlib import Path
 
+from gettsim.config import ROOT_DIR
 from gettsim.functions_loader import _load_functions
 
 
@@ -23,9 +23,7 @@ def test_load_modules():
 
 
 def test_load_path():
-    assert _load_functions(
-        Path(__file__).parent.joinpath("..", "soz_vers", "krankenv_pflegev.py")
-    )
+    assert _load_functions(ROOT_DIR / "soz_vers" / "krankenv_pflegev.py")
 
 
 def test_special_attribute_module_is_set(tmp_path):

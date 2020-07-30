@@ -5,6 +5,12 @@ Welcome to GETTSIM's documentation!
    :start-line: 31
    :end-line: 44
 
+.. toctree::
+   :caption: Links
+   :hidden:
+
+   gettsim on Github <https://github.com/iza-institute-of-labor-economics/gettsim>
+
 
 .. toctree::
    :caption: Table of Contents
