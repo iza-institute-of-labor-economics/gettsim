@@ -23,6 +23,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
   (:ghuser:`hmgaudecker`, :ghuser:`MaxBlesch`)
 * :gh:`225` makes gettsim ready for Python 3.8 (:ghuser:`tobiasraabe`).
+* :gh:`228` releases 0.3.4.
 
 
 0.3.4 - 2020-07-30
