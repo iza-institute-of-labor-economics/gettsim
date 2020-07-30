@@ -21,6 +21,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   ``get_policy_for_date``, ``columns_overriding_functions`` instead of ``user_columns``
   and some more changes.
 * :gh:`225` makes gettsim ready for Python 3.8 (:ghuser:`tobiasraabe`).
+* :gh:`228` releases 0.3.4.
 
 
 0.3.4 - 2020-xx-xx
