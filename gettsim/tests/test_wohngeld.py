@@ -155,4 +155,4 @@ def test_increasing_hh_size(input_data_households, year, mietstufe):
         params=params_dict,
     )
 
-    assert result[column].is_monotonic
+    assert result.is_monotonic
