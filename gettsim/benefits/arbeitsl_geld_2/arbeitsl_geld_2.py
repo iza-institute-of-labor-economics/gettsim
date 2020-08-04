@@ -8,6 +8,20 @@ def arbeitsl_geld_2_m_hh(
     wohngeld_kinderzuschlag_vorrang_hh,
     rentner_in_hh,
 ):
+    """
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_m_minus_eink_hh
+    wohngeld_vorrang_hh
+    kinderzuschlag_vorrang_hh
+    wohngeld_kinderzuschlag_vorrang_hh
+    rentner_in_hh
+
+    Returns
+    -------
+
+    """
     out = arbeitsl_geld_2_m_minus_eink_hh.clip(lower=0)
     cond = (
         wohngeld_vorrang_hh
@@ -43,17 +57,21 @@ def alleinerziehenden_mehrbedarf_hh(
 ):
     """Compute alleinerziehenden_mehrbedarf.
 
-    Additional need for single parents. Maximum 60% of the standard amount on top
-    (a2zu2) if you have at least one kid below 6 or two or three below 15, you get 36%
+    Additional need for single parents. Maximum 60% of the standard amount on top if
+    you have at least one kid below 6 or two or three below 15, you get 36%
     on top alternatively, you get 12% per kid, depending on what's higher.
 
     """
+    # Get minimal Mehrbedarf share. Minimal rate times number of children
     lower = arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
+
+    # Special case if 1 kid below 6 or 2,3 below 15.
     value = (
         (anz_kind_zwischen_0_6_hh >= 1)
         | ((2 <= anz_kind_zwischen_0_15_hh) & (anz_kind_zwischen_0_15_hh <= 3))
     ) * arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
 
+    # Clip value at calculated minimal share and given upper share
     out = alleinerziehend_hh * value.clip(
         lower=lower, upper=arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
     )
@@ -61,37 +79,64 @@ def alleinerziehenden_mehrbedarf_hh(
 
 
 def kindersatz_m_hh_bis_2010(
-    hh_id,
-    kind_zwischen_0_6,
-    kind_zwischen_7_13,
-    kind_zwischen_14_24,
+    anz_kind_zwischen_0_6_hh,
+    anz_kind_zwischen_7_13_hh,
+    anz_kind_zwischen_14_24_hh,
     arbeitsl_geld_2_params,
 ):
+    """Since 2010 children get additional shares instead of lump sum payments
+
+    Parameters
+    ----------
+    anz_kind_zwischen_0_6_hh
+    anz_kind_zwischen_7_13_hh
+    anz_kind_zwischen_14_24_hh
+    arbeitsl_geld_2_params
+
+    Returns
+    -------
+
+    """
+    # Dictionary of additional shares.
     anteile = arbeitsl_geld_2_params["anteil_regelsatz"]
 
-    per_child = arbeitsl_geld_2_params["regelsatz"] * (
-        anteile["kinder_0_6"] * kind_zwischen_0_6
-        + anteile["kinder_7_13"] * kind_zwischen_7_13
-        + anteile["kinder_14_24"] * kind_zwischen_14_24
+    # Multiply number of kids in age range with corresponding additional share
+    out = arbeitsl_geld_2_params["regelsatz"] * (
+        anteile["kinder_0_6"] * anz_kind_zwischen_0_6_hh
+        + anteile["kinder_7_13"] * anz_kind_zwischen_7_13_hh
+        + anteile["kinder_14_24"] * anz_kind_zwischen_14_24_hh
     )
 
-    return per_child.groupby(hh_id).sum()
+    return out
 
 
 def kindersatz_m_hh_ab_2011(
-    hh_id,
-    kind_zwischen_0_6,
-    kind_zwischen_7_13,
-    kind_zwischen_14_24,
+    anz_kind_zwischen_0_6_hh,
+    anz_kind_zwischen_7_13_hh,
+    anz_kind_zwischen_14_24_hh,
     arbeitsl_geld_2_params,
 ):
-    per_child = (
-        arbeitsl_geld_2_params["regelsatz"][6] * kind_zwischen_0_6
-        + arbeitsl_geld_2_params["regelsatz"][5] * kind_zwischen_7_13
-        + arbeitsl_geld_2_params["regelsatz"][4] * kind_zwischen_14_24
+    """Here the sum in euro is directly in the law
+
+    Parameters
+    ----------
+    anz_kind_zwischen_0_6_hh
+    anz_kind_zwischen_7_13_hh
+    anz_kind_zwischen_14_24_hh
+    arbeitsl_geld_2_params
+
+    Returns
+    -------
+
+    """
+    # Sum payments for each age group
+    out = (
+        arbeitsl_geld_2_params["regelsatz"][6] * anz_kind_zwischen_0_6_hh
+        + arbeitsl_geld_2_params["regelsatz"][5] * anz_kind_zwischen_7_13_hh
+        + arbeitsl_geld_2_params["regelsatz"][4] * anz_kind_zwischen_14_24_hh
     )
 
-    return per_child.groupby(hh_id).sum()
+    return out
 
 
 def regelsatz_m_hh_bis_2010(
@@ -100,6 +145,19 @@ def regelsatz_m_hh_bis_2010(
     kindersatz_m_hh,
     arbeitsl_geld_2_params,
 ):
+    """
+
+    Parameters
+    ----------
+    anz_erwachsene_hh
+    alleinerziehenden_mehrbedarf_hh
+    kindersatz_m_hh
+    arbeitsl_geld_2_params
+
+    Returns
+    -------
+
+    """
     data = np.where(
         anz_erwachsene_hh == 1,
         arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf_hh),
@@ -121,6 +179,19 @@ def regelsatz_m_hh_ab_2011(
     kindersatz_m_hh,
     arbeitsl_geld_2_params,
 ):
+    """Calculating the regelsatz for each person.
+
+    Parameters
+    ----------
+    anz_erwachsene_hh
+    alleinerziehenden_mehrbedarf_hh
+    kindersatz_m_hh
+    arbeitsl_geld_2_params
+
+    Returns
+    -------
+
+    """
     data = np.where(
         anz_erwachsene_hh == 1,
         arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf_hh),
