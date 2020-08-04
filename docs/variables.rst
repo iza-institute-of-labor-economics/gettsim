@@ -1,5 +1,5 @@
-Functions in the Tax and Transfer System
-========================================
+Basic Input variables
+=====================
 
 This section documents the basic input variables for gettsim.
 
