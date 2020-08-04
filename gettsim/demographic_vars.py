@@ -42,6 +42,7 @@ def _anz_kinder_in_tu(tu_id, kind):
     Parameters
     ----------
     tu_id
+	See :ref:`tu_id`
     kind
 
     Returns

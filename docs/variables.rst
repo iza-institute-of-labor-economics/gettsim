@@ -7,4 +7,13 @@ This section documents the basic input variables for gettsim.
 
 Household identifier
 --------------------
-This integer Series identifies explicitly each household of individuals.
+This integer Series identifies explicitly each household of individuals. 
+
+
+
+
+.. _tu_id: 
+
+Tax Unit identifier 
+-------------------
+This integer Series identifies explicitly each tax unit of individuals. 
