@@ -163,8 +163,7 @@ def regelsatz_m_hh_bis_2010(
         arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf_hh),
         arbeitsl_geld_2_params["regelsatz"]
         * (
-            (2 + alleinerziehenden_mehrbedarf_hh)
-            * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
+            2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
             + (anz_erwachsene_hh - 2).clip(lower=0)
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
         ),
