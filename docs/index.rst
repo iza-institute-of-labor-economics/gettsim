@@ -25,6 +25,7 @@ Welcome to GETTSIM's documentation!
    geps
    code-of-conduct
    functions
+   variables
    glossary
 
 
