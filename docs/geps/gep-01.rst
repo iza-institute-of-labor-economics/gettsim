@@ -139,6 +139,10 @@ type (i.e., int, dict, list, df, array ...). As for column names and parameters,
 cases it might be useful to append an underscore plus one of {``j``, ``m``, ``w``,
 ``t``} to indicate the time unit.
 
+.. _reduced:
+
+gettsim works in a lot of cases with reduced Series....
+
 
 Examples
 --------

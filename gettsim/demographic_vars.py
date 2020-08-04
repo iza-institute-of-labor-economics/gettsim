@@ -4,8 +4,9 @@ from gettsim.typing import IntSeries
 
 
 def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
-    """
+    """Create tax unit BoolSeries for single parent tax units.
 
+    For more details on tax unit Series, see the documentation on reduced Series.
     Parameters
     ----------
     tu_id
