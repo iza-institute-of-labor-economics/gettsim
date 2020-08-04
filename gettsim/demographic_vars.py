@@ -24,6 +24,7 @@ def alleinerziehend_hh(hh_id, alleinerziehend):
     Parameters
     ----------
     hh_id
+        See :ref:`hh_id`
     alleinerziehend
 
     Returns
