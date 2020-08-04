@@ -20,7 +20,7 @@ def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     return alleinerziehend.groupby(tu_id).any()
 
 
-def alleinerziehend_hh(hh_id, alleinerziehend):
+def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend):
     """
 
     Parameters
