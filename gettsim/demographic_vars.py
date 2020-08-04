@@ -1,7 +1,9 @@
 """This module provides functions to compute demographic variables."""
+from gettsim.typing import BoolSeries
+from gettsim.typing import IntSeries
 
 
-def alleinerziehend_tu(tu_id, alleinerziehend):
+def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
     """
 
     Parameters
