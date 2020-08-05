@@ -20,8 +20,8 @@ def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     return alleinerziehend.groupby(tu_id).any()
 
 
-def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend):
-    """
+def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
+    """Create household unit BoolSeries for single parent.
 
     Parameters
     ----------
@@ -36,8 +36,8 @@ def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend):
     return alleinerziehend.groupby(hh_id).any()
 
 
-def _anz_kinder_in_tu(tu_id, kind):
-    """
+def _anz_kinder_in_tu(tu_id: IntSeries, kind: IntSeries) -> IntSeries:
+    """Create number of children unit BoolSeries per tax unit.
 
     Parameters
     ----------
@@ -52,12 +52,13 @@ def _anz_kinder_in_tu(tu_id, kind):
     return (kind.astype(int)).groupby(tu_id).sum()
 
 
-def _anz_erwachsene_tu(tu_id, kind):
-    """
+def _anz_erwachsene_tu(tu_id: IntSeries, erwachsene: IntSeries) -> IntSeries:
+    """Create number of adults unit BoolSeries per tax unit.
 
     Parameters
     ----------
-    tu_id
+    tu_id 
+	See :ref:`tu_id`
     kind
 
     Returns
@@ -67,12 +68,13 @@ def _anz_erwachsene_tu(tu_id, kind):
     return (~kind).astype(int).groupby(tu_id).sum()
 
 
-def gemeinsam_veranlagt(tu_id, _anz_erwachsene_tu):
+def gemeinsam_veranlagt(tu_id: IntSeries, gemeinsam_veranlagt: IntSeries) -> IntSeries:
     """
 
     Parameters
     ----------
     tu_id
+	See :ref:`tu_id`
     _anz_erwachsene_tu
 
     Returns
