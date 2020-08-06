@@ -1,5 +1,6 @@
 """This module provides functions to compute demographic variables."""
 from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
@@ -106,7 +107,7 @@ def gemeinsam_veranlagte_tu(
     return gemeinsam_veranlagt.groupby(tu_id).any()
 
 
-def bruttolohn_m_tu(bruttolohn_m, tu_id):
+def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     """
 
     Parameters
@@ -123,7 +124,9 @@ def bruttolohn_m_tu(bruttolohn_m, tu_id):
     return bruttolohn_m.groupby(tu_id).sum()
 
 
-def anz_kind_zwischen_0_6_hh(hh_id, kind, alter):
+def anz_kind_zwischen_0_6_hh(
+    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
+) -> IntSeries:
     """
 
     Parameters
