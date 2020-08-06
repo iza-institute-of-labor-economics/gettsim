@@ -11,9 +11,9 @@ def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     Parameters
     ----------
     tu_id
-	See :ref:`tu_id`
+        See :ref:`tu_id`
     alleinerziehend
-	See :ref:`alleinerziehend`
+        See :ref:`alleinerziehend`
     Returns
     -------
 
@@ -28,8 +28,8 @@ def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     ----------
     hh_id
         See :ref:`hh_id`
-    alleinerziehend 
-	See :ref:`alleinerziehend`
+    alleinerziehend
+        See :ref:`alleinerziehend`
 
     Returns
     -------
@@ -38,15 +38,15 @@ def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     return alleinerziehend.groupby(hh_id).any()
 
 
-def _anz_kinder_in_tu(tu_id: IntSeries, kind: IntSeries) -> IntSeries:
+def _anz_kinder_in_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     """Create number of children per tax unit.
 
     Parameters
     ----------
     tu_id
-	See :ref:`tu_id`
-    kind 
-	See :ref:`kind`
+        See :ref:`tu_id`
+    kind
+        See :ref:`kind`
 
     Returns
     -------
@@ -55,15 +55,15 @@ def _anz_kinder_in_tu(tu_id: IntSeries, kind: IntSeries) -> IntSeries:
     return (kind.astype(int)).groupby(tu_id).sum()
 
 
-def _anz_erwachsene_tu(tu_id: IntSeries, erwachsene: IntSeries) -> IntSeries:
+def _anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     """Create number of adults unit BoolSeries per tax unit.
 
     Parameters
     ----------
-    tu_id 
-	See :ref:`tu_id`
-    kind 
-	See :ref:`kind`
+    tu_id
+        See :ref:`tu_id`
+    kind
+        See :ref:`kind`
 
     Returns
     -------
@@ -72,13 +72,13 @@ def _anz_erwachsene_tu(tu_id: IntSeries, erwachsene: IntSeries) -> IntSeries:
     return (~kind).astype(int).groupby(tu_id).sum()
 
 
-def gemeinsam_veranlagt(tu_id: IntSeries, gemeinsam_veranlagt: IntSeries) -> IntSeries:
+def gemeinsam_veranlagt(tu_id: IntSeries, _anz_erwachsene_tu: IntSeries) -> BoolSeries:
     """Create number of persons with shared tax tarif unit BoolSeries.
 
     Parameters
     ----------
     tu_id
-	See :ref:`tu_id`
+        See :ref:`tu_id`
     _anz_erwachsene_tu
 
     Returns
@@ -88,15 +88,16 @@ def gemeinsam_veranlagt(tu_id: IntSeries, gemeinsam_veranlagt: IntSeries) -> Int
     return tu_id.replace(_anz_erwachsene_tu) == 2
 
 
-def gemeinsam_veranlagte_tu(tu_id: IntSeries, gemeinsam_veranlagt: IntSeries) -> IntSeries:
+def gemeinsam_veranlagte_tu(
+    tu_id: IntSeries, gemeinsam_veranlagt: IntSeries
+) -> IntSeries:
     """Create number of households with shared tax tarif unit BoolSeries.
 
     Parameters
     ----------
-    gemeinsam_veranlagt 
-	See :ref:`gemeinsam_veranlagt`
-    tu_id 
-	See :ref:`tu_id`
+    gemeinsam_veranlagt
+    tu_id
+        See :ref:`tu_id`
 
     Returns
     -------
@@ -111,9 +112,9 @@ def bruttolohn_m_tu(bruttolohn_m, tu_id):
     Parameters
     ----------
     bruttolohn_m
-	See :ref:`bruttolohn_m`
+        See :ref:`bruttolohn_m`
     tu_id
-	See :ref:`tu_id`
+        See :ref:`tu_id`
 
     Returns
     -------
@@ -127,12 +128,12 @@ def anz_kind_zwischen_0_6_hh(hh_id, kind, alter):
 
     Parameters
     ----------
-    hh_id 
-	See :ref:`hh_id`
-    kind 
-	See :ref:`kind`
-    alter 
-	See :ref:`alter`
+    hh_id
+        See :ref:`hh_id`
+    kind
+        See :ref:`kind`
+    alter
+        See :ref:`alter`
 
     Returns
     -------
@@ -147,12 +148,12 @@ def anz_kind_zwischen_0_15_hh(hh_id, kind, alter):
 
     Parameters
     ----------
-    hh_id 
-	See :ref:`hh_id`
-    kind 
-	See :ref:`kind`
-    alter 
-	See :ref:`alter`
+    hh_id
+        See :ref:`hh_id`
+    kind
+        See :ref:`kind`
+    alter
+        See :ref:`alter`
 
     Returns
     -------
@@ -167,12 +168,12 @@ def anz_kind_zwischen_7_13_hh(hh_id, kind, alter):
 
     Parameters
     ----------
-    hh_id 
-	See :ref:`hh_id`
-    kind 
-	See :ref:`kind`
-    alter 
-	See :ref:`alter`
+    hh_id
+        See :ref:`hh_id`
+    kind
+        See :ref:`kind`
+    alter
+        See :ref:`alter`
 
     Returns
     -------
@@ -187,12 +188,12 @@ def anz_kind_zwischen_14_24_hh(hh_id, kind, alter):
 
     Parameters
     ----------
-    hh_id 
-	See :ref:`hh_id`
-    kind 
-	See :ref:`kind`
-    alter 
-	See :ref:`alter`
+    hh_id
+        See :ref:`hh_id`
+    kind
+        See :ref:`kind`
+    alter
+        See :ref:`alter`
 
     Returns
     -------
@@ -207,10 +208,10 @@ def anz_kinder_hh(hh_id, kind):
 
     Parameters
     ----------
-    hh_id 
-	See :ref:`hh_id`
-    kind 
-	See :ref:`kind`
+    hh_id
+        See :ref:`hh_id`
+    kind
+        See :ref:`kind`
 
     Returns
     -------
@@ -224,10 +225,10 @@ def anz_kinder_tu(tu_id, kind):
 
     Parameters
     ----------
-    tu_id 
-	See :ref:`tu_id`
+    tu_id
+        See :ref:`tu_id`
     kind
-	See :ref:`kind`
+        See :ref:`kind`
     Returns
     -------
 
@@ -240,10 +241,10 @@ def anz_erwachsene_hh(hh_id, kind):
 
     Parameters
     ----------
-    hh_id 
-	See :ref:`hh_id`
-    kind 
-	See :ref:`kind`
+    hh_id
+        See :ref:`hh_id`
+    kind
+        See :ref:`kind`
 
     Returns
     -------
@@ -257,10 +258,10 @@ def kinder_in_hh(kind, hh_id):
 
     Parameters
     ----------
-    kind 
-	See :ref:`kind`
-    hh_id 
-	See :ref:`hh_id`
+    kind
+        See :ref:`kind`
+    hh_id
+        See :ref:`hh_id`
 
     Returns
     -------
@@ -274,8 +275,8 @@ def haushaltsgröße(hh_id):
 
     Parameters
     ----------
-    hh_id 
-	See :ref:`hh_id`
+    hh_id
+        See :ref:`hh_id`
 
     Returns
     -------
@@ -290,7 +291,7 @@ def haushaltsgröße_hh(hh_id):
     Parameters
     ----------
     hh_id
-	See :ref:`hh_id`
+        See :ref:`hh_id`
     Returns
     -------
 
@@ -303,10 +304,10 @@ def rentner_in_hh(hh_id, rentner):
 
     Parameters
     ----------
-    hh_id 
-	See :ref:`hh_id`
-    rentner 
-	See :ref:`rentner`
+    hh_id
+        See :ref:`hh_id`
+    rentner
+        See :ref:`rentner`
 
     Returns
     -------
