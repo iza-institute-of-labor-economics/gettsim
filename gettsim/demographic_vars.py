@@ -73,7 +73,7 @@ def _anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
 
 
 def gemeinsam_veranlagt(tu_id: IntSeries, _anz_erwachsene_tu: IntSeries) -> BoolSeries:
-    """Create number of persons with shared tax tarif unit BoolSeries.
+    """
 
     Parameters
     ----------
@@ -89,8 +89,8 @@ def gemeinsam_veranlagt(tu_id: IntSeries, _anz_erwachsene_tu: IntSeries) -> Bool
 
 
 def gemeinsam_veranlagte_tu(
-    tu_id: IntSeries, gemeinsam_veranlagt: IntSeries
-) -> IntSeries:
+    tu_id: IntSeries, gemeinsam_veranlagt: BoolSeries
+) -> BoolSeries:
     """Create number of households with shared tax tarif unit BoolSeries.
 
     Parameters
