@@ -24,7 +24,10 @@ def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
 
 
 def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
-    """Create household unit BoolSeries for single parent.
+    """Check if single parent is in household.
+
+    The returned pandas.Series is intdexed by the household id (:ref:`hh_id`). For more
+    details on tax unit Series, see the documentation on reduced Series :ref:`reduced`.
 
     Parameters
     ----------
@@ -35,13 +38,17 @@ def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
 
     Returns
     -------
+    BoolSeries indicating single parent in household.
 
     """
     return alleinerziehend.groupby(hh_id).any()
 
 
 def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
-    """Create number of adults in tax unit.
+    """Count number of adults in tax unit.
+
+    The returned pandas.Series is intdexed by the tax unit id (:ref:`tu_id`). For more
+    details on tax unit Series, see the documentation on reduced Series :ref:`reduced`.
 
     Parameters
     ----------
@@ -52,13 +59,13 @@ def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
 
     Returns
     -------
-
+    IntSeries with the number of adults per tax unit.
     """
     return (~kind).astype(int).groupby(tu_id).sum()
 
 
 def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolSeries:
-    """
+    """Check if the tax unit consists of two adults.
 
     Parameters
     ----------
@@ -69,7 +76,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
 
     Returns
     -------
-
+    BoolSeries indicating two adults in tax unit.
     """
     return tu_id.replace(anz_erwachsene_tu) == 2
 
