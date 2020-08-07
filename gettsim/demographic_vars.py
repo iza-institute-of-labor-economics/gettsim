@@ -31,9 +31,9 @@ def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
 
     Parameters
     ----------
-    hh_id
+    hh_id : IntSeries
         See :ref:`hh_id`
-    alleinerziehend
+    alleinerziehend : BoolSeries
         See :ref:`alleinerziehend`
 
     Returns
