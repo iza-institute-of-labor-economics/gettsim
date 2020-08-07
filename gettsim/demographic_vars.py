@@ -7,9 +7,6 @@ from gettsim.typing import IntSeries
 def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
     """Check if single parent is in tax unit.
 
-    The returned pandas.Series is intdexed by the tax unit id (:ref:`tu_id`). For more
-    details on tax unit Series, see the documentation on reduced Series :ref:`reduced`.
-
     Parameters
     ----------
     tu_id
@@ -26,9 +23,6 @@ def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
 def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
     """Check if single parent is in household.
 
-    The returned pandas.Series is intdexed by the household id (:ref:`hh_id`). For more
-    details on tax unit Series, see the documentation on reduced Series :ref:`reduced`.
-
     Parameters
     ----------
     hh_id : IntSeries
@@ -39,16 +33,12 @@ def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     Returns
     -------
     BoolSeries indicating single parent in household.
-
     """
     return alleinerziehend.groupby(hh_id).any()
 
 
 def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     """Count number of adults in tax unit.
-
-    The returned pandas.Series is intdexed by the tax unit id (:ref:`tu_id`). For more
-    details on tax unit Series, see the documentation on reduced Series :ref:`reduced`.
 
     Parameters
     ----------
@@ -60,13 +50,12 @@ def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Returns
     -------
     IntSeries with the number of adults per tax unit.
-
     """
     return (~kind).astype(int).groupby(tu_id).sum()
 
 
 def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolSeries:
-    """Check if the tax unit consists of two adults.
+    """Check if the tax unit consists of two wage earners.
 
     Parameters
     ----------
@@ -77,7 +66,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
 
     Returns
     -------
-    BoolSeries indicating two adults in tax unit.
+    BoolSeries indicating two wage earners in tax unit.
     """
     return tu_id.replace(anz_erwachsene_tu) == 2
 
@@ -85,23 +74,24 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
 def gemeinsam_veranlagte_tu(
     tu_id: IntSeries, gemeinsam_veranlagt: BoolSeries
 ) -> BoolSeries:
-    """Create number of households with shared tax tarif unit BoolSeries.
+    """Check for each tax unit if it consists of two wage earners.
 
     Parameters
     ----------
     gemeinsam_veranlagt
+        See :func:`gemeinsam_veranlagt`
     tu_id
         See :ref:`tu_id`
 
     Returns
     -------
-
+    BoolSeries indicating for each tax unit two wage earners.
     """
     return gemeinsam_veranlagt.groupby(tu_id).any()
 
 
 def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Create monthly wage of each individual.
+    """Sum monthly wages in tax unit.
 
     Parameters
     ----------
@@ -112,7 +102,7 @@ def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
 
     Returns
     -------
-
+    IntSeries with sum of monthly wages per tax unit.
     """
     return bruttolohn_m.groupby(tu_id).sum()
 
@@ -120,7 +110,7 @@ def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
 def anz_kind_zwischen_0_6_hh(
     hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
-    """Create number of children age 0-6 in households.
+    """Count children from 0 to 6..
 
     Parameters
     ----------
