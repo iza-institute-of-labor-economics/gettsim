@@ -5,10 +5,11 @@ from gettsim.typing import IntSeries
 
 
 def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
-    """Create tax unit BoolSeries for single parent tax units.
+    """Check if single parent is in tax unit.
 
-    For more details on tax unit Series, see the documentation on reduced Series
-    :ref:`reduced`.
+    The returned pandas.Series is intdexed by the tax unit id (:ref:`tu_id`). For more
+    details on tax unit Series, see the documentation on reduced Series :ref:`reduced`.
+
     Parameters
     ----------
     tu_id
@@ -17,7 +18,7 @@ def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
         See :ref:`alleinerziehend`
     Returns
     -------
-
+    BoolSeries indicating single parent in tax unit.
     """
     return alleinerziehend.groupby(tu_id).any()
 
