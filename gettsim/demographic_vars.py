@@ -82,7 +82,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, _anz_erwachsene_tu: IntSeries) -> Bool
     tu_id
         See :ref:`tu_id`.
     _anz_erwachsene_tu
-        See :func:`demograhphic_vars._anz_erwachsene_tu`.
+        See :func:`~gettsim.demograhphic_vars._anz_erwachsene_tu`.
 
     Returns
     -------
