@@ -62,7 +62,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
     tu_id
         See :ref:`tu_id`.
     anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+        Return of :func:`anz_erwachsene_tu`.
 
     Returns
     -------
@@ -79,7 +79,7 @@ def gemeinsam_veranlagte_tu(
     Parameters
     ----------
     gemeinsam_veranlagt
-        See :func:`gemeinsam_veranlagt`
+        Return of :func:`gemeinsam_veranlagt`
     tu_id
         See :ref:`tu_id`
 
