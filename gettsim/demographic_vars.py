@@ -146,8 +146,10 @@ def anz_kind_zwischen_0_6_hh(
     return kind_0_bis_6.astype(int).groupby(hh_id).sum()
 
 
-def anz_kind_zwischen_0_15_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeries) -> IntSeries:
-    """Create number of children age 0-15 in households. 
+def anz_kind_zwischen_0_15_hh(
+    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
+) -> IntSeries:
+    """Create number of children age 0-15 in households.
 
     Parameters
     ----------
@@ -166,7 +168,9 @@ def anz_kind_zwischen_0_15_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeri
     return kind_0_bis_15.astype(int).groupby(hh_id).sum()
 
 
-def anz_kind_zwischen_7_13_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeries) -> IntSeries:
+def anz_kind_zwischen_7_13_hh(
+    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
+) -> IntSeries:
     """Create numer of children age 7-13 in households.
 
     Parameters
@@ -186,7 +190,9 @@ def anz_kind_zwischen_7_13_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeri
     return kind_7_bis_13.astype(int).groupby(hh_id).sum()
 
 
-def anz_kind_zwischen_14_24_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeries) -> IntSeries:
+def anz_kind_zwischen_14_24_hh(
+    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
+) -> IntSeries:
     """Create number of children age 7-13 in households.
 
     Parameters
@@ -256,8 +262,8 @@ def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
     return (~kind).groupby(hh_id).sum()
 
 
-def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> IntSeries:
-    """Create number of children in households. 
+def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> BoolSeries:
+    """Create number of children in households.
 
     Parameters
     ----------
@@ -288,7 +294,7 @@ def haushaltsgröße(hh_id: IntSeries) -> IntSeries:
     return hh_id.groupby(hh_id).transform("size")
 
 
-def haushaltsgröße_hh(hh_id: IntSeries) -> :
+def haushaltsgröße_hh(hh_id: IntSeries) -> IntSeries:
     """
 
     Parameters
@@ -302,8 +308,8 @@ def haushaltsgröße_hh(hh_id: IntSeries) -> :
     return hh_id.groupby(hh_id).size()
 
 
-def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> IntSeries:
-    """ 
+def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
+    """
 
     Parameters
     ----------
