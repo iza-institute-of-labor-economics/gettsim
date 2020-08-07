@@ -1,7 +1,7 @@
 from gettsim.piecewise_functions import piecewise_polynomial
 
 
-def soli_st_tu(_st_kind_freib_tu, _anz_erwachsene_tu, abgelt_st_tu, soli_st_params):
+def soli_st_tu(_st_kind_freib_tu, anz_erwachsene_tu, abgelt_st_tu, soli_st_params):
     """Solidarity Surcharge.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
@@ -15,9 +15,9 @@ def soli_st_tu(_st_kind_freib_tu, _anz_erwachsene_tu, abgelt_st_tu, soli_st_para
     with Solidarity Surcharge tax rate and no tax exempt level. §3 (3) S.2
     SolzG 1995.
     """
-    st_per_individual = _st_kind_freib_tu / _anz_erwachsene_tu
+    st_per_individual = _st_kind_freib_tu / anz_erwachsene_tu
     out = (
-        _anz_erwachsene_tu
+        anz_erwachsene_tu
         * piecewise_polynomial(
             st_per_individual,
             thresholds=soli_st_params["soli_st"]["thresholds"],

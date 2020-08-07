@@ -18,7 +18,7 @@ def arbeitsl_geld_2_eink(
     eink_st_tu,
     tu_id,
     soli_st_tu,
-    _anz_erwachsene_tu,
+    anz_erwachsene_tu,
     sozialv_beitr_m,
     eink_anr_frei,
 ):
@@ -31,7 +31,7 @@ def arbeitsl_geld_2_eink(
     eink_st_tu
     tu_id
     soli_st_tu
-    _anz_erwachsene_tu
+    anz_erwachsene_tu
     eink_anr_frei
 
     Returns
@@ -40,8 +40,8 @@ def arbeitsl_geld_2_eink(
     """
     return (
         _arbeitsl_geld_2_brutto_eink
-        - tu_id.replace((eink_st_tu / _anz_erwachsene_tu) / 12)
-        - tu_id.replace((soli_st_tu / _anz_erwachsene_tu) / 12)
+        - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
+        - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
         - sozialv_beitr_m
         - eink_anr_frei
     ).clip(lower=0)

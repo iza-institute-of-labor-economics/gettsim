@@ -176,7 +176,7 @@ def anz_mehrlinge_anspruch(hh_id, elternzeit_anspruch, jüngstes_kind):
 
 
 def nettolohn_m(
-    bruttolohn_m, tu_id, eink_st_tu, soli_st_tu, _anz_erwachsene_tu, sozialv_beitr_m
+    bruttolohn_m, tu_id, eink_st_tu, soli_st_tu, anz_erwachsene_tu, sozialv_beitr_m
 ):
     """Calculate the net wage given taxes and social security contributions.
 
@@ -187,7 +187,7 @@ def nettolohn_m(
     tu_id
     eink_st_tu
     soli_st_tu
-    _anz_erwachsene_tu
+    anz_erwachsene_tu
     sozialv_beitr_m
 
     Returns
@@ -196,8 +196,8 @@ def nettolohn_m(
     """
     return (
         bruttolohn_m
-        - tu_id.replace((eink_st_tu / _anz_erwachsene_tu) / 12)
-        - tu_id.replace((soli_st_tu / _anz_erwachsene_tu) / 12)
+        - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
+        - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
         - sozialv_beitr_m
     ).clip(lower=0)
 

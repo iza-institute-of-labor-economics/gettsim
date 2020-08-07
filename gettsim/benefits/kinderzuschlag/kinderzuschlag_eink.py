@@ -6,7 +6,7 @@ def kinderzuschlag_eink_regel_bis_2010(
     tu_id,
     hh_id,
     alleinerziehenden_mehrbedarf_hh,
-    _anz_erwachsene_tu,
+    anz_erwachsene_tu,
     arbeitsl_geld_2_params,
 ):
     """This function creates "kinderzuschlag_eink_regel" until 2010.
@@ -15,7 +15,7 @@ def kinderzuschlag_eink_regel_bis_2010(
     Parameters
     ----------
     alleinerziehenden_mehrbedarf
-    _anz_erwachsene_tu
+    anz_erwachsene_tu
     arbeitsl_geld_2_params
 
     Returns
@@ -23,7 +23,7 @@ def kinderzuschlag_eink_regel_bis_2010(
 
     """
     alleinerziehenden_mehrbedarf = hh_id.replace(alleinerziehenden_mehrbedarf_hh)
-    erwachsene_in_tu = tu_id.replace(_anz_erwachsene_tu)
+    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     choices = [
         arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"]
@@ -47,7 +47,7 @@ def kinderzuschlag_eink_regel_ab_2011(
     tu_id,
     hh_id,
     alleinerziehenden_mehrbedarf_hh,
-    _anz_erwachsene_tu,
+    anz_erwachsene_tu,
     arbeitsl_geld_2_params,
 ):
     """This function creates "kinderzuschlag_eink_regel" since 2011.
@@ -55,7 +55,7 @@ def kinderzuschlag_eink_regel_ab_2011(
     Parameters
     ----------
     alleinerziehenden_mehrbedarf
-    _anz_erwachsene_tu
+    anz_erwachsene_tu
     arbeitsl_geld_2_params
 
     Returns
@@ -63,7 +63,7 @@ def kinderzuschlag_eink_regel_ab_2011(
 
     """
     alleinerziehenden_mehrbedarf = hh_id.replace(alleinerziehenden_mehrbedarf_hh)
-    erwachsene_in_tu = tu_id.replace(_anz_erwachsene_tu)
+    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     choices = [
         arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf),
