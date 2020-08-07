@@ -52,14 +52,14 @@ def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
 
     Parameters
     ----------
-    tu_id
+    tu_id : IntSeries
         See :ref:`tu_id`
-    kind
+    kind : BoolSeries
         See :ref:`kind`
 
     Returns
     -------
-    anz_erwachsene_tu
+    anz_erwachsene_tu : IntSeries
         IntSeries with the number of adults per tax unit.
     """
     return (~kind).astype(int).groupby(tu_id).sum()
