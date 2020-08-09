@@ -110,7 +110,7 @@ def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
 def anz_kind_zwischen_0_6_hh(
     hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
-    """Count children from 0 to 6..
+    """Count children from 0 to 6.
 
     Parameters
     ----------
@@ -132,7 +132,7 @@ def anz_kind_zwischen_0_6_hh(
 def anz_kind_zwischen_0_15_hh(
     hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
-    """Create number of children age 0-15 in households.
+    """Count children from 0 to 15.
 
     Parameters
     ----------
@@ -154,7 +154,7 @@ def anz_kind_zwischen_0_15_hh(
 def anz_kind_zwischen_7_13_hh(
     hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
-    """Create numer of children age 7-13 in households.
+    """Count children from 7 to 13.
 
     Parameters
     ----------
@@ -176,7 +176,7 @@ def anz_kind_zwischen_7_13_hh(
 def anz_kind_zwischen_14_24_hh(
     hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
-    """Create number of children age 7-13 in households.
+    """Count children from 14 to 24.
 
     Parameters
     ----------
@@ -196,7 +196,7 @@ def anz_kind_zwischen_14_24_hh(
 
 
 def anz_kinder_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
-    """Create number of children age 0-18 in households.
+    """Count children in households.
 
     Parameters
     ----------
@@ -213,7 +213,7 @@ def anz_kinder_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
 
 
 def anz_kinder_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
-    """Create number of children per tax unit.
+    """Count children per tax unit.
 
     Parameters
     ----------
@@ -229,7 +229,7 @@ def anz_kinder_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
 
 
 def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
-    """Create number of adults in households.
+    """Count adults in households.
 
     Parameters
     ----------
@@ -246,7 +246,7 @@ def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
 
 
 def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> BoolSeries:
-    """Create number of children in households.
+    """Count children in households.
 
     Parameters
     ----------
@@ -263,7 +263,7 @@ def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> BoolSeries:
 
 
 def haushaltsgröße(hh_id: IntSeries) -> IntSeries:
-    """Create number of persons in households.
+    """Count persons in households.
 
     Parameters
     ----------
@@ -292,7 +292,7 @@ def haushaltsgröße_hh(hh_id: IntSeries) -> IntSeries:
 
 
 def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
-    """
+    """Count rentner in households. 
 
     Parameters
     ----------
