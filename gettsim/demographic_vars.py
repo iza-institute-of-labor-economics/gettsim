@@ -10,9 +10,9 @@ def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`
+        See :ref:`tu_id`.
     alleinerziehend
-        See :ref:`alleinerziehend`
+        See :ref:`alleinerziehend`.
     Returns
     -------
     BoolSeries indicating single parent in tax unit.
@@ -26,9 +26,9 @@ def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     Parameters
     ----------
     hh_id : IntSeries
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     alleinerziehend : BoolSeries
-        See :ref:`alleinerziehend`
+        See :ref:`alleinerziehend`.
 
     Returns
     -------
@@ -43,9 +43,9 @@ def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`
+        See :ref:`tu_id`.
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
 
     Returns
     -------
@@ -79,9 +79,9 @@ def gemeinsam_veranlagte_tu(
     Parameters
     ----------
     gemeinsam_veranlagt
-        Return of :func:`gemeinsam_veranlagt`
+        Return of :func:`gemeinsam_veranlagt`.
     tu_id
-        See :ref:`tu_id`
+        See :ref:`tu_id`.
 
     Returns
     -------
@@ -96,9 +96,9 @@ def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`
+        See :ref:`bruttolohn_m`.
     tu_id
-        See :ref:`tu_id`
+        See :ref:`tu_id`.
 
     Returns
     -------
@@ -115,15 +115,15 @@ def anz_kind_zwischen_0_6_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
     alter
-        See :ref:`alter`
+        See :ref:`alter`.
 
     Returns
     -------
-
+    IntSeries with the number of children from 0 to 6 per household. 
     """
     kind_0_bis_6 = kind & (0 <= alter) & (alter <= 6)
     return kind_0_bis_6.astype(int).groupby(hh_id).sum()
@@ -137,15 +137,15 @@ def anz_kind_zwischen_0_15_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
     alter
-        See :ref:`alter`
+        See :ref:`alter`.
 
     Returns
     -------
-
+    IntSeries with the number of children from 0 to 15 per household.
     """
     kind_0_bis_15 = kind & (0 <= alter) & (alter <= 15)
     return kind_0_bis_15.astype(int).groupby(hh_id).sum()
@@ -159,15 +159,15 @@ def anz_kind_zwischen_7_13_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
     alter
-        See :ref:`alter`
+        See :ref:`alter`.
 
     Returns
     -------
-
+    IntSeries with the number of children from 7 to 13 per household.
     """
     kind_7_bis_13 = kind & (7 <= alter) & (alter <= 13)
     return kind_7_bis_13.astype(int).groupby(hh_id).sum()
@@ -181,15 +181,15 @@ def anz_kind_zwischen_14_24_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
     alter
-        See :ref:`alter`
+        See :ref:`alter`.
 
     Returns
     -------
-
+    IntSeries with the number of children from 14 to 24 per household.
     """
     kind_14_bis_24 = kind & (14 <= alter) & (alter <= 24)
     return kind_14_bis_24.astype(int).groupby(hh_id).sum()
@@ -201,13 +201,13 @@ def anz_kinder_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
 
     Returns
     -------
-
+    IntSeries with the number of children per household.
     """
     return kind.astype(int).groupby(hh_id).sum()
 
@@ -218,12 +218,12 @@ def anz_kinder_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`
+        See :ref:`tu_id`.
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
     Returns
     -------
-
+    IntSeries with the number of children per tax unit.
     """
     return (kind.astype(int)).groupby(tu_id).sum()
 
@@ -234,13 +234,13 @@ def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
 
     Returns
     -------
-
+    IntSeries with the number of adults per household.
     """
     return (~kind).groupby(hh_id).sum()
 
@@ -251,13 +251,13 @@ def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> BoolSeries:
     Parameters
     ----------
     kind
-        See :ref:`kind`
+        See :ref:`kind`.
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
 
     Returns
     -------
-
+    BoolSeries indicating children in households.
     """
     return kind.groupby(hh_id).any()
 
@@ -268,25 +268,25 @@ def haushaltsgröße(hh_id: IntSeries) -> IntSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
 
     Returns
     -------
-
+    IntSeries with the number of persons in household.
     """
     return hh_id.groupby(hh_id).transform("size")
 
 
 def haushaltsgröße_hh(hh_id: IntSeries) -> IntSeries:
-    """
+    """Count persons in households.
 
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     Returns
     -------
-
+    IntSeries with the number of persons in household per household.
     """
     return hh_id.groupby(hh_id).size()
 
@@ -297,12 +297,12 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`
+        See :ref:`hh_id`.
     rentner
-        See :ref:`rentner`
+        See :ref:`rentner`.
 
     Returns
     -------
-
+    BoolSeries indicating rentner in tax household.
     """
     return rentner.groupby(hh_id).any()
