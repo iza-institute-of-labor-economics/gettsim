@@ -303,6 +303,6 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
 
     Returns
     -------
-    BoolSeries indicating rentner in tax household.
+    BoolSeries indicating rentner in households.
     """
     return rentner.groupby(hh_id).any()
