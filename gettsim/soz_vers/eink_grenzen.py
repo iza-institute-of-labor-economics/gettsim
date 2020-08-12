@@ -79,6 +79,7 @@ def _midi_job_bemessungsentgelt(bruttolohn_m, _in_gleitzone, soz_vers_beitr_para
 
     Returns
     -------
+    Float
 
     """
     # First calculate the factor F from the formula in § 163 (10) SGB VI.
@@ -133,9 +134,10 @@ def _midi_job_bemessungsentgelt(bruttolohn_m, _in_gleitzone, soz_vers_beitr_para
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
-def _regulär_beschäftigt(bruttolohn_m, soz_vers_beitr_params):
+def _regulär_beschäftigt(bruttolohn_m, soz_vers_beitr_params: dict):
     """
-    Creating boolean Series indicating regular employment.
+    Check employment status
+
     Parameters
     ----------
     bruttolohn_m : pd.Series
@@ -144,6 +146,7 @@ def _regulär_beschäftigt(bruttolohn_m, soz_vers_beitr_params):
 
     Returns
     -------
+    bool
 
     """
     return (
