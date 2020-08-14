@@ -1,4 +1,5 @@
-"""This module provides functions to compute demographic variables."""
+"""This module computes demographic variables directly on the data. These information
+are used throughout modules of gettsim."""
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -123,7 +124,7 @@ def anz_kind_zwischen_0_6_hh(
 
     Returns
     -------
-    IntSeries with the number of children from 0 to 6 per household. 
+    IntSeries with the number of children from 0 to 6 per household.
     """
     kind_0_bis_6 = kind & (0 <= alter) & (alter <= 6)
     return kind_0_bis_6.astype(int).groupby(hh_id).sum()
@@ -246,7 +247,7 @@ def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
 
 
 def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> BoolSeries:
-    """Count children in households.
+    """Check if children are in household.
 
     Parameters
     ----------
@@ -257,7 +258,7 @@ def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> BoolSeries:
 
     Returns
     -------
-    BoolSeries indicating children in households.
+    BoolSeries indicating children in household.
     """
     return kind.groupby(hh_id).any()
 
@@ -292,7 +293,7 @@ def haushaltsgröße_hh(hh_id: IntSeries) -> IntSeries:
 
 
 def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
-    """Count rentner in households. 
+    """Check if pensioner is in household.
 
     Parameters
     ----------
@@ -303,6 +304,6 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
 
     Returns
     -------
-    BoolSeries indicating rentner in households.
+    BoolSeries indicating pensioner in household.
     """
     return rentner.groupby(hh_id).any()

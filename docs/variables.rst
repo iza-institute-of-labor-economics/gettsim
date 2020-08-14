@@ -35,7 +35,6 @@ Bruttolohn
 This integer Series identifies the montly wage of individuals.
 
 
-
 .. _alter:
 
 Alter
