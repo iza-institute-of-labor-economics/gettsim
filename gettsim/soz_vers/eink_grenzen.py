@@ -1,3 +1,8 @@
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
+
 def _mini_job_grenze(wohnort_ost, soz_vers_beitr_params):
     """Wage threshold for marginal employment exempt from Social Insurance
     contributions.
