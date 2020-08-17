@@ -72,8 +72,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
     return tu_id.replace(anz_erwachsene_tu) == 2
 
 
-def gemeinsam_veranlagte_tu(
-    tu_id: IntSeries, gemeinsam_veranlagt: BoolSeries
+def gemeinsam_veranlagte_tu(tu_id: IntSeries, gemeinsam_veranlagt: BoolSeries
 ) -> BoolSeries:
     """Check for each tax unit if it consists of two wage earners.
 
@@ -108,8 +107,7 @@ def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     return bruttolohn_m.groupby(tu_id).sum()
 
 
-def anz_kind_zwischen_0_6_hh(
-    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
+def anz_kind_zwischen_0_6_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
     """Count children from 0 to 6.
 
@@ -130,8 +128,7 @@ def anz_kind_zwischen_0_6_hh(
     return kind_0_bis_6.astype(int).groupby(hh_id).sum()
 
 
-def anz_kind_zwischen_0_15_hh(
-    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
+def anz_kind_zwischen_0_15_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
     """Count children from 0 to 15.
 
@@ -152,8 +149,7 @@ def anz_kind_zwischen_0_15_hh(
     return kind_0_bis_15.astype(int).groupby(hh_id).sum()
 
 
-def anz_kind_zwischen_7_13_hh(
-    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
+def anz_kind_zwischen_7_13_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
     """Count children from 7 to 13.
 
@@ -174,8 +170,7 @@ def anz_kind_zwischen_7_13_hh(
     return kind_7_bis_13.astype(int).groupby(hh_id).sum()
 
 
-def anz_kind_zwischen_14_24_hh(
-    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
+def anz_kind_zwischen_14_24_hh(hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
 ) -> IntSeries:
     """Count children from 14 to 24.
 
