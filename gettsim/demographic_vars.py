@@ -102,7 +102,7 @@ def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
 
     Returns
     -------
-    IntSeries with sum of monthly wages per tax unit.
+    FloatSeries with sum of monthly wages per tax unit.
     """
     return bruttolohn_m.groupby(tu_id).sum()
 
