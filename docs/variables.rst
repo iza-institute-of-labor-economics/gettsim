@@ -55,61 +55,27 @@ This bool Series identifies Pensioner employment status.
 
 Alleinerziehend
 ---------------
-This bool Series identifies single parents. 
+This bool Series identifies single parents.
 
 
 
-.. _wohnort_ost: 
+.. _wohnort_ost:
 
 Wohnort
-------- 
+-------
 This BoolSeries identifies whether location is in former East or West Germany.
 
 
 
-.. _soz_vers_beitr_params: 
+.. _geringfügig_beschäftigt:
 
-Sozialversicherungsbeiträge
----------------------------
-This bool Series identifies if Sozialversicherungsbeiträge are payed.
-
-
-
-.. __mini_job_grenze:
-
-Mini Job Grenze
---------------- 
-This float Series identifies the income threshold for marginal employment. 
+Geringfügig beschäftigt
+-----------------------
+This bool Series identifies marginal employment.
 
 
-.. __geringfügig_beschäftigt 
-
-Geringfügig Beschäftigt 
------------------------ 
-This bool Series identifies marginal employment. 
-
-
-.. __in_gleitzone: 
+.. _in_gleitzone:
 
 Gleitzone
---------- 
-This bool Series checks midi job regulation. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---------
+This bool Series checks midi job regulation.

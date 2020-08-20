@@ -23,13 +23,13 @@ def sozialv_beitr_m(
 
 
 def rentenv_beitr_m(
-    _geringfügig_beschäftigt, _rentenv_beitr_regular_job, _an_beitr_rentenv_midi_job,
+    geringfügig_beschäftigt, _rentenv_beitr_regular_job, _an_beitr_rentenv_midi_job,
 ):
     """Contribution for each individual to the pension insurance.
 
     Parameters
     ----------
-    _geringfügig_beschäftigt
+    geringfügig_beschäftigt
     _rentenv_beitr_regular_job
     _an_beitr_rentenv_midi_job
 
@@ -38,10 +38,10 @@ def rentenv_beitr_m(
 
     """
 
-    out = _geringfügig_beschäftigt.astype(float) * np.nan
+    out = geringfügig_beschäftigt.astype(float) * np.nan
 
     # Set to 0 for minijobs
-    out.loc[_geringfügig_beschäftigt] = 0
+    out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
     out.loc[_an_beitr_rentenv_midi_job.index] = _an_beitr_rentenv_midi_job
@@ -66,13 +66,13 @@ def rentenv_beitr_m_tu(rentenv_beitr_m, tu_id):
 
 
 def arbeitsl_v_beitr_m(
-    _geringfügig_beschäftigt, _an_beitr_arbeitsl_v_midi_job, _arbeitsl_v_regular_job,
+    geringfügig_beschäftigt, _an_beitr_arbeitsl_v_midi_job, _arbeitsl_v_regular_job,
 ):
     """Calculate the contribution for each individual to the unemployment insurance.
 
     Parameters
     ----------
-    _geringfügig_beschäftigt
+    geringfügig_beschäftigt
     _an_beitr_arbeitsl_v_midi_job
     _arbeitsl_v_regular_job
 
@@ -80,10 +80,10 @@ def arbeitsl_v_beitr_m(
     -------
 
     """
-    out = _geringfügig_beschäftigt.astype(float) * np.nan
+    out = geringfügig_beschäftigt.astype(float) * np.nan
 
     # Set to 0 for minijobs
-    out.loc[_geringfügig_beschäftigt] = 0
+    out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions, for minijobs it remains 0
     out.loc[_an_beitr_arbeitsl_v_midi_job.index] = _an_beitr_arbeitsl_v_midi_job
@@ -161,7 +161,7 @@ def _rentenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
 
 
 def _ges_beitr_arbeitsl_v_midi_jobreturn(
-    bruttolohn_m, _rentenv_beitr_bemess_grenze, _regulär_beschäftigt
+    bruttolohn_m, _rentenv_beitr_bemess_grenze, regulär_beschäftigt
 ):
     """Calculate the wage, which is subject to pension insurance contributions.
 
@@ -169,7 +169,7 @@ def _ges_beitr_arbeitsl_v_midi_jobreturn(
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    _regulär_beschäftigt : pd.Series
+    regulär_beschäftigt : pd.Series
                           Boolean Series indicating regular employment.
 
     _rentenv_beitr_bemess_grenze : pd.Series
@@ -181,17 +181,17 @@ def _ges_beitr_arbeitsl_v_midi_jobreturn(
     -------
 
     """
-    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[_regulär_beschäftigt]
-    bemess_grenze = _rentenv_beitr_bemess_grenze.loc[_regulär_beschäftigt]
+    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[regulär_beschäftigt]
+    bemess_grenze = _rentenv_beitr_bemess_grenze.loc[regulär_beschäftigt]
     return bruttolohn_m_regulär_beschäftigt.clip(upper=bemess_grenze)
 
 
-def _ges_beitr_arbeitsl_v_midi_job(_midi_job_bemessungsentgelt, soz_vers_beitr_params):
+def _ges_beitr_arbeitsl_v_midi_job(midi_job_bemessungsentgelt, soz_vers_beitr_params):
     """Calculating the sum of employee and employer unemployment insurance contribution.
 
     Parameters
     ----------
-    _midi_job_bemessungsentgelt : pd.Series
+    midi_job_bemessungsentgelt : pd.Series
                                  The Bemessungsentgelt subject to social insurance
                                  contributions.
     soz_vers_beitr_params
@@ -201,18 +201,18 @@ def _ges_beitr_arbeitsl_v_midi_job(_midi_job_bemessungsentgelt, soz_vers_beitr_p
 
     """
     return (
-        _midi_job_bemessungsentgelt
+        midi_job_bemessungsentgelt
         * 2
         * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
 
 
-def _ges_beitr_rentenv_midi_job(_midi_job_bemessungsentgelt, soz_vers_beitr_params):
+def _ges_beitr_rentenv_midi_job(midi_job_bemessungsentgelt, soz_vers_beitr_params):
     """Calculating the sum of employee and employer pension insurance contribution.
 
     Parameters
     ----------
-    _midi_job_bemessungsentgelt : pd.Series
+    midi_job_bemessungsentgelt : pd.Series
                                  The Bemessungsentgelt subject to social insurance
                                  contributions.
     soz_vers_beitr_params
@@ -222,20 +222,20 @@ def _ges_beitr_rentenv_midi_job(_midi_job_bemessungsentgelt, soz_vers_beitr_para
 
     """
     return (
-        _midi_job_bemessungsentgelt
+        midi_job_bemessungsentgelt
         * 2
         * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     )
 
 
-def _ag_beitr_rentenv_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_params):
+def _ag_beitr_rentenv_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
     """Calculating the employer pension insurance contribution.
 
     Parameters
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    _in_gleitzone : pd.Series
+    in_gleitzone : pd.Series
                    Boolean Series indicating midi job regulation.
     soz_vers_beitr_params
 
@@ -243,21 +243,21 @@ def _ag_beitr_rentenv_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_param
     -------
 
     """
-    bruttolohn_m__in_gleitzone = bruttolohn_m.loc[_in_gleitzone]
+    bruttolohn_m__in_gleitzone = bruttolohn_m.loc[in_gleitzone]
     out = (
         bruttolohn_m__in_gleitzone * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     )
     return out
 
 
-def _ag_beitr_arbeitsl_v_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_params):
+def _ag_beitr_arbeitsl_v_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
     """Calculating the employer unemployment insurance contribution.
 
     Parameters
     ----------
     bruttolohn_m : pd.Series
                    The wage of each individual.
-    _in_gleitzone : pd.Series
+    in_gleitzone : pd.Series
                    Boolean Series indicating midi job regulation.
     soz_vers_beitr_params
 
@@ -265,7 +265,7 @@ def _ag_beitr_arbeitsl_v_midi_job(bruttolohn_m, _in_gleitzone, soz_vers_beitr_pa
     -------
 
     """
-    bruttolohn_m_in_gleitzone = bruttolohn_m.loc[_in_gleitzone]
+    bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
     return (
         bruttolohn_m_in_gleitzone
         * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
