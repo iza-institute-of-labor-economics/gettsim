@@ -7,7 +7,8 @@ def geringfügig_beschäftigt(
 ) -> BoolSeries:
     """Check if individual earns less than marginal employment threshold.
 
-    Definition mini job
+    The legal definition of an geringfügig beschäftigt employer is written down in § 8 Abs. 1 Satz 1 and 2 SGB IV. 
+    The wage has to be equal or lower than 450Euro per month. 
 
     Parameters
     ----------
@@ -41,8 +42,9 @@ def in_gleitzone(
 ) -> BoolSeries:
     """Check if individual's income is in midi-job range.
 
-    Definition midi job
-
+    The legal definition of gleitzone is written down in § 20 Abs. 2 SGB IV.
+    The wage has to be between 450,01 und 1300 Euro per Month. 
+    
     Parameters
     ----------
     bruttolohn_m
@@ -66,14 +68,15 @@ def midi_job_bemessungsentgelt(
 ) -> FloatSeries:
     """Select income subject to social insurance contributions for midi job.
 
-    definition Bemmessungsentgelt
+    The legal definition of gleitzonenentgelt is written down in § 163 Abs. 10 SGB VI. 
+     
 
     Parameters
     ----------
     bruttolohn_m
         See :ref:`bruttolohn_m`.
     in_gleitzone
-        See :ref:`in_gleitzone`.
+        See :func:`in_gleitzone`.
     soz_vers_beitr_params
         See :ref:`soz_vers_beitr_params`.
 
@@ -139,7 +142,8 @@ def regulär_beschäftigt(
 ) -> BoolSeries:
     """Check if person is regular employed.
 
-    Definition regular employed mit Gesetzeshinweise
+    In general, if a person is not a mini or midi employee, it will be a regular employee.
+    There is no legal definition. 
 
     Parameters
     ----------
