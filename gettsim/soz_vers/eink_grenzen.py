@@ -7,8 +7,8 @@ def geringfügig_beschäftigt(
 ) -> BoolSeries:
     """Check if individual earns less than marginal employment threshold.
 
-    The legal definition of an geringfügig beschäftigt employer is written down in § 8 Abs. 1 Satz 1 and 2 SGB IV. 
-    The wage has to be equal or lower than 450Euro per month. 
+    Marginal employed pay no social insurance contributions. For more details on the
+    definition see § 8 Abs. 1 Satz 1 and 2 SGB IV.
 
     Parameters
     ----------
@@ -42,9 +42,9 @@ def in_gleitzone(
 ) -> BoolSeries:
     """Check if individual's income is in midi-job range.
 
-    The legal definition of gleitzone is written down in § 20 Abs. 2 SGB IV.
-    The wage has to be between 450,01 und 1300 Euro per Month. 
-    
+    Employed people with their wage in the range of gleitzone pay reduced social
+    insurance contributions. See § 20 Abs. 2 SGB IV for more details.
+
     Parameters
     ----------
     bruttolohn_m
@@ -68,8 +68,9 @@ def midi_job_bemessungsentgelt(
 ) -> FloatSeries:
     """Select income subject to social insurance contributions for midi job.
 
-    The legal definition of gleitzonenentgelt is written down in § 163 Abs. 10 SGB VI. 
-     
+    Bemmessungsgeld(Gleitzonenentgelt) is the reference income for midi jobs subject
+    to social insurance contribution. For details see § 163 Abs. 10 SGB VI.
+
 
     Parameters
     ----------
@@ -142,8 +143,9 @@ def regulär_beschäftigt(
 ) -> BoolSeries:
     """Check if person is regular employed.
 
-    In general, if a person is not a mini or midi employee, it will be a regular employee.
-    There is no legal definition. 
+    Employees earning more than the midi job threshold, are subject to all ordinary
+    income and social insurance contribution regulations. In gettsim we call these
+    regular employed.
 
     Parameters
     ----------
