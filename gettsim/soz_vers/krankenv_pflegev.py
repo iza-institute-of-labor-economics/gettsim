@@ -1,5 +1,9 @@
 import numpy as np
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def ges_krankenv_beitr_m(
     geringfügig_beschäftigt,

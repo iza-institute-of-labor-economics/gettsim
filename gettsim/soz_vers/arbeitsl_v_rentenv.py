@@ -1,6 +1,10 @@
 """Functions for modeling unemployment and pension insurance."""
 import numpy as np
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def sozialv_beitr_m(
     pflegev_beitr_m, ges_krankenv_beitr_m, rentenv_beitr_m, arbeitsl_v_beitr_m
