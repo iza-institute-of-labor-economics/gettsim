@@ -9,6 +9,7 @@ further below. By clicking on the ``source`` hyperlink next to the function sign
 you can see the full source code of the function.
 
 .. automodsumm:: gettsim.functions
+   :functions-only:
 
 .. automodule:: gettsim.functions
    :members:

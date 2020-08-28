@@ -1,10 +1,5 @@
-from typing import NewType
+from typing import TypeVar
 
-import pandas as pd
-
-Series = NewType("Series", pd.Series)
-
-FloatSeries = Series(float)
-IntSeries = Series(int)
-BoolSeries = Series(bool)
-CatSeries = Series(int)
+FloatSeries = TypeVar("FloatSeries")
+IntSeries = TypeVar("IntSeries")
+BoolSeries = TypeVar("BoolSeries")
