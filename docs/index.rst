@@ -26,6 +26,7 @@ Welcome to GETTSIM's documentation!
    code-of-conduct
    functions
    variables
+   types
    glossary
 
 
