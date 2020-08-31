@@ -78,4 +78,30 @@ This bool Series identifies marginal employment.
 
 Gleitzone
 ---------
-This bool Series checks midi job regulation.
+This bool Series checks midi job regulation. 
+
+
+.. pflegev_beitr_m: 
+
+Pflegeversicherungsbeitrag 
+-------------------------- 
+This float Series identifies the monthly sum of long term care insurance of a person. 
+
+
+.. ges_krankenv_beitr_m: 
+
+Krankenversicherungsbeiträge 
+---------------------------- 
+This float Series identifies the total sum of health insurance per person. 
+
+
+
+.. arbeitsl_v_beitr_m: 
+
+Arbeitslosenversicherungsbeiträge 
+--------------------------------- 
+This float Series identifies the contributions to unemployement insurance. 
+
+
+
+

@@ -68,7 +68,7 @@ def midi_job_bemessungsentgelt(
 ) -> FloatSeries:
     """Select income subject to social insurance contributions for midi job.
 
-    Bemmessungsgeld(Gleitzonenentgelt) is the reference income for midi jobs subject
+    Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midi jobs subject
     to social insurance contribution. For details see § 163 Abs. 10 SGB VI.
 
 
