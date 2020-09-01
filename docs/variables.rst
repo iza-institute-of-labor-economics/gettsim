@@ -78,48 +78,48 @@ This bool Series identifies marginal employment.
 
 Gleitzone
 ---------
-This bool Series checks midi job regulation. 
+This bool Series checks midi job regulation.
 
 
-.. pflegev_beitr_m: 
+.. pflegev_beitr_m:
 
-Pflegeversicherungsbeitrag 
--------------------------- 
-This float Series identifies the monthly sum of long term care insurance of a person. 
-
-
-.. ges_krankenv_beitr_m: 
-
-Krankenversicherungsbeiträge 
----------------------------- 
-This float Series identifies the total sum of health insurance per person. 
+Pflegeversicherungsbeitrag
+--------------------------
+This float Series identifies the monthly sum of long term care insurance of a person.
 
 
-.. arbeitsl_v_beitr_m: 
+.. ges_krankenv_beitr_m:
 
-Arbeitslosenversicherungsbeiträge 
---------------------------------- 
-This float Series identifies the contributions to unemployement insurance. 
+Krankenversicherungsbeiträge
+----------------------------
+This float Series identifies the total sum of health insurance per person.
 
 
-.. prv_krankenv 
+.. arbeitsl_v_beitr_m:
+
+Arbeitslosenversicherungsbeiträge
+---------------------------------
+This float Series identifies the contributions to unemployement insurance.
+
+
+.. prv_krankenv
 
 Private Krankenversicherung
---------------------------- 
-This bool Series identifies if person is in a private insurance or not. 
+---------------------------
+This bool Series identifies if person is in a private insurance or not.
 
 
-.. selbstständig 
+.. selbstständig
 
-Selbstständig 
-------------- 
-This bool Series identifies if individual is an employee or indepedent. 
+Selbstständig
+-------------
+This bool Series identifies if individual is an employee or indepedent.
 
 
-.. hat_Kinder 
+.. hat_Kinder
 
-Hat Kinder 
----------- 
-This bool Series checks if individual has children or not. 
+Hat Kinder
+----------
+This bool Series checks if individual has children or not.
 
-.. alter 
+.. alter
