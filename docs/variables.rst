@@ -95,7 +95,6 @@ Krankenversicherungsbeiträge
 This float Series identifies the total sum of health insurance per person. 
 
 
-
 .. arbeitsl_v_beitr_m: 
 
 Arbeitslosenversicherungsbeiträge 
@@ -103,5 +102,24 @@ Arbeitslosenversicherungsbeiträge
 This float Series identifies the contributions to unemployement insurance. 
 
 
+.. prv_krankenv 
+
+Private Krankenversicherung
+--------------------------- 
+This bool Series identifies if person is in a private insurance or not. 
 
 
+.. selbstständig 
+
+Selbstständig 
+------------- 
+This bool Series identifies if individual is an employee or indepedent. 
+
+
+.. hat_Kinder 
+
+Hat Kinder 
+---------- 
+This bool Series checks if individual has children or not. 
+
+.. alter 

@@ -15,7 +15,7 @@ def sozialv_beitr_m(pflegev_beitr_m: FloatSeries, , ges_krankenv_beitr_m:
     Parameters
     ----------
     pflegev_beitr_m 
-        See :ref:`pflegev_beitr_m`.
+        See :func:`pflegev_beitr_m`.
     ges_krankenv_beitr_m 
         See :func:`ges_krankenv_beitr_m`.
     rentenv_beitr_m 

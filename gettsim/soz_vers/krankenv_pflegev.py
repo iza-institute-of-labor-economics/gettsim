@@ -6,21 +6,26 @@ from gettsim.typing import IntSeries
 
 
 def ges_krankenv_beitr_m(
-    geringfügig_beschäftigt,
-    ges_krankenv_beitr_rente,
-    ges_krankenv_beitr_selbst,
-    krankenv_beitr_regulär_beschäftigt,
-    an_beitr_krankenv_midi_job,
-):
+    geringfügig_beschäftigt: BoolSeries,
+    ges_krankenv_beitr_rente: FloatSeries,
+    ges_krankenv_beitr_selbst: FloatSeries,
+    krankenv_beitr_regulär_beschäftigt: FloatSeries,
+    an_beitr_krankenv_midi_job: FloatSeries,
+) -> FloatSeries:
     """ Contribution for each individual to the public health insurance.
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-    ges_krankenv_beitr_rente
-    ges_krankenv_beitr_selbst
-    krankenv_beitr_regulär_beschäftigt
-    an_beitr_krankenv_midi_job
+    geringfügig_beschäftigt 
+        See :func:`geringfügig_beschäftigt`.
+    ges_krankenv_beitr_rente 
+        See :func:`ges_krankenv_beitr_rente`.
+    ges_krankenv_beitr_selbst 
+        See :func:`ges_krankenv_beitr_selbst`.
+    krankenv_beitr_regulär_beschäftigt 
+        See :func:`krankenv_beitr_regulär_beschäftigt`.
+    an_beitr_krankenv_midi_job 
+        See :func:`an_beitr_krankenv_midi_job`.
 
     Returns
     -------
@@ -43,13 +48,15 @@ def ges_krankenv_beitr_m(
     return out + ges_krankenv_beitr_rente
 
 
-def ges_krankenv_beitr_m_tu(ges_krankenv_beitr_m, tu_id):
+def ges_krankenv_beitr_m_tu(ges_krankenv_beitr_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     """Contribution for each tax unit to the public health insurance.
 
     Parameters
     ----------
-    ges_krankenv_beitr_m
+    ges_krankenv_beitr_m 
+        See :func:`ges_krankenv_beitr_m`.
     tu_id
+        See :ref:`tu_id`.
 
     Returns
     -------
@@ -59,21 +66,26 @@ def ges_krankenv_beitr_m_tu(ges_krankenv_beitr_m, tu_id):
 
 
 def pflegev_beitr_m(
-    geringfügig_beschäftigt,
-    pflegev_beitr_rente,
-    pflegev_beitr_selbst,
-    pflegev_beitr_regulär_beschäftigt,
-    an_beitr_pflegev_midi_job,
-):
+    geringfügig_beschäftigt: BoolSeries,
+    pflegev_beitr_rente: FloatSeries,
+    pflegev_beitr_selbst: FloatSeries,
+    pflegev_beitr_regulär_beschäftigt: FloatSeries,
+    an_beitr_pflegev_midi_job: FloatSeries,
+) -> FloatSeries:
     """Contribution for each individual to the public care insurance.
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-    pflegev_beitr_rente
-    pflegev_beitr_selbst
-    pflegev_beitr_regulär_beschäftigt
-    an_beitr_pflegev_midi_job
+    geringfügig_beschäftigt 
+        See :func:`geringfügig_beschäftigt`.
+    pflegev_beitr_rente 
+        See :func:`pflegev_beitr_rente`.
+    pflegev_beitr_selbst 
+        See :func:`pflegev_beitr_selbst`.
+    pflegev_beitr_regulär_beschäftigt 
+        See :func:`pflegev_beitr_regulär_beschäftigt`.
+    an_beitr_pflegev_midi_job 
+        See :func:`an_beitr_pflegev_midi_job`.
 
     Returns
     -------
@@ -94,17 +106,17 @@ def pflegev_beitr_m(
 
 
 def krankenv_beitr_regulär_beschäftigt(
-    lohn_krankenv_regulär_beschäftigt, soz_vers_beitr_params
-):
+    lohn_krankenv_regulär_beschäftigt: FloatSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
     """Calculates health insurance contributions for regualr jobs
 
 
     Parameters
     ----------
-    lohn_krankenv_regulär_beschäftigt : pd.Series
-                                      Wage subject to health and care insurance
+    lohn_krankenv_regulär_beschäftigt 
+        See :func:`lohn_krankenv_regulär_beschäftigt`.
     soz_vers_beitr_params
-
+        See :ref:`soz_vers_beitr_params`.
     Returns
     -------
     Pandas Series containing monthly health insurance contributions for self employed
@@ -117,20 +129,20 @@ def krankenv_beitr_regulär_beschäftigt(
 
 
 def pflegev_beitr_regulär_beschäftigt(
-    pflegev_zusatz_kinderlos, lohn_krankenv_regulär_beschäftigt, soz_vers_beitr_params
-):
+    pflegev_zusatz_kinderlos: FloatSeries, lohn_krankenv_regulär_beschäftigt: 
+        FloatSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
     """Calculates care insurance contributions for regular jobs.
 
 
     Parameters
     ----------
-    pflegev_zusatz_kinderlos : pd.Series
-                               Pandas Series indicating addtional care insurance
-                               contribution for childless individuals.
-
-    lohn_krankenv_regulär_beschäftigt : pd.Series
-                                      Wage subject to health and care insurance
+    pflegev_zusatz_kinderlos 
+        See :func:`pflegev_zusatz_kinderlos`.
+    lohn_krankenv_regulär_beschäftigt
+        See :func:`lohn_krankenv_regulär_beschäftigt`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -153,20 +165,20 @@ def pflegev_beitr_regulär_beschäftigt(
 
 
 def lohn_krankenv_regulär_beschäftigt(
-    bruttolohn_m, krankenv_beitr_bemess_grenze, regulär_beschäftigt
-):
+    bruttolohn_m: FloatSeries, krankenv_beitr_bemess_grenze: FloatSeries, 
+    regulär_beschäftigt: BoolSeries
+) -> FloatSeries:
     """Calculate the wage, which is subject to pension insurance contributions.
 
 
     Parameters
     ----------
-    bruttolohn_m : pd.Series
-                   The wage of each individual.
-    regulär_beschäftigt : pd.Series
-                          Boolean Series indicating regular employment.
-    krankenv_beitr_bemess_grenze : pd.Series
-                                 Threshold for wage subject to health insurance
-                                 contributions.
+    bruttolohn_m 
+        See :func:`bruttolohn_m`.
+    regulär_beschäftigt
+        See :func:`regulär_beschäftigt`.
+    krankenv_beitr_bemess_grenze 
+        See :func:`krankenv_beitr_bemess_grenze`.
 
 
     Returns
@@ -178,7 +190,8 @@ def lohn_krankenv_regulär_beschäftigt(
     return bruttolohn_m_regulär_beschäftigt.clip(upper=bemess_grenze)
 
 
-def ges_krankenv_beitr_selbst(krankenv_pflichtig_eink_selbst, soz_vers_beitr_params):
+def ges_krankenv_beitr_selbst(krankenv_pflichtig_eink_selbst: FloatSeries, 
+                              soz_vers_beitr_params: dict) -> FloatSeries:
     """Calculates health insurance contributions.
     Self-employed pay the full
     contribution (employer + employee), which is either assessed on their
@@ -186,10 +199,10 @@ def ges_krankenv_beitr_selbst(krankenv_pflichtig_eink_selbst, soz_vers_beitr_par
 
     Parameters
     ----------
-    krankenv_pflichtig_eink_selbst : pd.Series
-                                     Income from self employment subject to health
-                                     and care insurance
+    krankenv_pflichtig_eink_selbst 
+        See :func:`krankenv_pflichtig_eink_selbst`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -204,7 +217,8 @@ def ges_krankenv_beitr_selbst(krankenv_pflichtig_eink_selbst, soz_vers_beitr_par
 
 
 def pflegev_beitr_selbst(
-    pflegev_zusatz_kinderlos, krankenv_pflichtig_eink_selbst, soz_vers_beitr_params
+    pflegev_zusatz_kinderlos: FloatSeries, 
+    krankenv_pflichtig_eink_selbst: FloatSeries, soz_vers_beitr_params: dict
 ):
     """Calculates care insurance contributions.
 
@@ -214,14 +228,14 @@ def pflegev_beitr_selbst(
 
     Parameters
     ----------
-    pflegev_zusatz_kinderlos : pd.Series
-                               Pandas Series indicating addtional care insurance
-                               contribution for childless individuals.
-
-    krankenv_pflichtig_eink_selbst : pd.Series
-                                     Income from self employment subject to health
-                                     and care insurance
+    pflegev_zusatz_kinderlos
+        See :func:`pflegev_zusatz_kinderlos`.
+        
+    krankenv_pflichtig_eink_selbst 
+        See :func:`krankenv_pflichtig_eink_selbst`.
+    
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -243,7 +257,7 @@ def pflegev_beitr_selbst(
     return out
 
 
-def bezugsgröße(wohnort_ost, soz_vers_beitr_params):
+def bezugsgröße(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict) -> FloatSeries:
     """Threshold for self employment income subject to health insurance.
 
     Selecting by place of living the income threshold for self employed up to which the
@@ -251,9 +265,10 @@ def bezugsgröße(wohnort_ost, soz_vers_beitr_params):
 
     Parameters
     ----------
-    wohnort_ost : pd.Series
-                  Boolean variable indicating individual living in east germany.
+    wohnort_ost
+        See :func:`wohnort_ost`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -267,22 +282,20 @@ def bezugsgröße(wohnort_ost, soz_vers_beitr_params):
 
 
 def krankenv_pflichtig_eink_selbst(
-    eink_selbst_m, bezugsgröße, selbstständig_ges_krankenv
-):
+    eink_selbst_m: FloatSeries, bezugsgröße: FloatSeries, selbstständig_ges_krankenv: FloatSeries
+) -> FloatSeries:
     """Choose the amount selfemployed income which is subject to health insurance
     contribution.
 
     Parameters
     ----------
-    eink_selbst_m : pd.Series
-                    Income from selfemployment
-
-    bezugsgröße : pd.Series
-                  Threshold for income subcect to health insurance.
-    selbstständig_ges_krankenv: pd.Series
-                             Boolean Series indicating selfemployed and public health
-                             insured.
-
+    eink_selbst_m
+        See :func:`eink_selbst_m`.
+    bezugsgröße 
+        See :func:`bezugsgröße`.
+    selbstständig_ges_krankenv 
+        See :func:`selbstständig_ges_krankenv`.
+    
     Returns
     -------
 
@@ -293,17 +306,16 @@ def krankenv_pflichtig_eink_selbst(
     return eink_selbst_m_selbstv.clip(upper=dreiviertel_bezugsgröße)
 
 
-def krankenv_pflichtig_rente(ges_rente_m, krankenv_beitr_bemess_grenze):
+def krankenv_pflichtig_rente(ges_rente_m: FloatSeries, 
+                             krankenv_beitr_bemess_grenze: FloatSeries) -> FloatSeries:
     """Choose the amount pension which is subject to health insurance contribution.
 
     Parameters
     ----------
-    ges_rente_m : pd.Series
-                  Pensions an individual recieves.
-
-    krankenv_beitr_bemess_grenze : pd.Series
-                                   Threshold for income subcect to health insurance.
-
+    ges_rente_m 
+        See :func:`ges_rente_m`.
+    krankenv_beitr_bemess_grenze 
+        See :func:`krankenv_beitr_bemess_grenze`.
 
     Returns
     -------
@@ -312,15 +324,17 @@ def krankenv_pflichtig_rente(ges_rente_m, krankenv_beitr_bemess_grenze):
     return ges_rente_m.clip(upper=krankenv_beitr_bemess_grenze)
 
 
-def krankenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
+def krankenv_beitr_bemess_grenze(wohnort_ost: BoolSeries, 
+                                 soz_vers_beitr_params: dict) -> FloatSeries:
     """Calculating the income threshold up to which the rate of health insurance
     contributions apply.
 
     Parameters
     ----------
-    wohnort_ost : pd.Series
-                  Boolean variable indicating individual living in east germany.
+    wohnort_ost
+        See :func:`wohnort_ost`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -337,20 +351,19 @@ def krankenv_beitr_bemess_grenze(wohnort_ost, soz_vers_beitr_params):
 
 
 def pflegev_beitr_rente(
-    pflegev_zusatz_kinderlos, krankenv_pflichtig_rente, soz_vers_beitr_params
-):
+    pflegev_zusatz_kinderlos: FloatSeries, krankenv_pflichtig_rente: FloatSeries, 
+    soz_vers_beitr_params: dict) -> FloatSeries:
     """Calculating the contribution to health insurance for pension income.
 
 
     Parameters
     ----------
-    pflegev_zusatz_kinderlos : pd.Series
-                               Pandas Series indicating addtional care insurance
-                               contribution for childless individuals.
-
-    krankenv_pflichtig_rente : pd.Series
-                           Pensions which are subject to social insurance contributions.
+    pflegev_zusatz_kinderlos
+        See :func:`pflegev_zusatz_kinderlos`.
+    krankenv_pflichtig_rente
+        See :func:`krankenv_pflichtig_rente`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -370,16 +383,17 @@ def pflegev_beitr_rente(
     return out
 
 
-def ges_krankenv_beitr_rente(krankenv_pflichtig_rente, soz_vers_beitr_params):
+def ges_krankenv_beitr_rente(krankenv_pflichtig_rente: FloatSeries, 
+                             soz_vers_beitr_params: dict) -> FloatSeries:
     """Calculating the contribution to health insurance for pension income.
 
 
     Parameters
     ----------
-    krankenv_pflichtig_rente : pd.Series
-                           Pensions which are subject to social insurance contributions
-
+    krankenv_pflichtig_rente
+        See :func:`krankenv_pflichtig_rente`.    
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -392,16 +406,17 @@ def ges_krankenv_beitr_rente(krankenv_pflichtig_rente, soz_vers_beitr_params):
     )
 
 
-def ges_beitr_krankenv_midi_job(midi_job_bemessungsentgelt, soz_vers_beitr_params):
+def ges_beitr_krankenv_midi_job(midi_job_bemessungsentgelt: FloatSeries, 
+                                soz_vers_beitr_params: dict) -> FloatSeries:
     """Calculating the sum of employee and employer health insurance contribution.
 
 
     Parameters
     ----------
-    midi_job_bemessungsentgelt : pd.Series
-                                 The Bemessungsentgelt subject to social insurance
-                                 contributions.
+    midi_job_bemessungsentgelt
+        See :func:`midi_job_bemessungsentgelt`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -413,16 +428,19 @@ def ges_beitr_krankenv_midi_job(midi_job_bemessungsentgelt, soz_vers_beitr_param
     ) * midi_job_bemessungsentgelt
 
 
-def ag_beitr_krankenv_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
+def ag_beitr_krankenv_midi_job(bruttolohn_m: FloatSeries, 
+                               in_gleitzone: BoolSeries, 
+                               soz_vers_beitr_params: dict) -> FloatSeries:
     """Calculating the employer health insurance contribution.
 
     Parameters
     ----------
-    bruttolohn_m : pd.Series
-                   The wage of each individual.
-    in_gleitzone : pd.Series
-                   Boolean Series indicating midi job regulation.
+    bruttolohn_m 
+        See :func:`bruttolohn_m`.
+    in_gleitzone 
+        See :func:`in_gleitzone`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -435,19 +453,18 @@ def ag_beitr_krankenv_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params
     )
 
 
-def an_beitr_pflegev_midi_job(ges_beitr_pflegev_midi_job, ag_beitr_pflegev_midi_job):
+def an_beitr_pflegev_midi_job(ges_beitr_pflegev_midi_job: FloatSeries, 
+                              ag_beitr_pflegev_midi_job: FloatSeries) -> FloatSeries:
     """Calculating the employer care insurance contribution.
 
 
     Parameters
     ----------
-    ges_beitr_pflegev_midi_job : pd.Series
-                                    Sum of employer and employee care
-                                    insurance contributions.
-
-    ag_beitr_pflegev_midi_job : pd.Series
-                                   Employer care insurance contribution.
-
+    ges_beitr_pflegev_midi_job
+        See :func:`ges_beitr_pflegev_midi_job`.
+    ag_beitr_pflegev_midi_job 
+        See :func:`ag_beitr_pflegev_midi_job`. 
+        
     Returns
     -------
 
@@ -455,19 +472,17 @@ def an_beitr_pflegev_midi_job(ges_beitr_pflegev_midi_job, ag_beitr_pflegev_midi_
     return ges_beitr_pflegev_midi_job - ag_beitr_pflegev_midi_job
 
 
-def an_beitr_krankenv_midi_job(ges_beitr_krankenv_midi_job, ag_beitr_krankenv_midi_job):
+def an_beitr_krankenv_midi_job(ges_beitr_krankenv_midi_job: FloatSeries, 
+                               ag_beitr_krankenv_midi_job: FloatSeries) -> FloatSeries:
     """Calculating the employer health insurance contribution.
 
 
     Parameters
     ----------
-    ges_beitr_krankenv_midi_job : pd.Series
-                                    Sum of employer and employee health
-                                    insurance contributions.
-
-    ag_beitr_krankenv_midi_job : pd.Series
-                               Employer health insurance contribution.
-
+    ges_beitr_krankenv_midi_job
+        See :func:`ges_beitr_krankenv_midi_job`.
+    ag_beitr_krankenv_midi_job
+        See :func:`ag_beitr_krankenv_midi_job`.
     Returns
     -------
 
@@ -475,17 +490,20 @@ def an_beitr_krankenv_midi_job(ges_beitr_krankenv_midi_job, ag_beitr_krankenv_mi
     return ges_beitr_krankenv_midi_job - ag_beitr_krankenv_midi_job
 
 
-def ag_beitr_pflegev_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params):
+def ag_beitr_pflegev_midi_job(bruttolohn_m: FloatSeries, 
+                              in_gleitzone: BoolSeries, 
+                              soz_vers_beitr_params: dict) -> FloatSeries:
     """
     Calculating the employer care insurance contribution.
 
     Parameters
     ----------
-    bruttolohn_m : pd.Series
-                   The wage of each individual.
-    in_gleitzone : pd.Series
-                   Boolean Series indicating midi job regulation.
+    bruttolohn_m
+        See :func:`bruttolohn_m`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -499,21 +517,20 @@ def ag_beitr_pflegev_midi_job(bruttolohn_m, in_gleitzone, soz_vers_beitr_params)
 
 
 def ges_beitr_pflegev_midi_job(
-    pflegev_zusatz_kinderlos, midi_job_bemessungsentgelt, soz_vers_beitr_params
-):
+    pflegev_zusatz_kinderlos: FloatSeries, 
+    midi_job_bemessungsentgelt: FloatSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
     """Calculating the sum of employee and employer care insurance contribution.
 
 
     Parameters
     ----------
-    pflegev_zusatz_kinderlos : pd.Series
-                               Pandas Series indicating addtional care insurance
-                               contribution for childless individuals.
-
-    midi_job_bemessungsentgelt : pd.Series
-                                 The Bemessungsentgelt subject to social insurance
-                                 contributions.
+    pflegev_zusatz_kinderlos 
+        See :func:`pflegev_zusatz_kinderlos`.
+    midi_job_bemessungsentgelt
+        See :func:`midi_job_bemessungsentgelt`.
     soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
@@ -535,16 +552,17 @@ def ges_beitr_pflegev_midi_job(
     return out
 
 
-def selbstständig_ges_krankenv(selbstständig, prv_krankenv):
+def selbstständig_ges_krankenv(selbstständig: BoolSeries, 
+                               prv_krankenv: BoolSeries) -> BoolSeries:
     """
     Create boolean Series indicating selfemployed insures via public health insurance.
 
     Parameters
     ----------
-    selbstständig : pd.Series
-                    Boolean Series indicating self employment.
-    prv_krankenv : pd.Series
-                 Boolean Series indicating private health insurance
+    selbstständig 
+        See :ref:`prv_krankenv`.
+    prv_krankenv 
+        See :ref:`prv_krankenv`.
 
     Returns
     -------
@@ -553,18 +571,18 @@ def selbstständig_ges_krankenv(selbstständig, prv_krankenv):
     return selbstständig & ~prv_krankenv
 
 
-def pflegev_zusatz_kinderlos(hat_kinder, alter):
+def pflegev_zusatz_kinderlos(hat_kinder: BoolSeries, alter: IntSeries) -> BoolSeries: 
     """
     Create boolean Series indicating addtional care insurance contribution for
     childless individuals.
 
     Parameters
     ----------
-    hat_kinder : pd.Series
-                 Boolean indicating if individual has kids.
-    alter : pd.Series
-            Age of individual
-
+    hat_kinder 
+        See :ref:`hat_kinder`.
+    alter 
+        See :ref:`alter`. 
+        
     Returns
     -------
 
