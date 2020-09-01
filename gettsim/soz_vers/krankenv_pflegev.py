@@ -272,7 +272,7 @@ def bezugsgröße(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict) -> Float
     Parameters
     ----------
     wohnort_ost
-        See :func:`wohnort_ost`.
+        See :ref:`wohnort_ost`.
     soz_vers_beitr_params
         See :ref:`soz_vers_beitr_params`.
 
@@ -298,7 +298,7 @@ def krankenv_pflichtig_eink_selbst(
     Parameters
     ----------
     eink_selbst_m
-        See :func:`eink_selbst_m`.
+        See :ref:`eink_selbst_m`.
     bezugsgröße
         See :func:`bezugsgröße`.
     selbstständig_ges_krankenv
@@ -450,7 +450,7 @@ def ag_beitr_krankenv_midi_job(
     Parameters
     ----------
     bruttolohn_m
-        See :func:`bruttolohn_m`.
+        See :ref:`bruttolohn_m`.
     in_gleitzone
         See :func:`in_gleitzone`.
     soz_vers_beitr_params
@@ -515,7 +515,7 @@ def ag_beitr_pflegev_midi_job(
     Parameters
     ----------
     bruttolohn_m
-        See :func:`bruttolohn_m`.
+        See :ref:`bruttolohn_m`.
     in_gleitzone
         See :func:`in_gleitzone`.
     soz_vers_beitr_params
@@ -525,9 +525,9 @@ def ag_beitr_pflegev_midi_job(
     -------
 
     """
-    bruttolohn_m__in_gleitzone = bruttolohn_m.loc[in_gleitzone]
+    bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
     return (
-        bruttolohn_m__in_gleitzone
+        bruttolohn_m_in_gleitzone
         * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
     )
 
@@ -578,7 +578,7 @@ def selbstständig_ges_krankenv(
     Parameters
     ----------
     selbstständig
-        See :ref:`prv_krankenv`.
+        See :ref:`selbstständig`.
     prv_krankenv
         See :ref:`prv_krankenv`.
 
