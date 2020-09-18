@@ -122,4 +122,50 @@ Hat Kinder
 ----------
 This bool Series checks if individual has children or not.
 
-.. alter
+.. alter 
+
+
+
+.. sonstig_eink_m
+
+Sonstige Einkommen 
+------------------ 
+This float Series identifies the sum of incomes, which are not by employment. 
+
+
+
+.. eink_selbst_m 
+
+Einkommen von Selbständigen 
+--------------------------- 
+This float Series identifies the wage of self employed persons. 
+
+
+
+.. vermiet_eink_m 
+
+Einkommen aus Vermietung 
+------------------------ 
+This float Series identifies the income by leased real estate. 
+
+
+
+.. kapital_eink_m 
+
+Kapitaleinkommen 
+---------------- 
+This float Series identifies the income out of capital. 
+
+
+
+.. ges_rente_m 
+
+Gesamte Rente 
+------------- 
+This float Series identifies the amount of pension. 
+
+
+
+.. elterngeld_m 
+--------------- 
+This float Series identifies the bonus for being parent. 
