@@ -2,21 +2,26 @@ import numpy as np
 
 
 def arbeitsl_geld_2_m_hh(
-    arbeitsl_geld_2_m_minus_eink_hh,
-    wohngeld_vorrang_hh,
-    kinderzuschlag_vorrang_hh,
-    wohngeld_kinderzuschlag_vorrang_hh,
-    rentner_in_hh,
-):
+    arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
+    wohngeld_vorrang_hh: BoolSeries,
+    kinderzuschlag_vorrang_hh: BoolSeries,
+    wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
+    rentner_in_hh: BoolSeries,
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    arbeitsl_geld_2_m_minus_eink_hh
-    wohngeld_vorrang_hh
-    kinderzuschlag_vorrang_hh
-    wohngeld_kinderzuschlag_vorrang_hh
-    rentner_in_hh
+    arbeitsl_geld_2_m_minus_eink_hh 
+        See :func:`arbeitsl_geld_2_m_minus_eink_hh`. 
+    wohngeld_vorrang_hh 
+        See :func:`wohngeld_vorrang_hh`. 
+    kinderzuschlag_vorrang_hh 
+        See :func:`kinderzuschlag_vorrang_hh`. 
+    wohngeld_kinderzuschlag_vorrang_hh 
+        See :func:`wohngeld_kinderzuschlag_vorrang_hh`. 
+    rentner_in_hh 
+        See :func:`rentner_in_hh`.
 
     Returns
     -------
@@ -33,13 +38,15 @@ def arbeitsl_geld_2_m_hh(
     return out
 
 
-def regelbedarf_m_hh(regelsatz_m_hh, kost_unterk_m_hh):
+def regelbedarf_m_hh(regelsatz_m_hh: FloatSeries, kost_unterk_m_hh: FloatSeries) -> FloatSeries:
     """Basic monthly subsistence level, including cost of dwelling.
 
     Parameters
     ----------
-    regelsatz_m_hh
-    kost_unterk_m_hh
+    regelsatz_m_hh 
+        See :func:`regelsatz_m_hh`.
+    kost_unterk_m_hh 
+        See :func:`kost_unterk_m_hh`.
 
     Returns
     -------
@@ -49,12 +56,12 @@ def regelbedarf_m_hh(regelsatz_m_hh, kost_unterk_m_hh):
 
 
 def alleinerziehenden_mehrbedarf_hh(
-    alleinerziehend_hh,
-    anz_kinder_hh,
-    anz_kind_zwischen_0_6_hh,
-    anz_kind_zwischen_0_15_hh,
-    arbeitsl_geld_2_params,
-):
+    alleinerziehend_hh: BoolSeries,
+    anz_kinder_hh: IntSeries,
+    anz_kind_zwischen_0_6_hh: IntSeries,
+    anz_kind_zwischen_0_15_hh: IntSeries,
+    arbeitsl_geld_2_params: dict,
+) -> FloatSeries:
     """Compute alleinerziehenden_mehrbedarf.
 
     Additional need for single parents. Maximum 60% of the standard amount on top if
@@ -79,19 +86,23 @@ def alleinerziehenden_mehrbedarf_hh(
 
 
 def kindersatz_m_hh_bis_2010(
-    anz_kind_zwischen_0_6_hh,
-    anz_kind_zwischen_7_13_hh,
-    anz_kind_zwischen_14_24_hh,
-    arbeitsl_geld_2_params,
-):
+    anz_kind_zwischen_0_6_hh: IntSeries,
+    anz_kind_zwischen_7_13_hh: IntSeries,
+    anz_kind_zwischen_14_24_hh: IntSeries,
+    arbeitsl_geld_2_params: dict, 
+) -> FloatSeries:
     """Since 2010 children get additional shares instead of lump sum payments
 
     Parameters
     ----------
-    anz_kind_zwischen_0_6_hh
-    anz_kind_zwischen_7_13_hh
-    anz_kind_zwischen_14_24_hh
-    arbeitsl_geld_2_params
+    anz_kind_zwischen_0_6_hh 
+        See :func:`anz_kind_zwischen_0_6_hh`. 
+    anz_kind_zwischen_7_13_hh 
+        See :func:`anz_kind_zwischen_7_13_hh`. 
+    anz_kind_zwischen_14_24_hh 
+        See :func:`anz_kind_zwischen_14_24_hh`. 
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------
@@ -111,19 +122,23 @@ def kindersatz_m_hh_bis_2010(
 
 
 def kindersatz_m_hh_ab_2011(
-    anz_kind_zwischen_0_6_hh,
-    anz_kind_zwischen_7_13_hh,
-    anz_kind_zwischen_14_24_hh,
-    arbeitsl_geld_2_params,
-):
+    anz_kind_zwischen_0_6_hh: IntSeries,
+    anz_kind_zwischen_7_13_hh: IntSeries,
+    anz_kind_zwischen_14_24_hh: IntSeries,
+    arbeitsl_geld_2_params: dict, 
+) -> FloatSeries:
     """Here the sum in euro is directly in the law
 
     Parameters
     ----------
-    anz_kind_zwischen_0_6_hh
-    anz_kind_zwischen_7_13_hh
-    anz_kind_zwischen_14_24_hh
-    arbeitsl_geld_2_params
+    anz_kind_zwischen_0_6_hh 
+        See :func:`anz_kind_zwischen_0_6_hh`.
+    anz_kind_zwischen_7_13_hh 
+        See :func:`anz_kind_zwischen_7_13_hh`.
+    anz_kind_zwischen_14_24_hh 
+        See :func:`anz_kind_zwischen_14_24_hh`. 
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------
@@ -140,19 +155,23 @@ def kindersatz_m_hh_ab_2011(
 
 
 def regelsatz_m_hh_bis_2010(
-    anz_erwachsene_hh,
-    alleinerziehenden_mehrbedarf_hh,
-    kindersatz_m_hh,
-    arbeitsl_geld_2_params,
-):
+    anz_erwachsene_hh: IntSeries,
+    alleinerziehenden_mehrbedarf_hh: FloatSeries,
+    kindersatz_m_hh: FloatSeries,
+    arbeitsl_geld_2_params: dict,
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    anz_erwachsene_hh
-    alleinerziehenden_mehrbedarf_hh
-    kindersatz_m_hh
-    arbeitsl_geld_2_params
+    anz_erwachsene_hh 
+        See :func:`anz_erwachsene_hh`.
+    alleinerziehenden_mehrbedarf_hh 
+        See :func:`alleinerziehenden_mehrbedarf_hh`. 
+    kindersatz_m_hh 
+        See :func:`kindersatz_m_hh`.
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------
@@ -173,19 +192,23 @@ def regelsatz_m_hh_bis_2010(
 
 
 def regelsatz_m_hh_ab_2011(
-    anz_erwachsene_hh,
-    alleinerziehenden_mehrbedarf_hh,
-    kindersatz_m_hh,
-    arbeitsl_geld_2_params,
-):
+    anz_erwachsene_hh: IntSeries,
+    alleinerziehenden_mehrbedarf_hh: FloatSeries,
+    kindersatz_m_hh: FloatSeries,
+    arbeitsl_geld_2_params: dict,
+) -> FloatSeries:
     """Calculating the regelsatz for each person.
 
     Parameters
     ----------
-    anz_erwachsene_hh
-    alleinerziehenden_mehrbedarf_hh
-    kindersatz_m_hh
-    arbeitsl_geld_2_params
+    anz_erwachsene_hh 
+        See :func:`anz_erwachsene_hh`.
+    alleinerziehenden_mehrbedarf_hh 
+        See :func:`alleinerziehenden_mehrbedarf_hh`.
+    kindersatz_m_hh 
+        See :func:`kindersatz_m_hh`. 
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------
