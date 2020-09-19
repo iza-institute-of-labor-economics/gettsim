@@ -103,7 +103,7 @@ def _arbeitsl_geld_2_brutto_eink(
     arbeitsl_geld_m 
         See :func:`arbeitsl_geld_m`. 
     elterngeld_m 
-        See :ref:`elterngeld_m`. 
+        See :func:`elterngeld_m`. 
 
     Returns
     -------

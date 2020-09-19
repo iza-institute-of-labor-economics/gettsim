@@ -165,7 +165,3 @@ Gesamte Rente
 This float Series identifies the amount of pension. 
 
 
-
-.. elterngeld_m 
---------------- 
-This float Series identifies the bonus for being parent. 
