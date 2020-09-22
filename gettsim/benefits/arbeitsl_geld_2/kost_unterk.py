@@ -1,46 +1,59 @@
-def kost_unterk_m_hh(berechtigte_wohnfläche_hh, miete_pro_qm_hh):
+def kost_unterk_m_hh(berechtigte_wohnfläche_hh: IntSeries, miete_pro_qm_hh: 
+                     FloatSeries) -> FloatSeries:
     """Justified costs of living.
 
     Parameters
     ----------
-    berechtigte_wohnfläche_hh
-    miete_pro_qm_hh
+    berechtigte_wohnfläche_hh 
+        See :func:`berechtigte_wohnfläche_hh`.
+    miete_pro_qm_hh 
+        See :func:`miete_pro_qm_hh`.
 
     Returns
     -------
-
+    FloatSeries with total monthly cost of rent. 
     """
     return berechtigte_wohnfläche_hh * miete_pro_qm_hh
 
 
-def miete_pro_qm_hh(kaltmiete_m_hh, heizkosten_m_hh, wohnfläche_hh):
-    """
+def miete_pro_qm_hh(kaltmiete_m_hh: FloatSeries, heizkosten_m_hh: FloatSeries, 
+                    wohnfläche_hh: IntSeries) ->  IntSeries:
+    """Check the monthly sum of rental costs per squaremeter.
 
     Parameters
     ----------
-    kaltmiete_m_hh
-    heizkosten_m_hh
-    wohnfläche_hh
+    kaltmiete_m_hh 
+        See :ref:`kaltmiete_m_hh`.
+    heizkosten_m_hh 
+        See :ref:`heizkosten_m_hh`. 
+    wohnfläche_hh 
+        See :ref:`wohnfläche_hh`.
 
     Returns
     -------
-
+    IntSeries with the total amount of rental costs per squaremeter. 
     """
     return ((kaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh).clip(upper=10)
 
 
-def berechtigte_wohnfläche_hh(wohnfläche_hh, bewohnt_eigentum_hh, haushaltsgröße_hh):
-    """
+def berechtigte_wohnfläche_hh(wohnfläche_hh: IntSeries, 
+                               bewohnt_eigentum_hh: 
+                               BoolSeries, 
+                               haushaltsgröße_hh: IntSeries) -> IntSeries:
+    """Checks the maximum amount of squaremeters is payed by the state.  
 
     Parameters
     ----------
-    wohnfläche_hh
+    wohnfläche_hh 
+        See :ref:`wohnfläche_hh`. 
     bewohnt_eigentum_hh
-    haushaltsgröße_hh
+        See :ref:`bewohnt_eigentum_hh`. 
+    haushaltsgröße_hh 
+        See :func:`haushaltsgröße_hh`.
 
     Returns
     -------
-
+    IntSeries with the number of squaremeters. 
     """
     out = wohnfläche_hh * 0
     out.loc[bewohnt_eigentum_hh] = wohnfläche_hh.loc[bewohnt_eigentum_hh].clip(

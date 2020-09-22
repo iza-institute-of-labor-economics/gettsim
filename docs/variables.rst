@@ -165,3 +165,32 @@ Gesamte Rente
 This float Series identifies the amount of pension. 
 
 
+.. kaltmiete_m_hh 
+
+Kaltmiete 
+--------- 
+This float Series identifies the monthly cost of renting an apartement or house, without heating, electricity and water. 
+
+
+ 
+ .. heizkosten_m_hh 
+ 
+ Heizkosten 
+ ---------- 
+ This float Series identifies the monthly costs for heating. 
+ 
+ 
+ .. wohnfläche_hh 
+ 
+ Wohnfläche in qm^2 
+ ------------------ 
+ This integer Series identifies the square meters of an apartment or house. 
+ 
+ 
+.. bewohnt_eigentum_hh 
+---------------------- 
+This bool Series checks if persons are living in self owned living space. 
+
+
+ 
+ 
