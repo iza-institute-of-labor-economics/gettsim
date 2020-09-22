@@ -53,6 +53,18 @@ def unterhaltsvors_m(
     The amount is specified in §1612a BGB and, ultimately, in
     Mindesunterhaltsverordnung.
 
+    Parameters
+    ----------
+    tu_id
+    alleinerziehend
+    alter
+    unterhaltsvorschuss_eink_tu
+    unterhalt_params
+    kindergeld_params
+
+    Returns
+    -------
+
     """
 
     # Initialize output Series
@@ -97,6 +109,22 @@ def unterhaltsvorschuss_eink_tu(
     ges_rente_m_tu,
     arbeitsl_geld_m_tu,
 ):
+    """
+
+    Parameters
+    ----------
+    bruttolohn_m_tu
+    sonstig_eink_m_tu
+    eink_selbst_m_tu
+    vermiet_eink_m_tu
+    kapital_eink_m_tu
+    ges_rente_m_tu
+    arbeitsl_geld_m_tu
+
+    Returns
+    -------
+
+    """
     out = (
         bruttolohn_m_tu
         + sonstig_eink_m_tu
@@ -111,16 +139,60 @@ def unterhaltsvorschuss_eink_tu(
 
 
 def eink_selbst_m_tu(eink_selbst_m, tu_id):
+    """
+
+    Parameters
+    ----------
+    eink_selbst_m
+    tu_id
+
+    Returns
+    -------
+
+    """
     return eink_selbst_m.groupby(tu_id).sum()
 
 
 def vermiet_eink_m_tu(vermiet_eink_m, tu_id):
+    """
+
+    Parameters
+    ----------
+    vermiet_eink_m
+    tu_id
+
+    Returns
+    -------
+
+    """
     return vermiet_eink_m.groupby(tu_id).sum()
 
 
 def kapital_eink_m_tu(kapital_eink_m, tu_id):
+    """
+
+    Parameters
+    ----------
+    kapital_eink_m
+    tu_id
+
+    Returns
+    -------
+
+    """
     return kapital_eink_m.groupby(tu_id).sum()
 
 
 def ges_rente_m_tu(ges_rente_m, tu_id):
+    """
+
+    Parameters
+    ----------
+    ges_rente_m
+    tu_id
+
+    Returns
+    -------
+
+    """
     return ges_rente_m.groupby(tu_id).sum()

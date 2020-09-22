@@ -1,4 +1,4 @@
-def _kindergeld_m_basis(tu_id, kindergeld_anspruch, kindergeld_params):
+def kindergeld_m_basis(tu_id, kindergeld_anspruch, kindergeld_params):
     """Calculate the preliminary kindergeld.
 
     Parameters
@@ -21,19 +21,19 @@ def _kindergeld_m_basis(tu_id, kindergeld_anspruch, kindergeld_params):
     return out
 
 
-def _kindergeld_m_tu_basis(_kindergeld_m_basis, tu_id):
+def kindergeld_m_tu_basis(kindergeld_m_basis, tu_id):
     """Aggregate the preliminary kindergeld on tax unit level.
 
     Parameters
     ----------
-    _kindergeld_m_basis
+    kindergeld_m_basis
     tu_id
 
     Returns
     -------
 
     """
-    return _kindergeld_m_basis.groupby(tu_id).sum()
+    return kindergeld_m_basis.groupby(tu_id).sum()
 
 
 def kindergeld_anspruch_nach_stunden(

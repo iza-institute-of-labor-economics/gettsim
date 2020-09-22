@@ -44,7 +44,21 @@ def elterngeld_m(
     anz_mehrlinge_bonus,
     elterngeld_params,
 ):
-    """Calculate elterngeld given the relevant wage and the eligibility for bonuses."""
+    """Calculate elterngeld given the relevant wage and the eligibility for bonuses.
+
+    Parameters
+    ----------
+    elterngeld_eink_relev
+    elternzeit_anspruch
+    elterngeld_eink_erlass
+    geschw_bonus
+    anz_mehrlinge_bonus
+    elterngeld_params
+
+    Returns
+    -------
+
+    """
     alternative_elterngeld = (
         elterngeld_eink_erlass.clip(
             lower=elterngeld_params["elterngeld_mindestbetrag"],
@@ -72,6 +86,18 @@ def proxy_eink_vorj_elterngeld(
     """Calculating the claim for benefits depending on previous wage.
 
     TODO: This function requires `.fillna(0)` at the end. Investigate!
+
+    Parameters
+    ----------
+    beitr_bemess_grenze_rentenv
+    bruttolohn_vorj_m
+    elterngeld_params
+    eink_st_params
+    eink_st_abzuege_params
+    soli_st_params
+
+    Returns
+    -------
 
     """
     # Relevant wage is capped at the contribution thresholds
@@ -253,6 +279,19 @@ def elternzeit_anspruch(
 def berechtigt_für_geschw_bonus(
     hh_id, geburtsjahr, elternzeit_anspruch, elterngeld_params
 ):
+    """
+
+    Parameters
+    ----------
+    hh_id
+    geburtsjahr
+    elternzeit_anspruch
+    elterngeld_params
+
+    Returns
+    -------
+
+    """
     under_age_three = elterngeld_params["datum"].year - geburtsjahr < 3
     under_age_six = elterngeld_params["datum"].year - geburtsjahr < 6
 

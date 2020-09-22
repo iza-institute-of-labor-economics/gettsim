@@ -6,10 +6,32 @@ from gettsim.taxes.eink_st import _st_tarif
 
 
 def arbeitsl_geld_m_tu(arbeitsl_geld_m, tu_id):
+    """
+
+    Parameters
+    ----------
+    arbeitsl_geld_m
+    tu_id
+
+    Returns
+    -------
+
+    """
     return arbeitsl_geld_m.groupby(tu_id).sum()
 
 
 def arbeitsl_geld_m_hh(arbeitsl_geld_m, hh_id):
+    """
+
+    Parameters
+    ----------
+    arbeitsl_geld_m
+    hh_id
+
+    Returns
+    -------
+
+    """
     return arbeitsl_geld_m.groupby(hh_id).sum()
 
 
@@ -20,6 +42,20 @@ def arbeitsl_geld_m(
     proxy_eink_vorj_arbeitsl_geld,
     arbeitsl_geld_params,
 ):
+    """
+
+    Parameters
+    ----------
+    tu_id
+    anz_kinder_tu
+    berechtigt_für_arbeitsl_geld
+    proxy_eink_vorj_arbeitsl_geld
+    arbeitsl_geld_params
+
+    Returns
+    -------
+
+    """
     arbeitsl_geld_satz = (tu_id.replace(anz_kinder_tu) == 0).replace(
         {
             True: arbeitsl_geld_params["arbeitsl_geld_satz_ohne_kinder"],
@@ -37,6 +73,18 @@ def arbeitsl_geld_m(
 
 
 def monate_arbeitsl(arbeitsl_lfdj_m, arbeitsl_vorj_m, arbeitsl_vor2j_m):
+    """
+
+    Parameters
+    ----------
+    arbeitsl_lfdj_m
+    arbeitsl_vorj_m
+    arbeitsl_vor2j_m
+
+    Returns
+    -------
+
+    """
     return arbeitsl_lfdj_m + arbeitsl_vorj_m + arbeitsl_vor2j_m
 
 
@@ -47,6 +95,17 @@ def berechtigt_für_arbeitsl_geld(
 
     Different rates for parent and non-parents. Take into account actual wages. There
     are different replacement rates depending on presence of children
+
+    Parameters
+    ----------
+    monate_arbeitsl
+    alter
+    ges_rente_m
+    arbeitsstunden_w
+    arbeitsl_geld_params
+
+    Returns
+    -------
 
     """
     return (
@@ -66,7 +125,21 @@ def proxy_eink_vorj_arbeitsl_geld(
     eink_st_abzuege_params,
     soli_st_params,
 ):
-    """Calculating the claim for benefits depending on previous wage."""
+    """Calculating the claim for benefits depending on previous wage.
+
+    Parameters
+    ----------
+    beitr_bemess_grenze_rentenv
+    bruttolohn_vorj_m
+    arbeitsl_geld_params
+    eink_st_params
+    eink_st_abzuege_params
+    soli_st_params
+
+    Returns
+    -------
+
+    """
     # Relevant wage is capped at the contribution thresholds
     max_wage = bruttolohn_vorj_m.clip(lower=None, upper=beitr_bemess_grenze_rentenv)
 
@@ -91,6 +164,17 @@ def proxy_eink_vorj_arbeitsl_geld(
 
 
 def beitr_bemess_grenze_rentenv(wohnort_ost, soz_vers_beitr_params):
+    """
+
+    Parameters
+    ----------
+    wohnort_ost
+    soz_vers_beitr_params
+
+    Returns
+    -------
+
+    """
     return wohnort_ost.replace(
         {
             True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],

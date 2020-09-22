@@ -130,6 +130,26 @@ def vorsorge_bis_2004(
     kind,
     eink_st_abzuege_params,
 ):
+    """
+
+    Parameters
+    ----------
+    _lohn_vorsorge_bis_2019_single
+    _lohn_vorsorgeabzug_bis_2019_tu
+    ges_krankenv_beitr_m
+    rentenv_beitr_m
+    ges_krankenv_beitr_m_tu
+    rentenv_beitr_m_tu
+    tu_id
+    gemeinsam_veranlagte_tu
+    gemeinsam_veranlagt
+    kind
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
 
     out = ges_krankenv_beitr_m * 0
     out.loc[~gemeinsam_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
@@ -156,6 +176,18 @@ def vorsorge_bis_2004(
 def _lohn_vorsorge_bis_2019_single(
     bruttolohn_m, gemeinsam_veranlagt, eink_st_abzuege_params
 ):
+    """
+
+    Parameters
+    ----------
+    bruttolohn_m
+    gemeinsam_veranlagt
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
     out = (
         eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
         - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
@@ -168,6 +200,18 @@ def _lohn_vorsorge_bis_2019_single(
 def _lohn_vorsorgeabzug_bis_2019_tu(
     bruttolohn_m_tu, gemeinsam_veranlagte_tu, eink_st_abzuege_params
 ):
+    """
+
+    Parameters
+    ----------
+    bruttolohn_m_tu
+    gemeinsam_veranlagte_tu
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
     out = 0.5 * (
         2 * eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
         - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
@@ -184,6 +228,20 @@ def _berechne_vorsorge_bis_2004(
     anzahl_erwachsene,
     eink_st_abzuege_params,
 ):
+    """
+
+    Parameters
+    ----------
+    lohn_vorsorge
+    krankenv_beitr
+    rentenv_beitr
+    anzahl_erwachsene
+    eink_st_abzuege_params
+
+    Returns
+    -------
+
+    """
     item_1 = (1 / anzahl_erwachsene) * (
         12 * (rentenv_beitr + krankenv_beitr) - lohn_vorsorge
     ).clip(lower=0)

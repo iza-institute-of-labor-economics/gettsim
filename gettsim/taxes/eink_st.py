@@ -40,16 +40,23 @@ def _st_kind_freib_tu(_zu_verst_eink_kinderfreib_tu, anz_erwachsene_tu, eink_st_
 
 
 def _st_tarif(x, params):
-    """ The German Income Tax Tariff.
+    """The German Income Tax Tariff.
      Modelled only after 2002 so far.
 
     It's not calculated as in the tax code, but rather a gemoetric decomposition of the
     area beneath the marginal tax rate function.
     This facilitates the implementation of alternative tax schedules
 
-    args:
-        x (Series): taxable income
-        params (dict): tax-benefit parameters specific to year and reform
+    Parameters
+    ----------
+    x : Floatseries
+        Some floatseries where _st_tarif is applied to.
+    params : dict
+        Dictionary created in respy.piecewise_functions.
+
+    Returns
+    -------
+
     """
     eink_st = piecewise_polynomial(
         x=x,
