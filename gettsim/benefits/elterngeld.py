@@ -7,10 +7,32 @@ from gettsim.taxes.eink_st import _st_tarif
 
 
 def elterngeld_m_tu(elterngeld_m, tu_id):
+    """
+
+    Parameters
+    ----------
+    elterngeld_m
+    tu_id
+
+    Returns
+    -------
+
+    """
     return elterngeld_m.groupby(tu_id).sum()
 
 
 def elterngeld_m_hh(elterngeld_m, hh_id):
+    """
+
+    Parameters
+    ----------
+    elterngeld_m
+    hh_id
+
+    Returns
+    -------
+
+    """
     return elterngeld_m.groupby(hh_id).sum()
 
 
@@ -79,6 +101,18 @@ def proxy_eink_vorj_elterngeld(
 
 
 def date_of_birth(geburtsjahr, geburtsmonat, geburtstag):
+    """Create date of birth variable.
+
+    Parameters
+    ----------
+    geburtsjahr
+    geburtsmonat
+    geburtstag
+
+    Returns
+    -------
+
+    """
     return pd.to_datetime(
         pd.concat(
             [
@@ -92,6 +126,18 @@ def date_of_birth(geburtsjahr, geburtsmonat, geburtstag):
 
 
 def alter_jüngstes_kind(hh_id, date_of_birth, kind):
+    """
+
+    Parameters
+    ----------
+    hh_id
+    date_of_birth
+    kind
+
+    Returns
+    -------
+
+    """
     alter_jüngstes_kind = date_of_birth.loc[kind].groupby(hh_id).max()
     # Re-index to get NaT for households without children.
     alter_jüngstes_kind = alter_jüngstes_kind.reindex(index=hh_id.unique())
@@ -101,11 +147,33 @@ def alter_jüngstes_kind(hh_id, date_of_birth, kind):
 
 
 def jüngstes_kind(date_of_birth, alter_jüngstes_kind):
+    """
+
+    Parameters
+    ----------
+    date_of_birth
+    alter_jüngstes_kind
+
+    Returns
+    -------
+
+    """
     return date_of_birth == alter_jüngstes_kind
 
 
 def alter_jüngstes_kind_tage(hh_id, alter_jüngstes_kind, elterngeld_params):
-    """Calculate the age of the youngest child in days."""
+    """Calculate the age of the youngest child in days.
+
+    Parameters
+    ----------
+    hh_id
+    alter_jüngstes_kind
+    elterngeld_params
+
+    Returns
+    -------
+
+    """
     date = pd.to_datetime(elterngeld_params["datum"])
     age_in_days = date - alter_jüngstes_kind
 
@@ -119,6 +187,16 @@ def alter_jüngstes_kind_tage(hh_id, alter_jüngstes_kind, elterngeld_params):
 
 
 def alter_jüngstes_kind_monate(alter_jüngstes_kind_tage):
+    """
+
+    Parameters
+    ----------
+    alter_jüngstes_kind_tage
+
+    Returns
+    -------
+
+    """
     return alter_jüngstes_kind_tage / np.timedelta64(1, "M")
 
 
@@ -131,6 +209,22 @@ def elternzeit_anspruch(
     m_elterngeld,
     elterngeld_params,
 ):
+    """
+
+    Parameters
+    ----------
+    hh_id
+    alter_jüngstes_kind_monate
+    m_elterngeld_mut
+    m_elterngeld_vat
+    kind
+    m_elterngeld
+    elterngeld_params
+
+    Returns
+    -------
+
+    """
     eligible_age = (
         (alter_jüngstes_kind_monate <= elterngeld_params["elterngeld_max_monate_paar"])
         .groupby(hh_id)
@@ -218,6 +312,14 @@ def elterngeld_anteil_eink_erlass(elterngeld_eink_relev, elterngeld_params):
     According to § 2 (2) BEEG the percentage increases below the first step and
     decreases above the second step until elterngeld_prozent_minimum.
 
+    Parameters
+    ----------
+    elterngeld_eink_relev
+    elterngeld_params
+
+    Returns
+    -------
+
     """
     conditions = [
         elterngeld_eink_relev
@@ -252,15 +354,35 @@ def elterngeld_anteil_eink_erlass(elterngeld_eink_relev, elterngeld_params):
 
 
 def elterngeld_eink_erlass(elterngeld_eink_relev, elterngeld_anteil_eink_erlass):
+    """
+
+    Parameters
+    ----------
+    elterngeld_eink_relev
+    elterngeld_anteil_eink_erlass
+
+    Returns
+    -------
+
+    """
     return elterngeld_eink_relev * elterngeld_anteil_eink_erlass
 
 
 def geschw_bonus(
     elterngeld_eink_erlass, berechtigt_für_geschw_bonus, elterngeld_params
 ):
-    """ Calculating the bonus for siblings.
+    """Calculating the bonus for siblings.
 
     According to § 2a parents of siblings get a bonus.
+
+    Parameters
+    ----------
+    elterngeld_eink_erlass
+    berechtigt_für_geschw_bonus
+    elterngeld_params
+
+    Returns
+    -------
 
     """
     return (
@@ -273,4 +395,15 @@ def geschw_bonus(
 
 
 def anz_mehrlinge_bonus(anz_mehrlinge_anspruch, elterngeld_params):
+    """
+
+    Parameters
+    ----------
+    anz_mehrlinge_anspruch
+    elterngeld_params
+
+    Returns
+    -------
+
+    """
     return anz_mehrlinge_anspruch * elterngeld_params["elterngeld_mehrling_bonus"]
