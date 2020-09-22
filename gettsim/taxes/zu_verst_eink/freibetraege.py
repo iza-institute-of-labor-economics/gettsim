@@ -159,7 +159,7 @@ def sonderausgaben_ab_2012(
     return out
 
 
-def _altervorsorge_aufwend(
+def altervorsorge_aufwend(
     kind, rentenv_beitr_m, prv_rente_beitr_m, eink_st_abzuege_params
 ):
     """

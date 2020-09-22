@@ -1,5 +1,5 @@
 def _vorsorge_alternative_ab_2005_bis_2009(
-    _altervorsorge_aufwend,
+    altervorsorge_aufwend,
     ges_krankenv_beitr_m,
     arbeitsl_v_beitr_m,
     pflegev_beitr_m,
@@ -16,7 +16,7 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 
     Parameters
     ----------
-    _altervorsorge_aufwend
+    altervorsorge_aufwend
     ges_krankenv_beitr_m
     arbeitsl_v_beitr_m
     pflegev_beitr_m
@@ -26,11 +26,11 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     -------
 
     """
-    out = _altervorsorge_aufwend * 0
+    out = altervorsorge_aufwend * 0
     sum_vorsorge = (
         12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + pflegev_beitr_m)
     ).clip(upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"])
-    out.loc[~kind] = sum_vorsorge.loc[~kind] + _altervorsorge_aufwend.loc[~kind]
+    out.loc[~kind] = sum_vorsorge.loc[~kind] + altervorsorge_aufwend.loc[~kind]
     return out
 
 
@@ -77,7 +77,7 @@ def vorsorge_ab_2010_bis_2019(vorsorge_bis_2004, vorsorge_ab_2020):
 
 
 def vorsorge_ab_2020(
-    _altervorsorge_aufwend,
+    altervorsorge_aufwend,
     pflegev_beitr_m,
     ges_krankenv_beitr_m,
     arbeitsl_v_beitr_m,
@@ -90,7 +90,7 @@ def vorsorge_ab_2020(
 
     Parameters
     ----------
-    _altervorsorge_aufwend
+    altervorsorge_aufwend
     pflegev_beitr_m
     ges_krankenv_beitr_m
     arbeitsl_v_beitr_m
@@ -100,7 +100,7 @@ def vorsorge_ab_2020(
     -------
 
     """
-    out = _altervorsorge_aufwend * 0
+    out = altervorsorge_aufwend * 0
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
         pflegev_beitr_m.loc[~kind]
@@ -113,13 +113,13 @@ def vorsorge_ab_2020(
             upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
         )
     )
-    out.loc[~kind] += _altervorsorge_aufwend.loc[~kind]
+    out.loc[~kind] += altervorsorge_aufwend.loc[~kind]
     return out
 
 
 def vorsorge_bis_2004(
-    _lohn_vorsorge_bis_2019_single,
-    _lohn_vorsorgeabzug_bis_2019_tu,
+    lohn_vorsorge_bis_2019_single,
+    lohn_vorsorgeabzug_bis_2019_tu,
     ges_krankenv_beitr_m,
     rentenv_beitr_m,
     ges_krankenv_beitr_m_tu,
@@ -134,8 +134,8 @@ def vorsorge_bis_2004(
 
     Parameters
     ----------
-    _lohn_vorsorge_bis_2019_single
-    _lohn_vorsorgeabzug_bis_2019_tu
+    lohn_vorsorge_bis_2019_single
+    lohn_vorsorgeabzug_bis_2019_tu
     ges_krankenv_beitr_m
     rentenv_beitr_m
     ges_krankenv_beitr_m_tu
@@ -152,16 +152,16 @@ def vorsorge_bis_2004(
     """
 
     out = ges_krankenv_beitr_m * 0
-    out.loc[~gemeinsam_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
-        _lohn_vorsorge_bis_2019_single.loc[~kind],
+    out.loc[~gemeinsam_veranlagt & ~kind] = berechne_vorsorge_bis_2004(
+        lohn_vorsorge_bis_2019_single.loc[~kind],
         ges_krankenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
         rentenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
         1,
         eink_st_abzuege_params,
     )
 
-    vorsorge_tu = _berechne_vorsorge_bis_2004(
-        _lohn_vorsorgeabzug_bis_2019_tu,
+    vorsorge_tu = berechne_vorsorge_bis_2004(
+        lohn_vorsorgeabzug_bis_2019_tu,
         ges_krankenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
         rentenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
         2,
@@ -173,7 +173,7 @@ def vorsorge_bis_2004(
     return out
 
 
-def _lohn_vorsorge_bis_2019_single(
+def lohn_vorsorge_bis_2019_single(
     bruttolohn_m, gemeinsam_veranlagt, eink_st_abzuege_params
 ):
     """
@@ -197,7 +197,7 @@ def _lohn_vorsorge_bis_2019_single(
     return out
 
 
-def _lohn_vorsorgeabzug_bis_2019_tu(
+def lohn_vorsorgeabzug_bis_2019_tu(
     bruttolohn_m_tu, gemeinsam_veranlagte_tu, eink_st_abzuege_params
 ):
     """
@@ -221,7 +221,7 @@ def _lohn_vorsorgeabzug_bis_2019_tu(
     return out
 
 
-def _berechne_vorsorge_bis_2004(
+def berechne_vorsorge_bis_2004(
     lohn_vorsorge,
     krankenv_beitr,
     rentenv_beitr,
