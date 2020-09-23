@@ -1,6 +1,6 @@
 import pytest
 
-from gettsim.pre_processing.exogene_renten_daten.lade_renten_daten import (
+from gettsim.data.exogene_renten_daten.lade_renten_daten import (
     lade_exogene_renten_daten,
 )
 

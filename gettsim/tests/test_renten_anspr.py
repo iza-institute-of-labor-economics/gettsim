@@ -56,7 +56,7 @@ def test_pension(input_data, year, renten_daten):
 #     )
 #     df = apply_tax_transfer_func(
 #         df,
-#         tax_func=update_earnings_points,
+#         tax_func=update_entgelt_punkte,
 #         level=["hh_id", "tu_id", "p_id"],
 #         in_cols=INPUT_COLS,
 #         out_cols=[],

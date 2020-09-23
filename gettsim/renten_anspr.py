@@ -17,12 +17,8 @@ def pensions(person, renten_daten, soz_vers_beitr_params):
       value (to be improved)
 
     """
-    # We only have exogenous pension data from 2005 til 2016.
-    year = soz_vers_beitr_params["jahr"]
-    if year > 2016 or year < 2005:
-        return person
 
-    person = update_earnings_points(person, soz_vers_beitr_params, renten_daten)
+    person = update_entgelt_punkte(person, soz_vers_beitr_params, renten_daten)
     # ZF: Zugangsfaktor.
     ZF = _zugangsfaktor(person)
 
@@ -38,8 +34,10 @@ def pensions(person, renten_daten, soz_vers_beitr_params):
     return person
 
 
-def update_earnings_points(person, soz_vers_beitr_params, renten_daten):
-    """Given earnings, social security rules, average
+def entgeltpunkte_update(entgeltpunkte, entgeltpunkte_lohn):
+    """Update earning points.
+
+    Given earnings, social security rules, average
     earnings in a particular year and potentially other
     variables (e.g., benefits for raising children,
     informal care), return the new earnings points.
@@ -48,36 +46,43 @@ def update_earnings_points(person, soz_vers_beitr_params, renten_daten):
     https://de.wikipedia.org/wiki/Rentenformel
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
 
+    Parameters
+    ----------
+    entgeltpunkte
+    entgeltpunkte_lohn
+
+    Returns
+    -------
+
     """
 
-    durchschnittslohn_dt = renten_daten["durchschnittslohn"][
-        soz_vers_beitr_params["jahr"]
-    ]
-
-    out = _ep_for_earnings(person, soz_vers_beitr_params, durchschnittslohn_dt)
-    out += _ep_for_care_periods(person, soz_vers_beitr_params)
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
-    person["entgeltpunkte"] += out
-    return person
+    out = entgeltpunkte + entgeltpunkte_lohn
+    return out
 
 
-def _ep_for_earnings(person, soz_vers_beitr_params, durchschnittslohn_dt):
-    """Return earning points for the wages earned in the last year."""
-    wohnort = "ost" if person["wohnort_ost"] else "west"
-    return (
-        min(
-            person["bruttolohn_m"],
-            soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
-        )
-        / durchschnittslohn_dt
-    )
+def entgeltpunkte_lohn(
+    bruttolohn_m, _rentenv_beitr_bemess_grenze, soz_vers_beitr_params, renten_daten
+):
+    """Return earning points for the wages earned in the last year.
 
+    Parameters
+    ----------
+    bruttolohn_m
+    _rentenv_beitr_bemess_grenze
+    soz_vers_beitr_params
+    renten_daten
 
-def _ep_for_care_periods(df, soz_vers_beitr_params):
-    """Return earnings points for care periods."""
-    return 0
+    Returns
+    -------
+
+    """
+    durchschnittslohn_dt = renten_daten["durchschnittslohn"][
+        soz_vers_beitr_params["jahr"]
+    ]
+    return bruttolohn_m.clip(upper=_rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
 
 def _zugangsfaktor(person):
