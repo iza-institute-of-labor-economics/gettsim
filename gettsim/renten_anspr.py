@@ -85,22 +85,40 @@ def entgeltpunkte_lohn(
     return bruttolohn_m.clip(upper=_rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
 
-def _zugangsfaktor(person):
-    """ The zugangsfaktor depends on the age of entering pensions. At the
+def _zugangsfaktor(alter, regelaltersgrenze):
+    """The zugangsfaktor depends on the age of entering pensions. At the
     regelaltersgrenze, the agent is allowed to get pensions with his full
     claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his
-    claim."""
-    regelaltersgrenze = _regelaltersgrenze(person)
+    claim.
 
-    return (person["alter"] - regelaltersgrenze) * 0.036 + 1
+    Parameters
+    ----------
+    alter
+    regelaltersgrenze
+
+    Returns
+    -------
+
+    """
+
+    out = (alter - regelaltersgrenze) * 0.036 + 1
+    return out
 
 
-def _regelaltersgrenze(person):
-    """Calculates the age, at which a worker is eligible to claim his full pension."""
+def regelaltersgrenze(geburtsjahr):
+    """Calculates the age, at which a worker is eligible to claim his full pension.
+
+    Parameters
+    ----------
+    geburtsjahr
+
+    Returns
+    -------
+
+    """
+    # Create 65 as standard
+    out = geburtsjahr * 0 + 65
     # If born after 1947, each birth year raises the age threshold by one month.
-    if person["geburtsjahr"] > 1947:
-        regelaltersgrenze = min(67, ((person["geburtsjahr"] - 1947) / 12) + 65)
-    else:
-        regelaltersgrenze = 65
-
-    return regelaltersgrenze
+    cond = geburtsjahr > 1947
+    out.loc[cond] = ((geburtsjahr.loc[cond] - 1947) / 12 + 65).clip(upper=67)
+    return out
