@@ -74,6 +74,7 @@ Private Krankenversicherung
 This bool Series identifies if person is in a private insurance or not.
 
 
+
 .. selbstständig
 
 Selbstständig
@@ -81,13 +82,12 @@ Selbstständig
 This bool Series identifies if individual is an employee or indepedent.
 
 
+
 .. hat_Kinder
 
 Hat Kinder
 ----------
 This bool Series checks if individual has children or not.
-
-
 
 
 .. alter 
@@ -137,6 +137,7 @@ Gesamte Rente
 This float Series identifies the amount of pension. 
 
 
+
 .. kaltmiete_m_hh 
 
 Kaltmiete 
@@ -152,6 +153,7 @@ This float Series identifies the monthly cost of renting an apartement or house,
  This float Series identifies the monthly costs for heating. 
  
  
+
  .. wohnfläche_hh 
  
  Wohnfläche in qm^2 
@@ -159,7 +161,10 @@ This float Series identifies the monthly cost of renting an apartement or house,
  This integer Series identifies the square meters of an apartment or house. 
  
  
+
 .. bewohnt_eigentum_hh 
+
+Bewohnt Eigentum
 ---------------------- 
 This bool Series checks if persons are living in self owned living space. 
 

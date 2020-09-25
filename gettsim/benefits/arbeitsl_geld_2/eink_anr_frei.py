@@ -2,15 +2,20 @@ from gettsim.piecewise_functions import piecewise_polynomial
 
 
 def eink_anr_frei_bis_10_2005(
-    bruttolohn_m, arbeitsl_geld_2_2005_netto_quote, arbeitsl_geld_2_params
-):
+    bruttolohn_m: FloatSeries, 
+    arbeitsl_geld_2_2005_netto_quote: FloatSeries, 
+    arbeitsl_geld_2_params: dict
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    bruttolohn_m
-    arbeitsl_geld_2_2005_netto_quote
-    arbeitsl_geld_2_params
+    bruttolohn_m 
+        See :ref:`bruttolohn_m`.
+    arbeitsl_geld_2_2005_netto_quote 
+        See :func:`arbeitsl_geld_2_2005_netto_quote`.
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------
@@ -28,15 +33,22 @@ def eink_anr_frei_bis_10_2005(
     return out
 
 
-def eink_anr_frei_ab_10_2005(hh_id, bruttolohn_m, kinder_in_hh, arbeitsl_geld_2_params):
+def eink_anr_frei_ab_10_2005(hh_id: IntSeries, 
+                             bruttolohn_m: FloatSeries, 
+                             kinder_in_hh: BoolSeries, 
+                             arbeitsl_geld_2_params: dict) -> FloatSeries:
     """
 
     Parameters
     ----------
-    hh_id
-    bruttolohn_m
-    kinder_in_hh
-    arbeitsl_geld_2_params
+    hh_id 
+        See :ref:`hh_id`.
+    bruttolohn_m 
+        See :ref:`bruttolohn_m`.
+    kinder_in_hh 
+        See :func:`kinder_in_h`.
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------
@@ -63,16 +75,21 @@ def eink_anr_frei_ab_10_2005(hh_id, bruttolohn_m, kinder_in_hh, arbeitsl_geld_2_
     return out
 
 
-def arbeitsl_geld_2_2005_netto_quote(bruttolohn_m, nettolohn_m, arbeitsl_geld_2_params):
+def arbeitsl_geld_2_2005_netto_quote(bruttolohn_m: FloatSeries, 
+                                     nettolohn_m: FloatSeries, 
+                                     arbeitsl_geld_2_params: dict) -> FloatSeries:
     """Calculate Nettoquote.
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
 
     Parameters
     ----------
-    bruttolohn_m
-    nettolohn_m
-    arbeitsl_geld_2_params
+    bruttolohn_m 
+        See :ref:`bruttolohn_m`.
+    nettolohn_m 
+        See :func:`nettolohn_m`.
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------
