@@ -9,6 +9,15 @@ def kinderzuschlag_kosten_unterk_m(
 
     Unlike ALG2, there is no check on whether living costs are "appropriate".
 
+    Parameters
+    ----------
+    wohnbedarf_eltern_anteil
+    kinderzuschlag_kaltmiete_m
+    kinderzuschlag_heizkost_m
+
+    Returns
+    -------
+
     """
     return wohnbedarf_eltern_anteil * (
         kinderzuschlag_kaltmiete_m + kinderzuschlag_heizkost_m
@@ -16,17 +25,53 @@ def kinderzuschlag_kosten_unterk_m(
 
 
 def kinderzuschlag_kaltmiete_m(hh_id, kaltmiete_m_hh, tax_unit_share):
+    """
+
+    Parameters
+    ----------
+    hh_id
+    kaltmiete_m_hh
+    tax_unit_share
+
+    Returns
+    -------
+
+    """
     return hh_id.replace(kaltmiete_m_hh) * tax_unit_share
 
 
 def kinderzuschlag_heizkost_m(hh_id, heizkosten_m_hh, tax_unit_share):
+    """
+
+    Parameters
+    ----------
+    hh_id
+    heizkosten_m_hh
+    tax_unit_share
+
+    Returns
+    -------
+
+    """
     return hh_id.replace(heizkosten_m_hh) * tax_unit_share
 
 
 def wohnbedarf_eltern_anteil(
     tu_id, anz_kinder_tu, anz_erwachsene_tu, kinderzuschlag_params
 ):
-    """Calculate living needs broken down to the parents."""
+    """Calculate living needs broken down to the parents.
+
+    Parameters
+    ----------
+    tu_id
+    anz_kinder_tu
+    anz_erwachsene_tu
+    kinderzuschlag_params
+
+    Returns
+    -------
+
+    """
     kinder_in_tu = tu_id.replace(anz_kinder_tu)
     erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     conditions = []

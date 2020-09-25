@@ -11,22 +11,22 @@ standard 25% rate or to include it in the tariff.
 """
 
 
-def _beantrage_kind_freib_tu(
-    _st_kein_kind_freib_tu, _kindergeld_m_tu_basis, _st_kind_freib_tu
+def beantrage_kind_freib_tu(
+    _st_kein_kind_freib_tu, kindergeld_m_tu_basis, _st_kind_freib_tu
 ):
     """Check if individual claims child allowance.
 
     Parameters
     ----------
     _st_kein_kind_freib_tu
-    _kindergeld_m_tu_basis
+    kindergeld_m_tu_basis
     _st_kind_freib_tu
 
     Returns
     -------
 
     """
-    st_kein_kind_freib = _st_kein_kind_freib_tu - 12 * _kindergeld_m_tu_basis
+    st_kein_kind_freib = _st_kein_kind_freib_tu - 12 * kindergeld_m_tu_basis
     return st_kein_kind_freib > _st_kind_freib_tu
 
 
@@ -47,7 +47,7 @@ def eink_st_tu_bis_1996(_st_kind_freib_tu):
 
 
 def eink_st_tu_ab_1997(
-    _st_kein_kind_freib_tu, _st_kind_freib_tu, _beantrage_kind_freib_tu,
+    _st_kein_kind_freib_tu, _st_kind_freib_tu, beantrage_kind_freib_tu,
 ):
     """Income tax calculation since 1997.
 
@@ -55,50 +55,50 @@ def eink_st_tu_ab_1997(
     ----------
     _st_kein_kind_freib_tu
     _st_kind_freib_tu
-    _beantrage_kind_freib_tu
+    beantrage_kind_freib_tu
 
     Returns
     -------
 
     """
     out = _st_kein_kind_freib_tu
-    out.loc[_beantrage_kind_freib_tu] = _st_kind_freib_tu.loc[_beantrage_kind_freib_tu]
+    out.loc[beantrage_kind_freib_tu] = _st_kind_freib_tu.loc[beantrage_kind_freib_tu]
     return out
 
 
-def kindergeld_m_bis_1996(_kindergeld_m_basis):
+def kindergeld_m_bis_1996(kindergeld_m_basis):
     """Kindergeld calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
 
     Parameters
     ----------
-    _kindergeld_m_basis
+    kindergeld_m_basis
 
     Returns
     -------
 
     """
-    return _kindergeld_m_basis
+    return kindergeld_m_basis
 
 
 def kindergeld_m_ab_1997(
-    _beantrage_kind_freib_tu, _kindergeld_m_basis, tu_id,
+    beantrage_kind_freib_tu, kindergeld_m_basis, tu_id,
 ):
     """Kindergeld calculation since 1997.
 
     Parameters
     ----------
-    _beantrage_kind_freib_tu
-    _kindergeld_m_basis
+    beantrage_kind_freib_tu
+    kindergeld_m_basis
     tu_id
 
     Returns
     -------
 
     """
-    _beantrage_kind_freib = tu_id.replace(_beantrage_kind_freib_tu)
-    out = _kindergeld_m_basis
+    _beantrage_kind_freib = tu_id.replace(beantrage_kind_freib_tu)
+    out = kindergeld_m_basis
     out.loc[_beantrage_kind_freib] = 0
     return out
 

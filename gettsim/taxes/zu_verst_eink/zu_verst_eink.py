@@ -15,7 +15,7 @@ applying the tax schedule.
 """
 
 
-def _zu_verst_eink_kein_kinderfreib_tu(
+def zu_verst_eink_kein_kinderfreib_tu(
     sum_brutto_eink,
     vorsorge,
     sonderausgaben,
@@ -52,18 +52,18 @@ def _zu_verst_eink_kein_kinderfreib_tu(
     return out.groupby(tu_id).sum()
 
 
-def _zu_verst_eink_kinderfreib_tu(
-    _zu_verst_eink_kein_kinderfreib_tu, kinderfreib_tu,
+def zu_verst_eink_kinderfreib_tu(
+    zu_verst_eink_kein_kinderfreib_tu, kinderfreib_tu,
 ):
     """
 
     Parameters
     ----------
-    _zu_verst_eink_kein_kinderfreib_tu
+    zu_verst_eink_kein_kinderfreib_tu
     kinderfreib_tu
 
     Returns
     -------
 
     """
-    return _zu_verst_eink_kein_kinderfreib_tu - kinderfreib_tu
+    return zu_verst_eink_kein_kinderfreib_tu - kinderfreib_tu

@@ -27,6 +27,19 @@ def kinderzuschlag_m_hh(
     wohngeld_kinderzuschlag_vorrang_hh,
     rentner_in_hh,
 ):
+    """
+
+    Parameters
+    ----------
+    kinderzuschlag_vermögens_check_hh
+    kinderzuschlag_vorrang_hh
+    wohngeld_kinderzuschlag_vorrang_hh
+    rentner_in_hh
+
+    Returns
+    -------
+
+    """
     cond = (
         ~kinderzuschlag_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh
     ) | rentner_in_hh
@@ -35,6 +48,17 @@ def kinderzuschlag_m_hh(
 
 
 def _kinderzuschlag_m_vorläufig_hh(_kinderzuschlag_m_vorläufig, hh_id):
+    """
+
+    Parameters
+    ----------
+    _kinderzuschlag_m_vorläufig
+    hh_id
+
+    Returns
+    -------
+
+    """
     return _kinderzuschlag_m_vorläufig.groupby(hh_id).max()
 
 

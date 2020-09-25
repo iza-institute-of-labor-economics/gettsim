@@ -82,11 +82,32 @@ def kinderzuschlag_eink_regel_ab_2011(
 def kinderzuschlag_eink_relev(
     kinderzuschlag_eink_regel, kinderzuschlag_kosten_unterk_m
 ):
+    """
+
+    Parameters
+    ----------
+    kinderzuschlag_eink_regel
+    kinderzuschlag_kosten_unterk_m
+
+    Returns
+    -------
+
+    """
     return kinderzuschlag_eink_regel + kinderzuschlag_kosten_unterk_m
 
 
 def anz_kinder_anspruch_per_hh(hh_id, kindergeld_anspruch):
-    """Count number of children eligible to child benefit (§6a (1) Nr. 1 BKGG)kdu."""
+    """Count number of children eligible to child benefit (§6a (1) Nr. 1 BKGG)kdu.
+
+    Parameters
+    ----------
+    hh_id
+    kindergeld_anspruch
+
+    Returns
+    -------
+
+    """
     return kindergeld_anspruch.groupby(hh_id).transform("sum")
 
 
@@ -97,6 +118,15 @@ def kinderzuschlag_eink_max(
 
     There is a maximum income threshold, depending on the need, plus the potential kiz
     receipt (§6a (1) Nr. 3 BKGG)
+
+    Parameters
+    ----------
+    kinderzuschlag_eink_relev
+    anz_kinder_anspruch_per_hh
+    kinderzuschlag_params
+
+    Returns
+    -------
 
     """
     return (
@@ -110,6 +140,16 @@ def kinderzuschlag_eink_min(hh_id, kind, alleinerziehend, kinderzuschlag_params)
 
     Min income to be eligible for KIZ (different for singles and couples) (§6a (1) Nr. 2
     BKGG).
+
+    Parameters
+    ----------
+    hh_id
+    kind
+    alleinerziehend
+    kinderzuschlag_params
+
+    Returns
+    -------
 
     """
     hat_kinder_hh = kind.groupby(hh_id).transform("any")
@@ -128,7 +168,19 @@ def kinderzuschlag_eink_min(hh_id, kind, alleinerziehend, kinderzuschlag_params)
 def kinderzuschlag_kindereink_abzug(
     kindergeld_anspruch, bruttolohn_m, unterhaltsvors_m, kinderzuschlag_params
 ):
-    """Deduct children income for each eligible child (§6a (3) S.3 BKGG)."""
+    """Deduct children income for each eligible child (§6a (3) S.3 BKGG).
+
+    Parameters
+    ----------
+    kindergeld_anspruch
+    bruttolohn_m
+    unterhaltsvors_m
+    kinderzuschlag_params
+
+    Returns
+    -------
+
+    """
     return kindergeld_anspruch * (
         kinderzuschlag_params["kinderzuschlag"]
         - kinderzuschlag_params["kinderzuschlag_transferentzug_kind"]
@@ -139,7 +191,19 @@ def kinderzuschlag_kindereink_abzug(
 def kinderzuschlag_eink_anrechn(
     hh_id, arbeitsl_geld_2_eink_hh, kinderzuschlag_eink_relev, kinderzuschlag_params
 ):
-    """Calculate the parents income that needs to be subtracted (§6a (6) S. 3 BKGG)."""
+    """Calculate the parents income that needs to be subtracted (§6a (6) S. 3 BKGG).
+
+    Parameters
+    ----------
+    hh_id
+    arbeitsl_geld_2_eink_hh
+    kinderzuschlag_eink_relev
+    kinderzuschlag_params
+
+    Returns
+    -------
+
+    """
     return (
         kinderzuschlag_params["kinderzuschlag_transferentzug_eltern"]
         * (hh_id.replace(arbeitsl_geld_2_eink_hh) - kinderzuschlag_eink_relev)
@@ -153,7 +217,20 @@ def kinderzuschlag_eink_spanne(
     kinderzuschlag_eink_max,
     arbeitsl_geld_2_eink_hh,
 ):
-    """Calculate a dummy for whether the household is in the correct income range."""
+    """Calculate a dummy for whether the household is in the correct income range.
+
+    Parameters
+    ----------
+    hh_id
+    _arbeitsl_geld_2_brutto_eink_hh
+    kinderzuschlag_eink_min
+    kinderzuschlag_eink_max
+    arbeitsl_geld_2_eink_hh
+
+    Returns
+    -------
+
+    """
 
     eink_spanne = (
         hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min

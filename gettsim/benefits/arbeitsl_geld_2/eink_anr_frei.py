@@ -4,6 +4,18 @@ from gettsim.piecewise_functions import piecewise_polynomial
 def eink_anr_frei_bis_10_2005(
     bruttolohn_m, arbeitsl_geld_2_2005_netto_quote, arbeitsl_geld_2_params
 ):
+    """
+
+    Parameters
+    ----------
+    bruttolohn_m
+    arbeitsl_geld_2_2005_netto_quote
+    arbeitsl_geld_2_params
+
+    Returns
+    -------
+
+    """
     out = piecewise_polynomial(
         x=bruttolohn_m,
         thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
@@ -17,6 +29,19 @@ def eink_anr_frei_bis_10_2005(
 
 
 def eink_anr_frei_ab_10_2005(hh_id, bruttolohn_m, kinder_in_hh, arbeitsl_geld_2_params):
+    """
+
+    Parameters
+    ----------
+    hh_id
+    bruttolohn_m
+    kinder_in_hh
+    arbeitsl_geld_2_params
+
+    Returns
+    -------
+
+    """
     out = bruttolohn_m * 0
     kinder_in_hh_individual = hh_id.replace(kinder_in_hh).astype(bool)
     out.loc[kinder_in_hh_individual] = piecewise_polynomial(
@@ -42,6 +67,15 @@ def arbeitsl_geld_2_2005_netto_quote(bruttolohn_m, nettolohn_m, arbeitsl_geld_2_
     """Calculate Nettoquote.
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
+
+    Parameters
+    ----------
+    bruttolohn_m
+    nettolohn_m
+    arbeitsl_geld_2_params
+
+    Returns
+    -------
 
     """
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit nach § 11 Abs. 2 Nr. 1-5.

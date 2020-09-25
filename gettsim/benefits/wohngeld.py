@@ -8,6 +8,19 @@ def wohngeld_m_hh(
     wohngeld_kinderzuschlag_vorrang_hh,
     rentner_in_hh,
 ):
+    """
+
+    Parameters
+    ----------
+    wohngeld_vermögens_check_hh
+    wohngeld_vorrang_hh
+    wohngeld_kinderzuschlag_vorrang_hh
+    rentner_in_hh
+
+    Returns
+    -------
+
+    """
     cond = ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh | rentner_in_hh
     wohngeld_vermögens_check_hh.loc[cond] = 0
     return wohngeld_vermögens_check_hh
@@ -29,6 +42,14 @@ def wohngeld_basis_hh(
     Benefit amount depends on parameters `wohngeld_max_miete` (rent) and
     `_wohngeld_eink` (income) (§19 WoGG).
 
+    Parameters
+    ----------
+    hh_id
+    wohngeld_basis
+
+    Returns
+    -------
+
     """
     # ToDo: When thinking about calculating wohngeld on the correct level, we need
     # account for multiple tax units in one household. The following is the old code!
@@ -39,12 +60,36 @@ def wohngeld_basis_hh(
 
 
 def _zu_verst_ges_rente_tu(_zu_verst_ges_rente, tu_id):
+    """
+
+    Parameters
+    ----------
+    _zu_verst_ges_rente
+    tu_id
+
+    Returns
+    -------
+
+    """
     return _zu_verst_ges_rente.groupby(tu_id).sum()
 
 
 def _wohngeld_abzüge_tu(
     eink_st_tu, rentenv_beitr_m_tu, ges_krankenv_beitr_m_tu, wohngeld_params
 ):
+    """
+
+    Parameters
+    ----------
+    eink_st_tu
+    rentenv_beitr_m_tu
+    ges_krankenv_beitr_m_tu
+    wohngeld_params
+
+    Returns
+    -------
+
+    """
     abzug_stufen = (
         (eink_st_tu > 0) * 1 + (rentenv_beitr_m_tu > 0) + (ges_krankenv_beitr_m_tu > 0)
     )
@@ -52,12 +97,36 @@ def _wohngeld_abzüge_tu(
 
 
 def _zu_verst_ges_rente(_ertragsanteil, ges_rente_m):
+    """
+
+    Parameters
+    ----------
+    _ertragsanteil
+    ges_rente_m
+
+    Returns
+    -------
+
+    """
     return _ertragsanteil * ges_rente_m
 
 
 def _wohngeld_brutto_eink_tu(
     brutto_eink_1_tu, brutto_eink_4_tu, brutto_eink_5_tu, brutto_eink_6_tu,
 ):
+    """
+
+    Parameters
+    ----------
+    brutto_eink_1_tu
+    brutto_eink_4_tu
+    brutto_eink_5_tu
+    brutto_eink_6_tu
+
+    Returns
+    -------
+
+    """
     return (
         brutto_eink_1_tu + brutto_eink_4_tu + brutto_eink_5_tu + brutto_eink_6_tu
     ) / 12
@@ -70,6 +139,20 @@ def _wohngeld_sonstiges_eink_tu(
     unterhaltsvors_m_tu,
     elterngeld_m_tu,
 ):
+    """
+
+    Parameters
+    ----------
+    arbeitsl_geld_m_tu
+    sonstig_eink_m_tu
+    _zu_verst_ges_rente_tu
+    unterhaltsvors_m_tu
+    elterngeld_m_tu
+
+    Returns
+    -------
+
+    """
     return (
         arbeitsl_geld_m_tu
         + sonstig_eink_m_tu
@@ -80,6 +163,17 @@ def _wohngeld_sonstiges_eink_tu(
 
 
 def _anzahl_kinder_unter_11_per_tu(tu_id, alter):
+    """
+
+    Parameters
+    ----------
+    tu_id
+    alter
+
+    Returns
+    -------
+
+    """
     return (alter < 11).groupby(tu_id).transform("sum")
 
 
@@ -92,6 +186,22 @@ def wohngeld_eink_abzüge_bis_2015(
     _anzahl_kinder_unter_11_per_tu,
     wohngeld_params,
 ):
+    """
+
+    Parameters
+    ----------
+    bruttolohn_m
+    arbeitende_kinder
+    behinderungsgrad
+    alleinerziehend
+    kind
+    _anzahl_kinder_unter_11_per_tu
+    wohngeld_params
+
+    Returns
+    -------
+
+    """
     abzüge = (
         (behinderungsgrad > 80) * wohngeld_params["freib_behinderung"]["ab80"]
         + ((1 <= behinderungsgrad) & (behinderungsgrad <= 80))
@@ -111,6 +221,17 @@ def wohngeld_eink_abzüge_bis_2015(
 
 
 def arbeitende_kinder(bruttolohn_m, kindergeld_anspruch):
+    """
+
+    Parameters
+    ----------
+    bruttolohn_m
+    kindergeld_anspruch
+
+    Returns
+    -------
+
+    """
     return (bruttolohn_m > 0) & kindergeld_anspruch
 
 
@@ -122,6 +243,21 @@ def wohngeld_eink_abzüge_ab_2016(
     kind,
     wohngeld_params,
 ):
+    """
+
+    Parameters
+    ----------
+    bruttolohn_m
+    kindergeld_anspruch
+    behinderungsgrad
+    alleinerziehend
+    kind
+    wohngeld_params
+
+    Returns
+    -------
+
+    """
     workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
 
     abzüge = (
@@ -143,6 +279,22 @@ def _wohngeld_eink(
     _wohngeld_sonstiges_eink_tu,
     wohngeld_params,
 ):
+    """
+
+    Parameters
+    ----------
+    tu_id
+    haushaltsgröße
+    wohngeld_eink_abzüge
+    _wohngeld_abzüge_tu
+    _wohngeld_brutto_eink_tu
+    _wohngeld_sonstiges_eink_tu
+    wohngeld_params
+
+    Returns
+    -------
+
+    """
     _wohngeld_eink_abzüge_tu = wohngeld_eink_abzüge.groupby(tu_id).sum()
 
     vorläufiges_eink = (1 - _wohngeld_abzüge_tu) * (
@@ -157,6 +309,17 @@ def _wohngeld_eink(
 
 
 def _wohngeld_min_miete(haushaltsgröße, wohngeld_params):
+    """
+
+    Parameters
+    ----------
+    haushaltsgröße
+    wohngeld_params
+
+    Returns
+    -------
+
+    """
     return haushaltsgröße.clip(upper=12).replace(wohngeld_params["min_miete"])
 
 
@@ -170,6 +333,23 @@ def wohngeld_max_miete_bis_2008(
     _wohngeld_min_miete,
     wohngeld_params,
 ):
+    """
+
+    Parameters
+    ----------
+    mietstufe
+    immobilie_baujahr_hh
+    haushaltsgröße
+    hh_id
+    kaltmiete_m_hh
+    tax_unit_share
+    _wohngeld_min_miete
+    wohngeld_params
+
+    Returns
+    -------
+
+    """
     immobilie_baujahr = hh_id.replace(immobilie_baujahr_hh)
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
@@ -204,6 +384,22 @@ def wohngeld_max_miete_ab_2009(
     _wohngeld_min_miete,
     wohngeld_params,
 ):
+    """
+
+    Parameters
+    ----------
+    mietstufe
+    haushaltsgröße
+    hh_id
+    kaltmiete_m_hh
+    tax_unit_share
+    _wohngeld_min_miete
+    wohngeld_params
+
+    Returns
+    -------
+
+    """
     data = [
         wohngeld_params["max_miete"][hh_größe][ms]
         if hh_größe <= 5
@@ -220,6 +416,19 @@ def wohngeld_max_miete_ab_2009(
 
 
 def wohngeld_basis(haushaltsgröße, _wohngeld_eink, wohngeld_max_miete, wohngeld_params):
+    """
+
+    Parameters
+    ----------
+    haushaltsgröße
+    _wohngeld_eink
+    wohngeld_max_miete
+    wohngeld_params
+
+    Returns
+    -------
+
+    """
     koeffizienten = [
         wohngeld_params["koeffizienten_berechnungsformel"][hh_größe]
         for hh_größe in haushaltsgröße.clip(upper=12)
@@ -257,8 +466,30 @@ def wohngeld_basis(haushaltsgröße, _wohngeld_eink, wohngeld_max_miete, wohngel
 
 
 def tax_unit_share(tu_id, haushaltsgröße):
+    """
+
+    Parameters
+    ----------
+    tu_id
+    haushaltsgröße
+
+    Returns
+    -------
+
+    """
     return tu_id.groupby(tu_id).transform("count") / haushaltsgröße
 
 
 def sonstig_eink_m_tu(sonstig_eink_m, tu_id):
+    """
+
+    Parameters
+    ----------
+    sonstig_eink_m
+    tu_id
+
+    Returns
+    -------
+
+    """
     return sonstig_eink_m.groupby(tu_id).sum()
