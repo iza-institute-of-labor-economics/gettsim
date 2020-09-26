@@ -1,6 +1,10 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 import numpy as np
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def wohngeld_m_hh(
     wohngeld_vermögens_check_hh,
