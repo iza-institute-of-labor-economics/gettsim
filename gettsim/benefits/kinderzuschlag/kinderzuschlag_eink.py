@@ -2,6 +2,11 @@ import numpy as np
 import pandas as pd
 
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
+
 def kinderzuschlag_eink_regel_bis_2010(
     tu_id,
     hh_id,
@@ -11,10 +16,11 @@ def kinderzuschlag_eink_regel_bis_2010(
 ):
     """This function creates "kinderzuschlag_eink_regel" until 2010.
 
-
     Parameters
     ----------
-    alleinerziehenden_mehrbedarf
+    tu_id
+    hh_id
+    alleinerziehenden_mehrbedarf_hh
     anz_erwachsene_tu
     arbeitsl_geld_2_params
 
@@ -54,7 +60,9 @@ def kinderzuschlag_eink_regel_ab_2011(
 
     Parameters
     ----------
-    alleinerziehenden_mehrbedarf
+    tu_id
+    hh_id
+    alleinerziehenden_mehrbedarf_hh
     anz_erwachsene_tu
     arbeitsl_geld_2_params
 
