@@ -45,23 +45,21 @@ def test_pension(input_data, year, renten_daten):
     assert_series_equal(calc_result[column].round(2), year_data[column])
 
 
-# @pytest.mark.parametrize("year", YEARS)
-# def test_update_earning_points(input_data, renten_daten, year):
-#     year_data = input_data[input_data["jahr"] == year]
-#     df = year_data[INPUT_COLS].copy()
-#     policy_date = date(year, 1, 1)
-#     soz_vers_beitr_params = get_policies_for_date(
-#         policy_date=policy_date, group="soz_vers_beitr"
-#     )
-#     df = apply_tax_transfer_func(
-#         df,
-#         tax_func=update_entgelt_punkte,
-#         level=["hh_id", "tu_id", "p_id"],
-#         in_cols=INPUT_COLS,
-#         out_cols=[],
-#         func_kwargs={
-#             "renten_daten": renten_daten,
-#             "soz_vers_beitr_params": soz_vers_beitr_params,
-#         },
-#     )
-#     assert_array_almost_equal(df["entgeltpunkte"], year_data["EP_end"].values)
+@pytest.mark.parametrize("year", YEARS)
+def test_update_earning_points(input_data, renten_daten, year):
+    year_data = input_data[input_data["jahr"] == year]
+    df = year_data[INPUT_COLS].copy()
+
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+
+    policy_params["renten_daten"] = renten_daten
+
+    calc_result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets="entgeltpunkte_update",
+    )
+    assert_series_equal(
+        calc_result["entgeltpunkte_update"], year_data["EP_end"], check_names=False
+    )
