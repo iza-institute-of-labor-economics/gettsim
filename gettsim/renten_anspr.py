@@ -1,4 +1,6 @@
-def pensions(person, renten_daten, soz_vers_beitr_params):
+def rente_anspr_m(
+    zugangsfaktor, entgeltpunkte_update, renten_daten, soz_vers_beitr_params
+):
     """
     This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
@@ -18,20 +20,11 @@ def pensions(person, renten_daten, soz_vers_beitr_params):
 
     """
 
-    person = update_entgelt_punkte(person, soz_vers_beitr_params, renten_daten)
-    # ZF: Zugangsfaktor.
-    ZF = _zugangsfaktor(person)
+    rentenwert = renten_daten["rentenwert"][soz_vers_beitr_params["year"]]
 
-    rentenwert = renten_daten["rentenwert"][year]
+    out = (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
-    # use all three components for Rentenformel.
-    # It's called 'pensions_sim' to emphasize that this is simulated.
-
-    person["rente_anspr_m"] = max(
-        0, round(person["entgeltpunkte"] * ZF * rentenwert, 2)
-    )
-
-    return person
+    return out
 
 
 def entgeltpunkte_update(entgeltpunkte, entgeltpunkte_lohn):
@@ -85,7 +78,7 @@ def entgeltpunkte_lohn(
     return bruttolohn_m.clip(upper=_rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
 
-def _zugangsfaktor(alter, regelaltersgrenze):
+def zugangsfaktor(alter, regelaltersgrenze):
     """The zugangsfaktor depends on the age of entering pensions. At the
     regelaltersgrenze, the agent is allowed to get pensions with his full
     claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his

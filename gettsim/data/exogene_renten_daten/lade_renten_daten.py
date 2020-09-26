@@ -7,12 +7,9 @@ def lade_exogene_renten_daten():
 
     data_year_range = range(2005, 2016 + 1)
     raw_pension_data = yaml.safe_load(
-        (
-            ROOT_DIR
-            / "pre_processing"
-            / "exogene_renten_daten"
-            / "ges_renten_vers.yaml"
-        ).read_text(encoding="utf-8")
+        (ROOT_DIR / "data" / "exogene_renten_daten" / "ges_renten_vers.yaml").read_text(
+            encoding="utf-8"
+        )
     )
 
     pension_data = {"durchschnittslohn": {}, "rentenwert": {}}

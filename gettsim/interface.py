@@ -479,11 +479,13 @@ def _partial_parameters_to_functions(functions, params):
     """
     partialed_functions = {}
     for name, function in functions.items():
+        # breakpoint()
         partial_params = {
             i: params[i[:-7]]
             for i in get_names_of_arguments_without_defaults(function)
             if i.endswith("_params") and i[:-7] in params
         }
+        # breakpoint()
 
         # Fix old functions which requested the whole dictionary. Test if removable.
         if "params" in get_names_of_arguments_without_defaults(function):
