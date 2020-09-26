@@ -1,8 +1,7 @@
 def rente_anspr_m(
     zugangsfaktor, entgeltpunkte_update, renten_daten, soz_vers_beitr_params
 ):
-    """
-    This function calculates the Old-Age Pensions claim if the agent chooses to
+    """ This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
 
     .. math::
@@ -18,9 +17,19 @@ def rente_anspr_m(
     - As we do not know previously collect Entgeltpunkte, we take an average
       value (to be improved)
 
+    Parameters
+    ----------
+    zugangsfaktor
+    entgeltpunkte_update
+    renten_daten
+    soz_vers_beitr_params
+
+    Returns
+    -------
+
     """
 
-    rentenwert = renten_daten["rentenwert"][soz_vers_beitr_params["year"]]
+    rentenwert = renten_daten["rentenwert"][soz_vers_beitr_params["datum"].year]
 
     out = (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
@@ -73,7 +82,7 @@ def entgeltpunkte_lohn(
 
     """
     durchschnittslohn_dt = renten_daten["durchschnittslohn"][
-        soz_vers_beitr_params["jahr"]
+        soz_vers_beitr_params["datum"].year
     ]
     return bruttolohn_m.clip(upper=_rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
