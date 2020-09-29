@@ -2,16 +2,18 @@
 import numpy as np
 
 
-def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
+def unterhaltsvors_m_tu(unterhaltsvors_m: FloatSeries, 
+                        tu_id: IntSeries) -> FloatSeries:
     """Monthly child support advance payment per tax unit.
 
     Made by government if the parent who has to pay does not.
 
     Parameters
     ----------
-    unterhaltsvors_m
+    unterhaltsvors_m 
+        See :func:`unterhaltsvors_m`.    
     tu_id
-
+        See :ref:`tu_id`.
     Returns
     -------
 
@@ -19,15 +21,18 @@ def unterhaltsvors_m_tu(unterhaltsvors_m, tu_id):
     return unterhaltsvors_m.groupby(tu_id).sum()
 
 
-def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
+def unterhaltsvors_m_hh(unterhaltsvors_m: FloatSeries, 
+                        hh_id: IntSeries) -> FloatSeries:
     """Monthly child support advance payment per household.
 
     Made by government if the parent who has to pay does not.
 
     Parameters
     ----------
-    unterhaltsvors_m
-    hh_id
+    unterhaltsvors_m 
+        See :func:`unterhaltsvors_m`.
+    hh_id 
+        See :ref:`hh_id`.
 
     Returns
     -------
@@ -37,13 +42,13 @@ def unterhaltsvors_m_hh(unterhaltsvors_m, hh_id):
 
 
 def unterhaltsvors_m(
-    tu_id,
-    alleinerziehend,
-    alter,
-    unterhaltsvorschuss_eink_tu,
-    unterhalt_params,
-    kindergeld_params,
-):
+    tu_id: IntSeries,
+    alleinerziehend: BoolSeries,
+    alter: IntSeries,
+    unterhaltsvorschuss_eink_tu: FloatSeries,
+    unterhalt_params: dict,
+    kindergeld_params: dict,
+) -> FloatSeries:
     """Advance on Alimony Payment / Unterhaltsvorschuss (UHV)
 
     Single Parents get alimony payments for themselves and for their child from the ex
@@ -55,12 +60,18 @@ def unterhaltsvors_m(
 
     Parameters
     ----------
-    tu_id
-    alleinerziehend
-    alter
-    unterhaltsvorschuss_eink_tu
-    unterhalt_params
-    kindergeld_params
+    tu_id 
+        See :ref:`tu_id`.
+    alleinerziehend 
+        See :ref:`alleinerziehend`.
+    alter 
+        See :ref:`alter`.
+    unterhaltsvorschuss_eink_tu 
+        See :func:`unterhaltsvorschuss_eink_tu`.
+    unterhalt_params 
+        See :ref:`unterhalt_params`.
+    kindergeld_params 
+        See :ref:`kindergeld_params`.
 
     Returns
     -------
@@ -101,25 +112,32 @@ def unterhaltsvors_m(
 
 
 def unterhaltsvorschuss_eink_tu(
-    bruttolohn_m_tu,
-    sonstig_eink_m_tu,
-    eink_selbst_m_tu,
-    vermiet_eink_m_tu,
-    kapital_eink_m_tu,
-    ges_rente_m_tu,
-    arbeitsl_geld_m_tu,
+    bruttolohn_m_tu: FloatSeries,
+    sonstig_eink_m_tu: FloatSeries,
+    eink_selbst_m_tu: FloatSeries,
+    vermiet_eink_m_tu: FloatSeries,
+    kapital_eink_m_tu: FloatSeries,
+    ges_rente_m_tu: FloatSeries,
+    arbeitsl_geld_m_tu: FloatSeries,
 ):
     """
 
     Parameters
     ----------
-    bruttolohn_m_tu
-    sonstig_eink_m_tu
-    eink_selbst_m_tu
-    vermiet_eink_m_tu
-    kapital_eink_m_tu
-    ges_rente_m_tu
-    arbeitsl_geld_m_tu
+    bruttolohn_m_tu 
+        See :func:`bruttolohn_m_tu`. 
+    sonstig_eink_m_tu 
+        See :func:`sonstig_eink_m_tu`. 
+    eink_selbst_m_tu 
+        See :func:`eink_selbst_m_tu`. 
+    vermiet_eink_m_tu 
+        See :func:`vermiet_eink_m_tu`. 
+    kapital_eink_m_tu 
+        See :func:`kapital_eink_m_tu`. 
+    ges_rente_m_tu 
+        See :func:`ges_rente_m_tu`. 
+    arbeitsl_geld_m_tu 
+        See :func:`arbeitsl_geld_m_tu`.
 
     Returns
     -------
@@ -138,13 +156,15 @@ def unterhaltsvorschuss_eink_tu(
     return out
 
 
-def eink_selbst_m_tu(eink_selbst_m, tu_id):
+def eink_selbst_m_tu(eink_selbst_m: FloatSeries, tu_id: IntSeries):
     """
 
     Parameters
     ----------
-    eink_selbst_m
-    tu_id
+    eink_selbst_m 
+        See :ref:`eink_selbst_m`.
+    tu_id 
+        See :ref:`tu_id`.
 
     Returns
     -------
@@ -153,13 +173,16 @@ def eink_selbst_m_tu(eink_selbst_m, tu_id):
     return eink_selbst_m.groupby(tu_id).sum()
 
 
-def vermiet_eink_m_tu(vermiet_eink_m, tu_id):
+def vermiet_eink_m_tu(vermiet_eink_m: FloatSeries, 
+                      tu_id: IntSeries) -> FloatSeries:
     """
 
     Parameters
     ----------
-    vermiet_eink_m
-    tu_id
+    vermiet_eink_m 
+        See :ref:`vermiet_eink_m`.
+    tu_id 
+        See :ref:`tu_id`.
 
     Returns
     -------
@@ -168,13 +191,16 @@ def vermiet_eink_m_tu(vermiet_eink_m, tu_id):
     return vermiet_eink_m.groupby(tu_id).sum()
 
 
-def kapital_eink_m_tu(kapital_eink_m, tu_id):
+def kapital_eink_m_tu(kapital_eink_m: FloatSeries, 
+                      tu_id: IntSeries) -> FloatSeries:
     """
 
     Parameters
     ----------
-    kapital_eink_m
-    tu_id
+    kapital_eink_m 
+        See :ref:`kapital_eink_m`.
+    tu_id 
+        See :ref:`tu_id`.
 
     Returns
     -------
@@ -183,13 +209,16 @@ def kapital_eink_m_tu(kapital_eink_m, tu_id):
     return kapital_eink_m.groupby(tu_id).sum()
 
 
-def ges_rente_m_tu(ges_rente_m, tu_id):
+def ges_rente_m_tu(ges_rente_m: FloatSeries, 
+                   tu_id: IntSeries) -> FloatSeries:
     """
 
     Parameters
     ----------
-    ges_rente_m
-    tu_id
+    ges_rente_m 
+        See :ref:`ges_rente_m`.
+    tu_id 
+        See :ref:`tu_id`.
 
     Returns
     -------
