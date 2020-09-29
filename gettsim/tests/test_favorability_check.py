@@ -6,7 +6,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.policy_environment import set_up_policy_environment
 
 
 INPUT_COLS = [
@@ -32,14 +32,12 @@ def input_data():
     )
 
 
-@pytest.mark.parametrize("year, column", product(YEARS, TEST_COLUMNS))
-def test_favorability_check(input_data, year, column):
+@pytest.mark.parametrize("year, target", product(YEARS, TEST_COLUMNS))
+def test_favorability_check(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=str(year), groups="eink_st_abzuege",
-    )
-    columns = [
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+    columns_overriding_functions = [
         "_st_kein_kind_freib_tu",
         "_st_kind_freib_tu",
         "abgelt_st_tu",
@@ -48,11 +46,11 @@ def test_favorability_check(input_data, year, column):
     ]
 
     result = compute_taxes_and_transfers(
-        df,
-        user_functions=policy_func_dict,
-        user_columns=columns,
-        targets=column,
-        params=params_dict,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=target,
+        columns_overriding_functions=columns_overriding_functions,
     )
 
-    assert_series_equal(result, year_data[column], check_dtype=False, check_names=False)
+    assert_series_equal(result[target], year_data[target], check_dtype=False)

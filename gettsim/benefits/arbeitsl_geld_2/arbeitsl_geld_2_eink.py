@@ -38,7 +38,6 @@ def arbeitsl_geld_2_eink(
     -------
 
     """
-    # breakpoint()
     return (
         _arbeitsl_geld_2_brutto_eink
         - tu_id.replace((eink_st_tu / _anz_erwachsene_tu) / 12)

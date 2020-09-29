@@ -1,43 +1,36 @@
-def arbeitsl_geld_2_m(
-    arbeitsl_geld_2_m_basis,
-    wohngeld_m_vorrang,
-    kinderzuschlag_vorrang,
-    wohngeld_m_kinderzuschlag_vorrang,
-    anz_rentner_per_hh,
+def arbeitsl_geld_2_m_minus_eink_hh(
+    _regelbedarf_m_vermögens_check_hh,
+    kindergeld_m_hh,
+    unterhaltsvors_m_hh,
+    arbeitsl_geld_2_eink_hh,
 ):
-    cond = (
-        wohngeld_m_vorrang | kinderzuschlag_vorrang | wohngeld_m_kinderzuschlag_vorrang
+    out = (
+        _regelbedarf_m_vermögens_check_hh
+        - arbeitsl_geld_2_eink_hh
+        - unterhaltsvors_m_hh
+        - kindergeld_m_hh
     )
-    return arbeitsl_geld_2_m_basis.where(~cond & (anz_rentner_per_hh == 0), 0)
+    return out
 
 
-def wohngeld_m(
-    _wohngeld_basis_hh_vermögens_check,
-    wohngeld_m_vorrang,
-    wohngeld_m_kinderzuschlag_vorrang,
-    arbeitsl_geld_2_m_basis,
-    anz_rentner_per_hh,
+def wohngeld_vorrang_hh(
+    wohngeld_vermögens_check_hh, arbeitsl_geld_2_m_minus_eink_hh,
 ):
-    cond = (
-        ~wohngeld_m_vorrang
-        & ~wohngeld_m_kinderzuschlag_vorrang
-        & (arbeitsl_geld_2_m_basis > 0)
-    )
-    return _wohngeld_basis_hh_vermögens_check.where(
-        ~cond & (anz_rentner_per_hh == 0), 0
-    )
+    return wohngeld_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
 
 
-def kinderzuschlag_m(
-    _kinderzuschlag_m_vermögens_check,
-    kinderzuschlag_vorrang,
-    wohngeld_m_kinderzuschlag_vorrang,
-    arbeitsl_geld_2_m_basis,
-    anz_rentner_per_hh,
+def kinderzuschlag_vorrang_hh(
+    kinderzuschlag_vermögens_check_hh, arbeitsl_geld_2_m_minus_eink_hh,
 ):
-    cond = (
-        ~kinderzuschlag_vorrang
-        & ~wohngeld_m_kinderzuschlag_vorrang
-        & (arbeitsl_geld_2_m_basis > 0)
+    return kinderzuschlag_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
+
+
+def wohngeld_kinderzuschlag_vorrang_hh(
+    wohngeld_vermögens_check_hh,
+    kinderzuschlag_vermögens_check_hh,
+    arbeitsl_geld_2_m_minus_eink_hh,
+):
+    sum_wohngeld_kinderzuschlag = (
+        wohngeld_vermögens_check_hh + kinderzuschlag_vermögens_check_hh
     )
-    return _kinderzuschlag_m_vermögens_check.where(~cond & (anz_rentner_per_hh == 0), 0)
+    return sum_wohngeld_kinderzuschlag >= arbeitsl_geld_2_m_minus_eink_hh

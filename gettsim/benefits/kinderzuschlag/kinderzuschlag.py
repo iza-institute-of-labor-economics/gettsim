@@ -21,6 +21,23 @@ Kinderzuschlag / Additional Child Benefit
 """
 
 
+def kinderzuschlag_m_hh(
+    kinderzuschlag_vermögens_check_hh,
+    kinderzuschlag_vorrang_hh,
+    wohngeld_kinderzuschlag_vorrang_hh,
+    rentner_in_hh,
+):
+    cond = (
+        ~kinderzuschlag_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh
+    ) | rentner_in_hh
+    kinderzuschlag_vermögens_check_hh.loc[cond] = 0
+    return kinderzuschlag_vermögens_check_hh
+
+
+def _kinderzuschlag_m_vorläufig_hh(_kinderzuschlag_m_vorläufig, hh_id):
+    return _kinderzuschlag_m_vorläufig.groupby(hh_id).max()
+
+
 def kinderzuschlag_ab_juli_2019(
     hh_id,
     _arbeitsl_geld_2_brutto_eink_hh,

@@ -6,7 +6,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.policy_environment import set_up_policy_environment
 
 
 INPUT_COLS = [
@@ -15,10 +15,10 @@ INPUT_COLS = [
     "tu_id",
     "kind",
     "alter",
-    "kaltmiete_m",
-    "heizkost_m",
-    "wohnfläche",
-    "bewohnt_eigentum",
+    "kaltmiete_m_hh",
+    "heizkosten_m_hh",
+    "wohnfläche_hh",
+    "bewohnt_eigentum_hh",
     "alleinerziehend",
     "bruttolohn_m",
     "ges_rente_m",
@@ -38,10 +38,10 @@ INPUT_COLS = [
 
 OUT_COLS = [
     "_arbeitsl_geld_2_brutto_eink_hh",
-    "alleinerziehenden_mehrbedarf",
-    "regelbedarf_m",
-    "regelsatz_m",
-    "kost_unterk_m",
+    "alleinerziehenden_mehrbedarf_hh",
+    "regelbedarf_m_hh",
+    "regelsatz_m_hh",
+    "kost_unterk_m_hh",
     "unterhaltsvors_m_hh",
     "eink_anr_frei",
     "arbeitsl_geld_2_eink",
@@ -61,9 +61,7 @@ def input_data():
 def test_alg2(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=str(year), groups="arbeitsl_geld_2",
-    )
+    policy_params, policy_functions = set_up_policy_environment(date=year)
 
     columns = [
         "arbeitsl_geld_m",
@@ -76,10 +74,10 @@ def test_alg2(input_data, year, column):
     ]
 
     result = compute_taxes_and_transfers(
-        df,
-        user_columns=columns,
-        user_functions=policy_func_dict,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
         targets=column,
-        params=params_dict,
+        columns_overriding_functions=columns,
     )
-    assert_series_equal(result, year_data[column], check_dtype=False, check_names=False)
+    assert_series_equal(result[column], year_data[column], check_dtype=False)

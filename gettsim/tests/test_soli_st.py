@@ -4,7 +4,7 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.policy_environment import set_up_policy_environment
 
 INPUT_COLS = ["p_id", "hh_id", "tu_id", "kind", "_st_kind_freib_tu", "abgelt_st_tu"]
 
@@ -25,14 +25,16 @@ def test_soli_st(
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
-    params_dict, policy_func_dict = get_policies_for_date(
-        policy_date=str(year), groups="soli_st",
-    )
+    policy_params, policy_functions = set_up_policy_environment(date=year)
 
     user_cols = ["_st_kind_freib_tu", "abgelt_st_tu"]
     results = compute_taxes_and_transfers(
-        df, user_columns=user_cols, targets="soli_st_tu", params=params_dict
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets="soli_st_tu",
+        columns_overriding_functions=user_cols,
     )
     assert_series_equal(
-        results, year_data["soli_st_tu"], check_dtype=False, check_names=False,
+        results["soli_st_tu"], year_data["soli_st_tu"], check_dtype=False,
     )

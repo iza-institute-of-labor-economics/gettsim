@@ -1,4 +1,7 @@
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+"""Functions to compute unemployment benefits (Arbeitslosengeld).
+
+"""
+from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _st_tarif
 
 
@@ -75,7 +78,6 @@ def proxy_eink_vorj_arbeitsl_geld(
         12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
     )
-
     prox_soli = piecewise_polynomial(
         prox_tax,
         thresholds=soli_st_params["soli_st"]["thresholds"],

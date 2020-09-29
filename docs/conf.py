@@ -6,19 +6,18 @@
 # these directories to sys.path here. If the directory is relative to the documentation
 # root, use os.path.abspath to make it absolute, like shown here.
 import datetime as dt
+import os
+import sys
 
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
 project = "GETTSIM"
-copyright = f"{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
+copyright = f"2019-{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
-release = "0.3.1"
+release = "0.3.4"
 version = ".".join(release.split(".")[:2])
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -26,10 +25,14 @@ version = ".".join(release.split(".")[:2])
 # with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     "nbsphinx",
+    "sphinx_automodapi.automodapi",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.extlinks",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
     "sphinx_copybutton",
     "sphinx_rtd_theme",
 ]
@@ -38,20 +41,39 @@ extensions = [
 master_doc = "index"
 
 # Add any paths that contain templates here, relative to this directory.
-# templates_path = ['_templates']
+# templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and directories to
 # ignore when looking for source files. This pattern also affects html_static_path and
 # html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-
 # -- Extensions configuration ------------------------------------------------
+
+add_module_names = False
+
+autodoc_default_options = {
+    "members": True,
+    "private-members": True,
+    "special-members": True,
+    "undoc-members": True,
+}
+autodoc_mock_imports = [
+    "bokeh",
+    "networkx",
+    "numpy",
+    "pandas",
+    "pygments",
+    "pytest",
+    "yaml",
+]
 
 extlinks = {
     "ghuser": ("https://github.com/%s", "@"),
-    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pulls/%s", "#"),
+    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
 }
+
+numpydoc_show_class_members = False
 
 todo_include_todos = True
 todo_emit_warnings = True
@@ -61,6 +83,12 @@ todo_emit_warnings = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for a list of
 # builtin themes.
 html_theme = "sphinx_rtd_theme"
+html_logo = "_static/images/gettsim_logo.svg"
+
+html_theme_options = {
+    "logo_only": True,
+    "display_version": False,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here, relative
 # to this directory. They are copied after the builtin static files, so a file named

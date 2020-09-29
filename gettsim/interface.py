@@ -1,112 +1,118 @@
-import copy
+import functools
 import textwrap
-from pathlib import Path
+import warnings
 
 import pandas as pd
 
-from gettsim.config import INTERNAL_FUNCTION_FILES
+from gettsim.config import DEFAULT_TARGETS
+from gettsim.config import ORDER_OF_IDS
 from gettsim.dag import _dict_subset
+from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
-from gettsim.dag import create_function_dict
 from gettsim.dag import execute_dag
-from gettsim.dag import prune_dag
-from gettsim.functions_loader import load_functions
+from gettsim.functions_loader import load_user_and_internal_functions
+from gettsim.shared import format_list_linewise
+from gettsim.shared import get_names_of_arguments_without_defaults
+from gettsim.shared import parse_to_list_of_strings
 
 
 def compute_taxes_and_transfers(
     data,
-    user_functions=None,
-    user_columns=None,
-    params=None,
+    params,
+    functions,
     targets=None,
-    return_dag=False,
+    columns_overriding_functions=None,
+    check_minimal_specification="ignore",
+    debug=False,
 ):
     """Compute taxes and transfers.
 
     Parameters
     ----------
-    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
-        Data provided by the user.
-    user_functions : dict
-        Dictionary with user provided functions. The keys are the names of the function.
-        The values are either callables or strings with absolute or relative import
-        paths to a function. If functions have the same name as an existing gettsim
-        function they override that function.
-    user_columns : str list of str
-        Names of columns which are preferred over function defined in the tax and
-        transfer system.
+    data : pandas.DataFrame
+        The data provided by the user.
     params : dict
-        A pandas Series or dictionary with user provided parameters. Currently just
-        mapping a parameter name to a parameter value, in the future we will need more
-        metadata. If parameters have the same name as an existing parameter from the
-        gettsim parameters database at the specified date they override that parameter.
-    targets : str or list of str or None
+        A dictionary with parameters from the policy environment.
+    functions : str, pathlib.Path, callable, module, imports statements, dict
+        Function from the policy environment. Functions can be anything of the specified
+        types and a list of the same objects. If the object is a dictionary, the keys of
+        the dictionary are used as a name instead of the function name. For all other
+        objects, the name is inferred from the function name.
+    targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
-        needed by the user. By default, `targets` is `None` and all results are
-        returned.
-    return_dag : bool
-        Indicates whether the DAG should be returned as well for inspection.
+        needed by the user. By default, ``targets`` is ``None`` and all key outputs as
+        defined by `gettsim.config.DEFAULT_TARGETS` are returned.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
+    debug : bool
+        The debug mode does the following:
+
+        1. All necessary inputs and all computed variables are returned.
+        2. If an exception occurs while computing one variable, the exception is
+           printed, but not raised. The computation of all dependent variables is
+           skipped.
 
     Returns
     -------
-    results : dict of pandas.Series
-        Dictionary of Series containing the target quantities.
-    dag : networkx.DiGraph or None
-        The dag produced by the tax and transfer system.
+    results : pandas.DataFrame
+        DataFrame containing computed variables.
 
     """
-    data = copy.deepcopy(data)
+    targets = DEFAULT_TARGETS if targets is None else targets
+    targets = parse_to_list_of_strings(targets, "targets")
+    columns_overriding_functions = parse_to_list_of_strings(
+        columns_overriding_functions, "columns_overriding_functions"
+    )
+    params = {} if params is None else params
 
+    _fail_if_columns_overriding_functions_are_not_in_data(
+        data, columns_overriding_functions
+    )
+
+    # Load functions and perform checks.
+    functions, internal_functions = load_user_and_internal_functions(functions)
+    columns = set(data) - set(columns_overriding_functions)
+    for funcs, name in zip([internal_functions, functions], ["internal", "user"]):
+        _fail_if_functions_and_columns_overlap(columns, funcs, name)
+
+    # Create one dictionary of functions and perform check.
+    functions = {**internal_functions, **functions}
+    functions = {
+        k: v for k, v in functions.items() if k not in columns_overriding_functions
+    }
+    _fail_if_targets_not_in_functions(functions, targets)
+
+    # Partial parameters to functions such that they disappear in the DAG.
+    functions = _partial_parameters_to_functions(functions, params)
+
+    # Create DAG and perform checks which depend on data which is not part of the DAG
+    # interface.
+    dag = create_dag(
+        functions, targets, columns_overriding_functions, check_minimal_specification
+    )
+    _fail_if_root_nodes_are_missing(dag, data)
+    _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
+
+    # We delay the data preparation as long as possible such that other checks can fail
+    # before this.
+    data = data.copy(deep=True)
     data = _process_data(data)
-    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
     data = _reduce_data(data)
+    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
 
-    if isinstance(targets, str):
-        targets = [targets]
-
-    if user_columns is None:
-        user_columns = []
-    elif isinstance(user_columns, str):
-        user_columns = [user_columns]
-
-    user_functions = [] if user_functions is None else user_functions
-    user_functions = load_functions(user_functions)
-
-    internal_functions = {}
-    for file in INTERNAL_FUNCTION_FILES:
-        new_funcs = load_functions(Path(__file__).parent / file)
-        internal_functions.update(new_funcs)
-
-    _fail_if_user_columns_are_not_in_data(data, user_columns)
-    _fail_if_user_columns_are_not_in_functions(
-        user_columns, internal_functions, user_functions
-    )
-    for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
-        _fail_if_functions_and_columns_overlap(data, funcs, name, user_columns)
-
-    functions = create_function_dict(
-        user_functions, internal_functions, user_columns, params
-    )
-
-    dag = create_dag(functions)
-
-    if targets:
-        dag = prune_dag(dag, targets)
-
-        # Remove columns in data which are not used in the DAG.
-        relevant_columns = set(data) & set(dag.nodes) | (
-            set(data) & {"p_id", "hh_id", "tu_id"}
-        )
-        data = _dict_subset(data, relevant_columns)
-
-    results = execute_dag(dag, data, targets)
+    results = execute_dag(dag, data, targets, debug)
 
     results = _expand_data(results, ids)
     results = pd.DataFrame(results)
-    results = results[targets] if len(targets) > 1 else results[targets[0]]
 
-    if return_dag:
-        results = (results, dag)
+    if not debug:
+        results = results[targets]
+
+    results = _reorder_columns(results)
 
     return results
 
@@ -192,9 +198,25 @@ def _expand_data(data, ids):
 
     """
     for name, s in data.items():
-        for level in ["hh", "tu"]:
+        for level, level_name in {"hh": "household", "tu": "tax unit"}.items():
             if f"_{level}_" in name or name.endswith(f"_{level}"):
-                expanded_s = s.loc[ids[f"{level}_id"]]
+                try:
+                    expanded_s = s.loc[ids[f"{level}_id"]]
+                except KeyError:
+                    raise KeyError(
+                        f"The variable name '{name}' implies that it is a variable\n"
+                        f"varying at the level of a '{level_name}'. That is, there \n"
+                        f"must be one value per unique '{level}_id'.\n\n"
+                        f"This is not the case.\n\n"
+                        f"You will need to do one of the following:\n\n"
+                        f"    - In case the correct level of the variable '{name}'\n"
+                        f"      is not the '{level}'. In this case, the\n"
+                        f"      name must neither include '_{level}_' nor end with "
+                        f"      '_{level}'\n\n"
+                        f"    - In case that the correct level is the 'level_name',\n"
+                        f"      change the function '{name}' so that it returns a\n."
+                        f"      series indexed by '{level}'."
+                    )
                 expanded_s.index = ids[f"{level}_id"].index
                 data[name] = expanded_s
 
@@ -242,7 +264,7 @@ def _reduce_series_to_value_per_group(name, s, level, groups):
     return grouper.max()
 
 
-def _fail_if_user_columns_are_not_in_data(data, columns):
+def _fail_if_columns_overriding_functions_are_not_in_data(data, columns):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
@@ -258,23 +280,16 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    unused_user_columns = sorted(set(columns) - set(data))
-    n_cols = len(unused_user_columns)
+    unused_columns_overriding_functions = sorted(set(columns) - set(data))
+    n_cols = len(unused_columns_overriding_functions)
 
-    formatted = '",\n    "'.join(unused_user_columns)
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
-    if unused_user_columns:
+    if unused_columns_overriding_functions:
         first_part = _format_text_for_cmdline(
             f"You passed the following user {column_sg_pl}:"
         )
-        list_ = textwrap.dedent(
-            """
-            [
-                "{formatted}",
-            ]
-            """
-        ).format(formatted=formatted)
+        list_ = format_list_linewise(unused_columns_overriding_functions)
 
         second_part = _format_text_for_cmdline(
             f"""
@@ -284,8 +299,8 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
             If you want {'this' if n_cols == 1 else 'a'} data column to be used
             instead of calculating it within GETTSIM, please add it to *data*.
 
-            If you want {'this' if n_cols == 1 else 'a'} data column to be
-            calculated internally by GETTSIM, remove it from the *user_columns* you
+            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
+            internally by GETTSIM, remove it from the *columns_overriding_functions* you
             pass to GETTSIM.
 
             {'' if n_cols == 1 else '''You need to pick one option for each column that
@@ -295,67 +310,54 @@ def _fail_if_user_columns_are_not_in_data(data, columns):
         raise ValueError("\n".join([first_part, list_, second_part]))
 
 
-def _fail_if_user_columns_are_not_in_functions(
-    user_columns, internal_functions, user_functions
+def _fail_if_columns_overriding_functions_are_not_in_functions(
+    columns_overriding_functions, functions
 ):
-    """Fail if user columns are not found in functions.
+    """Fail if ``columns_overriding_functions`` are not found in functions.
 
     Parameters
     ----------
-    user_columns : str list of str
+    columns_overriding_functions : str list of str
         Names of columns which are preferred over function defined in the tax and
         transfer system.
-    internal_functions : dict
-        Dictionary with internally defined functions.
-    user_functions : dict
-        Dictionary with user provided functions. The keys are the names of the function.
-        The values are either callables or strings with absolute or relative import
-        paths to a function. If functions have the same name as an existing gettsim
-        function they override that function.
+    functions : dict of callable
+        A dictionary of functions.
 
     Raises
     ------
     ValueError
-        Fail if the user columns are not found in internal or user functions.
+        Fail if some ``columns_overriding_functions`` are not found in internal or user
+        functions.
 
     """
-    unnecessary_user_columns = (
-        set(user_columns) - set(internal_functions) - set(user_functions)
+    unnecessary_columns_overriding_functions = set(columns_overriding_functions) - set(
+        functions
     )
-
-    if unnecessary_user_columns:
-        n_cols = len(unnecessary_user_columns)
-        formatted = '",\n    "'.join(unnecessary_user_columns)
+    if unnecessary_columns_overriding_functions:
+        n_cols = len(unnecessary_columns_overriding_functions)
         intro = _format_text_for_cmdline(
             f"""
             You passed the following user column{'' if n_cols == 1 else 's'} which {'is'
-            if n_cols == 1 else 'are'} unnecessary because there {'is' if n_cols == 1
-            else 'are'} no corresponding function{'' if n_cols == 1 else 's'} in the
-            internal or user functions.
+            if n_cols == 1 else 'are'} unnecessary because no functions require them as
+            inputs.
             """
         )
-        list_ = textwrap.dedent(
-            """
-            [
-                "{formatted}",
-            ]
-            """
-        ).format(formatted=formatted)
+        list_ = format_list_linewise(unnecessary_columns_overriding_functions)
         raise ValueError("\n".join([intro, list_]))
 
 
-def _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns):
+def _fail_if_functions_and_columns_overlap(columns, functions, type_):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
     ----------
-    data : dict of pandas.Series
-        Dictionary containing data columns as Series.
+    columns : list of str
+        List of strings containing column names.
     functions : dict
         Dictionary of functions.
     type_ : {"internal", "user"}
-        Source of the functions.
-    user_columns : list of str
+        Source of the functions. "user" means functions passed by the user.
+    columns_overriding_functions : list of str
         Columns provided by the user.
 
     Raises
@@ -364,43 +366,32 @@ def _fail_if_functions_and_columns_overlap(data, functions, type_, user_columns)
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    overlap = sorted(
-        name for name in functions if name in data and name not in user_columns
-    )
-
+    type_str = "internal " if type_ == "internal" else ""
+    overlap = sorted(name for name in functions if name in columns)
     if overlap:
         n_cols = len(overlap)
-        formatted = '",\n    "'.join(overlap)
         first_part = _format_text_for_cmdline(
             f"Your data provides the column{'' if n_cols == 1 else 's'}:"
         )
-
-        list_ = textwrap.dedent(
-            """
-            [
-                "{formatted}",
-            ]
-            """
-        ).format(formatted=formatted)
-
+        formatted = format_list_linewise(overlap)
         second_part = _format_text_for_cmdline(
             f"""
             {'This is' if n_cols == 1 else 'These are'} already present among the
-            {type_} functions of the taxes and transfers system.
+            {type_str}functions of the taxes and transfers system.
 
             If you want {'this' if n_cols == 1 else 'a'} data column to be used
             instead of calculating it within GETTSIM, please specify it among the
-            *user_columns*{'.' if type_ == 'internal' else ''' or remove the function
-            from *user_functions*.'''}
+            *columns_overriding_functions*{'.' if type_ == 'internal' else ''' or remove
+            the function from *functions*.'''}
 
             If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
-            by {type_} functions, remove it from the *data* you pass to GETTSIM.
+            by {type_str}functions, remove it from the *data* you pass to GETTSIM.
 
             {'' if n_cols == 1 else '''You need to pick one option for each column that
             appears in the list above.'''}
             """
         )
-        raise ValueError("\n".join([first_part, list_, second_part]))
+        raise ValueError("\n".join([first_part, formatted, second_part]))
 
 
 def _format_text_for_cmdline(text, width=79):
@@ -430,3 +421,78 @@ def _format_text_for_cmdline(text, width=79):
     formatted_text = "\n\n".join(wrapped_paragraphs)
 
     return formatted_text
+
+
+def _reorder_columns(results):
+    ids_in_data = {"hh_id", "p_id", "tu_id"} & set(results.columns)
+    sorted_ids = sorted(ids_in_data, key=lambda x: ORDER_OF_IDS[x])
+    remaining_columns = [i for i in results.columns if i not in sorted_ids]
+
+    return results[sorted_ids + remaining_columns]
+
+
+def _fail_if_root_nodes_are_missing(dag, data):
+    missing_nodes = []
+    for node in _root_nodes(dag):
+        if node not in data and "function" not in dag.nodes[node]:
+            missing_nodes.append(node)
+
+    if missing_nodes:
+        formatted = format_list_linewise(missing_nodes)
+        raise ValueError(f"The following data columns are missing.\n{formatted}")
+
+
+def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification):
+    root_nodes = set(_root_nodes(dag))
+    unnecessary_data = set(data) - root_nodes
+    formatted = format_list_linewise(unnecessary_data)
+    message = f"The following columns in 'data' are unused.\n\n{formatted}"
+    if unnecessary_data and check_minimal_specification == "warn":
+        warnings.warn(message)
+    elif unnecessary_data and check_minimal_specification == "raise":
+        raise ValueError(message)
+
+
+def _root_nodes(dag):
+    for node in dag.nodes:
+        has_no_parents = len(list(dag.predecessors(node))) == 0
+        if has_no_parents:
+            yield node
+
+
+def _partial_parameters_to_functions(functions, params):
+    """Create a dictionary of all functions that are available.
+
+    Parameters
+    ----------
+    functions : dict of callable
+        Dictionary of functions which are either internal or user provided functions.
+    params : dict
+        Dictionary of parameters which is partialed to the function such that `params`
+        are invisible to the DAG.
+
+    Returns
+    -------
+    partialed_functions : dict of callable
+        Dictionary mapping function names to callables with partialed parameters.
+
+    """
+    partialed_functions = {}
+    for name, function in functions.items():
+        partial_params = {
+            i: params[i[:-7]]
+            for i in get_names_of_arguments_without_defaults(function)
+            if i.endswith("_params") and i[:-7] in params
+        }
+
+        # Fix old functions which requested the whole dictionary. Test if removable.
+        if "params" in get_names_of_arguments_without_defaults(function):
+            partial_params["params"] = params
+
+        partialed_functions[name] = (
+            functools.partial(function, **partial_params)
+            if partial_params
+            else function
+        )
+
+    return partialed_functions
