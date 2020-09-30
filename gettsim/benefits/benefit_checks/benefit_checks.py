@@ -1,3 +1,8 @@
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
+
 def arbeitsl_geld_2_m_minus_eink_hh(
     _regelbedarf_m_vermögens_check_hh,
     kindergeld_m_hh,

@@ -3,6 +3,9 @@
 """
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _st_tarif
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
 
 def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries, 

@@ -1,5 +1,9 @@
 import numpy as np
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibetrag_hh):
     """Set regelbedarf_m to zero if it exceeds the wealth exemption.

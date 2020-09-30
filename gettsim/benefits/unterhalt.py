@@ -1,6 +1,10 @@
 """This module provides functions to compute alimony payments (Unterhalt)."""
 import numpy as np
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def unterhaltsvors_m_tu(unterhaltsvors_m: FloatSeries, 
                         tu_id: IntSeries) -> FloatSeries:
