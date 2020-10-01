@@ -1,6 +1,6 @@
 alpha:
   description:
-    de:
+    de: Teil des Nachhaltigkeitsfaktors in der Rentenanpassungsformel, §68 Abs. 4 S. 6 SGB VI
     en:
   name:
     de: alpha
@@ -10,7 +10,7 @@ alpha:
 
 altersvorsogeanteil:
   description:
-    de:
+    de: Teil der Rentenanpassungsformel, §68 Abs. 5 SGB VI
     en:
   name:
     de: ava
@@ -28,7 +28,7 @@ altersvorsogeanteil:
 
 beitragsvolumen:
   description:
-    de:
+    de: Summe der Beiträge zur Rentenversicherung aller rentenversicherungspflichtig Beschäftigten, der geringfügig Beschäftigten und er Bezieher von ALG. in Mrd Euro. statistik-rente.de/drv
     en:
   name:
     de:
@@ -59,10 +59,13 @@ beitragsvolumen:
   2014: 201647.0
   2015: 207317.0
   2016: 215422.0
+  2017: 225244
+  2018: 236404
+  2019: 247949
 
 eckrente:
   description:
-    de:
+    de: Regelaltersrente; Höhe einer abschlagsfreien Rente bei 45 Entgeltpunkten. Ergibt sich aus Multiplikation des Rentenwerts mit 45. statistik-rente.de/drv
     en:
   name:
     de: eckrente
@@ -112,31 +115,37 @@ durchschnittslohn:
   2014: 32313.66
   2015: 33047.02
   2016: 33608.42
+  2017:
 
 
-beitragspflichtiger_durchscnittslohn:
+beitragspflichtiger_durchschnittslohn:
   description:
-    de:
+    de: Durchschnittsentgelt in Euro pro Jahr. Wird benötigt zur Berechnung der Entgeltpunkte. Veröffentlicht in Anlage 1 SGB VI. Enthält vorläufige Werte, wenn die offiziellen noch nicht vorliegen
     en:
   name:
-    de: beitragspflichtiger_durchscnittslohn
+    de: beitragspflichtiger_durchschnittslohn
     en:
-  2005: 30792.1
-  2006: 31057.66
-  2007: 31397.79
-  2008: 31628.99
-  2009: 32429.19
-  2010: 32548.34
-  2011: 33043.74
-  2012: 33951.64
-  2013: 34055.56
-  2014: 34598.5
-  2015: 35317.23
-  2016: 35685.18
+  2005: 29202
+  2006: 29494
+  2007: 29951
+  2008: 30625
+  2009: 30506
+  2010: 31144
+  2011: 32100
+  2012: 33002
+  2013: 33659
+  2014: 34514
+  2015: 35363
+  2016: 36187
+  2017: 37077
+  2018: 38212
+  2019: 38901
+  2020: 40551
+
 
 rentenvolumen:
   description:
-    de:
+    de: Gesamtvolumen der ausgezahlten Renten, in Mrd. Euro pro Jahr. statistik-rente.de/drv, Ausgaben RV
     en:
   name:
     de:
@@ -167,64 +176,79 @@ rentenvolumen:
   2014: 238991.0
   2015: 249568.0
   2016: 259345.0
+  2017: 286860
+  2018: 277102
+  2019: 291359
 
-rentenwert_exogen:
+rentenwert_west:
   description:
-    de: Fehlende Werte sind mit den zuvorigen aufgefüllt
+    de: Historische Rentenwerte alte Bundesländer. statistik-rente.de/drv
     en:
   name:
     de:
     en: rentenwert_ext
-  1991: 21.1879355567713
-  1992: 21.7963728953948
-  1993: 22.7473757944198
-  1994: 23.5194265350261
-  1995: 23.6370236677012
-  1996: 23.8619920954275
-  1997: 24.2556868439486
-  1998: 24.3630581389998
-  1999: 24.6902849429654
-  2000: 24.8385595885123
-  2001: 25.3140610380248
-  2002: 25.86
-  2003: 26.13
-  2004: 26.13
-  2005: 26.13
-  2006: 26.13
-  2007: 26.27
-  2008: 26.56
-  2009: 27.2
-  2010: 27.2
-  2011: 27.47
-  2012: 28.07
-  2013: 28.14
-  2014: 28.61
-  2015: 29.21
-  2016: 30.45
-  2017: 31.03
+  unit: Euro
+  1991-07-01: 21.19
+  1992-07-01: 21.80
+  1993-07-01: 22.75
+  1994-07-01: 23.52
+  1995-07-01: 23.64
+  1996-07-01: 23.86
+  1997-07-01: 24.26
+  1998-07-01: 24.36
+  1999-07-01: 24.69
+  2000-07-01: 24.84
+  2001-07-01: 25.31
+  2002-07-01: 25.86
+  2003-07-01: 26.13
+  2004-07-01: 26.13
+  2005-07-01: 26.13
+  2006-07-01: 26.13
+  2007-07-01: 26.27
+  2008-07-01: 26.56
+  2009-07-01: 27.2
+  2010-07-01: 27.2
+  2011-07-01: 27.47
+  2012-07-01: 28.07
+  2013-07-01: 28.14
+  2014-07-01: 28.61
+  2015-07-01: 29.21
+  2016-07-01: 30.45
+  2017-07-01: 31.03
+  2018-07-01: 32.03
+  2019-07-01: 33.05
 
-rentenversicherungsbeitrag:
+rentenwert_ost:
   description:
-    de:
+    de: Historische Rentenwerte Neue Bundesländer. statistik-rente.de/drv
     en:
-  name:
-    de:
-    en:
-  1984: 18.5
-  1985: 18.7
-  1986: 19.2
-  1987: 18.7
-  1992: 17.7
-  1993: 17.5
-  1994: 19.2
-  1995: 18.6
-  1996: 19.2
-  1997: 20.3
-  2000: 19.3
-  2001: 19.1
-  2003: 19.5
-  2007: 19.9
-  2012: 19.6
-  2013: 18.9
-  2015: 18.7
-  2018: 18.6
+  values:
+    1992-01-01: 12.05
+    1992-07-01: 13.59
+    1993-01-01: 14.41
+    1993-07-01: 16.45
+    1994-01-01: 17.05
+    1994-07-01: 17.63
+    1995-01-01: 18.13
+    1995-07-01: 18.58
+    1996-01-01: 19.39
+    1996-07-01: 19.62
+    1997-07-01: 20.71
+    1998-07-01: 20.90
+    1999-07-01: 21.48
+    2000-07-01: 21.61
+    2001-07-01: 22.06
+    2002-07-01: 22.70
+    2003-07-01: 22.97
+    2007-07-01: 23.09
+    2008-07-01: 23.34
+    2009-07-01: 24.13
+    2011-07-01: 24.37
+    2012-07-01: 24.92
+    2013-07-01: 25.74
+    2014-07-01: 26.39
+    2015-07-01: 27.05
+    2016-07-01: 28.66
+    2017-07-01: 29.69
+    2018-07-01: 30.69
+    2019-07-01: 31.89
