@@ -8,15 +8,14 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries, 
-                       tu_id: IntSeries) -> FloatSeries:
+def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     """
 
     Parameters
     ----------
-    arbeitsl_geld_m 
+    arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
-    tu_id 
+    tu_id
         See :ref:`tu_id`.
 
     Returns
@@ -26,15 +25,14 @@ def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries,
     return arbeitsl_geld_m.groupby(tu_id).sum()
 
 
-def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, 
-                       hh_id: IntSeries) -> FloatSeries:
+def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
     """
 
     Parameters
     ----------
-    arbeitsl_geld_m 
+    arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
-    hh_id 
+    hh_id
         See :ref:`hh_id`.
 
     Returns
@@ -55,15 +53,15 @@ def arbeitsl_geld_m(
 
     Parameters
     ----------
-    tu_id 
+    tu_id
         See :ref:`tu_id`.
-    anz_kinder_tu 
+    anz_kinder_tu
         See :func:`anz_kinder_tu`.
-    berechtigt_für_arbeitsl_geld 
+    berechtigt_für_arbeitsl_geld
         See :func:`berechtigt_für_arbeitsl_geld`.
-    proxy_eink_vorj_arbeitsl_geld 
+    proxy_eink_vorj_arbeitsl_geld
         See :func:`proxy_eink_vorj_arbeitsl_geld`.
-    arbeitsl_geld_params 
+    arbeitsl_geld_params
         See :ref:`arbeitsl_geld_params`.
 
     Returns
@@ -86,18 +84,18 @@ def arbeitsl_geld_m(
     return arbeitsl_geld_m
 
 
-def monate_arbeitsl(arbeitsl_lfdj_m: IntSeries, 
-                    arbeitsl_vorj_m: IntSeries, 
-                    arbeitsl_vor2j_m: IntSeries) -> IntSeries:
+def monate_arbeitsl(
+    arbeitsl_lfdj_m: IntSeries, arbeitsl_vorj_m: IntSeries, arbeitsl_vor2j_m: IntSeries
+) -> IntSeries:
     """
 
     Parameters
     ----------
-    arbeitsl_lfdj_m 
+    arbeitsl_lfdj_m
         See :ref:`arbeitsl_lfdj_m`.
-    arbeitsl_vorj_m 
-        See :ref:`arbeitsl_vorj_m`. 
-    arbeitsl_vor2j_m 
+    arbeitsl_vorj_m
+        See :ref:`arbeitsl_vorj_m`.
+    arbeitsl_vor2j_m
         See :ref:`arbeitsl_vor2j_m`.
 
     Returns
@@ -108,11 +106,11 @@ def monate_arbeitsl(arbeitsl_lfdj_m: IntSeries,
 
 
 def berechtigt_für_arbeitsl_geld(
-    monate_arbeitsl: IntSeries, 
-    alter: IntSeries, 
-    ges_rente_m: FloatSeries, 
-    arbeitsstunden_w: IntSeries, 
-    arbeitsl_geld_params: dict
+    monate_arbeitsl: IntSeries,
+    alter: IntSeries,
+    ges_rente_m: FloatSeries,
+    arbeitsstunden_w: IntSeries,
+    arbeitsl_geld_params: dict,
 ) -> BoolSeries:
     """Check eligibility for unemployment benefits.
 
@@ -121,15 +119,15 @@ def berechtigt_für_arbeitsl_geld(
 
     Parameters
     ----------
-    monate_arbeitsl 
+    monate_arbeitsl
         See :func:`monate_arbeitsl`.
     alter
         See :ref:`alter`.
-    ges_rente_m 
+    ges_rente_m
         See :ref:`ges_rente_m`.
     arbeitsstunden_w
         See :ref:`arbeitsstunden_w`.
-    arbeitsl_geld_params 
+    arbeitsl_geld_params
         See :ref:`arbeitsl_geld_params`.
 
     Returns
@@ -159,15 +157,15 @@ def proxy_eink_vorj_arbeitsl_geld(
     ----------
     beitr_bemess_grenze_rentenv
         See :func:`beitr_bemess_grenze_rentenv`.
-    bruttolohn_vorj_m 
+    bruttolohn_vorj_m
         See :ref:`bruttolohn_vorj_m`.
-    arbeitsl_geld_params 
+    arbeitsl_geld_params
         See :ref:`arbeitsl_geld_params`.
-    eink_st_params 
+    eink_st_params
         See :ref:`eink_st_params`.
-    eink_st_abzuege_params 
+    eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
-    soli_st_params 
+    soli_st_params
         See :ref:`soli_st_params`.
 
     Returns
@@ -197,15 +195,16 @@ def proxy_eink_vorj_arbeitsl_geld(
     return (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0)
 
 
-def beitr_bemess_grenze_rentenv(wohnort_ost: BoolSeries, 
-                                soz_vers_beitr_params: dict) -> FloatSeries:
+def beitr_bemess_grenze_rentenv(
+    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    wohnort_ost 
+    wohnort_ost
         See :ref:`wohnort_ost`.
-    soz_vers_beitr_params 
+    soz_vers_beitr_params
         See :ref:`soz_vers_beitr_params`.
 
     Returns
