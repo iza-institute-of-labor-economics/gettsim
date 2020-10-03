@@ -1,6 +1,4 @@
-def rente_anspr_m(
-    zugangsfaktor, entgeltpunkte_update, renten_daten, soz_vers_beitr_params
-):
+def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, ges_renten_vers_params):
     """ This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
 
@@ -21,15 +19,14 @@ def rente_anspr_m(
     ----------
     zugangsfaktor
     entgeltpunkte_update
-    renten_daten
-    soz_vers_beitr_params
+    ges_renten_vers_params
 
     Returns
     -------
 
     """
 
-    rentenwert = renten_daten["rentenwert"][soz_vers_beitr_params["datum"].year]
+    rentenwert = ges_renten_vers_params["rentenwert_west"]
 
     out = (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
@@ -66,7 +63,7 @@ def entgeltpunkte_update(entgeltpunkte, entgeltpunkte_lohn):
 
 
 def entgeltpunkte_lohn(
-    bruttolohn_m, _rentenv_beitr_bemess_grenze, soz_vers_beitr_params, renten_daten
+    bruttolohn_m, _rentenv_beitr_bemess_grenze, ges_renten_vers_params
 ):
     """Return earning points for the wages earned in the last year.
 
@@ -74,16 +71,13 @@ def entgeltpunkte_lohn(
     ----------
     bruttolohn_m
     _rentenv_beitr_bemess_grenze
-    soz_vers_beitr_params
-    renten_daten
+    ges_renten_vers_params
 
     Returns
     -------
 
     """
-    durchschnittslohn_dt = renten_daten["durchschnittslohn"][
-        soz_vers_beitr_params["datum"].year
-    ]
+    durchschnittslohn_dt = ges_renten_vers_params["durchschnittslohn"]
     return bruttolohn_m.clip(upper=_rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
 

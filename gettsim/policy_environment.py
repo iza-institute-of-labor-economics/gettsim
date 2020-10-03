@@ -49,13 +49,16 @@ from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
 
 
-def set_up_policy_environment(date):
+def set_up_policy_environment(date, raw_pension_data=None):
     """Set up the policy environment for a particular date.
 
     Parameters
     ----------
     date : int, str, datetime.date
         The date for which the policy system is set up.
+
+    raw_pension_data : dictionary
+
 
     Returns
     -------
@@ -77,6 +80,9 @@ def set_up_policy_environment(date):
         params[group] = _parse_parameters(tax_data)
 
     functions = load_reforms_for_date(date)
+
+    # load exogenous pension data.
+    params["renten_daten"] = _load_parameter_group_from_yaml(date, "ges_renten_vers")
 
     return params, functions
 

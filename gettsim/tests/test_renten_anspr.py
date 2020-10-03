@@ -31,13 +31,11 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, year, renten_daten):
+def test_pension(input_data, year):
     column = "rente_anspr_m"
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=year)
-
-    policy_params["renten_daten"] = renten_daten
+    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
 
     calc_result = compute_taxes_and_transfers(
         data=df, params=policy_params, functions=policy_functions, targets=column,
@@ -46,13 +44,11 @@ def test_pension(input_data, year, renten_daten):
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, renten_daten, year):
+def test_update_earning_points(input_data, year):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
-    policy_params, policy_functions = set_up_policy_environment(date=year)
-
-    policy_params["renten_daten"] = renten_daten
+    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
 
     calc_result = compute_taxes_and_transfers(
         data=df,
