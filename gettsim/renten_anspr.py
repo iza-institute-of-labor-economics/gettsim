@@ -1,4 +1,4 @@
-def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, ges_renten_vers_params):
+def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, rentenwert):
     """ This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
 
@@ -26,10 +26,29 @@ def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, ges_renten_vers_params):
 
     """
 
-    rentenwert = ges_renten_vers_params["rentenwert_west"]
-
     out = (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
+    return out
+
+
+def rentenwert(wohnort_ost, ges_renten_vers_params):
+    """
+
+    Parameters
+    ----------
+    wohnort_ost
+    ges_renten_vers_params
+
+    Returns
+    -------
+
+    """
+    out = wohnort_ost.replace(
+        {
+            True: ges_renten_vers_params["rentenwert_west"],
+            False: ges_renten_vers_params["rentenwert_west"],
+        }
+    ).astype(float)
     return out
 
 
