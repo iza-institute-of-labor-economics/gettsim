@@ -487,10 +487,6 @@ def _partial_parameters_to_functions(functions, params):
             if i.endswith("_params") and i[:-7] in params
         }
 
-        # Check if function needs renten_daten
-        if "renten_daten" in params and "renten_daten" in arguments:
-            partial_params["renten_daten"] = params["renten_daten"]
-
         partialed_functions[name] = (
             functools.partial(function, **partial_params)
             if partial_params
