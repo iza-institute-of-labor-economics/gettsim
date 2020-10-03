@@ -1,7 +1,7 @@
 from gettsim.piecewise_functions import piecewise_polynomial
 
 
-def _st_kein_kind_freib_tu(
+def st_kein_kind_freib_tu(
     zu_verst_eink_kein_kinderfreib_tu, anz_erwachsene_tu, eink_st_params
 ):
     """ Taxes without child allowance.
@@ -18,10 +18,10 @@ def _st_kein_kind_freib_tu(
     """
     zu_verst_eink_per_indiv = zu_verst_eink_kein_kinderfreib_tu / anz_erwachsene_tu
 
-    return anz_erwachsene_tu * _st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
+    return anz_erwachsene_tu * st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
 
 
-def _st_kind_freib_tu(zu_verst_eink_kinderfreib_tu, anz_erwachsene_tu, eink_st_params):
+def st_kind_freib_tu(zu_verst_eink_kinderfreib_tu, anz_erwachsene_tu, eink_st_params):
     """Taxes with child allowance.
 
     Parameters
@@ -36,10 +36,10 @@ def _st_kind_freib_tu(zu_verst_eink_kinderfreib_tu, anz_erwachsene_tu, eink_st_p
     """
     zu_verst_eink_per_indiv = zu_verst_eink_kinderfreib_tu / anz_erwachsene_tu
 
-    return anz_erwachsene_tu * _st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
+    return anz_erwachsene_tu * st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
 
 
-def _st_tarif(x, params):
+def st_tarif(x, params):
     """The German Income Tax Tariff.
      Modelled only after 2002 so far.
 
@@ -50,7 +50,7 @@ def _st_tarif(x, params):
     Parameters
     ----------
     x : Floatseries
-        Some floatseries where _st_tarif is applied to.
+        Some floatseries wherest_tarif is applied to.
     params : dict
         Dictionary created in respy.piecewise_functions.
 

@@ -1,10 +1,6 @@
 import numpy as np
 import pandas as pd
 
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
 
 def kinderzuschlag_eink_regel_bis_2010(
     tu_id,

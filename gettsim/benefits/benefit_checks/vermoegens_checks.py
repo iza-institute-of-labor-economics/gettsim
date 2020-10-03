@@ -1,9 +1,5 @@
 import numpy as np
 
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
 
 def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibetrag_hh):
     """Set regelbedarf_m to zero if it exceeds the wealth exemption.
@@ -25,13 +21,13 @@ def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibe
 
 
 def kinderzuschlag_vermögens_check_hh(
-    _kinderzuschlag_m_vorläufig_hh, unter_vermögens_freibetrag_hh
+    kinderzuschlag_m_vorläufig_hh, unter_vermögens_freibetrag_hh
 ):
     """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption.
 
     Parameters
     ----------
-    _kinderzuschlag_m_vorläufig_hh
+    kinderzuschlag_m_vorläufig_hh
     unter_vermögens_freibetrag_hh
 
     Returns
@@ -39,8 +35,8 @@ def kinderzuschlag_vermögens_check_hh(
 
     """
 
-    _kinderzuschlag_m_vorläufig_hh.loc[~unter_vermögens_freibetrag_hh] = 0
-    return _kinderzuschlag_m_vorläufig_hh
+    kinderzuschlag_m_vorläufig_hh.loc[~unter_vermögens_freibetrag_hh] = 0
+    return kinderzuschlag_m_vorläufig_hh
 
 
 def wohngeld_vermögens_check_hh(wohngeld_basis_hh, vermögen_hh, haushaltsgröße_hh):

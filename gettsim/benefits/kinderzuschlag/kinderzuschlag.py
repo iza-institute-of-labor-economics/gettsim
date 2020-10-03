@@ -19,9 +19,6 @@ Kinderzuschlag / Additional Child Benefit
     parents. This is done by some fixed share which is updated on annual basis
     ('jährlicher Existenzminimumsbericht')
 """
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def kinderzuschlag_m_hh(
@@ -50,7 +47,7 @@ def kinderzuschlag_m_hh(
     return kinderzuschlag_vermögens_check_hh
 
 
-def _kinderzuschlag_m_vorläufig_hh(_kinderzuschlag_m_vorläufig, hh_id):
+def kinderzuschlag_m_vorläufig_hh(_kinderzuschlag_m_vorläufig, hh_id):
     """
 
     Parameters

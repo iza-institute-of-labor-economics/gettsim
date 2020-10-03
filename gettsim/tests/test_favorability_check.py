@@ -14,8 +14,8 @@ INPUT_COLS = [
     "tu_id",
     "p_id",
     "kind",
-    "_st_kein_kind_freib_tu",
-    "_st_kind_freib_tu",
+    "st_kein_kind_freib_tu",
+    "st_kind_freib_tu",
     "abgelt_st_tu",
     "kindergeld_m_basis",
     "kindergeld_m_tu_basis",
@@ -38,8 +38,8 @@ def test_favorability_check(input_data, year, target):
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     columns_overriding_functions = [
-        "_st_kein_kind_freib_tu",
-        "_st_kind_freib_tu",
+        "st_kein_kind_freib_tu",
+        "st_kind_freib_tu",
         "abgelt_st_tu",
         "kindergeld_m_basis",
         "kindergeld_m_tu_basis",

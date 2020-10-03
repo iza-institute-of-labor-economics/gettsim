@@ -20,8 +20,8 @@ INPUT_COLS = [
 ]
 
 TEST_COLUMNS = [
-    "_st_kein_kind_freib_tu",
-    "_st_kind_freib_tu",
+    "st_kein_kind_freib_tu",
+    "st_kind_freib_tu",
     "abgelt_st_tu",
     "soli_st_tu",
 ]

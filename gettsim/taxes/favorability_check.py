@@ -12,57 +12,57 @@ standard 25% rate or to include it in the tariff.
 
 
 def beantrage_kind_freib_tu(
-    _st_kein_kind_freib_tu, kindergeld_m_tu_basis, _st_kind_freib_tu
+    st_kein_kind_freib_tu, kindergeld_m_tu_basis, st_kind_freib_tu
 ):
     """Check if individual claims child allowance.
 
     Parameters
     ----------
-    _st_kein_kind_freib_tu
+    st_kein_kind_freib_tu
     kindergeld_m_tu_basis
-    _st_kind_freib_tu
+    st_kind_freib_tu
 
     Returns
     -------
 
     """
-    st_kein_kind_freib = _st_kein_kind_freib_tu - 12 * kindergeld_m_tu_basis
-    return st_kein_kind_freib > _st_kind_freib_tu
+    st_kein_kind_freib = st_kein_kind_freib_tu - 12 * kindergeld_m_tu_basis
+    return st_kein_kind_freib > st_kind_freib_tu
 
 
-def eink_st_tu_bis_1996(_st_kind_freib_tu):
+def eink_st_tu_bis_1996(st_kind_freib_tu):
     """Income tax calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
     Therefore the tax burden is allways smaller.
     Parameters
     ----------
-    _st_kind_freib_tu
+    st_kind_freib_tu
 
     Returns
     -------
 
     """
-    return _st_kind_freib_tu
+    return st_kind_freib_tu
 
 
 def eink_st_tu_ab_1997(
-    _st_kein_kind_freib_tu, _st_kind_freib_tu, beantrage_kind_freib_tu,
+    st_kein_kind_freib_tu, st_kind_freib_tu, beantrage_kind_freib_tu,
 ):
     """Income tax calculation since 1997.
 
     Parameters
     ----------
-    _st_kein_kind_freib_tu
-    _st_kind_freib_tu
+    st_kein_kind_freib_tu
+    st_kind_freib_tu
     beantrage_kind_freib_tu
 
     Returns
     -------
 
     """
-    out = _st_kein_kind_freib_tu
-    out.loc[beantrage_kind_freib_tu] = _st_kind_freib_tu.loc[beantrage_kind_freib_tu]
+    out = st_kein_kind_freib_tu
+    out.loc[beantrage_kind_freib_tu] = st_kind_freib_tu.loc[beantrage_kind_freib_tu]
     return out
 
 
@@ -97,9 +97,9 @@ def kindergeld_m_ab_1997(
     -------
 
     """
-    _beantrage_kind_freib = tu_id.replace(beantrage_kind_freib_tu)
+    beantrage_kind_freib = tu_id.replace(beantrage_kind_freib_tu)
     out = kindergeld_m_basis
-    out.loc[_beantrage_kind_freib] = 0
+    out.loc[beantrage_kind_freib] = 0
     return out
 
 
