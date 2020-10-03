@@ -1,5 +1,9 @@
 from gettsim.piecewise_functions import piecewise_polynomial
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def brutto_eink_1(eink_selbst_m):
     """Income from Self-Employment

@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
 def behinderungsgrad_pauschbetrag(behinderungsgrad, eink_st_abzuege_params):
     """Calculate the different deductions for different handicap degrees.

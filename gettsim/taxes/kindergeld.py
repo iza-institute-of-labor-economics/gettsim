@@ -1,3 +1,7 @@
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 def kindergeld_m_basis(tu_id, kindergeld_anspruch, kindergeld_params):
     """Calculate the preliminary kindergeld.
 

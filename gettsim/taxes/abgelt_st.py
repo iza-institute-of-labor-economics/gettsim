@@ -1,3 +1,7 @@
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 def abgelt_st_tu(zu_verst_kapital_eink_tu, abgelt_st_params):
     """Abgeltungssteuer per tax unit.
 

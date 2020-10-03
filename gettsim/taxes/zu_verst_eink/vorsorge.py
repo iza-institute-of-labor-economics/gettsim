@@ -1,3 +1,7 @@
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 def _vorsorge_alternative_ab_2005_bis_2009(
     altervorsorge_aufwend,
     ges_krankenv_beitr_m,

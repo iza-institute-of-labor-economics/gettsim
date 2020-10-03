@@ -1,6 +1,8 @@
 from gettsim.piecewise_functions import piecewise_polynomial
 
-
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 def soli_st_tu(st_kind_freib_tu, anz_erwachsene_tu, abgelt_st_tu, soli_st_params):
     """Solidarity Surcharge.
 

@@ -9,7 +9,9 @@ similar check applies to whether it is more profitable to tax capital incomes wi
 standard 25% rate or to include it in the tariff.
 
 """
-
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
 def beantrage_kind_freib_tu(
     st_kein_kind_freib_tu, kindergeld_m_tu_basis, st_kind_freib_tu

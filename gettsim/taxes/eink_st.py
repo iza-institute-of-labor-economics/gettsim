@@ -1,3 +1,7 @@
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 from gettsim.piecewise_functions import piecewise_polynomial
 
 

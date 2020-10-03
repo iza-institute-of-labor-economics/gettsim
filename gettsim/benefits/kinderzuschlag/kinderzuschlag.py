@@ -20,6 +20,10 @@ Kinderzuschlag / Additional Child Benefit
     ('jährlicher Existenzminimumsbericht')
 """
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def kinderzuschlag_m_hh(
     kinderzuschlag_vermögens_check_hh,
