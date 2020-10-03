@@ -49,15 +49,13 @@ from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
 
 
-def set_up_policy_environment(date, raw_pension_data=None):
+def set_up_policy_environment(date):
     """Set up the policy environment for a particular date.
 
     Parameters
     ----------
     date : int, str, datetime.date
         The date for which the policy system is set up.
-
-    raw_pension_data : dictionary
 
 
     Returns
