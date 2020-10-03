@@ -1,3 +1,5 @@
+from datetime import date
+
 import yaml
 
 from gettsim.config import ROOT_DIR
@@ -18,8 +20,8 @@ def lade_exogene_renten_daten():
         for year in data_year_range:
             if key == "rentenwert":
                 if year < 2017:
-                    pension_data[key][year] = raw_pension_data["rentenwert_exogen"][
-                        year
+                    pension_data[key][year] = raw_pension_data["rentenwert_west"][
+                        date(year=year, month=7, day=1)
                     ]
                 else:
                     # Here could be the manual calucaltion of rentenwert
