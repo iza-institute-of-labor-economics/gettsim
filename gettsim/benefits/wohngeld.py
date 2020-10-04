@@ -10,7 +10,7 @@ def wohngeld_m_hh(
     wohngeld_vermögens_check_hh: BoolSeries,
     wohngeld_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
-    rentner_in_hh: IntSeries,
+    rentner_in_hh: BoolSeries,
 ) -> FloatSeries:
     """
 
@@ -34,7 +34,7 @@ def wohngeld_m_hh(
     return wohngeld_vermögens_check_hh
 
 
-def wohngeld_basis_hh(hh_id: IntSeries, wohngeld_basis: FloatSeries,) -> FloatSeries:
+def wohngeld_basis_hh(hh_id: IntSeries, wohngeld_basis: FloatSeries) -> FloatSeries:
     """Compute "Wohngeld" or housing benefits.
 
     Social benefit for recipients with income above basic social assistance Computation
@@ -265,7 +265,7 @@ def wohngeld_eink_abzüge_bis_2015(
 
 
 def arbeitende_kinder(
-    bruttolohn_m: IntSeries, kindergeld_anspruch: BoolSeries
+    bruttolohn_m: FloatSeries, kindergeld_anspruch: BoolSeries
 ) -> IntSeries:
     """
 
@@ -284,7 +284,7 @@ def arbeitende_kinder(
 
 
 def wohngeld_eink_abzüge_ab_2016(
-    bruttolohn_m: IntSeries,
+    bruttolohn_m: FloatSeries,
     kindergeld_anspruch: BoolSeries,
     behinderungsgrad: IntSeries,
     alleinerziehend: BoolSeries,
@@ -451,7 +451,7 @@ def wohngeld_max_miete_ab_2009(
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
     kaltmiete_m_hh: FloatSeries,
-    tax_unit_share: BoolSeries,
+    tax_unit_share: FloatSeries,
     _wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
 ) -> FloatSeries:
