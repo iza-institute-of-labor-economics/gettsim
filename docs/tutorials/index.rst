@@ -8,7 +8,6 @@ Tutorials help you to get started with gettsim.
    :maxdepth: 1
 
    installation
-   interface
    basic_interface
    advanced_interface
    parameters
