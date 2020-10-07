@@ -16,6 +16,7 @@ Welcome to GETTSIM's documentation!
    :caption: Table of Contents
    :maxdepth: 1
 
+   installation
    tutorials/index
    how_to_guides/index
    crosswalk

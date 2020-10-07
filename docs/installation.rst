@@ -3,9 +3,8 @@ Installation
 
 The recommended way to install GETTSIM is via `conda <https://conda.io/>`_, the standard
 package manager for scientific Python libraries. If conda is not installed on your
-machine, please follow the `installation instructions
-<https://docs.conda.io/projects/conda/en/latest/user-guide/install/>`_ of its user
-guide.
+machine, please follow conda´s `installation instructions
+<https://docs.conda.io/projects/conda/en/latest/user-guide/install/>`_.
 
 With conda available on your path, installing GETTSIM is as simple as typing
 
