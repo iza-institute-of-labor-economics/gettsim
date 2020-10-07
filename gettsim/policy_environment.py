@@ -79,9 +79,6 @@ def set_up_policy_environment(date):
 
     functions = load_reforms_for_date(date)
 
-    # load exogenous pension data.
-    params["renten_daten"] = _load_parameter_group_from_yaml(date, "ges_renten_vers")
-
     return params, functions
 
 
