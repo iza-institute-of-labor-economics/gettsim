@@ -16,6 +16,7 @@ from gettsim.benefits.kinderzuschlag.kost_unterk import *  # noqa: F401, F403
 from gettsim.benefits.unterhalt import *  # noqa: F401, F403
 from gettsim.benefits.wohngeld import *  # noqa: F401, F403
 from gettsim.demographic_vars import *  # noqa: F401, F403
+from gettsim.renten_anspr import *  # noqa: F401, F403
 from gettsim.soz_vers.arbeitsl_v_rentenv import *  # noqa: F401, F403
 from gettsim.soz_vers.eink_grenzen import *  # noqa: F401, F403
 from gettsim.soz_vers.krankenv_pflegev import *  # noqa: F401, F403
