@@ -26,9 +26,7 @@ def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, rentenwert):
 
     """
 
-    out = (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
-
-    return out
+    return (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
 
 def rentenwert(wohnort_ost, ges_renten_vers_params):
@@ -77,8 +75,7 @@ def entgeltpunkte_update(entgeltpunkte, entgeltpunkte_lohn):
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
-    out = entgeltpunkte + entgeltpunkte_lohn
-    return out
+    return entgeltpunkte + entgeltpunkte_lohn
 
 
 def entgeltpunkte_lohn(
@@ -115,9 +112,7 @@ def zugangsfaktor(alter, regelaltersgrenze):
     -------
 
     """
-
-    out = (alter - regelaltersgrenze) * 0.036 + 1
-    return out
+    return (alter - regelaltersgrenze) * 0.036 + 1
 
 
 def regelaltersgrenze(geburtsjahr):
