@@ -274,6 +274,11 @@ This integer Series identifies the construction year of dwelling.
 
 
 
+.. _vermögen_hh: 
+
+Vermögen 
+-------- 
+This float Series identifies the wealth of a household.
 
 
 

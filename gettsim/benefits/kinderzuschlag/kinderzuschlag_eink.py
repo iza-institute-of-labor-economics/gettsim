@@ -7,21 +7,26 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 def kinderzuschlag_eink_regel_bis_2010(
-    tu_id,
-    hh_id,
-    alleinerziehenden_mehrbedarf_hh,
-    anz_erwachsene_tu,
-    arbeitsl_geld_2_params,
-):
+    tu_id: IntSeries,
+    hh_id: IntSeries,
+    alleinerziehenden_mehrbedarf_hh: FloatSeries,
+    anz_erwachsene_tu: IntSeries,
+    arbeitsl_geld_2_params: dict
+) -> FloatSeries:
     """This function creates "kinderzuschlag_eink_regel" until 2010.
 
     Parameters
     ----------
-    tu_id
-    hh_id
-    alleinerziehenden_mehrbedarf_hh
-    anz_erwachsene_tu
-    arbeitsl_geld_2_params
+    tu_id 
+        See :ref:`tu_id`.
+    hh_id 
+        See :ref:`hh_id`. 
+    alleinerziehenden_mehrbedarf_hh 
+        See :func:`alleinerziehenden_mehrbedarf_hh`. 
+    anz_erwachsene_tu 
+        See :func:`anz_erwachsene_tu`. 
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`. 
 
     Returns
     -------
@@ -49,21 +54,26 @@ def kinderzuschlag_eink_regel_bis_2010(
 
 
 def kinderzuschlag_eink_regel_ab_2011(
-    tu_id,
-    hh_id,
-    alleinerziehenden_mehrbedarf_hh,
-    anz_erwachsene_tu,
-    arbeitsl_geld_2_params,
-):
+    tu_id: IntSeries,
+    hh_id: IntSeries,
+    alleinerziehenden_mehrbedarf_hh: FloatSeries,
+    anz_erwachsene_tu: IntSeries,
+    arbeitsl_geld_2_params: dict
+) -> FloatSeries:
     """This function creates "kinderzuschlag_eink_regel" since 2011.
 
     Parameters
     ----------
-    tu_id
-    hh_id
-    alleinerziehenden_mehrbedarf_hh
-    anz_erwachsene_tu
-    arbeitsl_geld_2_params
+    tu_id 
+        See :ref:`tu_id`. 
+    hh_id 
+        See :ref:`hh_id`. 
+    alleinerziehenden_mehrbedarf_hh 
+        See :func:`alleinerziehenden_mehrbedarf_hh`. 
+    anz_erwachsene_tu 
+        See :func:`anz_erwachsene_tu`. 
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`. 
 
     Returns
     -------
@@ -87,14 +97,17 @@ def kinderzuschlag_eink_regel_ab_2011(
 
 
 def kinderzuschlag_eink_relev(
-    kinderzuschlag_eink_regel, kinderzuschlag_kosten_unterk_m
-):
+    kinderzuschlag_eink_regel: FloatSeries, 
+    kinderzuschlag_kosten_unterk_m: FloatSeries
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    kinderzuschlag_eink_regel
-    kinderzuschlag_kosten_unterk_m
+    kinderzuschlag_eink_regel 
+        See :func:`kinderzuschlag_eink_regel`. 
+    kinderzuschlag_kosten_unterk_m 
+        See :func:`kinderzuschlag_kosten_unterk_m`. 
 
     Returns
     -------
@@ -103,13 +116,17 @@ def kinderzuschlag_eink_relev(
     return kinderzuschlag_eink_regel + kinderzuschlag_kosten_unterk_m
 
 
-def anz_kinder_anspruch_per_hh(hh_id, kindergeld_anspruch):
+def anz_kinder_anspruch_per_hh(
+        hh_id: IntSeries, 
+        kindergeld_anspruch: BoolSeries) -> IntSeries:
     """Count number of children eligible to child benefit (§6a (1) Nr. 1 BKGG)kdu.
 
     Parameters
     ----------
-    hh_id
-    kindergeld_anspruch
+    hh_id 
+        See :ref:`hh_id`. 
+    kindergeld_anspruch 
+        See :func:`kindergeld_anspruch`. 
 
     Returns
     -------
@@ -119,8 +136,10 @@ def anz_kinder_anspruch_per_hh(hh_id, kindergeld_anspruch):
 
 
 def kinderzuschlag_eink_max(
-    kinderzuschlag_eink_relev, anz_kinder_anspruch_per_hh, kinderzuschlag_params
-):
+    kinderzuschlag_eink_relev: FloatSeries, 
+    anz_kinder_anspruch_per_hh: IntSeries, 
+    kinderzuschlag_params: dict
+) -> FloatSeries:
     """Calculate kinderzuschlag depending on threshold.
 
     There is a maximum income threshold, depending on the need, plus the potential kiz
@@ -128,9 +147,12 @@ def kinderzuschlag_eink_max(
 
     Parameters
     ----------
-    kinderzuschlag_eink_relev
-    anz_kinder_anspruch_per_hh
-    kinderzuschlag_params
+    kinderzuschlag_eink_relev 
+        See :func:`kinderzuschlag_eink_relev`. 
+    anz_kinder_anspruch_per_hh 
+        See :func:`anz_kinder_anspruch_per_hh`. 
+    kinderzuschlag_params 
+        See :ref:`kinderzuschlag_params`. 
 
     Returns
     -------
@@ -142,7 +164,11 @@ def kinderzuschlag_eink_max(
     )
 
 
-def kinderzuschlag_eink_min(hh_id, kind, alleinerziehend, kinderzuschlag_params):
+def kinderzuschlag_eink_min(
+        hh_id: IntSeries, 
+        kind: BoolSeries, 
+        alleinerziehend: BoolSeries, 
+        kinderzuschlag_params: dict) -> FloatSeries:
     """Calculate minimum income.
 
     Min income to be eligible for KIZ (different for singles and couples) (§6a (1) Nr. 2
@@ -150,10 +176,14 @@ def kinderzuschlag_eink_min(hh_id, kind, alleinerziehend, kinderzuschlag_params)
 
     Parameters
     ----------
-    hh_id
-    kind
-    alleinerziehend
-    kinderzuschlag_params
+    hh_id 
+        See :ref:`hh_id`. 
+    kind 
+        See :ref:`kind`. 
+    alleinerziehend 
+        See :ref:`alleinerziehend`. 
+    kinderzuschlag_params 
+        See :ref:`kinderzuschlag_params`. 
 
     Returns
     -------
@@ -173,16 +203,23 @@ def kinderzuschlag_eink_min(hh_id, kind, alleinerziehend, kinderzuschlag_params)
 
 
 def kinderzuschlag_kindereink_abzug(
-    kindergeld_anspruch, bruttolohn_m, unterhaltsvors_m, kinderzuschlag_params
-):
+    kindergeld_anspruch: BoolSeries, 
+    bruttolohn_m: FloatSeries, 
+    unterhaltsvors_m: FloatSeries, 
+    kinderzuschlag_params: dict
+) -> FloatSeries:
     """Deduct children income for each eligible child (§6a (3) S.3 BKGG).
 
     Parameters
     ----------
-    kindergeld_anspruch
-    bruttolohn_m
-    unterhaltsvors_m
-    kinderzuschlag_params
+    kindergeld_anspruch 
+        See :func:`kindergeld_anspruch`. 
+    bruttolohn_m 
+        See :ref:`bruttolohn_m`. 
+    unterhaltsvors_m 
+        See :func:`unterhaltsvors_m`. 
+    kinderzuschlag_params 
+        See :ref:`kinderzuschlag_params`. 
 
     Returns
     -------
@@ -196,16 +233,23 @@ def kinderzuschlag_kindereink_abzug(
 
 
 def kinderzuschlag_eink_anrechn(
-    hh_id, arbeitsl_geld_2_eink_hh, kinderzuschlag_eink_relev, kinderzuschlag_params
-):
+    hh_id: IntSeries, 
+    arbeitsl_geld_2_eink_hh: FloatSeries, 
+    kinderzuschlag_eink_relev: FloatSeries, 
+    kinderzuschlag_params: dict
+) -> FloatSeries:
     """Calculate the parents income that needs to be subtracted (§6a (6) S. 3 BKGG).
 
     Parameters
     ----------
-    hh_id
-    arbeitsl_geld_2_eink_hh
-    kinderzuschlag_eink_relev
-    kinderzuschlag_params
+    hh_id 
+        See :ref:`hh_id`. 
+    arbeitsl_geld_2_eink_hh 
+        See :func:`arbeitsl_geld_2_eink_hh`. 
+    kinderzuschlag_eink_relev 
+        See :func:`kinderzuschlag_eink_relev`. 
+    kinderzuschlag_params 
+        See :ref:`kinderzuschlag_params`. 
 
     Returns
     -------
@@ -218,21 +262,26 @@ def kinderzuschlag_eink_anrechn(
 
 
 def kinderzuschlag_eink_spanne(
-    hh_id,
-    _arbeitsl_geld_2_brutto_eink_hh,
-    kinderzuschlag_eink_min,
-    kinderzuschlag_eink_max,
-    arbeitsl_geld_2_eink_hh,
-):
+    hh_id: IntSeries,
+    _arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
+    kinderzuschlag_eink_min: FloatSeries,
+    kinderzuschlag_eink_max: FloatSeries,
+    arbeitsl_geld_2_eink_hh: FloatSeries,
+) -> BoolSeries:
     """Calculate a dummy for whether the household is in the correct income range.
 
     Parameters
     ----------
-    hh_id
-    _arbeitsl_geld_2_brutto_eink_hh
-    kinderzuschlag_eink_min
-    kinderzuschlag_eink_max
-    arbeitsl_geld_2_eink_hh
+    hh_id 
+        See :ref:`hh_id`. 
+    _arbeitsl_geld_2_brutto_eink_hh 
+        See :func:`_arbeitsl_geld_2_brutto_eink_hh`. 
+    kinderzuschlag_eink_min 
+        See :func:`kinderzuschlag_eink_min`. 
+    kinderzuschlag_eink_max 
+        See :func:`kinderzuschlag_eink_max`. 
+    arbeitsl_geld_2_eink_hh 
+        See :func:`arbeitsl_geld_2_eink_hh`. 
 
     Returns
     -------
