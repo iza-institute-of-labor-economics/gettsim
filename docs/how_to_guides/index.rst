@@ -9,3 +9,4 @@ gettsim.
    :maxdepth: 1
 
    how_to_load_policy_functions
+   visualizing_the_system

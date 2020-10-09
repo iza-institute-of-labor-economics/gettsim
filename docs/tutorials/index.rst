@@ -11,5 +11,4 @@ Tutorials help you to get started with gettsim.
    advanced_usage
    parameters
    policy_functions
-   visualizing_the_system
    debugging
