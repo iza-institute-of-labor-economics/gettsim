@@ -1,7 +1,7 @@
 Tutorials
 =========
 
-Tutorials help you to get started with gettsim.
+Tutorials help you to get started with GETTSIM.
 
 
 .. toctree::
