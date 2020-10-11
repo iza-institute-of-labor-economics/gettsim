@@ -57,6 +57,7 @@ def set_up_policy_environment(date):
     date : int, str, datetime.date
         The date for which the policy system is set up.
 
+
     Returns
     -------
     params : dict
