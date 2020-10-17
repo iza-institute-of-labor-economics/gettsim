@@ -2,14 +2,19 @@ from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
-def kindergeld_m_basis(tu_id, kindergeld_anspruch, kindergeld_params):
+def kindergeld_m_basis(tu_id: IntSeries, 
+                       kindergeld_anspruch: BoolSeries, 
+                       kindergeld_params: dict) -> FloatSeries:
     """Calculate the preliminary kindergeld.
 
     Parameters
     ----------
-    tu_id
-    kindergeld_anspruch
-    kindergeld_params
+    tu_id 
+        See :ref:`tu_id`. 
+    kindergeld_anspruch 
+        See :func:`kindergeld_anspruch`. 
+    kindergeld_params 
+        See :ref:`kindergeld_params`.
 
     Returns
     -------
@@ -25,13 +30,16 @@ def kindergeld_m_basis(tu_id, kindergeld_anspruch, kindergeld_params):
     return out
 
 
-def kindergeld_m_tu_basis(kindergeld_m_basis, tu_id):
+def kindergeld_m_tu_basis(kindergeld_m_basis: FloatSeries, 
+                          tu_id: IntSeries) -> FloatSeries:
     """Aggregate the preliminary kindergeld on tax unit level.
 
     Parameters
     ----------
-    kindergeld_m_basis
-    tu_id
+    kindergeld_m_basis 
+        See :func:`kindergeld_m_basis`.
+    tu_id 
+        See :ref:`tu_id`.
 
     Returns
     -------
@@ -41,8 +49,11 @@ def kindergeld_m_tu_basis(kindergeld_m_basis, tu_id):
 
 
 def kindergeld_anspruch_nach_stunden(
-    alter, in_ausbildung, arbeitsstunden_w, kindergeld_params
-):
+    alter: IntSeries, 
+    in_ausbildung: BoolSeries, 
+    arbeitsstunden_w: IntSeries, 
+    kindergeld_params: dict
+) -> BoolSeries:
     """
     Nowadays, kids must not work more than 20 hour
     returns a boolean variable whether a specific person is a child eligible for
@@ -50,10 +61,14 @@ def kindergeld_anspruch_nach_stunden(
 
     Parameters
     ----------
-    alter
-    in_ausbildung
-    arbeitsstunden_w
-    kindergeld_params
+    alter 
+        See :ref:`alter`. 
+    in_ausbildung 
+        See :func:`in_ausbildung`. 
+    arbeitsstunden_w 
+        See :func:`arbeitsstunden_w`. 
+    kindergeld_params 
+        See :ref:`kindergeld_params`.
 
     Returns
     -------
@@ -71,8 +86,11 @@ def kindergeld_anspruch_nach_stunden(
 
 
 def kindergeld_anspruch_nach_lohn(
-    alter, in_ausbildung, bruttolohn_m, kindergeld_params
-):
+    alter: IntSeries, 
+    in_ausbildung: BoolSeries, 
+    bruttolohn_m: FloatSeries, 
+    kindergeld_params: dict
+) -> BoolSeries:
     """
     Before 2011, there was an income ceiling for children
     returns a boolean variable whether a specific person is a child eligible for
@@ -80,10 +98,14 @@ def kindergeld_anspruch_nach_lohn(
 
     Parameters
     ----------
-    alter
-    kindergeld_params
-    in_ausbildung
-    bruttolohn_m
+    alter 
+        See :ref:`alter`. 
+    kindergeld_params 
+        See :ref:`kindergeld_params`. 
+    in_ausbildung 
+        See :ref:`in_ausbildung`. 
+    bruttolohn_m 
+        See :ref:`bruttolohn_m`.
 
     Returns
     -------

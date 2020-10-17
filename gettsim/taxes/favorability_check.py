@@ -14,15 +14,20 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 def beantrage_kind_freib_tu(
-    st_kein_kind_freib_tu, kindergeld_m_tu_basis, st_kind_freib_tu
-):
+    st_kein_kind_freib_tu: FloatSeries, 
+    kindergeld_m_tu_basis: FloatSeries, 
+    st_kind_freib_tu: FloatSeries
+) -> BoolSeries:
     """Check if individual claims child allowance.
 
     Parameters
     ----------
-    st_kein_kind_freib_tu
-    kindergeld_m_tu_basis
-    st_kind_freib_tu
+    st_kein_kind_freib_tu 
+        See :func:`st_kein_kind_freib_tu`. 
+    kindergeld_m_tu_basis 
+        See :func:`kindergeld_m_tu_basis`. 
+    st_kind_freib_tu 
+        See :func:`st_kind_freib_tu`.
 
     Returns
     -------
@@ -32,14 +37,15 @@ def beantrage_kind_freib_tu(
     return st_kein_kind_freib > st_kind_freib_tu
 
 
-def eink_st_tu_bis_1996(st_kind_freib_tu):
+def eink_st_tu_bis_1996(st_kind_freib_tu: FloatSeries) -> FloatSeries:
     """Income tax calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
     Therefore the tax burden is allways smaller.
     Parameters
     ----------
-    st_kind_freib_tu
+    st_kind_freib_tu 
+        See :func:`st_kind_freib_tu`.
 
     Returns
     -------
@@ -49,15 +55,20 @@ def eink_st_tu_bis_1996(st_kind_freib_tu):
 
 
 def eink_st_tu_ab_1997(
-    st_kein_kind_freib_tu, st_kind_freib_tu, beantrage_kind_freib_tu,
-):
+    st_kein_kind_freib_tu: FloatSeries, 
+    st_kind_freib_tu: FloatSeries, 
+    beantrage_kind_freib_tu: BoolSeries,
+) -> FloatSeries:
     """Income tax calculation since 1997.
 
     Parameters
     ----------
-    st_kein_kind_freib_tu
-    st_kind_freib_tu
-    beantrage_kind_freib_tu
+    st_kein_kind_freib_tu 
+        See :func:`st_kein_kind_freib_tu`. 
+    st_kind_freib_tu 
+        See :func:`st_kind_freib_tu`. 
+    beantrage_kind_freib_tu 
+        See :func:`beantrage_kind_freib_tu`.
 
     Returns
     -------
@@ -68,14 +79,15 @@ def eink_st_tu_ab_1997(
     return out
 
 
-def kindergeld_m_bis_1996(kindergeld_m_basis):
+def kindergeld_m_bis_1996(kindergeld_m_basis: FloatSeries) -> FloatSeries:
     """Kindergeld calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
 
     Parameters
     ----------
-    kindergeld_m_basis
+    kindergeld_m_basis 
+        See :func:`kindergeld_m_basis`.
 
     Returns
     -------
@@ -85,15 +97,20 @@ def kindergeld_m_bis_1996(kindergeld_m_basis):
 
 
 def kindergeld_m_ab_1997(
-    beantrage_kind_freib_tu, kindergeld_m_basis, tu_id,
-):
+    beantrage_kind_freib_tu: BoolSeries, 
+    kindergeld_m_basis: FloatSeries, 
+    tu_id: IntSeries
+) -> FloatSeries:
     """Kindergeld calculation since 1997.
 
     Parameters
     ----------
-    beantrage_kind_freib_tu
-    kindergeld_m_basis
-    tu_id
+    beantrage_kind_freib_tu 
+        See :func:`beantrage_kind_freib_tu`. 
+    kindergeld_m_basis 
+        See :func:`kindergeld_m_basis`. 
+    tu_id 
+        See :ref:`tu_id`.
 
     Returns
     -------
@@ -105,7 +122,8 @@ def kindergeld_m_ab_1997(
     return out
 
 
-def kindergeld_m_hh(kindergeld_m, hh_id):
+def kindergeld_m_hh(kindergeld_m: FloatSeries, 
+                    hh_id: IntSeries) -> FloatSeries:
     """Aggregate Child benefit on the household level.
 
     Aggregate Child benefit on the household level, as we could have several tax_units
@@ -113,8 +131,10 @@ def kindergeld_m_hh(kindergeld_m, hh_id):
 
     Parameters
     ----------
-    kindergeld_m
-    hh_id
+    kindergeld_m 
+        See :func:`kindergeld_m`. 
+    hh_id 
+        See :ref:`hh_id`.
 
     Returns
     -------
@@ -123,13 +143,16 @@ def kindergeld_m_hh(kindergeld_m, hh_id):
     return kindergeld_m.groupby(hh_id).sum()
 
 
-def kindergeld_m_tu(kindergeld_m, tu_id):
+def kindergeld_m_tu(kindergeld_m: FloatSeries, 
+                    tu_id: IntSeries) -> FloatSeries:
     """Aggregate Child benefit on the tax unit level.
 
     Parameters
     ----------
-    kindergeld_m
-    tu_id
+    kindergeld_m 
+        See :func:`kindergeld_m`. 
+    tu_id 
+        See :ref:`tu_id`.
 
     Returns
     -------

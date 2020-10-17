@@ -6,15 +6,20 @@ from gettsim.piecewise_functions import piecewise_polynomial
 
 
 def st_kein_kind_freib_tu(
-    zu_verst_eink_kein_kinderfreib_tu, anz_erwachsene_tu, eink_st_params
-):
+    zu_verst_eink_kein_kinderfreib_tu: FloatSeries, 
+    anz_erwachsene_tu: IntSeries, 
+    eink_st_params: dict
+) -> FloatSeries:
     """ Taxes without child allowance.
 
     Parameters
     ----------
-    zu_verst_eink_kein_kinderfreib_tu
-    anz_erwachsene_tu
-    eink_st_params
+    zu_verst_eink_kein_kinderfreib_tu 
+        See :func:`zu_verst_eink_kein_kinderfreib_tu`. 
+    anz_erwachsene_tu 
+        See :func:`anz_erwachsene_tu`. 
+    eink_st_params 
+        See :ref:`eink_st_params`.
 
     Returns
     -------
@@ -25,14 +30,19 @@ def st_kein_kind_freib_tu(
     return anz_erwachsene_tu * st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
 
 
-def st_kind_freib_tu(zu_verst_eink_kinderfreib_tu, anz_erwachsene_tu, eink_st_params):
+def st_kind_freib_tu(zu_verst_eink_kinderfreib_tu: FloatSeries, 
+                     anz_erwachsene_tu: IntSeries, 
+                     eink_st_params: dict) -> FloatSeries:
     """Taxes with child allowance.
 
     Parameters
     ----------
-    zu_verst_eink_kinderfreib_tu
-    anz_erwachsene_tu
-    eink_st_params
+    zu_verst_eink_kinderfreib_tu 
+        See :func:`zu_verst_eink_kinderfreib_tu`. 
+    anz_erwachsene_tu 
+        See :func:`anz_erwachsene_tu`. 
+    eink_st_params 
+        See :ref:`eink_st_params`.
 
     Returns
     -------
@@ -43,7 +53,7 @@ def st_kind_freib_tu(zu_verst_eink_kinderfreib_tu, anz_erwachsene_tu, eink_st_pa
     return anz_erwachsene_tu * st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
 
 
-def st_tarif(x, params):
+def st_tarif(x: FloatSeries, params: dict) -> IntSeries:
     """The German Income Tax Tariff.
      Modelled only after 2002 so far.
 

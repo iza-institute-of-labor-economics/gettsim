@@ -3,7 +3,10 @@ from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
-def soli_st_tu(st_kind_freib_tu, anz_erwachsene_tu, abgelt_st_tu, soli_st_params):
+def soli_st_tu(st_kind_freib_tu: FloatSeries, 
+               anz_erwachsene_tu: IntSeries, 
+               abgelt_st_tu: FloatSeries, 
+               soli_st_params: dict) -> FloatSeries:
     """Solidarity Surcharge.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
@@ -19,10 +22,14 @@ def soli_st_tu(st_kind_freib_tu, anz_erwachsene_tu, abgelt_st_tu, soli_st_params
 
     Parameters
     ----------
-    st_kind_freib_tu
-    anz_erwachsene_tu
-    abgelt_st_tu
-    soli_st_params
+    st_kind_freib_tu 
+        See :func:`st_kind_freib_tu`. 
+    anz_erwachsene_tu 
+        See :func:`anz_erwachsene_tu`. 
+    abgelt_st_tu 
+        See :func:`abgelt_st_tu`. 
+    soli_st_params 
+        See :ref:`soli_st_params`.
 
     Returns
     -------

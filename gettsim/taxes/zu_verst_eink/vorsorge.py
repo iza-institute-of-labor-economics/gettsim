@@ -3,13 +3,13 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 def _vorsorge_alternative_ab_2005_bis_2009(
-    altervorsorge_aufwend,
-    ges_krankenv_beitr_m,
-    arbeitsl_v_beitr_m,
-    pflegev_beitr_m,
-    kind,
-    eink_st_abzuege_params,
-):
+    altervorsorge_aufwend: FloatSeries,
+    ges_krankenv_beitr_m: FloatSeries,
+    arbeitsl_v_beitr_m: FloatSeries,
+    pflegev_beitr_m: FloatSeries,
+    kind: BoolSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
     """
     Vorsorgeaufwendungen 2005 to 2010
     Pension contributions are accounted for up to €20k.
@@ -20,11 +20,16 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 
     Parameters
     ----------
-    altervorsorge_aufwend
-    ges_krankenv_beitr_m
-    arbeitsl_v_beitr_m
-    pflegev_beitr_m
-    eink_st_abzuege_params
+    altervorsorge_aufwend 
+        See :func:`altervorsorge_aufwend`. 
+    ges_krankenv_beitr_m 
+        See :func:`ges_krankenv_beitr_m`. 
+    arbeitsl_v_beitr_m 
+        See :func:`arbeitsl_v_beitr_m`. 
+    pflegev_beitr_m 
+        See :func:`pflegev_beitr_m`. 
+    eink_st_abzuege_params 
+        See :ref:`eink_st_abzuege_params`.
 
     Returns
     -------
@@ -39,8 +44,9 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 
 
 def vorsorge_ab_2005_bis_2009(
-    _vorsorge_alternative_ab_2005_bis_2009, vorsorge_bis_2004
-):
+    _vorsorge_alternative_ab_2005_bis_2009: FloatSeries, 
+    vorsorge_bis_2004: FloatSeries
+) -> FloatSeries:
     """
     With the 2005 reform, no taxpayer was supposed to be affected negatively.
     Therefore, one needs to compute amounts under the 2004 and 2005 regimes
@@ -48,8 +54,10 @@ def vorsorge_ab_2005_bis_2009(
 
     Parameters
     ----------
-    _vorsorge_alternative_ab_2005_bis_2009
-    vorsorge_bis_2004
+    _vorsorge_alternative_ab_2005_bis_2009 
+        See :func:`_vorsorge_alternative_ab_2005_bis_2009`. 
+    vorsorge_bis_2004 
+        See :func:`vorsorge_bis_2004`.
 
     Returns
     -------
@@ -58,7 +66,9 @@ def vorsorge_ab_2005_bis_2009(
     return vorsorge_bis_2004.clip(lower=_vorsorge_alternative_ab_2005_bis_2009)
 
 
-def vorsorge_ab_2010_bis_2019(vorsorge_bis_2004, vorsorge_ab_2020):
+def vorsorge_ab_2010_bis_2019(
+        vorsorge_bis_2004: FloatSeries, 
+        vorsorge_ab_2020: FloatSeries) -> FloatSeries:
     """
     After a supreme court ruling, the 2005 rule had to be changed in 2010.
     Therefore, one needs to compute amounts under the 2004 and 2010 regimes
@@ -70,8 +80,10 @@ def vorsorge_ab_2010_bis_2019(vorsorge_bis_2004, vorsorge_ab_2020):
 
     Parameters
     ----------
-    vorsorge_bis_2004
-    vorsorge_ab_2020
+    vorsorge_bis_2004 
+        See :func:`vorsorge_bis_2004`. 
+    vorsorge_ab_2020 
+        See :func:`vorsorge_ab_2020`.
 
     Returns
     -------
@@ -81,24 +93,29 @@ def vorsorge_ab_2010_bis_2019(vorsorge_bis_2004, vorsorge_ab_2020):
 
 
 def vorsorge_ab_2020(
-    altervorsorge_aufwend,
-    pflegev_beitr_m,
-    ges_krankenv_beitr_m,
-    arbeitsl_v_beitr_m,
-    kind,
-    eink_st_abzuege_params,
-):
+    altervorsorge_aufwend: FloatSeries,
+    pflegev_beitr_m: FloatSeries,
+    ges_krankenv_beitr_m: FloatSeries,
+    arbeitsl_v_beitr_m: FloatSeries,
+    kind: BoolSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
     """
     Vorsorgeaufwendungen after the regime implemented in 2010 is in full effect,
     see § 10 (3) EStG.
 
     Parameters
     ----------
-    altervorsorge_aufwend
-    pflegev_beitr_m
-    ges_krankenv_beitr_m
-    arbeitsl_v_beitr_m
-    eink_st_abzuege_params
+    altervorsorge_aufwend 
+        See :func:`altervorsorge_aufwend`.
+    pflegev_beitr_m 
+        See :func:`pflegev_beitr_m`. 
+    ges_krankenv_beitr_m 
+        See :func:`ges_krankenv_beitr_m`. 
+    arbeitsl_v_beitr_m 
+        See :func:`arbeitsl_v_beitr_m`. 
+    eink_st_abzuege_params 
+        See :ref:`eink_st_abzuege_params`.
 
     Returns
     -------
@@ -122,33 +139,44 @@ def vorsorge_ab_2020(
 
 
 def vorsorge_bis_2004(
-    lohn_vorsorge_bis_2019_single,
-    lohn_vorsorgeabzug_bis_2019_tu,
-    ges_krankenv_beitr_m,
-    rentenv_beitr_m,
-    ges_krankenv_beitr_m_tu,
-    rentenv_beitr_m_tu,
-    tu_id,
-    gemeinsam_veranlagte_tu,
-    gemeinsam_veranlagt,
-    kind,
-    eink_st_abzuege_params,
-):
+    lohn_vorsorge_bis_2019_single: FloatSeries,
+    lohn_vorsorgeabzug_bis_2019_tu: FloatSeries,
+    ges_krankenv_beitr_m: FloatSeries,
+    rentenv_beitr_m: FloatSeries,
+    ges_krankenv_beitr_m_tu: FloatSeries,
+    rentenv_beitr_m_tu: FloatSeries,
+    tu_id: IntSeries,
+    gemeinsam_veranlagte_tu: BoolSeries,
+    gemeinsam_veranlagt: BoolSeries,
+    kind: BoolSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    lohn_vorsorge_bis_2019_single
-    lohn_vorsorgeabzug_bis_2019_tu
-    ges_krankenv_beitr_m
-    rentenv_beitr_m
-    ges_krankenv_beitr_m_tu
-    rentenv_beitr_m_tu
-    tu_id
-    gemeinsam_veranlagte_tu
-    gemeinsam_veranlagt
-    kind
-    eink_st_abzuege_params
+    lohn_vorsorge_bis_2019_single 
+        See :func:`lohn_vorsorge_bis_2019_single`. 
+    lohn_vorsorgeabzug_bis_2019_tu 
+        See :func:`lohn_vorsorgeabzug_bis_2019_tu`. 
+    ges_krankenv_beitr_m 
+        See :func:`ges_krankenv_beitr_m`. 
+    rentenv_beitr_m 
+        See :func:`rentenv_beitr_m`. 
+    ges_krankenv_beitr_m_tu 
+        See :func:`ges_krankenv_beitr_m_tu`. 
+    rentenv_beitr_m_tu 
+        See :func:`rentenv_beitr_m_tu`. 
+    tu_id 
+        See :ref:`tu_id`. 
+    gemeinsam_veranlagte_tu 
+        See :func:`gemeinsam_veranlagte_tu`. 
+    gemeinsam_veranlagt 
+        See :func:`gemeinsam_veranlagt`. 
+    kind 
+        See :ref:`kind`. 
+    eink_st_abzuege_params 
+        See :ref:`eink_st_abzuege_params`.
 
     Returns
     -------
@@ -178,15 +206,20 @@ def vorsorge_bis_2004(
 
 
 def lohn_vorsorge_bis_2019_single(
-    bruttolohn_m, gemeinsam_veranlagt, eink_st_abzuege_params
-):
+    bruttolohn_m: FloatSeries, 
+    gemeinsam_veranlagt: BoolSeries, 
+    eink_st_abzuege_params: dict
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    bruttolohn_m
-    gemeinsam_veranlagt
-    eink_st_abzuege_params
+    bruttolohn_m 
+        See :ref:`bruttolohn_m`. 
+    gemeinsam_veranlagt 
+        See :func:`gemeinsam_veranlagt`. 
+    eink_st_abzuege_params 
+        See :ref:`eink_st_abzuege_params`. 
 
     Returns
     -------
@@ -202,15 +235,20 @@ def lohn_vorsorge_bis_2019_single(
 
 
 def lohn_vorsorgeabzug_bis_2019_tu(
-    bruttolohn_m_tu, gemeinsam_veranlagte_tu, eink_st_abzuege_params
-):
+    bruttolohn_m_tu: FloatSeries, 
+    gemeinsam_veranlagte_tu: FloatSeries, 
+    eink_st_abzuege_params: dict
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    bruttolohn_m_tu
-    gemeinsam_veranlagte_tu
-    eink_st_abzuege_params
+    bruttolohn_m_tu 
+        See :func:`bruttolohn_m_tu`. 
+    gemeinsam_veranlagte_tu 
+        See :func:`gemeinsam_veranlagte_tu`. 
+    eink_st_abzuege_params 
+        See :ref:`eink_st_abzuege_params`.
 
     Returns
     -------
@@ -226,21 +264,26 @@ def lohn_vorsorgeabzug_bis_2019_tu(
 
 
 def berechne_vorsorge_bis_2004(
-    lohn_vorsorge,
-    krankenv_beitr,
-    rentenv_beitr,
-    anzahl_erwachsene,
-    eink_st_abzuege_params,
-):
+    lohn_vorsorge: FloatSeries,
+    krankenv_beitr: FloatSeries,
+    rentenv_beitr: FloatSeries,
+    anzahl_erwachsene: IntSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    lohn_vorsorge
-    krankenv_beitr
-    rentenv_beitr
-    anzahl_erwachsene
-    eink_st_abzuege_params
+    lohn_vorsorge 
+        See :func:`lohn_vorsorge`. 
+    krankenv_beitr 
+        See :func:`krankenv_beitr`. 
+    rentenv_beitr 
+        See :func:`rentenv_beitr`. 
+    anzahl_erwachsene 
+        See :func:`anzahl_erwachsene`. 
+    eink_st_abzuege_params 
+        See :ref:`eink_st_abzuege_params`.
 
     Returns
     -------
