@@ -1,7 +1,13 @@
 import numpy as np
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
-def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibetrag_hh):
+
+def _regelbedarf_m_vermögens_check_hh(
+        regelbedarf_m_hh: FloatSeries, 
+        unter_vermögens_freibetrag_hh: BoolSeries) -> BoolSeries:
     """Set regelbedarf_m to zero if it exceeds the wealth exemption.
 
     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
@@ -9,8 +15,10 @@ def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibe
 
     Parameters
     ----------
-    regelbedarf_m_hh
-    unter_vermögens_freibetrag_hh
+    regelbedarf_m_hh 
+        See :func:`regelbedarf_m_hh`.
+    unter_vermögens_freibetrag_hh 
+        See :func:`unter_vermögens_freibetrag_hh`.
 
     Returns
     -------
@@ -21,14 +29,17 @@ def _regelbedarf_m_vermögens_check_hh(regelbedarf_m_hh, unter_vermögens_freibe
 
 
 def kinderzuschlag_vermögens_check_hh(
-    kinderzuschlag_m_vorläufig_hh, unter_vermögens_freibetrag_hh
-):
+    kinderzuschlag_m_vorläufig_hh: FloatSeries, 
+    unter_vermögens_freibetrag_hh: BoolSeries
+) -> BoolSeries:
     """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption.
 
     Parameters
     ----------
-    kinderzuschlag_m_vorläufig_hh
-    unter_vermögens_freibetrag_hh
+    kinderzuschlag_m_vorläufig_hh 
+        See :func:`kinderzuschlag_m_vorläufig_hh`. 
+    unter_vermögens_freibetrag_hh 
+        See :func:`unter_vermögens_freibetrag_hh`.
 
     Returns
     -------
@@ -39,7 +50,10 @@ def kinderzuschlag_vermögens_check_hh(
     return kinderzuschlag_m_vorläufig_hh
 
 
-def wohngeld_vermögens_check_hh(wohngeld_basis_hh, vermögen_hh, haushaltsgröße_hh):
+def wohngeld_vermögens_check_hh(
+        wohngeld_basis_hh: FloatSeries, 
+        vermögen_hh: FloatSeries, 
+        haushaltsgröße_hh: IntSeries) -> BoolSeries:
     """Calculate a lump sum payment for wohngeld
 
     The payment depends on the wealth of the household and the number of household
@@ -51,9 +65,12 @@ def wohngeld_vermögens_check_hh(wohngeld_basis_hh, vermögen_hh, haushaltsgrö�
 
     Parameters
     ----------
-    wohngeld_basis_hh
-    vermögen_hh
-    haushaltsgröße_hh
+    wohngeld_basis_hh 
+        See :func:`wohngeld_basis_hh`.
+    vermögen_hh 
+        See :refs:`vermögen_hh`. 
+    haushaltsgröße_hh 
+        See :func:`haushaltsgröße_hh`.
 
     Returns
     -------
@@ -64,13 +81,17 @@ def wohngeld_vermögens_check_hh(wohngeld_basis_hh, vermögen_hh, haushaltsgrö�
     return wohngeld_basis_hh
 
 
-def unter_vermögens_freibetrag_hh(vermögen_hh, freibetrag_vermögen_hh):
+def unter_vermögens_freibetrag_hh(
+        vermögen_hh: FloatSeries, 
+        freibetrag_vermögen_hh: FloatSeries) -> BoolSeries:
     """
 
     Parameters
     ----------
-    vermögen_hh
-    freibetrag_vermögen_hh
+    vermögen_hh 
+        See :ref:`vermögen_hh`. 
+    freibetrag_vermögen_hh 
+        See :func:`freibetrag_vermögen_hh`. 
 
     Returns
     -------
@@ -80,17 +101,26 @@ def unter_vermögens_freibetrag_hh(vermögen_hh, freibetrag_vermögen_hh):
 
 
 def freibetrag_vermögen_anspruch_hh(
-    hh_id, kind, alter, geburtsjahr, arbeitsl_geld_2_params
+    hh_id: IntSeries, 
+    kind: BoolSeries, 
+    alter: IntSeries, 
+    geburtsjahr: IntSeries, 
+    arbeitsl_geld_2_params: dict
 ):
     """Calculate exemptions based on individuals age.
 
     Parameters
     ----------
-    hh_id
-    kind
-    alter
-    geburtsjahr
-    arbeitsl_geld_2_params
+    hh_id 
+        See :ref:`hh_id`. 
+    kind 
+        See :ref:`kind`. 
+    alter 
+        See :ref:`alter`. 
+    geburtsjahr 
+        See :ref:`geburtsjahr`. 
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`. 
 
     Returns
     -------
@@ -110,15 +140,23 @@ def freibetrag_vermögen_anspruch_hh(
     return out.groupby(hh_id).sum()
 
 
-def max_freibetrag_vermögen_hh(hh_id, geburtsjahr, kind, arbeitsl_geld_2_params):
+def max_freibetrag_vermögen_hh(
+        hh_id: IntSeries, 
+        geburtsjahr: IntSeries, 
+        kind: BoolSeries, 
+        arbeitsl_geld_2_params: dict) -> FloatSeries:
     """
 
     Parameters
     ----------
-    hh_id
-    geburtsjahr
-    kind
-    arbeitsl_geld_2_params
+    hh_id 
+        See :ref:`hh_id`. 
+    geburtsjahr 
+        See :ref:`geburtsjahr`. 
+    kind 
+        See :ref:`kind`. 
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------
@@ -145,21 +183,26 @@ def max_freibetrag_vermögen_hh(hh_id, geburtsjahr, kind, arbeitsl_geld_2_params
 
 
 def freibetrag_vermögen_hh(
-    freibetrag_vermögen_anspruch_hh,
-    anz_minderj_hh,
-    haushaltsgröße_hh,
-    max_freibetrag_vermögen_hh,
-    arbeitsl_geld_2_params,
-):
+    freibetrag_vermögen_anspruch_hh: FloatSeries,
+    anz_minderj_hh: IntSeries,
+    haushaltsgröße_hh: IntSeries,
+    max_freibetrag_vermögen_hh: FloatSeries,
+    arbeitsl_geld_2_params: dict,
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    freibetrag_vermögen_anspruch_hh
-    anz_minderj_hh
-    haushaltsgröße_hh
-    max_freibetrag_vermögen_hh
-    arbeitsl_geld_2_params
+    freibetrag_vermögen_anspruch_hh 
+        See :func:`freibetrag_vermögen_anspruch_hh`. 
+    anz_minderj_hh 
+        See :func:`anz_minderj_hh`. 
+    haushaltsgröße_hh 
+        See :func:`haushaltsgröße_hh`. 
+    max_freibetrag_vermögen_hh 
+        See :func:`max_freibetrag_vermögen_hh`. 
+    arbeitsl_geld_2_params 
+        See :ref:`arbeitsl_geld_2_params`.
 
     Returns
     -------

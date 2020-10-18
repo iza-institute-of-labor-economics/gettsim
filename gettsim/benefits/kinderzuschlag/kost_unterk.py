@@ -1,19 +1,28 @@
 import numpy as np
 import pandas as pd
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def kinderzuschlag_kosten_unterk_m(
-    wohnbedarf_eltern_anteil, kinderzuschlag_kaltmiete_m, kinderzuschlag_heizkost_m
-):
+    wohnbedarf_eltern_anteil: FloatSeries, 
+    kinderzuschlag_kaltmiete_m: FloatSeries, 
+    kinderzuschlag_heizkost_m: FloatSeries
+) -> FloatSeries:
     """Calculate share of living costs.
 
     Unlike ALG2, there is no check on whether living costs are "appropriate".
 
     Parameters
     ----------
-    wohnbedarf_eltern_anteil
-    kinderzuschlag_kaltmiete_m
-    kinderzuschlag_heizkost_m
+    wohnbedarf_eltern_anteil 
+        See :func:`wohnbedarf_eltern_anteil`. 
+    kinderzuschlag_kaltmiete_m 
+        See :func:`kinderzuschlag_kaltmiete_m`. 
+    kinderzuschlag_heizkost_m 
+        See :func:`kinderzuschlag_heizkost_m`. 
 
     Returns
     -------
@@ -24,14 +33,20 @@ def kinderzuschlag_kosten_unterk_m(
     )
 
 
-def kinderzuschlag_kaltmiete_m(hh_id, kaltmiete_m_hh, tax_unit_share):
+def kinderzuschlag_kaltmiete_m(
+        hh_id: IntSeries, 
+        kaltmiete_m_hh: FloatSeries, 
+        tax_unit_share: FloatSeries) -> FloatSeries:
     """
 
     Parameters
     ----------
-    hh_id
-    kaltmiete_m_hh
-    tax_unit_share
+    hh_id 
+        See :ref:`hh_id`. 
+    kaltmiete_m_hh 
+        See :ref:`kaltmiete_m_hh`. 
+    tax_unit_share 
+        See :func:`tax_unit_share`. 
 
     Returns
     -------
@@ -40,14 +55,20 @@ def kinderzuschlag_kaltmiete_m(hh_id, kaltmiete_m_hh, tax_unit_share):
     return hh_id.replace(kaltmiete_m_hh) * tax_unit_share
 
 
-def kinderzuschlag_heizkost_m(hh_id, heizkosten_m_hh, tax_unit_share):
+def kinderzuschlag_heizkost_m(
+        hh_id: IntSeries, 
+        heizkosten_m_hh: FloatSeries, 
+        tax_unit_share: FloatSeries) -> FloatSeries:
     """
 
     Parameters
     ----------
-    hh_id
-    heizkosten_m_hh
-    tax_unit_share
+    hh_id 
+        See :ref:`hh_id`. 
+    heizkosten_m_hh 
+        See :ref:`heizkosten_m_hh`. 
+    tax_unit_share 
+        See :func:`tax_unit_share`. 
 
     Returns
     -------
@@ -57,16 +78,23 @@ def kinderzuschlag_heizkost_m(hh_id, heizkosten_m_hh, tax_unit_share):
 
 
 def wohnbedarf_eltern_anteil(
-    tu_id, anz_kinder_tu, anz_erwachsene_tu, kinderzuschlag_params
-):
+    tu_id: IntSeries, 
+    anz_kinder_tu: IntSeries, 
+    anz_erwachsene_tu: IntSeries, 
+    kinderzuschlag_params: dict
+) -> FloatSeries:
     """Calculate living needs broken down to the parents.
 
     Parameters
     ----------
-    tu_id
-    anz_kinder_tu
-    anz_erwachsene_tu
-    kinderzuschlag_params
+    tu_id 
+        See :ref:`tu_id`. 
+    anz_kinder_tu 
+        See :func:`anz_kinder_tu`. 
+    anz_erwachsene_tu 
+        See :func:`anz_erwachsene_tu`. 
+    kinderzuschlag_params 
+        See :ref:`kinderzuschlag_params`. 
 
     Returns
     -------

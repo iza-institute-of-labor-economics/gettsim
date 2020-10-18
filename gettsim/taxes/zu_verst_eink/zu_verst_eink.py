@@ -13,29 +13,38 @@ for each income type. In fact, you need several taxable incomes because of
 It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
-
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
 def zu_verst_eink_kein_kinderfreib_tu(
-    sum_brutto_eink,
-    vorsorge,
-    sonderausgaben,
-    behinderungsgrad_pauschbetrag,
-    alleinerziehend_freib_tu,
-    altersfreib,
-    tu_id,
-):
+    sum_brutto_eink: FloatSeries,
+    vorsorge: FloatSeries,
+    sonderausgaben: FloatSeries,
+    behinderungsgrad_pauschbetrag: FloatSeries,
+    alleinerziehend_freib_tu: FloatSeries,
+    altersfreib: FloatSeries,
+    tu_id: IntSeries,
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    sum_brutto_eink
-    vorsorge
-    sonderausgaben
-    behinderungsgrad_pauschbetrag
-    hh_freib
-    altersfreib
-    tu_id
-
+    sum_brutto_eink 
+        See :func:`sum_brutto_eink`. 
+    vorsorge 
+        See :func:`vorsorge`. 
+    sonderausgaben 
+        See :func:`sonderausgaben`. 
+    behinderungsgrad_pauschbetrag 
+        See :func:`behinderungsgrad_pauschbetrag`. 
+    hh_freib 
+        See :func:`hh_freib`.
+    altersfreib 
+        See :func:`altersfreib`. 
+    tu_id 
+        See :ref:`tu_id`. 
+        
     Returns
     -------
 
@@ -53,14 +62,17 @@ def zu_verst_eink_kein_kinderfreib_tu(
 
 
 def zu_verst_eink_kinderfreib_tu(
-    zu_verst_eink_kein_kinderfreib_tu, kinderfreib_tu,
-):
+    zu_verst_eink_kein_kinderfreib_tu: FloatSeries, 
+    kinderfreib_tu: FloatSeries
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    zu_verst_eink_kein_kinderfreib_tu
-    kinderfreib_tu
+    zu_verst_eink_kein_kinderfreib_tu 
+        See :func:`zu_verst_eink_kein_kinderfreib_tu`. 
+    kinderfreib_tu 
+        See :func:`kinderfreib_tu`.
 
     Returns
     -------

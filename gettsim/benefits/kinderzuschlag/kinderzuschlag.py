@@ -20,21 +20,29 @@ Kinderzuschlag / Additional Child Benefit
     ('jährlicher Existenzminimumsbericht')
 """
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 
 def kinderzuschlag_m_hh(
-    kinderzuschlag_vermögens_check_hh,
-    kinderzuschlag_vorrang_hh,
-    wohngeld_kinderzuschlag_vorrang_hh,
-    rentner_in_hh,
-):
+    kinderzuschlag_vermögens_check_hh: BoolSeries,
+    kinderzuschlag_vorrang_hh: BoolSeries,
+    wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
+    rentner_in_hh: BoolSeries
+) -> FloatSeries:
     """
 
     Parameters
     ----------
-    kinderzuschlag_vermögens_check_hh
-    kinderzuschlag_vorrang_hh
-    wohngeld_kinderzuschlag_vorrang_hh
-    rentner_in_hh
+    kinderzuschlag_vermögens_check_hh 
+        See :func:`kinderzuschlag_vermögens_check_hh`. 
+    kinderzuschlag_vorrang_hh 
+        See :func:`kinderzuschlag_vorrang_hh`. 
+    wohngeld_kinderzuschlag_vorrang_hh 
+        See :func:`wohngeld_kinderzuschlag_vorrang_hh`. 
+    rentner_in_hh 
+        See :func:`rentner_in_hh`.
 
     Returns
     -------
@@ -47,13 +55,17 @@ def kinderzuschlag_m_hh(
     return kinderzuschlag_vermögens_check_hh
 
 
-def kinderzuschlag_m_vorläufig_hh(_kinderzuschlag_m_vorläufig, hh_id):
+def kinderzuschlag_m_vorläufig_hh(
+        _kinderzuschlag_m_vorläufig: FloatSeries, 
+        hh_id: IntSeries) -> FloatSeries:
     """
 
     Parameters
     ----------
-    _kinderzuschlag_m_vorläufig
-    hh_id
+    _kinderzuschlag_m_vorläufig 
+        See :func:`_kinderzuschlag_m_vorläufig`. 
+    hh_id 
+        See :ref:`hh_id`. 
 
     Returns
     -------
@@ -63,21 +75,26 @@ def kinderzuschlag_m_vorläufig_hh(_kinderzuschlag_m_vorläufig, hh_id):
 
 
 def kinderzuschlag_ab_juli_2019(
-    hh_id,
-    _arbeitsl_geld_2_brutto_eink_hh,
-    kinderzuschlag_eink_min,
-    kinderzuschlag_kindereink_abzug,
-    kinderzuschlag_eink_anrechn,
-):
+    hh_id: IntSeries,
+    _arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
+    kinderzuschlag_eink_min: FloatSeries,
+    kinderzuschlag_kindereink_abzug: FloatSeries,
+    kinderzuschlag_eink_anrechn: FloatSeries
+) -> FloatSeries:
     """Creates "_kinderzuschlag_m_vorläufig" since 07/2019.
 
     Parameters
     ----------
-    hh_id
-    _arbeitsl_geld_2_brutto_eink_hh
-    kinderzuschlag_eink_min
-    kinderzuschlag_kindereink_abzug
-    kinderzuschlag_eink_anrechn
+    hh_id 
+        See :ref:`hh_id`. 
+    _arbeitsl_geld_2_brutto_eink_hh 
+        See :func:`_arbeitsl_geld_2_brutto_eink_hh`. 
+    kinderzuschlag_eink_min 
+        See :func:`kinderzuschlag_eink_min`. 
+    kinderzuschlag_kindereink_abzug 
+        See :func:`kinderzuschlag_kindereink_abzug`. 
+    kinderzuschlag_eink_anrechn 
+        See :func:`kinderzuschlag_eink_anrechn`.
 
     Returns
     -------
@@ -96,19 +113,23 @@ def kinderzuschlag_ab_juli_2019(
 
 
 def kinderzuschlag_ab_2005_bis_juni_2019(
-    hh_id,
-    kinderzuschlag_eink_spanne,
-    kinderzuschlag_kindereink_abzug,
-    kinderzuschlag_eink_anrechn,
-):
+    hh_id: IntSeries,
+    kinderzuschlag_eink_spanne: FloatSeries,
+    kinderzuschlag_kindereink_abzug: FloatSeries,
+    kinderzuschlag_eink_anrechn: FloatSeries
+) -> FloatSeries:
     """Creates "_kinderzuschlag_m_vorläufig" until 06/2019.
 
     Parameters
     ----------
-    hh_id
-    kinderzuschlag_eink_spanne
-    kinderzuschlag_kindereink_abzug
-    kinderzuschlag_eink_anrechn
+    hh_id 
+        See :ref:`hh_id`. 
+    kinderzuschlag_eink_spanne 
+        See :func:`kinderzuschlag_eink_spanne`. 
+    kinderzuschlag_kindereink_abzug 
+        See :func:`kinderzuschlag_kindereink_abzug`. 
+    kinderzuschlag_eink_anrechn 
+        See :func:`kinderzuschlag_eink_anrechn`. 
 
     Returns
     -------
