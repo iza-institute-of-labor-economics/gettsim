@@ -6,6 +6,7 @@ import pandas as pd
 
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import ORDER_OF_IDS
+from gettsim.config import STANDARD_DATA_TYPES
 from gettsim.dag import _dict_subset
 from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
@@ -14,6 +15,7 @@ from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
+from gettsim.typing import check_if_series_has_internal_type
 
 
 def compute_taxes_and_transfers(
@@ -81,6 +83,8 @@ def compute_taxes_and_transfers(
 
     # Create one dictionary of functions and perform check.
     functions = {**internal_functions, **functions}
+    _fail_if_datatype_is_false(data, columns_overriding_functions, functions)
+
     functions = {
         k: v for k, v in functions.items() if k not in columns_overriding_functions
     }
@@ -115,6 +119,43 @@ def compute_taxes_and_transfers(
     results = _reorder_columns(results)
 
     return results
+
+
+def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
+    """Check if the provided data has the right types.
+
+    Parameters
+    ----------
+    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+        Data provided by the user.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    functions : dict of callable
+        A dictionary of functions.
+
+    Returns
+    -------
+    ValueError
+        Fail if the data types are not matching the required in gettsim.
+
+    """
+    check_data = True
+    for column_name, series in data.items():
+        if column_name in STANDARD_DATA_TYPES:
+            internal_type = STANDARD_DATA_TYPES[column_name]
+            check_data = check_if_series_has_internal_type(series, internal_type)
+        elif column_name in columns_overriding_functions:
+            internal_type = functions[column_name].__annotations__["return"]
+            check_data = check_if_series_has_internal_type(series, internal_type)
+
+        if not check_data:
+            raise ValueError(
+                f"The column {column_name} of your DataFrame has the "
+                f"dtype {series.dtype}. It has to be a {internal_type}. "
+                f"You can find more information on the gettsim types in "
+                f"the documentation."
+            )
 
 
 def _process_data(data):
