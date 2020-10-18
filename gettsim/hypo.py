@@ -200,4 +200,8 @@ def gettsim_hypo_data(
     df.loc[(df["hh_typ"].str.contains("sp")) & (~df["kind"]), "alleinerziehend"] = True
 
     df = df.sort_values(by=["hh_typ", "hh_id"])
+
+    df = df.reset_index()
+    df["p_id"] = df.index
+
     return df
