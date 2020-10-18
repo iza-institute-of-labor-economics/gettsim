@@ -1,0 +1,66 @@
+wohnfläche:
+  name:
+    de: Durchschnittliche Wohnfläche
+    en: Average Appartment Size
+  description:
+    de: Durchschnittliche Wohnfläche pro SGB II - Bedarfsgemeinschaft
+    en: Average Appartement Size of households living from unemployment benefit
+  unit: Square Meters
+  2018-01-01:
+    sing: 44
+    sp1ch: 63
+    sp2ch: 74
+    coup: 63
+    coup1ch: 70
+    coup2ch: 77
+    reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2018
+  2019-01-01:
+    sing: 45
+    sp1ch: 62
+    sp2ch: 73
+    coup: 63
+    coup1ch: 69
+    coup2ch: 77
+    reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2019
+  2020-01-01:
+    sing: 45
+    sp1ch: 62
+    sp2ch: 73
+    coup: 63
+    coup1ch: 70
+    coup2ch: 76
+    reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2020
+kaltmiete:
+  name:
+    de: Durchschnittliche Miete (Unterkunftskosten und Betriebskosten)
+    en: Average Rent
+  description:
+    de: Durchschnittliche Monatsmiete pro SGB II - Bedarfsgemeinschaft
+    en: Average Monthly rent of households living from unemployment benefit
+  unit: Euro
+  time: month
+  2020-01-01:
+    sing: 335
+    sp1ch: 465
+    sp2ch: 550
+    coup: 449
+    coup1ch: 553
+    coup2ch: 629
+    reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2020
+heizkosten:
+  name:
+    de: Durchschnittliche Heizkosten
+    en: Average Rent
+  description:
+    de: Durchschnittliche monatliche Heizkosten pro SGB II - Bedarfsgemeinschaft
+    en: Average Monthly heating cost of households living from unemployment benefit
+  unit: Euro
+  time: month
+  2020-01-01:
+    sing: 46
+    sp1ch: 68
+    sp2ch: 80
+    coup: 68
+    coup1ch: 78
+    coup2ch: 87
+    reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2020
