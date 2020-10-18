@@ -19,7 +19,7 @@ def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, rentenwert):
     ----------
     zugangsfaktor
     entgeltpunkte_update
-    ges_renten_vers_params
+    rentenwert
 
     Returns
     -------
@@ -79,14 +79,14 @@ def entgeltpunkte_update(entgeltpunkte, entgeltpunkte_lohn):
 
 
 def entgeltpunkte_lohn(
-    bruttolohn_m, _rentenv_beitr_bemess_grenze, ges_renten_vers_params
+    bruttolohn_m, rentenv_beitr_bemess_grenze, ges_renten_vers_params
 ):
     """Return earning points for the wages earned in the last year.
 
     Parameters
     ----------
     bruttolohn_m
-    _rentenv_beitr_bemess_grenze
+    rentenv_beitr_bemess_grenze
     ges_renten_vers_params
 
     Returns
@@ -94,7 +94,7 @@ def entgeltpunkte_lohn(
 
     """
     durchschnittslohn_dt = ges_renten_vers_params["durchschnittslohn"]
-    return bruttolohn_m.clip(upper=_rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
+    return bruttolohn_m.clip(upper=rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
 
 def zugangsfaktor(alter, regelaltersgrenze):

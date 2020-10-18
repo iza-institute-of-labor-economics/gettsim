@@ -169,9 +169,8 @@ def rentenv_beitr_regular_job(
 
 def ges_beitr_arbeitsl_v_midi_jobreturn(
     bruttolohn_m: FloatSeries,
-    wohnort_ost: BoolSeries,
+    rentenv_beitr_bemess_grenze: FloatSeries,
     regulär_beschäftigt: BoolSeries,
-    soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Calculate the wage, which is subject to pension insurance contributions.
 
@@ -183,26 +182,40 @@ def ges_beitr_arbeitsl_v_midi_jobreturn(
     regulär_beschäftigt
         See :func:`regulär_beschäftigt`.
 
-    wohnort_ost
-        See :ref:`wohnort_ost`.
+    rentenv_beitr_bemess_grenze
+        See :func:`rentenv_beitr_bemess_grenze`.
 
-    soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
 
     Returns
     -------
 
     """
-    beitr_bemess_grenze = wohnort_ost.replace(
+    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[regulär_beschäftigt]
+    bemess_grenze = rentenv_beitr_bemess_grenze.loc[regulär_beschäftigt]
+    return bruttolohn_m_regulär_beschäftigt.clip(upper=bemess_grenze)
+
+
+def rentenv_beitr_bemess_grenze(
+    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
+    """
+
+    Parameters
+    ----------
+    wohnort_ost
+    soz_vers_beitr_params
+
+    Returns
+    -------
+
+    """
+    out = wohnort_ost.replace(
         {
             True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
             False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
         }
     )
-
-    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[regulär_beschäftigt]
-    bemess_grenze = beitr_bemess_grenze.loc[regulär_beschäftigt]
-    return bruttolohn_m_regulär_beschäftigt.clip(upper=bemess_grenze)
+    return out
 
 
 def ges_beitr_arbeitsl_v_midi_job(

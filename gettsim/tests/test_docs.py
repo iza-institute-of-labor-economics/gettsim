@@ -1,5 +1,6 @@
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
+from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
 
 
@@ -21,3 +22,8 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     }
 
     assert set(documented_functions) == set(internal_functions)
+
+
+# def test_type_hints():
+#     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
+#     functions =
