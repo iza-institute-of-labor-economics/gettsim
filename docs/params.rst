@@ -4,6 +4,5 @@ Parameter files
 .. _soz_vers_beitr_params:
 
 Sozialversicherungsbeiträge
----------------------------
-
-Social insurance parameters.
+----------------------------
+Social insurance parameters param file.

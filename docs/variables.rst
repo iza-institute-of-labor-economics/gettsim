@@ -135,7 +135,8 @@ This float Series identifies the amount of pension.
 
 Kaltmiete
 ---------
-This float Series identifies the monthly cost of renting an apartement or house, without heating, electricity and water.
+This float Series identifies the monthly cost of renting an apartement or house,
+without heating, electricity and water.
 
 
 
@@ -274,17 +275,8 @@ This integer Series identifies the construction year of dwelling.
 
 
 
-.. _vermögen_hh: 
+.. _vermögen_hh:
 
-Vermögen 
--------- 
+Vermögen
+--------
 This float Series identifies the wealth of a household.
-
-
-
-
-
-
-
-
-

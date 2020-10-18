@@ -2,6 +2,7 @@ from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
+
 def _vorsorge_alternative_ab_2005_bis_2009(
     altervorsorge_aufwend: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
@@ -20,15 +21,15 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 
     Parameters
     ----------
-    altervorsorge_aufwend 
-        See :func:`altervorsorge_aufwend`. 
-    ges_krankenv_beitr_m 
-        See :func:`ges_krankenv_beitr_m`. 
-    arbeitsl_v_beitr_m 
-        See :func:`arbeitsl_v_beitr_m`. 
-    pflegev_beitr_m 
-        See :func:`pflegev_beitr_m`. 
-    eink_st_abzuege_params 
+    altervorsorge_aufwend
+        See :func:`altervorsorge_aufwend`.
+    ges_krankenv_beitr_m
+        See :func:`ges_krankenv_beitr_m`.
+    arbeitsl_v_beitr_m
+        See :func:`arbeitsl_v_beitr_m`.
+    pflegev_beitr_m
+        See :func:`pflegev_beitr_m`.
+    eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
     Returns
@@ -44,8 +45,7 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 
 
 def vorsorge_ab_2005_bis_2009(
-    _vorsorge_alternative_ab_2005_bis_2009: FloatSeries, 
-    vorsorge_bis_2004: FloatSeries
+    _vorsorge_alternative_ab_2005_bis_2009: FloatSeries, vorsorge_bis_2004: FloatSeries
 ) -> FloatSeries:
     """
     With the 2005 reform, no taxpayer was supposed to be affected negatively.
@@ -54,9 +54,9 @@ def vorsorge_ab_2005_bis_2009(
 
     Parameters
     ----------
-    _vorsorge_alternative_ab_2005_bis_2009 
-        See :func:`_vorsorge_alternative_ab_2005_bis_2009`. 
-    vorsorge_bis_2004 
+    _vorsorge_alternative_ab_2005_bis_2009
+        See :func:`_vorsorge_alternative_ab_2005_bis_2009`.
+    vorsorge_bis_2004
         See :func:`vorsorge_bis_2004`.
 
     Returns
@@ -67,8 +67,8 @@ def vorsorge_ab_2005_bis_2009(
 
 
 def vorsorge_ab_2010_bis_2019(
-        vorsorge_bis_2004: FloatSeries, 
-        vorsorge_ab_2020: FloatSeries) -> FloatSeries:
+    vorsorge_bis_2004: FloatSeries, vorsorge_ab_2020: FloatSeries
+) -> FloatSeries:
     """
     After a supreme court ruling, the 2005 rule had to be changed in 2010.
     Therefore, one needs to compute amounts under the 2004 and 2010 regimes
@@ -80,9 +80,9 @@ def vorsorge_ab_2010_bis_2019(
 
     Parameters
     ----------
-    vorsorge_bis_2004 
-        See :func:`vorsorge_bis_2004`. 
-    vorsorge_ab_2020 
+    vorsorge_bis_2004
+        See :func:`vorsorge_bis_2004`.
+    vorsorge_ab_2020
         See :func:`vorsorge_ab_2020`.
 
     Returns
@@ -106,15 +106,15 @@ def vorsorge_ab_2020(
 
     Parameters
     ----------
-    altervorsorge_aufwend 
+    altervorsorge_aufwend
         See :func:`altervorsorge_aufwend`.
-    pflegev_beitr_m 
-        See :func:`pflegev_beitr_m`. 
-    ges_krankenv_beitr_m 
-        See :func:`ges_krankenv_beitr_m`. 
-    arbeitsl_v_beitr_m 
-        See :func:`arbeitsl_v_beitr_m`. 
-    eink_st_abzuege_params 
+    pflegev_beitr_m
+        See :func:`pflegev_beitr_m`.
+    ges_krankenv_beitr_m
+        See :func:`ges_krankenv_beitr_m`.
+    arbeitsl_v_beitr_m
+        See :func:`arbeitsl_v_beitr_m`.
+    eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
     Returns
@@ -155,27 +155,27 @@ def vorsorge_bis_2004(
 
     Parameters
     ----------
-    lohn_vorsorge_bis_2019_single 
-        See :func:`lohn_vorsorge_bis_2019_single`. 
-    lohn_vorsorgeabzug_bis_2019_tu 
-        See :func:`lohn_vorsorgeabzug_bis_2019_tu`. 
-    ges_krankenv_beitr_m 
-        See :func:`ges_krankenv_beitr_m`. 
-    rentenv_beitr_m 
-        See :func:`rentenv_beitr_m`. 
-    ges_krankenv_beitr_m_tu 
-        See :func:`ges_krankenv_beitr_m_tu`. 
-    rentenv_beitr_m_tu 
-        See :func:`rentenv_beitr_m_tu`. 
-    tu_id 
-        See :ref:`tu_id`. 
-    gemeinsam_veranlagte_tu 
-        See :func:`gemeinsam_veranlagte_tu`. 
-    gemeinsam_veranlagt 
-        See :func:`gemeinsam_veranlagt`. 
-    kind 
-        See :ref:`kind`. 
-    eink_st_abzuege_params 
+    lohn_vorsorge_bis_2019_single
+        See :func:`lohn_vorsorge_bis_2019_single`.
+    lohn_vorsorgeabzug_bis_2019_tu
+        See :func:`lohn_vorsorgeabzug_bis_2019_tu`.
+    ges_krankenv_beitr_m
+        See :func:`ges_krankenv_beitr_m`.
+    rentenv_beitr_m
+        See :func:`rentenv_beitr_m`.
+    ges_krankenv_beitr_m_tu
+        See :func:`ges_krankenv_beitr_m_tu`.
+    rentenv_beitr_m_tu
+        See :func:`rentenv_beitr_m_tu`.
+    tu_id
+        See :ref:`tu_id`.
+    gemeinsam_veranlagte_tu
+        See :func:`gemeinsam_veranlagte_tu`.
+    gemeinsam_veranlagt
+        See :func:`gemeinsam_veranlagt`.
+    kind
+        See :ref:`kind`.
+    eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
     Returns
@@ -206,20 +206,20 @@ def vorsorge_bis_2004(
 
 
 def lohn_vorsorge_bis_2019_single(
-    bruttolohn_m: FloatSeries, 
-    gemeinsam_veranlagt: BoolSeries, 
-    eink_st_abzuege_params: dict
+    bruttolohn_m: FloatSeries,
+    gemeinsam_veranlagt: BoolSeries,
+    eink_st_abzuege_params: dict,
 ) -> FloatSeries:
     """
 
     Parameters
     ----------
-    bruttolohn_m 
-        See :ref:`bruttolohn_m`. 
-    gemeinsam_veranlagt 
-        See :func:`gemeinsam_veranlagt`. 
-    eink_st_abzuege_params 
-        See :ref:`eink_st_abzuege_params`. 
+    bruttolohn_m
+        See :ref:`bruttolohn_m`.
+    gemeinsam_veranlagt
+        See :func:`gemeinsam_veranlagt`.
+    eink_st_abzuege_params
+        See :ref:`eink_st_abzuege_params`.
 
     Returns
     -------
@@ -235,19 +235,19 @@ def lohn_vorsorge_bis_2019_single(
 
 
 def lohn_vorsorgeabzug_bis_2019_tu(
-    bruttolohn_m_tu: FloatSeries, 
-    gemeinsam_veranlagte_tu: FloatSeries, 
-    eink_st_abzuege_params: dict
+    bruttolohn_m_tu: FloatSeries,
+    gemeinsam_veranlagte_tu: FloatSeries,
+    eink_st_abzuege_params: dict,
 ) -> FloatSeries:
     """
 
     Parameters
     ----------
-    bruttolohn_m_tu 
-        See :func:`bruttolohn_m_tu`. 
-    gemeinsam_veranlagte_tu 
-        See :func:`gemeinsam_veranlagte_tu`. 
-    eink_st_abzuege_params 
+    bruttolohn_m_tu
+        See :func:`bruttolohn_m_tu`.
+    gemeinsam_veranlagte_tu
+        See :func:`gemeinsam_veranlagte_tu`.
+    eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
     Returns
@@ -274,15 +274,15 @@ def berechne_vorsorge_bis_2004(
 
     Parameters
     ----------
-    lohn_vorsorge 
-        See :func:`lohn_vorsorge`. 
-    krankenv_beitr 
-        See :func:`krankenv_beitr`. 
-    rentenv_beitr 
-        See :func:`rentenv_beitr`. 
-    anzahl_erwachsene 
-        See :func:`anzahl_erwachsene`. 
-    eink_st_abzuege_params 
+    lohn_vorsorge
+        See :func:`lohn_vorsorge`.
+    krankenv_beitr
+        See :func:`krankenv_beitr`.
+    rentenv_beitr
+        See :func:`rentenv_beitr`.
+    anzahl_erwachsene
+        See :func:`anzahl_erwachsene`.
+    eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
     Returns
