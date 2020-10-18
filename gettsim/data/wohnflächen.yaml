@@ -1,0 +1,32 @@
+wohnfläche:
+  name:
+    de: Durchschnittliche Wohnfläche
+    en: Average Appartment Size
+  description:
+    de: Durchschnittliche Wohnfläche pro SGB II - Bedarfsgemeinschaft
+    en: Average Appartement Size of households living from unemployment benefit
+  unit: Square Meters
+  2018-01-01:
+    sing: 44
+    sp1ch: 63
+    sp2ch: 74
+    coup: 63
+    coup1ch: 70
+    coup2ch: 77
+    reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2018
+  2019-01-01:
+    sing: 45
+    sp1ch: 62
+    sp2ch: 73
+    coup: 63
+    coup1ch: 69
+    coup2ch: 77
+    reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2019
+  2020-01-01:
+    sing: 45
+    sp1ch: 62
+    sp2ch: 73
+    coup: 63
+    coup1ch: 70
+    coup2ch: 76
+    reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2020
