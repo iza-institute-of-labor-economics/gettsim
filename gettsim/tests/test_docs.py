@@ -31,7 +31,14 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
 def test_type_hints():
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)
-    time_dependent_functions = get_all_time_dependet_functions()
+
+    # Load all time dependent functions
+    time_dependent_functions = {}
+    for year in range(1990, 2021):
+        year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
+        new_dict = {func.__name__: key for key, func in year_functions.items()}
+        time_dependent_functions = {**time_dependent_functions, **new_dict}
+
     return_types = {}
     for name, func in functions.items():
         for var, internal_type in func.__annotations__.items():
@@ -67,12 +74,3 @@ def test_type_hints():
                         )
                 else:
                     return_types[var] = internal_type
-
-
-def get_all_time_dependet_functions():
-    functions = {}
-    for year in range(1990, 2021):
-        year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
-        new_dict = {func.__name__: key for key, func in year_functions.items()}
-        functions = {**functions, **new_dict}
-    return functions
