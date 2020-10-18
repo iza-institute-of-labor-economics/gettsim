@@ -45,14 +45,14 @@ def gettsim_hypo_data(
     Creates a dataset with hypothetical household types,
     which can be used as input for gettsim
 
-    hh_typen: (tuple of str):
+    hh_typen (tuple of str):
         Allowed Household Types:
-    - 'sing' - Single, no kids
-    - 'sp1ch' - Single Parent, one child
-    - 'sp2ch' - Single Parent, two children
-    - 'coup' - Couple, no kids
-    - 'coup1ch' - Couple, one child
-    - 'coup2ch' - Couple, two children
+        - 'sing' - Single, no kids
+        - 'sp1ch' - Single Parent, one child
+        - 'sp2ch' - Single Parent, two children
+        - 'coup' - Couple, no kids
+        - 'coup1ch' - Couple, one child
+        - 'coup2ch' - Couple, two children
 
     bruttolohn (int):
         Gross monthly wage for the household head.
