@@ -113,7 +113,7 @@ def kinderzuschlag_ab_juli_2019(
 
 def kinderzuschlag_ab_2005_bis_juni_2019(
     hh_id: IntSeries,
-    kinderzuschlag_eink_spanne: FloatSeries,
+    kinderzuschlag_eink_spanne: BoolSeries,
     kinderzuschlag_kindereink_abzug: FloatSeries,
     kinderzuschlag_eink_anrechn: FloatSeries,
 ) -> FloatSeries:

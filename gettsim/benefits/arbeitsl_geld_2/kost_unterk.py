@@ -24,7 +24,7 @@ def kost_unterk_m_hh(
 
 def miete_pro_qm_hh(
     kaltmiete_m_hh: FloatSeries, heizkosten_m_hh: FloatSeries, wohnfläche_hh: IntSeries
-) -> IntSeries:
+) -> FloatSeries:
     """Check the monthly sum of rental costs per squaremeter.
 
     Parameters

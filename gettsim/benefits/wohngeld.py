@@ -392,7 +392,7 @@ def wohngeld_max_miete_bis_2008(
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
     kaltmiete_m_hh: FloatSeries,
-    tax_unit_share: BoolSeries,
+    tax_unit_share: FloatSeries,
     _wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
 ):
@@ -552,7 +552,7 @@ def wohngeld_basis(
     return wg_amount
 
 
-def tax_unit_share(tu_id: IntSeries, haushaltsgröße: IntSeries) -> BoolSeries:
+def tax_unit_share(tu_id: IntSeries, haushaltsgröße: IntSeries) -> FloatSeries:
     """
 
     Parameters

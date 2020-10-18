@@ -236,7 +236,7 @@ def lohn_vorsorge_bis_2019_single(
 
 def lohn_vorsorgeabzug_bis_2019_tu(
     bruttolohn_m_tu: FloatSeries,
-    gemeinsam_veranlagte_tu: FloatSeries,
+    gemeinsam_veranlagte_tu: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
     """

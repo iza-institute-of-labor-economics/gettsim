@@ -131,7 +131,7 @@ def krankenv_beitr_regulär_beschäftigt(
 
 
 def pflegev_beitr_regulär_beschäftigt(
-    pflegev_zusatz_kinderlos: FloatSeries,
+    pflegev_zusatz_kinderlos: BoolSeries,
     lohn_krankenv_regulär_beschäftigt: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
@@ -222,7 +222,7 @@ def ges_krankenv_beitr_selbst(
 
 
 def pflegev_beitr_selbst(
-    pflegev_zusatz_kinderlos: FloatSeries,
+    pflegev_zusatz_kinderlos: BoolSeries,
     krankenv_pflichtig_eink_selbst: FloatSeries,
     soz_vers_beitr_params: dict,
 ):
@@ -290,7 +290,7 @@ def bezugsgröße(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict) -> Float
 def krankenv_pflichtig_eink_selbst(
     eink_selbst_m: FloatSeries,
     bezugsgröße: FloatSeries,
-    selbstständig_ges_krankenv: FloatSeries,
+    selbstständig_ges_krankenv: BoolSeries,
 ) -> FloatSeries:
     """Choose the amount selfemployed income which is subject to health insurance
     contribution.
@@ -361,7 +361,7 @@ def krankenv_beitr_bemess_grenze(
 
 
 def pflegev_beitr_rente(
-    pflegev_zusatz_kinderlos: FloatSeries,
+    pflegev_zusatz_kinderlos: BoolSeries,
     krankenv_pflichtig_rente: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
@@ -533,7 +533,7 @@ def ag_beitr_pflegev_midi_job(
 
 
 def ges_beitr_pflegev_midi_job(
-    pflegev_zusatz_kinderlos: FloatSeries,
+    pflegev_zusatz_kinderlos: BoolSeries,
     midi_job_bemessungsentgelt: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:

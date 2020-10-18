@@ -44,7 +44,7 @@ def elterngeld_m_hh(elterngeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
 
 def elterngeld_m(
     elterngeld_eink_relev: FloatSeries,
-    elternzeit_anspruch: IntSeries,
+    elternzeit_anspruch: BoolSeries,
     elterngeld_eink_erlass: FloatSeries,
     geschw_bonus: FloatSeries,
     anz_mehrlinge_bonus: FloatSeries,
@@ -265,10 +265,10 @@ def alter_jüngstes_kind_monate(alter_jüngstes_kind_tage: IntSeries) -> IntSeri
 def elternzeit_anspruch(
     hh_id: IntSeries,
     alter_jüngstes_kind_monate: IntSeries,
-    m_elterngeld_mut: FloatSeries,
-    m_elterngeld_vat: FloatSeries,
+    m_elterngeld_mut: IntSeries,
+    m_elterngeld_vat: IntSeries,
+    m_elterngeld: IntSeries,
     kind: BoolSeries,
-    m_elterngeld: FloatSeries,
     elterngeld_params: dict,
 ) -> BoolSeries:
     """
@@ -283,10 +283,10 @@ def elternzeit_anspruch(
         See :ref:`m_elterngeld_mut`.
     m_elterngeld_vat
         See :ref:`m_elterngeld_vat`.
-    kind
-        See :ref:`kind`.
     m_elterngeld
         See :ref:`m_elterngeld`.
+    kind
+        See :ref:`kind`.
     elterngeld_params
         See :ref:`elterngeld_params`.
 
@@ -322,7 +322,7 @@ def elternzeit_anspruch(
 def berechtigt_für_geschw_bonus(
     hh_id: IntSeries,
     geburtsjahr: IntSeries,
-    elternzeit_anspruch: IntSeries,
+    elternzeit_anspruch: BoolSeries,
     elterngeld_params: dict,
 ) -> BoolSeries:
     """
@@ -354,7 +354,7 @@ def berechtigt_für_geschw_bonus(
 
 
 def anz_mehrlinge_anspruch(
-    hh_id: IntSeries, elternzeit_anspruch: IntSeries, jüngstes_kind: IntSeries
+    hh_id: IntSeries, elternzeit_anspruch: BoolSeries, jüngstes_kind: IntSeries
 ) -> BoolSeries:
     """
 

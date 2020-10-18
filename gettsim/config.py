@@ -1,5 +1,9 @@
 from pathlib import Path
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
 # Obtain the root directory of the package. Do not import gettsim which creates a
 # circular import.
 ROOT_DIR = Path(__file__).parent
@@ -60,3 +64,49 @@ DEFAULT_TARGETS = [
     # "verfügb_eink_m",
     # "verfügb_eink_hh_m",
 ]
+
+STANDARD_DATA_TYPES = {
+    "hh_id": IntSeries,
+    "tu_id": IntSeries,
+    "p_id": IntSeries,
+    "anz_minderj_hh": IntSeries,
+    "vermögen_hh": FloatSeries,
+    "bruttolohn_m": FloatSeries,
+    "alter": IntSeries,
+    "selbstständig": BoolSeries,
+    "wohnort_ost": BoolSeries,
+    "hat_kinder": BoolSeries,
+    "eink_selbst_m": FloatSeries,
+    "ges_rente_m": FloatSeries,
+    "prv_krankenv": BoolSeries,
+    "prv_rente_beitr_m": FloatSeries,
+    "bruttolohn_vorj_m": FloatSeries,
+    "arbeitsl_lfdj_m": IntSeries,
+    "arbeitsl_vorj_m": IntSeries,
+    "arbeitsl_vor2j_m": IntSeries,
+    "arbeitsstunden_w": IntSeries,
+    "geburtsjahr": IntSeries,
+    "geburtstag": IntSeries,
+    "geburtsmonat": IntSeries,
+    "mietstufe": IntSeries,
+    "entgeltpunkte": FloatSeries,
+    "kind": BoolSeries,
+    "rentner": BoolSeries,
+    "betreuungskost_m": FloatSeries,
+    "kapital_eink_m": FloatSeries,
+    "vermiet_eink_m": FloatSeries,
+    "kaltmiete_m_hh": FloatSeries,
+    "heizkosten_m_hh": FloatSeries,
+    "jahr_renteneintr": IntSeries,
+    "behinderungsgrad": IntSeries,
+    "wohnfläche_hh": IntSeries,
+    "m_elterngeld": IntSeries,
+    "m_elterngeld_vat": IntSeries,
+    "m_elterngeld_mut": IntSeries,
+    "in_ausbildung": BoolSeries,
+    "alleinerziehend": BoolSeries,
+    "bewohnt_eigentum_hh": BoolSeries,
+    "immobilie_baujahr_hh": IntSeries,
+    "sonstig_eink_m": FloatSeries,
+    "jahr": IntSeries,
+}

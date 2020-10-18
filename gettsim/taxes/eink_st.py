@@ -53,7 +53,7 @@ def st_kind_freib_tu(
     return anz_erwachsene_tu * st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
 
 
-def st_tarif(x: FloatSeries, params: dict) -> IntSeries:
+def st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
     """The German Income Tax Tariff.
      Modelled only after 2002 so far.
 
