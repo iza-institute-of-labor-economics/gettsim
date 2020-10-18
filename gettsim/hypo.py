@@ -3,6 +3,8 @@ import datetime
 import numpy as np
 import pandas as pd
 
+from gettsim.policy_environment import _load_parameter_group_from_yaml
+
 
 def create_other_hh_members(df, hh_typ, alter, alter_kind_1, alter_kind_2):
     new_df = df[df["hh_typ"] == hh_typ].copy()
@@ -40,6 +42,7 @@ def gettsim_hypo_data(
     alter_kind_1=3,
     alter_kind_2=8,
     baujahr=1980,
+    policy_year=datetime.datetime.now().year,
 ):
     """
     Creates a dataset with hypothetical household types,
@@ -71,16 +74,15 @@ def gettsim_hypo_data(
     # initiate empty dataframe
     output_columns = [
         "tu_vorstand",
-        "anz_erwachsene_hh",
-        "anz_minderj_hh",
         "vermögen_hh",
         "alter",
         "selbstständig",
         "wohnort_ost",
         "hat_kinder",
         "bruttolohn_m",
-        "eink_selbstst_m",
+        "eink_selbst_m",
         "ges_rente_m",
+        "prv_krankenv",
         "prv_krankv_beit_m",
         "prv_rente_beit_m",
         "bruttolohn_vorj_m",
@@ -88,8 +90,6 @@ def gettsim_hypo_data(
         "arbeitsl_vorj_m",
         "arbeitsl_vor2j_m",
         "arbeitsstunden_w",
-        "anz_kinder_tu",
-        "anz_erw_tu",
         "geburtsjahr",
         "entgeltpunkte",
         "kind",
@@ -126,6 +126,7 @@ def gettsim_hypo_data(
         "in_ausbildung",
         "alleinerziehend",
         "bewohnt_eigentum",
+        "prv_krankenv",
     ]:
         df[c] = False
 
@@ -139,32 +140,9 @@ def gettsim_hypo_data(
     df["hh_typ"] = pd.Series(hh_typen)
 
     # Wohnfläche, Kaltmiete, Heizkosten are taken from official data
-    bg_daten = {
-        "wohnfläche": {
-            "sing": 45,
-            "sp1ch": 62,
-            "sp2ch": 73,
-            "coup": 63,
-            "coup1ch": 70,
-            "coup2ch": 76,
-        },
-        "kaltmiete": {
-            "sing": 335,
-            "sp1ch": 465,
-            "sp2ch": 550,
-            "coup": 449,
-            "coup1ch": 553,
-            "coup2ch": 629,
-        },
-        "heizkosten": {
-            "sing": 46,
-            "sp1ch": 68,
-            "sp2ch": 80,
-            "coup": 68,
-            "coup1ch": 78,
-            "coup2ch": 87,
-        },
-    }
+    bg_daten = _load_parameter_group_from_yaml(
+        datetime.date(policy_year, 1, 1), "bedarfsgemeinschaften"
+    )
     df["wohnfläche"] = df["hh_typ"].map(bg_daten["wohnfläche"])
     df["kaltmiete_m"] = df["hh_typ"].map(bg_daten["kaltmiete"])
     df["heizkost_m"] = df["hh_typ"].map(bg_daten["heizkosten"])
@@ -182,16 +160,10 @@ def gettsim_hypo_data(
             create_other_hh_members(df, hht, alter, alter_kind_1, alter_kind_2)
         )
 
-    df["geburtsjahr"] = datetime.datetime.now().year - df["alter"]
+    df["geburtsjahr"] = policy_year - df["alter"]
     df["jahr_renteneintr"] = df["geburtsjahr"] + 67
 
-    # Household and Tax Unit Totals
-    for dim in ["hh", "tu"]:
-        df[f"{dim}_size"] = df.groupby(f"{dim}_id")[f"{dim}_id"].transform("count")
-        df[f"anz_minderj_{dim}"] = df.groupby(f"{dim}_id")["kind"].transform("sum")
-        df[f"anz_erwachsene_{dim}"] = df[f"{dim}_size"] - df[f"anz_minderj_{dim}"]
-
-    df["hat_kinder"] = df["anz_minderj_tu"] > 0
+    df["hat_kinder"] = df["hh_typ"].str.contains("ch")
 
     df.loc[df["bruttolohn_m"] > 0, "arbeitsstunden_w"] = 38
 
@@ -204,4 +176,4 @@ def gettsim_hypo_data(
     df = df.reset_index()
     df["p_id"] = df.index
 
-    return df
+    return df[["hh_id", "tu_id", "p_id"] + output_columns]
