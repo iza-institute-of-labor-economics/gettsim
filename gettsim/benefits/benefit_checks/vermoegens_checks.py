@@ -69,7 +69,7 @@ def wohngeld_vermögens_check_hh(
     wohngeld_basis_hh
         See :func:`wohngeld_basis_hh`.
     vermögen_hh
-        See :refs:`vermögen_hh`.
+        See :ref:`vermögen_hh`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
 

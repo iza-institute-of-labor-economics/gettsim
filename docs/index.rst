@@ -27,6 +27,7 @@ Welcome to GETTSIM's documentation!
    functions
    variables
    types
+   params
    glossary
 
 
