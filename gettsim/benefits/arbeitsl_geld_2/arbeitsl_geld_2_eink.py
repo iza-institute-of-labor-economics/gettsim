@@ -12,7 +12,7 @@ def arbeitsl_geld_2_eink_hh(
     arbeitsl_geld_2_eink
         See :func:`arbeitsl_geld_2_eink`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -42,7 +42,7 @@ def arbeitsl_geld_2_eink(
     eink_st_tu
         See :func:`eink_st_tu`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     soli_st_tu
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
@@ -74,7 +74,7 @@ def _arbeitsl_geld_2_brutto_eink_hh(
     _arbeitsl_geld_2_brutto_eink
         See :func:`_arbeitsl_geld_2_brutto_eink`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -99,17 +99,17 @@ def _arbeitsl_geld_2_brutto_eink(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     sonstig_eink_m
-        See :ref:`sonstig_eink_m`.
+        See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
     eink_selbst_m
-        See :ref:`eink_selbst_m`.
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     vermiet_eink_m
-        See :ref:`vermiet_eink_m`.
+        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
     kapital_eink_m
-        See :ref:`kapital_eink_m`.
+        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
     ges_rente_m
-        See :ref:`ges_rente_m`.
+        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
     arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
     elterngeld_m

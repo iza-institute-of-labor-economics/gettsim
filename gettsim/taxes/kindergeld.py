@@ -11,7 +11,7 @@ def kindergeld_m_basis(
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
     kindergeld_params
@@ -41,7 +41,7 @@ def kindergeld_m_tu_basis(
     kindergeld_m_basis
         See :func:`kindergeld_m_basis`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -64,7 +64,7 @@ def kindergeld_anspruch_nach_stunden(
     Parameters
     ----------
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
     in_ausbildung
         See :func:`in_ausbildung`.
     arbeitsstunden_w
@@ -101,13 +101,13 @@ def kindergeld_anspruch_nach_lohn(
     Parameters
     ----------
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
     kindergeld_params
         See :ref:`kindergeld_params`.
     in_ausbildung
-        See :ref:`in_ausbildung`.
+        See basic input variable :ref:`in_ausbildung <in_ausbildung>`.
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
 
     Returns
     -------

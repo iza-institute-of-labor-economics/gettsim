@@ -11,9 +11,9 @@ def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     alleinerziehend
-        See :ref:`alleinerziehend`.
+        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
     Returns
     -------
     BoolSeries indicating single parent in tax unit.
@@ -27,9 +27,9 @@ def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSer
     Parameters
     ----------
     hh_id : IntSeries
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     alleinerziehend : BoolSeries
-        See :ref:`alleinerziehend`.
+        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
 
     Returns
     -------
@@ -44,9 +44,9 @@ def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
@@ -61,7 +61,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     anz_erwachsene_tu
         Return of :func:`anz_erwachsene_tu`.
 
@@ -82,7 +82,7 @@ def gemeinsam_veranlagte_tu(
     gemeinsam_veranlagt
         Return of :func:`gemeinsam_veranlagt`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -97,9 +97,9 @@ def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -116,11 +116,11 @@ def anz_kind_zwischen_0_6_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
 
     Returns
     -------
@@ -138,11 +138,11 @@ def anz_kind_zwischen_0_15_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
 
     Returns
     -------
@@ -160,11 +160,11 @@ def anz_kind_zwischen_7_13_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
 
     Returns
     -------
@@ -182,11 +182,11 @@ def anz_kind_zwischen_14_24_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
 
     Returns
     -------
@@ -202,9 +202,9 @@ def anz_kinder_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
@@ -219,9 +219,9 @@ def anz_kinder_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     Returns
     -------
     IntSeries with the number of children per tax unit.
@@ -235,9 +235,9 @@ def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
@@ -252,9 +252,9 @@ def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> BoolSeries:
     Parameters
     ----------
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -269,7 +269,7 @@ def haushaltsgröße(hh_id: IntSeries) -> IntSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -284,7 +284,7 @@ def haushaltsgröße_hh(hh_id: IntSeries) -> IntSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     Returns
     -------
     IntSeries with the number of persons in household per household.
@@ -298,9 +298,9 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     rentner
-        See :ref:`rentner`.
+        See basic input variable :ref:`rentner <rentner>`.
 
     Returns
     -------

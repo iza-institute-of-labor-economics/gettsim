@@ -64,7 +64,7 @@ def kinderzuschlag_m_vorläufig_hh(
     _kinderzuschlag_m_vorläufig
         See :func:`_kinderzuschlag_m_vorläufig`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -85,7 +85,7 @@ def kinderzuschlag_ab_juli_2019(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     _arbeitsl_geld_2_brutto_eink_hh
         See :func:`_arbeitsl_geld_2_brutto_eink_hh`.
     kinderzuschlag_eink_min
@@ -122,7 +122,7 @@ def kinderzuschlag_ab_2005_bis_juni_2019(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kinderzuschlag_eink_spanne
         See :func:`kinderzuschlag_eink_spanne`.
     kinderzuschlag_kindereink_abzug

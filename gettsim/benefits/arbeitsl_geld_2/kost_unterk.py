@@ -30,11 +30,11 @@ def miete_pro_qm_hh(
     Parameters
     ----------
     kaltmiete_m_hh
-        See :ref:`kaltmiete_m_hh`.
+        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
     heizkosten_m_hh
-        See :ref:`heizkosten_m_hh`.
+        See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
     wohnfläche_hh
-        See :ref:`wohnfläche_hh`.
+        See basic input variable :ref:`wohnfläche_hh <wohnfläche_hh>`.
 
     Returns
     -------
@@ -53,9 +53,9 @@ def berechtigte_wohnfläche_hh(
     Parameters
     ----------
     wohnfläche_hh
-        See :ref:`wohnfläche_hh`.
+        See basic input variable :ref:`wohnfläche_hh <wohnfläche_hh>`.
     bewohnt_eigentum_hh
-        See :ref:`bewohnt_eigentum_hh`.
+        See basic input variable :ref:`bewohnt_eigentum_hh <bewohnt_eigentum_hh>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
 

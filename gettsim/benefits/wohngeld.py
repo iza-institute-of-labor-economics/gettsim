@@ -51,7 +51,7 @@ def wohngeld_basis_hh(hh_id: IntSeries, wohngeld_basis: FloatSeries) -> FloatSer
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     wohngeld_basis
         See :func:`wohngeld_basis`.
 
@@ -77,7 +77,7 @@ def _zu_verst_ges_rente_tu(
     _zu_verst_ges_rente
         See :func:`_zu_verst_ges_rente`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -125,7 +125,7 @@ def _zu_verst_ges_rente(
     _ertragsanteil
         See :func:`_ertragsanteil`.
     ges_rente_m
-        See :ref:`ges_rente_m`.
+        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
 
     Returns
     -------
@@ -203,9 +203,9 @@ def _anzahl_kinder_unter_11_per_tu(tu_id: IntSeries, alter: IntSeries) -> IntSer
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
 
     Returns
     -------
@@ -228,15 +228,15 @@ def wohngeld_eink_abzüge_bis_2015(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     arbeitende_kinder
         See :func:`arbeitende_kinder`.
     behinderungsgrad
-        See :ref:`behinderungsgrad`.
+        See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     alleinerziehend
-        See :ref:`alleinerziehend`.
+        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     _anzahl_kinder_unter_11_per_tu
         See :func:`_anzahl_kinder_unter_11_per_tu`.
     wohngeld_params
@@ -272,7 +272,7 @@ def arbeitende_kinder(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
 
@@ -296,15 +296,15 @@ def wohngeld_eink_abzüge_ab_2016(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
     behinderungsgrad
-        See :ref:`behinderungsgrad`.
+        See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     alleinerziehend
-        See :ref:`alleinerziehend`.
+        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     wohngeld_params
         See :ref:`wohngeld_params`.
     Returns
@@ -337,7 +337,7 @@ def _wohngeld_eink(
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     haushaltsgröße
         See :func:`haushaltsgröße`.
     wohngeld_eink_abzüge
@@ -401,15 +401,15 @@ def wohngeld_max_miete_bis_2008(
     Parameters
     ----------
     mietstufe
-        See :ref:`mietstufe`.
+        See basic input variable :ref:`mietstufe <mietstufe>`.
     immobilie_baujahr_hh
-        See :ref:`immobilie_baujahr_hh`.
+        See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
     haushaltsgröße
         See :func:`haushaltsgröße`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kaltmiete_m_hh
-        See :ref:`kaltmiete_m_hh`.
+        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
     _wohngeld_min_miete
@@ -460,13 +460,13 @@ def wohngeld_max_miete_ab_2009(
     Parameters
     ----------
     mietstufe
-        See :ref:`mietstufe`.
+        See basic input variable :ref:`mietstufe <mietstufe>`.
     haushaltsgröße
         See :func:`haushaltsgröße`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kaltmiete_m_hh
-        See :ref:`kaltmiete_m_hh`.
+        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
     _wohngeld_min_miete
@@ -558,7 +558,7 @@ def tax_unit_share(tu_id: IntSeries, haushaltsgröße: IntSeries) -> FloatSeries
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     haushaltsgröße
         See :func:`haushaltsgröße`.
 
@@ -575,9 +575,9 @@ def sonstig_eink_m_tu(sonstig_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSer
     Parameters
     ----------
     sonstig_eink_m
-        See :ref:`sonstig_eink_m`.
+        See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------

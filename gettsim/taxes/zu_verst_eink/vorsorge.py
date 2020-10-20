@@ -168,13 +168,13 @@ def vorsorge_bis_2004(
     rentenv_beitr_m_tu
         See :func:`rentenv_beitr_m_tu`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     gemeinsam_veranlagte_tu
         See :func:`gemeinsam_veranlagte_tu`.
     gemeinsam_veranlagt
         See :func:`gemeinsam_veranlagt`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
@@ -215,7 +215,7 @@ def lohn_vorsorge_bis_2019_single(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     gemeinsam_veranlagt
         See :func:`gemeinsam_veranlagt`.
     eink_st_abzuege_params

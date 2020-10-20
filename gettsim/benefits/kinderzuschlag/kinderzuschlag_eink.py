@@ -18,9 +18,9 @@ def kinderzuschlag_eink_regel_bis_2010(
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     alleinerziehenden_mehrbedarf_hh
         See :func:`alleinerziehenden_mehrbedarf_hh`.
     anz_erwachsene_tu
@@ -65,9 +65,9 @@ def kinderzuschlag_eink_regel_ab_2011(
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     alleinerziehenden_mehrbedarf_hh
         See :func:`alleinerziehenden_mehrbedarf_hh`.
     anz_erwachsene_tu
@@ -123,7 +123,7 @@ def anz_kinder_anspruch_per_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
 
@@ -177,11 +177,11 @@ def kinderzuschlag_eink_min(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     alleinerziehend
-        See :ref:`alleinerziehend`.
+        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
     kinderzuschlag_params
         See :ref:`kinderzuschlag_params`.
 
@@ -215,7 +215,7 @@ def kinderzuschlag_kindereink_abzug(
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
     kinderzuschlag_params
@@ -243,7 +243,7 @@ def kinderzuschlag_eink_anrechn(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     arbeitsl_geld_2_eink_hh
         See :func:`arbeitsl_geld_2_eink_hh`.
     kinderzuschlag_eink_relev
@@ -273,7 +273,7 @@ def kinderzuschlag_eink_spanne(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     _arbeitsl_geld_2_brutto_eink_hh
         See :func:`_arbeitsl_geld_2_brutto_eink_hh`.
     kinderzuschlag_eink_min

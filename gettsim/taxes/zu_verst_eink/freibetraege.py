@@ -14,7 +14,7 @@ def behinderungsgrad_pauschbetrag(
     Parameters
     ----------
     behinderungsgrad
-        See :ref:`behinderungsgrad`.
+        See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
@@ -102,15 +102,15 @@ def altersfreib(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
     kapital_eink_m
-        See :ref:`kapital_eink_m`.
+        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
     eink_selbst_m
         See :func:`eink_selbst_m`.
     vermiet_eink_m
-        See :ref:`vermiet_eink_m`.
+        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
     eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
@@ -138,7 +138,7 @@ def sonderausgaben_bis_2011(
     Parameters
     ----------
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
@@ -164,11 +164,11 @@ def sonderausgaben_ab_2012(
     Parameters
     ----------
     betreuungskost_m
-        See :ref:`betreuungskost_m`.
+        See basic input variable :ref:`betreuungskost_m <betreuungskost_m>`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
     anz_erwachsene_tu
@@ -211,11 +211,11 @@ def altervorsorge_aufwend(
     Parameters
     ----------
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     rentenv_beitr_m
         See :func:`rentenv_beitr_m`.
     prv_rente_beitr_m
-        See :ref:`prv_rente_beitr_m`.
+        See basic input variable :ref:`prv_rente_beitr_m <prv_rente_beitr_m>`.
     eink_st_abzuege_params
         See :ref:`eink_st_abzuege_params`.
 
@@ -267,7 +267,7 @@ def anz_kindergeld_kinder_tu(
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
 

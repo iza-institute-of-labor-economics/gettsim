@@ -14,7 +14,7 @@ def eink_anr_frei_bis_10_2005(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     arbeitsl_geld_2_2005_netto_quote
         See :func:`arbeitsl_geld_2_2005_netto_quote`.
     arbeitsl_geld_2_params
@@ -47,9 +47,9 @@ def eink_anr_frei_ab_10_2005(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     kinder_in_hh
         See :func:`kinder_in_h`.
     arbeitsl_geld_2_params
@@ -90,7 +90,7 @@ def arbeitsl_geld_2_2005_netto_quote(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     nettolohn_m
         See :func:`nettolohn_m`.
     arbeitsl_geld_2_params

@@ -13,9 +13,9 @@ def geringfügig_beschäftigt(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     wohnort_ost
-        See :ref:`wohnort_ost`.
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     soz_vers_beitr_params
         See :ref:`soz_vers_beitr_params`.
 
@@ -48,7 +48,7 @@ def in_gleitzone(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
     soz_vers_beitr_params
@@ -75,7 +75,7 @@ def midi_job_bemessungsentgelt(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     in_gleitzone
         See :func:`in_gleitzone`.
     soz_vers_beitr_params
@@ -150,7 +150,7 @@ def regulär_beschäftigt(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     soz_vers_beitr_params
         See :ref:`soz_vers_beitr_params`.
 

@@ -78,7 +78,7 @@ def rentenv_beitr_m_tu(rentenv_beitr_m: FloatSeries, tu_id: IntSeries) -> FloatS
         See :func:`rentenv_beitr_m`.
 
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -274,7 +274,7 @@ def ag_beitr_rentenv_midi_job(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
 
     in_gleitzone
         See :func:`in_gleitzone`.
@@ -301,7 +301,7 @@ def ag_beitr_arbeitsl_v_midi_job(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
 
     in_gleitzone
         See :func:`in_gleitzone`.

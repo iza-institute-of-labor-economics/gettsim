@@ -17,7 +17,7 @@ def elterngeld_m_tu(elterngeld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     elterngeld_m
         See :func:`elterngeld_m`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -34,7 +34,7 @@ def elterngeld_m_hh(elterngeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
     elterngeld_m
         See :func:`elterngeld_m`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     Returns
     -------
 
@@ -104,7 +104,7 @@ def proxy_eink_vorj_elterngeld(
     beitr_bemess_grenze_rentenv
         See :func:`beitr_bemess_grenze_rentenv`.
     bruttolohn_vorj_m
-        See :ref:`bruttolohn_vorj_m`.
+        See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     elterngeld_params
         See :ref:`elterngeld_params`.
     eink_st_params
@@ -152,11 +152,11 @@ def date_of_birth(
     Parameters
     ----------
     geburtsjahr
-        See :ref:`geburtsjahr`.
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     geburtsmonat
-        See :ref:`geburtsmonat`.
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     geburtstag
-        See :ref:`geburtstag`.
+        See basic input variable :ref:`geburtstag <geburtstag>`.
 
     Returns
     -------
@@ -182,11 +182,11 @@ def alter_jüngstes_kind(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     date_of_birth
         See :func:`geburtstag`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
@@ -227,7 +227,7 @@ def alter_jüngstes_kind_tage(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     alter_jüngstes_kind
         See :func:`alter_jüngstes_kind`.
     elterngeld_params
@@ -276,17 +276,17 @@ def elternzeit_anspruch(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     alter_jüngstes_kind_monate
         See :func:`alter_jüngstes_kind_monate`.
     m_elterngeld_mut
-        See :ref:`m_elterngeld_mut`.
+        See basic input variable :ref:`m_elterngeld_mut <m_elterngeld_mut>`.
     m_elterngeld_vat
-        See :ref:`m_elterngeld_vat`.
+        See basic input variable :ref:`m_elterngeld_vat <m_elterngeld_vat>`.
     m_elterngeld
-        See :ref:`m_elterngeld`.
+        See basic input variable :ref:`m_elterngeld <m_elterngeld>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     elterngeld_params
         See :ref:`elterngeld_params`.
 
@@ -330,9 +330,9 @@ def berechtigt_für_geschw_bonus(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     geburtsjahr
-        See :ref:`geburtsjahr`.
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`.
     elterngeld_params
@@ -361,7 +361,7 @@ def anz_mehrlinge_anspruch(
    Parameters
    ----------
    hh_id
-       See :ref:`hh_id`.
+       See basic input variable :ref:`hh_id <hh_id>`.
    elternzeit_anspruch
        See :func:`elternzeit_anspruch`.
    jüngstes_kind
@@ -389,9 +389,9 @@ def nettolohn_m(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     eink_st_tu
         See :func:`eink_st_tu`.
     soli_st_tu
@@ -422,7 +422,7 @@ def elterngeld_eink_relev(
     child raising.
 
 
-Parameters
+    Parameters
     ----------
     proxy_eink_vorj_elterngeld
         See :func:`proxy_eink_vorj_elterngeld`.

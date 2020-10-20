@@ -69,7 +69,7 @@ def wohngeld_vermögens_check_hh(
     wohngeld_basis_hh
         See :func:`wohngeld_basis_hh`.
     vermögen_hh
-        See :ref:`vermögen_hh`.
+        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
 
@@ -90,7 +90,7 @@ def unter_vermögens_freibetrag_hh(
     Parameters
     ----------
     vermögen_hh
-        See :ref:`vermögen_hh`.
+        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
     freibetrag_vermögen_hh
         See :func:`freibetrag_vermögen_hh`.
 
@@ -113,13 +113,13 @@ def freibetrag_vermögen_anspruch_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
     geburtsjahr
-        See :ref:`geburtsjahr`.
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     arbeitsl_geld_2_params
         See :ref:`arbeitsl_geld_2_params`.
 
@@ -152,11 +152,11 @@ def max_freibetrag_vermögen_hh(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     geburtsjahr
-        See :ref:`geburtsjahr`.
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     kind
-        See :ref:`kind`.
+        See basic input variable :ref:`kind <kind>`.
     arbeitsl_geld_2_params
         See :ref:`arbeitsl_geld_2_params`.
 
@@ -198,7 +198,7 @@ def freibetrag_vermögen_hh(
     freibetrag_vermögen_anspruch_hh
         See :func:`freibetrag_vermögen_anspruch_hh`.
     anz_minderj_hh
-        See :func:`anz_minderj_hh`.
+        See basic input variable :ref:`anz_minderj_hh <anz_minderj_hh>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
     max_freibetrag_vermögen_hh

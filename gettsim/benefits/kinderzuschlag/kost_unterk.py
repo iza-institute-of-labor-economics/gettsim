@@ -40,9 +40,9 @@ def kinderzuschlag_kaltmiete_m(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     kaltmiete_m_hh
-        See :ref:`kaltmiete_m_hh`.
+        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
 
@@ -61,9 +61,9 @@ def kinderzuschlag_heizkost_m(
     Parameters
     ----------
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     heizkosten_m_hh
-        See :ref:`heizkosten_m_hh`.
+        See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
 
@@ -85,7 +85,7 @@ def wohnbedarf_eltern_anteil(
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
     anz_erwachsene_tu

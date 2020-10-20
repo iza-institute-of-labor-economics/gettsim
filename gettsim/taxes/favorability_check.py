@@ -111,7 +111,7 @@ def kindergeld_m_ab_1997(
     kindergeld_m_basis
         See :func:`kindergeld_m_basis`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -134,7 +134,7 @@ def kindergeld_m_hh(kindergeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
     kindergeld_m
         See :func:`kindergeld_m`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -151,7 +151,7 @@ def kindergeld_m_tu(kindergeld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     kindergeld_m
         See :func:`kindergeld_m`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------

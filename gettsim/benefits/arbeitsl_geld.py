@@ -16,7 +16,7 @@ def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries, tu_id: IntSeries) -> FloatS
     arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -33,7 +33,7 @@ def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, hh_id: IntSeries) -> FloatS
     arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -54,7 +54,7 @@ def arbeitsl_geld_m(
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
     berechtigt_für_arbeitsl_geld
@@ -92,11 +92,11 @@ def monate_arbeitsl(
     Parameters
     ----------
     arbeitsl_lfdj_m
-        See :ref:`arbeitsl_lfdj_m`.
+        See basic input variable :ref:`arbeitsl_lfdj_m <arbeitsl_lfdj_m>`.
     arbeitsl_vorj_m
-        See :ref:`arbeitsl_vorj_m`.
+        See basic input variable :ref:`arbeitsl_vorj_m <arbeitsl_vorj_m>`.
     arbeitsl_vor2j_m
-        See :ref:`arbeitsl_vor2j_m`.
+        See basic input variable :ref:`arbeitsl_vor2j_m <arbeitsl_vor2j_m>`.
 
     Returns
     -------
@@ -122,11 +122,11 @@ def berechtigt_für_arbeitsl_geld(
     monate_arbeitsl
         See :func:`monate_arbeitsl`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
     ges_rente_m
-        See :ref:`ges_rente_m`.
+        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
     arbeitsstunden_w
-        See :ref:`arbeitsstunden_w`.
+        See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
         See :ref:`arbeitsl_geld_params`.
 
@@ -158,7 +158,7 @@ def proxy_eink_vorj_arbeitsl_geld(
     beitr_bemess_grenze_rentenv
         See :func:`beitr_bemess_grenze_rentenv`.
     bruttolohn_vorj_m
-        See :ref:`bruttolohn_vorj_m`.
+        See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     arbeitsl_geld_params
         See :ref:`arbeitsl_geld_params`.
     eink_st_params
@@ -203,7 +203,7 @@ def beitr_bemess_grenze_rentenv(
     Parameters
     ----------
     wohnort_ost
-        See :ref:`wohnort_ost`.
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     soz_vers_beitr_params
         See :ref:`soz_vers_beitr_params`.
 

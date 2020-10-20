@@ -58,7 +58,7 @@ def ges_krankenv_beitr_m_tu(
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -272,7 +272,7 @@ def bezugsgröße(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict) -> Float
     Parameters
     ----------
     wohnort_ost
-        See :ref:`wohnort_ost`.
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     soz_vers_beitr_params
         See :ref:`soz_vers_beitr_params`.
 
@@ -298,7 +298,7 @@ def krankenv_pflichtig_eink_selbst(
     Parameters
     ----------
     eink_selbst_m
-        See :ref:`eink_selbst_m`.
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     bezugsgröße
         See :func:`bezugsgröße`.
     selbstständig_ges_krankenv
@@ -450,7 +450,7 @@ def ag_beitr_krankenv_midi_job(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     in_gleitzone
         See :func:`in_gleitzone`.
     soz_vers_beitr_params
@@ -515,7 +515,7 @@ def ag_beitr_pflegev_midi_job(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     in_gleitzone
         See :func:`in_gleitzone`.
     soz_vers_beitr_params
@@ -578,9 +578,9 @@ def selbstständig_ges_krankenv(
     Parameters
     ----------
     selbstständig
-        See :ref:`selbstständig`.
+        See basic input variable :ref:`selbstständig <selbstständig>`.
     prv_krankenv
-        See :ref:`prv_krankenv`.
+        See basic input variable :ref:`prv_krankenv <prv_krankenv>`.
 
     Returns
     -------
@@ -597,9 +597,9 @@ def pflegev_zusatz_kinderlos(hat_kinder: BoolSeries, alter: IntSeries) -> BoolSe
     Parameters
     ----------
     hat_kinder
-        See :ref:`hat_kinder`.
+        See basic input variable :ref:`hat_kinder <hat_kinder>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
 
     Returns
     -------

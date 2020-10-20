@@ -1,282 +1,84 @@
-Basic Input variables
+Basic input variables
 =====================
 
-This section documents the basic input variables for gettsim.
-
-.. _hh_id:
-
-Household identifier
---------------------
-This integer Series identifies explicitly each household of individuals.
-
-
-
-
-.. _tu_id:
-
-Tax Unit identifier
--------------------
-This integer Series identifies explicitly each tax unit of individuals.
-
-
-
-.. _kind:
-
-Kind
-----
-This bool Series identifies children either below 18yrs, or below 25 and in education.
-
-
-
-.. _bruttolohn_m:
-
-Bruttolohn
-----------
-This float Series identifies the montly wage of individuals.
-
-
-.. _alter:
-
-Alter
------
-This integer Series identfies the age of individuals.
-
-
-
-.. _rentner:
-
-Rentner
--------
-This bool Series identifies Pensioner employment status.
-
-
-
-.. _alleinerziehend:
-
-Alleinerziehend
----------------
-This bool Series identifies single parents.
-
-
-
-.. _wohnort_ost:
-
-Wohnort
--------
-This BoolSeries identifies whether location is in former East or West Germany.
-
-
-
-.. _prv_krankenv:
-
-Private Krankenversicherung
----------------------------
-This bool Series identifies if person is in a private insurance or not.
-
-
-
-.. _selbstständig:
-
-Selbstständig
--------------
-This bool Series identifies if individual is an employee or indepedent.
-
-
-
-.. _hat_Kinder:
-
-Hat Kinder
-----------
-This bool Series checks if individual has children or not.
-
-
-
-.. _sonstig_eink_m:
-
-Sonstige Einkommen
-------------------
-This float Series identifies the sum of incomes, which are not by employment.
-
-
-
-.. _eink_selbst_m:
-
-Einkommen von Selbständigen
----------------------------
-This float Series identifies the wage of self employed persons.
-
-
-
-.. _vermiet_eink_m:
-
-Einkommen aus Vermietung
-------------------------
-This float Series identifies the income by leased real estate.
-
-
-
-.. _kapital_eink_m:
-
-Kapitaleinkommen
-----------------
-This float Series identifies the income out of capital.
-
-
-
-.. _ges_rente_m:
-
-Gesamte Rente
--------------
-This float Series identifies the amount of pension.
-
-
-
-.. _kaltmiete_m_hh:
-
-Kaltmiete
----------
-This float Series identifies the monthly cost of renting an apartement or house,
-without heating, electricity and water.
-
-
-
-.. _heizkosten_m_hh:
-
-Heizkosten
-----------
-This float Series identifies the monthly costs for heating.
-
-
-
-.. _wohnfläche_hh:
-
-Wohnfläche in qm^2
-------------------
-This integer Series identifies the square meters of an apartment or house.
-
-
-
-.. _bewohnt_eigentum_hh:
-
-Bewohnt Eigentum
-----------------------
-This bool Series checks if persons are living in self owned living space.
-
-
-
-.. _arbeitsl_lfdj_m:
-
-Anzahl der arbeitslosen Monate
-------------------------------
-This integer Series counts the number of months an individual is unemployed.
-
-
-
-.. _arbeitsl_vorj_m:
-
-Anzahl der arbeitslosen Monate im Vorjahr
------------------------------------------
-This integer Series identifies the number of months of unemployment last year.
-
-
-
-.. _arbeitsl_vor2j_m:
-
-Anzahl der arbeitslosen Monate im Vorvorjahr
---------------------------------------------
-This integer Series identifies the number of months of unemployment two years ago.
-
-
-
-.. _arbeitsstunden_w:
-
-Arbeitsstunden pro Woche
-------------------------
-This integer Series identifies the number of working hours per week.
-
-
-
-.. _bruttolohn_vorj_m:
-
-Bruttovorjahreslohn
--------------------
-This float Series identifies the amount of wage earned a year ago without tax.
-
-
-
-.. _geburtstag:
-
-Geburtstag
-----------
-This integer Series identfies the day of birth.
-
-
-
-.. _geburtsmonat:
-
-Geburtsmonat
-------------
-This integer Series identifies the month of birth.
-
-
-
-.. _geburtsjahr:
-
-Geburtsjahr
------------
-This integer Series identifies the year of birth.
-
-
-
-.. _m_elterngeld:
-
-Elterngeld
-----------
-This float Series identifies the amount of Elterngeld.
-
-
-
-.. _m_elterngeld_vat:
-
-Elterngeld Vater
-----------------
-This float Series identifies the amount of Elerngeld the father gets.
-
-
-.. _m_elterngeld_mut:
-
-Elterngeld Mutter
------------------
-This float Series identifies the amount of Elerngeld the mother gets.
-
-
-
-.. _behinderungsgrad:
-
-Behinderungsgrad
-----------------
-This integer Series identifies the handycap degree.
-
-
-
-.. _mietstufe:
-
-Mietstufe
----------
-This integer Series identfies the level of support.
-
-
-
-.. _immobilie_baujahr_hh:
-
-Baujahr der Immobilie
----------------------
-This integer Series identifies the construction year of dwelling.
-
-
-
-.. _vermögen_hh:
-
-Vermögen
---------
-This float Series identifies the wealth of a household.
++-------------------------+---------------------------------------------------------+-------------+
+| Variable name           | Description                                             | Type        |
++=========================+=========================================================+=============+
+| _`hh_id`                | Household identifier                                    | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`tu_id`                | Tax Unit identifier                                     | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`kind`                 | Dummy: Either below 18yrs, or below 25 and in education | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`anz_minderj_hh`       | Number of children between 0 and 18 in household        | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`bruttolohn_m`         | Monthly wage of each individual                         | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`alter`                | Age of Individual                                       | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`rentner`              | Dummy: Pensioner employment status                      | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`alleinerziehend`      | Dummy: Single parent                                    | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`wohnort_ost`          | Dummy: Living in former East Germany                    | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`prv_krankenv`         | Dummy: Private health insured                           | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`prv_rente_beitr_m`    | Monthly contributions to private pension insurance      | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`in_ausbildung`        | Dummy: Employment status “in education”                 | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`selbstständig`        | Whether individual is self-employed                     | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`hat_kinder`           | Whether individual has kids                             | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`betreuungskost_m`     | Monthly childcare expenses                              | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`sonstig_eink_m`       | Sum of monthly public/private transfers not simulated.  | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`eink_selbst_m`        | Monthly wage of selfemployment of each individual       | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`vermiet_eink_m`       | Monthly rental income                                   | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`kapital_eink_m`       | Monthly capital income                                  | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`ges_rente_m`          | Monthly pension payments of each individual             | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`kaltmiete_m_hh`       | Monthly rent expenses for household (without heating)   | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`heizkosten_m_hh`      | Monthly heating expenses for houesehold                 | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`wohnfläche_hh`        | Size of household dwelling in square meters             | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`bewohnt_eigentum_hh`  | Dummy: Owner-occupied housing                           | BoolSeries  |
++-------------------------+---------------------------------------------------------+-------------+
+| _`arbeitsl_lfdj_m`      | Months in unemployment, current year                    | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`arbeitsl_vorj_m`      | Months in unemployment, previous year                   | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`arbeitsl_vor2j_m`     | Months in unemployment, two years before                | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`arbeitsstunden_w`     | Weekly working hours of individual                      | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`bruttolohn_vorj_m`    | Weekly working hours of individual                      | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+
+| _`geburtstag`           | Day of birth                                            | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`geburtsmonat`         | Month of birth                                          | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`geburtsjahr`          | Year of birth                                           | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`m_elterngeld`         | Number of months received elterngeld                    | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`m_elterngeld_vat`     | Number of months father received elterngeld             | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`m_elterngeld_mut`     | Number of months mother received elterngeld             | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`behinderungsgrad`     | Handicap degree (between 0 and 100)                     | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`mietstufe`            | Level of rents in city                                  | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`immobilie_baujahr_hh` | Construction year of dwelling                           | IntSeries   |
++-------------------------+---------------------------------------------------------+-------------+
+| _`vermögen_hh`          | Wealth of household                                     | FloatSeries |
++-------------------------+---------------------------------------------------------+-------------+

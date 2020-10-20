@@ -16,7 +16,7 @@ def unterhaltsvors_m_tu(unterhaltsvors_m: FloatSeries, tu_id: IntSeries) -> Floa
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     Returns
     -------
 
@@ -34,7 +34,7 @@ def unterhaltsvors_m_hh(unterhaltsvors_m: FloatSeries, hh_id: IntSeries) -> Floa
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
     hh_id
-        See :ref:`hh_id`.
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -63,11 +63,11 @@ def unterhaltsvors_m(
     Parameters
     ----------
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
     alleinerziehend
-        See :ref:`alleinerziehend`.
+        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
     alter
-        See :ref:`alter`.
+        See basic input variable :ref:`alter <alter>`.
     unterhaltsvorschuss_eink_tu
         See :func:`unterhaltsvorschuss_eink_tu`.
     unterhalt_params
@@ -164,9 +164,9 @@ def eink_selbst_m_tu(eink_selbst_m: FloatSeries, tu_id: IntSeries):
     Parameters
     ----------
     eink_selbst_m
-        See :ref:`eink_selbst_m`.
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -181,9 +181,9 @@ def vermiet_eink_m_tu(vermiet_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSer
     Parameters
     ----------
     vermiet_eink_m
-        See :ref:`vermiet_eink_m`.
+        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -198,9 +198,9 @@ def kapital_eink_m_tu(kapital_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSer
     Parameters
     ----------
     kapital_eink_m
-        See :ref:`kapital_eink_m`.
+        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -215,9 +215,9 @@ def ges_rente_m_tu(ges_rente_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     Parameters
     ----------
     ges_rente_m
-        See :ref:`ges_rente_m`.
+        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------

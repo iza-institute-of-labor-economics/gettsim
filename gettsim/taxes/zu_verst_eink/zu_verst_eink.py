@@ -43,7 +43,7 @@ def zu_verst_eink_kein_kinderfreib_tu(
     altersfreib
         See :func:`altersfreib`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------

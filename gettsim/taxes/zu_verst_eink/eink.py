@@ -10,7 +10,7 @@ def brutto_eink_1(eink_selbst_m: FloatSeries) -> FloatSeries:
     Parameters
     ----------
     eink_selbst_m
-        See :ref:`eink_selbst_m`.
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
 
     Returns
     -------
@@ -28,7 +28,7 @@ def brutto_eink_1_tu(brutto_eink_1: FloatSeries, tu_id: IntSeries) -> FloatSerie
     brutto_eink_1
         See :func:`brutto_eink_1`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -49,7 +49,7 @@ def brutto_eink_4(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`bruttolohn_m`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
     eink_st_abzuege_params
@@ -72,7 +72,7 @@ def brutto_eink_4_tu(brutto_eink_4: FloatSeries, tu_id: IntSeries) -> FloatSerie
     brutto_eink_4
         See :func:`brutto_eink_4`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -88,7 +88,7 @@ def brutto_eink_5(kapital_eink_m: FloatSeries) -> FloatSeries:
     Parameters
     ----------
     kapital_eink_m
-        See :ref:`kapital_eink_m`.
+        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
 
     Returns
     -------
@@ -105,7 +105,7 @@ def brutto_eink_5_tu(brutto_eink_5: FloatSeries, tu_id: IntSeries) -> FloatSerie
     brutto_eink_5
         See :func:`brutto_eink_5`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
@@ -120,7 +120,7 @@ def brutto_eink_6(vermiet_eink_m: FloatSeries) -> FloatSeries:
     Parameters
     ----------
     vermiet_eink_m
-        See :ref:`vermiet_eink_m`.
+        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
 
     Returns
     -------
@@ -137,7 +137,7 @@ def brutto_eink_6_tu(brutto_eink_6, tu_id):
     brutto_eink_6
         See :func:`brutto_eink_6`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
 
     Returns
@@ -155,7 +155,7 @@ def brutto_eink_7(ges_rente_m: FloatSeries, _ertragsanteil: FloatSeries) -> Floa
     Parameters
     ----------
     ges_rente_m
-        See :ref:`ges_rente_m`.
+        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
     _ertragsanteil
         See :func:`_ertragsanteil`.
 
@@ -174,7 +174,7 @@ def brutto_eink_7_tu(brutto_eink_7: FloatSeries, tu_id: IntSeries) -> FloatSerie
     brutto_eink_7
         See :func:`brutto_eink_7`.
     tu_id
-        See :ref:`tu_id`.
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
