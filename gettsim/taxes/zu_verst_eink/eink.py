@@ -129,7 +129,7 @@ def brutto_eink_6(vermiet_eink_m: FloatSeries) -> FloatSeries:
     return (12 * vermiet_eink_m).clip(lower=0)
 
 
-def brutto_eink_6_tu(brutto_eink_6, tu_id):
+def brutto_eink_6_tu(brutto_eink_6: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     """Income from rents on tax unit level.
 
     Parameters

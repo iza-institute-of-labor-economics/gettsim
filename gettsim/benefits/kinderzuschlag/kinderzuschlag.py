@@ -25,7 +25,7 @@ from gettsim.typing import IntSeries
 
 
 def kinderzuschlag_m_hh(
-    kinderzuschlag_vermögens_check_hh: BoolSeries,
+    kinderzuschlag_vermögens_check_hh: FloatSeries,
     kinderzuschlag_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
     rentner_in_hh: BoolSeries,

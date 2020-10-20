@@ -3,7 +3,7 @@ from gettsim.typing import FloatSeries
 
 
 def arbeitsl_geld_2_m_minus_eink_hh(
-    _regelbedarf_m_vermögens_check_hh: BoolSeries,
+    _regelbedarf_m_vermögens_check_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
     arbeitsl_geld_2_eink_hh: FloatSeries,
@@ -35,7 +35,7 @@ def arbeitsl_geld_2_m_minus_eink_hh(
 
 
 def wohngeld_vorrang_hh(
-    wohngeld_vermögens_check_hh: BoolSeries,
+    wohngeld_vermögens_check_hh: FloatSeries,
     arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
 ) -> BoolSeries:
     """
@@ -55,7 +55,7 @@ def wohngeld_vorrang_hh(
 
 
 def kinderzuschlag_vorrang_hh(
-    kinderzuschlag_vermögens_check_hh: BoolSeries,
+    kinderzuschlag_vermögens_check_hh: FloatSeries,
     arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
 ) -> BoolSeries:
     """
@@ -75,8 +75,8 @@ def kinderzuschlag_vorrang_hh(
 
 
 def wohngeld_kinderzuschlag_vorrang_hh(
-    wohngeld_vermögens_check_hh: BoolSeries,
-    kinderzuschlag_vermögens_check_hh: BoolSeries,
+    wohngeld_vermögens_check_hh: FloatSeries,
+    kinderzuschlag_vermögens_check_hh: FloatSeries,
     arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
 ) -> BoolSeries:
     """

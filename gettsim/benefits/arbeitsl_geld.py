@@ -211,9 +211,10 @@ def beitr_bemess_grenze_rentenv(
     -------
 
     """
-    return wohnort_ost.replace(
+    out = wohnort_ost.replace(
         {
             True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
             False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
         }
     )
+    return out.astype(float)

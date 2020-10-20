@@ -1,8 +1,11 @@
 from typing import TypeVar
 
+import numpy as np
+
 FloatSeries = TypeVar("FloatSeries")
 IntSeries = TypeVar("IntSeries")
 BoolSeries = TypeVar("BoolSeries")
+DateTimeSeries = TypeVar("DateTimeSeries")
 
 
 def check_if_series_has_internal_type(series, internal_type):
@@ -28,6 +31,8 @@ def check_if_series_has_internal_type(series, internal_type):
         out = dtype == bool
     elif internal_type == IntSeries:
         out = dtype == int
+    elif internal_type == DateTimeSeries:
+        out = dtype == np.dtype("datetime64[ns]")
     else:
         raise ValueError(f"The internal type {internal_type} is not defined.")
     return out

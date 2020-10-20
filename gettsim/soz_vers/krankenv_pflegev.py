@@ -225,7 +225,7 @@ def pflegev_beitr_selbst(
     pflegev_zusatz_kinderlos: BoolSeries,
     krankenv_pflichtig_eink_selbst: FloatSeries,
     soz_vers_beitr_params: dict,
-):
+) -> FloatSeries:
     """Calculates care insurance contributions.
 
     Self-employed pay the full
@@ -352,12 +352,13 @@ def krankenv_beitr_bemess_grenze(
     insurance contributions apply.
 
     """
-    return wohnort_ost.replace(
+    out = wohnort_ost.replace(
         {
             True: soz_vers_beitr_params["beitr_bemess_grenze"]["ges_krankenv"]["ost"],
             False: soz_vers_beitr_params["beitr_bemess_grenze"]["ges_krankenv"]["west"],
         }
     )
+    return out.astype(float)
 
 
 def pflegev_beitr_rente(

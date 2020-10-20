@@ -7,7 +7,7 @@ def rente_anspr_m(
     zugangsfaktor: FloatSeries,
     entgeltpunkte_update: FloatSeries,
     rentenwert: FloatSeries,
-):
+) -> FloatSeries:
     """ This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
 

@@ -7,7 +7,7 @@ from gettsim.typing import IntSeries
 
 
 def wohngeld_m_hh(
-    wohngeld_vermögens_check_hh: BoolSeries,
+    wohngeld_vermögens_check_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
     rentner_in_hh: BoolSeries,

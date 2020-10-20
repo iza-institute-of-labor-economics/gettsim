@@ -121,7 +121,7 @@ def unterhaltsvorschuss_eink_tu(
     kapital_eink_m_tu: FloatSeries,
     ges_rente_m_tu: FloatSeries,
     arbeitsl_geld_m_tu: FloatSeries,
-):
+) -> FloatSeries:
     """
 
     Parameters
@@ -158,7 +158,7 @@ def unterhaltsvorschuss_eink_tu(
     return out
 
 
-def eink_selbst_m_tu(eink_selbst_m: FloatSeries, tu_id: IntSeries):
+def eink_selbst_m_tu(eink_selbst_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     """
 
     Parameters

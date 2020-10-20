@@ -215,7 +215,7 @@ def rentenv_beitr_bemess_grenze(
             False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
         }
     )
-    return out
+    return out.astype(float)
 
 
 def ges_beitr_arbeitsl_v_midi_job(

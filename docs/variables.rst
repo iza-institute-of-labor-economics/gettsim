@@ -1,6 +1,10 @@
 Basic input variables
 =====================
 
+The table below gives an overview of all variables needed to run gettsim completly.
+Note that the variables with _hh at the end, hav to be constant over the whole
+household.
+
 +-------------------------+---------------------------------------------------------+-------------+
 | Variable name           | Description                                             | Type        |
 +=========================+=========================================================+=============+

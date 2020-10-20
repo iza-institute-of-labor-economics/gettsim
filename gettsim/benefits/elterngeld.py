@@ -5,6 +5,7 @@ import pandas as pd
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
 from gettsim.typing import BoolSeries
+from gettsim.typing import DateTimeSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
@@ -146,7 +147,7 @@ def proxy_eink_vorj_elterngeld(
 
 def date_of_birth(
     geburtsjahr: IntSeries, geburtsmonat: IntSeries, geburtstag: IntSeries
-) -> IntSeries:
+) -> DateTimeSeries:
     """Create date of birth variable.
 
     Parameters
@@ -162,7 +163,7 @@ def date_of_birth(
     -------
 
     """
-    return pd.to_datetime(
+    out = pd.to_datetime(
         pd.concat(
             [
                 geburtsjahr.rename("year"),
@@ -172,11 +173,12 @@ def date_of_birth(
             axis=1,
         )
     )
+    return out
 
 
 def alter_jüngstes_kind(
-    hh_id: IntSeries, date_of_birth: IntSeries, kind: BoolSeries
-) -> IntSeries:
+    hh_id: IntSeries, date_of_birth: DateTimeSeries, kind: BoolSeries
+) -> DateTimeSeries:
     """
 
     Parameters
@@ -201,8 +203,8 @@ def alter_jüngstes_kind(
 
 
 def jüngstes_kind(
-    date_of_birth: IntSeries, alter_jüngstes_kind: IntSeries
-) -> IntSeries:
+    date_of_birth: DateTimeSeries, alter_jüngstes_kind: DateTimeSeries
+) -> BoolSeries:
     """
 
     Parameters
@@ -219,10 +221,10 @@ def jüngstes_kind(
     return date_of_birth == alter_jüngstes_kind
 
 
-def alter_jüngstes_kind_tage(
-    hh_id: IntSeries, alter_jüngstes_kind: IntSeries, elterngeld_params: dict
-) -> IntSeries:
-    """Calculate the age of the youngest child in days.
+def alter_jüngstes_kind_monate(
+    hh_id: IntSeries, alter_jüngstes_kind: DateTimeSeries, elterngeld_params: dict
+) -> FloatSeries:
+    """
 
     Parameters
     ----------
@@ -244,27 +246,12 @@ def alter_jüngstes_kind_tage(
     if unborn_children.any():
         hh_ids = hh_id[unborn_children].unique()
         raise ValueError(f"Households with ids {hh_ids} have unborn children.")
-
-    return age_in_days
-
-
-def alter_jüngstes_kind_monate(alter_jüngstes_kind_tage: IntSeries) -> IntSeries:
-    """
-
-    Parameters
-    ----------
-    alter_jüngstes_kind_tage
-        See :func:`alter_jüngstes_kind`.
-    Returns
-    -------
-
-    """
-    return alter_jüngstes_kind_tage / np.timedelta64(1, "M")
+    return age_in_days / np.timedelta64(1, "M")
 
 
 def elternzeit_anspruch(
     hh_id: IntSeries,
-    alter_jüngstes_kind_monate: IntSeries,
+    alter_jüngstes_kind_monate: FloatSeries,
     m_elterngeld_mut: IntSeries,
     m_elterngeld_vat: IntSeries,
     m_elterngeld: IntSeries,
@@ -354,8 +341,8 @@ def berechtigt_für_geschw_bonus(
 
 
 def anz_mehrlinge_anspruch(
-    hh_id: IntSeries, elternzeit_anspruch: BoolSeries, jüngstes_kind: IntSeries
-) -> BoolSeries:
+    hh_id: IntSeries, elternzeit_anspruch: BoolSeries, jüngstes_kind: BoolSeries
+) -> IntSeries:
     """
 
    Parameters
@@ -538,7 +525,7 @@ def geschw_bonus(
 
 
 def anz_mehrlinge_bonus(
-    anz_mehrlinge_anspruch: BoolSeries, elterngeld_params: dict
+    anz_mehrlinge_anspruch: IntSeries, elterngeld_params: dict
 ) -> FloatSeries:
     """
 

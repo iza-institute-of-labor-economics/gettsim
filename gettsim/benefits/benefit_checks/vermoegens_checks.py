@@ -7,7 +7,7 @@ from gettsim.typing import IntSeries
 
 def _regelbedarf_m_vermögens_check_hh(
     regelbedarf_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries
-) -> BoolSeries:
+) -> FloatSeries:
     """Set regelbedarf_m to zero if it exceeds the wealth exemption.
 
     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
@@ -31,7 +31,7 @@ def _regelbedarf_m_vermögens_check_hh(
 def kinderzuschlag_vermögens_check_hh(
     kinderzuschlag_m_vorläufig_hh: FloatSeries,
     unter_vermögens_freibetrag_hh: BoolSeries,
-) -> BoolSeries:
+) -> FloatSeries:
     """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption.
 
     Parameters
@@ -54,7 +54,7 @@ def wohngeld_vermögens_check_hh(
     wohngeld_basis_hh: FloatSeries,
     vermögen_hh: FloatSeries,
     haushaltsgröße_hh: IntSeries,
-) -> BoolSeries:
+) -> FloatSeries:
     """Calculate a lump sum payment for wohngeld
 
     The payment depends on the wealth of the household and the number of household
@@ -107,7 +107,7 @@ def freibetrag_vermögen_anspruch_hh(
     alter: IntSeries,
     geburtsjahr: IntSeries,
     arbeitsl_geld_2_params: dict,
-):
+) -> FloatSeries:
     """Calculate exemptions based on individuals age.
 
     Parameters

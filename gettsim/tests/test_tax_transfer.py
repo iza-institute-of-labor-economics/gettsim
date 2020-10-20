@@ -112,15 +112,18 @@ def test_data_types(
         debug=True,
     )
     for column_name, series in data.items():
-        if column_name in STANDARD_DATA_TYPES:
-            internal_type = STANDARD_DATA_TYPES[column_name]
-        elif column_name in functions:
-            internal_type = functions[column_name].__annotations__["return"]
-        elif column_name in year_functions:
-            internal_type = year_functions[column_name].__annotations__["return"]
+        if series.empty:
+            pass
         else:
-            raise ValueError("Column name unknown.")
-        if not check_if_series_has_internal_type(series, internal_type):
-            raise AssertionError(
-                f"{column_name} has other datatype than saved in " f"gettsim."
-            )
+            if column_name in STANDARD_DATA_TYPES:
+                internal_type = STANDARD_DATA_TYPES[column_name]
+            elif column_name in functions:
+                internal_type = functions[column_name].__annotations__["return"]
+            elif column_name in year_functions:
+                internal_type = year_functions[column_name].__annotations__["return"]
+            else:
+                raise ValueError("Column name unknown.")
+            if not check_if_series_has_internal_type(series, internal_type):
+                raise AssertionError(
+                    f"{column_name} has datatype {series.dtype}, but should have {internal_type}."
+                )
