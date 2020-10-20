@@ -1,4 +1,13 @@
-def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, rentenwert):
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
+
+def rente_anspr_m(
+    zugangsfaktor: FloatSeries,
+    entgeltpunkte_update: FloatSeries,
+    rentenwert: FloatSeries,
+):
     """ This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
 
@@ -18,8 +27,11 @@ def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, rentenwert):
     Parameters
     ----------
     zugangsfaktor
+        See :func:`zugangsfaktor`.
     entgeltpunkte_update
+        See :func:`entgeltpunkte_update`.
     rentenwert
+        See :func:`rentenwert`.
 
     Returns
     -------
@@ -29,13 +41,15 @@ def rente_anspr_m(zugangsfaktor, entgeltpunkte_update, rentenwert):
     return (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
 
-def rentenwert(wohnort_ost, ges_renten_vers_params):
+def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSeries:
     """
 
     Parameters
     ----------
     wohnort_ost
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     ges_renten_vers_params
+        See :ref:`ges_renten_vers_params`.
 
     Returns
     -------
@@ -50,7 +64,9 @@ def rentenwert(wohnort_ost, ges_renten_vers_params):
     return out
 
 
-def entgeltpunkte_update(entgeltpunkte, entgeltpunkte_lohn):
+def entgeltpunkte_update(
+    entgeltpunkte: FloatSeries, entgeltpunkte_lohn: FloatSeries
+) -> FloatSeries:
     """Update earning points.
 
     Given earnings, social security rules, average
@@ -65,7 +81,9 @@ def entgeltpunkte_update(entgeltpunkte, entgeltpunkte_lohn):
     Parameters
     ----------
     entgeltpunkte
+        See basic input variable :ref:`entgeltpunkte <entgeltpunkte>`.
     entgeltpunkte_lohn
+        See :func:`entgeltpunkte_lohn`.
 
     Returns
     -------
@@ -79,16 +97,20 @@ def entgeltpunkte_update(entgeltpunkte, entgeltpunkte_lohn):
 
 
 def entgeltpunkte_lohn(
-    bruttolohn_m, rentenv_beitr_bemess_grenze, ges_renten_vers_params
-):
+    bruttolohn_m: FloatSeries,
+    rentenv_beitr_bemess_grenze: FloatSeries,
+    ges_renten_vers_params: dict,
+) -> FloatSeries:
     """Return earning points for the wages earned in the last year.
 
     Parameters
     ----------
     bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     rentenv_beitr_bemess_grenze
+        See :func:`rentenv_beitr_bemess_grenze`.
     ges_renten_vers_params
-
+        See :ref:`ges_renten_vers_params`.
     Returns
     -------
 
@@ -97,7 +119,7 @@ def entgeltpunkte_lohn(
     return bruttolohn_m.clip(upper=rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
 
-def zugangsfaktor(alter, regelaltersgrenze):
+def zugangsfaktor(alter: IntSeries, regelaltersgrenze: FloatSeries) -> FloatSeries:
     """The zugangsfaktor depends on the age of entering pensions. At the
     regelaltersgrenze, the agent is allowed to get pensions with his full
     claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his
@@ -106,7 +128,9 @@ def zugangsfaktor(alter, regelaltersgrenze):
     Parameters
     ----------
     alter
+        See basic input variable :ref:`alter <alter>`.
     regelaltersgrenze
+        See :func:`regelaltersgrenze`.
 
     Returns
     -------
@@ -115,16 +139,16 @@ def zugangsfaktor(alter, regelaltersgrenze):
     return (alter - regelaltersgrenze) * 0.036 + 1
 
 
-def regelaltersgrenze(geburtsjahr):
+def regelaltersgrenze(geburtsjahr: IntSeries) -> FloatSeries:
     """Calculates the age, at which a worker is eligible to claim his full pension.
 
     Parameters
     ----------
     geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
 
     Returns
     -------
-
     """
     # Create 65 as standard
     out = geburtsjahr * 0 + 65
