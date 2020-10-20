@@ -1,92 +1,34 @@
 Parameter files
 ===============
 
-.. _soz_vers_beitr_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
 
 
-.. _eink_st_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _eink_st_abzuege_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _soli_st_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _arbeitsl_geld_2_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _arbeitsl_geld_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _unterhalt_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _abgelt_st_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _wohngeld_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _kinderzuschlag_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _kindergeld_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _elterngeld_params:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
-
-
-.. _ges_renten_vers_param:
-
-Sozialversicherungsbeiträge
-----------------------------
-Social insurance parameters param file.
++---------------------------+--------------------------------+
+| Parameter file name       | Compartment of gettsim         |
++===========================+================================+
+| _`soz_vers_beitr_params`  | Social insurance contributions |
++---------------------------+--------------------------------+
+| _`eink_st_params`         | Income tax                     |
++---------------------------+--------------------------------+
+| _`eink_st_abzuege_params` | Income tax deductions          |
++---------------------------+--------------------------------+
+| _`soli_st_params`         | Solidarity surcharge           |
++---------------------------+--------------------------------+
+| _`arbeitsl_geld_2_params` | Basic social security          |
++---------------------------+--------------------------------+
+| _`arbeitsl_geld_params`   | Unemployment benefits          |
++---------------------------+--------------------------------+
+| _`unterhalt_params`       | Alimony payments               |
++---------------------------+--------------------------------+
+| _`abgelt_st_params`       | Capital income tax             |
++---------------------------+--------------------------------+
+| _`wohngeld_params`        | Housing benefits               |
++---------------------------+--------------------------------+
+| _`kinderzuschlag_params`  | Child allowance                |
++---------------------------+--------------------------------+
+| _`kindergeld_params`      | Child benefits                 |
++---------------------------+--------------------------------+
+| _`elterngeld_params`      | Parental leave benefits        |
++---------------------------+--------------------------------+
+| _`ges_renten_vers_params` | Pensions                       |
++---------------------------+--------------------------------+
