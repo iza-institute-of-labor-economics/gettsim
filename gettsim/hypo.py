@@ -6,9 +6,15 @@ import pandas as pd
 from gettsim.policy_environment import _load_parameter_group_from_yaml
 
 
-def create_other_hh_members(df, hh_typ, alter, alter_kind_1, alter_kind_2):
+def create_other_hh_members(
+    df, hh_typ, alter, alter_kind_1, alter_kind_2, doppelverdiener
+):
+    """
+    duplicates information from the one person already created
+    as often as needed.
+    """
     new_df = df[df["hh_typ"] == hh_typ].copy()
-    # Single: do nothing
+    # Single: no additional person needed
     if hh_typ == "sing":
         return None
     # Single Parent one child
@@ -20,6 +26,9 @@ def create_other_hh_members(df, hh_typ, alter, alter_kind_1, alter_kind_2):
         new_df = new_df.append(new_df, ignore_index=True)
         new_df["kind"] = pd.Series([True, True])
         new_df["alter"] = pd.Series([alter_kind_1, alter_kind_2])
+    # Just add one additional adult
+    if hh_typ == "coup":
+        new_df = new_df.append(new_df, ignore_index=True)
     if hh_typ == "coup1ch":
         new_df = new_df.append(new_df, ignore_index=True)
         new_df["kind"] = pd.Series([False, True])
@@ -29,9 +38,15 @@ def create_other_hh_members(df, hh_typ, alter, alter_kind_1, alter_kind_2):
         new_df["kind"] = pd.Series([False, True, True])
         new_df["alter"] = pd.Series([alter, alter_kind_1, alter_kind_2])
 
+    # Make sure new household members are not heads
     new_df["tu_vorstand"] = False
+    # Children are in education
     new_df["in_ausbildung"] = new_df["kind"]
-    new_df["bruttolohn_m"] = 0
+    # children do not have earnings
+    df.loc[df["kind"], "bruttolohn_m"] = 0
+    # If single earner household, the partner is assigned zero wage as well
+    if not doppelverdiener:
+        df.loc[~df["kind"], "bruttolohn_m"] = 0
     return new_df
 
 
@@ -42,6 +57,7 @@ def gettsim_hypo_data(
     alter_kind_1=3,
     alter_kind_2=8,
     baujahr=1980,
+    doppelverdiener=False,
     policy_year=datetime.datetime.now().year,
 ):
     """
@@ -65,6 +81,12 @@ def gettsim_hypo_data(
 
     baujahr (int):
         Construction year of building
+
+    doppelverdiener (bool):
+        whether or not both adults should be assigned income
+
+    policy_year:
+        the year from which the reference data are drawn.
     """
     # Check inputs
     for t in hh_typen:
@@ -157,9 +179,10 @@ def gettsim_hypo_data(
     # append entries for children and partner
     for hht in hh_typen:
         df = df.append(
-            create_other_hh_members(df, hht, alter, alter_kind_1, alter_kind_2)
+            create_other_hh_members(
+                df, hht, alter, alter_kind_1, alter_kind_2, doppelverdiener
+            )
         )
-
     df["geburtsjahr"] = policy_year - df["alter"]
     df["jahr_renteneintr"] = df["geburtsjahr"] + 67
 
@@ -176,4 +199,4 @@ def gettsim_hypo_data(
     df = df.reset_index()
     df["p_id"] = df.index
 
-    return df[["hh_id", "tu_id", "p_id"] + output_columns]
+    return df[["hh_id", "tu_id", "p_id", "hh_typ"] + output_columns]
