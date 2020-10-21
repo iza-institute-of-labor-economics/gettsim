@@ -3,7 +3,7 @@ Welcome to GETTSIM's documentation!
 
 .. include:: ../README.rst
    :start-line: 31
-   :end-line: 44
+   :end-line: 45
 
 .. toctree::
    :caption: Links
@@ -16,6 +16,7 @@ Welcome to GETTSIM's documentation!
    :caption: Table of Contents
    :maxdepth: 1
 
+   installation
    tutorials/index
    how_to_guides/index
    crosswalk

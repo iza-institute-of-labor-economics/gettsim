@@ -11,6 +11,7 @@ PATHS_TO_INTERNAL_FUNCTIONS = [
     ROOT_DIR / "benefits",
     ROOT_DIR / "taxes",
     ROOT_DIR / "demographic_vars.py",
+    ROOT_DIR / "renten_anspr.py",
 ]
 """list of Paths: List of paths to internal functions.
 
@@ -31,6 +32,7 @@ INTERNAL_PARAM_GROUPS = [
     "kinderzuschlag",
     "kindergeld",
     "elterngeld",
+    "ges_renten_vers",
 ]
 
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
