@@ -26,9 +26,6 @@ def create_other_hh_members(
         new_df = new_df.append(new_df, ignore_index=True)
         new_df["kind"] = pd.Series([True, True])
         new_df["alter"] = pd.Series([alter_kind_1, alter_kind_2])
-    # Just add one additional adult
-    if hh_typ == "coup":
-        new_df = new_df.append(new_df, ignore_index=True)
     if hh_typ == "coup1ch":
         new_df = new_df.append(new_df, ignore_index=True)
         new_df["kind"] = pd.Series([False, True])

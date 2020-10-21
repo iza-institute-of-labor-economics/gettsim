@@ -14,6 +14,10 @@ def test_hypo():
     # no NaN values
     assert df.notna().all().all()
 
+    assert len(df[df["hh_typ"] == "coup"] == 2)
+    assert len(df[df["hh_typ"] == "sp2ch"] == 3)
+    assert len(df[df["hh_typ"] == "coup2ch"] == 4)
+
     doppelverdiener = gettsim_hypo_data(hh_typen=["coup"], doppelverdiener=True)
 
     assert (doppelverdiener["bruttolohn_m"] > 0).all()
