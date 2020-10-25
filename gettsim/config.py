@@ -84,7 +84,7 @@ STANDARD_DATA_TYPES = {
     "arbeitsl_lfdj_m": IntSeries,
     "arbeitsl_vorj_m": IntSeries,
     "arbeitsl_vor2j_m": IntSeries,
-    "arbeitsstunden_w": IntSeries,
+    "arbeitsstunden_w": FloatSeries,
     "geburtsjahr": IntSeries,
     "geburtstag": IntSeries,
     "geburtsmonat": IntSeries,

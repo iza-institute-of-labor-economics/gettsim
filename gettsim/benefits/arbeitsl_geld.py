@@ -109,7 +109,7 @@ def berechtigt_für_arbeitsl_geld(
     monate_arbeitsl: IntSeries,
     alter: IntSeries,
     ges_rente_m: FloatSeries,
-    arbeitsstunden_w: IntSeries,
+    arbeitsstunden_w: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> BoolSeries:
     """Check eligibility for unemployment benefits.

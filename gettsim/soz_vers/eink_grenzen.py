@@ -2,8 +2,33 @@ from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 
 
+def mini_job_grenze(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict):
+    """Select the income threshold depending on place of living
+
+    Parameters
+    ----------
+    wohnort_ost
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    soz_vers_beitr_params
+        See :ref:`soz_vers_beitr_params`.
+    Returns
+    -------
+
+    """
+    out = wohnort_ost.replace(
+        {
+            True: soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["ost"],
+            False: soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"][
+                "west"
+            ],
+        }
+    )
+
+    return out.astype(float)
+
+
 def geringfügig_beschäftigt(
-    bruttolohn_m: FloatSeries, wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
+    bruttolohn_m: FloatSeries, mini_job_grenze: FloatSeries
 ) -> BoolSeries:
     """Check if individual earns less than marginal employment threshold.
 
@@ -14,24 +39,14 @@ def geringfügig_beschäftigt(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+    mini_job_grenze
+        See :func:`mini_job_grenze`.
+
 
     Returns
     -------
     BoolSeries indicating if person earns less than marginal employment threshold.
     """
-    mini_job_grenze = wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["ost"],
-            False: soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"][
-                "west"
-            ],
-        }
-    )
-
     return bruttolohn_m <= mini_job_grenze
 
 

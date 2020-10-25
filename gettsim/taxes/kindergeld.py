@@ -53,7 +53,7 @@ def kindergeld_m_tu_basis(
 def kindergeld_anspruch_nach_stunden(
     alter: IntSeries,
     in_ausbildung: BoolSeries,
-    arbeitsstunden_w: IntSeries,
+    arbeitsstunden_w: FloatSeries,
     kindergeld_params: dict,
 ) -> BoolSeries:
     """
