@@ -40,10 +40,10 @@ def create_other_hh_members(
     # Children are in education
     new_df["in_ausbildung"] = new_df["kind"]
     # children do not have earnings
-    df.loc[df["kind"], "bruttolohn_m"] = 0
+    new_df.loc[new_df["kind"], "bruttolohn_m"] = 0
     # If single earner household, the partner is assigned zero wage as well
     if not doppelverdiener:
-        df.loc[~df["kind"], "bruttolohn_m"] = 0
+        new_df.loc[~new_df["kind"], "bruttolohn_m"] = 0
     return new_df
 
 
