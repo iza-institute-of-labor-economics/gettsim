@@ -17,7 +17,6 @@ INPUT_COLS = [
     "rentner",
     "alter",
     "vermögen_hh",
-    "anz_minderj_hh",
     "_kinderzuschlag_m_vorläufig",
     "wohngeld_basis_hh",
     "regelbedarf_m_hh",

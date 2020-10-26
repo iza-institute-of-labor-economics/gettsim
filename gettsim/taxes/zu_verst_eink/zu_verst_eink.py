@@ -38,8 +38,8 @@ def zu_verst_eink_kein_kinderfreib_tu(
         See :func:`sonderausgaben`.
     behinderungsgrad_pauschbetrag
         See :func:`behinderungsgrad_pauschbetrag`.
-    hh_freib
-        See :func:`hh_freib`.
+    alleinerziehend_freib_tu
+        See :func:`alleinerziehend_freib_tu`.
     altersfreib
         See :func:`altersfreib`.
     tu_id

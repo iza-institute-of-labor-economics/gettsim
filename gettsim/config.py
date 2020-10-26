@@ -69,7 +69,6 @@ STANDARD_DATA_TYPES = {
     "hh_id": IntSeries,
     "tu_id": IntSeries,
     "p_id": IntSeries,
-    "anz_minderj_hh": IntSeries,
     "vermögen_hh": FloatSeries,
     "bruttolohn_m": FloatSeries,
     "alter": IntSeries,

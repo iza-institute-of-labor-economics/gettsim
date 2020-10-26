@@ -5,6 +5,26 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
+def anz_minderj_hh(hh_id: IntSeries, alter: IntSeries, kind: BoolSeries) -> IntSeries:
+    """
+
+    Parameters
+    ----------
+    hh_id : IntSeries
+        See basic input variable :ref:`hh_id <hh_id>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    minderj = (alter < 18) & (alter > 0)
+    return (minderj & kind).groupby(hh_id).sum()
+
+
 def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
     """Check if single parent is in tax unit.
 
