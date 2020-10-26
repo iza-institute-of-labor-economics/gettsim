@@ -55,14 +55,14 @@ def kinderzuschlag_m_hh(
 
 
 def kinderzuschlag_m_vorläufig_hh(
-    _kinderzuschlag_m_vorläufig: FloatSeries, hh_id: IntSeries
+    kinderzuschlag_m_vorläufig: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
     """
 
     Parameters
     ----------
-    _kinderzuschlag_m_vorläufig
-        See :func:`_kinderzuschlag_m_vorläufig`.
+    kinderzuschlag_m_vorläufig
+        See :func:`kinderzuschlag_m_vorläufig`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
 
@@ -70,7 +70,7 @@ def kinderzuschlag_m_vorläufig_hh(
     -------
 
     """
-    return _kinderzuschlag_m_vorläufig.groupby(hh_id).max()
+    return kinderzuschlag_m_vorläufig.groupby(hh_id).max()
 
 
 def kinderzuschlag_ab_juli_2019(
@@ -80,7 +80,7 @@ def kinderzuschlag_ab_juli_2019(
     kinderzuschlag_kindereink_abzug: FloatSeries,
     kinderzuschlag_eink_anrechn: FloatSeries,
 ) -> FloatSeries:
-    """Creates "_kinderzuschlag_m_vorläufig" since 07/2019.
+    """Creates "kinderzuschlag_m_vorläufig" since 07/2019.
 
     Parameters
     ----------
@@ -117,7 +117,7 @@ def kinderzuschlag_ab_2005_bis_juni_2019(
     kinderzuschlag_kindereink_abzug: FloatSeries,
     kinderzuschlag_eink_anrechn: FloatSeries,
 ) -> FloatSeries:
-    """Creates "_kinderzuschlag_m_vorläufig" until 06/2019.
+    """Creates "kinderzuschlag_m_vorläufig" until 06/2019.
 
     Parameters
     ----------

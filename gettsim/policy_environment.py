@@ -206,9 +206,9 @@ def load_reforms_for_date(date):
         functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_ab_2011
 
     if 2005 <= year <= 2019:
-        functions["_kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_2005_bis_juni_2019
+        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_2005_bis_juni_2019
     else:
-        functions["_kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
+        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
 
     if year <= 2010:
         functions["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010
