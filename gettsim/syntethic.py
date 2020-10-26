@@ -52,9 +52,10 @@ def gettsim_hypo_data(
     age_adults=(35, 35),
     age_children=(3, 8),
     baujahr=1980,
-    bruttolohn=2000,
     double_earner=False,
     policy_year=datetime.datetime.now().year,
+    heterogeneous_vars=(),
+    **kwargs,
 ):
     """
     Creates a dataset with hypothetical household types,
@@ -78,14 +79,20 @@ def gettsim_hypo_data(
     baujahr (int):
         Construction year of building
 
-    bruttolohn (int):
-        Gross monthly wage for the adult(s).
-
     double_earner (bool):
-        whether or not both adults should be assigned income.
+        whether or not both adults should be assigned the same value for 'bruttolohn_m'
 
-    policy_year:
-        the year from which the reference data are drawn.
+    heterogenous_vars (dict):
+        if specified, contains the variable name as key and a list of values
+
+    policy_year (int):
+        the year from which the reference data on housing are drawn.
+
+    kwargs
+
+    bruttolohn_m, kapital_eink_m, eink_selbst_m, vermögen_hh (int):
+        values for income and wealth, respectively.
+        only valid if heterogenous vars is empty
     """
     # Check inputs
     for t in hh_typen:
@@ -96,6 +103,56 @@ def gettsim_hypo_data(
         if (a <= 0) or (type(a) != int):
             raise ValueError(f"illegal value for age: {a}")
 
+    if len(heterogeneous_vars) == 0:
+        # If no heterogeneity specified,
+        # just create the household types with default incomes.
+        return create_single_household(
+            hh_typen,
+            age_adults,
+            age_children,
+            baujahr,
+            double_earner,
+            policy_year,
+            bruttolohn_m=kwargs.get("bruttolohn_m", 2000),
+        )
+    else:
+        synth = pd.DataFrame()
+        # loop over variables to vary
+        for hetvar in heterogeneous_vars.keys():
+            # allow only certain variables to vary
+            if hetvar not in [
+                "bruttolohn_m",
+                "kapital_eink_m",
+                "eink_selbst_m",
+                "vermögen_hh",
+            ]:
+                raise ValueError(
+                    f"Illegal value for variable to vary across households: {hetvar}"
+                )
+            for value in heterogeneous_vars[hetvar]:
+                synth = synth.append(
+                    create_single_household(
+                        hh_typen,
+                        age_adults,
+                        age_children,
+                        baujahr,
+                        double_earner,
+                        policy_year,
+                        **{hetvar: value},
+                    )
+                )
+    # TODO: RE-CREATE unique household and personal id.
+    synth = synth.reset_index()
+    synth["p_id"] = synth.index
+
+    return synth
+
+
+def create_single_household(
+    hh_typen, age_adults, age_children, baujahr, double_earner, policy_year, **kwargs
+):
+    """ creates a single set of households
+    """
     # initiate empty dataframe
     output_columns = [
         "tu_vorstand",
@@ -171,10 +228,11 @@ def gettsim_hypo_data(
     df["wohnfläche"] = df["hh_typ"].map(bg_daten["wohnfläche"])
     df["kaltmiete_m"] = df["hh_typ"].map(bg_daten["kaltmiete"])
     df["heizkost_m"] = df["hh_typ"].map(bg_daten["heizkosten"])
-
-    df["bruttolohn_m"] = bruttolohn
-
-    df = df.sort_values(by=["hh_typ", "bruttolohn_m"])
+    # Income and wealth
+    df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
+    df["kapital_eink_m"] = kwargs.get("bruttolohn_m", 0)
+    df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
+    df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
 
     df["hh_id"] = df.index
     df["tu_id"] = df.index
