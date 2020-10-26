@@ -62,7 +62,7 @@ def arbeitsl_geld_m(
     proxy_eink_vorj_arbeitsl_geld
         See :func:`proxy_eink_vorj_arbeitsl_geld`.
     arbeitsl_geld_params
-        See :ref:`arbeitsl_geld_params`.
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
     Returns
     -------
@@ -128,7 +128,7 @@ def berechtigt_für_arbeitsl_geld(
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
-        See :ref:`arbeitsl_geld_params`.
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
     Returns
     -------
@@ -160,13 +160,13 @@ def proxy_eink_vorj_arbeitsl_geld(
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     arbeitsl_geld_params
-        See :ref:`arbeitsl_geld_params`.
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     eink_st_params
-        See :ref:`eink_st_params`.
+        See params documentation :ref:`eink_st_params <eink_st_params>`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     soli_st_params
-        See :ref:`soli_st_params`.
+        See params documentation :ref:`soli_st_params <soli_st_params>`.
 
     Returns
     -------
@@ -205,7 +205,7 @@ def beitr_bemess_grenze_rentenv(
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------

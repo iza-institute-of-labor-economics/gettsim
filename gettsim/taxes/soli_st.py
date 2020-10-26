@@ -31,7 +31,7 @@ def soli_st_tu(
     abgelt_st_tu
         See :func:`abgelt_st_tu`.
     soli_st_params
-        See :ref:`soli_st_params`.
+        See params documentation :ref:`soli_st_params <soli_st_params>`.
 
     Returns
     -------

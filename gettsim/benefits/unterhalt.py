@@ -71,9 +71,9 @@ def unterhaltsvors_m(
     unterhaltsvorschuss_eink_tu
         See :func:`unterhaltsvorschuss_eink_tu`.
     unterhalt_params
-        See :ref:`unterhalt_params`.
+        See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     kindergeld_params
-        See :ref:`kindergeld_params`.
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
     Returns
     -------

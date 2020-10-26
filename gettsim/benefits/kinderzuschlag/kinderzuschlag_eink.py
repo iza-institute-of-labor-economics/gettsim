@@ -26,7 +26,7 @@ def kinderzuschlag_eink_regel_bis_2010(
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -73,7 +73,7 @@ def kinderzuschlag_eink_regel_ab_2011(
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -151,7 +151,7 @@ def kinderzuschlag_eink_max(
     anz_kinder_anspruch_per_hh
         See :func:`anz_kinder_anspruch_per_hh`.
     kinderzuschlag_params
-        See :ref:`kinderzuschlag_params`.
+        See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
 
     Returns
     -------
@@ -183,7 +183,7 @@ def kinderzuschlag_eink_min(
     alleinerziehend
         See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
     kinderzuschlag_params
-        See :ref:`kinderzuschlag_params`.
+        See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
 
     Returns
     -------
@@ -219,7 +219,7 @@ def kinderzuschlag_kindereink_abzug(
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
     kinderzuschlag_params
-        See :ref:`kinderzuschlag_params`.
+        See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
 
     Returns
     -------
@@ -249,7 +249,7 @@ def kinderzuschlag_eink_anrechn(
     kinderzuschlag_eink_relev
         See :func:`kinderzuschlag_eink_relev`.
     kinderzuschlag_params
-        See :ref:`kinderzuschlag_params`.
+        See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
 
     Returns
     -------

@@ -18,7 +18,7 @@ def eink_anr_frei_bis_10_2005(
     arbeitsl_geld_2_2005_netto_quote
         See :func:`arbeitsl_geld_2_2005_netto_quote`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -53,7 +53,7 @@ def eink_anr_frei_ab_10_2005(
     kinder_in_hh
         See :func:`kinder_in_h`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -94,7 +94,7 @@ def arbeitsl_geld_2_2005_netto_quote(
     nettolohn_m
         See :func:`nettolohn_m`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------

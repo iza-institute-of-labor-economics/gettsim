@@ -13,7 +13,7 @@ These GEPs are currently in place:
    :maxdepth: 1
    :caption: Meta-GEPs
 
-   geps/gep-00.rst
-   geps/gep-01.rst
-   geps/gep-template
-   geps/gep-04-contribution
+   ../geps/gep-00.rst
+   ../geps/gep-01.rst
+   ../geps/gep-template
+   ../geps/gep-04-contribution

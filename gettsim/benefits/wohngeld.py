@@ -103,7 +103,7 @@ def _wohngeld_abzüge_tu(
     ges_krankenv_beitr_m_tu
         See :func:`ges_krankenv_beitr_m_tu`.
     wohngeld_params
-        See :ref:`wohngeld_params`.
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------
@@ -240,7 +240,7 @@ def wohngeld_eink_abzüge_bis_2015(
     _anzahl_kinder_unter_11_per_tu
         See :func:`_anzahl_kinder_unter_11_per_tu`.
     wohngeld_params
-        See :ref:`wohngeld_params`.
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------
@@ -306,7 +306,7 @@ def wohngeld_eink_abzüge_ab_2016(
     kind
         See basic input variable :ref:`kind <kind>`.
     wohngeld_params
-        See :ref:`wohngeld_params`.
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
     Returns
     -------
 
@@ -349,7 +349,7 @@ def _wohngeld_eink(
     _wohngeld_sonstiges_eink_tu
         See :func:`_wohngeld_sonstiges_eink_tu`.
     wohngeld_params
-        See :ref:`wohngeld_params`.
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------
@@ -378,7 +378,7 @@ def _wohngeld_min_miete(
     haushaltsgröße
         See :func:`haushaltsgröße`.
     wohngeld_params
-        See :ref:`wohngeld_params`.
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
     Returns
     -------
 
@@ -415,7 +415,7 @@ def wohngeld_max_miete_bis_2008(
     _wohngeld_min_miete
         See :func:`_wohngeld_min_miete`.
     wohngeld_params
-        See :ref:`wohngeld_params`.
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------
@@ -472,7 +472,7 @@ def wohngeld_max_miete_ab_2009(
     _wohngeld_min_miete
         See :func:`_wohngeld_min_miete`.
     wohngeld_params
-        See :ref:`wohngeld_params`.
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------
@@ -510,7 +510,7 @@ def wohngeld_basis(
     wohngeld_max_miete
         See :func:`wohngeld_max_miete`.
     wohngeld_params
-        See :ref:`wohngeld_params`.
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------

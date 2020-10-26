@@ -49,7 +49,7 @@ def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSe
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     ges_renten_vers_params
-        See :ref:`ges_renten_vers_params`.
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
 
     Returns
     -------
@@ -110,7 +110,7 @@ def entgeltpunkte_lohn(
     rentenv_beitr_bemess_grenze
         See :func:`rentenv_beitr_bemess_grenze`.
     ges_renten_vers_params
-        See :ref:`ges_renten_vers_params`.
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     Returns
     -------
 

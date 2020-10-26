@@ -132,7 +132,7 @@ def arbeitsl_v_regular_job(
         See :func:`ges_beitr_arbeitsl_v_midi_jobreturn`.
 
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -155,7 +155,7 @@ def rentenv_beitr_regular_job(
         See :func:`ges_beitr_arbeitsl_v_midi_jobreturn`.
 
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -177,7 +177,7 @@ def ges_beitr_arbeitsl_v_midi_jobreturn(
     Parameters
     ----------
     bruttolohn_m
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     regulär_beschäftigt
         See :func:`regulär_beschäftigt`.
@@ -229,7 +229,7 @@ def ges_beitr_arbeitsl_v_midi_job(
         See :func:`midi_job_bemessungsentgelt`.
 
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -253,7 +253,7 @@ def ges_beitr_rentenv_midi_job(
         See :func:`midi_job_bemessungsentgelt`.
 
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -280,7 +280,7 @@ def ag_beitr_rentenv_midi_job(
         See :func:`in_gleitzone`.
 
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -307,7 +307,7 @@ def ag_beitr_arbeitsl_v_midi_job(
         See :func:`in_gleitzone`.
 
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------

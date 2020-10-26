@@ -18,6 +18,7 @@ names can be found in the table below. gettsim reads the function arguments and
 selects the corresponding part of the The :code:`params` file. By construction the
 :code:`compartment_name + _params` have to be the last arguments.
 
+
 +---------------------------+--------------------------------+
 | Parameter file name       | Compartment of gettsim         |
 +===========================+================================+

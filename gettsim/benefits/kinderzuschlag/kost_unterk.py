@@ -91,7 +91,7 @@ def wohnbedarf_eltern_anteil(
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     kinderzuschlag_params
-        See :ref:`kinderzuschlag_params`.
+        See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
 
     Returns
     -------

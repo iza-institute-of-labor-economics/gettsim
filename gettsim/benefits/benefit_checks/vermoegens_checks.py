@@ -121,7 +121,7 @@ def freibetrag_vermögen_anspruch_hh(
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -158,7 +158,7 @@ def max_freibetrag_vermögen_hh(
     kind
         See basic input variable :ref:`kind <kind>`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -204,7 +204,7 @@ def freibetrag_vermögen_hh(
     max_freibetrag_vermögen_hh
         See :func:`max_freibetrag_vermögen_hh`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------

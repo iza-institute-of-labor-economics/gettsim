@@ -17,7 +17,7 @@ def st_kein_kind_freib_tu(
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_params
-        See :ref:`eink_st_params`.
+        See params documentation :ref:`eink_st_params <eink_st_params>`.
 
     Returns
     -------
@@ -42,7 +42,7 @@ def st_kind_freib_tu(
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_params
-        See :ref:`eink_st_params`.
+        See params documentation :ref:`eink_st_params <eink_st_params>`.
 
     Returns
     -------

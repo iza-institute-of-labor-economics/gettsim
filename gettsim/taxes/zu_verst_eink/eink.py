@@ -53,7 +53,7 @@ def brutto_eink_4(
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -224,7 +224,7 @@ def sum_brutto_eink_mit_kapital(
     brutto_eink_5
         See :func:`brutto_eink_5`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------

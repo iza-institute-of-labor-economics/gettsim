@@ -10,7 +10,7 @@ def mini_job_grenze(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict):
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
     -------
 
@@ -67,7 +67,7 @@ def in_gleitzone(
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -94,7 +94,7 @@ def midi_job_bemessungsentgelt(
     in_gleitzone
         See :func:`in_gleitzone`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
 
     Returns
@@ -167,7 +167,7 @@ def regulär_beschäftigt(
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------

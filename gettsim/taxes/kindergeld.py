@@ -15,7 +15,7 @@ def kindergeld_m_basis(
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
     kindergeld_params
-        See :ref:`kindergeld_params`.
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
     Returns
     -------
@@ -70,7 +70,7 @@ def kindergeld_anspruch_nach_stunden(
     arbeitsstunden_w
         See :func:`arbeitsstunden_w`.
     kindergeld_params
-        See :ref:`kindergeld_params`.
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
     Returns
     -------
@@ -103,7 +103,7 @@ def kindergeld_anspruch_nach_lohn(
     alter
         See basic input variable :ref:`alter <alter>`.
     kindergeld_params
-        See :ref:`kindergeld_params`.
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
     in_ausbildung
         See basic input variable :ref:`in_ausbildung <in_ausbildung>`.
     bruttolohn_m

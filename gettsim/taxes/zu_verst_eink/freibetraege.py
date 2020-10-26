@@ -16,7 +16,7 @@ def behinderungsgrad_pauschbetrag(
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -48,7 +48,7 @@ def alleinerziehend_freib_tu_bis_2014(
     alleinerziehend_tu
         See :func:`alleinerziehend_tu`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -73,7 +73,7 @@ def alleinerziehend_freib_tu_ab_2015(
     alleinerziehend_tu
         See :func:`alleinerziehend_tu`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -112,7 +112,7 @@ def altersfreib(
     vermiet_eink_m
         See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -140,7 +140,7 @@ def sonderausgaben_bis_2011(
     kind
         See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -170,7 +170,7 @@ def sonderausgaben_ab_2012(
     kind
         See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
 
@@ -217,7 +217,7 @@ def altervorsorge_aufwend(
     prv_rente_beitr_m
         See basic input variable :ref:`prv_rente_beitr_m <prv_rente_beitr_m>`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -249,7 +249,7 @@ def kinderfreib_tu(
     anz_kindergeld_kinder_tu
         See :func:`anz_kindergeld_kinder_tu`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------

@@ -30,7 +30,7 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     pflegev_beitr_m
         See :func:`pflegev_beitr_m`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -115,7 +115,7 @@ def vorsorge_ab_2020(
     arbeitsl_v_beitr_m
         See :func:`arbeitsl_v_beitr_m`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -176,7 +176,7 @@ def vorsorge_bis_2004(
     kind
         See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -219,7 +219,7 @@ def lohn_vorsorge_bis_2019_single(
     gemeinsam_veranlagt
         See :func:`gemeinsam_veranlagt`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -248,7 +248,7 @@ def lohn_vorsorgeabzug_bis_2019_tu(
     gemeinsam_veranlagte_tu
         See :func:`gemeinsam_veranlagte_tu`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -283,7 +283,7 @@ def berechne_vorsorge_bis_2004(
     anzahl_erwachsene
         See :func:`anzahl_erwachsene`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------

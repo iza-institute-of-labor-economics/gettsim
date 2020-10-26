@@ -118,7 +118,7 @@ def krankenv_beitr_regulär_beschäftigt(
     lohn_krankenv_regulär_beschäftigt
         See :func:`lohn_krankenv_regulär_beschäftigt`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
     -------
     Pandas Series containing monthly health insurance contributions for self employed
@@ -145,7 +145,7 @@ def pflegev_beitr_regulär_beschäftigt(
     lohn_krankenv_regulär_beschäftigt
         See :func:`lohn_krankenv_regulär_beschäftigt`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -207,7 +207,7 @@ def ges_krankenv_beitr_selbst(
     krankenv_pflichtig_eink_selbst
         See :func:`krankenv_pflichtig_eink_selbst`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -241,7 +241,7 @@ def pflegev_beitr_selbst(
         See :func:`krankenv_pflichtig_eink_selbst`.
 
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -274,7 +274,7 @@ def bezugsgröße(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict) -> Float
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -344,7 +344,7 @@ def krankenv_beitr_bemess_grenze(
     wohnort_ost
         See :func:`wohnort_ost`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -376,7 +376,7 @@ def pflegev_beitr_rente(
     krankenv_pflichtig_rente
         See :func:`krankenv_pflichtig_rente`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -407,7 +407,7 @@ def ges_krankenv_beitr_rente(
     krankenv_pflichtig_rente
         See :func:`krankenv_pflichtig_rente`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -431,7 +431,7 @@ def ges_beitr_krankenv_midi_job(
     midi_job_bemessungsentgelt
         See :func:`midi_job_bemessungsentgelt`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -455,7 +455,7 @@ def ag_beitr_krankenv_midi_job(
     in_gleitzone
         See :func:`in_gleitzone`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -520,7 +520,7 @@ def ag_beitr_pflegev_midi_job(
     in_gleitzone
         See :func:`in_gleitzone`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -548,7 +548,7 @@ def ges_beitr_pflegev_midi_job(
     midi_job_bemessungsentgelt
         See :func:`midi_job_bemessungsentgelt`.
     soz_vers_beitr_params
-        See :ref:`soz_vers_beitr_params`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------

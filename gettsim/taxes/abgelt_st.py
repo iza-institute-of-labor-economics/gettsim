@@ -12,7 +12,7 @@ def abgelt_st_tu(
     zu_verst_kapital_eink_tu
         See :func:`zu_verst_kapital_eink_tu`.
     abgelt_st_params
-        See :ref:`abgelt_st_params`.
+        See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
     Returns
     -------
@@ -35,7 +35,7 @@ def zu_verst_kapital_eink_tu(
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------

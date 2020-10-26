@@ -87,7 +87,7 @@ def alleinerziehenden_mehrbedarf_hh(
     anz_kind_zwischen_0_15_hh
         See :func:`anz_kind_zwischen_0_15_hh`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
 
     Returns
@@ -128,7 +128,7 @@ def kindersatz_m_hh_bis_2010(
     anz_kind_zwischen_14_24_hh
         See :func:`anz_kind_zwischen_14_24_hh`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -164,7 +164,7 @@ def kindersatz_m_hh_ab_2011(
     anz_kind_zwischen_14_24_hh
         See :func:`anz_kind_zwischen_14_24_hh`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -198,7 +198,7 @@ def regelsatz_m_hh_bis_2010(
     kindersatz_m_hh
         See :func:`kindersatz_m_hh`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
@@ -236,7 +236,7 @@ def regelsatz_m_hh_ab_2011(
     kindersatz_m_hh
         See :func:`kindersatz_m_hh`.
     arbeitsl_geld_2_params
-        See :ref:`arbeitsl_geld_2_params`.
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------

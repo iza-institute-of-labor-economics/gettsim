@@ -66,7 +66,7 @@ def elterngeld_m(
     anz_mehrlinge_bonus
         See :func:`anz_mehrlinge_bonus`.
     elterngeld_params
-        See :ref:`elterngeld_params`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
     Returns
     -------
@@ -107,13 +107,13 @@ def proxy_eink_vorj_elterngeld(
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     elterngeld_params
-        See :ref:`elterngeld_params`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     eink_st_params
-        See :ref:`eink_st_params`.
+        See params documentation :ref:`eink_st_params <eink_st_params>`.
     eink_st_abzuege_params
-        See :ref:`eink_st_abzuege_params`.
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     soli_st_params
-        See :ref:`soli_st_params`.
+        See params documentation :ref:`soli_st_params <soli_st_params>`.
 
     Returns
     -------
@@ -233,7 +233,7 @@ def alter_jüngstes_kind_monate(
     alter_jüngstes_kind
         See :func:`alter_jüngstes_kind`.
     elterngeld_params
-        See :ref:`elterngeld_params`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
     -------
 
@@ -275,7 +275,7 @@ def elternzeit_anspruch(
     kind
         See basic input variable :ref:`kind <kind>`.
     elterngeld_params
-        See :ref:`elterngeld_params`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
     Returns
     -------
@@ -323,7 +323,7 @@ def berechtigt_für_geschw_bonus(
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`.
     elterngeld_params
-        See :ref:`elterngeld_params`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
     Returns
     -------
@@ -437,7 +437,7 @@ def elterngeld_anteil_eink_erlass(
     elterngeld_eink_relev
         See :func:`elterngeld_eink_relev`.
     elterngeld_params
-        See :ref:`elterngeld_params`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
     -------
 
@@ -509,7 +509,7 @@ def geschw_bonus(
     berechtigt_für_geschw_bonus
         See :func:`berechtigt_für_geschw_bonus`.
     elterngeld_params
-        See :ref:`elterngeld_params`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
     Returns
     -------
@@ -534,7 +534,7 @@ def anz_mehrlinge_bonus(
     anz_mehrlinge_anspruch
         See :func:`anz_mehrlinge_anspruch`.
     elterngeld_params
-        See :ref:`elterngeld_params`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
     Returns
     -------

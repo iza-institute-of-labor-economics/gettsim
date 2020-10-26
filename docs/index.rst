@@ -19,17 +19,8 @@ Welcome to GETTSIM's documentation!
    installation
    tutorials/index
    how_to_guides/index
-   crosswalk
-   how-to-contribute
-   how-to-maintain
-   changes
-   geps
-   code-of-conduct
-   functions
-   variables
-   types
-   params
-   glossary
+   gettsim_objects_index
+   developer_index
 
 
 Initiated by
