@@ -26,11 +26,11 @@ def check_if_series_has_internal_type(series, internal_type):
     dtype = series.dtype
     if internal_type == FloatSeries:
         # I think we can allow for ints here?!
-        out = dtype == float or dtype == int
+        out = dtype == np.float or dtype == np.int
     elif internal_type == BoolSeries:
-        out = dtype == bool
+        out = dtype == np.bool
     elif internal_type == IntSeries:
-        out = dtype == int
+        out = dtype == np.int
     elif internal_type == DateTimeSeries:
         out = dtype == np.dtype("datetime64[ns]")
     else:
