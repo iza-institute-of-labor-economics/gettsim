@@ -1,3 +1,5 @@
+.. _variables:
+
 Basic input variables
 =====================
 

@@ -1,3 +1,5 @@
+.. _functions:
+
 Functions in the Tax and Transfer System
 ========================================
 
