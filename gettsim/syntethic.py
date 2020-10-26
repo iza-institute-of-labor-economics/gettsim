@@ -6,9 +6,7 @@ import pandas as pd
 from gettsim.policy_environment import _load_parameter_group_from_yaml
 
 
-def create_other_hh_members(
-    df, hh_typ, alter, alter_kind_1, alter_kind_2, doppelverdiener
-):
+def create_other_hh_members(df, hh_typ, age_adults, age_children, double_earner):
     """
     duplicates information from the one person already created
     as often as needed.
@@ -20,20 +18,22 @@ def create_other_hh_members(
     # Single Parent one child
     if hh_typ == "sp1ch":
         new_df["kind"] = True
-        new_df["alter"] = alter_kind_1
+        new_df["alter"] = age_children[0]
     # Single Parent two children
     if hh_typ == "sp2ch":
         new_df = new_df.append(new_df, ignore_index=True)
         new_df["kind"] = pd.Series([True, True])
-        new_df["alter"] = pd.Series([alter_kind_1, alter_kind_2])
+        new_df["alter"] = pd.Series(age_children)
+    if hh_typ == "coup":
+        new_df["alter"] = age_adults[1]
     if hh_typ == "coup1ch":
         new_df = new_df.append(new_df, ignore_index=True)
         new_df["kind"] = pd.Series([False, True])
-        new_df["alter"] = pd.Series([alter, alter_kind_1])
+        new_df["alter"] = pd.Series([age_adults[1], age_children[0]])
     if hh_typ == "coup2ch":
         new_df = new_df.append([new_df] * 2, ignore_index=True)
         new_df["kind"] = pd.Series([False, True, True])
-        new_df["alter"] = pd.Series([alter, alter_kind_1, alter_kind_2])
+        new_df["alter"] = pd.Series([age_adults[1], age_children[0], age_children[1]])
 
     # Make sure new household members are not heads
     new_df["tu_vorstand"] = False
@@ -42,19 +42,18 @@ def create_other_hh_members(
     # children do not have earnings
     new_df.loc[new_df["kind"], "bruttolohn_m"] = 0
     # If single earner household, the partner is assigned zero wage as well
-    if not doppelverdiener:
+    if not double_earner:
         new_df.loc[~new_df["kind"], "bruttolohn_m"] = 0
     return new_df
 
 
 def gettsim_hypo_data(
     hh_typen=("sing", "sp1ch", "sp2ch", "coup", "coup1ch", "coup2ch"),
-    bruttolohn=2000,
-    alter=35,
-    alter_kind_1=3,
-    alter_kind_2=8,
+    age_adults=(35, 35),
+    age_children=(3, 8),
     baujahr=1980,
-    doppelverdiener=False,
+    bruttolohn=2000,
+    double_earner=False,
     policy_year=datetime.datetime.now().year,
 ):
     """
@@ -70,17 +69,20 @@ def gettsim_hypo_data(
         - 'coup1ch' - Couple, one child
         - 'coup2ch' - Couple, two children
 
-    bruttolohn (int):
-        Gross monthly wage for the household head.
+    age_adults (list of int):
+        Assumed age of adult(s)
 
-    alter, alter_kind_1, alter_kind_2 (int):
-        Assumed age of adult(s) and first and second child
+    age_children (list of int):
+        Assumed age of children
 
     baujahr (int):
         Construction year of building
 
-    doppelverdiener (bool):
-        whether or not both adults should be assigned income
+    bruttolohn (int):
+        Gross monthly wage for the adult(s).
+
+    double_earner (bool):
+        whether or not both adults should be assigned income.
 
     policy_year:
         the year from which the reference data are drawn.
@@ -89,6 +91,10 @@ def gettsim_hypo_data(
     for t in hh_typen:
         if t not in ["sing", "sp1ch", "sp2ch", "coup", "coup1ch", "coup2ch"]:
             raise ValueError(f"illegal household type: {t}")
+
+    for a in age_adults + age_children:
+        if (a <= 0) or (type(a) != int):
+            raise ValueError(f"illegal value for age: {a}")
 
     # initiate empty dataframe
     output_columns = [
@@ -151,7 +157,7 @@ def gettsim_hypo_data(
 
     # 'Custom' initializations
     df["tu_vorstand"] = True
-    df["alter"] = alter
+    df["alter"] = age_adults[0]
     df["immobilie_baujahr"] = baujahr
     for c in ["arbeitsl_lfdj_m", "arbeitsl_vorj_m", "arbeitsl_vor2j_m"]:
         df[c] = 12
@@ -176,9 +182,7 @@ def gettsim_hypo_data(
     # append entries for children and partner
     for hht in hh_typen:
         df = df.append(
-            create_other_hh_members(
-                df, hht, alter, alter_kind_1, alter_kind_2, doppelverdiener
-            )
+            create_other_hh_members(df, hht, age_adults, age_children, double_earner)
         )
     df["geburtsjahr"] = policy_year - df["alter"]
     df["jahr_renteneintr"] = df["geburtsjahr"] + 67
