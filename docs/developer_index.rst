@@ -1,8 +1,9 @@
 Join the team
 =============
 
-This section documents how to join the gettsim team and comprehend to the open-source
-project.
+This section provides guidlines for the work in gettsim. If you want to join the team
+and contribute to the project please reach out to us by joining our Zulip Chat at
+https://gettsim.zulipchat.com.
 
 .. toctree::
    :maxdepth: 1
