@@ -1,6 +1,6 @@
 import numpy as np
 
-from gettsim.syntethic import gettsim_hypo_data
+from gettsim.synthetic import gettsim_hypo_data
 
 
 def test_hypo():
