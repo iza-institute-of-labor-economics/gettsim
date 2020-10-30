@@ -1,6 +1,7 @@
 from typing import TypeVar
 
 import numpy as np
+import pandas as pd
 
 FloatSeries = TypeVar("FloatSeries")
 IntSeries = TypeVar("IntSeries")
@@ -30,7 +31,7 @@ def check_if_series_has_internal_type(series, internal_type):
     elif internal_type == BoolSeries:
         out = np.issubdtype(dtype, np.bool)
     elif internal_type == IntSeries:
-        out = np.issubdtype(dtype, np.integer)
+        out = pd.api.types.is_integer_dtype(dtype)
     elif internal_type == DateTimeSeries:
         out = dtype == np.dtype("datetime64[ns]")
     else:
