@@ -11,13 +11,12 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     kind: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
-    Vorsorgeaufwendungen 2005 to 2010
-    Pension contributions are accounted for up to €20k.
-    From this, a certain share can actually be deducted,
-    starting with 60% in 2005.
-    Other deductions are simply added up, up to a ceiling of 1500 p.a. for standard
-    employees.
+    """Calculate Vorsorgeaufwendungen 2005 to 2010.
+
+
+    Pension contributions are accounted for up to €20k. From this, a certain share
+    can actually be deducted, starting with 60% in 2005. Other deductions are simply
+    added up, up to a ceiling of 1500 p.a. for standard employees.
 
     Parameters
     ----------
@@ -47,7 +46,8 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 def vorsorge_ab_2005_bis_2009(
     _vorsorge_alternative_ab_2005_bis_2009: FloatSeries, vorsorge_bis_2004: FloatSeries
 ) -> FloatSeries:
-    """
+    """Calculate Vorsorgeaufwendungen 2005 to 2009.
+
     With the 2005 reform, no taxpayer was supposed to be affected negatively.
     Therefore, one needs to compute amounts under the 2004 and 2005 regimes
     and take the more favourable one.
@@ -69,7 +69,8 @@ def vorsorge_ab_2005_bis_2009(
 def vorsorge_ab_2010_bis_2019(
     vorsorge_bis_2004: FloatSeries, vorsorge_ab_2020: FloatSeries
 ) -> FloatSeries:
-    """
+    """Calculate Vorsorgeaufwendungen 2010 to 2019.
+
     After a supreme court ruling, the 2005 rule had to be changed in 2010.
     Therefore, one needs to compute amounts under the 2004 and 2010 regimes
     and take the more favourable one. (§10 (3a) EStG).
@@ -100,7 +101,8 @@ def vorsorge_ab_2020(
     kind: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
+    """Calculate Vorsorgeaufwendungen since 2020.
+
     Vorsorgeaufwendungen after the regime implemented in 2010 is in full effect,
     see § 10 (3) EStG.
 
@@ -151,7 +153,7 @@ def vorsorge_bis_2004(
     kind: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
+    """Calculate Vorsorgeaufwendungen until 2004.
 
     Parameters
     ----------

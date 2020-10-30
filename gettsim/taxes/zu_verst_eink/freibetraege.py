@@ -40,8 +40,9 @@ def alleinerziehend_freib_tu_bis_2014(
     alleinerziehend_tu: BoolSeries, eink_st_abzuege_params: dict
 ) -> FloatSeries:
     """
-    Calculates tax reduction for single parents. Used to be called
-    'Haushaltsfreibetrag'
+    Calculates tax reduction for single parents.
+
+    This used to be called 'Haushaltsfreibetrag'.
 
     Parameters
     ----------
@@ -64,8 +65,9 @@ def alleinerziehend_freib_tu_ab_2015(
     anz_kinder_tu: IntSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
-    Calculates tax reduction for single parents. Since 2015, it increases with
+    """Calculates tax reduction for single parents.
+
+    Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
 
     Parameters
@@ -96,8 +98,7 @@ def altersfreib(
     vermiet_eink_m: FloatSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
-    Calculates the deductions for elderly. Not tested yet!
+    """Calculates the deductions for elderly.
 
     Parameters
     ----------
@@ -133,8 +134,9 @@ def altersfreib(
 def sonderausgaben_bis_2011(
     kind: BoolSeries, eink_st_abzuege_params: dict
 ) -> FloatSeries:
-    """
-    Until 2011, we just use the lumpsum payment.
+    """Calculating sonderausgaben for childcare until 2011.
+
+    There is only a lumpsum payment implemented.
     Parameters
     ----------
     kind
@@ -158,8 +160,9 @@ def sonderausgaben_ab_2012(
     anz_erwachsene_tu: IntSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
-    Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
+    """Calculating sonderausgaben for childcare since 2012.
+
+    We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
     Parameters
     ----------
