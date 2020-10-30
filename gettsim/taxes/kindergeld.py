@@ -56,10 +56,10 @@ def kindergeld_anspruch_nach_stunden(
     arbeitsstunden_w: FloatSeries,
     kindergeld_params: dict,
 ) -> BoolSeries:
-    """
-    Nowadays, kids must not work more than 20 hour
-    returns a boolean variable whether a specific person is a child eligible for
-    child benefit
+    """Determine kindergeld eligibility depending on working hours.
+
+    The current eligibility rule is, that kids must not work more than 20
+    hour and are below 25.
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ def kindergeld_anspruch_nach_stunden(
 
     Returns
     -------
-
+    BoolSeries indiciating kindergeld eligibility.
     """
     out = alter <= 18
     out = out | (
@@ -93,7 +93,8 @@ def kindergeld_anspruch_nach_lohn(
     bruttolohn_m: FloatSeries,
     kindergeld_params: dict,
 ) -> BoolSeries:
-    """
+    """Determine kindergeld eligibility depending on kids wage.
+
     Before 2011, there was an income ceiling for children
     returns a boolean variable whether a specific person is a child eligible for
     child benefit

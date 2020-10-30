@@ -8,7 +8,7 @@ def st_kein_kind_freib_tu(
     anz_erwachsene_tu: IntSeries,
     eink_st_params: dict,
 ) -> FloatSeries:
-    """ Taxes without child allowance.
+    """Taxes without child allowance.
 
     Parameters
     ----------
@@ -55,8 +55,8 @@ def st_kind_freib_tu(
 
 def st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
     """The German Income Tax Tariff.
-     Modelled only after 2002 so far.
 
+     Modelled only after 2002 so far.
     It's not calculated as in the tax code, but rather a gemoetric decomposition of the
     area beneath the marginal tax rate function.
     This facilitates the implementation of alternative tax schedules

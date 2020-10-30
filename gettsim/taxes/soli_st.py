@@ -9,7 +9,7 @@ def soli_st_tu(
     abgelt_st_tu: FloatSeries,
     soli_st_params: dict,
 ) -> FloatSeries:
-    """Solidarity Surcharge.
+    """Calculate the Solidarity Surcharge.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
     Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
