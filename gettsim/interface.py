@@ -402,8 +402,6 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
         Dictionary of functions.
     type_ : {"internal", "user"}
         Source of the functions. "user" means functions passed by the user.
-    columns_overriding_functions : list of str
-        Columns provided by the user.
 
     Raises
     ------
