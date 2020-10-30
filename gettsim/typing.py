@@ -26,8 +26,7 @@ def check_if_series_has_internal_type(series, internal_type):
     """
     dtype = series.dtype
     if internal_type == FloatSeries:
-        # I think we can allow for ints here?!
-        out = np.issubdtype(dtype, np.integer) or np.issubdtype(dtype, np.floating)
+        out = np.issubdtype(dtype, np.floating) or pd.api.types.is_integer_dtype(dtype)
     elif internal_type == BoolSeries:
         out = np.issubdtype(dtype, np.bool)
     elif internal_type == IntSeries:
