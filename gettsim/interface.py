@@ -85,6 +85,9 @@ def compute_taxes_and_transfers(
     # Create one dictionary of functions and perform check.
     functions = {**internal_functions, **functions}
     _fail_if_datatype_is_false(data, columns_overriding_functions, functions)
+    _fail_if_columns_overriding_functions_are_not_in_functions(
+        columns_overriding_functions, functions
+    )
 
     functions = {
         k: v for k, v in functions.items() if k not in columns_overriding_functions
