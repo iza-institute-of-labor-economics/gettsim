@@ -141,8 +141,8 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
         Fail if the data types are not matching the required in gettsim.
 
     """
-    check_data = True
     for column_name, series in data.items():
+        check_data = True
         if column_name in STANDARD_DATA_TYPES:
             internal_type = STANDARD_DATA_TYPES[column_name]
             check_data = check_if_series_has_internal_type(series, internal_type)
