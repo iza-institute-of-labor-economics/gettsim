@@ -29,6 +29,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
 
 
 def test_type_hints():
+    """Check if output and input types of all functions coincide."""
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)
 
