@@ -1,7 +1,7 @@
 Code documentation
 ==================
 
-This section documents the code inside gettsim.
+This section documents the code inside GETTSIM.
 
 .. toctree::
    :maxdepth: 1

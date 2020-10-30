@@ -11,12 +11,13 @@ found `here <https://github.com/iza-institute-of-labor-economics/gettsim/tree/ma
 /gettsim/data>`_ and are named by the compartment. Our current guidlines on how these
 files are set up can be found in the GEP-2.
 
-Inside gettsim the functions don't operate with the full The :code:`params` file and
+Inside GETTSIM, functions don't operate with the full :code:`params` file and
 instead just use each compartment specific parameter dictionary. The names of these
 dictionaries are named by the structure :code:`compartment_name + _params`. The explicit
-names can be found in the table below. gettsim reads the function arguments and
-selects the corresponding part of the The :code:`params` file. By construction the
-:code:`compartment_name + _params` have to be the last arguments.
+names can be found in the table below. GETTSIM reads the function arguments and
+selects the corresponding part of the :code:`params` file. For GETTSIM to read and
+process the arguments of functions correctly the :code:`compartment_name + _params`
+variables have to be last inputs in the function signature.
 
 
 +---------------------------+--------------------------------+
