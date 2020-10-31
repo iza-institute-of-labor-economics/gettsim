@@ -33,14 +33,14 @@ def append_other_hh_members(
     child["in_ausbildung"] = True
     child["bruttolohn_m"] = 0
 
-    if n_children == 0:
-        children = None
     if n_children == 1:
         children = child.copy()
         children["alter"] = age_children[0]
-    if n_children == 2:
+    elif n_children == 2:
         children = child.append(child, ignore_index=True)
         children["alter"] = age_children
+    else:
+        children = None
 
     # append children
     new_df = new_df.append(children)
@@ -115,7 +115,7 @@ def create_synthetic_data(
     if len(heterogeneous_vars) == 0:
         # If no heterogeneity specified,
         # just create the household types with default incomes.
-        return create_single_household(
+        synth = create_single_household(
             hh_typen,
             n_children,
             age_adults,
@@ -152,7 +152,13 @@ def create_synthetic_data(
                         **{hetvar: value},
                     )
                 )
-    # TODO: RE-CREATE unique household and personal id.
+        # the combination of hh_typ and all values from heterogeneous_vars
+        # defines one synthetic household.
+        # TODO: This does not work yet however because children always have 0 income.
+        id_columns = list(heterogeneous_vars.keys())
+        id_columns.append("hh_typ")
+        synth["hh_id"] = synth.groupby(id_columns).ngroup()
+
     synth = synth.reset_index()
     synth["p_id"] = synth.index
 
