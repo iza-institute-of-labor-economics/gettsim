@@ -1,4 +1,5 @@
 import datetime
+import itertools
 
 import numpy as np
 import pandas as pd
@@ -6,49 +7,51 @@ import pandas as pd
 from gettsim.policy_environment import _load_parameter_group_from_yaml
 
 
-def create_other_hh_members(df, hh_typ, age_adults, age_children, double_earner):
+def append_other_hh_members(
+    df, hh_typ, n_children, age_adults, age_children, double_earner
+):
     """
     duplicates information from the one person already created
-    as often as needed.
+    as often as needed and adjusts columns that differ
     """
-    new_df = df[df["hh_typ"] == hh_typ].copy()
-    # Single: no additional person needed
-    if hh_typ == "sing":
+    # create empty dataframe with correct columns and datatypes
+    new_df = df.iloc[0:0].copy()
+    if hh_typ == "single" and n_children == 0:
         return None
-    # Single Parent one child
-    if hh_typ == "sp1ch":
-        new_df["kind"] = True
-        new_df["alter"] = age_children[0]
-    # Single Parent two children
-    if hh_typ == "sp2ch":
-        new_df = new_df.append(new_df, ignore_index=True)
-        new_df["kind"] = pd.Series([True, True])
-        new_df["alter"] = pd.Series(age_children)
-    if hh_typ == "coup":
-        new_df["alter"] = age_adults[1]
-    if hh_typ == "coup1ch":
-        new_df = new_df.append(new_df, ignore_index=True)
-        new_df["kind"] = pd.Series([False, True])
-        new_df["alter"] = pd.Series([age_adults[1], age_children[0]])
-    if hh_typ == "coup2ch":
-        new_df = new_df.append([new_df] * 2, ignore_index=True)
-        new_df["kind"] = pd.Series([False, True, True])
-        new_df["alter"] = pd.Series([age_adults[1], age_children[0], age_children[1]])
 
-    # Make sure new household members are not heads
+    # If couple, create an additional adult
+    if hh_typ == "couple":
+        adult = df.copy()
+        adult["alter"] = age_adults[1]
+        if not double_earner:
+            adult["bruttolohn_m"] = 0
+
+        new_df = new_df.append(adult, ignore_index=True)
+
+    child = df.copy()
+    child["kind"] = True
+    child["in_ausbildung"] = True
+    child["bruttolohn_m"] = 0
+
+    if n_children == 0:
+        children = None
+    if n_children == 1:
+        children = child.copy()
+        children["alter"] = age_children[0]
+    if n_children == 2:
+        children = child.append(child, ignore_index=True)
+        children["alter"] = age_children
+
+    # append children
+    new_df = new_df.append(children)
     new_df["tu_vorstand"] = False
-    # Children are in education
-    new_df["in_ausbildung"] = new_df["kind"]
-    # children do not have earnings
-    new_df.loc[new_df["kind"], "bruttolohn_m"] = 0
-    # If single earner household, the partner is assigned zero wage as well
-    if not double_earner:
-        new_df.loc[~new_df["kind"], "bruttolohn_m"] = 0
+
     return new_df
 
 
-def gettsim_hypo_data(
-    hh_typen=("sing", "sp1ch", "sp2ch", "coup", "coup1ch", "coup2ch"),
+def create_synthetic_data(
+    hh_typen=("single", "couple"),
+    n_children=(0, 1, 2),
     age_adults=(35, 35),
     age_children=(3, 8),
     baujahr=1980,
@@ -61,14 +64,11 @@ def gettsim_hypo_data(
     Creates a dataset with hypothetical household types,
     which can be used as input for gettsim
 
-    hh_typen (tuple of str):
-        Allowed Household Types:
-        - 'sing' - Single, no kids
-        - 'sp1ch' - Single Parent, one child
-        - 'sp2ch' - Single Parent, two children
-        - 'coup' - Couple, no kids
-        - 'coup1ch' - Couple, one child
-        - 'coup2ch' - Couple, two children
+    hh_typen (list of str):
+        Allowed Household Types: 'single', 'couple'
+
+    n_children (list of int):
+        number of children
 
     age_adults (list of int):
         Assumed age of adult(s)
@@ -96,7 +96,7 @@ def gettsim_hypo_data(
     """
     # Check inputs
     for t in hh_typen:
-        if t not in ["sing", "sp1ch", "sp2ch", "coup", "coup1ch", "coup2ch"]:
+        if t not in ["single", "couple"]:
             raise ValueError(f"illegal household type: {t}")
 
     for a in age_adults + age_children:
@@ -108,6 +108,7 @@ def gettsim_hypo_data(
         # just create the household types with default incomes.
         return create_single_household(
             hh_typen,
+            n_children,
             age_adults,
             age_children,
             baujahr,
@@ -133,6 +134,7 @@ def gettsim_hypo_data(
                 synth = synth.append(
                     create_single_household(
                         hh_typen,
+                        n_children,
                         age_adults,
                         age_children,
                         baujahr,
@@ -149,7 +151,14 @@ def gettsim_hypo_data(
 
 
 def create_single_household(
-    hh_typen, age_adults, age_children, baujahr, double_earner, policy_year, **kwargs
+    hh_typen,
+    n_children,
+    age_adults,
+    age_children,
+    baujahr,
+    double_earner,
+    policy_year,
+    **kwargs,
 ):
     """ creates a single set of households
     """
@@ -192,9 +201,10 @@ def create_single_household(
         "immobilie_baujahr",
         "sonstig_eink_m",
     ]
-
+    # Create one row per desired household
     df = pd.DataFrame(
-        columns=output_columns, data=np.zeros((len(hh_typen), len(output_columns)))
+        columns=output_columns,
+        data=np.zeros((len(hh_typen) * len(n_children), len(output_columns))),
     )
 
     # Some columns require boolean type. initiate them with False
@@ -218,8 +228,12 @@ def create_single_household(
     df["immobilie_baujahr"] = baujahr
     for c in ["arbeitsl_lfdj_m", "arbeitsl_vorj_m", "arbeitsl_vor2j_m"]:
         df[c] = 12
+    # Household Types
+    all_types = pd.DataFrame(
+        columns=["hht", "nch"], data=itertools.product(hh_typen, n_children)
+    )
 
-    df["hh_typ"] = pd.Series(hh_typen)
+    df["hh_typ"] = all_types["hht"].str[:4] + "_" + all_types["nch"].astype(str) + "ch"
 
     # Wohnfläche, Kaltmiete, Heizkosten are taken from official data
     bg_daten = _load_parameter_group_from_yaml(
@@ -239,14 +253,27 @@ def create_single_household(
 
     # append entries for children and partner
     for hht in hh_typen:
-        df = df.append(
-            create_other_hh_members(df, hht, age_adults, age_children, double_earner)
-        )
+        for nch in n_children:
+            df = df.append(
+                append_other_hh_members(
+                    df[
+                        (df["hh_typ"].str[:4] == hht[:4])
+                        & (df["hh_typ"].str[-3].astype(int) == nch)
+                    ],
+                    hht,
+                    nch,
+                    age_adults,
+                    age_children,
+                    double_earner,
+                )
+            )
+    df = df.reset_index()
     df["geburtsjahr"] = policy_year - df["alter"]
     df["jahr_renteneintr"] = df["geburtsjahr"] + 67
 
-    df["hat_kinder"] = df["hh_typ"].str.contains("ch")
-
+    df.loc[~df["kind"], "hat_kinder"] = (
+        df.groupby("hh_typ")["kind"].transform("sum") > 0
+    )
     df.loc[df["bruttolohn_m"] > 0, "arbeitsstunden_w"] = 38
 
     # All adults in couples are assumed to be married

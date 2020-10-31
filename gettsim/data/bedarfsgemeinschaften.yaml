@@ -7,28 +7,28 @@ wohnfläche:
     en: Average Appartement Size of households living from unemployment benefit
   unit: Square Meters
   2018-01-01:
-    sing: 44
-    sp1ch: 63
-    sp2ch: 74
-    coup: 63
-    coup1ch: 70
-    coup2ch: 77
+    sing_0ch: 44
+    sing_1ch: 63
+    sing_2ch: 74
+    coup_0ch: 63
+    coup_1ch: 70
+    coup_2ch: 77
     reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2018
   2019-01-01:
-    sing: 45
-    sp1ch: 62
-    sp2ch: 73
-    coup: 63
-    coup1ch: 69
-    coup2ch: 77
+    sing_0ch: 45
+    sing_1ch: 62
+    sing_2ch: 73
+    coup_0ch: 63
+    coup_1ch: 69
+    coup_2ch: 77
     reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2019
   2020-01-01:
-    sing: 45
-    sp1ch: 62
-    sp2ch: 73
-    coup: 63
-    coup1ch: 70
-    coup2ch: 76
+    sing_0ch: 45
+    sing_1ch: 62
+    sing_2ch: 73
+    coup_0ch: 63
+    coup_1ch: 70
+    coup_2ch: 76
     reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2020
 kaltmiete:
   name:
@@ -40,12 +40,12 @@ kaltmiete:
   unit: Euro
   time: month
   2020-01-01:
-    sing: 335
-    sp1ch: 465
-    sp2ch: 550
-    coup: 449
-    coup1ch: 553
-    coup2ch: 629
+    sing_0ch: 335
+    sing_1ch: 465
+    sing_2ch: 550
+    coup_0ch: 449
+    coup_1ch: 553
+    coup_2ch: 629
     reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2020
 heizkosten:
   name:
@@ -57,10 +57,10 @@ heizkosten:
   unit: Euro
   time: month
   2020-01-01:
-    sing: 46
-    sp1ch: 68
-    sp2ch: 80
-    coup: 68
-    coup1ch: 78
-    coup2ch: 87
+    sing_0ch: 46
+    sing_1ch: 68
+    sing_2ch: 80
+    coup_0ch: 68
+    coup_1ch: 78
+    coup_2ch: 87
     reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2020
