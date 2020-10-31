@@ -50,10 +50,10 @@ def append_other_hh_members(
 
 
 def create_synthetic_data(
-    hh_typen=("single", "couple"),
-    n_children=(0, 1, 2),
-    age_adults=(35, 35),
-    age_children=(3, 8),
+    hh_typen=None,
+    n_children=None,
+    age_adults=None,
+    age_children=None,
     baujahr=1980,
     double_earner=False,
     policy_year=datetime.datetime.now().year,
@@ -74,7 +74,7 @@ def create_synthetic_data(
         Assumed age of adult(s)
 
     age_children (list of int):
-        Assumed age of children
+        Assumed age of children (first and second child, respectively)
 
     baujahr (int):
         Construction year of building
@@ -88,16 +88,25 @@ def create_synthetic_data(
     policy_year (int):
         the year from which the reference data on housing are drawn.
 
-    kwargs
+    kwargs:
 
     bruttolohn_m, kapital_eink_m, eink_selbst_m, vermögen_hh (int):
         values for income and wealth, respectively.
-        only valid if heterogenous vars is empty
+        only valid if heterogenous_vars is empty
     """
+    # Set Defaults
+    if hh_typen is None:
+        hh_typen = ["single", "couple"]
+    if n_children is None:
+        n_children = [0, 1, 2]
+    if age_adults is None:
+        age_adults = [35, 35]
+    if age_children is None:
+        age_children = [3, 8]
     # Check inputs
     for t in hh_typen:
         if t not in ["single", "couple"]:
-            raise ValueError(f"illegal household type: {t}")
+            raise ValueError(f"illegal household type: '{t}'")
 
     for a in age_adults + age_children:
         if (a <= 0) or (type(a) != int):
