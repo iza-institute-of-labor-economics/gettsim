@@ -9,7 +9,7 @@ from gettsim.typing import IntSeries
 def behinderungsgrad_pauschbetrag(
     behinderungsgrad: IntSeries, eink_st_abzuege_params: dict
 ) -> FloatSeries:
-    """Calculate the different deductions for different handicap degrees.
+    """Assign tax deduction allowance for handicaped to different handicap degrees.
 
     Parameters
     ----------
@@ -39,8 +39,7 @@ def behinderungsgrad_pauschbetrag(
 def alleinerziehend_freib_tu_bis_2014(
     alleinerziehend_tu: BoolSeries, eink_st_abzuege_params: dict
 ) -> FloatSeries:
-    """
-    Calculates tax reduction for single parents.
+    """Calculates tax deduction allowance for single parents until 2014.
 
     This used to be called 'Haushaltsfreibetrag'.
 
@@ -65,7 +64,7 @@ def alleinerziehend_freib_tu_ab_2015(
     anz_kinder_tu: IntSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """Calculates tax reduction for single parents.
+    """Calculates tax deduction allowance for single parents since 2015.
 
     Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
@@ -74,6 +73,8 @@ def alleinerziehend_freib_tu_ab_2015(
     ----------
     alleinerziehend_tu
         See :func:`alleinerziehend_tu`.
+    anz_kinder_tu
+        See :func:`anz_kinder_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -98,7 +99,7 @@ def altersfreib(
     vermiet_eink_m: FloatSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """Calculates the deductions for elderly.
+    """Calculates tax deduction allowance for elderly.
 
     Parameters
     ----------
@@ -160,7 +161,7 @@ def sonderausgaben_ab_2012(
     anz_erwachsene_tu: IntSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """Calculating sonderausgaben for childcare since 2012.
+    """Calculate sonderausgaben for childcare since 2012.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
@@ -203,9 +204,9 @@ def altervorsorge_aufwend(
     prv_rente_beitr_m: FloatSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
-    Return the amount of contributions to retirement savings that is deductible from
-    taxable income. **This function becomes relevant in 2005, do not use it for prior
+    """Determine contributions to retirement savings deductible from taxable income.
+
+     **This function becomes relevant in 2005, do not use it for prior
     year**.
 
     The share of deductible contributions increases each year from 60% in 2005 to 100%
@@ -245,12 +246,14 @@ def kinderfreib_tu(
     anz_erwachsene_tu: IntSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """Sum over all child allowances.
+    """Aggregate child allowances on tax unit level.
 
     Parameters
     ----------
     anz_kindergeld_kinder_tu
         See :func:`anz_kindergeld_kinder_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 

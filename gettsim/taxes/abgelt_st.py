@@ -5,7 +5,7 @@ from gettsim.typing import IntSeries
 def abgelt_st_tu(
     zu_verst_kapital_eink_tu: FloatSeries, abgelt_st_params: dict
 ) -> FloatSeries:
-    """Abgeltungssteuer per tax unit.
+    """Calculate abgeltungssteuer per tax unit.
 
     Parameters
     ----------
@@ -26,7 +26,7 @@ def zu_verst_kapital_eink_tu(
     anz_erwachsene_tu: IntSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """Taxable income per tax unit.
+    """Calculate taxable income per tax unit.
 
     Parameters
     ----------

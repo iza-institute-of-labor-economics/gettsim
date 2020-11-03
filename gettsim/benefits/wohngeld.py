@@ -116,14 +116,14 @@ def _wohngeld_abzüge_tu(
 
 
 def _zu_verst_ges_rente(
-    _ertragsanteil: FloatSeries, ges_rente_m: FloatSeries
+    ertragsanteil: FloatSeries, ges_rente_m: FloatSeries
 ) -> FloatSeries:
     """
 
     Parameters
     ----------
-    _ertragsanteil
-        See :func:`_ertragsanteil`.
+    ertragsanteil
+        See :func:`ertragsanteil`.
     ges_rente_m
         See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
 
@@ -131,7 +131,7 @@ def _zu_verst_ges_rente(
     -------
 
     """
-    return _ertragsanteil * ges_rente_m
+    return ertragsanteil * ges_rente_m
 
 
 def _wohngeld_brutto_eink_tu(
