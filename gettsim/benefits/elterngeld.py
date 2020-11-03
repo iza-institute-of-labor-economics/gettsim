@@ -89,7 +89,7 @@ def elterngeld_m(
 
 
 def proxy_eink_vorj_elterngeld(
-    beitr_bemess_grenze_rentenv: FloatSeries,
+    rentenv_beitr_bemess_grenze: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     elterngeld_params: dict,
     eink_st_params: dict,
@@ -102,8 +102,8 @@ def proxy_eink_vorj_elterngeld(
 
     Parameters
     ----------
-    beitr_bemess_grenze_rentenv
-        See :func:`beitr_bemess_grenze_rentenv`.
+    rentenv_beitr_bemess_grenze
+        See :func:`rentenv_beitr_bemess_grenze`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     elterngeld_params
@@ -120,7 +120,7 @@ def proxy_eink_vorj_elterngeld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(upper=beitr_bemess_grenze_rentenv)
+    max_wage = bruttolohn_vorj_m.clip(upper=rentenv_beitr_bemess_grenze)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = elterngeld_params["elterngeld_soz_vers_pausch"] * max_wage
