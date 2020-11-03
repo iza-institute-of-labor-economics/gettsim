@@ -1,5 +1,7 @@
 import numpy as np
 
+from gettsim import compute_taxes_and_transfers
+from gettsim import set_up_policy_environment
 from gettsim.synthetic import create_synthetic_data
 
 
@@ -28,9 +30,11 @@ def test_synthetic():
     )
 
     assert (doppelverdiener["bruttolohn_m"] > 0).all()
+
     # test heterogeneity
     incrange = create_synthetic_data(
         hh_typen=["couple"],
+        n_children=[0],
         heterogeneous_vars={
             "bruttolohn_m": list(np.arange(0, 6000, 1000)),
             "vermögen_hh": [0, 500_000, 1_000_000],
@@ -42,3 +46,8 @@ def test_synthetic():
     ).all()
 
     assert incrange.notna().all().all()
+
+    # finally, run through gettsim
+    policy_params, policy_functions = set_up_policy_environment(2020)
+    results = compute_taxes_and_transfers(df, policy_params, policy_functions)
+    assert len(results) > 0
