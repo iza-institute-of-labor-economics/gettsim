@@ -108,8 +108,14 @@ def create_synthetic_data(
         if t not in ["single", "couple"]:
             raise ValueError(f"illegal household type: '{t}'")
 
+    if type(hh_typen) is not list:
+        raise ValueError("'hh_typen' must be a list")
+
+    if type(n_children) is not list:
+        raise ValueError("'n_children must be a list")
+
     for a in age_adults + age_children:
-        if (a <= 0) or (type(a) != int):
+        if (a < 0) or (type(a) != int):
             raise ValueError(f"illegal value for age: {a}")
 
     if len(heterogeneous_vars) == 0:
