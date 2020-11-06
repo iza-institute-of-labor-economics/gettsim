@@ -136,6 +136,9 @@ def create_synthetic_data(
         )
     else:
         synth = pd.DataFrame()
+        dimensions = range(len(np.hstack(list(heterogeneous_vars.values()))))
+        dim_counter = 0
+        # find out how many dimensions there are in order to set household id.
         # loop over variables to vary
         for hetvar in heterogeneous_vars.keys():
             # allow only certain variables to vary
@@ -158,15 +161,11 @@ def create_synthetic_data(
                         baujahr,
                         double_earner,
                         policy_year,
+                        dimension=dimensions[dim_counter],
                         **{hetvar: value},
                     )
                 )
-        # the combination of hh_typ and all values from heterogeneous_vars
-        # defines one synthetic household.
-        # TODO: This does not work yet however because children always have 0 income.
-        id_columns = list(heterogeneous_vars.keys())
-        id_columns.append("hh_typ")
-        synth["hh_id"] = synth.groupby(id_columns).ngroup()
+                dim_counter += 1
 
     synth = synth.reset_index()
     synth["p_id"] = synth.index
@@ -199,13 +198,15 @@ def create_single_household(
         "ges_rente_m",
         "prv_krankenv",
         "prv_krankv_beit_m",
-        "prv_rente_beit_m",
+        "prv_rente_beitr_m",
         "bruttolohn_vorj_m",
         "arbeitsl_lfdj_m",
         "arbeitsl_vorj_m",
         "arbeitsl_vor2j_m",
         "arbeitsstunden_w",
         "geburtsjahr",
+        "geburtsmonat",
+        "geburtstag",
         "entgeltpunkte",
         "kind",
         "rentner",
@@ -213,17 +214,22 @@ def create_single_household(
         "miete_unterstellt",
         "kapital_eink_m",
         "vermiet_eink_m",
-        "kaltmiete_m",
-        "heizkost_m",
+        "kaltmiete_m_hh",
+        "heizkosten_m_hh",
+        "mietstufe",
         "jahr_renteneintr",
         "behinderungsgrad",
-        "wohnfläche",
+        "wohnfläche_hh",
         "gem_veranlagt",
         "in_ausbildung",
         "alleinerziehend",
-        "bewohnt_eigentum",
+        "bewohnt_eigentum_hh",
         "immobilie_baujahr",
         "sonstig_eink_m",
+        "m_elterngeld_mut",
+        "m_elterngeld_vat",
+        "m_elterngeld",
+        "anz_minderj_hh",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -241,7 +247,7 @@ def create_single_household(
         "gem_veranlagt",
         "in_ausbildung",
         "alleinerziehend",
-        "bewohnt_eigentum",
+        "bewohnt_eigentum_hh",
         "prv_krankenv",
     ]:
         df[c] = False
@@ -259,21 +265,23 @@ def create_single_household(
 
     df["hh_typ"] = all_types["hht"] + "_" + all_types["nch"].astype(str) + "_children"
 
-    # Wohnfläche, Kaltmiete, Heizkosten are taken from official data
+    # wohnfläche_hh, Kaltmiete, Heizkosten are taken from official data
     bg_daten = _load_parameter_group_from_yaml(
         datetime.date(policy_year, 1, 1), "bedarfsgemeinschaften"
     )
-    df["wohnfläche"] = df["hh_typ"].map(bg_daten["wohnfläche"])
-    df["kaltmiete_m"] = df["hh_typ"].map(bg_daten["kaltmiete"])
-    df["heizkost_m"] = df["hh_typ"].map(bg_daten["heizkosten"])
+    df["wohnfläche_hh"] = df["hh_typ"].map(bg_daten["wohnfläche"])
+    df["kaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["kaltmiete"])
+    df["heizkosten_m_hh"] = df["hh_typ"].map(bg_daten["heizkosten"])
+    df["mietstufe"] = 3
     # Income and wealth
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
     df["kapital_eink_m"] = kwargs.get("bruttolohn_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
     df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
+    dim = kwargs.get("dimension", 1)
 
-    df["hh_id"] = df.index
-    df["tu_id"] = df.index
+    df["hh_id"] = 100 * dim + df.index
+    df["tu_id"] = 100 * dim + df.index
 
     # append entries for children and partner
     for hht in hh_typen:
@@ -293,6 +301,8 @@ def create_single_household(
             )
     df = df.reset_index()
     df["geburtsjahr"] = policy_year - df["alter"]
+    df["geburtsmonat"] = 1
+    df["geburtstag"] = 1
     df["jahr_renteneintr"] = df["geburtsjahr"] + 67
 
     df.loc[~df["kind"], "hat_kinder"] = (
@@ -310,6 +320,7 @@ def create_single_household(
         & (~df["kind"]),
         "alleinerziehend",
     ] = True
+    df["anz_minderj_hh"] = df.groupby("hh_typ")["kind"].transform("sum")
 
     df = df.sort_values(by=["hh_typ", "hh_id"])
 

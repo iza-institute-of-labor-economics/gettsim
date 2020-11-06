@@ -11,11 +11,10 @@ def test_synthetic():
     """
     # run with defaults
     df = create_synthetic_data()
-
     # rent must be positive
-    assert df["kaltmiete_m"].min() > 0
+    assert df["kaltmiete_m_hh"].min() > 0
     # heating cost must be positive
-    assert df["heizkost_m"].min() > 0
+    assert df["heizkosten_m_hh"].min() > 0
     # no NaN values
     assert df.notna().all().all()
     # correct dimensions for every household type
@@ -34,20 +33,18 @@ def test_synthetic():
     # test heterogeneity
     incrange = create_synthetic_data(
         hh_typen=["couple"],
-        n_children=[0],
+        n_children=0,
         heterogeneous_vars={
             "bruttolohn_m": list(np.arange(0, 6000, 1000)),
-            "vermögen_hh": [0, 500_000, 1_000_000],
+            "vermögen_hh": [10_000, 500_000, 1_000_000],
         },
     )
     # is household id unique?
-    assert (
-        incrange.groupby(["hh_id", "bruttolohn_m", "vermögen_hh"]).size() == 2
-    ).all()
+    assert (incrange.groupby("hh_id").size() == 2).all()
 
     assert incrange.notna().all().all()
 
     # finally, run through gettsim
     policy_params, policy_functions = set_up_policy_environment(2020)
     results = compute_taxes_and_transfers(df, policy_params, policy_functions)
-    assert len(results) > 0
+    assert len(results) == len(df)
