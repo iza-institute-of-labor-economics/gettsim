@@ -112,7 +112,10 @@ def create_synthetic_data(
         raise ValueError("'hh_typen' must be a list")
 
     if type(n_children) is not list:
-        raise ValueError("'n_children must be a list")
+        if n_children not in [0, 1, 2]:
+            raise ValueError("'n_children' allows only 0,1 or 2.")
+        else:
+            n_children = [n_children]
 
     for a in age_adults + age_children:
         if (a < 0) or (type(a) != int):
