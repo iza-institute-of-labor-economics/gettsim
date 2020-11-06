@@ -19,9 +19,9 @@ def test_synthetic():
     # no NaN values
     assert df.notna().all().all()
     # correct dimensions for every household type
-    assert len(df[df["hh_typ"] == "coup_0ch"] == 2)
-    assert len(df[df["hh_typ"] == "sing_2ch"] == 3)
-    assert len(df[df["hh_typ"] == "coup_2ch"] == 4)
+    assert len(df[df["hh_typ"] == "couple_0_children"] == 2)
+    assert len(df[df["hh_typ"] == "single_2_children"] == 3)
+    assert len(df[df["hh_typ"] == "couple_2_children"] == 4)
     # unique personal id?
     assert df["p_id"].is_unique
 

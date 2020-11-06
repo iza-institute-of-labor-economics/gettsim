@@ -254,7 +254,7 @@ def create_single_household(
         columns=["hht", "nch"], data=itertools.product(hh_typen, n_children)
     )
 
-    df["hh_typ"] = all_types["hht"].str[:4] + "_" + all_types["nch"].astype(str) + "ch"
+    df["hh_typ"] = all_types["hht"] + "_" + all_types["nch"].astype(str) + "_children"
 
     # Wohnfläche, Kaltmiete, Heizkosten are taken from official data
     bg_daten = _load_parameter_group_from_yaml(
@@ -278,8 +278,8 @@ def create_single_household(
             df = df.append(
                 append_other_hh_members(
                     df[
-                        (df["hh_typ"].str[:4] == hht[:4])
-                        & (df["hh_typ"].str[-3].astype(int) == nch)
+                        (df["hh_typ"].str[:6] == hht)
+                        & (df["hh_typ"].str[7:8].astype(int) == nch)
                     ],
                     hht,
                     nch,
@@ -298,8 +298,15 @@ def create_single_household(
     df.loc[df["bruttolohn_m"] > 0, "arbeitsstunden_w"] = 38
 
     # All adults in couples are assumed to be married
-    df.loc[(df["hh_typ"].str.contains("coup")) & (~df["kind"]), "gem_veranlagt"] = True
-    df.loc[(df["hh_typ"].str.contains("sp")) & (~df["kind"]), "alleinerziehend"] = True
+    df.loc[
+        (df["hh_typ"].str.contains("couple")) & (~df["kind"]), "gem_veranlagt"
+    ] = True
+    df.loc[
+        (df["hh_typ"].str.contains("single"))
+        & (df["hh_typ"].str[7:8].astype(int) > 0)
+        & (~df["kind"]),
+        "alleinerziehend",
+    ] = True
 
     df = df.sort_values(by=["hh_typ", "hh_id"])
 
