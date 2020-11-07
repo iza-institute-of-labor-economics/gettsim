@@ -1,14 +1,14 @@
-abgst:
+abgelt_st_satz:
   name:
-    de: Abgeltungssteuer §32d (1) EStG
-    en:
+    de: Abgeltungssteuer
+    en: Capital Income Tax
   description:
-    de:
+    de:  §32d (1) EStG
     en:
-  values:
-    1984-01-01:
-      value: 0
-      note:
-    2009-01-01:
-      value: 0.25
-      note:
+  unit: share
+  1984-01-01:
+    scalar: 0
+    note: It didn't exist for 2009.
+  2009-01-01:
+    scalar: 0.25
+    reference: Art. 1 G. v. 14.08.2007

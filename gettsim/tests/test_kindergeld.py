@@ -1,16 +1,25 @@
-import numpy as np
+import itertools
+
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
-from gettsim.taxes.kindergeld import kindergeld
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
 
-
-INPUT_COLS = ["hid", "tu_id", "pid", "age", "w_hours", "ineducation", "m_wage"]
-OUT_COLS = ["kindergeld_basis", "kindergeld_tu_basis"]
+INPUT_COLS = [
+    "hh_id",
+    "tu_id",
+    "p_id",
+    "alter",
+    "arbeitsstunden_w",
+    "in_ausbildung",
+    "bruttolohn_m",
+]
+OUT_COLS = ["_kindergeld_m_basis", "_kindergeld_m_tu_basis"]
 YEARS = [2000, 2002, 2010, 2011, 2013, 2019]
+TEST_COLS = ["_kindergeld_m_tu_basis"]
 
 
 @pytest.fixture(scope="module")
@@ -20,18 +29,15 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_kindergeld(input_data, year, kindergeld_raw_data):
-    test_column = "kindergeld_tu_basis"
-    year_data = input_data[input_data["year"] == year]
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
+def test_kindergeld(input_data, year, target):
+
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    kindergeld_params = get_policies_for_date(
-        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
-    )
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby(["hid", "tu_id"])[INPUT_COLS + OUT_COLS].apply(
-        kindergeld, params=kindergeld_params
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+
+    calc_result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=target
     )
 
-    assert_series_equal(df[test_column], year_data[test_column], check_dtype=False)
+    assert_series_equal(calc_result[target], year_data[target], check_dtype=False)

@@ -1,0 +1,47 @@
+{% set data = load_setup_py_data() %}
+
+package:
+  name: gettsim
+  version: {{ data.get('version') }}
+
+source:
+  git_url: ../
+
+build:
+  number: 0
+  noarch: python
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - python >=3.6
+    - bokeh
+    - networkx
+    - pandas
+    - pydot
+    - pygments
+    - pytest
+    - pyyaml
+
+test:
+  requires:
+    - pytest
+  source_files:
+    - gettsim/data
+    - gettsim/tests
+    - setup.cfg
+  commands:
+    - pytest
+  imports:
+    - gettsim
+
+about:
+  home: https://github.com/iza-institute-of-labor-economics/gettsim
+  license: {{ data.get('license') }}
+  license_file: LICENSE
+  summary: {{ data.get('description') }}
+  dev_url: https://github.com/iza-institute-of-labor-economics/gettsim
+  doc_url: {{ data.get('url') }}

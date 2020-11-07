@@ -6,12 +6,21 @@
 GEP X — Template and Instructions
 =================================
 
-:Author: <list of authors' real names and optionally, email addresses>
-:Status:
-    <Draft | Active | Accepted | Deferred | Rejected | Withdrawn | Final | Superseded>
-:Type: <Standards Track | Process>
-:Created: <date created on, in yyyy-mm-dd format>
-:Resolution: <url> (required for Accepted | Rejected | Withdrawn)
++------------+-------------------------------------------------------------------------+
+| Author     | <list of authors' real names and optionally, email addresses>           |
++            +-------------------------------------------------------------------------+
+|            | <add multiple authors in additional rows>                               |
++------------+-------------------------------------------------------------------------+
+| Status     | <Draft | Active | Accepted | Deferred | Rejected                        |
+|            |  | Withdrawn | Final | Superseded>                                      |
++------------+-------------------------------------------------------------------------+
+| Type       |  <Standards Track | Process>                                            |
++------------+-------------------------------------------------------------------------+
+| Created    | <date created on, in yyyy-mm-dd format>                                 |
++------------+-------------------------------------------------------------------------+
+| Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
++------------+-------------------------------------------------------------------------+
+
 
 
 Abstract
@@ -19,7 +28,7 @@ Abstract
 
 The abstract should be a short description of what the GEP will achieve.
 
-Note that the — in the title is an elongated dash, not -.
+Note that the — in the title is an elongated dash, not - (a minus sign).
 
 
 Motivation and Scope
@@ -78,12 +87,6 @@ pull requests as the implementation progresses.
 Any pull requests or development branches containing work on this GEP should be linked
 to from here.  (A GEP does not need to be implemented in a single pull request if it
 makes sense to implement it in discrete phases).
-
-
-Backward compatibility
-----------------------
-
-This section describes the ways in which the GEP breaks backward compatibility.
 
 
 Alternatives

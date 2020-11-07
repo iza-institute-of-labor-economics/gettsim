@@ -3,19 +3,30 @@ Welcome to GETTSIM's documentation!
 
 .. include:: ../README.rst
    :start-line: 31
-   :end-line: 44
+   :end-line: 45
+
+.. toctree::
+   :caption: Links
+   :hidden:
+
+   gettsim on Github <https://github.com/iza-institute-of-labor-economics/gettsim>
 
 
 .. toctree::
    :caption: Table of Contents
    :maxdepth: 1
 
-   getting-started
+   installation
+   tutorials/index
+   how_to_guides/index
+   crosswalk
    how-to-contribute
    how-to-maintain
    changes
    geps
    code-of-conduct
+   functions
+   glossary
 
 
 Initiated by
