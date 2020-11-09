@@ -243,7 +243,7 @@ def ertragsanteil(jahr_renteneintr: IntSeries, eink_st_params: dict) -> FloatSer
     Parameters
     ----------
     jahr_renteneintr
-        See :ref:`jahr_renteneintr`.
+            See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
     Returns

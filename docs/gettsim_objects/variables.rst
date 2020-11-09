@@ -76,6 +76,8 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`m_elterngeld`         | Number of months received elterngeld         | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
+| _`jahr_renteneintr`     | Year of retirement                           | IntSeries   |
++-------------------------+----------------------------------------------+-------------+
 | _`m_elterngeld_vat`     | Number of months father received elterngeld  | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`m_elterngeld_mut`     | Number of months mother received elterngeld  | IntSeries   |

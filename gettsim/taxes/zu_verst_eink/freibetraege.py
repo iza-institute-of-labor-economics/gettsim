@@ -206,8 +206,8 @@ def altervorsorge_aufwend(
 ) -> FloatSeries:
     """Determine contributions to retirement savings deductible from taxable income.
 
-     **This function becomes relevant in 2005, do not use it for prior
-    year**.
+    This function becomes relevant in 2005, do not use it for prior
+    year.
 
     The share of deductible contributions increases each year from 60% in 2005 to 100%
     in 2025.
