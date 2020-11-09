@@ -212,7 +212,7 @@ def lohn_vorsorge_bis_2019_single(
     gemeinsam_veranlagt: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
+    """Calcaulate vorsoge expenditures until 2019 for singles.
 
     Parameters
     ----------
@@ -241,7 +241,7 @@ def lohn_vorsorgeabzug_bis_2019_tu(
     gemeinsam_veranlagte_tu: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
+    """Calcaulate vorsoge expenditures until 2019 per tax unit.
 
     Parameters
     ----------
@@ -272,7 +272,7 @@ def berechne_vorsorge_bis_2004(
     anzahl_erwachsene: IntSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """
+    """Calcaulate vorsoge expenditures until 2004.
 
     Parameters
     ----------

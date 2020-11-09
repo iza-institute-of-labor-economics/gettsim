@@ -29,7 +29,7 @@ def ges_beitr_rentenv_midi_job(
 def rentenv_beitr_bemess_grenze(
     wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
-    """
+    """Calculating the income threshold up to which pension insurance payments apply.
 
     Parameters
     ----------
@@ -52,8 +52,7 @@ def rentenv_beitr_bemess_grenze(
 def krankenv_beitr_bemess_grenze(
     wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
-    """Calculating the income threshold up to which the rate of health insurance
-    contributions apply.
+    """Calculating the income threshold up to which health insurance payments apply.
 
     Parameters
     ----------
