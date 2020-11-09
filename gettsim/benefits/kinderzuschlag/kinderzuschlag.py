@@ -30,7 +30,7 @@ def kinderzuschlag_m_hh(
     wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
     rentner_in_hh: BoolSeries,
 ) -> FloatSeries:
-    """
+    """Aggregate child benefit on household level.
 
     Parameters
     ----------
@@ -57,7 +57,7 @@ def kinderzuschlag_m_hh(
 def kinderzuschlag_m_vorläufig_hh(
     kinderzuschlag_m_vorläufig: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
-    """
+    """Aggregate preliminary child benefit on household level.
 
     Parameters
     ----------
@@ -80,7 +80,7 @@ def kinderzuschlag_ab_juli_2019(
     kinderzuschlag_kindereink_abzug: FloatSeries,
     kinderzuschlag_eink_anrechn: FloatSeries,
 ) -> FloatSeries:
-    """Creates "kinderzuschlag_m_vorläufig" since 07/2019.
+    """Calculate preliminary child benefit since 07/2019.
 
     Parameters
     ----------
@@ -117,7 +117,7 @@ def kinderzuschlag_ab_2005_bis_juni_2019(
     kinderzuschlag_kindereink_abzug: FloatSeries,
     kinderzuschlag_eink_anrechn: FloatSeries,
 ) -> FloatSeries:
-    """Creates "kinderzuschlag_m_vorläufig" until 06/2019.
+    """Calculate preliminary child benefit since 2005 until 06/2019.
 
     Parameters
     ----------
