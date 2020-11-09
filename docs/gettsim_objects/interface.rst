@@ -7,3 +7,5 @@ to have more information on how they work and how you can use them please see
 
 .. currentmodule:: gettsim.interface
 .. autofunction:: compute_taxes_and_transfers
+.. currentmodule:: gettsim.policy_environment
+.. autofunction:: set_up_policy_environment
