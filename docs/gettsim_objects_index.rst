@@ -8,5 +8,6 @@ This section documents the code inside GETTSIM.
 
    gettsim_objects/functions
    gettsim_objects/variables
+   gettsim_objects/variables_out
    gettsim_objects/types
    gettsim_objects/params

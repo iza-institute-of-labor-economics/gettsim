@@ -1,7 +1,7 @@
 .. _functions:
 
-Functions in the Tax and Transfer System
-========================================
+Policy functions in GETTSIM
+===========================
 
 This section documents the internal functions provided by GETTSIM to model the tax and
 transfer system. They are sorted alphabetically.
