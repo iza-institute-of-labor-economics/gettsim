@@ -5,7 +5,7 @@ from gettsim.typing import IntSeries
 def arbeitsl_geld_2_eink_hh(
     arbeitsl_geld_2_eink: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
-    """Sum up the income per household by unemployment insurance.
+    """Sum up the income per household for calculation of basic subsistence.
 
     Parameters
     ----------
@@ -22,7 +22,7 @@ def arbeitsl_geld_2_eink_hh(
 
 
 def arbeitsl_geld_2_eink(
-    _arbeitsl_geld_2_brutto_eink: FloatSeries,
+    arbeitsl_geld_2_brutto_eink: FloatSeries,
     eink_st_tu: FloatSeries,
     tu_id: IntSeries,
     soli_st_tu: FloatSeries,
@@ -31,11 +31,11 @@ def arbeitsl_geld_2_eink(
     eink_anr_frei: FloatSeries,
 ) -> FloatSeries:
 
-    """Sum up the income of a person by unemployment insurance.
+    """Sum up the income for calculation of basic subsistence.
 
     Parameters
     ----------
-    _arbeitsl_geld_2_brutto_eink
+    arbeitsl_geld_2_brutto_eink
         See :func:`arbeitsl_geld_2_eink`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
@@ -56,7 +56,7 @@ def arbeitsl_geld_2_eink(
     """
 
     return (
-        _arbeitsl_geld_2_brutto_eink
+        arbeitsl_geld_2_brutto_eink
         - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
         - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
         - sozialv_beitr_m
@@ -64,15 +64,15 @@ def arbeitsl_geld_2_eink(
     ).clip(lower=0)
 
 
-def _arbeitsl_geld_2_brutto_eink_hh(
-    _arbeitsl_geld_2_brutto_eink: FloatSeries, hh_id: IntSeries
+def arbeitsl_geld_2_brutto_eink_hh(
+    arbeitsl_geld_2_brutto_eink: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
 
-    """Income by unemployment insurance before tax.
+    """Sum up the income before tax per household for calculation of basic subsistence.
     Parameters
     ----------
-    _arbeitsl_geld_2_brutto_eink
-        See :func:`_arbeitsl_geld_2_brutto_eink`.
+    arbeitsl_geld_2_brutto_eink
+        See :func:`arbeitsl_geld_2_brutto_eink`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
 
@@ -80,10 +80,10 @@ def _arbeitsl_geld_2_brutto_eink_hh(
     -------
     Float Series with the income of a person by unemployment insurance before tax.
     """
-    return _arbeitsl_geld_2_brutto_eink.groupby(hh_id).sum()
+    return arbeitsl_geld_2_brutto_eink.groupby(hh_id).sum()
 
 
-def _arbeitsl_geld_2_brutto_eink(
+def arbeitsl_geld_2_brutto_eink(
     bruttolohn_m: FloatSeries,
     sonstig_eink_m: FloatSeries,
     eink_selbst_m: FloatSeries,
@@ -94,7 +94,7 @@ def _arbeitsl_geld_2_brutto_eink(
     elterngeld_m: FloatSeries,
 ) -> FloatSeries:
 
-    """Calculating the gross income relevant for alg2.
+    """Sum up the income before tax for calculation of basic subsistence.
 
     Parameters
     ----------

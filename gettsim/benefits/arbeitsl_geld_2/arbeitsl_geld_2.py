@@ -13,7 +13,7 @@ def arbeitsl_geld_2_m_hh(
     rentner_in_hh: BoolSeries,
 ) -> FloatSeries:
 
-    """Checks how much income is paid by unemployment insurance per household.
+    """Calculate final monthly subsistence payment on household level.
 
     Parameters
     ----------
@@ -46,7 +46,9 @@ def arbeitsl_geld_2_m_hh(
 def regelbedarf_m_hh(
     regelsatz_m_hh: FloatSeries, kost_unterk_m_hh: FloatSeries
 ) -> FloatSeries:
-    """Basic monthly subsistence level, including cost of dwelling.
+    """Basic monthly subsistence level on household level.
+
+    This includes cost of dwelling.
 
     Parameters
     ----------
@@ -70,7 +72,7 @@ def alleinerziehenden_mehrbedarf_hh(
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
 
-    """Compute alleinerziehenden_mehrbedarf.
+    """Compute additional need for single parents.
 
     Additional need for single parents. Maximum 60% of the standard amount on top if
     you have at least one kid below 6 or two or three below 15, you get 36%
@@ -117,7 +119,9 @@ def kindersatz_m_hh_bis_2010(
     anz_kind_zwischen_14_24_hh: IntSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """Since 2010 children get additional shares instead of lump sum payments.
+    """Calculate basic monthly subsistence for children until 2010.
+
+    Since 2010 children get additional shares instead of lump sum payments.
 
     Parameters
     ----------
@@ -153,7 +157,9 @@ def kindersatz_m_hh_ab_2011(
     anz_kind_zwischen_14_24_hh: IntSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """Here the sum in euro is directly in the law.
+    """Calculate basic monthly subsistence for children since 2011.
+
+    Here the sum in euro is directly in the law.
 
     Parameters
     ----------
@@ -187,7 +193,8 @@ def regelsatz_m_hh_bis_2010(
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
 
-    """Checks the minimum needs of households until year 2010.
+    """Calculate basic monthly subsistence without dwelling until 2010.
+
 
     Parameters
     ----------
@@ -225,7 +232,7 @@ def regelsatz_m_hh_ab_2011(
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
 
-    """Calculating the regelsatz for each person.
+    """Calculate basic monthly subsistence without dwelling since 2011.
 
     Parameters
     ----------

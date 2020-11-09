@@ -75,7 +75,7 @@ def kinderzuschlag_m_vorläufig_hh(
 
 def kinderzuschlag_ab_juli_2019(
     hh_id: IntSeries,
-    _arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
+    arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
     kinderzuschlag_eink_min: FloatSeries,
     kinderzuschlag_kindereink_abzug: FloatSeries,
     kinderzuschlag_eink_anrechn: FloatSeries,
@@ -86,8 +86,8 @@ def kinderzuschlag_ab_juli_2019(
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    _arbeitsl_geld_2_brutto_eink_hh
-        See :func:`_arbeitsl_geld_2_brutto_eink_hh`.
+    arbeitsl_geld_2_brutto_eink_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_hh`.
     kinderzuschlag_eink_min
         See :func:`kinderzuschlag_eink_min`.
     kinderzuschlag_kindereink_abzug
@@ -100,9 +100,7 @@ def kinderzuschlag_ab_juli_2019(
 
     """
     out = hh_id * 0
-    condition = (
-        hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
-    )
+    condition = hh_id.replace(arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
     out.loc[condition] = (
         kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
         - kinderzuschlag_eink_anrechn

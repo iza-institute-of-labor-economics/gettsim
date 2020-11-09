@@ -267,7 +267,7 @@ def kinderzuschlag_eink_anrechn(
 
 def kinderzuschlag_eink_spanne(
     hh_id: IntSeries,
-    _arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
+    arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
     kinderzuschlag_eink_min: FloatSeries,
     kinderzuschlag_eink_max: FloatSeries,
     arbeitsl_geld_2_eink_hh: FloatSeries,
@@ -278,8 +278,8 @@ def kinderzuschlag_eink_spanne(
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    _arbeitsl_geld_2_brutto_eink_hh
-        See :func:`_arbeitsl_geld_2_brutto_eink_hh`.
+    arbeitsl_geld_2_brutto_eink_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_hh`.
     kinderzuschlag_eink_min
         See :func:`kinderzuschlag_eink_min`.
     kinderzuschlag_eink_max
@@ -293,7 +293,7 @@ def kinderzuschlag_eink_spanne(
     """
 
     eink_spanne = (
-        hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
+        hh_id.replace(arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
     ) & (hh_id.replace(arbeitsl_geld_2_eink_hh) <= kinderzuschlag_eink_max)
 
     return eink_spanne
