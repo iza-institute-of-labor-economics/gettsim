@@ -8,9 +8,9 @@ https://gettsim.zulipchat.com.
 .. toctree::
    :maxdepth: 1
 
-   gettsim_developer/code-of-conduct
-   gettsim_developer/how-to-contribute
-   gettsim_developer/how-to-maintain
-   gettsim_developer/geps
-   gettsim_developer/changes
-   gettsim_developer/glossary
+   code-of-conduct
+   how-to-contribute
+   how-to-maintain
+   geps
+   changes
+   glossary
