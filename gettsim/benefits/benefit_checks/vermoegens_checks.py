@@ -5,10 +5,10 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def _regelbedarf_m_vermögens_check_hh(
+def regelbedarf_m_vermögens_check_hh(
     regelbedarf_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries
 ) -> FloatSeries:
-    """Set regelbedarf_m to zero if it exceeds the wealth exemption.
+    """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
 
     If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
     calculated, just set the need to zero)
@@ -32,7 +32,7 @@ def kinderzuschlag_vermögens_check_hh(
     kinderzuschlag_m_vorläufig_hh: FloatSeries,
     unter_vermögens_freibetrag_hh: BoolSeries,
 ) -> FloatSeries:
-    """Set kinderzuschlag_temp to zero if it exceeds the wealth exemption.
+    """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
     Parameters
     ----------
@@ -55,7 +55,7 @@ def wohngeld_vermögens_check_hh(
     vermögen_hh: FloatSeries,
     haushaltsgröße_hh: IntSeries,
 ) -> FloatSeries:
-    """Calculate a lump sum payment for wohngeld
+    """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
 
     The payment depends on the wealth of the household and the number of household
     members.
@@ -85,7 +85,7 @@ def wohngeld_vermögens_check_hh(
 def unter_vermögens_freibetrag_hh(
     vermögen_hh: FloatSeries, freibetrag_vermögen_hh: FloatSeries
 ) -> BoolSeries:
-    """
+    """Check if wealth is under wealth exemption.
 
     Parameters
     ----------
@@ -147,7 +147,7 @@ def max_freibetrag_vermögen_hh(
     kind: BoolSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """
+    """Calculate maximal wealth exemptions by year of birth.
 
     Parameters
     ----------
@@ -191,7 +191,7 @@ def freibetrag_vermögen_hh(
     max_freibetrag_vermögen_hh: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """
+    """Calculate actual exemptions.
 
     Parameters
     ----------
