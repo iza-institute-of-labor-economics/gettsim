@@ -7,9 +7,8 @@ from gettsim.typing import IntSeries
 
 
 def unterhaltsvors_m_tu(unterhaltsvors_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Monthly child support advance payment per tax unit.
+    """Aggregate monthly child support advance payment on tax unit level.
 
-    Made by government if the parent who has to pay does not.
 
     Parameters
     ----------
@@ -25,9 +24,7 @@ def unterhaltsvors_m_tu(unterhaltsvors_m: FloatSeries, tu_id: IntSeries) -> Floa
 
 
 def unterhaltsvors_m_hh(unterhaltsvors_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """Monthly child support advance payment per household.
-
-    Made by government if the parent who has to pay does not.
+    """Aggregate monthly child support advance payment on household level.
 
     Parameters
     ----------
@@ -51,7 +48,7 @@ def unterhaltsvors_m(
     unterhalt_params: dict,
     kindergeld_params: dict,
 ) -> FloatSeries:
-    """Advance on Alimony Payment / Unterhaltsvorschuss (UHV)
+    """Calculate advance on alimony payment(Unterhaltsvorschuss).
 
     Single Parents get alimony payments for themselves and for their child from the ex
     partner. If the ex partner is not able to pay the child alimony, the government pays
@@ -122,7 +119,7 @@ def unterhaltsvorschuss_eink_tu(
     ges_rente_m_tu: FloatSeries,
     arbeitsl_geld_m_tu: FloatSeries,
 ) -> FloatSeries:
-    """
+    """Calculate relevant income for advance on alimony payment.
 
     Parameters
     ----------
@@ -159,7 +156,7 @@ def unterhaltsvorschuss_eink_tu(
 
 
 def eink_selbst_m_tu(eink_selbst_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """
+    """Aggregate monthly self employed income on tax unit level.
 
     Parameters
     ----------
@@ -176,7 +173,7 @@ def eink_selbst_m_tu(eink_selbst_m: FloatSeries, tu_id: IntSeries) -> FloatSerie
 
 
 def vermiet_eink_m_tu(vermiet_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """
+    """Aggregate monthly rental income on tax unit level.
 
     Parameters
     ----------
@@ -193,7 +190,7 @@ def vermiet_eink_m_tu(vermiet_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSer
 
 
 def kapital_eink_m_tu(kapital_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """
+    """Aggregate monthly capital income on tax unit level.
 
     Parameters
     ----------
@@ -210,7 +207,7 @@ def kapital_eink_m_tu(kapital_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSer
 
 
 def ges_rente_m_tu(ges_rente_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """
+    """Aggregate monthly pension payment on tax unit level.
 
     Parameters
     ----------

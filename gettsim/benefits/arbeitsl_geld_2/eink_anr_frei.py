@@ -9,7 +9,7 @@ def eink_anr_frei_bis_10_2005(
     arbeitsl_geld_2_2005_netto_quote: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """
+    """Calcualte share of income, which remains to the individual until 10/2005.
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ def eink_anr_frei_ab_10_2005(
     kinder_in_hh: BoolSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """
+    """Calcualte share of income, which remains to the individual sinc 10/2005.
 
     Parameters
     ----------
@@ -83,7 +83,7 @@ def eink_anr_frei_ab_10_2005(
 def arbeitsl_geld_2_2005_netto_quote(
     bruttolohn_m: FloatSeries, nettolohn_m: FloatSeries, arbeitsl_geld_2_params: dict
 ) -> FloatSeries:
-    """Calculate Nettoquote.
+    """Calcualte share of net to gross wage.
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
 

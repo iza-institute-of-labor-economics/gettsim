@@ -13,7 +13,7 @@ def kinderzuschlag_eink_regel_bis_2010(
     anz_erwachsene_tu: IntSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """This function creates "kinderzuschlag_eink_regel" until 2010.
+    """Calculate income relevant for calculation of child benefit until 2010.
 
     Parameters
     ----------
@@ -60,7 +60,7 @@ def kinderzuschlag_eink_regel_ab_2011(
     anz_erwachsene_tu: IntSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """This function creates "kinderzuschlag_eink_regel" since 2011.
+    """Calculate income relevant for calculation of child benefit since 2011.
 
     Parameters
     ----------
@@ -99,7 +99,7 @@ def kinderzuschlag_eink_regel_ab_2011(
 def kinderzuschlag_eink_relev(
     kinderzuschlag_eink_regel: FloatSeries, kinderzuschlag_kosten_unterk_m: FloatSeries
 ) -> FloatSeries:
-    """
+    """Aggregate relevant income and rental costs.
 
     Parameters
     ----------
@@ -139,7 +139,7 @@ def kinderzuschlag_eink_max(
     anz_kinder_anspruch_per_hh: IntSeries,
     kinderzuschlag_params: dict,
 ) -> FloatSeries:
-    """Calculate kinderzuschlag depending on threshold.
+    """Calculate maximal claim of child benefit (kinderzuschlag).
 
     There is a maximum income threshold, depending on the need, plus the potential kiz
     receipt (§6a (1) Nr. 3 BKGG)
@@ -169,7 +169,7 @@ def kinderzuschlag_eink_min(
     alleinerziehend: BoolSeries,
     kinderzuschlag_params: dict,
 ) -> FloatSeries:
-    """Calculate minimum income.
+    """Calculate minimal claim of child benefit (kinderzuschlag).
 
     Min income to be eligible for KIZ (different for singles and couples) (§6a (1) Nr. 2
     BKGG).
@@ -208,7 +208,9 @@ def kinderzuschlag_kindereink_abzug(
     unterhaltsvors_m: FloatSeries,
     kinderzuschlag_params: dict,
 ) -> FloatSeries:
-    """Deduct children income for each eligible child (§6a (3) S.3 BKGG).
+    """Deduct children income for each eligible child.
+
+    (§6a (3) S.3 BKGG)
 
     Parameters
     ----------
@@ -238,7 +240,9 @@ def kinderzuschlag_eink_anrechn(
     kinderzuschlag_eink_relev: FloatSeries,
     kinderzuschlag_params: dict,
 ) -> FloatSeries:
-    """Calculate the parents income that needs to be subtracted (§6a (6) S. 3 BKGG).
+    """Calculate parental income subtracted from child benefit.
+
+    (§6a (6) S. 3 BKGG)
 
     Parameters
     ----------
@@ -263,19 +267,19 @@ def kinderzuschlag_eink_anrechn(
 
 def kinderzuschlag_eink_spanne(
     hh_id: IntSeries,
-    _arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
+    arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
     kinderzuschlag_eink_min: FloatSeries,
     kinderzuschlag_eink_max: FloatSeries,
     arbeitsl_geld_2_eink_hh: FloatSeries,
 ) -> BoolSeries:
-    """Calculate a dummy for whether the household is in the correct income range.
+    """Check if household income is in income range for child benefit.
 
     Parameters
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    _arbeitsl_geld_2_brutto_eink_hh
-        See :func:`_arbeitsl_geld_2_brutto_eink_hh`.
+    arbeitsl_geld_2_brutto_eink_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_hh`.
     kinderzuschlag_eink_min
         See :func:`kinderzuschlag_eink_min`.
     kinderzuschlag_eink_max
@@ -289,7 +293,7 @@ def kinderzuschlag_eink_spanne(
     """
 
     eink_spanne = (
-        hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
+        hh_id.replace(arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
     ) & (hh_id.replace(arbeitsl_geld_2_eink_hh) <= kinderzuschlag_eink_max)
 
     return eink_spanne

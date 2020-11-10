@@ -17,9 +17,12 @@ from gettsim.benefits.unterhalt import *  # noqa: F401, F403
 from gettsim.benefits.wohngeld import *  # noqa: F401, F403
 from gettsim.demographic_vars import *  # noqa: F401, F403
 from gettsim.renten_anspr import *  # noqa: F401, F403
-from gettsim.soz_vers.arbeitsl_v_rentenv import *  # noqa: F401, F403
+from gettsim.soz_vers.arbeitsl_v import *  # noqa: F401, F403
+from gettsim.soz_vers.beitr_bemess_grenzen import *  # noqa: F401, F403
 from gettsim.soz_vers.eink_grenzen import *  # noqa: F401, F403
-from gettsim.soz_vers.krankenv_pflegev import *  # noqa: F401, F403
+from gettsim.soz_vers.krankenv import *  # noqa: F401, F403
+from gettsim.soz_vers.pflegev import *  # noqa: F401, F403
+from gettsim.soz_vers.rentenv import *  # noqa: F401, F403
 from gettsim.taxes.abgelt_st import *  # noqa: F401, F403
 from gettsim.taxes.eink_st import *  # noqa: F401, F403
 from gettsim.taxes.favorability_check import *  # noqa: F401, F403

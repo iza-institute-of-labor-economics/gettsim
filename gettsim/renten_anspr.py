@@ -42,7 +42,7 @@ def rente_anspr_m(
 
 
 def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSeries:
-    """
+    """Select the rentenwert depending on place of living.
 
     Parameters
     ----------
@@ -120,8 +120,9 @@ def entgeltpunkte_lohn(
 
 
 def zugangsfaktor(alter: IntSeries, regelaltersgrenze: FloatSeries) -> FloatSeries:
-    """The zugangsfaktor depends on the age of entering pensions. At the
-    regelaltersgrenze, the agent is allowed to get pensions with his full
+    """Calculate the zugangsfaktor determining depending on age your pension claim.
+
+    At the regelaltersgrenze, the agent is allowed to get pensions with his full
     claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his
     claim.
 

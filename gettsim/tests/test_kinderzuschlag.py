@@ -22,7 +22,7 @@ INPUT_COLS = [
     "alleinerziehend",
     "kindergeld_anspruch",
     "alleinerziehenden_mehrbedarf_hh",
-    "_arbeitsl_geld_2_brutto_eink_hh",
+    "arbeitsl_geld_2_brutto_eink_hh",
     "arbeitsl_geld_2_eink_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
@@ -52,7 +52,7 @@ def test_kiz(
         "arbeitsl_geld_2_eink_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m",
-        "_arbeitsl_geld_2_brutto_eink_hh",
+        "arbeitsl_geld_2_brutto_eink_hh",
         "kindergeld_anspruch",
     ]
 

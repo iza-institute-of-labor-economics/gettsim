@@ -1,3 +1,5 @@
+.. _param_files:
+
 Parameter files
 ===============
 

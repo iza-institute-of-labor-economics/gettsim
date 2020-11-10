@@ -19,8 +19,8 @@ Welcome to GETTSIM's documentation!
    installation
    tutorials/index
    how_to_guides/index
-   gettsim_objects_index
-   developer_index
+   gettsim_objects/index
+   gettsim_developer/index
 
 
 Initiated by

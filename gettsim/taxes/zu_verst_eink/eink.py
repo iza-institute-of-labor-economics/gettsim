@@ -5,7 +5,7 @@ from gettsim.typing import IntSeries
 
 
 def brutto_eink_1(eink_selbst_m: FloatSeries) -> FloatSeries:
-    """Income from Self-Employment
+    """Aggregate income gross from self-employment to full year income.
 
     Parameters
     ----------
@@ -20,7 +20,7 @@ def brutto_eink_1(eink_selbst_m: FloatSeries) -> FloatSeries:
 
 
 def brutto_eink_1_tu(brutto_eink_1: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate income from Self-Employment on tax unit level.
+    """Aggregate income gross from self-employment on tax unit level.
 
 
     Parameters
@@ -42,7 +42,7 @@ def brutto_eink_4(
     geringfügig_beschäftigt: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """Calculates the gross incomes of non selfemployed work.
+    """Aggreagate monthly gross wage to yearly income and deduct 'Werbungskosten'.
 
     The wage is reducted by a lump sum payment for 'Werbungskosten'
 
@@ -65,7 +65,7 @@ def brutto_eink_4(
 
 
 def brutto_eink_4_tu(brutto_eink_4: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate the gross incomes of non selfemployed work on tax unit level.
+    """Aggregate gross income of non selfemployed work on tax unit level.
 
     Parameters
     ----------
@@ -82,7 +82,7 @@ def brutto_eink_4_tu(brutto_eink_4: FloatSeries, tu_id: IntSeries) -> FloatSerie
 
 
 def brutto_eink_5(kapital_eink_m: FloatSeries) -> FloatSeries:
-    """Capital Income.
+    """Aggregate monthly gross capital income to yearly income.
 
 
     Parameters
@@ -98,7 +98,7 @@ def brutto_eink_5(kapital_eink_m: FloatSeries) -> FloatSeries:
 
 
 def brutto_eink_5_tu(brutto_eink_5: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Capital income on tax unit level.
+    """Aggregate yearly gross capital income on tax unit level.
 
     Parameters
     ----------
@@ -115,7 +115,7 @@ def brutto_eink_5_tu(brutto_eink_5: FloatSeries, tu_id: IntSeries) -> FloatSerie
 
 
 def brutto_eink_6(vermiet_eink_m: FloatSeries) -> FloatSeries:
-    """Income from rents.
+    """Aggregate monthly gross rental income to yearly income.
 
     Parameters
     ----------
@@ -130,7 +130,7 @@ def brutto_eink_6(vermiet_eink_m: FloatSeries) -> FloatSeries:
 
 
 def brutto_eink_6_tu(brutto_eink_6: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Income from rents on tax unit level.
+    """Aggregate yearly gross income from rents on tax unit level.
 
     Parameters
     ----------
@@ -147,27 +147,27 @@ def brutto_eink_6_tu(brutto_eink_6: FloatSeries, tu_id: IntSeries) -> FloatSerie
     return brutto_eink_6.groupby(tu_id).sum()
 
 
-def brutto_eink_7(ges_rente_m: FloatSeries, _ertragsanteil: FloatSeries) -> FloatSeries:
-    """Calculates the gross income of 'Sonsitge Einkünfte'.
+def brutto_eink_7(ges_rente_m: FloatSeries, ertragsanteil: FloatSeries) -> FloatSeries:
+    """Aggregate monthly gross pension payments subject to taxation to yearly income.
 
-    In our case that's only pensions.
+    We could summarize other incomes here as well, but only use pensions.
 
     Parameters
     ----------
     ges_rente_m
         See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
-    _ertragsanteil
-        See :func:`_ertragsanteil`.
+    ertragsanteil
+        See :func:`ertragsanteil`.
 
     Returns
     -------
 
     """
-    return _ertragsanteil * 12 * ges_rente_m
+    return ertragsanteil * 12 * ges_rente_m
 
 
 def brutto_eink_7_tu(brutto_eink_7: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Calculates the gross income of 'Sonsitge Einkünfte' on tax unit level.
+    """Aggregate yearly gross pension income subject to taxation on tax unit level.
 
     Parameters
     ----------
@@ -237,14 +237,15 @@ def sum_brutto_eink_mit_kapital(
     ).clip(lower=0)
 
 
-def _ertragsanteil(jahr_renteneintr: IntSeries, eink_st_params: dict) -> FloatSeries:
+def ertragsanteil(jahr_renteneintr: IntSeries, eink_st_params: dict) -> FloatSeries:
     """Calculate the share of pensions subject to income taxation.
 
     Parameters
     ----------
     jahr_renteneintr
-        See :ref:`jahr_renteneintr`.
-
+            See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
+    eink_st_params
+        See params documentation :ref:`eink_st_params <eink_st_params>`.
     Returns
     -------
 

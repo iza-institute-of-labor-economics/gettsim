@@ -61,7 +61,8 @@ def set_up_policy_environment(date):
     Returns
     -------
     params : dict
-        Dictionary of parameters grouped in policy system compartments given in groups.
+        A dictionary with parameters from the policy environment. For more
+        information see the documentation of the :ref:`param_files`.
     functions : dict
         Dictionary of time dependent policy reforms. Keys are the variable names they
         create.

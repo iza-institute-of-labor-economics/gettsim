@@ -26,7 +26,7 @@ def zu_verst_eink_kein_kinderfreib_tu(
     altersfreib: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
-    """
+    """Calculate taxable income without child allowance.
 
     Parameters
     ----------
@@ -64,7 +64,7 @@ def zu_verst_eink_kein_kinderfreib_tu(
 def zu_verst_eink_kinderfreib_tu(
     zu_verst_eink_kein_kinderfreib_tu: FloatSeries, kinderfreib_tu: FloatSeries
 ) -> FloatSeries:
-    """
+    """Calculate taxable income with child allowance.
 
     Parameters
     ----------

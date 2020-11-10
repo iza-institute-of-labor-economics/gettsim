@@ -19,11 +19,11 @@ def test_renaming_functions():
 
 
 def test_load_modules():
-    assert _load_functions("gettsim.soz_vers.krankenv_pflegev")
+    assert _load_functions("gettsim.soz_vers.krankenv")
 
 
 def test_load_path():
-    assert _load_functions(ROOT_DIR / "soz_vers" / "krankenv_pflegev.py")
+    assert _load_functions(ROOT_DIR / "soz_vers" / "krankenv.py")
 
 
 def test_special_attribute_module_is_set(tmp_path):

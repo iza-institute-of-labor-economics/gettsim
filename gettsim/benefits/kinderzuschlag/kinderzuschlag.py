@@ -30,7 +30,7 @@ def kinderzuschlag_m_hh(
     wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
     rentner_in_hh: BoolSeries,
 ) -> FloatSeries:
-    """
+    """Aggregate child benefit on household level.
 
     Parameters
     ----------
@@ -57,7 +57,7 @@ def kinderzuschlag_m_hh(
 def kinderzuschlag_m_vorläufig_hh(
     kinderzuschlag_m_vorläufig: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
-    """
+    """Aggregate preliminary child benefit on household level.
 
     Parameters
     ----------
@@ -75,19 +75,19 @@ def kinderzuschlag_m_vorläufig_hh(
 
 def kinderzuschlag_ab_juli_2019(
     hh_id: IntSeries,
-    _arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
+    arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
     kinderzuschlag_eink_min: FloatSeries,
     kinderzuschlag_kindereink_abzug: FloatSeries,
     kinderzuschlag_eink_anrechn: FloatSeries,
 ) -> FloatSeries:
-    """Creates "kinderzuschlag_m_vorläufig" since 07/2019.
+    """Calculate preliminary child benefit since 07/2019.
 
     Parameters
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    _arbeitsl_geld_2_brutto_eink_hh
-        See :func:`_arbeitsl_geld_2_brutto_eink_hh`.
+    arbeitsl_geld_2_brutto_eink_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_hh`.
     kinderzuschlag_eink_min
         See :func:`kinderzuschlag_eink_min`.
     kinderzuschlag_kindereink_abzug
@@ -100,9 +100,7 @@ def kinderzuschlag_ab_juli_2019(
 
     """
     out = hh_id * 0
-    condition = (
-        hh_id.replace(_arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
-    )
+    condition = hh_id.replace(arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
     out.loc[condition] = (
         kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
         - kinderzuschlag_eink_anrechn
@@ -117,7 +115,7 @@ def kinderzuschlag_ab_2005_bis_juni_2019(
     kinderzuschlag_kindereink_abzug: FloatSeries,
     kinderzuschlag_eink_anrechn: FloatSeries,
 ) -> FloatSeries:
-    """Creates "kinderzuschlag_m_vorläufig" until 06/2019.
+    """Calculate preliminary child benefit since 2005 until 06/2019.
 
     Parameters
     ----------

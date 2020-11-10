@@ -6,7 +6,7 @@ from gettsim.typing import IntSeries
 
 
 def anz_minderj_hh(hh_id: IntSeries, alter: IntSeries, kind: BoolSeries) -> IntSeries:
-    """
+    """Calculate the number of underage persons in household.
 
     Parameters
     ----------

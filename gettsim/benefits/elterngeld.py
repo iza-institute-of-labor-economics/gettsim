@@ -11,7 +11,7 @@ from gettsim.typing import IntSeries
 
 
 def elterngeld_m_tu(elterngeld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """
+    """Aggregate parental leave benefit on tax unit level.
 
     Parameters
     ----------
@@ -28,7 +28,7 @@ def elterngeld_m_tu(elterngeld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
 
 
 def elterngeld_m_hh(elterngeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """
+    """Aggregate parental leave benefit on household level.
 
     Parameters
     ----------
@@ -48,10 +48,12 @@ def elterngeld_m(
     elternzeit_anspruch: BoolSeries,
     elterngeld_eink_erlass: FloatSeries,
     geschw_bonus: FloatSeries,
-    anz_mehrlinge_bonus: FloatSeries,
+    mehrlinge_bonus: FloatSeries,
     elterngeld_params: dict,
 ) -> FloatSeries:
-    """Calculate elterngeld given the relevant wage and the eligibility for bonuses.
+    """Calculate parental leave benefit (elterngeld).
+
+    For the calculation, the relevant wage and the eligibility for bonuses is needed.
 
     Parameters
     ----------
@@ -63,8 +65,8 @@ def elterngeld_m(
         See :func:`elterngeld_eink_erlass`.
     geschw_bonus
         See :func:`geschw_bonus`.
-    anz_mehrlinge_bonus
-        See :func:`anz_mehrlinge_bonus`.
+    mehrlinge_bonus
+        See :func:`mehrlinge_bonus`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -78,7 +80,7 @@ def elterngeld_m(
             upper=elterngeld_params["elterngeld_höchstbetrag"],
         )
         + geschw_bonus
-        + anz_mehrlinge_bonus
+        + mehrlinge_bonus
     )
 
     data = np.where(
@@ -89,7 +91,7 @@ def elterngeld_m(
 
 
 def proxy_eink_vorj_elterngeld(
-    beitr_bemess_grenze_rentenv: FloatSeries,
+    rentenv_beitr_bemess_grenze: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     elterngeld_params: dict,
     eink_st_params: dict,
@@ -102,8 +104,8 @@ def proxy_eink_vorj_elterngeld(
 
     Parameters
     ----------
-    beitr_bemess_grenze_rentenv
-        See :func:`beitr_bemess_grenze_rentenv`.
+    rentenv_beitr_bemess_grenze
+        See :func:`rentenv_beitr_bemess_grenze`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     elterngeld_params
@@ -120,14 +122,16 @@ def proxy_eink_vorj_elterngeld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(upper=beitr_bemess_grenze_rentenv)
+    max_wage = bruttolohn_vorj_m.clip(upper=rentenv_beitr_bemess_grenze)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = elterngeld_params["elterngeld_soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_tax = st_tarif(
-        12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
+        (12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"]).clip(
+            lower=0
+        ),
         eink_st_params,
     )
 
@@ -140,15 +144,13 @@ def proxy_eink_vorj_elterngeld(
         ],
     )
 
-    return (
-        (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0).fillna(0)
-    )
+    return (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0)
 
 
 def date_of_birth(
     geburtsjahr: IntSeries, geburtsmonat: IntSeries, geburtstag: IntSeries
 ) -> DateTimeSeries:
-    """Create date of birth variable.
+    """Create date of birth datetime variable.
 
     Parameters
     ----------
@@ -179,7 +181,7 @@ def date_of_birth(
 def alter_jüngstes_kind(
     hh_id: IntSeries, date_of_birth: DateTimeSeries, kind: BoolSeries
 ) -> DateTimeSeries:
-    """
+    """Calculate the age of the youngest child.
 
     Parameters
     ----------
@@ -205,7 +207,7 @@ def alter_jüngstes_kind(
 def jüngstes_kind(
     date_of_birth: DateTimeSeries, alter_jüngstes_kind: DateTimeSeries
 ) -> BoolSeries:
-    """
+    """Determine the youngest child in each household.
 
     Parameters
     ----------
@@ -224,7 +226,7 @@ def jüngstes_kind(
 def alter_jüngstes_kind_monate(
     hh_id: IntSeries, alter_jüngstes_kind: DateTimeSeries, elterngeld_params: dict
 ) -> FloatSeries:
-    """
+    """Calculate in age of youngest child in months.
 
     Parameters
     ----------
@@ -258,7 +260,7 @@ def elternzeit_anspruch(
     kind: BoolSeries,
     elterngeld_params: dict,
 ) -> BoolSeries:
-    """
+    """Check parental leave eligibility.
 
     Parameters
     ----------
@@ -312,7 +314,7 @@ def berechtigt_für_geschw_bonus(
     elternzeit_anspruch: BoolSeries,
     elterngeld_params: dict,
 ) -> BoolSeries:
-    """
+    """Check for sibling bonus on parental leave benefit.
 
     Parameters
     ----------
@@ -343,7 +345,7 @@ def berechtigt_für_geschw_bonus(
 def anz_mehrlinge_anspruch(
     hh_id: IntSeries, elternzeit_anspruch: BoolSeries, jüngstes_kind: BoolSeries
 ) -> IntSeries:
-    """
+    """Check for multiple bonus on parental leave benefit.
 
    Parameters
    ----------
@@ -370,7 +372,9 @@ def nettolohn_m(
     anz_erwachsene_tu: IntSeries,
     sozialv_beitr_m: FloatSeries,
 ) -> FloatSeries:
-    """Calculate the net wage given taxes and social security contributions.
+    """Calculate the net wage.
+
+    Taxes and social security contributions are needed for the calculation.
 
 
     Parameters
@@ -477,7 +481,7 @@ def elterngeld_anteil_eink_erlass(
 def elterngeld_eink_erlass(
     elterngeld_eink_relev: FloatSeries, elterngeld_anteil_eink_erlass: FloatSeries
 ) -> FloatSeries:
-    """
+    """Calculate base parental leave benefit.
 
     Parameters
     ----------
@@ -498,7 +502,7 @@ def geschw_bonus(
     berechtigt_für_geschw_bonus: BoolSeries,
     elterngeld_params: dict,
 ) -> FloatSeries:
-    """Calculating the bonus for siblings.
+    """Calculate the bonus for siblings.
 
     According to § 2a parents of siblings get a bonus.
 
@@ -524,10 +528,10 @@ def geschw_bonus(
     )
 
 
-def anz_mehrlinge_bonus(
+def mehrlinge_bonus(
     anz_mehrlinge_anspruch: IntSeries, elterngeld_params: dict
 ) -> FloatSeries:
-    """
+    """Calculate the bonus for multiples.
 
     Parameters
     ----------

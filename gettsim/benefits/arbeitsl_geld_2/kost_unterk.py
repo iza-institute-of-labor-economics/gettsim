@@ -6,7 +6,7 @@ from gettsim.typing import IntSeries
 def kost_unterk_m_hh(
     berechtigte_wohnfläche_hh: IntSeries, miete_pro_qm_hh: FloatSeries
 ) -> FloatSeries:
-    """Justified costs of living.
+    """Calculate costs of living eligible to claim.
 
     Parameters
     ----------
@@ -25,7 +25,7 @@ def kost_unterk_m_hh(
 def miete_pro_qm_hh(
     kaltmiete_m_hh: FloatSeries, heizkosten_m_hh: FloatSeries, wohnfläche_hh: IntSeries
 ) -> FloatSeries:
-    """Check the monthly sum of rental costs per squaremeter.
+    """Calculate rent per square meter.
 
     Parameters
     ----------
@@ -48,7 +48,7 @@ def berechtigte_wohnfläche_hh(
     bewohnt_eigentum_hh: BoolSeries,
     haushaltsgröße_hh: IntSeries,
 ) -> IntSeries:
-    """Checks the maximum amount of squaremeters is payed by the state.
+    """Calculate size of dwelling eligible to claim.
 
     Parameters
     ----------

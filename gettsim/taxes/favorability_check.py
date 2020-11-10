@@ -19,7 +19,7 @@ def beantrage_kind_freib_tu(
     kindergeld_m_tu_basis: FloatSeries,
     st_kind_freib_tu: FloatSeries,
 ) -> BoolSeries:
-    """Check if individual claims child allowance.
+    """Check if individual claims child allowance (kinderfreibetrag).
 
     Parameters
     ----------

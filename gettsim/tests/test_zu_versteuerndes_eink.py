@@ -48,7 +48,7 @@ OUT_COLS = [
     "brutto_eink_5_tu",
     "brutto_eink_6_tu",
     "brutto_eink_7_tu",
-    "_ertragsanteil",
+    "ertragsanteil",
     "sonder",
     "alleinerziehend_freib_tu",
     "altersfreib",

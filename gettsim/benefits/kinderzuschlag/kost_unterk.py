@@ -10,7 +10,7 @@ def kinderzuschlag_kosten_unterk_m(
     kinderzuschlag_kaltmiete_m: FloatSeries,
     kinderzuschlag_heizkost_m: FloatSeries,
 ) -> FloatSeries:
-    """Calculate share of living costs.
+    """Calculate costs of living eligible to claim.
 
     Unlike ALG2, there is no check on whether living costs are "appropriate".
 
@@ -35,7 +35,7 @@ def kinderzuschlag_kosten_unterk_m(
 def kinderzuschlag_kaltmiete_m(
     hh_id: IntSeries, kaltmiete_m_hh: FloatSeries, tax_unit_share: FloatSeries
 ) -> FloatSeries:
-    """
+    """Calculate costs of living without heating costs.
 
     Parameters
     ----------
@@ -56,7 +56,7 @@ def kinderzuschlag_kaltmiete_m(
 def kinderzuschlag_heizkost_m(
     hh_id: IntSeries, heizkosten_m_hh: FloatSeries, tax_unit_share: FloatSeries
 ) -> FloatSeries:
-    """
+    """Calculate costs of heating.
 
     Parameters
     ----------

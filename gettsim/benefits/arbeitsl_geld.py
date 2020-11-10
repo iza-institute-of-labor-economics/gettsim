@@ -9,7 +9,7 @@ from gettsim.typing import IntSeries
 
 
 def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """
+    """Aggregate unemployment benefit on tax unit level.
 
     Parameters
     ----------
@@ -26,7 +26,7 @@ def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries, tu_id: IntSeries) -> FloatS
 
 
 def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """
+    """Aggregate unemployment benefit on household level.
 
     Parameters
     ----------
@@ -49,7 +49,7 @@ def arbeitsl_geld_m(
     proxy_eink_vorj_arbeitsl_geld: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> FloatSeries:
-    """
+    """Calculate unemployment benefit.
 
     Parameters
     ----------
@@ -87,7 +87,7 @@ def arbeitsl_geld_m(
 def monate_arbeitsl(
     arbeitsl_lfdj_m: IntSeries, arbeitsl_vorj_m: IntSeries, arbeitsl_vor2j_m: IntSeries
 ) -> IntSeries:
-    """
+    """Aggregate months of unemployment over the last two years.
 
     Parameters
     ----------
@@ -112,7 +112,7 @@ def berechtigt_für_arbeitsl_geld(
     arbeitsstunden_w: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> BoolSeries:
-    """Check eligibility for unemployment benefits.
+    """Check eligibility for unemployment benefit.
 
     Different rates for parent and non-parents. Take into account actual wages. There
     are different replacement rates depending on presence of children
@@ -144,19 +144,19 @@ def berechtigt_für_arbeitsl_geld(
 
 
 def proxy_eink_vorj_arbeitsl_geld(
-    beitr_bemess_grenze_rentenv: FloatSeries,
+    rentenv_beitr_bemess_grenze: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
     soli_st_params: dict,
 ) -> FloatSeries:
-    """Calculating the claim for benefits depending on previous wage.
+    """Approximate last years income for unemployment benefit.
 
     Parameters
     ----------
-    beitr_bemess_grenze_rentenv
-        See :func:`beitr_bemess_grenze_rentenv`.
+    rentenv_beitr_bemess_grenze
+        See :func:`rentenv_beitr_bemess_grenze`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     arbeitsl_geld_params
@@ -173,7 +173,7 @@ def proxy_eink_vorj_arbeitsl_geld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=beitr_bemess_grenze_rentenv)
+    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=rentenv_beitr_bemess_grenze)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch_arbeitsl_geld"] * max_wage
@@ -193,28 +193,3 @@ def proxy_eink_vorj_arbeitsl_geld(
     )
 
     return (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0)
-
-
-def beitr_bemess_grenze_rentenv(
-    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
-    """
-
-    Parameters
-    ----------
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-
-    Returns
-    -------
-
-    """
-    out = wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
-            False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
-        }
-    )
-    return out.astype(float)
