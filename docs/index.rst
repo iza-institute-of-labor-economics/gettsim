@@ -96,11 +96,3 @@ Initiated by
       &emsp;
 
    </p>
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
