@@ -30,7 +30,7 @@ test:
   requires:
     - pytest
   source_files:
-    - gettsim/data
+    - gettsim/parameters
     - gettsim/tests
     - setup.cfg
   commands:
