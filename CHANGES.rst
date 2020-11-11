@@ -6,7 +6,7 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
-0.4.0 - 2020-xx-xx
+0.4.0 - 2020-11-11
 ------------------
 
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh

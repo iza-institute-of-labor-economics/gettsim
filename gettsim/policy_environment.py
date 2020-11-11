@@ -7,26 +7,6 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_ab_2011
-from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_bis_2010
-from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_2011
-from gettsim.benefits.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
-from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
-from gettsim.benefits.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
-from gettsim.benefits.kinderzuschlag.kinderzuschlag import (
-    kinderzuschlag_ab_2005_bis_juni_2019,
-)
-from gettsim.benefits.kinderzuschlag.kinderzuschlag import kinderzuschlag_ab_juli_2019
-from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_regel_ab_2011,
-)
-from gettsim.benefits.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_regel_bis_2010,
-)
-from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_ab_2016
-from gettsim.benefits.wohngeld import wohngeld_eink_abzüge_bis_2015
-from gettsim.benefits.wohngeld import wohngeld_max_miete_ab_2009
-from gettsim.benefits.wohngeld import wohngeld_max_miete_bis_2008
 from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_threholds
@@ -47,6 +27,26 @@ from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2005_bis_2009
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2010_bis_2019
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_ab_2011
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_bis_2010
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_2011
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
+from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
+from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
+from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
+    kinderzuschlag_ab_2005_bis_juni_2019,
+)
+from gettsim.transfers.kinderzuschlag.kinderzuschlag import kinderzuschlag_ab_juli_2019
+from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
+    kinderzuschlag_eink_regel_ab_2011,
+)
+from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
+    kinderzuschlag_eink_regel_bis_2010,
+)
+from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
+from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
+from gettsim.transfers.wohngeld import wohngeld_max_miete_ab_2009
+from gettsim.transfers.wohngeld import wohngeld_max_miete_bis_2008
 
 
 def set_up_policy_environment(date):
@@ -246,7 +246,7 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
 
     """
     raw_group_data = yaml.load(
-        (ROOT_DIR / "data" / f"{group}.yaml").read_text(encoding="utf-8"),
+        (ROOT_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8"),
         Loader=yaml.CLoader,
     )
 
