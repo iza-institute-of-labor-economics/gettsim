@@ -9,101 +9,121 @@ similar check applies to whether it is more profitable to tax capital incomes wi
 standard 25% rate or to include it in the tariff.
 
 """
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
 
-def _beantrage_kind_freib_tu(
-    _st_kein_kind_freib_tu, _kindergeld_m_tu_basis, _st_kind_freib_tu
-):
-    """Check if individual claims child allowance.
+def beantrage_kind_freib_tu(
+    st_kein_kind_freib_tu: FloatSeries,
+    kindergeld_m_tu_basis: FloatSeries,
+    st_kind_freib_tu: FloatSeries,
+) -> BoolSeries:
+    """Check if individual claims child allowance (kinderfreibetrag).
 
     Parameters
     ----------
-    _st_kein_kind_freib_tu
-    _kindergeld_m_tu_basis
-    _st_kind_freib_tu
+    st_kein_kind_freib_tu
+        See :func:`st_kein_kind_freib_tu`.
+    kindergeld_m_tu_basis
+        See :func:`kindergeld_m_tu_basis`.
+    st_kind_freib_tu
+        See :func:`st_kind_freib_tu`.
 
     Returns
     -------
 
     """
-    st_kein_kind_freib = _st_kein_kind_freib_tu - 12 * _kindergeld_m_tu_basis
-    return st_kein_kind_freib > _st_kind_freib_tu
+    st_kein_kind_freib = st_kein_kind_freib_tu - 12 * kindergeld_m_tu_basis
+    return st_kein_kind_freib > st_kind_freib_tu
 
 
-def eink_st_tu_bis_1996(_st_kind_freib_tu):
+def eink_st_tu_bis_1996(st_kind_freib_tu: FloatSeries) -> FloatSeries:
     """Income tax calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
     Therefore the tax burden is allways smaller.
     Parameters
     ----------
-    _st_kind_freib_tu
+    st_kind_freib_tu
+        See :func:`st_kind_freib_tu`.
 
     Returns
     -------
 
     """
-    return _st_kind_freib_tu
+    return st_kind_freib_tu
 
 
 def eink_st_tu_ab_1997(
-    _st_kein_kind_freib_tu, _st_kind_freib_tu, _beantrage_kind_freib_tu,
-):
+    st_kein_kind_freib_tu: FloatSeries,
+    st_kind_freib_tu: FloatSeries,
+    beantrage_kind_freib_tu: BoolSeries,
+) -> FloatSeries:
     """Income tax calculation since 1997.
 
     Parameters
     ----------
-    _st_kein_kind_freib_tu
-    _st_kind_freib_tu
-    _beantrage_kind_freib_tu
+    st_kein_kind_freib_tu
+        See :func:`st_kein_kind_freib_tu`.
+    st_kind_freib_tu
+        See :func:`st_kind_freib_tu`.
+    beantrage_kind_freib_tu
+        See :func:`beantrage_kind_freib_tu`.
 
     Returns
     -------
 
     """
-    out = _st_kein_kind_freib_tu
-    out.loc[_beantrage_kind_freib_tu] = _st_kind_freib_tu.loc[_beantrage_kind_freib_tu]
+    out = st_kein_kind_freib_tu
+    out.loc[beantrage_kind_freib_tu] = st_kind_freib_tu.loc[beantrage_kind_freib_tu]
     return out
 
 
-def kindergeld_m_bis_1996(_kindergeld_m_basis):
+def kindergeld_m_bis_1996(kindergeld_m_basis: FloatSeries) -> FloatSeries:
     """Kindergeld calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
 
     Parameters
     ----------
-    _kindergeld_m_basis
+    kindergeld_m_basis
+        See :func:`kindergeld_m_basis`.
 
     Returns
     -------
 
     """
-    return _kindergeld_m_basis
+    return kindergeld_m_basis
 
 
 def kindergeld_m_ab_1997(
-    _beantrage_kind_freib_tu, _kindergeld_m_basis, tu_id,
-):
+    beantrage_kind_freib_tu: BoolSeries,
+    kindergeld_m_basis: FloatSeries,
+    tu_id: IntSeries,
+) -> FloatSeries:
     """Kindergeld calculation since 1997.
 
     Parameters
     ----------
-    _beantrage_kind_freib_tu
-    _kindergeld_m_basis
+    beantrage_kind_freib_tu
+        See :func:`beantrage_kind_freib_tu`.
+    kindergeld_m_basis
+        See :func:`kindergeld_m_basis`.
     tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
 
     """
-    _beantrage_kind_freib = tu_id.replace(_beantrage_kind_freib_tu)
-    out = _kindergeld_m_basis
-    out.loc[_beantrage_kind_freib] = 0
+    beantrage_kind_freib = tu_id.replace(beantrage_kind_freib_tu)
+    out = kindergeld_m_basis
+    out.loc[beantrage_kind_freib] = 0
     return out
 
 
-def kindergeld_m_hh(kindergeld_m, hh_id):
+def kindergeld_m_hh(kindergeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
     """Aggregate Child benefit on the household level.
 
     Aggregate Child benefit on the household level, as we could have several tax_units
@@ -112,7 +132,9 @@ def kindergeld_m_hh(kindergeld_m, hh_id):
     Parameters
     ----------
     kindergeld_m
+        See :func:`kindergeld_m`.
     hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
     -------
@@ -121,13 +143,15 @@ def kindergeld_m_hh(kindergeld_m, hh_id):
     return kindergeld_m.groupby(hh_id).sum()
 
 
-def kindergeld_m_tu(kindergeld_m, tu_id):
+def kindergeld_m_tu(kindergeld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     """Aggregate Child benefit on the tax unit level.
 
     Parameters
     ----------
     kindergeld_m
+        See :func:`kindergeld_m`.
     tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------

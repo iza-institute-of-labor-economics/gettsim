@@ -6,10 +6,34 @@ import pytest
 
 from gettsim import compute_taxes_and_transfers
 from gettsim import test
+from gettsim.config import ROOT_DIR
+from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.interface import _expand_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
+from gettsim.interface import _fail_if_datatype_is_false
 from gettsim.interface import _fail_if_functions_and_columns_overlap
+
+
+@pytest.fixture(scope="module")
+def input_data():
+    file_name = "test_dfs_tax_transfer.csv"
+    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    return out
+
+
+def test_fail_if_datatype_is_false(input_data):
+    with does_not_raise():
+        _fail_if_datatype_is_false(input_data, [], [])
+    with pytest.raises(ValueError):
+        altered_data = input_data.copy(deep=True)
+        altered_data["alter"] = altered_data["alter"].astype(float)
+        _fail_if_datatype_is_false(altered_data, [], [])
+    with pytest.raises(ValueError):
+        _, functions = load_user_and_internal_functions(None)
+        columns = ["abgelt_st_tu"]
+        new_data = pd.DataFrame(data=[True, False], columns=columns, dtype=bool)
+        _fail_if_datatype_is_false(new_data, columns, functions)
 
 
 @pytest.mark.parametrize(

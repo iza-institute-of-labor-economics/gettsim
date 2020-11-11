@@ -1,28 +1,41 @@
-def abgelt_st_tu(_zu_verst_kapital_eink_tu, abgelt_st_params):
-    """Abgeltungssteuer per tax unit.
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
+
+def abgelt_st_tu(
+    zu_verst_kapital_eink_tu: FloatSeries, abgelt_st_params: dict
+) -> FloatSeries:
+    """Calculate abgeltungssteuer per tax unit.
 
     Parameters
     ----------
-    _zu_verst_kapital_eink_tu
+    zu_verst_kapital_eink_tu
+        See :func:`zu_verst_kapital_eink_tu`.
     abgelt_st_params
+        See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
     Returns
     -------
 
     """
-    return abgelt_st_params["abgelt_st_satz"] * _zu_verst_kapital_eink_tu
+    return abgelt_st_params["abgelt_st_satz"] * zu_verst_kapital_eink_tu
 
 
-def _zu_verst_kapital_eink_tu(
-    brutto_eink_5_tu, _anz_erwachsene_tu, eink_st_abzuege_params
-):
-    """Taxable income per tax unit.
+def zu_verst_kapital_eink_tu(
+    brutto_eink_5_tu: FloatSeries,
+    anz_erwachsene_tu: IntSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
+    """Calculate taxable income per tax unit.
 
     Parameters
     ----------
     brutto_eink_5_tu
-    _anz_erwachsene_tu
+        See :func:`brutto_eink_5_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -30,7 +43,7 @@ def _zu_verst_kapital_eink_tu(
     """
     out = (
         brutto_eink_5_tu
-        - _anz_erwachsene_tu
+        - anz_erwachsene_tu
         * (
             eink_st_abzuege_params["sparerpauschbetrag"]
             + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]

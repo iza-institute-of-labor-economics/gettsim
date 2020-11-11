@@ -6,7 +6,7 @@ from gettsim.config import ROOT_DIR
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.policy_environment import set_up_policy_environment
 
-INPUT_COLS = ["p_id", "hh_id", "tu_id", "kind", "_st_kind_freib_tu", "abgelt_st_tu"]
+INPUT_COLS = ["p_id", "hh_id", "tu_id", "kind", "st_kind_freib_tu", "abgelt_st_tu"]
 
 YEARS = [1991, 1993, 1996, 1999, 2003, 2022]
 
@@ -27,7 +27,7 @@ def test_soli_st(
 
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    user_cols = ["_st_kind_freib_tu", "abgelt_st_tu"]
+    user_cols = ["st_kind_freib_tu", "abgelt_st_tu"]
     results = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
