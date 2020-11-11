@@ -1,7 +1,9 @@
-Functions in the Tax and Transfer System
-========================================
+.. _functions:
 
-This section documents the internal functions provided by gettsim to model the tax and
+Policy functions in GETTSIM
+===========================
+
+This section documents the internal functions provided by GETTSIM to model the tax and
 transfer system. They are sorted alphabetically.
 
 You can click on the functions in the table to be redirected to the functions signature
@@ -9,6 +11,7 @@ further below. By clicking on the ``source`` hyperlink next to the function sign
 you can see the full source code of the function.
 
 .. automodsumm:: gettsim.functions
+   :functions-only:
 
 .. automodule:: gettsim.functions
    :members:
