@@ -229,7 +229,6 @@ def create_single_household(
         "m_elterngeld_mut",
         "m_elterngeld_vat",
         "m_elterngeld",
-        "anz_minderj_hh",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -238,7 +237,7 @@ def create_single_household(
     )
 
     # Some columns require boolean type. initiate them with False
-    for c in [
+    for bool_col in [
         "selbstständig",
         "wohnort_ost",
         "hat_kinder",
@@ -250,7 +249,16 @@ def create_single_household(
         "bewohnt_eigentum_hh",
         "prv_krankenv",
     ]:
-        df[c] = False
+        df[bool_col] = False
+
+    # Other columns require int type
+    for int_col in [
+        "behinderungsgrad",
+        "m_elterngeld",
+        "m_elterngeld_mut",
+        "m_elterngeld_vat",
+    ]:
+        df[int_col] = df[int_col].astype(int)
 
     # 'Custom' initializations
     df["tu_vorstand"] = True
@@ -320,7 +328,6 @@ def create_single_household(
         & (~df["kind"]),
         "alleinerziehend",
     ] = True
-    df["anz_minderj_hh"] = df.groupby("hh_typ")["kind"].transform("sum")
 
     df = df.sort_values(by=["hh_typ", "hh_id"])
 
