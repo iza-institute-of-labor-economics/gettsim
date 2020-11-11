@@ -10,8 +10,8 @@ compartment specific dictionaries. Thus it is a dictionary of dictionaries, wher
 keys are the name of the compartment. The files from which
 :func:`set_up_policy_environment` loads the default paramters for each year, can be
 found `here <https://github.com/iza-institute-of-labor-economics/gettsim/tree/master
-/gettsim/data>`_ and are named by the compartment. Our current guidlines on how these
-files are set up can be found in the GEP-2.
+/gettsim/parameters>`_ and are named by the compartment. Our current guidlines on how
+these files are set up can be found in the GEP-2.
 
 Inside GETTSIM, functions don't operate with the full :code:`params` file and
 instead just use each compartment specific parameter dictionary. The names of these
