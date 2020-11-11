@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "GETTSIM"
 copyright = f"2019-{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
-release = "0.3.4"
+release = "0.4"
 version = ".".join(release.split(".")[:2])
 
 # -- General configuration ---------------------------------------------------
