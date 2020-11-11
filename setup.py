@@ -41,7 +41,7 @@ setup(
     platforms="any",
     package_data={
         "gettsim": [
-            "data/*.yaml",
+            "parameters/*.yaml",
             "pre_processing/exogene_renten_daten/*.yaml",
             "tests/test_data/*.csv",
             "tests/test_data/*.ods",
