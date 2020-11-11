@@ -1,56 +1,19 @@
+import datetime
+
 import pandas as pd
 import pytest
 
 from gettsim.config import DEFAULT_TARGETS
+from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
+from gettsim.config import STANDARD_DATA_TYPES
+from gettsim.functions_loader import _convert_paths_to_import_strings
+from gettsim.functions_loader import _load_functions
 from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import load_reforms_for_date
 from gettsim.policy_environment import set_up_policy_environment
+from gettsim.typing import check_if_series_has_internal_type
 
-REQUIRED_INPUTS = [
-    "hh_id",
-    "tu_id",
-    "p_id",
-    "anz_minderj_hh",
-    "vermögen_hh",
-    "bruttolohn_m",
-    "alter",
-    "selbstständig",
-    "wohnort_ost",
-    "hat_kinder",
-    "eink_selbst_m",
-    "ges_rente_m",
-    "prv_krankenv",
-    "prv_rente_beitr_m",
-    "bruttolohn_vorj_m",
-    "arbeitsl_lfdj_m",
-    "arbeitsl_vorj_m",
-    "arbeitsl_vor2j_m",
-    "arbeitsstunden_w",
-    "geburtsjahr",
-    "geburtstag",
-    "geburtsmonat",
-    "mietstufe",
-    "entgeltpunkte",
-    "kind",
-    "rentner",
-    "betreuungskost_m",
-    "kapital_eink_m",
-    "vermiet_eink_m",
-    "kaltmiete_m_hh",
-    "heizkosten_m_hh",
-    "jahr_renteneintr",
-    "behinderungsgrad",
-    "wohnfläche_hh",
-    "m_elterngeld",
-    "m_elterngeld_vat",
-    "m_elterngeld_mut",
-    "in_ausbildung",
-    "alleinerziehend",
-    "bewohnt_eigentum_hh",
-    "immobilie_baujahr_hh",
-    "sonstig_eink_m",
-    "jahr",
-]
 
 YEARS = [2019]
 
@@ -67,7 +30,7 @@ def test_tax_transfer(
     input_data, year,
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
-    df = year_data[REQUIRED_INPUTS].copy()
+    df = year_data[list(STANDARD_DATA_TYPES.keys())].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     # params["renten_daten"] = renten_daten
 
@@ -77,3 +40,44 @@ def test_tax_transfer(
         functions=policy_functions,
         targets=DEFAULT_TARGETS,
     )
+
+
+@pytest.mark.parametrize("year", YEARS)
+def test_data_types(
+    input_data, year,
+):
+    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
+    functions = _load_functions(imports)
+
+    # Load all time dependent functions
+    for year in range(1990, 2021):
+        year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
+
+    year_data = input_data[input_data["jahr"] == year].copy()
+    df = year_data[list(STANDARD_DATA_TYPES.keys())].copy()
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+    # params["renten_daten"] = renten_daten
+
+    data = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=DEFAULT_TARGETS,
+        debug=True,
+    )
+    for column_name, series in data.items():
+        if series.empty:
+            pass
+        else:
+            if column_name in STANDARD_DATA_TYPES:
+                internal_type = STANDARD_DATA_TYPES[column_name]
+            elif column_name in functions:
+                internal_type = functions[column_name].__annotations__["return"]
+            elif column_name in year_functions:
+                internal_type = year_functions[column_name].__annotations__["return"]
+            else:
+                raise ValueError("Column name unknown.")
+            if not check_if_series_has_internal_type(series, internal_type):
+                raise AssertionError(
+                    f"{column_name} has datatype {series.dtype}, but should have {internal_type}."
+                )
