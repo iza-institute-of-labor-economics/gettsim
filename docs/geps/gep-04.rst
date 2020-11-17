@@ -24,9 +24,9 @@ GEP 4 — A DAG—based Computational Backend
 Abstract
 --------
 
-This GEP explains the DAG-based computational backend for GETTSIM which does not only
-increase performance, but, and more importantly, offers a way to make small changes to
-an existing policy environment.
+This GEP explains the DAG-based computational backend for GETTSIM, which does not only
+increase performance, but, and more importantly, offers a way to make changes to an
+existing policy environment.
 
 
 Motivation and Scope
