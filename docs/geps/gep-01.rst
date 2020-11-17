@@ -109,7 +109,7 @@ indicate the time unit.
 Parameters of the taxes and transfers system
 --------------------------------------------
 
-The structure of these parameters will be laid out in :ref:`gep-3`; we just note some
+The structure of these parameters will be laid out in gep-3; we just note some
 general naming considerations here.
 
 * There is a hierarchical structure to these parameters in that each of them is

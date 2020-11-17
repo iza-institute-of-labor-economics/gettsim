@@ -1,14 +1,22 @@
 import numpy as np
 import pandas as pd
 
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
-def behinderungsgrad_pauschbetrag(behinderungsgrad, eink_st_abzuege_params):
-    """Calculate the different deductions for different handicap degrees.
+
+def behinderungsgrad_pauschbetrag(
+    behinderungsgrad: IntSeries, eink_st_abzuege_params: dict
+) -> FloatSeries:
+    """Assign tax deduction allowance for handicaped to different handicap degrees.
 
     Parameters
     ----------
     behinderungsgrad
+        See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -28,15 +36,19 @@ def behinderungsgrad_pauschbetrag(behinderungsgrad, eink_st_abzuege_params):
     return out
 
 
-def alleinerziehend_freib_tu_bis_2014(alleinerziehend_tu, eink_st_abzuege_params):
-    """
-    Calculates tax reduction for single parents. Used to be called
-    'Haushaltsfreibetrag'
+def alleinerziehend_freib_tu_bis_2014(
+    alleinerziehend_tu: BoolSeries, eink_st_abzuege_params: dict
+) -> FloatSeries:
+    """Calculates tax deduction allowance for single parents until 2014.
+
+    This used to be called 'Haushaltsfreibetrag'.
 
     Parameters
     ----------
     alleinerziehend_tu
+        See :func:`alleinerziehend_tu`.
     eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -48,16 +60,23 @@ def alleinerziehend_freib_tu_bis_2014(alleinerziehend_tu, eink_st_abzuege_params
 
 
 def alleinerziehend_freib_tu_ab_2015(
-    alleinerziehend_tu, anz_kinder_tu, eink_st_abzuege_params
-):
-    """
-    Calculates tax reduction for single parents. Since 2015, it increases with
+    alleinerziehend_tu: BoolSeries,
+    anz_kinder_tu: IntSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
+    """Calculates tax deduction allowance for single parents since 2015.
+
+    Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
 
     Parameters
     ----------
     alleinerziehend_tu
+        See :func:`alleinerziehend_tu`.
+    anz_kinder_tu
+        See :func:`anz_kinder_tu`.
     eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -73,24 +92,29 @@ def alleinerziehend_freib_tu_ab_2015(
 
 
 def altersfreib(
-    bruttolohn_m,
-    alter,
-    kapital_eink_m,
-    eink_selbst_m,
-    vermiet_eink_m,
-    eink_st_abzuege_params,
-):
-    """
-    Calculates the deductions for elderly. Not tested yet!
+    bruttolohn_m: FloatSeries,
+    alter: IntSeries,
+    kapital_eink_m: FloatSeries,
+    eink_selbst_m: FloatSeries,
+    vermiet_eink_m: FloatSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
+    """Calculates tax deduction allowance for elderly.
 
     Parameters
     ----------
     bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     alter
+        See basic input variable :ref:`alter <alter>`.
     kapital_eink_m
+        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
     eink_selbst_m
+        See :func:`eink_selbst_m`.
     vermiet_eink_m
+        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
     eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -108,13 +132,18 @@ def altersfreib(
     return out
 
 
-def sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
-    """
-    Until 2011, we just use the lumpsum payment.
+def sonderausgaben_bis_2011(
+    kind: BoolSeries, eink_st_abzuege_params: dict
+) -> FloatSeries:
+    """Calculating sonderausgaben for childcare until 2011.
+
+    There is only a lumpsum payment implemented.
     Parameters
     ----------
     kind
+        See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -126,24 +155,34 @@ def sonderausgaben_bis_2011(kind, eink_st_abzuege_params):
 
 
 def sonderausgaben_ab_2012(
-    betreuungskost_m, tu_id, kind, _anz_erwachsene_tu, eink_st_abzuege_params
-):
-    """
-    Calculating sonderausgaben for childcare. We follow 10 Abs.1 Nr. 5 EStG. You can
+    betreuungskost_m: FloatSeries,
+    tu_id: IntSeries,
+    kind: BoolSeries,
+    anz_erwachsene_tu: IntSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
+    """Calculate sonderausgaben for childcare since 2012.
+
+    We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
     Parameters
     ----------
     betreuungskost_m
+        See basic input variable :ref:`betreuungskost_m <betreuungskost_m>`.
     tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
     kind
+        See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
-    _anz_erwachsene_tu
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
 
     Returns
     -------
 
     """
-    erwachsene_in_tu = tu_id.replace(_anz_erwachsene_tu)
+    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
         upper=eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"]
     )
@@ -159,13 +198,16 @@ def sonderausgaben_ab_2012(
     return out
 
 
-def _altervorsorge_aufwend(
-    kind, rentenv_beitr_m, prv_rente_beitr_m, eink_st_abzuege_params
-):
-    """
-    Return the amount of contributions to retirement savings that is deductible from
-    taxable income. **This function becomes relevant in 2005, do not use it for prior
-    year**.
+def altervorsorge_aufwend(
+    kind: BoolSeries,
+    rentenv_beitr_m: FloatSeries,
+    prv_rente_beitr_m: FloatSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
+    """Determine contributions to retirement savings deductible from taxable income.
+
+    This function becomes relevant in 2005, do not use it for prior
+    year.
 
     The share of deductible contributions increases each year from 60% in 2005 to 100%
     in 2025.
@@ -173,9 +215,13 @@ def _altervorsorge_aufwend(
     Parameters
     ----------
     kind
+        See basic input variable :ref:`kind <kind>`.
     rentenv_beitr_m
+        See :func:`rentenv_beitr_m`.
     prv_rente_beitr_m
+        See basic input variable :ref:`prv_rente_beitr_m <prv_rente_beitr_m>`.
     eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -196,30 +242,40 @@ def _altervorsorge_aufwend(
 
 
 def kinderfreib_tu(
-    anz_kindergeld_kinder_tu, _anz_erwachsene_tu, eink_st_abzuege_params
-):
-    """Sum over all child allowances.
+    anz_kindergeld_kinder_tu: FloatSeries,
+    anz_erwachsene_tu: IntSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
+    """Aggregate child allowances on tax unit level.
 
     Parameters
     ----------
     anz_kindergeld_kinder_tu
+        See :func:`anz_kindergeld_kinder_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
 
     """
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
-    return kifreib_total * anz_kindergeld_kinder_tu * _anz_erwachsene_tu
+    return kifreib_total * anz_kindergeld_kinder_tu * anz_erwachsene_tu
 
 
-def anz_kindergeld_kinder_tu(tu_id, kindergeld_anspruch):
+def anz_kindergeld_kinder_tu(
+    tu_id: IntSeries, kindergeld_anspruch: BoolSeries
+) -> FloatSeries:
     """Count number of children eligible for Child Benefit.
 
     Parameters
     ----------
     tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
     kindergeld_anspruch
+        See :func:`kindergeld_anspruch`.
 
     Returns
     -------

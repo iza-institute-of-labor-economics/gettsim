@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "GETTSIM"
 copyright = f"2019-{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
-release = "0.3.3"
+release = "0.4"
 version = ".".join(release.split(".")[:2])
 
 # -- General configuration ---------------------------------------------------
@@ -103,3 +103,6 @@ html_theme_options = {
 html_static_path = ["_static"]
 
 html_css_files = ["css/custom.css"]
+
+# Napoleon settings
+napoleon_use_rtype = False

@@ -6,9 +6,19 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
-0.4.0 - 2020-xx-xx
+0.4.0 - 2020-11-11
 ------------------
 
+* :gh:`241` renaming of directories: `gettsim.benefits` to `gettsim.transfers`;
+   `gettsim.soz_vers` to `gettsim.social_insurance`; `gettsim.data` to
+   `gettsim.parameters` (:ghuser:`MaxBlesch`, :ghuser:`ChristianZimpelmann`).
+* :gh:`230` adds type hints and links all docstring variables to the documentation.
+   Also all functions have a one liner docstring now (:ghuser:`MaxBlesch`,
+   :ghuser:`FelixAhlbrecht`).
+* :gh:`232` introduces beginner tutorials on how to use GETTSIM (:ghuser:`amageh`,
+   :ghuser:`davpahl`, :ghuser:`Trichter33`).
+* :gh:`185` adds the DAG code for renten_anspr_m (:ghuser:`MaxBlesch`). This is
+   based on the pension simulation code by (:ghuser:`Eric-Sommer`).
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
   plot and documentation improvements (:ghuser:`tobiasraabe`).
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
@@ -23,7 +33,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`225` makes gettsim ready for Python 3.8 (:ghuser:`tobiasraabe`).
 
 
-0.3.4 - 2020-xx-xx
+
+0.3.4 - 2020-07-30
 ------------------
 
 * :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
