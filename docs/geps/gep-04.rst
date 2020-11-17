@@ -24,7 +24,7 @@ GEP 4 — A DAG—based Computational Backend
 Abstract
 --------
 
-This GEP explains the DAG-based computational backend for gettsim which does not only
+This GEP explains the DAG-based computational backend for GETTSIM which does not only
 increase performance, but, and more importantly, offers a way to make small changes to
 an existing policy environment.
 
@@ -38,14 +38,13 @@ The change is motivated by two primary reasons.
    decisions of policy makers. But, it is not enough to represent the state of the tax
    and transfer at any given point in time, because researchers want to study the
    effects of counterfactual scenarios. In these scenarios, they introduce their own
-   changes which can be more local - changing the functional form of an existing policy
-   - or more global - replacing the social benefits system with a universal basic
-   income.
+   changes which can be more local—changing the functional form of an existing policy—or
+   more global like replacing all transfers with a universal basic income.
 
-2. Computing taxes and transfers with gettsim takes a long time. The major reason is
-   that the current implementation does not use vectorization. The second reason is that
-   it is not possible to limit the computations to a set of target variables which the
-   researcher is ultimately interested in.
+2. Computing taxes and transfers with GETTSIM takes a long time. The major reason is
+   that the implementation in version 0.2 does not use vectorization. The second reason
+   is that it is not possible to limit the computations to a set of target variables,
+   which the researcher is ultimately interested in.
 
 
 Solution
@@ -64,7 +63,7 @@ requested target variable.
 Splitting complex calculations into smaller pieces has a lot of the usual advantages of
 why we use functions in the first place: readability, simplicity, lower maintenance
 costs (see single-responsibility principle). Another advantage is that each function is
-a potential entrypoint for a researcher to change the tax and transfer system if she is
+a potential entry point for a researcher to change the tax and transfer system if she is
 able to replace this function with her own version.
 
 Two questions arise.
@@ -131,7 +130,7 @@ This GEP leads to a lot of changes which are best documented in the tutorials.
 Backward compatibility
 ----------------------
 
-The changes proposed by this GEP lead to a complete rewrite of gettsim.
+The changes proposed by this GEP lead to a complete rewrite of GETTSIM.
 
 
 Detailed description
@@ -151,7 +150,7 @@ Related Work
 Implementation
 --------------
 
-There are multiple PRs which incrementally rewrote gettsim in version 0.3 and 0.4. See
+There are multiple PRs which incrementally rewrote GETTSIM for versions 0.3 and 0.4. See
 the `release notes <../changes.rst>`_ for the linked PRs.
 
 
@@ -171,15 +170,8 @@ Discussion
 References and Footnotes
 ------------------------
 
-.. [1] Each GEP must either be explicitly labeled as placed in the public domain (see
-       this GEP as an example) or licensed under the `Open Publication License`_.
-
-.. _Open Publication License: https://www.opencontent.org/openpub/
-
-.. _#general/geps: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs
-
 
 Copyright
 ---------
 
-This document has been placed in the public domain. [1]_
+This document has been placed in the public domain.
