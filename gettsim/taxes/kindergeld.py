@@ -16,7 +16,7 @@ def kindergeld(tax_unit, params):
     tax_unit["kindergeld_anspruch"] = params["kindergeld_anspruch_regel"](
         tax_unit, params
     ).cumsum()
-    # Kindergeld_Anspruch is the cumulative sum of eligible children.
+    # Kindergeld_Anspruch is the cumulative sum eligible children.
     # This maps to the dictionary key for the kindergeld amount
     tax_unit["kindergeld_m_basis"] = tax_unit["kindergeld_anspruch"].replace(
         params["kindergeld"]

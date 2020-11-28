@@ -4,7 +4,7 @@ import datetime
 import numpy as np
 
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
+from gettsim.pre_processing.piecewise_functions import piecewise_linear
 
 
 def alg2(household, params):
@@ -64,9 +64,9 @@ def alg2(household, params):
 
 def regelberechnung_until_2010(household, params):
     num_adults = len(household) - household["kind"].sum()
-    kinder_satz_m = 0
+    kinder_satz = 0
     for age_lims in [(0, 6), (7, 13), (14, 24)]:
-        kinder_satz_m += (
+        kinder_satz += (
             params["regelsatz"]
             * params["anteil_regelsatz"][f"kinder_{age_lims[0]}_{age_lims[1]}"]
             * (
@@ -75,19 +75,16 @@ def regelberechnung_until_2010(household, params):
         )
 
     if num_adults == 1:
-        household["regelsatz_m"] = params["regelsatz"] * (
-            1 + household["alleinerziehenden_mehrbedarf"]
-        )
+        household["regelsatz_m"] = params["regelsatz"] * (1 + household["mehrbed"])
     elif num_adults > 1:
         household["regelsatz_m"] = params["regelsatz"] * (
-            params["anteil_regelsatz"]["zwei_erwachsene"]
-            * (2 + household["alleinerziehenden_mehrbedarf"])
+            params["anteil_regelsatz"]["zwei_erwachsene"] * (2 + household["mehrbed"])
             + (
                 params["anteil_regelsatz"]["weitere_erwachsene"]
                 * np.maximum((num_adults - 2), 0)
             )
         )
-    household["regelsatz_m"] += kinder_satz_m
+    household["regelsatz_m"] += kinder_satz
 
     return household
 
@@ -95,31 +92,27 @@ def regelberechnung_until_2010(household, params):
 def regelberechnung_2011_and_beyond(household, params):
 
     num_adults = len(household) - household["kind"].sum()
-
-    # Regelbedarsstufen 1 to 3 are for adults in different civil status.
-    # Single adult has "Regelbedarfstufe" 1
-    if num_adults == 1:
-        household["regelsatz_m"] = params["regelsatz"][1] * (
-            1 + household["alleinerziehenden_mehrbedarf"]
-        )
-
-    # Two adults are "Regelbedarstufe" 2. More are 3.
-    elif num_adults > 1:
-        household["regelsatz_m"] = params["regelsatz"][2] * (
-            2 + household["alleinerziehenden_mehrbedarf"]
-        ) + (params["regelsatz"][3] * np.maximum((num_adults - 2), 0))
-
-    kinder_satz_m = 0
-    # Regelbedarfsstufen 4 to 6 are for children in different age ranges.
-    for i, age_lims in enumerate([(14, 25), (7, 13), (0, 6)]):
-        kinder_satz_m += (
-            params["regelsatz"][4 + i]
+    kinder_satz = 0
+    # We count the "Regelbedarfstufen" from 6 downwards.
+    for i, age_lims in enumerate([(0, 6), (7, 13), (14, 25)]):
+        kinder_satz += (
+            params["regelsatz"][6 - i]
             * (
                 household["kind"] & household["alter"].between(age_lims[0], age_lims[1])
             ).sum()
         )
 
-    household["regelsatz_m"] += kinder_satz_m
+    # Single adult has "Regelbedarfstufe" 0
+    if num_adults == 1:
+        household["regelsatz_m"] = params["regelsatz"][1] * (1 + household["mehrbed"])
+
+    # Two adults are "Regelbedarstufe" 2. More are 3.
+    elif num_adults > 1:
+        household["regelsatz_m"] = params["regelsatz"][2] * (
+            2 + household["mehrbed"]
+        ) + (params["regelsatz"][3] * np.maximum((num_adults - 2), 0))
+
+    household["regelsatz_m"] += kinder_satz
 
     return household
 
@@ -138,18 +131,15 @@ def mehrbedarf_alg2(household, params):
         len(household) - children_age_info["anzahl_kinder"]
     )
 
-    household["alleinerziehenden_mehrbedarf"] = household[
-        "alleinerziehend"
-    ] * np.minimum(
-        params["mehrbedarf_anteil"]["max"],
+    household["mehrbed"] = household["alleinerziehend"] * np.minimum(
+        params["a2zu2"] / 100,
         np.maximum(
-            params["mehrbedarf_anteil"]["min_1_kind"]
-            * children_age_info["anzahl_kinder"],
+            params["a2mbch1"] * children_age_info["anzahl_kinder"],
             (
                 (children_age_info["anzahl_0_6"] >= 1)
                 | (2 <= children_age_info["anzahl_0_15"] <= 3)
             )
-            * params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"],
+            * params["a2mbch2"],
         ),
     )
     return household
@@ -229,8 +219,8 @@ def alg2_2005_nq(person, params):
         - person["eink_st_m"]
         - person["soli_st_m"]
         - person["sozialv_beit_m"]
-        - params["abzugsfähige_pausch"]["werbung"]
-        - params["abzugsfähige_pausch"]["versicherung"],
+        - params["a2we"]
+        - params["a2ve"],
         0,
         None,
     )
@@ -247,9 +237,9 @@ def eink_anr_frei(household, params):
     """
     # If there live kids in the household, we select different parameters.
     if household["kind"].any():
-        eink_anr_frei_params = copy.deepcopy(params["eink_anr_frei_kinder"])
+        e_anr_frei_params = copy.deepcopy(params["e_anr_frei_kinder"])
     else:
-        eink_anr_frei_params = copy.deepcopy(params["eink_anr_frei"])
+        e_anr_frei_params = copy.deepcopy(params["e_anr_frei"])
 
     in_cols = [
         "bruttolohn_m",
@@ -266,28 +256,21 @@ def eink_anr_frei(household, params):
         level=["hh_id", "tu_id", "p_id"],
         in_cols=in_cols,
         out_cols=out_cols,
-        func_kwargs={"eink_anr_frei_params": eink_anr_frei_params, "params": params},
+        func_kwargs={"e_anr_frei_params": e_anr_frei_params, "params": params},
     )
     return household
 
 
-def eink_anr_frei_person(person, eink_anr_frei_params, params):
+def eink_anr_frei_person(person, e_anr_frei_params, params):
     # In the first version of alg2, the rates were multiplied by the nettoquote.
     rates_modified = False
-    individual_params = copy.deepcopy(eink_anr_frei_params)
+    individual_params = copy.deepcopy(e_anr_frei_params)
 
     if params["datum"] < datetime.date(year=2005, month=10, day=1):
         individual_params["rates"] *= alg2_2005_nq(person, params)
         rates_modified = True
 
-    person["eink_anrechn_frei"] = piecewise_polynomial(
-        person["bruttolohn_m"],
-        lower_thresholds=individual_params["lower_thresholds"],
-        upper_thresholds=individual_params["upper_thresholds"],
-        rates=individual_params["rates"],
-        intercepts_at_lower_thresholds=individual_params[
-            "intercepts_at_lower_thresholds"
-        ],
-        rates_modified=rates_modified,
+    person["eink_anrechn_frei"] = piecewise_linear(
+        person["bruttolohn_m"], **individual_params, rates_modified=rates_modified
     )
     return person

@@ -1,5 +1,4 @@
 import itertools
-from datetime import date
 
 import numpy as np
 import pandas as pd
@@ -8,9 +7,9 @@ from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_pre_2005
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2005
-from gettsim.taxes.zu_versteuerndes_eink import vorsorge_since_2010
+from gettsim.taxes.zve import vorsorge_pre_2005
+from gettsim.taxes.zve import vorsorge_since_2005
+from gettsim.taxes.zve import vorsorge_since_2010
 
 
 IN_COLS = [
@@ -50,16 +49,11 @@ def test_vorsorge(
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
-    policy_date = date(year, 1, 1)
     eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
+        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
     )
     soz_vers_beitr_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="soz_vers_beitr",
-        raw_group_data=soz_vers_beitr_raw_data,
+        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
     )
     if year >= 2010:
         calc_vorsorge = vorsorge_since_2010

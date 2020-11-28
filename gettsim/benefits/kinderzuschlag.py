@@ -34,6 +34,7 @@ def kiz(household, params, arbeitsl_geld_2_params):
     household["kinderzuschlag_kaltmiete_m"] = household["kaltmiete_m"] * tax_unit_share
     household["kinderzuschlag_heizkost_m"] = household["heizkost_m"] * tax_unit_share
     # The actual living need is again broken down to the parents.
+    # There is a specific share for this, taken from the function 'wohnbedarf'.
     wb = params["wohnbedarf_eltern_anteil"]
     household["wohnbedarf_eltern_anteil"] = 1.0
     for ad in [1, 2]:
@@ -178,10 +179,10 @@ def calc_kiz_ek(household, params, arbeitsl_geld_2_params):
 def _calc_kiz_regel_until_2010(household, params):
     """"""
     return [
-        params["regelsatz"] * (1 + household["alleinerziehenden_mehrbedarf"]),
+        params["regelsatz"] * (1 + household["mehrbed"]),
         params["regelsatz"]
         * params["anteil_regelsatz"]["zwei_erwachsene"]
-        * (2 + household["alleinerziehenden_mehrbedarf"]),
+        * (2 + household["mehrbed"]),
         params["regelsatz"]
         * params["anteil_regelsatz"]["weitere_erwachsene"]
         * household["anz_erw_tu"],
@@ -190,8 +191,8 @@ def _calc_kiz_regel_until_2010(household, params):
 
 def _calc_kiz_regel_since_2011(household, params):
     return [
-        params["regelsatz"][1] * (1 + household["alleinerziehenden_mehrbedarf"]),
-        params["regelsatz"][2] * (2 + household["alleinerziehenden_mehrbedarf"]),
+        params["regelsatz"][1] * (1 + household["mehrbed"]),
+        params["regelsatz"][2] * (2 + household["mehrbed"]),
         params["regelsatz"][3] * household["anz_erw_tu"],
     ]
 

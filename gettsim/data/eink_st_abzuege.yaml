@@ -5,7 +5,7 @@ kinderfreibetrag_sächl_exmin:
   description:
     de: § 32 (6) EStG, früher auch Absatz 7 und 8. Wird verdoppelt für gemeinsam veranlagte Paare.
     en:
-  unit: Euro
+  unit: euro
   time: year
   1983-01-01:
     scalar: 110
@@ -66,7 +66,7 @@ kinderfreibetrag_betr_erz_ausb:
   description:
     de: §32 (6) EStG, seit 2000.
     en:
-  unit: Euro
+  unit: euro
   time: year
   2000-01-01:
     scalar: 774
@@ -86,7 +86,7 @@ vorsorge2004_vorwegabzug:
   description:
     de: § 10 (4a) EStG. Früher §10 (3) EStG. Hier steht jeweils der Wert für den Steuerpflichtigen. Wird verdoppelt für gemeinsam veranlagte Ehegatten. Der gesamte Zeitverlauf wurde bereits 2005 festgelegt.
     en:
-  unit: Euro
+  unit: euro
   time: year
   1985-01-01:
     scalar: 1534
@@ -132,7 +132,7 @@ werbungskostenpauschale:
   description:
     de: § 9a Nr. 1a) EStG
     en: This is the minimum amount deducted from any employment income.
-  unit: Euro
+  unit: euro
   time: year
   1975-01-01:
     scalar: 288
@@ -156,7 +156,7 @@ sonderausgabenpauschbetrag:
   description:
     de: § 10c EStG
     en:
-  unit: Euro
+  unit: euro
   time: year
   1984-01-01:
     scalar: 138
@@ -176,7 +176,7 @@ sparerpauschbetrag:
   description:
     de: § 20 (9) EStG. Früher § 20 (4) EStG. Wert für Singles. Wird verdoppelt für gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
     en:
-  unit: Euro
+  unit: euro
   time: year
   1975-01-01:
     scalar: 153
@@ -210,7 +210,7 @@ sparer_werbungskosten_pauschbetrag:
   description:
     de: § 9a EStG, bis 2009
     en:
-  unit: Euro
+  unit: euro
   time: year
   1975-01-01:
     scalar: 51
@@ -226,7 +226,7 @@ vorsorge_2004_grundhöchstbetrag:
   description:
     de: §10 (3) EStG bis 2004.
     en:
-  unit: Euro
+  unit: euro
   time: year
   1985-01-01:
     scalar: 1196
@@ -242,7 +242,7 @@ altersentlastungsbetrag_max:
   description:
     de: 24a EStG S. 5. Tabelle legt die Werte bis 2040 fest.
     en: If someone receives employment income above the age of 40, a share up to this amount is deducted.
-  unit: Euro
+  unit: euro
   time: year
   1984-01-01:
     scalar: 1534
@@ -384,7 +384,7 @@ alleinerziehenden_freibetrag:
   description:
     de: § 24b (1) EStG. vor 2004 "Haushaltsfreibetrag", § 32 (7) EStG
     en:
-  unit: Euro
+  unit: euro
   time: year
   1984-01-01:
     scalar: 2154
@@ -415,7 +415,7 @@ alleinerziehenden_freibetrag_zusatz:
   description:
     de: §24b (2) S. 2 EStG. Alleinerziehenden-Entlastungsbetrag, Zusatzbetrag pro Kind ab dem 2. Kind.
     en:
-  unit: Euro
+  unit: euro
   time: year
   2015-01-01:
     scalar: 240
@@ -453,7 +453,7 @@ vorsorge_sonstige_aufw_max:
   description:
     de: §10 Abs. 4 S.1 EStG
     en:
-  unit: Euro
+  unit: euro
   time: year
   2005-01-01:
     scalar: 1500
@@ -469,7 +469,7 @@ vorsorge_altersaufw_max:
   description:
     de: §10 (3) EStG, Anlage 2 SGB VI
     en:
-  unit: Euro
+  unit: euro
   time: year
   2005-01-01:
     scalar: 20000
@@ -513,7 +513,7 @@ behinderten_pausch_betrag:
   description:
     de: § 33b (3) EStG
     en:
-  unit: Euro
+  unit: euro
   time: year
   1987-01-01:
     reference:
@@ -557,7 +557,7 @@ kinderbetreuungskosten_abz_maximum:
   description:
     de: §10 (1) Nr. 5 EStG
     en:
-  unit: Euro
+  unit: euro
   time: year
   2012-01-01:
     scalar: 4000

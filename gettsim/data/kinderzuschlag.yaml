@@ -5,7 +5,7 @@ kinderzuschlag:
   description:
     de: § 6a (2) BKGG. Betrag pro Kind
     en: Amount per child.
-  unit: Euro
+  unit: euro
   time: month
   2005-01-01:
     scalar: 140
@@ -23,7 +23,7 @@ kinderzuschlag_min_eink_paare:
   description:
     de: § 6a (1) Nr. 2 BKGG.
     en:
-  unit: Euro
+  unit: euro
   time: month
   2005-01-01:
     scalar: 0
@@ -38,7 +38,7 @@ kinderzuschlag_min_eink_alleinerz:
   description:
     de: § 6a (1) Nr. 2 BKGG.
     en:
-  unit: Euro
+  unit: euro
   time: month
   2005-01-01:
     scalar: 0

@@ -1,18 +1,13 @@
-eink_anr_frei:
+e_anr_frei:
   name:
     de: Anrechnungsfreie Einkommensanteile
     en: Income shares not subject to transfer withdrawal
   description:
-    de: >-
-      Einkommensanteile, die anrechnungsfrei bleiben. § 30 SGB II. Seit 01.10.2005 zudem
-      definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011
-      § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
-      G. v. 24.03.2011 BGBl. I S. 453).
+    de: Einkommensanteile, die anrechnungsfrei bleiben. § 30 SGB II. Seit 01.10.2005 zudem definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011 § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
     en:
   type: piecewise_linear
-  time: month
   2005-01-01:
-      reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
+      reference: G. v. 24.12.2003 BGBl. I S. 2964.
       0:
           lower_threshold: 0
           upper_threshold: 400
@@ -29,7 +24,7 @@ eink_anr_frei:
           rate: 0
           note: Making this explicit.
   2005-10-01:
-      reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+      reference: G. v. 14.08.2005 BGBl. I S. 2407.
       0:
           lower_threshold: 0
           upper_threshold: 100
@@ -45,72 +40,38 @@ eink_anr_frei:
           upper_threshold: inf
           rate: 0
   2011-04-01:
-      reference: Artikel 1 G. v. 20.12.2011 BGBl. I 2854.
-      note: >-
-          Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850
-          . Artikel 5.
-          ToDo: Check these laws -- did they really happen months
-          after the date of the policy change? I cannot fina anything...
+      reference: G. v. 20.12.2011 BGBl. I 2854.
+      note: Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850. Artikel 5.          ToDo    Check these laws -- did they really happen months after the date of the policy change? I cannot fina anything...
       deviation_from: previous
       1:
           upper_threshold: 1000
-eink_anr_frei_kinder:
+e_anr_frei_kinder:
     name:
         de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
         en:
     description:
-        de: >-
-          Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3,
-          Haushalt mit Kindern. Gilt statt die Parameter in eink_anr_frei für
-          Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 §
-          11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
-          G. v. 24.03.2011 BGBl. I S. 453).
+        de: Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit Kindern. Gilt statt a2eg2 für Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 § 11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011 BGBl. I S. 453).
         en:
-    note: Ersetzt Parameter in eink_anr_frei, falls nicht vorhanden
-    type: piecewise_linear
+    note: Ersetzt Parameter in e_anr_frei, falls nicht vorhanden
     2005-10-01:
-        reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
-        deviation_from: arbeitsl_geld_2.eink_anr_frei
+        reference: G. v. 14.08.2005 BGBl. I S. 2407.
+        deviation_from: arbeitsl_geld_2.e_anr_frei
         2:
             upper_threshold: 1500
 
 regelsatz:
   name:
-    de: Regelsatz, seit 2001 Beträge differenzieren sich nach Regelbedarfsstufen
-    en: Standard rate, since 2011 amounts differ by "Regelbedarfsstufen"
+    de: Regelsatz
+    en: Standard rate
   description:
-    de: >-
-      § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011
-      wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt.
-      Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S.
-      3159.
+    de: Seit 2011 6 Regelbedarfsstufen. § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011 wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt. Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S. 3159.
     en:
-  note:
-    de: >-
-      Regelbedafstufen (1 bis 6): 1: Alleinstehender Erwachsener;
-      2: Erwachsene in Partnerschaft; 3: Erwachsene nicht in Partnerschaft;
-      4: Kinder 14 bis 18; 5: Kinder 6 bis 15; 6: Kinder 0 bis 5
-    en: >-
-      Regelbedarfsstufe (1 to 6); 1: Single Adult;
-      2: Adults in a partner relationship; 3: Adults not in a partner relationship;
-      4: Children 14 to 18 years; 5: Children 6 to 13 years; 6: Children 0 to 5 years.
-  unit: Euro
-  time: month
   2005-01-01:
     scalar: 338
-    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
-    note: >-
-      Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte
-      Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in
-      den neuen Bundesländern 331 Euro.
+    reference: G. v. 24.12.2003 BGBl. I S. 2954. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
   2005-07-01:
     scalar: 338
-    reference: B. v. 01.09.2005 BGBl. I S. 2718.
-    note: >-
-      Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und
-      West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen.
-      Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern
-      einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
+    reference: B. v. 01.09.2005 BGBl. I S. 2718. Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
   2006-07-01:
     scalar: 345
     reference: B. v. 20.07.2006 BGBl. I S. 1702.
@@ -133,7 +94,7 @@ regelsatz:
     4: 287
     5: 251
     6: 215
-    reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
+    reference: G. v. 24.03.2011 BGBl. I S. 453.
   2012-01-01:
     1: 374
     2: 337
@@ -212,105 +173,345 @@ anteil_regelsatz:
     de: Anteil am Regelsatz für weitere Personen im Haushalt
     en: Fraction of standard rate
   description:
-    de: >-
-      § 20 (3) SGB II, eigentliche Wirknorm ist § 20 IV SGB II i.V.m Absatz V
-      derselben Norm. 2005 bis 2010.
+    de: § 20 (3) SGB II, eigentliche Wirknorm ist § 20 IV SGB II i.V.m Absatz V derselben Norm. 2005 bis 2010.
     en:
   note:
-    de: >-
-      2005-2010 der Regelsatz für weitere Haushaltsmitglieder wurden als Anteil
-      des Standardsatzes bestimmt.
+    de: 2005-2010 der Regelsatz für weitere Haushaltsmitglieder wurden als Anteil des Standardsatzes bestimmt.
     en:
-  unit: share
   2005-01-01:
     zwei_erwachsene: 0.9
     weitere_erwachsene: 0.8
     kinder_0_6: 0.6
     kinder_7_13: 0.6
     kinder_14_24: 0.8
-    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    reference: G. v. 24.12.2003 BGBl. I S. 2954.
   2009-07-01:
     deviation_from: previous
-    reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
+    reference: G. v. 02.03.2009 BGBl. I S. 416.
     kinder_7_13: 0.7
 
-mehrbedarf_anteil:
+a2mbch1:
   name:
-    de: >-
-      Erster Schlüssel ist Mehrbedarf AE bei mind. einem Kind unter 7 Jahren oder zwei
-      oder drei Kindern unter 16 Jahre. Der Zweite gibt den Mehrbedarf an wenn der
-      Anspruch größer ist als der für den ersten Schlüssel. Der dritte Schlüssel gibt
-      den Maximalanteil für den Mehrbedarf für Alleinerziehende gemessen am maßgebenden
-      Regelbedarf.
-    en: >-
-      Additional need, single parent, one child below 7 or two or three children
-      below 16. Additional need, single parent, one or more children. Upper limit
-      additional need for single parents
+    de: Mehrbedarf AE, mind. einem Kind wenn Anspruch größer als nach a2mbch2
+    en: Additional need, single parent, one or more children
   description:
-    de: § 21 (3) Nr. 1 SGB II.
+    de: Mehrbedarf für allein erziehenden Elternteil von mind. einem Kind wenn Anspruch größer als nach a2mbch2. Prozentsatz gilt pro Kind. § 21 (3) Nr. 2 SGB II.
     en:
-  unit: share
-  time: month
   2005-01-01:
-    min_1_kind: 0.12
-    kind_unter_7_oder_mehr: 0.36
-    max: 0.6
-    reference: G. v. 24.12.2003 BGBl. I S. 2954.
+    scalar: 0.12
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
 
-vermögensfreibetrag:
+a2mbch2:
   name:
-    de_1: Vermögensgrundfreibetrag je Lebensjahr, nach Geburtsjahr, erst ab 2008 unterschiedlich
-    de_2: Vermögensfreibetrag für Erstausstattung
-    de_3: Vermögensgrundfreibetrag je Kind
-    en_1: Basic allowance per year of life, sorted by year of birth, starting 2008 different
-    en_2: Allowance for furniture
-    en_3: Allowance per child
+    de: Mehrbedarf AE, mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren
+    en: Additional need, single parent, one child below 7 or two or three children below 16
   description:
-    de: § 12 (2) Satz 1 Nr. 1 SGB II.
+    de: Mehrbedarf für allein erziehenden Elternteil von mind. einem Kind unter 7 Jahren oder zwei oder drei Kindern unter 16 Jahren. § 21 (3) Nr. 1 SGB II.
     en:
-  unit: Euro
   2005-01-01:
-    standard: 200
-    vor_1948: 520
-    1948_bis_1957: 13000
-    1958_bis_1963: 13000
-    nach_1963: 13000
-    ausstattung: 750
-    kind: 4100
-    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    scalar: 0.36
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+
+a2mbchb:
+  name:
+    de: Mehrbedarf, Behinderte
+    en: Additional need, disabled person
+  description:
+    de: Mehrbedarf bei erwerbsfähigen behinderten Leistungsberechtigten. § 21 (4) SGB II.
+    en:
+  2005-01-01:
+    scalar: 0.35
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+
+a2zu2:
+  name:
+    de: Maximalanteil Mehrbedarf AE
+    en: Upper limit additional need for single parents
+  description:
+    de: Maximalanteil des Mehrbedarfzuschlags für Alleinerziehende gemessen am maßgebenden Regelbedarf. § 21 SGB II (3) 2.
+    en:
+  2005-01-01:
+    scalar: 60
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+
+a2ve:
+  name:
+    de: Versicherungspauschale
+    en: Insurance allowance
+  description:
+    de: Vom Einkommen abzusetzender Betrag für die Beiträge zu privaten Versicherungen. § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
+    en:
+  2005-01-01:
+    scalar: 30
+    note: V. v. 20.10.2004 BGBl. I S. 2622.
+
+a2ve1:
+  name:
+    de: Vermögensgrundfreibetrag je Lebensjahr
+    en: Basic allowance per year of life
+  description:
+    de: Vermögensgrundfreibetrag je vollendetem Lebensjahr. § 12 (2) Satz 1 Nr. 1 SGB II.
+    en:
+  2005-01-01:
+    scalar: 200
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
   2006-08-01:
-    deviation_from: previous
-    standard: 150
-    1948_bis_1957: 9750
-    1958_bis_1963: 9750
-    nach_1963: 9750
-    kind: 3100
-    reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
-  2008-01-01:
-    deviation_from: previous
-    1948_bis_1957: 9750
-    1958_bis_1963: 9900
-    nach_1963: 10050
-    note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
+    scalar: 150
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
 
-abzugsfähige_pausch:
+a2ve2:
   name:
-    de: Abzugsfähige Pauschalen für Werbungskosten und Versicherung
-    en: Allowance for expenses and insurance
+    de: Vermögensgrundfreibetrag je Lebensjahr, vor 01.01.1948 geboren
+    en: Basic allowance per year of life, birth before 1948-01-01
   description:
-    de: >-
-      § 6 (1) Nr. 3 a) ALG II-V. 2005-01.01 bis 2016-07-31. Betrag mit V. v. 26.07
-      .2016 BGBl. I S. 1858 entfallen. Wie entfallen?
-      § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
+    de: Vermögensgrundfreibetrag je vollendetem Lebensjahr, für Personen die vor dem 01. Januar 1948 geboren sind. § 65 V SGB II.
     en:
-  unit: Euro
-  time: month
   2005-01-01:
-    werbung: 15.33
-    versicherung: 30
-    reference: V. v. 20.10.2004 BGBl. I S. 2622
+    scalar: 520
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+
+a2vga:
+  name:
+    de: Vermögensfreibetrag (geldwerte Ansprüche) je Lebensjahr
+    en: Allowance (monetary claims) per year of life
+  description:
+    de: Vermögensfreibetrag (geldwerte Ansprüche) je vollendetem Lebensjahr. § 12 II Nr. 3 SGB II.
+    en:
+  2005-01-01:
+    scalar: 200
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 250
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
   2011-01-01:
-    deviation_from: previous
-    werbung: 15.33
-    reference: V. v. 21.06.2011 BGBl. I S. 1175.
-    note: Fester Betrag. Betrag unverändert. Warum haben wir das? Es ändert sich nichts
+    scalar: 750
+    note: G. v. 14.04.2010 BGBl. I S. 410.
+
+a2verst:
+  name:
+    de: Vermögensfreibetrag für Erstausstattung
+    en: Allowance for furniture
+  description:
+    de: Freibetrag für notwendige Anschaffungen. § 12 (2) Satz 1 Nr. 4 SGB II.
+    en:
+  2005-01-01:
+    scalar: 750
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+
+a2vkf:
+  name:
+    de: Vermögensgrundfreibetrag je Kind
+    en: Allowance per child
+  description:
+    de: Vermögensgrundfreibetrag für jedes leistungsberechtigte minderjährige Kind. § 12 (2) Satz 1 Nr. 1a SGB II.
+    en:
+  2005-01-01:
+    scalar: 4100
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 3100
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+
+a2vki:
+  name:
+    de: Minimaler Vermögensgrundfreibetrag
+    en: Minimum level basic allowance
+  description:
+    de: Minimaler Vermögensgrundfreibetrag (wenn a2ve1 darunter liegt). § 12 (2) Satz 1 Nr. 1 SGB II.
+    en:
+  2005-01-01:
+    scalar: 4100
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 3100
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+
+a2voe1:
+  name:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1948-1957 geboren
+    en: Upper limit basic allowance, born 1948-1957
+  description:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1948-1957 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 1 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
+    en:
+  2005-01-01:
+    scalar: 13000
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 9750
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+  2008-01-01:
+    scalar: 9750
+    note: G. v. 20.04.2007 BGBl. I S. 554. Betrag unverändert.
+
+a2voe2:
+  name:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag, vor 1948 geboren
+    en: Upper limit basic allowance, born before 1948
+  description:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Abweichender Betrag für für Personen der Jahrgänge bis 1947 definiert in § 65 V SGB II.
+    en:
+  2005-01-01:
+    scalar: 33800
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+
+a2voe3:
+  name:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag, 1958-1963 geboren
+    en: Upper limit basic allowance, born 1958-1963
+  description:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1958-1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 2 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
+    en:
+  2005-01-01:
+    scalar: 13000
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 9750
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+  2008-01-01:
+    scalar: 9900
+    note: G. v. 20.04.2007 BGBl. I S. 554.
+
+a2voe4:
+  name:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag, nach 1963 geboren
+    en: Upper limit basic allowance, born after 1963
+  description:
+    de: Vermögensobergrenze für Vermögensgrundfreibetrag nach § 12 (2) Satz 2 Nr. 1 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1958-1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 3 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
+    en:
+  2005-01-01:
+    scalar: 13000
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 9750
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+  2008-01-01:
+    scalar: 10050
+    note: G. v. 20.04.2007 BGBl. I S. 554.
+
+a2vog1:
+  name:
+    de: Vermögensobergrenze für geldwerte Ansprüche, 1948-1957 geboren
+    en: Upper limit allowance (monetary claims), born 1948-1957
+  description:
+    de: Vermögensobergrenze für geldwerte Ansprüche nach § 12 (2) Satz 2 Nr. 3 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1948-1957 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 1 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
+    en:
+  2005-01-01:
+    scalar: 13000
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 16250
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+  2008-01-01:
+    scalar: 16250
+    note: G. v. 20.04.2007 BGBl. I S. 554. Betrag unverändert.
+  2010-04-17:
+    scalar: 48750
+    note: G. v. 14.04.2010 BGBl. I S. 410.
+
+a2vog2:
+  name:
+    de: Vermögensobergrenze für geldwerte Ansprüche, vor 1948 geboren
+    en: Upper limit allowance (monetary claims), born before 1948
+  description:
+    de: Vermögensobergrenze für geldwerte Ansprüche nach § 12 (2) Satz 2 Nr. 3 SGB II.
+    en:
+  2005-01-01:
+    scalar: 13000
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 16250
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+  2010-04-17:
+    scalar: 48750
+    note: G. v. 14.04.2010 BGBl. I S. 410.
+
+a2vog3:
+  name:
+    de: Vermögensobergrenze für geldwerte Ansprüche, 1958-1963 geboren
+    en: Upper limit allowance (monetary claims), born 1958-1963
+  description:
+    de: Vermögensobergrenze für geldwerte Ansprüche nach § 12 (2) Satz 2 Nr. 3 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge 1958-1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 2 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
+    en:
+  2005-01-01:
+    scalar: 13000
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 16250
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+  2008-01-01:
+    scalar: 16500
+    note: G. v. 20.04.2007 BGBl. I S. 554.
+  2010-04-17:
+    scalar: 49500
+    note: G. v. 14.04.2010 BGBl. I S. 410.
+
+a2vog4:
+  name:
+    de: Vermögensobergrenze für geldwerte Ansprüche, nach 1963 geboren
+    en: Upper limit allowance (monetary claims), born after 1963
+  description:
+    de: Vermögensobergrenze für geldwerte Ansprüche nach § 12 (2) Satz 2 Nr. 3 SGB II. Ab 01.01.2008 gilt für Personen der Jahrgänge nach 1963 ein abweichender Betrag definiert in § 12 (2) Satz 4 Nr. 3 SGB II (bis 31.12.2007 einheitliche Beträge für alle Jahrgänge).
+    en:
+  2005-01-01:
+    scalar: 13000
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 16250
+    note: G. v. 20.07.2006 BGBl. I S. 1706.
+  2008-01-01:
+    scalar: 16750
+    note: G. v. 20.04.2007 BGBl. I S. 554.
+  2010-04-17:
+    scalar: 50250
+    note: G. v. 14.04.2010 BGBl. I S. 410.
+
+a2we:
+  name:
+    de: Abzugsfähige Werbungskostenpauschale
+    en: Allowance for expenses
+  description:
+    de: Abzugsfähige monatliche Werbungskostenpauschale. § 6 (1) Nr. 3 a) ALG II-V. 2005-01.01 bis 2016-07-31. Betrag mit V. v. 26.07.2016 BGBl. I S. 1858 entfallen.
+    en:
+  2005-01-01:
+    scalar: 15.33
+    note: V. v. 20.10.2004 BGBl. I S. 2622. Es gilt 1/60 der ein Sechzigstel der steuerrechtlichen Werbungskostenpauschale (Parameter werbung). Berechnung werbung/60 = 920/60.
+  2011-01-01:
+    scalar: 15.33
+    note: V. v. 21.06.2011 BGBl. I S. 1175. Fester Betrag. Betrag unverändert.
+
+a2zu1:
+  name:
+    de: Befristeter Zuschlag nach Bezug von Arbeitslosengeld (2005-2010)
+    en: Temporary additional benefit after UI (2005-2010)
+  description:
+    de: Befristeter Zuschlag nach Bezug von Arbeitslosengeld ("Armutsgewöhnungszuschlag"). Bis einschließlich Dezember 2010 bestand für ehemalige Arbeitslosengeldempfänger die Möglichkeit einen Zuschuss von bis zu 160 Euro (320 für Verheiratete) pro Monat für die Dauer von maximal zwei Jahren zu beziehen. § 24 SGB II. Aufgehoben zum 01.01.2011 mit G. v. 09.12.2010 BGBl. I S. 1885.
+    en:
+  2005-01-01:
+    scalar: 160
+    note: G. v. 24.12.2003 BGBl. I S. 2954.
+
+a2_but_1:
+  name:
+    de: Leistungen für Bildung und Teilhabe, Schulbedarf
+    en: Benefits for education and participation, school supplies
+  description:
+    de: Leistungen für Bildung und Teilhabe, Persönlicher Schulbedarf, Durchschnittsbetrag pro Schulkind und Monat. §28 (2) SGB II.
+    en:
+  2011-01-01:
+    scalar: 8.33
+    note: G. v. 24.03.2011 BGBl. I S. 453. Berechnung 70+30/12.
+
+a2_but_2:
+  name:
+    de: Leistungen für Bildung und Teilhabe, Teilhabe am sozialen Leben
+    en: Benefits for education and participation, social activities
+  description:
+    de: Leistungen für Bildung und Teilhabe, Teilhabe am sozialen Leben, Betrag pro Kind und Monat. §28 (7) SGB II.
+    en:
+  2011-01-01:
+    scalar: 10
+    note: G. v. 24.03.2011 BGBl. I S. 453.
+  2019-08-01:
+    scalar: 15
+    note: G. v. 29.04.2019 BGBl. I S. 530.
+

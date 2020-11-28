@@ -63,23 +63,19 @@ def calc_elterngeld(
         eink_st_params,
         soli_st_params,
     )
-
     if considered_wage < 0:
         person["elterngeld_m"] = 0
     else:
-        paid_percentage = calc_elterngeld_percentage(considered_wage, params)
+        payed_percentage = calc_elterngeld_percentage(considered_wage, params)
 
-        elterngeld_calc = considered_wage * paid_percentage
+        elterngeld_calc = considered_wage * payed_percentage
 
         prelim_elterngeld = max(
-            min(elterngeld_calc, params["elterngeld_höchstbetrag"]),
-            params["elterngeld_mindestbetrag"],
+            min(elterngeld_calc, params["elgmax"]), params["elgmin"]
         )
         if person["geschw_bonus"]:
             prelim_elterngeld += calc_geschw_bonus(elterngeld_calc, params)
-        prelim_elterngeld += (
-            person["anz_mehrlinge_bonus"] * params["elterngeld_mehrling_bonus"]
-        )
+        prelim_elterngeld += person["anz_mehrlinge_bonus"] * params["mehrling_bonus"]
         person["elterngeld_m"] = prelim_elterngeld
 
     return person
@@ -100,15 +96,15 @@ def calc_considered_wage(
     child raising.
     """
     # Beitragsbemessungsgrenze differs in east and west germany
-    wohnort = "ost" if person["wohnort_ost"] else "west"
+    westost = "o" if person["wohnort_ost"] else "w"
 
     net_wage_last_year = proxy_net_wage_last_year(
         person,
         eink_st_params,
         soli_st_params,
-        beit_bem_grenz=soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
+        beit_bem_grenz=soz_vers_beitr_params[f"rvmaxek{westost}"],
         werbungs_pausch=eink_st_abzuege_params["werbungskostenpauschale"],
-        soz_vers_pausch=params["elterngeld_soz_vers_pausch"],
+        soz_vers_pausch=params["soz_vers_pausch"],
     )
 
     current_net_wage = calc_net_wage(person)
@@ -120,31 +116,26 @@ def calc_elterngeld_percentage(considered_wage, params):
     """ This function calculates the percentage share of net income, which is
     reimbursed when receiving elterngeld.
 
-    According to § 2 (2) BEEG the percentage increases below the first step and decreases
-    above the second step until elterngeld_prozent_minimum.
+    According to § 2 (2) BEEG the percentage increases below elg_st_1 and decreases
+    above elg_st_2 until perc_deduct_limit.
     """
-    if considered_wage < params["elterngeld_nettoeinkommen_stufen"][1]:
-        wag_diff = params["elterngeld_nettoeinkommen_stufen"][1] - considered_wage
+    if considered_wage < params["elg_st_1"]:
+        wag_diff = params["elg_st_1"] - considered_wage
 
-        number_steps = wag_diff / params["elterngeld_eink_schritt_korrektur"]
+        number_steps = wag_diff / params["elg_perc_correct_step"]
+        percentage = params["elgfaktor"] + number_steps * params["elg_perc_correct"]
 
-        percentage = (
-            params["elterngeld_faktor"]
-            + number_steps * params["elterngeld_prozent_korrektur"]
-        )
+    elif considered_wage > params["elg_st_2"]:
+        wag_diff = considered_wage - params["elg_st_2"]
 
-    elif considered_wage > params["elterngeld_nettoeinkommen_stufen"][2]:
-        wag_diff = considered_wage - params["elterngeld_nettoeinkommen_stufen"][2]
-
-        number_steps = wag_diff / params["elterngeld_eink_schritt_korrektur"]
+        number_steps = wag_diff / params["elg_perc_correct_step"]
         percentage = max(
-            params["elterngeld_faktor"]
-            - number_steps * params["elterngeld_prozent_korrektur"],
-            params["elterngeld_prozent_minimum"],
+            params["elgfaktor"] - number_steps * params["elg_perc_correct"],
+            params["perc_deduct_limit"],
         )
 
     else:
-        percentage = params["elterngeld_faktor"]
+        percentage = params["elgfaktor"]
 
     return percentage
 
@@ -170,8 +161,10 @@ def calc_geschw_bonus(elterngeld_calc, params):
 
     According to § 2a parents of siblings get a bonus.
     """
-    bonus_calc = params["elterngeld_geschw_bonus_aufschlag"] * elterngeld_calc
-    bonus = max(bonus_calc, params["elterngeld_geschwister_bonus_minimum"],)
+    bonus_calc = params["elg_geschw_bonus_share"] * elterngeld_calc
+    bonus = max(
+        min(bonus_calc, params["elg_geschw_bonus_max"]), params["elg_geschw_bonus_min"]
+    )
     return bonus
 
 
@@ -203,7 +196,7 @@ def check_eligibilities(household, params):
         if (age_months < 0) or (age_months == 0 & age_youngest_child.days < 0):
             raise ValueError(f"Individual {youngest_child.p_id.iloc[0]} not born yet.")
         # The child has to be below the 14th month
-        eligible_age = age_months <= params["elterngeld_max_monate_paar"]
+        eligible_age = age_months <= params["max_joint_months"]
         # The parents can only claim up to 14 month elterngeld
         eligible_consumed = (
             youngest_child["m_elterngeld_mut"].iloc[0]
@@ -214,7 +207,7 @@ def check_eligibilities(household, params):
         if eligible_age & eligible_consumed:
             # Each parent can't claim more than 12 month
             eligible = ~household["kind"] & (
-                household["m_elterngeld"] <= params["elterngeld_max_monate_ind"]
+                household["m_elterngeld"] <= params["max_months"]
             )
 
             household.loc[eligible, "elternzeit_anspruch"] = True

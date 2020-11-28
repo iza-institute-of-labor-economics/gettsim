@@ -1,24 +1,19 @@
-from datetime import date
-
 from gettsim.benefits.arbeitsl_geld import ui
 from gettsim.benefits.arbeitsl_geld_2 import alg2
 from gettsim.benefits.benefit_checks import benefit_priority
 from gettsim.benefits.elterngeld import elterngeld
 from gettsim.benefits.unterhalt import uhv
 from gettsim.benefits.wohngeld import wg
+from gettsim.incomes import disposable_income
+from gettsim.pensions import pensions
 from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
 from gettsim.pre_processing.checks import check_boolean
-from gettsim.pre_processing.exogene_renten_daten.lade_renten_daten import (
-    lade_exogene_renten_daten,
-)
 from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.renten_anspr import pensions
-from gettsim.soz_vers import soc_ins_contrib
+from gettsim.social_insurance import soc_ins_contrib
 from gettsim.taxes.eink_st import eink_st
 from gettsim.taxes.favorability_check import favorability_check
 from gettsim.taxes.kindergeld import kindergeld
-from gettsim.taxes.zu_versteuerndes_eink import zve
-from gettsim.verfügb_eink import disposable_income
+from gettsim.taxes.zve import zve
 
 
 def tax_transfer(
@@ -35,7 +30,7 @@ def tax_transfer(
     eink_st_params,
     soli_st_params,
     kindergeld_params,
-    renten_daten,
+    ges_renten_vers_params,
 ):
     """ The German Tax-Transfer System.
 
@@ -143,7 +138,7 @@ def tax_transfer(
         in_cols=in_cols,
         out_cols=[out_col],
         func_kwargs={
-            "renten_daten": renten_daten,
+            "params": ges_renten_vers_params,
             "soz_vers_beitr_params": soz_vers_beitr_params,
         },
     )
@@ -386,7 +381,7 @@ def tax_transfer(
         "sum_basis_arbeitsl_geld_2_eink",
         "sum_arbeitsl_geld_2_eink_hh",
         "arbeitsl_geld_2_brutto_eink_hh",
-        "alleinerziehenden_mehrbedarf",
+        "mehrbed",
         "regelbedarf_m",
         "regelsatz_m",
         "kost_unterk_m",
@@ -416,7 +411,7 @@ def tax_transfer(
         "kindergeld_anspruch",
         "heizkost_m",
         "alleinerziehend",
-        "alleinerziehenden_mehrbedarf",
+        "mehrbed",
         "anz_erw_tu",
         "anz_kinder_tu",
         "arbeitsl_geld_2_brutto_eink_hh",
@@ -562,46 +557,31 @@ def tax_transfer(
 def calculate_tax_and_transfers(
     dataset, year,
 ):
-    policy_date = date(year, 1, 1)
-    renten_daten = lade_exogene_renten_daten()
+    ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
 
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date, group="eink_st_abzuege"
-    )
+    eink_st_abzuege_params = get_policies_for_date(year=year, group="eink_st_abzuege")
 
-    eink_st_params = get_policies_for_date(policy_date=policy_date, group="eink_st")
+    eink_st_params = get_policies_for_date(year=year, group="eink_st")
 
-    soli_st_params = get_policies_for_date(policy_date=policy_date, group="soli_st")
+    soli_st_params = get_policies_for_date(year=year, group="soli_st")
 
-    arbeitsl_geld_2_params = get_policies_for_date(
-        policy_date=policy_date, group="arbeitsl_geld_2"
-    )
+    arbeitsl_geld_2_params = get_policies_for_date(year=year, group="arbeitsl_geld_2")
 
-    arbeitsl_geld_params = get_policies_for_date(
-        policy_date=policy_date, group="arbeitsl_geld"
-    )
+    arbeitsl_geld_params = get_policies_for_date(year=year, group="arbeitsl_geld")
 
-    soz_vers_beitr_params = get_policies_for_date(
-        policy_date=policy_date, group="soz_vers_beitr"
-    )
+    soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
 
-    unterhalt_params = get_policies_for_date(policy_date=policy_date, group="unterhalt")
+    unterhalt_params = get_policies_for_date(year=year, group="unterhalt")
 
-    abgelt_st_params = get_policies_for_date(policy_date=policy_date, group="abgelt_st")
+    abgelt_st_params = get_policies_for_date(year=year, group="abgelt_st")
 
-    wohngeld_params = get_policies_for_date(policy_date=policy_date, group="wohngeld")
+    wohngeld_params = get_policies_for_date(year=year, group="wohngeld")
 
-    kinderzuschlag_params = get_policies_for_date(
-        policy_date=policy_date, group="kinderzuschlag"
-    )
+    kinderzuschlag_params = get_policies_for_date(year=year, group="kinderzuschlag")
 
-    kindergeld_params = get_policies_for_date(
-        policy_date=policy_date, group="kindergeld"
-    )
+    kindergeld_params = get_policies_for_date(year=year, group="kindergeld")
 
-    elterngeld_params = get_policies_for_date(
-        policy_date=policy_date, group="elterngeld"
-    )
+    elterngeld_params = get_policies_for_date(year=year, group="elterngeld")
 
     return tax_transfer(
         dataset,
@@ -617,5 +597,5 @@ def calculate_tax_and_transfers(
         eink_st_params=eink_st_params,
         soli_st_params=soli_st_params,
         kindergeld_params=kindergeld_params,
-        renten_daten=renten_daten,
+        ges_renten_vers_params=ges_renten_vers_params,
     )
