@@ -1,12 +1,87 @@
 Changes
-^^^^^^^
+========
 
 This is a record of all past ``gettsim`` releases and what went into them in reverse
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.3.0 - tbd
------------
+
+0.4.0 - 2020-11-11
+------------------
+
+* :gh:`241` renaming of directories: `gettsim.benefits` to `gettsim.transfers`;
+   `gettsim.soz_vers` to `gettsim.social_insurance`; `gettsim.data` to
+   `gettsim.parameters` (:ghuser:`MaxBlesch`, :ghuser:`ChristianZimpelmann`).
+* :gh:`230` adds type hints and links all docstring variables to the documentation.
+   Also all functions have a one liner docstring now (:ghuser:`MaxBlesch`,
+   :ghuser:`FelixAhlbrecht`).
+* :gh:`232` introduces beginner tutorials on how to use GETTSIM (:ghuser:`amageh`,
+   :ghuser:`davpahl`, :ghuser:`Trichter33`).
+* :gh:`185` adds the DAG code for renten_anspr_m (:ghuser:`MaxBlesch`). This is
+   based on the pension simulation code by (:ghuser:`Eric-Sommer`).
+* :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
+  plot and documentation improvements (:ghuser:`tobiasraabe`).
+* :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
+  to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
+* :gh:`213` changes ``compute_taxes_and_transfers`` such that it always returns a pandas
+  DataFrame and removes the `return_dag` option (:ghuser:`tobiasraabe`).
+* :gh:`219` refactors the DAG and makes it independent from the main interface
+  (:ghuser:`tobiasraabe`). The PR also changes the names of interface arguments:
+  ``functions`` instead of ``user_functions``, ``set_up_policy_environment`` instead of
+  ``get_policy_for_date``, ``columns_overriding_functions`` instead of ``user_columns``
+  and some more changes.
+* :gh:`225` makes gettsim ready for Python 3.8 (:ghuser:`tobiasraabe`).
+
+
+
+0.3.4 - 2020-07-30
+------------------
+
+* :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
+  (:ghuser:`hmgaudecker`, :ghuser:`MaxBlesch`)
+
+
+0.3.3 - 2020-06-27
+------------------
+
+* :gh:`212` improves the error message when reduced series could not be expanded with an
+  id variable and fixes a related error in the internal functions
+  (:ghuser:`hmgaudecker`, :ghuser:`tobiasraabe`).
+* :gh:`214` adds a check for missing root nodes (:ghuser:`tobiasraabe`).
+* :gh:`215` adds a check for duplicate ``targets`` (:ghuser:`tobiasraabe`).
+* :gh:`216` fixed calculation of kindergeldzuschlag and wohngeld. Changed check
+  against arbeitsl_geld_2 (:ghuser:`tobiasraabe`).
+
+
+0.3.2 - 2020-06-19
+------------------
+
+* :gh:`196` adds docstring to `policy_for_date.py` and improves its interface
+  (:ghuser:`MaxBlesch`).
+* :gh:`197` adds all functions which build the tax and transfer system to the
+  documentation (:ghuser:`tobiasraabe`).
+* :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
+  to pass functions to the interface and provides more tests (:ghuser:`tobiasraabe`).
+* :gh:`200` adds a debug mode to gettsim and documents the feature
+  (:ghuser:`tobiasraabe`).
+* :gh:`201` improves the calculation of ``hh_freib`` and renames it to
+  ``alleinerziehend_freib`` (:ghuser:`MaxBlesch`, :ghuser:`tobiasraabe`).
+* :gh:`202` fixes bugs that surfaced for negative incomes (:ghuser:`MaxBlesch`).
+* :gh:`206` fixes several bugs in `arbeitsl_geld_2` and related transfers, calculating
+  them at the appropriate (household) level (:ghuser:`MaxBlesch`).
+
+
+0.3.1 - 2020-06-05
+------------------
+
+* :gh:`188` removes misleading code bits from the documentation and adds a copy-button
+  (:ghuser:`tobiasraabe`).
+* :gh:`191` adds a skip and a warning if `gettsim.test()` is repeatedly called
+  (:ghuser:`tobiasraabe`).
+
+
+0.3.0 - 2020-06-04
+------------------
 
 * Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
 * Break up params.yaml into group-level files (:ghuser:`MaxBlesch`)
@@ -36,6 +111,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Renamed and regrouped all param files (:ghuser:`Eric-Sommer`, :ghuser:`MaxBlesch`)
 * Added generic/piecewise functions (:ghuser:`johannesgoldbeck`,
   :ghuser:`ppoepperling`, :ghuser:`MaxBlesch`)
+* A series of pull requests established the new DAG-based backend and refactored the
+  calculation of benefits, taxes, and social insurance (:ghuser:`MaxBlesch`,
+  :ghuser:`tobiasraabe`)
+* Error messages for the new interface (:ghuser:`hmgaudecker`, :ghuser:`tobiasraabe`).
 
 
 0.2.1 - 2019-11-20

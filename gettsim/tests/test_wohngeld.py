@@ -1,31 +1,30 @@
-from datetime import date
+import itertools
 
 import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
-from gettsim.benefits.wohngeld import wg
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
 
 
+# Variables for the standard wohngeld test.
 INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
-    "tu_vorstand",
     "kind",
-    "kaltmiete_m",
-    "heizkost_m",
+    "kaltmiete_m_hh",
     "alleinerziehend",
     "alter",
-    "immobilie_baujahr",
+    "immobilie_baujahr_hh",
     "kindergeld_anspruch",
     "mietstufe",
     "bruttolohn_m",
     "ges_rente_m",
-    "_ertragsanteil",
+    "ertragsanteil",
     "elterngeld_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
@@ -35,53 +34,120 @@ INPUT_COLS = [
     "brutto_eink_5",
     "brutto_eink_6",
     "eink_st_m",
-    "rentenv_beit_m",
-    "ges_krankv_beit_m",
+    "rentenv_beitr_m",
+    "ges_krankenv_beitr_m",
     "behinderungsgrad",
     "jahr",
 ]
-OUT_COLS = ["wohngeld_basis", "wohngeld_basis_hh"]
 YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
 TEST_COLUMN = ["wohngeld_basis_hh"]
+
+# Variables for test of wohngeld with increasing size.
+MAX_HH_SIZE = 12
+POLICY_YEARS = [2009, 2016, 2020]
+MIETSTUFEN = range(1, 7)
 
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_wg.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg.csv")
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_wg(input_data, year, wohngeld_raw_data):
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMN))
+def test_wg(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
-    wohngeld_params = get_policies_for_date(
-        policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+    columns = [
+        "elterngeld_m",
+        "arbeitsl_geld_m",
+        "unterhaltsvors_m",
+        "ertragsanteil",
+        "brutto_eink_1",
+        "brutto_eink_4",
+        "brutto_eink_5",
+        "brutto_eink_6",
+        "ges_krankenv_beitr_m",
+        "rentenv_beitr_m",
+        "kindergeld_anspruch",
+    ]
+    policy_functions["eink_st_tu"] = eink_st_m_tu_from_data
+
+    result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=column,
+        columns_overriding_functions=columns,
     )
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby("hh_id").apply(wg, params=wohngeld_params)
-    assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
+    assert_series_equal(result[column], year_data[column])
+
+
+def eink_st_m_tu_from_data(eink_st_m, tu_id):
+    return eink_st_m.groupby(tu_id).sum()
 
 
 @pytest.fixture(scope="module")
-def input_data_2():
-    file_name = "test_dfs_wg2.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
-
-
-@pytest.mark.parametrize("year", [2013])
-def test_wg_no_mietstufe_in_input_data(input_data_2, year, wohngeld_raw_data):
-    year_data = input_data_2[input_data_2["jahr"] == year]
-    df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
-    wohngeld_params = get_policies_for_date(
-        policy_date=policy_date, group="wohngeld", raw_group_data=wohngeld_raw_data
+def input_data_households():
+    df = pd.DataFrame(
+        data={
+            "p_id": 0,
+            "hh_id": np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1)),
+            "tu_id": np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1)),
+            "kind": False,
+            "kaltmiete_m_hh": 200,
+            "alleinerziehend": False,
+            "alter": 30,
+            "immobilie_baujahr_hh": 1970,
+            "kindergeld_anspruch": False,
+            "bruttolohn_m": 0,
+            "ges_rente_m": 0,
+            "ertragsanteil": 0,
+            "elterngeld_m": 0,
+            "mietstufe": 0,
+            "arbeitsl_geld_m": 0,
+            "sonstig_eink_m": 0,
+            "unterhaltsvors_m": 0,
+            "brutto_eink_1": 0,
+            "brutto_eink_4": 0,
+            "brutto_eink_5": 0,
+            "brutto_eink_6": 0,
+            "eink_st_tu": 0,
+            "rentenv_beitr_m": 0,
+            "ges_krankenv_beitr_m": 0,
+            "behinderungsgrad": 0,
+        },
     )
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby("hh_id").apply(wg, params=wohngeld_params)
-    assert_frame_equal(df[TEST_COLUMN], year_data[TEST_COLUMN])
+    df["p_id"] = df.index
+
+    return df
+
+
+@pytest.mark.parametrize("year, mietstufe", itertools.product(POLICY_YEARS, MIETSTUFEN))
+def test_increasing_hh_size(input_data_households, year, mietstufe):
+    column = "wohngeld_basis_hh"
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+    columns = [
+        "elterngeld_m",
+        "arbeitsl_geld_m",
+        "unterhaltsvors_m",
+        "ertragsanteil",
+        "brutto_eink_1",
+        "brutto_eink_4",
+        "brutto_eink_5",
+        "eink_st_tu",
+        "brutto_eink_6",
+        "ges_krankenv_beitr_m",
+        "rentenv_beitr_m",
+        "kindergeld_anspruch",
+    ]
+    input_data_households["mietstufe"] = mietstufe
+
+    result = compute_taxes_and_transfers(
+        data=input_data_households,
+        params=policy_params,
+        functions=policy_functions,
+        targets=column,
+        columns_overriding_functions=columns,
+    )
+    assert result[column].is_monotonic

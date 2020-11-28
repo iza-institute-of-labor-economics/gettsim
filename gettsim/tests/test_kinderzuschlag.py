@@ -1,14 +1,12 @@
-from datetime import date
+import itertools
 
-import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
-from gettsim.benefits.kinderzuschlag import kiz
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
-
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
@@ -19,21 +17,20 @@ INPUT_COLS = [
     "arbeitsstunden_w",
     "bruttolohn_m",
     "in_ausbildung",
-    "kaltmiete_m",
-    "heizkost_m",
+    "kaltmiete_m_hh",
+    "heizkosten_m_hh",
     "alleinerziehend",
     "kindergeld_anspruch",
-    "alleinerziehenden_mehrbedarf",
-    "anz_erw_tu",
-    "anz_kinder_tu",
+    "alleinerziehenden_mehrbedarf_hh",
     "arbeitsl_geld_2_brutto_eink_hh",
-    "sum_arbeitsl_geld_2_eink_hh",
+    "arbeitsl_geld_2_eink_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
 ]
-OUT_COLS = ["kinderzuschlag_temp", "kinderzuschlag_eink_spanne"]
-YEARS = [2006, 2009, 2011, 2013, 2016, 2017, 2019, 2020]
+OUT_COLS = ["kinderzuschlag_m_vorläufig"]
+# 2006 and 2009 are missing
+YEARS = [2011, 2013, 2016, 2017, 2019, 2020]
 
 
 @pytest.fixture(scope="module")
@@ -43,34 +40,30 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_kiz(
-    input_data,
-    year,
-    kinderzuschlag_raw_data,
-    arbeitsl_geld_2_raw_data,
-    kindergeld_raw_data,
+    input_data, year, column,
 ):
-    columns = ["kinderzuschlag_temp"]
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
-    kinderzuschlag_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="kinderzuschlag",
-        raw_group_data=kinderzuschlag_raw_data,
-    )
-    arbeitsl_geld_2_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="arbeitsl_geld_2",
-        raw_group_data=arbeitsl_geld_2_raw_data,
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+    columns = [
+        "alleinerziehenden_mehrbedarf_hh",
+        "arbeitsl_geld_2_eink_hh",
+        "kindergeld_m_hh",
+        "unterhaltsvors_m",
+        "arbeitsl_geld_2_brutto_eink_hh",
+        "kindergeld_anspruch",
+    ]
+
+    result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=column,
+        columns_overriding_functions=columns,
     )
 
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby("hh_id").apply(
-        kiz,
-        params=kinderzuschlag_params,
-        arbeitsl_geld_2_params=arbeitsl_geld_2_params,
+    assert_series_equal(
+        result[column], year_data[column], check_dtype=False,
     )
-    assert_frame_equal(df[columns], year_data[columns], check_less_precise=True)

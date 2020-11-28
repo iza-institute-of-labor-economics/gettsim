@@ -89,12 +89,6 @@ to from here.  (A GEP does not need to be implemented in a single pull request i
 makes sense to implement it in discrete phases).
 
 
-Backward compatibility
-----------------------
-
-This section describes the ways in which the GEP breaks backward compatibility.
-
-
 Alternatives
 ------------
 

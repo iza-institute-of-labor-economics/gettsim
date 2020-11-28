@@ -1,10 +1,15 @@
-import numpy as np
+from gettsim.piecewise_functions import piecewise_polynomial
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
-from gettsim.pre_processing.piecewise_functions import piecewise_polynomial
 
-
-def soli_st(tax_unit, params):
-    """Solidarity Surcharge.
+def soli_st_tu(
+    st_kind_freib_tu: FloatSeries,
+    anz_erwachsene_tu: IntSeries,
+    abgelt_st_tu: FloatSeries,
+    soli_st_params: dict,
+) -> FloatSeries:
+    """Calculate the Solidarity Surcharge.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
     Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
@@ -16,40 +21,34 @@ def soli_st(tax_unit, params):
     There is also Solidarity Surcharge on the Capital Income Tax, but always
     with Solidarity Surcharge tax rate and no tax exempt level. §3 (3) S.2
     SolzG 1995.
+
+    Parameters
+    ----------
+    st_kind_freib_tu
+        See :func:`st_kind_freib_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
+    abgelt_st_tu
+        See :func:`abgelt_st_tu`.
+    soli_st_params
+        See params documentation :ref:`soli_st_params <soli_st_params>`.
+
+    Returns
+    -------
+
     """
-
-    tax_unit["soli_st_m_tu"] = 0
-
-    # Soli also in monthly terms. only for adults
-    tax_unit.loc[~tax_unit["kind"], "soli_st_m_tu"] = (
-        tax_unit["_st_kind_freib_tu"].apply(
-            piecewise_polynomial,
-            args=(
-                params["soli_st"]["lower_thresholds"],
-                params["soli_st"]["upper_thresholds"],
-                params["soli_st"]["rates"],
-                params["soli_st"]["intercepts_at_lower_thresholds"],
-            ),
+    st_per_individual = st_kind_freib_tu / anz_erwachsene_tu
+    out = (
+        anz_erwachsene_tu
+        * piecewise_polynomial(
+            st_per_individual,
+            thresholds=soli_st_params["soli_st"]["thresholds"],
+            rates=soli_st_params["soli_st"]["rates"],
+            intercepts_at_lower_thresholds=soli_st_params["soli_st"][
+                "intercepts_at_lower_thresholds"
+            ],
         )
-        + params["soli_st"]["rates"][0, -1] * tax_unit["abgelt_st_m_tu"]
-    ) * (1 / 12)
-
-    # Assign Soli to individuals
-    tax_unit["soli_st_m"] = np.select(
-        [tax_unit["gem_veranlagt"], ~tax_unit["gem_veranlagt"]],
-        [tax_unit["soli_st_m_tu"] / 2, tax_unit["soli_st_m_tu"]],
+        + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_tu
     )
-    return tax_unit
 
-
-def transition_threshold(soli_st_satz, soli_st_uebergang, freigrenze):
-    """
-    This function calculates the upper threshold for interval 1 for the piecewise
-    function in soli_st.yaml.  Interval 1 is used to moderate the start of soli
-    taxation. From this threshold om, the regular soli rate("soli_st_satz") is
-    applied to the basis of soli calculation. Before the transition rate (
-    "soli_st_uebergang") is applied to the difference of basis and "freigrenze". It
-    uses the three parameters actually given in the law.
-    """
-    threshold = freigrenze / (1 - soli_st_satz / soli_st_uebergang)
-    return threshold
+    return out

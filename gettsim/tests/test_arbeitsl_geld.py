@@ -1,13 +1,10 @@
-from datetime import date
-
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.arbeitsl_geld import ui
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
@@ -21,11 +18,9 @@ INPUT_COLS = [
     "arbeitsl_vor2j_m",
     "ges_rente_m",
     "arbeitsstunden_w",
-    "anz_kinder_tu",
     "alter",
     "jahr",
 ]
-OUT_COL = "arbeitsl_geld_m"
 YEARS = [2010, 2011, 2015, 2019]
 
 
@@ -38,51 +33,23 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_ui(
-    input_data,
-    year,
-    arbeitsl_geld_raw_data,
-    soz_vers_beitr_raw_data,
-    eink_st_abzuege_raw_data,
-    eink_st_raw_data,
-    soli_st_raw_data,
+    input_data, year,
 ):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    policy_date = date(year, 1, 1)
-    arbeitsl_geld_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="arbeitsl_geld",
-        raw_group_data=arbeitsl_geld_raw_data,
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+
+    result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets="arbeitsl_geld_m",
     )
-    soz_vers_beitr_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="soz_vers_beitr",
-        raw_group_data=soz_vers_beitr_raw_data,
-    )
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
-    )
-    eink_st_params = get_policies_for_date(
-        policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
-    )
-    soli_st_params = get_policies_for_date(
-        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
-    )
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=ui,
-        level=["hh_id", "tu_id", "p_id"],
-        in_cols=INPUT_COLS,
-        out_cols=[OUT_COL],
-        func_kwargs={
-            "params": arbeitsl_geld_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "eink_st_abzuege_params": eink_st_abzuege_params,
-            "eink_st_params": eink_st_params,
-            "soli_st_params": soli_st_params,
-        },
-    )
+
     # to prevent errors from rounding, allow deviations after the 3rd digit.
-    assert_series_equal(df[OUT_COL], year_data[OUT_COL], check_less_precise=3)
+    assert_series_equal(
+        result["arbeitsl_geld_m"],
+        year_data["arbeitsl_geld_m"],
+        check_less_precise=3,
+        check_dtype=False,
+    )

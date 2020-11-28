@@ -1,0 +1,135 @@
+kinderzuschlag:
+  name:
+    de: Höhe des Kinderzuschlags
+    en: Additional child benefit
+  description:
+    de: § 6a (2) BKGG. Betrag pro Kind
+    en: Amount per child.
+  unit: euro
+  time: month
+  2005-01-01:
+    scalar: 140
+    reference: Art. 46 G. v. 24.12.2003 BGBl. I S. 2954.
+  2017-01-01:
+    scalar: 170
+    reference: Art. 12 G. v. 20.12.2016 BGBl. I S. 3000.
+  2019-07-01:
+    scalar: 185
+    reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
+kinderzuschlag_min_eink_paare:
+  name:
+    de: Mindesteinkommen für Paare
+    en: Minimum income to be eligible for add. child benefit (couples)
+  description:
+    de: § 6a (1) Nr. 2 BKGG.
+    en:
+  unit: euro
+  time: month
+  2005-01-01:
+    scalar: 0
+    note: kein expliziter Wert im Gesetz.
+  2008-10-01:
+    scalar: 900
+    reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
+kinderzuschlag_min_eink_alleinerz:
+  name:
+    de: Mindesteinkommen für Alleinerziehende
+    en: Minimum income for single parents
+  description:
+    de: § 6a (1) Nr. 2 BKGG.
+    en:
+  unit: euro
+  time: month
+  2005-01-01:
+    scalar: 0
+    note: kein expliziter Wert im Gesetz.
+  2008-10-01:
+    scalar: 600
+    reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
+kinderzuschlag_transferentzug_eltern:
+  name:
+    de: Minderungsrate durch Einkommen der Eltern über BMG
+    en: transfer withdrawal rate for parent's income
+  description:
+    de: § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG. Rate, mit der der Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt.
+    en:
+  unit: share
+  2005-01-01:
+    scalar: 0.7
+    reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
+  2008-10-01:
+    scalar: 0.5
+    reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
+  2020-01-01:
+    scalar: 0.45
+    reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
+kinderzuschlag_transferentzug_kind:
+  name:
+    de: Minderungsrate durch Einkommen des Kindes
+    en: Rate at which child income is deducted
+  description:
+    de: § 6a (3) BKGG. Einkommen des Kindes beinhaltet auch Unterhalt und Unterhaltsvorschuss.
+    en: Child alimony and alimony advance payments are also attributed to the child.
+  unti: share
+  2005-01-01:
+    scalar: 1
+    reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
+  2019-07-01:
+    scalar: 0.45
+    reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
+wohnbedarf_eltern_anteil:
+  name:
+    de: Untersteller Anteil des Eltern-Wohnbedarfs (Prozentanteil)
+    en: Fictitious share of living cost attributed to parents (percentage share)
+  description:
+    de: §6a (5) S.3 BKGG. Für die Berechnung des Kinderzuschlags ist der Bedarf für Unterkunft und Heizung zwischen Eltern und Kindern aufzuteilen. Quelle ist der regelmäßig erscheinende Existenzminumsbericht der Bundesregierung. Der Anteil ergibt sich durch Verrechnung der Anteile der Kosten der Unterkunft und Heizung am Existenzminumum. Der erste Parameter ist die Anzahl der Eltern (1 oder 2), der zweite die Anzahl der Kinder (1,2,3,4,4+). Die Anteile sind git auch im "Merkblatt Kinderzuschlag" angegeben.
+    en: The first parameter (1,2) denotes the number of adults, the second one the number of children (1,2,3,4,4+) in the household.
+  unit: share
+  2005-01-01:
+    1: [.7688, .5885, .4881, .4169, .3639]
+    2: [.8319, .7097, .6197, .5500, .4944]
+    reference: 5. Existenzminimumsbericht, Bundestag Drucksache 15/2462, Übersicht 3
+  2008-01-01:
+    1: [.7553, .5734, .4726, .4019, .3497]
+    2: [.8320, .7123, .6227, .5531, .4978]
+    reference: 6. Existenzminimumsbericht, .Bundestag Drucksache 16/3265, Übersicht 3
+  2010-01-01:
+    1: [.759, .6116, .5121, .4405, .3865]
+    2: [.8311, .711, .6212, .5515, .4959]
+    reference: 7. Existenzminimumsbericht, .Bundestag Drucksache 16/11065, Übersicht 3
+  2012-01-01:
+    1: [.7634, .6174, .5182, .4465, .3923]
+    2: [.8314, .7115, .6218, .5522, .4966]
+    reference: 8. Existenzminimumsbericht, .Bundestag Drucksache 17/5550, Übersicht 4
+  2013-01-01:
+    1: [.7603, .6133, .5139, .4423, .3882]
+    2: [.8314, .7115, .6218, .5522, .4966]
+    reference: 9. Existenzminimumsbericht, .Bundestag Drucksache 17/11425, Übersicht 5
+  2014-01-01:
+    1: [.7669, .6220, .5231, .4513, .3969]
+    2: [.8330, .7138, .6245, .5550, .4995]
+    reference: 9. Existenzminimumsbericht, .Bundestag Drucksache 17/11425, Übersicht 5
+  2015-01-01:
+    1: [.7669, .6220, .5231, .4513, .3969]
+    2: [.8330, .7138, .6245, .5550, .4995]
+    reference: 10. Existenzminimumsbericht, .Bundestag Drucksache 18/3893, Übersicht 4
+  2016-01-01:
+    1: [.7664, .6213, .5224, .4506, .3962]
+    2: [.8316, .7117, .6220, .5524, .4969]
+    reference: 10. Existenzminimumsbericht, .Bundestag Drucksache 18/3893, Übersicht 4
+  2017-01-01:
+    1: [.7725, .6293, .5309, .4592, .4045]
+    2: [.8316, .7117, .6220, .5524, .4969]
+    reference: 11. Existenzminimumsbericht, .Bundestag Drucksache 18/10220, Übersicht 4
+  2018-01-01:
+    1: [.7724, .6292, .5308, .4590, .4043]
+    2: [.8325, .7130, .6236, .5541, .4985]
+    reference: 11. Existenzminimumsbericht, .Bundestag Drucksache 18/10220, Übersicht 4
+  2019-01-01:
+    1: [.7710, .6273, .5288, .4570, .4024]
+    2: [.8360, .7193, .6296, .5604, .5049]
+    reference: 12. Existenzminimumsbericht, Bundestag Drucksache 19/5400, Übersicht 4
+  2020-01-01:
+    1: [.77, .63, .53, .46, .40]
+    2: [.84, .72, .63, .56, .50]
+    reference: 12. Existenzminimumsbericht, Bundestag Drucksache 19/5400, Übersicht 4

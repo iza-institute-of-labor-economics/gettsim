@@ -4,9 +4,8 @@ import pandas as pd
 import pytest
 
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.social_insurance import soc_ins_contrib
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
@@ -17,20 +16,20 @@ INPUT_COLS = [
     "alter",
     "selbstständig",
     "hat_kinder",
-    "eink_selbstst_m",
+    "eink_selbst_m",
     "ges_rente_m",
-    "prv_krankv_beit_m",
+    "prv_krankenv",
     "jahr",
 ]
 
 
 YEARS = [2002, 2010, 2018, 2019, 2020]
 OUT_COLS = [
-    "sozialv_beit_m",
-    "rentenv_beit_m",
-    "arbeitsl_v_beit_m",
-    "ges_krankv_beit_m",
-    "pflegev_beit_m",
+    "sozialv_beitr_m",
+    "rentenv_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "ges_krankenv_beitr_m",
+    "pflegev_beitr_m",
 ]
 
 
@@ -41,20 +40,14 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_soc_ins_contrib(input_data, year, column, soz_vers_beitr_raw_data):
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
+def test_soc_ins_contrib(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    soz_vers_beitr_params = get_policies_for_date(
-        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
-    )
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=soc_ins_contrib,
-        level=["hh_id", "tu_id", "p_id"],
-        in_cols=INPUT_COLS,
-        out_cols=OUT_COLS,
-        func_kwargs={"params": soz_vers_beitr_params},
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+
+    results = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=target
     )
 
-    pd.testing.assert_series_equal(df[column], year_data[column])
+    pd.testing.assert_series_equal(results[target], year_data[target])

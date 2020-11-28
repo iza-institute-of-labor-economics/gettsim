@@ -1,14 +1,12 @@
 import itertools
-from datetime import date
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
-from gettsim.benefits.elterngeld import elterngeld
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
 
 INPUT_COLS = [
     "hh_id",
@@ -20,7 +18,7 @@ INPUT_COLS = [
     "wohnort_ost",
     "eink_st_m",
     "soli_st_m",
-    "sozialv_beit_m",
+    "sozialv_beitr_m",
     "geburtsjahr",
     "geburtsmonat",
     "geburtstag",
@@ -32,8 +30,8 @@ INPUT_COLS = [
 
 OUT_COLS = [
     "elterngeld_m",
-    "geschw_bonus",
-    "anz_mehrlinge_bonus",
+    "berechtigt_für_geschw_bonus",
+    "anz_mehrlinge_anspruch",
     "elternzeit_anspruch",
 ]
 YEARS = [2017, 2018, 2019]
@@ -48,64 +46,32 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_eltgeld(
-    year,
-    column,
-    elterngeld_raw_data,
-    arbeitsl_geld_raw_data,
-    soz_vers_beitr_raw_data,
-    eink_st_abzuege_raw_data,
-    eink_st_raw_data,
-    soli_st_raw_data,
-    input_data,
+    year, column, input_data,
 ):
-    policy_date = date(year, 1, 1)
+    """Run tests to validate elterngeld.
+
+    hh_id 7 in test cases is for the calculator on
+    https://familienportal.de/familienportal/meta/egr. The result of the calculator is
+    10 Euro off the result from gettsim. We need to discuss if we should adapt the
+    calculation of the proxy wage of last year or anything else.
+
+    """
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    elterngeld_params = get_policies_for_date(
-        policy_date=policy_date, group="elterngeld", raw_group_data=elterngeld_raw_data
-    )
-    soz_vers_beitr_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="soz_vers_beitr",
-        raw_group_data=soz_vers_beitr_raw_data,
-    )
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
-    )
-    eink_st_params = get_policies_for_date(
-        policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
-    )
-    soli_st_params = get_policies_for_date(
-        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
-    )
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+    df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+    df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
 
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=elterngeld,
-        level=["hh_id"],
-        in_cols=INPUT_COLS,
-        out_cols=OUT_COLS,
-        func_kwargs={
-            "params": elterngeld_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "eink_st_abzuege_params": eink_st_abzuege_params,
-            "eink_st_params": eink_st_params,
-            "soli_st_params": soli_st_params,
-        },
+    columns_overriding_functions = ["soli_st_tu", "sozialv_beitr_m", "eink_st_tu"]
+
+    result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=column,
+        columns_overriding_functions=columns_overriding_functions,
     )
 
     assert_series_equal(
-        df[column],
-        year_data[column],
-        check_dtype=False,
-        check_exact=False,
-        check_less_precise=2,
+        result[column], year_data[column], check_dtype=False, check_less_precise=2,
     )
-
-
-# hh_id 7 in test cases is for the calculator on
-# https://familienportal.de/familienportal/meta/egr. The result of the calculator is
-# 10 Euro off the result from gettsim. We need to discuss if we should adapt the
-# calculation of the proxy wage of last year or anything else.

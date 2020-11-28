@@ -1,6 +1,14 @@
-def pensions(person, renten_daten, soz_vers_beitr_params):
-    """
-    This function calculates the Old-Age Pensions claim if the agent chooses to
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
+
+
+def rente_anspr_m(
+    zugangsfaktor: FloatSeries,
+    entgeltpunkte_update: FloatSeries,
+    rentenwert: FloatSeries,
+) -> FloatSeries:
+    """ This function calculates the Old-Age Pensions claim if the agent chooses to
     retire. The function basically follows the following equation:
 
     .. math::
@@ -16,30 +24,52 @@ def pensions(person, renten_daten, soz_vers_beitr_params):
     - As we do not know previously collect Entgeltpunkte, we take an average
       value (to be improved)
 
+    Parameters
+    ----------
+    zugangsfaktor
+        See :func:`zugangsfaktor`.
+    entgeltpunkte_update
+        See :func:`entgeltpunkte_update`.
+    rentenwert
+        See :func:`rentenwert`.
+
+    Returns
+    -------
+
     """
-    # We only have exogenous pension data from 2005 til 2016.
-    year = soz_vers_beitr_params["jahr"]
-    if year > 2016 or year < 2005:
-        return person
 
-    person = update_earnings_points(person, soz_vers_beitr_params, renten_daten)
-    # ZF: Zugangsfaktor.
-    ZF = _zugangsfaktor(person)
-
-    rentenwert = renten_daten["rentenwert"][year]
-
-    # use all three components for Rentenformel.
-    # It's called 'pensions_sim' to emphasize that this is simulated.
-
-    person["rente_anspr_m"] = max(
-        0, round(person["entgeltpunkte"] * ZF * rentenwert, 2)
-    )
-
-    return person
+    return (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
 
-def update_earnings_points(person, soz_vers_beitr_params, renten_daten):
-    """Given earnings, social security rules, average
+def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSeries:
+    """Select the rentenwert depending on place of living.
+
+    Parameters
+    ----------
+    wohnort_ost
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+
+    Returns
+    -------
+
+    """
+    out = wohnort_ost.replace(
+        {
+            True: ges_renten_vers_params["rentenwert_west"],
+            False: ges_renten_vers_params["rentenwert_west"],
+        }
+    ).astype(float)
+    return out
+
+
+def entgeltpunkte_update(
+    entgeltpunkte: FloatSeries, entgeltpunkte_lohn: FloatSeries
+) -> FloatSeries:
+    """Update earning points.
+
+    Given earnings, social security rules, average
     earnings in a particular year and potentially other
     variables (e.g., benefits for raising children,
     informal care), return the new earnings points.
@@ -48,54 +78,82 @@ def update_earnings_points(person, soz_vers_beitr_params, renten_daten):
     https://de.wikipedia.org/wiki/Rentenformel
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
 
+    Parameters
+    ----------
+    entgeltpunkte
+        See basic input variable :ref:`entgeltpunkte <entgeltpunkte>`.
+    entgeltpunkte_lohn
+        See :func:`entgeltpunkte_lohn`.
+
+    Returns
+    -------
+
     """
 
-    durchschnittslohn_dt = renten_daten["durchschnittslohn"][
-        soz_vers_beitr_params["jahr"]
-    ]
-
-    out = _ep_for_earnings(person, soz_vers_beitr_params, durchschnittslohn_dt)
-    out += _ep_for_care_periods(person, soz_vers_beitr_params)
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
-    person["entgeltpunkte"] += out
-    return person
+    return entgeltpunkte + entgeltpunkte_lohn
 
 
-def _ep_for_earnings(person, soz_vers_beitr_params, durchschnittslohn_dt):
-    """Return earning points for the wages earned in the last year."""
-    wohnort = "ost" if person["wohnort_ost"] else "west"
-    return (
-        min(
-            person["bruttolohn_m"],
-            soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"][wohnort],
-        )
-        / durchschnittslohn_dt
-    )
+def entgeltpunkte_lohn(
+    bruttolohn_m: FloatSeries,
+    rentenv_beitr_bemess_grenze: FloatSeries,
+    ges_renten_vers_params: dict,
+) -> FloatSeries:
+    """Return earning points for the wages earned in the last year.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    rentenv_beitr_bemess_grenze
+        See :func:`rentenv_beitr_bemess_grenze`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+    Returns
+    -------
+
+    """
+    durchschnittslohn_dt = ges_renten_vers_params["durchschnittslohn"]
+    return bruttolohn_m.clip(upper=rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
 
-def _ep_for_care_periods(df, soz_vers_beitr_params):
-    """Return earnings points for care periods."""
-    return 0
+def zugangsfaktor(alter: IntSeries, regelaltersgrenze: FloatSeries) -> FloatSeries:
+    """Calculate the zugangsfaktor determining depending on age your pension claim.
 
-
-def _zugangsfaktor(person):
-    """ The zugangsfaktor depends on the age of entering pensions. At the
-    regelaltersgrenze, the agent is allowed to get pensions with his full
+    At the regelaltersgrenze, the agent is allowed to get pensions with his full
     claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his
-    claim."""
-    regelaltersgrenze = _regelaltersgrenze(person)
+    claim.
 
-    return (person["alter"] - regelaltersgrenze) * 0.036 + 1
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    regelaltersgrenze
+        See :func:`regelaltersgrenze`.
+
+    Returns
+    -------
+
+    """
+    return (alter - regelaltersgrenze) * 0.036 + 1
 
 
-def _regelaltersgrenze(person):
-    """Calculates the age, at which a worker is eligible to claim his full pension."""
+def regelaltersgrenze(geburtsjahr: IntSeries) -> FloatSeries:
+    """Calculates the age, at which a worker is eligible to claim his full pension.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+
+    Returns
+    -------
+    """
+    # Create 65 as standard
+    out = geburtsjahr * 0 + 65
     # If born after 1947, each birth year raises the age threshold by one month.
-    if person["geburtsjahr"] > 1947:
-        regelaltersgrenze = min(67, ((person["geburtsjahr"] - 1947) / 12) + 65)
-    else:
-        regelaltersgrenze = 65
-
-    return regelaltersgrenze
+    cond = geburtsjahr > 1947
+    out.loc[cond] = ((geburtsjahr.loc[cond] - 1947) / 12 + 65).clip(upper=67)
+    return out

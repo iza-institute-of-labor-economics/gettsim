@@ -1,12 +1,11 @@
 import pandas as pd
 import pytest
-from numpy.testing import assert_array_almost_equal
+from pandas.testing import assert_series_equal
 
+from gettsim import compute_taxes_and_transfers
+from gettsim import set_up_policy_environment
 from gettsim.config import ROOT_DIR
-from gettsim.pensions import pensions
-from gettsim.pensions import update_earnings_points
-from gettsim.pre_processing.apply_tax_funcs import apply_tax_transfer_func
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
+
 
 INPUT_COLS = [
     "p_id",
@@ -32,46 +31,31 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, year, ges_renten_vers_raw_data, soz_vers_beitr_raw_data):
+def test_pension(input_data, year):
     column = "rente_anspr_m"
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    soz_vers_beitr_params = get_policies_for_date(
-        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
+    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
+
+    calc_result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=column,
     )
-    ges_renten_vers_params = get_policies_for_date(
-        year=year, group="ges_renten_vers", raw_group_data=ges_renten_vers_raw_data
-    )
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=pensions,
-        level=["hh_id", "tu_id", "p_id"],
-        in_cols=INPUT_COLS,
-        out_cols=[column],
-        func_kwargs={
-            "params": ges_renten_vers_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-        },
-    )
-    assert_array_almost_equal(df[column], year_data[column])
+    assert_series_equal(calc_result[column].round(2), year_data[column])
 
 
 @pytest.mark.parametrize("year", YEARS)
 def test_update_earning_points(input_data, year):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
-    soz_vers_beitr_params = get_policies_for_date(year=year, group="soz_vers_beitr")
-    ges_renten_vers_params = get_policies_for_date(year=year, group="ges_renten_vers")
-    df = apply_tax_transfer_func(
-        df,
-        tax_func=update_earnings_points,
-        level=["hh_id", "tu_id", "p_id"],
-        in_cols=INPUT_COLS,
-        out_cols=[],
-        func_kwargs={
-            "params": ges_renten_vers_params,
-            "soz_vers_beitr_params": soz_vers_beitr_params,
-            "year": year,
-        },
+
+    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
+
+    calc_result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets="entgeltpunkte_update",
     )
-    assert_array_almost_equal(df["entgeltpunkte"], year_data["EP_end"].values)
+    assert_series_equal(
+        calc_result["entgeltpunkte_update"], year_data["EP_end"], check_names=False
+    )

@@ -1,33 +1,52 @@
-import numpy as np
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
 
-def abgelt_st(tax_unit, eink_st_params, eink_st_abzuege_params):
-    """ Capital Income Tax / Abgeltungsteuer
-        since 2009, captial income is taxed with a flatrate of 25%.
+def abgelt_st_tu(
+    zu_verst_kapital_eink_tu: FloatSeries, abgelt_st_params: dict
+) -> FloatSeries:
+    """Calculate abgeltungssteuer per tax unit.
+
+    Parameters
+    ----------
+    zu_verst_kapital_eink_tu
+        See :func:`zu_verst_kapital_eink_tu`.
+    abgelt_st_params
+        See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
+
+    Returns
+    -------
+
     """
-    tax_unit["abgelt_st_m"] = 0
-    if eink_st_params["jahr"] >= 2009:
-        tax_unit.loc[~tax_unit["gem_veranlagt"], "abgelt_st_m"] = eink_st_params[
-            "abgelt_st_satz"
-        ] * np.maximum(
-            tax_unit["brutto_eink_5"]
-            - eink_st_abzuege_params["sparerpauschbetrag"]
-            - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"],
-            0,
-        ).round(
-            2
+    return abgelt_st_params["abgelt_st_satz"] * zu_verst_kapital_eink_tu
+
+
+def zu_verst_kapital_eink_tu(
+    brutto_eink_5_tu: FloatSeries,
+    anz_erwachsene_tu: IntSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
+    """Calculate taxable income per tax unit.
+
+    Parameters
+    ----------
+    brutto_eink_5_tu
+        See :func:`brutto_eink_5_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        brutto_eink_5_tu
+        - anz_erwachsene_tu
+        * (
+            eink_st_abzuege_params["sparerpauschbetrag"]
+            + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
         )
-        tax_unit.loc[tax_unit["gem_veranlagt"], "abgelt_st_m"] = (
-            0.5
-            * eink_st_params["abgelt_st_satz"]
-            * np.maximum(
-                tax_unit["brutto_eink_5_tu"]
-                - 2
-                * (
-                    eink_st_abzuege_params["sparerpauschbetrag"]
-                    + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
-                ),
-                0,
-            )
-        ).round(2)
-    return tax_unit
+    ).clip(lower=0)
+    return out

@@ -1,35 +1,29 @@
 import itertools
-from datetime import date
 
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.taxes.eink_st import eink_st
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
+
 
 INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
     "kind",
-    "_zu_versteuerndes_eink_kein_kind_freib",
-    "_zu_versteuerndes_eink_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
+    "zu_verst_eink_kein_kinderfreib",
+    "zu_verst_eink_kinderfreib",
     "brutto_eink_5",
-    "gem_veranlagt",
-    "brutto_eink_5_tu",
 ]
 
 TEST_COLUMNS = [
-    "_st_kein_kind_freib_tu",
-    "_st_kind_freib_tu",
-    "abgelt_st_m",
-    "soli_st_m",
-    "soli_st_m_tu",
+    "st_kein_kind_freib_tu",
+    "st_kind_freib_tu",
+    "abgelt_st_tu",
+    "soli_st_tu",
 ]
 YEARS = [2009, 2012, 2015, 2018]
 
@@ -43,48 +37,35 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMNS))
 def test_tax_sched(
-    input_data,
-    year,
-    column,
-    eink_st_raw_data,
-    eink_st_abzuege_raw_data,
-    soli_st_raw_data,
-    abgelt_st_raw_data,
+    input_data, year, column,
 ):
-    policy_date = date(year, 1, 1)
-    eink_st_params = get_policies_for_date(
-        policy_date=policy_date, group="eink_st", raw_group_data=eink_st_raw_data
-    )
-
-    eink_st_abzuege_params = get_policies_for_date(
-        policy_date=policy_date,
-        group="eink_st_abzuege",
-        raw_group_data=eink_st_abzuege_raw_data,
-    )
-    soli_st_params = get_policies_for_date(
-        policy_date=policy_date, group="soli_st", raw_group_data=soli_st_raw_data
-    )
-    abgelt_st_params = get_policies_for_date(
-        policy_date=policy_date, group="abgelt_st", raw_group_data=abgelt_st_raw_data
-    )
-    OUT_COLS = (
-        [f"_st_{inc}" for inc in eink_st_abzuege_params["eink_arten"]]
-        + [f"_st_{inc}_tu" for inc in eink_st_abzuege_params["eink_arten"]]
-        + ["abgelt_st_m_tu", "abgelt_st_m", "soli_st_m", "soli_st_m_tu"]
-    )
+    policy_params, policy_functions = set_up_policy_environment(date=year)
 
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby(["hh_id", "tu_id"]).apply(
-        eink_st,
-        eink_st_params=eink_st_params,
-        eink_st_abzuege_params=eink_st_abzuege_params,
-        soli_st_params=soli_st_params,
-        abgelt_st_params=abgelt_st_params,
+    df["zu_verst_eink_kein_kinderfreib_tu"] = (
+        df["zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
+
+    df["zu_verst_eink_kinderfreib_tu"] = (
+        df["zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).transform("sum")
+    )
+
+    columns = [
+        "zu_verst_eink_kein_kinderfreib_tu",
+        "zu_verst_eink_kinderfreib_tu",
+        "brutto_eink_5",
+    ]
+
+    result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=column,
+        columns_overriding_functions=columns,
+    )
+
     assert_series_equal(
-        df[column], year_data[column], check_dtype=False, check_less_precise=1
+        result[column], year_data[column], check_dtype=False, check_less_precise=2,
     )

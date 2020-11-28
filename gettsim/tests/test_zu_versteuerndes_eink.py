@@ -1,47 +1,42 @@
 import itertools
 
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.pre_processing.policy_for_date import get_policies_for_date
-from gettsim.taxes.zve import zve
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
 
 
-IN_COLS = [
+INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
     "bruttolohn_m",
     "betreuungskost_m",
-    "eink_selbstst_m",
+    "eink_selbst_m",
     "kapital_eink_m",
     "vermiet_eink_m",
     "jahr_renteneintr",
     "ges_rente_m",
     "arbeitsstunden_w",
     "in_ausbildung",
-    "gem_veranlagt",
     "kind",
     "behinderungsgrad",
-    "rentenv_beit_m",
-    "prv_rente_beit_m",
-    "arbeitsl_v_beit_m",
-    "pflegev_beit_m",
+    "rentenv_beitr_m",
+    "prv_rente_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "pflegev_beitr_m",
     "alleinerziehend",
     "alter",
-    "anz_kinder_tu",
     "jahr",
     "wohnort_ost",
-    "ges_krankv_beit_m",
+    "ges_krankenv_beitr_m",
 ]
 OUT_COLS = [
-    "_zu_versteuerndes_eink_kein_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_m_kein_kind_freib",
-    "_zu_versteuerndes_eink_kind_freib",
-    "_zu_versteuerndes_eink_abgelt_st_m_kind_freib",
+    "zu_verst_eink_kein_kinderfreib",
+    "zu_verst_eink_kinderfreib",
     "kind_freib",
     "brutto_eink_1",
     "brutto_eink_4",
@@ -53,19 +48,22 @@ OUT_COLS = [
     "brutto_eink_5_tu",
     "brutto_eink_6_tu",
     "brutto_eink_7_tu",
-    "_ertragsanteil",
+    "ertragsanteil",
     "sonder",
-    "hh_freib",
+    "alleinerziehend_freib_tu",
     "altersfreib",
     "vorsorge",
 ]
 
 TEST_COLS = [
-    "_zu_versteuerndes_eink_kein_kind_freib",
-    "_zu_versteuerndes_eink_kind_freib",
+    "zu_verst_eink_kein_kinderfreib_tu",
+    "zu_verst_eink_kinderfreib_tu",
+    "kinderfreib_tu",
     "altersfreib",
+    "alleinerziehend_freib_tu",
+    "sum_brutto_eink",
 ]
-YEARS = [2005, 2009, 2010, 2012, 2018]
+YEARS = [2005, 2009, 2010, 2012, 2018, 2019]
 
 
 @pytest.fixture(scope="module")
@@ -75,36 +73,49 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
 def test_zve(
-    input_data,
-    year,
-    column,
-    kindergeld_raw_data,
-    soz_vers_beitr_raw_data,
-    eink_st_abzuege_raw_data,
+    input_data, year, target,
 ):
     year_data = input_data[input_data["jahr"] == year]
-    df = year_data[IN_COLS].copy()
-    eink_st_abzuege_params = get_policies_for_date(
-        year=year, group="eink_st_abzuege", raw_group_data=eink_st_abzuege_raw_data
-    )
-    soz_vers_beitr_params = get_policies_for_date(
-        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
-    )
-    kindergeld_params = get_policies_for_date(
-        year=year, group="kindergeld", raw_group_data=kindergeld_raw_data
+    df = year_data[INPUT_COLS].copy()
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+
+    columns_overriding_functions = [
+        "ges_krankenv_beitr_m",
+        "arbeitsl_v_beitr_m",
+        "pflegev_beitr_m",
+        "rentenv_beitr_m",
+    ]
+    result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=target,
+        columns_overriding_functions=columns_overriding_functions,
     )
 
-    for col in OUT_COLS:
-        df[col] = np.nan
-    df = df.groupby(["hh_id", "tu_id"]).apply(
-        zve,
-        eink_st_abzuege_params=eink_st_abzuege_params,
-        soz_vers_beitr_params=soz_vers_beitr_params,
-        kindergeld_params=kindergeld_params,
-    )
+    if target == "kindergeld_tu":
+        expected_result = sum_test_data_tu("kindergeld", year_data)
+    elif target == "zu_verst_eink_kein_kinderfreib_tu":
+        expected_result = sum_test_data_tu("zu_verst_eink_kein_kinderfreib", year_data)
+    elif target == "zu_verst_eink_kinderfreib_tu":
+        expected_result = sum_test_data_tu("zu_verst_eink_kinderfreib", year_data)
+    elif target == "kinderfreib_tu":
+        expected_result = sum_test_data_tu("kinderfreib", year_data)
+    else:
+        expected_result = year_data[target]
 
+    # TODO: There are large differences for the 2018 test. See #217.
     assert_series_equal(
-        df[column], year_data[column], check_less_precise=2, check_dtype=False
+        result[target], expected_result, check_dtype=False, check_less_precise=1,
+    )
+
+
+def sum_test_data_tu(column, year_data):
+    return (
+        year_data[column]
+        .groupby(year_data["tu_id"])
+        .transform("sum")
+        .rename(column + "_tu")
     )
