@@ -7,7 +7,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 0.4.x -
 ------------------
-* Implement 2020 increase in lump sum tax deductions for disabled,
+* Implement 2021 increase in lump sum tax deductions for disabled,
   (:ghuser:`Eric-Sommer`).
 
 
