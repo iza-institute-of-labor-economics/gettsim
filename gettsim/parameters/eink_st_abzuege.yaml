@@ -77,6 +77,10 @@ kinderfreibetrag:
     deviation_from: previous
     sächl_existenzmin: 2586
     reference: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
+  2021-01-01:
+    sächl_existenzmin: 2730
+    beitr_erz_ausb: 1464
+    reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
 
 vorsorge2004_vorwegabzug:
   name:
