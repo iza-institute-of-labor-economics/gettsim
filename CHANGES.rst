@@ -5,6 +5,10 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
+0.4.x
+------------------
+* :gh: `252` implement reforms on tax tariff and child tax deduction
+   (:ghuser:`Eric-Sommer`)
 
 0.4.0 - 2020-11-11
 ------------------
