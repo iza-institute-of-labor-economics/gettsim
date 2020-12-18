@@ -147,13 +147,7 @@ kindergeld:
     2: 204
     3: 210
     4: 235
-  2021-01-01:
-    reference: Art. 1 Abs. 9 G. v. 01.12.2020 BGBl. I S. 2616.
-    note: Zweites Familienentlastungsgesetz
-    1: 219
-    2: 219
-    3: 225
-    4: 250
+
 
 kindergeld_einkommensgrenze:
   name:
