@@ -5,6 +5,13 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
+0.4.x -
+------------------
+* Implement 2021 increase in lump sum tax deductions for disabled,
+  (:ghuser:`Eric-Sommer`).
+
+
+
 
 0.4.0 - 2020-11-11
 ------------------
