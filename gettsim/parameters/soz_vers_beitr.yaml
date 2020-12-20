@@ -3,7 +3,7 @@ soz_vers_beitr:
     de: Beitragssätze zu den gesetzlichen Sozialversicherungen
     en: Contribution rate to statutory social insurances
   description:
-    de: 
+    de:
     en:
   unit: share
   1984-01-01:
@@ -231,7 +231,7 @@ soz_vers_beitr:
     deviation_from: previous
     note: Durchschnittlicher Zusatzbeitragssatz 1,3%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
     ges_krankenv:
-      ag: 0.0795 
+      ag: 0.0795
       an: 0.0795
 
 
