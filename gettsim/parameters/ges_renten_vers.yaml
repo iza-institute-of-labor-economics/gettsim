@@ -163,8 +163,8 @@ durchschnittslohn:
     de:
     en:
   name:
-    de: durchscnittslohn
-    en: meanwages
+    de: Durchschnittslohn
+    en: Mean Wage
   time: year
   2005-01-01:
     scalar: 28468.23
@@ -228,9 +228,13 @@ beitragspflichtiger_durchschnittslohn:
   2018-01-01:
     scalar: 38212
   2019-01-01:
-    scalar: 38901
+    scalar: 39301
+    reference: §1 (1) Sozialversicherungs-Rechengrößenverordnung 2021
   2020-01-01:
     scalar: 40551
+  2021-01-01:
+    scalar: 41541
+    reference: https://www.bundesregierung.de/breg-de/aktuelles/beitragsbemessungsgrenzen-2021-1796480
 
 
 rentenvolumen:

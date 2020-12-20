@@ -7,8 +7,9 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 0.4.x -
 ------------------
-* Implement 2021 increase in lump sum tax deductions for disabled,
-  (:ghuser:`Eric-Sommer`).
+* Implement 2021 changes in tax deduction for disabled, income tax tariff, child
+   benefit, child tax deduction and health insurance contribution rate
+   (:ghuser:`Eric-Sommer`).
 
 
 
