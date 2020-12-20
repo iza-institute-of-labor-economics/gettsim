@@ -213,6 +213,16 @@ regelsatz:
     5: 308
     6: 250
     reference: V. v. 15.10.2019 BGBl. I S. 1452.
+  2021-01-01:
+    1: 446
+    2: 401
+    3: 357
+    4: 373
+    5: 309
+    6: 283
+    reference: §8 Regelbedarfsermittlungsgesetz, G. v. 09.12.2020, BGBl. I S. 2855
+
+
 
 anteil_regelsatz:
   name:
