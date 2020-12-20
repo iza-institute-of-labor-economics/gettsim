@@ -522,7 +522,7 @@ behinderten_pauschbetrag:
     de: Behinderten-Pauschbetrag, in Abhängigkeit des Behinderungsgrads.
     en: Tax Credit for disabled, depending on degree of disability.
   description:
-    de: § 33b (3) EStG
+    de: § 33b (3) EStG.
     en:
   unit: Euro
   time: year
@@ -547,6 +547,17 @@ behinderten_pauschbetrag:
     75: 1060
     85: 1230
     95: 1420
+  2021-01-01:
+    reference: Art. 1 G. v. 09.12.2020 BGBL. I  S. 2770.
+    20: 384
+    30: 620
+    40: 860
+    50: 1140
+    60: 1440
+    70: 1780
+    80: 2120
+    90: 2460
+    100: 2840
 
 
 kinderbetreuungskosten_abz_anteil:

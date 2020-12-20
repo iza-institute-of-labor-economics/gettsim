@@ -5,10 +5,11 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.4.x
+0.4.x -
 ------------------
-* :gh: `252` implement reforms on tax tariff and child tax deduction
-   (:ghuser:`Eric-Sommer`)
+* :gh:`248`, :gh:`251`, :gh:`252` Implement 2021 increase in lump sum tax
+   deductions for disabled, child benefit, income tax tariff tax decution
+   for single parents (:ghuser:`Eric-Sommer`).
 
 0.4.0 - 2020-11-11
 ------------------
