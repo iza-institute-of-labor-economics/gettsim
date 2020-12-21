@@ -7,9 +7,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 0.4.x -
 ------------------
-* :gh:`248`, :gh:`251`, :gh:`252` Implement 2021 increase in lump sum tax
-   deductions for disabled, child benefit, income tax tariff tax decution
-   for single parents (:ghuser:`Eric-Sommer`).
+* :gh:`252` implement 2021 reforms to income tax tariff and family tax decutitions
+    (:ghuser:`Eric-Sommer`).
 
 0.4.0 - 2020-11-11
 ------------------
