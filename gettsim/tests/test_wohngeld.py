@@ -44,7 +44,7 @@ TEST_COLUMN = ["wohngeld_basis_hh"]
 
 # Variables for test of wohngeld with increasing size.
 MAX_HH_SIZE = 12
-POLICY_YEARS = [2009, 2016, 2020]
+POLICY_YEARS = [2009, 2016, 2021]
 MIETSTUFEN = range(1, 7)
 
 

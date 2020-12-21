@@ -489,6 +489,58 @@ def wohngeld_max_miete_ab_2009(
     return wg_miete
 
 
+def wohngeld_max_miete_ab_2021(
+    mietstufe: IntSeries,
+    haushaltsgröße: IntSeries,
+    hh_id: IntSeries,
+    kaltmiete_m_hh: FloatSeries,
+    tax_unit_share: FloatSeries,
+    wohngeld_min_miete: FloatSeries,
+    wohngeld_params: dict,
+) -> FloatSeries:
+    """Calculate maximal rent subject housing benefit calculation since 2009.
+
+    Parameters
+    ----------
+    mietstufe
+        See basic input variable :ref:`mietstufe <mietstufe>`.
+    haushaltsgröße
+        See :func:`haushaltsgröße`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    kaltmiete_m_hh
+        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    tax_unit_share
+        See :func:`tax_unit_share`.
+    wohngeld_min_miete
+        See :func:`wohngeld_min_miete`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    data = [
+        wohngeld_params["max_miete"][hh_größe][ms]
+        - wohngeld_params["heizkosten_zuschuss"][hh_größe]
+        if hh_größe <= 5
+        else wohngeld_params["max_miete"][5][ms]
+        + (wohngeld_params["max_miete"]["5plus"][ms] * (hh_größe - 5))
+        - (
+            wohngeld_params["heizkosten_zuschuss"][5]
+            + wohngeld_params["heizkosten_zuschuss"]["5plus"] * (hh_größe - 5)
+        )
+        for hh_größe, ms in zip(haushaltsgröße, mietstufe)
+    ]
+
+    wg_miete = (
+        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+    ).clip(lower=wohngeld_min_miete)
+
+    return wg_miete
+
+
 def wohngeld_basis(
     haushaltsgröße: IntSeries,
     wohngeld_eink: FloatSeries,
