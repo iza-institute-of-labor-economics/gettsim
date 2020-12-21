@@ -502,7 +502,7 @@ beitr_bemess_grenze:
     rentenv:
       west: 7100
       ost: 6700
-    note: §3, §4 Sozialversicherungs-Rechengrößenverordnung 2021, V. v. 30.11.2020, BGBl. I S. 2612
+    reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
 
 
 bezugsgröße:
@@ -624,7 +624,7 @@ bezugsgröße:
   2021-01-01:
     west: 3290
     ost: 3115
-    note: §2 Sozialversicherungs-Rechengrößenverordnung 2021, V. v. 30.11.2020, BGBl. I S. 2612
+    reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
 
 geringfügige_eink_grenzen:
   name:

@@ -226,15 +226,19 @@ beitragspflichtiger_durchschnittslohn:
   2017-01-01:
     scalar: 37077
   2018-01-01:
-    scalar: 38212
+  scalar: 38212
+  reference: V. v. 17.12.2019 BGBl. I S. 2848.
   2019-01-01:
     scalar: 39301
-    reference: §1 (1) Sozialversicherungs-Rechengrößenverordnung 2021
+    reference: V. v. 30.11.2020 BGBl. I S. 2612.
   2020-01-01:
     scalar: 40551
+    reference: V. v. 17.12.2019 BGBl. I S. 2848.
+    note: Das vorläufige Durchschnittsentgelt.
   2021-01-01:
     scalar: 41541
-    reference: https://www.bundesregierung.de/breg-de/aktuelles/beitragsbemessungsgrenzen-2021-1796480
+    reference: V. v. 30.11.2020 BGBl. I S. 2612.
+    note: Das vorläufige Durchschnittsentgelt.
 
 
 rentenvolumen:
