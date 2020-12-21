@@ -226,8 +226,8 @@ beitragspflichtiger_durchschnittslohn:
   2017-01-01:
     scalar: 37077
   2018-01-01:
-  scalar: 38212
-  reference: V. v. 17.12.2019 BGBl. I S. 2848.
+   scalar: 38212
+   reference: V. v. 17.12.2019 BGBl. I S. 2848.
   2019-01-01:
     scalar: 39301
     reference: V. v. 30.11.2020 BGBl. I S. 2612.
