@@ -1,6 +1,7 @@
 # Import functions
 import pandas as pd
 from bokeh.palettes import Category10
+from bokeh.plotting import ColumnDataSource
 from bokeh.plotting import figure
 from bokeh.plotting import output_file
 from bokeh.plotting import show
@@ -46,6 +47,9 @@ def setup_plot(kindergeld_df):
     (pd.Dataframe): Returned by the data preparation function
     """
     # Plot for kindergeld params
+
+    source = ColumnDataSource(kindergeld_df)
+
     kindergeld_p = figure(
         title="Kindergeld per Child",
         plot_height=300,
@@ -54,19 +58,23 @@ def setup_plot(kindergeld_df):
         x_range=(min(kindergeld_df.index), max(kindergeld_df.index)),
         background_fill_color="#efefef",
     )
-
-    for i in range(kindergeld_df.shape[1]):
+    k = -1
+    for i in kindergeld_df.columns:
+        k = k + 1
         kindergeld_p.step(
-            kindergeld_df.index,
-            kindergeld_df.iloc[:, i],
+            x="index",
+            y=i,
             line_width=2,
-            color=Category10[4][i],
-            legend_label=kindergeld_df.columns[i],
+            color=Category10[4][k],
+            legend_label=kindergeld_df.columns[k],
             alpha=0.8,
-            muted_color=Category10[4][i],
+            muted_color=Category10[4][k],
             muted_alpha=0.2,
+            source=source,
+            name=i,
         )
-        kindergeld_p.legend.location = "top_left"
+
+    kindergeld_p.legend.location = "top_left"
     kindergeld_p.legend.click_policy = "mute"
 
     kindergeld_p.xaxis.axis_label = "Year"

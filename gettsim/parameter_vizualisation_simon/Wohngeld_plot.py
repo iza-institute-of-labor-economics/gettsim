@@ -6,7 +6,7 @@ from bokeh.models import ColorBar
 from bokeh.models import ColumnDataSource
 from bokeh.models import LinearColorMapper
 from bokeh.models import NumeralTickFormatter
-from bokeh.palettes import brewer
+from bokeh.palettes import Magma256
 from bokeh.plotting import figure
 from bokeh.plotting import output_file
 from bokeh.plotting import show
@@ -82,7 +82,7 @@ def setup_plot(wohngeld_df):
     source = ColumnDataSource(heatmap_source)
 
     # Prepare a color pallete and color mapper
-    colors = brewer["Blues"][9]
+    colors = Magma256[128:256]
     colors = list(colors)
     colors.reverse()
     mapper = LinearColorMapper(
@@ -94,10 +94,11 @@ def setup_plot(wohngeld_df):
     # Actual figure setup
     p = figure(
         plot_width=600,
-        plot_height=300,
-        title="Wohngeld per income and rent",
+        plot_height=400,
+        title="Monthly wohngeld in € per income and rent",
         x_range=(0, 1300),
         y_range=(0, 1300),
+        tools="",
     )
 
     p.rect(
@@ -113,15 +114,16 @@ def setup_plot(wohngeld_df):
     color_bar = ColorBar(
         color_mapper=mapper,
         location=(0, 0),
-        ticker=BasicTicker(desired_num_ticks=len(colors)),
+        ticker=BasicTicker(desired_num_ticks=20),
         formatter=NumeralTickFormatter(format="0€"),
         label_standoff=12,
+        title="Wg in €",
     )
 
-    p.xaxis.axis_label = "Rent"
+    p.xaxis.axis_label = "Monthly rent in €"
     p.xaxis[0].formatter = NumeralTickFormatter(format="0€")
 
-    p.yaxis.axis_label = "Income"
+    p.yaxis.axis_label = "Monthly income in €"
     p.yaxis[0].formatter = NumeralTickFormatter(format="0€")
 
     p.add_layout(color_bar, "right")

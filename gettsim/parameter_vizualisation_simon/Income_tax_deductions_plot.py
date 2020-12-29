@@ -230,5 +230,5 @@ end = 2020
 
 processed_data = prepare_data(start, end)
 plot1, plot2, plot3, plot4 = setup_plot(processed_data)
-grid = gridplot([plot1, plot2, plot3, plot4], ncols=2)
+grid = gridplot([plot1, plot2, plot3, plot4], ncols=1)
 show(grid)

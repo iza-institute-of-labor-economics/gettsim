@@ -45,6 +45,15 @@ def prepare_data(start, end):
         ],
         axis=1,
     )
+
+    soz_vers_df.columns = [
+        "unemployment insurance",
+        "pension insurance",
+        "health insurance employer",
+        "health insurance employee",
+        "care insurance",
+        "additional care insurance no child",
+    ]
     return soz_vers_df
 
 
@@ -52,11 +61,11 @@ def setup_plot(soz_vers_df):
     color = Category20[6]
 
     p = figure(
-        plot_width=600,
+        plot_width=800,
         plot_height=400,
         background_fill_color="white",
         title="Social Security contributions",
-        x_range=(min(soz_vers_df.index), max(soz_vers_df.index) + 6),
+        x_range=(min(soz_vers_df.index), max(soz_vers_df.index) + 10),
     )
     k = -1
     for i in soz_vers_df.columns:
@@ -87,6 +96,6 @@ def setup_plot(soz_vers_df):
 
 # Example
 
-processed_data = prepare_data(start=2002, end=2019)
+processed_data = prepare_data(start=2002, end=2020)
 plot = setup_plot(processed_data)
 show(plot)

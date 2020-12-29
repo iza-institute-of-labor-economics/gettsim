@@ -36,10 +36,12 @@ def prepare_data(sel_year):
         rates=soli_params["rates"],
         intercepts_at_lower_thresholds=soli_params["intercepts_at_lower_thresholds"],
     )
+    marginal_rate = np.gradient(eink_tax, einkommen)
 
     tax_rate_dict = {}
     tax_rate_dict["tax_rate"] = eink_tax / einkommen
     tax_rate_dict["overall_tax_rate"] = (soli + eink_tax) / einkommen
+    tax_rate_dict["marginal_rate"] = marginal_rate
     tax_rate_dict["income"] = einkommen
     tax_rate_dict["params"] = policy_params
     tax_rate_dict["year"] = sel_year
@@ -68,12 +70,20 @@ def setup_plot(tax_rate_dict):
         line_color="black",
         legend_label="Income tax rate + soli",
     )
+    p.line(
+        tax_rate_dict["income"],
+        tax_rate_dict["marginal_rate"],
+        line_width=2,
+        line_color="red",
+        legend_label="Marginal tax rate",
+    )
+
     p.xaxis.ticker = tax_rate_dict["params"]["eink_st"]["eink_st_tarif"]["thresholds"][
         1:5
     ]
     p.xaxis[0].formatter = NumeralTickFormatter(format="0")
     p.xaxis.major_label_orientation = (22 / 7) / 4  # 22/7 ~ pi
-    p.xaxis.major_label_text_color = "white"
+    p.xaxis.major_label_text_alpha = 0
 
     p.xgrid.band_hatch_pattern = "/"
     p.xgrid.band_hatch_alpha = 0.6
@@ -84,7 +94,7 @@ def setup_plot(tax_rate_dict):
     p.extra_x_ranges = {"einkommen": Range1d(start=0, end=300000)}
     p.add_layout(LinearAxis(x_range_name="einkommen"), "below")
     p.xaxis[1].formatter = NumeralTickFormatter(format="0")
-    p.xaxis[1].axis_label = "Income in €"
+    p.xaxis[1].axis_label = "Taxable income in €"
 
     p.yaxis.axis_label = "Tax rate"
     p.yaxis[0].formatter = NumeralTickFormatter(format="0%")
