@@ -3,8 +3,8 @@ import pandas as pd
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource
 from bokeh.models import NumeralTickFormatter
+from bokeh.models import Panel
 from bokeh.models import Slider
-from bokeh.plotting import curdoc
 from bokeh.plotting import figure
 
 from gettsim import set_up_policy_environment
@@ -12,7 +12,9 @@ from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
 
 
-def tax_rate_interact():
+def tax_rate_interact(plot_dict):
+    plot_dict = plot_dict["tax_rate"]
+
     def prepare_data(start, end):
         """
         For a given year span returns the policy parameters to plot income tax
@@ -56,13 +58,23 @@ def tax_rate_interact():
 
         return ColumnDataSource(dataset)
 
+    def plotstyle(p, plot_dict):
+        p.title.text = plot_dict["title"]
+        p.legend.location = plot_dict["legend_location"]
+        p.xaxis.axis_label = plot_dict["x_axis_label"]
+        p.yaxis.axis_label = plot_dict["y_axis_label"]
+        p.xaxis[0].formatter = NumeralTickFormatter(format=plot_dict["x_axis_format"])
+        p.yaxis[0].formatter = NumeralTickFormatter(format=plot_dict["y_axis_format"])
+        # p.xaxis.bounds = (lower_bound, upper_bound)
+
+        return p
+
     def setup_plot(src):
 
         p = figure(
             plot_width=800,
             plot_height=400,
             background_fill_color="white",
-            title="Tax rate per income",
             y_range=(-0.01, 0.5),
         )
         p.line(
@@ -89,13 +101,7 @@ def tax_rate_interact():
             legend_label="Marginal tax rate",
         )
 
-        p.xaxis[0].formatter = NumeralTickFormatter(format="0")
-        p.xaxis[0].axis_label = "Taxable income in €"
-
-        p.yaxis.axis_label = "Tax rate"
-        p.yaxis[0].formatter = NumeralTickFormatter(format="0%")
-
-        p.legend.location = "bottom_right"
+        p = plotstyle(p, plot_dict)
 
         return p
 
@@ -115,7 +121,7 @@ def tax_rate_interact():
     p = setup_plot(src)
 
     layout = column(year_selection, p)
-    curdoc().add_root(layout)
 
+    tab = Panel(child=layout, title="Tax rate per taxable income")
 
-tax_rate_interact()
+    return tab

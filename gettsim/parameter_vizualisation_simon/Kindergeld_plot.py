@@ -38,6 +38,15 @@ def prepare_data(start, end):
     return kindergeld_df
 
 
+def plotstyle(p, legend_location, x_axis_label, y_axis_label):
+    p.legend.location = legend_location
+    p.legend.click_policy = "mute"
+    p.xaxis.axis_label = x_axis_label
+    p.yaxis.axis_label = y_axis_label
+
+    return p
+
+
 def setup_plot(kindergeld_df):
     """
     Create the kindergeld plot.
@@ -50,18 +59,34 @@ def setup_plot(kindergeld_df):
 
     source = ColumnDataSource(kindergeld_df)
 
-    kindergeld_p = figure(
+    p = figure(
         title="Kindergeld per Child",
         plot_height=300,
         plot_width=600,
         y_range=(0, 270),
         x_range=(min(kindergeld_df.index), max(kindergeld_df.index)),
         background_fill_color="#efefef",
+        tooltips="$name: @$name €",
     )
     k = -1
     for i in kindergeld_df.columns:
         k = k + 1
-        kindergeld_p.step(
+        p.step(
+            x="index",
+            y=i,
+            line_width=2,
+            color=Category10[4][k],
+            legend_label=kindergeld_df.columns[k],
+            alpha=0.8,
+            muted_color=Category10[4][k],
+            muted_alpha=0.2,
+            source=source,
+            name=i,
+        )
+    k = -1
+    for i in kindergeld_df.columns:
+        k = k + 1
+        p.circle(
             x="index",
             y=i,
             line_width=2,
@@ -74,17 +99,13 @@ def setup_plot(kindergeld_df):
             name=i,
         )
 
-    kindergeld_p.legend.location = "top_left"
-    kindergeld_p.legend.click_policy = "mute"
+    p = plotstyle(p, "top_left", "Year", "Benefit amount in €")
 
-    kindergeld_p.xaxis.axis_label = "Year"
-    kindergeld_p.yaxis.axis_label = "Kindergeld in €"
-
-    return kindergeld_p
+    return p
 
 
 # Example
 processed_data = prepare_data(start=1975, end=2020)
-plot = setup_plot(processed_data)
+p = setup_plot(processed_data)
 
-show(plot)
+show(p)
