@@ -1,8 +1,9 @@
+from Scripts.plotstyle import plotstyle
+
 import numpy as np
 import pandas as pd
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource
-from bokeh.models import NumeralTickFormatter
 from bokeh.models import Panel
 from bokeh.models import Slider
 from bokeh.plotting import figure
@@ -58,25 +59,9 @@ def tax_rate_interact(plot_dict):
 
         return ColumnDataSource(dataset)
 
-    def plotstyle(p, plot_dict):
-        p.title.text = plot_dict["title"]
-        p.legend.location = plot_dict["legend_location"]
-        p.xaxis.axis_label = plot_dict["x_axis_label"]
-        p.yaxis.axis_label = plot_dict["y_axis_label"]
-        p.xaxis[0].formatter = NumeralTickFormatter(format=plot_dict["x_axis_format"])
-        p.yaxis[0].formatter = NumeralTickFormatter(format=plot_dict["y_axis_format"])
-        # p.xaxis.bounds = (lower_bound, upper_bound)
-
-        return p
-
     def setup_plot(src):
 
-        p = figure(
-            plot_width=800,
-            plot_height=400,
-            background_fill_color="white",
-            y_range=(-0.01, 0.5),
-        )
+        p = figure(plot_width=800, plot_height=400, y_range=(-0.01, 0.5),)
         p.line(
             x="income",
             y="tax_rate",

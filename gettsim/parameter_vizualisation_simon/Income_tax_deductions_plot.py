@@ -154,10 +154,10 @@ def setup_plot(deduction_df):
     p = figure(
         title="Income tax deductions",
         plot_height=300,
-        plot_width=850,
+        plot_width=600,
         y_range=(0, 9500),
-        x_range=(start, end + 30),
-        background_fill_color="#efefef",
+        x_range=(start, end),
+        background_fill_color="white",
     )
 
     for i in range(int(deduction_df[selector_important].shape[1])):
@@ -178,6 +178,7 @@ def setup_plot(deduction_df):
             ][i],
             muted_alpha=0.2,
         )
+    p.legend.background_fill_alpha = 0
 
     # Plot vorsorge parameters
     p1 = figure(
@@ -270,7 +271,7 @@ def setup_plot(deduction_df):
     for p in p_list:
         p = plotstyle(
             p,
-            "top_right",
+            "top_left",
             "year",
             "Deductions in €",
             min(deduction_df.index),

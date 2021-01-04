@@ -41,13 +41,14 @@ attribute_dict = {
         "Deductions in €",
         "0",
         "0€",
-        "top_right",
+        "top_left",
     ],
 }
 plot_dict = {
     p: {a: attribute_dict[p][counter] for counter, a in enumerate(plot_attributes)}
     for p in plot_list
 }
+
 
 # Call tab functions
 tab1 = tax_rate_interact(plot_dict)

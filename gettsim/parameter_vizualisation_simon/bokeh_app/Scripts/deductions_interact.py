@@ -1,7 +1,8 @@
 # Import functions
+from Scripts.plotstyle import plotstyle
+
 import pandas as pd
 from bokeh.models import ColumnDataSource
-from bokeh.models import NumeralTickFormatter
 from bokeh.models import Panel
 from bokeh.palettes import Category20
 from bokeh.plotting import figure
@@ -71,17 +72,6 @@ def deduction_tab(plot_dict):
 
         return ColumnDataSource(deduction_df)
 
-    def plotstyle(p, plot_dict):
-        p.title.text = plot_dict["title"]
-        # p.legend.location = plot_dict["legend_location"]
-        p.xaxis.axis_label = plot_dict["x_axis_label"]
-        p.yaxis.axis_label = plot_dict["y_axis_label"]
-        p.xaxis[0].formatter = NumeralTickFormatter(format=plot_dict["x_axis_format"])
-        p.yaxis[0].formatter = NumeralTickFormatter(format=plot_dict["y_axis_format"])
-        p.legend.click_policy = "mute"
-
-        return p
-
     def setup_plot(src):
         """
         Create the deduction plot.
@@ -103,11 +93,10 @@ def deduction_tab(plot_dict):
         # Plot for the most important deductions
 
         p = figure(
-            plot_height=300,
-            plot_width=850,
+            plot_height=400,
+            plot_width=650,
             y_range=(0, 9500),
-            x_range=(min(src.data["index"]), max(src.data["index"]) + 30),
-            background_fill_color="#efefef",
+            x_range=(min(src.data["index"]), max(src.data["index"])),
             tooltips="$name: @$name €",
         )
 
@@ -134,11 +123,9 @@ def deduction_tab(plot_dict):
                 name=i,
             )
 
-        p.xaxis.bounds = (min(src.data["index"]), max(src.data["index"]))
+        plot = plotstyle(p, plot_dict)
 
-        p = plotstyle(p, plot_dict)
-
-        return p
+        return plot
 
     src = prepare_data(1975, 2020)
 

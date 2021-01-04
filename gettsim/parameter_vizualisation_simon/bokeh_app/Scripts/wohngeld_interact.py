@@ -1,4 +1,6 @@
 # Import
+from Scripts.plotstyle import plotstyle
+
 import numpy as np
 import pandas as pd
 from bokeh.layouts import column
@@ -20,7 +22,7 @@ from gettsim.transfers.wohngeld import wohngeld_basis
 def wohngeld_tab(plot_dict):
     plot_dict = plot_dict["wohngeld"]
 
-    # Prepare wohngeld data ALTERNATIVE
+    # Prepare wohngeld data
     def prepare_data(sel_year, hh_size):
         """
         For a given year and household_size this function creates the
@@ -92,17 +94,6 @@ def wohngeld_tab(plot_dict):
 
         src.data.update(new_src.data)
 
-    def plotstyle(p, plot_dict):
-        p.title.text = plot_dict["title"]
-        # p.legend.location = plot_dict["legend_location"]
-        p.xaxis.axis_label = plot_dict["x_axis_label"]
-        p.yaxis.axis_label = plot_dict["y_axis_label"]
-        p.xaxis[0].formatter = NumeralTickFormatter(format=plot_dict["x_axis_format"])
-        p.yaxis[0].formatter = NumeralTickFormatter(format=plot_dict["y_axis_format"])
-        # p.xaxis.bounds = (lower_bound, upper_bound)
-
-        return p
-
     def setup_plot(src):
         """
         Create the heatmap plot.
@@ -149,9 +140,9 @@ def wohngeld_tab(plot_dict):
         )
         p.add_layout(color_bar, "right")
 
-        p = plotstyle(p, plot_dict)
+        plot = plotstyle(p, plot_dict)
 
-        return p
+        return plot
 
     wg_dict = loop(2002, 2021)
 
