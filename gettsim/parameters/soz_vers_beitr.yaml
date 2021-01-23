@@ -227,6 +227,13 @@ soz_vers_beitr:
       ag: 0.0785
       an: 0.0785
     arbeitsl_v: 0.012
+  2021-01-01:
+    deviation_from: previous
+    note: Durchschnittlicher Zusatzbeitragssatz 1,3%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
+    ges_krankenv:
+      ag: 0.0795
+      an: 0.0795
+
 
 beitr_bemess_grenze:
   name:
@@ -488,6 +495,15 @@ beitr_bemess_grenze:
       west: 6900
       ost: 6450
     reference: V. v. 17.12.2019 BGBl. I S. 2848
+  2021-01-01:
+    ges_krankenv:
+      west: 4837.5
+      ost: 4837.5
+    rentenv:
+      west: 7100
+      ost: 6700
+    reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
+
 
 bezugsgröße:
   name:
@@ -605,6 +621,10 @@ bezugsgröße:
     reference: §2 V. v. 17.12.2019 BGBl. I S. 2848
     west: 3185
     ost: 3010
+  2021-01-01:
+    west: 3290
+    ost: 3115
+    reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
 
 geringfügige_eink_grenzen:
   name:
