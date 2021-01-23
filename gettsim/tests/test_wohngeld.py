@@ -39,7 +39,7 @@ INPUT_COLS = [
     "behinderungsgrad",
     "jahr",
 ]
-YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
+YEARS = [2006, 2009, 2013, 2016, 2018, 2019, 2021]
 TEST_COLUMN = ["wohngeld_basis_hh"]
 
 # Variables for test of wohngeld with increasing size.
