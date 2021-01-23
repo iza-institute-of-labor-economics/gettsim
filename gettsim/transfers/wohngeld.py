@@ -523,24 +523,17 @@ def wohngeld_max_miete_ab_2021(
     """
     data = [
         wohngeld_params["max_miete"][hh_größe][ms]
+        + wohngeld_params["heizkosten_zuschuss"][hh_größe]
         if hh_größe <= 5
         else wohngeld_params["max_miete"][5][ms]
         + (wohngeld_params["max_miete"]["5plus"][ms] * (hh_größe - 5))
+        + wohngeld_params["heizkosten_zuschuss"][5]
+        + wohngeld_params["heizkosten_zuschuss"]["5plus"] * (hh_größe - 5)
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 
-    zuschuss = [
-        wohngeld_params["heizkosten_zuschuss"][hh_größe]
-        if hh_größe <= 5
-        else wohngeld_params["heizkosten_zuschuss"][5]
-        + wohngeld_params["heizkosten_zuschuss"]["5plus"] * (hh_größe - 5)
-        for hh_größe, mis in zip(haushaltsgröße, mietstufe)
-    ]
-
-    warmmiete_m_hh = kaltmiete_m_hh + zuschuss
-
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(warmmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return wg_miete
