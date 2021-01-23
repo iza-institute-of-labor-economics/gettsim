@@ -34,6 +34,7 @@ def piecewise_polynomial(
 
     num_intervals = len(thresholds) - 1
     degree_polynomial = rates.shape[0]
+
     # Check in which interval each individual is. The thresholds are not exclusive on
     # the right side!
     binned = pd.cut(
@@ -42,27 +43,31 @@ def piecewise_polynomial(
         right=False,
         include_lowest=True,
         labels=range(num_intervals),
-    )
+    ).astype(float)
+
     # Create series with last threshold for each individual
     thresholds_individual = binned.replace(dict(enumerate(thresholds[:-1])))
+
     # Increment for each individual in the corresponding interval
     increment_to_calc = x - thresholds_individual
 
     # Check if any value is in the lowest interval.
-    if 0 in binned.array:
-        if intercepts_at_lower_thresholds[0] == np.nan:
-            raise ValueError(f"In {x.name} is a value outside the determined range.")
+    if 0 in binned.array and intercepts_at_lower_thresholds[0] == np.nan:
+        raise ValueError(f"In {x.name} is a value outside the determined range.")
 
     # If each individual has its own rates or the rates are scaled, we can't use the
     # intercept, which was generated in the parameter loading.
     if rates_multiplier is not None:
+
         # Initialize Series containing 0 for all individuals
         out = x * 0
         out += intercepts_at_lower_thresholds[0]
+
         # Go through all intervals except the first and last
         for i in range(2, num_intervals):
             threshold_incr = thresholds[i] - thresholds[i - 1]
             for pol in range(1, degree_polynomial + 1):
+
                 # We only calculate the intercepts for individuals who are in this or
                 # higher interval. Hence we have to use the individual rates.
                 out.loc[binned >= i] += (
@@ -78,7 +83,6 @@ def piecewise_polynomial(
 
     # Intialize a multiplyer for 1 if it is not given.
     rates_multiplier = 1 if rates_multiplier is None else rates_multiplier
-
     # Now add the evaluation of the increment
     for pol in range(1, degree_polynomial + 1):
         out += (
