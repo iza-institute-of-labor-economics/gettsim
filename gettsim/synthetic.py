@@ -275,7 +275,7 @@ def create_single_household(
 
     # wohnfläche_hh, Kaltmiete, Heizkosten are taken from official data
     bg_daten = _load_parameter_group_from_yaml(
-        datetime.date(policy_year, 1, 1), "bedarfsgemeinschaften"
+        datetime.date(policy_year, 1, 1), "synthetic_parameters/bedarfsgemeinschaften"
     )
     df["wohnfläche_hh"] = df["hh_typ"].map(bg_daten["wohnfläche"])
     df["kaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["kaltmiete"])
