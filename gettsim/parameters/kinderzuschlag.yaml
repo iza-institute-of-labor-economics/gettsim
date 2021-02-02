@@ -15,7 +15,7 @@ kinderzuschlag:
     reference: Art. 12 G. v. 20.12.2016 BGBl. I S. 3000.
   2019-07-01:
     scalar: 185
-    reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
+    reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530. For 2020, Art. 2 Nr. 4 G. v. 29.04.2019 BGBl. I S. 530.
 kinderzuschlag_min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
@@ -70,66 +70,237 @@ kinderzuschlag_transferentzug_kind:
   description:
     de: § 6a (3) BKGG. Einkommen des Kindes beinhaltet auch Unterhalt und Unterhaltsvorschuss.
     en: Child alimony and alimony advance payments are also attributed to the child.
-  unti: share
+  unit: share
   2005-01-01:
     scalar: 1
     reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
   2019-07-01:
     scalar: 0.45
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
-wohnbedarf_eltern_anteil:
+exmin:
   name:
-    de: Untersteller Anteil des Eltern-Wohnbedarfs (Prozentanteil)
-    en: Fictitious share of living cost attributed to parents (percentage share)
+    de: Höhen des Existenzminimums, festgelegt im Existenzminimumsbericht der Bundesregierung.
+    en:
   description:
-    de: §6a (5) S.3 BKGG. Für die Berechnung des Kinderzuschlags ist der Bedarf für Unterkunft und Heizung zwischen Eltern und Kindern aufzuteilen. Quelle ist der regelmäßig erscheinende Existenzminumsbericht der Bundesregierung. Der Anteil ergibt sich durch Verrechnung der Anteile der Kosten der Unterkunft und Heizung am Existenzminumum. Der erste Parameter ist die Anzahl der Eltern (1 oder 2), der zweite die Anzahl der Kinder (1,2,3,4,4+). Die Anteile sind git auch im "Merkblatt Kinderzuschlag" angegeben.
-    en: The first parameter (1,2) denotes the number of adults, the second one the number of children (1,2,3,4,4+) in the household.
-  unit: share
+    de: Berechnet für jeweils zwei Jahre die Höhe der steuerfrei zu stellenden Existenzminima (nicht identisch mit dem steuerlichen Grundfreibetrag).
+    en: Every two years, the government calculates the subsistence levels 'to be allowed from taxation'. These form the basis for a number of kiz parameters.
+  unit: euro
+  time: year
   2005-01-01:
-    1: [.7688, .5885, .4881, .4169, .3639]
-    2: [.8319, .7097, .6197, .5500, .4944]
+    regelsatz:
+      single: 4164
+      paare: 7488
+      kinder: 2688
+    kosten_der_unterkunft:
+      single: 2592
+      paare: 3984
+      kinder: 804
+    heizkosten:
+      single: 600
+      paare: 768
+      kinder: 156
     reference: 5. Existenzminimumsbericht, Bundestag Drucksache 15/2462, Übersicht 3
   2008-01-01:
-    1: [.7553, .5734, .4726, .4019, .3497]
-    2: [.8320, .7123, .6227, .5531, .4978]
-    reference: 6. Existenzminimumsbericht, .Bundestag Drucksache 16/3265, Übersicht 3
+    regelsatz:
+      single: 4140
+      paare: 7464
+      kinder: 2676
+    kosten_der_unterkunft:
+      single: 2364
+      paare: 4020
+      kinder: 804
+    heizkosten:
+      single: 636
+      paare: 792
+      kinder: 168
+    reference: 6. Existenzminimumsbericht, Bundestag Drucksache 16/3265, Übersicht 3
   2010-01-01:
-    1: [.759, .6116, .5121, .4405, .3865]
-    2: [.8311, .711, .6212, .5515, .4959]
-    reference: 7. Existenzminimumsbericht, .Bundestag Drucksache 16/11065, Übersicht 3
+    regelsatz:
+      single: 4368
+      paare: 7860
+      kinder: 2820
+    kosten_der_unterkunft:
+      single: 2520
+      paare: 4164
+      kinder: 840
+    heizkosten:
+      single: 768
+      paare: 972
+      kinder: 204
+    reference: 7. Existenzminimumsbericht, Bundestag Drucksache 16/11065, Übersicht 3
   2012-01-01:
-    1: [.7634, .6174, .5182, .4465, .3923]
-    2: [.8314, .7115, .6218, .5522, .4966]
-    reference: 8. Existenzminimumsbericht, .Bundestag Drucksache 17/5550, Übersicht 4
+    regelsatz:
+      single: 4488
+      paare: 8064
+      kinder: 2988
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 2724
+      paare: 4344
+      kinder: 876
+    heizkosten:
+      single: 684
+      paare: 864
+      kinder: 180
+    reference: 8. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 4
   2013-01-01:
-    1: [.7603, .6133, .5139, .4423, .3882]
-    2: [.8314, .7115, .6218, .5522, .4966]
-    reference: 9. Existenzminimumsbericht, .Bundestag Drucksache 17/11425, Übersicht 5
+    regelsatz:
+      single: 4584
+      paare: 8064
+      kinder: 2988
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 2796
+      paare: 4344
+      kinder: 876
+    heizkosten:
+      single: 744
+      paare: 864
+      kinder: 180
+    reference: 9. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 5. Werte nur für Singles anders
   2014-01-01:
-    1: [.7669, .6220, .5231, .4513, .3969]
-    2: [.8330, .7138, .6245, .5550, .4995]
-    reference: 9. Existenzminimumsbericht, .Bundestag Drucksache 17/11425, Übersicht 5
+    regelsatz:
+      single: 4680
+      paare: 8448
+      kinder: 3096
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 2868
+      paare: 4560
+      kinder: 912
+    heizkosten:
+      single: 804
+      paare: 1008
+      kinder: 204
+    reference: 9. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 5.
   2015-01-01:
-    1: [.7669, .6220, .5231, .4513, .3969]
-    2: [.8330, .7138, .6245, .5550, .4995]
-    reference: 10. Existenzminimumsbericht, .Bundestag Drucksache 18/3893, Übersicht 4
+    regelsatz:
+      single: 4788
+      paare: 8448
+      kinder: 3168
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 2988
+      paare: 4560
+      kinder: 936
+    heizkosten:
+      single: 696
+      paare: 1008
+      kinder: 180
+    reference: 10. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 4. Werte für Paare unverändert.
   2016-01-01:
-    1: [.7664, .6213, .5224, .4506, .3962]
-    2: [.8316, .7117, .6220, .5524, .4969]
-    reference: 10. Existenzminimumsbericht, .Bundestag Drucksache 18/3893, Übersicht 4
+    regelsatz:
+      single: 4872
+      paare: 8784
+      kinder: 3228
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 3060
+      paare: 4788
+      kinder: 960
+    heizkosten:
+      single: 720
+      paare: 900
+      kinder: 192
+    reference: 10. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 4.
   2017-01-01:
-    1: [.7725, .6293, .5309, .4592, .4045]
-    2: [.8316, .7117, .6220, .5524, .4969]
-    reference: 11. Existenzminimumsbericht, .Bundestag Drucksache 18/10220, Übersicht 4
+    regelsatz:
+      single: 4908
+      paare: 8784
+      kinder: 3336
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 3312
+      paare: 4788
+      kinder: 996
+    heizkosten:
+      single: 600
+      paare: 900
+      kinder: 156
+    reference: 11. Existenzminimumsbericht, Bundestag Drucksache 18/10220, Übersicht 4. Werte für Paare unverändert.
   2018-01-01:
-    1: [.7724, .6292, .5308, .4590, .4043]
-    2: [.8325, .7130, .6236, .5541, .4985]
-    reference: 11. Existenzminimumsbericht, .Bundestag Drucksache 18/10220, Übersicht 4
+    regelsatz:
+      single: 4968
+      paare: 8952
+      kinder: 3372
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 3396
+      paare: 5088
+      kinder: 1020
+    heizkosten:
+      single: 636
+      paare: 816
+      kinder: 168
+    reference: 11. Existenzminimumsbericht, Bundestag Drucksache 18/10220, Übersicht 4.
   2019-01-01:
-    1: [.7710, .6273, .5288, .4570, .4024]
-    2: [.8360, .7193, .6296, .5604, .5049]
-    reference: 12. Existenzminimumsbericht, Bundestag Drucksache 19/5400, Übersicht 4
+    regelsatz:
+      single: 5088
+      paare: 8952
+      kinder: 3456
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 3468
+      paare: 5088
+      kinder: 1044
+    heizkosten:
+      single: 612
+      paare: 816
+      kinder: 168
+    reference: 12. Existenzminimumsbericht, Bundestag Drucksache 19/5400, Übersicht 4.
   2020-01-01:
-    1: [.77, .63, .53, .46, .40]
-    2: [.84, .72, .63, .56, .50]
-    reference: 12. Existenzminimumsbericht, Bundestag Drucksache 19/5400, Übersicht 4
+    regelsatz:
+      single: 5196
+      paare: 9360
+      kinder: 3528
+    bildung_und_teilhabe:
+      kinder: 228
+    kosten_der_unterkunft:
+      single: 3552
+      paare: 5328
+      kinder: 1068
+    heizkosten:
+      single: 660
+      paare: 852
+      kinder: 180
+    reference: 12. Existenzminimumsbericht, Bundestag Drucksache 19/5400, Übersicht 4.
+  2021-01-01:
+    regelsatz:
+      single: 5352
+      paare: 9360
+      kinder: 3780
+    bildung_und_teilhabe:
+      kinder: 324
+    kosten_der_unterkunft:
+      single: 3612
+      paare: 5328
+      kinder: 1092
+    heizkosten:
+      single: 780
+      paare: 852
+      kinder: 216
+    reference: 13. Existenzminimumsbericht, Bundestag Drucksache 19/22800, Übersicht 4.
+  2022-01-01:
+    regelsatz:
+      single: 5400
+      paare: 9720
+      kinder: 3816
+    bildung_und_teilhabe:
+      kinder: 324
+    kosten_der_unterkunft:
+      single: 3684
+      paare: 5520
+      kinder: 1104
+    heizkosten:
+      single: 804
+      paare: 1080
+      kinder: 216
+    reference: 13. Existenzminimumsbericht, Bundestag Drucksache 19/22800, Übersicht 4.

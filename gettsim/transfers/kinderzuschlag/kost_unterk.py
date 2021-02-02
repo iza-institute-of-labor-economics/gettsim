@@ -101,18 +101,49 @@ def wohnbedarf_eltern_anteil(
     erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     conditions = []
     choices = []
+    ex_min = kinderzuschlag_params["exmin"]
+    adults_map = {1: "single", 2: "paare"}
     for n_adults in [1, 2]:
         for n_children in [1, 2, 3, 4]:
             condition = (kinder_in_tu == n_children) & (erwachsene_in_tu == n_adults)
-            choice = kinderzuschlag_params["wohnbedarf_eltern_anteil"][n_adults][
-                n_children - 1
-            ]
+            """
+            Calculate share of living costs to attributed to the parents.
+            Defined as parents' subsistence level on housing, divided by sum
+            of subsistence level from parents and children.
+            """
+            choice = (
+                ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
+                + ex_min["heizkosten"][adults_map[n_adults]]
+            ) / (
+                ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
+                + ex_min["heizkosten"][adults_map[n_adults]]
+                + (
+                    n_children
+                    * (
+                        ex_min["kosten_der_unterkunft"]["kinder"]
+                        + ex_min["heizkosten"]["kinder"]
+                    )
+                )
+            )
 
             conditions.append(condition)
             choices.append(choice)
 
         condition = (kinder_in_tu >= 5) & (erwachsene_in_tu == n_adults)
-        choice = kinderzuschlag_params["wohnbedarf_eltern_anteil"][n_adults][4]
+        choice = (
+            ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
+            + ex_min["heizkosten"][adults_map[n_adults]]
+        ) / (
+            ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
+            + ex_min["heizkosten"][adults_map[n_adults]]
+            + (
+                5
+                * (
+                    ex_min["kosten_der_unterkunft"]["kinder"]
+                    + ex_min["heizkosten"]["kinder"]
+                )
+            )
+        )
 
         conditions.append(condition)
         choices.append(choice)
