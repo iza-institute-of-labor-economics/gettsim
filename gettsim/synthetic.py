@@ -103,17 +103,18 @@ def create_synthetic_data(
         age_adults = [35, 35]
     if age_children is None:
         age_children = [3, 8]
+
     # Check inputs
     for t in hh_typen:
         if t not in ["single", "couple"]:
-            raise ValueError(f"illegal household type: '{t}'")
+            raise ValueError("household type must be either 'single'  or 'couple'")
 
     if type(hh_typen) is not list:
         raise ValueError("'hh_typen' must be a list")
 
     if type(n_children) is not list:
         if n_children not in [0, 1, 2]:
-            raise ValueError("'n_children' allows only 0,1 or 2.")
+            raise ValueError("'n_children' must be 0, 1, or 2.")
         else:
             n_children = [n_children]
 
@@ -124,7 +125,7 @@ def create_synthetic_data(
     if len(heterogeneous_vars) == 0:
         # If no heterogeneity specified,
         # just create the household types with default incomes.
-        synth = create_single_household(
+        synth = create_one_set_of_households(
             hh_typen,
             n_children,
             age_adults,
@@ -153,7 +154,7 @@ def create_synthetic_data(
                 )
             for value in heterogeneous_vars[hetvar]:
                 synth = synth.append(
-                    create_single_household(
+                    create_one_set_of_households(
                         hh_typen,
                         n_children,
                         age_adults,
@@ -173,7 +174,7 @@ def create_synthetic_data(
     return synth
 
 
-def create_single_household(
+def create_one_set_of_households(
     hh_typen,
     n_children,
     age_adults,
@@ -183,7 +184,7 @@ def create_single_household(
     policy_year,
     **kwargs,
 ):
-    """ creates a single set of households
+    """ creates one set of households
     """
     # initiate empty dataframe
     output_columns = [
@@ -266,6 +267,7 @@ def create_single_household(
     df["immobilie_baujahr"] = baujahr
     for c in ["arbeitsl_lfdj_m", "arbeitsl_vorj_m", "arbeitsl_vor2j_m"]:
         df[c] = 12
+
     # Household Types
     all_types = pd.DataFrame(
         columns=["hht", "nch"], data=itertools.product(hh_typen, n_children)
@@ -281,6 +283,7 @@ def create_single_household(
     df["kaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["kaltmiete"])
     df["heizkosten_m_hh"] = df["hh_typ"].map(bg_daten["heizkosten"])
     df["mietstufe"] = 3
+
     # Income and wealth
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
     df["kapital_eink_m"] = kwargs.get("bruttolohn_m", 0)
