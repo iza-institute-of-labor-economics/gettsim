@@ -492,7 +492,7 @@ def wohngeld_max_miete_ab_2009(
 def wohngeld_basis(
     haushaltsgröße: IntSeries,
     wohngeld_eink: FloatSeries,
-    wohngeld_max_miete: FloatSeries,
+    wohngeld_miete: FloatSeries,
     wohngeld_params: dict,
 ) -> FloatSeries:
     """Calcualte preliminary housing benefit.
@@ -503,7 +503,7 @@ def wohngeld_basis(
         See :func:`haushaltsgröße`.
     wohngeld_eink
         See :func:`wohngeld_eink`.
-    wohngeld_max_miete
+    wohngeld_miete
         See :func:`wohngeld_max_miete`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
@@ -524,11 +524,11 @@ def wohngeld_basis(
     wg_amount = (
         wohngeld_params["faktor_berechnungsformel"]
         * (
-            wohngeld_max_miete
+            wohngeld_miete
             - (
                 (
                     koeffizienten_a
-                    + (koeffizienten_b * wohngeld_max_miete)
+                    + (koeffizienten_b * wohngeld_miete)
                     + (koeffizienten_c * wohngeld_eink)
                 )
                 * wohngeld_eink
@@ -541,7 +541,7 @@ def wohngeld_basis(
     wg_amount_more_than_12 = (
         wg_amount.clip(lower=0)
         + wohngeld_params["bonus_12_mehr"] * (haushaltsgröße - 12)
-    ).clip(upper=wohngeld_max_miete)
+    ).clip(upper=wohngeld_miete)
 
     wg_amount = wg_amount.where(haushaltsgröße <= 12, wg_amount_more_than_12)
 
