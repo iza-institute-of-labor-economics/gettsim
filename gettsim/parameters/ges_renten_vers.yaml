@@ -163,8 +163,8 @@ durchschnittslohn:
     de:
     en:
   name:
-    de: durchscnittslohn
-    en: meanwages
+    de: Durchschnittslohn
+    en: Mean Wage
   time: year
   2005-01-01:
     scalar: 28468.23
@@ -227,10 +227,18 @@ beitragspflichtiger_durchschnittslohn:
     scalar: 37077
   2018-01-01:
     scalar: 38212
+    reference: V. v. 17.12.2019 BGBl. I S. 2848.
   2019-01-01:
-    scalar: 38901
+    scalar: 39301
+    reference: V. v. 30.11.2020 BGBl. I S. 2612.
   2020-01-01:
     scalar: 40551
+    reference: V. v. 17.12.2019 BGBl. I S. 2848.
+    note: Das vorläufige Durchschnittsentgelt.
+  2021-01-01:
+    scalar: 41541
+    reference: V. v. 30.11.2020 BGBl. I S. 2612.
+    note: Das vorläufige Durchschnittsentgelt.
 
 
 rentenvolumen:
