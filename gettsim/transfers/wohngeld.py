@@ -45,7 +45,7 @@ def wohngeld_basis_hh(hh_id: IntSeries, wohngeld_basis: FloatSeries) -> FloatSer
     3, corresponding to an average level, but other Mietstufen can be specified in
     `household`.
 
-    Benefit amount depends on parameters `wohngeld_max_miete` (rent) and
+    Benefit amount depends on parameters `wohngeld_miete` (rent) and
     `wohngeld_eink` (income) (§19 WoGG).
 
     Parameters
@@ -382,7 +382,7 @@ def wohngeld_min_miete(haushaltsgröße: IntSeries, wohngeld_params: dict) -> Fl
     return haushaltsgröße.clip(upper=12).replace(wohngeld_params["min_miete"])
 
 
-def wohngeld_max_miete_bis_2008(
+def wohngeld_miete_bis_2008(
     mietstufe: IntSeries,
     immobilie_baujahr_hh: IntSeries,
     haushaltsgröße: IntSeries,
@@ -442,7 +442,7 @@ def wohngeld_max_miete_bis_2008(
     return wg_miete
 
 
-def wohngeld_max_miete_ab_2009(
+def wohngeld_miete_ab_2009(
     mietstufe: IntSeries,
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
@@ -504,7 +504,7 @@ def wohngeld_basis(
     wohngeld_eink
         See :func:`wohngeld_eink`.
     wohngeld_miete
-        See :func:`wohngeld_max_miete`.
+        See :func:`wohngeld_miete`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -537,7 +537,7 @@ def wohngeld_basis(
     ).clip(lower=0)
 
     # If more than 12 persons, there is a lump-sum on top. You may however not get more
-    # than the corrected rent `wohngeld_max_miete`.
+    # than the corrected rent `wohngeld_miete`.
     wg_amount_more_than_12 = (
         wg_amount.clip(lower=0)
         + wohngeld_params["bonus_12_mehr"] * (haushaltsgröße - 12)
