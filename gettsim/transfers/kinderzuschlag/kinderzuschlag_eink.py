@@ -266,7 +266,7 @@ def kinderzuschlag_kindereink_abzug(
 
     """
     return kindergeld_anspruch * (
-        kinderzuschlag_max(kinderzuschlag_params, kindergeld_params)
+        kinderzuschlag_max
         - kinderzuschlag_params["kinderzuschlag_transferentzug_kind"]
         * (bruttolohn_m + unterhaltsvors_m)
     ).clip(lower=0)
