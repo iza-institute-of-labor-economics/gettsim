@@ -6,17 +6,13 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def kinderzuschlag_max_bis_2020(
-    kinderzuschlag_params: dict, kindergeld_params: dict
-) -> FloatSeries:
+def kinderzuschlag_max_bis_2020(kinderzuschlag_params: dict) -> FloatSeries:
     """ Until 2020, there was a fixed amount for maximum Kinderzuschlag per child (§6a BKGG)
 
     Parameters
     ----------
     kinderzuschlag_params
         See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
-    kindergeld_params
-        not needed here; included for consistence only
 
     Returns
     -------
@@ -28,7 +24,7 @@ def kinderzuschlag_max_bis_2020(
 def kinderzuschlag_max_ab_2021(
     kinderzuschlag_params: dict, kindergeld_params: dict
 ) -> FloatSeries:
-    """ From 2021, the maximum amount is derived from substistence levels
+    """ Since 2021, the maximum amount has been derived from subsistence levels
     published and updated regularly by the government
 
     Parameters
@@ -198,8 +194,7 @@ def kinderzuschlag_eink_max(
     """
     return (
         kinderzuschlag_eink_relev
-        + kinderzuschlag_max(kinderzuschlag_params, kindergeld_params)
-        * anz_kinder_anspruch_per_hh
+        + kinderzuschlag_params["kinderzuschlag"] * anz_kinder_anspruch_per_hh
     )
 
 
@@ -247,6 +242,7 @@ def kinderzuschlag_kindereink_abzug(
     bruttolohn_m: FloatSeries,
     unterhaltsvors_m: FloatSeries,
     kinderzuschlag_params: dict,
+    kindergeld_params: dict,
 ) -> FloatSeries:
     """Deduct children income for each eligible child.
 
@@ -262,6 +258,8 @@ def kinderzuschlag_kindereink_abzug(
         See :func:`unterhaltsvors_m`.
     kinderzuschlag_params
         See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
     Returns
     -------

@@ -81,6 +81,8 @@ def wohnbedarf_eltern_anteil(
     kinderzuschlag_params: dict,
 ) -> FloatSeries:
     """Calculate living needs broken down to the parents.
+     Defined as parents' subsistence level on housing, divided by sum
+     of subsistence level from parents and children.
 
     Parameters
     ----------
@@ -106,11 +108,6 @@ def wohnbedarf_eltern_anteil(
     for n_adults in [1, 2]:
         for n_children in [1, 2, 3, 4]:
             condition = (kinder_in_tu == n_children) & (erwachsene_in_tu == n_adults)
-            """
-            Calculate share of living costs to attributed to the parents.
-            Defined as parents' subsistence level on housing, divided by sum
-            of subsistence level from parents and children.
-            """
             choice = (
                 ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
                 + ex_min["heizkosten"][adults_map[n_adults]]
