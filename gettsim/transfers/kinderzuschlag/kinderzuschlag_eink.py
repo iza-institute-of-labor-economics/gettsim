@@ -241,8 +241,8 @@ def kinderzuschlag_kindereink_abzug(
     kindergeld_anspruch: BoolSeries,
     bruttolohn_m: FloatSeries,
     unterhaltsvors_m: FloatSeries,
+    kinderzuschlag_max: FloatSeries,
     kinderzuschlag_params: dict,
-    kindergeld_params: dict,
 ) -> FloatSeries:
     """Deduct children income for each eligible child.
 
@@ -256,10 +256,11 @@ def kinderzuschlag_kindereink_abzug(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
+    kinderzuschlag_max:
+        See :func:`kinderzuschlag_max`.
+
     kinderzuschlag_params
         See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
-    kindergeld_params
-        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
     Returns
     -------
