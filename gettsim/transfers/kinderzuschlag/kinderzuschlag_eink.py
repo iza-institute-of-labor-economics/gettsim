@@ -6,41 +6,6 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def kinderzuschlag_max_bis_2020(kinderzuschlag_params: dict) -> FloatSeries:
-    """ Until 2020, there was a fixed amount for maximum Kinderzuschlag per child (§6a BKGG)
-
-    Parameters
-    ----------
-    kinderzuschlag_params
-        See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
-
-    Returns
-    -------
-
-    """
-    return kinderzuschlag_params["kinderzuschlag"]
-
-
-def kinderzuschlag_max_ab_2021(
-    kinderzuschlag_params: dict, kindergeld_params: dict
-) -> FloatSeries:
-    """ Since 2021, the maximum amount has been derived from subsistence levels
-    published and updated regularly by the government
-
-    Parameters
-    ----------
-    kinderzuschlag_params
-        See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
-    kindergeld_params
-        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
-
-    """
-    exmin = kinderzuschlag_params["exmin"]
-    return (
-        exmin["regelsatz"]["kinder"] - exmin["bildung_und_teilhabe"]["kinder"]
-    ) / 12 - kindergeld_params["kindergeld"][1]
-
-
 def kinderzuschlag_eink_regel_bis_2010(
     tu_id: IntSeries,
     hh_id: IntSeries,
@@ -194,7 +159,7 @@ def kinderzuschlag_eink_max(
     """
     return (
         kinderzuschlag_eink_relev
-        + kinderzuschlag_params["kinderzuschlag"] * anz_kinder_anspruch_per_hh
+        + kinderzuschlag_params["kinderzuschlag_max"] * anz_kinder_anspruch_per_hh
     )
 
 
@@ -241,7 +206,6 @@ def kinderzuschlag_kindereink_abzug(
     kindergeld_anspruch: BoolSeries,
     bruttolohn_m: FloatSeries,
     unterhaltsvors_m: FloatSeries,
-    kinderzuschlag_max: FloatSeries,
     kinderzuschlag_params: dict,
 ) -> FloatSeries:
     """Deduct children income for each eligible child.
@@ -256,9 +220,6 @@ def kinderzuschlag_kindereink_abzug(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    kinderzuschlag_max:
-        See :func:`kinderzuschlag_max`.
-
     kinderzuschlag_params
         See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
 
@@ -267,7 +228,7 @@ def kinderzuschlag_kindereink_abzug(
 
     """
     return kindergeld_anspruch * (
-        kinderzuschlag_max
+        kinderzuschlag_params["kinderzuschlag_max"]
         - kinderzuschlag_params["kinderzuschlag_transferentzug_kind"]
         * (bruttolohn_m + unterhaltsvors_m)
     ).clip(lower=0)

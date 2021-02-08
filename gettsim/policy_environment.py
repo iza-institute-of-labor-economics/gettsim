@@ -43,12 +43,6 @@ from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
 from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
     kinderzuschlag_eink_regel_bis_2010,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_max_ab_2021,
-)
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_max_bis_2020,
-)
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.transfers.wohngeld import wohngeld_max_miete_ab_2009
@@ -85,6 +79,9 @@ def set_up_policy_environment(date):
         params[group] = _parse_parameters(tax_data)
 
     functions = load_reforms_for_date(date)
+
+    # extend dictionary with date-specific values which do not need an own function
+    params = load_params_for_date(date, params)
 
     return params, functions
 
@@ -212,11 +209,6 @@ def load_reforms_for_date(date):
     else:
         functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_ab_2011
 
-    if year <= 2020:
-        functions["kinderzuschlag_max"] = kinderzuschlag_max_bis_2020
-    else:
-        functions["kinderzuschlag_max"] = kinderzuschlag_max_ab_2021
-
     if 2005 <= year <= 2019:
         functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_2005_bis_juni_2019
     else:
@@ -235,6 +227,39 @@ def load_reforms_for_date(date):
         functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
 
     return functions
+
+
+def load_params_for_date(date, params):
+    """Specify parameter values (not functions) which are subject to date.
+    This is relevant if they depend on other parameters and/or if this changes over time
+
+    Parameters
+    ----------
+    date: datetime.date
+        The date for which the polocy system is set up
+    params: dict
+        A dictionary with parameters from the policy environment.
+
+    Returns
+    -------
+    params: dic
+        updated dictionary
+
+    """
+
+    if date.year <= 2021:
+        params["kinderzuschlag"]["kinderzuschlag_max"] = params["kinderzuschlag"][
+            "kinderzuschlag"
+        ]
+    else:
+        """Since 2021, the maximum amount has been derived from subsistence levels
+        published and updated regularly by the government
+        """
+        params["kinderzuschlag"]["kinderzuschlag_max"] = (
+            params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
+            - params["kinderzuschlag"]["exmin"]["bildung_und_teilhabe"]["kinder"]
+        ) / 12 - params["kindergeld"]["kindergeld"][1]
+    return params
 
 
 def _load_parameter_group_from_yaml(date, group, parameters=None):
