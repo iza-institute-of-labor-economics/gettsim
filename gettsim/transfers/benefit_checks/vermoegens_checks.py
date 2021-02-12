@@ -5,27 +5,38 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def regelbedarf_m_vermögens_check_hh(
-    regelbedarf_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries
+def wohngeld_vermögens_check_hh(
+    wohngeld_basis_hh: FloatSeries,
+    vermögen_hh: FloatSeries,
+    haushaltsgröße_hh: IntSeries,
+    wohngeld_params: dict,
 ) -> FloatSeries:
-    """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
+    """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
 
-    If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
-    calculated, just set the need to zero)
+    The payment depends on the wealth of the household and the number of household
+    members.
 
     Parameters
     ----------
-    regelbedarf_m_hh
-        See :func:`regelbedarf_m_hh`.
-    unter_vermögens_freibetrag_hh
-        See :func:`unter_vermögens_freibetrag_hh`.
+    wohngeld_basis_hh
+        See :func:`wohngeld_basis_hh`.
+    vermögen_hh
+        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------
 
     """
-    regelbedarf_m_hh.loc[~unter_vermögens_freibetrag_hh] = 0
-    return regelbedarf_m_hh
+    condition = vermögen_hh <= (
+        wohngeld_params["vermögensfreibetrag_grund"]
+        + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
+    )
+    wohngeld_basis_hh.loc[~condition] = 0
+    return wohngeld_basis_hh
 
 
 def kinderzuschlag_vermögens_check_hh(
@@ -48,38 +59,6 @@ def kinderzuschlag_vermögens_check_hh(
 
     kinderzuschlag_m_vorläufig_hh.loc[~unter_vermögens_freibetrag_hh] = 0
     return kinderzuschlag_m_vorläufig_hh
-
-
-def wohngeld_vermögens_check_hh(
-    wohngeld_basis_hh: FloatSeries,
-    vermögen_hh: FloatSeries,
-    haushaltsgröße_hh: IntSeries,
-) -> FloatSeries:
-    """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
-
-    The payment depends on the wealth of the household and the number of household
-    members.
-
-    60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
-
-    TODO: Need to write numbers to params.
-
-    Parameters
-    ----------
-    wohngeld_basis_hh
-        See :func:`wohngeld_basis_hh`.
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
-
-    Returns
-    -------
-
-    """
-    condition = vermögen_hh <= (60_000 + (30_000 * (haushaltsgröße_hh - 1)))
-    wohngeld_basis_hh.loc[~condition] = 0
-    return wohngeld_basis_hh
 
 
 def unter_vermögens_freibetrag_hh(
