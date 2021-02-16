@@ -45,8 +45,8 @@ from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
 )
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
-from gettsim.transfers.wohngeld import wohngeld_max_miete_ab_2009
-from gettsim.transfers.wohngeld import wohngeld_max_miete_bis_2008
+from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
+from gettsim.transfers.wohngeld import wohngeld_miete_bis_2008
 
 
 def set_up_policy_environment(date):
@@ -199,9 +199,9 @@ def load_reforms_for_date(date):
         functions["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_ab_2016
 
     if year <= 2008:
-        functions["wohngeld_max_miete"] = wohngeld_max_miete_bis_2008
+        functions["wohngeld_miete"] = wohngeld_miete_bis_2008
     else:
-        functions["wohngeld_max_miete"] = wohngeld_max_miete_ab_2009
+        functions["wohngeld_miete"] = wohngeld_miete_ab_2009
 
     if year <= 2010:
         functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_bis_2010
