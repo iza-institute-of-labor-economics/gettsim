@@ -82,7 +82,6 @@ def set_up_policy_environment(date):
 
     # extend dictionary with date-specific values which do not need an own function
     params = load_params_for_date(date, params)
-
     return params, functions
 
 
@@ -247,7 +246,7 @@ def load_params_for_date(date, params):
 
     """
 
-    if date.year <= 2021:
+    if date.year <= 2020:
         params["kinderzuschlag"]["kinderzuschlag_max"] = params["kinderzuschlag"][
             "kinderzuschlag"
         ]
@@ -257,7 +256,8 @@ def load_params_for_date(date, params):
         """
         params["kinderzuschlag"]["kinderzuschlag_max"] = (
             params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
-            - params["kinderzuschlag"]["exmin"]["bildung_und_teilhabe"]["kinder"]
+            + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
+            + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
         ) / 12 - params["kindergeld"]["kindergeld"][1]
     return params
 
