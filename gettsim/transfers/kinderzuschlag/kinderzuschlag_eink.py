@@ -134,7 +134,7 @@ def anz_kinder_anspruch_per_hh(
     return kindergeld_anspruch.groupby(hh_id).transform("sum")
 
 
-def kinderzuschlag_eink_max(
+def kinderzuschlag_max_amount(
     kinderzuschlag_eink_relev: FloatSeries,
     anz_kinder_anspruch_per_hh: IntSeries,
     kinderzuschlag_params: dict,
@@ -269,7 +269,7 @@ def kinderzuschlag_eink_spanne(
     hh_id: IntSeries,
     arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
     kinderzuschlag_eink_min: FloatSeries,
-    kinderzuschlag_eink_max: FloatSeries,
+    kinderzuschlag_max_amount: FloatSeries,
     arbeitsl_geld_2_eink_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if household income is in income range for child benefit.
@@ -282,8 +282,8 @@ def kinderzuschlag_eink_spanne(
         See :func:`arbeitsl_geld_2_brutto_eink_hh`.
     kinderzuschlag_eink_min
         See :func:`kinderzuschlag_eink_min`.
-    kinderzuschlag_eink_max
-        See :func:`kinderzuschlag_eink_max`.
+    kinderzuschlag_max_amount
+        See :func:`kinderzuschlag_max_amount`.
     arbeitsl_geld_2_eink_hh
         See :func:`arbeitsl_geld_2_eink_hh`.
 
@@ -294,6 +294,6 @@ def kinderzuschlag_eink_spanne(
 
     eink_spanne = (
         hh_id.replace(arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
-    ) & (hh_id.replace(arbeitsl_geld_2_eink_hh) <= kinderzuschlag_eink_max)
+    ) & (hh_id.replace(arbeitsl_geld_2_eink_hh) <= kinderzuschlag_max_amount)
 
     return eink_spanne
