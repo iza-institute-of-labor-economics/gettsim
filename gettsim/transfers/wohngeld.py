@@ -489,7 +489,7 @@ def wohngeld_miete_ab_2009(
     return wg_miete
 
 
-def wohngeld_max_miete_ab_2021(
+def wohngeld_miete_ab_2021(
     mietstufe: IntSeries,
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
