@@ -5,6 +5,51 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
+def regelbedarf_m_vermögens_check_hh(
+    regelbedarf_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries
+) -> FloatSeries:
+    """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
+
+    If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
+    calculated, just set the need to zero)
+
+    Parameters
+    ----------
+    regelbedarf_m_hh
+        See :func:`regelbedarf_m_hh`.
+    unter_vermögens_freibetrag_hh
+        See :func:`unter_vermögens_freibetrag_hh`.
+
+    Returns
+    -------
+
+    """
+    regelbedarf_m_hh.loc[~unter_vermögens_freibetrag_hh] = 0
+    return regelbedarf_m_hh
+
+
+def kinderzuschlag_vermögens_check_hh(
+    kinderzuschlag_m_vorläufig_hh: FloatSeries,
+    unter_vermögens_freibetrag_hh: BoolSeries,
+) -> FloatSeries:
+    """Set preliminary child benefit to zero if it exceeds the wealth exemption.
+
+    Parameters
+    ----------
+    kinderzuschlag_m_vorläufig_hh
+        See :func:`kinderzuschlag_m_vorläufig_hh`.
+    unter_vermögens_freibetrag_hh
+        See :func:`unter_vermögens_freibetrag_hh`.
+
+    Returns
+    -------
+
+    """
+
+    kinderzuschlag_m_vorläufig_hh.loc[~unter_vermögens_freibetrag_hh] = 0
+    return kinderzuschlag_m_vorläufig_hh
+
+
 def wohngeld_vermögens_check_hh(
     wohngeld_basis_hh: FloatSeries,
     vermögen_hh: FloatSeries,
@@ -37,28 +82,6 @@ def wohngeld_vermögens_check_hh(
     )
     wohngeld_basis_hh.loc[~condition] = 0
     return wohngeld_basis_hh
-
-
-def kinderzuschlag_vermögens_check_hh(
-    kinderzuschlag_m_vorläufig_hh: FloatSeries,
-    unter_vermögens_freibetrag_hh: BoolSeries,
-) -> FloatSeries:
-    """Set preliminary child benefit to zero if it exceeds the wealth exemption.
-
-    Parameters
-    ----------
-    kinderzuschlag_m_vorläufig_hh
-        See :func:`kinderzuschlag_m_vorläufig_hh`.
-    unter_vermögens_freibetrag_hh
-        See :func:`unter_vermögens_freibetrag_hh`.
-
-    Returns
-    -------
-
-    """
-
-    kinderzuschlag_m_vorläufig_hh.loc[~unter_vermögens_freibetrag_hh] = 0
-    return kinderzuschlag_m_vorläufig_hh
 
 
 def unter_vermögens_freibetrag_hh(
