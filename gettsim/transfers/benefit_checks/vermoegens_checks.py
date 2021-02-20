@@ -54,15 +54,12 @@ def wohngeld_vermögens_check_hh(
     wohngeld_basis_hh: FloatSeries,
     vermögen_hh: FloatSeries,
     haushaltsgröße_hh: IntSeries,
+    wohngeld_params: dict,
 ) -> FloatSeries:
     """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
 
     The payment depends on the wealth of the household and the number of household
     members.
-
-    60.000 € pro Haushalt + 30.000 € für jedes Mitglied (Verwaltungsvorschrift)
-
-    TODO: Need to write numbers to params.
 
     Parameters
     ----------
@@ -72,12 +69,17 @@ def wohngeld_vermögens_check_hh(
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------
 
     """
-    condition = vermögen_hh <= (60_000 + (30_000 * (haushaltsgröße_hh - 1)))
+    condition = vermögen_hh <= (
+        wohngeld_params["vermögensfreibetrag_grund"]
+        + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
+    )
     wohngeld_basis_hh.loc[~condition] = 0
     return wohngeld_basis_hh
 
