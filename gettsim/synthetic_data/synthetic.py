@@ -265,6 +265,8 @@ def create_one_set_of_households(
     df["tu_vorstand"] = True
     df["alter"] = age_adults[0]
     df["immobilie_baujahr"] = baujahr
+    for c in ["arbeitsl_lfdj_m", "arbeitsl_vorj_m", "arbeitsl_vor2j_m"]:
+        df[c] = 0
 
     # Household Types
     all_types = pd.DataFrame(
@@ -275,7 +277,7 @@ def create_one_set_of_households(
 
     # wohnfläche_hh, Kaltmiete, Heizkosten are taken from official data
     bg_daten = _load_parameter_group_from_yaml(
-        datetime.date(policy_year, 1, 1), "synthetic_parameters/bedarfsgemeinschaften"
+        datetime.date(policy_year, 1, 1), "../synthetic_data/bedarfsgemeinschaften"
     )
     df["wohnfläche_hh"] = df["hh_typ"].map(bg_daten["wohnfläche"])
     df["kaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["kaltmiete"])
