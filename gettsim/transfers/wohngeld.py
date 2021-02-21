@@ -498,7 +498,7 @@ def wohngeld_miete_ab_2021(
     wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
 ) -> FloatSeries:
-    """Calculate maximal rent subject housing benefit calculation since 2009.
+    """Calculate maximal rent subject housing benefit calculation since 2021.
 
     Parameters
     ----------
