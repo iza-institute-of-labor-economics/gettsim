@@ -16,6 +16,7 @@ kinderzuschlag:
   2019-07-01:
     scalar: 185
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
+    note: Nach 2021 wird der Maximalbetrag aus anderen Parametern berechnet.
 kinderzuschlag_min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
