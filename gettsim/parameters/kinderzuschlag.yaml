@@ -1,4 +1,4 @@
-kinderzuschlag:
+kinderzuschlag_max:
   name:
     de: Höhe des Kinderzuschlags
     en: Additional child benefit
@@ -16,6 +16,7 @@ kinderzuschlag:
   2019-07-01:
     scalar: 185
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530. For 2020, Art. 2 Nr. 4 G. v. 29.04.2019 BGBl. I S. 530.
+    note: Ab 2021 wird der Betrag aus anderen Parametern berechnet.
 kinderzuschlag_min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
