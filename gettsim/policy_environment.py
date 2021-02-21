@@ -283,7 +283,10 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         else:
             policy_in_place = raw_group_data[param][np.max(past_policies)]
             if "scalar" in policy_in_place.keys():
-                tax_data[param] = policy_in_place["scalar"]
+                if policy_in_place["scalar"] == "inf":
+                    tax_data[param] = np.inf
+                else:
+                    tax_data[param] = policy_in_place["scalar"]
             else:
                 tax_data[param] = {}
                 # Keys which if given are transferred
