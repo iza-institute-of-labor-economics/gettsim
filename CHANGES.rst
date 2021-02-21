@@ -14,6 +14,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
     (:ghuser:`Eric-Sommer`).
 * :gh:`253` Implement 2021 changes in health insurance contribution rates and
     other social insurance regulations (:ghuser:`Eric-Sommer`).
+* :gh:`235` Module to create synthetic data
+    (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
 
 
 
