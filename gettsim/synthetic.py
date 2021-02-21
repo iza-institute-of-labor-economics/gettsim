@@ -265,8 +265,6 @@ def create_one_set_of_households(
     df["tu_vorstand"] = True
     df["alter"] = age_adults[0]
     df["immobilie_baujahr"] = baujahr
-    for c in ["arbeitsl_lfdj_m", "arbeitsl_vorj_m", "arbeitsl_vor2j_m"]:
-        df[c] = 12
 
     # Household Types
     all_types = pd.DataFrame(
