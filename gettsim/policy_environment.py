@@ -73,19 +73,40 @@ def set_up_policy_environment(date):
 
     params = {}
     for group in INTERNAL_PARAM_GROUPS:
-        tax_data = _load_parameter_group_from_yaml(date, group)
+        params_one_group = _load_parameter_group_from_yaml(date, group)
 
-        # Align paramters for e.g. piecewise polynomial functions
-        params[group] = _parse_parameters(tax_data)
+        # Align parameters for piecewise polynomial functions
+        params[group] = _parse_piecewise_parameters(params_one_group)
+
+    # extend dictionary with date-specific values which do not need an own function
+    params = _parse_kinderzuschlag_max(date, params)
 
     functions = load_reforms_for_date(date)
 
-    # extend dictionary with date-specific values which do not need an own function
-    params = load_params_for_date(date, params)
     return params, functions
 
 
-def _parse_parameters(tax_data):
+def _parse_date(date):
+    """Check the policy date for different input formats.
+
+    Parameters
+    ----------
+    date : datetime.date, str, int
+        The date for which the policy system is set up.
+
+    Returns
+    -------
+    date : datetime.date
+        The date for which the policy system is set up.
+    """
+    if isinstance(date, str):
+        date = pd.to_datetime(date).date()
+    elif isinstance(date, int):
+        date = datetime.date(year=date, month=1, day=1)
+    return date
+
+
+def _parse_piecewise_parameters(tax_data):
     """Check if parameters are stored in implicit structures and align to general
     structure.
 
@@ -120,24 +141,41 @@ def _parse_parameters(tax_data):
     return tax_data
 
 
-def _parse_date(date):
-    """Check the policy date for different input formats.
+def _parse_kinderzuschlag_max(date, params):
+    """Specify parameter values (not functions) which are subject to date.
+    This is relevant if they depend on other parameters and/or if this changes over time
 
     Parameters
     ----------
-    date : datetime.date, str, int
-        The date for which the policy system is set up.
+    date: datetime.date
+        The date for which the polocy system is set up
+    params: dict
+        A dictionary with parameters from the policy environment.
 
     Returns
     -------
-    date : datetime.date
-        The date for which the policy system is set up.
+    params: dic
+        updated dictionary
+
     """
-    if isinstance(date, str):
-        date = pd.to_datetime(date).date()
-    elif isinstance(date, int):
-        date = datetime.date(year=date, month=1, day=1)
-    return date
+
+    if "kinderzuschlag" in params:
+        if date.year <= 2020:
+            params["kinderzuschlag"]["kinderzuschlag_max"] = params["kinderzuschlag"][
+                "kinderzuschlag"
+            ]
+        else:
+            """Since 2021, the maximum amount has been derived from subsistence levels
+            published and updated regularly by the government
+            """
+            assert "kindergeld" in params
+            params["kinderzuschlag"]["kinderzuschlag_max"] = (
+                params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
+                + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
+                + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
+            ) / 12 - params["kindergeld"]["kindergeld"][1]
+
+    return params
 
 
 def load_reforms_for_date(date):
@@ -226,40 +264,6 @@ def load_reforms_for_date(date):
         functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
 
     return functions
-
-
-def load_params_for_date(date, params):
-    """Specify parameter values (not functions) which are subject to date.
-    This is relevant if they depend on other parameters and/or if this changes over time
-
-    Parameters
-    ----------
-    date: datetime.date
-        The date for which the polocy system is set up
-    params: dict
-        A dictionary with parameters from the policy environment.
-
-    Returns
-    -------
-    params: dic
-        updated dictionary
-
-    """
-
-    if date.year <= 2020:
-        params["kinderzuschlag"]["kinderzuschlag_max"] = params["kinderzuschlag"][
-            "kinderzuschlag"
-        ]
-    else:
-        """Since 2021, the maximum amount has been derived from subsistence levels
-        published and updated regularly by the government
-        """
-        params["kinderzuschlag"]["kinderzuschlag_max"] = (
-            params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
-            + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
-            + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
-        ) / 12 - params["kindergeld"]["kindergeld"][1]
-    return params
 
 
 def _load_parameter_group_from_yaml(date, group, parameters=None):
