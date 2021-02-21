@@ -160,11 +160,7 @@ def _parse_kinderzuschlag_max(date, params):
     """
 
     if "kinderzuschlag" in params:
-        if date.year <= 2020:
-            params["kinderzuschlag"]["kinderzuschlag_max"] = params["kinderzuschlag"][
-                "kinderzuschlag"
-            ]
-        else:
+        if date.year >= 2021:
             """Since 2021, the maximum amount has been derived from subsistence levels
             published and updated regularly by the government
             """
