@@ -45,6 +45,7 @@ setup(
             "pre_processing/exogene_renten_daten/*.yaml",
             "tests/test_data/*.csv",
             "tests/test_data/*.ods",
+            "synthetic_data/*.yaml",
         ]
     },
     include_package_data=True,
