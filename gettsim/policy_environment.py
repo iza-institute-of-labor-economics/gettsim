@@ -142,13 +142,16 @@ def _parse_piecewise_parameters(tax_data):
 
 
 def _parse_kinderzuschlag_max(date, params):
-    """Specify parameter values (not functions) which are subject to date.
-    This is relevant if they depend on other parameters and/or if this changes over time
+    """Prior to 2021, kinderzuschlag_max (the maximum amount of the
+    Kinderzuschlag) was specified directly in the laws and directives.
+
+    Since 2021, kinderzuschlag_max has been derived from subsistence
+    levels. This function implements that calculation.
 
     Parameters
     ----------
     date: datetime.date
-        The date for which the polocy system is set up
+        The date for which the policy parameters are set up.
     params: dict
         A dictionary with parameters from the policy environment.
 
@@ -159,23 +162,19 @@ def _parse_kinderzuschlag_max(date, params):
 
     """
 
-    if "kinderzuschlag" in params:
-        if date.year >= 2021:
-            """Since 2021, the maximum amount has been derived from subsistence levels
-            published and updated regularly by the government
-            """
-            assert "kindergeld" in params
-            params["kinderzuschlag"]["kinderzuschlag_max"] = (
-                params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
-                + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
-                + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
-            ) / 12 - params["kindergeld"]["kindergeld"][1]
+    if date.year >= 2021:
+        assert {"kinderzuschlag", "kindergeld"} <= params.keys()
+        params["kinderzuschlag"]["kinderzuschlag_max"] = (
+            params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
+            + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
+            + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
+        ) / 12 - params["kindergeld"]["kindergeld"][1]
 
     return params
 
 
 def load_reforms_for_date(date):
-    """Load time dependet policy reforms.
+    """Load time-dependent policy reforms.
 
     Parameters
     ----------
