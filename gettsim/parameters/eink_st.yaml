@@ -178,6 +178,28 @@ eink_st_tarif:
       upper_threshold: 57051
     3:
       upper_threshold: 270501
+  2021-01-01:
+    deviation_from: previous
+    reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
+    0:
+      upper_threshold: 9744
+    1:
+      upper_threshold: 14753
+    2:
+      upper_threshold: 57918
+    3:
+      upper_threshold: 274613
+  2022-01-01:
+    deviation_from: previous
+    reference: Art. 2. G. v. 01.12.2020 BGBl. I S. 2616
+    0:
+      upper_threshold: 9984
+    1:
+      upper_threshold: 14926
+    2:
+      upper_threshold: 58596
+    3:
+      upper_threshold: 277826
 
 
 ertragsanteil:

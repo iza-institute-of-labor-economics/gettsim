@@ -7,7 +7,6 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 0.4.x -
 ------------------
-
 * :gh:`248` Implement 2021 increase in lump sum tax deductions for disabled.
    (:ghuser:`Eric-Sommer`).
 * :gh:`254` Implement 2021 increase in unemployment benefits
@@ -16,7 +15,12 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
     other social insurance regulations (:ghuser:`Eric-Sommer`).
 * :gh:`266` Adjust visualization.py to link nodes of DAGs to documentation
     properly (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`).
-
+* :gh:`267` Implement new calculation of Kinderzuschlag parameter
+   (:ghuser:`Eric-Sommer`).
+* :gh:`252` implement 2021 reforms to income tax tariff and family tax deductions
+    (:ghuser:`Eric-Sommer`).
+* :gh:`235` Module to create synthetic data
+    (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
 
 
 0.4.0 - 2020-11-11

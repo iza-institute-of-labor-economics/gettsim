@@ -139,10 +139,11 @@ def kinderzuschlag_eink_max(
     anz_kinder_anspruch_per_hh: IntSeries,
     kinderzuschlag_params: dict,
 ) -> FloatSeries:
-    """Calculate maximal claim of child benefit (kinderzuschlag).
+    """Calculate maximum income to be eligible for additional
+       child benefit (Kinderzuschlag).
 
     There is a maximum income threshold, depending on the need, plus the potential kiz
-    receipt (§6a (1) Nr. 3 BKGG)
+    receipt (§6a (1) Nr. 3 BKGG).
 
     Parameters
     ----------
@@ -159,7 +160,7 @@ def kinderzuschlag_eink_max(
     """
     return (
         kinderzuschlag_eink_relev
-        + kinderzuschlag_params["kinderzuschlag"] * anz_kinder_anspruch_per_hh
+        + kinderzuschlag_params["kinderzuschlag_max"] * anz_kinder_anspruch_per_hh
     )
 
 
@@ -228,7 +229,7 @@ def kinderzuschlag_kindereink_abzug(
 
     """
     return kindergeld_anspruch * (
-        kinderzuschlag_params["kinderzuschlag"]
+        kinderzuschlag_params["kinderzuschlag_max"]
         - kinderzuschlag_params["kinderzuschlag_transferentzug_kind"]
         * (bruttolohn_m + unterhaltsvors_m)
     ).clip(lower=0)
