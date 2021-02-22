@@ -30,7 +30,7 @@ INPUT_COLS = [
 ]
 OUT_COLS = ["kinderzuschlag_m_vorläufig"]
 # 2006 and 2009 are missing
-YEARS = [2011, 2013, 2016, 2017, 2019, 2020]
+YEARS = [2011, 2013, 2016, 2017, 2019, 2020, 2021]
 
 
 @pytest.fixture(scope="module")
