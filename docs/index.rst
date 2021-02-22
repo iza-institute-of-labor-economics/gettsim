@@ -6,7 +6,7 @@ Welcome to GETTSIM's documentation!
    :end-line: 38
 
 You can find the content of the documentation in the table below. After installation
-you can use the turotials to help you get started with GETTSIM. How-to guides provide
+you can use the tutorials to help you get started with GETTSIM. How-to guides provide
 detailed explanations on how to accomplish specific tasks with GETTSIM.
 
 

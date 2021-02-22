@@ -278,8 +278,8 @@ def _add_url_to_dag(dag):
 
 def _create_url(func_name):
     return (
-        f"https://gettsim.readthedocs.io/en/v{gettsim.__version__}/functions.html"
-        f"#gettsim.functions.{func_name}"
+        f"https://gettsim.readthedocs.io/en/v{gettsim.__version__}/gettsim_objects"
+        f"/functions.html#gettsim.functions.{func_name}"
     )
 
 
