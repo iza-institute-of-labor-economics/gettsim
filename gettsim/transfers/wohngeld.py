@@ -532,11 +532,11 @@ def wohngeld_miete_ab_2021(
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 
-    wg_miete = (
+    out = (
         np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
-    return wg_miete
+    return out
 
 
 def wohngeld_basis(
@@ -571,7 +571,7 @@ def wohngeld_basis(
     koeffizienten_b = [koeffizient["b"] for koeffizient in koeffizienten]
     koeffizienten_c = [koeffizient["c"] for koeffizient in koeffizienten]
 
-    wg_amount = (
+    out = (
         wohngeld_params["faktor_berechnungsformel"]
         * (
             wohngeld_miete
@@ -586,16 +586,15 @@ def wohngeld_basis(
         )
     ).clip(lower=0)
 
-    # If more than 12 persons, there is a lump-sum on top. You may however not get more
-    # than the corrected rent `wohngeld_miete`.
-    wg_amount_more_than_12 = (
-        wg_amount.clip(lower=0)
-        + wohngeld_params["bonus_12_mehr"] * (haushaltsgröße - 12)
+    # If more than 12 persons, there is a lump-sum on top.
+    # The maximum is still capped at `wohngeld_miete`.
+    out_more_than_12 = (
+        out + wohngeld_params["bonus_12_mehr"] * (haushaltsgröße - 12)
     ).clip(upper=wohngeld_miete)
 
-    wg_amount = wg_amount.where(haushaltsgröße <= 12, wg_amount_more_than_12)
+    out = out.where(haushaltsgröße <= 12, out_more_than_12)
 
-    return wg_amount
+    return out
 
 
 def tax_unit_share(tu_id: IntSeries, haushaltsgröße: IntSeries) -> FloatSeries:
