@@ -7,6 +7,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 0.4.x -
 ------------------
+
 * :gh:`248` Implement 2021 increase in lump sum tax deductions for disabled.
    (:ghuser:`Eric-Sommer`).
 * :gh:`254` Implement 2021 increase in unemployment benefits
@@ -21,6 +22,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
     (:ghuser:`Eric-Sommer`).
 * :gh:`235` Module to create synthetic data
     (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
+* :gh:`256` Implement 2021 housing benefit reform (:ghuser:`Eric-Sommer`).
+
 
 
 0.4.0 - 2020-11-11
