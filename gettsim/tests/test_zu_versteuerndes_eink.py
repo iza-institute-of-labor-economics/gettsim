@@ -35,8 +35,8 @@ INPUT_COLS = [
     "ges_krankenv_beitr_m",
 ]
 OUT_COLS = [
-    "_zu_verst_eink_kein_kinderfreib",
-    "_zu_verst_eink_kinderfreib",
+    "zu_verst_eink_kein_kinderfreib",
+    "zu_verst_eink_kinderfreib",
     "kind_freib",
     "brutto_eink_1",
     "brutto_eink_4",
@@ -48,7 +48,7 @@ OUT_COLS = [
     "brutto_eink_5_tu",
     "brutto_eink_6_tu",
     "brutto_eink_7_tu",
-    "_ertragsanteil",
+    "ertragsanteil",
     "sonder",
     "alleinerziehend_freib_tu",
     "altersfreib",
@@ -56,8 +56,8 @@ OUT_COLS = [
 ]
 
 TEST_COLS = [
-    "_zu_verst_eink_kein_kinderfreib_tu",
-    "_zu_verst_eink_kinderfreib_tu",
+    "zu_verst_eink_kein_kinderfreib_tu",
+    "zu_verst_eink_kinderfreib_tu",
     "kinderfreib_tu",
     "altersfreib",
     "alleinerziehend_freib_tu",
@@ -97,10 +97,10 @@ def test_zve(
 
     if target == "kindergeld_tu":
         expected_result = sum_test_data_tu("kindergeld", year_data)
-    elif target == "_zu_verst_eink_kein_kinderfreib_tu":
-        expected_result = sum_test_data_tu("_zu_verst_eink_kein_kinderfreib", year_data)
-    elif target == "_zu_verst_eink_kinderfreib_tu":
-        expected_result = sum_test_data_tu("_zu_verst_eink_kinderfreib", year_data)
+    elif target == "zu_verst_eink_kein_kinderfreib_tu":
+        expected_result = sum_test_data_tu("zu_verst_eink_kein_kinderfreib", year_data)
+    elif target == "zu_verst_eink_kinderfreib_tu":
+        expected_result = sum_test_data_tu("zu_verst_eink_kinderfreib", year_data)
     elif target == "kinderfreib_tu":
         expected_result = sum_test_data_tu("kinderfreib", year_data)
     else:

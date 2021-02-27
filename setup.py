@@ -19,7 +19,7 @@ PROJECT_URLS = {
 
 setup(
     name="gettsim",
-    version="0.3.4",
+    version="0.4",
     description=DESCRIPTION,
     long_description=DESCRIPTION + "\n\n" + README,
     long_description_content_type="text/x-rst",
@@ -41,10 +41,11 @@ setup(
     platforms="any",
     package_data={
         "gettsim": [
-            "data/*.yaml",
+            "parameters/*.yaml",
             "pre_processing/exogene_renten_daten/*.yaml",
             "tests/test_data/*.csv",
             "tests/test_data/*.ods",
+            "synthetic_data/*.yaml",
         ]
     },
     include_package_data=True,

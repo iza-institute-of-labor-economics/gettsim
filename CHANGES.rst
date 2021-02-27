@@ -5,10 +5,40 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-
-0.4.0 - 2020-xx-xx
+0.4.x -
 ------------------
 
+* :gh:`248` Implement 2021 increase in lump sum tax deductions for disabled.
+   (:ghuser:`Eric-Sommer`).
+* :gh:`254` Implement 2021 increase in unemployment benefits
+    (:ghuser:`Eric-Sommer`).
+* :gh:`253` Implement 2021 changes in health insurance contribution rates and
+    other social insurance regulations (:ghuser:`Eric-Sommer`).
+* :gh:`266` Adjust visualization.py to link nodes of DAGs to documentation
+    properly (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`).
+* :gh:`267` Implement new calculation of Kinderzuschlag parameter
+   (:ghuser:`Eric-Sommer`).
+* :gh:`252` implement 2021 reforms to income tax tariff and family tax deductions
+    (:ghuser:`Eric-Sommer`).
+* :gh:`235` Module to create synthetic data
+    (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
+* :gh:`256` Implement 2021 housing benefit reform (:ghuser:`Eric-Sommer`).
+
+
+
+0.4.0 - 2020-11-11
+------------------
+
+* :gh:`241` renaming of directories: `gettsim.benefits` to `gettsim.transfers`;
+   `gettsim.soz_vers` to `gettsim.social_insurance`; `gettsim.data` to
+   `gettsim.parameters` (:ghuser:`MaxBlesch`, :ghuser:`ChristianZimpelmann`).
+* :gh:`230` adds type hints and links all docstring variables to the documentation.
+   Also all functions have a one liner docstring now (:ghuser:`MaxBlesch`,
+   :ghuser:`FelixAhlbrecht`).
+* :gh:`232` introduces beginner tutorials on how to use GETTSIM (:ghuser:`amageh`,
+   :ghuser:`davpahl`, :ghuser:`Trichter33`).
+* :gh:`185` adds the DAG code for renten_anspr_m (:ghuser:`MaxBlesch`). This is
+   based on the pension simulation code by (:ghuser:`Eric-Sommer`).
 * :gh:`184` adds visualization of the tax and transfer system as an interactive bokeh
   plot and documentation improvements (:ghuser:`tobiasraabe`).
 * :gh:`198` enhances the loader of internal and user functions, adds a tutorial for how
@@ -21,10 +51,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   ``get_policy_for_date``, ``columns_overriding_functions`` instead of ``user_columns``
   and some more changes.
 * :gh:`225` makes gettsim ready for Python 3.8 (:ghuser:`tobiasraabe`).
-* :gh:`228` releases 0.3.4.
 
 
-0.3.4 - 2020-xx-xx
+
+0.3.4 - 2020-07-30
 ------------------
 
 * :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.

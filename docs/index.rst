@@ -3,14 +3,18 @@ Welcome to GETTSIM's documentation!
 
 .. include:: ../README.rst
    :start-line: 31
-   :end-line: 45
+   :end-line: 38
+
+You can find the content of the documentation in the table below. After installation
+you can use the tutorials to help you get started with GETTSIM. How-to guides provide
+detailed explanations on how to accomplish specific tasks with GETTSIM.
+
 
 .. toctree::
    :caption: Links
    :hidden:
 
    gettsim on Github <https://github.com/iza-institute-of-labor-economics/gettsim>
-
 
 .. toctree::
    :caption: Table of Contents
@@ -19,14 +23,8 @@ Welcome to GETTSIM's documentation!
    installation
    tutorials/index
    how_to_guides/index
-   crosswalk
-   how-to-contribute
-   how-to-maintain
-   changes
-   geps
-   code-of-conduct
-   functions
-   glossary
+   gettsim_objects/index
+   gettsim_developer/index
 
 
 Initiated by
@@ -97,11 +95,3 @@ Initiated by
       &emsp;
 
    </p>
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

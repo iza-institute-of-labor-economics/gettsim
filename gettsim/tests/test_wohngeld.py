@@ -24,7 +24,7 @@ INPUT_COLS = [
     "mietstufe",
     "bruttolohn_m",
     "ges_rente_m",
-    "_ertragsanteil",
+    "ertragsanteil",
     "elterngeld_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
@@ -39,22 +39,24 @@ INPUT_COLS = [
     "behinderungsgrad",
     "jahr",
 ]
-YEARS = [2006, 2009, 2013, 2016, 2018, 2019]
+YEARS_TEST_MAIN = [2006, 2009, 2013, 2016, 2018, 2019, 2021]
 TEST_COLUMN = ["wohngeld_basis_hh"]
 
-# Variables for test of wohngeld with increasing size.
+# Variables for test of wohngeld with varying size.
 MAX_HH_SIZE = 12
-POLICY_YEARS = [2009, 2016, 2020]
+YEARS_TEST_VARYING_HH_SIZES = [2009, 2016, 2021]
 MIETSTUFEN = range(1, 7)
 
 
 @pytest.fixture(scope="module")
 def input_data():
-    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wg.csv")
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_wohngeld.csv")
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMN))
-def test_wg(input_data, year, column):
+@pytest.mark.parametrize(
+    "year, column", itertools.product(YEARS_TEST_MAIN, TEST_COLUMN)
+)
+def test_wohngeld_main(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
@@ -62,7 +64,7 @@ def test_wg(input_data, year, column):
         "elterngeld_m",
         "arbeitsl_geld_m",
         "unterhaltsvors_m",
-        "_ertragsanteil",
+        "ertragsanteil",
         "brutto_eink_1",
         "brutto_eink_4",
         "brutto_eink_5",
@@ -102,7 +104,7 @@ def input_data_households():
             "kindergeld_anspruch": False,
             "bruttolohn_m": 0,
             "ges_rente_m": 0,
-            "_ertragsanteil": 0,
+            "ertragsanteil": 0,
             "elterngeld_m": 0,
             "mietstufe": 0,
             "arbeitsl_geld_m": 0,
@@ -123,15 +125,17 @@ def input_data_households():
     return df
 
 
-@pytest.mark.parametrize("year, mietstufe", itertools.product(POLICY_YEARS, MIETSTUFEN))
-def test_increasing_hh_size(input_data_households, year, mietstufe):
-    column = "wohngeld_basis_hh"
+@pytest.mark.parametrize(
+    "year, mietstufe, column",
+    itertools.product(YEARS_TEST_VARYING_HH_SIZES, MIETSTUFEN, TEST_COLUMN),
+)
+def test_wohngeld_varying_hh_sizes(input_data_households, year, mietstufe, column):
     policy_params, policy_functions = set_up_policy_environment(date=year)
     columns = [
         "elterngeld_m",
         "arbeitsl_geld_m",
         "unterhaltsvors_m",
-        "_ertragsanteil",
+        "ertragsanteil",
         "brutto_eink_1",
         "brutto_eink_4",
         "brutto_eink_5",

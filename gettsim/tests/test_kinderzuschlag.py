@@ -22,15 +22,15 @@ INPUT_COLS = [
     "alleinerziehend",
     "kindergeld_anspruch",
     "alleinerziehenden_mehrbedarf_hh",
-    "_arbeitsl_geld_2_brutto_eink_hh",
+    "arbeitsl_geld_2_brutto_eink_hh",
     "arbeitsl_geld_2_eink_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
 ]
-OUT_COLS = ["_kinderzuschlag_m_vorläufig"]
+OUT_COLS = ["kinderzuschlag_m_vorläufig"]
 # 2006 and 2009 are missing
-YEARS = [2011, 2013, 2016, 2017, 2019, 2020]
+YEARS = [2011, 2013, 2016, 2017, 2019, 2020, 2021]
 
 
 @pytest.fixture(scope="module")
@@ -52,7 +52,7 @@ def test_kiz(
         "arbeitsl_geld_2_eink_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m",
-        "_arbeitsl_geld_2_brutto_eink_hh",
+        "arbeitsl_geld_2_brutto_eink_hh",
         "kindergeld_anspruch",
     ]
 
