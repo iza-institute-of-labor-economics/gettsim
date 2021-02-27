@@ -327,3 +327,51 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
     BoolSeries indicating pensioner in household.
     """
     return rentner.groupby(hh_id).any()
+
+
+def steuerklassen(gemeinsam_veranlagte_tu: BoolSeries,
+                  alleinerziehend_tu: BoolSeries,
+                  bruttolohn_m: FloatSeries,
+                  anz_erwachsene_tu: IntSeries,
+                  e_st_params: FloatSeries) -> IntSeries:
+    """ Determine Lohnsteuerklassen (also called 'tax brackets')
+    They determine the basic allowance for the withdrawal tax
+
+    1: Single
+    2: Single Parent
+    3: One spouse in married couple who receives allowance of both partners. Only in case of Single-Earner Households
+    4: Both spouses receive their individual allowance
+    5: Other spouse in couple who receives no allowance
+    6: Additional Job...not modelled yet, as we do not
+    distinguish between different jobs
+
+    Parameters
+    ----------
+    gemeinsam_veranlagte_tu: BoolSeries
+        whether or not two household members are married and file their tax claim jointly
+    alleinerziehend_tu: BoolSeries
+        Single Parent Indicator
+    bruttolohn_m: FloatSeries
+        Monthly Earnings
+    anz_erwachsene_tu: IntSeries
+        The number of adults in the tax unit
+    e_st_params:
+
+    Returns
+    ----------
+    steuerklasse: IntSeries
+        The steuerklasse for each tax unit member
+    """
+    bruttolohn_max = bruttolohn_m.max()
+    bruttolohn_min = bruttolohn_m.min()
+    grundfreibetrag = e_st_params["eink_st_tarif"]["thresholds"][1]
+    single_earner_couple = (bruttolohn_min <= grundfreibetrag / 12) & (bruttolohn_max > 0) & (
+                anz_erwachsene_tu == 2) & (
+                               gemeinsam_veranlagte_tu)
+    steuerklasse = (1 * (anz_erwachsene_tu == 1) +
+                    2 * alleinerziehend_tu +
+                    3 * single_earner_couple * (bruttolohn_m > 0) +
+                    4 * (anz_erwachsene_tu == 2) * (~single_earner_couple) + 5 * single_earner_couple * (
+                            bruttolohn_m == 0))
+
+    return steuerklasse
