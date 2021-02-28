@@ -24,29 +24,57 @@ def input_data():
 
 def test_steuerklassen():
     policy_params, policy_functions = set_up_policy_environment(date="2021-01-01")
-    df = pd.DataFrame({'tu_id': [1, 2, 2, 3, 3, 3, 4, 4],
-                       'bruttolohn': [2000, 2000, 2000, 2000, 0, 0, 2000, 0],
-                       'gemeinsam_veranlagt_tu': [False, False, False, True, True, False, False, False],
-                       'anz_erwachsene_tu': [1, 2, 2, 2, 2, 2, 1, 1],
-                       'alleinerziehend_tu': [False, False, False, False, False, False, True, True],
-                       'steuerklasse': [1, 4, 4, 3, 5, 4, 2, 2]})
+    df = pd.DataFrame(
+        {
+            "tu_id": [1, 2, 2, 3, 3, 3, 4, 4],
+            "bruttolohn": [2000, 2000, 2000, 2000, 0, 0, 2000, 0],
+            "gemeinsam_veranlagt_tu": [
+                False,
+                False,
+                False,
+                True,
+                True,
+                False,
+                False,
+                False,
+            ],
+            "anz_erwachsene_tu": [1, 2, 2, 2, 2, 2, 1, 1],
+            "alleinerziehend_tu": [
+                False,
+                False,
+                False,
+                False,
+                False,
+                False,
+                True,
+                True,
+            ],
+            "steuerklasse": [1, 4, 4, 3, 5, 4, 2, 2],
+        }
+    )
     eink_st_params = policy_params["eink_st"]
 
-    result = df.groupby("tu_id").apply(steuerklassen,
-                                       steuerklassen(df["gemeinsam_veranlagt_tu"], df["alleinerziehend_tu"],
-                                                     df["bruttolohn"], df["anz_erwachsene_tu"]))
+    result = df.groupby("tu_id").apply(
+        steuerklassen,
+        steuerklassen(
+            df["gemeinsam_veranlagt_tu"],
+            df["alleinerziehend_tu"],
+            df["bruttolohn"],
+            df["anz_erwachsene_tu"],
+        ),
+    )
 
-    assert_series_equal(df['steuerklasse'], result)
+    assert_series_equal(df["steuerklasse"], result)
 
 
 @pytest.mark.parametrize("year", YEARS)
 def test_lohnsteuer(
-        input_data,
-        year,
-        e_st_raw_data,
-        e_st_abzuege_raw_data,
-        soli_st_raw_data,
-        abgelt_st_raw_data,
+    input_data,
+    year,
+    e_st_raw_data,
+    e_st_abzuege_raw_data,
+    soli_st_raw_data,
+    abgelt_st_raw_data,
 ):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
