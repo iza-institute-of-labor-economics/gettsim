@@ -205,13 +205,13 @@ eink_st_tarif:
 ertragsanteil:
   name:
     de: >-
-      Piecewise linear Ertrgasanteil funktion für den Anteil an
-      sozialversicherungspflichtigen Renteneinkommen.
+      Piecewise linear Ertragsanteil-Funktion für den Anteil an
+      sozialversicherungspflichtigen Renteneinkommen
     en:
       Piecewise linear function for calculating the share of pensions subject to income
       taxation.
   description:
-    de: Einkommensteuergesetz (EStG) § 22
+    de: § 22 EStG
     en:
   note:
     de: >-
@@ -228,15 +228,113 @@ ertragsanteil:
     1:
       lower_threshold: 2005
       upper_threshold: 2021
-      rate_linear: 0.02
+      rate_linear: -0.02
       intercept_at_lower_threshold: 0.5
     2:
       lower_threshold: 2021
       upper_threshold: 2041
-      rate_linear: 0.01
+      rate_linear: -0.01
       intercept_at_lower_threshold: 0.8
     3:
       lower_threshold: 2041
       upper_threshold: inf
       rate_linear: 0.0
       intercept_at_lower_threshold: 1
+
+versorgungshöchstbetrag:
+  name:
+    de: Funktion für den Höchsbetrag des Versorgungsfreibetrags in Abhängigkeit des Renteneintrittsalters
+  description:
+    de: § 19 (2) Nr. 2 EStG
+    en:
+  unit: Euro
+  time: month
+  note:
+    de: Funktion erst ab 2005 implementiert.
+    en:
+  2005-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 2005
+      rate_linear: 0
+      intercept_at_lower_threshold: 3000
+    1:
+      lower_threshold: 2005
+      upper_threshold: 2021
+      rate_linear: -120
+      intercept_at_lower_threshold: 3000
+    2:
+      lower_threshold: 2021
+      upper_threshold: 2041
+      rate_linear: -60
+      intercept_at_lower_threshold: 1200
+    3:
+      lower_threshold: 2041
+      upper_threshold: inf
+      rate_linear: 0.0
+      intercept_at_lower_threshold: 0
+
+versorgungsfreibetrag_anteil:
+  name:
+    de: Funktion für den Anteil des Versorgungsfreibetrags an den Versorgungsbezügen in Abhängigkeit des Renteneintrittsalters
+  description:
+    de: § 19 (2) Nr. 2 EStG
+    en:
+  unit: share
+  note:
+    de: Funktion erst ab 2005 implementiert.
+    en:
+  2005-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 2005
+      rate_linear: 0
+      intercept_at_lower_threshold: 0.4
+    1:
+      lower_threshold: 2005
+      upper_threshold: 2021
+      rate_linear: -0.016
+      intercept_at_lower_threshold: 0.4
+    2:
+      lower_threshold: 2021
+      upper_threshold: 2041
+      rate_linear: -0.008
+      intercept_at_lower_threshold: 0.16
+    3:
+      lower_threshold: 2041
+      upper_threshold: inf
+      rate_linear: 0.0
+      intercept_at_lower_threshold: 0
+
+versorgungsfreibetrag_zuschlag:
+  name:
+    de: Funktion für den Zuschlag Anteil zum Versorgungsfreibetrag in Abhängigkeit des Renteneintrittsalters
+  description:
+    de: § 19 (2) Nr. 2 EStG
+    en:
+  unit: Euro
+  time: month
+  note:
+    de: Funktion erst ab 2005 implementiert.
+    en:
+  2005-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 2005
+      rate_linear: 0
+      intercept_at_lower_threshold: 900
+    1:
+      lower_threshold: 2005
+      upper_threshold: 2021
+      rate_linear: -36
+      intercept_at_lower_threshold: 900
+    2:
+      lower_threshold: 2021
+      upper_threshold: 2041
+      rate_linear: -18
+      intercept_at_lower_threshold: 360
+    3:
+      lower_threshold: 2041
+      upper_threshold: inf
+      rate_linear: 0.0
+      intercept_at_lower_threshold: 0
