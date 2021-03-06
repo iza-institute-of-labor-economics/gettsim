@@ -17,6 +17,8 @@ from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
 from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
+from gettsim.taxes.lohn_st import vorsorgepauschale_2005_2010
+from gettsim.taxes.lohn_st import vorsorgepauschale_ab_2010
 from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_ohne_kapital
 from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_ab_2015
@@ -226,6 +228,11 @@ def load_reforms_for_date(date):
         functions["vorsorge"] = vorsorge_ab_2005_bis_2009
     elif year <= 2004:
         functions["vorsorge"] = vorsorge_bis_2004
+
+    if year >= 2010:
+        functions["vorsorgepauschale"] = vorsorgepauschale_ab_2010
+    else:
+        functions["vorsorgepauschale"] = vorsorgepauschale_2005_2010
 
     if year <= 2015:
         functions["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_bis_2015
