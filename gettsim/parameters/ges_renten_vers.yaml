@@ -465,3 +465,51 @@ rentenwert_ost:
   2019-07-01:
     scalar: 31.89
     reference:
+
+höchstwert_base:
+  description:
+    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte (nach Berücksichtigung des Bonus an Entgeltpunkten aus Grundrente)
+    en:
+  2021-01-01:
+    scalar: 0.0334
+    reference:
+
+höchstwert_increment:
+  description:
+    de: Anstieg des Höchstwerts der durchschnittlichen Entgeltpunkte in den Grundrentenzeiten (nach Berücksichtigung des Bonus an Entgeltpunkten aus Grundrente)
+    en:
+  2021-01-01:
+    scalar: 0.001389
+    reference:
+
+grundrentenzeiten_upper:
+  description:
+    de: zusätzliche Monate an Grundrentenzeiten werden nicht berücksichtigt
+    en:
+  2021-01-01:
+    scalar: 420
+    reference:
+
+grundrentenzeiten_lower:
+  description:
+    de: minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein
+    en:
+  2021-01-01:
+    scalar: 396
+    reference:
+
+einkommensanrechnung_upper:
+  description:
+    de: ab hier wird Einkommen vollständig angerechnet
+    en:
+  2021-01-01:
+    scalar: 1600
+    reference:
+
+einkommensanrechnung_lower:
+  description:
+    de: ab hier wird Einkommen zu 60% angerechnet
+    en:
+  2021-01-01:
+    scalar: 1250
+    reference:

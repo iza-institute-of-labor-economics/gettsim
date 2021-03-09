@@ -115,7 +115,9 @@ def entgeltpunkte_lohn(
     -------
 
     """
-    durchschnittslohn_dt = ges_renten_vers_params["durchschnittslohn"]
+    durchschnittslohn_dt = (1 / 12) * ges_renten_vers_params[
+        "beitragspflichtiger_durchschnittslohn"
+    ]
     return bruttolohn_m.clip(upper=rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
 
 
