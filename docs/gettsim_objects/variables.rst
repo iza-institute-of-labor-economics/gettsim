@@ -14,7 +14,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`tu_id`                | Tax Unit identifier                          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`kind`                 | Dummy: Child by SOEP Definition              | BoolSeries  |
+| _`kind`                 | Dummy: Dependent child living with parents   | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
 | _`anz_minderj_hh`       | Number of children between 0 and 18 in hous  | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
