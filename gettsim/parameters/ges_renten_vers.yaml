@@ -500,10 +500,18 @@ grundrentenzeiten_lower:
 
 einkommensanrechnung_upper:
   description:
-    de: ab hier wird Einkommen vollständig angerechnet
+    de: ab hier wird Einkommen vollständig angerechnet, ersetzen durch x-faches des rentenwertes!
     en:
   2021-01-01:
     scalar: 1600
+    reference:
+
+einkommensanrechnung_upper_ehe:
+  description:
+    de: ab hier wird Einkommen vollständig angerechnet, ersetzen durch x-faches des rentenwertes!
+    en:
+  2021-01-01:
+    scalar: 2300
     reference:
 
 einkommensanrechnung_lower:
@@ -512,4 +520,12 @@ einkommensanrechnung_lower:
     en:
   2021-01-01:
     scalar: 1250
+    reference:
+
+einkommensanrechnung_lower_ehe:
+  description:
+    de: ab hier wird Einkommen zu 60% angerechnet
+    en:
+  2021-01-01:
+    scalar: 1950
     reference:

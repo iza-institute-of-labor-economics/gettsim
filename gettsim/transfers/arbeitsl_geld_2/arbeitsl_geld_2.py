@@ -6,11 +6,13 @@ from gettsim.typing import IntSeries
 
 
 def arbeitsl_geld_2_m_hh(
+    hh_id,
     arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
     kinderzuschlag_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
-    rentner_in_hh: BoolSeries,
+    rentner: BoolSeries,
+    haushaltsgröße,
 ) -> FloatSeries:
 
     """Calculate final monthly subsistence payment on household level.
@@ -37,7 +39,7 @@ def arbeitsl_geld_2_m_hh(
         wohngeld_vorrang_hh
         | kinderzuschlag_vorrang_hh
         | wohngeld_kinderzuschlag_vorrang_hh
-        | rentner_in_hh
+        | ((rentner.astype(int)).groupby(hh_id).sum() == haushaltsgröße)
     )
     out.loc[cond] = 0
     return out

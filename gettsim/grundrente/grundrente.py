@@ -1,5 +1,6 @@
 import numpy as np
 
+from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 
 
@@ -121,15 +122,59 @@ def grundrente_vor_einkommensanrechnung(
     return out
 
 
-def grundrente1(
+def einkommen_paar(
+    zu_verst_eink_kinderfreib_tu,
+    ges_rente_m_tu,
+    zu_verst_ges_rente_tu,
+    brutto_eink_5_tu,
+    eink_st_abzuege_params,
+) -> FloatSeries:
+    """Aggreate pension payments subject to taxation inn tax unit.
+
+    Parameters
+    ----------
+    zu_verst_ges_rente
+        See :func:`zu_verst_ges_rente`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        (1 / 12) * zu_verst_eink_kinderfreib_tu
+        + (ges_rente_m_tu - zu_verst_ges_rente_tu)
+        + (brutto_eink_5_tu - 2 * eink_st_abzuege_params["sparerpauschbetrag"]).clip(
+            lower=0
+        )
+    )
+    return out
+
+
+def einkommen_alleinstehend(
+    zu_verst_ges_rente: FloatSeries,
+    zu_verst_eink_kinderfreib_tu,
+    ges_rente_m,
+    brutto_eink_5,
+    eink_st_abzuege_params,
+):
+    out = (
+        (1 / 12) * zu_verst_eink_kinderfreib_tu
+        + (ges_rente_m - zu_verst_ges_rente)
+        + (brutto_eink_5 - eink_st_abzuege_params["sparerpauschbetrag"]).clip(lower=0)
+    )
+    return out
+
+
+def grundrentenzuschlag_m(
     grundrente_vor_einkommensanrechnung,
-    bruttolohn_m,
-    rente_anspr_m,
     ges_renten_vers_params: dict,
+    alleinstehend: BoolSeries,
+    einkommen_alleinstehend,
+    einkommen_paar,
 ) -> FloatSeries:
     """ Implement income crediting rule as defined in Grundrentengesetz.
-    Assumption for now: only other income is bruttolohn_m and
-    rente_anspr_m.
 
     Parameters
     ----------
@@ -140,20 +185,32 @@ def grundrente1(
     -------
 
     """
-    out = (
-        grundrente_vor_einkommensanrechnung
-        - (
-            (
-                (bruttolohn_m + rente_anspr_m).clip(
-                    upper=ges_renten_vers_params["einkommensanrechnung_upper"]
-                )
-                - ges_renten_vers_params["einkommensanrechnung_lower"]
-            ).clip(lower=0)
-        )
+    out = grundrente_vor_einkommensanrechnung - (
+        (
+            einkommen_alleinstehend.clip(
+                upper=ges_renten_vers_params["einkommensanrechnung_upper"]
+            )
+            - ges_renten_vers_params["einkommensanrechnung_lower"]
+        ).clip(lower=0)
         * 0.6
         - (
-            (bruttolohn_m + rente_anspr_m)
+            einkommen_alleinstehend
             - ges_renten_vers_params["einkommensanrechnung_upper"]
+        ).clip(lower=0)
+    ).clip(lower=0)
+
+    condition = ~alleinstehend
+
+    out.loc[condition] = grundrente_vor_einkommensanrechnung - (
+        (
+            einkommen_paar.clip(
+                upper=ges_renten_vers_params["einkommensanrechnung_upper_ehe"]
+            )
+            - ges_renten_vers_params["einkommensanrechnung_lower_ehe"]
+        ).clip(lower=0)
+        * 0.6
+        - (
+            einkommen_paar - ges_renten_vers_params["einkommensanrechnung_upper_ehe"]
         ).clip(lower=0)
     ).clip(lower=0)
     return out
@@ -191,10 +248,11 @@ def nicht_grundrentenberechtigt(grundrentenzeiten, ges_renten_vers_params: dict)
 
 def anzurechnende_rente(
     rente_anspr_m,
-    grundrente1,
+    grundrentenzuschlag_m,
     grundrentenberechtigt,
     nicht_grundrentenberechtigt,
     bruttolohn_m,
+    arbeitsl_geld_2_params: dict,
 ):
     """ Implement allowance for grundsicherung im alter.
 
@@ -202,7 +260,7 @@ def anzurechnende_rente(
     Parameters
     ----------
    rente_anspr_m
-   grundrente1
+   grundrentenzuschlag_m
    grundrentenberechtigt
    nicht_grundrentenberechtigt
    bruttolohn_m
@@ -211,12 +269,15 @@ def anzurechnende_rente(
     -------
 
     """
-    gesamtrente = rente_anspr_m + grundrente1 + bruttolohn_m
+    gesamtrente = rente_anspr_m + grundrentenzuschlag_m + bruttolohn_m
 
     out = grundrentenberechtigt.astype(float) * np.nan
     out.loc[nicht_grundrentenberechtigt] = gesamtrente
     out.loc[grundrentenberechtigt] = (
-        gesamtrente - (100 + (gesamtrente - 100) * 0.3).clip(upper=0.5 * 432)
+        gesamtrente
+        - (100 + (gesamtrente - 100) * 0.3).clip(
+            upper=0.5 * arbeitsl_geld_2_params["regelsatz"]["1"]
+        )
     ).clip(lower=0)
     return out
 
@@ -249,31 +310,3 @@ def grundsicherung_nicht_berechtigt(anzurechnende_rente):
 
     """
     return anzurechnende_rente >= 932
-
-
-def grundsicherung(
-    grundsicherung_berechtigt, grundsicherung_nicht_berechtigt, anzurechnende_rente
-):
-    """ Compute monthly payments of Grundsicherung
-
-    Parameters
-    ----------
-
-    grundsicherung_berechtigt
-    grundsicherung_nicht_berechtigt
-    anzurechnende_rente
-
-    Returns
-    -------
-
-    """
-    out = grundsicherung_berechtigt.astype(float) * np.nan
-    out.loc[grundsicherung_nicht_berechtigt] = 0
-    out.loc[grundsicherung_berechtigt] = 932 - anzurechnende_rente
-
-    return out
-
-
-def grundsicherung_im_alter_2020(rente_anspr_m):
-    out = ((432 + 500) - rente_anspr_m).clip(lower=0)
-    return out
