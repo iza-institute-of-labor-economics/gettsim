@@ -209,7 +209,7 @@ kinderbonus:
     de: Kinderbonus (Einmalzahlung)
     en: Child bonus (one-time payment)
   description:
-    de: Aufstockung des Kindergeldes während COVID-19 Pandemie. Wurde im September/Oktober 2020 bzw. Mai 2021 ausgezahlt, aber ist hier auf das volle Kalenderjahr angerechnet
+    de: Aufstockung des Kindergeldes während COVID-19 Pandemie. Wurde im September/Oktober 2020 bzw. Mai 2021 ausgezahlt, aber ist hier auf das volle Kalenderjahr angerechnet.
     en:
   unit: Euro
   time: year

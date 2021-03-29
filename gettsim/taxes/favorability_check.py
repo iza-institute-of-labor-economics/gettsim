@@ -133,7 +133,7 @@ def kinderbonus_m(
     kinderbonus_m_tu_basis: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
-    """Kindergeld calculation since 1997.
+    """Calculate Kinderbonus (one-time payment, non-allowable against transfer payments).
 
     Parameters
     ----------
