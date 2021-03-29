@@ -17,9 +17,8 @@ INPUT_COLS = [
     "in_ausbildung",
     "bruttolohn_m",
 ]
-OUT_COLS = ["kindergeld_m_basis", "kindergeld_m_tu_basis"]
-YEARS = [2000, 2002, 2010, 2011, 2013, 2019, 2021]
-TEST_COLS = ["kindergeld_m_tu_basis"]
+YEARS = [2000, 2002, 2010, 2011, 2013, 2019, 2020, 2021]
+TEST_COLS = ["kindergeld_m_tu_basis", "kinderbonus_m_tu_basis"]
 
 
 @pytest.fixture(scope="module")
@@ -39,5 +38,4 @@ def test_kindergeld(input_data, year, target):
     calc_result = compute_taxes_and_transfers(
         data=df, params=policy_params, functions=policy_functions, targets=target
     )
-
     assert_series_equal(calc_result[target], year_data[target], check_dtype=False)
