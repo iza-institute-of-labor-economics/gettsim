@@ -288,7 +288,7 @@ def create_one_set_of_households(
 
     # Income and wealth
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
-    df["kapital_eink_m"] = kwargs.get("bruttolohn_m", 0)
+    df["kapital_eink_m"] = kwargs.get("kapital_eink_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
     df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
     dim = kwargs.get("dimension", 1)
