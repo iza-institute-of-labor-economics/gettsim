@@ -203,3 +203,24 @@ kindergeld_stundengrenze:
   2012-01-01:
     scalar: 20
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131
+
+kinderbonus:
+  name:
+    de: Kinderbonus (Einmalzahlung)
+    en: Child bonus (one-time payment)
+  description:
+    de: Aufstockung des Kindergeldes während COVID-19 Pandemie. Wurde im September/Oktober 2020 bzw. Mai 2021 ausgezahlt, aber ist hier auf das volle Kalenderjahr angerechnet
+    en:
+  unit: Euro
+  time: year
+  1984-01-01:
+    scalar: 0
+  2020-01-01:
+    reference: Art. 1 Zweites Corona-Steuerhilfegesetz v. 29.06.2020 BGBl. I S. 1512
+    scalar: 300
+  2021-01-01:
+    reference: Art. 1 Drittes Corona-Steuerhilfegesetz v. 10.03.2021 BGBl. I S. 330
+    scalar: 150
+  2022-01-01:
+    note: only one-time payment
+    scalar: 0
