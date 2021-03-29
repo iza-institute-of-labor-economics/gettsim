@@ -17,6 +17,7 @@ from gettsim.typing import IntSeries
 def beantrage_kind_freib_tu(
     st_kein_kind_freib_tu: FloatSeries,
     kindergeld_m_tu_basis: FloatSeries,
+    kinderbonus_m_tu_basis: FloatSeries,
     st_kind_freib_tu: FloatSeries,
 ) -> BoolSeries:
     """Check if individual claims child allowance (kinderfreibetrag).
@@ -27,6 +28,8 @@ def beantrage_kind_freib_tu(
         See :func:`st_kein_kind_freib_tu`.
     kindergeld_m_tu_basis
         See :func:`kindergeld_m_tu_basis`.
+    kinderbonus_m_tu_basis
+        See :func:`kinderbonus_m_tu_basis`.
     st_kind_freib_tu
         See :func:`st_kind_freib_tu`.
 
@@ -34,7 +37,9 @@ def beantrage_kind_freib_tu(
     -------
 
     """
-    st_kein_kind_freib = st_kein_kind_freib_tu - 12 * kindergeld_m_tu_basis
+    st_kein_kind_freib = st_kein_kind_freib_tu - 12 * (
+        kindergeld_m_tu_basis + kinderbonus_m_tu_basis
+    )
     return st_kein_kind_freib > st_kind_freib_tu
 
 
@@ -123,6 +128,32 @@ def kindergeld_m_ab_1997(
     return out
 
 
+def kinderbonus_m(
+    beantrage_kind_freib_tu: BoolSeries,
+    kinderbonus_m_tu_basis: FloatSeries,
+    tu_id: IntSeries,
+) -> FloatSeries:
+    """Kindergeld calculation since 1997.
+
+    Parameters
+    ----------
+    beantrage_kind_freib_tu
+        See :func:`beantrage_kind_freib_tu`.
+    kinderbonus_m_tu_basis
+        See :func:`kinderbonus_m_tu_basis`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    beantrage_kind_freib = tu_id.replace(beantrage_kind_freib_tu)
+    out = kinderbonus_m_tu_basis
+    out.loc[beantrage_kind_freib] = 0
+    return out
+
+
 def kindergeld_m_hh(kindergeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
     """Aggregate Child benefit on the household level.
 
@@ -158,3 +189,40 @@ def kindergeld_m_tu(kindergeld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
 
     """
     return kindergeld_m.groupby(tu_id).sum()
+
+
+def kinderbonus_m_hh(kinderbonus_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
+    """Aggregate Kinderbonus on the household level.
+
+    Aggregate Kinderbonus on the household level, as we could have several tax_units
+    in one household.
+
+    Parameters
+    ----------
+    kinderbonus_m
+        See :func:`kinderbonus_m`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+
+    Returns
+    -------
+
+    """
+    return kinderbonus_m.groupby(hh_id).sum()
+
+
+def kinderbonus_m_tu(kinderbonus_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Aggregate Kinderbonus on the tax unit level.
+
+    Parameters
+    ----------
+    kinderbonus_m
+        See :func:`kinderbonus_m`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return kinderbonus_m.groupby(tu_id).sum()
