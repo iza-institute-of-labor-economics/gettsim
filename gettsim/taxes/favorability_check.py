@@ -130,7 +130,7 @@ def kindergeld_m_ab_1997(
 
 def kinderbonus_m(
     beantrage_kind_freib_tu: BoolSeries,
-    kinderbonus_m_tu_basis: FloatSeries,
+    kinderbonus_m_basis: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
     """Calculate Kinderbonus (one-time payment, non-allowable against transfer payments).
@@ -139,8 +139,8 @@ def kinderbonus_m(
     ----------
     beantrage_kind_freib_tu
         See :func:`beantrage_kind_freib_tu`.
-    kinderbonus_m_tu_basis
-        See :func:`kinderbonus_m_tu_basis`.
+    kinderbonus_m_basis
+        See :func:`kinderbonus_m_basis`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
 
@@ -149,7 +149,7 @@ def kinderbonus_m(
 
     """
     beantrage_kind_freib = tu_id.replace(beantrage_kind_freib_tu)
-    out = kinderbonus_m_tu_basis
+    out = kinderbonus_m_basis
     out.loc[beantrage_kind_freib] = 0
     return out
 
