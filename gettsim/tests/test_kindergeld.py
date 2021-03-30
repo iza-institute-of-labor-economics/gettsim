@@ -25,6 +25,7 @@ TEST_COLS = [
     "kinderbonus_m_tu_basis",
     "kindergeld_m_hh",
     "kinderbonus_m_hh",
+    "kinderbonus_m_tu",
 ]
 
 
