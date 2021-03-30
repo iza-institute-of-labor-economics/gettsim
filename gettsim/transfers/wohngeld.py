@@ -489,6 +489,56 @@ def wohngeld_miete_ab_2009(
     return wg_miete
 
 
+def wohngeld_miete_ab_2021(
+    mietstufe: IntSeries,
+    haushaltsgröße: IntSeries,
+    hh_id: IntSeries,
+    kaltmiete_m_hh: FloatSeries,
+    tax_unit_share: FloatSeries,
+    wohngeld_min_miete: FloatSeries,
+    wohngeld_params: dict,
+) -> FloatSeries:
+    """Calculate maximal rent subject housing benefit calculation since 2021.
+
+    Parameters
+    ----------
+    mietstufe
+        See basic input variable :ref:`mietstufe <mietstufe>`.
+    haushaltsgröße
+        See :func:`haushaltsgröße`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    kaltmiete_m_hh
+        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    tax_unit_share
+        See :func:`tax_unit_share`.
+    wohngeld_min_miete
+        See :func:`wohngeld_min_miete`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    data = [
+        wohngeld_params["max_miete"][hh_größe][ms]
+        + wohngeld_params["heizkosten_zuschuss"][hh_größe]
+        if hh_größe <= 5
+        else wohngeld_params["max_miete"][5][ms]
+        + (wohngeld_params["max_miete"]["5plus"][ms] * (hh_größe - 5))
+        + wohngeld_params["heizkosten_zuschuss"][5]
+        + wohngeld_params["heizkosten_zuschuss"]["5plus"] * (hh_größe - 5)
+        for hh_größe, ms in zip(haushaltsgröße, mietstufe)
+    ]
+
+    out = (
+        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+    ).clip(lower=wohngeld_min_miete)
+
+    return out
+
+
 def wohngeld_basis(
     haushaltsgröße: IntSeries,
     wohngeld_eink: FloatSeries,
@@ -521,7 +571,7 @@ def wohngeld_basis(
     koeffizienten_b = [koeffizient["b"] for koeffizient in koeffizienten]
     koeffizienten_c = [koeffizient["c"] for koeffizient in koeffizienten]
 
-    wg_amount = (
+    out = (
         wohngeld_params["faktor_berechnungsformel"]
         * (
             wohngeld_miete
@@ -536,16 +586,15 @@ def wohngeld_basis(
         )
     ).clip(lower=0)
 
-    # If more than 12 persons, there is a lump-sum on top. You may however not get more
-    # than the corrected rent `wohngeld_miete`.
-    wg_amount_more_than_12 = (
-        wg_amount.clip(lower=0)
-        + wohngeld_params["bonus_12_mehr"] * (haushaltsgröße - 12)
+    # If more than 12 persons, there is a lump-sum on top.
+    # The maximum is still capped at `wohngeld_miete`.
+    out_more_than_12 = (
+        out + wohngeld_params["bonus_12_mehr"] * (haushaltsgröße - 12)
     ).clip(upper=wohngeld_miete)
 
-    wg_amount = wg_amount.where(haushaltsgröße <= 12, wg_amount_more_than_12)
+    out = out.where(haushaltsgröße <= 12, out_more_than_12)
 
-    return wg_amount
+    return out
 
 
 def tax_unit_share(tu_id: IntSeries, haushaltsgröße: IntSeries) -> FloatSeries:
