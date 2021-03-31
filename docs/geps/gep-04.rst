@@ -109,7 +109,7 @@ variables to other variables which require them to be computed. See this `tutori
 
 The resulting structure is a special kind of graph which is called a directed-acyclic
 graph (DAG). Directed and acyclic means that there exist no path of vertices which
-starts at some node :math:`\vega` and ends at the same node. Equivalently, a DAG has a
+starts at some node and ends at the same node. Equivalently, a DAG has a
 topological ordering which is a sequence of nodes ordered from earlier to later in the
 sequence. The topological ordering is what defines the sequence in which the functions
 in the tax and transfer system are evaluated. This ensures that the inputs are already
