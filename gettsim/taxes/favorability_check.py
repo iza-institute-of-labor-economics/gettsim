@@ -16,8 +16,8 @@ from gettsim.typing import IntSeries
 
 def beantrage_kind_freib_tu(
     st_kein_kind_freib_tu: FloatSeries,
-    kindergeld_m_tu_basis: FloatSeries,
-    kinderbonus_m_tu_basis: FloatSeries,
+    kindergeld_m_basis_tu: FloatSeries,
+    kinderbonus_m_basis_tu: FloatSeries,
     st_kind_freib_tu: FloatSeries,
 ) -> BoolSeries:
     """Check if individual claims child allowance (kinderfreibetrag).
@@ -26,10 +26,10 @@ def beantrage_kind_freib_tu(
     ----------
     st_kein_kind_freib_tu
         See :func:`st_kein_kind_freib_tu`.
-    kindergeld_m_tu_basis
-        See :func:`kindergeld_m_tu_basis`.
-    kinderbonus_m_tu_basis
-        See :func:`kinderbonus_m_tu_basis`.
+    kindergeld_m_basis_tu
+        See :func:`kindergeld_m_basis_tu`.
+    kinderbonus_m_basis_tu
+        See :func:`kinderbonus_m_basis_tu`.
     st_kind_freib_tu
         See :func:`st_kind_freib_tu`.
 
@@ -38,7 +38,7 @@ def beantrage_kind_freib_tu(
 
     """
     st_kein_kind_freib = st_kein_kind_freib_tu - 12 * (
-        kindergeld_m_tu_basis + kinderbonus_m_tu_basis
+        kindergeld_m_basis_tu + kinderbonus_m_basis_tu
     )
     return st_kein_kind_freib > st_kind_freib_tu
 

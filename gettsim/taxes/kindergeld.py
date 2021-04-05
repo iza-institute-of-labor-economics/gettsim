@@ -31,7 +31,7 @@ def kindergeld_m_basis(
     return out
 
 
-def kindergeld_m_tu_basis(
+def kindergeld_m_basis_tu(
     kindergeld_m_basis: FloatSeries, tu_id: IntSeries
 ) -> FloatSeries:
     """Aggregate the preliminary kindergeld on tax unit level.
@@ -151,7 +151,7 @@ def kinderbonus_m_basis(
     return out
 
 
-def kinderbonus_m_tu_basis(
+def kinderbonus_m_basis_tu(
     kinderbonus_m_basis: FloatSeries, tu_id: IntSeries
 ) -> FloatSeries:
     """Aggregate the Kinderbonus on tax unit level.
