@@ -95,6 +95,7 @@ def grundsicherung_eink(
     sozialv_beitr_m: FloatSeries,
     eink_anr_frei_grundsicherung: FloatSeries,
     freibetrag_grundsicherung_grundrente,
+    freibetrag_prv_rente,
 ) -> FloatSeries:
     """sum up income for calculation of Grundsicherung im Alter
 
@@ -121,6 +122,7 @@ def grundsicherung_eink(
         - sozialv_beitr_m
         - eink_anr_frei_grundsicherung
         - freibetrag_grundsicherung_grundrente
+        - freibetrag_prv_rente
     ).clip(lower=0)
 
 
@@ -138,6 +140,13 @@ def eink_anr_frei_grundsicherung(bruttolohn_m, arbeitsl_geld_2_params):
     """
     out = (bruttolohn_m * 0.3).clip(upper=0.5 * arbeitsl_geld_2_params["regelsatz"][1])
 
+    return out
+
+
+def freibetrag_prv_rente(prv_rente_m, arbeitsl_geld_2_params):
+    out = (prv_rente_m.clip(upper=100) + (prv_rente_m - 100).clip(lower=0) * 0.3).clip(
+        upper=0.5 * arbeitsl_geld_2_params["regelsatz"][1]
+    )
     return out
 
 
