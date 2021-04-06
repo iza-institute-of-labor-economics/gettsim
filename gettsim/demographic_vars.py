@@ -327,3 +327,7 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
     BoolSeries indicating pensioner in household.
     """
     return rentner.groupby(hh_id).any()
+
+
+def anz_rentner_hh(hh_id: IntSeries, rentner: BoolSeries) -> IntSeries:
+    return rentner.groupby(hh_id).sum()

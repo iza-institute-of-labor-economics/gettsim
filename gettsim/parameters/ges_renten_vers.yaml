@@ -373,6 +373,10 @@ rentenwert_west:
     scalar: 32.03
   2019-07-01:
     scalar: 33.05
+  2020-07-01:
+    scalar: 34.19
+  2021-07-01:
+    scalar: 34.19
 
 rentenwert_ost:
   description:
@@ -465,6 +469,12 @@ rentenwert_ost:
   2019-07-01:
     scalar: 31.89
     reference:
+  2020-07-01:
+    scalar: 33.23
+    reference:
+  2021-07-01:
+    scalar: 33.47
+    reference:
 
 höchstwert_base:
   description:
@@ -500,32 +510,32 @@ grundrentenzeiten_lower:
 
 einkommensanrechnung_upper:
   description:
-    de: ab hier wird Einkommen vollständig angerechnet, ersetzen durch x-faches des rentenwertes!
+    de: vielfaches des rentenwerts, ab hier wird Einkommen vollständig angerechnet
     en:
   2021-01-01:
-    scalar: 1600
+    scalar: 46.78
     reference:
 
 einkommensanrechnung_upper_ehe:
   description:
-    de: ab hier wird Einkommen vollständig angerechnet, ersetzen durch x-faches des rentenwertes!
+    de: vielfaches des rentenwerts, ab hier wird Einkommen vollständig angerechnet
     en:
   2021-01-01:
-    scalar: 2300
+    scalar: 67.27
     reference:
 
 einkommensanrechnung_lower:
   description:
-    de: ab hier wird Einkommen zu 60% angerechnet
+    de: vielfaches des rentenwerts, ab hier wird Einkommen zu 60% angerechnet
     en:
   2021-01-01:
-    scalar: 1250
+    scalar: 36.56
     reference:
 
 einkommensanrechnung_lower_ehe:
   description:
-    de: ab hier wird Einkommen zu 60% angerechnet
+    de: vielfaches des rentenwerts, ab hier wird Einkommen zu 60% angerechnet
     en:
   2021-01-01:
-    scalar: 1950
+    scalar: 57.03
     reference:

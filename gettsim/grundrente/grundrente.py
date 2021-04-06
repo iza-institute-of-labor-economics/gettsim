@@ -173,6 +173,7 @@ def grundrentenzuschlag_m(
     alleinstehend: BoolSeries,
     einkommen_alleinstehend,
     einkommen_paar,
+    rentenwert,
 ) -> FloatSeries:
     """ Implement income crediting rule as defined in Grundrentengesetz.
 
@@ -188,14 +189,16 @@ def grundrentenzuschlag_m(
     out = grundrente_vor_einkommensanrechnung - (
         (
             einkommen_alleinstehend.clip(
-                upper=ges_renten_vers_params["einkommensanrechnung_upper"]
+                upper=(
+                    ges_renten_vers_params["einkommensanrechnung_upper"] * rentenwert
+                )
             )
-            - ges_renten_vers_params["einkommensanrechnung_lower"]
+            - (ges_renten_vers_params["einkommensanrechnung_lower"] * rentenwert)
         ).clip(lower=0)
         * 0.6
         - (
             einkommen_alleinstehend
-            - ges_renten_vers_params["einkommensanrechnung_upper"]
+            - (ges_renten_vers_params["einkommensanrechnung_upper"] * rentenwert)
         ).clip(lower=0)
     ).clip(lower=0)
 
@@ -204,31 +207,20 @@ def grundrentenzuschlag_m(
     out.loc[condition] = grundrente_vor_einkommensanrechnung - (
         (
             einkommen_paar.clip(
-                upper=ges_renten_vers_params["einkommensanrechnung_upper_ehe"]
+                upper=(
+                    ges_renten_vers_params["einkommensanrechnung_upper_ehe"]
+                    * rentenwert
+                )
             )
-            - ges_renten_vers_params["einkommensanrechnung_lower_ehe"]
+            - (ges_renten_vers_params["einkommensanrechnung_lower_ehe"] * rentenwert)
         ).clip(lower=0)
         * 0.6
         - (
-            einkommen_paar - ges_renten_vers_params["einkommensanrechnung_upper_ehe"]
+            einkommen_paar
+            - (ges_renten_vers_params["einkommensanrechnung_upper_ehe"] * rentenwert)
         ).clip(lower=0)
     ).clip(lower=0)
     return out
-
-
-def grundrentenberechtigt(grundrentenzeiten, ges_renten_vers_params: dict):
-    """ Indicates that person is entitled to Freibetragsregelung.
-
-    Parameters
-    ----------
-
-    grundrentenzeiten
-
-    Returns
-    -------
-
-    """
-    return grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten_lower"]
 
 
 def nicht_grundrentenberechtigt(grundrentenzeiten, ges_renten_vers_params: dict):
@@ -246,67 +238,11 @@ def nicht_grundrentenberechtigt(grundrentenzeiten, ges_renten_vers_params: dict)
     return grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten_lower"]
 
 
-def anzurechnende_rente(
-    rente_anspr_m,
-    grundrentenzuschlag_m,
-    grundrentenberechtigt,
-    nicht_grundrentenberechtigt,
-    bruttolohn_m,
-    arbeitsl_geld_2_params: dict,
+def freibetrag_grundsicherung_grundrente(
+    ges_rente_m, arbeitsl_geld_2_params, nicht_grundrentenberechtigt
 ):
-    """ Implement allowance for grundsicherung im alter.
-
-
-    Parameters
-    ----------
-   rente_anspr_m
-   grundrentenzuschlag_m
-   grundrentenberechtigt
-   nicht_grundrentenberechtigt
-   bruttolohn_m
-
-    Returns
-    -------
-
-    """
-    gesamtrente = rente_anspr_m + grundrentenzuschlag_m + bruttolohn_m
-
-    out = grundrentenberechtigt.astype(float) * np.nan
-    out.loc[nicht_grundrentenberechtigt] = gesamtrente
-    out.loc[grundrentenberechtigt] = (
-        gesamtrente
-        - (100 + (gesamtrente - 100) * 0.3).clip(
-            upper=0.5 * arbeitsl_geld_2_params["regelsatz"]["1"]
-        )
-    ).clip(lower=0)
+    out = (ges_rente_m.clip(upper=100) + (ges_rente_m - 100).clip(lower=0) * 0.3).clip(
+        upper=0.5 * arbeitsl_geld_2_params["regelsatz"][1]
+    )
+    out.loc[nicht_grundrentenberechtigt] = 0
     return out
-
-
-def grundsicherung_berechtigt(anzurechnende_rente):
-    """ Indicates that person is entitled to Grundsicherung.
-
-    Parameters
-    ----------
-
-    anzurechnende_rente
-
-    Returns
-    -------
-
-    """
-    return anzurechnende_rente < 932
-
-
-def grundsicherung_nicht_berechtigt(anzurechnende_rente):
-    """ Indicates that person is not entitled to Grundsicherung.
-
-    Parameters
-    ----------
-
-    anzurechnende_rente
-
-    Returns
-    -------
-
-    """
-    return anzurechnende_rente >= 932
