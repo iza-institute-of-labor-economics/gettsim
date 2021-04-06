@@ -48,7 +48,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`kapital_eink_m`       | Monthly capital income                       | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`ges_rente_m`          | Monthly pension payments of each individual  | FloatSeries |
+| _`ges_rente_m`          | Monthly pension income of each individual    | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`kaltmiete_m_hh`       | Monthly rent expenses for household          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+

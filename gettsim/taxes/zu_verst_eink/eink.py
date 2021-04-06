@@ -148,7 +148,7 @@ def brutto_eink_6_tu(brutto_eink_6: FloatSeries, tu_id: IntSeries) -> FloatSerie
 
 
 def brutto_eink_7(ges_rente_m: FloatSeries, ertragsanteil: FloatSeries) -> FloatSeries:
-    """Aggregate monthly gross pension payments subject to taxation to yearly income.
+    """Aggregate monthly gross pension income subject to taxation to yearly income.
 
     We could summarize other incomes here as well, but only use pensions.
 
