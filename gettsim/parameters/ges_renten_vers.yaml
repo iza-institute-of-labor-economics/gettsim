@@ -482,7 +482,7 @@ höchstwert_base:
     en:
   2021-01-01:
     scalar: 0.0334
-    reference:
+    reference: SGB VI § 76g Absatz 4 Satz 3
 
 höchstwert_increment:
   description:
@@ -490,7 +490,7 @@ höchstwert_increment:
     en:
   2021-01-01:
     scalar: 0.001389
-    reference:
+    reference: SGB VI § 76g Absatz 4 Satz 4
 
 grundrentenzeiten_upper:
   description:
@@ -498,7 +498,7 @@ grundrentenzeiten_upper:
     en:
   2021-01-01:
     scalar: 420
-    reference:
+    reference: SGB VI § 76g Absatz 4 Satz 5,6
 
 grundrentenzeiten_lower:
   description:
@@ -506,36 +506,44 @@ grundrentenzeiten_lower:
     en:
   2021-01-01:
     scalar: 396
-    reference:
+    reference: SGB VI § 76g Absatz 1 Satz 1
 
 einkommensanrechnung_upper:
   description:
-    de: vielfaches des rentenwerts, ab hier wird Einkommen vollständig angerechnet
+    de: Vielfaches des Rentenwerts, ab hier wird Einkommen vollständig angerechnet
     en:
   2021-01-01:
     scalar: 46.78
-    reference:
+    reference: SGB VI § 97a Absatz 4 Satz 2
 
 einkommensanrechnung_upper_ehe:
   description:
-    de: vielfaches des rentenwerts, ab hier wird Einkommen vollständig angerechnet
+    de: Vielfaches des Rentenwerts, ab hier wird Einkommen vollständig angerechnet
     en:
   2021-01-01:
     scalar: 67.27
-    reference:
+    reference: SGB VI § 97a Absatz 4 Satz 4
 
 einkommensanrechnung_lower:
   description:
-    de: vielfaches des rentenwerts, ab hier wird Einkommen zu 60% angerechnet
+    de: Vielfaches des Rentenwerts, ab hier wird Einkommen zu 60% angerechnet
     en:
   2021-01-01:
     scalar: 36.56
-    reference:
+    reference: SGB VI § 97a Absatz 4 Satz 2
 
 einkommensanrechnung_lower_ehe:
   description:
-    de: vielfaches des rentenwerts, ab hier wird Einkommen zu 60% angerechnet
+    de: Vielfaches des Rentenwerts, ab hier wird Einkommen zu 60% angerechnet
     en:
   2021-01-01:
     scalar: 57.03
+    reference: SGB VI § 97a Absatz 4 Satz 4
+
+schonvermögen_grundsicherung:
+  description:
+    de: ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter / bei Erwerbsminderung
+    en:
+  2021-01-01:
+    scalar: 5000
     reference:

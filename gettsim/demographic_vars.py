@@ -330,4 +330,17 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
 
 
 def anz_rentner_hh(hh_id: IntSeries, rentner: BoolSeries) -> IntSeries:
+    """Count pensioners in household.
+
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+    Returns
+    -------
+    IntSeries with the number of adults per household.
+    """
     return rentner.groupby(hh_id).sum()
