@@ -16,8 +16,6 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`kind`                 | Dummy: Dependent child living with parents   | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`anz_minderj_hh`       | Number of children between 0 and 18 in hous  | IntSeries   |
-+-------------------------+----------------------------------------------+-------------+
 | _`bruttolohn_m`         | Monthly wage of each individual              | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`alter`                | Age of Individual                            | IntSeries   |

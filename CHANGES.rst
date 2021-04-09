@@ -23,7 +23,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`235` Module to create synthetic data
     (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
 * :gh:`256` Implement 2021 housing benefit reform (:ghuser:`Eric-Sommer`).
-
+* :gh:`283` Implement Kinderbonus in 2020 and 2021 (:ghuser:`ChristianZimpelmann`).
 
 
 0.4.0 - 2020-11-11
