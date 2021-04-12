@@ -24,7 +24,6 @@ from pygments import highlight
 from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
-import gettsim
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
@@ -278,7 +277,7 @@ def _add_url_to_dag(dag):
 
 def _create_url(func_name):
     return (
-        f"https://gettsim.readthedocs.io/en/v{gettsim.__version__}/gettsim_objects"
+        f"https://gettsim.readthedocs.io/en/latest/gettsim_objects"
         f"/functions.html#gettsim.functions.{func_name}"
     )
 
