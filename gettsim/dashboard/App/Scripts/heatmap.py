@@ -9,15 +9,15 @@ from bokeh.models import Div
 from bokeh.models import LinearColorMapper
 from bokeh.models import NumeralTickFormatter
 from bokeh.models import Panel
-from bokeh.models import Slider
+from bokeh.models import RadioButtonGroup
 from bokeh.palettes import Turbo256
 from bokeh.plotting import figure
 from bokeh.transform import transform
 
 
 def heatmap_tab(plot_dict, data):
-    def make_dataset(sel_year, wg_dict):
-        dataset = wg_dict[sel_year]
+    def make_dataset(sel_year, hh_size, wg_dict):
+        dataset = wg_dict[sel_year][hh_size]
 
         heatmap_source = pd.DataFrame(
             dataset.stack(), columns=["Wohngeld"]
@@ -27,8 +27,9 @@ def heatmap_tab(plot_dict, data):
         return ColumnDataSource(heatmap_source)
 
     def update_plot(attr, old, new):
-        sel_year = year_selection.value
-        new_src = make_dataset(sel_year, wg_dict)
+        sel_year = [1992, 2001, 2009, 2016, 2020, 2021][year_selection.active]
+        hh_size = hh_size_selection.active + 1
+        new_src = make_dataset(sel_year, hh_size, wg_dict)
 
         src.data.update(new_src.data)
 
@@ -74,7 +75,7 @@ def heatmap_tab(plot_dict, data):
             ticker=BasicTicker(desired_num_ticks=20),
             formatter=NumeralTickFormatter(format="0€"),
             label_standoff=12,
-            title="Wg in €",
+            title="Housing benefits (in €)",
         )
         p.add_layout(color_bar, "right")
 
@@ -84,17 +85,29 @@ def heatmap_tab(plot_dict, data):
 
     wg_dict = data
 
-    year_selection = Slider(start=2002, end=2020, value=2020, step=1, title="Year")
-    year_selection.on_change("value", update_plot)
+    year_selection = RadioButtonGroup(
+        labels=[str(i) for i in [1992, 2001, 2009, 2016, 2020, 2021]], active=5
+    )
+    year_selection.on_change("active", update_plot)
 
-    src = make_dataset(2020, wg_dict)
+    hh_size_selection = RadioButtonGroup(
+        labels=[str(i) for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]], active=0
+    )
+    hh_size_selection.on_change("active", update_plot)
+
+    src = make_dataset(2020, 1, wg_dict)
 
     p = setup_plot(src)
 
     description = Div(text=plot_dict["description"], width=1000,)
 
-    layout = column(description, year_selection, p)
+    year_label = Div(text="Year")
+    hh_size_label = Div(text="Household size")
 
-    tab = Panel(child=layout, title="Wohngeld heatmap")
+    layout = column(
+        description, year_label, year_selection, hh_size_label, hh_size_selection, p
+    )
+
+    tab = Panel(child=layout, title="Housing benefits heatmap")
 
     return tab

@@ -53,7 +53,7 @@ def tax_rate(plot_dict, data):
 
     tax_rate_dict_full = data
 
-    year_selection = Slider(start=2002, end=2020, value=2020, step=1, title="Year")
+    year_selection = Slider(start=2002, end=2021, value=2021, step=1, title="Year")
     year_selection.on_change("value", update_plot)
 
     src = make_dataset(2019, tax_rate_dict_full)

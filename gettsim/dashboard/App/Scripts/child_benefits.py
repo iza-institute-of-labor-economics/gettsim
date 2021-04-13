@@ -42,6 +42,7 @@ def child_benefits(plot_dict, data):
                 muted_alpha=0.2,
                 source=source,
                 name=i,
+                mode="after",
             )
         k = -1
         for i in kindergeld_df.columns:

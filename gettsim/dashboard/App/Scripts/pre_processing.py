@@ -45,27 +45,7 @@ def deduction_data(start, end):
         ],
         axis=1,
     )
-    # Adjust dictionairy entries into columns for behinderten_pauschbetrag
-    deduction_df = pd.concat(
-        [
-            deduction_df.drop(["behinderten_pauschbetrag"], axis=1),
-            deduction_df["behinderten_pauschbetrag"].apply(pd.Series),
-        ],
-        axis=1,
-    )
-    deduction_df = deduction_df.rename(
-        columns={
-            25: "behinderten_pauschbetrag25",
-            35: "behinderten_pauschbetrag35",
-            45: "behinderten_pauschbetrag45",
-            55: "behinderten_pauschbetrag55",
-            65: "behinderten_pauschbetrag65",
-            75: "behinderten_pauschbetrag75",
-            85: "behinderten_pauschbetrag85",
-            95: "behinderten_pauschbetrag95",
-        }
-    )
-    deduction_df = deduction_df.drop([0], axis=1)
+    deduction_df = deduction_df.drop(["behinderten_pauschbetrag", 0], axis=1)
 
     return deduction_df
 
@@ -110,7 +90,7 @@ def prepare_data(sel_year, hh_size):
         wohngeld_df[this_column] = wohngeld_basis(
             haushaltsgröße=household_size,
             wohngeld_eink=e,
-            wohngeld_max_miete=miete,
+            wohngeld_miete=miete,
             wohngeld_params=params,
         )
     wohngeld_df.index = miete
@@ -118,15 +98,14 @@ def prepare_data(sel_year, hh_size):
     return wohngeld_df
 
 
-def wohngeld_data(start, end):
+def wohngeld_data():
     wg_dict = {}
-    years = range(start, end)
-    # hh_size_range = To do implement loop over hh_size-> issue too slow
+    years = [1992, 2001, 2009, 2016, 2020, 2021]
+
     for i in years:
-        wg_dict[i] = prepare_data(i, 1)
+        wg_dict[i] = {j: prepare_data(i, j) for j in range(1, 13)}
 
     return wg_dict
-
 
 
 def tax_rate_data(start, end):
@@ -168,7 +147,6 @@ def tax_rate_data(start, end):
     return tax_rate_dict_full
 
 
-
 def child_benefits_data(start, end):
     """
     Data preparation for kindergeld parameters. Returns a dataframe.
@@ -195,6 +173,52 @@ def child_benefits_data(start, end):
     return kindergeld_df
 
 
+def social_security_data(start, end):
+    """
+    For a year range returns the policy parameters to plot the social security
+    contributions
+
+    start (Int): Defines the start of the simulated period
+    end (Int):  Defines the end of the simulated period
+
+    returns dataframe
+    """
+    years = range(start, end)
+
+    soz_vers_dict = {}
+
+    for i in years:
+        policy_params, policy_functions = set_up_policy_environment(i)
+        soz_vers_dict[i] = policy_params["soz_vers_beitr"]["soz_vers_beitr"]
+
+    soz_vers_df = pd.DataFrame(data=soz_vers_dict).transpose()
+
+    # Dictionairy entries into columns
+    soz_vers_df = pd.concat(
+        [
+            soz_vers_df.drop(["ges_krankenv"], axis=1),
+            soz_vers_df["ges_krankenv"].apply(pd.Series),
+        ],
+        axis=1,
+    )
+    soz_vers_df = pd.concat(
+        [
+            soz_vers_df.drop(["pflegev"], axis=1),
+            soz_vers_df["pflegev"].apply(pd.Series),
+        ],
+        axis=1,
+    )
+
+    soz_vers_df.columns = [
+        "unemployment insurance",
+        "pension insurance",
+        "health insurance employer",
+        "health insurance employee",
+        "care insurance",
+        "additional care insurance no child",
+    ]
+
+    return soz_vers_df
 
 
 # Call all data preparation functions into a single dictionairy
@@ -203,9 +227,10 @@ def child_benefits_data(start, end):
 def generate_data():
     all_data = {
         "deductions": deduction_data(1975, 2021),
-        "wohngeld": wohngeld_data(2002, 2021),
-        "tax_rate": tax_rate_data(2002, 2021),
-        "child_benefits": child_benefits_data(1975, 2021),
+        "wohngeld": wohngeld_data(),
+        "tax_rate": tax_rate_data(2002, 2022),
+        "child_benefits": child_benefits_data(1975, 2022),
+        "social_security": social_security_data(2002, 2022),
     }
 
     dbfile = open("all_data.pickle", "wb")
@@ -216,4 +241,4 @@ def generate_data():
 
 
 # This line needs to be run manually once after major changes i.e. new plots.
-generate_data()
+# generate_data()

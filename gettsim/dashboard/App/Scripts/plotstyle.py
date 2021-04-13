@@ -1,7 +1,10 @@
 from bokeh.models import NumeralTickFormatter
 
+
 # Define central functions used by all plots
-def plotstyle(p,plot_dict):
+
+
+def plotstyle(p, plot_dict):
     p.title.text = plot_dict["title"]
     p.xaxis.axis_label = plot_dict["x_axis_label"]
     p.yaxis.axis_label = plot_dict["y_axis_label"]
@@ -10,8 +13,7 @@ def plotstyle(p,plot_dict):
     if p.yaxis.tags != ["categorical"]:
         p.yaxis[0].formatter = NumeralTickFormatter(format=plot_dict["y_axis_format"])
     p.background_fill_color = "white"
-    
-    
+
     if p.legend != []:
         p.legend.location = plot_dict["legend_location"]
         p.legend.click_policy = "mute"

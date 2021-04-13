@@ -40,7 +40,31 @@ def deductions(plot_dict, data):
         for count, i in enumerate(
             list(set(src.column_names) & set(selector_important))
         ):
-            i = p.line(
+            i = p.step(
+                x="index",
+                y=i,
+                line_width=2,
+                alpha=0.8,
+                color=Category20[20][count],
+                muted_color=Category20[20][count],
+                legend_label=[
+                    "Income Tax Allowance for children education",
+                    "Basic Income Tax Allowance for children",
+                    "Allowance for Capital Gains",
+                    "Lump-sum deduction for employment income",
+                    "Income Tax Allowance for Single Parents",
+                    "Basic allowance",
+                ][count],
+                muted_alpha=0.2,
+                source=src,
+                name=i,
+                mode="after",
+            )
+
+        for count, i in enumerate(
+            list(set(src.column_names) & set(selector_important))
+        ):
+            i = p.circle(
                 x="index",
                 y=i,
                 line_width=2,
