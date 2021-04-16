@@ -28,7 +28,6 @@ def deductions(plot_dict, data):
         ]
 
         # Plot for the most important deductions
-
         p = figure(
             plot_height=400,
             plot_width=800,
@@ -45,15 +44,15 @@ def deductions(plot_dict, data):
                 y=i,
                 line_width=2,
                 alpha=0.8,
-                color=Category20[20][count],
-                muted_color=Category20[20][count],
+                color=Category20[10][count],
+                muted_color=Category20[10][count],
                 legend_label=[
+                    "Lump-sum deduction for employment income",
                     "Income Tax Allowance for children education",
                     "Basic Income Tax Allowance for children",
-                    "Allowance for Capital Gains",
-                    "Lump-sum deduction for employment income",
-                    "Income Tax Allowance for Single Parents",
                     "Basic allowance",
+                    "Income Tax Allowance for Single Parents",
+                    "Allowance for Capital Gains",
                 ][count],
                 muted_alpha=0.2,
                 source=src,
@@ -69,15 +68,15 @@ def deductions(plot_dict, data):
                 y=i,
                 line_width=2,
                 alpha=0.8,
-                color=Category20[20][count],
-                muted_color=Category20[20][count],
+                color=Category20[10][count],
+                muted_color=Category20[10][count],
                 legend_label=[
+                    "Lump-sum deduction for employment income",
                     "Income Tax Allowance for children education",
                     "Basic Income Tax Allowance for children",
-                    "Allowance for Capital Gains",
-                    "Lump-sum deduction for employment income",
-                    "Income Tax Allowance for Single Parents",
                     "Basic allowance",
+                    "Income Tax Allowance for Single Parents",
+                    "Allowance for Capital Gains",
                 ][count],
                 muted_alpha=0.2,
                 source=src,
