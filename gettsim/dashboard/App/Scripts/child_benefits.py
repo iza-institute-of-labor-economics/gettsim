@@ -24,7 +24,7 @@ def child_benefits(plot_dict, data):
             plot_height=400,
             plot_width=800,
             y_range=(0, 270),
-            x_range=(min(kindergeld_df.index), max(kindergeld_df.index)),
+            x_range=(min(kindergeld_df.index), max(kindergeld_df.index)+1),
             background_fill_color="#efefef",
             tooltips="$name: @$name €",
         )

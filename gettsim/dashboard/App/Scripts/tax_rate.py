@@ -7,7 +7,6 @@ from bokeh.models import Panel
 from bokeh.models import Slider
 from bokeh.plotting import figure
 
-
 def tax_rate(plot_dict, data):
     def make_dataset(sel_year, tax_rate_dict_full):
         dataset = tax_rate_dict_full[sel_year]
@@ -59,7 +58,7 @@ def tax_rate(plot_dict, data):
     src = make_dataset(2019, tax_rate_dict_full)
 
     p = setup_plot(src)
-    description = Div(text=plot_dict["description"], width=1000,)
+    description = Div(text=plot_dict["description"], width=800,)
 
     layout = column(description, year_selection, p)
 

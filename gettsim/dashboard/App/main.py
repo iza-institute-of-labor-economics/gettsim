@@ -1,4 +1,3 @@
-# Bokeh basics
 import pickle
 from datetime import datetime
 
@@ -7,17 +6,11 @@ from bokeh.io import curdoc
 from bokeh.layouts import column
 from bokeh.models import Div
 from bokeh.models.widgets import Tabs
-
+from Scripts.pre_processing import generate_data
 tz = pytz.timezone("Europe/Berlin")
 
-# Create a dictionairy to store all plot titles, axes etc.
-plot_list = [
-    "tax_rate",
-    "wohngeld",
-    "deductions",
-    "social_security",
-    "child_benefits",
-]
+# Create a dictionary to store all plot titles, axes etc.
+plot_list = ["tax_rate", "wohngeld", "deductions", "social_security", "child_benefits"]
 plot_attributes = [
     "title",
     "x_axis_label",
@@ -29,22 +22,22 @@ plot_attributes = [
 ]
 attribute_dict = {
     "tax_rate": [
-        "Tax rate by taxable income",
+        "Statutory Income Tax rate by taxable income",
         "Taxable income",
         "Tax rate",
-        "0.00",
+        "€0",
         "0%",
         "bottom_right",
-        """Description text to be added.""",
+        """This graph demonstrates the statutory income tax rate with and without Solidarity Surcharge.""",
     ],
     "deductions": [
         "Income tax deductions",
         "Year",
-        "Deductions (in €)",
+        "Annual Deductions (in €)",
         "0€",
         "0€",
         "top_left",
-        """Description text to be added.""",
+        """This graph shows the evolution of the main lump-sum tax deductions creating a wedge between market and taxable income.""",
     ],
     "wohngeld": [
         "Monthly housing benefits (in €) per income and rent",
@@ -65,13 +58,13 @@ attribute_dict = {
         """Description text to be added.""",
     ],
     "social_security": [
-        "Social security contributions",
+        "Social security contribution rates",
         "Year",
-        "Social Security contributions",
+        "Social Security contribution rate",
         "0",
         "0%",
         "top_right",
-        """Description text to be added.""",
+        """This graph depicts contribution rates to the four main branches of social security. With the exception of health insurance, contributions are shared between employer and employee. The graph shows only the employees share for those branches.""",
     ],
 }
 
@@ -90,7 +83,7 @@ from Scripts.tax_rate import tax_rate
 from Scripts.child_benefits import child_benefits
 from Scripts.social_security import social_security
 
-
+#generate_data()
 all_data = pickle.load(open("all_data.pickle", "rb"))
 
 print("{} INFO - Server receives request".format(datetime.now(tz)))
@@ -105,15 +98,14 @@ tab5 = social_security(plot_dict["social_security"], all_data["social_security"]
 
 tabs = Tabs(tabs=[tab1, tab2, tab3, tab4, tab5])
 
-header = Div(
-    text="""<h1>GETTSIM parameter visualisations</h1>""", width=900, height=80,
-)
+header = Div(text="""<h1>GETTSIM parameter visualisations</h1>""", width=900, height=80)
 
 intro = Div(
-    text="""This dashboard visualizes GETTSIM parameters. Further information can be
-    found in the  <a href="https://gettsim.readthedocs.io/en/stable/">documention</a>.""",
+    text="""<h4>This dashboard visualizes GETTSIM parameters. Further information can be
+    found in the  <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
+    """,
     width=800,
-    height=30,
+    height=70,
 )
 
 
