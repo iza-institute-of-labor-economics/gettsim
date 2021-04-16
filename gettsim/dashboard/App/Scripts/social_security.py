@@ -14,7 +14,7 @@ def social_security(plot_dict, data):
         p = figure(
             plot_width=900,
             plot_height=400,
-            x_range=(2002, 2022 + 8),
+            x_range=(1984, 2022 + 8),
             tooltips="$name: @$name{0.00%}",
         )
 
@@ -56,7 +56,7 @@ def social_security(plot_dict, data):
                 line_color=colors[i],
                 name=labels[i],
             )
-        p.xaxis.bounds = (min(src.data["index"]), max(src.data["index"]))
+        p.xaxis.bounds = (1984, max(src.data["index"])+1)
 
         plot = plotstyle(p, plot_dict)
 

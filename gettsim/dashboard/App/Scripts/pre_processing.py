@@ -6,6 +6,7 @@ from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
 from gettsim.transfers.wohngeld import wohngeld_basis
+from datetime import date
 
 # Each plot has one data preparation function as defined below
 
@@ -20,7 +21,7 @@ def deduction_data(start, end):
     """
 
     # Period for simulation:
-    years = range(start, end)
+    years = range(start, end + 1)
     eink_ab_df = pd.DataFrame()
 
     # Loop through years to get the policy parameters
@@ -37,7 +38,7 @@ def deduction_data(start, end):
 
     eink_ab_df.index = params.keys()
     deduction_df = eink_ab_df.transpose()
-    # Adjust dictionairy entries into columns for kinderfreibetrag
+    # Adjust dictionary entries into columns for kinderfreibetrag
     deduction_df = pd.concat(
         [
             deduction_df.drop(["kinderfreibetrag", "datum"], axis=1),
@@ -118,7 +119,7 @@ def tax_rate_data(start, end):
 
     returns dict
     """
-    years = range(start, end)
+    years = range(start, end + 1)
     einkommen = pd.Series(data=np.linspace(0, 300000, 250))
     tax_rate_dict_full = {}
     for i in years:
@@ -156,7 +157,7 @@ def child_benefits_data(start, end):
     """
 
     # Calculate simulation period
-    years = range(start, end)
+    years = range(start, end + 1)
 
     # Data preparation for Kindergeld params
     kindergeld_df = pd.DataFrame()
@@ -183,7 +184,7 @@ def social_security_data(start, end):
 
     returns dataframe
     """
-    years = range(start, end)
+    years = range(start, end + 1)
 
     soz_vers_dict = {}
 
@@ -192,24 +193,20 @@ def social_security_data(start, end):
         soz_vers_dict[i] = policy_params["soz_vers_beitr"]["soz_vers_beitr"]
 
     soz_vers_df = pd.DataFrame(data=soz_vers_dict).transpose()
-
-    # Dictionairy entries into columns
-    soz_vers_df = pd.concat(
+    # Dictionary entries into columns
+    ges_krankenv = soz_vers_df["ges_krankenv"].apply(pd.Series)
+    pflegev = soz_vers_df["pflegev"].apply(pd.Series)
+    #
+    soz_vers_out = pd.concat(
         [
-            soz_vers_df.drop(["ges_krankenv"], axis=1),
-            soz_vers_df["ges_krankenv"].apply(pd.Series),
-        ],
-        axis=1,
-    )
-    soz_vers_df = pd.concat(
-        [
-            soz_vers_df.drop(["pflegev"], axis=1),
-            soz_vers_df["pflegev"].apply(pd.Series),
+            soz_vers_df[["arbeitsl_v", "rentenv"]],
+            ges_krankenv.drop(columns=ges_krankenv.columns[0]),
+            pflegev.drop(columns=pflegev.columns[0]),
         ],
         axis=1,
     )
 
-    soz_vers_df.columns = [
+    soz_vers_out.columns = [
         "unemployment insurance",
         "pension insurance",
         "health insurance employer",
@@ -217,20 +214,21 @@ def social_security_data(start, end):
         "care insurance",
         "additional care insurance no child",
     ]
+    # We don't need the top-up for childless persons
+    soz_vers_out = soz_vers_out.drop(columns=["additional care insurance no child"])
 
-    return soz_vers_df
+    return soz_vers_out
 
 
-# Call all data preparation functions into a single dictionairy
-
-
+# Call all data preparation functions into a single dictionary
 def generate_data():
+    current_year = date.today().year
     all_data = {
-        "deductions": deduction_data(1975, 2021),
+        "deductions": deduction_data(1975, current_year),
         "wohngeld": wohngeld_data(),
-        "tax_rate": tax_rate_data(2002, 2022),
-        "child_benefits": child_benefits_data(1975, 2022),
-        "social_security": social_security_data(2002, 2022),
+        "tax_rate": tax_rate_data(2002, current_year),
+        "child_benefits": child_benefits_data(1975, current_year),
+        "social_security": social_security_data(1984, current_year),
     }
 
     dbfile = open("all_data.pickle", "wb")
