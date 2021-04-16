@@ -1,12 +1,18 @@
 import pickle
-from datetime import datetime
 
 import pytz
 from bokeh.io import curdoc
 from bokeh.layouts import column
 from bokeh.models import Div
 from bokeh.models.widgets import Tabs
-from Scripts.pre_processing import generate_data
+from Scripts.child_benefits import child_benefits
+from Scripts.deductions import deductions
+from Scripts.heatmap import heatmap_tab
+from Scripts.social_security import social_security
+from Scripts.tax_rate import tax_rate
+
+# Each tab is drawn by one script
+
 tz = pytz.timezone("Europe/Berlin")
 
 # Create a dictionary to store all plot titles, axes etc.
@@ -28,7 +34,8 @@ attribute_dict = {
         "€0",
         "0%",
         "bottom_right",
-        """This graph demonstrates the statutory income tax rate with and without Solidarity Surcharge.""",
+        """This graph demonstrates the statutory income tax rate with and without
+        Solidarity Surcharge.""",
     ],
     "deductions": [
         "Income tax deductions",
@@ -37,7 +44,8 @@ attribute_dict = {
         "0€",
         "0€",
         "top_left",
-        """This graph shows the evolution of the main lump-sum tax deductions creating a wedge between market and taxable income.""",
+        """This graph shows the evolution of the main lump-sum tax deductions
+        creating a wedge between market and taxable income.""",
     ],
     "wohngeld": [
         "Monthly housing benefits (in €) per income and rent",
@@ -64,30 +72,24 @@ attribute_dict = {
         "0",
         "0%",
         "top_right",
-        """This graph depicts contribution rates to the four main branches of social security. With the exception of health insurance, contributions are shared between employer and employee. The graph shows only the employees share for those branches.""",
+        """This graph depicts contribution rates to the four main branches of
+        social security. With the exception of health insurance, contributions
+        are shared between employer and employee. The graph shows only the
+        employees share for those branches.""",
     ],
 }
 
-print("{} INFO - Creating a plot dict".format(datetime.now(tz)))
+# print("{} INFO - Creating a plot dict".format(datetime.now(tz)))
 
 plot_dict = {
     p: {a: attribute_dict[p][counter] for counter, a in enumerate(plot_attributes)}
     for p in plot_list
 }
 
-
-# Each tab is drawn by one script
-from Scripts.heatmap import heatmap_tab
-from Scripts.deductions import deductions
-from Scripts.tax_rate import tax_rate
-from Scripts.child_benefits import child_benefits
-from Scripts.social_security import social_security
-
-#generate_data()
+# generate_data()
 all_data = pickle.load(open("all_data.pickle", "rb"))
 
-print("{} INFO - Server receives request".format(datetime.now(tz)))
-
+# print("{} INFO - Server receives request".format(datetime.now(tz)))
 
 # Call tab functions
 tab1 = tax_rate(plot_dict["tax_rate"], all_data["tax_rate"])
@@ -102,14 +104,15 @@ header = Div(text="""<h1>GETTSIM parameter visualisations</h1>""", width=900, he
 
 intro = Div(
     text="""<h4>This dashboard visualizes GETTSIM parameters. Further information can be
-    found in the  <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
+    found in the
+    <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
     """,
     width=800,
     height=70,
 )
 
 
-print("{} INFO - Server completes processing request".format(datetime.now(tz)))
+# print("{} INFO - Server completes processing request".format(datetime.now(tz)))
 
 # Put everything together
 curdoc().add_root(column(header, intro, tabs))
