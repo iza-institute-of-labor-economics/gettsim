@@ -1,12 +1,14 @@
 import pickle
+from datetime import date
 
 import numpy as np
 import pandas as pd
+
 from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
 from gettsim.transfers.wohngeld import wohngeld_basis
-from datetime import date
+
 
 # Each plot has one data preparation function as defined below
 
@@ -71,7 +73,19 @@ def prepare_data(sel_year, hh_size):
     # Range of relevant income and rent combinations for the simulation
     einkommen = pd.Series(data=np.linspace(0, 1300, 50))
     miete = pd.Series(data=np.linspace(0, 1300, 50))
-
+    # Miete needs to be capped acc. to mietstufe and hh size
+    """
+    if sel_year <= 2008:
+        pass
+    else:
+        wohngeld_miete = policy_functions["wohngeld_miete"](3,
+                                                            hh_size,
+                                                            [1],
+                                                            miete,
+                                                            1,
+                                                            0,
+                                                            wohngeld_params)
+    """
     # Todo replace this with sliders
     household_size = pd.Series(data=[hh_size] * len(einkommen))
     sel_year = sel_year
@@ -91,6 +105,7 @@ def prepare_data(sel_year, hh_size):
         wohngeld_df[this_column] = wohngeld_basis(
             haushaltsgröße=household_size,
             wohngeld_eink=e,
+            #            wohngeld_miete=wohngeld_miete,
             wohngeld_miete=miete,
             wohngeld_params=params,
         )
@@ -198,12 +213,7 @@ def social_security_data(start, end):
     pflegev = soz_vers_df["pflegev"].apply(pd.Series)
     #
     soz_vers_out = pd.concat(
-        [
-            soz_vers_df[["arbeitsl_v", "rentenv"]],
-            ges_krankenv.drop(columns=ges_krankenv.columns[0]),
-            pflegev.drop(columns=pflegev.columns[0]),
-        ],
-        axis=1,
+        [soz_vers_df[["arbeitsl_v", "rentenv"]], ges_krankenv, pflegev], axis=1,
     )
 
     soz_vers_out.columns = [
@@ -220,6 +230,63 @@ def social_security_data(start, end):
     return soz_vers_out
 
 
+def social_assistance_data(start, end):
+    """
+    For a year range returns the policy parameters to plot the social security
+    contributions
+
+    start (Int):
+        Defines the start of the simulated period
+    end (Int):
+        Defines the end of the simulated period
+
+    returns:
+        soz_ass_out: pd.DataFrame
+    """
+
+    years = range(start, end + 1)
+
+    soz_ass_dict = {}
+
+    for i in years:
+        policy_params, policy_functions = set_up_policy_environment(i)
+        if i <= 2010:
+            anteil_regelsatz = policy_params["arbeitsl_geld_2"]["anteil_regelsatz"]
+            anteil_regelsatz["ein_erwachsener"] = 1
+            regelsätze = (
+                np.array(list(anteil_regelsatz.values()))
+                * policy_params["arbeitsl_geld_2"]["regelsatz"]
+            )
+            soz_ass_dict[i] = dict(zip(anteil_regelsatz.keys(), regelsätze))
+        else:
+            soz_ass_dict[i] = dict(
+                zip(
+                    [
+                        "ein_erwachsener",
+                        "zwei_erwachsene",
+                        "weitere_erwachsene",
+                        "kinder_14_24",
+                        "kinder_7_13",
+                        "kinder_0_6",
+                    ],
+                    policy_params["arbeitsl_geld_2"]["regelsatz"].values(),
+                )
+            )
+
+    soz_ass_df = pd.DataFrame.from_dict(soz_ass_dict, orient="index")
+    soz_ass_out = soz_ass_df[
+        [
+            "ein_erwachsener",
+            "zwei_erwachsene",
+            "weitere_erwachsene",
+            "kinder_14_24",
+            "kinder_7_13",
+            "kinder_0_6",
+        ]
+    ]
+    return soz_ass_out
+
+
 # Call all data preparation functions into a single dictionary
 def generate_data():
     current_year = date.today().year
@@ -229,6 +296,7 @@ def generate_data():
         "tax_rate": tax_rate_data(2002, current_year),
         "child_benefits": child_benefits_data(1975, current_year),
         "social_security": social_security_data(1984, current_year),
+        "social_assistance": social_assistance_data(2005, current_year),
     }
 
     dbfile = open("all_data.pickle", "wb")
@@ -239,4 +307,4 @@ def generate_data():
 
 
 # This line needs to be run manually once after major changes i.e. new plots.
-# generate_data()
+generate_data()
