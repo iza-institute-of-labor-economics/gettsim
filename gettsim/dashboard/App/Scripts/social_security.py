@@ -1,11 +1,10 @@
-from Scripts.plotstyle import plotstyle
-
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource
 from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.palettes import Category20
 from bokeh.plotting import figure
+from Scripts.plotstyle import plotstyle
 
 
 def social_security(plot_dict, data):
@@ -18,16 +17,9 @@ def social_security(plot_dict, data):
             tooltips="$name: @$name{0.00%}",
         )
 
-        labels = [
-            "unemployment insurance",
-            "pension insurance",
-            "health insurance employer",
-            "health insurance employee",
-            "care insurance",
-            "additional care insurance no child",
-        ]
+        labels = list(src.data.keys())[1:]
 
-        colors = Category20[8]
+        colors = Category20[len(labels)]
 
         for i in range(len(labels)):
             p.step(
@@ -56,7 +48,7 @@ def social_security(plot_dict, data):
                 line_color=colors[i],
                 name=labels[i],
             )
-        p.xaxis.bounds = (1984, max(src.data["index"])+1)
+        p.xaxis.bounds = (1984, max(src.data["index"]) + 1)
 
         plot = plotstyle(p, plot_dict)
 

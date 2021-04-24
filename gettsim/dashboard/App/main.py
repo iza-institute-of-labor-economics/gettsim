@@ -72,7 +72,7 @@ attribute_dict = {
         "0",
         "0€",
         "top_left",
-        """Description text to be added.""",
+        """Monthly child benefit by order of child within the household.""",
     ],
     "social_security": [
         "Social security contribution rates",
@@ -117,7 +117,7 @@ tab4 = child_benefits(plot_dict["child_benefits"], all_data["child_benefits"])
 tab5 = social_security(plot_dict["social_security"], all_data["social_security"])
 tab6 = social_assistance(plot_dict["social_assistance"], all_data["social_assistance"])
 
-tabs = Tabs(tabs=[tab1, tab2, tab4, tab5, tab6])
+tabs = Tabs(tabs=[tab1, tab2, tab3, tab4, tab5, tab6])
 
 header = Div(text="""<h1>GETTSIM parameter visualisations</h1>""", width=900, height=80)
 

@@ -12,20 +12,13 @@ def social_assistance(plot_dict, data):
         p = figure(
             plot_width=900,
             plot_height=400,
-            x_range=(1984, 2022 + 8),
-            tooltips="$name: @$name{0.00%}",
+            x_range=(2005, 2022 + 8),
+            tooltips="$name: @$name{0}€",
         )
 
-        labels = [
-            "Single Adults",
-            "Two Adults",
-            "Additional Adults",
-            "Child 14 to 24 years",
-            "Child 7 to 13 years",
-            "Child <= 6 years",
-        ]
+        labels = list(src.data.keys())[1:]
 
-        colors = Category20[6]
+        colors = Category20[len(labels)]
 
         for i in range(len(labels)):
             p.step(
@@ -54,12 +47,22 @@ def social_assistance(plot_dict, data):
                 line_color=colors[i],
                 name=labels[i],
             )
-        p.xaxis.bounds = (1984, max(src.data["index"]) + 1)
+        p.xaxis.bounds = (2004, max(src.data["index"]) + 1)
 
         plot = plotstyle(p, plot_dict)
 
         return plot
 
+    data = data.rename(
+        columns={
+            "ein_erwachsener": "Single Adult",
+            "zwei_erwachsene": "Adults in Couple",
+            "weitere_erwachsene": "Adults not in Couple",
+            "kinder_14_24": "Child 14 to 17 years",
+            "kinder_7_13": "Child 6 to 13 years",
+            "kinder_0_6": "Child < 6 years",
+        }
+    )
     src = ColumnDataSource(data)
 
     p = setup_plot(src)
