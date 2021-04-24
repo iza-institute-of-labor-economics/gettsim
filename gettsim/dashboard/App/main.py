@@ -6,6 +6,7 @@ from bokeh.layouts import column
 from bokeh.models import Div
 from bokeh.models.widgets import Tabs
 
+from gettsim.config import ROOT_DIR
 from gettsim.dashboard.App.Scripts.child_benefits import child_benefits
 from gettsim.dashboard.App.Scripts.deductions import deductions
 from gettsim.dashboard.App.Scripts.heatmap import heatmap_tab
@@ -106,7 +107,7 @@ plot_dict = {
     for p in plot_list
 }
 
-all_data = pickle.load(open("all_data.pickle", "rb"))
+all_data = pickle.load(open(f"{ROOT_DIR}/dashboard/App/all_data.pickle", "rb"))
 
 # print("{} INFO - Server receives request".format(datetime.now(tz)))
 
