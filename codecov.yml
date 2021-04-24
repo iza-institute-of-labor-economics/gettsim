@@ -9,3 +9,4 @@ coverage:
 
 ignore:
   - "setup.py"
+  - "gettsim/dashboard/**/*"
