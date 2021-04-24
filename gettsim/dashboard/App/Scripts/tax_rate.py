@@ -22,7 +22,7 @@ def tax_rate(plot_dict, data):
             y="tax_rate",
             source=src,
             line_width=2,
-            legend_label="Income tax rate",
+            legend_label="Average Tax Rate",
         )
         p.line(
             x="income",
@@ -30,7 +30,7 @@ def tax_rate(plot_dict, data):
             source=src,
             line_width=2,
             line_color="black",
-            legend_label="Income tax rate + soli",
+            legend_label="Average Tax Rate incl. Soli",
         )
         p.line(
             x="income",
@@ -38,7 +38,7 @@ def tax_rate(plot_dict, data):
             source=src,
             line_width=2,
             line_color="red",
-            legend_label="Marginal tax rate",
+            legend_label="Marginal Tax Rate",
         )
 
         plot = plotstyle(p, plot_dict)
@@ -56,7 +56,7 @@ def tax_rate(plot_dict, data):
     year_selection = Slider(start=2002, end=2021, value=2021, step=1, title="Year")
     year_selection.on_change("value", update_plot)
 
-    src = make_dataset(2019, tax_rate_dict_full)
+    src = make_dataset(2021, tax_rate_dict_full)
 
     p = setup_plot(src)
     description = Div(text=plot_dict["description"], width=800,)
