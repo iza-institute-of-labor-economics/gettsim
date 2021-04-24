@@ -4,8 +4,7 @@ from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.palettes import Category20
 from bokeh.plotting import figure
-
-from gettsim.dashboard.App.Scripts.plotstyle import plotstyle
+from Scripts.plotstyle import plotstyle
 
 
 def social_security(plot_dict, data):

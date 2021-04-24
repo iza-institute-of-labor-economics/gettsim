@@ -13,8 +13,8 @@ def social_assistance(plot_dict, data):
         p = figure(
             plot_width=900,
             plot_height=400,
-            x_range=(2005, 2022 + 8),
-            tooltips="$name: @$name{0}€",
+            x_range=(2005, 2022),
+            tooltips="$name: @$name €",
         )
 
         labels = list(src.data.keys())[1:]

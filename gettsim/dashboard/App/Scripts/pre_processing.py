@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 
 from gettsim import set_up_policy_environment
-from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
 from gettsim.transfers.wohngeld import wohngeld_basis
@@ -25,17 +24,46 @@ def deduction_data(start, end):
     # Period for simulation:
     years = range(start, end + 1)
     eink_ab_df = pd.DataFrame()
-
+    # input older grundfreibetrag values by hand
+    grundfreibetrag = {
+        2001: 14093 / 1.95583,
+        2000: 13499 / 1.95583,
+        1999: 13067 / 1.95583,
+        1998: 12365 / 1.95583,
+        1997: 12095 / 1.95583,
+        1996: 12095 / 1.95583,
+        1995: 5616 / 1.95583,
+        1994: 5616 / 1.95583,
+        1993: 5616 / 1.95583,
+        1992: 5616 / 1.95583,
+        1991: 5616 / 1.95583,
+        1990: 5616 / 1.95583,
+        1989: 4752 / 1.95583,
+        1988: 4752 / 1.95583,
+        1987: 4536 / 1.95583,
+        1986: 4536 / 1.95583,
+        1985: 4212 / 1.95583,
+        1984: 4212 / 1.95583,
+        1983: 4212 / 1.95583,
+        1982: 4212 / 1.95583,
+        1981: 4212 / 1.95583,
+        1980: 3690 / 1.95583,
+        1979: 3690 / 1.95583,
+        1978: 3329 / 1.95583,
+        1977: 3029 / 1.95583,
+        1976: 3029 / 1.95583,
+        1975: 3029 / 1.95583,
+    }
     # Loop through years to get the policy parameters
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
         params = policy_params["eink_st_abzuege"]
-        if i > 2001:
+        if i < 2002:
+            params["grundfreibetrag"] = round(grundfreibetrag[i])
+        if i >= 2002:
             params["grundfreibetrag"] = policy_params["eink_st"]["eink_st_tarif"][
                 "thresholds"
             ][1]
-        else:
-            params["grundfreibetrag"] = 0
         eink_ab_df[i] = params.values()
 
     eink_ab_df.index = params.keys()
@@ -299,7 +327,7 @@ def generate_data():
         "social_assistance": social_assistance_data(2005, current_year),
     }
 
-    dbfile = open(f"{ROOT_DIR}/dashboard/all_data.pickle", "wb")
+    dbfile = open("all_data.pickle", "wb")
 
     # source, destination
     pickle.dump(all_data, dbfile)
@@ -307,4 +335,4 @@ def generate_data():
 
 
 # This line needs to be run manually once after major changes i.e. new plots.
-# generate_data()
+generate_data()

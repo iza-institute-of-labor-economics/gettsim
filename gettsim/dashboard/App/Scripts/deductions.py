@@ -4,8 +4,7 @@ from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.palettes import Category20
 from bokeh.plotting import figure
-
-from gettsim.dashboard.App.Scripts.plotstyle import plotstyle
+from Scripts.plotstyle import plotstyle
 
 
 def deductions(plot_dict, data):
@@ -18,50 +17,41 @@ def deductions(plot_dict, data):
         src: ColumnDataSource returned by the data preparation function
         """
 
-        selector_important = [
-            "beitr_erz_ausb",
-            "sächl_existenzmin",
-            "sparerpauschbetrag",
-            "werbungskostenpauschale",
-            "alleinerziehenden_freibetrag",
-            "grundfreibetrag",
-        ]
-
         # Plot for the most important deductions
         p = figure(
             plot_height=400,
             plot_width=800,
             y_range=(0, 9500),
-            x_range=(min(src.data["index"]), max(src.data["index"])),
-            tooltips="$name: @$name €",
+            x_range=(min(src.data["index"]), max(src.data["index"]) + 1),
+            tooltips="$name: $y{0} €",
         )
+        deduct_labels = {
+            "beitr_erz_ausb": "Income Tax Allowance for children education",
+            "sächl_existenzmin": "Basic Income Tax Allowance for children",
+            "sparerpauschbetrag": "Allowance for Capital Gains",
+            "werbungskostenpauschale": "Lump-sum deduction for employment income",
+            "alleinerziehenden_freibetrag": "Income Tax Allowance for Single Parents",
+            "grundfreibetrag": "Basic allowance",
+        }
 
         for count, i in enumerate(
-            list(set(src.column_names) & set(selector_important))
+            list(set(src.column_names) & set(deduct_labels.keys()))
         ):
+
             i = p.step(
                 x="index",
                 y=i,
                 line_width=2,
                 alpha=0.8,
-                color=Category20[10][count],
-                muted_color=Category20[10][count],
-                legend_label=[
-                    "Lump-sum deduction for employment income",
-                    "Income Tax Allowance for children education",
-                    "Basic Income Tax Allowance for children",
-                    "Basic allowance",
-                    "Income Tax Allowance for Single Parents",
-                    "Allowance for Capital Gains",
-                ][count],
-                muted_alpha=0.2,
+                color=Category20[len(src.column_names)][count],
+                legend_label=deduct_labels[i],
                 source=src,
-                name=i,
+                name=deduct_labels[i],
                 mode="after",
             )
 
         for count, i in enumerate(
-            list(set(src.column_names) & set(selector_important))
+            list(set(src.column_names) & set(deduct_labels.keys()))
         ):
             i = p.circle(
                 x="index",
@@ -69,18 +59,9 @@ def deductions(plot_dict, data):
                 line_width=2,
                 alpha=0.8,
                 color=Category20[10][count],
-                muted_color=Category20[10][count],
-                legend_label=[
-                    "Lump-sum deduction for employment income",
-                    "Income Tax Allowance for children education",
-                    "Basic Income Tax Allowance for children",
-                    "Basic allowance",
-                    "Income Tax Allowance for Single Parents",
-                    "Allowance for Capital Gains",
-                ][count],
-                muted_alpha=0.2,
+                legend_label=deduct_labels[i],
                 source=src,
-                name=i,
+                name=deduct_labels[i],
             )
 
         plot = plotstyle(p, plot_dict)

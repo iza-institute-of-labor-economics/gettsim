@@ -5,17 +5,12 @@ from bokeh.io import curdoc
 from bokeh.layouts import column
 from bokeh.models import Div
 from bokeh.models.widgets import Tabs
-
-from gettsim.config import ROOT_DIR
-from gettsim.dashboard.App.Scripts.child_benefits import child_benefits
-from gettsim.dashboard.App.Scripts.deductions import deductions
-from gettsim.dashboard.App.Scripts.heatmap import heatmap_tab
-from gettsim.dashboard.App.Scripts.social_assistance import social_assistance
-from gettsim.dashboard.App.Scripts.social_security import social_security
-from gettsim.dashboard.App.Scripts.tax_rate import tax_rate
-
-# Each tab is drawn by one script
-
+from Scripts.child_benefits import child_benefits
+from Scripts.deductions import deductions
+from Scripts.heatmap import heatmap_tab
+from Scripts.social_assistance import social_assistance
+from Scripts.social_security import social_security
+from Scripts.tax_rate import tax_rate
 
 tz = pytz.timezone("Europe/Berlin")
 
@@ -94,7 +89,7 @@ attribute_dict = {
         "Monthly Social Assistance Rate (€)",
         "0",
         "0€",
-        "bottom_right",
+        "top_left",
         """This graph depicts personal social assistance payments
         ('Regelsatz Arbeitslosengeld II') by household member.""",
     ],
@@ -107,7 +102,7 @@ plot_dict = {
     for p in plot_list
 }
 
-all_data = pickle.load(open(f"{ROOT_DIR}/dashboard/all_data.pickle", "rb"))
+all_data = pickle.load(open("all_data.pickle", "rb"))
 
 # print("{} INFO - Server receives request".format(datetime.now(tz)))
 
