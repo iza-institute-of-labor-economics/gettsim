@@ -107,7 +107,7 @@ plot_dict = {
     for p in plot_list
 }
 
-all_data = pickle.load(open(f"{ROOT_DIR}/dashboard/App/all_data.pickle", "rb"))
+all_data = pickle.load(open(f"{ROOT_DIR}/dashboard/all_data.pickle", "rb"))
 
 # print("{} INFO - Server receives request".format(datetime.now(tz)))
 

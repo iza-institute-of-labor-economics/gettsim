@@ -299,7 +299,7 @@ def generate_data():
         "social_assistance": social_assistance_data(2005, current_year),
     }
 
-    dbfile = open(f"{ROOT_DIR}/dashboard/App/all_data.pickle", "wb")
+    dbfile = open(f"{ROOT_DIR}/dashboard/all_data.pickle", "wb")
 
     # source, destination
     pickle.dump(all_data, dbfile)
