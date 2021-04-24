@@ -1,11 +1,11 @@
-from Scripts.plotstyle import plotstyle
-
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource
 from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.palettes import Category20
 from bokeh.plotting import figure
+
+from gettsim.dashboard.App.Scripts.plotstyle import plotstyle
 
 
 def deductions(plot_dict, data):

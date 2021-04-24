@@ -5,10 +5,10 @@ import numpy as np
 import pandas as pd
 
 from gettsim import set_up_policy_environment
+from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
 from gettsim.transfers.wohngeld import wohngeld_basis
-
 
 # Each plot has one data preparation function as defined below
 
@@ -299,7 +299,7 @@ def generate_data():
         "social_assistance": social_assistance_data(2005, current_year),
     }
 
-    dbfile = open("all_data.pickle", "wb")
+    dbfile = open(f"{ROOT_DIR}/dashboard/App/all_data.pickle", "wb")
 
     # source, destination
     pickle.dump(all_data, dbfile)
@@ -307,4 +307,4 @@ def generate_data():
 
 
 # This line needs to be run manually once after major changes i.e. new plots.
-generate_data()
+# generate_data()

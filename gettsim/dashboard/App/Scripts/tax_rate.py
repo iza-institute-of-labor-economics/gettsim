@@ -1,11 +1,12 @@
-from Scripts.plotstyle import plotstyle
-
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource
 from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.models import Slider
 from bokeh.plotting import figure
+
+from gettsim.dashboard.App.Scripts.plotstyle import plotstyle
+
 
 def tax_rate(plot_dict, data):
     def make_dataset(sel_year, tax_rate_dict_full):

@@ -5,12 +5,13 @@ from bokeh.io import curdoc
 from bokeh.layouts import column
 from bokeh.models import Div
 from bokeh.models.widgets import Tabs
-from Scripts.child_benefits import child_benefits
-from Scripts.deductions import deductions
-from Scripts.heatmap import heatmap_tab
-from Scripts.social_assistance import social_assistance
-from Scripts.social_security import social_security
-from Scripts.tax_rate import tax_rate
+
+from gettsim.dashboard.App.Scripts.child_benefits import child_benefits
+from gettsim.dashboard.App.Scripts.deductions import deductions
+from gettsim.dashboard.App.Scripts.heatmap import heatmap_tab
+from gettsim.dashboard.App.Scripts.social_assistance import social_assistance
+from gettsim.dashboard.App.Scripts.social_security import social_security
+from gettsim.dashboard.App.Scripts.tax_rate import tax_rate
 
 # Each tab is drawn by one script
 

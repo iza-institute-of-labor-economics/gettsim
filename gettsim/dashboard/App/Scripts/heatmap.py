@@ -1,5 +1,3 @@
-from Scripts.plotstyle import plotstyle
-
 import pandas as pd
 from bokeh.layouts import column
 from bokeh.models import BasicTicker
@@ -13,6 +11,8 @@ from bokeh.models import RadioButtonGroup
 from bokeh.palettes import Turbo256
 from bokeh.plotting import figure
 from bokeh.transform import transform
+
+from gettsim.dashboard.App.Scripts.plotstyle import plotstyle
 
 
 def heatmap_tab(plot_dict, data):

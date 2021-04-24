@@ -4,7 +4,8 @@ from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.palettes import Category20
 from bokeh.plotting import figure
-from Scripts.plotstyle import plotstyle
+
+from gettsim.dashboard.App.Scripts.plotstyle import plotstyle
 
 
 def social_assistance(plot_dict, data):
