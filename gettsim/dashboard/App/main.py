@@ -60,7 +60,9 @@ attribute_dict = {
         "0€",
         "0€",
         "top_left",
-        """Description text to be added.""",
+        """This Graph depicts the monthly housing benefit, depending on household size and
+        year. We assume Mietstufe 3, which corresponds to a municipality with average
+        rental cost.""",
     ],
     "child_benefits": [
         "Monthly child benefits per child",

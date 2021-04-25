@@ -8,7 +8,7 @@ from bokeh.models import LinearColorMapper
 from bokeh.models import NumeralTickFormatter
 from bokeh.models import Panel
 from bokeh.models import RadioButtonGroup
-from bokeh.palettes import Turbo256
+from bokeh.palettes import Viridis256
 from bokeh.plotting import figure
 from bokeh.transform import transform
 
@@ -37,15 +37,14 @@ def heatmap_tab(plot_dict, data):
         """
         Create the heatmap plot.
 
-        parameters (pd.Dataframe): Returned by the data preparation function
+        src: ColumnDataSource
         """
 
         # Prepare a color pallete and color mapper
-        colors = Turbo256[145:256]
-        colors = list(colors)
+        # colors = list(Turbo256[145:256])
         # colors.reverse()
         mapper = LinearColorMapper(
-            palette=colors,
+            palette=Viridis256,
             low=min(src.data["Wohngeld"]),
             high=max(src.data["Wohngeld"]),
         )
@@ -54,16 +53,16 @@ def heatmap_tab(plot_dict, data):
         p = figure(
             plot_width=800,
             plot_height=400,
-            x_range=(0, 1300),
-            y_range=(0, 1300),
+            x_range=(src.data["Miete"].min(), src.data["Miete"].max()),
+            y_range=(src.data["Einkommen"].min(), src.data["Einkommen"].max()),
             tools="",
         )
 
         p.rect(
             x="Miete",
             y="Einkommen",
-            width=30,
-            height=30,
+            width=25,
+            height=src.data["Einkommen"][1] - src.data["Einkommen"][0],
             source=src,
             line_color=None,
             fill_color=transform("Wohngeld", mapper),
@@ -75,6 +74,7 @@ def heatmap_tab(plot_dict, data):
             ticker=BasicTicker(desired_num_ticks=20),
             formatter=NumeralTickFormatter(format="0€"),
             label_standoff=12,
+            width=60,
             title="Housing benefits (in €)",
         )
         p.add_layout(color_bar, "right")
@@ -95,7 +95,7 @@ def heatmap_tab(plot_dict, data):
     )
     hh_size_selection.on_change("active", update_plot)
 
-    src = make_dataset(2020, 1, wg_dict)
+    src = make_dataset(2021, 1, wg_dict)
 
     p = setup_plot(src)
 

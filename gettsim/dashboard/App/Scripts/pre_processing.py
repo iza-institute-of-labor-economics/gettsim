@@ -8,6 +8,11 @@ from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
 from gettsim.transfers.wohngeld import wohngeld_basis
+from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
+from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_bis_2008
+from gettsim.transfers.wohngeld import wohngeld_min_miete
+
 
 # Each plot has one data preparation function as defined below
 
@@ -99,31 +104,50 @@ def prepare_data(sel_year, hh_size):
     """
 
     # Range of relevant income and rent combinations for the simulation
-    einkommen = pd.Series(data=np.linspace(0, 1300, 50))
-    miete = pd.Series(data=np.linspace(0, 1300, 50))
-    # Miete needs to be capped acc. to mietstufe and hh size
-    """
-    if sel_year <= 2008:
-        pass
-    else:
-        wohngeld_miete = policy_functions["wohngeld_miete"](3,
-                                                            hh_size,
-                                                            [1],
-                                                            miete,
-                                                            1,
-                                                            0,
-                                                            wohngeld_params)
-    """
+    einkommen = pd.Series(data=np.linspace(0, 4000, 81))
+    miete = pd.Series(data=np.linspace(0, 2000, 81))
     # Todo replace this with sliders
     household_size = pd.Series(data=[hh_size] * len(einkommen))
-    sel_year = sel_year
+    # Retrieve policy parameters for the selected year
+    policy_params, policy_functions = set_up_policy_environment(sel_year)
+    params = policy_params["wohngeld"]
+
+    # Miete needs to be corrected acc. to mietstufe and hh size
+    if sel_year <= 2008:
+        wohngeld_miete = wohngeld_miete_bis_2008(
+            pd.Series([3] * len(miete)),
+            pd.Series([1980] * len(miete)),
+            household_size,
+            pd.Series(range(len(miete))),
+            miete,
+            pd.Series([1] * len(miete)),
+            wohngeld_min_miete(household_size, params),
+            params,
+        )
+    if 2009 <= sel_year <= 2020:
+        wohngeld_miete = wohngeld_miete_ab_2009(
+            pd.Series([3] * len(miete)),
+            household_size,
+            pd.Series(range(len(miete))),
+            miete,
+            pd.Series([1] * len(miete)),
+            wohngeld_min_miete(household_size, params),
+            params,
+        )
+    if sel_year >= 2021:
+        wohngeld_miete = wohngeld_miete_ab_2021(
+            pd.Series([3] * len(miete)),
+            household_size,
+            pd.Series(range(len(miete))),
+            miete,
+            pd.Series([1] * len(miete)),
+            wohngeld_min_miete(household_size, params),
+            params,
+        )
 
     # Create a dataframe for the simulated data
     wohngeld_df = pd.DataFrame(columns=einkommen)
 
-    # Retrieve policy parameters for the selected year
-    policy_params, policy_functions = set_up_policy_environment(sel_year)
-    params = policy_params["wohngeld"]
     # To-do think about household["Mietstufe"]
 
     # Iterate through einkommen for all einkommen and miete combinations
@@ -133,8 +157,7 @@ def prepare_data(sel_year, hh_size):
         wohngeld_df[this_column] = wohngeld_basis(
             haushaltsgröße=household_size,
             wohngeld_eink=e,
-            #            wohngeld_miete=wohngeld_miete,
-            wohngeld_miete=miete,
+            wohngeld_miete=wohngeld_miete,
             wohngeld_params=params,
         )
     wohngeld_df.index = miete
@@ -241,7 +264,7 @@ def social_security_data(start, end):
     pflegev = soz_vers_df["pflegev"].apply(pd.Series)
     #
     soz_vers_out = pd.concat(
-        [soz_vers_df[["arbeitsl_v", "rentenv"]], ges_krankenv, pflegev], axis=1,
+        [soz_vers_df[["arbeitsl_v", "rentenv"]], ges_krankenv, pflegev], axis=1
     )
 
     soz_vers_out.columns = [
