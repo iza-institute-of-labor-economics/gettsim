@@ -1,3 +1,5 @@
+import itertools
+
 import pandas as pd
 from bokeh.layouts import column
 from bokeh.models import BasicTicker
@@ -41,12 +43,11 @@ def heatmap_tab(plot_dict, data):
         """
 
         # Prepare a color pallete and color mapper
-        # colors = list(Turbo256[145:256])
-        # colors.reverse()
         mapper = LinearColorMapper(
-            palette=Viridis256,
-            low=min(src.data["Wohngeld"]),
-            high=max(src.data["Wohngeld"]),
+            # force 0 to be mapped with white color
+            palette=tuple(itertools.chain(["#FFFFFF"], Viridis256[1:])),
+            low=0,
+            high=1000,
         )
 
         # Actual figure setup
@@ -55,14 +56,15 @@ def heatmap_tab(plot_dict, data):
             plot_height=400,
             x_range=(src.data["Miete"].min(), src.data["Miete"].max()),
             y_range=(src.data["Einkommen"].min(), src.data["Einkommen"].max()),
-            tools="",
+            tools="hover",
+            tooltips="Housing Benefit: @Wohngeld{0.0f}€",
         )
 
         p.rect(
             x="Miete",
             y="Einkommen",
-            width=25,
-            height=src.data["Einkommen"][1] - src.data["Einkommen"][0],
+            width=25 - 1,
+            height=src.data["Einkommen"][1] - src.data["Einkommen"][0] - 1,
             source=src,
             line_color=None,
             fill_color=transform("Wohngeld", mapper),
@@ -74,8 +76,6 @@ def heatmap_tab(plot_dict, data):
             ticker=BasicTicker(desired_num_ticks=20),
             formatter=NumeralTickFormatter(format="0€"),
             label_standoff=12,
-            width=60,
-            title="Housing benefits (in €)",
         )
         p.add_layout(color_bar, "right")
 
