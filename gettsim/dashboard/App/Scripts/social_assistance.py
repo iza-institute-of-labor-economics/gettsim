@@ -13,6 +13,7 @@ def social_assistance(plot_dict, data):
         p = figure(
             plot_width=900,
             plot_height=400,
+            y_range=(0, 500),
             x_range=(2005, 2022),
             tooltips="$name: @$name €",
         )

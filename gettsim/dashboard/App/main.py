@@ -61,8 +61,9 @@ attribute_dict = {
         "0€",
         "top_left",
         """This Graph depicts the monthly housing benefit, depending on household size and
-        year. We assume Mietstufe 3, which corresponds to a municipality with average
-        rental cost.""",
+        year, for a given combination of rent and income. Note that a number of
+        allowances apply to income relevant for the housing benefit. We assume
+        'Mietstufe' 3, which corresponds to a municipality with average rental cost.""",
     ],
     "child_benefits": [
         "Monthly child benefits per child",
@@ -92,8 +93,8 @@ attribute_dict = {
         "0",
         "0€",
         "top_left",
-        """This graph depicts personal social assistance payments
-        ('Regelsatz Arbeitslosengeld II') by household member.""",
+        """This graph depicts monthly personal social assistance payments
+         ('Regelsatz Arbeitslosengeld II') by household member.""",
     ],
 }
 

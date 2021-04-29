@@ -86,31 +86,28 @@ def deduction_data(start, end):
     return deduction_df
 
 
-# Prepare wohngeld data
-def prepare_data(sel_year, hh_size):
+def prepare_wg_data(sel_year, hh_size):
     """
     For a given year and household_size this function creates the
     simulation dataframe later used for plotting.
     Parameters:
-    sel_year (Int): The year for which the wohngeld will be simulated
+    sel_year: Int
+        The year for which the wohngeld will be simulated
 
-
-    hh_size (Int): The size of the houshold for which wohngeld will be
-                    simulated.
-                    Values between 1 and 13.
-                    More than 12 just adds a lump-sum on top
+    hh_size: Int
+        The size of the houshold for which wohngeld will be simulated.
+        Values between 1 and 13. More than 12 just adds a lump-sum on top
 
     Returns dataframe.
     """
+    # Retrieve policy parameters for the selected year
+    policy_params, policy_functions = set_up_policy_environment(sel_year)
+    params = policy_params["wohngeld"]
 
     # Range of relevant income and rent combinations for the simulation
     einkommen = pd.Series(data=np.linspace(0, 4000, 81))
     miete = pd.Series(data=np.linspace(0, 2000, 81))
-    # Todo replace this with sliders
     household_size = pd.Series(data=[hh_size] * len(einkommen))
-    # Retrieve policy parameters for the selected year
-    policy_params, policy_functions = set_up_policy_environment(sel_year)
-    params = policy_params["wohngeld"]
 
     # Miete needs to be corrected acc. to mietstufe and hh size
     if sel_year <= 2008:
@@ -156,7 +153,8 @@ def prepare_data(sel_year, hh_size):
         e = pd.Series(data=[einkommen[i]] * len(einkommen))
         wohngeld_df[this_column] = wohngeld_basis(
             haushaltsgröße=household_size,
-            wohngeld_eink=e,
+            # Account for minimum income
+            wohngeld_eink=np.maximum(e, params["min_eink"][hh_size]),
             wohngeld_miete=wohngeld_miete,
             wohngeld_params=params,
         )
@@ -170,7 +168,7 @@ def wohngeld_data():
     years = [1992, 2001, 2009, 2016, 2020, 2021]
 
     for i in years:
-        wg_dict[i] = {j: prepare_data(i, j) for j in range(1, 13)}
+        wg_dict[i] = {j: prepare_wg_data(i, j) for j in range(1, 13)}
 
     return wg_dict
 

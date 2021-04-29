@@ -10,6 +10,7 @@ from bokeh.models import LinearColorMapper
 from bokeh.models import NumeralTickFormatter
 from bokeh.models import Panel
 from bokeh.models import RadioButtonGroup
+from bokeh.models import Slider
 from bokeh.palettes import Viridis256
 from bokeh.plotting import figure
 from bokeh.transform import transform
@@ -30,7 +31,7 @@ def heatmap_tab(plot_dict, data):
 
     def update_plot(attr, old, new):
         sel_year = [1992, 2001, 2009, 2016, 2020, 2021][year_selection.active]
-        hh_size = hh_size_selection.active + 1
+        hh_size = hh_size_selection.value
         new_src = make_dataset(sel_year, hh_size, wg_dict)
 
         src.data.update(new_src.data)
@@ -92,12 +93,10 @@ def heatmap_tab(plot_dict, data):
     )
     year_selection.on_change("active", update_plot)
 
-    hh_size_selection = RadioButtonGroup(
-        labels=[str(i) for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]], active=0
-    )
-    hh_size_selection.on_change("active", update_plot)
+    hh_size_selection = Slider(start=1, end=12, value=4, step=1, title="Household Size")
+    hh_size_selection.on_change("value", update_plot)
 
-    src = make_dataset(2021, 1, wg_dict)
+    src = make_dataset(2021, 4, wg_dict)
 
     p = setup_plot(src)
 
@@ -110,6 +109,6 @@ def heatmap_tab(plot_dict, data):
         description, year_label, year_selection, hh_size_label, hh_size_selection, p
     )
 
-    tab = Panel(child=layout, title="Housing benefits heatmap")
+    tab = Panel(child=layout, title="Housing benefits")
 
     return tab
