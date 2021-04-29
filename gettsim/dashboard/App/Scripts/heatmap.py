@@ -103,11 +103,8 @@ def heatmap_tab(plot_dict, data):
     description = Div(text=plot_dict["description"], width=1000,)
 
     year_label = Div(text="Year")
-    hh_size_label = Div(text="Household size")
 
-    layout = column(
-        description, year_label, year_selection, hh_size_label, hh_size_selection, p
-    )
+    layout = column(description, year_label, year_selection, hh_size_selection, p)
 
     tab = Panel(child=layout, title="Housing benefits")
 
