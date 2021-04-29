@@ -1,1 +1,0 @@
-from ./dashboard run: bokeh serve --show App
