@@ -82,9 +82,11 @@ attribute_dict = {
         "0%",
         "top_right",
         """This graph depicts contribution rates to the four main branches of
-        social security. With the exception of health insurance, contributions
-        are shared between employer and employee. The graph shows only the
-        employees share for those branches.""",
+        social security. With the exception of health insurance from 2006 to
+        2018, contributions are shared equally between employer and employee.
+        The graph shows only the employees share for those branches. The
+        additional health care contribution rate for employees used to
+        vary across health insurance funds; we assume the national average.""",
     ],
     "social_assistance": [
         "Social Assistance rate",

@@ -4,14 +4,13 @@ from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.palettes import Category20
 from bokeh.plotting import figure
-
-from gettsim.dashboard.App.Scripts.plotstyle import plotstyle
+from Scripts.plotstyle import plotstyle
 
 
 def social_assistance(plot_dict, data):
     def setup_plot(src):
         p = figure(
-            plot_width=900,
+            plot_width=750,
             plot_height=400,
             y_range=(0, 500),
             x_range=(2005, 2022),
@@ -50,6 +49,7 @@ def social_assistance(plot_dict, data):
                 name=labels[i],
             )
         p.xaxis.bounds = (2004, max(src.data["index"]) + 1)
+        p.xaxis.ticker.desired_num_ticks = 4
 
         plot = plotstyle(p, plot_dict)
 
