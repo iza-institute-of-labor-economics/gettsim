@@ -45,7 +45,9 @@ def heatmap_tab(plot_dict, data):
         # Prepare a color pallete and color mapper
         mapper = LinearColorMapper(
             # force 0 to be mapped with white color
-            palette=tuple(itertools.chain(["#FFFFFF"], Viridis256[1:])),
+            palette=tuple(
+                itertools.chain(["#FFFFFF"], tuple(reversed(Viridis256[1:])))
+            ),
             low=0,
             high=1000,
         )

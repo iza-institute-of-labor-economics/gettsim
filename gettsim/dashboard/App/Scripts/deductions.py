@@ -21,7 +21,7 @@ def deductions(plot_dict, data):
         p = figure(
             plot_height=400,
             plot_width=800,
-            y_range=(0, 9500),
+            y_range=(0, 10500),
             x_range=(min(src.data["index"]), max(src.data["index"]) + 1),
             tooltips="$name: $y{0} €",
         )
