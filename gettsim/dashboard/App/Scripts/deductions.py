@@ -37,29 +37,30 @@ def deductions(plot_dict, data):
         for count, i in enumerate(
             list(set(src.column_names) & set(deduct_labels.keys()))
         ):
-
-            i = p.step(
+            color = Category20[len(src.column_names)][count]
+            p.step(
                 x="index",
                 y=i,
                 line_width=2,
                 alpha=0.8,
-                color=Category20[len(src.column_names)][count],
+                color=color,
                 legend_label=deduct_labels[i],
+                muted_color=color,
+                muted_alpha=0.2,
                 source=src,
                 name=deduct_labels[i],
                 mode="after",
             )
 
-        for count, i in enumerate(
-            list(set(src.column_names) & set(deduct_labels.keys()))
-        ):
-            i = p.circle(
+            p.circle(
                 x="index",
                 y=i,
                 line_width=2,
                 alpha=0.8,
-                color=Category20[10][count],
+                color=color,
                 legend_label=deduct_labels[i],
+                muted_color=color,
+                muted_alpha=0.2,
                 source=src,
                 name=deduct_labels[i],
             )
