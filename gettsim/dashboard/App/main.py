@@ -32,6 +32,9 @@ plot_attributes = [
     "legend_location",
     "description",
 ]
+# Github-Link to Parameters
+param_url = """https://github.com/iza-institute-of-labor-economics/
+gettsim/blob/master/gettsim/parameters"""
 attribute_dict = {
     "tax_rate": [
         "Statutory Income Tax rate by taxable income",
@@ -40,8 +43,10 @@ attribute_dict = {
         "€0",
         "0%",
         "bottom_right",
-        """This graph demonstrates the statutory income tax rate with and without
-        Solidarity Surcharge.""",
+        f"""This graph demonstrates the statutory income tax rate with and without
+        Solidarity Surcharge. <a href="{param_url}/eink_st.yaml">
+        <em>Details and legal references.</em></a>
+        """,
     ],
     "deductions": [
         "Income tax deductions",
@@ -50,8 +55,10 @@ attribute_dict = {
         "0€",
         "0€",
         "top_left",
-        """This graph shows the evolution of the main lump-sum tax deductions
-        creating a wedge between market and taxable income.""",
+        f"""This graph shows the evolution of the main lump-sum tax deductions
+        creating a wedge between market and taxable income.
+        <a href="{param_url}/eink_st_abzuege.yaml">
+        <em>Details and legal references.</em></a>""",
     ],
     "wohngeld": [
         "Monthly housing benefits (in €) per income and rent",
@@ -60,10 +67,11 @@ attribute_dict = {
         "0€",
         "0€",
         "top_left",
-        """This Graph depicts the monthly housing benefit, depending on household size and
-        year, for a given combination of rent and income. Note that a number of
-        allowances apply to income relevant for the housing benefit. We assume
-        'Mietstufe' 3, which corresponds to a municipality with average rental cost.""",
+        f"""This Graph depicts the monthly housing benefit, depending on household size and
+        year, for a given combination of rent and income. We assume 'Mietstufe' 3, which
+        corresponds to a municipality with average rental cost.
+        <a href="{param_url}/wohngeld.yaml">
+        <em>Details and legal references.</em></a>""",
     ],
     "child_benefits": [
         "Monthly child benefits per child",
@@ -72,7 +80,9 @@ attribute_dict = {
         "0",
         "0€",
         "top_left",
-        """Monthly child benefit by order of child within the household.""",
+        f"""Monthly child benefit by order of child within the household.
+        <a href="{param_url}/kindergeld.yaml">
+        <em>Details and legal references.</em></a>""",
     ],
     "social_security": [
         "Social security contribution rates",
@@ -81,12 +91,14 @@ attribute_dict = {
         "0",
         "0%",
         "center_right",
-        """This graph depicts contribution rates to the four main branches of
+        f"""This graph depicts contribution rates to the four main branches of
         social security. With the exception of health insurance from 2006 to
         2018, contributions are shared equally between employer and employee.
         The graph shows only the employees share for those branches. The
         additional health care contribution rate for employees used to
-        vary across health insurance funds; we assume the national average.""",
+        vary across health insurance funds; we assume the national average.
+        <a href="{param_url}/soz_vers_beitr.yaml">
+        <em>Details and legal references.</em></a>""",
     ],
     "social_assistance": [
         "Social Assistance rate",
@@ -95,8 +107,10 @@ attribute_dict = {
         "0",
         "0€",
         "top_left",
-        """This graph depicts monthly personal social assistance payments
-         ('Regelsatz Arbeitslosengeld II') by household member.""",
+        f"""This graph depicts monthly personal social assistance payments
+         ('Regelsatz Arbeitslosengeld II') by household member.
+        <a href="{param_url}/arbeitsl_geld_2.yaml">
+        <em>Details and legal references.</em></a>""",
     ],
 }
 
