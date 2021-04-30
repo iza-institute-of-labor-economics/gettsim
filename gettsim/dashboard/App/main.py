@@ -106,7 +106,7 @@ attribute_dict = {
         "Monthly Social Assistance Rate (€)",
         "0",
         "0€",
-        "top_left",
+        "bottom_right",
         f"""This graph depicts monthly personal social assistance payments
          ('Regelsatz Arbeitslosengeld II') by household member.
         <a href="{param_url}/arbeitsl_geld_2.yaml">
