@@ -348,7 +348,7 @@ def generate_data():
         "social_assistance": social_assistance_data(2005, current_year),
     }
 
-    dbfile = open("all_data.pickle", "wb")
+    dbfile = open("param_dashboard_data.pickle", "wb")
 
     # source, destination
     pickle.dump(all_data, dbfile)

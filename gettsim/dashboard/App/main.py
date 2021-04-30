@@ -80,7 +80,7 @@ attribute_dict = {
         "Social Security contribution rate",
         "0",
         "0%",
-        "top_right",
+        "center_right",
         """This graph depicts contribution rates to the four main branches of
         social security. With the exception of health insurance from 2006 to
         2018, contributions are shared equally between employer and employee.
@@ -107,7 +107,7 @@ plot_dict = {
     for p in plot_list
 }
 
-all_data = pickle.load(open("all_data.pickle", "rb"))
+all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
 
 # print("{} INFO - Server receives request".format(datetime.now(tz)))
 
