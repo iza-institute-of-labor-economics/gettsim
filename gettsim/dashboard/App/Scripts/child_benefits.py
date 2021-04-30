@@ -27,33 +27,31 @@ def child_benefits(plot_dict, data):
             background_fill_color="#efefef",
             tooltips="$name: @$name €",
         )
-        k = -1
-        for i in kindergeld_df.columns:
-            k = k + 1
+        kig_params = list(kindergeld_df.columns)
+
+        for i in kig_params:
             p.step(
                 x="index",
                 y=i,
                 line_width=2,
-                color=Category10[4][k],
-                legend_label=kindergeld_df.columns[k],
+                color=Category10[len(kig_params)][kig_params.index(i)],
+                legend_label=i,
                 alpha=0.8,
-                muted_color=Category10[4][k],
+                muted_color=Category10[len(kig_params)][kig_params.index(i)],
                 muted_alpha=0.2,
                 source=source,
                 name=i,
                 mode="after",
             )
-        k = -1
-        for i in kindergeld_df.columns:
-            k = k + 1
+
             p.circle(
                 x="index",
                 y=i,
                 line_width=2,
-                color=Category10[4][k],
-                legend_label=kindergeld_df.columns[k],
+                color=Category10[len(kig_params)][kig_params.index(i)],
+                legend_label=i,
                 alpha=0.8,
-                muted_color=Category10[4][k],
+                muted_color=Category10[len(kig_params)][kig_params.index(i)],
                 muted_alpha=0.2,
                 source=source,
                 name=i,
