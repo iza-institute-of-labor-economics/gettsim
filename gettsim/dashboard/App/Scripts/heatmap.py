@@ -65,10 +65,10 @@ def heatmap_tab(plot_dict, data):
         p.rect(
             x="Miete",
             y="Einkommen",
-            width=25 - 1,
-            height=src.data["Einkommen"][1] - src.data["Einkommen"][0] - 1,
+            width=25,
+            height=src.data["Einkommen"][1] - src.data["Einkommen"][0],
             source=src,
-            line_color=None,
+            line_color=transform("Wohngeld", mapper),
             fill_color=transform("Wohngeld", mapper),
         )
 
