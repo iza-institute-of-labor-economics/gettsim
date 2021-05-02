@@ -108,7 +108,7 @@ def test_zve(
 
     # TODO: There are large differences for the 2018 test. See #217.
     assert_series_equal(
-        result[target], expected_result, check_dtype=False, check_less_precise=1,
+        result[target], expected_result, check_dtype=False, atol=1e-1, rtol=1,
     )
 
 
