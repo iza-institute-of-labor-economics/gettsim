@@ -189,7 +189,7 @@ def tax_rate_data(start, end):
     returns dict
     """
     years = range(start, end + 1)
-    einkommen = pd.Series(data=np.linspace(0, 300000, 250))
+    einkommen = pd.Series(data=np.linspace(0, 300000, 601))
     tax_rate_dict_full = {}
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
@@ -206,11 +206,12 @@ def tax_rate_data(start, end):
             ],
         )
         marginal_rate = np.gradient(eink_tax, einkommen)
-
+        overall_marginal_rate = np.gradient(eink_tax + soli, einkommen)
         tax_rate_dict_full[i] = {
             "tax_rate": (eink_tax / einkommen),
             "overall_tax_rate": ((soli + eink_tax) / einkommen),
             "marginal_rate": pd.Series(marginal_rate),
+            "overall_marginal_rate": pd.Series(overall_marginal_rate),
             "income": einkommen,
         }
 

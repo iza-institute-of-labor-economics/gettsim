@@ -2,7 +2,7 @@ from bokeh.layouts import column
 from bokeh.models import ColumnDataSource
 from bokeh.models import Div
 from bokeh.models import Panel
-from bokeh.palettes import Category20
+from bokeh.palettes import Category10
 from bokeh.plotting import figure
 from plots.plotstyle import plotstyle
 
@@ -19,7 +19,7 @@ def social_assistance(plot_dict, data):
 
         labels = list(src.data.keys())[1:]
 
-        colors = Category20[len(labels)]
+        colors = Category10[len(labels)]
 
         for i in range(len(labels)):
             p.step(

@@ -50,6 +50,7 @@ def test_ui(
     assert_series_equal(
         result["arbeitsl_geld_m"],
         year_data["arbeitsl_geld_m"],
-        check_less_precise=3,
+        atol=1e-3,
+        rtol=1,
         check_dtype=False,
     )
