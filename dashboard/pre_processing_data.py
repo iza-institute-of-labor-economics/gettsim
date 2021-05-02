@@ -1,3 +1,8 @@
+"""
+This module puts together the data needed for the dashboards based
+on the specified GETTSIM parameters. It has to be run manually
+after any parameter is changed.
+"""
 import pickle
 from datetime import date
 

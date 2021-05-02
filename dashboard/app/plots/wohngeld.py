@@ -14,10 +14,10 @@ from bokeh.models import Slider
 from bokeh.palettes import Viridis256
 from bokeh.plotting import figure
 from bokeh.transform import transform
-from Scripts.plotstyle import plotstyle
+from plots.plotstyle import plotstyle
 
 
-def heatmap_tab(plot_dict, data):
+def wohngeld(plot_dict, data):
     def make_dataset(sel_year, hh_size, wg_dict):
         dataset = wg_dict[sel_year][hh_size]
 

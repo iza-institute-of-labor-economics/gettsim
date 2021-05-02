@@ -4,7 +4,7 @@ from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.models import Slider
 from bokeh.plotting import figure
-from Scripts.plotstyle import plotstyle
+from plots.plotstyle import plotstyle
 
 
 def tax_rate(plot_dict, data):

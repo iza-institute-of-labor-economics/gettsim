@@ -5,12 +5,12 @@ from bokeh.io import curdoc
 from bokeh.layouts import column
 from bokeh.models import Div
 from bokeh.models.widgets import Tabs
-from Scripts.child_benefits import child_benefits
-from Scripts.deductions import deductions
-from Scripts.heatmap import heatmap_tab
-from Scripts.social_assistance import social_assistance
-from Scripts.social_security import social_security
-from Scripts.tax_rate import tax_rate
+from plots.child_benefits import child_benefits
+from plots.deductions import deductions
+from plots.social_assistance import social_assistance
+from plots.social_security import social_security
+from plots.tax_rate import tax_rate
+from plots.wohngeld import wohngeld
 
 tz = pytz.timezone("Europe/Berlin")
 
@@ -128,7 +128,7 @@ all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
 # Call tab functions)
 tab1 = tax_rate(plot_dict["tax_rate"], all_data["tax_rate"])
 tab2 = deductions(plot_dict["deductions"], all_data["deductions"])
-tab3 = heatmap_tab(plot_dict["wohngeld"], all_data["wohngeld"])
+tab3 = wohngeld(plot_dict["wohngeld"], all_data["wohngeld"])
 tab4 = child_benefits(plot_dict["child_benefits"], all_data["child_benefits"])
 tab5 = social_security(plot_dict["social_security"], all_data["social_security"])
 tab6 = social_assistance(plot_dict["social_assistance"], all_data["social_assistance"])
