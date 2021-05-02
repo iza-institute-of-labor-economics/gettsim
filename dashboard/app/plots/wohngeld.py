@@ -14,7 +14,8 @@ from bokeh.models import Slider
 from bokeh.palettes import Viridis256
 from bokeh.plotting import figure
 from bokeh.transform import transform
-from plots.plotstyle import plotstyle
+
+from .plotstyle import plotstyle
 
 
 def wohngeld(plot_dict, data):

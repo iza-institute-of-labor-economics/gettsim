@@ -4,7 +4,8 @@ from bokeh.models import Div
 from bokeh.models import Panel
 from bokeh.palettes import Category10
 from bokeh.plotting import figure
-from plots.plotstyle import plotstyle
+
+from .plotstyle import plotstyle
 
 
 def deductions(plot_dict, data):

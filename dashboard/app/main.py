@@ -5,12 +5,13 @@ from bokeh.io import curdoc
 from bokeh.layouts import column
 from bokeh.models import Div
 from bokeh.models.widgets import Tabs
-from plots.child_benefits import child_benefits
-from plots.deductions import deductions
-from plots.social_assistance import social_assistance
-from plots.social_security import social_security
-from plots.tax_rate import tax_rate
-from plots.wohngeld import wohngeld
+
+from .plots.child_benefits import child_benefits
+from .plots.deductions import deductions
+from .plots.social_assistance import social_assistance
+from .plots.social_security import social_security
+from .plots.tax_rate import tax_rate
+from .plots.wohngeld import wohngeld
 
 tz = pytz.timezone("Europe/Berlin")
 
