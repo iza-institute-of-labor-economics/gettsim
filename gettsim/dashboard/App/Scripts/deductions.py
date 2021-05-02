@@ -2,7 +2,7 @@ from bokeh.layouts import column
 from bokeh.models import ColumnDataSource
 from bokeh.models import Div
 from bokeh.models import Panel
-from bokeh.palettes import Category20
+from bokeh.palettes import Category10
 from bokeh.plotting import figure
 from Scripts.plotstyle import plotstyle
 
@@ -37,7 +37,7 @@ def deductions(plot_dict, data):
         for count, i in enumerate(
             list(set(src.column_names) & set(deduct_labels.keys()))
         ):
-            color = Category20[len(src.column_names)][count]
+            color = Category10[len(deduct_labels.keys())][count]
             p.step(
                 x="index",
                 y=i,
