@@ -14,26 +14,30 @@ def tax_rate(plot_dict, data):
         return ColumnDataSource(dataset)
 
     def setup_plot(src):
-        p = figure(plot_width=800, plot_height=400, y_range=(-0.01, 0.5), )
+        p = figure(plot_width=800, plot_height=400, y_range=(-0.01, 0.5),)
 
-        taxplot_dict = {'tax_rate': {"label": 'Average Tax Rate',
-                                     "color": 'blue'},
-                        'overall_tax_rate': {"label": "Average Tax Rate incl. Soli",
-                                             "color": "black"},
-                        "marginal_rate": {"label": "Marginal Tax Rate",
-                                          "color": "red"},
-                        "overall_marginal_rate": {"label": "Marginal Tax Rate incl. Soli",
-                                                  "color": "green"}
-                        }
+        taxplot_dict = {
+            "tax_rate": {"label": "Average Tax Rate", "color": "blue"},
+            "overall_tax_rate": {
+                "label": "Average Tax Rate incl. Soli",
+                "color": "black",
+            },
+            "marginal_rate": {"label": "Marginal Tax Rate", "color": "red"},
+            "overall_marginal_rate": {
+                "label": "Marginal Tax Rate incl. Soli",
+                "color": "green",
+            },
+        }
 
         for yvar in taxplot_dict.keys():
-            p.line(x="income",
-                   y=yvar,
-                   source=src,
-                   line_width=2,
-                   line_color=taxplot_dict[yvar]["color"],
-                   legend_label=taxplot_dict[yvar]["label"],
-                   )
+            p.line(
+                x="income",
+                y=yvar,
+                source=src,
+                line_width=2,
+                line_color=taxplot_dict[yvar]["color"],
+                legend_label=taxplot_dict[yvar]["label"],
+            )
 
         plot = plotstyle(p, plot_dict)
 
@@ -53,7 +57,7 @@ def tax_rate(plot_dict, data):
     src = make_dataset(2021, tax_rate_dict_full)
 
     p = setup_plot(src)
-    description = Div(text=plot_dict["description"], width=800, )
+    description = Div(text=plot_dict["description"], width=800,)
 
     layout = column(description, year_selection, p)
 
