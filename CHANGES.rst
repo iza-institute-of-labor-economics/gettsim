@@ -7,7 +7,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 0.4.2 -
 ------------------
-
+* :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters.
+   (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
 
 0.4.1 - 2021-04-11
 ------------------
