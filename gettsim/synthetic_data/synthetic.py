@@ -187,50 +187,47 @@ def create_one_set_of_households(
 ):
     """ creates one set of households
     """
-    # initiate empty dataframe
+    # Initiate empty dataframe.
+    # Same order as 'Basic Input Variables' in the documentation
     output_columns = [
-        "tu_vorstand",
-        "vermögen_hh",
-        "alter",
-        "selbstständig",
-        "wohnort_ost",
-        "hat_kinder",
+        "kind",
         "bruttolohn_m",
-        "eink_selbst_m",
-        "ges_rente_m",
+        "alter",
+        "rentner",
+        "alleinerziehend",
+        "wohnort_ost",
         "prv_krankenv",
-        "prv_krankv_beit_m",
         "prv_rente_beitr_m",
-        "bruttolohn_vorj_m",
+        "in_ausbildung",
+        "selbstständig",
+        "hat_kinder",
+        "betreuungskost_m",
+        "sonstig_eink_m",
+        "eink_selbst_m",
+        "vermiet_eink_m",
+        "kapital_eink_m",
+        "ges_rente_m",
+        "kaltmiete_m_hh",
+        "heizkosten_m_hh",
+        "wohnfläche_hh",
+        "bewohnt_eigentum_hh",
         "arbeitsl_lfdj_m",
         "arbeitsl_vorj_m",
         "arbeitsl_vor2j_m",
         "arbeitsstunden_w",
-        "geburtsjahr",
-        "geburtsmonat",
+        "bruttolohn_vorj_m",
         "geburtstag",
-        "entgeltpunkte",
-        "kind",
-        "rentner",
-        "betreuungskost_m",
-        "miete_unterstellt",
-        "kapital_eink_m",
-        "vermiet_eink_m",
-        "kaltmiete_m_hh",
-        "heizkosten_m_hh",
-        "mietstufe",
+        "geburtsmonat",
+        "geburtsjahr",
         "jahr_renteneintr",
-        "behinderungsgrad",
-        "wohnfläche_hh",
-        "gem_veranlagt",
-        "in_ausbildung",
-        "alleinerziehend",
-        "bewohnt_eigentum_hh",
-        "immobilie_baujahr",
-        "sonstig_eink_m",
+        "m_elterngeld",
         "m_elterngeld_mut",
         "m_elterngeld_vat",
-        "m_elterngeld",
+        "behinderungsgrad",
+        "mietstufe",
+        "immobilie_baujahr",
+        "vermögen_hh",
+        "entgeltpunkte",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -259,15 +256,15 @@ def create_one_set_of_households(
         "m_elterngeld",
         "m_elterngeld_mut",
         "m_elterngeld_vat",
+        "arbeitsl_lfdj_m",
+        "arbeitsl_vorj_m",
+        "arbeitsl_vor2j_m",
     ]:
         df[int_col] = df[int_col].astype(int)
 
     # 'Custom' initializations
-    df["tu_vorstand"] = True
     df["alter"] = age_adults[0]
     df["immobilie_baujahr"] = baujahr
-    for c in ["arbeitsl_lfdj_m", "arbeitsl_vorj_m", "arbeitsl_vor2j_m"]:
-        df[c] = 0
 
     # Household Types
     all_types = pd.DataFrame(
@@ -324,9 +321,11 @@ def create_one_set_of_households(
     df.loc[df["bruttolohn_m"] > 0, "arbeitsstunden_w"] = 38
 
     # All adults in couples are assumed to be married
+    df["gem_veranlagt"] = False
     df.loc[
         (df["hh_typ"].str.contains("couple")) & (~df["kind"]), "gem_veranlagt"
     ] = True
+    # Single Parent Dummy
     df.loc[
         (df["hh_typ"].str.contains("single"))
         & (df["hh_typ"].str[7:8].astype(int) > 0)
