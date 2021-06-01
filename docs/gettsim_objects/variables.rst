@@ -12,7 +12,7 @@ household.
 +=========================+==============================================+=============+
 | _`hh_id`                | Household identifier                         | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`tu_id`                | Tax Unit identifier                          | IntSeries   |
+| _`tu_id`                | Tax Unit identifier (married couples + kids) | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`kind`                 | Dummy: Dependent child living with parents   | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
@@ -26,21 +26,21 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`wohnort_ost`          | Dummy: Living in former East Germany         | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`prv_krankenv`         | Dummy: Private health insured                | BoolSeries  |
+| _`prv_krankenv`         | Dummy: In private health insurance           | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
 | _`prv_rente_beitr_m`    | Monthly private pension contribution         | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`in_ausbildung`        | Dummy: Employment status “in education”      | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`selbstständig`        | Whether individual is self-employed          | BoolSeries  |
+| _`selbstständig`        | Dummy: Individual is self-employed           | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`hat_kinder`           | Whether individual has kids                  | BoolSeries  |
+| _`hat_kinder`           | Dummy: Individual has kids (incl. not in hh) | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
 | _`betreuungskost_m`     | Monthly childcare expenses                   | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`sonstig_eink_m`       | Additional income                            | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`eink_selbst_m`        | Monthly income from selfemploymenth          | FloatSeries |
+| _`eink_selbst_m`        | Monthly income from self-employment          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`vermiet_eink_m`       | Monthly rental income                        | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
@@ -72,9 +72,9 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`geburtsjahr`          | Year of birth                                | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`m_elterngeld`         | Number of months received elterngeld         | IntSeries   |
-+-------------------------+----------------------------------------------+-------------+
 | _`jahr_renteneintr`     | Year of retirement                           | IntSeries   |
++-------------------------+----------------------------------------------+-------------+
+| _`m_elterngeld`         | Number of months hh received elterngeld      | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`m_elterngeld_vat`     | Number of months father received elterngeld  | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
@@ -82,7 +82,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`behinderungsgrad`     | Handicap degree (between 0 and 100)          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`mietstufe`            | Level of rents in city                       | IntSeries   |
+| _`mietstufe`            | Level of rents in city (1: low, 3: average)  | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`immobilie_baujahr_hh` | Construction year of dwelling                | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
