@@ -41,6 +41,24 @@ def rente_anspr_m(
     return (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
 
+def ges_rente_m(prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries) -> FloatSeries:
+    """Calculate total pension as sum of private and public pension.
+
+    Parameters
+    ----------
+    prv_rente_m
+        See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
+    staatl_rente_m
+        See params documentation :ref:`staatl_rente_m <staatl_rente_m>`.
+
+    Returns
+    -------
+
+    """
+    out = prv_rente_m + staatl_rente_m
+    return out
+
+
 def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSeries:
     """Select the rentenwert depending on place of living.
 

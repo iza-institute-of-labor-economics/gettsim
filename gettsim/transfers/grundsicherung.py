@@ -8,8 +8,6 @@ def grundsicherung_m_hh(
     wohngeld_vorrang_hh: BoolSeries,
     kinderzuschlag_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
-    regelaltersgrenze: FloatSeries,
-    alter: IntSeries,
     anz_erwachsene_hh: IntSeries,
     anz_rentner_hh: IntSeries,
 ) -> FloatSeries:
@@ -25,10 +23,6 @@ def grundsicherung_m_hh(
         See :func:`kinderzuschlag_vorrang_hh`.
     wohngeld_kinderzuschlag_vorrang_hh
         See :func:`wohngeld_kinderzuschlag_vorrang_hh`.
-    regelaltersgrenze
-        See :func:`regelaltersgrenze`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
     anz_rentner_hh
@@ -42,7 +36,6 @@ def grundsicherung_m_hh(
         wohngeld_vorrang_hh
         | kinderzuschlag_vorrang_hh
         | wohngeld_kinderzuschlag_vorrang_hh
-        | (alter < regelaltersgrenze)
         | (anz_erwachsene_hh != anz_rentner_hh)
     )
     out.loc[cond] = 0
