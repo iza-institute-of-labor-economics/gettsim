@@ -18,7 +18,7 @@ To contribute to the project, adhere to the following process.
 Prerequisites
 -------------
 
-1. The process starts differently for regular contributors and newcomers. As a
+*  The process starts differently for regular contributors and newcomers. As a
    contributor you might have been granted privileges to push to the GETTSIM repository.
    Thus, you can clone the repository directly using
 
@@ -36,7 +36,7 @@ Prerequisites
 
        $ git clone https://github.com/<user>/gettsim
 
-- In the next step, go into the GETTSIM folder and set up the Python environment with
+*  In the next step, go into the GETTSIM folder and set up the Python environment with
 
    .. code-block:: bash
 
@@ -55,7 +55,7 @@ Prerequisites
 Development workflow
 --------------------
 
-- We always develop new features in new branches. Thus, create a new branch by picking
+*  We always develop new features in new branches. Thus, create a new branch by picking
    an appropriate name, e.g., ``kindergeld-freibetrag`` or ``ubi``. Make sure to branch
    off from master and not any other branch.
 
@@ -63,7 +63,7 @@ Development workflow
 
        $ git checkout -b <branch-name>
 
-- Now, develop the new feature on this branch. Before you commit the changes, make sure
+*  Now, develop the new feature on this branch. Before you commit the changes, make sure
    they pass our test suite which can be started with the following command.
 
    .. code-block:: bash
@@ -73,7 +73,7 @@ Development workflow
    Sometimes you want to push changes even if the tests fail because you need feedback.
    Then, skip this step.
 
-- In the next step, try to commit the changes to the branch with an appropriate commit
+*  In the next step, try to commit the changes to the branch with an appropriate commit
    message.
 
    .. code-block:: bash
@@ -86,7 +86,7 @@ Development workflow
    to use Google for more help. After fixing all issues, you need to commit the changes
    again.
 
-- If your commit passes, push your changes to the repository. Then, go to either the
+*  If your commit passes, push your changes to the repository. Then, go to either the
    official GETTSIM or your fork's Github page. A banner will be displayed asking you
    whether you would like to create a PR. Follow the link and the instructions of the PR
    template. Fill out the PR form to inform everyone else on what you are trying to
@@ -97,20 +97,16 @@ Development workflow
    Github Actions to get more details on why the tests failed. Reiterate on your changes
    until the tests pass on the remote machine.
 
-- Ask one of the main contributors to review your changes. Include their remarks in
+*  Ask one of the main contributors to review your changes. Include their remarks in
    your changes.
 
-- The final PR will be merged by one of the main contributors.
+*  The final PR will be merged by one of the main contributors.
 
 Code style
 ----------
-- We make use of NumPy-type docstrings: https://numpydoc.readthedocs.io/en/latest/format.html
-- Otherwise, we - Adhere to this
-   `styleguide <https://estimagic.readthedocs.io/en/latest/contributing/styleguide.html>`_
-   (It was written for estimagic but is basically used in all
-   OpenSourceEconomics Projects).
-
-
+*  We make use of NumPy-type docstrings: https://numpydoc.readthedocs.io/en/latest/format.html
+*  Otherwise, we adhere to this `styleguide <https://estimagic.readthedocs.io/en/latest/contributing/styleguide.html>`_
+   (which was written for estimagic).
 
 FAQ
 ---
