@@ -167,9 +167,9 @@ def max_freibetrag_vermögen_hh(
 
     """
     conditions = [
-        geburtsjahr < 1957,
-        (1958 <= geburtsjahr) & (geburtsjahr <= 1963),
-        (1964 <= geburtsjahr) & ~kind,
+        (geburtsjahr < 1957).astype(bool),
+        ((1958 <= geburtsjahr) & (geburtsjahr <= 1963)).astype(bool),
+        ((1964 <= geburtsjahr) & ~kind).astype(bool),
         True,
     ]
 

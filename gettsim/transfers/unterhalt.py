@@ -98,6 +98,7 @@ def unterhaltsvors_m(
         ),
     ]
 
+    conditions = [c.astype(bool) for c in conditions]
     choices = [
         (unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]),
         (unterhalt_params["mindestunterhalt"][12] - kindergeld_params["kindergeld"][1]),
