@@ -18,7 +18,7 @@ To contribute to the project, adhere to the following process.
 Prerequisites
 -------------
 
-- The process starts differently for regular contributors and newcomers. As a
+1. The process starts differently for regular contributors and newcomers. As a
    contributor you might have been granted privileges to push to the GETTSIM repository.
    Thus, you can clone the repository directly using
 
@@ -105,7 +105,10 @@ Development workflow
 Code style
 ----------
 - We make use of NumPy-type docstrings: https://numpydoc.readthedocs.io/en/latest/format.html
-- Otherwise, we adhere to this `styleguide <https://estimagic.readthedocs.io/en/latest/contributing/styleguide.html>`_ (written for the estimagic package).
+- Otherwise, we - Adhere to this
+   `styleguide <https://estimagic.readthedocs.io/en/latest/contributing/styleguide.html>`_
+   (It was written for estimagic but is basically used in all
+   OpenSourceEconomics Projects).
 
 
 
