@@ -75,7 +75,7 @@ def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSe
     """
     out = wohnort_ost.replace(
         {
-            True: ges_renten_vers_params["rentenwert_west"],
+            True: ges_renten_vers_params["rentenwert_ost"],
             False: ges_renten_vers_params["rentenwert_west"],
         }
     ).astype(float)
@@ -173,6 +173,7 @@ def regelaltersgrenze(geburtsjahr: IntSeries) -> FloatSeries:
     """
     # Create 65 as standard
     out = geburtsjahr * 0 + 65
+
     # If born after 1947, each birth year raises the age threshold by one month.
     cond = geburtsjahr > 1947
     out.loc[cond] = ((geburtsjahr.loc[cond] - 1947) / 12 + 65).clip(upper=67)

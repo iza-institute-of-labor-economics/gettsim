@@ -5,6 +5,113 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
+def grundrentenzuschlag_m(
+    grundrente_vor_einkommensanrechnung: FloatSeries,
+    ges_renten_vers_params: dict,
+    alleinstehend: BoolSeries,
+    einkommen_alleinstehend: FloatSeries,
+    einkommen_paar: FloatSeries,
+    rentenwert: FloatSeries,
+) -> FloatSeries:
+    """ Implement income crediting rule as defined in Grundrentengesetz.
+
+    Parameters
+    ----------
+    grundrente_vor_einkommensanrechnung
+        See :func:`grundrente_vor_einkommensanrechnung`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+    alleinstehend
+        See basic input variable :ref:`alleinstehend <alleinstehend>`.
+    einkommen_alleinstehend
+        See :func:`einkommen_alleinstehend`.
+    einkommen_paar
+        See :func:`einkommen_paar`.
+    rentenwert
+        See :func:`rentenwert`.
+
+    Returns
+    -------
+
+    """
+    out = grundrente_vor_einkommensanrechnung - (
+        (
+            einkommen_alleinstehend.clip(
+                upper=(
+                    ges_renten_vers_params["einkommensanrechnung_upper"] * rentenwert
+                )
+            )
+            - (ges_renten_vers_params["einkommensanrechnung_lower"] * rentenwert)
+        ).clip(lower=0)
+        * 0.6
+        - (
+            einkommen_alleinstehend
+            - (ges_renten_vers_params["einkommensanrechnung_upper"] * rentenwert)
+        ).clip(lower=0)
+    ).clip(lower=0)
+
+    condition = ~alleinstehend
+
+    out.loc[condition] = grundrente_vor_einkommensanrechnung - (
+        (
+            einkommen_paar.clip(
+                upper=(
+                    ges_renten_vers_params["einkommensanrechnung_upper_ehe"]
+                    * rentenwert
+                )
+            )
+            - (ges_renten_vers_params["einkommensanrechnung_lower_ehe"] * rentenwert)
+        ).clip(lower=0)
+        * 0.6
+        - (
+            einkommen_paar
+            - (ges_renten_vers_params["einkommensanrechnung_upper_ehe"] * rentenwert)
+        ).clip(lower=0)
+    ).clip(lower=0)
+    return out
+
+
+def grundrente_vor_einkommensanrechnung(
+    bonus_entgeltpunkte: FloatSeries,
+    grundrentenbewertungszeiten: IntSeries,
+    rentenwert: FloatSeries,
+    zugangsfaktor: FloatSeries,
+    ges_renten_vers_params: dict,
+) -> FloatSeries:
+    """ Calculate additional monthly pensions payments resulting from
+    grundrente, before taking into account other income. According to
+    the Grundrentengesetz, zugangsfaktor is limited to 1 for the
+    Grundrentenzuschlag.
+
+    Parameters
+    ----------
+    bonus_entgeltpunkte
+        See :func:`bonus_entgeltpunkte`.
+    grundrentenbewertungszeiten
+        See basic input variable
+        :ref:`grundrentenbewertungszeiten <grundrentenbewertungszeiten>`.
+    rentenwert
+        See :func:`rentenwert`.
+    zugangsfaktor
+        See :func:`zugangsfaktor`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        bonus_entgeltpunkte
+        * grundrentenbewertungszeiten.clip(
+            upper=ges_renten_vers_params["grundrentenzeiten_upper"]
+        )
+        * rentenwert
+        * zugangsfaktor.clip(upper=1)
+    )
+    return out
+
+
 def durchschnittl_entgeltpunkte_grundrente(
     entgeltpunkte_grundrente: FloatSeries, grundrentenbewertungszeiten: IntSeries
 ) -> FloatSeries:
@@ -99,47 +206,6 @@ def bonus_entgeltpunkte(
     return out
 
 
-def grundrente_vor_einkommensanrechnung(
-    bonus_entgeltpunkte: FloatSeries,
-    grundrentenbewertungszeiten: IntSeries,
-    rentenwert: FloatSeries,
-    zugangsfaktor: FloatSeries,
-    ges_renten_vers_params: dict,
-) -> FloatSeries:
-    """ Calculate additional monthly pensions payments resulting from
-    grundrente, before taking into account other income. According to
-    the Grundrentengesetz, zugangsfaktor is limited to 1 for the
-    Grundrentenzuschlag.
-
-    Parameters
-    ----------
-    bonus_entgeltpunkte
-        See :func:`bonus_entgeltpunkte`.
-    grundrentenbewertungszeiten
-        See basic input variable
-        :ref:`grundrentenbewertungszeiten <grundrentenbewertungszeiten>`.
-    rentenwert
-        See :func:`rentenwert`.
-    zugangsfaktor
-        See :func:`zugangsfaktor`.
-    ges_renten_vers_params
-        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        bonus_entgeltpunkte
-        * grundrentenbewertungszeiten.clip(
-            upper=ges_renten_vers_params["grundrentenzeiten_upper"]
-        )
-        * rentenwert
-        * zugangsfaktor.clip(upper=1)
-    )
-    return out
-
-
 def einkommen_paar(
     zu_verst_eink_kinderfreib_tu: FloatSeries,
     ges_rente_m_tu: FloatSeries,
@@ -214,72 +280,6 @@ def einkommen_alleinstehend(
         + (ges_rente_m - zu_verst_ges_rente)
         + (brutto_eink_5 - eink_st_abzuege_params["sparerpauschbetrag"]).clip(lower=0)
     )
-    return out
-
-
-def grundrentenzuschlag_m(
-    grundrente_vor_einkommensanrechnung: FloatSeries,
-    ges_renten_vers_params: dict,
-    alleinstehend: BoolSeries,
-    einkommen_alleinstehend: FloatSeries,
-    einkommen_paar: FloatSeries,
-    rentenwert: FloatSeries,
-) -> FloatSeries:
-    """ Implement income crediting rule as defined in Grundrentengesetz.
-
-    Parameters
-    ----------
-    grundrente_vor_einkommensanrechnung
-        See :func:`grundrente_vor_einkommensanrechnung`.
-    ges_renten_vers_params
-        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
-    alleinstehend
-        See basic input variable :ref:`alleinstehend <alleinstehend>`.
-    einkommen_alleinstehend
-        See :func:`einkommen_alleinstehend`.
-    einkommen_paar
-        See :func:`einkommen_paar`.
-    rentenwert
-        See :func:`rentenwert`.
-
-    Returns
-    -------
-
-    """
-    out = grundrente_vor_einkommensanrechnung - (
-        (
-            einkommen_alleinstehend.clip(
-                upper=(
-                    ges_renten_vers_params["einkommensanrechnung_upper"] * rentenwert
-                )
-            )
-            - (ges_renten_vers_params["einkommensanrechnung_lower"] * rentenwert)
-        ).clip(lower=0)
-        * 0.6
-        - (
-            einkommen_alleinstehend
-            - (ges_renten_vers_params["einkommensanrechnung_upper"] * rentenwert)
-        ).clip(lower=0)
-    ).clip(lower=0)
-
-    condition = ~alleinstehend
-
-    out.loc[condition] = grundrente_vor_einkommensanrechnung - (
-        (
-            einkommen_paar.clip(
-                upper=(
-                    ges_renten_vers_params["einkommensanrechnung_upper_ehe"]
-                    * rentenwert
-                )
-            )
-            - (ges_renten_vers_params["einkommensanrechnung_lower_ehe"] * rentenwert)
-        ).clip(lower=0)
-        * 0.6
-        - (
-            einkommen_paar
-            - (ges_renten_vers_params["einkommensanrechnung_upper_ehe"] * rentenwert)
-        ).clip(lower=0)
-    ).clip(lower=0)
     return out
 
 
