@@ -70,7 +70,7 @@ def wohngeld_basis_hh(hh_id: IntSeries, wohngeld_basis: FloatSeries) -> FloatSer
 def zu_verst_ges_rente_tu(
     zu_verst_ges_rente: FloatSeries, tu_id: IntSeries
 ) -> FloatSeries:
-    """Aggreate pension payments subject to taxation inn tax unit.
+    """Aggreate pension payments subject to taxation in tax unit.
 
     Parameters
     ----------
@@ -223,7 +223,7 @@ def wohngeld_eink_abzüge_bis_2015(
     anzahl_kinder_unter_11_per_tu: IntSeries,
     wohngeld_params: dict,
 ):
-    """Calculate housing benefit subractions until 2015.
+    """Calculate housing benefit subtractions until 2015.
 
     Parameters
     ----------
