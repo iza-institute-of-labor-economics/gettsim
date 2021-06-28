@@ -105,6 +105,7 @@ def compute_taxes_and_transfers(
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
     _fail_if_pid_is_non_unique(data)
+
     # We delay the data preparation as long as possible such that other checks can fail
     # before this.
     data = data.copy(deep=True)
@@ -503,6 +504,7 @@ def _fail_if_pid_is_non_unique(data):
     check_list = (
         data.groupby("hh_id")["p_id"].nunique() == data.groupby("hh_id")["p_id"].count()
     )
+
     # check_list ought to be True everywhere
     if not check_list.all():
         list_of_failed_households = list(check_list[~check_list].index)
