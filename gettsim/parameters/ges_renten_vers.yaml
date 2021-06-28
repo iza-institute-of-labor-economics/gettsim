@@ -474,74 +474,41 @@ rentenwert_ost:
     scalar: 33.47
     reference:
 
-höchstwert_base:
+höchstwert:
   description:
-    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte (nach Berücksichtigung des Bonus an Entgeltpunkten aus Grundrente)
-    en:
+    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte und Effekt eines weiteren Monats an Grundrentenzeiten auf Höchstwert
+    en: constant to determine Höchstwert of additional Entgeltpunkte and effect of an additional month of Grundrentenzeiten on Höchstwert
   2021-01-01:
-    scalar: 0.0334
-    reference: SGB VI § 76g Absatz 4 Satz 3
+    base: 0.0334
+    increment: 0.001389
+    reference: SGB VI § 76g Absatz 4 Satz 3, 4
 
-höchstwert_increment:
-  description:
-    de: Anstieg des Höchstwerts der durchschnittlichen Entgeltpunkte in den Grundrentenzeiten (nach Berücksichtigung des Bonus an Entgeltpunkten aus Grundrente)
-    en:
-  2021-01-01:
-    scalar: 0.001389
-    reference: SGB VI § 76g Absatz 4 Satz 4
 
-grundrentenzeiten_upper:
-  description:
-    de: zusätzliche Monate an Grundrentenzeiten werden nicht berücksichtigt
-    en:
-  2021-01-01:
-    scalar: 420
-    reference: SGB VI § 76g Absatz 4 Satz 5,6
 
-grundrentenzeiten_lower:
+grundrentenzeiten:
   description:
-    de: minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein
-    en:
+    de: minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
+    en: minimal number of Grundrentenzeiten required to be entitled to Grundrente and maximum number of months that are considered for Grundrentenzuschlag
   2021-01-01:
-    scalar: 396
-    reference: SGB VI § 76g Absatz 1 Satz 1
+    min: 396
+    max: 420
+    reference: SGB VI § 76g Absatz 4 Satz 5,6 / Absatz 1 Satz 1
 
-einkommensanrechnung_upper:
-  description:
-    de: Vielfaches des Rentenwerts, ab hier wird Einkommen vollständig angerechnet
-    en:
-  2021-01-01:
-    scalar: 46.78
-    reference: SGB VI § 97a Absatz 4 Satz 2
 
-einkommensanrechnung_upper_ehe:
+einkommensanrechnung:
   description:
-    de: Vielfaches des Rentenwerts, ab hier wird Einkommen vollständig angerechnet
-    en:
+    de: Werte werden mit dem Rentenwert multipliziert, um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu berechen
+    en: values are multiplied with the Rentenwert to compute the thresholds of the income crediting rule of Grundrentenzuschlag
   2021-01-01:
-    scalar: 67.27
-    reference: SGB VI § 97a Absatz 4 Satz 4
-
-einkommensanrechnung_lower:
-  description:
-    de: Vielfaches des Rentenwerts, ab hier wird Einkommen zu 60% angerechnet
-    en:
-  2021-01-01:
-    scalar: 36.56
-    reference: SGB VI § 97a Absatz 4 Satz 2
-
-einkommensanrechnung_lower_ehe:
-  description:
-    de: Vielfaches des Rentenwerts, ab hier wird Einkommen zu 60% angerechnet
-    en:
-  2021-01-01:
-    scalar: 57.03
-    reference: SGB VI § 97a Absatz 4 Satz 4
+    upper: 46.78
+    upper_ehe: 67.27
+    lower: 36.56
+    lower_ehe: 57.03
+    reference: SGB VI § 97a Absatz 4 Satz 2, 4
 
 schonvermögen_grundsicherung:
   description:
     de: ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter / bei Erwerbsminderung
-    en:
+    en: there is no entitlement to Grundsicherung im Alter / bei Erwerbsminderung if assets exceed this threshold
   2021-01-01:
     scalar: 5000
-    reference:
