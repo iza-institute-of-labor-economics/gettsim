@@ -1,3 +1,5 @@
+from typing import Dict
+
 import numpy as np
 
 from gettsim.typing import BoolSeries
@@ -9,8 +11,7 @@ def grundrentenzuschlag_m(
     grundrentenzuschlag_vor_einkommensanrechnung: FloatSeries,
     ges_renten_vers_params: dict,
     alleinstehend: BoolSeries,
-    einkommen_alleinstehend_grundr: FloatSeries,
-    einkommen_paar_grundr: FloatSeries,
+    einkommen_grundr: FloatSeries,
     rentenwert: FloatSeries,
 ) -> FloatSeries:
     """ Implement income crediting rule as defined in Grundrentengesetz.
@@ -38,41 +39,44 @@ def grundrentenzuschlag_m(
     -------
 
     """
-    out = grundrentenzuschlag_vor_einkommensanrechnung - (
-        (
-            einkommen_alleinstehend_grundr.clip(
+    out = (
+        grundrentenzuschlag_vor_einkommensanrechnung
+        - (
+            einkommen_grundr.clip(
                 upper=(
                     ges_renten_vers_params["einkommensanrechnung"]["upper"] * rentenwert
                 )
             )
-            - (ges_renten_vers_params["einkommensanrechnung"]["lower"] * rentenwert)
+            - ges_renten_vers_params["einkommensanrechnung"]["lower"] * rentenwert
         ).clip(lower=0)
         * 0.6
         - (
-            einkommen_alleinstehend_grundr
+            einkommen_grundr
             - (ges_renten_vers_params["einkommensanrechnung"]["upper"] * rentenwert)
         ).clip(lower=0)
     ).clip(lower=0)
 
     condition = ~alleinstehend
 
-    out.loc[condition] = grundrentenzuschlag_vor_einkommensanrechnung - (
-        (
-            einkommen_paar_grundr.clip(
+    out.loc[condition] = (
+        grundrentenzuschlag_vor_einkommensanrechnung
+        - (
+            einkommen_grundr.clip(
                 upper=(
                     ges_renten_vers_params["einkommensanrechnung"]["upper_ehe"]
                     * rentenwert
                 )
             )
-            - (ges_renten_vers_params["einkommensanrechnung"]["lower_ehe"] * rentenwert)
+            - ges_renten_vers_params["einkommensanrechnung"]["lower_ehe"] * rentenwert
         ).clip(lower=0)
         * 0.6
         - (
-            einkommen_paar_grundr
+            einkommen_grundr
             - (ges_renten_vers_params["einkommensanrechnung"]["upper_ehe"] * rentenwert)
         ).clip(lower=0)
     ).clip(lower=0)
-    return out
+
+    return out.round(2)
 
 
 def grundrentenzuschlag_vor_einkommensanrechnung(
@@ -113,7 +117,7 @@ def grundrentenzuschlag_vor_einkommensanrechnung(
         * rentenwert
         * zugangsfaktor.clip(upper=1)
     )
-    return out
+    return out.round(2)
 
 
 def durchschnittl_entgeltpunkte_grundr(
@@ -214,19 +218,16 @@ def bonus_entgeltpunkte_grundr(
     return out
 
 
-def einkommen_paar_grundr(
-    zu_verst_eink_kinderfreib_tu: FloatSeries,
-    ges_rente_m_tu: FloatSeries,
-    zu_verst_ges_rente_tu: FloatSeries,
+def einkommen_grundr(
+    proxy_eink_vorj_arbeitsl_geld: FloatSeries,
+    tu_id: IntSeries,
     brutto_eink_5_tu: FloatSeries,
-    eink_st_abzuege_params: dict,
-    tu_id,
+    eink_st_abzuege_params: Dict,
+    alleinstehend: BoolSeries,
 ) -> FloatSeries:
-    """Aggreate income of couple relevant for income crediting rule of Grundrentenzuschlag.
-
-    Relevant income consists of pension payments and other taxable income. The
-    Grundrentenzuschlag itself is excluded.
-
+    """Aggreate income relevant for income crediting rule of Grundrentenzuschlag.
+    Relevant income consists of pension payments and other taxable income of the
+    previous year. The Grundrentenzuschlag itself is excluded.
     Parameters
     ----------
     zu_verst_eink_kinderfreib_tu
@@ -241,60 +242,31 @@ def einkommen_paar_grundr(
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-
+    alleinstehend
+        See basic input variable :ref:`alleinstehend <alleinstehend>`.
     Returns
     -------
-
     """
+    # todo: estmimate pension payments of previous year
     out = (
-        (1 / 12) * tu_id.replace(zu_verst_eink_kinderfreib_tu)
-        + (tu_id.replace(ges_rente_m_tu) - tu_id.replace(zu_verst_ges_rente_tu))
+        proxy_eink_vorj_arbeitsl_geld
+        # + (ges_rente_m_tu_jahr_vorvergangen - zu_verst_ges_rente_tu_jahr_vorvergangen)
+        + (brutto_eink_5_tu - eink_st_abzuege_params["sparerpauschbetrag"]).clip(
+            lower=0
+        )
+    )
+
+    out.loc[~alleinstehend] = (
+        proxy_eink_vorj_arbeitsl_geld
+        # + (tu_id.replace(ges_rente_m_tu_jahr_vorvergangen)
+        # - tu_id.replace(zu_verst_ges_rente_tu_jahr_vorvergangen))
         + (
             tu_id.replace(brutto_eink_5_tu)
             - 2 * eink_st_abzuege_params["sparerpauschbetrag"]
         ).clip(lower=0)
     )
-    return out
 
-
-def einkommen_alleinstehend_grundr(
-    zu_verst_ges_rente: FloatSeries,
-    zu_verst_eink_kinderfreib_tu: FloatSeries,
-    ges_rente_m: FloatSeries,
-    brutto_eink_5: FloatSeries,
-    eink_st_abzuege_params: dict,
-    tu_id: IntSeries,
-) -> FloatSeries:
-    """Aggreate income of single relevant for income crediting rule of Grundrentenzuschlag.
-
-    Relevant income consists of pension payments and other taxable income. The
-    Grundrentenzuschlag itself is excluded.
-
-    Parameters
-    ----------
-    zu_verst_ges_rente
-        See :func:`zu_verst_ges_rente`.
-    zu_verst_eink_kinderfreib_tu
-        See :func:`zu_verst_eink_kinderfreib_tu`.
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
-    brutto_eink_5
-        See :func:`brutto_eink_5`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        (1 / 12) * tu_id.replace(zu_verst_eink_kinderfreib_tu)
-        + (ges_rente_m - zu_verst_ges_rente)
-        + (brutto_eink_5 - eink_st_abzuege_params["sparerpauschbetrag"]).clip(lower=0)
-    )
-    return out
+    return np.ceil(out)
 
 
 def nicht_grundrentenberechtigt(

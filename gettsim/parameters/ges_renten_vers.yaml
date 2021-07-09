@@ -476,7 +476,7 @@ rentenwert_ost:
 
 höchstwert:
   description:
-    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte und Effekt eines weiteren Monats an Grundrentenzeiten auf Höchstwert
+    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert
     en: constant to determine Höchstwert of additional Entgeltpunkte and effect of an additional month of Grundrentenzeiten on Höchstwert
   2021-01-01:
     base: 0.0334

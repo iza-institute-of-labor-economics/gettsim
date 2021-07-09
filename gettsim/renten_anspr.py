@@ -41,6 +41,29 @@ def rente_anspr_m(
     return (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
 
+def staatl_rente_m(
+    rente_anspr_m: FloatSeries, grundrentenzuschlag_m: FloatSeries, rentner: BoolSeries
+) -> FloatSeries:
+    """Calculate total public pension.
+
+    Parameters
+    ----------
+    rente_anspr_m
+        See :func:`rente_anspr_m`.
+    grundrentenzuschlag_m
+        See :func:`grundrentenzuschlag_m`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+    Returns
+    -------
+
+    """
+    out = rente_anspr_m + grundrentenzuschlag_m
+    out.loc[~rentner] = 0
+    return out
+
+
 def ges_rente_m(prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries) -> FloatSeries:
     """Calculate total pension as sum of private and public pension.
 
@@ -49,7 +72,7 @@ def ges_rente_m(prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries) -> FloatS
     prv_rente_m
         See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
     staatl_rente_m
-        See params documentation :ref:`staatl_rente_m <staatl_rente_m>`.
+        See :func:`staatl_rente_m`.
 
     Returns
     -------
