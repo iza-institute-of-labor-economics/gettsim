@@ -71,6 +71,7 @@ def test_alg2(input_data, year, column):
         "elterngeld_m",
         "eink_st_tu",
         "sozialv_beitr_m",
+        "ges_rente_m",
     ]
 
     result = compute_taxes_and_transfers(

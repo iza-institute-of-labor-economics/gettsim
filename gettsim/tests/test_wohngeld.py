@@ -72,6 +72,7 @@ def test_wohngeld_main(input_data, year, column):
         "ges_krankenv_beitr_m",
         "rentenv_beitr_m",
         "kindergeld_anspruch",
+        "ges_rente_m",
     ]
     policy_functions["eink_st_tu"] = eink_st_m_tu_from_data
 
@@ -144,6 +145,7 @@ def test_wohngeld_varying_hh_sizes(input_data_households, year, mietstufe, colum
         "ges_krankenv_beitr_m",
         "rentenv_beitr_m",
         "kindergeld_anspruch",
+        "ges_rente_m",
     ]
     input_data_households["mietstufe"] = mietstufe
 

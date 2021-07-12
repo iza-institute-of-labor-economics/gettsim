@@ -52,7 +52,7 @@ def test_uhv(input_data, year, column, month):
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=["arbeitsl_geld_m"],
+        columns_overriding_functions=["arbeitsl_geld_m", "ges_rente_m"],
     )
 
     assert_series_equal(result[column], year_data[column], check_dtype=False)

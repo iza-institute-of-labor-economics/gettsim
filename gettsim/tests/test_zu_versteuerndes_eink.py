@@ -86,6 +86,7 @@ def test_zve(
         "arbeitsl_v_beitr_m",
         "pflegev_beitr_m",
         "rentenv_beitr_m",
+        "ges_rente_m",
     ]
     result = compute_taxes_and_transfers(
         data=df,

@@ -61,7 +61,7 @@ def staatl_rente_m(
     """
     out = rente_anspr_m + grundrentenzuschlag_m
     out.loc[~rentner] = 0
-    return out
+    return out.round(2)
 
 
 def ges_rente_m(prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries) -> FloatSeries:
