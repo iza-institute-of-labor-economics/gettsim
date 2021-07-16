@@ -224,49 +224,68 @@ def einkommen_grundr(
     brutto_eink_5_tu: FloatSeries,
     eink_st_abzuege_params: Dict,
     alleinstehend: BoolSeries,
+    wohnort_ost: BoolSeries,
+    ges_renten_vers_params: Dict,
+    prv_rente_m_vorj: FloatSeries,
+    entgeltpunkte_update: FloatSeries,
 ) -> FloatSeries:
     """Aggreate income relevant for income crediting rule of Grundrentenzuschlag.
     Relevant income consists of pension payments and other taxable income of the
     previous year. The Grundrentenzuschlag itself is excluded.
     Parameters
     ----------
-    zu_verst_eink_kinderfreib_tu
-        See :func:`zu_verst_eink_kinderfreib_tu`.
-    ges_rente_m_tu
-        See :func:`ges_rente_m_tu`.
-    zu_verst_ges_rente_tu
-        See :func:`zu_verst_ges_rente_tu`.
+    proxy_eink_vorj_arbeitsl_geld
+        See :func:`proxy_eink_vorj_arbeitsl_geld`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
     brutto_eink_5_tu
         See :func:`brutto_eink_5_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     alleinstehend
         See basic input variable :ref:`alleinstehend <alleinstehend>`.
+    wohnort_ost
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+    prv_rente_m_vorj
+        See basic input variable :ref:`prv_rente_m_vorj <prv_rente_m_vorj>`.
+    entgeltpunkte_update
+        See :func:`entgeltpunkte_update`.
     Returns
     -------
     """
-    # todo: estmimate pension payments of previous year
+
+    rentenwert_vorjahr = wohnort_ost.replace(
+        {
+            True: ges_renten_vers_params["rentenwert_vorjahr"]["ost"],
+            False: ges_renten_vers_params["rentenwert_vorjahr"]["west"],
+        }
+    ).astype(float)
+
+    proxy_ges_rente_m_tu_vorj = (entgeltpunkte_update * rentenwert_vorjahr + prv_rente_m_vorj).groupby(tu_id).sum()
+    proxy_eink_vorj_arbeitsl_geld_tu = proxy_eink_vorj_arbeitsl_geld.groupby(tu_id).sum()
+
     out = (
-        proxy_eink_vorj_arbeitsl_geld
-        # + (ges_rente_m_tu_jahr_vorvergangen - zu_verst_ges_rente_tu_jahr_vorvergangen)
-        + (brutto_eink_5_tu - eink_st_abzuege_params["sparerpauschbetrag"]).clip(
-            lower=0
-        )
-    )
+        (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu))
+        + (tu_id.replace(proxy_ges_rente_m_tu_vorj)
+        + (
+            tu_id.replace(brutto_eink_5_tu)
+            - eink_st_abzuege_params["sparerpauschbetrag"]
+        ).clip(lower=0)
+    ))
 
     out.loc[~alleinstehend] = (
-        proxy_eink_vorj_arbeitsl_geld
-        # + (tu_id.replace(ges_rente_m_tu_jahr_vorvergangen)
-        # - tu_id.replace(zu_verst_ges_rente_tu_jahr_vorvergangen))
+        (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu))
+        + (tu_id.replace(proxy_ges_rente_m_tu_vorj)
         + (
             tu_id.replace(brutto_eink_5_tu)
             - 2 * eink_st_abzuege_params["sparerpauschbetrag"]
         ).clip(lower=0)
-    )
+    ))
 
     return np.ceil(out)
+
 
 
 def nicht_grundrentenberechtigt(
