@@ -176,7 +176,7 @@ def bonus_entgeltpunkte_grundr(
 ) -> FloatSeries:
     """ Calculate additional Entgeltpunkte for pensioner.
 
-    In general, the average of monthly Entgeltpunkte earend in Grundrentenzeiten is
+    In general, the average of monthly Entgeltpunkte earnd in Grundrentenzeiten is
     doubled, or extended to the individual Höchstwert if doubling would exceed the
     Höchstwert. Then, the value is always multiplied by 0.875.
 
@@ -231,7 +231,9 @@ def einkommen_grundr(
 ) -> FloatSeries:
     """Aggreate income relevant for income crediting rule of Grundrentenzuschlag.
     Relevant income consists of pension payments and other taxable income of the
-    previous year. The Grundrentenzuschlag itself is excluded.
+    previous year.
+    Warning: The Grundrentenzuschlag itself is not considered at the moment.
+
     Parameters
     ----------
     proxy_eink_vorj_arbeitsl_geld
@@ -263,29 +265,32 @@ def einkommen_grundr(
         }
     ).astype(float)
 
-    proxy_ges_rente_m_tu_vorj = (entgeltpunkte_update * rentenwert_vorjahr + prv_rente_m_vorj).groupby(tu_id).sum()
-    proxy_eink_vorj_arbeitsl_geld_tu = proxy_eink_vorj_arbeitsl_geld.groupby(tu_id).sum()
+    proxy_ges_rente_m_tu_vorj = (
+        (entgeltpunkte_update * rentenwert_vorjahr + prv_rente_m_vorj)
+        .groupby(tu_id)
+        .sum()
+    )
+    proxy_eink_vorj_arbeitsl_geld_tu = proxy_eink_vorj_arbeitsl_geld.groupby(
+        tu_id
+    ).sum()
 
-    out = (
-        (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu))
-        + (tu_id.replace(proxy_ges_rente_m_tu_vorj)
+    out = (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu)) + (
+        tu_id.replace(proxy_ges_rente_m_tu_vorj)
         + (
             tu_id.replace(brutto_eink_5_tu)
             - eink_st_abzuege_params["sparerpauschbetrag"]
         ).clip(lower=0)
-    ))
+    )
 
-    out.loc[~alleinstehend] = (
-        (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu))
-        + (tu_id.replace(proxy_ges_rente_m_tu_vorj)
+    out.loc[~alleinstehend] = (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu)) + (
+        tu_id.replace(proxy_ges_rente_m_tu_vorj)
         + (
             tu_id.replace(brutto_eink_5_tu)
             - 2 * eink_st_abzuege_params["sparerpauschbetrag"]
         ).clip(lower=0)
-    ))
+    )
 
     return np.ceil(out)
-
 
 
 def nicht_grundrentenberechtigt(

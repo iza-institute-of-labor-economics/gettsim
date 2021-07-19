@@ -512,8 +512,8 @@ schonvermögen_grundsicherung:
     en: there is no entitlement to Grundsicherung im Alter / bei Erwerbsminderung if assets exceed this threshold
   2021-01-01:
     scalar: 5000
-    
- rentenwert_vorjahr:
+
+rentenwert_vorjahr:
   description:
     de: Rentenwert des Vorjahrs
     en:

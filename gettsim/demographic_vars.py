@@ -341,6 +341,6 @@ def anz_rentner_hh(hh_id: IntSeries, rentner: BoolSeries) -> IntSeries:
 
     Returns
     -------
-    IntSeries with the number of adults per household.
+    IntSeries with the number of pensioners per household.
     """
     return rentner.groupby(hh_id).sum()
