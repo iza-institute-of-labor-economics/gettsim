@@ -39,7 +39,6 @@ def test_tax_transfer(
         params=policy_params,
         functions=policy_functions,
         targets=DEFAULT_TARGETS,
-        columns_overriding_functions="ges_rente_m",
     )
 
 
@@ -64,7 +63,6 @@ def test_data_types(
         params=policy_params,
         functions=policy_functions,
         targets=DEFAULT_TARGETS,
-        columns_overriding_functions="ges_rente_m",
         debug=True,
     )
     for column_name, series in data.items():

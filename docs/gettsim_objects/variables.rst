@@ -48,11 +48,9 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`kapital_eink_m`       | Monthly capital income                       | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`ges_rente_m`          | Monthly pension income of each individual    | FloatSeries |
-+-------------------------+----------------------------------------------+-------------+
 | _`kaltmiete_m_hh`       | Monthly rent expenses for household          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`heizkosten_m_hh`      | Monthly heating expenses for houesehold      | FloatSeries |
+| _`heizkosten_m_hh`      | Monthly heating expenses for household       | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`wohnfläche_hh`        | Size of household dwelling in square meters  | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
@@ -91,4 +89,16 @@ household.
 | _`vermögen_hh`          | Wealth of household                          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltpunkte`        | Earning points for pension claim             | FloatSeries |
++------------------------------+-----------------------------------------+-------------+
+| _`grundrentenbewerungszeiten`| Months with > 30% of average income     | IntSeries   |
++------------------------------+-----------------------------------------+-------------+
+| _`entgeltpunkte_grundrente`  |Entgeltpunkte earned in Grundrentenzeiten| FloatSeries |
++------------------------------+-----------------------------------------+-------------+
+| _`grundrentenzeiten`    | Number of months considered for Grundrente   | IntSeries   |
++-------------------------+----------------------------------------------+-------------+
+| _`prv_rente_m_vorj`     | Monthly private pensions of previous year    | FloatSeries |
++-------------------------+----------------------------------------------+-------------+
+| _`staatl_rente_m`       | Amount of monthly public pension             | FloatSeries |
++-------------------------+----------------------------------------------+-------------+
+| _`prv_rente_m`          | Amount of monthly private pension            | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+

@@ -64,7 +64,9 @@ def staatl_rente_m(
     return out.round(2)
 
 
-def ges_rente_m(prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries) -> FloatSeries:
+def gesamte_rente_m(
+    prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries
+) -> FloatSeries:
     """Calculate total pension as sum of private and public pension.
 
     Parameters

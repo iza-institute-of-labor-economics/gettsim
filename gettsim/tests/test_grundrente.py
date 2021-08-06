@@ -23,6 +23,7 @@ INPUT_COLS = [
     "zugangsfaktor",
     "rentner",
     "entgeltpunkte_grundrente",
+    "kind",
 ]
 
 

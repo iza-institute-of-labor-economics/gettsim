@@ -47,11 +47,7 @@ def test_soc_ins_contrib(input_data, year, target):
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
     results = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=target,
-        columns_overriding_functions="ges_rente_m",
+        data=df, params=policy_params, functions=policy_functions, targets=target,
     )
 
     pd.testing.assert_series_equal(results[target], year_data[target])

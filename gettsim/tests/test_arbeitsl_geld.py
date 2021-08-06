@@ -43,7 +43,6 @@ def test_ui(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        columns_overriding_functions="ges_rente_m",
         targets="arbeitsl_geld_m",
     )
 

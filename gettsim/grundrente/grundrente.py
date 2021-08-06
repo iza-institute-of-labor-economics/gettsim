@@ -10,7 +10,7 @@ from gettsim.typing import IntSeries
 def grundrentenzuschlag_m(
     grundrentenzuschlag_vor_einkommensanrechnung: FloatSeries,
     ges_renten_vers_params: dict,
-    alleinstehend: BoolSeries,
+    alleinstehend_grundr: BoolSeries,
     einkommen_grundr: FloatSeries,
     rentenwert: FloatSeries,
 ) -> FloatSeries:
@@ -26,8 +26,8 @@ def grundrentenzuschlag_m(
         See :func:`grundrentenzuschlag_vor_einkommensanrechnung`.
     ges_renten_vers_params
         See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
-    alleinstehend
-        See basic input variable :ref:`alleinstehend <alleinstehend>`.
+    alleinstehend_grundr
+        See :func:`alleinstehend_grundr`.
     einkommen_alleinstehend_grundr
         See :func:`einkommen_alleinstehend_grundr`.
     einkommen_paar_grundr
@@ -39,41 +39,30 @@ def grundrentenzuschlag_m(
     -------
 
     """
+    # Select correct thresholds of income crediting rule.
+    einkommensanrechnung_upper = alleinstehend_grundr.replace(
+        {
+            True: ges_renten_vers_params["einkommensanrechnung"]["upper"],
+            False: ges_renten_vers_params["einkommensanrechnung"]["upper_ehe"],
+        }
+    ).astype(float)
+
+    einkommensanrechnung_lower = alleinstehend_grundr.replace(
+        {
+            True: ges_renten_vers_params["einkommensanrechnung"]["lower"],
+            False: ges_renten_vers_params["einkommensanrechnung"]["lower_ehe"],
+        }
+    ).astype(float)
+
+    # Deduct income from Grundrentenzuschlag following the crediting rules.
     out = (
         grundrentenzuschlag_vor_einkommensanrechnung
         - (
-            einkommen_grundr.clip(
-                upper=(
-                    ges_renten_vers_params["einkommensanrechnung"]["upper"] * rentenwert
-                )
-            )
-            - ges_renten_vers_params["einkommensanrechnung"]["lower"] * rentenwert
+            einkommen_grundr.clip(upper=(einkommensanrechnung_upper * rentenwert))
+            - einkommensanrechnung_lower * rentenwert
         ).clip(lower=0)
         * 0.6
-        - (
-            einkommen_grundr
-            - (ges_renten_vers_params["einkommensanrechnung"]["upper"] * rentenwert)
-        ).clip(lower=0)
-    ).clip(lower=0)
-
-    condition = ~alleinstehend
-
-    out.loc[condition] = (
-        grundrentenzuschlag_vor_einkommensanrechnung
-        - (
-            einkommen_grundr.clip(
-                upper=(
-                    ges_renten_vers_params["einkommensanrechnung"]["upper_ehe"]
-                    * rentenwert
-                )
-            )
-            - ges_renten_vers_params["einkommensanrechnung"]["lower_ehe"] * rentenwert
-        ).clip(lower=0)
-        * 0.6
-        - (
-            einkommen_grundr
-            - (ges_renten_vers_params["einkommensanrechnung"]["upper_ehe"] * rentenwert)
-        ).clip(lower=0)
+        - (einkommen_grundr - (einkommensanrechnung_upper * rentenwert)).clip(lower=0)
     ).clip(lower=0)
 
     return out.round(2)
@@ -195,6 +184,7 @@ def bonus_entgeltpunkte_grundr(
     -------
 
     """
+    # Categories for distinct cases
     _cat1 = grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten"]["min"]
     _cat2 = (
         grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten"]["min"]
@@ -208,6 +198,7 @@ def bonus_entgeltpunkte_grundr(
         grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten"]["min"]
     ) & (durchschnittl_entgeltpunkte_grundr > höchstwert_grundr)
 
+    # Apply rule to compute bonus for each category
     out = _cat1.astype(float) * np.nan
     out.loc[_cat1] = 0
     out.loc[_cat2] = durchschnittl_entgeltpunkte_grundr * (1 - 0.125)
@@ -223,7 +214,7 @@ def einkommen_grundr(
     tu_id: IntSeries,
     brutto_eink_5_tu: FloatSeries,
     eink_st_abzuege_params: Dict,
-    alleinstehend: BoolSeries,
+    alleinstehend_grundr: BoolSeries,
     wohnort_ost: BoolSeries,
     ges_renten_vers_params: Dict,
     prv_rente_m_vorj: FloatSeries,
@@ -244,8 +235,8 @@ def einkommen_grundr(
         See :func:`brutto_eink_5_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    alleinstehend
-        See basic input variable :ref:`alleinstehend <alleinstehend>`.
+    alleinstehend_grundr
+        See :func:`alleinstehend_grundr`.
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     ges_renten_vers_params
@@ -254,6 +245,7 @@ def einkommen_grundr(
         See basic input variable :ref:`prv_rente_m_vorj <prv_rente_m_vorj>`.
     entgeltpunkte_update
         See :func:`entgeltpunkte_update`.
+
     Returns
     -------
     """
@@ -265,29 +257,30 @@ def einkommen_grundr(
         }
     ).astype(float)
 
-    proxy_ges_rente_m_tu_vorj = (
+    # Estimate amount of pensions of last year using rentenwert of previous year.
+    # Zugangsfaktor and Grundrentenzuschlag are omitted.
+    proxy_gesamte_rente_m_tu_vorj = (
         (entgeltpunkte_update * rentenwert_vorjahr + prv_rente_m_vorj)
         .groupby(tu_id)
         .sum()
     )
+
+    # Approximate last year income of tax unit.
     proxy_eink_vorj_arbeitsl_geld_tu = proxy_eink_vorj_arbeitsl_geld.groupby(
         tu_id
     ).sum()
 
-    out = (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu)) + (
-        tu_id.replace(proxy_ges_rente_m_tu_vorj)
-        + (
-            tu_id.replace(brutto_eink_5_tu)
-            - eink_st_abzuege_params["sparerpauschbetrag"]
-        ).clip(lower=0)
-    )
+    sparerpauschbetrag = alleinstehend_grundr.replace(
+        {
+            True: eink_st_abzuege_params["sparerpauschbetrag"],
+            False: 2 * eink_st_abzuege_params["sparerpauschbetrag"],
+        }
+    ).astype(float)
 
-    out.loc[~alleinstehend] = (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu)) + (
-        tu_id.replace(proxy_ges_rente_m_tu_vorj)
-        + (
-            tu_id.replace(brutto_eink_5_tu)
-            - 2 * eink_st_abzuege_params["sparerpauschbetrag"]
-        ).clip(lower=0)
+    # Sum up components of income.
+    out = (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu)) + (
+        tu_id.replace(proxy_gesamte_rente_m_tu_vorj)
+        + (tu_id.replace(brutto_eink_5_tu) - sparerpauschbetrag).clip(lower=0)
     )
 
     return np.ceil(out)
@@ -328,7 +321,6 @@ def freibetrag_grundsicherung_grundr(
     nicht_grundrentenberechtigt
         See :func:`nicht_grundrentenberechtigt`.
 
-
     Returns
     -------
 
@@ -338,3 +330,18 @@ def freibetrag_grundsicherung_grundr(
     ).clip(upper=0.5 * arbeitsl_geld_2_params["regelsatz"][1])
     out.loc[nicht_grundrentenberechtigt] = 0
     return out
+
+
+def alleinstehend_grundr(anz_erwachsene_tu: IntSeries, tu_id: IntSeries) -> BoolSeries:
+    """ Indicates whether pensioner is single based on number of adults in the tax unit.
+
+    Parameters
+    ----------
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
+
+    Returns
+    -------
+
+    """
+    return tu_id.replace(anz_erwachsene_tu < 2)
