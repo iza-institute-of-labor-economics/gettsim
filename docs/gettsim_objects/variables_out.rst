@@ -36,7 +36,7 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_2_m_hh    | Monthly subsistence payment per household                 |
 +-------------------------+-----------------------------------------------------------+
-| kinderzuschlag_m        | Monthly additional child benefit, household sum           |
+| kinderzuschlag_m_hh     | Monthly additional child benefit, household sum           |
 +-------------------------+-----------------------------------------------------------+
 | elterngeld_m            | Monthly parental leave benefit                            |
 +-------------------------+-----------------------------------------------------------+

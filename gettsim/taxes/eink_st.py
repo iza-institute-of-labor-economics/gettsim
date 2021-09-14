@@ -38,11 +38,10 @@ def _st_kind_freib_tu(
     -------
 
     """
-    zu_verst_eink_per_indiv = _zu_verst_eink_kinderfreib_tu / _anz_erwachsene_tu
+    zu_verst_eink_per_indiv = zu_verst_eink_kinderfreib_tu / anz_erwachsene_tu
+    
+    return anz_erwachsene_tu * st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
 
-    return _anz_erwachsene_tu * _st_tarif(
-        zu_verst_eink_per_indiv, params=eink_st_params
-    )
 
 
 def _st_tarif(x, params):
