@@ -8,7 +8,7 @@ def arbeitsl_geld_2_m_minus_eink_hh(
     unterhaltsvors_m_hh: FloatSeries,
     arbeitsl_geld_2_eink_hh: FloatSeries,
 ) -> FloatSeries:
-    """Calcualte remaining basic subsistence after recieving other benefits.
+    """Calculate remaining basic subsistence after recieving other benefits.
 
     Parameters
     ----------

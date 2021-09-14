@@ -31,7 +31,7 @@ def kindergeld_m_basis(
     return out
 
 
-def kindergeld_m_tu_basis(
+def kindergeld_m_basis_tu(
     kindergeld_m_basis: FloatSeries, tu_id: IntSeries
 ) -> FloatSeries:
     """Aggregate the preliminary kindergeld on tax unit level.
@@ -123,3 +123,48 @@ def kindergeld_anspruch_nach_lohn(
     )
 
     return out
+
+
+def kinderbonus_m_basis(
+    kindergeld_m_basis: FloatSeries, kindergeld_params: dict
+) -> FloatSeries:
+    """Calculate the kinderbonus.
+
+    (one-time payment, non-allowable against transfer payments)
+
+    Parameters
+    ----------
+    kindergeld_m_basis
+        See :func:`kindergeld_m_basis`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
+    """
+    # Kinderbonus is payed for all children who are eligible for Kindergeld
+    out = kindergeld_m_basis.copy()
+
+    # Kinderbonus parameter is specified on the yearly level
+    out.loc[kindergeld_m_basis > 0] = kindergeld_params["kinderbonus"] / 12
+    return out
+
+
+def kinderbonus_m_basis_tu(
+    kinderbonus_m_basis: FloatSeries, tu_id: IntSeries
+) -> FloatSeries:
+    """Aggregate the Kinderbonus on tax unit level.
+
+    Parameters
+    ----------
+    kinderbonus_m_basis
+        See :func:`kinderbonus_m_basis`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return kinderbonus_m_basis.groupby(tu_id).sum()
