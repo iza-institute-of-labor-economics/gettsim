@@ -1,4 +1,4 @@
-tu_id,pid,m_wage,e_st_klasse,year,child_num_kg,lohnsteuer,lohnsteuer_soli
+tu_id,pid,m_wage,steuerklasse,year,child_num_kg,lohnsteuer,lohnsteuer_soli
 1,1,2000,4,2020,0,2073,114.01
 1,2,3000,4,2020,0,4868,267.74
 2,3,4000,2,2020,0,7439,409.14

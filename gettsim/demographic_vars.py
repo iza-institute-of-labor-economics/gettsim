@@ -329,12 +329,12 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
     return rentner.groupby(hh_id).any()
 
 
-def steuerklassen(
+def determine_steuerklassen(
     gemeinsam_veranlagte_tu: BoolSeries,
     alleinerziehend_tu: BoolSeries,
     bruttolohn_m: FloatSeries,
     anz_erwachsene_tu: IntSeries,
-    e_st_params: FloatSeries,
+    e_st_params: dict,
 ) -> IntSeries:
     """ Determine Lohnsteuerklassen (also called 'tax brackets')
     They determine the basic allowance for the withdrawal tax

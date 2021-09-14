@@ -9,10 +9,10 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def lohnsteuer(
+def calc_lohnsteuer(
     bruttolohn_m: FloatSeries,
     vorsorgepauschale: FloatSeries,
-    params: FloatSeries,
+    params: dict,
     steuerklasse: IntSeries,
     anz_kinder_tu: IntSeries,
     kinderlos: BoolSeries,
@@ -41,12 +41,13 @@ def lohnsteuer(
     lohn_st
 
     """
-    grundfreibetrag = params["eink_st_tarif"]["G"]
+    grundfreibetrag = params["eink_st_tarif"]["thresholds"][1]
     # Full child allowance
     kinderfreibetrag_basis = (
         params["eink_st_abzuege"]["sächl_existenzmin"]
         + params["eink_st_abzuege"]["beitr_erz_ausb"]
     )
+    # For certain tax brackets, twice the child allowance can be deducted
     kinderfreibetrag = kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3]) + (
         kinderfreibetrag_basis * steuerklasse == 4
     )
@@ -56,7 +57,7 @@ def lohnsteuer(
     lohnsteuer_freibetrag += alleinerziehend_freib_tu * (steuerklasse == 2)
     werbungskosten = (params["eink_st_abzuege"]["werbung"]) * (steuerklasse != 6)
     sonderausgaben = (params["eink_st_abzuege"]["sonder"]) * steuerklasse != 6
-
+    # zu versteuerndes Einkommen for Lohnsteuer
     lohnsteuer_zve = (
         bruttolohn_m
         - werbungskosten
@@ -86,47 +87,61 @@ def lohnsteuer(
 
 
 def vorsorgepauschale_ab_2010(
-    bruttolohn: FLoatSeries,
+    bruttolohn: FloatSeries,
     steuerklasse: IntSeries,
     jahr: IntSeries,
     params: dict,
     kinderlos: BoolSeries,
 ) -> FloatSeries:
-
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
     vorsorg_rv = rentenv_beitr_regular_job(
         bruttolohn, params["soz_vers_beitr"]
     ) * vorsorg_rv_anteil(jahr, params["eink_st_abzuege"])
-    # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG
-    vorsorg_kv = krankenv_beitr_regulär_beschäftigt(
+    # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
+    # For health care deductions, there are two ways to calculate.
+    # a) at least 12% of earnings of earnings can be deducted, but only up to a certain threshold
+    vorsorg_kv_option_a_basis = (
+        params["eink_st_abzuege"]["vorsorgepauschale_mindestanteil"] * bruttolohn
+    )
+
+    vorsorg_kv_option_a_max = np.select(
+        [steuerklasse == 3, steuerklasse != 3],
+        [
+            params["eink_st_abzuege"]["vorsorgepauschale_kv_max"]["stkl3"],
+            params["eink_st_abzuege"]["vorsorgepauschale_kv_max"]["stkl_nicht3"],
+        ],
+    )
+    vorsorg_kv_option_a = np.minimum(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
+    # b) Take the actual contribtutions (usually the better option)
+    vorsorg_kv_option_b = krankenv_beitr_regulär_beschäftigt(
         bruttolohn, params["soz_vers_beitr"]
     )
-    # 3. Pflegeversicherungsbeiträge, §28b (2) Nr. 3c EStG
-    vorsorg_pv = pflegev_beitr_regulär_beschäftigt(
+    vorsorg_kv_option_b += pflegev_beitr_regulär_beschäftigt(
         kinderlos, bruttolohn, params["soz_vers_beitr"]
     )
-    # Wende Maximalbetrag an aus params["eink_st_abzuege"]["vorsorgepauschale_kv_max"] in Abh der Steuerklasse
+    # add both RV and KV deductions
+    out = vorsorg_rv + np.maximum(vorsorg_kv_option_a, vorsorg_kv_option_b)
 
     return out
 
 
 def vorsorgepauschale_2005_2010(bruttolohn, steuerklasse, params) -> FloatSeries:
-
     out = 0
     return out
 
 
-def vorsorg_rv_anteil(jahr: int, params: dict):
+def vorsorg_rv_anteil(jahr: IntSeries, params: dict) -> FloatSeries:
     """
+    Calculates the share of pension contributions to be deducted for Lohnsteuer
 
     Parameters
     ----------
-    jahr :
-    params :
+    jahr : IntSeries
+    params : dict
 
     Returns
     -------
-    out: Float
+    out: float
     """
 
     out = piecewise_polynomial(

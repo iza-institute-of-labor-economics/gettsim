@@ -5,10 +5,9 @@ from pandas.testing import assert_frame_equal
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim import set_up_policy_environment
-from gettsim.taxes.lohn_st import lohnsteuer
-
-from gettsim.demographic_vars import steuerklassen
+from gettsim.demographic_vars import determine_steuerklassen
+from gettsim.policy_environment import set_up_policy_environment
+from gettsim.taxes.lohn_st import calc_lohnsteuer
 
 INPUT_COLS = ["tu_id", "pid", "m_wage", "e_st_klasse", "child_num_kg"]
 
@@ -17,13 +16,15 @@ YEARS = [2021]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_lohnsteuer.csv"
+    file_name = "test_dfs_lohn_steuer.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 def test_steuerklassen():
-    policy_params, policy_functions = set_up_policy_environment(date="2021-01-01")
+    policy_params, policy_functions = set_up_policy_environment("2021")
+
+    # Tests steuerklassen are correctly assigned based on our assumptions
     df = pd.DataFrame(
         {
             "tu_id": [1, 2, 2, 3, 3, 3, 4, 4],
@@ -52,15 +53,14 @@ def test_steuerklassen():
             "steuerklasse": [1, 4, 4, 3, 5, 4, 2, 2],
         }
     )
-    eink_st_params = policy_params["eink_st"]
 
     result = df.groupby("tu_id").apply(
-        steuerklassen,
-        steuerklassen(
+        determine_steuerklassen(
             df["gemeinsam_veranlagt_tu"],
             df["alleinerziehend_tu"],
             df["bruttolohn"],
             df["anz_erwachsene_tu"],
+            policy_params["eink_st"],
         ),
     )
 
@@ -68,27 +68,20 @@ def test_steuerklassen():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_lohnsteuer(
-    input_data,
-    year,
-    e_st_raw_data,
-    e_st_abzuege_raw_data,
-    soli_st_raw_data,
-    abgelt_st_raw_data,
-):
+def test_lohnsteuer(input_data, year):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    e_st_abzuege_params = get_policies_for_date(
+    e_st_abzuege_params = set_up_policy_environment(
         year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
     )
-    e_st_params = get_policies_for_date(
+    e_st_params = set_up_policy_environment(
         year=year, group="e_st", raw_group_data=e_st_raw_data
     )
-    soli_st_params = get_policies_for_date(
+    soli_st_params = set_up_policy_environment(
         year=year, group="soli_st", raw_group_data=soli_st_raw_data
     )
 
-    OUT_COLS = ["lohnsteuer", "lohnsteuer_soli"]
+    OUT_COLS = ["lohnsteuer"]
 
     for col in OUT_COLS:
         df[col] = np.nan
