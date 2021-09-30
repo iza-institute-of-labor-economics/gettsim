@@ -104,6 +104,7 @@ def compute_taxes_and_transfers(
     )
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
+    _fail_if_pid_is_non_unique(data)
 
     # We delay the data preparation as long as possible such that other checks can fail
     # before this.
@@ -493,6 +494,22 @@ def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specifi
     if unnecessary_data and check_minimal_specification == "warn":
         warnings.warn(message)
     elif unnecessary_data and check_minimal_specification == "raise":
+        raise ValueError(message)
+
+
+def _fail_if_pid_is_non_unique(data):
+    """ Check that pid is unique
+    """
+
+    if "p_id" not in data:
+        message = "The input data must contain the column p_id"
+        raise ValueError(message)
+    elif not data["p_id"].is_unique:
+        list_of_nunique_ids = list(data["p_id"].loc[data["p_id"].duplicated()])
+        message = (
+            "The following p_ids are non-unique in the input data:"
+            f"{list_of_nunique_ids}"
+        )
         raise ValueError(message)
 
 

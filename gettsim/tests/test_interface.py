@@ -22,6 +22,20 @@ def input_data():
     return out
 
 
+@pytest.fixture(scope="module")
+def minimal_input_data():
+    n_individuals = 5
+    out = pd.DataFrame(
+        {
+            "p_id": np.arange(n_individuals),
+            "tu_id": np.arange(n_individuals),
+            "hh_id": np.arange(n_individuals),
+        },
+        index=np.arange(n_individuals),
+    )
+    return out
+
+
 def test_fail_if_datatype_is_false(input_data):
     with does_not_raise():
         _fail_if_datatype_is_false(input_data, [], [])
@@ -92,10 +106,7 @@ def test_expand_data_raise_error():
         _expand_data(data, ids)
 
 
-def test_missing_root_nodes_raises_error():
-    n_individuals = 5
-    df = pd.DataFrame(index=np.arange(n_individuals))
-
+def test_missing_root_nodes_raises_error(minimal_input_data):
     def b(a):
         return a
 
@@ -105,20 +116,38 @@ def test_missing_root_nodes_raises_error():
     with pytest.raises(
         ValueError, match="The following data columns are missing",
     ):
-        compute_taxes_and_transfers(df, {}, functions=[b, c], targets="c")
+        compute_taxes_and_transfers(
+            minimal_input_data, {}, functions=[b, c], targets="c"
+        )
 
 
-def test_function_without_data_dependency_is_not_mistaken_for_data():
-    n_individuals = 5
-    df = pd.DataFrame(index=np.arange(n_individuals))
-
+def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input_data):
     def a():
-        return pd.Series(range(n_individuals))
+        return pd.Series(range(minimal_input_data.shape[0]))
 
     def b(a):
         return a
 
-    compute_taxes_and_transfers(df, {}, functions=[a, b], targets="b")
+    compute_taxes_and_transfers(minimal_input_data, {}, functions=[a, b], targets="b")
+
+
+def test_fail_if_missing_pid(minimal_input_data):
+    data = minimal_input_data.drop("p_id", axis=1).copy()
+
+    with pytest.raises(
+        ValueError, match="The input data must contain the column p_id",
+    ):
+        compute_taxes_and_transfers(data, {}, functions=[], targets=[])
+
+
+def test_fail_if_non_unique_pid(minimal_input_data):
+    data = minimal_input_data.copy()
+    data["p_id"] = 1
+
+    with pytest.raises(
+        ValueError, match="The following p_ids are non-unique",
+    ):
+        compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
 
 def test_consecutive_internal_test_runs():
