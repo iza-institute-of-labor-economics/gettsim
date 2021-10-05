@@ -70,3 +70,5 @@ ___*
 .env/installed_pip_pkgs
 .env/installed_spec.json
 docs/_build
+docs/tutorials/sandbox_cz.ipynb
+param_dashboard_data.pickle
