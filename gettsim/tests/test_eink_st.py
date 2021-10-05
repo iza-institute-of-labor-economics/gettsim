@@ -67,5 +67,5 @@ def test_tax_sched(
     )
 
     assert_series_equal(
-        result[column], year_data[column], check_dtype=False, check_less_precise=2,
+        result[column], year_data[column], check_dtype=False, atol=1e-2, rtol=1
     )
