@@ -548,6 +548,7 @@ behinderten_pauschbetrag:
     95: 1420
   2021-01-01:
     reference: Art. 1 G. v. 09.12.2020 BGBL. I  S. 2770.
+    note: First entry (0: 0) is required internally.
     0: 0
     20: 384
     30: 620
