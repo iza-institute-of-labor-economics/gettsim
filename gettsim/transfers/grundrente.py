@@ -1,5 +1,3 @@
-from typing import Dict
-
 import numpy as np
 
 from gettsim.typing import BoolSeries
@@ -130,10 +128,10 @@ def durchschnittl_entgeltpunkte_grundr(
     return entgeltpunkte_grundrente / grundrentenbewertungszeiten
 
 
-def höchstwert_grundr(
+def höchstwert_grundr_m(
     grundrentenzeiten: IntSeries, ges_renten_vers_params: dict
 ) -> FloatSeries:
-    """ Caluclates the maximum allowed number of average Entgeltpunkte (per month)
+    """ Calculates the maximum allowed number of average Entgeltpunkte (per month)
     after adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
 
     Parameters
@@ -147,19 +145,26 @@ def höchstwert_grundr(
     -------
 
     """
-    return ges_renten_vers_params["höchstwert"]["base"] + ges_renten_vers_params[
-        "höchstwert"
-    ]["increment"] * (
+
+    # Calculate number of months above minimum threshold
+    months_above_thresh = (
         grundrentenzeiten.clip(upper=ges_renten_vers_params["grundrentenzeiten"]["max"])
         - ges_renten_vers_params["grundrentenzeiten"]["min"]
-    ).round(
-        4
     )
+
+    # Calculate höchstwert
+    out = (
+        ges_renten_vers_params["höchstwert"]["base"]
+        + ges_renten_vers_params["höchstwert"]["increment"] * months_above_thresh
+    )
+
+    # Round to 4 digits
+    return out.round(4)
 
 
 def bonus_entgeltpunkte_grundr(
     durchschnittl_entgeltpunkte_grundr: FloatSeries,
-    höchstwert_grundr: FloatSeries,
+    höchstwert_grundr_m: FloatSeries,
     grundrentenzeiten: IntSeries,
     ges_renten_vers_params: dict,
 ) -> FloatSeries:
@@ -173,8 +178,8 @@ def bonus_entgeltpunkte_grundr(
     ----------
     durchschnittl_entgeltpunkte_grundr
         See :func:`durchschnittl_entgeltpunkte_grundr`.
-    höchstwert_grundr
-        See :func:`höchstwert_grundr`.
+    höchstwert_grundr_m
+        See :func:`höchstwert_grundr_m`.
     grundrentenzeiten
         See basic input variable :ref:`grundrentenzeiten <grundrentenzeiten>`.
     ges_renten_vers_params
@@ -188,21 +193,21 @@ def bonus_entgeltpunkte_grundr(
     _cat1 = grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten"]["min"]
     _cat2 = (
         grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten"]["min"]
-    ) & (durchschnittl_entgeltpunkte_grundr <= (0.5 * höchstwert_grundr))
+    ) & (durchschnittl_entgeltpunkte_grundr <= (0.5 * höchstwert_grundr_m))
     _cat3 = (
         (grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten"]["min"])
-        & (durchschnittl_entgeltpunkte_grundr >= (0.5 * höchstwert_grundr))
-        & (durchschnittl_entgeltpunkte_grundr < höchstwert_grundr)
+        & (durchschnittl_entgeltpunkte_grundr >= (0.5 * höchstwert_grundr_m))
+        & (durchschnittl_entgeltpunkte_grundr < höchstwert_grundr_m)
     )
     _cat4 = (
         grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten"]["min"]
-    ) & (durchschnittl_entgeltpunkte_grundr > höchstwert_grundr)
+    ) & (durchschnittl_entgeltpunkte_grundr > höchstwert_grundr_m)
 
     # Apply rule to compute bonus for each category
     out = _cat1.astype(float) * np.nan
     out.loc[_cat1] = 0
     out.loc[_cat2] = durchschnittl_entgeltpunkte_grundr * (1 - 0.125)
-    out.loc[_cat3] = (höchstwert_grundr - durchschnittl_entgeltpunkte_grundr) * (
+    out.loc[_cat3] = (höchstwert_grundr_m - durchschnittl_entgeltpunkte_grundr) * (
         1 - 0.125
     )
     out.loc[_cat4] = 0
@@ -213,10 +218,10 @@ def einkommen_grundr(
     proxy_eink_vorj_arbeitsl_geld: FloatSeries,
     tu_id: IntSeries,
     brutto_eink_5_tu: FloatSeries,
-    eink_st_abzuege_params: Dict,
+    eink_st_abzuege_params: dict,
     alleinstehend_grundr: BoolSeries,
     wohnort_ost: BoolSeries,
-    ges_renten_vers_params: Dict,
+    ges_renten_vers_params: dict,
     prv_rente_m_vorj: FloatSeries,
     entgeltpunkte_update: FloatSeries,
 ) -> FloatSeries:

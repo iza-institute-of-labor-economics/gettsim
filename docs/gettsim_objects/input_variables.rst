@@ -1,4 +1,4 @@
-.. _variables:
+.. _input_variables:
 
 Basic input variables
 =====================
@@ -87,16 +87,14 @@ household.
 | _`vermögen_hh`          | Wealth of household                          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltpunkte`        | Earning points for pension claim             | FloatSeries |
-+------------------------------+-----------------------------------------+-------------+
-| _`grundrentenbewerungszeiten`| Months with > 30% of average income     | IntSeries   |
-+------------------------------+-----------------------------------------+-------------+
-| _`entgeltpunkte_grundrente`  |Entgeltpunkte earned in Grundrentenzeiten| FloatSeries |
-+------------------------------+-----------------------------------------+-------------+
++-------------------------+----------------------------------------------+-------------+
+| _`gr_bewertungszeiten`  | Months with > 30% of average income          | IntSeries   |
++-------------------------+----------------------------------------------+-------------+
+| _`entgeltpunkte_gr`     |Entgeltpunkte in Grundrentenbewertungszeiten  | FloatSeries |
++-------------------------+----------------------------------------------+-------------+
 | _`grundrentenzeiten`    | Number of months considered for Grundrente   | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`prv_rente_m_vorj`     | Monthly private pensions of previous year    | FloatSeries |
-+-------------------------+----------------------------------------------+-------------+
-| _`staatl_rente_m`       | Amount of monthly public pension             | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`prv_rente_m`          | Amount of monthly private pension            | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+

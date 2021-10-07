@@ -3,6 +3,49 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
+def gesamte_rente_m(
+    prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries
+) -> FloatSeries:
+    """Calculate total pension as sum of private and public pension.
+
+    Parameters
+    ----------
+    prv_rente_m
+        See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
+    staatl_rente_m
+        See :func:`staatl_rente_m`.
+
+    Returns
+    -------
+
+    """
+    out = prv_rente_m + staatl_rente_m
+    return out
+
+
+def staatl_rente_m(
+    rente_anspr_m: FloatSeries, grundrentenzuschlag_m: FloatSeries, rentner: BoolSeries
+) -> FloatSeries:
+    """Calculate total public pension.
+
+    Parameters
+    ----------
+    rente_anspr_m
+        See :func:`rente_anspr_m`.
+    grundrentenzuschlag_m
+        See :func:`grundrentenzuschlag_m`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+    Returns
+    -------
+
+    """
+    out = rente_anspr_m + grundrentenzuschlag_m
+    out.loc[~rentner] = 0
+    return out.round(2)
+
+
 def rente_anspr_m(
     zugangsfaktor: FloatSeries,
     entgeltpunkte_update: FloatSeries,
@@ -39,49 +82,6 @@ def rente_anspr_m(
     """
 
     return (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
-
-
-def staatl_rente_m(
-    rente_anspr_m: FloatSeries, grundrentenzuschlag_m: FloatSeries, rentner: BoolSeries
-) -> FloatSeries:
-    """Calculate total public pension.
-
-    Parameters
-    ----------
-    rente_anspr_m
-        See :func:`rente_anspr_m`.
-    grundrentenzuschlag_m
-        See :func:`grundrentenzuschlag_m`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-
-    Returns
-    -------
-
-    """
-    out = rente_anspr_m + grundrentenzuschlag_m
-    out.loc[~rentner] = 0
-    return out.round(2)
-
-
-def gesamte_rente_m(
-    prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries
-) -> FloatSeries:
-    """Calculate total pension as sum of private and public pension.
-
-    Parameters
-    ----------
-    prv_rente_m
-        See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
-    staatl_rente_m
-        See :func:`staatl_rente_m`.
-
-    Returns
-    -------
-
-    """
-    out = prv_rente_m + staatl_rente_m
-    return out
 
 
 def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSeries:
@@ -165,7 +165,7 @@ def entgeltpunkte_lohn(
 
 
 def zugangsfaktor(alter: IntSeries, regelaltersgrenze: FloatSeries) -> FloatSeries:
-    """Calculate the zugangsfaktor determining depending on age your pension claim.
+    """Calculate the zugangsfaktor determining your pension claim depending on age.
 
     At the regelaltersgrenze, the agent is allowed to get pensions with his full
     claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his

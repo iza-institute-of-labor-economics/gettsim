@@ -489,6 +489,7 @@ grundrentenzeiten:
   description:
     de: minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
     en: minimal number of Grundrentenzeiten required to be entitled to Grundrente and maximum number of months that are considered for Grundrentenzuschlag
+  unit: months
   2021-01-01:
     min: 396
     max: 420

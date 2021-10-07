@@ -9,6 +9,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 ------------------
 * :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters.
    (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
+* :gh:`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove
+   `ges_rente_m` as input. Rename `gettsim.renten_anspr` to `gettsim.transfers.rente`.
+   Rename `gettsim.social_insurance` to `gettsim.social_insurance_payments`.
+   (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`)
 
 0.4.1 - 2021-04-11
 ------------------
