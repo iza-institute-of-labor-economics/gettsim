@@ -1,3 +1,0 @@
-,pid,hid,tu_id,head_tu,child,miete,heizkost,alleinerz,age,cnstyr,mietstufe,m_wage,m_pensions,ertragsanteil,m_alg1,m_transfers,uhv,elterngeld,gross_e1,gross_e4,gross_e5,gross_e6,incometax,rvbeit,gkvbeit,handcap_degree,year,hhsize_tu,wohngeld_basis_hh
-3,18,2,2,True,False,400,80,False,50,3,3,800,0,0,0,100,0,0,0,10000,0,0,0,100,80,50,2013,2,194.17
-4,19,2,2,False,False,400,80,False,55,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2013,2,194.17

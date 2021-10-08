@@ -1,0 +1,8 @@
+/* Remove execution count for notebook cells. */
+div.prompt {
+    display: none;
+}
+
+.wy-side-nav-search>a img.logo {
+    height: 45px;
+}

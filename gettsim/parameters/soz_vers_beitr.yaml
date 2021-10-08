@@ -1,0 +1,758 @@
+soz_vers_beitr:
+  name:
+    de: Beitragssätze zu den gesetzlichen Sozialversicherungen
+    en: Contribution rate to statutory social insurances
+  description:
+    de:
+    en:
+  unit: share
+  1984-01-01:
+    ges_krankenv:
+      ag: 0.0572
+      an: 0.0572
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.023
+    rentenv: 0.0925
+  1985-01-01:
+    ges_krankenv:
+      ag: 0.059
+      an: 0.059
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.022
+    rentenv: 0.0935
+  1986-01-01:
+    ges_krankenv:
+      ag: 0.061
+      an: 0.061
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0205
+    rentenv: 0.096
+  1987-01-01:
+    ges_krankenv:
+      ag: 0.0624
+      an: 0.0624
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0215
+    rentenv: 0.0935
+  1988-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.0644
+      an: 0.0644
+  1989-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.0645
+      an: 0.0645
+  1990-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.0625
+      an: 0.0625
+  1991-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.064
+      an: 0.064
+  1992-01-01:
+    deviation_from: previous
+    arbeitsl_v: 0.0315
+    rentenv: 0.0885
+  1993-01-01:
+    ges_krankenv:
+      ag: 0.067
+      an: 0.067
+    pflegev:
+      standard: 0
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0325
+    rentenv: 0.0875
+  1994-01-01:
+    deviation_from: previous
+    rentenv: 0.096
+  1995-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.066
+      an: 0.066
+    rentenv: 0.093
+  1996-01-01:
+    deviation_from: previous
+    rentenv: 0.096
+    pflegev:
+      standard: 0.005
+  1997-01-01:
+    ges_krankenv:
+      ag: 0.067
+      an: 0.067
+    pflegev:
+      standard: 0.0085
+      zusatz_kinderlos: 0
+    arbeitsl_v: 0.0325
+    rentenv: 0.1015
+  1998-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.068
+      an: 0.068
+  2000-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.06785
+      an: 0.06785
+    rentenv: 0.0965
+  2001-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.0679
+      an: 0.0679
+    rentenv: 0.0955
+  2002-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.07
+      an: 0.07
+  2003-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.072
+      an: 0.072
+    rentenv: 0.0975
+  2004-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.071
+      an: 0.071
+  2005-01-01:
+    ges_krankenv:
+      ag: 0.0689
+      an: 0.0689
+    pflegev:
+      standard: 0.0085
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.0325
+    rentenv: 0.0975
+  2006-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.0666
+      an: 0.0756
+  2007-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.0695
+      an: 0.0785
+    arbeitsl_v: 0.021
+    rentenv: 0.0995
+  2008-01-01:
+    ges_krankenv:
+      ag: 0.07
+      an: 0.079
+    pflegev:
+      standard: 0.00975
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.016
+    rentenv: 0.0995
+  2009-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.073
+      an: 0.082
+    arbeitsl_v: 0.014
+  2010-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.07
+      an: 0.079
+  2011-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.073
+      an: 0.082
+    arbeitsl_v: 0.015
+  2012-01-01:
+    deviation_from: previous
+    rentenv: 0.098
+    note: Quelle http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
+  2013-01-01:
+    deviation_from: previous
+    rentenv: 0.0945
+    pflegev:
+      standard: 0.01025
+  2015-01-01:
+    ges_krankenv:
+      ag: 0.073
+      an: 0.082
+    pflegev:
+      standard: 0.01175
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.015
+    rentenv: 0.0935
+  2016-01-01:
+    deviation_from: previous
+    note: Bekanntmachung Bundesanzeiger 30.12.2015 und  http://www.bmg.bund.de/ministerium/meldungen/2015/gkv-zusatzbeitrag.html
+    ges_krankenv:
+      an: 0.084
+  2017-01-01:
+    deviation_from: previous
+    pflegev:
+      standard: 0.01275
+  2018-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      an: 0.083
+    rentenv: 0.093
+  2019-01-01:
+    note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387. Durchschnittlicher zusatzbeitragssatz 0,9%
+    ges_krankenv:
+      ag: 0.0775
+      an: 0.0775
+    pflegev:
+      standard: 0.01525
+      zusatz_kinderlos: 0.0025
+    arbeitsl_v: 0.013
+    rentenv: 0.093
+  2020-01-01:
+    note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
+    deviation_from: previous
+    ges_krankenv:
+      ag: 0.0785
+      an: 0.0785
+    arbeitsl_v: 0.012
+  2021-01-01:
+    deviation_from: previous
+    note: Durchschnittlicher Zusatzbeitragssatz 1,3%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
+    ges_krankenv:
+      ag: 0.0795
+      an: 0.0795
+
+
+beitr_bemess_grenze:
+  name:
+    de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
+    en: Income Threshold for social insurance.
+  description:
+    de: Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist die gleiche.
+    en:
+  note:
+    de:
+    en:
+  unit: Euro
+  time: month
+  1984-01-01:
+    ges_krankenv:
+      west: 1994
+    rentenv:
+      west: 2659
+  1985-01-01:
+    ges_krankenv:
+      west: 2071
+    rentenv:
+      west: 2761
+  1986-01-01:
+    ges_krankenv:
+      west: 2147
+    rentenv:
+      west: 2863
+  1987-01-01:
+    ges_krankenv:
+      west: 2186
+    rentenv:
+      west: 2914
+  1988-01-01:
+    ges_krankenv:
+      west: 2301
+    rentenv:
+      west: 3068
+  1989-01-01:
+    ges_krankenv:
+      west: 2339
+    rentenv:
+      west: 3119
+  1990-01-01:
+    ges_krankenv:
+      west: 2416
+      ost: 1035
+    rentenv:
+      west: 3221
+      ost: 1380
+  1991-01-01:
+    ges_krankenv:
+      west: 2493
+      ost: 1151
+    rentenv:
+      west: 3323
+      ost: 1534
+  1992-01-01:
+    ges_krankenv:
+      west: 2608
+      ost: 1841
+    rentenv:
+      west: 3477
+      ost: 2454
+  1993-01-01:
+    ges_krankenv:
+      west: 2761
+      ost: 2032
+    rentenv:
+      west: 3681
+      ost: 2710
+  1994-01-01:
+    ges_krankenv:
+      west: 2914
+      ost: 2262
+    rentenv:
+      west: 3886
+      ost: 3017
+  1995-01-01:
+    ges_krankenv:
+      west: 2991
+      ost: 2454
+    rentenv:
+      west: 3988
+      ost: 3272
+  1996-01-01:
+    ges_krankenv:
+      west: 3068
+      ost: 2608
+    rentenv:
+      west: 4090
+      ost: 3477
+  1997-01-01:
+    ges_krankenv:
+      west: 3144
+      ost: 2723
+    rentenv:
+      west: 4193
+      ost: 3630
+  1998-01-01:
+    ges_krankenv:
+      west: 3221
+      ost: 2684
+    rentenv:
+      west: 4295
+      ost: 3579
+  1999-01-01:
+    ges_krankenv:
+      west: 3259
+      ost: 2761
+    rentenv:
+      west: 4339
+      ost: 3681
+  2000-01-01:
+    ges_krankenv:
+      west: 3298
+      ost: 2723
+    rentenv:
+      west: 4397
+      ost: 3630
+  2001-01-01:
+    ges_krankenv:
+      west: 3336
+      ost: 3336
+    rentenv:
+      west: 4448
+      ost: 3732
+  2002-01-01:
+    ges_krankenv:
+      west: 3375
+      ost: 3375
+    rentenv:
+      west: 4500
+      ost: 3750
+  2003-01-01:
+    ges_krankenv:
+      west: 3450
+      ost: 3375
+    rentenv:
+      west: 5100
+      ost: 4250
+  2004-01-01:
+    ges_krankenv:
+      west: 3488
+      ost: 3488
+    rentenv:
+      west: 5150
+      ost: 4350
+  2005-01-01:
+    ges_krankenv:
+      west: 3525
+      ost: 3525
+    rentenv:
+      west: 5200
+      ost: 4400
+  2006-01-01:
+    ges_krankenv:
+      west: 3562.5
+      ost: 3562.5
+    rentenv:
+      west: 5250
+      ost: 4400
+  2007-01-01:
+    deviation_from: previous
+    rentenv:
+      ost: 4550
+  2008-01-01:
+    ges_krankenv:
+      west: 3600
+      ost: 3600
+    rentenv:
+      west: 5300
+      ost: 4500
+  2009-01-01:
+    ges_krankenv:
+      west: 3675
+      ost: 3675
+    rentenv:
+      west: 5400
+      ost: 4550
+  2010-01-01:
+    ges_krankenv:
+      west: 3750
+      ost: 3750
+    rentenv:
+      west: 5500
+      ost: 4650
+  2011-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      west: 3712.5
+      ost: 3712.5
+    rentenv:
+      ost: 4800
+  2012-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      west: 3825
+      ost: 3825
+    rentenv:
+      west: 5600
+  2013-01-01:
+    ges_krankenv:
+      west: 3937.5
+      ost: 3937.5
+    rentenv:
+      west: 5800
+      ost: 4900
+  2014-01-01:
+    ges_krankenv:
+      west: 4050
+      ost: 4050
+    rentenv:
+      west: 5950
+      ost: 5000
+    note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+  2015-01-01:
+    ges_krankenv:
+      west: 4125
+      ost: 4125
+    rentenv:
+      west: 6050
+      ost: 5200
+  2016-01-01:
+    ges_krankenv:
+      west: 4237.5
+      ost: 4237.5
+    rentenv:
+      west: 6200
+      ost: 5400
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+  2017-01-01:
+    ges_krankenv:
+      west: 4350
+      ost: 4350
+    rentenv:
+      west: 6350
+      ost: 5700
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+  2018-01-01:
+    ges_krankenv:
+      west: 4425
+      ost: 4425
+    rentenv:
+      west: 6500
+      ost: 5800
+  2019-01-01:
+    ges_krankenv:
+      west: 4537.5
+      ost: 4537.5
+    rentenv:
+      west: 6700
+      ost: 6150
+  2020-01-01:
+    ges_krankenv:
+      west: 4687.5
+      ost: 4687.5
+    rentenv:
+      west: 6900
+      ost: 6450
+    reference: V. v. 17.12.2019 BGBl. I S. 2848
+  2021-01-01:
+    ges_krankenv:
+      west: 4837.5
+      ost: 4837.5
+    rentenv:
+      west: 7100
+      ost: 6700
+    reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
+
+
+bezugsgröße:
+  name:
+    de: monatl. Bezugsgröße
+    en:
+  description:
+    de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
+    en:
+  unit: Euro
+  time: month
+  1984-01-01:
+    west: 1396
+  1985-01-01:
+    west: 1432
+  1986-01-01:
+    west: 1467
+  1987-01-01:
+    west: 1539
+  1988-01-01:
+    west: 1575
+  1989-01-01:
+    west: 1611
+  1990-01-01:
+    west: 1682
+    ost: 715.8086336747059
+  1991-01-01:
+    west: 1718
+    ost: 787.3894970421765
+  1992-01-01:
+    west: 1790
+    ost: 1073.712950512059
+  1993-01-01:
+    west: 1897
+    ost: 1395.826835665677
+  1994-01-01:
+    west: 2004
+    ost: 1574.778994084353
+  1995-01-01:
+    west: 2076
+    ost: 1682.150289135559
+  1996-01-01:
+    west: 2112
+    ost: 1789.521584186765
+  1997-01-01:
+    west: 2183
+    ost: 1861.102447554235
+  1998-01-01:
+    west: 2219
+    ost: 1896.892879237971
+  1999-01-01:
+    west: 2255
+    ost: 1896.892879237971
+  2000-01-01:
+    west: 2291
+    ost: 1861.102447554235
+  2001-01-01:
+    deviation_from: previous
+    ost: 1932.683310921706
+  2002-01-01:
+    west: 2345
+    ost: 1960
+  2003-01-01:
+    west: 2380
+    ost: 1995
+  2004-01-01:
+    west: 2415
+    ost: 2030
+  2006-01-01:
+    west: 2450
+    ost: 2065
+  2007-01-01:
+    deviation_from: previous
+    ost: 2100
+  2008-01-01:
+    deviation_from: previous
+    west: 2485
+  2009-01-01:
+    west: 2520
+    ost: 2135
+  2010-01-01:
+    west: 2555
+    ost: 2170
+  2011-01-01:
+    deviation_from: previous
+    ost: 2240
+  2012-01-01:
+    deviation_from: previous
+    west: 2625
+  2013-01-01:
+    west: 2695
+    ost: 2275
+  2014-01-01:
+    note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+    west: 2765
+    ost: 2345
+  2015-01-01:
+    west: 2835
+    ost: 2415
+  2016-01-01:
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+    west: 2905
+    ost: 2520
+  2017-01-01:
+    note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+    west: 2975
+    ost: 2660
+  2018-01-01:
+    west: 3045
+    ost: 2695
+  2019-01-01:
+    note: Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
+    west: 3115
+    ost: 2870
+  2020-01-01:
+    reference: §2 V. v. 17.12.2019 BGBl. I S. 2848
+    west: 3185
+    ost: 3010
+  2021-01-01:
+    west: 3290
+    ost: 3115
+    reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
+
+geringfügige_eink_grenzen:
+  name:
+    de: Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
+    en: Thresholds for marginal employment ('mini' and 'midi' jobs)
+  description:
+    de: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
+    en:
+  unit: Euro
+  time: month
+  1984-01-01:
+    mini_job:
+      west: 199
+    midi_job: 0
+  1985-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 205
+  1986-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 210
+  1987-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 220
+  1988-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 225
+  1989-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 230
+  1990-01-01:
+    mini_job:
+      west: 240
+      ost: 102
+    midi_job: 0
+  1991-01-01:
+    mini_job:
+      west: 245
+      ost: 120
+    midi_job: 0
+  1992-01-01:
+    mini_job:
+      west: 256
+      ost: 153
+    midi_job: 0
+  1993-01-01:
+    mini_job:
+      west: 271
+      ost: 199
+    midi_job: 0
+  1994-01-01:
+    mini_job:
+      west: 286
+      ost: 225
+    midi_job: 0
+  1995-01-01:
+    mini_job:
+      west: 297
+      ost: 240
+    midi_job: 0
+  1996-01-01:
+    mini_job:
+      west: 302
+      ost: 256
+    midi_job: 0
+  1997-01-01:
+    mini_job:
+      west: 312
+      ost: 266
+    midi_job: 0
+  1998-01-01:
+    deviation_from: previous
+    mini_job:
+      west: 317
+  1999-01-01:
+    mini_job:
+      west: 322
+      ost: 271
+    midi_job: 0
+  2000-01-01:
+    deviation_from: previous
+    mini_job:
+      ost: 322
+  2002-01-01:
+    mini_job:
+      west: 325
+      ost: 325
+    midi_job: 0
+  2004-01-01:
+    mini_job:
+      west: 400
+      ost: 400
+    midi_job: 800
+  2013-01-01:
+    mini_job:
+      west: 450
+      ost: 450
+    midi_job: 850
+  2019-01-01:
+    deviation_from: previous
+    reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
+    midi_job: 1300
+
+ag_abgaben_geringf:
+  name:
+    de: Pauschalabgaben bei geringf. Beschäftigung
+    en:
+  description:
+    de: § 249b SGB V, § 168 I Nr. 1b SGB VI
+    en:
+  unit: share
+  1984-01-01:
+    ges_krankenv: 0
+    rentenv: 0
+    st: 0
+  1999-01-01:
+    ges_krankenv: 0.1
+    rentenv: 0.12
+    st: 0
+  2004-01-01:
+    ges_krankenv: 0.11
+    rentenv: 0.12
+    st: 0.02
+  2007-01-01:
+    ges_krankenv: 0.13
+    rentenv: 0.15
+    st: 0.02
