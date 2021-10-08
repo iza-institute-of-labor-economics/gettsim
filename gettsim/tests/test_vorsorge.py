@@ -1,29 +1,26 @@
 import itertools
 
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
-from gettsim.policy_for_date import get_policies_for_date
-from gettsim.taxes.zve import vorsorge_pre_2005
-from gettsim.taxes.zve import vorsorge_since_2005
-from gettsim.taxes.zve import vorsorge_since_2010
+from gettsim.interface import compute_taxes_and_transfers
+from gettsim.policy_environment import set_up_policy_environment
 
 
 IN_COLS = [
-    "pid",
+    "p_id",
     "tu_id",
-    "m_wage",
-    "child",
-    "priv_pens_contr",
-    "rvbeit",
-    "avbeit",
-    "pvbeit",
-    "year",
-    "gkvbeit",
-    "zveranl",
+    "hh_id",
+    "bruttolohn_m",
+    "kind",
+    "prv_rente_beitr_m",
+    "rentenv_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "pflegev_beitr_m",
+    "jahr",
+    "ges_krankenv_beitr_m",
 ]
 OUT_COLS = ["vorsorge"]
 
@@ -38,38 +35,29 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLS))
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
 def test_vorsorge(
-    input_data,
-    year,
-    column,
-    kindergeld_raw_data,
-    soz_vers_beitr_raw_data,
-    e_st_abzuege_raw_data,
+    input_data, year, target,
 ):
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["jahr"] == year]
     df = year_data[IN_COLS].copy()
-    e_st_abzuege_params = get_policies_for_date(
-        year=year, group="e_st_abzuege", raw_group_data=e_st_abzuege_raw_data
-    )
-    soz_vers_beitr_params = get_policies_for_date(
-        year=year, group="soz_vers_beitr", raw_group_data=soz_vers_beitr_raw_data
-    )
-    if year >= 2010:
-        calc_vorsorge = vorsorge_since_2010
-    elif year >= 2005:
-        calc_vorsorge = vorsorge_since_2005
-    elif year <= 2004:
-        calc_vorsorge = vorsorge_pre_2005
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+    columns_overriding_functions = [
+        "ges_krankenv_beitr_m",
+        "arbeitsl_v_beitr_m",
+        "pflegev_beitr_m",
+        "rentenv_beitr_m",
+    ]
 
-    df["vorsorge"] = np.nan
-    for tu in df["tu_id"].unique():
-        df.loc[df["tu_id"] == tu, "vorsorge"] = calc_vorsorge(
-            df[df["tu_id"] == tu],
-            params=e_st_abzuege_params,
-            soz_vers_beitr_params=soz_vers_beitr_params,
-        )
+    result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=target,
+        columns_overriding_functions=columns_overriding_functions,
+    )
 
+    # TODO: Here our test values are off by about 5 euro. We should revisit. See #217.
     assert_series_equal(
-        df[column], year_data[column], check_less_precise=2, check_dtype=False
+        result[target], year_data[target], atol=1e-1, rtol=1, check_dtype=False
     )

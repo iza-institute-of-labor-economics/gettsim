@@ -1,59 +1,170 @@
-import numpy as np
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
 
-def kindergeld(tax_unit, params):
-    """ Child Benefit (kindergeld)
-    Basic Amount for each child. Parents receive child benefit for every child up to
-    18 years. Above, they get it only up to kindergeld_params["kgage"] if the child is
-    a) in education and
-    b) not working too much / not receiving too much income (depending on the year)
+def kindergeld_m_basis(
+    tu_id: IntSeries, kindergeld_anspruch: BoolSeries, kindergeld_params: dict
+) -> FloatSeries:
+    """Calculate the preliminary kindergeld.
 
-    Returns:
-        pd.series:
-            kindergeld_basis: Kindergeld on the individual level
-            kindergeld_tu_basis: Kindergeld summed up within the tax unit
+    Parameters
+    ----------
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+    kindergeld_anspruch
+        See :func:`kindergeld_anspruch`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
     """
-
-    child_count = params["childben_elig_rule"](tax_unit, params).cumsum()
-
-    kg_amounts = {
-        1: params["kgeld1"],
-        2: params["kgeld2"],
-        3: params["kgeld3"],
-        4: params["kgeld4"],
-    }
-    tax_unit["kindergeld_basis"] = child_count.replace(kg_amounts)
-    tax_unit.loc[child_count > 4, "kindergeld_basis"] = params["kgeld4"]
-    tax_unit["kindergeld_tu_basis"] = np.sum(tax_unit["kindergeld_basis"])
-
-    return tax_unit
+    # Kindergeld_Anspruch is the cumulative sum of eligible children.
+    kumulativer_anspruch = (
+        (kindergeld_anspruch.astype(int)).groupby(tu_id).transform("cumsum")
+    )
+    # Make sure that only eligible children get assigned kindergeld
+    kumulativer_anspruch.loc[~kindergeld_anspruch] = 0
+    out = kumulativer_anspruch.clip(upper=4).replace(kindergeld_params["kindergeld"])
+    return out
 
 
-def kg_eligibility_hours(tax_unit, params):
-    """ Nowadays, kids must not work more than 20 hour
+def kindergeld_m_basis_tu(
+    kindergeld_m_basis: FloatSeries, tu_id: IntSeries
+) -> FloatSeries:
+    """Aggregate the preliminary kindergeld on tax unit level.
+
+    Parameters
+    ----------
+    kindergeld_m_basis
+        See :func:`kindergeld_m_basis`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return kindergeld_m_basis.groupby(tu_id).sum()
+
+
+def kindergeld_anspruch_nach_stunden(
+    alter: IntSeries,
+    in_ausbildung: BoolSeries,
+    arbeitsstunden_w: FloatSeries,
+    kindergeld_params: dict,
+) -> BoolSeries:
+    """Determine kindergeld eligibility depending on working hours.
+
+    The current eligibility rule is, that kids must not work more than 20
+    hour and are below 25.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    in_ausbildung
+        See :func:`in_ausbildung`.
+    arbeitsstunden_w
+        See :func:`arbeitsstunden_w`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+    BoolSeries indiciating kindergeld eligibility.
+    """
+    out = alter <= 18
+    out = out | (
+        (19 <= alter)
+        & (alter <= kindergeld_params["kindergeld_hoechstalter"])
+        & in_ausbildung
+        & (arbeitsstunden_w <= kindergeld_params["kindergeld_stundengrenze"])
+    )
+
+    return out
+
+
+def kindergeld_anspruch_nach_lohn(
+    alter: IntSeries,
+    in_ausbildung: BoolSeries,
+    bruttolohn_m: FloatSeries,
+    kindergeld_params: dict,
+) -> BoolSeries:
+    """Determine kindergeld eligibility depending on kids wage.
+
+    Before 2011, there was an income ceiling for children
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+    in_ausbildung
+        See basic input variable :ref:`in_ausbildung <in_ausbildung>`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+
+    Returns
+    -------
+
     """
-    elig = tax_unit["age"] <= 18
-    elig[
-        (tax_unit["age"].between(19, params["kgage"]))
-        & tax_unit["ineducation"]
-        & (tax_unit["w_hours"] <= 20)
-    ] = True
+    out = alter <= 18
+    out = out | (
+        (19 <= alter)
+        & (alter <= kindergeld_params["kindergeld_hoechstalter"])
+        & in_ausbildung
+        & (bruttolohn_m <= kindergeld_params["kindergeld_einkommensgrenze"] / 12)
+    )
 
-    return elig
+    return out
 
 
-def kg_eligibility_wage(tax_unit, params):
-    """ Before 2011, there was an income ceiling for children
-    returns a boolean variable whether a specific person is a child eligible for
-    child benefit
+def kinderbonus_m_basis(
+    kindergeld_m_basis: FloatSeries, kindergeld_params: dict
+) -> FloatSeries:
+    """Calculate the kinderbonus.
+
+    (one-time payment, non-allowable against transfer payments)
+
+    Parameters
+    ----------
+    kindergeld_m_basis
+        See :func:`kindergeld_m_basis`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
     """
-    elig = tax_unit["age"] <= 18
-    elig[
-        (tax_unit["age"].between(19, params["kgage"]))
-        & tax_unit["ineducation"]
-        & (tax_unit["m_wage"] <= params["kgfreib"] / 12)
-    ] = True
+    # Kinderbonus is payed for all children who are eligible for Kindergeld
+    out = kindergeld_m_basis.copy()
 
-    return elig
+    # Kinderbonus parameter is specified on the yearly level
+    out.loc[kindergeld_m_basis > 0] = kindergeld_params["kinderbonus"] / 12
+    return out
+
+
+def kinderbonus_m_basis_tu(
+    kinderbonus_m_basis: FloatSeries, tu_id: IntSeries
+) -> FloatSeries:
+    """Aggregate the Kinderbonus on tax unit level.
+
+    Parameters
+    ----------
+    kinderbonus_m_basis
+        See :func:`kinderbonus_m_basis`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return kinderbonus_m_basis.groupby(tu_id).sum()

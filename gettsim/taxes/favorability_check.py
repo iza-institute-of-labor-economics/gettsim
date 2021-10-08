@@ -1,59 +1,228 @@
-import numpy as np
+"""This module contains the 'Higher-Yield Test':
+
+It compares the tax burden that results from various definitions of the tax base. Most
+importantly, it compares the tax burden without applying the child allowance
+(kein_kind_freib) AND receiving child benefit with the tax burden including the child
+allowance (kind_freib), but without child benefit. The most beneficial (for the
+household) is chosen. If child allowance is claimed, kindergeld is set to zero. A
+similar check applies to whether it is more profitable to tax capital incomes with the
+standard 25% rate or to include it in the tariff.
+
+"""
+from gettsim.typing import BoolSeries
+from gettsim.typing import FloatSeries
+from gettsim.typing import IntSeries
 
 
-def favorability_check(tax_unit, params):
-    """ 'Higher-Yield Test'
-        compares the tax burden that results from various definitions of the tax base
-        Most importantly, it compares the tax burden without applying the child
-        allowance (_nokfb) AND receiving child benefit with the tax burden including
-        the child allowance (_kfb), but without child benefit. The most beneficial (
-        for the household) is chosen. If child allowance is claimed, kindergeld is
-        set to zero. A similar check applies to whether it is more profitable to
-        tax capital incomes with the standard 25% rate or to include it in the tariff.
+def beantrage_kind_freib_tu(
+    st_kein_kind_freib_tu: FloatSeries,
+    kindergeld_m_basis_tu: FloatSeries,
+    kinderbonus_m_basis_tu: FloatSeries,
+    st_kind_freib_tu: FloatSeries,
+) -> BoolSeries:
+    """Check if individual claims child allowance (kinderfreibetrag).
+
+    Parameters
+    ----------
+    st_kein_kind_freib_tu
+        See :func:`st_kein_kind_freib_tu`.
+    kindergeld_m_basis_tu
+        See :func:`kindergeld_m_basis_tu`.
+    kinderbonus_m_basis_tu
+        See :func:`kinderbonus_m_basis_tu`.
+    st_kind_freib_tu
+        See :func:`st_kind_freib_tu`.
+
+    Returns
+    -------
+
     """
-    tax_unit["kindergeld"] = tax_unit["kindergeld_basis"]
-    tax_unit["kindergeld_tu"] = tax_unit["kindergeld_tu_basis"]
-    # get the maximum income
-    max_inc = get_max_inc(tax_unit, params)
-    # relevant incometax
-    tax_unit.loc[:, "incometax_tu"] = 0
-    # Income Tax in monthly terms! And write only to parents
-    tax_unit.loc[~tax_unit["child"], "incometax_tu"] = (
-        tax_unit["tax_" + max_inc + "_tu"] / 12
+    st_kein_kind_freib = st_kein_kind_freib_tu - 12 * (
+        kindergeld_m_basis_tu + kinderbonus_m_basis_tu
     )
-    # set kindergeld to zero if necessary.
-    if (not ("nokfb" in max_inc)) | (params["year"] <= 1996):
-        tax_unit.loc[:, "kindergeld"] = 0
-        tax_unit.loc[:, "kindergeld_tu"] = 0
-    if "abg" in max_inc:
-        tax_unit.loc[:, "abgst"] = 0
-        tax_unit.loc[:, "abgst_tu"] = 0
-    # Aggregate Child benefit on the household level, as we could have several
-    # tax_units in one household.
-    tax_unit["kindergeld_hh"] = tax_unit["kindergeld"].sum()
-    # Assign Income tax to individuals
-    tax_unit["incometax"] = np.select(
-        [tax_unit["zveranl"], ~tax_unit["zveranl"]],
-        [tax_unit["incometax_tu"] / 2, tax_unit["incometax_tu"]],
-    )
-
-    return tax_unit
+    return st_kein_kind_freib > st_kind_freib_tu
 
 
-def get_max_inc(tax_unit, params):
-    """The maximal income is selected considering taxing methods differing in the
-    policies on  Kinderfreibetrag or Abgeltungssteuer. """
-    inc_list = []
-    for i, inc in enumerate(params["zve_list"]):
-        inc_list += [tax_unit["tax_" + inc + "_tu"].max()]
-        # for those tax bases without capital taxes in tariff,
-        # add abgeltungssteuer
-        if "abg" not in inc:
-            inc_list[i] += tax_unit["abgst_tu"].iloc[0]
-        # For those tax bases without kfb, subtract kindergeld.
-        # Before 1996, both child allowance and child benefit could be claimed
-        if ("nokfb" in inc) | (params["year"] <= 1996):
-            inc_list[i] -= (12 * tax_unit["kindergeld_tu_basis"]).iloc[0]
+def eink_st_tu_bis_1996(st_kind_freib_tu: FloatSeries) -> FloatSeries:
+    """Income tax calculation until 1996.
 
-    # get the maximum income, i.e. the minimum payment burden
-    return params["zve_list"][np.argmin(inc_list)]
+    Until 1996 individuals could claim child allowance and recieve child benefit.
+    Therefore the tax burden is allways smaller.
+    Parameters
+    ----------
+    st_kind_freib_tu
+        See :func:`st_kind_freib_tu`.
+
+    Returns
+    -------
+
+    """
+    return st_kind_freib_tu
+
+
+def eink_st_tu_ab_1997(
+    st_kein_kind_freib_tu: FloatSeries,
+    st_kind_freib_tu: FloatSeries,
+    beantrage_kind_freib_tu: BoolSeries,
+) -> FloatSeries:
+    """Income tax calculation since 1997.
+
+    Parameters
+    ----------
+    st_kein_kind_freib_tu
+        See :func:`st_kein_kind_freib_tu`.
+    st_kind_freib_tu
+        See :func:`st_kind_freib_tu`.
+    beantrage_kind_freib_tu
+        See :func:`beantrage_kind_freib_tu`.
+
+    Returns
+    -------
+
+    """
+    out = st_kein_kind_freib_tu
+    out.loc[beantrage_kind_freib_tu] = st_kind_freib_tu.loc[beantrage_kind_freib_tu]
+    return out
+
+
+def kindergeld_m_bis_1996(kindergeld_m_basis: FloatSeries) -> FloatSeries:
+    """Kindergeld calculation until 1996.
+
+    Until 1996 individuals could claim child allowance and recieve child benefit.
+
+    Parameters
+    ----------
+    kindergeld_m_basis
+        See :func:`kindergeld_m_basis`.
+
+    Returns
+    -------
+
+    """
+    return kindergeld_m_basis
+
+
+def kindergeld_m_ab_1997(
+    beantrage_kind_freib_tu: BoolSeries,
+    kindergeld_m_basis: FloatSeries,
+    tu_id: IntSeries,
+) -> FloatSeries:
+    """Kindergeld calculation since 1997.
+
+    Parameters
+    ----------
+    beantrage_kind_freib_tu
+        See :func:`beantrage_kind_freib_tu`.
+    kindergeld_m_basis
+        See :func:`kindergeld_m_basis`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    beantrage_kind_freib = tu_id.replace(beantrage_kind_freib_tu)
+    out = kindergeld_m_basis
+    out.loc[beantrage_kind_freib] = 0
+    return out
+
+
+def kinderbonus_m(
+    beantrage_kind_freib_tu: BoolSeries,
+    kinderbonus_m_basis: FloatSeries,
+    tu_id: IntSeries,
+) -> FloatSeries:
+    """Calculate Kinderbonus (one-time payment, non-allowable against transfer payments).
+
+    Parameters
+    ----------
+    beantrage_kind_freib_tu
+        See :func:`beantrage_kind_freib_tu`.
+    kinderbonus_m_basis
+        See :func:`kinderbonus_m_basis`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    beantrage_kind_freib = tu_id.replace(beantrage_kind_freib_tu)
+    out = kinderbonus_m_basis
+    out.loc[beantrage_kind_freib] = 0
+    return out
+
+
+def kindergeld_m_hh(kindergeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
+    """Aggregate Child benefit on the household level.
+
+    Aggregate Child benefit on the household level, as we could have several tax_units
+    in one household.
+
+    Parameters
+    ----------
+    kindergeld_m
+        See :func:`kindergeld_m`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+
+    Returns
+    -------
+
+    """
+    return kindergeld_m.groupby(hh_id).sum()
+
+
+def kindergeld_m_tu(kindergeld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Aggregate Child benefit on the tax unit level.
+
+    Parameters
+    ----------
+    kindergeld_m
+        See :func:`kindergeld_m`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return kindergeld_m.groupby(tu_id).sum()
+
+
+def kinderbonus_m_hh(kinderbonus_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
+    """Aggregate Kinderbonus on the household level.
+
+    Aggregate Kinderbonus on the household level, as we could have several tax_units
+    in one household.
+
+    Parameters
+    ----------
+    kinderbonus_m
+        See :func:`kinderbonus_m`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+
+    Returns
+    -------
+
+    """
+    return kinderbonus_m.groupby(hh_id).sum()
+
+
+def kinderbonus_m_tu(kinderbonus_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Aggregate Kinderbonus on the tax unit level.
+
+    Parameters
+    ----------
+    kinderbonus_m
+        See :func:`kinderbonus_m`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return kinderbonus_m.groupby(tu_id).sum()
