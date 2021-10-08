@@ -35,7 +35,7 @@ plot_attributes = [
 ]
 # Github-Link to Parameters
 param_url = """https://github.com/iza-institute-of-labor-economics/
-gettsim/blob/master/gettsim/parameters"""
+gettsim/blob/main/gettsim/parameters"""
 attribute_dict = {
     "tax_rate": [
         "Statutory Income Tax rate by taxable income",
