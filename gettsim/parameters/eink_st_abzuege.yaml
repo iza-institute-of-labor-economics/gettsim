@@ -533,10 +533,10 @@ behinderten_pauschbetrag:
     75: 1058
     85: 1227
     95: 1411
-    note: DM converted to Euro. First entry (0: 0) is required internally.
+    note: DM converted to Euro. First entry (0-0) is required internally.
   2002-01-01:
     reference: Art. 1 G. v. 19.12.2000 BGBl. I S. 1790.
-    note: First entry (0: 0) is required internally.
+    note: First entry (0-0) is required internally.
     0: 0
     25: 310
     35: 430
@@ -548,7 +548,7 @@ behinderten_pauschbetrag:
     95: 1420
   2021-01-01:
     reference: Art. 1 G. v. 09.12.2020 BGBL. I  S. 2770.
-    note: First entry (0: 0) is required internally.
+    note: First entry (0-0) is required internally.
     0: 0
     20: 384
     30: 620
