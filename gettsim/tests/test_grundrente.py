@@ -16,7 +16,7 @@ INPUT_COLS = [
     "grundrentenzeiten",
     "grundrentenbewertungszeiten",
     "wohnort_ost",
-    "einkommen_grundr",
+    "einkommen_grundr_tu",
     "alter",
     "alleinstehend",
     "geburtsjahr",
@@ -60,7 +60,7 @@ def test_grundrente(input_data, year, column):
         params=policy_params,
         functions=[policy_functions, functions],
         targets=column,
-        columns_overriding_functions=["einkommen_grundr", "zugangsfaktor"],
+        columns_overriding_functions=["einkommen_grundr_tu", "zugangsfaktor"],
     )
     rounding = OUT_COLS_ROUNDING[column]
     assert_series_equal(

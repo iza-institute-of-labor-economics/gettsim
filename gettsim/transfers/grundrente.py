@@ -9,8 +9,9 @@ def grundrentenzuschlag_m(
     grundrentenzuschlag_vor_einkommensanrechnung: FloatSeries,
     ges_renten_vers_params: dict,
     alleinstehend_grundr: BoolSeries,
-    einkommen_grundr: FloatSeries,
+    einkommen_grundr_tu: FloatSeries,
     rentenwert: FloatSeries,
+    tu_id: IntSeries,
 ) -> FloatSeries:
     """ Implement income crediting rule as defined in Grundrentengesetz.
 
@@ -26,13 +27,12 @@ def grundrentenzuschlag_m(
         See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     alleinstehend_grundr
         See :func:`alleinstehend_grundr`.
-    einkommen_alleinstehend_grundr
-        See :func:`einkommen_alleinstehend_grundr`.
-    einkommen_paar_grundr
-        See :func:`einkommen_paar_grundr`.
+    einkommen_grundr_tu
+        See :func:`einkommen_grundr_tu`.
     rentenwert
         See :func:`rentenwert`.
-
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
     Returns
     -------
 
@@ -53,6 +53,7 @@ def grundrentenzuschlag_m(
     ).astype(float)
 
     # Deduct income from Grundrentenzuschlag following the crediting rules.
+    einkommen_grundr = tu_id.replace(einkommen_grundr_tu)
     out = (
         grundrentenzuschlag_vor_einkommensanrechnung
         - (
@@ -62,7 +63,6 @@ def grundrentenzuschlag_m(
         * 0.6
         - (einkommen_grundr - (einkommensanrechnung_upper * rentenwert)).clip(lower=0)
     ).clip(lower=0)
-
     return out.round(2)
 
 
@@ -214,8 +214,8 @@ def bonus_entgeltpunkte_grundr(
     return out
 
 
-def einkommen_grundr(
-    proxy_eink_vorj_arbeitsl_geld: FloatSeries,
+def einkommen_grundr_tu(
+    proxy_eink_vorj: FloatSeries,
     tu_id: IntSeries,
     brutto_eink_5_tu: FloatSeries,
     eink_st_abzuege_params: dict,
@@ -230,10 +230,13 @@ def einkommen_grundr(
     previous year.
     Warning: The Grundrentenzuschlag itself is not considered at the moment.
 
+    #ToDo: Needs to adjust this once we cleared up the meaning of tax unit. Only
+    #ToDo: the income of married partners should be considered.
+
     Parameters
     ----------
-    proxy_eink_vorj_arbeitsl_geld
-        See :func:`proxy_eink_vorj_arbeitsl_geld`.
+    proxy_eink_vorj
+        See :func:`proxy_eink_vorj`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
     brutto_eink_5_tu
@@ -271,9 +274,7 @@ def einkommen_grundr(
     )
 
     # Approximate last year income of tax unit.
-    proxy_eink_vorj_arbeitsl_geld_tu = proxy_eink_vorj_arbeitsl_geld.groupby(
-        tu_id
-    ).sum()
+    proxy_eink_vorj_tu = proxy_eink_vorj.groupby(tu_id).sum()
 
     sparerpauschbetrag = alleinstehend_grundr.replace(
         {
@@ -281,9 +282,8 @@ def einkommen_grundr(
             False: 2 * eink_st_abzuege_params["sparerpauschbetrag"],
         }
     ).astype(float)
-
     # Sum up components of income.
-    out = (tu_id.replace(proxy_eink_vorj_arbeitsl_geld_tu)) + (
+    out = (tu_id.replace(proxy_eink_vorj_tu)) + (
         tu_id.replace(proxy_gesamte_rente_m_tu_vorj)
         + (tu_id.replace(brutto_eink_5_tu) - sparerpauschbetrag).clip(lower=0)
     )
