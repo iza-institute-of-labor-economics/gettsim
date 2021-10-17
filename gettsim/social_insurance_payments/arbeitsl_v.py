@@ -67,14 +67,14 @@ def arbeitsl_v_beitr_m(
 
 
 def arbeitsl_v_regular_job(
-    ges_beitr_arbeitsl_v_midi_jobreturn: FloatSeries, soz_vers_beitr_params: dict
+    bruttolohn_unterl_sozialv_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
-    """Calculates unemployment insurance contributions for regualr jobs.
+    """Calculates unemployment insurance contributions for regular jobs.
 
     Parameters
     ----------
-    ges_beitr_arbeitsl_v_midi_jobreturn
-        See :func:`ges_beitr_arbeitsl_v_midi_jobreturn`.
+    bruttolohn_unterl_sozialv_m
+        See :func:`bruttolohn_unterl_sozialv_m`.
 
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
@@ -84,17 +84,18 @@ def arbeitsl_v_regular_job(
 
     """
     return (
-        ges_beitr_arbeitsl_v_midi_jobreturn
+        bruttolohn_unterl_sozialv_m
         * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
 
 
-def ges_beitr_arbeitsl_v_midi_jobreturn(
+def bruttolohn_unterl_sozialv_m(
     bruttolohn_m: FloatSeries,
     rentenv_beitr_bemess_grenze: FloatSeries,
     regulär_beschäftigt: BoolSeries,
 ) -> FloatSeries:
-    """Calculate the wage, which is subject to pension insurance contributions.
+    """Calculate the wage, which is subject to pension and
+    unemployment insurance contributions.
 
     Parameters
     ----------
