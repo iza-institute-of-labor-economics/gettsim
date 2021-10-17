@@ -40,15 +40,15 @@ def grundrentenzuschlag_m(
     # Select correct thresholds of income crediting rule.
     einkommensanrechnung_upper = alleinstehend_grundr.replace(
         {
-            True: ges_renten_vers_params["einkommensanrechnung"]["upper"],
-            False: ges_renten_vers_params["einkommensanrechnung"]["upper_ehe"],
+            True: ges_renten_vers_params["einkommensanrechnung_gr"]["upper"],
+            False: ges_renten_vers_params["einkommensanrechnung_gr"]["upper_ehe"],
         }
     ).astype(float)
 
     einkommensanrechnung_lower = alleinstehend_grundr.replace(
         {
-            True: ges_renten_vers_params["einkommensanrechnung"]["lower"],
-            False: ges_renten_vers_params["einkommensanrechnung"]["lower_ehe"],
+            True: ges_renten_vers_params["einkommensanrechnung_gr"]["lower"],
+            False: ges_renten_vers_params["einkommensanrechnung_gr"]["lower_ehe"],
         }
     ).astype(float)
 
@@ -63,6 +63,7 @@ def grundrentenzuschlag_m(
         * 0.6
         - (einkommen_grundr - (einkommensanrechnung_upper * rentenwert)).clip(lower=0)
     ).clip(lower=0)
+
     return out.round(2)
 
 
@@ -154,8 +155,8 @@ def höchstwert_grundr_m(
 
     # Calculate höchstwert
     out = (
-        ges_renten_vers_params["höchstwert"]["base"]
-        + ges_renten_vers_params["höchstwert"]["increment"] * months_above_thresh
+        ges_renten_vers_params["höchstwert_gr"]["base"]
+        + ges_renten_vers_params["höchstwert_gr"]["increment"] * months_above_thresh
     )
 
     # Round to 4 digits
@@ -214,18 +215,16 @@ def bonus_entgeltpunkte_grundr(
     return out
 
 
-def einkommen_grundr_tu(
+def einkommen_grundr(
     proxy_eink_vorj: FloatSeries,
-    tu_id: IntSeries,
-    brutto_eink_5_tu: FloatSeries,
+    brutto_eink_5: FloatSeries,
     eink_st_abzuege_params: dict,
-    alleinstehend_grundr: BoolSeries,
     wohnort_ost: BoolSeries,
     ges_renten_vers_params: dict,
     prv_rente_m_vorj: FloatSeries,
     entgeltpunkte_update: FloatSeries,
 ) -> FloatSeries:
-    """Aggreate income relevant for income crediting rule of Grundrentenzuschlag.
+    """Income relevant for income crediting rule of Grundrentenzuschlag.
     Relevant income consists of pension payments and other taxable income of the
     previous year.
     Warning: The Grundrentenzuschlag itself is not considered at the moment.
@@ -237,14 +236,10 @@ def einkommen_grundr_tu(
     ----------
     proxy_eink_vorj
         See :func:`proxy_eink_vorj`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    brutto_eink_5_tu
-        See :func:`brutto_eink_5_tu`.
+    brutto_eink_5
+        See :func:`brutto_eink_5`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    alleinstehend_grundr
-        See :func:`alleinstehend_grundr`.
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     ges_renten_vers_params
@@ -267,28 +262,35 @@ def einkommen_grundr_tu(
 
     # Estimate amount of pensions of last year using rentenwert of previous year.
     # Zugangsfaktor and Grundrentenzuschlag are omitted.
-    proxy_gesamte_rente_m_tu_vorj = (
-        (entgeltpunkte_update * rentenwert_vorjahr + prv_rente_m_vorj)
-        .groupby(tu_id)
-        .sum()
+    proxy_gesamte_rente_m_vorj = (
+        entgeltpunkte_update * rentenwert_vorjahr + prv_rente_m_vorj
     )
 
-    # Approximate last year income of tax unit.
-    proxy_eink_vorj_tu = proxy_eink_vorj.groupby(tu_id).sum()
-
-    sparerpauschbetrag = alleinstehend_grundr.replace(
-        {
-            True: eink_st_abzuege_params["sparerpauschbetrag"],
-            False: 2 * eink_st_abzuege_params["sparerpauschbetrag"],
-        }
-    ).astype(float)
-    # Sum up components of income.
-    out = (tu_id.replace(proxy_eink_vorj_tu)) + (
-        tu_id.replace(proxy_gesamte_rente_m_tu_vorj)
-        + (tu_id.replace(brutto_eink_5_tu) - sparerpauschbetrag).clip(lower=0)
+    # Sum up components of income: earnings, pension, capital income
+    out = (
+        proxy_eink_vorj
+        + proxy_gesamte_rente_m_vorj
+        + (brutto_eink_5 - eink_st_abzuege_params["sparerpauschbetrag"]).clip(lower=0)
     )
 
     return np.ceil(out)
+
+
+def einkommen_grundr_tu(einkommen_grundr: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Aggregate income relevant for Grundrentenzuschlag on tax unit level.
+
+    Parameters
+    ----------
+    einkommen_grundr
+        See :func:`einkommen_grundr`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return einkommen_grundr.groupby(tu_id).sum()
 
 
 def nicht_grundrentenberechtigt(

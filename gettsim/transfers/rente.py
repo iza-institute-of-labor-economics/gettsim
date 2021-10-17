@@ -100,8 +100,8 @@ def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSe
     """
     out = wohnort_ost.replace(
         {
-            True: ges_renten_vers_params["rentenwert_ost"],
-            False: ges_renten_vers_params["rentenwert_west"],
+            True: ges_renten_vers_params["rentenwert"]["ost"],
+            False: ges_renten_vers_params["rentenwert"]["west"],
         }
     ).astype(float)
     return out
@@ -140,7 +140,8 @@ def entgeltpunkte_update(
 
 
 def entgeltpunkte_lohn(
-    bruttolohn_unterl_sozialv_m: FloatSeries,
+    bruttolohn_m: FloatSeries,
+    wohnort_ost: BoolSeries,
     rentenv_beitr_bemess_grenze: FloatSeries,
     ges_renten_vers_params: dict,
 ) -> FloatSeries:
@@ -148,8 +149,10 @@ def entgeltpunkte_lohn(
 
     Parameters
     ----------
-    bruttolohn_unterl_sozialv_m
-        See :func:`bruttolohn_unterl_sozialv_m`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    wohnort_ost
+        See :func:`wohnort_ost`.
     rentenv_beitr_bemess_grenze
         See :func:`rentenv_beitr_bemess_grenze`.
     ges_renten_vers_params
@@ -158,13 +161,25 @@ def entgeltpunkte_lohn(
     -------
 
     """
-    durchschnittslohn_dt = (1 / 12) * ges_renten_vers_params[
+
+    # Scale bruttolohn up if earned in eastern Germany
+    bruttolohn_scaled_east = bruttolohn_m
+    bruttolohn_scaled_east.loc[wohnort_ost] = (
+        bruttolohn_scaled_east.loc[wohnort_ost]
+        * ges_renten_vers_params["umrechnung_entgeltp_beitrittgebiet"]
+    )
+
+    # Calculate the (scaled) wage, which is subject to pension contributions.
+    bruttolohn_scaled_rentenv = bruttolohn_scaled_east.clip(
+        upper=rentenv_beitr_bemess_grenze
+    )
+
+    # Calculate monthly mean wage in Germany
+    durchschnittslohn_m = (1 / 12) * ges_renten_vers_params[
         "beitragspflichtiger_durchschnittslohn"
     ]
-    return (
-        bruttolohn_unterl_sozialv_m.clip(upper=rentenv_beitr_bemess_grenze)
-        / durchschnittslohn_dt
-    )
+
+    return bruttolohn_scaled_rentenv / durchschnittslohn_m
 
 
 def zugangsfaktor(alter: IntSeries, regelaltersgrenze: FloatSeries) -> FloatSeries:
