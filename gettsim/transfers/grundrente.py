@@ -69,7 +69,7 @@ def grundrentenzuschlag_m(
 
 def grundrentenzuschlag_vor_einkommensanrechnung(
     bonus_entgeltpunkte_grundr: FloatSeries,
-    grundrentenbewertungszeiten: IntSeries,
+    gr_bewertungszeiten: IntSeries,
     rentenwert: FloatSeries,
     zugangsfaktor: FloatSeries,
     ges_renten_vers_params: dict,
@@ -83,9 +83,9 @@ def grundrentenzuschlag_vor_einkommensanrechnung(
     ----------
     bonus_entgeltpunkte_grundr
         See :func:`bonus_entgeltpunkte_grundr`.
-    grundrentenbewertungszeiten
+    gr_bewertungszeiten
         See basic input variable
-        :ref:`grundrentenbewertungszeiten <grundrentenbewertungszeiten>`.
+        :ref:`gr_bewertungszeiten <gr_bewertungszeiten>`.
     rentenwert
         See :func:`rentenwert`.
     zugangsfaktor
@@ -99,7 +99,7 @@ def grundrentenzuschlag_vor_einkommensanrechnung(
     """
     out = (
         bonus_entgeltpunkte_grundr
-        * grundrentenbewertungszeiten.clip(
+        * gr_bewertungszeiten.clip(
             upper=ges_renten_vers_params["grundrentenzeiten"]["max"]
         )
         * rentenwert
@@ -109,7 +109,7 @@ def grundrentenzuschlag_vor_einkommensanrechnung(
 
 
 def durchschnittl_entgeltpunkte_grundr(
-    entgeltpunkte_grundrente: FloatSeries, grundrentenbewertungszeiten: IntSeries
+    entgeltpunkte_grundrente: FloatSeries, gr_bewertungszeiten: IntSeries
 ) -> FloatSeries:
     """ Compute average number of Entgeltpunkte earned per month of Grundrentenzeiten.
 
@@ -118,15 +118,15 @@ def durchschnittl_entgeltpunkte_grundr(
     entgeltpunkte_grundrente
         See basic input variable
         :ref:`entgeltpunkte_grundrente <entgeltpunkte_grundrente>`.
-    grundrentenbewertungszeiten
+    gr_bewertungszeiten
         See basic input variable
-        :ref:`grundrentenbewertungszeiten <grundrentenbewertungszeiten>`.
+        :ref:`gr_bewertungszeiten <gr_bewertungszeiten>`.
 
     Returns
     -------
 
     """
-    return entgeltpunkte_grundrente / grundrentenbewertungszeiten
+    return entgeltpunkte_grundrente / gr_bewertungszeiten
 
 
 def höchstwert_grundr_m(

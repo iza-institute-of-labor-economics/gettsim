@@ -1,3 +1,10 @@
+""" Test the updating of Entgeltpunkte and
+the pension income based on Entgeltpunkte.
+
+These are "only" regression tests.
+"""
+import itertools
+
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
@@ -19,6 +26,13 @@ INPUT_COLS = [
     "entgeltpunkte",
 ]
 
+OUT_COLS = [
+    "rente_anspr_m",
+    "entgeltpunkte_update",
+    "entgeltpunkte_lohn",
+    # "regelaltersgrenze",
+    # "rentenv_beitr_bemess_grenze",
+]
 
 YEARS = [2010, 2012, 2015]
 
@@ -30,9 +44,8 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, year):
-    column = "rente_anspr_m"
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+def test_pension(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
@@ -40,22 +53,4 @@ def test_pension(input_data, year):
     calc_result = compute_taxes_and_transfers(
         data=df, params=policy_params, functions=policy_functions, targets=column,
     )
-    assert_series_equal(calc_result[column].round(2), year_data[column])
-
-
-@pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, year):
-    year_data = input_data[input_data["jahr"] == year]
-    df = year_data[INPUT_COLS].copy()
-
-    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
-
-    calc_result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets="entgeltpunkte_update",
-    )
-    assert_series_equal(
-        calc_result["entgeltpunkte_update"], year_data["EP_end"], check_names=False
-    )
+    assert_series_equal(calc_result[column], year_data[column])

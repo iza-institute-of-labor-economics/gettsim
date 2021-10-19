@@ -14,7 +14,7 @@ INPUT_COLS = [
     "tu_id",
     "hh_id",
     "grundrentenzeiten",
-    "grundrentenbewertungszeiten",
+    "gr_bewertungszeiten",
     "wohnort_ost",
     "einkommen_grundr_tu",
     "alter",
