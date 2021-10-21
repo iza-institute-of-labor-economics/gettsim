@@ -21,7 +21,7 @@ INPUT_COLS = [
     "bewohnt_eigentum_hh",
     "alleinerziehend",
     "bruttolohn_m",
-    "ges_rente_m",
+    "gesamte_rente_m",
     "kapital_eink_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
@@ -43,7 +43,7 @@ OUT_COLS = [
     "regelsatz_m_hh",
     "kost_unterk_m_hh",
     "unterhaltsvors_m_hh",
-    "eink_anr_frei",
+    "arbeitsl_geld_2_eink_anr_frei",
     "arbeitsl_geld_2_eink",
     "arbeitsl_geld_2_eink_hh",
 ]
@@ -71,6 +71,7 @@ def test_alg2(input_data, year, column):
         "elterngeld_m",
         "eink_st_tu",
         "sozialv_beitr_m",
+        "gesamte_rente_m",
     ]
 
     result = compute_taxes_and_transfers(

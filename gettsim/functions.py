@@ -27,7 +27,7 @@ from gettsim.transfers.benefit_checks.benefit_checks import *  # noqa: F401, F40
 from gettsim.transfers.benefit_checks.vermoegens_checks import *  # noqa: F401, F403
 from gettsim.transfers.elterngeld import *  # noqa: F401, F403
 from gettsim.transfers.grundrente import *  # noqa: F401, F403
-from gettsim.transfers.grundsicherung import *  # noqa: F401, F403
+from gettsim.transfers.grunds_im_alter import *  # noqa: F401, F403
 from gettsim.transfers.kinderzuschlag.kinderzuschlag import *  # noqa: F401, F403
 from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import *  # noqa: F401, F403
 from gettsim.transfers.kinderzuschlag.kost_unterk import *  # noqa: F401, F403

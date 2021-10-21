@@ -23,17 +23,13 @@ def gesamte_rente_m(
     return out
 
 
-def staatl_rente_m(
-    rente_anspr_m: FloatSeries, grundrentenzuschlag_m: FloatSeries, rentner: BoolSeries
-) -> FloatSeries:
+def staatl_rente_m(rente_anspr_m: FloatSeries, rentner: BoolSeries) -> FloatSeries:
     """Calculate total public pension.
 
     Parameters
     ----------
     rente_anspr_m
         See :func:`rente_anspr_m`.
-    grundrentenzuschlag_m
-        See :func:`grundrentenzuschlag_m`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
 
@@ -41,18 +37,39 @@ def staatl_rente_m(
     -------
 
     """
-    out = rente_anspr_m + grundrentenzuschlag_m
+    out = rente_anspr_m
     out.loc[~rentner] = 0
     return out.round(2)
 
 
 def rente_anspr_m(
+    rente_anspr_excl_gr_m: FloatSeries, grundr_zuschlag_m: FloatSeries,
+) -> FloatSeries:
+    """ This function calculates the Old-Age Pensions claim (including the 
+    Grundrentenzuschlag) if the agent chooses to retire.
+
+    Parameters
+    ----------
+    rente_anspr_excl_gr_m
+        See :func:`rente_anspr_excl_gr_m`.
+    grundr_zuschlag_m
+        See :func:`grundr_zuschlag_m`.
+
+    Returns
+    -------
+
+    """
+
+    return rente_anspr_excl_gr_m + grundr_zuschlag_m
+
+
+def rente_anspr_excl_gr_m(
     zugangsfaktor: FloatSeries,
     entgeltpunkte_update: FloatSeries,
     rentenwert: FloatSeries,
 ) -> FloatSeries:
-    """ This function calculates the Old-Age Pensions claim if the agent chooses to
-    retire. The function basically follows the following equation:
+    """ This function calculates the Old-Age Pensions claim (without Grundrentenzuschlag) if
+    the agent chooses to retire. The function follows the following equation:
 
     .. math::
 
@@ -62,10 +79,6 @@ def rente_anspr_m(
     https://de.wikipedia.org/wiki/Rentenformel
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
 
-    - In particular, it calculates the "entgeltpunkte" for the previous year, based on
-      earnings of that year. These need to be related to average earnings
-    - As we do not know previously collect Entgeltpunkte, we take an average
-      value (to be improved)
 
     Parameters
     ----------

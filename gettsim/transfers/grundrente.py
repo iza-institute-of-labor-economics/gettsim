@@ -5,11 +5,11 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def grundrentenzuschlag_m(
-    grundrentenzuschlag_vor_einkommensanrechnung: FloatSeries,
+def grundr_zuschlag_m(
+    grundr_zuschlag_vor_eink_anr: FloatSeries,
     ges_renten_vers_params: dict,
     alleinstehend_grundr: BoolSeries,
-    einkommen_grundr_tu: FloatSeries,
+    zu_verst_eink_excl_grundr_zuschlag_tu: FloatSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
@@ -21,14 +21,14 @@ def grundrentenzuschlag_m(
 
     Parameters
     ----------
-    grundrentenzuschlag_vor_einkommensanrechnung
-        See :func:`grundrentenzuschlag_vor_einkommensanrechnung`.
+    grundr_zuschlag_vor_eink_anr
+        See :func:`grundr_zuschlag_vor_eink_anr`.
     ges_renten_vers_params
         See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     alleinstehend_grundr
         See :func:`alleinstehend_grundr`.
-    einkommen_grundr_tu
-        See :func:`einkommen_grundr_tu`.
+    zu_verst_eink_excl_grundr_zuschlag_tu
+        See :func:`zu_verst_eink_excl_grundr_zuschlag_tu`.
     rentenwert
         See :func:`rentenwert`.
     tu_id
@@ -53,9 +53,9 @@ def grundrentenzuschlag_m(
     ).astype(float)
 
     # Deduct income from Grundrentenzuschlag following the crediting rules.
-    einkommen_grundr = tu_id.replace(einkommen_grundr_tu)
+    einkommen_grundr = tu_id.replace(zu_verst_eink_excl_grundr_zuschlag_tu)
     out = (
-        grundrentenzuschlag_vor_einkommensanrechnung
+        grundr_zuschlag_vor_eink_anr
         - (
             einkommen_grundr.clip(upper=(einkommensanrechnung_upper * rentenwert))
             - einkommensanrechnung_lower * rentenwert
@@ -67,7 +67,7 @@ def grundrentenzuschlag_m(
     return out.round(2)
 
 
-def grundrentenzuschlag_vor_einkommensanrechnung(
+def grundr_zuschlag_vor_eink_anr(
     bonus_entgeltpunkte_grundr: FloatSeries,
     gr_bewertungszeiten: IntSeries,
     rentenwert: FloatSeries,
@@ -215,19 +215,49 @@ def bonus_entgeltpunkte_grundr(
     return out
 
 
-def einkommen_grundr(
-    proxy_eink_vorj: FloatSeries,
-    brutto_eink_5: FloatSeries,
-    eink_st_abzuege_params: dict,
-    wohnort_ost: BoolSeries,
-    ges_renten_vers_params: dict,
-    prv_rente_m_vorj: FloatSeries,
-    entgeltpunkte_update: FloatSeries,
+def zu_verst_eink_excl_grundr_zuschlag_tu(
+    zu_verst_eink_excl_grundr_zuschlag: FloatSeries, tu_id: IntSeries
 ) -> FloatSeries:
-    """Income relevant for income crediting rule of Grundrentenzuschlag.
-    Relevant income consists of pension payments and other taxable income of the
-    previous year.
-    Warning: The Grundrentenzuschlag itself is not considered at the moment.
+    """Income relevant for income crediting rule of Grundrentenzuschlag on tax unit level.
+
+    Parameters
+    ----------
+    zu_verst_eink_excl_grundr_zuschlag
+        See :func:`zu_verst_eink_excl_grundr_zuschlag`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return zu_verst_eink_excl_grundr_zuschlag.groupby(tu_id).sum()
+
+
+def zu_verst_eink_excl_grundr_zuschlag(
+    rente_anspr_excl_gr_m: FloatSeries,
+    rentner: BoolSeries,
+    prv_rente_m: FloatSeries,
+    brutto_eink_1: FloatSeries,
+    brutto_eink_4: FloatSeries,
+    brutto_eink_6: FloatSeries,
+    kapital_eink_minus_pauschbetr: FloatSeries,
+    elterngeld_m: FloatSeries,
+    freibetraege_tu: FloatSeries,
+) -> FloatSeries:
+    """Income relevant for income crediting rule of Grundrentenzuschlag. The
+    Grundrentenzuschlag (in previous years) is not part of the relevant income and
+    does not lower the Grundrentenzuschlag.
+
+    The Deutsche Rentenversicherung uses the income of the year two to three years
+    ago to be able to use administrative data on this income for the calculation.
+
+    "Es ist davon auszugehen, dass dem Finanzamt regelmäßig zwei Jahre nach dem Ablauf
+    des Veranlagungszeitraums die Daten vorliegen, die von der Rentenversicherung
+    abgerufen werden können. "
+
+    Warning: Currently, the income in the current year is used instead of the year
+    two years ago to avoid the need for several new input variables.
 
     #ToDo: Needs to adjust this once we cleared up the meaning of tax unit. Only
     #ToDo: the income of married partners should be considered.
@@ -246,34 +276,31 @@ def einkommen_grundr(
         See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     prv_rente_m_vorj
         See basic input variable :ref:`prv_rente_m_vorj <prv_rente_m_vorj>`.
-    entgeltpunkte_update
-        See :func:`entgeltpunkte_update`.
+    entgeltpunkte
+        See :func:`entgeltpunkte`.
 
     Returns
     -------
     """
+    # Capital income
 
-    rentenwert_vorjahr = wohnort_ost.replace(
-        {
-            True: ges_renten_vers_params["rentenwert_vorjahr"]["ost"],
-            False: ges_renten_vers_params["rentenwert_vorjahr"]["west"],
-        }
-    ).astype(float)
+    # Pension income excluding Grundrentenzuschlag
+    staatl_rente_excl_gr_zuschlag = rente_anspr_excl_gr_m
+    staatl_rente_excl_gr_zuschlag.loc[~rentner] = 0
+    pension_inc_excl_gr_zuschlag = staatl_rente_excl_gr_zuschlag + prv_rente_m
 
-    # Estimate amount of pensions of last year using rentenwert of previous year.
-    # Zugangsfaktor and Grundrentenzuschlag are omitted.
-    proxy_gesamte_rente_m_vorj = (
-        entgeltpunkte_update * rentenwert_vorjahr + prv_rente_m_vorj
+    # Earnings from dependent and self-employed work and rent income
+    earnings_work_rent = brutto_eink_1 + brutto_eink_4 + brutto_eink_6
+
+    sum_brutto_eink_excl_gr_zuschlag_tu = (
+        pension_inc_excl_gr_zuschlag
+        + earnings_work_rent
+        + kapital_eink_minus_pauschbetr
+        # + arbeitsl_geld_m
+        + elterngeld_m
     )
 
-    # Sum up components of income: earnings, pension, capital income
-    out = (
-        proxy_eink_vorj
-        + proxy_gesamte_rente_m_vorj
-        + (brutto_eink_5 - eink_st_abzuege_params["sparerpauschbetrag"]).clip(lower=0)
-    )
-
-    return np.ceil(out)
+    return (sum_brutto_eink_excl_gr_zuschlag_tu - freibetraege_tu).clip(lower=0)
 
 
 def einkommen_grundr_tu(einkommen_grundr: FloatSeries, tu_id: IntSeries) -> FloatSeries:
@@ -312,7 +339,7 @@ def nicht_grundrentenberechtigt(
     return grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten"]["min"]
 
 
-def freibetrag_grundsicherung_grundr(
+def freibetrag_grunds_ia_grundr(
     staatl_rente_m: FloatSeries,
     arbeitsl_geld_2_params: dict,
     nicht_grundrentenberechtigt: BoolSeries,

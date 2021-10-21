@@ -31,8 +31,12 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_ab
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_bis_2010
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_2011
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
+from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
+    arbeitsl_geld_2_eink_anr_frei_ab_10_2005,
+)
+from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
+    arbeitsl_geld_2_eink_anr_frei_bis_10_2005,
+)
 from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
     kinderzuschlag_ab_2005_bis_juni_2019,
 )
@@ -257,9 +261,13 @@ def load_reforms_for_date(date):
         functions["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
 
     if date <= datetime.date(year=2005, month=10, day=1):
-        functions["eink_anr_frei"] = eink_anr_frei_bis_10_2005
+        functions[
+            "arbeitsl_geld_2_eink_anr_frei"
+        ] = arbeitsl_geld_2_eink_anr_frei_bis_10_2005
     else:
-        functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
+        functions[
+            "arbeitsl_geld_2_eink_anr_frei"
+        ] = arbeitsl_geld_2_eink_anr_frei_ab_10_2005
 
     return functions
 

@@ -17,8 +17,24 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def zu_verst_eink_kein_kinderfreib_tu(
-    sum_brutto_eink: FloatSeries,
+def sum_brutto_eink_tu(sum_brutto_eink: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Sum of gross incomes on tax unit level.
+
+    Parameters
+    ----------
+    sum_brutto_eink
+        See :func:`sum_brutto_eink`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return sum_brutto_eink.groupby(tu_id).sum()
+
+
+def freibetraege(
     vorsorge: FloatSeries,
     sonderausgaben: FloatSeries,
     behinderungsgrad_pauschbetrag: FloatSeries,
@@ -30,8 +46,7 @@ def zu_verst_eink_kein_kinderfreib_tu(
 
     Parameters
     ----------
-    sum_brutto_eink
-        See :func:`sum_brutto_eink`.
+
     vorsorge
         See :func:`vorsorge`.
     sonderausgaben
@@ -51,14 +66,51 @@ def zu_verst_eink_kein_kinderfreib_tu(
     """
 
     out = (
-        sum_brutto_eink
-        - vorsorge
-        - sonderausgaben
-        - behinderungsgrad_pauschbetrag
-        - tu_id.replace(alleinerziehend_freib_tu)
-        - altersfreib
-    ).clip(lower=0)
-    return out.groupby(tu_id).sum()
+        vorsorge
+        + sonderausgaben
+        + behinderungsgrad_pauschbetrag
+        + tu_id.replace(alleinerziehend_freib_tu)
+        + altersfreib
+    )
+    return out
+
+
+def freibetraege_tu(freibetraege: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Sum of gross incomes on tax unit level.
+
+    Parameters
+    ----------
+    freibetraege
+        See :func:`freibetraege`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return freibetraege.groupby(tu_id).sum()
+
+
+def zu_verst_eink_kein_kinderfreib_tu(
+    sum_brutto_eink_tu: FloatSeries, freibetraege_tu: FloatSeries,
+) -> FloatSeries:
+    """Calculate taxable income without child allowance.
+
+    Parameters
+    ----------
+    sum_brutto_eink_tu
+        See :func:`sum_brutto_eink_tu`.
+    freibetraege_tu
+        See :func:`freibetraege_tu`.
+
+
+    Returns
+    -------
+
+    """
+
+    return (sum_brutto_eink_tu - freibetraege_tu).clip(lower=0)
 
 
 def zu_verst_eink_kinderfreib_tu(

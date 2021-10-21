@@ -206,7 +206,7 @@ def create_one_set_of_households(
         "eink_selbst_m",
         "vermiet_eink_m",
         "kapital_eink_m",
-        "ges_rente_m",
+        "gesamte_rente_m",
         "kaltmiete_m_hh",
         "heizkosten_m_hh",
         "wohnfläche_hh",

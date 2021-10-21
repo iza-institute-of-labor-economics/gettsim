@@ -116,7 +116,7 @@ def wohngeld_abzüge_tu(
 
 
 def zu_verst_ges_rente(
-    ertragsanteil: FloatSeries, ges_rente_m: FloatSeries
+    ertragsanteil: FloatSeries, gesamte_rente_m: FloatSeries
 ) -> FloatSeries:
     """Calculate pension payment subject to taxation.
 
@@ -124,14 +124,14 @@ def zu_verst_ges_rente(
     ----------
     ertragsanteil
         See :func:`ertragsanteil`.
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+    gesamte_rente_m
+        See basic input variable :ref:`gesamte_rente_m <gesamte_rente_m>`.
 
     Returns
     -------
 
     """
-    return ertragsanteil * ges_rente_m
+    return ertragsanteil * gesamte_rente_m
 
 
 def wohngeld_brutto_eink_tu(

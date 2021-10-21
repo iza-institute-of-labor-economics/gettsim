@@ -75,7 +75,6 @@ STANDARD_DATA_TYPES = {
     "wohnort_ost": BoolSeries,
     "hat_kinder": BoolSeries,
     "eink_selbst_m": FloatSeries,
-    "ges_rente_m": FloatSeries,
     "prv_krankenv": BoolSeries,
     "prv_rente_beitr_m": FloatSeries,
     "bruttolohn_vorj_m": FloatSeries,
@@ -107,4 +106,8 @@ STANDARD_DATA_TYPES = {
     "immobilie_baujahr_hh": IntSeries,
     "sonstig_eink_m": FloatSeries,
     "jahr": IntSeries,
+    "entgeltpunkte_grundrente": FloatSeries,
+    "grundrentenzeiten": IntSeries,
+    "gr_bewertungszeiten": IntSeries,
+    "prv_rente_m": FloatSeries,
 }

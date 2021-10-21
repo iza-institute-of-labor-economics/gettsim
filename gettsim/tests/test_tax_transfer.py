@@ -30,7 +30,7 @@ def test_tax_transfer(
     input_data, year,
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
-    df = year_data[list(STANDARD_DATA_TYPES.keys())].copy()
+    df = year_data[list(STANDARD_DATA_TYPES.keys()) + ["gesamte_rente_m"]].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     # params["renten_daten"] = renten_daten
 
@@ -39,6 +39,7 @@ def test_tax_transfer(
         params=policy_params,
         functions=policy_functions,
         targets=DEFAULT_TARGETS,
+        columns_overriding_functions=["gesamte_rente_m"],
     )
 
 
@@ -54,7 +55,7 @@ def test_data_types(
         year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
 
     year_data = input_data[input_data["jahr"] == year].copy()
-    df = year_data[list(STANDARD_DATA_TYPES.keys())].copy()
+    df = year_data[list(STANDARD_DATA_TYPES.keys()) + ["gesamte_rente_m"]].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     # params["renten_daten"] = renten_daten
 
@@ -64,6 +65,7 @@ def test_data_types(
         functions=policy_functions,
         targets=DEFAULT_TARGETS,
         debug=True,
+        columns_overriding_functions=["gesamte_rente_m"],
     )
     for column_name, series in data.items():
         if series.empty:

@@ -172,14 +172,14 @@ def krankenv_pflichtig_eink_selbst(
 
 
 def krankenv_pflichtig_rente(
-    ges_rente_m: FloatSeries, krankenv_beitr_bemess_grenze: FloatSeries
+    gesamte_rente_m: FloatSeries, krankenv_beitr_bemess_grenze: FloatSeries
 ) -> FloatSeries:
     """Choose the amount pension which is subject to health insurance contribution.
 
     Parameters
     ----------
-    ges_rente_m
-        See :func:`ges_rente_m`.
+    gesamte_rente_m
+        See :func:`gesamte_rente_m`.
     krankenv_beitr_bemess_grenze
         See :func:`krankenv_beitr_bemess_grenze`.
 
@@ -187,7 +187,7 @@ def krankenv_pflichtig_rente(
     -------
 
     """
-    return ges_rente_m.clip(upper=krankenv_beitr_bemess_grenze)
+    return gesamte_rente_m.clip(upper=krankenv_beitr_bemess_grenze)
 
 
 def ges_krankenv_beitr_rente(
