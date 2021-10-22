@@ -23,7 +23,11 @@ def gesamte_rente_m(
     return out
 
 
-def staatl_rente_m(rente_anspr_m: FloatSeries, rentner: BoolSeries) -> FloatSeries:
+def staatl_rente_m(
+    staatl_rente_excl_gr_m: FloatSeries,
+    grundr_zuschlag_m: FloatSeries,
+    rentner: BoolSeries,
+) -> FloatSeries:
     """Calculate total public pension.
 
     Parameters
@@ -37,39 +41,21 @@ def staatl_rente_m(rente_anspr_m: FloatSeries, rentner: BoolSeries) -> FloatSeri
     -------
 
     """
-    out = rente_anspr_m
+    out = staatl_rente_excl_gr_m + grundr_zuschlag_m
+
+    # Return 0 if subject not yet retired
     out.loc[~rentner] = 0
     return out.round(2)
 
 
-def rente_anspr_m(
-    rente_anspr_excl_gr_m: FloatSeries, grundr_zuschlag_m: FloatSeries,
-) -> FloatSeries:
-    """ This function calculates the Old-Age Pensions claim (including the 
-    Grundrentenzuschlag) if the agent chooses to retire.
-
-    Parameters
-    ----------
-    rente_anspr_excl_gr_m
-        See :func:`rente_anspr_excl_gr_m`.
-    grundr_zuschlag_m
-        See :func:`grundr_zuschlag_m`.
-
-    Returns
-    -------
-
-    """
-
-    return rente_anspr_excl_gr_m + grundr_zuschlag_m
-
-
-def rente_anspr_excl_gr_m(
+def staatl_rente_excl_gr_m(
     zugangsfaktor: FloatSeries,
     entgeltpunkte_update: FloatSeries,
     rentenwert: FloatSeries,
+    rentner: BoolSeries,
 ) -> FloatSeries:
-    """ This function calculates the Old-Age Pensions claim (without Grundrentenzuschlag) if
-    the agent chooses to retire. The function follows the following equation:
+    """ This function calculates the Old-Age Pensions claim (without Grundrentenzuschlag).
+    The function follows the following equation:
 
     .. math::
 
@@ -94,7 +80,55 @@ def rente_anspr_excl_gr_m(
 
     """
 
-    return (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
+    out = (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
+
+    # Return 0 if subject not yet retired
+    out.loc[~rentner] = 0
+    return out
+
+
+def rente_anspr_m(
+    rente_anspr_excl_gr_m: FloatSeries, grundr_zuschlag_m: FloatSeries,
+) -> FloatSeries:
+    """ This function calculates the Old-Age Pensions claim (including the
+    Grundrentenzuschlag) if the agent chooses to retire at Regelaltersgrenze.
+
+    Parameters
+    ----------
+    rente_anspr_excl_gr_m
+        See :func:`rente_anspr_excl_gr_m`.
+    grundr_zuschlag_m
+        See :func:`grundr_zuschlag_m`.
+
+    Returns
+    -------
+
+    """
+
+    return rente_anspr_excl_gr_m + grundr_zuschlag_m
+
+
+def rente_anspr_excl_gr_m(
+    entgeltpunkte_update: FloatSeries, rentenwert: FloatSeries,
+) -> FloatSeries:
+    """ This function calculates the Old-Age Pensions claim (without Grundrentenzuschlag) if
+    the agent chooses to retire at Regelaltersgrenze. It is hence assumed that the
+    Zugangsfaktor is 1.
+
+
+    Parameters
+    ----------
+    entgeltpunkte_update
+        See :func:`entgeltpunkte_update`.
+    rentenwert
+        See :func:`rentenwert`.
+
+    Returns
+    -------
+
+    """
+
+    return (entgeltpunkte_update * rentenwert).clip(lower=0)
 
 
 def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSeries:
@@ -195,12 +229,21 @@ def entgeltpunkte_lohn(
     return bruttolohn_scaled_rentenv / durchschnittslohn_m
 
 
-def zugangsfaktor(alter: IntSeries, regelaltersgrenze: FloatSeries) -> FloatSeries:
-    """Calculate the zugangsfaktor determining your pension claim depending on age.
+def zugangsfaktor(
+    geburtsjahr: IntSeries,
+    rentner: BoolSeries,
+    jahr_renteneintr: IntSeries,
+    regelaltersgrenze: FloatSeries,
+    ges_renten_vers_params: dict,
+) -> FloatSeries:
+    """Calculate the zugangsfaktor based on the year the
+    subject retired.
 
     At the regelaltersgrenze, the agent is allowed to get pensions with his full
-    claim. For every year under the regelaltersgrenze, the agent looses 3.6% of his
-    claim.
+    claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+    the pension claim is higher or lower.
+
+    Relevant law: § 77 Abs. 2 Nr. 2 SGB VI
 
     Parameters
     ----------
@@ -213,7 +256,29 @@ def zugangsfaktor(alter: IntSeries, regelaltersgrenze: FloatSeries) -> FloatSeri
     -------
 
     """
-    return (alter - regelaltersgrenze) * 0.036 + 1
+
+    # Calc age at retirement
+    alter_renteneintritt = jahr_renteneintr - geburtsjahr
+
+    # Calc difference to Regelaltersgrenze
+    out = alter_renteneintritt - regelaltersgrenze
+
+    # Zugangsfactor lower if retired before Regelaltersgrenze
+    faktor_pro_jahr_vorzeitig = ges_renten_vers_params[
+        "zugangsfaktor_veränderung_pro_jahr"
+    ]["vorzeitiger_renteneintritt"]
+    out.loc[out < 0] = out.loc[out < 0] * faktor_pro_jahr_vorzeitig + 1
+
+    # Zugangsfactor larger if retired before Regelaltersgrenze
+    faktor_pro_jahr_später = ges_renten_vers_params[
+        "zugangsfaktor_veränderung_pro_jahr"
+    ]["späterer_renteneintritt"]
+    out.loc[out <= 0] = out.loc[out <= 0] * faktor_pro_jahr_später + 1
+
+    # Return 0 if subject not yet retired
+    out.loc[~rentner] = 0
+
+    return out
 
 
 def regelaltersgrenze(geburtsjahr: IntSeries) -> FloatSeries:

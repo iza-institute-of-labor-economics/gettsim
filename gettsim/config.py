@@ -46,7 +46,7 @@ DEFAULT_TARGETS = [
     "ges_krankenv_beitr_m",
     "pflegev_beitr_m",
     "arbeitsl_geld_m",
-    "rente_anspr_m",
+    # "rente_anspr_m",
     "entgeltpunkte_update",
     "abgelt_st_tu",
     "soli_st_tu",

@@ -575,6 +575,87 @@ rentenwert:
     deviation_from: previous
     ost: 33.47
 
+rentenwert_vorjahr:
+  description:
+    de: Rentenwert des Vorjahrs
+    en:
+  unit: Euro
+  1993-01-01:
+    west: 21.80
+    ost: 13.59
+  1994-01-01:
+    west: 22.75
+    ost: 16.45
+  1995-01-01:
+    west: 23.52
+    ost: 17.63
+  1996-01-01:
+    west: 23.64
+    ost: 18.58
+  1997-01-01:
+    west: 23.86
+    ost: 19.62
+  1998-01-01:
+    west: 24.26
+    ost: 20.71
+  1999-01-01:
+    west: 24.36
+    ost: 20.90
+  2000-01-01:
+    west: 24.69
+    ost: 21.48
+  2001-01-01:
+    west: 24.84
+    ost: 21.61
+  2002-01-01:
+    west: 25.31
+    ost: 22.06
+  2003-01-01:
+    west: 25.86
+    ost: 22.70
+  2004-01-01:
+    west: 26.13
+    ost: 22.97
+  2008-01-01:
+    west: 26.27
+    ost: 23.09
+  2009-01-01:
+    west: 26.56
+    ost: 23.34
+  2010-01-01:
+    west: 27.2
+    ost: 24.13
+  2012-01-01:
+    west: 27.47
+    ost: 24.37
+  2013-01-01:
+    west: 28.07
+    ost: 24.92
+  2014-01-01:
+    west: 28.14
+    ost: 25.74
+  2015-01-01:
+    west: 28.61
+    ost: 26.39
+  2016-01-01:
+    west: 29.21
+    ost: 27.05
+  2017-01-01:
+    west: 30.45
+    ost: 28.66
+  2018-01-01:
+    west: 31.03
+    ost: 29.69
+  2019-01-01:
+    west: 32.03
+    ost: 30.69
+  2020-01-01:
+    west: 33.05
+    ost: 31.89
+  2021-01-01:
+    west: 34.19
+    ost: 33.23
+
 höchstwert_gr:
   description:
     de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert
@@ -629,3 +710,12 @@ schonvermögen_grunds_ia:
   2021-01-01:
     adult: 5000
     child: 500
+
+zugangsfaktor_veränderung_pro_jahr:
+  description:
+    de: Faktor um den sich der Zugangsfaktor erhöht/senkt für jedes Jahr, das länger/kürzer gearbeitet wird
+    en:
+  reference: §77 Abs. 2 Nr. 2 SGB VI
+  2001-01-01:
+    vorzeitiger_renteneintritt: 0.036
+    späterer_renteneintritt: 0.06

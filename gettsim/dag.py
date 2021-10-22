@@ -268,19 +268,25 @@ def execute_dag(dag, data, targets, debug):
     visited_nodes = set(data)
     skipped_nodes = set()
 
+    # Check for cycles in DAG
+    cycles = list(nx.simple_cycles(dag))
+    if len(cycles) > 0:
+        raise ValueError(f"The DAG contains at least one cycle: {cycles}")
+
+    # nx.NetworkXUnfeasible
     for task in nx.topological_sort(dag):
         if task not in data and task not in skipped_nodes:
             if "function" in dag.nodes[task]:
                 kwargs = _dict_subset(data, dag.predecessors(task))
                 try:
                     data[task] = dag.nodes[task]["function"](**kwargs).rename(task)
+
                 except Exception as e:
                     if debug:
                         traceback.print_exc()
                         skipped_nodes = skipped_nodes.union(nx.descendants(dag, task))
                     else:
                         raise e
-
             else:
                 successors = list(dag.successors(task))
                 raise KeyError(
