@@ -16,7 +16,7 @@ INPUT_COLS = [
     "grundrentenzeiten",
     "gr_bewertungszeiten",
     "wohnort_ost",
-    "zu_verst_eink_excl_grundr_zuschlag_tu",
+    "zu_verst_eink_excl_grundr_zuschlag_m_tu",
     "alter",
     "alleinstehend",
     "geburtsjahr",
@@ -33,7 +33,7 @@ YEARS = [2021]
 
 OUT_COLS_ROUNDING = {
     "bonus_entgeltpunkte_grundr": 4,
-    "grundr_zuschlag_vor_eink_anr": 0,
+    "grundr_zuschlag_vor_eink_anr_m": 0,
     "grundr_zuschlag_m": 0,
     "staatl_rente_m": 0,
 }
@@ -61,7 +61,7 @@ def test_grundrente(input_data, year, column):
         functions=[policy_functions, functions],
         targets=column,
         columns_overriding_functions=[
-            "zu_verst_eink_excl_grundr_zuschlag_tu",
+            "zu_verst_eink_excl_grundr_zuschlag_m_tu",
             "zugangsfaktor",
         ],
     )

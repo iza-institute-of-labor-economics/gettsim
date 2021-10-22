@@ -80,7 +80,7 @@ def staatl_rente_excl_gr_m(
 
     """
 
-    out = (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
+    out = entgeltpunkte_update * zugangsfaktor * rentenwert
 
     # Return 0 if subject not yet retired
     out.loc[~rentner] = 0
