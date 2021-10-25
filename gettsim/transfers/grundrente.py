@@ -6,8 +6,7 @@ from gettsim.typing import IntSeries
 
 
 def grundr_zuschlag_m(
-    grundr_zuschlag_vor_eink_anr_m: FloatSeries,
-    reduktion_angerechnetes_eink_gr_m: FloatSeries,
+    grundr_zuschlag_vor_eink_anr_m: FloatSeries, anrechenbares_eink_gr_m: FloatSeries,
 ) -> FloatSeries:
     """Calculate Grundrentenzuschlag (additional monthly pensions payments
     resulting from Grundrente)
@@ -16,18 +15,18 @@ def grundr_zuschlag_m(
     ----------
     grundr_zuschlag_vor_eink_anr_m
         See :func:`grundr_zuschlag_vor_eink_anr_m`.
-    reduktion_angerechnetes_eink_gr_m
-        See :func:`reduktion_angerechnetes_eink_gr_m`.
+    anrechenbares_eink_gr_m
+        See :func:`anrechenbares_eink_gr_m`.
 
     Returns
     -------
 
     """
-    out = grundr_zuschlag_vor_eink_anr_m - reduktion_angerechnetes_eink_gr_m
+    out = grundr_zuschlag_vor_eink_anr_m - anrechenbares_eink_gr_m
     return out.clip(lower=0).round(2)
 
 
-def reduktion_angerechnetes_eink_gr_m(
+def anrechenbares_eink_gr_m(
     ges_renten_vers_params: dict,
     alleinstehend_grundr: BoolSeries,
     zu_verst_eink_excl_grundr_zuschlag_m_tu: FloatSeries,
