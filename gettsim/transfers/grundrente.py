@@ -7,13 +7,36 @@ from gettsim.typing import IntSeries
 
 def grundr_zuschlag_m(
     grundr_zuschlag_vor_eink_anr_m: FloatSeries,
+    reduktion_angerechnetes_eink_gr_m: FloatSeries,
+) -> FloatSeries:
+    """Calculate Grundrentenzuschlag (additional monthly pensions payments
+    resulting from Grundrente)
+
+    Parameters
+    ----------
+    grundr_zuschlag_vor_eink_anr_m
+        See :func:`grundr_zuschlag_vor_eink_anr_m`.
+    reduktion_angerechnetes_eink_gr_m
+        See :func:`reduktion_angerechnetes_eink_gr_m`.
+
+    Returns
+    -------
+
+    """
+    out = grundr_zuschlag_vor_eink_anr_m - reduktion_angerechnetes_eink_gr_m
+    return out.clip(lower=0).round(2)
+
+
+def reduktion_angerechnetes_eink_gr_m(
     ges_renten_vers_params: dict,
     alleinstehend_grundr: BoolSeries,
     zu_verst_eink_excl_grundr_zuschlag_m_tu: FloatSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
-    """ Implement income crediting rule as defined in Grundrentengesetz.
+    """Calculate reduction of Grundrentenzuschlag through income offsetting.
+
+    Implement income crediting rule as defined in Grundrentengesetz.
 
     There are upper and lower thresholds for singles and couples. 60% of income between
     the upper and lower threshold is credited against the Grundrentenzuschlag. All the
@@ -21,8 +44,6 @@ def grundr_zuschlag_m(
 
     Parameters
     ----------
-    grundr_zuschlag_vor_eink_anr_m
-        See :func:`grundr_zuschlag_vor_eink_anr_m`.
     ges_renten_vers_params
         See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     alleinstehend_grundr
@@ -51,18 +72,17 @@ def grundr_zuschlag_m(
             False: ges_renten_vers_params["einkommensanrechnung_gr"]["lower_ehe"],
         }
     ).astype(float)
+    upper = einkommensanrechnung_upper * rentenwert
+    lower = einkommensanrechnung_lower * rentenwert
 
-    # Deduct income from Grundrentenzuschlag following the crediting rules.
+    # Calculate deducted income following the crediting rules.
     einkommen_grundr = tu_id.replace(zu_verst_eink_excl_grundr_zuschlag_m_tu)
-    out = (
-        grundr_zuschlag_vor_eink_anr_m
-        - (
-            einkommen_grundr.clip(upper=(einkommensanrechnung_upper * rentenwert))
-            - einkommensanrechnung_lower * rentenwert
-        ).clip(lower=0)
-        * 0.6
-        - (einkommen_grundr - (einkommensanrechnung_upper * rentenwert)).clip(lower=0)
-    ).clip(lower=0)
+    einkommen_btw_upper_lower = (einkommen_grundr.clip(upper=upper) - lower).clip(
+        lower=0
+    )
+    einkommen_above_upper = (einkommen_grundr - upper).clip(lower=0)
+
+    out = einkommen_btw_upper_lower * 0.6 + einkommen_above_upper
 
     return out.round(2)
 
@@ -74,7 +94,7 @@ def grundr_zuschlag_vor_eink_anr_m(
     zugangsfaktor: FloatSeries,
     ges_renten_vers_params: dict,
 ) -> FloatSeries:
-    """ Calculate additional monthly pensions payments resulting from
+    """Calculate additional monthly pensions payments resulting from
     Grundrente, without taking into account income crediting rules.
 
     According to the Grundrentengesetz, the Zugangsfaktor is limited to 1
@@ -111,7 +131,7 @@ def grundr_zuschlag_vor_eink_anr_m(
 def durchschnittl_entgeltpunkte_grundr(
     entgeltpunkte_grundrente: FloatSeries, gr_bewertungszeiten: IntSeries
 ) -> FloatSeries:
-    """ Compute average number of Entgeltpunkte earned per month of Grundrentenzeiten.
+    """Compute average number of Entgeltpunkte earned per month of Grundrentenzeiten.
 
     Parameters
     ----------
@@ -132,7 +152,7 @@ def durchschnittl_entgeltpunkte_grundr(
 def höchstwert_grundr_m(
     grundrentenzeiten: IntSeries, ges_renten_vers_params: dict
 ) -> FloatSeries:
-    """ Calculates the maximum allowed number of average Entgeltpunkte (per month)
+    """Calculates the maximum allowed number of average Entgeltpunkte (per month)
     after adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
 
     Parameters
@@ -169,7 +189,7 @@ def bonus_entgeltpunkte_grundr(
     grundrentenzeiten: IntSeries,
     ges_renten_vers_params: dict,
 ) -> FloatSeries:
-    """ Calculate additional Entgeltpunkte for pensioner.
+    """Calculate additional Entgeltpunkte for pensioner.
 
     In general, the average of monthly Entgeltpunkte earnd in Grundrentenzeiten is
     doubled, or extended to the individual Höchstwert if doubling would exceed the
@@ -340,7 +360,7 @@ def proxy_rente_vorj_excl_grundr_zuschlag_m(
 def nicht_grundrentenberechtigt(
     grundrentenzeiten: IntSeries, ges_renten_vers_params: dict
 ) -> BoolSeries:
-    """ Indicates that person is not entitled to Freibetragsregelung.
+    """Indicates that person is not entitled to Freibetragsregelung.
 
     Parameters
     ----------
@@ -361,7 +381,7 @@ def nicht_grundrentenberechtigt(
 #     arbeitsl_geld_2_params: dict,
 #     nicht_grundrentenberechtigt: BoolSeries,
 # ) -> FloatSeries:
-#     """ Compute allowance of Grundrente for Grundsicherung im Alter
+#     """Compute allowance of Grundrente for Grundsicherung im Alter
 
 #     Parameters
 #     ----------
@@ -385,7 +405,7 @@ def nicht_grundrentenberechtigt(
 
 
 def alleinstehend_grundr(anz_erwachsene_tu: IntSeries, tu_id: IntSeries) -> BoolSeries:
-    """ Indicates whether pensioner is single based on number of adults in the tax unit.
+    """Indicates whether pensioner is single based on number of adults in the tax unit.
 
     Parameters
     ----------
