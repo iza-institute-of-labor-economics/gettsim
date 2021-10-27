@@ -302,12 +302,12 @@ def zu_verst_eink_excl_grundr_zuschlag_m(
 
     # Earnings from self-employed work and rent income (assumption that they were
     # the same last year)
-    earnings_work_rent = brutto_eink_1 + brutto_eink_6
+    earnings_self_empl_rent = brutto_eink_1 + brutto_eink_6
 
     out = (
         proxy_rente_vorj_excl_grundr_zuschlag_m
         + bruttolohn_vorj_m
-        + earnings_work_rent / 12
+        + earnings_self_empl_rent / 12
         + kapital_eink_minus_pauschbetr / 12
     )
 

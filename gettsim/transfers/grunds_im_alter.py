@@ -5,24 +5,19 @@ from gettsim.typing import IntSeries
 
 def grunds_im_alter_m_hh(
     grunds_ia_m_minus_eink_hh: FloatSeries,
-    wohngeld_vorrang_hh: BoolSeries,
-    kinderzuschlag_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
     anz_erwachsene_hh: IntSeries,
     anz_rentner_hh: IntSeries,
 ) -> FloatSeries:
     """Calculate Grundsicherung im Alter on household level.
 
+    # ToDo: There is no check for Wohngeld included as Wohngeld is
+    currently not implemented for retirees.
+
     Parameters
     ----------
     grunds_ia_m_minus_eink_hh
         See :func:`grunds_ia_m_minus_eink_hh`.
-    wohngeld_vorrang_hh
-        See :func:`wohngeld_vorrang_hh`.
-    kinderzuschlag_vorrang_hh
-        See :func:`kinderzuschlag_vorrang_hh`.
-    wohngeld_kinderzuschlag_vorrang_hh
-        See :func:`wohngeld_kinderzuschlag_vorrang_hh`.
+
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
     anz_rentner_hh
@@ -32,12 +27,7 @@ def grunds_im_alter_m_hh(
 
     """
     out = grunds_ia_m_minus_eink_hh.clip(lower=0)
-    cond = (
-        wohngeld_vorrang_hh
-        | kinderzuschlag_vorrang_hh
-        | wohngeld_kinderzuschlag_vorrang_hh
-        | (anz_erwachsene_hh != anz_rentner_hh)
-    )
+    cond = anz_erwachsene_hh != anz_rentner_hh
     out.loc[cond] = 0
     return out
 
@@ -46,7 +36,7 @@ def grunds_ia_m_minus_eink_hh(
     regelbedarf_m_grunds_ia_vermögens_check_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
-    grunds_ia_eink_hh: FloatSeries,
+    anrechenbares_eink_grunds_ia_m_hh: FloatSeries,
 ) -> FloatSeries:
     """Calculate remaining basic subsistence after recieving other benefits.
 
@@ -58,8 +48,8 @@ def grunds_ia_m_minus_eink_hh(
         See :func:`kindergeld_m_hh`.
     unterhaltsvors_m_hh
         See :func:`unterhaltsvors_m_hh`.
-    grunds_ia_eink_hh
-        See :func:`grunds_ia_eink_hh`.
+    anrechenbares_eink_grunds_ia_m_hh
+        See :func:`anrechenbares_eink_grunds_ia_m_hh`.
 
     Returns
     -------
@@ -67,20 +57,22 @@ def grunds_ia_m_minus_eink_hh(
     """
     out = (
         regelbedarf_m_grunds_ia_vermögens_check_hh
-        - grunds_ia_eink_hh
+        - anrechenbares_eink_grunds_ia_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
     )
     return out
 
 
-def grunds_ia_eink_hh(grunds_ia_eink: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """Sum up income for calculation of Grundsicherung im Alter per household.
+def anrechenbares_eink_grunds_ia_m_hh(
+    anrechenbares_eink_grunds_ia_m: FloatSeries, hh_id: IntSeries
+) -> FloatSeries:
+    """Aggregate income relevant for Grundsicherung on household level.
 
     Parameters
     ----------
-    grunds_ia_eink
-        See :func:`grunds_ia_eink`.
+    anrechenbares_eink_grunds_ia_m
+        See :func:`anrechenbares_eink_grunds_ia_m`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
 
@@ -88,25 +80,30 @@ def grunds_ia_eink_hh(grunds_ia_eink: FloatSeries, hh_id: IntSeries) -> FloatSer
     -------
 
     """
-    return grunds_ia_eink.groupby(hh_id).sum()
+    return anrechenbares_eink_grunds_ia_m.groupby(hh_id).sum()
 
 
-def grunds_ia_eink(
-    grunds_ia_eink_excl_pensions: FloatSeries,
+def anrechenbares_eink_grunds_ia_m(
+    anrechenbares_erwerbs_eink_grunds_ia_m: FloatSeries,
+    anrechenbare_prv_rente_grunds_ia_m: FloatSeries,
+    sonstig_eink_m: FloatSeries,
+    vermiet_eink_m: FloatSeries,
+    kapital_eink_minus_pauschbetr: FloatSeries,
+    elterngeld_m: FloatSeries,
     eink_st_tu: FloatSeries,
     tu_id: IntSeries,
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     sozialv_beitr_m: FloatSeries,
-    grunds_ia_eink_anr_frei: FloatSeries,
-    freibetrag_grunds_ia_grundr: FloatSeries,
-    freibetrag_prv_rente: FloatSeries,
+    staatl_rente_m: FloatSeries,
 ) -> FloatSeries:
-    """Sum up income for calculation of Grundsicherung im Alter.
+    """Calculate income relevant for Grundsicherung of Grundsicherung im Alter.
 
     Parameters
     ----------
     grunds_ia_eink_excl_pensions
+        See :func:`grunds_ia_eink_excl_pensions`.
+    kapital_eink_minus_pauschbetr
         See :func:`grunds_ia_eink_excl_pensions`.
     eink_st_tu
         See :func:`eink_st_tu`.
@@ -129,68 +126,45 @@ def grunds_ia_eink(
     -------
 
     """
-    eink_excl_pensions = (
-        grunds_ia_eink_excl_pensions
+
+    # Consider Elterngeld that is larger than 300
+    anrechenbares_elterngeld_m = (elterngeld_m - 300).clip(lower=0)
+
+    # Income
+    total_income = (
+        anrechenbares_erwerbs_eink_grunds_ia_m
+        + staatl_rente_m
+        + anrechenbare_prv_rente_grunds_ia_m
+        + sonstig_eink_m
+        + vermiet_eink_m
+        + kapital_eink_minus_pauschbetr / 12
+        + anrechenbares_elterngeld_m
+    )
+
+    # subtract taxes and social security contributions
+    out = (
+        total_income
         - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
         - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
         - sozialv_beitr_m
-        - grunds_ia_eink_anr_frei
-        - +-freibetrag_prv_rente
     ).clip(lower=0)
 
-    return
+    return out
 
 
-def grunds_ia_eink_excl_pensions(
-    bruttolohn_m: FloatSeries,
-    sonstig_eink_m: FloatSeries,
-    eink_selbst_m: FloatSeries,
-    vermiet_eink_m: FloatSeries,
-    kapital_eink_m: FloatSeries,
-    elterngeld_m: FloatSeries,
+def anrechenbares_erwerbs_eink_grunds_ia_m(
+    bruttolohn_m: FloatSeries, eink_selbst_m: FloatSeries, arbeitsl_geld_2_params: dict
 ) -> FloatSeries:
+    """Calculate earnings relevant for Grundsicherung of Grundsicherung im Alter.
 
-    """Sum up the income before tax (excluding pension payments)
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See basic input variable :ref:`hh_id <hh_id>`.
-    sonstig_eink_m
-        See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
-    eink_selbst_m
-        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    vermiet_eink_mp
-        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
-    kapital_eink_m
-        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
-    elterngeld_m
-        See :func:`elterngeld_m`.
-
-    Returns
-    -------
-    FloatSeries with the income by unemployment insurance before tax.
-    """
-    return (
-        bruttolohn_m
-        + sonstig_eink_m
-        + eink_selbst_m
-        + vermiet_eink_m
-        + kapital_eink_m
-        + elterngeld_m
-    )
-
-
-def grunds_ia_eink_anr_frei(
-    bruttolohn_m: FloatSeries, arbeitsl_geld_2_params: dict
-) -> FloatSeries:
-    """Calculate income not considered for amount of Grundsicherung
-    im Alter (oder bei voller Erwerbsminderung)
+    Note: Freibeträge for income are currently not considered
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    eink_selbst_m
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -198,15 +172,20 @@ def grunds_ia_eink_anr_frei(
     -------
 
     """
-    out = (bruttolohn_m * 0.3).clip(upper=0.5 * arbeitsl_geld_2_params["regelsatz"][1])
+    earnings = bruttolohn_m + eink_selbst_m
 
-    return out
+    # Can deduct 30% of earnings (but no more than 1/2 of regelbedarf)
+    earnings_after_max_deduction = earnings - arbeitsl_geld_2_params["regelsatz"][1] / 2
+    earnings = (0.7 * earnings).clip(lower=earnings_after_max_deduction)
+
+    return earnings
 
 
-def freibetrag_prv_rente(
+def anrechenbare_prv_rente_grunds_ia_m(
     prv_rente_m: FloatSeries, arbeitsl_geld_2_params: dict
 ) -> FloatSeries:
-    """Calculate allowance for private pensions.
+    """Calculate private pension earnings relevant for Grundsicherung of Grundsicherung
+    im Alter.
 
     Parameters
     ----------
@@ -219,9 +198,14 @@ def freibetrag_prv_rente(
     -------
 
     """
-    out = (prv_rente_m.clip(upper=100) + (prv_rente_m - 100).clip(lower=0) * 0.3).clip(
-        upper=0.5 * arbeitsl_geld_2_params["regelsatz"][1]
+    # Can deduct 100 € of private pension completely
+    prv_rente_above_100 = (prv_rente_m - 100).clip(lower=0)
+
+    # Can deduct 30% of private pension above 100 (but no more than 1/2 of regelbedarf)
+    prv_rente_after_max_deduction = (
+        prv_rente_above_100 - arbeitsl_geld_2_params["regelsatz"][1] / 2
     )
+    out = (0.7 * prv_rente_above_100).clip(lower=prv_rente_after_max_deduction)
     return out
 
 
@@ -241,7 +225,7 @@ def regelbedarf_m_grunds_ia_vermögens_check_hh(
     -------
 
     """
-    out = regelbedarf_m_hh
+    out = regelbedarf_m_hh.copy()
     out.loc[~unter_vermögens_freibetrag_grunds_ia_hh] = 0
     return out
 

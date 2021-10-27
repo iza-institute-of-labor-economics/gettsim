@@ -704,10 +704,11 @@ schonvermögen_grunds_ia:
   description:
     de: ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter / bei Erwerbsminderung
     en: there is no entitlement to Grundsicherung im Alter / bei Erwerbsminderung if assets exceed this threshold
+  reference: § 90 Abs. 2 Nr. 9 SGB XII
   1984-01-01:
     adult: 0
     child: 0
-  2021-01-01:
+  2003-01-01:
     adult: 5000
     child: 500
 

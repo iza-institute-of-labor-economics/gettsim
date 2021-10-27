@@ -24,8 +24,9 @@ def regelbedarf_m_vermögens_check_hh(
     -------
 
     """
-    regelbedarf_m_hh.loc[~unter_vermögens_freibetrag_hh] = 0
-    return regelbedarf_m_hh
+    out = regelbedarf_m_hh.copy()
+    out.loc[~unter_vermögens_freibetrag_hh] = 0
+    return out
 
 
 def kinderzuschlag_vermögens_check_hh(
@@ -45,9 +46,9 @@ def kinderzuschlag_vermögens_check_hh(
     -------
 
     """
-
-    kinderzuschlag_m_vorläufig_hh.loc[~unter_vermögens_freibetrag_hh] = 0
-    return kinderzuschlag_m_vorläufig_hh
+    out = kinderzuschlag_m_vorläufig_hh.copy()
+    out.loc[~unter_vermögens_freibetrag_hh] = 0
+    return out
 
 
 def wohngeld_vermögens_check_hh(
@@ -76,12 +77,13 @@ def wohngeld_vermögens_check_hh(
     -------
 
     """
+    out = wohngeld_basis_hh.copy()
     condition = vermögen_hh <= (
         wohngeld_params["vermögensfreibetrag_grund"]
         + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
     )
-    wohngeld_basis_hh.loc[~condition] = 0
-    return wohngeld_basis_hh
+    out.loc[~condition] = 0
+    return out
 
 
 def unter_vermögens_freibetrag_hh(
