@@ -675,8 +675,8 @@ grundrentenzeiten:
     en: minimal number of Grundrentenzeiten required to be entitled to Grundrente and maximum number of months that are considered for Grundrentenzuschlag
   unit: months
   1984-01-01:
-    min: 0
-    max: 0
+    min: 10000
+    max: 10000
     note: It didn't exist before 2021.
   2021-01-01:
     min: 396
@@ -720,3 +720,34 @@ zugangsfaktor_veränderung_pro_jahr:
   2001-01-01:
     vorzeitiger_renteneintritt: 0.036
     späterer_renteneintritt: 0.06
+
+staatl_rente_anr_frei:
+  name:
+    de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre Grundrentenzeiten
+    en: Public pension shares not subject to transfer withdrawal for subjects whose Grundrentenzeiten exceeds 33 years
+  description:
+    de:
+    en:
+  type: piecewise_linear
+  time: month
+  1984-01-01:
+      reference: No income could be deducted
+      0:
+        lower_threshold: -inf
+        upper_threshold: inf
+        rate: 0
+        intercept_at_lower_threshold: 0
+  2020-01-01:
+      reference: § 82a Abs. 1 und 2 SGB XII
+      0:
+        lower_threshold: -inf
+        upper_threshold: 0
+        rate: 0
+        intercept_at_lower_threshold: 0
+      1:
+        lower_threshold: 0
+        upper_threshold: 100
+        rate: 1
+      2:
+        upper_threshold: inf
+        rate: 0.3

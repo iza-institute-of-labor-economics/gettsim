@@ -27,11 +27,11 @@ def grundr_zuschlag_m(
 
 
 def anrechenbares_eink_gr_m(
-    ges_renten_vers_params: dict,
     alleinstehend_grundr: BoolSeries,
     zu_verst_eink_excl_grundr_zuschlag_m_tu: FloatSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
+    ges_renten_vers_params: dict,
 ) -> FloatSeries:
     """Calculate reduction of Grundrentenzuschlag through income offsetting.
 
@@ -43,8 +43,6 @@ def anrechenbares_eink_gr_m(
 
     Parameters
     ----------
-    ges_renten_vers_params
-        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     alleinstehend_grundr
         See :func:`alleinstehend_grundr`.
     zu_verst_eink_excl_grundr_zuschlag_m_tu
@@ -53,6 +51,8 @@ def anrechenbares_eink_gr_m(
         See :func:`rentenwert`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     Returns
     -------
 
@@ -281,21 +281,16 @@ def zu_verst_eink_excl_grundr_zuschlag_m(
 
     Parameters
     ----------
-    proxy_eink_vorj
-        See :func:`proxy_eink_vorj`.
-    brutto_eink_5
-        See :func:`brutto_eink_5`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    ges_renten_vers_params
-        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
-    prv_rente_m_vorj
-        See basic input variable :ref:`prv_rente_m_vorj <prv_rente_m_vorj>`.
-    entgeltpunkte
-        See :func:`entgeltpunkte`.
-
+    proxy_rente_vorj_excl_grundr_zuschlag_m
+        See :func:`proxy_rente_vorj_excl_grundr_zuschlag_m`.
+    bruttolohn_vorj_m
+        See :func:`bruttolohn_vorj_m`.
+    brutto_eink_1
+        See :func:`brutto_eink_1`.
+    brutto_eink_6
+        See :func:`brutto_eink_6`.
+    kapital_eink_minus_pauschbetr
+        See :func:`kapital_eink_minus_pauschbetr`.
     Returns
     -------
     """
@@ -316,21 +311,33 @@ def zu_verst_eink_excl_grundr_zuschlag_m(
 
 def proxy_rente_vorj_excl_grundr_zuschlag_m(
     wohnort_ost: BoolSeries,
-    ges_renten_vers_params: dict,
     prv_rente_m: FloatSeries,
     jahr_renteneintr: IntSeries,
     geburtsjahr: IntSeries,
     alter: IntSeries,
     entgeltpunkte: FloatSeries,
     zugangsfaktor: FloatSeries,
+    ges_renten_vers_params: dict,
 ) -> FloatSeries:
     """Estimated amount of public pensions of last year excluding Grundrentenzuschlag.
 
     See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+    wohnort_ost
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     prv_rente_m
         See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
+    jahr_renteneintr
+        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
     entgeltpunkte
-        See :func:`entgeltpunkte`.
+        See basic input variable :ref:`entgeltpunkte <entgeltpunkte>`.
+    zugangsfaktor
+        See :func:`zugangsfaktor`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
 
     Returns
     -------
@@ -375,34 +382,6 @@ def nicht_grundrentenberechtigt(
     return grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten"]["min"]
 
 
-# def freibetrag_grunds_ia_grundr(
-#     staatl_rente_m: FloatSeries,
-#     arbeitsl_geld_2_params: dict,
-#     nicht_grundrentenberechtigt: BoolSeries,
-# ) -> FloatSeries:
-#     """Compute allowance of Grundrente for Grundsicherung im Alter
-
-#     Parameters
-#     ----------
-#     staatl_rente_m
-#         See basic input variable :ref:`staatl_rente_m <staatl_rente_m>`.
-#     arbeitsl_geld_2_params
-#         See params documentation :ref:`arbeitsl_geld_2_params
-# <arbeitsl_geld_2_params>`.
-#     nicht_grundrentenberechtigt
-#         See :func:`nicht_grundrentenberechtigt`.
-
-#     Returns
-#     -------
-
-#     """
-#     out = (
-#         staatl_rente_m.clip(upper=100) + (staatl_rente_m - 100).clip(lower=0) * 0.3
-#     ).clip(upper=0.5 * arbeitsl_geld_2_params["regelsatz"][1])
-#     out.loc[nicht_grundrentenberechtigt] = 0
-#     return out
-
-
 def alleinstehend_grundr(anz_erwachsene_tu: IntSeries, tu_id: IntSeries) -> BoolSeries:
     """Indicates whether pensioner is single based on number of adults in the tax unit.
 
@@ -410,6 +389,8 @@ def alleinstehend_grundr(anz_erwachsene_tu: IntSeries, tu_id: IntSeries) -> Bool
     ----------
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
