@@ -94,7 +94,5 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`grundrentenzeiten`    | Number of months considered for Grundrente   | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`prv_rente_m_vorj`     | Monthly private pensions of previous year    | FloatSeries |
-+-------------------------+----------------------------------------------+-------------+
 | _`prv_rente_m`          | Amount of monthly private pension            | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
