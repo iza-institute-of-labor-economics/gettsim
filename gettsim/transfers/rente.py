@@ -32,8 +32,10 @@ def staatl_rente_m(
 
     Parameters
     ----------
-    rente_anspr_m
-        See :func:`rente_anspr_m`.
+    staatl_rente_excl_gr_m
+        See :func:`staatl_rente_excl_gr_m`.
+    grundr_zuschlag_m
+        See :func:`grundr_zuschlag_m`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
 
@@ -74,6 +76,8 @@ def staatl_rente_excl_gr_m(
         See :func:`entgeltpunkte_update`.
     rentenwert
         See :func:`rentenwert`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
 
     Returns
     -------
@@ -247,10 +251,16 @@ def zugangsfaktor(
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+    jahr_renteneintr
+        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     regelaltersgrenze
         See :func:`regelaltersgrenze`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
 
     Returns
     -------
@@ -261,19 +271,20 @@ def zugangsfaktor(
     alter_renteneintritt = jahr_renteneintr - geburtsjahr
 
     # Calc difference to Regelaltersgrenze
-    out = alter_renteneintritt - regelaltersgrenze
+    diff = alter_renteneintritt - regelaltersgrenze
 
     # Zugangsfactor lower if retired before Regelaltersgrenze
+    out = diff.copy()
     faktor_pro_jahr_vorzeitig = ges_renten_vers_params[
         "zugangsfaktor_veränderung_pro_jahr"
     ]["vorzeitiger_renteneintritt"]
-    out.loc[out < 0] = out.loc[out < 0] * faktor_pro_jahr_vorzeitig + 1
+    out.loc[diff < 0] = 1 + (out.loc[diff < 0] * faktor_pro_jahr_vorzeitig)
 
     # Zugangsfactor larger if retired before Regelaltersgrenze
     faktor_pro_jahr_später = ges_renten_vers_params[
         "zugangsfaktor_veränderung_pro_jahr"
     ]["späterer_renteneintritt"]
-    out.loc[out <= 0] = out.loc[out <= 0] * faktor_pro_jahr_später + 1
+    out.loc[diff >= 0] = 1 + (out.loc[diff >= 0] * faktor_pro_jahr_später)
 
     # Return 0 if subject not yet retired
     out.loc[~rentner] = 0
