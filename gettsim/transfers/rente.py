@@ -47,7 +47,7 @@ def staatl_rente_m(
     """
     out = staatl_rente_excl_gr_m + grundr_zuschlag_m
 
-    # Return 0 if subject not yet retired
+    # Return 0 if person not yet retired
     out.loc[~rentner] = 0
     return out.round(2)
 
@@ -288,7 +288,7 @@ def zugangsfaktor(
     ]["späterer_renteneintritt"]
     out.loc[diff >= 0] = 1 + (out.loc[diff >= 0] * faktor_pro_jahr_später)
 
-    # Return 0 if subject not yet retired
+    # Return 0 if person not yet retired
     out.loc[~rentner] = 0
 
     return out
