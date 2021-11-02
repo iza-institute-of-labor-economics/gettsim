@@ -1,3 +1,5 @@
+import pandas as pd
+
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -247,7 +249,7 @@ def zugangsfaktor(
     claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
     the pension claim is higher or lower.
 
-    Relevant law: § 77 Abs. 2 Nr. 2 SGB VI
+    Legal reference: § 77 Abs. 2 Nr. 2 SGB VI
 
     Parameters
     ----------
@@ -304,7 +306,7 @@ def regelaltersgrenze(geburtsjahr: IntSeries) -> FloatSeries:
     -------
     """
     # Create 65 as standard
-    out = geburtsjahr * 0 + 65
+    out = pd.Series(65, index=geburtsjahr.index, dtype=float)
 
     # If born after 1947, each birth year raises the age threshold by one month.
     cond = geburtsjahr > 1947

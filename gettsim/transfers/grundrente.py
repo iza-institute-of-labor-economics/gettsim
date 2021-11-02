@@ -6,7 +6,7 @@ from gettsim.typing import IntSeries
 
 
 def grundr_zuschlag_m(
-    grundr_zuschlag_vor_eink_anr_m: FloatSeries, anrechenbares_eink_gr_m: FloatSeries,
+    grundr_zuschlag_vor_eink_anr_m: FloatSeries, anrechenbares_eink_gr_m: FloatSeries
 ) -> FloatSeries:
     """Calculate Grundrentenzuschlag (additional monthly pensions payments
     resulting from Grundrente)
@@ -27,7 +27,7 @@ def grundr_zuschlag_m(
 
 
 def anrechenbares_eink_gr_m(
-    alleinstehend_grundr: BoolSeries,
+    anz_erwachsene_tu: IntSeries,
     zu_verst_eink_excl_grundr_zuschlag_m_tu: FloatSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
@@ -43,8 +43,8 @@ def anrechenbares_eink_gr_m(
 
     Parameters
     ----------
-    alleinstehend_grundr
-        See :func:`alleinstehend_grundr`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
     zu_verst_eink_excl_grundr_zuschlag_m_tu
         See :func:`zu_verst_eink_excl_grundr_zuschlag_m_tu`.
     rentenwert
@@ -57,18 +57,20 @@ def anrechenbares_eink_gr_m(
     -------
 
     """
+    alleinstehend_grundr = tu_id.replace(anz_erwachsene_tu < 2)
+
     # Select correct thresholds of income crediting rule.
     einkommensanrechnung_upper = alleinstehend_grundr.replace(
         {
-            True: ges_renten_vers_params["einkommensanrechnung_gr"]["upper"],
-            False: ges_renten_vers_params["einkommensanrechnung_gr"]["upper_ehe"],
+            True: ges_renten_vers_params["einkommensanr_grundrente"]["upper"],
+            False: ges_renten_vers_params["einkommensanr_grundrente"]["upper_ehe"],
         }
     ).astype(float)
 
     einkommensanrechnung_lower = alleinstehend_grundr.replace(
         {
-            True: ges_renten_vers_params["einkommensanrechnung_gr"]["lower"],
-            False: ges_renten_vers_params["einkommensanrechnung_gr"]["lower_ehe"],
+            True: ges_renten_vers_params["einkommensanr_grundrente"]["lower"],
+            False: ges_renten_vers_params["einkommensanr_grundrente"]["lower_ehe"],
         }
     ).astype(float)
     upper = einkommensanrechnung_upper * rentenwert
@@ -174,8 +176,9 @@ def höchstwert_grundr_m(
 
     # Calculate höchstwert
     out = (
-        ges_renten_vers_params["höchstwert_gr"]["base"]
-        + ges_renten_vers_params["höchstwert_gr"]["increment"] * months_above_thresh
+        ges_renten_vers_params["höchstwert_grundrente"]["base"]
+        + ges_renten_vers_params["höchstwert_grundrente"]["increment"]
+        * months_above_thresh
     )
 
     # Round to 4 digits
@@ -194,6 +197,8 @@ def bonus_entgeltpunkte_grundr(
     doubled, or extended to the individual Höchstwert if doubling would exceed the
     Höchstwert. Then, the value is always multiplied by 0.875.
 
+    Legal reference: § 76g SGB VI
+
     Parameters
     ----------
     durchschnittl_entgeltpunkte_grundr
@@ -209,28 +214,32 @@ def bonus_entgeltpunkte_grundr(
     -------
 
     """
-    # Categories for distinct cases
-    _cat1 = grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten"]["min"]
-    _cat2 = (
-        grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten"]["min"]
-    ) & (durchschnittl_entgeltpunkte_grundr <= (0.5 * höchstwert_grundr_m))
-    _cat3 = (
-        (grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten"]["min"])
-        & (durchschnittl_entgeltpunkte_grundr >= (0.5 * höchstwert_grundr_m))
-        & (durchschnittl_entgeltpunkte_grundr < höchstwert_grundr_m)
-    )
-    _cat4 = (
-        grundrentenzeiten >= ges_renten_vers_params["grundrentenzeiten"]["min"]
-    ) & (durchschnittl_entgeltpunkte_grundr > höchstwert_grundr_m)
+    out = grundrentenzeiten.astype(float) * np.nan
 
-    # Apply rule to compute bonus for each category
-    out = _cat1.astype(float) * np.nan
-    out.loc[_cat1] = 0
-    out.loc[_cat2] = durchschnittl_entgeltpunkte_grundr * (1 - 0.125)
-    out.loc[_cat3] = (höchstwert_grundr_m - durchschnittl_entgeltpunkte_grundr) * (
+    # Case 1: Entgeltpunkte less than half of Höchstwert
+    below_half_höchstwert = durchschnittl_entgeltpunkte_grundr <= (
+        0.5 * höchstwert_grundr_m
+    )
+    out.loc[below_half_höchstwert] = durchschnittl_entgeltpunkte_grundr * (1 - 0.125)
+
+    # Case 2: Entgeltpunkte more than half of Höchstwert, but below Höchstwert
+    cond = ~below_half_höchstwert & (
+        durchschnittl_entgeltpunkte_grundr < höchstwert_grundr_m
+    )
+    out.loc[cond] = (höchstwert_grundr_m - durchschnittl_entgeltpunkte_grundr) * (
         1 - 0.125
     )
-    out.loc[_cat4] = 0
+
+    # Case 3: Entgeltpunkte above Höchstwert
+    cond = durchschnittl_entgeltpunkte_grundr > höchstwert_grundr_m
+    out.loc[cond] = 0
+
+    # Set to 0 if Grundrentenzeiten below minimum
+    gr_zeiten_below_min = (
+        grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten"]["min"]
+    )
+    out.loc[gr_zeiten_below_min] = 0
+
     return out
 
 
@@ -380,20 +389,3 @@ def nicht_grundrentenberechtigt(
 
     """
     return grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten"]["min"]
-
-
-def alleinstehend_grundr(anz_erwachsene_tu: IntSeries, tu_id: IntSeries) -> BoolSeries:
-    """Indicates whether pensioner is single based on number of adults in the tax unit.
-
-    Parameters
-    ----------
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return tu_id.replace(anz_erwachsene_tu < 2)

@@ -161,7 +161,7 @@ def anrechenbares_erwerbs_eink_grunds_ia_m(
 ) -> FloatSeries:
     """Calculate earnings relevant for Grundsicherung of Grundsicherung im Alter.
 
-    Source: § 82 SGB XII
+    Legal reference: § 82 SGB XII
 
     Note: Freibeträge for income are currently not considered
 
