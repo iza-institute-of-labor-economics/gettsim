@@ -222,7 +222,7 @@ def anrechenbare_staatl_rente_grunds_ia_m(
     arbeitsl_geld_2_params: dict,
     ges_renten_vers_params: dict,
 ) -> FloatSeries:
-    """Calculate private pension earnings relevant for Grundsicherung of Grundsicherung
+    """Calculate private pension earnings relevant for Grundsicherung
     im Alter.
 
     Starting from 2020: If eligible for Grundrente, can deduct 100€ completely and 30%
