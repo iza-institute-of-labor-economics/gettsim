@@ -656,7 +656,7 @@ rentenwert_vorjahr:
     west: 34.19
     ost: 33.23
 
-höchstwert_gr:
+höchstwert_grundrente:
   description:
     de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert
     en: constant to determine Höchstwert of additional Entgeltpunkte and effect of an additional month of Grundrentenzeiten on Höchstwert
@@ -667,7 +667,7 @@ höchstwert_gr:
   2021-01-01:
     base: 0.0334
     increment: 0.001389
-    reference: SGB VI § 76g Absatz 4 Satz 3, 4
+    reference: § 76g Abs. 4 S. 3, 4 SGB VI
 
 grundrentenzeiten:
   description:
@@ -681,11 +681,11 @@ grundrentenzeiten:
   2021-01-01:
     min: 396
     max: 420
-    reference: SGB VI § 76g Absatz 4 Satz 5,6 / Absatz 1 Satz 1
+    reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
 
 einkommensanrechnung_gr:
   description:
-    de: Werte werden mit dem Rentenwert multipliziert, um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu berechen
+    de: Werte werden mit dem Rentenwert multipliziert, um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
     en: values are multiplied with the Rentenwert to compute the thresholds of the income crediting rule of Grundrentenzuschlag
   1984-01-01:
     upper: 0
@@ -698,7 +698,7 @@ einkommensanrechnung_gr:
     upper_ehe: 67.27
     lower: 36.56
     lower_ehe: 57.03
-    reference: SGB VI § 97a Absatz 4 Satz 2, 4
+    reference: § 97a Abs. 4 S. 2, 4 SGB VI
 
 schonvermögen_grunds_ia:
   description:
@@ -737,7 +737,7 @@ staatl_rente_anr_frei:
         upper_threshold: inf
         rate: 0
         intercept_at_lower_threshold: 0
-  2020-01-01:
+  2021-01-01:
       reference: § 82a Abs. 1 und 2 SGB XII
       0:
         lower_threshold: -inf
