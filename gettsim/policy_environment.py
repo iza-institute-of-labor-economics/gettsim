@@ -297,7 +297,7 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
     )
 
     # Keys from the raw file which will not be transferred
-    not_trans_keys = ["note", "reference", "deviation_from"]
+    not_trans_keys = ["note", "reference", "deviation_from", "access_different_date"]
     tax_data = {}
     if not parameters:
         parameters = raw_group_data.keys()
@@ -361,6 +361,20 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
                 else:
                     for key in value_keys:
                         tax_data[param][key] = policy_in_place[key]
+
+            # Also load earlier parameter values if this is specified in yaml
+            if "access_different_date" in raw_group_data[param]:
+                if raw_group_data[param]["access_different_date"] == "vorjahr":
+                    date_last_year = date - datetime.timedelta(days=365)
+                    tax_data[f"{param}_vorjahr"] = _load_parameter_group_from_yaml(
+                        date_last_year, group, parameters=[param]
+                    )[param]
+                else:
+                    raise ValueError(
+                        "Currently, access_different_date is only implemented for "
+                        "'vorjahr' (last year). "
+                        f"For parameter {param} a different string is specified."
+                    )
 
     tax_data["datum"] = date
 
