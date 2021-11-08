@@ -44,7 +44,6 @@ def create_dag(
         )
 
     dag = _create_complete_dag(functions)
-
     dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
 
     _fail_if_columns_overriding_functions_are_not_in_dag(

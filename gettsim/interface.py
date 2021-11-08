@@ -105,6 +105,7 @@ def compute_taxes_and_transfers(
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
     _fail_if_pid_is_non_unique(data)
+    _fail_if_duplicates_in_columns(data)
 
     # We delay the data preparation as long as possible such that other checks can fail
     # before this.
@@ -511,6 +512,16 @@ def _fail_if_pid_is_non_unique(data):
             f"{list_of_nunique_ids}"
         )
         raise ValueError(message)
+
+
+def _fail_if_duplicates_in_columns(data):
+    """ Check that all column names are unique
+    """
+    if any(data.columns.duplicated()):
+        duplicated = list(data.columns[data.columns.duplicated()])
+        raise ValueError(
+            "The following columns are non-unique in the input data:" f"{duplicated}"
+        )
 
 
 def _root_nodes(dag):
