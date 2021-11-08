@@ -8,11 +8,11 @@
 .. image:: https://anaconda.org/gettsim/gettsim/badges/platforms.svg
    :target: https://anaconda.org/gettsim/gettsim
 
-.. image:: https://github.com/iza-institute-of-labor-economics/gettsim/workflows/Continuous%20Integration%20Workflow/badge.svg?branch=master
-   :target: https://github.com/iza-institute-of-labor-economics/gettsim/actions?query=branch%3Amaster
+.. image:: https://github.com/iza-institute-of-labor-economics/gettsim/workflows/Continuous%20Integration%20Workflow/badge.svg?branch=main
+   :target: https://github.com/iza-institute-of-labor-economics/gettsim/actions?query=branch%3Amain
    :alt: Continuous Integration Workflow
 
-.. image:: https://codecov.io/gh/iza-institute-of-labor-economics/gettsim/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/iza-institute-of-labor-economics/gettsim/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/iza-institute-of-labor-economics/gettsim
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
