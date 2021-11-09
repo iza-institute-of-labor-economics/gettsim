@@ -233,8 +233,7 @@ def anrechenbare_staatl_rente_grunds_ia_m(
     staatl_rente_m
         See basic input variable :ref:`staatl_rente_m <staatl_rente_m>`.
     nicht_grundrentenberechtigt
-        See basic input variable :ref:`nicht_grundrentenberechtigt
-        <nicht_grundrentenberechtigt>`.
+        See :func:`nicht_grundrentenberechtigt`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     ges_renten_vers_params
