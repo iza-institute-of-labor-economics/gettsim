@@ -291,6 +291,18 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         unnecessary keys.
 
     """
+
+    def subtract_years_from_date(dt, years):
+        """Subtract one or more years from a date object
+        """
+        try:
+            dt = dt.replace(year=dt.year - years)
+
+        # Take care of leap years
+        except ValueError:
+            dt = dt.replace(year=dt.year - years, day=dt.day - 1)
+        return dt
+
     raw_group_data = yaml.load(
         (ROOT_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8"),
         Loader=yaml.CLoader,
@@ -365,7 +377,7 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
             # Also load earlier parameter values if this is specified in yaml
             if "access_different_date" in raw_group_data[param]:
                 if raw_group_data[param]["access_different_date"] == "vorjahr":
-                    date_last_year = date - datetime.timedelta(days=365)
+                    date_last_year = subtract_years_from_date(date, years=1)
                     tax_data[f"{param}_vorjahr"] = _load_parameter_group_from_yaml(
                         date_last_year, group, parameters=[param]
                     )[param]
