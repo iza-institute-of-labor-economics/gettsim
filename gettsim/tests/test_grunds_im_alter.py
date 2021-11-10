@@ -82,4 +82,5 @@ def test_grundrente(input_data, year, column):
     )
 
     # Retype outcols to float (from int)
-    assert_series_equal(calc_result[column], year_data[column].astype(float))
+    expected = year_data[column].astype(float)
+    assert_series_equal(calc_result[column], expected)
