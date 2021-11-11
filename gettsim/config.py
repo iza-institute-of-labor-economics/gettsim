@@ -107,7 +107,7 @@ STANDARD_DATA_TYPES = {
     "immobilie_baujahr_hh": IntSeries,
     "sonstig_eink_m": FloatSeries,
     "jahr": IntSeries,
-    "entgeltpunkte_grundrente": FloatSeries,
+    "entgeltp_grundr": FloatSeries,
     "grundrentenzeiten": IntSeries,
     "gr_bewertungszeiten": IntSeries,
     "prv_rente_m": FloatSeries,
