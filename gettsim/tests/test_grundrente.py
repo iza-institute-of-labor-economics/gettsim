@@ -24,7 +24,7 @@ INPUT_COLS = [
     "entgeltpunkte",
     "zugangsfaktor",
     "rentner",
-    "entgeltpunkte_grundrente",
+    "entgeltp_grundr",
     "kind",
 ]
 
@@ -53,12 +53,11 @@ def test_grundrente(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
-    functions = "gettsim.transfers.grundrente"
 
     calc_result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
-        functions=[policy_functions, functions],
+        functions=policy_functions,
         targets=column,
         columns_overriding_functions=[
             "zu_verst_eink_excl_grundr_zuschlag_m_tu",

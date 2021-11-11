@@ -206,7 +206,6 @@ def create_one_set_of_households(
         "eink_selbst_m",
         "vermiet_eink_m",
         "kapital_eink_m",
-        "gesamte_rente_m",
         "kaltmiete_m_hh",
         "heizkosten_m_hh",
         "wohnfläche_hh",
@@ -228,6 +227,10 @@ def create_one_set_of_households(
         "immobilie_baujahr",
         "vermögen_hh",
         "entgeltpunkte",
+        "gr_bewertungszeiten",
+        "entgeltp_grundr",
+        "grundrentenzeiten",
+        "prv_rente_m",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -325,6 +328,7 @@ def create_one_set_of_households(
     df.loc[
         (df["hh_typ"].str.contains("couple")) & (~df["kind"]), "gem_veranlagt"
     ] = True
+
     # Single Parent Dummy
     df.loc[
         (df["hh_typ"].str.contains("single"))
@@ -332,6 +336,12 @@ def create_one_set_of_households(
         & (~df["kind"]),
         "alleinerziehend",
     ] = True
+
+    # Retirement variables
+    df["grundrentenzeiten"] = (df["alter"] - 20).clip(lower=0) * 12
+    df["gr_bewertungszeiten"] = df["grundrentenzeiten"]
+    df["entgeltpunkte"] = df["grundrentenzeiten"] / 12
+    df["entgeltp_grundr"] = df["entgeltpunkte"]
 
     df = df.sort_values(by=["hh_typ", "hh_id"])
 

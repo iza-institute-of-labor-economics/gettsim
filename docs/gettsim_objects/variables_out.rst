@@ -42,3 +42,5 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | wohngeld_m_hh           | Monthly housing benefit per household                     |
 +-------------------------+-----------------------------------------------------------+
+| grunds_im_alter_m_hh    | Monthly subsistence payment for retirees per household    |
++-------------------------+-----------------------------------------------------------+

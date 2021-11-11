@@ -60,6 +60,7 @@ DEFAULT_TARGETS = [
     "kinderzuschlag_m_hh",
     "wohngeld_m_hh",
     "arbeitsl_geld_2_m_hh",
+    "grunds_im_alter_m_hh"
     # "verfügb_eink_m",
     # "verfügb_eink_hh_m",
 ]
@@ -106,7 +107,7 @@ STANDARD_DATA_TYPES = {
     "immobilie_baujahr_hh": IntSeries,
     "sonstig_eink_m": FloatSeries,
     "jahr": IntSeries,
-    "entgeltpunkte_grundrente": FloatSeries,
+    "entgeltp_grundr": FloatSeries,
     "grundrentenzeiten": IntSeries,
     "gr_bewertungszeiten": IntSeries,
     "prv_rente_m": FloatSeries,
