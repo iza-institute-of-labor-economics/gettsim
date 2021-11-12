@@ -7,13 +7,6 @@ from gettsim.policy_environment import _load_parameter_group_from_yaml
 from gettsim.policy_environment import set_up_policy_environment
 
 
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "test_dfs_tax_transfer.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
-
-
 def test_leap_year_correctly_handled():
     set_up_policy_environment(date="02-29-2020")
 
