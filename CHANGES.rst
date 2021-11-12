@@ -13,8 +13,11 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
    year when calling `set_up_policy_environment` (:ghuser:`ChristianZimpelmann`).
 * :gh:`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove
    `ges_rente_m` as input. Rename `gettsim.renten_anspr` to `gettsim.transfers.rente`.
-   Rename `gettsim.social_insurance` to `gettsim.social_insurance_payments`
-   (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`).
+   Rename `gettsim.social_insurance` to `gettsim.social_insurance_payments`.
+   (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`)
+* :gh:`307` Allow to specify order up to which ancestors and descendants are shown
+   when plotting a dag (:ghuser:`ChristianZimpelmann`).
+
 
 0.4.1 - 2021-04-11
 ------------------
