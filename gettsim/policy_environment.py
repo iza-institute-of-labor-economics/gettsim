@@ -272,7 +272,9 @@ def load_reforms_for_date(date):
     return functions
 
 
-def _load_parameter_group_from_yaml(date, group, parameters=None):
+def _load_parameter_group_from_yaml(
+    date, group, parameters=None, yaml_path=ROOT_DIR / "parameters"
+):
     """Load data from raw yaml group file.
 
     Parameters
@@ -283,6 +285,8 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         Policy system compartment.
     parameters : list
         List of parameters to be loaded. Only relevant for in function calls.
+    yaml_path : path
+        Path to directory of yaml_file. (Used for testing of this function).
 
     Returns
     -------
@@ -291,13 +295,24 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         unnecessary keys.
 
     """
+
+    def subtract_years_from_date(dt, years):
+        """Subtract one or more years from a date object
+        """
+        try:
+            dt = dt.replace(year=dt.year - years)
+
+        # Take care of leap years
+        except ValueError:
+            dt = dt.replace(year=dt.year - years, day=dt.day - 1)
+        return dt
+
     raw_group_data = yaml.load(
-        (ROOT_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8"),
-        Loader=yaml.CLoader,
+        (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"), Loader=yaml.CLoader,
     )
 
     # Keys from the raw file which will not be transferred
-    not_trans_keys = ["note", "reference", "deviation_from"]
+    not_trans_keys = ["note", "reference", "deviation_from", "access_different_date"]
     tax_data = {}
     if not parameters:
         parameters = raw_group_data.keys()
@@ -318,7 +333,10 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     tax_data[param] = _load_parameter_group_from_yaml(
-                        date, path_list[0], parameters=[path_list[1]]
+                        date,
+                        path_list[0],
+                        parameters=[path_list[1]],
+                        yaml_path=yaml_path,
                     )[path_list[1]]
             else:
                 # TODO: Should there be missing values or should the key not exist?
@@ -344,12 +362,15 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
                         tax_data[param] = _load_parameter_group_from_yaml(
-                            new_date, group, parameters=[param]
+                            new_date, group, parameters=[param], yaml_path=yaml_path
                         )[param]
                     elif "." in policy_in_place["deviation_from"]:
                         path_list = policy_in_place["deviation_from"].split(".")
                         tax_data[param] = _load_parameter_group_from_yaml(
-                            date, path_list[0], parameters=[path_list[1]]
+                            date,
+                            path_list[0],
+                            parameters=[path_list[1]],
+                            yaml_path=yaml_path,
                         )[path_list[1]]
                     for key in value_keys:
                         key_list = []
@@ -361,6 +382,20 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
                 else:
                     for key in value_keys:
                         tax_data[param][key] = policy_in_place[key]
+
+            # Also load earlier parameter values if this is specified in yaml
+            if "access_different_date" in raw_group_data[param]:
+                if raw_group_data[param]["access_different_date"] == "vorjahr":
+                    date_last_year = subtract_years_from_date(date, years=1)
+                    tax_data[f"{param}_vorjahr"] = _load_parameter_group_from_yaml(
+                        date_last_year, group, parameters=[param], yaml_path=yaml_path
+                    )[param]
+                else:
+                    raise ValueError(
+                        "Currently, access_different_date is only implemented for "
+                        "'vorjahr' (last year). "
+                        f"For parameter {param} a different string is specified."
+                    )
 
     tax_data["datum"] = date
 
