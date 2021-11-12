@@ -1,3 +1,4 @@
+import pandas as pd
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -34,6 +35,7 @@ def grunds_im_alter_m_hh(
 
 def grunds_ia_m_minus_eink_hh(
     regelbedarf_m_grunds_ia_vermögens_check_hh: FloatSeries,
+    mehrbedarf_behinderung_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
     anrechenbares_eink_grunds_ia_m_hh: FloatSeries,
@@ -44,6 +46,8 @@ def grunds_ia_m_minus_eink_hh(
     ----------
     regelbedarf_m_grunds_ia_vermögens_check_hh
         See :func:`regelbedarf_m_grunds_ia_vermögens_check_hh`.
+    mehrbedarf_behinderung_m_hh
+        See :func:`mehrbedarf_behinderung_m_hh`.
     kindergeld_m_hh
         See :func:`kindergeld_m_hh`.
     unterhaltsvors_m_hh
@@ -57,6 +61,7 @@ def grunds_ia_m_minus_eink_hh(
     """
     out = (
         regelbedarf_m_grunds_ia_vermögens_check_hh
+        + mehrbedarf_behinderung_m_hh
         - anrechenbares_eink_grunds_ia_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
@@ -206,6 +211,73 @@ def anrechenbare_prv_rente_grunds_ia_m(
         prv_rente_above_100 - arbeitsl_geld_2_params["regelsatz"][1] / 2
     )
     out = (0.7 * prv_rente_above_100).clip(lower=prv_rente_after_max_deduction)
+    return out
+
+def mehrbedarf_behinderung_m_hh(
+    mehrbedarf_behinderung_m: FloatSeries, 
+    hh_id: IntSeries,
+) -> FloatSeries:
+    """Aggregate mehrbedarf for people with disabilities on household level.
+
+    Parameters
+    ----------
+    mehrbedarf_behinderung_m
+        See :func:`mehrbedarf_behinderung_m`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    Returns
+    -------
+
+    """
+    return mehrbedarf_behinderung_m.groupby(hh_id).sum()
+
+def mehrbedarf_behinderung_m(
+    behinderungsgrad: IntSeries, 
+    rented_or_owned: object,
+    hhsize_tu: IntSeries,
+    ges_renten_vers_params: dict,
+    arbeitsl_geld_2_params: dict,
+) -> FloatSeries:
+    """Calculate mehrbedarf for people with disabilities.
+    
+    Parameters
+    ----------
+    behinderungsgrad
+        See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
+    rented_or_owned
+        See basic input variable :ref:`rented_or_owned <rented_or_owned>`.
+    hhsize_tu
+    See basic input variable :ref:`hhsize_tu <hhsize_tu>`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+    Returns
+    -------
+
+    """
+    out = pd.Series(0,index=behinderungsgrad.index, dtype=float)
+
+    # mehrbedarf for disabilities is the rate times the regelsatz for the person getting the mehrbedarf
+    bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * (ges_renten_vers_params["mehrbedarf_g"]["rate"])
+    bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * (ges_renten_vers_params["mehrbedarf_g"]["rate"])
+    bedarf3 = (arbeitsl_geld_2_params["regelsatz"][3]) * (ges_renten_vers_params["mehrbedarf_g"]["rate"])
+
+    # singles not living in einrichtungen
+    out.loc[(behinderungsgrad >= ges_renten_vers_params["mehrbedarf_g_grenze"]["lower_threshold"]) & (
+        rented_or_owned != 'Heimbewohner oder Gemeinschaftsunterkunft'
+    )] = bedarf1
+    # couples not living in einrichtungen
+    out.loc[(behinderungsgrad >= ges_renten_vers_params["mehrbedarf_g_grenze"]["lower_threshold"]) & (
+        rented_or_owned != 'Heimbewohner oder Gemeinschaftsunterkunft') & (
+        hhsize_tu != 1
+    )] = bedarf2
+    # people in einrichtungen
+    out.loc[(behinderungsgrad >= ges_renten_vers_params["mehrbedarf_g_grenze"]["lower_threshold"]) & (
+        rented_or_owned == 'Heimbewohner oder Gemeinschaftsunterkunft'
+    )] = bedarf3
+    
+
     return out
 
 
