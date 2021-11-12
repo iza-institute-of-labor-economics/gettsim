@@ -720,3 +720,19 @@ zugangsfaktor_veränderung_pro_jahr:
   2001-01-01:
     vorzeitiger_renteneintritt: 0.036
     späterer_renteneintritt: 0.06
+
+mehrbedarf_g:
+  description:
+    de: dieser Prozentanteil des Regelbedarfs wird Menschen mit Schwerbehindertenausweis mit Merkzeichen G, die Grundsicherung im Alter oder bei Erwerbsminderung bekommen, als Mehrbedarf anerkannt
+    en: 
+  reference: § 30 Abs. 1 SGB XII, https://www.buzer.de/gesetz/3415/al0-3758.htm
+  2006-12-07:
+    rate: 0.17
+
+mehrbedarf_g_grenze:
+  description:
+    de: Grenze des Behinderungsgrad ab der Menschen einen Schwerbehindertenausweis mit Merkzeichen G bekommen
+    en:
+  reference: § 3 Absatz 1 Nummer 7 SchwbAwV, § 229 Absatz 1 Satz 1 SGB IX, Anlage zu §2, Teil D, Nummer 1 VersMedV 
+  2008-12-15:
+    lower_threshold: 50
