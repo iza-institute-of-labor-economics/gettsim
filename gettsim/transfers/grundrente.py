@@ -130,15 +130,15 @@ def grundr_zuschlag_vor_eink_anr_m(
 
 
 def durchschnittl_entgeltpunkte_grundr(
-    entgeltpunkte_grundrente: FloatSeries, gr_bewertungszeiten: IntSeries
+    entgeltp_grundr: FloatSeries, gr_bewertungszeiten: IntSeries
 ) -> FloatSeries:
     """Compute average number of Entgeltpunkte earned per month of Grundrentenzeiten.
 
     Parameters
     ----------
-    entgeltpunkte_grundrente
+    entgeltp_grundr
         See basic input variable
-        :ref:`entgeltpunkte_grundrente <entgeltpunkte_grundrente>`.
+        :ref:`entgeltp_grundr <entgeltp_grundr>`.
     gr_bewertungszeiten
         See basic input variable
         :ref:`gr_bewertungszeiten <gr_bewertungszeiten>`.
@@ -147,7 +147,7 @@ def durchschnittl_entgeltpunkte_grundr(
     -------
 
     """
-    return entgeltpunkte_grundrente / gr_bewertungszeiten
+    return entgeltp_grundr / gr_bewertungszeiten
 
 
 def höchstwert_grundr_m(
