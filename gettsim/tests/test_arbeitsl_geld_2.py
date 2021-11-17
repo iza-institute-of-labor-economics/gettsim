@@ -15,7 +15,7 @@ INPUT_COLS = [
     "tu_id",
     "kind",
     "alter",
-    "kaltmiete_m_hh",
+    "bruttokaltmiete_m_hh",
     "heizkosten_m_hh",
     "wohnfläche_hh",
     "bewohnt_eigentum_hh",

@@ -23,14 +23,14 @@ def kost_unterk_m_hh(
 
 
 def miete_pro_qm_hh(
-    kaltmiete_m_hh: FloatSeries, heizkosten_m_hh: FloatSeries, wohnfläche_hh: IntSeries
+    bruttokaltmiete_m_hh: FloatSeries, heizkosten_m_hh: FloatSeries, wohnfläche_hh: IntSeries
 ) -> FloatSeries:
     """Calculate rent per square meter.
 
     Parameters
     ----------
-    kaltmiete_m_hh
-        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    bruttokaltmiete_m_hh
+        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     heizkosten_m_hh
         See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
     wohnfläche_hh
@@ -40,7 +40,7 @@ def miete_pro_qm_hh(
     -------
     IntSeries with the total amount of rental costs per squaremeter.
     """
-    return ((kaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh).clip(upper=10)
+    return ((bruttokaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh).clip(upper=10)
 
 
 def berechtigte_wohnfläche_hh(
