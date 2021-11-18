@@ -1,3 +1,5 @@
+import pandas as pd
+
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -32,8 +34,10 @@ def staatl_rente_m(
 
     Parameters
     ----------
-    rente_anspr_m
-        See :func:`rente_anspr_m`.
+    staatl_rente_excl_gr_m
+        See :func:`staatl_rente_excl_gr_m`.
+    grundr_zuschlag_m
+        See :func:`grundr_zuschlag_m`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
 
@@ -43,7 +47,7 @@ def staatl_rente_m(
     """
     out = staatl_rente_excl_gr_m + grundr_zuschlag_m
 
-    # Return 0 if subject not yet retired
+    # Return 0 if person not yet retired
     out.loc[~rentner] = 0
     return out.round(2)
 
@@ -74,6 +78,8 @@ def staatl_rente_excl_gr_m(
         See :func:`entgeltpunkte_update`.
     rentenwert
         See :func:`rentenwert`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
 
     Returns
     -------
@@ -243,14 +249,20 @@ def zugangsfaktor(
     claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
     the pension claim is higher or lower.
 
-    Relevant law: § 77 Abs. 2 Nr. 2 SGB VI
+    Legal reference: § 77 Abs. 2 Nr. 2 SGB VI
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+    jahr_renteneintr
+        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     regelaltersgrenze
         See :func:`regelaltersgrenze`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
 
     Returns
     -------
@@ -261,21 +273,22 @@ def zugangsfaktor(
     alter_renteneintritt = jahr_renteneintr - geburtsjahr
 
     # Calc difference to Regelaltersgrenze
-    out = alter_renteneintritt - regelaltersgrenze
+    diff = alter_renteneintritt - regelaltersgrenze
 
     # Zugangsfactor lower if retired before Regelaltersgrenze
+    out = diff.copy()
     faktor_pro_jahr_vorzeitig = ges_renten_vers_params[
         "zugangsfaktor_veränderung_pro_jahr"
     ]["vorzeitiger_renteneintritt"]
-    out.loc[out < 0] = out.loc[out < 0] * faktor_pro_jahr_vorzeitig + 1
+    out.loc[diff < 0] = 1 + (out.loc[diff < 0] * faktor_pro_jahr_vorzeitig)
 
     # Zugangsfactor larger if retired before Regelaltersgrenze
     faktor_pro_jahr_später = ges_renten_vers_params[
         "zugangsfaktor_veränderung_pro_jahr"
     ]["späterer_renteneintritt"]
-    out.loc[out <= 0] = out.loc[out <= 0] * faktor_pro_jahr_später + 1
+    out.loc[diff >= 0] = 1 + (out.loc[diff >= 0] * faktor_pro_jahr_später)
 
-    # Return 0 if subject not yet retired
+    # Return 0 if person not yet retired
     out.loc[~rentner] = 0
 
     return out
@@ -293,7 +306,7 @@ def regelaltersgrenze(geburtsjahr: IntSeries) -> FloatSeries:
     -------
     """
     # Create 65 as standard
-    out = geburtsjahr * 0 + 65
+    out = pd.Series(65, index=geburtsjahr.index, dtype=float)
 
     # If born after 1947, each birth year raises the age threshold by one month.
     cond = geburtsjahr > 1947

@@ -90,11 +90,9 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`gr_bewertungszeiten`  | Months with > 30% of average income          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`entgeltpunkte_gr`     |Entgeltpunkte in Grundrentenbewertungszeiten  | FloatSeries |
+| _`entgeltp_grundr`      | Entgeltpunkte in Grundrentenbewertungszeiten | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`grundrentenzeiten`    | Number of months considered for Grundrente   | IntSeries   |
-+-------------------------+----------------------------------------------+-------------+
-| _`prv_rente_m_vorj`     | Monthly private pensions of previous year    | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`prv_rente_m`          | Amount of monthly private pension            | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+

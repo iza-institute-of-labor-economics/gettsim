@@ -481,6 +481,7 @@ rentenwert:
     de: Historische Rentenwerte alte und neue Bundesländer. statistik-rente.de/drv
     en:
   unit: Euro
+  access_different_date: vorjahr
   1992-01-01:
     west: 21.19
     ost: 12.05
@@ -575,88 +576,7 @@ rentenwert:
     deviation_from: previous
     ost: 33.47
 
-rentenwert_vorjahr:
-  description:
-    de: Rentenwert des Vorjahrs
-    en:
-  unit: Euro
-  1993-01-01:
-    west: 21.80
-    ost: 13.59
-  1994-01-01:
-    west: 22.75
-    ost: 16.45
-  1995-01-01:
-    west: 23.52
-    ost: 17.63
-  1996-01-01:
-    west: 23.64
-    ost: 18.58
-  1997-01-01:
-    west: 23.86
-    ost: 19.62
-  1998-01-01:
-    west: 24.26
-    ost: 20.71
-  1999-01-01:
-    west: 24.36
-    ost: 20.90
-  2000-01-01:
-    west: 24.69
-    ost: 21.48
-  2001-01-01:
-    west: 24.84
-    ost: 21.61
-  2002-01-01:
-    west: 25.31
-    ost: 22.06
-  2003-01-01:
-    west: 25.86
-    ost: 22.70
-  2004-01-01:
-    west: 26.13
-    ost: 22.97
-  2008-01-01:
-    west: 26.27
-    ost: 23.09
-  2009-01-01:
-    west: 26.56
-    ost: 23.34
-  2010-01-01:
-    west: 27.2
-    ost: 24.13
-  2012-01-01:
-    west: 27.47
-    ost: 24.37
-  2013-01-01:
-    west: 28.07
-    ost: 24.92
-  2014-01-01:
-    west: 28.14
-    ost: 25.74
-  2015-01-01:
-    west: 28.61
-    ost: 26.39
-  2016-01-01:
-    west: 29.21
-    ost: 27.05
-  2017-01-01:
-    west: 30.45
-    ost: 28.66
-  2018-01-01:
-    west: 31.03
-    ost: 29.69
-  2019-01-01:
-    west: 32.03
-    ost: 30.69
-  2020-01-01:
-    west: 33.05
-    ost: 31.89
-  2021-01-01:
-    west: 34.19
-    ost: 33.23
-
-höchstwert_gr:
+höchstwert_grundrente:
   description:
     de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert
     en: constant to determine Höchstwert of additional Entgeltpunkte and effect of an additional month of Grundrentenzeiten on Höchstwert
@@ -667,25 +587,25 @@ höchstwert_gr:
   2021-01-01:
     base: 0.0334
     increment: 0.001389
-    reference: SGB VI § 76g Absatz 4 Satz 3, 4
+    reference: § 76g Abs. 4 S. 3, 4 SGB VI
 
 grundrentenzeiten:
   description:
     de: minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
-    en: minimal number of Grundrentenzeiten required to be entitled to Grundrente and maximum number of months that are considered for Grundrentenzuschlag
+    en: minimal number of Grundrentenzeiten required to be entitled to Grundrente and maximum number of months that are considered for Grundrente
   unit: months
   1984-01-01:
-    min: 0
-    max: 0
+    min: 10000
+    max: 10000
     note: It didn't exist before 2021.
   2021-01-01:
     min: 396
     max: 420
-    reference: SGB VI § 76g Absatz 4 Satz 5,6 / Absatz 1 Satz 1
+    reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
 
-einkommensanrechnung_gr:
+einkommensanr_grundrente:
   description:
-    de: Werte werden mit dem Rentenwert multipliziert, um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu berechen
+    de: Werte werden mit dem Rentenwert multipliziert, um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
     en: values are multiplied with the Rentenwert to compute the thresholds of the income crediting rule of Grundrentenzuschlag
   1984-01-01:
     upper: 0
@@ -698,7 +618,7 @@ einkommensanrechnung_gr:
     upper_ehe: 67.27
     lower: 36.56
     lower_ehe: 57.03
-    reference: SGB VI § 97a Absatz 4 Satz 2, 4
+    reference: § 97a Abs. 4 S. 2, 4 SGB VI
 
 schonvermögen_grunds_ia:
   description:
@@ -714,13 +634,14 @@ schonvermögen_grunds_ia:
 
 zugangsfaktor_veränderung_pro_jahr:
   description:
-    de: Faktor um den sich der Zugangsfaktor erhöht/senkt für jedes Jahr, das länger/kürzer gearbeitet wird
+    de: Faktor um den sich der Zugangsfaktor für die staatliche Rente erhöht/senkt für jedes Jahr, das länger/kürzer gearbeitet wird
     en:
   reference: §77 Abs. 2 Nr. 2 SGB VI
   2001-01-01:
     vorzeitiger_renteneintritt: 0.036
     späterer_renteneintritt: 0.06
 
+<<<<<<< HEAD
 mehrbedarf_g:
   description:
     de: dieser Prozentanteil des Regelbedarfs wird Menschen mit Schwerbehindertenausweis mit Merkzeichen G, die Grundsicherung im Alter oder bei Erwerbsminderung bekommen, als Mehrbedarf anerkannt
@@ -736,3 +657,35 @@ mehrbedarf_g_grenze:
   reference: § 3 Absatz 1 Nummer 7 SchwbAwV, § 229 Absatz 1 Satz 1 SGB IX, Anlage zu §2, Teil D, Nummer 1 VersMedV 
   2008-12-15:
     lower_threshold: 50
+=======
+staatl_rente_anr_frei:
+  name:
+    de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre Grundrentenzeiten
+    en: Public pension shares not subject to transfer withdrawal for subjects whose Grundrentenzeiten exceeds 33 years
+  description:
+    de:
+    en:
+  type: piecewise_linear
+  time: month
+  1984-01-01:
+      reference: No income could be deducted
+      0:
+        lower_threshold: -inf
+        upper_threshold: inf
+        rate: 0
+        intercept_at_lower_threshold: 0
+  2021-01-01:
+      reference: § 82a Abs. 1 und 2 SGB XII
+      0:
+        lower_threshold: -inf
+        upper_threshold: 0
+        rate: 0
+        intercept_at_lower_threshold: 0
+      1:
+        lower_threshold: 0
+        upper_threshold: 100
+        rate: 1
+      2:
+        upper_threshold: inf
+        rate: 0.3
+>>>>>>> grundrente
