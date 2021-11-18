@@ -10,7 +10,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters.
    (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
 * :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh.
-   (:ghuser: `LauraGergeleit`).
+   (:ghuser:`LauraGergeleit`).
 
 0.4.1 - 2021-04-11
 ------------------
