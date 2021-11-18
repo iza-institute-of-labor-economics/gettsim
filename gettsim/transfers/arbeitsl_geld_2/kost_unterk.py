@@ -23,7 +23,9 @@ def kost_unterk_m_hh(
 
 
 def miete_pro_qm_hh(
-    bruttokaltmiete_m_hh: FloatSeries, heizkosten_m_hh: FloatSeries, wohnfläche_hh: IntSeries
+    bruttokaltmiete_m_hh: FloatSeries,
+    heizkosten_m_hh: FloatSeries,
+    wohnfläche_hh: IntSeries,
 ) -> FloatSeries:
     """Calculate rent per square meter.
 

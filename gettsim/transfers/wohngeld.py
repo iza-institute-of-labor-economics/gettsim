@@ -436,7 +436,8 @@ def wohngeld_miete_bis_2008(
     ]
 
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return wg_miete
@@ -483,7 +484,8 @@ def wohngeld_miete_ab_2009(
     ]
 
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return wg_miete
@@ -533,7 +535,8 @@ def wohngeld_miete_ab_2021(
     ]
 
     out = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return out

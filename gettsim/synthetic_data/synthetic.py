@@ -279,7 +279,7 @@ def create_one_set_of_households(
         f"{ROOT_DIR}/synthetic_data/bedarfsgemeinschaften",
     )
     df["wohnfläche_hh"] = df["hh_typ"].map(bg_daten["wohnfläche"])
-    df["bruttokaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["kaltmiete"])
+    df["bruttokaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["bruttokaltmiete"])
     df["heizkosten_m_hh"] = df["hh_typ"].map(bg_daten["heizkosten"])
     df["mietstufe"] = 3
 
