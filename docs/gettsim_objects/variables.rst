@@ -48,7 +48,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`ges_rente_m`          | Monthly pension payments of each individual  | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`kaltmiete_m_hh`       | Monthly rent expenses for household          | FloatSeries |
+| _`bruttokaltmiete_m_hh` | Monthly rent expenses for household          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`heizkosten_m_hh`      | Monthly heating expenses for houesehold      | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
