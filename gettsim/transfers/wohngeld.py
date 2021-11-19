@@ -387,7 +387,7 @@ def wohngeld_miete_bis_2008(
     immobilie_baujahr_hh: IntSeries,
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
-    kaltmiete_m_hh: FloatSeries,
+    bruttokaltmiete_m_hh: FloatSeries,
     tax_unit_share: FloatSeries,
     wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
@@ -404,8 +404,8 @@ def wohngeld_miete_bis_2008(
         See :func:`haushaltsgröße`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kaltmiete_m_hh
-        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    bruttokaltmiete_m_hh
+        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
     wohngeld_min_miete
@@ -436,7 +436,8 @@ def wohngeld_miete_bis_2008(
     ]
 
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return wg_miete
@@ -446,7 +447,7 @@ def wohngeld_miete_ab_2009(
     mietstufe: IntSeries,
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
-    kaltmiete_m_hh: FloatSeries,
+    bruttokaltmiete_m_hh: FloatSeries,
     tax_unit_share: FloatSeries,
     wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
@@ -461,8 +462,8 @@ def wohngeld_miete_ab_2009(
         See :func:`haushaltsgröße`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kaltmiete_m_hh
-        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    bruttokaltmiete_m_hh
+        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
     wohngeld_min_miete
@@ -483,7 +484,8 @@ def wohngeld_miete_ab_2009(
     ]
 
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return wg_miete
@@ -493,7 +495,7 @@ def wohngeld_miete_ab_2021(
     mietstufe: IntSeries,
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
-    kaltmiete_m_hh: FloatSeries,
+    bruttokaltmiete_m_hh: FloatSeries,
     tax_unit_share: FloatSeries,
     wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
@@ -508,8 +510,8 @@ def wohngeld_miete_ab_2021(
         See :func:`haushaltsgröße`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kaltmiete_m_hh
-        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    bruttokaltmiete_m_hh
+        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
     wohngeld_min_miete
@@ -533,7 +535,8 @@ def wohngeld_miete_ab_2021(
     ]
 
     out = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return out

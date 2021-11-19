@@ -93,7 +93,7 @@ STANDARD_DATA_TYPES = {
     "betreuungskost_m": FloatSeries,
     "kapital_eink_m": FloatSeries,
     "vermiet_eink_m": FloatSeries,
-    "kaltmiete_m_hh": FloatSeries,
+    "bruttokaltmiete_m_hh": FloatSeries,
     "heizkosten_m_hh": FloatSeries,
     "jahr_renteneintr": IntSeries,
     "behinderungsgrad": IntSeries,
