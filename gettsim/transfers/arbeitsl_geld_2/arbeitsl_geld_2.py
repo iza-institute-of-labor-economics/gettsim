@@ -10,8 +10,7 @@ def arbeitsl_geld_2_m_hh(
     wohngeld_vorrang_hh: BoolSeries,
     kinderzuschlag_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
-    anz_rentner_hh,
-    anz_erwachsene_hh,
+    alle_erwachsene_rentner_hh,
 ) -> FloatSeries:
 
     """Calculate final monthly subsistence payment on household level.
@@ -26,8 +25,8 @@ def arbeitsl_geld_2_m_hh(
         See :func:`kinderzuschlag_vorrang_hh`.
     wohngeld_kinderzuschlag_vorrang_hh
         See :func:`wohngeld_kinderzuschlag_vorrang_hh`.
-    rentner_in_hh
-        See :func:`rentner_in_hh`.
+    alle_erwachsene_rentner_hh
+        See :func:`alle_erwachsene_rentner_hh`.
 
     Returns
     -------
@@ -38,7 +37,7 @@ def arbeitsl_geld_2_m_hh(
         wohngeld_vorrang_hh
         | kinderzuschlag_vorrang_hh
         | wohngeld_kinderzuschlag_vorrang_hh
-        | (anz_erwachsene_hh == anz_rentner_hh)
+        | alle_erwachsene_rentner_hh
     )
     out.loc[cond] = 0
     return out

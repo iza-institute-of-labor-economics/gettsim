@@ -620,6 +620,17 @@ einkommensanr_grundrente:
     lower_ehe: 57.03
     reference: § 97a Abs. 4 S. 2, 4 SGB VI
 
+faktor_bonus_grundrente:
+  description:
+    de: Faktor mit dem die durch die Grundrente zusätzlich erhaltenen Entgeltpunkte multipliziert werden.
+    en:
+  1984-01-01:
+    scalar: 0
+    note: It didn't exist before 2021.
+  2021-01-01:
+    scalar: 0.875
+    reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
+
 schonvermögen_grunds_ia:
   description:
     de: ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter / bei Erwerbsminderung
@@ -671,3 +682,17 @@ staatl_rente_anr_frei:
       2:
         upper_threshold: inf
         rate: 0.3
+
+elterngeld_anr_frei_grunds:
+  name:
+    de: Freibetrag des Elterngeldes für Grundsicherung im Alter und Erwerbsminderung
+    en:
+  description:
+    de:
+    en:
+  1984-01-01:
+    scalar: 0
+    note: Elterngeld didn't exist before 2007.
+  2007-01-01:
+      reference: § 10 BEEG
+      scalar: 300

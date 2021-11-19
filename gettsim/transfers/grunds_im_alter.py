@@ -5,9 +5,7 @@ from gettsim.typing import IntSeries
 
 
 def grunds_im_alter_m_hh(
-    grunds_ia_m_minus_eink_hh: FloatSeries,
-    anz_erwachsene_hh: IntSeries,
-    anz_rentner_hh: IntSeries,
+    grunds_ia_m_minus_eink_hh: FloatSeries, alle_erwachsene_rentner_hh: IntSeries,
 ) -> FloatSeries:
     """Calculate Grundsicherung im Alter on household level.
 
@@ -18,17 +16,15 @@ def grunds_im_alter_m_hh(
     ----------
     grunds_ia_m_minus_eink_hh
         See :func:`grunds_ia_m_minus_eink_hh`.
-    anz_erwachsene_hh
-        See :func:`anz_erwachsene_hh`.
-    anz_rentner_hh
-        See :func:`anz_rentner_hh`.
+    alle_erwachsene_rentner_hh
+        See :func:`alle_erwachsene_rentner_hh`.
+
     Returns
     -------
 
     """
     out = grunds_ia_m_minus_eink_hh.clip(lower=0)
-    cond = anz_erwachsene_hh != anz_rentner_hh
-    out.loc[cond] = 0
+    out.loc[~alle_erwachsene_rentner_hh] = 0
     return out
 
 
@@ -96,6 +92,7 @@ def anrechenbares_eink_grunds_ia_m(
     anz_erwachsene_tu: IntSeries,
     sozialv_beitr_m: FloatSeries,
     tu_id: IntSeries,
+    ges_renten_vers_params: dict,
 ) -> FloatSeries:
     """Calculate income relevant for Grundsicherung of Grundsicherung im Alter.
 
@@ -125,14 +122,17 @@ def anrechenbares_eink_grunds_ia_m(
         See :func:`sozialv_beitr_m`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     Returns
     -------
 
     """
 
     # Consider Elterngeld that is larger than 300
-    anrechenbares_elterngeld_m = (elterngeld_m - 300).clip(lower=0)
+    anrechenbares_elterngeld_m = (
+        elterngeld_m - ges_renten_vers_params["elterngeld_anr_frei_grunds"]
+    ).clip(lower=0)
 
     # Income
     total_income = (
