@@ -26,7 +26,6 @@ INTERNAL_PARAM_GROUPS = [
     "eink_st",
     "eink_st_abzuege",
     "soli_st",
-    "arbeitsl_geld_2",
     "arbeitsl_geld",
     "soz_vers_beitr",
     "unterhalt",
@@ -36,6 +35,8 @@ INTERNAL_PARAM_GROUPS = [
     "kindergeld",
     "elterngeld",
     "ges_renten_vers",
+    "arbeitsl_geld_2",
+    "grunds_ia",
 ]
 
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}

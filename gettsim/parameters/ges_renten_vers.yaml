@@ -631,18 +631,6 @@ faktor_bonus_grundrente:
     scalar: 0.875
     reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
 
-schonvermögen_grunds_ia:
-  description:
-    de: ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter / bei Erwerbsminderung
-    en: there is no entitlement to Grundsicherung im Alter / bei Erwerbsminderung if assets exceed this threshold
-  reference: § 90 Abs. 2 Nr. 9 SGB XII
-  1984-01-01:
-    adult: 0
-    child: 0
-  2003-01-01:
-    adult: 5000
-    child: 500
-
 zugangsfaktor_veränderung_pro_jahr:
   description:
     de: Faktor um den sich der Zugangsfaktor für die staatliche Rente erhöht/senkt für jedes Jahr, das länger/kürzer gearbeitet wird
@@ -651,48 +639,3 @@ zugangsfaktor_veränderung_pro_jahr:
   2001-01-01:
     vorzeitiger_renteneintritt: 0.036
     späterer_renteneintritt: 0.06
-
-staatl_rente_anr_frei:
-  name:
-    de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre Grundrentenzeiten
-    en: Public pension shares not subject to transfer withdrawal for subjects whose Grundrentenzeiten exceeds 33 years
-  description:
-    de:
-    en:
-  type: piecewise_linear
-  time: month
-  1984-01-01:
-      reference: No income could be deducted
-      0:
-        lower_threshold: -inf
-        upper_threshold: inf
-        rate: 0
-        intercept_at_lower_threshold: 0
-  2021-01-01:
-      reference: § 82a Abs. 1 und 2 SGB XII
-      0:
-        lower_threshold: -inf
-        upper_threshold: 0
-        rate: 0
-        intercept_at_lower_threshold: 0
-      1:
-        lower_threshold: 0
-        upper_threshold: 100
-        rate: 1
-      2:
-        upper_threshold: inf
-        rate: 0.3
-
-elterngeld_anr_frei_grunds:
-  name:
-    de: Freibetrag des Elterngeldes für Grundsicherung im Alter und Erwerbsminderung
-    en:
-  description:
-    de:
-    en:
-  1984-01-01:
-    scalar: 0
-    note: Elterngeld didn't exist before 2007.
-  2007-01-01:
-      reference: § 10 BEEG
-      scalar: 300
