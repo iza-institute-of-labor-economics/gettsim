@@ -32,7 +32,7 @@ def arbeitsl_geld_2_m_hh(
     -------
     FloatSeries with the income by unemployment insurance per household.
     """
-    out = arbeitsl_geld_2_m_minus_eink_hh.clip(lower=0)
+    out = arbeitsl_geld_2_m_minus_eink_hh.copy()
     cond = (
         wohngeld_vorrang_hh
         | kinderzuschlag_vorrang_hh
