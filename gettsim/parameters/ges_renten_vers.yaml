@@ -649,14 +649,7 @@ mehrbedarf_g:
   2006-12-07:
     rate: 0.17
 
-mehrbedarf_g_grenze:
-  description:
-    de: Grenze des Behinderungsgrad ab der Menschen einen Schwerbehindertenausweis mit Merkzeichen G bekommen
-    en:
-  reference: § 3 Absatz 1 Nummer 7 SchwbAwV, § 229 Absatz 1 Satz 1 SGB IX, Anlage zu §2, Teil D, Nummer 1 VersMedV 
-  2008-12-15:
-    lower_threshold: 50
-    
+
 staatl_rente_anr_frei:
   name:
     de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre Grundrentenzeiten

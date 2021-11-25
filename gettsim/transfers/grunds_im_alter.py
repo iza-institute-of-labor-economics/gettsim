@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import pandas as pd
-=======
 from gettsim.piecewise_functions import piecewise_polynomial
->>>>>>> grundrente
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -242,8 +239,7 @@ def mehrbedarf_behinderung_m_hh(
     return mehrbedarf_behinderung_m.groupby(hh_id).sum()
 
 def mehrbedarf_behinderung_m(
-    behinderungsgrad: IntSeries, 
-    rented_or_owned: object,
+    schwerbe_ausweis_g: bool, 
     hhsize_tu: IntSeries,
     ges_renten_vers_params: dict,
     arbeitsl_geld_2_params: dict,
@@ -252,10 +248,8 @@ def mehrbedarf_behinderung_m(
     
     Parameters
     ----------
-    behinderungsgrad
-        See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
-    rented_or_owned
-        See basic input variable :ref:`rented_or_owned <rented_or_owned>`.
+    schwerbe_ausweis_g
+        See basic input variable :ref:`behinderungsgrad <schwerbe_ausweis_g>`.
     hhsize_tu
     See basic input variable :ref:`hhsize_tu <hhsize_tu>`.
     ges_renten_vers_params
@@ -266,26 +260,17 @@ def mehrbedarf_behinderung_m(
     -------
 
     """
-    out = pd.Series(0,index=behinderungsgrad.index, dtype=float)
+    out = pd.Series(0,index=schwerbe_ausweis_g.index, dtype=float)
 
     # mehrbedarf for disabilities is the rate times the regelsatz for the person getting the mehrbedarf
     bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * (ges_renten_vers_params["mehrbedarf_g"]["rate"])
     bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * (ges_renten_vers_params["mehrbedarf_g"]["rate"])
-    bedarf3 = (arbeitsl_geld_2_params["regelsatz"][3]) * (ges_renten_vers_params["mehrbedarf_g"]["rate"])
+    
 
-    # singles not living in einrichtungen
-    out.loc[(behinderungsgrad >= ges_renten_vers_params["mehrbedarf_g_grenze"]["lower_threshold"]) & (
-        rented_or_owned != 'Heimbewohner oder Gemeinschaftsunterkunft'
-    )] = bedarf1
-    # couples not living in einrichtungen
-    out.loc[(behinderungsgrad >= ges_renten_vers_params["mehrbedarf_g_grenze"]["lower_threshold"]) & (
-        rented_or_owned != 'Heimbewohner oder Gemeinschaftsunterkunft') & (
-        hhsize_tu != 1
-    )] = bedarf2
-    # people in einrichtungen
-    out.loc[(behinderungsgrad >= ges_renten_vers_params["mehrbedarf_g_grenze"]["lower_threshold"]) & (
-        rented_or_owned == 'Heimbewohner oder Gemeinschaftsunterkunft'
-    )] = bedarf3
+    # singles
+    out.loc[(schwerbe_ausweis_g == True)] = bedarf1
+    # couples
+    out.loc[(schwerbe_ausweis_g == True) & (hhsize_tu != 1)] = bedarf2 
     
 
     return out
