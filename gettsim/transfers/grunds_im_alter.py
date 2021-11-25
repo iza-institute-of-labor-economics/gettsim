@@ -220,8 +220,9 @@ def anrechenbare_prv_rente_grunds_ia_m(
 
     return out
 
+
 def mehrbedarf_behinderung_m_hh(
-    mehrbedarf_behinderung_m: FloatSeries, 
+    mehrbedarf_behinderung_m: FloatSeries,
     hh_id: IntSeries,
 ) -> FloatSeries:
     """Aggregate mehrbedarf for people with disabilities on household level.
@@ -238,14 +239,15 @@ def mehrbedarf_behinderung_m_hh(
     """
     return mehrbedarf_behinderung_m.groupby(hh_id).sum()
 
+
 def mehrbedarf_behinderung_m(
-    schwerbe_ausweis_g: bool, 
+    schwerbe_ausweis_g: bool,
     hhsize_tu: IntSeries,
     ges_renten_vers_params: dict,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
     """Calculate mehrbedarf for people with disabilities.
-    
+
     Parameters
     ----------
     schwerbe_ausweis_g
@@ -260,18 +262,18 @@ def mehrbedarf_behinderung_m(
     -------
 
     """
-    out = pd.Series(0,index=schwerbe_ausweis_g.index, dtype=float)
+    out = pd.Series(0, index=schwerbe_ausweis_g.index, dtype=float)
 
     # mehrbedarf for disabilities is the rate times the regelsatz for the person getting the mehrbedarf
-    bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * (ges_renten_vers_params["mehrbedarf_g"]["rate"])
-    bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * (ges_renten_vers_params["mehrbedarf_g"]["rate"])
-    
+    bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * \
+        (ges_renten_vers_params["mehrbedarf_g"]["rate"])
+    bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * \
+        (ges_renten_vers_params["mehrbedarf_g"]["rate"])
 
     # singles
     out.loc[(schwerbe_ausweis_g == True)] = bedarf1
     # couples
-    out.loc[(schwerbe_ausweis_g == True) & (hhsize_tu != 1)] = bedarf2 
-    
+    out.loc[(schwerbe_ausweis_g == True) & (hhsize_tu != 1)] = bedarf2
 
     return out
 

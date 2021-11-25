@@ -17,6 +17,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
    (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`)
 * :gh:`307` Allow to specify order up to which ancestors and descendants are shown
    when plotting a dag (:ghuser:`ChristianZimpelmann`).
+* :gh:`310` Added Mehrbedarf G to Implementation of Grundsicherung im Alter (:ghuser:`paulinaschroeder`).
 
 
 0.4.1 - 2021-04-11
