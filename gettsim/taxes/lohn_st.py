@@ -4,19 +4,18 @@ from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.social_insurance.krankenv import krankenv_beitr_regulär_beschäftigt
 from gettsim.social_insurance.pflegev import pflegev_beitr_regulär_beschäftigt
 from gettsim.social_insurance.rentenv import rentenv_beitr_regular_job
+from gettsim.taxes.eink_st import st_tarif
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def calc_lohnsteuer(
+def lohn_steuer(
     bruttolohn_m: FloatSeries,
-    vorsorgepauschale: FloatSeries,
+    vorsorgepauschale,
+    alleinerziehend_freib_tu,
     params: dict,
     steuerklasse: IntSeries,
-    anz_kinder_tu: IntSeries,
-    kinderlos: BoolSeries,
-    alleinerziehend_freib_tu: IntSeries,
     jahr_renteneintr: IntSeries,
 ) -> FloatSeries:
     """
@@ -41,11 +40,12 @@ def calc_lohnsteuer(
     lohn_st
 
     """
-    grundfreibetrag = params["eink_st_tarif"]["thresholds"][1]
+
+    grundfreibetrag = params["eink_st"]["eink_st_tarif"]["thresholds"][1]
     # Full child allowance
     kinderfreibetrag_basis = (
-        params["eink_st_abzuege"]["sächl_existenzmin"]
-        + params["eink_st_abzuege"]["beitr_erz_ausb"]
+        params["eink_st_abzuege"]["kinderfreibetrag"]["sächl_existenzmin"]
+        + params["eink_st_abzuege"]["kinderfreibetrag"]["beitr_erz_ausb"]
     )
     # For certain tax brackets, twice the child allowance can be deducted
     kinderfreibetrag = kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3]) + (
@@ -65,12 +65,14 @@ def calc_lohnsteuer(
         - vorsorgepauschale(bruttolohn_m, steuerklasse, jahr_renteneintr, params)
     )
 
+    lohnsteuer = lohnsteuer_zve.apply(st_tarif, params=params)
+
     """
         # Kinderfreibetrag. Split it for Steuerklasse 4
         tax_unit["lohnsteuer_kinderfreibetrag"] = tax_unit["child_num_kg"] * (
             e_st_abzuege_params["kifreib_s_exm"] + e_st_abzuege_params["kifreib_bea"]
         )
-        tax_unit.loc[tax_unit["e_st_klasse"] == 4, "lohnsteuer_kinderfreibetrag"] = (
+        tax_unit.loc[tax_unit["l_st_klasse"] == 4, "lohnsteuer_kinderfreibetrag"] = (
             tax_unit["lohnsteuer_kinderfreibetrag"] / 2
         )
 
@@ -87,7 +89,7 @@ def calc_lohnsteuer(
 
 
 def vorsorgepauschale_ab_2010(
-    bruttolohn: FloatSeries,
+    bruttolohn_m: FloatSeries,
     steuerklasse: IntSeries,
     jahr: IntSeries,
     params: dict,
@@ -95,13 +97,13 @@ def vorsorgepauschale_ab_2010(
 ) -> FloatSeries:
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
     vorsorg_rv = rentenv_beitr_regular_job(
-        bruttolohn, params["soz_vers_beitr"]
+        bruttolohn_m, params["soz_vers_beitr"]
     ) * vorsorg_rv_anteil(jahr, params["eink_st_abzuege"])
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
     # For health care deductions, there are two ways to calculate.
     # a) at least 12% of earnings of earnings can be deducted, but only up to a certain threshold
     vorsorg_kv_option_a_basis = (
-        params["eink_st_abzuege"]["vorsorgepauschale_mindestanteil"] * bruttolohn
+        params["eink_st_abzuege"]["vorsorgepauschale_mindestanteil"] * bruttolohn_m
     )
 
     vorsorg_kv_option_a_max = np.select(
@@ -114,10 +116,10 @@ def vorsorgepauschale_ab_2010(
     vorsorg_kv_option_a = np.minimum(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
     # b) Take the actual contribtutions (usually the better option)
     vorsorg_kv_option_b = krankenv_beitr_regulär_beschäftigt(
-        bruttolohn, params["soz_vers_beitr"]
+        bruttolohn_m, params["soz_vers_beitr"]
     )
     vorsorg_kv_option_b += pflegev_beitr_regulär_beschäftigt(
-        kinderlos, bruttolohn, params["soz_vers_beitr"]
+        kinderlos, bruttolohn_m, params["soz_vers_beitr"]
     )
     # add both RV and KV deductions
     out = vorsorg_rv + np.maximum(vorsorg_kv_option_a, vorsorg_kv_option_b)

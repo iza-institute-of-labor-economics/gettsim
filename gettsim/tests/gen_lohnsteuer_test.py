@@ -91,9 +91,19 @@ def format_url_content(url_base, specs, out_definitions):
     return (df.set_index("name").join(out_df), url)
 
 
-def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1):
+def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr=2021):
+    """
+    Creates an URL for the API of the official calculator by the German Ministry of Finance,
+    document at: https://www.bmf-steuerrechner.de/interface/einganginterface.xhtml
+
+    Returns
+    -------
+
+    income tax tue as pd.Series
+
+    """
     url_base = (
-        "http://www.bmf-steuerrechner.de/interface/2021Version1.xhtml?code=eP2021"
+        f"http://www.bmf-steuerrechner.de/interface/{jahr}Version1.xhtml?code=eP2021"
     )
 
     # Possible inputs:
@@ -138,40 +148,64 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1):
 
 out_definitions = {
     "BK": "Bemessungsgrundlage für die Kirchenlohnsteuer in Cent",
-    "BKS": "Bemessungsgrundlage der sonstigen Bezüge (ohne Vergütung für mehrjährige Tätigkeit) für die Kirchenlohnsteuer in Cent",
-    "BKV": "Bemessungsgrundlage der Vergütung für mehrjährige Tätigkeit für die Kirchenlohnsteuer in Cent",
+    "BKS": """Bemessungsgrundlage der sonstigen Bezüge 
+              (ohne Vergütung für mehrjährige Tätigkeit) für die Kirchenlohnsteuer in Cent""",
+    "BKV": """Bemessungsgrundlage der Vergütung für mehrjährige Tätigkeit
+              für die Kirchenlohnsteuer in Cent""",
     "LSTLZZ": "Für den Lohnzahlungszeitraum einzubehaltende Lohnsteuer in Cent",
     "SOLZLZZ": "Für den Lohnzahlungszeitraum einzubehaltender Solidaritätszuschlag in Cent",
-    "SOLZS": "Solidaritätszuschlag für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit) in Cent",
+    "SOLZS": """Solidaritätszuschlag für sonstige Bezüge 
+                (ohne Vergütung für mehrjährige Tätigkeit) in Cent""",
     "SOLZV": "Solidaritätszuschlag für die Vergütung für mehrjährige Tätigkeit in Cent",
     "STS": "Lohnsteuer für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit) in Cent",
     "STV": "Lohnsteuer für die Vergütung für mehrjährige Tätigkeit in Cent",
-    "VKVLZZ": "Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung (ggf. auch die Mindestvorsorgepauschale) in Cent beim laufenden Arbeitslohn. Für Zwecke der Lohnsteuerbescheinigung sind die einzelnen Ausgabewerte außerhalb des eigentlichen Lohnsteuerberechnungsprogramms zu addieren; hinzuzurechnen sind auch die Ausgabewerte VKVSONST.",
-    "VKVSONST": "Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung (ggf. auch die Mindestvorsorgepauschale) in Cent bei sonstigen Bezügen. Der Ausgabewert kann auch negativ sein. Für tarifermäßigt zu besteuernde Vergütungen für mehrjährige Tätigkeiten enthält der PAP keinen entsprechenden Ausgabewert.",
+    "VKVLZZ": """Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers 
+                  zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung 
+                  (ggf. auch die Mindestvorsorgepauschale) in Cent beim laufenden Arbeitslohn. 
+                  Für Zwecke der Lohnsteuerbescheinigung sind die einzelnen Ausgabewerte 
+                  außerhalb des eigentlichen Lohnsteuerberechnungsprogramms zu addieren; 
+                  hinzuzurechnen sind auch die Ausgabewerte VKVSONST.""",
+    "VKVSONST": """Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers 
+                  zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung 
+                  (ggf. auch die Mindestvorsorgepauschale) in Cent bei sonstigen Bezügen. 
+                  Der Ausgabewert kann auch negativ sein. Für tarifermäßigt zu besteuernde 
+                  Vergütungen für mehrjährige Tätigkeiten enthält der PAP keinen entsprechenden 
+                  Ausgabewert.""",
     "VFRB": "Verbrauchter Freibetrag bei Berechnung des laufenden Arbeitslohns, in Cent",
-    "VFRBS1": "Verbrauchter Freibetrag bei Berechnung des voraussichtlichen Jahresarbeitslohns, in Cent",
+    "VFRBS1": """Verbrauchter Freibetrag bei Berechnung des voraussichtlichen 
+                 Jahresarbeitslohns, in Cent""",
     "VFRBS2": "Verbrauchter Freibetrag bei Berechnung der sonstigen Bezüge, in Cent",
-    "WVFRB": "Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei verfügbares ZVE über dem Grundfreibetrag bei der Berechnung deslaufenden Arbeitslohns, in Cent",
-    "WVFRBM": "Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei verfügbares ZVE über dem Grundfreibetrag bei der Berechnung der sonstigen Bezüge, in Cent",
-    "WVFRBO": "Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei verfügbares ZVE über dem Grundfreibetrag bei der Berechnung des voraussichtlichen Jahresarbeitslohns, in Cent",
+    "WVFRB": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei 
+                verfügbares ZVE über dem Grundfreibetrag bei der Berechnung deslaufenden
+                Arbeitslohns, in Cent""",
+    "WVFRBM": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei
+                 verfügbares ZVE über dem Grundfreibetrag bei der Berechnung der sonstigen Bezüge,
+                 in Cent""",
+    "WVFRBO": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei
+                 verfügbares ZVE über dem Grundfreibetrag bei der Berechnung des voraussichtlichen
+                 Jahresarbeitslohns, in Cent""",
 }
 
 hh = pd.DataFrame(
     {
-        "tu_id": [1, 2, 2, 3, 3],
-        "bruttolohn": [2000, 3000, 4000, 5000, 0],
-        "n_children": [0, 0, 0, 0, 0,],
-        "steuerklasse": [1, 4, 4, 3, 5],
-        "jahr": [2021, 2021, 2021, 2021, 2021],
+        "tu_id": [1, 2, 2, 3, 3, 4],
+        "pid": [1, 2, 3, 4, 5, 6],
+        "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000],
+        "child_num_kg": [0, 0, 0, 0, 0, 2],
+        "l_st_klasse": [1, 4, 4, 3, 5, 2],
+        "year": [2020, 2021, 2021, 2021, 2021, 2020],
     }
 )
 
 hh["lohn_steuer"] = np.vectorize(bmf_collect)(
-    hh["bruttolohn"],
+    hh["bruttolohn_m"],
     faktorverfahren=0,
     faktor="1,0000",
-    n_kinder=hh["n_children"],
-    stkl=hh["steuerklasse"],
+    n_kinder=hh["child_num_kg"],
+    stkl=hh["l_st_klasse"],
+    jahr=hh["year"],
 )
 # Export
-hh.to_csv(f"{ROOT_DIR}/tests/test_data/test_dfs_lohn_steuer.csv", index=False)
+lohnsteuer_test_out = f"{ROOT_DIR}/tests/test_data/test_dfs_lohn_steuer.csv"
+hh.to_csv(lohnsteuer_test_out, index=False)
+
