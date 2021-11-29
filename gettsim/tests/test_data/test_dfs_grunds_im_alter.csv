@@ -2,3 +2,11 @@ p_id,tu_id,hh_id,jahr,kind,alter,grundrentenzeiten,rentner,kaltmiete_m_hh,heizko
 1,1,1,2021,False,70,240,TRUE,300,66,50,350,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1168,228,,https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2 (Max B. und Inge M.)
 2,1,1,2021,False,67,240,TRUE,300,66,50,590,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1168,228,,https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2 (Max B. und Inge M.)
 3,2,2,2021,False,70,420,TRUE,405,40,45,850,0,0,0,0,0,0,0,0,0,94,0,0,0,0,FALSE,False,891,358,,https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2 (Harald F.)
+4,3,3,2018,False,68,300,TRUE,344,92,45,440,400,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,852,202,,https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
+5,4,4,2022,False,76,240,TRUE,430,70,55,360,0,0,0,0,0,0,0,0,0,50,0,0,0,0,FALSE,False,1308,928,,https://www.vdk.de/deutschland/pages/themen/81170/grundsicherungsrechner
+6,4,4,2022,False,70,120,TRUE,430,70,55,120,0,0,0,0,0,0,0,0,0,50,0,0,0,0,FALSE,False,1308,928,,https://www.vdk.de/deutschland/pages/themen/81170/grundsicherungsrechner
+7,5,5,2021,False,68,0,TRUE,350,35,40,430,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,831,401,,https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
+8,6,6,2017,False,72,300,TRUE,460,60,60,860.6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1256,322,,https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
+9,6,6,2017,False,67,48,TRUE,460,60,60,73.4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1256,322,,https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
+10,7,7,2021,False,68,0,TRUE,350,35,40,430,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,831,401,,https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
+11,8,8,2022,False,77,120,TRUE,300,45,40,250,400,0,0,0,0,0,0,0,0,50,0,0,0,0,FALSE,False,794,384,,https://www.vdk.de/deutschland/pages/themen/81170/grundsicherungsrechner
