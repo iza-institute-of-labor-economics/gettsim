@@ -30,7 +30,7 @@ wohnfläche:
     couple_1_children: 70
     couple_2_children: 76
     reference: statistik.arbeitsagentur.de -- Wohn- und Wohnkostensituation nach Typ der Bedarfsgemeinschaft, Januar 2020
-kaltmiete:
+bruttokaltmiete:
   name:
     de: Durchschnittliche Miete (Unterkunftskosten und Betriebskosten)
     en: Average Rent

@@ -12,7 +12,7 @@ def test_synthetic():
     # run with defaults
     df = create_synthetic_data()
     # rent must be positive
-    assert df["kaltmiete_m_hh"].min() > 0
+    assert df["bruttokaltmiete_m_hh"].min() > 0
     # heating cost must be positive
     assert df["heizkosten_m_hh"].min() > 0
     # no NaN values

@@ -27,7 +27,7 @@ def grundr_zuschlag_m(
 
 
 def anrechenbares_eink_gr_m(
-    anz_erwachsene_tu: IntSeries,
+    gemeinsam_veranlagt: BoolSeries,
     zu_verst_eink_excl_grundr_zuschlag_m_tu: FloatSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
@@ -43,8 +43,8 @@ def anrechenbares_eink_gr_m(
 
     Parameters
     ----------
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    gemeinsam_veranlagt
+        See :func:`gemeinsam_veranlagt`.
     zu_verst_eink_excl_grundr_zuschlag_m_tu
         See :func:`zu_verst_eink_excl_grundr_zuschlag_m_tu`.
     rentenwert
@@ -57,20 +57,19 @@ def anrechenbares_eink_gr_m(
     -------
 
     """
-    alleinstehend_grundr = tu_id.replace(anz_erwachsene_tu < 2)
 
     # Select correct thresholds of income crediting rule.
-    einkommensanrechnung_upper = alleinstehend_grundr.replace(
+    einkommensanrechnung_upper = gemeinsam_veranlagt.replace(
         {
-            True: ges_renten_vers_params["einkommensanr_grundrente"]["upper"],
-            False: ges_renten_vers_params["einkommensanr_grundrente"]["upper_ehe"],
+            False: ges_renten_vers_params["einkommensanr_grundrente"]["upper"],
+            True: ges_renten_vers_params["einkommensanr_grundrente"]["upper_ehe"],
         }
     ).astype(float)
 
-    einkommensanrechnung_lower = alleinstehend_grundr.replace(
+    einkommensanrechnung_lower = gemeinsam_veranlagt.replace(
         {
-            True: ges_renten_vers_params["einkommensanr_grundrente"]["lower"],
-            False: ges_renten_vers_params["einkommensanr_grundrente"]["lower_ehe"],
+            False: ges_renten_vers_params["einkommensanr_grundrente"]["lower"],
+            True: ges_renten_vers_params["einkommensanr_grundrente"]["lower_ehe"],
         }
     ).astype(float)
     upper = einkommensanrechnung_upper * rentenwert
@@ -195,7 +194,7 @@ def bonus_entgeltpunkte_grundr(
 
     In general, the average of monthly Entgeltpunkte earnd in Grundrentenzeiten is
     doubled, or extended to the individual Höchstwert if doubling would exceed the
-    Höchstwert. Then, the value is always multiplied by 0.875.
+    Höchstwert. Then, the value is multiplied by 0.875.
 
     Legal reference: § 76g SGB VI
 
@@ -220,15 +219,13 @@ def bonus_entgeltpunkte_grundr(
     below_half_höchstwert = durchschnittl_entgeltpunkte_grundr <= (
         0.5 * höchstwert_grundr_m
     )
-    out.loc[below_half_höchstwert] = durchschnittl_entgeltpunkte_grundr * (1 - 0.125)
+    out.loc[below_half_höchstwert] = durchschnittl_entgeltpunkte_grundr
 
     # Case 2: Entgeltpunkte more than half of Höchstwert, but below Höchstwert
     cond = ~below_half_höchstwert & (
         durchschnittl_entgeltpunkte_grundr < höchstwert_grundr_m
     )
-    out.loc[cond] = (höchstwert_grundr_m - durchschnittl_entgeltpunkte_grundr) * (
-        1 - 0.125
-    )
+    out.loc[cond] = höchstwert_grundr_m - durchschnittl_entgeltpunkte_grundr
 
     # Case 3: Entgeltpunkte above Höchstwert
     cond = durchschnittl_entgeltpunkte_grundr > höchstwert_grundr_m
@@ -239,6 +236,9 @@ def bonus_entgeltpunkte_grundr(
         grundrentenzeiten < ges_renten_vers_params["grundrentenzeiten"]["min"]
     )
     out.loc[gr_zeiten_below_min] = 0
+
+    # Multiply additional Engeltpunkte by factor
+    out = out * ges_renten_vers_params["faktor_bonus_grundrente"]
 
     return out
 
@@ -277,9 +277,9 @@ def zu_verst_eink_excl_grundr_zuschlag_m(
     The Deutsche Rentenversicherung uses the income of the year two to three years
     ago to be able to use administrative data on this income for the calculation.
 
-    "Es ist davon auszugehen, dass dem Finanzamt regelmäßig zwei Jahre nach dem Ablauf
-    des Veranlagungszeitraums die Daten vorliegen, die von der Rentenversicherung
-    abgerufen werden können. "
+    "It can be assumed that the tax office regularly has the data two years after
+    the end of the assessment period, which can be retrieved from the pension
+    insurance."
 
     Warning: Currently, earnings of dependend work and pensions are based on the
     last year, and other income on the current year instead of the year
@@ -304,14 +304,11 @@ def zu_verst_eink_excl_grundr_zuschlag_m(
     -------
     """
 
-    # Earnings from self-employed work and rent income (assumption that they were
-    # the same last year)
-    earnings_self_empl_rent = brutto_eink_1 + brutto_eink_6
-
     out = (
         proxy_rente_vorj_excl_grundr_zuschlag_m
         + bruttolohn_vorj_m
-        + earnings_self_empl_rent / 12
+        + brutto_eink_1 / 12  # income from self-employment
+        + brutto_eink_6 / 12  # income from rents
         + kapital_eink_minus_pauschbetr / 12
     )
 
@@ -319,20 +316,18 @@ def zu_verst_eink_excl_grundr_zuschlag_m(
 
 
 def proxy_rente_vorj_excl_grundr_zuschlag_m(
-    wohnort_ost: BoolSeries,
+    rentenwert_vorjahr: FloatSeries,
     prv_rente_m: FloatSeries,
     jahr_renteneintr: IntSeries,
     geburtsjahr: IntSeries,
     alter: IntSeries,
     entgeltpunkte: FloatSeries,
     zugangsfaktor: FloatSeries,
-    ges_renten_vers_params: dict,
 ) -> FloatSeries:
     """Estimated amount of public pensions of last year excluding Grundrentenzuschlag.
 
-    See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    rentenwert_vorjahr
+        See basic input variable :ref:`rentenwert_vorjahr <rentenwert_vorjahr>`.
     prv_rente_m
         See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
     jahr_renteneintr
@@ -345,20 +340,10 @@ def proxy_rente_vorj_excl_grundr_zuschlag_m(
         See basic input variable :ref:`entgeltpunkte <entgeltpunkte>`.
     zugangsfaktor
         See :func:`zugangsfaktor`.
-    ges_renten_vers_params
-        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
 
     Returns
     -------
     """
-
-    # Calculate pension in the last year in case the subject was already retired
-    rentenwert_vorjahr = wohnort_ost.replace(
-        {
-            True: ges_renten_vers_params["rentenwert_vorjahr"]["ost"],
-            False: ges_renten_vers_params["rentenwert_vorjahr"]["west"],
-        }
-    ).astype(float)
 
     # Assume prv_rente_m did not change
     out = entgeltpunkte * zugangsfaktor * rentenwert_vorjahr + prv_rente_m
