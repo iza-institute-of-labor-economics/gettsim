@@ -17,7 +17,7 @@ GEP 1 — Naming Conventions
 +------------+-------------------------------------------------------------------------+
 | Created    | 2019-11-04                                                              |
 +------------+-------------------------------------------------------------------------+
-| Updated    | 2020-03-10                                                              |
+| Updated    | 2021-12-XX                                                              |
 +------------+-------------------------------------------------------------------------+
 | Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
 +------------+-------------------------------------------------------------------------+
@@ -35,9 +35,9 @@ a nutshell and without explanations, these conventions are:
   underscore, unless it is the last word.
 * Names should be long enough to be readable, but
 
-  - for column names in the user-facing API, there is a hard limit of 17 characters;
-  - for other column names, there is a soft limit of 17 and a hard limit of 25
-    characters.
+  - for column names that are typically user-facing, there is a hard limit of 20
+    characters;
+  - for other column names, there is a hard limit of 25 characters.
 
 * The language should generally be English in all coding efforts and documentation.
   German should be used for all institutional features and directly corresponding
@@ -86,7 +86,7 @@ in English. For column names, we always allow a pure ASCII option, see the next 
 Column names (a.k.a. "variables" in Stata)
 ------------------------------------------
 
-We impose a hard limit of 17 characters for all column names that are part of the API,
+We impose a hard limit of 20 characters for all column names that typically user-facing,
 i.e., those that are an input to or an output of GETTSIM's main simulation functions.
 This is for the benefit of Stata users, who face a strict limit of 32 characters for
 their column names. Furthermore, where developers using other languages may store
@@ -101,8 +101,14 @@ pure ASCII option in German (this should always be fulfilled in the English vers
 there is demand, we could also support standardised variables like in `EUROMOD
 <https://www.euromod.ac.uk/>`_ or the `CNEF <https://cnef.ehe.osu.edu/data/>`_ standard.
 
-It might be useful to append an underscore plus one of {``j``, ``m``, ``w``, ``t``} to
-indicate the time unit.
+The default time unit is a year. If a column refers to a different time unit, an
+underscore plus one of {``m``, ``w``, ``t``} will indicate the time unite.
+
+The default unit a column refers to is an individual. In case a household or tax unit is
+the relevant unit, an underscore plus one of {``hh``, ``tu``} will indicate the level of
+aggregation.
+
+Time unit identifier come before unit identifiers (e.g., ``arbeitsl_geld_2_m_hh``).
 
 
 
@@ -136,8 +142,8 @@ name.
 
 The name of variables should reflect the content or meaning of the variable and not the
 type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
-cases it might be useful to append an underscore plus one of {``j``, ``m``, ``w``,
-``t``} to indicate the time unit.
+cases it might be useful to append an underscore plus one of {``m``, ``w``, ``t``} to
+indicate the time unit and one of {``hh``, ``tu``} to indicate the unit of aggregation.
 
 
 Examples
@@ -211,6 +217,7 @@ Discussion
 
 * GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
 * Discussion on provisional acceptance: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs/near/189539859
+* GitHub PR for update: https://github.com/iza-institute-of-labor-economics/gettsim/pull/
 
 Copyright
 ---------
