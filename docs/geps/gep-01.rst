@@ -102,7 +102,7 @@ there is demand, we could also support standardised variables like in `EUROMOD
 <https://www.euromod.ac.uk/>`_ or the `CNEF <https://cnef.ehe.osu.edu/data/>`_ standard.
 
 The default time unit is a year. If a column refers to a different time unit, an
-underscore plus one of {``m``, ``w``, ``t``} will indicate the time unite.
+underscore plus one of {``m``, ``w``, ``t``} will indicate the time unit.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
 the relevant unit, an underscore plus one of {``hh``, ``tu``} will indicate the level of
