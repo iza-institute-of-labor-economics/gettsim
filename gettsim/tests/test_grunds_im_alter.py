@@ -68,7 +68,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_grundrente(input_data, year, column):
+def test_grunds_im_alter(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
