@@ -8,7 +8,8 @@ from gettsim.typing import IntSeries
 # circular import.
 ROOT_DIR = Path(__file__).parent
 
-GEP_1_CHARACTER_LIMIT = 17
+GEP_01_CHARACTER_LIMIT_USER_FACING = 20
+GEP_01_CHARACTER_LIMIT_INTERNAL = 25
 
 PATHS_TO_INTERNAL_FUNCTIONS = [
     ROOT_DIR / "social_insurance",
