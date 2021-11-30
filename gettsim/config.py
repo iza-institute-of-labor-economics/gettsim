@@ -62,8 +62,6 @@ DEFAULT_TARGETS = [
     "kinderzuschlag_m_hh",
     "wohngeld_m_hh",
     "arbeitsl_geld_2_m_hh",
-    # "verfügb_eink_m",
-    # "verfügb_eink_hh_m",
 ]
 
 STANDARD_DATA_TYPES = {
