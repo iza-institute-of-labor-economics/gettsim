@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
@@ -26,39 +25,26 @@ def test_steuerklassen():
     # Tests whether steuerklassen are correctly assigned based on our assumptions
     df = pd.DataFrame(
         {
-            "tu_id": [1, 2, 2, 3, 3, 3, 4, 4],
-            "bruttolohn_m": [2000, 2000, 2000, 2000, 0, 0, 2000, 0],
-            "gemeinsam_veranlagt_tu": [
-                False,
-                False,
-                False,
-                True,
-                True,
-                False,
-                False,
-                False,
-            ],
-            "anz_erwachsene_tu": [1, 2, 2, 2, 2, 2, 1, 1],
-            "alleinerziehend_tu": [
-                False,
-                False,
-                False,
-                False,
-                False,
-                False,
-                True,
-                True,
-            ],
-            "steuerklasse": [1, 4, 4, 3, 5, 4, 2, 2],
+            "p_id": [1, 2, 3, 4, 5, 6],
+            "tu_id": [1, 2, 2, 3, 3, 4],
+            "hh_id": [1, 2, 2, 3, 3, 4],
+            "bruttolohn_m": [2000, 2000, 2000, 2000, 0, 2000],
+            "gemeinsam_veranlagte_tu": [False, False, False, True, True, False],
+            "anz_erwachsene_tu": [1, 2, 2, 2, 2, 1],
+            "alleinerziehend_tu": [False, False, False, False, False, True],
+            "steuerklasse": [1, 4, 4, 3, 5, 2],
         }
     )
-
     result = compute_taxes_and_transfers(
         data=df.drop(columns=["steuerklasse"]),
         params=policy_params,
         functions=policy_functions,
-        targets="steuerklasse",
-        columns_overriding_functions=["alleinerziehend_tu", "anz_erwachsene_tu"],
+        targets=["steuerklasse"],
+        columns_overriding_functions=[
+            "gemeinsam_veranlagte_tu",
+            "alleinerziehend_tu",
+            "anz_erwachsene_tu",
+        ],
     )
 
     assert_series_equal(df["steuerklasse"], result["steuerklasse"])
@@ -77,8 +63,7 @@ def test_lohnsteuer(input_data, year):
     out_cols = ["lohn_steuer"]
 
     result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=OUT_COLS
+        data=df, params=policy_params, functions=policy_functions, targets=out_cols
     )
-    print(result)
 
-    assert_frame_equal(df[OUT_COLS], year_data[out_cols], check_dtype=False)
+    assert_frame_equal(df[out_cols], year_data[out_cols], check_dtype=False)

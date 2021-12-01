@@ -334,14 +334,16 @@ def steuerklasse(
     alleinerziehend_tu: BoolSeries,
     bruttolohn_m: FloatSeries,
     anz_erwachsene_tu: IntSeries,
-    params: dict,
+    eink_st_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> IntSeries:
     """ Determine Lohnsteuerklassen (also called 'tax brackets')
     They determine the basic allowance for the withdrawal tax
 
     1: Single
     2: Single Parent
-    3: One spouse in married couple who receives allowance of both partners. Only in case of Single-Earner Households
+    3: One spouse in married couple who receives allowance of both partners.
+       Only in case of Single-Earner Households
     4: Both spouses receive their individual allowance
     5: Other spouse in couple who receives no allowance
     6: Additional Job...not modelled yet, as we do not
@@ -350,7 +352,8 @@ def steuerklasse(
     Parameters
     ----------
     gemeinsam_veranlagte_tu: BoolSeries
-        whether or not two household members are married and file their tax claim jointly
+        whether or not two household members are married and file their
+        tax claim jointly
     alleinerziehend_tu: BoolSeries
         Single Parent Indicator
     bruttolohn_m: FloatSeries
@@ -363,11 +366,17 @@ def steuerklasse(
     steuerklasse: IntSeries
         The steuerklasse for each tax unit member
     """
+    print(gemeinsam_veranlagte_tu)
     bruttolohn_max = bruttolohn_m.max()
     bruttolohn_min = bruttolohn_m.min()
-    grundfreibetrag = params["eink_st"]["eink_st_tarif"]["thresholds"][1]
-    single_earner_couple = (
-        (bruttolohn_min <= grundfreibetrag / 12)
+    # Determine Single Earner Couple:
+    # If one of the spouses earns tax-free income, assume Single Earner Couple
+    einkommensgrenze_zweitverdiener = (
+        eink_st_params["eink_st_tarif"]["thresholds"][1]
+        + eink_st_abzuege_params["werbungskostenpauschale"]
+    )
+    alleinverdiener_paar = (
+        (bruttolohn_min <= einkommensgrenze_zweitverdiener / 12)
         & (bruttolohn_max > 0)
         & (anz_erwachsene_tu == 2)
         & (gemeinsam_veranlagte_tu)
@@ -375,9 +384,9 @@ def steuerklasse(
     steuerklasse = (
         1 * (anz_erwachsene_tu == 1)
         + 2 * alleinerziehend_tu
-        + 3 * single_earner_couple * (bruttolohn_m > 0)
-        + 4 * (anz_erwachsene_tu == 2) * (~single_earner_couple)
-        + 5 * single_earner_couple * (bruttolohn_m == 0)
+        + 3 * alleinverdiener_paar * (bruttolohn_m > 0)
+        + 4 * (anz_erwachsene_tu == 2) * (~alleinverdiener_paar)
+        + 5 * alleinverdiener_paar * (bruttolohn_m == 0)
     )
 
     return steuerklasse

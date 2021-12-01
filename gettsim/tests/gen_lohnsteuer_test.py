@@ -1,8 +1,8 @@
 """ Tool to check outcomes against BMF Steuerrechner
     This is for Lohnsteuer only!!
 """
-import urllib.request as MyBrowser
-import xml.etree.ElementTree as ET
+import urllib.request as mybrowser
+import xml.etree.ElementTree as ElementTree
 
 import numpy as np
 import pandas as pd
@@ -27,10 +27,11 @@ def get_xml(url):
     """
     # say hello
     myheader = {
-        "User-Agent": "gettsim development: https://github.com/iza-institute-of-labor-economics/gettsim"
+        "User-Agent": """gettsim development:
+                    https://github.com/iza-institute-of-labor-economics/gettsim"""
     }
-    request = MyBrowser.Request(url, headers=myheader)
-    response = MyBrowser.urlopen(request)
+    request = mybrowser.Request(url, headers=myheader)
+    response = mybrowser.urlopen(request)
     xml_ugly = response.read()
 
     return xml_ugly
@@ -83,7 +84,7 @@ def format_url_content(url_base, specs, out_definitions):
     df = pd.DataFrame(columns=["name", "value", "type"])
     # get xml results
     xml_ugly = get_xml(url)
-    xml_raw = ET.fromstring(xml_ugly)
+    xml_raw = ElementTree.fromstring(xml_ugly)
     # put information into DataFrame
     for index, child in enumerate(xml_raw.iter("ausgabe")):
         df = df.append(pd.DataFrame(child.attrib, index=[index]))
@@ -148,34 +149,34 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
 
 out_definitions = {
     "BK": "Bemessungsgrundlage für die Kirchenlohnsteuer in Cent",
-    "BKS": """Bemessungsgrundlage der sonstigen Bezüge 
+    "BKS": """Bemessungsgrundlage der sonstigen Bezüge
               (ohne Vergütung für mehrjährige Tätigkeit) für die Kirchenlohnsteuer in Cent""",
     "BKV": """Bemessungsgrundlage der Vergütung für mehrjährige Tätigkeit
               für die Kirchenlohnsteuer in Cent""",
     "LSTLZZ": "Für den Lohnzahlungszeitraum einzubehaltende Lohnsteuer in Cent",
     "SOLZLZZ": "Für den Lohnzahlungszeitraum einzubehaltender Solidaritätszuschlag in Cent",
-    "SOLZS": """Solidaritätszuschlag für sonstige Bezüge 
+    "SOLZS": """Solidaritätszuschlag für sonstige Bezüge
                 (ohne Vergütung für mehrjährige Tätigkeit) in Cent""",
     "SOLZV": "Solidaritätszuschlag für die Vergütung für mehrjährige Tätigkeit in Cent",
     "STS": "Lohnsteuer für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit) in Cent",
     "STV": "Lohnsteuer für die Vergütung für mehrjährige Tätigkeit in Cent",
-    "VKVLZZ": """Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers 
-                  zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung 
-                  (ggf. auch die Mindestvorsorgepauschale) in Cent beim laufenden Arbeitslohn. 
-                  Für Zwecke der Lohnsteuerbescheinigung sind die einzelnen Ausgabewerte 
-                  außerhalb des eigentlichen Lohnsteuerberechnungsprogramms zu addieren; 
+    "VKVLZZ": """Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers
+                  zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung
+                  (ggf. auch die Mindestvorsorgepauschale) in Cent beim laufenden Arbeitslohn.
+                  Für Zwecke der Lohnsteuerbescheinigung sind die einzelnen Ausgabewerte
+                  außerhalb des eigentlichen Lohnsteuerberechnungsprogramms zu addieren;
                   hinzuzurechnen sind auch die Ausgabewerte VKVSONST.""",
-    "VKVSONST": """Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers 
-                  zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung 
-                  (ggf. auch die Mindestvorsorgepauschale) in Cent bei sonstigen Bezügen. 
-                  Der Ausgabewert kann auch negativ sein. Für tarifermäßigt zu besteuernde 
-                  Vergütungen für mehrjährige Tätigkeiten enthält der PAP keinen entsprechenden 
+    "VKVSONST": """Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers
+                  zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung
+                  (ggf. auch die Mindestvorsorgepauschale) in Cent bei sonstigen Bezügen.
+                  Der Ausgabewert kann auch negativ sein. Für tarifermäßigt zu besteuernde
+                  Vergütungen für mehrjährige Tätigkeiten enthält der PAP keinen entsprechenden
                   Ausgabewert.""",
     "VFRB": "Verbrauchter Freibetrag bei Berechnung des laufenden Arbeitslohns, in Cent",
-    "VFRBS1": """Verbrauchter Freibetrag bei Berechnung des voraussichtlichen 
+    "VFRBS1": """Verbrauchter Freibetrag bei Berechnung des voraussichtlichen
                  Jahresarbeitslohns, in Cent""",
     "VFRBS2": "Verbrauchter Freibetrag bei Berechnung der sonstigen Bezüge, in Cent",
-    "WVFRB": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei 
+    "WVFRB": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei
                 verfügbares ZVE über dem Grundfreibetrag bei der Berechnung deslaufenden
                 Arbeitslohns, in Cent""",
     "WVFRBM": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei
@@ -192,7 +193,7 @@ hh = pd.DataFrame(
         "pid": [1, 2, 3, 4, 5, 6],
         "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000],
         "child_num_kg": [0, 0, 0, 0, 0, 2],
-        "l_st_klasse": [1, 4, 4, 3, 5, 2],
+        "steuerklasse": [1, 4, 4, 3, 5, 2],
         "year": [2020, 2021, 2021, 2021, 2021, 2020],
     }
 )
@@ -202,10 +203,9 @@ hh["lohn_steuer"] = np.vectorize(bmf_collect)(
     faktorverfahren=0,
     faktor="1,0000",
     n_kinder=hh["child_num_kg"],
-    stkl=hh["l_st_klasse"],
+    stkl=hh["steuerklasse"],
     jahr=hh["year"],
 )
 # Export
 lohnsteuer_test_out = f"{ROOT_DIR}/tests/test_data/test_dfs_lohn_steuer.csv"
 hh.to_csv(lohnsteuer_test_out, index=False)
-
