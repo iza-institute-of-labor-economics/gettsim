@@ -10,14 +10,14 @@ from gettsim.policy_environment import load_reforms_for_date
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     documented_functions = _load_functions(
-        ROOT_DIR / "functions.py", allow_imported_members=True
+        ROOT_DIR / "functions.py", include_imported_functions=True
     )
 
     internal_function_files = [
         ROOT_DIR.joinpath(p) for p in PATHS_TO_INTERNAL_FUNCTIONS
     ]
     internal_functions = _load_functions(
-        internal_function_files, allow_imported_members=True
+        internal_function_files, include_imported_functions=True
     )
 
     # Private functions are not imported in functions.py.
