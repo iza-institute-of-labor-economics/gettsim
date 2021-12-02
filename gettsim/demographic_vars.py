@@ -330,10 +330,11 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
 
 
 def steuerklasse(
-    gemeinsam_veranlagte_tu: BoolSeries,
-    alleinerziehend_tu: BoolSeries,
+    tu_id: IntSeries,
+    gemeinsam_veranlagt: BoolSeries,
+    alleinerziehend: BoolSeries,
     bruttolohn_m: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
+    kind: BoolSeries,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
 ) -> IntSeries:
@@ -351,24 +352,29 @@ def steuerklasse(
 
     Parameters
     ----------
-    gemeinsam_veranlagte_tu: BoolSeries
+    tu_id: Tax Unit Identifier
+    gemeinsam_veranlagt: BoolSeries
         whether or not two household members are married and file their
         tax claim jointly
-    alleinerziehend_tu: BoolSeries
+    alleinerziehend: BoolSeries
         Single Parent Indicator
     bruttolohn_m: FloatSeries
         Monthly Earnings
-    anz_erwachsene_tu: IntSeries
-        The number of adults in the tax unit
+    kind: BoolSeries
+        Dependent Child indicator
+    eink_st_params:
+    eink_st_abzuege_params:
 
     Returns
     ----------
     steuerklasse: IntSeries
-        The steuerklasse for each tax unit member
+        The steuerklasse for each person in the tax unit
     """
-    print(gemeinsam_veranlagte_tu)
-    bruttolohn_max = bruttolohn_m.max()
-    bruttolohn_min = bruttolohn_m.min()
+
+    bruttolohn_max = bruttolohn_m.groupby(tu_id).max()
+    bruttolohn_min = bruttolohn_m.groupby(tu_id).min()
+    erwachsener = ~kind
+    anz_erwachsene_tu = erwachsener.groupby(tu_id).transform("sum")
     # Determine Single Earner Couple:
     # If one of the spouses earns tax-free income, assume Single Earner Couple
     einkommensgrenze_zweitverdiener = (
@@ -379,14 +385,23 @@ def steuerklasse(
         (bruttolohn_min <= einkommensgrenze_zweitverdiener / 12)
         & (bruttolohn_max > 0)
         & (anz_erwachsene_tu == 2)
-        & (gemeinsam_veranlagte_tu)
+        & (gemeinsam_veranlagt)
+    )
+    cond_steuerklasse1 = (anz_erwachsene_tu == 1) & ~alleinerziehend
+    cond_steuerklasse2 = alleinerziehend
+    cond_steuerklasse3 = alleinverdiener_paar & (
+        bruttolohn_m > einkommensgrenze_zweitverdiener / 12
+    )
+    cond_steuerklasse4 = (anz_erwachsene_tu == 2) & (~alleinverdiener_paar)
+    cond_steuerklasse5 = alleinverdiener_paar & (
+        bruttolohn_m <= einkommensgrenze_zweitverdiener / 12
     )
     steuerklasse = (
-        1 * (anz_erwachsene_tu == 1)
-        + 2 * alleinerziehend_tu
-        + 3 * alleinverdiener_paar * (bruttolohn_m > 0)
-        + 4 * (anz_erwachsene_tu == 2) * (~alleinverdiener_paar)
-        + 5 * alleinverdiener_paar * (bruttolohn_m == 0)
+        1 * cond_steuerklasse1
+        + 2 * cond_steuerklasse2
+        + 3 * cond_steuerklasse3
+        + 4 * cond_steuerklasse4
+        + 5 * cond_steuerklasse5
     )
 
     return steuerklasse
