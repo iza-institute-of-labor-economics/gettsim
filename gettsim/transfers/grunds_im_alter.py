@@ -219,9 +219,9 @@ def anrechenbare_prv_rente_grunds_ia_m(
     """
     deducted_rent = piecewise_polynomial(
         x=prv_rente_m,
-        thresholds=grunds_ia_params["staatl_rente_anr_frei"]["thresholds"],
-        rates=grunds_ia_params["staatl_rente_anr_frei"]["rates"],
-        intercepts_at_lower_thresholds=grunds_ia_params["staatl_rente_anr_frei"][
+        thresholds=grunds_ia_params["prv_rente_anr_frei"]["thresholds"],
+        rates=grunds_ia_params["prv_rente_anr_frei"]["rates"],
+        intercepts_at_lower_thresholds=grunds_ia_params["prv_rente_anr_frei"][
             "intercepts_at_lower_thresholds"
         ],
     )
