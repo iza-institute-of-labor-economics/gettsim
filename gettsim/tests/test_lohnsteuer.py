@@ -148,13 +148,6 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
         "LSTLZZ": "Für den Lohnzahlungszeitraum einzubehaltende Lohnsteuer in Cent",
         "SOLZLZZ": """Für den Lohnzahlungszeitraum einzubehaltender
         Solidaritätszuschlag in Cent""",
-        "SOLZS": """Solidaritätszuschlag für sonstige Bezüge
-                           (ohne Vergütung für mehrjährige Tätigkeit) in Cent""",
-        "SOLZV": """Solidaritätszuschlag für die Vergütung für
-                    mehrjährige Tätigkeit in Cent""",
-        "STS": """Lohnsteuer für sonstige Bezüge
-        (ohne Vergütung für mehrjährige Tätigkeit) in Cent""",
-        "STV": "Lohnsteuer für die Vergütung für mehrjährige Tätigkeit in Cent",
         "VKVLZZ": """Für den Lohnzahlungszeitraum berücksichtigte Beiträge des
         Arbeitnehmers zur privaten Basis Krankenversicherung und privaten Pflege
         Pflichtversicherung (ggf. auch die Mindestvorsorgepauschale) in Cent beim
@@ -162,25 +155,8 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
         einzelnen Ausgabewerte außerhalb des eigentlichen
         Lohnsteuerberechnungsprogramms zu addieren;
          hinzuzurechnen sind auch die Ausgabewerte VKVSONST.""",
-        "VKVSONST": """Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers
-                             zur privaten Basis Krankenversicherung und privaten Pflege Pflichtversicherung
-                             (ggf. auch die Mindestvorsorgepauschale) in Cent bei sonstigen Bezügen.
-                             Der Ausgabewert kann auch negativ sein. Für tarifermäßigt zu besteuernde
-                             Vergütungen für mehrjährige Tätigkeiten enthält der PAP keinen entsprechenden
-                             Ausgabewert.""",
-        "VFRB": "Verbrauchter Freibetrag bei Berechnung des laufenden Arbeitslohns, in Cent",
-        "VFRBS1": """Verbrauchter Freibetrag bei Berechnung des voraussichtlichen
-                            Jahresarbeitslohns, in Cent""",
-        "VFRBS2": "Verbrauchter Freibetrag bei Berechnung der sonstigen Bezüge, in Cent",
-        "WVFRB": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei
-                           verfügbares ZVE über dem Grundfreibetrag bei der Berechnung deslaufenden
-                           Arbeitslohns, in Cent""",
-        "WVFRBM": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei
-                            verfügbares ZVE über dem Grundfreibetrag bei der Berechnung der sonstigen Bezüge,
-                            in Cent""",
-        "WVFRBO": """Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei
-                            verfügbares ZVE über dem Grundfreibetrag bei der Berechnung des voraussichtlichen
-                            Jahresarbeitslohns, in Cent""",
+        "VFRB": """Verbrauchter Freibetrag bei Berechnung des 
+        laufenden Arbeitslohns, in Cent""",
     }
 
     tax_df, url = format_url_content(url_base, specs, out_definitions)
@@ -197,15 +173,17 @@ def gen_lohnsteuer_test():
 
     hh = pd.DataFrame(
         {
-            "tu_id": [1, 2, 2, 3, 3, 4],
-            "pid": [1, 2, 3, 4, 5, 6],
-            "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000],
-            "child_num_kg": [0, 0, 0, 0, 0, 2],
-            "steuerklasse": [1, 4, 4, 3, 5, 2],
-            "year": [2020, 2021, 2021, 2021, 2021, 2020],
+            "p_id": [1, 2, 3, 4, 5, 6, 7, 8],
+            "tu_id": [1, 2, 2, 3, 3, 4, 4, 4],
+            "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000, 0, 0],
+            "alter": [30, 30, 40, 40, 50, 30, 5, 2],
+            "kind": [False, False, False, False, False, False, True, True],
+            "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1],
+            "year": [2020, 2021, 2021, 2021, 2021, 2020, 2020, 2020],
         }
     )
-
+    hh["child_num_kg"] = hh.groupby("tu_id")["kind"].transform("sum")
+    # Get correct lohnsteuer from German Ministry of Finance
     hh["lohn_steuer"] = np.vectorize(bmf_collect)(
         hh["bruttolohn_m"],
         faktorverfahren=0,
@@ -219,9 +197,9 @@ def gen_lohnsteuer_test():
     hh.to_csv(lohnsteuer_test_out, index=False)
 
 
-### THIS IS WHERE THE ACTUAL TEST STARTS
+# HERE THE ACTUAL TEST STARTS
 
-INPUT_COLS = ["tu_id", "pid", "bruttolohn_m", "steuerklasse", "child_num_kg"]
+INPUT_COLS = ["p_id", "tu_id", "bruttolohn_m", "alter", "kind", "steuerklasse", "year"]
 
 YEARS = [2021]
 
@@ -262,25 +240,26 @@ def test_steuerklassen():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_lohnsteuer(input_data, year):
-    # Comment in next line if lohnsteuer test has changed
-    # gen_lohnsteuer_test()
+def test_lohnsteuer(input_data, year, reload_test_data=False):
+
+    if reload_test_data:
+        gen_lohnsteuer_test()
+
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     df["alleinerziehend"] = df["steuerklasse"] == 2
-    df["kind"] = 0
+
     df["jahr_renteneintr"] = 2060
-    df["kinderlos"] = df["child_num_kg"] == 0
+    df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
 
     policy_params, policy_functions = set_up_policy_environment(date=year)
-    out_cols = ["lohn_steuer"]
 
     result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=out_cols,
+        targets=["lohn_steuer"],
         columns_overriding_functions="steuerklasse",
     )
 
-    assert_frame_equal(df[out_cols], year_data[out_cols], check_dtype=False)
+    assert_frame_equal(df["lohn_steuer"], year_data["lohn_steuer"], check_dtype=False)

@@ -107,7 +107,7 @@ def pflegev_beitr_selbst(
     krankenv_pflichtig_eink_selbst: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
-    """Calculates care insurance contributions.
+    """Calculates care insurance contributions for self-employed.
 
     Self-employed pay the full
     contribution (employer + employee), which is either assessed on their
