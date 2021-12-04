@@ -155,7 +155,7 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
         einzelnen Ausgabewerte außerhalb des eigentlichen
         Lohnsteuerberechnungsprogramms zu addieren;
          hinzuzurechnen sind auch die Ausgabewerte VKVSONST.""",
-        "VFRB": """Verbrauchter Freibetrag bei Berechnung des 
+        "VFRB": """Verbrauchter Freibetrag bei Berechnung des
         laufenden Arbeitslohns, in Cent""",
     }
 

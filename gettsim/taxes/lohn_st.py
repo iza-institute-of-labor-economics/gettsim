@@ -11,13 +11,16 @@ from gettsim.typing import IntSeries
 
 
 def lohn_steuer(
+    tu_id: IntSeries,
     bruttolohn_m: FloatSeries,
     vorsorgepauschale,
     alleinerziehend_freib_tu,
     kind: BoolSeries,
     steuerklasse: IntSeries,
-    pflegev_zusatz_kinderlos: BoolSeries,
+    pflegev_zusatz_kinderlos,
     eink_st_params: dict,
+    eink_st_abzuege_params: dict,
+    soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """
     Calculates Lohnsteuer = withholding tax on earnings,
@@ -38,27 +41,31 @@ def lohn_steuer(
 
     Returns
     -------
-    lohn_st
 
     """
 
     grundfreibetrag = eink_st_params["eink_st_tarif"]["thresholds"][1]
     # Full child allowance
     kinderfreibetrag_basis = (
-        eink_st_params["kinderfreibetrag"]["sächl_existenzmin"]
-        + eink_st_params["kinderfreibetrag"]["beitr_erz_ausb"]
+        eink_st_abzuege_params["kinderfreibetrag"]["sächl_existenzmin"]
+        + eink_st_abzuege_params["kinderfreibetrag"]["beitr_erz_ausb"]
     )
-    k
+
     # For certain tax brackets, twice the child allowance can be deducted
-    kinderfreibetrag = kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3]) + (
-        kinderfreibetrag_basis * steuerklasse == 4
-    ) * anz_minderj_hh
+    kinderfreibetrag = (
+        kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3])
+        + (kinderfreibetrag_basis * steuerklasse == 4) * kind.groupby(tu_id).sum()
+    )
     lohn_steuer_freibetrag = (grundfreibetrag * steuerklasse.isin([1, 2, 4])) + (
         2 * grundfreibetrag * (steuerklasse == 3)
     )
     lohn_steuer_freibetrag += alleinerziehend_freib_tu * (steuerklasse == 2)
-    werbungskosten = (eink_st_params["werbung"]) * (steuerklasse != 6)
-    sonderausgaben = (eink_st_params["sonder"]) * steuerklasse != 6
+    werbungskosten = (eink_st_abzuege_params["werbungskostenpauschale"]) * (
+        steuerklasse != 6
+    )
+    sonderausgaben = (
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]
+    ) * steuerklasse != 6
 
     vorsorgepauschale = vorsorgepauschale(
         bruttolohn_m,
@@ -68,9 +75,7 @@ def lohn_steuer(
         pflegev_zusatz_kinderlos,
     )
     # zu versteuerndes Einkommen / tax base for Lohnsteuer
-    lohn_steuer_zve = (bruttolohn_m -
-                       werbungskosten - sonderausgaben - vorsorgepauschale
-                       )
+    lohn_steuer_zve = bruttolohn_m - werbungskosten - sonderausgaben - vorsorgepauschale
     # TODO: Wie werden die richtigen Freibeträge berücksichtigt?
     lohn_steuer = lohn_steuer_zve.apply(st_tarif, params=eink_st_params)
 
@@ -136,7 +141,7 @@ def vorsorgepauschale_2005_2010(bruttolohn, steuerklasse, params) -> FloatSeries
     return out
 
 
-def vorsorg_rv_anteil(jahr: int, eink_st_params: dict) -> FloatSeries:
+def vorsorg_rv_anteil(jahr: int, eink_st_abzuege_params: dict) -> FloatSeries:
     """
     Calculates the share of pension contributions to be deducted for Lohnsteuer
     increases by year
@@ -155,12 +160,12 @@ def vorsorg_rv_anteil(jahr: int, eink_st_params: dict) -> FloatSeries:
     """
 
     out = piecewise_polynomial(
-        x=eink_st_params["datum"].year,
-        thresholds=eink_st_params["vorsorge_pauschale_rv_anteil"]["thresholds"],
-        rates=eink_st_params["vorsorge_pauschale_rv_anteil"]["rates"],
-        intercepts_at_lower_thresholds=eink_st_params["vorsorge_pauschale_rv_anteil"][
-            "intercepts_at_lower_thresholds"
-        ],
+        x=IntSeries(eink_st_abzuege_params["datum"].year),
+        thresholds=eink_st_abzuege_params["vorsorge_pauschale_rv_anteil"]["thresholds"],
+        rates=eink_st_abzuege_params["vorsorge_pauschale_rv_anteil"]["rates"],
+        intercepts_at_lower_thresholds=eink_st_abzuege_params[
+            "vorsorge_pauschale_rv_anteil"
+        ]["intercepts_at_lower_thresholds"],
     )
 
     return out

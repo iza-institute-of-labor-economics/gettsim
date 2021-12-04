@@ -60,7 +60,7 @@ def st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
     x : Floatseries
         Some floatseries wherest_tarif is applied to.
     params : dict
-        Dictionary created in respy.piecewise_functions.
+        Dictionary created in gettsim.piecewise_functions.
     Returns
     -------
     """

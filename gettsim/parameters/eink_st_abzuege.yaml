@@ -497,8 +497,9 @@ vorsorge_pauschale_rv_anteil:
     en:
   unit: share
   note:
-    de: Funktion erst ab 2005 implementiert.
-    en:
+    de: Funktion erst ab 2005 vorhanden. Steigt zwischen 2005 und 2025 jährlich um 4 Prozentpunkte.
+    en: rises between 2005 and 2025 by 4 percentage points annually.
+  type: piecewise_linear
   2005-01-01:
     0:
       lower_threshold: -inf
