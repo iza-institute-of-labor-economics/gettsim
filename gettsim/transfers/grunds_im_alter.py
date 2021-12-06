@@ -1,4 +1,5 @@
 import pandas as pd
+
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -237,8 +238,7 @@ def anrechenbare_prv_rente_grunds_ia_m(
 
 
 def mehrbedarf_behinderung_m_hh(
-    mehrbedarf_behinderung_m: FloatSeries,
-    hh_id: IntSeries,
+    mehrbedarf_behinderung_m: FloatSeries, hh_id: IntSeries,
 ) -> FloatSeries:
     """Aggregate mehrbedarf for people with disabilities on household level.
 
@@ -279,16 +279,22 @@ def mehrbedarf_behinderung_m(
     """
     out = pd.Series(0, index=schwerbe_ausweis_g.index, dtype=float)
 
-    # mehrbedarf for disabilities = % of regelsatz for the person getting the mehrbedarf
-    bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * \
-        (grunds_ia_params["mehrbedarf_g"]["rate"])
-    bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * \
-        (grunds_ia_params["mehrbedarf_g"]["rate"])
+    # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
+    bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * (
+        grunds_ia_params["mehrbedarf_g"]["rate"]
+    )
+    bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * (
+        grunds_ia_params["mehrbedarf_g"]["rate"]
+    )
 
     # singles
-    out.loc[(schwerbe_ausweis_g == True)] = bedarf1
+    cond = schwerbe_ausweis_g
+    if cond is True:
+        out.loc[cond] = bedarf1
     # couples
-    out.loc[(schwerbe_ausweis_g == True) & (hhsize_tu != 1)] = bedarf2
+    cond2 = hhsize_tu != 1
+    if cond & cond2 is True:
+        out.loc[cond2] = bedarf2
 
     return out
 
