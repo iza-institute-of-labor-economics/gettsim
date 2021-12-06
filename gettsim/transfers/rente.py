@@ -160,6 +160,31 @@ def rentenwert(wohnort_ost: BoolSeries, ges_renten_vers_params: dict) -> FloatSe
     return out
 
 
+def rentenwert_vorjahr(
+    wohnort_ost: BoolSeries, ges_renten_vers_params: dict
+) -> FloatSeries:
+    """Select the rentenwert of the last year depending on place of living.
+
+    Parameters
+    ----------
+    wohnort_ost
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+
+    Returns
+    -------
+
+    """
+    out = wohnort_ost.replace(
+        {
+            True: ges_renten_vers_params["rentenwert_vorjahr"]["ost"],
+            False: ges_renten_vers_params["rentenwert_vorjahr"]["west"],
+        }
+    ).astype(float)
+    return out
+
+
 def entgeltpunkte_update(
     entgeltpunkte: FloatSeries, entgeltpunkte_lohn: FloatSeries
 ) -> FloatSeries:

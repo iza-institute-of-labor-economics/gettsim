@@ -31,7 +31,7 @@ def arbeitsl_geld_2_m_minus_eink_hh(
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
     )
-    return out
+    return out.clip(lower=0)
 
 
 def wohngeld_vorrang_hh(
