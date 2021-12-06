@@ -279,7 +279,7 @@ def mehrbedarf_behinderung_m(
     """
     out = pd.Series(0, index=schwerbe_ausweis_g.index, dtype=float)
 
-    # mehrbedarf for disabilities is the rate times the regelsatz for the person getting the mehrbedarf
+    # mehrbedarf for disabilities = % of regelsatz for the person getting the mehrbedarf
     bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * \
         (grunds_ia_params["mehrbedarf_g"]["rate"])
     bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * \
