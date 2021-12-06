@@ -287,14 +287,13 @@ def mehrbedarf_behinderung_m(
         grunds_ia_params["mehrbedarf_g"]["rate"]
     )
 
-    # singles
-    cond = schwerbe_ausweis_g
-    if cond is True:
+    cond = hhsize_tu == 1
+    cond2 = schwerbe_ausweis_g
+    if cond2 is True:
+        # singles
         out.loc[cond] = bedarf1
-    # couples
-    cond2 = hhsize_tu != 1
-    if cond & cond2 is True:
-        out.loc[cond2] = bedarf2
+        # couples
+        out.loc[~cond2] = bedarf2
 
     return out
 
