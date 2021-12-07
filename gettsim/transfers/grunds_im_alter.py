@@ -1,5 +1,4 @@
-import pandas as pd
-
+# import pandas as pd
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -260,6 +259,7 @@ def mehrbedarf_behinderung_m(
     hhsize_tu: IntSeries,
     grunds_ia_params: dict,
     arbeitsl_geld_2_params: dict,
+    hh_id: IntSeries,
 ) -> FloatSeries:
     """Calculate mehrbedarf for people with disabilities.
 
@@ -277,7 +277,7 @@ def mehrbedarf_behinderung_m(
     -------
 
     """
-    out = pd.Series(0, index=schwerbe_ausweis_g.index, dtype=float)
+    out = hh_id * 0
 
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
     bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * (
@@ -287,13 +287,10 @@ def mehrbedarf_behinderung_m(
         grunds_ia_params["mehrbedarf_g"]["rate"]
     )
 
-    cond = hhsize_tu == 1
-    cond2 = schwerbe_ausweis_g
-    if cond2 is True:
-        # singles
-        out.loc[cond] = bedarf1
-        # couples
-        out.loc[~cond2] = bedarf2
+    # singles
+    out.loc[(schwerbe_ausweis_g)] = bedarf1
+    # couples
+    out.loc[(schwerbe_ausweis_g) & (hhsize_tu != 1)] = bedarf2
 
     return out
 
