@@ -505,12 +505,12 @@ vorsorge_pauschale_rv_anteil:
       lower_threshold: -inf
       upper_threshold: 2005
       rate_linear: 0
-      intercept_at_lower_threshold: 0
+      intercept_at_lower_threshold: 0.2
     1:
       lower_threshold: 2005
       upper_threshold: 2025
       rate_linear: 0.04
-      intercept_at_lower_threshold: .2
+      intercept_at_lower_threshold: 0.2
     2:
       lower_threshold: 2025
       upper_threshold: inf
