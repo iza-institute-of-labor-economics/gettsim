@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ElementTree
 import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
 from pandas.testing import assert_series_equal
 
 from gettsim.config import ROOT_DIR
@@ -38,7 +37,7 @@ def get_xml(url):
     return xml_ugly
 
 
-def get_url(base, specs):
+def get_bmf_url(base, specs):
     """
     Formatting of URL
 
@@ -80,7 +79,7 @@ def format_url_content(url_base, specs, out_definitions):
 
     out_df = pd.DataFrame(out_definitions, index=["definition"]).T
 
-    url = get_url(url_base, specs)
+    url = get_bmf_url(url_base, specs)
 
     df = pd.DataFrame(columns=["name", "value", "type"])
     # get xml results
@@ -95,8 +94,9 @@ def format_url_content(url_base, specs, out_definitions):
 
 def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr=2021):
     """
-    Creates an URL for the API of the official calculator by the German Ministry of Finance,
-    document at: https://www.bmf-steuerrechner.de/interface/einganginterface.xhtml
+    Creates an URL for the API of the official calculator by the
+    German Ministry of Finance (BMF),
+    documented at: https://www.bmf-steuerrechner.de/interface/einganginterface.xhtml
 
     Returns
     -------
@@ -132,7 +132,7 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
         "RE4": inc * 100,
         "AF": faktorverfahren,
         "F": faktor,
-        "LZZ": 2,
+        "LZZ": 2,  # i.e. income is monthly
         "STKL": stkl,
         "ZKF": kinderfb,
         "KVZ": "1,00",
@@ -248,7 +248,7 @@ def test_lohnsteuer(input_data, year, reload_test_data=False):
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
     df["alleinerziehend"] = df["steuerklasse"] == 2
-
+    df["wohnort_ost"] = False
     df["jahr_renteneintr"] = 2060
     df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
 
@@ -262,4 +262,4 @@ def test_lohnsteuer(input_data, year, reload_test_data=False):
         columns_overriding_functions="steuerklasse",
     )
 
-    assert_frame_equal(df["lohn_steuer"], year_data["lohn_steuer"], check_dtype=False)
+    assert_series_equal(result["lohn_steuer"] / 12, year_data["lohn_steuer"])
