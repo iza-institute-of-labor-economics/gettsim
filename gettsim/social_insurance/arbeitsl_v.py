@@ -99,13 +99,13 @@ def ges_beitr_arbeitsl_v_midi_jobreturn(
     Parameters
     ----------
     bruttolohn_m
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-
-    regulär_beschäftigt
-        See :func:`regulär_beschäftigt`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
 
     rentenv_beitr_bemess_grenze
         See :func:`rentenv_beitr_bemess_grenze`.
+
+    regulär_beschäftigt
+        See :func:`regulär_beschäftigt`.
 
 
     Returns
