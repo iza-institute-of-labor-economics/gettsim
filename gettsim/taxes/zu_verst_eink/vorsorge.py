@@ -212,7 +212,7 @@ def lohn_vorsorge_bis_2019_single(
     gemeinsam_veranlagt: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
-    """Calcaulate vorsoge expenditures until 2019 for singles.
+    """Calculate vorsorge expenditures until 2019 for singles.
 
     Parameters
     ----------
