@@ -639,3 +639,37 @@ zugangsfaktor_veränderung_pro_jahr:
   2001-01-01:
     vorzeitiger_renteneintritt: 0.036
     späterer_renteneintritt: 0.06
+
+regelaltersgrenze:
+  name:
+    de: >-
+      Piecewise linear welche die Regelaltersgrenze ausgibt. Bei Erreichen diesen Alters hat die Person einen Anspruch auf die Regelaltersrente.
+    en:
+      Piecewise linear function returning the regelaltersgrenze. The agent is allowed to get pensions with his full
+      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+      the pension claim is higher or lower.
+  description:
+    de: § 35 Satz 2 SGB VI
+    en:
+  note:
+    de: >-
+      Diese Funktion ist hier ab 2002 angegeben. Vor 2002 das Steuersystem ist nicht
+      implementiert.
+    en:
+  type: piecewise_linear
+  2002-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1947
+      rate_linear: 0
+      intercept_at_lower_threshold: 65
+    1:
+      lower_threshold: 1947
+      upper_threshold: 1971
+      rate_linear: 0.083333333
+      intercept_at_lower_threshold: 65
+    2:
+      lower_threshold: 1971
+      upper_threshold: inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 67

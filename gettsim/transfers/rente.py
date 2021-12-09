@@ -1,5 +1,5 @@
-import pandas as pd
-
+# import pandas as pd
+from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -319,7 +319,9 @@ def zugangsfaktor(
     return out
 
 
-def regelaltersgrenze(geburtsjahr: IntSeries) -> FloatSeries:
+def regelaltersgrenze(
+    geburtsjahr: IntSeries, ges_renten_vers_params: dict
+) -> FloatSeries:
     """Calculates the age, at which a worker is eligible to claim his full pension.
 
     Parameters
@@ -330,10 +332,12 @@ def regelaltersgrenze(geburtsjahr: IntSeries) -> FloatSeries:
     Returns
     -------
     """
-    # Create 65 as standard
-    out = pd.Series(65, index=geburtsjahr.index, dtype=float)
-
-    # If born after 1947, each birth year raises the age threshold by one month.
-    cond = geburtsjahr > 1947
-    out.loc[cond] = ((geburtsjahr.loc[cond] - 1947) / 12 + 65).clip(upper=67)
+    out = piecewise_polynomial(
+        x=geburtsjahr,
+        thresholds=ges_renten_vers_params["regelaltersgrenze"]["thresholds"],
+        rates=ges_renten_vers_params["regelaltersgrenze"]["rates"],
+        intercepts_at_lower_thresholds=ges_renten_vers_params["regelaltersgrenze"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
     return out
