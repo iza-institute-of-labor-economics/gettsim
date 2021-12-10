@@ -23,6 +23,8 @@ INPUT_COLS = [
     "kapital_eink_m",
     "grundrentenzeiten",
     "rentner",
+    "schwerbe_ausweis_g",
+    "hhsize_tu",
     "vermögen_hh",
     "alleinerziehend",
     "bewohnt_eigentum_hh",
