@@ -19,6 +19,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
    when plotting a dag (:ghuser:`ChristianZimpelmann`).
 * :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh.
    (:ghuser:`LauraGergeleit`).
+* :gh:`316` New argument for `compute_taxes_and_transfers`: `rounding`. If set to False,
+  rounding of outputs is disabled (:ghuser:`ChristianZimpelmann`).
 
 0.4.1 - 2021-04-11
 ------------------
