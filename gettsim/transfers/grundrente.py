@@ -1,12 +1,12 @@
 import numpy as np
 
-from gettsim.shared import round_out
+from gettsim.shared import add_rounding_spec
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-@round_out(base=0.01, round_d=True, direction="nearest")
+@add_rounding_spec(base=0.01, direction="nearest")
 def grundr_zuschlag_m(
     grundr_zuschlag_vor_eink_anr_m: FloatSeries, anrechenbares_eink_gr_m: FloatSeries
 ) -> FloatSeries:
@@ -28,6 +28,7 @@ def grundr_zuschlag_m(
     return out.clip(lower=0)
 
 
+@add_rounding_spec(base=0.01, direction="nearest")
 def anrechenbares_eink_gr_m(
     gemeinsam_veranlagt: BoolSeries,
     zu_verst_eink_excl_grundr_zuschlag_m_tu: FloatSeries,
@@ -86,9 +87,10 @@ def anrechenbares_eink_gr_m(
 
     out = einkommen_btw_upper_lower * 0.6 + einkommen_above_upper
 
-    return out.round(2)
+    return out
 
 
+@add_rounding_spec(base=0.01, direction="nearest")
 def grundr_zuschlag_vor_eink_anr_m(
     bonus_entgeltpunkte_grundr: FloatSeries,
     gr_bewertungszeiten: IntSeries,
@@ -127,7 +129,7 @@ def grundr_zuschlag_vor_eink_anr_m(
         * rentenwert
         * zugangsfaktor.clip(upper=1)
     )
-    return out.round(2)
+    return out
 
 
 def durchschnittl_entgeltpunkte_grundr(
@@ -151,6 +153,7 @@ def durchschnittl_entgeltpunkte_grundr(
     return entgeltp_grundr / gr_bewertungszeiten
 
 
+@add_rounding_spec(base=0.0001, direction="nearest")
 def höchstwert_grundr_m(
     grundrentenzeiten: IntSeries, ges_renten_vers_params: dict
 ) -> FloatSeries:
@@ -181,9 +184,7 @@ def höchstwert_grundr_m(
         + ges_renten_vers_params["höchstwert_grundrente"]["increment"]
         * months_above_thresh
     )
-
-    # Round to 4 digits
-    return out.round(4)
+    return out
 
 
 def bonus_entgeltpunkte_grundr(

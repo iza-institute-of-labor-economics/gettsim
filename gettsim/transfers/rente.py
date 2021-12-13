@@ -1,5 +1,6 @@
 import pandas as pd
 
+from gettsim.shared import add_rounding_spec
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -25,6 +26,7 @@ def gesamte_rente_m(
     return out
 
 
+@add_rounding_spec(base=0.01, direction="nearest")
 def staatl_rente_m(
     staatl_rente_excl_gr_m: FloatSeries,
     grundr_zuschlag_m: FloatSeries,
@@ -49,7 +51,7 @@ def staatl_rente_m(
 
     # Return 0 if person not yet retired
     out.loc[~rentner] = 0
-    return out.round(2)
+    return out
 
 
 def staatl_rente_excl_gr_m(

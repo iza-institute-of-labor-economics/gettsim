@@ -1,8 +1,5 @@
-import functools
 import inspect
 import textwrap
-
-import numpy as np
 
 
 def format_list_linewise(list_):
@@ -62,43 +59,24 @@ def get_names_of_arguments_without_defaults(function):
     return argument_names_without_defaults
 
 
-def round_out(base, round_d, direction):
-    """Decorator to round the output of a function.
+def add_rounding_spec(base, direction):
+    """Decorator to add rounding specification attributes to a function.
 
     Parameters
     ----------
     base : float
         Precision of rounding (e.g. 0.1 to round to the first decimal place)
-    round_d : bool
-        Whether rounding should be applied
     direction : str
         Whether the series should be rounded up, down or to the nearest number
 
     Returns
     -------
-    results : pandas.Series
-        Series with (potentially) rounded numbers
+    func : function
+        Function with rounding specification attributes
     """
 
     def inner(func):
-        # Make sure that signature is preserved
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            out = func(*args, **kwargs)
-            if round_d:
-                if direction == "up":
-                    return base * np.ceil(out / base)
-                elif direction == "down":
-                    return base * np.floor(out / base)
-                elif direction == "nearest":
-                    return base * (out / base).round()
-                else:
-                    raise ValueError(
-                        "direction must be one of 'up', 'down', or 'nearest'"
-                    )
-            else:
-                return out
-
-        return wrapper
+        func.__roundingspec__ = {"base": base, "direction": direction}
+        return func
 
     return inner
