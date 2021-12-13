@@ -63,8 +63,8 @@ def unterhaltsvors_m(
         See basic input variable :ref:`tu_id <tu_id>`.
     alleinerziehend
         See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
     unterhaltsvorschuss_eink_tu
         See :func:`unterhaltsvorschuss_eink_tu`.
     unterhalt_params

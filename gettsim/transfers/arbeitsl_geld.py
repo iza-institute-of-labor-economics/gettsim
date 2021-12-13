@@ -119,8 +119,8 @@ def berechtigt_für_arbeitsl_geld(
     ----------
     monate_arbeitsl
         See :func:`monate_arbeitsl`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
     gesamte_rente_m
         See basic input variable :ref:`gesamte_rente_m <gesamte_rente_m>`.
     arbeitsstunden_w

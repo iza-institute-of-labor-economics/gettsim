@@ -334,8 +334,8 @@ def proxy_rente_vorj_excl_grundr_zuschlag_m(
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
     entgeltpunkte
         See basic input variable :ref:`entgeltpunkte <entgeltpunkte>`.
     zugangsfaktor

@@ -63,8 +63,8 @@ def kindergeld_anspruch_nach_stunden(
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
     in_ausbildung
         See :func:`in_ausbildung`.
     arbeitsstunden_w
@@ -101,8 +101,8 @@ def kindergeld_anspruch_nach_lohn(
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
     in_ausbildung

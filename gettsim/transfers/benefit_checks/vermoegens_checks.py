@@ -120,8 +120,8 @@ def freibetrag_vermögen_anspruch_hh(
         See basic input variable :ref:`hh_id <hh_id>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     arbeitsl_geld_2_params

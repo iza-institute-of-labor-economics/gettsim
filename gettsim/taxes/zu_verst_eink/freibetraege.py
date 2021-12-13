@@ -106,8 +106,8 @@ def altersfreib(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
     kapital_eink_m
         See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
     eink_selbst_m

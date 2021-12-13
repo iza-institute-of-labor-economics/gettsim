@@ -5,6 +5,25 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
+def alter(geburtsjahr: IntSeries, evaluating_date: IntSeries) -> IntSeries:
+    """Calculate the age of a person at an evaluating date.
+
+    Parameters
+    ----------
+    geburtsjahr: IntSeries
+        See basic input variable :ref: `geburtsjahr <geburtsjahr>`.
+    evaluating_date: IntSeries
+        See :func:`compute_taxes_and_transfers`.
+
+    Returns
+    -------
+
+     """
+
+     alter = evaluating_date - geburtsjahr
+     return alter
+
+
 def anz_minderj_hh(hh_id: IntSeries, alter: IntSeries, kind: BoolSeries) -> IntSeries:
     """Calculate the number of underage persons in household.
 
@@ -12,8 +31,8 @@ def anz_minderj_hh(hh_id: IntSeries, alter: IntSeries, kind: BoolSeries) -> IntS
     ----------
     hh_id : IntSeries
         See basic input variable :ref:`hh_id <hh_id>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
     kind
         See basic input variable :ref:`kind <kind>`.
 
@@ -138,8 +157,8 @@ def anz_kind_zwischen_0_6_hh(
         See basic input variable :ref:`hh_id <hh_id>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
 
     Returns
     -------
@@ -160,8 +179,8 @@ def anz_kind_zwischen_0_15_hh(
         See basic input variable :ref:`hh_id <hh_id>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
 
     Returns
     -------
@@ -182,8 +201,8 @@ def anz_kind_zwischen_7_13_hh(
         See basic input variable :ref:`hh_id <hh_id>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
 
     Returns
     -------
@@ -204,8 +223,8 @@ def anz_kind_zwischen_14_24_hh(
         See basic input variable :ref:`hh_id <hh_id>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
 
     Returns
     -------

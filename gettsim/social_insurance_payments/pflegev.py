@@ -14,8 +14,8 @@ def pflegev_zusatz_kinderlos(hat_kinder: BoolSeries, alter: IntSeries) -> BoolSe
     ----------
     hat_kinder
         See basic input variable :ref:`hat_kinder <hat_kinder>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
 
     Returns
     -------

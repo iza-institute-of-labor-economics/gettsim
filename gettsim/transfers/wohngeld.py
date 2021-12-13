@@ -206,8 +206,8 @@ def anzahl_kinder_unter_11_per_tu(tu_id: IntSeries, alter: IntSeries) -> IntSeri
     ----------
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    alter : IntSeries
+        See :func:`alter`.
 
     Returns
     -------
