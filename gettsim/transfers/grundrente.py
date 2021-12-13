@@ -1,10 +1,12 @@
 import numpy as np
 
+from gettsim.shared import round_out
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
+@round_out(base=0.01, round_d=True, direction="nearest")
 def grundr_zuschlag_m(
     grundr_zuschlag_vor_eink_anr_m: FloatSeries, anrechenbares_eink_gr_m: FloatSeries
 ) -> FloatSeries:
@@ -23,7 +25,7 @@ def grundr_zuschlag_m(
 
     """
     out = grundr_zuschlag_vor_eink_anr_m - anrechenbares_eink_gr_m
-    return out.clip(lower=0).round(2)
+    return out.clip(lower=0)
 
 
 def anrechenbares_eink_gr_m(

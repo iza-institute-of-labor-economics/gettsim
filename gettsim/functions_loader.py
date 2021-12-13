@@ -112,7 +112,6 @@ def _convert_paths_and_strings_to_dicts_of_functions(sources, allow_imported_mem
                 spec.loader.exec_module(out)
             elif isinstance(source, str):
                 out = importlib.import_module(source)
-
             functions_defined_in_module = {
                 name: func
                 for name, func in inspect.getmembers(
@@ -131,14 +130,3 @@ def _convert_paths_and_strings_to_dicts_of_functions(sources, allow_imported_mem
 
 def _is_function_defined_in_module(func, module):
     return func.__module__ == module
-
-
-def _format_duplicated_functions(duplicated_functions, functions, source):
-    """Format an error message showing duplicated functions and their sources."""
-    lines = []
-    for name in duplicated_functions:
-        lines.append(f"'{name}' is defined in")
-        lines.append("    " + inspect.getfile(functions[name]))
-        lines.append("    " + inspect.getfile(source[name]))
-
-    return "\n".join(lines)
