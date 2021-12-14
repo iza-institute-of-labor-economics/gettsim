@@ -25,6 +25,7 @@ def compute_taxes_and_transfers(
     targets=None,
     columns_overriding_functions=None,
     check_minimal_specification="ignore",
+    evaluation_date=None,
     debug=False,
 ):
     """Compute taxes and transfers.
@@ -51,6 +52,8 @@ def compute_taxes_and_transfers(
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimal configuration should
         be silenced, emitted as warnings or errors.
+    evaluation_date : int, str, datetime.date
+        The date for which the data should be avaluated.
     debug : bool
         The debug mode does the following:
 
