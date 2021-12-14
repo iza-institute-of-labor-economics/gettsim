@@ -645,8 +645,9 @@ regelaltersgrenze:
     de: Eintrittsalter für Regelaltersrente
     en: Entry age for receiving regelaltersrente
   description:
-    de: Gibt die Regelaltersgrenze, aber der man einen Anspruch auf die Regelaltersrente hat, aus.
-    en: Piecewise linear function returning the regelaltersgrenze. The agent is allowed to get pensions with his full
+    de: Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
+        gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger.
+    en: Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
         claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
         the pension claim is higher or lower.
   reference: § 35 Satz 2 SGB VI
