@@ -642,18 +642,17 @@ zugangsfaktor_veränderung_pro_jahr:
 
 regelaltersgrenze:
   name:
-    de: >-
-      Piecewise linear welche die Regelaltersgrenze ausgibt. Bei Erreichen diesen Alters hat die Person einen Anspruch auf die Regelaltersrente.
-    en:
-      Piecewise linear function returning the regelaltersgrenze. The agent is allowed to get pensions with his full
-      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
-      the pension claim is higher or lower.
+    de: Eintrittsalter für Regelaltersrente
+    en: Entry age for receiving regelaltersrente
   description:
-    de: § 35 Satz 2 SGB VI
-    en:
+    de: Gibt die Regelaltersgrenze, aber der man einen Anspruch auf die Regelaltersrente hat, aus.
+    en: Piecewise linear function returning the regelaltersgrenze. The agent is allowed to get pensions with his full
+        claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+        the pension claim is higher or lower.
+  reference: § 35 Satz 2 SGB VI
   note:
     de: >-
-      Diese Funktion ist hier ab 2002 angegeben. Vor 2002 das Steuersystem ist nicht
+      Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
       implementiert.
     en:
   type: piecewise_linear
