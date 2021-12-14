@@ -98,6 +98,8 @@ def compute_taxes_and_transfers(
     }
     _fail_if_targets_not_in_functions(functions, targets)
 
+    # Note: It is crucial that rounding is applied before partialling the
+    # functions. Otherwise, the attributes __roundingspec__ are lost.
     if rounding:
         functions = _add_rounding_to_functions(functions)
 
@@ -562,13 +564,14 @@ def _add_rounding_for_one_function(base, direction):
         def wrapper(*args, **kwargs):
             out = func(*args, **kwargs)
             if direction == "up":
-                return base * np.ceil(out / base)
+                rounded_out = base * np.ceil(out / base)
             elif direction == "down":
-                return base * np.floor(out / base)
+                rounded_out = base * np.floor(out / base)
             elif direction == "nearest":
-                return base * (out / base).round()
+                rounded_out = base * (out / base).round()
             else:
                 raise ValueError("direction must be one of 'up', 'down', or 'nearest'")
+            return rounded_out
 
         return wrapper
 
@@ -594,17 +597,22 @@ def _add_rounding_to_functions(functions):
     functions_new = {}
     for f_name, func in functions.items():
         if hasattr(func, "__roundingspec__"):
-            try:
-                base = func.__roundingspec__["base"]
-                direction = func.__roundingspec__["direction"]
-                functions_new[f_name] = _add_rounding_for_one_function(base, direction)(
-                    func
-                )
-            except Exception:
+            rounding_spec = func.__roundingspec__
+
+            # Check if expected parameters are present in roundingspec
+            if not ("base" in rounding_spec and "direction" in rounding_spec):
                 raise ValueError(
                     "If roundingspec is set to a function, both"
                     " 'base' and 'direction' are expected"
                 )
+
+            # Add rounding
+            base = rounding_spec["base"]
+            direction = rounding_spec["direction"]
+            functions_new[f_name] = _add_rounding_for_one_function(base, direction)(
+                func
+            )
+
         else:
             functions_new[f_name] = func
     return functions_new
