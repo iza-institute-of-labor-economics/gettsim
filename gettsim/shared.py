@@ -75,6 +75,12 @@ def add_rounding_spec(base, direction):
         Function with rounding specification attributes
     """
 
+    # Check inputs
+    if not (type(base) in [int, float]):
+        raise ValueError("'base' needs to be a number")
+    if direction not in ["up", "down", "nearest"]:
+        raise ValueError("'direction' must be one of 'up', 'down', or 'nearest'")
+
     def inner(func):
         func.__roundingspec__ = {"base": base, "direction": direction}
         return func
