@@ -109,7 +109,10 @@ entry is added.
         de: Kindergeld, Betrag je nach Reihenfolge der Kinder.
       unit: Euro
 
-4. The (optional) ``reference_period`` key informs on the reference period of the
+4. The (optional) ``type`` key may contain a reference to a particular function that
+   is implemented. Examples are ``piecewise_linear`` or ``piecewise_quadratic``
+
+5. The (optional) ``reference_period`` key informs on the reference period of the
    values, if applicable
 
    Possible values:
@@ -128,11 +131,13 @@ entry is added.
         [...]
       reference_period: week
 
-5. The (optional) ``access_different_date`` can be used to make the parameter of a
+6. The (optional) ``access_prior_parameters`` can be used to make the parameter of a
    previous point in time (relative to the date specified available in
-   ``set_up_policy_environment``) available within GETTSIM functions. Currently, the
-   only allowed value is ``vorjahr`` which adds the parameter of exactly one year 
-   before the specified date to ``policy_params`` (with the suffix ``_vorjahr``).
+   ``set_up_policy_environment``) available within GETTSIM functions. It requires the
+   ``reference_period`` (one of ``y``, ``m``, ``w``, ``d``) and the ``number_of_lags``.
+
+   The lagged parameters will be available as
+   ``[param]_t_min_[number_of_lags]_[reference_period]`` next to ``[param]``.
 
    Example:
 
@@ -142,12 +147,10 @@ entry is added.
       name:
         de: Rentenwerte alte und neue Bundesländer.
           [...]
-      access_different_date: vorjahr
+      access_prior_parameters:
+        - reference_period: y
+        - number_of_lags: 1
 
-
-
-6. The ``type`` key is optional and may contain a reference to a particular function
-   that is implemented. Examples are ``piecewise_linear`` or ``piecewise_quadratic``
 
 7. The YYYY-MM-DD key(s)
 
