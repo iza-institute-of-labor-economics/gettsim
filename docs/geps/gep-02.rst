@@ -21,12 +21,16 @@ Abstract
 --------
 
 This GEP lays out how GETTSIM stores the user-provided data (be it from the SOEP, EVS,
-example indidviduals...) and passes it around to the functions calculating taxes and
+example individuals, ...) and passes it around to the functions calculating taxes and
 transfers.
 
 
 Motivation and Scope
 --------------------
+
+Taxes and transfers are calculated at different levels of aggregation: Individuals,
+couples, families, households. Potentially, there are many ways of storing these data:
+Long form, wide form, collections of tables, n-dimensional arrays, etc..
 
 This section describes the need for the proposed change. It should describe the existing
 problem, who it affects, what it is trying to solve, and why. This section should
@@ -46,7 +50,7 @@ Usage and Impact
 Detailed description
 --------------------
 
-Main idea: adhere to normal forms (see pages https://www.wiwi.uni-bonn.de/gaudecker/_static/prog_econ/2019/09_data_management.pdf).
+Main idea: adhere to normal forms
 
 1. Values do not have any internal structure
 2. Tables do not contain redundant information
