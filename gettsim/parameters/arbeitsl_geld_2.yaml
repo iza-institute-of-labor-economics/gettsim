@@ -8,78 +8,79 @@ eink_anr_frei:
       definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011
       § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
       G. v. 24.03.2011 BGBl. I S. 453).
-    en:
+    en: >-
+      Shares of income which do not lead to tapering of Arbeitslosengeld II benefits.
   type: piecewise_linear
-  time: month
+  reference_period: month
   2005-01-01:
-      reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
-      0:
-        lower_threshold: -inf
-        upper_threshold: 0
-        rate: 0
-        intercept_at_lower_threshold: 0
-      1:
-        lower_threshold: 0
-        upper_threshold: 400
-        rate: 0.15
-      2:
-        upper_threshold: 900
-        rate: 0.3
-      3:
-        upper_threshold: 1500
-        rate: 0.15
-      4:
-        upper_threshold: inf
-        rate: 0
+    reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
+    0:
+      lower_threshold: -inf
+      upper_threshold: 0
+      rate: 0
+      intercept_at_lower_threshold: 0
+    1:
+      lower_threshold: 0
+      upper_threshold: 400
+      rate: 0.15
+    2:
+      upper_threshold: 900
+      rate: 0.3
+    3:
+      upper_threshold: 1500
+      rate: 0.15
+    4:
+      upper_threshold: inf
+      rate: 0
   2005-10-01:
-      reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
-      0:
-        lower_threshold: -inf
-        upper_threshold: 0
-        rate: 0
-        intercept_at_lower_threshold: 0
-      1:
-        lower_threshold: 0
-        upper_threshold: 100
-        rate: 1.0
-      2:
-        upper_threshold: 800
-        rate: 0.2
-      3:
-        upper_threshold: 1200
-        rate: 0.1
-      4:
-        upper_threshold: inf
-        rate: 0
+    reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    0:
+      lower_threshold: -inf
+      upper_threshold: 0
+      rate: 0
+      intercept_at_lower_threshold: 0
+    1:
+      lower_threshold: 0
+      upper_threshold: 100
+      rate: 1.0
+    2:
+      upper_threshold: 800
+      rate: 0.2
+    3:
+      upper_threshold: 1200
+      rate: 0.1
+    4:
+      upper_threshold: inf
+      rate: 0
   2011-04-01:
-      reference: Artikel 1 G. v. 20.12.2011 BGBl. I 2854.
-      note: >-
-          Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850
-          . Artikel 5.
-          ToDo: Check these laws -- did they really happen months
-          after the date of the policy change? I cannot fina anything...
-      deviation_from: previous
-      2:
-        upper_threshold: 1000
+    reference: Artikel 1 G. v. 20.12.2011 BGBl. I 2854.
+    note: >-
+      Neuer Betrag durch Neufassung des SGB II. B. v. 13.5.2011 BGBl. I S. 850
+      . Artikel 5.
+      ToDo: Check these laws -- did they really happen months
+      after the date of the policy change? I cannot fina anything...
+    deviation_from: previous
+    2:
+      upper_threshold: 1000
 eink_anr_frei_kinder:
-    name:
-        de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
-        en:
-    description:
-        de: >-
-          Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3,
-          Haushalt mit Kindern. Gilt statt die Parameter in eink_anr_frei für
-          Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 §
-          11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
-          G. v. 24.03.2011 BGBl. I S. 453).
-        en:
-    note: Ersetzt Parameter in eink_anr_frei, falls nicht vorhanden
-    type: piecewise_linear
-    2005-10-01:
-        reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
-        deviation_from: arbeitsl_geld_2.eink_anr_frei
-        3:
-            upper_threshold: 1500
+  name:
+    de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
+    en:
+  description:
+    de: >-
+      Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3,
+      Haushalt mit Kindern. Gilt statt die Parameter in eink_anr_frei für
+      Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 §
+      11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
+      G. v. 24.03.2011 BGBl. I S. 453).
+    en:
+  note: Ersetzt Parameter in eink_anr_frei, falls nicht vorhanden
+  type: piecewise_linear
+  2005-10-01:
+    reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    deviation_from: arbeitsl_geld_2.eink_anr_frei
+    3:
+      upper_threshold: 1500
 
 regelsatz:
   name:
@@ -102,7 +103,7 @@ regelsatz:
       2: Adults in a partner relationship; 3: Adults not in a partner relationship;
       4: Children 14 to 18 years; 5: Children 6 to 13 years; 6: Children 0 to 5 years.
   unit: Euro
-  time: month
+  reference_period: month
   2005-01-01:
     scalar: 338
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
@@ -222,8 +223,6 @@ regelsatz:
     6: 283
     reference: G. v. 09.12.2020 BGBl. I S. 2855.
 
-
-
 anteil_regelsatz:
   name:
     de: Anteil am Regelsatz für weitere Personen im Haushalt
@@ -267,7 +266,7 @@ mehrbedarf_anteil:
     de: § 21 (3) Nr. 1 SGB II.
     en:
   unit: share
-  time: month
+  reference_period: month
   2005-01-01:
     min_1_kind: 0.12
     kind_unter_7_oder_mehr: 0.36
@@ -321,7 +320,7 @@ abzugsfähige_pausch:
       § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
     en:
   unit: Euro
-  time: month
+  reference_period: month
   2005-01-01:
     werbung: 15.33
     versicherung: 30

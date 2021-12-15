@@ -6,7 +6,7 @@ arbeitsl_geld_freibetrag:
     de: § 155 SGB III, vorher § 141 (1) S. 1
     en:
   unit: Euro
-  time: month
+  reference_period: month
   1999-08-01:
     scalar: 161
     reference: Art. 1 G. v. 21.07.1999 BGBl. I S. 1648
