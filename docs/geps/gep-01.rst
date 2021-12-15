@@ -108,12 +108,6 @@ changed, even if it leads to long variable names (e.g., ``kinderfreibetrag``,
 ``_zu_verst_eink_kein_kinderfreibetrag_tu``). This makes searching for identifiers
 easier and less error-prone.
 
-Even though not implemented at the time of this writing, we plan to allow users to pass
-in English column names and get English column names back. Similarly, there will be a
-pure ASCII option in German (this should always be fulfilled in the English version). If
-there is demand, we could also support standardised variables like in `EUROMOD
-<https://www.euromod.ac.uk/>`_ or the `CNEF <https://cnef.ehe.osu.edu/data/>`_ standard.
-
 The default time unit is a year. If a column refers to a different time unit, an
 underscore plus one of {``m``, ``w``, ``t``} will indicate the time unit.
 
