@@ -97,7 +97,8 @@ entry is added.
    share of some other value, ...).
 
    - In rare cases (e.g. child benefit age threshold), it might be omitted.
-   - Some values used at this point: ``Euro``, ``DM``, ``share``, ``hours``, ``square meters``
+   - Some values used at this point: ``Euro``, ``DM``, ``share``, ``hours``,
+     ``square meters``
 
    Example:
 
@@ -127,10 +128,28 @@ entry is added.
         [...]
       reference_period: week
 
-5. The ``type`` key is optional and may contain a reference to a particular function
+5. The (optional) ``access_different_date`` can be used to make the parameter of a
+   previous point in time (relative to the date specified available in
+   ``set_up_policy_environment``) within GETTSIM functions. Currently, the only
+   allowed value is ``vorjahr`` which adds the parameter of exactly one year before
+   the specified date to ``policy_params`` (with the    suffix ``_vorjahr``).
+
+   Example:
+
+   .. code-block:: yaml
+
+    rentenwert:
+      name:
+        de: Historische Rentenwerte alte und neue Bundesländer.
+          [...]
+      access_different_date: vorjahr
+
+
+
+6. The ``type`` key is optional and may contain a reference to a particular function
    that is implemented. Examples are ``piecewise_linear`` or ``piecewise_quadratic``
 
-6. The YYYY-MM-DD key(s)
+7. The YYYY-MM-DD key(s)
 
    - hold all historical values for a specific parameter or set of parameters in the
      ``value`` subkey;
@@ -248,7 +267,8 @@ The following walks through several cases.
           paare: 768
           kinder: 156
 
-- In some cases, a dictionary with numbered keys makes sense. It is important to use these, not lists!
+- In some cases, a dictionary with numbered keys makes sense. It is important to
+  use these, not lists!
 
   .. code-block:: yaml
 
