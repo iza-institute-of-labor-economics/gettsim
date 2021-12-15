@@ -33,11 +33,16 @@ a nutshell and without explanations, these conventions are:
 * Names follow standard Python conventions (``lowercase_with_underscores``).
   Abbreviations of words that form a part of these names are always followed by an
   underscore, unless it is the last word.
-* Names should be long enough to be readable, but
+* Names should be long enough to be readable. However, we impose limits in order to make
+  GETTSIM usable in languages, which place limits on characters (Stata, in particular).
 
-  - for column names that are typically user-facing, there is a hard limit of 20
-    characters;
-  - for other column names, there is a hard limit of 25 characters.
+  - Column names that are typically user-facing have a hard limit of 20 characters.
+    These columns are documented in `DEFAULT_TARGETS` in `gettsim/config.py`.
+  - Other column names that users might potentially be interested in have a hard limit
+    of 32 characters.
+  - Columns for purely internal use (e.g., helper variables before applying a
+    favorability check) start with an underscore and there are no restrictions. Internal
+    variables should be used sparingly.
 
 * The language should generally be English in all coding efforts and documentation.
   German should be used for all institutional features and directly corresponding
@@ -86,14 +91,22 @@ in English. For column names, we always allow a pure ASCII option, see the next 
 Column names (a.k.a. "variables" in Stata)
 ------------------------------------------
 
-We impose a hard limit of 20 characters for all column names that typically user-facing,
-i.e., those that are an input to or an output of GETTSIM's main simulation functions.
+We impose a hard limit of 20 characters for all column names that typically user-facing.
 This is for the benefit of Stata users, who face a strict limit of 32 characters for
 their column names. Furthermore, where developers using other languages may store
 different experiments in different variables, Stata users' only chance to distinguish
 them is to append characters to the column names.
 
-If a column is only present for internal use, it starts with an underscore.
+For the same reason, there is a hard limit of 32 characters for variables that users may
+reasonably request.
+
+If a column is only present for internal use, it starts with an underscore and there is
+no restriction on the number of characters. Internal columns should be used sparingly.
+
+Across variations that include the same identifier, this identifier should not be
+changed, even if it leads to long variable names (e.g., ``kinderfreibetrag``,
+``_zu_verst_eink_kein_kinderfreibetrag_tu``). This makes searching for identifiers
+easier and less error-prone.
 
 Even though not implemented at the time of this writing, we plan to allow users to pass
 in English column names and get English column names back. Similarly, there will be a
@@ -111,17 +124,17 @@ aggregation.
 Time unit identifier come before unit identifiers (e.g., ``arbeitsl_geld_2_m_hh``).
 
 
-
 Parameters of the taxes and transfers system
 --------------------------------------------
 
 The structure of these parameters will be laid out in gep-3; we just note some
 general naming considerations here.
 
-* There is a hierarchical structure to these parameters in that each of them is
+- There is a hierarchical structure to these parameters in that each of them is
   associated with a group (e.g., ``arbeitsl_geld``, ``kinderzuschlag``). These groups or
   abbreviations thereof do not re-appear in the name of the parameter.
-
+- Parameter names should be aligned with relevant column names. This makes searching for
+  identifiers easier and less error-prone.
 
 
 Python Identifiers (Functions, Variables)
@@ -129,11 +142,6 @@ Python Identifiers (Functions, Variables)
 
 Python identifiers should generally be in English, unless they refer to a specific law
 or set of laws, which is where the same reasoning applies as above.
-
-Across variations that include the same identifier, this identifier should not be
-changed, even if it leads to long variable names (e.g., ``kinderfreibetrag``,
-``zu_verst_e_ohne_kinderfreibetrag``). This makes searching for that identifier easier
-and less error-prone.
 
 The length of an identifier name tends to be proportional to its scope. In a list
 comprehension or a short loop, ``i`` might be an acceptable name for the running
