@@ -33,7 +33,7 @@ def kinderzuschlag_kosten_unterk_m(
 
 
 def kinderzuschlag_kaltmiete_m(
-    hh_id: IntSeries, kaltmiete_m_hh: FloatSeries, tax_unit_share: FloatSeries
+    hh_id: IntSeries, bruttokaltmiete_m_hh: FloatSeries, tax_unit_share: FloatSeries
 ) -> FloatSeries:
     """Calculate costs of living without heating costs.
 
@@ -41,8 +41,8 @@ def kinderzuschlag_kaltmiete_m(
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kaltmiete_m_hh
-        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    bruttokaltmiete_m_hh
+        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
 
@@ -50,7 +50,7 @@ def kinderzuschlag_kaltmiete_m(
     -------
 
     """
-    return hh_id.replace(kaltmiete_m_hh) * tax_unit_share
+    return hh_id.replace(bruttokaltmiete_m_hh) * tax_unit_share
 
 
 def kinderzuschlag_heizkost_m(
