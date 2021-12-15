@@ -8,8 +8,8 @@ from gettsim.typing import IntSeries
 # circular import.
 ROOT_DIR = Path(__file__).parent
 
-GEP_01_CHARACTER_LIMIT_USER_FACING = 20
-GEP_01_CHARACTER_LIMIT_INTERNAL = 25
+GEP_01_CHARACTER_LIMIT_DEFAULT_TARGETS = 20
+GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 
 PATHS_TO_INTERNAL_FUNCTIONS = [
     ROOT_DIR / "social_insurance",
@@ -43,6 +43,9 @@ INTERNAL_PARAM_GROUPS = [
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
 
 DEFAULT_TARGETS = [
+    "eink_st_tu",
+    "soli_st_tu",
+    "abgelt_st_tu",
     "rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
@@ -50,18 +53,14 @@ DEFAULT_TARGETS = [
     "arbeitsl_geld_m",
     "rente_anspr_m",
     "entgeltpunkte_update",
-    "abgelt_st_tu",
-    "soli_st_tu",
-    "kindergeld_m",
     "kindergeld_m_tu",
-    "eink_st_tu",
+    "arbeitsl_geld_2_m_hh",
     "unterhaltsvors_m",
     "regelsatz_m_hh",
     "kost_unterk_m_hh",
-    "unterhaltsvors_m_hh",
     "kinderzuschlag_m_hh",
     "wohngeld_m_hh",
-    "arbeitsl_geld_2_m_hh",
+    "unterhaltsvors_m_hh",
 ]
 
 STANDARD_DATA_TYPES = {
