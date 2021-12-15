@@ -130,9 +130,9 @@ entry is added.
 
 5. The (optional) ``access_different_date`` can be used to make the parameter of a
    previous point in time (relative to the date specified available in
-   ``set_up_policy_environment``) within GETTSIM functions. Currently, the only
-   allowed value is ``vorjahr`` which adds the parameter of exactly one year before
-   the specified date to ``policy_params`` (with the    suffix ``_vorjahr``).
+   ``set_up_policy_environment``) available within GETTSIM functions. Currently, the
+   only allowed value is ``vorjahr`` which adds the parameter of exactly one year 
+   before the specified date to ``policy_params`` (with the suffix ``_vorjahr``).
 
    Example:
 
@@ -140,7 +140,7 @@ entry is added.
 
     rentenwert:
       name:
-        de: Historische Rentenwerte alte und neue Bundesländer.
+        de: Rentenwerte alte und neue Bundesländer.
           [...]
       access_different_date: vorjahr
 
