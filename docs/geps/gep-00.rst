@@ -56,6 +56,8 @@ There are three kinds of GEPs:
 GEP Workflow
 ------------
 
+
+
 The GEP process begins with a new idea for GETTSIM.  It is highly recommended that a
 single GEP contain a single key proposal or new idea. Small enhancements or patches
 often don't need a GEP and can be injected into the GETTSIM development workflow with a
