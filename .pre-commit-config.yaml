@@ -36,7 +36,7 @@ repos:
     rev: 0.8.1rc3
     hooks:
       - id: doc8
-        exclude: "docs/(variables|geps/gep-00).rst"
+        exclude: "docs/gettsim_objects/variables.rst|docs/geps/gep-00.rst"
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.8.3
     hooks:

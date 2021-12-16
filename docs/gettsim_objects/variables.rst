@@ -4,16 +4,18 @@ Basic input variables
 =====================
 
 The table below gives an overview of all variables needed to run GETTSIM completely.
-Note that the variables with _hh at the end, have to be constant over the whole
+N
+ote that the variables with _hh at the end, have to be constant over the whole
 household.
 
 +-------------------------+----------------------------------------------+-------------+
 | Variable name           | Description                                  | Type        |
 +=========================+==============================================+=============+
-| _`hh_id`                | Household identifier                         | IntSeries   |
-+-------------------------+----------------------------------------------+-------------+
-| _`tu_id`                | Tax Unit identifier (married couples + kids) | IntSeries   |
-+-------------------------+----------------------------------------------+-------------+
+| _`
+
+
+
+----------------------+----------------------------------------------+-------------+
 | _`kind`                 | Dummy: Dependent child living with parents   | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
 | _`bruttolohn_m`         | Monthly wage                                 | FloatSeries |
