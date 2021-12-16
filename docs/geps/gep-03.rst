@@ -235,7 +235,7 @@ The values of [YYYY-MM-DD]
 
 The general idea is to make the replication of the laws very obvious. If the law
 includes a table, we will have a dictionary with keys 0, 1, 2, .... If the law includes
-a formula, the formula should be included and its parameters reference. Etc..
+a formula, the formula should be included and its parameters referenced. Etc..
 
 The following walks through several cases.
 
