@@ -25,7 +25,9 @@ detailed explanations on how to accomplish specific tasks with GETTSIM.
    how_to_guides/index
    gettsim_objects/index
    gettsim_developer/index
-
+   geps
+   changes
+   glossary
 
 Initiated by
 ============

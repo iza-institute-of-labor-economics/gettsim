@@ -1,8 +1,8 @@
-GETTSIM Enhancement Protocols
+GETTSIM Enhancement Proposals
 =============================
 
 Setting up GETTSIM and making major changes is done via the process of GETTSIM
-Enhancement Protocols, short GEPs. They serve the purpose of summarising discussions
+Enhancement Proposals, short GEPs. They serve the purpose of summarising discussions
 that may happen in chats, issues, pull requests, in person, or by any other means. They
 describe the basis for GETTSIM's architecture and set a process for adopting major
 changes (or not).
