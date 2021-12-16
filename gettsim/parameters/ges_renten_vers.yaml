@@ -477,8 +477,11 @@ rentenvolumen:
     scalar: 291359
 
 rentenwert:
+  name:
+    de: Rentenwerte alte und neue Bundesländer
+    en:
   description:
-    de: Historische Rentenwerte alte und neue Bundesländer. statistik-rente.de/drv
+    de: Rentenwerte alte und neue Bundesländer. statistik-rente.de/drv
     en:
   unit: Euro
   access_different_date: vorjahr
