@@ -26,7 +26,7 @@ GEP 4 — A DAG—based Computational Backend
 Abstract
 --------
 
-This GEP explains the DAG-based computational backend for GETTSIM
+This GEP explains the DAG-based computational backend for GETTSIM.
 
 
 Motivation
@@ -60,10 +60,10 @@ with the input variables and calling the required functions in the right order. 
 accomblished via a directed acyclic graph (DAG) (see below).
 
 Splitting complex calculations into smaller pieces has a lot of the usual advantages of
-why we use functions in the first place: readability, simplicity, lower maintenance
-costs (see single-responsibility principle). Another advantage is that each function is
-a potential entry point for a researcher to change the tax and transfer system if she
-is able to replace this function with her own version.
+why we use functions when programming: readability, simplicity, lower maintenance costs
+(see single-responsibility principle). Another advantage is that each function is a
+potential entry point for a researcher to change the tax and transfer system if she is
+able to replace this function with her own version.
 
 See the following, intentionally abstract and incorrect example.
 
@@ -92,7 +92,7 @@ The result of this function is again a :class:`pandas.Series` which has the name
 would need to have ``kindergeld`` as a name for an input argument to request this
 :class:`pandas.Series`.
 
-Note that the type annotations (e.g. FloatSeries) indicate the expected type of each
+Note that the type annotations (e.g. `FloatSeries`) indicate the expected type of each
 input and the output of a function.
 
 
@@ -105,12 +105,12 @@ from input variables to other variables which require them to be computed. See t
 `tutorial <../visualize_the_system.ipynb>`_ for some graphics.
 
 The resulting structure is a special kind of graph which is called a directed-acyclic
-graph (DAG). Directed and acyclic means that there exist no path of vertices which
-starts at some node and ends at the same node. Equivalently, a DAG has a
-topological ordering which is a sequence of nodes ordered from earlier to later in the
-sequence. The topological ordering is what defines the sequence in which the functions
-in the tax and transfer system are evaluated. This ensures that the inputs are already
-computed before a dependent function is called.
+graph (DAG). Acyclic means that there exist no path of vertices which starts at some
+node and ends at the same node. Equivalently, a DAG has a topological ordering which is
+a sequence of nodes ordered from earlier to later in the sequence. The topological
+ordering is what defines the sequence in which the functions in the tax and transfer
+system are evaluated. This ensures that the inputs are already computed before a
+dependent function is called.
 
 When `compute_taxes_and_transfers` is called, GETTSIM builds a DAG based on three
 inputs provided by the user:
@@ -141,7 +141,7 @@ computational advantages.
 
 References and Footnotes
 ------------------------
-
+??
 
 Copyright
 ---------
