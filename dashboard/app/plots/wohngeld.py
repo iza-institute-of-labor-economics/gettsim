@@ -29,7 +29,7 @@ def wohngeld(plot_dict, data):
 
         return ColumnDataSource(heatmap_source)
 
-    def update_plot(attr, old, new):
+    def update_plot(attr, old, new):  # noqa: U100
         sel_year = [1992, 2001, 2009, 2016, 2020, 2021][year_selection.active]
         hh_size = hh_size_selection.value
         new_src = make_dataset(sel_year, hh_size, wg_dict)

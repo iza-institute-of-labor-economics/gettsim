@@ -17,10 +17,10 @@ kindergeld:
     de: Kindergeld, Betrag je nach Reihenfolge der Kinder.
     en: Child benefit amount, depending on succession of children.
   description:
-    de: § 66 (1) EStG. Identische Werte in §6 (1) BKGG, diese sind aber nur für beschränkt steuerpflichtige relevant (d.h. Ausländer mit Erwerbstätigkeit in Deutschland). Für Werte vor 2002, siehe 'BMF - Datensammlung zur Steuerpolitik'
+    de: § 66 (1) EStG. Identische Werte in §6 (1) BKGG, diese sind aber nur für beschränkt Steuerpflichtige relevant (d.h. Ausländer mit Erwerbstätigkeit in Deutschland). Für Werte vor 2002, siehe 'BMF - Datensammlung zur Steuerpolitik'
     en:
   unit: Euro
-  time: month
+  reference_period: month
   1975-01-01:
     reference:
     1: 26
@@ -163,7 +163,7 @@ kindergeld_einkommensgrenze:
     de: § 32 (4) EStG. Wurde 2012 durch eine Höchstgrenze der gearbeiteten Stunden ersetzt.
     en:
   unit: Euro
-  time: year
+  reference_period: year
   1984-01-01:
     scalar: 0
     reference:
@@ -193,13 +193,13 @@ kindergeld_einkommensgrenze:
 
 kindergeld_stundengrenze:
   name:
-    de: Stundengrenze für Kindergeldanspruch
+    de: Wochenstundengrenze für Kindergeldanspruch
     en: Working hours threshold for child benefit eligibility
   description:
     de: §32 (4) S. 3 EStG. Maximale Anzahl von erlaubten Wochenstunden des Kindes für den Bezug von Kindergeld
     en:
   unit: hours
-  time: week
+  reference_period: week
   2012-01-01:
     scalar: 20
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131
@@ -212,7 +212,7 @@ kinderbonus:
     de: Aufstockung des Kindergeldes während COVID-19 Pandemie. Wurde im September/Oktober 2020 bzw. Mai 2021 ausgezahlt, aber ist hier auf das volle Kalenderjahr angerechnet.
     en:
   unit: Euro
-  time: year
+  reference_period: year
   1984-01-01:
     scalar: 0
   2020-01-01:

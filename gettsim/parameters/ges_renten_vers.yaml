@@ -165,7 +165,7 @@ durchschnittslohn:
   name:
     de: Durchschnittslohn
     en: Mean Wage
-  time: year
+  reference_period: year
   2005-01-01:
     scalar: 28468.23
   2006-01-01:

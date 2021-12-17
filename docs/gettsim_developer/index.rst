@@ -11,6 +11,3 @@ https://gettsim.zulipchat.com.
    code-of-conduct
    how-to-contribute
    how-to-maintain
-   geps
-   changes
-   glossary

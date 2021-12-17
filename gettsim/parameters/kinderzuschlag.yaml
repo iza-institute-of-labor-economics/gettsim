@@ -6,7 +6,7 @@ kinderzuschlag_max:
     de: § 6a (2) BKGG. Betrag pro Kind
     en: Amount per child.
   unit: Euro
-  time: month
+  reference_period: month
   2005-01-01:
     scalar: 140
     reference: Art. 46 G. v. 24.12.2003 BGBl. I S. 2954.
@@ -25,7 +25,7 @@ kinderzuschlag_min_eink_paare:
     de: § 6a (1) Nr. 2 BKGG.
     en:
   unit: Euro
-  time: month
+  reference_period: month
   2005-01-01:
     scalar: 0
     note: kein expliziter Wert im Gesetz.
@@ -40,7 +40,7 @@ kinderzuschlag_min_eink_alleinerz:
     de: § 6a (1) Nr. 2 BKGG.
     en:
   unit: Euro
-  time: month
+  reference_period: month
   2005-01-01:
     scalar: 0
     note: kein expliziter Wert im Gesetz.
@@ -85,8 +85,8 @@ exmin:
   description:
     de: Berechnet für jeweils zwei Jahre die Höhe der steuerfrei zu stellenden Existenzminima (nicht identisch mit dem steuerlichen Grundfreibetrag).
     en: Every two years, the government calculates the subsistence levels 'to be allowed from taxation'. These form the basis for a number of kiz parameters.
-  unit: euro
-  time: year
+  unit: Euro
+  reference_period: year
   2005-01-01:
     regelsatz:
       single: 4164

@@ -246,7 +246,7 @@ beitr_bemess_grenze:
     de:
     en:
   unit: Euro
-  time: month
+  reference_period: month
   1984-01-01:
     ges_krankenv:
       west: 1994
@@ -513,7 +513,7 @@ bezugsgröße:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
     en:
   unit: Euro
-  time: month
+  reference_period: month
   1984-01-01:
     west: 1396
   1985-01-01:
@@ -634,7 +634,7 @@ geringfügige_eink_grenzen:
     de: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
     en:
   unit: Euro
-  time: month
+  reference_period: month
   1984-01-01:
     mini_job:
       west: 199
