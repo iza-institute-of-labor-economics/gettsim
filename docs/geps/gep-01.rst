@@ -115,7 +115,7 @@ The default unit a column refers to is an individual. In case a household or tax
 the relevant unit, an underscore plus one of {``hh``, ``tu``} will indicate the level of
 aggregation.
 
-Time unit identifier always appear before unit identifiers (e.g.,
+Time unit identifiers always appear before unit identifiers (e.g.,
 ``arbeitsl_geld_2_m_hh``).
 
 
