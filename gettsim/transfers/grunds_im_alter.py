@@ -63,13 +63,12 @@ def grunds_ia_m_minus_eink_hh(
 def anrechenbares_eink_grunds_ia_m_hh(
     anrechenbares_eink_grunds_ia_m: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
-    """Aggregate income relevant for Grundsicherung on household level.
+    """Aggregate income which is considered in the calculation of Grundsicherung im
+    Alter on household level.
 
     Parameters
     ----------
-    anrechenbares_eink_grunds_ia_m
-        See :func:`anrechenbares_eink_grunds_ia_m`.
-    hh_id
+    anrechenbares_eink_grunds_ia_m See :func:`anrechenbares_eink_grunds_ia_m`. hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
 
     Returns
@@ -94,7 +93,8 @@ def anrechenbares_eink_grunds_ia_m(
     tu_id: IntSeries,
     grunds_ia_params: dict,
 ) -> FloatSeries:
-    """Calculate income relevant for Grundsicherung of Grundsicherung im Alter.
+    """Calculate income which is considered in the calculation of Grundsicherung im
+    Alter.
 
     Parameters
     ----------
@@ -125,6 +125,7 @@ def anrechenbares_eink_grunds_ia_m(
     grunds_ia_params
         See params documentation
         :ref:`grunds_ia_params <grunds_ia_params>`.
+
     Returns
     -------
 
@@ -163,7 +164,8 @@ def anrechenbares_erwerbs_eink_grunds_ia_m(
     arbeitsl_geld_2_params: dict,
     grunds_ia_params: dict,
 ) -> FloatSeries:
-    """Calculate earnings relevant for Grundsicherung of Grundsicherung im Alter.
+    """Calculate earnings which are considered in the calculation of Grundsicherung im
+    Alter.
 
     Legal reference: § 82 SGB XII Abs. 3
 
@@ -181,6 +183,7 @@ def anrechenbares_erwerbs_eink_grunds_ia_m(
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     grunds_ia_params
         See params documentation :ref:`grunds_ia_params <grunds_ia_params>`.
+
     Returns
     -------
 
@@ -199,8 +202,8 @@ def anrechenbares_erwerbs_eink_grunds_ia_m(
 def anrechenbare_prv_rente_grunds_ia_m(
     prv_rente_m: FloatSeries, arbeitsl_geld_2_params: dict, grunds_ia_params: dict,
 ) -> FloatSeries:
-    """Calculate public pension earnings relevant for Grundsicherung of Grundsicherung
-    im Alter.
+    """Calculate private pension benefits which are considered in the calculation of
+    Grundsicherung im Alter.
 
     Legal reference: § 82 SGB XII Abs. 4
 
@@ -209,7 +212,8 @@ def anrechenbare_prv_rente_grunds_ia_m(
     prv_rente_m
         See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
     arbeitsl_geld_2_params
-        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+        See params documentation :ref:`arbeitsl_geld_2_params
+        <arbeitsl_geld_2_params>`.
     grunds_ia_params
         See params documentation :ref:`grunds_ia_params <grunds_ia_params>`.
 
@@ -217,7 +221,7 @@ def anrechenbare_prv_rente_grunds_ia_m(
     -------
 
     """
-    deducted_rent = piecewise_polynomial(
+    prv_rente_m_amount_exempt = piecewise_polynomial(
         x=prv_rente_m,
         thresholds=grunds_ia_params["prv_rente_anr_frei"]["thresholds"],
         rates=grunds_ia_params["prv_rente_anr_frei"]["rates"],
@@ -226,9 +230,11 @@ def anrechenbare_prv_rente_grunds_ia_m(
         ],
     )
 
-    deducted_rent = deducted_rent.clip(upper=arbeitsl_geld_2_params["regelsatz"][1] / 2)
+    prv_rente_m_amount_exempt = prv_rente_m_amount_exempt.clip(
+        upper=arbeitsl_geld_2_params["regelsatz"][1] / 2
+    )
 
-    return prv_rente_m - deducted_rent
+    return prv_rente_m - prv_rente_m_amount_exempt
 
 
 def anrechenbare_staatl_rente_grunds_ia_m(
@@ -237,8 +243,8 @@ def anrechenbare_staatl_rente_grunds_ia_m(
     arbeitsl_geld_2_params: dict,
     grunds_ia_params: dict,
 ) -> FloatSeries:
-    """Calculate private pension earnings relevant for Grundsicherung
-    im Alter.
+    """Calculate public pension benefits which are considered in the calculation of
+    Grundsicherung im Alter.
 
     Starting from 2020: If eligible for Grundrente, can deduct 100€ completely and 30%
     of private pension above 100 (but no more than 1/2 of regelbedarf)
@@ -250,9 +256,11 @@ def anrechenbare_staatl_rente_grunds_ia_m(
     nicht_grundrentenberechtigt
         See :func:`nicht_grundrentenberechtigt`.
     arbeitsl_geld_2_params
-        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+        See params documentation :ref:`arbeitsl_geld_2_params
+        <arbeitsl_geld_2_params>`.
     grunds_ia_params
         See params documentation :ref:`grunds_ia_params <grunds_ia_params>`.
+
     Returns
     -------
 

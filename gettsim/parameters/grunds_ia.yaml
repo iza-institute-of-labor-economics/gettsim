@@ -74,8 +74,8 @@ erwerbs_eink_anr_frei:
 
 prv_rente_anr_frei:
   name:
-    de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre Grundrentenzeiten
-    en: Public pension shares not subject to transfer withdrawal for subjects whose Grundrentenzeiten exceeds 33 years
+    de: Anrechnungsfreie Anteile private Rente
+    en: Private pension shares not subject to transfer withdrawal
   description:
     de:
     en:
