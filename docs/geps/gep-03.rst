@@ -137,7 +137,7 @@ entry is added.
    ``reference_period`` (one of ``y``, ``m``, ``w``, ``d``) and the ``number_of_lags``.
 
    The lagged parameters will be available as
-   ``[param]_t_min_[number_of_lags]_[reference_period]`` next to ``[param]``.
+   ``[param]_t_minus_[number_of_lags]_[reference_period]`` next to ``[param]``.
 
    Example:
 
