@@ -132,8 +132,8 @@ general naming considerations here.
   identifiers easier and less error-prone.
 
 
-Python Identifiers (Functions, Variables)
------------------------------------------
+Other Python identifiers (Functions, Variables)
+-----------------------------------------------
 
 Python identifiers should generally be in English, unless they refer to a specific law
 or set of laws, which is where the same reasoning applies as above.
