@@ -26,13 +26,11 @@ GEP 4 — A DAG—based Computational Backend
 Abstract
 --------
 
-This GEP explains the DAG-based computational backend for GETTSIM, which does not only
-increase performance, but, and more importantly, offers a way to make changes to an
-existing policy environment.
+This GEP explains the DAG-based computational backend for GETTSIM
 
 
-Motivation and Scope
---------------------
+Motivation
+----------
 
 The implementation choice to use a DAG to represent the tax and transfers is motivated
 by two primary reasons.
@@ -40,8 +38,8 @@ by two primary reasons.
 1. A tax and transfer system is constantly evolving in many dimensions due to the
    decisions of policy makers. Additionally, it is not enough to represent the state of
    the tax and transfer at any given point in time, but users need to be able to
-   introduce their own changes. It is, hence, crucial to easily replace single
-   functions or a set of functions within the tax and transfer system.
+   introduce their own changes. It is, hence, crucial to change or replace certain
+   parts of the tax and transfer system.
 
 2. By using a DAG the user is able to limit the computations to a set of target
    variables, which the researcher is ultimately interested in. This prevents
@@ -53,12 +51,13 @@ Basic idea
 
 Based on the two requirements above we split the tax and transfer system into a set of
 small functions. Each function calculates one clearly defined variable and returns it
-as a :class:`pandas.Series`. All input variables are either the output of another
-function or an input variable that the user provided (e.g. `bruttolohn_m`)
+as a :class:`pandas.Series`. All input variables of a function are either the output of
+another function, an input variable that the user provided (e.g. `bruttolohn_m`), or a
+parameter of the tax and transfer system.
 
-GETTSIM is able to calculate all requested variables by starting with the input
-variables and calling the functions in the right order. This is accomblished via a
-directed acyclic graph (DAG).
+GETTSIM is able to calculate the variables a researcher is interested in by starting
+with the input variables and calling the required functions in the right order. This is
+accomblished via a directed acyclic graph (DAG) (see below).
 
 Splitting complex calculations into smaller pieces has a lot of the usual advantages of
 why we use functions in the first place: readability, simplicity, lower maintenance
@@ -93,16 +92,15 @@ The result of this function is again a :class:`pandas.Series` which has the name
 would need to have ``kindergeld`` as a name for an input argument to request this
 :class:`pandas.Series`.
 
-Mention:
-- type annotations
-- interface of `compute_taxes_and_transfers` (e.g. `override_columns`)?
--
+Note that the type annotations (e.g. FloatSeries) indicate the expected type of each
+input and the output of a function.
+
 
 Directed Acyclic Graph
 ~~~~~~~~~~~~~~~~~~~~~~
 
 We can visualize the relationship between functions and their input variables in a graph
-where nodes are variables in the data or computed by functions. Edges are pointing from
+where nodes are variables in the data or computed by functions. Edges are pointing
 from input variables to other variables which require them to be computed. See this
 `tutorial <../visualize_the_system.ipynb>`_ for some graphics.
 
@@ -114,26 +112,16 @@ sequence. The topological ordering is what defines the sequence in which the fun
 in the tax and transfer system are evaluated. This ensures that the inputs are already
 computed before a dependent function is called.
 
-When `compute_taxes_and_transfers` is called, GETTSIM builds a DAG based on the
-requested targets and the provided input variables. Afterwards, all required functions
-are called in the right order and the requested targets are calculated.
+When `compute_taxes_and_transfers` is called, GETTSIM builds a DAG based on three
+inputs provided by the user:
 
+ - A set of functions of the tax and transfer system, which consist of the ones
+   pre-implemented in GETTSIM and potentially user-written additional functions.
+ - The targets of interest.
+ - The input variables.
 
-Usage and Impact
-----------------
-
-This GEP leads to a lot of changes which are best documented in the tutorials.
-
-- The tutorial on the `interface <../tutorials/interface.ipynb>`_ offers a light
-  introduction to the user interface.
-- The tutorial on the `visualization <../tutorials/visualize_the_system.ipynb>`_ allows
-  to inspect the tax and transfer system visually.
-
-
-Detailed description
---------------------
-
-The detailed descriptions and examples are provided in the tutorials.
+ The DAG is then used to call all required functions in the right order and to
+ calculate the requested targets.
 
 
 Related Work
@@ -144,24 +132,11 @@ Related Work
   <https://docs.dask.org/>`_ splits and distributes computations.
 
 
-Implementation
---------------
-
-There are multiple PRs which incrementally rewrote GETTSIM for versions 0.3 and 0.4. See
-the `release notes <../changes.rst>`_ for the linked PRs.
-
-
 Alternatives
 ------------
 
 We have not found any alternatives which offer the same amount of flexibility and
 computational advantages.
-
-
-Discussion
-----------
-
-*Not applicable.*
 
 
 References and Footnotes
