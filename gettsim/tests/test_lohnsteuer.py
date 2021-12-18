@@ -97,11 +97,12 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
     Creates an URL for the API of the official calculator by the
     German Ministry of Finance (BMF),
     documented at: https://www.bmf-steuerrechner.de/interface/einganginterface.xhtml
+    this url is called and the results are returned
 
     Returns
     -------
 
-    income tax tue as pd.Series
+    income tax due as pd.Series
 
     """
     url_base = (
