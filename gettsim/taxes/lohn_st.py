@@ -12,7 +12,6 @@ def lohn_steuer(
     tu_id: IntSeries,
     bruttolohn_m: FloatSeries,
     vorsorgepauschale: FloatSeries,
-    alleinerziehend_freib_tu,
     kind: BoolSeries,
     steuerklasse: IntSeries,
     eink_st_params: dict,
@@ -55,23 +54,40 @@ def lohn_steuer(
     lohn_steuer_freibetrag = (grundfreibetrag * steuerklasse.isin([1, 2, 4])) + (
         2 * grundfreibetrag * (steuerklasse == 3)
     )
-    lohn_steuer_freibetrag += alleinerziehend_freib_tu * (steuerklasse == 2)
-    werbungskosten = (eink_st_abzuege_params["werbungskostenpauschale"]) * (
-        steuerklasse != 6
-    )
-    sonderausgaben = (
-        eink_st_abzuege_params["sonderausgabenpauschbetrag"]
-    ) * steuerklasse != 6
 
-    vorsorge_pauschale = vorsorgepauschale
+    lohn_steuer_freibetrag += (
+        eink_st_abzuege_params["alleinerziehenden_freibetrag"] * (steuerklasse == 2)
+    ).fillna(0)
+    werbungskosten = [
+        eink_st_abzuege_params["werbungskostenpauschale"] if stkl != 6 else 0
+        for stkl in steuerklasse
+    ]
+    sonderausgaben = [
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"] if stkl != 6 else 0
+        for stkl in steuerklasse
+    ]
 
     # zu versteuerndes Einkommen / tax base for Lohnsteuer
-    lohn_steuer_zve = (
-        12 * bruttolohn_m - werbungskosten - sonderausgaben - vorsorge_pauschale
+    lohn_steuer_zve = np.maximum(
+        12 * bruttolohn_m
+        - werbungskosten
+        - sonderausgaben
+        - vorsorgepauschale
+        - lohn_steuer_freibetrag,
+        0,
     )
     # lohn_steuer_soli_zve = 12 * bruttolohn_m - werbungskosten - sonderausgaben - kinderfreibetrag - vorsorgepauschale
-    # TODO: Wie werden die richtigen Freibeträge berücksichtigt?
     lohn_steuer = st_tarif(lohn_steuer_zve, eink_st_params)
+    """
+    lohn_steuer = piecewise_polynomial(
+        x=lohn_steuer_zve,
+        thresholds=eink_st_params["eink_st_tarif"]["thresholds"],
+        rates=eink_st_params["eink_st_tarif"]["rates"],
+        intercepts_at_lower_thresholds=eink_st_params["eink_st_tarif"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
+    """
 
     return lohn_steuer
 
@@ -132,10 +148,10 @@ def vorsorgepauschale_ab_2010(
     # add both RV and KV deductions. For KV, take the larger amount.
     out = vorsorg_rv + np.maximum(vorsorg_kv_option_a, vorsorg_kv_option_b)
 
-    return out
+    return out.fillna(0)
 
 
-def vorsorgepauschale_2005_2010(bruttolohn, steuerklasse, params) -> FloatSeries:
+def vorsorgepauschale_2005_2010(bruttolohn, steuerklasse, eink_st_params) -> FloatSeries:
     """
     vorsorg_rv and vorsorg_kv_option_a are identical to after 2010
 
