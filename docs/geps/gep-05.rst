@@ -92,7 +92,22 @@ the rounding.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Specify rounding in ``.yaml``-files as in option 2. Set attribute ``__roundingspec__``
-based on ``.yaml``-files (when exactly should this attribute be set?)
+based on ``.yaml``-files.
+
+Implementation could look similar to:
+
+.. code-block:: python
+
+       @add_rounding_spec(
+           params_file="ges_renten_vers_params", function_name="grundr_zuschlag_m"
+       )
+       def grundr_zuschlag_m(
+           grundr_zuschlag_vor_eink_anr_m: FloatSeries, anrechenbares_eink_gr_m: FloatSeries
+       ) -> FloatSeries:
+           pass
+
+After the decorator is applied, ``grundr_zuschlag_m`` would then get a new input
+parameter ``ges_renten_vers_params``. Not sure yet, how this can be implemented.
 
 When calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM loops over
 all functions and applies the rounding specified in the attribute if the attribute
@@ -102,7 +117,7 @@ exists.
 Advantages and Disadvantages
 ----------------------------
 
-Advantages option 1 over option 2 and 3
+Advantages option 1 over option 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *  Decorator allows to specify function and associated rounding in the same file.
@@ -123,15 +138,12 @@ Advantages option 2 and 3 over option 1
   system. Hence, it seems a better fit to define it there.
 - Rounding parameters can be changed, e.g. if they change over time in the law.
 
-Disadvantage option 3
+Option 3
 ~~~~~~~~~~~~~~~~~~~~~
 
-- Adds additional complexity which seems unnecessary.
-
-Advantage option 3
-~~~~~~~~~~~~~~~~~~
-
-- ??
+- Adds additional complexity.
+- Unclear if and how implementation could look like.
+- But could be the best of both worlds?
 
 
 
