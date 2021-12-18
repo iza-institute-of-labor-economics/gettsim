@@ -162,10 +162,11 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
     tax_df, url = format_url_content(url_base, specs, out_definitions)
     out = tax_df["value"].astype(int)
 
-    # We are only interested in Lohnsteuer and Soli
-    out = out.loc[["LSTLZZ", "SOLZLZZ"]]
-    # Return in Euros
-    return out.loc["LSTLZZ"] / 100
+    # We are only interested in Lohnsteuer and Soli. divide by 100 to get Euro
+    out = out.loc[["LSTLZZ", "SOLZLZZ"]] / 100
+    return out["LSTLZZ"]
+    # Return in Euros. URL on top for debugging
+    # return [out.loc["LSTLZZ"] / 100, out.loc["SOLZLZZ"]/100, url]
 
 
 def gen_lohnsteuer_test():
@@ -201,7 +202,7 @@ def gen_lohnsteuer_test():
 
 INPUT_COLS = ["p_id", "tu_id", "bruttolohn_m", "alter", "kind", "steuerklasse", "year"]
 
-YEARS = [2021]
+YEARS = [2020, 2021]
 
 
 @pytest.fixture(scope="module")
@@ -240,7 +241,7 @@ def test_steuerklassen():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_lohnsteuer(input_data, year, reload_test_data=False):
+def test_lohnsteuer(input_data, year, reload_test_data=True):
 
     if reload_test_data:
         gen_lohnsteuer_test()
