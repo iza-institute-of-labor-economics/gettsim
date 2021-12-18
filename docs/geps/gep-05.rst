@@ -41,8 +41,8 @@ intermediate variable needs to be rounded, the programmer can just split up the 
 and create a new function returning exactly this (potentially rounded) result.
 
 In the code, we specify all functions that are potentially rounded and how they are
-rounded (`base` and `direction`). When calling `compute_taxes_and_transfers`, the user
-can specify if the results should be rounded or not.
+rounded (``base`` and ``direction``). When calling ``compute_taxes_and_transfers``, the
+user can specify if the results should be rounded or not.
 
 Options for Implementation
 --------------------------
@@ -52,8 +52,8 @@ We discussed three ways how this functionality could be implemented:
 1) Decorators
 ~~~~~~~~~~~~~
 
-Use decorators within `.py`-files to add attribute `__roundingspec__` to the functions
-that should be rounded.
+Use decorators within ``.py``-files to add attribute ``__roundingspec__`` to the
+functions that should be rounded.
 
 .. code-block:: python
 
@@ -63,15 +63,16 @@ that should be rounded.
        ) -> FloatSeries:
            pass
 
-`grundr_zuschlag_m` should be rounded to the second decimal point.
+``grundr_zuschlag_m`` should be rounded to the second decimal point.
 
-When calling `compute_taxes_and_transfers` with `rounding=True`, GETTSIM loops over all
-functions and applies the rounding specified in the attribute if the attribute exists.
+When calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM loops over
+all functions and applies the rounding specified in the attribute if the attribute
+exists.
 
 2) Rounding as parameterin parameter file -- no attribute
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Specify rounding in `.yaml`-files. Set no attribute `__roundingspec__`.
+Specify rounding in ``.yaml``-files. Set no attribute ``__roundingspec__``.
 
 .. code-block:: yaml
 
@@ -81,20 +82,21 @@ Specify rounding in `.yaml`-files. Set no attribute `__roundingspec__`.
          - base: 0.01
          - reference: Whatever law
 
-`grundr_zuschlag_m` should be rounded to the second decimal point.
+``grundr_zuschlag_m`` should be rounded to the second decimal point.
 
-When calling `compute_taxes_and_transfers` with `rounding=True`, GETTSIM loops over all
-functions that are specified in the parameter files as being rounded and applies the
-rounding.
+When calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM loops over
+all functions that are specified in the parameter files as being rounded and applies
+the rounding.
 
 3) Rounding as parameterin parameter file -- with attribute
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Specify rounding in `.yaml`-files as in option 2. Set attribute `__roundingspec__`
-based on `.yaml`-files (when exactly should this attribute be set?)
+Specify rounding in ``.yaml``-files as in option 2. Set attribute ``__roundingspec__``
+based on ``.yaml``-files (when exactly should this attribute be set?)
 
-When calling `compute_taxes_and_transfers` with `rounding=True`, GETTSIM loops over all
-functions and applies the rounding specified in the attribute if the attribute exists.
+When calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM loops over
+all functions and applies the rounding specified in the attribute if the attribute
+exists.
 
 
 Advantages and Disadvantages
