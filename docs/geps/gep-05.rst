@@ -119,6 +119,7 @@ Advantages option 2 and 3 over option 1
 
 - Strictly speaking, how a variable is rounded is a parameter of the tax and transfer
   system. Hence, it seems a better fit to define it there.
+- Rounding parameters can be changed, e.g. if they change over time in the law.
 
 Disadvantage option 3
 ~~~~~~~~~~~~~~~~~~~~~
