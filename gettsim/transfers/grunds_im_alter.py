@@ -84,7 +84,7 @@ def anrechenbares_eink_grunds_ia_m(
     anrechenbare_staatl_rente_grunds_ia_m: FloatSeries,
     sonstig_eink_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
-    kapital_eink_minus_pauschbetr: FloatSeries,
+    anrechenbares_kapital_eink_grunds_ia_m: FloatSeries,
     elterngeld_m: FloatSeries,
     eink_st_tu: FloatSeries,
     soli_st_tu: FloatSeries,
@@ -108,8 +108,8 @@ def anrechenbares_eink_grunds_ia_m(
         See :func:`sonstig_eink_m`.
     vermiet_eink_m
         See :func:`vermiet_eink_m`.
-    kapital_eink_minus_pauschbetr
-        See :func:`grunds_ia_eink_excl_pensions`.
+    anrechenbares_kapital_eink_grunds_ia_m
+        See :func:`anrechenbares_kapital_eink_grunds_ia_m`.
     elterngeld_m
         See :func:`elterngeld_m`.
     eink_st_tu
@@ -143,7 +143,7 @@ def anrechenbares_eink_grunds_ia_m(
         + anrechenbare_prv_rente_grunds_ia_m
         + sonstig_eink_m
         + vermiet_eink_m
-        + kapital_eink_minus_pauschbetr / 12
+        + anrechenbares_kapital_eink_grunds_ia_m
         + anrechenbares_elterngeld_m
     )
 
@@ -197,6 +197,36 @@ def anrechenbares_erwerbs_eink_grunds_ia_m(
     )
 
     return earnings
+
+
+def anrechenbares_kapital_eink_grunds_ia_m(
+    kapital_eink_minus_pauschbetr: FloatSeries, grunds_ia_params: dict,
+) -> FloatSeries:
+    """Calculate capital income which are considered in the calculation of Grundsicherung im
+    Alter.
+
+    Legal reference: § 82 SGB XII Abs. 2
+
+
+    Parameters
+    ----------
+    kapital_eink_minus_pauschbetr
+        See :func:`kapital_eink_minus_pauschbetr`.
+    grunds_ia_params
+        See params documentation :ref:`grunds_ia_params <grunds_ia_params>`.
+
+    Returns
+    -------
+
+    """
+    # Can deduct allowance
+    capital_income_y = (
+        kapital_eink_minus_pauschbetr - grunds_ia_params["kapital_eink_anr_frei"]
+    ).clip(lower=0)
+
+    # Calculate monthly capital income (after deduction)
+    out = capital_income_y / 12
+    return out
 
 
 def anrechenbare_prv_rente_grunds_ia_m(
