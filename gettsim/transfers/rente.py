@@ -243,7 +243,7 @@ def entgeltpunkte_lohn(
     bruttolohn_scaled_east = bruttolohn_m
     bruttolohn_scaled_east.loc[wohnort_ost] = (
         bruttolohn_scaled_east.loc[wohnort_ost]
-        * ges_renten_vers_params["umrechnung_entgeltp_beitrittgebiet"]
+        * ges_renten_vers_params["umrechnung_entgeltp_beitrittsgebiet"]
     )
 
     # Calculate the (scaled) wage, which is subject to pension contributions.

@@ -239,12 +239,12 @@ beitragspflichtiger_durchschnittslohn:
     reference: V. v. 30.11.2020 BGBl. I S. 2612.
     note: Das vorläufige Durchschnittsentgelt.
 
-umrechnung_entgeltp_beitrittgebiet:
+umrechnung_entgeltp_beitrittsgebiet:
   description:
-    de: Für die Berechnung der Entgeltpunkte wird das Einkommen im "Beitrittgebiet" um diesen Faktor erhöht.
+    de: Für die Berechnung der Entgeltpunkte wird das Einkommen im "Beitrittsgebiet" um diesen Faktor erhöht.
     en:
   name:
-    de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebiets
+    de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittsgebiets
     en:
   reference: §256a SGB VI and Anlage 10 SGB VI
   1945-01-01:
@@ -648,11 +648,13 @@ regelaltersgrenze:
     de: Eintrittsalter für Regelaltersrente
     en: Entry age for receiving regelaltersrente
   description:
-    de: Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
-        gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger.
-    en: Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
-        claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
-        the pension claim is higher or lower.
+    de:
+      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger.
+    en:
+      Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
+      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+      the pension claim is higher or lower.
   reference: § 35 Satz 2 SGB VI
   note:
     de: >-
