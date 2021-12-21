@@ -362,3 +362,17 @@ def alle_erwachsene_rentner_hh(
     IntSeries with the number of pensioners per household.
     """
     return anz_erwachsene_hh == anz_rentner_hh
+
+
+def hhsize_tu(tu_id: IntSeries) -> IntSeries:
+    """Count persons in taxunit.
+
+    Parameters
+    ----------
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+    Returns
+    -------
+    IntSeries with the number of persons in taxunit per taxunit.
+    """
+    return tu_id.groupby(tu_id).size()

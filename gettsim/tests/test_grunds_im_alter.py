@@ -24,7 +24,6 @@ INPUT_COLS = [
     "grundrentenzeiten",
     "rentner",
     "schwerbe_ausweis_g",
-    "hhsize_tu",
     "vermögen_hh",
     "alleinerziehend",
     "bewohnt_eigentum_hh",
