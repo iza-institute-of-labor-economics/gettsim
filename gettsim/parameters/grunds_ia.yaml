@@ -1,7 +1,11 @@
 schonvermögen_grunds_ia:
+  name:
+    de: Schonvermögen für Grundsicherung
+    en: Allowed amount of wealth for Grundsicherung
   description:
     de: ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter / bei Erwerbsminderung
     en: there is no entitlement to Grundsicherung im Alter / bei Erwerbsminderung if assets exceed this threshold
+  unit: Euro
   reference: § 1 Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch
   1984-01-01:
     adult: 0
@@ -15,11 +19,12 @@ schonvermögen_grunds_ia:
 
 staatl_rente_anr_frei:
   name:
-    de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre Grundrentenzeiten
-    en: Public pension shares not subject to transfer withdrawal for subjects whose Grundrentenzeiten exceeds 33 years
+    de: Anrechnungsfreier Anteil der staatlichen Rente für Grundsicherung
+    en: Public pension share not subject to transfer withdrawal
   description:
-    de:
-    en:
+    de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre Grundrentenzeiten erreicht wurden
+    en: Public pension shares not subject to transfer withdrawal for subjects whose Grundrentenzeiten exceeds 33 years
+  unit: Share
   type: piecewise_linear
   1984-01-01:
       reference: No income could be deducted
@@ -45,11 +50,12 @@ staatl_rente_anr_frei:
 
 elterngeld_anr_frei:
   name:
-    de: Freibetrag des Elterngeldes für Grundsicherung im Alter und Erwerbsminderung
-    en:
+    de: Freibetrag des Elterngeldes für Grundsicherung
+    en: Amount of parental allowance for not subject to transfer withdrawal
   description:
-    de:
-    en:
+    de: Nur der Betrag, der über dem Elterngeld-Mindestbetrag liegt, wird auf das Einkommen bei der Berechnung der Grundsicherung angerechnet.
+    en: Only the amount above the minimum amount of parental allowance is added to the income when calculating the Grundsicherung.
+  unit: Euro
   1984-01-01:
     scalar: 0
     note: Elterngeld didn't exist before 2007.
@@ -60,11 +66,12 @@ elterngeld_anr_frei:
 kapital_eink_anr_frei:
   name:
     de: Freibetrag des Kapitaleinkommens für Grundsicherung im Alter und Erwerbsminderung
-    en:
+    en: Amount of capital income not subject to transfer withdrawal
   description:
     de: Nur das Kapitaleinkommen, das über diesem Freibetrag liegt, wird auf die
         Grundsicherung im Alter angerechnet. The reference is § 82 SGB XII Abs. 2.
-    en:
+    en: Only the capital income above the threshold is considered for the calculation
+        of the Grundsicherung im Alter.
   unit: Euro
   reference_period: year
   1984-01-01:
@@ -74,16 +81,13 @@ kapital_eink_anr_frei:
       reference: § 82 SGB XII Abs. 2
       scalar: 26
 
-
-
-
 erwerbs_eink_anr_frei:
   name:
-    de: Anteil des Erwerbseinkommens, dass nicht auf Grundsicherung im Alter angerechnet wird.
-    en:
+    de: Anrechnungsfreier Anteil des Erwerbseinkommens für Grundsicherung
+    en: Income shares not subject to transfer withdrawal
   description:
-    de:
-    en:
+    de: Anteil des Erwerbseinkommens, welcher bei der Berechnung der Grundsicherung nicht zum Einkommen addiert wird.
+    en: Share of income, which is not added to the total income when calculating the Grundsicherung.
   unit: share
   reference: § 82 SGB XII Abs. 3
   1984-01-01:
@@ -94,11 +98,12 @@ erwerbs_eink_anr_frei:
 
 prv_rente_anr_frei:
   name:
-    de: Anrechnungsfreie Anteile private Rente
+    de: Anrechnungsfreie Anteile der privaten Rente für Grundsicherung
     en: Private pension shares not subject to transfer withdrawal
   description:
-    de:
-    en:
+    de: Anteil der privaten Rente, welcher bei der Berechnung der Grundsicherung nicht zum Einkommen addiert wird.
+    en: Share of privat pension, which is not added to total income when calculating the Grundsicherung.
+  unit: share
   type: piecewise_linear
   reference: § 82 SGB XII Abs. 4
   1984-01-01:
