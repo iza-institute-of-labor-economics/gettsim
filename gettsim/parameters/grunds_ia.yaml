@@ -19,8 +19,8 @@ schonvermögen_grunds_ia:
 
 staatl_rente_anr_frei:
   name:
-    de: Anrechnungsfreier Anteil der staatlichen Rente für Grundsicherung
-    en: Public pension share not subject to transfer withdrawal
+    de: Anrechnungsfreier Anteil der staatlichen Rente (bei mind. 33 Grundrentenzeiten)
+    en: Public pension share not subject to transfer withdrawal (if at least 33 Grundrentenzeiten)
   description:
     de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre Grundrentenzeiten erreicht wurden
     en: Public pension shares not subject to transfer withdrawal for subjects whose Grundrentenzeiten exceeds 33 years
@@ -65,7 +65,7 @@ elterngeld_anr_frei:
 
 kapital_eink_anr_frei:
   name:
-    de: Freibetrag des Kapitaleinkommens für Grundsicherung im Alter und Erwerbsminderung
+    de: Freibetrag des Kapitaleinkommens für Grundsicherung
     en: Amount of capital income not subject to transfer withdrawal
   description:
     de: Nur das Kapitaleinkommen, das über diesem Freibetrag liegt, wird auf die

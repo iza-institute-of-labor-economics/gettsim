@@ -16,8 +16,8 @@ alpha:
 
 altersvorsogeanteil:
   name:
-    de: ava
-    en: ava
+    de: Altersvorsorgeanteil (AVA)
+    en: Personal pension share
   description:
     de: Teil des Riesterfaktors in der Rentenanpassungsformel
     en: Part of the Riesterfaktor in the pension adjustment formular
@@ -177,7 +177,7 @@ durchschnittslohn:
     de: Durchschnittslohn
     en: Mean Wage
   description:
-    de: Durchschnittslohn aller Arbeitnehmer in einem Jahr
+    de: Durchschnittslohn aller Arbeitnehmer:innen in einem Jahr
     en: Mean Wage of all employees per year
   unit: Euro (Brutto)
   reference period: year
