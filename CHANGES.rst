@@ -11,6 +11,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
    (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
 * :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh.
    (:ghuser:`LauraGergeleit`).
+* :gh:`319`:gh:`320` Implement changes for social assistance and social security
+   becoming effective in 2022 (:ghuser:`Eric-Sommer`).
 
 0.4.1 - 2021-04-11
 ------------------
