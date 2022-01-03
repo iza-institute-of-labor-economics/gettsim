@@ -503,6 +503,11 @@ beitr_bemess_grenze:
       west: 7100
       ost: 6700
     reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
+  2022-01-01:
+    rentenv:
+      west: 7050
+      ost: 6750
+    reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
 
 
 bezugsgröße:
@@ -625,6 +630,10 @@ bezugsgröße:
     west: 3290
     ost: 3115
     reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
+  2022-01-01:
+    west: 3290
+    ost: 3150
+    reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
 
 geringfügige_eink_grenzen:
   name:
