@@ -233,6 +233,12 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.0795
       an: 0.0795
+  2022-01-01:
+    deviation_from: previous
+    pflegev:
+      standard: 0.01175
+      zusatz_kinderlos: 0.003ag5
+    reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
 
 
 beitr_bemess_grenze:
@@ -746,7 +752,7 @@ ag_abgaben_geringf:
     de: Pauschalabgaben bei geringf. Beschäftigung
     en:
   description:
-    de: § 249b SGB V, § 168 I Nr. 1b SGB VI
+    de: Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II EStG)
     en:
   unit: share
   1984-01-01:
