@@ -10,5 +10,7 @@ p_id,tu_id,hh_id,jahr,kind,alter,grundrentenzeiten,rentner,bruttokaltmiete_m_hh,
 9,6,6,2017,False,67,48,TRUE,460,60,60,73.4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1256,322,,https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
 10,7,7,2021,False,68,0,TRUE,350,35,40,430,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,831,401,,https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
 11,8,8,2022,False,77,120,TRUE,300,45,40,250,400,0,0,0,0,0,0,0,0,50,0,0,0,0,FALSE,False,794,384,,https://www.vdk.de/deutschland/pages/themen/81170/grundsicherungsrechner
-12,9,9,2021,False,70,240,TRUE,300,66,50,350,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1168,0,"Test if households with non-retired adult do not get Grundsicherung im Alter (as currently implemented, those households get ALG 2)",
-13,9,9,2021,False,60,240,FALSE,300,66,50,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1168,0,"Test if households with non-retired adult do not get Grundsicherung im Alter (as currently implemented, those households get ALG 2)",
+12,9,9,2021,False,70,240,TRUE,300,66,50,350,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1168,0,Test if households with non-retired adult do not get Grundsicherung im Alter (as currently implemented those households get ALG 2),
+13,9,9,2021,False,60,240,FALSE,300,66,50,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,1168,0,Test if households with non-retired adult do not get Grundsicherung im Alter (as currently implemented those households get ALG 2),
+14,10,10,2022,False,73,120,TRUE,300,50,45,250,0,0,20,0,0,0,0,0,0,0,0,0,0,0,FALSE,False,799,531.17,Test with capital income,Self-created test case
+15,11,11,2022,False,69,216,TRUE,300,70,45,400,0,0,50,0,0,0,0,0,0,50,0,0,0,0,FALSE,False,819,421.17,Test with capital income,Self-created test case

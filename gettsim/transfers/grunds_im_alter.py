@@ -200,7 +200,7 @@ def anrechenbares_erwerbs_eink_grunds_ia_m(
 
 
 def anrechenbares_kapital_eink_grunds_ia_m(
-    kapital_eink_minus_pauschbetr: FloatSeries, grunds_ia_params: dict,
+    kapital_eink_m: FloatSeries, grunds_ia_params: dict,
 ) -> FloatSeries:
     """Calculate capital income which are considered in the calculation of Grundsicherung im
     Alter.
@@ -219,14 +219,18 @@ def anrechenbares_kapital_eink_grunds_ia_m(
     -------
 
     """
+    # Calculate yearly capital income
+
+    kapital_eink_y = (12 * kapital_eink_m).clip(lower=0)
+
     # Can deduct allowance
     capital_income_y = (
-        kapital_eink_minus_pauschbetr - grunds_ia_params["kapital_eink_anr_frei"]
+        kapital_eink_y - grunds_ia_params["kapital_eink_anr_frei"]
     ).clip(lower=0)
 
     # Calculate monthly capital income (after deduction)
-    out = capital_income_y / 12
-    return out
+
+    return capital_income_y / 12
 
 
 def anrechenbare_prv_rente_grunds_ia_m(
