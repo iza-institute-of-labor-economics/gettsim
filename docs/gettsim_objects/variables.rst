@@ -16,7 +16,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`kind`                 | Dummy: Dependent child living with parents   | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`bruttolohn_m`         | Monthly wage of each individual              | FloatSeries |
+| _`bruttolohn_m`         | Monthly wage                                 | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`alter`                | Age of Individual                            | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
@@ -48,7 +48,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`ges_rente_m`          | Monthly pension payments of each individual  | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`kaltmiete_m_hh`       | Monthly rent expenses for household          | FloatSeries |
+| _`bruttokaltmiete_m_hh` | Monthly rent expenses for household          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`heizkosten_m_hh`      | Monthly heating expenses for houesehold      | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
@@ -64,7 +64,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`arbeitsstunden_w`     | Weekly working hours of individual           | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`bruttolohn_vorj_m`    | Weekly working hours of individual           | FloatSeries |
+| _`bruttolohn_vorj_m`    | Monthly wage, previous year                  | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`geburtstag`           | Day of birth                                 | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+

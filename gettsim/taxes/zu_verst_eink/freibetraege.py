@@ -22,15 +22,16 @@ def behinderungsgrad_pauschbetrag(
     -------
 
     """
+
     # Get disability degree thresholds
     bins = sorted(eink_st_abzuege_params["behinderten_pauschbetrag"])
+
     # Create corresponding bins
     binned = pd.cut(behinderungsgrad, bins=bins + [np.inf], right=False, labels=bins)
+
     # Replace values in the intervals
-    out = (
-        binned.replace(eink_st_abzuege_params["behinderten_pauschbetrag"])
-        .astype(float)
-        .fillna(0)
+    out = binned.replace(eink_st_abzuege_params["behinderten_pauschbetrag"]).astype(
+        float
     )
 
     return out

@@ -249,7 +249,7 @@ References and Footnotes
 
 .. [1] This historical record is available by the normal git commands
        for retrieving older revisions, and can also be browsed on `GitHub
-       <https://github.com/iza-institute-of-labor-economics/gettsim/tree/master/
+       <https://github.com/iza-institute-of-labor-economics/gettsim/tree/main/
        docs/geps>`_.
 
 .. [2] The URL for viewing GEPs on the web is
