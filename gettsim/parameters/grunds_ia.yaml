@@ -74,9 +74,6 @@ kapital_eink_anr_frei:
       reference: § 82 SGB XII Abs. 2
       scalar: 26
 
-
-
-
 erwerbs_eink_anr_frei:
   name:
     de: Anteil des Erwerbseinkommens, dass nicht auf Grundsicherung im Alter angerechnet wird.
