@@ -374,7 +374,7 @@ koeffizienten_berechnungsformel:
         c: 0.0000513
     2022-01-01:
       note: Eine neuartige Verordnung regelt die Forschreibung des Wohngeldes. Die Werte für a, b und c werden neu/erneut definiert.
-      reference: V. v. 08.06.2021 BGBl. I S. 1371.
+      reference: V. v. 03.06.2021 BGBl. I S. 1369.
       1:
         a: 0.04
         b: 0.000564
@@ -1755,7 +1755,7 @@ max_miete:
       6: 143
       7: 157
     note: Eine neuartige Verordnung regelt die Forschreibung des Wohngeldes. Die monatlichen Werte werden um 2,788 Prozent erhöht. Es gelten Rundungsregeln die hier berücksichtigt werden.
-    reference: V. v. 08.06.2021 BGBl. I S. 1371.
+    reference: V. v. 03.06.2021 BGBl. I S. 1369.
 vermögensfreibetrag_grund:
   name:
     de: Grund-Vermögensfreibetrag für den Haushalt
