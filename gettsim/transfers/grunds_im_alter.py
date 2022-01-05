@@ -292,7 +292,7 @@ def mehrbedarf_behinderung_m_hh(
 
 
 def mehrbedarf_behinderung_m(
-    schwerbe_ausweis_g: bool,
+    schwerbe_ausweis_g: BoolSeries,
     hhsize_tu: IntSeries,
     grunds_ia_params: dict,
     arbeitsl_geld_2_params: dict,
@@ -327,6 +327,7 @@ def mehrbedarf_behinderung_m(
 
     # singles
     out.loc[(schwerbe_ausweis_g)] = bedarf1
+
     # couples
     out.loc[(schwerbe_ausweis_g) & (hhsize_tu != 1)] = bedarf2
 

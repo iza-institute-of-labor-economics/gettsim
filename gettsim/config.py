@@ -112,4 +112,5 @@ STANDARD_DATA_TYPES = {
     "grundrentenzeiten": IntSeries,
     "gr_bewertungszeiten": IntSeries,
     "prv_rente_m": FloatSeries,
+    "schwerbe_ausweis_g": BoolSeries,
 }
