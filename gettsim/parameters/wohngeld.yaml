@@ -19,7 +19,7 @@ koeffizienten_berechnungsformel:
       de: Parameter a, b, c der Wohngeldformel
       en:
     description:
-      de:  WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
+      de:  WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)). Zudem WoGG § 43 in Verbindung mit V. v. 03.06.2021 BGBl. I S. 1369.
       en:
     note: The keys from 1 to 12 below refer to the household size.
     1984-01-01:
@@ -373,7 +373,7 @@ koeffizienten_berechnungsformel:
         b: 0.000101
         c: 0.0000513
     2022-01-01:
-      note: Eine neuartige Verordnung regelt die Forschreibung des Wohngeldes. Die Werte für a, b und c werden neu/erneut definiert.
+      note: Eine neuartige Verordnung regelt die Forschreibung des Wohngeldes.
       reference: V. v. 03.06.2021 BGBl. I S. 1369.
       1:
         a: 0.04
@@ -681,7 +681,7 @@ max_miete:
     de: Höchstbeträge für Miete und Belastung
     en:
   description:
-    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG.
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG. Zudem WoGG § 43 in Verbindung mit V. v. 03.06.2021 BGBl. I S. 1369.
     en:
   note: Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) - Mietstufe geordnet. Alle Werte in vollen Euro.
   unit: euro
@@ -1754,7 +1754,7 @@ max_miete:
       5: 124
       6: 143
       7: 157
-    note: Eine neuartige Verordnung regelt die Forschreibung des Wohngeldes. Die monatlichen Werte werden um 2,788 Prozent erhöht. Es gelten Rundungsregeln die hier berücksichtigt werden.
+    note: Eine neuartige Verordnung regelt die Forschreibung des Wohngeldes.
     reference: V. v. 03.06.2021 BGBl. I S. 1369.
 vermögensfreibetrag_grund:
   name:
