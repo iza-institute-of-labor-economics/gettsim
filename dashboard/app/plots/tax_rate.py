@@ -44,7 +44,7 @@ def tax_rate(plot_dict, data):  # noqa: U100
 
         return plot
 
-    def update_plot(attr, old, new):
+    def update_plot(attr, old, new):  # noqa: U100
         sel_year = year_selection.value
         new_src = make_dataset(sel_year, tax_rate_dict_full)
 
