@@ -69,7 +69,7 @@ When calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM loo
 all functions and applies the rounding specified in the attribute if the attribute
 exists.
 
-2) Rounding as parameterin parameter file -- no attribute
+2) Rounding as parameter in parameter file -- no attribute
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Specify rounding in ``.yaml``-files. Set no attribute ``__roundingspec__``.
@@ -88,7 +88,7 @@ When calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM loo
 all functions that are specified in the parameter files as being rounded and applies
 the rounding.
 
-3) Rounding as parameterin parameter file -- with attribute
+3) Rounding as parameter in parameter file -- with attribute
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Specify rounding in ``.yaml``-files as in option 2. Set attribute ``__roundingspec__``
