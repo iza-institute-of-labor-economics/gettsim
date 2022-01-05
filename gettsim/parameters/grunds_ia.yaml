@@ -123,9 +123,16 @@ prv_rente_anr_frei:
         rate: 0.3
 
 mehrbedarf_g:
+  name:
+    de: Mehrbedarf bei Schwerbehinderung
+    en: Additional requirement when severely disabled
   description:
-    de: dieser Prozentanteil des Regelbedarfs wird Menschen mit Schwerbehindertenausweis mit Merkzeichen G, die Grundsicherung im Alter oder bei Erwerbsminderung bekommen, als Mehrbedarf anerkannt
-    en:
+    de: Dieser Prozentanteil des Regelbedarfs wird Menschen mit Schwerbehindertenausweis mit
+        Merkzeichen G, die Grundsicherung im Alter oder bei Erwerbsminderung bekommen,
+        als Mehrbedarf anerkannt
+    en: This percentage of the normal requirement is added as an additional requirement for someone
+        who has a severly disabled ID card which shows the code 'G' and is entitled to the Grundsicherung
+  unit: percentage
   reference: § 30 Abs. 1 SGB XII, https://www.buzer.de/gesetz/3415/al0-3758.htm
   2006-12-07:
     rate: 0.17
