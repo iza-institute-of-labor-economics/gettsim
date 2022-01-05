@@ -13,7 +13,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
    (:ghuser:`LauraGergeleit`).
 * :gh:`319`:gh:`320` Implement changes for social assistance and social security
    becoming effective in 2022 (:ghuser:`Eric-Sommer`).
-* :gh:`322`: Add updated wohngeld parameters for 2022 (:ghuser:`mjbloemer`,
+* :gh:`322` Add updated wohngeld parameters for 2022 (:ghuser:`mjbloemer`,
   :ghuser:`lillyfischer`).
 
 0.4.1 - 2021-04-11
