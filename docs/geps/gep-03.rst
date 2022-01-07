@@ -19,6 +19,7 @@ GEP 3 — Parameters of the taxes and transfers system
 +------------+-------------------------------------------------------------------------+
 
 
+
 Abstract
 --------
 
@@ -301,42 +302,54 @@ The following walks through several cases.
               intercept_at_lower_threshold: 0
 
 
-- If a parameter ceases to be relevant, is superseded by something else, ... there must
-  be a ``YYYY-MM-DD`` key with an entry ``scalar: null`` regardless of the previous
-  structure of the ``value``. Ideally, there would be a ``reference`` and potentially a
+- In general, a parameter should appear for the first time that it is mentioned in a
+  law, becomes relevant, etc..
+
+  Only in exceptional cases it might be useful to set a parameter to some value
+  (typically zero) even if it does not exist yet.
+
+- If a parameter ceases to be relevant, is superseded by something else, etc., there
+  must be a ``YYYY-MM-DD`` key with a note on this.
+
+  Generally, this ``YYYY-MM-DD`` key will have an entry ``scalar: null`` regardless of
+  the previous structure. Ideally, there would be a ``reference`` and potentially a
   ``note`` key. Example:
 
   .. code-block:: yaml
 
       value: null
-      note: Arbeitslosenhilfe is superseded by arbeitsl_geld_2
+      note: arbeitsl_hilfe is superseded by arbeitsl_geld_2
 
-  .. todo::
+  Only in exceptional cases it might be useful to set a parameter to some value
+  (typically zero) even if it is not relevant any more.
 
-      Do we do this at all? Do we need it?
+  In any case, it **must** be the case that it is obvious from the ``YYYY-MM-DD`` entry
+  that the (set of) parameter(s) is not relevant any more, else the previous ones will
+  linger on.
+
+
+.. _gep-3-storage-of-parameters:
+
+Storage of parameters
+---------------------
+
+.. todo::
+
+   to be written
+
+   - Just follow yaml (?)
+   - Exceptions: Piecewise linear. What else?
 
 
 Discussion
 ----------
 
-This section may just be a bullet list including links to any discussions regarding the
-GEP:
-
 - https://github.com/iza-institute-of-labor-economics/gettsim/pull/148
+- https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2003
 
-
-References and Footnotes
-------------------------
-
-.. [1] Each GEP must either be explicitly labeled as placed in the public domain (see
-       this GEP as an example) or licensed under the `Open Publication License`_.
-
-.. _Open Publication License: https://www.opencontent.org/openpub/
-
-.. _#general/geps: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs
 
 
 Copyright
 ---------
 
-This document has been placed in the public domain. [1]_
+This document has been placed in the public domain.
