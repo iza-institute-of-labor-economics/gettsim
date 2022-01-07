@@ -56,8 +56,6 @@ There are three kinds of GEPs:
 GEP Workflow
 ------------
 
-
-
 The GEP process begins with a new idea for GETTSIM.  It is highly recommended that a
 single GEP contain a single key proposal or new idea. Small enhancements or patches
 often don't need a GEP and can be injected into the GETTSIM development workflow with a
@@ -113,12 +111,12 @@ the reference implementation is complete and incorporated into the main source c
 repository, the status will be changed to ``Final``.
 
 To allow gathering of additional design and interface feedback before committing to long
-term stability for a language feature or standard library API, a GEP may also be marked
-as "Provisional". This is short for "Provisionally Accepted", and indicates that the
-proposal has been accepted for inclusion in the reference implementation, but additional
-user feedback is needed before the full design can be considered "Final". Unlike regular
-accepted GEPs, provisionally accepted GEPs may still be Rejected or Withdrawn even after
-the related changes have been included in a Python release.
+term stability for a feature or API, a GEP may also be marked as "Provisional". This is
+short for "Provisionally Accepted", and indicates that the proposal has been accepted
+for inclusion in the reference implementation, but additional user feedback is needed
+before the full design can be considered "Final". Unlike regular accepted GEPs,
+provisionally accepted GEPs may still be Rejected or Withdrawn even after the related
+changes have been included in a release.
 
 Wherever possible, it is considered preferable to reduce the scope of a proposal to
 avoid the need to rely on the "Provisional" status (e.g. by deferring some features to

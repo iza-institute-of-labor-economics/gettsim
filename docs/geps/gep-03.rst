@@ -24,7 +24,7 @@ Abstract
 
 This GEP describes the structure of the parameters of the taxes and transfers system.
 This includes the format of the yaml files (initial input) and storage of the processed
-parameters (SQLite database? tbd)
+parameters.
 
 
 Motivation and Scope
@@ -40,7 +40,7 @@ Usage and Impact
 ----------------
 
 GETTSIM developers should closely look at the Section :ref:`gep-3-structure-yaml-files`
-before adding new variables.
+before adding new parameters.
 
 
 .. _gep-3-structure-yaml-files:
