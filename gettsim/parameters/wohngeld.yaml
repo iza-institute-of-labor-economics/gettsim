@@ -19,7 +19,7 @@ koeffizienten_berechnungsformel:
       de: Parameter a, b, c der Wohngeldformel
       en:
     description:
-      de:  WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1))
+      de:  WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)). Seit 2022 auch §24 Wohngeldverordnung (WoGV).
       en:
     note: The keys from 1 to 12 below refer to the household size.
     1984-01-01:
@@ -372,6 +372,56 @@ koeffizienten_berechnungsformel:
         a: -0.14
         b: 0.000101
         c: 0.0000513
+    2022-01-01:
+      reference: V. v. 03.06.2021 BGBl. I S. 1369.
+      1:
+        a: 0.04
+        b: 0.000564
+        c: 0.0001157
+      2:
+        a: 0.03
+        b: 0.000394
+        c: 0.0000863
+      3:
+        a: 0.02
+        b: 0.00034
+        c: 0.0000695
+      4:
+        a: 0.01
+        b: 0.000304
+        c: 0.0000361
+      5:
+        a: 0
+        b: 0.000268
+        c: 0.0000352
+      6:
+        a: -0.01
+        b: 0.000251
+        c: 0.0000302
+      7:
+        a: -0.02
+        b: 0.000232
+        c: 0.000031
+      8:
+        a: -0.03
+        b: 0.000206
+        c: 0.000031
+      9:
+        a: -0.04
+        b: 0.000179
+        c: 0.0000326
+      10:
+        a: -0.06
+        b: 0.000143
+        c: 0.0000377
+      11:
+        a: -0.1
+        b: 0.000107
+        c: 0.0000444
+      12:
+        a: -0.14
+        b: 0.000098
+        c: 0.0000503
 
 bonus_12_mehr:
   name:
@@ -630,7 +680,7 @@ max_miete:
     de: Höchstbeträge für Miete und Belastung
     en:
   description:
-    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG.
+    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG. Seit 2022 auch §24 Wohngeldverordnung (WoGV).
     en:
   note: Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) - Mietstufe geordnet. Alle Werte in vollen Euro.
   unit: Euro
@@ -1654,6 +1704,56 @@ max_miete:
       6: 139
       7: 153
     reference: Art. 1 G. v. 30.11.2019, BGBl I S. 1877.
+  2022-01-01:
+    1:
+      1: 347
+      2: 392
+      3: 438
+      4: 491
+      5: 540
+      6: 591
+      7: 651
+    2:
+      1: 420
+      2: 474
+      3: 530
+      4: 595
+      5: 654
+      6: 716
+      7: 788
+    3:
+      1: 501
+      2: 564
+      3: 631
+      4: 708
+      5: 778
+      6: 853
+      7: 937
+    4:
+      1: 584
+      2: 659
+      3: 736
+      4: 825
+      5: 909
+      6: 995
+      7: 1095
+    5:
+      1: 667
+      2: 752
+      3: 841
+      4: 944
+      5: 1038
+      6: 1137
+      7: 1251
+    5plus:
+      1: 79
+      2: 90
+      3: 102
+      4: 114
+      5: 124
+      6: 143
+      7: 157
+    reference: V. v. 03.06.2021 BGBl. I S. 1369.
 vermögensfreibetrag_grund:
   name:
     de: Grund-Vermögensfreibetrag für den Haushalt

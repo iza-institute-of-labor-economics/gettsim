@@ -233,6 +233,12 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.0795
       an: 0.0795
+  2022-01-01:
+    deviation_from: previous
+    pflegev:
+      standard: 0.01175
+      zusatz_kinderlos: 0.0035
+    reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
 
 
 beitr_bemess_grenze:
@@ -503,6 +509,11 @@ beitr_bemess_grenze:
       west: 7100
       ost: 6700
     reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
+  2022-01-01:
+    rentenv:
+      west: 7050
+      ost: 6750
+    reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
 
 
 bezugsgröße:
@@ -625,6 +636,10 @@ bezugsgröße:
     west: 3290
     ost: 3115
     reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
+  2022-01-01:
+    west: 3290
+    ost: 3150
+    reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
 
 geringfügige_eink_grenzen:
   name:
@@ -737,7 +752,7 @@ ag_abgaben_geringf:
     de: Pauschalabgaben bei geringf. Beschäftigung
     en:
   description:
-    de: § 249b SGB V, § 168 I Nr. 1b SGB VI
+    de: Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II EStG)
     en:
   unit: share
   1984-01-01:
