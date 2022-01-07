@@ -57,7 +57,7 @@ Development workflow
 
 *  We always develop new features in new branches. Thus, create a new branch by picking
    an appropriate name, e.g., ``kindergeld-freibetrag`` or ``ubi``. Make sure to branch
-   off from master and not any other branch.
+   off from main and not any other branch.
 
    .. code-block:: bash
 

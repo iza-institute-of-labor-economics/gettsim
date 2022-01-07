@@ -549,6 +549,14 @@ vorsorge_altersaufw_max:
     scalar: 25046
     reference: Art. 3 V. v. 17.12.2019 BGBl I S. 2848.
     note: .247 * 101400
+  2021-01-01:
+    scalar: 25787
+    reference: §3 V. v. 30.11.2020 BGBl. I S. 2612.
+    note: .247 * 104400
+  2022-01-01:
+    scalar: 25640
+    reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
+    note: .247 * 103800
 
 vorsorge_kranken_minderung:
   name:
@@ -573,6 +581,7 @@ behinderten_pauschbetrag:
   time: year
   1987-01-01:
     reference:
+    0: 0
     25: 307
     35: 429
     45: 568
@@ -581,9 +590,11 @@ behinderten_pauschbetrag:
     75: 1058
     85: 1227
     95: 1411
-    note: Umrechnung von DM-Werten.
+    note: DM converted to Euro. First entry (0-0) is required internally.
   2002-01-01:
     reference: Art. 1 G. v. 19.12.2000 BGBl. I S. 1790.
+    note: First entry (0-0) is required internally.
+    0: 0
     25: 310
     35: 430
     45: 570
@@ -594,6 +605,8 @@ behinderten_pauschbetrag:
     95: 1420
   2021-01-01:
     reference: Art. 1 G. v. 09.12.2020 BGBL. I  S. 2770.
+    note: First entry (0-0) is required internally.
+    0: 0
     20: 384
     30: 620
     40: 860
