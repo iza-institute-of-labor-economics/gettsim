@@ -69,27 +69,17 @@ def lohn_steuer(
 
     # zu versteuerndes Einkommen / tax base for Lohnsteuer
     lohn_steuer_zve = np.maximum(
-        12 * bruttolohn_m
-        - werbungskosten
-        - sonderausgaben
-        - vorsorgepauschale
-        - lohn_steuer_freibetrag,
-        0,
+        12 * bruttolohn_m - werbungskosten - sonderausgaben - vorsorgepauschale, 0,
     )
-    # lohn_steuer_soli_zve = 12 * bruttolohn_m - werbungskosten - sonderausgaben - kinderfreibetrag - vorsorgepauschale
-    lohn_steuer = st_tarif(lohn_steuer_zve, eink_st_params)
-    """
-    lohn_steuer = piecewise_polynomial(
-        x=lohn_steuer_zve,
-        thresholds=eink_st_params["eink_st_tarif"]["thresholds"],
-        rates=eink_st_params["eink_st_tarif"]["rates"],
-        intercepts_at_lower_thresholds=eink_st_params["eink_st_tarif"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-    """
+    # Different ways to apply the tax schedule depending on steuerklasse
+    lohnsteuer_basistarif = st_tarif(lohn_steuer_zve, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * st_tarif(lohn_steuer_zve / 2, eink_st_params)
 
-    return lohn_steuer
+    lohnsteuer = lohnsteuer_splittingtarif * (
+        steuerklasse == 3
+    ) + lohnsteuer_basistarif * (steuerklasse != 3)
+
+    return lohnsteuer
 
 
 def vorsorgepauschale_ab_2010(
@@ -122,14 +112,17 @@ def vorsorgepauschale_ab_2010(
     """
 
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
-    vorsorg_rv = rentenv_beitr_regular_job * float(
-        vorsorg_rv_anteil(eink_st_abzuege_params)
+    vorsorg_rv = np.ceil(
+        rentenv_beitr_regular_job
+        * float(vorsorg_rv_anteil(eink_st_abzuege_params))
+        * 12
     )
+
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
     # For health care deductions, there are two ways to calculate.
     # a) at least 12% of earnings of earnings can be deducted, but only up to a certain threshold
     vorsorg_kv_option_a_basis = (
-        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_m
+        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_m * 12
     )
 
     vorsorg_kv_option_a_max = np.select(
@@ -141,17 +134,19 @@ def vorsorgepauschale_ab_2010(
     )
 
     vorsorg_kv_option_a = np.minimum(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
-    # b) Take the actual contribtutions (usually the better option)
+    # b) Take the actual contributions (usually the better option)
     vorsorg_kv_option_b = krankenv_beitr_regulär_beschäftigt
     vorsorg_kv_option_b += pflegev_beitr_regulär_beschäftigt
 
     # add both RV and KV deductions. For KV, take the larger amount.
-    out = vorsorg_rv + np.maximum(vorsorg_kv_option_a, vorsorg_kv_option_b)
+    out = vorsorg_rv + np.maximum(vorsorg_kv_option_a, vorsorg_kv_option_b * 12)
 
     return out.fillna(0)
 
 
-def vorsorgepauschale_2005_2010(bruttolohn, steuerklasse, eink_st_params) -> FloatSeries:
+def vorsorgepauschale_2005_2010(
+    bruttolohn, steuerklasse, eink_st_params
+) -> FloatSeries:
     """
     vorsorg_rv and vorsorg_kv_option_a are identical to after 2010
 
