@@ -59,7 +59,7 @@ def get_bmf_url(base, specs):
     return url
 
 
-def format_url_content(url_base, specs, out_definitions):
+def get_bmf_data(url_base, specs, out_definitions):
     """
     Format URL, send it to BMF and format output
 
@@ -89,7 +89,7 @@ def format_url_content(url_base, specs, out_definitions):
     for index, child in enumerate(xml_raw.iter("ausgabe")):
         df = df.append(pd.DataFrame(child.attrib, index=[index]))
 
-    return (df.set_index("name").join(out_df), url)
+    return df.set_index("name").join(out_df)
 
 
 def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr=2021):
@@ -159,7 +159,7 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
         laufenden Arbeitslohns, in Cent""",
     }
 
-    tax_df, url = format_url_content(url_base, specs, out_definitions)
+    tax_df = get_bmf_data(url_base, specs, out_definitions)
     out = tax_df["value"].astype(int)
 
     # We are only interested in Lohnsteuer and Soli. divide by 100 to get Euro
@@ -241,7 +241,7 @@ def test_steuerklassen():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_lohnsteuer(input_data, year, reload_test_data=True):
+def test_lohnsteuer(input_data, year, reload_test_data=False):
 
     if reload_test_data:
         gen_lohnsteuer_test()
