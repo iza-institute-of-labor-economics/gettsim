@@ -160,10 +160,33 @@ disappear.
 
 Some examples include:
 
-- `kinderzuschlag_max` being defined as a parameter in the law before 2021
+1. `arbeitsl_hilfe` being replaced by `arbeitsl_geld_2`
+1. `kinderbonus` being active only in a few years
+1. The introduction of `kinderzuschlag`
+1. Capital income entering `sum_brutto_eink` or not.
 
-Changes of the taxes and transfers system also imply that interface
-It is not fully obvious what to do
+The current solution handles the case of changing interfaces like this (example 4.):
+
+.. code-block:: python
+
+    if year < 2009:
+        functions["sum_brutto_eink"] = sum_brutto_eink_mit_kapital
+    else:
+        functions["sum_brutto_eink"] = sum_brutto_eink_ohne_kapital
+
+
+However, all functions will be present in all years in principle.
+This is not satisfactory; ideally, functions would only be present in years where they actually exist.
+
+.. todo::
+
+    Brainstorm to look for a sensible solution. Ideally want:
+
+    - Minimal set of functions for a given policy year
+    - Users putting together their policy environment based on functions from different years
+    - ...
+
+
 
 Related Work
 ------------
