@@ -86,8 +86,8 @@ def vorsorgepauschale_ab_2010(
     bruttolohn_m: FloatSeries,
     steuerklasse: IntSeries,
     eink_st_abzuege_params: dict,
+    soz_vers_beitr_params: dict,
     rentenv_beitr_regular_job: FloatSeries,
-    krankenv_beitr_regulär_beschäftigt: FloatSeries,
     pflegev_beitr_regulär_beschäftigt: FloatSeries,
 ) -> FloatSeries:
     """
@@ -99,10 +99,10 @@ def vorsorgepauschale_ab_2010(
       See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     steuerklasse:
       See :func:`steuerklasse`
-    soz_vers_beitr_params:
-      See :func:`soz_vers_beitr_params`
     eink_st_abzuege_params:
       See :func:`eink_st_abzuege_params`
+    soz_vers_beitr_params:
+      See :func:`soz_vers_beitr_params`
     pflegev_zusatz_kinderlos
       See :func:`pflegev_zusatz_kinderlos`.
 
@@ -134,8 +134,10 @@ def vorsorgepauschale_ab_2010(
     )
 
     vorsorg_kv_option_a = np.minimum(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
-    # b) Take the actual contributions (usually the better option)
-    vorsorg_kv_option_b = krankenv_beitr_regulär_beschäftigt
+    # b) Take the actual contributions (usually the better option), but apply the reduced rate!
+    vorsorg_kv_option_b = (
+        bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["erm"]
+    )
     vorsorg_kv_option_b += pflegev_beitr_regulär_beschäftigt
 
     # add both RV and KV deductions. For KV, take the larger amount.

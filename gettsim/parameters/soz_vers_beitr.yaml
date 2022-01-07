@@ -10,6 +10,7 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.0572
       an: 0.0572
+      erm: null
     pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -177,11 +178,11 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.073
       an: 0.082
+      erm: 0.0745
     arbeitsl_v: 0.015
   2012-01-01:
     deviation_from: previous
     rentenv: 0.098
-    note: Quelle http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
   2013-01-01:
     deviation_from: previous
     rentenv: 0.0945
@@ -191,6 +192,7 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.073
       an: 0.082
+      erm: 0.07
     pflegev:
       standard: 0.01175
       zusatz_kinderlos: 0.0025
@@ -198,7 +200,7 @@ soz_vers_beitr:
     rentenv: 0.0935
   2016-01-01:
     deviation_from: previous
-    note: Bekanntmachung Bundesanzeiger 30.12.2015 und  http://www.bmg.bund.de/ministerium/meldungen/2015/gkv-zusatzbeitrag.html
+    note: Bekanntmachung Bundesanzeiger 30.12.2015
     ges_krankenv:
       an: 0.084
   2017-01-01:
@@ -215,6 +217,7 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.0775
       an: 0.0775
+      erm: 0.07
     pflegev:
       standard: 0.01525
       zusatz_kinderlos: 0.0025
