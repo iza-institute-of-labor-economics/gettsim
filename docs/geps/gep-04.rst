@@ -54,9 +54,9 @@ Basic idea
 ----------
 
 Based on the two requirements above we split the tax and transfer system into a set of
-small functions. Each function calculates one clearly defined variable (identical to the
-function's name) and returns it as a :class:`Series`. All input variables of a function
-are either a user-provided input variables (e.g. `bruttolohn_m`) or the output of
+small functions. Each function calculates one clearly defined variable (identical to
+the function's name) and returns it as a :class:`Series`. Arguments of a function are
+typically either a user-provided input variable (e.g. `bruttolohn_m`) or the output of
 another function. The only other potential additional arguments are parameters of the
 tax and transfer system, which are pre-defined.
 
@@ -113,7 +113,7 @@ The result of this function is again a :class:`pandas.Series` which has the name
         ...
 
 
-would need to have ``kindergeld`` as a name for an input argument to request this
+would need to have ``abgelt_st_tu`` as a name for an input argument to request this
 :class:`pandas.Series`.
 
 Note that the type annotations (e.g. `FloatSeries`) indicate the expected type of each
@@ -121,7 +121,7 @@ input and the output of a function.
 
 
 Directed Acyclic Graph
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 The relationship between functions and their input variables is a graph where nodes are
 variables. These variables must either be present in the data supplied to GETTSIM or
@@ -186,7 +186,35 @@ This is not satisfactory; ideally, functions would only be present in years wher
     - Users putting together their policy environment based on functions from different years
     - ...
 
+Additional functionalities
+--------------------------
 
+We implemented a small set of additional features that simplify the specification of
+certain types of functions of the tax and transfer system.
+
+Aggregation of variables
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Arguments of functions can also be aggregations of input variables or outputs of other
+functions on the tax unit or household level. In the example above, one argument of the
+function ``soli_st_tu`` is ``abgelt_st_tu``. This variable would be typically specified
+as a function on the tax unit level (``abgelt_st_tu``) as it is done above. However, if
+a function with this name does not exist, but a function on the individual level with
+the same name excluding the ``_tu`` suffix (``abgelt_st``), the output of this
+individual level function is just summed up on the tax unit level before it enters the
+function ``soli_st_tu``.
+
+This feature avoids the need to define a bunch of similarly looking functions that only
+aggregate values on certain levels. Similarly, functions with the ``_hh`` can be
+aggregations on the household level.
+
+Functions defined only for a subset of years
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. todo::
+
+    Describe current solution of the future implementation once we decide on a better
+    solution.
 
 Related Work
 ------------
