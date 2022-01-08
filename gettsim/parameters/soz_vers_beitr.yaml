@@ -92,7 +92,7 @@ soz_vers_beitr:
       standard: 0.005
   1997-01-01:
     ges_krankenv:
-      ag: 0.134
+      allg: 0.134
       erm: null
       zus: 0
     pflegev:
