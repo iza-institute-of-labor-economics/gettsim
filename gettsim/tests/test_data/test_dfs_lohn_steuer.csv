@@ -7,3 +7,5 @@ p_id,tu_id,bruttolohn_m,alter,kind,steuerklasse,year,child_num_kg,lohn_steuer
 6,4,2000,30,False,2,2020,2,133.58
 7,4,0,5,True,1,2020,2,0.0
 8,4,0,2,True,1,2020,2,0.0
+9,5,3000,40,False,2,2021,1,349.83
+10,5,0,12,True,2,2021,1,0.0

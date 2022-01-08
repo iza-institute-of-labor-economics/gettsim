@@ -28,7 +28,8 @@ def get_xml(url):
     """
     # say hello
     myheader = {
-        "User-Agent": """gettsim development: https://github.com/iza-institute-of-labor-economics/gettsim"""  # noqa: E501
+        "User-Agent": """gettsim development: https://github.com/iza-institute-of-labor-economics/gettsim"""
+        # noqa: E501
     }
     request = mybrowser.Request(url, headers=myheader)
     response = mybrowser.urlopen(request)
@@ -174,13 +175,13 @@ def gen_lohnsteuer_test():
 
     hh = pd.DataFrame(
         {
-            "p_id": [1, 2, 3, 4, 5, 6, 7, 8],
-            "tu_id": [1, 2, 2, 3, 3, 4, 4, 4],
-            "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000, 0, 0],
-            "alter": [30, 30, 40, 40, 50, 30, 5, 2],
-            "kind": [False, False, False, False, False, False, True, True],
-            "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1],
-            "year": [2020, 2021, 2021, 2021, 2021, 2020, 2020, 2020],
+            "p_id": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            "tu_id": [1, 2, 2, 3, 3, 4, 4, 4, 5, 5],
+            "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000, 0, 0, 3000, 0],
+            "alter": [30, 30, 40, 40, 50, 30, 5, 2, 40, 12],
+            "kind": [False, False, False, False, False, False, True, True, False, True],
+            "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1, 2, 2],
+            "year": [2020, 2021, 2021, 2021, 2021, 2020, 2020, 2020, 2021, 2021],
         }
     )
     hh["child_num_kg"] = hh.groupby("tu_id")["kind"].transform("sum")
@@ -242,7 +243,6 @@ def test_steuerklassen():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_lohnsteuer(input_data, year, reload_test_data=False):
-
     if reload_test_data:
         gen_lohnsteuer_test()
 
@@ -263,4 +263,6 @@ def test_lohnsteuer(input_data, year, reload_test_data=False):
         columns_overriding_functions="steuerklasse",
     )
 
-    assert_series_equal(result["lohn_steuer"] / 12, year_data["lohn_steuer"])
+    assert_series_equal(
+        result["lohn_steuer"] / 12, year_data["lohn_steuer"], check_exact=False, atol=1
+    )

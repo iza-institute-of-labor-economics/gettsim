@@ -112,10 +112,10 @@ def vorsorgepauschale_ab_2010(
     """
 
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
-    vorsorg_rv = np.ceil(
-        rentenv_beitr_regular_job
+    vorsorg_rv = (
+        12
+        * rentenv_beitr_regular_job
         * float(vorsorg_rv_anteil(eink_st_abzuege_params))
-        * 12
     )
 
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
