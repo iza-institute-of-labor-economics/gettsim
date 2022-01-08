@@ -67,11 +67,13 @@ def ges_krankenv_beitr_m_tu(
     return ges_krankenv_beitr_m.groupby(tu_id).sum()
 
 
-def krankenv_beitr_regulär_beschäftigt(
+def krankenv_beitr_regulär_beschäftigt_nicht_paritätisch(
     lohn_krankenv_regulär_beschäftigt: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
-    """Calculates health insurance contributions for regualr jobs
+    """Calculates health insurance contributions for regular jobs
 
+    Between 07/2005 and 12/2019,
+    contributions were not equally split between employer and employee
 
     Parameters
     ----------
@@ -85,9 +87,37 @@ def krankenv_beitr_regulär_beschäftigt(
     income.
     """
     return (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        * lohn_krankenv_regulär_beschäftigt
-    )
+        (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"] / 2)
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
+    ) * lohn_krankenv_regulär_beschäftigt
+
+
+def krankenv_beitr_regulär_beschäftigt_paritätisch(
+    lohn_krankenv_regulär_beschäftigt: FloatSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
+    """Calculates health insurance contributions for regular jobs
+
+    This for the time periods when contributions are equally split between
+    employer and employee
+
+    Parameters
+    ----------
+    lohn_krankenv_regulär_beschäftigt
+        See :func:`lohn_krankenv_regulär_beschäftigt`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    Returns
+    -------
+    Pandas Series containing monthly health insurance contributions for self employed
+    income.
+    """
+    return (
+        (
+            soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"]
+            + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
+        )
+        / 2
+    ) * lohn_krankenv_regulär_beschäftigt
 
 
 def lohn_krankenv_regulär_beschäftigt(
@@ -138,8 +168,8 @@ def ges_krankenv_beitr_selbst(
     income.
     """
     beitr_satz = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"]
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
     )
     return krankenv_pflichtig_eink_selbst * beitr_satz
 
@@ -190,7 +220,7 @@ def krankenv_pflichtig_rente(
     return ges_rente_m.clip(upper=krankenv_beitr_bemess_grenze)
 
 
-def ges_krankenv_beitr_rente(
+def ges_krankenv_beitr_rente_nicht_paritätisch(
     krankenv_pflichtig_rente: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the contribution to health insurance for pension income.
@@ -209,9 +239,36 @@ def ges_krankenv_beitr_rente(
     """
 
     return (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        * krankenv_pflichtig_rente
-    )
+        (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"] / 2)
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
+    ) * krankenv_pflichtig_rente
+
+
+def ges_krankenv_beitr_rente_paritätisch(
+    krankenv_pflichtig_rente: FloatSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
+    """Calculating the contribution to health insurance for pension income.
+
+
+    Parameters
+    ----------
+    krankenv_pflichtig_rente
+        See :func:`krankenv_pflichtig_rente`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+    Pandas Series containing monthly health insurance contributions for pension income.
+    """
+
+    return (
+        (
+            soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"]
+            + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
+        )
+        / 2
+    ) * krankenv_pflichtig_rente
 
 
 def ges_beitr_krankenv_midi_job(
@@ -232,8 +289,8 @@ def ges_beitr_krankenv_midi_job(
 
     """
     return (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"]
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
     ) * midi_job_bemessungsentgelt
 
 
@@ -258,7 +315,8 @@ def ag_beitr_krankenv_midi_job(
     bruttolohn_m__in_gleitzone = bruttolohn_m.loc[in_gleitzone]
     return (
         bruttolohn_m__in_gleitzone
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"]
+        / 2
     )
 
 

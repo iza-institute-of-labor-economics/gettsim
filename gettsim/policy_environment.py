@@ -11,6 +11,14 @@ from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_threholds
 from gettsim.piecewise_functions import get_piecewise_parameters
+from gettsim.social_insurance.krankenv import ges_krankenv_beitr_rente_nicht_paritätisch
+from gettsim.social_insurance.krankenv import ges_krankenv_beitr_rente_paritätisch
+from gettsim.social_insurance.krankenv import (
+    krankenv_beitr_regulär_beschäftigt_nicht_paritätisch,
+)
+from gettsim.social_insurance.krankenv import (
+    krankenv_beitr_regulär_beschäftigt_paritätisch,
+)
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
@@ -260,6 +268,23 @@ def load_reforms_for_date(date):
         functions["eink_anr_frei"] = eink_anr_frei_bis_10_2005
     else:
         functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
+
+    if (
+        datetime.date(year=2005, month=7, day=1)
+        <= date
+        <= datetime.date(year=2019, month=12, day=31)
+    ):
+        functions[
+            "ges_krankenv_beitr_rente"
+        ] = ges_krankenv_beitr_rente_nicht_paritätisch
+        functions[
+            "krankenv_beitr_regulär_beschäftigt"
+        ] = krankenv_beitr_regulär_beschäftigt_nicht_paritätisch
+    else:
+        functions["ges_krankenv_beitr_rente"] = ges_krankenv_beitr_rente_paritätisch
+        functions[
+            "krankenv_beitr_regulär_beschäftigt"
+        ] = krankenv_beitr_regulär_beschäftigt_paritätisch
 
     return functions
 

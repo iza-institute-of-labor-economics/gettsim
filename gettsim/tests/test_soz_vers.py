@@ -50,4 +50,6 @@ def test_soc_ins_contrib(input_data, year, target):
         data=df, params=policy_params, functions=policy_functions, targets=target
     )
 
-    pd.testing.assert_series_equal(results[target], year_data[target])
+    pd.testing.assert_series_equal(
+        results[target], year_data[target], check_exact=False, atol=0.1
+    )

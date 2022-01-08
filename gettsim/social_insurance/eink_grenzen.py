@@ -112,11 +112,11 @@ def midi_job_bemessungsentgelt(
     # Then calculate specific shares
     an_anteil = (
         allg_soz_vers_beitr
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
+        + (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"] / 2)
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
     )
-    ag_anteil = (
-        allg_soz_vers_beitr
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+    ag_anteil = allg_soz_vers_beitr + (
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"] / 2
     )
 
     # Sum over the shares which are specific for midi jobs.
