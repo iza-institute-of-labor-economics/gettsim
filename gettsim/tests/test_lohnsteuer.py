@@ -1,3 +1,4 @@
+import itertools
 import urllib.request as mybrowser
 import xml.etree.ElementTree as ElementTree
 
@@ -92,7 +93,9 @@ def get_bmf_data(url_base, specs, out_definitions):
     return df.set_index("name").join(out_df)
 
 
-def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr=2021):
+def bmf_collect(
+    inc, outvar, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr=2021
+):
     """
     Creates an URL for the API of the official calculator by the
     German Ministry of Finance (BMF),
@@ -164,9 +167,7 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
 
     # We are only interested in Lohnsteuer and Soli. divide by 100 to get Euro
     out = out.loc[["LSTLZZ", "SOLZLZZ"]] / 100
-    return out["LSTLZZ"]
-    # Return in Euros. URL on top for debugging
-    # return [out.loc["LSTLZZ"] / 100, out.loc["SOLZLZZ"]/100, url]
+    return out[outvar]
 
 
 def gen_lohnsteuer_test():
@@ -187,6 +188,16 @@ def gen_lohnsteuer_test():
     # Get correct lohnsteuer from German Ministry of Finance
     hh["lohn_steuer"] = np.vectorize(bmf_collect)(
         hh["bruttolohn_m"],
+        outvar="LSTLZZ",
+        faktorverfahren=0,
+        faktor="1,0000",
+        n_kinder=hh["child_num_kg"],
+        stkl=hh["steuerklasse"],
+        jahr=hh["year"],
+    )
+    hh["lohn_steuer_soli"] = np.vectorize(bmf_collect)(
+        hh["bruttolohn_m"],
+        outvar="SOLZLZZ",
         faktorverfahren=0,
         faktor="1,0000",
         n_kinder=hh["child_num_kg"],
@@ -203,6 +214,7 @@ def gen_lohnsteuer_test():
 INPUT_COLS = ["p_id", "tu_id", "bruttolohn_m", "alter", "kind", "steuerklasse", "year"]
 
 YEARS = [2020, 2021]
+TEST_COLUMNS = ["lohn_steuer", "lohn_steuer_soli"]
 
 
 @pytest.fixture(scope="module")
@@ -240,8 +252,8 @@ def test_steuerklassen():
     assert_series_equal(df["steuerklasse"], result["steuerklasse"])
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_lohnsteuer(input_data, year, reload_test_data=False):
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMNS))
+def test_lohnsteuer(input_data, year, column, reload_test_data=False):
     if reload_test_data:
         gen_lohnsteuer_test()
 
@@ -258,10 +270,10 @@ def test_lohnsteuer(input_data, year, reload_test_data=False):
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=["lohn_steuer"],
+        targets=[column],
         columns_overriding_functions="steuerklasse",
     )
 
     assert_series_equal(
-        result["lohn_steuer"] / 12, year_data["lohn_steuer"], check_exact=False, atol=2
+        result[column] / 12, year_data[column], check_exact=False, atol=2
     )

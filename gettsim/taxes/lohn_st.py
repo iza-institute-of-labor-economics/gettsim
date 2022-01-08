@@ -9,7 +9,7 @@ from gettsim.typing import IntSeries
 
 def lohn_steuer_zve(
     bruttolohn_m: FloatSeries,
-    steuerklasse: FloatSeries,
+    steuerklasse: IntSeries,
     eink_st_abzuege_params: dict,
     vorsorgepauschale: FloatSeries,
 ) -> FloatSeries:
@@ -67,7 +67,7 @@ def lohn_steuer(
 
     Returns
     -------
-
+    Individual withdrawal tax on annual basis
     """
     lohnsteuer_basistarif = st_tarif(lohn_steuer_zve, eink_st_params)
     lohnsteuer_splittingtarif = 2 * st_tarif(lohn_steuer_zve / 2, eink_st_params)
