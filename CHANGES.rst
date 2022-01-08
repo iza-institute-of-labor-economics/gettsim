@@ -18,6 +18,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   :ghuser:`lillyfischer`).
 * :gh:`312` Updated GEP-01 with effects on character limits, time and unit identifiers,
   adjustments for DAG backend. (:ghuser:`hmgaudecker`)
+* :gh:`323` Health care contributions are better aligned with law
+  (:ghuser:`Eric-Sommer`).
 
 0.4.1 — 2021-04-11
 ------------------
