@@ -3,61 +3,21 @@ import pandas as pd
 
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import st_tarif
-from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def lohn_steuer(
-    tu_id: IntSeries,
+def lohn_steuer_zve(
     bruttolohn_m: FloatSeries,
-    vorsorgepauschale: FloatSeries,
-    kind: BoolSeries,
-    steuerklasse: IntSeries,
-    eink_st_params: dict,
+    steuerklasse: FloatSeries,
     eink_st_abzuege_params: dict,
+    vorsorgepauschale: FloatSeries,
 ) -> FloatSeries:
-    """
-    Calculates Lohnsteuer = withholding tax on earnings,
-    paid monthly by the employer on behalf of the employee.
-    Apply the income tax tariff, but individually and with different
-    exemptions, determined by the 'Steuerklasse'.
-    Source: §39b EStG
+    # WHY IS THIS 1908??
+    entlastung_freibetrag_alleinerz = (steuerklasse == 2) * eink_st_abzuege_params[
+        "alleinerziehenden_freibetrag"
+    ]
 
-    Parameters
-    ----------
-    bruttolohn_m: FloatSeries
-        Monthly Earnings
-    params: Float Series
-
-    steuerklasse: IntSeries
-
-    anz_kinder_tu: IntSeries
-
-    Returns
-    -------
-
-    """
-
-    grundfreibetrag = eink_st_params["eink_st_tarif"]["thresholds"][1]
-    # Full child allowance
-    kinderfreibetrag_basis = (
-        eink_st_abzuege_params["kinderfreibetrag"]["sächl_existenzmin"]
-        + eink_st_abzuege_params["kinderfreibetrag"]["beitr_erz_ausb"]
-    )
-
-    # For certain tax brackets, twice the child allowance can be deducted
-    kinderfreibetrag = (
-        kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3])
-        + (kinderfreibetrag_basis * steuerklasse == 4) * kind.groupby(tu_id).sum()
-    )
-    lohn_steuer_freibetrag = (grundfreibetrag * steuerklasse.isin([1, 2, 4])) + (
-        2 * grundfreibetrag * (steuerklasse == 3)
-    )
-
-    lohn_steuer_freibetrag += (
-        eink_st_abzuege_params["alleinerziehenden_freibetrag"] * (steuerklasse == 2)
-    ).fillna(0)
     werbungskosten = [
         eink_st_abzuege_params["werbungskostenpauschale"] if stkl != 6 else 0
         for stkl in steuerklasse
@@ -66,28 +26,75 @@ def lohn_steuer(
         eink_st_abzuege_params["sonderausgabenpauschbetrag"] if stkl != 6 else 0
         for stkl in steuerklasse
     ]
-
     # zu versteuerndes Einkommen / tax base for Lohnsteuer
-    lohn_steuer_zve = np.maximum(
-        12 * bruttolohn_m - werbungskosten - sonderausgaben - vorsorgepauschale, 0,
+    out = np.maximum(
+        12 * bruttolohn_m
+        - werbungskosten
+        - sonderausgaben
+        - entlastung_freibetrag_alleinerz
+        - vorsorgepauschale,
+        0,
     )
-    # Different ways to apply the tax schedule depending on steuerklasse
+
+    return out
+
+
+def lohn_steuer(
+    lohn_steuer_zve: FloatSeries, eink_st_params: dict, steuerklasse: IntSeries
+) -> FloatSeries:
+    """
+    Calculates Lohnsteuer = withholding tax on earnings,
+    paid monthly by the employer on behalf of the employee.
+    Apply the income tax tariff, but individually and with different
+    exemptions, determined by the 'Steuerklasse'.
+    Source: §39b EStG
+
+    Caluclation is differentiated by steuerklasse
+
+    1,2,4: Standard tariff (§32a (1) EStG)
+    3: Splitting tariff (§32a (5) EStG)
+    5,6,: Take twice the difference between applying the tariff on 5/4 and 3/4
+          of taxable income. Tax rate may not be lower than the
+          starting statutory one.
+    Parameters
+    ----------
+    lohn_steuer_zve
+        See :func:`lohn_steuer_zve`.
+    eink_st_params
+        See params documentation :ref:`eink_st_params <eink_st_params>`
+    steuerklasse
+
+
+    Returns
+    -------
+
+    """
     lohnsteuer_basistarif = st_tarif(lohn_steuer_zve, eink_st_params)
     lohnsteuer_splittingtarif = 2 * st_tarif(lohn_steuer_zve / 2, eink_st_params)
+    lohnsteuer_klasse5_6 = np.maximum(
+        2
+        * (
+            st_tarif(lohn_steuer_zve * 1.25, eink_st_params)
+            - st_tarif(lohn_steuer_zve * 0.75, eink_st_params)
+        ),
+        lohn_steuer_zve * eink_st_params["eink_st_tarif"]["rates"][0][1],
+    )
 
-    lohnsteuer = lohnsteuer_splittingtarif * (
-        steuerklasse == 3
-    ) + lohnsteuer_basistarif * (steuerklasse != 3)
+    out = (
+        (lohnsteuer_splittingtarif * (steuerklasse == 3))
+        + (lohnsteuer_basistarif * (steuerklasse.isin([1, 2, 4])))
+        + (lohnsteuer_klasse5_6 * (steuerklasse.isin([5, 6])))
+    )
 
-    return lohnsteuer
+    return out
 
 
 def vorsorgepauschale_ab_2010(
     bruttolohn_m: FloatSeries,
     steuerklasse: IntSeries,
     eink_st_abzuege_params: dict,
-    soz_vers_beitr_params: dict,
     rentenv_beitr_regular_job: FloatSeries,
+    krankenv_beitr_lohnsteuer: FloatSeries,
     pflegev_beitr_regulär_beschäftigt: FloatSeries,
 ) -> FloatSeries:
     """
@@ -101,8 +108,6 @@ def vorsorgepauschale_ab_2010(
       See :func:`steuerklasse`
     eink_st_abzuege_params:
       See :func:`eink_st_abzuege_params`
-    soz_vers_beitr_params:
-      See :func:`soz_vers_beitr_params`
     pflegev_zusatz_kinderlos
       See :func:`pflegev_zusatz_kinderlos`.
 
@@ -120,7 +125,8 @@ def vorsorgepauschale_ab_2010(
 
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
     # For health care deductions, there are two ways to calculate.
-    # a) at least 12% of earnings of earnings can be deducted, but only up to a certain threshold
+    # a) at least 12% of earnings of earnings can be deducted,
+    #    but only up to a certain threshold
     vorsorg_kv_option_a_basis = (
         eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_m * 12
     )
@@ -134,21 +140,17 @@ def vorsorgepauschale_ab_2010(
     )
 
     vorsorg_kv_option_a = np.minimum(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
-    # b) Take the actual contributions (usually the better option), but apply the reduced rate!
-    vorsorg_kv_option_b = (
-        bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["erm"]
-    )
+    # b) Take the actual contributions (usually the better option),
+    #   but apply the reduced rate!
+    vorsorg_kv_option_b = krankenv_beitr_lohnsteuer
     vorsorg_kv_option_b += pflegev_beitr_regulär_beschäftigt
-
     # add both RV and KV deductions. For KV, take the larger amount.
     out = vorsorg_rv + np.maximum(vorsorg_kv_option_a, vorsorg_kv_option_b * 12)
 
     return out.fillna(0)
 
 
-def vorsorgepauschale_2005_2010(
-    bruttolohn, steuerklasse, eink_st_params
-) -> FloatSeries:
+def vorsorgepauschale_2005_2010() -> FloatSeries:
     """
     vorsorg_rv and vorsorg_kv_option_a are identical to after 2010
 

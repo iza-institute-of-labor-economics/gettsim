@@ -28,8 +28,7 @@ def get_xml(url):
     """
     # say hello
     myheader = {
-        "User-Agent": """gettsim development: https://github.com/iza-institute-of-labor-economics/gettsim"""
-        # noqa: E501
+        "User-Agent": """gettsim development: https://github.com/iza-institute-of-labor-economics/gettsim"""  # noqa: E501
     }
     request = mybrowser.Request(url, headers=myheader)
     response = mybrowser.urlopen(request)
@@ -264,5 +263,5 @@ def test_lohnsteuer(input_data, year, reload_test_data=False):
     )
 
     assert_series_equal(
-        result["lohn_steuer"] / 12, year_data["lohn_steuer"], check_exact=False, atol=1
+        result["lohn_steuer"] / 12, year_data["lohn_steuer"], check_exact=False, atol=2
     )
