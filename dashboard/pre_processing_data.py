@@ -266,16 +266,20 @@ def social_security_data(start, end):
     # Dictionary entries into columns
     ges_krankenv = soz_vers_df["ges_krankenv"].apply(pd.Series)
     pflegev = soz_vers_df["pflegev"].apply(pd.Series)
-    #
-    soz_vers_out = pd.concat(
-        [soz_vers_df[["arbeitsl_v", "rentenv"]], ges_krankenv, pflegev], axis=1
-    )
 
+    soz_vers_out = pd.concat(
+        [
+            soz_vers_df[["arbeitsl_v", "rentenv"]],
+            ges_krankenv[["allg", "zus"]],
+            pflegev,
+        ],
+        axis=1,
+    )
     soz_vers_out.columns = [
         "unemployment insurance",
         "pension insurance",
-        "health insurance employer",
-        "health insurance employee",
+        "health insurance general",
+        "health insurance top-up",
         "care insurance",
         "additional care insurance no child",
     ]
