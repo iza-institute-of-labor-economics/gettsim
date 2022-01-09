@@ -81,13 +81,37 @@ def krankenv_beitr_regulär_beschäftigt(
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions for self employed
-    income.
+    Pandas Series containing monthly health insurance contributions on earnings
     """
     return (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
         * lohn_krankenv_regulär_beschäftigt
     )
+
+
+def krankenv_beitr_lohnsteuer(
+    lohn_krankenv_regulär_beschäftigt: FloatSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
+    """Calculates health insurance contributions as used by lohnsteuer
+    Parameters
+    ----------
+    lohn_krankenv_regulär_beschäftigt
+        See :func:`lohn_krankenv_regulär_beschäftigt`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    Returns
+    -------
+    Pandas Series containing monthly health insurance contributions on earnings
+    """
+    # This is essentially 'erm' plus half the top-up contribution.
+    return (
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["erm"]
+        + (
+            soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
+            - soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["erm"]
+        )
+        - 0.003
+    ) * lohn_krankenv_regulär_beschäftigt
 
 
 def lohn_krankenv_regulär_beschäftigt(

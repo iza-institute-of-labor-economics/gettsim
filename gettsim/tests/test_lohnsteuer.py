@@ -1,3 +1,4 @@
+import itertools
 import urllib.request as mybrowser
 import xml.etree.ElementTree as ElementTree
 
@@ -59,7 +60,7 @@ def get_bmf_url(base, specs):
     return url
 
 
-def format_url_content(url_base, specs, out_definitions):
+def get_bmf_data(url_base, specs, out_definitions):
     """
     Format URL, send it to BMF and format output
 
@@ -89,10 +90,12 @@ def format_url_content(url_base, specs, out_definitions):
     for index, child in enumerate(xml_raw.iter("ausgabe")):
         df = df.append(pd.DataFrame(child.attrib, index=[index]))
 
-    return (df.set_index("name").join(out_df), url)
+    return df.set_index("name").join(out_df)
 
 
-def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr=2021):
+def bmf_collect(
+    inc, outvar, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr=2021
+):
     """
     Creates an URL for the API of the official calculator by the
     German Ministry of Finance (BMF),
@@ -160,14 +163,12 @@ def bmf_collect(inc, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr
         laufenden Arbeitslohns, in Cent""",
     }
 
-    tax_df, url = format_url_content(url_base, specs, out_definitions)
+    tax_df = get_bmf_data(url_base, specs, out_definitions)
     out = tax_df["value"].astype(int)
 
     # We are only interested in Lohnsteuer and Soli. divide by 100 to get Euro
     out = out.loc[["LSTLZZ", "SOLZLZZ"]] / 100
-    return out["LSTLZZ"]
-    # Return in Euros. URL on top for debugging
-    # return [out.loc["LSTLZZ"] / 100, out.loc["SOLZLZZ"]/100, url]
+    return out[outvar]
 
 
 def gen_lohnsteuer_test():
@@ -175,19 +176,29 @@ def gen_lohnsteuer_test():
 
     hh = pd.DataFrame(
         {
-            "p_id": [1, 2, 3, 4, 5, 6, 7, 8],
-            "tu_id": [1, 2, 2, 3, 3, 4, 4, 4],
-            "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000, 0, 0],
-            "alter": [30, 30, 40, 40, 50, 30, 5, 2],
-            "kind": [False, False, False, False, False, False, True, True],
-            "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1],
-            "year": [2020, 2021, 2021, 2021, 2021, 2020, 2020, 2020],
+            "p_id": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            "tu_id": [1, 2, 2, 3, 3, 4, 4, 4, 5, 5],
+            "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000, 0, 0, 3000, 0],
+            "alter": [30, 30, 40, 40, 50, 30, 5, 2, 40, 12],
+            "kind": [False, False, False, False, False, False, True, True, False, True],
+            "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1, 2, 2],
+            "year": [2020, 2021, 2021, 2021, 2021, 2020, 2020, 2020, 2021, 2021],
         }
     )
     hh["child_num_kg"] = hh.groupby("tu_id")["kind"].transform("sum")
     # Get correct lohnsteuer from German Ministry of Finance
     hh["lohn_steuer"] = np.vectorize(bmf_collect)(
         hh["bruttolohn_m"],
+        outvar="LSTLZZ",
+        faktorverfahren=0,
+        faktor="1,0000",
+        n_kinder=hh["child_num_kg"],
+        stkl=hh["steuerklasse"],
+        jahr=hh["year"],
+    )
+    hh["lohn_steuer_soli"] = np.vectorize(bmf_collect)(
+        hh["bruttolohn_m"],
+        outvar="SOLZLZZ",
         faktorverfahren=0,
         faktor="1,0000",
         n_kinder=hh["child_num_kg"],
@@ -204,6 +215,7 @@ def gen_lohnsteuer_test():
 INPUT_COLS = ["p_id", "tu_id", "bruttolohn_m", "alter", "kind", "steuerklasse", "year"]
 
 YEARS = [2020, 2021]
+TEST_COLUMNS = ["lohn_steuer", "lohn_steuer_soli"]
 
 
 @pytest.fixture(scope="module")
@@ -241,9 +253,8 @@ def test_steuerklassen():
     assert_series_equal(df["steuerklasse"], result["steuerklasse"])
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_lohnsteuer(input_data, year, reload_test_data=True):
-
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMNS))
+def test_lohnsteuer(input_data, year, column, reload_test_data=False):
     if reload_test_data:
         gen_lohnsteuer_test()
 
@@ -260,8 +271,10 @@ def test_lohnsteuer(input_data, year, reload_test_data=True):
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=["lohn_steuer"],
+        targets=[column],
         columns_overriding_functions="steuerklasse",
     )
 
-    assert_series_equal(result["lohn_steuer"] / 12, year_data["lohn_steuer"])
+    assert_series_equal(
+        result[column] / 12, year_data[column], check_exact=False, atol=2
+    )

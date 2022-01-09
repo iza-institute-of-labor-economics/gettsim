@@ -10,6 +10,7 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.0572
       an: 0.0572
+      erm: null
     pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -177,11 +178,11 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.073
       an: 0.082
+      erm: 0.0745
     arbeitsl_v: 0.015
   2012-01-01:
     deviation_from: previous
     rentenv: 0.098
-    note: Quelle http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
   2013-01-01:
     deviation_from: previous
     rentenv: 0.0945
@@ -191,6 +192,7 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.073
       an: 0.082
+      erm: 0.07
     pflegev:
       standard: 0.01175
       zusatz_kinderlos: 0.0025
@@ -198,7 +200,7 @@ soz_vers_beitr:
     rentenv: 0.0935
   2016-01-01:
     deviation_from: previous
-    note: Bekanntmachung Bundesanzeiger 30.12.2015 und  http://www.bmg.bund.de/ministerium/meldungen/2015/gkv-zusatzbeitrag.html
+    note: Bekanntmachung Bundesanzeiger 30.12.2015
     ges_krankenv:
       an: 0.084
   2017-01-01:
@@ -215,6 +217,7 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.0775
       an: 0.0775
+      erm: 0.07
     pflegev:
       standard: 0.01525
       zusatz_kinderlos: 0.0025
@@ -233,6 +236,12 @@ soz_vers_beitr:
     ges_krankenv:
       ag: 0.0795
       an: 0.0795
+  2022-01-01:
+    deviation_from: previous
+    pflegev:
+      standard: 0.01175
+      zusatz_kinderlos: 0.0035
+    reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
 
 
 beitr_bemess_grenze:
@@ -503,6 +512,11 @@ beitr_bemess_grenze:
       west: 7100
       ost: 6700
     reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
+  2022-01-01:
+    rentenv:
+      west: 7050
+      ost: 6750
+    reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
 
 
 bezugsgröße:
@@ -625,6 +639,10 @@ bezugsgröße:
     west: 3290
     ost: 3115
     reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
+  2022-01-01:
+    west: 3290
+    ost: 3150
+    reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
 
 geringfügige_eink_grenzen:
   name:
@@ -737,7 +755,7 @@ ag_abgaben_geringf:
     de: Pauschalabgaben bei geringf. Beschäftigung
     en:
   description:
-    de: § 249b SGB V, § 168 I Nr. 1b SGB VI
+    de: Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II EStG)
     en:
   unit: share
   1984-01-01:
