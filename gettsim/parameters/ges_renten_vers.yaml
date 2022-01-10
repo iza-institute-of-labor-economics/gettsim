@@ -1,22 +1,28 @@
 alpha:
-  description:
-    de: Teil des Nachhaltigkeitsfaktors in der Rentenanpassungsformel, §68 Abs. 4 S. 6 SGB VI
-    en:
   name:
     de: alpha
     en: alpha
+  description:
+    de: Teil des Nachhaltigkeitsfaktors in der Rentenanpassungsformel,
+        welche das Verhältnis von Rentnern zu Beitragszahlern modifiziert
+    en: Part of the sustainability factor in the pension adjustment formula which modifies
+        the ratio of pentioners to contributors
+  unit: factor
+  reference: §68 Abs. 4 S. 6 SGB VI
   1984-01-01:
     scalar: 0.0
   2002-01-01:
     scalar: 0.25
 
 altersvorsogeanteil:
-  description:
-    de: Teil der Rentenanpassungsformel, §68 Abs. 5 SGB VI
-    en:
   name:
-    de: ava
-    en: ava
+    de: Altersvorsorgeanteil (AVA)
+    en: Personal pension share
+  description:
+    de: Teil des Riesterfaktors in der Rentenanpassungsformel
+    en: Part of the Riesterfaktor in the pension adjustment formular
+  unit: factor
+  reference: §68 Abs. 5 SGB VI
   1993-01-01:
     scalar: 0.0
   2002-01-01:
@@ -37,12 +43,16 @@ altersvorsogeanteil:
     scalar: 4.0
 
 beitragsvolumen:
-  description:
-    de: Summe der Beiträge zur Rentenversicherung aller rentenversicherungspflichtig Beschäftigten, der geringfügig Beschäftigten und er Bezieher von ALG. in Mrd Euro. statistik-rente.de/drv
-    en:
   name:
-    de:
-    en:
+    de: Beitragsvolumen der gesetzlichen Rentenversicherung
+    en: Contribution volume of the statutory pension insurance
+  description:
+    de: Summe der Beiträge zur Rentenversicherung aller rentenversicherungspflichtig Beschäftigten,
+        der geringfügig Beschäftigten und der Bezieher von ALG.
+    en: Sum of contributions to the pension insurance of all employees subject to pension insurance,
+        marginally employed and recipients of ALG.
+  unit: Mrd Euro
+  reference: statistik-rente.de/drv
   1991-01-01:
     scalar: 108688.0
   1992-01-01:
@@ -103,12 +113,16 @@ beitragsvolumen:
     scalar: 247949
 
 eckrente:
-  description:
-    de: Regelaltersrente; Höhe einer abschlagsfreien Rente bei 45 Entgeltpunkten. Ergibt sich aus Multiplikation des Rentenwerts mit 45. statistik-rente.de/drv
-    en:
   name:
-    de: eckrente
-    en: eckrente
+    de: Regelaltersrente/ Standardrente
+    en: Standard pension
+  description:
+    de: Höhe einer abschlagsfreien Rente bei 45 Entgeltpunkten.
+        Ergibt sich aus Multiplikation des Rentenwerts mit 45. statistik-rente.de/drv
+    en: Amount of a pension without discounts when reaching 45 Entgeltpunkte, which is
+        calculated by multiplying 45 with the Rentenwert.
+  unit: Euro (Brutto)
+  reference: § 154 Abs. 3 Satz 1 Nr. 2 SGB VI
   1995-01-01:
     scalar: 988.15
   1996-01-01:
@@ -159,13 +173,14 @@ eckrente:
     scalar: 1284.06
 
 durchschnittslohn:
-  description:
-    de:
-    en:
   name:
     de: Durchschnittslohn
     en: Mean Wage
-  time: year
+  description:
+    de: Durchschnittslohn aller Arbeitnehmer:innen in einem Jahr
+    en: Mean Wage of all employees per year
+  unit: Euro (Brutto)
+  reference period: year
   2005-01-01:
     scalar: 28468.23
   2006-01-01:
@@ -192,12 +207,17 @@ durchschnittslohn:
     scalar: 33608.42
 
 beitragspflichtiger_durchschnittslohn:
-  description:
-    de: Durchschnittsentgelt in Euro pro Jahr. Wird benötigt zur Berechnung der Entgeltpunkte. Veröffentlicht in Anlage 1 SGB VI. Enthält vorläufige Werte, wenn die offiziellen noch nicht vorliegen
-    en:
   name:
-    de: beitragspflichtiger_durchschnittslohn
-    en:
+    de: Durchschnittseinkommen aller Versicherten
+    en: Mean wage of all insured people
+  description:
+    de: Durchschnittsentgelt aller Versicherten im Sinne der deutschen Sozialversicherung.
+        Dieses wird benötigt zur Berechnung der Entgeltpunkte.
+    en: Mean wage of all insured people in the sense of the German social insurance, which is needed
+        to calculate the Entgeltpunkte.
+  unit: Euro (Brutto)
+  reference period: year
+  reference: Anlage 1 SGB VI
   2005-01-01:
     scalar: 29202
   2006-01-01:
@@ -240,12 +260,13 @@ beitragspflichtiger_durchschnittslohn:
     note: Das vorläufige Durchschnittsentgelt.
 
 umrechnung_entgeltp_beitrittsgebiet:
+  name:
+    de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebietes
+    en: Conversion of the Beitragsbemessungsgrundlage in "accesion area"
   description:
     de: Für die Berechnung der Entgeltpunkte wird das Einkommen im "Beitrittsgebiet" um diesen Faktor erhöht.
-    en:
-  name:
-    de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittsgebiets
-    en:
+    en: To calculate the Entgeltpunkte, income in the "accesion area" is increased by this factor.
+  unit: factor
   reference: §256a SGB VI and Anlage 10 SGB VI
   1945-01-01:
     scalar: 1.0000
@@ -411,12 +432,14 @@ umrechnung_entgeltp_beitrittsgebiet:
     scalar: 1.0140
 
 rentenvolumen:
-  description:
-    de: Gesamtvolumen der ausgezahlten Renten, in Mrd. Euro pro Jahr. statistik-rente.de/drv, Ausgaben RV
-    en:
   name:
-    de:
-    en:
+    de: Rentenvolumen
+    en: pension volume
+  description:
+    de: Gesamtvolumen der ausgezahlten Renten
+    en: Total amount of paid pensions
+  unit: Mrd Euro
+  reference period: year
   1991-01-01:
     scalar: 117912.0
   1992-01-01:
@@ -479,11 +502,13 @@ rentenvolumen:
 rentenwert:
   name:
     de: Rentenwerte alte und neue Bundesländer
-    en:
+    en: Pension value old and new federal states
   description:
-    de: Rentenwerte alte und neue Bundesländer. statistik-rente.de/drv
-    en:
+    de: Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für einen
+        Entgeltpunkt entspricht.
+    en: The current pension value expresses the amount of monthly pension paid for one Entgeltpunkt.
   unit: Euro
+  reference: statistik-rente.de/drv,  § 68 SGB VI
   access_different_date: vorjahr
   1992-01-01:
     west: 21.19
@@ -580,9 +605,14 @@ rentenwert:
     ost: 33.47
 
 höchstwert_grundrente:
+  name:
+    de: Höchstwert Entgeltpunkte für Grundrente
+    en: maximum value of Entgeltpunkte for Grundrente
   description:
-    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert
-    en: constant to determine Höchstwert of additional Entgeltpunkte and effect of an additional month of Grundrentenzeiten on Höchstwert
+    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte
+        und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert
+    en: constant to determine Höchstwert of additional Entgeltpunkte and
+        effect of an additional month of Grundrentenzeiten on Höchstwert
   1984-01-01:
     base: 0
     increment: 0
@@ -593,9 +623,14 @@ höchstwert_grundrente:
     reference: § 76g Abs. 4 S. 3, 4 SGB VI
 
 grundrentenzeiten:
+  name:
+    de: Grundrentenzeiten
+    en: months needed for basic pension
   description:
-    de: minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
-    en: minimal number of Grundrentenzeiten required to be entitled to Grundrente and maximum number of months that are considered for Grundrente
+    de: minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und
+        Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
+    en: minimal number of Grundrentenzeiten required to be entitled to Grundrente
+        and maximum number of months that are considered for Grundrente
   unit: months
   1984-01-01:
     min: 10000
@@ -607,9 +642,14 @@ grundrentenzeiten:
     reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
 
 einkommensanr_grundrente:
+  name:
+    de: Einkommensanrechnung für Grundrente
+    en: Crediting of income for basic pension
   description:
-    de: Werte werden mit dem Rentenwert multipliziert, um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
-    en: values are multiplied with the Rentenwert to compute the thresholds of the income crediting rule of Grundrentenzuschlag
+    de: Werte werden mit dem Rentenwert multipliziert,
+        um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
+    en: values are multiplied with the Rentenwert to compute the thresholds
+        of the income crediting rule of Grundrentenzuschlag
   1984-01-01:
     upper: 0
     upper_ehe: 0
@@ -624,9 +664,13 @@ einkommensanr_grundrente:
     reference: § 97a Abs. 4 S. 2, 4 SGB VI
 
 faktor_bonus_grundrente:
+  name:
+    de: Bonusfaktor aus Grundrente
+    en: bonus factor from basic pension
   description:
     de: Faktor mit dem die durch die Grundrente zusätzlich erhaltenen Entgeltpunkte multipliziert werden.
-    en:
+    en: The additional Entgeltpunkte from the basic pension are multiplied with this factor.
+  unit: factor
   1984-01-01:
     scalar: 0
     note: It didn't exist before 2021.
@@ -635,9 +679,16 @@ faktor_bonus_grundrente:
     reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
 
 zugangsfaktor_veränderung_pro_jahr:
+  name:
+    de: Veränderung des Zugangsfaktors pro Jahr
+    en: Change in Zugangsfaktor per year
   description:
-    de: Faktor um den sich der Zugangsfaktor für die staatliche Rente erhöht/senkt für jedes Jahr, das länger/kürzer gearbeitet wird
-    en:
+    de: Faktor um den sich der Zugangsfaktor für die staatliche Rente erhöht/senkt für jedes Jahr,
+        das länger/kürzer gearbeitet wird
+    en: Factor with which the Zugangsfaktor / "access factor" for receiving the statutory pension is
+        increased/ decreased for each month of less / more work
+  unit: factor
+  reference period: year
   reference: §77 Abs. 2 Nr. 2 SGB VI
   2001-01-01:
     vorzeitiger_renteneintritt: 0.036
