@@ -11,7 +11,7 @@ ROOT_DIR = Path(__file__).parent
 GEP_1_CHARACTER_LIMIT = 17
 
 PATHS_TO_INTERNAL_FUNCTIONS = [
-    ROOT_DIR / "social_insurance_payments",
+    ROOT_DIR / "social_security_contributions",
     ROOT_DIR / "transfers",
     ROOT_DIR / "taxes",
     ROOT_DIR / "demographic_vars.py",

@@ -3,12 +3,12 @@ in the documentation.
 
 """
 from gettsim.demographic_vars import *  # noqa: F401, F403
-from gettsim.social_insurance_payments.arbeitsl_v import *  # noqa: F401, F403
-from gettsim.social_insurance_payments.beitr_bemess_grenzen import *  # noqa: F401, F403
-from gettsim.social_insurance_payments.eink_grenzen import *  # noqa: F401, F403
-from gettsim.social_insurance_payments.krankenv import *  # noqa: F401, F403
-from gettsim.social_insurance_payments.pflegev import *  # noqa: F401, F403
-from gettsim.social_insurance_payments.rentenv import *  # noqa: F401, F403
+from gettsim.social_security_contributions.arbeitsl_v import *  # noqa: F401, F403
+from gettsim.social_security_contributions.beitr_bemess_grenzen import *  # noqa: F401, F403, E501
+from gettsim.social_security_contributions.eink_grenzen import *  # noqa: F401, F403
+from gettsim.social_security_contributions.krankenv import *  # noqa: F401, F403
+from gettsim.social_security_contributions.pflegev import *  # noqa: F401, F403
+from gettsim.social_security_contributions.rentenv import *  # noqa: F401, F403
 from gettsim.taxes.abgelt_st import *  # noqa: F401, F403
 from gettsim.taxes.eink_st import *  # noqa: F401, F403
 from gettsim.taxes.favorability_check import *  # noqa: F401, F403
