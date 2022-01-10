@@ -231,6 +231,7 @@ def create_one_set_of_households(
         "entgeltp_grundr",
         "grundrentenzeiten",
         "prv_rente_m",
+        "schwerbe_ausweis_g",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -250,6 +251,7 @@ def create_one_set_of_households(
         "alleinerziehend",
         "bewohnt_eigentum_hh",
         "prv_krankenv",
+        "schwerbe_ausweis_g",
     ]:
         df[bool_col] = False
 
