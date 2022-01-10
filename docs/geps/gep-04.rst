@@ -54,11 +54,11 @@ Basic idea
 ----------
 
 Based on the two requirements above we split the tax and transfer system into a set of
-small functions. Each function calculates one clearly defined variable (identical to
-the function's name) and returns it as a :class:`Series`. Arguments of a function are
-typically either a user-provided input variable (e.g. `bruttolohn_m`) or the output of
-another function. The only other potential additional arguments are parameters of the
-tax and transfer system, which are pre-defined.
+small functions. Each function calculates one clearly defined variable (identical to the
+function's name) and returns it as a :class:`Series`. Typically, function arguments are
+either user-provided input variables (e.g. `bruttolohn_m`) or outputs of other functions
+in the taxes and transfers system. The only other potential additional arguments are
+parameters of the taxes and transfers system, which are pre-defined.
 
 GETTSIM is able to calculate the variables a researcher is interested in by starting
 with the input variables and calling the required functions in a correct order. This is
@@ -175,8 +175,9 @@ The current solution handles the case of changing interfaces like this (example 
         functions["sum_brutto_eink"] = sum_brutto_eink_ohne_kapital
 
 
-However, all functions will be present in all years in principle.
-This is not satisfactory; ideally, functions would only be present in years where they actually exist.
+However, all functions will be present in all years in principle. This is not
+satisfactory; ideally, functions would only be present in years where they actually
+exist.
 
 .. todo::
 
