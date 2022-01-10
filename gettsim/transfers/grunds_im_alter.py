@@ -310,6 +310,8 @@ def mehrbedarf_behinderung_m(
         See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
     Returns
     -------
 
