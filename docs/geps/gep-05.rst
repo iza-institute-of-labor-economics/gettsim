@@ -44,8 +44,9 @@ Within the code base, rounding parameters are specified in the ``.yaml``-files. 
 example below determines that ``grundr_zuschlag_m`` is by law rounded to the second
 decimal point. The parameter ``base`` determines the base to which the variables is
 rounded and ``direction`` has to be one of ``up``, ``down``, ``nearest``. The rounding
-parameters become part of the dictionary policy_params once set_up_policy_environment
-is called -- in the same way as other policy parameters do.
+parameters become part of the dictionary ``policy_params`` once
+``set_up_policy_environment`` is called -- in the same way as other policy parameters
+do.
 
 .. code-block:: yaml
 
@@ -72,21 +73,21 @@ The decorator adds the attribute ``__rounding_parameter_file__`` to the function
 calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM loops over all
 functions. If a function has a rounding attribute, the rounding is applied based on the
 specification in the argument ``policy_params``. In the example above, the rounding
-would be based on ``policy_params["params_file"]["rounding"]["grundr_zuschlag_m"]``.
+would be based on ``policy_params["ges_renten_vers"]["rounding"]["grundr_zuschlag_m"]``.
 
 User-written functions
 ~~~~~~~~~~~~~~~~~~~~~~
 
-For user-written functions the user needs to add the rounding parameters to
-``policy_params`` and decorate the respective functions with ``add_rounding_spec`` as
-above.
+For self-written functions, the user needs to add the rounding parameters to
+``policy_params`` and decorate the respective functions with ``add_rounding_spec`` in
+the same way as demonstrated above.
 
 
 
 Advantages of this implementation
 ---------------------------------
 
-This implementation was picked over alternatives (e.g. specifying the rounding
+This implementation was chosen over alternatives (e.g. specifying the rounding
 parameters in the ``.py`` files directly) for the following reason:
 
 - Rounding parameters might change over time in the law. In this case, the rounding
