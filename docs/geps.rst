@@ -17,3 +17,4 @@ These GEPs are currently in place:
    ../geps/gep-01.rst
    ../geps/gep-template
    ../geps/gep-04-contribution
+   ../geps/gep-05
