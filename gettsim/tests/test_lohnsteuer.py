@@ -93,9 +93,7 @@ def get_bmf_data(url_base, specs, out_definitions):
     return df.set_index("name").join(out_df)
 
 
-def bmf_collect(
-    inc, outvar, faktorverfahren=0, faktor="1,000", n_kinder=0, stkl=1, jahr=2021
-):
+def bmf_collect(inc, outvar, faktorverfahren, faktor, n_kinder, stkl, jahr):
     """
     Creates an URL for the API of the official calculator by the
     German Ministry of Finance (BMF),
@@ -108,9 +106,11 @@ def bmf_collect(
     income tax due as pd.Series
 
     """
-    url_base = (
-        f"http://www.bmf-steuerrechner.de/interface/{jahr}Version1.xhtml?code=eP2021"
-    )
+    url_base = f"http://www.bmf-steuerrechner.de/interface/{jahr}Version1.xhtml?"
+    if jahr <= 2021:
+        url_base += "code=eP2021"
+    else:
+        url_base += "code=2022eP"
 
     # Possible inputs:
     # https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2020-11-09-PAP-2021-anlage-1.pdf?__blob=publicationFile&v=https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2020-11-09-PAP-2021-anlage-1.pdf?__blob=publicationFile&v=2
@@ -163,12 +163,12 @@ def bmf_collect(
         laufenden Arbeitslohns, in Cent""",
     }
 
-    tax_df = get_bmf_data(url_base, specs, out_definitions)
-    out = tax_df["value"].astype(int)
+    bmf_out = get_bmf_data(url_base, specs, out_definitions)
 
-    # We are only interested in Lohnsteuer and Soli. divide by 100 to get Euro
-    out = out.loc[["LSTLZZ", "SOLZLZZ"]] / 100
-    return out[outvar]
+    out = bmf_out["value"].astype(int)
+
+    # Divide by 100 to get Euro
+    return out.loc[outvar] / 100
 
 
 def gen_lohnsteuer_test():
@@ -182,7 +182,7 @@ def gen_lohnsteuer_test():
             "alter": [30, 30, 40, 40, 50, 30, 5, 2, 40, 12],
             "kind": [False, False, False, False, False, False, True, True, False, True],
             "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1, 2, 2],
-            "year": [2020, 2021, 2021, 2021, 2021, 2020, 2020, 2020, 2021, 2021],
+            "year": [2020, 2021, 2021, 2021, 2021, 2022, 2020, 2020, 2022, 2022],
         }
     )
     hh["child_num_kg"] = hh.groupby("tu_id")["kind"].transform("sum")
@@ -214,7 +214,7 @@ def gen_lohnsteuer_test():
 
 INPUT_COLS = ["p_id", "tu_id", "bruttolohn_m", "alter", "kind", "steuerklasse", "year"]
 
-YEARS = [2020, 2021]
+YEARS = [2020, 2021, 2022]
 TEST_COLUMNS = ["lohn_steuer", "lohn_steuer_soli"]
 
 
