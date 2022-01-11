@@ -530,7 +530,7 @@ behinderten_pauschbetrag:
     en:
   unit: Euro
   time: year
-  1987-01-01:
+  1984-01-01:
     reference:
     0: 0
     25: 307
