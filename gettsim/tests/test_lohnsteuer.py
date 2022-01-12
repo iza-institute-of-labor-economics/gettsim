@@ -19,12 +19,12 @@ def get_xml(url):
     Parameters
     ----------
     url : str
-        the ursl to
+        the url specified according to BMF API
 
     Returns
     -------
     xml_ugly: bytes
-        the result
+        the server response
 
     """
     # say hello
@@ -176,13 +176,25 @@ def gen_lohnsteuer_test():
 
     hh = pd.DataFrame(
         {
-            "p_id": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            "tu_id": [1, 2, 2, 3, 3, 4, 4, 4, 5, 5],
-            "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000, 0, 0, 3000, 0],
-            "alter": [30, 30, 40, 40, 50, 30, 5, 2, 40, 12],
-            "kind": [False, False, False, False, False, False, True, True, False, True],
-            "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1, 2, 2],
-            "year": [2020, 2021, 2021, 2021, 2021, 2022, 2020, 2020, 2022, 2022],
+            "p_id": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            "tu_id": [1, 2, 2, 3, 3, 4, 4, 4, 5, 5, 6],
+            "bruttolohn_m": [2000, 3000, 4000, 5000, 0, 2000, 0, 0, 3000, 0, 7500],
+            "alter": [30, 30, 40, 40, 50, 30, 5, 2, 40, 12, 50],
+            "kind": [
+                False,
+                False,
+                False,
+                False,
+                False,
+                False,
+                True,
+                True,
+                False,
+                True,
+                False,
+            ],
+            "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1, 2, 2, 1],
+            "year": [2020, 2021, 2021, 2021, 2021, 2022, 2022, 2022, 2022, 2022, 2020],
         }
     )
     hh["child_num_kg"] = hh.groupby("tu_id")["kind"].transform("sum")
@@ -264,7 +276,8 @@ def test_lohnsteuer(input_data, year, column, reload_test_data=False):
     df["wohnort_ost"] = False
     df["jahr_renteneintr"] = 2060
     df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
-
+    df["in_ausbildung"] = ~df["kind"]
+    df["arbeitsstunden_w"] = 40 * ~df["kind"]
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
     result = compute_taxes_and_transfers(
