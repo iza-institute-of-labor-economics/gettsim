@@ -1,5 +1,6 @@
+import numpy as np
+
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
@@ -48,14 +49,12 @@ def soli_st_tu(
 
 
 def lohn_steuer_soli(
-    tu_id: IntSeries,
     lohn_steuer_zve: FloatSeries,
-    kind: BoolSeries,
+    anz_kindergeld_kinder_tu,
     eink_st_abzuege_params: dict,
     soli_st_params: dict,
     steuerklasse: IntSeries,
 ) -> FloatSeries:
-
     # Full child allowance
     kinderfreibetrag_basis = (
         eink_st_abzuege_params["kinderfreibetrag"]["sächl_existenzmin"]
@@ -64,10 +63,11 @@ def lohn_steuer_soli(
 
     # For certain tax brackets, twice the child allowance can be deducted
     kinderfreibetrag = (
-        kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3])
-        + (kinderfreibetrag_basis * steuerklasse == 4) * kind.groupby(tu_id).sum()
-    )
-    lohn_steuer_soli_zve = lohn_steuer_zve - kinderfreibetrag
+        (kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3]))
+        + (kinderfreibetrag_basis * steuerklasse == 4)
+    ) * anz_kindergeld_kinder_tu
+    lohn_steuer_soli_zve = np.maximum(lohn_steuer_zve - kinderfreibetrag, 0)
+
     return soli_tarif(lohn_steuer_soli_zve, soli_st_params)
 
 

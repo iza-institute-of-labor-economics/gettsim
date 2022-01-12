@@ -13,6 +13,21 @@ def lohn_steuer_zve(
     eink_st_abzuege_params: dict,
     vorsorgepauschale: FloatSeries,
 ) -> FloatSeries:
+    """
+    Calculates taxable income (zve: zu versteuerndes Einkommen) for lohnsteuer
+
+    Parameters
+    ----------
+    bruttolohn_m:
+
+    steuerklasse
+    eink_st_abzuege_params
+    vorsorgepauschale
+
+    Returns
+    -------
+
+    """
     # WHY IS THIS 1908??
     entlastung_freibetrag_alleinerz = (steuerklasse == 2) * eink_st_abzuege_params[
         "alleinerziehenden_freibetrag"
@@ -99,6 +114,9 @@ def vorsorgepauschale_ab_2010(
 ) -> FloatSeries:
     """
     Calculates Vorsorgepauschale for Lohnsteuer valid since 2010
+    Those are deducted from gross earnings.
+    Idea is similar, but not identical, to Vorsorgeaufwendungen
+    used when calculating Einkommensteuer.
 
     Parameters
     ----------
@@ -113,7 +131,7 @@ def vorsorgepauschale_ab_2010(
 
     Returns
     -------
-
+    Individual Vorsorgepauschale on annual basis
     """
 
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
