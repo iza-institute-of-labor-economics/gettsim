@@ -1,4 +1,4 @@
-p_id,tu_id,bruttolohn_m,alter,kind,steuerklasse,year,child_num_kg,lohn_steuer,lohn_steuer_soli
+p_id,tu_id,bruttolohn_m,alter,kind,steuerklasse,year,child_num_kg,lohn_st,lohn_st_soli
 1,1,2000,30,False,1,2020,0,172.75,9.5
 2,2,3000,30,False,4,2021,0,394.41,0.0
 3,2,4000,40,False,4,2021,0,659.08,0.0

@@ -199,7 +199,7 @@ def gen_lohnsteuer_test():
     )
     hh["child_num_kg"] = hh.groupby("tu_id")["kind"].transform("sum")
     # Get correct lohnsteuer from German Ministry of Finance
-    hh["lohn_steuer"] = np.vectorize(bmf_collect)(
+    hh["lohn_st"] = np.vectorize(bmf_collect)(
         hh["bruttolohn_m"],
         outvar="LSTLZZ",
         faktorverfahren=0,
@@ -208,7 +208,7 @@ def gen_lohnsteuer_test():
         stkl=hh["steuerklasse"],
         jahr=hh["year"],
     )
-    hh["lohn_steuer_soli"] = np.vectorize(bmf_collect)(
+    hh["lohn_st_soli"] = np.vectorize(bmf_collect)(
         hh["bruttolohn_m"],
         outvar="SOLZLZZ",
         faktorverfahren=0,
@@ -218,7 +218,7 @@ def gen_lohnsteuer_test():
         jahr=hh["year"],
     )
     # Export
-    lohnsteuer_test_out = f"{ROOT_DIR}/tests/test_data/test_dfs_lohn_steuer.csv"
+    lohnsteuer_test_out = f"{ROOT_DIR}/tests/test_data/test_dfs_lohn_st.csv"
     hh.to_csv(lohnsteuer_test_out, index=False)
 
 
@@ -227,12 +227,12 @@ def gen_lohnsteuer_test():
 INPUT_COLS = ["p_id", "tu_id", "bruttolohn_m", "alter", "kind", "steuerklasse", "year"]
 
 YEARS = [2020, 2021, 2022]
-TEST_COLUMNS = ["lohn_steuer", "lohn_steuer_soli"]
+TEST_COLUMNS = ["lohn_st", "lohn_st_soli"]
 
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_lohn_steuer.csv"
+    file_name = "test_dfs_lohn_st.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 

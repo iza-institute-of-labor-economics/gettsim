@@ -34,6 +34,8 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | lohn_st                 | Withdrawal tax                                            |
 +-------------------------+-----------------------------------------------------------+
+| lohn_st_soli            | Solidarity surcharge on withdrawal tax                    |
++-------------------------+-----------------------------------------------------------+
 | unterhaltsvors_m        | Alimony advance payment                                   |
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_2_m_hh    | Monthly subsistence payment per household                 |

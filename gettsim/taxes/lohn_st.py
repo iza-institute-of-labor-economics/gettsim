@@ -7,7 +7,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def lohn_steuer_zve(
+def lohn_st_zve(
     bruttolohn_m: FloatSeries,
     steuerklasse: IntSeries,
     eink_st_abzuege_params: dict,
@@ -54,8 +54,8 @@ def lohn_steuer_zve(
     return out
 
 
-def lohn_steuer(
-    lohn_steuer_zve: FloatSeries, eink_st_params: dict, steuerklasse: IntSeries
+def lohn_st(
+    lohn_st_zve: FloatSeries, eink_st_params: dict, steuerklasse: IntSeries
 ) -> FloatSeries:
     """
     Calculates Lohnsteuer = withholding tax on earnings,
@@ -73,8 +73,8 @@ def lohn_steuer(
           starting statutory one.
     Parameters
     ----------
-    lohn_steuer_zve
-        See :func:`lohn_steuer_zve`.
+    lohn_st_zve
+        See :func:`lohn_st_zve`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`
     steuerklasse
@@ -84,15 +84,15 @@ def lohn_steuer(
     -------
     Individual withdrawal tax on annual basis
     """
-    lohnsteuer_basistarif = st_tarif(lohn_steuer_zve, eink_st_params)
-    lohnsteuer_splittingtarif = 2 * st_tarif(lohn_steuer_zve / 2, eink_st_params)
+    lohnsteuer_basistarif = st_tarif(lohn_st_zve, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * st_tarif(lohn_st_zve / 2, eink_st_params)
     lohnsteuer_klasse5_6 = np.maximum(
         2
         * (
-            st_tarif(lohn_steuer_zve * 1.25, eink_st_params)
-            - st_tarif(lohn_steuer_zve * 0.75, eink_st_params)
+            st_tarif(lohn_st_zve * 1.25, eink_st_params)
+            - st_tarif(lohn_st_zve * 0.75, eink_st_params)
         ),
-        lohn_steuer_zve * eink_st_params["eink_st_tarif"]["rates"][0][1],
+        lohn_st_zve * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
     out = (

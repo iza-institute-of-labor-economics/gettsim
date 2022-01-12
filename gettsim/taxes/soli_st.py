@@ -49,15 +49,15 @@ def soli_st_tu(
     return out
 
 
-def lohn_steuer_soli(
-    lohn_steuer_kinderfreibetrag: FloatSeries, soli_st_params: dict
+def lohn_st_soli(
+    lohn_st_kinderfreibetrag: FloatSeries, soli_st_params: dict
 ) -> FloatSeries:
     """
     Calculates the Solidarity Surcharge as a top-up on Lohnsteuer
 
     Parameters
     ----------
-    lohn_steuer_kinderfreibetrag
+    lohn_st_kinderfreibetrag
     soli_st_params
 
     Returns
@@ -65,19 +65,19 @@ def lohn_steuer_soli(
 
     """
 
-    return soli_tarif(lohn_steuer_kinderfreibetrag, soli_st_params)
+    return soli_tarif(lohn_st_kinderfreibetrag, soli_st_params)
 
 
-def lohn_steuer_zve_kifb(
-    lohn_steuer_zve: FloatSeries, kinderfreibetrag_lohn_steuer: FloatSeries
+def lohn_st_zve_kifb(
+    lohn_st_zve: FloatSeries, kinderfreibetrag_lohn_st: FloatSeries
 ) -> FloatSeries:
     """ Calculates tax base for Soli Lohnsteuer
     by subtracting child allowance from regular lohnsteuer taxable income
     """
-    return np.maximum(lohn_steuer_zve - kinderfreibetrag_lohn_steuer, 0)
+    return np.maximum(lohn_st_zve - kinderfreibetrag_lohn_st, 0)
 
 
-def kinderfreibetrag_lohn_steuer(
+def kinderfreibetrag_lohn_st(
     tu_id: IntSeries,
     steuerklasse: IntSeries,
     anz_kindergeld_kinder_tu: FloatSeries,
@@ -103,21 +103,21 @@ def kinderfreibetrag_lohn_steuer(
     return out
 
 
-def lohn_steuer_kinderfreibetrag(
-    lohn_steuer_zve_kifb: FloatSeries, steuerklasse: IntSeries, eink_st_params: dict
+def lohn_st_kinderfreibetrag(
+    lohn_st_zve_kifb: FloatSeries, steuerklasse: IntSeries, eink_st_params: dict
 ) -> FloatSeries:
-    """ Calculate Lohnsteuer just as lohn_steuer function,
+    """ Calculate Lohnsteuer just as lohn_st function,
     but with a different tax base, i.e. including child allowance
     """
-    lohnsteuer_basistarif = st_tarif(lohn_steuer_zve_kifb, eink_st_params)
-    lohnsteuer_splittingtarif = 2 * st_tarif(lohn_steuer_zve_kifb / 2, eink_st_params)
+    lohnsteuer_basistarif = st_tarif(lohn_st_zve_kifb, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * st_tarif(lohn_st_zve_kifb / 2, eink_st_params)
     lohnsteuer_klasse5_6 = np.maximum(
         2
         * (
-            st_tarif(lohn_steuer_zve_kifb * 1.25, eink_st_params)
-            - st_tarif(lohn_steuer_zve_kifb * 0.75, eink_st_params)
+            st_tarif(lohn_st_zve_kifb * 1.25, eink_st_params)
+            - st_tarif(lohn_st_zve_kifb * 0.75, eink_st_params)
         ),
-        lohn_steuer_zve_kifb * eink_st_params["eink_st_tarif"]["rates"][0][1],
+        lohn_st_zve_kifb * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
     out = (
