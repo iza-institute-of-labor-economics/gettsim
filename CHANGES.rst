@@ -20,7 +20,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`312` Updated GEP-01 with effects on character limits, time and unit identifiers,
   adjustments for DAG backend. (:ghuser:`hmgaudecker`)
 
-0.4.1 - 2021-04-11
+0.4.1 — 2021-04-11
 ------------------
 
 * :gh:`248` Implement 2021 increase in lump sum tax deductions for disabled.
@@ -41,7 +41,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`283` Implement Kinderbonus in 2020 and 2021 (:ghuser:`ChristianZimpelmann`).
 
 
-0.4.0 - 2020-11-11
+0.4.0 — 2020-11-11
 ------------------
 
 * :gh:`241` renaming of directories: `gettsim.benefits` to `gettsim.transfers`;
@@ -69,14 +69,14 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 
-0.3.4 - 2020-07-30
+0.3.4 — 2020-07-30
 ------------------
 
 * :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
   (:ghuser:`hmgaudecker`, :ghuser:`MaxBlesch`)
 
 
-0.3.3 - 2020-06-27
+0.3.3 — 2020-06-27
 ------------------
 
 * :gh:`212` improves the error message when reduced series could not be expanded with an
@@ -88,7 +88,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   against arbeitsl_geld_2 (:ghuser:`tobiasraabe`).
 
 
-0.3.2 - 2020-06-19
+0.3.2 — 2020-06-19
 ------------------
 
 * :gh:`196` adds docstring to `policy_for_date.py` and improves its interface
@@ -106,7 +106,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   them at the appropriate (household) level (:ghuser:`MaxBlesch`).
 
 
-0.3.1 - 2020-06-05
+0.3.1 — 2020-06-05
 ------------------
 
 * :gh:`188` removes misleading code bits from the documentation and adds a copy-button
@@ -115,7 +115,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   (:ghuser:`tobiasraabe`).
 
 
-0.3.0 - 2020-06-04
+0.3.0 — 2020-06-04
 ------------------
 
 * Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
@@ -152,7 +152,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Error messages for the new interface (:ghuser:`hmgaudecker`, :ghuser:`tobiasraabe`).
 
 
-0.2.1 - 2019-11-20
+0.2.1 — 2019-11-20
 ------------------
 
 * Fix error with real SOEP data and "Wohngeld" for households with more than 12
@@ -164,7 +164,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * Add maintenance section to website (:ghuser:`tobiasraabe`)
 
 
-0.2.0 - 2019-11-06
+0.2.0 — 2019-11-06
 ------------------
 
 This will be the initial release of ``gettsim``.
@@ -182,7 +182,7 @@ This will be the initial release of ``gettsim``.
 * Improve calculation of housing allowance (:ghuser:`Eric-Sommer`)
 
 
-0.1 and prior work - 2019-09-30
+0.1 and prior work — 2019-09-30
 -------------------------------
 
 Most code written by :ghuser:`Eric-Sommer` based on `IZAΨMOD <https://www.iza.org/
