@@ -8,7 +8,7 @@ from bokeh.plotting import figure
 from .plotstyle import plotstyle
 
 
-def tax_rate(plot_dict, data):
+def tax_rate(plot_dict, data):  # noqa: U100
     def make_dataset(sel_year, tax_rate_dict_full):
         dataset = tax_rate_dict_full[sel_year]
 

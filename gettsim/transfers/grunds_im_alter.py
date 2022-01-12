@@ -1,3 +1,5 @@
+import pandas as pd
+
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -30,6 +32,7 @@ def grunds_im_alter_m_hh(
 
 def grunds_ia_m_minus_eink_hh(
     regelbedarf_m_grunds_ia_vermögens_check_hh: FloatSeries,
+    mehrbedarf_behinderung_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
     anrechenbares_eink_grunds_ia_m_hh: FloatSeries,
@@ -40,6 +43,8 @@ def grunds_ia_m_minus_eink_hh(
     ----------
     regelbedarf_m_grunds_ia_vermögens_check_hh
         See :func:`regelbedarf_m_grunds_ia_vermögens_check_hh`.
+    mehrbedarf_behinderung_m_hh
+        See :func:`mehrbedarf_behinderung_m_hh`.
     kindergeld_m_hh
         See :func:`kindergeld_m_hh`.
     unterhaltsvors_m_hh
@@ -53,6 +58,7 @@ def grunds_ia_m_minus_eink_hh(
     """
     out = (
         regelbedarf_m_grunds_ia_vermögens_check_hh
+        + mehrbedarf_behinderung_m_hh
         - anrechenbares_eink_grunds_ia_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
@@ -265,6 +271,69 @@ def anrechenbare_prv_rente_grunds_ia_m(
     )
 
     return prv_rente_m - prv_rente_m_amount_exempt
+
+
+def mehrbedarf_behinderung_m_hh(
+    mehrbedarf_behinderung_m: FloatSeries, hh_id: IntSeries,
+) -> FloatSeries:
+    """Aggregate mehrbedarf for people with disabilities on household level.
+
+    Parameters
+    ----------
+    mehrbedarf_behinderung_m
+        See :func:`mehrbedarf_behinderung_m`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    Returns
+    -------
+
+    """
+    return mehrbedarf_behinderung_m.groupby(hh_id).sum()
+
+
+def mehrbedarf_behinderung_m(
+    schwerbe_ausweis_g: BoolSeries,
+    hhsize_tu: IntSeries,
+    grunds_ia_params: dict,
+    arbeitsl_geld_2_params: dict,
+    tu_id: IntSeries,
+) -> FloatSeries:
+    """Calculate mehrbedarf for people with disabilities.
+
+    Parameters
+    ----------
+    schwerbe_ausweis_g
+        See basic input variable :ref:`behinderungsgrad <schwerbe_ausweis_g>`.
+    hhsize_tu
+        See :func:`hhsize_tu`.
+    ges_renten_vers_params
+        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+    Returns
+    -------
+
+    """
+    out = pd.Series(0, index=schwerbe_ausweis_g.index, dtype=float)
+    hhsize_tu = tu_id.replace(hhsize_tu)
+
+    # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
+    bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * (
+        grunds_ia_params["mehrbedarf_g"]["rate"]
+    )
+    bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * (
+        grunds_ia_params["mehrbedarf_g"]["rate"]
+    )
+
+    # singles
+    out.loc[(schwerbe_ausweis_g)] = bedarf1
+
+    # couples
+    out.loc[(schwerbe_ausweis_g) & (hhsize_tu != 1)] = bedarf2
+
+    return out
 
 
 def anrechenbare_staatl_rente_grunds_ia_m(
