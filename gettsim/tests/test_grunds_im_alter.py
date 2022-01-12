@@ -52,7 +52,7 @@ OVERRIDE_COLS = [
     "arbeitsl_geld_m",
 ]
 
-YEARS = [2017, 2018, 2021, 2022]
+YEARS = [2017, 2018, 2020, 2021, 2022]
 
 OUT_COLS = [
     "regelbedarf_m_grunds_ia_vermögens_check_hh",
