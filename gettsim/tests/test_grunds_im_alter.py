@@ -55,7 +55,7 @@ OVERRIDE_COLS = [
 YEARS = [2017, 2018, 2020, 2021, 2022]
 
 OUT_COLS = [
-    "regelbedarf_m_grunds_ia_vermögens_check_hh",
+    "regelbedarf_m_grunds_im_alter_vermögens_check_hh",
     "grunds_im_alter_m_hh",
 ]
 
