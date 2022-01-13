@@ -209,7 +209,7 @@ def anrechenbares_erwerbs_eink_grunds_im_alter_m(
 
 
 def anrechenbares_kapital_eink_grunds_im_alter_m(
-    grunds_im_alter_params: dict, brutto_eink_5: FloatSeries,
+    brutto_eink_5: FloatSeries, grunds_im_alter_params: dict,
 ) -> FloatSeries:
     """Calculate capital income which are considered in the calculation of Grundsicherung im
     Alter.
@@ -234,7 +234,6 @@ def anrechenbares_kapital_eink_grunds_im_alter_m(
     ).clip(lower=0)
 
     # Calculate and return monthly capital income (after deduction)
-
     return capital_income_y / 12
 
 
