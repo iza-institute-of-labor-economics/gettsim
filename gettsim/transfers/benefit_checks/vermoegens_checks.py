@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -131,8 +132,7 @@ def freibetrag_vermögen_anspruch_hh(
     -------
 
     """
-
-    out = alter * 0
+    out = pd.Series(0, index=alter.index)
     out.loc[geburtsjahr < 1948] = (
         arbeitsl_geld_2_params["vermögensfreibetrag"]["vor_1948"]
         * alter.loc[geburtsjahr < 1948]
@@ -183,7 +183,7 @@ def max_freibetrag_vermögen_hh(
     ]
 
     data = np.select(conditions, choices)
-    out = geburtsjahr * 0.0 + data
+    out = pd.Series(0, index=geburtsjahr.index) + data
 
     return out.groupby(hh_id).sum()
 
