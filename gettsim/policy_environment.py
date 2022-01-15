@@ -48,6 +48,8 @@ from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
 from gettsim.transfers.wohngeld import wohngeld_miete_bis_2008
+from gettsim.transfers.benefit_checks.vermoegens_checks import \
+    max_freibetrag_vermögen_hh_ab_2008, max_freibetrag_vermögen_hh_vor_2008
 
 
 def set_up_policy_environment(date):
@@ -260,6 +262,11 @@ def load_reforms_for_date(date):
         functions["eink_anr_frei"] = eink_anr_frei_bis_10_2005
     else:
         functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
+
+    if date >= datetime.date(year=2008, month=1, day=1):
+        functions["max_freibetrag_vermögen_hh"] = max_freibetrag_vermögen_hh_ab_2008
+    else:
+        functions["max_freibetrag_vermögen_hh"] = max_freibetrag_vermögen_hh_vor_2008
 
     return functions
 

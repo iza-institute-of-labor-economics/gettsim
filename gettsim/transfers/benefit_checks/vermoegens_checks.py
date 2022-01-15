@@ -145,7 +145,7 @@ def freibetrag_vermögen_anspruch_hh(
     return out.groupby(hh_id).sum()
 
 
-def max_freibetrag_vermögen_hh(
+def max_freibetrag_vermögen_hh_ab_2008(
     hh_id: IntSeries,
     geburtsjahr: IntSeries,
     kind: BoolSeries,
@@ -176,14 +176,40 @@ def max_freibetrag_vermögen_hh(
     ]
 
     choices = [
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["1948_bis_1957"],
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["1958_bis_1963"],
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["nach_1963"],
+        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["vor_1957"],
+        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["1958_bis_1963"],
+        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["nach_1963"],
         0,
     ]
 
     data = np.select(conditions, choices)
     out = pd.Series(0, index=geburtsjahr.index) + data
+
+    return out.groupby(hh_id).sum()
+
+
+def max_freibetrag_vermögen_hh_vor_2008(
+    hh_id: IntSeries,
+    kind: BoolSeries,
+    arbeitsl_geld_2_params: dict,
+) -> FloatSeries:
+    """Calculate maximal wealth exemptions by year of birth.
+
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+
+    Returns
+    -------
+
+    """
+    out = pd.Series(arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"], index=kind.index)
+    out.loc[kind] = 0
 
     return out.groupby(hh_id).sum()
 
