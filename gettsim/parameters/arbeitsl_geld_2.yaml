@@ -259,6 +259,8 @@ anteil_regelsatz:
     reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
     kinder_7_13: 0.7
 
+
+
 mehrbedarf_anteil:
   name:
     de: >-
@@ -303,6 +305,8 @@ vermögensfreibetrag_obergrenze:
     nach_1963: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
 
+
+
 vermögensfreibetrag:
   name:
     de_1: Vermögensgrundfreibetrag je Lebensjahr, nach Geburtsjahr, erst ab 2008 unterschiedlich
@@ -326,6 +330,8 @@ vermögensfreibetrag:
     standard: 150
     kind: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+
+
 
 abzugsfähige_pausch:
   name:
