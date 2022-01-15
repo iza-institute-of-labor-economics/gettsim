@@ -303,8 +303,6 @@ vermögensfreibetrag_obergrenze:
     nach_1963: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
 
-
-
 vermögensfreibetrag:
   name:
     de_1: Vermögensgrundfreibetrag je Lebensjahr, nach Geburtsjahr, erst ab 2008 unterschiedlich
