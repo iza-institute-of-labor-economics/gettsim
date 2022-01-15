@@ -33,6 +33,12 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
+from gettsim.transfers.benefit_checks.vermoegens_checks import (
+    max_freibetrag_vermögen_hh_ab_2008,
+)
+from gettsim.transfers.benefit_checks.vermoegens_checks import (
+    max_freibetrag_vermögen_hh_vor_2008,
+)
 from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
     kinderzuschlag_ab_2005_bis_juni_2019,
 )
@@ -48,8 +54,6 @@ from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
 from gettsim.transfers.wohngeld import wohngeld_miete_bis_2008
-from gettsim.transfers.benefit_checks.vermoegens_checks import \
-    max_freibetrag_vermögen_hh_ab_2008, max_freibetrag_vermögen_hh_vor_2008
 
 
 def set_up_policy_environment(date):

@@ -189,9 +189,7 @@ def max_freibetrag_vermögen_hh_ab_2008(
 
 
 def max_freibetrag_vermögen_hh_vor_2008(
-    hh_id: IntSeries,
-    kind: BoolSeries,
-    arbeitsl_geld_2_params: dict,
+    hh_id: IntSeries, kind: BoolSeries, arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
     """Calculate maximal wealth exemptions by year of birth.
 
@@ -208,7 +206,9 @@ def max_freibetrag_vermögen_hh_vor_2008(
     -------
 
     """
-    out = pd.Series(arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"], index=kind.index)
+    out = pd.Series(
+        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"], index=kind.index
+    )
     out.loc[kind] = 0
 
     return out.groupby(hh_id).sum()
