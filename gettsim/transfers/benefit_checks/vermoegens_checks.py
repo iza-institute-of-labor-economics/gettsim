@@ -138,7 +138,7 @@ def freibetrag_vermögen_anspruch_hh(
         * alter.loc[geburtsjahr < 1948]
     )
     out.loc[(1948 <= geburtsjahr) & ~kind] = (
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["standard"]
+        arbeitsl_geld_2_params["vermögensfreibetrag"]["ab_1948"]
         * alter.loc[(1948 <= geburtsjahr) & ~kind]
     )
 
@@ -242,8 +242,8 @@ def freibetrag_vermögen_hh(
     """
     out = (
         freibetrag_vermögen_anspruch_hh
-        + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag"]["kind"]
+        + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
         + (haushaltsgröße_hh - anz_minderj_hh)
-        * arbeitsl_geld_2_params["vermögensfreibetrag"]["ausstattung"]
+        * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
     ).clip(upper=max_freibetrag_vermögen_hh)
     return out

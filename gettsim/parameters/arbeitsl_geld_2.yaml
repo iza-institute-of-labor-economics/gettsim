@@ -287,8 +287,8 @@ mehrbedarf_anteil:
 
 vermögensfreibetrag_obergrenze:
   name:
-    de_1: Maximaler Vermögensgrundfreibetrag je Lebensjahr. Ab 2008 nach Geburtsjahr unterschiedlich
-    en_1: Basic allowance per year of life. Sorted by year of birth starting 2008 different
+    de: Maximaler Vermögensgrundfreibetrag je Lebensjahr. Ab 2008 nach Geburtsjahr unterschiedlich
+    en: Basic allowance per year of life. Sorted by year of birth starting 2008 different
   description:
     de: § 12 (2) Satz 1 Nr. 1 SGB II.
     en:
@@ -309,26 +309,48 @@ vermögensfreibetrag_obergrenze:
 
 vermögensfreibetrag:
   name:
-    de_1: Vermögensgrundfreibetrag je Lebensjahr, nach Geburtsjahr, erst ab 2008 unterschiedlich
-    de_2: Vermögensfreibetrag für Erstausstattung
-    de_3: Vermögensgrundfreibetrag je Kind
-    en_1: Basic allowance per year of life, sorted by year of birth, starting 2008 different
-    en_2: Allowance for furniture
-    en_3: Allowance per child
+    de: Vermögensgrundfreibetrag je Lebensjahr, gestaffelt nach Geburtsjahr
+    en: Basic allowance per year of life, sorted by year of birth
   description:
     de: § 12 (2) Satz 1 Nr. 1 SGB II.
     en:
   unit: Euro
   2005-01-01:
-    standard: 200
+    ab_1948: 200
     vor_1948: 520
-    ausstattung: 750
-    kind: 4100
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2006-08-01:
     deviation_from: previous
-    standard: 150
-    kind: 3100
+    ab_1948: 150
+    reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+
+
+vermögensfreibetrag_austattung:
+  name:
+    de: Vermögensfreibetrag für Erstausstattung
+    en: Allowance for furniture
+  description:
+    de: § 12 (2) Satz 1 Nr. 1 SGB II.
+    en:
+  unit: Euro
+  2005-01-01:
+    scalar: 750
+    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+
+
+vermögensfreibetrag_kind:
+  name:
+    de: Vermögensgrundfreibetrag je Kind
+    en: Allowance for furniture
+  description:
+    de: § 12 (2) Satz 1 Nr. 1 SGB II.
+    en:
+  unit: Euro
+  2005-01-01:
+    scalar: 4100
+    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+  2006-08-01:
+    scalar: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
 
 
