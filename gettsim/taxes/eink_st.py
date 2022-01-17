@@ -8,7 +8,7 @@ def st_kein_kind_freib_tu(
     anz_erwachsene_tu: IntSeries,
     eink_st_params: dict,
 ) -> FloatSeries:
-    """ Taxes without child allowance.
+    """Taxes without child allowance.
 
     Parameters
     ----------
@@ -16,6 +16,8 @@ def st_kein_kind_freib_tu(
         See :func:`zu_verst_eink_kein_kinderfreib_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
+    eink_st_params:
+        See params documentation :ref:`eink_st_params <eink_st_params>`.
 
     Returns
     -------
@@ -52,7 +54,7 @@ def st_kind_freib_tu(
 
 
 def st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
-    """ The German Income Tax Tariff.
+    """The German Income Tax Tariff.
      Modelled only after 2002 so far.
 
     Parameters

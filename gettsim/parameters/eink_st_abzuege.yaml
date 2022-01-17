@@ -480,8 +480,9 @@ vorsorgepauschale_mindestanteil:
 
 vorsorgepauschale_kv_max:
   name:
-    de: Höchsbetrag für Beiträge zu GKV und PKV, der abgesetzt werden kann. Hängt ab von der Steuerklasse
-  description: 39b (2) Nr.3 EStG
+    de: Höchsbetrag für Beiträge zu GKV und PKV, der für die Lohnsteuer abgesetzt werden kann.
+  description:
+    de: 39b (2) Nr.3 EStG. Hängt ab von der Steuerklasse.
   unit: Euro
   time: year
   2009-07-23:

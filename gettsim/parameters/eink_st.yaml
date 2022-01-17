@@ -228,12 +228,12 @@ ertragsanteil:
     1:
       lower_threshold: 2005
       upper_threshold: 2021
-      rate_linear: -0.02
+      rate_linear: 0.02
       intercept_at_lower_threshold: 0.5
     2:
       lower_threshold: 2021
       upper_threshold: 2041
-      rate_linear: -0.01
+      rate_linear: 0.01
       intercept_at_lower_threshold: 0.8
     3:
       lower_threshold: 2041
