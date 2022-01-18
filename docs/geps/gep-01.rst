@@ -11,15 +11,15 @@ GEP 1 — Naming Conventions
 +            +-------------------------------------------------------------------------+
 |            | `Eric Sommer <https://github.com/Eric-Sommer>`_                         |
 +------------+-------------------------------------------------------------------------+
-| Status     | Draft                                                                   |
+| Status     | Provisional                                                             |
 +------------+-------------------------------------------------------------------------+
 | Type       | Standards Track                                                         |
 +------------+-------------------------------------------------------------------------+
 | Created    | 2019-11-04                                                              |
 +------------+-------------------------------------------------------------------------+
-| Updated    | 2021-12-XX                                                              |
+| Updated    | 2022-01-07                                                              |
 +------------+-------------------------------------------------------------------------+
-| Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
+| Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001 |
 +------------+-------------------------------------------------------------------------+
 
 
@@ -109,13 +109,14 @@ changed, even if it leads to long variable names (e.g., ``kinderfreibetrag``,
 easier and less error-prone.
 
 The default time unit is a year. If a column refers to a different time unit, an
-underscore plus one of {``m``, ``w``, ``t``} will indicate the time unit.
+underscore plus one of {``m``, ``w``, ``d``} will indicate the time unit.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
 the relevant unit, an underscore plus one of {``hh``, ``tu``} will indicate the level of
 aggregation.
 
-Time unit identifier come before unit identifiers (e.g., ``arbeitsl_geld_2_m_hh``).
+Time unit identifiers always appear before unit identifiers (e.g.,
+``arbeitsl_geld_2_m_hh``).
 
 
 Parameters of the taxes and transfers system
@@ -131,8 +132,8 @@ general naming considerations here.
   identifiers easier and less error-prone.
 
 
-Python Identifiers (Functions, Variables)
------------------------------------------
+Other Python identifiers (Functions, Variables)
+-----------------------------------------------
 
 Python identifiers should generally be in English, unless they refer to a specific law
 or set of laws, which is where the same reasoning applies as above.
@@ -218,7 +219,7 @@ Discussion
 ----------
 
 * GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
-* Discussion on provisional acceptance: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs/near/189539859
+* Discussion on provisional acceptance: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859
 * GitHub PR for update (character limits, time and unit identifiers, DAG adjustments):
   https://github.com/iza-institute-of-labor-economics/gettsim/pull/312
 

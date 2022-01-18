@@ -19,6 +19,8 @@ Kinderzuschlag / Additional Child Benefit
     parents. This is done by some fixed share which is updated on annual basis
     ('jährlicher Existenzminimumsbericht')
 """
+import pandas as pd
+
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -47,11 +49,12 @@ def kinderzuschlag_m_hh(
     -------
 
     """
+    out = kinderzuschlag_vermögens_check_hh.copy()
     cond = (
         ~kinderzuschlag_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh
     ) | rentner_in_hh
-    kinderzuschlag_vermögens_check_hh.loc[cond] = 0
-    return kinderzuschlag_vermögens_check_hh
+    out.loc[cond] = 0
+    return out
 
 
 def kinderzuschlag_m_vorläufig_hh(
@@ -99,7 +102,7 @@ def kinderzuschlag_ab_juli_2019(
     -------
 
     """
-    out = hh_id * 0
+    out = pd.Series(0, index=hh_id.index)
     condition = hh_id.replace(arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschlag_eink_min
     out.loc[condition] = (
         kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
@@ -132,7 +135,8 @@ def kinderzuschlag_ab_2005_bis_juni_2019(
     -------
 
     """
-    out = kinderzuschlag_eink_spanne * 0
+    out = pd.Series(0, index=kinderzuschlag_eink_spanne.index)
+
     out.loc[kinderzuschlag_eink_spanne] = (
         kinderzuschlag_kindereink_abzug.groupby(hh_id).transform("sum")
         - kinderzuschlag_eink_anrechn
