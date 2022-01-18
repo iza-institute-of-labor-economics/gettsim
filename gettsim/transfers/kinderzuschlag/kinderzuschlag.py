@@ -76,7 +76,7 @@ def kinderzuschlag_m_vorläufig_hh(
     return kinderzuschlag_m_vorläufig.groupby(hh_id).max()
 
 
-def kinderzuschlag_ab_juli_2019(
+def kinderzuschlag_m_vorläufig_ab_07_2019(
     hh_id: IntSeries,
     arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
     kinderzuschlag_eink_min: FloatSeries,
@@ -112,7 +112,7 @@ def kinderzuschlag_ab_juli_2019(
     return out.groupby(hh_id).transform("max")
 
 
-def kinderzuschlag_ab_2005_bis_juni_2019(
+def kinderzuschlag_m_vorläufig_bis_06_2019(
     hh_id: IntSeries,
     kinderzuschlag_eink_spanne: BoolSeries,
     kinderzuschlag_kindereink_abzug: FloatSeries,

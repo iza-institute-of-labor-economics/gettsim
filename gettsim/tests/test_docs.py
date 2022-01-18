@@ -2,7 +2,7 @@ import datetime
 
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
-from gettsim.config import STANDARD_DATA_TYPES
+from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
 from gettsim.policy_environment import load_reforms_for_date
@@ -59,8 +59,8 @@ def test_type_hints():
                 else:
                     return_types[name] = internal_type
             else:
-                if var in STANDARD_DATA_TYPES:
-                    if internal_type != STANDARD_DATA_TYPES[var]:
+                if var in TYPES_INPUT_VARIABLES:
+                    if internal_type != TYPES_INPUT_VARIABLES[var]:
                         raise ValueError(
                             f"The input type hint of {var} in function "
                             f"{name} does not coincide with the standard "

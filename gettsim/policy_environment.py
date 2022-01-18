@@ -32,11 +32,13 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_bi
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_2011
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
+from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_09_2005
 from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
-    kinderzuschlag_ab_2005_bis_juni_2019,
+    kinderzuschlag_m_vorläufig_ab_07_2019,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag import kinderzuschlag_ab_juli_2019
+from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
+    kinderzuschlag_m_vorläufig_bis_06_2019,
+)
 from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
     kinderzuschlag_eink_regel_ab_2011,
 )
@@ -244,10 +246,10 @@ def load_reforms_for_date(date):
     else:
         functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_ab_2011
 
-    if 2005 <= year <= 2019:
-        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_2005_bis_juni_2019
+    if date < datetime.date(year=2019, month=7, day=1):
+        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_m_vorläufig_bis_06_2019
     else:
-        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
+        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_m_vorläufig_ab_07_2019
 
     if year <= 2010:
         functions["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010
@@ -256,8 +258,8 @@ def load_reforms_for_date(date):
         functions["kindersatz_m_hh"] = kindersatz_m_hh_ab_2011
         functions["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
 
-    if date <= datetime.date(year=2005, month=10, day=1):
-        functions["eink_anr_frei"] = eink_anr_frei_bis_10_2005
+    if date < datetime.date(year=2005, month=10, day=1):
+        functions["eink_anr_frei"] = eink_anr_frei_bis_09_2005
     else:
         functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
 

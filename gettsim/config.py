@@ -8,7 +8,7 @@ from gettsim.typing import IntSeries
 # circular import.
 ROOT_DIR = Path(__file__).parent
 
-GEP_01_CHARACTER_LIMIT_DEFAULT_TARGETS = 20
+GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
 GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 
 PATHS_TO_INTERNAL_FUNCTIONS = [
@@ -58,7 +58,7 @@ DEFAULT_TARGETS = [
     "unterhaltsvors_m_hh",
 ]
 
-STANDARD_DATA_TYPES = {
+TYPES_INPUT_VARIABLES = {
     "hh_id": IntSeries,
     "tu_id": IntSeries,
     "p_id": IntSeries,
