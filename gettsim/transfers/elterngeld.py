@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _st_tarif
 from gettsim.typing import BoolSeries
 from gettsim.typing import DateTimeSeries
 from gettsim.typing import FloatSeries
@@ -128,7 +128,7 @@ def proxy_eink_vorj_elterngeld(
     prox_ssc = elterngeld_params["elterngeld_soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = st_tarif(
+    prox_tax = _st_tarif(
         (12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"]).clip(
             lower=0
         ),
@@ -347,19 +347,19 @@ def anz_mehrlinge_anspruch(
 ) -> IntSeries:
     """Check for multiple bonus on parental leave benefit.
 
-   Parameters
-   ----------
-   hh_id
-       See basic input variable :ref:`hh_id <hh_id>`.
-   elternzeit_anspruch
-       See :func:`elternzeit_anspruch`.
-   jüngstes_kind
-       See :func:`jüngstes_kind`.
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    elternzeit_anspruch
+        See :func:`elternzeit_anspruch`.
+    jüngstes_kind
+        See :func:`jüngstes_kind`.
 
-   Returns
-   -------
+    Returns
+    -------
 
-       """
+    """
     mehrlinge = jüngstes_kind.groupby(hh_id).transform("sum")
     return elternzeit_anspruch * (mehrlinge - 1)
 

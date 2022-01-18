@@ -9,7 +9,7 @@ def ges_krankenv_beitr_m(
     geringfügig_beschäftigt: BoolSeries,
     ges_krankenv_beitr_rente: FloatSeries,
     ges_krankenv_beitr_selbst: FloatSeries,
-    krankenv_beitr_regulär_beschäftigt: FloatSeries,
+    krankenv_beitr_regulär_beschäft: FloatSeries,
     an_beitr_krankenv_midi_job: FloatSeries,
 ) -> FloatSeries:
     """ Contribution for each individual to the public health insurance.
@@ -22,8 +22,8 @@ def ges_krankenv_beitr_m(
         See :func:`ges_krankenv_beitr_rente`.
     ges_krankenv_beitr_selbst
         See :func:`ges_krankenv_beitr_selbst`.
-    krankenv_beitr_regulär_beschäftigt
-        See :func:`krankenv_beitr_regulär_beschäftigt`.
+    krankenv_beitr_regulär_beschäft
+        See :func:`krankenv_beitr_regulär_beschäft`.
     an_beitr_krankenv_midi_job
         See :func:`an_beitr_krankenv_midi_job`.
 
@@ -39,9 +39,7 @@ def ges_krankenv_beitr_m(
 
     # Assign calculated contributions
     out.loc[an_beitr_krankenv_midi_job.index] = an_beitr_krankenv_midi_job
-    out.loc[
-        krankenv_beitr_regulär_beschäftigt.index
-    ] = krankenv_beitr_regulär_beschäftigt
+    out.loc[krankenv_beitr_regulär_beschäft.index] = krankenv_beitr_regulär_beschäft
     out.loc[ges_krankenv_beitr_selbst.index] = ges_krankenv_beitr_selbst
 
     # Add the health insurance contribution for pensions
@@ -67,16 +65,16 @@ def ges_krankenv_beitr_m_tu(
     return ges_krankenv_beitr_m.groupby(tu_id).sum()
 
 
-def krankenv_beitr_regulär_beschäftigt(
-    lohn_krankenv_regulär_beschäftigt: FloatSeries, soz_vers_beitr_params: dict
+def krankenv_beitr_regulär_beschäft(
+    lohn_krankenv_regulär_beschäft: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for regualr jobs
 
 
     Parameters
     ----------
-    lohn_krankenv_regulär_beschäftigt
-        See :func:`lohn_krankenv_regulär_beschäftigt`.
+    lohn_krankenv_regulär_beschäft
+        See :func:`lohn_krankenv_regulär_beschäft`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -86,14 +84,14 @@ def krankenv_beitr_regulär_beschäftigt(
     """
     return (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        * lohn_krankenv_regulär_beschäftigt
+        * lohn_krankenv_regulär_beschäft
     )
 
 
-def lohn_krankenv_regulär_beschäftigt(
+def lohn_krankenv_regulär_beschäft(
     bruttolohn_m: FloatSeries,
     krankenv_beitr_bemess_grenze: FloatSeries,
-    regulär_beschäftigt: BoolSeries,
+    regulär_beschäft: BoolSeries,
 ) -> FloatSeries:
     """Calculate the wage, which is subject to pension insurance contributions.
 
@@ -102,8 +100,8 @@ def lohn_krankenv_regulär_beschäftigt(
     ----------
     bruttolohn_m
         See :func:`bruttolohn_m`.
-    regulär_beschäftigt
-        See :func:`regulär_beschäftigt`.
+    regulär_beschäft
+        See :func:`regulär_beschäft`.
     krankenv_beitr_bemess_grenze
         See :func:`krankenv_beitr_bemess_grenze`.
 
@@ -112,9 +110,9 @@ def lohn_krankenv_regulär_beschäftigt(
     -------
 
     """
-    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[regulär_beschäftigt]
-    bemess_grenze = krankenv_beitr_bemess_grenze.loc[regulär_beschäftigt]
-    return bruttolohn_m_regulär_beschäftigt.clip(upper=bemess_grenze)
+    bruttolohn_m_regulär_beschäft = bruttolohn_m.loc[regulär_beschäft]
+    bemess_grenze = krankenv_beitr_bemess_grenze.loc[regulär_beschäft]
+    return bruttolohn_m_regulär_beschäft.clip(upper=bemess_grenze)
 
 
 def ges_krankenv_beitr_selbst(
@@ -255,9 +253,9 @@ def ag_beitr_krankenv_midi_job(
     -------
 
     """
-    bruttolohn_m__in_gleitzone = bruttolohn_m.loc[in_gleitzone]
+    bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
     return (
-        bruttolohn_m__in_gleitzone
+        bruttolohn_m_in_gleitzone
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
     )
 

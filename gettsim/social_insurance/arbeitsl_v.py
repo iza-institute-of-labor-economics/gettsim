@@ -9,7 +9,7 @@ def sozialv_beitr_m(
     pflegev_beitr_m: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
     rentenv_beitr_m: FloatSeries,
-    arbeitsl_v_beitr_m: FloatSeries,
+    arbeitslv_beitr_m: FloatSeries,
 ) -> FloatSeries:
     """Sum of all social insurance contributions.
 
@@ -22,20 +22,20 @@ def sozialv_beitr_m(
         See :func:`ges_krankenv_beitr_m`.
     rentenv_beitr_m
         See :func:`rentenv_beitr_m`.
-    arbeitsl_v_beitr_m
-        See :func:`arbeitsl_v_beitr_m`.
+    arbeitslv_beitr_m
+        See :func:`arbeitslv_beitr_m`.
 
     Returns
     -------
 
     """
-    return pflegev_beitr_m + ges_krankenv_beitr_m + rentenv_beitr_m + arbeitsl_v_beitr_m
+    return pflegev_beitr_m + ges_krankenv_beitr_m + rentenv_beitr_m + arbeitslv_beitr_m
 
 
-def arbeitsl_v_beitr_m(
+def arbeitslv_beitr_m(
     geringfügig_beschäftigt: BoolSeries,
-    an_beitr_arbeitsl_v_midi_job: FloatSeries,
-    arbeitsl_v_regular_job: FloatSeries,
+    an_beitr_arbeitslv_midi_job_m: FloatSeries,
+    arbeitslv_regulär_beschäft_m: FloatSeries,
 ) -> FloatSeries:
     """Calculate the contribution for each individual to the unemployment insurance.
 
@@ -44,11 +44,11 @@ def arbeitsl_v_beitr_m(
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
 
-    an_beitr_arbeitsl_v_midi_job
-        See :func:`an_beitr_arbeitsl_v_midi_job`.
+    an_beitr_arbeitslv_midi_job_m
+        See :func:`an_beitr_arbeitslv_midi_job_m`.
 
-    arbeitsl_v_regular_job
-        See :func:`arbeitsl_v_regular_job`.
+    arbeitslv_regulär_beschäft_m
+        See :func:`arbeitslv_regulär_beschäft_m`.
 
     Returns
     -------
@@ -60,21 +60,21 @@ def arbeitsl_v_beitr_m(
     out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions, for minijobs it remains 0
-    out.loc[an_beitr_arbeitsl_v_midi_job.index] = an_beitr_arbeitsl_v_midi_job
-    out.loc[arbeitsl_v_regular_job.index] = arbeitsl_v_regular_job
+    out.loc[an_beitr_arbeitslv_midi_job_m.index] = an_beitr_arbeitslv_midi_job_m
+    out.loc[arbeitslv_regulär_beschäft_m.index] = arbeitslv_regulär_beschäft_m
 
     return out
 
 
-def arbeitsl_v_regular_job(
-    ges_beitr_arbeitsl_v_midi_jobreturn: FloatSeries, soz_vers_beitr_params: dict
+def arbeitslv_regulär_beschäft_m(
+    bruttolohn_sozialv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
-    """Calculates unemployment insurance contributions for regualr jobs.
+    """Calculates unemployment insurance contributions for regular jobs.
 
     Parameters
     ----------
-    ges_beitr_arbeitsl_v_midi_jobreturn
-        See :func:`ges_beitr_arbeitsl_v_midi_jobreturn`.
+    bruttolohn_sozialv_beitr_m
+        See :func:`bruttolohn_sozialv_beitr_m`.
 
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
@@ -84,25 +84,25 @@ def arbeitsl_v_regular_job(
 
     """
     return (
-        ges_beitr_arbeitsl_v_midi_jobreturn
+        bruttolohn_sozialv_beitr_m
         * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
 
 
-def ges_beitr_arbeitsl_v_midi_jobreturn(
+def bruttolohn_sozialv_beitr_m(
     bruttolohn_m: FloatSeries,
     rentenv_beitr_bemess_grenze: FloatSeries,
-    regulär_beschäftigt: BoolSeries,
+    regulär_beschäft: BoolSeries,
 ) -> FloatSeries:
-    """Calculate the wage, which is subject to pension insurance contributions.
+    """Calculate the wage, which is subject to social insurance contributions.
 
     Parameters
     ----------
     bruttolohn_m
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
-    regulär_beschäftigt
-        See :func:`regulär_beschäftigt`.
+    regulär_beschäft
+        See :func:`regulär_beschäft`.
 
     rentenv_beitr_bemess_grenze
         See :func:`rentenv_beitr_bemess_grenze`.
@@ -112,12 +112,12 @@ def ges_beitr_arbeitsl_v_midi_jobreturn(
     -------
 
     """
-    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[regulär_beschäftigt]
-    bemess_grenze = rentenv_beitr_bemess_grenze.loc[regulär_beschäftigt]
-    return bruttolohn_m_regulär_beschäftigt.clip(upper=bemess_grenze)
+    bruttolohn_m_regulär_beschäft = bruttolohn_m.loc[regulär_beschäft]
+    bemess_grenze = rentenv_beitr_bemess_grenze.loc[regulär_beschäft]
+    return bruttolohn_m_regulär_beschäft.clip(upper=bemess_grenze)
 
 
-def ges_beitr_arbeitsl_v_midi_job(
+def ges_beitr_arbeitslv_midi_job_m(
     midi_job_bemessungsentgelt: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the sum of employee and employer unemployment insurance contribution.
@@ -141,7 +141,7 @@ def ges_beitr_arbeitsl_v_midi_job(
     )
 
 
-def ag_beitr_arbeitsl_v_midi_job(
+def ag_beitr_arbeitslv_midi_job_m(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the employer unemployment insurance contribution.
@@ -168,22 +168,22 @@ def ag_beitr_arbeitsl_v_midi_job(
     )
 
 
-def an_beitr_arbeitsl_v_midi_job(
-    ges_beitr_arbeitsl_v_midi_job: FloatSeries,
-    ag_beitr_arbeitsl_v_midi_job: FloatSeries,
+def an_beitr_arbeitslv_midi_job_m(
+    ges_beitr_arbeitslv_midi_job_m: FloatSeries,
+    ag_beitr_arbeitslv_midi_job_m: FloatSeries,
 ) -> FloatSeries:
     """Calculating the employer unemployment insurance contribution.
 
     Parameters
     ----------
-    ges_beitr_arbeitsl_v_midi_job
-        See :func:`ges_beitr_arbeitsl_v_midi_job`.
+    ges_beitr_arbeitslv_midi_job_m
+        See :func:`ges_beitr_arbeitslv_midi_job_m`.
 
-    ag_beitr_arbeitsl_v_midi_job
-        See :func:`ag_beitr_arbeitsl_v_midi_job`.
+    ag_beitr_arbeitslv_midi_job_m
+        See :func:`ag_beitr_arbeitslv_midi_job_m`.
 
     Returns
     -------
 
     """
-    return ges_beitr_arbeitsl_v_midi_job - ag_beitr_arbeitsl_v_midi_job
+    return ges_beitr_arbeitslv_midi_job_m - ag_beitr_arbeitslv_midi_job_m

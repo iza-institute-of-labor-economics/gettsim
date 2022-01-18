@@ -4,7 +4,7 @@ from gettsim.typing import IntSeries
 
 
 def soli_st_tu(
-    st_kind_freib_tu: FloatSeries,
+    st_kinder_fb_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     abgelt_st_tu: FloatSeries,
     soli_st_params: dict,
@@ -24,8 +24,8 @@ def soli_st_tu(
 
     Parameters
     ----------
-    st_kind_freib_tu
-        See :func:`st_kind_freib_tu`.
+    st_kinder_fb_tu
+        See :func:`st_kinder_fb_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     abgelt_st_tu
@@ -37,7 +37,7 @@ def soli_st_tu(
     -------
 
     """
-    st_per_individual = st_kind_freib_tu / anz_erwachsene_tu
+    st_per_individual = st_kinder_fb_tu / anz_erwachsene_tu
     out = (
         anz_erwachsene_tu
         * piecewise_polynomial(

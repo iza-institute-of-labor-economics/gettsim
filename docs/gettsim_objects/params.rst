@@ -43,7 +43,7 @@ variables have to be last inputs in the function signature.
 +---------------------------+--------------------------------+
 | _`wohngeld_params`        | Housing benefits               |
 +---------------------------+--------------------------------+
-| _`kinderzuschlag_params`  | Child allowance                |
+| _`kinderzuschl_params`    | Child allowance                |
 +---------------------------+--------------------------------+
 | _`kindergeld_params`      | Child benefits                 |
 +---------------------------+--------------------------------+

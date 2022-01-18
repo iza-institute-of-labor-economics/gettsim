@@ -105,7 +105,7 @@ no restriction on the number of characters. Internal columns should be used spar
 
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., ``kinderfreibetrag``,
-``_zu_verst_eink_kein_kinderfreibetrag_tu``). This makes searching for identifiers
+``_zu_verst_eink_kein_kinder_fbetrag_tu``). This makes searching for identifiers
 easier and less error-prone.
 
 The default time unit is a year. If a column refers to a different time unit, an

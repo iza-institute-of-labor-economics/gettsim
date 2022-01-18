@@ -12,7 +12,7 @@ documentation of all :ref:`functions`.
 +=========================+===========================================================+
 | rentenv_beitr_m         | Monthly amount employee old-age pensions contributions    |
 +-------------------------+-----------------------------------------------------------+
-| arbeitsl_v_beitr_m      | Monthly amount employee unempl. insurance contributions   |
+| arbeitslv_beitr_m       | Monthly amount employee unempl. insurance contributions   |
 +-------------------------+-----------------------------------------------------------+
 | ges_krankenv_beitr_m    | Monthly amount employee health insurance contributions    |
 +-------------------------+-----------------------------------------------------------+
@@ -36,7 +36,7 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_2_m_hh    | Monthly subsistence payment per household                 |
 +-------------------------+-----------------------------------------------------------+
-| kinderzuschlag_m_hh     | Monthly additional child benefit, household sum           |
+| kinderzuschl_m_hh       | Monthly additional child benefit, household sum           |
 +-------------------------+-----------------------------------------------------------+
 | elterngeld_m            | Monthly parental leave benefit                            |
 +-------------------------+-----------------------------------------------------------+

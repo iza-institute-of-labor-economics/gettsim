@@ -60,14 +60,14 @@ def rentenv_beitr_m_tu(rentenv_beitr_m: FloatSeries, tu_id: IntSeries) -> FloatS
 
 
 def rentenv_beitr_regular_job(
-    ges_beitr_arbeitsl_v_midi_jobreturn: FloatSeries, soz_vers_beitr_params: dict
+    bruttolohn_sozialv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates pension insurance contributions for regular jobs.
 
     Parameters
     ----------
-    ges_beitr_arbeitsl_v_midi_jobreturn
-        See :func:`ges_beitr_arbeitsl_v_midi_jobreturn`.
+    bruttolohn_sozialv_beitr_m
+        See :func:`bruttolohn_sozialv_beitr_m`.
 
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
@@ -77,8 +77,7 @@ def rentenv_beitr_regular_job(
 
     """
     return (
-        ges_beitr_arbeitsl_v_midi_jobreturn
-        * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
+        bruttolohn_sozialv_beitr_m * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     )
 
 
@@ -102,10 +101,8 @@ def ag_beitr_rentenv_midi_job(
     -------
 
     """
-    bruttolohn_m__in_gleitzone = bruttolohn_m.loc[in_gleitzone]
-    out = (
-        bruttolohn_m__in_gleitzone * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
-    )
+    bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
+    out = bruttolohn_m_in_gleitzone * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     return out
 
 

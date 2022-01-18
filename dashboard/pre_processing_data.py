@@ -11,7 +11,7 @@ import pandas as pd
 
 from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _st_tarif
 from gettsim.transfers.wohngeld import wohngeld_basis
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
@@ -196,7 +196,7 @@ def tax_rate_data(start, end):
         eink_params = policy_params["eink_st"]
         soli_params = policy_params["soli_st"]["soli_st"]
 
-        eink_tax = st_tarif(einkommen, eink_params)
+        eink_tax = _st_tarif(einkommen, eink_params)
         soli = piecewise_polynomial(
             eink_tax,
             thresholds=soli_params["thresholds"],

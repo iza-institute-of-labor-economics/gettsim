@@ -33,17 +33,17 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_09_2005
-from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
-    kinderzuschlag_m_vorläufig_ab_07_2019,
+from gettsim.transfers.kinderzuschl.kinderzuschl import (
+    kinderzuschl_vorläufig_m_ab_07_2019,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
-    kinderzuschlag_m_vorläufig_bis_06_2019,
+from gettsim.transfers.kinderzuschl.kinderzuschl import (
+    kinderzuschl_vorläufig_m_bis_06_2019,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_regel_ab_2011,
+from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
+    kinderzuschl_eink_regel_ab_2011,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_regel_bis_2010,
+from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
+    kinderzuschl_eink_regel_bis_2010,
 )
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
@@ -82,7 +82,7 @@ def set_up_policy_environment(date):
         params[group] = _parse_piecewise_parameters(params_one_group)
 
     # extend dictionary with date-specific values which do not need an own function
-    params = _parse_kinderzuschlag_max(date, params)
+    params = _parse_kinderzuschl_max(date, params)
 
     functions = load_reforms_for_date(date)
 
@@ -144,11 +144,11 @@ def _parse_piecewise_parameters(tax_data):
     return tax_data
 
 
-def _parse_kinderzuschlag_max(date, params):
-    """Prior to 2021, kinderzuschlag_max (the maximum amount of the
+def _parse_kinderzuschl_max(date, params):
+    """Prior to 2021, kinderzuschl_max (the maximum amount of the
     Kinderzuschlag) was specified directly in the laws and directives.
 
-    Since 2021, kinderzuschlag_max has been derived from subsistence
+    Since 2021, kinderzuschl_max has been derived from subsistence
     levels. This function implements that calculation.
 
     Parameters
@@ -166,11 +166,11 @@ def _parse_kinderzuschlag_max(date, params):
     """
 
     if date.year >= 2021:
-        assert {"kinderzuschlag", "kindergeld"} <= params.keys()
-        params["kinderzuschlag"]["kinderzuschlag_max"] = (
-            params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
-            + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
-            + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
+        assert {"kinderzuschl", "kindergeld"} <= params.keys()
+        params["kinderzuschl"]["kinderzuschl_max"] = (
+            params["kinderzuschl"]["exmin"]["regelsatz"]["kinder"]
+            + params["kinderzuschl"]["exmin"]["kosten_der_unterkunft"]["kinder"]
+            + params["kinderzuschl"]["exmin"]["heizkosten"]["kinder"]
         ) / 12 - params["kindergeld"]["kindergeld"][1]
 
     return params
@@ -242,14 +242,14 @@ def load_reforms_for_date(date):
         functions["wohngeld_miete"] = wohngeld_miete_ab_2021
 
     if year <= 2010:
-        functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_bis_2010
+        functions["kinderzuschl_eink_regel"] = kinderzuschl_eink_regel_bis_2010
     else:
-        functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_ab_2011
+        functions["kinderzuschl_eink_regel"] = kinderzuschl_eink_regel_ab_2011
 
     if date < datetime.date(year=2019, month=7, day=1):
-        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_m_vorläufig_bis_06_2019
+        functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_bis_06_2019
     else:
-        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_m_vorläufig_ab_07_2019
+        functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_ab_07_2019
 
     if year <= 2010:
         functions["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010

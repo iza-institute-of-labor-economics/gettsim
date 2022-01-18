@@ -17,7 +17,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def zu_verst_eink_kein_kinderfreib_tu(
+def zu_verst_eink_kein_kinder_fb_tu(
     sum_brutto_eink: FloatSeries,
     vorsorge: FloatSeries,
     sonderausgaben: FloatSeries,
@@ -61,15 +61,15 @@ def zu_verst_eink_kein_kinderfreib_tu(
     return out.groupby(tu_id).sum()
 
 
-def zu_verst_eink_kinderfreib_tu(
-    zu_verst_eink_kein_kinderfreib_tu: FloatSeries, kinderfreib_tu: FloatSeries
+def zu_verst_eink_kinder_fb_tu(
+    zu_verst_eink_kein_kinder_fb_tu: FloatSeries, kinderfreib_tu: FloatSeries
 ) -> FloatSeries:
     """Calculate taxable income with child allowance.
 
     Parameters
     ----------
-    zu_verst_eink_kein_kinderfreib_tu
-        See :func:`zu_verst_eink_kein_kinderfreib_tu`.
+    zu_verst_eink_kein_kinder_fb_tu
+        See :func:`zu_verst_eink_kein_kinder_fb_tu`.
     kinderfreib_tu
         See :func:`kinderfreib_tu`.
 
@@ -77,4 +77,4 @@ def zu_verst_eink_kinderfreib_tu(
     -------
 
     """
-    return zu_verst_eink_kein_kinderfreib_tu - kinderfreib_tu
+    return zu_verst_eink_kein_kinder_fb_tu - kinderfreib_tu
