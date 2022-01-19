@@ -156,7 +156,7 @@ def midi_job_bemessungsentgelt(
 def regulär_beschäft(
     bruttolohn_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> BoolSeries:
-    """Check if person is regular employed.
+    """Check if person is in regular employment.
 
     Employees earning more than the midi job threshold, are subject to all ordinary
     income and social insurance contribution regulations. In gettsim we call these
