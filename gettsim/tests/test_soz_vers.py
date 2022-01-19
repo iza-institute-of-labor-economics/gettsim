@@ -18,7 +18,7 @@ INPUT_COLS = [
     "hat_kinder",
     "eink_selbst_m",
     "ges_rente_m",
-    "prv_krankenv",
+    "priv_krankenv",
     "jahr",
 ]
 

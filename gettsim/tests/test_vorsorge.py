@@ -15,7 +15,7 @@ IN_COLS = [
     "hh_id",
     "bruttolohn_m",
     "kind",
-    "prv_rente_beitr_m",
+    "priv_rente_beitr_m",
     "rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "pflegev_beitr_m",

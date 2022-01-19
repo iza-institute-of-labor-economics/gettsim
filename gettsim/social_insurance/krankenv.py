@@ -280,7 +280,7 @@ def an_beitr_krankenv_midi_job(
 
 
 def selbstständig_ges_krankenv(
-    selbstständig: BoolSeries, prv_krankenv: BoolSeries
+    selbstständig: BoolSeries, priv_krankenv: BoolSeries
 ) -> BoolSeries:
     """
     Create boolean Series indicating selfemployed insures via public health insurance.
@@ -289,11 +289,11 @@ def selbstständig_ges_krankenv(
     ----------
     selbstständig
         See basic input variable :ref:`selbstständig <selbstständig>`.
-    prv_krankenv
-        See basic input variable :ref:`prv_krankenv <prv_krankenv>`.
+    priv_krankenv
+        See basic input variable :ref:`priv_krankenv <priv_krankenv>`.
 
     Returns
     -------
 
     """
-    return selbstständig & ~prv_krankenv
+    return selbstständig & ~priv_krankenv

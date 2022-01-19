@@ -18,6 +18,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   :ghuser:`lillyfischer`).
 * :gh:`312` Updated GEP-01 with effects on character limits, time and unit identifiers,
   adjustments for DAG backend. (:ghuser:`hmgaudecker`)
+* :gh:`312` Enforced character limit for all function names and input variables
+  according to GEP-01. Several columns and/or concepts were renamed (e.g. `prv_` to
+  `priv_`, `kind_freib` to `kinderfreib`). (:ghuser:`hmgaudecker`,
+  :ghuser:`ChristianZimpelmann`)
 
 0.4.1 — 2021-04-11
 ------------------
