@@ -230,7 +230,7 @@ def kinderzuschl_kindereink_abzug(
     """
     return kindergeld_anspruch * (
         kinderzuschl_params["kinderzuschl_max"]
-        - kinderzuschl_params["kinderzuschl_transferentzug_kind"]
+        - kinderzuschl_params["kinderzuschl_entzug_kind"]
         * (bruttolohn_m + unterhaltsvors_m)
     ).clip(lower=0)
 
@@ -261,7 +261,7 @@ def kinderzuschl_eink_anrechn(
 
     """
     return (
-        kinderzuschl_params["kinderzuschl_transferentzug_eltern"]
+        kinderzuschl_params["kinderzuschl_entzug_eltern"]
         * (hh_id.replace(arbeitsl_geld_2_eink_hh) - kinderzuschl_eink_relev)
     ).clip(lower=0)
 

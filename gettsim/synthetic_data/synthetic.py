@@ -185,8 +185,7 @@ def create_one_set_of_households(
     policy_year,
     **kwargs,
 ):
-    """ creates one set of households
-    """
+    """creates one set of households"""
     # Initiate empty dataframe.
     # Same order as 'Basic Input Variables' in the documentation
     output_columns = [

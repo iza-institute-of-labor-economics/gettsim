@@ -17,7 +17,7 @@ IN_COLS = [
     "kind",
     "prv_rente_beitr_m",
     "rentenv_beitr_m",
-    "arbeitslv_beitr_m",
+    "arbeitsl_v_beitr_m",
     "pflegev_beitr_m",
     "jahr",
     "ges_krankenv_beitr_m",
@@ -44,7 +44,7 @@ def test_vorsorge(
     policy_params, policy_functions = set_up_policy_environment(date=year)
     columns_overriding_functions = [
         "ges_krankenv_beitr_m",
-        "arbeitslv_beitr_m",
+        "arbeitsl_v_beitr_m",
         "pflegev_beitr_m",
         "rentenv_beitr_m",
     ]

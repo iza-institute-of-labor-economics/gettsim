@@ -29,7 +29,7 @@ def pflegev_beitr_m(
     geringfügig_beschäftigt: BoolSeries,
     pflegev_beitr_rente: FloatSeries,
     pflegev_beitr_selbst: FloatSeries,
-    pflegev_beitr_regulär_beschäft: FloatSeries,
+    pflegev_beitr_reg_beschäftigt: FloatSeries,
     an_beitr_pflegev_midi_job: FloatSeries,
 ) -> FloatSeries:
     """Contribution for each individual to the public care insurance.
@@ -42,8 +42,8 @@ def pflegev_beitr_m(
         See :func:`pflegev_beitr_rente`.
     pflegev_beitr_selbst
         See :func:`pflegev_beitr_selbst`.
-    pflegev_beitr_regulär_beschäft
-        See :func:`pflegev_beitr_regulär_beschäft`.
+    pflegev_beitr_reg_beschäftigt
+        See :func:`pflegev_beitr_reg_beschäftigt`.
     an_beitr_pflegev_midi_job
         See :func:`an_beitr_pflegev_midi_job`.
 
@@ -58,16 +58,16 @@ def pflegev_beitr_m(
 
     # Assign calculated contributions
     out.loc[an_beitr_pflegev_midi_job.index] = an_beitr_pflegev_midi_job
-    out.loc[pflegev_beitr_regulär_beschäft.index] = pflegev_beitr_regulär_beschäft
+    out.loc[pflegev_beitr_reg_beschäftigt.index] = pflegev_beitr_reg_beschäftigt
     out.loc[pflegev_beitr_selbst.index] = pflegev_beitr_selbst
 
     # Add the care insurance contribution for pensions
     return out + pflegev_beitr_rente
 
 
-def pflegev_beitr_regulär_beschäft(
+def pflegev_beitr_reg_beschäftigt(
     pflegev_zusatz_kinderlos: BoolSeries,
-    lohn_krankenv_regulär_beschäft: FloatSeries,
+    bruttolohn_krankenv_beitr_m: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Calculates care insurance contributions for regular jobs.
@@ -77,8 +77,8 @@ def pflegev_beitr_regulär_beschäft(
     ----------
     pflegev_zusatz_kinderlos
         See :func:`pflegev_zusatz_kinderlos`.
-    lohn_krankenv_regulär_beschäft
-        See :func:`lohn_krankenv_regulär_beschäft`.
+    bruttolohn_krankenv_beitr_m
+        See :func:`bruttolohn_krankenv_beitr_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -89,12 +89,12 @@ def pflegev_beitr_regulär_beschäft(
 
     """
     out = (
-        lohn_krankenv_regulär_beschäft
+        bruttolohn_krankenv_beitr_m
         * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
     )
 
     zusatz_kinderlos = (
-        lohn_krankenv_regulär_beschäft.loc[pflegev_zusatz_kinderlos]
+        bruttolohn_krankenv_beitr_m.loc[pflegev_zusatz_kinderlos]
         * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
     )
 

@@ -37,7 +37,7 @@ INTERNAL_PARAM_GROUPS = [
     "kinderzuschl",
     "kindergeld",
     "elterngeld",
-    "ges_renten_vers",
+    "ges_rentenvers",
 ]
 
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
@@ -47,7 +47,7 @@ DEFAULT_TARGETS = [
     "soli_st_tu",
     "abgelt_st_tu",
     "rentenv_beitr_m",
-    "arbeitslv_beitr_m",
+    "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
     "pflegev_beitr_m",
     "arbeitsl_geld_m",

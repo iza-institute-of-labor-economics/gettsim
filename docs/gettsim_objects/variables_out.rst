@@ -12,7 +12,7 @@ documentation of all :ref:`functions`.
 +=========================+===========================================================+
 | rentenv_beitr_m         | Monthly amount employee old-age pensions contributions    |
 +-------------------------+-----------------------------------------------------------+
-| arbeitslv_beitr_m       | Monthly amount employee unempl. insurance contributions   |
+| arbeitsl_v_beitr_m      | Monthly amount employee unempl. insurance contributions   |
 +-------------------------+-----------------------------------------------------------+
 | ges_krankenv_beitr_m    | Monthly amount employee health insurance contributions    |
 +-------------------------+-----------------------------------------------------------+

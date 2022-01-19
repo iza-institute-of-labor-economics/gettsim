@@ -60,14 +60,14 @@ def rentenv_beitr_m_tu(rentenv_beitr_m: FloatSeries, tu_id: IntSeries) -> FloatS
 
 
 def rentenv_beitr_regular_job(
-    bruttolohn_sozialv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
+    bruttolohn_rentenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates pension insurance contributions for regular jobs.
 
     Parameters
     ----------
-    bruttolohn_sozialv_beitr_m
-        See :func:`bruttolohn_sozialv_beitr_m`.
+    bruttolohn_rentenv_beitr_m
+        See :func:`bruttolohn_rentenv_beitr_m`.
 
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
@@ -77,7 +77,7 @@ def rentenv_beitr_regular_job(
 
     """
     return (
-        bruttolohn_sozialv_beitr_m * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
+        bruttolohn_rentenv_beitr_m * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
     )
 
 

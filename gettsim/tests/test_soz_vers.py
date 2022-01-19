@@ -27,7 +27,7 @@ YEARS = [2002, 2010, 2018, 2019, 2020]
 OUT_COLS = [
     "sozialv_beitr_m",
     "rentenv_beitr_m",
-    "arbeitslv_beitr_m",
+    "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
     "pflegev_beitr_m",
 ]

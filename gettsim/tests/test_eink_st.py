@@ -14,14 +14,14 @@ INPUT_COLS = [
     "hh_id",
     "tu_id",
     "kind",
-    "zu_verst_eink_kein_kinder_fb",
-    "zu_verst_eink_kinder_fb",
+    "zu_verst_eink_kein_kinderfreib",
+    "zu_verst_eink_kinderfreib",
     "brutto_eink_5",
 ]
 
 TEST_COLUMNS = [
-    "st_kein_kinder_fb_tu",
-    "st_kinder_fb_tu",
+    "st_kein_kinderfreib_tu",
+    "st_kinderfreib_tu",
     "abgelt_st_tu",
     "soli_st_tu",
 ]
@@ -44,17 +44,17 @@ def test_tax_sched(
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
 
-    df["zu_verst_eink_kein_kinder_fb_tu"] = (
-        df["zu_verst_eink_kein_kinder_fb"].groupby(df["tu_id"]).transform("sum")
+    df["_zu_verst_eink_kein_kinderfreib_tu"] = (
+        df["zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
 
-    df["zu_verst_eink_kinder_fb_tu"] = (
-        df["zu_verst_eink_kinder_fb"].groupby(df["tu_id"]).transform("sum")
+    df["zu_verst_eink_kinderfreib_tu"] = (
+        df["zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
 
     columns = [
-        "zu_verst_eink_kein_kinder_fb_tu",
-        "zu_verst_eink_kinder_fb_tu",
+        "_zu_verst_eink_kein_kinderfreib_tu",
+        "zu_verst_eink_kinderfreib_tu",
         "brutto_eink_5",
     ]
 
