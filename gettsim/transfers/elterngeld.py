@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import _st_tarif
+from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.typing import BoolSeries
 from gettsim.typing import DateTimeSeries
 from gettsim.typing import FloatSeries
@@ -128,7 +128,7 @@ def proxy_eink_vorj_elterngeld(
     prox_ssc = elterngeld_params["elterngeld_soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = _st_tarif(
+    prox_tax = _eink_st_tarif(
         (12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"]).clip(
             lower=0
         ),

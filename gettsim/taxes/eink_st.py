@@ -25,7 +25,9 @@ def st_kein_kinderfreib_tu(
     """
     zu_verst_eink_per_indiv = _zu_verst_eink_kein_kinderfreib_tu / anz_erwachsene_tu
 
-    return anz_erwachsene_tu * _st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
+    return anz_erwachsene_tu * _eink_st_tarif(
+        zu_verst_eink_per_indiv, params=eink_st_params
+    )
 
 
 def st_kinderfreib_tu(
@@ -49,16 +51,18 @@ def st_kinderfreib_tu(
 
     """
     zu_verst_eink_per_indiv = zu_verst_eink_kinderfreib_tu / anz_erwachsene_tu
-    return anz_erwachsene_tu * _st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
+    return anz_erwachsene_tu * _eink_st_tarif(
+        zu_verst_eink_per_indiv, params=eink_st_params
+    )
 
 
-def _st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
+def _eink_st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
     """The German Income Tax Tariff.
 
     Parameters
     ----------
     x : Floatseries
-        Some floatseries where_st_tarif is applied to.
+        Some floatseries where_eink_st_tarif is applied to.
     params : dict
         Dictionary created in respy.piecewise_functions.
 

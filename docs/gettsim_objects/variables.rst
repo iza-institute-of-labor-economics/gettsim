@@ -26,9 +26,9 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`wohnort_ost`          | Dummy: Living in former East Germany         | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`in_priv_krankenv`        | Dummy: In private health insurance           | BoolSeries  |
+| _`in_priv_krankenv`     | Dummy: In private health insurance           | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`priv_rente_beitr_m`   | Monthly private pension contribution         | FloatSeries |
+| _`priv_rentenv_beitr_m` | Monthly private pension contribution         | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`in_ausbildung`        | Dummy: Employment status “in education”      | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+

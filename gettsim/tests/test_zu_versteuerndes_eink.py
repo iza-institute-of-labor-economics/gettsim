@@ -25,7 +25,7 @@ INPUT_COLS = [
     "kind",
     "behinderungsgrad",
     "ges_rentenv_beitr_m",
-    "priv_rente_beitr_m",
+    "priv_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_pflegev_beitr_m",
     "alleinerziehend",

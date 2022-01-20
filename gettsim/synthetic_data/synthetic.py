@@ -196,7 +196,7 @@ def create_one_set_of_households(
         "alleinerziehend",
         "wohnort_ost",
         "in_priv_krankenv",
-        "priv_rente_beitr_m",
+        "priv_rentenv_beitr_m",
         "in_ausbildung",
         "selbstständig",
         "hat_kinder",

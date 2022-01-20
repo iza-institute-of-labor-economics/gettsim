@@ -71,7 +71,7 @@ TYPES_INPUT_VARIABLES = {
     "eink_selbst_m": FloatSeries,
     "ges_rente_m": FloatSeries,
     "in_priv_krankenv": BoolSeries,
-    "priv_rente_beitr_m": FloatSeries,
+    "priv_rentenv_beitr_m": FloatSeries,
     "bruttolohn_vorj_m": FloatSeries,
     "arbeitsl_lfdj_m": IntSeries,
     "arbeitsl_vorj_m": IntSeries,
