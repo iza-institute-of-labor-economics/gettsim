@@ -185,7 +185,9 @@ def create_one_set_of_households(
     policy_year,
     **kwargs,
 ):
-    """creates one set of households"""
+    """Create one set of households. If hetereogeneity in a dimension is considered
+    (e.g. income) this creates all households with the same value.
+    """
     # Initiate empty dataframe.
     # Same order as 'Basic Input Variables' in the documentation
     output_columns = [

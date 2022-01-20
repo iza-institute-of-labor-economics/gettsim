@@ -5,7 +5,7 @@ not yet done.
 """
 
 
-def brechne_rentenwert_aus_daten(ges_rentenvers_params, year):
+def brechne_rentenwert_aus_daten(ges_rentenv_params, year):
     """From 2018 onwards we calculate the rentenwert with the formula given by law.
     The formula takes three factors, which will be calculated seperatly. For a
     detailed explanation see
@@ -15,35 +15,33 @@ def brechne_rentenwert_aus_daten(ges_rentenvers_params, year):
     # This depends, among others, of past developments.
 
     # First the Lohnkomponente which depands on the wage development of last years.
-    lohn = lohnkomponente(ges_rentenvers_params, year)
+    lohn = lohnkomponente(ges_rentenv_params, year)
     # Second riesterfaktor
-    riester = riesterfaktor(ges_rentenvers_params, year)
+    riester = riesterfaktor(ges_rentenv_params, year)
     # Nachhaltigskeitsfaktor
-    nachhfaktor = nachhaltigkeitsfaktor(ges_rentenvers_params, year)
+    nachhfaktor = nachhaltigkeitsfaktor(ges_rentenv_params, year)
 
     # Rentenwert must not be lower than in the previous year.
     renten_factor = lohn * riester * nachhfaktor
-    rentenwert = ges_rentenvers_params[f"rentenwert_{year - 1}"] * min(1, renten_factor)
+    rentenwert = ges_rentenv_params[f"rentenwert_{year - 1}"] * min(1, renten_factor)
     return rentenwert
 
 
-def lohnkomponente(ges_rentenvers_params, year):
+def lohnkomponente(ges_rentenv_params, year):
     """Returns the lohnkomponente for each year. It deppends on the average wages of
     the previous years. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    return ges_rentenvers_params[f"durchschnittslohn_{year - 1}"] / (
-        ges_rentenvers_params[f"durchschnittslohn_{year - 2}"]
+    return ges_rentenv_params[f"durchschnittslohn_{year - 1}"] / (
+        ges_rentenv_params[f"durchschnittslohn_{year - 2}"]
         * (
             (
-                ges_rentenvers_params[f"durchschnittslohn_{year - 2}"]
-                / ges_rentenvers_params[f"durchschnittslohn_{year - 3}"]
+                ges_rentenv_params[f"durchschnittslohn_{year - 2}"]
+                / ges_rentenv_params[f"durchschnittslohn_{year - 3}"]
             )
             / (
-                ges_rentenvers_params[
-                    f"beitragspflichtiger_durchschnittslohn_{year - 2}"
-                ]
-                / ges_rentenvers_params[
+                ges_rentenv_params[f"beitragspflichtiger_durchschnittslohn_{year - 2}"]
+                / ges_rentenv_params[
                     f"beitragspflichtiger_durchschnittslohn_{year - 3}"
                 ]
             )
@@ -51,50 +49,49 @@ def lohnkomponente(ges_rentenvers_params, year):
     )
 
 
-def riesterfaktor(ges_rentenvers_params, soz_vers_beitr_params, year):
+def riesterfaktor(ges_rentenv_params, soz_vers_beitr_params, year):
     """This factor returns the riesterfactor, depending on the Altersvorsogeanteil
     and the contributions to the pension insurance. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
     return (
         100
-        - ges_rentenvers_params[f"altersvorsogeanteil_{year - 1}"]
+        - ges_rentenv_params[f"altersvorsogeanteil_{year - 1}"]
         - soz_vers_beitr_params[f"rvbeitrag_{year - 1}"]
     ) / (
         100
-        - ges_rentenvers_params[f"altersvorsogeanteil_{year - 2}"]
+        - ges_rentenv_params[f"altersvorsogeanteil_{year - 2}"]
         - soz_vers_beitr_params[f"ges_rentenv_{year - 2}"]
     )
 
 
-def nachhaltigkeitsfaktor(ges_rentenvers_params, year):
+def nachhaltigkeitsfaktor(ges_rentenv_params, year):
     """This factor mirrors the effect of the relationship between pension insurance
     receivers and contributes on the pensions. It depends on the rentnerquotienten and
     some correcting scalar alpha. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
-    rq_last_year = rentnerquotienten(ges_rentenvers_params, year - 1)
-    rq_two_years_before = rentnerquotienten(ges_rentenvers_params, year - 2)
+    rq_last_year = rentnerquotienten(ges_rentenv_params, year - 1)
+    rq_two_years_before = rentnerquotienten(ges_rentenv_params, year - 2)
     # There is an additional 'Rentenartfaktor', equal to 1 for old-age pensions.
     return 1 + (
-        (1 - (rq_last_year / rq_two_years_before))
-        * ges_rentenvers_params[f"alpha_{year}"]
+        (1 - (rq_last_year / rq_two_years_before)) * ges_rentenv_params[f"alpha_{year}"]
     )
 
 
-def rentnerquotienten(ges_rentenvers_params, soz_vers_beitr_params, year):
+def rentnerquotienten(ges_rentenv_params, soz_vers_beitr_params, year):
     """The rentnerquotient is the relationship between pension insurance receivers and
     contributes. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
     return (
-        ges_rentenvers_params[f"ges_rentenvolumen_{year}"]
-        / ges_rentenvers_params[f"eckrente_{year}"]
+        ges_rentenv_params[f"ges_rentenvolumen_{year}"]
+        / ges_rentenv_params[f"eckrente_{year}"]
     ) / (
-        ges_rentenvers_params[f"beitragsvolumen_{year}"]
+        ges_rentenv_params[f"beitragsvolumen_{year}"]
         / (
             soz_vers_beitr_params[f"ges_rentenv_{year}"]
             / 100
-            * ges_rentenvers_params[f"eckrente_{year}"]
+            * ges_rentenv_params[f"eckrente_{year}"]
         )
     )

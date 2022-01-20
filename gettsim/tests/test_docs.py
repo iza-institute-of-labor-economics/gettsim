@@ -9,6 +9,7 @@ from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
 from gettsim.policy_environment import load_reforms_for_date
+from gettsim.tests.utils_tests import nice_output_list_of_strings
 
 
 @pytest.fixture(scope="module")
@@ -41,10 +42,6 @@ def time_indep_function_names(all_function_names):
     return time_indep_function_names
 
 
-def nice_output(list_of_strings):
-    return "\n\n" + "\n".join(sorted(list_of_strings)) + "\n\n"
-
-
 def test_all_input_vars_documented(
     default_input_variables, time_indep_function_names, all_function_names
 ):
@@ -72,7 +69,7 @@ def test_all_input_vars_documented(
         and c not in default_input_variables
         and not c.endswith("_params")
     ]
-    assert not check, nice_output(check)
+    assert not check, nice_output_list_of_strings(check)
 
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():

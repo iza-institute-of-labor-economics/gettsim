@@ -9,6 +9,7 @@ from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _load_functions
 from gettsim.policy_environment import load_reforms_for_date
+from gettsim.tests.utils_tests import nice_output_list_of_strings
 
 
 @pytest.fixture(scope="module")
@@ -41,20 +42,16 @@ def time_indep_function_names(all_function_names):
     return time_indep_function_names
 
 
-def nice_output(list_of_strings):
-    return "\n\n" + "\n".join(sorted(list_of_strings)) + "\n\n"
-
-
 def check_length(column_names, limit):
     over_limit = [
         f"{name:40} ({len(name)})" for name in column_names if len(name) > limit
     ]
-    assert not over_limit, nice_output(over_limit)
+    assert not over_limit, nice_output_list_of_strings(over_limit)
 
 
 def test_all_default_targets_among_function_names(time_indep_function_names):
     check = [c for c in DEFAULT_TARGETS if c not in time_indep_function_names]
-    assert not check, nice_output(check)
+    assert not check, nice_output_list_of_strings(check)
 
 
 def test_length_column_names_default_targets():

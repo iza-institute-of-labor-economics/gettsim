@@ -15,63 +15,63 @@ from gettsim.typing import IntSeries
 
 
 def kinderfreib_günstiger_tu(
-    st_kein_kinderfreib_tu: FloatSeries,
+    eink_st_kein_kinderfreib_tu: FloatSeries,
     kindergeld_m_basis_tu: FloatSeries,
     kinderbonus_m_basis_tu: FloatSeries,
-    st_kinderfreib_tu: FloatSeries,
+    eink_st_kinderfreib_tu: FloatSeries,
 ) -> BoolSeries:
     """Check if individual claims child allowance (kinderfreibetrag).
 
     Parameters
     ----------
-    st_kein_kinderfreib_tu
+    eink_st_kein_kinderfreib_tu
         See :func:`st_kein_kinderfreib_tu`.
     kindergeld_m_basis_tu
         See :func:`kindergeld_m_basis_tu`.
     kinderbonus_m_basis_tu
         See :func:`kinderbonus_m_basis_tu`.
-    st_kinderfreib_tu
+    eink_st_kinderfreib_tu
         See :func:`st_kinderfreib_tu`.
 
     Returns
     -------
 
     """
-    st_kein_kinderfreib = st_kein_kinderfreib_tu - 12 * (
+    eink_st_kein_kinderfreib = eink_st_kein_kinderfreib_tu - 12 * (
         kindergeld_m_basis_tu + kinderbonus_m_basis_tu
     )
-    return st_kein_kinderfreib > st_kinderfreib_tu
+    return eink_st_kein_kinderfreib > eink_st_kinderfreib_tu
 
 
-def eink_st_tu_bis_1996(st_kinderfreib_tu: FloatSeries) -> FloatSeries:
+def eink_st_tu_bis_1996(eink_st_kinderfreib_tu: FloatSeries) -> FloatSeries:
     """Income tax calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
     Therefore the tax burden is allways smaller.
     Parameters
     ----------
-    st_kinderfreib_tu
-        See :func:`st_kinderfreib_tu`.
+    eink_st_kinderfreib_tu
+        See :func:`eink_st_kinderfreib_tu`.
 
     Returns
     -------
 
     """
-    return st_kinderfreib_tu
+    return eink_st_kinderfreib_tu
 
 
 def eink_st_tu_ab_1997(
-    st_kein_kinderfreib_tu: FloatSeries,
-    st_kinderfreib_tu: FloatSeries,
+    eink_st_kein_kinderfreib_tu: FloatSeries,
+    eink_st_kinderfreib_tu: FloatSeries,
     kinderfreib_günstiger_tu: BoolSeries,
 ) -> FloatSeries:
     """Income tax calculation since 1997.
 
     Parameters
     ----------
-    st_kein_kinderfreib_tu
+    eink_st_kein_kinderfreib_tu
         See :func:`st_kein_kinderfreib_tu`.
-    st_kinderfreib_tu
+    eink_st_kinderfreib_tu
         See :func:`st_kinderfreib_tu`.
     kinderfreib_günstiger_tu
         See :func:`kinderfreib_günstiger_tu`.
@@ -80,8 +80,10 @@ def eink_st_tu_ab_1997(
     -------
 
     """
-    out = st_kein_kinderfreib_tu
-    out.loc[kinderfreib_günstiger_tu] = st_kinderfreib_tu.loc[kinderfreib_günstiger_tu]
+    out = eink_st_kein_kinderfreib_tu
+    out.loc[kinderfreib_günstiger_tu] = eink_st_kinderfreib_tu.loc[
+        kinderfreib_günstiger_tu
+    ]
     return out
 
 

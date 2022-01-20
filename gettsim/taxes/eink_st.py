@@ -3,7 +3,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def st_kein_kinderfreib_tu(
+def eink_st_kein_kinderfreib_tu(
     _zu_verst_eink_kein_kinderfreib_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     eink_st_params: dict,
@@ -30,7 +30,7 @@ def st_kein_kinderfreib_tu(
     )
 
 
-def st_kinderfreib_tu(
+def eink_st_kinderfreib_tu(
     zu_verst_eink_kinderfreib_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     eink_st_params: dict,

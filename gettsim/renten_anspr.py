@@ -41,15 +41,15 @@ def rente_anspr_m(
     return (entgeltpunkte_update * zugangsfaktor * rentenwert).clip(lower=0)
 
 
-def rentenwert(wohnort_ost: BoolSeries, ges_rentenvers_params: dict) -> FloatSeries:
+def rentenwert(wohnort_ost: BoolSeries, ges_rentenv_params: dict) -> FloatSeries:
     """Select the rentenwert depending on place of living.
 
     Parameters
     ----------
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    ges_rentenvers_params
-        See params documentation :ref:`ges_rentenvers_params <ges_rentenvers_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
 
     Returns
     -------
@@ -57,8 +57,8 @@ def rentenwert(wohnort_ost: BoolSeries, ges_rentenvers_params: dict) -> FloatSer
     """
     out = wohnort_ost.replace(
         {
-            True: ges_rentenvers_params["rentenwert_west"],
-            False: ges_rentenvers_params["rentenwert_west"],
+            True: ges_rentenv_params["rentenwert_west"],
+            False: ges_rentenv_params["rentenwert_west"],
         }
     ).astype(float)
     return out
@@ -99,7 +99,7 @@ def entgeltpunkte_update(
 def entgeltpunkte_lohn(
     bruttolohn_m: FloatSeries,
     ges_rentenv_beitr_bemess_grenze: FloatSeries,
-    ges_rentenvers_params: dict,
+    ges_rentenv_params: dict,
 ) -> FloatSeries:
     """Return earning points for the wages earned in the last year.
 
@@ -109,13 +109,13 @@ def entgeltpunkte_lohn(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     ges_rentenv_beitr_bemess_grenze
         See :func:`ges_rentenv_beitr_bemess_grenze`.
-    ges_rentenvers_params
-        See params documentation :ref:`ges_rentenvers_params <ges_rentenvers_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
     Returns
     -------
 
     """
-    durchschnittslohn_dt = ges_rentenvers_params["durchschnittslohn"]
+    durchschnittslohn_dt = ges_rentenv_params["durchschnittslohn"]
     return (
         bruttolohn_m.clip(upper=ges_rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
     )

@@ -37,7 +37,7 @@ INTERNAL_PARAM_GROUPS = [
     "kinderzuschl",
     "kindergeld",
     "elterngeld",
-    "ges_rentenvers",
+    "ges_rentenv",
 ]
 
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
