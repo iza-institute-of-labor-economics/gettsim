@@ -99,7 +99,7 @@ def bruttolohn_ges_rentenv_beitr_m(
     ges_rentenv_beitr_bemess_grenze: FloatSeries,
     reg_beschäftigt: BoolSeries,
 ) -> FloatSeries:
-    """Calculate the wage, which is subject to social insurance contributions.
+    """Calculate the wage, which is subject to pension insurance contributions.
 
     Parameters
     ----------
