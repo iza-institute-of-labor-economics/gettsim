@@ -9,7 +9,7 @@ def eink_anr_frei_bis_09_2005(
     arbeitsl_geld_2_2005_netto_quote: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """Calcualte share of income, which remains to the individual until 09/2005.
+    """Calculate share of income, which remains to the individual until 09/2005.
 
     Parameters
     ----------
