@@ -95,7 +95,7 @@ def bruttolohn_ges_krankenv_beitr_m(
     ges_krankenv_beitr_bemess_grenze: FloatSeries,
     reg_beschäftigt: BoolSeries,
 ) -> FloatSeries:
-    """Calculate the wage, which is subject to health insurance contributions.
+    """Calculate the wage subject to public health insurance contributions.
 
 
     Parameters
