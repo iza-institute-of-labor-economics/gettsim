@@ -220,7 +220,7 @@ def altervorsorge_aufwend(
     ges_rentenv_beitr_m
         See :func:`ges_rentenv_beitr_m`.
     priv_rentenv_beitr_m
-        See basic input variable :ref:`priv_rentenv_beitr_m<priv_rentenv_beitr_m>`.
+        See basic input variable :ref:`priv_rentenv_beitr_m <priv_rentenv_beitr_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
