@@ -20,7 +20,7 @@ def kinderfreib_günstiger_tu(
     kinderbonus_m_basis_tu: FloatSeries,
     st_kinderfreib_tu: FloatSeries,
 ) -> BoolSeries:
-    """Check if individual claims child allowance (kinderfreibetrag).
+    """Return whether Kinderfreibetrag is more favorable than Kindergeld.
 
     Parameters
     ----------
