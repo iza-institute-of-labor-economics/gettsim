@@ -62,7 +62,7 @@ def _eink_st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
     Parameters
     ----------
     x : Floatseries
-        Some floatseries where_eink_st_tarif is applied to.
+        The series of floats which the income tax schedule is applied to.
     params : dict
         Dictionary created in respy.piecewise_functions.
 
