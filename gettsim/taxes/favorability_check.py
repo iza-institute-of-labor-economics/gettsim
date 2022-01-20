@@ -25,13 +25,13 @@ def kinderfreib_günstiger_tu(
     Parameters
     ----------
     eink_st_kein_kinderfreib_tu
-        See :func:`st_kein_kinderfreib_tu`.
+        See :func:`eink_st_kein_kinderfreib_tu`.
     kindergeld_m_basis_tu
         See :func:`kindergeld_m_basis_tu`.
     kinderbonus_m_basis_tu
         See :func:`kinderbonus_m_basis_tu`.
     eink_st_kinderfreib_tu
-        See :func:`st_kinderfreib_tu`.
+        See :func:`eink_st_kinderfreib_tu`.
 
     Returns
     -------
@@ -70,9 +70,9 @@ def eink_st_tu_ab_1997(
     Parameters
     ----------
     eink_st_kein_kinderfreib_tu
-        See :func:`st_kein_kinderfreib_tu`.
+        See :func:`eink_st_kein_kinderfreib_tu`.
     eink_st_kinderfreib_tu
-        See :func:`st_kinderfreib_tu`.
+        See :func:`eink_st_kinderfreib_tu`.
     kinderfreib_günstiger_tu
         See :func:`kinderfreib_günstiger_tu`.
 

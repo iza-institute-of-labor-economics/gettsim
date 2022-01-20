@@ -25,7 +25,7 @@ def soli_st_tu(
     Parameters
     ----------
     eink_st_kinderfreib_tu
-        See :func:`st_kinderfreib_tu`.
+        See :func:`eink_st_kinderfreib_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     abgelt_st_tu

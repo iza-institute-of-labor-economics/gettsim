@@ -10,3 +10,4 @@ coverage:
 ignore:
   - "setup.py"
   - "dashboard/**/*"
+  - "parameters/_dynamic_pension_data/**/*"
