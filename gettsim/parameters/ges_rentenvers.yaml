@@ -38,7 +38,7 @@ altersvorsogeanteil:
 
 beitragsvolumen:
   description:
-    de: Summe der Beiträge zur ges_rentenversicherung aller ges_rentenversicherungspflichtig Beschäftigten, der geringfügig Beschäftigten und er Bezieher von ALG. in Mrd Euro. statistik-rente.de/drv
+    de: Summe der Beiträge zur gesetzlichen Rentenversicherung aller rentenversicherungspflichtig Beschäftigten, der geringfügig Beschäftigten und der Bezieher von ALG. in Mrd Euro. statistik-rente.de/drv
     en:
   name:
     de:
