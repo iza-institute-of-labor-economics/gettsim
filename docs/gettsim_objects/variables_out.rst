@@ -10,13 +10,13 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | Variables               | Description                                               |
 +=========================+===========================================================+
-| rentenv_beitr_m         | Monthly amount employee old-age pensions contributions    |
+| ges_rentenv_beitr_m     | Monthly amount employee old-age pensions contributions    |
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_v_beitr_m      | Monthly amount employee unempl. insurance contributions   |
 +-------------------------+-----------------------------------------------------------+
 | ges_krankenv_beitr_m    | Monthly amount employee health insurance contributions    |
 +-------------------------+-----------------------------------------------------------+
-| pflegev_beitr_m         | Monthly amount of long term care insurance                |
+| ges_pflegev_beitr_m     | Monthly amount of long term care insurance                |
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_m         | Monthly amount of unemployment assistance                 |
 +-------------------------+-----------------------------------------------------------+

@@ -6,9 +6,9 @@ from gettsim.typing import FloatSeries
 
 
 def sozialv_beitr_m(
-    pflegev_beitr_m: FloatSeries,
+    ges_pflegev_beitr_m: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
-    rentenv_beitr_m: FloatSeries,
+    ges_rentenv_beitr_m: FloatSeries,
     arbeitsl_v_beitr_m: FloatSeries,
 ) -> FloatSeries:
     """Sum of all social insurance contributions.
@@ -16,12 +16,12 @@ def sozialv_beitr_m(
 
     Parameters
     ----------
-    pflegev_beitr_m
-        See :func:`pflegev_beitr_m`.
+    ges_pflegev_beitr_m
+        See :func:`ges_pflegev_beitr_m`.
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
-    rentenv_beitr_m
-        See :func:`rentenv_beitr_m`.
+    ges_rentenv_beitr_m
+        See :func:`ges_rentenv_beitr_m`.
     arbeitsl_v_beitr_m
         See :func:`arbeitsl_v_beitr_m`.
 
@@ -29,7 +29,12 @@ def sozialv_beitr_m(
     -------
 
     """
-    return pflegev_beitr_m + ges_krankenv_beitr_m + rentenv_beitr_m + arbeitsl_v_beitr_m
+    return (
+        ges_pflegev_beitr_m
+        + ges_krankenv_beitr_m
+        + ges_rentenv_beitr_m
+        + arbeitsl_v_beitr_m
+    )
 
 
 def arbeitsl_v_beitr_m(
@@ -67,14 +72,14 @@ def arbeitsl_v_beitr_m(
 
 
 def arbeitsl_v_reg_beschäftigt_m(
-    bruttolohn_rentenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
+    bruttolohn_ges_rentenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates unemployment insurance contributions for regular jobs.
 
     Parameters
     ----------
-    bruttolohn_rentenv_beitr_m
-        See :func:`bruttolohn_rentenv_beitr_m`.
+    bruttolohn_ges_rentenv_beitr_m
+        See :func:`bruttolohn_ges_rentenv_beitr_m`.
 
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
@@ -84,14 +89,14 @@ def arbeitsl_v_reg_beschäftigt_m(
 
     """
     return (
-        bruttolohn_rentenv_beitr_m
+        bruttolohn_ges_rentenv_beitr_m
         * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
 
 
-def bruttolohn_rentenv_beitr_m(
+def bruttolohn_ges_rentenv_beitr_m(
     bruttolohn_m: FloatSeries,
-    rentenv_beitr_bemess_grenze: FloatSeries,
+    ges_rentenv_beitr_bemess_grenze: FloatSeries,
     reg_beschäftigt: BoolSeries,
 ) -> FloatSeries:
     """Calculate the wage, which is subject to social insurance contributions.
@@ -104,8 +109,8 @@ def bruttolohn_rentenv_beitr_m(
     reg_beschäftigt
         See :func:`reg_beschäftigt`.
 
-    rentenv_beitr_bemess_grenze
-        See :func:`rentenv_beitr_bemess_grenze`.
+    ges_rentenv_beitr_bemess_grenze
+        See :func:`ges_rentenv_beitr_bemess_grenze`.
 
 
     Returns
@@ -113,7 +118,7 @@ def bruttolohn_rentenv_beitr_m(
 
     """
     bruttolohn_m_reg_beschäftigt = bruttolohn_m.loc[reg_beschäftigt]
-    bemess_grenze = rentenv_beitr_bemess_grenze.loc[reg_beschäftigt]
+    bemess_grenze = ges_rentenv_beitr_bemess_grenze.loc[reg_beschäftigt]
     return bruttolohn_m_reg_beschäftigt.clip(upper=bemess_grenze)
 
 

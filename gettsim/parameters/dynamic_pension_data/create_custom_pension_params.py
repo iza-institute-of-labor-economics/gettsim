@@ -63,7 +63,7 @@ def riesterfaktor(ges_rentenvers_params, soz_vers_beitr_params, year):
     ) / (
         100
         - ges_rentenvers_params[f"altersvorsogeanteil_{year - 2}"]
-        - soz_vers_beitr_params[f"rentenv_{year - 2}"]
+        - soz_vers_beitr_params[f"ges_rentenv_{year - 2}"]
     )
 
 
@@ -88,12 +88,12 @@ def rentnerquotienten(ges_rentenvers_params, soz_vers_beitr_params, year):
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
     return (
-        ges_rentenvers_params[f"rentenvolumen_{year}"]
+        ges_rentenvers_params[f"ges_rentenvolumen_{year}"]
         / ges_rentenvers_params[f"eckrente_{year}"]
     ) / (
         ges_rentenvers_params[f"beitragsvolumen_{year}"]
         / (
-            soz_vers_beitr_params[f"rentenv_{year}"]
+            soz_vers_beitr_params[f"ges_rentenv_{year}"]
             / 100
             * ges_rentenvers_params[f"eckrente_{year}"]
         )

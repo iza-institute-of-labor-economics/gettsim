@@ -7,9 +7,9 @@ from gettsim.renten_anspr import *  # noqa: F401, F403
 from gettsim.social_insurance.arbeitsl_v import *  # noqa: F401, F403
 from gettsim.social_insurance.beitr_bemess_grenzen import *  # noqa: F401, F403
 from gettsim.social_insurance.eink_grenzen import *  # noqa: F401, F403
-from gettsim.social_insurance.krankenv import *  # noqa: F401, F403
-from gettsim.social_insurance.pflegev import *  # noqa: F401, F403
-from gettsim.social_insurance.rentenv import *  # noqa: F401, F403
+from gettsim.social_insurance.ges_krankenv import *  # noqa: F401, F403
+from gettsim.social_insurance.ges_pflegev import *  # noqa: F401, F403
+from gettsim.social_insurance.ges_rentenv import *  # noqa: F401, F403
 from gettsim.taxes.abgelt_st import *  # noqa: F401, F403
 from gettsim.taxes.eink_st import *  # noqa: F401, F403
 from gettsim.taxes.favorability_check import *  # noqa: F401, F403

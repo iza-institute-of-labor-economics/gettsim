@@ -124,7 +124,7 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
         )
 
     # Extract lower thresholds.
-    lower_thresholds, upper_thresholds, thresholds = check_threholds(
+    lower_thresholds, upper_thresholds, thresholds = check_thresholds(
         parameter_dict, parameter, keys
     )
 
@@ -144,7 +144,7 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
     return piecewise_elements
 
 
-def check_threholds(parameter_dict, parameter, keys):
+def check_thresholds(parameter_dict, parameter, keys):
     """Check and transfer raw threshold data.
 
 

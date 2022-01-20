@@ -144,7 +144,7 @@ def berechtigt_für_arbeitsl_geld(
 
 
 def proxy_eink_vorj_arbeitsl_geld(
-    rentenv_beitr_bemess_grenze: FloatSeries,
+    ges_rentenv_beitr_bemess_grenze: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
@@ -155,8 +155,8 @@ def proxy_eink_vorj_arbeitsl_geld(
 
     Parameters
     ----------
-    rentenv_beitr_bemess_grenze
-        See :func:`rentenv_beitr_bemess_grenze`.
+    ges_rentenv_beitr_bemess_grenze
+        See :func:`ges_rentenv_beitr_bemess_grenze`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     arbeitsl_geld_params
@@ -173,7 +173,7 @@ def proxy_eink_vorj_arbeitsl_geld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=rentenv_beitr_bemess_grenze)
+    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=ges_rentenv_beitr_bemess_grenze)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch_arbeitsl_geld"] * max_wage

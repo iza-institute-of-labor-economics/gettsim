@@ -98,7 +98,7 @@ def entgeltpunkte_update(
 
 def entgeltpunkte_lohn(
     bruttolohn_m: FloatSeries,
-    rentenv_beitr_bemess_grenze: FloatSeries,
+    ges_rentenv_beitr_bemess_grenze: FloatSeries,
     ges_rentenvers_params: dict,
 ) -> FloatSeries:
     """Return earning points for the wages earned in the last year.
@@ -107,8 +107,8 @@ def entgeltpunkte_lohn(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    rentenv_beitr_bemess_grenze
-        See :func:`rentenv_beitr_bemess_grenze`.
+    ges_rentenv_beitr_bemess_grenze
+        See :func:`ges_rentenv_beitr_bemess_grenze`.
     ges_rentenvers_params
         See params documentation :ref:`ges_rentenvers_params <ges_rentenvers_params>`.
     Returns
@@ -116,7 +116,9 @@ def entgeltpunkte_lohn(
 
     """
     durchschnittslohn_dt = ges_rentenvers_params["durchschnittslohn"]
-    return bruttolohn_m.clip(upper=rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
+    return (
+        bruttolohn_m.clip(upper=ges_rentenv_beitr_bemess_grenze) / durchschnittslohn_dt
+    )
 
 
 def zugangsfaktor(alter: IntSeries, regelaltersgrenze: FloatSeries) -> FloatSeries:

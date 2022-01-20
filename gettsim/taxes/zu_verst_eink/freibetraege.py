@@ -201,7 +201,7 @@ def sonderausgaben_ab_2012(
 
 def altervorsorge_aufwend(
     kind: BoolSeries,
-    rentenv_beitr_m: FloatSeries,
+    ges_rentenv_beitr_m: FloatSeries,
     priv_rente_beitr_m: FloatSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
@@ -217,10 +217,10 @@ def altervorsorge_aufwend(
     ----------
     kind
         See basic input variable :ref:`kind <kind>`.
-    rentenv_beitr_m
-        See :func:`rentenv_beitr_m`.
+    ges_rentenv_beitr_m
+        See :func:`ges_rentenv_beitr_m`.
     priv_rente_beitr_m
-        See basic input variable :ref:`priv_rente_beitr_m <priv_rente_beitr_m>`.
+        See basic input variable :ref:`priv_rentenv_beitr_m<priv_rente_beitr_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -233,8 +233,8 @@ def altervorsorge_aufwend(
     )
     out = (
         (
-            einführungsfaktor * (2 * rentenv_beitr_m + priv_rente_beitr_m)
-            - rentenv_beitr_m
+            einführungsfaktor * (2 * ges_rentenv_beitr_m + priv_rente_beitr_m)
+            - ges_rentenv_beitr_m
         )
         * 12
     ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])

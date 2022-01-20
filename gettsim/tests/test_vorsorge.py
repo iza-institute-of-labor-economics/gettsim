@@ -16,9 +16,9 @@ IN_COLS = [
     "bruttolohn_m",
     "kind",
     "priv_rente_beitr_m",
-    "rentenv_beitr_m",
+    "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
-    "pflegev_beitr_m",
+    "ges_pflegev_beitr_m",
     "jahr",
     "ges_krankenv_beitr_m",
 ]
@@ -45,8 +45,8 @@ def test_vorsorge(
     columns_overriding_functions = [
         "ges_krankenv_beitr_m",
         "arbeitsl_v_beitr_m",
-        "pflegev_beitr_m",
-        "rentenv_beitr_m",
+        "ges_pflegev_beitr_m",
+        "ges_rentenv_beitr_m",
     ]
 
     result = compute_taxes_and_transfers(

@@ -195,7 +195,7 @@ def create_one_set_of_households(
         "rentner",
         "alleinerziehend",
         "wohnort_ost",
-        "priv_krankenv",
+        "in_priv_krankenv",
         "priv_rente_beitr_m",
         "in_ausbildung",
         "selbstständig",
@@ -245,7 +245,7 @@ def create_one_set_of_households(
         "in_ausbildung",
         "alleinerziehend",
         "bewohnt_eigentum_hh",
-        "priv_krankenv",
+        "in_priv_krankenv",
     ]:
         df[bool_col] = False
 

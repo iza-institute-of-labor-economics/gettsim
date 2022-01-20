@@ -1,5 +1,4 @@
 import datetime
-import inspect
 
 import pytest
 
@@ -40,36 +39,6 @@ def time_indep_function_names(all_function_names):
     # Remove duplicates
     time_indep_function_names = list(dict.fromkeys(time_indep_function_names))
     return time_indep_function_names
-
-
-def test_all_arguments_inputs_params_function_names(
-    default_input_variables, time_indep_function_names, all_function_names
-):
-    """Test if arguments of all non-internal functions are either the name of another
-    function, a documented input variable, or a parameter dictionnairy
-    """
-    functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
-
-    # Collect arguments of all non-internal functions (do not start with underscore)
-    arguments = [
-        i
-        for f in functions
-        for i in list(inspect.signature(functions[f]).parameters)
-        if not f.startswith("_")
-    ]
-
-    # Remove duplicates
-    arguments = list(dict.fromkeys(arguments))
-
-    check = [
-        c
-        for c in arguments
-        if c not in time_indep_function_names
-        and c not in all_function_names
-        and c not in default_input_variables
-        and not c.endswith("_params")
-    ]
-    assert not check, nice_output(check)
 
 
 def nice_output(list_of_strings):

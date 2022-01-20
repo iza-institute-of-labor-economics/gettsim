@@ -7,7 +7,7 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     altervorsorge_aufwend: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
     arbeitsl_v_beitr_m: FloatSeries,
-    pflegev_beitr_m: FloatSeries,
+    ges_pflegev_beitr_m: FloatSeries,
     kind: BoolSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
@@ -26,8 +26,8 @@ def _vorsorge_alternative_ab_2005_bis_2009(
         See :func:`ges_krankenv_beitr_m`.
     arbeitsl_v_beitr_m
         See :func:`arbeitsl_v_beitr_m`.
-    pflegev_beitr_m
-        See :func:`pflegev_beitr_m`.
+    ges_pflegev_beitr_m
+        See :func:`ges_pflegev_beitr_m`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -37,7 +37,7 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     """
     out = altervorsorge_aufwend * 0
     sum_vorsorge = (
-        12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + pflegev_beitr_m)
+        12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m)
     ).clip(upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"])
     out.loc[~kind] = sum_vorsorge.loc[~kind] + altervorsorge_aufwend.loc[~kind]
     return out
@@ -95,7 +95,7 @@ def vorsorge_ab_2010_bis_2019(
 
 def vorsorge_ab_2020(
     altervorsorge_aufwend: FloatSeries,
-    pflegev_beitr_m: FloatSeries,
+    ges_pflegev_beitr_m: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
     arbeitsl_v_beitr_m: FloatSeries,
     kind: BoolSeries,
@@ -110,8 +110,8 @@ def vorsorge_ab_2020(
     ----------
     altervorsorge_aufwend
         See :func:`altervorsorge_aufwend`.
-    pflegev_beitr_m
-        See :func:`pflegev_beitr_m`.
+    ges_pflegev_beitr_m
+        See :func:`ges_pflegev_beitr_m`.
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
     arbeitsl_v_beitr_m
@@ -126,7 +126,7 @@ def vorsorge_ab_2020(
     out = altervorsorge_aufwend * 0
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
-        pflegev_beitr_m.loc[~kind]
+        ges_pflegev_beitr_m.loc[~kind]
         + (1 - eink_st_abzuege_params["vorsorge_kranken_minderung"])
         * ges_krankenv_beitr_m.loc[~kind]
     )
@@ -144,9 +144,9 @@ def vorsorge_bis_2004(
     lohn_vorsorge_bis_2019_single: FloatSeries,
     lohn_vorsorgeabzug_bis_2019_tu: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
-    rentenv_beitr_m: FloatSeries,
+    ges_rentenv_beitr_m: FloatSeries,
     ges_krankenv_beitr_m_tu: FloatSeries,
-    rentenv_beitr_m_tu: FloatSeries,
+    ges_rentenv_beitr_m_tu: FloatSeries,
     tu_id: IntSeries,
     gemeinsam_veranlagte_tu: BoolSeries,
     gemeinsam_veranlagt: BoolSeries,
@@ -163,12 +163,12 @@ def vorsorge_bis_2004(
         See :func:`lohn_vorsorgeabzug_bis_2019_tu`.
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
-    rentenv_beitr_m
-        See :func:`rentenv_beitr_m`.
+    ges_rentenv_beitr_m
+        See :func:`ges_rentenv_beitr_m`.
     ges_krankenv_beitr_m_tu
         See :func:`ges_krankenv_beitr_m_tu`.
-    rentenv_beitr_m_tu
-        See :func:`rentenv_beitr_m_tu`.
+    ges_rentenv_beitr_m_tu
+        See :func:`ges_rentenv_beitr_m_tu`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
     gemeinsam_veranlagte_tu
@@ -189,7 +189,7 @@ def vorsorge_bis_2004(
     out.loc[~gemeinsam_veranlagt & ~kind] = _berechne_vorsorge_bis_2004(
         lohn_vorsorge_bis_2019_single.loc[~kind],
         ges_krankenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
-        rentenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
+        ges_rentenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
         1,
         eink_st_abzuege_params,
     )
@@ -197,7 +197,7 @@ def vorsorge_bis_2004(
     vorsorge_tu = _berechne_vorsorge_bis_2004(
         lohn_vorsorgeabzug_bis_2019_tu,
         ges_krankenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
-        rentenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
+        ges_rentenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
         2,
         eink_st_abzuege_params,
     )
@@ -267,8 +267,8 @@ def lohn_vorsorgeabzug_bis_2019_tu(
 
 def _berechne_vorsorge_bis_2004(
     lohn_vorsorge: FloatSeries,
-    krankenv_beitr: FloatSeries,
-    rentenv_beitr: FloatSeries,
+    ges_krankenv_beitr: FloatSeries,
+    ges_rentenv_beitr: FloatSeries,
     anzahl_erwachsene: IntSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
@@ -278,10 +278,10 @@ def _berechne_vorsorge_bis_2004(
     ----------
     lohn_vorsorge
         See :func:`lohn_vorsorge`.
-    krankenv_beitr
-        See :func:`krankenv_beitr`.
-    rentenv_beitr
-        See :func:`rentenv_beitr`.
+    ges_krankenv_beitr
+        See :func:`ges_krankenv_beitr`.
+    ges_rentenv_beitr
+        See :func:`ges_rentenv_beitr`.
     anzahl_erwachsene
         See :func:`anzahl_erwachsene`.
     eink_st_abzuege_params
@@ -292,7 +292,7 @@ def _berechne_vorsorge_bis_2004(
 
     """
     item_1 = (1 / anzahl_erwachsene) * (
-        12 * (rentenv_beitr + krankenv_beitr) - lohn_vorsorge
+        12 * (ges_rentenv_beitr + ges_krankenv_beitr) - lohn_vorsorge
     ).clip(lower=0)
     item_2 = (1 / anzahl_erwachsene) * item_1.clip(
         upper=eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"]

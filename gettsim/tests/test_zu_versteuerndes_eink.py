@@ -24,10 +24,10 @@ INPUT_COLS = [
     "in_ausbildung",
     "kind",
     "behinderungsgrad",
-    "rentenv_beitr_m",
+    "ges_rentenv_beitr_m",
     "priv_rente_beitr_m",
     "arbeitsl_v_beitr_m",
-    "pflegev_beitr_m",
+    "ges_pflegev_beitr_m",
     "alleinerziehend",
     "alter",
     "jahr",
@@ -84,8 +84,8 @@ def test_zve(
     columns_overriding_functions = [
         "ges_krankenv_beitr_m",
         "arbeitsl_v_beitr_m",
-        "pflegev_beitr_m",
-        "rentenv_beitr_m",
+        "ges_pflegev_beitr_m",
+        "ges_rentenv_beitr_m",
     ]
     result = compute_taxes_and_transfers(
         data=df,
