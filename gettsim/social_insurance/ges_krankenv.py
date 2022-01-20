@@ -70,7 +70,7 @@ def ges_krankenv_beitr_m_tu(
 def _ges_krankenv_beitr_reg_beschäftigt(
     bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
-    """Calculates health insurance contributions for regualr jobs
+    """Calculates health insurance contributions for regular jobs
 
 
     Parameters
