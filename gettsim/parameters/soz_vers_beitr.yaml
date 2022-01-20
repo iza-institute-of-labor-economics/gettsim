@@ -752,7 +752,7 @@ ag_abgaben_geringf:
     de: Pauschalabgaben bei geringf. Beschäftigung
     en:
   description:
-    de: Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur ges_rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II EStG)
+    de: Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II EStG)
     en:
   unit: share
   1984-01-01:
