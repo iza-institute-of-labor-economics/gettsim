@@ -9,16 +9,18 @@ import yaml
 
 from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
-from gettsim.piecewise_functions import check_threholds
+from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
-from gettsim.social_insurance.krankenv import ges_krankenv_beitr_rente_nicht_paritätisch
-from gettsim.social_insurance.krankenv import ges_krankenv_beitr_rente_paritätisch
-from gettsim.social_insurance.krankenv import (
-    krankenv_beitr_regulär_beschäftigt_nicht_paritätisch,
+from gettsim.social_insurance.ges_krankenv import (
+    ges_krankenv_beitr_regulär_beschäftigt_nicht_paritätisch,
 )
-from gettsim.social_insurance.krankenv import (
-    krankenv_beitr_regulär_beschäftigt_paritätisch,
+from gettsim.social_insurance.ges_krankenv import (
+    ges_krankenv_beitr_regulär_beschäftigt_paritätisch,
 )
+from gettsim.social_insurance.ges_krankenv import (
+    ges_krankenv_beitr_rente_nicht_paritätisch,
+)
+from gettsim.social_insurance.ges_krankenv import ges_krankenv_beitr_rente_paritätisch
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
@@ -40,16 +42,18 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_bi
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_2011
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
-from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
-    kinderzuschlag_ab_2005_bis_juni_2019,
+from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_09_2005
+from gettsim.transfers.kinderzuschl.kinderzuschl import (
+    kinderzuschl_vorläufig_m_ab_07_2019,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag import kinderzuschlag_ab_juli_2019
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_regel_ab_2011,
+from gettsim.transfers.kinderzuschl.kinderzuschl import (
+    kinderzuschl_vorläufig_m_bis_06_2019,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_regel_bis_2010,
+from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
+    kinderzuschl_eink_regel_ab_2011,
+)
+from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
+    kinderzuschl_eink_regel_bis_2010,
 )
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
@@ -88,7 +92,7 @@ def set_up_policy_environment(date):
         params[group] = _parse_piecewise_parameters(params_one_group)
 
     # extend dictionary with date-specific values which do not need an own function
-    params = _parse_kinderzuschlag_max(date, params)
+    params = _parse_kinderzuschl_max(date, params)
 
     functions = load_reforms_for_date(date)
 
@@ -150,11 +154,11 @@ def _parse_piecewise_parameters(tax_data):
     return tax_data
 
 
-def _parse_kinderzuschlag_max(date, params):
-    """Prior to 2021, kinderzuschlag_max (the maximum amount of the
+def _parse_kinderzuschl_max(date, params):
+    """Prior to 2021, kinderzuschl_max (the maximum amount of the
     Kinderzuschlag) was specified directly in the laws and directives.
 
-    Since 2021, kinderzuschlag_max has been derived from subsistence
+    Since 2021, kinderzuschl_max has been derived from subsistence
     levels. This function implements that calculation.
 
     Parameters
@@ -172,11 +176,11 @@ def _parse_kinderzuschlag_max(date, params):
     """
 
     if date.year >= 2021:
-        assert {"kinderzuschlag", "kindergeld"} <= params.keys()
-        params["kinderzuschlag"]["kinderzuschlag_max"] = (
-            params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
-            + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
-            + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
+        assert {"kinderzuschl", "kindergeld"} <= params.keys()
+        params["kinderzuschl"]["kinderzuschl_max"] = (
+            params["kinderzuschl"]["exmin"]["regelsatz"]["kinder"]
+            + params["kinderzuschl"]["exmin"]["kosten_der_unterkunft"]["kinder"]
+            + params["kinderzuschl"]["exmin"]["heizkosten"]["kinder"]
         ) / 12 - params["kindergeld"]["kindergeld"][1]
 
     return params
@@ -248,14 +252,14 @@ def load_reforms_for_date(date):
         functions["wohngeld_miete"] = wohngeld_miete_ab_2021
 
     if year <= 2010:
-        functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_bis_2010
+        functions["kinderzuschl_eink_regel"] = kinderzuschl_eink_regel_bis_2010
     else:
-        functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_ab_2011
+        functions["kinderzuschl_eink_regel"] = kinderzuschl_eink_regel_ab_2011
 
-    if 2005 <= year <= 2019:
-        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_2005_bis_juni_2019
+    if date < datetime.date(year=2019, month=7, day=1):
+        functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_bis_06_2019
     else:
-        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
+        functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_ab_07_2019
 
     if year <= 2010:
         functions["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010
@@ -264,8 +268,8 @@ def load_reforms_for_date(date):
         functions["kindersatz_m_hh"] = kindersatz_m_hh_ab_2011
         functions["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
 
-    if date <= datetime.date(year=2005, month=10, day=1):
-        functions["eink_anr_frei"] = eink_anr_frei_bis_10_2005
+    if date < datetime.date(year=2005, month=10, day=1):
+        functions["eink_anr_frei"] = eink_anr_frei_bis_09_2005
     else:
         functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
 
@@ -279,12 +283,12 @@ def load_reforms_for_date(date):
         ] = ges_krankenv_beitr_rente_nicht_paritätisch
         functions[
             "krankenv_beitr_regulär_beschäftigt"
-        ] = krankenv_beitr_regulär_beschäftigt_nicht_paritätisch
+        ] = ges_krankenv_beitr_regulär_beschäftigt_nicht_paritätisch
     else:
         functions["ges_krankenv_beitr_rente"] = ges_krankenv_beitr_rente_paritätisch
         functions[
             "krankenv_beitr_regulär_beschäftigt"
-        ] = krankenv_beitr_regulär_beschäftigt_paritätisch
+        ] = ges_krankenv_beitr_regulär_beschäftigt_paritätisch
 
     return functions
 
@@ -427,7 +431,7 @@ def add_progressionsfaktor(param_dict, parameter):
     out_dict = copy.deepcopy(param_dict)
     interval_keys = sorted(key for key in out_dict if isinstance(key, int))
     # Check and extract lower thresholds.
-    lower_thresholds, upper_thresholds, thresholds = check_threholds(
+    lower_thresholds, upper_thresholds, thresholds = check_thresholds(
         param_dict, parameter, interval_keys
     )
     for key in interval_keys:

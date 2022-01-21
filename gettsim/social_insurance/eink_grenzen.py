@@ -104,8 +104,8 @@ def midi_job_bemessungsentgelt(
     # First calculate the factor F from the formula in § 163 (10) SGB VI.
     # Therefore sum the contributions which are the same for employee and employer
     allg_soz_vers_beitr = (
-        soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
         + soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
 
@@ -122,7 +122,7 @@ def midi_job_bemessungsentgelt(
     # Sum over the shares which are specific for midi jobs.
     pausch_mini = (
         soz_vers_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
-        + soz_vers_beitr_params["ag_abgaben_geringf"]["rentenv"]
+        + soz_vers_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
         + soz_vers_beitr_params["ag_abgaben_geringf"]["st"]
     )
     # Now calculate final factor
@@ -153,10 +153,10 @@ def midi_job_bemessungsentgelt(
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
-def regulär_beschäftigt(
+def reg_beschäftigt(
     bruttolohn_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> BoolSeries:
-    """Check if person is regular employed.
+    """Check if person is in regular employment.
 
     Employees earning more than the midi job threshold, are subject to all ordinary
     income and social insurance contribution regulations. In gettsim we call these
