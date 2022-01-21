@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -87,13 +87,13 @@ def lohn_st(
     -------
     Individual withdrawal tax on annual basis
     """
-    lohnsteuer_basistarif = st_tarif(lohn_st_zve, eink_st_params)
-    lohnsteuer_splittingtarif = 2 * st_tarif(lohn_st_zve / 2, eink_st_params)
+    lohnsteuer_basistarif = _eink_st_tarif(lohn_st_zve, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohn_st_zve / 2, eink_st_params)
     lohnsteuer_klasse5_6 = np.maximum(
         2
         * (
-            st_tarif(lohn_st_zve * 1.25, eink_st_params)
-            - st_tarif(lohn_st_zve * 0.75, eink_st_params)
+            _eink_st_tarif(lohn_st_zve * 1.25, eink_st_params)
+            - _eink_st_tarif(lohn_st_zve * 0.75, eink_st_params)
         ),
         lohn_st_zve * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
@@ -111,9 +111,9 @@ def vorsorgepauschale_ab_2010(
     bruttolohn_m: FloatSeries,
     steuerklasse: IntSeries,
     eink_st_abzuege_params: dict,
-    rentenv_beitr_regular_job: FloatSeries,
+    ges_rentenv_beitr_regular_job: FloatSeries,
     krankenv_beitr_lohnsteuer: FloatSeries,
-    pflegev_beitr_regulär_beschäftigt: FloatSeries,
+    _ges_pflegev_beitr_reg_beschäftigt: FloatSeries,
 ) -> FloatSeries:
     """
     Calculates Vorsorgepauschale for Lohnsteuer valid since 2010
@@ -129,8 +129,10 @@ def vorsorgepauschale_ab_2010(
       See :func:`steuerklasse`
     eink_st_abzuege_params:
       See params documentation :ref:`eink_st_abzuege_params`
-    pflegev_zusatz_kinderlos
-      See :func:`pflegev_zusatz_kinderlos`.
+    ges_rentenv_beitr_reg_beschäftigt:
+      See :func:`ges_rentenv_beitr_regular_job`.
+    _ges_pflegev_beitr_reg_beschäftigt
+      See :func:`_ges_pflegev_beitr_reg_beschäftigt`.
 
     Returns
     -------
@@ -140,7 +142,7 @@ def vorsorgepauschale_ab_2010(
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
     vorsorg_rv = (
         12
-        * rentenv_beitr_regular_job
+        * ges_rentenv_beitr_regular_job
         * float(vorsorg_rv_anteil(eink_st_abzuege_params))
     )
 
@@ -164,7 +166,7 @@ def vorsorgepauschale_ab_2010(
     # b) Take the actual contributions (usually the better option),
     #   but apply the reduced rate!
     vorsorg_kv_option_b = krankenv_beitr_lohnsteuer
-    vorsorg_kv_option_b += pflegev_beitr_regulär_beschäftigt
+    vorsorg_kv_option_b += _ges_pflegev_beitr_reg_beschäftigt
     # add both RV and KV deductions. For KV, take the larger amount.
     out = vorsorg_rv + np.maximum(vorsorg_kv_option_a, vorsorg_kv_option_b * 12)
 

@@ -10,13 +10,13 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | Variables               | Description                                               |
 +=========================+===========================================================+
-| rentenv_beitr_m         | Monthly amount employee old-age pensions contributions    |
+| ges_rentenv_beitr_m     | Monthly amount employee old-age pensions contributions    |
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_v_beitr_m      | Monthly amount employee unempl. insurance contributions   |
 +-------------------------+-----------------------------------------------------------+
 | ges_krankenv_beitr_m    | Monthly amount employee health insurance contributions    |
 +-------------------------+-----------------------------------------------------------+
-| pflegev_beitr_m         | Monthly amount of long term care insurance                |
+| ges_pflegev_beitr_m     | Monthly amount of long term care insurance                |
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_m         | Monthly amount of unemployment assistance                 |
 +-------------------------+-----------------------------------------------------------+
@@ -40,7 +40,7 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_2_m_hh    | Monthly subsistence payment per household                 |
 +-------------------------+-----------------------------------------------------------+
-| kinderzuschlag_m_hh     | Monthly additional child benefit, household sum           |
+| kinderzuschl_m_hh       | Monthly additional child benefit, household sum           |
 +-------------------------+-----------------------------------------------------------+
 | elterngeld_m            | Monthly parental leave benefit                            |
 +-------------------------+-----------------------------------------------------------+

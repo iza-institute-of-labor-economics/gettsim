@@ -5,10 +5,10 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def kinderzuschlag_kosten_unterk_m(
+def kinderzuschl_kosten_unterk_m(
     wohnbedarf_eltern_anteil: FloatSeries,
-    kinderzuschlag_kaltmiete_m: FloatSeries,
-    kinderzuschlag_heizkost_m: FloatSeries,
+    kinderzuschl_bruttokaltmiete_m: FloatSeries,
+    kinderzuschl_heizkosten_m: FloatSeries,
 ) -> FloatSeries:
     """Calculate costs of living eligible to claim.
 
@@ -18,24 +18,24 @@ def kinderzuschlag_kosten_unterk_m(
     ----------
     wohnbedarf_eltern_anteil
         See :func:`wohnbedarf_eltern_anteil`.
-    kinderzuschlag_kaltmiete_m
-        See :func:`kinderzuschlag_kaltmiete_m`.
-    kinderzuschlag_heizkost_m
-        See :func:`kinderzuschlag_heizkost_m`.
+    kinderzuschl_bruttokaltmiete_m
+        See :func:`kinderzuschl_bruttokaltmiete_m`.
+    kinderzuschl_heizkosten_m
+        See :func:`kinderzuschl_heizkosten_m`.
 
     Returns
     -------
 
     """
     return wohnbedarf_eltern_anteil * (
-        kinderzuschlag_kaltmiete_m + kinderzuschlag_heizkost_m
+        kinderzuschl_bruttokaltmiete_m + kinderzuschl_heizkosten_m
     )
 
 
-def kinderzuschlag_kaltmiete_m(
+def kinderzuschl_bruttokaltmiete_m(
     hh_id: IntSeries, bruttokaltmiete_m_hh: FloatSeries, tax_unit_share: FloatSeries
 ) -> FloatSeries:
-    """Calculate costs of living without heating costs.
+    """Share of household's monthly rent attributed to the tax unit.
 
     Parameters
     ----------
@@ -53,10 +53,10 @@ def kinderzuschlag_kaltmiete_m(
     return hh_id.replace(bruttokaltmiete_m_hh) * tax_unit_share
 
 
-def kinderzuschlag_heizkost_m(
+def kinderzuschl_heizkosten_m(
     hh_id: IntSeries, heizkosten_m_hh: FloatSeries, tax_unit_share: FloatSeries
 ) -> FloatSeries:
-    """Calculate costs of heating.
+    """Share of household's heating expenses attributed to the tax unit.
 
     Parameters
     ----------
@@ -78,7 +78,7 @@ def wohnbedarf_eltern_anteil(
     tu_id: IntSeries,
     anz_kinder_tu: IntSeries,
     anz_erwachsene_tu: IntSeries,
-    kinderzuschlag_params: dict,
+    kinderzuschl_params: dict,
 ) -> FloatSeries:
     """Calculate living needs broken down to the parents.
      Defined as parents' subsistence level on housing, divided by sum
@@ -92,8 +92,8 @@ def wohnbedarf_eltern_anteil(
         See :func:`anz_kinder_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    kinderzuschlag_params
-        See params documentation :ref:`kinderzuschlag_params <kinderzuschlag_params>`.
+    kinderzuschl_params
+        See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
     Returns
     -------
@@ -103,7 +103,7 @@ def wohnbedarf_eltern_anteil(
     erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     conditions = []
     choices = []
-    ex_min = kinderzuschlag_params["exmin"]
+    ex_min = kinderzuschl_params["exmin"]
     adults_map = {1: "single", 2: "paare"}
     for n_adults in [1, 2]:
         for n_children in [1, 2, 3, 4]:

@@ -1,13 +1,13 @@
 import numpy as np
 
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
 def soli_st_tu(
-    st_kind_freib_tu: FloatSeries,
+    eink_st_kinderfreib_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     abgelt_st_tu: FloatSeries,
     soli_st_params: dict,
@@ -27,8 +27,8 @@ def soli_st_tu(
 
     Parameters
     ----------
-    st_kind_freib_tu
-        See :func:`st_kind_freib_tu`.
+    eink_st_kinderfreib_tu
+        See :func:`eink_st_kinderfreib_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     abgelt_st_tu
@@ -40,9 +40,9 @@ def soli_st_tu(
     -------
 
     """
-    st_per_individual = st_kind_freib_tu / anz_erwachsene_tu
+    eink_st_per_individual = eink_st_kinderfreib_tu / anz_erwachsene_tu
     out = (
-        anz_erwachsene_tu * soli_tarif(st_per_individual, soli_st_params)
+        anz_erwachsene_tu * soli_tarif(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_tu
     )
 
@@ -109,13 +109,13 @@ def lohn_st_kinderfreibetrag(
     """ Calculate Lohnsteuer just as lohn_st function,
     but with a different tax base, i.e. including child allowance
     """
-    lohnsteuer_basistarif = st_tarif(lohn_st_zve_kifb, eink_st_params)
-    lohnsteuer_splittingtarif = 2 * st_tarif(lohn_st_zve_kifb / 2, eink_st_params)
+    lohnsteuer_basistarif = _eink_st_tarif(lohn_st_zve_kifb, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohn_st_zve_kifb / 2, eink_st_params)
     lohnsteuer_klasse5_6 = np.maximum(
         2
         * (
-            st_tarif(lohn_st_zve_kifb * 1.25, eink_st_params)
-            - st_tarif(lohn_st_zve_kifb * 0.75, eink_st_params)
+            _eink_st_tarif(lohn_st_zve_kifb * 1.25, eink_st_params)
+            - _eink_st_tarif(lohn_st_zve_kifb * 0.75, eink_st_params)
         ),
         lohn_st_zve_kifb * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
