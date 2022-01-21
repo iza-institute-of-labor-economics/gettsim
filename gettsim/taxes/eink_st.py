@@ -73,7 +73,9 @@ def st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
     """
     eink_st = piecewise_polynomial(
         x=x,
-        thresholds=params["eink_st_tarif"]["thresholds"],
+        thresholds=params["eink_st_tarif"]["thresholds"]["eink_st_tarif"]["thresholds"][
+            "eink_st_tarif"
+        ]["thresholds"]["eink_st_tarif"]["thresholds"]["eink_st_tarif"]["thresholds"],
         rates=params["eink_st_tarif"]["rates"],
         intercepts_at_lower_thresholds=params["eink_st_tarif"][
             "intercepts_at_lower_thresholds"

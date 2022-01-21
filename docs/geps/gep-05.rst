@@ -4,6 +4,8 @@ GEP 5 — Optional Rounding of Variables
 
 +------------+------------------------------------------------------------------+
 | Author     | `Christian Zimpelmann <https://github.com/ChristianZimpelmann>`_ |
++            +------------------------------------------------------------------+
+|            | `Janos Gabler <https://github.com/janosg>`_                      |
 +------------+------------------------------------------------------------------+
 | Status     | Draft                                                            |
 +------------+------------------------------------------------------------------+
@@ -27,8 +29,8 @@ Motivation and Scope
 For several taxes and transfers, German law specifies that these be rounded in specific
 ways. This leads to different use cases.
 
-1. Some applications require the exact, rounded, amount as specified in the law. This is
-   also helpful for creating test cases.
+1. Some applications require the exact, rounded, amount as specified in the law. This
+   is also helpful for creating test cases.
 2. Other applications require smooth functions and the non-rounding error does not
    matter much.
 
@@ -41,36 +43,49 @@ Implementation
 GETTSIM allows for optional rounding of functions' results. Rounding parameters are
 specified in the ``.yaml``-files.
 
-The example below contains GETTSIM's encoding of the fact that the [XXX] law specifies
-that ``grundr_zuschlag_m`` be rounded to the nearest second decimal point.
+§76g SGB VI Abs. 4 Nr. 4 specifies that the maximal Grundrentenzuschlag (given the
+number of Grundrentenzeiten) ``höchstwert_grundr_zuschlag_m`` is rounded to the nearest
+fourth decimal point. The example below contains GETTSIM's encoding of this fact.
+``ges_renten_vers.yaml`` contains the following code to specify the rounding
+parameters:
 
-- The key has to be a function name, in this case ``grundr_zuschlag_m``
+.. code-block:: yaml
+
+       rounding:
+         höchstwert_grundr_zuschlag_m:
+           2020-01-01:
+             base: 0.0001
+             direction: nearest
+             reference: §76g SGB VI Abs. 4 Nr. 4
+
+The specification of the rounding parameters starts with the key ``rounding`` in the
+outermost level of indentation. The keys are the column names of functions whose result
+should be rounded (in this example, we consider only one function:
+``höchstwert_grundr_zuschlag_m``).
+
+In the next level, the ``YYYY-MM-DD`` key(s)
+indicate when the rounding parameter was introduced and/or was changed, in the same way
+as for "usual" policy parameters as described in :ref:`gep-3`. Those ``YYYY-MM-DD``
+key(s) are associated with a dictionary of the following elements:
+
 - The parameter ``base`` determines the base to which the variables is rounded. It has
   to be a floating point number.
 - The parameter ``direction`` has to be one of ``up``, ``down``, or ``nearest``.
 - The reference must contain the reference to the law, which specifies the rounding.
 
-The rounding parameters become part of the dictionary ``policy_params`` once
-``set_up_policy_environment`` is called in the same way as other policy parameters.
 
-.. code-block:: yaml
+In the same way as other policy parameters, the rounding parameters become part of the
+dictionary ``policy_params`` once ``set_up_policy_environment`` is called .
 
-       rounding:
-         grundr_zuschlag_m:
-           2020-01-01:
-             base: 0.01
-             direction: nearest
-             reference: Whatever law
-
-At the definition of the function ``grundr_zuschlag_m`` the decorator
-``add_rounding_spec_by_params_file`` indicates that the respective output should be
-rounded and in which parameter file the rounding parameters are specified.
+At the definition of the function ``höchstwert_grundr_zuschlag_m`` the decorator
+``add_rounding_spec`` indicates that the respective output should be rounded and in
+which parameter file the rounding parameters are specified.
 
 .. code-block:: python
 
        @add_rounding_spec(params_file="ges_renten_vers")
-       def grundr_zuschlag_m(
-           grundr_zuschlag_vor_eink_anr_m: FloatSeries, anrechenbares_eink_gr_m: FloatSeries
+       def höchstwert_grundr_zuschlag_m(
+           grundrentenzeiten: IntSeries, ges_renten_vers_params: dict
        ) -> FloatSeries:
            ...
            return out
@@ -79,20 +94,59 @@ The decorator adds the attribute ``__rounding_parameter_file__`` to the function
 calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM loops over all
 functions. If a function has a rounding attribute, the rounding is applied based on the
 specification in the argument ``policy_params``. In the example above, the rounding
-would be based on ``policy_params["ges_renten_vers"]["rounding"]["grundr_zuschlag_m"]``.
+would be based on
+``policy_params["ges_renten_vers"]["rounding"]["höchstwert_grundr_zuschlag_m"]``.
 
 Note that GETTSIM only allows for optional rounding of functions' results. In case you
-happened to write a function that requires an intermediate variable to be rounded, split
-it up and create a new function returning exactly the potentially rounded value.
+happened to write a function that requires an intermediate variable to be rounded,
+split it up and create a new function returning exactly the potentially rounded value.
 
+Error handling
+~~~~~~~~~~~~~~
+
+In case a function has a ``__rounding_parameter_file__``, but the respective parameters
+are missing in ``policy_params``, an error is raised. The opposite case that the
+rounding parameters are specified, but the attribute of the functions is missing does
+not lead to an error. However, we implement an automatic test that makes sure that in
+our code base that is never the case. It loops over all specified rounding parameters
+and checks if the associated functions are decorated as expected.
 
 User-written functions
 ~~~~~~~~~~~~~~~~~~~~~~
 
 For self-written functions, the user needs to add the rounding parameters to
-``policy_params`` and decorate the respective functions with ``add_rounding_spec`` in
-the same way as demonstrated above.
+``policy_params`` and decorate the respective functions with ``add_rounding_spec``.
 
+Suppose you would like to specify a reform in which ``höchstwert_grundr_zuschlag_m`` is
+calculated differently and also rounded down to the fourth decimal point instead of to
+the nearest.
+
+You first needed to change the rounding parameters by setting
+
+.. code-block:: python
+
+       policy_params["ges_renten_vers"]["rounding"]["höchstwert_grundr_zuschlag_m"][
+           "direction"
+       ] = "down"
+
+
+Secondly, you needed to specify the new function calculating
+``höchstwert_grundr_zuschlag_m`` and decorate it with the decorator:
+
+.. code-block:: python
+
+       @add_rounding_spec(params_file="ges_renten_vers")
+       def höchstwert_grundr_zuschlag_m(
+           grundrentenzeiten: IntSeries, ges_renten_vers_params: dict
+       ) -> FloatSeries:
+           ...
+           return out
+
+Alternatively, you could have also set the attribute directly:
+
+.. code-block:: python
+
+       höchstwert_grundr_zuschlag_m.__rounding_parameter_file__ = "ges_renten_vers"
 
 
 Advantages of this implementation
