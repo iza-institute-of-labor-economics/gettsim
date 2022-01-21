@@ -5,7 +5,9 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def pflegev_zusatz_kinderlos(hat_kinder: BoolSeries, alter: IntSeries) -> BoolSeries:
+def ges_pflegev_zusatz_kinderlos(
+    hat_kinder: BoolSeries, alter: IntSeries
+) -> BoolSeries:
     """
     Create boolean Series indicating addtional care insurance contribution for
     childless individuals.
@@ -25,12 +27,12 @@ def pflegev_zusatz_kinderlos(hat_kinder: BoolSeries, alter: IntSeries) -> BoolSe
     return ~hat_kinder & alter.gt(22)
 
 
-def pflegev_beitr_m(
+def ges_pflegev_beitr_m(
     geringfügig_beschäftigt: BoolSeries,
-    pflegev_beitr_rente: FloatSeries,
-    pflegev_beitr_selbst: FloatSeries,
-    pflegev_beitr_regulär_beschäftigt: FloatSeries,
-    an_beitr_pflegev_midi_job: FloatSeries,
+    ges_pflegev_beitr_rente: FloatSeries,
+    ges_pflegev_beitr_selbst: FloatSeries,
+    _ges_pflegev_beitr_reg_beschäftigt: FloatSeries,
+    an_beitr_ges_pflegev_midi_job: FloatSeries,
 ) -> FloatSeries:
     """Contribution for each individual to the public care insurance.
 
@@ -38,14 +40,14 @@ def pflegev_beitr_m(
     ----------
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
-    pflegev_beitr_rente
-        See :func:`pflegev_beitr_rente`.
-    pflegev_beitr_selbst
-        See :func:`pflegev_beitr_selbst`.
-    pflegev_beitr_regulär_beschäftigt
-        See :func:`pflegev_beitr_regulär_beschäftigt`.
-    an_beitr_pflegev_midi_job
-        See :func:`an_beitr_pflegev_midi_job`.
+    ges_pflegev_beitr_rente
+        See :func:`ges_pflegev_beitr_rente`.
+    ges_pflegev_beitr_selbst
+        See :func:`ges_pflegev_beitr_selbst`.
+    _ges_pflegev_beitr_reg_beschäftigt
+        See :func:`_ges_pflegev_beitr_reg_beschäftigt`.
+    an_beitr_ges_pflegev_midi_job
+        See :func:`an_beitr_ges_pflegev_midi_job`.
 
     Returns
     -------
@@ -57,17 +59,19 @@ def pflegev_beitr_m(
     out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
-    out.loc[an_beitr_pflegev_midi_job.index] = an_beitr_pflegev_midi_job
-    out.loc[pflegev_beitr_regulär_beschäftigt.index] = pflegev_beitr_regulär_beschäftigt
-    out.loc[pflegev_beitr_selbst.index] = pflegev_beitr_selbst
+    out.loc[an_beitr_ges_pflegev_midi_job.index] = an_beitr_ges_pflegev_midi_job
+    out.loc[
+        _ges_pflegev_beitr_reg_beschäftigt.index
+    ] = _ges_pflegev_beitr_reg_beschäftigt
+    out.loc[ges_pflegev_beitr_selbst.index] = ges_pflegev_beitr_selbst
 
     # Add the care insurance contribution for pensions
-    return out + pflegev_beitr_rente
+    return out + ges_pflegev_beitr_rente
 
 
-def pflegev_beitr_regulär_beschäftigt(
-    pflegev_zusatz_kinderlos: BoolSeries,
-    lohn_krankenv_regulär_beschäftigt: FloatSeries,
+def _ges_pflegev_beitr_reg_beschäftigt(
+    ges_pflegev_zusatz_kinderlos: BoolSeries,
+    bruttolohn_ges_krankenv_beitr_m: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Calculates care insurance contributions for regular jobs.
@@ -75,10 +79,10 @@ def pflegev_beitr_regulär_beschäftigt(
 
     Parameters
     ----------
-    pflegev_zusatz_kinderlos
-        See :func:`pflegev_zusatz_kinderlos`.
-    lohn_krankenv_regulär_beschäftigt
-        See :func:`lohn_krankenv_regulär_beschäftigt`.
+    ges_pflegev_zusatz_kinderlos
+        See :func:`ges_pflegev_zusatz_kinderlos`.
+    bruttolohn_ges_krankenv_beitr_m
+        See :func:`bruttolohn_ges_krankenv_beitr_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -89,22 +93,22 @@ def pflegev_beitr_regulär_beschäftigt(
 
     """
     out = (
-        lohn_krankenv_regulär_beschäftigt
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
+        bruttolohn_ges_krankenv_beitr_m
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
     zusatz_kinderlos = (
-        lohn_krankenv_regulär_beschäftigt.loc[pflegev_zusatz_kinderlos]
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
+        bruttolohn_ges_krankenv_beitr_m.loc[ges_pflegev_zusatz_kinderlos]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
     )
 
-    out.loc[pflegev_zusatz_kinderlos] += zusatz_kinderlos
+    out.loc[ges_pflegev_zusatz_kinderlos] += zusatz_kinderlos
     return out
 
 
-def pflegev_beitr_selbst(
-    pflegev_zusatz_kinderlos: BoolSeries,
-    krankenv_pflichtig_eink_selbst: FloatSeries,
+def ges_pflegev_beitr_selbst(
+    ges_pflegev_zusatz_kinderlos: BoolSeries,
+    ges_krankenv_eink_selbst: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Calculates care insurance contributions.
@@ -115,11 +119,11 @@ def pflegev_beitr_selbst(
 
     Parameters
     ----------
-    pflegev_zusatz_kinderlos
-        See :func:`pflegev_zusatz_kinderlos`.
+    ges_pflegev_zusatz_kinderlos
+        See :func:`ges_pflegev_zusatz_kinderlos`.
 
-    krankenv_pflichtig_eink_selbst
-        See :func:`krankenv_pflichtig_eink_selbst`.
+    ges_krankenv_eink_selbst
+        See :func:`ges_krankenv_eink_selbst`.
 
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
@@ -130,23 +134,23 @@ def pflegev_beitr_selbst(
     income.
     """
     out = (
-        krankenv_pflichtig_eink_selbst
+        ges_krankenv_eink_selbst
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
     zusatz_kinderlos = (
-        krankenv_pflichtig_eink_selbst.loc[pflegev_zusatz_kinderlos]
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
+        ges_krankenv_eink_selbst.loc[ges_pflegev_zusatz_kinderlos]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
     )
 
-    out.loc[pflegev_zusatz_kinderlos] += zusatz_kinderlos
+    out.loc[ges_pflegev_zusatz_kinderlos] += zusatz_kinderlos
     return out
 
 
-def pflegev_beitr_rente(
-    pflegev_zusatz_kinderlos: BoolSeries,
-    krankenv_pflichtig_rente: FloatSeries,
+def ges_pflegev_beitr_rente(
+    ges_pflegev_zusatz_kinderlos: BoolSeries,
+    ges_krankenv_rente: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Calculating the contribution to health insurance for pension income.
@@ -154,10 +158,10 @@ def pflegev_beitr_rente(
 
     Parameters
     ----------
-    pflegev_zusatz_kinderlos
-        See :func:`pflegev_zusatz_kinderlos`.
-    krankenv_pflichtig_rente
-        See :func:`krankenv_pflichtig_rente`.
+    ges_pflegev_zusatz_kinderlos
+        See :func:`ges_pflegev_zusatz_kinderlos`.
+    ges_krankenv_rente
+        See :func:`ges_krankenv_rente`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -166,40 +170,41 @@ def pflegev_beitr_rente(
     Pandas Series containing monthly health insurance contributions for pension income.
     """
     out = (
-        krankenv_pflichtig_rente
+        ges_krankenv_rente
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
     zusatz_kinderlos = (
-        krankenv_pflichtig_rente.loc[pflegev_zusatz_kinderlos]
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
+        ges_krankenv_rente.loc[ges_pflegev_zusatz_kinderlos]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
     )
 
-    out.loc[pflegev_zusatz_kinderlos] += zusatz_kinderlos
+    out.loc[ges_pflegev_zusatz_kinderlos] += zusatz_kinderlos
     return out
 
 
-def an_beitr_pflegev_midi_job(
-    ges_beitr_pflegev_midi_job: FloatSeries, ag_beitr_pflegev_midi_job: FloatSeries
+def an_beitr_ges_pflegev_midi_job(
+    ges_beitr_ges_pflegev_midi_job: FloatSeries,
+    ag_beitr_ges_pflegev_midi_job: FloatSeries,
 ) -> FloatSeries:
     """Calculating the employer care insurance contribution.
 
 
     Parameters
     ----------
-    ges_beitr_pflegev_midi_job
-        See :func:`ges_beitr_pflegev_midi_job`.
-    ag_beitr_pflegev_midi_job
-        See :func:`ag_beitr_pflegev_midi_job`.
+    ges_beitr_ges_pflegev_midi_job
+        See :func:`ges_beitr_ges_pflegev_midi_job`.
+    ag_beitr_ges_pflegev_midi_job
+        See :func:`ag_beitr_ges_pflegev_midi_job`.
 
     Returns
     -------
 
     """
-    return ges_beitr_pflegev_midi_job - ag_beitr_pflegev_midi_job
+    return ges_beitr_ges_pflegev_midi_job - ag_beitr_ges_pflegev_midi_job
 
 
-def ag_beitr_pflegev_midi_job(
+def ag_beitr_ges_pflegev_midi_job(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """
@@ -221,12 +226,12 @@ def ag_beitr_pflegev_midi_job(
     bruttolohn_m_in_gleitzone = bruttolohn_m.loc[in_gleitzone]
     return (
         bruttolohn_m_in_gleitzone
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
 
-def ges_beitr_pflegev_midi_job(
-    pflegev_zusatz_kinderlos: BoolSeries,
+def ges_beitr_ges_pflegev_midi_job(
+    ges_pflegev_zusatz_kinderlos: BoolSeries,
     midi_job_bemessungsentgelt: FloatSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
@@ -235,8 +240,8 @@ def ges_beitr_pflegev_midi_job(
 
     Parameters
     ----------
-    pflegev_zusatz_kinderlos
-        See :func:`pflegev_zusatz_kinderlos`.
+    ges_pflegev_zusatz_kinderlos
+        See :func:`ges_pflegev_zusatz_kinderlos`.
     midi_job_bemessungsentgelt
         See :func:`midi_job_bemessungsentgelt`.
     soz_vers_beitr_params
@@ -249,14 +254,14 @@ def ges_beitr_pflegev_midi_job(
     out = (
         midi_job_bemessungsentgelt
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
     zusatz_kinderlos = (
-        midi_job_bemessungsentgelt.loc[pflegev_zusatz_kinderlos]
-        * soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["zusatz_kinderlos"]
+        midi_job_bemessungsentgelt.loc[ges_pflegev_zusatz_kinderlos]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
     )
 
-    out.loc[pflegev_zusatz_kinderlos] += zusatz_kinderlos
+    out.loc[ges_pflegev_zusatz_kinderlos] += zusatz_kinderlos
 
     return out

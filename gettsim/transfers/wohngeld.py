@@ -9,7 +9,7 @@ from gettsim.typing import IntSeries
 def wohngeld_m_hh(
     wohngeld_vermögens_check_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
+    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
     rentner_in_hh: BoolSeries,
 ) -> FloatSeries:
     """Calculate final housing benefit per household.
@@ -20,8 +20,8 @@ def wohngeld_m_hh(
         See :func:`wohngeld_vermögens_check_hh`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
-    wohngeld_kinderzuschlag_vorrang_hh
-        See :func:`wohngeld_kinderzuschlag_vorrang_hh`.
+    wohngeld_kinderzuschl_vorrang_hh
+        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
     rentner_in_hh
         See :func:`rentner_in_hh`.
 
@@ -29,7 +29,7 @@ def wohngeld_m_hh(
     -------
 
     """
-    cond = ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh | rentner_in_hh
+    cond = ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh | rentner_in_hh
     wohngeld_vermögens_check_hh.loc[cond] = 0
     return wohngeld_vermögens_check_hh
 
@@ -88,7 +88,7 @@ def zu_verst_ges_rente_tu(
 
 def wohngeld_abzüge_tu(
     eink_st_tu: FloatSeries,
-    rentenv_beitr_m_tu: FloatSeries,
+    ges_rentenv_beitr_m_tu: FloatSeries,
     ges_krankenv_beitr_m_tu: FloatSeries,
     wohngeld_params: dict,
 ) -> FloatSeries:
@@ -98,8 +98,8 @@ def wohngeld_abzüge_tu(
     ----------
     eink_st_tu
         See :func:`eink_st_tu`.
-    rentenv_beitr_m_tu
-        See :func:`rentenv_beitr_m_tu`.
+    ges_rentenv_beitr_m_tu
+        See :func:`ges_rentenv_beitr_m_tu`.
     ges_krankenv_beitr_m_tu
         See :func:`ges_krankenv_beitr_m_tu`.
     wohngeld_params
@@ -110,7 +110,9 @@ def wohngeld_abzüge_tu(
 
     """
     abzug_stufen = (
-        (eink_st_tu > 0) * 1 + (rentenv_beitr_m_tu > 0) + (ges_krankenv_beitr_m_tu > 0)
+        (eink_st_tu > 0) * 1
+        + (ges_rentenv_beitr_m_tu > 0)
+        + (ges_krankenv_beitr_m_tu > 0)
     )
     return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
 
