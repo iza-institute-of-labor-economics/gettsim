@@ -128,13 +128,13 @@ def lohn_st_kinderfreibetrag(
     return out
 
 
-def soli_tarif(lohn_st: FloatSeries, soli_st_params: dict) -> FloatSeries:
+def soli_tarif(st_per_individual: FloatSeries, soli_st_params: dict) -> FloatSeries:
     """
     The isolated function for Solidaritätszuschlag
 
     Parameters
     ----------
-    lohn_st:
+    st_per_individual:
         the tax amount to be topped up
     soli_st_params :
         See params documentation :ref:`soli_st_params <solo_st_params>`
@@ -145,7 +145,7 @@ def soli_tarif(lohn_st: FloatSeries, soli_st_params: dict) -> FloatSeries:
     """
 
     return piecewise_polynomial(
-        lohn_st,
+        st_per_individual,
         thresholds=soli_st_params["soli_st"]["thresholds"],
         rates=soli_st_params["soli_st"]["rates"],
         intercepts_at_lower_thresholds=soli_st_params["soli_st"][
