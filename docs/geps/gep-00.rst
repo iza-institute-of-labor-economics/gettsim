@@ -73,7 +73,7 @@ first attempt to ascertain whether the idea is suitable for a GEP. A message in
 The proposal should be submitted as a draft GEP via a `GitHub pull request`_ to the
 ``doc/geps`` directory with the name ``gep-<n>.rst`` where ``<n>`` is an appropriately
 assigned two-digit number (e.g., it is ``gep-00.rst`` for this document). The draft must
-use the :ref:`gep-template` file.
+use the :ref:`gep-x` file.
 
 Once the PR is in place, the GEP should be announced on the in `#GEPs`_ on
 `Zulip`_ for discussion. Discussion about implementation details will take place on the
@@ -206,7 +206,7 @@ Format and Template
 -------------------
 
 GEPs are UTF-8 encoded text files using the reStructuredText_ format. Please see the
-:ref:`gep-template` file and the reStructuredTextPrimer_ for more information. We use
+:ref:`gep-x` file and the reStructuredTextPrimer_ for more information. We use
 Sphinx_ to convert GEPs to HTML for viewing on the web [2]_.
 
 
