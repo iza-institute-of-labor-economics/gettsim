@@ -10,3 +10,4 @@ coverage:
 ignore:
   - "setup.py"
   - "dashboard/**/*"
+  - "gettsim/parameters/_dynamic_pension_data"
