@@ -277,15 +277,10 @@ def _berechne_vorsorge_bis_2004(
     Parameters
     ----------
     lohn_vorsorge
-        See :func:`lohn_vorsorge`.
     ges_krankenv_beitr
-        See :func:`ges_krankenv_beitr`.
     ges_rentenv_beitr
-        See :func:`ges_rentenv_beitr`.
     anzahl_erwachsene
-        See :func:`anzahl_erwachsene`.
     eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
