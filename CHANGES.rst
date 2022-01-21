@@ -18,7 +18,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   :ghuser:`lillyfischer`).
 * :gh:`312` Updated GEP-01 with effects on character limits, time and unit identifiers,
   adjustments for DAG backend. (:ghuser:`hmgaudecker`)
-* :gh:`312` Enforced character limits from GEP-01 for all function names and input
+* :gh:`314` Enforced character limits from GEP-01 for all function names and input
   variables. Make variable names more precise (e.g., `ges_` in front of all social
   insurance parameters that have private counterparts, `eink_st` everywhere the income
   tax is meant). Make variables consistent (e.g. `kinderfreibetrag` had different

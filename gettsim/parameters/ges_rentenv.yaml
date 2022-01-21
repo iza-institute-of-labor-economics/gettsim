@@ -246,7 +246,7 @@ beitragspflichtiger_durchschnittslohn:
 
 ges_rentenvolumen:
   description:
-    de: Gesamtvolumen der ausgezahlten Renten, in Mrd. Euro pro Jahr. statistik-rente.de/drv, Ausgaben RV
+    de: Gesamtvolumen der ausgezahlten gesetzlichen Renten, in Mrd. Euro pro Jahr. statistik-rente.de/drv, Ausgaben RV
     en:
   name:
     de:
