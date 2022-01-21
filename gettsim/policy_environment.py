@@ -276,7 +276,7 @@ def load_reforms_for_date(date):
     if (
         datetime.date(year=2005, month=7, day=1)
         <= date
-        <= datetime.date(year=2019, month=12, day=31)
+        <= datetime.date(year=2018, month=12, day=31)
     ):
         functions[
             "ges_krankenv_beitr_rente"
