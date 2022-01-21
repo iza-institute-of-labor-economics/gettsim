@@ -79,25 +79,37 @@ associated with a dictionary of the following elements:
 In the same way as other policy parameters, the rounding parameters become part
 of the dictionary ``policy_params``.
 
-At the definition of the function ``höchstwert_grundr_zuschlag_m`` the decorator
-``add_rounding_spec`` indicates that the respective output should be rounded and
-in which parameter file the rounding parameters are specified.
+A function to be rounded must be decorated with ``add_rounding_spec``. This
+decorator indicates that the output should be potentially rounded.
+``add_rounding_spec`` takes one required argument ``func_arg``, which specifies
+the (parameters) argument to the function containing the rounding as a string.
+In the above example, the rounding specification
+``höchstwert_grundr_zuschlag_m`` will be found in its argument
+``ges_rentenv_params``, Hence the ``func_arg`` argument to ``add_rounding_spec``
+has to be ``"ges_rentenv_params"``:
 
 .. code-block:: python
 
-    @add_rounding_spec(params_file="ges_rentenv")
+    @add_rounding_spec(func_arg="ges_rentenv_params")
     def höchstwert_grundr_zuschlag_m(
         grundrentenzeiten: IntSeries, ges_rentenv_params: dict
     ) -> FloatSeries:
         ...
         return out
 
-The decorator adds the attribute ``__rounding_parameter_file__`` to the
-function. When calling ``compute_taxes_and_transfers`` with ``rounding=True``,
-GETTSIM loops over all functions. If a function has a rounding attribute, the
-rounding is applied based on the specification in the argument
-``policy_params``. In the example above, the rounding would be based on
-``policy_params["ges_rentenv"]["rounding"]["höchstwert_grundr_zuschlag_m"]``.
+The decorator adds the attribute ``__rounding_arg__`` to the function. When
+calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM will
+look for a key ``rounding`` in ``func_arg`` (here: ``ges_rentenv_params``) and
+within that, for another key containing the decorated function's name (here:
+``höchstwert_grundr_zuschlag_m``). That is, by the machinery outlined in
+:ref:`gep-3`, the following indexing of the ``policy_params`` dictionary
+
+.. code-block:: python
+
+    policy_params["ges_rentenv"]["rounding"]["höchstwert_grundr_zuschlag_m"]
+
+needs to be possible and yield the ``"base"`` and ``"direction"`` keys as
+described above.
 
 Note that GETTSIM only allows for optional rounding of functions' results. In
 case one is tempted to write a function requiring an intermediate variable to be
@@ -107,11 +119,11 @@ quantity to be rounded.
 Error handling
 ~~~~~~~~~~~~~~
 
-In case a function has a ``__rounding_parameter_file__``, but the respective
+In case a function has a ``__rounding_arg__``, but the respective
 parameters are missing in ``policy_params``, an error is raised.
 
 In case rounding parameters are specified and the function does not have
-``__rounding_parameter_file__`` attribute of the functions is missing does not
+``__rounding_arg__`` attribute of the functions is missing does not
 lead to an error during execution. This will never happen in the GETTSIM
 codebase, however, due to a suitable test.
 
@@ -142,7 +154,7 @@ If one wants to add rounding ...
 
 .. .. code-block:: python
 
-..     @add_rounding_spec(params_file="ges_rentenv")
+..     @add_rounding_spec(arg="ges_rentenv_params")
 ..     def höchstwert_grundr_zuschlag_m(
 ..         grundrentenzeiten: IntSeries, ges_rentenv_params: dict
 ..     ) -> FloatSeries:
@@ -153,7 +165,7 @@ If one wants to add rounding ...
 
 .. .. code-block:: python
 
-..     höchstwert_grundr_zuschlag_m.__rounding_parameter_file__ = "ges_rentenv"
+..     höchstwert_grundr_zuschlag_m.__rounding_arg__ = "ges_rentenv"
 
 
 Advantages of this implementation
