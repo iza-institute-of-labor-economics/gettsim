@@ -7,7 +7,7 @@ from gettsim.typing import IntSeries
 
 def kinderzuschl_kosten_unterk_m(
     wohnbedarf_eltern_anteil: FloatSeries,
-    kinderzuschl_kaltmiete_m: FloatSeries,
+    kinderzuschl_bruttokaltmiete_m: FloatSeries,
     kinderzuschl_heizkosten_m: FloatSeries,
 ) -> FloatSeries:
     """Calculate costs of living eligible to claim.
@@ -18,8 +18,8 @@ def kinderzuschl_kosten_unterk_m(
     ----------
     wohnbedarf_eltern_anteil
         See :func:`wohnbedarf_eltern_anteil`.
-    kinderzuschl_kaltmiete_m
-        See :func:`kinderzuschl_kaltmiete_m`.
+    kinderzuschl_bruttokaltmiete_m
+        See :func:`kinderzuschl_bruttokaltmiete_m`.
     kinderzuschl_heizkosten_m
         See :func:`kinderzuschl_heizkosten_m`.
 
@@ -28,11 +28,11 @@ def kinderzuschl_kosten_unterk_m(
 
     """
     return wohnbedarf_eltern_anteil * (
-        kinderzuschl_kaltmiete_m + kinderzuschl_heizkosten_m
+        kinderzuschl_bruttokaltmiete_m + kinderzuschl_heizkosten_m
     )
 
 
-def kinderzuschl_kaltmiete_m(
+def kinderzuschl_bruttokaltmiete_m(
     hh_id: IntSeries, bruttokaltmiete_m_hh: FloatSeries, tax_unit_share: FloatSeries
 ) -> FloatSeries:
     """Share of household's monthly rent attributed to the tax unit.
