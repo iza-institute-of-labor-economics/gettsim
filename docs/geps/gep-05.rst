@@ -117,7 +117,7 @@ quantity to be rounded.
 Error handling
 ~~~~~~~~~~~~~~
 
-In case a function has a ``__rounding_arg__``, but the respective parameters are
+In case a function has a ``__rounding_params_key__``, but the respective parameters are
 missing in ``policy_params``, an error is raised.
 
 Note that if the results have to be rounded in some years, but not in others (e.g.
@@ -126,7 +126,7 @@ can be set to ``None``. This allows that the rounding parameters are found and n
 is raised, but still no rounding is applied.
 
 In case rounding parameters are specified and the function does not have
-``__rounding_arg__`` attribute of the functions is missing does not
+``__rounding_params_key__`` attribute of the functions is missing does not
 lead to an error during execution. This will never happen in the GETTSIM
 codebase, however, due to a suitable test.
 
