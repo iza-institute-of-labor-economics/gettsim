@@ -8,8 +8,8 @@ from gettsim.typing import IntSeries
 def arbeitsl_geld_2_m_hh(
     arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
-    kinderzuschlag_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
+    kinderzuschl_vorrang_hh: BoolSeries,
+    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
     rentner_in_hh: BoolSeries,
 ) -> FloatSeries:
 
@@ -21,10 +21,10 @@ def arbeitsl_geld_2_m_hh(
         See :func:`arbeitsl_geld_2_m_minus_eink_hh`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
-    kinderzuschlag_vorrang_hh
-        See :func:`kinderzuschlag_vorrang_hh`.
-    wohngeld_kinderzuschlag_vorrang_hh
-        See :func:`wohngeld_kinderzuschlag_vorrang_hh`.
+    kinderzuschl_vorrang_hh
+        See :func:`kinderzuschl_vorrang_hh`.
+    wohngeld_kinderzuschl_vorrang_hh
+        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
     rentner_in_hh
         See :func:`rentner_in_hh`.
 
@@ -35,8 +35,8 @@ def arbeitsl_geld_2_m_hh(
     out = arbeitsl_geld_2_m_minus_eink_hh.clip(lower=0)
     cond = (
         wohngeld_vorrang_hh
-        | kinderzuschlag_vorrang_hh
-        | wohngeld_kinderzuschlag_vorrang_hh
+        | kinderzuschl_vorrang_hh
+        | wohngeld_kinderzuschl_vorrang_hh
         | rentner_in_hh
     )
     out.loc[cond] = 0
