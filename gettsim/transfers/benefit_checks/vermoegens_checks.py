@@ -30,16 +30,15 @@ def regelbedarf_m_vermögens_check_hh(
     return out
 
 
-def kinderzuschlag_vermögens_check_hh(
-    kinderzuschlag_m_vorläufig_hh: FloatSeries,
-    unter_vermögens_freibetrag_hh: BoolSeries,
+def kinderzuschl_vermögens_check_hh(
+    kinderzuschl_vorläufig_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries,
 ) -> FloatSeries:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
     Parameters
     ----------
-    kinderzuschlag_m_vorläufig_hh
-        See :func:`kinderzuschlag_m_vorläufig_hh`.
+    kinderzuschl_vorläufig_m_hh
+        See :func:`kinderzuschl_vorläufig_m_hh`.
     unter_vermögens_freibetrag_hh
         See :func:`unter_vermögens_freibetrag_hh`.
 
@@ -47,7 +46,7 @@ def kinderzuschlag_vermögens_check_hh(
     -------
 
     """
-    out = kinderzuschlag_m_vorläufig_hh.copy()
+    out = kinderzuschl_vorläufig_m_hh.copy()
     out.loc[~unter_vermögens_freibetrag_hh] = 0
     return out
 
