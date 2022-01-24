@@ -79,27 +79,25 @@ associated with a dictionary of the following elements:
 In the same way as other policy parameters, the rounding parameters become part
 of the dictionary ``policy_params``.
 
-A function to be rounded must be decorated with ``add_rounding_spec``. This
-decorator indicates that the output should be potentially rounded.
-``add_rounding_spec`` takes one required argument ``func_arg``, which specifies
-the (parameters) argument to the function containing the rounding as a string.
-In the above example, the rounding specification
-``höchstwert_grundr_zuschlag_m`` will be found in its argument
-``ges_rentenv_params``, Hence the ``func_arg`` argument to ``add_rounding_spec``
-has to be ``"ges_rentenv_params"``:
+A function to be rounded must be decorated with ``add_rounding_spec``. This decorator
+indicates that the output should be potentially rounded. ``add_rounding_spec`` takes
+one required argument: ``params_key`` points to the parameter key under which the
+rounding parameters are specified. In the above example, the rounding specification for
+``höchstwert_grundr_zuschlag_m`` is specified in ``ges_rentenv.yaml`` and will be found
+in ``policy_params["ges_rentenv"]`` after ``set_up_policy_environment()`` has been
+called. Hence, the ``params_key`` argument of ``add_rounding_spec`` has to be
+``"ges_rentenv"``:
 
 .. code-block:: python
 
-    @add_rounding_spec(func_arg="ges_rentenv_params")
-    def höchstwert_grundr_zuschlag_m(
-        grundrentenzeiten: IntSeries, ges_rentenv_params: dict
-    ) -> FloatSeries:
+    @add_rounding_spec(params_key="ges_rentenv")
+    def höchstwert_grundr_zuschlag_m(grundrentenzeiten: IntSeries) -> FloatSeries:
         ...
         return out
 
-The decorator adds the attribute ``__rounding_arg__`` to the function. When
+The decorator adds the attribute ``__rounding_params_key__`` to the function. When
 calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM will
-look for a key ``rounding`` in ``func_arg`` (here: ``ges_rentenv_params``) and
+look for a key ``rounding`` in ``policy_params["params_key]`` and
 within that, for another key containing the decorated function's name (here:
 ``höchstwert_grundr_zuschlag_m``). That is, by the machinery outlined in
 :ref:`gep-3`, the following indexing of the ``policy_params`` dictionary
@@ -119,8 +117,13 @@ quantity to be rounded.
 Error handling
 ~~~~~~~~~~~~~~
 
-In case a function has a ``__rounding_arg__``, but the respective
-parameters are missing in ``policy_params``, an error is raised.
+In case a function has a ``__rounding_arg__``, but the respective parameters are
+missing in ``policy_params``, an error is raised.
+
+Note that if the results have to be rounded in some years, but not in others (e.g.
+after a policy reform) the rounding parameters (both ``"base"`` and ``"direction"``)
+can be set to ``None``. This allows that the rounding parameters are found and no error
+is raised, but still no rounding is applied.
 
 In case rounding parameters are specified and the function does not have
 ``__rounding_arg__`` attribute of the functions is missing does not
@@ -130,42 +133,23 @@ codebase, however, due to a suitable test.
 User-specified rounding
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If one wants to add rounding ...
+If a user wants to change rounding of a specified function, she needs to adjust the
+rounding parameters in ``policy_params``.
 
-.. For self-written functions, the user needs to add the rounding parameters to
-.. ``policy_params`` and decorate the respective functions with
-.. ``add_rounding_spec``.
+Suppose one would like to specify a reform in which
+``höchstwert_grundr_zuschlag_m`` is rounded to the next-lowest fourth decimal
+point instead of to the nearest. In that case, the rounding parameters net to changed as follows
 
-.. Suppose one would like to specify a reform in which
-.. ``höchstwert_grundr_zuschlag_m`` is rounded to the next-lowest fourth decimal
-.. point instead of to the nearest.
+.. code-block:: python
 
-.. The only change  needed to change the rounding parameters by setting
+       policy_params["ges_rentenv"]["rounding"]["höchstwert_grundr_zuschlag_m"][
+           "direction"
+       ] = "down"
 
-.. .. code-block:: python
+If a user would like to add user-written functions which should be rounded, she needed
+to decorate the respective functions with ``add_rounding_spec`` and adjust
+``policy_params`` accordingly.
 
-..        policy_params["ges_rentenv"]["rounding"]["höchstwert_grundr_zuschlag_m"][
-..            "direction"
-..        ] = "down"
-
-
-.. Secondly, you needed to specify the new function calculating
-.. ``höchstwert_grundr_zuschlag_m`` and decorate it with the decorator:
-
-.. .. code-block:: python
-
-..     @add_rounding_spec(arg="ges_rentenv_params")
-..     def höchstwert_grundr_zuschlag_m(
-..         grundrentenzeiten: IntSeries, ges_rentenv_params: dict
-..     ) -> FloatSeries:
-..         ...
-..         return out
-
-.. Alternatively to the decorator, one could set the attribute directly:
-
-.. .. code-block:: python
-
-..     höchstwert_grundr_zuschlag_m.__rounding_arg__ = "ges_rentenv"
 
 
 Advantages of this implementation
