@@ -33,12 +33,6 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
-from gettsim.transfers.benefit_checks.vermoegens_checks import (
-    max_freibetrag_vermögen_hh_ab_2008,
-)
-from gettsim.transfers.benefit_checks.vermoegens_checks import (
-    max_freibetrag_vermögen_hh_vor_2008,
-)
 from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
     kinderzuschlag_ab_2005_bis_juni_2019,
 )
@@ -266,11 +260,6 @@ def load_reforms_for_date(date):
         functions["eink_anr_frei"] = eink_anr_frei_bis_10_2005
     else:
         functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
-
-    if date >= datetime.date(year=2008, month=1, day=1):
-        functions["max_freibetrag_vermögen_hh"] = max_freibetrag_vermögen_hh_ab_2008
-    else:
-        functions["max_freibetrag_vermögen_hh"] = max_freibetrag_vermögen_hh_vor_2008
 
     return functions
 

@@ -287,17 +287,21 @@ mehrbedarf_anteil:
 
 vermögensfreibetrag_obergrenze:
   name:
-    de: Maximaler Vermögensgrundfreibetrag je Lebensjahr.
-    en: Basic allowance per year of life.
+    de: Maximaler Vermögensgrundfreibetrag je Lebensjahr
+    en: Basic allowance per year of life
   description:
     de: § 12 (2) Satz 1 Nr. 1 SGB II. Ab 2008 nach Geburtsjahr unterschiedlich
     en: Differs by year of birth starting 2008.
   unit: Euro
   2005-01-01:
-    scalar: 13000
+    vor_1957: 13000
+    1958_bis_1963: 13000
+    nach_1963: 13000
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2006-08-01:
-    scalar: 9750
+    vor_1957: 9750
+    1958_bis_1963: 9750
+    nach_1963: 9750
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2008-01-01:
     vor_1957: 9750
