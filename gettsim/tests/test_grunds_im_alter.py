@@ -37,7 +37,7 @@ INPUT_COLS = [
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
-    "prv_rente_m",
+    "priv_rente_m",
     "staatl_rente_m",
 ]
 

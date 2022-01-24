@@ -6,9 +6,9 @@ from gettsim.demographic_vars import *  # noqa: F401, F403
 from gettsim.social_security_contributions.arbeitsl_v import *  # noqa: F401, F403
 from gettsim.social_security_contributions.beitr_bemess_grenzen import *  # noqa: F401, F403, E501
 from gettsim.social_security_contributions.eink_grenzen import *  # noqa: F401, F403
-from gettsim.social_security_contributions.krankenv import *  # noqa: F401, F403
-from gettsim.social_security_contributions.pflegev import *  # noqa: F401, F403
-from gettsim.social_security_contributions.rentenv import *  # noqa: F401, F403
+from gettsim.social_security_contributions.ges_krankenv import *  # noqa: F401, F403
+from gettsim.social_security_contributions.ges_pflegev import *  # noqa: F401, F403
+from gettsim.social_security_contributions.ges_rentenv import *  # noqa: F401, F403
 from gettsim.taxes.abgelt_st import *  # noqa: F401, F403
 from gettsim.taxes.eink_st import *  # noqa: F401, F403
 from gettsim.taxes.favorability_check import *  # noqa: F401, F403
@@ -26,11 +26,8 @@ from gettsim.transfers.arbeitsl_geld_2.kost_unterk import *  # noqa: F401, F403
 from gettsim.transfers.benefit_checks.benefit_checks import *  # noqa: F401, F403
 from gettsim.transfers.benefit_checks.vermoegens_checks import *  # noqa: F401, F403
 from gettsim.transfers.elterngeld import *  # noqa: F401, F403
-from gettsim.transfers.grundrente import *  # noqa: F401, F403
-from gettsim.transfers.grunds_im_alter import *  # noqa: F401, F403
-from gettsim.transfers.kinderzuschlag.kinderzuschlag import *  # noqa: F401, F403
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import *  # noqa: F401, F403
-from gettsim.transfers.kinderzuschlag.kost_unterk import *  # noqa: F401, F403
-from gettsim.transfers.rente import *  # noqa: F401, F403
+from gettsim.transfers.kinderzuschl.kinderzuschl import *  # noqa: F401, F403
+from gettsim.transfers.kinderzuschl.kinderzuschl_eink import *  # noqa: F401, F403
+from gettsim.transfers.kinderzuschl.kost_unterk import *  # noqa: F401, F403
 from gettsim.transfers.unterhalt import *  # noqa: F401, F403
 from gettsim.transfers.wohngeld import *  # noqa: F401, F403

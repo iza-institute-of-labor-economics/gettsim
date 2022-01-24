@@ -54,16 +54,16 @@ def wohngeld_vorrang_hh(
     return wohngeld_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
 
 
-def kinderzuschlag_vorrang_hh(
-    kinderzuschlag_vermögens_check_hh: FloatSeries,
+def kinderzuschl_vorrang_hh(
+    kinderzuschl_vermögens_check_hh: FloatSeries,
     arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if child benefit has priority.
 
     Parameters
     ----------
-    kinderzuschlag_vermögens_check_hh
-        See :func:`kinderzuschlag_vermögens_check_hh`.
+    kinderzuschl_vermögens_check_hh
+        See :func:`kinderzuschl_vermögens_check_hh`.
     arbeitsl_geld_2_m_minus_eink_hh
         See :func:`arbeitsl_geld_2_m_minus_eink_hh`.
 
@@ -71,12 +71,12 @@ def kinderzuschlag_vorrang_hh(
     -------
 
     """
-    return kinderzuschlag_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
+    return kinderzuschl_vermögens_check_hh >= arbeitsl_geld_2_m_minus_eink_hh
 
 
-def wohngeld_kinderzuschlag_vorrang_hh(
+def wohngeld_kinderzuschl_vorrang_hh(
     wohngeld_vermögens_check_hh: FloatSeries,
-    kinderzuschlag_vermögens_check_hh: FloatSeries,
+    kinderzuschl_vermögens_check_hh: FloatSeries,
     arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if housing and child benefit have priority.
@@ -85,8 +85,8 @@ def wohngeld_kinderzuschlag_vorrang_hh(
     ----------
     wohngeld_vermögens_check_hh
         See :func:`wohngeld_vermögens_check_hh`.
-    kinderzuschlag_vermögens_check_hh
-        See :func:`kinderzuschlag_vermögens_check_hh`.
+    kinderzuschl_vermögens_check_hh
+        See :func:`kinderzuschl_vermögens_check_hh`.
     arbeitsl_geld_2_m_minus_eink_hh
         See :func:`arbeitsl_geld_2_m_minus_eink_hh`.
 
@@ -94,7 +94,7 @@ def wohngeld_kinderzuschlag_vorrang_hh(
     -------
 
     """
-    sum_wohngeld_kinderzuschlag = (
-        wohngeld_vermögens_check_hh + kinderzuschlag_vermögens_check_hh
+    sum_wohngeld_kinderzuschl = (
+        wohngeld_vermögens_check_hh + kinderzuschl_vermögens_check_hh
     )
-    return sum_wohngeld_kinderzuschlag >= arbeitsl_geld_2_m_minus_eink_hh
+    return sum_wohngeld_kinderzuschl >= arbeitsl_geld_2_m_minus_eink_hh

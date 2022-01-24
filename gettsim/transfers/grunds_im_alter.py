@@ -238,7 +238,7 @@ def anrechenbares_kapital_eink_grunds_im_alter_m(
 
 
 def anrechenbare_prv_rente_grunds_im_alter_m(
-    prv_rente_m: FloatSeries,
+    priv_rente_m: FloatSeries,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
@@ -249,8 +249,8 @@ def anrechenbare_prv_rente_grunds_im_alter_m(
 
     Parameters
     ----------
-    prv_rente_m
-        See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
+    priv_rente_m
+        See basic input variable :ref:`priv_rente_m <priv_rente_m>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params
         <arbeitsl_geld_2_params>`.
@@ -261,8 +261,8 @@ def anrechenbare_prv_rente_grunds_im_alter_m(
     -------
 
     """
-    prv_rente_m_amount_exempt = piecewise_polynomial(
-        x=prv_rente_m,
+    priv_rente_m_amount_exempt = piecewise_polynomial(
+        x=priv_rente_m,
         thresholds=grunds_im_alter_params["prv_rente_anr_frei"]["thresholds"],
         rates=grunds_im_alter_params["prv_rente_anr_frei"]["rates"],
         intercepts_at_lower_thresholds=grunds_im_alter_params["prv_rente_anr_frei"][
@@ -270,11 +270,11 @@ def anrechenbare_prv_rente_grunds_im_alter_m(
         ],
     )
 
-    prv_rente_m_amount_exempt = prv_rente_m_amount_exempt.clip(
+    priv_rente_m_amount_exempt = priv_rente_m_amount_exempt.clip(
         upper=arbeitsl_geld_2_params["regelsatz"][1] / 2
     )
 
-    return prv_rente_m - prv_rente_m_amount_exempt
+    return priv_rente_m - priv_rente_m_amount_exempt
 
 
 def mehrbedarf_behinderung_m_hh(

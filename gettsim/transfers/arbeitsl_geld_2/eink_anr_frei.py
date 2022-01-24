@@ -4,12 +4,12 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def arbeitsl_geld_2_eink_anr_frei_bis_10_2005(
+def arbeitsl_geld_2_eink_anr_frei_bis_09_2005(
     bruttolohn_m: FloatSeries,
     arbeitsl_geld_2_2005_netto_quote: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """Calcualte share of income, which remains to the individual until 10/2005.
+    """Calculate share of income, which remains to the individual until 09/2005.
 
     Parameters
     ----------
@@ -26,11 +26,13 @@ def arbeitsl_geld_2_eink_anr_frei_bis_10_2005(
     """
     out = piecewise_polynomial(
         x=bruttolohn_m,
-        thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
-        rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
-        intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
-            "intercepts_at_lower_thresholds"
+        thresholds=arbeitsl_geld_2_params["arbeitsl_geld_2_eink_anr_frei"][
+            "thresholds"
         ],
+        rates=arbeitsl_geld_2_params["arbeitsl_geld_2_eink_anr_frei"]["rates"],
+        intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
+            "arbeitsl_geld_2_eink_anr_frei"
+        ]["intercepts_at_lower_thresholds"],
         rates_multiplier=arbeitsl_geld_2_2005_netto_quote,
     )
     return out
@@ -63,19 +65,23 @@ def arbeitsl_geld_2_eink_anr_frei_ab_10_2005(
     kinder_in_hh_individual = hh_id.replace(kinder_in_hh).astype(bool)
     out.loc[kinder_in_hh_individual] = piecewise_polynomial(
         x=bruttolohn_m.loc[kinder_in_hh_individual],
-        thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
-        rates=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["rates"],
-        intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"][
-            "intercepts_at_lower_thresholds"
+        thresholds=arbeitsl_geld_2_params["arbeitsl_geld_2_eink_anr_frei_kinder"][
+            "thresholds"
         ],
+        rates=arbeitsl_geld_2_params["arbeitsl_geld_2_eink_anr_frei_kinder"]["rates"],
+        intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
+            "arbeitsl_geld_2_eink_anr_frei_kinder"
+        ]["intercepts_at_lower_thresholds"],
     )
     out.loc[~kinder_in_hh_individual] = piecewise_polynomial(
         x=bruttolohn_m.loc[~kinder_in_hh_individual],
-        thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
-        rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
-        intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
-            "intercepts_at_lower_thresholds"
+        thresholds=arbeitsl_geld_2_params["arbeitsl_geld_2_eink_anr_frei"][
+            "thresholds"
         ],
+        rates=arbeitsl_geld_2_params["arbeitsl_geld_2_eink_anr_frei"]["rates"],
+        intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
+            "arbeitsl_geld_2_eink_anr_frei"
+        ]["intercepts_at_lower_thresholds"],
     )
     return out
 

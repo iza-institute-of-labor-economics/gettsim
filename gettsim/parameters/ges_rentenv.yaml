@@ -48,11 +48,10 @@ beitragsvolumen:
     en: Contribution volume of the statutory pension insurance
   description:
     de: Summe der Beiträge zur Rentenversicherung aller rentenversicherungspflichtig Beschäftigten,
-        der geringfügig Beschäftigten und der Bezieher von ALG.
+        der geringfügig Beschäftigten und der Bezieher von ALG. statistik-rente.de/drv
     en: Sum of contributions to the pension insurance of all employees subject to pension insurance,
         marginally employed and recipients of ALG.
   unit: Mrd Euro
-  reference: statistik-rente.de/drv
   1991-01-01:
     scalar: 108688.0
   1992-01-01:
@@ -434,7 +433,7 @@ umrechnung_entgeltp_beitrittsgebiet:
   2024-01-01:
     scalar: 1.0140
 
-rentenvolumen:
+ges_rentenvolumen:
   name:
     de: Rentenvolumen
     en: pension volume

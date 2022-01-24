@@ -201,7 +201,6 @@ eink_st_tarif:
     3:
       upper_threshold: 277826
 
-
 ertragsanteil:
   name:
     de: >-

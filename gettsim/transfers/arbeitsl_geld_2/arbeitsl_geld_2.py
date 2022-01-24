@@ -8,9 +8,9 @@ from gettsim.typing import IntSeries
 def arbeitsl_geld_2_m_hh(
     arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
-    kinderzuschlag_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
-    alle_erwachsene_rentner_hh,
+    kinderzuschl_vorrang_hh: BoolSeries,
+    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
+    alle_erwachsene_rentner_hh: BoolSeries,
 ) -> FloatSeries:
 
     """Calculate final monthly subsistence payment on household level.
@@ -21,12 +21,12 @@ def arbeitsl_geld_2_m_hh(
         See :func:`arbeitsl_geld_2_m_minus_eink_hh`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
-    kinderzuschlag_vorrang_hh
-        See :func:`kinderzuschlag_vorrang_hh`.
-    wohngeld_kinderzuschlag_vorrang_hh
-        See :func:`wohngeld_kinderzuschlag_vorrang_hh`.
+    kinderzuschl_vorrang_hh
+        See :func:`kinderzuschl_vorrang_hh`.
+    wohngeld_kinderzuschl_vorrang_hh
+        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
     alle_erwachsene_rentner_hh
-        See :func:`alle_erwachsene_rentner_hh`.
+        See :func:`alle_erwachsene_rentner_hh   `.
 
     Returns
     -------
@@ -35,8 +35,8 @@ def arbeitsl_geld_2_m_hh(
     out = arbeitsl_geld_2_m_minus_eink_hh.copy()
     cond = (
         wohngeld_vorrang_hh
-        | kinderzuschlag_vorrang_hh
-        | wohngeld_kinderzuschlag_vorrang_hh
+        | kinderzuschl_vorrang_hh
+        | wohngeld_kinderzuschl_vorrang_hh
         | alle_erwachsene_rentner_hh
     )
     out.loc[cond] = 0

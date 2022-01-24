@@ -5,14 +5,14 @@ from gettsim.typing import IntSeries
 
 
 def gesamte_rente_m(
-    prv_rente_m: FloatSeries, staatl_rente_m: FloatSeries
+    priv_rente_m: FloatSeries, staatl_rente_m: FloatSeries
 ) -> FloatSeries:
     """Calculate total pension as sum of private and public pension.
 
     Parameters
     ----------
-    prv_rente_m
-        See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
+    priv_rente_m
+        See basic input variable :ref:`priv_rente_m <priv_rente_m>`.
     staatl_rente_m
         See :func:`staatl_rente_m`.
 
@@ -20,7 +20,7 @@ def gesamte_rente_m(
     -------
 
     """
-    out = prv_rente_m + staatl_rente_m
+    out = priv_rente_m + staatl_rente_m
     return out
 
 
@@ -57,7 +57,7 @@ def staatl_rente_excl_gr_m(
     rentenwert: FloatSeries,
     rentner: BoolSeries,
 ) -> FloatSeries:
-    """ This function calculates the Old-Age Pensions claim (without Grundrentenzuschlag).
+    """This function calculates the Old-Age Pensions claim (without Grundrentenzuschlag).
     The function follows the following equation:
 
     .. math::
@@ -95,7 +95,7 @@ def staatl_rente_excl_gr_m(
 def rente_anspr_m(
     rente_anspr_excl_gr_m: FloatSeries, grundr_zuschlag_m: FloatSeries,
 ) -> FloatSeries:
-    """ This function calculates the Old-Age Pensions claim (including the
+    """This function calculates the Old-Age Pensions claim (including the
     Grundrentenzuschlag) if the agent chooses to retire at Regelaltersgrenze.
 
     Parameters
@@ -116,7 +116,7 @@ def rente_anspr_m(
 def rente_anspr_excl_gr_m(
     entgeltpunkte_update: FloatSeries, rentenwert: FloatSeries,
 ) -> FloatSeries:
-    """ This function calculates the Old-Age Pensions claim (without Grundrentenzuschlag) if
+    """This function calculates the Old-Age Pensions claim (without Grundrentenzuschlag) if
     the agent chooses to retire at Regelaltersgrenze. It is hence assumed that the
     Zugangsfaktor is 1.
 

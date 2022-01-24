@@ -317,7 +317,7 @@ def zu_verst_eink_excl_grundr_zuschlag_m(
 
 def proxy_rente_vorj_excl_grundr_zuschlag_m(
     rentenwert_vorjahr: FloatSeries,
-    prv_rente_m: FloatSeries,
+    priv_rente_m: FloatSeries,
     jahr_renteneintr: IntSeries,
     geburtsjahr: IntSeries,
     alter: IntSeries,
@@ -328,8 +328,8 @@ def proxy_rente_vorj_excl_grundr_zuschlag_m(
 
     rentenwert_vorjahr
         See basic input variable :ref:`rentenwert_vorjahr <rentenwert_vorjahr>`.
-    prv_rente_m
-        See basic input variable :ref:`prv_rente_m <prv_rente_m>`.
+    priv_rente_m
+        See basic input variable :ref:`priv_rente_m <priv_rente_m>`.
     jahr_renteneintr
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     geburtsjahr
@@ -345,8 +345,8 @@ def proxy_rente_vorj_excl_grundr_zuschlag_m(
     -------
     """
 
-    # Assume prv_rente_m did not change
-    out = entgeltpunkte * zugangsfaktor * rentenwert_vorjahr + prv_rente_m
+    # Assume priv_rente_m did not change
+    out = entgeltpunkte * zugangsfaktor * rentenwert_vorjahr + priv_rente_m
 
     # Calculate if subect was retired last year
     # ToDo: Use current_year as input variable once we addressed issue #211

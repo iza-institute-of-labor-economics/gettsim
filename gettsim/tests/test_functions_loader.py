@@ -19,11 +19,13 @@ def test_renaming_functions():
 
 
 def test_load_modules():
-    assert _load_functions("gettsim.social_security_contributions.krankenv")
+    assert _load_functions("gettsim.social_security_contributions.ges_krankenv")
 
 
 def test_load_path():
-    assert _load_functions(ROOT_DIR / "social_security_contributions" / "krankenv.py")
+    assert _load_functions(
+        ROOT_DIR / "social_security_contributions" / "ges_krankenv.py"
+    )
 
 
 def test_special_attribute_module_is_set(tmp_path):
