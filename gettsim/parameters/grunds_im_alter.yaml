@@ -17,7 +17,7 @@ schonvermögen_grunds_im_alter:
     adult: 5000
     child: 500
 
-staatl_rente_anr_frei:
+ges_rente_anr_frei:
   name:
     de: Anrechnungsfreier Anteil der staatlichen Rente (bei mind. 33 Grundrentenzeiten)
     en: Public pension share not subject to transfer withdrawal (if at least 33 Grundrentenzeiten)
@@ -97,7 +97,7 @@ erwerbs_eink_anr_frei:
   2005-01-01:
     scalar: 0.3
 
-prv_rente_anr_frei:
+priv_rente_anr_frei:
   name:
     de: Anrechnungsfreie Anteile der privaten Rente für Grundsicherung
     en: Private pension shares not subject to transfer withdrawal

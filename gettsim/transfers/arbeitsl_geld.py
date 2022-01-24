@@ -46,7 +46,7 @@ def arbeitsl_geld_m(
     tu_id: IntSeries,
     anz_kinder_tu: IntSeries,
     berechtigt_für_arbeitsl_geld: BoolSeries,
-    proxy_eink_vorj: FloatSeries,
+    proxy_eink_vorj_arbeitsl_geld: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> FloatSeries:
     """Calculate unemployment benefit.
@@ -59,8 +59,8 @@ def arbeitsl_geld_m(
         See :func:`anz_kinder_tu`.
     berechtigt_für_arbeitsl_geld
         See :func:`berechtigt_für_arbeitsl_geld`.
-    proxy_eink_vorj
-        See :func:`proxy_eink_vorj`.
+    proxy_eink_vorj_arbeitsl_geld
+        See :func:`proxy_eink_vorj_arbeitsl_geld`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -77,7 +77,9 @@ def arbeitsl_geld_m(
 
     arbeitsl_geld_m = berechtigt_für_arbeitsl_geld.astype(float) * 0
 
-    arbeitsl_geld_m[berechtigt_für_arbeitsl_geld] = proxy_eink_vorj * arbeitsl_geld_satz
+    arbeitsl_geld_m[berechtigt_für_arbeitsl_geld] = (
+        proxy_eink_vorj_arbeitsl_geld * arbeitsl_geld_satz
+    )
 
     return arbeitsl_geld_m
 

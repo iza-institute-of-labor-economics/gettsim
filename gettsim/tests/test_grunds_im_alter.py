@@ -38,7 +38,7 @@ INPUT_COLS = [
     "unterhaltsvors_m",
     "elterngeld_m",
     "priv_rente_m",
-    "staatl_rente_m",
+    "ges_rente_m",
 ]
 
 OVERRIDE_COLS = [
@@ -48,14 +48,14 @@ OVERRIDE_COLS = [
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
-    "staatl_rente_m",
+    "ges_rente_m",
     "arbeitsl_geld_m",
 ]
 
 YEARS = [2017, 2018, 2020, 2021, 2022]
 
 OUT_COLS = [
-    "regelbedarf_m_grunds_im_alter_vermögens_check_hh",
+    "regelbedarf_grunds_im_alter_vermögens_check_m_hh",
     "grunds_im_alter_m_hh",
 ]
 

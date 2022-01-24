@@ -228,7 +228,7 @@ def create_one_set_of_households(
         "immobilie_baujahr",
         "vermögen_hh",
         "entgeltpunkte",
-        "gr_bewertungszeiten",
+        "g_r_bewertungsreiten",
         "entgeltp_grundr",
         "grundrentenzeiten",
         "priv_rente_m",
@@ -342,7 +342,7 @@ def create_one_set_of_households(
 
     # Retirement variables
     df["grundrentenzeiten"] = (df["alter"] - 20).clip(lower=0) * 12
-    df["gr_bewertungszeiten"] = df["grundrentenzeiten"]
+    df["g_r_bewertungsreiten"] = df["grundrentenzeiten"]
     df["entgeltpunkte"] = df["grundrentenzeiten"] / 12
     df["entgeltp_grundr"] = df["entgeltpunkte"]
 

@@ -3,7 +3,6 @@ import datetime
 import pandas as pd
 import pytest
 
-from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
 from gettsim.config import TYPES_INPUT_VARIABLES
@@ -16,6 +15,22 @@ from gettsim.typing import check_if_series_has_internal_type
 
 
 YEARS = [2019, 2020, 2021]
+
+OUT_COLS = [
+    "eink_st_tu",
+    "soli_st_tu",
+    "abgelt_st_tu",
+    "ges_rentenv_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "ges_krankenv_beitr_m",
+    "ges_pflegev_beitr_m",
+    "arbeitsl_geld_m",
+    "kindergeld_m_tu",
+    "arbeitsl_geld_2_m_hh",
+    "kinderzuschl_m_hh",
+    "wohngeld_m_hh",
+    "unterhaltsvors_m_hh",
+]
 
 
 @pytest.fixture(scope="module")
@@ -38,7 +53,7 @@ def test_tax_transfer(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=DEFAULT_TARGETS,
+        targets=OUT_COLS,
         columns_overriding_functions=["gesamte_rente_m"],
     )
 
@@ -63,7 +78,7 @@ def test_data_types(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=DEFAULT_TARGETS,
+        targets=OUT_COLS,
         debug=True,
         columns_overriding_functions=["gesamte_rente_m"],
     )

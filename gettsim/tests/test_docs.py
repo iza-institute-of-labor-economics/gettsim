@@ -60,7 +60,6 @@ def test_all_input_vars_documented(
 
     # Remove duplicates
     arguments = list(dict.fromkeys(arguments))
-
     check = [
         c
         for c in arguments

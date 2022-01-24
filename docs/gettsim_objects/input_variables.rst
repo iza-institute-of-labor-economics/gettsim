@@ -88,13 +88,13 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltpunkte`        | Earning points for pension claim             | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`gr_bewertungszeiten`  | Months with > 30% of average income          | IntSeries   |
+| _`g_r_bewertungsreiten` | Months with > 30% of average income          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltp_grundr`      | Entgeltpunkte in Grundrentenbewertungszeiten | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`grundrentenzeiten`    | Number of months considered for Grundrente   | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`prv_rente_m`          | Amount of monthly private pension            | FloatSeries |
+| _`priv_rente_m`         | Amount of monthly private pension            | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`schwerbe_ausweis_g`   | Dummy: Schwerbehindertenausweis Merkzeichen G| BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+

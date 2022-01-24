@@ -104,7 +104,7 @@ TYPES_INPUT_VARIABLES = {
     "jahr": IntSeries,
     "entgeltp_grundr": FloatSeries,
     "grundrentenzeiten": IntSeries,
-    "gr_bewertungszeiten": IntSeries,
+    "g_r_bewertungsreiten": IntSeries,
     "priv_rente_m": FloatSeries,
     "schwerbe_ausweis_g": BoolSeries,
 }

@@ -32,51 +32,51 @@ def grunds_im_alter_m_hh(
 
 
 def grunds_im_alter_m_minus_eink_hh(
-    regelbedarf_m_grunds_im_alter_vermögens_check_hh: FloatSeries,
+    regelbedarf_grunds_im_alter_vermögens_check_m_hh: FloatSeries,
     mehrbedarf_behinderung_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
-    anrechenbares_eink_grunds_im_alter_m_hh: FloatSeries,
+    anr_eink_grunds_im_alter_m_hh: FloatSeries,
 ) -> FloatSeries:
     """Calculate remaining basic subsistence after recieving other benefits.
 
     Parameters
     ----------
-    regelbedarf_m_grunds_im_alter_vermögens_check_hh
-        See :func:`regelbedarf_m_grunds_im_alter_vermögens_check_hh`.
+    regelbedarf_grunds_im_alter_vermögens_check_m_hh
+        See :func:`regelbedarf_grunds_im_alter_vermögens_check_m_hh`.
     mehrbedarf_behinderung_m_hh
         See :func:`mehrbedarf_behinderung_m_hh`.
     kindergeld_m_hh
         See :func:`kindergeld_m_hh`.
     unterhaltsvors_m_hh
         See :func:`unterhaltsvors_m_hh`.
-    anrechenbares_eink_grunds_im_alter_m_hh
-        See :func:`anrechenbares_eink_grunds_im_alter_m_hh`.
+    anr_eink_grunds_im_alter_m_hh
+        See :func:`anr_eink_grunds_im_alter_m_hh`.
 
     Returns
     -------
 
     """
     out = (
-        regelbedarf_m_grunds_im_alter_vermögens_check_hh
+        regelbedarf_grunds_im_alter_vermögens_check_m_hh
         + mehrbedarf_behinderung_m_hh
-        - anrechenbares_eink_grunds_im_alter_m_hh
+        - anr_eink_grunds_im_alter_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
     )
     return out
 
 
-def anrechenbares_eink_grunds_im_alter_m_hh(
-    anrechenbares_eink_grunds_im_alter_m: FloatSeries, hh_id: IntSeries
+def anr_eink_grunds_im_alter_m_hh(
+    anr_eink_grunds_im_alter_m: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
     """Aggregate income which is considered in the calculation of Grundsicherung im
     Alter on household level.
 
     Parameters
     ----------
-    anrechenbares_eink_grunds_im_alter_m
-        See :func:`anrechenbares_eink_grunds_im_alter_m`.
+    anr_eink_grunds_im_alter_m
+        See :func:`anr_eink_grunds_im_alter_m`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
 
@@ -84,16 +84,16 @@ def anrechenbares_eink_grunds_im_alter_m_hh(
     -------
 
     """
-    return anrechenbares_eink_grunds_im_alter_m.groupby(hh_id).sum()
+    return anr_eink_grunds_im_alter_m.groupby(hh_id).sum()
 
 
-def anrechenbares_eink_grunds_im_alter_m(
-    anrechenbares_erwerbs_eink_grunds_im_alter_m: FloatSeries,
-    anrechenbare_prv_rente_grunds_im_alter_m: FloatSeries,
-    anrechenbare_staatl_rente_grunds_im_alter_m: FloatSeries,
+def anr_eink_grunds_im_alter_m(
+    anr_erwerbs_eink_grunds_im_alter_m: FloatSeries,
+    anr_priv_rente_grunds_im_alter_m: FloatSeries,
+    anr_ges_rente_grunds_im_alter_m: FloatSeries,
     sonstig_eink_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
-    anrechenbares_kapital_eink_grunds_im_alter_m: FloatSeries,
+    anr_kapital_eink_grunds_im_alter_m: FloatSeries,
     elterngeld_m: FloatSeries,
     eink_st_tu: FloatSeries,
     soli_st_tu: FloatSeries,
@@ -107,18 +107,18 @@ def anrechenbares_eink_grunds_im_alter_m(
 
     Parameters
     ----------
-    anrechenbares_erwerbs_eink_grunds_im_alter_m
-        See :func:`anrechenbares_erwerbs_eink_grunds_im_alter_m`.
-    anrechenbare_prv_rente_grunds_im_alter_m
-        See :func:`anrechenbare_prv_rente_grunds_im_alter_m`.
-    anrechenbare_staatl_rente_grunds_im_alter_m
-        See :func:`anrechenbare_staatl_rente_grunds_im_alter_m`.
+    anr_erwerbs_eink_grunds_im_alter_m
+        See :func:`anr_erwerbs_eink_grunds_im_alter_m`.
+    anr_priv_rente_grunds_im_alter_m
+        See :func:`anr_priv_rente_grunds_im_alter_m`.
+    anr_ges_rente_grunds_im_alter_m
+        See :func:`anr_ges_rente_grunds_im_alter_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
     vermiet_eink_m
         See :func:`vermiet_eink_m`.
-    anrechenbares_kapital_eink_grunds_im_alter_m
-        See :func:`anrechenbares_kapital_eink_grunds_im_alter_m`.
+    anr_kapital_eink_grunds_im_alter_m
+        See :func:`anr_kapital_eink_grunds_im_alter_m`.
     elterngeld_m
         See :func:`elterngeld_m`.
     eink_st_tu
@@ -141,19 +141,19 @@ def anrechenbares_eink_grunds_im_alter_m(
     """
 
     # Consider Elterngeld that is larger than 300
-    anrechenbares_elterngeld_m = (
+    anr_elterngeld_m = (
         elterngeld_m - grunds_im_alter_params["elterngeld_anr_frei"]
     ).clip(lower=0)
 
     # Income
     total_income = (
-        anrechenbares_erwerbs_eink_grunds_im_alter_m
-        + anrechenbare_staatl_rente_grunds_im_alter_m
-        + anrechenbare_prv_rente_grunds_im_alter_m
+        anr_erwerbs_eink_grunds_im_alter_m
+        + anr_ges_rente_grunds_im_alter_m
+        + anr_priv_rente_grunds_im_alter_m
         + sonstig_eink_m
         + vermiet_eink_m
-        + anrechenbares_kapital_eink_grunds_im_alter_m
-        + anrechenbares_elterngeld_m
+        + anr_kapital_eink_grunds_im_alter_m
+        + anr_elterngeld_m
     )
 
     # subtract taxes and social security contributions
@@ -167,7 +167,7 @@ def anrechenbares_eink_grunds_im_alter_m(
     return out
 
 
-def anrechenbares_erwerbs_eink_grunds_im_alter_m(
+def anr_erwerbs_eink_grunds_im_alter_m(
     bruttolohn_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     arbeitsl_geld_2_params: dict,
@@ -208,7 +208,7 @@ def anrechenbares_erwerbs_eink_grunds_im_alter_m(
     return earnings
 
 
-def anrechenbares_kapital_eink_grunds_im_alter_m(
+def anr_kapital_eink_grunds_im_alter_m(
     brutto_eink_5: FloatSeries, grunds_im_alter_params: dict,
 ) -> FloatSeries:
     """Calculate capital income which are considered in the calculation of Grundsicherung im
@@ -237,7 +237,7 @@ def anrechenbares_kapital_eink_grunds_im_alter_m(
     return capital_income_y / 12
 
 
-def anrechenbare_prv_rente_grunds_im_alter_m(
+def anr_priv_rente_grunds_im_alter_m(
     priv_rente_m: FloatSeries,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
@@ -263,9 +263,9 @@ def anrechenbare_prv_rente_grunds_im_alter_m(
     """
     priv_rente_m_amount_exempt = piecewise_polynomial(
         x=priv_rente_m,
-        thresholds=grunds_im_alter_params["prv_rente_anr_frei"]["thresholds"],
-        rates=grunds_im_alter_params["prv_rente_anr_frei"]["rates"],
-        intercepts_at_lower_thresholds=grunds_im_alter_params["prv_rente_anr_frei"][
+        thresholds=grunds_im_alter_params["priv_rente_anr_frei"]["thresholds"],
+        rates=grunds_im_alter_params["priv_rente_anr_frei"]["rates"],
+        intercepts_at_lower_thresholds=grunds_im_alter_params["priv_rente_anr_frei"][
             "intercepts_at_lower_thresholds"
         ],
     )
@@ -310,8 +310,8 @@ def mehrbedarf_behinderung_m(
         See basic input variable :ref:`behinderungsgrad <schwerbe_ausweis_g>`.
     hhsize_tu
         See :func:`hhsize_tu`.
-    ges_renten_vers_params
-        See params documentation :ref:`ges_renten_vers_params <ges_renten_vers_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     tu_id
@@ -340,8 +340,8 @@ def mehrbedarf_behinderung_m(
     return out
 
 
-def anrechenbare_staatl_rente_grunds_im_alter_m(
-    staatl_rente_m: FloatSeries,
+def anr_ges_rente_grunds_im_alter_m(
+    ges_rente_m: FloatSeries,
     nicht_grundrentenberechtigt: BoolSeries,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
@@ -354,8 +354,8 @@ def anrechenbare_staatl_rente_grunds_im_alter_m(
 
     Parameters
     ----------
-    staatl_rente_m
-        See basic input variable :ref:`staatl_rente_m <staatl_rente_m>`.
+    ges_rente_m
+        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
     nicht_grundrentenberechtigt
         See :func:`nicht_grundrentenberechtigt`.
     arbeitsl_geld_2_params
@@ -370,10 +370,10 @@ def anrechenbare_staatl_rente_grunds_im_alter_m(
     """
 
     deducted_rent = piecewise_polynomial(
-        x=staatl_rente_m,
-        thresholds=grunds_im_alter_params["staatl_rente_anr_frei"]["thresholds"],
-        rates=grunds_im_alter_params["staatl_rente_anr_frei"]["rates"],
-        intercepts_at_lower_thresholds=grunds_im_alter_params["staatl_rente_anr_frei"][
+        x=ges_rente_m,
+        thresholds=grunds_im_alter_params["ges_rente_anr_frei"]["thresholds"],
+        rates=grunds_im_alter_params["ges_rente_anr_frei"]["rates"],
+        intercepts_at_lower_thresholds=grunds_im_alter_params["ges_rente_anr_frei"][
             "intercepts_at_lower_thresholds"
         ],
     )
@@ -381,12 +381,11 @@ def anrechenbare_staatl_rente_grunds_im_alter_m(
     deducted_rent = deducted_rent.clip(upper=arbeitsl_geld_2_params["regelsatz"][1] / 2)
     deducted_rent.loc[nicht_grundrentenberechtigt] = 0
 
-    return staatl_rente_m - deducted_rent
+    return ges_rente_m - deducted_rent
 
 
-def regelbedarf_m_grunds_im_alter_vermögens_check_hh(
-    regelbedarf_m_hh: FloatSeries,
-    unter_vermögens_freibetrag_grunds_im_alter_hh: BoolSeries,
+def regelbedarf_grunds_im_alter_vermögens_check_m_hh(
+    regelbedarf_m_hh: FloatSeries, unter_vermögensfreib_grunds_im_alter_hh: BoolSeries,
 ) -> FloatSeries:
     """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
 
@@ -394,20 +393,20 @@ def regelbedarf_m_grunds_im_alter_vermögens_check_hh(
     ----------
     regelbedarf_m_hh
         See :func:`regelbedarf_m_hh`.
-    unter_vermögens_freibetrag_grunds_im_alter_hh
-        See :func:`unter_vermögens_freibetrag_grunds_im_alter_hh`.
+    unter_vermögensfreib_grunds_im_alter_hh
+        See :func:`unter_vermögensfreib_grunds_im_alter_hh`.
 
     Returns
     -------
 
     """
     out = regelbedarf_m_hh.copy()
-    out.loc[~unter_vermögens_freibetrag_grunds_im_alter_hh] = 0
+    out.loc[~unter_vermögensfreib_grunds_im_alter_hh] = 0
     return out
 
 
-def unter_vermögens_freibetrag_grunds_im_alter_hh(
-    vermögen_hh: FloatSeries, freibetrag_vermögen_grunds_im_alter_hh: FloatSeries
+def unter_vermögensfreib_grunds_im_alter_hh(
+    vermögen_hh: FloatSeries, vermögensfreib_grunds_im_alter_hh: FloatSeries
 ) -> BoolSeries:
     """Check if capital of household is below limit of Grundsicherung im Alter.
 
@@ -415,17 +414,17 @@ def unter_vermögens_freibetrag_grunds_im_alter_hh(
     ----------
     vermögen_hh
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
-    freibetrag_vermögen_grunds_im_alter_hh
-       See :func:`freibetrag_vermögen_grunds_im_alter_hh`.
+    vermögensfreib_grunds_im_alter_hh
+       See :func:`vermögensfreib_grunds_im_alter_hh`.
 
     Returns
     -------
 
     """
-    return vermögen_hh < freibetrag_vermögen_grunds_im_alter_hh
+    return vermögen_hh < vermögensfreib_grunds_im_alter_hh
 
 
-def freibetrag_vermögen_grunds_im_alter_hh(
+def vermögensfreib_grunds_im_alter_hh(
     anz_erwachsene_hh: IntSeries,
     anz_kinder_hh: IntSeries,
     grunds_im_alter_params: dict,
