@@ -12,15 +12,13 @@ from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.social_insurance.ges_krankenv import (
-    ges_krankenv_beitr_regulär_beschäftigt_nicht_paritätisch,
+    _ges_krankenv_beitr_reg_beschäftigt_nicht_pari,
 )
 from gettsim.social_insurance.ges_krankenv import (
-    ges_krankenv_beitr_regulär_beschäftigt_paritätisch,
+    _ges_krankenv_beitr_reg_beschäftigt_pari,
 )
-from gettsim.social_insurance.ges_krankenv import (
-    ges_krankenv_beitr_rente_nicht_paritätisch,
-)
-from gettsim.social_insurance.ges_krankenv import ges_krankenv_beitr_rente_paritätisch
+from gettsim.social_insurance.ges_krankenv import ges_krankenv_beitr_rente_nicht_pari
+from gettsim.social_insurance.ges_krankenv import ges_krankenv_beitr_rente_pari
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
@@ -278,17 +276,15 @@ def load_reforms_for_date(date):
         <= date
         <= datetime.date(year=2018, month=12, day=31)
     ):
+        functions["ges_krankenv_beitr_rente"] = ges_krankenv_beitr_rente_nicht_pari
         functions[
-            "ges_krankenv_beitr_rente"
-        ] = ges_krankenv_beitr_rente_nicht_paritätisch
-        functions[
-            "krankenv_beitr_regulär_beschäftigt"
-        ] = ges_krankenv_beitr_regulär_beschäftigt_nicht_paritätisch
+            "_ges_krankenv_beitr_reg_beschäftigt"
+        ] = _ges_krankenv_beitr_reg_beschäftigt_nicht_pari
     else:
-        functions["ges_krankenv_beitr_rente"] = ges_krankenv_beitr_rente_paritätisch
+        functions["ges_krankenv_beitr_rente"] = ges_krankenv_beitr_rente_pari
         functions[
-            "krankenv_beitr_regulär_beschäftigt"
-        ] = ges_krankenv_beitr_regulär_beschäftigt_paritätisch
+            "_ges_krankenv_beitr_reg_beschäftigt"
+        ] = _ges_krankenv_beitr_reg_beschäftigt_pari
 
     return functions
 

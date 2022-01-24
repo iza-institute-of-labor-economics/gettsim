@@ -67,7 +67,7 @@ def ges_krankenv_beitr_m_tu(
     return ges_krankenv_beitr_m.groupby(tu_id).sum()
 
 
-def _ges_krankenv_beitr_reg_beschäftigt(
+def _ges_krankenv_beitr_reg_beschäftigt_nicht_pari(
     bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for regular jobs
@@ -92,7 +92,7 @@ def _ges_krankenv_beitr_reg_beschäftigt(
     ) * bruttolohn_ges_krankenv_beitr_m
 
 
-def ges_krankenv_beitr_regulär_beschäftigt_paritätisch(
+def _ges_krankenv_beitr_reg_beschäftigt_pari(
     bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for regular jobs
@@ -111,35 +111,13 @@ def ges_krankenv_beitr_regulär_beschäftigt_paritätisch(
     Pandas Series containing monthly health insurance contributions for self employed
     income.
     """
+
     return (
         (
             soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"]
             + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
         )
         / 2
-    ) * bruttolohn_ges_krankenv_beitr_m
-
-
-def ges_krankenv_beitr_regulär_beschäftigt_nicht_paritätisch(
-    bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
-    """Calculates health insurance contributions for regular jobs
-    Between 07/2005 and 12/2019,
-    contributions were not equally split between employer and employee
-
-    Parameters
-    ----------
-    bruttolohn_ges_krankenv_beitr_m
-        See func:`bruttolohn_ges_krankenv_beitr_m`
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-    Returns
-    -------
-    Pandas Series containing monthly health insurance contributions for employed
-    """
-    return (
-        (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"] / 2)
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
     ) * bruttolohn_ges_krankenv_beitr_m
 
 
@@ -243,7 +221,7 @@ def ges_krankenv_rente(
     return ges_rente_m.clip(upper=ges_krankenv_beitr_bemess_grenze)
 
 
-def ges_krankenv_beitr_rente_nicht_paritätisch(
+def ges_krankenv_beitr_rente_nicht_pari(
     ges_krankenv_rente: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the contribution to health insurance for pension income.
@@ -267,7 +245,7 @@ def ges_krankenv_beitr_rente_nicht_paritätisch(
     ) * ges_krankenv_rente
 
 
-def ges_krankenv_beitr_rente_paritätisch(
+def ges_krankenv_beitr_rente_pari(
     ges_krankenv_rente: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the contribution to health insurance for pension income.
