@@ -29,7 +29,7 @@ Motivation and Scope
 --------------------
 
 For several taxes and transfers, German law specifies that these be rounded in specific
-ways. This leads to different use cases.
+ways. This leads to different use cases for GETTSIM.
 
 1. Some applications require the exact, rounded, amount as specified in the law. This
    is also helpful for creating test cases.
