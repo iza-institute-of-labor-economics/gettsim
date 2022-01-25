@@ -5,9 +5,10 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.4.2 -
+0.4.2 -2022-01-25
 ------------------
 
+* Ensure GETTSIM works with Pandas 1.4 (:gh:`337`)
 
 0.4.1 - 2021-04-11
 ------------------
