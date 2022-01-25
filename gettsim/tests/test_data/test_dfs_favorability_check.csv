@@ -1,4 +1,4 @@
-"hh_id","tu_id","p_id","gem_veranlagt","kind","st_kein_kind_freib_tu","_st_abgeltst_kein_kind_freib_tu","st_kind_freib_tu","_st_abgelt_st_m_kind_freib_tu","abgelt_st_tu","kindergeld_m_basis","kindergeld_m_basis_tu","jahr",,"eink_st_tu","kindergeld_m","kindergeld_m_hh","kindergeld_m_tu",,"nettax_nokfb_tu","nettax_kfb_tu"
+"hh_id","tu_id","p_id","gem_veranlagt","kind","eink_st_kein_kinderfreib_tu","_st_abgelteink_st_kein_kinderfreib_tu","eink_st_kinderfreib_tu","_st_abgelt_st_m_kinderfreib_tu","abgelt_st_tu","kindergeld_m_basis","kindergeld_m_basis_tu","jahr",,"eink_st_tu","kindergeld_m","kindergeld_m_hh","kindergeld_m_tu",,"nettax_nokfb_tu","nettax_kfb_tu"
 1,1,1,"TRUE","FALSE",10000,10000,7000,7000,0,0,194,2016,,7000,0,0,0,,7672,7000
 1,1,2,"TRUE","FALSE",10000,10000,7000,7000,0,0,194,2016,,7000,0,0,0,,7672,7000
 1,1,3,"FALSE","TRUE",10000,10000,7000,0,0,194,194,2016,,7000,0,0,0,,0,0

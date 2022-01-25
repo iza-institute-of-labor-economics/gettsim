@@ -1,4 +1,4 @@
-kinderzuschlag_max:
+kinderzuschl_max:
   name:
     de: Höhe des Kinderzuschlags
     en: Additional child benefit
@@ -17,7 +17,7 @@ kinderzuschlag_max:
     scalar: 185
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530. For 2020, Art. 2 Nr. 4 G. v. 29.04.2019 BGBl. I S. 530.
     note: Ab 2021 wird der Betrag aus anderen Parametern berechnet.
-kinderzuschlag_min_eink_paare:
+kinderzuschl_min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
     en: Minimum income to be eligible for add. child benefit (couples)
@@ -32,7 +32,7 @@ kinderzuschlag_min_eink_paare:
   2008-10-01:
     scalar: 900
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-kinderzuschlag_min_eink_alleinerz:
+kinderzuschl_min_eink_alleinerz:
   name:
     de: Mindesteinkommen für Alleinerziehende
     en: Minimum income for single parents
@@ -47,7 +47,7 @@ kinderzuschlag_min_eink_alleinerz:
   2008-10-01:
     scalar: 600
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-kinderzuschlag_transferentzug_eltern:
+kinderzuschl_entzug_eltern:
   name:
     de: Minderungsrate durch Einkommen der Eltern über BMG
     en: transfer withdrawal rate for parent's income
@@ -64,7 +64,7 @@ kinderzuschlag_transferentzug_eltern:
   2020-01-01:
     scalar: 0.45
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
-kinderzuschlag_transferentzug_kind:
+kinderzuschl_entzug_kind:
   name:
     de: Minderungsrate durch Einkommen des Kindes
     en: Rate at which child income is deducted
