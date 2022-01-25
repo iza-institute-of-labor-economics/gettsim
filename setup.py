@@ -19,7 +19,7 @@ PROJECT_URLS = {
 
 setup(
     name="gettsim",
-    version="0.4.1",
+    version="0.4.2",
     description=DESCRIPTION,
     long_description=DESCRIPTION + "\n\n" + README,
     long_description_content_type="text/x-rst",
