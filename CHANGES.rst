@@ -8,6 +8,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.5.0 —
 ------------------
 
+* :gh:`327` add behinderten_pauschbetrag for 1975-1986.
+   (:ghuser:`lillyfischer`).
 * :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters.
    (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
 * :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh.
