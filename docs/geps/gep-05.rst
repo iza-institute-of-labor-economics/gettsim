@@ -42,8 +42,9 @@ This document describes how we go about supporting both use cases.
 Implementation
 --------------
 
-GETTSIM allows for optional rounding of functions' results. Rounding parameters
-are specified in the ``.yaml``-files. The following goes through the details using an example from the basic pension allowance (Grundrente).
+GETTSIM allows for optional rounding of functions' results. Rounding parameters are
+specified in the ``.yaml``-files. The following goes through the details using an
+example from the basic pension allowance (Grundrente).
 
 The law on the public pension insurance specifies that the maximum possible
 Grundrentenzuschlag ``höchstwert_grundr_zuschlag_m`` be rounded to the nearest
@@ -81,12 +82,13 @@ of the dictionary ``policy_params``.
 
 A function to be rounded must be decorated with ``add_rounding_spec``. This decorator
 indicates that the output should potentially be rounded. ``add_rounding_spec`` takes
-one required argument: ``params_key`` points to the key of the policy parameters dictionary containing the
-rounding parameters relating to the function that is decorated. In the above example, the rounding specification for
-``höchstwert_grundr_zuschlag_m`` will be found
-in ``policy_params["ges_rentenv"]`` after ``set_up_policy_environment()`` has been
-called (since it was specified in ``ges_rentenv.yaml``). Hence, the ``params_key`` argument of ``add_rounding_spec`` has to be
-``"ges_rentenv"``:
+one required argument: ``params_key`` points to the key of the policy parameters
+dictionary containing the rounding parameters relating to the function that is
+decorated. In the above example, the rounding specification for
+``höchstwert_grundr_zuschlag_m`` will be found in ``policy_params["ges_rentenv"]``
+after ``set_up_policy_environment()`` has been called (since it was specified in
+``ges_rentenv.yaml``). Hence, the ``params_key`` argument of ``add_rounding_spec`` has
+to be ``"ges_rentenv"``:
 
 .. code-block:: python
 
@@ -136,9 +138,9 @@ User-specified rounding
 If a user wants to change rounding of a specified function, she will need to adjust the
 rounding parameters in ``policy_params``.
 
-Suppose one would like to specify a reform in which
-``höchstwert_grundr_zuschlag_m`` is rounded to the next-lowest fourth decimal
-point instead of to the nearest. In that case, the rounding parameters will need to be changed as follows
+Suppose one would like to specify a reform in which ``höchstwert_grundr_zuschlag_m`` is
+rounded to the next-lowest fourth decimal point instead of to the nearest. In that
+case, the rounding parameters will need to be changed as follows
 
 .. code-block:: python
 
@@ -146,8 +148,11 @@ point instead of to the nearest. In that case, the rounding parameters will need
            "direction"
        ] = "down"
 
-If a user would like to add user-written functions which should be rounded, she will need
-to decorate the respective functions with ``add_rounding_spec`` and adjust
+This will be done after the policy environment has been set up and it is exactly the
+same as for other parameters of the taxes and transfers system, see :ref:gep-3.
+
+If a user would like to add user-written functions which should be rounded, she will
+need to decorate the respective functions with ``add_rounding_spec`` and adjust
 ``policy_params`` accordingly.
 
 
