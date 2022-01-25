@@ -43,7 +43,7 @@ Implementation
 --------------
 
 GETTSIM allows for optional rounding of functions' results. Rounding parameters
-are specified in the ``.yaml``-files.
+are specified in the ``.yaml``-files. The following goes through the details using an example from the basic pension allowance (Grundrente).
 
 The law on the public pension insurance specifies that the maximum possible
 Grundrentenzuschlag ``höchstwert_grundr_zuschlag_m`` be rounded to the nearest
@@ -67,25 +67,25 @@ the outermost level of indentation. The keys are names of functions.
 
 At the next level, the ``YYYY-MM-DD`` key(s) indicate when rounding was
 introduced and/or changed. This is done in in the same way as for other policy
-parameters as described in :ref:`gep-3`. Those ``YYYY-MM-DD`` key(s) are
-associated with a dictionary of the following elements:
+parameters, see in :ref:`gep-3`. Those ``YYYY-MM-DD`` key(s) are
+associated with a dictionary containing the following elements:
 
 - The parameter ``base`` determines the base to which the variables is rounded.
   It has to be a floating point number.
 - The parameter ``direction`` has to be one of ``up``, ``down``, or ``nearest``.
-- The reference must contain the reference to the law, which specifies the
+- The ``reference`` must contain the reference to the law, which specifies the
   rounding.
 
 In the same way as other policy parameters, the rounding parameters become part
 of the dictionary ``policy_params``.
 
 A function to be rounded must be decorated with ``add_rounding_spec``. This decorator
-indicates that the output should be potentially rounded. ``add_rounding_spec`` takes
-one required argument: ``params_key`` points to the parameter key under which the
-rounding parameters are specified. In the above example, the rounding specification for
-``höchstwert_grundr_zuschlag_m`` is specified in ``ges_rentenv.yaml`` and will be found
+indicates that the output should potentially be rounded. ``add_rounding_spec`` takes
+one required argument: ``params_key`` points to the key of the policy parameters dictionary containing the
+rounding parameters relating to the function that is decorated. In the above example, the rounding specification for
+``höchstwert_grundr_zuschlag_m`` will be found
 in ``policy_params["ges_rentenv"]`` after ``set_up_policy_environment()`` has been
-called. Hence, the ``params_key`` argument of ``add_rounding_spec`` has to be
+called (since it was specified in ``ges_rentenv.yaml``). Hence, the ``params_key`` argument of ``add_rounding_spec`` has to be
 ``"ges_rentenv"``:
 
 .. code-block:: python
@@ -97,9 +97,9 @@ called. Hence, the ``params_key`` argument of ``add_rounding_spec`` has to be
 
 The decorator adds the attribute ``__rounding_params_key__`` to the function. When
 calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM will
-look for a key ``rounding`` in ``policy_params["params_key]`` and
+look for a key ``"rounding"`` in ``policy_params["params_key"]`` and
 within that, for another key containing the decorated function's name (here:
-``höchstwert_grundr_zuschlag_m``). That is, by the machinery outlined in
+``"höchstwert_grundr_zuschlag_m"``). That is, by the machinery outlined in
 :ref:`gep-3`, the following indexing of the ``policy_params`` dictionary
 
 .. code-block:: python
@@ -122,23 +122,23 @@ missing in ``policy_params``, an error is raised.
 
 Note that if the results have to be rounded in some years, but not in others (e.g.
 after a policy reform) the rounding parameters (both ``"base"`` and ``"direction"``)
-can be set to ``None``. This allows that the rounding parameters are found and no error
+must be set to ``None``. This allows that the rounding parameters are found and no error
 is raised, but still no rounding is applied.
 
 In case rounding parameters are specified and the function does not have
-``__rounding_params_key__`` attribute of the functions is missing does not
-lead to an error during execution. This will never happen in the GETTSIM
+a ``__rounding_params_key__`` attribute, execution will not
+lead to an error. This will never happen in the GETTSIM
 codebase, however, due to a suitable test.
 
 User-specified rounding
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If a user wants to change rounding of a specified function, she needs to adjust the
+If a user wants to change rounding of a specified function, she will need to adjust the
 rounding parameters in ``policy_params``.
 
 Suppose one would like to specify a reform in which
 ``höchstwert_grundr_zuschlag_m`` is rounded to the next-lowest fourth decimal
-point instead of to the nearest. In that case, the rounding parameters net to changed as follows
+point instead of to the nearest. In that case, the rounding parameters will need to be changed as follows
 
 .. code-block:: python
 
@@ -146,7 +146,7 @@ point instead of to the nearest. In that case, the rounding parameters net to ch
            "direction"
        ] = "down"
 
-If a user would like to add user-written functions which should be rounded, she needed
+If a user would like to add user-written functions which should be rounded, she will need
 to decorate the respective functions with ``add_rounding_spec`` and adjust
 ``policy_params`` accordingly.
 
