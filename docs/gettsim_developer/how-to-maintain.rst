@@ -19,10 +19,10 @@ Branching Model
 
 The branching model for GETTSIM is very simple.
 
-1. New major and minor releases of GETTSIM are developed on the master branch.
+1. New major and minor releases of GETTSIM are developed on the main branch.
 
 2. For older major and minor releases there exist branches for maintenance called, for
-   example, ``0.1`` or ``1.3``. These branches are used to develop new patch versions.
+   example, ``0.4`` or ``1.3``. These branches are used to develop new patch versions.
 
    Once a minor version will not be supported anymore, the maintenance branch should be
    deleted.
@@ -30,8 +30,8 @@ The branching model for GETTSIM is very simple.
 
 .. _releases:
 
-How To Release
---------------
+How To Release Major or Minor Versions
+--------------------------------------
 
 To release a new major or minor version of GETTSIM, do the following.
 
@@ -47,11 +47,11 @@ To release a new major or minor version of GETTSIM, do the following.
 
 2. Once all PRs in a milestone are closed:
 
-   a. Create a new branch and PR to do some changes.
+   a. Create a PR to do some final changes.
 
    b. Update :ref:`changes` with all necessary information regarding the new release.
 
-   c. Use ``bumpversion [major|minor|patch]`` to increment all version strings. For
+   c. Use ``bumpversion [major|minor]`` to increment all version strings. For
       example, to bump the version from ``0.1.x`` to ```0.2.0``, type
 
       .. code-block:: bash
@@ -65,20 +65,27 @@ To release a new major or minor version of GETTSIM, do the following.
 
           conda build .
 
-      Fix all occurring issues.
+      Fix all issues that occur.
 
-   e. Merge it to the master branch and create a maintenance branch ``[major].[minor]``,
-      i.e., ``0.2`` in this example.
+   e. Merge the changes from a.-d. into the main branch.
 
-3. The following step assigns a version and documents the release on Github. Go to the
-   `page for releases <https://github.com/iza-institute-of-labor-economics/
-   gettsim/releases>`_ and draft a new release. The tag and title become ``vx.y.z``.
-   Make sure to target the master or maintenance branch. A long description is not
-   necessary as the most important information is documented under :ref:`changes`.
-   Release the new version by clicking "Publish release".
+   f. Create a maintenance branch ``[major].[minor]``, i.e., ``0.2`` in this example.
 
-4. On your local machine, pull the latest changes to the repository, check out the new
-   release tag and run
+3. The following step assigns a version and documents the release on Github.
+
+   a. Create a tag ``vX.Y.Z`` and push to Github using ``git push --tags``.
+
+   b. Go to the `page for releases
+      <https://github.com/iza-institute-of-labor-economics/gettsim/releases>`_ and draft
+      a new release. Target the tag you just created and set the release title to
+      ``vX.Y.Z`` as well.
+
+      A long description is not necessary as the most important information is
+      documented under :ref:`changes`. Release the new version by clicking "Publish
+      release".
+
+4. On your local machine, make sure you are on the same commit as the tag ``vX.Y.Z`` and
+   run:
 
    .. code-block:: bash
 
@@ -90,8 +97,8 @@ To release a new major or minor version of GETTSIM, do the following.
 
 .. _backports:
 
-How To Maintain Previously Released Versions
---------------------------------------------
+How to Release Patched Versions
+-------------------------------
 
 Most changes to previously released versions come in the form of backports. Backporting
 is the process of re-applying a change to future versions of GETTSIM to older versions.
@@ -103,21 +110,31 @@ Procedure
 ^^^^^^^^^
 
 In the following we will consider an example where GETTSIM's stable version is
-``0.2.0``. Version ``0.3.0`` is currently developed on the master branch. There is a
-maintenance branch ``0.2`` to receive patches for the ``0.2.x`` line of releases. And a
-critical bug was found, which should be fixed in both ``0.3.0`` and in ``0.2.1``.
+``0.2.0``. Version ``0.3.0`` is currently under development on the main branch. There is
+a maintenance branch ``0.2`` to receive patches for the ``0.2.x`` line of releases. And
+a critical bug was found, which should be fixed in both ``0.3.0`` and in ``0.2.1``.
 
-1. Create a PR containing the bug fix which targets the master branch.
+1. Create a PR containing the bug fix which targets the main branch.
 2. Add a note to the release notes for version 0.2.1.
-3. Squash merge the PR into master and note down the commit sha.
+3. Squash merge the PR into main and note down the commit sha.
 4. Create a new PR against branch ``0.2``. Call the branch for the PR
    ``backport-pr[No.]-to-0.2.1`` where ``[No.]`` is the PR number.
 5. Use ``git cherrypick -x <commit-sha>`` with the aforementioned commit sha to apply
    the fix to the branch. Solve any merge conflicts, etc..
 6. Add the PR to the milestone for version ``0.2.1`` so that all changes for a new
    release can be collected.
-7. The release process for a patch version works as above in :ref:`releases` to release
-   ``0.2.1``; just that it is released off the maintenance branch, not off master.
+7. The release process for a patch version works as above in :ref:`releases`, steps
+   2.-4.. Notable differences:
+
+   - Replace ``main`` by ``maintenance_branch`` (e.g., 0.2) everywhere.
+   - 2.c becomes:
+
+     .. code-block:: bash
+
+         $ bumpversion patch
+
+   - 2.f does not apply
+
 
 FAQ
 ---
