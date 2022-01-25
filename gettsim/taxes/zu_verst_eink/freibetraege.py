@@ -128,7 +128,7 @@ def altersfreib(
             bruttolohn_m
             + (kapital_eink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
         )
-    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])
+    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])[alter > 64]
     return out
 
 
