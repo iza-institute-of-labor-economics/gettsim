@@ -27,6 +27,13 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   abbreviations, now `kinderfreib` everywhere). (:ghuser:`hmgaudecker`,
   :ghuser:`ChristianZimpelmann`)
 
+
+0.4.2 — 2022-01-25
+------------------
+
+* Ensure GETTSIM works with Pandas 1.4 (:gh:`337`)
+
+
 0.4.1 — 2021-04-11
 ------------------
 
