@@ -5,6 +5,30 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
+0.4.2 -
+------------------
+
+
+0.4.1 - 2021-04-11
+------------------
+
+* :gh:`248` Implement 2021 increase in lump sum tax deductions for disabled.
+   (:ghuser:`Eric-Sommer`).
+* :gh:`254` Implement 2021 increase in unemployment benefits
+    (:ghuser:`Eric-Sommer`).
+* :gh:`253` Implement 2021 changes in health insurance contribution rates and
+    other social insurance regulations (:ghuser:`Eric-Sommer`).
+* :gh:`266` Adjust visualization.py to link nodes of DAGs to documentation
+    properly (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`).
+* :gh:`267` Implement new calculation of Kinderzuschlag parameter
+   (:ghuser:`Eric-Sommer`).
+* :gh:`252` implement 2021 reforms to income tax tariff and family tax deductions
+    (:ghuser:`Eric-Sommer`).
+* :gh:`235` Module to create synthetic data
+    (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
+* :gh:`256` Implement 2021 housing benefit reform (:ghuser:`Eric-Sommer`).
+* :gh:`283` Implement Kinderbonus in 2020 and 2021 (:ghuser:`ChristianZimpelmann`).
+
 
 0.4.0 - 2020-11-11
 ------------------

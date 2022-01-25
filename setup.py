@@ -19,7 +19,7 @@ PROJECT_URLS = {
 
 setup(
     name="gettsim",
-    version="0.4",
+    version="0.4.1",
     description=DESCRIPTION,
     long_description=DESCRIPTION + "\n\n" + README,
     long_description_content_type="text/x-rst",
@@ -37,6 +37,8 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     platforms="any",
     package_data={
@@ -45,6 +47,7 @@ setup(
             "pre_processing/exogene_renten_daten/*.yaml",
             "tests/test_data/*.csv",
             "tests/test_data/*.ods",
+            "synthetic_data/*.yaml",
         ]
     },
     include_package_data=True,

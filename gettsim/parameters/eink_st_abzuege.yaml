@@ -77,6 +77,10 @@ kinderfreibetrag:
     deviation_from: previous
     sächl_existenzmin: 2586
     reference: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
+  2021-01-01:
+    sächl_existenzmin: 2730
+    beitr_erz_ausb: 1464
+    reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
 
 vorsorge2004_vorwegabzug:
   name:
@@ -406,6 +410,10 @@ alleinerziehenden_freibetrag:
   2015-01-01:
     scalar: 1908
     reference: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
+  2020-01-01:
+    scalar: 4008
+    reference: Art. 3 Nr. 2 G. v. 29.12.2020 BGBl. I S.3096
+
 
 alleinerziehenden_freibetrag_zusatz:
   name:
@@ -510,7 +518,7 @@ behinderten_pauschbetrag:
     de: Behinderten-Pauschbetrag, in Abhängigkeit des Behinderungsgrads.
     en: Tax Credit for disabled, depending on degree of disability.
   description:
-    de: § 33b (3) EStG
+    de: § 33b (3) EStG.
     en:
   unit: Euro
   time: year
@@ -535,6 +543,17 @@ behinderten_pauschbetrag:
     75: 1060
     85: 1230
     95: 1420
+  2021-01-01:
+    reference: Art. 1 G. v. 09.12.2020 BGBL. I  S. 2770.
+    20: 384
+    30: 620
+    40: 860
+    50: 1140
+    60: 1440
+    70: 1780
+    80: 2120
+    90: 2460
+    100: 2840
 
 
 kinderbetreuungskosten_abz_anteil:

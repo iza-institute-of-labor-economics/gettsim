@@ -3,7 +3,7 @@
 Basic input variables
 =====================
 
-The table below gives an overview of all variables needed to run GETTSIM completly.
+The table below gives an overview of all variables needed to run GETTSIM completely.
 Note that the variables with _hh at the end, have to be constant over the whole
 household.
 
@@ -14,9 +14,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`tu_id`                | Tax Unit identifier                          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`kind`                 | Dummy: Child by SOEP Definition              | BoolSeries  |
-+-------------------------+----------------------------------------------+-------------+
-| _`anz_minderj_hh`       | Number of children between 0 and 18 in hous  | IntSeries   |
+| _`kind`                 | Dummy: Dependent child living with parents   | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
 | _`bruttolohn_m`         | Monthly wage of each individual              | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+

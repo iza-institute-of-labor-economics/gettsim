@@ -36,8 +36,8 @@ def input_data():
     return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_prio.csv")
 
 
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_benefit_checks(input_data, year, column):
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
+def test_benefit_checks(input_data, year, target):
     """Test the benefit checks."""
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
@@ -55,7 +55,7 @@ def test_benefit_checks(input_data, year, column):
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=column,
+        targets=target,
         columns_overriding_functions=columns,
     )
-    assert_series_equal(result[column], year_data[column], check_dtype=False)
+    assert_series_equal(result[target], year_data[target], check_dtype=False)

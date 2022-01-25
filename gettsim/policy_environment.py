@@ -45,8 +45,9 @@ from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
 )
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
-from gettsim.transfers.wohngeld import wohngeld_max_miete_ab_2009
-from gettsim.transfers.wohngeld import wohngeld_max_miete_bis_2008
+from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
+from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_bis_2008
 
 
 def set_up_policy_environment(date):
@@ -73,17 +74,40 @@ def set_up_policy_environment(date):
 
     params = {}
     for group in INTERNAL_PARAM_GROUPS:
-        tax_data = _load_parameter_group_from_yaml(date, group)
+        params_one_group = _load_parameter_group_from_yaml(date, group)
 
-        # Align paramters for e.g. piecewise polynomial functions
-        params[group] = _parse_parameters(tax_data)
+        # Align parameters for piecewise polynomial functions
+        params[group] = _parse_piecewise_parameters(params_one_group)
+
+    # extend dictionary with date-specific values which do not need an own function
+    params = _parse_kinderzuschlag_max(date, params)
 
     functions = load_reforms_for_date(date)
 
     return params, functions
 
 
-def _parse_parameters(tax_data):
+def _parse_date(date):
+    """Check the policy date for different input formats.
+
+    Parameters
+    ----------
+    date : datetime.date, str, int
+        The date for which the policy system is set up.
+
+    Returns
+    -------
+    date : datetime.date
+        The date for which the policy system is set up.
+    """
+    if isinstance(date, str):
+        date = pd.to_datetime(date).date()
+    elif isinstance(date, int):
+        date = datetime.date(year=date, month=1, day=1)
+    return date
+
+
+def _parse_piecewise_parameters(tax_data):
     """Check if parameters are stored in implicit structures and align to general
     structure.
 
@@ -118,28 +142,40 @@ def _parse_parameters(tax_data):
     return tax_data
 
 
-def _parse_date(date):
-    """Check the policy date for different input formats.
+def _parse_kinderzuschlag_max(date, params):
+    """Prior to 2021, kinderzuschlag_max (the maximum amount of the
+    Kinderzuschlag) was specified directly in the laws and directives.
+
+    Since 2021, kinderzuschlag_max has been derived from subsistence
+    levels. This function implements that calculation.
 
     Parameters
     ----------
-    date : datetime.date, str, int
-        The date for which the policy system is set up.
+    date: datetime.date
+        The date for which the policy parameters are set up.
+    params: dict
+        A dictionary with parameters from the policy environment.
 
     Returns
     -------
-    date : datetime.date
-        The date for which the policy system is set up.
+    params: dic
+        updated dictionary
+
     """
-    if isinstance(date, str):
-        date = pd.to_datetime(date).date()
-    elif isinstance(date, int):
-        date = datetime.date(year=date, month=1, day=1)
-    return date
+
+    if date.year >= 2021:
+        assert {"kinderzuschlag", "kindergeld"} <= params.keys()
+        params["kinderzuschlag"]["kinderzuschlag_max"] = (
+            params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
+            + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
+            + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
+        ) / 12 - params["kindergeld"]["kindergeld"][1]
+
+    return params
 
 
 def load_reforms_for_date(date):
-    """Load time dependet policy reforms.
+    """Load time-dependent policy reforms.
 
     Parameters
     ----------
@@ -197,9 +233,11 @@ def load_reforms_for_date(date):
         functions["wohngeld_eink_abzüge"] = wohngeld_eink_abzüge_ab_2016
 
     if year <= 2008:
-        functions["wohngeld_max_miete"] = wohngeld_max_miete_bis_2008
+        functions["wohngeld_miete"] = wohngeld_miete_bis_2008
+    elif 2009 <= year <= 2020:
+        functions["wohngeld_miete"] = wohngeld_miete_ab_2009
     else:
-        functions["wohngeld_max_miete"] = wohngeld_max_miete_ab_2009
+        functions["wohngeld_miete"] = wohngeld_miete_ab_2021
 
     if year <= 2010:
         functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_bis_2010
@@ -280,7 +318,10 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         else:
             policy_in_place = raw_group_data[param][np.max(past_policies)]
             if "scalar" in policy_in_place.keys():
-                tax_data[param] = policy_in_place["scalar"]
+                if policy_in_place["scalar"] == "inf":
+                    tax_data[param] = np.inf
+                else:
+                    tax_data[param] = policy_in_place["scalar"]
             else:
                 tax_data[param] = {}
                 # Keys which if given are transferred
