@@ -1,4 +1,4 @@
-hh_id,tu_id,p_id,bruttolohn_m,wohnort_ost,alter,jahr,geburtsjahr,exper,avg_ep,entgeltpunkte,,entgeltpunkte_lohn,entgeltpunkte_update,regelaltersgrenze,rente_anspr_excl_gr_m,rentenv_beitr_bemess_grenze,,Notes
+hh_id,tu_id,p_id,bruttolohn_m,wohnort_ost,alter,jahr,geburtsjahr,exper,avg_ep,entgeltpunkte,,entgeltpunkte_lohn,entgeltpunkte_update,regelaltersgrenze,rente_anspr_excl_gr_m,ges_rentenv_beitr_bemess_grenze,,Notes
 1,1,1,600,FALSE,39,2010,1971,21,0.8706,18.2826,,0.23118417672746,18.5137841767275,67,503.574929606987,5500,,
 2,2,2,900,FALSE,42,2010,1968,24,0.8904,21.3696,,0.346776265091189,21.7163762650912,66.75,590.68543441048,5500,,
 3,3,3,900,TRUE,42,2010,1968,24,0.8904,21.3696,,0.406629848445929,21.7762298484459,66.75,525.460426243,4650,,from eastern Germany: earns more Entgeltpunkte for same wage

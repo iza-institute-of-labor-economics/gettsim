@@ -7,7 +7,7 @@ import pandas as pd
 
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import ORDER_OF_IDS
-from gettsim.config import STANDARD_DATA_TYPES
+from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.dag import _dict_subset
 from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
@@ -157,8 +157,8 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
     """
     for column_name, series in data.items():
         check_data = True
-        if column_name in STANDARD_DATA_TYPES:
-            internal_type = STANDARD_DATA_TYPES[column_name]
+        if column_name in TYPES_INPUT_VARIABLES:
+            internal_type = TYPES_INPUT_VARIABLES[column_name]
             check_data = check_if_series_has_internal_type(series, internal_type)
         elif column_name in columns_overriding_functions:
             internal_type = functions[column_name].__annotations__["return"]
@@ -508,8 +508,7 @@ def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specifi
 
 
 def _fail_if_pid_is_non_unique(data):
-    """ Check that pid is unique
-    """
+    """Check that pid is unique"""
 
     if "p_id" not in data:
         message = "The input data must contain the column p_id"

@@ -43,11 +43,11 @@ variables have to be last inputs in the function signature.
 +---------------------------+--------------------------------+
 | _`wohngeld_params`        | Housing benefits               |
 +---------------------------+--------------------------------+
-| _`kinderzuschlag_params`  | Child allowance                |
+| _`kinderzuschl_params`    | Child allowance                |
 +---------------------------+--------------------------------+
 | _`kindergeld_params`      | Child benefits                 |
 +---------------------------+--------------------------------+
 | _`elterngeld_params`      | Parental leave benefits        |
 +---------------------------+--------------------------------+
-| _`ges_renten_vers_params` | Pensions                       |
+| _`ges_rentenv_params`     | Pensions                       |
 +---------------------------+--------------------------------+

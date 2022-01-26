@@ -26,9 +26,9 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`wohnort_ost`          | Dummy: Living in former East Germany         | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`prv_krankenv`         | Dummy: In private health insurance           | BoolSeries  |
+| _`in_priv_krankenv`     | Dummy: In private health insurance           | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
-| _`prv_rente_beitr_m`    | Monthly private pension contribution         | FloatSeries |
+| _`priv_rentenv_beitr_m` | Monthly private pension contribution         | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`in_ausbildung`        | Dummy: Employment status “in education”      | BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+
@@ -88,11 +88,13 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltpunkte`        | Earning points for pension claim             | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`gr_bewertungszeiten`  | Months with > 30% of average income          | IntSeries   |
+| _`g_r_bewertungsreiten` | Months with > 30% of average income          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltp_grundr`      | Entgeltpunkte in Grundrentenbewertungszeiten | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`grundrentenzeiten`    | Number of months considered for Grundrente   | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`prv_rente_m`          | Amount of monthly private pension            | FloatSeries |
+| _`priv_rente_m`         | Amount of monthly private pension            | FloatSeries |
++-------------------------+----------------------------------------------+-------------+
+| _`schwerbe_ausweis_g`   | Dummy: Schwerbehindertenausweis Merkzeichen G| BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+

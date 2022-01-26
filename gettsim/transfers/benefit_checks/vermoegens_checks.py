@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -29,16 +30,15 @@ def regelbedarf_m_vermögens_check_hh(
     return out
 
 
-def kinderzuschlag_vermögens_check_hh(
-    kinderzuschlag_m_vorläufig_hh: FloatSeries,
-    unter_vermögens_freibetrag_hh: BoolSeries,
+def kinderzuschl_vermögens_check_hh(
+    kinderzuschl_vorläufig_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries,
 ) -> FloatSeries:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
     Parameters
     ----------
-    kinderzuschlag_m_vorläufig_hh
-        See :func:`kinderzuschlag_m_vorläufig_hh`.
+    kinderzuschl_vorläufig_m_hh
+        See :func:`kinderzuschl_vorläufig_m_hh`.
     unter_vermögens_freibetrag_hh
         See :func:`unter_vermögens_freibetrag_hh`.
 
@@ -46,7 +46,7 @@ def kinderzuschlag_vermögens_check_hh(
     -------
 
     """
-    out = kinderzuschlag_m_vorläufig_hh.copy()
+    out = kinderzuschl_vorläufig_m_hh.copy()
     out.loc[~unter_vermögens_freibetrag_hh] = 0
     return out
 
@@ -131,8 +131,7 @@ def freibetrag_vermögen_anspruch_hh(
     -------
 
     """
-
-    out = alter * 0
+    out = pd.Series(0, index=alter.index)
     out.loc[geburtsjahr < 1948] = (
         arbeitsl_geld_2_params["vermögensfreibetrag"]["vor_1948"]
         * alter.loc[geburtsjahr < 1948]
@@ -183,7 +182,7 @@ def max_freibetrag_vermögen_hh(
     ]
 
     data = np.select(conditions, choices)
-    out = geburtsjahr * 0.0 + data
+    out = pd.Series(0, index=geburtsjahr.index) + data
 
     return out.groupby(hh_id).sum()
 

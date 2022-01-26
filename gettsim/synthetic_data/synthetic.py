@@ -185,7 +185,8 @@ def create_one_set_of_households(
     policy_year,
     **kwargs,
 ):
-    """ creates one set of households
+    """Create one set of households. If hetereogeneity in a dimension is considered
+    (e.g. income) this creates all households with the same value.
     """
     # Initiate empty dataframe.
     # Same order as 'Basic Input Variables' in the documentation
@@ -196,8 +197,8 @@ def create_one_set_of_households(
         "rentner",
         "alleinerziehend",
         "wohnort_ost",
-        "prv_krankenv",
-        "prv_rente_beitr_m",
+        "in_priv_krankenv",
+        "priv_rentenv_beitr_m",
         "in_ausbildung",
         "selbstständig",
         "hat_kinder",
@@ -227,10 +228,11 @@ def create_one_set_of_households(
         "immobilie_baujahr",
         "vermögen_hh",
         "entgeltpunkte",
-        "gr_bewertungszeiten",
+        "g_r_bewertungsreiten",
         "entgeltp_grundr",
         "grundrentenzeiten",
-        "prv_rente_m",
+        "priv_rente_m",
+        "schwerbe_ausweis_g",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -249,7 +251,8 @@ def create_one_set_of_households(
         "in_ausbildung",
         "alleinerziehend",
         "bewohnt_eigentum_hh",
-        "prv_krankenv",
+        "in_priv_krankenv",
+        "schwerbe_ausweis_g",
     ]:
         df[bool_col] = False
 
@@ -339,7 +342,7 @@ def create_one_set_of_households(
 
     # Retirement variables
     df["grundrentenzeiten"] = (df["alter"] - 20).clip(lower=0) * 12
-    df["gr_bewertungszeiten"] = df["grundrentenzeiten"]
+    df["g_r_bewertungsreiten"] = df["grundrentenzeiten"]
     df["entgeltpunkte"] = df["grundrentenzeiten"] / 12
     df["entgeltp_grundr"] = df["entgeltpunkte"]
 

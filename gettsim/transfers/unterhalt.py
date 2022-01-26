@@ -1,5 +1,6 @@
 """This module provides functions to compute alimony payments (Unterhalt)."""
 import numpy as np
+import pandas as pd
 
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -78,7 +79,7 @@ def unterhaltsvors_m(
     """
 
     # Initialize output Series
-    out = tu_id * 0
+    out = pd.Series(0, index=tu_id.index)
 
     # The right-hand-side variable is aggregated by tax units whereas we need personal
     # ids on the left-hand-side. Index with tax unit identifier for expansion and remove

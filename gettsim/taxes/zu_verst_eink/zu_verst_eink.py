@@ -92,7 +92,7 @@ def freibetraege_tu(freibetraege: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     return freibetraege.groupby(tu_id).sum()
 
 
-def zu_verst_eink_kein_kinderfreib_tu(
+def _zu_verst_eink_kein_kinderfreib_tu(
     sum_brutto_eink_tu: FloatSeries, freibetraege_tu: FloatSeries,
 ) -> FloatSeries:
     """Calculate taxable income without child allowance.
@@ -114,14 +114,14 @@ def zu_verst_eink_kein_kinderfreib_tu(
 
 
 def zu_verst_eink_kinderfreib_tu(
-    zu_verst_eink_kein_kinderfreib_tu: FloatSeries, kinderfreib_tu: FloatSeries
+    _zu_verst_eink_kein_kinderfreib_tu: FloatSeries, kinderfreib_tu: FloatSeries
 ) -> FloatSeries:
     """Calculate taxable income with child allowance.
 
     Parameters
     ----------
-    zu_verst_eink_kein_kinderfreib_tu
-        See :func:`zu_verst_eink_kein_kinderfreib_tu`.
+    _zu_verst_eink_kein_kinderfreib_tu
+        See :func:`_zu_verst_eink_kein_kinderfreib_tu`.
     kinderfreib_tu
         See :func:`kinderfreib_tu`.
 
@@ -129,4 +129,4 @@ def zu_verst_eink_kinderfreib_tu(
     -------
 
     """
-    return zu_verst_eink_kein_kinderfreib_tu - kinderfreib_tu
+    return _zu_verst_eink_kein_kinderfreib_tu - kinderfreib_tu

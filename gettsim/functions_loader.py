@@ -34,27 +34,27 @@ def _convert_paths_to_import_strings(paths):
     return import_strings
 
 
-def _load_functions(sources, allow_imported_members=False):
+def _load_functions(sources, include_imported_functions=False):
     """Load functions.
 
     Parameters
     ----------
     sources : str, pathlib.Path, function, module, imports statements
         Sources from where to load functions.
-    allow_imported_members : bool
-        Should imported members also be collected from a module?
+    include_imported_functions : bool
+        Whether to load functions that are imported into the module(s) passed via
+        *sources*.
 
     Returns
     -------
     functions : dict
-        A dictionary where keys are names of variables and values are functions which
-        produce the variables.
+        A dictionary mapping variable names to functions producing them.
 
     """
     sources = sources if isinstance(sources, list) else [sources]
     sources = _search_directories_recursively_for_python_files(sources)
     sources = _convert_paths_and_strings_to_dicts_of_functions(
-        sources, allow_imported_members
+        sources, include_imported_functions
     )
 
     functions = {}
@@ -94,7 +94,9 @@ def _search_directories_recursively_for_python_files(sources):
     return new_sources
 
 
-def _convert_paths_and_strings_to_dicts_of_functions(sources, allow_imported_members):
+def _convert_paths_and_strings_to_dicts_of_functions(
+    sources, include_imported_functions
+):
     """Convert paths and strings to dictionaries of functions.
 
     1. Paths point to modules which are loaded.
@@ -117,7 +119,7 @@ def _convert_paths_and_strings_to_dicts_of_functions(sources, allow_imported_mem
                 for name, func in inspect.getmembers(
                     out, lambda x: inspect.isfunction(x)
                 )
-                if allow_imported_members
+                if include_imported_functions
                 or _is_function_defined_in_module(func, out.__name__)
             }
         else:
