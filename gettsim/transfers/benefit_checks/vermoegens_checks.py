@@ -216,7 +216,6 @@ def freibetrag_vermögen_hh(
     out = (
         freibetrag_vermögen_anspruch_hh
         + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
-        + (haushaltsgröße_hh - anz_minderj_hh)
-        * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
+        + haushaltsgröße_hh * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
     ).clip(upper=max_freibetrag_vermögen_hh)
     return out
