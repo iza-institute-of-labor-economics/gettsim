@@ -731,3 +731,10 @@ regelaltersgrenze:
       upper_threshold: inf
       rate_linear: 0
       intercept_at_lower_threshold: 67
+
+rounding:
+  höchstwert_grundr_zuschlag_m:
+    2020-01-01:
+      base: 0.0001
+      direction: nearest
+      reference: §76g SGB VI Abs. 4 Nr. 4
