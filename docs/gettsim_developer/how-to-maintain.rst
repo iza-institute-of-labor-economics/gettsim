@@ -28,7 +28,7 @@ The branching model for GETTSIM is very simple.
    deleted.
 
 
-.. _releases:
+.. _release_major_minor:
 
 How To Release Major or Minor Versions
 --------------------------------------
@@ -95,21 +95,17 @@ To release a new major or minor version of GETTSIM, do the following.
    <https://anaconda.org/gettsim/gettsim>`_.
 
 
-.. _backports:
+.. _backports_release_patched:
 
-How to Release Patched Versions
--------------------------------
+How to Backport and Release Patched Versions
+--------------------------------------------
 
 Most changes to previously released versions come in the form of backports. Backporting
 is the process of re-applying a change to future versions of GETTSIM to older versions.
-
 As backports can introduce new regressions, the scope is limited to critical bug fixes
 and documentation changes. Performance enhancements and new features are not backported.
 
-Procedure
-^^^^^^^^^
-
-In the following we will consider an example where GETTSIM's stable version is
+In the following, we will consider the example where GETTSIM's stable version is
 ``0.2.0``. Version ``0.3.0`` is currently under development on the main branch. There is
 a maintenance branch ``0.2`` to receive patches for the ``0.2.x`` line of releases. And
 a critical bug was found, which should be fixed in both ``0.3.0`` and in ``0.2.1``.
@@ -123,8 +119,8 @@ a critical bug was found, which should be fixed in both ``0.3.0`` and in ``0.2.1
    the fix to the branch. Solve any merge conflicts, etc..
 6. Add the PR to the milestone for version ``0.2.1`` so that all changes for a new
    release can be collected.
-7. The release process for a patch version works as above in :ref:`releases`, steps
-   2.-4.. Notable differences:
+7. The release process for a patch version works as above in :ref:`release_major_minor`,
+   steps 2.-4.. Notable differences:
 
    - Replace ``main`` by ``maintenance_branch`` (e.g., 0.2) everywhere.
    - 2.c becomes:
