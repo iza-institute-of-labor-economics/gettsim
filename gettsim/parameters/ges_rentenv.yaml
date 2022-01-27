@@ -738,3 +738,28 @@ rounding:
       base: 0.0001
       direction: nearest
       reference: §76g SGB VI Abs. 4 Nr. 4
+  grundr_zuschlag_m:
+    2020-01-01:
+      base: 0.01
+      direction: nearest
+      reference: § 123 SGB VI Abs. 1
+  anr_eink_gr_m:
+    2020-01-01:
+      base: 0.01
+      direction: nearest
+      reference: § 123 SGB VI Abs. 1
+  grundr_zuschlag_vor_eink_anr_m:
+    2020-01-01:
+      base: 0.01
+      direction: nearest
+      reference: § 123 SGB VI Abs. 1
+  ges_rente_m:
+    2020-01-01:
+      base: 0.01
+      direction: nearest
+      reference: § 123 SGB VI Abs. 1
+  bonus_entgeltpunkte_grundr:
+    2020-01-01:
+      base: 0.0001
+      direction: nearest
+      reference: § 121 SGB VI Abs. 1
