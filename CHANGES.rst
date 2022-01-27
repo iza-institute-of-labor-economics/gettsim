@@ -8,6 +8,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.5.0 —
 ------------------
 
+* :gh:`327` add behinderten_pauschbetrag for 1975-1986 (:ghuser:`lillyfischer`).
 * :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters
    (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
 * :gh:`306` Add the possibility to load the value of a parameter of the previous
@@ -32,8 +33,15 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   variables. Make variable names more precise (e.g., `ges_` in front of all social
   insurance parameters that have private counterparts, `eink_st` everywhere the income
   tax is meant). Make variables consistent (e.g. `kinderfreibetrag` had different
-  abbreviations, now `kinderfreib` everywhere). (:ghuser:`hmgaudecker`,
-  :ghuser:`ChristianZimpelmann`)
+  abbreviations, now `kinderfreib` everywhere) (:ghuser:`hmgaudecker`,
+  :ghuser:`ChristianZimpelmann`).
+
+
+0.4.2 — 2022-01-25
+------------------
+
+* Ensure GETTSIM works with Pandas 1.4 (:gh:`337`)
+
 
 0.4.1 — 2021-04-11
 ------------------

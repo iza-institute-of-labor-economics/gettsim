@@ -27,24 +27,26 @@ def append_other_hh_members(
         if not double_earner:
             adult["bruttolohn_m"] = 0
 
-        new_df = new_df.append(adult, ignore_index=True)
+        new_df = pd.concat(objs=[new_df, adult], ignore_index=True)
 
-    child = df.copy()
-    child["kind"] = True
-    child["in_ausbildung"] = True
-    child["bruttolohn_m"] = 0
-
-    if n_children == 1:
-        children = child.copy()
-        children["alter"] = age_children[0]
-    elif n_children == 2:
-        children = child.append(child, ignore_index=True)
-        children["alter"] = age_children
+    if n_children > 0:
+        child = df.copy()
+        child["kind"] = True
+        child["in_ausbildung"] = True
+        child["bruttolohn_m"] = 0
+        if n_children == 1:
+            children = child.copy()
+            children["alter"] = age_children[0]
+        elif n_children == 2:
+            children = pd.concat(objs=[child, child], ignore_index=True)
+            children["alter"] = age_children
+        else:
+            raise ValueError(n_children)
+        # append children
+        new_df = pd.concat(objs=[new_df, children])
     else:
-        children = None
+        pass
 
-    # append children
-    new_df = new_df.append(children)
     new_df["tu_vorstand"] = False
 
     return new_df
@@ -154,18 +156,21 @@ def create_synthetic_data(
                     f"Illegal value for variable to vary across households: {hetvar}"
                 )
             for value in heterogeneous_vars[hetvar]:
-                synth = synth.append(
-                    create_one_set_of_households(
-                        hh_typen,
-                        n_children,
-                        age_adults,
-                        age_children,
-                        baujahr,
-                        double_earner,
-                        policy_year,
-                        dimension=dimensions[dim_counter],
-                        **{hetvar: value},
-                    )
+                synth = pd.concat(
+                    objs=[
+                        synth,
+                        create_one_set_of_households(
+                            hh_typen,
+                            n_children,
+                            age_adults,
+                            age_children,
+                            baujahr,
+                            double_earner,
+                            policy_year,
+                            dimension=dimensions[dim_counter],
+                            **{hetvar: value},
+                        ),
+                    ]
                 )
                 dim_counter += 1
 
@@ -302,18 +307,21 @@ def create_one_set_of_households(
     # append entries for children and partner
     for hht in hh_typen:
         for nch in n_children:
-            df = df.append(
-                append_other_hh_members(
-                    df[
-                        (df["hh_typ"].str[:6] == hht)
-                        & (df["hh_typ"].str[7:8].astype(int) == nch)
-                    ],
-                    hht,
-                    nch,
-                    age_adults,
-                    age_children,
-                    double_earner,
-                )
+            df = pd.concat(
+                objs=[
+                    df,
+                    append_other_hh_members(
+                        df[
+                            (df["hh_typ"].str[:6] == hht)
+                            & (df["hh_typ"].str[7:8].astype(int) == nch)
+                        ],
+                        hht,
+                        nch,
+                        age_adults,
+                        age_children,
+                        double_earner,
+                    ),
+                ]
             )
     df = df.reset_index()
     df["geburtsjahr"] = policy_year - df["alter"]
