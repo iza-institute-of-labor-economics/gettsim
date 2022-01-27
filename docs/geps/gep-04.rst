@@ -196,18 +196,43 @@ certain types of functions of the tax and transfer system.
 Aggregation of variables
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Arguments of functions can also be aggregations of input variables or outputs of other
-functions on the tax unit or household level. In the example above, one argument of the
-function ``soli_st_tu`` is ``abgelt_st_tu``. This variable would be typically specified
-as a function on the tax unit level (``abgelt_st_tu``) as it is done above. However, if
-a function with this name does not exist, but a function on the individual level with
-the same name excluding the ``_tu`` suffix (``abgelt_st``), the output of this
-individual level function is just summed up on the tax unit level before it enters the
-function ``soli_st_tu``.
+For the calculation of several taxes and transfers, invididual level measures need to
+be summed up on a group level (e.g. the household level). At some point GETTSIM
+contained a bunch of similarly looking functions that only sum values on certain
+levels.
 
-This feature avoids the need to define a bunch of similarly looking functions that only
-aggregate values on certain levels. Similarly, functions with the ``_hh`` can be
-aggregations on the household level.
+The current implementation allows to automate these summations by making use of the
+``_hh`` suffixes of columns that are defined on the household level. Arguments of
+functions can also be summations of outputs of other functions on the household level.
+Suppose a function in GETTSIM has a general argument ``[column_name]_hh``. If no
+function with the name ``[column_name]_hh`` exist, but a function ``[column_name]``
+defined on the individual level exists, the output of this individual level function is
+just summed up on the household level before it is used as argument.
+
+Similarly, individual level functions can be automatically summed up on the other group
+levels specified in :ref:`gep-1` (currently the tax unit ``_tu``).
+
+Consider the following example: the function ``kindergeld_m`` calculates the child
+benefit on the individual level. ``arbeitsl_geld_2_m_hh`` calculates Arbeitslosengeld 2
+on the household level (as indicated by the suffix). One necessary input of this
+function is the household income and, therefore, the sum of all child benefits on the
+household level.
+
+The summing up on the household level can be done without explicitely specifying it if
+the function ``arbeitsl_geld_2_m_hh`` has the argument ``kindergeld_m_hh``
+as follows:
+
+.. code-block:: python
+
+    def arbeitsl_geld_2_m_hh(
+        kindergeld_m_hh: FloatSeries,
+    ) -> FloatSeries:
+        ...
+
+
+If no function with the name ``kindergeld_m_hh`` exist, the output of ``kindergeld_m``
+is just summed up on the household level before it enters the function
+``arbeitsl_geld_2_m_hh``.
 
 Functions defined only for a subset of years
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
