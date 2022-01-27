@@ -79,8 +79,8 @@ def wohngeld_vermögens_check_hh(
     """
     out = wohngeld_basis_hh.copy()
     condition = vermögen_hh <= (
-        wohngeld_params["vermögensfreibetrag_grund"]
-        + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
+        wohngeld_params["vermög_freib_grund"]
+        + (wohngeld_params["vermög_freib_pers"] * (haushaltsgröße_hh - 1))
     )
     out.loc[~condition] = 0
     return out
@@ -133,11 +133,11 @@ def freibetrag_vermögen_anspruch_hh(
     """
     out = pd.Series(0, index=alter.index)
     out.loc[geburtsjahr < 1948] = (
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["vor_1948"]
+        arbeitsl_geld_2_params["vermög_freib"]["vor_1948"]
         * alter.loc[geburtsjahr < 1948]
     )
     out.loc[(1948 <= geburtsjahr) & ~kind] = (
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["standard"]
+        arbeitsl_geld_2_params["vermög_freib"]["standard"]
         * alter.loc[(1948 <= geburtsjahr) & ~kind]
     )
 
@@ -175,9 +175,9 @@ def max_freibetrag_vermögen_hh(
     ]
 
     choices = [
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["1948_bis_1957"],
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["1958_bis_1963"],
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["nach_1963"],
+        arbeitsl_geld_2_params["vermög_freib"]["1948_bis_1957"],
+        arbeitsl_geld_2_params["vermög_freib"]["1958_bis_1963"],
+        arbeitsl_geld_2_params["vermög_freib"]["nach_1963"],
         0,
     ]
 
@@ -215,8 +215,8 @@ def freibetrag_vermögen_hh(
     """
     out = (
         freibetrag_vermögen_anspruch_hh
-        + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag"]["kind"]
+        + anz_minderj_hh * arbeitsl_geld_2_params["vermög_freib"]["kind"]
         + (haushaltsgröße_hh - anz_minderj_hh)
-        * arbeitsl_geld_2_params["vermögensfreibetrag"]["ausstattung"]
+        * arbeitsl_geld_2_params["vermög_freib"]["ausstattung"]
     ).clip(upper=max_freibetrag_vermögen_hh)
     return out

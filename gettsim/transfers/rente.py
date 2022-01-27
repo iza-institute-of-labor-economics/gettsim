@@ -4,7 +4,9 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def gesamte_rente_m(priv_rente_m: FloatSeries, ges_rente_m: FloatSeries) -> FloatSeries:
+def summe_ges_priv_rente_m(
+    priv_rente_m: FloatSeries, ges_rente_m: FloatSeries
+) -> FloatSeries:
     """Calculate total pension as sum of private and public pension.
 
     Parameters

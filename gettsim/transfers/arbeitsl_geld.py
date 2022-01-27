@@ -108,7 +108,7 @@ def monate_arbeitsl(
 def berechtigt_für_arbeitsl_geld(
     monate_arbeitsl: IntSeries,
     alter: IntSeries,
-    gesamte_rente_m: FloatSeries,
+    summe_ges_priv_rente_m: FloatSeries,
     arbeitsstunden_w: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> BoolSeries:
@@ -123,8 +123,8 @@ def berechtigt_für_arbeitsl_geld(
         See :func:`monate_arbeitsl`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    gesamte_rente_m
-        See basic input variable :ref:`gesamte_rente_m <gesamte_rente_m>`.
+    summe_ges_priv_rente_m
+        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
@@ -138,7 +138,7 @@ def berechtigt_für_arbeitsl_geld(
         (1 <= monate_arbeitsl)
         & (monate_arbeitsl <= 12)
         & (alter < 65)
-        & (gesamte_rente_m == 0)
+        & (summe_ges_priv_rente_m == 0)
         & (arbeitsstunden_w < arbeitsl_geld_params["arbeitsl_geld_stundengrenze"])
     )
 

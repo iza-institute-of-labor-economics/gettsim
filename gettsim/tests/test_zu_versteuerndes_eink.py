@@ -16,10 +16,10 @@ INPUT_COLS = [
     "bruttolohn_m",
     "betreuungskost_m",
     "eink_selbst_m",
-    "kapital_eink_m",
+    "kap_eink_m",
     "vermiet_eink_m",
     "jahr_renteneintr",
-    "gesamte_rente_m",
+    "summe_ges_priv_rente_m",
     "arbeitsstunden_w",
     "in_ausbildung",
     "kind",
@@ -86,7 +86,7 @@ def test_zve(
         "arbeitsl_v_beitr_m",
         "ges_pflegev_beitr_m",
         "ges_rentenv_beitr_m",
-        "gesamte_rente_m",
+        "summe_ges_priv_rente_m",
     ]
     result = compute_taxes_and_transfers(
         data=df,

@@ -95,7 +95,7 @@ def alleinerziehend_freib_tu_ab_2015(
 def altersfreib(
     bruttolohn_m: FloatSeries,
     alter: IntSeries,
-    kapital_eink_m: FloatSeries,
+    kap_eink_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
     eink_st_abzuege_params: dict,
@@ -108,8 +108,8 @@ def altersfreib(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    kapital_eink_m
-        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
+    kap_eink_m
+        See basic input variable :ref:`kap_eink_m <kap_eink_m>`.
     eink_selbst_m
         See :func:`eink_selbst_m`.
     vermiet_eink_m
@@ -125,10 +125,7 @@ def altersfreib(
     out.loc[alter > 64] = (
         eink_st_abzuege_params["altersentlastung_quote"]
         * 12
-        * (
-            bruttolohn_m
-            + (kapital_eink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
-        )
+        * (bruttolohn_m + (kap_eink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0))
     ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])
     return out
 

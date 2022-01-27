@@ -44,7 +44,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`vermiet_eink_m`       | Monthly rental income                        | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`kapital_eink_m`       | Monthly capital income                       | FloatSeries |
+| _`kap_eink_m`           | Monthly capital income                       | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`bruttokaltmiete_m_hh` | Monthly rent expenses for household          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+

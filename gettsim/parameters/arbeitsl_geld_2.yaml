@@ -280,10 +280,10 @@ mehrbedarf_anteil:
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
 
-vermögensfreibetrag:
+vermög_freib:
   name:
     de_1: Vermögensgrundfreibetrag je Lebensjahr, nach Geburtsjahr, erst ab 2008 unterschiedlich
-    de_2: Vermögensfreibetrag für Erstausstattung
+    de_2: vermög_freib für Erstausstattung
     de_3: Vermögensgrundfreibetrag je Kind
     en_1: Basic allowance per year of life, sorted by year of birth, starting 2008 different
     en_2: Allowance for furniture

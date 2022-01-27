@@ -81,20 +81,20 @@ def brutto_eink_4_tu(brutto_eink_4: FloatSeries, tu_id: IntSeries) -> FloatSerie
     return brutto_eink_4.groupby(tu_id).sum()
 
 
-def brutto_eink_5(kapital_eink_m: FloatSeries) -> FloatSeries:
+def brutto_eink_5(kap_eink_m: FloatSeries) -> FloatSeries:
     """Aggregate monthly gross capital income to yearly income.
 
 
     Parameters
     ----------
-    kapital_eink_m
-        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
+    kap_eink_m
+        See basic input variable :ref:`kap_eink_m <kap_eink_m>`.
 
     Returns
     -------
 
     """
-    return (12 * kapital_eink_m).clip(lower=0)
+    return (12 * kap_eink_m).clip(lower=0)
 
 
 def brutto_eink_5_tu(brutto_eink_5: FloatSeries, tu_id: IntSeries) -> FloatSeries:
@@ -148,7 +148,7 @@ def brutto_eink_6_tu(brutto_eink_6: FloatSeries, tu_id: IntSeries) -> FloatSerie
 
 
 def brutto_eink_7(
-    gesamte_rente_m: FloatSeries, ertragsanteil: FloatSeries
+    summe_ges_priv_rente_m: FloatSeries, ertragsanteil: FloatSeries
 ) -> FloatSeries:
     """Aggregate monthly gross pension income subject to taxation to yearly income.
 
@@ -156,8 +156,8 @@ def brutto_eink_7(
 
     Parameters
     ----------
-    gesamte_rente_m
-        See basic input variable :ref:`gesamte_rente_m <gesamte_rente_m>`.
+    summe_ges_priv_rente_m
+        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
     ertragsanteil
         See :func:`ertragsanteil`.
 
@@ -165,7 +165,7 @@ def brutto_eink_7(
     -------
 
     """
-    return ertragsanteil * 12 * gesamte_rente_m
+    return ertragsanteil * 12 * summe_ges_priv_rente_m
 
 
 def brutto_eink_7_tu(brutto_eink_7: FloatSeries, tu_id: IntSeries) -> FloatSeries:
@@ -212,7 +212,7 @@ def sum_brutto_eink_ohne_kapital(
     return brutto_eink_1 + brutto_eink_4 + brutto_eink_6 + brutto_eink_7
 
 
-def kapital_eink_minus_pauschbetr(
+def kap_eink_minus_pauschbetr(
     brutto_eink_5: FloatSeries, eink_st_abzuege_params: dict,
 ):
     """Capital income minus Sparerpauschbetrag
@@ -237,8 +237,7 @@ def kapital_eink_minus_pauschbetr(
 
 
 def sum_brutto_eink_mit_kapital(
-    sum_brutto_eink_ohne_kapital: FloatSeries,
-    kapital_eink_minus_pauschbetr: FloatSeries,
+    sum_brutto_eink_ohne_kapital: FloatSeries, kap_eink_minus_pauschbetr: FloatSeries,
 ):
     """Sum of gross incomes with capital income.
 
@@ -246,14 +245,14 @@ def sum_brutto_eink_mit_kapital(
     ----------
     sum_brutto_eink_ohne_kapital
         See :func:`sum_brutto_eink_ohne_kapital`.
-    kapital_eink_minus_pauschbetr
-        See :func:`kapital_eink_minus_pauschbetr`.
+    kap_eink_minus_pauschbetr
+        See :func:`kap_eink_minus_pauschbetr`.
 
     Returns
     -------
 
     """
-    return sum_brutto_eink_ohne_kapital + kapital_eink_minus_pauschbetr
+    return sum_brutto_eink_ohne_kapital + kap_eink_minus_pauschbetr
 
 
 def ertragsanteil(jahr_renteneintr: IntSeries, eink_st_params: dict) -> FloatSeries:

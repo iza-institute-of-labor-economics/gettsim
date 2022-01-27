@@ -88,8 +88,8 @@ def arbeitsl_geld_2_brutto_eink(
     sonstig_eink_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
-    kapital_eink_m: FloatSeries,
-    gesamte_rente_m: FloatSeries,
+    kap_eink_m: FloatSeries,
+    summe_ges_priv_rente_m: FloatSeries,
     arbeitsl_geld_m: FloatSeries,
     elterngeld_m: FloatSeries,
 ) -> FloatSeries:
@@ -106,10 +106,10 @@ def arbeitsl_geld_2_brutto_eink(
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     vermiet_eink_m
         See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
-    kapital_eink_m
-        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
-    gesamte_rente_m
-        See basic input variable :ref:`gesamte_rente_m <gesamte_rente_m>`.
+    kap_eink_m
+        See basic input variable :ref:`kap_eink_m <kap_eink_m>`.
+    summe_ges_priv_rente_m
+        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
     arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
     elterngeld_m
@@ -124,8 +124,8 @@ def arbeitsl_geld_2_brutto_eink(
         + sonstig_eink_m
         + eink_selbst_m
         + vermiet_eink_m
-        + kapital_eink_m
-        + gesamte_rente_m
+        + kap_eink_m
+        + summe_ges_priv_rente_m
         + arbeitsl_geld_m
         + elterngeld_m
     )

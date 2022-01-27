@@ -91,7 +91,7 @@ def create_synthetic_data(
 
     kwargs:
 
-    bruttolohn_m, kapital_eink_m, eink_selbst_m, vermögen_hh (int):
+    bruttolohn_m, kap_eink_m, eink_selbst_m, vermögen_hh (int):
         values for income and wealth, respectively.
         only valid if heterogenous_vars is empty
     """
@@ -146,7 +146,7 @@ def create_synthetic_data(
             # allow only certain variables to vary
             if hetvar not in [
                 "bruttolohn_m",
-                "kapital_eink_m",
+                "kap_eink_m",
                 "eink_selbst_m",
                 "vermögen_hh",
             ]:
@@ -206,7 +206,7 @@ def create_one_set_of_households(
         "sonstig_eink_m",
         "eink_selbst_m",
         "vermiet_eink_m",
-        "kapital_eink_m",
+        "kap_eink_m",
         "bruttokaltmiete_m_hh",
         "heizkosten_m_hh",
         "wohnfläche_hh",
@@ -291,7 +291,7 @@ def create_one_set_of_households(
 
     # Income and wealth
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
-    df["kapital_eink_m"] = kwargs.get("kapital_eink_m", 0)
+    df["kap_eink_m"] = kwargs.get("kap_eink_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
     df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
     dim = kwargs.get("dimension", 1)

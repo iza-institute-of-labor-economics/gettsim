@@ -29,8 +29,8 @@ INPUT_COLS = [
     "bewohnt_eigentum_hh",
     "alleinerziehend",
     "bruttolohn_m",
-    "gesamte_rente_m",
-    "kapital_eink_m",
+    "summe_ges_priv_rente_m",
+    "kap_eink_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
     "eink_selbst_m",
@@ -70,7 +70,7 @@ override_columns = [
     "elterngeld_m",
     "eink_st_tu",
     "sozialv_beitr_m",
-    "gesamte_rente_m",
+    "summe_ges_priv_rente_m",
     "wohngeld_basis_hh",
 ]
 

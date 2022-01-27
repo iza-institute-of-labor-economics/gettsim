@@ -20,7 +20,7 @@ INPUT_COLS = [
     "heizkosten_m_hh",
     "wohnfläche_hh",
     "bruttolohn_m",
-    "kapital_eink_m",
+    "kap_eink_m",
     "grundrentenzeiten",
     "rentner",
     "schwerbe_ausweis_g",
@@ -55,7 +55,6 @@ OVERRIDE_COLS = [
 YEARS = [2017, 2018, 2020, 2021, 2022]
 
 OUT_COLS = [
-    "regelbedarf_grunds_im_alter_vermögens_check_m_hh",
     "grunds_im_alter_m_hh",
 ]
 

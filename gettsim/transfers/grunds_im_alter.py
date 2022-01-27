@@ -9,11 +9,16 @@ from gettsim.typing import IntSeries
 def grunds_im_alter_m_hh(
     grunds_im_alter_m_minus_eink_hh: FloatSeries,
     alle_erwachsene_rentner_hh: BoolSeries,
+    vermögen_hh: FloatSeries,
+    vermög_freib_grunds_im_alter_hh: FloatSeries,
 ) -> FloatSeries:
     """Calculate Grundsicherung im Alter on household level.
 
     # ToDo: There is no check for Wohngeld included as Wohngeld is
-    currently not implemented for retirees.
+    # ToDo: currently not implemented for retirees.
+
+    # ToDo: Grundsicherung im Alter is only payed if all adults in the household
+    # ToDo: are retired (This is a simplification by GETTSIM)
 
     Parameters
     ----------
@@ -26,19 +31,26 @@ def grunds_im_alter_m_hh(
     -------
 
     """
-    out = grunds_im_alter_m_minus_eink_hh.clip(lower=0)
+    out = grunds_im_alter_m_minus_eink_hh.copy()
+
+    # Wealth check
+    out.loc[vermögen_hh >= vermög_freib_grunds_im_alter_hh] = 0
+
+    # Only pay Grundsicherung im Alter if all adults are retired (simplification
+    # by GETTSIM)
     out.loc[~alle_erwachsene_rentner_hh] = 0
     return out
 
 
 def grunds_im_alter_m_minus_eink_hh(
-    regelbedarf_grunds_im_alter_vermögens_check_m_hh: FloatSeries,
+    regelbedarf_m_hh: FloatSeries,
     mehrbedarf_behinderung_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
     anr_eink_grunds_im_alter_m_hh: FloatSeries,
 ) -> FloatSeries:
-    """Calculate remaining basic subsistence after recieving other benefits.
+    """Calculate remaining basic subsistence after subtracting income
+    and other benefits.
 
     Parameters
     ----------
@@ -58,13 +70,13 @@ def grunds_im_alter_m_minus_eink_hh(
 
     """
     out = (
-        regelbedarf_grunds_im_alter_vermögens_check_m_hh
+        regelbedarf_m_hh
         + mehrbedarf_behinderung_m_hh
         - anr_eink_grunds_im_alter_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
     )
-    return out
+    return out.clip(lower=0)
 
 
 def anr_eink_grunds_im_alter_m_hh(
@@ -88,12 +100,12 @@ def anr_eink_grunds_im_alter_m_hh(
 
 
 def anr_eink_grunds_im_alter_m(
-    anr_erwerbs_eink_grunds_im_alter_m: FloatSeries,
+    anr_erwer_eink_grunds_im_alter_m: FloatSeries,
     anr_priv_rente_grunds_im_alter_m: FloatSeries,
     anr_ges_rente_grunds_im_alter_m: FloatSeries,
     sonstig_eink_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
-    anr_kapital_eink_grunds_im_alter_m: FloatSeries,
+    anr_kap_eink_grunds_im_alter_m: FloatSeries,
     elterngeld_m: FloatSeries,
     eink_st_tu: FloatSeries,
     soli_st_tu: FloatSeries,
@@ -107,8 +119,8 @@ def anr_eink_grunds_im_alter_m(
 
     Parameters
     ----------
-    anr_erwerbs_eink_grunds_im_alter_m
-        See :func:`anr_erwerbs_eink_grunds_im_alter_m`.
+    anr_erwer_eink_grunds_im_alter_m
+        See :func:`anr_erwer_eink_grunds_im_alter_m`.
     anr_priv_rente_grunds_im_alter_m
         See :func:`anr_priv_rente_grunds_im_alter_m`.
     anr_ges_rente_grunds_im_alter_m
@@ -117,8 +129,8 @@ def anr_eink_grunds_im_alter_m(
         See :func:`sonstig_eink_m`.
     vermiet_eink_m
         See :func:`vermiet_eink_m`.
-    anr_kapital_eink_grunds_im_alter_m
-        See :func:`anr_kapital_eink_grunds_im_alter_m`.
+    anr_kap_eink_grunds_im_alter_m
+        See :func:`anr_kap_eink_grunds_im_alter_m`.
     elterngeld_m
         See :func:`elterngeld_m`.
     eink_st_tu
@@ -147,12 +159,12 @@ def anr_eink_grunds_im_alter_m(
 
     # Income
     total_income = (
-        anr_erwerbs_eink_grunds_im_alter_m
+        anr_erwer_eink_grunds_im_alter_m
         + anr_ges_rente_grunds_im_alter_m
         + anr_priv_rente_grunds_im_alter_m
         + sonstig_eink_m
         + vermiet_eink_m
-        + anr_kapital_eink_grunds_im_alter_m
+        + anr_kap_eink_grunds_im_alter_m
         + anr_elterngeld_m
     )
 
@@ -167,7 +179,7 @@ def anr_eink_grunds_im_alter_m(
     return out
 
 
-def anr_erwerbs_eink_grunds_im_alter_m(
+def anr_erwer_eink_grunds_im_alter_m(
     bruttolohn_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     arbeitsl_geld_2_params: dict,
@@ -201,14 +213,14 @@ def anr_erwerbs_eink_grunds_im_alter_m(
 
     # Can deduct 30% of earnings (but no more than 1/2 of regelbedarf)
     earnings_after_max_deduction = earnings - arbeitsl_geld_2_params["regelsatz"][1] / 2
-    earnings = ((1 - grunds_im_alter_params["erwerbs_eink_anr_frei"]) * earnings).clip(
+    earnings = ((1 - grunds_im_alter_params["erwer_eink_anr_frei"]) * earnings).clip(
         lower=earnings_after_max_deduction
     )
 
     return earnings
 
 
-def anr_kapital_eink_grunds_im_alter_m(
+def anr_kap_eink_grunds_im_alter_m(
     brutto_eink_5: FloatSeries, grunds_im_alter_params: dict,
 ) -> FloatSeries:
     """Calculate capital income which are considered in the calculation of Grundsicherung im
@@ -230,7 +242,7 @@ def anr_kapital_eink_grunds_im_alter_m(
     """
     # Can deduct allowance from yearly capital income
     capital_income_y = (
-        brutto_eink_5 - grunds_im_alter_params["kapital_eink_anr_frei"]
+        brutto_eink_5 - grunds_im_alter_params["kap_eink_anr_frei"]
     ).clip(lower=0)
 
     # Calculate and return monthly capital income (after deduction)
@@ -384,47 +396,7 @@ def anr_ges_rente_grunds_im_alter_m(
     return ges_rente_m - deducted_rent
 
 
-def regelbedarf_grunds_im_alter_vermögens_check_m_hh(
-    regelbedarf_m_hh: FloatSeries, unter_vermögensfreib_grunds_im_alter_hh: BoolSeries,
-) -> FloatSeries:
-    """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
-
-    Parameters
-    ----------
-    regelbedarf_m_hh
-        See :func:`regelbedarf_m_hh`.
-    unter_vermögensfreib_grunds_im_alter_hh
-        See :func:`unter_vermögensfreib_grunds_im_alter_hh`.
-
-    Returns
-    -------
-
-    """
-    out = regelbedarf_m_hh.copy()
-    out.loc[~unter_vermögensfreib_grunds_im_alter_hh] = 0
-    return out
-
-
-def unter_vermögensfreib_grunds_im_alter_hh(
-    vermögen_hh: FloatSeries, vermögensfreib_grunds_im_alter_hh: FloatSeries
-) -> BoolSeries:
-    """Check if capital of household is below limit of Grundsicherung im Alter.
-
-    Parameters
-    ----------
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
-    vermögensfreib_grunds_im_alter_hh
-       See :func:`vermögensfreib_grunds_im_alter_hh`.
-
-    Returns
-    -------
-
-    """
-    return vermögen_hh < vermögensfreib_grunds_im_alter_hh
-
-
-def vermögensfreib_grunds_im_alter_hh(
+def vermög_freib_grunds_im_alter_hh(
     anz_erwachsene_hh: IntSeries,
     anz_kinder_hh: IntSeries,
     grunds_im_alter_params: dict,

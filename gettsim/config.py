@@ -57,7 +57,7 @@ DEFAULT_TARGETS = [
     "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
     "grunds_im_alter_m_hh",
-    "gesamte_rente_m",
+    "ges_rente_m",
 ]
 
 TYPES_INPUT_VARIABLES = {
@@ -86,7 +86,7 @@ TYPES_INPUT_VARIABLES = {
     "kind": BoolSeries,
     "rentner": BoolSeries,
     "betreuungskost_m": FloatSeries,
-    "kapital_eink_m": FloatSeries,
+    "kap_eink_m": FloatSeries,
     "vermiet_eink_m": FloatSeries,
     "bruttokaltmiete_m_hh": FloatSeries,
     "heizkosten_m_hh": FloatSeries,

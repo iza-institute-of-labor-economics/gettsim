@@ -1754,9 +1754,9 @@ max_miete:
       6: 143
       7: 157
     reference: V. v. 03.06.2021 BGBl. I S. 1369.
-vermögensfreibetrag_grund:
+vermög_freib_grund:
   name:
-    de: Grund-Vermögensfreibetrag für den Haushalt
+    de: Grund-vermög_freib für den Haushalt
     en: Basic wealth exemption
   description:
     de: Wohngeld-Verwaltungsvorschift 21.37. Seit 2009 (G. v. 24.09.2008, BGBl. I S. 1856) wird durch §21 Nr. 3 WoGG geregelt, dass hohes Vermögen ein Ausschlussgrund für Wohngeld sein kann. Die genauen Werte regelt die Verwaltungsvorschrift vom April 2009. Vorher war hohes Vermögen laut WoGG kein Ausschlussgrund.
@@ -1769,9 +1769,9 @@ vermögensfreibetrag_grund:
     scalar: 60000
     reference: Wohngeld-Verwaltungsvorschrift 2009.
     note: At least in place since then.
-vermögensfreibetrag_pers:
+vermög_freib_pers:
   name:
-    de: Vermögensfreibetrag für jedes weitere Haushaltsmitglied
+    de: vermög_freib für jedes weitere Haushaltsmitglied
     en: Additional wealth exemption for each additional household member
   description:
     de: Wohngeld-Verwaltungsvorschift 21.37
