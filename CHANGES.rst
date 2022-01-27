@@ -8,6 +8,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.5.0 —
 ------------------
 
+* :gh:`327` add behinderten_pauschbetrag for 1975-1986.
+   (:ghuser:`lillyfischer`).
 * :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters.
    (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
 * :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh.
@@ -24,6 +26,13 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   tax is meant). Make variables consistent (e.g. `kinderfreibetrag` had different
   abbreviations, now `kinderfreib` everywhere). (:ghuser:`hmgaudecker`,
   :ghuser:`ChristianZimpelmann`)
+
+
+0.4.2 — 2022-01-25
+------------------
+
+* Ensure GETTSIM works with Pandas 1.4 (:gh:`337`)
+
 
 0.4.1 — 2021-04-11
 ------------------

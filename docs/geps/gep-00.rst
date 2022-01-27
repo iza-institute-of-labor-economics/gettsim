@@ -56,8 +56,6 @@ There are three kinds of GEPs:
 GEP Workflow
 ------------
 
-
-
 The GEP process begins with a new idea for GETTSIM.  It is highly recommended that a
 single GEP contain a single key proposal or new idea. Small enhancements or patches
 often don't need a GEP and can be injected into the GETTSIM development workflow with a
@@ -105,8 +103,8 @@ follows:
 
 All GEPs should be created with the ``Draft`` status.
 
-Eventually, after discussion, there may be a consensus that the GEP should be accepted
-–-- see the next section for details. At this point the status becomes ``Accepted``.
+Eventually, after discussion, there may be a consensus that the GEP should be accepted —
+see the next section for details. At this point the status becomes ``Accepted``.
 
 Once a GEP has been ``Accepted``, the reference implementation must be completed.  When
 the reference implementation is complete and incorporated into the main source code
@@ -151,9 +149,11 @@ How a GEP becomes Accepted
 
 A GEP is ``Accepted`` by consensus of all interested contributors. We need a concrete
 way to tell whether consensus has been reached. When you think a GEP is ready to accept,
-send a message with a first line like:
+post a message with a first line like:
 
-  Proposal to accept GEP #<number>: <title>
+  ## Proposal to accept GEP #<number>: <title>
+
+to the Zulip stream GEPs / GEP [XY].
 
 In the body of your message, you should:
 
@@ -171,7 +171,7 @@ Generally the GEP author will be the one to send this message, but anyone can do
 the important thing is to make sure that everyone knows when a GEP is on the verge of
 acceptance, and give them a final chance to respond. If there's some special reason to
 extend this final comment period beyond 7 days, then that's fine, just say so in the
-message. You shouldn't do less than 7 days, because sometimes people are traveling or
+message. You shouldn't do less than 7 days, because sometimes people are travelling or
 similar and need some time to respond.
 
 In general, the goal is to make sure that the community has consensus, not provide a
