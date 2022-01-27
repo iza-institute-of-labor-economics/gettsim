@@ -202,12 +202,12 @@ contained a bunch of similarly looking functions that only sum values on certain
 levels.
 
 The current implementation allows to automate these summations by making use of the
-``_hh`` suffixes of columns that are defined on the household level. Arguments of
-functions can also be summations of outputs of other functions on the household level.
-Suppose a function in GETTSIM has a general argument ``[column_name]_hh``. If no
-function with the name ``[column_name]_hh`` exist, but a function ``[column_name]``
-defined on the individual level exists, the output of this individual level function is
-just summed up on the household level before it is used as argument.
+``_hh`` suffixes of columns that are defined on the household level. The household
+level sum of individual level functions can be used as targets or as arguments of other
+functions. Suppose a function in GETTSIM has a general argument ``[column_name]_hh``.
+If no function with the name ``[column_name]_hh`` exist, but a function
+``[column_name]`` defined on the individual level exists, the output of this individual
+level function is just summed up on the household level before it is used as argument.
 
 Similarly, individual level functions can be automatically summed up on the other group
 levels specified in :ref:`gep-1` (currently the tax unit ``_tu``).
