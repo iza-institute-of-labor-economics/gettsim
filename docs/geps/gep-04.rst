@@ -36,14 +36,14 @@ Motivation
 The implementation choice to use a DAG to represent the taxes and transfers system is
 motivated by two main reasons.
 
-1. The taxes and transfers system is constantly evolving in many dimensions, flexibility
-   is thus needed internally. Additionally, it is not enough to represent the state of
-   the system at any given point in time, but users need to be able to introduce their
-   own changes. Being able to change or replace any part of the taxes and transfers
-   system is crucial. Put differently, there is no meaningful distinction between parts
-   of the system only ever touched by developers and parts that are modifiable by users.
-   A DAG implementation allows to eliminate this usual boundary for almost all use
-   cases.
+1. The taxes and transfers system is constantly evolving in many dimensions,
+   flexibility is thus needed internally. Additionally, it is not enough to represent
+   the state of the system at any given point in time, but users need to be able to
+   introduce their own changes. Being able to change or replace any part of the taxes
+   and transfers system is crucial. Put differently, there is no meaningful distinction
+   between parts of the system only ever touched by developers and parts that are
+   modifiable by users. A DAG implementation allows to eliminate this usual boundary
+   for almost all use cases.
 
 1. By using a DAG the user is able to limit computations to a set of target variables,
    which she is ultimately interested in. This prevents unnecessary calculations and
@@ -54,11 +54,11 @@ Basic idea
 ----------
 
 Based on the two requirements above we split the tax and transfer system into a set of
-small functions. Each function calculates one clearly defined variable (identical to the
-function's name) and returns it as a :class:`Series`. Typically, function arguments are
-either user-provided input variables (e.g. `bruttolohn_m`) or outputs of other functions
-in the taxes and transfers system. The only other potential additional arguments are
-parameters of the taxes and transfers system, which are pre-defined.
+small functions. Each function calculates one clearly defined variable (identical to
+the function's name) and returns it as a :class:`Series`. Typically, function arguments
+are either user-provided input variables (e.g. `bruttolohn_m`) or outputs of other
+functions in the taxes and transfers system. The only other potential additional
+arguments are parameters of the taxes and transfers system, which are pre-defined.
 
 GETTSIM is able to calculate the variables a researcher is interested in by starting
 with the input variables and calling the required functions in a correct order. This is
@@ -225,7 +225,7 @@ as follows:
 .. code-block:: python
 
     def arbeitsl_geld_2_m_hh(
-        kindergeld_m_hh: FloatSeries,
+        kindergeld_m_hh: FloatSeries, other_arguments: FloatSeries
     ) -> FloatSeries:
         ...
 
