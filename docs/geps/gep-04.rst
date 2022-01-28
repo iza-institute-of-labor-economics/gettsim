@@ -1,3 +1,5 @@
+.. _gep-4:
+
 =========================================
 GEP 4 — A DAG—based Computational Backend
 =========================================
@@ -193,34 +195,32 @@ Additional functionalities
 We implemented a small set of additional features that simplify the specification of
 certain types of functions of the tax and transfer system.
 
-Aggregation of variables
-~~~~~~~~~~~~~~~~~~~~~~~~
 
-For the calculation of several taxes and transfers, invididual level measures need to
-be summed up on a group level (e.g. the household level). At some point GETTSIM
-contained a bunch of similarly looking functions that only sum values on certain
-levels.
+.. _gep-4-group-sums:
 
-The current implementation allows to automate these summations by making use of the
-``_hh`` suffixes of columns that are defined on the household level. The household
-level sum of individual level functions can be used as targets or as arguments of other
-functions. Suppose a function in GETTSIM has a general argument ``[column_name]_hh``.
-If no function with the name ``[column_name]_hh`` exist, but a function
-``[column_name]`` defined on the individual level exists, the output of this individual
-level function is just summed up on the household level before it is used as argument.
+Group summation of variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Similarly, individual level functions can be automatically summed up on the other group
-levels specified in :ref:`gep-1` (currently the tax unit ``_tu``).
+Individual-level measures often need to be summed up to a group level. GETTSIM automates
+this process for groups of individuals defined in :ref:`gep-1` (households ``_hh`` and
+tax units ``_tu``).
 
-Consider the following example: the function ``kindergeld_m`` calculates the child
-benefit on the individual level. ``arbeitsl_geld_2_m_hh`` calculates Arbeitslosengeld 2
-on the household level (as indicated by the suffix). One necessary input of this
-function is the household income and, therefore, the sum of all child benefits on the
-household level.
+In case an individual-level column `[column]` exists, the graph will be augmented with a
+node including a group sum like `[column]_hh` should that be requested. Requests can be
+either inputs in a downstream function or explicit targets of the calculation.
 
-The summing up on the household level can be done without explicitely specifying it if
-the function ``arbeitsl_geld_2_m_hh`` has the argument ``kindergeld_m_hh``
-as follows:
+Automatic summation will only happen in case no column `[column]_hh` is explicitly set.
+Using a different reduction function than the sum is as easy as explicitly specifying
+`[column]_hh`.
+
+Consider the following example: the function ``kindergeld_m`` calculates the
+individual-level child benefit payment. ``arbeitsl_geld_2_m_hh`` calculates
+Arbeitslosengeld 2 on the household level (as indicated by the suffix). One necessary
+input of this function is the sum of all child benefits on the household level. There is
+no function or input column ``kindergeld_m_hh``.
+
+By including ``kindergeld_m_hh`` as an argument in the definition of
+``arbeitsl_geld_2_m_hh`` as follows:
 
 .. code-block:: python
 
@@ -229,10 +229,49 @@ as follows:
     ) -> FloatSeries:
         ...
 
+a node ``kindergeld_m_hh`` containing the household-level sum of ``kindergeld_m`` will
+be automatically added to the graph. Its parents in the graph will be ``kindergeld_m``
+and ``hh_id``.
 
-If no function with the name ``kindergeld_m_hh`` exist, the output of ``kindergeld_m``
-is just summed up on the household level before it enters the function
-``arbeitsl_geld_2_m_hh``.
+
+.. _gep-4-time-unit-conversion:
+
+Conversion between reference periods
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Similarly to :ref:`gep-4-group-sums`, GETTSIM will automatically convert values
+referring to different reference periods defined in :ref:`gep-1` (years (default, no
+suffix), months ``_m``, and days ``_t``).
+
+In case a column with annual values `[column]` exists, the graph will be augmented with
+a node including monthly values like `[column]_m` should that be requested. Requests can
+be either inputs in a downstream function or explicit targets of the calculation. In
+case the column refers to a different level of aggregation, say ``[column]_hh``, the
+same applies to ``[column]_m_hh``.
+
+Automatic summation will only happen in case no column `[column]_m` is explicitly set.
+Using a different conversion function than the sum is as easy as explicitly specifying
+`[column]_m`.
+
+Conversion goes both ways and uses the following formulas:
+
++-----------+--------+---------+
+| time unit | suffix | factor  |
++-----------+--------+---------+
+| year      | None   | 1       |
++-----------+--------+---------+
+| month     | `_m`   | 12      |
++-----------+--------+---------+
+| week      | `_w`   | 52.1775 |
++-----------+--------+---------+
+| day       | `_t`   | 365.25  |
++-----------+--------+---------+
+
+These values average over leap years. They ensure that conversion is always possible
+both ways without changing quantities. In case more complex conversions are needed (for
+example to account for irregular days per month, leap years, or the like), explicit
+functions for, say, ``[column]_w`` need to be set.
+
 
 Functions defined only for a subset of years
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
