@@ -86,7 +86,7 @@ TYPES_INPUT_VARIABLES = {
     "kind": BoolSeries,
     "rentner": BoolSeries,
     "betreuungskost_m": FloatSeries,
-    "kap_eink_m": FloatSeries,
+    "kapitaleink_m": FloatSeries,
     "vermiet_eink_m": FloatSeries,
     "bruttokaltmiete_m_hh": FloatSeries,
     "heizkosten_m_hh": FloatSeries,

@@ -16,7 +16,7 @@ INPUT_COLS = [
     "bruttolohn_m",
     "betreuungskost_m",
     "eink_selbst_m",
-    "kap_eink_m",
+    "kapitaleink_m",
     "vermiet_eink_m",
     "jahr_renteneintr",
     "summe_ges_priv_rente_m",

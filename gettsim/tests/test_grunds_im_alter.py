@@ -20,7 +20,7 @@ INPUT_COLS = [
     "heizkosten_m_hh",
     "wohnfläche_hh",
     "bruttolohn_m",
-    "kap_eink_m",
+    "kapitaleink_m",
     "grundrentenzeiten",
     "rentner",
     "schwerbe_ausweis_g",

@@ -30,7 +30,7 @@ INPUT_COLS = [
     "alleinerziehend",
     "bruttolohn_m",
     "summe_ges_priv_rente_m",
-    "kap_eink_m",
+    "kapitaleink_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
     "eink_selbst_m",

@@ -3,14 +3,14 @@ from gettsim.typing import IntSeries
 
 
 def abgelt_st_tu(
-    zu_verst_kap_eink_tu: FloatSeries, abgelt_st_params: dict
+    zu_verst_kapitaleink_tu: FloatSeries, abgelt_st_params: dict
 ) -> FloatSeries:
     """Calculate abgeltungssteuer per tax unit.
 
     Parameters
     ----------
-    zu_verst_kap_eink_tu
-        See :func:`zu_verst_kap_eink_tu`.
+    zu_verst_kapitaleink_tu
+        See :func:`zu_verst_kapitaleink_tu`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -18,10 +18,10 @@ def abgelt_st_tu(
     -------
 
     """
-    return abgelt_st_params["abgelt_st_satz"] * zu_verst_kap_eink_tu
+    return abgelt_st_params["abgelt_st_satz"] * zu_verst_kapitaleink_tu
 
 
-def zu_verst_kap_eink_tu(
+def zu_verst_kapitaleink_tu(
     brutto_eink_5_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     eink_st_abzuege_params: dict,

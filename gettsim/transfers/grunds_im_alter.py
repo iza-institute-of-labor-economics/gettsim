@@ -100,12 +100,12 @@ def anr_eink_grunds_im_alter_m_hh(
 
 
 def anr_eink_grunds_im_alter_m(
-    anr_erwer_eink_grunds_im_alter_m: FloatSeries,
-    anr_priv_rente_grunds_im_alter_m: FloatSeries,
-    anr_ges_rente_grunds_im_alter_m: FloatSeries,
+    erwerbseink_grunds_im_alter_m: FloatSeries,
+    priv_rente_grunds_im_alter_m: FloatSeries,
+    ges_rente_grunds_im_alter_m: FloatSeries,
     sonstig_eink_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
-    anr_kap_eink_grunds_im_alter_m: FloatSeries,
+    kapitaleink_grunds_im_alter_m: FloatSeries,
     elterngeld_m: FloatSeries,
     eink_st_tu: FloatSeries,
     soli_st_tu: FloatSeries,
@@ -119,18 +119,18 @@ def anr_eink_grunds_im_alter_m(
 
     Parameters
     ----------
-    anr_erwer_eink_grunds_im_alter_m
-        See :func:`anr_erwer_eink_grunds_im_alter_m`.
-    anr_priv_rente_grunds_im_alter_m
-        See :func:`anr_priv_rente_grunds_im_alter_m`.
-    anr_ges_rente_grunds_im_alter_m
-        See :func:`anr_ges_rente_grunds_im_alter_m`.
+    erwerbseink_grunds_im_alter_m
+        See :func:`erwerbseink_grunds_im_alter_m`.
+    priv_rente_grunds_im_alter_m
+        See :func:`priv_rente_grunds_im_alter_m`.
+    ges_rente_grunds_im_alter_m
+        See :func:`ges_rente_grunds_im_alter_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
     vermiet_eink_m
         See :func:`vermiet_eink_m`.
-    anr_kap_eink_grunds_im_alter_m
-        See :func:`anr_kap_eink_grunds_im_alter_m`.
+    kapitaleink_grunds_im_alter_m
+        See :func:`kapitaleink_grunds_im_alter_m`.
     elterngeld_m
         See :func:`elterngeld_m`.
     eink_st_tu
@@ -159,12 +159,12 @@ def anr_eink_grunds_im_alter_m(
 
     # Income
     total_income = (
-        anr_erwer_eink_grunds_im_alter_m
-        + anr_ges_rente_grunds_im_alter_m
-        + anr_priv_rente_grunds_im_alter_m
+        erwerbseink_grunds_im_alter_m
+        + ges_rente_grunds_im_alter_m
+        + priv_rente_grunds_im_alter_m
         + sonstig_eink_m
         + vermiet_eink_m
-        + anr_kap_eink_grunds_im_alter_m
+        + kapitaleink_grunds_im_alter_m
         + anr_elterngeld_m
     )
 
@@ -179,7 +179,7 @@ def anr_eink_grunds_im_alter_m(
     return out
 
 
-def anr_erwer_eink_grunds_im_alter_m(
+def erwerbseink_grunds_im_alter_m(
     bruttolohn_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     arbeitsl_geld_2_params: dict,
@@ -213,14 +213,14 @@ def anr_erwer_eink_grunds_im_alter_m(
 
     # Can deduct 30% of earnings (but no more than 1/2 of regelbedarf)
     earnings_after_max_deduction = earnings - arbeitsl_geld_2_params["regelsatz"][1] / 2
-    earnings = ((1 - grunds_im_alter_params["erwer_eink_anr_frei"]) * earnings).clip(
+    earnings = ((1 - grunds_im_alter_params["erwerbseink_anr_frei"]) * earnings).clip(
         lower=earnings_after_max_deduction
     )
 
     return earnings
 
 
-def anr_kap_eink_grunds_im_alter_m(
+def kapitaleink_grunds_im_alter_m(
     brutto_eink_5: FloatSeries, grunds_im_alter_params: dict,
 ) -> FloatSeries:
     """Calculate capital income which are considered in the calculation of Grundsicherung im
@@ -242,14 +242,14 @@ def anr_kap_eink_grunds_im_alter_m(
     """
     # Can deduct allowance from yearly capital income
     capital_income_y = (
-        brutto_eink_5 - grunds_im_alter_params["kap_eink_anr_frei"]
+        brutto_eink_5 - grunds_im_alter_params["kapitaleink_anr_frei"]
     ).clip(lower=0)
 
     # Calculate and return monthly capital income (after deduction)
     return capital_income_y / 12
 
 
-def anr_priv_rente_grunds_im_alter_m(
+def priv_rente_grunds_im_alter_m(
     priv_rente_m: FloatSeries,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
@@ -352,7 +352,7 @@ def mehrbedarf_behinderung_m(
     return out
 
 
-def anr_ges_rente_grunds_im_alter_m(
+def ges_rente_grunds_im_alter_m(
     ges_rente_m: FloatSeries,
     nicht_grundrentenberechtigt: BoolSeries,
     arbeitsl_geld_2_params: dict,

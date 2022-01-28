@@ -265,7 +265,7 @@ def eink_excl_grundr_zuschlag_m(
     bruttolohn_vorj_m: FloatSeries,
     brutto_eink_1: FloatSeries,
     brutto_eink_6: FloatSeries,
-    kap_eink_minus_pauschbetr: FloatSeries,
+    kapitaleink_minus_pauschbetr: FloatSeries,
 ) -> FloatSeries:
     """Income relevant for income crediting rule of Grundrentenzuschlag. The
     Grundrentenzuschlag (in previous years) is not part of the relevant income and
@@ -295,8 +295,8 @@ def eink_excl_grundr_zuschlag_m(
         See :func:`brutto_eink_1`.
     brutto_eink_6
         See :func:`brutto_eink_6`.
-    kap_eink_minus_pauschbetr
-        See :func:`kap_eink_minus_pauschbetr`.
+    kapitaleink_minus_pauschbetr
+        See :func:`kapitaleink_minus_pauschbetr`.
     Returns
     -------
     """
@@ -306,7 +306,7 @@ def eink_excl_grundr_zuschlag_m(
         + bruttolohn_vorj_m
         + brutto_eink_1 / 12  # income from self-employment
         + brutto_eink_6 / 12  # income from rents
-        + kap_eink_minus_pauschbetr / 12
+        + kapitaleink_minus_pauschbetr / 12
     )
 
     return out

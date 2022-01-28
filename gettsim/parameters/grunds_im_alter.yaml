@@ -63,7 +63,7 @@ elterngeld_anr_frei:
     reference: § 10 BEEG
     scalar: 300
 
-kap_eink_anr_frei:
+kapitaleink_anr_frei:
   name:
     de: Freibetrag des Kapitaleinkommens für Grundsicherung
     en: Amount of capital income not subject to transfer withdrawal
@@ -82,7 +82,7 @@ kap_eink_anr_frei:
     reference: § 43 SGB XII Abs. 2
     scalar: 26
 
-erwer_eink_anr_frei:
+erwerbseink_anr_frei:
   name:
     de: Anrechnungsfreier Anteil des Erwerbseinkommens für Grundsicherung
     en: Income shares not subject to transfer withdrawal

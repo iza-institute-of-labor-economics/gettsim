@@ -17,7 +17,7 @@ INPUT_COLS = [
     "alter",
     "bruttolohn_m",
     "sonstig_eink_m",
-    "kap_eink_m",
+    "kapitaleink_m",
     "vermiet_eink_m",
     "eink_selbst_m",
     "arbeitsl_geld_m",
