@@ -258,7 +258,7 @@ Conversion goes both ways and uses the following formulas:
 +-----------+--------+---------+
 | time unit | suffix | factor  |
 +-----------+--------+---------+
-| year      | None   | 1       |
+| year      |        | 1       |
 +-----------+--------+---------+
 | month     | `_m`   | 12      |
 +-----------+--------+---------+
