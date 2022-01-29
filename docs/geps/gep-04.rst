@@ -241,7 +241,7 @@ Conversion between reference periods
 
 Similarly to :ref:`gep-4-group-sums`, GETTSIM will automatically convert values
 referring to different reference periods defined in :ref:`gep-1` (years (default, no
-suffix), months ``_m``, and days ``_t``).
+suffix), months ``_m``, weeks ``_w``, and days ``_t``).
 
 In case a column with annual values `[column]` exists, the graph will be augmented with
 a node including monthly values like `[column]_m` should that be requested. Requests can
