@@ -33,10 +33,10 @@ ways. This leads to different use cases for GETTSIM.
 
 1. Some applications require the exact, rounded, amount as specified in the law. This
    is also helpful for creating test cases.
-2. Other applications require smooth functions and the non-rounding error does not
-   matter much.
+2. Other applications benefit if functions are mostly smooth and the non-rounding error
+   relative to the law does not matter much.
 
-This document describes how we go about supporting both use cases.
+GETTSIM's default will be 1. This document describes how we support both use cases.
 
 
 Implementation
