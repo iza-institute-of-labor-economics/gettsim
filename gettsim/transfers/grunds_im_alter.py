@@ -417,9 +417,7 @@ def vermög_freib_grunds_im_alter_hh(
 
     """
     out = (
-        grunds_im_alter_params["schonvermögen_grunds_im_alter"]["adult"]
-        * anz_erwachsene_hh
-        + grunds_im_alter_params["schonvermögen_grunds_im_alter"]["child"]
-        * anz_kinder_hh
+        grunds_im_alter_params["schonvermögen"]["adult"] * anz_erwachsene_hh
+        + grunds_im_alter_params["schonvermögen"]["child"] * anz_kinder_hh
     )
     return out

@@ -1,7 +1,7 @@
-schonvermögen_grunds_im_alter:
+schonvermögen:
   name:
-    de: Schonvermögen für Grundsicherung
-    en: Allowed amount of wealth for Grundsicherung
+    de: Schonvermögen für Grundsicherung im Alter
+    en: Allowed amount of wealth for Grundsicherung im Alter
   description:
     de: ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter / bei Erwerbsminderung
     en: there is no entitlement to Grundsicherung im Alter / bei Erwerbsminderung if assets exceed this threshold
