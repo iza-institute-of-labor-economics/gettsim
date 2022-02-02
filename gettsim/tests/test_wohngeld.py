@@ -34,7 +34,7 @@ INPUT_COLS = [
     "brutto_eink_5",
     "brutto_eink_6",
     "eink_st_m",
-    "rentenv_beitr_m",
+    "ges_rentenv_beitr_m",
     "ges_krankenv_beitr_m",
     "behinderungsgrad",
     "jahr",
@@ -70,7 +70,7 @@ def test_wohngeld_main(input_data, year, column):
         "brutto_eink_5",
         "brutto_eink_6",
         "ges_krankenv_beitr_m",
-        "rentenv_beitr_m",
+        "ges_rentenv_beitr_m",
         "kindergeld_anspruch",
     ]
     policy_functions["eink_st_tu"] = eink_st_m_tu_from_data
@@ -115,7 +115,7 @@ def input_data_households():
             "brutto_eink_5": 0,
             "brutto_eink_6": 0,
             "eink_st_tu": 0,
-            "rentenv_beitr_m": 0,
+            "ges_rentenv_beitr_m": 0,
             "ges_krankenv_beitr_m": 0,
             "behinderungsgrad": 0,
         },
@@ -142,7 +142,7 @@ def test_wohngeld_varying_hh_sizes(input_data_households, year, mietstufe, colum
         "eink_st_tu",
         "brutto_eink_6",
         "ges_krankenv_beitr_m",
-        "rentenv_beitr_m",
+        "ges_rentenv_beitr_m",
         "kindergeld_anspruch",
     ]
     input_data_households["mietstufe"] = mietstufe

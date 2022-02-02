@@ -500,6 +500,14 @@ vorsorge_altersaufw_max:
     scalar: 25046
     reference: Art. 3 V. v. 17.12.2019 BGBl I S. 2848.
     note: .247 * 101400
+  2021-01-01:
+    scalar: 25787
+    reference: §3 V. v. 30.11.2020 BGBl. I S. 2612.
+    note: .247 * 104400
+  2022-01-01:
+    scalar: 25640
+    reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
+    note: .247 * 103800
 
 vorsorge_kranken_minderung:
   name:
@@ -522,8 +530,8 @@ behinderten_pauschbetrag:
     en:
   unit: Euro
   time: year
-  1987-01-01:
-    reference:
+  1975-01-01:
+    reference: G. v. 05.08.1974 BGBl. I S. 1769.
     0: 0
     25: 307
     35: 429

@@ -4,12 +4,12 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def eink_anr_frei_bis_10_2005(
+def eink_anr_frei_bis_09_2005(
     bruttolohn_m: FloatSeries,
     arbeitsl_geld_2_2005_netto_quote: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
-    """Calcualte share of income, which remains to the individual until 10/2005.
+    """Calculate share of income, which remains to the individual until 09/2005.
 
     Parameters
     ----------
