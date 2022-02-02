@@ -55,6 +55,15 @@ motivated by two main reasons.
 Basic idea
 ----------
 
+.. todo::
+
+    Adjust where necessary that typical functions operate on individual rows.
+
+    Expand upon aggregation functions, also non-automatic and think about decorator.
+
+    Replace references to GEP-1 by columns ending in ``_id``.
+
+
 Based on the two requirements above we split the tax and transfer system into a set of
 small functions. Each function calculates one clearly defined variable (identical to
 the function's name) and returns it as a :class:`Series`. Typically, function arguments
@@ -183,11 +192,8 @@ exist.
 
 .. todo::
 
-    Brainstorm to look for a sensible solution. Ideally want:
+    Probably better off in GEP-03, short discussion here?
 
-    - Minimal set of functions for a given policy year
-    - Users putting together their policy environment based on functions from different years
-    - ...
 
 Additional functionalities
 --------------------------
