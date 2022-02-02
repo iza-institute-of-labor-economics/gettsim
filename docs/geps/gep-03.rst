@@ -100,6 +100,10 @@ entry is added.
    - In rare cases (e.g. child benefit age threshold), it might be omitted.
    - Some values used at this point: ``Euro``, ``DM``, ``share``, ``hours``,
      ``square meters``
+   - The ``unit`` key may be overridden at lower levels. For example, the unit will
+     typically be ``Euro`` for monetary quantities. For the years prior to its
+     introduction, it may be specified as ``DM``.
+
 
    Example:
 
@@ -164,6 +168,8 @@ entry is added.
    - may give hints towards the type of function they refer to via the ``type`` subkey;
    - may include formulas if the law does;
    - may reference other parameters as described below.
+   - may contain a ``unit`` subkey, which overrides the ``unit`` key mentioned in 3.
+     (mostly relevant for DM / Euro)
 
    The remainder of this section explains this element in much more detail.
 
@@ -326,6 +332,38 @@ The following walks through several cases.
   In any case, it **must** be the case that it is obvious from the ``YYYY-MM-DD`` entry
   that the (set of) parameter(s) is not relevant any more, else the previous ones will
   linger on.
+
+
+Keys referring to functions
+---------------------------
+
+The `rounding` key
+++++++++++++++++++
+
+See GEP-5,
+
+.. todo::
+
+    Repeat gist here
+
+
+The `dates_active` key
+++++++++++++++++++++++
+
+Some functions should not be present at certain times. For example, ``arbeitsl_geld_2``
+and all its ancestors should not appear in DAGs referring to years prior to 2005.
+
+Other functions have different interfaces in different years or undergo very large
+changes in their body.
+
+The `dates_active` key can be used to include certain functions only in certain years
+and to switch between different implementations of other functions.
+
+
+.. todo::
+
+    Work on precise specification.
+
 
 
 .. _gep-3-storage-of-parameters:
