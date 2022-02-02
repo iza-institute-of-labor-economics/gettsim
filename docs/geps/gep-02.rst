@@ -24,6 +24,12 @@ This GEP lays out how GETTSIM stores the user-provided data (be it from the SOEP
 example individuals, ...) and passes it around to the functions calculating taxes and
 transfers.
 
+Data will be stored as a collection of 1-d arrays, each of which corresponds to a column
+a DataFrame. All these arrays have the same length, which corresponds to the number of
+individuals. Unless marked in a specific way, functions operate on a single row of data.
+Column names ending in ``_id`` can be used to aggregate data within households, tax
+units, etc..
+
 
 Motivation and Scope
 --------------------
@@ -32,9 +38,17 @@ Taxes and transfers are calculated at different levels of aggregation: Individua
 couples, families, households. Potentially, there are many ways of storing these data:
 Long form, wide form, collections of tables, n-dimensional arrays, etc..
 
-This section describes the need for the proposed change. It should describe the existing
-problem, who it affects, what it is trying to solve, and why. This section should
-explicitly address the scope of and key requirements for the proposed change.
+Trade-offs:
+
+- Normal forms lead to irregular data.
+
+- Modern tools for vectorization (e.g., Numba or Jax) scale best when working with
+  single rows of data.
+
+- Almost all functions are much easier to implement when working with a single row.
+  This is most important for the typical user and increasing the number of developers.
+
+
 
 
 Usage and Impact
@@ -42,6 +56,7 @@ Usage and Impact
 
 * Primarily internal / relevant for developers — highest-level interface can be easily
   adjusted
+
 * Affects users only via the interface of lower-level functions (they might want to
   call those or override them)
 
@@ -50,92 +65,26 @@ Usage and Impact
 Detailed description
 --------------------
 
-Main idea: adhere to normal forms
-
-1. Values do not have any internal structure
-2. Tables do not contain redundant information
-3. No structure in variable names (always use "long" format, not "wide" format)
-
-1. and 3. should be uncontroversial, for 2., there are two potential ways forward, see
-below.
-
-Some things that will be the case for sure:
-
-* Anything variable that exists at a level that is above the lowe
-
-.. note::
-
-    We might get by without steuersubjekt (tax unit) by just tracing out relations
-    between people and eligibility; I leave it in for now.
-
-
-A: Strict adherence to 2nd normal form
----------------------------------------
-
-* 3+ different tables (bedarfsgemeinschaft, steuersubjekt, person, ?).
-* Indexes would be ``jahr`` :math:`\times` {``bedarfsgemeinschaft``, ``steuersubjekt``,
-  ``person``}
-
-
-B: One table with MultiIndex
-----------------------------
-
-* Index would be ``jahr`` :math:`\times` ``bedarfsgemeinschaft`` :math:`\times`
-  ``steuersubjekt`` :math:`\times` ``person``
-* Any variable relevant at a level higher than ``person`` will be filled in the same
-  way for all persons belonging to that unit.
-
-
-Pro A:
-
-* Very obvious what is the correct level for a particular variable
-* Never a need to append anything like ``_hh`` to a variable as this is encoded in the
-  table name
-* Less need to work with MultiIndex, which might not be straightforward.
-
-Pro B:
-
-* Most of the time, calculations at ``higher-up`` levels require information from the
-  person level (as opposed to aggregates only). E.g., for a lot of Arbeitslosengeld II -
-  stuff we have to check person-by person. One might as well just work with that
-  directly and avoid lots of merges.
-* More natural for people not used to the SQL-like way of doing things.
-
-
-
-Related Work
-------------
-
-This section should list relevant and/or similar technologies, possibly in other
-libraries. It does not need to be comprehensive, just list the major examples of prior
-and relevant art.
+Will need to swap to integer-count index for households internally for Jax'
+[segment_sum](https://www.tensorflow.org/api_docs/python/tf/math/segment_sum) etc. to work,
+then translate back
 
 
 Implementation
 --------------
 
-This section lists the major steps required to implement the GEP.  Where possible, it
-should be noted where one step is dependent on another, and which steps may be
-optionally omitted.  Where it makes sense, each step should include a link to related
-pull requests as the implementation progresses.
-
-Any pull requests or development branches containing work on this GEP should be linked
-to from here.  (A GEP does not need to be implemented in a single pull request if it
-makes sense to implement it in discrete phases).
-
-
-Backward compatibility
-----------------------
-
-This section describes the ways in which the GEP breaks backward compatibility.
+TBD
 
 
 Alternatives
 ------------
 
-If there were any alternative solutions to solving the same problem, they should be
-discussed here, along with a justification for the chosen approach.
+Versions 0.3 -- 0.4 (0.5) of GETTSIM used a collection of pandas Series. This proved
+to be slow and cumbersome.
 
+Adhering to normal forms (e.g., reducing the length of arrays to the number of
+households like [here](https://www.tensorflow.org/api_docs/python/tf/math/segment_sum)
+would have led to many merge-like operations in user functions.
 
 Discussion
 ----------
