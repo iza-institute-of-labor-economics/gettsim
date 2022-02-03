@@ -2,6 +2,7 @@ import functools
 import textwrap
 import warnings
 
+import numpy as np
 import pandas as pd
 
 from gettsim.config import DEFAULT_TARGETS
@@ -25,6 +26,7 @@ def compute_taxes_and_transfers(
     targets=None,
     columns_overriding_functions=None,
     check_minimal_specification="ignore",
+    rounding=True,
     debug=False,
 ):
     """Compute taxes and transfers.
@@ -51,6 +53,8 @@ def compute_taxes_and_transfers(
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimal configuration should
         be silenced, emitted as warnings or errors.
+    rounding : bool, default True
+        Indicator for whether rounding should be applied as specified in the law.
     debug : bool
         The debug mode does the following:
 
@@ -93,6 +97,11 @@ def compute_taxes_and_transfers(
         k: v for k, v in functions.items() if k not in columns_overriding_functions
     }
     _fail_if_targets_not_in_functions(functions, targets)
+
+    # Note: It is crucial that rounding is applied before partialling the
+    # functions. Otherwise, the attributes __roundingspec__ are lost.
+    if rounding:
+        functions = _add_rounding_to_functions(functions)
 
     # Partial parameters to functions such that they disappear in the DAG.
     functions = _partial_parameters_to_functions(functions, params)
@@ -517,6 +526,84 @@ def _root_nodes(dag):
         has_no_parents = len(list(dag.predecessors(node))) == 0
         if has_no_parents:
             yield node
+
+
+def _add_rounding_for_one_function(base, direction):
+    """Decorator to round the output of a function.
+
+    Parameters
+    ----------
+    base : float
+        Precision of rounding (e.g. 0.1 to round to the first decimal place)
+    round_d : bool
+        Whether rounding should be applied
+    direction : str
+        Whether the series should be rounded up, down or to the nearest number
+
+    Returns
+    -------
+    results : pandas.Series
+        Series with (potentially) rounded numbers
+    """
+
+    def inner(func):
+        # Make sure that signature is preserved
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            out = func(*args, **kwargs)
+            if direction == "up":
+                rounded_out = base * np.ceil(out / base)
+            elif direction == "down":
+                rounded_out = base * np.floor(out / base)
+            elif direction == "nearest":
+                rounded_out = base * (out / base).round()
+            else:
+                raise ValueError("direction must be one of 'up', 'down', or 'nearest'")
+            return rounded_out
+
+        return wrapper
+
+    return inner
+
+
+def _add_rounding_to_functions(functions):
+    """Add appropriate rounding of outputs to functions
+
+    Parameters
+    ----------
+    functions : dict of callable
+        Dictionary of functions which are either internal or user provided functions.
+
+
+    Returns
+    -------
+    functions_new : dict of callable
+        Dictionary mapping function names to callables for whose outputs appropriate
+        rounding is applied.
+
+    """
+    functions_new = {}
+    for f_name, func in functions.items():
+        if hasattr(func, "__roundingspec__"):
+            rounding_spec = func.__roundingspec__
+
+            # Check if expected parameters are present in roundingspec
+            if not ("base" in rounding_spec and "direction" in rounding_spec):
+                raise ValueError(
+                    "If roundingspec is set to a function, both"
+                    " 'base' and 'direction' are expected"
+                )
+
+            # Add rounding
+            base = rounding_spec["base"]
+            direction = rounding_spec["direction"]
+            functions_new[f_name] = _add_rounding_for_one_function(base, direction)(
+                func
+            )
+
+        else:
+            functions_new[f_name] = func
+    return functions_new
 
 
 def _partial_parameters_to_functions(functions, params):
