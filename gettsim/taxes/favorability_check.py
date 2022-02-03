@@ -9,6 +9,7 @@ similar check applies to whether it is more profitable to tax capital incomes wi
 standard 25% rate or to include it in the tariff.
 
 """
+from gettsim.shared import add_rounding_spec
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -43,6 +44,7 @@ def kinderfreib_günstiger_tu(
     return eink_st_kein_kinderfreib > eink_st_kinderfreib_tu
 
 
+@add_rounding_spec(params_key="eink_st")
 def eink_st_tu_bis_1996(eink_st_kinderfreib_tu: FloatSeries) -> FloatSeries:
     """Income tax calculation until 1996.
 
@@ -60,6 +62,7 @@ def eink_st_tu_bis_1996(eink_st_kinderfreib_tu: FloatSeries) -> FloatSeries:
     return eink_st_kinderfreib_tu
 
 
+@add_rounding_spec(params_key="eink_st")
 def eink_st_tu_ab_1997(
     eink_st_kein_kinderfreib_tu: FloatSeries,
     eink_st_kinderfreib_tu: FloatSeries,

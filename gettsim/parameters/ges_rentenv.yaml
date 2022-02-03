@@ -468,10 +468,3 @@ rentenwert_ost:
   2019-07-01:
     scalar: 31.89
     reference:
-
-rounding:
-  ges_rente_m:
-    1984-01-01:
-      base: 0.01
-      direction: nearest
-      reference: § 123 SGB VI Abs. 1

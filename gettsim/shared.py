@@ -57,3 +57,30 @@ def get_names_of_arguments_without_defaults(function):
             argument_names_without_defaults.append(parameter)
 
     return argument_names_without_defaults
+
+
+def add_rounding_spec(base, direction):
+    """Decorator to add rounding specification attributes to a function.
+    Parameters
+    ----------
+    base : float
+        Precision of rounding (e.g. 0.1 to round to the first decimal place)
+    direction : str
+        Whether the series should be rounded up, down or to the nearest number
+    Returns
+    -------
+    func : function
+        Function with rounding specification attributes
+    """
+
+    # Check inputs
+    if not (type(base) in [int, float]):
+        raise ValueError("'base' needs to be a number")
+    if direction not in ["up", "down", "nearest"]:
+        raise ValueError("'direction' must be one of 'up', 'down', or 'nearest'")
+
+    def inner(func):
+        func.__roundingspec__ = {"base": base, "direction": direction}
+        return func
+
+    return inner
