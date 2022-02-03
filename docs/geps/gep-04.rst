@@ -31,6 +31,10 @@ Abstract
 This GEP explains the directed acyclic graph (DAG)-based computational backend for
 GETTSIM.
 
+The graph operates on columns of data. Stringified function names and their inputs
+correspond to columns in the data, i.e., nodes in the graph.
+
+
 
 Motivation
 ----------
@@ -55,29 +59,29 @@ motivated by two main reasons.
 Basic idea
 ----------
 
-.. todo::
-
-    Adjust where necessary that typical functions operate on individual rows.
-
-    Expand upon aggregation functions, also non-automatic and think about decorator.
-
-    Replace references to GEP-1 by columns ending in ``_id``.
-
-
 Based on the two requirements above we split the tax and transfer system into a set of
-small functions. Each function calculates one clearly defined variable (identical to
-the function's name) and returns it as a :class:`Series`. Typically, function arguments
-are either user-provided input variables (e.g. `bruttolohn_m`) or outputs of other
-functions in the taxes and transfers system. The only other potential additional
-arguments are parameters of the taxes and transfers system, which are pre-defined.
+small functions. Each function calculates one clearly defined variable (identical to the
+function's stringified name) and returns a 1d-array.
 
-GETTSIM is able to calculate the variables a researcher is interested in by starting
-with the input variables and calling the required functions in a correct order. This is
+.. note::
+
+    The function code itself will typically work on scalars and is vectorized by
+    GETTSIM; this is irrelevant for the DAG.
+
+Function arguments can be of three kinds:
+
+- User-provided input variables (e.g., ``bruttolohn_m``).
+- Outputs of other functions in the taxes and transfers system (e.g., ``eink_st_tu``).
+- Parameters of the taxes and transfers system, which are pre-defined and always end in
+  ``_params`` (e.g., ``ges_rentenv_params``).
+
+GETTSIM will calculate the variables a researcher is interested in by starting with the
+input variables and calling the required functions in a correct order. This is
 accomplished via a DAG (see below).
 
 Splitting complex calculations into smaller pieces has a lot of the usual advantages of
 why we use functions when programming: readability, simplicity, lower maintenance costs
-(see single-responsibility principle). Another advantage is that each function is a
+(single-responsibility principle). Another advantage is that each function is a
 potential entry point for a researcher to change the taxes and transfers system if she
 is able to replace this function with her own version.
 
@@ -105,13 +109,12 @@ See the following example for capital income taxes.
 
 The function :func:`abgelt_st_tu` requires the variable ``zu_verst_kapital_eink_tu``
 which is the amount of taxable capital income per tax unit (the latter is implied by the
-``_tu`` suffix, see :ref:`gep-1`). ``zu_verst_kapital_eink_tu``  has to be provided by
-the user as an input variable or it has to be the name of another function. In any case,
-it needs to be a :class:`pandas.Series` with an appropriate index. ``abgelt_st_params``
-is a dictionary of parameters related to the calculation of ``abgelt_st_tu``.
+``_tu`` suffix, see :ref:`gep-1`). ``zu_verst_kapital_eink_tu`` must be provided by the
+user as a column of the input data or it has to be the name of another function.
+``abgelt_st_params`` is a dictionary of parameters related to the calculation of
+``abgelt_st_tu``.
 
-The result of this function is again a :class:`pandas.Series` which has the name
-``abgelt_st_tu``, the same name as the function. Another function, say
+Another function, say
 
 .. code-block:: python
 
@@ -123,76 +126,85 @@ The result of this function is again a :class:`pandas.Series` which has the name
     ) -> FloatSeries:
         ...
 
-
-would need to have ``abgelt_st_tu`` as a name for an input argument to request this
-:class:`pandas.Series`.
+may use ``abgelt_st_tu`` as an input argument. The DAG backend ensures that the function
+``abgelt_st_tu`` will be executed first.
 
 Note that the type annotations (e.g. `FloatSeries`) indicate the expected type of each
-input and the output of a function.
+input and the output of a function, see :ref:`gep-2`.
 
 
 Directed Acyclic Graph
 ----------------------
 
-The relationship between functions and their input variables is a graph where nodes are
-variables. These variables must either be present in the data supplied to GETTSIM or
-they are computed by functions. Edges are pointing from input variables to variables,
-which require them to be computed. See this `tutorial <../visualize_the_system.ipynb>`_
-for how to visualize this.
+The relationship between functions and their input variables is a graph where nodes
+represent columns in the data. These columns must either be present in the data supplied
+to GETTSIM or they are computed by functions. Edges are pointing from input columns to
+variables, which require them to be computed.
+
+.. note::
+
+    GETTSIM allows to visualize the graph, see this `tutorial
+    <../visualize_the_system.ipynb>`_.
 
 The resulting structure is a special kind of graph, called a directed acyclic graph
-(DAG). It is directed because there are clearly inputs and outputs, i.e., a sense of
-direction. Acyclic means that there exist no path along the direction of the edges,
-where you start at some node and end up at the same node. Equivalently, a DAG has a
-topological ordering which is a sequence of nodes ordered from earlier to later in the
+(DAG). It is directed because there are clearly inputs and outputs, i.e., there is a
+sense of direction. Acyclic means that there exist no path along the direction of the
+edges, where you start at some node and end up at the same node. Equivalently, a DAG has
+a topological ordering which is a sequence of nodes ordered from earlier to later in the
 sequence. The topological ordering is what defines the sequence in which the functions
 in the taxes and transfers system are evaluated. This ensures that the inputs are
 already computed before a function that requires them is called.
 
-When ``compute_taxes_and_transfers`` is called, GETTSIM builds a DAG based on three
+In order to calculate a set of taxes and transfers, GETTSIM builds a DAG based on three
 inputs provided by the user:
 
- - A set of functions of the tax and transfer system, which consist of the ones
-   pre-implemented in GETTSIM and potentially user-written additional functions.
- - The targets of interest.
- - The input variables.
+ - Input data.
+ - A set of functions representing the tax and transfer system, which consist of the
+   ones pre-implemented in GETTSIM and potentially user-written additional functions.
+   Parameters of the taxes and transfers system (see :ref:`gep-3` will already be
+   partialled into these functions, so they can be ignored in the following).
+ - The target columns of interest.
 
- The DAG is then used to call all required functions in the right order and to
- calculate the requested targets.
+The DAG is then used to call all required functions in the right order and to calculate
+the requested targets.
 
 
 Level of the DAG and limitations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The DAG sketched above allows for great flexibility at any given point in time. It also
-allows the user to override any function easily. However, it does not allow the
-interface of functions to change over time, new functions to appear, or old ones to
-disappear.
+In principle, GETTSIM will import all functions defined in the modules describing the
+taxes and transfers system. In principle, these functions refer to all years in
+GETTSIM's scope. There has to be some discretion in order to allow for the interface of
+functions to change over time, new functions to appear, or old ones to disappear.
 
 Some examples include:
 
-1. `arbeitsl_hilfe` being replaced by `arbeitsl_geld_2`
-1. `kinderbonus` being active only in a few years
-1. The introduction of `kinderzuschlag`
-1. Capital income entering `sum_brutto_eink` or not.
+1. ``arbeitsl_hilfe`` being replaced by ``arbeitsl_geld_2``
+1. ``kinderbonus`` being active only in a few years
+1. The introduction of ``kinderzuschlag``
+1. Capital income entering ``sum_brutto_eink`` or not.
 
-The current solution handles the case of changing interfaces like this (example 4.):
+The goal is that the graph for any particular point in time is minimal in the sense that
+``arbeitsl_geld_2`` does not appear before it was conceived, it is apparent from the
+interface of ``sum_brutto_eink`` whether it includes capital income or not, etc..
 
-.. code-block:: python
+In the yaml-files corresponding to a particular tax / transfer, functions not present in
+all years will need to be listed with along with the dates for when they are active. See
+:gep-3-keys-referring-to-functions: for the precise syntax. That mechanism should be
+used for:
 
-    if year < 2009:
-        functions["sum_brutto_eink"] = sum_brutto_eink_mit_kapital
-    else:
-        functions["sum_brutto_eink"] = sum_brutto_eink_ohne_kapital
+1. Functions that are newly introduced.
+2. Functions that cease to be relevant.
+3. Functions whose interface changes over time.
+4. Functions whose body changes so much that
 
+   - it is useful to signal that things have changed and/or
 
-However, all functions will be present in all years in principle. This is not
-satisfactory; ideally, functions would only be present in years where they actually
-exist.
+   - it would be awkward to program the different behaviors in one block with case
+     distinctions.
 
-.. todo::
-
-    Probably better off in GEP-03, short discussion here?
+Needless to say, the different reasons may appear at different points in time for the
+same function.
 
 
 Additional functionalities
@@ -207,9 +219,12 @@ certain types of functions of the tax and transfer system.
 Group summation of variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Individual-level measures often need to be summed up to a group level. GETTSIM automates
-this process for groups of individuals defined in :ref:`gep-1` (households ``_hh`` and
-tax units ``_tu``).
+Individual-level measures often need to be summed up to a group level. <GEP-2 describes
+`gep-2-aggregation-functions`> how reductions are handled in principle.
+
+Because summations are very common, GETTSIM's DAG backend automates this process for
+groups of individuals defined in :ref:`gep-1` (households ``_hh`` and tax units
+``_tu``).
 
 In case an individual-level column `[column]` exists, the graph will be augmented with a
 node including a group sum like `[column]_hh` should that be requested. Requests can be
@@ -278,14 +293,6 @@ both ways without changing quantities. In case more complex conversions are need
 example to account for irregular days per month, leap years, or the like), explicit
 functions for, say, ``[column]_w`` need to be set.
 
-
-Functions defined only for a subset of years
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. todo::
-
-    Describe current solution of the future implementation once we decide on a better
-    solution.
 
 Related Work
 ------------
