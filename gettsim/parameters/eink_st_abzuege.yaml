@@ -530,8 +530,8 @@ behinderten_pauschbetrag:
     en:
   unit: Euro
   reference_period: year
-  1987-01-01:
-    reference:
+  1975-01-01:
+    reference: G. v. 05.08.1974 BGBl. I S. 1769.
     0: 0
     25: 307
     35: 429

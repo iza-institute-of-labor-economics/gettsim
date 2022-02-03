@@ -71,7 +71,7 @@ first attempt to ascertain whether the idea is suitable for a GEP. A message in
 The proposal should be submitted as a draft GEP via a `GitHub pull request`_ to the
 ``doc/geps`` directory with the name ``gep-<n>.rst`` where ``<n>`` is an appropriately
 assigned two-digit number (e.g., it is ``gep-00.rst`` for this document). The draft must
-use the :ref:`gep-template` file.
+use the :ref:`gep-x` file.
 
 Once the PR is in place, the GEP should be announced on the in `#GEPs`_ on
 `Zulip`_ for discussion. Discussion about implementation details will take place on the
@@ -103,8 +103,8 @@ follows:
 
 All GEPs should be created with the ``Draft`` status.
 
-Eventually, after discussion, there may be a consensus that the GEP should be accepted
-–-- see the next section for details. At this point the status becomes ``Accepted``.
+Eventually, after discussion, there may be a consensus that the GEP should be accepted —
+see the next section for details. At this point the status becomes ``Accepted``.
 
 Once a GEP has been ``Accepted``, the reference implementation must be completed.  When
 the reference implementation is complete and incorporated into the main source code
@@ -149,9 +149,11 @@ How a GEP becomes Accepted
 
 A GEP is ``Accepted`` by consensus of all interested contributors. We need a concrete
 way to tell whether consensus has been reached. When you think a GEP is ready to accept,
-send a message with a first line like:
+post a message with a first line like:
 
-  Proposal to accept GEP #<number>: <title>
+  ## Proposal to accept GEP #<number>: <title>
+
+to the Zulip stream GEPs / GEP [XY].
 
 In the body of your message, you should:
 
@@ -169,7 +171,7 @@ Generally the GEP author will be the one to send this message, but anyone can do
 the important thing is to make sure that everyone knows when a GEP is on the verge of
 acceptance, and give them a final chance to respond. If there's some special reason to
 extend this final comment period beyond 7 days, then that's fine, just say so in the
-message. You shouldn't do less than 7 days, because sometimes people are traveling or
+message. You shouldn't do less than 7 days, because sometimes people are travelling or
 similar and need some time to respond.
 
 In general, the goal is to make sure that the community has consensus, not provide a
@@ -204,7 +206,7 @@ Format and Template
 -------------------
 
 GEPs are UTF-8 encoded text files using the reStructuredText_ format. Please see the
-:ref:`gep-template` file and the reStructuredTextPrimer_ for more information. We use
+:ref:`gep-x` file and the reStructuredTextPrimer_ for more information. We use
 Sphinx_ to convert GEPs to HTML for viewing on the web [2]_.
 
 
