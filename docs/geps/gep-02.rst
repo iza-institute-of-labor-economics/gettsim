@@ -60,14 +60,31 @@ Usage and Impact
 * Affects users only via the interface of lower-level functions (they might want to
   call those or override them)
 
+* Recu
 
 
 Detailed description
 --------------------
 
-Will need to swap to integer-count index for households internally for Jax'
-[segment_sum](https://www.tensorflow.org/api_docs/python/tf/math/segment_sum) etc. to work,
-then translate back
+
+.. _gep-2-aggregation-functions:
+
+Aggregation functions
+~~~~~~~~~~~~~~~~~~~~~
+
+Often variables refer to units aggregating multiple individuals. All these will be
+repeated for all individuals in a unit of aggregation.
+
+Always require sorted arrays. Check during setup of the graph. Else go for slow
+operations including re-sorting.
+
+Different implementations depending on backend:
+
+- Will need to swap to integer-count index for households internally for Jax'
+  [segment_sum](https://jax.readthedocs.io/en/latest/_autosummary/jax.ops.segment_sum.html)
+  etc. to work, then translate back
+- For numpy, need indices of blocks (implement via
+  [np.reduceat](https://numpy.org/doc/stable/reference/generated/numpy.ufunc.reduceat.html)
 
 
 Implementation
