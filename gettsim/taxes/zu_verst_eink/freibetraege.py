@@ -243,6 +243,7 @@ def altervorsorge_aufwend(
 
 
 def kinderfreib_tu(
+    alleinerziehend_tu: BoolSeries,
     anz_kindergeld_kinder_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     eink_st_abzuege_params: dict,
@@ -251,6 +252,8 @@ def kinderfreib_tu(
 
     Parameters
     ----------
+    alleinerziehend_tu:
+        See basic input variable :ref:`alleinerziehend_tu <alleinerziehend_tu>`.
     anz_kindergeld_kinder_tu
         See :func:`anz_kindergeld_kinder_tu`.
     anz_erwachsene_tu
@@ -263,6 +266,10 @@ def kinderfreib_tu(
 
     """
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
+    # Single Parents only receive half the amount
+    kifreib_total.loc[alleinerziehend_tu] = (
+        sum(eink_st_abzuege_params["kinderfreibetrag"].values()) / 2
+    )
     return kifreib_total * anz_kindergeld_kinder_tu * anz_erwachsene_tu
 
 
