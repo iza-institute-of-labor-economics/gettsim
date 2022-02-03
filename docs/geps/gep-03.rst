@@ -334,6 +334,9 @@ The following walks through several cases.
   linger on.
 
 
+
+.. _gep-3-keys-referring-to-functions:
+
 Keys referring to functions
 ---------------------------
 
