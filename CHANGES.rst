@@ -26,6 +26,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   tax is meant). Make variables consistent (e.g. `kinderfreibetrag` had different
   abbreviations, now `kinderfreib` everywhere). (:ghuser:`hmgaudecker`,
   :ghuser:`ChristianZimpelmann`)
+* :gh:`344` Correct calculation of child benefit and child tax allowance for
+  single parents (:ghuser:`Eric-Sommer`, :ghuser:`mjbloemer`)
 
 
 0.4.2 — 2022-01-25
