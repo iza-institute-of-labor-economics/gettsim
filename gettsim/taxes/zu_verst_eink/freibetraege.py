@@ -266,11 +266,20 @@ def kinderfreib_tu(
 
     """
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
-    # Single Parents only receive half the amount
-    kifreib_total.loc[alleinerziehend_tu] = (
-        sum(eink_st_abzuege_params["kinderfreibetrag"].values()) / 2
+    out = (
+        kifreib_total
+        * anz_kindergeld_kinder_tu
+        * anz_erwachsene_tu
+        * ~alleinerziehend_tu
+    ) + (
+        # Single parents receive half the amount
+        kifreib_total
+        / 2
+        * anz_kindergeld_kinder_tu
+        * anz_erwachsene_tu
+        * alleinerziehend_tu
     )
-    return kifreib_total * anz_kindergeld_kinder_tu * anz_erwachsene_tu
+    return out
 
 
 def anz_kindergeld_kinder_tu(
