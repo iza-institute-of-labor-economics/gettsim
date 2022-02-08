@@ -247,6 +247,7 @@ def kinderfreib_tu(
     anz_kindergeld_kinder_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     eink_st_abzuege_params: dict,
+    unterhaltsvors_m_tu: FloatSeries,
 ) -> FloatSeries:
     """Aggregate child allowances on tax unit level.
 
@@ -260,24 +261,25 @@ def kinderfreib_tu(
         See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    unterhaltsvors_m_tu
+        See :func:`unterhaltsvors_m_tu`
 
     Returns
     -------
 
     """
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
+    # Single Parents receive the full amount if they don't receive unterhalt
+    halber_kifreib = alleinerziehend_tu * unterhaltsvors_m_tu == 0
     out = (
-        kifreib_total
-        * anz_kindergeld_kinder_tu
-        * anz_erwachsene_tu
-        * ~alleinerziehend_tu
+        kifreib_total * anz_kindergeld_kinder_tu * anz_erwachsene_tu * (~halber_kifreib)
     ) + (
         # Single parents receive half the amount
         kifreib_total
         / 2
         * anz_kindergeld_kinder_tu
         * anz_erwachsene_tu
-        * alleinerziehend_tu
+        * halber_kifreib
     )
     return out
 

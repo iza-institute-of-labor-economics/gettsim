@@ -108,6 +108,7 @@ def kindergeld_m_ab_1997(
     kinderfreib_günstiger_tu: BoolSeries,
     kindergeld_m_basis: FloatSeries,
     tu_id: IntSeries,
+    alleinerziehend_tu: BoolSeries,
 ) -> FloatSeries:
     """Kindergeld calculation since 1997.
 
@@ -119,6 +120,8 @@ def kindergeld_m_ab_1997(
         See :func:`kindergeld_m_basis`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
+    alleinerziehend_tu
+        See basic input variable :ref:`alleinerziehend_tu <alleinerziehend_tu>`.
 
     Returns
     -------
@@ -126,7 +129,7 @@ def kindergeld_m_ab_1997(
     """
     beantrage_kinderfreib = tu_id.replace(kinderfreib_günstiger_tu)
     out = kindergeld_m_basis
-    out.loc[beantrage_kinderfreib] = 0
+    out.loc[beantrage_kinderfreib & ~alleinerziehend_tu] = 0
     return out
 
 
