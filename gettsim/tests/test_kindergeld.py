@@ -16,6 +16,7 @@ INPUT_COLS = [
     "kind",
     "arbeitsstunden_w",
     "in_ausbildung",
+    "alleinerziehend",
     "bruttolohn_m",
     "_zu_verst_eink_kein_kinderfreib_tu",
 ]
