@@ -628,7 +628,6 @@ def _add_rounding_to_functions_in_dag(dag, params, data):
                     and "rounding" in params[params_key]
                     and task in params[params_key]["rounding"]
                 ):
-
                     raise KeyError(
                         f"Rounding specifications for function {task} are expected in "
                         "the parameter dictionary at "
@@ -636,6 +635,7 @@ def _add_rounding_to_functions_in_dag(dag, params, data):
                         " do not exist. If this function should not be rounded,"
                         " remove the respective decorator."
                     )
+
                 rounding_spec = params[params_key]["rounding"][task]
 
                 # Check if expected parameters are present in rounding specifications
