@@ -69,6 +69,8 @@ def compute_taxes_and_transfers(
         DataFrame containing computed variables.
 
     """
+
+    # Set defaults for some parameters
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
@@ -76,18 +78,19 @@ def compute_taxes_and_transfers(
     )
     params = {} if params is None else params
 
-    targets, dag = _set_up_dag(
+    # Create the dag
+    dag = set_up_dag(
         data,
         params,
-        columns_overriding_functions,
         functions,
         targets,
+        columns_overriding_functions,
         check_minimal_specification,
         rounding,
     )
 
     # We delay the data preparation as long as possible such that other checks can fail
-    # before this.
+    # before this
     data = data.copy(deep=True)
     data = _process_data(data)
     data = _reduce_data(data)
@@ -106,15 +109,47 @@ def compute_taxes_and_transfers(
     return results
 
 
-def _set_up_dag(
+def set_up_dag(
     data,
     params,
-    columns_overriding_functions,
     functions,
     targets,
+    columns_overriding_functions,
     check_minimal_specification,
     rounding,
 ):
+    """Load all potential functions of the DAG and create the DAG.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        The data provided by the user.
+    params : dict
+        A dictionary with parameters from the policy environment. For more
+        information see the documentation of the :ref:`param_files`.
+    functions : str, pathlib.Path, callable, module, imports statements, dict
+        Function from the policy environment. Functions can be anything of the specified
+        types and a list of the same objects. If the object is a dictionary, the keys of
+        the dictionary are used as a name instead of the function name. For all other
+        objects, the name is inferred from the function name.
+    targets : list of str
+        List of strings with names of functions whose output is actually
+        needed by the user. By default, ``targets`` contains all key outputs as
+        defined by `gettsim.config.DEFAULT_TARGETS`.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
+    rounding : bool, default True
+        Indicator for whether rounding should be applied as specified in the law.
+
+    Returns
+    -------
+    dag : networkx.DiGraph
+        The DAG of the tax and transfer system.
+    """
     _fail_if_columns_overriding_functions_are_not_in_data(
         data, columns_overriding_functions
     )
@@ -125,7 +160,7 @@ def _set_up_dag(
     for funcs, name in zip([internal_functions, functions], ["internal", "user"]):
         _fail_if_functions_and_columns_overlap(columns, funcs, name)
 
-    # Create one dictionary of functions and perform check.
+    # Create one dictionary of functions and perform check
     functions = {**internal_functions, **functions}
     _fail_if_datatype_is_false(data, columns_overriding_functions, functions)
     _fail_if_columns_overriding_functions_are_not_in_functions(
@@ -137,15 +172,16 @@ def _set_up_dag(
     }
     _fail_if_targets_not_in_functions(functions, targets)
 
-    # Partial parameters to functions such that they disappear in the DAG.
+    # Partial parameters to functions such that they disappear in the DAG
     functions = _partial_parameters_to_functions(functions, params)
 
     # Create DAG and perform checks which depend on data which is not part of the DAG
-    # interface.
+    # interface
     dag = create_dag(
         functions, targets, columns_overriding_functions, check_minimal_specification
     )
 
+    # Do some checks
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
     _fail_if_pid_is_non_unique(data)
@@ -154,7 +190,7 @@ def _set_up_dag(
     if rounding:
         functions = _add_rounding_to_functions_in_dag(dag, params, data)
 
-    return targets, dag
+    return dag
 
 
 def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
