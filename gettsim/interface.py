@@ -76,6 +76,45 @@ def compute_taxes_and_transfers(
     )
     params = {} if params is None else params
 
+    targets, dag = _set_up_dag(
+        data,
+        params,
+        columns_overriding_functions,
+        functions,
+        targets,
+        check_minimal_specification,
+        rounding,
+    )
+
+    # We delay the data preparation as long as possible such that other checks can fail
+    # before this.
+    data = data.copy(deep=True)
+    data = _process_data(data)
+    data = _reduce_data(data)
+    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
+
+    results = execute_dag(dag, data, targets, debug)
+
+    results = _expand_data(results, ids)
+    results = pd.DataFrame(results)
+
+    if not debug:
+        results = results[targets]
+
+    results = _reorder_columns(results)
+
+    return results
+
+
+def _set_up_dag(
+    data,
+    params,
+    columns_overriding_functions,
+    functions,
+    targets,
+    check_minimal_specification,
+    rounding,
+):
     _fail_if_columns_overriding_functions_are_not_in_data(
         data, columns_overriding_functions
     )
@@ -98,11 +137,6 @@ def compute_taxes_and_transfers(
     }
     _fail_if_targets_not_in_functions(functions, targets)
 
-    # Note: It is crucial that rounding is applied before partialling the
-    # functions. Otherwise, the attributes __roundingspec__ are lost.
-    if rounding:
-        functions = _add_rounding_to_functions(functions)
-
     # Partial parameters to functions such that they disappear in the DAG.
     functions = _partial_parameters_to_functions(functions, params)
 
@@ -111,28 +145,16 @@ def compute_taxes_and_transfers(
     dag = create_dag(
         functions, targets, columns_overriding_functions, check_minimal_specification
     )
+
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
     _fail_if_pid_is_non_unique(data)
 
-    # We delay the data preparation as long as possible such that other checks can fail
-    # before this.
-    data = data.copy(deep=True)
-    data = _process_data(data)
-    data = _reduce_data(data)
-    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
+    # Add rounding to functions
+    if rounding:
+        functions = _add_rounding_to_functions_in_dag(dag, params, data)
 
-    results = execute_dag(dag, data, targets, debug)
-
-    results = _expand_data(results, ids)
-    results = pd.DataFrame(results)
-
-    if not debug:
-        results = results[targets]
-
-    results = _reorder_columns(results)
-
-    return results
+    return targets, dag
 
 
 def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
@@ -528,7 +550,7 @@ def _root_nodes(dag):
             yield node
 
 
-def _add_rounding_for_one_function(base, direction):
+def _add_rounding_to_one_function(base, direction):
     """Decorator to round the output of a function.
 
     Parameters
@@ -547,10 +569,16 @@ def _add_rounding_for_one_function(base, direction):
     """
 
     def inner(func):
+
         # Make sure that signature is preserved
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             out = func(*args, **kwargs)
+
+            # Check inputs
+            if not (type(base) in [int, float]):
+                raise ValueError("base needs to be a number")
+
             if direction == "up":
                 rounded_out = base * np.ceil(out / base)
             elif direction == "down":
@@ -566,44 +594,65 @@ def _add_rounding_for_one_function(base, direction):
     return inner
 
 
-def _add_rounding_to_functions(functions):
+def _add_rounding_to_functions_in_dag(dag, params, data):
     """Add appropriate rounding of outputs to functions
 
     Parameters
     ----------
-    functions : dict of callable
-        Dictionary of functions which are either internal or user provided functions.
-
+    dag : networkx.DiGraph
+        The DAG of the tax and transfer system.
+    params : dict
+        Dictionary of parameters
+    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+        Data provided by the user.
 
     Returns
     -------
-    functions_new : dict of callable
-        Dictionary mapping function names to callables for whose outputs appropriate
-        rounding is applied.
+    dag : networkx.DiGraph
+        The DAG of the tax and transfer system with rounding applied to the functions
+        in the DAG.
 
     """
-    functions_new = {}
-    for f_name, func in functions.items():
-        if hasattr(func, "__roundingspec__"):
-            rounding_spec = func.__roundingspec__
+    for task in dag:
+        if task not in data:
+            func = dag.nodes[task]["function"]
 
-            # Check if expected parameters are present in roundingspec
-            if not ("base" in rounding_spec and "direction" in rounding_spec):
-                raise ValueError(
-                    "If roundingspec is set to a function, both"
-                    " 'base' and 'direction' are expected"
-                )
+            # If function has rounding params attribute, look for rounding specs in
+            # params dict
+            if hasattr(func, "__rounding_params_key__"):
+                params_key = func.__rounding_params_key__
 
-            # Add rounding
-            base = rounding_spec["base"]
-            direction = rounding_spec["direction"]
-            functions_new[f_name] = _add_rounding_for_one_function(base, direction)(
-                func
-            )
+                # Check if there are any rounding specifications
+                if not (
+                    params_key in params
+                    and "rounding" in params[params_key]
+                    and task in params[params_key]["rounding"]
+                ):
 
-        else:
-            functions_new[f_name] = func
-    return functions_new
+                    raise KeyError(
+                        f"Rounding specifications for function {task} are expected in "
+                        "the parameter dictionary at "
+                        f"['{params_key}']['rounding']['{task}'], but these nested keys"
+                        " do not exist. If this function should not be rounded,"
+                        " remove the respective decorator."
+                    )
+                rounding_spec = params[params_key]["rounding"][task]
+
+                # Check if expected parameters are present in rounding specifications
+                if not ("base" in rounding_spec and "direction" in rounding_spec):
+                    raise KeyError(
+                        "Both 'base' and 'direction' are expected as rounding "
+                        "parameters in the parameter dictionary. At least one of them "
+                        f"is missing at ['{params_key}']['rounding']['{task}']."
+                    )
+
+                # Add rounding
+                base = rounding_spec["base"]
+                direction = rounding_spec["direction"]
+                dag.nodes[task]["function"] = _add_rounding_to_one_function(
+                    base, direction
+                )(dag.nodes[task]["function"])
+    return dag
 
 
 def _partial_parameters_to_functions(functions, params):
@@ -632,11 +681,15 @@ def _partial_parameters_to_functions(functions, params):
             for i in arguments
             if i.endswith("_params") and i[:-7] in params
         }
+        if partial_params:
+            partial_func = functools.partial(function, **partial_params)
 
-        partialed_functions[name] = (
-            functools.partial(function, **partial_params)
-            if partial_params
-            else function
-        )
+            # Make sure that rounding parameter attribute is kept
+            if hasattr(function, "__rounding_params_key__"):
+                partial_func.__rounding_params_key__ = function.__rounding_params_key__
+
+            partialed_functions[name] = partial_func
+        else:
+            partialed_functions[name] = function
 
     return partialed_functions

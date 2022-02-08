@@ -66,7 +66,7 @@ def add_rounding_spec(params_key):
     Parameters
     ----------
     params_key : str
-        Key of the parameters dictionnairy where rouding specifications are found. For
+        Key of the parameters dictionary where rouding specifications are found. For
         functions that are not user-written this is just the name of the respective
         .yaml file.
 
@@ -75,12 +75,6 @@ def add_rounding_spec(params_key):
     func : function
         Function with __rounding_params_key__ attribute
     """
-
-    # # Check inputs
-    # if not (type(base) in [int, float]):
-    #     raise ValueError("'base' needs to be a number")
-    # if direction not in ["up", "down", "nearest"]:
-    #     raise ValueError("'direction' must be one of 'up', 'down', or 'nearest'")
 
     def inner(func):
         func.__rounding_params_key__ = params_key

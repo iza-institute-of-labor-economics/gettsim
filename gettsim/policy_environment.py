@@ -290,11 +290,14 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         Loader=yaml.CLoader,
     )
 
-    # Keys from the raw file which will not be transferred
+    # Load parameters (exclude 'rounding' parameters which are handled at the
+    # end of this function)
     not_trans_keys = ["note", "reference", "deviation_from"]
     tax_data = {}
     if not parameters:
-        parameters = raw_group_data.keys()
+        parameters = [k for k in raw_group_data if k != "rounding"]
+
+    # Load values of all parameters at the specified date
     for param in parameters:
         dates = sorted(
             key
@@ -358,7 +361,50 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
 
     tax_data["datum"] = date
 
+    # Load rounding parameters if they exist
+    if "rounding" in raw_group_data:
+        tax_data["rounding"] = _load_rounding_parameters(
+            date, raw_group_data["rounding"]
+        )
     return tax_data
+
+
+def _load_rounding_parameters(date, rounding_spec):
+    """Load rounding parameters for a specific date from a dictionary.
+
+    Parameters
+    ----------
+    date : datetime.date
+        The date for which the policy system is set up.
+    rounding_spec : dictionary
+        The dictionary that contains rounding parameters
+        for several functions and several dates
+
+    Returns:
+        dictionary: Rounding parameters for the specified date
+    """
+    out = {}
+    rounding_parameters = ["direction", "base"]
+
+    # Load values of all parameters at the specified date
+    for function_name in rounding_spec.keys():
+        dates = sorted(
+            key
+            for key in rounding_spec[function_name].keys()
+            if isinstance(key, datetime.date)
+        )
+        past_policies = [x for x in dates if x <= date]
+
+        # If rounding parameters exist, copy them to params dictionary
+        # If not, no key for this function name is created (this will
+        # raise an error later if the user doesn't adjust params df before calling
+        # `compute_taxes_and_transfers`)
+        if past_policies:
+            policy_in_place = rounding_spec[function_name][np.max(past_policies)]
+            out[function_name] = {}
+            for key in [k for k in policy_in_place if k in rounding_parameters]:
+                out[function_name][key] = policy_in_place[key]
+    return out
 
 
 def transfer_dictionary(remaining_dict, new_dict, key_list):
