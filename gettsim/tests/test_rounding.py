@@ -31,8 +31,7 @@ def test_decorator():
         {"params_key_test": {"rounding": {"test_func": {}}}},
     ],
 )
-def test_fail_if_no_rounding_specs(rounding_specs):
-    """Missing rounding specifications"""
+def test_no_rounding_specs(rounding_specs):
 
     with pytest.raises(KeyError):
 
@@ -51,7 +50,7 @@ def test_fail_if_no_rounding_specs(rounding_specs):
 @pytest.mark.parametrize(
     "base, direction", [(1, "upper"), ("0.1", "down"), (5, "closest")],
 )
-def test_fail_if_rounding_specs_wrong_format(base, direction):
+def test_rounding_specs_wrong_format(base, direction):
     with pytest.raises(ValueError):
 
         @add_rounding_spec(params_key="params_key_test")
