@@ -1,3 +1,4 @@
+import copy
 import functools
 import textwrap
 import warnings
@@ -17,6 +18,13 @@ from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_if_series_has_internal_type
+
+
+class KeyErrorMessage(str):
+    """Subclass str to allow for line breaks in KeyError messages"""
+
+    def __repr__(self):
+        return str(self)
 
 
 def compute_taxes_and_transfers(
@@ -70,7 +78,7 @@ def compute_taxes_and_transfers(
 
     """
 
-    # Set defaults for some parameters
+    # Set defaults for some parameters.
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
@@ -78,7 +86,7 @@ def compute_taxes_and_transfers(
     )
     params = {} if params is None else params
 
-    # Create the dag
+    # Create the dag and perform.
     dag = set_up_dag(
         data,
         params,
@@ -90,7 +98,7 @@ def compute_taxes_and_transfers(
     )
 
     # We delay the data preparation as long as possible such that other checks can fail
-    # before this
+    # before this.
     data = data.copy(deep=True)
     data = _process_data(data)
     data = _reduce_data(data)
@@ -118,7 +126,8 @@ def set_up_dag(
     check_minimal_specification,
     rounding,
 ):
-    """Load all potential functions of the DAG and create the DAG.
+    """Load all potential functions of the DAG, perform checks on data and functions, and
+    create the DAG.
 
     Parameters
     ----------
@@ -160,7 +169,7 @@ def set_up_dag(
     for funcs, name in zip([internal_functions, functions], ["internal", "user"]):
         _fail_if_functions_and_columns_overlap(columns, funcs, name)
 
-    # Create one dictionary of functions and perform check
+    # Create one dictionary of functions and perform check.
     functions = {**internal_functions, **functions}
     _fail_if_datatype_is_false(data, columns_overriding_functions, functions)
     _fail_if_columns_overriding_functions_are_not_in_functions(
@@ -172,23 +181,23 @@ def set_up_dag(
     }
     _fail_if_targets_not_in_functions(functions, targets)
 
-    # Partial parameters to functions such that they disappear in the DAG
+    # Partial parameters to functions such that they disappear in the DAG.
     functions = _partial_parameters_to_functions(functions, params)
 
     # Create DAG and perform checks which depend on data which is not part of the DAG
-    # interface
+    # interface.
     dag = create_dag(
         functions, targets, columns_overriding_functions, check_minimal_specification
     )
 
-    # Do some checks
+    # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
     _fail_if_pid_is_non_unique(data)
 
-    # Add rounding to functions
+    # Add rounding to functions.
     if rounding:
-        functions = _add_rounding_to_functions_in_dag(dag, params, data)
+        dag = _add_rounding_to_functions_in_dag(dag, params, data)
 
     return dag
 
@@ -606,14 +615,16 @@ def _add_rounding_to_one_function(base, direction):
 
     def inner(func):
 
-        # Make sure that signature is preserved
+        # Make sure that signature is preserved.
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             out = func(*args, **kwargs)
 
-            # Check inputs
+            # Check inputs.
             if not (type(base) in [int, float]):
-                raise ValueError("base needs to be a number")
+                raise ValueError(
+                    f"base needs to be a number, got '{base}' for '{func.__name__}'"
+                )
 
             if direction == "up":
                 rounded_out = base * np.ceil(out / base)
@@ -622,7 +633,10 @@ def _add_rounding_to_one_function(base, direction):
             elif direction == "nearest":
                 rounded_out = base * (out / base).round()
             else:
-                raise ValueError("direction must be one of 'up', 'down', or 'nearest'")
+                raise ValueError(
+                    "direction must be one of 'up', 'down', or 'nearest'"
+                    f", got '{direction}' for '{func.__name__}'"
+                )
             return rounded_out
 
         return wrapper
@@ -630,7 +644,7 @@ def _add_rounding_to_one_function(base, direction):
     return inner
 
 
-def _add_rounding_to_functions_in_dag(dag, params, data):
+def _add_rounding_to_functions_in_dag(dag_raw, params, data):
     """Add appropriate rounding of outputs to functions
 
     Parameters
@@ -649,40 +663,48 @@ def _add_rounding_to_functions_in_dag(dag, params, data):
         in the DAG.
 
     """
+    dag = copy.deepcopy(dag_raw)
+
     for task in dag:
         if task not in data:
             func = dag.nodes[task]["function"]
 
             # If function has rounding params attribute, look for rounding specs in
-            # params dict
+            # params dict.
             if hasattr(func, "__rounding_params_key__"):
                 params_key = func.__rounding_params_key__
 
-                # Check if there are any rounding specifications
+                # Check if there are any rounding specifications.
                 if not (
                     params_key in params
                     and "rounding" in params[params_key]
                     and task in params[params_key]["rounding"]
                 ):
                     raise KeyError(
-                        f"Rounding specifications for function {task} are expected in "
-                        "the parameter dictionary at "
-                        f"['{params_key}']['rounding']['{task}'], but these nested keys"
-                        " do not exist. If this function should not be rounded,"
-                        " remove the respective decorator."
+                        KeyErrorMessage(
+                            f"Rounding specifications for function {task} are expected"
+                            " in the parameter dictionary \n"
+                            f" at ['{params_key}']['rounding']['{task}']. These nested"
+                            " keys do not exist. \n"
+                            " If this function should not be rounded,"
+                            " remove the respective decorator."
+                        )
                     )
 
                 rounding_spec = params[params_key]["rounding"][task]
 
-                # Check if expected parameters are present in rounding specifications
+                # Check if expected parameters are present in rounding specifications.
                 if not ("base" in rounding_spec and "direction" in rounding_spec):
                     raise KeyError(
-                        "Both 'base' and 'direction' are expected as rounding "
-                        "parameters in the parameter dictionary. At least one of them "
-                        f"is missing at ['{params_key}']['rounding']['{task}']."
+                        KeyErrorMessage(
+                            "Both 'base' and 'direction' are expected as rounding "
+                            "parameters in the parameter dictionary. \n "
+                            "At least one of them "
+                            f"is missing at ['{params_key}']['rounding']['{task}']."
+                        )
                     )
 
-                # Add rounding
+                # Add rounding.
                 base = rounding_spec["base"]
                 direction = rounding_spec["direction"]
                 dag.nodes[task]["function"] = _add_rounding_to_one_function(
@@ -720,7 +742,8 @@ def _partial_parameters_to_functions(functions, params):
         if partial_params:
             partial_func = functools.partial(function, **partial_params)
 
-            # Make sure that rounding parameter attribute is kept
+            # Make sure that rounding parameter attribute is transferred to partial
+            # function. Otherwise, this information would get lost.
             if hasattr(function, "__rounding_params_key__"):
                 partial_func.__rounding_params_key__ = function.__rounding_params_key__
 

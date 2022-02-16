@@ -170,6 +170,15 @@ def test_partial_parameters_to_functions():
     # Partial function produces correct result
     assert partial_func(2) == 3
 
+
+def test_partial_parameters_to_functions_removes_argument():
+    def test_func(arg_1, arbeitsl_geld_2_params):
+        return arg_1 + arbeitsl_geld_2_params["test_param_1"]
+
+    partial_func = _partial_parameters_to_functions(
+        {"test_func": test_func}, {"arbeitsl_geld_2": {"test_param_1": 1}}
+    )["test_func"]
+
     # Fails if params is added to partial function
     with pytest.raises(
         TypeError, match=("got multiple values for argument "),

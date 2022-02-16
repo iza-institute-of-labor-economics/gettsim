@@ -13,6 +13,15 @@ from gettsim.functions_loader import _load_functions
 from gettsim.policy_environment import load_reforms_for_date
 from gettsim.shared import add_rounding_spec
 
+rounding_specs_and_exp_results = [
+    (1, "up", [100.24, 100.78], [101.0, 101.0]),
+    (1, "down", [100.24, 100.78], [100.0, 100.0]),
+    (1, "nearest", [100.24, 100.78], [100.0, 101.0]),
+    (5, "up", [100.24, 100.78], [105.0, 105.0]),
+    (0.1, "down", [100.24, 100.78], [100.2, 100.7]),
+    (0.001, "nearest", [100.24, 100.78], [100.24, 100.78]),
+]
+
 
 def test_decorator():
     @add_rounding_spec(params_key="params_key_test")
@@ -72,15 +81,7 @@ def test_rounding_specs_wrong_format(base, direction):
 
 
 @pytest.mark.parametrize(
-    "base, direction, input_values, exp_output",
-    [
-        (1, "up", [100.24, 100.78], [101.0, 101.0]),
-        (1, "down", [100.24, 100.78], [100.0, 100.0]),
-        (1, "nearest", [100.24, 100.78], [100.0, 101.0]),
-        (5, "up", [100.24, 100.78], [105.0, 105.0]),
-        (0.1, "down", [100.24, 100.78], [100.2, 100.7]),
-        (0.001, "nearest", [100.24, 100.78], [100.24, 100.78]),
-    ],
+    "base, direction, input_values, exp_output", rounding_specs_and_exp_results,
 )
 def test_rounding(base, direction, input_values, exp_output):
     """Check if rounding is correct"""
@@ -105,14 +106,9 @@ def test_rounding(base, direction, input_values, exp_output):
 
 
 @pytest.mark.parametrize(
-    "base, direction, input_values, exp_output",
-    [
-        (5, "up", [100.24, 100.78], [100.24, 100.78]),
-        (0.1, "down", [100.24, 100.78], [100.24, 100.78]),
-        (0.001, "nearest", [100.24, 100.78], [100.24, 100.78]),
-    ],
+    "base, direction, input_values_exp_output, _ignore", rounding_specs_and_exp_results,
 )
-def test_no_rounding(base, direction, input_values, exp_output):
+def test_no_rounding(base, direction, input_values_exp_output, _ignore):  # noqa: U101
 
     # Define function that should be rounded
     @add_rounding_spec(params_key="params_key_test")
@@ -120,7 +116,7 @@ def test_no_rounding(base, direction, input_values, exp_output):
         return income
 
     data = pd.DataFrame([{"p_id": 1}, {"p_id": 2}])
-    data["income"] = input_values
+    data["income"] = input_values_exp_output
     rounding_specs = {
         "params_key_test": {
             "rounding": {"test_func": {"base": base, "direction": direction}}
@@ -130,7 +126,7 @@ def test_no_rounding(base, direction, input_values, exp_output):
     calc_result = compute_taxes_and_transfers(
         data=data, functions=[test_func], params=rounding_specs, targets=["test_func"],
     )
-    np.array_equal(calc_result["test_func"].values, np.array(exp_output))
+    np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
 
 
 def test_decorator_for_all_functions_with_rounding_spec():
