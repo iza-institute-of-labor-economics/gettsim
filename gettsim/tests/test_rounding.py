@@ -24,7 +24,12 @@ def test_decorator():
 
 @pytest.mark.parametrize(
     "rounding_specs",
-    [{}, {"params_key_test": {}}, {"params_key_test": {"rounding": {}}}],
+    [
+        {},
+        {"params_key_test": {}},
+        {"params_key_test": {"rounding": {}}},
+        {"params_key_test": {"rounding": {"test_func": {}}}},
+    ],
 )
 def test_fail_if_no_rounding_specs(rounding_specs):
     """Missing rounding specifications"""
