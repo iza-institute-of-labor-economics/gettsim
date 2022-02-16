@@ -86,61 +86,109 @@ def compute_taxes_and_transfers(
     )
     params = {} if params is None else params
 
-    # Create the dag and perform.
-    dag = set_up_dag(
-        data,
+    # Load functions.
+    user_functions, internal_functions = load_user_and_internal_functions(functions)
+
+    # Perform several checks on functions and data. Merge internal and user functions.
+    all_functions = check_data_check_functions_and_merge_functions(
+        user_functions, internal_functions, columns_overriding_functions, data
+    )
+
+    # Set up dag.
+    dag = prepare_functions_and_set_up_dag(
         params,
-        functions,
         targets,
         columns_overriding_functions,
         check_minimal_specification,
         rounding,
+        all_functions,
     )
+
+    # Do some checks.
+    _fail_if_root_nodes_are_missing(dag, data)
+    _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
 
     # We delay the data preparation as long as possible such that other checks can fail
     # before this.
     data = data.copy(deep=True)
     data = _process_data(data)
     data = _reduce_data(data)
-    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
 
     results = execute_dag(dag, data, targets, debug)
 
-    results = _expand_data(results, ids)
-    results = pd.DataFrame(results)
-
-    if not debug:
-        results = results[targets]
-
-    results = _reorder_columns(results)
+    # Prepare results.
+    results = prepare_results(results, data, debug, targets)
 
     return results
 
 
-def set_up_dag(
-    data,
+def check_data_check_functions_and_merge_functions(
+    user_functions, internal_functions, columns_overriding_functions, data
+):
+    """Make some checks on input data and on interal and user functions. Merge internal
+    and user functions and afterwards perform some more checks.
+
+    Parameters
+    ----------
+    user_functions : dict
+        A dictionary mapping variable names to policy functions by the user.
+    internal_functions : dict
+        A dictionary mapping variable names to all internal policy functions.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    data : pandas.DataFrame
+        The data provided by the user.
+
+    Returns
+    -------
+    all_functions : dict
+        All internal and user functions except the ones that are overridden by an input
+        column.
+    """
+    data_cols = list(data.columns)
+    _fail_if_pid_is_non_unique(data)
+    _fail_if_columns_overriding_functions_are_not_in_data(
+        data_cols, columns_overriding_functions
+    )
+
+    data_cols_excl_overriding = [
+        c for c in data_cols if c not in columns_overriding_functions
+    ]
+    for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
+        _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
+
+    # Create one dictionary of functions and perform check.
+    all_functions = {**internal_functions, **user_functions}
+
+    _fail_if_datatype_is_false(data, columns_overriding_functions, all_functions)
+    _fail_if_columns_overriding_functions_are_not_in_functions(
+        columns_overriding_functions, all_functions
+    )
+
+    # Remove functions that are overridden
+    all_functions = {
+        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
+    }
+
+    return all_functions
+
+
+def prepare_functions_and_set_up_dag(
     params,
-    functions,
     targets,
     columns_overriding_functions,
     check_minimal_specification,
     rounding,
+    all_functions,
 ):
-    """Load all potential functions of the DAG, perform checks on data and functions, and
-    create the DAG.
+    """Set up the DAG. Partial functions before that and add rounding afterwards.
 
     Parameters
     ----------
-    data : pandas.DataFrame
-        The data provided by the user.
     params : dict
         A dictionary with parameters from the policy environment. For more
         information see the documentation of the :ref:`param_files`.
-    functions : str, pathlib.Path, callable, module, imports statements, dict
-        Function from the policy environment. Functions can be anything of the specified
-        types and a list of the same objects. If the object is a dictionary, the keys of
-        the dictionary are used as a name instead of the function name. For all other
-        objects, the name is inferred from the function name.
     targets : list of str
         List of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` contains all key outputs as
@@ -153,53 +201,68 @@ def set_up_dag(
         be silenced, emitted as warnings or errors.
     rounding : bool, default True
         Indicator for whether rounding should be applied as specified in the law.
+    all_functions : dict
+        All internal and user functions except the ones that are overridden by an input
+        column.
 
     Returns
     -------
     dag : networkx.DiGraph
         The DAG of the tax and transfer system.
     """
-    _fail_if_columns_overriding_functions_are_not_in_data(
-        data, columns_overriding_functions
-    )
-
-    # Load functions and perform checks.
-    functions, internal_functions = load_user_and_internal_functions(functions)
-    columns = set(data) - set(columns_overriding_functions)
-    for funcs, name in zip([internal_functions, functions], ["internal", "user"]):
-        _fail_if_functions_and_columns_overlap(columns, funcs, name)
-
-    # Create one dictionary of functions and perform check.
-    functions = {**internal_functions, **functions}
-    _fail_if_datatype_is_false(data, columns_overriding_functions, functions)
-    _fail_if_columns_overriding_functions_are_not_in_functions(
-        columns_overriding_functions, functions
-    )
-
-    functions = {
-        k: v for k, v in functions.items() if k not in columns_overriding_functions
-    }
-    _fail_if_targets_not_in_functions(functions, targets)
+    _fail_if_targets_not_in_functions(all_functions, targets)
 
     # Partial parameters to functions such that they disappear in the DAG.
-    functions = _partial_parameters_to_functions(functions, params)
+    all_functions = _partial_parameters_to_functions(all_functions, params)
 
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
     dag = create_dag(
-        functions, targets, columns_overriding_functions, check_minimal_specification
+        all_functions,
+        targets,
+        columns_overriding_functions,
+        check_minimal_specification,
     )
-
-    # Do some checks.
-    _fail_if_root_nodes_are_missing(dag, data)
-    _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
-    _fail_if_pid_is_non_unique(data)
 
     # Add rounding to functions.
     if rounding:
-        dag = _add_rounding_to_functions_in_dag(dag, params, data)
+        dag = _add_rounding_to_functions_in_dag(dag, params)
 
     return dag
+
+
+def prepare_results(results, data, debug, targets):
+    """Prepare results after DAG was executed
+
+    Parameters
+    ----------
+    results : dict
+        Dictionary of pd.Series with the results.
+    data : dict
+        Dictionary of pd.Series based on the input data provided by the user.
+    debug : bool
+        Indicates debug mode.
+    targets : list of str
+        List of strings with names of functions whose output is actually
+        needed by the user.
+
+    Returns
+    -------
+    results : pandas.DataFrame
+        Nicely formatted DataFrame of the results.
+
+    """
+    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
+
+    results = _expand_data(results, ids)
+    results = pd.DataFrame(results)
+
+    if not debug:
+        results = results[targets]
+
+    results = _reorder_columns(results)
+
+    return results
 
 
 def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
@@ -386,13 +449,13 @@ def _reduce_series_to_value_per_group(name, s, level, groups):
     return grouper.max()
 
 
-def _fail_if_columns_overriding_functions_are_not_in_data(data, columns):
+def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
     """Fail if functions which compute columns overlap with existing columns.
 
     Parameters
     ----------
-    data : dict of pandas.Series
-        Dictionary containing data columns as Series.
+    data_cols : list
+        Columns of the input data.
     columns : list of str
         List of column names.
 
@@ -402,7 +465,9 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data, columns):
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    unused_columns_overriding_functions = sorted(set(columns) - set(data))
+    unused_columns_overriding_functions = sorted(
+        c for c in set(columns) if c not in data_cols
+    )
     n_cols = len(unused_columns_overriding_functions)
 
     column_sg_pl = "column" if n_cols == 1 else "columns"
@@ -644,7 +709,7 @@ def _add_rounding_to_one_function(base, direction):
     return inner
 
 
-def _add_rounding_to_functions_in_dag(dag_raw, params, data):
+def _add_rounding_to_functions_in_dag(dag_raw, params):
     """Add appropriate rounding of outputs to functions
 
     Parameters
@@ -653,8 +718,6 @@ def _add_rounding_to_functions_in_dag(dag_raw, params, data):
         The DAG of the tax and transfer system.
     params : dict
         Dictionary of parameters
-    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
-        Data provided by the user.
 
     Returns
     -------
@@ -666,7 +729,7 @@ def _add_rounding_to_functions_in_dag(dag_raw, params, data):
     dag = copy.deepcopy(dag_raw)
 
     for task in dag:
-        if task not in data:
+        if "function" in dag.nodes[task]:
             func = dag.nodes[task]["function"]
 
             # If function has rounding params attribute, look for rounding specs in
