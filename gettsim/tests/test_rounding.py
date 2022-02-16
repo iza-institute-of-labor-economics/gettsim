@@ -52,7 +52,6 @@ def test_fail_if_no_rounding_specs(rounding_specs):
     "base, direction", [(1, "upper"), ("0.1", "down"), (5, "closest")],
 )
 def test_fail_if_rounding_specs_wrong_format(base, direction):
-    """Unsupported rounding specifications"""
     with pytest.raises(ValueError):
 
         @add_rounding_spec(params_key="params_key_test")
