@@ -2,7 +2,7 @@ from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 
 
-def potenz_arbeitsl_geld_2_m_hh(
+def arbeitsl_geld_2_vor_vorrang_m_hh(
     regelbedarf_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
@@ -48,7 +48,8 @@ def potenz_arbeitsl_geld_2_m_hh(
 
 
 def wohngeld_vorrang_hh(
-    wohngeld_vermögens_check_hh: FloatSeries, potenz_arbeitsl_geld_2_m_hh: FloatSeries,
+    wohngeld_vermögens_check_hh: FloatSeries,
+    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if housing benefit has priority.
 
@@ -56,19 +57,19 @@ def wohngeld_vorrang_hh(
     ----------
     wohngeld_vermögens_check_hh
         See :func:`wohngeld_vermögens_check_hh`.
-    potenz_arbeitsl_geld_2_m_hh
-        See :func:`potenz_arbeitsl_geld_2_m_hh`.
+    arbeitsl_geld_2_vor_vorrang_m_hh
+        See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
 
     Returns
     -------
 
     """
-    return wohngeld_vermögens_check_hh >= potenz_arbeitsl_geld_2_m_hh
+    return wohngeld_vermögens_check_hh >= arbeitsl_geld_2_vor_vorrang_m_hh
 
 
 def kinderzuschl_vorrang_hh(
     kinderzuschl_vermögens_check_hh: FloatSeries,
-    potenz_arbeitsl_geld_2_m_hh: FloatSeries,
+    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if child benefit has priority.
 
@@ -76,20 +77,20 @@ def kinderzuschl_vorrang_hh(
     ----------
     kinderzuschl_vermögens_check_hh
         See :func:`kinderzuschl_vermögens_check_hh`.
-    potenz_arbeitsl_geld_2_m_hh
-        See :func:`potenz_arbeitsl_geld_2_m_hh`.
+    arbeitsl_geld_2_vor_vorrang_m_hh
+        See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
 
     Returns
     -------
 
     """
-    return kinderzuschl_vermögens_check_hh >= potenz_arbeitsl_geld_2_m_hh
+    return kinderzuschl_vermögens_check_hh >= arbeitsl_geld_2_vor_vorrang_m_hh
 
 
 def wohngeld_kinderzuschl_vorrang_hh(
     wohngeld_vermögens_check_hh: FloatSeries,
     kinderzuschl_vermögens_check_hh: FloatSeries,
-    potenz_arbeitsl_geld_2_m_hh: FloatSeries,
+    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if housing and child benefit have priority.
 
@@ -99,8 +100,8 @@ def wohngeld_kinderzuschl_vorrang_hh(
         See :func:`wohngeld_vermögens_check_hh`.
     kinderzuschl_vermögens_check_hh
         See :func:`kinderzuschl_vermögens_check_hh`.
-    potenz_arbeitsl_geld_2_m_hh
-        See :func:`potenz_arbeitsl_geld_2_m_hh`.
+    arbeitsl_geld_2_vor_vorrang_m_hh
+        See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
 
     Returns
     -------
@@ -109,4 +110,4 @@ def wohngeld_kinderzuschl_vorrang_hh(
     sum_wohngeld_kinderzuschl = (
         wohngeld_vermögens_check_hh + kinderzuschl_vermögens_check_hh
     )
-    return sum_wohngeld_kinderzuschl >= potenz_arbeitsl_geld_2_m_hh
+    return sum_wohngeld_kinderzuschl >= arbeitsl_geld_2_vor_vorrang_m_hh

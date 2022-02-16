@@ -6,7 +6,7 @@ from gettsim.typing import IntSeries
 
 
 def arbeitsl_geld_2_m_hh(
-    potenz_arbeitsl_geld_2_m_hh: FloatSeries,
+    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
     kinderzuschl_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
@@ -17,8 +17,8 @@ def arbeitsl_geld_2_m_hh(
 
     Parameters
     ----------
-    potenz_arbeitsl_geld_2_m_hh
-        See :func:`potenz_arbeitsl_geld_2_m_hh`.
+    arbeitsl_geld_2_vor_vorrang_m_hh
+        See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
     kinderzuschl_vorrang_hh
@@ -32,7 +32,7 @@ def arbeitsl_geld_2_m_hh(
     -------
     FloatSeries with the income by unemployment insurance per household.
     """
-    out = potenz_arbeitsl_geld_2_m_hh.copy()
+    out = arbeitsl_geld_2_vor_vorrang_m_hh.copy()
     cond = (
         wohngeld_vorrang_hh
         | kinderzuschl_vorrang_hh
