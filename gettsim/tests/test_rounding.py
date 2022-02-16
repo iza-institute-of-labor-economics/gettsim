@@ -114,7 +114,6 @@ def test_rounding(base, direction, input_values, exp_output):
     ],
 )
 def test_no_rounding(base, direction, input_values, exp_output):
-    """Check if no rounding if disabled"""
 
     # Define function that should be rounded
     @add_rounding_spec(params_key="params_key_test")
