@@ -6,32 +6,10 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def regelbedarf_m_vermögens_check_hh(
-    regelbedarf_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries
-) -> FloatSeries:
-    """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
-
-    If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
-    calculated, just set the need to zero)
-
-    Parameters
-    ----------
-    regelbedarf_m_hh
-        See :func:`regelbedarf_m_hh`.
-    unter_vermögens_freibetrag_hh
-        See :func:`unter_vermögens_freibetrag_hh`.
-
-    Returns
-    -------
-
-    """
-    out = regelbedarf_m_hh.copy()
-    out.loc[~unter_vermögens_freibetrag_hh] = 0
-    return out
-
-
 def kinderzuschl_vermögens_check_hh(
-    kinderzuschl_vorläufig_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries,
+    kinderzuschl_vorläufig_m_hh: FloatSeries,
+    vermögen_hh: FloatSeries,
+    freibetrag_vermögen_hh: FloatSeries,
 ) -> FloatSeries:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
@@ -39,15 +17,17 @@ def kinderzuschl_vermögens_check_hh(
     ----------
     kinderzuschl_vorläufig_m_hh
         See :func:`kinderzuschl_vorläufig_m_hh`.
-    unter_vermögens_freibetrag_hh
-        See :func:`unter_vermögens_freibetrag_hh`.
+    freibetrag_vermögen_hh
+        See :func:`freibetrag_vermögen_hh`.
+    vermögen_hh
+        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
 
     Returns
     -------
 
     """
     out = kinderzuschl_vorläufig_m_hh.copy()
-    out.loc[~unter_vermögens_freibetrag_hh] = 0
+    out.loc[vermögen_hh > freibetrag_vermögen_hh] = 0
     return out
 
 
@@ -86,26 +66,7 @@ def wohngeld_vermögens_check_hh(
     return out
 
 
-def unter_vermögens_freibetrag_hh(
-    vermögen_hh: FloatSeries, freibetrag_vermögen_hh: FloatSeries
-) -> BoolSeries:
-    """Check if wealth is under wealth exemption.
-
-    Parameters
-    ----------
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
-    freibetrag_vermögen_hh
-        See :func:`freibetrag_vermögen_hh`.
-
-    Returns
-    -------
-
-    """
-    return vermögen_hh <= freibetrag_vermögen_hh
-
-
-def freibetrag_vermögen_anspruch_hh(
+def vermög_freib_arbeitsl_geld_2_hh(
     hh_id: IntSeries,
     kind: BoolSeries,
     alter: IntSeries,
@@ -188,7 +149,7 @@ def max_freibetrag_vermögen_hh(
 
 
 def freibetrag_vermögen_hh(
-    freibetrag_vermögen_anspruch_hh: FloatSeries,
+    vermög_freib_arbeitsl_geld_2_hh: FloatSeries,
     anz_minderj_hh: IntSeries,
     haushaltsgröße_hh: IntSeries,
     max_freibetrag_vermögen_hh: FloatSeries,
@@ -198,8 +159,8 @@ def freibetrag_vermögen_hh(
 
     Parameters
     ----------
-    freibetrag_vermögen_anspruch_hh
-        See :func:`freibetrag_vermögen_anspruch_hh`.
+    vermög_freib_arbeitsl_geld_2_hh
+        See :func:`vermög_freib_arbeitsl_geld_2_hh`.
     anz_minderj_hh
         See basic input variable :ref:`anz_minderj_hh <anz_minderj_hh>`.
     haushaltsgröße_hh
@@ -214,7 +175,7 @@ def freibetrag_vermögen_hh(
 
     """
     out = (
-        freibetrag_vermögen_anspruch_hh
+        vermög_freib_arbeitsl_geld_2_hh
         + anz_minderj_hh * arbeitsl_geld_2_params["vermög_freib"]["kind"]
         + (haushaltsgröße_hh - anz_minderj_hh)
         * arbeitsl_geld_2_params["vermög_freib"]["ausstattung"]

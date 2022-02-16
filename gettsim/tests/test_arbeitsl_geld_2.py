@@ -1,6 +1,6 @@
 """
 Note:
-- Values for "arbeitsl_geld_2_m_minus_eink_hh" and "arbeitsl_geld_2_m_hh" are
+- Values for "potenz_arbeitsl_geld_2_m_hh" and "arbeitsl_geld_2_m_hh" are
   only regression tests
 - "wohngeld_basis_hh" is set to 0 to avoid testing Wohngeld-Vorrang and the
   calculation of Wohngeld here.
@@ -54,11 +54,11 @@ OUT_COLS = [
     "arbeitsl_geld_2_brutto_eink",
     "arbeitsl_geld_2_eink_anr_frei",
     "arbeitsl_geld_2_eink",
-    "alleinerziehenden_mehrbedarf_hh",
+    "_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh",
     "regelsatz_m_hh",
     "kost_unterk_m_hh",
     "unterhaltsvors_m_hh",
-    "arbeitsl_geld_2_m_minus_eink_hh",
+    "potenz_arbeitsl_geld_2_m_hh",
     "arbeitsl_geld_2_m_hh",
 ]
 
@@ -97,7 +97,7 @@ def test_alg2(input_data, year, column):
         columns_overriding_functions=override_columns,
     )
     if column in [
-        "arbeitsl_geld_2_m_minus_eink_hh",
+        "potenz_arbeitsl_geld_2_m_hh",
         "arbeitsl_geld_2_m_hh",
     ]:
         result = calc_result[column].round(2)
