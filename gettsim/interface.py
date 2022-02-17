@@ -766,12 +766,9 @@ def _add_rounding_to_functions_in_dag(dag_raw, params):
                             f"is missing at ['{params_key}']['rounding']['{task}']."
                         )
                     )
-
                 # Add rounding.
-                base = rounding_spec["base"]
-                direction = rounding_spec["direction"]
                 dag.nodes[task]["function"] = _add_rounding_to_one_function(
-                    base, direction
+                    base=rounding_spec["base"], direction=rounding_spec["direction"],
                 )(dag.nodes[task]["function"])
     return dag
 
