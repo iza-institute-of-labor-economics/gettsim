@@ -1,4 +1,4 @@
-import numpy as np
+import pandas as pd
 
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -146,6 +146,7 @@ def durchschnittl_entgeltp_grundr(
     -------
 
     """
+
     return entgeltp_grundr / g_r_bewertungsreiten
 
 
@@ -212,7 +213,7 @@ def bonus_entgeltpunkte_grundr(
     -------
 
     """
-    out = grundrentenzeiten.astype(float) * np.nan
+    out = pd.Series(0, index=grundrentenzeiten.index)
 
     # Case 1: Entgeltpunkte less than half of Höchstwert
     below_half_höchstwert = durchschnittl_entgeltp_grundr <= (0.5 * höchstwert_grundr_m)

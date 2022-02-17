@@ -151,7 +151,6 @@ def check_data_check_functions_and_merge_functions(
     _fail_if_columns_overriding_functions_are_not_in_data(
         data_cols, columns_overriding_functions
     )
-    _fail_if_duplicates_in_columns(data)
 
     data_cols_excl_overriding = [
         c for c in data_cols if c not in columns_overriding_functions
@@ -317,6 +316,7 @@ def _process_data(data):
 
     """
     if isinstance(data, pd.DataFrame):
+        _fail_if_duplicates_in_columns(data)
         data = dict(data)
     elif isinstance(data, pd.Series):
         data = {data.name: data}
