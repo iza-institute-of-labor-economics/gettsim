@@ -32,7 +32,7 @@ INPUT_COLS = [
 YEARS = [2021]
 
 OUT_COLS_ROUNDING = {
-    "bonus_entgeltpunkte_grundr": 4,
+    "grundr_zuschlag_bonus_entgeltp": 4,
     "grundr_zuschlag_vor_eink_anr_m": 0,
     "grundr_zuschlag_m": 0,
     "ges_rente_m": 0,

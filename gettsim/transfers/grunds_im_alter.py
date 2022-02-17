@@ -325,8 +325,8 @@ def _grunds_im_alter_mehrbedarf_behinderung_m(
         See basic input variable :ref:`behinderungsgrad <schwerbe_ausweis_g>`.
     hhsize_tu
         See :func:`hhsize_tu`.
-    ges_rentenv_params
-        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     tu_id
