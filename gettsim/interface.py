@@ -213,12 +213,12 @@ def prepare_functions_and_set_up_dag(
     _fail_if_targets_not_in_functions(all_functions, targets)
 
     # Partial parameters to functions such that they disappear in the DAG.
-    partialled_functions = _partial_parameters_to_functions(all_functions, params)
+    partialed_functions = _partial_parameters_to_functions(all_functions, params)
 
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
     dag = create_dag(
-        functions=partialled_functions,
+        functions=partialed_functions,
         targets=targets,
         columns_overriding_functions=columns_overriding_functions,
         check_minimal_specification=check_minimal_specification,
