@@ -33,9 +33,11 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   variables. Make variable names more precise (e.g., `ges_` in front of all social
   insurance parameters that have private counterparts, `eink_st` everywhere the income
   tax is meant). Make variables consistent (e.g. `kinderfreibetrag` had different
-  abbreviations, now `kinderfreib` everywhere) (:ghuser:`hmgaudecker`,
-  :ghuser:`ChristianZimpelmann`).
-
+  abbreviations, now `kinderfreib` everywhere). (:ghuser:`hmgaudecker`,
+  :ghuser:`ChristianZimpelmann`)
+* :gh:`343` New argument for `compute_taxes_and_transfers`: `rounding`. If set to False,
+  rounding of outputs is disabled. Add rounding for `eink_st_tu`. Rounding for other
+  functions will be introduced in future PRs. (:ghuser:`ChristianZimpelmann`).
 
 0.4.2 — 2022-01-25
 ------------------

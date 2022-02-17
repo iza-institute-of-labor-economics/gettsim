@@ -3,6 +3,7 @@ channels:
 dependencies:
   - python
   - bokeh
+  - black
   - ipython
   - nbsphinx
   - numpydoc

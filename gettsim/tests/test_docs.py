@@ -46,7 +46,7 @@ def test_all_input_vars_documented(
     default_input_variables, time_indep_function_names, all_function_names
 ):
     """Test if arguments of all non-internal functions are either the name of another
-    function, a documented input variable, or a parameter dictionnairy
+    function, a documented input variable, or a parameter dictionary
     """
     functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
 

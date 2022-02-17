@@ -312,25 +312,28 @@ def _load_parameter_group_from_yaml(
         (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"), Loader=yaml.CLoader,
     )
 
-    # Keys from the raw file which will not be transferred
+    # Load parameters (exclude 'rounding' parameters which are handled at the
+    # end of this function)
     not_trans_keys = ["note", "reference", "deviation_from", "access_different_date"]
     tax_data = {}
     if not parameters:
-        parameters = raw_group_data.keys()
+        parameters = [k for k in raw_group_data if k != "rounding"]
+
+    # Load values of all parameters at the specified date
     for param in parameters:
-        dates = sorted(
+        policy_dates = sorted(
             key
             for key in raw_group_data[param].keys()
             if isinstance(key, datetime.date)
         )
 
-        past_policies = [x for x in dates if x <= date]
+        past_policies = [d for d in policy_dates if d <= date]
 
         if not past_policies:
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
-            if "deviation_from" in raw_group_data[param][np.min(dates)].keys():
-                future_policy = raw_group_data[param][np.min(dates)]
+            if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
+                future_policy = raw_group_data[param][np.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     tax_data[param] = _load_parameter_group_from_yaml(
@@ -400,7 +403,56 @@ def _load_parameter_group_from_yaml(
 
     tax_data["datum"] = date
 
+    # Load rounding parameters if they exist
+    if "rounding" in raw_group_data:
+        tax_data["rounding"] = _load_rounding_parameters(
+            date, raw_group_data["rounding"]
+        )
     return tax_data
+
+
+def _load_rounding_parameters(date, rounding_spec):
+    """Load rounding parameters for a specific date from a dictionary.
+
+    Parameters
+    ----------
+    date : datetime.date
+        The date for which the policy system is set up.
+    rounding_spec : dictionary
+          - Keys: Functions to be rounded.
+          - Values: Rounding parameters for all dates
+
+    Returns:
+        dictionary:
+          - Keys: Functions to be rounded.
+          - Values: Rounding parameters for the specified date
+    """
+    out = {}
+    rounding_parameters = ["direction", "base"]
+
+    # Load values of all parameters at the specified date.
+    for function_name, rounding_spec_func in rounding_spec.items():
+
+        # Find all specified policy dates before date.
+        policy_dates_before_date = sorted(
+            key
+            for key in rounding_spec_func.keys()
+            if isinstance(key, datetime.date) and key <= date
+        )
+
+        # If any rounding specs are defined for a date before the specified
+        # date, copy them to params dictionary.
+        # If no appropriate rounding specs are found for the requested date,
+        # the function will not appear in the returned dictionary.
+        # Note this will raise an error later unless the user adds an
+        # appropriate rounding specification to the parameters dictionary.
+        if policy_dates_before_date:
+            policy_date_in_place = np.max(policy_dates_before_date)
+            policy_in_place = rounding_spec_func[policy_date_in_place]
+            out[function_name] = {}
+            for key in [k for k in policy_in_place if k in rounding_parameters]:
+                out[function_name][key] = policy_in_place[key]
+    return out
 
 
 def transfer_dictionary(remaining_dict, new_dict, key_list):
