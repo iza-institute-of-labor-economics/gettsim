@@ -96,12 +96,12 @@ def compute_taxes_and_transfers(
 
     # Set up dag.
     dag = prepare_functions_and_set_up_dag(
-        params,
-        targets,
-        columns_overriding_functions,
-        check_minimal_specification,
-        rounding,
-        all_functions,
+        all_functions=all_functions,
+        targets=targets,
+        params=params,
+        columns_overriding_functions=columns_overriding_functions,
+        check_minimal_specification=check_minimal_specification,
+        rounding=rounding,
     )
 
     # Do some checks.
@@ -175,24 +175,27 @@ def check_data_check_functions_and_merge_functions(
 
 
 def prepare_functions_and_set_up_dag(
-    params,
+    all_functions,
     targets,
+    params,
     columns_overriding_functions,
     check_minimal_specification,
     rounding,
-    all_functions,
 ):
     """Set up the DAG. Partial functions before that and add rounding afterwards.
 
     Parameters
     ----------
-    params : dict
-        A dictionary with parameters from the policy environment. For more
-        information see the documentation of the :ref:`param_files`.
+    all_functions : dict
+        All internal and user functions except the ones that are overridden by an input
+        column.
     targets : list of str
         List of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` contains all key outputs as
         defined by `gettsim.config.DEFAULT_TARGETS`.
+    params : dict
+        A dictionary with parameters from the policy environment. For more
+        information see the documentation of the :ref:`param_files`.
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
@@ -201,9 +204,6 @@ def prepare_functions_and_set_up_dag(
         be silenced, emitted as warnings or errors.
     rounding : bool, default True
         Indicator for whether rounding should be applied as specified in the law.
-    all_functions : dict
-        All internal and user functions except the ones that are overridden by an input
-        column.
 
     Returns
     -------
@@ -213,15 +213,15 @@ def prepare_functions_and_set_up_dag(
     _fail_if_targets_not_in_functions(all_functions, targets)
 
     # Partial parameters to functions such that they disappear in the DAG.
-    all_functions = _partial_parameters_to_functions(all_functions, params)
+    partialled_functions = _partial_parameters_to_functions(all_functions, params)
 
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
     dag = create_dag(
-        all_functions,
-        targets,
-        columns_overriding_functions,
-        check_minimal_specification,
+        functions=partialled_functions,
+        targets=targets,
+        columns_overriding_functions=columns_overriding_functions,
+        check_minimal_specification=check_minimal_specification,
     )
 
     # Add rounding to functions.
