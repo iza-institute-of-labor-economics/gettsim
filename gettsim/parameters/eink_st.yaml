@@ -239,3 +239,16 @@ ertragsanteil:
       upper_threshold: inf
       rate_linear: 0.0
       intercept_at_lower_threshold: 1
+
+rounding:
+  eink_st_tu:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 1
+      direction: down
+      reference: § 32a Abs. 1 S. 6 EStG
+    1997-01-01:
+      base: 1
+      direction: down
+      reference: § 32a Abs. 1 S. 6 EStG
