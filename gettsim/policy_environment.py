@@ -299,19 +299,19 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
 
     # Load values of all parameters at the specified date
     for param in parameters:
-        dates = sorted(
+        policy_dates = sorted(
             key
             for key in raw_group_data[param].keys()
             if isinstance(key, datetime.date)
         )
 
-        past_policies = [x for x in dates if x <= date]
+        past_policies = [d for d in policy_dates if d <= date]
 
         if not past_policies:
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
-            if "deviation_from" in raw_group_data[param][np.min(dates)].keys():
-                future_policy = raw_group_data[param][np.min(dates)]
+            if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
+                future_policy = raw_group_data[param][np.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     tax_data[param] = _load_parameter_group_from_yaml(
@@ -386,21 +386,24 @@ def _load_rounding_parameters(date, rounding_spec):
     out = {}
     rounding_parameters = ["direction", "base"]
 
-    # Load values of all parameters at the specified date
+    # Load values of all parameters at the specified date.
     for function_name in rounding_spec.keys():
-        dates = sorted(
+
+        # Find all specified policy dates before date.
+        policy_dates_before_date = sorted(
             key
             for key in rounding_spec[function_name].keys()
-            if isinstance(key, datetime.date)
+            if isinstance(key, datetime.date) and key <= date
         )
-        past_policies = [x for x in dates if x <= date]
 
-        # If rounding parameters exist, copy them to params dictionary
+        # If any rounding specs are defined for a date before the specified
+        # date, copy them to params dictionary.
         # If not, no key for this function name is created (this will
         # raise an error later if the user doesn't adjust params df before calling
-        # `compute_taxes_and_transfers`)
-        if past_policies:
-            policy_in_place = rounding_spec[function_name][np.max(past_policies)]
+        # `compute_taxes_and_transfers`).
+        if policy_dates_before_date:
+            policy_date_in_place = np.max(policy_dates_before_date)
+            policy_in_place = rounding_spec[function_name][policy_date_in_place]
             out[function_name] = {}
             for key in [k for k in policy_in_place if k in rounding_parameters]:
                 out[function_name][key] = policy_in_place[key]

@@ -38,6 +38,16 @@ def minimal_input_data():
     return out
 
 
+# Create a partial function which is used by some tests below
+def func_before_partial(arg_1, arbeitsl_geld_2_params):
+    return arg_1 + arbeitsl_geld_2_params["test_param_1"]
+
+
+func_after_partial = _partial_parameters_to_functions(
+    {"test_func": func_before_partial}, {"arbeitsl_geld_2": {"test_param_1": 1}}
+)["test_func"]
+
+
 def test_fail_if_datatype_is_false(input_data):
     with does_not_raise():
         _fail_if_datatype_is_false(input_data, [], [])
@@ -160,33 +170,21 @@ def test_consecutive_internal_test_runs():
 
 
 def test_partial_parameters_to_functions():
-    def test_func(arg_1, arbeitsl_geld_2_params):
-        return arg_1 + arbeitsl_geld_2_params["test_param_1"]
-
-    partial_func = _partial_parameters_to_functions(
-        {"test_func": test_func}, {"arbeitsl_geld_2": {"test_param_1": 1}}
-    )["test_func"]
 
     # Partial function produces correct result
-    assert partial_func(2) == 3
+    assert func_after_partial(2) == 3
 
 
 def test_partial_parameters_to_functions_removes_argument():
-    def test_func(arg_1, arbeitsl_geld_2_params):
-        return arg_1 + arbeitsl_geld_2_params["test_param_1"]
-
-    partial_func = _partial_parameters_to_functions(
-        {"test_func": test_func}, {"arbeitsl_geld_2": {"test_param_1": 1}}
-    )["test_func"]
 
     # Fails if params is added to partial function
     with pytest.raises(
         TypeError, match=("got multiple values for argument "),
     ):
-        partial_func(2, {"test_param_1": 1})
+        func_after_partial(2, {"test_param_1": 1})
 
     # No error for original function
-    test_func(2, {"test_param_1": 1})
+    func_before_partial(2, {"test_param_1": 1})
 
 
 def test_partial_parameters_to_functions_keep_decorator():

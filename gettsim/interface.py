@@ -41,8 +41,8 @@ def compute_taxes_and_transfers(
 
     Parameters
     ----------
-    data : pandas.DataFrame
-        The data provided by the user.
+    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+        Data provided by the user.
     params : dict
         A dictionary with parameters from the policy environment. For more
         information see the documentation of the :ref:`param_files`.
@@ -90,6 +90,8 @@ def compute_taxes_and_transfers(
     user_functions, internal_functions = load_user_and_internal_functions(functions)
 
     # Perform several checks on functions and data. Merge internal and user functions.
+    data = copy.deepcopy(data)
+    data = _process_data(data)
     all_functions = check_data_check_functions_and_merge_functions(
         user_functions, internal_functions, columns_overriding_functions, data
     )
@@ -108,12 +110,8 @@ def compute_taxes_and_transfers(
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
 
-    # We delay the data preparation as long as possible such that other checks can fail
-    # before this.
-    data = data.copy(deep=True)
-    data = _process_data(data)
+    # Reduce data to group levels and execute DAG.
     data = _reduce_data(data)
-
     results = execute_dag(dag, data, targets, debug)
 
     # Prepare results.
@@ -137,8 +135,8 @@ def check_data_check_functions_and_merge_functions(
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
-    data : pandas.DataFrame
-        The data provided by the user.
+    data : dict of pandas.Series
+        Data provided by the user.
 
     Returns
     -------
@@ -146,7 +144,9 @@ def check_data_check_functions_and_merge_functions(
         All internal and user functions except the ones that are overridden by an input
         column.
     """
-    data_cols = list(data.columns)
+    data = _process_data(data)
+
+    data_cols = list(data.keys())
     _fail_if_pid_is_non_unique(data)
     _fail_if_columns_overriding_functions_are_not_in_data(
         data_cols, columns_overriding_functions
@@ -389,18 +389,22 @@ def _expand_data(data, ids):
                     expanded_s = s.loc[ids[f"{level}_id"]]
                 except KeyError:
                     raise KeyError(
-                        f"The variable name '{name}' implies that it is a variable\n"
-                        f"varying at the level of a '{level_name}'. That is, there \n"
-                        f"must be one value per unique '{level}_id'.\n\n"
-                        f"This is not the case.\n\n"
-                        f"You will need to do one of the following:\n\n"
-                        f"    - In case the correct level of the variable '{name}'\n"
-                        f"      is not the '{level}'. In this case, the\n"
-                        f"      name must neither include '_{level}_' nor end with "
-                        f"      '_{level}'\n\n"
-                        f"    - In case that the correct level is the 'level_name',\n"
-                        f"      change the function '{name}' so that it returns a\n."
-                        f"      series indexed by '{level}'."
+                        KeyErrorMessage(
+                            f"The variable name '{name}' implies that it is a\n"
+                            f"variable varying at the level of a '{level_name}'.\n"
+                            "That is, there must be one value per unique "
+                            f"'{level}_id'.\n\n"
+                            f"This is not the case.\n\n"
+                            f"You will need to do one of the following:\n\n"
+                            f"    - In case the correct level of the variable "
+                            f"      '{name}'is not the '{level}'.\n"
+                            f"      In this case, the\n"
+                            f"      name must neither include '_{level}_' nor end with "
+                            f"      '_{level}'\n\n"
+                            f"    - In case that the correct level is the \n"
+                            f"      'level_name', change the function '{name}' so \n."
+                            f"      that it returns a series indexed by '{level}'."
+                        )
                     )
                 expanded_s.index = ids[f"{level}_id"].index
                 data[name] = expanded_s

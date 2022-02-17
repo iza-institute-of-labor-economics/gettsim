@@ -27,9 +27,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   abbreviations, now `kinderfreib` everywhere). (:ghuser:`hmgaudecker`,
   :ghuser:`ChristianZimpelmann`)
 * :gh:`343` New argument for `compute_taxes_and_transfers`: `rounding`. If set to False,
-  rounding of outputs is disabled. Note: This PR did not yet add rounding
-  specifications for all relevant functions. This will be done in future PRs.
-  (:ghuser:`ChristianZimpelmann`).
+  rounding of outputs is disabled. Add rounding for `eink_st_tu`. Rounding for other
+  functions will be introduced in future PRs. (:ghuser:`ChristianZimpelmann`).
 
 0.4.2 — 2022-01-25
 ------------------

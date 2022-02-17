@@ -60,8 +60,7 @@ def get_names_of_arguments_without_defaults(function):
 
 
 def add_rounding_spec(params_key):
-    """Decorator to add the parameter key where rounding specifications are
-    found to a function.
+    """Decorator adding the location of the rounding specification to a function.
 
     Parameters
     ----------
