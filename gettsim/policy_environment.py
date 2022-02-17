@@ -377,33 +377,36 @@ def _load_rounding_parameters(date, rounding_spec):
     date : datetime.date
         The date for which the policy system is set up.
     rounding_spec : dictionary
-        The dictionary that contains rounding parameters
-        for several functions and several dates
+          - Keys: Functions to be rounded.
+          - Values: Rounding parameters for all dates
 
     Returns:
-        dictionary: Rounding parameters for the specified date
+        dictionary:
+          - Keys: Functions to be rounded.
+          - Values: Rounding parameters for the specified date
     """
     out = {}
     rounding_parameters = ["direction", "base"]
 
     # Load values of all parameters at the specified date.
-    for function_name in rounding_spec.keys():
+    for function_name, rounding_spec_func in rounding_spec.items():
 
         # Find all specified policy dates before date.
         policy_dates_before_date = sorted(
             key
-            for key in rounding_spec[function_name].keys()
+            for key in rounding_spec_func.keys()
             if isinstance(key, datetime.date) and key <= date
         )
 
         # If any rounding specs are defined for a date before the specified
         # date, copy them to params dictionary.
-        # If not, no key for this function name is created (this will
-        # raise an error later if the user doesn't adjust params df before calling
-        # `compute_taxes_and_transfers`).
+        # If no appropriate rounding specs are found for the requested date,
+        # the function will not appear in the returned dictionary.
+        # Note this will raise an error later unless the user adds an
+        # appropriate rounding specification to the parameters dictionary.
         if policy_dates_before_date:
             policy_date_in_place = np.max(policy_dates_before_date)
-            policy_in_place = rounding_spec[function_name][policy_date_in_place]
+            policy_in_place = rounding_spec_func[policy_date_in_place]
             out[function_name] = {}
             for key in [k for k in policy_in_place if k in rounding_parameters]:
                 out[function_name][key] = policy_in_place[key]
