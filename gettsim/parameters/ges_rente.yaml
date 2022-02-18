@@ -733,11 +733,11 @@ regelaltersgrenze:
       intercept_at_lower_threshold: 67
 
 rounding:
-  höchstwert_entgeltpunkte_m:
-    2020-01-01:
-      base: 0.0001
+  ges_rente_m:
+    1980-01-01:
+      base: 0.01
       direction: nearest
-      reference: §76g SGB VI Abs. 4 Nr. 4
+      reference: §123 SGB VI Abs. 1
   grundr_zuschlag_m:
     2020-01-01:
       base: 0.01
@@ -753,11 +753,11 @@ rounding:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  ges_rente_m:
-    1980-01-01:
-      base: 0.01
+  höchstwert_grundr_zuschlag_m:
+    2020-01-01:
+      base: 0.0001
       direction: nearest
-      reference: §123 SGB VI Abs. 1
+      reference: §76g SGB VI Abs. 4 Nr. 4
   grundr_zuschlag_bonus_entgeltp:
     2020-01-01:
       base: 0.0001

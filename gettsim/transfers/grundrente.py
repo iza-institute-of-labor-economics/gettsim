@@ -154,7 +154,7 @@ def _durchschnittl_entgeltp_g_r_bewertungszeiten(
 
 
 @add_rounding_spec(params_key="ges_rente")
-def höchstwert_entgeltpunkte_m(
+def höchstwert_grundr_zuschlag_m(
     grundrentenzeiten: IntSeries, ges_rente_params: dict
 ) -> FloatSeries:
     """Calculates the maximum allowed number of average Entgeltpunkte (per month)
@@ -190,7 +190,7 @@ def höchstwert_entgeltpunkte_m(
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_bonus_entgeltp(
     _durchschnittl_entgeltp_g_r_bewertungszeiten: FloatSeries,
-    höchstwert_entgeltpunkte_m: FloatSeries,
+    höchstwert_grundr_zuschlag_m: FloatSeries,
     grundrentenzeiten: IntSeries,
     ges_rente_params: dict,
 ) -> FloatSeries:
@@ -206,8 +206,8 @@ def grundr_zuschlag_bonus_entgeltp(
     ----------
     _durchschnittl_entgeltp_g_r_bewertungszeiten
         See :func:`_durchschnittl_entgeltp_g_r_bewertungszeiten`.
-    höchstwert_entgeltpunkte_m
-        See :func:`höchstwert_entgeltpunkte_m`.
+    höchstwert_grundr_zuschlag_m
+        See :func:`höchstwert_grundr_zuschlag_m`.
     grundrentenzeiten
         See basic input variable :ref:`grundrentenzeiten <grundrentenzeiten>`.
     ges_rente_params
@@ -221,20 +221,20 @@ def grundr_zuschlag_bonus_entgeltp(
 
     # Case 1: Entgeltpunkte less than half of Höchstwert
     below_half_höchstwert = _durchschnittl_entgeltp_g_r_bewertungszeiten <= (
-        0.5 * höchstwert_entgeltpunkte_m
+        0.5 * höchstwert_grundr_zuschlag_m
     )
     out.loc[below_half_höchstwert] = _durchschnittl_entgeltp_g_r_bewertungszeiten
 
     # Case 2: Entgeltpunkte more than half of Höchstwert, but below Höchstwert
     cond = ~below_half_höchstwert & (
-        _durchschnittl_entgeltp_g_r_bewertungszeiten < höchstwert_entgeltpunkte_m
+        _durchschnittl_entgeltp_g_r_bewertungszeiten < höchstwert_grundr_zuschlag_m
     )
     out.loc[cond] = (
-        höchstwert_entgeltpunkte_m - _durchschnittl_entgeltp_g_r_bewertungszeiten
+        höchstwert_grundr_zuschlag_m - _durchschnittl_entgeltp_g_r_bewertungszeiten
     )
 
     # Case 3: Entgeltpunkte above Höchstwert
-    cond = _durchschnittl_entgeltp_g_r_bewertungszeiten > höchstwert_entgeltpunkte_m
+    cond = _durchschnittl_entgeltp_g_r_bewertungszeiten > höchstwert_grundr_zuschlag_m
     out.loc[cond] = 0
 
     # Set to 0 if Grundrentenzeiten below minimum

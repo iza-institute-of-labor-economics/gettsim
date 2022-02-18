@@ -48,7 +48,7 @@ specified in the ``.yaml``-files. The following goes through the details using a
 example from the basic pension allowance (Grundrente).
 
 The law on the public pension insurance specifies that the maximum possible
-Grundrentenzuschlag ``höchstwert_entgeltpunkte_m`` be rounded to the nearest
+Grundrentenzuschlag ``höchstwert_grundr_zuschlag_m`` be rounded to the nearest
 fourth decimal point (§76g SGB VI: Zuschlag an Entgeltpunkten für langjährige
 Versicherung). The example below contains GETTSIM's encoding of this fact.
 
@@ -58,7 +58,7 @@ code:
 .. code-block:: yaml
 
     rounding:
-      höchstwert_entgeltpunkte_m:
+      höchstwert_grundr_zuschlag_m:
         2020-01-01:
           base: 0.0001
           direction: nearest
@@ -86,7 +86,7 @@ indicates that the output should potentially be rounded. ``add_rounding_spec`` t
 one required argument: ``params_key`` points to the key of the policy parameters
 dictionary containing the rounding parameters relating to the function that is
 decorated. In the above example, the rounding specification for
-``höchstwert_entgeltpunkte_m`` will be found in ``policy_params["ges_rente"]``
+``höchstwert_grundr_zuschlag_m`` will be found in ``policy_params["ges_rente"]``
 after ``set_up_policy_environment()`` has been called (since it was specified in
 ``ges_rente.yaml``). Hence, the ``params_key`` argument of ``add_rounding_spec`` has
 to be ``"ges_rente"``:
@@ -94,7 +94,7 @@ to be ``"ges_rente"``:
 .. code-block:: python
 
     @add_rounding_spec(params_key="ges_rente")
-    def höchstwert_entgeltpunkte_m(grundrentenzeiten: IntSeries) -> FloatSeries:
+    def höchstwert_grundr_zuschlag_m(grundrentenzeiten: IntSeries) -> FloatSeries:
         ...
         return out
 
@@ -102,12 +102,12 @@ The decorator adds the attribute ``__rounding_params_key__`` to the function. Wh
 calling ``compute_taxes_and_transfers`` with ``rounding=True``, GETTSIM will
 look for a key ``"rounding"`` in ``policy_params["params_key"]`` and
 within that, for another key containing the decorated function's name (here:
-``"höchstwert_entgeltpunkte_m"``). That is, by the machinery outlined in
+``"höchstwert_grundr_zuschlag_m"``). That is, by the machinery outlined in
 :ref:`gep-3`, the following indexing of the ``policy_params`` dictionary
 
 .. code-block:: python
 
-    policy_params["ges_rente"]["rounding"]["höchstwert_entgeltpunkte_m"]
+    policy_params["ges_rente"]["rounding"]["höchstwert_grundr_zuschlag_m"]
 
 needs to be possible and yield the ``"base"`` and ``"direction"`` keys as
 described above.
@@ -139,13 +139,13 @@ User-specified rounding
 If a user wants to change rounding of a specified function, she will need to adjust the
 rounding parameters in ``policy_params``.
 
-Suppose one would like to specify a reform in which ``höchstwert_entgeltpunkte_m`` is
+Suppose one would like to specify a reform in which ``höchstwert_grundr_zuschlag_m`` is
 rounded to the next-lowest fourth decimal point instead of to the nearest. In that
 case, the rounding parameters will need to be changed as follows
 
 .. code-block:: python
 
-       policy_params["ges_rente"]["rounding"]["höchstwert_entgeltpunkte_m"][
+       policy_params["ges_rente"]["rounding"]["höchstwert_grundr_zuschlag_m"][
            "direction"
        ] = "down"
 

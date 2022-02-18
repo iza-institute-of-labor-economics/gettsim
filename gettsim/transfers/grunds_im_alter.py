@@ -339,18 +339,18 @@ def _grunds_im_alter_mehrbedarf_behinderung_m(
     hhsize_tu = tu_id.replace(hhsize_tu)
 
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
-    bedarf1 = (arbeitsl_geld_2_params["regelsatz"][1]) * (
+    mehrbedarf_singles = (arbeitsl_geld_2_params["regelsatz"][1]) * (
         grunds_im_alter_params["mehrbedarf_g"]["rate"]
     )
-    bedarf2 = (arbeitsl_geld_2_params["regelsatz"][2]) * (
+    mehrbedarf_in_couple = (arbeitsl_geld_2_params["regelsatz"][2]) * (
         grunds_im_alter_params["mehrbedarf_g"]["rate"]
     )
 
     # singles
-    out.loc[(schwerbe_ausweis_g)] = bedarf1
+    out.loc[schwerbe_ausweis_g] = mehrbedarf_singles
 
     # couples
-    out.loc[(schwerbe_ausweis_g) & (hhsize_tu != 1)] = bedarf2
+    out.loc[schwerbe_ausweis_g & (hhsize_tu != 1)] = mehrbedarf_in_couple
 
     return out
 

@@ -1,4 +1,4 @@
-arbeitsl_geld_2_eink_anr_frei:
+eink_anr_frei:
   name:
     de: Anrechnungsfreie Einkommensanteile
     en: Income shares not subject to transfer withdrawal
@@ -61,23 +61,23 @@ arbeitsl_geld_2_eink_anr_frei:
     deviation_from: previous
     2:
       upper_threshold: 1000
-arbeitsl_geld_2_eink_anr_frei_kinder:
+eink_anr_frei_kinder:
   name:
     de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
     en:
   description:
     de: >-
       Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3,
-      Haushalt mit Kindern. Gilt statt die Parameter in arbeitsl_geld_2_eink_anr_frei für
+      Haushalt mit Kindern. Gilt statt die Parameter in eink_anr_frei für
       Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 §
       11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
       G. v. 24.03.2011 BGBl. I S. 453).
     en:
-  note: Ersetzt Parameter in arbeitsl_geld_2_eink_anr_frei, falls nicht vorhanden
+  note: Ersetzt Parameter in eink_anr_frei, falls nicht vorhanden
   type: piecewise_linear
   2005-10-01:
     reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
-    deviation_from: arbeitsl_geld_2.arbeitsl_geld_2_eink_anr_frei
+    deviation_from: arbeitsl_geld_2.eink_anr_frei
     3:
       upper_threshold: 1500
 
@@ -283,7 +283,7 @@ mehrbedarf_anteil:
 vermög_freib:
   name:
     de_1: Vermögensgrundfreibetrag je Lebensjahr, nach Geburtsjahr, erst ab 2008 unterschiedlich
-    de_2: vermög_freib für Erstausstattung
+    de_2: Vermögensgrundfreibetrag für Erstausstattung
     de_3: Vermögensgrundfreibetrag je Kind
     en_1: Basic allowance per year of life, sorted by year of birth, starting 2008 different
     en_2: Allowance for furniture
