@@ -8,7 +8,7 @@ from gettsim.typing import IntSeries
 
 def grunds_im_alter_m_hh(
     grunds_im_alter_m_minus_eink_hh: FloatSeries,
-    alle_erwachsene_rentner_hh: BoolSeries,
+    alle_erwachsene_sind_rentner_hh: BoolSeries,
     vermögen_hh: FloatSeries,
     grunds_im_alter_vermög_freib_hh: FloatSeries,
 ) -> FloatSeries:
@@ -18,14 +18,15 @@ def grunds_im_alter_m_hh(
     # ToDo: currently not implemented for retirees.
 
     # ToDo: Grundsicherung im Alter is only payed if all adults in the household
-    # ToDo: are retired (This is a simplification by GETTSIM)
+    # ToDo: are retired. Other households get ALG 2 (This is a simplification by
+    # ToDo: GETTSIM)
 
     Parameters
     ----------
     grunds_im_alter_m_minus_eink_hh
         See :func:`grunds_im_alter_m_minus_eink_hh`.
-    alle_erwachsene_rentner_hh
-        See :func:`alle_erwachsene_rentner_hh`.
+    alle_erwachsene_sind_rentner_hh
+        See :func:`alle_erwachsene_sind_rentner_hh`.
     vermögen_hh
         See basic input variable :ref:`vermögen_hh`.
     grunds_im_alter_vermög_freib_hh
@@ -39,9 +40,8 @@ def grunds_im_alter_m_hh(
     # Wealth check
     out.loc[vermögen_hh >= grunds_im_alter_vermög_freib_hh] = 0
 
-    # Only pay Grundsicherung im Alter if all adults are retired (simplification
-    # by GETTSIM)
-    out.loc[~alle_erwachsene_rentner_hh] = 0
+    # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
+    out.loc[~alle_erwachsene_sind_rentner_hh] = 0
     return out
 
 
@@ -355,7 +355,25 @@ def _grunds_im_alter_mehrbedarf_behinderung_m(
     return out
 
 
-def grunds_im_alter_ges_rente_m(
+def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: FloatSeries,) -> FloatSeries:
+    """Calculate public pension benefits which are considered in the calculation of
+    Grundsicherung im Alter.
+
+    Until 2020: No deduction is possible.
+
+    Parameters
+    ----------
+    ges_rente_m
+        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+
+    Returns
+    -------
+
+    """
+    return ges_rente_m
+
+
+def grunds_im_alter_ges_rente_m_ab_2021(
     ges_rente_m: FloatSeries,
     nicht_grundrentenberechtigt: BoolSeries,
     arbeitsl_geld_2_params: dict,
@@ -364,7 +382,7 @@ def grunds_im_alter_ges_rente_m(
     """Calculate public pension benefits which are considered in the calculation of
     Grundsicherung im Alter.
 
-    Starting from 2020: If eligible for Grundrente, can deduct 100€ completely and 30%
+    Starting from 2021: If eligible for Grundrente, can deduct 100€ completely and 30%
     of private pension above 100 (but no more than 1/2 of regelbedarf)
 
     Parameters
@@ -420,7 +438,7 @@ def grunds_im_alter_vermög_freib_hh(
 
     """
     out = (
-        grunds_im_alter_params["schonvermögen"]["adult"] * anz_erwachsene_hh
-        + grunds_im_alter_params["schonvermögen"]["child"] * anz_kinder_hh
+        grunds_im_alter_params["vermögensfreibetrag"]["adult"] * anz_erwachsene_hh
+        + grunds_im_alter_params["vermögensfreibetrag"]["child"] * anz_kinder_hh
     )
     return out

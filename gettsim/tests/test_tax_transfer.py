@@ -68,7 +68,7 @@ def test_data_types(
     functions = _load_functions(imports)
 
     # Load all time dependent functions
-    for year in range(1990, 2021):
+    for year in range(1990, 2023):
         year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
 
     year_data = input_data[input_data["jahr"] == year].copy()

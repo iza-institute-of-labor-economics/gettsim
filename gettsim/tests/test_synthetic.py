@@ -46,5 +46,5 @@ def test_synthetic():
 
     # finally, run through gettsim
     policy_params, policy_functions = set_up_policy_environment(2020)
-    results = compute_taxes_and_transfers(df, policy_params, policy_functions,)
+    results = compute_taxes_and_transfers(df, policy_params, policy_functions)
     assert len(results) == len(df)

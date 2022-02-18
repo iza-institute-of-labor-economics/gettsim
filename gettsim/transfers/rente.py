@@ -26,8 +26,8 @@ def summe_ges_priv_rente_m(
 
 
 @add_rounding_spec(params_key="ges_rente")
-def ges_rente_m(
-    ges_rente_excl_gr_m: FloatSeries,
+def ges_rente_incl_grundrente_m(
+    ges_rente_excl_grundrente_m: FloatSeries,
     grundr_zuschlag_m: FloatSeries,
     rentner: BoolSeries,
 ) -> FloatSeries:
@@ -35,8 +35,8 @@ def ges_rente_m(
 
     Parameters
     ----------
-    ges_rente_excl_gr_m
-        See :func:`ges_rente_excl_gr_m`.
+    ges_rente_excl_grundrente_m
+        See :func:`ges_rente_excl_grundrente_m`.
     grundr_zuschlag_m
         See :func:`grundr_zuschlag_m`.
     rentner
@@ -46,14 +46,15 @@ def ges_rente_m(
     -------
 
     """
-    out = ges_rente_excl_gr_m + grundr_zuschlag_m
+    out = ges_rente_excl_grundrente_m + grundr_zuschlag_m
 
     # Return 0 if person not yet retired
     out.loc[~rentner] = 0
     return out
 
 
-def ges_rente_excl_gr_m(
+@add_rounding_spec(params_key="ges_rente")
+def ges_rente_excl_grundrente_m(
     zugangsfaktor: FloatSeries,
     entgeltpunkte_update: FloatSeries,
     rentenwert: FloatSeries,

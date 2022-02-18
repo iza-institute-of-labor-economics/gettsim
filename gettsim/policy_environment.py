@@ -37,6 +37,8 @@ from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
     arbeitsl_geld_2_eink_anr_frei_bis_09_2005,
 )
+from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_2021
+from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_bis_2020
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
     kinderzuschl_vorläufig_m_ab_07_2019,
 )
@@ -49,6 +51,8 @@ from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_bis_2010,
 )
+from gettsim.transfers.rente import ges_rente_excl_grundrente_m
+from gettsim.transfers.rente import ges_rente_incl_grundrente_m
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
@@ -270,6 +274,14 @@ def load_reforms_for_date(date):
         functions[
             "arbeitsl_geld_2_eink_anr_frei"
         ] = arbeitsl_geld_2_eink_anr_frei_ab_10_2005
+
+    # Introduction of Grundrente
+    if year < 2021:
+        functions["ges_rente_m"] = ges_rente_excl_grundrente_m
+        functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_bis_2020
+    else:
+        functions["ges_rente_m"] = ges_rente_incl_grundrente_m
+        functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_ab_2021
 
     return functions
 

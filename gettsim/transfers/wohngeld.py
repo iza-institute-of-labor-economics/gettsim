@@ -10,7 +10,7 @@ def wohngeld_m_hh(
     wohngeld_vermögens_check_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    alle_erwachsene_rentner_hh: BoolSeries,
+    alle_erwachsene_sind_rentner_hh: BoolSeries,
 ) -> FloatSeries:
     """Calculate final housing benefit per household.
 
@@ -22,8 +22,8 @@ def wohngeld_m_hh(
         See :func:`wohngeld_vorrang_hh`.
     wohngeld_kinderzuschl_vorrang_hh
         See :func:`wohngeld_kinderzuschl_vorrang_hh`.
-    alle_erwachsene_rentner_hh
-        See :func:`alle_erwachsene_rentner_hh`.
+    alle_erwachsene_sind_rentner_hh
+        See :func:`alle_erwachsene_sind_rentner_hh`.
 
     Returns
     -------
@@ -31,7 +31,7 @@ def wohngeld_m_hh(
     """
     cond = (
         ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh
-        | alle_erwachsene_rentner_hh
+        | alle_erwachsene_sind_rentner_hh
     )
     wohngeld_vermögens_check_hh.loc[cond] = 0
     return wohngeld_vermögens_check_hh

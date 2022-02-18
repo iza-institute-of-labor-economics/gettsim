@@ -609,16 +609,12 @@ rentenwert:
 höchstwert_grundrente:
   name:
     de: Höchstwert Entgeltpunkte für Grundrente
-    en: maximum value of Entgeltpunkte for Grundrente
+    en: Maximum value of Entgeltpunkte for Grundrente
   description:
     de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte
-        und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert
+        und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert.
     en: constant to determine Höchstwert of additional Entgeltpunkte and
-        effect of an additional month of Grundrentenzeiten on Höchstwert
-  1984-01-01:
-    base: 0
-    increment: 0
-    note: It didn't exist before 2021.
+        effect of an additional month of Grundrentenzeiten on Höchstwert.
   2021-01-01:
     base: 0.0334
     increment: 0.001389
@@ -627,43 +623,66 @@ höchstwert_grundrente:
 grundrentenzeiten:
   name:
     de: Grundrentenzeiten
-    en: months needed for basic pension
+    en: Months needed for basic pension
   description:
-    de: minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und
+    de: Minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und
         Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
-    en: minimal number of Grundrentenzeiten required to be entitled to Grundrente
-        and maximum number of months that are considered for Grundrente
+    en: Minimal number of Grundrentenzeiten required to be entitled to Grundrente
+        and maximum number of months that are considered for Grundrente.
   unit: months
-  1984-01-01:
-    min: 10000
-    max: 10000
-    note: It didn't exist before 2021.
   2021-01-01:
     min: 396
     max: 420
     reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
 
-einkommensanr_grundrente:
+einkommensanr_grundrente_single:
   name:
-    de: Einkommensanrechnung für Grundrente
-    en: Crediting of income for basic pension
+    de: Einkommensanrechnung Grundrente für Personen ohne verheiratetem Partner
+    en: Crediting of income for basic pension for individuals without married partner
+  description:
+    de: Werte werden mit dem Rentenwert multipliziert,
+        um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
+    en: Values are multiplied with the Rentenwert to compute the thresholds
+        of the income crediting rule of Grundrentenzuschlag
+  reference: § 97a Abs. 4 S. 2, 4 SGB VI
+  type: piecewise_linear
+  2021-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 36.56
+      rate_linear: 0
+      intercept_at_lower_threshold: 0
+    1:
+      upper_threshold: 46.78
+      rate_linear: 0.6
+    2:
+      upper_threshold: inf
+      rate_linear: 1
+
+einkommensanr_grundrente_verheiratet:
+  name:
+    de: Einkommensanrechnung Grundrente für Personen mit verheiratetem Partner
+    en: Crediting of income for basic pension for individuals with married partner
   description:
     de: Werte werden mit dem Rentenwert multipliziert,
         um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
     en: values are multiplied with the Rentenwert to compute the thresholds
         of the income crediting rule of Grundrentenzuschlag
-  1984-01-01:
-    upper: 0
-    upper_ehe: 0
-    lower: 0
-    lower_ehe: 0
-    note: It didn't exist before 2021.
+  reference: § 97a Abs. 4 S. 2, 4 SGB VI
+  type: piecewise_linear
   2021-01-01:
-    upper: 46.78
-    upper_ehe: 67.27
-    lower: 36.56
-    lower_ehe: 57.03
-    reference: § 97a Abs. 4 S. 2, 4 SGB VI
+    0:
+      lower_threshold: -inf
+      upper_threshold: 57.03
+      rate_linear: 0
+      intercept_at_lower_threshold: 0
+    1:
+      upper_threshold: 67.27
+      rate_linear: 0.6
+    2:
+      upper_threshold: inf
+      rate_linear: 1
+
 
 faktor_bonus_grundrente:
   name:
@@ -673,9 +692,6 @@ faktor_bonus_grundrente:
     de: Faktor mit dem die durch die Grundrente zusätzlich erhaltenen Entgeltpunkte multipliziert werden.
     en: The additional Entgeltpunkte from the basic pension are multiplied with this factor.
   unit: factor
-  1984-01-01:
-    scalar: 0
-    note: It didn't exist before 2021.
   2021-01-01:
     scalar: 0.875
     reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
@@ -725,12 +741,10 @@ regelaltersgrenze:
       lower_threshold: 1947
       upper_threshold: 1971
       rate_linear: 0.083333333
-      intercept_at_lower_threshold: 65
     2:
       lower_threshold: 1971
       upper_threshold: inf
       rate_linear: 0
-      intercept_at_lower_threshold: 67
 
 rounding:
   ges_rente_m:
@@ -738,28 +752,33 @@ rounding:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
+  ges_rente_excl_grundrente_m:
+    1980-01-01:
+      base: 0.01
+      direction: nearest
+      reference: §123 SGB VI Abs. 1
   grundr_zuschlag_m:
-    2020-01-01:
+    2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
   grundr_zuschlag_eink_m:
-    2020-01-01:
+    2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
   grundr_zuschlag_vor_eink_anr_m:
-    2020-01-01:
+    2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
   höchstwert_grundr_zuschlag_m:
-    2020-01-01:
+    2021-01-01:
       base: 0.0001
       direction: nearest
       reference: §76g SGB VI Abs. 4 Nr. 4
   grundr_zuschlag_bonus_entgeltp:
-    2020-01-01:
+    2021-01-01:
       base: 0.0001
       direction: nearest
       reference: §121 SGB VI Abs. 1

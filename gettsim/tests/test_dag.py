@@ -1,4 +1,4 @@
-""" Some tests for the policy_environment module"""
+""" Some tests for the dag module"""
 import networkx as nx
 import pytest
 

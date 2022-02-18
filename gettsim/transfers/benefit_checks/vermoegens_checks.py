@@ -87,8 +87,8 @@ def wohngeld_vermögens_check_hh(
     """
     out = wohngeld_basis_hh.copy()
     condition = vermögen_hh <= (
-        wohngeld_params["vermög_freib_grund"]
-        + (wohngeld_params["vermög_freib_pers"] * (haushaltsgröße_hh - 1))
+        wohngeld_params["vermögensgrundfreibetrag"]
+        + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
     )
     out.loc[~condition] = 0
     return out

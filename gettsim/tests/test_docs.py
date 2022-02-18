@@ -26,7 +26,7 @@ def all_function_names():
 @pytest.fixture(scope="module")
 def time_indep_function_names(all_function_names):
     time_dependent_functions = {}
-    for year in range(1990, 2021):
+    for year in range(1990, 2023):
         year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
         new_dict = {func.__name__: key for key, func in year_functions.items()}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
@@ -98,7 +98,7 @@ def test_type_hints():
 
     # Load all time dependent functions
     time_dependent_functions = {}
-    for year in range(1990, 2021):
+    for year in range(1990, 2023):
         year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
         new_dict = {func.__name__: key for key, func in year_functions.items()}
         time_dependent_functions = {**time_dependent_functions, **new_dict}

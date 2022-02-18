@@ -31,13 +31,13 @@ INPUT_COLS = [
 
 YEARS = [2021]
 
-OUT_COLS_ROUNDING = {
-    "grundr_zuschlag_bonus_entgeltp": 4,
-    "grundr_zuschlag_vor_eink_anr_m": 0,
-    "grundr_zuschlag_m": 0,
-    "ges_rente_m": 0,
+OUT_COLS_TOL = {
+    "grundr_zuschlag_bonus_entgeltp": 0.0001,
+    "grundr_zuschlag_vor_eink_anr_m": 1,
+    "grundr_zuschlag_m": 1,
+    "ges_rente_m": 1,
 }
-OUT_COLS = OUT_COLS_ROUNDING.keys()
+OUT_COLS = OUT_COLS_TOL.keys()
 
 
 @pytest.fixture(scope="module")
@@ -64,7 +64,5 @@ def test_grundrente(input_data, year, column):
             "zugangsfaktor",
         ],
     )
-    rounding = OUT_COLS_ROUNDING[column]
-    assert_series_equal(
-        calc_result[column].round(rounding), year_data[column].round(rounding)
-    )
+    tol = OUT_COLS_TOL[column]
+    assert_series_equal(calc_result[column], year_data[column], atol=tol)

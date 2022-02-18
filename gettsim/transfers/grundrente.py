@@ -1,5 +1,6 @@
 import pandas as pd
 
+from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.shared import add_rounding_spec
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -36,7 +37,7 @@ def grundr_zuschlag_eink_m(
     tu_id: IntSeries,
     ges_rente_params: dict,
 ) -> FloatSeries:
-    """Calculate reduction of Grundrentenzuschlag through income offsetting.
+    """Calculate income which is deducted from Grundrentenzuschlag.
 
     Implement income crediting rule as defined in Grundrentengesetz.
 
@@ -61,31 +62,42 @@ def grundr_zuschlag_eink_m(
 
     """
 
-    # Select correct thresholds of income crediting rule.
-    einkommensanrechnung_upper = gemeinsam_veranlagt.replace(
-        {
-            False: ges_rente_params["einkommensanr_grundrente"]["upper"],
-            True: ges_rente_params["einkommensanr_grundrente"]["upper_ehe"],
-        }
-    ).astype(float)
-
-    einkommensanrechnung_lower = gemeinsam_veranlagt.replace(
-        {
-            False: ges_rente_params["einkommensanr_grundrente"]["lower"],
-            True: ges_rente_params["einkommensanr_grundrente"]["lower_ehe"],
-        }
-    ).astype(float)
-    upper = einkommensanrechnung_upper * rentenwert
-    lower = einkommensanrechnung_lower * rentenwert
-
-    # Calculate deducted income following the crediting rules.
+    # Calculate relevant income following the crediting rules using the values for
+    # singles and those for married subjects
+    # Note: Thresholds are defined relativ to rentenwert which is implemented by
+    # deviding the income by rentenwert and multiply rentenwert to the result.
+    # This will be easier once functions are defined on scalars.
     einkommen_grundr = tu_id.replace(eink_excl_grundr_zuschlag_m_tu)
-    einkommen_btw_upper_lower = (einkommen_grundr.clip(upper=upper) - lower).clip(
-        lower=0
+    anr_eink_single = (
+        piecewise_polynomial(
+            x=einkommen_grundr / rentenwert,
+            thresholds=ges_rente_params["einkommensanr_grundrente_single"][
+                "thresholds"
+            ],
+            rates=ges_rente_params["einkommensanr_grundrente_single"]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params[
+                "einkommensanr_grundrente_single"
+            ]["intercepts_at_lower_thresholds"],
+        )
+        * rentenwert
     )
-    einkommen_above_upper = (einkommen_grundr - upper).clip(lower=0)
+    anr_eink_verheiratet = (
+        piecewise_polynomial(
+            x=einkommen_grundr / rentenwert,
+            thresholds=ges_rente_params["einkommensanr_grundrente_verheiratet"][
+                "thresholds"
+            ],
+            rates=ges_rente_params["einkommensanr_grundrente_verheiratet"]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params[
+                "einkommensanr_grundrente_verheiratet"
+            ]["intercepts_at_lower_thresholds"],
+        )
+        * rentenwert
+    )
 
-    out = einkommen_btw_upper_lower * 0.6 + einkommen_above_upper
+    # Select correct value based on the fact whether a married partner is present.
+    out = anr_eink_single.copy()
+    out.loc[gemeinsam_veranlagt] = anr_eink_verheiratet
 
     return out
 
@@ -101,8 +113,9 @@ def grundr_zuschlag_vor_eink_anr_m(
     """Calculate additional monthly pensions payments resulting from
     Grundrente, without taking into account income crediting rules.
 
-    According to the Grundrentengesetz, the Zugangsfaktor is limited to 1
-    and considered Grundrentezeiten are limited to 35 years (420 months).
+    The Zugangsfaktor is limited to 1 and considered Grundrentezeiten
+    are limited to 35 years (420 months).
+
     Parameters
     ----------
     grundr_zuschlag_bonus_entgeltp
@@ -314,7 +327,7 @@ def eink_excl_grundr_zuschlag_m(
         proxy_rente_vorj_excl_grundr_m
         + bruttolohn_vorj_m
         + brutto_eink_1 / 12  # income from self-employment
-        + brutto_eink_6 / 12  # income from rents
+        + brutto_eink_6 / 12  # rental income
         + kapitaleink_minus_pauschbetr / 12
     )
 
@@ -355,7 +368,7 @@ def proxy_rente_vorj_excl_grundr_m(
     out = entgeltpunkte * zugangsfaktor * rentenwert_vorjahr + priv_rente_m
 
     # Calculate if subect was retired last year
-    # ToDo: Use current_year as input variable once we addressed issue #211
+    # ToDo: Use current_year as argument of this function once we addressed issue #211
     current_year = geburtsjahr + alter
     rentner_vorjahr = jahr_renteneintr <= current_year - 1
 

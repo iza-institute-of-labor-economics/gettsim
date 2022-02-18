@@ -345,7 +345,7 @@ def anz_rentner_hh(hh_id: IntSeries, rentner: BoolSeries) -> IntSeries:
     return rentner.groupby(hh_id).sum()
 
 
-def alle_erwachsene_rentner_hh(
+def alle_erwachsene_sind_rentner_hh(
     anz_erwachsene_hh: IntSeries, anz_rentner_hh: IntSeries
 ) -> BoolSeries:
     """Calculate if all adults in the household are pensioners.
