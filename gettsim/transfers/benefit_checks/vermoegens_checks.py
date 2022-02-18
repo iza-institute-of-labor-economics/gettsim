@@ -182,7 +182,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
     choices = [
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"]["bis_1947"],
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"][
-            "ab_1948_bis_1947"
+            "ab_1948_bis_1957"
         ],
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"][
             "ab_1958_bis_1963"
