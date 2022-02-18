@@ -7,7 +7,7 @@ from gettsim.typing import IntSeries
 
 
 def regelbedarf_m_vermögens_check_hh(
-    regelbedarf_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries
+    regelbedarf_m_hh: FloatSeries, _arbeitsl_geld_2_unter_vermög_freib_hh: BoolSeries
 ) -> FloatSeries:
     """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
 
@@ -18,20 +18,21 @@ def regelbedarf_m_vermögens_check_hh(
     ----------
     regelbedarf_m_hh
         See :func:`regelbedarf_m_hh`.
-    unter_vermögens_freibetrag_hh
-        See :func:`unter_vermögens_freibetrag_hh`.
+    _arbeitsl_geld_2_unter_vermög_freib_hh
+        See :func:`_arbeitsl_geld_2_unter_vermög_freib_hh`.
 
     Returns
     -------
 
     """
     out = regelbedarf_m_hh.copy()
-    out.loc[~unter_vermögens_freibetrag_hh] = 0
+    out.loc[~_arbeitsl_geld_2_unter_vermög_freib_hh] = 0
     return out
 
 
 def kinderzuschl_vermögens_check_hh(
-    kinderzuschl_vorläufig_m_hh: FloatSeries, unter_vermögens_freibetrag_hh: BoolSeries,
+    kinderzuschl_vorläufig_m_hh: FloatSeries,
+    _arbeitsl_geld_2_unter_vermög_freib_hh: BoolSeries,
 ) -> FloatSeries:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
@@ -39,15 +40,15 @@ def kinderzuschl_vermögens_check_hh(
     ----------
     kinderzuschl_vorläufig_m_hh
         See :func:`kinderzuschl_vorläufig_m_hh`.
-    unter_vermögens_freibetrag_hh
-        See :func:`unter_vermögens_freibetrag_hh`.
+    _arbeitsl_geld_2_unter_vermög_freib_hh
+        See :func:`_arbeitsl_geld_2_unter_vermög_freib_hh`.
 
     Returns
     -------
 
     """
     out = kinderzuschl_vorläufig_m_hh.copy()
-    out.loc[~unter_vermögens_freibetrag_hh] = 0
+    out.loc[~_arbeitsl_geld_2_unter_vermög_freib_hh] = 0
     return out
 
 
@@ -86,8 +87,8 @@ def wohngeld_vermögens_check_hh(
     return out
 
 
-def unter_vermögens_freibetrag_hh(
-    vermögen_hh: FloatSeries, freibetrag_vermögen_hh: FloatSeries
+def _arbeitsl_geld_2_unter_vermög_freib_hh(
+    vermögen_hh: FloatSeries, arbeitsl_geld_2_vermög_freib_hh: FloatSeries
 ) -> BoolSeries:
     """Check if wealth is under wealth exemption.
 
@@ -95,21 +96,22 @@ def unter_vermögens_freibetrag_hh(
     ----------
     vermögen_hh
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
-    freibetrag_vermögen_hh
-        See :func:`freibetrag_vermögen_hh`.
+    arbeitsl_geld_2_vermög_freib_hh
+        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
 
     Returns
     -------
 
     """
-    return vermögen_hh <= freibetrag_vermögen_hh
+    return vermögen_hh <= arbeitsl_geld_2_vermög_freib_hh
 
 
-def freibetrag_vermögen_anspruch_hh(
+def _arbeitsl_geld_2_grundfreib_vermög_hh(
     hh_id: IntSeries,
     kind: BoolSeries,
     alter: IntSeries,
     geburtsjahr: IntSeries,
+    _arbeitsl_geld_2_max_grundfreib_vermög: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
     """Calculate exemptions based on individuals age.
@@ -124,6 +126,8 @@ def freibetrag_vermögen_anspruch_hh(
         See basic input variable :ref:`alter <alter>`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    _arbeitsl_geld_2_max_grundfreib_vermög
+        See :func:`_arbeitsl_geld_2_max_grundfreib_vermög`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -133,22 +137,22 @@ def freibetrag_vermögen_anspruch_hh(
     """
     out = pd.Series(0, index=alter.index)
     out.loc[geburtsjahr < 1948] = (
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["bis_1947"]
+        arbeitsl_geld_2_params["vermögensgrundfreibetrag"]["bis_1947"]
         * alter.loc[geburtsjahr < 1948]
     )
     out.loc[(1948 <= geburtsjahr) & ~kind] = (
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["ab_1948"]
+        arbeitsl_geld_2_params["vermögensgrundfreibetrag"]["ab_1948"]
         * alter.loc[(1948 <= geburtsjahr) & ~kind]
     )
+
+    # exemption is bounded from above.
+    out = out.clip(upper=_arbeitsl_geld_2_max_grundfreib_vermög)
 
     return out.groupby(hh_id).sum()
 
 
-def max_freibetrag_vermögen_hh(
-    hh_id: IntSeries,
-    geburtsjahr: IntSeries,
-    kind: BoolSeries,
-    arbeitsl_geld_2_params: dict,
+def _arbeitsl_geld_2_max_grundfreib_vermög(
+    geburtsjahr: IntSeries, kind: BoolSeries, arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
     """Calculate maximal wealth exemptions by year of birth.
 
@@ -168,44 +172,48 @@ def max_freibetrag_vermögen_hh(
 
     """
     conditions = [
-        (geburtsjahr < 1957).astype(bool),
+        (geburtsjahr < 1948).astype(bool),
+        ((1948 <= geburtsjahr) & (geburtsjahr <= 1957)).astype(bool),
         ((1958 <= geburtsjahr) & (geburtsjahr <= 1963)).astype(bool),
         ((1964 <= geburtsjahr) & ~kind).astype(bool),
         True,
     ]
 
     choices = [
-        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["bis_1957"],
-        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["ab_1958_bis_1963"],
-        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["ab_1963"],
+        arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"]["bis_1947"],
+        arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"][
+            "ab_1948_bis_1947"
+        ],
+        arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"][
+            "ab_1958_bis_1963"
+        ],
+        arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"]["ab_1963"],
         0,
     ]
 
     data = np.select(conditions, choices)
     out = pd.Series(0, index=geburtsjahr.index) + data
 
-    return out.groupby(hh_id).sum()
+    return out
 
 
-def freibetrag_vermögen_hh(
-    freibetrag_vermögen_anspruch_hh: FloatSeries,
+def arbeitsl_geld_2_vermög_freib_hh(
+    _arbeitsl_geld_2_grundfreib_vermög_hh: FloatSeries,
     anz_minderj_hh: IntSeries,
     haushaltsgröße_hh: IntSeries,
-    max_freibetrag_vermögen_hh: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
     """Calculate actual exemptions.
 
     Parameters
     ----------
-    freibetrag_vermögen_anspruch_hh
-        See :func:`freibetrag_vermögen_anspruch_hh`.
+    _arbeitsl_geld_2_grundfreib_vermög_hh
+        See :func:`_arbeitsl_geld_2_grundfreib_vermög_hh`.
     anz_minderj_hh
         See basic input variable :ref:`anz_minderj_hh <anz_minderj_hh>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
-    max_freibetrag_vermögen_hh
-        See :func:`max_freibetrag_vermögen_hh`.
+
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -214,8 +222,8 @@ def freibetrag_vermögen_hh(
 
     """
     out = (
-        freibetrag_vermögen_anspruch_hh
+        _arbeitsl_geld_2_grundfreib_vermög_hh
         + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
         + haushaltsgröße_hh * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
-    ).clip(upper=max_freibetrag_vermögen_hh)
+    )
     return out

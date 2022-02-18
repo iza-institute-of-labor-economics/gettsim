@@ -285,32 +285,37 @@ mehrbedarf_anteil:
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
 
 
-vermögensfreibetrag_obergrenze:
+vermögensgrundfreibetrag_obergrenze:
   name:
-    de: Maximaler Vermögensgrundfreibetrag je Lebensjahr
-    en: Basic allowance per year of life
+    de: Maximaler Vermögensgrundfreibetrag
+    en: Maximum of basic allowance
   description:
-    de: § 12 (2) Satz 1 Nr. 1 SGB II. Ab 2008 nach Geburtsjahr unterschiedlich
-    en: Differs by year of birth starting 2008.
+    de: § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen, die vor 1948
+        geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr
+        auf, scheint aber noch relevant zu sein.
+    en: Differs by birth year.
   unit: Euro
   2005-01-01:
-    bis_1957: 13000
+    bis_1947: 33800
+    ab_1948_bis_1947: 13000
     ab_1958_bis_1963: 13000
     ab_1963: 13000
-    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
   2006-08-01:
-    bis_1957: 9750
+    bis_1947: 33800
+    ab_1948_bis_1947: 9750
     ab_1958_bis_1963: 9750
     ab_1963: 9750
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2008-01-01:
-    bis_1957: 9750
+    bis_1947: 33800
+    ab_1948_bis_1947: 9750
     ab_1958_bis_1963: 9900
     ab_1963: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
 
 
-vermögensfreibetrag:
+vermögensgrundfreibetrag:
   name:
     de: Vermögensgrundfreibetrag je Lebensjahr
     en: Basic allowance per year of life
