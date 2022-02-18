@@ -295,20 +295,19 @@ vermögensfreibetrag_obergrenze:
   unit: Euro
   2005-01-01:
     bis_1957: 13000
-    1958_bis_1963: 13000
+    ab_1958_bis_1963: 13000
     ab_1963: 13000
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2006-08-01:
     bis_1957: 9750
-    1958_bis_1963: 9750
+    ab_1958_bis_1963: 9750
     ab_1963: 9750
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2008-01-01:
     bis_1957: 9750
-    1958_bis_1963: 9900
+    ab_1958_bis_1963: 9900
     ab_1963: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
-
 
 
 vermögensfreibetrag:
@@ -320,8 +319,8 @@ vermögensfreibetrag:
     en: Differs by year of birth.
   unit: Euro
   2005-01-01:
+    bis_1947: 520
     ab_1948: 200
-    bis_1948: 520
     reference: Artikel 1 G. v. 30.12.2002 BGBl. I S. 4619.
   2006-08-01:
     deviation_from: previous

@@ -133,7 +133,7 @@ def freibetrag_vermögen_anspruch_hh(
     """
     out = pd.Series(0, index=alter.index)
     out.loc[geburtsjahr < 1948] = (
-        arbeitsl_geld_2_params["vermögensfreibetrag"]["bis_1948"]
+        arbeitsl_geld_2_params["vermögensfreibetrag"]["bis_1947"]
         * alter.loc[geburtsjahr < 1948]
     )
     out.loc[(1948 <= geburtsjahr) & ~kind] = (
@@ -176,7 +176,7 @@ def max_freibetrag_vermögen_hh(
 
     choices = [
         arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["bis_1957"],
-        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["1958_bis_1963"],
+        arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["ab_1958_bis_1963"],
         arbeitsl_geld_2_params["vermögensfreibetrag_obergrenze"]["ab_1963"],
         0,
     ]
