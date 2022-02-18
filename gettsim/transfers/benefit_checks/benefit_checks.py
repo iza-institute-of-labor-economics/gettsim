@@ -8,7 +8,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
     unterhaltsvors_m_hh: FloatSeries,
     arbeitsl_geld_2_eink_hh: FloatSeries,
     vermögen_hh: FloatSeries,
-    freibetrag_vermögen_hh: FloatSeries,
+    arbeitsl_geld_2_vermög_freib_hh: FloatSeries,
 ) -> FloatSeries:
     """Calculate potential basic subsistence (after income deduction and
     wealth check).
@@ -23,8 +23,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
         See :func:`unterhaltsvors_m_hh`.
     arbeitsl_geld_2_eink_hh
         See :func:`arbeitsl_geld_2_eink_hh`.
-    freibetrag_vermögen_hh
-        See :func:`freibetrag_vermögen_hh`.
+    arbeitsl_geld_2_vermög_freib_hh
+        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
     vermögen_hh
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
 
@@ -42,7 +42,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
     ).clip(lower=0)
 
     # Check wealth exemption
-    out.loc[vermögen_hh > freibetrag_vermögen_hh] = 0
+    out.loc[vermögen_hh > arbeitsl_geld_2_vermög_freib_hh] = 0
 
     return out
 
