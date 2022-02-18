@@ -257,6 +257,8 @@ anteil_regelsatz:
     reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
     kinder_7_13: 0.7
 
+
+
 mehrbedarf_anteil:
   name:
     de: >-
@@ -280,41 +282,82 @@ mehrbedarf_anteil:
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
 
-vermög_freib:
+
+vermögensgrundfreibetrag_obergrenze:
   name:
-    de_1: Vermögensgrundfreibetrag je Lebensjahr, nach Geburtsjahr, erst ab 2008 unterschiedlich
-    de_2: Vermögensgrundfreibetrag für Erstausstattung
-    de_3: Vermögensgrundfreibetrag je Kind
-    en_1: Basic allowance per year of life, sorted by year of birth, starting 2008 different
-    en_2: Allowance for furniture
-    en_3: Allowance per child
+    de: Maximaler Vermögensgrundfreibetrag
+    en: Maximum of basic allowance
+  description:
+    de: § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen, die vor 1948
+        geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr
+        auf, scheint aber noch relevant zu sein.
+    en: Differs by birth year.
+  unit: Euro
+  2005-01-01:
+    bis_1947: 33800
+    ab_1948_bis_1957: 13000
+    ab_1958_bis_1963: 13000
+    ab_1963: 13000
+    reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
+  2006-08-01:
+    bis_1947: 33800
+    ab_1948_bis_1957: 9750
+    ab_1958_bis_1963: 9750
+    ab_1963: 9750
+    reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+  2008-01-01:
+    bis_1947: 33800
+    ab_1948_bis_1957: 9750
+    ab_1958_bis_1963: 9900
+    ab_1963: 10050
+    note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
+
+
+vermögensgrundfreibetrag:
+  name:
+    de: Vermögensgrundfreibetrag je Lebensjahr
+    en: Basic allowance per year of life
+  description:
+    de: § 12 (2) Satz 1 Nr. 1 SGB II.  Gestaffelt nach Geburtsjahr
+    en: Differs by year of birth.
+  unit: Euro
+  2005-01-01:
+    bis_1947: 520
+    ab_1948: 200
+    reference: Artikel 1 G. v. 30.12.2002 BGBl. I S. 4619.
+  2006-08-01:
+    deviation_from: previous
+    ab_1948: 150
+    reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+
+
+vermögensfreibetrag_austattung:
+  name:
+    de: Vermögensfreibetrag für Erstausstattung
+    en: Allowance for furniture
+  description:
+    de: § 12 (2) Satz 1 Nr. 4 SGB II.
+    en:
+  unit: Euro
+  2005-01-01:
+    scalar: 750
+    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+
+
+vermögensfreibetrag_kind:
+  name:
+    de: Vermögensgrundfreibetrag je Kind
+    en: Allowance for furniture
   description:
     de: § 12 (2) Satz 1 Nr. 1 SGB II.
     en:
   unit: Euro
   2005-01-01:
-    standard: 200
-    vor_1948: 520
-    1948_bis_1957: 13000
-    1958_bis_1963: 13000
-    nach_1963: 13000
-    ausstattung: 750
-    kind: 4100
+    scalar: 4100
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2006-08-01:
-    deviation_from: previous
-    standard: 150
-    1948_bis_1957: 9750
-    1958_bis_1963: 9750
-    nach_1963: 9750
-    kind: 3100
+    scalar: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
-  2008-01-01:
-    deviation_from: previous
-    1948_bis_1957: 9750
-    1958_bis_1963: 9900
-    nach_1963: 10050
-    note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
 
 abzugsfähige_pausch:
   name:
