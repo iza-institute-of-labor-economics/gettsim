@@ -172,6 +172,7 @@ def grunds_im_alter_eink_m(
     )
 
     # subtract taxes and social security contributions
+    # TODO: Change this to lohn_steuer
     out = (
         total_income
         - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
