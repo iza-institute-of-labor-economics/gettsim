@@ -422,7 +422,7 @@ def grunds_im_alter_vermög_freib_hh(
     anz_kinder_hh: IntSeries,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate maximum capital allowed for Grundsicherung im Alter.
+    """Calculate maximum wealth not considered for Grundsicherung im Alter.
 
     Parameters
     ----------
