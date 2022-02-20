@@ -105,7 +105,7 @@ def grundr_zuschlag_eink_m(
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_vor_eink_anr_m(
     grundr_zuschlag_bonus_entgeltp: FloatSeries,
-    g_r_bewertungsreiten: IntSeries,
+    g_r_bewertungszeiten: IntSeries,
     rentenwert: FloatSeries,
     zugangsfaktor: FloatSeries,
     ges_rente_params: dict,
@@ -120,9 +120,9 @@ def grundr_zuschlag_vor_eink_anr_m(
     ----------
     grundr_zuschlag_bonus_entgeltp
         See :func:`grundr_zuschlag_bonus_entgeltp`.
-    g_r_bewertungsreiten
+    g_r_bewertungszeiten
         See basic input variable
-        :ref:`g_r_bewertungsreiten <g_r_bewertungsreiten>`.
+        :ref:`g_r_bewertungszeiten <g_r_bewertungszeiten>`.
     rentenwert
         See :func:`rentenwert`.
     zugangsfaktor
@@ -136,7 +136,7 @@ def grundr_zuschlag_vor_eink_anr_m(
     """
     out = (
         grundr_zuschlag_bonus_entgeltp
-        * g_r_bewertungsreiten.clip(upper=ges_rente_params["grundrentenzeiten"]["max"])
+        * g_r_bewertungszeiten.clip(upper=ges_rente_params["grundrentenzeiten"]["max"])
         * rentenwert
         * zugangsfaktor.clip(upper=1)
     )
@@ -144,7 +144,7 @@ def grundr_zuschlag_vor_eink_anr_m(
 
 
 def _durchschnittl_entgeltp_g_r_bewertungszeiten(
-    entgeltp_grundr: FloatSeries, g_r_bewertungsreiten: IntSeries
+    entgeltp_grundr: FloatSeries, g_r_bewertungszeiten: IntSeries
 ) -> FloatSeries:
     """Compute average number of Entgeltpunkte earned per month of
     Grundrentenbewertungszeiten.
@@ -154,16 +154,16 @@ def _durchschnittl_entgeltp_g_r_bewertungszeiten(
     entgeltp_grundr
         See basic input variable
         :ref:`entgeltp_grundr <entgeltp_grundr>`.
-    g_r_bewertungsreiten
+    g_r_bewertungszeiten
         See basic input variable
-        :ref:`g_r_bewertungsreiten <g_r_bewertungsreiten>`.
+        :ref:`g_r_bewertungszeiten <g_r_bewertungszeiten>`.
 
     Returns
     -------
 
     """
 
-    return entgeltp_grundr / g_r_bewertungsreiten
+    return entgeltp_grundr / g_r_bewertungszeiten
 
 
 @add_rounding_spec(params_key="ges_rente")

@@ -88,7 +88,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltpunkte`        | Earning points for pension claim             | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`g_r_bewertungsreiten` | Months with > 30% of average income          | IntSeries   |
+| _`g_r_bewertungszeiten` | Months with > 30% of average income          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltp_grundr`      | Entgeltpunkte in Grundrentenbewertungszeiten | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
