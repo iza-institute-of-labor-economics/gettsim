@@ -17,7 +17,7 @@ def grunds_im_alter_m_hh(
     # ToDo: There is no check for Wohngeld included as Wohngeld is
     # ToDo: currently not implemented for retirees.
 
-    # ToDo: Grundsicherung im Alter is only payed if all adults in the household
+    # ToDo: Grundsicherung im Alter is only paid if all adults in the household
     # ToDo: are retired. Other households get ALG 2 (This is a simplification by
     # ToDo: GETTSIM)
 
