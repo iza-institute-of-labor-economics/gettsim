@@ -76,7 +76,7 @@ def freibetraege(
 
 
 def freibetraege_tu(freibetraege: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Sum of gross incomes on tax unit level.
+    """Sum of income tax allowances on tax unit level.
 
     Parameters
     ----------
