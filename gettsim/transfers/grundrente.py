@@ -300,7 +300,7 @@ def eink_excl_grundr_zuschlag_m(
     the end of the assessment period, which can be retrieved from the pension
     insurance."
 
-    Warning: Currently, earnings of dependend work and pensions are based on the
+    Warning: Currently, earnings of dependent work and pensions are based on the
     last year, and other income on the current year instead of the year
     two years ago to avoid the need for several new input variables.
 
