@@ -3,19 +3,19 @@ in the documentation.
 
 """
 from gettsim.demographic_vars import *  # noqa: F401, F403
-from gettsim.social_security_contributions.arbeitsl_v import *  # noqa: F401, F403
-from gettsim.social_security_contributions.beitr_bemess_grenzen import *  # noqa: F401, F403, E501
-from gettsim.social_security_contributions.eink_grenzen import *  # noqa: F401, F403
-from gettsim.social_security_contributions.ges_krankenv import *  # noqa: F401, F403
-from gettsim.social_security_contributions.ges_pflegev import *  # noqa: F401, F403
-from gettsim.social_security_contributions.ges_rentenv import *  # noqa: F401, F403
+from gettsim.social_insurance_contributions.arbeitsl_v import *  # noqa: F401, F403
+from gettsim.social_insurance_contributions.beitr_bemess_grenzen import *  # noqa: F401, F403, E501
+from gettsim.social_insurance_contributions.eink_grenzen import *  # noqa: F401, F403
+from gettsim.social_insurance_contributions.ges_krankenv import *  # noqa: F401, F403
+from gettsim.social_insurance_contributions.ges_pflegev import *  # noqa: F401, F403
+from gettsim.social_insurance_contributions.ges_rentenv import *  # noqa: F401, F403
 from gettsim.taxes.abgelt_st import *  # noqa: F401, F403
 from gettsim.taxes.eink_st import *  # noqa: F401, F403
 from gettsim.taxes.favorability_check import *  # noqa: F401, F403
 from gettsim.taxes.kindergeld import *  # noqa: F401, F403
 from gettsim.taxes.soli_st import *  # noqa: F401, F403
 from gettsim.taxes.zu_verst_eink.eink import *  # noqa: F401, F403
-from gettsim.taxes.zu_verst_eink.freibetraege import *  # noqa: F401, F403
+from gettsim.taxes.zu_verst_eink.freibeträge import *  # noqa: F401, F403
 from gettsim.taxes.zu_verst_eink.vorsorge import *  # noqa: F401, F403
 from gettsim.taxes.zu_verst_eink.zu_verst_eink import *  # noqa: F401, F403
 from gettsim.transfers.arbeitsl_geld import *  # noqa: F401, F403

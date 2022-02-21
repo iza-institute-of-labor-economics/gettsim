@@ -20,7 +20,7 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_m         | Monthly amount of unemployment assistance                 |
 +-------------------------+-----------------------------------------------------------+
-| entgeltpunkte_update    | Updated earning points for pension claim                  |
+| entgeltp_update         | Updated earning points for pension claim                  |
 +-------------------------+-----------------------------------------------------------+
 | abgelt_st_tu            | Capital income tax per tax unit                           |
 +-------------------------+-----------------------------------------------------------+

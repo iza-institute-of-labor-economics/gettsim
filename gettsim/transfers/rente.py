@@ -26,17 +26,18 @@ def summe_ges_priv_rente_m(
 
 
 @add_rounding_spec(params_key="ges_rentenv")
-def ges_rente_incl_grundrente_m(
-    ges_rente_excl_grundrente_m: FloatSeries,
+def ges_rente_nach_grundr_m(
+    ges_rente_vor_grundr_m: FloatSeries,
     grundr_zuschlag_m: FloatSeries,
     rentner: BoolSeries,
 ) -> FloatSeries:
-    """Calculate total public pension.
+    """Calculate total public pension including Grundrentenzuschlag. Is
+    only active after 2021 when Grundrente is in place.
 
     Parameters
     ----------
-    ges_rente_excl_grundrente_m
-        See :func:`ges_rente_excl_grundrente_m`.
+    ges_rente_vor_grundr_m
+        See :func:`ges_rente_vor_grundr_m`.
     grundr_zuschlag_m
         See :func:`grundr_zuschlag_m`.
     rentner
@@ -46,7 +47,7 @@ def ges_rente_incl_grundrente_m(
     -------
 
     """
-    out = ges_rente_excl_grundrente_m + grundr_zuschlag_m
+    out = ges_rente_vor_grundr_m + grundr_zuschlag_m
 
     # Return 0 if person not yet retired
     out.loc[~rentner] = 0
@@ -54,13 +55,13 @@ def ges_rente_incl_grundrente_m(
 
 
 @add_rounding_spec(params_key="ges_rentenv")
-def ges_rente_excl_grundrente_m(
-    zugangsfaktor: FloatSeries,
-    entgeltpunkte_update: FloatSeries,
+def ges_rente_vor_grundr_m(
+    ges_rente_zugangsfaktor: FloatSeries,
+    entgeltp_update: FloatSeries,
     rentenwert: FloatSeries,
     rentner: BoolSeries,
 ) -> FloatSeries:
-    """Old-Age Pensions claim (without Grundrentenzuschlag).
+    """Old-Age Pensions claim without Grundrentenzuschlag.
     The function follows the following equation:
 
     .. math::
@@ -74,10 +75,10 @@ def ges_rente_excl_grundrente_m(
 
     Parameters
     ----------
-    zugangsfaktor
-        See :func:`zugangsfaktor`.
-    entgeltpunkte_update
-        See :func:`entgeltpunkte_update`.
+    ges_rente_zugangsfaktor
+        See :func:`ges_rente_zugangsfaktor`.
+    entgeltp_update
+        See :func:`entgeltp_update`.
     rentenwert
         See :func:`rentenwert`.
     rentner
@@ -88,7 +89,7 @@ def ges_rente_excl_grundrente_m(
 
     """
 
-    out = entgeltpunkte_update * zugangsfaktor * rentenwert
+    out = entgeltp_update * ges_rente_zugangsfaktor * rentenwert
 
     # Return 0 if subject not yet retired
     out.loc[~rentner] = 0
@@ -143,12 +144,12 @@ def rentenwert_vorjahr(
     return out
 
 
-def entgeltpunkte_update(
-    entgeltpunkte: FloatSeries, entgeltpunkte_lohn: FloatSeries
+def entgeltp_update(
+    entgeltp: FloatSeries, entgeltp_update_lohn: FloatSeries
 ) -> FloatSeries:
     """Update earning points.
 
-    Given earnings, social security rules, average
+    Given earnings, social insurance rules, average
     earnings in a particular year and potentially other
     variables (e.g., benefits for raising children,
     informal care), return the new earnings points.
@@ -159,10 +160,10 @@ def entgeltpunkte_update(
 
     Parameters
     ----------
-    entgeltpunkte
-        See basic input variable :ref:`entgeltpunkte <entgeltpunkte>`.
-    entgeltpunkte_lohn
-        See :func:`entgeltpunkte_lohn`.
+    entgeltp
+        See basic input variable :ref:`entgeltp <entgeltp>`.
+    entgeltp_update_lohn
+        See :func:`entgeltp_update_lohn`.
 
     Returns
     -------
@@ -172,10 +173,10 @@ def entgeltpunkte_update(
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
-    return entgeltpunkte + entgeltpunkte_lohn
+    return entgeltp + entgeltp_update_lohn
 
 
-def entgeltpunkte_lohn(
+def entgeltp_update_lohn(
     bruttolohn_m: FloatSeries,
     wohnort_ost: BoolSeries,
     ges_rentenv_beitr_bemess_grenze: FloatSeries,
@@ -212,17 +213,17 @@ def entgeltpunkte_lohn(
 
     # Calculate monthly mean wage in Germany
     durchschnittslohn_m = (1 / 12) * ges_rentenv_params[
-        "beitragspflichtiger_durchschnittslohn"
+        "beitragspflichtiges_durchschnittsentgelt"
     ]
 
     return bruttolohn_scaled_rentenv / durchschnittslohn_m
 
 
-def zugangsfaktor(
+def ges_rente_zugangsfaktor(
     geburtsjahr: IntSeries,
     rentner: BoolSeries,
     jahr_renteneintr: IntSeries,
-    regelaltersgrenze: FloatSeries,
+    ges_rente_regelaltersgrenze: FloatSeries,
     ges_rentenv_params: dict,
 ) -> FloatSeries:
     """Calculate the zugangsfaktor based on the year the
@@ -242,8 +243,8 @@ def zugangsfaktor(
         See basic input variable :ref:`rentner <rentner>`.
     jahr_renteneintr
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
-    regelaltersgrenze
-        See :func:`regelaltersgrenze`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
     ges_rentenv_params
         See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
 
@@ -256,7 +257,7 @@ def zugangsfaktor(
     alter_renteneintritt = jahr_renteneintr - geburtsjahr
 
     # Calc difference to Regelaltersgrenze
-    diff = alter_renteneintritt - regelaltersgrenze
+    diff = alter_renteneintritt - ges_rente_regelaltersgrenze
 
     # Zugangsfactor lower if retired before Regelaltersgrenze
     out = diff.copy()
@@ -277,7 +278,9 @@ def zugangsfaktor(
     return out
 
 
-def regelaltersgrenze(geburtsjahr: IntSeries, ges_rentenv_params: dict) -> FloatSeries:
+def ges_rente_regelaltersgrenze(
+    geburtsjahr: IntSeries, ges_rentenv_params: dict
+) -> FloatSeries:
     """Calculates the age, at which a worker is eligible to claim his full pension.
 
     Parameters

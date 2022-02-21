@@ -86,15 +86,15 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`vermögen_hh`          | Wealth of household                          | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`entgeltpunkte`        | Earning points for pension claim             | FloatSeries |
+| _`entgeltp`             | Earning points for pension claim             | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`g_r_bewertungszeiten` | Months with > 30% of average income          | IntSeries   |
+| _`grundr_zeiten`        | Number of months considered for Grundrente   | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`entgeltp_grundr`      | Entgeltpunkte in Grundrentenbewertungszeiten | FloatSeries |
+| _`grundr_bew_zeiten`    | Months with > 30% of average income          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`grundrentenzeiten`    | Number of months considered for Grundrente   | IntSeries   |
+| _`grundr_entgeltp`      | Entgeltpunkte in Grundrentenbewertungszeiten | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
 | _`priv_rente_m`         | Amount of monthly private pension            | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`schwerbeh_ausweis_g`  | Dummy: Schwerbehindertenausweis Merkzeichen G| BoolSeries  |
+| _`schwerbeh_g`          | Dummy: Schwerbehindertenausweis Merkzeichen G| BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+

@@ -6,34 +6,6 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def regelbedarf_m_vermögens_check_hh(
-    regelbedarf_m_hh: FloatSeries,
-    vermögen_hh: FloatSeries,
-    arbeitsl_geld_2_vermög_freib_hh,
-) -> FloatSeries:
-    """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
-
-    If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
-    calculated, just set the need to zero)
-
-    Parameters
-    ----------
-    regelbedarf_m_hh
-        See :func:`regelbedarf_m_hh`.
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
-    arbeitsl_geld_2_vermög_freib_hh
-        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
-
-    Returns
-    -------
-
-    """
-    out = regelbedarf_m_hh.copy()
-    out.loc[vermögen_hh > arbeitsl_geld_2_vermög_freib_hh] = 0
-    return out
-
-
 def kinderzuschl_vermögens_check_hh(
     kinderzuschl_vorläufig_m_hh: FloatSeries,
     vermögen_hh: FloatSeries,

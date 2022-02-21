@@ -271,9 +271,6 @@ def execute_dag(dag, data, targets, debug):
     visited_nodes = set(results)
     skipped_nodes = set()
 
-    # Check for cycles in DAG
-    _fail_if_dag_contains_cycle(dag)
-
     for task in nx.topological_sort(dag):
         if task not in results and task not in skipped_nodes:
             if "function" in dag.nodes[task]:

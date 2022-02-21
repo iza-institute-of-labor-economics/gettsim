@@ -205,7 +205,7 @@ durchschnittslohn:
   2016-01-01:
     scalar: 33608.42
 
-beitragspflichtiger_durchschnittslohn:
+beitragspflichtiges_durchschnittsentgelt:
   name:
     de: Durchschnittseinkommen aller Versicherten
     en: Mean wage of all insured people
@@ -433,7 +433,7 @@ umrechnung_entgeltp_beitrittsgebiet:
   2024-01-01:
     scalar: 1.0140
 
-ges_rentenvolumen:
+gesamtes_rentenvolumen:
   name:
     de: Rentenvolumen
     en: pension volume
@@ -606,7 +606,7 @@ rentenwert:
     deviation_from: previous
     ost: 33.47
 
-höchstwert_grundrente:
+grundr_höchstwert:
   name:
     de: Höchstwert Entgeltpunkte für Grundrente
     en: Maximum value of Entgeltpunkte for Grundrente
@@ -620,7 +620,7 @@ höchstwert_grundrente:
     increment: 0.001389
     reference: § 76g Abs. 4 S. 3, 4 SGB VI
 
-grundrentenzeiten:
+grundr_zeiten:
   name:
     de: Grundrentenzeiten
     en: Months needed for basic pension
@@ -635,7 +635,7 @@ grundrentenzeiten:
     max: 420
     reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
 
-einkommensanr_grundrente_single:
+grundr_einkommensanr_single:
   name:
     de: Einkommensanrechnung Grundrente für Personen ohne verheiratetem Partner
     en: Crediting of income for basic pension for individuals without married partner
@@ -659,7 +659,7 @@ einkommensanr_grundrente_single:
       upper_threshold: inf
       rate_linear: 1
 
-einkommensanr_grundrente_verheiratet:
+grundr_einkommensanr_verheiratet:
   name:
     de: Einkommensanrechnung Grundrente für Personen mit verheiratetem Partner
     en: Crediting of income for basic pension for individuals with married partner
@@ -684,7 +684,7 @@ einkommensanr_grundrente_verheiratet:
       rate_linear: 1
 
 
-faktor_bonus_grundrente:
+grundr_faktor_bonus:
   name:
     de: Bonusfaktor aus Grundrente
     en: bonus factor from basic pension
@@ -752,7 +752,7 @@ rounding:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  ges_rente_excl_grundrente_m:
+  ges_rente_vor_grundr_m:
     1980-01-01:
       base: 0.01
       direction: nearest
@@ -772,7 +772,7 @@ rounding:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  höchstwert_grundr_zuschlag_m:
+  grundr_zuschlag_höchstwert_m:
     2021-01-01:
       base: 0.0001
       direction: nearest

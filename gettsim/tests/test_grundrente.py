@@ -13,18 +13,18 @@ INPUT_COLS = [
     "p_id",
     "tu_id",
     "hh_id",
-    "grundrentenzeiten",
-    "g_r_bewertungszeiten",
+    "grundr_zeiten",
+    "grundr_bew_zeiten",
     "wohnort_ost",
-    "eink_excl_grundr_zuschlag_m_tu",
+    "eink_vor_grundr_zuschlag_m_tu",
     "alter",
     "alleinstehend",
     "geburtsjahr",
     "bruttolohn_m",
-    "entgeltpunkte",
-    "zugangsfaktor",
+    "entgeltp",
+    "ges_rente_zugangsfaktor",
     "rentner",
-    "entgeltp_grundr",
+    "grundr_entgeltp",
     "kind",
 ]
 
@@ -60,8 +60,8 @@ def test_grundrente(input_data, year, column):
         functions=policy_functions,
         targets=column,
         columns_overriding_functions=[
-            "eink_excl_grundr_zuschlag_m_tu",
-            "zugangsfaktor",
+            "eink_vor_grundr_zuschlag_m_tu",
+            "ges_rente_zugangsfaktor",
         ],
     )
     tol = OUT_COLS_TOL[column]

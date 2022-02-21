@@ -12,7 +12,7 @@ GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
 GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 
 PATHS_TO_INTERNAL_FUNCTIONS = [
-    ROOT_DIR / "social_security_contributions",
+    ROOT_DIR / "social_insurance_contributions",
     ROOT_DIR / "transfers",
     ROOT_DIR / "taxes",
     ROOT_DIR / "demographic_vars.py",
@@ -82,7 +82,7 @@ TYPES_INPUT_VARIABLES = {
     "geburtstag": IntSeries,
     "geburtsmonat": IntSeries,
     "mietstufe": IntSeries,
-    "entgeltpunkte": FloatSeries,
+    "entgeltp": FloatSeries,
     "kind": BoolSeries,
     "rentner": BoolSeries,
     "betreuungskost_m": FloatSeries,
@@ -102,9 +102,9 @@ TYPES_INPUT_VARIABLES = {
     "immobilie_baujahr_hh": IntSeries,
     "sonstig_eink_m": FloatSeries,
     "jahr": IntSeries,
-    "entgeltp_grundr": FloatSeries,
-    "grundrentenzeiten": IntSeries,
-    "g_r_bewertungszeiten": IntSeries,
+    "grundr_entgeltp": FloatSeries,
+    "grundr_zeiten": IntSeries,
+    "grundr_bew_zeiten": IntSeries,
     "priv_rente_m": FloatSeries,
-    "schwerbeh_ausweis_g": BoolSeries,
+    "schwerbeh_g": BoolSeries,
 }

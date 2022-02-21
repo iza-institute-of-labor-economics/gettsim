@@ -46,7 +46,7 @@ def check_length(column_names, limit):
     over_limit = [
         f"{name:40} ({len(name)})" for name in column_names if len(name) > limit
     ]
-    assert not over_limit, nice_output_list_of_strings(over_limit)
+    assert not over_limit, nice_output_list_of_strings(over_limit) + f"limit is {limit}"
 
 
 def test_all_default_targets_among_function_names(time_indep_function_names):

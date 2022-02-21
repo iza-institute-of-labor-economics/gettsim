@@ -23,13 +23,13 @@ INPUT_COLS = [
     "alter",
     "jahr",
     "geburtsjahr",
-    "entgeltpunkte",
+    "entgeltp",
 ]
 
 OUT_COLS = [
-    "entgeltpunkte_update",
-    "entgeltpunkte_lohn",
-    # "regelaltersgrenze",
+    "entgeltp_update",
+    "entgeltp_update_lohn",
+    # "ges_rente_regelaltersgrenze",
     # "ges_rentenv_beitr_bemess_grenze",
 ]
 

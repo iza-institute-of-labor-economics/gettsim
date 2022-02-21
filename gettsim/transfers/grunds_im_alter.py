@@ -7,7 +7,11 @@ from gettsim.typing import IntSeries
 
 
 def grunds_im_alter_m_hh(
-    grunds_im_alter_m_minus_eink_hh: FloatSeries,
+    regelbedarf_m_hh: FloatSeries,
+    _grunds_im_alter_mehrbedarf_beh_m_hh: FloatSeries,
+    kindergeld_m_hh: FloatSeries,
+    unterhaltsvors_m_hh: FloatSeries,
+    grunds_im_alter_eink_m_hh: FloatSeries,
     alle_erwachsene_sind_rentner_hh: BoolSeries,
     vermögen_hh: FloatSeries,
     grunds_im_alter_vermög_freib_hh: FloatSeries,
@@ -23,8 +27,16 @@ def grunds_im_alter_m_hh(
 
     Parameters
     ----------
-    grunds_im_alter_m_minus_eink_hh
-        See :func:`grunds_im_alter_m_minus_eink_hh`.
+    regelbedarf_m_hh
+        See :func:`regelbedarf_m_hh`.
+    _grunds_im_alter_mehrbedarf_beh_m_hh
+        See :func:`_grunds_im_alter_mehrbedarf_beh_m_hh`.
+    kindergeld_m_hh
+        See :func:`kindergeld_m_hh`.
+    unterhaltsvors_m_hh
+        See :func:`unterhaltsvors_m_hh`.
+    grunds_im_alter_eink_m_hh
+        See :func:`grunds_im_alter_eink_m_hh`.
     alle_erwachsene_sind_rentner_hh
         See :func:`alle_erwachsene_sind_rentner_hh`.
     vermögen_hh
@@ -35,7 +47,15 @@ def grunds_im_alter_m_hh(
     -------
 
     """
-    out = grunds_im_alter_m_minus_eink_hh.copy()
+
+    # Subtract income
+    out = (
+        regelbedarf_m_hh
+        + _grunds_im_alter_mehrbedarf_beh_m_hh
+        - grunds_im_alter_eink_m_hh
+        - unterhaltsvors_m_hh
+        - kindergeld_m_hh
+    ).clip(lower=0)
 
     # Wealth check
     out.loc[vermögen_hh >= grunds_im_alter_vermög_freib_hh] = 0
@@ -43,43 +63,6 @@ def grunds_im_alter_m_hh(
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
     out.loc[~alle_erwachsene_sind_rentner_hh] = 0
     return out
-
-
-def grunds_im_alter_m_minus_eink_hh(
-    regelbedarf_m_hh: FloatSeries,
-    _grunds_im_alter_mehrbedarf_behinderung_m_hh: FloatSeries,
-    kindergeld_m_hh: FloatSeries,
-    unterhaltsvors_m_hh: FloatSeries,
-    grunds_im_alter_eink_m_hh: FloatSeries,
-) -> FloatSeries:
-    """Calculate remaining basic subsistence after subtracting income
-    and other benefits.
-
-    Parameters
-    ----------
-    regelbedarf_m_hh
-        See :func:`regelbedarf_m_hh`.
-    _grunds_im_alter_mehrbedarf_behinderung_m_hh
-        See :func:`_grunds_im_alter_mehrbedarf_behinderung_m_hh`.
-    kindergeld_m_hh
-        See :func:`kindergeld_m_hh`.
-    unterhaltsvors_m_hh
-        See :func:`unterhaltsvors_m_hh`.
-    grunds_im_alter_eink_m_hh
-        See :func:`grunds_im_alter_eink_m_hh`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        regelbedarf_m_hh
-        + _grunds_im_alter_mehrbedarf_behinderung_m_hh
-        - grunds_im_alter_eink_m_hh
-        - unterhaltsvors_m_hh
-        - kindergeld_m_hh
-    )
-    return out.clip(lower=0)
 
 
 def grunds_im_alter_eink_m_hh(
@@ -171,7 +154,7 @@ def grunds_im_alter_eink_m(
         + elterngeld_grunds_im_alter_m
     )
 
-    # subtract taxes and social security contributions
+    # subtract taxes and social insurance contributions
     # TODO: Change this to lohn_steuer
     out = (
         total_income
@@ -293,37 +276,38 @@ def grunds_im_alter_priv_rente_m(
     return priv_rente_m - priv_rente_m_amount_exempt
 
 
-def _grunds_im_alter_mehrbedarf_behinderung_m_hh(
-    _grunds_im_alter_mehrbedarf_behinderung_m: FloatSeries, hh_id: IntSeries,
+def _grunds_im_alter_mehrbedarf_beh_m_hh(
+    _grunds_im_alter_mehrbedarf_beh_g_m: FloatSeries, hh_id: IntSeries,
 ) -> FloatSeries:
-    """Aggregate mehrbedarf for people with disabilities on household level.
+    """Aggregate mehrbedarf for people with disabled person's pass G on
+    household level.
 
     Parameters
     ----------
-    _grunds_im_alter_mehrbedarf_behinderung_m
-        See :func:`_grunds_im_alter_mehrbedarf_behinderung_m`.
+    _grunds_im_alter_mehrbedarf_beh_g_m
+        See :func:`_grunds_im_alter_mehrbedarf_beh_g_m`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
     Returns
     -------
 
     """
-    return _grunds_im_alter_mehrbedarf_behinderung_m.groupby(hh_id).sum()
+    return _grunds_im_alter_mehrbedarf_beh_g_m.groupby(hh_id).sum()
 
 
-def _grunds_im_alter_mehrbedarf_behinderung_m(
-    schwerbeh_ausweis_g: BoolSeries,
+def _grunds_im_alter_mehrbedarf_beh_g_m(
+    schwerbeh_g: BoolSeries,
     hhsize_tu: IntSeries,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
     tu_id: IntSeries,
 ) -> FloatSeries:
-    """Calculate mehrbedarf for people with disabilities.
+    """Calculate mehrbedarf for people with disabled person's pass G.
 
     Parameters
     ----------
-    schwerbeh_ausweis_g
-        See basic input variable :ref:`behinderungsgrad <schwerbeh_ausweis_g>`.
+    schwerbeh_g
+        See basic input variable :ref:`behinderungsgrad <schwerbeh_g>`.
     hhsize_tu
         See :func:`hhsize_tu`.
     ges_rentenv_params
@@ -336,22 +320,22 @@ def _grunds_im_alter_mehrbedarf_behinderung_m(
     -------
 
     """
-    out = pd.Series(0, index=schwerbeh_ausweis_g.index, dtype=float)
+    out = pd.Series(0, index=schwerbeh_g.index, dtype=float)
     hhsize_tu = tu_id.replace(hhsize_tu)
 
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
     mehrbedarf_singles = (arbeitsl_geld_2_params["regelsatz"][1]) * (
-        grunds_im_alter_params["mehrbedarf_g"]["rate"]
+        grunds_im_alter_params["mehrbedarf_schwerbeh_g"]["rate"]
     )
     mehrbedarf_in_couple = (arbeitsl_geld_2_params["regelsatz"][2]) * (
-        grunds_im_alter_params["mehrbedarf_g"]["rate"]
+        grunds_im_alter_params["mehrbedarf_schwerbeh_g"]["rate"]
     )
 
     # singles
-    out.loc[schwerbeh_ausweis_g] = mehrbedarf_singles
+    out.loc[schwerbeh_g] = mehrbedarf_singles
 
     # couples
-    out.loc[schwerbeh_ausweis_g & (hhsize_tu != 1)] = mehrbedarf_in_couple
+    out.loc[schwerbeh_g & (hhsize_tu != 1)] = mehrbedarf_in_couple
 
     return out
 
@@ -376,7 +360,7 @@ def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: FloatSeries,) -> FloatSeri
 
 def grunds_im_alter_ges_rente_m_ab_2021(
     ges_rente_m: FloatSeries,
-    nicht_grundrentenberechtigt: BoolSeries,
+    grundr_berechtigt: BoolSeries,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
@@ -390,8 +374,8 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     ----------
     ges_rente_m
         See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
-    nicht_grundrentenberechtigt
-        See :func:`nicht_grundrentenberechtigt`.
+    grundr_berechtigt
+        See :func:`grundr_berechtigt`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params
         <arbeitsl_geld_2_params>`.
@@ -413,7 +397,7 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     )
 
     deducted_rent = deducted_rent.clip(upper=arbeitsl_geld_2_params["regelsatz"][1] / 2)
-    deducted_rent.loc[nicht_grundrentenberechtigt] = 0
+    deducted_rent.loc[~grundr_berechtigt] = 0
 
     return ges_rente_m - deducted_rent
 

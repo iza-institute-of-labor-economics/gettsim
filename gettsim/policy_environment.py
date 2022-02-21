@@ -19,10 +19,10 @@ from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_ohne_kapital
-from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_ab_2015
-from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_bis_2014
-from gettsim.taxes.zu_verst_eink.freibetraege import sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibetraege import sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibeträge import alleinerziehend_freib_tu_ab_2015
+from gettsim.taxes.zu_verst_eink.freibeträge import alleinerziehend_freib_tu_bis_2014
+from gettsim.taxes.zu_verst_eink.freibeträge import sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibeträge import sonderausgaben_bis_2011
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2005_bis_2009
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2010_bis_2019
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
@@ -51,8 +51,8 @@ from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_bis_2010,
 )
-from gettsim.transfers.rente import ges_rente_excl_grundrente_m
-from gettsim.transfers.rente import ges_rente_incl_grundrente_m
+from gettsim.transfers.rente import ges_rente_nach_grundr_m
+from gettsim.transfers.rente import ges_rente_vor_grundr_m
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
@@ -277,10 +277,10 @@ def load_reforms_for_date(date):
 
     # Introduction of Grundrente
     if year < 2021:
-        functions["ges_rente_m"] = ges_rente_excl_grundrente_m
+        functions["ges_rente_m"] = ges_rente_vor_grundr_m
         functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_bis_2020
     else:
-        functions["ges_rente_m"] = ges_rente_incl_grundrente_m
+        functions["ges_rente_m"] = ges_rente_nach_grundr_m
         functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_ab_2021
 
     return functions

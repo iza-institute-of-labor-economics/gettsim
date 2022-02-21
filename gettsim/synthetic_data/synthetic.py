@@ -232,12 +232,12 @@ def create_one_set_of_households(
         "mietstufe",
         "immobilie_baujahr",
         "vermögen_hh",
-        "entgeltpunkte",
-        "g_r_bewertungszeiten",
-        "entgeltp_grundr",
-        "grundrentenzeiten",
+        "entgeltp",
+        "grundr_bew_zeiten",
+        "grundr_entgeltp",
+        "grundr_zeiten",
         "priv_rente_m",
-        "schwerbeh_ausweis_g",
+        "schwerbeh_g",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -257,7 +257,7 @@ def create_one_set_of_households(
         "alleinerziehend",
         "bewohnt_eigentum_hh",
         "in_priv_krankenv",
-        "schwerbeh_ausweis_g",
+        "schwerbeh_g",
     ]:
         df[bool_col] = False
 
@@ -349,10 +349,10 @@ def create_one_set_of_households(
     ] = True
 
     # Retirement variables
-    df["grundrentenzeiten"] = (df["alter"] - 20).clip(lower=0) * 12
-    df["g_r_bewertungszeiten"] = df["grundrentenzeiten"]
-    df["entgeltpunkte"] = df["grundrentenzeiten"] / 12
-    df["entgeltp_grundr"] = df["entgeltpunkte"]
+    df["grundr_zeiten"] = (df["alter"] - 20).clip(lower=0) * 12
+    df["grundr_bew_zeiten"] = df["grundr_zeiten"]
+    df["entgeltp"] = df["grundr_zeiten"] / 12
+    df["grundr_entgeltp"] = df["entgeltp"]
 
     df = df.sort_values(by=["hh_typ", "hh_id"])
 
