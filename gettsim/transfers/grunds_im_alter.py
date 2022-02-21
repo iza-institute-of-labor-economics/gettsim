@@ -189,7 +189,7 @@ def grunds_im_alter_erwerbseink_m(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate earnings which are considered in the calculation of Grundsicherung im
+    """Calculate earnings considered in the calculation of Grundsicherung im
     Alter.
 
     Legal reference: § 82 SGB XII Abs. 3
