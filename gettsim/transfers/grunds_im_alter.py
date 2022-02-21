@@ -117,7 +117,7 @@ def grunds_im_alter_eink_m(
     tu_id: IntSeries,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate income which is considered in the calculation of Grundsicherung im
+    """Calculate income considered in the calculation of Grundsicherung im
     Alter.
 
     Parameters
