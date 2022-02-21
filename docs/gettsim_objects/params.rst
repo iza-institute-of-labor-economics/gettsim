@@ -49,5 +49,5 @@ variables have to be last inputs in the function signature.
 +---------------------------+--------------------------------+
 | _`elterngeld_params`      | Parental leave benefits        |
 +---------------------------+--------------------------------+
-| _`ges_rente_params`       | Pensions                       |
+| _`ges_rentenv_params`     | Pensions                       |
 +---------------------------+--------------------------------+

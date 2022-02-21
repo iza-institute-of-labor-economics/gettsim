@@ -312,7 +312,7 @@ def _grunds_im_alter_mehrbedarf_behinderung_m_hh(
 
 
 def _grunds_im_alter_mehrbedarf_behinderung_m(
-    schwerbe_ausweis_g: BoolSeries,
+    schwerbeh_ausweis_g: BoolSeries,
     hhsize_tu: IntSeries,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
@@ -322,12 +322,12 @@ def _grunds_im_alter_mehrbedarf_behinderung_m(
 
     Parameters
     ----------
-    schwerbe_ausweis_g
-        See basic input variable :ref:`behinderungsgrad <schwerbe_ausweis_g>`.
+    schwerbeh_ausweis_g
+        See basic input variable :ref:`behinderungsgrad <schwerbeh_ausweis_g>`.
     hhsize_tu
         See :func:`hhsize_tu`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     tu_id
@@ -336,7 +336,7 @@ def _grunds_im_alter_mehrbedarf_behinderung_m(
     -------
 
     """
-    out = pd.Series(0, index=schwerbe_ausweis_g.index, dtype=float)
+    out = pd.Series(0, index=schwerbeh_ausweis_g.index, dtype=float)
     hhsize_tu = tu_id.replace(hhsize_tu)
 
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
@@ -348,10 +348,10 @@ def _grunds_im_alter_mehrbedarf_behinderung_m(
     )
 
     # singles
-    out.loc[schwerbe_ausweis_g] = mehrbedarf_singles
+    out.loc[schwerbeh_ausweis_g] = mehrbedarf_singles
 
     # couples
-    out.loc[schwerbe_ausweis_g & (hhsize_tu != 1)] = mehrbedarf_in_couple
+    out.loc[schwerbeh_ausweis_g & (hhsize_tu != 1)] = mehrbedarf_in_couple
 
     return out
 

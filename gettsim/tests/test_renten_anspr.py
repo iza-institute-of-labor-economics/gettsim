@@ -27,7 +27,7 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    "rente_anspr_excl_gr_m",
+    "ges_rente_anspr_excl_gr_m",
     "entgeltpunkte_update",
     "entgeltpunkte_lohn",
     # "regelaltersgrenze",

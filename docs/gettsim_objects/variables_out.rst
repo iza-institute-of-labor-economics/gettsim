@@ -20,8 +20,6 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_m         | Monthly amount of unemployment assistance                 |
 +-------------------------+-----------------------------------------------------------+
-| rente_anspr_m           | Monthly amount of old-age pension claim                   |
-+-------------------------+-----------------------------------------------------------+
 | entgeltpunkte_update    | Updated earning points for pension claim                  |
 +-------------------------+-----------------------------------------------------------+
 | abgelt_st_tu            | Capital income tax per tax unit                           |

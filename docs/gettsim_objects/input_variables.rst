@@ -96,5 +96,5 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`priv_rente_m`         | Amount of monthly private pension            | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`schwerbe_ausweis_g`   | Dummy: Schwerbehindertenausweis Merkzeichen G| BoolSeries  |
+| _`schwerbeh_ausweis_g`  | Dummy: Schwerbehindertenausweis Merkzeichen G| BoolSeries  |
 +-------------------------+----------------------------------------------+-------------+

@@ -35,7 +35,7 @@ INTERNAL_PARAM_GROUPS = [
     "kinderzuschl",
     "kindergeld",
     "elterngeld",
-    "ges_rente",
+    "ges_rentenv",
     "arbeitsl_geld_2",
     "grunds_im_alter",
 ]
@@ -106,5 +106,5 @@ TYPES_INPUT_VARIABLES = {
     "grundrentenzeiten": IntSeries,
     "g_r_bewertungszeiten": IntSeries,
     "priv_rente_m": FloatSeries,
-    "schwerbe_ausweis_g": BoolSeries,
+    "schwerbeh_ausweis_g": BoolSeries,
 }

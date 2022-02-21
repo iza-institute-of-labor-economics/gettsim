@@ -7,7 +7,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-@add_rounding_spec(params_key="ges_rente")
+@add_rounding_spec(params_key="ges_rentenv")
 def grundr_zuschlag_m(
     grundr_zuschlag_vor_eink_anr_m: FloatSeries, grundr_zuschlag_eink_m: FloatSeries
 ) -> FloatSeries:
@@ -29,13 +29,13 @@ def grundr_zuschlag_m(
     return out.clip(lower=0)
 
 
-@add_rounding_spec(params_key="ges_rente")
+@add_rounding_spec(params_key="ges_rentenv")
 def grundr_zuschlag_eink_m(
     gemeinsam_veranlagt: BoolSeries,
     eink_excl_grundr_zuschlag_m_tu: FloatSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
-    ges_rente_params: dict,
+    ges_rentenv_params: dict,
 ) -> FloatSeries:
     """Calculate income which is deducted from Grundrentenzuschlag.
 
@@ -55,8 +55,8 @@ def grundr_zuschlag_eink_m(
         See :func:`rentenwert`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
     Returns
     -------
 
@@ -71,11 +71,11 @@ def grundr_zuschlag_eink_m(
     anr_eink_single = (
         piecewise_polynomial(
             x=einkommen_grundr / rentenwert,
-            thresholds=ges_rente_params["einkommensanr_grundrente_single"][
+            thresholds=ges_rentenv_params["einkommensanr_grundrente_single"][
                 "thresholds"
             ],
-            rates=ges_rente_params["einkommensanr_grundrente_single"]["rates"],
-            intercepts_at_lower_thresholds=ges_rente_params[
+            rates=ges_rentenv_params["einkommensanr_grundrente_single"]["rates"],
+            intercepts_at_lower_thresholds=ges_rentenv_params[
                 "einkommensanr_grundrente_single"
             ]["intercepts_at_lower_thresholds"],
         )
@@ -84,11 +84,11 @@ def grundr_zuschlag_eink_m(
     anr_eink_verheiratet = (
         piecewise_polynomial(
             x=einkommen_grundr / rentenwert,
-            thresholds=ges_rente_params["einkommensanr_grundrente_verheiratet"][
+            thresholds=ges_rentenv_params["einkommensanr_grundrente_verheiratet"][
                 "thresholds"
             ],
-            rates=ges_rente_params["einkommensanr_grundrente_verheiratet"]["rates"],
-            intercepts_at_lower_thresholds=ges_rente_params[
+            rates=ges_rentenv_params["einkommensanr_grundrente_verheiratet"]["rates"],
+            intercepts_at_lower_thresholds=ges_rentenv_params[
                 "einkommensanr_grundrente_verheiratet"
             ]["intercepts_at_lower_thresholds"],
         )
@@ -102,13 +102,13 @@ def grundr_zuschlag_eink_m(
     return out
 
 
-@add_rounding_spec(params_key="ges_rente")
+@add_rounding_spec(params_key="ges_rentenv")
 def grundr_zuschlag_vor_eink_anr_m(
     grundr_zuschlag_bonus_entgeltp: FloatSeries,
     g_r_bewertungszeiten: IntSeries,
     rentenwert: FloatSeries,
     zugangsfaktor: FloatSeries,
-    ges_rente_params: dict,
+    ges_rentenv_params: dict,
 ) -> FloatSeries:
     """Calculate additional monthly pensions payments resulting from
     Grundrente, without taking into account income crediting rules.
@@ -127,8 +127,8 @@ def grundr_zuschlag_vor_eink_anr_m(
         See :func:`rentenwert`.
     zugangsfaktor
         See :func:`zugangsfaktor`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
 
     Returns
     -------
@@ -136,7 +136,9 @@ def grundr_zuschlag_vor_eink_anr_m(
     """
     out = (
         grundr_zuschlag_bonus_entgeltp
-        * g_r_bewertungszeiten.clip(upper=ges_rente_params["grundrentenzeiten"]["max"])
+        * g_r_bewertungszeiten.clip(
+            upper=ges_rentenv_params["grundrentenzeiten"]["max"]
+        )
         * rentenwert
         * zugangsfaktor.clip(upper=1)
     )
@@ -166,9 +168,9 @@ def _durchschnittl_entgeltp_g_r_bewertungszeiten(
     return entgeltp_grundr / g_r_bewertungszeiten
 
 
-@add_rounding_spec(params_key="ges_rente")
+@add_rounding_spec(params_key="ges_rentenv")
 def höchstwert_grundr_zuschlag_m(
-    grundrentenzeiten: IntSeries, ges_rente_params: dict
+    grundrentenzeiten: IntSeries, ges_rentenv_params: dict
 ) -> FloatSeries:
     """Calculates the maximum allowed number of average Entgeltpunkte (per month)
     after adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
@@ -177,8 +179,8 @@ def höchstwert_grundr_zuschlag_m(
     ----------
     grundrentenzeiten
         See basic input variable :ref:`grundrentenzeiten <grundrentenzeiten>`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
 
     Returns
     -------
@@ -187,25 +189,25 @@ def höchstwert_grundr_zuschlag_m(
 
     # Calculate number of months above minimum threshold
     months_above_thresh = (
-        grundrentenzeiten.clip(upper=ges_rente_params["grundrentenzeiten"]["max"])
-        - ges_rente_params["grundrentenzeiten"]["min"]
+        grundrentenzeiten.clip(upper=ges_rentenv_params["grundrentenzeiten"]["max"])
+        - ges_rentenv_params["grundrentenzeiten"]["min"]
     )
 
     # Calculate höchstwert
     out = (
-        ges_rente_params["höchstwert_grundrente"]["base"]
-        + ges_rente_params["höchstwert_grundrente"]["increment"] * months_above_thresh
+        ges_rentenv_params["höchstwert_grundrente"]["base"]
+        + ges_rentenv_params["höchstwert_grundrente"]["increment"] * months_above_thresh
     )
 
     return out
 
 
-@add_rounding_spec(params_key="ges_rente")
+@add_rounding_spec(params_key="ges_rentenv")
 def grundr_zuschlag_bonus_entgeltp(
     _durchschnittl_entgeltp_g_r_bewertungszeiten: FloatSeries,
     höchstwert_grundr_zuschlag_m: FloatSeries,
     grundrentenzeiten: IntSeries,
-    ges_rente_params: dict,
+    ges_rentenv_params: dict,
 ) -> FloatSeries:
     """Calculate additional Entgeltpunkte for pensioner.
 
@@ -223,8 +225,8 @@ def grundr_zuschlag_bonus_entgeltp(
         See :func:`höchstwert_grundr_zuschlag_m`.
     grundrentenzeiten
         See basic input variable :ref:`grundrentenzeiten <grundrentenzeiten>`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
 
     Returns
     -------
@@ -252,12 +254,12 @@ def grundr_zuschlag_bonus_entgeltp(
 
     # Set to 0 if Grundrentenzeiten below minimum
     gr_zeiten_below_min = (
-        grundrentenzeiten < ges_rente_params["grundrentenzeiten"]["min"]
+        grundrentenzeiten < ges_rentenv_params["grundrentenzeiten"]["min"]
     )
     out.loc[gr_zeiten_below_min] = 0
 
     # Multiply additional Engeltpunkte by factor
-    out = out * ges_rente_params["faktor_bonus_grundrente"]
+    out = out * ges_rentenv_params["faktor_bonus_grundrente"]
 
     return out
 
@@ -377,7 +379,7 @@ def proxy_rente_vorj_excl_grundr_m(
 
 
 def nicht_grundrentenberechtigt(
-    grundrentenzeiten: IntSeries, ges_rente_params: dict
+    grundrentenzeiten: IntSeries, ges_rentenv_params: dict
 ) -> BoolSeries:
     """Indicates that person is not entitled to Freibetragsregelung.
 
@@ -385,11 +387,11 @@ def nicht_grundrentenberechtigt(
     ----------
     grundrentenzeiten
         See :func:`grundrentenzeiten`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rentenv_params
+        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
 
     Returns
     -------
 
     """
-    return grundrentenzeiten < ges_rente_params["grundrentenzeiten"]["min"]
+    return grundrentenzeiten < ges_rentenv_params["grundrentenzeiten"]["min"]
