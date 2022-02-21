@@ -258,7 +258,7 @@ def grunds_im_alter_priv_rente_m(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate private pension benefits which are considered in the calculation of
+    """Calculate private pension benefits considered in the calculation of
     Grundsicherung im Alter.
 
     Legal reference: § 82 SGB XII Abs. 4
