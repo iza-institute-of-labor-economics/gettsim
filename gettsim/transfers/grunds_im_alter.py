@@ -227,7 +227,7 @@ def grunds_im_alter_erwerbseink_m(
 def grunds_im_alter_kapitaleink_m(
     brutto_eink_5: FloatSeries, grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate capital income which are considered in the calculation of Grundsicherung im
+    """Calculate capital income considered in the calculation of Grundsicherung im
     Alter.
 
     Legal reference: § 82 SGB XII Abs. 2
