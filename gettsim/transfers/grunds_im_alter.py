@@ -296,7 +296,7 @@ def grunds_im_alter_priv_rente_m(
 def _grunds_im_alter_mehrbedarf_behinderung_m_hh(
     _grunds_im_alter_mehrbedarf_behinderung_m: FloatSeries, hh_id: IntSeries,
 ) -> FloatSeries:
-    """Aggregate mehrbedarf for people with disabilities on household level.
+    """Aggregate additional allowance for people with disabilities on household level.
 
     Parameters
     ----------
