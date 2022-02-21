@@ -100,7 +100,7 @@ def grunds_im_alter_eink_m(
     tu_id: IntSeries,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate income which is considered in the calculation of Grundsicherung im
+    """Calculate income considered in the calculation of Grundsicherung im
     Alter.
 
     Parameters
@@ -172,7 +172,7 @@ def grunds_im_alter_erwerbseink_m(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate earnings which are considered in the calculation of Grundsicherung im
+    """Calculate earnings considered in the calculation of Grundsicherung im
     Alter.
 
     Legal reference: § 82 SGB XII Abs. 3
@@ -210,7 +210,7 @@ def grunds_im_alter_erwerbseink_m(
 def grunds_im_alter_kapitaleink_m(
     brutto_eink_5: FloatSeries, grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate capital income which are considered in the calculation of Grundsicherung im
+    """Calculate capital income considered in the calculation of Grundsicherung im
     Alter.
 
     Legal reference: § 82 SGB XII Abs. 2
@@ -241,7 +241,7 @@ def grunds_im_alter_priv_rente_m(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
-    """Calculate private pension benefits which are considered in the calculation of
+    """Calculate private pension benefits considered in the calculation of
     Grundsicherung im Alter.
 
     Legal reference: § 82 SGB XII Abs. 4
@@ -279,7 +279,7 @@ def grunds_im_alter_priv_rente_m(
 def _grunds_im_alter_mehrbedarf_beh_m_hh(
     _grunds_im_alter_mehrbedarf_beh_g_m: FloatSeries, hh_id: IntSeries,
 ) -> FloatSeries:
-    """Aggregate mehrbedarf for people with disabled person's pass G on
+    """Aggregate additional allowance for people with disabled person's pass G on
     household level.
 
     Parameters
