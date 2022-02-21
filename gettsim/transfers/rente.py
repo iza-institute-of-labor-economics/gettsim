@@ -95,50 +95,6 @@ def ges_rente_excl_grundrente_m(
     return out
 
 
-def ges_rente_anspr_m(
-    ges_rente_anspr_excl_gr_m: FloatSeries, grundr_zuschlag_m: FloatSeries,
-) -> FloatSeries:
-    """Potential Old-Age Pensions claim (including the
-    Grundrentenzuschlag) if the agent chooses to retire at Regelaltersgrenze.
-
-    Parameters
-    ----------
-    ges_rente_anspr_excl_gr_m
-        See :func:`ges_rente_anspr_excl_gr_m`.
-    grundr_zuschlag_m
-        See :func:`grundr_zuschlag_m`.
-
-    Returns
-    -------
-
-    """
-
-    return ges_rente_anspr_excl_gr_m + grundr_zuschlag_m
-
-
-def ges_rente_anspr_excl_gr_m(
-    entgeltpunkte_update: FloatSeries, rentenwert: FloatSeries,
-) -> FloatSeries:
-    """Old-Age Pensions claim (without Grundrentenzuschlag) if
-    the agent chooses to retire at Regelaltersgrenze. It is hence assumed that the
-    Zugangsfaktor is 1.
-
-
-    Parameters
-    ----------
-    entgeltpunkte_update
-        See :func:`entgeltpunkte_update`.
-    rentenwert
-        See :func:`rentenwert`.
-
-    Returns
-    -------
-
-    """
-
-    return (entgeltpunkte_update * rentenwert).clip(lower=0)
-
-
 def rentenwert(wohnort_ost: BoolSeries, ges_rentenv_params: dict) -> FloatSeries:
     """Select the rentenwert depending on place of living.
 
