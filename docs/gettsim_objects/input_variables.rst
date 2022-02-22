@@ -90,7 +90,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`grundr_zeiten`        | Number of months determining Grundrente eligibility   | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
-| _`grundr_bew_zeiten`    | Months with > 30% of average income          | IntSeries   |
+| _`grundr_bew_zeiten`    | Number of months determining Grundrente payments          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`grundr_entgeltp`      | Average `entgeltp` during `grundr_bew_zeiten` | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
