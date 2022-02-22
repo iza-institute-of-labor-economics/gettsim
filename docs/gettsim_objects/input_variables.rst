@@ -88,7 +88,7 @@ household.
 +-------------------------+----------------------------------------------+-------------+
 | _`entgeltp`             | Earning points for pension claim             | FloatSeries |
 +-------------------------+----------------------------------------------+-------------+
-| _`grundr_zeiten`        | Number of months considered for Grundrente   | IntSeries   |
+| _`grundr_zeiten`        | Number of months determining Grundrente eligibility   | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
 | _`grundr_bew_zeiten`    | Months with > 30% of average income          | IntSeries   |
 +-------------------------+----------------------------------------------+-------------+
