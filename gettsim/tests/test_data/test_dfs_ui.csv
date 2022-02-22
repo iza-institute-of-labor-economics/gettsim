@@ -1,4 +1,4 @@
-"hh_id","tu_id","p_id","bruttolohn_vorj_m","wohnort_ost","kind","arbeitsl_lfdj_m","arbeitsl_vorj_m","arbeitsl_vor2j_m","alg_soep","ges_rente_m","arbeitsstunden_w","anz_kinder_tu","alter",,,,"jahr",,"arbeitsl_geld_m","eligible","alg_wage","alg_ssc","alg_tax","alg_soli","alg_entgelt"
+"hh_id","tu_id","p_id","bruttolohn_vorj_m","wohnort_ost","kind","arbeitsl_lfdj_m","arbeitsl_vorj_m","arbeitsl_vor2j_m","alg_soep","summe_ges_priv_rente_m","arbeitsstunden_w","anz_kinder_tu","alter",,,,"jahr",,"arbeitsl_geld_m","eligible","alg_wage","alg_ssc","alg_tax","alg_soli","alg_entgelt"
 1,1,45,1000,"TRUE","FALSE",1,0,0,0,0,0,0,30,,,,2019,,465.55,"TRUE",1000,200,24.08,0,775.92
 2,2,46,2000,"TRUE","FALSE",1,0,0,0,0,0,0,30,,,,2019,,789.77,"TRUE",2000,400,268.92,14.79,1316.29
 3,3,52,0,"FALSE","TRUE",0,0,0,0,0,0,1,5,,,,2019,,0,"FALSE",0,0,0,0,0

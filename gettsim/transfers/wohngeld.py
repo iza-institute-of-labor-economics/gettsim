@@ -10,7 +10,7 @@ def wohngeld_m_hh(
     wohngeld_vermögens_check_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    rentner_in_hh: BoolSeries,
+    alle_erwachsene_sind_rentner_hh: BoolSeries,
 ) -> FloatSeries:
     """Calculate final housing benefit per household.
 
@@ -22,14 +22,17 @@ def wohngeld_m_hh(
         See :func:`wohngeld_vorrang_hh`.
     wohngeld_kinderzuschl_vorrang_hh
         See :func:`wohngeld_kinderzuschl_vorrang_hh`.
-    rentner_in_hh
-        See :func:`rentner_in_hh`.
+    alle_erwachsene_sind_rentner_hh
+        See :func:`alle_erwachsene_sind_rentner_hh`.
 
     Returns
     -------
 
     """
-    cond = ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh | rentner_in_hh
+    cond = (
+        ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh
+        | alle_erwachsene_sind_rentner_hh
+    )
     wohngeld_vermögens_check_hh.loc[cond] = 0
     return wohngeld_vermögens_check_hh
 
@@ -70,7 +73,7 @@ def wohngeld_basis_hh(hh_id: IntSeries, wohngeld_basis: FloatSeries) -> FloatSer
 def zu_verst_ges_rente_tu(
     zu_verst_ges_rente: FloatSeries, tu_id: IntSeries
 ) -> FloatSeries:
-    """Aggreate pension payments subject to taxation inn tax unit.
+    """Aggreate pension payments subject to taxation in tax unit.
 
     Parameters
     ----------
@@ -118,7 +121,7 @@ def wohngeld_abzüge_tu(
 
 
 def zu_verst_ges_rente(
-    ertragsanteil: FloatSeries, ges_rente_m: FloatSeries
+    ertragsanteil: FloatSeries, summe_ges_priv_rente_m: FloatSeries
 ) -> FloatSeries:
     """Calculate pension payment subject to taxation.
 
@@ -126,14 +129,14 @@ def zu_verst_ges_rente(
     ----------
     ertragsanteil
         See :func:`ertragsanteil`.
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+    summe_ges_priv_rente_m
+        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
 
     Returns
     -------
 
     """
-    return ertragsanteil * ges_rente_m
+    return ertragsanteil * summe_ges_priv_rente_m
 
 
 def wohngeld_brutto_eink_tu(
@@ -225,7 +228,7 @@ def wohngeld_eink_abzüge_bis_2015(
     anzahl_kinder_unter_11_per_tu: IntSeries,
     wohngeld_params: dict,
 ):
-    """Calculate housing benefit subractions until 2015.
+    """Calculate housing benefit subtractions until 2015.
 
     Parameters
     ----------

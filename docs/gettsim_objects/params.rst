@@ -33,7 +33,7 @@ variables have to be last inputs in the function signature.
 +---------------------------+--------------------------------+
 | _`soli_st_params`         | Solidarity surcharge           |
 +---------------------------+--------------------------------+
-| _`arbeitsl_geld_2_params` | Basic social security          |
+| _`arbeitsl_geld_2_params` | Basic social insurance         |
 +---------------------------+--------------------------------+
 | _`arbeitsl_geld_params`   | Unemployment benefits          |
 +---------------------------+--------------------------------+

@@ -23,7 +23,7 @@ INPUT_COLS = [
     "kindergeld_anspruch",
     "mietstufe",
     "bruttolohn_m",
-    "ges_rente_m",
+    "summe_ges_priv_rente_m",
     "ertragsanteil",
     "elterngeld_m",
     "arbeitsl_geld_m",
@@ -72,6 +72,7 @@ def test_wohngeld_main(input_data, year, column):
         "ges_krankenv_beitr_m",
         "ges_rentenv_beitr_m",
         "kindergeld_anspruch",
+        "summe_ges_priv_rente_m",
     ]
     policy_functions["eink_st_tu"] = eink_st_m_tu_from_data
 
@@ -103,7 +104,7 @@ def input_data_households():
             "immobilie_baujahr_hh": 1970,
             "kindergeld_anspruch": False,
             "bruttolohn_m": 0,
-            "ges_rente_m": 0,
+            "summe_ges_priv_rente_m": 0,
             "ertragsanteil": 0,
             "elterngeld_m": 0,
             "mietstufe": 0,
@@ -144,6 +145,7 @@ def test_wohngeld_varying_hh_sizes(input_data_households, year, mietstufe, colum
         "ges_krankenv_beitr_m",
         "ges_rentenv_beitr_m",
         "kindergeld_anspruch",
+        "summe_ges_priv_rente_m",
     ]
     input_data_households["mietstufe"] = mietstufe
 

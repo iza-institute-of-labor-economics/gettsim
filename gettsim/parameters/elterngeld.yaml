@@ -11,7 +11,7 @@ elterngeld_faktor:
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 elterngeld_höchstbetrag:
   name:
-    de: Höchsbetrag des Elterngeldes
+    de: Höchstbetrag des Elterngeldes
     en: Maximum Parental Benefit
   description:
     de: § 2 (1) BEEG

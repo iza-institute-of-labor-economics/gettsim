@@ -44,7 +44,6 @@ def create_dag(
         )
 
     dag = _create_complete_dag(functions)
-
     dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
 
     _fail_if_columns_overriding_functions_are_not_in_dag(
@@ -54,6 +53,9 @@ def create_dag(
     dag = _remove_unused_ancestors_of_columns_overriding_functions(
         dag, columns_overriding_functions
     )
+
+    # Check for cycles in dag
+    _fail_if_dag_contains_cycle(dag)
 
     return dag
 
@@ -281,7 +283,6 @@ def execute_dag(dag, data, targets, debug):
                         skipped_nodes = skipped_nodes.union(nx.descendants(dag, task))
                     else:
                         raise e
-
             else:
                 successors = list(dag.successors(task))
                 raise KeyError(
@@ -295,6 +296,13 @@ def execute_dag(dag, data, targets, debug):
                 results = collect_garbage(results, task, visited_nodes, targets, dag)
 
     return results
+
+
+def _fail_if_dag_contains_cycle(dag):
+    """Check for cycles in DAG"""
+    cycles = list(nx.simple_cycles(dag))
+    if len(cycles) > 0:
+        raise ValueError(f"The DAG contains at least one cycle: {cycles}")
 
 
 def _dict_subset(dictionary, keys):

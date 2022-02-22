@@ -206,6 +206,7 @@ sparerpauschbetrag:
     scalar: 801
     reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
     note: Integration von Werbungskostenpauschbetrag für Zinseinkünfte in Sparerpauschbetrag.
+
 sparer_werbungskosten_pauschbetrag:
   name:
     de: Werbungskostenpauschbetrag bei Zinseinkünften

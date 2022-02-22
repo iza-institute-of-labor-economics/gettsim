@@ -37,6 +37,7 @@ def piecewise_polynomial(
 
     # Check in which interval each individual is. The thresholds are not exclusive on
     # the right side!
+
     binned = pd.cut(
         x,
         bins=thresholds,

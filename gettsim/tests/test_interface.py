@@ -162,6 +162,16 @@ def test_fail_if_non_unique_pid(minimal_input_data):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
 
+def test_fail_if_non_unique_cols(minimal_input_data):
+    data = minimal_input_data.copy()
+    data["temp"] = data["hh_id"]
+    data = data.rename(columns={"temp": "hh_id"})
+    with pytest.raises(
+        ValueError, match="The following columns are non-unique",
+    ):
+        compute_taxes_and_transfers(data, {}, functions=[], targets=[])
+
+
 def test_consecutive_internal_test_runs():
     test("--collect-only")
 

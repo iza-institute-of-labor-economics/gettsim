@@ -6,33 +6,10 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def regelbedarf_m_vermögens_check_hh(
-    regelbedarf_m_hh: FloatSeries, _arbeitsl_geld_2_unter_vermög_freib_hh: BoolSeries
-) -> FloatSeries:
-    """Set preliminary basic subsistence to zero if it exceeds the wealth exemption.
-
-    If wealth exceeds the exemption, set benefits to zero (since ALG2 is not yet
-    calculated, just set the need to zero)
-
-    Parameters
-    ----------
-    regelbedarf_m_hh
-        See :func:`regelbedarf_m_hh`.
-    _arbeitsl_geld_2_unter_vermög_freib_hh
-        See :func:`_arbeitsl_geld_2_unter_vermög_freib_hh`.
-
-    Returns
-    -------
-
-    """
-    out = regelbedarf_m_hh.copy()
-    out.loc[~_arbeitsl_geld_2_unter_vermög_freib_hh] = 0
-    return out
-
-
 def kinderzuschl_vermögens_check_hh(
     kinderzuschl_vorläufig_m_hh: FloatSeries,
-    _arbeitsl_geld_2_unter_vermög_freib_hh: BoolSeries,
+    vermögen_hh: FloatSeries,
+    arbeitsl_geld_2_vermög_freib_hh,
 ) -> FloatSeries:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
@@ -40,15 +17,17 @@ def kinderzuschl_vermögens_check_hh(
     ----------
     kinderzuschl_vorläufig_m_hh
         See :func:`kinderzuschl_vorläufig_m_hh`.
-    _arbeitsl_geld_2_unter_vermög_freib_hh
-        See :func:`_arbeitsl_geld_2_unter_vermög_freib_hh`.
+    vermögen_hh
+        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
+    arbeitsl_geld_2_vermög_freib_hh
+        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
 
     Returns
     -------
 
     """
     out = kinderzuschl_vorläufig_m_hh.copy()
-    out.loc[~_arbeitsl_geld_2_unter_vermög_freib_hh] = 0
+    out.loc[vermögen_hh > arbeitsl_geld_2_vermög_freib_hh] = 0
     return out
 
 
@@ -80,30 +59,11 @@ def wohngeld_vermögens_check_hh(
     """
     out = wohngeld_basis_hh.copy()
     condition = vermögen_hh <= (
-        wohngeld_params["vermögensfreibetrag_grund"]
+        wohngeld_params["vermögensgrundfreibetrag"]
         + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
     )
     out.loc[~condition] = 0
     return out
-
-
-def _arbeitsl_geld_2_unter_vermög_freib_hh(
-    vermögen_hh: FloatSeries, arbeitsl_geld_2_vermög_freib_hh: FloatSeries
-) -> BoolSeries:
-    """Check if wealth is under wealth exemption.
-
-    Parameters
-    ----------
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
-    arbeitsl_geld_2_vermög_freib_hh
-        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
-
-    Returns
-    -------
-
-    """
-    return vermögen_hh <= arbeitsl_geld_2_vermög_freib_hh
 
 
 def _arbeitsl_geld_2_grundfreib_vermög_hh(

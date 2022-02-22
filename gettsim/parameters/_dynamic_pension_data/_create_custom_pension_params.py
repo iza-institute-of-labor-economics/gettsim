@@ -40,9 +40,11 @@ def lohnkomponente(ges_rentenv_params, year):
                 / ges_rentenv_params[f"durchschnittslohn_{year - 3}"]
             )
             / (
-                ges_rentenv_params[f"beitragspflichtiger_durchschnittslohn_{year - 2}"]
+                ges_rentenv_params[
+                    f"beitragspflichtiges_durchschnittsentgelt_{year - 2}"
+                ]
                 / ges_rentenv_params[
-                    f"beitragspflichtiger_durchschnittslohn_{year - 3}"
+                    f"beitragspflichtiges_durchschnittsentgelt_{year - 3}"
                 ]
             )
         )
@@ -85,7 +87,7 @@ def rentnerquotienten(ges_rentenv_params, soz_vers_beitr_params, year):
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
     """
     return (
-        ges_rentenv_params[f"ges_rentenvolumen_{year}"]
+        ges_rentenv_params[f"gesamtes_rentenvolumen_{year}"]
         / ges_rentenv_params[f"eckrente_{year}"]
     ) / (
         ges_rentenv_params[f"beitragsvolumen_{year}"]

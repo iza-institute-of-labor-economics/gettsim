@@ -374,7 +374,7 @@ def nettolohn_m(
 ) -> FloatSeries:
     """Calculate the net wage.
 
-    Taxes and social security contributions are needed for the calculation.
+    Taxes and social insurance contributions are needed for the calculation.
 
 
     Parameters

@@ -161,10 +161,10 @@ def check_data_check_functions_and_merge_functions(
     # Create one dictionary of functions and perform check.
     all_functions = {**internal_functions, **user_functions}
 
-    _fail_if_datatype_is_false(data, columns_overriding_functions, all_functions)
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
     )
+    _fail_if_datatype_is_false(data, columns_overriding_functions, all_functions)
 
     # Remove functions that are overridden
     all_functions = {
@@ -316,6 +316,7 @@ def _process_data(data):
 
     """
     if isinstance(data, pd.DataFrame):
+        _fail_if_duplicates_in_columns(data)
         data = dict(data)
     elif isinstance(data, pd.Series):
         data = {data.name: data}
@@ -655,6 +656,15 @@ def _fail_if_pid_is_non_unique(data):
             f"{list_of_nunique_ids}"
         )
         raise ValueError(message)
+
+
+def _fail_if_duplicates_in_columns(data):
+    """Check that all column names are unique"""
+    if any(data.columns.duplicated()):
+        duplicated = list(data.columns[data.columns.duplicated()])
+        raise ValueError(
+            "The following columns are non-unique in the input data:" f"{duplicated}"
+        )
 
 
 def _root_nodes(dag):
