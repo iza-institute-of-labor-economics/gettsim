@@ -772,6 +772,11 @@ rounding:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
+  proxy_rente_vorj_vor_grundr_m:
+    2021-01-01:
+      base: 0.01
+      direction: nearest
+      reference: §123 SGB VI Abs. 1
   grundr_zuschlag_höchstwert_m:
     2021-01-01:
       base: 0.0001

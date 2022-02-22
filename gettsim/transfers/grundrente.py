@@ -31,24 +31,58 @@ def grundr_zuschlag_m(
 
 @add_rounding_spec(params_key="ges_rentenv")
 def grundr_zuschlag_eink_m(
+    proxy_rente_vorj_vor_grundr_m: FloatSeries,
+    bruttolohn_vorj_m: FloatSeries,
+    brutto_eink_1: FloatSeries,
+    brutto_eink_6: FloatSeries,
+    kapitaleink_minus_pauschbetr: FloatSeries,
     gemeinsam_veranlagt: BoolSeries,
-    eink_vor_grundr_zuschlag_m_tu: FloatSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
     ges_rentenv_params: dict,
 ) -> FloatSeries:
     """Calculate income which is deducted from Grundrentenzuschlag.
 
-    There are upper and lower thresholds for singles and couples. 60% of income between
-    the upper and lower threshold is credited against the Grundrentenzuschlag. All the
-    income above the upper threshold is credited against the Grundrentenzuschlag.
+    First, calculate total income relevant for Grundrentenzuschlag.
+    Reference: § 97a Abs. 2 S. 1 SGB VI
 
+    Some notes:
+
+    - The Grundrentenzuschlag (in previous years) is not part of the relevant income and
+      does not lower the Grundrentenzuschlag (reference: § 97a Abs. 2 S. 7 SGB VI).
+    - The Deutsche Rentenversicherung uses the income of the year two to three years
+      ago to be able to use administrative data on this income for the calculation:
+      "It can be assumed that the tax office regularly has the data two years after
+      the end of the assessment period, which can be retrieved from the pension
+      insurance."
+    - Warning: Currently, earnings of dependent work and pensions are based on the
+      last year, and other income on the current year instead of the year
+      two years ago to avoid the need for several new input variables.
+
+    # ToDo: Freibeträge for income are currently not considered
+    # ToDo: as freibeträge_tu depends on pension income through
+    # ToDo: `ges_krankenv_beitr_m` -> `vorsorge` -> `freibeträge`
+
+    Second, apply allowances. There are upper and lower thresholds for singles and
+    couples.     60% of income between the upper and lower threshold is credited against
+    the Grundrentenzuschlag. All the income above the upper threshold is credited
+    against the Grundrentenzuschlag.
+
+    Reference: § 97a Abs. 4 S. 2, 4 SGB VI
     Parameters
     ----------
+    proxy_rente_vorj_vor_grundr_m
+        See :func:`proxy_rente_vorj_vor_grundr_m`.
+    bruttolohn_vorj_m
+        See :func:`bruttolohn_vorj_m`.
+    brutto_eink_1
+        See :func:`brutto_eink_1`.
+    brutto_eink_6
+        See :func:`brutto_eink_6`.
+    kapitaleink_minus_pauschbetr
+        See :func:`kapitaleink_minus_pauschbetr`.
     gemeinsam_veranlagt
         See :func:`gemeinsam_veranlagt`.
-    eink_vor_grundr_zuschlag_m_tu
-        See :func:`eink_vor_grundr_zuschlag_m_tu`.
     rentenwert
         See :func:`rentenwert`.
     tu_id
@@ -60,15 +94,27 @@ def grundr_zuschlag_eink_m(
 
     """
 
+    # Sum income over different income sources.
+    total_income = (
+        proxy_rente_vorj_vor_grundr_m
+        + bruttolohn_vorj_m
+        + brutto_eink_1 / 12  # income from self-employment
+        + brutto_eink_6 / 12  # rental income
+        + kapitaleink_minus_pauschbetr / 12
+    )
+
+    # Also consider income of married partner.
+    total_income_tu = total_income.groupby(tu_id).sum()
+
     # Calculate relevant income following the crediting rules using the values for
     # singles and those for married subjects
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
     # ToDo: Revise when moving to scalars. This will be much easier then.
-    einkommen_grundr = tu_id.replace(eink_vor_grundr_zuschlag_m_tu)
+    total_income_tu = tu_id.replace(total_income_tu)
     anr_eink_single = (
         piecewise_polynomial(
-            x=einkommen_grundr / rentenwert,
+            x=total_income_tu / rentenwert,
             thresholds=ges_rentenv_params["grundr_einkommensanr_single"]["thresholds"],
             rates=ges_rentenv_params["grundr_einkommensanr_single"]["rates"],
             intercepts_at_lower_thresholds=ges_rentenv_params[
@@ -79,7 +125,7 @@ def grundr_zuschlag_eink_m(
     )
     anr_eink_verheiratet = (
         piecewise_polynomial(
-            x=einkommen_grundr / rentenwert,
+            x=total_income_tu / rentenwert,
             thresholds=ges_rentenv_params["grundr_einkommensanr_verheiratet"][
                 "thresholds"
             ],
@@ -258,78 +304,7 @@ def grundr_zuschlag_bonus_entgeltp(
     return out
 
 
-def eink_vor_grundr_zuschlag_m_tu(
-    eink_excl_grundr_zuschlag_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Aggregate the income relevant for income crediting rule of
-    Grundrentenzuschlag on tax unit level.
-
-    Parameters
-    ----------
-    eink_excl_grundr_zuschlag_m
-        See :func:`eink_excl_grundr_zuschlag_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return eink_excl_grundr_zuschlag_m.groupby(tu_id).sum()
-
-
-def eink_excl_grundr_zuschlag_m(
-    proxy_rente_vorj_vor_grundr_m: FloatSeries,
-    bruttolohn_vorj_m: FloatSeries,
-    brutto_eink_1: FloatSeries,
-    brutto_eink_6: FloatSeries,
-    kapitaleink_minus_pauschbetr: FloatSeries,
-) -> FloatSeries:
-    """Income relevant for income crediting rule of Grundrentenzuschlag. The
-    Grundrentenzuschlag (in previous years) is not part of the relevant income and
-    does not lower the Grundrentenzuschlag.
-
-    The Deutsche Rentenversicherung uses the income of the year two to three years
-    ago to be able to use administrative data on this income for the calculation.
-
-    "It can be assumed that the tax office regularly has the data two years after
-    the end of the assessment period, which can be retrieved from the pension
-    insurance."
-
-    Warning: Currently, earnings of dependent work and pensions are based on the
-    last year, and other income on the current year instead of the year
-    two years ago to avoid the need for several new input variables.
-
-    #ToDo: Freibeträge for income are currently not considered
-    #ToDO: as freibeträge_tu depends on pension income
-
-    Parameters
-    ----------
-    proxy_rente_vorj_vor_grundr_m
-        See :func:`proxy_rente_vorj_vor_grundr_m`.
-    bruttolohn_vorj_m
-        See :func:`bruttolohn_vorj_m`.
-    brutto_eink_1
-        See :func:`brutto_eink_1`.
-    brutto_eink_6
-        See :func:`brutto_eink_6`.
-    kapitaleink_minus_pauschbetr
-        See :func:`kapitaleink_minus_pauschbetr`.
-    Returns
-    -------
-    """
-
-    out = (
-        proxy_rente_vorj_vor_grundr_m
-        + bruttolohn_vorj_m
-        + brutto_eink_1 / 12  # income from self-employment
-        + brutto_eink_6 / 12  # rental income
-        + kapitaleink_minus_pauschbetr / 12
-    )
-
-    return out
-
-
+@add_rounding_spec(params_key="ges_rentenv")
 def proxy_rente_vorj_vor_grundr_m(
     rentenwert_vorjahr: FloatSeries,
     priv_rente_m: FloatSeries,

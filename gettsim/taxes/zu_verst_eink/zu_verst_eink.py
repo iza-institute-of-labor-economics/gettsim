@@ -42,7 +42,7 @@ def freibeträge(
     altersfreib: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
-    """Calculate taxable income without child allowance.
+    """Calculate allowances.
 
     Parameters
     ----------

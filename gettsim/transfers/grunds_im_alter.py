@@ -279,7 +279,7 @@ def grunds_im_alter_priv_rente_m(
 def _grunds_im_alter_mehrbedarf_beh_m_hh(
     _grunds_im_alter_mehrbedarf_beh_g_m: FloatSeries, hh_id: IntSeries,
 ) -> FloatSeries:
-    """Aggregate additional allowance for people with disabled person's pass G on
+    """Aggregate additional allowance for individuals with disabled person's pass G on
     household level.
 
     Parameters
@@ -302,7 +302,7 @@ def _grunds_im_alter_mehrbedarf_beh_g_m(
     arbeitsl_geld_2_params: dict,
     tu_id: IntSeries,
 ) -> FloatSeries:
-    """Calculate mehrbedarf for people with disabled person's pass G.
+    """Calculate additional allowance for individuals with disabled person's pass G.
 
     Parameters
     ----------

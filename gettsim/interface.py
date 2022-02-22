@@ -161,10 +161,10 @@ def check_data_check_functions_and_merge_functions(
     # Create one dictionary of functions and perform check.
     all_functions = {**internal_functions, **user_functions}
 
-    _fail_if_datatype_is_false(data, columns_overriding_functions, all_functions)
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
     )
+    _fail_if_datatype_is_false(data, columns_overriding_functions, all_functions)
 
     # Remove functions that are overridden
     all_functions = {

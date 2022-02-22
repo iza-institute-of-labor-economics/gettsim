@@ -214,7 +214,7 @@ def sum_brutto_eink_ohne_kapital(
 
 def kapitaleink_minus_pauschbetr(
     brutto_eink_5: FloatSeries, eink_st_abzuege_params: dict,
-):
+) -> FloatSeries:
     """Capital income minus Sparerpauschbetrag
 
     Parameters
