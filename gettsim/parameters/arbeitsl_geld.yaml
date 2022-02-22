@@ -18,7 +18,7 @@ arbeitsl_geld_freibetrag:
 soz_vers_pausch_arbeitsl_geld:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
-    en: Fictitious social security contribution rate
+    en: Fictitious social insurance contribution rate
   description:
     de: >-
         § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt.

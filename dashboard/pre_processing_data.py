@@ -246,7 +246,7 @@ def child_benefits_data(start, end):
 
 def social_security_data(start, end):
     """
-    For a year range returns the policy parameters to plot the social security
+    For a year range returns the policy parameters to plot the social insurance
     contributions
 
     start (Int): Defines the start of the simulated period
@@ -291,7 +291,7 @@ def social_security_data(start, end):
 
 def social_assistance_data(start, end):
     """
-    For a year range returns the policy parameters to plot the social security
+    For a year range returns the policy parameters to plot the social insurance
     contributions
 
     start (Int):

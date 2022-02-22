@@ -12,11 +12,10 @@ GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
 GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 
 PATHS_TO_INTERNAL_FUNCTIONS = [
-    ROOT_DIR / "social_insurance",
+    ROOT_DIR / "social_insurance_contributions",
     ROOT_DIR / "transfers",
     ROOT_DIR / "taxes",
     ROOT_DIR / "demographic_vars.py",
-    ROOT_DIR / "renten_anspr.py",
 ]
 """list of Paths: List of paths to internal functions.
 
@@ -28,7 +27,6 @@ INTERNAL_PARAM_GROUPS = [
     "eink_st",
     "eink_st_abzuege",
     "soli_st",
-    "arbeitsl_geld_2",
     "arbeitsl_geld",
     "soz_vers_beitr",
     "unterhalt",
@@ -38,6 +36,8 @@ INTERNAL_PARAM_GROUPS = [
     "kindergeld",
     "elterngeld",
     "ges_rentenv",
+    "arbeitsl_geld_2",
+    "grunds_im_alter",
 ]
 
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
@@ -56,6 +56,8 @@ DEFAULT_TARGETS = [
     "kinderzuschl_m_hh",
     "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
+    "grunds_im_alter_m_hh",
+    "ges_rente_m",
 ]
 
 TYPES_INPUT_VARIABLES = {
@@ -69,7 +71,6 @@ TYPES_INPUT_VARIABLES = {
     "wohnort_ost": BoolSeries,
     "hat_kinder": BoolSeries,
     "eink_selbst_m": FloatSeries,
-    "ges_rente_m": FloatSeries,
     "in_priv_krankenv": BoolSeries,
     "priv_rentenv_beitr_m": FloatSeries,
     "bruttolohn_vorj_m": FloatSeries,
@@ -81,11 +82,11 @@ TYPES_INPUT_VARIABLES = {
     "geburtstag": IntSeries,
     "geburtsmonat": IntSeries,
     "mietstufe": IntSeries,
-    "entgeltpunkte": FloatSeries,
+    "entgeltp": FloatSeries,
     "kind": BoolSeries,
     "rentner": BoolSeries,
     "betreuungskost_m": FloatSeries,
-    "kapital_eink_m": FloatSeries,
+    "kapitaleink_m": FloatSeries,
     "vermiet_eink_m": FloatSeries,
     "bruttokaltmiete_m_hh": FloatSeries,
     "heizkosten_m_hh": FloatSeries,
@@ -101,4 +102,9 @@ TYPES_INPUT_VARIABLES = {
     "immobilie_baujahr_hh": IntSeries,
     "sonstig_eink_m": FloatSeries,
     "jahr": IntSeries,
+    "grundr_entgeltp": FloatSeries,
+    "grundr_zeiten": IntSeries,
+    "grundr_bew_zeiten": IntSeries,
+    "priv_rente_m": FloatSeries,
+    "schwerbeh_g": BoolSeries,
 }

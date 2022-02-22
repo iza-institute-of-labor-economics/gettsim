@@ -1,6 +1,9 @@
-:download:`Download the template here <gep-template.rst>`.
+:download:`Download the template here <gep-x.rst>`.
 
-.. _gep-template:
+.. Delete above this line
+
+
+.. _gep-x:
 
 =================================
 GEP X — Template and Instructions

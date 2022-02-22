@@ -117,8 +117,8 @@ def unterhaltsvorschuss_eink_tu(
     sonstig_eink_m_tu: FloatSeries,
     eink_selbst_m_tu: FloatSeries,
     vermiet_eink_m_tu: FloatSeries,
-    kapital_eink_m_tu: FloatSeries,
-    ges_rente_m_tu: FloatSeries,
+    kapitaleink_m_tu: FloatSeries,
+    summe_ges_priv_rente_m_tu: FloatSeries,
     arbeitsl_geld_m_tu: FloatSeries,
 ) -> FloatSeries:
     """Calculate relevant income for advance on alimony payment.
@@ -133,10 +133,10 @@ def unterhaltsvorschuss_eink_tu(
         See :func:`eink_selbst_m_tu`.
     vermiet_eink_m_tu
         See :func:`vermiet_eink_m_tu`.
-    kapital_eink_m_tu
-        See :func:`kapital_eink_m_tu`.
-    ges_rente_m_tu
-        See :func:`ges_rente_m_tu`.
+    kapitaleink_m_tu
+        See :func:`kapitaleink_m_tu`.
+    summe_ges_priv_rente_m_tu
+        See :func:`summe_ges_priv_rente_m_tu`.
     arbeitsl_geld_m_tu
         See :func:`arbeitsl_geld_m_tu`.
 
@@ -149,8 +149,8 @@ def unterhaltsvorschuss_eink_tu(
         + sonstig_eink_m_tu
         + eink_selbst_m_tu
         + vermiet_eink_m_tu
-        + kapital_eink_m_tu
-        + ges_rente_m_tu
+        + kapitaleink_m_tu
+        + summe_ges_priv_rente_m_tu
         + arbeitsl_geld_m_tu
     )
 
@@ -191,13 +191,13 @@ def vermiet_eink_m_tu(vermiet_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSer
     return vermiet_eink_m.groupby(tu_id).sum()
 
 
-def kapital_eink_m_tu(kapital_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+def kapitaleink_m_tu(kapitaleink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     """Aggregate monthly capital income on tax unit level.
 
     Parameters
     ----------
-    kapital_eink_m
-        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
+    kapitaleink_m
+        See basic input variable :ref:`kapitaleink_m <kapitaleink_m>`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
 
@@ -205,16 +205,18 @@ def kapital_eink_m_tu(kapital_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSer
     -------
 
     """
-    return kapital_eink_m.groupby(tu_id).sum()
+    return kapitaleink_m.groupby(tu_id).sum()
 
 
-def ges_rente_m_tu(ges_rente_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate monthly pension payment on tax unit level.
+def summe_ges_priv_rente_m_tu(
+    summe_ges_priv_rente_m: FloatSeries, tu_id: IntSeries
+) -> FloatSeries:
+    """Aggregate monthly pension income on tax unit level.
 
     Parameters
     ----------
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+    summe_ges_priv_rente_m
+        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
 
@@ -222,4 +224,4 @@ def ges_rente_m_tu(ges_rente_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     -------
 
     """
-    return ges_rente_m.groupby(tu_id).sum()
+    return summe_ges_priv_rente_m.groupby(tu_id).sum()

@@ -93,7 +93,7 @@ def create_synthetic_data(
 
     kwargs:
 
-    bruttolohn_m, kapital_eink_m, eink_selbst_m, vermögen_hh (int):
+    bruttolohn_m, kapitaleink_m, eink_selbst_m, vermögen_hh (int):
         values for income and wealth, respectively.
         only valid if heterogenous_vars is empty
     """
@@ -148,7 +148,7 @@ def create_synthetic_data(
             # allow only certain variables to vary
             if hetvar not in [
                 "bruttolohn_m",
-                "kapital_eink_m",
+                "kapitaleink_m",
                 "eink_selbst_m",
                 "vermögen_hh",
             ]:
@@ -211,8 +211,7 @@ def create_one_set_of_households(
         "sonstig_eink_m",
         "eink_selbst_m",
         "vermiet_eink_m",
-        "kapital_eink_m",
-        "ges_rente_m",
+        "kapitaleink_m",
         "bruttokaltmiete_m_hh",
         "heizkosten_m_hh",
         "wohnfläche_hh",
@@ -233,7 +232,12 @@ def create_one_set_of_households(
         "mietstufe",
         "immobilie_baujahr",
         "vermögen_hh",
-        "entgeltpunkte",
+        "entgeltp",
+        "grundr_bew_zeiten",
+        "grundr_entgeltp",
+        "grundr_zeiten",
+        "priv_rente_m",
+        "schwerbeh_g",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -253,6 +257,7 @@ def create_one_set_of_households(
         "alleinerziehend",
         "bewohnt_eigentum_hh",
         "in_priv_krankenv",
+        "schwerbeh_g",
     ]:
         df[bool_col] = False
 
@@ -291,7 +296,7 @@ def create_one_set_of_households(
 
     # Income and wealth
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
-    df["kapital_eink_m"] = kwargs.get("kapital_eink_m", 0)
+    df["kapitaleink_m"] = kwargs.get("kapitaleink_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
     df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
     dim = kwargs.get("dimension", 1)
@@ -334,6 +339,7 @@ def create_one_set_of_households(
     df.loc[
         (df["hh_typ"].str.contains("couple")) & (~df["kind"]), "gem_veranlagt"
     ] = True
+
     # Single Parent Dummy
     df.loc[
         (df["hh_typ"].str.contains("single"))
@@ -341,6 +347,12 @@ def create_one_set_of_households(
         & (~df["kind"]),
         "alleinerziehend",
     ] = True
+
+    # Retirement variables
+    df["grundr_zeiten"] = (df["alter"] - 20).clip(lower=0) * 12
+    df["grundr_bew_zeiten"] = df["grundr_zeiten"]
+    df["entgeltp"] = df["grundr_zeiten"] / 12
+    df["grundr_entgeltp"] = df["entgeltp"]
 
     df = df.sort_values(by=["hh_typ", "hh_id"])
 

@@ -4,7 +4,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def eink_anr_frei_bis_09_2005(
+def arbeitsl_geld_2_eink_anr_frei_bis_09_2005(
     bruttolohn_m: FloatSeries,
     arbeitsl_geld_2_2005_netto_quote: FloatSeries,
     arbeitsl_geld_2_params: dict,
@@ -36,7 +36,7 @@ def eink_anr_frei_bis_09_2005(
     return out
 
 
-def eink_anr_frei_ab_10_2005(
+def arbeitsl_geld_2_eink_anr_frei_ab_10_2005(
     hh_id: IntSeries,
     bruttolohn_m: FloatSeries,
     kinder_in_hh: BoolSeries,

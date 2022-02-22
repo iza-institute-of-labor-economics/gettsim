@@ -9,7 +9,7 @@ from gettsim.typing import IntSeries
 def kinderzuschl_eink_regel_bis_2010(
     tu_id: IntSeries,
     hh_id: IntSeries,
-    alleinerziehenden_mehrbedarf_hh: FloatSeries,
+    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
@@ -21,8 +21,8 @@ def kinderzuschl_eink_regel_bis_2010(
         See basic input variable :ref:`tu_id <tu_id>`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    alleinerziehenden_mehrbedarf_hh
-        See :func:`alleinerziehenden_mehrbedarf_hh`.
+    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
+        See :func:`_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     arbeitsl_geld_2_params
@@ -32,7 +32,9 @@ def kinderzuschl_eink_regel_bis_2010(
     -------
 
     """
-    alleinerziehenden_mehrbedarf = hh_id.replace(alleinerziehenden_mehrbedarf_hh)
+    alleinerziehenden_mehrbedarf = hh_id.replace(
+        _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
+    )
     erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     choices = [
         arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf),
@@ -56,7 +58,7 @@ def kinderzuschl_eink_regel_bis_2010(
 def kinderzuschl_eink_regel_ab_2011(
     tu_id: IntSeries,
     hh_id: IntSeries,
-    alleinerziehenden_mehrbedarf_hh: FloatSeries,
+    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
@@ -68,8 +70,8 @@ def kinderzuschl_eink_regel_ab_2011(
         See basic input variable :ref:`tu_id <tu_id>`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    alleinerziehenden_mehrbedarf_hh
-        See :func:`alleinerziehenden_mehrbedarf_hh`.
+    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
+        See :func:`_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     arbeitsl_geld_2_params
@@ -79,7 +81,9 @@ def kinderzuschl_eink_regel_ab_2011(
     -------
 
     """
-    alleinerziehenden_mehrbedarf = hh_id.replace(alleinerziehenden_mehrbedarf_hh)
+    alleinerziehenden_mehrbedarf = hh_id.replace(
+        _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
+    )
     erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
     choices = [
         arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf),

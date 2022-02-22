@@ -136,10 +136,8 @@ def kinderzuschl_vorläufig_m_bis_06_2019(
 
     """
     out = pd.Series(0, index=kinderzuschl_eink_spanne.index)
-
     out.loc[kinderzuschl_eink_spanne] = (
         kinderzuschl_kindereink_abzug.groupby(hh_id).transform("sum")
         - kinderzuschl_eink_anrechn
     ).clip(lower=0)
-
     return out.groupby(hh_id).transform("max")
