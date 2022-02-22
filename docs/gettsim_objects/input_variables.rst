@@ -88,7 +88,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`vermögen_hh`          | Wealth of household                         | FloatSeries  |
 +-------------------------+---------------------------------------------+--------------+
-| _`entgeltp`             | Earning points for pension claim            | FloatSeries  |
+| _`entgeltp`             | Earnings points for pension claim           | FloatSeries  |
 +-------------------------+---------------------------------------------+--------------+
 || _`grundr_zeiten`       || Number of months determining Grundrente    || IntSeries   |
 ||                        || eligibility                                ||             |
