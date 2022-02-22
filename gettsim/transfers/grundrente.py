@@ -64,7 +64,7 @@ def grundr_zuschlag_eink_m(
     # ToDo: `ges_krankenv_beitr_m` -> `vorsorge` -> `freibeträge`
 
     Second, apply allowances. There are upper and lower thresholds for singles and
-    couples.     60% of income between the upper and lower threshold is credited against
+    couples. 60% of income between the upper and lower threshold is credited against
     the Grundrentenzuschlag. All the income above the upper threshold is credited
     against the Grundrentenzuschlag.
 

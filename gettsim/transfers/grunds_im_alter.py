@@ -8,7 +8,7 @@ from gettsim.typing import IntSeries
 
 def grunds_im_alter_m_hh(
     regelbedarf_m_hh: FloatSeries,
-    _grunds_im_alter_mehrbedarf_beh_m_hh: FloatSeries,
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
     grunds_im_alter_eink_m_hh: FloatSeries,
@@ -29,8 +29,8 @@ def grunds_im_alter_m_hh(
     ----------
     regelbedarf_m_hh
         See :func:`regelbedarf_m_hh`.
-    _grunds_im_alter_mehrbedarf_beh_m_hh
-        See :func:`_grunds_im_alter_mehrbedarf_beh_m_hh`.
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
+        See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh`.
     kindergeld_m_hh
         See :func:`kindergeld_m_hh`.
     unterhaltsvors_m_hh
@@ -51,7 +51,7 @@ def grunds_im_alter_m_hh(
     # Subtract income
     out = (
         regelbedarf_m_hh
-        + _grunds_im_alter_mehrbedarf_beh_m_hh
+        + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
         - grunds_im_alter_eink_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
@@ -276,26 +276,26 @@ def grunds_im_alter_priv_rente_m(
     return priv_rente_m - priv_rente_m_amount_exempt
 
 
-def _grunds_im_alter_mehrbedarf_beh_m_hh(
-    _grunds_im_alter_mehrbedarf_beh_g_m: FloatSeries, hh_id: IntSeries,
+def _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh(
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m: FloatSeries, hh_id: IntSeries,
 ) -> FloatSeries:
     """Aggregate additional allowance for individuals with disabled person's pass G on
     household level.
 
     Parameters
     ----------
-    _grunds_im_alter_mehrbedarf_beh_g_m
-        See :func:`_grunds_im_alter_mehrbedarf_beh_g_m`.
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m
+        See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
     Returns
     -------
 
     """
-    return _grunds_im_alter_mehrbedarf_beh_g_m.groupby(hh_id).sum()
+    return _grunds_im_alter_mehrbedarf_schwerbeh_g_m.groupby(hh_id).sum()
 
 
-def _grunds_im_alter_mehrbedarf_beh_g_m(
+def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     schwerbeh_g: BoolSeries,
     hhsize_tu: IntSeries,
     grunds_im_alter_params: dict,
