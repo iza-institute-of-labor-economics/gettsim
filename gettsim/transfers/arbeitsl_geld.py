@@ -2,7 +2,7 @@
 
 """
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -108,7 +108,7 @@ def monate_arbeitsl(
 def berechtigt_für_arbeitsl_geld(
     monate_arbeitsl: IntSeries,
     alter: IntSeries,
-    ges_rente_m: FloatSeries,
+    summe_ges_priv_rente_m: FloatSeries,
     arbeitsstunden_w: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> BoolSeries:
@@ -123,8 +123,8 @@ def berechtigt_für_arbeitsl_geld(
         See :func:`monate_arbeitsl`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+    summe_ges_priv_rente_m
+        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
@@ -138,13 +138,13 @@ def berechtigt_für_arbeitsl_geld(
         (1 <= monate_arbeitsl)
         & (monate_arbeitsl <= 12)
         & (alter < 65)
-        & (ges_rente_m == 0)
+        & (summe_ges_priv_rente_m == 0)
         & (arbeitsstunden_w < arbeitsl_geld_params["arbeitsl_geld_stundengrenze"])
     )
 
 
 def proxy_eink_vorj_arbeitsl_geld(
-    rentenv_beitr_bemess_grenze: FloatSeries,
+    ges_rentenv_beitr_bemess_grenze: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
@@ -155,8 +155,8 @@ def proxy_eink_vorj_arbeitsl_geld(
 
     Parameters
     ----------
-    rentenv_beitr_bemess_grenze
-        See :func:`rentenv_beitr_bemess_grenze`.
+    ges_rentenv_beitr_bemess_grenze
+        See :func:`ges_rentenv_beitr_bemess_grenze`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     arbeitsl_geld_params
@@ -173,13 +173,13 @@ def proxy_eink_vorj_arbeitsl_geld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=rentenv_beitr_bemess_grenze)
+    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=ges_rentenv_beitr_bemess_grenze)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch_arbeitsl_geld"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = st_tarif(
+    prox_tax = _eink_st_tarif(
         12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
     )

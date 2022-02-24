@@ -17,7 +17,7 @@ INPUT_COLS = [
     "rentner",
     "alter",
     "vermögen_hh",
-    "kinderzuschlag_m_vorläufig",
+    "kinderzuschl_vorläufig_m",
     "wohngeld_basis_hh",
     "regelbedarf_m_hh",
     "kindergeld_m_hh",
@@ -28,7 +28,7 @@ INPUT_COLS = [
 ]
 
 YEARS = [2006, 2009, 2011, 2013, 2014, 2016, 2019]
-OUT_COLS = ["kinderzuschlag_m_hh", "wohngeld_m_hh", "arbeitsl_geld_2_m_hh"]
+OUT_COLS = ["kinderzuschl_m_hh", "wohngeld_m_hh", "arbeitsl_geld_2_m_hh"]
 
 
 @pytest.fixture(scope="module")
@@ -42,7 +42,7 @@ def test_benefit_checks(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     columns = [
-        "kinderzuschlag_m_vorläufig",
+        "kinderzuschl_vorläufig_m",
         "wohngeld_basis_hh",
         "regelbedarf_m_hh",
         "kindergeld_m_hh",

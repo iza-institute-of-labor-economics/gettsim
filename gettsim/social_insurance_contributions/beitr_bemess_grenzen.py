@@ -2,7 +2,7 @@ from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 
 
-def ges_beitr_rentenv_midi_job(
+def ges_beitr_ges_rentenv_midi_job(
     midi_job_bemessungsentgelt: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the sum of employee and employer pension insurance contribution.
@@ -22,11 +22,11 @@ def ges_beitr_rentenv_midi_job(
     return (
         midi_job_bemessungsentgelt
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
+        * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
     )
 
 
-def rentenv_beitr_bemess_grenze(
+def ges_rentenv_beitr_bemess_grenze(
     wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the income threshold up to which pension insurance payments apply.
@@ -42,14 +42,14 @@ def rentenv_beitr_bemess_grenze(
     """
     out = wohnort_ost.replace(
         {
-            True: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["ost"],
-            False: soz_vers_beitr_params["beitr_bemess_grenze"]["rentenv"]["west"],
+            True: soz_vers_beitr_params["beitr_bemess_grenze"]["ges_rentenv"]["ost"],
+            False: soz_vers_beitr_params["beitr_bemess_grenze"]["ges_rentenv"]["west"],
         }
     )
     return out.astype(float)
 
 
-def krankenv_beitr_bemess_grenze(
+def ges_krankenv_beitr_bemess_grenze(
     wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the income threshold up to which health insurance payments apply.

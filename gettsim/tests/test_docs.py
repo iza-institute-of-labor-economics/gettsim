@@ -1,23 +1,86 @@
 import datetime
+import inspect
+
+import pytest
 
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
-from gettsim.config import STANDARD_DATA_TYPES
+from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
 from gettsim.policy_environment import load_reforms_for_date
+from gettsim.tests.utils_tests import nice_output_list_of_strings
+
+
+@pytest.fixture(scope="module")
+def default_input_variables():
+    return sorted(TYPES_INPUT_VARIABLES.keys())
+
+
+@pytest.fixture(scope="module")
+def all_function_names():
+    functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
+    return sorted(functions.keys())
+
+
+@pytest.fixture(scope="module")
+def time_indep_function_names(all_function_names):
+    time_dependent_functions = {}
+    for year in range(1990, 2023):
+        year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
+        new_dict = {func.__name__: key for key, func in year_functions.items()}
+        time_dependent_functions = {**time_dependent_functions, **new_dict}
+
+    # Only use time dependent function names
+    time_indep_function_names = [
+        (time_dependent_functions[c] if c in time_dependent_functions else c)
+        for c in sorted(all_function_names)
+    ]
+
+    # Remove duplicates
+    time_indep_function_names = list(dict.fromkeys(time_indep_function_names))
+    return time_indep_function_names
+
+
+def test_all_input_vars_documented(
+    default_input_variables, time_indep_function_names, all_function_names
+):
+    """Test if arguments of all non-internal functions are either the name of another
+    function, a documented input variable, or a parameter dictionary
+    """
+    functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
+
+    # Collect arguments of all non-internal functions (do not start with underscore)
+    arguments = [
+        i
+        for f in functions
+        for i in list(inspect.signature(functions[f]).parameters)
+        if not f.startswith("_")
+    ]
+
+    # Remove duplicates
+    arguments = list(dict.fromkeys(arguments))
+    check = [
+        c
+        for c in arguments
+        if c not in time_indep_function_names
+        and c not in all_function_names
+        and c not in default_input_variables
+        and not c.endswith("_params")
+    ]
+    assert not check, nice_output_list_of_strings(check)
 
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     documented_functions = _load_functions(
-        ROOT_DIR / "functions.py", allow_imported_members=True
+        ROOT_DIR / "functions.py", include_imported_functions=True
     )
 
     internal_function_files = [
         ROOT_DIR.joinpath(p) for p in PATHS_TO_INTERNAL_FUNCTIONS
     ]
     internal_functions = _load_functions(
-        internal_function_files, allow_imported_members=True
+        internal_function_files, include_imported_functions=True
     )
 
     # Private functions are not imported in functions.py.
@@ -35,7 +98,7 @@ def test_type_hints():
 
     # Load all time dependent functions
     time_dependent_functions = {}
-    for year in range(1990, 2021):
+    for year in range(1990, 2023):
         year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
         new_dict = {func.__name__: key for key, func in year_functions.items()}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
@@ -59,8 +122,8 @@ def test_type_hints():
                 else:
                     return_types[name] = internal_type
             else:
-                if var in STANDARD_DATA_TYPES:
-                    if internal_type != STANDARD_DATA_TYPES[var]:
+                if var in TYPES_INPUT_VARIABLES:
+                    if internal_type != TYPES_INPUT_VARIABLES[var]:
                         raise ValueError(
                             f"The input type hint of {var} in function "
                             f"{name} does not coincide with the standard "

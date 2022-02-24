@@ -83,8 +83,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
     anz_erwachsene_tu
-        Return of :func:`anz_erwachsene_tu`.
-
+        See :func:`anz_erwachsene_tu`.
     Returns
     -------
     BoolSeries indicating two wage earners in tax unit.
@@ -327,3 +326,53 @@ def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
     BoolSeries indicating pensioner in household.
     """
     return rentner.groupby(hh_id).any()
+
+
+def anz_rentner_hh(hh_id: IntSeries, rentner: BoolSeries) -> IntSeries:
+    """Count pensioners in household.
+
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+    Returns
+    -------
+    IntSeries with the number of pensioners per household.
+    """
+    return rentner.groupby(hh_id).sum()
+
+
+def alle_erwachsene_sind_rentner_hh(
+    anz_erwachsene_hh: IntSeries, anz_rentner_hh: IntSeries
+) -> BoolSeries:
+    """Calculate if all adults in the household are pensioners.
+
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+    Returns
+    -------
+    IntSeries with the number of pensioners per household.
+    """
+    return anz_erwachsene_hh == anz_rentner_hh
+
+
+def hhsize_tu(tu_id: IntSeries) -> IntSeries:
+    """Count persons in taxunit.
+
+    Parameters
+    ----------
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+    Returns
+    -------
+    IntSeries with the number of persons in taxunit per taxunit.
+    """
+    return tu_id.groupby(tu_id).size()

@@ -32,8 +32,9 @@ def geringfügig_beschäftigt(
 ) -> BoolSeries:
     """Check if individual earns less than marginal employment threshold.
 
-    Marginal employed pay no social insurance contributions. For more details on the
-    definition see § 8 Abs. 1 Satz 1 and 2 SGB IV.
+    Marginal employed pay no social insurance contributions.
+
+    Legal reference: § 8 Abs. 1 Satz 1 and 2 SGB IV
 
     Parameters
     ----------
@@ -58,7 +59,9 @@ def in_gleitzone(
     """Check if individual's income is in midi-job range.
 
     Employed people with their wage in the range of gleitzone pay reduced social
-    insurance contributions. See § 20 Abs. 2 SGB IV for more details.
+    insurance contributions.
+
+    Legal reference: § 20 Abs. 2 SGB IV
 
     Parameters
     ----------
@@ -84,7 +87,9 @@ def midi_job_bemessungsentgelt(
     """Select income subject to social insurance contributions for midi job.
 
     Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midi jobs subject
-    to social insurance contribution. For details see § 163 Abs. 10 SGB VI.
+    to social insurance contribution.
+
+    Legal reference: § 163 Abs. 10 SGB VI
 
 
     Parameters
@@ -101,11 +106,11 @@ def midi_job_bemessungsentgelt(
     -------
     FloatSeries with the income subject to social insurance contributions for midi job.
     """
-    # First calculate the factor F from the formula in § 163 (10) SGB VI.
+    # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
     allg_soz_vers_beitr = (
-        soz_vers_beitr_params["soz_vers_beitr"]["rentenv"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["pflegev"]["standard"]
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
         + soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
 
@@ -122,7 +127,7 @@ def midi_job_bemessungsentgelt(
     # Sum over the shares which are specific for midi jobs.
     pausch_mini = (
         soz_vers_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
-        + soz_vers_beitr_params["ag_abgaben_geringf"]["rentenv"]
+        + soz_vers_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
         + soz_vers_beitr_params["ag_abgaben_geringf"]["st"]
     )
     # Now calculate final factor
@@ -153,10 +158,10 @@ def midi_job_bemessungsentgelt(
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
-def regulär_beschäftigt(
+def reg_beschäftigt(
     bruttolohn_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> BoolSeries:
-    """Check if person is regular employed.
+    """Check if person is in regular employment.
 
     Employees earning more than the midi job threshold, are subject to all ordinary
     income and social insurance contribution regulations. In gettsim we call these

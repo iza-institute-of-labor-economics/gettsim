@@ -17,18 +17,18 @@ INPUT_COLS = [
     "arbeitsstunden_w",
     "bruttolohn_m",
     "in_ausbildung",
-    "kaltmiete_m_hh",
+    "bruttokaltmiete_m_hh",
     "heizkosten_m_hh",
     "alleinerziehend",
     "kindergeld_anspruch",
-    "alleinerziehenden_mehrbedarf_hh",
+    "_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh",
     "arbeitsl_geld_2_brutto_eink_hh",
     "arbeitsl_geld_2_eink_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
 ]
-OUT_COLS = ["kinderzuschlag_m_vorläufig"]
+OUT_COLS = ["kinderzuschl_vorläufig_m"]
 # 2006 and 2009 are missing
 YEARS = [2011, 2013, 2016, 2017, 2019, 2020, 2021]
 
@@ -48,7 +48,7 @@ def test_kiz(
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     columns = [
-        "alleinerziehenden_mehrbedarf_hh",
+        "_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh",
         "arbeitsl_geld_2_eink_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m",

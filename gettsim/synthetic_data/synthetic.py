@@ -27,24 +27,26 @@ def append_other_hh_members(
         if not double_earner:
             adult["bruttolohn_m"] = 0
 
-        new_df = new_df.append(adult, ignore_index=True)
+        new_df = pd.concat(objs=[new_df, adult], ignore_index=True)
 
-    child = df.copy()
-    child["kind"] = True
-    child["in_ausbildung"] = True
-    child["bruttolohn_m"] = 0
-
-    if n_children == 1:
-        children = child.copy()
-        children["alter"] = age_children[0]
-    elif n_children == 2:
-        children = child.append(child, ignore_index=True)
-        children["alter"] = age_children
+    if n_children > 0:
+        child = df.copy()
+        child["kind"] = True
+        child["in_ausbildung"] = True
+        child["bruttolohn_m"] = 0
+        if n_children == 1:
+            children = child.copy()
+            children["alter"] = age_children[0]
+        elif n_children == 2:
+            children = pd.concat(objs=[child, child], ignore_index=True)
+            children["alter"] = age_children
+        else:
+            raise ValueError(n_children)
+        # append children
+        new_df = pd.concat(objs=[new_df, children])
     else:
-        children = None
+        pass
 
-    # append children
-    new_df = new_df.append(children)
     new_df["tu_vorstand"] = False
 
     return new_df
@@ -91,7 +93,7 @@ def create_synthetic_data(
 
     kwargs:
 
-    bruttolohn_m, kapital_eink_m, eink_selbst_m, vermögen_hh (int):
+    bruttolohn_m, kapitaleink_m, eink_selbst_m, vermögen_hh (int):
         values for income and wealth, respectively.
         only valid if heterogenous_vars is empty
     """
@@ -146,7 +148,7 @@ def create_synthetic_data(
             # allow only certain variables to vary
             if hetvar not in [
                 "bruttolohn_m",
-                "kapital_eink_m",
+                "kapitaleink_m",
                 "eink_selbst_m",
                 "vermögen_hh",
             ]:
@@ -154,18 +156,21 @@ def create_synthetic_data(
                     f"Illegal value for variable to vary across households: {hetvar}"
                 )
             for value in heterogeneous_vars[hetvar]:
-                synth = synth.append(
-                    create_one_set_of_households(
-                        hh_typen,
-                        n_children,
-                        age_adults,
-                        age_children,
-                        baujahr,
-                        double_earner,
-                        policy_year,
-                        dimension=dimensions[dim_counter],
-                        **{hetvar: value},
-                    )
+                synth = pd.concat(
+                    objs=[
+                        synth,
+                        create_one_set_of_households(
+                            hh_typen,
+                            n_children,
+                            age_adults,
+                            age_children,
+                            baujahr,
+                            double_earner,
+                            policy_year,
+                            dimension=dimensions[dim_counter],
+                            **{hetvar: value},
+                        ),
+                    ]
                 )
                 dim_counter += 1
 
@@ -185,7 +190,8 @@ def create_one_set_of_households(
     policy_year,
     **kwargs,
 ):
-    """ creates one set of households
+    """Create one set of households. If hetereogeneity in a dimension is considered
+    (e.g. income) this creates all households with the same value.
     """
     # Initiate empty dataframe.
     # Same order as 'Basic Input Variables' in the documentation
@@ -196,8 +202,8 @@ def create_one_set_of_households(
         "rentner",
         "alleinerziehend",
         "wohnort_ost",
-        "prv_krankenv",
-        "prv_rente_beitr_m",
+        "in_priv_krankenv",
+        "priv_rentenv_beitr_m",
         "in_ausbildung",
         "selbstständig",
         "hat_kinder",
@@ -205,9 +211,8 @@ def create_one_set_of_households(
         "sonstig_eink_m",
         "eink_selbst_m",
         "vermiet_eink_m",
-        "kapital_eink_m",
-        "ges_rente_m",
-        "kaltmiete_m_hh",
+        "kapitaleink_m",
+        "bruttokaltmiete_m_hh",
         "heizkosten_m_hh",
         "wohnfläche_hh",
         "bewohnt_eigentum_hh",
@@ -227,7 +232,12 @@ def create_one_set_of_households(
         "mietstufe",
         "immobilie_baujahr",
         "vermögen_hh",
-        "entgeltpunkte",
+        "entgeltp",
+        "grundr_bew_zeiten",
+        "grundr_entgeltp",
+        "grundr_zeiten",
+        "priv_rente_m",
+        "schwerbeh_g",
     ]
     # Create one row per desired household
     df = pd.DataFrame(
@@ -246,7 +256,8 @@ def create_one_set_of_households(
         "in_ausbildung",
         "alleinerziehend",
         "bewohnt_eigentum_hh",
-        "prv_krankenv",
+        "in_priv_krankenv",
+        "schwerbeh_g",
     ]:
         df[bool_col] = False
 
@@ -279,13 +290,13 @@ def create_one_set_of_households(
         f"{ROOT_DIR}/synthetic_data/bedarfsgemeinschaften",
     )
     df["wohnfläche_hh"] = df["hh_typ"].map(bg_daten["wohnfläche"])
-    df["kaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["kaltmiete"])
+    df["bruttokaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["bruttokaltmiete"])
     df["heizkosten_m_hh"] = df["hh_typ"].map(bg_daten["heizkosten"])
     df["mietstufe"] = 3
 
     # Income and wealth
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
-    df["kapital_eink_m"] = kwargs.get("kapital_eink_m", 0)
+    df["kapitaleink_m"] = kwargs.get("kapitaleink_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
     df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
     dim = kwargs.get("dimension", 1)
@@ -296,18 +307,21 @@ def create_one_set_of_households(
     # append entries for children and partner
     for hht in hh_typen:
         for nch in n_children:
-            df = df.append(
-                append_other_hh_members(
-                    df[
-                        (df["hh_typ"].str[:6] == hht)
-                        & (df["hh_typ"].str[7:8].astype(int) == nch)
-                    ],
-                    hht,
-                    nch,
-                    age_adults,
-                    age_children,
-                    double_earner,
-                )
+            df = pd.concat(
+                objs=[
+                    df,
+                    append_other_hh_members(
+                        df[
+                            (df["hh_typ"].str[:6] == hht)
+                            & (df["hh_typ"].str[7:8].astype(int) == nch)
+                        ],
+                        hht,
+                        nch,
+                        age_adults,
+                        age_children,
+                        double_earner,
+                    ),
+                ]
             )
     df = df.reset_index()
     df["geburtsjahr"] = policy_year - df["alter"]
@@ -325,6 +339,7 @@ def create_one_set_of_households(
     df.loc[
         (df["hh_typ"].str.contains("couple")) & (~df["kind"]), "gem_veranlagt"
     ] = True
+
     # Single Parent Dummy
     df.loc[
         (df["hh_typ"].str.contains("single"))
@@ -332,6 +347,12 @@ def create_one_set_of_households(
         & (~df["kind"]),
         "alleinerziehend",
     ] = True
+
+    # Retirement variables
+    df["grundr_zeiten"] = (df["alter"] - 20).clip(lower=0) * 12
+    df["grundr_bew_zeiten"] = df["grundr_zeiten"]
+    df["entgeltp"] = df["grundr_zeiten"] / 12
+    df["grundr_entgeltp"] = df["entgeltp"]
 
     df = df.sort_values(by=["hh_typ", "hh_id"])
 

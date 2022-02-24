@@ -11,15 +11,15 @@ GEP 1 — Naming Conventions
 +            +-------------------------------------------------------------------------+
 |            | `Eric Sommer <https://github.com/Eric-Sommer>`_                         |
 +------------+-------------------------------------------------------------------------+
-| Status     | Draft                                                                   |
+| Status     | Provisional                                                             |
 +------------+-------------------------------------------------------------------------+
 | Type       | Standards Track                                                         |
 +------------+-------------------------------------------------------------------------+
 | Created    | 2019-11-04                                                              |
 +------------+-------------------------------------------------------------------------+
-| Updated    | 2020-03-10                                                              |
+| Updated    | 2022-01-07                                                              |
 +------------+-------------------------------------------------------------------------+
-| Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
+| Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001 |
 +------------+-------------------------------------------------------------------------+
 
 
@@ -33,11 +33,16 @@ a nutshell and without explanations, these conventions are:
 * Names follow standard Python conventions (``lowercase_with_underscores``).
   Abbreviations of words that form a part of these names are always followed by an
   underscore, unless it is the last word.
-* Names should be long enough to be readable, but
+* Names should be long enough to be readable. However, we impose limits in order to make
+  GETTSIM usable in languages, which place limits on characters (Stata, in particular).
 
-  - for column names in the user-facing API, there is a hard limit of 17 characters;
-  - for other column names, there is a soft limit of 17 and a hard limit of 25
-    characters.
+  - Column names that are typically user-facing have a hard limit of 20 characters.
+    These columns are documented in `DEFAULT_TARGETS` in `gettsim/config.py`.
+  - Other column names that users might potentially be interested in have a hard limit
+    of 32 characters.
+  - Columns for purely internal use (e.g., helper variables before applying a
+    favorability check) start with an underscore and there are no restrictions. Internal
+    variables should be used sparingly.
 
 * The language should generally be English in all coding efforts and documentation.
   German should be used for all institutional features and directly corresponding
@@ -86,24 +91,32 @@ in English. For column names, we always allow a pure ASCII option, see the next 
 Column names (a.k.a. "variables" in Stata)
 ------------------------------------------
 
-We impose a hard limit of 17 characters for all column names that are part of the API,
-i.e., those that are an input to or an output of GETTSIM's main simulation functions.
+We impose a hard limit of 20 characters for all column names that typically user-facing.
 This is for the benefit of Stata users, who face a strict limit of 32 characters for
 their column names. Furthermore, where developers using other languages may store
 different experiments in different variables, Stata users' only chance to distinguish
 them is to append characters to the column names.
 
-If a column is only present for internal use, it starts with an underscore.
+For the same reason, there is a hard limit of 32 characters for variables that users may
+reasonably request.
 
-Even though not implemented at the time of this writing, we plan to allow users to pass
-in English column names and get English column names back. Similarly, there will be a
-pure ASCII option in German (this should always be fulfilled in the English version). If
-there is demand, we could also support standardised variables like in `EUROMOD
-<https://www.euromod.ac.uk/>`_ or the `CNEF <https://cnef.ehe.osu.edu/data/>`_ standard.
+If a column is only present for internal use, it starts with an underscore and there is
+no restriction on the number of characters. Internal columns should be used sparingly.
 
-It might be useful to append an underscore plus one of {``j``, ``m``, ``w``, ``t``} to
-indicate the time unit.
+Across variations that include the same identifier, this identifier should not be
+changed, even if it leads to long variable names (e.g., ``kinderfreib``,
+``_zu_verst_eink_kein_kinderfreib_tu``). This makes searching for identifiers
+easier and less error-prone.
 
+The default time unit is a year. If a column refers to a different time unit, an
+underscore plus one of {``m``, ``w``, ``d``} will indicate the time unit.
+
+The default unit a column refers to is an individual. In case a household or tax unit is
+the relevant unit, an underscore plus one of {``hh``, ``tu``} will indicate the level of
+aggregation.
+
+Time unit identifiers always appear before unit identifiers (e.g.,
+``arbeitsl_geld_2_m_hh``).
 
 
 Parameters of the taxes and transfers system
@@ -112,22 +125,18 @@ Parameters of the taxes and transfers system
 The structure of these parameters will be laid out in gep-3; we just note some
 general naming considerations here.
 
-* There is a hierarchical structure to these parameters in that each of them is
+- There is a hierarchical structure to these parameters in that each of them is
   associated with a group (e.g., ``arbeitsl_geld``, ``kinderzuschlag``). These groups or
   abbreviations thereof do not re-appear in the name of the parameter.
+- Parameter names should be aligned with relevant column names. This makes searching for
+  identifiers easier and less error-prone.
 
 
-
-Python Identifiers (Functions, Variables)
------------------------------------------
+Other Python identifiers (Functions, Variables)
+-----------------------------------------------
 
 Python identifiers should generally be in English, unless they refer to a specific law
 or set of laws, which is where the same reasoning applies as above.
-
-Across variations that include the same identifier, this identifier should not be
-changed, even if it leads to long variable names (e.g., ``kinderfreibetrag``,
-``zu_verst_e_ohne_kinderfreibetrag``). This makes searching for that identifier easier
-and less error-prone.
 
 The length of an identifier name tends to be proportional to its scope. In a list
 comprehension or a short loop, ``i`` might be an acceptable name for the running
@@ -136,8 +145,8 @@ name.
 
 The name of variables should reflect the content or meaning of the variable and not the
 type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
-cases it might be useful to append an underscore plus one of {``j``, ``m``, ``w``,
-``t``} to indicate the time unit.
+cases it might be useful to append an underscore plus one of {``m``, ``w``, ``t``} to
+indicate the time unit and one of {``hh``, ``tu``} to indicate the unit of aggregation.
 
 
 Examples
@@ -210,7 +219,9 @@ Discussion
 ----------
 
 * GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
-* Discussion on provisional acceptance: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs/near/189539859
+* Discussion on provisional acceptance: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859
+* GitHub PR for update (character limits, time and unit identifiers, DAG adjustments):
+  https://github.com/iza-institute-of-labor-economics/gettsim/pull/312
 
 Copyright
 ---------

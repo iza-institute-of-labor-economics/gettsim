@@ -28,7 +28,7 @@ def arbeitsl_geld_2_eink(
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     sozialv_beitr_m: FloatSeries,
-    eink_anr_frei: FloatSeries,
+    arbeitsl_geld_2_eink_anr_frei: FloatSeries,
 ) -> FloatSeries:
 
     """Sum up the income for calculation of basic subsistence.
@@ -47,8 +47,8 @@ def arbeitsl_geld_2_eink(
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    eink_anr_frei
-        See :func:`eink_anr_frei`.
+    arbeitsl_geld_2_eink_anr_frei
+        See :func:`arbeitsl_geld_2_eink_anr_frei`.
 
     Returns
     -------
@@ -60,7 +60,7 @@ def arbeitsl_geld_2_eink(
         - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
         - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
         - sozialv_beitr_m
-        - eink_anr_frei
+        - arbeitsl_geld_2_eink_anr_frei
     ).clip(lower=0)
 
 
@@ -88,8 +88,8 @@ def arbeitsl_geld_2_brutto_eink(
     sonstig_eink_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
-    kapital_eink_m: FloatSeries,
-    ges_rente_m: FloatSeries,
+    kapitaleink_m: FloatSeries,
+    summe_ges_priv_rente_m: FloatSeries,
     arbeitsl_geld_m: FloatSeries,
     elterngeld_m: FloatSeries,
 ) -> FloatSeries:
@@ -106,10 +106,10 @@ def arbeitsl_geld_2_brutto_eink(
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     vermiet_eink_m
         See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
-    kapital_eink_m
-        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+    kapitaleink_m
+        See basic input variable :ref:`kapitaleink_m <kapitaleink_m>`.
+    summe_ges_priv_rente_m
+        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
     arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
     elterngeld_m
@@ -124,8 +124,8 @@ def arbeitsl_geld_2_brutto_eink(
         + sonstig_eink_m
         + eink_selbst_m
         + vermiet_eink_m
-        + kapital_eink_m
-        + ges_rente_m
+        + kapitaleink_m
+        + summe_ges_priv_rente_m
         + arbeitsl_geld_m
         + elterngeld_m
     )

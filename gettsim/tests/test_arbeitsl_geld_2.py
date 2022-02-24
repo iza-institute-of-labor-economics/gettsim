@@ -1,3 +1,11 @@
+"""
+Note:
+- Values for "arbeitsl_geld_2_vor_vorrang_m_hh" and "arbeitsl_geld_2_m_hh" are
+  only regression tests
+- "wohngeld_basis_hh" is set to 0 to avoid testing Wohngeld-Vorrang and the
+  calculation of Wohngeld here.
+
+"""
 import itertools
 
 import pandas as pd
@@ -15,14 +23,14 @@ INPUT_COLS = [
     "tu_id",
     "kind",
     "alter",
-    "kaltmiete_m_hh",
+    "bruttokaltmiete_m_hh",
     "heizkosten_m_hh",
     "wohnfläche_hh",
     "bewohnt_eigentum_hh",
     "alleinerziehend",
     "bruttolohn_m",
-    "ges_rente_m",
-    "kapital_eink_m",
+    "summe_ges_priv_rente_m",
+    "kapitaleink_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
     "eink_selbst_m",
@@ -34,18 +42,36 @@ INPUT_COLS = [
     "unterhaltsvors_m",
     "elterngeld_m",
     "jahr",
+    "wohngeld_basis_hh",
+    "vermögen_hh",
+    "geburtsjahr",
+    "rentner",
+    "in_ausbildung",
+    "arbeitsstunden_w",
 ]
 
 OUT_COLS = [
-    "arbeitsl_geld_2_brutto_eink_hh",
-    "alleinerziehenden_mehrbedarf_hh",
-    "regelbedarf_m_hh",
+    "arbeitsl_geld_2_brutto_eink",
+    "arbeitsl_geld_2_eink_anr_frei",
+    "arbeitsl_geld_2_eink",
+    "_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh",
     "regelsatz_m_hh",
     "kost_unterk_m_hh",
     "unterhaltsvors_m_hh",
-    "eink_anr_frei",
-    "arbeitsl_geld_2_eink",
-    "arbeitsl_geld_2_eink_hh",
+    "arbeitsl_geld_2_vor_vorrang_m_hh",
+    "arbeitsl_geld_2_m_hh",
+]
+
+override_columns = [
+    "arbeitsl_geld_m",
+    "soli_st_tu",
+    "kindergeld_m_hh",
+    "unterhaltsvors_m",
+    "elterngeld_m",
+    "eink_st_tu",
+    "sozialv_beitr_m",
+    "summe_ges_priv_rente_m",
+    "wohngeld_basis_hh",
 ]
 
 
@@ -63,21 +89,18 @@ def test_alg2(input_data, year, column):
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    columns = [
-        "arbeitsl_geld_m",
-        "soli_st_tu",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m",
-        "elterngeld_m",
-        "eink_st_tu",
-        "sozialv_beitr_m",
-    ]
-
-    result = compute_taxes_and_transfers(
+    calc_result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=columns,
+        columns_overriding_functions=override_columns,
     )
-    assert_series_equal(result[column], year_data[column], check_dtype=False)
+    if column in [
+        "arbeitsl_geld_2_vor_vorrang_m_hh",
+        "arbeitsl_geld_2_m_hh",
+    ]:
+        result = calc_result[column].round(2)
+    else:
+        result = calc_result[column]
+    assert_series_equal(result, year_data[column], check_dtype=False)

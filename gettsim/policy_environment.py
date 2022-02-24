@@ -9,7 +9,7 @@ import yaml
 
 from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
-from gettsim.piecewise_functions import check_threholds
+from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
@@ -19,10 +19,10 @@ from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_ohne_kapital
-from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_ab_2015
-from gettsim.taxes.zu_verst_eink.freibetraege import alleinerziehend_freib_tu_bis_2014
-from gettsim.taxes.zu_verst_eink.freibetraege import sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibetraege import sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibeträge import alleinerziehend_freib_tu_ab_2015
+from gettsim.taxes.zu_verst_eink.freibeträge import alleinerziehend_freib_tu_bis_2014
+from gettsim.taxes.zu_verst_eink.freibeträge import sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibeträge import sonderausgaben_bis_2011
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2005_bis_2009
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2010_bis_2019
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
@@ -31,18 +31,28 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_ab
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_bis_2010
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_2011
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_ab_10_2005
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import eink_anr_frei_bis_10_2005
-from gettsim.transfers.kinderzuschlag.kinderzuschlag import (
-    kinderzuschlag_ab_2005_bis_juni_2019,
+from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
+    arbeitsl_geld_2_eink_anr_frei_ab_10_2005,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag import kinderzuschlag_ab_juli_2019
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_regel_ab_2011,
+from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
+    arbeitsl_geld_2_eink_anr_frei_bis_09_2005,
 )
-from gettsim.transfers.kinderzuschlag.kinderzuschlag_eink import (
-    kinderzuschlag_eink_regel_bis_2010,
+from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_2021
+from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_bis_2020
+from gettsim.transfers.kinderzuschl.kinderzuschl import (
+    kinderzuschl_vorläufig_m_ab_07_2019,
 )
+from gettsim.transfers.kinderzuschl.kinderzuschl import (
+    kinderzuschl_vorläufig_m_bis_06_2019,
+)
+from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
+    kinderzuschl_eink_regel_ab_2011,
+)
+from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
+    kinderzuschl_eink_regel_bis_2010,
+)
+from gettsim.transfers.rente import ges_rente_nach_grundr_m
+from gettsim.transfers.rente import ges_rente_vor_grundr_m
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_bis_2015
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
@@ -80,7 +90,7 @@ def set_up_policy_environment(date):
         params[group] = _parse_piecewise_parameters(params_one_group)
 
     # extend dictionary with date-specific values which do not need an own function
-    params = _parse_kinderzuschlag_max(date, params)
+    params = _parse_kinderzuschl_max(date, params)
 
     functions = load_reforms_for_date(date)
 
@@ -142,11 +152,11 @@ def _parse_piecewise_parameters(tax_data):
     return tax_data
 
 
-def _parse_kinderzuschlag_max(date, params):
-    """Prior to 2021, kinderzuschlag_max (the maximum amount of the
+def _parse_kinderzuschl_max(date, params):
+    """Prior to 2021, kinderzuschl_max (the maximum amount of the
     Kinderzuschlag) was specified directly in the laws and directives.
 
-    Since 2021, kinderzuschlag_max has been derived from subsistence
+    Since 2021, kinderzuschl_max has been derived from subsistence
     levels. This function implements that calculation.
 
     Parameters
@@ -164,11 +174,11 @@ def _parse_kinderzuschlag_max(date, params):
     """
 
     if date.year >= 2021:
-        assert {"kinderzuschlag", "kindergeld"} <= params.keys()
-        params["kinderzuschlag"]["kinderzuschlag_max"] = (
-            params["kinderzuschlag"]["exmin"]["regelsatz"]["kinder"]
-            + params["kinderzuschlag"]["exmin"]["kosten_der_unterkunft"]["kinder"]
-            + params["kinderzuschlag"]["exmin"]["heizkosten"]["kinder"]
+        assert {"kinderzuschl", "kindergeld"} <= params.keys()
+        params["kinderzuschl"]["kinderzuschl_max"] = (
+            params["kinderzuschl"]["exmin"]["regelsatz"]["kinder"]
+            + params["kinderzuschl"]["exmin"]["kosten_der_unterkunft"]["kinder"]
+            + params["kinderzuschl"]["exmin"]["heizkosten"]["kinder"]
         ) / 12 - params["kindergeld"]["kindergeld"][1]
 
     return params
@@ -240,14 +250,14 @@ def load_reforms_for_date(date):
         functions["wohngeld_miete"] = wohngeld_miete_ab_2021
 
     if year <= 2010:
-        functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_bis_2010
+        functions["kinderzuschl_eink_regel"] = kinderzuschl_eink_regel_bis_2010
     else:
-        functions["kinderzuschlag_eink_regel"] = kinderzuschlag_eink_regel_ab_2011
+        functions["kinderzuschl_eink_regel"] = kinderzuschl_eink_regel_ab_2011
 
-    if 2005 <= year <= 2019:
-        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_2005_bis_juni_2019
+    if date < datetime.date(year=2019, month=7, day=1):
+        functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_bis_06_2019
     else:
-        functions["kinderzuschlag_m_vorläufig"] = kinderzuschlag_ab_juli_2019
+        functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_ab_07_2019
 
     if year <= 2010:
         functions["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010
@@ -256,15 +266,29 @@ def load_reforms_for_date(date):
         functions["kindersatz_m_hh"] = kindersatz_m_hh_ab_2011
         functions["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
 
-    if date <= datetime.date(year=2005, month=10, day=1):
-        functions["eink_anr_frei"] = eink_anr_frei_bis_10_2005
+    if date < datetime.date(year=2005, month=10, day=1):
+        functions[
+            "arbeitsl_geld_2_eink_anr_frei"
+        ] = arbeitsl_geld_2_eink_anr_frei_bis_09_2005
     else:
-        functions["eink_anr_frei"] = eink_anr_frei_ab_10_2005
+        functions[
+            "arbeitsl_geld_2_eink_anr_frei"
+        ] = arbeitsl_geld_2_eink_anr_frei_ab_10_2005
+
+    # Introduction of Grundrente
+    if year < 2021:
+        functions["ges_rente_m"] = ges_rente_vor_grundr_m
+        functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_bis_2020
+    else:
+        functions["ges_rente_m"] = ges_rente_nach_grundr_m
+        functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_ab_2021
 
     return functions
 
 
-def _load_parameter_group_from_yaml(date, group, parameters=None):
+def _load_parameter_group_from_yaml(
+    date, group, parameters=None, yaml_path=ROOT_DIR / "parameters"
+):
     """Load data from raw yaml group file.
 
     Parameters
@@ -275,6 +299,8 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         Policy system compartment.
     parameters : list
         List of parameters to be loaded. Only relevant for in function calls.
+    yaml_path : path
+        Path to directory of yaml_file. (Used for testing of this function).
 
     Returns
     -------
@@ -283,34 +309,50 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
         unnecessary keys.
 
     """
+
+    def subtract_years_from_date(dt, years):
+        """Subtract one or more years from a date object"""
+        try:
+            dt = dt.replace(year=dt.year - years)
+
+        # Take care of leap years
+        except ValueError:
+            dt = dt.replace(year=dt.year - years, day=dt.day - 1)
+        return dt
+
     raw_group_data = yaml.load(
-        (ROOT_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8"),
-        Loader=yaml.CLoader,
+        (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"), Loader=yaml.CLoader,
     )
 
-    # Keys from the raw file which will not be transferred
-    not_trans_keys = ["note", "reference", "deviation_from"]
+    # Load parameters (exclude 'rounding' parameters which are handled at the
+    # end of this function)
+    not_trans_keys = ["note", "reference", "deviation_from", "access_different_date"]
     tax_data = {}
     if not parameters:
-        parameters = raw_group_data.keys()
+        parameters = [k for k in raw_group_data if k != "rounding"]
+
+    # Load values of all parameters at the specified date
     for param in parameters:
-        dates = sorted(
+        policy_dates = sorted(
             key
             for key in raw_group_data[param].keys()
             if isinstance(key, datetime.date)
         )
 
-        past_policies = [x for x in dates if x <= date]
+        past_policies = [d for d in policy_dates if d <= date]
 
         if not past_policies:
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
-            if "deviation_from" in raw_group_data[param][np.min(dates)].keys():
-                future_policy = raw_group_data[param][np.min(dates)]
+            if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
+                future_policy = raw_group_data[param][np.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     tax_data[param] = _load_parameter_group_from_yaml(
-                        date, path_list[0], parameters=[path_list[1]]
+                        date,
+                        path_list[0],
+                        parameters=[path_list[1]],
+                        yaml_path=yaml_path,
                     )[path_list[1]]
             else:
                 # TODO: Should there be missing values or should the key not exist?
@@ -336,12 +378,15 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
                         tax_data[param] = _load_parameter_group_from_yaml(
-                            new_date, group, parameters=[param]
+                            new_date, group, parameters=[param], yaml_path=yaml_path
                         )[param]
                     elif "." in policy_in_place["deviation_from"]:
                         path_list = policy_in_place["deviation_from"].split(".")
                         tax_data[param] = _load_parameter_group_from_yaml(
-                            date, path_list[0], parameters=[path_list[1]]
+                            date,
+                            path_list[0],
+                            parameters=[path_list[1]],
+                            yaml_path=yaml_path,
                         )[path_list[1]]
                     for key in value_keys:
                         key_list = []
@@ -354,9 +399,72 @@ def _load_parameter_group_from_yaml(date, group, parameters=None):
                     for key in value_keys:
                         tax_data[param][key] = policy_in_place[key]
 
+            # Also load earlier parameter values if this is specified in yaml
+            if "access_different_date" in raw_group_data[param]:
+                if raw_group_data[param]["access_different_date"] == "vorjahr":
+                    date_last_year = subtract_years_from_date(date, years=1)
+                    tax_data[f"{param}_vorjahr"] = _load_parameter_group_from_yaml(
+                        date_last_year, group, parameters=[param], yaml_path=yaml_path
+                    )[param]
+                else:
+                    raise ValueError(
+                        "Currently, access_different_date is only implemented for "
+                        "'vorjahr' (last year). "
+                        f"For parameter {param} a different string is specified."
+                    )
+
     tax_data["datum"] = date
 
+    # Load rounding parameters if they exist
+    if "rounding" in raw_group_data:
+        tax_data["rounding"] = _load_rounding_parameters(
+            date, raw_group_data["rounding"]
+        )
     return tax_data
+
+
+def _load_rounding_parameters(date, rounding_spec):
+    """Load rounding parameters for a specific date from a dictionary.
+
+    Parameters
+    ----------
+    date : datetime.date
+        The date for which the policy system is set up.
+    rounding_spec : dictionary
+          - Keys: Functions to be rounded.
+          - Values: Rounding parameters for all dates
+
+    Returns:
+        dictionary:
+          - Keys: Functions to be rounded.
+          - Values: Rounding parameters for the specified date
+    """
+    out = {}
+    rounding_parameters = ["direction", "base"]
+
+    # Load values of all parameters at the specified date.
+    for function_name, rounding_spec_func in rounding_spec.items():
+
+        # Find all specified policy dates before date.
+        policy_dates_before_date = sorted(
+            key
+            for key in rounding_spec_func.keys()
+            if isinstance(key, datetime.date) and key <= date
+        )
+
+        # If any rounding specs are defined for a date before the specified
+        # date, copy them to params dictionary.
+        # If no appropriate rounding specs are found for the requested date,
+        # the function will not appear in the returned dictionary.
+        # Note this will raise an error later unless the user adds an
+        # appropriate rounding specification to the parameters dictionary.
+        if policy_dates_before_date:
+            policy_date_in_place = np.max(policy_dates_before_date)
+            policy_in_place = rounding_spec_func[policy_date_in_place]
+            out[function_name] = {}
+            for key in [k for k in policy_in_place if k in rounding_parameters]:
+                out[function_name][key] = policy_in_place[key]
+    return out
 
 
 def transfer_dictionary(remaining_dict, new_dict, key_list):
@@ -402,7 +510,7 @@ def add_progressionsfaktor(param_dict, parameter):
     out_dict = copy.deepcopy(param_dict)
     interval_keys = sorted(key for key in out_dict if isinstance(key, int))
     # Check and extract lower thresholds.
-    lower_thresholds, upper_thresholds, thresholds = check_threholds(
+    lower_thresholds, upper_thresholds, thresholds = check_thresholds(
         param_dict, parameter, interval_keys
     )
     for key in interval_keys:

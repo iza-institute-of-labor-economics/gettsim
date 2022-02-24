@@ -9,8 +9,8 @@ from gettsim.typing import IntSeries
 def wohngeld_m_hh(
     wohngeld_vermögens_check_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
-    rentner_in_hh: BoolSeries,
+    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
+    alle_erwachsene_sind_rentner_hh: BoolSeries,
 ) -> FloatSeries:
     """Calculate final housing benefit per household.
 
@@ -20,16 +20,19 @@ def wohngeld_m_hh(
         See :func:`wohngeld_vermögens_check_hh`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
-    wohngeld_kinderzuschlag_vorrang_hh
-        See :func:`wohngeld_kinderzuschlag_vorrang_hh`.
-    rentner_in_hh
-        See :func:`rentner_in_hh`.
+    wohngeld_kinderzuschl_vorrang_hh
+        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
+    alle_erwachsene_sind_rentner_hh
+        See :func:`alle_erwachsene_sind_rentner_hh`.
 
     Returns
     -------
 
     """
-    cond = ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschlag_vorrang_hh | rentner_in_hh
+    cond = (
+        ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh
+        | alle_erwachsene_sind_rentner_hh
+    )
     wohngeld_vermögens_check_hh.loc[cond] = 0
     return wohngeld_vermögens_check_hh
 
@@ -70,7 +73,7 @@ def wohngeld_basis_hh(hh_id: IntSeries, wohngeld_basis: FloatSeries) -> FloatSer
 def zu_verst_ges_rente_tu(
     zu_verst_ges_rente: FloatSeries, tu_id: IntSeries
 ) -> FloatSeries:
-    """Aggreate pension payments subject to taxation inn tax unit.
+    """Aggreate pension payments subject to taxation in tax unit.
 
     Parameters
     ----------
@@ -88,7 +91,7 @@ def zu_verst_ges_rente_tu(
 
 def wohngeld_abzüge_tu(
     eink_st_tu: FloatSeries,
-    rentenv_beitr_m_tu: FloatSeries,
+    ges_rentenv_beitr_m_tu: FloatSeries,
     ges_krankenv_beitr_m_tu: FloatSeries,
     wohngeld_params: dict,
 ) -> FloatSeries:
@@ -98,8 +101,8 @@ def wohngeld_abzüge_tu(
     ----------
     eink_st_tu
         See :func:`eink_st_tu`.
-    rentenv_beitr_m_tu
-        See :func:`rentenv_beitr_m_tu`.
+    ges_rentenv_beitr_m_tu
+        See :func:`ges_rentenv_beitr_m_tu`.
     ges_krankenv_beitr_m_tu
         See :func:`ges_krankenv_beitr_m_tu`.
     wohngeld_params
@@ -110,13 +113,15 @@ def wohngeld_abzüge_tu(
 
     """
     abzug_stufen = (
-        (eink_st_tu > 0) * 1 + (rentenv_beitr_m_tu > 0) + (ges_krankenv_beitr_m_tu > 0)
+        (eink_st_tu > 0) * 1
+        + (ges_rentenv_beitr_m_tu > 0)
+        + (ges_krankenv_beitr_m_tu > 0)
     )
     return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
 
 
 def zu_verst_ges_rente(
-    ertragsanteil: FloatSeries, ges_rente_m: FloatSeries
+    ertragsanteil: FloatSeries, summe_ges_priv_rente_m: FloatSeries
 ) -> FloatSeries:
     """Calculate pension payment subject to taxation.
 
@@ -124,14 +129,14 @@ def zu_verst_ges_rente(
     ----------
     ertragsanteil
         See :func:`ertragsanteil`.
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+    summe_ges_priv_rente_m
+        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
 
     Returns
     -------
 
     """
-    return ertragsanteil * ges_rente_m
+    return ertragsanteil * summe_ges_priv_rente_m
 
 
 def wohngeld_brutto_eink_tu(
@@ -223,7 +228,7 @@ def wohngeld_eink_abzüge_bis_2015(
     anzahl_kinder_unter_11_per_tu: IntSeries,
     wohngeld_params: dict,
 ):
-    """Calculate housing benefit subractions until 2015.
+    """Calculate housing benefit subtractions until 2015.
 
     Parameters
     ----------
@@ -387,7 +392,7 @@ def wohngeld_miete_bis_2008(
     immobilie_baujahr_hh: IntSeries,
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
-    kaltmiete_m_hh: FloatSeries,
+    bruttokaltmiete_m_hh: FloatSeries,
     tax_unit_share: FloatSeries,
     wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
@@ -404,8 +409,8 @@ def wohngeld_miete_bis_2008(
         See :func:`haushaltsgröße`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kaltmiete_m_hh
-        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    bruttokaltmiete_m_hh
+        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
     wohngeld_min_miete
@@ -436,7 +441,8 @@ def wohngeld_miete_bis_2008(
     ]
 
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return wg_miete
@@ -446,7 +452,7 @@ def wohngeld_miete_ab_2009(
     mietstufe: IntSeries,
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
-    kaltmiete_m_hh: FloatSeries,
+    bruttokaltmiete_m_hh: FloatSeries,
     tax_unit_share: FloatSeries,
     wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
@@ -461,8 +467,8 @@ def wohngeld_miete_ab_2009(
         See :func:`haushaltsgröße`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kaltmiete_m_hh
-        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    bruttokaltmiete_m_hh
+        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
     wohngeld_min_miete
@@ -483,7 +489,8 @@ def wohngeld_miete_ab_2009(
     ]
 
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return wg_miete
@@ -493,7 +500,7 @@ def wohngeld_miete_ab_2021(
     mietstufe: IntSeries,
     haushaltsgröße: IntSeries,
     hh_id: IntSeries,
-    kaltmiete_m_hh: FloatSeries,
+    bruttokaltmiete_m_hh: FloatSeries,
     tax_unit_share: FloatSeries,
     wohngeld_min_miete: FloatSeries,
     wohngeld_params: dict,
@@ -508,8 +515,8 @@ def wohngeld_miete_ab_2021(
         See :func:`haushaltsgröße`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kaltmiete_m_hh
-        See basic input variable :ref:`kaltmiete_m_hh <kaltmiete_m_hh>`.
+    bruttokaltmiete_m_hh
+        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     tax_unit_share
         See :func:`tax_unit_share`.
     wohngeld_min_miete
@@ -533,7 +540,8 @@ def wohngeld_miete_ab_2021(
     ]
 
     out = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(kaltmiete_m_hh)) * tax_unit_share
+        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        * tax_unit_share
     ).clip(lower=wohngeld_min_miete)
 
     return out

@@ -11,7 +11,7 @@ import pandas as pd
 
 from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.transfers.wohngeld import wohngeld_basis
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
 from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
@@ -196,7 +196,7 @@ def tax_rate_data(start, end):
         eink_params = policy_params["eink_st"]
         soli_params = policy_params["soli_st"]["soli_st"]
 
-        eink_tax = st_tarif(einkommen, eink_params)
+        eink_tax = _eink_st_tarif(einkommen, eink_params)
         soli = piecewise_polynomial(
             eink_tax,
             thresholds=soli_params["thresholds"],
@@ -246,7 +246,7 @@ def child_benefits_data(start, end):
 
 def social_security_data(start, end):
     """
-    For a year range returns the policy parameters to plot the social security
+    For a year range returns the policy parameters to plot the social insurance
     contributions
 
     start (Int): Defines the start of the simulated period
@@ -265,10 +265,10 @@ def social_security_data(start, end):
     soz_vers_df = pd.DataFrame(data=soz_vers_dict).transpose()
     # Dictionary entries into columns
     ges_krankenv = soz_vers_df["ges_krankenv"].apply(pd.Series)
-    pflegev = soz_vers_df["pflegev"].apply(pd.Series)
+    ges_pflegev = soz_vers_df["ges_pflegev"].apply(pd.Series)
     #
     soz_vers_out = pd.concat(
-        [soz_vers_df[["arbeitsl_v", "rentenv"]], ges_krankenv, pflegev], axis=1
+        [soz_vers_df[["arbeitsl_v", "ges_rentenv"]], ges_krankenv, ges_pflegev], axis=1
     )
 
     soz_vers_out.columns = [
@@ -287,7 +287,7 @@ def social_security_data(start, end):
 
 def social_assistance_data(start, end):
     """
-    For a year range returns the policy parameters to plot the social security
+    For a year range returns the policy parameters to plot the social insurance
     contributions
 
     start (Int):

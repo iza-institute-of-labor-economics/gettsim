@@ -1,0 +1,789 @@
+alpha:
+  name:
+    de: alpha
+    en: alpha
+  description:
+    de: Teil des Nachhaltigkeitsfaktors in der Rentenanpassungsformel,
+        welche das Verhältnis von Rentnern zu Beitragszahlern modifiziert
+    en: Part of the sustainability factor in the pension adjustment formula which modifies
+        the ratio of pentioners to contributors
+  unit: factor
+  reference: §68 Abs. 4 S. 6 SGB VI
+  1984-01-01:
+    scalar: 0.0
+  2002-01-01:
+    scalar: 0.25
+
+altersvorsogeanteil:
+  name:
+    de: Altersvorsorgeanteil (AVA)
+    en: Personal pension share
+  description:
+    de: Teil des Riesterfaktors in der Rentenanpassungsformel
+    en: Part of the Riesterfaktor in the pension adjustment formular
+  unit: factor
+  reference: §68 Abs. 5 SGB VI
+  1993-01-01:
+    scalar: 0.0
+  2002-01-01:
+    scalar: 0.5
+  2003-01-01:
+    scalar: 1.0
+  2004-01-01:
+    scalar: 1.5
+  2005-01-01:
+    scalar: 2.0
+  2009-01-01:
+    scalar: 2.5
+  2010-01-01:
+    scalar: 3.0
+  2011-01-01:
+    scalar: 3.5
+  2012-01-01:
+    scalar: 4.0
+
+beitragsvolumen:
+  name:
+    de: Beitragsvolumen der gesetzlichen Rentenversicherung
+    en: Contribution volume of the statutory pension insurance
+  description:
+    de: Summe der Beiträge zur Rentenversicherung aller rentenversicherungspflichtig Beschäftigten,
+        der geringfügig Beschäftigten und der Bezieher von ALG. statistik-rente.de/drv
+    en: Sum of contributions to the pension insurance of all employees subject to pension insurance,
+        marginally employed and recipients of ALG.
+  unit: Mrd Euro
+  1991-01-01:
+    scalar: 108688.0
+  1992-01-01:
+    scalar: 117359.0
+  1993-01-01:
+    scalar: 120559.0
+  1994-01-01:
+    scalar: 132938.0
+  1995-01-01:
+    scalar: 139921.0
+  1996-01-01:
+    scalar: 146160.0
+  1997-01-01:
+    scalar: 153658.0
+  1998-01-01:
+    scalar: 153763.0
+  1999-01-01:
+    scalar: 160506.0
+  2000-01-01:
+    scalar: 163367.0
+  2001-01-01:
+    scalar: 164694.0
+  2002-01-01:
+    scalar: 165481.0
+  2003-01-01:
+    scalar: 169425.0
+  2004-01-01:
+    scalar: 169399.0
+  2005-01-01:
+    scalar: 168954.0
+  2006-01-01:
+    scalar: 180545.0
+  2007-01-01:
+    scalar: 174726.0
+  2008-01-01:
+    scalar: 180028.0
+  2009-01-01:
+    scalar: 181572.0
+  2010-01-01:
+    scalar: 185288.0
+  2011-01-01:
+    scalar: 189850.0
+  2012-01-01:
+    scalar: 193687.0
+  2013-01-01:
+    scalar: 194334.0
+  2014-01-01:
+    scalar: 201647.0
+  2015-01-01:
+    scalar: 207317.0
+  2016-01-01:
+    scalar: 215422.0
+  2017-01-01:
+    scalar: 225244
+  2018-01-01:
+    scalar: 236404
+  2019-01-01:
+    scalar: 247949
+
+eckrente:
+  name:
+    de: Regelaltersrente/ Standardrente
+    en: Standard pension
+  description:
+    de: Höhe einer abschlagsfreien Rente bei 45 Entgeltpunkten.
+        Ergibt sich aus Multiplikation des Rentenwerts mit 45. statistik-rente.de/drv
+    en: Amount of a pension without discounts when reaching 45 Entgeltpunkte, which is
+        calculated by multiplying 45 with the Rentenwert.
+  unit: Euro (Brutto)
+  reference: § 154 Abs. 3 Satz 1 Nr. 2 SGB VI
+  1995-01-01:
+    scalar: 988.15
+  1996-01-01:
+    scalar: 992.72
+  1997-01-01:
+    scalar: 1009.1
+  1998-01-01:
+    scalar: 1012.47
+  1999-01-01:
+    scalar: 1026.62
+  2000-01-01:
+    scalar: 1032.79
+  2001-01-01:
+    scalar: 1051.99
+  2002-01-01:
+    scalar: 1072.35
+  2003-01-01:
+    scalar: 1081.79
+  2004-01-01:
+    scalar: 1071.79
+  2005-01-01:
+    scalar: 1063.41
+  2006-01-01:
+    scalar: 1066.35
+  2007-01-01:
+    scalar: 1067.8
+  2008-01-01:
+    scalar: 1077.02
+  2009-01-01:
+    scalar: 1100.84
+  2010-01-01:
+    scalar: 1102.67
+  2011-01-01:
+    scalar: 1109.91
+  2012-01-01:
+    scalar: 1134.15
+  2013-01-01:
+    scalar: 1135.71
+  2014-01-01:
+    scalar: 1154.68
+  2015-01-01:
+    scalar: 1174.96
+  2016-01-01:
+    scalar: 1222.09
+  2017-01-01:
+    scalar: 1242.58
+  2018-01-01:
+    scalar: 1284.06
+
+durchschnittslohn:
+  name:
+    de: Durchschnittslohn
+    en: Mean Wage
+  description:
+    de: Durchschnittslohn aller Arbeitnehmer:innen in einem Jahr
+    en: Mean Wage of all employees per year
+  unit: Euro (Brutto)
+  reference period: year
+  2005-01-01:
+    scalar: 28468.23
+  2006-01-01:
+    scalar: 28673.22
+  2007-01-01:
+    scalar: 28978.19
+  2008-01-01:
+    scalar: 29262.71
+  2009-01-01:
+    scalar: 29774.24
+  2010-01-01:
+    scalar: 30086.57
+  2011-01-01:
+    scalar: 30770.62
+  2012-01-01:
+    scalar: 31452.49
+  2013-01-01:
+    scalar: 31583.35
+  2014-01-01:
+    scalar: 32313.66
+  2015-01-01:
+    scalar: 33047.02
+  2016-01-01:
+    scalar: 33608.42
+
+beitragspflichtiges_durchschnittsentgelt:
+  name:
+    de: Beitragspflichtiges Durchschnittsentgelt aller Versicherten
+    en: Mean relevant wage of all insured individuals
+  description:
+    de: Durchschnittsentgelt aller Versicherten im Sinne der deutschen Sozialversicherung.
+        Dieses wird benötigt zur Berechnung der Entgeltpunkte.
+    en: Mean wage of all insured people in the sense of the German social insurance, which is needed
+        to calculate the Entgeltpunkte.
+  unit: Euro (Brutto)
+  reference period: year
+  reference: Anlage 1 SGB VI
+  2005-01-01:
+    scalar: 29202
+  2006-01-01:
+    scalar: 29494
+  2007-01-01:
+    scalar: 29951
+  2008-01-01:
+    scalar: 30625
+  2009-01-01:
+    scalar: 30506
+  2010-01-01:
+    scalar: 31144
+  2011-01-01:
+    scalar: 32100
+  2012-01-01:
+    scalar: 33002
+  2013-01-01:
+    scalar: 33659
+  2014-01-01:
+    scalar: 34514
+  2015-01-01:
+    scalar: 35363
+  2016-01-01:
+    scalar: 36187
+  2017-01-01:
+    scalar: 37077
+  2018-01-01:
+    scalar: 38212
+    reference: V. v. 17.12.2019 BGBl. I S. 2848.
+  2019-01-01:
+    scalar: 39301
+    reference: V. v. 30.11.2020 BGBl. I S. 2612.
+  2020-01-01:
+    scalar: 39167
+    reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
+  2021-01-01:
+    scalar: 41541
+    reference: V. v. 30.11.2020 BGBl. I S. 2612.
+    note: Das vorläufige Durchschnittsentgelt.
+  2022-01-01:
+    scalar: 38901
+    reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
+    note: Das vorläufige Durchschnittsentgelt.
+
+umrechnung_entgeltp_beitrittsgebiet:
+  name:
+    de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebietes
+    en: Conversion of the Beitragsbemessungsgrundlage in former GDR
+  description:
+    de: Für die Berechnung der Entgeltpunkte wird das Einkommen im "Beitrittsgebiet" um diesen Faktor erhöht.
+    en: To calculate the Entgeltpunkte, income in the former GDR is increased by this factor.
+  unit: factor
+  reference: §256a SGB VI and Anlage 10 SGB VI
+  1945-01-01:
+    scalar: 1.0000
+  1946-01-01:
+    scalar: 1.0000
+  1947-01-01:
+    scalar: 1.0000
+  1948-01-01:
+    scalar: 1.0000
+  1949-01-01:
+    scalar: 1.0000
+  1950-01-01:
+    scalar: 0.9931
+  1951-01-01:
+    scalar: 1.0502
+  1952-01-01:
+    scalar: 1.0617
+  1953-01-01:
+    scalar: 1.0458
+  1954-01-01:
+    scalar: 1.0185
+  1955-01-01:
+    scalar: 1.0656
+  1956-01-01:
+    scalar: 1.1029
+  1957-01-01:
+    scalar: 1.1081
+  1958-01-01:
+    scalar: 1.0992
+  1959-01-01:
+    scalar: 1.0838
+  1960-01-01:
+    scalar: 1.1451
+  1961-01-01:
+    scalar: 1.2374
+  1962-01-01:
+    scalar: 1.3156
+  1963-01-01:
+    scalar: 1.3667
+  1964-01-01:
+    scalar: 1.4568
+  1965-01-01:
+    scalar: 1.5462
+  1966-01-01:
+    scalar: 1.6018
+  1967-01-01:
+    scalar: 1.5927
+  1968-01-01:
+    scalar: 1.6405
+  1969-01-01:
+    scalar: 1.7321
+  1970-01-01:
+    scalar: 1.8875
+  1971-01-01:
+    scalar: 2.0490
+  1972-01-01:
+    scalar: 2.1705
+  1973-01-01:
+    scalar: 2.3637
+  1974-01-01:
+    scalar: 2.5451
+  1975-01-01:
+    scalar: 2.6272
+  1976-01-01:
+    scalar: 2.7344
+  1977-01-01:
+    scalar: 2.8343
+  1978-01-01:
+    scalar: 2.8923
+  1979-01-01:
+    scalar: 2.9734
+  1980-01-01:
+    scalar: 3.1208
+  1981-01-01:
+    scalar: 3.1634
+  1982-01-01:
+    scalar: 3.2147
+  1983-01-01:
+    scalar: 3.2627
+  1984-01-01:
+    scalar: 3.2885
+  1985-01-01:
+    scalar: 3.3129
+  1986-01-01:
+    scalar: 3.2968
+  1987-01-01:
+    scalar: 3.2548
+  1988-01-01:
+    scalar: 3.2381
+  1989-01-01:
+    scalar: 3.2330
+  1990-01-01:
+    scalar: 3.0707
+  1990-06-01:
+    scalar: 2.3473
+  1991-01-01:
+    scalar: 1.7235
+  1992-01-01:
+    scalar: 1.4393
+  1993-01-01:
+    scalar: 1.3197
+  1994-01-01:
+    scalar: 1.2687
+  1995-01-01:
+    scalar: 1.2317
+  1996-01-01:
+    scalar: 1.2209
+  1997-01-01:
+    scalar: 1.2089
+  1998-01-01:
+    scalar: 1.2113
+  1999-01-01:
+    scalar: 1.2054
+  2000-01-01:
+    scalar: 1.2030
+  2001-01-01:
+    scalar: 1.2003
+  2002-01-01:
+    scalar: 1.1972
+  2003-01-01:
+    scalar: 1.1943
+  2004-01-01:
+    scalar: 1.1932
+  2005-01-01:
+    scalar: 1.1827
+  2006-01-01:
+    scalar: 1.1827
+  2007-01-01:
+    scalar: 1.1841
+  2008-01-01:
+    scalar: 1.1857
+  2009-01-01:
+    scalar: 1.1712
+  2010-01-01:
+    scalar: 1.1726
+  2011-01-01:
+    scalar: 1.1740
+  2012-01-01:
+    scalar: 1.1785
+  2013-01-01:
+    scalar: 1.1762
+  2014-01-01:
+    scalar: 1.1665
+  2015-01-01:
+    scalar: 1.1502
+  2016-01-01:
+    scalar: 1.1415
+  2017-01-01:
+    scalar: 1.1374
+  2018-01-01:
+    scalar: 1.1339
+  2019-01-01:
+    scalar: 1.0840
+  2020-01-01:
+    scalar: 1.0700
+  2021-01-01:
+    scalar: 1.0560
+  2022-01-01:
+    scalar: 1.0420
+  2023-01-01:
+    scalar: 1.0280
+  2024-01-01:
+    scalar: 1.0140
+
+gesamtes_rentenvolumen:
+  name:
+    de: Rentenvolumen
+    en: pension volume
+  description:
+    de: Gesamtvolumen der ausgezahlten Renten
+    en: Total amount of paid pensions
+  unit: Mrd Euro
+  reference period: year
+  1991-01-01:
+    scalar: 117912.0
+  1992-01-01:
+    scalar: 130901.0
+  1993-01-01:
+    scalar: 141180.0
+  1994-01-01:
+    scalar: 152798.0
+  1995-01-01:
+    scalar: 162625.0
+  1996-01-01:
+    scalar: 168955.0
+  1997-01-01:
+    scalar: 174479.0
+  1998-01-01:
+    scalar: 1803238.0
+  1999-01-01:
+    scalar: 184139.0
+  2000-01-01:
+    scalar: 190198.0
+  2001-01-01:
+    scalar: 195776.0
+  2002-01-01:
+    scalar: 202355.0
+  2003-01-01:
+    scalar: 207749.0
+  2004-01-01:
+    scalar: 210522.0
+  2005-01-01:
+    scalar: 211861.0
+  2006-01-01:
+    scalar: 212421.0
+  2007-01-01:
+    scalar: 213649.0
+  2008-01-01:
+    scalar: 216182.0
+  2009-01-01:
+    scalar: 220841.0
+  2010-01-01:
+    scalar: 224352.0
+  2011-01-01:
+    scalar: 225411.0
+  2012-01-01:
+    scalar: 229231.0
+  2013-01-01:
+    scalar: 232297.0
+  2014-01-01:
+    scalar: 238991.0
+  2015-01-01:
+    scalar: 249568.0
+  2016-01-01:
+    scalar: 259345.0
+  2017-01-01:
+    scalar: 286860
+  2018-01-01:
+    scalar: 277102
+  2019-01-01:
+    scalar: 291359
+
+rentenwert:
+  name:
+    de: Rentenwerte alte und neue Bundesländer
+    en: Pension value old and new federal states
+  description:
+    de: Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für einen
+        Entgeltpunkt entspricht.
+    en: The current pension value expresses the amount of monthly pension paid for one Entgeltpunkt.
+  unit: Euro
+  reference: statistik-rente.de/drv,  § 68 SGB VI
+  access_different_date: vorjahr
+  1992-01-01:
+    west: 21.19
+    ost: 12.05
+  1992-07-01:
+    west: 21.80
+    ost: 13.59
+  1993-01-01:
+    deviation_from: previous
+    ost: 14.41
+  1993-07-01:
+    west: 22.75
+    ost: 16.45
+  1994-01-01:
+    deviation_from: previous
+    ost: 17.05
+  1994-07-01:
+    west: 23.52
+    ost: 17.63
+  1995-01-01:
+    deviation_from: previous
+    ost: 18.13
+  1995-07-01:
+    west: 23.64
+    ost: 18.58
+  1996-01-01:
+    deviation_from: previous
+    ost: 19.39
+  1996-07-01:
+    west: 23.86
+    ost: 19.62
+  1997-07-01:
+    west: 24.26
+    ost: 20.71
+  1998-07-01:
+    west: 24.36
+    ost: 20.90
+  1999-07-01:
+    west: 24.69
+    ost: 21.48
+  2000-07-01:
+    west: 24.84
+    ost: 21.61
+  2001-07-01:
+    west: 25.31
+    ost: 22.06
+  2002-07-01:
+    west: 25.86
+    ost: 22.70
+  2003-07-01:
+    west: 26.13
+    ost: 22.97
+  2007-07-01:
+    west: 26.27
+    ost: 23.09
+  2008-07-01:
+    west: 26.56
+    ost: 23.34
+  2009-07-01:
+    west: 27.2
+    ost: 24.13
+  2011-07-01:
+    west: 27.47
+    ost: 24.37
+  2012-07-01:
+    west: 28.07
+    ost: 24.92
+  2013-07-01:
+    west: 28.14
+    ost: 25.74
+  2014-07-01:
+    west: 28.61
+    ost: 26.39
+  2015-07-01:
+    west: 29.21
+    ost: 27.05
+  2016-07-01:
+    west: 30.45
+    ost: 28.66
+  2017-07-01:
+    west: 31.03
+    ost: 29.69
+  2018-07-01:
+    west: 32.03
+    ost: 30.69
+  2019-07-01:
+    west: 33.05
+    ost: 31.89
+  2020-07-01:
+    west: 34.19
+    ost: 33.23
+  2021-07-01:
+    deviation_from: previous
+    ost: 33.47
+
+grundr_höchstwert:
+  name:
+    de: Höchstwert der Entgeltpunkte für Grundrente
+    en: Maximum value of Entgeltpunkte for Grundrente
+  description:
+    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte
+        und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert.
+    en: constant to determine Höchstwert of additional Entgeltpunkte and
+        effect of an additional month of Grundrentenzeiten on Höchstwert.
+  2021-01-01:
+    base: 0.0334
+    increment: 0.001389
+    reference: § 76g Abs. 4 S. 3, 4 SGB VI
+
+grundr_zeiten:
+  name:
+    de: Grundrentenzeiten
+    en: Months needed for basic pension
+  description:
+    de: Minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und
+        Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
+    en: Minimal number of Grundrentenzeiten required to be entitled to Grundrente
+        and maximum number of months that are considered for Grundrente.
+  unit: months
+  2021-01-01:
+    min: 396
+    max: 420
+    reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
+
+grundr_einkommensanr_single:
+  name:
+    de: Einkommensanrechnung Grundrente für Personen ohne verheiratetem Partner
+    en: Crediting of income for basic pension for individuals without married partner
+  description:
+    de: Werte werden mit dem Rentenwert multipliziert,
+        um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
+    en: Values are multiplied with the Rentenwert to compute the thresholds
+        of the income crediting rule of Grundrentenzuschlag
+  reference: § 97a Abs. 4 S. 2, 4 SGB VI
+  type: piecewise_linear
+  2021-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 36.56
+      rate_linear: 0
+      intercept_at_lower_threshold: 0
+    1:
+      upper_threshold: 46.78
+      rate_linear: 0.6
+    2:
+      upper_threshold: inf
+      rate_linear: 1
+
+grundr_einkommensanr_verheiratet:
+  name:
+    de: Einkommensanrechnung Grundrente für Personen mit verheiratetem Partner
+    en: Crediting of income for basic pension for individuals with married partner
+  description:
+    de: Werte werden mit dem Rentenwert multipliziert,
+        um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
+    en: values are multiplied with the Rentenwert to compute the thresholds
+        of the income crediting rule of Grundrentenzuschlag
+  reference: § 97a Abs. 4 S. 2, 4 SGB VI
+  type: piecewise_linear
+  2021-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 57.03
+      rate_linear: 0
+      intercept_at_lower_threshold: 0
+    1:
+      upper_threshold: 67.27
+      rate_linear: 0.6
+    2:
+      upper_threshold: inf
+      rate_linear: 1
+
+
+grundr_faktor_bonus:
+  name:
+    de: Bonusfaktor aus Grundrente
+    en: bonus factor from basic pension
+  description:
+    de: Faktor mit dem die durch die Grundrente zusätzlich erhaltenen Entgeltpunkte multipliziert werden.
+    en: The additional Entgeltpunkte from the basic pension are multiplied with this factor.
+  unit: factor
+  2021-01-01:
+    scalar: 0.875
+    reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
+
+zugangsfaktor_veränderung_pro_jahr:
+  name:
+    de: Veränderung des Zugangsfaktors pro Jahr
+    en: Change in Zugangsfaktor per year
+  description:
+    de: Faktor um den sich der Zugangsfaktor für die staatliche Rente erhöht/senkt für jedes Jahr,
+        das länger/kürzer gearbeitet wird
+    en: Factor with which the Zugangsfaktor / "access factor" for receiving the statutory pension is
+        increased/ decreased for each month of less / more work
+  unit: factor
+  reference period: year
+  reference: §77 Abs. 2 Nr. 2 SGB VI
+  2001-01-01:
+    vorzeitiger_renteneintritt: 0.036
+    späterer_renteneintritt: 0.06
+
+regelaltersgrenze:
+  name:
+    de: Eintrittsalter für Regelaltersrente
+    en: Entry age for receiving regelaltersrente
+  description:
+    de:
+      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger.
+    en:
+      Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
+      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+      the pension claim is higher or lower.
+  reference: § 35 Satz 2 SGB VI
+  note:
+    de: >-
+      Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
+      implementiert.
+    en:
+  type: piecewise_linear
+  2002-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1947
+      rate_linear: 0
+      intercept_at_lower_threshold: 65
+    1:
+      lower_threshold: 1947
+      upper_threshold: 1971
+      rate_linear: 0.083333333
+    2:
+      lower_threshold: 1971
+      upper_threshold: inf
+      rate_linear: 0
+
+rounding:
+  ges_rente_m:
+    1980-01-01:
+      base: 0.01
+      direction: nearest
+      reference: §123 SGB VI Abs. 1
+  ges_rente_vor_grundr_m:
+    1980-01-01:
+      base: 0.01
+      direction: nearest
+      reference: §123 SGB VI Abs. 1
+  grundr_zuschlag_m:
+    2021-01-01:
+      base: 0.01
+      direction: nearest
+      reference: §123 SGB VI Abs. 1
+  grundr_zuschlag_eink_m:
+    2021-01-01:
+      base: 0.01
+      direction: nearest
+      reference: §123 SGB VI Abs. 1
+  grundr_zuschlag_vor_eink_anr_m:
+    2021-01-01:
+      base: 0.01
+      direction: nearest
+      reference: §123 SGB VI Abs. 1
+  proxy_rente_vorj_vor_grundr_m:
+    2021-01-01:
+      base: 0.01
+      direction: nearest
+      reference: §123 SGB VI Abs. 1
+  grundr_zuschlag_höchstwert_m:
+    2021-01-01:
+      base: 0.0001
+      direction: nearest
+      reference: §76g SGB VI Abs. 4 Nr. 4
+  grundr_zuschlag_bonus_entgeltp:
+    2021-01-01:
+      base: 0.0001
+      direction: nearest
+      reference: §121 SGB VI Abs. 1

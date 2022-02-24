@@ -95,7 +95,7 @@ def alleinerziehend_freib_tu_ab_2015(
 def altersfreib(
     bruttolohn_m: FloatSeries,
     alter: IntSeries,
-    kapital_eink_m: FloatSeries,
+    kapitaleink_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
     eink_st_abzuege_params: dict,
@@ -108,8 +108,8 @@ def altersfreib(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    kapital_eink_m
-        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
+    kapitaleink_m
+        See basic input variable :ref:`kapitaleink_m <kapitaleink_m>`.
     eink_selbst_m
         See :func:`eink_selbst_m`.
     vermiet_eink_m
@@ -127,9 +127,9 @@ def altersfreib(
         * 12
         * (
             bruttolohn_m
-            + (kapital_eink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
+            + (kapitaleink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
         )
-    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])
+    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])[alter > 64]
     return out
 
 
@@ -201,8 +201,8 @@ def sonderausgaben_ab_2012(
 
 def altervorsorge_aufwend(
     kind: BoolSeries,
-    rentenv_beitr_m: FloatSeries,
-    prv_rente_beitr_m: FloatSeries,
+    ges_rentenv_beitr_m: FloatSeries,
+    priv_rentenv_beitr_m: FloatSeries,
     eink_st_abzuege_params: dict,
 ) -> FloatSeries:
     """Determine contributions to retirement savings deductible from taxable income.
@@ -217,10 +217,10 @@ def altervorsorge_aufwend(
     ----------
     kind
         See basic input variable :ref:`kind <kind>`.
-    rentenv_beitr_m
-        See :func:`rentenv_beitr_m`.
-    prv_rente_beitr_m
-        See basic input variable :ref:`prv_rente_beitr_m <prv_rente_beitr_m>`.
+    ges_rentenv_beitr_m
+        See :func:`ges_rentenv_beitr_m`.
+    priv_rentenv_beitr_m
+        See basic input variable :ref:`priv_rentenv_beitr_m <priv_rentenv_beitr_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -233,8 +233,8 @@ def altervorsorge_aufwend(
     )
     out = (
         (
-            einführungsfaktor * (2 * rentenv_beitr_m + prv_rente_beitr_m)
-            - rentenv_beitr_m
+            einführungsfaktor * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
+            - ges_rentenv_beitr_m
         )
         * 12
     ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])

@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import st_tarif
+from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.typing import BoolSeries
 from gettsim.typing import DateTimeSeries
 from gettsim.typing import FloatSeries
@@ -91,7 +91,7 @@ def elterngeld_m(
 
 
 def proxy_eink_vorj_elterngeld(
-    rentenv_beitr_bemess_grenze: FloatSeries,
+    ges_rentenv_beitr_bemess_grenze: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     elterngeld_params: dict,
     eink_st_params: dict,
@@ -104,8 +104,8 @@ def proxy_eink_vorj_elterngeld(
 
     Parameters
     ----------
-    rentenv_beitr_bemess_grenze
-        See :func:`rentenv_beitr_bemess_grenze`.
+    ges_rentenv_beitr_bemess_grenze
+        See :func:`ges_rentenv_beitr_bemess_grenze`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     elterngeld_params
@@ -122,13 +122,13 @@ def proxy_eink_vorj_elterngeld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(upper=rentenv_beitr_bemess_grenze)
+    max_wage = bruttolohn_vorj_m.clip(upper=ges_rentenv_beitr_bemess_grenze)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = elterngeld_params["elterngeld_soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = st_tarif(
+    prox_tax = _eink_st_tarif(
         (12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"]).clip(
             lower=0
         ),
@@ -347,19 +347,19 @@ def anz_mehrlinge_anspruch(
 ) -> IntSeries:
     """Check for multiple bonus on parental leave benefit.
 
-   Parameters
-   ----------
-   hh_id
-       See basic input variable :ref:`hh_id <hh_id>`.
-   elternzeit_anspruch
-       See :func:`elternzeit_anspruch`.
-   jüngstes_kind
-       See :func:`jüngstes_kind`.
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    elternzeit_anspruch
+        See :func:`elternzeit_anspruch`.
+    jüngstes_kind
+        See :func:`jüngstes_kind`.
 
-   Returns
-   -------
+    Returns
+    -------
 
-       """
+    """
     mehrlinge = jüngstes_kind.groupby(hh_id).transform("sum")
     return elternzeit_anspruch * (mehrlinge - 1)
 
@@ -374,7 +374,7 @@ def nettolohn_m(
 ) -> FloatSeries:
     """Calculate the net wage.
 
-    Taxes and social security contributions are needed for the calculation.
+    Taxes and social insurance contributions are needed for the calculation.
 
 
     Parameters

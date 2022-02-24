@@ -57,3 +57,26 @@ def get_names_of_arguments_without_defaults(function):
             argument_names_without_defaults.append(parameter)
 
     return argument_names_without_defaults
+
+
+def add_rounding_spec(params_key):
+    """Decorator adding the location of the rounding specification to a function.
+
+    Parameters
+    ----------
+    params_key : str
+        Key of the parameters dictionary where rouding specifications are found. For
+        functions that are not user-written this is just the name of the respective
+        .yaml file.
+
+    Returns
+    -------
+    func : function
+        Function with __rounding_params_key__ attribute
+    """
+
+    def inner(func):
+        func.__rounding_params_key__ = params_key
+        return func
+
+    return inner

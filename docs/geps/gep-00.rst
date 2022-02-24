@@ -1,5 +1,5 @@
 ===========================
-GEP 0 - Purpose and Process
+GEP 0 — Purpose and Process
 ===========================
 
 +------------+-------------------------------------------------------------------------+
@@ -66,20 +66,20 @@ Each GEP must have a champion---someone who writes the GEP using the style and f
 described below, shepherds the discussions in the appropriate forums, and attempts to
 build community consensus around the idea.  The GEP champion (a.k.a. Author) should
 first attempt to ascertain whether the idea is suitable for a GEP. A message in
-`#general/geps`_ on `Zulip`_ is the best way to go about doing this.
+`#GEPs`_ on `Zulip`_ is the best way to go about doing this.
 
 The proposal should be submitted as a draft GEP via a `GitHub pull request`_ to the
 ``doc/geps`` directory with the name ``gep-<n>.rst`` where ``<n>`` is an appropriately
 assigned two-digit number (e.g., it is ``gep-00.rst`` for this document). The draft must
-use the :ref:`gep-template` file.
+use the :ref:`gep-x` file.
 
-Once the PR is in place, the GEP should be announced on the in `#general/geps`_ on
+Once the PR is in place, the GEP should be announced on the in `#GEPs`_ on
 `Zulip`_ for discussion. Discussion about implementation details will take place on the
 pull request, but once editorial issues are solved, the PR should be merged, even if
-with draft status. The `#general/geps`_ topic will contain the GEP upto the section
+with draft status. The `#GEPs`_ stream will contain the GEP upto the section
 titled "Backward compatibility", so as to make it digestible to a wide audience. The
-`#general/geps`_ topic discussion is intended to target end-users, and thus, discussion
-on the proposed usage and possible impact should take place in `#general/geps`_.
+`#GEPs`_ stream discussion is intended to target end-users, and thus, discussion
+on the proposed usage and possible impact should take place in `#GEPs`_.
 
 At the earliest convenience, the PR should be merged (regardless of whether it is
 accepted during discussion). Additional PRs may be made by the Author to update or
@@ -96,15 +96,15 @@ the prototype implementation to be made available as PR to the GETTSIM repositor
 Review and Resolution
 ^^^^^^^^^^^^^^^^^^^^^
 
-GEPs are discussed in `#general/geps`_.  The possible paths of the status of GEPs are as
+GEPs are discussed in `#GEPs`_.  The possible paths of the status of GEPs are as
 follows:
 
 .. image:: /_static/gep-process.png
 
 All GEPs should be created with the ``Draft`` status.
 
-Eventually, after discussion, there may be a consensus that the GEP should be accepted
-–-- see the next section for details. At this point the status becomes ``Accepted``.
+Eventually, after discussion, there may be a consensus that the GEP should be accepted —
+see the next section for details. At this point the status becomes ``Accepted``.
 
 Once a GEP has been ``Accepted``, the reference implementation must be completed.  When
 the reference implementation is complete and incorporated into the main source code
@@ -149,9 +149,11 @@ How a GEP becomes Accepted
 
 A GEP is ``Accepted`` by consensus of all interested contributors. We need a concrete
 way to tell whether consensus has been reached. When you think a GEP is ready to accept,
-send a message with a first line like:
+post a message with a first line like:
 
-  Proposal to accept GEP #<number>: <title>
+  ## Proposal to accept GEP #<number>: <title>
+
+to the Zulip stream GEPs / GEP [XY].
 
 In the body of your message, you should:
 
@@ -169,7 +171,7 @@ Generally the GEP author will be the one to send this message, but anyone can do
 the important thing is to make sure that everyone knows when a GEP is on the verge of
 acceptance, and give them a final chance to respond. If there's some special reason to
 extend this final comment period beyond 7 days, then that's fine, just say so in the
-message. You shouldn't do less than 7 days, because sometimes people are traveling or
+message. You shouldn't do less than 7 days, because sometimes people are travelling or
 similar and need some time to respond.
 
 In general, the goal is to make sure that the community has consensus, not provide a
@@ -204,7 +206,7 @@ Format and Template
 -------------------
 
 GEPs are UTF-8 encoded text files using the reStructuredText_ format. Please see the
-:ref:`gep-template` file and the reStructuredTextPrimer_ for more information. We use
+:ref:`gep-x` file and the reStructuredTextPrimer_ for more information. We use
 Sphinx_ to convert GEPs to HTML for viewing on the web [2]_.
 
 
@@ -269,7 +271,7 @@ References and Footnotes
 
 .. _Zulip: https://gettsim.zulipchat.com/
 
-.. _#general/geps: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs
+.. _#GEPs: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs
 
 
 Acknowledgements

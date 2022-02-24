@@ -1,6 +1,9 @@
-:download:`Download the template here <gep-template.rst>`.
+:download:`Download the template here <gep-x.rst>`.
 
-.. _gep-template:
+.. Delete above this line
+
+
+.. _gep-x:
 
 =================================
 GEP X — Template and Instructions
@@ -55,7 +58,7 @@ Backward compatibility
 
 This section describes the ways in which the GEP breaks backward compatibility.
 
-The `#general/geps`_ topic will contain the GEP up to and including this section. This
+The `#GEPs`_ stream will contain the GEP up to and including this section. This
 is to avoid losing users who are not interested in implementation details and instead
 focus the discussion on usage and impact of the intended features.
 
@@ -114,7 +117,7 @@ References and Footnotes
 
 .. _Open Publication License: https://www.opencontent.org/openpub/
 
-.. _#general/geps: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs
+.. _#GEPs: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs
 
 
 Copyright

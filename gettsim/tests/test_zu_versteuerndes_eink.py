@@ -16,18 +16,18 @@ INPUT_COLS = [
     "bruttolohn_m",
     "betreuungskost_m",
     "eink_selbst_m",
-    "kapital_eink_m",
+    "kapitaleink_m",
     "vermiet_eink_m",
     "jahr_renteneintr",
-    "ges_rente_m",
+    "summe_ges_priv_rente_m",
     "arbeitsstunden_w",
     "in_ausbildung",
     "kind",
     "behinderungsgrad",
-    "rentenv_beitr_m",
-    "prv_rente_beitr_m",
+    "ges_rentenv_beitr_m",
+    "priv_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
-    "pflegev_beitr_m",
+    "ges_pflegev_beitr_m",
     "alleinerziehend",
     "alter",
     "jahr",
@@ -37,7 +37,7 @@ INPUT_COLS = [
 OUT_COLS = [
     "zu_verst_eink_kein_kinderfreib",
     "zu_verst_eink_kinderfreib",
-    "kind_freib",
+    "kinderfreib",
     "brutto_eink_1",
     "brutto_eink_4",
     "brutto_eink_5",
@@ -56,7 +56,7 @@ OUT_COLS = [
 ]
 
 TEST_COLS = [
-    "zu_verst_eink_kein_kinderfreib_tu",
+    "_zu_verst_eink_kein_kinderfreib_tu",
     "zu_verst_eink_kinderfreib_tu",
     "kinderfreib_tu",
     "altersfreib",
@@ -84,8 +84,9 @@ def test_zve(
     columns_overriding_functions = [
         "ges_krankenv_beitr_m",
         "arbeitsl_v_beitr_m",
-        "pflegev_beitr_m",
-        "rentenv_beitr_m",
+        "ges_pflegev_beitr_m",
+        "ges_rentenv_beitr_m",
+        "summe_ges_priv_rente_m",
     ]
     result = compute_taxes_and_transfers(
         data=df,
@@ -97,8 +98,10 @@ def test_zve(
 
     if target == "kindergeld_tu":
         expected_result = sum_test_data_tu("kindergeld", year_data)
-    elif target == "zu_verst_eink_kein_kinderfreib_tu":
-        expected_result = sum_test_data_tu("zu_verst_eink_kein_kinderfreib", year_data)
+    elif target == "_zu_verst_eink_kein_kinderfreib_tu":
+        expected_result = sum_test_data_tu(
+            "zu_verst_eink_kein_kinderfreib", year_data
+        ).rename("_zu_verst_eink_kein_kinderfreib_tu")
     elif target == "zu_verst_eink_kinderfreib_tu":
         expected_result = sum_test_data_tu("zu_verst_eink_kinderfreib", year_data)
     elif target == "kinderfreib_tu":

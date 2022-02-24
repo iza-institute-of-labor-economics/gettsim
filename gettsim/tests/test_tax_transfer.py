@@ -3,10 +3,9 @@ import datetime
 import pandas as pd
 import pytest
 
-from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
-from gettsim.config import STANDARD_DATA_TYPES
+from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
 from gettsim.interface import compute_taxes_and_transfers
@@ -16,6 +15,22 @@ from gettsim.typing import check_if_series_has_internal_type
 
 
 YEARS = [2019, 2020, 2021]
+
+OUT_COLS = [
+    "eink_st_tu",
+    "soli_st_tu",
+    "abgelt_st_tu",
+    "ges_rentenv_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "ges_krankenv_beitr_m",
+    "ges_pflegev_beitr_m",
+    "arbeitsl_geld_m",
+    "kindergeld_m_tu",
+    "arbeitsl_geld_2_m_hh",
+    "kinderzuschl_m_hh",
+    "wohngeld_m_hh",
+    "unterhaltsvors_m_hh",
+]
 
 
 @pytest.fixture(scope="module")
@@ -30,7 +45,9 @@ def test_tax_transfer(
     input_data, year,
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
-    df = year_data[list(STANDARD_DATA_TYPES.keys())].copy()
+    df = year_data[
+        list(TYPES_INPUT_VARIABLES.keys()) + ["summe_ges_priv_rente_m"]
+    ].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     # params["renten_daten"] = renten_daten
 
@@ -38,7 +55,8 @@ def test_tax_transfer(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=DEFAULT_TARGETS,
+        targets=OUT_COLS,
+        columns_overriding_functions=["summe_ges_priv_rente_m"],
     )
 
 
@@ -50,11 +68,13 @@ def test_data_types(
     functions = _load_functions(imports)
 
     # Load all time dependent functions
-    for year in range(1990, 2021):
+    for year in range(1990, 2023):
         year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
 
     year_data = input_data[input_data["jahr"] == year].copy()
-    df = year_data[list(STANDARD_DATA_TYPES.keys())].copy()
+    df = year_data[
+        list(TYPES_INPUT_VARIABLES.keys()) + ["summe_ges_priv_rente_m"]
+    ].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     # params["renten_daten"] = renten_daten
 
@@ -62,15 +82,16 @@ def test_data_types(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=DEFAULT_TARGETS,
+        targets=OUT_COLS,
         debug=True,
+        columns_overriding_functions=["summe_ges_priv_rente_m"],
     )
     for column_name, series in data.items():
         if series.empty:
             pass
         else:
-            if column_name in STANDARD_DATA_TYPES:
-                internal_type = STANDARD_DATA_TYPES[column_name]
+            if column_name in TYPES_INPUT_VARIABLES:
+                internal_type = TYPES_INPUT_VARIABLES[column_name]
             elif column_name in functions:
                 internal_type = functions[column_name].__annotations__["return"]
             elif column_name in year_functions:

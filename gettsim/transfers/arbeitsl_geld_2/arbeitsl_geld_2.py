@@ -6,38 +6,38 @@ from gettsim.typing import IntSeries
 
 
 def arbeitsl_geld_2_m_hh(
-    arbeitsl_geld_2_m_minus_eink_hh: FloatSeries,
+    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
-    kinderzuschlag_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschlag_vorrang_hh: BoolSeries,
-    rentner_in_hh: BoolSeries,
+    kinderzuschl_vorrang_hh: BoolSeries,
+    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
+    alle_erwachsene_sind_rentner_hh: BoolSeries,
 ) -> FloatSeries:
 
     """Calculate final monthly subsistence payment on household level.
 
     Parameters
     ----------
-    arbeitsl_geld_2_m_minus_eink_hh
-        See :func:`arbeitsl_geld_2_m_minus_eink_hh`.
+    arbeitsl_geld_2_vor_vorrang_m_hh
+        See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
-    kinderzuschlag_vorrang_hh
-        See :func:`kinderzuschlag_vorrang_hh`.
-    wohngeld_kinderzuschlag_vorrang_hh
-        See :func:`wohngeld_kinderzuschlag_vorrang_hh`.
-    rentner_in_hh
-        See :func:`rentner_in_hh`.
+    kinderzuschl_vorrang_hh
+        See :func:`kinderzuschl_vorrang_hh`.
+    wohngeld_kinderzuschl_vorrang_hh
+        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
+    alle_erwachsene_sind_rentner_hh
+        See :func:`alle_erwachsene_sind_rentner_hh   `.
 
     Returns
     -------
     FloatSeries with the income by unemployment insurance per household.
     """
-    out = arbeitsl_geld_2_m_minus_eink_hh.clip(lower=0)
+    out = arbeitsl_geld_2_vor_vorrang_m_hh.copy()
     cond = (
         wohngeld_vorrang_hh
-        | kinderzuschlag_vorrang_hh
-        | wohngeld_kinderzuschlag_vorrang_hh
-        | rentner_in_hh
+        | kinderzuschl_vorrang_hh
+        | wohngeld_kinderzuschl_vorrang_hh
+        | alle_erwachsene_sind_rentner_hh
     )
     out.loc[cond] = 0
     return out
@@ -64,7 +64,7 @@ def regelbedarf_m_hh(
     return regelsatz_m_hh + kost_unterk_m_hh
 
 
-def alleinerziehenden_mehrbedarf_hh(
+def _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh(
     alleinerziehend_hh: BoolSeries,
     anz_kinder_hh: IntSeries,
     anz_kind_zwischen_0_6_hh: IntSeries,
@@ -188,7 +188,7 @@ def kindersatz_m_hh_ab_2011(
 
 def regelsatz_m_hh_bis_2010(
     anz_erwachsene_hh: IntSeries,
-    alleinerziehenden_mehrbedarf_hh: FloatSeries,
+    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh: FloatSeries,
     kindersatz_m_hh: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
@@ -200,8 +200,8 @@ def regelsatz_m_hh_bis_2010(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    alleinerziehenden_mehrbedarf_hh
-        See :func:`alleinerziehenden_mehrbedarf_hh`.
+    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
+        See :func:`_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh`.
     kindersatz_m_hh
         See :func:`kindersatz_m_hh`.
     arbeitsl_geld_2_params
@@ -213,7 +213,8 @@ def regelsatz_m_hh_bis_2010(
     """
     data = np.where(
         anz_erwachsene_hh == 1,
-        arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerziehenden_mehrbedarf_hh),
+        arbeitsl_geld_2_params["regelsatz"]
+        * (1 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh),
         arbeitsl_geld_2_params["regelsatz"]
         * (
             2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
@@ -227,7 +228,7 @@ def regelsatz_m_hh_bis_2010(
 
 def regelsatz_m_hh_ab_2011(
     anz_erwachsene_hh: IntSeries,
-    alleinerziehenden_mehrbedarf_hh: FloatSeries,
+    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh: FloatSeries,
     kindersatz_m_hh: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
@@ -238,8 +239,8 @@ def regelsatz_m_hh_ab_2011(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    alleinerziehenden_mehrbedarf_hh
-        See :func:`alleinerziehenden_mehrbedarf_hh`.
+    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
+        See :func:`_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh`.
     kindersatz_m_hh
         See :func:`kindersatz_m_hh`.
     arbeitsl_geld_2_params
@@ -251,8 +252,10 @@ def regelsatz_m_hh_ab_2011(
     """
     data = np.where(
         anz_erwachsene_hh == 1,
-        arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerziehenden_mehrbedarf_hh),
-        arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerziehenden_mehrbedarf_hh)
+        arbeitsl_geld_2_params["regelsatz"][1]
+        * (1 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh),
+        arbeitsl_geld_2_params["regelsatz"][2]
+        * (2 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh)
         + (
             arbeitsl_geld_2_params["regelsatz"][3]
             * (anz_erwachsene_hh - 2).clip(lower=0)

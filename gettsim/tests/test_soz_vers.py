@@ -17,8 +17,8 @@ INPUT_COLS = [
     "selbstständig",
     "hat_kinder",
     "eink_selbst_m",
-    "ges_rente_m",
-    "prv_krankenv",
+    "summe_ges_priv_rente_m",
+    "in_priv_krankenv",
     "jahr",
 ]
 
@@ -26,10 +26,10 @@ INPUT_COLS = [
 YEARS = [2002, 2010, 2018, 2019, 2020]
 OUT_COLS = [
     "sozialv_beitr_m",
-    "rentenv_beitr_m",
+    "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
-    "pflegev_beitr_m",
+    "ges_pflegev_beitr_m",
 ]
 
 
@@ -47,7 +47,11 @@ def test_soc_ins_contrib(input_data, year, target):
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
     results = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=target
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=target,
+        columns_overriding_functions=["summe_ges_priv_rente_m"],
     )
 
     pd.testing.assert_series_equal(results[target], year_data[target])

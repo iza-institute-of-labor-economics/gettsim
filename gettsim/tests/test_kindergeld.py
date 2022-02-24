@@ -17,7 +17,7 @@ INPUT_COLS = [
     "arbeitsstunden_w",
     "in_ausbildung",
     "bruttolohn_m",
-    "zu_verst_eink_kein_kinderfreib_tu",
+    "_zu_verst_eink_kein_kinderfreib_tu",
 ]
 YEARS = [2002, 2010, 2011, 2013, 2019, 2020, 2021]
 TEST_COLS = [
@@ -43,7 +43,7 @@ def test_kindergeld(input_data, year, target):
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    user_cols = ["zu_verst_eink_kein_kinderfreib_tu"]
+    user_cols = ["_zu_verst_eink_kein_kinderfreib_tu"]
     calc_result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
