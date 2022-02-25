@@ -371,18 +371,6 @@ vermögensfreibetrag_kind:
     scalar: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
 
-vermög_freib_alter:
-  name:
-    de: Altersgrenzen für Vermögensfreibetrag
-    en: age limits for wealth allowance
-  description:
-    de: Vermögensfreibetrag ändert sich nach Geburtsjahr
-    en: wealth allowance changes depending on the year of birth
-  2005-01-01:
-    1: 1948
-    2: 1958
-    3: 1963
-
 abzugsfähige_pausch:
   name:
     de: Abzugsfähige Pauschalen für Werbungskosten und Versicherung

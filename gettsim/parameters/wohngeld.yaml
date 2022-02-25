@@ -1782,6 +1782,7 @@ max_miete:
       6: 143
       7: 157
     reference: V. v. 03.06.2021 BGBl. I S. 1369.
+
 vermögensgrundfreibetrag:
   name:
     de: Vermögensgrundfreibetrag für den Haushalt
@@ -1797,6 +1798,7 @@ vermögensgrundfreibetrag:
     scalar: 60000
     reference: Wohngeld-Verwaltungsvorschrift 2009.
     note: At least in place since then.
+
 vermögensfreibetrag_pers:
   name:
     de: Vermögensfreibetrag für jedes weitere Haushaltsmitglied
