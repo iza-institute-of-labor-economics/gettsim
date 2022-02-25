@@ -96,13 +96,20 @@ def _arbeitsl_geld_2_grundfreib_vermög_hh(
 
     """
     out = pd.Series(0, index=alter.index)
-    out.loc[geburtsjahr < 1948] = (
+    out.loc[geburtsjahr < arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1]] = (
         arbeitsl_geld_2_params["vermögensgrundfreibetrag"]["bis_1947"]
-        * alter.loc[geburtsjahr < 1948]
+        * alter.loc[
+            geburtsjahr < arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1]
+        ]
     )
-    out.loc[(1948 <= geburtsjahr) & ~kind] = (
+    out.loc[
+        (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1] < geburtsjahr) & ~kind
+    ] = (
         arbeitsl_geld_2_params["vermögensgrundfreibetrag"]["ab_1948"]
-        * alter.loc[(1948 <= geburtsjahr) & ~kind]
+        * alter.loc[
+            (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1] < geburtsjahr)
+            & ~kind
+        ]
     )
 
     # exemption is bounded from above.
@@ -132,10 +139,21 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
 
     """
     conditions = [
-        (geburtsjahr < 1948).astype(bool),
-        ((1948 <= geburtsjahr) & (geburtsjahr <= 1957)).astype(bool),
-        ((1958 <= geburtsjahr) & (geburtsjahr <= 1963)).astype(bool),
-        ((1964 <= geburtsjahr) & ~kind).astype(bool),
+        (geburtsjahr < arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1]).astype(
+            bool
+        ),
+        (
+            (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1] < geburtsjahr)
+            & (geburtsjahr <= arbeitsl_geld_2_params["vermög_freib_altersgrenze"][2])
+        ).astype(bool),
+        (
+            (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][2] < geburtsjahr)
+            & (geburtsjahr <= arbeitsl_geld_2_params["vermög_freib_altersgrenze"][3])
+        ).astype(bool),
+        (
+            (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][4] <= geburtsjahr)
+            & ~kind
+        ).astype(bool),
         True,
     ]
 

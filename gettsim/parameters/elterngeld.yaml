@@ -87,6 +87,20 @@ elterngeld_eink_schritt_korrektur:
   2007-01-01:
     scalar: 2
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_geschw_bonus:
+  name:
+    de: Altersgrenzen für Geschwisterbonus
+    en: Age limit for sibling bonus
+  description:
+    de: Leben im Haushalt zwei Kinder unter 3 Jahren oder mehr als zwei unter 6 Jahren wird das
+        Elterngeld um 10% (max. um 75€) erhöht.
+    en: If there are two children under the age of 3 or more than two under the age of 6
+        living in the household, Parental allowance is increased by 10% (max. by €75).
+  reference: § 2a BEEG
+  2007-01-01:
+    grenze1: 3
+    grenze2: 6
+    anzahl: 2
 elterngeld_geschw_bonus_aufschlag:
   name:
     de: Geschwisterbonus als prozentualer Aufschlag

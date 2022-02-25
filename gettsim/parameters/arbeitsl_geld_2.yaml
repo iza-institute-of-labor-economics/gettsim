@@ -282,6 +282,18 @@ mehrbedarf_anteil:
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
 
+vermög_freib_altersgrenze:
+  name:
+    de: Altersgrenzen für Vermögensfreibetrag
+    en: age limits for wealth allowance
+  description:
+    de: Vermögensfreibetrag ändert sich nach Geburtsjahr
+    en: wealth allowance changes depending on the year of birth
+  2005-01-01:
+    1: 1947
+    2: 1957
+    3: 1963
+    4: 1964
 
 vermögensgrundfreibetrag_obergrenze:
   name:
@@ -359,6 +371,18 @@ vermögensfreibetrag_kind:
     scalar: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
 
+vermög_freib_alter:
+  name:
+    de: Altersgrenzen für Vermögensfreibetrag
+    en: age limits for wealth allowance
+  description:
+    de: Vermögensfreibetrag ändert sich nach Geburtsjahr
+    en: wealth allowance changes depending on the year of birth
+  2005-01-01:
+    1: 1948
+    2: 1958
+    3: 1963
+
 abzugsfähige_pausch:
   name:
     de: Abzugsfähige Pauschalen für Werbungskosten und Versicherung
@@ -380,3 +404,40 @@ abzugsfähige_pausch:
     werbung: 15.33
     reference: V. v. 21.06.2011 BGBl. I S. 1175.
     note: Fester Betrag. Betrag unverändert. Warum haben wir das? Es ändert sich nichts
+
+max_miete_pro_qm:
+  name:
+    de: Obergenze Miete pro Quadratmeter
+    en: Upper limit rent per square meter
+  description:
+    de: Die Miete pro Quadratmeter darf einen angemessenen Betrag nicht übersteigen, um für ALG2
+        berechtigt zu sein.
+    en: The rent per square meter must not exceed a reasonable amount in order to remain
+        eligible for ALG2.
+  reference: § 22 SGB II
+  1984-01-01:
+    max: 10
+
+berechtigte_wohnfläche_miete:
+  name:
+    de: Berechtigte Miet-Wohnfläche für ALG2-Empfänger*innen
+    en: living rental space eligible for ALG2-recipients
+  description:
+    de: Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere Person)
+        groß sein.
+    en: A rental apartment may be 45 square meters for a single person (+15 for each additional
+        person).
+  1984-01-01:
+    basisgröße: 45
+    erweiterung: 15
+
+berechtigte_wohnfläche_eigentum:
+  name:
+    de: Berechtigte Eigentumsfläche für ALG2-Empfänger*innen
+    en: property space eligible for ALG2-recipients
+  description:
+    de: Eigentum darf für zwei Personen 80 Quadratmeter (+20 für jede weitere Person) groß sein.
+    en: Property for two people may be 80 square meters (+20 for each additional person).
+  1984-01-01:
+    basisgröße: 80
+    erweiterung: 20

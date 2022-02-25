@@ -641,6 +641,17 @@ bezugsgröße:
     ost: 3150
     reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
 
+bezugsgröße_selbst:
+  name:
+    de: Einkommensbezugsröße für Selbständige
+    en: Refernce size of income for selfemployed
+  description:
+    de: Maximale Bezugsgröße des Einkommens in der gesetzlichen Krankenversicherung für Selbständige
+    en: maximum amount of income which is subject to health insurance contribution for selfemployed
+  unit: percent
+  1984-01-01:
+    anteil: 0.75
+
 geringfügige_eink_grenzen:
   name:
     de: Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
@@ -771,3 +782,15 @@ ag_abgaben_geringf:
     ges_krankenv: 0.13
     ges_rentenv: 0.15
     st: 0.02
+
+ges_pflegev_zusatz_kinderlos:
+  name:
+    de: Altersgrenze Beitragszuschlag für Kinderlose
+    en: Age limit additional contribution for childless
+  description:
+    de: nach Vollendung des 23. Lebensjahres erhöht sich der Beitragssatz für Kinderlose um 0.35 Beitragssatzpunkte
+    en: after completing the 23rd year of life the contribution rate for childless individuals is increased by 0.35 contribution rate points
+  unit: years
+  reference: § 55 Abs. 3 SGB XI
+  1984-01-01:
+    altersgrenze: 22

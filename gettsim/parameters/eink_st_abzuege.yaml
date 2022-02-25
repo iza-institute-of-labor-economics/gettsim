@@ -381,6 +381,37 @@ altersentlastung_quote:
     scalar: 0.136
     reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
 
+altersfreibetrag:
+  name:
+    de: Altersgrenze für Altersfreibetrag
+    en: Age limit for age allowance
+  description:
+    de: Der Altersentlastungsbetrag wird einem Steuerpflichtigen gewährt,
+        der vor dem Beginn des Kalenderjahres, in dem er sein Einkommen bezogen hat,
+        das 64. Lebensjahr vollendet hatte.
+    en: The old-age relief amount is granted to a taxpayer
+        who, before the start of the calendar year in which he received his income,
+        had reached the age of 64.
+  reference: § 24a Art. 3 EStG
+  1984-01-01:
+    altersgrenze: 64
+
+einführungsfaktor:
+  name:
+    de: Einführungsfaktor für Altersvorsorge Aufwendung
+    en: Introductory factor for pension expense
+  description:
+    de: Diese Funktion wird erst ab 2005 relevant. Der Anteil der abzugsfähigen Beiträge
+        steigt von 60% in 2005 jährlich um 2 Prozentpunkte an, bis 100% in 2025 erreicht werden.
+    en: This function becomes relevant in 2005. The share of deductible contributions
+        increases each year from 60% in 2005 to 100% in 2025 by 2 percentage points each year.
+  reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
+  2005-01-01:
+    basisfaktor: 0.6
+    anstiegsfaktor: 0.02
+    basisjahr: 2005
+    endjahr: 2025
+
 alleinerziehenden_freibetrag:
   name:
     de: Entlastungsbetrag für Alleinerziehende

@@ -180,7 +180,9 @@ def grundr_zuschlag_vor_eink_anr_m(
         grundr_zuschlag_bonus_entgeltp
         * grundr_bew_zeiten.clip(upper=ges_rentenv_params["grundr_zeiten"]["max"])
         * rentenwert
-        * ges_rente_zugangsfaktor.clip(upper=1)
+        * ges_rente_zugangsfaktor.clip(
+            upper=ges_rentenv_params["grundr_zugangsfaktor"]["max"]
+        )
     )
     return out
 

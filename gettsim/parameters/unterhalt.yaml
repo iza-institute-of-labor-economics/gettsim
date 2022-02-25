@@ -49,3 +49,19 @@ unterhaltsvorschuss_mindesteinkommen:
   2017-01-01:
     scalar: 600
     reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
+unterhaltsvors_altersgrenzen:
+  name:
+    de: Altersgrenzen für den Bezug von Unterhaltsvorschuss
+    en: age limits for receiving alimony payments
+  description:
+    de: Kinder, die das 12. Lebensjahr noch nicht vollendet haben und bei einem alleinerziehenden
+        Elternteil leben haben Anspruch auf Unterhaltszahlungen. Zudem können auch Kinder bis zur
+        Vollendung des 18. Lebensjahres Unterhalt bekommen, wenn das Elternteil mind. 600€ Einkommen hat.
+    en: Children under the age of 12 living with a single parent are entitled to alimony payments.
+        In addition, children up to the age of 18 receive alimony payments if the parent has an
+        income of at least €600.
+  reference: § 1 Abs. 1, 1a UhVorschG
+  2017-01-01:
+    1: 6
+    2: 12
+    3: 18

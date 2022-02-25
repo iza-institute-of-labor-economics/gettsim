@@ -135,9 +135,15 @@ def berechtigt_für_arbeitsl_geld(
 
     """
     return (
-        (1 <= monate_arbeitsl)
-        & (monate_arbeitsl <= 12)
-        & (alter < 65)
+        (
+            arbeitsl_geld_params["berechtigt_für_arbeitsl_geld"]["min_dauer"]
+            <= monate_arbeitsl
+        )
+        & (
+            monate_arbeitsl
+            <= arbeitsl_geld_params["berechtigt_für_arbeitsl_geld"]["max_dauer"]
+        )
+        & (alter < arbeitsl_geld_params["berechtigt_für_arbeitsl_geld"]["altersgrenze"])
         & (summe_ges_priv_rente_m == 0)
         & (arbeitsstunden_w < arbeitsl_geld_params["arbeitsl_geld_stundengrenze"])
     )

@@ -12,6 +12,20 @@ kindergeld_hoechstalter:
     scalar: 25
     reference: Art. 1 G. v. 19.07.2006 BGBl I S. 1652
 
+kindergeld_berücksichtigungsalter:
+  name:
+    de: Berücksichtigungsalter für Kindergeld
+    en: Consideration age for child benefit
+  description:
+    de: Kinder bis zur Beendigung des 18. Lebensjahr, sowie Kinder unter bestimmten Voraussetzungen
+        zwischen 19 und 25 Jahren werden für das Kindergeld berücksichtigt
+    en: Children up to the age of 18 and children between 19 and 25, under certain circumstances, are
+        considered for child benefit
+  unit: years/ age
+  reference: § 32 Art. 3 und 4 EStG.
+  1984-01-01:
+    grenze: 18
+
 kindergeld:
   name:
     de: Kindergeld, Betrag je nach Reihenfolge der Kinder.

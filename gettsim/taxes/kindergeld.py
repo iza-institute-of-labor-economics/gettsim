@@ -27,7 +27,9 @@ def kindergeld_m_basis(
     )
     # Make sure that only eligible children get assigned kindergeld
     kumulativer_anspruch.loc[~kindergeld_anspruch] = 0
-    out = kumulativer_anspruch.clip(upper=4).replace(kindergeld_params["kindergeld"])
+    out = kumulativer_anspruch.clip(
+        upper=max(kindergeld_params["kindergeld"].keys())
+    ).replace(kindergeld_params["kindergeld"])
     return out
 
 
@@ -76,9 +78,9 @@ def kindergeld_anspruch_nach_stunden(
     -------
     BoolSeries indiciating kindergeld eligibility.
     """
-    out = alter <= 18
+    out = alter < kindergeld_params["kindergeld_berücksichtigungsalter"]["grenze"]
     out = out | (
-        (19 <= alter)
+        (kindergeld_params["kindergeld_berücksichtigungsalter"]["grenze"] <= alter)
         & (alter <= kindergeld_params["kindergeld_hoechstalter"])
         & in_ausbildung
         & (arbeitsstunden_w <= kindergeld_params["kindergeld_stundengrenze"])
@@ -114,9 +116,9 @@ def kindergeld_anspruch_nach_lohn(
     -------
 
     """
-    out = alter <= 18
+    out = alter < kindergeld_params["kindergeld_berücksichtigungsalter"]["grenze"]
     out = out | (
-        (19 <= alter)
+        (kindergeld_params["kindergeld_berücksichtigungsalter"]["grenze"] <= alter)
         & (alter <= kindergeld_params["kindergeld_hoechstalter"])
         & in_ausbildung
         & (bruttolohn_m <= kindergeld_params["kindergeld_einkommensgrenze"] / 12)

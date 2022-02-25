@@ -423,6 +423,21 @@ koeffizienten_berechnungsformel:
         b: 0.000098
         c: 0.0000503
 
+haushaltsgrößen:
+  name:
+    de: Haushaltsgrößen berücksichtigt für Wohngeld
+    en: Household sizes taken into account for housing benefit
+  description:
+    de: Haushalte mit mehr als 5 Mitgliedern haben einen festgesetzten Höchstbetrag für Miete und Belastung.
+        Das Wohngeld für bis zu 12 Haushaltsmitglieder kann durch die Formel berechnet werden.
+    en: Households with more than 5 members have a fixed maximum amount for rent and burden.
+        The housing benefit for up to 12 household members can be calculated using the formula
+        be calculated.
+  reference: § 19 Abs.1 WoGG
+  1984-01-01:
+    1: 5
+    2: 12
+
 bonus_12_mehr:
   name:
     de: Zusätzlicher Betrag pro Person für Haushalte mit mehr als 12 Personen
@@ -674,6 +689,19 @@ freib_behinderung:
   2020-01-01:
     reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
     scalar: 150
+
+behinderungsgrad:
+  name:
+    de: Behinderungsgrad für Freibetrag
+    en: Degree of disability for allowance
+  description:
+    de: Seit 2016 wird ein Behinderungsgrad ab und unter 100% berücksichtigt, vorher von 80%.
+    en: A degree of disability of and below 100% has been taken into account since 2016, previously 80%.
+  reference: § 17 Abs. 1 WoGG
+  unit: prozent
+  1984-01-01:
+    1: 0
+    2: 80
 
 max_miete:
   name:

@@ -15,6 +15,18 @@ arbeitsl_geld_freibetrag:
     scalar: 165
     reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
 
+berechtigt_für_arbeitsl_geld:
+  name:
+    de: Voraussetzungen für ALG 1
+    en: Requirements for ALG 1
+  description:
+    de: ALG 1 wird für die ersten 12 Monate der Arbeitslosigkeit und für Personen unter 65 ausgezahlt.
+    en: ALG 1 is paid for the first 12 months of unemployment and for people under 65.
+  1984-01-01:
+    min_dauer: 1
+    max_dauer: 12
+    altersgrenze: 65
+
 soz_vers_pausch_arbeitsl_geld:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts

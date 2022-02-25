@@ -122,14 +122,17 @@ def altersfreib(
 
     """
     out = bruttolohn_m * 0
-    out.loc[alter > 64] = (
+    agelimit = eink_st_abzuege_params["altersfreibetrag"]["altersgrenze"]
+    out.loc[alter > agelimit] = (
         eink_st_abzuege_params["altersentlastung_quote"]
         * 12
         * (
             bruttolohn_m
             + (kapitaleink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
         )
-    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])[alter > 64]
+    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])[
+        alter > agelimit
+    ]
     return out
 
 
@@ -228,8 +231,13 @@ def altervorsorge_aufwend(
     -------
 
     """
-    einführungsfaktor = 0.6 + 0.02 * (
-        min(eink_st_abzuege_params["datum"].year, 2025) - 2005
+    einführungsfaktor = eink_st_abzuege_params["einführungsfaktor"]["basisfaktor"]
+    +eink_st_abzuege_params["einführungsfaktor"]["anstiegsfaktor"] * (
+        min(
+            eink_st_abzuege_params["datum"].year,
+            eink_st_abzuege_params["einführungsfaktor"]["endjahr"],
+        )
+        - eink_st_abzuege_params["einführungsfaktor"]["basisjahr"]
     )
     out = (
         (
