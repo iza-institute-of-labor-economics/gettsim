@@ -4,8 +4,16 @@ soz_vers_beitr:
     en: Contribution rate to statutory social insurances
   description:
     de:
-      ges_krankenv: Beitragssätze für gesetzliche Krankenversicherung. allg - allgemeiner Satz (§241 SGB V), erm - ermäßigter Satz (§243 SGB V ), zus - durchschnittlicher Zusatzbeitragssatz
+      ges_krankenv: Beitragssätze für gesetzliche Krankenversicherung.
+                    allg - allgemeiner Satz (§241 SGB V). Bis 2008 durchschnittlicher Beitragssatz.
+                    erm - ermäßigter Satz (§243 SGB V )
+                    zus - durchschnittlicher Zusatzbeitragssatz.
     en:
+      ges_krankenv: Statury Contribution Rates for mandatory health insurance.
+                    all - general contribution rate. Before 2008, rates differed by insurance entities.
+                    The parameter corresponds to the average rate.
+                    erm - reduced rate
+                    zus - average top-up contribution rate (since 2008).
   unit: share
   1984-01-01:
     ges_krankenv:
@@ -137,12 +145,13 @@ soz_vers_beitr:
       zusatz_kinderlos: 0.0025
     arbeitsl_v: 0.0325
     ges_rentenv: 0.0975
-  2006-01-01:
+  2005-07-01:
     deviation_from: previous
     ges_krankenv:
       allg: 0.133
       zus: 0.009
-    note: Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt
+    note: Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung eines Zusatzbeitrags
+    reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
   2007-01-01:
     deviation_from: previous
     ges_krankenv:
@@ -175,8 +184,9 @@ soz_vers_beitr:
   2011-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: 0.146
-      erm: 0.14
+      allg: 0.155
+      erm: 0.149
+    reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
     arbeitsl_v: 0.015
   2012-01-01:
     deviation_from: previous
