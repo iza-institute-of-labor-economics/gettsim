@@ -518,8 +518,8 @@ beitr_bemess_grenze:
 
 bezugsgröße:
   name:
-    de: monatl. Bezugsgröße
-    en:
+    de: Monatl. Bezugsgröße
+    en: Monthly reference size
   description:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
     en:
@@ -641,16 +641,16 @@ bezugsgröße:
     ost: 3150
     reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
 
-bezugsgröße_selbst:
+bezugsgröße_selbst_anteil:
   name:
-    de: Einkommensbezugsröße für Selbständige
-    en: Refernce size of income for selfemployed
+    de: Einkommensbezugsgröße für Selbständige
+    en: Reference size of income for selfemployed
   description:
     de: Maximale Bezugsgröße des Einkommens in der gesetzlichen Krankenversicherung für Selbständige
-    en: maximum amount of income which is subject to health insurance contribution for selfemployed
-  unit: percent
+    en: Maximum amount of income which is subject to health insurance contribution for selfemployed
+  unit: share
   1984-01-01:
-    anteil: 0.75
+    scalar: 0.75
 
 geringfügige_eink_grenzen:
   name:
@@ -788,9 +788,9 @@ ges_pflegev_zusatz_kinderlos:
     de: Altersgrenze Beitragszuschlag für Kinderlose
     en: Age limit additional contribution for childless
   description:
-    de: nach Vollendung des 23. Lebensjahres erhöht sich der Beitragssatz für Kinderlose um 0.35 Beitragssatzpunkte
-    en: after completing the 23rd year of life the contribution rate for childless individuals is increased by 0.35 contribution rate points
-  unit: years
+    de: Nach Vollendung des 23. Lebensjahres erhöht sich der Beitragssatz für Kinderlose um 0.35 Beitragssatzpunkte
+    en: After completing the 23rd year of life the contribution rate for childless individuals is increased by 0.35 contribution rate points
+  unit: Years
   reference: § 55 Abs. 3 SGB XI
   1984-01-01:
     altersgrenze: 22

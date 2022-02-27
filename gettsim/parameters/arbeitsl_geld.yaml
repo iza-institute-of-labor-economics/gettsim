@@ -1,4 +1,4 @@
-arbeitsl_geld_freibetrag:
+freibetrag:
   name:
     de: Freibetrag bei der Anrechnung von Nebeneinkommen
     en: Income which is not deducted from unemployment benefit.
@@ -6,7 +6,7 @@ arbeitsl_geld_freibetrag:
     de: § 155 SGB III, vorher § 141 (1) S. 1
     en:
   unit: Euro
-  time: month
+  time: Month
   1999-08-01:
     scalar: 161
     reference: Art. 1 G. v. 21.07.1999 BGBl. I S. 1648
@@ -15,19 +15,31 @@ arbeitsl_geld_freibetrag:
     scalar: 165
     reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
 
-berechtigt_für_arbeitsl_geld:
+altersgrenze:
+  name:
+    de: Altersgrenze  ALG 1
+    en: Age limit for ALG 1
+  description:
+    de: Nur Personen unter 65 Jahren haben einen Anspruch auf ALG1.
+    en: Only individuals under the age of 65 are eligible for ALG1.
+  unit: years
+  reference: § 161 Abs.1 SGB III
+  1984-01-01:
+    alter: 65
+
+dauer_auszahlung:
   name:
     de: Voraussetzungen für ALG 1
     en: Requirements for ALG 1
   description:
     de: ALG 1 wird für die ersten 12 Monate der Arbeitslosigkeit und für Personen unter 65 ausgezahlt.
     en: ALG 1 is paid for the first 12 months of unemployment and for people under 65.
+  unit: months
+  reference: § 161 Abs.1 SGB III
   1984-01-01:
-    min_dauer: 1
     max_dauer: 12
-    altersgrenze: 65
 
-soz_vers_pausch_arbeitsl_geld:
+soz_vers_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en: Fictitious social insurance contribution rate
@@ -124,7 +136,7 @@ soz_vers_pausch_arbeitsl_geld:
   2019-01-01:
     scalar: 0.2
     reference: Art. 1 G. v. 18.12.2018 BGBl. I S. 2651
-arbeitsl_geld_satz_ohne_kinder:
+satz_ohne_kinder:
   name:
     de: >-
       Anteil des Arbeitslosengelds für Personen ohne Kinder (allgemeiner Leistungssatz)
@@ -139,7 +151,7 @@ arbeitsl_geld_satz_ohne_kinder:
     scalar: 0.6
     reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
     note: Vielleicht schon vorher geändert.
-arbeitsl_geld_satz_mit_kindern:
+satz_mit_kindern:
   name:
     de: Anteil des Arbeitslosengelds für Personen mit Kindern (erhöhter Leistungssatz)
     en: Replacement Rate Unemployment Benefit for persons with children.
@@ -152,7 +164,7 @@ arbeitsl_geld_satz_mit_kindern:
     scalar: 0.67
     reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
     note: Vielleicht schon vorher geändert.
-arbeitsl_geld_stundengrenze:
+stundengrenze:
   name:
     de: Stundengrenze für Bezug von Arbeitslosengeld
     en: Working hours limit to receive unemployment benefit

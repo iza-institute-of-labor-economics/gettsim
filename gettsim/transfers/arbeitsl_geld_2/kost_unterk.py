@@ -79,9 +79,11 @@ def berechtigte_wohnfläche_hh(
     )
     out.loc[~bewohnt_eigentum_hh] = wohnfläche_hh.loc[~bewohnt_eigentum_hh].clip(
         upper=(
-            arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["basisgröße"]
+            arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
             + (haushaltsgröße_hh.loc[~bewohnt_eigentum_hh] - 1).clip(lower=0)
-            * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["erweiterung"]
+            * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
+                "je_weitere_person"
+            ]
         )
     )
     return out
