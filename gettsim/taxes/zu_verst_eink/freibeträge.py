@@ -202,54 +202,6 @@ def sonderausgaben_ab_2012(
     return out
 
 
-def altervorsorge_aufwend(
-    kind: BoolSeries,
-    ges_rentenv_beitr_m: FloatSeries,
-    priv_rentenv_beitr_m: FloatSeries,
-    eink_st_abzuege_params: dict,
-) -> FloatSeries:
-    """Determine contributions to retirement savings deductible from taxable income.
-
-    This function becomes relevant in 2005, do not use it for prior
-    year.
-
-    The share of deductible contributions increases each year from 60% in 2005 to 100%
-    in 2025.
-
-    Parameters
-    ----------
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    ges_rentenv_beitr_m
-        See :func:`ges_rentenv_beitr_m`.
-    priv_rentenv_beitr_m
-        See basic input variable :ref:`priv_rentenv_beitr_m <priv_rentenv_beitr_m>`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-
-    Returns
-    -------
-
-    """
-    einführungsfaktor = eink_st_abzuege_params["einführungsfaktor"]["basisfaktor"]
-    +eink_st_abzuege_params["einführungsfaktor"]["anstiegsfaktor"] * (
-        min(
-            eink_st_abzuege_params["datum"].year,
-            eink_st_abzuege_params["einführungsfaktor"]["endjahr"],
-        )
-        - eink_st_abzuege_params["einführungsfaktor"]["basisjahr"]
-    )
-    out = (
-        (
-            einführungsfaktor * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
-            - ges_rentenv_beitr_m
-        )
-        * 12
-    ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])
-    out.loc[kind] = 0
-    return out
-
-
 def kinderfreib_tu(
     anz_kindergeld_kinder_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
