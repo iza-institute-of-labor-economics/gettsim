@@ -671,17 +671,17 @@ freib_behinderung:
   unit: euro
   time: month
   1984-01-01:
-    ab80: 102
-    u80: 0
+    0 : 0
+    80: 102
   1986-01-01:
     deviation_from: previous
     ab80: 51
   1991-01-01:
-    ab80: 128
-    u80: 102
+    0 : 102
+    80: 128
   2002-01-01:
-    ab80: 125
-    u80: 100
+    0 : 100
+    80: 125
   2016-01-01:
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
     scalar: 125
@@ -799,7 +799,7 @@ max_miete:
         1: 366
         2: 378
         3: 394
-    5plus:
+    jede_weitere_person:
       1965:
         1: 33
         2: 34
@@ -944,7 +944,7 @@ max_miete:
         3: 424
         4: 450
         5: 476
-    5plus:
+    jede_weitere_person:
       1965:
         1: 36
         2: 38
@@ -1117,7 +1117,7 @@ max_miete:
         4: 450
         5: 476
         6: 501
-    5plus:
+    jede_weitere_person:
       1965:
         1: 36
         2: 38
@@ -1259,7 +1259,7 @@ max_miete:
         4: 486
         5: 522
         6: 557
-    5plus:
+    jede_weitere_person:
       1965:
         1: 41
         2: 43
@@ -1429,7 +1429,7 @@ max_miete:
         4: 573
         5: 614
         6: 657
-    5plus:
+    jede_weitere_person:
       1965:
         1: 41
         2: 43
@@ -1570,7 +1570,7 @@ max_miete:
         4: 625
         5: 670
         6: 715
-    5plus:
+    jede_weitere_person:
       1965:
         1: 50
         2: 55
@@ -1630,7 +1630,7 @@ max_miete:
       4: 688
       5: 737
       6: 787
-    5plus:
+    jede_weitere_person:
       1: 66
       2: 72
       3: 77
@@ -1674,7 +1674,7 @@ max_miete:
       4: 834
       5: 927
       6: 1004
-    5plus:
+    jede_weitere_person:
       1: 71
       2: 81
       3: 91
@@ -1723,7 +1723,7 @@ max_miete:
       5: 1010
       6: 1106
       7: 1217
-    5plus:
+    jede_weitere_person:
       1: 77
       2: 88
       3: 99
@@ -1773,7 +1773,7 @@ max_miete:
       5: 1038
       6: 1137
       7: 1251
-    5plus:
+    jede_weitere_person:
       1: 79
       2: 90
       3: 102

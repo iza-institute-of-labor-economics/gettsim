@@ -87,7 +87,7 @@ elterngeld_eink_schritt_korrektur:
   2007-01-01:
     scalar: 2
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-elterngeld_geschw_bonus:
+elterngeld_geschw_bonus_anz_kinder:
   name:
     de: Altersgrenzen für Geschwisterbonus
     en: Age limit for sibling bonus
@@ -98,9 +98,8 @@ elterngeld_geschw_bonus:
         living in the household, Parental allowance is increased by 10% (max. by €75).
   reference: § 2a BEEG
   2007-01-01:
-    grenze1: 3
-    grenze2: 6
-    anzahl: 2
+    3: 2
+    6: 3
 elterngeld_geschw_bonus_aufschlag:
   name:
     de: Geschwisterbonus als prozentualer Aufschlag

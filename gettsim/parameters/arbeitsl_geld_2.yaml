@@ -411,9 +411,11 @@ max_miete_pro_qm:
     en: Upper limit rent per square meter
   description:
     de: Die Miete pro Quadratmeter darf einen angemessenen Betrag nicht übersteigen, um für ALG2
-        berechtigt zu sein.
+        berechtigt zu sein. Diese Grenze ist nicht konkret im Gesetz festgehalten, sondern wird als
+        Faustregel von den Arbeitsargenturen verwendet.
     en: The rent per square meter must not exceed a reasonable amount in order to remain
-        eligible for ALG2.
+        eligible for ALG2. This limit is not specifically laid down in the law, but is
+        a rule of thumb used by the employment agencies.
   unit: Euro/ qm
   reference: § 22 SGB II
   1984-01-01:
