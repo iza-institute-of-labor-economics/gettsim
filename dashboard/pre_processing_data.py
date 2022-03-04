@@ -77,7 +77,7 @@ def deduction_data(start, end):
         eink_ab_df[i] = params
 
     eink_ab_df = pd.DataFrame(eink_ab_df)
-    # eink_ab_df.index = params.keys()
+
     deduction_df = eink_ab_df.transpose()
     # Adjust dictionary entries into columns for kinderfreibetrag
     deduction_df = pd.concat(

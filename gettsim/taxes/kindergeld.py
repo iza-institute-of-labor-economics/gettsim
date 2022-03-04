@@ -27,9 +27,9 @@ def kindergeld_m_basis(
     )
     # Make sure that only eligible children get assigned kindergeld
     kumulativer_anspruch.loc[~kindergeld_anspruch] = 0
-    out = kumulativer_anspruch.clip(
-        upper=max(kindergeld_params["kindergeld"].keys())
-    ).replace(kindergeld_params["kindergeld"])
+    out = kumulativer_anspruch.clip(upper=max(kindergeld_params["kindergeld"])).replace(
+        kindergeld_params["kindergeld"]
+    )
     return out
 
 
