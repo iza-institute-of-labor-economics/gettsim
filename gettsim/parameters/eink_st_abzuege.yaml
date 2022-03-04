@@ -406,11 +406,19 @@ einführungsfaktor:
     en: In the years 2005-2025 the share of deductible contributions increases by 2 percentage
         points each year from 60% in 2005 to 100% in 2025.
   reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
+  type: piecewise_linear
   2005-01-01:
-    basisfaktor: 0.6
-    anstiegsfaktor: 0.02
-    basisjahr: 2005
-    endjahr: 2025
+    0:
+      lower_threshold: -inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 0.6
+    1:
+      lower_threshold: 2005
+      upper_threshold: 2025
+      rate_linear: 0.02
+    2:
+      upper_threshold: inf
+      rate_linear: 0
 
 alleinerziehenden_freibetrag:
   name:

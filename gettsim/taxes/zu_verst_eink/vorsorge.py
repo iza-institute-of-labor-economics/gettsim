@@ -32,18 +32,11 @@ def vorsorge_alter_aufwend(
     -------
 
     """
-    einführungsfaktor = eink_st_abzuege_params["einführungsfaktor"][
-        "basisfaktor"
-    ] + eink_st_abzuege_params["einführungsfaktor"]["anstiegsfaktor"] * (
-        min(
-            eink_st_abzuege_params["datum"].year,
-            eink_st_abzuege_params["einführungsfaktor"]["endjahr"],
-        )
-        - eink_st_abzuege_params["einführungsfaktor"]["basisjahr"]
-    )
+
     out = (
         (
-            einführungsfaktor * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
+            eink_st_abzuege_params["einführungsfaktor_vorsorge_alter_aufwend"]
+            * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
             - ges_rentenv_beitr_m
         )
         * 12

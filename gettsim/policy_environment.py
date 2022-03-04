@@ -11,6 +11,7 @@ from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
+from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
@@ -91,6 +92,7 @@ def set_up_policy_environment(date):
 
     # extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
+    params = _parse_einführungsfaktor_vorsorge_alter_aufwend(date, params)
 
     functions = load_reforms_for_date(date)
 
@@ -181,6 +183,42 @@ def _parse_kinderzuschl_max(date, params):
             + params["kinderzuschl"]["exmin"]["heizkosten"]["kinder"]
         ) / 12 - params["kindergeld"]["kindergeld"][1]
 
+    return params
+
+
+def _parse_einführungsfaktor_vorsorge_alter_aufwend(date, params):
+    """Calculate introductory factor for pension expense deductions which depends on the
+    current year as follows:
+
+    In the years 2005-2025 the share of deductible contributions increases by
+    2 percentage points each year from 60% in 2005 to 100% in 2025.
+
+    Reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
+
+    Parameters
+    ----------
+    date: datetime.date
+        The date for which the policy parameters are set up.
+    params: dict
+        A dictionary with parameters from the policy environment.
+
+    Returns
+    -------
+    params: dic
+        updated dictionary
+
+    """
+    jahr = float(date.year)
+    if jahr >= 2005:
+        out = piecewise_polynomial(
+            jahr,
+            thresholds=params["eink_st_abzuege"]["einführungsfaktor"]["thresholds"],
+            rates=params["eink_st_abzuege"]["einführungsfaktor"]["rates"],
+            intercepts_at_lower_thresholds=params["eink_st_abzuege"][
+                "einführungsfaktor"
+            ]["intercepts_at_lower_thresholds"],
+        )
+        params["eink_st_abzuege"]["einführungsfaktor_vorsorge_alter_aufwend"] = out
     return params
 
 
