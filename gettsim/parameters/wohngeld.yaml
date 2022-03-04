@@ -663,32 +663,39 @@ freib_kinder:
 
 freib_behinderung:
   name:
-    de: Monatlicher Freibetrag pro behindertes Haushaltsmitglied über und unter 80%.
+    de: Jährlicher Freibetrag pro behindertes Haushaltsmitglied über und unter 80%.
     en:
   description:
-    de: § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG) Seit 2016 ab 100% Behinderungsgrad, vorher 80%. Betrag im Gesetz durch 12 geteilt.
+    de: § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG) Vor 2016 ist der Betrag unterschiedlich für
+        Personen mit Behinderungsgrad über bzw unter 80%. Für Menschen mit Behinderungsgrad
+        unter 100% muss zusätzlich Pflegebedürftigkeit gem. §14 SGB XI. und gleichzeitig
+        Häusliche/teilstationäre/Kurzzeit-Pflege vorliegen. Dies ist aktuell nicht implementiert.
     en:
   unit: euro
-  time: month
+  time: year
   1984-01-01:
-    0 : 0
-    80: 102
+    0: 0
+    1: 0
+    80: 1224
   1986-01-01:
     deviation_from: previous
-    80: 51
+    80: 612
   1991-01-01:
-    0 : 102
-    80: 128
+    0: 0
+    1: 1224
+    80: 1536
   2002-01-01:
-    0 : 100
-    80: 125
+    0: 0
+    1: 1200
+    80: 1500
   2016-01-01:
-    reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
-    scalar: 125
-    note: neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
+    reference: 2 Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
+    scalar: 1500
+    note: neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem.
+          §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
   2020-01-01:
     reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
-    scalar: 150
+    scalar: 1800
 
 behinderungsgrad:
   name:

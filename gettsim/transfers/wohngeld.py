@@ -1,6 +1,7 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 import numpy as np
 
+from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -251,26 +252,24 @@ def wohngeld_eink_abzüge_bis_2015(
     -------
 
     """
-    abzüge = (
-        (behinderungsgrad > list(wohngeld_params["freib_behinderung"])[1])
-        * wohngeld_params["freib_behinderung"][80]
-        + (
-            (list(wohngeld_params["freib_behinderung"])[0] < behinderungsgrad)
-            & (behinderungsgrad <= list(wohngeld_params["freib_behinderung"])[1])
-        )
-        * wohngeld_params["freib_behinderung"][0]
-        + (
-            arbeitende_kinder
-            * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder"][24])
-        )
-        + (
-            (alleinerziehend & ~kind)
-            * anzahl_kinder_unter_11_per_tu
-            * wohngeld_params["freib_kinder"][12]
-        )
+    freib_behinderung = piecewise_polynomial(
+        behinderungsgrad,
+        thresholds=list(wohngeld_params["freib_behinderung"]) + [np.inf],
+        rates=np.array([[0] * len(wohngeld_params["freib_behinderung"])]),
+        intercepts_at_lower_thresholds=[
+            yearly_v / 12 for yearly_v in wohngeld_params["freib_behinderung"].values()
+        ],
+    )
+    freib_kinder = (
+        arbeitende_kinder
+        * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder"][24])
+    ) + (
+        (alleinerziehend & ~kind)
+        * anzahl_kinder_unter_11_per_tu
+        * wohngeld_params["freib_kinder"][12]
     )
 
-    return abzüge
+    return freib_behinderung + freib_kinder
 
 
 def arbeitende_kinder(
@@ -323,8 +322,7 @@ def wohngeld_eink_abzüge_ab_2016(
     workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
 
     abzüge = (
-        (behinderungsgrad > wohngeld_params["behinderungsgrad"][1])
-        * wohngeld_params["freib_behinderung"]
+        (behinderungsgrad > 0) * wohngeld_params["freib_behinderung"] / 12
         + workingchild
         * bruttolohn_m.clip(lower=0, upper=wohngeld_params["freib_kinder"][24])
         + alleinerziehend * wohngeld_params["freib_kinder"][12] * ~kind
