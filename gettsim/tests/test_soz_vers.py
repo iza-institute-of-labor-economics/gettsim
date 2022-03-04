@@ -40,6 +40,9 @@ def input_data():
     return out
 
 
+@pytest.mark.xfail(
+    year=2002, reason="No general health insurance contribution rate before 2008"
+)
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
 def test_soc_ins_contrib(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year]

@@ -17,7 +17,7 @@ soz_vers_beitr:
   unit: share
   1984-01-01:
     ges_krankenv:
-      allg: 0.1144
+      allg: null
       erm: null
       zus: 0
     ges_pflegev:
@@ -27,9 +27,9 @@ soz_vers_beitr:
     ges_rentenv: 0.0925
   1985-01-01:
     ges_krankenv:
-      allg: 0.118
+      allg: null
       erm: null
-      zus: 0
+      zus: null
     ges_pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -37,9 +37,9 @@ soz_vers_beitr:
     ges_rentenv: 0.0935
   1986-01-01:
     ges_krankenv:
-      allg: 0.122
+      allg: null
       erm: null
-      zus: 0
+      zus: null
     ges_pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -120,24 +120,24 @@ soz_vers_beitr:
   2001-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: 0.1358
+      allg: null
     ges_rentenv: 0.0955
   2002-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: 0.14
+      allg: null
   2003-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: 0.144
+      allg: null
     ges_rentenv: 0.0975
   2004-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: 0.142
+      allg: null
   2005-01-01:
     ges_krankenv:
-      allg: 0.142
+      allg: null
       zus: 0
       erm: null
     ges_pflegev:
@@ -148,14 +148,14 @@ soz_vers_beitr:
   2005-07-01:
     deviation_from: previous
     ges_krankenv:
-      allg: 0.133
+      allg: null
       zus: 0.009
     note: Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung eines Zusatzbeitrags
     reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
   2007-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: 0.139
+      allg: null
     arbeitsl_v: 0.021
     ges_rentenv: 0.0995
   2008-01-01:
