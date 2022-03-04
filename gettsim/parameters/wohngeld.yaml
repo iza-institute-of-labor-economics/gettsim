@@ -663,13 +663,15 @@ freib_kinder:
 
 freib_behinderung:
   name:
-    de: Jährlicher Freibetrag pro behindertes Haushaltsmitglied über und unter 80%.
+    de: Jährlicher Freibetrag pro behindertes Haushaltsmitglied
     en:
   description:
-    de: § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG) Vor 2016 ist der Betrag unterschiedlich für
-        Personen mit Behinderungsgrad über bzw unter 80%. Für Menschen mit Behinderungsgrad
-        unter 100% muss zusätzlich Pflegebedürftigkeit gem. §14 SGB XI. und gleichzeitig
-        Häusliche/teilstationäre/Kurzzeit-Pflege vorliegen. Dies ist aktuell nicht implementiert.
+    de: Der Betrag ist abhängig vom Behinderungsgrad der jeweiligen Person.
+        Vor 2016 ist der Betrag unterschiedlich für Personen mit Behinderungsgrad über
+        bzw unter 80%. Für Menschen mit Behinderungsgrad unter 100% muss zusätzlich
+        Pflegebedürftigkeit gem. §14 SGB XI. und gleichzeitig
+        Häusliche/teilstationäre/Kurzzeit-Pflege vorliegen. Dies ist aktuell nicht
+        implementiert. § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG)
     en:
   unit: euro
   time: year
