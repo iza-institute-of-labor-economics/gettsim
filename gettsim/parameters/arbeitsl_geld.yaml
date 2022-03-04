@@ -136,6 +136,7 @@ soz_vers_pausch:
   2019-01-01:
     scalar: 0.2
     reference: Art. 1 G. v. 18.12.2018 BGBl. I S. 2651
+
 satz_ohne_kinder:
   name:
     de: >-
@@ -151,6 +152,7 @@ satz_ohne_kinder:
     scalar: 0.6
     reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
     note: Vielleicht schon vorher geändert.
+
 satz_mit_kindern:
   name:
     de: Anteil des Arbeitslosengelds für Personen mit Kindern (erhöhter Leistungssatz)
@@ -164,6 +166,7 @@ satz_mit_kindern:
     scalar: 0.67
     reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
     note: Vielleicht schon vorher geändert.
+
 stundengrenze:
   name:
     de: Stundengrenze für Bezug von Arbeitslosengeld
