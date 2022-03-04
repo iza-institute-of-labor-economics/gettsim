@@ -33,7 +33,7 @@ def deduction_data(start, end):
 
     # Period for simulation:
     years = range(start, end + 1)
-    eink_ab_df = pd.DataFrame()
+    eink_ab_df = {}
     # input older grundfreibetrag values by hand
     grundfreibetrag = {
         2001: 14093 / 1.95583,
@@ -74,9 +74,10 @@ def deduction_data(start, end):
             params["grundfreibetrag"] = policy_params["eink_st"]["eink_st_tarif"][
                 "thresholds"
             ][1]
-        eink_ab_df[i] = params.values()
+        eink_ab_df[i] = params
 
-    eink_ab_df.index = params.keys()
+    eink_ab_df = pd.DataFrame(eink_ab_df)
+    # eink_ab_df.index = params.keys()
     deduction_df = eink_ab_df.transpose()
     # Adjust dictionary entries into columns for kinderfreibetrag
     deduction_df = pd.concat(
@@ -87,7 +88,6 @@ def deduction_data(start, end):
         axis=1,
     )
     deduction_df = deduction_df.drop(["behinderten_pauschbetrag", 0], axis=1)
-
     return deduction_df
 
 

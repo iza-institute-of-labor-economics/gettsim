@@ -675,7 +675,7 @@ freib_behinderung:
     80: 102
   1986-01-01:
     deviation_from: previous
-    ab80: 51
+    80: 51
   1991-01-01:
     0 : 102
     80: 128

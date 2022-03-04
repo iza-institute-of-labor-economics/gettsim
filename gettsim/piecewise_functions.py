@@ -31,8 +31,6 @@ def piecewise_polynomial(
 
     """
     x = copy.copy(x)
-    if not isinstance(x, pd.Series):
-        x = pd.Series(x)
     # If no individual is transferred, we return an empty series
     if x.empty:
         return x

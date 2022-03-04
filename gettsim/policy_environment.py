@@ -210,15 +210,19 @@ def _parse_einführungsfaktor_vorsorge_alter_aufwend(date, params):
     """
     jahr = float(date.year)
     if jahr >= 2005:
+
+        # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
-            jahr,
+            pd.Series(jahr),
             thresholds=params["eink_st_abzuege"]["einführungsfaktor"]["thresholds"],
             rates=params["eink_st_abzuege"]["einführungsfaktor"]["rates"],
             intercepts_at_lower_thresholds=params["eink_st_abzuege"][
                 "einführungsfaktor"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzuege"]["einführungsfaktor_vorsorge_alter_aufwend"] = out
+        params["eink_st_abzuege"]["einführungsfaktor_vorsorge_alter_aufwend"] = out.loc[
+            0
+        ]
     return params
 
 
