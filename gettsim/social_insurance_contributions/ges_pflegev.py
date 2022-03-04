@@ -23,8 +23,8 @@ def ges_pflegev_zusatz_kinderlos(
     -------
 
     """
-    out = soz_vers_beitr_params["ges_pflegev_zusatz_kinderlos"]["altersgrenze"]
-    return ~hat_kinder & alter.gt(out)
+    out = soz_vers_beitr_params["ges_pflegev_zusatz_kinderlos_altersgrenze"]
+    return ~hat_kinder & alter.ge(out)
 
 
 def ges_pflegev_beitr_m(

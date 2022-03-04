@@ -37,7 +37,7 @@ mindestunterhalt:
     12: 451
     17: 528
     reference: Artikel 1 V. v. 03.11.2020 BGBl. I S. 2344.
-unterhaltsvorschuss_mindesteinkommen:
+unterhaltsvors_mindesteinkommen:
   name:
     de: Monatliches Mindesteinkommen, um UHV für Kinder ab 13 Jahren zu erhalten
     en: Minimal income necessary to get child alimony advance for children 13 to 17 years.

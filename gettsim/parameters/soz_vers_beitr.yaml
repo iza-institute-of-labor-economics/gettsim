@@ -518,7 +518,7 @@ beitr_bemess_grenze:
 
 bezugsgröße:
   name:
-    de: Monatl. Bezugsgröße
+    de: Monatliche Bezugsgröße
     en: Monthly reference size
   description:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
@@ -783,14 +783,15 @@ ag_abgaben_geringf:
     ges_rentenv: 0.15
     st: 0.02
 
-ges_pflegev_zusatz_kinderlos:
+ges_pflegev_zusatz_kinderlos_altersgrenze:
   name:
     de: Altersgrenze Beitragszuschlag für Kinderlose
     en: Age limit additional contribution for childless
   description:
-    de: Nach Vollendung des 23. Lebensjahres erhöht sich der Beitragssatz für Kinderlose um 0.35 Beitragssatzpunkte
-    en: After completing the 23rd year of life the contribution rate for childless individuals is increased by 0.35 contribution rate points
+    de: Der Beitragssatz für Kinderlose steigt nach der Altersgrenze um 0.35 Beitragssatzpunkte an.
+    en: The contribution rate for childless people increases by 0.35 contribution rate points after
+        the age limit is reached.
   unit: Years
   reference: § 55 Abs. 3 SGB XI
-  1984-01-01:
-    altersgrenze: 22
+  2005-01-01:
+    scalar: 23

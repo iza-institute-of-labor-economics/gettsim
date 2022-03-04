@@ -401,10 +401,10 @@ einführungsfaktor:
     de: Einführungsfaktor für Altersvorsorge Aufwendung
     en: Introductory factor for pension expense
   description:
-    de: Diese Funktion wird erst ab 2005 relevant. Der Anteil der abzugsfähigen Beiträge
-        steigt von 60% in 2005 jährlich um 2 Prozentpunkte an, bis 100% in 2025 erreicht werden.
-    en: This function becomes relevant in 2005. The share of deductible contributions
-        increases each year from 60% in 2005 to 100% in 2025 by 2 percentage points each year.
+    de: In den Jahren 2005-2025 steigt der Anteil der abzugsfähigen Beiträge von 60% in 2005
+        jährlich um 2 Prozentpunkte an, bis 100% in 2025 erreicht werden.
+    en: In the years 2005-2025 the share of deductible contributions increases by 2 percentage
+        points each year from 60% in 2005 to 100% in 2025.
   reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
   2005-01-01:
     basisfaktor: 0.6

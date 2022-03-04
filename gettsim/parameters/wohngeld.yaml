@@ -425,7 +425,7 @@ koeffizienten_berechnungsformel:
 
 haushaltsgrößen:
   name:
-    de: Haushaltsgrößen berücksichtigt für Wohngeld
+    de: Haushaltsgrößen, die beim Wohngeld berücksichtigt werden
     en: Household sizes taken into account for housing benefit
   description:
     de: Haushalte mit mehr als 5 Mitgliedern haben einen festgesetzten Höchstbetrag für Miete und Belastung.
@@ -695,8 +695,10 @@ behinderungsgrad:
     de: Behinderungsgrad für Freibetrag
     en: Degree of disability for allowance
   description:
-    de: Seit 2016 wird ein Behinderungsgrad ab und unter 100% berücksichtigt, vorher von 80%.
-    en: A degree of disability of and below 100% has been taken into account since 2016, previously 80%.
+    de: Ein Wohngeld-Freibetrag wird Menschen mit Behinderung gewährt. Dabei hängt die Höhe des
+        Freibetrages vom Behinderungsgrad ab.
+    en: A housing benefit allowance is granted to people with disabilities. The height of the
+        allowance depends on the degree of disability.
   reference: § 17 Abs. 1 WoGG
   unit: prozent
   1984-01-01:

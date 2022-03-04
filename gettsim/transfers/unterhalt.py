@@ -86,19 +86,18 @@ def unterhaltsvors_m(
     # index because it is
     unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu)
 
+    altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
+
     conditions = [
-        (alter < list(unterhalt_params["mindestunterhalt"].keys())[0])
-        & alleinerziehend,
-        (alter >= list(unterhalt_params["mindestunterhalt"].keys())[0])
-        & (alter < list(unterhalt_params["mindestunterhalt"].keys())[1])
-        & alleinerziehend,
+        (alter < altersgrenzen[0]) & alleinerziehend,
+        (alter >= altersgrenzen[0]) & (alter < altersgrenzen[1]) & alleinerziehend,
         # Older kids get it only if the parent has income > 600€.
-        (alter >= list(unterhalt_params["mindestunterhalt"].keys())[1])
-        & (alter <= list(unterhalt_params["mindestunterhalt"].keys())[2])
+        (alter >= altersgrenzen[1])
+        & (alter <= altersgrenzen[2])
         & alleinerziehend
         & (
             unterhaltsvorschuss_eink
-            > unterhalt_params["unterhaltsvorschuss_mindesteinkommen"]
+            > unterhalt_params["unterhaltsvors_mindesteinkommen"]
         ),
     ]
 
