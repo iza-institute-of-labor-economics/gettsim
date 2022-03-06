@@ -306,22 +306,22 @@ vermögensgrundfreibetrag_obergrenze:
     en: Differs by birth year.
   unit: Euro
   2005-01-01:
-    bis_1947: 33800
-    ab_1948_bis_1957: 13000
-    ab_1958_bis_1963: 13000
-    ab_1963: 13000
+    1947: 33800
+    1948: 13000
+    1958: 13000
+    1963: 13000
     reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
   2006-08-01:
-    bis_1947: 33800
-    ab_1948_bis_1957: 9750
-    ab_1958_bis_1963: 9750
-    ab_1963: 9750
+    1947: 33800
+    1948: 9750
+    1958: 9750
+    1963: 9750
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2008-01-01:
-    bis_1947: 33800
-    ab_1948_bis_1957: 9750
-    ab_1958_bis_1963: 9900
-    ab_1963: 10050
+    1947: 33800
+    1948: 9750
+    1958: 9900
+    1963: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
 
 
@@ -334,12 +334,12 @@ vermögensgrundfreibetrag:
     en: Differs by year of birth.
   unit: Euro
   2005-01-01:
-    bis_1947: 520
-    ab_1948: 200
+    1947: 520
+    1948: 200
     reference: Artikel 1 G. v. 30.12.2002 BGBl. I S. 4619.
   2006-08-01:
     deviation_from: previous
-    ab_1948: 150
+    1948: 150
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
 
 

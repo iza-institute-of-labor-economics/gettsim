@@ -388,10 +388,10 @@ altersentlastungsbetrag_altersgrenze:
   description:
     de: Der Altersentlastungsbetrag wird einem Steuerpflichtigen gewährt,
         der vor dem Beginn des Kalenderjahres, in dem er sein Einkommen bezogen hat,
-        das 64. Lebensjahr vollendet hatte. Zuvor wurde er als Altersfreibetrag bezeichnet.
+        das 64. Lebensjahr vollendet hatte.
     en: The old-age relief amount is granted to a taxpayer
         who, before the start of the calendar year in which he received his income,
-        had reached the age of 64. Previously it was referred to as age limit amount.
+        had reached the age of 64.
   reference: § 24a Art. 3 EStG
   1984-01-01:
     scalar: 64

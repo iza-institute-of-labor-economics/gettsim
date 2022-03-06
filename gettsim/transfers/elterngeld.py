@@ -541,4 +541,4 @@ def mehrlinge_bonus(
     -------
 
     """
-    return anz_mehrlinge_anspruch * elterngeld_params["mehrling_bonus"]
+    return anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]

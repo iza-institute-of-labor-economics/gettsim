@@ -443,7 +443,7 @@ def wohngeld_miete_bis_2008(
         if hh_größe <= (list(wohngeld_params["max_miete"].keys())[4])
         else wohngeld_params["max_miete"][5][constr_year][ms]
         + wohngeld_params["max_miete"]["jede_weitere_person"][constr_year][ms]
-        * (hh_größe - list(wohngeld_params["max_miete"].keys())[4])
+        * (hh_größe - (list(wohngeld_params["max_miete"].keys())[4]))
         for hh_größe, constr_year, ms in zip(
             haushaltsgröße, constr_year_category, mietstufe
         )
@@ -494,7 +494,7 @@ def wohngeld_miete_ab_2009(
         if hh_größe <= (list(wohngeld_params["max_miete"].keys())[4])
         else wohngeld_params["max_miete"][5][ms]
         + wohngeld_params["max_miete"]["jede_weitere_person"][ms]
-        * (hh_größe - list(wohngeld_params["max_miete"].keys())[4])
+        * (hh_größe - (list(wohngeld_params["max_miete"].keys())[4]))
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 
@@ -546,11 +546,11 @@ def wohngeld_miete_ab_2021(
         else wohngeld_params["max_miete"][5][ms]
         + (
             wohngeld_params["max_miete"]["jede_weitere_person"][ms]
-            * (hh_größe - list(wohngeld_params["max_miete"].keys())[4])
+            * (hh_größe - (list(wohngeld_params["max_miete"].keys())[4]))
         )
         + wohngeld_params["heizkosten_zuschuss"][5]
         + wohngeld_params["heizkosten_zuschuss"]["5plus"]
-        * (hh_größe - list(wohngeld_params["max_miete"].keys())[4])
+        * (hh_größe - (list(wohngeld_params["max_miete"].keys())[4]))
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 

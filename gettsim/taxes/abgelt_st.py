@@ -18,7 +18,7 @@ def abgelt_st_tu(
     -------
 
     """
-    return abgelt_st_params["steuer_satz"] * zu_verst_kapitaleink_tu
+    return abgelt_st_params["satz"] * zu_verst_kapitaleink_tu
 
 
 def zu_verst_kapitaleink_tu(

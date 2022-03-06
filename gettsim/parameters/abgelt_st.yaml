@@ -1,7 +1,7 @@
-steuer_satz:
+satz:
   name:
-    de: Abgeltungssteuer
-    en: Capital Income Tax
+    de: Abgeltungssteuersatz
+    en: Capital Income Tax Rate
   description:
     de:  §32d (1) EStG
     en:

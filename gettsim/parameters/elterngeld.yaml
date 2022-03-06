@@ -123,7 +123,7 @@ geschw_bonus_minimum:
   2007-01-01:
     scalar: 75
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-mehrling_bonus:
+mehrlingbonus:
   name:
     de: Pauschale für jedes weitere Mehrlingskind
     en: Twin, triplet bonus per additional child
