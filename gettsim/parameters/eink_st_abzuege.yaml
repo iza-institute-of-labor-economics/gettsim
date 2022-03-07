@@ -322,7 +322,7 @@ altersentlastung_quote:
   description:
     de: §24a EStG S.5. Tabelle legt alle Werte bis 2040 fest.
     en:
-  unit: share
+  unit: Share
   1984-01-01:
     scalar: 0.4
     reference:
@@ -475,7 +475,7 @@ vorsorge2004_kürzung_vorwegabzug:
   description:
     de: §10 (3) S. 2 EStG (vor 2004). Der Vorwegabzug wird pauschal um einen Anteil gekürzt bei abhängig Beschäftigten (vereinfacht).
     en:
-  unit: share
+  unit: Share
   1985-01-01:
     scalar: 0.0935
     note: entspricht Beitrag zur RV
@@ -556,7 +556,7 @@ vorsorge_kranken_minderung:
   description:
     de: §10 (3) a) S.4 EStG
     en:
-  unit: share
+  unit: Share
   2009-07-23:
     scalar: 0.04
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
@@ -616,7 +616,7 @@ kinderbetreuungskosten_abz_anteil:
   description:
     de: §10 (1) Nr. 5 EStG
     en:
-  unit: share
+  unit: Share
   2012-01-01:
     scalar: 0.6666666
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131

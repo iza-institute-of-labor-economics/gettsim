@@ -5,7 +5,7 @@ soz_vers_beitr:
   description:
     de:
     en:
-  unit: share
+  unit: Share
   1984-01-01:
     ges_krankenv:
       ag: 0.0572
@@ -648,7 +648,7 @@ bezugsgröße_selbst_anteil:
   description:
     de: Maximale Bezugsgröße des Einkommens in der gesetzlichen Krankenversicherung für Selbständige
     en: Maximum amount of income which is subject to health insurance contribution for selfemployed
-  unit: share
+  unit: Share
   1984-01-01:
     scalar: 0.75
 
@@ -765,7 +765,7 @@ ag_abgaben_geringf:
   description:
     de: Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II EStG)
     en:
-  unit: share
+  unit: Share
   1984-01-01:
     ges_krankenv: 0
     ges_rentenv: 0

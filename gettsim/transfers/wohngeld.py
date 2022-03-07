@@ -437,13 +437,15 @@ def wohngeld_miete_bis_2008(
     yearly_cutoffs = sorted(wohngeld_params["max_miete"][1], reverse=True)
     conditions = [immobilie_baujahr <= cutoff for cutoff in yearly_cutoffs]
     constr_year_category = np.select(conditions, yearly_cutoffs)
-
+    max_definierte_hh_größe = max(
+        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
+    )
     data = [
         wohngeld_params["max_miete"][hh_größe][constr_year][ms]
-        if hh_größe <= (list(wohngeld_params["max_miete"].keys())[4])
-        else wohngeld_params["max_miete"][5][constr_year][ms]
+        if hh_größe <= max_definierte_hh_größe
+        else wohngeld_params["max_miete"][max_definierte_hh_größe][constr_year][ms]
         + wohngeld_params["max_miete"]["jede_weitere_person"][constr_year][ms]
-        * (hh_größe - (list(wohngeld_params["max_miete"].keys())[4]))
+        * (hh_größe - max_definierte_hh_größe)
         for hh_größe, constr_year, ms in zip(
             haushaltsgröße, constr_year_category, mietstufe
         )
@@ -489,12 +491,15 @@ def wohngeld_miete_ab_2009(
     -------
 
     """
+    max_definierte_hh_größe = max(
+        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
+    )
     data = [
         wohngeld_params["max_miete"][hh_größe][ms]
-        if hh_größe <= (list(wohngeld_params["max_miete"].keys())[4])
-        else wohngeld_params["max_miete"][5][ms]
+        if hh_größe <= max_definierte_hh_größe
+        else wohngeld_params["max_miete"][max_definierte_hh_größe][ms]
         + wohngeld_params["max_miete"]["jede_weitere_person"][ms]
-        * (hh_größe - (list(wohngeld_params["max_miete"].keys())[4]))
+        * (hh_größe - max_definierte_hh_größe)
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 

@@ -93,7 +93,7 @@ erwerbseink_anr_frei:
   description:
     de: Anteil des Erwerbseinkommens, welcher bei der Berechnung der Grundsicherung nicht zum Einkommen addiert wird.
     en: Share of income, which is not added to the total income when calculating the Grundsicherung.
-  unit: share
+  unit: Share
   reference: § 82 SGB XII Abs. 3
   1984-01-01:
     scalar: 0
@@ -108,7 +108,7 @@ priv_rente_anr_frei:
   description:
     de: Anteil der privaten Rente, welcher bei der Berechnung der Grundsicherung nicht zum Einkommen addiert wird.
     en: Share of privat pension, which is not added to total income when calculating the Grundsicherung.
-  unit: share
+  unit: Share
   type: piecewise_linear
   reference: § 82 SGB XII Abs. 4
   1984-01-01:
