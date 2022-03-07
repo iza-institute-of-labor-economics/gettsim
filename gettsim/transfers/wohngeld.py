@@ -543,19 +543,21 @@ def wohngeld_miete_ab_2021(
     -------
 
     """
-
+    max_definierte_hh_größe = max(
+        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
+    )
     data = [
         wohngeld_params["max_miete"][hh_größe][ms]
         + wohngeld_params["heizkosten_zuschuss"][hh_größe]
-        if hh_größe <= (list(wohngeld_params["max_miete"].keys())[4])
+        if hh_größe <= max_definierte_hh_größe
         else wohngeld_params["max_miete"][5][ms]
         + (
             wohngeld_params["max_miete"]["jede_weitere_person"][ms]
-            * (hh_größe - (list(wohngeld_params["max_miete"].keys())[4]))
+            * (hh_größe - max_definierte_hh_größe)
         )
         + wohngeld_params["heizkosten_zuschuss"][5]
         + wohngeld_params["heizkosten_zuschuss"]["5plus"]
-        * (hh_größe - (list(wohngeld_params["max_miete"].keys())[4]))
+        * (hh_größe - max_definierte_hh_größe)
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 
