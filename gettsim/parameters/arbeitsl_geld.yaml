@@ -48,7 +48,7 @@ soz_vers_pausch:
         § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt.
         ACHTUNG! Beim Elterngeld gibt es eine ähnliche Größe.
     en:
-  unit: share
+  unit: Share
   1984-01-01:
     scalar: 0.1727
     reference:
@@ -147,7 +147,7 @@ satz_ohne_kinder:
       §149 Nr. 2 SGB III, vorher § 129 (2) SGB III. Höhe des Arbeitslosengeldes im
       Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG.
     en:
-  unit: share
+  unit: Share
   1998-08-01:
     scalar: 0.6
     reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594

@@ -5,7 +5,7 @@ faktor:
   description:
     de: § 2 (1) BEEG
     en:
-  unit: share
+  unit: Share
   2007-01-01:
     scalar: 0.67
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -57,7 +57,7 @@ prozent_korrektur:
   description:
     de: § 2 (2) BEEG
     en:
-  unit: share
+  unit: Share
   2007-01-01:
     scalar: 0.001
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -68,7 +68,7 @@ prozent_minimum:
   description:
     de: § 2 (2) BEEG
     en:
-  unit: share
+  unit: Share
   2007-01-01:
     scalar: 0.67
     note: implizit, exisitiert vorher nicht
@@ -107,7 +107,7 @@ geschw_bonus_aufschlag:
   description:
     de: § 2a (1) BEEG. Früher § 2 (4) BEEG
     en:
-  unit: share
+  unit: Share
   2007-01-01:
     scalar: 0.1
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -142,7 +142,7 @@ soz_vers_pausch:
   description:
     de: §2f BEEG. Vor 2012 waren es die eigentlichen Pflichtbeiträge.
     en:
-  unit: share
+  unit: Share
   2012-09-18:
     scalar: 0.21
     reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878

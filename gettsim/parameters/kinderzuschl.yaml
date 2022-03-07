@@ -54,7 +54,7 @@ entzugsrate_eltern:
   description:
     de: § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG. Rate, mit der der Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt.
     en:
-  unit: share
+  unit: Share
   2005-01-01:
     scalar: 0.7
     reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
@@ -71,7 +71,7 @@ entzugsrate_kind:
   description:
     de: § 6a (3) BKGG. Einkommen des Kindes beinhaltet auch Unterhalt und Unterhaltsvorschuss.
     en: Child alimony and alimony advance payments are also attributed to the child.
-  unit: share
+  unit: Share
   2005-01-01:
     scalar: 1
     reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
