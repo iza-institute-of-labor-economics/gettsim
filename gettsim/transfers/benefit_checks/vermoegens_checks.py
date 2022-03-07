@@ -96,18 +96,29 @@ def _arbeitsl_geld_2_grundfreib_vermög_hh(
 
     """
     out = pd.Series(0, index=alter.index)
-    out.loc[geburtsjahr < arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1]] = (
+    out.loc[
+        geburtsjahr
+        <= list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())[0]
+    ] = (
         list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[0]
         * alter.loc[
-            geburtsjahr < arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1]
+            geburtsjahr
+            <= list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())[0]
         ]
     )
     out.loc[
-        (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1] < geburtsjahr) & ~kind
+        (
+            list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())[1]
+            <= geburtsjahr
+        )
+        & ~kind
     ] = (
         list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[1]
         * alter.loc[
-            (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1] < geburtsjahr)
+            (
+                list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())[1]
+                <= geburtsjahr
+            )
             & ~kind
         ]
     )
@@ -139,19 +150,47 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
 
     """
     conditions = [
-        (geburtsjahr < arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1]).astype(
-            bool
-        ),
         (
-            (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][1] < geburtsjahr)
-            & (geburtsjahr <= arbeitsl_geld_2_params["vermög_freib_altersgrenze"][2])
+            geburtsjahr
+            <= list(
+                arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
+            )[0]
         ).astype(bool),
         (
-            (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][2] < geburtsjahr)
-            & (geburtsjahr <= arbeitsl_geld_2_params["vermög_freib_altersgrenze"][3])
+            (
+                list(
+                    arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
+                )[1]
+                <= geburtsjahr
+            )
+            & (
+                geburtsjahr
+                < list(
+                    arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
+                )[2]
+            )
         ).astype(bool),
         (
-            (arbeitsl_geld_2_params["vermög_freib_altersgrenze"][4] <= geburtsjahr)
+            (
+                list(
+                    arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
+                )[2]
+                <= geburtsjahr
+            )
+            & (
+                geburtsjahr
+                < list(
+                    arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
+                )[3]
+            )
+        ).astype(bool),
+        (
+            (
+                list(
+                    arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
+                )[3]
+                <= geburtsjahr
+            )
             & ~kind
         ).astype(bool),
         True,

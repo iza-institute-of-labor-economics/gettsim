@@ -282,19 +282,6 @@ mehrbedarf_anteil:
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
 
-vermög_freib_altersgrenze:
-  name:
-    de: Altersgrenzen für Vermögensfreibetrag
-    en: Age limits for wealth allowance
-  description:
-    de: Vermögensfreibetrag ändert sich nach Geburtsjahr
-    en: Wealth allowance changes depending on the year of birth
-  2005-01-01:
-    1: 1947
-    2: 1957
-    3: 1963
-    4: 1964
-
 vermögensgrundfreibetrag_obergrenze:
   name:
     de: Maximaler Vermögensgrundfreibetrag

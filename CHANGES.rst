@@ -38,6 +38,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`343` New argument for `compute_taxes_and_transfers`: `rounding`. If set to False,
   rounding of outputs is disabled. Add rounding for `eink_st_tu`. Rounding for other
   functions will be introduced in future PRs. (:ghuser:`ChristianZimpelmann`).
+* :gh:`349` Create parameters for several hard coded numbers in code.
+  (:ghuser:`LauraGergeleit`).
 
 0.4.2 — 2022-01-25
 ------------------
