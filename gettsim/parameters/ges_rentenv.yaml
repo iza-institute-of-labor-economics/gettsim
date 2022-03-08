@@ -620,6 +620,17 @@ grundr_höchstwert:
     increment: 0.001389
     reference: § 76g Abs. 4 S. 3, 4 SGB VI
 
+grundr_zugangsfaktor_max:
+  name:
+    de: Zugangsfaktor bei Grundrente
+    en: Access factor for basic pension
+  description:
+    de: Der Zugangsfaktor für die Grundrente ist auf 1 begrenzt.
+    en: The entry factor for the basic pension is capped at 1.
+  reference: § 77 Abs. 2 SGB VI
+  2021-01-01:
+    scalar: 1
+
 grundr_zeiten:
   name:
     de: Grundrentenzeiten
@@ -666,7 +677,7 @@ grundr_einkommensanr_verheiratet:
   description:
     de: Werte werden mit dem Rentenwert multipliziert,
         um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
-    en: values are multiplied with the Rentenwert to compute the thresholds
+    en: Values are multiplied with the Rentenwert to compute the thresholds
         of the income crediting rule of Grundrentenzuschlag
   reference: § 97a Abs. 4 S. 2, 4 SGB VI
   type: piecewise_linear
@@ -687,7 +698,7 @@ grundr_einkommensanr_verheiratet:
 grundr_faktor_bonus:
   name:
     de: Bonusfaktor aus Grundrente
-    en: bonus factor from basic pension
+    en: Bonus factor from basic pension
   description:
     de: Faktor mit dem die durch die Grundrente zusätzlich erhaltenen Entgeltpunkte multipliziert werden.
     en: The additional Entgeltpunkte from the basic pension are multiplied with this factor.

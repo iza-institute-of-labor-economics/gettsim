@@ -244,7 +244,7 @@ anteil_regelsatz:
       2005-2010 der Regelsatz für weitere Haushaltsmitglieder wurden als Anteil
       des Standardsatzes bestimmt.
     en:
-  unit: share
+  unit: Share
   2005-01-01:
     zwei_erwachsene: 0.9
     weitere_erwachsene: 0.8
@@ -256,8 +256,6 @@ anteil_regelsatz:
     deviation_from: previous
     reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
     kinder_7_13: 0.7
-
-
 
 mehrbedarf_anteil:
   name:
@@ -274,14 +272,13 @@ mehrbedarf_anteil:
   description:
     de: § 21 (3) Nr. 1 SGB II.
     en:
-  unit: share
-  time: month
+  unit: Share
+  time: Month
   2005-01-01:
     min_1_kind: 0.12
     kind_unter_7_oder_mehr: 0.36
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
-
 
 vermögensgrundfreibetrag_obergrenze:
   name:
@@ -294,22 +291,22 @@ vermögensgrundfreibetrag_obergrenze:
     en: Differs by birth year.
   unit: Euro
   2005-01-01:
-    bis_1947: 33800
-    ab_1948_bis_1957: 13000
-    ab_1958_bis_1963: 13000
-    ab_1963: 13000
+    1947: 33800
+    1948: 13000
+    1958: 13000
+    1964: 13000
     reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
   2006-08-01:
-    bis_1947: 33800
-    ab_1948_bis_1957: 9750
-    ab_1958_bis_1963: 9750
-    ab_1963: 9750
+    1947: 33800
+    1948: 9750
+    1958: 9750
+    1964: 9750
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2008-01-01:
-    bis_1947: 33800
-    ab_1948_bis_1957: 9750
-    ab_1958_bis_1963: 9900
-    ab_1963: 10050
+    1947: 33800
+    1948: 9750
+    1958: 9900
+    1964: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
 
 
@@ -322,12 +319,12 @@ vermögensgrundfreibetrag:
     en: Differs by year of birth.
   unit: Euro
   2005-01-01:
-    bis_1947: 520
-    ab_1948: 200
+    1947: 520
+    1948: 200
     reference: Artikel 1 G. v. 30.12.2002 BGBl. I S. 4619.
   2006-08-01:
     deviation_from: previous
-    ab_1948: 150
+    1948: 150
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
 
 
@@ -359,6 +356,18 @@ vermögensfreibetrag_kind:
     scalar: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
 
+vermög_freib_alter:
+  name:
+    de: Altersgrenzen für Vermögensfreibetrag
+    en: Age limits for wealth allowance
+  description:
+    de: Vermögensfreibetrag ändert sich nach Geburtsjahr
+    en: Wealth allowance changes depending on the year of birth
+  2005-01-01:
+    1: 1948
+    2: 1958
+    3: 1963
+
 abzugsfähige_pausch:
   name:
     de: Abzugsfähige Pauschalen für Werbungskosten und Versicherung
@@ -370,7 +379,7 @@ abzugsfähige_pausch:
       § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
     en:
   unit: Euro
-  time: month
+  time: Month
   2005-01-01:
     werbung: 15.33
     versicherung: 30
@@ -380,3 +389,43 @@ abzugsfähige_pausch:
     werbung: 15.33
     reference: V. v. 21.06.2011 BGBl. I S. 1175.
     note: Fester Betrag. Betrag unverändert. Warum haben wir das? Es ändert sich nichts
+
+max_miete_pro_qm:
+  name:
+    de: Obergenze Miete pro Quadratmeter
+    en: Upper limit rent per square meter
+  description:
+    de: Die Miete pro Quadratmeter darf einen angemessenen Betrag nicht übersteigen, um für ALG2
+        berechtigt zu sein. Diese Grenze ist nicht konkret im Gesetz festgehalten, sondern wird als
+        Faustregel von den Arbeitsargenturen verwendet.
+    en: The rent per square meter must not exceed a reasonable amount in order to remain
+        eligible for ALG2. This limit is not specifically laid down in the law, but is
+        a rule of thumb used by the employment agencies.
+  unit: Euro/ qm
+  reference: § 22 SGB II
+  1984-01-01:
+    max: 10
+
+berechtigte_wohnfläche_miete:
+  name:
+    de: Berechtigte Miet-Wohnfläche für ALG2-Empfänger*innen
+    en: Living rental space eligible for ALG2-recipients
+  description:
+    de: Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere Person)
+        groß sein.
+    en: A rental apartment may be 45 square meters for a single person (+15 for each additional
+        person).
+  1984-01-01:
+    single: 45
+    je_weitere_person: 15
+
+berechtigte_wohnfläche_eigentum:
+  name:
+    de: Berechtigte Eigentumsfläche für ALG2-Empfänger*innen
+    en: Property space eligible for ALG2-recipients
+  description:
+    de: Eigentum darf für zwei Personen 80 Quadratmeter (+20 für jede weitere Person) groß sein.
+    en: Property for two people may be 80 square meters (+20 for each additional person).
+  1984-01-01:
+    basisgröße: 80
+    erweiterung: 20

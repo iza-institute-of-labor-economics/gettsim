@@ -70,8 +70,8 @@ def arbeitsl_geld_m(
     """
     arbeitsl_geld_satz = (tu_id.replace(anz_kinder_tu) == 0).replace(
         {
-            True: arbeitsl_geld_params["arbeitsl_geld_satz_ohne_kinder"],
-            False: arbeitsl_geld_params["arbeitsl_geld_satz_mit_kindern"],
+            True: arbeitsl_geld_params["satz_ohne_kinder"],
+            False: arbeitsl_geld_params["satz_mit_kindern"],
         }
     )
 
@@ -135,11 +135,10 @@ def berechtigt_für_arbeitsl_geld(
 
     """
     return (
-        (1 <= monate_arbeitsl)
-        & (monate_arbeitsl <= 12)
-        & (alter < 65)
+        (monate_arbeitsl <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"])
+        & (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
         & (summe_ges_priv_rente_m == 0)
-        & (arbeitsstunden_w < arbeitsl_geld_params["arbeitsl_geld_stundengrenze"])
+        & (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
 
 
@@ -176,7 +175,7 @@ def proxy_eink_vorj_arbeitsl_geld(
     max_wage = bruttolohn_vorj_m.clip(lower=None, upper=ges_rentenv_beitr_bemess_grenze)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = arbeitsl_geld_params["soz_vers_pausch_arbeitsl_geld"] * max_wage
+    prox_ssc = arbeitsl_geld_params["soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_tax = _eink_st_tarif(
