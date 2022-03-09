@@ -1,15 +1,22 @@
-kindergeld_hoechstalter:
+höchstalter:
   name:
     de: Alter, bis zu dem Kindergeld gezahlt wird.
     en: Age up to which child benefit is paid.
   description:
-    de: § 32 (4) Nr. 2 EStG.
-    en:
+    de: Für minderjährige Kinder besteht ohne Bedingungen einen Anspruch auf Kindergeld. Auch
+        für erwachsene Kinder kann bis zu einem Höchstalter und unter bestimmten Bedingungen ein
+        Anspruch auf Kindergeld bestehen.
+    en: Underage children are entitled to child benefit without any conditions. Also adult
+        children up to a maximum age and under certain conditions are entitled to child benefit.
+  unit: years
+  reference: § 32 Art. 2-4 EStG.
   1984-01-01:
-    scalar: 27
+    mit_bedingungen: 27
+    ohne_bedingungen: 18
     reference:
   2007-01-01:
-    scalar: 25
+    mit_bedingungen: 25
+    ohne_bedingungen: 18
     reference: Art. 1 G. v. 19.07.2006 BGBl I S. 1652
 
 kindergeld:
@@ -155,7 +162,7 @@ kindergeld:
     3: 225
     4: 250
 
-kindergeld_einkommensgrenze:
+einkommensgrenze:
   name:
     de: Einkommensgrenze der Kinder für Kindergeldanspruch
     en: Income Ceiling for children in order to get child benefit.
@@ -191,7 +198,7 @@ kindergeld_einkommensgrenze:
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
     note: Zurückdatiert auf das volle Kalenderjahr 2009.
 
-kindergeld_stundengrenze:
+stundengrenze:
   name:
     de: Stundengrenze für Kindergeldanspruch
     en: Working hours threshold for child benefit eligibility

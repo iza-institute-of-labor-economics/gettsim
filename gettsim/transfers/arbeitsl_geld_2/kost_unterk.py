@@ -26,6 +26,7 @@ def miete_pro_qm_hh(
     bruttokaltmiete_m_hh: FloatSeries,
     heizkosten_m_hh: FloatSeries,
     wohnfläche_hh: IntSeries,
+    arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
     """Calculate rent per square meter.
 
@@ -42,13 +43,16 @@ def miete_pro_qm_hh(
     -------
     IntSeries with the total amount of rental costs per squaremeter.
     """
-    return ((bruttokaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh).clip(upper=10)
+    return ((bruttokaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh).clip(
+        upper=arbeitsl_geld_2_params["max_miete_pro_qm"]["max"]
+    )
 
 
 def berechtigte_wohnfläche_hh(
     wohnfläche_hh: IntSeries,
     bewohnt_eigentum_hh: BoolSeries,
     haushaltsgröße_hh: IntSeries,
+    arbeitsl_geld_2_params: dict,
 ) -> IntSeries:
     """Calculate size of dwelling eligible to claim.
 
@@ -67,11 +71,19 @@ def berechtigte_wohnfläche_hh(
     """
     out = wohnfläche_hh * 0
     out.loc[bewohnt_eigentum_hh] = wohnfläche_hh.loc[bewohnt_eigentum_hh].clip(
-        upper=(80 + (haushaltsgröße_hh.loc[bewohnt_eigentum_hh] - 2).clip(lower=0) * 20)
+        upper=(
+            arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["basisgröße"]
+            + (haushaltsgröße_hh.loc[bewohnt_eigentum_hh] - 2).clip(lower=0)
+            * arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["erweiterung"]
+        )
     )
     out.loc[~bewohnt_eigentum_hh] = wohnfläche_hh.loc[~bewohnt_eigentum_hh].clip(
         upper=(
-            45 + (haushaltsgröße_hh.loc[~bewohnt_eigentum_hh] - 1).clip(lower=0) * 15
+            arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
+            + (haushaltsgröße_hh.loc[~bewohnt_eigentum_hh] - 1).clip(lower=0)
+            * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
+                "je_weitere_person"
+            ]
         )
     )
     return out

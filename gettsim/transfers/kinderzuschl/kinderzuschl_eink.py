@@ -164,7 +164,7 @@ def kinderzuschl_eink_max(
     """
     return (
         kinderzuschl_eink_relev
-        + kinderzuschl_params["kinderzuschl_max"] * anz_kinder_anspruch_per_hh
+        + kinderzuschl_params["maximum"] * anz_kinder_anspruch_per_hh
     )
 
 
@@ -200,8 +200,8 @@ def kinderzuschl_eink_min(
     conditions = [~hat_kinder_hh, is_alleinerziehend_hh, ~is_alleinerziehend_hh]
     choices = [
         0,
-        kinderzuschl_params["kinderzuschl_min_eink_alleinerz"],
-        kinderzuschl_params["kinderzuschl_min_eink_paare"],
+        kinderzuschl_params["min_eink_alleinerz"],
+        kinderzuschl_params["min_eink_paare"],
     ]
 
     return pd.Series(index=hh_id.index, data=np.select(conditions, choices))
@@ -233,9 +233,8 @@ def kinderzuschl_kindereink_abzug(
 
     """
     return kindergeld_anspruch * (
-        kinderzuschl_params["kinderzuschl_max"]
-        - kinderzuschl_params["kinderzuschl_entzug_kind"]
-        * (bruttolohn_m + unterhaltsvors_m)
+        kinderzuschl_params["maximum"]
+        - kinderzuschl_params["entzugsrate_kind"] * (bruttolohn_m + unterhaltsvors_m)
     ).clip(lower=0)
 
 
@@ -265,7 +264,7 @@ def kinderzuschl_eink_anrechn(
 
     """
     return (
-        kinderzuschl_params["kinderzuschl_entzug_eltern"]
+        kinderzuschl_params["entzugsrate_eltern"]
         * (hh_id.replace(arbeitsl_geld_2_eink_hh) - kinderzuschl_eink_relev)
     ).clip(lower=0)
 
