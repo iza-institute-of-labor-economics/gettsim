@@ -11,17 +11,56 @@ from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_reg_beschäftigt_nicht_pari,
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    midi_job_bemessungsentgelt_since2009,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    midi_job_bemessungsentgelt_until2008,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_reg_beschäftigt_pari,
+    _ag_beitr_ges_krankenv_midi_job_since2009,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    ges_krankenv_beitr_rente_nicht_pari,
+    _ag_beitr_ges_krankenv_midi_job_until2008,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    ges_krankenv_beitr_rente_pari,
+    _ges_beitr_ges_krankenv_midi_job_since2009,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_beitr_ges_krankenv_midi_job_until2008,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_reg_beschäftigt_2005_2008,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_reg_beschäftigt_2009_2018,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_reg_beschäftigt_after2019,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_reg_beschäftigt_until2005,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_rente_2005_2008,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_rente_2009_2018,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_rente_after2019,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_rente_until2005,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_selbst_2005_2008,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_selbst_before2005,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_selbst_since2009,
 )
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
@@ -295,20 +334,51 @@ def load_reforms_for_date(date):
         functions["ges_rente_m"] = ges_rente_nach_grundr_m
         functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_ab_2021
 
-    if (
+    if year <= 2008:
+        functions[
+            "ag_beitr_ges_krankenv_midi_job"
+        ] = _ag_beitr_ges_krankenv_midi_job_until2008
+        functions[
+            "ges_beitr_ges_krankenv_midi_job"
+        ] = _ges_beitr_ges_krankenv_midi_job_until2008
+        functions["midi_job_bemessungsentgelt"] = midi_job_bemessungsentgelt_until2008
+    else:
+        functions[
+            "ag_beitr_ges_krankenv_midi_job"
+        ] = _ag_beitr_ges_krankenv_midi_job_since2009
+        functions[
+            "ges_beitr_ges_krankenv_midi_job"
+        ] = _ges_beitr_ges_krankenv_midi_job_since2009
+        functions["midi_job_bemessungsentgelt"] = midi_job_bemessungsentgelt_since2009
+
+    if date < datetime.date(2005, 7, 1):
+        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_until2005
+        functions[
+            "_ges_krankenv_beitr_reg_beschäftigt"
+        ] = _ges_krankenv_beitr_reg_beschäftigt_until2005
+        functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_before2005
+    elif (
         datetime.date(year=2005, month=7, day=1)
         <= date
-        <= datetime.date(year=2018, month=12, day=31)
+        <= datetime.date(year=2008, month=12, day=31)
     ):
-        functions["ges_krankenv_beitr_rente"] = ges_krankenv_beitr_rente_nicht_pari
+        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_2005_2008
         functions[
             "_ges_krankenv_beitr_reg_beschäftigt"
-        ] = _ges_krankenv_beitr_reg_beschäftigt_nicht_pari
+        ] = _ges_krankenv_beitr_reg_beschäftigt_2005_2008
+        functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_2005_2008
+    elif year <= 2009 <= 2018:
+        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_2009_2018
+        functions[
+            "_ges_krankenv_beitr_reg_beschäftigt"
+        ] = _ges_krankenv_beitr_reg_beschäftigt_2009_2018
+        functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_since2009
     else:
-        functions["ges_krankenv_beitr_rente"] = ges_krankenv_beitr_rente_pari
+        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_after2019
         functions[
             "_ges_krankenv_beitr_reg_beschäftigt"
-        ] = _ges_krankenv_beitr_reg_beschäftigt_pari
+        ] = _ges_krankenv_beitr_reg_beschäftigt_after2019
+        functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_since2009
 
     return functions
 

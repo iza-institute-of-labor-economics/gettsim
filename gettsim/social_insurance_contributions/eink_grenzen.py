@@ -81,7 +81,7 @@ def in_gleitzone(
     ) & (~geringfügig_beschäftigt)
 
 
-def midi_job_bemessungsentgelt(
+def midi_job_bemessungsentgelt_until2008(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Select income subject to social insurance contributions for midi job.
@@ -117,11 +117,88 @@ def midi_job_bemessungsentgelt(
     # Then calculate specific shares
     an_anteil = (
         allg_soz_vers_beitr
-        + (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"] / 2)
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zus"]
+        + (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["durchschnitt"] / 2)
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zusatz"]
     )
     ag_anteil = allg_soz_vers_beitr + (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allg"] / 2
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["durchschnitt"] / 2
+    )
+
+    # Sum over the shares which are specific for midi jobs.
+    pausch_mini = (
+        soz_vers_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+        + soz_vers_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+        + soz_vers_beitr_params["ag_abgaben_geringf"]["st"]
+    )
+    # Now calculate final factor
+    f = round(pausch_mini / (an_anteil + ag_anteil), 4)
+
+    # Now use the factor to calculate the overall bemessungsentgelt
+    mini_job_anteil = (
+        f * soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+    )
+    lohn_über_mini = (
+        bruttolohn_m.loc[in_gleitzone]
+        - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+    )
+    gewichtete_midi_job_rate = (
+        soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
+        / (
+            soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
+            - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        )
+    ) - (
+        soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        / (
+            soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
+            - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        )
+        * f
+    )
+    return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
+
+
+def midi_job_bemessungsentgelt_since2009(
+    bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict,
+) -> FloatSeries:
+    """Select income subject to social insurance contributions for midi job.
+
+    Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midi jobs subject
+    to social insurance contribution.
+
+    Legal reference: § 163 Abs. 10 SGB VI
+
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+
+    Returns
+    -------
+    FloatSeries with the income subject to social insurance contributions for midi job.
+    """
+    # First calculate the factor F from the formula in § 163 (10) SGB VI
+    # Therefore sum the contributions which are the same for employee and employer
+    allg_soz_vers_beitr = (
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        + soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
+    )
+
+    # Then calculate specific shares
+    an_anteil = (
+        allg_soz_vers_beitr
+        + (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allgemein"] / 2)
+        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zusatz"]
+    )
+    ag_anteil = allg_soz_vers_beitr + (
+        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allgemein"] / 2
     )
 
     # Sum over the shares which are specific for midi jobs.

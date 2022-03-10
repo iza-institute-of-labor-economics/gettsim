@@ -270,7 +270,7 @@ def social_security_data(start, end):
     soz_vers_out = pd.concat(
         [
             soz_vers_df[["arbeitsl_v", "ges_rentenv"]],
-            ges_krankenv[["allg", "zus"]],
+            ges_krankenv[["durchschnitt", "allgemein", "zusatz"]],
             ges_pflegev,
         ],
         axis=1,
@@ -278,6 +278,7 @@ def social_security_data(start, end):
     soz_vers_out.columns = [
         "unemployment insurance",
         "pension insurance",
+        "health insurance average",
         "health insurance general",
         "health insurance top-up",
         "care insurance",
