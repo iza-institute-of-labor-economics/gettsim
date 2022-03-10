@@ -84,7 +84,7 @@ def arbeitsl_geld_m(
     return arbeitsl_geld_m
 
 
-def monate_arbeitsl(
+def monate_arbeitsl_2y(
     arbeitsl_lfdj_m: IntSeries, arbeitsl_vorj_m: IntSeries, arbeitsl_vor2j_m: IntSeries
 ) -> IntSeries:
     """Aggregate months of unemployment over the last two years.
@@ -106,7 +106,7 @@ def monate_arbeitsl(
 
 
 def berechtigt_für_arbeitsl_geld(
-    monate_arbeitsl: IntSeries,
+    monate_arbeitsl_2y: IntSeries,
     alter: IntSeries,
     summe_ges_priv_rente_m: FloatSeries,
     arbeitsstunden_w: FloatSeries,
@@ -119,8 +119,8 @@ def berechtigt_für_arbeitsl_geld(
 
     Parameters
     ----------
-    monate_arbeitsl
-        See :func:`monate_arbeitsl`.
+    monate_arbeitsl_2y
+        See :func:`monate_arbeitsl_2y`.
     alter
         See basic input variable :ref:`alter <alter>`.
     summe_ges_priv_rente_m
@@ -135,7 +135,7 @@ def berechtigt_für_arbeitsl_geld(
 
     """
     return (
-        (monate_arbeitsl <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"])
+        (monate_arbeitsl_2y <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"])
         & (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
         & (summe_ges_priv_rente_m == 0)
         & (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
@@ -143,7 +143,7 @@ def berechtigt_für_arbeitsl_geld(
 
 
 def proxy_eink_vorj_arbeitsl_geld(
-    ges_rentenv_beitr_bemess_grenze: FloatSeries,
+    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
@@ -154,8 +154,8 @@ def proxy_eink_vorj_arbeitsl_geld(
 
     Parameters
     ----------
-    ges_rentenv_beitr_bemess_grenze
-        See :func:`ges_rentenv_beitr_bemess_grenze`.
+    _ges_rentenv_beitr_bemess_grenze_m
+        See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     arbeitsl_geld_params
@@ -172,7 +172,9 @@ def proxy_eink_vorj_arbeitsl_geld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=ges_rentenv_beitr_bemess_grenze)
+    max_wage = bruttolohn_vorj_m.clip(
+        lower=None, upper=_ges_rentenv_beitr_bemess_grenze_m
+    )
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch"] * max_wage

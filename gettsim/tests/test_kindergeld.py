@@ -21,8 +21,8 @@ INPUT_COLS = [
 ]
 YEARS = [2002, 2010, 2011, 2013, 2019, 2020, 2021]
 TEST_COLS = [
-    "kindergeld_m_basis_tu",
-    "kinderbonus_m_basis_tu",
+    "kindergeld_basis_m_tu",
+    "kinderbonus_basis_m_tu",
     "kindergeld_m_hh",
     "kinderbonus_m_hh",
     "kinderbonus_m_tu",

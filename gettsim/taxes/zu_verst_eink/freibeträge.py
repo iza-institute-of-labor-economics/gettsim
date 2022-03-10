@@ -37,8 +37,8 @@ def behinderungsgrad_pauschbetrag(
     return out
 
 
-def alleinerziehend_freib_tu_bis_2014(
-    alleinerziehend_tu: BoolSeries, eink_st_abzüge_params: dict
+def alleinerz_freib_tu_bis_2014(
+    alleinerz_tu: BoolSeries, eink_st_abzüge_params: dict
 ) -> FloatSeries:
     """Calculates tax deduction allowance for single parents until 2014.
 
@@ -46,8 +46,8 @@ def alleinerziehend_freib_tu_bis_2014(
 
     Parameters
     ----------
-    alleinerziehend_tu
-        See :func:`alleinerziehend_tu`.
+    alleinerz_tu
+        See :func:`alleinerz_tu`.
     eink_st_abzüge_params
         See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
@@ -55,15 +55,13 @@ def alleinerziehend_freib_tu_bis_2014(
     -------
 
     """
-    out = alleinerziehend_tu.astype(float) * 0
-    out.loc[alleinerziehend_tu] = eink_st_abzüge_params["alleinerziehenden_freibetrag"]
+    out = alleinerz_tu.astype(float) * 0
+    out.loc[alleinerz_tu] = eink_st_abzüge_params["alleinerz_freibetrag"]
     return out
 
 
-def alleinerziehend_freib_tu_ab_2015(
-    alleinerziehend_tu: BoolSeries,
-    anz_kinder_tu: IntSeries,
-    eink_st_abzüge_params: dict,
+def alleinerz_freib_tu_ab_2015(
+    alleinerz_tu: BoolSeries, anz_kinder_tu: IntSeries, eink_st_abzüge_params: dict,
 ) -> FloatSeries:
     """Calculates tax deduction allowance for single parents since 2015.
 
@@ -72,8 +70,8 @@ def alleinerziehend_freib_tu_ab_2015(
 
     Parameters
     ----------
-    alleinerziehend_tu
-        See :func:`alleinerziehend_tu`.
+    alleinerz_tu
+        See :func:`alleinerz_tu`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
     eink_st_abzüge_params
@@ -83,11 +81,11 @@ def alleinerziehend_freib_tu_ab_2015(
     -------
 
     """
-    out = alleinerziehend_tu.astype(float) * 0
-    out.loc[alleinerziehend_tu] = (
-        eink_st_abzüge_params["alleinerziehenden_freibetrag"]
-        + anz_kinder_tu.loc[alleinerziehend_tu]
-        * eink_st_abzüge_params["alleinerziehenden_freibetrag_zusatz"]
+    out = alleinerz_tu.astype(float) * 0
+    out.loc[alleinerz_tu] = (
+        eink_st_abzüge_params["alleinerz_freibetrag"]
+        + anz_kinder_tu.loc[alleinerz_tu]
+        * eink_st_abzüge_params["alleinerz_freibetrag_zusatz"]
     )
     return out
 

@@ -97,7 +97,7 @@ TYPES_INPUT_VARIABLES = {
     "m_elterngeld_vat": IntSeries,
     "m_elterngeld_mut": IntSeries,
     "in_ausbildung": BoolSeries,
-    "alleinerziehend": BoolSeries,
+    "alleinerz": BoolSeries,
     "bewohnt_eigentum_hh": BoolSeries,
     "immobilie_baujahr_hh": IntSeries,
     "sonstig_eink_m": FloatSeries,

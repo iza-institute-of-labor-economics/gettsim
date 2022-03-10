@@ -30,7 +30,7 @@ OUT_COLS = [
     "entgeltp_update",
     "entgeltp_update_lohn",
     # "ges_rente_regelaltersgrenze",
-    # "ges_rentenv_beitr_bemess_grenze",
+    # "_ges_rentenv_beitr_bemess_grenze_m",
 ]
 
 YEARS = [2010, 2012, 2015]

@@ -1,6 +1,10 @@
 """This module computes demographic variables directly on the data. These information
 are used throughout modules of gettsim."""
+import numpy as np
+import pandas as pd
+
 from gettsim.typing import BoolSeries
+from gettsim.typing import DateTimeSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
@@ -25,37 +29,37 @@ def anz_minderj_hh(hh_id: IntSeries, alter: IntSeries, kind: BoolSeries) -> IntS
     return (minderj & kind).groupby(hh_id).sum()
 
 
-def alleinerziehend_tu(tu_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
+def alleinerz_tu(tu_id: IntSeries, alleinerz: BoolSeries) -> BoolSeries:
     """Check if single parent is in tax unit.
 
     Parameters
     ----------
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-    alleinerziehend
-        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
+    alleinerz
+        See basic input variable :ref:`alleinerz <alleinerz>`.
     Returns
     -------
     BoolSeries indicating single parent in tax unit.
     """
-    return alleinerziehend.groupby(tu_id).any()
+    return alleinerz.groupby(tu_id).any()
 
 
-def alleinerziehend_hh(hh_id: IntSeries, alleinerziehend: BoolSeries) -> BoolSeries:
+def alleinerz_hh(hh_id: IntSeries, alleinerz: BoolSeries) -> BoolSeries:
     """Check if single parent is in household.
 
     Parameters
     ----------
     hh_id : IntSeries
         See basic input variable :ref:`hh_id <hh_id>`.
-    alleinerziehend : BoolSeries
-        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
+    alleinerz : BoolSeries
+        See basic input variable :ref:`alleinerz <alleinerz>`.
 
     Returns
     -------
     BoolSeries indicating single parent in household.
     """
-    return alleinerziehend.groupby(hh_id).any()
+    return alleinerz.groupby(hh_id).any()
 
 
 def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
@@ -376,3 +380,107 @@ def hhsize_tu(tu_id: IntSeries) -> IntSeries:
     IntSeries with the number of persons in taxunit per taxunit.
     """
     return tu_id.groupby(tu_id).size()
+
+
+def date_of_birth(
+    geburtsjahr: IntSeries, geburtsmonat: IntSeries, geburtstag: IntSeries
+) -> DateTimeSeries:
+    """Create date of birth datetime variable.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    geburtstag
+        See basic input variable :ref:`geburtstag <geburtstag>`.
+
+    Returns
+    -------
+
+    """
+    out = pd.to_datetime(
+        pd.concat(
+            [
+                geburtsjahr.rename("year"),
+                geburtsmonat.rename("month"),
+                geburtstag.rename("day"),
+            ],
+            axis=1,
+        )
+    )
+    return out
+
+
+def alter_jüngstes_kind(
+    hh_id: IntSeries, date_of_birth: DateTimeSeries, kind: BoolSeries
+) -> DateTimeSeries:
+    """Calculate the age of the youngest child.
+
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    date_of_birth
+        See :func:`geburtstag`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    alter_jüngstes_kind = date_of_birth.loc[kind].groupby(hh_id).max()
+    # Re-index to get NaT for households without children.
+    alter_jüngstes_kind = alter_jüngstes_kind.reindex(index=hh_id.unique())
+    # Replace hh_ids with timestamps and re-cast to `datetime64[ns]` if there was no kid
+    # which yields object dtype.
+    return hh_id.replace(alter_jüngstes_kind).astype("datetime64[ns]")
+
+
+def jüngstes_kind(
+    date_of_birth: DateTimeSeries, alter_jüngstes_kind: DateTimeSeries
+) -> BoolSeries:
+    """Determine the youngest child in each household.
+
+    Parameters
+    ----------
+    date_of_birth
+        See :func:`date_of_birth`.
+    alter_jüngstes_kind
+        See :func:`alter_jüngstes_kind`.
+
+    Returns
+    -------
+
+    """
+    return date_of_birth == alter_jüngstes_kind
+
+
+def alter_jüngstes_kind_monate(
+    hh_id: IntSeries, alter_jüngstes_kind: DateTimeSeries, elterngeld_params: dict
+) -> FloatSeries:
+    """Calculate in age of youngest child in months.
+
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    alter_jüngstes_kind
+        See :func:`alter_jüngstes_kind`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+    Returns
+    -------
+
+    """
+    date = pd.to_datetime(elterngeld_params["datum"])
+    age_in_days = date - alter_jüngstes_kind
+
+    # Check was formerly implemented in `check_eligibilities` for elterngeld.
+    unborn_children = age_in_days.dt.total_seconds() < 0
+    if unborn_children.any():
+        hh_ids = hh_id[unborn_children].unique()
+        raise ValueError(f"Households with ids {hh_ids} have unborn children.")
+    return age_in_days / np.timedelta64(1, "M")

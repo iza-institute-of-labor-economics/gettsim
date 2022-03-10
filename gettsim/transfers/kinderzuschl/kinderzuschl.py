@@ -78,10 +78,10 @@ def kinderzuschl_vorläufig_m_hh(
 
 def kinderzuschl_vorläufig_m_ab_07_2019(
     hh_id: IntSeries,
-    arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
-    kinderzuschl_eink_min: FloatSeries,
-    kinderzuschl_kindereink_abzug: FloatSeries,
-    kinderzuschl_eink_anrechn: FloatSeries,
+    arbeitsl_geld_2_brutto_eink_m_hh: FloatSeries,
+    kinderzuschl_eink_min_m: FloatSeries,
+    kinderzuschl_kindereink_abzug_m: FloatSeries,
+    kinderzuschl_eink_anrechn_m: FloatSeries,
 ) -> FloatSeries:
     """Calculate preliminary child benefit since 07/2019.
 
@@ -89,24 +89,26 @@ def kinderzuschl_vorläufig_m_ab_07_2019(
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    arbeitsl_geld_2_brutto_eink_hh
-        See :func:`arbeitsl_geld_2_brutto_eink_hh`.
-    kinderzuschl_eink_min
-        See :func:`kinderzuschl_eink_min`.
-    kinderzuschl_kindereink_abzug
-        See :func:`kinderzuschl_kindereink_abzug`.
-    kinderzuschl_eink_anrechn
-        See :func:`kinderzuschl_eink_anrechn`.
+    arbeitsl_geld_2_brutto_eink_m_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
+    kinderzuschl_eink_min_m
+        See :func:`kinderzuschl_eink_min_m`.
+    kinderzuschl_kindereink_abzug_m
+        See :func:`kinderzuschl_kindereink_abzug_m`.
+    kinderzuschl_eink_anrechn_m
+        See :func:`kinderzuschl_eink_anrechn_m`.
 
     Returns
     -------
 
     """
     out = pd.Series(0, index=hh_id.index)
-    condition = hh_id.replace(arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschl_eink_min
+    condition = (
+        hh_id.replace(arbeitsl_geld_2_brutto_eink_m_hh) >= kinderzuschl_eink_min_m
+    )
     out.loc[condition] = (
-        kinderzuschl_kindereink_abzug.groupby(hh_id).transform("sum")
-        - kinderzuschl_eink_anrechn
+        kinderzuschl_kindereink_abzug_m.groupby(hh_id).transform("sum")
+        - kinderzuschl_eink_anrechn_m
     ).clip(lower=0)
 
     return out.groupby(hh_id).transform("max")
@@ -115,8 +117,8 @@ def kinderzuschl_vorläufig_m_ab_07_2019(
 def kinderzuschl_vorläufig_m_bis_06_2019(
     hh_id: IntSeries,
     kinderzuschl_eink_spanne: BoolSeries,
-    kinderzuschl_kindereink_abzug: FloatSeries,
-    kinderzuschl_eink_anrechn: FloatSeries,
+    kinderzuschl_kindereink_abzug_m: FloatSeries,
+    kinderzuschl_eink_anrechn_m: FloatSeries,
 ) -> FloatSeries:
     """Calculate preliminary child benefit since 2005 until 06/2019.
 
@@ -126,10 +128,10 @@ def kinderzuschl_vorläufig_m_bis_06_2019(
         See basic input variable :ref:`hh_id <hh_id>`.
     kinderzuschl_eink_spanne
         See :func:`kinderzuschl_eink_spanne`.
-    kinderzuschl_kindereink_abzug
-        See :func:`kinderzuschl_kindereink_abzug`.
-    kinderzuschl_eink_anrechn
-        See :func:`kinderzuschl_eink_anrechn`.
+    kinderzuschl_kindereink_abzug_m
+        See :func:`kinderzuschl_kindereink_abzug_m`.
+    kinderzuschl_eink_anrechn_m
+        See :func:`kinderzuschl_eink_anrechn_m`.
 
     Returns
     -------
@@ -137,7 +139,7 @@ def kinderzuschl_vorläufig_m_bis_06_2019(
     """
     out = pd.Series(0, index=kinderzuschl_eink_spanne.index)
     out.loc[kinderzuschl_eink_spanne] = (
-        kinderzuschl_kindereink_abzug.groupby(hh_id).transform("sum")
-        - kinderzuschl_eink_anrechn
+        kinderzuschl_kindereink_abzug_m.groupby(hh_id).transform("sum")
+        - kinderzuschl_eink_anrechn_m
     ).clip(lower=0)
     return out.groupby(hh_id).transform("max")

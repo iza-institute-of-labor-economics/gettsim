@@ -32,7 +32,7 @@ def kinderzuschl_vermögens_check_hh(
 
 
 def wohngeld_vermögens_check_hh(
-    wohngeld_basis_hh: FloatSeries,
+    wohngeld_basis_m_hh: FloatSeries,
     vermögen_hh: FloatSeries,
     haushaltsgröße_hh: IntSeries,
     wohngeld_params: dict,
@@ -44,8 +44,8 @@ def wohngeld_vermögens_check_hh(
 
     Parameters
     ----------
-    wohngeld_basis_hh
-        See :func:`wohngeld_basis_hh`.
+    wohngeld_basis_m_hh
+        See :func:`wohngeld_basis_m_hh`.
     vermögen_hh
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
     haushaltsgröße_hh
@@ -57,7 +57,7 @@ def wohngeld_vermögens_check_hh(
     -------
 
     """
-    out = wohngeld_basis_hh.copy()
+    out = wohngeld_basis_m_hh.copy()
     condition = vermögen_hh <= (
         wohngeld_params["vermögensgrundfreibetrag"]
         + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))

@@ -64,8 +64,8 @@ def regelbedarf_m_hh(
     return regelsatz_m_hh + kost_unterk_m_hh
 
 
-def _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh(
-    alleinerziehend_hh: BoolSeries,
+def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
+    alleinerz_hh: BoolSeries,
     anz_kinder_hh: IntSeries,
     anz_kind_zwischen_0_6_hh: IntSeries,
     anz_kind_zwischen_0_15_hh: IntSeries,
@@ -80,8 +80,8 @@ def _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh(
 
     Parameters
     ----------
-    alleinerziehend_hh
-        See :func:`alleinerziehend_hh`.
+    alleinerz_hh
+        See :func:`alleinerz_hh`.
     anz_kinder_hh
         See :func:`anz_kinder_hh`.
     anz_kind_zwischen_0_6_hh
@@ -107,7 +107,7 @@ def _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh(
     ) * arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
 
     # Clip value at calculated minimal share and given upper share
-    out = alleinerziehend_hh * value.clip(
+    out = alleinerz_hh * value.clip(
         lower=lower, upper=arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
     )
     return out
@@ -188,7 +188,7 @@ def kindersatz_m_hh_ab_2011(
 
 def regelsatz_m_hh_bis_2010(
     anz_erwachsene_hh: IntSeries,
-    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh: FloatSeries,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
     kindersatz_m_hh: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
@@ -200,8 +200,8 @@ def regelsatz_m_hh_bis_2010(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
     kindersatz_m_hh
         See :func:`kindersatz_m_hh`.
     arbeitsl_geld_2_params
@@ -214,7 +214,7 @@ def regelsatz_m_hh_bis_2010(
     data = np.where(
         anz_erwachsene_hh == 1,
         arbeitsl_geld_2_params["regelsatz"]
-        * (1 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh),
+        * (1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh),
         arbeitsl_geld_2_params["regelsatz"]
         * (
             2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
@@ -228,7 +228,7 @@ def regelsatz_m_hh_bis_2010(
 
 def regelsatz_m_hh_ab_2011(
     anz_erwachsene_hh: IntSeries,
-    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh: FloatSeries,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
     kindersatz_m_hh: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
@@ -239,8 +239,8 @@ def regelsatz_m_hh_ab_2011(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
     kindersatz_m_hh
         See :func:`kindersatz_m_hh`.
     arbeitsl_geld_2_params
@@ -253,9 +253,9 @@ def regelsatz_m_hh_ab_2011(
     data = np.where(
         anz_erwachsene_hh == 1,
         arbeitsl_geld_2_params["regelsatz"][1]
-        * (1 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh),
+        * (1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh),
         arbeitsl_geld_2_params["regelsatz"][2]
-        * (2 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh)
+        * (2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh)
         + (
             arbeitsl_geld_2_params["regelsatz"][3]
             * (anz_erwachsene_hh - 2).clip(lower=0)

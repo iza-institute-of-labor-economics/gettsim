@@ -12,10 +12,10 @@ import pandas as pd
 from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.transfers.wohngeld import wohngeld_basis
-from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
-from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
-from gettsim.transfers.wohngeld import wohngeld_miete_bis_2008
+from gettsim.transfers.wohngeld import wohngeld_basis_m
+from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2009
+from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_m_bis_2008
 from gettsim.transfers.wohngeld import wohngeld_min_miete
 
 
@@ -116,7 +116,7 @@ def prepare_wg_data(sel_year, hh_size):
 
     # Miete needs to be corrected acc. to mietstufe and hh size
     if sel_year <= 2008:
-        wohngeld_miete = wohngeld_miete_bis_2008(
+        wohngeld_miete_m = wohngeld_miete_m_bis_2008(
             pd.Series([3] * len(miete)),
             pd.Series([1980] * len(miete)),
             household_size,
@@ -127,7 +127,7 @@ def prepare_wg_data(sel_year, hh_size):
             params,
         )
     if 2009 <= sel_year <= 2020:
-        wohngeld_miete = wohngeld_miete_ab_2009(
+        wohngeld_miete_m = wohngeld_miete_m_ab_2009(
             pd.Series([3] * len(miete)),
             household_size,
             pd.Series(range(len(miete))),
@@ -137,7 +137,7 @@ def prepare_wg_data(sel_year, hh_size):
             params,
         )
     if sel_year >= 2021:
-        wohngeld_miete = wohngeld_miete_ab_2021(
+        wohngeld_miete_m = wohngeld_miete_m_ab_2021(
             pd.Series([3] * len(miete)),
             household_size,
             pd.Series(range(len(miete))),
@@ -156,11 +156,11 @@ def prepare_wg_data(sel_year, hh_size):
     for i in range(len(einkommen)):
         this_column = wohngeld_df.columns[i]
         e = pd.Series(data=[einkommen[i]] * len(einkommen))
-        wohngeld_df[this_column] = wohngeld_basis(
+        wohngeld_df[this_column] = wohngeld_basis_m(
             haushaltsgröße=household_size,
             # Account for minimum income
-            wohngeld_eink=np.maximum(e, params["min_eink"][hh_size]),
-            wohngeld_miete=wohngeld_miete,
+            wohngeld_eink_m=np.maximum(e, params["min_eink"][hh_size]),
+            wohngeld_miete_m=wohngeld_miete_m,
             wohngeld_params=params,
         )
     wohngeld_df.index = miete

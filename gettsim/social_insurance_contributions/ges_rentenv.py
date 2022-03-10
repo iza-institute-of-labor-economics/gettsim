@@ -7,8 +7,8 @@ from gettsim.typing import IntSeries
 
 def ges_rentenv_beitr_m(
     geringfügig_beschäftigt: BoolSeries,
-    ges_rentenv_beitr_regular_job: FloatSeries,
-    an_beitr_ges_rentenv_midi_job: FloatSeries,
+    ges_rentenv_beitr_regular_job_m: FloatSeries,
+    an_beitr_ges_rentenv_midi_job_m: FloatSeries,
 ) -> FloatSeries:
     """Contribution for each individual to the pension insurance.
 
@@ -17,11 +17,11 @@ def ges_rentenv_beitr_m(
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
 
-    ges_rentenv_beitr_regular_job
-        See :func:`ges_rentenv_beitr_regular_job`.
+    ges_rentenv_beitr_regular_job_m
+        See :func:`ges_rentenv_beitr_regular_job_m`.
 
-    an_beitr_ges_rentenv_midi_job
-        See :func:`an_beitr_ges_rentenv_midi_job`.
+    an_beitr_ges_rentenv_midi_job_m
+        See :func:`an_beitr_ges_rentenv_midi_job_m`.
 
 
     Returns
@@ -35,8 +35,8 @@ def ges_rentenv_beitr_m(
     out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
-    out.loc[an_beitr_ges_rentenv_midi_job.index] = an_beitr_ges_rentenv_midi_job
-    out.loc[ges_rentenv_beitr_regular_job.index] = ges_rentenv_beitr_regular_job
+    out.loc[an_beitr_ges_rentenv_midi_job_m.index] = an_beitr_ges_rentenv_midi_job_m
+    out.loc[ges_rentenv_beitr_regular_job_m.index] = ges_rentenv_beitr_regular_job_m
 
     return out
 
@@ -61,7 +61,7 @@ def ges_rentenv_beitr_m_tu(
     return ges_rentenv_beitr_m.groupby(tu_id).sum()
 
 
-def ges_rentenv_beitr_regular_job(
+def ges_rentenv_beitr_regular_job_m(
     bruttolohn_ges_rentenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates pension insurance contributions for regular jobs.
@@ -84,7 +84,7 @@ def ges_rentenv_beitr_regular_job(
     )
 
 
-def ag_beitr_ges_rentenv_midi_job(
+def ag_beitr_ges_rentenv_midi_job_m(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the employer pension insurance contribution.
@@ -112,22 +112,22 @@ def ag_beitr_ges_rentenv_midi_job(
     return out
 
 
-def an_beitr_ges_rentenv_midi_job(
-    ges_beitr_ges_rentenv_midi_job: FloatSeries,
-    ag_beitr_ges_rentenv_midi_job: FloatSeries,
+def an_beitr_ges_rentenv_midi_job_m(
+    ges_beitr_ges_rentenv_midi_job_m: FloatSeries,
+    ag_beitr_ges_rentenv_midi_job_m: FloatSeries,
 ) -> FloatSeries:
     """Calculating the employer unemployment insurance contribution.
 
     Parameters
     ----------
-    ges_beitr_ges_rentenv_midi_job
-        See :func:`ges_beitr_ges_rentenv_midi_job`.
+    ges_beitr_ges_rentenv_midi_job_m
+        See :func:`ges_beitr_ges_rentenv_midi_job_m`.
 
-    ag_beitr_ges_rentenv_midi_job
-        See :func:`ag_beitr_ges_rentenv_midi_job`.
+    ag_beitr_ges_rentenv_midi_job_m
+        See :func:`ag_beitr_ges_rentenv_midi_job_m`.
 
     Returns
     -------
 
     """
-    return ges_beitr_ges_rentenv_midi_job - ag_beitr_ges_rentenv_midi_job
+    return ges_beitr_ges_rentenv_midi_job_m - ag_beitr_ges_rentenv_midi_job_m

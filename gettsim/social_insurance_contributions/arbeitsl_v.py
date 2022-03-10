@@ -96,7 +96,7 @@ def arbeitsl_v_reg_beschäftigt_m(
 
 def bruttolohn_ges_rentenv_beitr_m(
     bruttolohn_m: FloatSeries,
-    ges_rentenv_beitr_bemess_grenze: FloatSeries,
+    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
     reg_beschäftigt: BoolSeries,
 ) -> FloatSeries:
     """Calculate the wage subject to pension and
@@ -110,8 +110,8 @@ def bruttolohn_ges_rentenv_beitr_m(
     reg_beschäftigt
         See :func:`reg_beschäftigt`.
 
-    ges_rentenv_beitr_bemess_grenze
-        See :func:`ges_rentenv_beitr_bemess_grenze`.
+    _ges_rentenv_beitr_bemess_grenze_m
+        See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
 
 
     Returns
@@ -119,19 +119,19 @@ def bruttolohn_ges_rentenv_beitr_m(
 
     """
     bruttolohn_m_reg_beschäftigt = bruttolohn_m.loc[reg_beschäftigt]
-    bemess_grenze = ges_rentenv_beitr_bemess_grenze.loc[reg_beschäftigt]
+    bemess_grenze = _ges_rentenv_beitr_bemess_grenze_m.loc[reg_beschäftigt]
     return bruttolohn_m_reg_beschäftigt.clip(upper=bemess_grenze)
 
 
 def ges_beitr_arbeitsl_v_midi_job_m(
-    midi_job_bemessungsentgelt: FloatSeries, soz_vers_beitr_params: dict
+    midi_job_bemessungsentgelt_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the sum of employee and employer unemployment insurance contribution.
 
     Parameters
     ----------
-    midi_job_bemessungsentgelt
-        See :func:`midi_job_bemessungsentgelt`.
+    midi_job_bemessungsentgelt_m
+        See :func:`midi_job_bemessungsentgelt_m`.
 
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
@@ -141,7 +141,7 @@ def ges_beitr_arbeitsl_v_midi_job_m(
 
     """
     return (
-        midi_job_bemessungsentgelt
+        midi_job_bemessungsentgelt_m
         * 2
         * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )

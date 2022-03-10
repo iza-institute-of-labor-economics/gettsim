@@ -40,6 +40,9 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   functions will be introduced in future PRs. (:ghuser:`ChristianZimpelmann`).
 * :gh:`349` Create parameters for several hard coded numbers in code.
   (:ghuser:`LauraGergeleit`).
+* :gh:`355` Major renaming based on GEP 01: correct use of ``_m``-suffix;
+  ``alleinerziehend`` becomes ``alleinerz``; (:ghuser:`hmgaudecker`,
+  :ghuser:`ChristianZimpelmann`)
 
 0.4.2 — 2022-01-25
 ------------------

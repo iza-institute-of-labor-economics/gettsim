@@ -13,7 +13,7 @@ INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
-    "alleinerziehend",
+    "alleinerz",
     "alter",
     "bruttolohn_m",
     "sonstig_eink_m",

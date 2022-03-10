@@ -2,15 +2,15 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def arbeitsl_geld_2_eink_hh(
-    arbeitsl_geld_2_eink: FloatSeries, hh_id: IntSeries
+def arbeitsl_geld_2_eink_m_hh(
+    arbeitsl_geld_2_eink_m: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
     """Sum up the income per household for calculation of basic subsistence.
 
     Parameters
     ----------
-    arbeitsl_geld_2_eink
-        See :func:`arbeitsl_geld_2_eink`.
+    arbeitsl_geld_2_eink_m
+        See :func:`arbeitsl_geld_2_eink_m`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
 
@@ -18,25 +18,25 @@ def arbeitsl_geld_2_eink_hh(
     -------
     FloatSeries returns the income given by unemployment insurance per household.
     """
-    return arbeitsl_geld_2_eink.groupby(hh_id).sum()
+    return arbeitsl_geld_2_eink_m.groupby(hh_id).sum()
 
 
-def arbeitsl_geld_2_eink(
-    arbeitsl_geld_2_brutto_eink: FloatSeries,
+def arbeitsl_geld_2_eink_m(
+    arbeitsl_geld_2_brutto_eink_m: FloatSeries,
     eink_st_tu: FloatSeries,
     tu_id: IntSeries,
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     sozialv_beitr_m: FloatSeries,
-    arbeitsl_geld_2_eink_anr_frei: FloatSeries,
+    arbeitsl_geld_2_eink_anr_frei_m: FloatSeries,
 ) -> FloatSeries:
 
     """Sum up the income for calculation of basic subsistence.
 
     Parameters
     ----------
-    arbeitsl_geld_2_brutto_eink
-        See :func:`arbeitsl_geld_2_eink`.
+    arbeitsl_geld_2_brutto_eink_m
+        See :func:`arbeitsl_geld_2_eink_m`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
     eink_st_tu
@@ -47,8 +47,8 @@ def arbeitsl_geld_2_eink(
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    arbeitsl_geld_2_eink_anr_frei
-        See :func:`arbeitsl_geld_2_eink_anr_frei`.
+    arbeitsl_geld_2_eink_anr_frei_m
+        See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
 
     Returns
     -------
@@ -56,23 +56,23 @@ def arbeitsl_geld_2_eink(
     """
 
     return (
-        arbeitsl_geld_2_brutto_eink
+        arbeitsl_geld_2_brutto_eink_m
         - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
         - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
         - sozialv_beitr_m
-        - arbeitsl_geld_2_eink_anr_frei
+        - arbeitsl_geld_2_eink_anr_frei_m
     ).clip(lower=0)
 
 
-def arbeitsl_geld_2_brutto_eink_hh(
-    arbeitsl_geld_2_brutto_eink: FloatSeries, hh_id: IntSeries
+def arbeitsl_geld_2_brutto_eink_m_hh(
+    arbeitsl_geld_2_brutto_eink_m: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
 
     """Sum up the income before tax per household for calculation of basic subsistence.
     Parameters
     ----------
-    arbeitsl_geld_2_brutto_eink
-        See :func:`arbeitsl_geld_2_brutto_eink`.
+    arbeitsl_geld_2_brutto_eink_m
+        See :func:`arbeitsl_geld_2_brutto_eink_m`.
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
 
@@ -80,10 +80,10 @@ def arbeitsl_geld_2_brutto_eink_hh(
     -------
     Float Series with the income of a person by unemployment insurance before tax.
     """
-    return arbeitsl_geld_2_brutto_eink.groupby(hh_id).sum()
+    return arbeitsl_geld_2_brutto_eink_m.groupby(hh_id).sum()
 
 
-def arbeitsl_geld_2_brutto_eink(
+def arbeitsl_geld_2_brutto_eink_m(
     bruttolohn_m: FloatSeries,
     sonstig_eink_m: FloatSeries,
     eink_selbst_m: FloatSeries,

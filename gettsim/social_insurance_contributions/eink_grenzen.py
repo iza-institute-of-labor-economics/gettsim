@@ -17,8 +17,10 @@ def mini_job_grenze(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict):
     """
     out = wohnort_ost.replace(
         {
-            True: soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["ost"],
-            False: soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"][
+            True: soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"][
+                "ost"
+            ],
+            False: soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"][
                 "west"
             ],
         }
@@ -77,11 +79,11 @@ def in_gleitzone(
     BoolSeries indicating individual's income is in midi-job range.
     """
     return (
-        bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
+        bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
     ) & (~geringfügig_beschäftigt)
 
 
-def midi_job_bemessungsentgelt(
+def midi_job_bemessungsentgelt_m(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Select income subject to social insurance contributions for midi job.
@@ -135,23 +137,23 @@ def midi_job_bemessungsentgelt(
 
     # Now use the factor to calculate the overall bemessungsentgelt
     mini_job_anteil = (
-        f * soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        f * soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
     lohn_über_mini = (
         bruttolohn_m.loc[in_gleitzone]
-        - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
     gewichtete_midi_job_rate = (
-        soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
+        soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
         / (
-            soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
-            - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+            soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
+            - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
         )
     ) - (
-        soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
         / (
-            soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
-            - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+            soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
+            - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
         )
         * f
     )
@@ -179,5 +181,5 @@ def reg_beschäftigt(
     BoolSeries indicating regular employed persons.
     """
     return (
-        bruttolohn_m >= soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
+        bruttolohn_m >= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
     )

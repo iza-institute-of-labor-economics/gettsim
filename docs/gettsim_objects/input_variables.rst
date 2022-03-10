@@ -22,7 +22,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`rentner`              | Dummy: Pensioner employment status          | BoolSeries   |
 +-------------------------+---------------------------------------------+--------------+
-| _`alleinerziehend`      | Dummy: Single parent                        | BoolSeries   |
+| _`alleinerz`            | Dummy: Single parent                        | BoolSeries   |
 +-------------------------+---------------------------------------------+--------------+
 | _`wohnort_ost`          | Dummy: Living in former East Germany        | BoolSeries   |
 +-------------------------+---------------------------------------------+--------------+

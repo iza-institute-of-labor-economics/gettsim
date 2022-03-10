@@ -179,7 +179,7 @@ def entgeltp_update(
 def entgeltp_update_lohn(
     bruttolohn_m: FloatSeries,
     wohnort_ost: BoolSeries,
-    ges_rentenv_beitr_bemess_grenze: FloatSeries,
+    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
     ges_rentenv_params: dict,
 ) -> FloatSeries:
     """Return earning points for the wages earned in the last year.
@@ -190,8 +190,8 @@ def entgeltp_update_lohn(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     wohnort_ost
         See :func:`wohnort_ost`.
-    ges_rentenv_beitr_bemess_grenze
-        See :func:`ges_rentenv_beitr_bemess_grenze`.
+    _ges_rentenv_beitr_bemess_grenze_m
+        See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
     ges_rentenv_params
         See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
     Returns
@@ -208,7 +208,7 @@ def entgeltp_update_lohn(
 
     # Calculate the (scaled) wage, which is subject to pension contributions.
     bruttolohn_scaled_rentenv = bruttolohn_scaled_east.clip(
-        upper=ges_rentenv_beitr_bemess_grenze
+        upper=_ges_rentenv_beitr_bemess_grenze_m
     )
 
     # Calculate monthly mean wage in Germany

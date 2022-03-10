@@ -5,7 +5,6 @@ import pandas as pd
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.typing import BoolSeries
-from gettsim.typing import DateTimeSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
@@ -91,7 +90,7 @@ def elterngeld_m(
 
 
 def proxy_eink_vorj_elterngeld(
-    ges_rentenv_beitr_bemess_grenze: FloatSeries,
+    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     elterngeld_params: dict,
     eink_st_params: dict,
@@ -104,8 +103,8 @@ def proxy_eink_vorj_elterngeld(
 
     Parameters
     ----------
-    ges_rentenv_beitr_bemess_grenze
-        See :func:`ges_rentenv_beitr_bemess_grenze`.
+    _ges_rentenv_beitr_bemess_grenze_m
+        See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     elterngeld_params
@@ -122,7 +121,7 @@ def proxy_eink_vorj_elterngeld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(upper=ges_rentenv_beitr_bemess_grenze)
+    max_wage = bruttolohn_vorj_m.clip(upper=_ges_rentenv_beitr_bemess_grenze_m)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = elterngeld_params["soz_vers_pausch"] * max_wage
@@ -145,110 +144,6 @@ def proxy_eink_vorj_elterngeld(
     )
 
     return (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0)
-
-
-def date_of_birth(
-    geburtsjahr: IntSeries, geburtsmonat: IntSeries, geburtstag: IntSeries
-) -> DateTimeSeries:
-    """Create date of birth datetime variable.
-
-    Parameters
-    ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
-    geburtstag
-        See basic input variable :ref:`geburtstag <geburtstag>`.
-
-    Returns
-    -------
-
-    """
-    out = pd.to_datetime(
-        pd.concat(
-            [
-                geburtsjahr.rename("year"),
-                geburtsmonat.rename("month"),
-                geburtstag.rename("day"),
-            ],
-            axis=1,
-        )
-    )
-    return out
-
-
-def alter_jüngstes_kind(
-    hh_id: IntSeries, date_of_birth: DateTimeSeries, kind: BoolSeries
-) -> DateTimeSeries:
-    """Calculate the age of the youngest child.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    date_of_birth
-        See :func:`geburtstag`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    alter_jüngstes_kind = date_of_birth.loc[kind].groupby(hh_id).max()
-    # Re-index to get NaT for households without children.
-    alter_jüngstes_kind = alter_jüngstes_kind.reindex(index=hh_id.unique())
-    # Replace hh_ids with timestamps and re-cast to `datetime64[ns]` if there was no kid
-    # which yields object dtype.
-    return hh_id.replace(alter_jüngstes_kind).astype("datetime64[ns]")
-
-
-def jüngstes_kind(
-    date_of_birth: DateTimeSeries, alter_jüngstes_kind: DateTimeSeries
-) -> BoolSeries:
-    """Determine the youngest child in each household.
-
-    Parameters
-    ----------
-    date_of_birth
-        See :func:`date_of_birth`.
-    alter_jüngstes_kind
-        See :func:`alter_jüngstes_kind`.
-
-    Returns
-    -------
-
-    """
-    return date_of_birth == alter_jüngstes_kind
-
-
-def alter_jüngstes_kind_monate(
-    hh_id: IntSeries, alter_jüngstes_kind: DateTimeSeries, elterngeld_params: dict
-) -> FloatSeries:
-    """Calculate in age of youngest child in months.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    alter_jüngstes_kind
-        See :func:`alter_jüngstes_kind`.
-    elterngeld_params
-        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-    Returns
-    -------
-
-    """
-    date = pd.to_datetime(elterngeld_params["datum"])
-    age_in_days = date - alter_jüngstes_kind
-
-    # Check was formerly implemented in `check_eligibilities` for elterngeld.
-    unborn_children = age_in_days.dt.total_seconds() < 0
-    if unborn_children.any():
-        hh_ids = hh_id[unborn_children].unique()
-        raise ValueError(f"Households with ids {hh_ids} have unborn children.")
-    return age_in_days / np.timedelta64(1, "M")
 
 
 def elternzeit_anspruch(

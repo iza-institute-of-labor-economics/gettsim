@@ -19,11 +19,11 @@ INPUT_COLS = [
     "in_ausbildung",
     "bruttokaltmiete_m_hh",
     "heizkosten_m_hh",
-    "alleinerziehend",
+    "alleinerz",
     "kindergeld_anspruch",
-    "_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh",
-    "arbeitsl_geld_2_brutto_eink_hh",
-    "arbeitsl_geld_2_eink_hh",
+    "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
+    "arbeitsl_geld_2_brutto_eink_m_hh",
+    "arbeitsl_geld_2_eink_m_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
@@ -48,11 +48,11 @@ def test_kiz(
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     columns = [
-        "_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh",
-        "arbeitsl_geld_2_eink_hh",
+        "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
+        "arbeitsl_geld_2_eink_m_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m",
-        "arbeitsl_geld_2_brutto_eink_hh",
+        "arbeitsl_geld_2_brutto_eink_m_hh",
         "kindergeld_anspruch",
     ]
 

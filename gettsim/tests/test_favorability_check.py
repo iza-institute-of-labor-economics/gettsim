@@ -17,8 +17,8 @@ INPUT_COLS = [
     "eink_st_kein_kinderfreib_tu",
     "eink_st_kinderfreib_tu",
     "abgelt_st_tu",
-    "kindergeld_m_basis",
-    "kindergeld_m_basis_tu",
+    "kindergeld_basis_m",
+    "kindergeld_basis_m_tu",
     "jahr",
 ]
 YEARS = [2010, 2012, 2016]
@@ -41,8 +41,8 @@ def test_favorability_check(input_data, year, target):
         "eink_st_kein_kinderfreib_tu",
         "eink_st_kinderfreib_tu",
         "abgelt_st_tu",
-        "kindergeld_m_basis",
-        "kindergeld_m_basis_tu",
+        "kindergeld_basis_m",
+        "kindergeld_basis_m_tu",
     ]
 
     result = compute_taxes_and_transfers(

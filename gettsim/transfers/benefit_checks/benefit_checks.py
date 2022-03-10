@@ -6,7 +6,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
     regelbedarf_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
-    arbeitsl_geld_2_eink_hh: FloatSeries,
+    arbeitsl_geld_2_eink_m_hh: FloatSeries,
     vermögen_hh: FloatSeries,
     arbeitsl_geld_2_vermög_freib_hh: FloatSeries,
 ) -> FloatSeries:
@@ -21,8 +21,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
         See :func:`kindergeld_m_hh`.
     unterhaltsvors_m_hh
         See :func:`unterhaltsvors_m_hh`.
-    arbeitsl_geld_2_eink_hh
-        See :func:`arbeitsl_geld_2_eink_hh`.
+    arbeitsl_geld_2_eink_m_hh
+        See :func:`arbeitsl_geld_2_eink_m_hh`.
     arbeitsl_geld_2_vermög_freib_hh
         See :func:`arbeitsl_geld_2_vermög_freib_hh`.
     vermögen_hh
@@ -36,7 +36,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
     # Deduct income from other sources
     out = (
         regelbedarf_m_hh
-        - arbeitsl_geld_2_eink_hh
+        - arbeitsl_geld_2_eink_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
     ).clip(lower=0)

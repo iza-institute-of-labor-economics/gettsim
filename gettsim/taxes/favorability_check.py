@@ -17,8 +17,8 @@ from gettsim.typing import IntSeries
 
 def kinderfreib_günstiger_tu(
     eink_st_kein_kinderfreib_tu: FloatSeries,
-    kindergeld_m_basis_tu: FloatSeries,
-    kinderbonus_m_basis_tu: FloatSeries,
+    kindergeld_basis_m_tu: FloatSeries,
+    kinderbonus_basis_m_tu: FloatSeries,
     eink_st_kinderfreib_tu: FloatSeries,
 ) -> BoolSeries:
     """Return whether Kinderfreibetrag is more favorable than Kindergeld.
@@ -27,10 +27,10 @@ def kinderfreib_günstiger_tu(
     ----------
     eink_st_kein_kinderfreib_tu
         See :func:`eink_st_kein_kinderfreib_tu`.
-    kindergeld_m_basis_tu
-        See :func:`kindergeld_m_basis_tu`.
-    kinderbonus_m_basis_tu
-        See :func:`kinderbonus_m_basis_tu`.
+    kindergeld_basis_m_tu
+        See :func:`kindergeld_basis_m_tu`.
+    kinderbonus_basis_m_tu
+        See :func:`kinderbonus_basis_m_tu`.
     eink_st_kinderfreib_tu
         See :func:`eink_st_kinderfreib_tu`.
 
@@ -39,7 +39,7 @@ def kinderfreib_günstiger_tu(
 
     """
     eink_st_kein_kinderfreib = eink_st_kein_kinderfreib_tu - 12 * (
-        kindergeld_m_basis_tu + kinderbonus_m_basis_tu
+        kindergeld_basis_m_tu + kinderbonus_basis_m_tu
     )
     return eink_st_kein_kinderfreib > eink_st_kinderfreib_tu
 
@@ -90,26 +90,26 @@ def eink_st_tu_ab_1997(
     return out
 
 
-def kindergeld_m_bis_1996(kindergeld_m_basis: FloatSeries) -> FloatSeries:
+def kindergeld_m_bis_1996(kindergeld_basis_m: FloatSeries) -> FloatSeries:
     """Kindergeld calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
 
     Parameters
     ----------
-    kindergeld_m_basis
-        See :func:`kindergeld_m_basis`.
+    kindergeld_basis_m
+        See :func:`kindergeld_basis_m`.
 
     Returns
     -------
 
     """
-    return kindergeld_m_basis
+    return kindergeld_basis_m
 
 
 def kindergeld_m_ab_1997(
     kinderfreib_günstiger_tu: BoolSeries,
-    kindergeld_m_basis: FloatSeries,
+    kindergeld_basis_m: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
     """Kindergeld calculation since 1997.
@@ -118,8 +118,8 @@ def kindergeld_m_ab_1997(
     ----------
     kinderfreib_günstiger_tu
         See :func:`kinderfreib_günstiger_tu`.
-    kindergeld_m_basis
-        See :func:`kindergeld_m_basis`.
+    kindergeld_basis_m
+        See :func:`kindergeld_basis_m`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
 
@@ -128,14 +128,14 @@ def kindergeld_m_ab_1997(
 
     """
     beantrage_kinderfreib = tu_id.replace(kinderfreib_günstiger_tu)
-    out = kindergeld_m_basis
+    out = kindergeld_basis_m
     out.loc[beantrage_kinderfreib] = 0
     return out
 
 
 def kinderbonus_m(
     kinderfreib_günstiger_tu: BoolSeries,
-    kinderbonus_m_basis: FloatSeries,
+    kinderbonus_basis_m: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
     """Calculate Kinderbonus (one-time payment, non-allowable against transfer payments).
@@ -144,8 +144,8 @@ def kinderbonus_m(
     ----------
     kinderfreib_günstiger_tu
         See :func:`kinderfreib_günstiger_tu`.
-    kinderbonus_m_basis
-        See :func:`kinderbonus_m_basis`.
+    kinderbonus_basis_m
+        See :func:`kinderbonus_basis_m`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
 
@@ -154,7 +154,7 @@ def kinderbonus_m(
 
     """
     beantrage_kinderfreib = tu_id.replace(kinderfreib_günstiger_tu)
-    out = kinderbonus_m_basis
+    out = kinderbonus_basis_m
     out.loc[beantrage_kinderfreib] = 0
     return out
 

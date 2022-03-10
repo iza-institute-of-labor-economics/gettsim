@@ -38,7 +38,7 @@ def freibeträge(
     vorsorge: FloatSeries,
     sonderausgaben: FloatSeries,
     behinderungsgrad_pauschbetrag: FloatSeries,
-    alleinerziehend_freib_tu: FloatSeries,
+    alleinerz_freib_tu: FloatSeries,
     altersfreib: FloatSeries,
     tu_id: IntSeries,
 ) -> FloatSeries:
@@ -53,8 +53,8 @@ def freibeträge(
         See :func:`sonderausgaben`.
     behinderungsgrad_pauschbetrag
         See :func:`behinderungsgrad_pauschbetrag`.
-    alleinerziehend_freib_tu
-        See :func:`alleinerziehend_freib_tu`.
+    alleinerz_freib_tu
+        See :func:`alleinerz_freib_tu`.
     altersfreib
         See :func:`altersfreib`.
     tu_id
@@ -69,7 +69,7 @@ def freibeträge(
         vorsorge
         + sonderausgaben
         + behinderungsgrad_pauschbetrag
-        + tu_id.replace(alleinerziehend_freib_tu)
+        + tu_id.replace(alleinerz_freib_tu)
         + altersfreib
     )
     return out

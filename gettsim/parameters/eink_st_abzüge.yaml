@@ -420,7 +420,7 @@ einführungsfaktor:
       upper_threshold: inf
       rate_linear: 0
 
-alleinerziehenden_freibetrag:
+alleinerz_freibetrag:
   name:
     de: Entlastungsbetrag für Alleinerziehende
     en: Income Tax Allowance for Single Parents
@@ -455,7 +455,7 @@ alleinerziehenden_freibetrag:
     reference: Art. 3 Nr. 2 G. v. 29.12.2020 BGBl. I S.3096
 
 
-alleinerziehenden_freibetrag_zusatz:
+alleinerz_freibetrag_zusatz:
   name:
     de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag
     en: Income Tax Allowance for Single Parents; additional amount

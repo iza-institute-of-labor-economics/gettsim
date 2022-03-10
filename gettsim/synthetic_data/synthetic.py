@@ -200,7 +200,7 @@ def create_one_set_of_households(
         "bruttolohn_m",
         "alter",
         "rentner",
-        "alleinerziehend",
+        "alleinerz",
         "wohnort_ost",
         "in_priv_krankenv",
         "priv_rentenv_beitr_m",
@@ -254,7 +254,7 @@ def create_one_set_of_households(
         "rentner",
         "gem_veranlagt",
         "in_ausbildung",
-        "alleinerziehend",
+        "alleinerz",
         "bewohnt_eigentum_hh",
         "in_priv_krankenv",
         "schwerbeh_g",
@@ -345,7 +345,7 @@ def create_one_set_of_households(
         (df["hh_typ"].str.contains("single"))
         & (df["hh_typ"].str[7:8].astype(int) > 0)
         & (~df["kind"]),
-        "alleinerziehend",
+        "alleinerz",
     ] = True
 
     # Retirement variables

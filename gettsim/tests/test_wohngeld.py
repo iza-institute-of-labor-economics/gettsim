@@ -17,7 +17,7 @@ INPUT_COLS = [
     "tu_id",
     "kind",
     "bruttokaltmiete_m_hh",
-    "alleinerziehend",
+    "alleinerz",
     "alter",
     "immobilie_baujahr_hh",
     "kindergeld_anspruch",
@@ -40,7 +40,7 @@ INPUT_COLS = [
     "jahr",
 ]
 YEARS_TEST_MAIN = [2006, 2009, 2013, 2016, 2018, 2019, 2021]
-TEST_COLUMN = ["wohngeld_basis_hh"]
+TEST_COLUMN = ["wohngeld_basis_m_hh"]
 
 # Variables for test of wohngeld with varying size.
 MAX_HH_SIZE = 12
@@ -99,7 +99,7 @@ def input_data_households():
             "tu_id": np.arange(MAX_HH_SIZE + 1).repeat(np.arange(MAX_HH_SIZE + 1)),
             "kind": False,
             "bruttokaltmiete_m_hh": 200,
-            "alleinerziehend": False,
+            "alleinerz": False,
             "alter": 30,
             "immobilie_baujahr_hh": 1970,
             "kindergeld_anspruch": False,

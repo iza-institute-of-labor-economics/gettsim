@@ -43,9 +43,9 @@ def unterhaltsvors_m_hh(unterhaltsvors_m: FloatSeries, hh_id: IntSeries) -> Floa
 
 def unterhaltsvors_m(
     tu_id: IntSeries,
-    alleinerziehend: BoolSeries,
+    alleinerz: BoolSeries,
     alter: IntSeries,
-    unterhaltsvorschuss_eink_tu: FloatSeries,
+    unterhaltsvorschuss_eink_tu_m: FloatSeries,
     unterhalt_params: dict,
     kindergeld_params: dict,
 ) -> FloatSeries:
@@ -62,12 +62,12 @@ def unterhaltsvors_m(
     ----------
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-    alleinerziehend
-        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
+    alleinerz
+        See basic input variable :ref:`alleinerz <alleinerz>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    unterhaltsvorschuss_eink_tu
-        See :func:`unterhaltsvorschuss_eink_tu`.
+    unterhaltsvorschuss_eink_tu_m
+        See :func:`unterhaltsvorschuss_eink_tu_m`.
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     kindergeld_params
@@ -84,17 +84,17 @@ def unterhaltsvors_m(
     # The right-hand-side variable is aggregated by tax units whereas we need personal
     # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
     # index because it is
-    unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu)
+    unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu_m)
 
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
 
     conditions = [
-        (alter < altersgrenzen[0]) & alleinerziehend,
-        (alter >= altersgrenzen[0]) & (alter < altersgrenzen[1]) & alleinerziehend,
+        (alter < altersgrenzen[0]) & alleinerz,
+        (alter >= altersgrenzen[0]) & (alter < altersgrenzen[1]) & alleinerz,
         # Older kids get it only if the parent has income > 600€.
         (alter >= altersgrenzen[1])
         & (alter <= altersgrenzen[2])
-        & alleinerziehend
+        & alleinerz
         & (
             unterhaltsvorschuss_eink
             > unterhalt_params["unterhaltsvors_mindesteinkommen"]
@@ -114,7 +114,7 @@ def unterhaltsvors_m(
     return out
 
 
-def unterhaltsvorschuss_eink_tu(
+def unterhaltsvorschuss_eink_tu_m(
     bruttolohn_m_tu: FloatSeries,
     sonstig_eink_m_tu: FloatSeries,
     eink_selbst_m_tu: FloatSeries,

@@ -28,7 +28,7 @@ INPUT_COLS = [
     "priv_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_pflegev_beitr_m",
-    "alleinerziehend",
+    "alleinerz",
     "alter",
     "jahr",
     "wohnort_ost",
@@ -50,7 +50,7 @@ OUT_COLS = [
     "brutto_eink_7_tu",
     "ertragsanteil",
     "sonder",
-    "alleinerziehend_freib_tu",
+    "alleinerz_freib_tu",
     "altersfreib",
     "vorsorge",
 ]
@@ -60,7 +60,7 @@ TEST_COLS = [
     "zu_verst_eink_kinderfreib_tu",
     "kinderfreib_tu",
     "altersfreib",
-    "alleinerziehend_freib_tu",
+    "alleinerz_freib_tu",
     "sum_brutto_eink",
 ]
 YEARS = [2005, 2009, 2010, 2012, 2018, 2019]

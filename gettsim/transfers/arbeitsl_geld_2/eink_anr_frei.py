@@ -4,7 +4,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def arbeitsl_geld_2_eink_anr_frei_bis_09_2005(
+def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
     bruttolohn_m: FloatSeries,
     arbeitsl_geld_2_2005_netto_quote: FloatSeries,
     arbeitsl_geld_2_params: dict,
@@ -36,7 +36,7 @@ def arbeitsl_geld_2_eink_anr_frei_bis_09_2005(
     return out
 
 
-def arbeitsl_geld_2_eink_anr_frei_ab_10_2005(
+def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
     hh_id: IntSeries,
     bruttolohn_m: FloatSeries,
     kinder_in_hh: BoolSeries,
@@ -83,7 +83,7 @@ def arbeitsl_geld_2_eink_anr_frei_ab_10_2005(
 def arbeitsl_geld_2_2005_netto_quote(
     bruttolohn_m: FloatSeries, nettolohn_m: FloatSeries, arbeitsl_geld_2_params: dict
 ) -> FloatSeries:
-    """Calcualte share of net to gross wage.
+    """Calculate share of net to gross wage.
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
 

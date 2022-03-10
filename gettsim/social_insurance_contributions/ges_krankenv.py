@@ -7,10 +7,10 @@ from gettsim.typing import IntSeries
 
 def ges_krankenv_beitr_m(
     geringfügig_beschäftigt: BoolSeries,
-    ges_krankenv_beitr_rente: FloatSeries,
-    ges_krankenv_beitr_selbst: FloatSeries,
-    _ges_krankenv_beitr_reg_beschäftigt: FloatSeries,
-    an_beitr_ges_krankenv_midi_job: FloatSeries,
+    ges_krankenv_beitr_rente_m: FloatSeries,
+    ges_krankenv_beitr_selbst_m: FloatSeries,
+    _ges_krankenv_beitr_reg_beschäftigt_m: FloatSeries,
+    an_beitr_ges_krankenv_midi_job_m: FloatSeries,
 ) -> FloatSeries:
     """Contribution for each individual to the public health insurance.
 
@@ -18,14 +18,14 @@ def ges_krankenv_beitr_m(
     ----------
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
-    ges_krankenv_beitr_rente
-        See :func:`ges_krankenv_beitr_rente`.
-    ges_krankenv_beitr_selbst
-        See :func:`ges_krankenv_beitr_selbst`.
-    _ges_krankenv_beitr_reg_beschäftigt
-        See :func:`_ges_krankenv_beitr_reg_beschäftigt`.
-    an_beitr_ges_krankenv_midi_job
-        See :func:`an_beitr_ges_krankenv_midi_job`.
+    ges_krankenv_beitr_rente_m
+        See :func:`ges_krankenv_beitr_rente_m`.
+    ges_krankenv_beitr_selbst_m
+        See :func:`ges_krankenv_beitr_selbst_m`.
+    _ges_krankenv_beitr_reg_beschäftigt_m
+        See :func:`_ges_krankenv_beitr_reg_beschäftigt_m`.
+    an_beitr_ges_krankenv_midi_job_m
+        See :func:`an_beitr_ges_krankenv_midi_job_m`.
 
     Returns
     -------
@@ -38,14 +38,14 @@ def ges_krankenv_beitr_m(
     out.loc[geringfügig_beschäftigt] = 0
 
     # Assign calculated contributions
-    out.loc[an_beitr_ges_krankenv_midi_job.index] = an_beitr_ges_krankenv_midi_job
+    out.loc[an_beitr_ges_krankenv_midi_job_m.index] = an_beitr_ges_krankenv_midi_job_m
     out.loc[
-        _ges_krankenv_beitr_reg_beschäftigt.index
-    ] = _ges_krankenv_beitr_reg_beschäftigt
-    out.loc[ges_krankenv_beitr_selbst.index] = ges_krankenv_beitr_selbst
+        _ges_krankenv_beitr_reg_beschäftigt_m.index
+    ] = _ges_krankenv_beitr_reg_beschäftigt_m
+    out.loc[ges_krankenv_beitr_selbst_m.index] = ges_krankenv_beitr_selbst_m
 
     # Add the health insurance contribution for pensions
-    return out + ges_krankenv_beitr_rente
+    return out + ges_krankenv_beitr_rente_m
 
 
 def ges_krankenv_beitr_m_tu(
@@ -67,7 +67,7 @@ def ges_krankenv_beitr_m_tu(
     return ges_krankenv_beitr_m.groupby(tu_id).sum()
 
 
-def _ges_krankenv_beitr_reg_beschäftigt(
+def _ges_krankenv_beitr_reg_beschäftigt_m(
     bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for regular jobs
@@ -92,7 +92,7 @@ def _ges_krankenv_beitr_reg_beschäftigt(
 
 def bruttolohn_ges_krankenv_beitr_m(
     bruttolohn_m: FloatSeries,
-    ges_krankenv_beitr_bemess_grenze: FloatSeries,
+    _ges_krankenv_beitr_bemess_grenze_m: FloatSeries,
     reg_beschäftigt: BoolSeries,
 ) -> FloatSeries:
     """Calculate the wage subject to public health insurance contributions.
@@ -104,8 +104,8 @@ def bruttolohn_ges_krankenv_beitr_m(
         See :func:`bruttolohn_m`.
     reg_beschäftigt
         See :func:`reg_beschäftigt`.
-    ges_krankenv_beitr_bemess_grenze
-        See :func:`ges_krankenv_beitr_bemess_grenze`.
+    _ges_krankenv_beitr_bemess_grenze_m
+        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
 
 
     Returns
@@ -113,11 +113,11 @@ def bruttolohn_ges_krankenv_beitr_m(
 
     """
     bruttolohn_m_reg_beschäftigt = bruttolohn_m.loc[reg_beschäftigt]
-    bemess_grenze = ges_krankenv_beitr_bemess_grenze.loc[reg_beschäftigt]
+    bemess_grenze = _ges_krankenv_beitr_bemess_grenze_m.loc[reg_beschäftigt]
     return bruttolohn_m_reg_beschäftigt.clip(upper=bemess_grenze)
 
 
-def ges_krankenv_beitr_selbst(
+def ges_krankenv_beitr_selbst_m(
     ges_krankenv_eink_selbst: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions.
@@ -146,7 +146,7 @@ def ges_krankenv_beitr_selbst(
 
 def ges_krankenv_eink_selbst(
     eink_selbst_m: FloatSeries,
-    bezugsgröße: FloatSeries,
+    bezugsgröße_m: FloatSeries,
     selbstständig_ges_krankenv: BoolSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
@@ -157,8 +157,8 @@ def ges_krankenv_eink_selbst(
     ----------
     eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    bezugsgröße
-        See :func:`bezugsgröße`.
+    bezugsgröße_m
+        See :func:`bezugsgröße_m`.
     selbstständig_ges_krankenv
         See :func:`selbstständig_ges_krankenv`.
 
@@ -166,16 +166,17 @@ def ges_krankenv_eink_selbst(
     -------
 
     """
-    bezugsgröße_selbstv = bezugsgröße.loc[selbstständig_ges_krankenv]
-    eink_selbst_m_selbstv = eink_selbst_m.loc[selbstständig_ges_krankenv]
-    anteil_bezugsgröße = (
-        soz_vers_beitr_params["bezugsgröße_selbst_anteil"] * bezugsgröße_selbstv
+    bezugsgröße_selbstv_m = bezugsgröße_m.loc[selbstständig_ges_krankenv]
+    eink_selbst_selbstv_m = eink_selbst_m.loc[selbstständig_ges_krankenv]
+    anteil_bezugsgröße_m = (
+        soz_vers_beitr_params["bezugsgröße_selbst_anteil"] * bezugsgröße_selbstv_m
     )
-    return eink_selbst_m_selbstv.clip(upper=anteil_bezugsgröße)
+    return eink_selbst_selbstv_m.clip(upper=anteil_bezugsgröße_m)
 
 
-def ges_krankenv_rente(
-    summe_ges_priv_rente_m: FloatSeries, ges_krankenv_beitr_bemess_grenze: FloatSeries
+def ges_krankenv_rente_m(
+    summe_ges_priv_rente_m: FloatSeries,
+    _ges_krankenv_beitr_bemess_grenze_m: FloatSeries,
 ) -> FloatSeries:
     """Choose the amount pension which is subject to health insurance contribution.
 
@@ -183,26 +184,26 @@ def ges_krankenv_rente(
     ----------
     summe_ges_priv_rente_m
         See :func:`summe_ges_priv_rente_m`.
-    ges_krankenv_beitr_bemess_grenze
-        See :func:`ges_krankenv_beitr_bemess_grenze`.
+    _ges_krankenv_beitr_bemess_grenze_m
+        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
 
     Returns
     -------
 
     """
-    return summe_ges_priv_rente_m.clip(upper=ges_krankenv_beitr_bemess_grenze)
+    return summe_ges_priv_rente_m.clip(upper=_ges_krankenv_beitr_bemess_grenze_m)
 
 
-def ges_krankenv_beitr_rente(
-    ges_krankenv_rente: FloatSeries, soz_vers_beitr_params: dict
+def ges_krankenv_beitr_rente_m(
+    ges_krankenv_rente_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the contribution to health insurance for pension income.
 
 
     Parameters
     ----------
-    ges_krankenv_rente
-        See :func:`ges_krankenv_rente`.
+    ges_krankenv_rente_m
+        See :func:`ges_krankenv_rente_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -213,20 +214,20 @@ def ges_krankenv_beitr_rente(
 
     return (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        * ges_krankenv_rente
+        * ges_krankenv_rente_m
     )
 
 
-def ges_beitr_ges_krankenv_midi_job(
-    midi_job_bemessungsentgelt: FloatSeries, soz_vers_beitr_params: dict
+def _ges_beitr_ges_krankenv_midi_job_m(
+    midi_job_bemessungsentgelt_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the sum of employee and employer health insurance contribution.
 
 
     Parameters
     ----------
-    midi_job_bemessungsentgelt
-        See :func:`midi_job_bemessungsentgelt`.
+    midi_job_bemessungsentgelt_m
+        See :func:`midi_job_bemessungsentgelt_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -237,10 +238,10 @@ def ges_beitr_ges_krankenv_midi_job(
     return (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
         + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
-    ) * midi_job_bemessungsentgelt
+    ) * midi_job_bemessungsentgelt_m
 
 
-def ag_beitr_ges_krankenv_midi_job(
+def ag_beitr_ges_krankenv_midi_job_m(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the employer health insurance contribution.
@@ -265,24 +266,24 @@ def ag_beitr_ges_krankenv_midi_job(
     )
 
 
-def an_beitr_ges_krankenv_midi_job(
-    ges_beitr_ges_krankenv_midi_job: FloatSeries,
-    ag_beitr_ges_krankenv_midi_job: FloatSeries,
+def an_beitr_ges_krankenv_midi_job_m(
+    _ges_beitr_ges_krankenv_midi_job_m: FloatSeries,
+    ag_beitr_ges_krankenv_midi_job_m: FloatSeries,
 ) -> FloatSeries:
     """Calculating the employer health insurance contribution.
 
 
     Parameters
     ----------
-    ges_beitr_ges_krankenv_midi_job
-        See :func:`ges_beitr_ges_krankenv_midi_job`.
-    ag_beitr_ges_krankenv_midi_job
-        See :func:`ag_beitr_ges_krankenv_midi_job`.
+    _ges_beitr_ges_krankenv_midi_job_m
+        See :func:`_ges_beitr_ges_krankenv_midi_job_m`.
+    ag_beitr_ges_krankenv_midi_job_m
+        See :func:`ag_beitr_ges_krankenv_midi_job_m`.
     Returns
     -------
 
     """
-    return ges_beitr_ges_krankenv_midi_job - ag_beitr_ges_krankenv_midi_job
+    return _ges_beitr_ges_krankenv_midi_job_m - ag_beitr_ges_krankenv_midi_job_m
 
 
 def selbstständig_ges_krankenv(

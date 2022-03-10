@@ -25,7 +25,7 @@ INPUT_COLS = [
     "rentner",
     "schwerbeh_g",
     "vermögen_hh",
-    "alleinerziehend",
+    "alleinerz",
     "bewohnt_eigentum_hh",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
