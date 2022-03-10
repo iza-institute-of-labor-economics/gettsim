@@ -67,7 +67,7 @@ def deduction_data(start, end):
     # Loop through years to get the policy parameters
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
-        params = policy_params["eink_st_abzuege"]
+        params = policy_params["eink_st_abzüge"]
         if i < 2002:
             params["grundfreibetrag"] = round(grundfreibetrag[i])
         if i >= 2002:

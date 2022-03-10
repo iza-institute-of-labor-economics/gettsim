@@ -29,7 +29,7 @@ variables have to be last inputs in the function signature.
 +---------------------------+--------------------------------+
 | _`eink_st_params`         | Income tax                     |
 +---------------------------+--------------------------------+
-| _`eink_st_abzuege_params` | Income tax deductions          |
+| _`eink_st_abzüge_params` | Income tax deductions          |
 +---------------------------+--------------------------------+
 | _`soli_st_params`         | Solidarity surcharge           |
 +---------------------------+--------------------------------+

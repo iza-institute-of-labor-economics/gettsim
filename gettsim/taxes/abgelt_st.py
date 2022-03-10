@@ -24,7 +24,7 @@ def abgelt_st_tu(
 def zu_verst_kapitaleink_tu(
     brutto_eink_5_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
-    eink_st_abzuege_params: dict,
+    eink_st_abzüge_params: dict,
 ) -> FloatSeries:
     """Calculate taxable income per tax unit.
 
@@ -34,8 +34,8 @@ def zu_verst_kapitaleink_tu(
         See :func:`brutto_eink_5_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    eink_st_abzüge_params
+        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
     Returns
     -------
@@ -45,8 +45,8 @@ def zu_verst_kapitaleink_tu(
         brutto_eink_5_tu
         - anz_erwachsene_tu
         * (
-            eink_st_abzuege_params["sparerpauschbetrag"]
-            + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
+            eink_st_abzüge_params["sparerpauschbetrag"]
+            + eink_st_abzüge_params["sparer_werbungskosten_pauschbetrag"]
         )
     ).clip(lower=0)
     return out

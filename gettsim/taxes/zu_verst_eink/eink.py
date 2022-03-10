@@ -40,7 +40,7 @@ def brutto_eink_1_tu(brutto_eink_1: FloatSeries, tu_id: IntSeries) -> FloatSerie
 def brutto_eink_4(
     bruttolohn_m: FloatSeries,
     geringfügig_beschäftigt: BoolSeries,
-    eink_st_abzuege_params: dict,
+    eink_st_abzüge_params: dict,
 ) -> FloatSeries:
     """Aggreagate monthly gross wage to yearly income and deduct 'Werbungskosten'.
 
@@ -52,14 +52,14 @@ def brutto_eink_4(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    eink_st_abzüge_params
+        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
     Returns
     -------
 
     """
-    out = 12 * bruttolohn_m - eink_st_abzuege_params["werbungskostenpauschale"]
+    out = 12 * bruttolohn_m - eink_st_abzüge_params["werbungskostenpauschale"]
     out.loc[geringfügig_beschäftigt] = 0
     return out.clip(lower=0)
 
@@ -213,7 +213,7 @@ def sum_brutto_eink_ohne_kapital(
 
 
 def kapitaleink_minus_pauschbetr(
-    brutto_eink_5: FloatSeries, eink_st_abzuege_params: dict,
+    brutto_eink_5: FloatSeries, eink_st_abzüge_params: dict,
 ) -> FloatSeries:
     """Capital income minus Sparerpauschbetrag
 
@@ -221,8 +221,8 @@ def kapitaleink_minus_pauschbetr(
     ----------
     brutto_eink_5
         See :func:`brutto_eink_5`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    eink_st_abzüge_params
+        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
     Returns
     -------
@@ -230,8 +230,8 @@ def kapitaleink_minus_pauschbetr(
     """
     out = (
         brutto_eink_5
-        - eink_st_abzuege_params["sparerpauschbetrag"]
-        - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
+        - eink_st_abzüge_params["sparerpauschbetrag"]
+        - eink_st_abzüge_params["sparer_werbungskosten_pauschbetrag"]
     ).clip(lower=0)
     return out
 
