@@ -47,7 +47,7 @@ soz_vers_beitr:
     ges_rentenv: 0.096
   1987-01-01:
     ges_krankenv:
-      allg: null
+      allg: 0.1248
       erm: null
       zus: 0
     ges_pflegev:
@@ -58,7 +58,7 @@ soz_vers_beitr:
   1988-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: null
+      allg: 0.1288
   1989-01-01:
     deviation_from: previous
     ges_krankenv:
@@ -66,18 +66,18 @@ soz_vers_beitr:
   1990-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: null
+      allg: 0.125
   1991-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: null
+      allg: .128
   1992-01-01:
     deviation_from: previous
     arbeitsl_v: 0.0315
     ges_rentenv: 0.0885
   1993-01-01:
     ges_krankenv:
-      allg: null
+      allg: 0.134
       erm: null
       zus: 0
     ges_pflegev:
@@ -91,7 +91,7 @@ soz_vers_beitr:
   1995-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: null
+      allg: 0.132
     ges_rentenv: 0.093
   1996-01-01:
     deviation_from: previous
@@ -100,7 +100,7 @@ soz_vers_beitr:
       standard: 0.005
   1997-01-01:
     ges_krankenv:
-      allg: null
+      allg: 0.134
       erm: null
       zus: 0
     ges_pflegev:
@@ -108,10 +108,14 @@ soz_vers_beitr:
       zusatz_kinderlos: 0
     arbeitsl_v: 0.0325
     ges_rentenv: 0.1015
+  1998-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      allg: 0.136
   2000-01-01:
     deviation_from: previous
     ges_krankenv:
-      allg: null
+      allg: 0.1357
     ges_rentenv: 0.0965
   2001-01-01:
     deviation_from: previous
