@@ -27,7 +27,7 @@ def arbeitsl_geld_2_eink_m(
     tu_id: IntSeries,
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
-    sozialv_beitr_m: FloatSeries,
+    sozialv_beitr_gesamt_m: FloatSeries,
     arbeitsl_geld_2_eink_anr_frei_m: FloatSeries,
 ) -> FloatSeries:
 
@@ -37,8 +37,8 @@ def arbeitsl_geld_2_eink_m(
     ----------
     arbeitsl_geld_2_brutto_eink_m
         See :func:`arbeitsl_geld_2_eink_m`.
-    sozialv_beitr_m
-        See :func:`sozialv_beitr_m`.
+    sozialv_beitr_gesamt_m
+        See :func:`sozialv_beitr_gesamt_m`.
     eink_st_tu
         See :func:`eink_st_tu`.
     tu_id
@@ -59,7 +59,7 @@ def arbeitsl_geld_2_eink_m(
         arbeitsl_geld_2_brutto_eink_m
         - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
         - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
-        - sozialv_beitr_m
+        - sozialv_beitr_gesamt_m
         - arbeitsl_geld_2_eink_anr_frei_m
     ).clip(lower=0)
 

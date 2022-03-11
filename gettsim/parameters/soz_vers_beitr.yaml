@@ -516,7 +516,7 @@ beitr_bemess_grenze_m:
     reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
 
 
-bezugsgröße_m:
+bezugsgröße_selbst_m:
   name:
     de: Monatliche Bezugsgröße
     en: Monthly reference size

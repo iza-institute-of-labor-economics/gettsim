@@ -54,11 +54,11 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`bewohnt_eigentum_hh`  | Dummy: Owner-occupied housing               | BoolSeries   |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_lfdj_m`      | Months in unemployment, current year        | IntSeries    |
+| _`arbeitsl_monate_lfdj` | Months in unemployment, current year        | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_vorj_m`      | Months in unemployment, previous year       | IntSeries    |
+| _`arbeitsl_monate_vorj` | Months in unemployment, previous year       | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_vor2j_m`     | Months in unemployment, two years before    | IntSeries    |
+| _`arbeitsl_monate_v2j`  | Months in unemployment, two years before    | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
 | _`arbeitsstunden_w`     | Weekly working hours of individual          | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+

@@ -7,7 +7,7 @@ from gettsim.typing import IntSeries
 
 
 def grunds_im_alter_m_hh(
-    regelbedarf_m_hh: FloatSeries,
+    arbeitsl_geld_2_regelbedarf_m_hh: FloatSeries,
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
@@ -27,8 +27,8 @@ def grunds_im_alter_m_hh(
 
     Parameters
     ----------
-    regelbedarf_m_hh
-        See :func:`regelbedarf_m_hh`.
+    arbeitsl_geld_2_regelbedarf_m_hh
+        See :func:`arbeitsl_geld_2_regelbedarf_m_hh`.
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
         See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh`.
     kindergeld_m_hh
@@ -50,7 +50,7 @@ def grunds_im_alter_m_hh(
 
     # Subtract income
     out = (
-        regelbedarf_m_hh
+        arbeitsl_geld_2_regelbedarf_m_hh
         + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
         - grunds_im_alter_eink_m_hh
         - unterhaltsvors_m_hh
@@ -96,7 +96,7 @@ def grunds_im_alter_eink_m(
     eink_st_tu: FloatSeries,
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
-    sozialv_beitr_m: FloatSeries,
+    sozialv_beitr_gesamt_m: FloatSeries,
     tu_id: IntSeries,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
@@ -125,8 +125,8 @@ def grunds_im_alter_eink_m(
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    sozialv_beitr_m
-        See :func:`sozialv_beitr_m`.
+    sozialv_beitr_gesamt_m
+        See :func:`sozialv_beitr_gesamt_m`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
     grunds_im_alter_params
@@ -160,7 +160,7 @@ def grunds_im_alter_eink_m(
         total_income
         - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
         - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
-        - sozialv_beitr_m
+        - sozialv_beitr_gesamt_m
     ).clip(lower=0)
 
     return out

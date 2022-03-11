@@ -216,9 +216,9 @@ def create_one_set_of_households(
         "heizkosten_m_hh",
         "wohnfläche_hh",
         "bewohnt_eigentum_hh",
-        "arbeitsl_lfdj_m",
-        "arbeitsl_vorj_m",
-        "arbeitsl_vor2j_m",
+        "arbeitsl_monate_lfdj",
+        "arbeitsl_monate_vorj",
+        "arbeitsl_monate_v2j",
         "arbeitsstunden_w",
         "bruttolohn_vorj_m",
         "geburtstag",
@@ -267,9 +267,9 @@ def create_one_set_of_households(
         "m_elterngeld",
         "m_elterngeld_mut",
         "m_elterngeld_vat",
-        "arbeitsl_lfdj_m",
-        "arbeitsl_vorj_m",
-        "arbeitsl_vor2j_m",
+        "arbeitsl_monate_lfdj",
+        "arbeitsl_monate_vorj",
+        "arbeitsl_monate_v2j",
     ]:
         df[int_col] = df[int_col].astype(int)
 

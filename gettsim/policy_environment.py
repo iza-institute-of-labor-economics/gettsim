@@ -28,10 +28,18 @@ from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2005_bis_2009
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2010_bis_2019
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
 from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
-from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_ab_2011
-from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import kindersatz_m_hh_bis_2010
-from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_ab_2011
-from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import regelsatz_m_hh_bis_2010
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
+    arbeitsl_geld_2_kindersatz_m_hh_ab_2011,
+)
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
+    arbeitsl_geld_2_kindersatz_m_hh_bis_2010,
+)
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
+    arbeitsl_geld_2_regelsatz_m_hh_ab_2011,
+)
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
+    arbeitsl_geld_2_regelsatz_m_hh_bis_2010,
+)
 from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
     arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005,
 )
@@ -302,11 +310,19 @@ def load_reforms_for_date(date):
         functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_ab_07_2019
 
     if year <= 2010:
-        functions["kindersatz_m_hh"] = kindersatz_m_hh_bis_2010
-        functions["regelsatz_m_hh"] = regelsatz_m_hh_bis_2010
+        functions[
+            "arbeitsl_geld_2_kindersatz_m_hh"
+        ] = arbeitsl_geld_2_kindersatz_m_hh_bis_2010
+        functions[
+            "arbeitsl_geld_2_regelsatz_m_hh"
+        ] = arbeitsl_geld_2_regelsatz_m_hh_bis_2010
     else:
-        functions["kindersatz_m_hh"] = kindersatz_m_hh_ab_2011
-        functions["regelsatz_m_hh"] = regelsatz_m_hh_ab_2011
+        functions[
+            "arbeitsl_geld_2_kindersatz_m_hh"
+        ] = arbeitsl_geld_2_kindersatz_m_hh_ab_2011
+        functions[
+            "arbeitsl_geld_2_regelsatz_m_hh"
+        ] = arbeitsl_geld_2_regelsatz_m_hh_ab_2011
 
     if date < datetime.date(year=2005, month=10, day=1):
         functions[

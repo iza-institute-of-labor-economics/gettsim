@@ -274,7 +274,7 @@ def nettolohn_m(
     eink_st_tu: FloatSeries,
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
-    sozialv_beitr_m: FloatSeries,
+    sozialv_beitr_gesamt_m: FloatSeries,
 ) -> FloatSeries:
     """Calculate the net wage.
 
@@ -293,8 +293,8 @@ def nettolohn_m(
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    sozialv_beitr_m
-        See :func:`sozialv_beitr_m`.
+    sozialv_beitr_gesamt_m
+        See :func:`sozialv_beitr_gesamt_m`.
 
     Returns
     -------
@@ -304,7 +304,7 @@ def nettolohn_m(
         bruttolohn_m
         - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
         - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
-        - sozialv_beitr_m
+        - sozialv_beitr_gesamt_m
     ).clip(lower=0)
 
 

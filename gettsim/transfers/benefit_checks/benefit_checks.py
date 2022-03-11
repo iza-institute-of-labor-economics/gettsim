@@ -3,7 +3,7 @@ from gettsim.typing import FloatSeries
 
 
 def arbeitsl_geld_2_vor_vorrang_m_hh(
-    regelbedarf_m_hh: FloatSeries,
+    arbeitsl_geld_2_regelbedarf_m_hh: FloatSeries,
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
     arbeitsl_geld_2_eink_m_hh: FloatSeries,
@@ -15,8 +15,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
 
     Parameters
     ----------
-    regelbedarf_m_hh
-        See :func:`regelbedarf_m_hh`.
+    arbeitsl_geld_2_regelbedarf_m_hh
+        See :func:`arbeitsl_geld_2_regelbedarf_m_hh`.
     kindergeld_m_hh
         See :func:`kindergeld_m_hh`.
     unterhaltsvors_m_hh
@@ -35,7 +35,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
 
     # Deduct income from other sources
     out = (
-        regelbedarf_m_hh
+        arbeitsl_geld_2_regelbedarf_m_hh
         - arbeitsl_geld_2_eink_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh

@@ -80,7 +80,9 @@ def _ges_krankenv_beitr_bemess_grenze_m(
     return out.astype(float)
 
 
-def bezugsgröße_m(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict) -> FloatSeries:
+def _ges_krankenv_bezugsgröße_selbst_m(
+    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
     """Threshold for self employment income subject to health insurance.
 
     Selecting by place of living the income threshold for self employed up to which the
@@ -98,7 +100,7 @@ def bezugsgröße_m(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict) -> Flo
     """
     return wohnort_ost.replace(
         {
-            True: soz_vers_beitr_params["bezugsgröße_m"]["ost"],
-            False: soz_vers_beitr_params["bezugsgröße_m"]["west"],
+            True: soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"],
+            False: soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"],
         }
     ).astype(float)

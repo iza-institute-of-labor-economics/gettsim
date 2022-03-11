@@ -43,8 +43,8 @@ def arbeitsl_geld_2_m_hh(
     return out
 
 
-def regelbedarf_m_hh(
-    regelsatz_m_hh: FloatSeries, kost_unterk_m_hh: FloatSeries
+def arbeitsl_geld_2_regelbedarf_m_hh(
+    arbeitsl_geld_2_regelsatz_m_hh: FloatSeries, kost_unterk_m_hh: FloatSeries
 ) -> FloatSeries:
     """Basic monthly subsistence level on household level.
 
@@ -52,8 +52,8 @@ def regelbedarf_m_hh(
 
     Parameters
     ----------
-    regelsatz_m_hh
-        See :func:`regelsatz_m_hh`.
+    arbeitsl_geld_2_regelsatz_m_hh
+        See :func:`arbeitsl_geld_2_regelsatz_m_hh`.
     kost_unterk_m_hh
         See :func:`kost_unterk_m_hh`.
 
@@ -61,7 +61,7 @@ def regelbedarf_m_hh(
     -------
     FloatSeries checks the minimum monthly needs of an household.
     """
-    return regelsatz_m_hh + kost_unterk_m_hh
+    return arbeitsl_geld_2_regelsatz_m_hh + kost_unterk_m_hh
 
 
 def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
@@ -113,7 +113,7 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     return out
 
 
-def kindersatz_m_hh_bis_2010(
+def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
     anz_kind_zwischen_0_6_hh: IntSeries,
     anz_kind_zwischen_7_13_hh: IntSeries,
     anz_kind_zwischen_14_24_hh: IntSeries,
@@ -151,7 +151,7 @@ def kindersatz_m_hh_bis_2010(
     return out
 
 
-def kindersatz_m_hh_ab_2011(
+def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     anz_kind_zwischen_0_6_hh: IntSeries,
     anz_kind_zwischen_7_13_hh: IntSeries,
     anz_kind_zwischen_14_24_hh: IntSeries,
@@ -186,10 +186,10 @@ def kindersatz_m_hh_ab_2011(
     return out
 
 
-def regelsatz_m_hh_bis_2010(
+def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     anz_erwachsene_hh: IntSeries,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
-    kindersatz_m_hh: FloatSeries,
+    arbeitsl_geld_2_kindersatz_m_hh: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
 
@@ -202,8 +202,8 @@ def regelsatz_m_hh_bis_2010(
         See :func:`anz_erwachsene_hh`.
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
-    kindersatz_m_hh
-        See :func:`kindersatz_m_hh`.
+    arbeitsl_geld_2_kindersatz_m_hh
+        See :func:`arbeitsl_geld_2_kindersatz_m_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -223,13 +223,13 @@ def regelsatz_m_hh_bis_2010(
         ),
     )
 
-    return kindersatz_m_hh + data
+    return arbeitsl_geld_2_kindersatz_m_hh + data
 
 
-def regelsatz_m_hh_ab_2011(
+def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     anz_erwachsene_hh: IntSeries,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
-    kindersatz_m_hh: FloatSeries,
+    arbeitsl_geld_2_kindersatz_m_hh: FloatSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
 
@@ -241,8 +241,8 @@ def regelsatz_m_hh_ab_2011(
         See :func:`anz_erwachsene_hh`.
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
-    kindersatz_m_hh
-        See :func:`kindersatz_m_hh`.
+    arbeitsl_geld_2_kindersatz_m_hh
+        See :func:`arbeitsl_geld_2_kindersatz_m_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -262,4 +262,4 @@ def regelsatz_m_hh_ab_2011(
         ),
     )
 
-    return kindersatz_m_hh + data
+    return arbeitsl_geld_2_kindersatz_m_hh + data

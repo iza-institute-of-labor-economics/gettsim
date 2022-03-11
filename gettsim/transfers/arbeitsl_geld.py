@@ -45,8 +45,8 @@ def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, hh_id: IntSeries) -> FloatS
 def arbeitsl_geld_m(
     tu_id: IntSeries,
     anz_kinder_tu: IntSeries,
-    berechtigt_für_arbeitsl_geld: BoolSeries,
-    proxy_eink_vorj_arbeitsl_geld: FloatSeries,
+    arbeitsl_geld_berechtigt: BoolSeries,
+    arbeitsl_geld_eink_vorj_proxy: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> FloatSeries:
     """Calculate unemployment benefit.
@@ -57,10 +57,10 @@ def arbeitsl_geld_m(
         See basic input variable :ref:`tu_id <tu_id>`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
-    berechtigt_für_arbeitsl_geld
-        See :func:`berechtigt_für_arbeitsl_geld`.
-    proxy_eink_vorj_arbeitsl_geld
-        See :func:`proxy_eink_vorj_arbeitsl_geld`.
+    arbeitsl_geld_berechtigt
+        See :func:`arbeitsl_geld_berechtigt`.
+    arbeitsl_geld_eink_vorj_proxy
+        See :func:`arbeitsl_geld_eink_vorj_proxy`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -75,38 +75,40 @@ def arbeitsl_geld_m(
         }
     )
 
-    arbeitsl_geld_m = berechtigt_für_arbeitsl_geld.astype(float) * 0
+    arbeitsl_geld_m = arbeitsl_geld_berechtigt.astype(float) * 0
 
-    arbeitsl_geld_m[berechtigt_für_arbeitsl_geld] = (
-        proxy_eink_vorj_arbeitsl_geld * arbeitsl_geld_satz
+    arbeitsl_geld_m[arbeitsl_geld_berechtigt] = (
+        arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
     )
 
     return arbeitsl_geld_m
 
 
-def monate_arbeitsl_2y(
-    arbeitsl_lfdj_m: IntSeries, arbeitsl_vorj_m: IntSeries, arbeitsl_vor2j_m: IntSeries
+def arbeitsl_monate_gesamt(
+    arbeitsl_monate_lfdj: IntSeries,
+    arbeitsl_monate_vorj: IntSeries,
+    arbeitsl_monate_v2j: IntSeries,
 ) -> IntSeries:
     """Aggregate months of unemployment over the last two years.
 
     Parameters
     ----------
-    arbeitsl_lfdj_m
-        See basic input variable :ref:`arbeitsl_lfdj_m <arbeitsl_lfdj_m>`.
-    arbeitsl_vorj_m
-        See basic input variable :ref:`arbeitsl_vorj_m <arbeitsl_vorj_m>`.
-    arbeitsl_vor2j_m
-        See basic input variable :ref:`arbeitsl_vor2j_m <arbeitsl_vor2j_m>`.
+    arbeitsl_monate_lfdj
+        See basic input variable :ref:`arbeitsl_monate_lfdj <arbeitsl_monate_lfdj>`.
+    arbeitsl_monate_vorj
+        See basic input variable :ref:`arbeitsl_monate_vorj <arbeitsl_monate_vorj>`.
+    arbeitsl_monate_v2j
+        See basic input variable :ref:`arbeitsl_monate_v2j <arbeitsl_monate_v2j>`.
 
     Returns
     -------
 
     """
-    return arbeitsl_lfdj_m + arbeitsl_vorj_m + arbeitsl_vor2j_m
+    return arbeitsl_monate_lfdj + arbeitsl_monate_vorj + arbeitsl_monate_v2j
 
 
-def berechtigt_für_arbeitsl_geld(
-    monate_arbeitsl_2y: IntSeries,
+def arbeitsl_geld_berechtigt(
+    arbeitsl_monate_gesamt: IntSeries,
     alter: IntSeries,
     summe_ges_priv_rente_m: FloatSeries,
     arbeitsstunden_w: FloatSeries,
@@ -119,8 +121,8 @@ def berechtigt_für_arbeitsl_geld(
 
     Parameters
     ----------
-    monate_arbeitsl_2y
-        See :func:`monate_arbeitsl_2y`.
+    arbeitsl_monate_gesamt
+        See :func:`arbeitsl_monate_gesamt`.
     alter
         See basic input variable :ref:`alter <alter>`.
     summe_ges_priv_rente_m
@@ -135,14 +137,17 @@ def berechtigt_für_arbeitsl_geld(
 
     """
     return (
-        (monate_arbeitsl_2y <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"])
+        (
+            arbeitsl_monate_gesamt
+            <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"]
+        )
         & (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
         & (summe_ges_priv_rente_m == 0)
         & (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
 
 
-def proxy_eink_vorj_arbeitsl_geld(
+def arbeitsl_geld_eink_vorj_proxy(
     _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     arbeitsl_geld_params: dict,
