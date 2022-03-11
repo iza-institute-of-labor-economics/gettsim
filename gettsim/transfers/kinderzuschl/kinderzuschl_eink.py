@@ -209,7 +209,7 @@ def kinderzuschl_kindereink_abzug_m(
     unterhaltsvors_m: FloatSeries,
     kinderzuschl_params: dict,
 ) -> FloatSeries:
-    """Deduct children income for each eligible child.
+    """Child benefit after children income for each eligible child is considered.
 
     (§6a (3) S.3 BKGG)
 
