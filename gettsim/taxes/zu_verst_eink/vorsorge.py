@@ -3,8 +3,50 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
+def vorsorge_alter_aufwend(
+    kind: BoolSeries,
+    ges_rentenv_beitr_m: FloatSeries,
+    priv_rentenv_beitr_m: FloatSeries,
+    eink_st_abzuege_params: dict,
+) -> FloatSeries:
+    """Determine contributions to retirement savings deductible from taxable income.
+
+    This function becomes relevant in 2005, do not use it for prior
+    year.
+
+    The share of deductible contributions increases each year from 60% in 2005 to 100%
+    in 2025.
+
+    Parameters
+    ----------
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    ges_rentenv_beitr_m
+        See :func:`ges_rentenv_beitr_m`.
+    priv_rentenv_beitr_m
+        See basic input variable :ref:`priv_rentenv_beitr_m <priv_rentenv_beitr_m>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+
+    Returns
+    -------
+
+    """
+
+    out = (
+        (
+            eink_st_abzuege_params["einführungsfaktor_vorsorge_alter_aufwend"]
+            * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
+            - ges_rentenv_beitr_m
+        )
+        * 12
+    ).clip(upper=eink_st_abzuege_params["vorsorge_altersaufw_max"])
+    out.loc[kind] = 0
+    return out
+
+
 def _vorsorge_alternative_ab_2005_bis_2009(
-    altervorsorge_aufwend: FloatSeries,
+    vorsorge_alter_aufwend: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
     arbeitsl_v_beitr_m: FloatSeries,
     ges_pflegev_beitr_m: FloatSeries,
@@ -20,8 +62,8 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 
     Parameters
     ----------
-    altervorsorge_aufwend
-        See :func:`altervorsorge_aufwend`.
+    vorsorge_alter_aufwend
+        See :func:`vorsorge_alter_aufwend`.
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
     arbeitsl_v_beitr_m
@@ -35,11 +77,11 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     -------
 
     """
-    out = altervorsorge_aufwend * 0
+    out = vorsorge_alter_aufwend * 0
     sum_vorsorge = (
         12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m)
     ).clip(upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"])
-    out.loc[~kind] = sum_vorsorge.loc[~kind] + altervorsorge_aufwend.loc[~kind]
+    out.loc[~kind] = sum_vorsorge.loc[~kind] + vorsorge_alter_aufwend.loc[~kind]
     return out
 
 
@@ -94,7 +136,7 @@ def vorsorge_ab_2010_bis_2019(
 
 
 def vorsorge_ab_2020(
-    altervorsorge_aufwend: FloatSeries,
+    vorsorge_alter_aufwend: FloatSeries,
     ges_pflegev_beitr_m: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
     arbeitsl_v_beitr_m: FloatSeries,
@@ -108,8 +150,8 @@ def vorsorge_ab_2020(
 
     Parameters
     ----------
-    altervorsorge_aufwend
-        See :func:`altervorsorge_aufwend`.
+    vorsorge_alter_aufwend
+        See :func:`vorsorge_alter_aufwend`.
     ges_pflegev_beitr_m
         See :func:`ges_pflegev_beitr_m`.
     ges_krankenv_beitr_m
@@ -123,7 +165,7 @@ def vorsorge_ab_2020(
     -------
 
     """
-    out = altervorsorge_aufwend * 0
+    out = vorsorge_alter_aufwend * 0
     # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     sonstige_vors = 12 * (
         ges_pflegev_beitr_m.loc[~kind]
@@ -136,7 +178,7 @@ def vorsorge_ab_2020(
             upper=eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
         )
     )
-    out.loc[~kind] += altervorsorge_aufwend.loc[~kind]
+    out.loc[~kind] += vorsorge_alter_aufwend.loc[~kind]
     return out
 
 

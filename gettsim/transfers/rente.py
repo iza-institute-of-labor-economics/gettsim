@@ -275,7 +275,7 @@ def ges_rente_zugangsfaktor(
     # Return 0 if person not yet retired
     out.loc[~rentner] = 0
 
-    return out
+    return out.clip(lower=0)
 
 
 def ges_rente_regelaltersgrenze(

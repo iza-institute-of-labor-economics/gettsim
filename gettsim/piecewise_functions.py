@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 import pandas as pd
 
@@ -28,6 +30,7 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
+    x = copy.copy(x)
     # If no individual is transferred, we return an empty series
     if x.empty:
         return x
