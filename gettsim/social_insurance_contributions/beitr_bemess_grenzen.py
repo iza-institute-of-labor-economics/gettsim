@@ -2,30 +2,6 @@ from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 
 
-def ges_beitr_ges_rentenv_midi_job_m(
-    midi_job_bemessungsentgelt_m: FloatSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
-    """Calculating the sum of employee and employer pension insurance contribution.
-
-    Parameters
-    ----------
-    midi_job_bemessungsentgelt_m
-        See :func:`midi_job_bemessungsentgelt_m`.
-
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-
-    Returns
-    -------
-
-    """
-    return (
-        midi_job_bemessungsentgelt_m
-        * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
-    )
-
-
 def _ges_rentenv_beitr_bemess_grenze_m(
     wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
