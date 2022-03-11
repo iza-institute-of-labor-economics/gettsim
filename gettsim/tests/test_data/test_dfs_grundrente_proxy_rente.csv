@@ -1,4 +1,4 @@
-"p_id","tu_id","hh_id","jahr","entgeltp","wohnort_ost","priv_rente_m","jahr_renteneintr","alter","bruttolohn_m","geburtsjahr","rentner","proxy_rente_vorj_vor_grundr_m","note"
+"p_id","tu_id","hh_id","jahr","entgeltp","wohnort_ost","priv_rente_m","jahr_renteneintr","alter","bruttolohn_m","geburtsjahr","rentner","rente_vorj_vor_grundr_proxy_m","note"
 1,1,1,2021,20,"False","0","2016",70,0,1951,"True","675.59","made up, regression test"
 2,2,2,2021,30,"False","0","2016",70,0,1951,"True","1013.39","made up, regression test"
 3,3,3,2021,20,"True","0","2016",70,0,1951,"True","656.62","made up, regression test"

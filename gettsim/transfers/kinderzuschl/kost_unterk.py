@@ -5,8 +5,8 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def kinderzuschl_kosten_unterk_m(
-    wohnbedarf_eltern_anteil: FloatSeries,
+def kinderzuschl_kost_unterk_m(
+    kinderzuschl_wohnbedarf_eltern_anteil: FloatSeries,
     kinderzuschl_bruttokaltmiete_m: FloatSeries,
     kinderzuschl_heizkosten_m: FloatSeries,
 ) -> FloatSeries:
@@ -16,8 +16,8 @@ def kinderzuschl_kosten_unterk_m(
 
     Parameters
     ----------
-    wohnbedarf_eltern_anteil
-        See :func:`wohnbedarf_eltern_anteil`.
+    kinderzuschl_wohnbedarf_eltern_anteil
+        See :func:`kinderzuschl_wohnbedarf_eltern_anteil`.
     kinderzuschl_bruttokaltmiete_m
         See :func:`kinderzuschl_bruttokaltmiete_m`.
     kinderzuschl_heizkosten_m
@@ -27,7 +27,7 @@ def kinderzuschl_kosten_unterk_m(
     -------
 
     """
-    return wohnbedarf_eltern_anteil * (
+    return kinderzuschl_wohnbedarf_eltern_anteil * (
         kinderzuschl_bruttokaltmiete_m + kinderzuschl_heizkosten_m
     )
 
@@ -74,7 +74,7 @@ def kinderzuschl_heizkosten_m(
     return hh_id.replace(heizkosten_m_hh) * tax_unit_share
 
 
-def wohnbedarf_eltern_anteil(
+def kinderzuschl_wohnbedarf_eltern_anteil(
     tu_id: IntSeries,
     anz_kinder_tu: IntSeries,
     anz_erwachsene_tu: IntSeries,

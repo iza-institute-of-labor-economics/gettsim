@@ -6,7 +6,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def behinderungsgrad_pauschbetrag(
+def eink_st_behinderungsgrad_pauschbetrag(
     behinderungsgrad: IntSeries, eink_st_abzüge_params: dict
 ) -> FloatSeries:
     """Assign tax deduction allowance for handicaped to different handicap degrees.
@@ -37,7 +37,7 @@ def behinderungsgrad_pauschbetrag(
     return out
 
 
-def alleinerz_freib_tu_bis_2014(
+def eink_st_alleinerz_freib_tu_bis_2014(
     alleinerz_tu: BoolSeries, eink_st_abzüge_params: dict
 ) -> FloatSeries:
     """Calculates tax deduction allowance for single parents until 2014.
@@ -60,7 +60,7 @@ def alleinerz_freib_tu_bis_2014(
     return out
 
 
-def alleinerz_freib_tu_ab_2015(
+def eink_st_alleinerz_freib_tu_ab_2015(
     alleinerz_tu: BoolSeries, anz_kinder_tu: IntSeries, eink_st_abzüge_params: dict,
 ) -> FloatSeries:
     """Calculates tax deduction allowance for single parents since 2015.
@@ -90,7 +90,7 @@ def alleinerz_freib_tu_ab_2015(
     return out
 
 
-def altersfreib(
+def eink_st_altersfreib(
     bruttolohn_m: FloatSeries,
     alter: IntSeries,
     kapitaleink_m: FloatSeries,
@@ -132,7 +132,7 @@ def altersfreib(
     return out
 
 
-def sonderausgaben_bis_2011(
+def eink_st_sonderausgaben_bis_2011(
     kind: BoolSeries, eink_st_abzüge_params: dict
 ) -> FloatSeries:
     """Calculating sonderausgaben for childcare until 2011.
@@ -154,7 +154,7 @@ def sonderausgaben_bis_2011(
     return out
 
 
-def sonderausgaben_ab_2012(
+def eink_st_sonderausgaben_ab_2012(
     betreuungskost_m: FloatSeries,
     tu_id: IntSeries,
     kind: BoolSeries,
@@ -198,8 +198,8 @@ def sonderausgaben_ab_2012(
     return out
 
 
-def kinderfreib_tu(
-    anz_kindergeld_kinder_tu: FloatSeries,
+def eink_st_kinderfreib_tu(
+    anz_kinder_mit_kindergeld_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     eink_st_abzüge_params: dict,
 ) -> FloatSeries:
@@ -207,8 +207,8 @@ def kinderfreib_tu(
 
     Parameters
     ----------
-    anz_kindergeld_kinder_tu
-        See :func:`anz_kindergeld_kinder_tu`.
+    anz_kinder_mit_kindergeld_tu
+        See :func:`anz_kinder_mit_kindergeld_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_abzüge_params
@@ -219,10 +219,10 @@ def kinderfreib_tu(
 
     """
     kifreib_total = sum(eink_st_abzüge_params["kinderfreibetrag"].values())
-    return kifreib_total * anz_kindergeld_kinder_tu * anz_erwachsene_tu
+    return kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
 
-def anz_kindergeld_kinder_tu(
+def anz_kinder_mit_kindergeld_tu(
     tu_id: IntSeries, kindergeld_anspruch: BoolSeries
 ) -> FloatSeries:
     """Count number of children eligible for Child Benefit.

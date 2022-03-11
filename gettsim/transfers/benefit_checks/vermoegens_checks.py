@@ -6,8 +6,8 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def kinderzuschl_vermögens_check_hh(
-    kinderzuschl_vorläufig_m_hh: FloatSeries,
+def kinderzuschl_nach_vermög_check_hh(
+    kinderzuschl_vor_vermög_check_m_hh: FloatSeries,
     vermögen_hh: FloatSeries,
     arbeitsl_geld_2_vermög_freib_hh,
 ) -> FloatSeries:
@@ -15,8 +15,8 @@ def kinderzuschl_vermögens_check_hh(
 
     Parameters
     ----------
-    kinderzuschl_vorläufig_m_hh
-        See :func:`kinderzuschl_vorläufig_m_hh`.
+    kinderzuschl_vor_vermög_check_m_hh
+        See :func:`kinderzuschl_vor_vermög_check_m_hh`.
     vermögen_hh
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
     arbeitsl_geld_2_vermög_freib_hh
@@ -26,13 +26,13 @@ def kinderzuschl_vermögens_check_hh(
     -------
 
     """
-    out = kinderzuschl_vorläufig_m_hh.copy()
+    out = kinderzuschl_vor_vermög_check_m_hh.copy()
     out.loc[vermögen_hh > arbeitsl_geld_2_vermög_freib_hh] = 0
     return out
 
 
-def wohngeld_vermögens_check_hh(
-    wohngeld_basis_m_hh: FloatSeries,
+def wohngeld_nach_vermög_check_hh(
+    wohngeld_vor_vermög_check_hh: FloatSeries,
     vermögen_hh: FloatSeries,
     haushaltsgröße_hh: IntSeries,
     wohngeld_params: dict,
@@ -44,8 +44,8 @@ def wohngeld_vermögens_check_hh(
 
     Parameters
     ----------
-    wohngeld_basis_m_hh
-        See :func:`wohngeld_basis_m_hh`.
+    wohngeld_vor_vermög_check_hh
+        See :func:`wohngeld_vor_vermög_check_hh`.
     vermögen_hh
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
     haushaltsgröße_hh
@@ -57,7 +57,7 @@ def wohngeld_vermögens_check_hh(
     -------
 
     """
-    out = wohngeld_basis_m_hh.copy()
+    out = wohngeld_vor_vermög_check_hh.copy()
     condition = vermögen_hh <= (
         wohngeld_params["vermögensgrundfreibetrag"]
         + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
@@ -179,7 +179,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
 
 def arbeitsl_geld_2_vermög_freib_hh(
     _arbeitsl_geld_2_grundfreib_vermög_hh: FloatSeries,
-    anz_minderj_hh: IntSeries,
+    anz_kinder_bis_18_hh: IntSeries,
     haushaltsgröße_hh: IntSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
@@ -189,8 +189,8 @@ def arbeitsl_geld_2_vermög_freib_hh(
     ----------
     _arbeitsl_geld_2_grundfreib_vermög_hh
         See :func:`_arbeitsl_geld_2_grundfreib_vermög_hh`.
-    anz_minderj_hh
-        See basic input variable :ref:`anz_minderj_hh <anz_minderj_hh>`.
+    anz_kinder_bis_18_hh
+        See basic input variable :ref:`anz_kinder_bis_18_hh <anz_kinder_bis_18_hh>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
 
@@ -203,7 +203,7 @@ def arbeitsl_geld_2_vermög_freib_hh(
     """
     out = (
         _arbeitsl_geld_2_grundfreib_vermög_hh
-        + anz_minderj_hh * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
+        + anz_kinder_bis_18_hh * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
         + haushaltsgröße_hh * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
     )
     return out

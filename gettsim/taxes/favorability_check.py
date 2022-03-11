@@ -9,85 +9,9 @@ similar check applies to whether it is more profitable to tax capital incomes wi
 standard 25% rate or to include it in the tariff.
 
 """
-from gettsim.shared import add_rounding_spec
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
-
-
-def kinderfreib_günstiger_tu(
-    eink_st_kein_kinderfreib_tu: FloatSeries,
-    kindergeld_basis_m_tu: FloatSeries,
-    kinderbonus_basis_m_tu: FloatSeries,
-    eink_st_kinderfreib_tu: FloatSeries,
-) -> BoolSeries:
-    """Return whether Kinderfreibetrag is more favorable than Kindergeld.
-
-    Parameters
-    ----------
-    eink_st_kein_kinderfreib_tu
-        See :func:`eink_st_kein_kinderfreib_tu`.
-    kindergeld_basis_m_tu
-        See :func:`kindergeld_basis_m_tu`.
-    kinderbonus_basis_m_tu
-        See :func:`kinderbonus_basis_m_tu`.
-    eink_st_kinderfreib_tu
-        See :func:`eink_st_kinderfreib_tu`.
-
-    Returns
-    -------
-
-    """
-    eink_st_kein_kinderfreib = eink_st_kein_kinderfreib_tu - 12 * (
-        kindergeld_basis_m_tu + kinderbonus_basis_m_tu
-    )
-    return eink_st_kein_kinderfreib > eink_st_kinderfreib_tu
-
-
-@add_rounding_spec(params_key="eink_st")
-def eink_st_tu_bis_1996(eink_st_kinderfreib_tu: FloatSeries) -> FloatSeries:
-    """Income tax calculation until 1996.
-
-    Until 1996 individuals could claim child allowance and recieve child benefit.
-    Therefore the tax burden is allways smaller.
-    Parameters
-    ----------
-    eink_st_kinderfreib_tu
-        See :func:`eink_st_kinderfreib_tu`.
-
-    Returns
-    -------
-
-    """
-    return eink_st_kinderfreib_tu
-
-
-@add_rounding_spec(params_key="eink_st")
-def eink_st_tu_ab_1997(
-    eink_st_kein_kinderfreib_tu: FloatSeries,
-    eink_st_kinderfreib_tu: FloatSeries,
-    kinderfreib_günstiger_tu: BoolSeries,
-) -> FloatSeries:
-    """Income tax calculation since 1997.
-
-    Parameters
-    ----------
-    eink_st_kein_kinderfreib_tu
-        See :func:`eink_st_kein_kinderfreib_tu`.
-    eink_st_kinderfreib_tu
-        See :func:`eink_st_kinderfreib_tu`.
-    kinderfreib_günstiger_tu
-        See :func:`kinderfreib_günstiger_tu`.
-
-    Returns
-    -------
-
-    """
-    out = eink_st_kein_kinderfreib_tu
-    out.loc[kinderfreib_günstiger_tu] = eink_st_kinderfreib_tu.loc[
-        kinderfreib_günstiger_tu
-    ]
-    return out
 
 
 def kindergeld_m_bis_1996(kindergeld_basis_m: FloatSeries) -> FloatSeries:

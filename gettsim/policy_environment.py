@@ -12,22 +12,22 @@ from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
-from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
+from gettsim.taxes.eink_st import eink_st_tu_ab_1997
+from gettsim.taxes.eink_st import eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
 from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
 from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_ohne_kapital
-from gettsim.taxes.zu_verst_eink.freibeträge import alleinerz_freib_tu_ab_2015
-from gettsim.taxes.zu_verst_eink.freibeträge import alleinerz_freib_tu_bis_2014
-from gettsim.taxes.zu_verst_eink.freibeträge import sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibeträge import sonderausgaben_bis_2011
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2005_bis_2009
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2010_bis_2019
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_ab_2020
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorge_bis_2004
+from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_alleinerz_freib_tu_ab_2015
+from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_alleinerz_freib_tu_bis_2014
+from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorgeaufw_ab_2005_bis_2009
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorgeaufw_ab_2010_bis_2019
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorgeaufw_ab_2020
+from gettsim.taxes.zu_verst_eink.vorsorge import vorsorgeaufw_bis_2004
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_kindersatz_m_hh_ab_2011,
 )
@@ -40,10 +40,10 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_regelsatz_m_hh_bis_2010,
 )
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005,
 )
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import (
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005,
 )
 from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_2021
@@ -100,7 +100,7 @@ def set_up_policy_environment(date):
 
     # extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
-    params = _parse_einführungsfaktor_vorsorge_alter_aufwend(date, params)
+    params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
 
     functions = load_reforms_for_date(date)
 
@@ -194,7 +194,7 @@ def _parse_kinderzuschl_max(date, params):
     return params
 
 
-def _parse_einführungsfaktor_vorsorge_alter_aufwend(date, params):
+def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     """Calculate introductory factor for pension expense deductions which depends on the
     current year as follows:
 
@@ -228,9 +228,9 @@ def _parse_einführungsfaktor_vorsorge_alter_aufwend(date, params):
                 "einführungsfaktor"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzüge"]["einführungsfaktor_vorsorge_alter_aufwend"] = out.loc[
-            0
-        ]
+        params["eink_st_abzüge"][
+            "einführungsfaktor_vorsorgeaufw_alter_ab_2005"
+        ] = out.loc[0]
     return params
 
 
@@ -257,9 +257,9 @@ def load_reforms_for_date(date):
         functions["sum_brutto_eink"] = sum_brutto_eink_ohne_kapital
 
     if year <= 2014:
-        functions["alleinerz_freib_tu"] = alleinerz_freib_tu_bis_2014
+        functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_bis_2014
     else:
-        functions["alleinerz_freib_tu"] = alleinerz_freib_tu_ab_2015
+        functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_ab_2015
 
     if year <= 1996:
         functions["eink_st_tu"] = eink_st_tu_bis_1996
@@ -274,18 +274,18 @@ def load_reforms_for_date(date):
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
 
     if year > 2011:
-        functions["sonderausgaben"] = sonderausgaben_ab_2012
+        functions["sonderausgaben"] = eink_st_sonderausgaben_ab_2012
     else:
-        functions["sonderausgaben"] = sonderausgaben_bis_2011
+        functions["sonderausgaben"] = eink_st_sonderausgaben_bis_2011
 
     if year >= 2020:
-        functions["vorsorge"] = vorsorge_ab_2020
+        functions["vorsorge"] = vorsorgeaufw_ab_2020
     elif 2020 > year >= 2010:
-        functions["vorsorge"] = vorsorge_ab_2010_bis_2019
+        functions["vorsorge"] = vorsorgeaufw_ab_2010_bis_2019
     elif 2010 > year >= 2005:
-        functions["vorsorge"] = vorsorge_ab_2005_bis_2009
+        functions["vorsorge"] = vorsorgeaufw_ab_2005_bis_2009
     elif year <= 2004:
-        functions["vorsorge"] = vorsorge_bis_2004
+        functions["vorsorge"] = vorsorgeaufw_bis_2004
 
     if year <= 2015:
         functions["wohngeld_eink_abzüge_m"] = wohngeld_eink_abzüge_m_bis_2015

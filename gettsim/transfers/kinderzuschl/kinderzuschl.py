@@ -27,7 +27,7 @@ from gettsim.typing import IntSeries
 
 
 def kinderzuschl_m_hh(
-    kinderzuschl_vermögens_check_hh: FloatSeries,
+    kinderzuschl_nach_vermög_check_hh: FloatSeries,
     kinderzuschl_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
     rentner_in_hh: BoolSeries,
@@ -36,8 +36,8 @@ def kinderzuschl_m_hh(
 
     Parameters
     ----------
-    kinderzuschl_vermögens_check_hh
-        See :func:`kinderzuschl_vermögens_check_hh`.
+    kinderzuschl_nach_vermög_check_hh
+        See :func:`kinderzuschl_nach_vermög_check_hh`.
     kinderzuschl_vorrang_hh
         See :func:`kinderzuschl_vorrang_hh`.
     wohngeld_kinderzuschl_vorrang_hh
@@ -49,7 +49,7 @@ def kinderzuschl_m_hh(
     -------
 
     """
-    out = kinderzuschl_vermögens_check_hh.copy()
+    out = kinderzuschl_nach_vermög_check_hh.copy()
     cond = (
         ~kinderzuschl_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh
     ) | rentner_in_hh
@@ -57,7 +57,7 @@ def kinderzuschl_m_hh(
     return out
 
 
-def kinderzuschl_vorläufig_m_hh(
+def kinderzuschl_vor_vermög_check_m_hh(
     kinderzuschl_vorläufig_m: FloatSeries, hh_id: IntSeries
 ) -> FloatSeries:
     """Aggregate preliminary child benefit on household level.

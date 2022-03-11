@@ -31,7 +31,7 @@ def grundr_zuschlag_m(
 
 @add_rounding_spec(params_key="ges_rentenv")
 def grundr_zuschlag_eink_m(
-    proxy_rente_vorj_vor_grundr_m: FloatSeries,
+    rente_vorj_vor_grundr_proxy_m: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     brutto_eink_1: FloatSeries,
     brutto_eink_6: FloatSeries,
@@ -71,8 +71,8 @@ def grundr_zuschlag_eink_m(
     Reference: § 97a Abs. 4 S. 2, 4 SGB VI
     Parameters
     ----------
-    proxy_rente_vorj_vor_grundr_m
-        See :func:`proxy_rente_vorj_vor_grundr_m`.
+    rente_vorj_vor_grundr_proxy_m
+        See :func:`rente_vorj_vor_grundr_proxy_m`.
     bruttolohn_vorj_m
         See :func:`bruttolohn_vorj_m`.
     brutto_eink_1
@@ -96,7 +96,7 @@ def grundr_zuschlag_eink_m(
 
     # Sum income over different income sources.
     total_income = (
-        proxy_rente_vorj_vor_grundr_m
+        rente_vorj_vor_grundr_proxy_m
         + bruttolohn_vorj_m
         + brutto_eink_1 / 12  # income from self-employment
         + brutto_eink_6 / 12  # rental income
@@ -307,7 +307,7 @@ def grundr_zuschlag_bonus_entgeltp(
 
 
 @add_rounding_spec(params_key="ges_rentenv")
-def proxy_rente_vorj_vor_grundr_m(
+def rente_vorj_vor_grundr_proxy_m(
     rentenwert_vorjahr: FloatSeries,
     priv_rente_m: FloatSeries,
     jahr_renteneintr: IntSeries,

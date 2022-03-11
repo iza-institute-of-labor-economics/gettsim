@@ -5,7 +5,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def summe_ges_priv_rente_m(
+def sum_ges_rente_priv_rente_m(
     priv_rente_m: FloatSeries, ges_rente_m: FloatSeries
 ) -> FloatSeries:
     """Calculate total pension as sum of private and public pension.
@@ -23,6 +23,26 @@ def summe_ges_priv_rente_m(
     """
     out = priv_rente_m + ges_rente_m
     return out
+
+
+def sum_ges_rente_priv_rente_m_tu(
+    sum_ges_rente_priv_rente_m: FloatSeries, tu_id: IntSeries
+) -> FloatSeries:
+    """Aggregate monthly pension income on tax unit level.
+
+    Parameters
+    ----------
+    sum_ges_rente_priv_rente_m
+        See basic input variable :ref:`sum_ges_rente_priv_rente_m
+        <sum_ges_rente_priv_rente_m>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return sum_ges_rente_priv_rente_m.groupby(tu_id).sum()
 
 
 @add_rounding_spec(params_key="ges_rentenv")

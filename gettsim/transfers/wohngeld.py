@@ -8,23 +8,23 @@ from gettsim.typing import IntSeries
 
 
 def wohngeld_m_hh(
-    wohngeld_vermögens_check_hh: FloatSeries,
+    wohngeld_nach_vermög_check_hh: FloatSeries,
     wohngeld_vorrang_hh: BoolSeries,
     wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    alle_erwachsene_sind_rentner_hh: BoolSeries,
+    erwachsene_alle_rentner_hh: BoolSeries,
 ) -> FloatSeries:
     """Calculate final housing benefit per household.
 
     Parameters
     ----------
-    wohngeld_vermögens_check_hh
-        See :func:`wohngeld_vermögens_check_hh`.
+    wohngeld_nach_vermög_check_hh
+        See :func:`wohngeld_nach_vermög_check_hh`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
     wohngeld_kinderzuschl_vorrang_hh
         See :func:`wohngeld_kinderzuschl_vorrang_hh`.
-    alle_erwachsene_sind_rentner_hh
-        See :func:`alle_erwachsene_sind_rentner_hh`.
+    erwachsene_alle_rentner_hh
+        See :func:`erwachsene_alle_rentner_hh`.
 
     Returns
     -------
@@ -32,13 +32,15 @@ def wohngeld_m_hh(
     """
     cond = (
         ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh
-        | alle_erwachsene_sind_rentner_hh
+        | erwachsene_alle_rentner_hh
     )
-    wohngeld_vermögens_check_hh.loc[cond] = 0
-    return wohngeld_vermögens_check_hh
+    wohngeld_nach_vermög_check_hh.loc[cond] = 0
+    return wohngeld_nach_vermög_check_hh
 
 
-def wohngeld_basis_m_hh(hh_id: IntSeries, wohngeld_basis_m: FloatSeries) -> FloatSeries:
+def wohngeld_vor_vermög_check_hh(
+    hh_id: IntSeries, wohngeld_vor_vermög_check: FloatSeries
+) -> FloatSeries:
     """Calculate preliminary housing benefit per household.
 
     Social benefit for recipients with income above basic social assistance Computation
@@ -56,8 +58,8 @@ def wohngeld_basis_m_hh(hh_id: IntSeries, wohngeld_basis_m: FloatSeries) -> Floa
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    wohngeld_basis_m
-        See :func:`wohngeld_basis_m`.
+    wohngeld_vor_vermög_check
+        See :func:`wohngeld_vor_vermög_check`.
 
     Returns
     -------
@@ -66,28 +68,9 @@ def wohngeld_basis_m_hh(hh_id: IntSeries, wohngeld_basis_m: FloatSeries) -> Floa
     # ToDo: When thinking about calculating wohngeld on the correct level, we need
     # account for multiple tax units in one household. The following is the old code!
     # See #218.
-    # out = (wohngeld_basis_m * tu_vorstand).groupby(hh_id).sum().round(2)
-    out = wohngeld_basis_m.groupby(hh_id).max().round(2)
+    # out = (wohngeld_vor_vermög_check * tu_vorstand).groupby(hh_id).sum().round(2)
+    out = wohngeld_vor_vermög_check.groupby(hh_id).max().round(2)
     return out
-
-
-def zu_verst_ges_rente_m_tu(
-    zu_verst_ges_rente_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Aggreate pension payments subject to taxation in tax unit.
-
-    Parameters
-    ----------
-    zu_verst_ges_rente_m
-        See :func:`zu_verst_ges_rente_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return zu_verst_ges_rente_m.groupby(tu_id).sum()
 
 
 def wohngeld_abzüge_tu(
@@ -121,25 +104,6 @@ def wohngeld_abzüge_tu(
     return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
 
 
-def zu_verst_ges_rente_m(
-    ertragsanteil: FloatSeries, summe_ges_priv_rente_m: FloatSeries
-) -> FloatSeries:
-    """Calculate pension payment subject to taxation.
-
-    Parameters
-    ----------
-    ertragsanteil
-        See :func:`ertragsanteil`.
-    summe_ges_priv_rente_m
-        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
-
-    Returns
-    -------
-
-    """
-    return ertragsanteil * summe_ges_priv_rente_m
-
-
 def wohngeld_brutto_eink_m_tu(
     brutto_eink_1_tu: FloatSeries,
     brutto_eink_4_tu: FloatSeries,
@@ -171,7 +135,7 @@ def wohngeld_brutto_eink_m_tu(
 def wohngeld_sonstiges_eink_m_tu(
     arbeitsl_geld_m_tu: FloatSeries,
     sonstig_eink_m_tu: FloatSeries,
-    zu_verst_ges_rente_m_tu: FloatSeries,
+    eink_rente_zu_verst_m_tu: FloatSeries,
     unterhaltsvors_m_tu: FloatSeries,
     elterngeld_m_tu: FloatSeries,
 ) -> FloatSeries:
@@ -183,8 +147,8 @@ def wohngeld_sonstiges_eink_m_tu(
         See :func:`arbeitsl_geld_m_tu`.
     sonstig_eink_m_tu
         See :func:`sonstig_eink_m_tu`.
-    zu_verst_ges_rente_m_tu
-        See :func:`zu_verst_ges_rente_m_tu`.
+    eink_rente_zu_verst_m_tu
+        See :func:`eink_rente_zu_verst_m_tu`.
     unterhaltsvors_m_tu
         See :func:`unterhaltsvors_m_tu`.
     elterngeld_m_tu
@@ -197,7 +161,7 @@ def wohngeld_sonstiges_eink_m_tu(
     return (
         arbeitsl_geld_m_tu
         + sonstig_eink_m_tu
-        + zu_verst_ges_rente_m_tu
+        + eink_rente_zu_verst_m_tu
         + unterhaltsvors_m_tu
         + elterngeld_m_tu
     )
@@ -222,7 +186,7 @@ def anzahl_kinder_unter_11_per_tu(tu_id: IntSeries, alter: IntSeries) -> IntSeri
 
 def wohngeld_eink_abzüge_m_bis_2015(
     bruttolohn_m: FloatSeries,
-    arbeitende_kinder: IntSeries,
+    wohngeld_arbeitende_kinder: IntSeries,
     behinderungsgrad: IntSeries,
     alleinerz: BoolSeries,
     kind: BoolSeries,
@@ -235,8 +199,8 @@ def wohngeld_eink_abzüge_m_bis_2015(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    arbeitende_kinder
-        See :func:`arbeitende_kinder`.
+    wohngeld_arbeitende_kinder
+        See :func:`wohngeld_arbeitende_kinder`.
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     alleinerz
@@ -261,7 +225,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
         ],
     )
     freib_kinder_m = (
-        arbeitende_kinder
+        wohngeld_arbeitende_kinder
         * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder_m"][24])
     ) + (
         (alleinerz & ~kind)
@@ -272,7 +236,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
     return freib_behinderung_m + freib_kinder_m
 
 
-def arbeitende_kinder(
+def wohngeld_arbeitende_kinder(
     bruttolohn_m: FloatSeries, kindergeld_anspruch: BoolSeries
 ) -> IntSeries:
     """Check if chiildren are working.
@@ -571,7 +535,7 @@ def wohngeld_miete_m_ab_2021(
     return out
 
 
-def wohngeld_basis_m(
+def wohngeld_vor_vermög_check(
     haushaltsgröße: IntSeries,
     wohngeld_eink_m: FloatSeries,
     wohngeld_miete_m: FloatSeries,
@@ -648,20 +612,3 @@ def tax_unit_share(tu_id: IntSeries, haushaltsgröße: IntSeries) -> FloatSeries
 
     """
     return tu_id.groupby(tu_id).transform("count") / haushaltsgröße
-
-
-def sonstig_eink_m_tu(sonstig_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate additional per tax unit.
-
-    Parameters
-    ----------
-    sonstig_eink_m
-        See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return sonstig_eink_m.groupby(tu_id).sum()

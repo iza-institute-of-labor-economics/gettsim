@@ -23,8 +23,8 @@ INPUT_COLS = [
     "kindergeld_anspruch",
     "mietstufe",
     "bruttolohn_m",
-    "summe_ges_priv_rente_m",
-    "ertragsanteil",
+    "sum_ges_rente_priv_rente_m",
+    "rente_ertragsanteil",
     "elterngeld_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
@@ -40,7 +40,7 @@ INPUT_COLS = [
     "jahr",
 ]
 YEARS_TEST_MAIN = [2006, 2009, 2013, 2016, 2018, 2019, 2021]
-TEST_COLUMN = ["wohngeld_basis_m_hh"]
+TEST_COLUMN = ["wohngeld_vor_vermög_check_hh"]
 
 # Variables for test of wohngeld with varying size.
 MAX_HH_SIZE = 12
@@ -64,7 +64,7 @@ def test_wohngeld_main(input_data, year, column):
         "elterngeld_m",
         "arbeitsl_geld_m",
         "unterhaltsvors_m",
-        "ertragsanteil",
+        "rente_ertragsanteil",
         "brutto_eink_1",
         "brutto_eink_4",
         "brutto_eink_5",
@@ -72,7 +72,7 @@ def test_wohngeld_main(input_data, year, column):
         "ges_krankenv_beitr_m",
         "ges_rentenv_beitr_m",
         "kindergeld_anspruch",
-        "summe_ges_priv_rente_m",
+        "sum_ges_rente_priv_rente_m",
     ]
     policy_functions["eink_st_tu"] = eink_st_m_tu_from_data
 
@@ -104,8 +104,8 @@ def input_data_households():
             "immobilie_baujahr_hh": 1970,
             "kindergeld_anspruch": False,
             "bruttolohn_m": 0,
-            "summe_ges_priv_rente_m": 0,
-            "ertragsanteil": 0,
+            "sum_ges_rente_priv_rente_m": 0,
+            "rente_ertragsanteil": 0,
             "elterngeld_m": 0,
             "mietstufe": 0,
             "arbeitsl_geld_m": 0,
@@ -136,7 +136,7 @@ def test_wohngeld_varying_hh_sizes(input_data_households, year, mietstufe, colum
         "elterngeld_m",
         "arbeitsl_geld_m",
         "unterhaltsvors_m",
-        "ertragsanteil",
+        "rente_ertragsanteil",
         "brutto_eink_1",
         "brutto_eink_4",
         "brutto_eink_5",
@@ -145,7 +145,7 @@ def test_wohngeld_varying_hh_sizes(input_data_households, year, mietstufe, colum
         "ges_krankenv_beitr_m",
         "ges_rentenv_beitr_m",
         "kindergeld_anspruch",
-        "summe_ges_priv_rente_m",
+        "sum_ges_rente_priv_rente_m",
     ]
     input_data_households["mietstufe"] = mietstufe
 

@@ -2,7 +2,7 @@
 Note:
 - Values for "arbeitsl_geld_2_vor_vorrang_m_hh" and "arbeitsl_geld_2_m_hh" are
   only regression tests
-- "wohngeld_basis_m_hh" is set to 0 to avoid testing Wohngeld-Vorrang and the
+- "wohngeld_vor_vermög_check_hh" is set to 0 to avoid testing Wohngeld-Vorrang and the
   calculation of Wohngeld here.
 
 """
@@ -29,7 +29,7 @@ INPUT_COLS = [
     "bewohnt_eigentum_hh",
     "alleinerz",
     "bruttolohn_m",
-    "summe_ges_priv_rente_m",
+    "sum_ges_rente_priv_rente_m",
     "kapitaleink_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
@@ -42,7 +42,7 @@ INPUT_COLS = [
     "unterhaltsvors_m",
     "elterngeld_m",
     "jahr",
-    "wohngeld_basis_m_hh",
+    "wohngeld_vor_vermög_check_hh",
     "vermögen_hh",
     "geburtsjahr",
     "rentner",
@@ -56,7 +56,7 @@ OUT_COLS = [
     "arbeitsl_geld_2_eink_m",
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
     "arbeitsl_geld_2_regelsatz_m_hh",
-    "kost_unterk_m_hh",
+    "arbeitsl_geld_2_kost_unterk_m_hh",
     "unterhaltsvors_m_hh",
     "arbeitsl_geld_2_vor_vorrang_m_hh",
     "arbeitsl_geld_2_m_hh",
@@ -70,8 +70,8 @@ override_columns = [
     "elterngeld_m",
     "eink_st_tu",
     "sozialv_beitr_gesamt_m",
-    "summe_ges_priv_rente_m",
-    "wohngeld_basis_m_hh",
+    "sum_ges_rente_priv_rente_m",
+    "wohngeld_vor_vermög_check_hh",
 ]
 
 

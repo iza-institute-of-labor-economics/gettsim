@@ -148,7 +148,7 @@ def brutto_eink_6_tu(brutto_eink_6: FloatSeries, tu_id: IntSeries) -> FloatSerie
 
 
 def brutto_eink_7(
-    summe_ges_priv_rente_m: FloatSeries, ertragsanteil: FloatSeries
+    sum_ges_rente_priv_rente_m: FloatSeries, rente_ertragsanteil: FloatSeries
 ) -> FloatSeries:
     """Aggregate monthly gross pension income subject to taxation to yearly income.
 
@@ -156,16 +156,17 @@ def brutto_eink_7(
 
     Parameters
     ----------
-    summe_ges_priv_rente_m
-        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
-    ertragsanteil
-        See :func:`ertragsanteil`.
+    sum_ges_rente_priv_rente_m
+        See basic input variable :ref:`sum_ges_rente_priv_rente_m
+        <sum_ges_rente_priv_rente_m>`.
+    rente_ertragsanteil
+        See :func:`rente_ertragsanteil`.
 
     Returns
     -------
 
     """
-    return ertragsanteil * 12 * summe_ges_priv_rente_m
+    return rente_ertragsanteil * 12 * sum_ges_rente_priv_rente_m
 
 
 def brutto_eink_7_tu(brutto_eink_7: FloatSeries, tu_id: IntSeries) -> FloatSeries:
@@ -183,6 +184,74 @@ def brutto_eink_7_tu(brutto_eink_7: FloatSeries, tu_id: IntSeries) -> FloatSerie
 
     """
     return brutto_eink_7.groupby(tu_id).sum()
+
+
+def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Sum monthly wages in tax unit.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+    FloatSeries with sum of monthly wages per tax unit.
+    """
+    return bruttolohn_m.groupby(tu_id).sum()
+
+
+def eink_selbst_m_tu(eink_selbst_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Aggregate monthly self employed income on tax unit level.
+
+    Parameters
+    ----------
+    eink_selbst_m
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return eink_selbst_m.groupby(tu_id).sum()
+
+
+def kapitaleink_m_tu(kapitaleink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Aggregate monthly capital income on tax unit level.
+
+    Parameters
+    ----------
+    kapitaleink_m
+        See basic input variable :ref:`kapitaleink_m <kapitaleink_m>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return kapitaleink_m.groupby(tu_id).sum()
+
+
+def vermiet_eink_m_tu(vermiet_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Aggregate monthly rental income on tax unit level.
+
+    Parameters
+    ----------
+    vermiet_eink_m
+        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return vermiet_eink_m.groupby(tu_id).sum()
 
 
 def sum_brutto_eink_ohne_kapital(
@@ -236,6 +305,23 @@ def kapitaleink_minus_pauschbetr(
     return out
 
 
+def sum_brutto_eink_tu(sum_brutto_eink: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Sum of gross incomes on tax unit level.
+
+    Parameters
+    ----------
+    sum_brutto_eink
+        See :func:`sum_brutto_eink`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return sum_brutto_eink.groupby(tu_id).sum()
+
+
 def sum_brutto_eink_mit_kapital(
     sum_brutto_eink_ohne_kapital: FloatSeries,
     kapitaleink_minus_pauschbetr: FloatSeries,
@@ -256,7 +342,9 @@ def sum_brutto_eink_mit_kapital(
     return sum_brutto_eink_ohne_kapital + kapitaleink_minus_pauschbetr
 
 
-def ertragsanteil(jahr_renteneintr: IntSeries, eink_st_params: dict) -> FloatSeries:
+def rente_ertragsanteil(
+    jahr_renteneintr: IntSeries, eink_st_params: dict
+) -> FloatSeries:
     """Calculate the share of pensions subject to income taxation.
 
     Parameters
@@ -271,10 +359,66 @@ def ertragsanteil(jahr_renteneintr: IntSeries, eink_st_params: dict) -> FloatSer
     """
     out = piecewise_polynomial(
         x=jahr_renteneintr,
-        thresholds=eink_st_params["ertragsanteil"]["thresholds"],
-        rates=eink_st_params["ertragsanteil"]["rates"],
-        intercepts_at_lower_thresholds=eink_st_params["ertragsanteil"][
+        thresholds=eink_st_params["rente_ertragsanteil"]["thresholds"],
+        rates=eink_st_params["rente_ertragsanteil"]["rates"],
+        intercepts_at_lower_thresholds=eink_st_params["rente_ertragsanteil"][
             "intercepts_at_lower_thresholds"
         ],
     )
     return out
+
+
+def sonstig_eink_m_tu(sonstig_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
+    """Aggregate additional per tax unit.
+
+    Parameters
+    ----------
+    sonstig_eink_m
+        See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return sonstig_eink_m.groupby(tu_id).sum()
+
+
+def eink_rente_zu_verst_m(
+    rente_ertragsanteil: FloatSeries, sum_ges_rente_priv_rente_m: FloatSeries
+) -> FloatSeries:
+    """Calculate pension payment subject to taxation.
+
+    Parameters
+    ----------
+    rente_ertragsanteil
+        See :func:`rente_ertragsanteil`.
+    sum_ges_rente_priv_rente_m
+        See basic input variable :ref:`sum_ges_rente_priv_rente_m
+        <sum_ges_rente_priv_rente_m>`.
+
+    Returns
+    -------
+
+    """
+    return rente_ertragsanteil * sum_ges_rente_priv_rente_m
+
+
+def eink_rente_zu_verst_m_tu(
+    eink_rente_zu_verst_m: FloatSeries, tu_id: IntSeries
+) -> FloatSeries:
+    """Aggreate pension payments subject to taxation in tax unit.
+
+    Parameters
+    ----------
+    eink_rente_zu_verst_m
+        See :func:`eink_rente_zu_verst_m`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return eink_rente_zu_verst_m.groupby(tu_id).sum()

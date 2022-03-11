@@ -12,11 +12,11 @@ import pandas as pd
 from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.transfers.wohngeld import wohngeld_basis_m
 from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2009
 from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2021
 from gettsim.transfers.wohngeld import wohngeld_miete_m_bis_2008
 from gettsim.transfers.wohngeld import wohngeld_min_miete
+from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check
 
 
 # Each plot has one data preparation function as defined below
@@ -156,7 +156,7 @@ def prepare_wg_data(sel_year, hh_size):
     for i in range(len(einkommen)):
         this_column = wohngeld_df.columns[i]
         e = pd.Series(data=[einkommen[i]] * len(einkommen))
-        wohngeld_df[this_column] = wohngeld_basis_m(
+        wohngeld_df[this_column] = wohngeld_vor_vermög_check(
             haushaltsgröße=household_size,
             # Account for minimum income
             wohngeld_eink_m=np.maximum(e, params["min_eink"][hh_size]),

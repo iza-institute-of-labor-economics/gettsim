@@ -97,7 +97,7 @@ def kinderzuschl_eink_regel_m_ab_2011(
 
 
 def kinderzuschl_eink_relev_m(
-    kinderzuschl_eink_regel_m: FloatSeries, kinderzuschl_kosten_unterk_m: FloatSeries
+    kinderzuschl_eink_regel_m: FloatSeries, kinderzuschl_kost_unterk_m: FloatSeries
 ) -> FloatSeries:
     """Aggregate relevant income and rental costs.
 
@@ -105,17 +105,17 @@ def kinderzuschl_eink_relev_m(
     ----------
     kinderzuschl_eink_regel_m
         See :func:`kinderzuschl_eink_regel_m`.
-    kinderzuschl_kosten_unterk_m
-        See :func:`kinderzuschl_kosten_unterk_m`.
+    kinderzuschl_kost_unterk_m
+        See :func:`kinderzuschl_kost_unterk_m`.
 
     Returns
     -------
 
     """
-    return kinderzuschl_eink_regel_m + kinderzuschl_kosten_unterk_m
+    return kinderzuschl_eink_regel_m + kinderzuschl_kost_unterk_m
 
 
-def anz_kinder_anspruch_per_hh(
+def kinderzuschl_anz_kinder_anspruch_hh(
     hh_id: IntSeries, kindergeld_anspruch: BoolSeries
 ) -> IntSeries:
     """Count number of children eligible to child benefit (§6a (1) Nr. 1 BKGG)kdu.
@@ -136,7 +136,7 @@ def anz_kinder_anspruch_per_hh(
 
 def kinderzuschl_eink_max_m(
     kinderzuschl_eink_relev_m: FloatSeries,
-    anz_kinder_anspruch_per_hh: IntSeries,
+    kinderzuschl_anz_kinder_anspruch_hh: IntSeries,
     kinderzuschl_params: dict,
 ) -> FloatSeries:
     """Calculate maximum income to be eligible for additional
@@ -149,8 +149,8 @@ def kinderzuschl_eink_max_m(
     ----------
     kinderzuschl_eink_relev_m
         See :func:`kinderzuschl_eink_relev_m`.
-    anz_kinder_anspruch_per_hh
-        See :func:`anz_kinder_anspruch_per_hh`.
+    kinderzuschl_anz_kinder_anspruch_hh
+        See :func:`kinderzuschl_anz_kinder_anspruch_hh`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -160,7 +160,7 @@ def kinderzuschl_eink_max_m(
     """
     return (
         kinderzuschl_eink_relev_m
-        + kinderzuschl_params["maximum"] * anz_kinder_anspruch_per_hh
+        + kinderzuschl_params["maximum"] * kinderzuschl_anz_kinder_anspruch_hh
     )
 
 

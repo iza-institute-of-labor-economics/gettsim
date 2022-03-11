@@ -12,7 +12,7 @@ def grunds_im_alter_m_hh(
     kindergeld_m_hh: FloatSeries,
     unterhaltsvors_m_hh: FloatSeries,
     grunds_im_alter_eink_m_hh: FloatSeries,
-    alle_erwachsene_sind_rentner_hh: BoolSeries,
+    erwachsene_alle_rentner_hh: BoolSeries,
     vermögen_hh: FloatSeries,
     grunds_im_alter_vermög_freib_hh: FloatSeries,
 ) -> FloatSeries:
@@ -37,8 +37,8 @@ def grunds_im_alter_m_hh(
         See :func:`unterhaltsvors_m_hh`.
     grunds_im_alter_eink_m_hh
         See :func:`grunds_im_alter_eink_m_hh`.
-    alle_erwachsene_sind_rentner_hh
-        See :func:`alle_erwachsene_sind_rentner_hh`.
+    erwachsene_alle_rentner_hh
+        See :func:`erwachsene_alle_rentner_hh`.
     vermögen_hh
         See basic input variable :ref:`vermögen_hh`.
     grunds_im_alter_vermög_freib_hh
@@ -61,7 +61,7 @@ def grunds_im_alter_m_hh(
     out.loc[vermögen_hh >= grunds_im_alter_vermög_freib_hh] = 0
 
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    out.loc[~alle_erwachsene_sind_rentner_hh] = 0
+    out.loc[~erwachsene_alle_rentner_hh] = 0
     return out
 
 

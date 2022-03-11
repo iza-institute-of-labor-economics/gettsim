@@ -167,15 +167,15 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
 
 
 def _ges_krankenv_bemessungsgrundlage_rente_m(
-    summe_ges_priv_rente_m: FloatSeries,
+    sum_ges_rente_priv_rente_m: FloatSeries,
     _ges_krankenv_beitr_bemess_grenze_m: FloatSeries,
 ) -> FloatSeries:
     """Choose the amount of pension which is subject to health insurance contribution.
 
     Parameters
     ----------
-    summe_ges_priv_rente_m
-        See :func:`summe_ges_priv_rente_m`.
+    sum_ges_rente_priv_rente_m
+        See :func:`sum_ges_rente_priv_rente_m`.
     _ges_krankenv_beitr_bemess_grenze_m
         See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
 
@@ -183,7 +183,7 @@ def _ges_krankenv_bemessungsgrundlage_rente_m(
     -------
 
     """
-    return summe_ges_priv_rente_m.clip(upper=_ges_krankenv_beitr_bemess_grenze_m)
+    return sum_ges_rente_priv_rente_m.clip(upper=_ges_krankenv_beitr_bemess_grenze_m)
 
 
 def ges_krankenv_beitr_rente_m(

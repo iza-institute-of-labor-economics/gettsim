@@ -16,7 +16,7 @@ INPUT_COLS = [
     "arbeitsl_monate_lfdj",
     "arbeitsl_monate_vorj",
     "arbeitsl_monate_v2j",
-    "summe_ges_priv_rente_m",
+    "sum_ges_rente_priv_rente_m",
     "arbeitsstunden_w",
     "alter",
     "jahr",
@@ -44,7 +44,7 @@ def test_ui(
         params=policy_params,
         functions=policy_functions,
         targets="arbeitsl_geld_m",
-        columns_overriding_functions=["summe_ges_priv_rente_m"],
+        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.

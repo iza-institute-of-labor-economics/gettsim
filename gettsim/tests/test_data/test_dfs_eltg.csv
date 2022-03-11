@@ -1,4 +1,4 @@
-"hh_id","tu_id","p_id","bruttolohn_m","bruttolohn_vorj_m","wohnort_ost","kind","eink_st_m","soli_st_m","sozialv_beitr_gesamt_m","geburtsjahr","geburtstag","geburtsmonat","alter","m_elterngeld_mut","m_elterngeld_vat","m_elterngeld",,"jahr",,,,"elternzeit_anspruch","berechtigt_für_geschw_bonus","anz_mehrlinge_anspruch","elterngeld_m","considered_wage","payed_percentage"
+"hh_id","tu_id","p_id","bruttolohn_m","bruttolohn_vorj_m","wohnort_ost","kind","eink_st_m","soli_st_m","sozialv_beitr_gesamt_m","geburtsjahr","geburtstag","geburtsmonat","alter","m_elterngeld_mut","m_elterngeld_vat","m_elterngeld",,"jahr",,,,"elternzeit_anspruch","elterngeld_geschw_bonus_anspruch","elterngeld_anz_mehrlinge_anspruch","elterngeld_m","considered_wage","payed_percentage"
 1,1,23,0,0,"FALSE","FALSE",0,0,0,1972,1,1,46,0,0,0,,2018,,,,"FALSE","FALSE",0,0,,
 1,1,23,0,0,"FALSE","FALSE",0,0,0,1972,2,2,46,0,0,0,,2019,,,,"TRUE","FALSE",0,300,0,0
 1,1,18,0,0,"FALSE","TRUE",0,0,0,2018,12,10,0,2,2,0,,2019,,,,"FALSE","FALSE",0,0,,

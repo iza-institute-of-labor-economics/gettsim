@@ -19,7 +19,7 @@ INPUT_COLS = [
     "kapitaleink_m",
     "vermiet_eink_m",
     "jahr_renteneintr",
-    "summe_ges_priv_rente_m",
+    "sum_ges_rente_priv_rente_m",
     "arbeitsstunden_w",
     "in_ausbildung",
     "kind",
@@ -48,18 +48,18 @@ OUT_COLS = [
     "brutto_eink_5_tu",
     "brutto_eink_6_tu",
     "brutto_eink_7_tu",
-    "ertragsanteil",
+    "rente_ertragsanteil",
     "sonder",
     "alleinerz_freib_tu",
-    "altersfreib",
+    "eink_st_altersfreib",
     "vorsorge",
 ]
 
 TEST_COLS = [
-    "_zu_verst_eink_kein_kinderfreib_tu",
-    "zu_verst_eink_kinderfreib_tu",
-    "kinderfreib_tu",
-    "altersfreib",
+    "_zu_verst_eink_ohne_kinderfreib_tu",
+    "zu_verst_eink_mit_kinderfreib_tu",
+    "eink_st_kinderfreib_tu",
+    "eink_st_altersfreib",
     "alleinerz_freib_tu",
     "sum_brutto_eink",
 ]
@@ -86,7 +86,7 @@ def test_zve(
         "arbeitsl_v_beitr_m",
         "ges_pflegev_beitr_m",
         "ges_rentenv_beitr_m",
-        "summe_ges_priv_rente_m",
+        "sum_ges_rente_priv_rente_m",
     ]
     result = compute_taxes_and_transfers(
         data=df,
@@ -98,13 +98,13 @@ def test_zve(
 
     if target == "kindergeld_tu":
         expected_result = sum_test_data_tu("kindergeld", year_data)
-    elif target == "_zu_verst_eink_kein_kinderfreib_tu":
+    elif target == "_zu_verst_eink_ohne_kinderfreib_tu":
         expected_result = sum_test_data_tu(
             "zu_verst_eink_kein_kinderfreib", year_data
-        ).rename("_zu_verst_eink_kein_kinderfreib_tu")
-    elif target == "zu_verst_eink_kinderfreib_tu":
+        ).rename("_zu_verst_eink_ohne_kinderfreib_tu")
+    elif target == "zu_verst_eink_mit_kinderfreib_tu":
         expected_result = sum_test_data_tu("zu_verst_eink_kinderfreib", year_data)
-    elif target == "kinderfreib_tu":
+    elif target == "eink_st_kinderfreib_tu":
         expected_result = sum_test_data_tu("kinderfreib", year_data)
     else:
         expected_result = year_data[target]
