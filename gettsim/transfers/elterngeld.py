@@ -5,6 +5,7 @@ import pandas as pd
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.typing import BoolSeries
+from gettsim.typing import DateTimeSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
@@ -43,11 +44,11 @@ def elterngeld_m_hh(elterngeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
 
 
 def elterngeld_m(
-    elterngeld_eink_relev: FloatSeries,
+    elterngeld_eink_relev_m: FloatSeries,
     elternzeit_anspruch: BoolSeries,
-    elterngeld_eink_erlass: FloatSeries,
-    elterngeld_geschw_bonus: FloatSeries,
-    elterngeld_mehrlinge_bonus: FloatSeries,
+    elterngeld_eink_erlass_m: FloatSeries,
+    elterngeld_geschw_bonus_m: FloatSeries,
+    elterngeld_mehrlinge_bonus_m: FloatSeries,
     elterngeld_params: dict,
 ) -> FloatSeries:
     """Calculate parental leave benefit (elterngeld).
@@ -56,16 +57,16 @@ def elterngeld_m(
 
     Parameters
     ----------
-    elterngeld_eink_relev
-        See :func:`elterngeld_eink_relev`.
+    elterngeld_eink_relev_m
+        See :func:`elterngeld_eink_relev_m`.
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`.
-    elterngeld_eink_erlass
-        See :func:`elterngeld_eink_erlass`.
-    elterngeld_geschw_bonus
-        See :func:`elterngeld_geschw_bonus`.
-    elterngeld_mehrlinge_bonus
-        See :func:`elterngeld_mehrlinge_bonus`.
+    elterngeld_eink_erlass_m
+        See :func:`elterngeld_eink_erlass_m`.
+    elterngeld_geschw_bonus_m
+        See :func:`elterngeld_geschw_bonus_m`.
+    elterngeld_mehrlinge_bonus_m
+        See :func:`elterngeld_mehrlinge_bonus_m`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -74,22 +75,22 @@ def elterngeld_m(
 
     """
     alternative_elterngeld = (
-        elterngeld_eink_erlass.clip(
+        elterngeld_eink_erlass_m.clip(
             lower=elterngeld_params["mindestbetrag"],
             upper=elterngeld_params["höchstbetrag"],
         )
-        + elterngeld_geschw_bonus
-        + elterngeld_mehrlinge_bonus
+        + elterngeld_geschw_bonus_m
+        + elterngeld_mehrlinge_bonus_m
     )
 
     data = np.where(
-        (elterngeld_eink_relev < 0) | ~elternzeit_anspruch, 0, alternative_elterngeld
+        (elterngeld_eink_relev_m < 0) | ~elternzeit_anspruch, 0, alternative_elterngeld
     )
 
-    return pd.Series(index=elterngeld_eink_relev.index, data=data)
+    return pd.Series(index=elterngeld_eink_relev_m.index, data=data)
 
 
-def elterngeld_proxy_eink_vorj_elterngeld(
+def _elterngeld_proxy_eink_vorj_elterngeld_m(
     _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     elterngeld_params: dict,
@@ -246,8 +247,11 @@ def elterngeld_geschw_bonus_anspruch(
     return bonus
 
 
-def elterngeld_anz_mehrlinge_anspruch(
-    hh_id: IntSeries, elternzeit_anspruch: BoolSeries, jüngstes_kind: BoolSeries
+def _elterngeld_anz_mehrlinge_anspruch(
+    hh_id: IntSeries,
+    elternzeit_anspruch: BoolSeries,
+    date_of_birth: DateTimeSeries,
+    date_of_birth_jüngstes_kind_hh: DateTimeSeries,
 ) -> IntSeries:
     """Check for multiple bonus on parental leave benefit.
 
@@ -257,13 +261,16 @@ def elterngeld_anz_mehrlinge_anspruch(
         See basic input variable :ref:`hh_id <hh_id>`.
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`.
-    jüngstes_kind
-        See :func:`jüngstes_kind`.
+    date_of_birth
+        See :func:`date_of_birth`.
+    date_of_birth_jüngstes_kind_hh
+        See :func:`date_of_birth_jüngstes_kind_hh`.
 
     Returns
     -------
 
     """
+    jüngstes_kind = date_of_birth == date_of_birth_jüngstes_kind_hh
     mehrlinge = jüngstes_kind.groupby(hh_id).transform("sum")
     return elternzeit_anspruch * (mehrlinge - 1)
 
@@ -308,8 +315,8 @@ def elterngeld_nettolohn_m(
     ).clip(lower=0)
 
 
-def elterngeld_eink_relev(
-    elterngeld_proxy_eink_vorj_elterngeld: FloatSeries,
+def elterngeld_eink_relev_m(
+    _elterngeld_proxy_eink_vorj_elterngeld_m: FloatSeries,
     elterngeld_nettolohn_m: FloatSeries,
 ) -> FloatSeries:
     """Calculating the relevant wage for the calculation of elterngeld.
@@ -320,8 +327,8 @@ def elterngeld_eink_relev(
 
     Parameters
     ----------
-    elterngeld_proxy_eink_vorj_elterngeld
-        See :func:`elterngeld_proxy_eink_vorj_elterngeld`.
+    _elterngeld_proxy_eink_vorj_elterngeld_m
+        See :func:`_elterngeld_proxy_eink_vorj_elterngeld_m`.
     elterngeld_nettolohn_m
         See :func:`elterngeld_nettolohn_m`.
 
@@ -330,11 +337,11 @@ def elterngeld_eink_relev(
 
 
     """
-    return elterngeld_proxy_eink_vorj_elterngeld - elterngeld_nettolohn_m
+    return _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_m
 
 
 def elterngeld_anteil_eink_erlass(
-    elterngeld_eink_relev: FloatSeries, elterngeld_params: dict
+    elterngeld_eink_relev_m: FloatSeries, elterngeld_params: dict
 ) -> FloatSeries:
     """Calculate the share of net income which is reimbursed when receiving elterngeld.
 
@@ -343,8 +350,8 @@ def elterngeld_anteil_eink_erlass(
 
     Parameters
     ----------
-    elterngeld_eink_relev
-        See :func:`elterngeld_eink_relev`.
+    elterngeld_eink_relev_m
+        See :func:`elterngeld_eink_relev_m`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
@@ -352,19 +359,19 @@ def elterngeld_anteil_eink_erlass(
 
     """
     conditions = [
-        elterngeld_eink_relev < elterngeld_params["nettoeinkommen_stufen"][1],
-        elterngeld_eink_relev > elterngeld_params["nettoeinkommen_stufen"][2],
+        elterngeld_eink_relev_m < elterngeld_params["nettoeinkommen_stufen"][1],
+        elterngeld_eink_relev_m > elterngeld_params["nettoeinkommen_stufen"][2],
         True,
     ]
 
     choices = [
-        (elterngeld_params["nettoeinkommen_stufen"][1] - elterngeld_eink_relev)
+        (elterngeld_params["nettoeinkommen_stufen"][1] - elterngeld_eink_relev_m)
         / elterngeld_params["eink_schritt_korrektur"]
         * elterngeld_params["prozent_korrektur"]
         + elterngeld_params["faktor"],
         (
             elterngeld_params["faktor"]
-            - (elterngeld_eink_relev - elterngeld_params["nettoeinkommen_stufen"][2])
+            - (elterngeld_eink_relev_m - elterngeld_params["nettoeinkommen_stufen"][2])
             / elterngeld_params["eink_schritt_korrektur"]
         ).clip(lower=elterngeld_params["prozent_minimum"]),
         elterngeld_params["faktor"],
@@ -372,18 +379,18 @@ def elterngeld_anteil_eink_erlass(
 
     data = np.select(conditions, choices)
 
-    return pd.Series(index=elterngeld_eink_relev.index, data=data)
+    return pd.Series(index=elterngeld_eink_relev_m.index, data=data)
 
 
-def elterngeld_eink_erlass(
-    elterngeld_eink_relev: FloatSeries, elterngeld_anteil_eink_erlass: FloatSeries
+def elterngeld_eink_erlass_m(
+    elterngeld_eink_relev_m: FloatSeries, elterngeld_anteil_eink_erlass: FloatSeries
 ) -> FloatSeries:
     """Calculate base parental leave benefit.
 
     Parameters
     ----------
-    elterngeld_eink_relev
-        See :func:`elterngeld_eink_relev`.
+    elterngeld_eink_relev_m
+        See :func:`elterngeld_eink_relev_m`.
     elterngeld_anteil_eink_erlass
         See :func:`elterngeld_anteil_eink_erlass`.
 
@@ -391,11 +398,11 @@ def elterngeld_eink_erlass(
     -------
 
     """
-    return elterngeld_eink_relev * elterngeld_anteil_eink_erlass
+    return elterngeld_eink_relev_m * elterngeld_anteil_eink_erlass
 
 
-def elterngeld_geschw_bonus(
-    elterngeld_eink_erlass: FloatSeries,
+def elterngeld_geschw_bonus_m(
+    elterngeld_eink_erlass_m: FloatSeries,
     elterngeld_geschw_bonus_anspruch: BoolSeries,
     elterngeld_params: dict,
 ) -> FloatSeries:
@@ -405,8 +412,8 @@ def elterngeld_geschw_bonus(
 
     Parameters
     ----------
-    elterngeld_eink_erlass
-        See :func:`elterngeld_eink_erlass`.
+    elterngeld_eink_erlass_m
+        See :func:`elterngeld_eink_erlass_m`.
     elterngeld_geschw_bonus_anspruch
         See :func:`elterngeld_geschw_bonus_anspruch`.
     elterngeld_params
@@ -416,20 +423,23 @@ def elterngeld_geschw_bonus(
     -------
 
     """
-    return (elterngeld_params["geschw_bonus_aufschlag"] * elterngeld_eink_erlass).clip(
-        lower=elterngeld_params["geschw_bonus_minimum"]
-    ) * elterngeld_geschw_bonus_anspruch
+    return (
+        (elterngeld_params["geschw_bonus_aufschlag"] * elterngeld_eink_erlass_m).clip(
+            lower=elterngeld_params["geschw_bonus_minimum"]
+        )
+        * elterngeld_geschw_bonus_anspruch
+    )
 
 
-def elterngeld_mehrlinge_bonus(
-    elterngeld_anz_mehrlinge_anspruch: IntSeries, elterngeld_params: dict
+def elterngeld_mehrlinge_bonus_m(
+    _elterngeld_anz_mehrlinge_anspruch: IntSeries, elterngeld_params: dict
 ) -> FloatSeries:
     """Calculate the bonus for multiples.
 
     Parameters
     ----------
-    elterngeld_anz_mehrlinge_anspruch
-        See :func:`elterngeld_anz_mehrlinge_anspruch`.
+    _elterngeld_anz_mehrlinge_anspruch
+        See :func:`_elterngeld_anz_mehrlinge_anspruch`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -437,4 +447,4 @@ def elterngeld_mehrlinge_bonus(
     -------
 
     """
-    return elterngeld_anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]
+    return _elterngeld_anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]

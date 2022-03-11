@@ -9,7 +9,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def anz_kinder_bis_18_hh(
+def anz_kinder_bis_17_hh(
     hh_id: IntSeries, alter: IntSeries, kind: BoolSeries
 ) -> IntSeries:
     """Calculate the number of underage persons in household.
@@ -68,7 +68,7 @@ def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     """Count number of adults in tax unit.
 
     Parameters
-    ----------
+    ----------elterngeld_geschw_bonus_m
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
     kind
@@ -97,7 +97,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
     return tu_id.replace(anz_erwachsene_tu) == 2
 
 
-def gemeinsam_veranlagte_tu(
+def gemeinsam_veranlagt_tu(
     tu_id: IntSeries, gemeinsam_veranlagt: BoolSeries
 ) -> BoolSeries:
     """Check for each tax unit if it consists of two wage earners.
@@ -254,23 +254,6 @@ def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
     return (~kind).groupby(hh_id).sum()
 
 
-def kinder_in_hh(kind: BoolSeries, hh_id: IntSeries) -> BoolSeries:
-    """Check if children are in household.
-
-    Parameters
-    ----------
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-    BoolSeries indicating children in household.
-    """
-    return kind.groupby(hh_id).any()
-
-
 def haushaltsgröße(hh_id: IntSeries) -> IntSeries:
     """Count persons in households.
 
@@ -298,23 +281,6 @@ def haushaltsgröße_hh(hh_id: IntSeries) -> IntSeries:
     IntSeries with the number of persons in household per household.
     """
     return hh_id.groupby(hh_id).size()
-
-
-def rentner_in_hh(hh_id: IntSeries, rentner: BoolSeries) -> BoolSeries:
-    """Check if pensioner is in household.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-
-    Returns
-    -------
-    BoolSeries indicating pensioner in household.
-    """
-    return rentner.groupby(hh_id).any()
 
 
 def anz_rentner_hh(hh_id: IntSeries, rentner: BoolSeries) -> IntSeries:
@@ -351,20 +317,6 @@ def erwachsene_alle_rentner_hh(
     IntSeries with the number of pensioners per household.
     """
     return anz_erwachsene_hh == anz_rentner_hh
-
-
-def hhsize_tu(tu_id: IntSeries) -> IntSeries:
-    """Count persons in taxunit.
-
-    Parameters
-    ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    Returns
-    -------
-    IntSeries with the number of persons in taxunit per taxunit.
-    """
-    return tu_id.groupby(tu_id).size()
 
 
 def date_of_birth(
@@ -426,25 +378,6 @@ def date_of_birth_jüngstes_kind_hh(
     return hh_id.replace(date_of_birth_jüngstes_kind_hh).astype("datetime64[ns]")
 
 
-def jüngstes_kind(
-    date_of_birth: DateTimeSeries, date_of_birth_jüngstes_kind_hh: DateTimeSeries
-) -> BoolSeries:
-    """Determine the youngest child in each household.
-
-    Parameters
-    ----------
-    date_of_birth
-        See :func:`date_of_birth`.
-    date_of_birth_jüngstes_kind_hh
-        See :func:`date_of_birth_jüngstes_kind_hh`.
-
-    Returns
-    -------
-
-    """
-    return date_of_birth == date_of_birth_jüngstes_kind_hh
-
-
 def alter_jüngstes_kind_monate_hh(
     hh_id: IntSeries,
     date_of_birth_jüngstes_kind_hh: DateTimeSeries,
@@ -473,3 +406,20 @@ def alter_jüngstes_kind_monate_hh(
         hh_ids = hh_id[unborn_children].unique()
         raise ValueError(f"Households with ids {hh_ids} have unborn children.")
     return age_in_days / np.timedelta64(1, "M")
+
+
+def anz_kinder_bis_10_tu(tu_id: IntSeries, alter: IntSeries) -> IntSeries:
+    """Count children under eleven per tax unit.
+
+    Parameters
+    ----------
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+
+    Returns
+    -------
+
+    """
+    return (alter < 11).groupby(tu_id).transform("sum")

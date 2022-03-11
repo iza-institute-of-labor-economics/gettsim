@@ -103,7 +103,7 @@ def _ges_rentenv_beitr_midi_job_m_m(
 def _ges_rentenv_beitr_bruttolohn_m(
     bruttolohn_m: FloatSeries,
     _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
-    reg_beschäftigt: BoolSeries,
+    regulär_beschäftigt: BoolSeries,
 ) -> FloatSeries:
     """Calculate the wage subject to pension and
     unemployment insurance contributions.
@@ -112,8 +112,8 @@ def _ges_rentenv_beitr_bruttolohn_m(
     ----------
     bruttolohn_m
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-    reg_beschäftigt
-        See :func:`reg_beschäftigt`.
+    regulär_beschäftigt
+        See :func:`regulär_beschäftigt`.
     _ges_rentenv_beitr_bemess_grenze_m
         See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
 
@@ -122,6 +122,6 @@ def _ges_rentenv_beitr_bruttolohn_m(
     -------
 
     """
-    bruttolohn_m_reg_beschäftigt = bruttolohn_m.loc[reg_beschäftigt]
-    bemess_grenze = _ges_rentenv_beitr_bemess_grenze_m.loc[reg_beschäftigt]
-    return bruttolohn_m_reg_beschäftigt.clip(upper=bemess_grenze)
+    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[regulär_beschäftigt]
+    bemess_grenze = _ges_rentenv_beitr_bemess_grenze_m.loc[regulär_beschäftigt]
+    return bruttolohn_m_regulär_beschäftigt.clip(upper=bemess_grenze)

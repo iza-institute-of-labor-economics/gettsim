@@ -91,7 +91,7 @@ def grunds_im_alter_eink_m(
     grunds_im_alter_ges_rente_m: FloatSeries,
     sonstig_eink_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
-    grunds_im_alter_kapitaleink_m: FloatSeries,
+    _grunds_im_alter_kapitaleink_brutto_m: FloatSeries,
     elterngeld_m: FloatSeries,
     eink_st_tu: FloatSeries,
     soli_st_tu: FloatSeries,
@@ -115,8 +115,8 @@ def grunds_im_alter_eink_m(
         See :func:`sonstig_eink_m`.
     vermiet_eink_m
         See :func:`vermiet_eink_m`.
-    grunds_im_alter_kapitaleink_m
-        See :func:`grunds_im_alter_kapitaleink_m`.
+    _grunds_im_alter_kapitaleink_brutto_m
+        See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
     elterngeld_m
         See :func:`elterngeld_m`.
     eink_st_tu
@@ -150,7 +150,7 @@ def grunds_im_alter_eink_m(
         + grunds_im_alter_priv_rente_m
         + sonstig_eink_m
         + vermiet_eink_m
-        + grunds_im_alter_kapitaleink_m
+        + _grunds_im_alter_kapitaleink_brutto_m
         + elterngeld_grunds_im_alter_m
     )
 
@@ -207,8 +207,8 @@ def grunds_im_alter_erwerbseink_m(
     return earnings
 
 
-def grunds_im_alter_kapitaleink_m(
-    brutto_eink_5: FloatSeries, grunds_im_alter_params: dict,
+def _grunds_im_alter_kapitaleink_brutto_m(
+    kapitaleink_brutto: FloatSeries, grunds_im_alter_params: dict,
 ) -> FloatSeries:
     """Calculate capital income considered in the calculation of Grundsicherung im
     Alter.
@@ -218,8 +218,8 @@ def grunds_im_alter_kapitaleink_m(
 
     Parameters
     ----------
-    brutto_eink_5
-        See :func:`brutto_eink_5`.
+    kapitaleink_brutto
+        See :func:`kapitaleink_brutto`.
     grunds_im_alter_params
         See params documentation :ref:`grunds_im_alter_params <grunds_im_alter_params>`.
 
@@ -229,7 +229,7 @@ def grunds_im_alter_kapitaleink_m(
     """
     # Can deduct allowance from yearly capital income
     capital_income_y = (
-        brutto_eink_5 - grunds_im_alter_params["kapitaleink_anr_frei"]
+        kapitaleink_brutto - grunds_im_alter_params["kapitaleink_anr_frei"]
     ).clip(lower=0)
 
     # Calculate and return monthly capital income (after deduction)
@@ -297,10 +297,10 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh(
 
 def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     schwerbeh_g: BoolSeries,
-    hhsize_tu: IntSeries,
+    anz_erwachsene_hh: IntSeries,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
-    tu_id: IntSeries,
+    hh_id: IntSeries,
 ) -> FloatSeries:
     """Calculate additional allowance for individuals with disabled person's pass G.
 
@@ -308,20 +308,20 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     ----------
     schwerbeh_g
         See basic input variable :ref:`behinderungsgrad <schwerbeh_g>`.
-    hhsize_tu
-        See :func:`hhsize_tu`.
+    anz_erwachsene_hh
+        See :func:`anz_erwachsene_hh`.
     ges_rentenv_params
         See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
     Returns
     -------
 
     """
     out = pd.Series(0, index=schwerbeh_g.index, dtype=float)
-    hhsize_tu = tu_id.replace(hhsize_tu)
+    anz_erwachsene_hh = hh_id.replace(anz_erwachsene_hh)
 
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
     mehrbedarf_singles = (arbeitsl_geld_2_params["regelsatz"][1]) * (
@@ -332,10 +332,10 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     )
 
     # singles
-    out.loc[schwerbeh_g] = mehrbedarf_singles
+    out.loc[schwerbeh_g & (anz_erwachsene_hh == 1)] = mehrbedarf_singles
 
     # couples
-    out.loc[schwerbeh_g & (hhsize_tu != 1)] = mehrbedarf_in_couple
+    out.loc[schwerbeh_g & (anz_erwachsene_hh > 1)] = mehrbedarf_in_couple
 
     return out
 

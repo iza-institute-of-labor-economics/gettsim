@@ -160,7 +160,7 @@ def midi_job_bemessungsentgelt_m(
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
-def reg_beschäftigt(
+def regulär_beschäftigt(
     bruttolohn_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> BoolSeries:
     """Check if person is in regular employment.

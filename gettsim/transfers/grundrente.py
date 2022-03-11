@@ -33,9 +33,9 @@ def grundr_zuschlag_m(
 def grundr_zuschlag_eink_m(
     rente_vorj_vor_grundr_proxy_m: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
-    brutto_eink_1: FloatSeries,
-    brutto_eink_6: FloatSeries,
-    kapitaleink_minus_pauschbetr: FloatSeries,
+    eink_selbst: FloatSeries,
+    eink_vermietung: FloatSeries,
+    kapitaleink: FloatSeries,
     gemeinsam_veranlagt: BoolSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
@@ -75,12 +75,12 @@ def grundr_zuschlag_eink_m(
         See :func:`rente_vorj_vor_grundr_proxy_m`.
     bruttolohn_vorj_m
         See :func:`bruttolohn_vorj_m`.
-    brutto_eink_1
-        See :func:`brutto_eink_1`.
-    brutto_eink_6
-        See :func:`brutto_eink_6`.
-    kapitaleink_minus_pauschbetr
-        See :func:`kapitaleink_minus_pauschbetr`.
+    eink_selbst
+        See :func:`eink_selbst`.
+    eink_vermietung
+        See :func:`eink_vermietung`.
+    kapitaleink
+        See :func:`kapitaleink`.
     gemeinsam_veranlagt
         See :func:`gemeinsam_veranlagt`.
     rentenwert
@@ -98,9 +98,9 @@ def grundr_zuschlag_eink_m(
     total_income = (
         rente_vorj_vor_grundr_proxy_m
         + bruttolohn_vorj_m
-        + brutto_eink_1 / 12  # income from self-employment
-        + brutto_eink_6 / 12  # rental income
-        + kapitaleink_minus_pauschbetr / 12
+        + eink_selbst / 12  # income from self-employment
+        + eink_vermietung / 12  # rental income
+        + kapitaleink / 12
     )
 
     # Also consider income of married partner.

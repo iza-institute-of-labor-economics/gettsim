@@ -3,15 +3,15 @@ from gettsim.typing import FloatSeries
 
 
 def wohngeld_vorrang_hh(
-    wohngeld_nach_vermög_check_hh: FloatSeries,
+    wohngeld_nach_vermög_check_m_hh: FloatSeries,
     arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if housing benefit has priority.
 
     Parameters
     ----------
-    wohngeld_nach_vermög_check_hh
-        See :func:`wohngeld_nach_vermög_check_hh`.
+    wohngeld_nach_vermög_check_m_hh
+        See :func:`wohngeld_nach_vermög_check_m_hh`.
     arbeitsl_geld_2_vor_vorrang_m_hh
         See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
 
@@ -19,19 +19,19 @@ def wohngeld_vorrang_hh(
     -------
 
     """
-    return wohngeld_nach_vermög_check_hh >= arbeitsl_geld_2_vor_vorrang_m_hh
+    return wohngeld_nach_vermög_check_m_hh >= arbeitsl_geld_2_vor_vorrang_m_hh
 
 
 def kinderzuschl_vorrang_hh(
-    kinderzuschl_nach_vermög_check_hh: FloatSeries,
+    _kinderzuschl_nach_vermög_check_m_hh: FloatSeries,
     arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if child benefit has priority.
 
     Parameters
     ----------
-    kinderzuschl_nach_vermög_check_hh
-        See :func:`kinderzuschl_nach_vermög_check_hh`.
+    _kinderzuschl_nach_vermög_check_m_hh
+        See :func:`_kinderzuschl_nach_vermög_check_m_hh`.
     arbeitsl_geld_2_vor_vorrang_m_hh
         See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
 
@@ -39,22 +39,22 @@ def kinderzuschl_vorrang_hh(
     -------
 
     """
-    return kinderzuschl_nach_vermög_check_hh >= arbeitsl_geld_2_vor_vorrang_m_hh
+    return _kinderzuschl_nach_vermög_check_m_hh >= arbeitsl_geld_2_vor_vorrang_m_hh
 
 
 def wohngeld_kinderzuschl_vorrang_hh(
-    wohngeld_nach_vermög_check_hh: FloatSeries,
-    kinderzuschl_nach_vermög_check_hh: FloatSeries,
+    wohngeld_nach_vermög_check_m_hh: FloatSeries,
+    _kinderzuschl_nach_vermög_check_m_hh: FloatSeries,
     arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
 ) -> BoolSeries:
     """Check if housing and child benefit have priority.
 
     Parameters
     ----------
-    wohngeld_nach_vermög_check_hh
-        See :func:`wohngeld_nach_vermög_check_hh`.
-    kinderzuschl_nach_vermög_check_hh
-        See :func:`kinderzuschl_nach_vermög_check_hh`.
+    wohngeld_nach_vermög_check_m_hh
+        See :func:`wohngeld_nach_vermög_check_m_hh`.
+    _kinderzuschl_nach_vermög_check_m_hh
+        See :func:`_kinderzuschl_nach_vermög_check_m_hh`.
     arbeitsl_geld_2_vor_vorrang_m_hh
         See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
 
@@ -63,6 +63,6 @@ def wohngeld_kinderzuschl_vorrang_hh(
 
     """
     sum_wohngeld_kinderzuschl = (
-        wohngeld_nach_vermög_check_hh + kinderzuschl_nach_vermög_check_hh
+        wohngeld_nach_vermög_check_m_hh + _kinderzuschl_nach_vermög_check_m_hh
     )
     return sum_wohngeld_kinderzuschl >= arbeitsl_geld_2_vor_vorrang_m_hh

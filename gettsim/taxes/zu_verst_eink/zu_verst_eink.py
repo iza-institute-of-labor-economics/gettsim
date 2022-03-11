@@ -20,7 +20,7 @@ from gettsim.typing import IntSeries
 def freibeträge(
     vorsorge: FloatSeries,
     sonderausgaben: FloatSeries,
-    eink_st_behinderungsgrad_pauschbetrag: FloatSeries,
+    _eink_st_behinderungsgrad_pauschbetrag: FloatSeries,
     alleinerz_freib_tu: FloatSeries,
     eink_st_altersfreib: FloatSeries,
     tu_id: IntSeries,
@@ -34,8 +34,8 @@ def freibeträge(
         See :func:`vorsorge`.
     sonderausgaben
         See :func:`sonderausgaben`.
-    eink_st_behinderungsgrad_pauschbetrag
-        See :func:`eink_st_behinderungsgrad_pauschbetrag`.
+    _eink_st_behinderungsgrad_pauschbetrag
+        See :func:`_eink_st_behinderungsgrad_pauschbetrag`.
     alleinerz_freib_tu
         See :func:`alleinerz_freib_tu`.
     eink_st_altersfreib
@@ -51,7 +51,7 @@ def freibeträge(
     out = (
         vorsorge
         + sonderausgaben
-        + eink_st_behinderungsgrad_pauschbetrag
+        + _eink_st_behinderungsgrad_pauschbetrag
         + tu_id.replace(alleinerz_freib_tu)
         + eink_st_altersfreib
     )
@@ -76,14 +76,14 @@ def freibeträge_tu(freibeträge: FloatSeries, tu_id: IntSeries) -> FloatSeries:
 
 
 def _zu_verst_eink_ohne_kinderfreib_tu(
-    sum_brutto_eink_tu: FloatSeries, freibeträge_tu: FloatSeries,
+    sum_eink_tu: FloatSeries, freibeträge_tu: FloatSeries,
 ) -> FloatSeries:
     """Calculate taxable income without child allowance.
 
     Parameters
     ----------
-    sum_brutto_eink_tu
-        See :func:`sum_brutto_eink_tu`.
+    sum_eink_tu
+        See :func:`sum_eink_tu`.
     freibeträge_tu
         See :func:`freibeträge_tu`.
 
@@ -93,7 +93,7 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
 
     """
 
-    return (sum_brutto_eink_tu - freibeträge_tu).clip(lower=0)
+    return (sum_eink_tu - freibeträge_tu).clip(lower=0)
 
 
 def zu_verst_eink_mit_kinderfreib_tu(

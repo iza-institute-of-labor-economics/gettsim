@@ -6,7 +6,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def eink_st_behinderungsgrad_pauschbetrag(
+def _eink_st_behinderungsgrad_pauschbetrag(
     behinderungsgrad: IntSeries, eink_st_abzüge_params: dict
 ) -> FloatSeries:
     """Assign tax deduction allowance for handicaped to different handicap degrees.
@@ -93,7 +93,7 @@ def eink_st_alleinerz_freib_tu_ab_2015(
 def eink_st_altersfreib(
     bruttolohn_m: FloatSeries,
     alter: IntSeries,
-    kapitaleink_m: FloatSeries,
+    kapitaleink_brutto_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
     eink_st_abzüge_params: dict,
@@ -106,8 +106,8 @@ def eink_st_altersfreib(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    kapitaleink_m
-        See basic input variable :ref:`kapitaleink_m <kapitaleink_m>`.
+    kapitaleink_brutto_m
+        See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
     eink_selbst_m
         See :func:`eink_selbst_m`.
     vermiet_eink_m
@@ -126,7 +126,7 @@ def eink_st_altersfreib(
         * 12
         * (
             bruttolohn_m
-            + (kapitaleink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
+            + (kapitaleink_brutto_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
         )
     ).clip(upper=eink_st_abzüge_params["altersentlastungsbetrag_max"])[alter > agelimit]
     return out

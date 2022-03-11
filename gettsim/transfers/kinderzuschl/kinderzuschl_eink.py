@@ -115,7 +115,7 @@ def kinderzuschl_eink_relev_m(
     return kinderzuschl_eink_regel_m + kinderzuschl_kost_unterk_m
 
 
-def kinderzuschl_anz_kinder_anspruch_hh(
+def _kinderzuschl_anz_kinder_anspruch_hh(
     hh_id: IntSeries, kindergeld_anspruch: BoolSeries
 ) -> IntSeries:
     """Count number of children eligible to child benefit (§6a (1) Nr. 1 BKGG)kdu.
@@ -136,7 +136,7 @@ def kinderzuschl_anz_kinder_anspruch_hh(
 
 def kinderzuschl_eink_max_m(
     kinderzuschl_eink_relev_m: FloatSeries,
-    kinderzuschl_anz_kinder_anspruch_hh: IntSeries,
+    _kinderzuschl_anz_kinder_anspruch_hh: IntSeries,
     kinderzuschl_params: dict,
 ) -> FloatSeries:
     """Calculate maximum income to be eligible for additional
@@ -149,8 +149,8 @@ def kinderzuschl_eink_max_m(
     ----------
     kinderzuschl_eink_relev_m
         See :func:`kinderzuschl_eink_relev_m`.
-    kinderzuschl_anz_kinder_anspruch_hh
-        See :func:`kinderzuschl_anz_kinder_anspruch_hh`.
+    _kinderzuschl_anz_kinder_anspruch_hh
+        See :func:`_kinderzuschl_anz_kinder_anspruch_hh`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -160,7 +160,7 @@ def kinderzuschl_eink_max_m(
     """
     return (
         kinderzuschl_eink_relev_m
-        + kinderzuschl_params["maximum"] * kinderzuschl_anz_kinder_anspruch_hh
+        + kinderzuschl_params["maximum"] * _kinderzuschl_anz_kinder_anspruch_hh
     )
 
 

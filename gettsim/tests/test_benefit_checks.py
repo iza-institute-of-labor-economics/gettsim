@@ -18,7 +18,7 @@ INPUT_COLS = [
     "alter",
     "vermögen_hh",
     "kinderzuschl_vorläufig_m",
-    "wohngeld_vor_vermög_check_hh",
+    "wohngeld_vor_vermög_check_m_hh",
     "arbeitsl_geld_2_regelbedarf_m_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m_hh",
@@ -43,7 +43,7 @@ def test_benefit_checks(input_data, year, target):
     df = year_data[INPUT_COLS].copy()
     columns = [
         "kinderzuschl_vorläufig_m",
-        "wohngeld_vor_vermög_check_hh",
+        "wohngeld_vor_vermög_check_m_hh",
         "arbeitsl_geld_2_regelbedarf_m_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m_hh",

@@ -60,7 +60,7 @@ def arbeitsl_v_beitr_m(
     -------
 
     """
-    arbeitsl_v_reg_beschäftigt_m = (
+    arbeitsl_v_regulär_beschäftigt_m = (
         _ges_rentenv_beitr_bruttolohn_m
         * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
@@ -71,7 +71,7 @@ def arbeitsl_v_beitr_m(
 
     # Assign calculated contributions, for minijobs it remains 0
     out.loc[_arbeitsl_v_beitr_midi_job_m.index] = _arbeitsl_v_beitr_midi_job_m
-    out.loc[arbeitsl_v_reg_beschäftigt_m.index] = arbeitsl_v_reg_beschäftigt_m
+    out.loc[arbeitsl_v_regulär_beschäftigt_m.index] = arbeitsl_v_regulär_beschäftigt_m
 
     return out
 

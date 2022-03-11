@@ -16,7 +16,7 @@ INPUT_COLS = [
     "kind",
     "zu_verst_eink_kein_kinderfreib",
     "zu_verst_eink_kinderfreib",
-    "brutto_eink_5",
+    "kapitaleink_brutto",
 ]
 
 TEST_COLUMNS = [
@@ -55,7 +55,7 @@ def test_tax_sched(
     columns = [
         "_zu_verst_eink_ohne_kinderfreib_tu",
         "zu_verst_eink_mit_kinderfreib_tu",
-        "brutto_eink_5",
+        "kapitaleink_brutto",
     ]
 
     result = compute_taxes_and_transfers(

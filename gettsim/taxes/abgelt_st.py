@@ -22,7 +22,7 @@ def abgelt_st_tu(
 
 
 def zu_verst_kapitaleink_tu(
-    brutto_eink_5_tu: FloatSeries,
+    kapitaleink_brutto_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     eink_st_abzüge_params: dict,
 ) -> FloatSeries:
@@ -30,8 +30,8 @@ def zu_verst_kapitaleink_tu(
 
     Parameters
     ----------
-    brutto_eink_5_tu
-        See :func:`brutto_eink_5_tu`.
+    kapitaleink_brutto_tu
+        See :func:`kapitaleink_brutto_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_abzüge_params
@@ -42,7 +42,7 @@ def zu_verst_kapitaleink_tu(
 
     """
     out = (
-        brutto_eink_5_tu
+        kapitaleink_brutto_tu
         - anz_erwachsene_tu
         * (
             eink_st_abzüge_params["sparerpauschbetrag"]

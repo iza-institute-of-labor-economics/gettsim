@@ -1,5 +1,4 @@
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
@@ -90,7 +89,7 @@ def arbeitsl_geld_2_brutto_eink_m(
     sonstig_eink_m: FloatSeries,
     eink_selbst_m: FloatSeries,
     vermiet_eink_m: FloatSeries,
-    kapitaleink_m: FloatSeries,
+    kapitaleink_brutto_m: FloatSeries,
     sum_ges_rente_priv_rente_m: FloatSeries,
     arbeitsl_geld_m: FloatSeries,
     elterngeld_m: FloatSeries,
@@ -108,8 +107,8 @@ def arbeitsl_geld_2_brutto_eink_m(
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     vermiet_eink_m
         See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
-    kapitaleink_m
-        See basic input variable :ref:`kapitaleink_m <kapitaleink_m>`.
+    kapitaleink_brutto_m
+        See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
     sum_ges_rente_priv_rente_m
         See basic input variable :ref:`sum_ges_rente_priv_rente_m
         <sum_ges_rente_priv_rente_m>`.
@@ -127,7 +126,7 @@ def arbeitsl_geld_2_brutto_eink_m(
         + sonstig_eink_m
         + eink_selbst_m
         + vermiet_eink_m
-        + kapitaleink_m
+        + kapitaleink_brutto_m
         + sum_ges_rente_priv_rente_m
         + arbeitsl_geld_m
         + elterngeld_m
@@ -203,7 +202,7 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
 def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
     hh_id: IntSeries,
     bruttolohn_m: FloatSeries,
-    kinder_in_hh: BoolSeries,
+    anz_kinder_hh: IntSeries,
     arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
     """Calcualte share of income, which remains to the individual sinc 10/2005.
@@ -214,8 +213,8 @@ def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
         See basic input variable :ref:`hh_id <hh_id>`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kinder_in_hh
-        See :func:`kinder_in_h`.
+    anz_kinder_hh
+        See :func:`anz_kinder_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -224,7 +223,7 @@ def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
 
     """
     out = bruttolohn_m * 0
-    kinder_in_hh_individual = hh_id.replace(kinder_in_hh).astype(bool)
+    kinder_in_hh_individual = hh_id.replace(anz_kinder_hh > 0).astype(bool)
     out.loc[kinder_in_hh_individual] = piecewise_polynomial(
         x=bruttolohn_m.loc[kinder_in_hh_individual],
         thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],

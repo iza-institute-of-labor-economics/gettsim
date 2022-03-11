@@ -6,7 +6,7 @@ from gettsim.typing import IntSeries
 
 
 def kinderzuschl_kost_unterk_m(
-    kinderzuschl_wohnbedarf_eltern_anteil: FloatSeries,
+    _kinderzuschl_wohnbedarf_eltern_anteil: FloatSeries,
     kinderzuschl_bruttokaltmiete_m: FloatSeries,
     kinderzuschl_heizkosten_m: FloatSeries,
 ) -> FloatSeries:
@@ -16,8 +16,8 @@ def kinderzuschl_kost_unterk_m(
 
     Parameters
     ----------
-    kinderzuschl_wohnbedarf_eltern_anteil
-        See :func:`kinderzuschl_wohnbedarf_eltern_anteil`.
+    _kinderzuschl_wohnbedarf_eltern_anteil
+        See :func:`_kinderzuschl_wohnbedarf_eltern_anteil`.
     kinderzuschl_bruttokaltmiete_m
         See :func:`kinderzuschl_bruttokaltmiete_m`.
     kinderzuschl_heizkosten_m
@@ -27,13 +27,15 @@ def kinderzuschl_kost_unterk_m(
     -------
 
     """
-    return kinderzuschl_wohnbedarf_eltern_anteil * (
+    return _kinderzuschl_wohnbedarf_eltern_anteil * (
         kinderzuschl_bruttokaltmiete_m + kinderzuschl_heizkosten_m
     )
 
 
 def kinderzuschl_bruttokaltmiete_m(
-    hh_id: IntSeries, bruttokaltmiete_m_hh: FloatSeries, tax_unit_share: FloatSeries
+    hh_id: IntSeries,
+    bruttokaltmiete_m_hh: FloatSeries,
+    _anteil_personen_in_haushalt_tu: FloatSeries,
 ) -> FloatSeries:
     """Share of household's monthly rent attributed to the tax unit.
 
@@ -43,18 +45,20 @@ def kinderzuschl_bruttokaltmiete_m(
         See basic input variable :ref:`hh_id <hh_id>`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    tax_unit_share
-        See :func:`tax_unit_share`.
+    _anteil_personen_in_haushalt_tu
+        See :func:`_anteil_personen_in_haushalt_tu`.
 
     Returns
     -------
 
     """
-    return hh_id.replace(bruttokaltmiete_m_hh) * tax_unit_share
+    return hh_id.replace(bruttokaltmiete_m_hh) * _anteil_personen_in_haushalt_tu
 
 
 def kinderzuschl_heizkosten_m(
-    hh_id: IntSeries, heizkosten_m_hh: FloatSeries, tax_unit_share: FloatSeries
+    hh_id: IntSeries,
+    heizkosten_m_hh: FloatSeries,
+    _anteil_personen_in_haushalt_tu: FloatSeries,
 ) -> FloatSeries:
     """Share of household's heating expenses attributed to the tax unit.
 
@@ -64,17 +68,17 @@ def kinderzuschl_heizkosten_m(
         See basic input variable :ref:`hh_id <hh_id>`.
     heizkosten_m_hh
         See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
-    tax_unit_share
-        See :func:`tax_unit_share`.
+    _anteil_personen_in_haushalt_tu
+        See :func:`_anteil_personen_in_haushalt_tu`.
 
     Returns
     -------
 
     """
-    return hh_id.replace(heizkosten_m_hh) * tax_unit_share
+    return hh_id.replace(heizkosten_m_hh) * _anteil_personen_in_haushalt_tu
 
 
-def kinderzuschl_wohnbedarf_eltern_anteil(
+def _kinderzuschl_wohnbedarf_eltern_anteil(
     tu_id: IntSeries,
     anz_kinder_tu: IntSeries,
     anz_erwachsene_tu: IntSeries,

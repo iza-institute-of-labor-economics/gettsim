@@ -14,20 +14,16 @@ from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import eink_st_tu_ab_1997
 from gettsim.taxes.eink_st import eink_st_tu_bis_1996
-from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
-from gettsim.taxes.favorability_check import kindergeld_m_bis_1996
-from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_lohn
-from gettsim.taxes.kindergeld import kindergeld_anspruch_nach_stunden
-from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_mit_kapital
-from gettsim.taxes.zu_verst_eink.eink import sum_brutto_eink_ohne_kapital
+from gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital
+from gettsim.taxes.zu_verst_eink.eink import sum_eink_ohne_kapital
 from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_alleinerz_freib_tu_ab_2015
 from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_alleinerz_freib_tu_bis_2014
 from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_sonderausgaben_ab_2012
 from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_sonderausgaben_bis_2011
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorgeaufw_ab_2005_bis_2009
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorgeaufw_ab_2010_bis_2019
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorgeaufw_ab_2020
-from gettsim.taxes.zu_verst_eink.vorsorge import vorsorgeaufw_bis_2004
+from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2005_bis_2009
+from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2010_bis_2019
+from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2020
+from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_bis_2004
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_kindersatz_m_hh_ab_2011,
 )
@@ -48,6 +44,10 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
 )
 from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_2021
 from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_bis_2020
+from gettsim.transfers.kindergeld import kindergeld_anspruch_nach_lohn
+from gettsim.transfers.kindergeld import kindergeld_anspruch_nach_stunden
+from gettsim.transfers.kindergeld import kindergeld_m_ab_1997
+from gettsim.transfers.kindergeld import kindergeld_m_bis_1996
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
     kinderzuschl_vorläufig_m_ab_07_2019,
 )
@@ -163,10 +163,10 @@ def _parse_piecewise_parameters(tax_data):
 
 
 def _parse_kinderzuschl_max(date, params):
-    """Prior to 2021, kinderzuschl_max (the maximum amount of the
-    Kinderzuschlag) was specified directly in the laws and directives.
+    """Prior to 2021, the maximum amount of the
+    Kinderzuschlag was specified directly in the laws and directives.
 
-    Since 2021, kinderzuschl_max has been derived from subsistence
+    Since 2021, this measure has been derived from subsistence
     levels. This function implements that calculation.
 
     Parameters
@@ -252,9 +252,9 @@ def load_reforms_for_date(date):
     year = date.year
     functions = {}
     if year < 2009:
-        functions["sum_brutto_eink"] = sum_brutto_eink_mit_kapital
+        functions["sum_eink"] = sum_eink_mit_kapital
     else:
-        functions["sum_brutto_eink"] = sum_brutto_eink_ohne_kapital
+        functions["sum_eink"] = sum_eink_ohne_kapital
 
     if year <= 2014:
         functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_bis_2014

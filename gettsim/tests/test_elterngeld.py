@@ -31,7 +31,7 @@ INPUT_COLS = [
 OUT_COLS = [
     "elterngeld_m",
     "elterngeld_geschw_bonus_anspruch",
-    "elterngeld_anz_mehrlinge_anspruch",
+    "_elterngeld_anz_mehrlinge_anspruch",
     "elternzeit_anspruch",
 ]
 YEARS = [2017, 2018, 2019]

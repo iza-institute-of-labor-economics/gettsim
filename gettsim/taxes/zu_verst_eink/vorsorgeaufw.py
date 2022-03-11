@@ -184,14 +184,14 @@ def vorsorgeaufw_ab_2020(
 
 
 def vorsorgeaufw_bis_2004(
-    lohn_vorsorge_bis_2019_single: FloatSeries,
-    lohn_vorsorgeabzug_bis_2019_tu: FloatSeries,
+    _vorsorgeaufw_vom_lohn_bis_2019_single: FloatSeries,
+    _vorsorgeaufw_vom_lohn_bis_2019_tu: FloatSeries,
     ges_krankenv_beitr_m: FloatSeries,
     ges_rentenv_beitr_m: FloatSeries,
     ges_krankenv_beitr_m_tu: FloatSeries,
     ges_rentenv_beitr_m_tu: FloatSeries,
     tu_id: IntSeries,
-    gemeinsam_veranlagte_tu: BoolSeries,
+    gemeinsam_veranlagt_tu: BoolSeries,
     gemeinsam_veranlagt: BoolSeries,
     kind: BoolSeries,
     eink_st_abzüge_params: dict,
@@ -200,10 +200,10 @@ def vorsorgeaufw_bis_2004(
 
     Parameters
     ----------
-    lohn_vorsorge_bis_2019_single
-        See :func:`lohn_vorsorge_bis_2019_single`.
-    lohn_vorsorgeabzug_bis_2019_tu
-        See :func:`lohn_vorsorgeabzug_bis_2019_tu`.
+    _vorsorgeaufw_vom_lohn_bis_2019_single
+        See :func:`_vorsorgeaufw_vom_lohn_bis_2019_single`.
+    _vorsorgeaufw_vom_lohn_bis_2019_tu
+        See :func:`_vorsorgeaufw_vom_lohn_bis_2019_tu`.
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
     ges_rentenv_beitr_m
@@ -214,8 +214,8 @@ def vorsorgeaufw_bis_2004(
         See :func:`ges_rentenv_beitr_m_tu`.
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-    gemeinsam_veranlagte_tu
-        See :func:`gemeinsam_veranlagte_tu`.
+    gemeinsam_veranlagt_tu
+        See :func:`gemeinsam_veranlagt_tu`.
     gemeinsam_veranlagt
         See :func:`gemeinsam_veranlagt`.
     kind
@@ -230,7 +230,7 @@ def vorsorgeaufw_bis_2004(
 
     out = ges_krankenv_beitr_m * 0
     out.loc[~gemeinsam_veranlagt & ~kind] = _berechne_vorsorgeaufw_bis_2004(
-        lohn_vorsorge_bis_2019_single.loc[~kind],
+        _vorsorgeaufw_vom_lohn_bis_2019_single.loc[~kind],
         ges_krankenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
         ges_rentenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
         1,
@@ -238,9 +238,9 @@ def vorsorgeaufw_bis_2004(
     )
 
     vorsorge_tu = _berechne_vorsorgeaufw_bis_2004(
-        lohn_vorsorgeabzug_bis_2019_tu,
-        ges_krankenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
-        ges_rentenv_beitr_m_tu.loc[gemeinsam_veranlagte_tu],
+        _vorsorgeaufw_vom_lohn_bis_2019_tu,
+        ges_krankenv_beitr_m_tu.loc[gemeinsam_veranlagt_tu],
+        ges_rentenv_beitr_m_tu.loc[gemeinsam_veranlagt_tu],
         2,
         eink_st_abzüge_params,
     )
@@ -250,7 +250,7 @@ def vorsorgeaufw_bis_2004(
     return out
 
 
-def lohn_vorsorge_bis_2019_single(
+def _vorsorgeaufw_vom_lohn_bis_2019_single(
     bruttolohn_m: FloatSeries,
     gemeinsam_veranlagt: BoolSeries,
     eink_st_abzüge_params: dict,
@@ -279,9 +279,9 @@ def lohn_vorsorge_bis_2019_single(
     return out
 
 
-def lohn_vorsorgeabzug_bis_2019_tu(
+def _vorsorgeaufw_vom_lohn_bis_2019_tu(
     bruttolohn_m_tu: FloatSeries,
-    gemeinsam_veranlagte_tu: BoolSeries,
+    gemeinsam_veranlagt_tu: BoolSeries,
     eink_st_abzüge_params: dict,
 ) -> FloatSeries:
     """Calcaulate vorsoge expenditures until 2019 per tax unit.
@@ -290,8 +290,8 @@ def lohn_vorsorgeabzug_bis_2019_tu(
     ----------
     bruttolohn_m_tu
         See :func:`bruttolohn_m_tu`.
-    gemeinsam_veranlagte_tu
-        See :func:`gemeinsam_veranlagte_tu`.
+    gemeinsam_veranlagt_tu
+        See :func:`gemeinsam_veranlagt_tu`.
     eink_st_abzüge_params
         See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
@@ -303,7 +303,7 @@ def lohn_vorsorgeabzug_bis_2019_tu(
         2 * eink_st_abzüge_params["vorsorge2004_vorwegabzug"]
         - eink_st_abzüge_params["vorsorge2004_kürzung_vorwegabzug"]
         * 12
-        * bruttolohn_m_tu.loc[gemeinsam_veranlagte_tu]
+        * bruttolohn_m_tu.loc[gemeinsam_veranlagt_tu]
     ).clip(lower=0)
     return out
 

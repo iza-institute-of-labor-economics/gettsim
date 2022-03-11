@@ -16,7 +16,7 @@ INPUT_COLS = [
     "bruttolohn_m",
     "betreuungskost_m",
     "eink_selbst_m",
-    "kapitaleink_m",
+    "kapitaleink_brutto_m",
     "vermiet_eink_m",
     "jahr_renteneintr",
     "sum_ges_rente_priv_rente_m",
@@ -38,16 +38,16 @@ OUT_COLS = [
     "zu_verst_eink_kein_kinderfreib",
     "zu_verst_eink_kinderfreib",
     "kinderfreib",
-    "brutto_eink_1",
-    "brutto_eink_4",
-    "brutto_eink_5",
-    "brutto_eink_6",
-    "brutto_eink_7",
-    "brutto_eink_1_tu",
-    "brutto_eink_4_tu",
-    "brutto_eink_5_tu",
-    "brutto_eink_6_tu",
-    "brutto_eink_7_tu",
+    "eink_selbst",
+    "eink_abhängig_beschäftigt",
+    "kapitaleink_brutto",
+    "eink_vermietung",
+    "eink_rente_zu_verst",
+    "eink_selbst_tu",
+    "eink_abhängig_beschäftigt_tu",
+    "kapitaleink_brutto_tu",
+    "eink_vermietung_tu",
+    "eink_rente_zu_verst_tu",
     "rente_ertragsanteil",
     "sonder",
     "alleinerz_freib_tu",
@@ -61,7 +61,7 @@ TEST_COLS = [
     "eink_st_kinderfreib_tu",
     "eink_st_altersfreib",
     "alleinerz_freib_tu",
-    "sum_brutto_eink",
+    "sum_eink",
 ]
 YEARS = [2005, 2009, 2010, 2012, 2018, 2019]
 
@@ -99,13 +99,11 @@ def test_zve(
     if target == "kindergeld_tu":
         expected_result = sum_test_data_tu("kindergeld", year_data)
     elif target == "_zu_verst_eink_ohne_kinderfreib_tu":
-        expected_result = sum_test_data_tu(
-            "zu_verst_eink_kein_kinderfreib", year_data
-        ).rename("_zu_verst_eink_ohne_kinderfreib_tu")
+        expected_result = sum_test_data_tu("_zu_verst_eink_ohne_kinderfreib", year_data)
     elif target == "zu_verst_eink_mit_kinderfreib_tu":
-        expected_result = sum_test_data_tu("zu_verst_eink_kinderfreib", year_data)
+        expected_result = sum_test_data_tu("zu_verst_eink_mit_kinderfreib", year_data)
     elif target == "eink_st_kinderfreib_tu":
-        expected_result = sum_test_data_tu("kinderfreib", year_data)
+        expected_result = sum_test_data_tu("eink_st_kinderfreib", year_data)
     else:
         expected_result = year_data[target]
 
