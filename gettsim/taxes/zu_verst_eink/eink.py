@@ -190,25 +190,6 @@ def eink_rente_zu_verst(
     return rente_ertragsanteil * 12 * sum_ges_rente_priv_rente_m
 
 
-def eink_rente_zu_verst_tu(
-    eink_rente_zu_verst: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Aggregate yearly gross pension income subject to taxation on tax unit level.
-
-    Parameters
-    ----------
-    eink_rente_zu_verst
-        See :func:`eink_rente_zu_verst`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return eink_rente_zu_verst.groupby(tu_id).sum()
-
-
 def bruttolohn_m_tu(bruttolohn_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
     """Sum monthly wages in tax unit.
 
