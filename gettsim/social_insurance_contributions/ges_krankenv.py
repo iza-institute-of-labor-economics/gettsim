@@ -254,7 +254,7 @@ def _ges_krankenv_beitr_selbst_2005_2008(
     return ges_krankenv_eink_selbst * beitr_satz
 
 
-def _ges_krankenv_beitr_selbst_since2009(
+def _ges_krankenv_beitr_selbst_ab_2009(
     ges_krankenv_eink_selbst: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions.
@@ -459,7 +459,7 @@ def _ges_beitr_ges_krankenv_midi_job_until2008(
     ) * midi_job_bemessungsentgelt
 
 
-def _ges_beitr_ges_krankenv_midi_job_since2009(
+def _ges_beitr_ges_krankenv_midi_job_ab_2009(
     midi_job_bemessungsentgelt: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the sum of employee and employer health insurance contribution.
@@ -508,7 +508,7 @@ def _ag_beitr_ges_krankenv_midi_job_until2008(
     )
 
 
-def _ag_beitr_ges_krankenv_midi_job_since2009(
+def _ag_beitr_ges_krankenv_midi_job_ab_2009(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the employer health insurance contribution.
