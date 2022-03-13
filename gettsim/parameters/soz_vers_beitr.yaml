@@ -11,15 +11,15 @@ soz_vers_beitr:
                     zusatz - durchschnittlicher Zusatzbeitragssatz.
     en:
       ges_krankenv: Statury Contribution Rates for mandatory health insurance.
-                    durchschnitt - average contribution rate, until 2008
+                    durchschnitt - average contribution rate, 1992 to 2008
                     allgemein - general statutory contribution rate, since 2009
                     ermäßigt - reduced rate
                     zusatz - average top-up contribution rate
   unit: share
   1984-01-01:
     ges_krankenv:
-      durchschnitt: 0.1144
-      allgemein: null
+      durchschnitt: null
+      allgemein: 0.1144
       ermäßigt: null
       zusatz: null
     ges_pflegev:
@@ -29,8 +29,8 @@ soz_vers_beitr:
     ges_rentenv: 0.0925
   1985-01-01:
     ges_krankenv:
-      durchschnitt: 0.118
-      allgemein: null
+      durchschnitt: null
+      allgemein: 0.118
       ermäßigt: null
       zusatz: null
     ges_pflegev:
@@ -40,8 +40,8 @@ soz_vers_beitr:
     ges_rentenv: 0.0935
   1986-01-01:
     ges_krankenv:
-      durchschnitt: 0.122
-      allgemein: null
+      durchschnitt: null
+      allgemein: 0.122
       ermäßigt: null
       zusatz: null
     ges_pflegev:
@@ -51,8 +51,8 @@ soz_vers_beitr:
     ges_rentenv: 0.096
   1987-01-01:
     ges_krankenv:
-      durchschnitt: 0.1248
-      allgemein: null
+      durchschnitt: null
+      allgemein: 0.1248
       ermäßigt: null
       zusatz: null
     ges_pflegev:
@@ -63,19 +63,19 @@ soz_vers_beitr:
   1988-01-01:
     deviation_from: previous
     ges_krankenv:
-      durchschnitt: 0.1288
+      allgemein: 0.1288
   1989-01-01:
     deviation_from: previous
     ges_krankenv:
-      durchschnitt: 0.129
+      allgemein: 0.129
   1990-01-01:
     deviation_from: previous
     ges_krankenv:
-      durchschnitt: 0.125
+      allgemein: 0.125
   1991-01-01:
     deviation_from: previous
     ges_krankenv:
-      durchschnitt: .128
+      allgemein: .128
   1992-01-01:
     deviation_from: previous
     arbeitsl_v: 0.0315
@@ -179,14 +179,14 @@ soz_vers_beitr:
   2009-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.146
+      allgemein: 0.155
       zusatz: 0.009
       ermäßigt: 0.149
     arbeitsl_v: 0.014
-  2010-01-01:
+  2009-07-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.140
+      allgemein: 0.149
       ermäßigt: 0.143
       zusatz: 0.009
   2011-01-01:

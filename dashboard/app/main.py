@@ -97,7 +97,8 @@ attribute_dict = {
         2018, contributions are shared equally between employer and employee.
         The additional health care contribution rate for employees used to
         vary across health insurance funds; we assume the national average.
-        Before 2008, there was no general health contribution rate.
+        In the period 1993-2007, competition between sickness funds meant
+        there was not one contribution rate. GETTSIM provides an average.
         <a href="{param_url}/soz_vers_beitr.yaml">
         <em>Details and legal references.</em></a>""",
     ],
