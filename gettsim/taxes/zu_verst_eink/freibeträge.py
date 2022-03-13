@@ -122,14 +122,17 @@ def altersfreib(
 
     """
     out = bruttolohn_m * 0
-    out.loc[alter > 64] = (
+    agelimit = eink_st_abzuege_params["altersentlastungsbetrag_altersgrenze"]
+    out.loc[alter > agelimit] = (
         eink_st_abzuege_params["altersentlastung_quote"]
         * 12
         * (
             bruttolohn_m
             + (kapitaleink_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
         )
-    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])[alter > 64]
+    ).clip(upper=eink_st_abzuege_params["altersentlastungsbetrag_max"])[
+        alter > agelimit
+    ]
     return out
 
 

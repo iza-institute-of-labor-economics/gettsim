@@ -40,6 +40,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   functions will be introduced in future PRs. (:ghuser:`ChristianZimpelmann`).
 * :gh:`323` Health care contributions are better aligned with law
   (:ghuser:`Eric-Sommer`).
+* :gh:`349` Create parameters for several hard coded numbers in code.
+  (:ghuser:`LauraGergeleit`).
 
 0.4.2 — 2022-01-25
 ------------------

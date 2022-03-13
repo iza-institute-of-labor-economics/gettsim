@@ -1,6 +1,7 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 import numpy as np
 
+from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -251,22 +252,24 @@ def wohngeld_eink_abzüge_bis_2015(
     -------
 
     """
-    abzüge = (
-        (behinderungsgrad > 80) * wohngeld_params["freib_behinderung"]["ab80"]
-        + ((1 <= behinderungsgrad) & (behinderungsgrad <= 80))
-        * wohngeld_params["freib_behinderung"]["u80"]
-        + (
-            arbeitende_kinder
-            * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder"][24])
-        )
-        + (
-            (alleinerziehend & ~kind)
-            * anzahl_kinder_unter_11_per_tu
-            * wohngeld_params["freib_kinder"][12]
-        )
+    freib_behinderung = piecewise_polynomial(
+        behinderungsgrad,
+        thresholds=list(wohngeld_params["freib_behinderung"]) + [np.inf],
+        rates=np.array([[0] * len(wohngeld_params["freib_behinderung"])]),
+        intercepts_at_lower_thresholds=[
+            yearly_v / 12 for yearly_v in wohngeld_params["freib_behinderung"].values()
+        ],
+    )
+    freib_kinder = (
+        arbeitende_kinder
+        * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder"][24])
+    ) + (
+        (alleinerziehend & ~kind)
+        * anzahl_kinder_unter_11_per_tu
+        * wohngeld_params["freib_kinder"][12]
     )
 
-    return abzüge
+    return freib_behinderung + freib_kinder
 
 
 def arbeitende_kinder(
@@ -319,7 +322,7 @@ def wohngeld_eink_abzüge_ab_2016(
     workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
 
     abzüge = (
-        (behinderungsgrad > 0) * wohngeld_params["freib_behinderung"]
+        (behinderungsgrad > 0) * wohngeld_params["freib_behinderung"] / 12
         + workingchild
         * bruttolohn_m.clip(lower=0, upper=wohngeld_params["freib_kinder"][24])
         + alleinerziehend * wohngeld_params["freib_kinder"][12] * ~kind
@@ -366,7 +369,9 @@ def wohngeld_eink(
         wohngeld_brutto_eink_tu + wohngeld_sonstiges_eink_tu - wohngeld_eink_abzüge_tu
     )
 
-    unteres_eink = haushaltsgröße.clip(upper=12).replace(wohngeld_params["min_eink"])
+    unteres_eink = haushaltsgröße.clip(upper=max(wohngeld_params["min_eink"])).replace(
+        wohngeld_params["min_eink"]
+    )
 
     return tu_id.replace(vorläufiges_eink).clip(lower=unteres_eink)
 
@@ -384,7 +389,10 @@ def wohngeld_min_miete(haushaltsgröße: IntSeries, wohngeld_params: dict) -> Fl
     -------
 
     """
-    return haushaltsgröße.clip(upper=12).replace(wohngeld_params["min_miete"])
+
+    return haushaltsgröße.clip(upper=(max(wohngeld_params["min_eink"]))).replace(
+        wohngeld_params["min_miete"]
+    )
 
 
 def wohngeld_miete_bis_2008(
@@ -429,12 +437,15 @@ def wohngeld_miete_bis_2008(
     yearly_cutoffs = sorted(wohngeld_params["max_miete"][1], reverse=True)
     conditions = [immobilie_baujahr <= cutoff for cutoff in yearly_cutoffs]
     constr_year_category = np.select(conditions, yearly_cutoffs)
-
+    max_definierte_hh_größe = max(
+        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
+    )
     data = [
         wohngeld_params["max_miete"][hh_größe][constr_year][ms]
-        if hh_größe <= 5
-        else wohngeld_params["max_miete"][5][constr_year][ms]
-        + wohngeld_params["max_miete"]["5plus"][constr_year][ms] * (hh_größe - 5)
+        if hh_größe <= max_definierte_hh_größe
+        else wohngeld_params["max_miete"][max_definierte_hh_größe][constr_year][ms]
+        + wohngeld_params["max_miete"]["jede_weitere_person"][constr_year][ms]
+        * (hh_größe - max_definierte_hh_größe)
         for hh_größe, constr_year, ms in zip(
             haushaltsgröße, constr_year_category, mietstufe
         )
@@ -480,11 +491,15 @@ def wohngeld_miete_ab_2009(
     -------
 
     """
+    max_definierte_hh_größe = max(
+        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
+    )
     data = [
         wohngeld_params["max_miete"][hh_größe][ms]
-        if hh_größe <= 5
-        else wohngeld_params["max_miete"][5][ms]
-        + wohngeld_params["max_miete"]["5plus"][ms] * (hh_größe - 5)
+        if hh_größe <= max_definierte_hh_größe
+        else wohngeld_params["max_miete"][max_definierte_hh_größe][ms]
+        + wohngeld_params["max_miete"]["jede_weitere_person"][ms]
+        * (hh_größe - max_definierte_hh_größe)
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 
@@ -528,14 +543,21 @@ def wohngeld_miete_ab_2021(
     -------
 
     """
+    max_definierte_hh_größe = max(
+        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
+    )
     data = [
         wohngeld_params["max_miete"][hh_größe][ms]
         + wohngeld_params["heizkosten_zuschuss"][hh_größe]
-        if hh_größe <= 5
+        if hh_größe <= max_definierte_hh_größe
         else wohngeld_params["max_miete"][5][ms]
-        + (wohngeld_params["max_miete"]["5plus"][ms] * (hh_größe - 5))
+        + (
+            wohngeld_params["max_miete"]["jede_weitere_person"][ms]
+            * (hh_größe - max_definierte_hh_größe)
+        )
         + wohngeld_params["heizkosten_zuschuss"][5]
-        + wohngeld_params["heizkosten_zuschuss"]["5plus"] * (hh_größe - 5)
+        + wohngeld_params["heizkosten_zuschuss"]["5plus"]
+        * (hh_größe - max_definierte_hh_größe)
         for hh_größe, ms in zip(haushaltsgröße, mietstufe)
     ]
 
@@ -572,7 +594,7 @@ def wohngeld_basis(
     """
     koeffizienten = [
         wohngeld_params["koeffizienten_berechnungsformel"][hh_größe]
-        for hh_größe in haushaltsgröße.clip(upper=12)
+        for hh_größe in haushaltsgröße.clip(upper=(max(wohngeld_params["min_eink"])))
     ]
 
     koeffizienten_a = [koeffizient["a"] for koeffizient in koeffizienten]
@@ -597,10 +619,14 @@ def wohngeld_basis(
     # If more than 12 persons, there is a lump-sum on top.
     # The maximum is still capped at `wohngeld_miete`.
     out_more_than_12 = (
-        out + wohngeld_params["bonus_12_mehr"] * (haushaltsgröße - 12)
+        out
+        + wohngeld_params["bonus_12_mehr"]
+        * (haushaltsgröße - max(wohngeld_params["min_eink"]))
     ).clip(upper=wohngeld_miete)
 
-    out = out.where(haushaltsgröße <= 12, out_more_than_12)
+    out = out.where(
+        haushaltsgröße <= (max(wohngeld_params["min_eink"])), out_more_than_12
+    )
 
     return out
 

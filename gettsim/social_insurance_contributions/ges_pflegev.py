@@ -6,7 +6,7 @@ from gettsim.typing import IntSeries
 
 
 def ges_pflegev_zusatz_kinderlos(
-    hat_kinder: BoolSeries, alter: IntSeries
+    hat_kinder: BoolSeries, alter: IntSeries, soz_vers_beitr_params: dict,
 ) -> BoolSeries:
     """
     Create boolean Series indicating addtional care insurance contribution for
@@ -23,8 +23,8 @@ def ges_pflegev_zusatz_kinderlos(
     -------
 
     """
-    # Todo: No hardcoded 22.
-    return ~hat_kinder & alter.gt(22)
+    out = soz_vers_beitr_params["ges_pflegev_zusatz_kinderlos_altersgrenze"]
+    return ~hat_kinder & alter.ge(out)
 
 
 def ges_pflegev_beitr_m(

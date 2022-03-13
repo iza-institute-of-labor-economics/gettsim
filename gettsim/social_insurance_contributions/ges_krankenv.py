@@ -285,6 +285,7 @@ def ges_krankenv_eink_selbst(
     eink_selbst_m: FloatSeries,
     bezugsgröße: FloatSeries,
     selbstständig_ges_krankenv: BoolSeries,
+    soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Choose the amount selfemployed income which is subject to health insurance
     contribution.
@@ -304,8 +305,10 @@ def ges_krankenv_eink_selbst(
     """
     bezugsgröße_selbstv = bezugsgröße.loc[selbstständig_ges_krankenv]
     eink_selbst_m_selbstv = eink_selbst_m.loc[selbstständig_ges_krankenv]
-    dreiviertel_bezugsgröße = bezugsgröße_selbstv * 0.75
-    return eink_selbst_m_selbstv.clip(upper=dreiviertel_bezugsgröße)
+    anteil_bezugsgröße = (
+        soz_vers_beitr_params["bezugsgröße_selbst_anteil"] * bezugsgröße_selbstv
+    )
+    return eink_selbst_m_selbstv.clip(upper=anteil_bezugsgröße)
 
 
 def ges_krankenv_rente(

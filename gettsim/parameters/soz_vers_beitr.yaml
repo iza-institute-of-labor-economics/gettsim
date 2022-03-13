@@ -13,9 +13,10 @@ soz_vers_beitr:
       ges_krankenv: Statury Contribution Rates for mandatory health insurance.
                     durchschnitt - average contribution rate, 1992 to 2008
                     allgemein - general statutory contribution rate, since 2009
-                    ermäßigt - reduced rate
+                    ermäßigt - reduced rate                    
                     zusatz - average top-up contribution rate
-  unit: share
+
+  unit: Share
   1984-01-01:
     ges_krankenv:
       durchschnitt: null
@@ -536,8 +537,8 @@ beitr_bemess_grenze:
 
 bezugsgröße:
   name:
-    de: monatl. Bezugsgröße
-    en:
+    de: Monatliche Bezugsgröße
+    en: Monthly reference size
   description:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
     en:
@@ -659,6 +660,17 @@ bezugsgröße:
     ost: 3150
     reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
 
+bezugsgröße_selbst_anteil:
+  name:
+    de: Einkommensbezugsgröße für Selbständige
+    en: Reference size of income for selfemployed
+  description:
+    de: Maximale Bezugsgröße des Einkommens in der gesetzlichen Krankenversicherung für Selbständige
+    en: Maximum amount of income which is subject to health insurance contribution for selfemployed
+  unit: Share
+  1984-01-01:
+    scalar: 0.75
+
 geringfügige_eink_grenzen:
   name:
     de: Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
@@ -772,7 +784,7 @@ ag_abgaben_geringf:
   description:
     de: Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II EStG)
     en:
-  unit: share
+  unit: Share
   1984-01-01:
     ges_krankenv: 0
     ges_rentenv: 0
@@ -789,3 +801,15 @@ ag_abgaben_geringf:
     ges_krankenv: 0.13
     ges_rentenv: 0.15
     st: 0.02
+
+ges_pflegev_zusatz_kinderlos_altersgrenze:
+  name:
+    de: Altersgrenze Beitragszuschlag für Kinderlose
+    en: Age limit additional contribution for childless
+  description:
+    de: Der Beitragssatz für Kinderlose steigt ab dieser Altersgrenze an.
+    en: The contribution rate for childless people increases from this age limit.
+  unit: Years
+  reference: § 55 Abs. 3 SGB XI
+  2005-01-01:
+    scalar: 23

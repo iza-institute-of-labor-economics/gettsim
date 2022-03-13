@@ -76,8 +76,8 @@ def elterngeld_m(
     """
     alternative_elterngeld = (
         elterngeld_eink_erlass.clip(
-            lower=elterngeld_params["elterngeld_mindestbetrag"],
-            upper=elterngeld_params["elterngeld_höchstbetrag"],
+            lower=elterngeld_params["mindestbetrag"],
+            upper=elterngeld_params["höchstbetrag"],
         )
         + geschw_bonus
         + mehrlinge_bonus
@@ -125,7 +125,7 @@ def proxy_eink_vorj_elterngeld(
     max_wage = bruttolohn_vorj_m.clip(upper=ges_rentenv_beitr_bemess_grenze)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = elterngeld_params["elterngeld_soz_vers_pausch"] * max_wage
+    prox_ssc = elterngeld_params["soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_tax = _eink_st_tarif(
@@ -284,16 +284,13 @@ def elternzeit_anspruch(
 
     """
     eligible_age = (
-        (alter_jüngstes_kind_monate <= elterngeld_params["elterngeld_max_monate_paar"])
+        (alter_jüngstes_kind_monate <= elterngeld_params["max_monate_paar"])
         .groupby(hh_id)
         .transform("any")
     )
 
     eligible_consumed = (
-        (
-            m_elterngeld_mut + m_elterngeld_vat
-            < elterngeld_params["elterngeld_max_monate_paar"]
-        )
+        (m_elterngeld_mut + m_elterngeld_vat < elterngeld_params["max_monate_paar"])
         .groupby(hh_id)
         .transform("any")
     )
@@ -302,7 +299,7 @@ def elternzeit_anspruch(
         eligible_age
         & eligible_consumed
         & ~kind
-        & (m_elterngeld <= elterngeld_params["elterngeld_max_monate_ind"])
+        & (m_elterngeld <= elterngeld_params["max_monate_ind"])
     )
 
     return eligible
@@ -331,12 +328,24 @@ def berechtigt_für_geschw_bonus(
     -------
 
     """
-    under_age_three = elterngeld_params["datum"].year - geburtsjahr < 3
-    under_age_six = elterngeld_params["datum"].year - geburtsjahr < 6
+    kleinkinder = (
+        elterngeld_params["datum"].year - geburtsjahr
+        < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[0]
+    )
+    vorschulkinder = (
+        elterngeld_params["datum"].year - geburtsjahr
+        < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
+    )
 
     bonus = (
-        (under_age_three.groupby(hh_id).transform("sum") == 2)
-        | (under_age_six.groupby(hh_id).transform("sum") > 2)
+        (
+            kleinkinder.groupby(hh_id).transform("sum")
+            == list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[0]
+        )
+        | (
+            vorschulkinder.groupby(hh_id).transform("sum")
+            >= list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[1]
+        )
     ) & elternzeit_anspruch
 
     return bonus
@@ -434,7 +443,7 @@ def elterngeld_anteil_eink_erlass(
     """Calculate the share of net income which is reimbursed when receiving elterngeld.
 
     According to § 2 (2) BEEG the percentage increases below the first step and
-    decreases above the second step until elterngeld_prozent_minimum.
+    decreases above the second step until prozent_minimum.
 
     Parameters
     ----------
@@ -447,30 +456,22 @@ def elterngeld_anteil_eink_erlass(
 
     """
     conditions = [
-        elterngeld_eink_relev
-        < elterngeld_params["elterngeld_nettoeinkommen_stufen"][1],
-        elterngeld_eink_relev
-        > elterngeld_params["elterngeld_nettoeinkommen_stufen"][2],
+        elterngeld_eink_relev < elterngeld_params["nettoeinkommen_stufen"][1],
+        elterngeld_eink_relev > elterngeld_params["nettoeinkommen_stufen"][2],
         True,
     ]
 
     choices = [
+        (elterngeld_params["nettoeinkommen_stufen"][1] - elterngeld_eink_relev)
+        / elterngeld_params["eink_schritt_korrektur"]
+        * elterngeld_params["prozent_korrektur"]
+        + elterngeld_params["faktor"],
         (
-            elterngeld_params["elterngeld_nettoeinkommen_stufen"][1]
-            - elterngeld_eink_relev
-        )
-        / elterngeld_params["elterngeld_eink_schritt_korrektur"]
-        * elterngeld_params["elterngeld_prozent_korrektur"]
-        + elterngeld_params["elterngeld_faktor"],
-        (
-            elterngeld_params["elterngeld_faktor"]
-            - (
-                elterngeld_eink_relev
-                - elterngeld_params["elterngeld_nettoeinkommen_stufen"][2]
-            )
-            / elterngeld_params["elterngeld_eink_schritt_korrektur"]
-        ).clip(lower=elterngeld_params["elterngeld_prozent_minimum"]),
-        elterngeld_params["elterngeld_faktor"],
+            elterngeld_params["faktor"]
+            - (elterngeld_eink_relev - elterngeld_params["nettoeinkommen_stufen"][2])
+            / elterngeld_params["eink_schritt_korrektur"]
+        ).clip(lower=elterngeld_params["prozent_minimum"]),
+        elterngeld_params["faktor"],
     ]
 
     data = np.select(conditions, choices)
@@ -519,13 +520,9 @@ def geschw_bonus(
     -------
 
     """
-    return (
-        (
-            elterngeld_params["elterngeld_geschw_bonus_aufschlag"]
-            * elterngeld_eink_erlass
-        ).clip(lower=elterngeld_params["elterngeld_geschwister_bonus_minimum"])
-        * berechtigt_für_geschw_bonus
-    )
+    return (elterngeld_params["geschw_bonus_aufschlag"] * elterngeld_eink_erlass).clip(
+        lower=elterngeld_params["geschw_bonus_minimum"]
+    ) * berechtigt_für_geschw_bonus
 
 
 def mehrlinge_bonus(
@@ -544,4 +541,4 @@ def mehrlinge_bonus(
     -------
 
     """
-    return anz_mehrlinge_anspruch * elterngeld_params["elterngeld_mehrling_bonus"]
+    return anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]
