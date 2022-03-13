@@ -11,6 +11,7 @@ from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
+from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.social_insurance_contributions.eink_grenzen import (
     midi_job_bemessungsentgelt_ab_2005_bis_2008,
 )
@@ -36,7 +37,7 @@ from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_reg_beschäftigt_2009_2018,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_reg_beschäftigt_after2019,
+    _ges_krankenv_beitr_reg_beschäftigt_ab_2019,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_reg_beschäftigt_until2005,
@@ -48,7 +49,7 @@ from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_rente_2009_2018,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_rente_after2019,
+    _ges_krankenv_beitr_rente_ab_2019,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_rente_until2005,
@@ -62,7 +63,6 @@ from gettsim.social_insurance_contributions.ges_krankenv import (
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_selbst_before2005,
 )
-from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.favorability_check import eink_st_tu_ab_1997
 from gettsim.taxes.favorability_check import eink_st_tu_bis_1996
 from gettsim.taxes.favorability_check import kindergeld_m_ab_1997
@@ -418,10 +418,10 @@ def load_reforms_for_date(date):
         ] = _ges_krankenv_beitr_reg_beschäftigt_2009_2018
         functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_ab_2009
     else:
-        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_after2019
+        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_ab_2019
         functions[
             "_ges_krankenv_beitr_reg_beschäftigt"
-        ] = _ges_krankenv_beitr_reg_beschäftigt_after2019
+        ] = _ges_krankenv_beitr_reg_beschäftigt_ab_2019
         functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_ab_2009
 
     return functions

@@ -146,7 +146,7 @@ def _ges_krankenv_beitr_reg_beschäftigt_2009_2018(
     ) * bruttolohn_ges_krankenv_beitr_m
 
 
-def _ges_krankenv_beitr_reg_beschäftigt_after2019(
+def _ges_krankenv_beitr_reg_beschäftigt_ab_2019(
     bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for regular jobs
@@ -409,7 +409,7 @@ def _ges_krankenv_beitr_rente_2009_2018(
     ) * ges_krankenv_rente
 
 
-def _ges_krankenv_beitr_rente_after2019(
+def _ges_krankenv_beitr_rente_ab_2019(
     ges_krankenv_rente: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for pension incomes

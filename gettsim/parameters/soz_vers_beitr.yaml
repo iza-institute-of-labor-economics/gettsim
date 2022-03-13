@@ -13,7 +13,7 @@ soz_vers_beitr:
       ges_krankenv: Statury Contribution Rates for mandatory health insurance.
                     durchschnitt - average contribution rate, 1992 to 2008
                     allgemein - general statutory contribution rate, since 2009
-                    ermäßigt - reduced rate                    
+                    ermäßigt - reduced rate
                     zusatz - average top-up contribution rate
 
   unit: Share
@@ -180,21 +180,21 @@ soz_vers_beitr:
   2009-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.155
+      allgemein: 0.146
       zusatz: 0.009
-      ermäßigt: 0.149
+      ermäßigt: 0.140
     arbeitsl_v: 0.014
   2009-07-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.149
-      ermäßigt: 0.143
+      allgemein: 0.14
+      ermäßigt: 0.134
       zusatz: 0.009
   2011-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.155
-      ermäßigt: 0.149
+      allgemein: 0.146
+      ermäßigt: 0.14
     reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
     arbeitsl_v: 0.015
   2012-01-01:
