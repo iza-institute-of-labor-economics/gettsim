@@ -12,22 +12,22 @@ from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.social_insurance_contributions.eink_grenzen import (
-    midi_job_bemessungsentgelt_since2009,
+    midi_job_bemessungsentgelt_ab_2005_bis_2008,
 )
 from gettsim.social_insurance_contributions.eink_grenzen import (
-    midi_job_bemessungsentgelt_until2008,
+    midi_job_bemessungsentgelt_ab_2009,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ag_beitr_ges_krankenv_midi_job_ab_2003_bis_2008,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ag_beitr_ges_krankenv_midi_job_ab_2009,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ag_beitr_ges_krankenv_midi_job_until2008,
+    _ges_beitr_ges_krankenv_midi_job_ab_2003_bis_2008,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_beitr_ges_krankenv_midi_job_ab_2009,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_beitr_ges_krankenv_midi_job_until2008,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_reg_beschäftigt_2005_2008,
@@ -337,11 +337,13 @@ def load_reforms_for_date(date):
     if year <= 2008:
         functions[
             "ag_beitr_ges_krankenv_midi_job"
-        ] = _ag_beitr_ges_krankenv_midi_job_until2008
+        ] = _ag_beitr_ges_krankenv_midi_job_ab_2003_bis_2008
         functions[
             "ges_beitr_ges_krankenv_midi_job"
-        ] = _ges_beitr_ges_krankenv_midi_job_until2008
-        functions["midi_job_bemessungsentgelt"] = midi_job_bemessungsentgelt_until2008
+        ] = _ges_beitr_ges_krankenv_midi_job_ab_2003_bis_2008
+        functions[
+            "midi_job_bemessungsentgelt"
+        ] = midi_job_bemessungsentgelt_ab_2005_bis_2008
     else:
         functions[
             "ag_beitr_ges_krankenv_midi_job"
@@ -349,7 +351,7 @@ def load_reforms_for_date(date):
         functions[
             "ges_beitr_ges_krankenv_midi_job"
         ] = _ges_beitr_ges_krankenv_midi_job_ab_2009
-        functions["midi_job_bemessungsentgelt"] = midi_job_bemessungsentgelt_since2009
+        functions["midi_job_bemessungsentgelt"] = midi_job_bemessungsentgelt_ab_2009
 
     if date < datetime.date(2005, 7, 1):
         functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_until2005

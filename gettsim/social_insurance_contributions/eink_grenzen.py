@@ -81,7 +81,7 @@ def in_gleitzone(
     ) & (~geringfügig_beschäftigt)
 
 
-def midi_job_bemessungsentgelt_until2008(
+def midi_job_bemessungsentgelt_ab_2005_bis_2008(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Select income subject to social insurance contributions for midi job.
@@ -158,7 +158,7 @@ def midi_job_bemessungsentgelt_until2008(
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
-def midi_job_bemessungsentgelt_since2009(
+def midi_job_bemessungsentgelt_ab_2009(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Select income subject to social insurance contributions for midi job.

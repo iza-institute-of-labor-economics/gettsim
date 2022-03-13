@@ -343,7 +343,7 @@ def _ges_krankenv_beitr_rente_until2005(
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions for self employed
+    Pandas Series containing monthly health insurance contributions on pension income
     income.
     """
 
@@ -436,7 +436,7 @@ def _ges_krankenv_beitr_rente_after2019(
     ) * ges_krankenv_rente
 
 
-def _ges_beitr_ges_krankenv_midi_job_until2008(
+def _ges_beitr_ges_krankenv_midi_job_ab_2003_bis_2008(
     midi_job_bemessungsentgelt: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the sum of employee and employer health insurance contribution.
@@ -482,7 +482,7 @@ def _ges_beitr_ges_krankenv_midi_job_ab_2009(
     ) * midi_job_bemessungsentgelt
 
 
-def _ag_beitr_ges_krankenv_midi_job_until2008(
+def _ag_beitr_ges_krankenv_midi_job_ab_2003_bis_2008(
     bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculating the employer health insurance contribution.
