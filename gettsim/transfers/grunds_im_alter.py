@@ -310,8 +310,8 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
         See basic input variable :ref:`behinderungsgrad <schwerbeh_g>`.
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    ges_rentenv_params
-        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     hh_id
