@@ -241,7 +241,7 @@ soz_vers_beitr:
     reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
 
 
-beitr_bemess_grenze:
+beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
     en: Income Threshold for social insurance.
@@ -516,7 +516,7 @@ beitr_bemess_grenze:
     reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
 
 
-bezugsgröße:
+bezugsgröße_selbst_m:
   name:
     de: Monatliche Bezugsgröße
     en: Monthly reference size
@@ -652,7 +652,7 @@ bezugsgröße_selbst_anteil:
   1984-01-01:
     scalar: 0.75
 
-geringfügige_eink_grenzen:
+geringfügige_eink_grenzen_m:
   name:
     de: Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
     en: Thresholds for marginal employment ('mini' and 'midi' jobs)

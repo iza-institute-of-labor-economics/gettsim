@@ -1,4 +1,4 @@
-hh_id,tu_id,p_id,bruttolohn_m,wohnort_ost,alter,selbstständig,hat_kinder,eink_selbst_m,summe_ges_priv_rente_m,in_priv_krankenv,jahr,sozialv_beitr_m,,,,,bemes,ges_rentenv_beitr_m,ges_pflegev_beitr_m,ges_krankenv_beitr_m,arbeitsl_v_beitr_m,,notes
+hh_id,tu_id,p_id,bruttolohn_m,wohnort_ost,alter,selbstständig,hat_kinder,eink_selbst_m,sum_ges_rente_priv_rente_m,in_priv_krankenv,jahr,sozialv_beitr_gesamt_m,,,,,bemes,ges_rentenv_beitr_m,ges_pflegev_beitr_m,ges_krankenv_beitr_m,arbeitsl_v_beitr_m,,notes
 1,1,8,300,FALSE,25,FALSE,FALSE,0,0,FALSE,2018,0,,,,,148.22063,0,0,0,0,,
 2,2,9,600,FALSE,25,FALSE,FALSE,0,0,FALSE,2018,96.15375,,,,,531.00938,42.96774,7.21826,39.03746,6.93028,,
 3,3,34,900,FALSE,25,FALSE,FALSE,0,0,FALSE,2018,185.625,,,,,913.79813,83.7,13.725,74.7,13.5,,

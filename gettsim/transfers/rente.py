@@ -5,7 +5,7 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def summe_ges_priv_rente_m(
+def sum_ges_rente_priv_rente_m(
     priv_rente_m: FloatSeries, ges_rente_m: FloatSeries
 ) -> FloatSeries:
     """Calculate total pension as sum of private and public pension.
@@ -25,7 +25,27 @@ def summe_ges_priv_rente_m(
     return out
 
 
-@add_rounding_spec(params_key="ges_rentenv")
+def sum_ges_rente_priv_rente_m_tu(
+    sum_ges_rente_priv_rente_m: FloatSeries, tu_id: IntSeries
+) -> FloatSeries:
+    """Aggregate monthly pension income on tax unit level.
+
+    Parameters
+    ----------
+    sum_ges_rente_priv_rente_m
+        See basic input variable :ref:`sum_ges_rente_priv_rente_m
+        <sum_ges_rente_priv_rente_m>`.
+    tu_id
+        See basic input variable :ref:`tu_id <tu_id>`.
+
+    Returns
+    -------
+
+    """
+    return sum_ges_rente_priv_rente_m.groupby(tu_id).sum()
+
+
+@add_rounding_spec(params_key="ges_rente")
 def ges_rente_nach_grundr_m(
     ges_rente_vor_grundr_m: FloatSeries,
     grundr_zuschlag_m: FloatSeries,
@@ -54,7 +74,7 @@ def ges_rente_nach_grundr_m(
     return out
 
 
-@add_rounding_spec(params_key="ges_rentenv")
+@add_rounding_spec(params_key="ges_rente")
 def ges_rente_vor_grundr_m(
     ges_rente_zugangsfaktor: FloatSeries,
     entgeltp_update: FloatSeries,
@@ -96,15 +116,15 @@ def ges_rente_vor_grundr_m(
     return out
 
 
-def rentenwert(wohnort_ost: BoolSeries, ges_rentenv_params: dict) -> FloatSeries:
+def rentenwert(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
     """Select the rentenwert depending on place of living.
 
     Parameters
     ----------
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    ges_rentenv_params
-        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
@@ -112,24 +132,22 @@ def rentenwert(wohnort_ost: BoolSeries, ges_rentenv_params: dict) -> FloatSeries
     """
     out = wohnort_ost.replace(
         {
-            True: ges_rentenv_params["rentenwert"]["ost"],
-            False: ges_rentenv_params["rentenwert"]["west"],
+            True: ges_rente_params["rentenwert"]["ost"],
+            False: ges_rente_params["rentenwert"]["west"],
         }
     ).astype(float)
     return out
 
 
-def rentenwert_vorjahr(
-    wohnort_ost: BoolSeries, ges_rentenv_params: dict
-) -> FloatSeries:
+def rentenwert_vorjahr(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
     """Select the rentenwert of the last year depending on place of living.
 
     Parameters
     ----------
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    ges_rentenv_params
-        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
@@ -137,8 +155,8 @@ def rentenwert_vorjahr(
     """
     out = wohnort_ost.replace(
         {
-            True: ges_rentenv_params["rentenwert_vorjahr"]["ost"],
-            False: ges_rentenv_params["rentenwert_vorjahr"]["west"],
+            True: ges_rente_params["rentenwert_vorjahr"]["ost"],
+            False: ges_rente_params["rentenwert_vorjahr"]["west"],
         }
     ).astype(float)
     return out
@@ -179,8 +197,8 @@ def entgeltp_update(
 def entgeltp_update_lohn(
     bruttolohn_m: FloatSeries,
     wohnort_ost: BoolSeries,
-    ges_rentenv_beitr_bemess_grenze: FloatSeries,
-    ges_rentenv_params: dict,
+    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
+    ges_rente_params: dict,
 ) -> FloatSeries:
     """Return earning points for the wages earned in the last year.
 
@@ -190,10 +208,10 @@ def entgeltp_update_lohn(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     wohnort_ost
         See :func:`wohnort_ost`.
-    ges_rentenv_beitr_bemess_grenze
-        See :func:`ges_rentenv_beitr_bemess_grenze`.
-    ges_rentenv_params
-        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
+    _ges_rentenv_beitr_bemess_grenze_m
+        See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     Returns
     -------
 
@@ -203,16 +221,16 @@ def entgeltp_update_lohn(
     bruttolohn_scaled_east = bruttolohn_m
     bruttolohn_scaled_east.loc[wohnort_ost] = (
         bruttolohn_scaled_east.loc[wohnort_ost]
-        * ges_rentenv_params["umrechnung_entgeltp_beitrittsgebiet"]
+        * ges_rente_params["umrechnung_entgeltp_beitrittsgebiet"]
     )
 
     # Calculate the (scaled) wage, which is subject to pension contributions.
     bruttolohn_scaled_rentenv = bruttolohn_scaled_east.clip(
-        upper=ges_rentenv_beitr_bemess_grenze
+        upper=_ges_rentenv_beitr_bemess_grenze_m
     )
 
     # Calculate monthly mean wage in Germany
-    durchschnittslohn_m = (1 / 12) * ges_rentenv_params[
+    durchschnittslohn_m = (1 / 12) * ges_rente_params[
         "beitragspflichtiges_durchschnittsentgelt"
     ]
 
@@ -224,7 +242,7 @@ def ges_rente_zugangsfaktor(
     rentner: BoolSeries,
     jahr_renteneintr: IntSeries,
     ges_rente_regelaltersgrenze: FloatSeries,
-    ges_rentenv_params: dict,
+    ges_rente_params: dict,
 ) -> FloatSeries:
     """Calculate the zugangsfaktor based on the year the
     subject retired.
@@ -245,8 +263,8 @@ def ges_rente_zugangsfaktor(
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rentenv_params
-        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
@@ -261,13 +279,13 @@ def ges_rente_zugangsfaktor(
 
     # Zugangsfactor lower if retired before Regelaltersgrenze
     out = diff.copy()
-    faktor_pro_jahr_vorzeitig = ges_rentenv_params[
-        "zugangsfaktor_veränderung_pro_jahr"
-    ]["vorzeitiger_renteneintritt"]
+    faktor_pro_jahr_vorzeitig = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
+        "vorzeitiger_renteneintritt"
+    ]
     out.loc[diff < 0] = 1 + (out.loc[diff < 0] * faktor_pro_jahr_vorzeitig)
 
     # Zugangsfactor larger if retired before Regelaltersgrenze
-    faktor_pro_jahr_später = ges_rentenv_params["zugangsfaktor_veränderung_pro_jahr"][
+    faktor_pro_jahr_später = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
         "späterer_renteneintritt"
     ]
     out.loc[diff >= 0] = 1 + (out.loc[diff >= 0] * faktor_pro_jahr_später)
@@ -279,7 +297,7 @@ def ges_rente_zugangsfaktor(
 
 
 def ges_rente_regelaltersgrenze(
-    geburtsjahr: IntSeries, ges_rentenv_params: dict
+    geburtsjahr: IntSeries, ges_rente_params: dict
 ) -> FloatSeries:
     """Calculates the age, at which a worker is eligible to claim his full pension.
 
@@ -287,17 +305,17 @@ def ges_rente_regelaltersgrenze(
     ----------
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    ges_rentenv_params
-        See params documentation :ref:`ges_rentenv_params <ges_rentenv_params>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
     """
     out = piecewise_polynomial(
         x=geburtsjahr,
-        thresholds=ges_rentenv_params["regelaltersgrenze"]["thresholds"],
-        rates=ges_rentenv_params["regelaltersgrenze"]["rates"],
-        intercepts_at_lower_thresholds=ges_rentenv_params["regelaltersgrenze"][
+        thresholds=ges_rente_params["regelaltersgrenze"]["thresholds"],
+        rates=ges_rente_params["regelaltersgrenze"]["rates"],
+        intercepts_at_lower_thresholds=ges_rente_params["regelaltersgrenze"][
             "intercepts_at_lower_thresholds"
         ],
     )

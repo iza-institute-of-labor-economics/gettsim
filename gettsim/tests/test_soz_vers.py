@@ -17,7 +17,7 @@ INPUT_COLS = [
     "selbstständig",
     "hat_kinder",
     "eink_selbst_m",
-    "summe_ges_priv_rente_m",
+    "sum_ges_rente_priv_rente_m",
     "in_priv_krankenv",
     "jahr",
 ]
@@ -25,7 +25,7 @@ INPUT_COLS = [
 
 YEARS = [2002, 2010, 2018, 2019, 2020]
 OUT_COLS = [
-    "sozialv_beitr_m",
+    "sozialv_beitr_gesamt_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
@@ -51,7 +51,7 @@ def test_soc_ins_contrib(input_data, year, target):
         params=policy_params,
         functions=policy_functions,
         targets=target,
-        columns_overriding_functions=["summe_ges_priv_rente_m"],
+        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
 
     pd.testing.assert_series_equal(results[target], year_data[target])

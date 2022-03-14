@@ -152,7 +152,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
     # Load mapping of time dependent functions. This will be much nicer after #334 is
     # addressed.
     time_dependent_functions = {}
-    for year in range(1990, 2021):
+    for year in range(1990, 2023):
         year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
         new_dict = {func.__name__: key for key, func in year_functions.items()}
         time_dependent_functions = {**time_dependent_functions, **new_dict}

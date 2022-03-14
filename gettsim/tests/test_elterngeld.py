@@ -18,7 +18,7 @@ INPUT_COLS = [
     "wohnort_ost",
     "eink_st_m",
     "soli_st_m",
-    "sozialv_beitr_m",
+    "sozialv_beitr_gesamt_m",
     "geburtsjahr",
     "geburtsmonat",
     "geburtstag",
@@ -30,8 +30,8 @@ INPUT_COLS = [
 
 OUT_COLS = [
     "elterngeld_m",
-    "berechtigt_für_geschw_bonus",
-    "anz_mehrlinge_anspruch",
+    "elterngeld_geschw_bonus_anspruch",
+    "_elterngeld_anz_mehrlinge_anspruch",
     "elternzeit_anspruch",
 ]
 YEARS = [2017, 2018, 2019]
@@ -62,7 +62,11 @@ def test_eltgeld(
     df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
     df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
 
-    columns_overriding_functions = ["soli_st_tu", "sozialv_beitr_m", "eink_st_tu"]
+    columns_overriding_functions = [
+        "soli_st_tu",
+        "sozialv_beitr_gesamt_m",
+        "eink_st_tu",
+    ]
 
     result = compute_taxes_and_transfers(
         data=df,

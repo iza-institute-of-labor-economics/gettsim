@@ -93,7 +93,7 @@ def create_synthetic_data(
 
     kwargs:
 
-    bruttolohn_m, kapitaleink_m, eink_selbst_m, vermögen_hh (int):
+    bruttolohn_m, kapitaleink_brutto_m, eink_selbst_m, vermögen_hh (int):
         values for income and wealth, respectively.
         only valid if heterogenous_vars is empty
     """
@@ -148,7 +148,7 @@ def create_synthetic_data(
             # allow only certain variables to vary
             if hetvar not in [
                 "bruttolohn_m",
-                "kapitaleink_m",
+                "kapitaleink_brutto_m",
                 "eink_selbst_m",
                 "vermögen_hh",
             ]:
@@ -200,7 +200,7 @@ def create_one_set_of_households(
         "bruttolohn_m",
         "alter",
         "rentner",
-        "alleinerziehend",
+        "alleinerz",
         "wohnort_ost",
         "in_priv_krankenv",
         "priv_rentenv_beitr_m",
@@ -211,14 +211,14 @@ def create_one_set_of_households(
         "sonstig_eink_m",
         "eink_selbst_m",
         "vermiet_eink_m",
-        "kapitaleink_m",
+        "kapitaleink_brutto_m",
         "bruttokaltmiete_m_hh",
         "heizkosten_m_hh",
         "wohnfläche_hh",
         "bewohnt_eigentum_hh",
-        "arbeitsl_lfdj_m",
-        "arbeitsl_vorj_m",
-        "arbeitsl_vor2j_m",
+        "arbeitsl_monate_lfdj",
+        "arbeitsl_monate_vorj",
+        "arbeitsl_monate_v2j",
         "arbeitsstunden_w",
         "bruttolohn_vorj_m",
         "geburtstag",
@@ -254,7 +254,7 @@ def create_one_set_of_households(
         "rentner",
         "gem_veranlagt",
         "in_ausbildung",
-        "alleinerziehend",
+        "alleinerz",
         "bewohnt_eigentum_hh",
         "in_priv_krankenv",
         "schwerbeh_g",
@@ -267,9 +267,9 @@ def create_one_set_of_households(
         "m_elterngeld",
         "m_elterngeld_mut",
         "m_elterngeld_vat",
-        "arbeitsl_lfdj_m",
-        "arbeitsl_vorj_m",
-        "arbeitsl_vor2j_m",
+        "arbeitsl_monate_lfdj",
+        "arbeitsl_monate_vorj",
+        "arbeitsl_monate_v2j",
     ]:
         df[int_col] = df[int_col].astype(int)
 
@@ -296,7 +296,7 @@ def create_one_set_of_households(
 
     # Income and wealth
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
-    df["kapitaleink_m"] = kwargs.get("kapitaleink_m", 0)
+    df["kapitaleink_brutto_m"] = kwargs.get("kapitaleink_brutto_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
     df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
     dim = kwargs.get("dimension", 1)
@@ -345,7 +345,7 @@ def create_one_set_of_households(
         (df["hh_typ"].str.contains("single"))
         & (df["hh_typ"].str[7:8].astype(int) > 0)
         & (~df["kind"]),
-        "alleinerziehend",
+        "alleinerz",
     ] = True
 
     # Retirement variables
