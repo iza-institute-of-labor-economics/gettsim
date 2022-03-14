@@ -751,7 +751,6 @@ def _add_rounding_to_functions_in_dag(dag_raw, params):
     for task in dag:
         if "function" in dag.nodes[task]:
             func = dag.nodes[task]["function"]
-            dag.nodes[task]["function"] = np.vectorize(dag.nodes[task]["function"])
 
             # If function has rounding params attribute, look for rounding specs in
             # params dict.
@@ -791,7 +790,6 @@ def _add_rounding_to_functions_in_dag(dag_raw, params):
                 dag.nodes[task]["function"] = _add_rounding_to_one_function(
                     base=rounding_spec["base"], direction=rounding_spec["direction"],
                 )(dag.nodes[task]["function"])
-
     return dag
 
 
