@@ -45,8 +45,8 @@ def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, hh_id: IntSeries) -> FloatS
 def arbeitsl_geld_m(
     tu_id: IntSeries,
     anz_kinder_tu: IntSeries,
-    berechtigt_für_arbeitsl_geld: BoolSeries,
-    proxy_eink_vorj_arbeitsl_geld: FloatSeries,
+    arbeitsl_geld_berechtigt: BoolSeries,
+    arbeitsl_geld_eink_vorj_proxy: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> FloatSeries:
     """Calculate unemployment benefit.
@@ -57,10 +57,10 @@ def arbeitsl_geld_m(
         See basic input variable :ref:`tu_id <tu_id>`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
-    berechtigt_für_arbeitsl_geld
-        See :func:`berechtigt_für_arbeitsl_geld`.
-    proxy_eink_vorj_arbeitsl_geld
-        See :func:`proxy_eink_vorj_arbeitsl_geld`.
+    arbeitsl_geld_berechtigt
+        See :func:`arbeitsl_geld_berechtigt`.
+    arbeitsl_geld_eink_vorj_proxy
+        See :func:`arbeitsl_geld_eink_vorj_proxy`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -70,45 +70,47 @@ def arbeitsl_geld_m(
     """
     arbeitsl_geld_satz = (tu_id.replace(anz_kinder_tu) == 0).replace(
         {
-            True: arbeitsl_geld_params["arbeitsl_geld_satz_ohne_kinder"],
-            False: arbeitsl_geld_params["arbeitsl_geld_satz_mit_kindern"],
+            True: arbeitsl_geld_params["satz_ohne_kinder"],
+            False: arbeitsl_geld_params["satz_mit_kindern"],
         }
     )
 
-    arbeitsl_geld_m = berechtigt_für_arbeitsl_geld.astype(float) * 0
+    arbeitsl_geld_m = arbeitsl_geld_berechtigt.astype(float) * 0
 
-    arbeitsl_geld_m[berechtigt_für_arbeitsl_geld] = (
-        proxy_eink_vorj_arbeitsl_geld * arbeitsl_geld_satz
+    arbeitsl_geld_m[arbeitsl_geld_berechtigt] = (
+        arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
     )
 
     return arbeitsl_geld_m
 
 
-def monate_arbeitsl(
-    arbeitsl_lfdj_m: IntSeries, arbeitsl_vorj_m: IntSeries, arbeitsl_vor2j_m: IntSeries
+def arbeitsl_monate_gesamt(
+    arbeitsl_monate_lfdj: IntSeries,
+    arbeitsl_monate_vorj: IntSeries,
+    arbeitsl_monate_v2j: IntSeries,
 ) -> IntSeries:
     """Aggregate months of unemployment over the last two years.
 
     Parameters
     ----------
-    arbeitsl_lfdj_m
-        See basic input variable :ref:`arbeitsl_lfdj_m <arbeitsl_lfdj_m>`.
-    arbeitsl_vorj_m
-        See basic input variable :ref:`arbeitsl_vorj_m <arbeitsl_vorj_m>`.
-    arbeitsl_vor2j_m
-        See basic input variable :ref:`arbeitsl_vor2j_m <arbeitsl_vor2j_m>`.
+    arbeitsl_monate_lfdj
+        See basic input variable :ref:`arbeitsl_monate_lfdj <arbeitsl_monate_lfdj>`.
+    arbeitsl_monate_vorj
+        See basic input variable :ref:`arbeitsl_monate_vorj <arbeitsl_monate_vorj>`.
+    arbeitsl_monate_v2j
+        See basic input variable :ref:`arbeitsl_monate_v2j <arbeitsl_monate_v2j>`.
 
     Returns
     -------
 
     """
-    return arbeitsl_lfdj_m + arbeitsl_vorj_m + arbeitsl_vor2j_m
+    return arbeitsl_monate_lfdj + arbeitsl_monate_vorj + arbeitsl_monate_v2j
 
 
-def berechtigt_für_arbeitsl_geld(
-    monate_arbeitsl: IntSeries,
+def arbeitsl_geld_berechtigt(
+    arbeitsl_monate_gesamt: IntSeries,
     alter: IntSeries,
-    ges_rente_m: FloatSeries,
+    sum_ges_rente_priv_rente_m: FloatSeries,
     arbeitsstunden_w: FloatSeries,
     arbeitsl_geld_params: dict,
 ) -> BoolSeries:
@@ -119,12 +121,13 @@ def berechtigt_für_arbeitsl_geld(
 
     Parameters
     ----------
-    monate_arbeitsl
-        See :func:`monate_arbeitsl`.
+    arbeitsl_monate_gesamt
+        See :func:`arbeitsl_monate_gesamt`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+    sum_ges_rente_priv_rente_m
+        See basic input variable :ref:`sum_ges_rente_priv_rente_m
+        <sum_ges_rente_priv_rente_m>`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
@@ -135,36 +138,38 @@ def berechtigt_für_arbeitsl_geld(
 
     """
     return (
-        (1 <= monate_arbeitsl)
-        & (monate_arbeitsl <= 12)
-        & (alter < 65)
-        & (ges_rente_m == 0)
-        & (arbeitsstunden_w < arbeitsl_geld_params["arbeitsl_geld_stundengrenze"])
+        (
+            arbeitsl_monate_gesamt
+            <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"]
+        )
+        & (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
+        & (sum_ges_rente_priv_rente_m == 0)
+        & (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
 
 
-def proxy_eink_vorj_arbeitsl_geld(
-    ges_rentenv_beitr_bemess_grenze: FloatSeries,
+def arbeitsl_geld_eink_vorj_proxy(
+    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
-    eink_st_abzuege_params: dict,
+    eink_st_abzüge_params: dict,
     soli_st_params: dict,
 ) -> FloatSeries:
     """Approximate last years income for unemployment benefit.
 
     Parameters
     ----------
-    ges_rentenv_beitr_bemess_grenze
-        See :func:`ges_rentenv_beitr_bemess_grenze`.
+    _ges_rentenv_beitr_bemess_grenze_m
+        See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
     bruttolohn_vorj_m
         See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    eink_st_abzüge_params
+        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -173,14 +178,16 @@ def proxy_eink_vorj_arbeitsl_geld(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(lower=None, upper=ges_rentenv_beitr_bemess_grenze)
+    max_wage = bruttolohn_vorj_m.clip(
+        lower=None, upper=_ges_rentenv_beitr_bemess_grenze_m
+    )
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = arbeitsl_geld_params["soz_vers_pausch_arbeitsl_geld"] * max_wage
+    prox_ssc = arbeitsl_geld_params["soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_tax = _eink_st_tarif(
-        12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
+        12 * max_wage - eink_st_abzüge_params["werbungskostenpauschale"],
         eink_st_params,
     )
     prox_soli = piecewise_polynomial(

@@ -31,7 +31,7 @@ def deductions(plot_dict, data):
             "sächl_existenzmin": "Basic Income Tax Allowance for children",
             "sparerpauschbetrag": "Allowance for Capital Gains",
             "werbungskostenpauschale": "Lump-sum deduction for employment income",
-            "alleinerziehenden_freibetrag": "Income Tax Allowance for Single Parents",
+            "alleinerz_freibetrag": "Income Tax Allowance for Single Parents",
             "grundfreibetrag": "Basic allowance",
         }
 

@@ -423,6 +423,21 @@ koeffizienten_berechnungsformel:
         b: 0.000098
         c: 0.0000503
 
+haushaltsgrößen:
+  name:
+    de: Haushaltsgrößen, die beim Wohngeld berücksichtigt werden
+    en: Household sizes taken into account for housing benefit
+  description:
+    de: Haushalte mit mehr als 5 Mitgliedern haben einen festgesetzten Höchstbetrag für Miete und Belastung.
+        Das Wohngeld für bis zu 12 Haushaltsmitglieder kann durch die Formel berechnet werden.
+    en: Households with more than 5 members have a fixed maximum amount for rent and burden.
+        The housing benefit for up to 12 household members can be calculated using the formula
+        be calculated.
+  reference: § 19 Abs.1 WoGG
+  1984-01-01:
+    1: 5
+    2: 12
+
 bonus_12_mehr:
   name:
     de: Zusätzlicher Betrag pro Person für Haushalte mit mehr als 12 Personen
@@ -622,7 +637,7 @@ min_eink:
     11: 1248
     12: 1443
 
-freib_kinder:
+freib_kinder_m:
   name:
     de: Monatlicher Freibetrag pro Einkommen eines Kindes, das Kindergeld bekommt im Haushalt
     en:
@@ -648,32 +663,56 @@ freib_kinder:
 
 freib_behinderung:
   name:
-    de: Monatlicher Freibetrag pro behindertes Haushaltsmitglied über und unter 80%.
+    de: Jährlicher Freibetrag pro behindertes Haushaltsmitglied
     en:
   description:
-    de: § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG) Seit 2016 ab 100% Behinderungsgrad, vorher 80%. Betrag im Gesetz durch 12 geteilt.
+    de: Der Betrag ist abhängig vom Behinderungsgrad der jeweiligen Person.
+        Vor 2016 ist der Betrag unterschiedlich für Personen mit Behinderungsgrad über
+        bzw unter 80%. Für Menschen mit Behinderungsgrad unter 100% muss zusätzlich
+        Pflegebedürftigkeit gem. §14 SGB XI. und gleichzeitig
+        Häusliche/teilstationäre/Kurzzeit-Pflege vorliegen. Dies ist aktuell nicht
+        implementiert. § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG)
     en:
   unit: euro
-  time: month
+  time: year
   1984-01-01:
-    ab80: 102
-    u80: 0
+    0: 0
+    1: 0
+    80: 1224
   1986-01-01:
     deviation_from: previous
-    ab80: 51
+    80: 612
   1991-01-01:
-    ab80: 128
-    u80: 102
+    0: 0
+    1: 1224
+    80: 1536
   2002-01-01:
-    ab80: 125
-    u80: 100
+    0: 0
+    1: 1200
+    80: 1500
   2016-01-01:
-    reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
-    scalar: 125
-    note: neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
+    reference: 2 Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
+    scalar: 1500
+    note: neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem.
+          §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
   2020-01-01:
     reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
-    scalar: 150
+    scalar: 1800
+
+behinderungsgrad:
+  name:
+    de: Behinderungsgrad für Freibetrag
+    en: Degree of disability for allowance
+  description:
+    de: Ein Wohngeld-Freibetrag wird Menschen mit Behinderung gewährt. Dabei hängt die Höhe des
+        Freibetrages vom Behinderungsgrad ab.
+    en: A housing benefit allowance is granted to people with disabilities. The height of the
+        allowance depends on the degree of disability.
+  reference: § 17 Abs. 1 WoGG
+  unit: prozent
+  1984-01-01:
+    1: 0
+    2: 80
 
 max_miete:
   name:
@@ -771,7 +810,7 @@ max_miete:
         1: 366
         2: 378
         3: 394
-    5plus:
+    jede_weitere_person:
       1965:
         1: 33
         2: 34
@@ -916,7 +955,7 @@ max_miete:
         3: 424
         4: 450
         5: 476
-    5plus:
+    jede_weitere_person:
       1965:
         1: 36
         2: 38
@@ -1089,7 +1128,7 @@ max_miete:
         4: 450
         5: 476
         6: 501
-    5plus:
+    jede_weitere_person:
       1965:
         1: 36
         2: 38
@@ -1231,7 +1270,7 @@ max_miete:
         4: 486
         5: 522
         6: 557
-    5plus:
+    jede_weitere_person:
       1965:
         1: 41
         2: 43
@@ -1401,7 +1440,7 @@ max_miete:
         4: 573
         5: 614
         6: 657
-    5plus:
+    jede_weitere_person:
       1965:
         1: 41
         2: 43
@@ -1542,7 +1581,7 @@ max_miete:
         4: 625
         5: 670
         6: 715
-    5plus:
+    jede_weitere_person:
       1965:
         1: 50
         2: 55
@@ -1602,7 +1641,7 @@ max_miete:
       4: 688
       5: 737
       6: 787
-    5plus:
+    jede_weitere_person:
       1: 66
       2: 72
       3: 77
@@ -1646,7 +1685,7 @@ max_miete:
       4: 834
       5: 927
       6: 1004
-    5plus:
+    jede_weitere_person:
       1: 71
       2: 81
       3: 91
@@ -1695,7 +1734,7 @@ max_miete:
       5: 1010
       6: 1106
       7: 1217
-    5plus:
+    jede_weitere_person:
       1: 77
       2: 88
       3: 99
@@ -1745,7 +1784,7 @@ max_miete:
       5: 1038
       6: 1137
       7: 1251
-    5plus:
+    jede_weitere_person:
       1: 79
       2: 90
       3: 102
@@ -1754,10 +1793,11 @@ max_miete:
       6: 143
       7: 157
     reference: V. v. 03.06.2021 BGBl. I S. 1369.
-vermögensfreibetrag_grund:
+
+vermögensgrundfreibetrag:
   name:
-    de: Grund-Vermögensfreibetrag für den Haushalt
-    en: Basic wealth exemption
+    de: Vermögensgrundfreibetrag für den Haushalt
+    en: Basic wealth exemption at the household level
   description:
     de: Wohngeld-Verwaltungsvorschift 21.37. Seit 2009 (G. v. 24.09.2008, BGBl. I S. 1856) wird durch §21 Nr. 3 WoGG geregelt, dass hohes Vermögen ein Ausschlussgrund für Wohngeld sein kann. Die genauen Werte regelt die Verwaltungsvorschrift vom April 2009. Vorher war hohes Vermögen laut WoGG kein Ausschlussgrund.
     en: Since 2009, wealth might be a reason not to grand housing benefit.
@@ -1769,6 +1809,7 @@ vermögensfreibetrag_grund:
     scalar: 60000
     reference: Wohngeld-Verwaltungsvorschrift 2009.
     note: At least in place since then.
+
 vermögensfreibetrag_pers:
   name:
     de: Vermögensfreibetrag für jedes weitere Haushaltsmitglied

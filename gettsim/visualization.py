@@ -260,8 +260,8 @@ def _add_url_to_dag(dag):
     for node in dag.nodes:
         # Retrieve the name from the function because some functions are defined for
         # time periods and the node name will point to a non-existent function, but the
-        # function name is a valid target. E.g., wohngeld_eink_abzüge and
-        # wohngeld_eink_abzüge_bis_2015.
+        # function name is a valid target. E.g., wohngeld_eink_abzüge_m and
+        # wohngeld_eink_abzüge_m_bis_2015.
         if "function" in dag.nodes[node]:
             # Fix for partialed functions.
             try:
@@ -493,9 +493,13 @@ def _get_selected_nodes(dag, selector):
     if selector["type"] == "nodes":
         selected_nodes = _to_list(selector["node"])
     elif selector["type"] == "ancestors":
-        selected_nodes = _node_and_ancestors(dag, selector["node"])
+        selected_nodes = _node_and_ancestors(
+            dag, selector["node"], selector.get("order", None)
+        )
     elif selector["type"] == "descendants":
-        selected_nodes = _node_and_descendants(dag, selector["node"])
+        selected_nodes = _node_and_descendants(
+            dag, selector["node"], selector.get("order", None)
+        )
     elif selector["type"] in ["neighbors", "neighbours"]:
         selected_nodes = list(
             _kth_order_neighbors(dag, selector["node"], selector.get("order", 1))
@@ -506,12 +510,18 @@ def _get_selected_nodes(dag, selector):
     return set(selected_nodes)
 
 
-def _node_and_ancestors(dag, node):
-    return [node] + list(nx.ancestors(dag, node))
+def _node_and_ancestors(dag, node, order):
+    ancestors = list(nx.ancestors(dag, node))
+    if order:
+        ancestors = list(_kth_order_predecessors(dag, node, order=order))
+    return [node] + ancestors
 
 
-def _node_and_descendants(dag, node):
-    return [node] + list(nx.descendants(dag, node))
+def _node_and_descendants(dag, node, order):
+    descendants = list(nx.descendants(dag, node))
+    if order:
+        descendants = list(_kth_order_successors(dag, node, order=order))
+    return [node] + descendants
 
 
 def _kth_order_neighbors(dag, node, order):

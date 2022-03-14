@@ -11,7 +11,7 @@ INPUT_COLS = [
     "hh_id",
     "tu_id",
     "kind",
-    "eink_st_kinderfreib_tu",
+    "eink_st_mit_kinderfreib_tu",
     "abgelt_st_tu",
 ]
 
@@ -34,7 +34,7 @@ def test_soli_st(
 
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    user_cols = ["eink_st_kinderfreib_tu", "abgelt_st_tu"]
+    user_cols = ["eink_st_mit_kinderfreib_tu", "abgelt_st_tu"]
     results = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
