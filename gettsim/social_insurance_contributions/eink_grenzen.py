@@ -15,18 +15,13 @@ def mini_job_grenze(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict):
     -------
 
     """
-    out = wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"][
-                "ost"
-            ],
-            False: soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"][
-                "west"
-            ],
-        }
-    )
+    mini_job_params = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]
+    if wohnort_ost:
+        out = mini_job_params["ost"]
+    else:
+        out = mini_job_params["west"]
 
-    return out.astype(float)
+    return float(out)
 
 
 def geringfügig_beschäftigt(
@@ -80,11 +75,11 @@ def in_gleitzone(
     """
     return (
         bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
-    ) & (~geringfügig_beschäftigt)
+    ) & (not geringfügig_beschäftigt)
 
 
 def midi_job_bemessungsentgelt_m(
-    bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict,
+    bruttolohn_m: FloatSeries, soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Select income subject to social insurance contributions for midi job.
 
@@ -98,8 +93,6 @@ def midi_job_bemessungsentgelt_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -139,8 +132,9 @@ def midi_job_bemessungsentgelt_m(
     mini_job_anteil = (
         f * soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
+
     lohn_über_mini = (
-        bruttolohn_m.loc[in_gleitzone]
+        bruttolohn_m
         - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
     gewichtete_midi_job_rate = (

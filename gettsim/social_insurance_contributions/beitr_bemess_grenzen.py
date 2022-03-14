@@ -16,15 +16,13 @@ def _ges_rentenv_beitr_bemess_grenze_m(
     -------
 
     """
-    out = wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
-            False: soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"][
-                "west"
-            ],
-        }
-    )
-    return out.astype(float)
+    params = soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]
+    if wohnort_ost:
+        out = params["ost"]
+    else:
+        out = params["west"]
+
+    return float(out)
 
 
 def _ges_krankenv_beitr_bemess_grenze_m(

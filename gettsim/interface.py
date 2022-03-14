@@ -19,6 +19,8 @@ from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_if_series_has_internal_type
 
+# from numba import vectorize
+
 
 class KeyErrorMessage(str):
     """Subclass str to allow for line breaks in KeyError messages"""
@@ -228,6 +230,10 @@ def prepare_functions_and_set_up_dag(
     if rounding:
         dag = _add_rounding_to_functions_in_dag(dag, params)
 
+    # Vectorize functions
+    for task in dag:
+        if "function" in dag.nodes[task]:
+            dag.nodes[task]["function"] = np.vectorize(dag.nodes[task]["function"])
     return dag
 
 
@@ -745,6 +751,7 @@ def _add_rounding_to_functions_in_dag(dag_raw, params):
     for task in dag:
         if "function" in dag.nodes[task]:
             func = dag.nodes[task]["function"]
+            dag.nodes[task]["function"] = np.vectorize(dag.nodes[task]["function"])
 
             # If function has rounding params attribute, look for rounding specs in
             # params dict.
@@ -784,6 +791,7 @@ def _add_rounding_to_functions_in_dag(dag_raw, params):
                 dag.nodes[task]["function"] = _add_rounding_to_one_function(
                     base=rounding_spec["base"], direction=rounding_spec["direction"],
                 )(dag.nodes[task]["function"])
+
     return dag
 
 

@@ -276,7 +276,9 @@ def execute_dag(dag, data, targets, debug):
             if "function" in dag.nodes[task]:
                 kwargs = _dict_subset(results, dag.predecessors(task))
                 try:
-                    results[task] = dag.nodes[task]["function"](**kwargs).rename(task)
+                    results[task] = dag.nodes[task]["function"](
+                        **kwargs
+                    )  # .rename(task)
                 except Exception as e:
                     if debug:
                         traceback.print_exc()
