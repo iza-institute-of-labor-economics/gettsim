@@ -67,7 +67,7 @@ def ges_krankenv_beitr_m_tu(
     return ges_krankenv_beitr_m.groupby(tu_id).sum()
 
 
-def _ges_krankenv_beitr_reg_beschäftigt_until2005(
+def _ges_krankenv_beitr_reg_beschäftigt_bis_06_2005(
     bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for regular jobs until 2008.
@@ -92,7 +92,7 @@ def _ges_krankenv_beitr_reg_beschäftigt_until2005(
     ) * bruttolohn_ges_krankenv_beitr_m
 
 
-def _ges_krankenv_beitr_reg_beschäftigt_2005_2008(
+def _ges_krankenv_beitr_reg_beschäftigt_ab_07_2005_bis_2008(
     bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for regular jobs
@@ -119,7 +119,7 @@ def _ges_krankenv_beitr_reg_beschäftigt_2005_2008(
     ) * bruttolohn_ges_krankenv_beitr_m
 
 
-def _ges_krankenv_beitr_reg_beschäftigt_2009_2018(
+def _ges_krankenv_beitr_reg_beschäftigt_ab_2009_bis_2018(
     bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
 ) -> FloatSeries:
     """Calculates health insurance contributions for regular jobs
