@@ -13,15 +13,15 @@ INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
-    "alleinerziehend",
+    "alleinerz",
     "alter",
     "bruttolohn_m",
     "sonstig_eink_m",
-    "kapital_eink_m",
+    "kapitaleink_brutto_m",
     "vermiet_eink_m",
     "eink_selbst_m",
     "arbeitsl_geld_m",
-    "ges_rente_m",
+    "sum_ges_rente_priv_rente_m",
     "jahr",
     "monat",
 ]
@@ -52,7 +52,7 @@ def test_uhv(input_data, year, column, month):
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=["arbeitsl_geld_m"],
+        columns_overriding_functions=["arbeitsl_geld_m", "sum_ges_rente_priv_rente_m"],
     )
 
     assert_series_equal(result[column], year_data[column], check_dtype=False)

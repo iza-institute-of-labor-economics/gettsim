@@ -1,4 +1,4 @@
-"hh_id","tu_id","p_id","kind","abgelt_st_tu","eink_st_kinderfreib_tu",,"jahr",,"soli_st_tu"
+"hh_id","tu_id","p_id","kind","abgelt_st_tu","eink_st_mit_kinderfreib_tu",,"jahr",,"soli_st_tu"
 1,1,1,FALSE,0,2000,,2022,,0
 2,2,2,FALSE,0,6000,,1991,,225.00
 3,3,3,FALSE,0,5000,,2003,,275.00

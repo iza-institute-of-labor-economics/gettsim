@@ -206,6 +206,7 @@ sparerpauschbetrag:
     scalar: 801
     reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
     note: Integration von Werbungskostenpauschbetrag für Zinseinkünfte in Sparerpauschbetrag.
+
 sparer_werbungskosten_pauschbetrag:
   name:
     de: Werbungskostenpauschbetrag bei Zinseinkünften
@@ -321,7 +322,7 @@ altersentlastung_quote:
   description:
     de: §24a EStG S.5. Tabelle legt alle Werte bis 2040 fest.
     en:
-  unit: share
+  unit: Share
   1984-01-01:
     scalar: 0.4
     reference:
@@ -380,7 +381,46 @@ altersentlastung_quote:
     scalar: 0.136
     reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
 
-alleinerziehenden_freibetrag:
+altersentlastungsbetrag_altersgrenze:
+  name:
+    de: Altersgrenze für Altersentlastungsbetrag
+    en: Age limit for old-age relief amount
+  description:
+    de: Der Altersentlastungsbetrag wird einem Steuerpflichtigen gewährt,
+        der vor dem Beginn des Kalenderjahres, in dem er sein Einkommen bezogen hat,
+        das 64. Lebensjahr vollendet hatte.
+    en: The old-age relief amount is granted to a taxpayer
+        who, before the start of the calendar year in which he received his income,
+        had reached the age of 64.
+  reference: § 24a Art. 3 EStG
+  1984-01-01:
+    scalar: 64
+
+einführungsfaktor:
+  name:
+    de: Einführungsfaktor für Altersvorsorge Aufwendung
+    en: Introductory factor for pension expense
+  description:
+    de: In den Jahren 2005-2025 steigt der Anteil der abzugsfähigen Beiträge von 60% in 2005
+        jährlich um 2 Prozentpunkte an, bis 100% in 2025 erreicht werden.
+    en: In the years 2005-2025 the share of deductible contributions increases by 2 percentage
+        points each year from 60% in 2005 to 100% in 2025.
+  reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
+  type: piecewise_linear
+  2005-01-01:
+    0:
+      lower_threshold: -inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 0.6
+    1:
+      lower_threshold: 2005
+      upper_threshold: 2025
+      rate_linear: 0.02
+    2:
+      upper_threshold: inf
+      rate_linear: 0
+
+alleinerz_freibetrag:
   name:
     de: Entlastungsbetrag für Alleinerziehende
     en: Income Tax Allowance for Single Parents
@@ -415,7 +455,7 @@ alleinerziehenden_freibetrag:
     reference: Art. 3 Nr. 2 G. v. 29.12.2020 BGBl. I S.3096
 
 
-alleinerziehenden_freibetrag_zusatz:
+alleinerz_freibetrag_zusatz:
   name:
     de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag
     en: Income Tax Allowance for Single Parents; additional amount
@@ -435,7 +475,7 @@ vorsorge2004_kürzung_vorwegabzug:
   description:
     de: §10 (3) S. 2 EStG (vor 2004). Der Vorwegabzug wird pauschal um einen Anteil gekürzt bei abhängig Beschäftigten (vereinfacht).
     en:
-  unit: share
+  unit: Share
   1985-01-01:
     scalar: 0.0935
     note: entspricht Beitrag zur RV
@@ -455,7 +495,7 @@ vorsorge2004_kürzung_vorwegabzug:
 
 vorsorge_sonstige_aufw_max:
   name:
-    de: regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt.
+    de: Regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt.
     en:
   description:
     de: §10 Abs. 4 S.1 EStG
@@ -516,7 +556,7 @@ vorsorge_kranken_minderung:
   description:
     de: §10 (3) a) S.4 EStG
     en:
-  unit: share
+  unit: Share
   2009-07-23:
     scalar: 0.04
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
@@ -576,7 +616,7 @@ kinderbetreuungskosten_abz_anteil:
   description:
     de: §10 (1) Nr. 5 EStG
     en:
-  unit: share
+  unit: Share
   2012-01-01:
     scalar: 0.6666666
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131

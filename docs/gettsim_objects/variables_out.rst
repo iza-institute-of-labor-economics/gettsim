@@ -20,9 +20,7 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | arbeitsl_geld_m         | Monthly amount of unemployment assistance                 |
 +-------------------------+-----------------------------------------------------------+
-| rente_anspr_m           | Monthly amount of old-age pension claim                   |
-+-------------------------+-----------------------------------------------------------+
-| entgeltpunkte_update    | Updated earning points for pension claim                  |
+| entgeltp_update         | Updated earning points for pension claim                  |
 +-------------------------+-----------------------------------------------------------+
 | abgelt_st_tu            | Capital income tax per tax unit                           |
 +-------------------------+-----------------------------------------------------------+
@@ -41,4 +39,6 @@ documentation of all :ref:`functions`.
 | elterngeld_m            | Monthly parental leave benefit                            |
 +-------------------------+-----------------------------------------------------------+
 | wohngeld_m_hh           | Monthly housing benefit per household                     |
++-------------------------+-----------------------------------------------------------+
+| grunds_im_alter_m_hh    | Monthly subsistence payment for retirees per household    |
 +-------------------------+-----------------------------------------------------------+
