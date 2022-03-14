@@ -12,11 +12,11 @@ import pandas as pd
 from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.transfers.wohngeld import wohngeld_basis
-from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
-from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
-from gettsim.transfers.wohngeld import wohngeld_miete_bis_2008
+from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2009
+from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_m_bis_2008
 from gettsim.transfers.wohngeld import wohngeld_min_miete
+from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m
 
 
 # Each plot has one data preparation function as defined below
@@ -33,7 +33,7 @@ def deduction_data(start, end):
 
     # Period for simulation:
     years = range(start, end + 1)
-    eink_ab_df = pd.DataFrame()
+    eink_ab_df = {}
     # input older grundfreibetrag values by hand
     grundfreibetrag = {
         2001: 14093 / 1.95583,
@@ -67,16 +67,17 @@ def deduction_data(start, end):
     # Loop through years to get the policy parameters
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
-        params = policy_params["eink_st_abzuege"]
+        params = policy_params["eink_st_abzüge"]
         if i < 2002:
             params["grundfreibetrag"] = round(grundfreibetrag[i])
         if i >= 2002:
             params["grundfreibetrag"] = policy_params["eink_st"]["eink_st_tarif"][
                 "thresholds"
             ][1]
-        eink_ab_df[i] = params.values()
+        eink_ab_df[i] = params
 
-    eink_ab_df.index = params.keys()
+    eink_ab_df = pd.DataFrame(eink_ab_df)
+
     deduction_df = eink_ab_df.transpose()
     # Adjust dictionary entries into columns for kinderfreibetrag
     deduction_df = pd.concat(
@@ -87,7 +88,6 @@ def deduction_data(start, end):
         axis=1,
     )
     deduction_df = deduction_df.drop(["behinderten_pauschbetrag", 0], axis=1)
-
     return deduction_df
 
 
@@ -116,7 +116,7 @@ def prepare_wg_data(sel_year, hh_size):
 
     # Miete needs to be corrected acc. to mietstufe and hh size
     if sel_year <= 2008:
-        wohngeld_miete = wohngeld_miete_bis_2008(
+        wohngeld_miete_m = wohngeld_miete_m_bis_2008(
             pd.Series([3] * len(miete)),
             pd.Series([1980] * len(miete)),
             household_size,
@@ -127,7 +127,7 @@ def prepare_wg_data(sel_year, hh_size):
             params,
         )
     if 2009 <= sel_year <= 2020:
-        wohngeld_miete = wohngeld_miete_ab_2009(
+        wohngeld_miete_m = wohngeld_miete_m_ab_2009(
             pd.Series([3] * len(miete)),
             household_size,
             pd.Series(range(len(miete))),
@@ -137,7 +137,7 @@ def prepare_wg_data(sel_year, hh_size):
             params,
         )
     if sel_year >= 2021:
-        wohngeld_miete = wohngeld_miete_ab_2021(
+        wohngeld_miete_m = wohngeld_miete_m_ab_2021(
             pd.Series([3] * len(miete)),
             household_size,
             pd.Series(range(len(miete))),
@@ -156,11 +156,11 @@ def prepare_wg_data(sel_year, hh_size):
     for i in range(len(einkommen)):
         this_column = wohngeld_df.columns[i]
         e = pd.Series(data=[einkommen[i]] * len(einkommen))
-        wohngeld_df[this_column] = wohngeld_basis(
+        wohngeld_df[this_column] = wohngeld_vor_vermög_check_m(
             haushaltsgröße=household_size,
             # Account for minimum income
-            wohngeld_eink=np.maximum(e, params["min_eink"][hh_size]),
-            wohngeld_miete=wohngeld_miete,
+            wohngeld_eink_m=np.maximum(e, params["min_eink"][hh_size]),
+            wohngeld_miete_m=wohngeld_miete_m,
             wohngeld_params=params,
         )
     wohngeld_df.index = miete
@@ -246,7 +246,7 @@ def child_benefits_data(start, end):
 
 def social_security_data(start, end):
     """
-    For a year range returns the policy parameters to plot the social security
+    For a year range returns the policy parameters to plot the social insurance
     contributions
 
     start (Int): Defines the start of the simulated period
@@ -287,7 +287,7 @@ def social_security_data(start, end):
 
 def social_assistance_data(start, end):
     """
-    For a year range returns the policy parameters to plot the social security
+    For a year range returns the policy parameters to plot the social insurance
     contributions
 
     start (Int):

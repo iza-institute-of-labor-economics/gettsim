@@ -29,11 +29,11 @@ variables have to be last inputs in the function signature.
 +---------------------------+--------------------------------+
 | _`eink_st_params`         | Income tax                     |
 +---------------------------+--------------------------------+
-| _`eink_st_abzuege_params` | Income tax deductions          |
+| _`eink_st_abzüge_params` | Income tax deductions          |
 +---------------------------+--------------------------------+
 | _`soli_st_params`         | Solidarity surcharge           |
 +---------------------------+--------------------------------+
-| _`arbeitsl_geld_2_params` | Basic social security          |
+| _`arbeitsl_geld_2_params` | Basic social insurance         |
 +---------------------------+--------------------------------+
 | _`arbeitsl_geld_params`   | Unemployment benefits          |
 +---------------------------+--------------------------------+
@@ -49,5 +49,7 @@ variables have to be last inputs in the function signature.
 +---------------------------+--------------------------------+
 | _`elterngeld_params`      | Parental leave benefits        |
 +---------------------------+--------------------------------+
-| _`ges_rentenv_params`     | Pensions                       |
+| _`ges_rente_params`       | Pensions                       |
++---------------------------+--------------------------------+
+| _`grunds_im_alter_params` | Old-age basic income support   |
 +---------------------------+--------------------------------+

@@ -8,25 +8,41 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.5.0 —
 ------------------
 
-* :gh:`327` add behinderten_pauschbetrag for 1975-1986.
-   (:ghuser:`lillyfischer`).
-* :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters.
+* :gh:`327` add behinderten_pauschbetrag for 1975-1986 (:ghuser:`lillyfischer`).
+* :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters
    (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
-* :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh.
+* :gh:`306` Add the possibility to load the value of a parameter of the previous
+   year when calling `set_up_policy_environment` (:ghuser:`ChristianZimpelmann`).
+* :gh:`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove
+   `ges_rente_m` as input. Rename `gettsim.renten_anspr` to `gettsim.transfers.rente`.
+   Rename `gettsim.social_insurance` to `gettsim.social_insurance_contributions`
+   (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`).
+* :gh:`307` Allow to specify order up to which ancestors and descendants are shown
+   when plotting a dag (:ghuser:`ChristianZimpelmann`).
+* :gh:`310` Added Mehrbedarf G to Implementation of Grundsicherung im Alter
+   (:ghuser:`paulinaschroeder`).
+* :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh
    (:ghuser:`LauraGergeleit`).
 * :gh:`319`:gh:`320` Implement changes for social assistance and social insurance
    becoming effective in 2022 (:ghuser:`Eric-Sommer`).
 * :gh:`322` Add updated wohngeld parameters for 2022 (:ghuser:`mjbloemer`,
   :ghuser:`lillyfischer`).
 * :gh:`312` Updated GEP-01 with effects on character limits, time and unit identifiers,
-  adjustments for DAG backend. (:ghuser:`hmgaudecker`)
+  adjustments for DAG backend (:ghuser:`hmgaudecker`).
 * :gh:`314` Enforced character limits from GEP-01 for all function names and input
   variables. Make variable names more precise (e.g., `ges_` in front of all social
   insurance parameters that have private counterparts, `eink_st` everywhere the income
   tax is meant). Make variables consistent (e.g. `kinderfreibetrag` had different
   abbreviations, now `kinderfreib` everywhere). (:ghuser:`hmgaudecker`,
   :ghuser:`ChristianZimpelmann`)
-
+* :gh:`343` New argument for `compute_taxes_and_transfers`: `rounding`. If set to False,
+  rounding of outputs is disabled. Add rounding for `eink_st_tu`. Rounding for other
+  functions will be introduced in future PRs. (:ghuser:`ChristianZimpelmann`).
+* :gh:`349` Create parameters for several hard coded numbers in code.
+  (:ghuser:`LauraGergeleit`).
+* :gh:`355` Major renaming based on GEP 01, e.g.: correct use of ``_m``-suffix;
+  ``alleinerziehend`` becomes ``alleinerz``; rename `ges_rentenv.yaml` to
+  `ges_rente.yaml` (:ghuser:`hmgaudecker`, :ghuser:`ChristianZimpelmann`)
 
 0.4.2 — 2022-01-25
 ------------------
