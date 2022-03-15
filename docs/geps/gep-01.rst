@@ -105,11 +105,11 @@ no restriction on the number of characters. Internal columns should be used spar
 
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., ``kinderfreib``,
-``_zu_verst_eink_kein_kinderfreib_tu``). This makes searching for identifiers
+``_zu_verst_eink_ohne_kinderfreib_tu``). This makes searching for identifiers
 easier and less error-prone.
 
 The default time unit is a year. If a column refers to a different time unit, an
-underscore plus one of {``m``, ``w``, ``t``} will indicate the time unit.
+underscore plus one of {``m``, ``w``, ``d``} will indicate the time unit.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
 the relevant unit, an underscore plus one of {``hh``, ``tu``} will indicate the level of

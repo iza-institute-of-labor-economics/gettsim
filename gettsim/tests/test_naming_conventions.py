@@ -26,7 +26,7 @@ def all_function_names():
 @pytest.fixture(scope="module")
 def time_indep_function_names(all_function_names):
     time_dependent_functions = {}
-    for year in range(1990, 2021):
+    for year in range(1990, 2023):
         year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
         new_dict = {func.__name__: key for key, func in year_functions.items()}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
@@ -46,7 +46,7 @@ def check_length(column_names, limit):
     over_limit = [
         f"{name:40} ({len(name)})" for name in column_names if len(name) > limit
     ]
-    assert not over_limit, nice_output_list_of_strings(over_limit)
+    assert not over_limit, nice_output_list_of_strings(over_limit) + f"limit is {limit}"
 
 
 def test_all_default_targets_among_function_names(time_indep_function_names):
@@ -68,7 +68,6 @@ def test_length_column_names_input_variables(default_input_variables):
 
 
 def test_length_column_names_other_functions(time_indep_function_names):
-
     # Consider all functions that are not purely internal (starting with an underscore)
     # and not part of default targets
     other_function_names = [

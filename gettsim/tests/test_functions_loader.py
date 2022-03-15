@@ -19,11 +19,13 @@ def test_renaming_functions():
 
 
 def test_load_modules():
-    assert _load_functions("gettsim.social_insurance.ges_krankenv")
+    assert _load_functions("gettsim.social_insurance_contributions.ges_krankenv")
 
 
 def test_load_path():
-    assert _load_functions(ROOT_DIR / "social_insurance" / "ges_krankenv.py")
+    assert _load_functions(
+        ROOT_DIR / "social_insurance_contributions" / "ges_krankenv.py"
+    )
 
 
 def test_special_attribute_module_is_set(tmp_path):
@@ -41,7 +43,7 @@ def test_special_attribute_module_is_set(tmp_path):
 
 
 def test_special_attribute_module_is_set_for_internal_functions():
-    out = _load_functions("gettsim.social_insurance.eink_grenzen")
+    out = _load_functions("gettsim.social_insurance_contributions.eink_grenzen")
     function = out[list(out)[0]]
 
-    assert function.__module__ == "gettsim.social_insurance.eink_grenzen"
+    assert function.__module__ == "gettsim.social_insurance_contributions.eink_grenzen"

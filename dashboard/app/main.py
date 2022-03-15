@@ -58,7 +58,7 @@ attribute_dict = {
         "top_left",
         f"""This graph shows the evolution of the main lump-sum tax deductions
         creating a wedge between market and taxable income.
-        <a href="{param_url}/eink_st_abzuege.yaml">
+        <a href="{param_url}/eink_st_abzüge.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "wohngeld": [
@@ -93,7 +93,7 @@ attribute_dict = {
         "0%",
         "center_right",
         f"""This graph depicts contribution rates to the four main branches of
-        social security. With the exception of health insurance from 2006 to
+        social insurance. With the exception of health insurance from 2006 to
         2018, contributions are shared equally between employer and employee.
         The graph shows only the employees share for those branches. The
         additional health care contribution rate for employees used to

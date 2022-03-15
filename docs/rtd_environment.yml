@@ -3,6 +3,7 @@ channels:
 dependencies:
   - python
   - bokeh
+  - black
   - ipython
   - nbsphinx
   - numpydoc
@@ -10,6 +11,7 @@ dependencies:
   - sphinx-automodapi
   - sphinx-copybutton
   - sphinx_rtd_theme
+  - ipython_genutils
 
   # Modules necessary since sphinx-automodapi cannot mock modules. See
   # https://github.com/astropy/sphinx-automodapi/issues/77.
