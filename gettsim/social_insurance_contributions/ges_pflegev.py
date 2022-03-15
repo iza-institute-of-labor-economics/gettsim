@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -23,8 +21,8 @@ def ges_pflegev_zusatz_kinderlos(
     -------
 
     """
-    out = soz_vers_beitr_params["ges_pflegev_zusatz_kinderlos_altersgrenze"]
-    return (not hat_kinder) & alter.ge(out)
+    altersgrenze = soz_vers_beitr_params["ges_pflegev_zusatz_kinderlos_altersgrenze"]
+    return (not hat_kinder) and alter >= altersgrenze
 
 
 def ges_pflegev_beitr_m(
@@ -72,17 +70,12 @@ def ges_pflegev_beitr_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
+    # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
-        zusatz_kinderlos = (
+        beitr_regulär_beschäftigt_m += (
             _ges_krankenv_beitr_bruttolohn_m
             * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
         )
-    else:
-        zusatz_kinderlos = 0
-
-    beitr_regulär_beschäftigt_m += zusatz_kinderlos
-
-    out = float(geringfügig_beschäftigt) * np.nan
 
     if geringfügig_beschäftigt:
         out = 0
@@ -130,15 +123,13 @@ def ges_pflegev_beitr_selbst_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
+    # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
-        zusatz_kinderlos = (
+        out += (
             _ges_krankenv_bemessungsgrundlage_eink_selbst
             * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
         )
-    else:
-        zusatz_kinderlos = 0
 
-    out += zusatz_kinderlos
     return out
 
 
@@ -169,15 +160,13 @@ def ges_pflegev_beitr_rente_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
+    # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
-        zusatz_kinderlos = (
+        out += (
             _ges_krankenv_bemessungsgrundlage_rente_m
             * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
         )
-    else:
-        zusatz_kinderlos = 0
 
-    out += zusatz_kinderlos
     return out
 
 
@@ -213,15 +202,12 @@ def _ges_pflegev_beitr_midi_job_m_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
+    # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
-        zusatz_kinderlos = (
+        ges_beitr_midi_job_m += (
             midi_job_bemessungsentgelt_m
             * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
         )
-    else:
-        zusatz_kinderlos = 0
-
-    ges_beitr_midi_job_m += zusatz_kinderlos
 
     ag_beitr_midi_job_m = (
         bruttolohn_m

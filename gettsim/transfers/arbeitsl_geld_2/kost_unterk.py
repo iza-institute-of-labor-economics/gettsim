@@ -76,34 +76,19 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
     IntSeries with the number of squaremeters.
     """
     if bewohnt_eigentum_hh:
-        haushaltsmitglieder = haushaltsgröße_hh - 2
-        if haushaltsmitglieder < 0:
-            weitere_mitglieder = 0
-        else:
-            weitere_mitglieder = haushaltsmitglieder
+        weitere_mitglieder = max(haushaltsgröße_hh - 2, 0)
+        maximum = (
+            arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["basisgröße"]
+            + weitere_mitglieder
+            * arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["erweiterung"]
+        )
     else:
-        haushaltsmitglieder = haushaltsgröße_hh - 1
-        if haushaltsmitglieder < 0:
-            weitere_mitglieder = 0
-        else:
-            weitere_mitglieder = haushaltsmitglieder
-
-    grenze_eigentum = (
-        arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["basisgröße"]
-        + weitere_mitglieder
-        * arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["erweiterung"]
-    )
-    grenze_kein_eigentum = (
-        arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
-        + weitere_mitglieder
-        * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["je_weitere_person"]
-    )
-
-    if bewohnt_eigentum_hh & (wohnfläche_hh <= grenze_eigentum):
-        return wohnfläche_hh
-    elif bewohnt_eigentum_hh & (wohnfläche_hh > grenze_eigentum):
-        return grenze_eigentum
-    elif (not bewohnt_eigentum_hh) & (wohnfläche_hh <= grenze_kein_eigentum):
-        return wohnfläche_hh
-    else:
-        return grenze_kein_eigentum
+        weitere_mitglieder = max(haushaltsgröße_hh - 1, 0)
+        maximum = (
+            arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
+            + weitere_mitglieder
+            * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
+                "je_weitere_person"
+            ]
+        )
+    return min(wohnfläche_hh, maximum)

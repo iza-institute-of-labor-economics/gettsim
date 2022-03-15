@@ -180,9 +180,10 @@ def vorsorgeaufw_ab_2020(
     -------
 
     """
-    # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
     # maybe add unemployment insurance, but do not exceed 1900€.
-    if not kind:
+    if kind:
+        out = 0
+    else:
         sonstige_vors = 12 * (
             ges_pflegev_beitr_m
             + (1 - eink_st_abzüge_params["vorsorge_kranken_minderung"])
@@ -190,18 +191,9 @@ def vorsorgeaufw_ab_2020(
         )
         limit_below = sonstige_vors + 12 * arbeitsl_v_beitr_m
         limit_above = eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]
-    else:
-        return 0
 
-    if sonstige_vors < limit_below:
-        if sonstige_vors > limit_above:
-            out = limit_above
-        else:
-            out = limit_below
-    else:
-        out = sonstige_vors
-
-    out += vorsorgeaufw_alter_ab_2005
+        out = min(max(sonstige_vors, limit_below), limit_above)
+        out += vorsorgeaufw_alter_ab_2005
     return out
 
 
@@ -287,11 +279,7 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
         eink_st_abzüge_params["vorsorge2004_vorwegabzug"]
         - eink_st_abzüge_params["vorsorge2004_kürzung_vorwegabzug"] * 12 * bruttolohn_m
     )
-
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_tu(
@@ -317,10 +305,7 @@ def _vorsorgeaufw_vom_lohn_bis_2019_tu(
         * bruttolohn_m_tu
     )
 
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 def _berechne_vorsorgeaufw_bis_2004(

@@ -38,12 +38,10 @@ def kindergeld_m_ab_1997(
     -------
 
     """
-    beantrage_kinderfreib = kinderfreib_günstiger_tu
-    out = kindergeld_basis_m
-    if beantrage_kinderfreib:
+    if kinderfreib_günstiger_tu:
         return 0
     else:
-        return out
+        return kindergeld_basis_m
 
 
 def kindergeld_m_hh(kindergeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
@@ -229,14 +227,11 @@ def kinderbonus_basis_m(
     -------
 
     """
-    # Kinderbonus is payed for all children who are eligible for Kindergeld
-    out = kindergeld_basis_m.copy()
-
     # Kinderbonus parameter is specified on the yearly level
     if kindergeld_basis_m > 0:
         return kindergeld_params["kinderbonus"] / 12
     else:
-        return out
+        return 0
 
 
 def kinderbonus_basis_m_tu(

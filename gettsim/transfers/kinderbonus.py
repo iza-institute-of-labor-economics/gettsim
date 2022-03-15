@@ -21,9 +21,8 @@ def kinderbonus_m(
     -------
 
     """
-    beantrage_kinderfreib = kinderfreib_günstiger_tu
     out = kinderbonus_basis_m
-    if beantrage_kinderfreib:
+    if kinderfreib_günstiger_tu:
         return 0
     else:
         return out

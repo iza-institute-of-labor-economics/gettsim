@@ -144,10 +144,10 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
     )
     conditions = [
-        bool(geburtsjahr <= threshold_years[0]),
-        (bool(threshold_years[1] <= geburtsjahr) & (geburtsjahr < threshold_years[2])),
-        (bool(threshold_years[2] <= geburtsjahr) & (geburtsjahr < threshold_years[3])),
-        bool((threshold_years[3] <= geburtsjahr) & (not kind)),
+        geburtsjahr <= threshold_years[0],
+        (threshold_years[1] <= geburtsjahr) & (geburtsjahr < threshold_years[2]),
+        (threshold_years[2] <= geburtsjahr) & (geburtsjahr < threshold_years[3]),
+        (threshold_years[3] <= geburtsjahr) & (not kind),
         True,
     ]
 

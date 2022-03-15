@@ -102,22 +102,18 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
 
     # Get minimal Mehrbedarf share. Minimal rate times number of children
     lower = arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
+    upper = arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
 
     # Special case if 1 kid below 6 or 2,3 below 15.
-    value = (
+    mehrbedarf = (
         (anz_kinder_bis_6_hh >= 1)
         | ((2 <= anz_kinder_bis_15_hh) & (anz_kinder_bis_15_hh <= 3))
     ) * arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
 
     # Clip value at calculated minimal share and given upper share
-    if value < lower:
-        value = lower
-    elif value > arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]:
-        value = arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
-    else:
-        value = value
+    mehrbedarf = min(max(mehrbedarf, lower), upper)
 
-    return alleinerz_hh * value
+    return alleinerz_hh * mehrbedarf
 
 
 def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(

@@ -168,10 +168,7 @@ def grunds_im_alter_eink_m(
         - sozialv_beitr_gesamt_m
     )
 
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 def grunds_im_alter_erwerbseink_m(
@@ -328,8 +325,6 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     -------
 
     """
-    anz_erwachsene_hh = anz_erwachsene_hh
-
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
     mehrbedarf_singles = (arbeitsl_geld_2_params["regelsatz"][1]) * (
         grunds_im_alter_params["mehrbedarf_schwerbeh_g"]["rate"]

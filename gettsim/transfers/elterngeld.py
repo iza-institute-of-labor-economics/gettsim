@@ -327,10 +327,7 @@ def elterngeld_nettolohn_m(
         - sozialv_beitr_gesamt_m
     )
 
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 def elterngeld_eink_relev_m(

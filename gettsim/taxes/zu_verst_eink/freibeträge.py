@@ -53,11 +53,10 @@ def eink_st_alleinerz_freib_tu_bis_2014(
     -------
 
     """
-    out = float(alleinerz_tu) * 0
     if alleinerz_tu:
         return eink_st_abzüge_params["alleinerz_freibetrag"]
     else:
-        return out
+        return 0
 
 
 def eink_st_alleinerz_freib_tu_ab_2015(
@@ -81,7 +80,6 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     -------
 
     """
-    out = float(alleinerz_tu) * 0
     alleinerz_freibe_tu = (
         eink_st_abzüge_params["alleinerz_freibetrag"]
         + anz_kinder_tu * eink_st_abzüge_params["alleinerz_freibetrag_zusatz"]
@@ -89,7 +87,7 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     if alleinerz_tu:
         return alleinerz_freibe_tu
     else:
-        return out
+        return 0
 
 
 def eink_st_altersfreib(
@@ -157,11 +155,10 @@ def eink_st_sonderausgaben_bis_2011(
     -------
 
     """
-    out = float(kind) * 0
     if kind:
         return eink_st_abzüge_params["sonderausgabenpauschbetrag"]
     else:
-        return out
+        return 0
 
 
 def eink_st_sonderausgaben_ab_2012(
@@ -192,7 +189,6 @@ def eink_st_sonderausgaben_ab_2012(
     -------
 
     """
-    erwachsene_in_tu = anz_erwachsene_tu
     abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
         upper=eink_st_abzüge_params["kinderbetreuungskosten_abz_maximum"]
     )
@@ -202,7 +198,7 @@ def eink_st_sonderausgaben_ab_2012(
         berechtigte_kinder
         * abziehbare_betreuungskosten
         * eink_st_abzüge_params["kinderbetreuungskosten_abz_anteil"]
-    ) / erwachsene_in_tu
+    ) / anz_erwachsene_tu
 
     if kind:
         return 0

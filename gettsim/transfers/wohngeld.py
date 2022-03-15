@@ -364,12 +364,11 @@ def wohngeld_miete_m_bis_2008(
     -------
 
     """
-    immobilie_baujahr = immobilie_baujahr_hh
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
     # size.
     yearly_cutoffs = sorted(wohngeld_params["max_miete"][1], reverse=True)
-    conditions = [immobilie_baujahr <= cutoff for cutoff in yearly_cutoffs]
+    conditions = [immobilie_baujahr_hh <= cutoff for cutoff in yearly_cutoffs]
     constr_year_category = np.select(conditions, yearly_cutoffs)
     max_definierte_hh_größe = max(
         i for i in wohngeld_params["max_miete"] if isinstance(i, int)

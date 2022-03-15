@@ -114,10 +114,7 @@ def kinderzuschl_vorläufig_m_ab_07_2019(
     else:
         return out.groupby(hh_id).transform("max")
 
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 def kinderzuschl_vorläufig_m_bis_06_2019(
@@ -152,7 +149,4 @@ def kinderzuschl_vorläufig_m_bis_06_2019(
     else:
         return out.groupby(hh_id).transform("max")
 
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)

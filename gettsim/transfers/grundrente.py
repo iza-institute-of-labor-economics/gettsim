@@ -26,10 +26,7 @@ def grundr_zuschlag_m(
 
     """
     out = grundr_zuschlag_vor_eink_anr_m - grundr_zuschlag_eink_m
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 @add_rounding_spec(params_key="ges_rente")

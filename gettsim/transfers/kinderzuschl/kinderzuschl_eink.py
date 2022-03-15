@@ -27,7 +27,6 @@ def kinderzuschl_eink_regel_m_bis_2010(
 
     """
     alleinerz_mehrbedarf = _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-    erwachsene_in_tu = anz_erwachsene_tu
     choices = [
         arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerz_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"]
@@ -35,11 +34,12 @@ def kinderzuschl_eink_regel_m_bis_2010(
         * (2 + alleinerz_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"]
         * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
-        * erwachsene_in_tu,
+        * anz_erwachsene_tu,
     ]
 
     data = np.select(
-        [erwachsene_in_tu == 1, erwachsene_in_tu == 2, erwachsene_in_tu > 2], choices,
+        [anz_erwachsene_tu == 1, anz_erwachsene_tu == 2, anz_erwachsene_tu > 2],
+        choices,
     )
 
     eink_regel = pd.Series(index=alleinerz_mehrbedarf.index, data=data)
@@ -68,15 +68,15 @@ def kinderzuschl_eink_regel_m_ab_2011(
 
     """
     alleinerz_mehrbedarf = _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-    erwachsene_in_tu = anz_erwachsene_tu
     choices = [
         arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerz_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerz_mehrbedarf),
-        arbeitsl_geld_2_params["regelsatz"][3] * erwachsene_in_tu,
+        arbeitsl_geld_2_params["regelsatz"][3] * anz_erwachsene_tu,
     ]
 
     data = np.select(
-        [erwachsene_in_tu == 1, erwachsene_in_tu == 2, erwachsene_in_tu > 2], choices,
+        [anz_erwachsene_tu == 1, anz_erwachsene_tu == 2, anz_erwachsene_tu > 2],
+        choices,
     )
 
     eink_regel = pd.Series(index=alleinerz_mehrbedarf.index, data=data)
@@ -221,10 +221,7 @@ def kinderzuschl_kindereink_abzug_m(
         - kinderzuschl_params["entzugsrate_kind"] * (bruttolohn_m + unterhaltsvors_m)
     )
 
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 def kinderzuschl_eink_anrechn_m(
@@ -253,10 +250,7 @@ def kinderzuschl_eink_anrechn_m(
         arbeitsl_geld_2_eink_m_hh - kinderzuschl_eink_relev_m
     )
 
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 def kinderzuschl_eink_spanne(

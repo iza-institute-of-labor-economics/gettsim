@@ -96,14 +96,13 @@ def _kinderzuschl_wohnbedarf_eltern_anteil(
 
     """
     kinder_in_tu = anz_kinder_tu
-    erwachsene_in_tu = anz_erwachsene_tu
     conditions = []
     choices = []
     ex_min = kinderzuschl_params["exmin"]
     adults_map = {1: "single", 2: "paare"}
     for n_adults in [1, 2]:
         for n_children in [1, 2, 3, 4]:
-            condition = (kinder_in_tu == n_children) & (erwachsene_in_tu == n_adults)
+            condition = (kinder_in_tu == n_children) & (anz_erwachsene_tu == n_adults)
             choice = (
                 ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
                 + ex_min["heizkosten"][adults_map[n_adults]]
@@ -122,7 +121,7 @@ def _kinderzuschl_wohnbedarf_eltern_anteil(
             conditions.append(condition)
             choices.append(choice)
 
-        condition = (kinder_in_tu >= 5) & (erwachsene_in_tu == n_adults)
+        condition = (kinder_in_tu >= 5) & (anz_erwachsene_tu == n_adults)
         choice = (
             ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
             + ex_min["heizkosten"][adults_map[n_adults]]

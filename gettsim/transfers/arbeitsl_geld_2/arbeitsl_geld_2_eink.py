@@ -61,10 +61,7 @@ def arbeitsl_geld_2_eink_m(
         - arbeitsl_geld_2_eink_anr_frei_m
     )
 
-    if out < 0:
-        return 0
-    else:
-        return out
+    return max(out, 0)
 
 
 def arbeitsl_geld_2_brutto_eink_m_hh(
@@ -158,18 +155,16 @@ def arbeitsl_geld_2_2005_netto_quote(
 
     """
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit nach § 11 Abs. 2 Nr. 1-5.
-    alg2_2005_bne = (
-        elterngeld_nettolohn_m
-        - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
-        - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
+    alg2_2005_bne = max(
+        (
+            elterngeld_nettolohn_m
+            - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
+            - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
+        ),
+        0,
     )
 
-    if alg2_2005_bne < 0:
-        arbeitsl_geld_2_2005_netto_quote = 0
-    else:
-        arbeitsl_geld_2_2005_netto_quote = alg2_2005_bne / bruttolohn_m
-
-    return arbeitsl_geld_2_2005_netto_quote
+    return alg2_2005_bne / bruttolohn_m
 
 
 def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
@@ -223,7 +218,7 @@ def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
 
     """
     out = bruttolohn_m * 0
-    kinder_in_hh_individual = bool(anz_kinder_hh > 0)
+    kinder_in_hh_individual = anz_kinder_hh > 0
 
     if kinder_in_hh_individual:
         out = piecewise_polynomial(

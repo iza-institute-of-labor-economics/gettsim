@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -45,7 +43,6 @@ def ges_krankenv_beitr_m(
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
         * _ges_krankenv_beitr_bruttolohn_m
     )
-    out = float(geringfügig_beschäftigt) * np.nan
 
     if geringfügig_beschäftigt:
         out = 0
@@ -169,21 +166,19 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
 
     """
     # Calculate if selfemployed insures via public health insurance.
-    selbstständig_ges_krankenv = selbstständig & (not in_priv_krankenv)
-
-    if selbstständig_ges_krankenv:
+    if selbstständig and not in_priv_krankenv:
         bezugsgröße_selbstv_m = _ges_krankenv_bezugsgröße_selbst_m
         eink_selbst_selbstv_m = eink_selbst_m
     else:
         bezugsgröße_selbstv_m = 0
         eink_selbst_selbstv_m = 0
 
-    anteil__ges_krankenv_bezugsgröße_selbst_m = (
+    anteil_ges_krankenv_bezugsgröße_selbst_m = (
         soz_vers_beitr_params["bezugsgröße_selbst_anteil"] * bezugsgröße_selbstv_m
     )
 
-    if eink_selbst_selbstv_m > anteil__ges_krankenv_bezugsgröße_selbst_m:
-        return anteil__ges_krankenv_bezugsgröße_selbst_m
+    if eink_selbst_selbstv_m > anteil_ges_krankenv_bezugsgröße_selbst_m:
+        return anteil_ges_krankenv_bezugsgröße_selbst_m
     else:
         return eink_selbst_selbstv_m
 
