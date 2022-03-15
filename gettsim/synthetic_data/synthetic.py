@@ -271,7 +271,7 @@ def create_one_set_of_households(
         "arbeitsl_monate_vorj",
         "arbeitsl_monate_v2j",
     ]:
-        df[int_col] = df[int_col].astype(int)
+        df[int_col] = int(df[int_col])
 
     # 'Custom' initializations
     df["alter"] = age_adults[0]
@@ -282,7 +282,7 @@ def create_one_set_of_households(
         columns=["hht", "nch"], data=itertools.product(hh_typen, n_children)
     )
 
-    df["hh_typ"] = all_types["hht"] + "_" + all_types["nch"].astype(str) + "_children"
+    df["hh_typ"] = all_types["hht"] + "_" + str(all_types["nch"]) + "_children"
 
     # wohnfläche_hh, Kaltmiete, Heizkosten are taken from official data
     bg_daten = _load_parameter_group_from_yaml(
@@ -313,7 +313,7 @@ def create_one_set_of_households(
                     append_other_hh_members(
                         df[
                             (df["hh_typ"].str[:6] == hht)
-                            & (df["hh_typ"].str[7:8].astype(int) == nch)
+                            & (int(df["hh_typ"].str[7:8]) == nch)
                         ],
                         hht,
                         nch,
@@ -329,7 +329,7 @@ def create_one_set_of_households(
     df["geburtstag"] = 1
     df["jahr_renteneintr"] = df["geburtsjahr"] + 67
 
-    df.loc[~df["kind"], "hat_kinder"] = (
+    df.loc[(not df["kind"]), "hat_kinder"] = (
         df.groupby("hh_typ")["kind"].transform("sum") > 0
     )
     df.loc[df["bruttolohn_m"] > 0, "arbeitsstunden_w"] = 38
@@ -337,14 +337,14 @@ def create_one_set_of_households(
     # All adults in couples are assumed to be married
     df["gem_veranlagt"] = False
     df.loc[
-        (df["hh_typ"].str.contains("couple")) & (~df["kind"]), "gem_veranlagt"
+        (df["hh_typ"].str.contains("couple")) & (not df["kind"]), "gem_veranlagt"
     ] = True
 
     # Single Parent Dummy
     df.loc[
         (df["hh_typ"].str.contains("single"))
-        & (df["hh_typ"].str[7:8].astype(int) > 0)
-        & (~df["kind"]),
+        & (int(df["hh_typ"].str[7:8]) > 0)
+        & (not df["kind"]),
         "alleinerz",
     ] = True
 

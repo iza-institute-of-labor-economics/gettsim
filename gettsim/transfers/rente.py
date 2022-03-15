@@ -70,8 +70,10 @@ def ges_rente_nach_grundr_m(
     out = ges_rente_vor_grundr_m + grundr_zuschlag_m
 
     # Return 0 if person not yet retired
-    out.loc[~rentner] = 0
-    return out
+    if rentner:
+        return out
+    else:
+        return 0
 
 
 @add_rounding_spec(params_key="ges_rente")
@@ -111,9 +113,11 @@ def ges_rente_vor_grundr_m(
 
     out = entgeltp_update * ges_rente_zugangsfaktor * rentenwert
 
-    # Return 0 if subject not yet retired
-    out.loc[~rentner] = 0
-    return out
+    # Return 0 if person not yet retired
+    if rentner:
+        return out
+    else:
+        return 0
 
 
 def rentenwert(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
@@ -130,13 +134,14 @@ def rentenwert(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
     -------
 
     """
-    out = wohnort_ost.replace(
-        {
-            True: ges_rente_params["rentenwert"]["ost"],
-            False: ges_rente_params["rentenwert"]["west"],
-        }
-    ).astype(float)
-    return out
+    params = ges_rente_params["rentenwert"]
+
+    if wohnort_ost:
+        out = params["ost"]
+    else:
+        out = params["west"]
+
+    return float(out)
 
 
 def rentenwert_vorjahr(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
@@ -153,13 +158,14 @@ def rentenwert_vorjahr(wohnort_ost: BoolSeries, ges_rente_params: dict) -> Float
     -------
 
     """
-    out = wohnort_ost.replace(
-        {
-            True: ges_rente_params["rentenwert_vorjahr"]["ost"],
-            False: ges_rente_params["rentenwert_vorjahr"]["west"],
-        }
-    ).astype(float)
-    return out
+    params = ges_rente_params["rentenwert_vorjahr"]
+
+    if wohnort_ost:
+        out = params["ost"]
+    else:
+        out = params["west"]
+
+    return float(out)
 
 
 def entgeltp_update(
@@ -218,16 +224,18 @@ def entgeltp_update_lohn(
     """
 
     # Scale bruttolohn up if earned in eastern Germany
-    bruttolohn_scaled_east = bruttolohn_m
-    bruttolohn_scaled_east.loc[wohnort_ost] = (
-        bruttolohn_scaled_east.loc[wohnort_ost]
-        * ges_rente_params["umrechnung_entgeltp_beitrittsgebiet"]
-    )
+    if wohnort_ost:
+        bruttolohn_scaled_east = (
+            bruttolohn_m * ges_rente_params["umrechnung_entgeltp_beitrittsgebiet"]
+        )
+    else:
+        bruttolohn_scaled_east = bruttolohn_m
 
     # Calculate the (scaled) wage, which is subject to pension contributions.
-    bruttolohn_scaled_rentenv = bruttolohn_scaled_east.clip(
-        upper=_ges_rentenv_beitr_bemess_grenze_m
-    )
+    if bruttolohn_scaled_east > _ges_rentenv_beitr_bemess_grenze_m:
+        bruttolohn_scaled_rentenv = _ges_rentenv_beitr_bemess_grenze_m
+    else:
+        bruttolohn_scaled_rentenv = bruttolohn_scaled_east
 
     # Calculate monthly mean wage in Germany
     durchschnittslohn_m = (1 / 12) * ges_rente_params[
@@ -276,24 +284,25 @@ def ges_rente_zugangsfaktor(
 
     # Calc difference to Regelaltersgrenze
     diff = alter_renteneintritt - ges_rente_regelaltersgrenze
-
-    # Zugangsfactor lower if retired before Regelaltersgrenze
-    out = diff.copy()
     faktor_pro_jahr_vorzeitig = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
         "vorzeitiger_renteneintritt"
     ]
-    out.loc[diff < 0] = 1 + (out.loc[diff < 0] * faktor_pro_jahr_vorzeitig)
-
-    # Zugangsfactor larger if retired before Regelaltersgrenze
     faktor_pro_jahr_später = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
         "späterer_renteneintritt"
     ]
-    out.loc[diff >= 0] = 1 + (out.loc[diff >= 0] * faktor_pro_jahr_später)
+
+    # Zugangsfactor lower if retired before Regelaltersgrenze
+    # Zugangsfactor larger if retired before Regelaltersgrenze
+    if diff < 0:
+        out = 1 + diff * faktor_pro_jahr_vorzeitig
+    else:
+        out = 1 + diff * faktor_pro_jahr_später
 
     # Return 0 if person not yet retired
-    out.loc[~rentner] = 0
-
-    return out.clip(lower=0)
+    if rentner & (out >= 0):
+        return out
+    else:
+        return 0
 
 
 def ges_rente_regelaltersgrenze(

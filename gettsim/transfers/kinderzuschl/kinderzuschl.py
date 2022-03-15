@@ -50,11 +50,13 @@ def kinderzuschl_m_hh(
 
     """
     out = _kinderzuschl_nach_vermög_check_m_hh.copy()
-    cond = (~kinderzuschl_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh) | (
+    cond = ((not kinderzuschl_vorrang_hh) & (not wohngeld_kinderzuschl_vorrang_hh)) | (
         anz_rentner_hh > 0
     )
-    out.loc[cond] = 0
-    return out
+    if cond:
+        return 0
+    else:
+        return out
 
 
 def _kinderzuschl_vor_vermög_check_m_hh(
@@ -103,15 +105,19 @@ def kinderzuschl_vorläufig_m_ab_07_2019(
 
     """
     out = pd.Series(0, index=hh_id.index)
-    condition = (
-        hh_id.replace(arbeitsl_geld_2_brutto_eink_m_hh) >= kinderzuschl_eink_min_m
-    )
-    out.loc[condition] = (
-        kinderzuschl_kindereink_abzug_m.groupby(hh_id).transform("sum")
-        - kinderzuschl_eink_anrechn_m
-    ).clip(lower=0)
+    condition = arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m
+    if condition:
+        out = (
+            kinderzuschl_kindereink_abzug_m.groupby(hh_id).transform("sum")
+            - kinderzuschl_eink_anrechn_m
+        )
+    else:
+        return out.groupby(hh_id).transform("max")
 
-    return out.groupby(hh_id).transform("max")
+    if out < 0:
+        return 0
+    else:
+        return out
 
 
 def kinderzuschl_vorläufig_m_bis_06_2019(
@@ -138,8 +144,15 @@ def kinderzuschl_vorläufig_m_bis_06_2019(
 
     """
     out = pd.Series(0, index=kinderzuschl_eink_spanne.index)
-    out.loc[kinderzuschl_eink_spanne] = (
-        kinderzuschl_kindereink_abzug_m.groupby(hh_id).transform("sum")
-        - kinderzuschl_eink_anrechn_m
-    ).clip(lower=0)
-    return out.groupby(hh_id).transform("max")
+    if kinderzuschl_eink_spanne:
+        out = (
+            kinderzuschl_kindereink_abzug_m.groupby(hh_id).transform("sum")
+            - kinderzuschl_eink_anrechn_m
+        )
+    else:
+        return out.groupby(hh_id).transform("max")
+
+    if out < 0:
+        return 0
+    else:
+        return out

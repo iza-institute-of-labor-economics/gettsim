@@ -78,10 +78,10 @@ def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     -------
     IntSeries with the number of adults per tax unit.
     """
-    return (~kind).astype(int).groupby(tu_id).sum()
+    return int(not kind).groupby(tu_id).sum()
 
 
-def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolSeries:
+def gemeinsam_veranlagt(anz_erwachsene_tu: IntSeries) -> BoolSeries:
     """Check if the tax unit consists of two wage earners.
 
     Parameters
@@ -94,7 +94,7 @@ def gemeinsam_veranlagt(tu_id: IntSeries, anz_erwachsene_tu: IntSeries) -> BoolS
     -------
     BoolSeries indicating two wage earners in tax unit.
     """
-    return tu_id.replace(anz_erwachsene_tu) == 2
+    return anz_erwachsene_tu == 2
 
 
 def gemeinsam_veranlagt_tu(
@@ -135,7 +135,7 @@ def anz_kinder_bis_6_hh(
     IntSeries with the number of children from 0 to 6 per household.
     """
     kind_0_bis_6 = kind & (0 <= alter) & (alter <= 6)
-    return kind_0_bis_6.astype(int).groupby(hh_id).sum()
+    return int(kind_0_bis_6).groupby(hh_id).sum()
 
 
 def anz_kinder_bis_15_hh(
@@ -157,7 +157,7 @@ def anz_kinder_bis_15_hh(
     IntSeries with the number of children from 0 to 15 per household.
     """
     kind_0_bis_15 = kind & (0 <= alter) & (alter <= 15)
-    return kind_0_bis_15.astype(int).groupby(hh_id).sum()
+    return int(kind_0_bis_15).groupby(hh_id).sum()
 
 
 def anz_kinder_ab_7_bis_13_hh(
@@ -179,7 +179,7 @@ def anz_kinder_ab_7_bis_13_hh(
     IntSeries with the number of children from 7 to 13 per household.
     """
     kind_7_bis_13 = kind & (7 <= alter) & (alter <= 13)
-    return kind_7_bis_13.astype(int).groupby(hh_id).sum()
+    return int(kind_7_bis_13).groupby(hh_id).sum()
 
 
 def anz_kinder_ab_14_bis_24_hh(
@@ -201,7 +201,7 @@ def anz_kinder_ab_14_bis_24_hh(
     IntSeries with the number of children from 14 to 24 per household.
     """
     kind_14_bis_24 = kind & (14 <= alter) & (alter <= 24)
-    return kind_14_bis_24.astype(int).groupby(hh_id).sum()
+    return int(kind_14_bis_24).groupby(hh_id).sum()
 
 
 def anz_kinder_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
@@ -218,7 +218,7 @@ def anz_kinder_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
     -------
     IntSeries with the number of children per household.
     """
-    return kind.astype(int).groupby(hh_id).sum()
+    return int(kind).groupby(hh_id).sum()
 
 
 def anz_kinder_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
@@ -234,7 +234,7 @@ def anz_kinder_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     -------
     IntSeries with the number of children per tax unit.
     """
-    return (kind.astype(int)).groupby(tu_id).sum()
+    return int(kind).groupby(tu_id).sum()
 
 
 def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
@@ -251,7 +251,7 @@ def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
     -------
     IntSeries with the number of adults per household.
     """
-    return (~kind).groupby(hh_id).sum()
+    return (not kind).groupby(hh_id).sum()
 
 
 def haushaltsgröße(hh_id: IntSeries) -> IntSeries:
@@ -369,13 +369,14 @@ def date_of_birth_jüngstes_kind_hh(
 
     """
     date_of_birth_jüngstes_kind_hh = date_of_birth.loc[kind].groupby(hh_id).max()
+
     # Re-index to get NaT for households without children.
     date_of_birth_jüngstes_kind_hh = date_of_birth_jüngstes_kind_hh.reindex(
         index=hh_id.unique()
     )
     # Replace hh_ids with timestamps and re-cast to `datetime64[ns]` if there was no kid
     # which yields object dtype.
-    return hh_id.replace(date_of_birth_jüngstes_kind_hh).astype("datetime64[ns]")
+    return np.datetime64(date_of_birth_jüngstes_kind_hh)
 
 
 def alter_jüngstes_kind_monate_hh(

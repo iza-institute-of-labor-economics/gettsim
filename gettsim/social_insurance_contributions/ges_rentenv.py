@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -10,6 +8,7 @@ def ges_rentenv_beitr_m(
     _ges_rentenv_beitr_midi_job_m_m: FloatSeries,
     _ges_rentenv_beitr_bruttolohn_m: FloatSeries,
     soz_vers_beitr_params: dict,
+    in_gleitzone: BoolSeries,
 ) -> FloatSeries:
     """Contribution for each individual to the pension insurance.
 
@@ -24,6 +23,8 @@ def ges_rentenv_beitr_m(
         See :func:`_ges_rentenv_beitr_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
 
     Returns
     -------
@@ -33,16 +34,13 @@ def ges_rentenv_beitr_m(
         _ges_rentenv_beitr_bruttolohn_m
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
     )
-    out = geringfügig_beschäftigt.astype(float) * np.nan
 
-    # Set to 0 for minijobs
-    out.loc[geringfügig_beschäftigt] = 0
-
-    # Assign calculated contributions
-    out.loc[_ges_rentenv_beitr_midi_job_m_m.index] = _ges_rentenv_beitr_midi_job_m_m
-    out.loc[ges_rentenv_beitr_regular_job_m.index] = ges_rentenv_beitr_regular_job_m
-
-    return out
+    if geringfügig_beschäftigt:
+        return 0
+    elif in_gleitzone:
+        return _ges_rentenv_beitr_midi_job_m_m
+    else:
+        return ges_rentenv_beitr_regular_job_m
 
 
 def ges_rentenv_beitr_m_tu(
@@ -68,7 +66,6 @@ def ges_rentenv_beitr_m_tu(
 def _ges_rentenv_beitr_midi_job_m_m(
     midi_job_bemessungsentgelt_m: FloatSeries,
     bruttolohn_m: FloatSeries,
-    in_gleitzone: BoolSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Calculating the employer unemployment insurance contribution.
@@ -79,8 +76,6 @@ def _ges_rentenv_beitr_midi_job_m_m(
         See :func:`midi_job_bemessungsentgelt_m`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -94,8 +89,7 @@ def _ges_rentenv_beitr_midi_job_m_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
     )
     ag_beitr_midi_job = (
-        bruttolohn_m.loc[in_gleitzone]
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
+        bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
     )
     return ges_beitr_midi_job - ag_beitr_midi_job
 

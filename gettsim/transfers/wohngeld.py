@@ -30,12 +30,14 @@ def wohngeld_m_hh(
     -------
 
     """
-    cond = (
-        ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh
-        | erwachsene_alle_rentner_hh
-    )
-    wohngeld_nach_vermög_check_m_hh.loc[cond] = 0
-    return wohngeld_nach_vermög_check_m_hh
+    cond = (not wohngeld_vorrang_hh) & (
+        not wohngeld_kinderzuschl_vorrang_hh
+    ) | erwachsene_alle_rentner_hh
+
+    if cond:
+        return 0
+    else:
+        return wohngeld_nach_vermög_check_m_hh
 
 
 def wohngeld_vor_vermög_check_m_hh(
@@ -202,7 +204,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
         wohngeld_arbeitende_kinder
         * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder_m"][24])
     ) + (
-        (alleinerz & ~kind)
+        (alleinerz & (not kind))
         * anz_kinder_bis_10_tu
         * wohngeld_params["freib_kinder_m"][12]
     )
@@ -263,7 +265,7 @@ def wohngeld_eink_abzüge_m_ab_2016(
         (behinderungsgrad > 0) * wohngeld_params["freib_behinderung"] / 12
         + workingchild
         * bruttolohn_m.clip(lower=0, upper=wohngeld_params["freib_kinder_m"][24])
-        + alleinerz * wohngeld_params["freib_kinder_m"][12] * ~kind
+        + alleinerz * wohngeld_params["freib_kinder_m"][12] * (not kind)
     )
 
     return abzüge
@@ -308,7 +310,7 @@ def wohngeld_eink_m(
         wohngeld_params["min_eink"]
     )
 
-    return tu_id.replace(vorläufiges_eink).clip(lower=unteres_eink)
+    return vorläufiges_eink.clip(lower=unteres_eink)
 
 
 def wohngeld_min_miete(haushaltsgröße: IntSeries, wohngeld_params: dict) -> FloatSeries:
@@ -334,7 +336,6 @@ def wohngeld_miete_m_bis_2008(
     mietstufe: IntSeries,
     immobilie_baujahr_hh: IntSeries,
     haushaltsgröße: IntSeries,
-    hh_id: IntSeries,
     bruttokaltmiete_m_hh: FloatSeries,
     _anteil_personen_in_haushalt_tu: FloatSeries,
     wohngeld_min_miete: FloatSeries,
@@ -350,8 +351,6 @@ def wohngeld_miete_m_bis_2008(
         See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
     haushaltsgröße
         See :func:`haushaltsgröße`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     _anteil_personen_in_haushalt_tu
@@ -365,7 +364,7 @@ def wohngeld_miete_m_bis_2008(
     -------
 
     """
-    immobilie_baujahr = hh_id.replace(immobilie_baujahr_hh)
+    immobilie_baujahr = immobilie_baujahr_hh
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
     # size.
@@ -387,7 +386,7 @@ def wohngeld_miete_m_bis_2008(
     ]
 
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        np.clip(data, a_min=None, a_max=bruttokaltmiete_m_hh)
         * _anteil_personen_in_haushalt_tu
     ).clip(lower=wohngeld_min_miete)
 
@@ -397,7 +396,6 @@ def wohngeld_miete_m_bis_2008(
 def wohngeld_miete_m_ab_2009(
     mietstufe: IntSeries,
     haushaltsgröße: IntSeries,
-    hh_id: IntSeries,
     bruttokaltmiete_m_hh: FloatSeries,
     _anteil_personen_in_haushalt_tu: FloatSeries,
     wohngeld_min_miete: FloatSeries,
@@ -411,8 +409,6 @@ def wohngeld_miete_m_ab_2009(
         See basic input variable :ref:`mietstufe <mietstufe>`.
     haushaltsgröße
         See :func:`haushaltsgröße`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     _anteil_personen_in_haushalt_tu
@@ -439,7 +435,7 @@ def wohngeld_miete_m_ab_2009(
     ]
 
     wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        np.clip(data, a_min=None, a_max=bruttokaltmiete_m_hh)
         * _anteil_personen_in_haushalt_tu
     ).clip(lower=wohngeld_min_miete)
 
@@ -449,7 +445,6 @@ def wohngeld_miete_m_ab_2009(
 def wohngeld_miete_m_ab_2021(
     mietstufe: IntSeries,
     haushaltsgröße: IntSeries,
-    hh_id: IntSeries,
     bruttokaltmiete_m_hh: FloatSeries,
     _anteil_personen_in_haushalt_tu: FloatSeries,
     wohngeld_min_miete: FloatSeries,
@@ -463,8 +458,6 @@ def wohngeld_miete_m_ab_2021(
         See basic input variable :ref:`mietstufe <mietstufe>`.
     haushaltsgröße
         See :func:`haushaltsgröße`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     _anteil_personen_in_haushalt_tu
@@ -497,7 +490,7 @@ def wohngeld_miete_m_ab_2021(
     ]
 
     out = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
+        np.clip(data, a_min=None, a_max=bruttokaltmiete_m_hh)
         * _anteil_personen_in_haushalt_tu
     ).clip(lower=wohngeld_min_miete)
 

@@ -30,9 +30,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     binned = pd.cut(behinderungsgrad, bins=bins + [np.inf], right=False, labels=bins)
 
     # Replace values in the intervals
-    out = binned.replace(eink_st_abzüge_params["behinderten_pauschbetrag"]).astype(
-        float
-    )
+    out = float(binned.replace(eink_st_abzüge_params["behinderten_pauschbetrag"]))
 
     return out
 
@@ -55,9 +53,11 @@ def eink_st_alleinerz_freib_tu_bis_2014(
     -------
 
     """
-    out = alleinerz_tu.astype(float) * 0
-    out.loc[alleinerz_tu] = eink_st_abzüge_params["alleinerz_freibetrag"]
-    return out
+    out = float(alleinerz_tu) * 0
+    if alleinerz_tu:
+        return eink_st_abzüge_params["alleinerz_freibetrag"]
+    else:
+        return out
 
 
 def eink_st_alleinerz_freib_tu_ab_2015(
@@ -81,13 +81,15 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     -------
 
     """
-    out = alleinerz_tu.astype(float) * 0
-    out.loc[alleinerz_tu] = (
+    out = float(alleinerz_tu) * 0
+    alleinerz_freibe_tu = (
         eink_st_abzüge_params["alleinerz_freibetrag"]
-        + anz_kinder_tu.loc[alleinerz_tu]
-        * eink_st_abzüge_params["alleinerz_freibetrag_zusatz"]
+        + anz_kinder_tu * eink_st_abzüge_params["alleinerz_freibetrag_zusatz"]
     )
-    return out
+    if alleinerz_tu:
+        return alleinerz_freibe_tu
+    else:
+        return out
 
 
 def eink_st_altersfreib(
@@ -119,17 +121,23 @@ def eink_st_altersfreib(
     -------
 
     """
-    out = bruttolohn_m * 0
     agelimit = eink_st_abzüge_params["altersentlastungsbetrag_altersgrenze"]
-    out.loc[alter > agelimit] = (
-        eink_st_abzüge_params["altersentlastung_quote"]
-        * 12
-        * (
-            bruttolohn_m
-            + (kapitaleink_brutto_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
+    if alter > agelimit:
+        out = (
+            eink_st_abzüge_params["altersentlastung_quote"]
+            * 12
+            * (
+                bruttolohn_m
+                + (kapitaleink_brutto_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
+            )
         )
-    ).clip(upper=eink_st_abzüge_params["altersentlastungsbetrag_max"])[alter > agelimit]
-    return out
+    else:
+        out = 0
+
+    if out > eink_st_abzüge_params["altersentlastungsbetrag_max"]:
+        return eink_st_abzüge_params["altersentlastungsbetrag_max"]
+    else:
+        return out
 
 
 def eink_st_sonderausgaben_bis_2011(
@@ -149,9 +157,11 @@ def eink_st_sonderausgaben_bis_2011(
     -------
 
     """
-    out = kind.astype(float) * 0
-    out.loc[~kind] = eink_st_abzüge_params["sonderausgabenpauschbetrag"]
-    return out
+    out = float(kind) * 0
+    if kind:
+        return eink_st_abzüge_params["sonderausgabenpauschbetrag"]
+    else:
+        return out
 
 
 def eink_st_sonderausgaben_ab_2012(
@@ -182,7 +192,7 @@ def eink_st_sonderausgaben_ab_2012(
     -------
 
     """
-    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
+    erwachsene_in_tu = anz_erwachsene_tu
     abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
         upper=eink_st_abzüge_params["kinderbetreuungskosten_abz_maximum"]
     )
@@ -194,8 +204,10 @@ def eink_st_sonderausgaben_ab_2012(
         * eink_st_abzüge_params["kinderbetreuungskosten_abz_anteil"]
     ) / erwachsene_in_tu
 
-    out.loc[kind] = 0
-    return out
+    if kind:
+        return 0
+    else:
+        return out
 
 
 def eink_st_kinderfreib_tu(

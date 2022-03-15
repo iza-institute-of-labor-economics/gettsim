@@ -122,11 +122,10 @@ def eink_st_tu_ab_1997(
     -------
 
     """
-    out = eink_st_ohne_kinderfreib_tu
-    out.loc[kinderfreib_günstiger_tu] = eink_st_mit_kinderfreib_tu.loc[
-        kinderfreib_günstiger_tu
-    ]
-    return out
+    if kinderfreib_günstiger_tu:
+        return eink_st_mit_kinderfreib_tu
+    else:
+        return eink_st_ohne_kinderfreib_tu
 
 
 def kinderfreib_günstiger_tu(

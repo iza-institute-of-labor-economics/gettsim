@@ -39,8 +39,10 @@ def arbeitsl_geld_2_m_hh(
         | wohngeld_kinderzuschl_vorrang_hh
         | erwachsene_alle_rentner_hh
     )
-    out.loc[cond] = 0
-    return out
+    if cond:
+        return 0
+    else:
+        return out
 
 
 def arbeitsl_geld_2_regelbedarf_m_hh(
@@ -108,10 +110,14 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     ) * arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
 
     # Clip value at calculated minimal share and given upper share
-    out = alleinerz_hh * value.clip(
-        lower=lower, upper=arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
-    )
-    return out
+    if value < lower:
+        value = lower
+    elif value > arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]:
+        value = arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
+    else:
+        value = value
+
+    return alleinerz_hh * value
 
 
 def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
@@ -212,6 +218,11 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     -------
     FloatSeries with the sum in Euro.
     """
+    if (anz_erwachsene_hh - 2) < 0:
+        weitere_erwachsene = 0
+    else:
+        weitere_erwachsene = anz_erwachsene_hh - 2
+
     data = np.where(
         anz_erwachsene_hh == 1,
         arbeitsl_geld_2_params["regelsatz"]
@@ -219,7 +230,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
         arbeitsl_geld_2_params["regelsatz"]
         * (
             2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
-            + (anz_erwachsene_hh - 2).clip(lower=0)
+            + weitere_erwachsene
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
         ),
     )
@@ -251,16 +262,18 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     -------
     FloatSeries with the minimum needs of an household in Euro.
     """
+    if (anz_erwachsene_hh - 2) < 0:
+        weitere_erwachsene = 0
+    else:
+        weitere_erwachsene = anz_erwachsene_hh - 2
+
     data = np.where(
         anz_erwachsene_hh == 1,
         arbeitsl_geld_2_params["regelsatz"][1]
         * (1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh),
         arbeitsl_geld_2_params["regelsatz"][2]
         * (2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh)
-        + (
-            arbeitsl_geld_2_params["regelsatz"][3]
-            * (anz_erwachsene_hh - 2).clip(lower=0)
-        ),
+        + (arbeitsl_geld_2_params["regelsatz"][3] * weitere_erwachsene),
     )
 
     return arbeitsl_geld_2_kindersatz_m_hh + data
@@ -303,9 +316,10 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
         - arbeitsl_geld_2_eink_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
-    ).clip(lower=0)
+    )
 
     # Check wealth exemption
-    out.loc[vermögen_hh > arbeitsl_geld_2_vermög_freib_hh] = 0
-
-    return out
+    if (out < 0) | (vermögen_hh > arbeitsl_geld_2_vermög_freib_hh):
+        return 0
+    else:
+        return out

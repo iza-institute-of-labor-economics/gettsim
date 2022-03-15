@@ -23,7 +23,6 @@ def freibeträge(
     _eink_st_behinderungsgrad_pauschbetrag: FloatSeries,
     alleinerz_freib_tu: FloatSeries,
     eink_st_altersfreib: FloatSeries,
-    tu_id: IntSeries,
 ) -> FloatSeries:
     """Calculate allowances.
 
@@ -52,7 +51,7 @@ def freibeträge(
         vorsorge
         + sonderausgaben
         + _eink_st_behinderungsgrad_pauschbetrag
-        + tu_id.replace(alleinerz_freib_tu)
+        + alleinerz_freib_tu
         + eink_st_altersfreib
     )
     return out

@@ -21,9 +21,7 @@ def kindergeld_m_bis_1996(kindergeld_basis_m: FloatSeries) -> FloatSeries:
 
 
 def kindergeld_m_ab_1997(
-    kinderfreib_günstiger_tu: BoolSeries,
-    kindergeld_basis_m: FloatSeries,
-    tu_id: IntSeries,
+    kinderfreib_günstiger_tu: BoolSeries, kindergeld_basis_m: FloatSeries,
 ) -> FloatSeries:
     """Kindergeld calculation since 1997.
 
@@ -40,10 +38,12 @@ def kindergeld_m_ab_1997(
     -------
 
     """
-    beantrage_kinderfreib = tu_id.replace(kinderfreib_günstiger_tu)
+    beantrage_kinderfreib = kinderfreib_günstiger_tu
     out = kindergeld_basis_m
-    out.loc[beantrage_kinderfreib] = 0
-    return out
+    if beantrage_kinderfreib:
+        return 0
+    else:
+        return out
 
 
 def kindergeld_m_hh(kindergeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
@@ -102,15 +102,19 @@ def kindergeld_basis_m(
 
     """
     # Kindergeld_Anspruch is the cumulative sum of eligible children.
-    kumulativer_anspruch = (
-        (kindergeld_anspruch.astype(int)).groupby(tu_id).transform("cumsum")
-    )
-    # Make sure that only eligible children get assigned kindergeld
-    kumulativer_anspruch.loc[~kindergeld_anspruch] = 0
-    out = kumulativer_anspruch.clip(upper=max(kindergeld_params["kindergeld"])).replace(
+    kumulativer_anspruch = int(kindergeld_anspruch).groupby(tu_id).transform("cumsum")
+
+    grenze = max(kindergeld_params["kindergeld"]).replace(
         kindergeld_params["kindergeld"]
     )
-    return out
+
+    # Make sure that only eligible children get assigned kindergeld
+    if not kindergeld_anspruch:
+        return 0
+    elif kindergeld_anspruch & (kumulativer_anspruch > grenze):
+        return grenze
+    else:
+        return kumulativer_anspruch
 
 
 def kindergeld_basis_m_tu(
@@ -229,8 +233,10 @@ def kinderbonus_basis_m(
     out = kindergeld_basis_m.copy()
 
     # Kinderbonus parameter is specified on the yearly level
-    out.loc[kindergeld_basis_m > 0] = kindergeld_params["kinderbonus"] / 12
-    return out
+    if kindergeld_basis_m > 0:
+        return kindergeld_params["kinderbonus"] / 12
+    else:
+        return out
 
 
 def kinderbonus_basis_m_tu(

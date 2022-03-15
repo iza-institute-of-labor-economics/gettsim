@@ -4,9 +4,7 @@ from gettsim.typing import IntSeries
 
 
 def kinderbonus_m(
-    kinderfreib_günstiger_tu: BoolSeries,
-    kinderbonus_basis_m: FloatSeries,
-    tu_id: IntSeries,
+    kinderfreib_günstiger_tu: BoolSeries, kinderbonus_basis_m: FloatSeries,
 ) -> FloatSeries:
     """Calculate Kinderbonus (one-time payment, non-allowable against transfer payments).
 
@@ -23,10 +21,12 @@ def kinderbonus_m(
     -------
 
     """
-    beantrage_kinderfreib = tu_id.replace(kinderfreib_günstiger_tu)
+    beantrage_kinderfreib = kinderfreib_günstiger_tu
     out = kinderbonus_basis_m
-    out.loc[beantrage_kinderfreib] = 0
-    return out
+    if beantrage_kinderfreib:
+        return 0
+    else:
+        return out
 
 
 def kinderbonus_m_hh(kinderbonus_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:

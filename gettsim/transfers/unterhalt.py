@@ -84,7 +84,7 @@ def unterhaltsvors_m(
     # The right-hand-side variable is aggregated by tax units whereas we need personal
     # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
     # index because it is
-    unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu_m)
+    unterhaltsvorschuss_eink = unterhaltsvorschuss_eink_tu_m
 
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
 
@@ -101,14 +101,14 @@ def unterhaltsvors_m(
         ),
     ]
 
-    conditions = [c.astype(bool) for c in conditions]
+    conditions = [bool(c) for c in conditions]
     choices = [
         (unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]),
         (unterhalt_params["mindestunterhalt"][12] - kindergeld_params["kindergeld"][1]),
         (unterhalt_params["mindestunterhalt"][17] - kindergeld_params["kindergeld"][1]),
     ]
 
-    out[:] = np.ceil(np.select(conditions, choices)).astype(int)
+    out[:] = int(np.ceil(np.select(conditions, choices)))
 
     # TODO: Check against actual transfers
     return out

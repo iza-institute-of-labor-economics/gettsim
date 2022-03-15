@@ -53,7 +53,7 @@ def test_fail_if_datatype_is_false(input_data):
         _fail_if_datatype_is_false(input_data, [], [])
     with pytest.raises(ValueError):
         altered_data = input_data.copy(deep=True)
-        altered_data["alter"] = altered_data["alter"].astype(float)
+        altered_data["alter"] = float(altered_data["alter"])
         _fail_if_datatype_is_false(altered_data, [], [])
     with pytest.raises(ValueError):
         _, functions = load_user_and_internal_functions(None)

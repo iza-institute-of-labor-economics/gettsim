@@ -7,8 +7,6 @@ from gettsim.typing import IntSeries
 
 
 def kinderzuschl_eink_regel_m_bis_2010(
-    tu_id: IntSeries,
-    hh_id: IntSeries,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     arbeitsl_geld_2_params: dict,
@@ -17,10 +15,6 @@ def kinderzuschl_eink_regel_m_bis_2010(
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
     anz_erwachsene_tu
@@ -32,8 +26,8 @@ def kinderzuschl_eink_regel_m_bis_2010(
     -------
 
     """
-    alleinerz_mehrbedarf = hh_id.replace(_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh)
-    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
+    alleinerz_mehrbedarf = _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+    erwachsene_in_tu = anz_erwachsene_tu
     choices = [
         arbeitsl_geld_2_params["regelsatz"] * (1 + alleinerz_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"]
@@ -54,8 +48,6 @@ def kinderzuschl_eink_regel_m_bis_2010(
 
 
 def kinderzuschl_eink_regel_m_ab_2011(
-    tu_id: IntSeries,
-    hh_id: IntSeries,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     arbeitsl_geld_2_params: dict,
@@ -64,10 +56,6 @@ def kinderzuschl_eink_regel_m_ab_2011(
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
     anz_erwachsene_tu
@@ -79,8 +67,8 @@ def kinderzuschl_eink_regel_m_ab_2011(
     -------
 
     """
-    alleinerz_mehrbedarf = hh_id.replace(_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh)
-    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
+    alleinerz_mehrbedarf = _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+    erwachsene_in_tu = anz_erwachsene_tu
     choices = [
         arbeitsl_geld_2_params["regelsatz"][1] * (1 + alleinerz_mehrbedarf),
         arbeitsl_geld_2_params["regelsatz"][2] * (2 + alleinerz_mehrbedarf),
@@ -193,7 +181,7 @@ def kinderzuschl_eink_min_m(
     hat_kinder_hh = kind.groupby(hh_id).transform("any")
     is_alleinerz_hh = alleinerz.groupby(hh_id).transform("all")
 
-    conditions = [~hat_kinder_hh, is_alleinerz_hh, ~is_alleinerz_hh]
+    conditions = [(not hat_kinder_hh), is_alleinerz_hh, (not is_alleinerz_hh)]
     choices = [
         0,
         kinderzuschl_params["min_eink_alleinerz"],
@@ -228,14 +216,18 @@ def kinderzuschl_kindereink_abzug_m(
     -------
 
     """
-    return kindergeld_anspruch * (
+    out = kindergeld_anspruch * (
         kinderzuschl_params["maximum"]
         - kinderzuschl_params["entzugsrate_kind"] * (bruttolohn_m + unterhaltsvors_m)
-    ).clip(lower=0)
+    )
+
+    if out < 0:
+        return 0
+    else:
+        return out
 
 
 def kinderzuschl_eink_anrechn_m(
-    hh_id: IntSeries,
     arbeitsl_geld_2_eink_m_hh: FloatSeries,
     kinderzuschl_eink_relev_m: FloatSeries,
     kinderzuschl_params: dict,
@@ -246,8 +238,6 @@ def kinderzuschl_eink_anrechn_m(
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     arbeitsl_geld_2_eink_m_hh
         See :func:`arbeitsl_geld_2_eink_m_hh`.
     kinderzuschl_eink_relev_m
@@ -259,14 +249,17 @@ def kinderzuschl_eink_anrechn_m(
     -------
 
     """
-    return (
-        kinderzuschl_params["entzugsrate_eltern"]
-        * (hh_id.replace(arbeitsl_geld_2_eink_m_hh) - kinderzuschl_eink_relev_m)
-    ).clip(lower=0)
+    out = kinderzuschl_params["entzugsrate_eltern"] * (
+        arbeitsl_geld_2_eink_m_hh - kinderzuschl_eink_relev_m
+    )
+
+    if out < 0:
+        return 0
+    else:
+        return out
 
 
 def kinderzuschl_eink_spanne(
-    hh_id: IntSeries,
     arbeitsl_geld_2_brutto_eink_m_hh: FloatSeries,
     kinderzuschl_eink_min_m: FloatSeries,
     kinderzuschl_eink_max_m: FloatSeries,
@@ -276,8 +269,6 @@ def kinderzuschl_eink_spanne(
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     arbeitsl_geld_2_brutto_eink_m_hh
         See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
     kinderzuschl_eink_min_m
@@ -292,8 +283,8 @@ def kinderzuschl_eink_spanne(
 
     """
 
-    eink_spanne = (
-        hh_id.replace(arbeitsl_geld_2_brutto_eink_m_hh) >= kinderzuschl_eink_min_m
-    ) & (hh_id.replace(arbeitsl_geld_2_eink_m_hh) <= kinderzuschl_eink_max_m)
+    eink_spanne = (arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m) & (
+        arbeitsl_geld_2_eink_m_hh <= kinderzuschl_eink_max_m
+    )
 
     return eink_spanne

@@ -47,9 +47,11 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
     -------
     IntSeries with the total amount of rental costs per squaremeter.
     """
-    return ((bruttokaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh).clip(
-        upper=arbeitsl_geld_2_params["max_miete_pro_qm"]["max"]
-    )
+    out = (bruttokaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh
+    if out > arbeitsl_geld_2_params["max_miete_pro_qm"]["max"]:
+        return arbeitsl_geld_2_params["max_miete_pro_qm"]["max"]
+    else:
+        return out
 
 
 def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
@@ -73,21 +75,35 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
     -------
     IntSeries with the number of squaremeters.
     """
-    out = wohnfläche_hh * 0
-    out.loc[bewohnt_eigentum_hh] = wohnfläche_hh.loc[bewohnt_eigentum_hh].clip(
-        upper=(
-            arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["basisgröße"]
-            + (haushaltsgröße_hh.loc[bewohnt_eigentum_hh] - 2).clip(lower=0)
-            * arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["erweiterung"]
-        )
+    if bewohnt_eigentum_hh:
+        haushaltsmitglieder = haushaltsgröße_hh - 2
+        if haushaltsmitglieder < 0:
+            weitere_mitglieder = 0
+        else:
+            weitere_mitglieder = haushaltsmitglieder
+    else:
+        haushaltsmitglieder = haushaltsgröße_hh - 1
+        if haushaltsmitglieder < 0:
+            weitere_mitglieder = 0
+        else:
+            weitere_mitglieder = haushaltsmitglieder
+
+    grenze_eigentum = (
+        arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["basisgröße"]
+        + weitere_mitglieder
+        * arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["erweiterung"]
     )
-    out.loc[~bewohnt_eigentum_hh] = wohnfläche_hh.loc[~bewohnt_eigentum_hh].clip(
-        upper=(
-            arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
-            + (haushaltsgröße_hh.loc[~bewohnt_eigentum_hh] - 1).clip(lower=0)
-            * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
-                "je_weitere_person"
-            ]
-        )
+    grenze_kein_eigentum = (
+        arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
+        + weitere_mitglieder
+        * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["je_weitere_person"]
     )
-    return out
+
+    if bewohnt_eigentum_hh & (wohnfläche_hh <= grenze_eigentum):
+        return wohnfläche_hh
+    elif bewohnt_eigentum_hh & (wohnfläche_hh > grenze_eigentum):
+        return grenze_eigentum
+    elif (not bewohnt_eigentum_hh) & (wohnfläche_hh <= grenze_kein_eigentum):
+        return wohnfläche_hh
+    else:
+        return grenze_kein_eigentum

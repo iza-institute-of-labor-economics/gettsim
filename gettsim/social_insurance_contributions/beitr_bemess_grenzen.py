@@ -43,15 +43,14 @@ def _ges_krankenv_beitr_bemess_grenze_m(
     insurance contributions apply.
 
     """
-    out = wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
-            False: soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"][
-                "west"
-            ],
-        }
-    )
-    return out.astype(float)
+    params = soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]
+
+    if wohnort_ost:
+        out = params["ost"]
+    else:
+        out = params["west"]
+
+    return float(out)
 
 
 def _ges_krankenv_bezugsgröße_selbst_m(
@@ -72,9 +71,7 @@ def _ges_krankenv_bezugsgröße_selbst_m(
     Returns
     -------
     """
-    return wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"],
-            False: soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"],
-        }
-    ).astype(float)
+    if wohnort_ost:
+        return float(soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"])
+    else:
+        return float(soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"])

@@ -26,7 +26,10 @@ def grundr_zuschlag_m(
 
     """
     out = grundr_zuschlag_vor_eink_anr_m - grundr_zuschlag_eink_m
-    return out.clip(lower=0)
+    if out < 0:
+        return 0
+    else:
+        return out
 
 
 @add_rounding_spec(params_key="ges_rente")
@@ -111,7 +114,7 @@ def grundr_zuschlag_eink_m(
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
     # ToDo: Revise when moving to scalars. This will be much easier then.
-    total_income_tu = tu_id.replace(total_income_tu)
+    total_income_tu = total_income_tu
     anr_eink_single = (
         piecewise_polynomial(
             x=total_income_tu / rentenwert,
@@ -138,10 +141,10 @@ def grundr_zuschlag_eink_m(
     )
 
     # Select correct value based on the fact whether a married partner is present.
-    out = anr_eink_single.copy()
-    out.loc[gemeinsam_veranlagt] = anr_eink_verheiratet
-
-    return out
+    if gemeinsam_veranlagt:
+        return anr_eink_verheiratet
+    else:
+        return anr_eink_single
 
 
 @add_rounding_spec(params_key="ges_rente")
@@ -176,13 +179,21 @@ def grundr_zuschlag_vor_eink_anr_m(
     -------
 
     """
+    if grundr_bew_zeiten > ges_rente_params["grundr_zeiten"]["max"]:
+        grundr_bew_zeiten = ges_rente_params["grundr_zeiten"]["max"]
+    else:
+        grundr_bew_zeiten = grundr_bew_zeiten
+
+    if ges_rente_zugangsfaktor > ges_rente_params["grundr_zugangsfaktor_max"]:
+        ges_rente_zugangsfaktor = ges_rente_params["grundr_zugangsfaktor_max"]
+    else:
+        ges_rente_zugangsfaktor = ges_rente_zugangsfaktor
+
     out = (
         grundr_zuschlag_bonus_entgeltp
-        * grundr_bew_zeiten.clip(upper=ges_rente_params["grundr_zeiten"]["max"])
+        * grundr_bew_zeiten
         * rentenwert
-        * ges_rente_zugangsfaktor.clip(
-            upper=ges_rente_params["grundr_zugangsfaktor_max"]
-        )
+        * ges_rente_zugangsfaktor
     )
     return out
 
@@ -228,12 +239,13 @@ def grundr_zuschlag_höchstwert_m(
     -------
 
     """
+    if grundr_zeiten > ges_rente_params["grundr_zeiten"]["max"]:
+        grundr_zeiten = ges_rente_params["grundr_zeiten"]["max"]
+    else:
+        grundr_zeiten = grundr_zeiten
 
     # Calculate number of months above minimum threshold
-    months_above_thresh = (
-        grundr_zeiten.clip(upper=ges_rente_params["grundr_zeiten"]["max"])
-        - ges_rente_params["grundr_zeiten"]["min"]
-    )
+    months_above_thresh = grundr_zeiten - ges_rente_params["grundr_zeiten"]["min"]
 
     # Calculate höchstwert
     out = (
@@ -284,21 +296,26 @@ def grundr_zuschlag_bonus_entgeltp(
     below_half_höchstwert = grundr_bew_zeiten_avg_entgeltp <= (
         0.5 * grundr_zuschlag_höchstwert_m
     )
-    out.loc[below_half_höchstwert] = grundr_bew_zeiten_avg_entgeltp
-
     # Case 2: Entgeltpunkte more than half of Höchstwert, but below Höchstwert
-    cond = ~below_half_höchstwert & (
+    inbetween = (not below_half_höchstwert) & (
         grundr_bew_zeiten_avg_entgeltp < grundr_zuschlag_höchstwert_m
     )
-    out.loc[cond] = grundr_zuschlag_höchstwert_m - grundr_bew_zeiten_avg_entgeltp
-
     # Case 3: Entgeltpunkte above Höchstwert
-    cond = grundr_bew_zeiten_avg_entgeltp > grundr_zuschlag_höchstwert_m
-    out.loc[cond] = 0
+    above_höchstwert = grundr_bew_zeiten_avg_entgeltp > grundr_zuschlag_höchstwert_m
 
     # Set to 0 if Grundrentenzeiten below minimum
     gr_zeiten_below_min = grundr_zeiten < ges_rente_params["grundr_zeiten"]["min"]
-    out.loc[gr_zeiten_below_min] = 0
+
+    if below_half_höchstwert:
+        out = grundr_bew_zeiten_avg_entgeltp
+    elif inbetween:
+        out = grundr_zuschlag_höchstwert_m - grundr_bew_zeiten_avg_entgeltp
+    elif above_höchstwert:
+        out = 0
+    elif gr_zeiten_below_min:
+        out = 0
+    else:
+        out = 0
 
     # Multiply additional Engeltpunkte by factor
     out = out * ges_rente_params["grundr_faktor_bonus"]
@@ -344,9 +361,10 @@ def rente_vorj_vor_grundr_proxy_m(
     # ToDo: Use current_year as argument of this function once we addressed issue #211
     current_year = geburtsjahr + alter
     rentner_vorjahr = jahr_renteneintr <= current_year - 1
-
-    out.loc[~rentner_vorjahr] = 0
-    return out
+    if not rentner_vorjahr:
+        return 0
+    else:
+        return out
 
 
 def grundr_berechtigt(grundr_zeiten: IntSeries, ges_rente_params: dict) -> BoolSeries:

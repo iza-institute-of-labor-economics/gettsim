@@ -25,7 +25,6 @@ def arbeitsl_geld_2_eink_m_hh(
 def arbeitsl_geld_2_eink_m(
     arbeitsl_geld_2_brutto_eink_m: FloatSeries,
     eink_st_tu: FloatSeries,
-    tu_id: IntSeries,
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     sozialv_beitr_gesamt_m: FloatSeries,
@@ -42,8 +41,6 @@ def arbeitsl_geld_2_eink_m(
         See :func:`sozialv_beitr_gesamt_m`.
     eink_st_tu
         See :func:`eink_st_tu`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     soli_st_tu
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
@@ -56,13 +53,18 @@ def arbeitsl_geld_2_eink_m(
     Float Series with the income of a person by unemployment insurance.
     """
 
-    return (
+    out = (
         arbeitsl_geld_2_brutto_eink_m
-        - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
-        - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
+        - (eink_st_tu / anz_erwachsene_tu / 12)
+        - (soli_st_tu / anz_erwachsene_tu / 12)
         - sozialv_beitr_gesamt_m
         - arbeitsl_geld_2_eink_anr_frei_m
-    ).clip(lower=0)
+    )
+
+    if out < 0:
+        return 0
+    else:
+        return out
 
 
 def arbeitsl_geld_2_brutto_eink_m_hh(
@@ -160,9 +162,12 @@ def arbeitsl_geld_2_2005_netto_quote(
         elterngeld_nettolohn_m
         - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
         - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
-    ).clip(lower=0)
+    )
 
-    arbeitsl_geld_2_2005_netto_quote = alg2_2005_bne / bruttolohn_m
+    if alg2_2005_bne < 0:
+        arbeitsl_geld_2_2005_netto_quote = 0
+    else:
+        arbeitsl_geld_2_2005_netto_quote = alg2_2005_bne / bruttolohn_m
 
     return arbeitsl_geld_2_2005_netto_quote
 
@@ -200,17 +205,12 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
 
 
 def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
-    hh_id: IntSeries,
-    bruttolohn_m: FloatSeries,
-    anz_kinder_hh: IntSeries,
-    arbeitsl_geld_2_params: dict,
+    bruttolohn_m: FloatSeries, anz_kinder_hh: IntSeries, arbeitsl_geld_2_params: dict,
 ) -> FloatSeries:
     """Calcualte share of income, which remains to the individual sinc 10/2005.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     anz_kinder_hh
@@ -223,21 +223,24 @@ def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
 
     """
     out = bruttolohn_m * 0
-    kinder_in_hh_individual = hh_id.replace(anz_kinder_hh > 0).astype(bool)
-    out.loc[kinder_in_hh_individual] = piecewise_polynomial(
-        x=bruttolohn_m.loc[kinder_in_hh_individual],
-        thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
-        rates=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["rates"],
-        intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-    out.loc[~kinder_in_hh_individual] = piecewise_polynomial(
-        x=bruttolohn_m.loc[~kinder_in_hh_individual],
-        thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
-        rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
-        intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
+    kinder_in_hh_individual = bool(anz_kinder_hh > 0)
+
+    if kinder_in_hh_individual:
+        out = piecewise_polynomial(
+            x=bruttolohn_m,
+            thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
+            rates=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["rates"],
+            intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
+                "eink_anr_frei_kinder"
+            ]["intercepts_at_lower_thresholds"],
+        )
+    else:
+        out = piecewise_polynomial(
+            x=bruttolohn_m,
+            thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
+            rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
+            intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
+                "intercepts_at_lower_thresholds"
+            ],
+        )
     return out

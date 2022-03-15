@@ -43,7 +43,6 @@ def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, hh_id: IntSeries) -> FloatS
 
 
 def arbeitsl_geld_m(
-    tu_id: IntSeries,
     anz_kinder_tu: IntSeries,
     arbeitsl_geld_berechtigt: BoolSeries,
     arbeitsl_geld_eink_vorj_proxy: FloatSeries,
@@ -53,8 +52,6 @@ def arbeitsl_geld_m(
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
     arbeitsl_geld_berechtigt
@@ -68,14 +65,12 @@ def arbeitsl_geld_m(
     -------
 
     """
-    arbeitsl_geld_satz = (tu_id.replace(anz_kinder_tu) == 0).replace(
-        {
-            True: arbeitsl_geld_params["satz_ohne_kinder"],
-            False: arbeitsl_geld_params["satz_mit_kindern"],
-        }
-    )
+    if anz_kinder_tu == 0:
+        arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
+    else:
+        arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
-    arbeitsl_geld_m = arbeitsl_geld_berechtigt.astype(float) * 0
+    arbeitsl_geld_m = float(arbeitsl_geld_berechtigt) * 0
 
     arbeitsl_geld_m[arbeitsl_geld_berechtigt] = (
         arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz

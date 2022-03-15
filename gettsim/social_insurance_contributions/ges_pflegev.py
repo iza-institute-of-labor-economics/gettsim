@@ -24,7 +24,7 @@ def ges_pflegev_zusatz_kinderlos(
 
     """
     out = soz_vers_beitr_params["ges_pflegev_zusatz_kinderlos_altersgrenze"]
-    return ~hat_kinder & alter.ge(out)
+    return (not hat_kinder) & alter.ge(out)
 
 
 def ges_pflegev_beitr_m(
@@ -35,6 +35,8 @@ def ges_pflegev_beitr_m(
     ges_pflegev_zusatz_kinderlos: BoolSeries,
     _ges_krankenv_beitr_bruttolohn_m: FloatSeries,
     soz_vers_beitr_params: dict,
+    in_gleitzone: BoolSeries,
+    selbständig: BoolSeries,
 ) -> FloatSeries:
     """Contribution for each individual to the public care insurance.
 
@@ -54,6 +56,10 @@ def ges_pflegev_beitr_m(
         See :func:`_ges_krankenv_beitr_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
+    selbständig
+        See basic input variable :ref:`selbständig <selbständig>`.
 
     Returns
     -------
@@ -66,22 +72,26 @@ def ges_pflegev_beitr_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
-    zusatz_kinderlos = (
-        _ges_krankenv_beitr_bruttolohn_m.loc[ges_pflegev_zusatz_kinderlos]
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
-    )
+    if ges_pflegev_zusatz_kinderlos:
+        zusatz_kinderlos = (
+            _ges_krankenv_beitr_bruttolohn_m
+            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+    else:
+        zusatz_kinderlos = 0
 
-    beitr_regulär_beschäftigt_m.loc[ges_pflegev_zusatz_kinderlos] += zusatz_kinderlos
+    beitr_regulär_beschäftigt_m += zusatz_kinderlos
 
-    out = geringfügig_beschäftigt.astype(float) * np.nan
+    out = float(geringfügig_beschäftigt) * np.nan
 
-    # Set to 0 for minijobs
-    out.loc[geringfügig_beschäftigt] = 0
-
-    # Assign calculated contributions
-    out.loc[_ges_pflegev_beitr_midi_job_m_m.index] = _ges_pflegev_beitr_midi_job_m_m
-    out.loc[beitr_regulär_beschäftigt_m.index] = beitr_regulär_beschäftigt_m
-    out.loc[ges_pflegev_beitr_selbst_m.index] = ges_pflegev_beitr_selbst_m
+    if geringfügig_beschäftigt:
+        out = 0
+    elif in_gleitzone:
+        out = _ges_pflegev_beitr_midi_job_m_m
+    elif selbständig:
+        out = ges_pflegev_beitr_selbst_m
+    else:
+        out = beitr_regulär_beschäftigt_m
 
     # Add the care insurance contribution for pensions
     return out + ges_pflegev_beitr_rente_m
@@ -120,12 +130,15 @@ def ges_pflegev_beitr_selbst_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
-    zusatz_kinderlos = (
-        _ges_krankenv_bemessungsgrundlage_eink_selbst.loc[ges_pflegev_zusatz_kinderlos]
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
-    )
+    if ges_pflegev_zusatz_kinderlos:
+        zusatz_kinderlos = (
+            _ges_krankenv_bemessungsgrundlage_eink_selbst
+            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+    else:
+        zusatz_kinderlos = 0
 
-    out.loc[ges_pflegev_zusatz_kinderlos] += zusatz_kinderlos
+    out += zusatz_kinderlos
     return out
 
 
@@ -155,12 +168,16 @@ def ges_pflegev_beitr_rente_m(
         * 2
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
-    zusatz_kinderlos = (
-        _ges_krankenv_bemessungsgrundlage_rente_m.loc[ges_pflegev_zusatz_kinderlos]
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
-    )
 
-    out.loc[ges_pflegev_zusatz_kinderlos] += zusatz_kinderlos
+    if ges_pflegev_zusatz_kinderlos:
+        zusatz_kinderlos = (
+            _ges_krankenv_bemessungsgrundlage_rente_m
+            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+    else:
+        zusatz_kinderlos = 0
+
+    out += zusatz_kinderlos
     return out
 
 
@@ -168,7 +185,6 @@ def _ges_pflegev_beitr_midi_job_m_m(
     ges_pflegev_zusatz_kinderlos: BoolSeries,
     midi_job_bemessungsentgelt_m: FloatSeries,
     bruttolohn_m: FloatSeries,
-    in_gleitzone: BoolSeries,
     soz_vers_beitr_params: dict,
 ) -> FloatSeries:
     """Calculating the employer care insurance contribution.
@@ -182,8 +198,6 @@ def _ges_pflegev_beitr_midi_job_m_m(
         See :func:`midi_job_bemessungsentgelt_m`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -199,14 +213,18 @@ def _ges_pflegev_beitr_midi_job_m_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
 
-    zusatz_kinderlos = (
-        midi_job_bemessungsentgelt_m.loc[ges_pflegev_zusatz_kinderlos]
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
-    )
+    if ges_pflegev_zusatz_kinderlos:
+        zusatz_kinderlos = (
+            midi_job_bemessungsentgelt_m
+            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+    else:
+        zusatz_kinderlos = 0
 
-    ges_beitr_midi_job_m.loc[ges_pflegev_zusatz_kinderlos] += zusatz_kinderlos
+    ges_beitr_midi_job_m += zusatz_kinderlos
+
     ag_beitr_midi_job_m = (
-        bruttolohn_m.loc[in_gleitzone]
+        bruttolohn_m
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
     )
     return ges_beitr_midi_job_m - ag_beitr_midi_job_m

@@ -77,8 +77,10 @@ def eink_abhängig_beschäftigt(
 
     """
     out = 12 * bruttolohn_m - eink_st_abzüge_params["werbungskostenpauschale"]
-    out.loc[geringfügig_beschäftigt] = 0
-    return out
+    if geringfügig_beschäftigt:
+        return 0
+    else:
+        return out
 
 
 def eink_abhängig_beschäftigt_tu(
@@ -292,8 +294,12 @@ def kapitaleink(
         kapitaleink_brutto
         - eink_st_abzüge_params["sparerpauschbetrag"]
         - eink_st_abzüge_params["sparer_werbungskosten_pauschbetrag"]
-    ).clip(lower=0)
-    return out
+    )
+
+    if out < 0:
+        return 0
+    else:
+        return out
 
 
 def sum_eink_tu(sum_eink: FloatSeries, tu_id: IntSeries) -> FloatSeries:

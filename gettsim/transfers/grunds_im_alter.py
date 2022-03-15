@@ -1,5 +1,3 @@
-import pandas as pd
-
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -55,14 +53,19 @@ def grunds_im_alter_m_hh(
         - grunds_im_alter_eink_m_hh
         - unterhaltsvors_m_hh
         - kindergeld_m_hh
-    ).clip(lower=0)
+    )
 
     # Wealth check
-    out.loc[vermögen_hh >= grunds_im_alter_vermög_freib_hh] = 0
-
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    out.loc[~erwachsene_alle_rentner_hh] = 0
-    return out
+    cond = (
+        (vermögen_hh >= grunds_im_alter_vermög_freib_hh)
+        | (not erwachsene_alle_rentner_hh)
+        | (out < 0)
+    )
+    if cond:
+        return 0
+    else:
+        return out
 
 
 def grunds_im_alter_eink_m_hh(
@@ -97,7 +100,6 @@ def grunds_im_alter_eink_m(
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
     sozialv_beitr_gesamt_m: FloatSeries,
-    tu_id: IntSeries,
     grunds_im_alter_params: dict,
 ) -> FloatSeries:
     """Calculate income considered in the calculation of Grundsicherung im
@@ -127,8 +129,6 @@ def grunds_im_alter_eink_m(
         See :func:`anz_erwachsene_tu`.
     sozialv_beitr_gesamt_m
         See :func:`sozialv_beitr_gesamt_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     grunds_im_alter_params
         See params documentation
         :ref:`grunds_im_alter_params <grunds_im_alter_params>`.
@@ -141,7 +141,12 @@ def grunds_im_alter_eink_m(
     # Consider Elterngeld that is larger than 300
     elterngeld_grunds_im_alter_m = (
         elterngeld_m - grunds_im_alter_params["elterngeld_anr_frei"]
-    ).clip(lower=0)
+    )
+
+    if elterngeld_grunds_im_alter_m < 0:
+        elterngeld_grunds_im_alter_m = 0
+    else:
+        elterngeld_grunds_im_alter_m = elterngeld_grunds_im_alter_m
 
     # Income
     total_income = (
@@ -158,12 +163,15 @@ def grunds_im_alter_eink_m(
     # TODO: Change this to lohn_steuer
     out = (
         total_income
-        - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
-        - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
+        - (eink_st_tu / anz_erwachsene_tu / 12)
+        - (soli_st_tu / anz_erwachsene_tu / 12)
         - sozialv_beitr_gesamt_m
-    ).clip(lower=0)
+    )
 
-    return out
+    if out < 0:
+        return 0
+    else:
+        return out
 
 
 def grunds_im_alter_erwerbseink_m(
@@ -200,11 +208,12 @@ def grunds_im_alter_erwerbseink_m(
 
     # Can deduct 30% of earnings (but no more than 1/2 of regelbedarf)
     earnings_after_max_deduction = earnings - arbeitsl_geld_2_params["regelsatz"][1] / 2
-    earnings = ((1 - grunds_im_alter_params["erwerbseink_anr_frei"]) * earnings).clip(
-        lower=earnings_after_max_deduction
-    )
+    earnings = (1 - grunds_im_alter_params["erwerbseink_anr_frei"]) * earnings
 
-    return earnings
+    if earnings < earnings_after_max_deduction:
+        return earnings_after_max_deduction
+    else:
+        return earnings
 
 
 def _grunds_im_alter_kapitaleink_brutto_m(
@@ -230,10 +239,13 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     # Can deduct allowance from yearly capital income
     capital_income_y = (
         kapitaleink_brutto - grunds_im_alter_params["kapitaleink_anr_frei"]
-    ).clip(lower=0)
+    )
 
     # Calculate and return monthly capital income (after deduction)
-    return capital_income_y / 12
+    if capital_income_y < 0:
+        return 0
+    else:
+        return capital_income_y / 12
 
 
 def grunds_im_alter_priv_rente_m(
@@ -268,12 +280,11 @@ def grunds_im_alter_priv_rente_m(
             "intercepts_at_lower_thresholds"
         ],
     )
-
-    priv_rente_m_amount_exempt = priv_rente_m_amount_exempt.clip(
-        upper=arbeitsl_geld_2_params["regelsatz"][1] / 2
-    )
-
-    return priv_rente_m - priv_rente_m_amount_exempt
+    upper = arbeitsl_geld_2_params["regelsatz"][1] / 2
+    if priv_rente_m_amount_exempt > upper:
+        return priv_rente_m - upper
+    else:
+        return priv_rente_m - priv_rente_m_amount_exempt
 
 
 def _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh(
@@ -300,7 +311,6 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     anz_erwachsene_hh: IntSeries,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
-    hh_id: IntSeries,
 ) -> FloatSeries:
     """Calculate additional allowance for individuals with disabled person's pass G.
 
@@ -314,14 +324,11 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     Returns
     -------
 
     """
-    out = pd.Series(0, index=schwerbeh_g.index, dtype=float)
-    anz_erwachsene_hh = hh_id.replace(anz_erwachsene_hh)
+    anz_erwachsene_hh = anz_erwachsene_hh
 
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
     mehrbedarf_singles = (arbeitsl_geld_2_params["regelsatz"][1]) * (
@@ -331,13 +338,12 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
         grunds_im_alter_params["mehrbedarf_schwerbeh_g"]["rate"]
     )
 
-    # singles
-    out.loc[schwerbeh_g & (anz_erwachsene_hh == 1)] = mehrbedarf_singles
-
-    # couples
-    out.loc[schwerbeh_g & (anz_erwachsene_hh > 1)] = mehrbedarf_in_couple
-
-    return out
+    if (schwerbeh_g) & (anz_erwachsene_hh == 1):
+        return mehrbedarf_singles
+    elif (schwerbeh_g) & (anz_erwachsene_hh > 1):
+        return mehrbedarf_in_couple
+    else:
+        return 0
 
 
 def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: FloatSeries,) -> FloatSeries:
@@ -396,8 +402,13 @@ def grunds_im_alter_ges_rente_m_ab_2021(
         ],
     )
 
-    deducted_rent = deducted_rent.clip(upper=arbeitsl_geld_2_params["regelsatz"][1] / 2)
-    deducted_rent.loc[~grundr_berechtigt] = 0
+    grenze = arbeitsl_geld_2_params["regelsatz"][1] / 2
+    if (grundr_berechtigt) & (deducted_rent <= grenze):
+        deducted_rent = deducted_rent
+    elif (grundr_berechtigt) & (deducted_rent > grenze):
+        deducted_rent = grenze
+    else:
+        deducted_rent = 0
 
     return ges_rente_m - deducted_rent
 

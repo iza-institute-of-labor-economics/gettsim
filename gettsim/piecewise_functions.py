@@ -41,13 +41,15 @@ def piecewise_polynomial(
     # Check in which interval each individual is. The thresholds are not exclusive on
     # the right side!
 
-    binned = pd.cut(
-        x,
-        bins=thresholds,
-        right=False,
-        include_lowest=True,
-        labels=range(num_intervals),
-    ).astype(float)
+    binned = float(
+        pd.cut(
+            x,
+            bins=thresholds,
+            right=False,
+            include_lowest=True,
+            labels=range(num_intervals),
+        )
+    )
 
     # Create series with last threshold for each individual
     thresholds_individual = binned.replace(dict(enumerate(thresholds[:-1])))
@@ -96,9 +98,10 @@ def piecewise_polynomial(
         )
 
     # For those in interval zero, the above equations yield wrong results
-    out.loc[binned == 0] = intercepts_at_lower_thresholds[0]
-
-    return out
+    if binned == 0:
+        return intercepts_at_lower_thresholds[0]
+    else:
+        return out
 
 
 def get_piecewise_parameters(parameter_dict, parameter, func_type):

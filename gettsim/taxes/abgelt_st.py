@@ -41,12 +41,12 @@ def zu_verst_kapitaleink_tu(
     -------
 
     """
-    out = (
-        kapitaleink_brutto_tu
-        - anz_erwachsene_tu
-        * (
-            eink_st_abzüge_params["sparerpauschbetrag"]
-            + eink_st_abzüge_params["sparer_werbungskosten_pauschbetrag"]
-        )
-    ).clip(lower=0)
-    return out
+    out = kapitaleink_brutto_tu - anz_erwachsene_tu * (
+        eink_st_abzüge_params["sparerpauschbetrag"]
+        + eink_st_abzüge_params["sparer_werbungskosten_pauschbetrag"]
+    )
+
+    if out < 0:
+        return 0
+    else:
+        return out

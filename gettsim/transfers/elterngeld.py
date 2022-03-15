@@ -74,17 +74,22 @@ def elterngeld_m(
     -------
 
     """
+    if elterngeld_eink_erlass_m < elterngeld_params["mindestbetrag"]:
+        elterngeld_eink_erlass_m = elterngeld_params["mindestbetrag"]
+    elif elterngeld_eink_erlass_m > elterngeld_params["höchstbetrag"]:
+        elterngeld_eink_erlass_m = elterngeld_params["höchstbetrag"]
+    else:
+        elterngeld_eink_erlass_m = elterngeld_eink_erlass_m
     alternative_elterngeld = (
-        elterngeld_eink_erlass_m.clip(
-            lower=elterngeld_params["mindestbetrag"],
-            upper=elterngeld_params["höchstbetrag"],
-        )
+        elterngeld_eink_erlass_m
         + elterngeld_geschw_bonus_m
         + elterngeld_mehrlinge_bonus_m
     )
 
     data = np.where(
-        (elterngeld_eink_relev_m < 0) | ~elternzeit_anspruch, 0, alternative_elterngeld
+        (elterngeld_eink_relev_m < 0) | (not elternzeit_anspruch),
+        0,
+        alternative_elterngeld,
     )
 
     return pd.Series(index=elterngeld_eink_relev_m.index, data=data)
@@ -122,18 +127,22 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(upper=_ges_rentenv_beitr_bemess_grenze_m)
+    if bruttolohn_vorj_m > _ges_rentenv_beitr_bemess_grenze_m:
+        max_wage = _ges_rentenv_beitr_bemess_grenze_m
+    else:
+        max_wage = bruttolohn_vorj_m
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = elterngeld_params["soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_tax = _eink_st_tarif(
-        (12 * max_wage - eink_st_abzüge_params["werbungskostenpauschale"]).clip(
-            lower=0
-        ),
-        eink_st_params,
-    )
+    prox_income = 12 * max_wage - eink_st_abzüge_params["werbungskostenpauschale"]
+    if prox_income < 0:
+        prox_income = 0
+    else:
+        prox_income = prox_income
+
+    prox_tax = _eink_st_tarif(prox_income, eink_st_params,)
 
     prox_soli = piecewise_polynomial(
         prox_tax,
@@ -144,7 +153,14 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
         ],
     )
 
-    return (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0)
+    _elterngeld_proxy_eink_vorj_elterngeld_m = (
+        max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12
+    )
+
+    if _elterngeld_proxy_eink_vorj_elterngeld_m < 0:
+        return 0
+    else:
+        return _elterngeld_proxy_eink_vorj_elterngeld_m
 
 
 def elternzeit_anspruch(
@@ -194,7 +210,7 @@ def elternzeit_anspruch(
     eligible = (
         eligible_age
         & eligible_consumed
-        & ~kind
+        & (not kind)
         & (m_elterngeld <= elterngeld_params["max_monate_ind"])
     )
 
@@ -277,7 +293,6 @@ def _elterngeld_anz_mehrlinge_anspruch(
 
 def elterngeld_nettolohn_m(
     bruttolohn_m: FloatSeries,
-    tu_id: IntSeries,
     eink_st_tu: FloatSeries,
     soli_st_tu: FloatSeries,
     anz_erwachsene_tu: IntSeries,
@@ -292,8 +307,6 @@ def elterngeld_nettolohn_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     eink_st_tu
         See :func:`eink_st_tu`.
     soli_st_tu
@@ -307,12 +320,17 @@ def elterngeld_nettolohn_m(
     -------
 
     """
-    return (
+    out = (
         bruttolohn_m
-        - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
-        - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
+        - (eink_st_tu / anz_erwachsene_tu / 12)
+        - (soli_st_tu / anz_erwachsene_tu / 12)
         - sozialv_beitr_gesamt_m
-    ).clip(lower=0)
+    )
+
+    if out < 0:
+        return 0
+    else:
+        return out
 
 
 def elterngeld_eink_relev_m(

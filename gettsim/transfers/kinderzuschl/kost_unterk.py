@@ -33,16 +33,12 @@ def kinderzuschl_kost_unterk_m(
 
 
 def kinderzuschl_bruttokaltmiete_m(
-    hh_id: IntSeries,
-    bruttokaltmiete_m_hh: FloatSeries,
-    _anteil_personen_in_haushalt_tu: FloatSeries,
+    bruttokaltmiete_m_hh: FloatSeries, _anteil_personen_in_haushalt_tu: FloatSeries,
 ) -> FloatSeries:
     """Share of household's monthly rent attributed to the tax unit.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     _anteil_personen_in_haushalt_tu
@@ -52,20 +48,16 @@ def kinderzuschl_bruttokaltmiete_m(
     -------
 
     """
-    return hh_id.replace(bruttokaltmiete_m_hh) * _anteil_personen_in_haushalt_tu
+    return bruttokaltmiete_m_hh * _anteil_personen_in_haushalt_tu
 
 
 def kinderzuschl_heizkosten_m(
-    hh_id: IntSeries,
-    heizkosten_m_hh: FloatSeries,
-    _anteil_personen_in_haushalt_tu: FloatSeries,
+    heizkosten_m_hh: FloatSeries, _anteil_personen_in_haushalt_tu: FloatSeries,
 ) -> FloatSeries:
     """Share of household's heating expenses attributed to the tax unit.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     heizkosten_m_hh
         See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
     _anteil_personen_in_haushalt_tu
@@ -75,7 +67,7 @@ def kinderzuschl_heizkosten_m(
     -------
 
     """
-    return hh_id.replace(heizkosten_m_hh) * _anteil_personen_in_haushalt_tu
+    return heizkosten_m_hh * _anteil_personen_in_haushalt_tu
 
 
 def _kinderzuschl_wohnbedarf_eltern_anteil(
@@ -103,8 +95,8 @@ def _kinderzuschl_wohnbedarf_eltern_anteil(
     -------
 
     """
-    kinder_in_tu = tu_id.replace(anz_kinder_tu)
-    erwachsene_in_tu = tu_id.replace(anz_erwachsene_tu)
+    kinder_in_tu = anz_kinder_tu
+    erwachsene_in_tu = anz_erwachsene_tu
     conditions = []
     choices = []
     ex_min = kinderzuschl_params["exmin"]
