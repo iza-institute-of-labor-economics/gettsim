@@ -22,7 +22,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`rentner`              | Dummy: Pensioner employment status          | BoolSeries   |
 +-------------------------+---------------------------------------------+--------------+
-| _`alleinerziehend`      | Dummy: Single parent                        | BoolSeries   |
+| _`alleinerz`            | Dummy: Single parent                        | BoolSeries   |
 +-------------------------+---------------------------------------------+--------------+
 | _`wohnort_ost`          | Dummy: Living in former East Germany        | BoolSeries   |
 +-------------------------+---------------------------------------------+--------------+
@@ -44,7 +44,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`vermiet_eink_m`       | Monthly rental income                       | FloatSeries  |
 +-------------------------+---------------------------------------------+--------------+
-| _`kapitaleink_m`        | Monthly capital income                      | FloatSeries  |
+| _`kapitaleink_brutto_m` | Monthly capital income                      | FloatSeries  |
 +-------------------------+---------------------------------------------+--------------+
 | _`bruttokaltmiete_m_hh` | Monthly rent expenses for household         | FloatSeries  |
 +-------------------------+---------------------------------------------+--------------+
@@ -54,11 +54,11 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`bewohnt_eigentum_hh`  | Dummy: Owner-occupied housing               | BoolSeries   |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_lfdj_m`      | Months in unemployment, current year        | IntSeries    |
+| _`arbeitsl_monate_lfdj` | Months in unemployment, current year        | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_vorj_m`      | Months in unemployment, previous year       | IntSeries    |
+| _`arbeitsl_monate_vorj` | Months in unemployment, previous year       | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_vor2j_m`     | Months in unemployment, two years before    | IntSeries    |
+| _`arbeitsl_monate_v2j`  | Months in unemployment, two years before    | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
 | _`arbeitsstunden_w`     | Weekly working hours of individual          | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+

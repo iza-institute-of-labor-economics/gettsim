@@ -3,26 +3,30 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def kost_unterk_m_hh(
-    berechtigte_wohnfläche_hh: IntSeries, miete_pro_qm_hh: FloatSeries
+def arbeitsl_geld_2_kost_unterk_m_hh(
+    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: IntSeries,
+    _arbeitsl_geld_2_warmmiete_pro_qm_hh: FloatSeries,
 ) -> FloatSeries:
     """Calculate costs of living eligible to claim.
 
     Parameters
     ----------
-    berechtigte_wohnfläche_hh
-        See :func:`berechtigte_wohnfläche_hh`.
-    miete_pro_qm_hh
-        See :func:`miete_pro_qm_hh`.
+    _arbeitsl_geld_2_berechtigte_wohnfläche_hh
+        See :func:`_arbeitsl_geld_2_berechtigte_wohnfläche_hh`.
+    _arbeitsl_geld_2_warmmiete_pro_qm_hh
+        See :func:`_arbeitsl_geld_2_warmmiete_pro_qm_hh`.
 
     Returns
     -------
     FloatSeries with total monthly cost of rent.
     """
-    return berechtigte_wohnfläche_hh * miete_pro_qm_hh
+    return (
+        _arbeitsl_geld_2_berechtigte_wohnfläche_hh
+        * _arbeitsl_geld_2_warmmiete_pro_qm_hh
+    )
 
 
-def miete_pro_qm_hh(
+def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
     bruttokaltmiete_m_hh: FloatSeries,
     heizkosten_m_hh: FloatSeries,
     wohnfläche_hh: IntSeries,
@@ -48,7 +52,7 @@ def miete_pro_qm_hh(
     )
 
 
-def berechtigte_wohnfläche_hh(
+def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
     wohnfläche_hh: IntSeries,
     bewohnt_eigentum_hh: BoolSeries,
     haushaltsgröße_hh: IntSeries,

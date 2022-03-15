@@ -286,8 +286,9 @@ vermögensgrundfreibetrag_obergrenze:
     en: Maximum of basic allowance
   description:
     de: § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen, die vor 1948
-        geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr
-        auf, scheint aber noch relevant zu sein.
+        geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr auf
+        und ist nicht mehr relevant, da alle betroffenen Personen zu alt für ALG 2
+        sind.
     en: Differs by birth year.
   unit: Euro
   2005-01-01:

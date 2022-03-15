@@ -52,7 +52,7 @@ Grundrentenzuschlag ``grundr_zuschlag_höchstwert_m`` be rounded to the nearest
 fourth decimal point (§76g SGB VI: Zuschlag an Entgeltpunkten für langjährige
 Versicherung). The example below contains GETTSIM's encoding of this fact.
 
-The snippet is taken from ``ges_rentenv.yaml``, which contains the following
+The snippet is taken from ``ges_rente.yaml``, which contains the following
 code:
 
 .. code-block:: yaml
@@ -93,7 +93,7 @@ to be ``"ges_rente"``:
 
 .. code-block:: python
 
-    @add_rounding_spec(params_key="ges_rentenv")
+    @add_rounding_spec(params_key="ges_rente")
     def grundr_zuschlag_höchstwert_m(grundr_zeiten: IntSeries) -> FloatSeries:
         ...
         return out

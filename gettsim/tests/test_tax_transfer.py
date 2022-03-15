@@ -46,7 +46,7 @@ def test_tax_transfer(
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[
-        list(TYPES_INPUT_VARIABLES.keys()) + ["summe_ges_priv_rente_m"]
+        list(TYPES_INPUT_VARIABLES.keys()) + ["sum_ges_rente_priv_rente_m"]
     ].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     # params["renten_daten"] = renten_daten
@@ -56,7 +56,7 @@ def test_tax_transfer(
         params=policy_params,
         functions=policy_functions,
         targets=OUT_COLS,
-        columns_overriding_functions=["summe_ges_priv_rente_m"],
+        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
 
 
@@ -73,7 +73,7 @@ def test_data_types(
 
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[
-        list(TYPES_INPUT_VARIABLES.keys()) + ["summe_ges_priv_rente_m"]
+        list(TYPES_INPUT_VARIABLES.keys()) + ["sum_ges_rente_priv_rente_m"]
     ].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     # params["renten_daten"] = renten_daten
@@ -84,7 +84,7 @@ def test_data_types(
         functions=policy_functions,
         targets=OUT_COLS,
         debug=True,
-        columns_overriding_functions=["summe_ges_priv_rente_m"],
+        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
     for column_name, series in data.items():
         if series.empty:

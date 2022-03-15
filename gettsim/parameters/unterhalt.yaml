@@ -37,6 +37,7 @@ mindestunterhalt:
     12: 451
     17: 528
     reference: Artikel 1 V. v. 03.11.2020 BGBl. I S. 2344.
+
 unterhaltsvors_mindesteinkommen:
   name:
     de: Monatliches Mindesteinkommen, um UHV für Kinder ab 13 Jahren zu erhalten
@@ -49,6 +50,7 @@ unterhaltsvors_mindesteinkommen:
   2017-01-01:
     scalar: 600
     reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
+
 unterhaltsvors_altersgrenzen:
   name:
     de: Altersgrenzen für den Bezug von Unterhaltsvorschuss

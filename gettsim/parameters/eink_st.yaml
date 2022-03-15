@@ -201,7 +201,7 @@ eink_st_tarif:
     3:
       upper_threshold: 277826
 
-ertragsanteil:
+rente_ertragsanteil:
   name:
     de: >-
       Piecewise linear Ertrgasanteil funktion für den Anteil an

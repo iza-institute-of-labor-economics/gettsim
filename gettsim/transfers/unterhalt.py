@@ -43,9 +43,9 @@ def unterhaltsvors_m_hh(unterhaltsvors_m: FloatSeries, hh_id: IntSeries) -> Floa
 
 def unterhaltsvors_m(
     tu_id: IntSeries,
-    alleinerziehend: BoolSeries,
+    alleinerz: BoolSeries,
     alter: IntSeries,
-    unterhaltsvorschuss_eink_tu: FloatSeries,
+    unterhaltsvorschuss_eink_tu_m: FloatSeries,
     unterhalt_params: dict,
     kindergeld_params: dict,
 ) -> FloatSeries:
@@ -62,12 +62,12 @@ def unterhaltsvors_m(
     ----------
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-    alleinerziehend
-        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
+    alleinerz
+        See basic input variable :ref:`alleinerz <alleinerz>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    unterhaltsvorschuss_eink_tu
-        See :func:`unterhaltsvorschuss_eink_tu`.
+    unterhaltsvorschuss_eink_tu_m
+        See :func:`unterhaltsvorschuss_eink_tu_m`.
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     kindergeld_params
@@ -84,17 +84,17 @@ def unterhaltsvors_m(
     # The right-hand-side variable is aggregated by tax units whereas we need personal
     # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
     # index because it is
-    unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu)
+    unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu_m)
 
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
 
     conditions = [
-        (alter < altersgrenzen[0]) & alleinerziehend,
-        (alter >= altersgrenzen[0]) & (alter < altersgrenzen[1]) & alleinerziehend,
+        (alter < altersgrenzen[0]) & alleinerz,
+        (alter >= altersgrenzen[0]) & (alter < altersgrenzen[1]) & alleinerz,
         # Older kids get it only if the parent has income > 600€.
         (alter >= altersgrenzen[1])
         & (alter <= altersgrenzen[2])
-        & alleinerziehend
+        & alleinerz
         & (
             unterhaltsvorschuss_eink
             > unterhalt_params["unterhaltsvors_mindesteinkommen"]
@@ -114,13 +114,13 @@ def unterhaltsvors_m(
     return out
 
 
-def unterhaltsvorschuss_eink_tu(
+def unterhaltsvorschuss_eink_tu_m(
     bruttolohn_m_tu: FloatSeries,
     sonstig_eink_m_tu: FloatSeries,
     eink_selbst_m_tu: FloatSeries,
     vermiet_eink_m_tu: FloatSeries,
-    kapitaleink_m_tu: FloatSeries,
-    summe_ges_priv_rente_m_tu: FloatSeries,
+    kapitaleink_brutto_m_tu: FloatSeries,
+    sum_ges_rente_priv_rente_m_tu: FloatSeries,
     arbeitsl_geld_m_tu: FloatSeries,
 ) -> FloatSeries:
     """Calculate relevant income for advance on alimony payment.
@@ -135,10 +135,10 @@ def unterhaltsvorschuss_eink_tu(
         See :func:`eink_selbst_m_tu`.
     vermiet_eink_m_tu
         See :func:`vermiet_eink_m_tu`.
-    kapitaleink_m_tu
-        See :func:`kapitaleink_m_tu`.
-    summe_ges_priv_rente_m_tu
-        See :func:`summe_ges_priv_rente_m_tu`.
+    kapitaleink_brutto_m_tu
+        See :func:`kapitaleink_brutto_m_tu`.
+    sum_ges_rente_priv_rente_m_tu
+        See :func:`sum_ges_rente_priv_rente_m_tu`.
     arbeitsl_geld_m_tu
         See :func:`arbeitsl_geld_m_tu`.
 
@@ -151,79 +151,9 @@ def unterhaltsvorschuss_eink_tu(
         + sonstig_eink_m_tu
         + eink_selbst_m_tu
         + vermiet_eink_m_tu
-        + kapitaleink_m_tu
-        + summe_ges_priv_rente_m_tu
+        + kapitaleink_brutto_m_tu
+        + sum_ges_rente_priv_rente_m_tu
         + arbeitsl_geld_m_tu
     )
 
     return out
-
-
-def eink_selbst_m_tu(eink_selbst_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate monthly self employed income on tax unit level.
-
-    Parameters
-    ----------
-    eink_selbst_m
-        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return eink_selbst_m.groupby(tu_id).sum()
-
-
-def vermiet_eink_m_tu(vermiet_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate monthly rental income on tax unit level.
-
-    Parameters
-    ----------
-    vermiet_eink_m
-        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return vermiet_eink_m.groupby(tu_id).sum()
-
-
-def kapitaleink_m_tu(kapitaleink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate monthly capital income on tax unit level.
-
-    Parameters
-    ----------
-    kapitaleink_m
-        See basic input variable :ref:`kapitaleink_m <kapitaleink_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return kapitaleink_m.groupby(tu_id).sum()
-
-
-def summe_ges_priv_rente_m_tu(
-    summe_ges_priv_rente_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Aggregate monthly pension income on tax unit level.
-
-    Parameters
-    ----------
-    summe_ges_priv_rente_m
-        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return summe_ges_priv_rente_m.groupby(tu_id).sum()
