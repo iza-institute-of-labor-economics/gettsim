@@ -1,8 +1,8 @@
 .. _gep-2:
 
-=====================================================================
-GEP 2 — Internal Representation of Data on Individuals and Households
-=====================================================================
+=======================================================
+GEP 2 — Internal Representation of Data on Individuals
+=======================================================
 
 +------------+-------------------------------------------------------------------------+
 | Author     | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
@@ -25,42 +25,55 @@ example individuals, ...) and passes it around to the functions calculating taxe
 transfers.
 
 Data will be stored as a collection of 1-d arrays, each of which corresponds to a column
-a DataFrame. All these arrays have the same length, which corresponds to the number of
-individuals. Unless marked in a specific way, functions operate on a single row of data.
-Column names ending in ``_id`` can be used to aggregate data within households, tax
-units, etc..
+in the data provided by the user (if it comes in the form of a DataFrame). All these
+arrays have the same length, which corresponds to the number of individuals. Functions
+operate on a single row of data. If a column name is ``[x]_id`` with `x` :math:`\in \{`
+``hh``, ``tu`` :math:`\}`, it can be used to aggregate data within households, tax
+units, or any other grouping of individuals specified in :ref:`GEP 1
+<gep-1-column-names>`. Any other column name ending in ``_id`` indicates a link to a
+different individual (e.g., child-parent relations could be ``parent_0_ind_id``,
+``parent_1_ind_id``; receiver of child benefits would be ``kindergeldempf_id``).
 
 
 Motivation and Scope
 --------------------
 
 Taxes and transfers are calculated at different levels of aggregation: Individuals,
-couples, families, households. Potentially, there are many ways of storing these data:
-Long form, wide form, collections of tables, n-dimensional arrays, etc..
+couples, families, households. Sometimes, relations between individuals are important:
+parents and children, payors/receivers of alimony payments, which parent receives the
+`kindergeld` payments, etc..
 
-Trade-offs:
+Potentially, there are many ways of storing these data: Long form, wide form,
+collections of tables adhering to :ref:`normal forms
+<https://en.wikipedia.org/wiki/Database_normalization>`, N-dimensional arrays, etc.. As
+usual, everything involves trade-offs, for example:
 
-- Normal forms lead to irregular data.
-
-- Modern tools for vectorization (e.g., Numba or Jax) scale best when working with
-  single rows of data.
-
+- Normal forms require many merge / join operations, which the tools we are using are
+  not optimised for.
+- One N-dimensional array is not possible because the aggregation dimensions are not
+  necessarily nested
 - Almost all functions are much easier to implement when working with a single row.
   This is most important for the typical user and increasing the number of developers.
+- Modern tools for vectorization (e.g., Jax) scale best when working with
+  single rows of data.
 
-
+  Aggregation to groups of individuals (households, tax units) or referencing data from
+  other rows (parents, receiver of child benefits) is not trivial with these tools.
 
 
 Usage and Impact
 ----------------
 
-* Primarily internal / relevant for developers — highest-level interface can be easily
-  adjusted
+This is primarily internal, i.e., only relevant for developers as the highest-level
+interface can be easily adjusted. The default way to receive data will be one Pandas
+DataFrame.
 
-* Affects users only via the interface of lower-level functions (they might want to
-  call those or override them)
-
-* Recu
+Users are affected only via the interface of lower-level functions. Under the proposed
+implementation, they will always work on single rows of data. Many alternatives would
+require users to write vectorised code, making filtering operations more cumbersome. For
+aggregation or referencing other individuals' data, GETTSIM will provide functions that
+allow abstracting from implementation details, see :ref:`below
+<gep-2-aggregation-functions>`.
 
 
 Detailed description
