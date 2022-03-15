@@ -25,14 +25,17 @@ example individuals, ...) and passes it around to the functions calculating taxe
 transfers.
 
 Data will be stored as a collection of 1-d arrays, each of which corresponds to a column
-in the data provided by the user (if it comes in the form of a DataFrame). All these
-arrays have the same length, which corresponds to the number of individuals. Functions
-operate on a single row of data. If a column name is ``[x]_id`` with `x` :math:`\in \{`
-``hh``, ``tu`` :math:`\}`, it can be used to aggregate data within households, tax
-units, or any other grouping of individuals specified in :ref:`GEP 1
-<gep-1-column-names>`. Any other column name ending in ``_id`` indicates a link to a
-different individual (e.g., child-parent relations could be ``parent_0_ind_id``,
-``parent_1_ind_id``; receiver of child benefits would be ``kindergeldempf_id``).
+in the data provided by the user (if it comes in the form of a DataFrame) or calculated
+by GETTSIM. All these arrays have the same length. This length corresponds to the number
+of individuals. Functions operate on a single row of data. 
+
+If a column name is ``[x]_id`` with `x` :math:`\in \{` ``hh``, ``tu`` :math:`\}`, it
+will be the same for all households, tax units, or any other grouping of individuals
+specified in :ref:`GEP 1 <gep-1-column-names>`.
+
+Any other column name ending in ``_id`` indicates a link to a different individual
+(e.g., child-parent relations could be ``parent_0_ind_id``, ``parent_1_ind_id``;
+receiver of child benefits would be ``kindergeldempf_id``).
 
 
 Motivation and Scope
@@ -79,31 +82,47 @@ allow abstracting from implementation details, see :ref:`below
 Detailed description
 --------------------
 
+The following discussion assumes that data is passed in as a Pandas DataFrame. It will
+be possible to pass data directly in the form that GETTSIM requires it internally. In
+that case, only the relevant steps apply.
+
+- GETTSIM will first make a check that all identifiers pointing to other individuals
+  (e.g., `kindergeldempf_id`) are valid.
+
+- GETTSIM will then create internal identifiers for individuals, households, and tax
+  units. GETTSIM will also generate appropriate columns with identifiers pointing
+  to other individuals. Columns with the original values are stored. 
+
+  All internal identifiers are integers starting at 0 and counting in increments of 1.
+  For individuals, they are sorted, implying they can be used to index into the arrays.
+  It also means that identifiers pointing to other individuals can be used directly for
+  indexing.
+
+  Because other units of aggregation are not necessarily nested, they cannot be sorted
+  in general. In case users' data allow it, they will be able to provide a
+  `data_is_sorted` flag, which defaults to `False`.
+
+- The core of GETTSIM then works with a collection of 1-d arrays, all of which have the
+  same length as the number of individuals. 
+  
+  These arrays form the nodes of its DAG computation engine (see :ref:`GEP 4
+  <gep-4>`).
+
+- GETTSIM returns an object of the same type and with the same identifiers that was
+  passed by the user.
+
 
 .. _gep-2-aggregation-functions:
 
-Aggregation functions
-~~~~~~~~~~~~~~~~~~~~~
+Aggregated values and aggregation functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Often variables refer to units aggregating multiple individuals. All these will be
-repeated for all individuals in a unit of aggregation.
-
-Always require sorted arrays. Check during setup of the graph. Else go for slow
-operations including re-sorting.
-
-Different implementations depending on backend:
-
-- Will need to swap to integer-count index for households internally for Jax'
-  [segment_sum](https://jax.readthedocs.io/en/latest/_autosummary/jax.ops.segment_sum.html)
-  etc. to work, then translate back
-- For numpy, need indices of blocks (implement via
-  [np.reduceat](https://numpy.org/doc/stable/reference/generated/numpy.ufunc.reduceat.html)
+Often columns refer to units aggregating multiple individuals. Such columns have a
+suffix indicating the level of aggregation (see :ref:`GEP 1 <gep-1-column-names>`,
+currently ``_hh`` or ``_tu``). These columns' values will be repeated for all
+individuals who a part of a unit.
 
 
-Implementation
---------------
-
-TBD
 
 
 Alternatives
