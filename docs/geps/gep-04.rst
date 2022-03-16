@@ -318,13 +318,13 @@ Conversion goes both ways and uses the following formulas:
 +-----------+--------+------------+
 | time unit | suffix | factor     |
 +-----------+--------+------------+
-| year      |        | 1          |
+| Year      |        | 1          |
 +-----------+--------+------------+
-| month     | `_m`   | 12         |
+| Month     | `_m`   | 12         |
 +-----------+--------+------------+
-| week      | `_w`   | 365.25 / 7 |
+| Week      | `_w`   | 365.25 / 7 |
 +-----------+--------+------------+
-| day       | `_t`   | 365.25     |
+| Day       | `_d`   | 365.25     |
 +-----------+--------+------------+
 
 These values average over leap years. They ensure that conversion is always possible
