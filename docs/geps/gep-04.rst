@@ -262,7 +262,7 @@ augmented with a node including a group sum like ``my_col_hh`` should that be re
 Requests can be either inputs in a downstream function or explicit targets of the
 calculation.
 
-Automatic summation will only happen in case no column `my_col_hh` is explicitly set.
+Automatic summation will only happen in case no column ``my_col_hh`` is explicitly set.
 Using a different reduction function than the sum is as easy as explicitly specifying
 `my_col_hh`.
 
