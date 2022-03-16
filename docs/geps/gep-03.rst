@@ -138,13 +138,15 @@ entry is added.
         [...]
       reference_period: Week
 
+.. _gep-3-access_prior_parameters:
+
 6. The (optional) ``access_prior_parameters`` can be used to make the parameter of a
    previous point in time (relative to the date specified available in
    ``set_up_policy_environment``) available within GETTSIM functions. It requires the
-   ``reference_period`` (one of ``Y``, ``M``, ``W``, ``D``) and the ``number_of_lags``.
+   ``reference_period`` (one of ``Year``, ``Month``, ``Week``, ``Day``) and the
+   ``number_of_lags``.
 
-   The lagged parameters will be available as
-   ``[param]_t_minus_[number_of_lags]_[reference_period]`` next to ``[param]``.
+
 
    Example:
 
@@ -205,6 +207,8 @@ The `note` key of [YYYY-MM-DD]
 This optional key may contain a free-form note holding any information that may be
 relevant for the interpretation of the parameter, the implementer, user, ...
 
+
+.. _gep-3-deviation_from:
 
 The `deviation_from` key of [YYYY-MM-DD]
 ++++++++++++++++++++++++++++++++++++++++
@@ -348,7 +352,7 @@ The ``rounding`` key
 ++++++++++++++++++++
 
 See :ref:`GEP-5 <gep-5>` for the entire scope of rounding, here we reproduce the
-:ref:`relevant section referring to YAML-files <_gep-5-rounding-spec-yaml>`,
+:ref:`relevant section referring to YAML-files <gep-5-rounding-spec-yaml>`,
 
 The following goes through the details using an example from the basic pension allowance
 (Grundrente).
@@ -398,7 +402,7 @@ and to switch between different implementations of other functions.
 
 .. todo::
 
-    Work on precise specification.
+    Will be a separate GEP, move gist here.
 
 
 
@@ -407,12 +411,28 @@ and to switch between different implementations of other functions.
 Storage of parameters
 ---------------------
 
-.. todo::
+The contents of the YAML files become part of the ``policy_params`` dictionary. Its keys
+correspond to the names of the YAML files. Each value will be a dictionary that follows
+the structure of the YAML file. These values can be used in policy functions as
+``[key]_params``.
 
-   to be written
+The contents mostly follow the content of the YAML files. The main difference is that
+all parameters are present in their required format; no further parsing shall be
+necessary inside the functions. The important changes include:
 
-   - Just follow yaml (?)
-   - Exceptions: Piecewise linear. What else?
+- In the YAML files, parameters may be specified as deviations from other values,
+  :ref:`see above <gep-3-deviation_from>`. All these are converted so that the relevant
+  values are part of the dictionary.
+- Similarly, values from other points in time (via ``access_prior_parameters``,
+  :ref:`see above <gep-3-access_prior_parameters>`) of ``[param]`` will be available as:
+  ``[param]_t_minus_[number_of_lags]_[reference_period[0].lower()]``.
+- Parameters for piecewise polynomials are parsed.
+- Parameters that are derived from other parameters are calculated (examples include
+  ``kinderzuschlag_max`` starting in 2021 or calculating the phasing in of
+  ``vorsorgeaufw_alter`` over the 2005-2025 period).
+
+These functions will be avaiable to users en bloque or one-by-one so they can specify
+parameters as in the YAML file for their own policy parameters.
 
 
 Discussion
