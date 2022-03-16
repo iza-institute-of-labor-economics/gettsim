@@ -1,305 +1,435 @@
+import copy
+from collections import ChainMap
+
 import numpy as np
 import pytest
 
-from gettsim.aggregation import grouped_all
-from gettsim.aggregation import grouped_any
-from gettsim.aggregation import grouped_max
-from gettsim.aggregation import grouped_mean
-from gettsim.aggregation import grouped_min
-from gettsim.aggregation import grouped_sum
-
-test_grouped_sum_specs = {
-    "constant_column": (
-        np.array([1, 1, 1, 1, 1]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([2, 2, 3, 3, 3]),
-    ),
-    "constant_column_group_id_unsorted": (
-        np.array([1, 1, 1, 1, 1]),
-        np.array([0, 1, 0, 1, 0]),
-        np.array([3, 2, 3, 2, 3]),
-    ),
-    "basic_case": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([1, 1, 9, 9, 9]),
-    ),
-    "unique_group_ids_with_gaps": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 3, 3, 3]),
-        np.array([1, 1, 9, 9, 9]),
-    ),
-    "float_column": (
-        np.array([0, 1.5, 2, 3, 4]),
-        np.array([0, 0, 3, 3, 3]),
-        np.array([1.5, 1.5, 9, 9, 9]),
-    ),
-}
-
-test_grouped_mean_specs = {
-    "constant_column": (
-        np.array([1, 1, 1, 1, 1]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([1, 1, 1, 1, 1]),
-    ),
-    "constant_column_group_id_unsorted": (
-        np.array([1, 1, 1, 1, 1]),
-        np.array([0, 1, 0, 1, 0]),
-        np.array([1, 1, 1, 1, 1]),
-    ),
-    "basic_case": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([0.5, 0.5, 3, 3, 3]),
-    ),
-    "unique_group_ids_with_gaps": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 3, 3, 3]),
-        np.array([0.5, 0.5, 3, 3, 3]),
-    ),
-}
+from gettsim.aggregation_jax import grouped_all as grouped_all_jax
+from gettsim.aggregation_jax import grouped_any as grouped_any_jax
+from gettsim.aggregation_jax import grouped_max as grouped_max_jax
+from gettsim.aggregation_jax import grouped_mean as grouped_mean_jax
+from gettsim.aggregation_jax import grouped_min as grouped_min_jax
+from gettsim.aggregation_jax import grouped_sum as grouped_sum_jax
+from gettsim.aggregation_numpy import grouped_all as grouped_all_numpy
+from gettsim.aggregation_numpy import grouped_any as grouped_any_numpy
+from gettsim.aggregation_numpy import grouped_max as grouped_max_numpy
+from gettsim.aggregation_numpy import grouped_mean as grouped_mean_numpy
+from gettsim.aggregation_numpy import grouped_min as grouped_min_numpy
+from gettsim.aggregation_numpy import grouped_sum as grouped_sum_numpy
+from gettsim.config import IS_JAX_INSTALLED
 
 
-test_grouped_max_specs = {
-    "constant_column": (
-        np.array([1, 1, 1, 1, 1]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([1, 1, 1, 1, 1]),
-    ),
-    "basic_case": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([1, 1, 4, 4, 4]),
-    ),
-    "group_id_unsorted": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 1, 0, 1, 1]),
-        np.array([2, 4, 2, 4, 4]),
-    ),
-    "unique_group_ids_with_gaps": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 3, 3, 3]),
-        np.array([1, 1, 4, 4, 4]),
-    ),
-}
-test_grouped_min_specs = {
-    "constant_column": (
-        np.array([1, 1, 1, 1, 1]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([1, 1, 1, 1, 1]),
-    ),
-    "basic_case": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([0, 0, 2, 2, 2]),
-    ),
-    "group_id_unsorted": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 1, 0, 1, 1]),
-        np.array([0, 1, 0, 1, 1]),
-    ),
-    "unique_group_ids_with_gaps": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 3, 3, 3]),
-        np.array([0, 0, 2, 2, 2]),
-    ),
-}
-test_grouped_any_specs = {
-    "basic_boolean_case": (
-        np.array([True, False, True, False, False]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([True, True, True, True, True]),
-    ),
-    "group_id_unsorted": (
-        np.array([True, False, True, False, False]),
-        np.array([0, 1, 0, 1, 0]),
-        np.array([True, False, True, False, True]),
-    ),
-    "unique_group_ids_with_gaps": (
-        np.array([True, False, False, False, False]),
-        np.array([0, 0, 10, 10, 10]),
-        np.array([True, True, False, False, False]),
-    ),
-}
+def parameterize_based_on_dict(test_cases, keys_of_test_cases=None):
+    """Apply pytest.mark.parametrize based on a dictionary"""
+    test_cases = copy.copy(test_cases)
+    if keys_of_test_cases:
 
-test_grouped_all_specs = {
-    "basic_boolean_case": (
-        np.array([True, False, True, False, False]),
-        np.array([0, 0, 1, 1, 1]),
-        np.array([False, False, False, False, False]),
-    ),
-    "group_id_unsorted": (
-        np.array([True, False, True, False, False]),
-        np.array([0, 1, 0, 1, 0]),
-        np.array([False, False, False, False, False]),
-    ),
-    "unique_group_ids_with_gaps": (
-        np.array([True, True, False, False, False]),
-        np.array([0, 0, 10, 10, 10]),
-        np.array([True, True, False, False, False]),
-    ),
-}
+        # Only use requested keys
+        test_cases = {
+            k: {
+                k_inner: v_inner
+                for k_inner, v_inner in v.items()
+                if k_inner in keys_of_test_cases
+            }
+            for k, v in test_cases.items()
+        }
 
-test_grouped_sum_raises_specs = {
-    "dtype_boolean": (
-        np.array([True, True, True, False, False]),
-        np.array([0, 0, 1, 1, 1]),
-        ValueError,
-        "grouped_sum was applied",
-    ),
-    "dtype_string": (
-        np.array(["0", "1", "2", "3", "4"]),
-        np.array([0, 0, 1, 1, 1]),
-        ValueError,
-        "grouped_sum was applied",
-    ),
-    "float_group_id": (
-        np.array([0, 1, 2, 3, 4]),
-        np.array([0, 0, 3.5, 3.5, 3.5]),
-        TypeError,
-        "group_idx must be of integer type",
-    ),
-}
-test_grouped_max_raises_specs = {
-    "dtype_boolean": (
-        np.array([True, True, True, False, False]),
-        np.array([0, 0, 1, 1, 1]),
-        "grouped_max was applied",
-    ),
-    "dtype_string": (
-        np.array(["0", "1", "2", "3", "4"]),
-        np.array([0, 0, 1, 1, 1]),
-        "grouped_max was applied",
-    ),
-}
+        # Check that all requested keys are part of the dictionary
+        for test_name, test_spec in test_cases.items():
+            for key in keys_of_test_cases:
+                assert (
+                    key in test_spec.keys()
+                ), f"{key} is missing in test_case {test_name}."
 
-test_grouped_any_raises_specs = {
-    "dtype_numerical": (
-        np.array([1, 2, 3, 4, 5]),
-        np.array([0, 0, 1, 1, 1]),
-        "grouped_any was applied",
-    ),
-    "dtype_string": (
-        np.array(["0", "1", "2", "3", "4"]),
-        np.array([0, 0, 1, 1, 1]),
-        "grouped_any was applied",
-    ),
-}
+    # Return parametrization
+    return pytest.mark.parametrize(
+        argnames=(
+            argnames := sorted({k for v in test_cases.values() for k in v.keys()})
+        ),
+        argvalues=[[v.get(k) for k in argnames] for v in test_cases.values()],
+        ids=test_cases.keys(),
+    )
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, exp_aggregated_column",
-    test_grouped_sum_specs.values(),
-    ids=test_grouped_sum_specs.keys(),
+available_backends = ["numpy", "jax"] if IS_JAX_INSTALLED else ["numpy"]
+test_grouped_numeric_specs = [
+    {
+        f"constant_column_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([1, 1, 1, 1, 1]),
+            "group_id": np.array([0, 0, 1, 1, 1]),
+            "expected_res_sum": np.array([2, 2, 3, 3, 3]),
+            "expected_res_mean": np.array([1, 1, 1, 1, 1]),
+            "expected_res_max": np.array([1, 1, 1, 1, 1]),
+            "expected_res_min": np.array([1, 1, 1, 1, 1]),
+        },
+        f"constant_column_group_id_unsorted_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([1, 1, 1, 1, 1]),
+            "group_id": np.array([0, 1, 0, 1, 0]),
+            "expected_res_sum": np.array([3, 2, 3, 2, 3]),
+            "expected_res_mean": np.array([1, 1, 1, 1, 1]),
+            "expected_res_max": np.array([1, 1, 1, 1, 1]),
+            "expected_res_min": np.array([1, 1, 1, 1, 1]),
+        },
+        f"basic_case_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([0, 1, 2, 3, 4]),
+            "group_id": np.array([0, 0, 1, 1, 1]),
+            "expected_res_sum": np.array([1, 1, 9, 9, 9]),
+            "expected_res_mean": np.array([0.5, 0.5, 3, 3, 3]),
+            "expected_res_max": np.array([1, 1, 4, 4, 4]),
+            "expected_res_min": np.array([0, 0, 2, 2, 2]),
+        },
+        f"unique_group_ids_with_gaps_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([0, 1, 2, 3, 4]),
+            "group_id": np.array([0, 0, 3, 3, 3]),
+            "expected_res_sum": np.array([1, 1, 9, 9, 9]),
+            "expected_res_mean": np.array([0.5, 0.5, 3, 3, 3]),
+            "expected_res_max": np.array([1, 1, 4, 4, 4]),
+            "expected_res_min": np.array([0, 0, 2, 2, 2]),
+        },
+        f"float_column_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([0, 1.5, 2, 3, 4]),
+            "group_id": np.array([0, 0, 3, 3, 3]),
+            "expected_res_sum": np.array([1.5, 1.5, 9, 9, 9]),
+            "expected_res_mean": np.array([0.75, 0.75, 3, 3, 3]),
+            "expected_res_max": np.array([1.5, 1.5, 4, 4, 4]),
+            "expected_res_min": np.array([0, 0, 2, 2, 2]),
+        },
+    }
+    for backend in available_backends
+]
+test_grouped_numeric_specs = dict(ChainMap(*test_grouped_numeric_specs))
+
+test_grouped_bool_specs = [
+    {
+        f"basic_case_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([True, False, True, False, False]),
+            "group_id": np.array([0, 0, 1, 1, 1]),
+            "expected_res_any": np.array([True, True, True, True, True]),
+            "expected_res_all": np.array([False, False, False, False, False]),
+        },
+        f"group_id_unsorted_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([True, False, True, True, True]),
+            "group_id": np.array([0, 1, 0, 1, 0]),
+            "expected_res_any": np.array([True, True, True, True, True]),
+            "expected_res_all": np.array([True, False, True, False, True]),
+        },
+        f"unique_group_ids_with_gaps_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([True, False, False, False, False]),
+            "group_id": np.array([0, 0, 3, 3, 3]),
+            "expected_res_any": np.array([True, True, False, False, False]),
+            "expected_res_all": np.array([False, False, False, False, False]),
+        },
+    }
+    for backend in available_backends
+]
+test_grouped_bool_specs = dict(ChainMap(*test_grouped_bool_specs))
+
+test_grouped_numeric_raises_specs = [
+    {
+        f"dtype_boolean_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([True, True, True, False, False]),
+            "group_id": np.array([0, 0, 1, 1, 1]),
+            "error": ValueError,
+            "exception_match": "grouped_",
+        },
+        f"dtype_string_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array(["0", "1", "2", "3", "4"]),
+            "group_id": np.array([0, 0, 1, 1, 1]),
+            "error": ValueError,
+            "exception_match": "grouped_",
+        },
+        f"float_group_id_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([0, 1, 2, 3, 4]),
+            "group_id": np.array([0, 0, 3.5, 3.5, 3.5]),
+            "error": TypeError,
+            "exception_match": "group_idx must be of integer type",
+        },
+    }
+    for backend in available_backends
+]
+test_grouped_numeric_raises_specs = dict(ChainMap(*test_grouped_numeric_raises_specs))
+
+test_grouped_bool_raises_specs = [
+    {
+        f"dtype_numeric_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([1, 2, 3, 4, 5]),
+            "group_id": np.array([0, 0, 1, 1, 1]),
+            "error": ValueError,
+            "exception_match": "grouped_",
+        },
+        f"dtype_string_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array(["0", "1", "2", "3", "4"]),
+            "group_id": np.array([0, 0, 1, 1, 1]),
+            "error": ValueError,
+            "exception_match": "grouped_",
+        },
+        f"float_group_id_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array([True, True, True, False, False]),
+            "group_id": np.array([0, 0, 3.5, 3.5, 3.5]),
+            "error": TypeError,
+            "exception_match": "group_idx must be of integer type",
+        },
+    }
+    for backend in available_backends
+]
+test_grouped_bool_raises_specs = dict(ChainMap(*test_grouped_bool_raises_specs))
+
+
+@parameterize_based_on_dict(
+    test_grouped_numeric_specs,
+    keys_of_test_cases=[
+        "backend",
+        "column_to_aggregate",
+        "group_id",
+        "expected_res_sum",
+    ],
 )
-def test_grouped_sum(column_to_aggregate, group_id, exp_aggregated_column):
+def test_grouped_sum(backend, column_to_aggregate, group_id, expected_res_sum):
 
     # Calculate result
-    result = grouped_sum(column_to_aggregate, group_id)
+    if backend == "jax":
+        result = grouped_sum_jax(column_to_aggregate, group_id)
+    elif backend == "numpy":
+        result = grouped_sum_numpy(column_to_aggregate, group_id)
+    else:
+        raise ValueError(f"Backend {backend} not supported in this test.")
 
     # Check equality
-    np.testing.assert_array_equal(result, exp_aggregated_column)
+    np.testing.assert_array_equal(result, expected_res_sum)
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, exp_aggregated_column",
-    test_grouped_mean_specs.values(),
-    ids=test_grouped_mean_specs.keys(),
+@parameterize_based_on_dict(
+    test_grouped_numeric_specs,
+    keys_of_test_cases=[
+        "backend",
+        "column_to_aggregate",
+        "group_id",
+        "expected_res_mean",
+    ],
 )
-def test_grouped_mean(column_to_aggregate, group_id, exp_aggregated_column):
+def test_grouped_mean(backend, column_to_aggregate, group_id, expected_res_mean):
+
     # Calculate result
-    result = grouped_mean(column_to_aggregate, group_id)
+    if backend == "jax":
+        result = grouped_mean_jax(column_to_aggregate, group_id)
+    elif backend == "numpy":
+        result = grouped_mean_numpy(column_to_aggregate, group_id)
+    else:
+        raise ValueError(f"Backend {backend} not supported in this test.")
 
     # Check equality
-    np.testing.assert_array_equal(result, exp_aggregated_column)
+    np.testing.assert_array_equal(result, expected_res_mean)
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, exp_aggregated_column",
-    test_grouped_max_specs.values(),
-    ids=test_grouped_max_specs.keys(),
+@parameterize_based_on_dict(
+    test_grouped_numeric_specs,
+    keys_of_test_cases=[
+        "backend",
+        "column_to_aggregate",
+        "group_id",
+        "expected_res_max",
+    ],
 )
-def test_grouped_max(column_to_aggregate, group_id, exp_aggregated_column):
+def test_grouped_max(backend, column_to_aggregate, group_id, expected_res_max):
+
     # Calculate result
-    result = grouped_max(column_to_aggregate, group_id)
+    if backend == "jax":
+        result = grouped_max_jax(column_to_aggregate, group_id)
+    elif backend == "numpy":
+        result = grouped_max_numpy(column_to_aggregate, group_id)
+    else:
+        raise ValueError(f"Backend {backend} not supported in this test.")
 
     # Check equality
-    np.testing.assert_array_equal(result, exp_aggregated_column)
+    np.testing.assert_array_equal(result, expected_res_max)
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, exp_aggregated_column",
-    test_grouped_min_specs.values(),
-    ids=test_grouped_min_specs.keys(),
+@parameterize_based_on_dict(
+    test_grouped_numeric_specs,
+    keys_of_test_cases=[
+        "backend",
+        "column_to_aggregate",
+        "group_id",
+        "expected_res_min",
+    ],
 )
-def test_grouped_min(column_to_aggregate, group_id, exp_aggregated_column):
+def test_grouped_min(backend, column_to_aggregate, group_id, expected_res_min):
+
     # Calculate result
-    result = grouped_min(column_to_aggregate, group_id)
+    if backend == "jax":
+        result = grouped_min_jax(column_to_aggregate, group_id)
+    elif backend == "numpy":
+        result = grouped_min_numpy(column_to_aggregate, group_id)
+    else:
+        raise ValueError(f"Backend {backend} not supported in this test.")
 
     # Check equality
-    np.testing.assert_array_equal(result, exp_aggregated_column)
+    np.testing.assert_array_equal(result, expected_res_min)
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, exp_aggregated_column",
-    test_grouped_any_specs.values(),
-    ids=test_grouped_any_specs.keys(),
+@parameterize_based_on_dict(
+    test_grouped_bool_specs,
+    keys_of_test_cases=[
+        "backend",
+        "column_to_aggregate",
+        "group_id",
+        "expected_res_any",
+    ],
 )
-def test_grouped_any(column_to_aggregate, group_id, exp_aggregated_column):
+def test_grouped_any(backend, column_to_aggregate, group_id, expected_res_any):
+
     # Calculate result
-    result = grouped_any(column_to_aggregate, group_id)
+    if backend == "jax":
+        result = grouped_any_jax(column_to_aggregate, group_id)
+    elif backend == "numpy":
+        result = grouped_any_numpy(column_to_aggregate, group_id)
+    else:
+        raise ValueError(f"Backend {backend} not supported in this test.")
 
     # Check equality
-    np.testing.assert_array_equal(result, exp_aggregated_column)
+    np.testing.assert_array_equal(result, expected_res_any)
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, exp_aggregated_column",
-    test_grouped_all_specs.values(),
-    ids=test_grouped_all_specs.keys(),
+@parameterize_based_on_dict(
+    test_grouped_bool_specs,
+    keys_of_test_cases=[
+        "backend",
+        "column_to_aggregate",
+        "group_id",
+        "expected_res_all",
+    ],
 )
-def test_grouped_all(column_to_aggregate, group_id, exp_aggregated_column):
+def test_grouped_all(backend, column_to_aggregate, group_id, expected_res_all):
+
     # Calculate result
-    result = grouped_all(column_to_aggregate, group_id)
+    if backend == "jax":
+        result = grouped_all_jax(column_to_aggregate, group_id)
+    elif backend == "numpy":
+        result = grouped_all_numpy(column_to_aggregate, group_id)
+    else:
+        raise ValueError(f"Backend {backend} not supported in this test.")
 
     # Check equality
-    np.testing.assert_array_equal(result, exp_aggregated_column)
+    np.testing.assert_array_equal(result, expected_res_all)
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, error, exception_match",
-    test_grouped_sum_raises_specs.values(),
-    ids=test_grouped_sum_raises_specs.keys(),
-)
-def test_grouped_sum_raises(column_to_aggregate, group_id, error, exception_match):
+@parameterize_based_on_dict(test_grouped_numeric_raises_specs)
+def test_grouped_sum_raises(
+    backend, column_to_aggregate, group_id, error, exception_match
+):
+
+    # Calculate result
     with pytest.raises(
         error, match=exception_match,
     ):
         # Calculate result
-        grouped_sum(column_to_aggregate, group_id)
+        if backend == "jax":
+            grouped_sum_jax(column_to_aggregate, group_id)
+        elif backend == "numpy":
+            grouped_sum_numpy(column_to_aggregate, group_id)
+        else:
+            raise ValueError(f"Backend {backend} not supported in this test.")
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, exception_match",
-    test_grouped_max_raises_specs.values(),
-    ids=test_grouped_max_raises_specs.keys(),
-)
-def test_grouped_max_raises(column_to_aggregate, group_id, exception_match):
+@parameterize_based_on_dict(test_grouped_numeric_raises_specs)
+def test_grouped_mean_raises(
+    backend, column_to_aggregate, group_id, error, exception_match
+):
+
+    # Calculate result
     with pytest.raises(
-        ValueError, match=exception_match,
+        error, match=exception_match,
     ):
         # Calculate result
-        grouped_max(column_to_aggregate, group_id)
+        if backend == "jax":
+            grouped_mean_jax(column_to_aggregate, group_id)
+        elif backend == "numpy":
+            grouped_mean_numpy(column_to_aggregate, group_id)
+        else:
+            raise ValueError(f"Backend {backend} not supported in this test.")
 
 
-@pytest.mark.parametrize(
-    "column_to_aggregate, group_id, exception_match",
-    test_grouped_any_raises_specs.values(),
-    ids=test_grouped_any_raises_specs.keys(),
-)
-def test_grouped_any_raises(column_to_aggregate, group_id, exception_match):
+@parameterize_based_on_dict(test_grouped_numeric_raises_specs)
+def test_grouped_max_raises(
+    backend, column_to_aggregate, group_id, error, exception_match
+):
+
+    # Calculate result
     with pytest.raises(
-        ValueError, match=exception_match,
+        error, match=exception_match,
     ):
         # Calculate result
-        grouped_any(column_to_aggregate, group_id)
+        if backend == "jax":
+            grouped_max_jax(column_to_aggregate, group_id)
+        elif backend == "numpy":
+            grouped_max_numpy(column_to_aggregate, group_id)
+        else:
+            raise ValueError(f"Backend {backend} not supported in this test.")
+
+
+@parameterize_based_on_dict(test_grouped_numeric_raises_specs)
+def test_grouped_min_raises(
+    backend, column_to_aggregate, group_id, error, exception_match
+):
+
+    # Calculate result
+    with pytest.raises(
+        error, match=exception_match,
+    ):
+        # Calculate result
+        if backend == "jax":
+            grouped_min_jax(column_to_aggregate, group_id)
+        elif backend == "numpy":
+            grouped_min_numpy(column_to_aggregate, group_id)
+        else:
+            raise ValueError(f"Backend {backend} not supported in this test.")
+
+
+@parameterize_based_on_dict(test_grouped_bool_raises_specs)
+def test_grouped_any_raises(
+    backend, column_to_aggregate, group_id, error, exception_match
+):
+
+    # Calculate result
+    with pytest.raises(
+        error, match=exception_match,
+    ):
+        # Calculate result
+        if backend == "jax":
+            grouped_any_jax(column_to_aggregate, group_id)
+        elif backend == "numpy":
+            grouped_any_numpy(column_to_aggregate, group_id)
+        else:
+            raise ValueError(f"Backend {backend} not supported in this test.")
+
+
+@parameterize_based_on_dict(test_grouped_bool_raises_specs)
+def test_grouped_all_raises(
+    backend, column_to_aggregate, group_id, error, exception_match
+):
+
+    # Calculate result
+    with pytest.raises(
+        error, match=exception_match,
+    ):
+        # Calculate result
+        if backend == "jax":
+            grouped_all_jax(column_to_aggregate, group_id)
+        elif backend == "numpy":
+            grouped_all_numpy(column_to_aggregate, group_id)
+        else:
+            raise ValueError(f"Backend {backend} not supported in this test.")
