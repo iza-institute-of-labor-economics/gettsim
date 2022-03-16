@@ -163,7 +163,7 @@ name.
 
 The name of variables should reflect the content or meaning of the variable and not the
 type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
-cases it might be useful to append an underscore plus one of {``m``, ``w``, ``t``} to
+cases it might be useful to append an underscore plus one of {``m``, ``w``, ``d``} to
 indicate the time unit and one of {``hh``, ``tu``} to indicate the unit of aggregation.
 
 
