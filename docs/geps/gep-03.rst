@@ -161,7 +161,7 @@ These work differently and they are :ref:`treated separately below
         de: Rentenwerte alte und neue Bundesländer.
           [...]
       access_prior_parameters:
-        - reference_period: Y
+        - reference_period: Year
         - number_of_lags: 1
 
 
