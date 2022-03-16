@@ -34,6 +34,9 @@ GETTSIM.
 The graph operates on columns of data. Stringified function names and their inputs
 correspond to columns in the data, i.e., nodes in the graph.
 
+Unless functions perform aggregations, they are written in terms of scalars and
+vectorized during DAG setup.
+
 
 
 Motivation
@@ -51,17 +54,18 @@ motivated by two main reasons.
    modifiable by users. A DAG implementation allows to eliminate this usual boundary
    for almost all use cases.
 
-1. By using a DAG the user is able to limit computations to a set of target variables,
-   which she is ultimately interested in. This prevents unnecessary calculations and
-   increases computation speed.
+1. The DAG allows a user to limit computations to generate a set of target variables,
+   which she is ultimately interested in. Doing so allows cutting down on the number of
+   input variables, it prevents unnecessary calculations, and it increases computation
+   speed.
 
 
 Basic idea
 ----------
 
-Based on the two requirements above we split the tax and transfer system into a set of
-small functions. Each function calculates one clearly defined variable (identical to the
-function's stringified name) and returns a 1d-array.
+Based on the two requirements above we split the taxes and transfers system into a set
+of small functions. Each function calculates one clearly defined variable (identical to
+the function's stringified name) and returns a 1d-array.
 
 .. note::
 
@@ -159,10 +163,14 @@ In order to calculate a set of taxes and transfers, GETTSIM builds a DAG based o
 inputs provided by the user:
 
  - Input data.
- - A set of functions representing the tax and transfer system, which consist of the
+ - A set of functions representing the taxes and transfers system, which consist of the
    ones pre-implemented in GETTSIM and potentially user-written additional functions.
    Parameters of the taxes and transfers system (see :ref:`gep-3` will already be
-   partialled into these functions, so they can be ignored in the following).
+   partialled into these functions, so they can be ignored in the following). These
+   functions need to be written for scalars; they will be vectorised during the set up
+   of the DAG.
+ - A set of dictionaries specifying aggregation functions, calculating, for example,
+   household-level averages.
  - The target columns of interest.
 
 The DAG is then used to call all required functions in the right order and to calculate
@@ -211,28 +219,52 @@ Additional functionalities
 --------------------------
 
 We implemented a small set of additional features that simplify the specification of
-certain types of functions of the tax and transfer system.
+certain types of functions of the taxes and transfers system.
 
 
-.. _gep-4-group-sums:
+.. _gep-4-aggregation-functions:
 
-Group summation of variables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Group summation and other aggregation functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Individual-level measures often need to be summed up to a group level. <GEP-2 describes
-`gep-2-aggregation-functions`> how reductions are handled in principle.
+Many taxes or transfers require group-level variables. <GEP-2 describes
+`gep-2-aggregation-functions`> how reductions are handled in terms of the underlying
+data. This section describes how to specify them.
 
-Because summations are very common, GETTSIM's DAG backend automates this process for
-groups of individuals defined in :ref:`gep-1` (households ``_hh`` and tax units
-``_tu``).
+In order to inject aggregation functions into the graph, scripts with functions of the
+taxes and transfer system should define a dictionary ``aggregation_[script_name]`` at
+the module level. This dictionary must specify the aggregated columns as keys and a
+dictionary with keys ``source_col`` and ``aggr`` as values. If ``aggr`` is ``count``,
+source_col``
 
-In case an individual-level column `[column]` exists, the graph will be augmented with a
-node including a group sum like `[column]_hh` should that be requested. Requests can be
-either inputs in a downstream function or explicit targets of the calculation.
 
-Automatic summation will only happen in case no column `[column]_hh` is explicitly set.
+For example, in ``demographic_vars.py``, we could have:
+
+.. code::
+
+    aggregation_demographic_vars = {
+        "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
+        "haushaltsgröße_hh": {"aggr": "count"},
+    }
+
+The group identifier (``tu_id``, ``hh_id``) will be automatically included as an
+argument; for ``count`` no other variable is necessary.
+
+The output type will be the same as the input type. Exceptions:
+
+- Input type ``bool`` and aggregation ``sum`` leads to output type ``integer``.
+- Input type ``integer`` and agggregation :math:`\in \{` ``any``, ``all`` :math:`\}`
+  leads to output type ``bool``
+
+The most common operation are sums of individual measures. GETTSIM adds the following
+syntactic sugar: In case an individual-level column ``my_col`` exists, the graph will be
+augmented with a node including a group sum like ``my_col_hh`` should that be requested.
+Requests can be either inputs in a downstream function or explicit targets of the
+calculation.
+
+Automatic summation will only happen in case no column `my_col_hh` is explicitly set.
 Using a different reduction function than the sum is as easy as explicitly specifying
-`[column]_hh`.
+`my_col_hh`.
 
 Consider the following example: the function ``kindergeld_m`` calculates the
 individual-level child benefit payment. ``arbeitsl_geld_2_m_hh`` calculates
@@ -245,14 +277,21 @@ By including ``kindergeld_m_hh`` as an argument in the definition of
 
 .. code-block:: python
 
-    def arbeitsl_geld_2_m_hh(
-        kindergeld_m_hh: FloatSeries, other_arguments: FloatSeries
-    ) -> FloatSeries:
+    def arbeitsl_geld_2_m_hh(kindergeld_m_hh, other_arguments):
         ...
 
 a node ``kindergeld_m_hh`` containing the household-level sum of ``kindergeld_m`` will
 be automatically added to the graph. Its parents in the graph will be ``kindergeld_m``
-and ``hh_id``.
+and ``hh_id``. This is the same as specifying:
+
+.. code::
+
+    aggregation_kindergeld =  = {
+        "kindergeld_m_hh": {
+            "source_col": "kindergeld_m",
+            "aggr": "sum"
+        }
+    }
 
 
 .. _gep-4-time-unit-conversion:
@@ -260,7 +299,7 @@ and ``hh_id``.
 Conversion between reference periods
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Similarly to :ref:`gep-4-group-sums`, GETTSIM will automatically convert values
+Similarly to summations to the group level, GETTSIM will automatically convert values
 referring to different reference periods defined in :ref:`gep-1` (years (default, no
 suffix), months ``_m``, weeks ``_w``, and days ``_t``).
 
@@ -297,7 +336,7 @@ functions for, say, ``[column]_w`` need to be set.
 Related Work
 ------------
 
-- The `openfisca <https://github.com/openfisca/>`_ project uses an internal DAG as well.
+- The `OpenFisca <https://github.com/openfisca>`_ project uses an internal DAG as well.
 - Scheduling computations on data with task graphs is how `Dask
   <https://docs.dask.org/>`_ splits and distributes computations.
 

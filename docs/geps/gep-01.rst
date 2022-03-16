@@ -109,7 +109,7 @@ changed, even if it leads to long variable names (e.g., ``kinderfreib``,
 easier and less error-prone.
 
 The default time unit is a year. If a column refers to a different time unit, an
-underscore plus one of {``m``, ``w``, ``d``} will indicate the time unit.
+underscore plus one of {``m``, ``w``, ``t``} will indicate the time unit.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
 the relevant unit, an underscore plus one of {``hh``, ``tu``} will indicate the level of
