@@ -55,6 +55,10 @@ Each of these parameters in turn is a dictionary with at least three keys: ``nam
 Values usually change over time; each time a value is changed, another ``YYYY-MM-DD``
 entry is added.
 
+Some keys at the outermost level refer to functions of the taxes and transfers system.
+These work differently and they are :ref:`treated separately below
+<gep-3-keys-referring-to-functions>`.
+
 1. The ``name`` key has two sub-keys ``de`` and ``en``, which are
 
    - short names without re-stating the realm of the parameter (e.g.
@@ -345,8 +349,6 @@ The following walks through several cases.
 
 Keys referring to functions
 ---------------------------
-
-
 
 The ``rounding`` key
 ++++++++++++++++++++
