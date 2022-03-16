@@ -1,5 +1,7 @@
 from gettsim.aggregation_numpy import fail_if_dtype_not_boolean
 from gettsim.aggregation_numpy import fail_if_dtype_not_numeric
+from gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_boolean
+from gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_datetime
 
 try:
     import jax.numpy as jnp
@@ -10,8 +12,14 @@ except ImportError:
     pass
 
 
+def grouped_count(group_id):
+    out_on_hh = segment_sum(jnp.ones(len(group_id)), group_id)
+    out = out_on_hh[group_id]
+    return out
+
+
 def grouped_sum(column, group_id):
-    fail_if_dtype_not_numeric(column, agg_func="sum")
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
     out_on_hh = segment_sum(column, group_id)
     out = out_on_hh[group_id]
     return out
@@ -27,14 +35,14 @@ def grouped_mean(column, group_id):
 
 
 def grouped_max(column, group_id):
-    fail_if_dtype_not_numeric(column, agg_func="max")
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="max")
     out_on_hh = segment_max(column, group_id)
     out = out_on_hh[group_id]
     return out
 
 
 def grouped_min(column, group_id):
-    fail_if_dtype_not_numeric(column, agg_func="min")
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="min")
     out_on_hh = segment_min(column, group_id)
     out = out_on_hh[group_id]
     return out

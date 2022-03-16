@@ -2,8 +2,17 @@ import numpy as np
 import numpy_groupies as npg
 
 
+def grouped_count(group_id):
+    out_on_hh = npg.aggregate(
+        group_id, np.ones(len(group_id)), func="sum", fill_value=0
+    )
+
+    out = out_on_hh[group_id]
+    return out
+
+
 def grouped_sum(column, group_id):
-    fail_if_dtype_not_numeric(column, agg_func="sum")
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
 
     out_on_hh = npg.aggregate(group_id, column, func="sum", fill_value=0)
 
@@ -23,9 +32,11 @@ def grouped_mean(column, group_id):
 
 
 def grouped_max(column, group_id):
-    fail_if_dtype_not_numeric(column, agg_func="max")
-
-    out_on_hh = npg.aggregate(group_id, column, func="max", fill_value=0)
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="max")
+    fill_value = (
+        np.datetime64("2020") if np.issubdtype(column.dtype, np.datetime64) else 0
+    )
+    out_on_hh = npg.aggregate(group_id, column, func="max", fill_value=fill_value)
 
     # Expand to indididual level
     out = out_on_hh[group_id]
@@ -33,9 +44,11 @@ def grouped_max(column, group_id):
 
 
 def grouped_min(column, group_id):
-    fail_if_dtype_not_numeric(column, agg_func="min")
-
-    out_on_hh = npg.aggregate(group_id, column, func="min", fill_value=0)
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="min")
+    fill_value = (
+        np.datetime64("2020") if np.issubdtype(column.dtype, np.datetime64) else 0
+    )
+    out_on_hh = npg.aggregate(group_id, column, func="min", fill_value=fill_value)
 
     # Expand to indididual level
     out = out_on_hh[group_id]
@@ -70,8 +83,29 @@ def fail_if_dtype_not_numeric(column, agg_func):
         )
 
 
+def fail_if_dtype_not_numeric_or_boolean(column, agg_func):
+    if not (np.issubdtype(column.dtype, np.number) or column.dtype == "bool"):
+        raise ValueError(
+            f"grouped_{agg_func} was applied to a column "
+            f"that has dtype {column.dtype}. "
+            "Allowed are only numerical or boolean dtypes."
+        )
+
+
+def fail_if_dtype_not_numeric_or_datetime(column, agg_func):
+    if not (
+        np.issubdtype(column.dtype, np.number)
+        or np.issubdtype(column.dtype, np.datetime64)
+    ):
+        raise ValueError(
+            f"grouped_{agg_func} was applied to a column "
+            f"that has dtype {column.dtype}. "
+            "Allowed are only numerical or datetime dtypes."
+        )
+
+
 def fail_if_dtype_not_boolean(column, agg_func):
-    if column.dtype != "bool":
+    if column.dtype not in ["bool", "int"]:
         raise ValueError(
             f"grouped_{agg_func} was applied to a column "
             f"that has dtype {column.dtype}. Allowed is only boolean dtype."
