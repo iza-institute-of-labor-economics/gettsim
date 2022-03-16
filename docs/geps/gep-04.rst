@@ -235,7 +235,7 @@ In order to inject aggregation functions into the graph, scripts with functions 
 taxes and transfer system should define a dictionary ``aggregation_[script_name]`` at
 the module level. This dictionary must specify the aggregated columns as keys and a
 dictionary with keys ``source_col`` and ``aggr`` as values. If ``aggr`` is ``count``,
-source_col``
+``source_col`` is not needed.
 
 
 For example, in ``demographic_vars.py``, we could have:
