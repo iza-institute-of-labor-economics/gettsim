@@ -108,3 +108,14 @@ TYPES_INPUT_VARIABLES = {
     "priv_rente_m": FloatSeries,
     "schwerbeh_g": BoolSeries,
 }
+
+# =====================================================================================
+# Check Available Packages
+# =====================================================================================
+
+try:
+    import jax  # noqa: F401
+except ImportError:
+    IS_JAX_INSTALLED = False
+else:
+    IS_JAX_INSTALLED = True
