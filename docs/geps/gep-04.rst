@@ -264,7 +264,7 @@ calculation.
 
 Automatic summation will only happen in case no column ``my_col_hh`` is explicitly set.
 Using a different reduction function than the sum is as easy as explicitly specifying
-`my_col_hh`.
+``my_col_hh``.
 
 Consider the following example: the function ``kindergeld_m`` calculates the
 individual-level child benefit payment. ``arbeitsl_geld_2_m_hh`` calculates
