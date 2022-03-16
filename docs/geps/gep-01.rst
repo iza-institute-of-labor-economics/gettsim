@@ -109,7 +109,7 @@ changed, even if it leads to long variable names (e.g., ``kinderfreib``,
 easier and less error-prone.
 
 The default time unit is a year. If a column refers to a different time unit, an
-underscore plus one of {``m``, ``w``, ``t``} will indicate the time unit.
+underscore plus one of {``m``, ``w``, ``d``} will indicate the time unit.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
 the relevant unit, an underscore plus one of {``hh``, ``tu``} will indicate the level of
@@ -145,7 +145,7 @@ name.
 
 The name of variables should reflect the content or meaning of the variable and not the
 type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
-cases it might be useful to append an underscore plus one of {``m``, ``w``, ``t``} to
+cases it might be useful to append an underscore plus one of {``m``, ``w``, ``d``} to
 indicate the time unit and one of {``hh``, ``tu``} to indicate the unit of aggregation.
 
 
