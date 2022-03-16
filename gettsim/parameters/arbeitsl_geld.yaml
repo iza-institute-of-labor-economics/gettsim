@@ -6,7 +6,7 @@ freibetrag:
     de: § 155 SGB III, vorher § 141 (1) S. 1
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   1999-08-01:
     scalar: 161
     reference: Art. 1 G. v. 21.07.1999 BGBl. I S. 1648
@@ -22,7 +22,7 @@ altersgrenze:
   description:
     de: Nur Personen unter 65 Jahren haben einen Anspruch auf ALG1.
     en: Only individuals under the age of 65 are eligible for ALG1.
-  unit: years
+  unit: Year
   reference: § 161 Abs.1 SGB III
   1984-01-01:
     alter: 65
@@ -34,7 +34,7 @@ dauer_auszahlung:
   description:
     de: ALG 1 wird für die ersten 12 Monate der Arbeitslosigkeit und für Personen unter 65 ausgezahlt.
     en: ALG 1 is paid for the first 12 months of unemployment and for people under 65.
-  unit: months
+  unit: Month
   reference: § 161 Abs.1 SGB III
   1984-01-01:
     max_dauer: 12

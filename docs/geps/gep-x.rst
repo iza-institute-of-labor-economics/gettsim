@@ -14,7 +14,7 @@ GEP X — Template and Instructions
 +            +-------------------------------------------------------------------------+
 |            | <add multiple authors in additional rows>                               |
 +------------+-------------------------------------------------------------------------+
-| Status     | <Draft | Active | Accepted | Deferred | Rejected                        |
+| Status     | <Draft | Active | Accepted | Provisional | Deferred | Rejected          |
 |            |  | Withdrawn | Final | Superseded>                                      |
 +------------+-------------------------------------------------------------------------+
 | Type       |  <Standards Track | Process>                                            |

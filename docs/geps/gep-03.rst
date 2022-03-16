@@ -68,7 +68,7 @@ entry is added.
 
       eink_anr_frei:
         name:
-          de: Anrechnungsfreie Einkommensanteile
+          de: Anrechnungsfreies Einkommen
           en: Income shares not subject to transfer withdrawal
 
 2. The ``description`` key has two sub-keys ``de`` and ``en``, which
@@ -92,14 +92,16 @@ entry is added.
               § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
               G. v. 24.03.2011 BGBl. I S. 453).
             en: >-
-              Shares of income which do not lead to tapering of Arbeitslosengeld II benefits.
+              Income shares which do not lead to tapering of benefits.
 
 3. The ``unit`` key informs on the unit of the values (Euro or DM if monetary,
    share of some other value, ...).
 
    - In rare cases (e.g. child benefit age threshold), it might be omitted.
-   - Some values used at this point: ``Euro``, ``DM``, ``share``, ``hours``,
-     ``square meters``
+   - It should be capitalised.
+   - Some values used at this point: ``Euro``, ``DM``, ``Share``, ``Percent``,
+     ``Factor``, ``Year``, ``Month``, ``Hour``, ``Square Meter``, ``Euro / Square
+     Meter``.
    - The ``unit`` key may be overridden at lower levels. For example, the unit will
      typically be ``Euro`` for monetary quantities. For the years prior to its
      introduction, it may be specified as ``DM``.
@@ -121,10 +123,10 @@ entry is added.
    values, if applicable
 
    Possible values:
-   - ``year``
-   - ``month``
-   - ``week``
-   - ``day``
+   - ``Year``
+   - ``Month``
+   - ``Week``
+   - ``Day``
 
    Example:
 
@@ -134,12 +136,12 @@ entry is added.
       name:
         de: Wochenstundengrenze für Kindergeldanspruch
         [...]
-      reference_period: week
+      reference_period: Week
 
 6. The (optional) ``access_prior_parameters`` can be used to make the parameter of a
    previous point in time (relative to the date specified available in
    ``set_up_policy_environment``) available within GETTSIM functions. It requires the
-   ``reference_period`` (one of ``y``, ``m``, ``w``, ``d``) and the ``number_of_lags``.
+   ``reference_period`` (one of ``Y``, ``M``, ``W``, ``D``) and the ``number_of_lags``.
 
    The lagged parameters will be available as
    ``[param]_t_minus_[number_of_lags]_[reference_period]`` next to ``[param]``.
@@ -153,7 +155,7 @@ entry is added.
         de: Rentenwerte alte und neue Bundesländer.
           [...]
       access_prior_parameters:
-        - reference_period: y
+        - reference_period: Y
         - number_of_lags: 1
 
 
@@ -340,14 +342,45 @@ The following walks through several cases.
 Keys referring to functions
 ---------------------------
 
-The `rounding` key
-++++++++++++++++++
 
-See GEP-5,
 
-.. todo::
+The ``rounding`` key
+++++++++++++++++++++
 
-    Repeat gist here
+See :ref:`GEP-5 <gep-5>` for the entire scope of rounding, here we reproduce the
+:ref:`relevant section referring to YAML-files <_gep-5-rounding-spec-yaml>`,
+
+The following goes through the details using an example from the basic pension allowance
+(Grundrente).
+
+The law on the public pension insurance specifies that the maximum possible
+Grundrentenzuschlag ``grundr_zuschlag_höchstwert_m`` be rounded to the nearest fourth
+decimal point (§76g SGB VI: Zuschlag an Entgeltpunkten für langjährige Versicherung).
+The example below contains GETTSIM's encoding of this fact.
+
+The snippet is taken from ``ges_rente.yaml``, which contains the following code:
+
+.. code-block:: yaml
+
+    rounding:
+      grundr_zuschlag_höchstwert_m:
+        2020-01-01:
+          base: 0.0001
+          direction: nearest
+          reference: §76g SGB VI Abs. 4 Nr. 4
+
+The specification of the rounding parameters starts with the key ``rounding`` at the
+outermost level of indentation. The keys are names of functions.
+
+At the next level, the ``YYYY-MM-DD`` key(s) indicate when rounding was introduced
+and/or changed. This is done in in the same way as for other policy parameters. Those
+``YYYY-MM-DD`` key(s) are associated with a dictionary containing the following
+elements:
+
+- The parameter ``base`` determines the base to which the variables is rounded. It has
+  to be a floating point number.
+- The parameter ``direction`` has to be one of ``up``, ``down``, or ``nearest``.
+- The ``reference`` must contain the reference to the law, which specifies the rounding.
 
 
 The `dates_active` key

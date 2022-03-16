@@ -5,7 +5,7 @@ wohnfläche:
   description:
     de: Durchschnittliche Wohnfläche pro SGB II - Bedarfsgemeinschaft
     en: Average Appartement Size of households living from unemployment benefit
-  unit: square Meters
+  unit: Square Meter
   2018-01-01:
     single_0_children: 44
     single_1_children: 63
@@ -38,7 +38,7 @@ bruttokaltmiete:
     de: Durchschnittliche Monatsmiete pro SGB II - Bedarfsgemeinschaft
     en: Average Monthly rent of households living from unemployment benefit
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2020-01-01:
     single_0_children: 335
     single_1_children: 465
@@ -55,7 +55,7 @@ heizkosten:
     de: Durchschnittliche monatliche Heizkosten pro SGB II - Bedarfsgemeinschaft
     en: Average Monthly heating cost of households living from unemployment benefit
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2020-01-01:
     single_0_children: 46
     single_1_children: 68

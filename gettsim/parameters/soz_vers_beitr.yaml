@@ -252,7 +252,7 @@ beitr_bemess_grenze_m:
     de:
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   1984-01-01:
     ges_krankenv:
       west: 1994
@@ -524,7 +524,7 @@ bezugsgröße_selbst_m:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   1984-01-01:
     west: 1396
   1985-01-01:
@@ -660,7 +660,7 @@ geringfügige_eink_grenzen_m:
     de: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   1984-01-01:
     mini_job:
       west: 199
@@ -790,7 +790,7 @@ ges_pflegev_zusatz_kinderlos_altersgrenze:
   description:
     de: Der Beitragssatz für Kinderlose steigt ab dieser Altersgrenze an.
     en: The contribution rate for childless people increases from this age limit.
-  unit: Years
+  unit: Year
   reference: § 55 Abs. 3 SGB XI
   2005-01-01:
     scalar: 23

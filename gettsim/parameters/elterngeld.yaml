@@ -17,7 +17,7 @@ höchstbetrag:
     de: § 2 (1) BEEG
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2007-01-01:
     scalar: 1800
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -29,7 +29,7 @@ nettoeinkommen_stufen:
     de: § 2 (2) BEEG. Maßgeblich ist das durchschnittlich erzielte monatliche Einkommen vor der Geburt
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2007-01-01:
     1: 1000
     2: 1001
@@ -46,7 +46,7 @@ mindestbetrag:
     de: § 2 (5) BEEG
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2007-01-01:
     scalar: 300
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -83,7 +83,7 @@ eink_schritt_korrektur:
     de: § 2 (2) BEEG
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2007-01-01:
     scalar: 2
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -119,7 +119,7 @@ geschw_bonus_minimum:
     de: § 2a (1) BEEG. Früher §2 (4)  BEEG
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2007-01-01:
     scalar: 75
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -131,7 +131,7 @@ mehrlingbonus:
     de: § 2a (4) BEEG, früher §2 (6) BEEG.
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2007-01-01:
     scalar: 300
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748

@@ -446,7 +446,7 @@ bonus_12_mehr:
     de: §19 Abs. 3 WoGG
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2001-01-01:
     scalar: 40
     reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
@@ -645,7 +645,7 @@ freib_kinder_m:
     de: § 17 (4/5) WoGG
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   1984-01-01:
     12: 51
     24: 0
@@ -673,8 +673,8 @@ freib_behinderung:
         Häusliche/teilstationäre/Kurzzeit-Pflege vorliegen. Dies ist aktuell nicht
         implementiert. § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG)
     en:
-  unit: euro
-  reference_period: year
+  unit: Euro
+  reference_period: Year
   1984-01-01:
     0: 0
     1: 0
@@ -709,7 +709,7 @@ behinderungsgrad:
     en: A housing benefit allowance is granted to people with disabilities. The height of the
         allowance depends on the degree of disability.
   reference: § 17 Abs. 1 WoGG
-  unit: prozent
+  unit: Percent
   1984-01-01:
     1: 0
     2: 80
@@ -723,7 +723,7 @@ max_miete:
     en:
   note: Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) - Mietstufe geordnet. Alle Werte in vollen Euro.
   unit: Euro
-  reference_period: month
+  reference_period: Month
   1981-01-01:
     1:
       1965:
@@ -1834,7 +1834,7 @@ heizkosten_zuschuss:
     de: §12 (6) WoGG
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2021-01-01:
     1: 14.4
     2: 18.6
