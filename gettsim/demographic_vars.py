@@ -64,12 +64,6 @@ def alleinerz_hh(hh_id: IntSeries, alleinerz: BoolSeries) -> BoolSeries:
     return alleinerz.groupby(hh_id).any()
 
 
-aggregation_demographic_vars = {
-    "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
-    "haushaltsgröße_hh": {"aggr": "count"},
-}
-
-
 def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
     """Count number of adults in tax unit.
 
