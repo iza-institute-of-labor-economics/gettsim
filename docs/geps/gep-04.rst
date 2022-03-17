@@ -165,10 +165,11 @@ inputs provided by the user:
  - Input data.
  - A set of functions representing the taxes and transfers system, which consist of the
    ones pre-implemented in GETTSIM and potentially user-written additional functions.
-   Parameters of the taxes and transfers system (see :ref:`gep-3` will already be
-   partialled into these functions, so they can be ignored in the following). These
-   functions need to be written for scalars; they will be vectorised during the set up
-   of the DAG.
+
+   Parameters of the taxes and transfers system can be ignored in the following (they
+   amount to collections of constants; in practice they will already be partialled into
+   these functions). These functions need to be written for scalars; they will be
+   vectorised during the set up of the DAG.
  - A set of dictionaries specifying aggregation functions, calculating, for example,
    household-level averages.
  - The target columns of interest.
