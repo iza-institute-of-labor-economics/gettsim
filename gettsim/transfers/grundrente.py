@@ -36,7 +36,7 @@ def grundr_zuschlag_eink_m(
     eink_selbst: FloatSeries,
     eink_vermietung: FloatSeries,
     kapitaleink: FloatSeries,
-    gemeinsam_veranlagt: BoolSeries,
+    gemeinsam_veranlagt_tu: BoolSeries,
     rentenwert: FloatSeries,
     tu_id: IntSeries,
     ges_rente_params: dict,
@@ -81,8 +81,8 @@ def grundr_zuschlag_eink_m(
         See :func:`eink_vermietung`.
     kapitaleink
         See :func:`kapitaleink`.
-    gemeinsam_veranlagt
-        See :func:`gemeinsam_veranlagt`.
+    gemeinsam_veranlagt_tu
+        See :func:`gemeinsam_veranlagt_tu`.
     rentenwert
         See :func:`rentenwert`.
     tu_id
@@ -138,7 +138,7 @@ def grundr_zuschlag_eink_m(
     )
 
     # Select correct value based on the fact whether a married partner is present.
-    if gemeinsam_veranlagt:
+    if gemeinsam_veranlagt_tu:
         return anr_eink_verheiratet
     else:
         return anr_eink_single

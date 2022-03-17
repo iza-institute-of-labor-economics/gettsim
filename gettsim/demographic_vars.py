@@ -8,16 +8,33 @@ from gettsim.typing import DateTimeSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
+aggregation_demographic_vars = {
+    "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
+    "anz_erwachsene_hh": {"source_col": "erwachsen", "aggr": "sum"},
+    "anz_rentner_hh": {"source_col": "rentner", "aggr": "sum"},
+    "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
+    "anz_kinder_tu": {"source_col": "kind", "aggr": "sum"},
+    "anz_kinder_bis_17_hh": {"source_col": "kind_bis_17", "aggr": "sum"},
+    "anz_kinder_bis_6_hh": {"source_col": "kind_bis_6", "aggr": "sum"},
+    "anz_kinder_bis_15_hh": {"source_col": "kind_bis_15", "aggr": "sum"},
+    "anz_kinder_ab_7_bis_13_hh": {"source_col": "kind_ab_7_bis_13", "aggr": "sum"},
+    "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
+    "anz_kinder_bis_10_tu": {"source_col": "kind_bis_10", "aggr": "sum"},
+    "alleinerz_tu": {"source_col": "alleinerz", "aggr": "any"},
+    "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
+    "haushaltsgröße_hh": {"aggr": "count"},
+    "geburtstermin_jüngstes_mitglied_hh": {
+        "source_col": "geburtstermin",
+        "aggr": "max",
+    },
+}
 
-def anz_kinder_bis_17_hh(
-    hh_id: IntSeries, alter: IntSeries, kind: BoolSeries
-) -> IntSeries:
-    """Calculate the number of underage persons in household.
+
+def kind_bis_17(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+    """Calculate if underage person.
 
     Parameters
     ----------
-    hh_id : IntSeries
-        See basic input variable :ref:`hh_id <hh_id>`.
     alter
         See basic input variable :ref:`alter <alter>`.
     kind
@@ -27,61 +44,119 @@ def anz_kinder_bis_17_hh(
     -------
 
     """
-    minderj = (alter < 18) & (alter > 0)
-    return (minderj & kind).groupby(hh_id).sum()
+    out = kind and (alter < 18)
+    return out
 
 
-def alleinerz_tu(tu_id: IntSeries, alleinerz: BoolSeries) -> BoolSeries:
-    """Check if single parent is in tax unit.
-
-    Parameters
-    ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    alleinerz
-        See basic input variable :ref:`alleinerz <alleinerz>`.
-    Returns
-    -------
-    BoolSeries indicating single parent in tax unit.
-    """
-    return alleinerz.groupby(tu_id).any()
-
-
-def alleinerz_hh(hh_id: IntSeries, alleinerz: BoolSeries) -> BoolSeries:
-    """Check if single parent is in household.
+def kind_bis_6(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+    """Calculate if child under the age of 7.
 
     Parameters
     ----------
-    hh_id : IntSeries
-        See basic input variable :ref:`hh_id <hh_id>`.
-    alleinerz : BoolSeries
-        See basic input variable :ref:`alleinerz <alleinerz>`.
-
-    Returns
-    -------
-    BoolSeries indicating single parent in household.
-    """
-    return alleinerz.groupby(hh_id).any()
-
-
-def anz_erwachsene_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
-    """Count number of adults in tax unit.
-
-    Parameters
-    ----------elterngeld_geschw_bonus_m
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
     kind
         See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
-    IntSeries with the number of adults per tax unit.
+
     """
-    return int(not kind).groupby(tu_id).sum()
+    out = kind and (alter <= 6)
+    return out
 
 
-def gemeinsam_veranlagt(anz_erwachsene_tu: IntSeries) -> BoolSeries:
+def kind_bis_10(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+    """Calculate if child under the age of 11.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (alter <= 10)
+    return out
+
+
+def kind_bis_15(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+    """Calculate if child under the age of 16.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (alter <= 15)
+    return out
+
+
+def kind_ab_7_bis_13(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+    """Calculate if child between 7 and 13 years old.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (7 <= alter <= 13)
+    return out
+
+
+def kind_ab_14_bis_24(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+    """Calculate if child between 14 and 24 years old.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (14 <= alter <= 24)
+    return out
+
+
+def erwachsen(kind: BoolSeries) -> IntSeries:
+    """Calculate if adult.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = not kind
+    return out
+
+
+def gemeinsam_veranlagt_tu(anz_erwachsene_tu: IntSeries) -> BoolSeries:
     """Check if the tax unit consists of two wage earners.
 
     Parameters
@@ -97,209 +172,6 @@ def gemeinsam_veranlagt(anz_erwachsene_tu: IntSeries) -> BoolSeries:
     return anz_erwachsene_tu == 2
 
 
-def gemeinsam_veranlagt_tu(
-    tu_id: IntSeries, gemeinsam_veranlagt: BoolSeries
-) -> BoolSeries:
-    """Check for each tax unit if it consists of two wage earners.
-
-    Parameters
-    ----------
-    gemeinsam_veranlagt
-        Return of :func:`gemeinsam_veranlagt`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-    BoolSeries indicating for each tax unit two wage earners.
-    """
-    return gemeinsam_veranlagt.groupby(tu_id).any()
-
-
-def anz_kinder_bis_6_hh(
-    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
-) -> IntSeries:
-    """Count children from 0 to 6.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-
-    Returns
-    -------
-    IntSeries with the number of children from 0 to 6 per household.
-    """
-    kind_0_bis_6 = kind & (0 <= alter) & (alter <= 6)
-    return int(kind_0_bis_6).groupby(hh_id).sum()
-
-
-def anz_kinder_bis_15_hh(
-    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
-) -> IntSeries:
-    """Count children from 0 to 15.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-
-    Returns
-    -------
-    IntSeries with the number of children from 0 to 15 per household.
-    """
-    kind_0_bis_15 = kind & (0 <= alter) & (alter <= 15)
-    return int(kind_0_bis_15).groupby(hh_id).sum()
-
-
-def anz_kinder_ab_7_bis_13_hh(
-    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
-) -> IntSeries:
-    """Count children from 7 to 13.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-
-    Returns
-    -------
-    IntSeries with the number of children from 7 to 13 per household.
-    """
-    kind_7_bis_13 = kind & (7 <= alter) & (alter <= 13)
-    return int(kind_7_bis_13).groupby(hh_id).sum()
-
-
-def anz_kinder_ab_14_bis_24_hh(
-    hh_id: IntSeries, kind: BoolSeries, alter: IntSeries
-) -> IntSeries:
-    """Count children from 14 to 24.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-
-    Returns
-    -------
-    IntSeries with the number of children from 14 to 24 per household.
-    """
-    kind_14_bis_24 = kind & (14 <= alter) & (alter <= 24)
-    return int(kind_14_bis_24).groupby(hh_id).sum()
-
-
-def anz_kinder_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
-    """Count children in households.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-    IntSeries with the number of children per household.
-    """
-    return int(kind).groupby(hh_id).sum()
-
-
-def anz_kinder_tu(tu_id: IntSeries, kind: BoolSeries) -> IntSeries:
-    """Count children per tax unit.
-
-    Parameters
-    ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    Returns
-    -------
-    IntSeries with the number of children per tax unit.
-    """
-    return int(kind).groupby(tu_id).sum()
-
-
-def anz_erwachsene_hh(hh_id: IntSeries, kind: BoolSeries) -> IntSeries:
-    """Count adults in households.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-    IntSeries with the number of adults per household.
-    """
-    return (not kind).groupby(hh_id).sum()
-
-
-def haushaltsgröße(hh_id: IntSeries) -> IntSeries:
-    """Count persons in households.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-    IntSeries with the number of persons in household.
-    """
-    return hh_id.groupby(hh_id).transform("size")
-
-
-def haushaltsgröße_hh(hh_id: IntSeries) -> IntSeries:
-    """Count persons in households.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    Returns
-    -------
-    IntSeries with the number of persons in household per household.
-    """
-    return hh_id.groupby(hh_id).size()
-
-
-def anz_rentner_hh(hh_id: IntSeries, rentner: BoolSeries) -> IntSeries:
-    """Count pensioners in household.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-
-    Returns
-    -------
-    IntSeries with the number of pensioners per household.
-    """
-    return rentner.groupby(hh_id).sum()
-
-
 def erwachsene_alle_rentner_hh(
     anz_erwachsene_hh: IntSeries, anz_rentner_hh: IntSeries
 ) -> BoolSeries:
@@ -307,19 +179,19 @@ def erwachsene_alle_rentner_hh(
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
+    anz_erwachsene_hh
+        See :func:`anz_erwachsene_hh`.
+    anz_rentner_hh
+        See :func:`anz_rentner_hh`.
 
     Returns
     -------
-    IntSeries with the number of pensioners per household.
+
     """
     return anz_erwachsene_hh == anz_rentner_hh
 
 
-def date_of_birth(
+def geburtstermin(
     geburtsjahr: IntSeries, geburtsmonat: IntSeries, geburtstag: IntSeries
 ) -> DateTimeSeries:
     """Create date of birth datetime variable.
@@ -350,48 +222,17 @@ def date_of_birth(
     return out
 
 
-def date_of_birth_jüngstes_kind_hh(
-    hh_id: IntSeries, date_of_birth: DateTimeSeries, kind: BoolSeries
-) -> DateTimeSeries:
-    """Calculate the age of the youngest child.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    date_of_birth
-        See :func:`geburtstag`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    date_of_birth_jüngstes_kind_hh = date_of_birth.loc[kind].groupby(hh_id).max()
-
-    # Re-index to get NaT for households without children.
-    date_of_birth_jüngstes_kind_hh = date_of_birth_jüngstes_kind_hh.reindex(
-        index=hh_id.unique()
-    )
-    # Replace hh_ids with timestamps and re-cast to `datetime64[ns]` if there was no kid
-    # which yields object dtype.
-    return np.datetime64(date_of_birth_jüngstes_kind_hh)
-
-
 def alter_jüngstes_kind_monate_hh(
-    hh_id: IntSeries,
-    date_of_birth_jüngstes_kind_hh: DateTimeSeries,
-    elterngeld_params: dict,
+    geburtstermin_jüngstes_mitglied_hh: DateTimeSeries, elterngeld_params: dict,
 ) -> FloatSeries:
-    """Calculate in age of youngest child in months.
+    """Calculate age of youngest child in months.
 
     Parameters
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    date_of_birth_jüngstes_kind_hh
-        See :func:`date_of_birth_jüngstes_kind_hh`.
+    geburtstermin_jüngstes_mitglied_hh
+        See :func:`geburtstermin_jüngstes_mitglied_hh`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
@@ -399,28 +240,11 @@ def alter_jüngstes_kind_monate_hh(
 
     """
     date = pd.to_datetime(elterngeld_params["datum"])
-    age_in_days = date - date_of_birth_jüngstes_kind_hh
+    age_in_days = date - geburtstermin_jüngstes_mitglied_hh
 
-    # Check was formerly implemented in `check_eligibilities` for elterngeld.
-    unborn_children = age_in_days.dt.total_seconds() < 0
-    if unborn_children.any():
-        hh_ids = hh_id[unborn_children].unique()
-        raise ValueError(f"Households with ids {hh_ids} have unborn children.")
+    # # Check was formerly implemented in `check_eligibilities` for elterngeld.
+    # unborn_children = age_in_days.dt.total_seconds() < 0
+    # if unborn_children.any():
+    #     hh_ids = hh_id[unborn_children].unique()
+    #     raise ValueError(f"Households with ids {hh_ids} have unborn children.")
     return age_in_days / np.timedelta64(1, "M")
-
-
-def anz_kinder_bis_10_tu(tu_id: IntSeries, alter: IntSeries) -> IntSeries:
-    """Count children under eleven per tax unit.
-
-    Parameters
-    ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-
-    Returns
-    -------
-
-    """
-    return (alter < 11).groupby(tu_id).transform("sum")

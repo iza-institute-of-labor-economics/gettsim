@@ -204,7 +204,7 @@ def vorsorgeaufw_bis_2004(
     ges_rentenv_beitr_m: FloatSeries,
     ges_krankenv_beitr_m_tu: FloatSeries,
     ges_rentenv_beitr_m_tu: FloatSeries,
-    gemeinsam_veranlagt: BoolSeries,
+    gemeinsam_veranlagt_tu: BoolSeries,
     kind: BoolSeries,
     eink_st_abzüge_params: dict,
 ) -> FloatSeries:
@@ -224,8 +224,8 @@ def vorsorgeaufw_bis_2004(
         See :func:`ges_krankenv_beitr_m_tu`.
     ges_rentenv_beitr_m_tu
         See :func:`ges_rentenv_beitr_m_tu`.
-    gemeinsam_veranlagt
-        See :func:`gemeinsam_veranlagt`.
+    gemeinsam_veranlagt_tu
+        See :func:`gemeinsam_veranlagt_tu`.
     kind
         See basic input variable :ref:`kind <kind>`.
     eink_st_abzüge_params
@@ -235,7 +235,7 @@ def vorsorgeaufw_bis_2004(
     -------
 
     """
-    if (not gemeinsam_veranlagt) & (not kind):
+    if (not gemeinsam_veranlagt_tu) & (not kind):
         out = _berechne_vorsorgeaufw_bis_2004(
             _vorsorgeaufw_vom_lohn_bis_2019_single,
             ges_krankenv_beitr_m,
@@ -243,7 +243,7 @@ def vorsorgeaufw_bis_2004(
             1,
             eink_st_abzüge_params,
         )
-    elif (gemeinsam_veranlagt) & (not kind):
+    elif (gemeinsam_veranlagt_tu) & (not kind):
         out = _berechne_vorsorgeaufw_bis_2004(
             _vorsorgeaufw_vom_lohn_bis_2019_tu,
             ges_krankenv_beitr_m_tu,
@@ -266,8 +266,8 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    gemeinsam_veranlagt
-        See :func:`gemeinsam_veranlagt`.
+    gemeinsam_veranlagt_tu
+        See :func:`gemeinsam_veranlagt_tu`.
     eink_st_abzüge_params
         See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 

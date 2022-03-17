@@ -234,6 +234,7 @@ def prepare_functions_and_set_up_dag(
     for task in dag:
         if "function" in dag.nodes[task]:
             dag.nodes[task]["function"] = np.vectorize(dag.nodes[task]["function"])
+
     return dag
 
 

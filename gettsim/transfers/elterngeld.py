@@ -266,8 +266,8 @@ def elterngeld_geschw_bonus_anspruch(
 def _elterngeld_anz_mehrlinge_anspruch(
     hh_id: IntSeries,
     elternzeit_anspruch: BoolSeries,
-    date_of_birth: DateTimeSeries,
-    date_of_birth_jüngstes_kind_hh: DateTimeSeries,
+    geburtstermin: DateTimeSeries,
+    geburtstermin_jüngstes_mitglied_hh: DateTimeSeries,
 ) -> IntSeries:
     """Check for multiple bonus on parental leave benefit.
 
@@ -277,16 +277,16 @@ def _elterngeld_anz_mehrlinge_anspruch(
         See basic input variable :ref:`hh_id <hh_id>`.
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`.
-    date_of_birth
-        See :func:`date_of_birth`.
-    date_of_birth_jüngstes_kind_hh
-        See :func:`date_of_birth_jüngstes_kind_hh`.
+    geburtstermin
+        See :func:`geburtstermin`.
+    geburtstermin_jüngstes_mitglied_hh
+        See :func:`geburtstermin_jüngstes_mitglied_hh`.
 
     Returns
     -------
 
     """
-    jüngstes_kind = date_of_birth == date_of_birth_jüngstes_kind_hh
+    jüngstes_kind = geburtstermin == geburtstermin_jüngstes_mitglied_hh
     mehrlinge = jüngstes_kind.groupby(hh_id).transform("sum")
     return elternzeit_anspruch * (mehrlinge - 1)
 
