@@ -1,18 +1,26 @@
 import copy
 import functools
+import inspect
 import textwrap
 import warnings
 
 import numpy as np
 import pandas as pd
 
+from gettsim.aggregation import grouped_all
+from gettsim.aggregation import grouped_any
+from gettsim.aggregation import grouped_count
+from gettsim.aggregation import grouped_max
+from gettsim.aggregation import grouped_mean
+from gettsim.aggregation import grouped_min
+from gettsim.aggregation import grouped_sum
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import ORDER_OF_IDS
 from gettsim.config import TYPES_INPUT_VARIABLES
-from gettsim.dag import _dict_subset
 from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
 from gettsim.dag import execute_dag
+from gettsim.functions_loader import load_aggregation_dict
 from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
@@ -107,17 +115,15 @@ def compute_taxes_and_transfers(
         check_minimal_specification=check_minimal_specification,
         rounding=rounding,
     )
-
     # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
 
     # Reduce data to group levels and execute DAG.
-    data = _reduce_data(data)
     results = execute_dag(dag, data, targets, debug)
 
     # Prepare results.
-    results = prepare_results(results, data, debug, targets)
+    results = prepare_results(results, data, debug)
 
     return results
 
@@ -161,7 +167,20 @@ def check_data_check_functions_and_merge_functions(
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
     # Create one dictionary of functions and perform check.
-    all_functions = {**internal_functions, **user_functions}
+    user_and_internal_functions = {**internal_functions, **user_functions}
+
+    # Vectorize functions
+    user_and_internal_functions = {
+        fn: vectorize_func(f) for fn, f in user_and_internal_functions.items()
+    }
+
+    # Create and add aggregation functions
+    aggregation_dict = load_aggregation_dict()
+    aggregation_funcs = {
+        agg_col: create_aggregation_func(agg_col, agg_spec)
+        for agg_col, agg_spec in aggregation_dict.items()
+    }
+    all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
@@ -230,15 +249,10 @@ def prepare_functions_and_set_up_dag(
     if rounding:
         dag = _add_rounding_to_functions_in_dag(dag, params)
 
-    # Vectorize functions
-    for task in dag:
-        if "function" in dag.nodes[task]:
-            dag.nodes[task]["function"] = np.vectorize(dag.nodes[task]["function"])
-
     return dag
 
 
-def prepare_results(results, data, debug, targets):
+def prepare_results(results, data, debug):
     """Prepare results after DAG was executed
 
     Parameters
@@ -249,9 +263,6 @@ def prepare_results(results, data, debug, targets):
         Dictionary of pd.Series based on the input data provided by the user.
     debug : bool
         Indicates debug mode.
-    targets : list of str
-        List of strings with names of functions whose output is actually
-        needed by the user.
 
     Returns
     -------
@@ -259,13 +270,13 @@ def prepare_results(results, data, debug, targets):
         Nicely formatted DataFrame of the results.
 
     """
-    ids = _dict_subset(data, set(data) & {"hh_id", "tu_id"})
 
-    results = _expand_data(results, ids)
-    results = pd.DataFrame(results)
+    if debug:
+        results = pd.DataFrame({**data, **results})
+    else:
+        results = pd.DataFrame(results)
 
-    if not debug:
-        results = results[targets]
+        # results = results[targets]
 
     results = _reorder_columns(results)
 
@@ -339,126 +350,89 @@ def _process_data(data):
     return data
 
 
-def _reduce_data(data):
-    """Reduce columns in data which are defined for tax units and households.
+# def _reduce_data(data):
+#     """Reduce columns in data which are defined for tax units and households.
 
-    Since the input data might be a `pandas.DataFrame` which can only be rectangular,
-    some columns contain the same value for groups of individuals. Possible groups are
-    households or tax units.
+#     Since the input data might be a `pandas.DataFrame` which can only be rectangular,
+#     some columns contain the same value for groups of individuals. Possible groups are
+#     households or tax units.
 
-    gettsim uses reduced `pandas.Series` internally which have the tax unit or household
-    id as the index. Here, we check whether all values in a group are the same and then
-    reduce the series.
+#     gettsim uses reduced `pandas.Series` internally which have the tax unit
+# or household
+#     id as the index. Here, we check whether all values in a group are the same
+# and then
+#     reduce the series.
 
-    The reduction is inferred from the variable name.
+#     The reduction is inferred from the variable name.
 
-    - The variable name ends with `"_tu"` or `"_hh"`.
-    - The variable name includes `"_tu_"` or `"_hh_"`. This will be deprecated soon.
+#     - The variable name ends with `"_tu"` or `"_hh"`.
+#     - The variable name includes `"_tu_"` or `"_hh_"`. This will be deprecated soon.
 
-    Parameters
-    ----------
-    data : dict of pandas.Series
-        Dictionary containing a series for each column.
+#     Parameters
+#     ----------
+#     data : dict of pandas.Series
+#         Dictionary containing a series for each column.
 
-    Returns
-    -------
-    data : dict of pandas.Series
-        Dictionary containing a series for each column where some columns are reduced.
+#     Returns
+#     -------
+#     data : dict of pandas.Series
+#         Dictionary containing a series for each column where some columns are reduced.
 
-    Warnings
-    --------
-    PendingDeprecationWarning
-        The indicators `"_tu_"` and `"_hh_"` will be deprecated in a future release.
+#     Warnings
+#     --------
+#     PendingDeprecationWarning
+#         The indicators `"_tu_"` and `"_hh_"` will be deprecated in a future release.
 
-    """
-    for name, s in data.items():
-        for level in ["hh", "tu"]:
-            if f"_{level}_" in name or name.endswith(f"_{level}"):
-                groups = data[f"{level}_id"]
-                reduced_s = _reduce_series_to_value_per_group(name, s, level, groups)
-                data[name] = reduced_s
+#     """
+#     for name, s in data.items():
+#         for level in ["hh", "tu"]:
+#             if f"_{level}_" in name or name.endswith(f"_{level}"):
+#                 groups = data[f"{level}_id"]
+#                 reduced_s = _reduce_series_to_value_per_group(name, s, level, groups)
+#                 data[name] = reduced_s
 
-    return data
-
-
-def _expand_data(data, ids):
-    """Expand series in data.
-
-    Take the reduced variable which has the group id as index. Then, use the series
-    which assigns each individual a group id and index the reduced variable. This create
-    a series which has the correct length and values, but the index is the group id.
-    Thus, assign the correct index.
-
-    """
-    for name, s in data.items():
-        for level, level_name in {"hh": "household", "tu": "tax unit"}.items():
-            if f"_{level}_" in name or name.endswith(f"_{level}"):
-                try:
-                    expanded_s = s.loc[ids[f"{level}_id"]]
-                except KeyError:
-                    raise KeyError(
-                        KeyErrorMessage(
-                            f"The variable name '{name}' implies that it is a\n"
-                            f"variable varying at the level of a '{level_name}'.\n"
-                            "That is, there must be one value per unique "
-                            f"'{level}_id'.\n\n"
-                            f"This is not the case.\n\n"
-                            f"You will need to do one of the following:\n\n"
-                            f"    - In case the correct level of the variable "
-                            f"      '{name}'is not the '{level}'.\n"
-                            f"      In this case, the\n"
-                            f"      name must neither include '_{level}_' nor end with "
-                            f"      '_{level}'\n\n"
-                            f"    - In case that the correct level is the \n"
-                            f"      'level_name', change the function '{name}' so \n."
-                            f"      that it returns a series indexed by '{level}'."
-                        )
-                    )
-                expanded_s.index = ids[f"{level}_id"].index
-                data[name] = expanded_s
-
-    return data
+#     return data
 
 
-def _reduce_series_to_value_per_group(name, s, level, groups):
-    """Reduce a series which contains the same value per group.
+# def _reduce_series_to_value_per_group(name, s, level, groups):
+#     """Reduce a series which contains the same value per group.
 
-    Parameters
-    ----------
-    name : str
-        Name of variable.
-    s : pandas.Series
-        Series containing data of `variable`.
-    level : {"tu", "hh"}
-        Name of level to group by.
-    groups : pandas.Series
-        Series containing data of `level`.
+#     Parameters
+#     ----------
+#     name : str
+#         Name of variable.
+#     s : pandas.Series
+#         Series containing data of `variable`.
+#     level : {"tu", "hh"}
+#         Name of level to group by.
+#     groups : pandas.Series
+#         Series containing data of `level`.
 
-    Returns
-    -------
-    pandas.Series
-        Reduced series.
+#     Returns
+#     -------
+#     pandas.Series
+#         Reduced series.
 
-    """
-    grouper = s.groupby(groups)
-    max_value = grouper.transform("max")
-    if not (max_value == s).all():
-        message = _format_text_for_cmdline(
-            f"""
-            Column '{name}' has not one unique value per group defined by `{level}_id`
-            which is necessary to reduce the variable.
+#     """
+#     grouper = s.groupby(groups)
+#     max_value = grouper.transform("max")
+#     if not (max_value == s).all():
+#         message = _format_text_for_cmdline(
+#             f"""
+#             Column '{name}' has not one unique value per group defined by `{level}_id`
+#             which is necessary to reduce the variable.
 
-            Variables are automatically reduced to one value per group if the variable
-            name contains an indicator like '_hh_' or '_tu_' or ends with '_hh' or
-            '_tu'.
+#             Variables are automatically reduced to one value per group if the variable
+#             name contains an indicator like '_hh_' or '_tu_' or ends with '_hh' or
+#             '_tu'.
 
-            To fix the error, assign the same value to each group or remove the
-            indicator from the variable name.
-            """
-        )
-        raise ValueError(message)
+#             To fix the error, assign the same value to each group or remove the
+#             indicator from the variable name.
+#             """
+#         )
+#         raise ValueError(message)
 
-    return grouper.max()
+#     return grouper.max()
 
 
 def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
@@ -833,3 +807,147 @@ def _partial_parameters_to_functions(functions, params):
             partialed_functions[name] = function
 
     return partialed_functions
+
+
+def rename_arguments(func=None, mapper=None):
+    def decorator_rename_arguments(func):
+
+        old_parameters = dict(inspect.signature(func).parameters)
+        parameters = []
+        for name, param in old_parameters.items():
+            if name in mapper:
+                parameters.append(param.replace(name=mapper[name]))
+            else:
+                parameters.append(param)
+
+        signature = inspect.Signature(parameters=parameters)
+
+        reverse_mapper = {v: k for k, v in mapper.items()}
+
+        @functools.wraps(func)
+        def wrapper_rename_arguments(*args, **kwargs):
+            internal_kwargs = {}
+            for name, value in kwargs.items():
+                if name in reverse_mapper:
+                    internal_kwargs[reverse_mapper[name]] = value
+                elif name not in mapper:
+                    internal_kwargs[name] = value
+            return func(*args, **internal_kwargs)
+
+        wrapper_rename_arguments.__signature__ = signature
+
+        return wrapper_rename_arguments
+
+    if callable(func):
+        return decorator_rename_arguments(func)
+    else:
+        return decorator_rename_arguments
+
+
+def create_aggregation_func(agg_col, agg_specs):
+    """Create an aggregation function based on aggregation specification.
+
+    Parameters
+    ----------
+    agg_col : str
+        Name of the aggregated column.
+    agg_specs : dict
+        Dictionary of aggregation specifications. Can contain the source column
+        ("source_col") and the group ids ("group_id")
+
+    Returns
+    -------
+    aggregation_func : The aggregation func with the expected signature
+
+    """
+
+    # Read individual specification parameters and make sure nothing is missing
+    try:
+        aggr = agg_specs["aggr"]
+    except KeyError:
+        raise KeyError(
+            f"No aggr keyword is specified for aggregation column {agg_col}."
+        )
+
+    if aggr != "count":
+        try:
+            source_col = agg_specs["source_col"]
+        except KeyError:
+            raise KeyError(
+                f"Source_col is not specified for aggregation column {agg_col}."
+            )
+
+    # Identify grouping level
+    if agg_col.endswith("_tu"):
+        group_id = "tu_id"
+    elif agg_col.endswith("_hh"):
+        group_id = "hh_id"
+    else:
+        raise ValueError(
+            "Name of aggregated column needs to have a suffix "
+            "indicating the group over which it is aggregated. "
+            f"The name {agg_col} does not do so."
+        )
+
+    # Define aggregation func
+    if aggr == "count":
+
+        @rename_arguments(mapper={"group_id": group_id})
+        def aggregation_func(group_id):
+            return grouped_count(group_id)
+
+    elif aggr == "sum":
+
+        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        def aggregation_func(source_col, group_id):
+            return grouped_sum(source_col, group_id)
+
+    elif aggr == "mean":
+
+        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        def aggregation_func(source_col, group_id):
+            return grouped_mean(source_col, group_id)
+
+    elif aggr == "max":
+
+        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        def aggregation_func(source_col, group_id):
+            return grouped_max(source_col, group_id)
+
+    elif aggr == "min":
+
+        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        def aggregation_func(source_col, group_id):
+            return grouped_min(source_col, group_id)
+
+    elif aggr == "any":
+
+        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        def aggregation_func(source_col, group_id):
+            return grouped_any(source_col, group_id)
+
+    elif aggr == "all":
+
+        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        def aggregation_func(source_col, group_id):
+            return grouped_all(source_col, group_id)
+
+    else:
+        raise ValueError(f"Aggr {aggr} is not implemented, yet.")
+
+    return aggregation_func
+
+
+def vectorize_func(func):
+    signature = inspect.signature(func)
+
+    # Vectorize
+    func_vec = np.vectorize(func)
+
+    @functools.wraps(func)
+    def wrapper_vectorize_func(*args, **kwargs):
+        return func_vec(*args, **kwargs)
+
+    wrapper_vectorize_func.__signature__ = signature
+
+    return wrapper_vectorize_func

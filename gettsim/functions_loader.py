@@ -16,6 +16,13 @@ def load_user_and_internal_functions(functions):
     return custom_functions, internal_functions
 
 
+def load_aggregation_dict():
+    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
+    sources = _search_directories_recursively_for_python_files(imports)
+    aggregation_dict = _load_aggregation_combined_dict_from_strings(sources)
+    return aggregation_dict
+
+
 def _convert_paths_to_import_strings(paths):
     """Convert paths to modules for gettsim's internal functions to imports.
 
@@ -144,3 +151,46 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
         lines.append("    " + inspect.getfile(source[name]))
 
     return "\n".join(lines)
+
+
+def _load_aggregation_combined_dict_from_strings(sources):
+    """Load aggregation dictionaries from paths and strings and combine them.
+
+    1. Paths point to modules which are loaded.
+    2. Strings are import statements which can be imported as module.
+
+    """
+    new_sources = []
+    for source in sources:
+        if isinstance(source, (Path, str)):
+            if isinstance(source, Path):
+                spec = importlib.util.spec_from_file_location(source.name, source)
+                out = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(out)
+            elif isinstance(source, str):
+                out = importlib.import_module(source)
+            aggregation_dicts_defined_in_module = [
+                obj
+                for name, obj in inspect.getmembers(out)
+                if isinstance(obj, dict) and name.startswith("aggregation_")
+                # if _is_function_defined_in_module(func, out.__name__)
+            ]
+
+        new_sources.append(aggregation_dicts_defined_in_module)
+
+    # Combine dictionaries
+    list_of_aggregation_dics = [c for inner_list in new_sources for c in inner_list]
+    all_keys = [c for inner_dict in list_of_aggregation_dics for c in inner_dict]
+    if len(all_keys) != len(set(all_keys)):
+        duplicate_keys = list({x for x in all_keys if all_keys.count(x) > 1})
+        raise ValueError(
+            "The following column names are used more "
+            f"than once in the aggregation_ dictionarys: {duplicate_keys}"
+        )
+    else:
+        combined_dict = {
+            k: v
+            for inner_dict in list_of_aggregation_dics
+            for k, v in inner_dict.items()
+        }
+    return combined_dict

@@ -1,5 +1,7 @@
 """This module computes demographic variables directly on the data. These information
 are used throughout modules of gettsim."""
+import datetime
+
 import numpy as np
 import pandas as pd
 
@@ -209,16 +211,7 @@ def geburtstermin(
     -------
 
     """
-    out = pd.to_datetime(
-        pd.concat(
-            [
-                geburtsjahr.rename("year"),
-                geburtsmonat.rename("month"),
-                geburtstag.rename("day"),
-            ],
-            axis=1,
-        )
-    )
+    out = np.datetime64(datetime.datetime(geburtsjahr, geburtsmonat, geburtstag))
     return out
 
 
