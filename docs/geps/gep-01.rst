@@ -146,8 +146,8 @@ general naming considerations here.
   abbreviations thereof do not re-appear in the name of the parameter.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to
-  abbreviate them (e.g., ``arbeitsl_geld_2["vermögensfreibetrag"]`` for the parameter
-  and ````arbeitsl_geld_2_vermög_freib_hh`` for a column derived from it).
+  abbreviate them (e.g., ``wohngeld_params["vermögensgrundfreibetrag"]`` for the
+  parameter and ``wohngeld_nach_vermög_check_m_hh`` for a column derived from it).
 
 
 Other Python identifiers (Functions, Variables)
@@ -193,7 +193,7 @@ Alternatives
 
 * We considered using more English identifiers, but opted against it because of the
   lack of precision and uniqueness (see the example above: How to distinguish between
-  Erziehungsgeld, Elterngeld, and Elterngeld Plus in English?). In
+  Erziehungsgeld, Elterngeld, and Elterngeld Plus in English?).
 * Use one of the standards for column identifiers. They are not precise enough and
   sometimes rather cryptic.
 * Do something like EUROMOD and include some hierarchy in column names (e.g. start with
@@ -237,7 +237,8 @@ Discussion
 ----------
 
 * GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
-* Discussion on provisional acceptance: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859
+* Discussion on provisional acceptance:
+  https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859
 * GitHub PR for update (character limits, time and unit identifiers, DAG adjustments):
   https://github.com/iza-institute-of-labor-economics/gettsim/pull/312
 
