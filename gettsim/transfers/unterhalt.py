@@ -7,40 +7,6 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def unterhaltsvors_m_tu(unterhaltsvors_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate monthly child support advance payment on tax unit level.
-
-
-    Parameters
-    ----------
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    Returns
-    -------
-
-    """
-    return unterhaltsvors_m.groupby(tu_id).sum()
-
-
-def unterhaltsvors_m_hh(unterhaltsvors_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """Aggregate monthly child support advance payment on household level.
-
-    Parameters
-    ----------
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return unterhaltsvors_m.groupby(hh_id).sum()
-
-
 def unterhaltsvors_m(
     tu_id: IntSeries,
     alleinerz: BoolSeries,

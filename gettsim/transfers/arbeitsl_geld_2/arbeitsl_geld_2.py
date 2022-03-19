@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -32,17 +30,17 @@ def arbeitsl_geld_2_m_hh(
     -------
     FloatSeries with the income by unemployment insurance per household.
     """
-    out = arbeitsl_geld_2_vor_vorrang_m_hh.copy()
-    cond = (
+    if (
         wohngeld_vorrang_hh
         | kinderzuschl_vorrang_hh
         | wohngeld_kinderzuschl_vorrang_hh
         | erwachsene_alle_rentner_hh
-    )
-    if cond:
-        return 0
+    ):
+        out = 0
     else:
-        return out
+        out = arbeitsl_geld_2_vor_vorrang_m_hh
+
+    return out
 
 
 def arbeitsl_geld_2_regelbedarf_m_hh(
@@ -214,24 +212,19 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     -------
     FloatSeries with the sum in Euro.
     """
-    if (anz_erwachsene_hh - 2) < 0:
-        weitere_erwachsene = 0
+    weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
+    if anz_erwachsene_hh == 1:
+        out = arbeitsl_geld_2_params["regelsatz"] * (
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        )
     else:
-        weitere_erwachsene = anz_erwachsene_hh - 2
-
-    data = np.where(
-        anz_erwachsene_hh == 1,
-        arbeitsl_geld_2_params["regelsatz"]
-        * (1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh),
-        arbeitsl_geld_2_params["regelsatz"]
-        * (
+        out = arbeitsl_geld_2_params["regelsatz"] * (
             2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
             + weitere_erwachsene
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
-        ),
-    )
+        )
 
-    return arbeitsl_geld_2_kindersatz_m_hh + data
+    return out + arbeitsl_geld_2_kindersatz_m_hh
 
 
 def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
@@ -258,21 +251,18 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     -------
     FloatSeries with the minimum needs of an household in Euro.
     """
-    if (anz_erwachsene_hh - 2) < 0:
-        weitere_erwachsene = 0
+
+    weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
+    if anz_erwachsene_hh == 1:
+        out = arbeitsl_geld_2_params["regelsatz"][1] * (
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        )
     else:
-        weitere_erwachsene = anz_erwachsene_hh - 2
+        out = arbeitsl_geld_2_params["regelsatz"][2] * (
+            2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        ) + (arbeitsl_geld_2_params["regelsatz"][3] * weitere_erwachsene)
 
-    data = np.where(
-        anz_erwachsene_hh == 1,
-        arbeitsl_geld_2_params["regelsatz"][1]
-        * (1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh),
-        arbeitsl_geld_2_params["regelsatz"][2]
-        * (2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh)
-        + (arbeitsl_geld_2_params["regelsatz"][3] * weitere_erwachsene),
-    )
-
-    return arbeitsl_geld_2_kindersatz_m_hh + data
+    return out + arbeitsl_geld_2_kindersatz_m_hh
 
 
 def arbeitsl_geld_2_vor_vorrang_m_hh(
@@ -306,16 +296,16 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
 
     """
 
-    # Deduct income from other sources
-    out = (
-        arbeitsl_geld_2_regelbedarf_m_hh
-        - arbeitsl_geld_2_eink_m_hh
-        - unterhaltsvors_m_hh
-        - kindergeld_m_hh
-    )
-
     # Check wealth exemption
-    if (out < 0) | (vermögen_hh > arbeitsl_geld_2_vermög_freib_hh):
-        return 0
+    if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
+        out = 0
     else:
-        return out
+        # Deduct income from various sources
+        out = (
+            arbeitsl_geld_2_regelbedarf_m_hh
+            - arbeitsl_geld_2_eink_m_hh
+            - unterhaltsvors_m_hh
+            - kindergeld_m_hh
+        )
+
+    return out

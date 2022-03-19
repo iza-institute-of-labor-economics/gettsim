@@ -175,11 +175,7 @@ def check_data_check_functions_and_merge_functions(
     }
 
     # Create and add aggregation functions
-    aggregation_dict = load_aggregation_dict()
-    aggregation_funcs = {
-        agg_col: create_aggregation_func(agg_col, agg_spec)
-        for agg_col, agg_spec in aggregation_dict.items()
-    }
+    aggregation_funcs = _create_aggregation_functions(user_and_internal_functions)
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
@@ -809,6 +805,39 @@ def _partial_parameters_to_functions(functions, params):
     return partialed_functions
 
 
+def rchop(s, suffix):
+    # ToDO: Replace by removesuffix when only python >= 3.9 is supported
+    if suffix and s.endswith(suffix):
+        return s[: -len(suffix)]
+    return s
+
+
+def _create_aggregation_functions(user_and_internal_functions):
+    """Create aggregation functions"""
+    aggregation_dict = load_aggregation_dict()
+
+    # Make specs for automated sum aggregation
+    automated_sum_aggregation_cols = [
+        arg
+        for func in user_and_internal_functions.values()
+        for arg in get_names_of_arguments_without_defaults(func)
+        if (arg not in user_and_internal_functions.keys())
+        and (rchop(rchop(arg, "_tu"), "_hh") in user_and_internal_functions.keys())
+    ]
+    automated_sum_aggregation_specs = {
+        agg_col: {"aggr": "sum", "source_col": rchop(rchop(agg_col, "_tu"), "_hh")}
+        for agg_col in automated_sum_aggregation_cols
+    }
+    aggregation_dict = {**aggregation_dict, **automated_sum_aggregation_specs}
+
+    # Create functions from specs
+    aggregation_funcs = {
+        agg_col: _create_one_aggregation_func(agg_col, agg_spec)
+        for agg_col, agg_spec in aggregation_dict.items()
+    }
+    return aggregation_funcs
+
+
 def rename_arguments(func=None, mapper=None):
     def decorator_rename_arguments(func):
 
@@ -844,7 +873,7 @@ def rename_arguments(func=None, mapper=None):
         return decorator_rename_arguments
 
 
-def create_aggregation_func(agg_col, agg_specs):
+def _create_one_aggregation_func(agg_col, agg_specs):
     """Create an aggregation function based on aggregation specification.
 
     Parameters

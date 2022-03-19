@@ -15,11 +15,11 @@ from gettsim.aggregation_numpy import grouped_sum as grouped_sum_numpy
 from gettsim.config import IS_JAX_INSTALLED
 
 
-def grouped_count(column, group_id):
+def grouped_count(group_id):
     if IS_JAX_INSTALLED:
-        return grouped_count_jax(column, group_id)
+        return grouped_count_jax(group_id)
     else:
-        return grouped_count_numpy(column, group_id)
+        return grouped_count_numpy(group_id)
 
 
 def grouped_sum(column, group_id):
