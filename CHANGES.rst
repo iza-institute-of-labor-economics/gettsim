@@ -43,6 +43,9 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`355` Major renaming based on GEP 01, e.g.: correct use of ``_m``-suffix;
   ``alleinerziehend`` becomes ``alleinerz``; rename `ges_rentenv.yaml` to
   `ges_rente.yaml` (:ghuser:`hmgaudecker`, :ghuser:`ChristianZimpelmann`)
+* :gh:`356` Define functions on scalars and have them vectorised by numpy or jax.
+  Implement aggregation functions on group levels. (:ghuser:`LauraGergeleit`,
+  :ghuser:`ChristianZimpelmann`)
 
 0.4.2 — 2022-01-25
 ------------------
