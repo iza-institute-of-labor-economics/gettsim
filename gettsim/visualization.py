@@ -27,9 +27,8 @@ from pygments.formatters import HtmlFormatter
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.dag import _fail_if_targets_not_in_functions
 from gettsim.dag import create_dag
-from gettsim.functions_loader import load_aggregation_dict
 from gettsim.functions_loader import load_user_and_internal_functions
-from gettsim.interface import create_aggregation_func
+from gettsim.interface import _create_aggregation_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
@@ -127,18 +126,15 @@ def plot_dag(
 
     # Create one dictionary of functions and perform check.
     user_and_internal_functions = {**internal_functions, **functions}
-    user_and_internal_functions = {
-        k: v
-        for k, v in user_and_internal_functions.items()
-        if k not in columns_overriding_functions
-    }
+
     # Create and add aggregation functions
-    aggregation_dict = load_aggregation_dict()
-    aggregation_funcs = {
-        agg_col: create_aggregation_func(agg_col, agg_spec)
-        for agg_col, agg_spec in aggregation_dict.items()
-    }
+    aggregation_funcs = _create_aggregation_functions(user_and_internal_functions)
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
+
+    all_functions = {
+        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
+    }
+
     _fail_if_targets_not_in_functions(all_functions, targets)
 
     # Partial parameters to functions such that they disappear in the DAG.
