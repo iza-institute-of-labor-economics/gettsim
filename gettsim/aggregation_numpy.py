@@ -91,7 +91,7 @@ def fail_if_dtype_not_numeric(column, agg_func):
 
 
 def fail_if_dtype_of_group_id_not_int(group_id, agg_func):
-    if group_id.dtype != "int":
+    if not np.issubdtype(group_id.dtype, np.integer):
         raise TypeError(
             f"The dtype of group_id must be integer. Grouped_{agg_func} was applied "
             f"to a group_id that has dtype {group_id.dtype}."
@@ -120,7 +120,9 @@ def fail_if_dtype_not_numeric_or_datetime(column, agg_func):
 
 
 def fail_if_dtype_not_boolean_or_int(column, agg_func):
-    if column.dtype not in ["bool", "int"]:
+    if not (
+        np.issubdtype(column.dtype, np.integer) or np.issubdtype(column.dtype, np.bool_)
+    ):
         raise TypeError(
             f"grouped_{agg_func} was applied to a column "
             f"that has dtype {column.dtype}. Allowed is only boolean dtype."

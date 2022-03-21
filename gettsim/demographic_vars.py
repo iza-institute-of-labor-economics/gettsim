@@ -25,6 +25,7 @@ aggregation_demographic_vars = {
     "alleinerz_tu": {"source_col": "alleinerz", "aggr": "any"},
     "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
     "haushaltsgröße_hh": {"aggr": "count"},
+    "tax_unit_größe_tu": {"aggr": "count"},
     "geburtstermin_jüngstes_mitglied_hh": {
         "source_col": "geburtstermin",
         "aggr": "max",

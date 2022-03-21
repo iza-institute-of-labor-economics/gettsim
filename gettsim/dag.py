@@ -91,7 +91,9 @@ def _create_complete_dag(functions):
     return dag
 
 
-def _fail_if_targets_not_in_functions(functions, targets):
+def _fail_if_targets_not_in_functions_or_override_columns(
+    functions, targets, columns_overriding_functions
+):
     """Fail if targets are not in functions.
 
     Parameters
@@ -101,6 +103,9 @@ def _fail_if_targets_not_in_functions(functions, targets):
     targets : list of str
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
+    columns_overriding_functions : list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
 
     Raises
     ------
@@ -108,7 +113,9 @@ def _fail_if_targets_not_in_functions(functions, targets):
         Raised if ``targets`` are not in functions.
 
     """
-    targets_not_in_functions = set(targets) - set(functions)
+    targets_not_in_functions = (
+        set(targets) - set(functions) - set(columns_overriding_functions)
+    )
     if targets_not_in_functions:
         formatted = format_list_linewise(targets_not_in_functions)
         raise ValueError(

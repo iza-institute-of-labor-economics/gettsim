@@ -3,25 +3,6 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def arbeitsl_geld_2_eink_m_hh(
-    arbeitsl_geld_2_eink_m: FloatSeries, hh_id: IntSeries
-) -> FloatSeries:
-    """Sum up the income per household for calculation of basic subsistence.
-
-    Parameters
-    ----------
-    arbeitsl_geld_2_eink_m
-        See :func:`arbeitsl_geld_2_eink_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-    FloatSeries returns the income given by unemployment insurance per household.
-    """
-    return arbeitsl_geld_2_eink_m.groupby(hh_id).sum()
-
-
 def arbeitsl_geld_2_eink_m(
     arbeitsl_geld_2_brutto_eink_m: FloatSeries,
     eink_st_tu: FloatSeries,
@@ -62,25 +43,6 @@ def arbeitsl_geld_2_eink_m(
     )
 
     return max(out, 0)
-
-
-def arbeitsl_geld_2_brutto_eink_m_hh(
-    arbeitsl_geld_2_brutto_eink_m: FloatSeries, hh_id: IntSeries
-) -> FloatSeries:
-
-    """Sum up the income before tax per household for calculation of basic subsistence.
-    Parameters
-    ----------
-    arbeitsl_geld_2_brutto_eink_m
-        See :func:`arbeitsl_geld_2_brutto_eink_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-    Float Series with the income of a person by unemployment insurance before tax.
-    """
-    return arbeitsl_geld_2_brutto_eink_m.groupby(hh_id).sum()
 
 
 def arbeitsl_geld_2_brutto_eink_m(
@@ -217,10 +179,8 @@ def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
     -------
 
     """
-    out = bruttolohn_m * 0
-    kinder_in_hh_individual = anz_kinder_hh > 0
 
-    if kinder_in_hh_individual:
+    if anz_kinder_hh > 0:
         out = piecewise_polynomial(
             x=bruttolohn_m,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],

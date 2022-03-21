@@ -561,7 +561,7 @@ def wohngeld_vor_vermög_check_m(
 
 
 def _anteil_personen_in_haushalt_tu(
-    tu_id: IntSeries, haushaltsgröße_hh: IntSeries
+    tax_unit_größe_tu: IntSeries, haushaltsgröße_hh: IntSeries
 ) -> FloatSeries:
     """Calculate the share of tax units in household.
 
@@ -569,8 +569,8 @@ def _anteil_personen_in_haushalt_tu(
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
+    tax_unit_größe_tu
+        See :func:`tax_unit_größe_tu`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
 
@@ -578,4 +578,4 @@ def _anteil_personen_in_haushalt_tu(
     -------
 
     """
-    return tu_id.groupby(tu_id).transform("count") / haushaltsgröße_hh
+    return tax_unit_größe_tu / haushaltsgröße_hh

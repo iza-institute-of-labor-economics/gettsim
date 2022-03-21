@@ -19,8 +19,6 @@ Kinderzuschlag / Additional Child Benefit
     parents. This is done by some fixed share which is updated on annual basis
     ('jährlicher Existenzminimumsbericht')
 """
-import pandas as pd
-
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
@@ -49,41 +47,21 @@ def kinderzuschl_m_hh(
     -------
 
     """
-    out = _kinderzuschl_nach_vermög_check_m_hh.copy()
-    cond = ((not kinderzuschl_vorrang_hh) & (not wohngeld_kinderzuschl_vorrang_hh)) | (
+    if ((not kinderzuschl_vorrang_hh) & (not wohngeld_kinderzuschl_vorrang_hh)) | (
         anz_rentner_hh > 0
-    )
-    if cond:
-        return 0
+    ):
+        out = 0
     else:
-        return out
+        out = _kinderzuschl_nach_vermög_check_m_hh
+
+    return out
 
 
-def _kinderzuschl_vor_vermög_check_m_hh(
-    kinderzuschl_vorläufig_m: FloatSeries, hh_id: IntSeries
-) -> FloatSeries:
-    """Aggregate preliminary child benefit on household level.
-
-    Parameters
-    ----------
-    kinderzuschl_vorläufig_m
-        See :func:`kinderzuschl_vorläufig_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return kinderzuschl_vorläufig_m.groupby(hh_id).max()
-
-
-def kinderzuschl_vorläufig_m_ab_07_2019(
-    hh_id: IntSeries,
+def kinderzuschl_vorläufig_m_hh_ab_07_2019(
     arbeitsl_geld_2_brutto_eink_m_hh: FloatSeries,
-    kinderzuschl_eink_min_m: FloatSeries,
-    kinderzuschl_kindereink_abzug_m: FloatSeries,
-    kinderzuschl_eink_anrechn_m: FloatSeries,
+    kinderzuschl_eink_min_m_hh_hh: FloatSeries,
+    kinderzuschl_kindereink_abzug_m_hh: FloatSeries,
+    kinderzuschl_eink_anrechn_m_hh: FloatSeries,
 ) -> FloatSeries:
     """Calculate preliminary child benefit since 07/2019.
 
@@ -93,60 +71,65 @@ def kinderzuschl_vorläufig_m_ab_07_2019(
         See basic input variable :ref:`hh_id <hh_id>`.
     arbeitsl_geld_2_brutto_eink_m_hh
         See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
-    kinderzuschl_eink_min_m
-        See :func:`kinderzuschl_eink_min_m`.
-    kinderzuschl_kindereink_abzug_m
-        See :func:`kinderzuschl_kindereink_abzug_m`.
-    kinderzuschl_eink_anrechn_m
-        See :func:`kinderzuschl_eink_anrechn_m`.
+    kinderzuschl_eink_min_m_hh_hh
+        See :func:`kinderzuschl_eink_min_m_hh_hh`.
+    kinderzuschl_kindereink_abzug_m_hh
+        See :func:`kinderzuschl_kindereink_abzug_m_hh`.
+    kinderzuschl_eink_anrechn_m_hh
+        See :func:`kinderzuschl_eink_anrechn_m_hh`.
 
     Returns
     -------
 
     """
-    out = pd.Series(0, index=hh_id.index)
-    condition = arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m
-    if condition:
-        out = (
-            kinderzuschl_kindereink_abzug_m.groupby(hh_id).transform("sum")
-            - kinderzuschl_eink_anrechn_m
+    if arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh_hh:
+        out = max(
+            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0
         )
     else:
-        return out.groupby(hh_id).transform("max")
+        out = 0
 
-    return max(out, 0)
+    return out
 
 
-def kinderzuschl_vorläufig_m_bis_06_2019(
-    hh_id: IntSeries,
-    kinderzuschl_eink_spanne: BoolSeries,
-    kinderzuschl_kindereink_abzug_m: FloatSeries,
-    kinderzuschl_eink_anrechn_m: FloatSeries,
+def kinderzuschl_vorläufig_m_hh_bis_06_2019(
+    arbeitsl_geld_2_brutto_eink_m_hh: FloatSeries,
+    kinderzuschl_eink_min_m_hh: FloatSeries,
+    kinderzuschl_eink_max_m_hh: FloatSeries,
+    arbeitsl_geld_2_eink_m_hh: FloatSeries,
+    kinderzuschl_kindereink_abzug_m_hh: FloatSeries,
+    kinderzuschl_eink_anrechn_m_hh: FloatSeries,
 ) -> FloatSeries:
     """Calculate preliminary child benefit since 2005 until 06/2019.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kinderzuschl_eink_spanne
-        See :func:`kinderzuschl_eink_spanne`.
-    kinderzuschl_kindereink_abzug_m
-        See :func:`kinderzuschl_kindereink_abzug_m`.
-    kinderzuschl_eink_anrechn_m
-        See :func:`kinderzuschl_eink_anrechn_m`.
+    arbeitsl_geld_2_brutto_eink_m_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
+    kinderzuschl_eink_min_m_hh
+        See :func:`kinderzuschl_eink_min_m_hh`.
+    kinderzuschl_eink_max_m_hh
+        See :func:`kinderzuschl_eink_max_m_hh`.
+    arbeitsl_geld_2_eink_m_hh
+        See :func:`arbeitsl_geld_2_eink_m_hh`.
+    kinderzuschl_kindereink_abzug_m_hh
+        See :func:`kinderzuschl_kindereink_abzug_m_hh`.
+    kinderzuschl_eink_anrechn_m_hh
+        See :func:`kinderzuschl_eink_anrechn_m_hh`.
 
     Returns
     -------
 
     """
-    out = pd.Series(0, index=kinderzuschl_eink_spanne.index)
-    if kinderzuschl_eink_spanne:
-        out = (
-            kinderzuschl_kindereink_abzug_m.groupby(hh_id).transform("sum")
-            - kinderzuschl_eink_anrechn_m
+
+    # Check if household income is in income range for child benefit.
+    if (arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh) & (
+        arbeitsl_geld_2_eink_m_hh <= kinderzuschl_eink_max_m_hh
+    ):
+        out = max(
+            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0
         )
     else:
-        return out.groupby(hh_id).transform("max")
+        out = 0
 
-    return max(out, 0)
+    return out

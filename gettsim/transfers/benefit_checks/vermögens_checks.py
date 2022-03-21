@@ -4,7 +4,7 @@ from gettsim.typing import IntSeries
 
 
 def _kinderzuschl_nach_vermög_check_m_hh(
-    _kinderzuschl_vor_vermög_check_m_hh: FloatSeries,
+    kinderzuschl_vorläufig_m_hh: FloatSeries,
     vermögen_hh: FloatSeries,
     arbeitsl_geld_2_vermög_freib_hh,
 ) -> FloatSeries:
@@ -12,8 +12,8 @@ def _kinderzuschl_nach_vermög_check_m_hh(
 
     Parameters
     ----------
-    _kinderzuschl_vor_vermög_check_m_hh
-        See :func:`_kinderzuschl_vor_vermög_check_m_hh`.
+    kinderzuschl_vorläufig_m_hh
+        See :func:`kinderzuschl_vorläufig_m_hh`.
     vermögen_hh
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
     arbeitsl_geld_2_vermög_freib_hh
@@ -27,7 +27,7 @@ def _kinderzuschl_nach_vermög_check_m_hh(
     if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
         out = 0
     else:
-        out = _kinderzuschl_vor_vermög_check_m_hh
+        out = kinderzuschl_vorläufig_m_hh
     return out
 
 

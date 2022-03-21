@@ -17,7 +17,7 @@ from gettsim.aggregation import grouped_sum
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import ORDER_OF_IDS
 from gettsim.config import TYPES_INPUT_VARIABLES
-from gettsim.dag import _fail_if_targets_not_in_functions
+from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
 from gettsim.dag import create_dag
 from gettsim.dag import execute_dag
 from gettsim.functions_loader import load_aggregation_dict
@@ -103,9 +103,8 @@ def compute_taxes_and_transfers(
     data = copy.deepcopy(data)
     data = _process_data(data)
     all_functions = check_data_check_functions_and_merge_functions(
-        user_functions, internal_functions, columns_overriding_functions, data
+        user_functions, internal_functions, columns_overriding_functions, targets, data
     )
-
     # Set up dag.
     dag = prepare_functions_and_set_up_dag(
         all_functions=all_functions,
@@ -129,7 +128,7 @@ def compute_taxes_and_transfers(
 
 
 def check_data_check_functions_and_merge_functions(
-    user_functions, internal_functions, columns_overriding_functions, data
+    user_functions, internal_functions, columns_overriding_functions, targets, data
 ):
     """Make some checks on input data and on interal and user functions. Merge internal
     and user functions and afterwards perform some more checks.
@@ -143,6 +142,9 @@ def check_data_check_functions_and_merge_functions(
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
+    targets : list of str
+        List of strings with names of functions whose output is actually
+        needed by the user.
     data : dict of pandas.Series
         Data provided by the user.
 
@@ -175,7 +177,9 @@ def check_data_check_functions_and_merge_functions(
     }
 
     # Create and add aggregation functions
-    aggregation_funcs = _create_aggregation_functions(user_and_internal_functions)
+    aggregation_funcs = _create_aggregation_functions(
+        user_and_internal_functions, targets
+    )
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
@@ -213,7 +217,7 @@ def prepare_functions_and_set_up_dag(
     params : dict
         A dictionary with parameters from the policy environment. For more
         information see the documentation of the :ref:`param_files`.
-    columns_overriding_functions : str list of str
+    columns_overriding_functions : list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
@@ -227,7 +231,9 @@ def prepare_functions_and_set_up_dag(
     dag : networkx.DiGraph
         The DAG of the tax and transfer system.
     """
-    _fail_if_targets_not_in_functions(all_functions, targets)
+    _fail_if_targets_not_in_functions_or_override_columns(
+        all_functions, targets, columns_overriding_functions
+    )
 
     # Partial parameters to functions such that they disappear in the DAG.
     partialed_functions = _partial_parameters_to_functions(all_functions, params)
@@ -303,9 +309,9 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
             check_data = check_if_series_has_internal_type(series, internal_type)
-        elif column_name in columns_overriding_functions:
-            internal_type = functions[column_name].__annotations__["return"]
-            check_data = check_if_series_has_internal_type(series, internal_type)
+        # elif column_name in columns_overriding_functions:
+        # internal_type = functions[column_name].__annotations__["return"]
+        # check_data = check_if_series_has_internal_type(series, internal_type)
 
         if not check_data:
             raise ValueError(
@@ -812,18 +818,25 @@ def rchop(s, suffix):
     return s
 
 
-def _create_aggregation_functions(user_and_internal_functions):
+def _create_aggregation_functions(user_and_internal_functions, targets):
     """Create aggregation functions"""
     aggregation_dict = load_aggregation_dict()
-
     # Make specs for automated sum aggregation
-    automated_sum_aggregation_cols = [
-        arg
-        for func in user_and_internal_functions.values()
-        for arg in get_names_of_arguments_without_defaults(func)
-        if (arg not in user_and_internal_functions.keys())
-        and (rchop(rchop(arg, "_tu"), "_hh") in user_and_internal_functions.keys())
-    ]
+    automated_sum_aggregation_cols = set(
+        [
+            arg
+            for func in user_and_internal_functions.values()
+            for arg in get_names_of_arguments_without_defaults(func)
+            if (arg not in user_and_internal_functions.keys())
+            and (rchop(rchop(arg, "_tu"), "_hh") in user_and_internal_functions.keys())
+        ]
+        + [
+            targ
+            for targ in targets
+            if (targ not in user_and_internal_functions.keys())
+            and (rchop(rchop(targ, "_tu"), "_hh") in user_and_internal_functions.keys())
+        ]
+    )
     automated_sum_aggregation_specs = {
         agg_col: {"aggr": "sum", "source_col": rchop(rchop(agg_col, "_tu"), "_hh")}
         for agg_col in automated_sum_aggregation_cols
@@ -835,6 +848,7 @@ def _create_aggregation_functions(user_and_internal_functions):
         agg_col: _create_one_aggregation_func(agg_col, agg_spec)
         for agg_col, agg_spec in aggregation_dict.items()
     }
+
     return aggregation_funcs
 
 

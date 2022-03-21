@@ -25,7 +25,7 @@ from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
 from gettsim.config import DEFAULT_TARGETS
-from gettsim.dag import _fail_if_targets_not_in_functions
+from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
 from gettsim.dag import create_dag
 from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.interface import _create_aggregation_functions
@@ -128,14 +128,18 @@ def plot_dag(
     user_and_internal_functions = {**internal_functions, **functions}
 
     # Create and add aggregation functions
-    aggregation_funcs = _create_aggregation_functions(user_and_internal_functions)
+    aggregation_funcs = _create_aggregation_functions(
+        user_and_internal_functions, targets
+    )
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
     all_functions = {
         k: v for k, v in all_functions.items() if k not in columns_overriding_functions
     }
 
-    _fail_if_targets_not_in_functions(all_functions, targets)
+    _fail_if_targets_not_in_functions_or_override_columns(
+        all_functions, targets, columns_overriding_functions
+    )
 
     # Partial parameters to functions such that they disappear in the DAG.
     all_functions = _mock_parameters_arguments(all_functions)

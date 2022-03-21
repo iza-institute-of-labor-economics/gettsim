@@ -17,7 +17,7 @@ INPUT_COLS = [
     "rentner",
     "alter",
     "vermögen_hh",
-    "kinderzuschl_vorläufig_m",
+    "kinderzuschl_vorläufig_m_hh",
     "wohngeld_vor_vermög_check_m_hh",
     "arbeitsl_geld_2_regelbedarf_m_hh",
     "kindergeld_m_hh",
@@ -42,7 +42,7 @@ def test_benefit_checks(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year]
     df = year_data[INPUT_COLS].copy()
     columns = [
-        "kinderzuschl_vorläufig_m",
+        "kinderzuschl_vorläufig_m_hh",
         "wohngeld_vor_vermög_check_m_hh",
         "arbeitsl_geld_2_regelbedarf_m_hh",
         "kindergeld_m_hh",
