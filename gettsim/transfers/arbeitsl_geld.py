@@ -8,40 +8,6 @@ from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
-def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate unemployment benefit on tax unit level.
-
-    Parameters
-    ----------
-    arbeitsl_geld_m
-        See :func:`arbeitsl_geld_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return arbeitsl_geld_m.groupby(tu_id).sum()
-
-
-def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """Aggregate unemployment benefit on household level.
-
-    Parameters
-    ----------
-    arbeitsl_geld_m
-        See :func:`arbeitsl_geld_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return arbeitsl_geld_m.groupby(hh_id).sum()
-
-
 def arbeitsl_geld_m(
     anz_kinder_tu: IntSeries,
     arbeitsl_geld_berechtigt: BoolSeries,
@@ -65,18 +31,18 @@ def arbeitsl_geld_m(
     -------
 
     """
-    if anz_kinder_tu == 0:
-        arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
+
+    if arbeitsl_geld_berechtigt:
+        out = 0.0
     else:
-        arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
+        if anz_kinder_tu == 0:
+            arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
+        else:
+            arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
-    arbeitsl_geld_m = float(arbeitsl_geld_berechtigt) * 0
+        out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
 
-    arbeitsl_geld_m[arbeitsl_geld_berechtigt] = (
-        arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
-    )
-
-    return arbeitsl_geld_m
+    return out
 
 
 def arbeitsl_monate_gesamt(
@@ -132,7 +98,7 @@ def arbeitsl_geld_berechtigt(
     -------
 
     """
-    return (
+    out = (
         (
             arbeitsl_monate_gesamt
             <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"]
@@ -141,6 +107,7 @@ def arbeitsl_geld_berechtigt(
         & (sum_ges_rente_priv_rente_m == 0)
         & (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
+    return out
 
 
 def arbeitsl_geld_eink_vorj_proxy(
@@ -173,9 +140,7 @@ def arbeitsl_geld_eink_vorj_proxy(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(
-        lower=None, upper=_ges_rentenv_beitr_bemess_grenze_m
-    )
+    max_wage = min(bruttolohn_vorj_m, _ges_rentenv_beitr_bemess_grenze_m)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch"] * max_wage
@@ -193,5 +158,6 @@ def arbeitsl_geld_eink_vorj_proxy(
             "intercepts_at_lower_thresholds"
         ],
     )
-
-    return (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0)
+    out = max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12
+    out = max(out, 0.0)
+    return out

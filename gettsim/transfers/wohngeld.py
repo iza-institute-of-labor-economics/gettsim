@@ -125,7 +125,7 @@ def wohngeld_eink_m_tu(
 
 def wohngeld_eink_abzüge_m_bis_2015(
     bruttolohn_m: FloatSeries,
-    wohngeld_arbeitende_kinder: BoolSeries,
+    wohngeld_arbeitendes_kind: BoolSeries,
     behinderungsgrad: IntSeries,
     alleinerz: BoolSeries,
     kind: BoolSeries,
@@ -138,8 +138,8 @@ def wohngeld_eink_abzüge_m_bis_2015(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    wohngeld_arbeitende_kinder
-        See :func:`wohngeld_arbeitende_kinder`.
+    wohngeld_arbeitendes_kind
+        See :func:`wohngeld_arbeitendes_kind`.
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     alleinerz
@@ -163,19 +163,24 @@ def wohngeld_eink_abzüge_m_bis_2015(
             yearly_v / 12 for yearly_v in wohngeld_params["freib_behinderung"].values()
         ],
     )
-    freib_kinder_m = (
-        wohngeld_arbeitende_kinder
-        * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder_m"][24])
-    ) + (
-        (alleinerz & (not kind))
-        * anz_kinder_bis_10_tu
-        * wohngeld_params["freib_kinder_m"][12]
-    )
+
+    # Subtraction for single parents and working children
+    if wohngeld_arbeitendes_kind:
+        freib_kinder_m = min(
+            bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
+        )
+
+    elif alleinerz & (not kind):
+        freib_kinder_m = (
+            anz_kinder_bis_10_tu * wohngeld_params["freib_kinder_m"]["alleinerz"]
+        )
+    else:
+        freib_kinder_m = 0.0
 
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_arbeitende_kinder(
+def wohngeld_arbeitendes_kind(
     bruttolohn_m: FloatSeries, kindergeld_anspruch: BoolSeries
 ) -> BoolSeries:
     """Check if chiildren are working.
@@ -196,7 +201,7 @@ def wohngeld_arbeitende_kinder(
 
 def wohngeld_eink_abzüge_m_ab_2016(
     bruttolohn_m: FloatSeries,
-    kindergeld_anspruch: BoolSeries,
+    wohngeld_arbeitendes_kind: BoolSeries,
     behinderungsgrad: IntSeries,
     alleinerz: BoolSeries,
     kind: BoolSeries,
@@ -208,8 +213,8 @@ def wohngeld_eink_abzüge_m_ab_2016(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
+    wohngeld_arbeitendes_kind
+        See :func:`wohngeld_arbeitendes_kind`.
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     alleinerz
@@ -222,16 +227,21 @@ def wohngeld_eink_abzüge_m_ab_2016(
     -------
 
     """
-    workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
-
-    abzüge = (
-        (behinderungsgrad > 0) * wohngeld_params["freib_behinderung"] / 12
-        + workingchild
-        * bruttolohn_m.clip(lower=0, upper=wohngeld_params["freib_kinder_m"][24])
-        + alleinerz * wohngeld_params["freib_kinder_m"][12] * (not kind)
+    freib_behinderung_m = (
+        wohngeld_params["freib_behinderung"] / 12 if behinderungsgrad > 0 else 0
     )
 
-    return abzüge
+    # Subtraction for single parents and working children
+    if wohngeld_arbeitendes_kind:
+        freib_kinder_m = min(
+            bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
+        )
+    elif alleinerz & (not kind):
+        freib_kinder_m = wohngeld_params["freib_kinder_m"]["alleinerz"]
+    else:
+        freib_kinder_m = 0.0
+
+    return freib_behinderung_m + freib_kinder_m
 
 
 def wohngeld_eink_m(
@@ -264,11 +274,12 @@ def wohngeld_eink_m(
         wohngeld_eink_m_tu - wohngeld_eink_abzüge_m_tu
     )
 
-    unteres_eink = haushaltsgröße_hh.clip(
-        upper=max(wohngeld_params["min_eink"])
-    ).replace(wohngeld_params["min_eink"])
+    unteres_eink = wohngeld_params["min_eink"].min(
+        haushaltsgröße_hh, max(wohngeld_params["min_eink"])
+    )
 
-    return vorläufiges_eink.clip(lower=unteres_eink)
+    out = max(vorläufiges_eink, unteres_eink)
+    return out
 
 
 def wohngeld_min_miete(
@@ -286,10 +297,10 @@ def wohngeld_min_miete(
     -------
 
     """
-
-    return haushaltsgröße_hh.clip(upper=(max(wohngeld_params["min_eink"]))).replace(
-        wohngeld_params["min_miete"]
+    out = wohngeld_params["min_miete"].min(
+        haushaltsgröße_hh, max(wohngeld_params["min_miete"])
     )
+    return out
 
 
 def wohngeld_miete_m_bis_2008(
@@ -327,6 +338,8 @@ def wohngeld_miete_m_bis_2008(
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
     # size.
+    selected_bin = np.searchsorted(thresholds, x, side="right") - 1
+
     yearly_cutoffs = sorted(wohngeld_params["max_miete"][1], reverse=True)
     conditions = [immobilie_baujahr_hh <= cutoff for cutoff in yearly_cutoffs]
     constr_year_category = np.select(conditions, yearly_cutoffs)

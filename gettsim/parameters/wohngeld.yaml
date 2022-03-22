@@ -641,7 +641,7 @@ min_eink:
 
 freib_kinder_m:
   name:
-    de: Monatlicher Freibetrag pro Einkommen eines Kindes, das Kindergeld bekommt im Haushalt
+    de: Monatlicher Freibetrag für Alleinerziehende und arbeitende Kinder
     en:
   description:
     de: § 17 (4/5) WoGG
@@ -649,19 +649,19 @@ freib_kinder_m:
   unit: Euro
   time: month
   1984-01-01:
-    12: 51
-    24: 0
+    "alleinerz": 51
+    "arbeitendes_kind": 0
   2001-01-01:
     deviation_from: previous
-    24: 51
+    "arbeitendes_kind": 51
   2002-01-01:
-    12: 50
-    24: 50
+    "alleinerz": 50
+    "arbeitendes_kind": 50
   2016-01-01:
     note: neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch nicht 25J.
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
-    12: 110
-    24: 100
+    "alleinerz": 110
+    "arbeitendes_kind": 100
 
 freib_behinderung:
   name:
