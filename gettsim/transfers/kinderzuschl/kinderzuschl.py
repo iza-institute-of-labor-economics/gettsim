@@ -59,7 +59,7 @@ def kinderzuschl_m_hh(
 
 def kinderzuschl_vorläufig_m_hh_ab_07_2019(
     arbeitsl_geld_2_brutto_eink_m_hh: FloatSeries,
-    kinderzuschl_eink_min_m_hh_hh: FloatSeries,
+    kinderzuschl_eink_min_m_hh: FloatSeries,
     kinderzuschl_kindereink_abzug_m_hh: FloatSeries,
     kinderzuschl_eink_anrechn_m_hh: FloatSeries,
 ) -> FloatSeries:
@@ -71,8 +71,8 @@ def kinderzuschl_vorläufig_m_hh_ab_07_2019(
         See basic input variable :ref:`hh_id <hh_id>`.
     arbeitsl_geld_2_brutto_eink_m_hh
         See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
-    kinderzuschl_eink_min_m_hh_hh
-        See :func:`kinderzuschl_eink_min_m_hh_hh`.
+    kinderzuschl_eink_min_m_hh
+        See :func:`kinderzuschl_eink_min_m_hh`.
     kinderzuschl_kindereink_abzug_m_hh
         See :func:`kinderzuschl_kindereink_abzug_m_hh`.
     kinderzuschl_eink_anrechn_m_hh
@@ -82,9 +82,9 @@ def kinderzuschl_vorläufig_m_hh_ab_07_2019(
     -------
 
     """
-    if arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh_hh:
+    if arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh:
         out = max(
-            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0
+            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0.0
         )
     else:
         out = 0.0

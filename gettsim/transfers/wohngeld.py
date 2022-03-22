@@ -30,48 +30,13 @@ def wohngeld_m_hh(
     -------
 
     """
-    cond = (not wohngeld_vorrang_hh) & (
+    if (not wohngeld_vorrang_hh) & (
         not wohngeld_kinderzuschl_vorrang_hh
-    ) | erwachsene_alle_rentner_hh
-
-    if cond:
-        return 0
+    ) | erwachsene_alle_rentner_hh:
+        out = 0.0
     else:
-        return wohngeld_nach_vermög_check_m_hh
+        out = wohngeld_nach_vermög_check_m_hh
 
-
-def wohngeld_vor_vermög_check_m_hh(
-    hh_id: IntSeries, wohngeld_vor_vermög_check_m: FloatSeries
-) -> FloatSeries:
-    """Calculate preliminary housing benefit per household.
-
-    Social benefit for recipients with income above basic social assistance Computation
-    is very complicated, accounts for household size, income, actual rent and differs on
-    the municipality level ('Mietstufe' (1,...,6)).
-
-    We usually don't have information on the last item. Therefore we assume 'Mietstufe'
-    3, corresponding to an average level, but other Mietstufen can be specified in
-    `household`.
-
-    Benefit amount depends on parameters `wohngeld_miete_m` (rent) and
-    `wohngeld_eink_m` (income) (§19 WoGG).
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    wohngeld_vor_vermög_check_m
-        See :func:`wohngeld_vor_vermög_check_m`.
-
-    Returns
-    -------
-
-    """
-    # ToDo: When thinking about calculating wohngeld on the correct level, we need
-    # account for multiple tax units in one household. The following is the old code!
-    # See #218.
-    # out = (wohngeld_vor_vermög_check_m * tu_vorstand).groupby(hh_id).sum().round(2)
-    out = wohngeld_vor_vermög_check_m.groupby(hh_id).max().round(2)
     return out
 
 
@@ -81,7 +46,7 @@ def wohngeld_abzüge_m_tu(
     ges_krankenv_beitr_m_tu: FloatSeries,
     wohngeld_params: dict,
 ) -> FloatSeries:
-    """Calcualte housing benefit subtractions.
+    """Calculate housing benefit subtractions.
 
     Parameters
     ----------
@@ -99,9 +64,7 @@ def wohngeld_abzüge_m_tu(
 
     """
     abzug_stufen = (
-        (eink_st_tu > 0) * 1
-        + (ges_rentenv_beitr_m_tu > 0)
-        + (ges_krankenv_beitr_m_tu > 0)
+        (eink_st_tu > 0) + (ges_rentenv_beitr_m_tu > 0) + (ges_krankenv_beitr_m_tu > 0)
     )
     return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
 
@@ -162,7 +125,7 @@ def wohngeld_eink_m_tu(
 
 def wohngeld_eink_abzüge_m_bis_2015(
     bruttolohn_m: FloatSeries,
-    wohngeld_arbeitende_kinder: IntSeries,
+    wohngeld_arbeitende_kinder: BoolSeries,
     behinderungsgrad: IntSeries,
     alleinerz: BoolSeries,
     kind: BoolSeries,
@@ -214,7 +177,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
 
 def wohngeld_arbeitende_kinder(
     bruttolohn_m: FloatSeries, kindergeld_anspruch: BoolSeries
-) -> IntSeries:
+) -> BoolSeries:
     """Check if chiildren are working.
 
     Parameters
@@ -272,9 +235,8 @@ def wohngeld_eink_abzüge_m_ab_2016(
 
 
 def wohngeld_eink_m(
-    tu_id: IntSeries,
     haushaltsgröße_hh: IntSeries,
-    wohngeld_eink_abzüge_m: FloatSeries,
+    wohngeld_eink_abzüge_m_tu: FloatSeries,
     wohngeld_abzüge_m_tu: FloatSeries,
     wohngeld_eink_m_tu: FloatSeries,
     wohngeld_params: dict,
@@ -283,12 +245,10 @@ def wohngeld_eink_m(
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
-    wohngeld_eink_abzüge_m
-        See :func:`wohngeld_eink_abzüge_m`.
+    wohngeld_eink_abzüge_m_tu
+        See :func:`wohngeld_eink_abzüge_m_tu`.
     wohngeld_abzüge_m_tu
         See :func:`wohngeld_abzüge_m_tu`.
     wohngeld_eink_m_tu
@@ -300,8 +260,6 @@ def wohngeld_eink_m(
     -------
 
     """
-    wohngeld_eink_abzüge_m_tu = wohngeld_eink_abzüge_m.groupby(tu_id).sum()
-
     vorläufiges_eink = (1 - wohngeld_abzüge_m_tu) * (
         wohngeld_eink_m_tu - wohngeld_eink_abzüge_m_tu
     )
