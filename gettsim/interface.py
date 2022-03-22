@@ -118,7 +118,10 @@ def compute_taxes_and_transfers(
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
 
-    # Reduce data to group levels and execute DAG.
+    # Convert series to numpy arrays
+    data = {key: series.values for key, series in data.items()}
+
+    # Execute DAG.
     results = execute_dag(dag, data, targets, debug)
 
     # Prepare results.
@@ -154,8 +157,6 @@ def check_data_check_functions_and_merge_functions(
         All internal and user functions except the ones that are overridden by an input
         column.
     """
-    data = _process_data(data)
-
     data_cols = list(data.keys())
     _fail_if_pid_is_non_unique(data)
     _fail_if_columns_overriding_functions_are_not_in_data(
@@ -277,8 +278,6 @@ def prepare_results(results, data, debug):
         results = pd.DataFrame({**data, **results})
     else:
         results = pd.DataFrame(results)
-
-        # results = results[targets]
 
     results = _reorder_columns(results)
 
@@ -599,7 +598,7 @@ def _format_text_for_cmdline(text, width=79):
 def _reorder_columns(results):
     ids_in_data = {"hh_id", "p_id", "tu_id"} & set(results.columns)
     sorted_ids = sorted(ids_in_data, key=lambda x: ORDER_OF_IDS[x])
-    remaining_columns = [i for i in results.columns if i not in sorted_ids]
+    remaining_columns = [i for i in results if i not in sorted_ids]
 
     return results[sorted_ids + remaining_columns]
 

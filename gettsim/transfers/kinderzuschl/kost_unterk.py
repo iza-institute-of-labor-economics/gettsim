@@ -1,12 +1,9 @@
-import numpy as np
-import pandas as pd
-
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
 
 def kinderzuschl_kost_unterk_m(
-    _kinderzuschl_wohnbedarf_eltern_anteil: FloatSeries,
+    _kinderzuschl_wohnbedarf_eltern_anteil_tu: FloatSeries,
     kinderzuschl_bruttokaltmiete_m: FloatSeries,
     kinderzuschl_heizkosten_m: FloatSeries,
 ) -> FloatSeries:
@@ -16,8 +13,8 @@ def kinderzuschl_kost_unterk_m(
 
     Parameters
     ----------
-    _kinderzuschl_wohnbedarf_eltern_anteil
-        See :func:`_kinderzuschl_wohnbedarf_eltern_anteil`.
+    _kinderzuschl_wohnbedarf_eltern_anteil_tu
+        See :func:`_kinderzuschl_wohnbedarf_eltern_anteil_tu`.
     kinderzuschl_bruttokaltmiete_m
         See :func:`kinderzuschl_bruttokaltmiete_m`.
     kinderzuschl_heizkosten_m
@@ -27,7 +24,7 @@ def kinderzuschl_kost_unterk_m(
     -------
 
     """
-    return _kinderzuschl_wohnbedarf_eltern_anteil * (
+    return _kinderzuschl_wohnbedarf_eltern_anteil_tu * (
         kinderzuschl_bruttokaltmiete_m + kinderzuschl_heizkosten_m
     )
 
@@ -70,11 +67,8 @@ def kinderzuschl_heizkosten_m(
     return heizkosten_m_hh * _anteil_personen_in_haushalt_tu
 
 
-def _kinderzuschl_wohnbedarf_eltern_anteil(
-    tu_id: IntSeries,
-    anz_kinder_tu: IntSeries,
-    anz_erwachsene_tu: IntSeries,
-    kinderzuschl_params: dict,
+def _kinderzuschl_wohnbedarf_eltern_anteil_tu(
+    anz_kinder_tu: IntSeries, anz_erwachsene_tu: IntSeries, kinderzuschl_params: dict,
 ) -> FloatSeries:
     """Calculate living needs broken down to the parents.
      Defined as parents' subsistence level on housing, divided by sum
@@ -82,8 +76,6 @@ def _kinderzuschl_wohnbedarf_eltern_anteil(
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
     anz_erwachsene_tu
@@ -95,55 +87,25 @@ def _kinderzuschl_wohnbedarf_eltern_anteil(
     -------
 
     """
-    kinder_in_tu = anz_kinder_tu
-    conditions = []
-    choices = []
     ex_min = kinderzuschl_params["exmin"]
-    adults_map = {1: "single", 2: "paare"}
-    for n_adults in [1, 2]:
-        for n_children in [1, 2, 3, 4]:
-            condition = (kinder_in_tu == n_children) & (anz_erwachsene_tu == n_adults)
-            choice = (
-                ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
-                + ex_min["heizkosten"][adults_map[n_adults]]
-            ) / (
-                ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
-                + ex_min["heizkosten"][adults_map[n_adults]]
-                + (
-                    n_children
-                    * (
-                        ex_min["kosten_der_unterkunft"]["kinder"]
-                        + ex_min["heizkosten"]["kinder"]
-                    )
-                )
-            )
 
-            conditions.append(condition)
-            choices.append(choice)
+    # Only 5 children are considered
+    considered_children = min(anz_kinder_tu, 5)
+    single_oder_paar = "single" if anz_erwachsene_tu == 1 else "paare"
 
-        condition = (kinder_in_tu >= 5) & (anz_erwachsene_tu == n_adults)
-        choice = (
-            ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
-            + ex_min["heizkosten"][adults_map[n_adults]]
-        ) / (
-            ex_min["kosten_der_unterkunft"][adults_map[n_adults]]
-            + ex_min["heizkosten"][adults_map[n_adults]]
-            + (
-                5
-                * (
-                    ex_min["kosten_der_unterkunft"]["kinder"]
-                    + ex_min["heizkosten"]["kinder"]
-                )
+    out = (
+        ex_min["kosten_der_unterkunft"][single_oder_paar]
+        + ex_min["heizkosten"][single_oder_paar]
+    ) / (
+        ex_min["kosten_der_unterkunft"][single_oder_paar]
+        + ex_min["heizkosten"][single_oder_paar]
+        + (
+            considered_children
+            * (
+                ex_min["kosten_der_unterkunft"]["kinder"]
+                + ex_min["heizkosten"]["kinder"]
             )
         )
+    )
 
-        conditions.append(condition)
-        choices.append(choice)
-
-    # Add defaults. Is is really necessary or are the former conditions exhaustive?
-    conditions.append(True)
-    choices.append(1)
-
-    anteil = pd.Series(index=tu_id.index, data=np.select(conditions, choices))
-
-    return anteil
+    return out

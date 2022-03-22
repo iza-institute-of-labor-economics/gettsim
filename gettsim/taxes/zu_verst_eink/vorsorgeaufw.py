@@ -182,7 +182,7 @@ def vorsorgeaufw_ab_2020(
     """
     # maybe add unemployment insurance, but do not exceed 1900€.
     if kind:
-        out = 0
+        out = 0.0
     else:
         sonstige_vors = 12 * (
             ges_pflegev_beitr_m
@@ -252,7 +252,7 @@ def vorsorgeaufw_bis_2004(
             eink_st_abzüge_params,
         )
     else:
-        out = 0
+        out = 0.0
 
     return out
 
@@ -279,7 +279,7 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
         eink_st_abzüge_params["vorsorge2004_vorwegabzug"]
         - eink_st_abzüge_params["vorsorge2004_kürzung_vorwegabzug"] * 12 * bruttolohn_m
     )
-    return max(out, 0)
+    return max(out, 0.0)
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_tu(
@@ -305,7 +305,7 @@ def _vorsorgeaufw_vom_lohn_bis_2019_tu(
         * bruttolohn_m_tu
     )
 
-    return max(out, 0)
+    return max(out, 0.0)
 
 
 def _berechne_vorsorgeaufw_bis_2004(

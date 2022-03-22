@@ -78,7 +78,7 @@ def ges_pflegev_beitr_m(
         )
 
     if geringfügig_beschäftigt:
-        out = 0
+        out = 0.0
     elif in_gleitzone:
         out = _ges_pflegev_beitr_midi_job_m_m
     elif selbständig:

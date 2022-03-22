@@ -50,7 +50,7 @@ def kinderzuschl_m_hh(
     if ((not kinderzuschl_vorrang_hh) & (not wohngeld_kinderzuschl_vorrang_hh)) | (
         anz_rentner_hh > 0
     ):
-        out = 0
+        out = 0.0
     else:
         out = _kinderzuschl_nach_vermög_check_m_hh
 
@@ -87,7 +87,7 @@ def kinderzuschl_vorläufig_m_hh_ab_07_2019(
             kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0
         )
     else:
-        out = 0
+        out = 0.0
 
     return out
 
@@ -130,6 +130,6 @@ def kinderzuschl_vorläufig_m_hh_bis_06_2019(
             kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0
         )
     else:
-        out = 0
+        out = 0.0
 
     return out

@@ -160,7 +160,7 @@ def kinderzuschl_eink_min_m_hh(
 
     """
     if anz_kinder_hh == 0:
-        out = 0
+        out = 0.0
     elif alleinerz_hh:
         out = kinderzuschl_params["min_eink_alleinerz"]
     else:
@@ -199,7 +199,7 @@ def kinderzuschl_kindereink_abzug_m(
         - kinderzuschl_params["entzugsrate_kind"] * (bruttolohn_m + unterhaltsvors_m)
     )
 
-    return max(out, 0)
+    return max(out, 0.0)
 
 
 def kinderzuschl_eink_anrechn_m(
@@ -228,4 +228,4 @@ def kinderzuschl_eink_anrechn_m(
         arbeitsl_geld_2_eink_m_hh - kinderzuschl_eink_relev_m
     )
 
-    return max(out, 0)
+    return max(out, 0.0)

@@ -25,7 +25,7 @@ def _kinderzuschl_nach_vermög_check_m_hh(
     """
 
     if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
-        out = 0
+        out = 0.0
     else:
         out = kinderzuschl_vorläufig_m_hh
     return out
@@ -64,7 +64,7 @@ def wohngeld_nach_vermög_check_m_hh(
     ):
         out = wohngeld_vor_vermög_check_m_hh
     else:
-        out = 0
+        out = 0.0
 
     return out
 
@@ -105,7 +105,7 @@ def _arbeitsl_geld_2_grundfreib_vermög(
             list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[1] * alter
         )
     else:
-        out = 0
+        out = 0.0
 
     return min(out, _arbeitsl_geld_2_max_grundfreib_vermög)
 
@@ -137,7 +137,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].values()
     )
     if kind:
-        out = 0
+        out = 0.0
     else:
         if geburtsjahr < threshold_years[1]:
             out = obergrenzen[0]

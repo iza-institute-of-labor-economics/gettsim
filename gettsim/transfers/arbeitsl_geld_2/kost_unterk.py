@@ -48,10 +48,11 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
     IntSeries with the total amount of rental costs per squaremeter.
     """
     out = (bruttokaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh
-    if out > arbeitsl_geld_2_params["max_miete_pro_qm"]["max"]:
-        return arbeitsl_geld_2_params["max_miete_pro_qm"]["max"]
-    else:
-        return out
+
+    # Consider maximum  considered rent per square meter
+    out = min(out, arbeitsl_geld_2_params["max_miete_pro_qm"]["max"])
+
+    return out
 
 
 def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(

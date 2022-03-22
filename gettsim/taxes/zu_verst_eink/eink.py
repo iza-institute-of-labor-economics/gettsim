@@ -295,7 +295,7 @@ def kapitaleink(
         - eink_st_abzüge_params["sparer_werbungskosten_pauschbetrag"]
     )
 
-    return max(out, 0)
+    return max(out, 0.0)
 
 
 def sum_eink_tu(sum_eink: FloatSeries, tu_id: IntSeries) -> FloatSeries:

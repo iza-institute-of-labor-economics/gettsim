@@ -36,7 +36,7 @@ def arbeitsl_geld_2_m_hh(
         | wohngeld_kinderzuschl_vorrang_hh
         | erwachsene_alle_rentner_hh
     ):
-        out = 0
+        out = 0.0
     else:
         out = arbeitsl_geld_2_vor_vorrang_m_hh
 
@@ -97,21 +97,28 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     -------
     FloatSeries checks how much more a single parent need.
     """
+    if alleinerz_hh:
 
-    # Get minimal Mehrbedarf share. Minimal rate times number of children
-    lower = arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
-    upper = arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
+        # Get minimal Mehrbedarf share. Minimal rate times number of children
+        lower = (
+            arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
+        )
+        upper = arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
 
-    # Special case if 1 kid below 6 or 2,3 below 15.
-    mehrbedarf = (
-        (anz_kinder_bis_6_hh >= 1)
-        | ((2 <= anz_kinder_bis_15_hh) & (anz_kinder_bis_15_hh <= 3))
-    ) * arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
+        # Special case if 1 kid below 6 or 2,3 below 15.
+        mehrbedarf = (
+            arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
+            if (anz_kinder_bis_6_hh >= 1) | (2 <= anz_kinder_bis_15_hh <= 3)
+            else 0.0
+        )
 
-    # Clip value at calculated minimal share and given upper share
-    mehrbedarf = min(max(mehrbedarf, lower), upper)
-
-    return alleinerz_hh * mehrbedarf
+        # Clip value at calculated minimal share and given upper share
+        # Note that upper limit is applied last (for many children lower
+        # could be greater than upper)
+        out = min(max(mehrbedarf, lower), upper)
+    else:
+        out = 0.0
+    return out
 
 
 def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
@@ -298,7 +305,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
 
     # Check wealth exemption
     if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
-        out = 0
+        out = 0.0
     else:
         # Deduct income from various sources
         out = (
@@ -307,5 +314,6 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
             - unterhaltsvors_m_hh
             - kindergeld_m_hh
         )
+        out = max(out, 0.0)
 
     return out

@@ -45,7 +45,7 @@ def ges_krankenv_beitr_m(
     )
 
     if geringfügig_beschäftigt:
-        out = 0
+        out = 0.0
     elif in_gleitzone:
         out = _ges_krankenv_beitr_midi_job_m
     elif selbständig:

@@ -26,7 +26,7 @@ def grundr_zuschlag_m(
 
     """
     out = grundr_zuschlag_vor_eink_anr_m - grundr_zuschlag_eink_m
-    return max(out, 0)
+    return max(out, 0.0)
 
 
 @add_rounding_spec(params_key="ges_rente")
@@ -308,11 +308,11 @@ def grundr_zuschlag_bonus_entgeltp(
     elif inbetween:
         out = grundr_zuschlag_höchstwert_m - grundr_bew_zeiten_avg_entgeltp
     elif above_höchstwert:
-        out = 0
+        out = 0.0
     elif gr_zeiten_below_min:
-        out = 0
+        out = 0.0
     else:
-        out = 0
+        out = 0.0
 
     # Multiply additional Engeltpunkte by factor
     out = out * ges_rente_params["grundr_faktor_bonus"]

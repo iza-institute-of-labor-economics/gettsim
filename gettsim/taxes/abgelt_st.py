@@ -46,4 +46,4 @@ def zu_verst_kapitaleink_tu(
         + eink_st_abzüge_params["sparer_werbungskosten_pauschbetrag"]
     )
 
-    return max(out, 0)
+    return max(out, 0.0)

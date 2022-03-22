@@ -46,26 +46,24 @@ def grunds_im_alter_m_hh(
 
     """
 
-    # Subtract income
-    out = (
-        arbeitsl_geld_2_regelbedarf_m_hh
-        + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
-        - grunds_im_alter_eink_m_hh
-        - unterhaltsvors_m_hh
-        - kindergeld_m_hh
-    )
-
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    cond = (
-        (vermögen_hh >= grunds_im_alter_vermög_freib_hh)
-        | (not erwachsene_alle_rentner_hh)
-        | (out < 0)
-    )
-    if cond:
-        return 0
+    if (vermögen_hh >= grunds_im_alter_vermög_freib_hh) | (
+        not erwachsene_alle_rentner_hh
+    ):
+        out = 0.0
     else:
-        return out
+        # Subtract income
+        out = (
+            arbeitsl_geld_2_regelbedarf_m_hh
+            + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
+            - grunds_im_alter_eink_m_hh
+            - unterhaltsvors_m_hh
+            - kindergeld_m_hh
+        )
+        out = max(out, 0)
+
+    return out
 
 
 def grunds_im_alter_eink_m_hh(
@@ -168,7 +166,7 @@ def grunds_im_alter_eink_m(
         - sozialv_beitr_gesamt_m
     )
 
-    return max(out, 0)
+    return max(out, 0.0)
 
 
 def grunds_im_alter_erwerbseink_m(
@@ -240,9 +238,11 @@ def _grunds_im_alter_kapitaleink_brutto_m(
 
     # Calculate and return monthly capital income (after deduction)
     if capital_income_y < 0:
-        return 0
+        out = 0.0
     else:
-        return capital_income_y / 12
+        out = capital_income_y / 12
+
+    return out
 
 
 def grunds_im_alter_priv_rente_m(

@@ -130,7 +130,7 @@ def eink_st_altersfreib(
             )
         )
     else:
-        out = 0
+        out = 0.0
 
     if out > eink_st_abzüge_params["altersentlastungsbetrag_max"]:
         return eink_st_abzüge_params["altersentlastungsbetrag_max"]
