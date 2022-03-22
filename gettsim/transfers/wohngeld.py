@@ -338,31 +338,27 @@ def wohngeld_miete_m_bis_2008(
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
     # size.
-    selected_bin = np.searchsorted(thresholds, x, side="right") - 1
-
-    yearly_cutoffs = sorted(wohngeld_params["max_miete"][1], reverse=True)
-    conditions = [immobilie_baujahr_hh <= cutoff for cutoff in yearly_cutoffs]
-    constr_year_category = np.select(conditions, yearly_cutoffs)
-    max_definierte_hh_größe = max(
-        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
+    params_max_miete = wohngeld_params["max_miete"]
+    selected_bin = np.searchsorted(
+        sorted(params_max_miete[1]), immobilie_baujahr_hh, side="left"
     )
-    data = [
-        wohngeld_params["max_miete"][hh_größe][constr_year][ms]
-        if hh_größe <= max_definierte_hh_größe
-        else wohngeld_params["max_miete"][max_definierte_hh_größe][constr_year][ms]
-        + wohngeld_params["max_miete"]["jede_weitere_person"][constr_year][ms]
-        * (hh_größe - max_definierte_hh_größe)
-        for hh_größe, constr_year, ms in zip(
-            haushaltsgröße_hh, constr_year_category, mietstufe
+    constr_year = params_max_miete[1][selected_bin]
+
+    # Calc maximal considered rent
+    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
+    if haushaltsgröße_hh <= max_definierte_hh_größe:
+        max_miete = params_max_miete[haushaltsgröße_hh][constr_year][mietstufe]
+    else:
+        max_miete = params_max_miete[max_definierte_hh_größe][constr_year][
+            mietstufe
+        ] + params_max_miete["jede_weitere_person"][constr_year][mietstufe] * (
+            haushaltsgröße_hh - max_definierte_hh_größe
         )
-    ]
 
-    wg_miete = (
-        np.clip(data, a_min=None, a_max=bruttokaltmiete_m_hh)
-        * _anteil_personen_in_haushalt_tu
-    ).clip(lower=wohngeld_min_miete)
+    out = min(bruttokaltmiete_m_hh, max_miete) * _anteil_personen_in_haushalt_tu
+    out = max(out, wohngeld_min_miete)
 
-    return wg_miete
+    return out
 
 
 def wohngeld_miete_m_ab_2009(
@@ -394,24 +390,24 @@ def wohngeld_miete_m_ab_2009(
     -------
 
     """
-    max_definierte_hh_größe = max(
-        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
-    )
-    data = [
-        wohngeld_params["max_miete"][hh_größe][ms]
-        if hh_größe <= max_definierte_hh_größe
-        else wohngeld_params["max_miete"][max_definierte_hh_größe][ms]
-        + wohngeld_params["max_miete"]["jede_weitere_person"][ms]
-        * (hh_größe - max_definierte_hh_größe)
-        for hh_größe, ms in zip(haushaltsgröße_hh, mietstufe)
-    ]
 
-    wg_miete = (
-        np.clip(data, a_min=None, a_max=bruttokaltmiete_m_hh)
-        * _anteil_personen_in_haushalt_tu
-    ).clip(lower=wohngeld_min_miete)
+    params_max_miete = wohngeld_params["max_miete"]
 
-    return wg_miete
+    # Calc maximal considered rent
+    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
+    if haushaltsgröße_hh <= max_definierte_hh_größe:
+        max_miete = params_max_miete[haushaltsgröße_hh][mietstufe]
+    else:
+        max_miete = params_max_miete[max_definierte_hh_größe][
+            mietstufe
+        ] + params_max_miete["jede_weitere_person"][mietstufe] * (
+            haushaltsgröße_hh - max_definierte_hh_größe
+        )
+
+    out = min(bruttokaltmiete_m_hh, max_miete) * _anteil_personen_in_haushalt_tu
+    out = max(out, wohngeld_min_miete)
+
+    return out
 
 
 def wohngeld_miete_m_ab_2021(
@@ -443,28 +439,37 @@ def wohngeld_miete_m_ab_2021(
     -------
 
     """
-    max_definierte_hh_größe = max(
-        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
-    )
-    data = [
-        wohngeld_params["max_miete"][hh_größe][ms]
-        + wohngeld_params["heizkosten_zuschuss"][hh_größe]
-        if hh_größe <= max_definierte_hh_größe
-        else wohngeld_params["max_miete"][5][ms]
-        + (
-            wohngeld_params["max_miete"]["jede_weitere_person"][ms]
-            * (hh_größe - max_definierte_hh_größe)
+    params_max_miete = wohngeld_params["max_miete"]
+
+    # Calc maximal considered rent
+    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
+    if haushaltsgröße_hh <= max_definierte_hh_größe:
+        max_miete = params_max_miete[haushaltsgröße_hh][mietstufe]
+    else:
+        max_miete = (
+            params_max_miete[max_definierte_hh_größe][mietstufe]
+            + (haushaltsgröße_hh - max_definierte_hh_größe)
+            * params_max_miete["jede_weitere_person"][mietstufe]
         )
-        + wohngeld_params["heizkosten_zuschuss"][5]
-        + wohngeld_params["heizkosten_zuschuss"]["5plus"]
-        * (hh_größe - max_definierte_hh_größe)
-        for hh_größe, ms in zip(haushaltsgröße_hh, mietstufe)
-    ]
+
+    # Calc heating allowance
+    max_def_hh_größe_heating = max(
+        i for i in wohngeld_params["heizkosten_zuschuss"] if isinstance(i, int)
+    )
+    if haushaltsgröße_hh <= max_def_hh_größe_heating:
+        heating_allowance = wohngeld_params["heizkosten_zuschuss"][haushaltsgröße_hh]
+    else:
+        heating_allowance = wohngeld_params["heizkosten_zuschuss"][
+            max_def_hh_größe_heating
+        ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
+            wohngeld_params["heizkosten_zuschuss"]["jede_weitere_person"]
+        )
 
     out = (
-        np.clip(data, a_min=None, a_max=bruttokaltmiete_m_hh)
+        min(bruttokaltmiete_m_hh, max_miete + heating_allowance)
         * _anteil_personen_in_haushalt_tu
-    ).clip(lower=wohngeld_min_miete)
+    )
+    out = max(out, wohngeld_min_miete)
 
     return out
 
@@ -492,41 +497,37 @@ def wohngeld_vor_vermög_check_m(
     -------
 
     """
+    max_considered_hh_größe = max(wohngeld_params["min_eink"])
+
     koeffizienten = [
         wohngeld_params["koeffizienten_berechnungsformel"][hh_größe]
-        for hh_größe in haushaltsgröße_hh.clip(upper=(max(wohngeld_params["min_eink"])))
+        for hh_größe in min(haushaltsgröße_hh, max_considered_hh_größe)
     ]
 
     koeffizienten_a = [koeffizient["a"] for koeffizient in koeffizienten]
     koeffizienten_b = [koeffizient["b"] for koeffizient in koeffizienten]
     koeffizienten_c = [koeffizient["c"] for koeffizient in koeffizienten]
 
-    out = (
-        wohngeld_params["faktor_berechnungsformel"]
-        * (
-            wohngeld_miete_m
-            - (
-                (
-                    koeffizienten_a
-                    + (koeffizienten_b * wohngeld_miete_m)
-                    + (koeffizienten_c * wohngeld_eink_m)
-                )
-                * wohngeld_eink_m
+    out = wohngeld_params["faktor_berechnungsformel"] * (
+        wohngeld_miete_m
+        - (
+            (
+                koeffizienten_a
+                + (koeffizienten_b * wohngeld_miete_m)
+                + (koeffizienten_c * wohngeld_eink_m)
             )
+            * wohngeld_eink_m
         )
-    ).clip(lower=0)
-
-    # If more than 12 persons, there is a lump-sum on top.
-    # The maximum is still capped at `wohngeld_miete_m`.
-    out_more_than_12 = (
-        out
-        + wohngeld_params["bonus_12_mehr"]
-        * (haushaltsgröße_hh - max(wohngeld_params["min_eink"]))
-    ).clip(upper=wohngeld_miete_m)
-
-    out = out.where(
-        haushaltsgröße_hh <= (max(wohngeld_params["min_eink"])), out_more_than_12
     )
+    out = max(out, 0.0)
+
+    if haushaltsgröße_hh <= max_considered_hh_größe:
+        # If more than 12 persons, there is a lump-sum on top.
+        # The maximum is still capped at `wohngeld_miete_m`.
+        out += wohngeld_params["bonus_12_mehr"] * (
+            haushaltsgröße_hh - max_considered_hh_größe
+        )
+        out = min(out, wohngeld_miete_m)
 
     return out
 

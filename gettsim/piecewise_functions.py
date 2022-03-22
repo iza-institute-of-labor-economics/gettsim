@@ -1,5 +1,3 @@
-import copy
-
 import numpy as np
 
 
@@ -29,8 +27,6 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
-    x = copy.copy(x)
-
     num_intervals = len(thresholds) - 1
     degree_polynomial = rates.shape[0]
 

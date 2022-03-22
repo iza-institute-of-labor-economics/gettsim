@@ -1,6 +1,5 @@
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def ges_rentenv_beitr_m(
@@ -36,31 +35,13 @@ def ges_rentenv_beitr_m(
     )
 
     if geringfügig_beschäftigt:
-        return 0
+        out = 0.0
     elif in_gleitzone:
-        return _ges_rentenv_beitr_midi_job_m_m
+        out = _ges_rentenv_beitr_midi_job_m_m
     else:
-        return ges_rentenv_beitr_regular_job_m
+        out = ges_rentenv_beitr_regular_job_m
 
-
-def ges_rentenv_beitr_m_tu(
-    ges_rentenv_beitr_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Calculate the contribution of each tax unit to the pension insurance.
-
-    Parameters
-    ----------
-    ges_rentenv_beitr_m
-        See :func:`ges_rentenv_beitr_m`.
-
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return ges_rentenv_beitr_m.groupby(tu_id).sum()
+    return out
 
 
 def _ges_rentenv_beitr_midi_job_m_m(
@@ -112,7 +93,5 @@ def _ges_rentenv_beitr_bruttolohn_m(
     -------
 
     """
-    if bruttolohn_m > _ges_rentenv_beitr_bemess_grenze_m:
-        return _ges_rentenv_beitr_bemess_grenze_m
-    else:
-        return bruttolohn_m
+    out = min(bruttolohn_m, _ges_rentenv_beitr_bemess_grenze_m)
+    return out

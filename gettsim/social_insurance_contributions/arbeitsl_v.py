@@ -27,12 +27,13 @@ def sozialv_beitr_gesamt_m(
     -------
 
     """
-    return (
+    out = (
         ges_pflegev_beitr_m
         + ges_krankenv_beitr_m
         + ges_rentenv_beitr_m
         + arbeitsl_v_beitr_m
     )
+    return out
 
 
 def arbeitsl_v_beitr_m(
@@ -68,11 +69,13 @@ def arbeitsl_v_beitr_m(
 
     # Set to 0 for minijobs
     if geringfügig_beschäftigt:
-        return 0
+        out = 0.0
     elif in_gleitzone:
-        return _arbeitsl_v_beitr_midi_job_m
+        out = _arbeitsl_v_beitr_midi_job_m
     else:
-        return arbeitsl_v_regulär_beschäftigt_m
+        out = arbeitsl_v_regulär_beschäftigt_m
+
+    return out
 
 
 def _arbeitsl_v_beitr_midi_job_m(

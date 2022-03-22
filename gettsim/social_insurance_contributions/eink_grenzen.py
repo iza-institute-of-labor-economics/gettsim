@@ -2,7 +2,9 @@ from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 
 
-def mini_job_grenze(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict):
+def mini_job_grenze(
+    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
+) -> FloatSeries:
     """Select the income threshold depending on place of living
 
     Parameters
@@ -73,9 +75,10 @@ def in_gleitzone(
     -------
     BoolSeries indicating individual's income is in midi-job range.
     """
-    return (
+    out = (
         bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
     ) & (not geringfügig_beschäftigt)
+    return out
 
 
 def midi_job_bemessungsentgelt_m(
@@ -174,6 +177,7 @@ def regulär_beschäftigt(
     -------
     BoolSeries indicating regular employed persons.
     """
-    return (
+    out = (
         bruttolohn_m >= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
     )
+    return out

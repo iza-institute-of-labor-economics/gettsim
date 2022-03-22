@@ -1,6 +1,5 @@
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def ges_krankenv_beitr_m(
@@ -11,7 +10,7 @@ def ges_krankenv_beitr_m(
     _ges_krankenv_beitr_midi_job_m: FloatSeries,
     _ges_krankenv_beitr_bruttolohn_m: FloatSeries,
     soz_vers_beitr_params: dict,
-    selbständig: BoolSeries,
+    selbstständig: BoolSeries,
 ) -> FloatSeries:
     """Contribution for each individual to the public health insurance.
 
@@ -31,8 +30,8 @@ def ges_krankenv_beitr_m(
         See :func:`_ges_krankenv_beitr_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-    selbständig
-        See basic input variable :ref:`selbständig <selbständig>`.
+    selbstständig
+        See basic input variable :ref:`selbstständig <selbstständig>`.
 
 
     Returns
@@ -44,36 +43,17 @@ def ges_krankenv_beitr_m(
         * _ges_krankenv_beitr_bruttolohn_m
     )
 
-    if geringfügig_beschäftigt:
+    if selbstständig:
+        out = ges_krankenv_beitr_selbst_m
+    elif geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
         out = _ges_krankenv_beitr_midi_job_m
-    elif selbständig:
-        out = ges_krankenv_beitr_selbst_m
     else:
         out = beitr_regulär_beschäftigt_m
 
     # Add the health insurance contribution for pensions
     return out + ges_krankenv_beitr_rente_m
-
-
-def ges_krankenv_beitr_m_tu(
-    ges_krankenv_beitr_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Contribution for each tax unit to the public health insurance.
-
-    Parameters
-    ----------
-    ges_krankenv_beitr_m
-        See :func:`ges_krankenv_beitr_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return ges_krankenv_beitr_m.groupby(tu_id).sum()
 
 
 def _ges_krankenv_beitr_bruttolohn_m(
@@ -99,15 +79,11 @@ def _ges_krankenv_beitr_bruttolohn_m(
 
     """
     if regulär_beschäftigt:
-        bruttolohn_m_regulär_beschäftigt = bruttolohn_m
-        bemess_grenze = _ges_krankenv_beitr_bemess_grenze_m
+        out = min(bruttolohn_m, _ges_krankenv_beitr_bemess_grenze_m)
     else:
-        bruttolohn_m_regulär_beschäftigt = 0
+        out = 0.0
 
-    if bruttolohn_m_regulär_beschäftigt > bemess_grenze:
-        return bemess_grenze
-    else:
-        return bruttolohn_m_regulär_beschäftigt
+    return out
 
 
 def ges_krankenv_beitr_selbst_m(
@@ -170,17 +146,18 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
         bezugsgröße_selbstv_m = _ges_krankenv_bezugsgröße_selbst_m
         eink_selbst_selbstv_m = eink_selbst_m
     else:
-        bezugsgröße_selbstv_m = 0
-        eink_selbst_selbstv_m = 0
+        bezugsgröße_selbstv_m = 0.0
+        eink_selbst_selbstv_m = 0.0
 
     anteil_ges_krankenv_bezugsgröße_selbst_m = (
         soz_vers_beitr_params["bezugsgröße_selbst_anteil"] * bezugsgröße_selbstv_m
     )
 
     if eink_selbst_selbstv_m > anteil_ges_krankenv_bezugsgröße_selbst_m:
-        return anteil_ges_krankenv_bezugsgröße_selbst_m
+        out = anteil_ges_krankenv_bezugsgröße_selbst_m
     else:
-        return eink_selbst_selbstv_m
+        out = eink_selbst_selbstv_m
+    return out
 
 
 def _ges_krankenv_bemessungsgrundlage_rente_m(
@@ -200,7 +177,8 @@ def _ges_krankenv_bemessungsgrundlage_rente_m(
     -------
 
     """
-    return sum_ges_rente_priv_rente_m.clip(upper=_ges_krankenv_beitr_bemess_grenze_m)
+    out = min(sum_ges_rente_priv_rente_m, _ges_krankenv_beitr_bemess_grenze_m)
+    return out
 
 
 def ges_krankenv_beitr_rente_m(
@@ -220,11 +198,11 @@ def ges_krankenv_beitr_rente_m(
     -------
     Pandas Series containing monthly health insurance contributions for pension income.
     """
-
-    return (
+    out = (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
         * _ges_krankenv_bemessungsgrundlage_rente_m
     )
+    return out
 
 
 def _ges_krankenv_beitr_midi_job_m(

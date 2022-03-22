@@ -72,6 +72,8 @@ def _ges_krankenv_bezugsgröße_selbst_m(
     -------
     """
     if wohnort_ost:
-        return float(soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"])
+        out = soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"]
     else:
-        return float(soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"])
+        out = soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"]
+
+    return float(out)

@@ -22,7 +22,8 @@ def ges_pflegev_zusatz_kinderlos(
 
     """
     altersgrenze = soz_vers_beitr_params["ges_pflegev_zusatz_kinderlos_altersgrenze"]
-    return (not hat_kinder) and alter >= altersgrenze
+    out = (not hat_kinder) and alter >= altersgrenze
+    return out
 
 
 def ges_pflegev_beitr_m(
@@ -34,7 +35,7 @@ def ges_pflegev_beitr_m(
     _ges_krankenv_beitr_bruttolohn_m: FloatSeries,
     soz_vers_beitr_params: dict,
     in_gleitzone: BoolSeries,
-    selbständig: BoolSeries,
+    selbstständig: BoolSeries,
 ) -> FloatSeries:
     """Contribution for each individual to the public care insurance.
 
@@ -56,8 +57,8 @@ def ges_pflegev_beitr_m(
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     in_gleitzone
         See :func:`in_gleitzone`.
-    selbständig
-        See basic input variable :ref:`selbständig <selbständig>`.
+    selbstständig
+        See basic input variable :ref:`selbstständig <selbstständig>`.
 
     Returns
     -------
@@ -77,12 +78,12 @@ def ges_pflegev_beitr_m(
             * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
-    if geringfügig_beschäftigt:
+    if selbstständig:
+        out = ges_pflegev_beitr_selbst_m
+    elif geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
         out = _ges_pflegev_beitr_midi_job_m_m
-    elif selbständig:
-        out = ges_pflegev_beitr_selbst_m
     else:
         out = beitr_regulär_beschäftigt_m
 
