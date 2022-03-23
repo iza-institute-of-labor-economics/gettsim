@@ -22,8 +22,8 @@ INPUT_COLS = [
     "geburtsjahr",
     "geburtsmonat",
     "geburtstag",
-    "m_elterngeld_mut",
-    "m_elterngeld_vat",
+    "m_elterngeld_mut_hh",
+    "m_elterngeld_vat_hh",
     "m_elterngeld",
     "jahr",
 ]

@@ -14,52 +14,38 @@ def kinderbonus_m(
         See :func:`kinderfreib_günstiger_tu`.
     kinderbonus_basis_m
         See :func:`kinderbonus_basis_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
 
     """
-    out = kinderbonus_basis_m
-    if kinderfreib_günstiger_tu:
-        return 0
+    out = 0 if kinderfreib_günstiger_tu else kinderbonus_basis_m
+
+    return out
+
+
+def kinderbonus_basis_m(
+    kindergeld_basis_m: FloatSeries, kindergeld_params: dict
+) -> FloatSeries:
+    """Calculate the kinderbonus.
+
+    (one-time payment, non-allowable against transfer payments)
+
+    Parameters
+    ----------
+    kindergeld_basis_m
+        See :func:`kindergeld_basis_m`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
+    """
+    # Kinderbonus parameter is specified on the yearly level
+    if kindergeld_basis_m > 0:
+        out = kindergeld_params["kinderbonus"] / 12
     else:
-        return out
+        out = 0.0
 
-
-def kinderbonus_m_hh(kinderbonus_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """Aggregate Kinderbonus on the household level.
-
-    Aggregate Kinderbonus on the household level, as we could have several tax_units
-    in one household.
-
-    Parameters
-    ----------
-    kinderbonus_m
-        See :func:`kinderbonus_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return kinderbonus_m.groupby(hh_id).sum()
-
-
-def kinderbonus_m_tu(kinderbonus_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate Kinderbonus on the tax unit level.
-
-    Parameters
-    ----------
-    kinderbonus_m
-        See :func:`kinderbonus_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return kinderbonus_m.groupby(tu_id).sum()
+    return out

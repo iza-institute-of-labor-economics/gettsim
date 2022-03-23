@@ -66,26 +66,6 @@ def grunds_im_alter_m_hh(
     return out
 
 
-def grunds_im_alter_eink_m_hh(
-    grunds_im_alter_eink_m: FloatSeries, hh_id: IntSeries
-) -> FloatSeries:
-    """Aggregate income which is considered in the calculation of Grundsicherung im
-    Alter on household level.
-
-    Parameters
-    ----------
-    grunds_im_alter_eink_m
-        See :func:`grunds_im_alter_eink_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return grunds_im_alter_eink_m.groupby(hh_id).sum()
-
-
 def grunds_im_alter_eink_m(
     grunds_im_alter_erwerbseink_m: FloatSeries,
     grunds_im_alter_priv_rente_m: FloatSeries,
@@ -282,25 +262,6 @@ def grunds_im_alter_priv_rente_m(
         return priv_rente_m - upper
     else:
         return priv_rente_m - priv_rente_m_amount_exempt
-
-
-def _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh(
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m: FloatSeries, hh_id: IntSeries,
-) -> FloatSeries:
-    """Aggregate additional allowance for individuals with disabled person's pass G on
-    household level.
-
-    Parameters
-    ----------
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m
-        See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    Returns
-    -------
-
-    """
-    return _grunds_im_alter_mehrbedarf_schwerbeh_g_m.groupby(hh_id).sum()
 
 
 def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(

@@ -24,9 +24,10 @@ def kinderzuschl_kost_unterk_m(
     -------
 
     """
-    return _kinderzuschl_wohnbedarf_eltern_anteil_tu * (
+    out = _kinderzuschl_wohnbedarf_eltern_anteil_tu * (
         kinderzuschl_bruttokaltmiete_m + kinderzuschl_heizkosten_m
     )
+    return out
 
 
 def kinderzuschl_bruttokaltmiete_m(

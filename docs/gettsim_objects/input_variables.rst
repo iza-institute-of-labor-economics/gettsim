@@ -74,9 +74,9 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`m_elterngeld`         | Number of months hh received elterngeld     | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
-| _`m_elterngeld_vat`     | Number of months father received elterngeld | IntSeries    |
+| _`m_elterngeld_vat_hh`  | Number of months father received elterngeld | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
-| _`m_elterngeld_mut`     | Number of months mother received elterngeld | IntSeries    |
+| _`m_elterngeld_mut_hh`  | Number of months mother received elterngeld | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+
 | _`behinderungsgrad`     | Handicap degree (between 0 and 100)         | IntSeries    |
 +-------------------------+---------------------------------------------+--------------+

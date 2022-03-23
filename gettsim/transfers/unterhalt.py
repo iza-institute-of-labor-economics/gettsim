@@ -8,7 +8,6 @@ from gettsim.typing import IntSeries
 
 
 def unterhaltsvors_m(
-    tu_id: IntSeries,
     alleinerz: BoolSeries,
     alter: IntSeries,
     unterhaltsvorschuss_eink_tu_m: FloatSeries,
@@ -24,10 +23,11 @@ def unterhaltsvors_m(
     The amount is specified in §1612a BGB and, ultimately, in
     Mindesunterhaltsverordnung.
 
+    # ToDo: Result was rounded up in previous code. Check if this is correct and
+    # ToDo: implement rounding spec accordingly
+
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     alleinerz
         See basic input variable :ref:`alleinerz <alleinerz>`.
     alter
@@ -44,39 +44,35 @@ def unterhaltsvors_m(
 
     """
 
-    # Initialize output Series
-    out = pd.Series(0, index=tu_id.index)
-
-    # The right-hand-side variable is aggregated by tax units whereas we need personal
-    # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
-    # index because it is
-    unterhaltsvorschuss_eink = unterhaltsvorschuss_eink_tu_m
-
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
+    if (alter < altersgrenzen[0]) & alleinerz:
+        out = (
+            unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
+        )
+    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) & alleinerz:
+        out = (
+            unterhalt_params["mindestunterhalt"][12]
+            - kindergeld_params["kindergeld"][1]
+        )
 
-    conditions = [
-        (alter < altersgrenzen[0]) & alleinerz,
-        (alter >= altersgrenzen[0]) & (alter < altersgrenzen[1]) & alleinerz,
-        # Older kids get it only if the parent has income > 600€.
-        (alter >= altersgrenzen[1])
-        & (alter <= altersgrenzen[2])
+    # Older kids get it only if the single parent has income > 600€.
+    elif (
+        (altersgrenzen[1] <= alter <= altersgrenzen[2])
         & alleinerz
         & (
-            unterhaltsvorschuss_eink
+            unterhaltsvorschuss_eink_tu_m
             > unterhalt_params["unterhaltsvors_mindesteinkommen"]
-        ),
-    ]
-
-    conditions = [bool(c) for c in conditions]
-    choices = [
-        (unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]),
-        (unterhalt_params["mindestunterhalt"][12] - kindergeld_params["kindergeld"][1]),
-        (unterhalt_params["mindestunterhalt"][17] - kindergeld_params["kindergeld"][1]),
-    ]
-
-    out[:] = int(np.ceil(np.select(conditions, choices)))
+        )
+    ):
+        out = (
+            unterhalt_params["mindestunterhalt"][17]
+            - kindergeld_params["kindergeld"][1]
+        )
+    else:
+        out = 0.0
 
     # TODO: Check against actual transfers
+
     return out
 
 

@@ -118,26 +118,26 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 
 
 def elternzeit_anspruch(
-    hh_id: IntSeries,
-    alter_jüngstes_kind_monate_hh: FloatSeries,
-    m_elterngeld_mut: IntSeries,
-    m_elterngeld_vat: IntSeries,
+    alter_monate_jüngstes_mitglied_hh: FloatSeries,
+    m_elterngeld_mut_hh: IntSeries,
+    m_elterngeld_vat_hh: IntSeries,
     m_elterngeld: IntSeries,
     kind: BoolSeries,
     elterngeld_params: dict,
 ) -> BoolSeries:
     """Check parental leave eligibility.
 
+    # ToDo: Check meaning and naming and make description of m_elterngeld_mut_hh,
+    # ToDo: m_elterngeld_vat_hh, and m_elterngeld more precise
+
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    alter_jüngstes_kind_monate_hh
-        See :func:`alter_jüngstes_kind_monate_hh`.
-    m_elterngeld_mut
-        See basic input variable :ref:`m_elterngeld_mut <m_elterngeld_mut>`.
-    m_elterngeld_vat
-        See basic input variable :ref:`m_elterngeld_vat <m_elterngeld_vat>`.
+    alter_monate_jüngstes_mitglied_hh
+        See :func:`alter_monate_jüngstes_mitglied_hh`.
+    m_elterngeld_mut_hh
+        See basic input variable :ref:`m_elterngeld_mut_hh <m_elterngeld_mut_hh>`.
+    m_elterngeld_vat_hh
+        See basic input variable :ref:`m_elterngeld_vat_hh <m_elterngeld_vat_hh>`.
     m_elterngeld
         See basic input variable :ref:`m_elterngeld <m_elterngeld>`.
     kind
@@ -149,44 +149,26 @@ def elternzeit_anspruch(
     -------
 
     """
-    eligible_age = (
-        (alter_jüngstes_kind_monate_hh <= elterngeld_params["max_monate_paar"])
-        .groupby(hh_id)
-        .transform("any")
-    )
-
-    eligible_consumed = (
-        (m_elterngeld_mut + m_elterngeld_vat < elterngeld_params["max_monate_paar"])
-        .groupby(hh_id)
-        .transform("any")
-    )
-
-    eligible = (
-        eligible_age
-        & eligible_consumed
+    out = (
+        (alter_monate_jüngstes_mitglied_hh <= elterngeld_params["max_monate_paar"])
+        & (
+            m_elterngeld_mut_hh + m_elterngeld_vat_hh
+            < elterngeld_params["max_monate_paar"]
+        )
         & (not kind)
         & (m_elterngeld <= elterngeld_params["max_monate_ind"])
     )
 
-    return eligible
+    return out
 
 
-def elterngeld_geschw_bonus_anspruch(
-    hh_id: IntSeries,
-    geburtsjahr: IntSeries,
-    elternzeit_anspruch: BoolSeries,
-    elterngeld_params: dict,
-) -> BoolSeries:
+def elterngeld_kindkind(geburtsjahr: IntSeries, elterngeld_params: dict,) -> BoolSeries:
     """Check for sibling bonus on parental leave benefit.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    elternzeit_anspruch
-        See :func:`elternzeit_anspruch`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -194,55 +176,95 @@ def elterngeld_geschw_bonus_anspruch(
     -------
 
     """
-    kleinkinder = (
+    out = (
         elterngeld_params["datum"].year - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[0]
     )
-    vorschulkinder = (
-        elterngeld_params["datum"].year - geburtsjahr
-        < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
-    )
-
-    bonus = (
-        (
-            kleinkinder.groupby(hh_id).transform("sum")
-            == list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[0]
-        )
-        | (
-            vorschulkinder.groupby(hh_id).transform("sum")
-            >= list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[1]
-        )
-    ) & elternzeit_anspruch
-
-    return bonus
+    return out
 
 
-def _elterngeld_anz_mehrlinge_anspruch(
-    hh_id: IntSeries,
-    elternzeit_anspruch: BoolSeries,
-    geburtstermin: DateTimeSeries,
-    geburtstermin_jüngstes_mitglied_hh: DateTimeSeries,
-) -> IntSeries:
-    """Check for multiple bonus on parental leave benefit.
+def elterngeld_vorschulkind(
+    geburtsjahr: IntSeries, elterngeld_params: dict,
+) -> BoolSeries:
+    """Check for sibling bonus on parental leave benefit.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    elternzeit_anspruch
-        See :func:`elternzeit_anspruch`.
-    geburtstermin
-        See :func:`geburtstermin`.
-    geburtstermin_jüngstes_mitglied_hh
-        See :func:`geburtstermin_jüngstes_mitglied_hh`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
     Returns
     -------
 
     """
-    jüngstes_kind = geburtstermin == geburtstermin_jüngstes_mitglied_hh
-    mehrlinge = jüngstes_kind.groupby(hh_id).transform("sum")
-    return elternzeit_anspruch * (mehrlinge - 1)
+    out = (
+        elterngeld_params["datum"].year - geburtsjahr
+        < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
+    )
+    return out
+
+
+def elterngeld_geschw_bonus_anspruch(
+    elterngeld_kindkind_hh: IntSeries,
+    elterngeld_vorschulkind_hh: IntSeries,
+    elternzeit_anspruch: BoolSeries,
+    elterngeld_params: dict,
+) -> BoolSeries:
+    """Check for sibling bonus on parental leave benefit.
+
+    Parameters
+    ----------
+    elterngeld_kindkind_hh
+        See :func:`elterngeld_kindkind_hh`.
+    elternzeit_anspruch
+        See :func:`elternzeit_anspruch`.
+    elterngeld_vorschulkind_hh
+        See :func:`elterngeld_vorschulkind_hh`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    if elternzeit_anspruch:
+
+        # ToDo: Should this be >=? Reference (§ 2 (2) BEEG) is not completely clear
+        out = (
+            elterngeld_kindkind_hh
+            == list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[0]
+        ) | (
+            elterngeld_vorschulkind_hh
+            >= list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[1]
+        )
+    else:
+        out = False
+    return out
+
+
+def _elterngeld_anz_mehrlinge_anspruch(
+    elternzeit_anspruch: BoolSeries, anz_jüngstes_kind_hh: DateTimeSeries,
+) -> IntSeries:
+    """Check for multiple bonus on parental leave benefit.
+
+    # ToDo: Check definition of "mehrlinge" currently it is calculated as age in
+    # ToDo: months being the same.
+
+    Parameters
+    ----------
+    elternzeit_anspruch
+        See :func:`elternzeit_anspruch`.
+    anz_jüngstes_kind_hh
+        See :func:`anz_jüngstes_kind_hh`.
+
+    Returns
+    -------
+
+    """
+    out = anz_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0
+    return out
 
 
 def elterngeld_nettolohn_m(
@@ -317,6 +339,9 @@ def elterngeld_anteil_eink_erlass(
     According to § 2 (2) BEEG the percentage increases below the first step and
     decreases above the second step until prozent_minimum.
 
+    # ToDo: Split this function up in a function before and after 2011. Before 2011 the
+    # ToDo: replacement rate was not lowered for high incomes.
+
     Parameters
     ----------
     elterngeld_eink_relev_m
@@ -327,28 +352,42 @@ def elterngeld_anteil_eink_erlass(
     -------
 
     """
-    conditions = [
-        elterngeld_eink_relev_m < elterngeld_params["nettoeinkommen_stufen"][1],
-        elterngeld_eink_relev_m > elterngeld_params["nettoeinkommen_stufen"][2],
-        True,
-    ]
 
-    choices = [
-        (elterngeld_params["nettoeinkommen_stufen"][1] - elterngeld_eink_relev_m)
-        / elterngeld_params["eink_schritt_korrektur"]
-        * elterngeld_params["prozent_korrektur"]
-        + elterngeld_params["faktor"],
-        (
-            elterngeld_params["faktor"]
-            - (elterngeld_eink_relev_m - elterngeld_params["nettoeinkommen_stufen"][2])
+    # Higher replacement rate if considered income is below a threshold
+    if (
+        elterngeld_eink_relev_m
+        < elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
+    ):
+        out = (
+            (
+                elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
+                - elterngeld_eink_relev_m
+            )
             / elterngeld_params["eink_schritt_korrektur"]
-        ).clip(lower=elterngeld_params["prozent_minimum"]),
-        elterngeld_params["faktor"],
-    ]
+            * elterngeld_params["prozent_korrektur"]
+            + elterngeld_params["faktor"]
+        )
 
-    data = np.select(conditions, choices)
+    # Lower replacement rate if considered income is above a threshold
+    elif (
+        elterngeld_eink_relev_m
+        > elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
+    ):
+        out = (
+            elterngeld_params["faktor"]
+            - (
+                elterngeld_eink_relev_m
+                - elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
+            )
+            / elterngeld_params["eink_schritt_korrektur"]
+        )
 
-    return pd.Series(index=elterngeld_eink_relev_m.index, data=data)
+        # Replacement rate is only lowered up to a specific value
+        out = max(out, elterngeld_params["prozent_minimum"])
+    else:
+        out = elterngeld_params["faktor"]
+
+    return out
 
 
 def elterngeld_eink_erlass_m(
@@ -392,12 +431,14 @@ def elterngeld_geschw_bonus_m(
     -------
 
     """
-    return (
-        (elterngeld_params["geschw_bonus_aufschlag"] * elterngeld_eink_erlass_m).clip(
-            lower=elterngeld_params["geschw_bonus_minimum"]
+    if elterngeld_geschw_bonus_anspruch:
+        out = max(
+            elterngeld_params["geschw_bonus_aufschlag"] * elterngeld_eink_erlass_m,
+            elterngeld_params["geschw_bonus_minimum"],
         )
-        * elterngeld_geschw_bonus_anspruch
-    )
+    else:
+        out = 0.0
+    return out
 
 
 def elterngeld_mehrlinge_bonus_m(

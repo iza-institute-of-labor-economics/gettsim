@@ -26,10 +26,8 @@ aggregation_demographic_vars = {
     "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
     "haushaltsgröße_hh": {"aggr": "count"},
     "tax_unit_größe_tu": {"aggr": "count"},
-    "geburtstermin_jüngstes_mitglied_hh": {
-        "source_col": "geburtstermin",
-        "aggr": "max",
-    },
+    "alter_monate_jüngstes_mitglied_hh": {"source_col": "alter_monate", "aggr": "min",},
+    "anz_jüngstes_kind_hh": {"source_col": "jüngstes_kind", "aggr": "sum",},
 }
 
 
@@ -216,8 +214,8 @@ def geburtstermin(
     return out
 
 
-def alter_jüngstes_kind_monate_hh(
-    geburtstermin_jüngstes_mitglied_hh: DateTimeSeries, elterngeld_params: dict,
+def alter_monate(
+    geburtstermin: DateTimeSeries, elterngeld_params: dict,
 ) -> FloatSeries:
     """Calculate age of youngest child in months.
 
@@ -225,8 +223,8 @@ def alter_jüngstes_kind_monate_hh(
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    geburtstermin_jüngstes_mitglied_hh
-        See :func:`geburtstermin_jüngstes_mitglied_hh`.
+    geburtstermin
+        See :func:`geburtstermin`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
@@ -234,11 +232,38 @@ def alter_jüngstes_kind_monate_hh(
 
     """
     date = pd.to_datetime(elterngeld_params["datum"])
-    age_in_days = date - geburtstermin_jüngstes_mitglied_hh
+    age_in_days = date - geburtstermin
 
     # # Check was formerly implemented in `check_eligibilities` for elterngeld.
     # unborn_children = age_in_days.dt.total_seconds() < 0
     # if unborn_children.any():
     #     hh_ids = hh_id[unborn_children].unique()
     #     raise ValueError(f"Households with ids {hh_ids} have unborn children.")
-    return age_in_days / np.timedelta64(1, "M")
+    out = age_in_days / np.timedelta64(1, "M")
+    return out
+
+
+def jüngstes_kind(
+    alter_monate: DateTimeSeries,
+    alter_monate_jüngstes_mitglied_hh: DateTimeSeries,
+    kind: BoolSeries,
+) -> IntSeries:
+    """Check if person is the .
+
+    # ToDo: replace kind by some age restriction
+
+    Parameters
+    ----------
+    alter_monate
+        See :func:`alter_monate`.
+    alter_monate_jüngstes_mitglied_hh
+        See :func:`alter_monate_jüngstes_mitglied_hh`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = (alter_monate == alter_monate_jüngstes_mitglied_hh) & kind
+    return out
