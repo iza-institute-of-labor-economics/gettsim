@@ -284,7 +284,7 @@ def prepare_results(results, data, debug):
     return results
 
 
-def _fail_if_datatype_is_false(data):
+def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
     """Check if the provided data has the right types.
 
     Parameters

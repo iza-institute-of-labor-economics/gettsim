@@ -280,29 +280,28 @@ def ges_rente_zugangsfaktor(
     -------
 
     """
+    if rentner:
+        # Calc age at retirement
+        alter_renteneintritt = jahr_renteneintr - geburtsjahr
 
-    # Calc age at retirement
-    alter_renteneintritt = jahr_renteneintr - geburtsjahr
+        # Calc difference to Regelaltersgrenze
+        diff = alter_renteneintritt - ges_rente_regelaltersgrenze
+        faktor_pro_jahr_vorzeitig = ges_rente_params[
+            "zugangsfaktor_veränderung_pro_jahr"
+        ]["vorzeitiger_renteneintritt"]
+        faktor_pro_jahr_später = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
+            "späterer_renteneintritt"
+        ]
 
-    # Calc difference to Regelaltersgrenze
-    diff = alter_renteneintritt - ges_rente_regelaltersgrenze
-    faktor_pro_jahr_vorzeitig = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
-        "vorzeitiger_renteneintritt"
-    ]
-    faktor_pro_jahr_später = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
-        "späterer_renteneintritt"
-    ]
+        # Zugangsfactor lower if retired before Regelaltersgrenze
+        # Zugangsfactor larger if retired before Regelaltersgrenze
+        if diff < 0:
+            out = 1 + diff * faktor_pro_jahr_vorzeitig
+        else:
+            out = 1 + diff * faktor_pro_jahr_später
 
-    # Zugangsfactor lower if retired before Regelaltersgrenze
-    # Zugangsfactor larger if retired before Regelaltersgrenze
-    if diff < 0:
-        out = 1 + diff * faktor_pro_jahr_vorzeitig
-    else:
-        out = 1 + diff * faktor_pro_jahr_später
-
+        out = max(out, 0.0)
     # Return 0 if person not yet retired
-    if rentner & (out >= 0):
-        out = out
     else:
         out = 0.0
 

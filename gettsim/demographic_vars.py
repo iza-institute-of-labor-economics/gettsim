@@ -248,9 +248,11 @@ def jüngstes_kind(
     alter_monate_jüngstes_mitglied_hh: DateTimeSeries,
     kind: BoolSeries,
 ) -> IntSeries:
-    """Check if person is the .
+    """Check if person is the youngest child in the household.
 
     # ToDo: replace kind by some age restriction
+    # ToDo: Check definition of "jüngstes kind" currently it is calculated as
+    # ToDo: age not being larger than 0.1 of a month
 
     Parameters
     ----------
@@ -265,5 +267,5 @@ def jüngstes_kind(
     -------
 
     """
-    out = (alter_monate == alter_monate_jüngstes_mitglied_hh) & kind
+    out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) & kind
     return out

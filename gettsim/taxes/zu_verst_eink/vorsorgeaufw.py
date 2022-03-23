@@ -33,18 +33,15 @@ def vorsorgeaufw_alter_ab_2005(
 
     """
 
-    out = (
-        eink_st_abzüge_params["einführungsfaktor_vorsorgeaufw_alter_ab_2005"]
-        * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
-        - ges_rentenv_beitr_m
-    ) * 12
-
     if kind:
         out = 0.0
-    elif out > eink_st_abzüge_params["vorsorge_altersaufw_max"]:
-        out = eink_st_abzüge_params["vorsorge_altersaufw_max"]
     else:
-        out = out
+        out = (
+            eink_st_abzüge_params["einführungsfaktor_vorsorgeaufw_alter_ab_2005"]
+            * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
+            - ges_rentenv_beitr_m
+        ) * 12
+        out = min(out, eink_st_abzüge_params["vorsorge_altersaufw_max"])
 
     return out
 
@@ -81,18 +78,17 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     -------
 
     """
-    sum_vorsorge = 12 * (
-        ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m
-    )
-    if sum_vorsorge > eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]:
-        sum_vorsorge = eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]
-    else:
-        sum_vorsorge = sum_vorsorge
 
-    if not kind:
-        out = sum_vorsorge + vorsorgeaufw_alter_ab_2005
-    else:
+    if kind:
         out = 0.0
+    else:
+        sum_vorsorge = 12 * (
+            ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m
+        )
+        sum_vorsorge = min(
+            sum_vorsorge, eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]
+        )
+        out = sum_vorsorge + vorsorgeaufw_alter_ab_2005
 
     return out
 
@@ -118,10 +114,9 @@ def vorsorgeaufw_ab_2005_bis_2009(
     -------
 
     """
-    if vorsorgeaufw_bis_2004 < _vorsorge_alternative_ab_2005_bis_2009:
-        return _vorsorge_alternative_ab_2005_bis_2009
-    else:
-        return vorsorgeaufw_bis_2004
+    out = max(vorsorgeaufw_bis_2004, _vorsorge_alternative_ab_2005_bis_2009)
+
+    return out
 
 
 def vorsorgeaufw_ab_2010_bis_2019(
@@ -148,10 +143,9 @@ def vorsorgeaufw_ab_2010_bis_2019(
     -------
 
     """
-    if vorsorgeaufw_bis_2004 < vorsorgeaufw_ab_2020:
-        return vorsorgeaufw_ab_2020
-    else:
-        return vorsorgeaufw_bis_2004
+    out = max(vorsorgeaufw_bis_2004, vorsorgeaufw_ab_2020)
+
+    return out
 
 
 def vorsorgeaufw_ab_2020(
@@ -355,5 +349,5 @@ def _berechne_vorsorgeaufw_bis_2004(
     else:
         item_3 = 0.5 * (item_1 - item_2)
 
-    out = int(lohn_vorsorge + item_2 + item_3)
+    out = lohn_vorsorge + item_2 + item_3
     return out

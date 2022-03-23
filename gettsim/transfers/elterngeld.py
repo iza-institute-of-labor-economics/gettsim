@@ -246,9 +246,6 @@ def _elterngeld_anz_mehrlinge_anspruch(
 ) -> IntSeries:
     """Check for multiple bonus on parental leave benefit.
 
-    # ToDo: Check definition of "mehrlinge" currently it is calculated as age in
-    # ToDo: months being the same.
-
     Parameters
     ----------
     elternzeit_anspruch

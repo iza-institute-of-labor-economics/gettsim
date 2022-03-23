@@ -48,7 +48,7 @@ OUT_COLS = OUT_COLS_TOL.keys()
 def input_data():
     file_name = "test_dfs_grundrente.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    out["p_id"] = int(out["p_id"])
+    out["p_id"] = out["p_id"].astype(int)
     return out
 
 
@@ -94,8 +94,8 @@ INPUT_COLS_INCOME = [
 def input_data_proxy_rente():
     file_name = "test_dfs_grundrente_proxy_rente.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    out["p_id"] = int(out["p_id"])
-    out["jahr_renteneintr"] = int(out["jahr_renteneintr"])
+    out["p_id"] = out["p_id"].astype(int)
+    out["jahr_renteneintr"] = out["jahr_renteneintr"].astype("Int64")
 
     return out
 
@@ -109,7 +109,7 @@ def test_proxy_rente_vorj(input_data_proxy_rente, year):
     calc_result = compute_taxes_and_transfers(
         data=df, params=policy_params, functions=policy_functions, targets=target,
     )
-    assert_series_equal(float(calc_result[target]), year_data[target])
+    assert_series_equal(calc_result[target].astype(float), year_data[target])
 
 
 @pytest.mark.parametrize("year", YEARS)

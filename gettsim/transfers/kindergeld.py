@@ -64,19 +64,19 @@ def kindergeld_basis_m(
     -------
 
     """
-    # Kindergeld_Anspruch is the cumulative sum of eligible children.
-    kumulativer_anspruch = int(kindergeld_anspruch).groupby(tu_id).transform("cumsum")
-
-    obergrenze = max(kindergeld_params["kindergeld"]).replace(
-        kindergeld_params["kindergeld"]
-    )
 
     # Make sure that only eligible children get assigned kindergeld
     if not kindergeld_anspruch:
         out = 0.0
     else:
-        out = min(kumulativer_anspruch, obergrenze)
-
+        # Kindergeld_Anspruch is the cumulative sum of eligible children.
+        kumulativer_anspruch = (
+            int(kindergeld_anspruch).groupby(tu_id).transform("cumsum")
+        )
+        kumulativer_anspruch_wins = min(
+            kumulativer_anspruch, max(kindergeld_params["kindergeld"])
+        )
+        out = kindergeld_params["kindergeld"][kumulativer_anspruch_wins]
     return out
 
 

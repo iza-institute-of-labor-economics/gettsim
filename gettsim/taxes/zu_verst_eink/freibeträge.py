@@ -131,13 +131,9 @@ def eink_st_altersfreib(
             * 12
             * (bruttolohn_m + weiteres_einkommen)
         )
+        out = min(out, eink_st_abzüge_params["altersentlastungsbetrag_max"])
     else:
         out = 0.0
-
-    if out > eink_st_abzüge_params["altersentlastungsbetrag_max"]:
-        out = eink_st_abzüge_params["altersentlastungsbetrag_max"]
-    else:
-        out = out
 
     return out
 
@@ -235,22 +231,3 @@ def eink_st_kinderfreib_tu(
     """
     kifreib_total = sum(eink_st_abzüge_params["kinderfreibetrag"].values())
     return kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
-
-
-def anz_kinder_mit_kindergeld_tu(
-    tu_id: IntSeries, kindergeld_anspruch: BoolSeries
-) -> FloatSeries:
-    """Count number of children eligible for Child Benefit.
-
-    Parameters
-    ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
-
-    Returns
-    -------
-
-    """
-    return kindergeld_anspruch.groupby(tu_id).sum()

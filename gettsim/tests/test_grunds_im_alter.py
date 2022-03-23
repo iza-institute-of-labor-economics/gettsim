@@ -63,7 +63,7 @@ OUT_COLS = [
 def input_data():
     file_name = "test_dfs_grunds_im_alter.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    out["p_id"] = int(out["p_id"])
+    out["p_id"] = out["p_id"].astype(int)
     return out
 
 
@@ -82,5 +82,5 @@ def test_grunds_im_alter(input_data, year, column):
     )
 
     # Retype outcols to float (from int)
-    expected = float(year_data[column])
+    expected = year_data[column].astype(float)
     assert_series_equal(calc_result[column], expected)

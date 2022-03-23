@@ -260,10 +260,8 @@ def grunds_im_alter_priv_rente_m(
         ],
     )
     upper = arbeitsl_geld_2_params["regelsatz"][1] / 2
-    if priv_rente_m_amount_exempt > upper:
-        out = priv_rente_m - upper
-    else:
-        out = priv_rente_m - priv_rente_m_amount_exempt
+
+    out = priv_rente_m - min(priv_rente_m_amount_exempt, upper)
 
     return out
 
@@ -364,11 +362,9 @@ def grunds_im_alter_ges_rente_m_ab_2021(
         ],
     )
 
-    grenze = arbeitsl_geld_2_params["regelsatz"][1] / 2
-    if (grundr_berechtigt) & (deducted_rent <= grenze):
-        deducted_rent = deducted_rent
-    elif (grundr_berechtigt) & (deducted_rent > grenze):
-        deducted_rent = grenze
+    upper = arbeitsl_geld_2_params["regelsatz"][1] / 2
+    if grundr_berechtigt:
+        deducted_rent = min(deducted_rent, upper)
     else:
         deducted_rent = 0.0
 
