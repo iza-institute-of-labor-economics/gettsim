@@ -91,8 +91,9 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
     -------
 
     """
+    out = sum_eink_tu - freibeträge_tu
 
-    return (sum_eink_tu - freibeträge_tu).clip(lower=0)
+    return max(out, 0.0)
 
 
 def zu_verst_eink_mit_kinderfreib_tu(

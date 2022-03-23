@@ -77,9 +77,11 @@ def eink_abhängig_beschäftigt(
 
     """
     if geringfügig_beschäftigt:
-        return 0
+        out = 0.0
     else:
-        return 12 * bruttolohn_m - eink_st_abzüge_params["werbungskostenpauschale"]
+        out = 12 * bruttolohn_m - eink_st_abzüge_params["werbungskostenpauschale"]
+
+    return out
 
 
 def eink_abhängig_beschäftigt_tu(
@@ -268,9 +270,10 @@ def sum_eink_ohne_kapital(
     -------
 
     """
-    return (
+    out = (
         eink_selbst + eink_abhängig_beschäftigt + eink_vermietung + eink_rente_zu_verst
     )
+    return out
 
 
 def kapitaleink(

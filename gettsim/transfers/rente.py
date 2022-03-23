@@ -67,13 +67,13 @@ def ges_rente_nach_grundr_m(
     -------
 
     """
-    out = ges_rente_vor_grundr_m + grundr_zuschlag_m
-
     # Return 0 if person not yet retired
     if rentner:
-        return out
+        out = ges_rente_vor_grundr_m + grundr_zuschlag_m
     else:
-        return 0
+        out = 0.0
+
+    return out
 
 
 @add_rounding_spec(params_key="ges_rente")
@@ -111,13 +111,13 @@ def ges_rente_vor_grundr_m(
 
     """
 
-    out = entgeltp_update * ges_rente_zugangsfaktor * rentenwert
-
     # Return 0 if person not yet retired
     if rentner:
-        return out
+        out = entgeltp_update * ges_rente_zugangsfaktor * rentenwert
     else:
-        return 0
+        out = 0.0
+
+    return out
 
 
 def rentenwert(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
@@ -197,7 +197,8 @@ def entgeltp_update(
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
-    return entgeltp + entgeltp_update_lohn
+    out = entgeltp + entgeltp_update_lohn
+    return out
 
 
 def entgeltp_update_lohn(
@@ -242,7 +243,8 @@ def entgeltp_update_lohn(
         "beitragspflichtiges_durchschnittsentgelt"
     ]
 
-    return bruttolohn_scaled_rentenv / durchschnittslohn_m
+    out = bruttolohn_scaled_rentenv / durchschnittslohn_m
+    return out
 
 
 def ges_rente_zugangsfaktor(
@@ -300,9 +302,11 @@ def ges_rente_zugangsfaktor(
 
     # Return 0 if person not yet retired
     if rentner & (out >= 0):
-        return out
+        out = out
     else:
-        return 0
+        out = 0.0
+
+    return out
 
 
 def ges_rente_regelaltersgrenze(

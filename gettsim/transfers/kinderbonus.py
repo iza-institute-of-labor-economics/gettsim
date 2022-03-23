@@ -1,6 +1,5 @@
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def kinderbonus_m(
@@ -19,7 +18,7 @@ def kinderbonus_m(
     -------
 
     """
-    out = 0 if kinderfreib_günstiger_tu else kinderbonus_basis_m
+    out = 0.0 if kinderfreib_günstiger_tu else kinderbonus_basis_m
 
     return out
 

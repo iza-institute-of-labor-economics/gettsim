@@ -1,7 +1,4 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
-import numpy as np
-import pandas as pd
-
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.typing import BoolSeries

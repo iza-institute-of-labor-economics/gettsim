@@ -1,7 +1,4 @@
 """This module provides functions to compute alimony payments (Unterhalt)."""
-import numpy as np
-import pandas as pd
-
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries

@@ -54,9 +54,11 @@ def eink_st_alleinerz_freib_tu_bis_2014(
 
     """
     if alleinerz_tu:
-        return eink_st_abzüge_params["alleinerz_freibetrag"]
+        out = eink_st_abzüge_params["alleinerz_freibetrag"]
     else:
-        return 0
+        out = 0.0
+
+    return out
 
 
 def eink_st_alleinerz_freib_tu_ab_2015(
@@ -85,9 +87,11 @@ def eink_st_alleinerz_freib_tu_ab_2015(
         + anz_kinder_tu * eink_st_abzüge_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz_tu:
-        return alleinerz_freibe_tu
+        out = alleinerz_freibe_tu
     else:
-        return 0
+        out = 0.0
+
+    return out
 
 
 def eink_st_altersfreib(
@@ -120,22 +124,22 @@ def eink_st_altersfreib(
 
     """
     agelimit = eink_st_abzüge_params["altersentlastungsbetrag_altersgrenze"]
+    weiteres_einkommen = max(kapitaleink_brutto_m + eink_selbst_m + vermiet_eink_m, 0.0)
     if alter > agelimit:
         out = (
             eink_st_abzüge_params["altersentlastung_quote"]
             * 12
-            * (
-                bruttolohn_m
-                + (kapitaleink_brutto_m + eink_selbst_m + vermiet_eink_m).clip(lower=0)
-            )
+            * (bruttolohn_m + weiteres_einkommen)
         )
     else:
         out = 0.0
 
     if out > eink_st_abzüge_params["altersentlastungsbetrag_max"]:
-        return eink_st_abzüge_params["altersentlastungsbetrag_max"]
+        out = eink_st_abzüge_params["altersentlastungsbetrag_max"]
     else:
-        return out
+        out = out
+
+    return out
 
 
 def eink_st_sonderausgaben_bis_2011(
@@ -156,9 +160,11 @@ def eink_st_sonderausgaben_bis_2011(
 
     """
     if kind:
-        return eink_st_abzüge_params["sonderausgabenpauschbetrag"]
+        out = eink_st_abzüge_params["sonderausgabenpauschbetrag"]
     else:
-        return 0
+        out = 0.0
+
+    return out
 
 
 def eink_st_sonderausgaben_ab_2012(
@@ -194,16 +200,17 @@ def eink_st_sonderausgaben_ab_2012(
     )
 
     berechtigte_kinder = kind.groupby(tu_id).transform(sum)
-    out = (
-        berechtigte_kinder
-        * abziehbare_betreuungskosten
-        * eink_st_abzüge_params["kinderbetreuungskosten_abz_anteil"]
-    ) / anz_erwachsene_tu
 
     if kind:
-        return 0
+        out = 0.0
     else:
-        return out
+        out = (
+            berechtigte_kinder
+            * abziehbare_betreuungskosten
+            * eink_st_abzüge_params["kinderbetreuungskosten_abz_anteil"]
+        ) / anz_erwachsene_tu
+
+    return out
 
 
 def eink_st_kinderfreib_tu(

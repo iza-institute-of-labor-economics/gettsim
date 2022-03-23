@@ -20,10 +20,12 @@ def arbeitsl_geld_2_kost_unterk_m_hh(
     -------
     FloatSeries with total monthly cost of rent.
     """
-    return (
+    out = (
         _arbeitsl_geld_2_berechtigte_wohnfläche_hh
         * _arbeitsl_geld_2_warmmiete_pro_qm_hh
     )
+
+    return out
 
 
 def _arbeitsl_geld_2_warmmiete_pro_qm_hh(

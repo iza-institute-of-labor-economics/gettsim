@@ -61,7 +61,7 @@ def grunds_im_alter_m_hh(
             - unterhaltsvors_m_hh
             - kindergeld_m_hh
         )
-        out = max(out, 0)
+        out = max(out, 0.0)
 
     return out
 
@@ -186,9 +186,11 @@ def grunds_im_alter_erwerbseink_m(
     earnings = (1 - grunds_im_alter_params["erwerbseink_anr_frei"]) * earnings
 
     if earnings < earnings_after_max_deduction:
-        return earnings_after_max_deduction
+        out = earnings_after_max_deduction
     else:
-        return earnings
+        out = earnings
+
+    return out
 
 
 def _grunds_im_alter_kapitaleink_brutto_m(
@@ -259,9 +261,11 @@ def grunds_im_alter_priv_rente_m(
     )
     upper = arbeitsl_geld_2_params["regelsatz"][1] / 2
     if priv_rente_m_amount_exempt > upper:
-        return priv_rente_m - upper
+        out = priv_rente_m - upper
     else:
-        return priv_rente_m - priv_rente_m_amount_exempt
+        out = priv_rente_m - priv_rente_m_amount_exempt
+
+    return out
 
 
 def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
@@ -295,11 +299,13 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     )
 
     if (schwerbeh_g) & (anz_erwachsene_hh == 1):
-        return mehrbedarf_singles
+        out = mehrbedarf_singles
     elif (schwerbeh_g) & (anz_erwachsene_hh > 1):
-        return mehrbedarf_in_couple
+        out = mehrbedarf_in_couple
     else:
-        return 0
+        out = 0.0
+
+    return out
 
 
 def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: FloatSeries,) -> FloatSeries:
@@ -364,7 +370,7 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     elif (grundr_berechtigt) & (deducted_rent > grenze):
         deducted_rent = grenze
     else:
-        deducted_rent = 0
+        deducted_rent = 0.0
 
     return ges_rente_m - deducted_rent
 

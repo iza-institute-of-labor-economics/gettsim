@@ -82,7 +82,7 @@ def arbeitsl_geld_2_brutto_eink_m(
     -------
     FloatSeries with the income by unemployment insurance before tax.
     """
-    return (
+    out = (
         bruttolohn_m
         + sonstig_eink_m
         + eink_selbst_m
@@ -92,6 +92,8 @@ def arbeitsl_geld_2_brutto_eink_m(
         + arbeitsl_geld_m
         + elterngeld_m
     )
+
+    return out
 
 
 def arbeitsl_geld_2_2005_netto_quote(

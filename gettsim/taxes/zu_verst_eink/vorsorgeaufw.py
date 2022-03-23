@@ -40,11 +40,13 @@ def vorsorgeaufw_alter_ab_2005(
     ) * 12
 
     if kind:
-        return 0
+        out = 0.0
     elif out > eink_st_abzüge_params["vorsorge_altersaufw_max"]:
-        return eink_st_abzüge_params["vorsorge_altersaufw_max"]
+        out = eink_st_abzüge_params["vorsorge_altersaufw_max"]
     else:
-        return out
+        out = out
+
+    return out
 
 
 def _vorsorge_alternative_ab_2005_bis_2009(
@@ -88,9 +90,11 @@ def _vorsorge_alternative_ab_2005_bis_2009(
         sum_vorsorge = sum_vorsorge
 
     if not kind:
-        return sum_vorsorge + vorsorgeaufw_alter_ab_2005
+        out = sum_vorsorge + vorsorgeaufw_alter_ab_2005
     else:
-        return 0
+        out = 0.0
+
+    return out
 
 
 def vorsorgeaufw_ab_2005_bis_2009(
@@ -329,16 +333,27 @@ def _berechne_vorsorgeaufw_bis_2004(
     -------
 
     """
-    item_1 = (1 / anzahl_erwachsene) * (
-        12 * (ges_rentenv_beitr + ges_krankenv_beitr) - lohn_vorsorge
-    ).clip(lower=0)
-    item_2 = (1 / anzahl_erwachsene) * item_1.clip(
-        upper=eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
+    multiplikator1 = max(
+        (12 * (ges_rentenv_beitr + ges_krankenv_beitr) - lohn_vorsorge), 0.0
     )
 
-    item_3 = 0.5 * (item_1 - item_2).clip(
-        upper=anzahl_erwachsene
-        * eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
+    item_1 = (1 / anzahl_erwachsene) * multiplikator1
+
+    if item_1 > eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]:
+        multiplikator2 = eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
+    else:
+        multiplikator2 = item_1
+
+    item_2 = (1 / anzahl_erwachsene) * multiplikator2
+
+    hoechstgrenze_item3 = (
+        anzahl_erwachsene * eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
     )
+
+    if (item_1 - item_2) > hoechstgrenze_item3:
+        item_3 = 0.5 * hoechstgrenze_item3
+    else:
+        item_3 = 0.5 * (item_1 - item_2)
+
     out = int(lohn_vorsorge + item_2 + item_3)
     return out

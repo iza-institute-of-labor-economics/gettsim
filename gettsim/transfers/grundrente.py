@@ -139,9 +139,11 @@ def grundr_zuschlag_eink_m(
 
     # Select correct value based on the fact whether a married partner is present.
     if gemeinsam_veranlagt_tu:
-        return anr_eink_verheiratet
+        out = anr_eink_verheiratet
     else:
-        return anr_eink_single
+        out = anr_eink_single
+
+    return out
 
 
 @add_rounding_spec(params_key="ges_rente")
@@ -214,8 +216,8 @@ def grundr_bew_zeiten_avg_entgeltp(
     -------
 
     """
-
-    return grundr_entgeltp / grundr_bew_zeiten
+    out = grundr_entgeltp / grundr_bew_zeiten
+    return out
 
 
 @add_rounding_spec(params_key="ges_rente")
@@ -352,16 +354,16 @@ def rente_vorj_vor_grundr_proxy_m(
     """
 
     # Assume priv_rente_m did not change
-    out = entgeltp * ges_rente_zugangsfaktor * rentenwert_vorjahr + priv_rente_m
-
     # Calculate if subect was retired last year
     # ToDo: Use current_year as argument of this function once we addressed issue #211
     current_year = geburtsjahr + alter
     rentner_vorjahr = jahr_renteneintr <= current_year - 1
     if not rentner_vorjahr:
-        return 0
+        out = 0.0
     else:
-        return out
+        out = entgeltp * ges_rente_zugangsfaktor * rentenwert_vorjahr + priv_rente_m
+
+    return out
 
 
 def grundr_berechtigt(grundr_zeiten: IntSeries, ges_rente_params: dict) -> BoolSeries:
@@ -378,4 +380,5 @@ def grundr_berechtigt(grundr_zeiten: IntSeries, ges_rente_params: dict) -> BoolS
     -------
 
     """
-    return grundr_zeiten >= ges_rente_params["grundr_zeiten"]["min"]
+    out = grundr_zeiten >= ges_rente_params["grundr_zeiten"]["min"]
+    return out

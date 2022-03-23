@@ -196,7 +196,8 @@ def wohngeld_arbeitendes_kind(
     -------
 
     """
-    return (bruttolohn_m > 0) & kindergeld_anspruch
+    out = (bruttolohn_m > 0) & kindergeld_anspruch
+    return out
 
 
 def wohngeld_eink_abzüge_m_ab_2016(

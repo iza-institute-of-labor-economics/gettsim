@@ -132,10 +132,12 @@ def kinderzuschl_eink_max_m_hh(
     -------
 
     """
-    return (
+    out = (
         kinderzuschl_eink_relev_m
         + kinderzuschl_params["maximum"] * _kinderzuschl_anz_kinder_anspruch_hh
     )
+
+    return out
 
 
 def kinderzuschl_eink_min_m_hh(
