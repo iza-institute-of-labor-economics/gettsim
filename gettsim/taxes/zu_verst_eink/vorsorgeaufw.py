@@ -1,14 +1,9 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def vorsorgeaufw_alter_ab_2005(
-    kind: BoolSeries,
-    ges_rentenv_beitr_m: FloatSeries,
-    priv_rentenv_beitr_m: FloatSeries,
+    kind: bool,
+    ges_rentenv_beitr_m: float,
+    priv_rentenv_beitr_m: float,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Determine contributions to retirement savings deductible from taxable income.
 
     This function becomes relevant in 2005, do not use it for prior
@@ -47,13 +42,13 @@ def vorsorgeaufw_alter_ab_2005(
 
 
 def _vorsorge_alternative_ab_2005_bis_2009(
-    vorsorgeaufw_alter_ab_2005: FloatSeries,
-    ges_krankenv_beitr_m: FloatSeries,
-    arbeitsl_v_beitr_m: FloatSeries,
-    ges_pflegev_beitr_m: FloatSeries,
-    kind: BoolSeries,
+    vorsorgeaufw_alter_ab_2005: float,
+    ges_krankenv_beitr_m: float,
+    arbeitsl_v_beitr_m: float,
+    ges_pflegev_beitr_m: float,
+    kind: bool,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate Vorsorgeaufwendungen from 2005 to 2010.
 
 
@@ -94,9 +89,8 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 
 
 def vorsorgeaufw_ab_2005_bis_2009(
-    _vorsorge_alternative_ab_2005_bis_2009: FloatSeries,
-    vorsorgeaufw_bis_2004: FloatSeries,
-) -> FloatSeries:
+    _vorsorge_alternative_ab_2005_bis_2009: float, vorsorgeaufw_bis_2004: float,
+) -> float:
     """Calculate Vorsorgeaufwendungen from 2005 to 2009.
 
     With the 2005 reform, no taxpayer was supposed to be affected negatively.
@@ -120,8 +114,8 @@ def vorsorgeaufw_ab_2005_bis_2009(
 
 
 def vorsorgeaufw_ab_2010_bis_2019(
-    vorsorgeaufw_bis_2004: FloatSeries, vorsorgeaufw_ab_2020: FloatSeries
-) -> FloatSeries:
+    vorsorgeaufw_bis_2004: float, vorsorgeaufw_ab_2020: float
+) -> float:
     """Calculate Vorsorgeaufwendungen from 2010 to 2019.
 
     After a supreme court ruling, the 2005 rule had to be changed in 2010.
@@ -149,13 +143,13 @@ def vorsorgeaufw_ab_2010_bis_2019(
 
 
 def vorsorgeaufw_ab_2020(
-    vorsorgeaufw_alter_ab_2005: FloatSeries,
-    ges_pflegev_beitr_m: FloatSeries,
-    ges_krankenv_beitr_m: FloatSeries,
-    arbeitsl_v_beitr_m: FloatSeries,
-    kind: BoolSeries,
+    vorsorgeaufw_alter_ab_2005: float,
+    ges_pflegev_beitr_m: float,
+    ges_krankenv_beitr_m: float,
+    arbeitsl_v_beitr_m: float,
+    kind: bool,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate Vorsorgeaufwendungen since 2020.
 
     Vorsorgeaufwendungen after the regime implemented in 2010 is in full effect,
@@ -196,16 +190,16 @@ def vorsorgeaufw_ab_2020(
 
 
 def vorsorgeaufw_bis_2004(
-    _vorsorgeaufw_vom_lohn_bis_2019_single: FloatSeries,
-    _vorsorgeaufw_vom_lohn_bis_2019_tu: FloatSeries,
-    ges_krankenv_beitr_m: FloatSeries,
-    ges_rentenv_beitr_m: FloatSeries,
-    ges_krankenv_beitr_m_tu: FloatSeries,
-    ges_rentenv_beitr_m_tu: FloatSeries,
-    gemeinsam_veranlagt_tu: BoolSeries,
-    kind: BoolSeries,
+    _vorsorgeaufw_vom_lohn_bis_2019_single: float,
+    _vorsorgeaufw_vom_lohn_bis_2019_tu: float,
+    ges_krankenv_beitr_m: float,
+    ges_rentenv_beitr_m: float,
+    ges_krankenv_beitr_m_tu: float,
+    ges_rentenv_beitr_m_tu: float,
+    gemeinsam_veranlagt_tu: bool,
+    kind: bool,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate Vorsorgeaufwendungen until 2004.
 
     Parameters
@@ -256,8 +250,8 @@ def vorsorgeaufw_bis_2004(
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_single(
-    bruttolohn_m: FloatSeries, eink_st_abzüge_params: dict,
-) -> FloatSeries:
+    bruttolohn_m: float, eink_st_abzüge_params: dict,
+) -> float:
     """Calcaulate vorsoge expenditures until 2019 for singles.
 
     Parameters
@@ -281,8 +275,8 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_tu(
-    bruttolohn_m_tu: FloatSeries, eink_st_abzüge_params: dict,
-) -> FloatSeries:
+    bruttolohn_m_tu: float, eink_st_abzüge_params: dict,
+) -> float:
     """Calcaulate vorsoge expenditures until 2019 per tax unit.
 
     Parameters
@@ -307,12 +301,12 @@ def _vorsorgeaufw_vom_lohn_bis_2019_tu(
 
 
 def _berechne_vorsorgeaufw_bis_2004(
-    lohn_vorsorge: FloatSeries,
-    ges_krankenv_beitr: FloatSeries,
-    ges_rentenv_beitr: FloatSeries,
-    anzahl_erwachsene: IntSeries,
+    lohn_vorsorge: float,
+    ges_krankenv_beitr: float,
+    ges_rentenv_beitr: float,
+    anzahl_erwachsene: int,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calcaulate vorsoge expenditures until 2004.
 
     Parameters

@@ -1,10 +1,6 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-
-
 def _ges_rentenv_beitr_bemess_grenze_m(
-    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
+    wohnort_ost: bool, soz_vers_beitr_params: dict
+) -> float:
     """Calculating the income threshold up to which pension insurance payments apply.
 
     Parameters
@@ -26,8 +22,8 @@ def _ges_rentenv_beitr_bemess_grenze_m(
 
 
 def _ges_krankenv_beitr_bemess_grenze_m(
-    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
+    wohnort_ost: bool, soz_vers_beitr_params: dict
+) -> float:
     """Calculating the income threshold up to which health insurance payments apply.
 
     Parameters
@@ -54,8 +50,8 @@ def _ges_krankenv_beitr_bemess_grenze_m(
 
 
 def _ges_krankenv_bezugsgröße_selbst_m(
-    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
+    wohnort_ost: bool, soz_vers_beitr_params: dict
+) -> float:
     """Threshold for self employment income subject to health insurance.
 
     Selecting by place of living the income threshold for self employed up to which the

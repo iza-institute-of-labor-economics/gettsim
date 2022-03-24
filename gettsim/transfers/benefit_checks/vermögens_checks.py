@@ -1,13 +1,8 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def _kinderzuschl_nach_vermög_check_m_hh(
-    kinderzuschl_vorläufig_m_hh: FloatSeries,
-    vermögen_hh: FloatSeries,
+    kinderzuschl_vorläufig_m_hh: float,
+    vermögen_hh: float,
     arbeitsl_geld_2_vermög_freib_hh,
-) -> FloatSeries:
+) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
     Parameters
@@ -32,11 +27,11 @@ def _kinderzuschl_nach_vermög_check_m_hh(
 
 
 def wohngeld_nach_vermög_check_m_hh(
-    wohngeld_vor_vermög_check_m_hh: FloatSeries,
-    vermögen_hh: FloatSeries,
-    haushaltsgröße_hh: IntSeries,
+    wohngeld_vor_vermög_check_m_hh: float,
+    vermögen_hh: float,
+    haushaltsgröße_hh: int,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
 
     The payment depends on the wealth of the household and the number of household
@@ -70,12 +65,12 @@ def wohngeld_nach_vermög_check_m_hh(
 
 
 def _arbeitsl_geld_2_grundfreib_vermög(
-    kind: BoolSeries,
-    alter: IntSeries,
-    geburtsjahr: IntSeries,
-    _arbeitsl_geld_2_max_grundfreib_vermög: FloatSeries,
+    kind: bool,
+    alter: int,
+    geburtsjahr: int,
+    _arbeitsl_geld_2_max_grundfreib_vermög: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate exemptions based on individuals age.
 
     Parameters
@@ -111,8 +106,8 @@ def _arbeitsl_geld_2_grundfreib_vermög(
 
 
 def _arbeitsl_geld_2_max_grundfreib_vermög(
-    geburtsjahr: IntSeries, kind: BoolSeries, arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+    geburtsjahr: int, kind: bool, arbeitsl_geld_2_params: dict,
+) -> float:
     """Calculate maximal wealth exemptions by year of birth.
 
     Parameters
@@ -152,11 +147,11 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
 
 
 def arbeitsl_geld_2_vermög_freib_hh(
-    _arbeitsl_geld_2_grundfreib_vermög_hh: FloatSeries,
-    anz_kinder_bis_17_hh: IntSeries,
-    haushaltsgröße_hh: IntSeries,
+    _arbeitsl_geld_2_grundfreib_vermög_hh: float,
+    anz_kinder_bis_17_hh: int,
+    haushaltsgröße_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate actual exemptions.
 
     Parameters

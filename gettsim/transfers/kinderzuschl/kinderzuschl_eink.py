@@ -1,7 +1,3 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
 aggregation_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_hh": {
         "source_col": "kindergeld_anspruch",
@@ -11,10 +7,10 @@ aggregation_kinderzuschl_eink = {
 
 
 def kinderzuschl_eink_regel_m_hh_bis_2010(
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
-    anz_erwachsene_hh: IntSeries,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    anz_erwachsene_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate income relevant for calculation of child benefit until 2010.
 
     # ToDo: Why alleinerziehend Mehrbedarf for anz_erwachsene_hh == 2, but not
@@ -55,10 +51,10 @@ def kinderzuschl_eink_regel_m_hh_bis_2010(
 
 
 def kinderzuschl_eink_regel_m_hh_ab_2011(
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
-    anz_erwachsene_hh: IntSeries,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    anz_erwachsene_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate income relevant for calculation of child benefit since 2011.
 
     Parameters
@@ -89,8 +85,8 @@ def kinderzuschl_eink_regel_m_hh_ab_2011(
 
 
 def kinderzuschl_eink_relev_m(
-    kinderzuschl_eink_regel_m_hh: FloatSeries, kinderzuschl_kost_unterk_m: FloatSeries
-) -> FloatSeries:
+    kinderzuschl_eink_regel_m_hh: float, kinderzuschl_kost_unterk_m: float
+) -> float:
     """Aggregate relevant income and rental costs.
 
     # ToDo: Find out if it should be calculated on tu or hh level
@@ -109,10 +105,10 @@ def kinderzuschl_eink_relev_m(
 
 
 def kinderzuschl_eink_max_m_hh(
-    kinderzuschl_eink_relev_m: FloatSeries,
-    _kinderzuschl_anz_kinder_anspruch_hh: IntSeries,
+    kinderzuschl_eink_relev_m: float,
+    _kinderzuschl_anz_kinder_anspruch_hh: int,
     kinderzuschl_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate maximum income to be eligible for additional
        child benefit (Kinderzuschlag).
 
@@ -141,8 +137,8 @@ def kinderzuschl_eink_max_m_hh(
 
 
 def kinderzuschl_eink_min_m_hh(
-    anz_kinder_hh: IntSeries, alleinerz_hh: BoolSeries, kinderzuschl_params: dict,
-) -> FloatSeries:
+    anz_kinder_hh: int, alleinerz_hh: bool, kinderzuschl_params: dict,
+) -> float:
     """Calculate minimal claim of child benefit (kinderzuschlag).
 
     Min income to be eligible for KIZ (different for singles and couples) (§6a (1) Nr. 2
@@ -172,11 +168,11 @@ def kinderzuschl_eink_min_m_hh(
 
 
 def kinderzuschl_kindereink_abzug_m(
-    kindergeld_anspruch: BoolSeries,
-    bruttolohn_m: FloatSeries,
-    unterhaltsvors_m: FloatSeries,
+    kindergeld_anspruch: bool,
+    bruttolohn_m: float,
+    unterhaltsvors_m: float,
     kinderzuschl_params: dict,
-) -> FloatSeries:
+) -> float:
     """Child benefit after children income for each eligible child is considered.
 
     (§6a (3) S.3 BKGG)
@@ -205,10 +201,10 @@ def kinderzuschl_kindereink_abzug_m(
 
 
 def kinderzuschl_eink_anrechn_m(
-    arbeitsl_geld_2_eink_m_hh: FloatSeries,
-    kinderzuschl_eink_relev_m: FloatSeries,
+    arbeitsl_geld_2_eink_m_hh: float,
+    kinderzuschl_eink_relev_m: float,
     kinderzuschl_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate parental income subtracted from child benefit.
 
     (§6a (6) S. 3 BKGG)

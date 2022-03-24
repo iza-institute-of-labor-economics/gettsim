@@ -1,13 +1,9 @@
 import numpy as np
 
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
 
 def _eink_st_behinderungsgrad_pauschbetrag(
-    behinderungsgrad: IntSeries, eink_st_abzüge_params: dict
-) -> FloatSeries:
+    behinderungsgrad: int, eink_st_abzüge_params: dict
+) -> float:
     """Assign tax deduction allowance for handicaped to different handicap degrees.
 
     Parameters
@@ -38,8 +34,8 @@ def _eink_st_behinderungsgrad_pauschbetrag(
 
 
 def eink_st_alleinerz_freib_tu_bis_2014(
-    alleinerz_tu: BoolSeries, eink_st_abzüge_params: dict
-) -> FloatSeries:
+    alleinerz_tu: bool, eink_st_abzüge_params: dict
+) -> float:
     """Calculates tax deduction allowance for single parents until 2014.
 
     This used to be called 'Haushaltsfreibetrag'.
@@ -64,8 +60,8 @@ def eink_st_alleinerz_freib_tu_bis_2014(
 
 
 def eink_st_alleinerz_freib_tu_ab_2015(
-    alleinerz_tu: BoolSeries, anz_kinder_tu: IntSeries, eink_st_abzüge_params: dict,
-) -> FloatSeries:
+    alleinerz_tu: bool, anz_kinder_tu: int, eink_st_abzüge_params: dict,
+) -> float:
     """Calculates tax deduction allowance for single parents since 2015.
 
     Since 2015, it increases with
@@ -97,13 +93,13 @@ def eink_st_alleinerz_freib_tu_ab_2015(
 
 
 def eink_st_altersfreib(
-    bruttolohn_m: FloatSeries,
-    alter: IntSeries,
-    kapitaleink_brutto_m: FloatSeries,
-    eink_selbst_m: FloatSeries,
-    vermiet_eink_m: FloatSeries,
+    bruttolohn_m: float,
+    alter: int,
+    kapitaleink_brutto_m: float,
+    eink_selbst_m: float,
+    vermiet_eink_m: float,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculates tax deduction allowance for elderly.
 
     Parameters
@@ -140,9 +136,7 @@ def eink_st_altersfreib(
     return out
 
 
-def eink_st_sonderausgaben_bis_2011(
-    kind: BoolSeries, eink_st_abzüge_params: dict
-) -> FloatSeries:
+def eink_st_sonderausgaben_bis_2011(kind: bool, eink_st_abzüge_params: dict) -> float:
     """Calculating sonderausgaben for childcare until 2011.
 
     There is only a lumpsum payment implemented.
@@ -166,12 +160,12 @@ def eink_st_sonderausgaben_bis_2011(
 
 
 def eink_st_sonderausgaben_ab_2012(
-    betreuungskost_m: FloatSeries,
-    kind: BoolSeries,
-    anz_kinder_tu: IntSeries,
-    anz_erwachsene_tu: IntSeries,
+    betreuungskost_m: float,
+    kind: bool,
+    anz_kinder_tu: int,
+    anz_erwachsene_tu: int,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate sonderausgaben for childcare since 2012.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
@@ -211,10 +205,10 @@ def eink_st_sonderausgaben_ab_2012(
 
 
 def eink_st_kinderfreib_tu(
-    anz_kinder_mit_kindergeld_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
+    anz_kinder_mit_kindergeld_tu: float,
+    anz_erwachsene_tu: int,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Aggregate child allowances on tax unit level.
 
     Parameters

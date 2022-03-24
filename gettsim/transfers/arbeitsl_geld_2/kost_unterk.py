@@ -1,12 +1,7 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def arbeitsl_geld_2_kost_unterk_m_hh(
-    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: IntSeries,
-    _arbeitsl_geld_2_warmmiete_pro_qm_hh: FloatSeries,
-) -> FloatSeries:
+    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: int,
+    _arbeitsl_geld_2_warmmiete_pro_qm_hh: float,
+) -> float:
     """Calculate costs of living eligible to claim.
 
     Parameters
@@ -20,20 +15,18 @@ def arbeitsl_geld_2_kost_unterk_m_hh(
     -------
     FloatSeries with total monthly cost of rent.
     """
-    out = (
+    return (
         _arbeitsl_geld_2_berechtigte_wohnfläche_hh
         * _arbeitsl_geld_2_warmmiete_pro_qm_hh
     )
 
-    return out
-
 
 def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
-    bruttokaltmiete_m_hh: FloatSeries,
-    heizkosten_m_hh: FloatSeries,
-    wohnfläche_hh: IntSeries,
+    bruttokaltmiete_m_hh: float,
+    heizkosten_m_hh: float,
+    wohnfläche_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate rent per square meter.
 
     Parameters
@@ -51,18 +44,18 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
     """
     out = (bruttokaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh
 
-    # Consider maximum  considered rent per square meter
+    # Consider maximum considered rent per square meter
     out = min(out, arbeitsl_geld_2_params["max_miete_pro_qm"]["max"])
 
     return out
 
 
 def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
-    wohnfläche_hh: IntSeries,
-    bewohnt_eigentum_hh: BoolSeries,
-    haushaltsgröße_hh: IntSeries,
+    wohnfläche_hh: int,
+    bewohnt_eigentum_hh: bool,
+    haushaltsgröße_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> IntSeries:
+) -> int:
     """Calculate size of dwelling eligible to claim.
 
     Parameters

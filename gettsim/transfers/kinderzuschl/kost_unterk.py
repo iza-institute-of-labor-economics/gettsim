@@ -1,12 +1,8 @@
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def kinderzuschl_kost_unterk_m(
-    _kinderzuschl_wohnbedarf_eltern_anteil_tu: FloatSeries,
-    kinderzuschl_bruttokaltmiete_m: FloatSeries,
-    kinderzuschl_heizkosten_m: FloatSeries,
-) -> FloatSeries:
+    _kinderzuschl_wohnbedarf_eltern_anteil_tu: float,
+    kinderzuschl_bruttokaltmiete_m: float,
+    kinderzuschl_heizkosten_m: float,
+) -> float:
     """Calculate costs of living eligible to claim.
 
     Unlike ALG2, there is no check on whether living costs are "appropriate".
@@ -31,8 +27,8 @@ def kinderzuschl_kost_unterk_m(
 
 
 def kinderzuschl_bruttokaltmiete_m(
-    bruttokaltmiete_m_hh: FloatSeries, _anteil_personen_in_haushalt_tu: FloatSeries,
-) -> FloatSeries:
+    bruttokaltmiete_m_hh: float, _anteil_personen_in_haushalt_tu: float,
+) -> float:
     """Share of household's monthly rent attributed to the tax unit.
 
     Parameters
@@ -50,8 +46,8 @@ def kinderzuschl_bruttokaltmiete_m(
 
 
 def kinderzuschl_heizkosten_m(
-    heizkosten_m_hh: FloatSeries, _anteil_personen_in_haushalt_tu: FloatSeries,
-) -> FloatSeries:
+    heizkosten_m_hh: float, _anteil_personen_in_haushalt_tu: float,
+) -> float:
     """Share of household's heating expenses attributed to the tax unit.
 
     Parameters
@@ -69,8 +65,8 @@ def kinderzuschl_heizkosten_m(
 
 
 def _kinderzuschl_wohnbedarf_eltern_anteil_tu(
-    anz_kinder_tu: IntSeries, anz_erwachsene_tu: IntSeries, kinderzuschl_params: dict,
-) -> FloatSeries:
+    anz_kinder_tu: int, anz_erwachsene_tu: int, kinderzuschl_params: dict,
+) -> float:
     """Calculate living needs broken down to the parents.
      Defined as parents' subsistence level on housing, divided by sum
      of subsistence level from parents and children.

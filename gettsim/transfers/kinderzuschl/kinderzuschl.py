@@ -19,17 +19,14 @@ Kinderzuschlag / Additional Child Benefit
     parents. This is done by some fixed share which is updated on annual basis
     ('jährlicher Existenzminimumsbericht')
 """
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def kinderzuschl_m_hh(
-    _kinderzuschl_nach_vermög_check_m_hh: FloatSeries,
-    kinderzuschl_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    anz_rentner_hh: IntSeries,
-) -> FloatSeries:
+    _kinderzuschl_nach_vermög_check_m_hh: float,
+    kinderzuschl_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_hh: bool,
+    anz_rentner_hh: int,
+) -> float:
     """Aggregate child benefit on household level.
 
     Parameters
@@ -58,11 +55,11 @@ def kinderzuschl_m_hh(
 
 
 def kinderzuschl_vorläufig_m_hh_ab_07_2019(
-    arbeitsl_geld_2_brutto_eink_m_hh: FloatSeries,
-    kinderzuschl_eink_min_m_hh: FloatSeries,
-    kinderzuschl_kindereink_abzug_m_hh: FloatSeries,
-    kinderzuschl_eink_anrechn_m_hh: FloatSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_brutto_eink_m_hh: float,
+    kinderzuschl_eink_min_m_hh: float,
+    kinderzuschl_kindereink_abzug_m_hh: float,
+    kinderzuschl_eink_anrechn_m_hh: float,
+) -> float:
     """Calculate preliminary child benefit since 07/2019.
 
     Parameters
@@ -93,13 +90,13 @@ def kinderzuschl_vorläufig_m_hh_ab_07_2019(
 
 
 def kinderzuschl_vorläufig_m_hh_bis_06_2019(
-    arbeitsl_geld_2_brutto_eink_m_hh: FloatSeries,
-    kinderzuschl_eink_min_m_hh: FloatSeries,
-    kinderzuschl_eink_max_m_hh: FloatSeries,
-    arbeitsl_geld_2_eink_m_hh: FloatSeries,
-    kinderzuschl_kindereink_abzug_m_hh: FloatSeries,
-    kinderzuschl_eink_anrechn_m_hh: FloatSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_brutto_eink_m_hh: float,
+    kinderzuschl_eink_min_m_hh: float,
+    kinderzuschl_eink_max_m_hh: float,
+    arbeitsl_geld_2_eink_m_hh: float,
+    kinderzuschl_kindereink_abzug_m_hh: float,
+    kinderzuschl_eink_anrechn_m_hh: float,
+) -> float:
     """Calculate preliminary child benefit since 2005 until 06/2019.
 
     Parameters

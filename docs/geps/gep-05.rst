@@ -94,7 +94,7 @@ to be ``"ges_rente"``:
 .. code-block:: python
 
     @add_rounding_spec(params_key="ges_rente")
-    def grundr_zuschlag_höchstwert_m(grundr_zeiten: IntSeries) -> FloatSeries:
+    def grundr_zuschlag_höchstwert_m(grundr_zeiten: int) -> float:
         ...
         return out
 

@@ -1,17 +1,13 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-
-
 def ges_krankenv_beitr_m(
-    geringfügig_beschäftigt: BoolSeries,
-    ges_krankenv_beitr_rente_m: FloatSeries,
-    ges_krankenv_beitr_selbst_m: FloatSeries,
-    in_gleitzone: BoolSeries,
-    _ges_krankenv_beitr_midi_job_m: FloatSeries,
-    _ges_krankenv_beitr_bruttolohn_m: FloatSeries,
+    geringfügig_beschäftigt: bool,
+    ges_krankenv_beitr_rente_m: float,
+    ges_krankenv_beitr_selbst_m: float,
+    in_gleitzone: bool,
+    _ges_krankenv_beitr_midi_job_m: float,
+    _ges_krankenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-    selbstständig: BoolSeries,
-) -> FloatSeries:
+    selbstständig: bool,
+) -> float:
     """Contribution for each individual to the public health insurance.
 
     Parameters
@@ -57,10 +53,10 @@ def ges_krankenv_beitr_m(
 
 
 def _ges_krankenv_beitr_bruttolohn_m(
-    bruttolohn_m: FloatSeries,
-    _ges_krankenv_beitr_bemess_grenze_m: FloatSeries,
-    regulär_beschäftigt: BoolSeries,
-) -> FloatSeries:
+    bruttolohn_m: float,
+    _ges_krankenv_beitr_bemess_grenze_m: float,
+    regulär_beschäftigt: bool,
+) -> float:
     """Calculate the wage subject to public health insurance contributions.
 
 
@@ -87,9 +83,8 @@ def _ges_krankenv_beitr_bruttolohn_m(
 
 
 def ges_krankenv_beitr_selbst_m(
-    _ges_krankenv_bemessungsgrundlage_eink_selbst: FloatSeries,
-    soz_vers_beitr_params: dict,
-) -> FloatSeries:
+    _ges_krankenv_bemessungsgrundlage_eink_selbst: float, soz_vers_beitr_params: dict,
+) -> float:
     """Calculates health insurance contributions.
     Self-employed pay the full
     contribution (employer + employee), which is either assessed on their
@@ -115,12 +110,12 @@ def ges_krankenv_beitr_selbst_m(
 
 
 def _ges_krankenv_bemessungsgrundlage_eink_selbst(
-    eink_selbst_m: FloatSeries,
-    _ges_krankenv_bezugsgröße_selbst_m: FloatSeries,
-    selbstständig: BoolSeries,
-    in_priv_krankenv: BoolSeries,
+    eink_selbst_m: float,
+    _ges_krankenv_bezugsgröße_selbst_m: float,
+    selbstständig: bool,
+    in_priv_krankenv: bool,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Choose the amount of selfemployed income which is subject to health insurance
     contribution.
 
@@ -161,9 +156,8 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
 
 
 def _ges_krankenv_bemessungsgrundlage_rente_m(
-    sum_ges_rente_priv_rente_m: FloatSeries,
-    _ges_krankenv_beitr_bemess_grenze_m: FloatSeries,
-) -> FloatSeries:
+    sum_ges_rente_priv_rente_m: float, _ges_krankenv_beitr_bemess_grenze_m: float,
+) -> float:
     """Choose the amount of pension which is subject to health insurance contribution.
 
     Parameters
@@ -182,8 +176,8 @@ def _ges_krankenv_bemessungsgrundlage_rente_m(
 
 
 def ges_krankenv_beitr_rente_m(
-    _ges_krankenv_bemessungsgrundlage_rente_m: FloatSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
+    _ges_krankenv_bemessungsgrundlage_rente_m: float, soz_vers_beitr_params: dict
+) -> float:
     """Calculating the contribution to health insurance for pension income.
 
 
@@ -206,10 +200,10 @@ def ges_krankenv_beitr_rente_m(
 
 
 def _ges_krankenv_beitr_midi_job_m(
-    midi_job_bemessungsentgelt_m: FloatSeries,
-    bruttolohn_m: FloatSeries,
+    midi_job_bemessungsentgelt_m: float,
+    bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculating the employer health insurance contribution.
 
     Parameters

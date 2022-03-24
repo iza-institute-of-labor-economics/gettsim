@@ -1,7 +1,3 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
 aggregation_demographic_vars = {
     "kumulativer_kindergeld_anspruch_tu": {
         "source_col": "kindergeld_anspruch",
@@ -14,7 +10,7 @@ aggregation_demographic_vars = {
 }
 
 
-def kindergeld_m_bis_1996(kindergeld_basis_m: FloatSeries) -> FloatSeries:
+def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
     """Kindergeld calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
@@ -32,8 +28,8 @@ def kindergeld_m_bis_1996(kindergeld_basis_m: FloatSeries) -> FloatSeries:
 
 
 def kindergeld_m_ab_1997(
-    kinderfreib_günstiger_tu: BoolSeries, kindergeld_basis_m: FloatSeries,
-) -> FloatSeries:
+    kinderfreib_günstiger_tu: bool, kindergeld_basis_m: float,
+) -> float:
     """Kindergeld calculation since 1997.
 
     Parameters
@@ -58,10 +54,10 @@ def kindergeld_m_ab_1997(
 
 
 def kindergeld_basis_m(
-    kindergeld_anspruch: BoolSeries,
-    kumulativer_kindergeld_anspruch_tu: IntSeries,
+    kindergeld_anspruch: bool,
+    kumulativer_kindergeld_anspruch_tu: int,
     kindergeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate the preliminary kindergeld.
 
     Parameters
@@ -91,11 +87,8 @@ def kindergeld_basis_m(
 
 
 def kindergeld_anspruch_nach_stunden(
-    alter: IntSeries,
-    in_ausbildung: BoolSeries,
-    arbeitsstunden_w: FloatSeries,
-    kindergeld_params: dict,
-) -> BoolSeries:
+    alter: int, in_ausbildung: bool, arbeitsstunden_w: float, kindergeld_params: dict,
+) -> bool:
     """Determine kindergeld eligibility depending on working hours.
 
     The current eligibility rule is, that kids must not work more than 20
@@ -126,11 +119,8 @@ def kindergeld_anspruch_nach_stunden(
 
 
 def kindergeld_anspruch_nach_lohn(
-    alter: IntSeries,
-    in_ausbildung: BoolSeries,
-    bruttolohn_m: FloatSeries,
-    kindergeld_params: dict,
-) -> BoolSeries:
+    alter: int, in_ausbildung: bool, bruttolohn_m: float, kindergeld_params: dict,
+) -> bool:
     """Determine kindergeld eligibility depending on kids wage.
 
     Before 2011, there was an income ceiling for children

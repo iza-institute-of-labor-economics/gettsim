@@ -1,11 +1,6 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def ges_pflegev_zusatz_kinderlos(
-    hat_kinder: BoolSeries, alter: IntSeries, soz_vers_beitr_params: dict,
-) -> BoolSeries:
+    hat_kinder: bool, alter: int, soz_vers_beitr_params: dict,
+) -> bool:
     """
     Create boolean Series indicating addtional care insurance contribution for
     childless individuals.
@@ -27,16 +22,16 @@ def ges_pflegev_zusatz_kinderlos(
 
 
 def ges_pflegev_beitr_m(
-    geringfügig_beschäftigt: BoolSeries,
-    ges_pflegev_beitr_rente_m: FloatSeries,
-    ges_pflegev_beitr_selbst_m: FloatSeries,
-    _ges_pflegev_beitr_midi_job_m_m: FloatSeries,
-    ges_pflegev_zusatz_kinderlos: BoolSeries,
-    _ges_krankenv_beitr_bruttolohn_m: FloatSeries,
+    geringfügig_beschäftigt: bool,
+    ges_pflegev_beitr_rente_m: float,
+    ges_pflegev_beitr_selbst_m: float,
+    _ges_pflegev_beitr_midi_job_m_m: float,
+    ges_pflegev_zusatz_kinderlos: bool,
+    _ges_krankenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-    in_gleitzone: BoolSeries,
-    selbstständig: BoolSeries,
-) -> FloatSeries:
+    in_gleitzone: bool,
+    selbstständig: bool,
+) -> float:
     """Contribution for each individual to the public care insurance.
 
     Parameters
@@ -92,10 +87,10 @@ def ges_pflegev_beitr_m(
 
 
 def ges_pflegev_beitr_selbst_m(
-    ges_pflegev_zusatz_kinderlos: BoolSeries,
-    _ges_krankenv_bemessungsgrundlage_eink_selbst: FloatSeries,
+    ges_pflegev_zusatz_kinderlos: bool,
+    _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculates care insurance contributions.
 
     Self-employed pay the full
@@ -135,10 +130,10 @@ def ges_pflegev_beitr_selbst_m(
 
 
 def ges_pflegev_beitr_rente_m(
-    ges_pflegev_zusatz_kinderlos: BoolSeries,
-    _ges_krankenv_bemessungsgrundlage_rente_m: FloatSeries,
+    ges_pflegev_zusatz_kinderlos: bool,
+    _ges_krankenv_bemessungsgrundlage_rente_m: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculating the contribution to health insurance for pension income.
 
 
@@ -172,11 +167,11 @@ def ges_pflegev_beitr_rente_m(
 
 
 def _ges_pflegev_beitr_midi_job_m_m(
-    ges_pflegev_zusatz_kinderlos: BoolSeries,
-    midi_job_bemessungsentgelt_m: FloatSeries,
-    bruttolohn_m: FloatSeries,
+    ges_pflegev_zusatz_kinderlos: bool,
+    midi_job_bemessungsentgelt_m: float,
+    bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculating the employer care insurance contribution.
 
 

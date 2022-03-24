@@ -3,17 +3,14 @@
 """
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def arbeitsl_geld_m(
-    anz_kinder_tu: IntSeries,
-    arbeitsl_geld_berechtigt: BoolSeries,
-    arbeitsl_geld_eink_vorj_proxy: FloatSeries,
+    anz_kinder_tu: int,
+    arbeitsl_geld_berechtigt: bool,
+    arbeitsl_geld_eink_vorj_proxy: float,
     arbeitsl_geld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate unemployment benefit.
 
     Parameters
@@ -46,10 +43,8 @@ def arbeitsl_geld_m(
 
 
 def arbeitsl_monate_gesamt(
-    arbeitsl_monate_lfdj: IntSeries,
-    arbeitsl_monate_vorj: IntSeries,
-    arbeitsl_monate_v2j: IntSeries,
-) -> IntSeries:
+    arbeitsl_monate_lfdj: int, arbeitsl_monate_vorj: int, arbeitsl_monate_v2j: int,
+) -> int:
     """Aggregate months of unemployment over the last two years.
 
     Parameters
@@ -69,12 +64,12 @@ def arbeitsl_monate_gesamt(
 
 
 def arbeitsl_geld_berechtigt(
-    arbeitsl_monate_gesamt: IntSeries,
-    alter: IntSeries,
-    sum_ges_rente_priv_rente_m: FloatSeries,
-    arbeitsstunden_w: FloatSeries,
+    arbeitsl_monate_gesamt: int,
+    alter: int,
+    sum_ges_rente_priv_rente_m: float,
+    arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
-) -> BoolSeries:
+) -> bool:
     """Check eligibility for unemployment benefit.
 
     Different rates for parent and non-parents. Take into account actual wages. There
@@ -111,13 +106,13 @@ def arbeitsl_geld_berechtigt(
 
 
 def arbeitsl_geld_eink_vorj_proxy(
-    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
-    bruttolohn_vorj_m: FloatSeries,
+    _ges_rentenv_beitr_bemess_grenze_m: float,
+    bruttolohn_vorj_m: float,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
     eink_st_abzüge_params: dict,
     soli_st_params: dict,
-) -> FloatSeries:
+) -> float:
     """Approximate last years income for unemployment benefit.
 
     Parameters

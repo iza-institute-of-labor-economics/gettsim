@@ -5,10 +5,6 @@ import datetime
 import numpy as np
 import pandas as pd
 
-from gettsim.typing import BoolSeries
-from gettsim.typing import DateTimeSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 aggregation_demographic_vars = {
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
@@ -31,7 +27,7 @@ aggregation_demographic_vars = {
 }
 
 
-def kind_bis_17(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+def kind_bis_17(alter: int, kind: bool) -> int:
     """Calculate if underage person.
 
     Parameters
@@ -49,7 +45,7 @@ def kind_bis_17(alter: IntSeries, kind: BoolSeries) -> IntSeries:
     return out
 
 
-def kind_bis_6(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+def kind_bis_6(alter: int, kind: bool) -> int:
     """Calculate if child under the age of 7.
 
     Parameters
@@ -67,7 +63,7 @@ def kind_bis_6(alter: IntSeries, kind: BoolSeries) -> IntSeries:
     return out
 
 
-def kind_bis_10(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+def kind_bis_10(alter: int, kind: bool) -> int:
     """Calculate if child under the age of 11.
 
     Parameters
@@ -85,7 +81,7 @@ def kind_bis_10(alter: IntSeries, kind: BoolSeries) -> IntSeries:
     return out
 
 
-def kind_bis_15(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+def kind_bis_15(alter: int, kind: bool) -> int:
     """Calculate if child under the age of 16.
 
     Parameters
@@ -103,7 +99,7 @@ def kind_bis_15(alter: IntSeries, kind: BoolSeries) -> IntSeries:
     return out
 
 
-def kind_ab_7_bis_13(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+def kind_ab_7_bis_13(alter: int, kind: bool) -> int:
     """Calculate if child between 7 and 13 years old.
 
     Parameters
@@ -121,7 +117,7 @@ def kind_ab_7_bis_13(alter: IntSeries, kind: BoolSeries) -> IntSeries:
     return out
 
 
-def kind_ab_14_bis_24(alter: IntSeries, kind: BoolSeries) -> IntSeries:
+def kind_ab_14_bis_24(alter: int, kind: bool) -> int:
     """Calculate if child between 14 and 24 years old.
 
     Parameters
@@ -139,7 +135,7 @@ def kind_ab_14_bis_24(alter: IntSeries, kind: BoolSeries) -> IntSeries:
     return out
 
 
-def erwachsen(kind: BoolSeries) -> IntSeries:
+def erwachsen(kind: bool) -> int:
     """Calculate if adult.
 
     Parameters
@@ -157,7 +153,7 @@ def erwachsen(kind: BoolSeries) -> IntSeries:
     return out
 
 
-def gemeinsam_veranlagt_tu(anz_erwachsene_tu: IntSeries) -> BoolSeries:
+def gemeinsam_veranlagt_tu(anz_erwachsene_tu: int) -> bool:
     """Check if the tax unit consists of two wage earners.
 
     Parameters
@@ -173,9 +169,7 @@ def gemeinsam_veranlagt_tu(anz_erwachsene_tu: IntSeries) -> BoolSeries:
     return anz_erwachsene_tu == 2
 
 
-def erwachsene_alle_rentner_hh(
-    anz_erwachsene_hh: IntSeries, anz_rentner_hh: IntSeries
-) -> BoolSeries:
+def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> bool:
     """Calculate if all adults in the household are pensioners.
 
     Parameters
@@ -193,8 +187,8 @@ def erwachsene_alle_rentner_hh(
 
 
 def geburtstermin(
-    geburtsjahr: IntSeries, geburtsmonat: IntSeries, geburtstag: IntSeries
-) -> DateTimeSeries:
+    geburtsjahr: int, geburtsmonat: int, geburtstag: int
+) -> np.datetime64:
     """Create date of birth datetime variable.
 
     Parameters
@@ -214,9 +208,7 @@ def geburtstermin(
     return out
 
 
-def alter_monate(
-    geburtstermin: DateTimeSeries, elterngeld_params: dict,
-) -> FloatSeries:
+def alter_monate(geburtstermin: np.datetime64, elterngeld_params: dict,) -> float:
     """Calculate age of youngest child in months.
 
     Parameters
@@ -244,10 +236,8 @@ def alter_monate(
 
 
 def jüngstes_kind(
-    alter_monate: FloatSeries,
-    alter_monate_jüngstes_mitglied_hh: FloatSeries,
-    kind: BoolSeries,
-) -> IntSeries:
+    alter_monate: float, alter_monate_jüngstes_mitglied_hh: float, kind: bool,
+) -> int:
     """Check if person is the youngest child in the household.
 
     # ToDo: replace kind by some age restriction

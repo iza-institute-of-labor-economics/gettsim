@@ -1,10 +1,4 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-
-
-def mini_job_grenze(
-    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
+def mini_job_grenze(wohnort_ost: bool, soz_vers_beitr_params: dict) -> float:
     """Select the income threshold depending on place of living
 
     Parameters
@@ -26,9 +20,7 @@ def mini_job_grenze(
     return float(out)
 
 
-def geringfügig_beschäftigt(
-    bruttolohn_m: FloatSeries, mini_job_grenze: FloatSeries
-) -> BoolSeries:
+def geringfügig_beschäftigt(bruttolohn_m: float, mini_job_grenze: float) -> bool:
     """Check if individual earns less than marginal employment threshold.
 
     Marginal employed pay no social insurance contributions.
@@ -51,10 +43,8 @@ def geringfügig_beschäftigt(
 
 
 def in_gleitzone(
-    bruttolohn_m: FloatSeries,
-    geringfügig_beschäftigt: BoolSeries,
-    soz_vers_beitr_params: dict,
-) -> BoolSeries:
+    bruttolohn_m: float, geringfügig_beschäftigt: bool, soz_vers_beitr_params: dict,
+) -> bool:
     """Check if individual's income is in midi-job range.
 
     Employed people with their wage in the range of gleitzone pay reduced social
@@ -82,8 +72,8 @@ def in_gleitzone(
 
 
 def midi_job_bemessungsentgelt_m(
-    bruttolohn_m: FloatSeries, soz_vers_beitr_params: dict,
-) -> FloatSeries:
+    bruttolohn_m: float, soz_vers_beitr_params: dict,
+) -> float:
     """Select income subject to social insurance contributions for midi job.
 
     Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midi jobs subject
@@ -157,9 +147,7 @@ def midi_job_bemessungsentgelt_m(
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
-def regulär_beschäftigt(
-    bruttolohn_m: FloatSeries, soz_vers_beitr_params: dict
-) -> BoolSeries:
+def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> bool:
     """Check if person is in regular employment.
 
     Employees earning more than the midi job threshold, are subject to all ordinary

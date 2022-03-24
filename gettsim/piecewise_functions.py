@@ -31,28 +31,23 @@ def piecewise_polynomial(
     degree_polynomial = rates.shape[0]
 
     # Check in which interval each individual is. The thresholds are not exclusive on
-    # the right side!
-
+    # the right side.
     selected_bin = np.searchsorted(thresholds, x, side="right") - 1
 
     # Calc last threshold for each individual
     threshold = thresholds[selected_bin]
 
-    # Increment for each individual in the corresponding interval
+    # Increment for each individual in the corresponding interval.
     increment_to_calc = x - threshold
-
-    # # Check if any value is in the lowest interval.
-    # if 0 in binned.array and intercepts_at_lower_thresholds[0] == np.nan:
-    #     raise ValueError(f"In {x.name} is a value outside the determined range.")
 
     # If each individual has its own rates or the rates are scaled, we can't use the
     # intercept, which was generated in the parameter loading.
     if rates_multiplier is not None:
 
-        # Initialize Series containing 0 for all individuals
+        # Initialize Series containing 0 for all individuals.
         out = intercepts_at_lower_thresholds[0]
 
-        # Go through all intervals except the first and last
+        # Go through all intervals except the first and last.
         for i in range(2, num_intervals):
             threshold_incr = thresholds[i] - thresholds[i - 1]
             for pol in range(1, degree_polynomial + 1):

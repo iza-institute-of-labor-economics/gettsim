@@ -1,19 +1,16 @@
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def grunds_im_alter_m_hh(
-    arbeitsl_geld_2_regelbedarf_m_hh: FloatSeries,
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: FloatSeries,
-    kindergeld_m_hh: FloatSeries,
-    unterhaltsvors_m_hh: FloatSeries,
-    grunds_im_alter_eink_m_hh: FloatSeries,
-    erwachsene_alle_rentner_hh: BoolSeries,
-    vermögen_hh: FloatSeries,
-    grunds_im_alter_vermög_freib_hh: FloatSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_regelbedarf_m_hh: float,
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: float,
+    kindergeld_m_hh: float,
+    unterhaltsvors_m_hh: float,
+    grunds_im_alter_eink_m_hh: float,
+    erwachsene_alle_rentner_hh: bool,
+    vermögen_hh: float,
+    grunds_im_alter_vermög_freib_hh: float,
+) -> float:
     """Calculate Grundsicherung im Alter on household level.
 
     # ToDo: There is no check for Wohngeld included as Wohngeld is
@@ -67,19 +64,19 @@ def grunds_im_alter_m_hh(
 
 
 def grunds_im_alter_eink_m(
-    grunds_im_alter_erwerbseink_m: FloatSeries,
-    grunds_im_alter_priv_rente_m: FloatSeries,
-    grunds_im_alter_ges_rente_m: FloatSeries,
-    sonstig_eink_m: FloatSeries,
-    vermiet_eink_m: FloatSeries,
-    _grunds_im_alter_kapitaleink_brutto_m: FloatSeries,
-    elterngeld_m: FloatSeries,
-    eink_st_tu: FloatSeries,
-    soli_st_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
-    sozialv_beitr_gesamt_m: FloatSeries,
+    grunds_im_alter_erwerbseink_m: float,
+    grunds_im_alter_priv_rente_m: float,
+    grunds_im_alter_ges_rente_m: float,
+    sonstig_eink_m: float,
+    vermiet_eink_m: float,
+    _grunds_im_alter_kapitaleink_brutto_m: float,
+    elterngeld_m: float,
+    eink_st_tu: float,
+    soli_st_tu: float,
+    anz_erwachsene_tu: int,
+    sozialv_beitr_gesamt_m: float,
     grunds_im_alter_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate income considered in the calculation of Grundsicherung im
     Alter.
 
@@ -150,11 +147,11 @@ def grunds_im_alter_eink_m(
 
 
 def grunds_im_alter_erwerbseink_m(
-    bruttolohn_m: FloatSeries,
-    eink_selbst_m: FloatSeries,
+    bruttolohn_m: float,
+    eink_selbst_m: float,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate earnings considered in the calculation of Grundsicherung im
     Alter.
 
@@ -194,8 +191,8 @@ def grunds_im_alter_erwerbseink_m(
 
 
 def _grunds_im_alter_kapitaleink_brutto_m(
-    kapitaleink_brutto: FloatSeries, grunds_im_alter_params: dict,
-) -> FloatSeries:
+    kapitaleink_brutto: float, grunds_im_alter_params: dict,
+) -> float:
     """Calculate capital income considered in the calculation of Grundsicherung im
     Alter.
 
@@ -228,10 +225,8 @@ def _grunds_im_alter_kapitaleink_brutto_m(
 
 
 def grunds_im_alter_priv_rente_m(
-    priv_rente_m: FloatSeries,
-    arbeitsl_geld_2_params: dict,
-    grunds_im_alter_params: dict,
-) -> FloatSeries:
+    priv_rente_m: float, arbeitsl_geld_2_params: dict, grunds_im_alter_params: dict,
+) -> float:
     """Calculate private pension benefits considered in the calculation of
     Grundsicherung im Alter.
 
@@ -267,11 +262,11 @@ def grunds_im_alter_priv_rente_m(
 
 
 def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
-    schwerbeh_g: BoolSeries,
-    anz_erwachsene_hh: IntSeries,
+    schwerbeh_g: bool,
+    anz_erwachsene_hh: int,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate additional allowance for individuals with disabled person's pass G.
 
     Parameters
@@ -306,7 +301,7 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     return out
 
 
-def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: FloatSeries,) -> FloatSeries:
+def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: float,) -> float:
     """Calculate public pension benefits which are considered in the calculation of
     Grundsicherung im Alter.
 
@@ -325,11 +320,11 @@ def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: FloatSeries,) -> FloatSeri
 
 
 def grunds_im_alter_ges_rente_m_ab_2021(
-    ges_rente_m: FloatSeries,
-    grundr_berechtigt: BoolSeries,
+    ges_rente_m: float,
+    grundr_berechtigt: bool,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate public pension benefits which are considered in the calculation of
     Grundsicherung im Alter.
 
@@ -372,10 +367,8 @@ def grunds_im_alter_ges_rente_m_ab_2021(
 
 
 def grunds_im_alter_vermög_freib_hh(
-    anz_erwachsene_hh: IntSeries,
-    anz_kinder_hh: IntSeries,
-    grunds_im_alter_params: dict,
-) -> FloatSeries:
+    anz_erwachsene_hh: int, anz_kinder_hh: int, grunds_im_alter_params: dict,
+) -> float:
     """Calculate maximum wealth not considered for Grundsicherung im Alter.
 
     Parameters

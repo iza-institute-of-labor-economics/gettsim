@@ -1,13 +1,8 @@
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.shared import add_rounding_spec
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
-def sum_ges_rente_priv_rente_m(
-    priv_rente_m: FloatSeries, ges_rente_m: FloatSeries
-) -> FloatSeries:
+def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float:
     """Calculate total pension as sum of private and public pension.
 
     Parameters
@@ -27,10 +22,8 @@ def sum_ges_rente_priv_rente_m(
 
 @add_rounding_spec(params_key="ges_rente")
 def ges_rente_nach_grundr_m(
-    ges_rente_vor_grundr_m: FloatSeries,
-    grundr_zuschlag_m: FloatSeries,
-    rentner: BoolSeries,
-) -> FloatSeries:
+    ges_rente_vor_grundr_m: float, grundr_zuschlag_m: float, rentner: bool,
+) -> float:
     """Calculate total public pension including Grundrentenzuschlag. Is
     only active after 2021 when Grundrente is in place.
 
@@ -58,11 +51,11 @@ def ges_rente_nach_grundr_m(
 
 @add_rounding_spec(params_key="ges_rente")
 def ges_rente_vor_grundr_m(
-    ges_rente_zugangsfaktor: FloatSeries,
-    entgeltp_update: FloatSeries,
-    rentenwert: FloatSeries,
-    rentner: BoolSeries,
-) -> FloatSeries:
+    ges_rente_zugangsfaktor: float,
+    entgeltp_update: float,
+    rentenwert: float,
+    rentner: bool,
+) -> float:
     """Old-Age Pensions claim without Grundrentenzuschlag.
     The function follows the following equation:
 
@@ -100,7 +93,7 @@ def ges_rente_vor_grundr_m(
     return out
 
 
-def rentenwert(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
+def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
     """Select the rentenwert depending on place of living.
 
     Parameters
@@ -124,7 +117,7 @@ def rentenwert(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
     return float(out)
 
 
-def rentenwert_vorjahr(wohnort_ost: BoolSeries, ges_rente_params: dict) -> FloatSeries:
+def rentenwert_vorjahr(wohnort_ost: bool, ges_rente_params: dict) -> float:
     """Select the rentenwert of the last year depending on place of living.
 
     Parameters
@@ -148,9 +141,7 @@ def rentenwert_vorjahr(wohnort_ost: BoolSeries, ges_rente_params: dict) -> Float
     return float(out)
 
 
-def entgeltp_update(
-    entgeltp: FloatSeries, entgeltp_update_lohn: FloatSeries
-) -> FloatSeries:
+def entgeltp_update(entgeltp: float, entgeltp_update_lohn: float) -> float:
     """Update earning points.
 
     Given earnings, social insurance rules, average
@@ -182,11 +173,11 @@ def entgeltp_update(
 
 
 def entgeltp_update_lohn(
-    bruttolohn_m: FloatSeries,
-    wohnort_ost: BoolSeries,
-    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
+    bruttolohn_m: float,
+    wohnort_ost: bool,
+    _ges_rentenv_beitr_bemess_grenze_m: float,
     ges_rente_params: dict,
-) -> FloatSeries:
+) -> float:
     """Return earning points for the wages earned in the last year.
 
     Parameters
@@ -228,12 +219,12 @@ def entgeltp_update_lohn(
 
 
 def ges_rente_zugangsfaktor(
-    geburtsjahr: IntSeries,
-    rentner: BoolSeries,
-    jahr_renteneintr: IntSeries,
-    ges_rente_regelaltersgrenze: FloatSeries,
+    geburtsjahr: int,
+    rentner: bool,
+    jahr_renteneintr: int,
+    ges_rente_regelaltersgrenze: float,
     ges_rente_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate the zugangsfaktor based on the year the
     subject retired.
 
@@ -288,9 +279,7 @@ def ges_rente_zugangsfaktor(
     return out
 
 
-def ges_rente_regelaltersgrenze(
-    geburtsjahr: IntSeries, ges_rente_params: dict
-) -> FloatSeries:
+def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
     """Calculates the age, at which a worker is eligible to claim his full pension.
 
     Parameters

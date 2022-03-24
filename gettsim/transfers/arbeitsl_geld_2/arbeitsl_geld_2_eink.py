@@ -1,16 +1,14 @@
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def arbeitsl_geld_2_eink_m(
-    arbeitsl_geld_2_brutto_eink_m: FloatSeries,
-    eink_st_tu: FloatSeries,
-    soli_st_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
-    sozialv_beitr_gesamt_m: FloatSeries,
-    arbeitsl_geld_2_eink_anr_frei_m: FloatSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_brutto_eink_m: float,
+    eink_st_tu: float,
+    soli_st_tu: float,
+    anz_erwachsene_tu: int,
+    sozialv_beitr_gesamt_m: float,
+    arbeitsl_geld_2_eink_anr_frei_m: float,
+) -> float:
 
     """Sum up the income for calculation of basic subsistence.
 
@@ -46,15 +44,15 @@ def arbeitsl_geld_2_eink_m(
 
 
 def arbeitsl_geld_2_brutto_eink_m(
-    bruttolohn_m: FloatSeries,
-    sonstig_eink_m: FloatSeries,
-    eink_selbst_m: FloatSeries,
-    vermiet_eink_m: FloatSeries,
-    kapitaleink_brutto_m: FloatSeries,
-    sum_ges_rente_priv_rente_m: FloatSeries,
-    arbeitsl_geld_m: FloatSeries,
-    elterngeld_m: FloatSeries,
-) -> FloatSeries:
+    bruttolohn_m: float,
+    sonstig_eink_m: float,
+    eink_selbst_m: float,
+    vermiet_eink_m: float,
+    kapitaleink_brutto_m: float,
+    sum_ges_rente_priv_rente_m: float,
+    arbeitsl_geld_m: float,
+    elterngeld_m: float,
+) -> float:
 
     """Sum up the income before tax for calculation of basic subsistence.
 
@@ -97,10 +95,8 @@ def arbeitsl_geld_2_brutto_eink_m(
 
 
 def arbeitsl_geld_2_2005_netto_quote(
-    bruttolohn_m: FloatSeries,
-    elterngeld_nettolohn_m: FloatSeries,
-    arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+    bruttolohn_m: float, elterngeld_nettolohn_m: float, arbeitsl_geld_2_params: dict,
+) -> float:
     """Calculate share of net to gross wage.
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
@@ -132,10 +128,10 @@ def arbeitsl_geld_2_2005_netto_quote(
 
 
 def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
-    bruttolohn_m: FloatSeries,
-    arbeitsl_geld_2_2005_netto_quote: FloatSeries,
+    bruttolohn_m: float,
+    arbeitsl_geld_2_2005_netto_quote: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate share of income, which remains to the individual until 09/2005.
 
     Parameters
@@ -164,8 +160,8 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
 
 
 def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
-    bruttolohn_m: FloatSeries, anz_kinder_hh: IntSeries, arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+    bruttolohn_m: float, anz_kinder_hh: int, arbeitsl_geld_2_params: dict,
+) -> float:
     """Calcualte share of income, which remains to the individual sinc 10/2005.
 
     Parameters

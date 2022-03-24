@@ -1,10 +1,4 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-
-
-def kinderbonus_m(
-    kinderfreib_günstiger_tu: BoolSeries, kinderbonus_basis_m: FloatSeries,
-) -> FloatSeries:
+def kinderbonus_m(kinderfreib_günstiger_tu: bool, kinderbonus_basis_m: float,) -> float:
     """Calculate Kinderbonus (one-time payment, non-allowable against transfer payments).
 
     Parameters
@@ -23,9 +17,7 @@ def kinderbonus_m(
     return out
 
 
-def kinderbonus_basis_m(
-    kindergeld_basis_m: FloatSeries, kindergeld_params: dict
-) -> FloatSeries:
+def kinderbonus_basis_m(kindergeld_basis_m: float, kindergeld_params: dict) -> float:
     """Calculate the kinderbonus.
 
     (one-time payment, non-allowable against transfer payments)

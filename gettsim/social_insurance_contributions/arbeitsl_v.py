@@ -1,14 +1,12 @@
 """Functions for modeling unemployment and pension insurance."""
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
 
 
 def sozialv_beitr_gesamt_m(
-    ges_pflegev_beitr_m: FloatSeries,
-    ges_krankenv_beitr_m: FloatSeries,
-    ges_rentenv_beitr_m: FloatSeries,
-    arbeitsl_v_beitr_m: FloatSeries,
-) -> FloatSeries:
+    ges_pflegev_beitr_m: float,
+    ges_krankenv_beitr_m: float,
+    ges_rentenv_beitr_m: float,
+    arbeitsl_v_beitr_m: float,
+) -> float:
     """Sum of all social insurance contributions.
 
 
@@ -37,12 +35,12 @@ def sozialv_beitr_gesamt_m(
 
 
 def arbeitsl_v_beitr_m(
-    geringfügig_beschäftigt: BoolSeries,
-    in_gleitzone: BoolSeries,
-    _arbeitsl_v_beitr_midi_job_m: FloatSeries,
-    _ges_rentenv_beitr_bruttolohn_m: FloatSeries,
+    geringfügig_beschäftigt: bool,
+    in_gleitzone: bool,
+    _arbeitsl_v_beitr_midi_job_m: float,
+    _ges_rentenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate the contribution for each individual to the unemployment insurance.
 
     Parameters
@@ -79,10 +77,10 @@ def arbeitsl_v_beitr_m(
 
 
 def _arbeitsl_v_beitr_midi_job_m(
-    midi_job_bemessungsentgelt_m: FloatSeries,
-    bruttolohn_m: FloatSeries,
+    midi_job_bemessungsentgelt_m: float,
+    bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculating the employer unemployment insurance contribution.
 
     Parameters

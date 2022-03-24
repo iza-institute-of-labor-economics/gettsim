@@ -1,14 +1,10 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-
-
 def ges_rentenv_beitr_m(
-    geringfügig_beschäftigt: BoolSeries,
-    _ges_rentenv_beitr_midi_job_m_m: FloatSeries,
-    _ges_rentenv_beitr_bruttolohn_m: FloatSeries,
+    geringfügig_beschäftigt: bool,
+    _ges_rentenv_beitr_midi_job_m_m: float,
+    _ges_rentenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-    in_gleitzone: BoolSeries,
-) -> FloatSeries:
+    in_gleitzone: bool,
+) -> float:
     """Contribution for each individual to the pension insurance.
 
     Parameters
@@ -45,10 +41,10 @@ def ges_rentenv_beitr_m(
 
 
 def _ges_rentenv_beitr_midi_job_m_m(
-    midi_job_bemessungsentgelt_m: FloatSeries,
-    bruttolohn_m: FloatSeries,
+    midi_job_bemessungsentgelt_m: float,
+    bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculating the employer unemployment insurance contribution.
 
     Parameters
@@ -76,8 +72,8 @@ def _ges_rentenv_beitr_midi_job_m_m(
 
 
 def _ges_rentenv_beitr_bruttolohn_m(
-    bruttolohn_m: FloatSeries, _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
-) -> FloatSeries:
+    bruttolohn_m: float, _ges_rentenv_beitr_bemess_grenze_m: float,
+) -> float:
     """Calculate the wage subject to pension and
     unemployment insurance contributions.
 

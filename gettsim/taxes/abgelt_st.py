@@ -1,10 +1,4 @@
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
-def abgelt_st_tu(
-    zu_verst_kapitaleink_tu: FloatSeries, abgelt_st_params: dict
-) -> FloatSeries:
+def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
     """Calculate abgeltungssteuer per tax unit.
 
     Parameters
@@ -22,10 +16,8 @@ def abgelt_st_tu(
 
 
 def zu_verst_kapitaleink_tu(
-    kapitaleink_brutto_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
-    eink_st_abzüge_params: dict,
-) -> FloatSeries:
+    kapitaleink_brutto_tu: float, anz_erwachsene_tu: int, eink_st_abzüge_params: dict,
+) -> float:
     """Calculate taxable income per tax unit.
 
     Parameters

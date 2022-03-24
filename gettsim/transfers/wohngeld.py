@@ -2,17 +2,14 @@
 import numpy as np
 
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def wohngeld_m_hh(
-    wohngeld_nach_vermög_check_m_hh: FloatSeries,
-    wohngeld_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    erwachsene_alle_rentner_hh: BoolSeries,
-) -> FloatSeries:
+    wohngeld_nach_vermög_check_m_hh: float,
+    wohngeld_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_hh: bool,
+    erwachsene_alle_rentner_hh: bool,
+) -> float:
     """Calculate final housing benefit per household.
 
     Parameters
@@ -41,11 +38,11 @@ def wohngeld_m_hh(
 
 
 def wohngeld_abzüge_m_tu(
-    eink_st_tu: FloatSeries,
-    ges_rentenv_beitr_m_tu: FloatSeries,
-    ges_krankenv_beitr_m_tu: FloatSeries,
+    eink_st_tu: float,
+    ges_rentenv_beitr_m_tu: float,
+    ges_krankenv_beitr_m_tu: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate housing benefit subtractions.
 
     Parameters
@@ -71,16 +68,16 @@ def wohngeld_abzüge_m_tu(
 
 
 def wohngeld_eink_vor_abzug_m_tu(
-    eink_selbst_tu: FloatSeries,
-    eink_abhängig_beschäftigt_tu: FloatSeries,
-    kapitaleink_brutto_tu: FloatSeries,
-    vermiet_eink_tu: FloatSeries,
-    arbeitsl_geld_m_tu: FloatSeries,
-    sonstig_eink_m_tu: FloatSeries,
-    eink_rente_zu_verst_m_tu: FloatSeries,
-    unterhaltsvors_m_tu: FloatSeries,
-    elterngeld_m_tu: FloatSeries,
-) -> FloatSeries:
+    eink_selbst_tu: float,
+    eink_abhängig_beschäftigt_tu: float,
+    kapitaleink_brutto_tu: float,
+    vermiet_eink_tu: float,
+    arbeitsl_geld_m_tu: float,
+    sonstig_eink_m_tu: float,
+    eink_rente_zu_verst_m_tu: float,
+    unterhaltsvors_m_tu: float,
+    elterngeld_m_tu: float,
+) -> float:
     """Sum gross incomes relevant for housing benefit calculation per tax unit.
 
     Parameters
@@ -126,12 +123,12 @@ def wohngeld_eink_vor_abzug_m_tu(
 
 
 def wohngeld_eink_abzüge_m_bis_2015(
-    bruttolohn_m: FloatSeries,
-    wohngeld_arbeitendes_kind: BoolSeries,
-    behinderungsgrad: IntSeries,
-    alleinerz: BoolSeries,
-    kind: BoolSeries,
-    anz_kinder_bis_10_tu: IntSeries,
+    bruttolohn_m: float,
+    wohngeld_arbeitendes_kind: bool,
+    behinderungsgrad: int,
+    alleinerz: bool,
+    kind: bool,
+    anz_kinder_bis_10_tu: int,
     wohngeld_params: dict,
 ):
     """Calculate housing benefit subtractions until 2015.
@@ -182,9 +179,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_arbeitendes_kind(
-    bruttolohn_m: FloatSeries, kindergeld_anspruch: BoolSeries
-) -> BoolSeries:
+def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) -> bool:
     """Check if chiildren are working.
 
     Parameters
@@ -203,13 +198,13 @@ def wohngeld_arbeitendes_kind(
 
 
 def wohngeld_eink_abzüge_m_ab_2016(
-    bruttolohn_m: FloatSeries,
-    wohngeld_arbeitendes_kind: BoolSeries,
-    behinderungsgrad: IntSeries,
-    alleinerz: BoolSeries,
-    kind: BoolSeries,
+    bruttolohn_m: float,
+    wohngeld_arbeitendes_kind: bool,
+    behinderungsgrad: int,
+    alleinerz: bool,
+    kind: bool,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate housing benefit subtracting since 2016.
 
     Parameters
@@ -248,12 +243,12 @@ def wohngeld_eink_abzüge_m_ab_2016(
 
 
 def wohngeld_eink_m(
-    haushaltsgröße_hh: IntSeries,
-    wohngeld_eink_abzüge_m_tu: FloatSeries,
-    wohngeld_abzüge_m_tu: FloatSeries,
-    wohngeld_eink_vor_abzug_m_tu: FloatSeries,
+    haushaltsgröße_hh: int,
+    wohngeld_eink_abzüge_m_tu: float,
+    wohngeld_abzüge_m_tu: float,
+    wohngeld_eink_vor_abzug_m_tu: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate final income relevant for calculation of housing benefit.
 
     Parameters
@@ -285,9 +280,7 @@ def wohngeld_eink_m(
     return out
 
 
-def wohngeld_min_miete(
-    haushaltsgröße_hh: IntSeries, wohngeld_params: dict
-) -> FloatSeries:
+def wohngeld_min_miete(haushaltsgröße_hh: int, wohngeld_params: dict) -> float:
     """Calculate minimal rent subject housing benefit calculation.
 
     Parameters
@@ -307,12 +300,12 @@ def wohngeld_min_miete(
 
 
 def wohngeld_miete_m_bis_2008(
-    mietstufe: IntSeries,
-    immobilie_baujahr_hh: IntSeries,
-    haushaltsgröße_hh: IntSeries,
-    bruttokaltmiete_m_hh: FloatSeries,
-    _anteil_personen_in_haushalt_tu: FloatSeries,
-    wohngeld_min_miete: FloatSeries,
+    mietstufe: int,
+    immobilie_baujahr_hh: int,
+    haushaltsgröße_hh: int,
+    bruttokaltmiete_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
+    wohngeld_min_miete: float,
     wohngeld_params: dict,
 ):
     """Calculate maximal rent subject housing benefit calculation until 2008.
@@ -366,13 +359,13 @@ def wohngeld_miete_m_bis_2008(
 
 
 def wohngeld_miete_m_ab_2009(
-    mietstufe: IntSeries,
-    haushaltsgröße_hh: IntSeries,
-    bruttokaltmiete_m_hh: FloatSeries,
-    _anteil_personen_in_haushalt_tu: FloatSeries,
-    wohngeld_min_miete: FloatSeries,
+    mietstufe: int,
+    haushaltsgröße_hh: int,
+    bruttokaltmiete_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
+    wohngeld_min_miete: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate maximal rent subject housing benefit calculation since 2009.
 
     Parameters
@@ -415,13 +408,13 @@ def wohngeld_miete_m_ab_2009(
 
 
 def wohngeld_miete_m_ab_2021(
-    mietstufe: IntSeries,
-    haushaltsgröße_hh: IntSeries,
-    bruttokaltmiete_m_hh: FloatSeries,
-    _anteil_personen_in_haushalt_tu: FloatSeries,
-    wohngeld_min_miete: FloatSeries,
+    mietstufe: int,
+    haushaltsgröße_hh: int,
+    bruttokaltmiete_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
+    wohngeld_min_miete: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate maximal rent subject housing benefit calculation since 2021.
 
     Parameters
@@ -479,11 +472,11 @@ def wohngeld_miete_m_ab_2021(
 
 
 def wohngeld_vor_vermög_check_m_hh(
-    haushaltsgröße_hh: IntSeries,
-    wohngeld_eink_m: FloatSeries,
-    wohngeld_miete_m: FloatSeries,
+    haushaltsgröße_hh: int,
+    wohngeld_eink_m: float,
+    wohngeld_miete_m: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calcualte preliminary housing benefit.
 
     Parameters
@@ -531,8 +524,8 @@ def wohngeld_vor_vermög_check_m_hh(
 
 
 def _anteil_personen_in_haushalt_tu(
-    tax_unit_größe_tu: IntSeries, haushaltsgröße_hh: IntSeries
-) -> FloatSeries:
+    tax_unit_größe_tu: int, haushaltsgröße_hh: int
+) -> float:
     """Calculate the share of tax units in household.
 
     ToDo: Change to tax_unit_größe / haushaltsgröße_hh

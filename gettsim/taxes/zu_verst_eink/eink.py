@@ -1,10 +1,7 @@
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
-def eink_selbst(eink_selbst_m: FloatSeries) -> FloatSeries:
+def eink_selbst(eink_selbst_m: float) -> float:
     """Aggregate income gross from self-employment to full year income.
 
     Parameters
@@ -20,10 +17,8 @@ def eink_selbst(eink_selbst_m: FloatSeries) -> FloatSeries:
 
 
 def eink_abhängig_beschäftigt(
-    bruttolohn_m: FloatSeries,
-    geringfügig_beschäftigt: BoolSeries,
-    eink_st_abzüge_params: dict,
-) -> FloatSeries:
+    bruttolohn_m: float, geringfügig_beschäftigt: bool, eink_st_abzüge_params: dict,
+) -> float:
     """Aggreagate monthly gross wage to yearly income and deduct 'Werbungskosten'.
 
     The wage is reducted by a lump sum payment for 'Werbungskosten'
@@ -49,7 +44,7 @@ def eink_abhängig_beschäftigt(
     return out
 
 
-def kapitaleink_brutto(kapitaleink_brutto_m: FloatSeries) -> FloatSeries:
+def kapitaleink_brutto(kapitaleink_brutto_m: float) -> float:
     """Aggregate monthly gross capital income to yearly income.
 
 
@@ -65,7 +60,7 @@ def kapitaleink_brutto(kapitaleink_brutto_m: FloatSeries) -> FloatSeries:
     return 12 * kapitaleink_brutto_m
 
 
-def vermiet_eink(vermiet_eink_m: FloatSeries) -> FloatSeries:
+def vermiet_eink(vermiet_eink_m: float) -> float:
     """Aggregate monthly gross rental income to yearly income.
 
     Parameters
@@ -81,8 +76,8 @@ def vermiet_eink(vermiet_eink_m: FloatSeries) -> FloatSeries:
 
 
 def eink_rente_zu_verst(
-    sum_ges_rente_priv_rente_m: FloatSeries, rente_ertragsanteil: FloatSeries
-) -> FloatSeries:
+    sum_ges_rente_priv_rente_m: float, rente_ertragsanteil: float
+) -> float:
     """Aggregate monthly gross pension income subject to taxation to yearly income.
 
     We could summarize other incomes here as well, but only use pensions.
@@ -103,11 +98,11 @@ def eink_rente_zu_verst(
 
 
 def sum_eink_ohne_kapital(
-    eink_selbst: FloatSeries,
-    eink_abhängig_beschäftigt: FloatSeries,
-    vermiet_eink: FloatSeries,
-    eink_rente_zu_verst: FloatSeries,
-) -> FloatSeries:
+    eink_selbst: float,
+    eink_abhängig_beschäftigt: float,
+    vermiet_eink: float,
+    eink_rente_zu_verst: float,
+) -> float:
     """Sum of gross incomes without capital income.
 
     Since 2009 capital income is not subject to normal taxation.
@@ -130,9 +125,7 @@ def sum_eink_ohne_kapital(
     return out
 
 
-def kapitaleink(
-    kapitaleink_brutto: FloatSeries, eink_st_abzüge_params: dict,
-) -> FloatSeries:
+def kapitaleink(kapitaleink_brutto: float, eink_st_abzüge_params: dict,) -> float:
     """Capital income minus Sparerpauschbetrag
 
     Parameters
@@ -156,7 +149,7 @@ def kapitaleink(
 
 
 def sum_eink_mit_kapital(
-    sum_eink_ohne_kapital: FloatSeries, kapitaleink: FloatSeries,
+    sum_eink_ohne_kapital: float, kapitaleink: float,
 ):
     """Sum of gross incomes with capital income.
 
@@ -174,9 +167,7 @@ def sum_eink_mit_kapital(
     return sum_eink_ohne_kapital + kapitaleink
 
 
-def rente_ertragsanteil(
-    jahr_renteneintr: IntSeries, eink_st_params: dict
-) -> FloatSeries:
+def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
     """Calculate the share of pensions subject to income taxation.
 
     Parameters
@@ -201,8 +192,8 @@ def rente_ertragsanteil(
 
 
 def eink_rente_zu_verst_m(
-    rente_ertragsanteil: FloatSeries, sum_ges_rente_priv_rente_m: FloatSeries
-) -> FloatSeries:
+    rente_ertragsanteil: float, sum_ges_rente_priv_rente_m: float
+) -> float:
     """Calculate pension payment subject to taxation.
 
     Parameters

@@ -1,15 +1,10 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def arbeitsl_geld_2_m_hh(
-    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
-    wohngeld_vorrang_hh: BoolSeries,
-    kinderzuschl_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    erwachsene_alle_rentner_hh: BoolSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_vor_vorrang_m_hh: float,
+    wohngeld_vorrang_hh: bool,
+    kinderzuschl_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_hh: bool,
+    erwachsene_alle_rentner_hh: bool,
+) -> float:
 
     """Calculate final monthly subsistence payment on household level.
 
@@ -44,9 +39,8 @@ def arbeitsl_geld_2_m_hh(
 
 
 def arbeitsl_geld_2_regelbedarf_m_hh(
-    arbeitsl_geld_2_regelsatz_m_hh: FloatSeries,
-    arbeitsl_geld_2_kost_unterk_m_hh: FloatSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_regelsatz_m_hh: float, arbeitsl_geld_2_kost_unterk_m_hh: float,
+) -> float:
     """Basic monthly subsistence level on household level.
 
     This includes cost of dwelling.
@@ -66,12 +60,12 @@ def arbeitsl_geld_2_regelbedarf_m_hh(
 
 
 def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
-    alleinerz_hh: BoolSeries,
-    anz_kinder_hh: IntSeries,
-    anz_kinder_bis_6_hh: IntSeries,
-    anz_kinder_bis_15_hh: IntSeries,
+    alleinerz_hh: bool,
+    anz_kinder_hh: int,
+    anz_kinder_bis_6_hh: int,
+    anz_kinder_bis_15_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
 
     """Compute additional need for single parents.
 
@@ -122,11 +116,11 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
 
 
 def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
-    anz_kinder_bis_6_hh: IntSeries,
-    anz_kinder_ab_7_bis_13_hh: IntSeries,
-    anz_kinder_ab_14_bis_24_hh: IntSeries,
+    anz_kinder_bis_6_hh: int,
+    anz_kinder_ab_7_bis_13_hh: int,
+    anz_kinder_ab_14_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate basic monthly subsistence for children until 2010.
 
     Since 2010 children get additional shares instead of lump sum payments.
@@ -160,11 +154,11 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 
 
 def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
-    anz_kinder_bis_6_hh: IntSeries,
-    anz_kinder_ab_7_bis_13_hh: IntSeries,
-    anz_kinder_ab_14_bis_24_hh: IntSeries,
+    anz_kinder_bis_6_hh: int,
+    anz_kinder_ab_7_bis_13_hh: int,
+    anz_kinder_ab_14_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate basic monthly subsistence for children since 2011.
 
     Here the sum in euro is directly in the law.
@@ -195,11 +189,11 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
 
 
 def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
-    anz_erwachsene_hh: IntSeries,
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
-    arbeitsl_geld_2_kindersatz_m_hh: FloatSeries,
+    anz_erwachsene_hh: int,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
 
     """Calculate basic monthly subsistence without dwelling until 2010.
 
@@ -235,11 +229,11 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
 
 
 def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
-    anz_erwachsene_hh: IntSeries,
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: FloatSeries,
-    arbeitsl_geld_2_kindersatz_m_hh: FloatSeries,
+    anz_erwachsene_hh: int,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
 
     """Calculate basic monthly subsistence without dwelling since 2011.
 
@@ -273,13 +267,13 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
 
 
 def arbeitsl_geld_2_vor_vorrang_m_hh(
-    arbeitsl_geld_2_regelbedarf_m_hh: FloatSeries,
-    kindergeld_m_hh: FloatSeries,
-    unterhaltsvors_m_hh: FloatSeries,
-    arbeitsl_geld_2_eink_m_hh: FloatSeries,
-    vermögen_hh: FloatSeries,
-    arbeitsl_geld_2_vermög_freib_hh: FloatSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_regelbedarf_m_hh: float,
+    kindergeld_m_hh: float,
+    unterhaltsvors_m_hh: float,
+    arbeitsl_geld_2_eink_m_hh: float,
+    vermögen_hh: float,
+    arbeitsl_geld_2_vermög_freib_hh: float,
+) -> float:
     """Calculate potential basic subsistence (after income deduction and
     wealth check).
 

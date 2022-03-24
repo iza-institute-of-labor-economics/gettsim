@@ -13,16 +13,15 @@ for each income type. In fact, you need several taxable incomes because of
 It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
-from gettsim.typing import FloatSeries
 
 
 def freibeträge(
-    vorsorge: FloatSeries,
-    sonderausgaben: FloatSeries,
-    _eink_st_behinderungsgrad_pauschbetrag: FloatSeries,
-    alleinerz_freib_tu: FloatSeries,
-    eink_st_altersfreib: FloatSeries,
-) -> FloatSeries:
+    vorsorge: float,
+    sonderausgaben: float,
+    _eink_st_behinderungsgrad_pauschbetrag: float,
+    alleinerz_freib_tu: float,
+    eink_st_altersfreib: float,
+) -> float:
     """Calculate allowances.
 
     Parameters
@@ -57,8 +56,8 @@ def freibeträge(
 
 
 def _zu_verst_eink_ohne_kinderfreib_tu(
-    sum_eink_tu: FloatSeries, freibeträge_tu: FloatSeries,
-) -> FloatSeries:
+    sum_eink_tu: float, freibeträge_tu: float,
+) -> float:
     """Calculate taxable income without child allowance.
 
     Parameters
@@ -79,8 +78,8 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
 
 
 def zu_verst_eink_mit_kinderfreib_tu(
-    _zu_verst_eink_ohne_kinderfreib_tu: FloatSeries, eink_st_kinderfreib_tu: FloatSeries
-) -> FloatSeries:
+    _zu_verst_eink_ohne_kinderfreib_tu: float, eink_st_kinderfreib_tu: float
+) -> float:
     """Calculate taxable income with child allowance.
 
     Parameters

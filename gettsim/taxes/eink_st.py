@@ -1,15 +1,12 @@
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.shared import add_rounding_spec
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def eink_st_ohne_kinderfreib_tu(
-    _zu_verst_eink_ohne_kinderfreib_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
+    _zu_verst_eink_ohne_kinderfreib_tu: float,
+    anz_erwachsene_tu: int,
     eink_st_params: dict,
-) -> FloatSeries:
+) -> float:
     """Taxes without child allowance.
 
     Parameters
@@ -34,10 +31,10 @@ def eink_st_ohne_kinderfreib_tu(
 
 
 def eink_st_mit_kinderfreib_tu(
-    zu_verst_eink_mit_kinderfreib_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
+    zu_verst_eink_mit_kinderfreib_tu: float,
+    anz_erwachsene_tu: int,
     eink_st_params: dict,
-) -> FloatSeries:
+) -> float:
     """Taxes with child allowance.
 
     Parameters
@@ -61,12 +58,12 @@ def eink_st_mit_kinderfreib_tu(
     return out
 
 
-def _eink_st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
+def _eink_st_tarif(x: float, params: dict) -> float:
     """The German income tax tariff.
 
     Parameters
     ----------
-    x : Floatseries
+    x : float
         The series of floats which the income tax schedule is applied to.
     params : dict
         Dictionary created in respy.piecewise_functions.
@@ -87,7 +84,7 @@ def _eink_st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
 
 
 @add_rounding_spec(params_key="eink_st")
-def eink_st_tu_bis_1996(eink_st_mit_kinderfreib_tu: FloatSeries) -> FloatSeries:
+def eink_st_tu_bis_1996(eink_st_mit_kinderfreib_tu: float) -> float:
     """Income tax calculation until 1996.
 
     Until 1996 individuals could claim child allowance and recieve child benefit.
@@ -106,10 +103,10 @@ def eink_st_tu_bis_1996(eink_st_mit_kinderfreib_tu: FloatSeries) -> FloatSeries:
 
 @add_rounding_spec(params_key="eink_st")
 def eink_st_tu_ab_1997(
-    eink_st_ohne_kinderfreib_tu: FloatSeries,
-    eink_st_mit_kinderfreib_tu: FloatSeries,
-    kinderfreib_günstiger_tu: BoolSeries,
-) -> FloatSeries:
+    eink_st_ohne_kinderfreib_tu: float,
+    eink_st_mit_kinderfreib_tu: float,
+    kinderfreib_günstiger_tu: bool,
+) -> float:
     """Income tax calculation since 1997.
 
     Parameters
@@ -134,11 +131,11 @@ def eink_st_tu_ab_1997(
 
 
 def kinderfreib_günstiger_tu(
-    eink_st_ohne_kinderfreib_tu: FloatSeries,
-    kindergeld_basis_m_tu: FloatSeries,
-    kinderbonus_basis_m_tu: FloatSeries,
-    eink_st_mit_kinderfreib_tu: FloatSeries,
-) -> BoolSeries:
+    eink_st_ohne_kinderfreib_tu: float,
+    kindergeld_basis_m_tu: float,
+    kinderbonus_basis_m_tu: float,
+    eink_st_mit_kinderfreib_tu: float,
+) -> bool:
     """Return whether Kinderfreibetrag is more favorable than Kindergeld.
 
     Parameters

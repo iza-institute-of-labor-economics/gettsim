@@ -1,14 +1,11 @@
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.shared import add_rounding_spec
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_m(
-    grundr_zuschlag_vor_eink_anr_m: FloatSeries, grundr_zuschlag_eink_m: FloatSeries
-) -> FloatSeries:
+    grundr_zuschlag_vor_eink_anr_m: float, grundr_zuschlag_eink_m: float
+) -> float:
     """Calculate Grundrentenzuschlag (additional monthly pensions payments
     resulting from Grundrente)
 
@@ -28,12 +25,12 @@ def grundr_zuschlag_m(
 
 
 def _grundr_zuschlag_eink_vor_freibetrag_m(
-    rente_vorj_vor_grundr_proxy_m: FloatSeries,
-    bruttolohn_vorj_m: FloatSeries,
-    eink_selbst: FloatSeries,
-    vermiet_eink: FloatSeries,
-    kapitaleink: FloatSeries,
-) -> FloatSeries:
+    rente_vorj_vor_grundr_proxy_m: float,
+    bruttolohn_vorj_m: float,
+    eink_selbst: float,
+    vermiet_eink: float,
+    kapitaleink: float,
+) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
     subtracted.
 
@@ -88,11 +85,11 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
 
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_eink_m(
-    _grundr_zuschlag_eink_vor_freibetrag_m_tu: FloatSeries,
-    gemeinsam_veranlagt_tu: BoolSeries,
-    rentenwert: FloatSeries,
+    _grundr_zuschlag_eink_vor_freibetrag_m_tu: float,
+    gemeinsam_veranlagt_tu: bool,
+    rentenwert: float,
     ges_rente_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate income which is deducted from Grundrentenzuschlag.
 
     Apply allowances. There are upper and lower thresholds for singles and
@@ -143,12 +140,12 @@ def grundr_zuschlag_eink_m(
 
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_vor_eink_anr_m(
-    grundr_zuschlag_bonus_entgeltp: FloatSeries,
-    grundr_bew_zeiten: IntSeries,
-    rentenwert: FloatSeries,
-    ges_rente_zugangsfaktor: FloatSeries,
+    grundr_zuschlag_bonus_entgeltp: float,
+    grundr_bew_zeiten: int,
+    rentenwert: float,
+    ges_rente_zugangsfaktor: float,
     ges_rente_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate additional monthly pensions payments resulting from
     Grundrente, without taking into account income crediting rules.
 
@@ -193,8 +190,8 @@ def grundr_zuschlag_vor_eink_anr_m(
 
 
 def grundr_bew_zeiten_avg_entgeltp(
-    grundr_entgeltp: FloatSeries, grundr_bew_zeiten: IntSeries
-) -> FloatSeries:
+    grundr_entgeltp: float, grundr_bew_zeiten: int
+) -> float:
     """Compute average number of Entgeltpunkte earned per month of
     Grundrentenbewertungszeiten.
 
@@ -216,9 +213,7 @@ def grundr_bew_zeiten_avg_entgeltp(
 
 
 @add_rounding_spec(params_key="ges_rente")
-def grundr_zuschlag_höchstwert_m(
-    grundr_zeiten: IntSeries, ges_rente_params: dict
-) -> FloatSeries:
+def grundr_zuschlag_höchstwert_m(grundr_zeiten: int, ges_rente_params: dict) -> float:
     """Calculates the maximum allowed number of average Entgeltpunkte (per month)
     after adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
 
@@ -252,11 +247,11 @@ def grundr_zuschlag_höchstwert_m(
 
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_bonus_entgeltp(
-    grundr_bew_zeiten_avg_entgeltp: FloatSeries,
-    grundr_zuschlag_höchstwert_m: FloatSeries,
-    grundr_zeiten: IntSeries,
+    grundr_bew_zeiten_avg_entgeltp: float,
+    grundr_zuschlag_höchstwert_m: float,
+    grundr_zeiten: int,
     ges_rente_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate additional Entgeltpunkte for pensioner.
 
     In general, the average of monthly Entgeltpunkte earnd in Grundrentenzeiten is
@@ -310,15 +305,15 @@ def grundr_zuschlag_bonus_entgeltp(
 
 @add_rounding_spec(params_key="ges_rente")
 def rente_vorj_vor_grundr_proxy_m(
-    rentner: BoolSeries,
-    rentenwert_vorjahr: FloatSeries,
-    priv_rente_m: FloatSeries,
-    jahr_renteneintr: IntSeries,
-    geburtsjahr: IntSeries,
-    alter: IntSeries,
-    entgeltp: FloatSeries,
-    ges_rente_zugangsfaktor: FloatSeries,
-) -> FloatSeries:
+    rentner: bool,
+    rentenwert_vorjahr: float,
+    priv_rente_m: float,
+    jahr_renteneintr: int,
+    geburtsjahr: int,
+    alter: int,
+    entgeltp: float,
+    ges_rente_zugangsfaktor: float,
+) -> float:
     """Estimated amount of public pensions of last year excluding Grundrentenzuschlag.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
@@ -358,7 +353,7 @@ def rente_vorj_vor_grundr_proxy_m(
     return out
 
 
-def grundr_berechtigt(grundr_zeiten: IntSeries, ges_rente_params: dict) -> BoolSeries:
+def grundr_berechtigt(grundr_zeiten: int, ges_rente_params: dict) -> bool:
     """Indicates that person is not entitled to Freibetragsregelung.
 
     Parameters

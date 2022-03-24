@@ -1,16 +1,13 @@
 """This module provides functions to compute alimony payments (Unterhalt)."""
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def unterhaltsvors_m(
-    alleinerz: BoolSeries,
-    alter: IntSeries,
-    unterhaltsvorschuss_eink_tu_m: FloatSeries,
+    alleinerz: bool,
+    alter: int,
+    unterhaltsvorschuss_eink_tu_m: float,
     unterhalt_params: dict,
     kindergeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate advance on alimony payment(Unterhaltsvorschuss).
 
     Single Parents get alimony payments for themselves and for their child from the ex
@@ -74,14 +71,14 @@ def unterhaltsvors_m(
 
 
 def unterhaltsvorschuss_eink_tu_m(
-    bruttolohn_m_tu: FloatSeries,
-    sonstig_eink_m_tu: FloatSeries,
-    eink_selbst_m_tu: FloatSeries,
-    vermiet_eink_m_tu: FloatSeries,
-    kapitaleink_brutto_m_tu: FloatSeries,
-    sum_ges_rente_priv_rente_m_tu: FloatSeries,
-    arbeitsl_geld_m_tu: FloatSeries,
-) -> FloatSeries:
+    bruttolohn_m_tu: float,
+    sonstig_eink_m_tu: float,
+    eink_selbst_m_tu: float,
+    vermiet_eink_m_tu: float,
+    kapitaleink_brutto_m_tu: float,
+    sum_ges_rente_priv_rente_m_tu: float,
+    arbeitsl_geld_m_tu: float,
+) -> float:
     """Calculate relevant income for advance on alimony payment.
 
     Parameters

@@ -1,20 +1,18 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
+import numpy as np
+
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.typing import BoolSeries
-from gettsim.typing import DateTimeSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def elterngeld_m(
-    elterngeld_eink_relev_m: FloatSeries,
-    elternzeit_anspruch: BoolSeries,
-    elterngeld_eink_erlass_m: FloatSeries,
-    elterngeld_geschw_bonus_m: FloatSeries,
-    elterngeld_mehrlinge_bonus_m: FloatSeries,
+    elterngeld_eink_relev_m: float,
+    elternzeit_anspruch: bool,
+    elterngeld_eink_erlass_m: float,
+    elterngeld_geschw_bonus_m: float,
+    elterngeld_mehrlinge_bonus_m: float,
     elterngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate parental leave benefit (elterngeld).
 
     For the calculation, the relevant wage and the eligibility for bonuses is needed.
@@ -58,13 +56,13 @@ def elterngeld_m(
 
 
 def _elterngeld_proxy_eink_vorj_elterngeld_m(
-    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
-    bruttolohn_vorj_m: FloatSeries,
+    _ges_rentenv_beitr_bemess_grenze_m: float,
+    bruttolohn_vorj_m: float,
     elterngeld_params: dict,
     eink_st_params: dict,
     eink_st_abzüge_params: dict,
     soli_st_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculating the claim for benefits depending on previous wage.
 
     TODO: This function requires `.fillna(0)` at the end. Investigate!
@@ -115,13 +113,13 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 
 
 def elternzeit_anspruch(
-    alter_monate_jüngstes_mitglied_hh: FloatSeries,
-    m_elterngeld_mut_hh: IntSeries,
-    m_elterngeld_vat_hh: IntSeries,
-    m_elterngeld: IntSeries,
-    kind: BoolSeries,
+    alter_monate_jüngstes_mitglied_hh: float,
+    m_elterngeld_mut_hh: int,
+    m_elterngeld_vat_hh: int,
+    m_elterngeld: int,
+    kind: bool,
     elterngeld_params: dict,
-) -> BoolSeries:
+) -> bool:
     """Check parental leave eligibility.
 
     # ToDo: Check meaning and naming and make description of m_elterngeld_mut_hh,
@@ -159,7 +157,7 @@ def elternzeit_anspruch(
     return out
 
 
-def elterngeld_kindkind(geburtsjahr: IntSeries, elterngeld_params: dict,) -> BoolSeries:
+def elterngeld_kindkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
     """Check for sibling bonus on parental leave benefit.
 
     Parameters
@@ -180,9 +178,7 @@ def elterngeld_kindkind(geburtsjahr: IntSeries, elterngeld_params: dict,) -> Boo
     return out
 
 
-def elterngeld_vorschulkind(
-    geburtsjahr: IntSeries, elterngeld_params: dict,
-) -> BoolSeries:
+def elterngeld_vorschulkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
     """Check for sibling bonus on parental leave benefit.
 
     Parameters
@@ -204,11 +200,11 @@ def elterngeld_vorschulkind(
 
 
 def elterngeld_geschw_bonus_anspruch(
-    elterngeld_kindkind_hh: IntSeries,
-    elterngeld_vorschulkind_hh: IntSeries,
-    elternzeit_anspruch: BoolSeries,
+    elterngeld_kindkind_hh: int,
+    elterngeld_vorschulkind_hh: int,
+    elternzeit_anspruch: bool,
     elterngeld_params: dict,
-) -> BoolSeries:
+) -> bool:
     """Check for sibling bonus on parental leave benefit.
 
     Parameters
@@ -242,8 +238,8 @@ def elterngeld_geschw_bonus_anspruch(
 
 
 def _elterngeld_anz_mehrlinge_anspruch(
-    elternzeit_anspruch: BoolSeries, anz_jüngstes_kind_hh: DateTimeSeries,
-) -> IntSeries:
+    elternzeit_anspruch: bool, anz_jüngstes_kind_hh: np.datetime64,
+) -> int:
     """Check for multiple bonus on parental leave benefit.
 
     Parameters
@@ -262,12 +258,12 @@ def _elterngeld_anz_mehrlinge_anspruch(
 
 
 def elterngeld_nettolohn_m(
-    bruttolohn_m: FloatSeries,
-    eink_st_tu: FloatSeries,
-    soli_st_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
-    sozialv_beitr_gesamt_m: FloatSeries,
-) -> FloatSeries:
+    bruttolohn_m: float,
+    eink_st_tu: float,
+    soli_st_tu: float,
+    anz_erwachsene_tu: int,
+    sozialv_beitr_gesamt_m: float,
+) -> float:
     """Calculate the net wage.
 
     Taxes and social insurance contributions are needed for the calculation.
@@ -301,9 +297,8 @@ def elterngeld_nettolohn_m(
 
 
 def elterngeld_eink_relev_m(
-    _elterngeld_proxy_eink_vorj_elterngeld_m: FloatSeries,
-    elterngeld_nettolohn_m: FloatSeries,
-) -> FloatSeries:
+    _elterngeld_proxy_eink_vorj_elterngeld_m: float, elterngeld_nettolohn_m: float,
+) -> float:
     """Calculating the relevant wage for the calculation of elterngeld.
 
     According to § 2 (1) BEEG elterngeld is calculated by the loss of income due to
@@ -326,8 +321,8 @@ def elterngeld_eink_relev_m(
 
 
 def elterngeld_anteil_eink_erlass(
-    elterngeld_eink_relev_m: FloatSeries, elterngeld_params: dict
-) -> FloatSeries:
+    elterngeld_eink_relev_m: float, elterngeld_params: dict
+) -> float:
     """Calculate the share of net income which is reimbursed when receiving elterngeld.
 
     According to § 2 (2) BEEG the percentage increases below the first step and
@@ -385,8 +380,8 @@ def elterngeld_anteil_eink_erlass(
 
 
 def elterngeld_eink_erlass_m(
-    elterngeld_eink_relev_m: FloatSeries, elterngeld_anteil_eink_erlass: FloatSeries
-) -> FloatSeries:
+    elterngeld_eink_relev_m: float, elterngeld_anteil_eink_erlass: float
+) -> float:
     """Calculate base parental leave benefit.
 
     Parameters
@@ -404,10 +399,10 @@ def elterngeld_eink_erlass_m(
 
 
 def elterngeld_geschw_bonus_m(
-    elterngeld_eink_erlass_m: FloatSeries,
-    elterngeld_geschw_bonus_anspruch: BoolSeries,
+    elterngeld_eink_erlass_m: float,
+    elterngeld_geschw_bonus_anspruch: bool,
     elterngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate the bonus for siblings.
 
     According to § 2a parents of siblings get a bonus.
@@ -436,8 +431,8 @@ def elterngeld_geschw_bonus_m(
 
 
 def elterngeld_mehrlinge_bonus_m(
-    _elterngeld_anz_mehrlinge_anspruch: IntSeries, elterngeld_params: dict
-) -> FloatSeries:
+    _elterngeld_anz_mehrlinge_anspruch: int, elterngeld_params: dict
+) -> float:
     """Calculate the bonus for multiples.
 
     Parameters
