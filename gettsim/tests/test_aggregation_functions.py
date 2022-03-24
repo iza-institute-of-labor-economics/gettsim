@@ -372,11 +372,10 @@ def test_grouped_cumsum(backend, column_to_aggregate, group_id, expected_res_cum
         pass
     elif backend == "numpy":
         result = grouped_cumsum_numpy(column_to_aggregate, group_id)
+        # Check equality
+        np.testing.assert_array_almost_equal(result, expected_res_cumsum)
     else:
         raise ValueError(f"Backend {backend} not supported in this test.")
-
-    # Check equality
-    np.testing.assert_array_almost_equal(result, expected_res_cumsum)
 
 
 @parameterize_based_on_dict(
@@ -457,11 +456,9 @@ def test_grouped_sum_raises(
     backend, column_to_aggregate, group_id, error_sum, exception_match
 ):
 
-    # Calculate result
     with pytest.raises(
         error_sum, match=exception_match,
     ):
-        # Calculate result
         if backend == "jax":
             grouped_sum_jax(column_to_aggregate, group_id)
         elif backend == "numpy":
@@ -484,11 +481,9 @@ def test_grouped_mean_raises(
     backend, column_to_aggregate, group_id, error_mean, exception_match
 ):
 
-    # Calculate result
     with pytest.raises(
         error_mean, match=exception_match,
     ):
-        # Calculate result
         if backend == "jax":
             grouped_mean_jax(column_to_aggregate, group_id)
         elif backend == "numpy":
@@ -511,11 +506,9 @@ def test_grouped_max_raises(
     backend, column_to_aggregate, group_id, error_max, exception_match
 ):
 
-    # Calculate result
     with pytest.raises(
         error_max, match=exception_match,
     ):
-        # Calculate result
         if backend == "jax":
             grouped_max_jax(column_to_aggregate, group_id)
         elif backend == "numpy":
@@ -538,11 +531,9 @@ def test_grouped_min_raises(
     backend, column_to_aggregate, group_id, error_min, exception_match
 ):
 
-    # Calculate result
     with pytest.raises(
         error_min, match=exception_match,
     ):
-        # Calculate result
         if backend == "jax":
             grouped_min_jax(column_to_aggregate, group_id)
         elif backend == "numpy":
@@ -565,11 +556,9 @@ def test_grouped_any_raises(
     backend, column_to_aggregate, group_id, error_any, exception_match
 ):
 
-    # Calculate result
     with pytest.raises(
         error_any, match=exception_match,
     ):
-        # Calculate result
         if backend == "jax":
             grouped_any_jax(column_to_aggregate, group_id)
         elif backend == "numpy":
@@ -592,11 +581,9 @@ def test_grouped_all_raises(
     backend, column_to_aggregate, group_id, error_all, exception_match
 ):
 
-    # Calculate result
     with pytest.raises(
         error_all, match=exception_match,
     ):
-        # Calculate result
         if backend == "jax":
             grouped_all_jax(column_to_aggregate, group_id)
         elif backend == "numpy":
@@ -619,14 +606,12 @@ def test_grouped_cumsum_raises(
     backend, column_to_aggregate, group_id, error_cumsum, exception_match
 ):
 
-    # Calculate result
-    with pytest.raises(
-        error_cumsum, match=exception_match,
-    ):
-        # Calculate result
-        if backend == "jax":
-            pass
-        elif backend == "numpy":
+    if backend == "jax":
+        pass
+    elif backend == "numpy":
+        with pytest.raises(
+            error_cumsum, match=exception_match,
+        ):
             grouped_cumsum_numpy(column_to_aggregate, group_id)
-        else:
-            raise ValueError(f"Backend {backend} not supported in this test.")
+    else:
+        raise ValueError(f"Backend {backend} not supported in this test.")
