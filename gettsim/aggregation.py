@@ -8,6 +8,7 @@ from gettsim.aggregation_jax import grouped_sum as grouped_sum_jax
 from gettsim.aggregation_numpy import grouped_all as grouped_all_numpy
 from gettsim.aggregation_numpy import grouped_any as grouped_any_numpy
 from gettsim.aggregation_numpy import grouped_count as grouped_count_numpy
+from gettsim.aggregation_numpy import grouped_cumsum as grouped_cumsum_numpy
 from gettsim.aggregation_numpy import grouped_max as grouped_max_numpy
 from gettsim.aggregation_numpy import grouped_mean as grouped_mean_numpy
 from gettsim.aggregation_numpy import grouped_min as grouped_min_numpy
@@ -62,3 +63,8 @@ def grouped_all(column, group_id):
         return grouped_all_jax(column, group_id)
     else:
         return grouped_all_numpy(column, group_id)
+
+
+def grouped_cumsum(column, group_id):
+    # Not yet implemented for jax
+    return grouped_cumsum_numpy(column, group_id)

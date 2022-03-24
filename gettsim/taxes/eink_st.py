@@ -26,10 +26,11 @@ def eink_st_ohne_kinderfreib_tu(
 
     """
     zu_verst_eink_per_indiv = _zu_verst_eink_ohne_kinderfreib_tu / anz_erwachsene_tu
-
-    return anz_erwachsene_tu * _eink_st_tarif(
+    out = anz_erwachsene_tu * _eink_st_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
+
+    return out
 
 
 def eink_st_mit_kinderfreib_tu(
@@ -53,13 +54,15 @@ def eink_st_mit_kinderfreib_tu(
 
     """
     zu_verst_eink_per_indiv = zu_verst_eink_mit_kinderfreib_tu / anz_erwachsene_tu
-    return anz_erwachsene_tu * _eink_st_tarif(
+    out = anz_erwachsene_tu * _eink_st_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
+    return out
+
 
 def _eink_st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
-    """The German Income Tax Tariff.
+    """The German income tax tariff.
 
     Parameters
     ----------
@@ -72,7 +75,7 @@ def _eink_st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
     -------
 
     """
-    eink_st = piecewise_polynomial(
+    out = piecewise_polynomial(
         x=x,
         thresholds=params["eink_st_tarif"]["thresholds"],
         rates=params["eink_st_tarif"]["rates"],
@@ -80,7 +83,7 @@ def _eink_st_tarif(x: FloatSeries, params: dict) -> FloatSeries:
             "intercepts_at_lower_thresholds"
         ],
     )
-    return eink_st
+    return out
 
 
 @add_rounding_spec(params_key="eink_st")
@@ -123,9 +126,11 @@ def eink_st_tu_ab_1997(
 
     """
     if kinderfreib_günstiger_tu:
-        return eink_st_mit_kinderfreib_tu
+        out = eink_st_mit_kinderfreib_tu
     else:
-        return eink_st_ohne_kinderfreib_tu
+        out = eink_st_ohne_kinderfreib_tu
+
+    return out
 
 
 def kinderfreib_günstiger_tu(
@@ -154,4 +159,5 @@ def kinderfreib_günstiger_tu(
     eink_st_kein_kinderfreib = eink_st_ohne_kinderfreib_tu - 12 * (
         kindergeld_basis_m_tu + kinderbonus_basis_m_tu
     )
-    return eink_st_kein_kinderfreib > eink_st_mit_kinderfreib_tu
+    out = eink_st_kein_kinderfreib > eink_st_mit_kinderfreib_tu
+    return out

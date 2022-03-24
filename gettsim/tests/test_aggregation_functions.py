@@ -14,6 +14,7 @@ from gettsim.aggregation_jax import grouped_sum as grouped_sum_jax
 from gettsim.aggregation_numpy import grouped_all as grouped_all_numpy
 from gettsim.aggregation_numpy import grouped_any as grouped_any_numpy
 from gettsim.aggregation_numpy import grouped_count as grouped_count_numpy
+from gettsim.aggregation_numpy import grouped_cumsum as grouped_cumsum_numpy
 from gettsim.aggregation_numpy import grouped_max as grouped_max_numpy
 from gettsim.aggregation_numpy import grouped_mean as grouped_mean_numpy
 from gettsim.aggregation_numpy import grouped_min as grouped_min_numpy
@@ -61,6 +62,7 @@ test_grouped_specs = [
             "expected_res_count": np.array([2, 2, 3, 3, 3]),
             "expected_res_any": np.array([True, True, True, True, True]),
             "expected_res_all": np.array([True, True, True, True, True]),
+            "expected_res_cumsum": np.array([1, 2, 1, 2, 3]),
         },
         f"constant_column_group_id_unsorted_{backend}": {
             "backend": backend,
@@ -73,6 +75,7 @@ test_grouped_specs = [
             "expected_res_count": np.array([3, 2, 3, 2, 3]),
             "expected_res_any": np.array([True, True, True, True, True]),
             "expected_res_all": np.array([True, True, True, True, True]),
+            "expected_res_cumsum": np.array([1, 1, 2, 2, 3]),
         },
         f"basic_case_{backend}": {
             "backend": backend,
@@ -84,6 +87,7 @@ test_grouped_specs = [
             "expected_res_min": np.array([0, 0, 2, 2, 2]),
             "expected_res_any": np.array([True, True, True, True, True]),
             "expected_res_all": np.array([False, False, True, True, True]),
+            "expected_res_cumsum": np.array([0, 1, 2, 5, 9]),
         },
         f"unique_group_ids_with_gaps_{backend}": {
             "backend": backend,
@@ -96,6 +100,7 @@ test_grouped_specs = [
             "expected_res_count": np.array([2, 2, 3, 3, 3]),
             "expected_res_any": np.array([True, True, True, True, True]),
             "expected_res_all": np.array([False, False, True, True, True]),
+            "expected_res_cumsum": np.array([0, 1, 2, 5, 9]),
         },
         f"float_column_{backend}": {
             "backend": backend,
@@ -105,6 +110,7 @@ test_grouped_specs = [
             "expected_res_mean": np.array([0.75, 0.75, 3, 3, 3]),
             "expected_res_max": np.array([1.5, 1.5, 4, 4, 4]),
             "expected_res_min": np.array([0, 0, 2, 2, 2]),
+            "expected_res_cumsum": np.array([0, 1.5, 2, 5, 9]),
         },
         f"more_than_two_groups{backend}": {
             "backend": backend,
@@ -117,6 +123,7 @@ test_grouped_specs = [
             "expected_res_count": np.array([3, 1, 3, 3, 1]),
             "expected_res_any": np.array([True, True, True, True, True]),
             "expected_res_all": np.array([False, True, False, False, True]),
+            "expected_res_cumsum": np.array([0, 1, 2, 5, 4]),
         },
         # f"datetime_{backend}": {
         #     "backend": backend,
@@ -156,6 +163,7 @@ test_grouped_specs = [
             "expected_res_any": np.array([True, True, True, True, True]),
             "expected_res_all": np.array([False, False, False, False, False]),
             "expected_res_sum": np.array([1, 1, 1, 1, 1]),
+            "expected_res_cumsum": np.array([1, 1, 1, 1, 1]),
         },
         f"group_id_unsorted_bool_{backend}": {
             "backend": backend,
@@ -164,6 +172,7 @@ test_grouped_specs = [
             "expected_res_any": np.array([True, True, True, True, True]),
             "expected_res_all": np.array([True, False, True, False, True]),
             "expected_res_sum": np.array([3, 1, 3, 1, 3]),
+            "expected_res_cumsum": np.array([1, 0, 2, 1, 3]),
         },
         f"unique_group_ids_with_gaps_bool_{backend}": {
             "backend": backend,
@@ -172,6 +181,7 @@ test_grouped_specs = [
             "expected_res_any": np.array([True, True, False, False, False]),
             "expected_res_all": np.array([False, False, False, False, False]),
             "expected_res_sum": np.array([1, 1, 0, 0, 0]),
+            "expected_res_cumsum": np.array([1, 1, 0, 0, 0]),
         },
     }
     for backend in available_backends
@@ -200,6 +210,7 @@ test_grouped_raises_specs = [
             "error_min": TypeError,
             "error_any": TypeError,
             "error_all": TypeError,
+            "error_cumsum": TypeError,
             "exception_match": "grouped_",
         },
         f"float_group_id_{backend}": {
@@ -210,6 +221,7 @@ test_grouped_raises_specs = [
             "error_mean": TypeError,
             "error_max": TypeError,
             "error_min": TypeError,
+            "error_cumsum": TypeError,
             "exception_match": "The dtype of group_id must be integer.",
         },
         f"dtype_numeric_{backend}": {
@@ -342,6 +354,29 @@ def test_grouped_min(backend, column_to_aggregate, group_id, expected_res_min):
 
     # Check equality
     np.testing.assert_array_almost_equal(result, expected_res_min)
+
+
+@parameterize_based_on_dict(
+    test_grouped_specs,
+    keys_of_test_cases=[
+        "backend",
+        "column_to_aggregate",
+        "group_id",
+        "expected_res_cumsum",
+    ],
+)
+def test_grouped_cumsum(backend, column_to_aggregate, group_id, expected_res_cumsum):
+
+    # Calculate result
+    if backend == "jax":
+        pass
+    elif backend == "numpy":
+        result = grouped_cumsum_numpy(column_to_aggregate, group_id)
+    else:
+        raise ValueError(f"Backend {backend} not supported in this test.")
+
+    # Check equality
+    np.testing.assert_array_almost_equal(result, expected_res_cumsum)
 
 
 @parameterize_based_on_dict(
@@ -566,5 +601,32 @@ def test_grouped_all_raises(
             grouped_all_jax(column_to_aggregate, group_id)
         elif backend == "numpy":
             grouped_all_numpy(column_to_aggregate, group_id)
+        else:
+            raise ValueError(f"Backend {backend} not supported in this test.")
+
+
+@parameterize_based_on_dict(
+    test_grouped_raises_specs,
+    keys_of_test_cases=[
+        "backend",
+        "column_to_aggregate",
+        "group_id",
+        "error_cumsum",
+        "exception_match",
+    ],
+)
+def test_grouped_cumsum_raises(
+    backend, column_to_aggregate, group_id, error_cumsum, exception_match
+):
+
+    # Calculate result
+    with pytest.raises(
+        error_cumsum, match=exception_match,
+    ):
+        # Calculate result
+        if backend == "jax":
+            pass
+        elif backend == "numpy":
+            grouped_cumsum_numpy(column_to_aggregate, group_id)
         else:
             raise ValueError(f"Backend {backend} not supported in this test.")

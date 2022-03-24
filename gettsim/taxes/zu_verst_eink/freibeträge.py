@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
@@ -26,11 +25,14 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     # Get disability degree thresholds
     bins = sorted(eink_st_abzüge_params["behinderten_pauschbetrag"])
 
-    # Create corresponding bins
-    binned = pd.cut(behinderungsgrad, bins=bins + [np.inf], right=False, labels=bins)
+    # Select corresponding bin.
+    selected_bin_index = (
+        np.searchsorted(bins + [np.inf], behinderungsgrad, side="right") - 1
+    )
+    selected_bin = bins[selected_bin_index]
 
-    # Replace values in the intervals
-    out = float(binned.replace(eink_st_abzüge_params["behinderten_pauschbetrag"]))
+    # Select appropriate pauschbetrag.
+    out = eink_st_abzüge_params["behinderten_pauschbetrag"][selected_bin]
 
     return out
 
@@ -230,4 +232,6 @@ def eink_st_kinderfreib_tu(
 
     """
     kifreib_total = sum(eink_st_abzüge_params["kinderfreibetrag"].values())
-    return kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
+    out = kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
+
+    return out

@@ -276,9 +276,9 @@ def wohngeld_eink_m(
         wohngeld_eink_m_tu - wohngeld_eink_abzüge_m_tu
     )
 
-    unteres_eink = wohngeld_params["min_eink"].min(
-        haushaltsgröße_hh, max(wohngeld_params["min_eink"])
-    )
+    unteres_eink = wohngeld_params["min_eink"][
+        min(haushaltsgröße_hh, max(wohngeld_params["min_eink"]))
+    ]
 
     out = max(vorläufiges_eink, unteres_eink)
     return out
@@ -299,9 +299,9 @@ def wohngeld_min_miete(
     -------
 
     """
-    out = wohngeld_params["min_miete"].min(
-        haushaltsgröße_hh, max(wohngeld_params["min_miete"])
-    )
+    out = wohngeld_params["min_miete"][
+        min(haushaltsgröße_hh, max(wohngeld_params["min_miete"]))
+    ]
     return out
 
 
@@ -341,10 +341,11 @@ def wohngeld_miete_m_bis_2008(
     # of the property. We assume that the same cutoffs exist for each household
     # size.
     params_max_miete = wohngeld_params["max_miete"]
-    selected_bin = np.searchsorted(
+    selected_bin_index = np.searchsorted(
         sorted(params_max_miete[1]), immobilie_baujahr_hh, side="left"
     )
-    constr_year = params_max_miete[1][selected_bin]
+
+    constr_year = list(params_max_miete[1])[selected_bin_index]
 
     # Calc maximal considered rent
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
@@ -501,22 +502,17 @@ def wohngeld_vor_vermög_check_m(
     """
     max_considered_hh_größe = max(wohngeld_params["min_eink"])
 
-    koeffizienten = [
-        wohngeld_params["koeffizienten_berechnungsformel"][hh_größe]
-        for hh_größe in min(haushaltsgröße_hh, max_considered_hh_größe)
+    koeffizienten = wohngeld_params["koeffizienten_berechnungsformel"][
+        min(haushaltsgröße_hh, max_considered_hh_größe)
     ]
-
-    koeffizienten_a = [koeffizient["a"] for koeffizient in koeffizienten]
-    koeffizienten_b = [koeffizient["b"] for koeffizient in koeffizienten]
-    koeffizienten_c = [koeffizient["c"] for koeffizient in koeffizienten]
 
     out = wohngeld_params["faktor_berechnungsformel"] * (
         wohngeld_miete_m
         - (
             (
-                koeffizienten_a
-                + (koeffizienten_b * wohngeld_miete_m)
-                + (koeffizienten_c * wohngeld_eink_m)
+                koeffizienten["a"]
+                + (koeffizienten["b"] * wohngeld_miete_m)
+                + (koeffizienten["c"] * wohngeld_eink_m)
             )
             * wohngeld_eink_m
         )
