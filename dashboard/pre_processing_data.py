@@ -16,13 +16,13 @@ from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2009
 from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2021
 from gettsim.transfers.wohngeld import wohngeld_miete_m_bis_2008
 from gettsim.transfers.wohngeld import wohngeld_min_miete
-from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m
+from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m_hh
 
 wohngeld_miete_m_ab_2009 = np.vectorize(wohngeld_miete_m_ab_2009)
 wohngeld_miete_m_ab_2021 = np.vectorize(wohngeld_miete_m_ab_2021)
 wohngeld_miete_m_bis_2008 = np.vectorize(wohngeld_miete_m_bis_2008)
 wohngeld_min_miete = np.vectorize(wohngeld_min_miete)
-wohngeld_vor_vermög_check_m = np.vectorize(wohngeld_vor_vermög_check_m)
+wohngeld_vor_vermög_check_m_hh = np.vectorize(wohngeld_vor_vermög_check_m_hh)
 # piecewise_polynomial = np.vectorize(piecewise_polynomial)
 _eink_st_tarif = np.vectorize(_eink_st_tarif)
 
@@ -161,7 +161,7 @@ def prepare_wg_data(sel_year, hh_size):
     for i in range(len(einkommen)):
         this_column = wohngeld_df.columns[i]
         e = pd.Series(data=[einkommen[i]] * len(einkommen))
-        wohngeld_df[this_column] = wohngeld_vor_vermög_check_m(
+        wohngeld_df[this_column] = wohngeld_vor_vermög_check_m_hh(
             haushaltsgröße_hh=household_size,
             # Account for minimum income
             wohngeld_eink_m=np.maximum(e, params["min_eink"][hh_size]),

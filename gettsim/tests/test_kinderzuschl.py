@@ -32,7 +32,7 @@ OUT_COLS = ["kinderzuschl_vorläufig_m_hh"]
 # 2006 and 2009 are missing
 YEARS = [2011, 2013, 2016, 2017, 2019, 2020, 2021]
 
-override_columns = [
+OVERRIDE_COLS = [
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
     "arbeitsl_geld_2_eink_m_hh",
     "kindergeld_m_hh",
@@ -62,7 +62,7 @@ def test_kiz(
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=override_columns,
+        columns_overriding_functions=OVERRIDE_COLS,
     )
 
     assert_series_equal(

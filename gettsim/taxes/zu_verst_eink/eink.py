@@ -65,7 +65,7 @@ def kapitaleink_brutto(kapitaleink_brutto_m: FloatSeries) -> FloatSeries:
     return 12 * kapitaleink_brutto_m
 
 
-def eink_vermietung(vermiet_eink_m: FloatSeries) -> FloatSeries:
+def vermiet_eink(vermiet_eink_m: FloatSeries) -> FloatSeries:
     """Aggregate monthly gross rental income to yearly income.
 
     Parameters
@@ -105,7 +105,7 @@ def eink_rente_zu_verst(
 def sum_eink_ohne_kapital(
     eink_selbst: FloatSeries,
     eink_abhängig_beschäftigt: FloatSeries,
-    eink_vermietung: FloatSeries,
+    vermiet_eink: FloatSeries,
     eink_rente_zu_verst: FloatSeries,
 ) -> FloatSeries:
     """Sum of gross incomes without capital income.
@@ -117,8 +117,8 @@ def sum_eink_ohne_kapital(
         See :func:`eink_selbst`.
     eink_abhängig_beschäftigt
         See :func:`eink_abhängig_beschäftigt`.
-    eink_vermietung
-        See :func:`eink_vermietung`.
+    vermiet_eink
+        See :func:`vermiet_eink`.
     eink_rente_zu_verst
         See :func:`eink_rente_zu_verst`.
 
@@ -126,9 +126,7 @@ def sum_eink_ohne_kapital(
     -------
 
     """
-    out = (
-        eink_selbst + eink_abhängig_beschäftigt + eink_vermietung + eink_rente_zu_verst
-    )
+    out = eink_selbst + eink_abhängig_beschäftigt + vermiet_eink + eink_rente_zu_verst
     return out
 
 

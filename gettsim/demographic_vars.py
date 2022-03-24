@@ -244,8 +244,8 @@ def alter_monate(
 
 
 def jüngstes_kind(
-    alter_monate: DateTimeSeries,
-    alter_monate_jüngstes_mitglied_hh: DateTimeSeries,
+    alter_monate: FloatSeries,
+    alter_monate_jüngstes_mitglied_hh: FloatSeries,
     kind: BoolSeries,
 ) -> IntSeries:
     """Check if person is the youngest child in the household.

@@ -167,8 +167,8 @@ def eink_st_sonderausgaben_bis_2011(
 
 def eink_st_sonderausgaben_ab_2012(
     betreuungskost_m: FloatSeries,
-    tu_id: IntSeries,
     kind: BoolSeries,
+    anz_kinder_tu: IntSeries,
     anz_erwachsene_tu: IntSeries,
     eink_st_abzüge_params: dict,
 ) -> FloatSeries:
@@ -180,30 +180,29 @@ def eink_st_sonderausgaben_ab_2012(
     ----------
     betreuungskost_m
         See basic input variable :ref:`betreuungskost_m <betreuungskost_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    anz_kinder_tu
+        See :func:`anz_kinder_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
+    eink_st_abzüge_params
+        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
     Returns
     -------
 
     """
-    abziehbare_betreuungskosten = (12 * betreuungskost_m).clip(
-        upper=eink_st_abzüge_params["kinderbetreuungskosten_abz_maximum"]
+    abziehbare_betreuungskosten = min(
+        12 * betreuungskost_m,
+        eink_st_abzüge_params["kinderbetreuungskosten_abz_maximum"],
     )
-
-    berechtigte_kinder = kind.groupby(tu_id).transform(sum)
 
     if kind:
         out = 0.0
     else:
         out = (
-            berechtigte_kinder
+            anz_kinder_tu
             * abziehbare_betreuungskosten
             * eink_st_abzüge_params["kinderbetreuungskosten_abz_anteil"]
         ) / anz_erwachsene_tu

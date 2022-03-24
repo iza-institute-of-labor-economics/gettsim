@@ -25,26 +25,6 @@ def sum_ges_rente_priv_rente_m(
     return out
 
 
-def sum_ges_rente_priv_rente_m_tu(
-    sum_ges_rente_priv_rente_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Aggregate monthly pension income on tax unit level.
-
-    Parameters
-    ----------
-    sum_ges_rente_priv_rente_m
-        See basic input variable :ref:`sum_ges_rente_priv_rente_m
-        <sum_ges_rente_priv_rente_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return sum_ges_rente_priv_rente_m.groupby(tu_id).sum()
-
-
 @add_rounding_spec(params_key="ges_rente")
 def ges_rente_nach_grundr_m(
     ges_rente_vor_grundr_m: FloatSeries,

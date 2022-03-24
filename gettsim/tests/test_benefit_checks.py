@@ -45,9 +45,9 @@ def test_benefit_checks(input_data, year, target):
         "kinderzuschl_vorläufig_m_hh",
         "wohngeld_vor_vermög_check_m_hh",
         "arbeitsl_geld_2_regelbedarf_m_hh",
-        "kindergeld_m_hh",
-        "unterhaltsvors_m_hh",
-        "arbeitsl_geld_2_eink_m_hh",
+        # "kindergeld_m_hh",
+        # "unterhaltsvors_m_hh",
+        # "arbeitsl_geld_2_eink_m_hh",
     ]
 
     policy_params, policy_functions = set_up_policy_environment(date=year)

@@ -14,7 +14,6 @@ It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
 from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def freibeträge(
@@ -55,23 +54,6 @@ def freibeträge(
         + eink_st_altersfreib
     )
     return out
-
-
-def freibeträge_tu(freibeträge: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Sum of income tax allowances on tax unit level.
-
-    Parameters
-    ----------
-    freibeträge
-        See :func:`freibeträge`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return freibeträge.groupby(tu_id).sum()
 
 
 def _zu_verst_eink_ohne_kinderfreib_tu(

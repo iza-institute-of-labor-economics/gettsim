@@ -141,7 +141,7 @@ def kinderzuschl_eink_max_m_hh(
 
 
 def kinderzuschl_eink_min_m_hh(
-    anz_kinder_hh: BoolSeries, alleinerz_hh: BoolSeries, kinderzuschl_params: dict,
+    anz_kinder_hh: IntSeries, alleinerz_hh: BoolSeries, kinderzuschl_params: dict,
 ) -> FloatSeries:
     """Calculate minimal claim of child benefit (kinderzuschlag).
 

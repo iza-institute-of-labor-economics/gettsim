@@ -2,6 +2,17 @@ from gettsim.typing import BoolSeries
 from gettsim.typing import FloatSeries
 from gettsim.typing import IntSeries
 
+aggregation_demographic_vars = {
+    "kumulativer_kindergeld_anspruch_tu": {
+        "source_col": "kindergeld_anspruch",
+        "aggr": "cumsum",
+    },
+    "anz_kinder_mit_kindergeld_tu": {
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+}
+
 
 def kindergeld_m_bis_1996(kindergeld_basis_m: FloatSeries) -> FloatSeries:
     """Kindergeld calculation until 1996.
@@ -47,16 +58,18 @@ def kindergeld_m_ab_1997(
 
 
 def kindergeld_basis_m(
-    tu_id: IntSeries, kindergeld_anspruch: BoolSeries, kindergeld_params: dict
+    kindergeld_anspruch: BoolSeries,
+    kumulativer_kindergeld_anspruch_tu: IntSeries,
+    kindergeld_params: dict,
 ) -> FloatSeries:
     """Calculate the preliminary kindergeld.
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
+    kumulativer_kindergeld_anspruch_tu
+        See :func:`kumulativer_kindergeld_anspruch_tu`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
@@ -70,11 +83,8 @@ def kindergeld_basis_m(
         out = 0.0
     else:
         # Kindergeld_Anspruch is the cumulative sum of eligible children.
-        kumulativer_anspruch = (
-            int(kindergeld_anspruch).groupby(tu_id).transform("cumsum")
-        )
         kumulativer_anspruch_wins = min(
-            kumulativer_anspruch, max(kindergeld_params["kindergeld"])
+            kumulativer_kindergeld_anspruch_tu, max(kindergeld_params["kindergeld"])
         )
         out = kindergeld_params["kindergeld"][kumulativer_anspruch_wins]
     return out

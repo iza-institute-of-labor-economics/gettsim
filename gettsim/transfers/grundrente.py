@@ -31,7 +31,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     rente_vorj_vor_grundr_proxy_m: FloatSeries,
     bruttolohn_vorj_m: FloatSeries,
     eink_selbst: FloatSeries,
-    eink_vermietung: FloatSeries,
+    vermiet_eink: FloatSeries,
     kapitaleink: FloatSeries,
 ) -> FloatSeries:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
@@ -64,8 +64,8 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         See :func:`bruttolohn_vorj_m`.
     eink_selbst
         See :func:`eink_selbst`.
-    eink_vermietung
-        See :func:`eink_vermietung`.
+    vermiet_eink
+        See :func:`vermiet_eink`.
     kapitaleink
         See :func:`kapitaleink`.
 
@@ -79,7 +79,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         rente_vorj_vor_grundr_proxy_m
         + bruttolohn_vorj_m
         + eink_selbst / 12  # income from self-employment
-        + eink_vermietung / 12  # rental income
+        + vermiet_eink / 12  # rental income
         + kapitaleink / 12
     )
 

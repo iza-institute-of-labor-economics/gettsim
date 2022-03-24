@@ -32,7 +32,7 @@ OUT_COLS = [
     "ges_pflegev_beitr_m",
 ]
 
-override_columns = ["sum_ges_rente_priv_rente_m"]
+OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
 
 
 @pytest.fixture(scope="module")
@@ -53,7 +53,7 @@ def test_soc_ins_contrib(input_data, year, target):
         params=policy_params,
         functions=policy_functions,
         targets=target,
-        columns_overriding_functions=override_columns,
+        columns_overriding_functions=OVERRIDE_COLS,
     )
 
     pd.testing.assert_series_equal(results[target], year_data[target])

@@ -62,7 +62,7 @@ OUT_COLS = [
     "arbeitsl_geld_2_m_hh",
 ]
 
-override_columns = [
+OVERRIDE_COLS = [
     "arbeitsl_geld_m",
     "soli_st_tu",
     "kindergeld_m_hh",
@@ -94,7 +94,7 @@ def test_alg2(input_data, year, column):
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=override_columns,
+        columns_overriding_functions=OVERRIDE_COLS,
     )
     if column in [
         "arbeitsl_geld_2_vor_vorrang_m_hh",

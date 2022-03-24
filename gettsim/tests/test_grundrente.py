@@ -19,7 +19,7 @@ INPUT_COLS = [
     "rente_vorj_vor_grundr_proxy_m",
     "bruttolohn_vorj_m",
     "eink_selbst",
-    "eink_vermietung",
+    "vermiet_eink",
     "kapitaleink",
     "alter",
     "alleinstehend",
@@ -66,7 +66,7 @@ def test_grundrente(input_data, year, column):
         columns_overriding_functions=[
             "rente_vorj_vor_grundr_proxy_m",
             "eink_selbst",
-            "eink_vermietung",
+            "vermiet_eink",
             "kapitaleink",
             "ges_rente_zugangsfaktor",
         ],

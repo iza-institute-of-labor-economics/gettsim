@@ -42,7 +42,6 @@ def test_favorability_check(input_data, year, target):
         "eink_st_mit_kinderfreib_tu",
         "abgelt_st_tu",
         "kindergeld_basis_m",
-        "kindergeld_basis_m_tu",
     ]
 
     result = compute_taxes_and_transfers(

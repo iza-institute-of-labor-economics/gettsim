@@ -10,6 +10,7 @@ import pandas as pd
 from gettsim.aggregation import grouped_all
 from gettsim.aggregation import grouped_any
 from gettsim.aggregation import grouped_count
+from gettsim.aggregation import grouped_cumsum
 from gettsim.aggregation import grouped_max
 from gettsim.aggregation import grouped_mean
 from gettsim.aggregation import grouped_min
@@ -26,8 +27,6 @@ from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_if_series_has_internal_type
-
-# from numba import vectorize
 
 
 class KeyErrorMessage(str):
@@ -166,8 +165,6 @@ def check_data_check_functions_and_merge_functions(
     data_cols_excl_overriding = [
         c for c in data_cols if c not in columns_overriding_functions
     ]
-    for funcs, name in zip([internal_functions, user_functions], ["internal", "user"]):
-        _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
     # Create one dictionary of functions and perform check.
     user_and_internal_functions = {**internal_functions, **user_functions}
@@ -179,9 +176,23 @@ def check_data_check_functions_and_merge_functions(
 
     # Create and add aggregation functions
     aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions, targets
+        user_and_internal_functions, targets, data_cols
     )
+
+    for funcs, name in zip(
+        [internal_functions, user_functions, aggregation_funcs],
+        ["internal", "user", "aggregation"],
+    ):
+        _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
+
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
+
+    # print("kindergeld_m_hh" in internal_functions)
+    # print("kindergeld_m_hh" in user_functions)
+    # print("kindergeld_m_hh" in aggregation_funcs)
+    # print("kindergeld_m" in user_and_internal_functions)
+    # print("kindergeld_m" in user_functions)
+    # print("kindergeld_m" in aggregation_funcs)
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
@@ -504,9 +515,11 @@ def _fail_if_columns_overriding_functions_are_not_in_functions(
         functions.
 
     """
-    unnecessary_columns_overriding_functions = set(columns_overriding_functions) - set(
-        functions
-    )
+    unnecessary_columns_overriding_functions = [
+        col
+        for col in columns_overriding_functions
+        if (col not in functions) and (rchop(rchop(col, "_tu"), "_hh") not in functions)
+    ]
     if unnecessary_columns_overriding_functions:
         n_cols = len(unnecessary_columns_overriding_functions)
         intro = _format_text_for_cmdline(
@@ -538,8 +551,18 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
         Fail if functions which compute columns overlap with existing columns.
 
     """
-    type_str = "internal " if type_ == "internal" else ""
-    overlap = sorted(name for name in functions if name in columns)
+    if type_ == "internal":
+        type_str = "internal "
+    elif type_ == "aggregation":
+        type_str = "internal aggregation "
+    else:
+        type_str = ""
+    overlap = sorted(
+        name
+        for name in columns
+        if (name in functions) or (rchop(rchop(name, "_tu"), "_hh") in functions)
+    )
+
     if overlap:
         n_cols = len(overlap)
         first_part = _format_text_for_cmdline(
@@ -817,25 +840,28 @@ def rchop(s, suffix):
     return s
 
 
-def _create_aggregation_functions(user_and_internal_functions, targets):
+def _create_aggregation_functions(user_and_internal_functions, targets, data_cols):
     """Create aggregation functions"""
     aggregation_dict = load_aggregation_dict()
+
     # Make specs for automated sum aggregation
-    automated_sum_aggregation_cols = set(
+    potential_source_cols = list(user_and_internal_functions) + data_cols
+    potential_agg_cols = set(
         [
             arg
             for func in user_and_internal_functions.values()
             for arg in get_names_of_arguments_without_defaults(func)
-            if (arg not in user_and_internal_functions.keys())
-            and (rchop(rchop(arg, "_tu"), "_hh") in user_and_internal_functions.keys())
         ]
-        + [
-            targ
-            for targ in targets
-            if (targ not in user_and_internal_functions.keys())
-            and (rchop(rchop(targ, "_tu"), "_hh") in user_and_internal_functions.keys())
-        ]
+        + targets
     )
+
+    automated_sum_aggregation_cols = [
+        col
+        for col in potential_agg_cols
+        if (col not in potential_source_cols)
+        and (rchop(rchop(col, "_tu"), "_hh") in potential_source_cols)
+    ]
+
     automated_sum_aggregation_specs = {
         agg_col: {"aggr": "sum", "source_col": rchop(rchop(agg_col, "_tu"), "_hh")}
         for agg_col in automated_sum_aggregation_cols
@@ -973,6 +999,12 @@ def _create_one_aggregation_func(agg_col, agg_specs):
         @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
         def aggregation_func(source_col, group_id):
             return grouped_all(source_col, group_id)
+
+    elif aggr == "cumsum":
+
+        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        def aggregation_func(source_col, group_id):
+            return grouped_cumsum(source_col, group_id)
 
     else:
         raise ValueError(f"Aggr {aggr} is not implemented, yet.")

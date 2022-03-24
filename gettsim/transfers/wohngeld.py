@@ -70,11 +70,11 @@ def wohngeld_abzüge_m_tu(
     return out
 
 
-def wohngeld_eink_m_tu(
+def wohngeld_eink_vor_abzug_m_tu(
     eink_selbst_tu: FloatSeries,
     eink_abhängig_beschäftigt_tu: FloatSeries,
     kapitaleink_brutto_tu: FloatSeries,
-    eink_vermietung_tu: FloatSeries,
+    vermiet_eink_tu: FloatSeries,
     arbeitsl_geld_m_tu: FloatSeries,
     sonstig_eink_m_tu: FloatSeries,
     eink_rente_zu_verst_m_tu: FloatSeries,
@@ -91,8 +91,8 @@ def wohngeld_eink_m_tu(
         See :func:`eink_abhängig_beschäftigt_tu`.
     kapitaleink_brutto_tu
         See :func:`kapitaleink_brutto_tu`.
-    eink_vermietung_tu
-        See :func:`eink_vermietung_tu`.
+    vermiet_eink_tu
+        See :func:`vermiet_eink_tu`.
     arbeitsl_geld_m_tu
         See :func:`arbeitsl_geld_m_tu`.
     sonstig_eink_m_tu
@@ -108,20 +108,21 @@ def wohngeld_eink_m_tu(
     -------
 
     """
-    einkommen = (
+    einkommen_tu = (
         eink_selbst_tu
         + eink_abhängig_beschäftigt_tu
         + kapitaleink_brutto_tu
-        + eink_vermietung_tu
+        + vermiet_eink_tu
     ) / 12
 
-    transfers = (
+    transfers_tu = (
         arbeitsl_geld_m_tu
         + eink_rente_zu_verst_m_tu
         + unterhaltsvors_m_tu
         + elterngeld_m_tu
     )
-    return einkommen + transfers + sonstig_eink_m_tu
+
+    return einkommen_tu + transfers_tu + sonstig_eink_m_tu
 
 
 def wohngeld_eink_abzüge_m_bis_2015(
@@ -250,7 +251,7 @@ def wohngeld_eink_m(
     haushaltsgröße_hh: IntSeries,
     wohngeld_eink_abzüge_m_tu: FloatSeries,
     wohngeld_abzüge_m_tu: FloatSeries,
-    wohngeld_eink_m_tu: FloatSeries,
+    wohngeld_eink_vor_abzug_m_tu: FloatSeries,
     wohngeld_params: dict,
 ) -> FloatSeries:
     """Calculate final income relevant for calculation of housing benefit.
@@ -263,8 +264,8 @@ def wohngeld_eink_m(
         See :func:`wohngeld_eink_abzüge_m_tu`.
     wohngeld_abzüge_m_tu
         See :func:`wohngeld_abzüge_m_tu`.
-    wohngeld_eink_m_tu
-        See :func:`wohngeld_eink_m_tu`.
+    wohngeld_eink_vor_abzug_m_tu
+        See :func:`wohngeld_eink_vor_abzug_m_tu`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -273,7 +274,7 @@ def wohngeld_eink_m(
 
     """
     vorläufiges_eink = (1 - wohngeld_abzüge_m_tu) * (
-        wohngeld_eink_m_tu - wohngeld_eink_abzüge_m_tu
+        wohngeld_eink_vor_abzug_m_tu - wohngeld_eink_abzüge_m_tu
     )
 
     unteres_eink = wohngeld_params["min_eink"][
@@ -477,7 +478,7 @@ def wohngeld_miete_m_ab_2021(
     return out
 
 
-def wohngeld_vor_vermög_check_m(
+def wohngeld_vor_vermög_check_m_hh(
     haushaltsgröße_hh: IntSeries,
     wohngeld_eink_m: FloatSeries,
     wohngeld_miete_m: FloatSeries,
@@ -505,7 +506,6 @@ def wohngeld_vor_vermög_check_m(
     koeffizienten = wohngeld_params["koeffizienten_berechnungsformel"][
         min(haushaltsgröße_hh, max_considered_hh_größe)
     ]
-
     out = wohngeld_params["faktor_berechnungsformel"] * (
         wohngeld_miete_m
         - (
@@ -519,7 +519,7 @@ def wohngeld_vor_vermög_check_m(
     )
     out = max(out, 0.0)
 
-    if haushaltsgröße_hh <= max_considered_hh_größe:
+    if haushaltsgröße_hh > max_considered_hh_größe:
         # If more than 12 persons, there is a lump-sum on top.
         # The maximum is still capped at `wohngeld_miete_m`.
         out += wohngeld_params["bonus_12_mehr"] * (

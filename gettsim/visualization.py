@@ -25,6 +25,7 @@ from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
 from gettsim.config import DEFAULT_TARGETS
+from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
 from gettsim.dag import create_dag
 from gettsim.functions_loader import load_user_and_internal_functions
@@ -128,8 +129,9 @@ def plot_dag(
     user_and_internal_functions = {**internal_functions, **functions}
 
     # Create and add aggregation functions
+    typical_data_cols = list(TYPES_INPUT_VARIABLES)
     aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions, targets
+        user_and_internal_functions, targets, typical_data_cols
     )
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
@@ -143,7 +145,6 @@ def plot_dag(
 
     # Partial parameters to functions such that they disappear in the DAG.
     all_functions = _mock_parameters_arguments(all_functions)
-
     dag = create_dag(
         all_functions,
         targets,
@@ -519,7 +520,10 @@ def _get_selected_nodes(dag, selector):
             _kth_order_neighbors(dag, selector["node"], selector.get("order", 1))
         )
     else:
-        raise NotImplementedError(f"Selector type '{selector['type']}' is not defined.")
+        raise NotImplementedError(
+            f"Selector type '{selector['type']}' is not defined. "
+            "Allowed are only 'nodes', 'ancestors', 'descendants', or 'neighbors'."
+        )
 
     return set(selected_nodes)
 
