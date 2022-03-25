@@ -164,7 +164,7 @@ def gemeinsam_veranlagt_tu(anz_erwachsene_tu: int) -> bool:
         See :func:`anz_erwachsene_tu`.
     Returns
     -------
-    BoolSeries indicating two wage earners in tax unit.
+    Boolean indicating two wage earners in tax unit.
     """
     return anz_erwachsene_tu == 2
 

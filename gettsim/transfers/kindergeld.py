@@ -107,7 +107,7 @@ def kindergeld_anspruch_nach_stunden(
 
     Returns
     -------
-    BoolSeries indiciating kindergeld eligibility.
+    Boolean indiciating kindergeld eligibility.
     """
     out = (alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]) | (
         (alter < kindergeld_params["höchstalter"]["mit_bedingungen"])

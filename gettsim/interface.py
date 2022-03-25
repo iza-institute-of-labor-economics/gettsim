@@ -285,12 +285,10 @@ def prepare_results(results, data, debug):
         Nicely formatted DataFrame of the results.
 
     """
-
     if debug:
         results = pd.DataFrame({**data, **results})
     else:
         results = pd.DataFrame(results)
-
     results = _reorder_columns(results)
 
     return results

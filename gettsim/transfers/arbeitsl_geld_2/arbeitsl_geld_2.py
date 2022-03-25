@@ -23,7 +23,7 @@ def arbeitsl_geld_2_m_hh(
 
     Returns
     -------
-    FloatSeries with the income by unemployment insurance per household.
+    float with the income by unemployment insurance per household.
     """
     if (
         wohngeld_vorrang_hh
@@ -54,7 +54,7 @@ def arbeitsl_geld_2_regelbedarf_m_hh(
 
     Returns
     -------
-    FloatSeries checks the minimum monthly needs of an household.
+    float checks the minimum monthly needs of an household.
     """
     return arbeitsl_geld_2_regelsatz_m_hh + arbeitsl_geld_2_kost_unterk_m_hh
 
@@ -89,7 +89,7 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
 
     Returns
     -------
-    FloatSeries checks how much more a single parent need.
+    float checks how much more a single parent need.
     """
     if alleinerz_hh:
 
@@ -138,7 +138,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 
     Returns
     -------
-    FloatSeries with the support of children until year 2010.
+    float with the support of children until year 2010.
     """
     # Dictionary of additional shares.
     anteile = arbeitsl_geld_2_params["anteil_regelsatz"]
@@ -176,7 +176,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
 
     Returns
     -------
-    FloatSeries with the support of children since year 2011
+    float with the support of children since year 2011
     """
     # Sum payments for each age group
     out = (
@@ -211,7 +211,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
 
     Returns
     -------
-    FloatSeries with the sum in Euro.
+    float with the sum in Euro.
     """
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
@@ -250,7 +250,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
 
     Returns
     -------
-    FloatSeries with the minimum needs of an household in Euro.
+    float with the minimum needs of an household in Euro.
     """
 
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)

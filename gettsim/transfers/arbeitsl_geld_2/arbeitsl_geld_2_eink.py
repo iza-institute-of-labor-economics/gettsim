@@ -78,7 +78,7 @@ def arbeitsl_geld_2_brutto_eink_m(
 
     Returns
     -------
-    FloatSeries with the income by unemployment insurance before tax.
+    float with the income by unemployment insurance before tax.
     """
     out = (
         bruttolohn_m
