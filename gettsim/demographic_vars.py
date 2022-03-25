@@ -226,11 +226,6 @@ def alter_monate(geburtstermin: np.datetime64, elterngeld_params: dict,) -> floa
     date = pd.to_datetime(elterngeld_params["datum"])
     age_in_days = date - geburtstermin
 
-    # # Check was formerly implemented in `check_eligibilities` for elterngeld.
-    # unborn_children = age_in_days.dt.total_seconds() < 0
-    # if unborn_children.any():
-    #     hh_ids = hh_id[unborn_children].unique()
-    #     raise ValueError(f"Households with ids {hh_ids} have unborn children.")
     out = age_in_days / np.timedelta64(1, "M")
     return out
 
