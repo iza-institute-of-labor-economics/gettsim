@@ -253,9 +253,10 @@ argument; for ``count`` no other variable is necessary.
 
 The output type will be the same as the input type. Exceptions:
 
-- Input type ``bool`` and aggregation ``sum`` leads to output type ``integer``.
-- Input type ``integer`` and agggregation :math:`\in \{` ``any``, ``all`` :math:`\}`
+- Input type ``bool`` and aggregation ``sum`` leads to output type ``int``.
+- Input type ``int`` and agggregation :math:`\in \{` ``any``, ``all`` :math:`\}`
   leads to output type ``bool``
+- Aggregation ``count`` will always result in an ``int``.
 
 The most common operation are sums of individual measures. GETTSIM adds the following
 syntactic sugar: In case an individual-level column ``my_col`` exists, the graph will be
