@@ -12,6 +12,7 @@ from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_d
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_datatype_is_false
 from gettsim.interface import _fail_if_functions_and_columns_overlap
+from gettsim.interface import _fail_if_pid_is_non_unique
 from gettsim.interface import _partial_parameters_to_functions
 from gettsim.shared import add_rounding_spec
 
@@ -54,11 +55,11 @@ def test_fail_if_datatype_is_false(input_data):
         altered_data = input_data.copy(deep=True)
         altered_data["alter"] = altered_data["alter"].astype(float)
         _fail_if_datatype_is_false(altered_data, [], [])
-    # with pytest.raises(ValueError):
-    #     _, functions = load_user_and_internal_functions(None)
-    #     columns = ["abgelt_st_tu"]
-    #     new_data = pd.DataFrame(data=[True, False], columns=columns, dtype=bool)
-    #     _fail_if_datatype_is_false(new_data, columns, functions)
+    with pytest.raises(ValueError):
+        _, functions = load_user_and_internal_functions(None)
+        columns = ["abgelt_st_tu"]
+        new_data = pd.DataFrame(data=[True, False], columns=columns, dtype=bool)
+        _fail_if_datatype_is_false(new_data, columns, functions)
 
 
 @pytest.mark.parametrize(
@@ -107,15 +108,18 @@ def test_fail_if_functions_and_columns_overlap(columns, functions, type_, expect
         _fail_if_functions_and_columns_overlap(columns, functions, type_)
 
 
-# def test_expand_data_raise_error():
-# ToDo: put back in
-#     data = {"wrong_variable_hh": pd.Series(data=np.arange(4), index=np.arange(4))}
-#     ids = pd.Series(
-#         data=np.arange(8), index=np.arange(4).repeat(2), name="hh_id"
-#     ).to_frame()
+def test_fail_if_pid_does_not_exist():
+    data = pd.Series(data=np.arange(8), name="hh_id").to_frame()
 
-#     with pytest.raises(KeyError):
-#         _expand_data(data, ids)
+    with pytest.raises(ValueError):
+        _fail_if_pid_is_non_unique(data)
+
+
+def test_fail_if_pid_is_non_unique():
+    data = pd.Series(data=np.arange(4).repeat(2), name="p_id").to_frame()
+
+    with pytest.raises(ValueError):
+        _fail_if_pid_is_non_unique(data)
 
 
 def test_missing_root_nodes_raises_error(minimal_input_data):

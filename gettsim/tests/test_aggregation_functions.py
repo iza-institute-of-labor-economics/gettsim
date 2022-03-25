@@ -125,37 +125,6 @@ test_grouped_specs = [
             "expected_res_all": np.array([False, True, False, False, True]),
             "expected_res_cumsum": np.array([0, 1, 2, 5, 4]),
         },
-        # f"datetime_{backend}": {
-        #     "backend": backend,
-        #     "column_to_aggregate": np.array(
-        #         [
-        #             np.datetime64("2000"),
-        #             np.datetime64("2001"),
-        #             np.datetime64("2002"),
-        #             np.datetime64("2003"),
-        #             np.datetime64("2004"),
-        #         ]
-        #     ),
-        #     "group_id": np.array([1, 0, 1, 1, 1]),
-        #     "expected_res_max": np.array(
-        #         [
-        #             np.datetime64("2004"),
-        #             np.datetime64("2001"),
-        #             np.datetime64("2004"),
-        #             np.datetime64("2004"),
-        #             np.datetime64("2004"),
-        #         ]
-        #     ),
-        #     "expected_res_min": np.array(
-        #         [
-        #             np.datetime64("2000"),
-        #             np.datetime64("2001"),
-        #             np.datetime64("2000"),
-        #             np.datetime64("2000"),
-        #             np.datetime64("2000"),
-        #         ]
-        #     ),
-        # },
         f"basic_case_bool_{backend}": {
             "backend": backend,
             "column_to_aggregate": np.array([True, False, True, False, False]),
@@ -185,6 +154,42 @@ test_grouped_specs = [
         },
     }
     for backend in available_backends
+] + [
+    {
+        f"datetime_{backend}": {
+            "backend": backend,
+            "column_to_aggregate": np.array(
+                [
+                    np.datetime64("2000"),
+                    np.datetime64("2001"),
+                    np.datetime64("2002"),
+                    np.datetime64("2003"),
+                    np.datetime64("2004"),
+                ]
+            ),
+            "group_id": np.array([1, 0, 1, 1, 1]),
+            "expected_res_max": np.array(
+                [
+                    np.datetime64("2004"),
+                    np.datetime64("2001"),
+                    np.datetime64("2004"),
+                    np.datetime64("2004"),
+                    np.datetime64("2004"),
+                ]
+            ),
+            "expected_res_min": np.array(
+                [
+                    np.datetime64("2000"),
+                    np.datetime64("2001"),
+                    np.datetime64("2000"),
+                    np.datetime64("2000"),
+                    np.datetime64("2000"),
+                ]
+            ),
+        },
+    }
+    for backend in available_backends
+    if backend != "jax"
 ]
 test_grouped_specs = dict(ChainMap(*test_grouped_specs))
 
@@ -330,7 +335,7 @@ def test_grouped_max(backend, column_to_aggregate, group_id, expected_res_max):
         raise ValueError(f"Backend {backend} not supported in this test.")
 
     # Check equality
-    np.testing.assert_array_almost_equal(result, expected_res_max)
+    np.testing.assert_array_equal(result, expected_res_max)
 
 
 @parameterize_based_on_dict(
@@ -353,7 +358,7 @@ def test_grouped_min(backend, column_to_aggregate, group_id, expected_res_min):
         raise ValueError(f"Backend {backend} not supported in this test.")
 
     # Check equality
-    np.testing.assert_array_almost_equal(result, expected_res_min)
+    np.testing.assert_array_equal(result, expected_res_min)
 
 
 @parameterize_based_on_dict(

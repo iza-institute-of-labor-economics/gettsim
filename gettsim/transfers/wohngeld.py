@@ -130,7 +130,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
     kind: bool,
     anz_kinder_bis_10_tu: int,
     wohngeld_params: dict,
-):
+) -> float:
     """Calculate housing benefit subtractions until 2015.
 
     Parameters
@@ -307,7 +307,7 @@ def wohngeld_miete_m_bis_2008(
     _anteil_personen_in_haushalt_tu: float,
     wohngeld_min_miete: float,
     wohngeld_params: dict,
-):
+) -> float:
     """Calculate maximal rent subject housing benefit calculation until 2008.
 
     Parameters

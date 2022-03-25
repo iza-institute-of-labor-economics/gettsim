@@ -16,6 +16,7 @@ from gettsim.aggregation import grouped_mean
 from gettsim.aggregation import grouped_min
 from gettsim.aggregation import grouped_sum
 from gettsim.config import DEFAULT_TARGETS
+from gettsim.config import IS_JAX_INSTALLED
 from gettsim.config import ORDER_OF_IDS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
@@ -27,6 +28,11 @@ from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_if_series_has_internal_type
+
+# try:
+#     import jax.numpy as jnp
+# except ImportError:
+#     pass
 
 
 class KeyErrorMessage(str):
@@ -104,6 +110,7 @@ def compute_taxes_and_transfers(
     all_functions = check_data_check_functions_and_merge_functions(
         user_functions, internal_functions, columns_overriding_functions, targets, data
     )
+
     # Set up dag.
     dag = prepare_functions_and_set_up_dag(
         all_functions=all_functions,
@@ -113,6 +120,7 @@ def compute_taxes_and_transfers(
         check_minimal_specification=check_minimal_specification,
         rounding=rounding,
     )
+
     # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
@@ -186,13 +194,6 @@ def check_data_check_functions_and_merge_functions(
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
-
-    # print("kindergeld_m_hh" in internal_functions)
-    # print("kindergeld_m_hh" in user_functions)
-    # print("kindergeld_m_hh" in aggregation_funcs)
-    # print("kindergeld_m" in user_and_internal_functions)
-    # print("kindergeld_m" in user_functions)
-    # print("kindergeld_m" in aggregation_funcs)
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
@@ -319,9 +320,9 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
             check_data = check_if_series_has_internal_type(series, internal_type)
-        # elif column_name in columns_overriding_functions:
-        # internal_type = functions[column_name].__annotations__["return"]
-        # check_data = check_if_series_has_internal_type(series, internal_type)
+        elif column_name in columns_overriding_functions:
+            internal_type = functions[column_name].__annotations__["return"]
+            check_data = check_if_series_has_internal_type(series, internal_type)
 
         if not check_data:
             raise ValueError(
@@ -858,10 +859,10 @@ def _create_aggregation_functions(user_and_internal_functions, targets, data_col
     automated_sum_aggregation_cols = [
         col
         for col in potential_agg_cols
-        if (col not in potential_source_cols)
+        if (col not in user_and_internal_functions)
+        and (col.endswith("_tu") or col.endswith("_hh"))
         and (rchop(rchop(col, "_tu"), "_hh") in potential_source_cols)
     ]
-
     automated_sum_aggregation_specs = {
         agg_col: {"aggr": "sum", "source_col": rchop(rchop(agg_col, "_tu"), "_hh")}
         for agg_col in automated_sum_aggregation_cols
@@ -870,14 +871,19 @@ def _create_aggregation_functions(user_and_internal_functions, targets, data_col
 
     # Create functions from specs
     aggregation_funcs = {
-        agg_col: _create_one_aggregation_func(agg_col, agg_spec)
+        agg_col: _create_one_aggregation_func(
+            agg_col, agg_spec, user_and_internal_functions
+        )
         for agg_col, agg_spec in aggregation_dict.items()
     }
 
     return aggregation_funcs
 
 
-def rename_arguments(func=None, mapper=None):
+def rename_arguments(func=None, mapper=None, annotations=None):
+    if not annotations:
+        annotations = {}
+
     def decorator_rename_arguments(func):
 
         old_parameters = dict(inspect.signature(func).parameters)
@@ -903,6 +909,7 @@ def rename_arguments(func=None, mapper=None):
             return func(*args, **internal_kwargs)
 
         wrapper_rename_arguments.__signature__ = signature
+        wrapper_rename_arguments.__annotations__ = annotations
 
         return wrapper_rename_arguments
 
@@ -912,7 +919,7 @@ def rename_arguments(func=None, mapper=None):
         return decorator_rename_arguments
 
 
-def _create_one_aggregation_func(agg_col, agg_specs):
+def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions):
     """Create an aggregation function based on aggregation specification.
 
     Parameters
@@ -922,6 +929,9 @@ def _create_one_aggregation_func(agg_col, agg_specs):
     agg_specs : dict
         Dictionary of aggregation specifications. Can contain the source column
         ("source_col") and the group ids ("group_id")
+    user_and_internal_functions: dict
+        Dictionary of functions.
+
 
     Returns
     -------
@@ -957,52 +967,99 @@ def _create_one_aggregation_func(agg_col, agg_specs):
             f"The name {agg_col} does not do so."
         )
 
+    # Build annotations
+    annotations = {group_id: int}
+    if aggr == "count":
+        annotations["return"] = int
+    else:
+
+        if (
+            source_col in user_and_internal_functions
+            and "return" in user_and_internal_functions[source_col].__annotations__
+        ):
+            annotations[source_col] = user_and_internal_functions[
+                source_col
+            ].__annotations__["return"]
+
+            # Find out return type
+            annotations["return"] = select_return_type(aggr, annotations[source_col])
+        elif source_col in TYPES_INPUT_VARIABLES:
+            annotations[source_col] = TYPES_INPUT_VARIABLES[source_col]
+
+            # Find out return type
+            annotations["return"] = select_return_type(aggr, annotations[source_col])
+        else:
+            # ToDo: Think about how type annotations of aggregations of user-provided
+            # ToDo: input variables are handled
+            pass
+
     # Define aggregation func
     if aggr == "count":
 
-        @rename_arguments(mapper={"group_id": group_id})
+        @rename_arguments(mapper={"group_id": group_id}, annotations=annotations)
         def aggregation_func(group_id):
             return grouped_count(group_id)
 
     elif aggr == "sum":
 
-        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        @rename_arguments(
+            mapper={"source_col": source_col, "group_id": group_id},
+            annotations=annotations,
+        )
         def aggregation_func(source_col, group_id):
             return grouped_sum(source_col, group_id)
 
     elif aggr == "mean":
 
-        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        @rename_arguments(
+            mapper={"source_col": source_col, "group_id": group_id},
+            annotations=annotations,
+        )
         def aggregation_func(source_col, group_id):
             return grouped_mean(source_col, group_id)
 
     elif aggr == "max":
 
-        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        @rename_arguments(
+            mapper={"source_col": source_col, "group_id": group_id},
+            annotations=annotations,
+        )
         def aggregation_func(source_col, group_id):
             return grouped_max(source_col, group_id)
 
     elif aggr == "min":
 
-        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        @rename_arguments(
+            mapper={"source_col": source_col, "group_id": group_id},
+            annotations=annotations,
+        )
         def aggregation_func(source_col, group_id):
             return grouped_min(source_col, group_id)
 
     elif aggr == "any":
 
-        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        @rename_arguments(
+            mapper={"source_col": source_col, "group_id": group_id},
+            annotations=annotations,
+        )
         def aggregation_func(source_col, group_id):
             return grouped_any(source_col, group_id)
 
     elif aggr == "all":
 
-        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        @rename_arguments(
+            mapper={"source_col": source_col, "group_id": group_id},
+            annotations=annotations,
+        )
         def aggregation_func(source_col, group_id):
             return grouped_all(source_col, group_id)
 
     elif aggr == "cumsum":
 
-        @rename_arguments(mapper={"source_col": source_col, "group_id": group_id})
+        @rename_arguments(
+            mapper={"source_col": source_col, "group_id": group_id},
+            annotations=annotations,
+        )
         def aggregation_func(source_col, group_id):
             return grouped_cumsum(source_col, group_id)
 
@@ -1012,11 +1069,30 @@ def _create_one_aggregation_func(agg_col, agg_specs):
     return aggregation_func
 
 
+def select_return_type(aggr, source_col_type):
+    # Find out return type
+    if (source_col_type == int) and (aggr in ["any", "all"]):
+        return_type = bool
+    elif (source_col_type == bool) and (aggr in ["sum"]):
+        return_type = int
+    else:
+        return_type = source_col_type
+
+    return return_type
+
+
 def vectorize_func(func):
     signature = inspect.signature(func)
 
     # Vectorize
-    func_vec = np.vectorize(func)
+    if IS_JAX_INSTALLED:
+
+        # ToDo: user jnp.vectorize once all functions are compatible with jax
+        # func_vec = jnp.vectorize(func)
+        func_vec = np.vectorize(func)
+
+    else:
+        func_vec = np.vectorize(func)
 
     @functools.wraps(func)
     def wrapper_vectorize_func(*args, **kwargs):

@@ -148,9 +148,7 @@ def kapitaleink(kapitaleink_brutto: float, eink_st_abzüge_params: dict,) -> flo
     return max(out, 0.0)
 
 
-def sum_eink_mit_kapital(
-    sum_eink_ohne_kapital: float, kapitaleink: float,
-):
+def sum_eink_mit_kapital(sum_eink_ohne_kapital: float, kapitaleink: float,) -> float:
     """Sum of gross incomes with capital income.
 
     Parameters
