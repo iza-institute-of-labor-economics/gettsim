@@ -19,10 +19,9 @@ from gettsim.taxes.zu_verst_eink.zu_verst_eink import *  # noqa: F401, F403
 from gettsim.transfers.arbeitsl_geld import *  # noqa: F401, F403
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import *  # noqa: F401, F403
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import *  # noqa: F401, F403
-from gettsim.transfers.arbeitsl_geld_2.eink_anr_frei import *  # noqa: F401, F403
 from gettsim.transfers.arbeitsl_geld_2.kost_unterk import *  # noqa: F401, F403
 from gettsim.transfers.benefit_checks.benefit_checks import *  # noqa: F401, F403
-from gettsim.transfers.benefit_checks.vermoegens_checks import *  # noqa: F401, F403
+from gettsim.transfers.benefit_checks.vermögens_checks import *  # noqa: F401, F403
 from gettsim.transfers.elterngeld import *  # noqa: F401, F403
 from gettsim.transfers.grundrente import *  # noqa: F401, F403
 from gettsim.transfers.grunds_im_alter import *  # noqa: F401, F403

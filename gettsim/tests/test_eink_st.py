@@ -41,7 +41,7 @@ def test_tax_sched(
 ):
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
 
     df["_zu_verst_eink_ohne_kinderfreib_tu"] = (

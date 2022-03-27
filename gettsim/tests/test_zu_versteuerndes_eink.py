@@ -38,16 +38,15 @@ OUT_COLS = [
     "zu_verst_eink_kein_kinderfreib",
     "zu_verst_eink_kinderfreib",
     "kinderfreib",
-    "eink_selbst",
+    "eink_selbst_m",
     "eink_abhängig_beschäftigt",
-    "kapitaleink_brutto",
-    "eink_vermietung",
+    "kapitaleink_brutto_m",
+    "vermiet_eink_m",
     "eink_rente_zu_verst",
     "eink_selbst_tu",
     "eink_abhängig_beschäftigt_tu",
     "kapitaleink_brutto_tu",
-    "eink_vermietung_tu",
-    "eink_rente_zu_verst_tu",
+    "vermiet_eink_m_tu",
     "rente_ertragsanteil",
     "sonder",
     "alleinerz_freib_tu",
@@ -77,7 +76,7 @@ def input_data():
 def test_zve(
     input_data, year, target,
 ):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 

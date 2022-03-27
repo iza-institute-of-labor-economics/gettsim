@@ -62,7 +62,7 @@ OUT_COLS = [
     "arbeitsl_geld_2_m_hh",
 ]
 
-override_columns = [
+OVERRIDE_COLS = [
     "arbeitsl_geld_m",
     "soli_st_tu",
     "kindergeld_m_hh",
@@ -75,7 +75,7 @@ override_columns = [
 ]
 
 
-YEARS = [2005, 2006, 2009, 2011, 2013, 2016, 2019]
+YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019]
 
 
 @pytest.fixture(scope="module")
@@ -85,7 +85,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_alg2(input_data, year, column):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
@@ -94,7 +94,7 @@ def test_alg2(input_data, year, column):
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=override_columns,
+        columns_overriding_functions=OVERRIDE_COLS,
     )
     if column in [
         "arbeitsl_geld_2_vor_vorrang_m_hh",

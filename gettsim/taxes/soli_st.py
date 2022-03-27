@@ -1,14 +1,12 @@
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def soli_st_tu(
-    eink_st_mit_kinderfreib_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
-    abgelt_st_tu: FloatSeries,
+    eink_st_mit_kinderfreib_tu: float,
+    anz_erwachsene_tu: int,
+    abgelt_st_tu: float,
     soli_st_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate the Solidarity Surcharge.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
