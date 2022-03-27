@@ -25,7 +25,7 @@ def grouped_sum(column, group_id):
 
 def grouped_mean(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="mean")
-    fail_if_dtype_not_numeric(column, agg_func="mean")
+    fail_if_dtype_not_float(column, agg_func="mean")
 
     out_on_hh = npg.aggregate(group_id, column, func="mean", fill_value=0)
 
@@ -97,6 +97,14 @@ def fail_if_dtype_not_numeric(column, agg_func):
         raise TypeError(
             f"grouped_{agg_func} was applied to a column "
             f"that has dtype {column.dtype}. Allowed are only numerical dtypes."
+        )
+
+
+def fail_if_dtype_not_float(column, agg_func):
+    if not np.issubdtype(column.dtype, np.float64):
+        raise TypeError(
+            f"grouped_{agg_func} was applied to a column "
+            f"that has dtype {column.dtype}. Allowed is only float."
         )
 
 

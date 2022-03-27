@@ -1,5 +1,5 @@
 from gettsim.aggregation_numpy import fail_if_dtype_not_boolean_or_int
-from gettsim.aggregation_numpy import fail_if_dtype_not_numeric
+from gettsim.aggregation_numpy import fail_if_dtype_not_float
 from gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_boolean
 from gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_datetime
 from gettsim.aggregation_numpy import fail_if_dtype_of_group_id_not_int
@@ -33,7 +33,7 @@ def grouped_sum(column, group_id):
 
 def grouped_mean(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="mean")
-    fail_if_dtype_not_numeric(column, agg_func="mean")
+    fail_if_dtype_not_float(column, agg_func="mean")
     sum_on_hh = segment_sum(column, group_id)
     sizes = segment_sum(jnp.ones(len(column)), group_id)
     mean_on_hh = sum_on_hh / sizes
