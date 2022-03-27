@@ -1,4 +1,4 @@
-aggregation_demographic_vars = {
+aggregation_kindergeld = {
     "kumulativer_kindergeld_anspruch_tu": {
         "source_col": "kindergeld_anspruch",
         "aggr": "cumsum",
