@@ -49,16 +49,16 @@ from gettsim.transfers.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.transfers.kindergeld import kindergeld_m_ab_1997
 from gettsim.transfers.kindergeld import kindergeld_m_bis_1996
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
-    kinderzuschl_vorläufig_m_ab_07_2019,
+    kinderzuschl_vorläufig_m_hh_ab_07_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
-    kinderzuschl_vorläufig_m_bis_06_2019,
+    kinderzuschl_vorläufig_m_hh_bis_06_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
-    kinderzuschl_eink_regel_m_ab_2011,
+    kinderzuschl_eink_regel_m_hh_ab_2011,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
-    kinderzuschl_eink_regel_m_bis_2010,
+    kinderzuschl_eink_regel_m_hh_bis_2010,
 )
 from gettsim.transfers.rente import ges_rente_nach_grundr_m
 from gettsim.transfers.rente import ges_rente_vor_grundr_m
@@ -300,14 +300,20 @@ def load_reforms_for_date(date):
         functions["wohngeld_miete_m"] = wohngeld_miete_m_ab_2021
 
     if year <= 2010:
-        functions["kinderzuschl_eink_regel_m"] = kinderzuschl_eink_regel_m_bis_2010
+        functions[
+            "kinderzuschl_eink_regel_m_hh"
+        ] = kinderzuschl_eink_regel_m_hh_bis_2010
     else:
-        functions["kinderzuschl_eink_regel_m"] = kinderzuschl_eink_regel_m_ab_2011
+        functions["kinderzuschl_eink_regel_m_hh"] = kinderzuschl_eink_regel_m_hh_ab_2011
 
     if date < datetime.date(year=2019, month=7, day=1):
-        functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_bis_06_2019
+        functions[
+            "kinderzuschl_vorläufig_m_hh"
+        ] = kinderzuschl_vorläufig_m_hh_bis_06_2019
     else:
-        functions["kinderzuschl_vorläufig_m"] = kinderzuschl_vorläufig_m_ab_07_2019
+        functions[
+            "kinderzuschl_vorläufig_m_hh"
+        ] = kinderzuschl_vorläufig_m_hh_ab_07_2019
 
     if year <= 2010:
         functions[

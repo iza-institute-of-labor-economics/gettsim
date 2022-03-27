@@ -16,7 +16,15 @@ from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2009
 from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2021
 from gettsim.transfers.wohngeld import wohngeld_miete_m_bis_2008
 from gettsim.transfers.wohngeld import wohngeld_min_miete
-from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m
+from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m_hh
+
+wohngeld_miete_m_ab_2009 = np.vectorize(wohngeld_miete_m_ab_2009)
+wohngeld_miete_m_ab_2021 = np.vectorize(wohngeld_miete_m_ab_2021)
+wohngeld_miete_m_bis_2008 = np.vectorize(wohngeld_miete_m_bis_2008)
+wohngeld_min_miete = np.vectorize(wohngeld_min_miete)
+wohngeld_vor_vermög_check_m_hh = np.vectorize(wohngeld_vor_vermög_check_m_hh)
+# piecewise_polynomial = np.vectorize(piecewise_polynomial)
+_eink_st_tarif = np.vectorize(_eink_st_tarif)
 
 
 # Each plot has one data preparation function as defined below
@@ -120,7 +128,6 @@ def prepare_wg_data(sel_year, hh_size):
             pd.Series([3] * len(miete)),
             pd.Series([1980] * len(miete)),
             household_size,
-            pd.Series(range(len(miete))),
             miete,
             pd.Series([1] * len(miete)),
             wohngeld_min_miete(household_size, params),
@@ -130,7 +137,6 @@ def prepare_wg_data(sel_year, hh_size):
         wohngeld_miete_m = wohngeld_miete_m_ab_2009(
             pd.Series([3] * len(miete)),
             household_size,
-            pd.Series(range(len(miete))),
             miete,
             pd.Series([1] * len(miete)),
             wohngeld_min_miete(household_size, params),
@@ -140,7 +146,6 @@ def prepare_wg_data(sel_year, hh_size):
         wohngeld_miete_m = wohngeld_miete_m_ab_2021(
             pd.Series([3] * len(miete)),
             household_size,
-            pd.Series(range(len(miete))),
             miete,
             pd.Series([1] * len(miete)),
             wohngeld_min_miete(household_size, params),
@@ -156,8 +161,8 @@ def prepare_wg_data(sel_year, hh_size):
     for i in range(len(einkommen)):
         this_column = wohngeld_df.columns[i]
         e = pd.Series(data=[einkommen[i]] * len(einkommen))
-        wohngeld_df[this_column] = wohngeld_vor_vermög_check_m(
-            haushaltsgröße=household_size,
+        wohngeld_df[this_column] = wohngeld_vor_vermög_check_m_hh(
+            haushaltsgröße_hh=household_size,
             # Account for minimum income
             wohngeld_eink_m=np.maximum(e, params["min_eink"][hh_size]),
             wohngeld_miete_m=wohngeld_miete_m,
@@ -197,13 +202,19 @@ def tax_rate_data(start, end):
         soli_params = policy_params["soli_st"]["soli_st"]
 
         eink_tax = _eink_st_tarif(einkommen, eink_params)
-        soli = piecewise_polynomial(
-            eink_tax,
-            thresholds=soli_params["thresholds"],
-            rates=soli_params["rates"],
-            intercepts_at_lower_thresholds=soli_params[
-                "intercepts_at_lower_thresholds"
-            ],
+
+        soli = np.array(
+            [
+                piecewise_polynomial(
+                    x,
+                    thresholds=soli_params["thresholds"],
+                    rates=soli_params["rates"],
+                    intercepts_at_lower_thresholds=soli_params[
+                        "intercepts_at_lower_thresholds"
+                    ],
+                )
+                for x in eink_tax
+            ]
         )
         marginal_rate = np.gradient(eink_tax, einkommen)
         overall_marginal_rate = np.gradient(eink_tax + soli, einkommen)

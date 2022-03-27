@@ -261,9 +261,9 @@ anteil_regelsatz:
 mehrbedarf_anteil:
   name:
     de: >-
-      Erster Schlüssel ist Mehrbedarf AE bei mind. einem Kind unter 7 Jahren oder zwei
-      oder drei Kindern unter 16 Jahre. Der Zweite gibt den Mehrbedarf an wenn der
-      Anspruch größer ist als der für den ersten Schlüssel. Der dritte Schlüssel gibt
+      ``kind_unter_7_oder_mehr`` gibt Mehrbedarf AE bei mind. einem Kind unter 7 Jahren oder zwei
+      oder drei Kindern unter 16 Jahre an. ``min_1_kind`` gibt den Mehrbedarf an wenn der
+      Anspruch größer ist als der für den ersten Schlüssel. ``max`` gibt
       den Maximalanteil für den Mehrbedarf für Alleinerziehende gemessen am maßgebenden
       Regelbedarf.
     en: >-

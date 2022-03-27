@@ -39,7 +39,7 @@ def input_data():
 def test_vorsorge(
     input_data, year, target,
 ):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[IN_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     columns_overriding_functions = [

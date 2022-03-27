@@ -9,6 +9,7 @@ faktor:
   2007-01-01:
     scalar: 0.67
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 höchstbetrag:
   name:
     de: Höchstbetrag des Elterngeldes
@@ -21,6 +22,7 @@ höchstbetrag:
   2007-01-01:
     scalar: 1800
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 nettoeinkommen_stufen:
   name:
     de: Nettoeinkommen an 1. und 2. Stufe
@@ -31,13 +33,14 @@ nettoeinkommen_stufen:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    1: 1000
-    2: 1001
+    lower_threshold: 1000
+    upper_threshold: 1001
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
   2011-01-01:
-    1: 1000
-    2: 1201
+    lower_threshold: 1000
+    upper_threshold: 1201
   reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+
 mindestbetrag:
   name:
     de: Mindestbetrag des Elterngeldes
@@ -50,6 +53,7 @@ mindestbetrag:
   2007-01-01:
     scalar: 300
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 prozent_korrektur:
   name:
     de: Korrektur des Prozentsatzes für hohe und niedrige Einkommen
@@ -61,6 +65,7 @@ prozent_korrektur:
   2007-01-01:
     scalar: 0.001
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 prozent_minimum:
   name:
     de: Minimaler Anteil des Elterngelds am vorherigen Nettoeinkommen
@@ -75,6 +80,7 @@ prozent_minimum:
   2011-01-01:
     scalar: 0.65
     reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+
 eink_schritt_korrektur:
   name:
     de: Einkommensschritte für die Korrektur
@@ -87,6 +93,7 @@ eink_schritt_korrektur:
   2007-01-01:
     scalar: 2
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 geschw_bonus_altersgrenzen_kinder:
   name:
     de: Altersgrenzen für Geschwisterbonus
@@ -100,6 +107,7 @@ geschw_bonus_altersgrenzen_kinder:
   2007-01-01:
     3: 2
     6: 3
+
 geschw_bonus_aufschlag:
   name:
     de: Geschwisterbonus als prozentualer Aufschlag
@@ -111,6 +119,7 @@ geschw_bonus_aufschlag:
   2007-01-01:
     scalar: 0.1
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 geschw_bonus_minimum:
   name:
     de: Minimaler Geschwisterbonus als Euro-Betrag
@@ -123,6 +132,7 @@ geschw_bonus_minimum:
   2007-01-01:
     scalar: 75
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 mehrlingbonus:
   name:
     de: Pauschale für jedes weitere Mehrlingskind
@@ -135,6 +145,7 @@ mehrlingbonus:
   2007-01-01:
     scalar: 300
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 soz_vers_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
@@ -147,6 +158,7 @@ soz_vers_pausch:
     scalar: 0.21
     reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
     note: .09 + .1 + .02
+
 max_monate_paar:
   name:
     de: Maximale Anzahl an Monaten, in denen ein Paar Elterngeld erhält
@@ -157,6 +169,7 @@ max_monate_paar:
   2007-01-01:
     scalar: 14
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+
 max_monate_ind:
   name:
     de: Maximale Anzahl an Monaten, die jedes Elternteil Elterngeld erhält

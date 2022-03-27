@@ -93,7 +93,7 @@ argument of ``add_rounding_spec`` has to be ``"ges_rente"``:
 .. code-block:: python
 
     @add_rounding_spec(params_key="ges_rente")
-    def grundr_zuschlag_höchstwert_m(grundr_zeiten: IntSeries) -> FloatSeries:
+    def grundr_zuschlag_höchstwert_m(grundr_zeiten: int) -> float:
         ...
         return out
 
@@ -149,7 +149,7 @@ the rounding parameters will need to be changed as follows
        ] = "down"
 
 This will be done after the policy environment has been set up and it is exactly the
-same as for other parameters of the taxes and transfers system, see :ref:gep-3.
+same as for other parameters of the taxes and transfers system, see :ref:`gep-3`.
 
 If a user would like to add user-written functions which should be rounded, she will
 need to decorate the respective functions with ``add_rounding_spec`` and adjust

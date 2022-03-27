@@ -13,18 +13,15 @@ for each income type. In fact, you need several taxable incomes because of
 It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def freibeträge(
-    vorsorge: FloatSeries,
-    sonderausgaben: FloatSeries,
-    _eink_st_behinderungsgrad_pauschbetrag: FloatSeries,
-    alleinerz_freib_tu: FloatSeries,
-    eink_st_altersfreib: FloatSeries,
-    tu_id: IntSeries,
-) -> FloatSeries:
+    vorsorge: float,
+    sonderausgaben: float,
+    _eink_st_behinderungsgrad_pauschbetrag: float,
+    alleinerz_freib_tu: float,
+    eink_st_altersfreib: float,
+) -> float:
     """Calculate allowances.
 
     Parameters
@@ -52,32 +49,15 @@ def freibeträge(
         vorsorge
         + sonderausgaben
         + _eink_st_behinderungsgrad_pauschbetrag
-        + tu_id.replace(alleinerz_freib_tu)
+        + alleinerz_freib_tu
         + eink_st_altersfreib
     )
     return out
 
 
-def freibeträge_tu(freibeträge: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Sum of income tax allowances on tax unit level.
-
-    Parameters
-    ----------
-    freibeträge
-        See :func:`freibeträge`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return freibeträge.groupby(tu_id).sum()
-
-
 def _zu_verst_eink_ohne_kinderfreib_tu(
-    sum_eink_tu: FloatSeries, freibeträge_tu: FloatSeries,
-) -> FloatSeries:
+    sum_eink_tu: float, freibeträge_tu: float,
+) -> float:
     """Calculate taxable income without child allowance.
 
     Parameters
@@ -92,13 +72,14 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
     -------
 
     """
+    out = sum_eink_tu - freibeträge_tu
 
-    return (sum_eink_tu - freibeträge_tu).clip(lower=0)
+    return max(out, 0.0)
 
 
 def zu_verst_eink_mit_kinderfreib_tu(
-    _zu_verst_eink_ohne_kinderfreib_tu: FloatSeries, eink_st_kinderfreib_tu: FloatSeries
-) -> FloatSeries:
+    _zu_verst_eink_ohne_kinderfreib_tu: float, eink_st_kinderfreib_tu: float
+) -> float:
     """Calculate taxable income with child allowance.
 
     Parameters
