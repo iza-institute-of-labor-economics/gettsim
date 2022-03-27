@@ -1,8 +1,4 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-
-
-def mini_job_grenze(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict):
+def mini_job_grenze(wohnort_ost: bool, soz_vers_beitr_params: dict) -> float:
     """Select the income threshold depending on place of living
 
     Parameters
@@ -15,23 +11,16 @@ def mini_job_grenze(wohnort_ost: BoolSeries, soz_vers_beitr_params: dict):
     -------
 
     """
-    out = wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"][
-                "ost"
-            ],
-            False: soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"][
-                "west"
-            ],
-        }
-    )
+    mini_job_params = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]
+    if wohnort_ost:
+        out = mini_job_params["ost"]
+    else:
+        out = mini_job_params["west"]
 
-    return out.astype(float)
+    return float(out)
 
 
-def geringfügig_beschäftigt(
-    bruttolohn_m: FloatSeries, mini_job_grenze: FloatSeries
-) -> BoolSeries:
+def geringfügig_beschäftigt(bruttolohn_m: float, mini_job_grenze: float) -> bool:
     """Check if individual earns less than marginal employment threshold.
 
     Marginal employed pay no social insurance contributions.
@@ -48,16 +37,14 @@ def geringfügig_beschäftigt(
 
     Returns
     -------
-    BoolSeries indicating if person earns less than marginal employment threshold.
+    Boolean indicating if person earns less than marginal employment threshold.
     """
     return bruttolohn_m <= mini_job_grenze
 
 
 def in_gleitzone(
-    bruttolohn_m: FloatSeries,
-    geringfügig_beschäftigt: BoolSeries,
-    soz_vers_beitr_params: dict,
-) -> BoolSeries:
+    bruttolohn_m: float, geringfügig_beschäftigt: bool, soz_vers_beitr_params: dict,
+) -> bool:
     """Check if individual's income is in midi-job range.
 
     Employed people with their wage in the range of gleitzone pay reduced social
@@ -76,16 +63,17 @@ def in_gleitzone(
 
     Returns
     -------
-    BoolSeries indicating individual's income is in midi-job range.
+    Boolean indicating individual's income is in midi-job range.
     """
-    return (
+    out = (
         bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
-    ) & (~geringfügig_beschäftigt)
+    ) & (not geringfügig_beschäftigt)
+    return out
 
 
 def midi_job_bemessungsentgelt_m(
-    bruttolohn_m: FloatSeries, in_gleitzone: BoolSeries, soz_vers_beitr_params: dict,
-) -> FloatSeries:
+    bruttolohn_m: float, soz_vers_beitr_params: dict,
+) -> float:
     """Select income subject to social insurance contributions for midi job.
 
     Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midi jobs subject
@@ -98,15 +86,13 @@ def midi_job_bemessungsentgelt_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
 
     Returns
     -------
-    FloatSeries with the income subject to social insurance contributions for midi job.
+    float with the income subject to social insurance contributions for midi job.
     """
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
@@ -139,8 +125,9 @@ def midi_job_bemessungsentgelt_m(
     mini_job_anteil = (
         f * soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
+
     lohn_über_mini = (
-        bruttolohn_m.loc[in_gleitzone]
+        bruttolohn_m
         - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
     gewichtete_midi_job_rate = (
@@ -160,9 +147,7 @@ def midi_job_bemessungsentgelt_m(
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
-def regulär_beschäftigt(
-    bruttolohn_m: FloatSeries, soz_vers_beitr_params: dict
-) -> BoolSeries:
+def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> bool:
     """Check if person is in regular employment.
 
     Employees earning more than the midi job threshold, are subject to all ordinary
@@ -178,8 +163,9 @@ def regulär_beschäftigt(
 
     Returns
     -------
-    BoolSeries indicating regular employed persons.
+    Boolean indicating regular employed persons.
     """
-    return (
+    out = (
         bruttolohn_m >= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
     )
+    return out

@@ -1,54 +1,13 @@
 """This module provides functions to compute alimony payments (Unterhalt)."""
-import numpy as np
-import pandas as pd
-
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
-def unterhaltsvors_m_tu(unterhaltsvors_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate monthly child support advance payment on tax unit level.
-
-
-    Parameters
-    ----------
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    Returns
-    -------
-
-    """
-    return unterhaltsvors_m.groupby(tu_id).sum()
-
-
-def unterhaltsvors_m_hh(unterhaltsvors_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """Aggregate monthly child support advance payment on household level.
-
-    Parameters
-    ----------
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return unterhaltsvors_m.groupby(hh_id).sum()
 
 
 def unterhaltsvors_m(
-    tu_id: IntSeries,
-    alleinerz: BoolSeries,
-    alter: IntSeries,
-    unterhaltsvorschuss_eink_tu_m: FloatSeries,
+    alleinerz: bool,
+    alter: int,
+    unterhaltsvorschuss_eink_tu_m: float,
     unterhalt_params: dict,
     kindergeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate advance on alimony payment(Unterhaltsvorschuss).
 
     Single Parents get alimony payments for themselves and for their child from the ex
@@ -58,10 +17,11 @@ def unterhaltsvors_m(
     The amount is specified in §1612a BGB and, ultimately, in
     Mindesunterhaltsverordnung.
 
+    # ToDo: Result was rounded up in previous code. Check if this is correct and
+    # ToDo: implement rounding spec accordingly
+
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     alleinerz
         See basic input variable :ref:`alleinerz <alleinerz>`.
     alter
@@ -78,51 +38,47 @@ def unterhaltsvors_m(
 
     """
 
-    # Initialize output Series
-    out = pd.Series(0, index=tu_id.index)
-
-    # The right-hand-side variable is aggregated by tax units whereas we need personal
-    # ids on the left-hand-side. Index with tax unit identifier for expansion and remove
-    # index because it is
-    unterhaltsvorschuss_eink = tu_id.replace(unterhaltsvorschuss_eink_tu_m)
-
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
+    if (alter < altersgrenzen[0]) & alleinerz:
+        out = (
+            unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
+        )
+    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) & alleinerz:
+        out = (
+            unterhalt_params["mindestunterhalt"][12]
+            - kindergeld_params["kindergeld"][1]
+        )
 
-    conditions = [
-        (alter < altersgrenzen[0]) & alleinerz,
-        (alter >= altersgrenzen[0]) & (alter < altersgrenzen[1]) & alleinerz,
-        # Older kids get it only if the parent has income > 600€.
-        (alter >= altersgrenzen[1])
-        & (alter <= altersgrenzen[2])
+    # Older kids get it only if the single parent has income > 600€.
+    elif (
+        (altersgrenzen[1] <= alter <= altersgrenzen[2])
         & alleinerz
         & (
-            unterhaltsvorschuss_eink
+            unterhaltsvorschuss_eink_tu_m
             > unterhalt_params["unterhaltsvors_mindesteinkommen"]
-        ),
-    ]
-
-    conditions = [c.astype(bool) for c in conditions]
-    choices = [
-        (unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]),
-        (unterhalt_params["mindestunterhalt"][12] - kindergeld_params["kindergeld"][1]),
-        (unterhalt_params["mindestunterhalt"][17] - kindergeld_params["kindergeld"][1]),
-    ]
-
-    out[:] = np.ceil(np.select(conditions, choices)).astype(int)
+        )
+    ):
+        out = (
+            unterhalt_params["mindestunterhalt"][17]
+            - kindergeld_params["kindergeld"][1]
+        )
+    else:
+        out = 0.0
 
     # TODO: Check against actual transfers
+
     return out
 
 
 def unterhaltsvorschuss_eink_tu_m(
-    bruttolohn_m_tu: FloatSeries,
-    sonstig_eink_m_tu: FloatSeries,
-    eink_selbst_m_tu: FloatSeries,
-    vermiet_eink_m_tu: FloatSeries,
-    kapitaleink_brutto_m_tu: FloatSeries,
-    sum_ges_rente_priv_rente_m_tu: FloatSeries,
-    arbeitsl_geld_m_tu: FloatSeries,
-) -> FloatSeries:
+    bruttolohn_m_tu: float,
+    sonstig_eink_m_tu: float,
+    eink_selbst_m_tu: float,
+    vermiet_eink_m_tu: float,
+    kapitaleink_brutto_m_tu: float,
+    sum_ges_rente_priv_rente_m_tu: float,
+    arbeitsl_geld_m_tu: float,
+) -> float:
     """Calculate relevant income for advance on alimony payment.
 
     Parameters

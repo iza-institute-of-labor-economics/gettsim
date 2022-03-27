@@ -1,16 +1,10 @@
-import numpy as np
-
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def ges_rentenv_beitr_m(
-    geringfügig_beschäftigt: BoolSeries,
-    _ges_rentenv_beitr_midi_job_m_m: FloatSeries,
-    _ges_rentenv_beitr_bruttolohn_m: FloatSeries,
+    geringfügig_beschäftigt: bool,
+    _ges_rentenv_beitr_midi_job_m_m: float,
+    _ges_rentenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+    in_gleitzone: bool,
+) -> float:
     """Contribution for each individual to the pension insurance.
 
     Parameters
@@ -24,6 +18,8 @@ def ges_rentenv_beitr_m(
         See :func:`_ges_rentenv_beitr_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
 
     Returns
     -------
@@ -33,44 +29,22 @@ def ges_rentenv_beitr_m(
         _ges_rentenv_beitr_bruttolohn_m
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
     )
-    out = geringfügig_beschäftigt.astype(float) * np.nan
 
-    # Set to 0 for minijobs
-    out.loc[geringfügig_beschäftigt] = 0
-
-    # Assign calculated contributions
-    out.loc[_ges_rentenv_beitr_midi_job_m_m.index] = _ges_rentenv_beitr_midi_job_m_m
-    out.loc[ges_rentenv_beitr_regular_job_m.index] = ges_rentenv_beitr_regular_job_m
+    if geringfügig_beschäftigt:
+        out = 0.0
+    elif in_gleitzone:
+        out = _ges_rentenv_beitr_midi_job_m_m
+    else:
+        out = ges_rentenv_beitr_regular_job_m
 
     return out
 
 
-def ges_rentenv_beitr_m_tu(
-    ges_rentenv_beitr_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Calculate the contribution of each tax unit to the pension insurance.
-
-    Parameters
-    ----------
-    ges_rentenv_beitr_m
-        See :func:`ges_rentenv_beitr_m`.
-
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return ges_rentenv_beitr_m.groupby(tu_id).sum()
-
-
 def _ges_rentenv_beitr_midi_job_m_m(
-    midi_job_bemessungsentgelt_m: FloatSeries,
-    bruttolohn_m: FloatSeries,
-    in_gleitzone: BoolSeries,
+    midi_job_bemessungsentgelt_m: float,
+    bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculating the employer unemployment insurance contribution.
 
     Parameters
@@ -79,8 +53,6 @@ def _ges_rentenv_beitr_midi_job_m_m(
         See :func:`midi_job_bemessungsentgelt_m`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -94,17 +66,14 @@ def _ges_rentenv_beitr_midi_job_m_m(
         * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
     )
     ag_beitr_midi_job = (
-        bruttolohn_m.loc[in_gleitzone]
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
+        bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
     )
     return ges_beitr_midi_job - ag_beitr_midi_job
 
 
 def _ges_rentenv_beitr_bruttolohn_m(
-    bruttolohn_m: FloatSeries,
-    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
-    regulär_beschäftigt: BoolSeries,
-) -> FloatSeries:
+    bruttolohn_m: float, _ges_rentenv_beitr_bemess_grenze_m: float,
+) -> float:
     """Calculate the wage subject to pension and
     unemployment insurance contributions.
 
@@ -112,8 +81,6 @@ def _ges_rentenv_beitr_bruttolohn_m(
     ----------
     bruttolohn_m
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-    regulär_beschäftigt
-        See :func:`regulär_beschäftigt`.
     _ges_rentenv_beitr_bemess_grenze_m
         See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
 
@@ -122,6 +89,5 @@ def _ges_rentenv_beitr_bruttolohn_m(
     -------
 
     """
-    bruttolohn_m_regulär_beschäftigt = bruttolohn_m.loc[regulär_beschäftigt]
-    bemess_grenze = _ges_rentenv_beitr_bemess_grenze_m.loc[regulär_beschäftigt]
-    return bruttolohn_m_regulär_beschäftigt.clip(upper=bemess_grenze)
+    out = min(bruttolohn_m, _ges_rentenv_beitr_bemess_grenze_m)
+    return out

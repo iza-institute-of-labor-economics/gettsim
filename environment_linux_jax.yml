@@ -8,6 +8,7 @@ dependencies:
   - bokeh
   - conda-build
   - conda-verify
+  - jax
   - jupyterlab
   - nbsphinx
   - networkx
