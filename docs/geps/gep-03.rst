@@ -404,7 +404,7 @@ and to switch between different implementations of other functions.
 
 .. todo::
 
-    Will be a separate GEP, move gist here.
+    This will become a separate GEP, move gist here.
 
 
 
