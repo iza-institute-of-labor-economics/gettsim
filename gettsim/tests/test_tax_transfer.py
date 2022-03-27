@@ -14,7 +14,7 @@ from gettsim.policy_environment import set_up_policy_environment
 from gettsim.typing import check_if_series_has_internal_type
 
 
-YEARS = [2019, 2020, 2021]
+YEARS = [2019]
 
 OUT_COLS = [
     "eink_st_tu",

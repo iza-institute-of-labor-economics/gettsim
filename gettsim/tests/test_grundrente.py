@@ -19,7 +19,7 @@ INPUT_COLS = [
     "rente_vorj_vor_grundr_proxy_m",
     "bruttolohn_vorj_m",
     "eink_selbst",
-    "eink_vermietung",
+    "vermiet_eink",
     "kapitaleink",
     "alter",
     "alleinstehend",
@@ -54,7 +54,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_grundrente(input_data, year, column):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
 
@@ -66,7 +66,7 @@ def test_grundrente(input_data, year, column):
         columns_overriding_functions=[
             "rente_vorj_vor_grundr_proxy_m",
             "eink_selbst",
-            "eink_vermietung",
+            "vermiet_eink",
             "kapitaleink",
             "ges_rente_zugangsfaktor",
         ],

@@ -6,7 +6,7 @@ mindestunterhalt:
     de: § 1612a BGB, § 1 Mindesunterhaltsverordnung. Mindestunterhalt für Kinder in Abhängigkeit des Alters (unter 6, unter 12, bis 17 Jahre)
     en: Minimum Child Alimony depending on age of child (below 6, below 12, up to 17 years).
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2016-01-01:
     6: 335
     12: 384
@@ -46,7 +46,7 @@ unterhaltsvors_mindesteinkommen:
     de: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
     en:
   unit: Euro
-  reference_period: month
+  reference_period: Month
   2017-01-01:
     scalar: 600
     reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.

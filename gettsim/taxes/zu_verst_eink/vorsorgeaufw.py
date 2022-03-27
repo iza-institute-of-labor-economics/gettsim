@@ -1,14 +1,9 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def vorsorgeaufw_alter_ab_2005(
-    kind: BoolSeries,
-    ges_rentenv_beitr_m: FloatSeries,
-    priv_rentenv_beitr_m: FloatSeries,
+    kind: bool,
+    ges_rentenv_beitr_m: float,
+    priv_rentenv_beitr_m: float,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Determine contributions to retirement savings deductible from taxable income.
 
     This function becomes relevant in 2005, do not use it for prior
@@ -33,26 +28,27 @@ def vorsorgeaufw_alter_ab_2005(
 
     """
 
-    out = (
-        (
+    if kind:
+        out = 0.0
+    else:
+        out = (
             eink_st_abzüge_params["einführungsfaktor_vorsorgeaufw_alter_ab_2005"]
             * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
             - ges_rentenv_beitr_m
-        )
-        * 12
-    ).clip(upper=eink_st_abzüge_params["vorsorge_altersaufw_max"])
-    out.loc[kind] = 0
+        ) * 12
+        out = min(out, eink_st_abzüge_params["vorsorge_altersaufw_max"])
+
     return out
 
 
 def _vorsorge_alternative_ab_2005_bis_2009(
-    vorsorgeaufw_alter_ab_2005: FloatSeries,
-    ges_krankenv_beitr_m: FloatSeries,
-    arbeitsl_v_beitr_m: FloatSeries,
-    ges_pflegev_beitr_m: FloatSeries,
-    kind: BoolSeries,
+    vorsorgeaufw_alter_ab_2005: float,
+    ges_krankenv_beitr_m: float,
+    arbeitsl_v_beitr_m: float,
+    ges_pflegev_beitr_m: float,
+    kind: bool,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate Vorsorgeaufwendungen from 2005 to 2010.
 
 
@@ -77,18 +73,24 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     -------
 
     """
-    out = vorsorgeaufw_alter_ab_2005 * 0
-    sum_vorsorge = (
-        12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m)
-    ).clip(upper=eink_st_abzüge_params["vorsorge_sonstige_aufw_max"])
-    out.loc[~kind] = sum_vorsorge.loc[~kind] + vorsorgeaufw_alter_ab_2005.loc[~kind]
+
+    if kind:
+        out = 0.0
+    else:
+        sum_vorsorge = 12 * (
+            ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m
+        )
+        sum_vorsorge = min(
+            sum_vorsorge, eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]
+        )
+        out = sum_vorsorge + vorsorgeaufw_alter_ab_2005
+
     return out
 
 
 def vorsorgeaufw_ab_2005_bis_2009(
-    _vorsorge_alternative_ab_2005_bis_2009: FloatSeries,
-    vorsorgeaufw_bis_2004: FloatSeries,
-) -> FloatSeries:
+    _vorsorge_alternative_ab_2005_bis_2009: float, vorsorgeaufw_bis_2004: float,
+) -> float:
     """Calculate Vorsorgeaufwendungen from 2005 to 2009.
 
     With the 2005 reform, no taxpayer was supposed to be affected negatively.
@@ -106,12 +108,14 @@ def vorsorgeaufw_ab_2005_bis_2009(
     -------
 
     """
-    return vorsorgeaufw_bis_2004.clip(lower=_vorsorge_alternative_ab_2005_bis_2009)
+    out = max(vorsorgeaufw_bis_2004, _vorsorge_alternative_ab_2005_bis_2009)
+
+    return out
 
 
 def vorsorgeaufw_ab_2010_bis_2019(
-    vorsorgeaufw_bis_2004: FloatSeries, vorsorgeaufw_ab_2020: FloatSeries
-) -> FloatSeries:
+    vorsorgeaufw_bis_2004: float, vorsorgeaufw_ab_2020: float
+) -> float:
     """Calculate Vorsorgeaufwendungen from 2010 to 2019.
 
     After a supreme court ruling, the 2005 rule had to be changed in 2010.
@@ -133,17 +137,19 @@ def vorsorgeaufw_ab_2010_bis_2019(
     -------
 
     """
-    return vorsorgeaufw_bis_2004.clip(lower=vorsorgeaufw_ab_2020)
+    out = max(vorsorgeaufw_bis_2004, vorsorgeaufw_ab_2020)
+
+    return out
 
 
 def vorsorgeaufw_ab_2020(
-    vorsorgeaufw_alter_ab_2005: FloatSeries,
-    ges_pflegev_beitr_m: FloatSeries,
-    ges_krankenv_beitr_m: FloatSeries,
-    arbeitsl_v_beitr_m: FloatSeries,
-    kind: BoolSeries,
+    vorsorgeaufw_alter_ab_2005: float,
+    ges_pflegev_beitr_m: float,
+    ges_krankenv_beitr_m: float,
+    arbeitsl_v_beitr_m: float,
+    kind: bool,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate Vorsorgeaufwendungen since 2020.
 
     Vorsorgeaufwendungen after the regime implemented in 2010 is in full effect,
@@ -166,36 +172,34 @@ def vorsorgeaufw_ab_2020(
     -------
 
     """
-    out = vorsorgeaufw_alter_ab_2005 * 0
-    # 'Basisvorsorge': Health and old-age care contributions are deducted anyway.
-    sonstige_vors = 12 * (
-        ges_pflegev_beitr_m.loc[~kind]
-        + (1 - eink_st_abzüge_params["vorsorge_kranken_minderung"])
-        * ges_krankenv_beitr_m.loc[~kind]
-    )
     # maybe add unemployment insurance, but do not exceed 1900€.
-    out.loc[~kind] = sonstige_vors.clip(
-        lower=(sonstige_vors + 12 * arbeitsl_v_beitr_m.loc[~kind]).clip(
-            upper=eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]
+    if kind:
+        out = 0.0
+    else:
+        sonstige_vors = 12 * (
+            ges_pflegev_beitr_m
+            + (1 - eink_st_abzüge_params["vorsorge_kranken_minderung"])
+            * ges_krankenv_beitr_m
         )
-    )
-    out.loc[~kind] += vorsorgeaufw_alter_ab_2005.loc[~kind]
+        limit_below = sonstige_vors + 12 * arbeitsl_v_beitr_m
+        limit_above = eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]
+
+        out = min(max(sonstige_vors, limit_below), limit_above)
+        out += vorsorgeaufw_alter_ab_2005
     return out
 
 
 def vorsorgeaufw_bis_2004(
-    _vorsorgeaufw_vom_lohn_bis_2019_single: FloatSeries,
-    _vorsorgeaufw_vom_lohn_bis_2019_tu: FloatSeries,
-    ges_krankenv_beitr_m: FloatSeries,
-    ges_rentenv_beitr_m: FloatSeries,
-    ges_krankenv_beitr_m_tu: FloatSeries,
-    ges_rentenv_beitr_m_tu: FloatSeries,
-    tu_id: IntSeries,
-    gemeinsam_veranlagt_tu: BoolSeries,
-    gemeinsam_veranlagt: BoolSeries,
-    kind: BoolSeries,
+    _vorsorgeaufw_vom_lohn_bis_2019_single: float,
+    _vorsorgeaufw_vom_lohn_bis_2019_tu: float,
+    ges_krankenv_beitr_m: float,
+    ges_rentenv_beitr_m: float,
+    ges_krankenv_beitr_m_tu: float,
+    ges_rentenv_beitr_m_tu: float,
+    gemeinsam_veranlagt_tu: bool,
+    kind: bool,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate Vorsorgeaufwendungen until 2004.
 
     Parameters
@@ -212,12 +216,8 @@ def vorsorgeaufw_bis_2004(
         See :func:`ges_krankenv_beitr_m_tu`.
     ges_rentenv_beitr_m_tu
         See :func:`ges_rentenv_beitr_m_tu`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     gemeinsam_veranlagt_tu
         See :func:`gemeinsam_veranlagt_tu`.
-    gemeinsam_veranlagt
-        See :func:`gemeinsam_veranlagt`.
     kind
         See basic input variable :ref:`kind <kind>`.
     eink_st_abzüge_params
@@ -227,42 +227,39 @@ def vorsorgeaufw_bis_2004(
     -------
 
     """
+    if (not gemeinsam_veranlagt_tu) & (not kind):
+        out = _berechne_vorsorgeaufw_bis_2004(
+            _vorsorgeaufw_vom_lohn_bis_2019_single,
+            ges_krankenv_beitr_m,
+            ges_rentenv_beitr_m,
+            1,
+            eink_st_abzüge_params,
+        )
+    elif (gemeinsam_veranlagt_tu) & (not kind):
+        out = _berechne_vorsorgeaufw_bis_2004(
+            _vorsorgeaufw_vom_lohn_bis_2019_tu,
+            ges_krankenv_beitr_m_tu,
+            ges_rentenv_beitr_m_tu,
+            2,
+            eink_st_abzüge_params,
+        )
+    else:
+        out = 0.0
 
-    out = ges_krankenv_beitr_m * 0
-    out.loc[~gemeinsam_veranlagt & ~kind] = _berechne_vorsorgeaufw_bis_2004(
-        _vorsorgeaufw_vom_lohn_bis_2019_single.loc[~kind],
-        ges_krankenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
-        ges_rentenv_beitr_m.loc[~gemeinsam_veranlagt & ~kind],
-        1,
-        eink_st_abzüge_params,
-    )
-
-    vorsorge_tu = _berechne_vorsorgeaufw_bis_2004(
-        _vorsorgeaufw_vom_lohn_bis_2019_tu,
-        ges_krankenv_beitr_m_tu.loc[gemeinsam_veranlagt_tu],
-        ges_rentenv_beitr_m_tu.loc[gemeinsam_veranlagt_tu],
-        2,
-        eink_st_abzüge_params,
-    )
-    out.loc[gemeinsam_veranlagt & ~kind] = tu_id[gemeinsam_veranlagt].replace(
-        vorsorge_tu
-    )
     return out
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_single(
-    bruttolohn_m: FloatSeries,
-    gemeinsam_veranlagt: BoolSeries,
-    eink_st_abzüge_params: dict,
-) -> FloatSeries:
+    bruttolohn_m: float, eink_st_abzüge_params: dict,
+) -> float:
     """Calcaulate vorsoge expenditures until 2019 for singles.
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    gemeinsam_veranlagt
-        See :func:`gemeinsam_veranlagt`.
+    gemeinsam_veranlagt_tu
+        See :func:`gemeinsam_veranlagt_tu`.
     eink_st_abzüge_params
         See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
@@ -272,26 +269,20 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
     """
     out = (
         eink_st_abzüge_params["vorsorge2004_vorwegabzug"]
-        - eink_st_abzüge_params["vorsorge2004_kürzung_vorwegabzug"]
-        * 12
-        * bruttolohn_m.loc[~gemeinsam_veranlagt]
-    ).clip(lower=0)
-    return out
+        - eink_st_abzüge_params["vorsorge2004_kürzung_vorwegabzug"] * 12 * bruttolohn_m
+    )
+    return max(out, 0.0)
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_tu(
-    bruttolohn_m_tu: FloatSeries,
-    gemeinsam_veranlagt_tu: BoolSeries,
-    eink_st_abzüge_params: dict,
-) -> FloatSeries:
+    bruttolohn_m_tu: float, eink_st_abzüge_params: dict,
+) -> float:
     """Calcaulate vorsoge expenditures until 2019 per tax unit.
 
     Parameters
     ----------
     bruttolohn_m_tu
         See :func:`bruttolohn_m_tu`.
-    gemeinsam_veranlagt_tu
-        See :func:`gemeinsam_veranlagt_tu`.
     eink_st_abzüge_params
         See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
@@ -303,18 +294,19 @@ def _vorsorgeaufw_vom_lohn_bis_2019_tu(
         2 * eink_st_abzüge_params["vorsorge2004_vorwegabzug"]
         - eink_st_abzüge_params["vorsorge2004_kürzung_vorwegabzug"]
         * 12
-        * bruttolohn_m_tu.loc[gemeinsam_veranlagt_tu]
-    ).clip(lower=0)
-    return out
+        * bruttolohn_m_tu
+    )
+
+    return max(out, 0.0)
 
 
 def _berechne_vorsorgeaufw_bis_2004(
-    lohn_vorsorge: FloatSeries,
-    ges_krankenv_beitr: FloatSeries,
-    ges_rentenv_beitr: FloatSeries,
-    anzahl_erwachsene: IntSeries,
+    lohn_vorsorge: float,
+    ges_krankenv_beitr: float,
+    ges_rentenv_beitr: float,
+    anzahl_erwachsene: int,
     eink_st_abzüge_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calcaulate vorsoge expenditures until 2004.
 
     Parameters
@@ -329,16 +321,27 @@ def _berechne_vorsorgeaufw_bis_2004(
     -------
 
     """
-    item_1 = (1 / anzahl_erwachsene) * (
-        12 * (ges_rentenv_beitr + ges_krankenv_beitr) - lohn_vorsorge
-    ).clip(lower=0)
-    item_2 = (1 / anzahl_erwachsene) * item_1.clip(
-        upper=eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
+    multiplikator1 = max(
+        (12 * (ges_rentenv_beitr + ges_krankenv_beitr) - lohn_vorsorge), 0.0
     )
 
-    item_3 = 0.5 * (item_1 - item_2).clip(
-        upper=anzahl_erwachsene
-        * eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
+    item_1 = (1 / anzahl_erwachsene) * multiplikator1
+
+    if item_1 > eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]:
+        multiplikator2 = eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
+    else:
+        multiplikator2 = item_1
+
+    item_2 = (1 / anzahl_erwachsene) * multiplikator2
+
+    hoechstgrenze_item3 = (
+        anzahl_erwachsene * eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
     )
-    out = (lohn_vorsorge + item_2 + item_3).astype(int)
+
+    if (item_1 - item_2) > hoechstgrenze_item3:
+        item_3 = 0.5 * hoechstgrenze_item3
+    else:
+        item_3 = 0.5 * (item_1 - item_2)
+
+    out = lohn_vorsorge + item_2 + item_3
     return out

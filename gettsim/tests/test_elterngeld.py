@@ -22,8 +22,8 @@ INPUT_COLS = [
     "geburtsjahr",
     "geburtsmonat",
     "geburtstag",
-    "m_elterngeld_mut",
-    "m_elterngeld_vat",
+    "m_elterngeld_mut_hh",
+    "m_elterngeld_vat_hh",
     "m_elterngeld",
     "jahr",
 ]
@@ -56,7 +56,7 @@ def test_eltgeld(
     calculation of the proxy wage of last year or anything else.
 
     """
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12

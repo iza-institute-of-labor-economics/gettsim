@@ -8,6 +8,8 @@ from gettsim.config import ROOT_DIR
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
+from gettsim.functions_loader import load_aggregation_dict
+from gettsim.interface import rchop
 from gettsim.policy_environment import load_reforms_for_date
 from gettsim.tests.utils_tests import nice_output_list_of_strings
 
@@ -21,6 +23,11 @@ def default_input_variables():
 def all_function_names():
     functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
     return sorted(functions.keys())
+
+
+@pytest.fixture(scope="module")
+def aggregation_dict():
+    return load_aggregation_dict()
 
 
 @pytest.fixture(scope="module")
@@ -43,7 +50,10 @@ def time_indep_function_names(all_function_names):
 
 
 def test_all_input_vars_documented(
-    default_input_variables, time_indep_function_names, all_function_names
+    default_input_variables,
+    time_indep_function_names,
+    all_function_names,
+    aggregation_dict,
 ):
     """Test if arguments of all non-internal functions are either the name of another
     function, a documented input variable, or a parameter dictionary
@@ -60,13 +70,18 @@ def test_all_input_vars_documented(
 
     # Remove duplicates
     arguments = list(dict.fromkeys(arguments))
+    defined_functions = (
+        time_indep_function_names
+        + all_function_names
+        + default_input_variables
+        + list(aggregation_dict)
+    )
     check = [
         c
         for c in arguments
-        if c not in time_indep_function_names
-        and c not in all_function_names
-        and c not in default_input_variables
-        and not c.endswith("_params")
+        if (c not in defined_functions)
+        and (rchop(rchop(c, "_tu"), "_hh") not in defined_functions)
+        and (not c.endswith("_params"))
     ]
     assert not check, nice_output_list_of_strings(check)
 

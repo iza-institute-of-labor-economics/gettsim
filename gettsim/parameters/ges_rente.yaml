@@ -7,7 +7,7 @@ alpha:
         welche das Verhältnis von Rentnern zu Beitragszahlern modifiziert
     en: Part of the sustainability factor in the pension adjustment formula which modifies
         the ratio of pentioners to contributors
-  unit: factor
+  unit: Factor
   reference: §68 Abs. 4 S. 6 SGB VI
   1984-01-01:
     scalar: 0.0
@@ -21,7 +21,7 @@ altersvorsogeanteil:
   description:
     de: Teil des Riesterfaktors in der Rentenanpassungsformel
     en: Part of the Riesterfaktor in the pension adjustment formular
-  unit: factor
+  unit: Factor
   reference: §68 Abs. 5 SGB VI
   1993-01-01:
     scalar: 0.0
@@ -51,65 +51,65 @@ beitragsvolumen:
         der geringfügig Beschäftigten und der Bezieher von ALG. statistik-rente.de/drv
     en: Sum of contributions to the pension insurance of all employees subject to pension insurance,
         marginally employed and recipients of ALG.
-  unit: Mrd Euro
+  unit: Euro
   1991-01-01:
-    scalar: 108688.0
+    scalar: 108688000
   1992-01-01:
-    scalar: 117359.0
+    scalar: 117359000
   1993-01-01:
-    scalar: 120559.0
+    scalar: 120559000
   1994-01-01:
-    scalar: 132938.0
+    scalar: 132938000
   1995-01-01:
-    scalar: 139921.0
+    scalar: 139921000
   1996-01-01:
-    scalar: 146160.0
+    scalar: 146160000
   1997-01-01:
-    scalar: 153658.0
+    scalar: 153658000
   1998-01-01:
-    scalar: 153763.0
+    scalar: 153763000
   1999-01-01:
-    scalar: 160506.0
+    scalar: 160506000
   2000-01-01:
-    scalar: 163367.0
+    scalar: 163367000
   2001-01-01:
-    scalar: 164694.0
+    scalar: 164694000
   2002-01-01:
-    scalar: 165481.0
+    scalar: 165481000
   2003-01-01:
-    scalar: 169425.0
+    scalar: 169425000
   2004-01-01:
-    scalar: 169399.0
+    scalar: 169399000
   2005-01-01:
-    scalar: 168954.0
+    scalar: 168954000
   2006-01-01:
-    scalar: 180545.0
+    scalar: 180545000
   2007-01-01:
-    scalar: 174726.0
+    scalar: 174726000
   2008-01-01:
-    scalar: 180028.0
+    scalar: 180028000
   2009-01-01:
-    scalar: 181572.0
+    scalar: 181572000
   2010-01-01:
-    scalar: 185288.0
+    scalar: 185288000
   2011-01-01:
-    scalar: 189850.0
+    scalar: 189850000
   2012-01-01:
-    scalar: 193687.0
+    scalar: 193687000
   2013-01-01:
-    scalar: 194334.0
+    scalar: 194334000
   2014-01-01:
-    scalar: 201647.0
+    scalar: 201647000
   2015-01-01:
-    scalar: 207317.0
+    scalar: 207317000
   2016-01-01:
-    scalar: 215422.0
+    scalar: 215422000
   2017-01-01:
-    scalar: 225244
+    scalar: 225244000
   2018-01-01:
-    scalar: 236404
+    scalar: 236404000
   2019-01-01:
-    scalar: 247949
+    scalar: 247949000
 
 eckrente:
   name:
@@ -120,7 +120,7 @@ eckrente:
         Ergibt sich aus Multiplikation des Rentenwerts mit 45. statistik-rente.de/drv
     en: Amount of a pension without discounts when reaching 45 Entgeltpunkte, which is
         calculated by multiplying 45 with the Rentenwert.
-  unit: Euro (Brutto)
+  unit: Euro
   reference: § 154 Abs. 3 Satz 1 Nr. 2 SGB VI
   1995-01-01:
     scalar: 988.15
@@ -179,7 +179,7 @@ durchschnittslohn:
     de: Durchschnittsbruttolohn aller Arbeitnehmer:innen in einem Jahr
     en: Mean gross wage of all employees per year
   unit: Euro
-  reference_period: year
+  reference_period: Year
   2005-01-01:
     scalar: 28468.23
   2006-01-01:
@@ -214,7 +214,7 @@ beitragspflichtiges_durchschnittsentgelt:
         Dieses wird benötigt zur Berechnung der Entgeltpunkte.
     en: Mean wage of all insured people in the sense of the German social insurance, which is needed
         to calculate the Entgeltpunkte.
-  unit: Euro (Brutto)
+  unit: Euro
   reference period: year
   reference: Anlage 1 SGB VI
   2005-01-01:
@@ -268,7 +268,7 @@ umrechnung_entgeltp_beitrittsgebiet:
   description:
     de: Für die Berechnung der Entgeltpunkte wird das Einkommen im "Beitrittsgebiet" um diesen Faktor erhöht.
     en: To calculate the Entgeltpunkte, income in the former GDR is increased by this factor.
-  unit: factor
+  unit: Factor
   reference: §256a SGB VI and Anlage 10 SGB VI
   1945-01-01:
     scalar: 1.0000
@@ -440,66 +440,66 @@ gesamtes_rentenvolumen:
   description:
     de: Gesamtvolumen der ausgezahlten Renten
     en: Total amount of paid pensions
-  unit: Mrd Euro
+  unit: Euro
   reference period: year
   1991-01-01:
-    scalar: 117912.0
+    scalar: 117912000
   1992-01-01:
-    scalar: 130901.0
+    scalar: 130901000
   1993-01-01:
-    scalar: 141180.0
+    scalar: 141180000
   1994-01-01:
-    scalar: 152798.0
+    scalar: 152798000
   1995-01-01:
-    scalar: 162625.0
+    scalar: 162625000
   1996-01-01:
-    scalar: 168955.0
+    scalar: 168955000
   1997-01-01:
-    scalar: 174479.0
+    scalar: 174479000
   1998-01-01:
-    scalar: 1803238.0
+    scalar: 180323800
   1999-01-01:
-    scalar: 184139.0
+    scalar: 184139000
   2000-01-01:
-    scalar: 190198.0
+    scalar: 190198000
   2001-01-01:
-    scalar: 195776.0
+    scalar: 195776000
   2002-01-01:
-    scalar: 202355.0
+    scalar: 202355000
   2003-01-01:
-    scalar: 207749.0
+    scalar: 207749000
   2004-01-01:
-    scalar: 210522.0
+    scalar: 210522000
   2005-01-01:
-    scalar: 211861.0
+    scalar: 211861000
   2006-01-01:
-    scalar: 212421.0
+    scalar: 212421000
   2007-01-01:
-    scalar: 213649.0
+    scalar: 213649000
   2008-01-01:
-    scalar: 216182.0
+    scalar: 216182000
   2009-01-01:
-    scalar: 220841.0
+    scalar: 220841000
   2010-01-01:
-    scalar: 224352.0
+    scalar: 224352000
   2011-01-01:
-    scalar: 225411.0
+    scalar: 225411000
   2012-01-01:
-    scalar: 229231.0
+    scalar: 229231000
   2013-01-01:
-    scalar: 232297.0
+    scalar: 232297000
   2014-01-01:
-    scalar: 238991.0
+    scalar: 238991000
   2015-01-01:
-    scalar: 249568.0
+    scalar: 249568000
   2016-01-01:
-    scalar: 259345.0
+    scalar: 259345000
   2017-01-01:
-    scalar: 286860
+    scalar: 286860000
   2018-01-01:
-    scalar: 277102
+    scalar: 277102000
   2019-01-01:
-    scalar: 291359
+    scalar: 291359000
 
 rentenwert:
   name:
@@ -640,7 +640,7 @@ grundr_zeiten:
         Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
     en: Minimal number of Grundrentenzeiten required to be entitled to Grundrente
         and maximum number of months that are considered for Grundrente.
-  unit: months
+  unit: Month
   2021-01-01:
     min: 396
     max: 420
@@ -702,7 +702,7 @@ grundr_faktor_bonus:
   description:
     de: Faktor mit dem die durch die Grundrente zusätzlich erhaltenen Entgeltpunkte multipliziert werden.
     en: The additional Entgeltpunkte from the basic pension are multiplied with this factor.
-  unit: factor
+  unit: Factor
   2021-01-01:
     scalar: 0.875
     reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
@@ -716,7 +716,7 @@ zugangsfaktor_veränderung_pro_jahr:
         das länger/kürzer gearbeitet wird
     en: Factor with which the Zugangsfaktor / "access factor" for receiving the statutory pension is
         increased/ decreased for each month of less / more work
-  unit: factor
+  unit: Factor
   reference period: year
   reference: §77 Abs. 2 Nr. 2 SGB VI
   2001-01-01:

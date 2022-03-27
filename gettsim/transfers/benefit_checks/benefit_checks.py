@@ -1,11 +1,6 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-
-
 def wohngeld_vorrang_hh(
-    wohngeld_nach_vermög_check_m_hh: FloatSeries,
-    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
-) -> BoolSeries:
+    wohngeld_nach_vermög_check_m_hh: float, arbeitsl_geld_2_vor_vorrang_m_hh: float,
+) -> bool:
     """Check if housing benefit has priority.
 
     Parameters
@@ -23,9 +18,9 @@ def wohngeld_vorrang_hh(
 
 
 def kinderzuschl_vorrang_hh(
-    _kinderzuschl_nach_vermög_check_m_hh: FloatSeries,
-    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
-) -> BoolSeries:
+    _kinderzuschl_nach_vermög_check_m_hh: float,
+    arbeitsl_geld_2_vor_vorrang_m_hh: float,
+) -> bool:
     """Check if child benefit has priority.
 
     Parameters
@@ -43,10 +38,10 @@ def kinderzuschl_vorrang_hh(
 
 
 def wohngeld_kinderzuschl_vorrang_hh(
-    wohngeld_nach_vermög_check_m_hh: FloatSeries,
-    _kinderzuschl_nach_vermög_check_m_hh: FloatSeries,
-    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
-) -> BoolSeries:
+    wohngeld_nach_vermög_check_m_hh: float,
+    _kinderzuschl_nach_vermög_check_m_hh: float,
+    arbeitsl_geld_2_vor_vorrang_m_hh: float,
+) -> bool:
     """Check if housing and child benefit have priority.
 
     Parameters
