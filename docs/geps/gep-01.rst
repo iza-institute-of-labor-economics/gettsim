@@ -30,25 +30,37 @@ This GEP pins down naming conventions for GETTSIM — i.e., general rules for ho
 columns, parameters, Python identifiers (functions, variables), etc. should be named. In
 a nutshell and without explanations, these conventions are:
 
-* Names follow standard Python conventions (``lowercase_with_underscores``).
-  Abbreviations of words that form a part of these names are always followed by an
-  underscore, unless it is the last word.
-* Names should be long enough to be readable. However, we impose limits in order to make
-  GETTSIM usable in languages, which place limits on characters (Stata, in particular).
+1. Names follow standard Python conventions (``lowercase_with_underscores``).
+   Abbreviations of words that form a part of these names are always followed by an
+   underscore, unless it is the last word.
 
-  - Column names that are typically user-facing have a hard limit of 20 characters.
-    These columns are documented in `DEFAULT_TARGETS` in `gettsim/config.py`.
-  - Other column names that users might potentially be interested in have a hard limit
-    of 32 characters.
-  - Columns for purely internal use (e.g., helper variables before applying a
-    favorability check) start with an underscore and there are no restrictions. Internal
-    variables should be used sparingly.
+2. Names should be long enough to be readable. However, we impose limits in order to
+   make GETTSIM usable in languages, which place limits on characters (Stata, in
+   particular).
 
-* The language should generally be English in all coding efforts and documentation.
-  German should be used for all institutional features and directly corresponding
-  names.
-* German identifiers use correct spelling even if it is non-ASCII (this mostly concerns
-  the letters ä, ö, ü, ß).
+   - Column names that are typically user-facing have a hard limit of 20 characters.
+     These columns are documented in `DEFAULT_TARGETS` in `gettsim/config.py`.
+   - Other column names that users might potentially be interested in have a hard limit
+     of 32 characters.
+   - Columns geared at internal use (e.g., helper variables before applying a
+     favorability check) start with an underscore and there are no restrictions.
+     Internal variables should be used sparingly.
+
+3. If names need to be concatenated for making clear what a column name refers to (e.g.,
+   ``arbeitsl_geld_2_vermög_freib_hh`` vs. ``grunds_im_alter_vermög_freib_hh``), the
+   group (i.e., the tax or transfer) that a variable refers to appears first.
+
+4. Because of the necessity of concatenated column names, there will be conflicts
+   between readability (1.) and variable length (2.). If such conflicts arise, they need
+   to be solved on a case by case basis. Consistency across different variants of a
+   variable names always has to be kept.
+
+5. The language should generally be English in all coding efforts and documentation.
+   German should be used for all institutional features and directly corresponding
+   names.
+
+6. German identifiers use correct spelling even if it is non-ASCII (this mostly concerns
+   the letters ä, ö, ü, ß).
 
 We explain the background for these choices below.
 
@@ -76,7 +88,7 @@ General considerations
 Even though the working language of GETTSIM is English, all of 1. (column names) and 2.
 (parameters of the taxes and transfers system) should be specified in German. Any
 translation of detailed rules---e.g., distinguishing between Arbeitslosengeld 2 and
-Sozialhilfe, or between Erziehungsgeld, Elterngeld, and Elterngeld Plus---is likely to
+Sozialhilfe; or between Erziehungsgeld, Elterngeld, and Elterngeld Plus---is likely to
 lead to more confusion than clarity. The main issue here is that often economic concepts
 behind the different programmes are the same (in the examples, social assistance and
 parental leave benefits, respectively), but often the names of laws change upon major
@@ -110,6 +122,10 @@ changed, even if it leads to long variable names (e.g., ``kinderfreib``,
 ``_zu_verst_eink_ohne_kinderfreib_tu``). This makes searching for identifiers
 easier and less error-prone.
 
+If names need to be concatenated for making clear what a column name refers to (e.g.,
+``arbeitsl_geld_2_vermög_freib_hh`` vs. ``grunds_im_alter_vermög_freib_hh``), the group
+(i.e., the tax or transfer) that a variable refers to appears first.
+
 The default time unit is a year. If a column refers to a different time unit, an
 underscore plus one of {``m``, ``w``, ``d``} will indicate the time unit.
 
@@ -130,8 +146,10 @@ general naming considerations here.
 - There is a hierarchical structure to these parameters in that each of them is
   associated with a group (e.g., ``arbeitsl_geld``, ``kinderzuschlag``). These groups or
   abbreviations thereof do not re-appear in the name of the parameter.
-- Parameter names should be aligned with relevant column names. This makes searching for
-  identifiers easier and less error-prone.
+- Parameter names should be generally be aligned with relevant column names. However,
+  since the group is not repeated for the parameter, it is often better not to
+  abbreviate them (e.g., ``wohngeld_params["vermögensgrundfreibetrag"]`` for the
+  parameter and ``wohngeld_nach_vermög_check_m_hh`` for a column derived from it).
 
 Other Python identifiers (Functions, Variables)
 -----------------------------------------------
@@ -176,7 +194,7 @@ Alternatives
 
 * We considered using more English identifiers, but opted against it because of the
   lack of precision and uniqueness (see the example above: How to distinguish between
-  Erziehungsgeld, Elterngeld, and Elterngeld Plus in English?). In
+  Erziehungsgeld, Elterngeld, and Elterngeld Plus in English?).
 * Use one of the standards for column identifiers. They are not precise enough and
   sometimes rather cryptic.
 * Do something like EUROMOD and include some hierarchy in column names (e.g. start with
@@ -220,7 +238,8 @@ Discussion
 ----------
 
 * GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
-* Discussion on provisional acceptance: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859
+* Discussion on provisional acceptance:
+  https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859
 * GitHub PR for update (character limits, time and unit identifiers, DAG adjustments):
   https://github.com/iza-institute-of-labor-economics/gettsim/pull/312
 
