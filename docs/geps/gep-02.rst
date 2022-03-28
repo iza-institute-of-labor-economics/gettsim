@@ -7,13 +7,13 @@ GEP 2 — Internal Representation of Data on Individuals
 +------------+-------------------------------------------------------------------------+
 | Author     | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
 +------------+-------------------------------------------------------------------------+
-| Status     | Draft                                                                   |
+| Status     | Provisional                                                             |
 +------------+-------------------------------------------------------------------------+
 | Type       | Standards Track                                                         |
 +------------+-------------------------------------------------------------------------+
-| Created    | 2020-02-22                                                              |
+| Created    | 2022-03-28                                                              |
 +------------+-------------------------------------------------------------------------+
-| Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
+| Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2002 |
 +------------+-------------------------------------------------------------------------+
 
 
@@ -29,7 +29,7 @@ in the data provided by the user (if it comes in the form of a DataFrame) or cal
 by GETTSIM. All these arrays have the same length. This length corresponds to the number
 of individuals. Functions operate on a single row of data.
 
-If a column name is ``[x]_id`` with `x` :math:`\in \{` ``hh``, ``tu`` :math:`\}`, it
+If a column name is ``[x]_id`` with ``x`` :math:`\in \{` ``hh``, ``tu`` :math:`\}`, it
 will be the same for all households, tax units, or any other grouping of individuals
 specified in :ref:`GEP 1 <gep-1-column-names>`.
 
@@ -44,7 +44,7 @@ Motivation and Scope
 Taxes and transfers are calculated at different levels of aggregation: Individuals,
 couples, families, households. Sometimes, relations between individuals are important:
 parents and children, payors/receivers of alimony payments, which parent receives the
-`kindergeld` payments, etc..
+``kindergeld`` payments, etc..
 
 Potentially, there are many ways of storing these data: Long form, wide form,
 collections of tables adhering to `database normal forms
@@ -86,7 +86,7 @@ be possible to pass data directly in the form that GETTSIM requires it internall
 that case, only the relevant steps apply.
 
 - GETTSIM will first make a check that all identifiers pointing to other individuals
-  (e.g., `kindergeldempf_id`) are valid.
+  (e.g., ``kindergeldempf_id``) are valid.
 
 - GETTSIM will then create internal identifiers for individuals, households, and tax
   units. GETTSIM will also generate appropriate columns with identifiers pointing
@@ -100,8 +100,8 @@ that case, only the relevant steps apply.
   Because groups of individuals are not necessarily nested (e.g., joint taxation during
   separation phase but living in different households), they cannot be sorted in
   general. In case users know their data allows sorting on all groups  (i.e., all groups
-  have a nesting structure), they will be able to provide a `data_is_sorted` flag, which
-  defaults to `False`.
+  have a nesting structure), they will be able to provide a ``data_is_sorted`` flag,
+  which defaults to ``False``.
 
 - The core of GETTSIM works with a collection of 1-d arrays, all of which have the same
   length as the number of individuals.
@@ -162,20 +162,15 @@ Adhering to normal forms (e.g., reducing the length of arrays to the number of
 households like [here](https://www.tensorflow.org/api_docs/python/tf/math/segment_sum)
 would have led to many merge-like operations in user functions.
 
+
 Discussion
 ----------
 
 - Some `discussion on Zulip
   <https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/180917151>`_
   re data structures.
-
-References and Footnotes
-------------------------
-
-
-.. _Open Publication License: https://www.opencontent.org/openpub/
-
-.. _#general/geps: https://gettsim.zulipchat.com/#narrow/stream/212222-general/topic/GEPs
+- Zulip stream for `GEP 2
+  <https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859>`_
 
 
 Copyright
