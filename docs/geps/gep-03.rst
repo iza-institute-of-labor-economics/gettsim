@@ -140,6 +140,7 @@ These work differently and they are :ref:`treated separately below
         [...]
       reference_period: Week
 
+
 .. _gep-3-access_prior_parameters:
 
 6. The (optional) ``access_prior_parameters`` can be used to make the parameter of a
@@ -147,8 +148,6 @@ These work differently and they are :ref:`treated separately below
    ``set_up_policy_environment``) available within GETTSIM functions. It requires the
    ``reference_period`` (one of ``Year``, ``Month``, ``Week``, ``Day``) and the
    ``number_of_lags``.
-
-
 
    Example:
 
@@ -342,7 +341,6 @@ The following walks through several cases.
   linger on.
 
 
-
 .. _gep-3-keys-referring-to-functions:
 
 Keys referring to functions
@@ -405,7 +403,6 @@ and to switch between different implementations of other functions.
     This will become a separate GEP, move gist here.
 
 
-
 .. _gep-3-storage-of-parameters:
 
 Storage of parameters
@@ -440,8 +437,6 @@ Discussion
 
 - https://github.com/iza-institute-of-labor-economics/gettsim/pull/148
 - https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2003
-
-
 
 
 Copyright
