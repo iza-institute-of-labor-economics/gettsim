@@ -274,6 +274,7 @@ def execute_dag(dag, data, targets, debug):
 
     """
     results = data.copy()
+
     # Needed for garbage collection.
     visited_nodes = set(results)
     skipped_nodes = set()
@@ -300,7 +301,6 @@ def execute_dag(dag, data, targets, debug):
                 )
 
             visited_nodes.add(task)
-
             if not debug:
                 results = collect_garbage(results, task, visited_nodes, targets, dag)
 
