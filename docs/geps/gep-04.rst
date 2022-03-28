@@ -4,25 +4,25 @@
 GEP 4 — A DAG—based Computational Backend
 =========================================
 
-+------------+------------------------------------------------------------------+
-| Author     | `Max Blesch <https://github.com/MaxBlesch>`_                     |
-+            +------------------------------------------------------------------+
-|            | `Janos Gabler <https://github.com/janosg>`_                      |
-+            +------------------------------------------------------------------+
-|            | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_    |
-+            +------------------------------------------------------------------+
-|            | `Tobias Raabe <https://github.com/tobiasraabe>`_                 |
-+            +------------------------------------------------------------------+
-|            | `Christian Zimpelmann <https://github.com/ChristianZimpelmann>`_ |
-+------------+------------------------------------------------------------------+
-| Status     | Draft                                                            |
-+------------+------------------------------------------------------------------+
-| Type       | Standards Track                                                  |
-+------------+------------------------------------------------------------------+
-| Created    | 2021-12-xx                                                       |
-+------------+------------------------------------------------------------------+
-| Resolution | <url> (required for Accepted or Rejected or Withdrawn)           |
-+------------+------------------------------------------------------------------+
++------------+-------------------------------------------------------------------------+
+| Author     | `Max Blesch <https://github.com/MaxBlesch>`_                            |
++            +-------------------------------------------------------------------------+
+|            | `Janos Gabler <https://github.com/janosg>`_                             |
++            +-------------------------------------------------------------------------+
+|            | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
++            +-------------------------------------------------------------------------+
+|            | `Tobias Raabe <https://github.com/tobiasraabe>`_                        |
++            +-------------------------------------------------------------------------+
+|            | `Christian Zimpelmann <https://github.com/ChristianZimpelmann>`_        |
++------------+-------------------------------------------------------------------------+
+| Status     | Provisional                                                             |
++------------+-------------------------------------------------------------------------+
+| Type       | Standards Track                                                         |
++------------+-------------------------------------------------------------------------+
+| Created    | 2022-03-28                                                              |
++------------+-------------------------------------------------------------------------+
+| Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2004 |
++------------+-------------------------------------------------------------------------+
 
 
 Abstract
@@ -93,15 +93,13 @@ See the following example for capital income taxes.
 
 .. code-block:: python
 
-    def abgelt_st_tu(
-        zu_verst_kapital_eink_tu: FloatSeries, abgelt_st_params: dict
-    ) -> FloatSeries:
-        """Calculate abgeltungssteuer per tax unit.
+    def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
+        """Calculate Abgeltungssteuer per tax unit.
 
         Parameters
         ----------
-        zu_verst_kapital_eink_tu
-            See :func:`zu_verst_kapital_eink_tu`.
+        zu_verst_kapitaleink_tu
+            See :func:`zu_verst_kapitaleink_tu`.
         abgelt_st_params
             See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -109,7 +107,8 @@ See the following example for capital income taxes.
         -------
 
         """
-        return abgelt_st_params["abgelt_st_satz"] * zu_verst_kapital_eink_tu
+        return abgelt_st_params["satz"] * zu_verst_kapitaleink_tu
+
 
 The function :func:`abgelt_st_tu` requires the variable ``zu_verst_kapital_eink_tu``
 which is the amount of taxable capital income per tax unit (the latter is implied by the
@@ -123,17 +122,17 @@ Another function, say
 .. code-block:: python
 
     def soli_st_tu(
-        st_kind_freib_tu: FloatSeries,
-        anz_erwachsene_tu: IntSeries,
-        abgelt_st_tu: FloatSeries,
+        eink_st_mit_kinderfreib_tu: float,
+        anz_erwachsene_tu: int,
+        abgelt_st_tu: float,
         soli_st_params: dict,
-    ) -> FloatSeries:
+    ) -> float:
         ...
 
 may use ``abgelt_st_tu`` as an input argument. The DAG backend ensures that the function
 ``abgelt_st_tu`` will be executed first.
 
-Note that the type annotations (e.g. `FloatSeries`) indicate the expected type of each
+Note that the type annotations (e.g. ``float``) indicate the expected type of each
 input and the output of a function, see :ref:`gep-2`.
 
 
@@ -188,10 +187,10 @@ functions to change over time, new functions to appear, or old ones to disappear
 
 Some examples include:
 
-1. ``arbeitsl_hilfe`` being replaced by ``arbeitsl_geld_2``
-1. ``kinderbonus`` being active only in a few years
-1. The introduction of ``kinderzuschlag``
-1. Capital income entering ``sum_brutto_eink`` or not.
+1. ``arbeitsl_hilfe`` being replaced by ``arbeitsl_geld_2``.
+2. ``kinderbonus`` being active only in a few years.
+3. The introduction of ``kinderzuschl``.
+4. Capital income entering ``sum_brutto_eink`` or not.
 
 The goal is that the graph for any particular point in time is minimal in the sense that
 ``arbeitsl_geld_2`` does not appear before it was conceived, it is apparent from the
@@ -254,7 +253,7 @@ argument; for ``count`` no other variable is necessary.
 The output type will be the same as the input type. Exceptions:
 
 - Input type ``bool`` and aggregation ``sum`` leads to output type ``int``.
-- Input type ``int`` and agggregation :math:`\in \{` ``any``, ``all`` :math:`\}`
+- Input type ``int`` and aggregation :math:`\in \{` ``any``, ``all`` :math:`\}`
   leads to output type ``bool``
 - Aggregation ``count`` will always result in an ``int``.
 
@@ -303,17 +302,17 @@ Conversion between reference periods
 
 Similarly to summations to the group level, GETTSIM will automatically convert values
 referring to different reference periods defined in :ref:`gep-1` (years (default, no
-suffix), months ``_m``, weeks ``_w``, and days ``_t``).
+suffix), months ``_m``, weeks ``_w``, and days ``_d``).
 
-In case a column with annual values `[column]` exists, the graph will be augmented with
-a node including monthly values like `[column]_m` should that be requested. Requests can
-be either inputs in a downstream function or explicit targets of the calculation. In
-case the column refers to a different level of aggregation, say ``[column]_hh``, the
-same applies to ``[column]_m_hh``.
+In case a column with annual values ``[column]`` exists, the graph will be augmented
+with a node including monthly values like ``[column]_m`` should that be requested.
+Requests can be either inputs in a downstream function or explicit targets of the
+calculation. In case the column refers to a different level of aggregation, say
+``[column]_hh``, the same applies to ``[column]_m_hh``.
 
-Automatic summation will only happen in case no column `[column]_m` is explicitly set.
+Automatic summation will only happen in case no column ``[column]_m`` is explicitly set.
 Using a different conversion function than the sum is as easy as explicitly specifying
-`[column]_m`.
+``[column]_m``.
 
 Conversion goes both ways and uses the following formulas:
 
@@ -322,11 +321,11 @@ Conversion goes both ways and uses the following formulas:
 +-----------+--------+------------+
 | Year      |        | 1          |
 +-----------+--------+------------+
-| Month     | `_m`   | 12         |
+| Month     | ``_m`` | 12         |
 +-----------+--------+------------+
-| Week      | `_w`   | 365.25 / 7 |
+| Week      | ``_w`` | 365.25 / 7 |
 +-----------+--------+------------+
-| Day       | `_d`   | 365.25     |
+| Day       | ``_d`` | 365.25     |
 +-----------+--------+------------+
 
 These values average over leap years. They ensure that conversion is always possible
@@ -341,6 +340,10 @@ Related Work
 - The `OpenFisca <https://github.com/openfisca>`_ project uses an internal DAG as well.
 - Scheduling computations on data with task graphs is how `Dask
   <https://docs.dask.org/>`_ splits and distributes computations.
+- Based on GETTSIM and many other projects, the `dags
+  <https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2004>`_ project
+  combines the core ideas in one spot. GETTSIM will likely use it to implement
+  functionality at some point.
 
 
 Alternatives
@@ -349,6 +352,12 @@ Alternatives
 We have not found any alternatives which offer the same amount of flexibility and
 computational advantages.
 
+
+Discussion
+----------
+
+- https://github.com/iza-institute-of-labor-economics/gettsim/pull/178
+- https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2004
 
 
 Copyright

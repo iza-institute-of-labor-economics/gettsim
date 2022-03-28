@@ -1,5 +1,3 @@
-:download:`Download the template here <gep-template.rst>`.
-
 .. _gep-3:
 
 ====================================================
@@ -9,13 +7,13 @@ GEP 3 — Parameters of the taxes and transfers system
 +------------+-------------------------------------------------------------------------+
 | Author     | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
 +------------+-------------------------------------------------------------------------+
-| Status     | Draft                                                                   |
+| Status     | Provisional                                                             |
 +------------+-------------------------------------------------------------------------+
 | Type       | Standards Track                                                         |
 +------------+-------------------------------------------------------------------------+
-| Created    | 2020-02-22                                                              |
+| Created    | 2022-03-28                                                              |
 +------------+-------------------------------------------------------------------------+
-| Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
+| Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2003 |
 +------------+-------------------------------------------------------------------------+
 
 
@@ -142,6 +140,7 @@ These work differently and they are :ref:`treated separately below
         [...]
       reference_period: Week
 
+
 .. _gep-3-access_prior_parameters:
 
 6. The (optional) ``access_prior_parameters`` can be used to make the parameter of a
@@ -149,8 +148,6 @@ These work differently and they are :ref:`treated separately below
    ``set_up_policy_environment``) available within GETTSIM functions. It requires the
    ``reference_period`` (one of ``Year``, ``Month``, ``Week``, ``Day``) and the
    ``number_of_lags``.
-
-
 
    Example:
 
@@ -205,8 +202,8 @@ Example:
       reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
 
 
-The `note` key of [YYYY-MM-DD]
-++++++++++++++++++++++++++++++
+The ``note`` key of [YYYY-MM-DD]
+++++++++++++++++++++++++++++++++
 
 This optional key may contain a free-form note holding any information that may be
 relevant for the interpretation of the parameter, the implementer, user, ...
@@ -214,8 +211,8 @@ relevant for the interpretation of the parameter, the implementer, user, ...
 
 .. _gep-3-deviation_from:
 
-The `deviation_from` key of [YYYY-MM-DD]
-++++++++++++++++++++++++++++++++++++++++
+The ``deviation_from`` key of [YYYY-MM-DD]
+++++++++++++++++++++++++++++++++++++++++++
 
 Often laws change only part of a parameter. To avoid error-prone code duplication, we
 allow for such cases via the ``deviation_from`` key. This is the reason why lists are to
@@ -344,7 +341,6 @@ The following walks through several cases.
   linger on.
 
 
-
 .. _gep-3-keys-referring-to-functions:
 
 Keys referring to functions
@@ -389,8 +385,8 @@ elements:
 - The ``reference`` must contain the reference to the law, which specifies the rounding.
 
 
-The `dates_active` key
-++++++++++++++++++++++
+The ``dates_active`` key
+++++++++++++++++++++++++
 
 Some functions should not be present at certain times. For example, ``arbeitsl_geld_2``
 and all its ancestors should not appear in DAGs referring to years prior to 2005.
@@ -398,14 +394,13 @@ and all its ancestors should not appear in DAGs referring to years prior to 2005
 Other functions have different interfaces in different years or undergo very large
 changes in their body.
 
-The `dates_active` key can be used to include certain functions only in certain years
+The ``dates_active`` key can be used to include certain functions only in certain years
 and to switch between different implementations of other functions.
 
 
 .. todo::
 
     This will become a separate GEP, move gist here.
-
 
 
 .. _gep-3-storage-of-parameters:
@@ -442,7 +437,6 @@ Discussion
 
 - https://github.com/iza-institute-of-labor-economics/gettsim/pull/148
 - https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2003
-
 
 
 Copyright
