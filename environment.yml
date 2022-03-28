@@ -12,6 +12,8 @@ dependencies:
   - nbsphinx
   - networkx
   - numpy_groupies
+  # Jinja2 3.1.0 breaks docs. Keep until nbconvert or Jinja2 fixes it.
+  - jinja2<3.1.0
   - pandas
   - pdbpp
   - pre-commit
