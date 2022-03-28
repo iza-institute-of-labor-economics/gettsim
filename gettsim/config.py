@@ -110,9 +110,4 @@ TYPES_INPUT_VARIABLES = {
 # Check Available Packages
 # =====================================================================================
 
-try:
-    import jax  # noqa: F401
-except ImportError:
-    USE_JAX = False
-else:
-    USE_JAX = True
+USE_JAX = False
