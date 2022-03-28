@@ -318,7 +318,10 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
             check_data = check_if_series_has_internal_type(series, internal_type)
-        elif column_name in columns_overriding_functions:
+        elif (
+            column_name in columns_overriding_functions
+            and "return" in functions[column_name].__annotations__
+        ):
             internal_type = functions[column_name].__annotations__["return"]
             check_data = check_if_series_has_internal_type(series, internal_type)
 

@@ -17,7 +17,7 @@ GEP 1 — Naming Conventions
 +------------+-------------------------------------------------------------------------+
 | Created    | 2019-11-04                                                              |
 +------------+-------------------------------------------------------------------------+
-| Updated    | 2022-01-07                                                              |
+| Updated    | 2022-03-28                                                              |
 +------------+-------------------------------------------------------------------------+
 | Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001 |
 +------------+-------------------------------------------------------------------------+
@@ -240,8 +240,12 @@ Discussion
 * GitHub PR: https://github.com/iza-institute-of-labor-economics/gettsim/pull/60
 * Discussion on provisional acceptance:
   https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859
-* GitHub PR for update (character limits, time and unit identifiers, DAG adjustments):
-  https://github.com/iza-institute-of-labor-economics/gettsim/pull/312
+* GitHub PR for first update (character limits, time and unit identifiers, DAG
+  adjustments): https://github.com/iza-institute-of-labor-economics/gettsim/pull/312
+* GitHub PR for second update (concatenated column names, dealing with conflicting
+  objectives, names for columns vs parameters):
+  https://github.com/iza-institute-of-labor-economics/gettsim/pull/342
+
 
 Copyright
 ---------
