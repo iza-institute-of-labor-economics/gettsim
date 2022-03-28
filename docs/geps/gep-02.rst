@@ -170,7 +170,7 @@ Discussion
   <https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/180917151>`_
   re data structures.
 - Zulip stream for `GEP 2
-  <https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859>`_
+  <https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859>`_.
 
 
 Copyright
