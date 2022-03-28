@@ -27,9 +27,11 @@ def wohngeld_m_hh(
     -------
 
     """
-    if (not wohngeld_vorrang_hh) & (
-        not wohngeld_kinderzuschl_vorrang_hh
-    ) | erwachsene_alle_rentner_hh:
+    if (
+        (not wohngeld_vorrang_hh)
+        and (not wohngeld_kinderzuschl_vorrang_hh)
+        or erwachsene_alle_rentner_hh
+    ):
         out = 0.0
     else:
         out = wohngeld_nach_vermög_check_m_hh
@@ -169,7 +171,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
         )
 
-    elif alleinerz & (not kind):
+    elif alleinerz and (not kind):
         freib_kinder_m = (
             anz_kinder_bis_10_tu * wohngeld_params["freib_kinder_m"]["alleinerz"]
         )
@@ -193,7 +195,7 @@ def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) ->
     -------
 
     """
-    out = (bruttolohn_m > 0) & kindergeld_anspruch
+    out = (bruttolohn_m > 0) and kindergeld_anspruch
     return out
 
 
@@ -234,7 +236,7 @@ def wohngeld_eink_abzüge_m_ab_2016(
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
         )
-    elif alleinerz & (not kind):
+    elif alleinerz and (not kind):
         freib_kinder_m = wohngeld_params["freib_kinder_m"]["alleinerz"]
     else:
         freib_kinder_m = 0.0

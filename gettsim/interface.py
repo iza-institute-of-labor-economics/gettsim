@@ -16,9 +16,9 @@ from gettsim.aggregation import grouped_mean
 from gettsim.aggregation import grouped_min
 from gettsim.aggregation import grouped_sum
 from gettsim.config import DEFAULT_TARGETS
-from gettsim.config import IS_JAX_INSTALLED
 from gettsim.config import ORDER_OF_IDS
 from gettsim.config import TYPES_INPUT_VARIABLES
+from gettsim.config import USE_JAX
 from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
 from gettsim.dag import create_dag
 from gettsim.dag import execute_dag
@@ -1086,7 +1086,7 @@ def vectorize_func(func):
     signature = inspect.signature(func)
 
     # Vectorize
-    if IS_JAX_INSTALLED:
+    if USE_JAX:
 
         # ToDo: user jnp.vectorize once all functions are compatible with jax
         # func_vec = jnp.vectorize(func)

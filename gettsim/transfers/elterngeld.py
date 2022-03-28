@@ -37,7 +37,7 @@ def elterngeld_m(
 
     """
 
-    if (elterngeld_eink_relev_m < 0) | (not elternzeit_anspruch):
+    if (elterngeld_eink_relev_m < 0) or (not elternzeit_anspruch):
         out = 0.0
     else:
         # Bound from above and below
@@ -146,12 +146,12 @@ def elternzeit_anspruch(
     """
     out = (
         (alter_monate_jüngstes_mitglied_hh <= elterngeld_params["max_monate_paar"])
-        & (
+        and (
             m_elterngeld_mut_hh + m_elterngeld_vat_hh
             < elterngeld_params["max_monate_paar"]
         )
-        & (not kind)
-        & (m_elterngeld <= elterngeld_params["max_monate_ind"])
+        and (not kind)
+        and (m_elterngeld <= elterngeld_params["max_monate_ind"])
     )
 
     return out
@@ -228,7 +228,7 @@ def elterngeld_geschw_bonus_anspruch(
         out = (
             elterngeld_kindkind_hh
             == list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[0]
-        ) | (
+        ) or (
             elterngeld_vorschulkind_hh
             >= list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[1]
         )
@@ -238,7 +238,7 @@ def elterngeld_geschw_bonus_anspruch(
 
 
 def _elterngeld_anz_mehrlinge_anspruch(
-    elternzeit_anspruch: bool, anz_jüngstes_kind_hh: np.datetime64,
+    elternzeit_anspruch: bool, anz_mehrlinge_jüngstes_kind_hh: np.datetime64,
 ) -> int:
     """Check for multiple bonus on parental leave benefit.
 
@@ -246,14 +246,14 @@ def _elterngeld_anz_mehrlinge_anspruch(
     ----------
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`.
-    anz_jüngstes_kind_hh
-        See :func:`anz_jüngstes_kind_hh`.
+    anz_mehrlinge_jüngstes_kind_hh
+        See :func:`anz_mehrlinge_jüngstes_kind_hh`.
 
     Returns
     -------
 
     """
-    out = anz_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0
+    out = anz_mehrlinge_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0
     return out
 
 

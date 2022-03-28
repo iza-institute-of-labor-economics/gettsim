@@ -44,7 +44,7 @@ def kinderzuschl_m_hh(
     -------
 
     """
-    if ((not kinderzuschl_vorrang_hh) & (not wohngeld_kinderzuschl_vorrang_hh)) | (
+    if ((not kinderzuschl_vorrang_hh) and (not wohngeld_kinderzuschl_vorrang_hh)) or (
         anz_rentner_hh > 0
     ):
         out = 0.0
@@ -120,7 +120,7 @@ def kinderzuschl_vorläufig_m_hh_bis_06_2019(
     """
 
     # Check if household income is in income range for child benefit.
-    if (arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh) & (
+    if (arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh) and (
         arbeitsl_geld_2_eink_m_hh <= kinderzuschl_eink_max_m_hh
     ):
         out = max(

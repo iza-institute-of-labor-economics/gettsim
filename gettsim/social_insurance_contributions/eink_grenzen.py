@@ -67,7 +67,7 @@ def in_gleitzone(
     """
     out = (
         bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
-    ) & (not geringfügig_beschäftigt)
+    ) and (not geringfügig_beschäftigt)
     return out
 
 

@@ -227,7 +227,7 @@ def vorsorgeaufw_bis_2004(
     -------
 
     """
-    if (not gemeinsam_veranlagt_tu) & (not kind):
+    if (not gemeinsam_veranlagt_tu) and (not kind):
         out = _berechne_vorsorgeaufw_bis_2004(
             _vorsorgeaufw_vom_lohn_bis_2019_single,
             ges_krankenv_beitr_m,
@@ -235,7 +235,7 @@ def vorsorgeaufw_bis_2004(
             1,
             eink_st_abzüge_params,
         )
-    elif (gemeinsam_veranlagt_tu) & (not kind):
+    elif (gemeinsam_veranlagt_tu) and (not kind):
         out = _berechne_vorsorgeaufw_bis_2004(
             _vorsorgeaufw_vom_lohn_bis_2019_tu,
             ges_krankenv_beitr_m_tu,

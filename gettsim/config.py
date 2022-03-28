@@ -113,6 +113,6 @@ TYPES_INPUT_VARIABLES = {
 try:
     import jax  # noqa: F401
 except ImportError:
-    IS_JAX_INSTALLED = False
+    USE_JAX = False
 else:
-    IS_JAX_INSTALLED = True
+    USE_JAX = True

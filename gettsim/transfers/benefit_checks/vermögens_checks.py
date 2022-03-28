@@ -95,7 +95,7 @@ def _arbeitsl_geld_2_grundfreib_vermög(
         out = (
             list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[0] * alter
         )
-    elif (geburtsjahr >= threshold_years[1]) & (not kind):
+    elif (geburtsjahr >= threshold_years[1]) and (not kind):
         out = (
             list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[1] * alter
         )

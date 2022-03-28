@@ -39,11 +39,11 @@ def unterhaltsvors_m(
     """
 
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
-    if (alter < altersgrenzen[0]) & alleinerz:
+    if (alter < altersgrenzen[0]) and alleinerz:
         out = (
             unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
         )
-    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) & alleinerz:
+    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) and alleinerz:
         out = (
             unterhalt_params["mindestunterhalt"][12]
             - kindergeld_params["kindergeld"][1]
@@ -52,8 +52,8 @@ def unterhaltsvors_m(
     # Older kids get it only if the single parent has income > 600€.
     elif (
         (altersgrenzen[1] <= alter <= altersgrenzen[2])
-        & alleinerz
-        & (
+        and alleinerz
+        and (
             unterhaltsvorschuss_eink_tu_m
             > unterhalt_params["unterhaltsvors_mindesteinkommen"]
         )

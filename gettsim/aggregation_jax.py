@@ -45,14 +45,6 @@ def grouped_max(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="max")
     fail_if_dtype_not_numeric_or_datetime(column, agg_func="max")
 
-    # For datetime, convert to float
-    # if np.issubdtype(column.dtype, np.datetime64):
-    #     column = column.astype("datetime64[ms]").astype(float)
-    #     out_on_hh = segment_max(column, group_id)  # .astype("datetime64[ms]")
-    #     out = out_on_hh[group_id]
-
-    #     out = out
-    # else:
     out_on_hh = segment_max(column, group_id)
     out = out_on_hh[group_id]
     return out

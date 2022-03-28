@@ -45,7 +45,7 @@ def grunds_im_alter_m_hh(
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_hh >= grunds_im_alter_vermög_freib_hh) | (
+    if (vermögen_hh >= grunds_im_alter_vermög_freib_hh) or (
         not erwachsene_alle_rentner_hh
     ):
         out = 0.0
@@ -291,9 +291,9 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
         grunds_im_alter_params["mehrbedarf_schwerbeh_g"]["rate"]
     )
 
-    if (schwerbeh_g) & (anz_erwachsene_hh == 1):
+    if (schwerbeh_g) and (anz_erwachsene_hh == 1):
         out = mehrbedarf_singles
-    elif (schwerbeh_g) & (anz_erwachsene_hh > 1):
+    elif (schwerbeh_g) and (anz_erwachsene_hh > 1):
         out = mehrbedarf_in_couple
     else:
         out = 0.0

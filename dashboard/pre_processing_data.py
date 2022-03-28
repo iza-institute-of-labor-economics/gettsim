@@ -23,7 +23,6 @@ wohngeld_miete_m_ab_2021 = np.vectorize(wohngeld_miete_m_ab_2021)
 wohngeld_miete_m_bis_2008 = np.vectorize(wohngeld_miete_m_bis_2008)
 wohngeld_min_miete = np.vectorize(wohngeld_min_miete)
 wohngeld_vor_vermög_check_m_hh = np.vectorize(wohngeld_vor_vermög_check_m_hh)
-# piecewise_polynomial = np.vectorize(piecewise_polynomial)
 _eink_st_tarif = np.vectorize(_eink_st_tarif)
 
 

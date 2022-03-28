@@ -23,7 +23,10 @@ aggregation_demographic_vars = {
     "haushaltsgröße_hh": {"aggr": "count"},
     "tax_unit_größe_tu": {"aggr": "count"},
     "alter_monate_jüngstes_mitglied_hh": {"source_col": "alter_monate", "aggr": "min"},
-    "anz_jüngstes_kind_hh": {"source_col": "jüngstes_kind", "aggr": "sum"},
+    "anz_mehrlinge_jüngstes_kind_hh": {
+        "source_col": "jüngstes_kind_oder_mehrling",
+        "aggr": "sum",
+    },
 }
 
 
@@ -230,13 +233,14 @@ def alter_monate(geburtstermin: np.datetime64, elterngeld_params: dict,) -> floa
     return out
 
 
-def jüngstes_kind(
+def jüngstes_kind_oder_mehrling(
     alter_monate: float, alter_monate_jüngstes_mitglied_hh: float, kind: bool,
 ) -> int:
-    """Check if person is the youngest child in the household.
+    """Check if person is the youngest child in the household or a twin, triplet, etc.
+    of the youngest child.
 
     # ToDo: replace kind by some age restriction
-    # ToDo: Check definition of "jüngstes kind" currently it is calculated as
+    # ToDo: Check definition as relevant for Elterngeld. Currently, it is calculated as
     # ToDo: age not being larger than 0.1 of a month
 
     Parameters

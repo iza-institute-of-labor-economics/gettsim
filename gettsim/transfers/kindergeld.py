@@ -109,10 +109,10 @@ def kindergeld_anspruch_nach_stunden(
     -------
     Boolean indiciating kindergeld eligibility.
     """
-    out = (alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]) | (
+    out = (alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]) or (
         (alter < kindergeld_params["höchstalter"]["mit_bedingungen"])
-        & in_ausbildung
-        & (arbeitsstunden_w <= kindergeld_params["stundengrenze"])
+        and in_ausbildung
+        and (arbeitsstunden_w <= kindergeld_params["stundengrenze"])
     )
 
     return out
@@ -142,10 +142,10 @@ def kindergeld_anspruch_nach_lohn(
     -------
 
     """
-    out = (alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]) | (
+    out = (alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]) or (
         (alter < kindergeld_params["höchstalter"]["mit_bedingungen"])
-        & in_ausbildung
-        & (bruttolohn_m <= kindergeld_params["einkommensgrenze"] / 12)
+        and in_ausbildung
+        and (bruttolohn_m <= kindergeld_params["einkommensgrenze"] / 12)
     )
 
     return out
