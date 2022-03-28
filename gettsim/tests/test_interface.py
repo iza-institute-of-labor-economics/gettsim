@@ -12,6 +12,7 @@ from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_d
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_datatype_is_false
 from gettsim.interface import _fail_if_functions_and_columns_overlap
+from gettsim.interface import _fail_if_group_variables_not_constant_within_groups
 from gettsim.interface import _fail_if_pid_is_non_unique
 from gettsim.interface import _partial_parameters_to_functions
 from gettsim.shared import add_rounding_spec
@@ -120,6 +121,19 @@ def test_fail_if_pid_is_non_unique():
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
+
+
+def test_fail_if_group_variables_not_constant_within_groups():
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m_hh": [100, 200, 300],
+        }
+    )
+
+    with pytest.raises(ValueError):
+        _fail_if_group_variables_not_constant_within_groups(data)
 
 
 def test_missing_root_nodes_raises_error(minimal_input_data):

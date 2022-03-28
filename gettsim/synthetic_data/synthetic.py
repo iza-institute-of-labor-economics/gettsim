@@ -7,6 +7,8 @@ import pandas as pd
 from gettsim.config import ROOT_DIR
 from gettsim.policy_environment import _load_parameter_group_from_yaml
 
+current_year = datetime.datetime.now().year
+
 
 def append_other_hh_members(
     df, hh_typ, n_children, age_adults, age_children, double_earner
@@ -59,7 +61,7 @@ def create_synthetic_data(
     age_children=None,
     baujahr=1980,
     double_earner=False,
-    policy_year=datetime.datetime.now().year,
+    policy_year=current_year,
     heterogeneous_vars=(),
     **kwargs,
 ):

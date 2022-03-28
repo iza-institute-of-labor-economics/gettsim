@@ -189,9 +189,7 @@ def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> b
     return anz_erwachsene_hh == anz_rentner_hh
 
 
-def geburtstermin(
-    geburtsjahr: int, geburtsmonat: int, geburtstag: int
-) -> np.datetime64:
+def geburtsdatum(geburtsjahr: int, geburtsmonat: int, geburtstag: int) -> np.datetime64:
     """Create date of birth datetime variable.
 
     Parameters
@@ -211,15 +209,15 @@ def geburtstermin(
     return out
 
 
-def alter_monate(geburtstermin: np.datetime64, elterngeld_params: dict,) -> float:
+def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict,) -> float:
     """Calculate age of youngest child in months.
 
     Parameters
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    geburtstermin
-        See :func:`geburtstermin`.
+    geburtsdatum
+        See :func:`geburtsdatum`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
@@ -227,7 +225,7 @@ def alter_monate(geburtstermin: np.datetime64, elterngeld_params: dict,) -> floa
 
     """
     date = pd.to_datetime(elterngeld_params["datum"])
-    age_in_days = date - geburtstermin
+    age_in_days = date - geburtsdatum
 
     out = age_in_days / np.timedelta64(1, "M")
     return out
@@ -256,5 +254,5 @@ def jüngstes_kind_oder_mehrling(
     -------
 
     """
-    out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) & kind
+    out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) and kind
     return out
