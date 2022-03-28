@@ -123,7 +123,7 @@ def compute_taxes_and_transfers(
 
     # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data)
-    _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
+    data = _reduce_to_necessary_data(dag, data, check_minimal_specification)
 
     # Convert series to numpy arrays
     data = {key: series.values for key, series in data.items()}
@@ -639,7 +639,9 @@ def _fail_if_root_nodes_are_missing(dag, data):
         raise ValueError(f"The following data columns are missing.\n{formatted}")
 
 
-def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification):
+def _reduce_to_necessary_data(dag, data, check_minimal_specification):
+
+    # Produce warning or fail if more than necessary data is given.
     root_nodes = set(_root_nodes(dag))
     unnecessary_data = set(data) - root_nodes
     formatted = format_list_linewise(unnecessary_data)
@@ -648,6 +650,8 @@ def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specifi
         warnings.warn(message)
     elif unnecessary_data and check_minimal_specification == "raise":
         raise ValueError(message)
+
+    return {k: v for k, v in data.items() if k not in unnecessary_data}
 
 
 def _fail_if_pid_is_non_unique(data):
