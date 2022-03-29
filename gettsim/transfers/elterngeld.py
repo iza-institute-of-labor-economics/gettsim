@@ -37,7 +37,7 @@ def elterngeld_m(
 
     """
 
-    if (elterngeld_eink_relev_m < 0) | (not elternzeit_anspruch):
+    if (elterngeld_eink_relev_m < 0) or (not elternzeit_anspruch):
         out = 0.0
     else:
         # Bound from above and below
@@ -64,8 +64,6 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     soli_st_params: dict,
 ) -> float:
     """Calculating the claim for benefits depending on previous wage.
-
-    TODO: This function requires `.fillna(0)` at the end. Investigate!
 
     Parameters
     ----------
@@ -96,7 +94,10 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     prox_income = 12 * max_wage - eink_st_abzüge_params["werbungskostenpauschale"]
     prox_income = max(prox_income, 0.0)
 
-    prox_tax = _eink_st_tarif(prox_income, eink_st_params,)
+    prox_tax = _eink_st_tarif(
+        prox_income,
+        eink_st_params,
+    )
 
     prox_soli = piecewise_polynomial(
         prox_tax,
@@ -146,19 +147,24 @@ def elternzeit_anspruch(
     """
     out = (
         (alter_monate_jüngstes_mitglied_hh <= elterngeld_params["max_monate_paar"])
-        & (
+        and (
             m_elterngeld_mut_hh + m_elterngeld_vat_hh
             < elterngeld_params["max_monate_paar"]
         )
-        & (not kind)
-        & (m_elterngeld <= elterngeld_params["max_monate_ind"])
+        and (not kind)
+        and (m_elterngeld <= elterngeld_params["max_monate_ind"])
     )
 
     return out
 
 
-def elterngeld_kindkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
+def elterngeld_kindkind(
+    geburtsjahr: int,
+    elterngeld_params: dict,
+) -> bool:
     """Check for sibling bonus on parental leave benefit.
+
+    # ToDo: why use datum and geburtsjahr instead of alter?
 
     Parameters
     ----------
@@ -171,14 +177,18 @@ def elterngeld_kindkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
     -------
 
     """
+    geburtsjahr = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
     out = (
-        elterngeld_params["datum"].year - geburtsjahr
+        geburtsjahr - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[0]
     )
     return out
 
 
-def elterngeld_vorschulkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
+def elterngeld_vorschulkind(
+    geburtsjahr: int,
+    elterngeld_params: dict,
+) -> bool:
     """Check for sibling bonus on parental leave benefit.
 
     Parameters
@@ -192,8 +202,9 @@ def elterngeld_vorschulkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
     -------
 
     """
+    geburtsjahr = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
     out = (
-        elterngeld_params["datum"].year - geburtsjahr
+        geburtsjahr - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
     )
     return out
@@ -228,7 +239,7 @@ def elterngeld_geschw_bonus_anspruch(
         out = (
             elterngeld_kindkind_hh
             == list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[0]
-        ) | (
+        ) or (
             elterngeld_vorschulkind_hh
             >= list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[1]
         )
@@ -238,7 +249,8 @@ def elterngeld_geschw_bonus_anspruch(
 
 
 def _elterngeld_anz_mehrlinge_anspruch(
-    elternzeit_anspruch: bool, anz_jüngstes_kind_hh: np.datetime64,
+    elternzeit_anspruch: bool,
+    anz_mehrlinge_jüngstes_kind_hh: np.datetime64,
 ) -> int:
     """Check for multiple bonus on parental leave benefit.
 
@@ -246,14 +258,14 @@ def _elterngeld_anz_mehrlinge_anspruch(
     ----------
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`.
-    anz_jüngstes_kind_hh
-        See :func:`anz_jüngstes_kind_hh`.
+    anz_mehrlinge_jüngstes_kind_hh
+        See :func:`anz_mehrlinge_jüngstes_kind_hh`.
 
     Returns
     -------
 
     """
-    out = anz_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0
+    out = anz_mehrlinge_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0
     return out
 
 
@@ -297,7 +309,8 @@ def elterngeld_nettolohn_m(
 
 
 def elterngeld_eink_relev_m(
-    _elterngeld_proxy_eink_vorj_elterngeld_m: float, elterngeld_nettolohn_m: float,
+    _elterngeld_proxy_eink_vorj_elterngeld_m: float,
+    elterngeld_nettolohn_m: float,
 ) -> float:
     """Calculating the relevant wage for the calculation of elterngeld.
 
@@ -348,14 +361,13 @@ def elterngeld_anteil_eink_erlass(
         < elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
     ):
         out = (
-            (
-                elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
-                - elterngeld_eink_relev_m
-            )
-            / elterngeld_params["eink_schritt_korrektur"]
-            * elterngeld_params["prozent_korrektur"]
-            + elterngeld_params["faktor"]
-        )
+            elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
+            - elterngeld_eink_relev_m
+        ) / elterngeld_params["eink_schritt_korrektur"] * elterngeld_params[
+            "prozent_korrektur"
+        ] + elterngeld_params[
+            "faktor"
+        ]
 
     # Lower replacement rate if considered income is above a threshold
     elif (

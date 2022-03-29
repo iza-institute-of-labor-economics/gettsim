@@ -49,10 +49,10 @@ from gettsim.transfers.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.transfers.kindergeld import kindergeld_m_ab_1997
 from gettsim.transfers.kindergeld import kindergeld_m_bis_1996
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
-    kinderzuschl_vorläufig_m_hh_ab_07_2019,
+    _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
-    kinderzuschl_vorläufig_m_hh_bis_06_2019,
+    _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_m_hh_ab_2011,
@@ -186,9 +186,11 @@ def _parse_kinderzuschl_max(date, params):
     if date.year >= 2021:
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
-            params["kinderzuschl"]["exmin"]["regelsatz"]["kinder"]
-            + params["kinderzuschl"]["exmin"]["kosten_der_unterkunft"]["kinder"]
-            + params["kinderzuschl"]["exmin"]["heizkosten"]["kinder"]
+            params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
+            + params["kinderzuschl"]["existenzminimum"]["kosten_der_unterkunft"][
+                "kinder"
+            ]
+            + params["kinderzuschl"]["existenzminimum"]["heizkosten"]["kinder"]
         ) / 12 - params["kindergeld"]["kindergeld"][1]
 
     return params
@@ -308,12 +310,12 @@ def load_reforms_for_date(date):
 
     if date < datetime.date(year=2019, month=7, day=1):
         functions[
-            "kinderzuschl_vorläufig_m_hh"
-        ] = kinderzuschl_vorläufig_m_hh_bis_06_2019
+            "_kinderzuschl_vor_vermög_check_m_hh"
+        ] = _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019
     else:
         functions[
-            "kinderzuschl_vorläufig_m_hh"
-        ] = kinderzuschl_vorläufig_m_hh_ab_07_2019
+            "_kinderzuschl_vor_vermög_check_m_hh"
+        ] = _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019
 
     if year <= 2010:
         functions[
@@ -385,7 +387,8 @@ def _load_parameter_group_from_yaml(
         return dt
 
     raw_group_data = yaml.load(
-        (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"), Loader=yaml.CLoader,
+        (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"),
+        Loader=yaml.CLoader,
     )
 
     # Load parameters (exclude 'rounding' parameters which are handled at the
@@ -477,7 +480,7 @@ def _load_parameter_group_from_yaml(
                         f"For parameter {param} a different string is specified."
                     )
 
-    tax_data["datum"] = date
+    tax_data["datum"] = np.datetime64(date)
 
     # Load rounding parameters if they exist
     if "rounding" in raw_group_data:

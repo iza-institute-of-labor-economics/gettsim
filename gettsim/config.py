@@ -84,7 +84,7 @@ TYPES_INPUT_VARIABLES = {
     "rentner": bool,
     "betreuungskost_m": float,
     "kapitaleink_brutto_m": float,
-    "vermiet_eink_m": float,
+    "eink_vermietung_m": float,
     "bruttokaltmiete_m_hh": float,
     "heizkosten_m_hh": float,
     "jahr_renteneintr": int,
@@ -110,9 +110,4 @@ TYPES_INPUT_VARIABLES = {
 # Check Available Packages
 # =====================================================================================
 
-try:
-    import jax  # noqa: F401
-except ImportError:
-    IS_JAX_INSTALLED = False
-else:
-    IS_JAX_INSTALLED = True
+USE_JAX = False

@@ -78,7 +78,7 @@ entzugsrate_kind:
   2019-07-01:
     scalar: 0.45
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
-exmin:
+existenzminimum:
   name:
     de: Höhen des Existenzminimums, festgelegt im Existenzminimumsbericht der Bundesregierung.
     en:

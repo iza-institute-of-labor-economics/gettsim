@@ -45,7 +45,7 @@ def grunds_im_alter_m_hh(
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_hh >= grunds_im_alter_vermög_freib_hh) | (
+    if (vermögen_hh >= grunds_im_alter_vermög_freib_hh) or (
         not erwachsene_alle_rentner_hh
     ):
         out = 0.0
@@ -68,7 +68,7 @@ def grunds_im_alter_eink_m(
     grunds_im_alter_priv_rente_m: float,
     grunds_im_alter_ges_rente_m: float,
     sonstig_eink_m: float,
-    vermiet_eink_m: float,
+    eink_vermietung_m: float,
     _grunds_im_alter_kapitaleink_brutto_m: float,
     elterngeld_m: float,
     eink_st_tu: float,
@@ -90,8 +90,8 @@ def grunds_im_alter_eink_m(
         See :func:`grunds_im_alter_ges_rente_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
-    vermiet_eink_m
-        See :func:`vermiet_eink_m`.
+    eink_vermietung_m
+        See :func:`eink_vermietung_m`.
     _grunds_im_alter_kapitaleink_brutto_m
         See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
     elterngeld_m
@@ -114,14 +114,9 @@ def grunds_im_alter_eink_m(
     """
 
     # Consider Elterngeld that is larger than 300
-    elterngeld_grunds_im_alter_m = (
-        elterngeld_m - grunds_im_alter_params["elterngeld_anr_frei"]
+    elterngeld_grunds_im_alter_m = max(
+        0.0, elterngeld_m - grunds_im_alter_params["elterngeld_anr_frei"]
     )
-
-    if elterngeld_grunds_im_alter_m < 0:
-        elterngeld_grunds_im_alter_m = 0
-    else:
-        elterngeld_grunds_im_alter_m = elterngeld_grunds_im_alter_m
 
     # Income
     total_income = (
@@ -129,7 +124,7 @@ def grunds_im_alter_eink_m(
         + grunds_im_alter_ges_rente_m
         + grunds_im_alter_priv_rente_m
         + sonstig_eink_m
-        + vermiet_eink_m
+        + eink_vermietung_m
         + _grunds_im_alter_kapitaleink_brutto_m
         + elterngeld_grunds_im_alter_m
     )
@@ -182,16 +177,14 @@ def grunds_im_alter_erwerbseink_m(
     earnings_after_max_deduction = earnings - arbeitsl_geld_2_params["regelsatz"][1] / 2
     earnings = (1 - grunds_im_alter_params["erwerbseink_anr_frei"]) * earnings
 
-    if earnings < earnings_after_max_deduction:
-        out = earnings_after_max_deduction
-    else:
-        out = earnings
+    out = max(earnings, earnings_after_max_deduction)
 
     return out
 
 
 def _grunds_im_alter_kapitaleink_brutto_m(
-    kapitaleink_brutto: float, grunds_im_alter_params: dict,
+    kapitaleink_brutto: float,
+    grunds_im_alter_params: dict,
 ) -> float:
     """Calculate capital income considered in the calculation of Grundsicherung im
     Alter.
@@ -216,16 +209,15 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     )
 
     # Calculate and return monthly capital income (after deduction)
-    if capital_income_y < 0:
-        out = 0.0
-    else:
-        out = capital_income_y / 12
+    out = max(0.0, capital_income_y / 12)
 
     return out
 
 
 def grunds_im_alter_priv_rente_m(
-    priv_rente_m: float, arbeitsl_geld_2_params: dict, grunds_im_alter_params: dict,
+    priv_rente_m: float,
+    arbeitsl_geld_2_params: dict,
+    grunds_im_alter_params: dict,
 ) -> float:
     """Calculate private pension benefits considered in the calculation of
     Grundsicherung im Alter.
@@ -284,16 +276,16 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
 
     """
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
-    mehrbedarf_singles = (arbeitsl_geld_2_params["regelsatz"][1]) * (
+    mehrbedarf_single = (arbeitsl_geld_2_params["regelsatz"][1]) * (
         grunds_im_alter_params["mehrbedarf_schwerbeh_g"]["rate"]
     )
     mehrbedarf_in_couple = (arbeitsl_geld_2_params["regelsatz"][2]) * (
         grunds_im_alter_params["mehrbedarf_schwerbeh_g"]["rate"]
     )
 
-    if (schwerbeh_g) & (anz_erwachsene_hh == 1):
-        out = mehrbedarf_singles
-    elif (schwerbeh_g) & (anz_erwachsene_hh > 1):
+    if (schwerbeh_g) and (anz_erwachsene_hh == 1):
+        out = mehrbedarf_single
+    elif (schwerbeh_g) and (anz_erwachsene_hh > 1):
         out = mehrbedarf_in_couple
     else:
         out = 0.0
@@ -301,7 +293,9 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     return out
 
 
-def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: float,) -> float:
+def grunds_im_alter_ges_rente_m_bis_2020(
+    ges_rente_m: float,
+) -> float:
     """Calculate public pension benefits which are considered in the calculation of
     Grundsicherung im Alter.
 
@@ -348,7 +342,7 @@ def grunds_im_alter_ges_rente_m_ab_2021(
 
     """
 
-    deducted_rent = piecewise_polynomial(
+    angerechnete_rente = piecewise_polynomial(
         x=ges_rente_m,
         thresholds=grunds_im_alter_params["ges_rente_anr_frei"]["thresholds"],
         rates=grunds_im_alter_params["ges_rente_anr_frei"]["rates"],
@@ -359,17 +353,19 @@ def grunds_im_alter_ges_rente_m_ab_2021(
 
     upper = arbeitsl_geld_2_params["regelsatz"][1] / 2
     if grundr_berechtigt:
-        deducted_rent = min(deducted_rent, upper)
+        angerechnete_rente = min(angerechnete_rente, upper)
     else:
-        deducted_rent = 0.0
+        angerechnete_rente = 0.0
 
-    return ges_rente_m - deducted_rent
+    return ges_rente_m - angerechnete_rente
 
 
 def grunds_im_alter_vermög_freib_hh(
-    anz_erwachsene_hh: int, anz_kinder_hh: int, grunds_im_alter_params: dict,
+    anz_erwachsene_hh: int,
+    anz_kinder_hh: int,
+    grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate maximum wealth not considered for Grundsicherung im Alter.
+    """Calculate wealth not considered for Grundsicherung im Alter.
 
     Parameters
     ----------

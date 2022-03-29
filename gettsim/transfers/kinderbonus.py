@@ -1,4 +1,7 @@
-def kinderbonus_m(kinderfreib_günstiger_tu: bool, kinderbonus_basis_m: float,) -> float:
+def kinderbonus_m(
+    kinderfreib_günstiger_tu: bool,
+    kinderbonus_basis_m: float,
+) -> float:
     """Calculate Kinderbonus (one-time payment, non-allowable against transfer payments).
 
     Parameters

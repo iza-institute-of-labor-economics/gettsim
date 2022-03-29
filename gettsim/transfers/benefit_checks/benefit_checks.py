@@ -1,5 +1,6 @@
 def wohngeld_vorrang_hh(
-    wohngeld_nach_vermög_check_m_hh: float, arbeitsl_geld_2_vor_vorrang_m_hh: float,
+    wohngeld_nach_vermög_check_m_hh: float,
+    arbeitsl_geld_2_vor_vorrang_m_hh: float,
 ) -> bool:
     """Check if housing benefit has priority.
 
