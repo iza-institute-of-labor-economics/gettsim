@@ -73,10 +73,7 @@ def deductions(plot_dict, data):
     src = ColumnDataSource(data)
 
     p = setup_plot(src)
-    description = Div(
-        text=plot_dict["description"],
-        width=1000,
-    )
+    description = Div(text=plot_dict["description"], width=1000)
 
     layout = column(description, p)
 
