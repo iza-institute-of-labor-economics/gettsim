@@ -151,6 +151,7 @@ general naming considerations here.
   abbreviate them (e.g., ``wohngeld_params["vermögensgrundfreibetrag"]`` for the
   parameter and ``wohngeld_nach_vermög_check_m_hh`` for a column derived from it).
 
+
 Other Python identifiers (Functions, Variables)
 -----------------------------------------------
 
@@ -245,7 +246,6 @@ Discussion
 * GitHub PR for second update (concatenated column names, dealing with conflicting
   objectives, names for columns vs parameters):
   https://github.com/iza-institute-of-labor-economics/gettsim/pull/342
-
 
 
 Copyright

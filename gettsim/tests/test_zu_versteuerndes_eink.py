@@ -17,7 +17,7 @@ INPUT_COLS = [
     "betreuungskost_m",
     "eink_selbst_m",
     "kapitaleink_brutto_m",
-    "vermiet_eink_m",
+    "eink_vermietung_m",
     "jahr_renteneintr",
     "sum_ges_rente_priv_rente_m",
     "arbeitsstunden_w",
@@ -41,12 +41,12 @@ OUT_COLS = [
     "eink_selbst_m",
     "eink_abhängig_beschäftigt",
     "kapitaleink_brutto_m",
-    "vermiet_eink_m",
+    "eink_vermietung_m",
     "eink_rente_zu_verst",
     "eink_selbst_tu",
     "eink_abhängig_beschäftigt_tu",
     "kapitaleink_brutto_tu",
-    "vermiet_eink_m_tu",
+    "eink_vermietung_m_tu",
     "rente_ertragsanteil",
     "sonder",
     "alleinerz_freib_tu",
@@ -74,7 +74,9 @@ def input_data():
 
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
 def test_zve(
-    input_data, year, target,
+    input_data,
+    year,
+    target,
 ):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
@@ -108,7 +110,11 @@ def test_zve(
 
     # TODO: There are large differences for the 2018 test. See #217.
     assert_series_equal(
-        result[target], expected_result, check_dtype=False, atol=1e-1, rtol=1,
+        result[target],
+        expected_result,
+        check_dtype=False,
+        atol=1e-1,
+        rtol=1,
     )
 
 

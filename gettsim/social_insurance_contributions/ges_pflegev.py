@@ -1,9 +1,10 @@
 def ges_pflegev_zusatz_kinderlos(
-    hat_kinder: bool, alter: int, soz_vers_beitr_params: dict,
+    hat_kinder: bool,
+    alter: int,
+    soz_vers_beitr_params: dict,
 ) -> bool:
     """
-    Create boolean Series indicating addtional care insurance contribution for
-    childless individuals.
+    Whether additional care insurance contribution for childless individuals applies.
 
     Parameters
     ----------
@@ -63,14 +64,14 @@ def ges_pflegev_beitr_m(
     # Calculate care insurance contributions for regular jobs.
     beitr_regulär_beschäftigt_m = (
         _ges_krankenv_beitr_bruttolohn_m
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         beitr_regulär_beschäftigt_m += (
             _ges_krankenv_beitr_bruttolohn_m
-            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
     if selbstständig:
@@ -110,20 +111,19 @@ def ges_pflegev_beitr_selbst_m(
 
     Returns
     -------
-    Pandas Series containing monthly care insurance contributions for self employed
-    income.
+    Monthly care insurance contributions for self employed income.
     """
     out = (
         _ges_krankenv_bemessungsgrundlage_eink_selbst
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         out += (
             _ges_krankenv_bemessungsgrundlage_eink_selbst
-            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
     return out
@@ -148,19 +148,19 @@ def ges_pflegev_beitr_rente_m(
 
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions for pension income.
+    Monthly health insurance contributions for pension income.
     """
     out = (
         _ges_krankenv_bemessungsgrundlage_rente_m
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         out += (
             _ges_krankenv_bemessungsgrundlage_rente_m
-            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
     return out
@@ -192,21 +192,20 @@ def _ges_pflegev_beitr_midi_job_m_m(
 
     """
     # Calculate the sum of employee and employer care insurance contribution.
-    ges_beitr_midi_job_m = (
+    gesamtbeitrag_midi_job_m = (
         midi_job_bemessungsentgelt_m
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
-        ges_beitr_midi_job_m += (
+        gesamtbeitrag_midi_job_m += (
             midi_job_bemessungsentgelt_m
-            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
     ag_beitr_midi_job_m = (
-        bruttolohn_m
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
-    return ges_beitr_midi_job_m - ag_beitr_midi_job_m
+    return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m

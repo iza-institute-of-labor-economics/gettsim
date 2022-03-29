@@ -16,7 +16,7 @@ INPUT_COLS = [
     "bruttolohn_m",
     "sonstig_eink_m",
     "kapitaleink_brutto_m",
-    "vermiet_eink_m",
+    "eink_vermietung_m",
     "eink_selbst_m",
     "arbeitsl_geld_m",
     "sum_ges_rente_priv_rente_m",

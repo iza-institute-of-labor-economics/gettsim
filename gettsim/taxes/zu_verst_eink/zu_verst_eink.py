@@ -56,7 +56,8 @@ def freibeträge(
 
 
 def _zu_verst_eink_ohne_kinderfreib_tu(
-    sum_eink_tu: float, freibeträge_tu: float,
+    sum_eink_tu: float,
+    freibeträge_tu: float,
 ) -> float:
     """Calculate taxable income without child allowance.
 

@@ -50,6 +50,9 @@ def test_pension(input_data, year, column):
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
 
     calc_result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=column,
     )
     assert_series_equal(calc_result[column], year_data[column])

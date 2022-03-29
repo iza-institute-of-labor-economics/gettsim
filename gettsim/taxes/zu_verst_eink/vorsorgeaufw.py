@@ -89,7 +89,8 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 
 
 def vorsorgeaufw_ab_2005_bis_2009(
-    _vorsorge_alternative_ab_2005_bis_2009: float, vorsorgeaufw_bis_2004: float,
+    _vorsorge_alternative_ab_2005_bis_2009: float,
+    vorsorgeaufw_bis_2004: float,
 ) -> float:
     """Calculate Vorsorgeaufwendungen from 2005 to 2009.
 
@@ -227,7 +228,7 @@ def vorsorgeaufw_bis_2004(
     -------
 
     """
-    if (not gemeinsam_veranlagt_tu) & (not kind):
+    if (not gemeinsam_veranlagt_tu) and (not kind):
         out = _berechne_vorsorgeaufw_bis_2004(
             _vorsorgeaufw_vom_lohn_bis_2019_single,
             ges_krankenv_beitr_m,
@@ -235,7 +236,7 @@ def vorsorgeaufw_bis_2004(
             1,
             eink_st_abzüge_params,
         )
-    elif (gemeinsam_veranlagt_tu) & (not kind):
+    elif (gemeinsam_veranlagt_tu) and (not kind):
         out = _berechne_vorsorgeaufw_bis_2004(
             _vorsorgeaufw_vom_lohn_bis_2019_tu,
             ges_krankenv_beitr_m_tu,
@@ -250,7 +251,8 @@ def vorsorgeaufw_bis_2004(
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_single(
-    bruttolohn_m: float, eink_st_abzüge_params: dict,
+    bruttolohn_m: float,
+    eink_st_abzüge_params: dict,
 ) -> float:
     """Calcaulate vorsoge expenditures until 2019 for singles.
 
@@ -275,7 +277,8 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_tu(
-    bruttolohn_m_tu: float, eink_st_abzüge_params: dict,
+    bruttolohn_m_tu: float,
+    eink_st_abzüge_params: dict,
 ) -> float:
     """Calcaulate vorsoge expenditures until 2019 per tax unit.
 

@@ -12,6 +12,7 @@ from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_d
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_datatype_is_false
 from gettsim.interface import _fail_if_functions_and_columns_overlap
+from gettsim.interface import _fail_if_group_variables_not_constant_within_groups
 from gettsim.interface import _fail_if_pid_is_non_unique
 from gettsim.interface import _partial_parameters_to_functions
 from gettsim.shared import add_rounding_spec
@@ -122,6 +123,19 @@ def test_fail_if_pid_is_non_unique():
         _fail_if_pid_is_non_unique(data)
 
 
+def test_fail_if_group_variables_not_constant_within_groups():
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m_hh": [100, 200, 300],
+        }
+    )
+
+    with pytest.raises(ValueError):
+        _fail_if_group_variables_not_constant_within_groups(data)
+
+
 def test_missing_root_nodes_raises_error(minimal_input_data):
     def b(a):
         return a
@@ -130,7 +144,8 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         return b
 
     with pytest.raises(
-        ValueError, match="The following data columns are missing",
+        ValueError,
+        match="The following data columns are missing",
     ):
         compute_taxes_and_transfers(
             minimal_input_data, {}, functions=[b, c], targets="c"
@@ -151,7 +166,8 @@ def test_fail_if_missing_pid(minimal_input_data):
     data = minimal_input_data.drop("p_id", axis=1).copy()
 
     with pytest.raises(
-        ValueError, match="The input data must contain the column p_id",
+        ValueError,
+        match="The input data must contain the column p_id",
     ):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
@@ -161,7 +177,8 @@ def test_fail_if_non_unique_pid(minimal_input_data):
     data["p_id"] = 1
 
     with pytest.raises(
-        ValueError, match="The following p_ids are non-unique",
+        ValueError,
+        match="The following p_ids are non-unique",
     ):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
@@ -171,7 +188,8 @@ def test_fail_if_non_unique_cols(minimal_input_data):
     data["temp"] = data["hh_id"]
     data = data.rename(columns={"temp": "hh_id"})
     with pytest.raises(
-        ValueError, match="The following columns are non-unique",
+        ValueError,
+        match="The following columns are non-unique",
     ):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
@@ -193,7 +211,8 @@ def test_partial_parameters_to_functions_removes_argument():
 
     # Fails if params is added to partial function
     with pytest.raises(
-        TypeError, match=("got multiple values for argument "),
+        TypeError,
+        match=("got multiple values for argument "),
     ):
         func_after_partial(2, {"test_param_1": 1})
 

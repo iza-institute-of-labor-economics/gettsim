@@ -27,9 +27,9 @@ def arbeitsl_geld_2_m_hh(
     """
     if (
         wohngeld_vorrang_hh
-        | kinderzuschl_vorrang_hh
-        | wohngeld_kinderzuschl_vorrang_hh
-        | erwachsene_alle_rentner_hh
+        or kinderzuschl_vorrang_hh
+        or wohngeld_kinderzuschl_vorrang_hh
+        or erwachsene_alle_rentner_hh
     ):
         out = 0.0
     else:
@@ -39,7 +39,8 @@ def arbeitsl_geld_2_m_hh(
 
 
 def arbeitsl_geld_2_regelbedarf_m_hh(
-    arbeitsl_geld_2_regelsatz_m_hh: float, arbeitsl_geld_2_kost_unterk_m_hh: float,
+    arbeitsl_geld_2_regelsatz_m_hh: float,
+    arbeitsl_geld_2_kost_unterk_m_hh: float,
 ) -> float:
     """Basic monthly subsistence level on household level.
 
@@ -102,7 +103,7 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
         # Special case if 1 kid below 6 or 2,3 below 15.
         mehrbedarf = (
             arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
-            if (anz_kinder_bis_6_hh >= 1) | (2 <= anz_kinder_bis_15_hh <= 3)
+            if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
             else 0.0
         )
 
