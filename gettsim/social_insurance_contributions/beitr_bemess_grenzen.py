@@ -13,10 +13,7 @@ def _ges_rentenv_beitr_bemess_grenze_m(
 
     """
     params = soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]
-    if wohnort_ost:
-        out = params["ost"]
-    else:
-        out = params["west"]
+    out = params["ost"] if wohnort_ost else params["west"]
 
     return float(out)
 
@@ -35,16 +32,12 @@ def _ges_krankenv_beitr_bemess_grenze_m(
 
     Returns
     -------
-    Pandas Series containing the income threshold up to which the rate of health
-    insurance contributions apply.
+    The income threshold up to which the rate of health insurance contributions apply.
 
     """
     params = soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]
 
-    if wohnort_ost:
-        out = params["ost"]
-    else:
-        out = params["west"]
+    out = params["ost"] if wohnort_ost else params["west"]
 
     return float(out)
 
@@ -67,9 +60,10 @@ def _ges_krankenv_bezugsgröße_selbst_m(
     Returns
     -------
     """
-    if wohnort_ost:
-        out = soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"]
-    else:
-        out = soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"]
+    out = (
+        soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"]
+        if wohnort_ost
+        else soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"]
+    )
 
     return float(out)

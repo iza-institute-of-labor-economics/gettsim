@@ -29,7 +29,7 @@ def arbeitsl_geld_2_eink_m(
 
     Returns
     -------
-    Float Series with the income of a person by unemployment insurance.
+    Income of a person by unemployment insurance.
     """
 
     out = (
@@ -47,7 +47,7 @@ def arbeitsl_geld_2_brutto_eink_m(
     bruttolohn_m: float,
     sonstig_eink_m: float,
     eink_selbst_m: float,
-    vermiet_eink_m: float,
+    eink_vermietung_m: float,
     kapitaleink_brutto_m: float,
     sum_ges_rente_priv_rente_m: float,
     arbeitsl_geld_m: float,
@@ -64,8 +64,8 @@ def arbeitsl_geld_2_brutto_eink_m(
         See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
     eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    vermiet_eink_m
-        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
+    eink_vermietung_m
+        See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
     kapitaleink_brutto_m
         See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
     sum_ges_rente_priv_rente_m
@@ -78,13 +78,13 @@ def arbeitsl_geld_2_brutto_eink_m(
 
     Returns
     -------
-    float with the income by unemployment insurance before tax.
+    Income by unemployment insurance before tax.
     """
     out = (
         bruttolohn_m
         + sonstig_eink_m
         + eink_selbst_m
-        + vermiet_eink_m
+        + eink_vermietung_m
         + kapitaleink_brutto_m
         + sum_ges_rente_priv_rente_m
         + arbeitsl_geld_m
@@ -95,7 +95,9 @@ def arbeitsl_geld_2_brutto_eink_m(
 
 
 def arbeitsl_geld_2_2005_netto_quote(
-    bruttolohn_m: float, elterngeld_nettolohn_m: float, arbeitsl_geld_2_params: dict,
+    bruttolohn_m: float,
+    elterngeld_nettolohn_m: float,
+    arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of net to gross wage.
 
@@ -160,7 +162,9 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
 
 
 def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
-    bruttolohn_m: float, anz_kinder_hh: int, arbeitsl_geld_2_params: dict,
+    bruttolohn_m: float,
+    anz_kinder_hh: int,
+    arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calcualte share of income, which remains to the individual sinc 10/2005.
 

@@ -22,7 +22,9 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
 
 @add_rounding_spec(params_key="ges_rente")
 def ges_rente_nach_grundr_m(
-    ges_rente_vor_grundr_m: float, grundr_zuschlag_m: float, rentner: bool,
+    ges_rente_vor_grundr_m: float,
+    grundr_zuschlag_m: float,
+    rentner: bool,
 ) -> float:
     """Calculate total public pension including Grundrentenzuschlag. Is
     only active after 2021 when Grundrente is in place.
@@ -41,11 +43,7 @@ def ges_rente_nach_grundr_m(
 
     """
     # Return 0 if person not yet retired
-    if rentner:
-        out = ges_rente_vor_grundr_m + grundr_zuschlag_m
-    else:
-        out = 0.0
-
+    out = ges_rente_vor_grundr_m + grundr_zuschlag_m if rentner else 0.0
     return out
 
 
@@ -109,10 +107,7 @@ def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
     """
     params = ges_rente_params["rentenwert"]
 
-    if wohnort_ost:
-        out = params["ost"]
-    else:
-        out = params["west"]
+    out = params["ost"] if wohnort_ost else params["west"]
 
     return float(out)
 
@@ -133,10 +128,7 @@ def rentenwert_vorjahr(wohnort_ost: bool, ges_rente_params: dict) -> float:
     """
     params = ges_rente_params["rentenwert_vorjahr"]
 
-    if wohnort_ost:
-        out = params["ost"]
-    else:
-        out = params["west"]
+    out = params["ost"] if wohnort_ost else params["west"]
 
     return float(out)
 
@@ -194,6 +186,9 @@ def entgeltp_update_lohn(
     -------
 
     """
+
+    # ToDo: Does the scaling bonus really apply to current wages or only to those that
+    # ToDo: had been earned during GDR times?
 
     # Scale bruttolohn up if earned in eastern Germany
     if wohnort_ost:

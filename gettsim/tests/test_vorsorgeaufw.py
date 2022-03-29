@@ -37,7 +37,9 @@ def input_data():
 
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
 def test_vorsorge(
-    input_data, year, target,
+    input_data,
+    year,
+    target,
 ):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[IN_COLS].copy()

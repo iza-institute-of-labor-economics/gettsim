@@ -23,7 +23,6 @@ wohngeld_miete_m_ab_2021 = np.vectorize(wohngeld_miete_m_ab_2021)
 wohngeld_miete_m_bis_2008 = np.vectorize(wohngeld_miete_m_bis_2008)
 wohngeld_min_miete = np.vectorize(wohngeld_min_miete)
 wohngeld_vor_vermög_check_m_hh = np.vectorize(wohngeld_vor_vermög_check_m_hh)
-# piecewise_polynomial = np.vectorize(piecewise_polynomial)
 _eink_st_tarif = np.vectorize(_eink_st_tarif)
 
 
@@ -271,7 +270,7 @@ def social_security_data(start, end):
 
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
-        soz_vers_dict[i] = policy_params["soz_vers_beitr"]["soz_vers_beitr"]
+        soz_vers_dict[i] = policy_params["soz_vers_beitr"]["beitr_satz"]
 
     soz_vers_df = pd.DataFrame(data=soz_vers_dict).transpose()
     # Dictionary entries into columns

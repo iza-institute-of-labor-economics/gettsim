@@ -43,7 +43,9 @@ def arbeitsl_geld_m(
 
 
 def arbeitsl_monate_gesamt(
-    arbeitsl_monate_lfdj: int, arbeitsl_monate_vorj: int, arbeitsl_monate_v2j: int,
+    arbeitsl_monate_lfdj: int,
+    arbeitsl_monate_vorj: int,
+    arbeitsl_monate_v2j: int,
 ) -> int:
     """Aggregate months of unemployment over the last two years.
 
@@ -98,9 +100,9 @@ def arbeitsl_geld_berechtigt(
             arbeitsl_monate_gesamt
             <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"]
         )
-        & (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
-        & (sum_ges_rente_priv_rente_m == 0)
-        & (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
+        and (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
+        and (sum_ges_rente_priv_rente_m == 0)
+        and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
     return out
 

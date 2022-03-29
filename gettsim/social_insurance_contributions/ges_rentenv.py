@@ -27,7 +27,7 @@ def ges_rentenv_beitr_m(
     """
     ges_rentenv_beitr_regular_job_m = (
         _ges_rentenv_beitr_bruttolohn_m
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
     )
 
     if geringfügig_beschäftigt:
@@ -63,16 +63,17 @@ def _ges_rentenv_beitr_midi_job_m_m(
     ges_beitr_midi_job = (
         midi_job_bemessungsentgelt_m
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
     )
     ag_beitr_midi_job = (
-        bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
+        bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
     )
     return ges_beitr_midi_job - ag_beitr_midi_job
 
 
 def _ges_rentenv_beitr_bruttolohn_m(
-    bruttolohn_m: float, _ges_rentenv_beitr_bemess_grenze_m: float,
+    bruttolohn_m: float,
+    _ges_rentenv_beitr_bemess_grenze_m: float,
 ) -> float:
     """Calculate the wage subject to pension and
     unemployment insurance contributions.

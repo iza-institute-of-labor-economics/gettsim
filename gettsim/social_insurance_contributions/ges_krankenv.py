@@ -35,7 +35,7 @@ def ges_krankenv_beitr_m(
 
     """
     beitr_regulär_beschäftigt_m = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
         * _ges_krankenv_beitr_bruttolohn_m
     )
 
@@ -83,7 +83,8 @@ def _ges_krankenv_beitr_bruttolohn_m(
 
 
 def ges_krankenv_beitr_selbst_m(
-    _ges_krankenv_bemessungsgrundlage_eink_selbst: float, soz_vers_beitr_params: dict,
+    _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
+    soz_vers_beitr_params: dict,
 ) -> float:
     """Calculates health insurance contributions.
     Self-employed pay the full
@@ -99,12 +100,11 @@ def ges_krankenv_beitr_selbst_m(
 
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions for self employed
-    income.
+    Monthly health insurance contributions for self employed income.
     """
     beitr_satz = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ag"]
     )
     return _ges_krankenv_bemessungsgrundlage_eink_selbst * beitr_satz
 
@@ -156,7 +156,8 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
 
 
 def _ges_krankenv_bemessungsgrundlage_rente_m(
-    sum_ges_rente_priv_rente_m: float, _ges_krankenv_beitr_bemess_grenze_m: float,
+    sum_ges_rente_priv_rente_m: float,
+    _ges_krankenv_beitr_bemess_grenze_m: float,
 ) -> float:
     """Choose the amount of pension which is subject to health insurance contribution.
 
@@ -190,10 +191,10 @@ def ges_krankenv_beitr_rente_m(
 
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions for pension income.
+    Monthly health insurance contributions for pension income.
     """
     out = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
         * _ges_krankenv_bemessungsgrundlage_rente_m
     )
     return out
@@ -219,12 +220,12 @@ def _ges_krankenv_beitr_midi_job_m(
     -------
 
     """
-    ges_beitr_midi_job_m = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+    gesamtbeitrag_midi_job_m = (
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ag"]
     ) * midi_job_bemessungsentgelt_m
 
     ag_beitr_midi_job_m = (
-        bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ag"]
     )
-    return ges_beitr_midi_job_m - ag_beitr_midi_job_m
+    return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m
