@@ -274,6 +274,7 @@ def execute_dag(dag, data, targets, debug):
 
     """
     results = data.copy()
+
     # Needed for garbage collection.
     visited_nodes = set(results)
     skipped_nodes = set()
@@ -286,6 +287,7 @@ def execute_dag(dag, data, targets, debug):
                     results[task] = dag.nodes[task]["function"](
                         **kwargs
                     )  # .rename(task)
+
                 except Exception as e:
                     if debug:
                         traceback.print_exc()
@@ -300,7 +302,6 @@ def execute_dag(dag, data, targets, debug):
                 )
 
             visited_nodes.add(task)
-
             if not debug:
                 results = collect_garbage(results, task, visited_nodes, targets, dag)
 

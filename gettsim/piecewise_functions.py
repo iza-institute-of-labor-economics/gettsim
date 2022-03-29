@@ -56,7 +56,7 @@ def piecewise_polynomial(
                 # higher interval. Hence we have to use the individual rates.
                 if selected_bin >= i:
                     out += (
-                        rates_multiplier * rates[pol - 1, i - 1] * threshold_incr ** pol
+                        rates_multiplier * rates[pol - 1, i - 1] * threshold_incr**pol
                     )
 
     # If rates remain the same, everything is a lot easier.
@@ -73,7 +73,7 @@ def piecewise_polynomial(
             out += (
                 rates[pol - 1][selected_bin]
                 * rates_multiplier
-                * (increment_to_calc ** pol)
+                * (increment_to_calc**pol)
             )
 
     return out
@@ -381,6 +381,6 @@ def calculate_intercepts(
 
     out = intercept_interval
     for pol in range(1, rates.shape[0] + 1):
-        out += rates[pol - 1, index_interval] * (increment_to_calc ** pol)
+        out += rates[pol - 1, index_interval] * (increment_to_calc**pol)
 
     return out

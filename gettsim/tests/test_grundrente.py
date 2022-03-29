@@ -107,7 +107,10 @@ def test_proxy_rente_vorj(input_data_proxy_rente, year):
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
     target = "rente_vorj_vor_grundr_proxy_m"
     calc_result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=target,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=target,
     )
     assert_series_equal(calc_result[target].astype(float), year_data[target])
 

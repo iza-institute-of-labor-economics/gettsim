@@ -16,9 +16,9 @@ from gettsim.aggregation import grouped_mean
 from gettsim.aggregation import grouped_min
 from gettsim.aggregation import grouped_sum
 from gettsim.config import DEFAULT_TARGETS
-from gettsim.config import IS_JAX_INSTALLED
 from gettsim.config import ORDER_OF_IDS
 from gettsim.config import TYPES_INPUT_VARIABLES
+from gettsim.config import USE_JAX
 from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
 from gettsim.dag import create_dag
 from gettsim.dag import execute_dag
@@ -28,11 +28,6 @@ from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_if_series_has_internal_type
-
-# try:
-#     import jax.numpy as jnp
-# except ImportError:
-#     pass
 
 
 class KeyErrorMessage(str):
@@ -123,7 +118,7 @@ def compute_taxes_and_transfers(
 
     # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data)
-    _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification)
+    data = _reduce_to_necessary_data(dag, data, check_minimal_specification)
 
     # Convert series to numpy arrays
     data = {key: series.values for key, series in data.items()}
@@ -361,92 +356,39 @@ def _process_data(data):
             "'data' is not a pd.DataFrame or a pd.Series or a dictionary of pd.Series."
         )
 
+    # Check that group variables (e.g. ending with "_hh") are constant within groups
+    _fail_if_group_variables_not_constant_within_groups(data)
     return data
 
 
-# def _reduce_data(data):
-#     """Reduce columns in data which are defined for tax units and households.
+def _fail_if_group_variables_not_constant_within_groups(data):
+    """Check whether group variables (ending with `"_tu"` or `"_hh"`) have the same
+    value within each group. Possible groups are households or tax units.
 
-#     Since the input data might be a `pandas.DataFrame` which can only be rectangular,
-#     some columns contain the same value for groups of individuals. Possible groups are
-#     households or tax units.
+    Parameters
+    ----------
+    data : dict of pandas.Series
+        Dictionary containing a series for each column.
 
-#     gettsim uses reduced `pandas.Series` internally which have the tax unit
-# or household
-#     id as the index. Here, we check whether all values in a group are the same
-# and then
-#     reduce the series.
+    """
+    for name, col in data.items():
+        for level in ["hh", "tu"]:
+            if name.endswith(f"_{level}"):
+                max_value = col.groupby(data[f"{level}_id"]).transform("max")
+                if not (max_value == col).all():
+                    message = _format_text_for_cmdline(
+                        f"""
+                        Column '{name}' has not one unique value per group defined by
+                        `{level}_id`.
 
-#     The reduction is inferred from the variable name.
+                        This is expected if the variable name ends with '_hh' or '_tu'.
 
-#     - The variable name ends with `"_tu"` or `"_hh"`.
-#     - The variable name includes `"_tu_"` or `"_hh_"`. This will be deprecated soon.
-
-#     Parameters
-#     ----------
-#     data : dict of pandas.Series
-#         Dictionary containing a series for each column.
-
-#     Returns
-#     -------
-#     data : dict of pandas.Series
-#         Dictionary containing a series for each column where some columns are reduced.
-
-#     Warnings
-#     --------
-#     PendingDeprecationWarning
-#         The indicators `"_tu_"` and `"_hh_"` will be deprecated in a future release.
-
-#     """
-#     for name, s in data.items():
-#         for level in ["hh", "tu"]:
-#             if f"_{level}_" in name or name.endswith(f"_{level}"):
-#                 groups = data[f"{level}_id"]
-#                 reduced_s = _reduce_series_to_value_per_group(name, s, level, groups)
-#                 data[name] = reduced_s
-
-#     return data
-
-
-# def _reduce_series_to_value_per_group(name, s, level, groups):
-#     """Reduce a series which contains the same value per group.
-
-#     Parameters
-#     ----------
-#     name : str
-#         Name of variable.
-#     s : pandas.Series
-#         Series containing data of `variable`.
-#     level : {"tu", "hh"}
-#         Name of level to group by.
-#     groups : pandas.Series
-#         Series containing data of `level`.
-
-#     Returns
-#     -------
-#     pandas.Series
-#         Reduced series.
-
-#     """
-#     grouper = s.groupby(groups)
-#     max_value = grouper.transform("max")
-#     if not (max_value == s).all():
-#         message = _format_text_for_cmdline(
-#             f"""
-#             Column '{name}' has not one unique value per group defined by `{level}_id`
-#             which is necessary to reduce the variable.
-
-#             Variables are automatically reduced to one value per group if the variable
-#             name contains an indicator like '_hh_' or '_tu_' or ends with '_hh' or
-#             '_tu'.
-
-#             To fix the error, assign the same value to each group or remove the
-#             indicator from the variable name.
-#             """
-#         )
-#         raise ValueError(message)
-
-#     return grouper.max()
+                        To fix the error, assign the same value to each group or remove
+                        the indicator from the variable name.
+                        """
+                    )
+                    raise ValueError(message)
+    return data
 
 
 def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
@@ -639,7 +581,9 @@ def _fail_if_root_nodes_are_missing(dag, data):
         raise ValueError(f"The following data columns are missing.\n{formatted}")
 
 
-def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specification):
+def _reduce_to_necessary_data(dag, data, check_minimal_specification):
+
+    # Produce warning or fail if more than necessary data is given.
     root_nodes = set(_root_nodes(dag))
     unnecessary_data = set(data) - root_nodes
     formatted = format_list_linewise(unnecessary_data)
@@ -648,6 +592,8 @@ def _fail_if_more_than_necessary_data_is_passed(dag, data, check_minimal_specifi
         warnings.warn(message)
     elif unnecessary_data and check_minimal_specification == "raise":
         raise ValueError(message)
+
+    return {k: v for k, v in data.items() if k not in unnecessary_data}
 
 
 def _fail_if_pid_is_non_unique(data):
@@ -789,7 +735,8 @@ def _add_rounding_to_functions_in_dag(dag_raw, params):
                     )
                 # Add rounding.
                 dag.nodes[task]["function"] = _add_rounding_to_one_function(
-                    base=rounding_spec["base"], direction=rounding_spec["direction"],
+                    base=rounding_spec["base"],
+                    direction=rounding_spec["direction"],
                 )(dag.nodes[task]["function"])
     return dag
 
@@ -1086,7 +1033,7 @@ def vectorize_func(func):
     signature = inspect.signature(func)
 
     # Vectorize
-    if IS_JAX_INSTALLED:
+    if USE_JAX:
 
         # ToDo: user jnp.vectorize once all functions are compatible with jax
         # func_vec = jnp.vectorize(func)

@@ -1,13 +1,13 @@
-höchstalter:
+altersgrenze:
   name:
-    de: Alter, bis zu dem Kindergeld gezahlt wird.
-    en: Age up to which child benefit is paid.
+    de: Alter, ab dem Kindergeld nicht mehr gezahlt wird.
+    en: Age at which child benefit is no longer paid.
   description:
-    de: Für minderjährige Kinder besteht ohne Bedingungen einen Anspruch auf Kindergeld. Auch
-        für erwachsene Kinder kann bis zu einem Höchstalter und unter bestimmten Bedingungen ein
+    de: Für minderjährige Kinder besteht ohne Bedingungen ein Anspruch auf Kindergeld. Auch
+        für erwachsene Kinder kann bis zu einer Altersgrenze unter bestimmten Bedingungen ein
         Anspruch auf Kindergeld bestehen.
     en: Underage children are entitled to child benefit without any conditions. Also adult
-        children up to a maximum age and under certain conditions are entitled to child benefit.
+        children up to a specified age are entitled to child benefit under certain conditions.
   unit: Year
   reference: § 32 Art. 2-4 EStG.
   1984-01-01:

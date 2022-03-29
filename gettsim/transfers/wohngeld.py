@@ -27,9 +27,11 @@ def wohngeld_m_hh(
     -------
 
     """
-    if (not wohngeld_vorrang_hh) & (
-        not wohngeld_kinderzuschl_vorrang_hh
-    ) | erwachsene_alle_rentner_hh:
+    if (
+        (not wohngeld_vorrang_hh)
+        and (not wohngeld_kinderzuschl_vorrang_hh)
+        or erwachsene_alle_rentner_hh
+    ):
         out = 0.0
     else:
         out = wohngeld_nach_vermög_check_m_hh
@@ -71,7 +73,7 @@ def wohngeld_eink_vor_abzug_m_tu(
     eink_selbst_tu: float,
     eink_abhängig_beschäftigt_tu: float,
     kapitaleink_brutto_tu: float,
-    vermiet_eink_tu: float,
+    eink_vermietung_tu: float,
     arbeitsl_geld_m_tu: float,
     sonstig_eink_m_tu: float,
     eink_rente_zu_verst_m_tu: float,
@@ -88,8 +90,8 @@ def wohngeld_eink_vor_abzug_m_tu(
         See :func:`eink_abhängig_beschäftigt_tu`.
     kapitaleink_brutto_tu
         See :func:`kapitaleink_brutto_tu`.
-    vermiet_eink_tu
-        See :func:`vermiet_eink_tu`.
+    eink_vermietung_tu
+        See :func:`eink_vermietung_tu`.
     arbeitsl_geld_m_tu
         See :func:`arbeitsl_geld_m_tu`.
     sonstig_eink_m_tu
@@ -109,7 +111,7 @@ def wohngeld_eink_vor_abzug_m_tu(
         eink_selbst_tu
         + eink_abhängig_beschäftigt_tu
         + kapitaleink_brutto_tu
-        + vermiet_eink_tu
+        + eink_vermietung_tu
     ) / 12
 
     transfers_tu = (
@@ -169,7 +171,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
         )
 
-    elif alleinerz & (not kind):
+    elif alleinerz and (not kind):
         freib_kinder_m = (
             anz_kinder_bis_10_tu * wohngeld_params["freib_kinder_m"]["alleinerz"]
         )
@@ -193,7 +195,7 @@ def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) ->
     -------
 
     """
-    out = (bruttolohn_m > 0) & kindergeld_anspruch
+    out = (bruttolohn_m > 0) and kindergeld_anspruch
     return out
 
 
@@ -234,7 +236,7 @@ def wohngeld_eink_abzüge_m_ab_2016(
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
         )
-    elif alleinerz & (not kind):
+    elif alleinerz and (not kind):
         freib_kinder_m = wohngeld_params["freib_kinder_m"]["alleinerz"]
     else:
         freib_kinder_m = 0.0
@@ -342,6 +344,8 @@ def wohngeld_miete_m_bis_2008(
     constr_year = list(params_max_miete[1])[selected_bin_index]
 
     # Calc maximal considered rent
+    # ToDo: Think about calculating max_definierte_hh_größe already in parameter
+    # ToDo: pre-processing and add it to wohngeld_params
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
     if haushaltsgröße_hh <= max_definierte_hh_größe:
         max_miete = params_max_miete[haushaltsgröße_hh][constr_year][mietstufe]

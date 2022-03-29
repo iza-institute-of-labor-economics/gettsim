@@ -13,7 +13,8 @@ aggregation_kindergeld = {
 def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
     """Kindergeld calculation until 1996.
 
-    Until 1996 individuals could claim child allowance and recieve child benefit.
+    Until 1996 individuals could claim Kinderfreibetrag and receive Kindergeld at the
+    same time.
 
     Parameters
     ----------
@@ -28,7 +29,8 @@ def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
 
 
 def kindergeld_m_ab_1997(
-    kinderfreib_günstiger_tu: bool, kindergeld_basis_m: float,
+    kinderfreib_günstiger_tu: bool,
+    kindergeld_basis_m: float,
 ) -> float:
     """Kindergeld calculation since 1997.
 
@@ -45,11 +47,7 @@ def kindergeld_m_ab_1997(
     -------
 
     """
-    if kinderfreib_günstiger_tu:
-        out = 0.0
-    else:
-        out = kindergeld_basis_m
-
+    out = 0 if kinderfreib_günstiger_tu else kindergeld_basis_m
     return out
 
 
@@ -87,7 +85,10 @@ def kindergeld_basis_m(
 
 
 def kindergeld_anspruch_nach_stunden(
-    alter: int, in_ausbildung: bool, arbeitsstunden_w: float, kindergeld_params: dict,
+    alter: int,
+    in_ausbildung: bool,
+    arbeitsstunden_w: float,
+    kindergeld_params: dict,
 ) -> bool:
     """Determine kindergeld eligibility depending on working hours.
 
@@ -109,17 +110,20 @@ def kindergeld_anspruch_nach_stunden(
     -------
     Boolean indiciating kindergeld eligibility.
     """
-    out = (alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]) | (
-        (alter < kindergeld_params["höchstalter"]["mit_bedingungen"])
-        & in_ausbildung
-        & (arbeitsstunden_w <= kindergeld_params["stundengrenze"])
+    out = (alter < kindergeld_params["altersgrenze"]["ohne_bedingungen"]) or (
+        (alter < kindergeld_params["altersgrenze"]["mit_bedingungen"])
+        and in_ausbildung
+        and (arbeitsstunden_w <= kindergeld_params["stundengrenze"])
     )
 
     return out
 
 
 def kindergeld_anspruch_nach_lohn(
-    alter: int, in_ausbildung: bool, bruttolohn_m: float, kindergeld_params: dict,
+    alter: int,
+    in_ausbildung: bool,
+    bruttolohn_m: float,
+    kindergeld_params: dict,
 ) -> bool:
     """Determine kindergeld eligibility depending on kids wage.
 
@@ -142,10 +146,10 @@ def kindergeld_anspruch_nach_lohn(
     -------
 
     """
-    out = (alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]) | (
-        (alter < kindergeld_params["höchstalter"]["mit_bedingungen"])
-        & in_ausbildung
-        & (bruttolohn_m <= kindergeld_params["einkommensgrenze"] / 12)
+    out = (alter < kindergeld_params["altersgrenze"]["ohne_bedingungen"]) or (
+        (alter < kindergeld_params["altersgrenze"]["mit_bedingungen"])
+        and in_ausbildung
+        and (bruttolohn_m <= kindergeld_params["einkommensgrenze"] / 12)
     )
 
     return out

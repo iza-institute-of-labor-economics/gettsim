@@ -37,7 +37,9 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, TEST_COLUMNS))
 def test_tax_sched(
-    input_data, year, column,
+    input_data,
+    year,
+    column,
 ):
     policy_params, policy_functions = set_up_policy_environment(date=year)
 

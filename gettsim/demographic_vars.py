@@ -3,7 +3,6 @@ are used throughout modules of gettsim."""
 import datetime
 
 import numpy as np
-import pandas as pd
 
 
 aggregation_demographic_vars = {
@@ -23,7 +22,10 @@ aggregation_demographic_vars = {
     "haushaltsgröße_hh": {"aggr": "count"},
     "tax_unit_größe_tu": {"aggr": "count"},
     "alter_monate_jüngstes_mitglied_hh": {"source_col": "alter_monate", "aggr": "min"},
-    "anz_jüngstes_kind_hh": {"source_col": "jüngstes_kind", "aggr": "sum"},
+    "anz_mehrlinge_jüngstes_kind_hh": {
+        "source_col": "jüngstes_kind_oder_mehrling",
+        "aggr": "sum",
+    },
 }
 
 
@@ -186,9 +188,7 @@ def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> b
     return anz_erwachsene_hh == anz_rentner_hh
 
 
-def geburtstermin(
-    geburtsjahr: int, geburtsmonat: int, geburtstag: int
-) -> np.datetime64:
+def geburtsdatum(geburtsjahr: int, geburtsmonat: int, geburtstag: int) -> np.datetime64:
     """Create date of birth datetime variable.
 
     Parameters
@@ -204,39 +204,45 @@ def geburtstermin(
     -------
 
     """
-    out = np.datetime64(datetime.datetime(geburtsjahr, geburtsmonat, geburtstag))
+    out = np.datetime64(
+        datetime.datetime(geburtsjahr, geburtsmonat, geburtstag)
+    ).astype("datetime64[D]")
     return out
 
 
-def alter_monate(geburtstermin: np.datetime64, elterngeld_params: dict,) -> float:
+def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict) -> float:
     """Calculate age of youngest child in months.
 
     Parameters
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    geburtstermin
-        See :func:`geburtstermin`.
+    geburtsdatum
+        See :func:`geburtsdatum`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
     -------
 
     """
-    date = pd.to_datetime(elterngeld_params["datum"])
-    age_in_days = date - geburtstermin
+    # ToDo: Find out why geburtsdatum need to be cast to datetime64 again. It
+    # ToDo: should already have this type based on the function above
+    age_in_days = elterngeld_params["datum"] - np.datetime64(geburtsdatum)
 
-    out = age_in_days / np.timedelta64(1, "M")
-    return out
+    out = age_in_days / 30.436875
+    return out.astype(float)
 
 
-def jüngstes_kind(
-    alter_monate: float, alter_monate_jüngstes_mitglied_hh: float, kind: bool,
+def jüngstes_kind_oder_mehrling(
+    alter_monate: float,
+    alter_monate_jüngstes_mitglied_hh: float,
+    kind: bool,
 ) -> int:
-    """Check if person is the youngest child in the household.
+    """Check if person is the youngest child in the household or a twin, triplet, etc.
+    of the youngest child.
 
     # ToDo: replace kind by some age restriction
-    # ToDo: Check definition of "jüngstes kind" currently it is calculated as
+    # ToDo: Check definition as relevant for Elterngeld. Currently, it is calculated as
     # ToDo: age not being larger than 0.1 of a month
 
     Parameters
@@ -252,5 +258,5 @@ def jüngstes_kind(
     -------
 
     """
-    out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) & kind
+    out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) and kind
     return out
