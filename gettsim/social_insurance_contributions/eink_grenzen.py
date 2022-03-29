@@ -96,19 +96,17 @@ def midi_job_bemessungsentgelt_m(
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
     allg_soz_vers_beitr = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
+        soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
+        + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        + soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
 
     # Then calculate specific shares
     an_anteil = (
-        allg_soz_vers_beitr
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
+        allg_soz_vers_beitr + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
     )
     ag_anteil = (
-        allg_soz_vers_beitr
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        allg_soz_vers_beitr + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ag"]
     )
 
     # Sum over the shares which are specific for midi jobs.

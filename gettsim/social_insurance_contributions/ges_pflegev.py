@@ -64,14 +64,14 @@ def ges_pflegev_beitr_m(
     # Calculate care insurance contributions for regular jobs.
     beitr_regulär_beschäftigt_m = (
         _ges_krankenv_beitr_bruttolohn_m
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         beitr_regulär_beschäftigt_m += (
             _ges_krankenv_beitr_bruttolohn_m
-            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
     if selbstständig:
@@ -116,14 +116,14 @@ def ges_pflegev_beitr_selbst_m(
     out = (
         _ges_krankenv_bemessungsgrundlage_eink_selbst
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         out += (
             _ges_krankenv_bemessungsgrundlage_eink_selbst
-            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
     return out
@@ -153,14 +153,14 @@ def ges_pflegev_beitr_rente_m(
     out = (
         _ges_krankenv_bemessungsgrundlage_rente_m
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         out += (
             _ges_krankenv_bemessungsgrundlage_rente_m
-            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
     return out
@@ -195,18 +195,17 @@ def _ges_pflegev_beitr_midi_job_m_m(
     gesamtbeitrag_midi_job_m = (
         midi_job_bemessungsentgelt_m
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         gesamtbeitrag_midi_job_m += (
             midi_job_bemessungsentgelt_m
-            * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["zusatz_kinderlos"]
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
     ag_beitr_midi_job_m = (
-        bruttolohn_m
-        * soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
+        bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
     return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m

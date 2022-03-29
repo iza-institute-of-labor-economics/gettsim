@@ -62,7 +62,7 @@ def arbeitsl_v_beitr_m(
     """
     arbeitsl_v_regulär_beschäftigt_m = (
         _ges_rentenv_beitr_bruttolohn_m
-        * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
+        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
 
     # Set to 0 for minijobs
@@ -102,9 +102,9 @@ def _arbeitsl_v_beitr_midi_job_m(
     gesamtbeitrag_midi_job_m = (
         midi_job_bemessungsentgelt_m
         * 2
-        * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
+        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
     ag_beitr_midi_job_m = (
-        bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
+        bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
     return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m

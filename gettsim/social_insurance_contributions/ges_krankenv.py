@@ -35,7 +35,7 @@ def ges_krankenv_beitr_m(
 
     """
     beitr_regulär_beschäftigt_m = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
         * _ges_krankenv_beitr_bruttolohn_m
     )
 
@@ -103,8 +103,8 @@ def ges_krankenv_beitr_selbst_m(
     Monthly health insurance contributions for self employed income.
     """
     beitr_satz = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ag"]
     )
     return _ges_krankenv_bemessungsgrundlage_eink_selbst * beitr_satz
 
@@ -194,7 +194,7 @@ def ges_krankenv_beitr_rente_m(
     Monthly health insurance contributions for pension income.
     """
     out = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
         * _ges_krankenv_bemessungsgrundlage_rente_m
     )
     return out
@@ -221,11 +221,11 @@ def _ges_krankenv_beitr_midi_job_m(
 
     """
     gesamtbeitrag_midi_job_m = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ag"]
     ) * midi_job_bemessungsentgelt_m
 
     ag_beitr_midi_job_m = (
-        bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
+        bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ag"]
     )
     return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m

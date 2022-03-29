@@ -270,7 +270,7 @@ def social_security_data(start, end):
 
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
-        soz_vers_dict[i] = policy_params["soz_vers_beitr"]["soz_vers_beitr"]
+        soz_vers_dict[i] = policy_params["soz_vers_beitr"]["beitr_satz"]
 
     soz_vers_df = pd.DataFrame(data=soz_vers_dict).transpose()
     # Dictionary entries into columns
