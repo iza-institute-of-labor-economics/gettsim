@@ -41,6 +41,7 @@ def compute_taxes_and_transfers(
     data,
     params,
     functions,
+    aggregation_specs=None,
     targets=None,
     columns_overriding_functions=None,
     check_minimal_specification="ignore",
@@ -91,10 +92,12 @@ def compute_taxes_and_transfers(
     # Set defaults for some parameters.
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
+
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"
     )
     params = {} if params is None else params
+    aggregation_specs = {} if aggregation_specs is None else aggregation_specs
 
     # Load functions.
     user_functions, internal_functions = load_user_and_internal_functions(functions)
@@ -103,7 +106,12 @@ def compute_taxes_and_transfers(
     data = copy.deepcopy(data)
     data = _process_data(data)
     all_functions = check_data_check_functions_and_merge_functions(
-        user_functions, internal_functions, columns_overriding_functions, targets, data
+        user_functions,
+        internal_functions,
+        columns_overriding_functions,
+        targets,
+        data,
+        aggregation_specs,
     )
 
     # Set up dag.
@@ -133,7 +141,12 @@ def compute_taxes_and_transfers(
 
 
 def check_data_check_functions_and_merge_functions(
-    user_functions, internal_functions, columns_overriding_functions, targets, data
+    user_functions,
+    internal_functions,
+    columns_overriding_functions,
+    targets,
+    data,
+    aggregation_specs,
 ):
     """Make some checks on input data and on interal and user functions. Merge internal
     and user functions and afterwards perform some more checks.
@@ -179,7 +192,7 @@ def check_data_check_functions_and_merge_functions(
 
     # Create and add aggregation functions
     aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions, targets, data_cols
+        user_and_internal_functions, targets, data_cols, aggregation_specs
     )
 
     for funcs, name in zip(
@@ -789,7 +802,9 @@ def rchop(s, suffix):
     return s
 
 
-def _create_aggregation_functions(user_and_internal_functions, targets, data_cols):
+def _create_aggregation_functions(
+    user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
+):
     """Create aggregation functions"""
     aggregation_dict = load_aggregation_dict()
 
@@ -815,7 +830,14 @@ def _create_aggregation_functions(user_and_internal_functions, targets, data_col
         agg_col: {"aggr": "sum", "source_col": rchop(rchop(agg_col, "_tu"), "_hh")}
         for agg_col in automated_sum_aggregation_cols
     }
-    aggregation_dict = {**aggregation_dict, **automated_sum_aggregation_specs}
+
+    # Add automated aggregation specs.
+    # Note: For duplicate keys, automated specs are treated with lower priority.
+    aggregation_dict = {**automated_sum_aggregation_specs, **aggregation_dict}
+
+    # Add user provided aggregation specs.
+    # Note: For duplicate keys, user provided specs are treated with higher priority.
+    aggregation_dict = {**aggregation_dict, **user_provided_aggregation_specs}
 
     # Create functions from specs
     aggregation_funcs = {
