@@ -100,6 +100,8 @@ readability and uniqueness; e.g., it is not obvious whether an "ö" becomes "oe"
 in English. For column names, we always allow a pure ASCII option, see the next point.
 
 
+.. _gep-1-column-names:
+
 Column names (a.k.a. "variables" in Stata)
 ------------------------------------------
 
