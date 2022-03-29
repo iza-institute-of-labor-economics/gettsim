@@ -84,7 +84,7 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_tu(
     -------
 
     """
-    ex_min = kinderzuschl_params["exmin"]
+    ex_min = kinderzuschl_params["existenzminimum"]
 
     # Only 5 children are considered
     considered_children = min(anz_kinder_tu, 5)

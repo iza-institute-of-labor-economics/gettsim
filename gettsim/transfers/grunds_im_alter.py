@@ -115,7 +115,7 @@ def grunds_im_alter_eink_m(
 
     # Consider Elterngeld that is larger than 300
     elterngeld_grunds_im_alter_m = max(
-        0, elterngeld_m - grunds_im_alter_params["elterngeld_anr_frei"]
+        0.0, elterngeld_m - grunds_im_alter_params["elterngeld_anr_frei"]
     )
 
     # Income
@@ -208,7 +208,7 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     )
 
     # Calculate and return monthly capital income (after deduction)
-    out = max(0, capital_income_y / 12)
+    out = max(0.0, capital_income_y / 12)
 
     return out
 
