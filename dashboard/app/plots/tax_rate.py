@@ -15,11 +15,7 @@ def tax_rate(plot_dict, data):  # noqa: U100
         return ColumnDataSource(dataset)
 
     def setup_plot(src):
-        p = figure(
-            plot_width=800,
-            plot_height=400,
-            y_range=(-0.01, 0.5),
-        )
+        p = figure(plot_width=800, plot_height=400, y_range=(-0.01, 0.5))
 
         taxplot_dict = {
             "tax_rate": {"label": "Average Tax Rate", "color": "blue"},
@@ -62,10 +58,7 @@ def tax_rate(plot_dict, data):  # noqa: U100
     src = make_dataset(2021, tax_rate_dict_full)
 
     p = setup_plot(src)
-    description = Div(
-        text=plot_dict["description"],
-        width=800,
-    )
+    description = Div(text=plot_dict["description"], width=800)
 
     layout = column(description, year_selection, p)
 
