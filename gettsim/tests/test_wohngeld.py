@@ -31,7 +31,7 @@ INPUT_COLS = [
     "eink_selbst_m",
     "eink_abhängig_beschäftigt",
     "kapitaleink_brutto",
-    "eink_vermiet_m",
+    "eink_vermietung_m",
     "ges_rentenv_beitr_m",
     "ges_krankenv_beitr_m",
     "behinderungsgrad",

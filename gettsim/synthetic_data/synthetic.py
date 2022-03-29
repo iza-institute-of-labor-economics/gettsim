@@ -212,7 +212,7 @@ def create_one_set_of_households(
         "betreuungskost_m",
         "sonstig_eink_m",
         "eink_selbst_m",
-        "eink_vermiet_m",
+        "eink_vermietung_m",
         "kapitaleink_brutto_m",
         "bruttokaltmiete_m_hh",
         "heizkosten_m_hh",

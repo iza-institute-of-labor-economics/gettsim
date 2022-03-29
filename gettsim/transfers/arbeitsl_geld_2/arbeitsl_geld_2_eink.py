@@ -47,7 +47,7 @@ def arbeitsl_geld_2_brutto_eink_m(
     bruttolohn_m: float,
     sonstig_eink_m: float,
     eink_selbst_m: float,
-    eink_vermiet_m: float,
+    eink_vermietung_m: float,
     kapitaleink_brutto_m: float,
     sum_ges_rente_priv_rente_m: float,
     arbeitsl_geld_m: float,
@@ -64,8 +64,8 @@ def arbeitsl_geld_2_brutto_eink_m(
         See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
     eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    eink_vermiet_m
-        See basic input variable :ref:`eink_vermiet_m <eink_vermiet_m>`.
+    eink_vermietung_m
+        See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
     kapitaleink_brutto_m
         See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
     sum_ges_rente_priv_rente_m
@@ -84,7 +84,7 @@ def arbeitsl_geld_2_brutto_eink_m(
         bruttolohn_m
         + sonstig_eink_m
         + eink_selbst_m
-        + eink_vermiet_m
+        + eink_vermietung_m
         + kapitaleink_brutto_m
         + sum_ges_rente_priv_rente_m
         + arbeitsl_geld_m

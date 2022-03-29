@@ -68,7 +68,7 @@ def grunds_im_alter_eink_m(
     grunds_im_alter_priv_rente_m: float,
     grunds_im_alter_ges_rente_m: float,
     sonstig_eink_m: float,
-    eink_vermiet_m: float,
+    eink_vermietung_m: float,
     _grunds_im_alter_kapitaleink_brutto_m: float,
     elterngeld_m: float,
     eink_st_tu: float,
@@ -90,8 +90,8 @@ def grunds_im_alter_eink_m(
         See :func:`grunds_im_alter_ges_rente_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
-    eink_vermiet_m
-        See :func:`eink_vermiet_m`.
+    eink_vermietung_m
+        See :func:`eink_vermietung_m`.
     _grunds_im_alter_kapitaleink_brutto_m
         See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
     elterngeld_m
@@ -124,7 +124,7 @@ def grunds_im_alter_eink_m(
         + grunds_im_alter_ges_rente_m
         + grunds_im_alter_priv_rente_m
         + sonstig_eink_m
-        + eink_vermiet_m
+        + eink_vermietung_m
         + _grunds_im_alter_kapitaleink_brutto_m
         + elterngeld_grunds_im_alter_m
     )

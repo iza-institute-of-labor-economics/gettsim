@@ -1,4 +1,4 @@
-hh_id,tu_id,p_id,alleinerz,alter,bruttolohn_m,eink_selbst_m,sonstig_eink_m,arbeitsl_geld_m,sum_ges_rente_priv_rente_m,kapitaleink_brutto_m,eink_vermiet_m,jahr,monat,,,unterhaltsvors_m,,,,,These test cases wer just to check that we return a Series of nans. We exclude this test case for now.,,,,,,,,,,,,,
+hh_id,tu_id,p_id,alleinerz,alter,bruttolohn_m,eink_selbst_m,sonstig_eink_m,arbeitsl_geld_m,sum_ges_rente_priv_rente_m,kapitaleink_brutto_m,eink_vermietung_m,jahr,monat,,,unterhaltsvors_m,,,,,These test cases wer just to check that we return a Series of nans. We exclude this test case for now.,,,,,,,,,,,,,
 5,5,6,TRUE,45,0,0,0,0,0,0,0,2018,1,,,0,,,,,1,1,23,FALSE,40,0,0,0,0,0,0,0,FALSE,2017
 5,5,7,TRUE,10,0,0,0,0,0,0,0,2018,1,,,205,,,,,1,1,25,FALSE,35,0,0,0,0,0,0,0,FALSE,2017
 4,4,39,TRUE,45,0,0,0,0,0,0,0,2019,1,,,0,,,,,1,1,27,FALSE,8,0,0,0,0,0,0,0,FALSE,2017

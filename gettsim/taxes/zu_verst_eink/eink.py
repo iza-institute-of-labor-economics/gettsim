@@ -63,19 +63,19 @@ def kapitaleink_brutto(kapitaleink_brutto_m: float) -> float:
     return 12 * kapitaleink_brutto_m
 
 
-def eink_vermiet(eink_vermiet_m: float) -> float:
+def eink_vermietung(eink_vermietung_m: float) -> float:
     """Aggregate monthly gross rental income to yearly income.
 
     Parameters
     ----------
-    eink_vermiet_m
-        See basic input variable :ref:`eink_vermiet_m <eink_vermiet_m>`.
+    eink_vermietung_m
+        See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
 
     Returns
     -------
 
     """
-    return 12 * eink_vermiet_m
+    return 12 * eink_vermietung_m
 
 
 def eink_rente_zu_verst(
@@ -101,7 +101,7 @@ def eink_rente_zu_verst(
 def sum_eink_ohne_kapital(
     eink_selbst: float,
     eink_abhängig_beschäftigt: float,
-    eink_vermiet: float,
+    eink_vermietung: float,
     eink_rente_zu_verst: float,
 ) -> float:
     """Sum of gross incomes without capital income.
@@ -113,8 +113,8 @@ def sum_eink_ohne_kapital(
         See :func:`eink_selbst`.
     eink_abhängig_beschäftigt
         See :func:`eink_abhängig_beschäftigt`.
-    eink_vermiet
-        See :func:`eink_vermiet`.
+    eink_vermietung
+        See :func:`eink_vermietung`.
     eink_rente_zu_verst
         See :func:`eink_rente_zu_verst`.
 
@@ -122,7 +122,9 @@ def sum_eink_ohne_kapital(
     -------
 
     """
-    out = eink_selbst + eink_abhängig_beschäftigt + eink_vermiet + eink_rente_zu_verst
+    out = (
+        eink_selbst + eink_abhängig_beschäftigt + eink_vermietung + eink_rente_zu_verst
+    )
     return out
 
 

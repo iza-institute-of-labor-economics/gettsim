@@ -30,7 +30,7 @@ INPUT_COLS = [
     "arbeitsl_geld_m",
     "sonstig_eink_m",
     "eink_selbst_m",
-    "eink_vermiet_m",
+    "eink_vermietung_m",
     "eink_st_tu",
     "soli_st_tu",
     "sozialv_beitr_gesamt_m",

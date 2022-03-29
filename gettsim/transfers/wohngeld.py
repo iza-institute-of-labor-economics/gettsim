@@ -73,7 +73,7 @@ def wohngeld_eink_vor_abzug_m_tu(
     eink_selbst_tu: float,
     eink_abhängig_beschäftigt_tu: float,
     kapitaleink_brutto_tu: float,
-    eink_vermiet_tu: float,
+    eink_vermietung_tu: float,
     arbeitsl_geld_m_tu: float,
     sonstig_eink_m_tu: float,
     eink_rente_zu_verst_m_tu: float,
@@ -90,8 +90,8 @@ def wohngeld_eink_vor_abzug_m_tu(
         See :func:`eink_abhängig_beschäftigt_tu`.
     kapitaleink_brutto_tu
         See :func:`kapitaleink_brutto_tu`.
-    eink_vermiet_tu
-        See :func:`eink_vermiet_tu`.
+    eink_vermietung_tu
+        See :func:`eink_vermietung_tu`.
     arbeitsl_geld_m_tu
         See :func:`arbeitsl_geld_m_tu`.
     sonstig_eink_m_tu
@@ -111,7 +111,7 @@ def wohngeld_eink_vor_abzug_m_tu(
         eink_selbst_tu
         + eink_abhängig_beschäftigt_tu
         + kapitaleink_brutto_tu
-        + eink_vermiet_tu
+        + eink_vermietung_tu
     ) / 12
 
     transfers_tu = (
