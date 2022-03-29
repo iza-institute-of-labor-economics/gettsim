@@ -84,7 +84,7 @@ TYPES_INPUT_VARIABLES = {
     "rentner": bool,
     "betreuungskost_m": float,
     "kapitaleink_brutto_m": float,
-    "vermiet_eink_m": float,
+    "eink_vermiet_m": float,
     "bruttokaltmiete_m_hh": float,
     "heizkosten_m_hh": float,
     "jahr_renteneintr": int,

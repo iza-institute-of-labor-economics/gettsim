@@ -28,7 +28,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     rente_vorj_vor_grundr_proxy_m: float,
     bruttolohn_vorj_m: float,
     eink_selbst: float,
-    vermiet_eink: float,
+    eink_vermiet: float,
     kapitaleink: float,
 ) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
@@ -61,8 +61,8 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         See :func:`bruttolohn_vorj_m`.
     eink_selbst
         See :func:`eink_selbst`.
-    vermiet_eink
-        See :func:`vermiet_eink`.
+    eink_vermiet
+        See :func:`eink_vermiet`.
     kapitaleink
         See :func:`kapitaleink`.
 
@@ -76,7 +76,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         rente_vorj_vor_grundr_proxy_m
         + bruttolohn_vorj_m
         + eink_selbst / 12  # income from self-employment
-        + vermiet_eink / 12  # rental income
+        + eink_vermiet / 12  # rental income
         + kapitaleink / 12
     )
 
@@ -170,21 +170,20 @@ def grundr_zuschlag_vor_eink_anr_m(
     -------
 
     """
-    if grundr_bew_zeiten > ges_rente_params["grundr_zeiten"]["max"]:
-        grundr_bew_zeiten = ges_rente_params["grundr_zeiten"]["max"]
-    else:
-        grundr_bew_zeiten = grundr_bew_zeiten
 
-    if ges_rente_zugangsfaktor > ges_rente_params["grundr_zugangsfaktor_max"]:
-        ges_rente_zugangsfaktor = ges_rente_params["grundr_zugangsfaktor_max"]
-    else:
-        ges_rente_zugangsfaktor = ges_rente_zugangsfaktor
+    # Winsorize Bewertungszeiten and Zugangsfaktor at maximum values
+    grundr_bew_zeiten_wins = min(
+        grundr_bew_zeiten, ges_rente_params["grundr_zeiten"]["max"]
+    )
+    ges_rente_zugangsfaktor_wins = min(
+        ges_rente_zugangsfaktor, ges_rente_params["grundr_zugangsfaktor_max"]
+    )
 
     out = (
         grundr_zuschlag_bonus_entgeltp
-        * grundr_bew_zeiten
+        * grundr_bew_zeiten_wins
         * rentenwert
-        * ges_rente_zugangsfaktor
+        * ges_rente_zugangsfaktor_wins
     )
     return out
 
@@ -228,13 +227,11 @@ def grundr_zuschlag_höchstwert_m(grundr_zeiten: int, ges_rente_params: dict) ->
     -------
 
     """
-    if grundr_zeiten > ges_rente_params["grundr_zeiten"]["max"]:
-        grundr_zeiten = ges_rente_params["grundr_zeiten"]["max"]
-    else:
-        grundr_zeiten = grundr_zeiten
-
     # Calculate number of months above minimum threshold
-    months_above_thresh = grundr_zeiten - ges_rente_params["grundr_zeiten"]["min"]
+    months_above_thresh = (
+        min(grundr_zeiten, ges_rente_params["grundr_zeiten"]["max"])
+        - ges_rente_params["grundr_zeiten"]["min"]
+    )
 
     # Calculate höchstwert
     out = (
@@ -259,10 +256,6 @@ def grundr_zuschlag_bonus_entgeltp(
     Höchstwert. Then, the value is multiplied by 0.875.
 
     Legal reference: § 76g SGB VI
-
-    # ToDo: Revise when transitioning to scalars. In particular, adjust
-    # ToDO: piecewise_polynomial to allow for individual specific thresholds
-    # ToDo: and get rid of hard-coded numbers (0.5)
 
     Parameters
     ----------
@@ -354,7 +347,7 @@ def rente_vorj_vor_grundr_proxy_m(
 
 
 def grundr_berechtigt(grundr_zeiten: int, ges_rente_params: dict) -> bool:
-    """Indicates that person is not entitled to Freibetragsregelung.
+    """Whether person has accumulated enough insured years to be eligible.
 
     Parameters
     ----------

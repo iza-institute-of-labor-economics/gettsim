@@ -12,12 +12,16 @@ Kinderzuschlag / Additional Child Benefit
     2. net income minus housing benefit needs has to be lower than total ALG2 need plus
        additional child benefit.
 
-    3. Over a certain income threshold (which depends on housing costs, and is therefore
-       household-specific), parental income is deducted from child benefit claim.
+    3. Over a certain income threshold (which depends on housing costs, and is
+       therefore household-specific), parental income is deducted from child benefit
+       claim.
 
     In contrast to ALG2, Kiz considers only the rental costs that are attributed to the
     parents. This is done by some fixed share which is updated on annual basis
     ('jährlicher Existenzminimumsbericht')
+
+    # ToDo: Reconsider current assumption: not payed out if a pensioneer lives in the
+    # ToDo: household.
 """
 
 
@@ -54,13 +58,14 @@ def kinderzuschl_m_hh(
     return out
 
 
-def kinderzuschl_vorläufig_m_hh_ab_07_2019(
+def _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019(
     arbeitsl_geld_2_brutto_eink_m_hh: float,
     kinderzuschl_eink_min_m_hh: float,
     kinderzuschl_kindereink_abzug_m_hh: float,
     kinderzuschl_eink_anrechn_m_hh: float,
 ) -> float:
-    """Calculate preliminary child benefit since 07/2019.
+    """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
+    Arbeitslosengeld 2 applies will be checked later.
 
     Parameters
     ----------
@@ -89,7 +94,7 @@ def kinderzuschl_vorläufig_m_hh_ab_07_2019(
     return out
 
 
-def kinderzuschl_vorläufig_m_hh_bis_06_2019(
+def _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019(
     arbeitsl_geld_2_brutto_eink_m_hh: float,
     kinderzuschl_eink_min_m_hh: float,
     kinderzuschl_eink_max_m_hh: float,
@@ -97,7 +102,8 @@ def kinderzuschl_vorläufig_m_hh_bis_06_2019(
     kinderzuschl_kindereink_abzug_m_hh: float,
     kinderzuschl_eink_anrechn_m_hh: float,
 ) -> float:
-    """Calculate preliminary child benefit since 2005 until 06/2019.
+    """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
+    Arbeitslosengeld 2 applies will be checked later.
 
     Parameters
     ----------

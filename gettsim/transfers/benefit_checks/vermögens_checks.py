@@ -1,14 +1,14 @@
 def _kinderzuschl_nach_vermög_check_m_hh(
-    kinderzuschl_vorläufig_m_hh: float,
+    _kinderzuschl_vor_vermög_check_m_hh: float,
     vermögen_hh: float,
-    arbeitsl_geld_2_vermög_freib_hh,
+    arbeitsl_geld_2_vermög_freib_hh: float,
 ) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
     Parameters
     ----------
-    kinderzuschl_vorläufig_m_hh
-        See :func:`kinderzuschl_vorläufig_m_hh`.
+    _kinderzuschl_vor_vermög_check_m_hh
+        See :func:`_kinderzuschl_vor_vermög_check_m_hh`.
     vermögen_hh
         See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
     arbeitsl_geld_2_vermög_freib_hh
@@ -22,7 +22,7 @@ def _kinderzuschl_nach_vermög_check_m_hh(
     if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
         out = 0.0
     else:
-        out = kinderzuschl_vorläufig_m_hh
+        out = _kinderzuschl_vor_vermög_check_m_hh
     return out
 
 

@@ -49,7 +49,6 @@ def test_tax_transfer(
         list(TYPES_INPUT_VARIABLES.keys()) + ["sum_ges_rente_priv_rente_m"]
     ].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
-    # params["renten_daten"] = renten_daten
 
     compute_taxes_and_transfers(
         data=df,

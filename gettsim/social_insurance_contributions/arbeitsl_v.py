@@ -99,7 +99,7 @@ def _arbeitsl_v_beitr_midi_job_m(
     -------
 
     """
-    ges_beitr_midi_job_m = (
+    gesamtbeitrag_midi_job_m = (
         midi_job_bemessungsentgelt_m
         * 2
         * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
@@ -107,4 +107,4 @@ def _arbeitsl_v_beitr_midi_job_m(
     ag_beitr_midi_job_m = (
         bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
     )
-    return ges_beitr_midi_job_m - ag_beitr_midi_job_m
+    return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m

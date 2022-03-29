@@ -29,7 +29,7 @@ def arbeitsl_geld_2_eink_m(
 
     Returns
     -------
-    Float Series with the income of a person by unemployment insurance.
+    Income of a person by unemployment insurance.
     """
 
     out = (
@@ -47,7 +47,7 @@ def arbeitsl_geld_2_brutto_eink_m(
     bruttolohn_m: float,
     sonstig_eink_m: float,
     eink_selbst_m: float,
-    vermiet_eink_m: float,
+    eink_vermiet_m: float,
     kapitaleink_brutto_m: float,
     sum_ges_rente_priv_rente_m: float,
     arbeitsl_geld_m: float,
@@ -64,8 +64,8 @@ def arbeitsl_geld_2_brutto_eink_m(
         See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
     eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    vermiet_eink_m
-        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
+    eink_vermiet_m
+        See basic input variable :ref:`eink_vermiet_m <eink_vermiet_m>`.
     kapitaleink_brutto_m
         See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
     sum_ges_rente_priv_rente_m
@@ -78,13 +78,13 @@ def arbeitsl_geld_2_brutto_eink_m(
 
     Returns
     -------
-    float with the income by unemployment insurance before tax.
+    Income by unemployment insurance before tax.
     """
     out = (
         bruttolohn_m
         + sonstig_eink_m
         + eink_selbst_m
-        + vermiet_eink_m
+        + eink_vermiet_m
         + kapitaleink_brutto_m
         + sum_ges_rente_priv_rente_m
         + arbeitsl_geld_m

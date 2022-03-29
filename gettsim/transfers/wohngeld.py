@@ -73,7 +73,7 @@ def wohngeld_eink_vor_abzug_m_tu(
     eink_selbst_tu: float,
     eink_abhängig_beschäftigt_tu: float,
     kapitaleink_brutto_tu: float,
-    vermiet_eink_tu: float,
+    eink_vermiet_tu: float,
     arbeitsl_geld_m_tu: float,
     sonstig_eink_m_tu: float,
     eink_rente_zu_verst_m_tu: float,
@@ -90,8 +90,8 @@ def wohngeld_eink_vor_abzug_m_tu(
         See :func:`eink_abhängig_beschäftigt_tu`.
     kapitaleink_brutto_tu
         See :func:`kapitaleink_brutto_tu`.
-    vermiet_eink_tu
-        See :func:`vermiet_eink_tu`.
+    eink_vermiet_tu
+        See :func:`eink_vermiet_tu`.
     arbeitsl_geld_m_tu
         See :func:`arbeitsl_geld_m_tu`.
     sonstig_eink_m_tu
@@ -111,7 +111,7 @@ def wohngeld_eink_vor_abzug_m_tu(
         eink_selbst_tu
         + eink_abhängig_beschäftigt_tu
         + kapitaleink_brutto_tu
-        + vermiet_eink_tu
+        + eink_vermiet_tu
     ) / 12
 
     transfers_tu = (
@@ -344,6 +344,8 @@ def wohngeld_miete_m_bis_2008(
     constr_year = list(params_max_miete[1])[selected_bin_index]
 
     # Calc maximal considered rent
+    # ToDo: Think about calculating max_definierte_hh_größe already in parameter
+    # ToDo: pre-processing and add it to wohngeld_params
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
     if haushaltsgröße_hh <= max_definierte_hh_größe:
         max_miete = params_max_miete[haushaltsgröße_hh][constr_year][mietstufe]

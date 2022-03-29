@@ -2,7 +2,7 @@ from gettsim.piecewise_functions import piecewise_polynomial
 
 
 def eink_selbst(eink_selbst_m: float) -> float:
-    """Aggregate income gross from self-employment to full year income.
+    """Aggregate gross income from self-employment to full year income.
 
     Parameters
     ----------
@@ -19,7 +19,8 @@ def eink_selbst(eink_selbst_m: float) -> float:
 def eink_abhängig_beschäftigt(
     bruttolohn_m: float, geringfügig_beschäftigt: bool, eink_st_abzüge_params: dict,
 ) -> float:
-    """Aggreagate monthly gross wage to yearly income and deduct 'Werbungskosten'.
+    """Aggregate monthly gross wage to yearly income and deduct
+    'Werbungskostenpauschale'.
 
     The wage is reducted by a lump sum payment for 'Werbungskosten'
 
@@ -60,27 +61,25 @@ def kapitaleink_brutto(kapitaleink_brutto_m: float) -> float:
     return 12 * kapitaleink_brutto_m
 
 
-def vermiet_eink(vermiet_eink_m: float) -> float:
+def eink_vermiet(eink_vermiet_m: float) -> float:
     """Aggregate monthly gross rental income to yearly income.
 
     Parameters
     ----------
-    vermiet_eink_m
-        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
+    eink_vermiet_m
+        See basic input variable :ref:`eink_vermiet_m <eink_vermiet_m>`.
 
     Returns
     -------
 
     """
-    return 12 * vermiet_eink_m
+    return 12 * eink_vermiet_m
 
 
 def eink_rente_zu_verst(
     sum_ges_rente_priv_rente_m: float, rente_ertragsanteil: float
 ) -> float:
     """Aggregate monthly gross pension income subject to taxation to yearly income.
-
-    We could summarize other incomes here as well, but only use pensions.
 
     Parameters
     ----------
@@ -100,7 +99,7 @@ def eink_rente_zu_verst(
 def sum_eink_ohne_kapital(
     eink_selbst: float,
     eink_abhängig_beschäftigt: float,
-    vermiet_eink: float,
+    eink_vermiet: float,
     eink_rente_zu_verst: float,
 ) -> float:
     """Sum of gross incomes without capital income.
@@ -112,8 +111,8 @@ def sum_eink_ohne_kapital(
         See :func:`eink_selbst`.
     eink_abhängig_beschäftigt
         See :func:`eink_abhängig_beschäftigt`.
-    vermiet_eink
-        See :func:`vermiet_eink`.
+    eink_vermiet
+        See :func:`eink_vermiet`.
     eink_rente_zu_verst
         See :func:`eink_rente_zu_verst`.
 
@@ -121,7 +120,7 @@ def sum_eink_ohne_kapital(
     -------
 
     """
-    out = eink_selbst + eink_abhängig_beschäftigt + vermiet_eink + eink_rente_zu_verst
+    out = eink_selbst + eink_abhängig_beschäftigt + eink_vermiet + eink_rente_zu_verst
     return out
 
 

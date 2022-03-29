@@ -99,8 +99,7 @@ def ges_krankenv_beitr_selbst_m(
 
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions for self employed
-    income.
+    Monthly health insurance contributions for self employed income.
     """
     beitr_satz = (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
@@ -190,7 +189,7 @@ def ges_krankenv_beitr_rente_m(
 
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions for pension income.
+    Monthly health insurance contributions for pension income.
     """
     out = (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
@@ -219,7 +218,7 @@ def _ges_krankenv_beitr_midi_job_m(
     -------
 
     """
-    ges_beitr_midi_job_m = (
+    gesamtbeitrag_midi_job_m = (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
         + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
     ) * midi_job_bemessungsentgelt_m
@@ -227,4 +226,4 @@ def _ges_krankenv_beitr_midi_job_m(
     ag_beitr_midi_job_m = (
         bruttolohn_m * soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["ag"]
     )
-    return ges_beitr_midi_job_m - ag_beitr_midi_job_m
+    return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m

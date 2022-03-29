@@ -87,8 +87,11 @@ def _eink_st_tarif(x: float, params: dict) -> float:
 def eink_st_tu_bis_1996(eink_st_mit_kinderfreib_tu: float) -> float:
     """Income tax calculation until 1996.
 
-    Until 1996 individuals could claim child allowance and recieve child benefit.
+    Until 1996 individuals could claim Kinderfreibetrag and receive Kindergeld
+    at the same time.
+
     Therefore the tax burden is allways smaller.
+
     Parameters
     ----------
     eink_st_mit_kinderfreib_tu

@@ -74,7 +74,7 @@ def unterhaltsvorschuss_eink_tu_m(
     bruttolohn_m_tu: float,
     sonstig_eink_m_tu: float,
     eink_selbst_m_tu: float,
-    vermiet_eink_m_tu: float,
+    eink_vermiet_m_tu: float,
     kapitaleink_brutto_m_tu: float,
     sum_ges_rente_priv_rente_m_tu: float,
     arbeitsl_geld_m_tu: float,
@@ -89,8 +89,8 @@ def unterhaltsvorschuss_eink_tu_m(
         See :func:`sonstig_eink_m_tu`.
     eink_selbst_m_tu
         See :func:`eink_selbst_m_tu`.
-    vermiet_eink_m_tu
-        See :func:`vermiet_eink_m_tu`.
+    eink_vermiet_m_tu
+        See :func:`eink_vermiet_m_tu`.
     kapitaleink_brutto_m_tu
         See :func:`kapitaleink_brutto_m_tu`.
     sum_ges_rente_priv_rente_m_tu
@@ -106,7 +106,7 @@ def unterhaltsvorschuss_eink_tu_m(
         bruttolohn_m_tu
         + sonstig_eink_m_tu
         + eink_selbst_m_tu
-        + vermiet_eink_m_tu
+        + eink_vermiet_m_tu
         + kapitaleink_brutto_m_tu
         + sum_ges_rente_priv_rente_m_tu
         + arbeitsl_geld_m_tu

@@ -11,12 +11,8 @@ def mini_job_grenze(wohnort_ost: bool, soz_vers_beitr_params: dict) -> float:
     -------
 
     """
-    mini_job_params = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]
-    if wohnort_ost:
-        out = mini_job_params["ost"]
-    else:
-        out = mini_job_params["west"]
-
+    params = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]
+    out = params["ost"] if wohnort_ost else params["west"]
     return float(out)
 
 
@@ -37,7 +33,7 @@ def geringfügig_beschäftigt(bruttolohn_m: float, mini_job_grenze: float) -> bo
 
     Returns
     -------
-    Boolean indicating if person earns less than marginal employment threshold.
+    Whether person earns less than marginal employment threshold.
     """
     return bruttolohn_m <= mini_job_grenze
 
@@ -63,7 +59,7 @@ def in_gleitzone(
 
     Returns
     -------
-    Boolean indicating individual's income is in midi-job range.
+    Whether individual's income is in midi-job range.
     """
     out = (
         bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
@@ -74,7 +70,7 @@ def in_gleitzone(
 def midi_job_bemessungsentgelt_m(
     bruttolohn_m: float, soz_vers_beitr_params: dict,
 ) -> float:
-    """Select income subject to social insurance contributions for midi job.
+    """Income subject to social insurance contributions for midi job.
 
     Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midi jobs subject
     to social insurance contribution.
@@ -92,7 +88,7 @@ def midi_job_bemessungsentgelt_m(
 
     Returns
     -------
-    float with the income subject to social insurance contributions for midi job.
+    Income subject to social insurance contributions for midi job.
     """
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
@@ -163,7 +159,7 @@ def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> b
 
     Returns
     -------
-    Boolean indicating regular employed persons.
+    Whether regular employed persons.
     """
     out = (
         bruttolohn_m >= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]

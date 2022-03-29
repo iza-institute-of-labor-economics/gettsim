@@ -13,7 +13,8 @@ aggregation_kindergeld = {
 def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
     """Kindergeld calculation until 1996.
 
-    Until 1996 individuals could claim child allowance and recieve child benefit.
+    Until 1996 individuals could claim Kinderfreibetrag and receive Kindergeld at the
+    same time.
 
     Parameters
     ----------
@@ -45,11 +46,7 @@ def kindergeld_m_ab_1997(
     -------
 
     """
-    if kinderfreib_günstiger_tu:
-        out = 0.0
-    else:
-        out = kindergeld_basis_m
-
+    out = 0 if kinderfreib_günstiger_tu else kindergeld_basis_m
     return out
 
 

@@ -80,12 +80,12 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     -------
 
     """
-    alleinerz_freibe_tu = (
+    alleinerz_freib_tu = (
         eink_st_abzüge_params["alleinerz_freibetrag"]
         + anz_kinder_tu * eink_st_abzüge_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz_tu:
-        out = alleinerz_freibe_tu
+        out = alleinerz_freib_tu
     else:
         out = 0.0
 
@@ -97,7 +97,7 @@ def eink_st_altersfreib(
     alter: int,
     kapitaleink_brutto_m: float,
     eink_selbst_m: float,
-    vermiet_eink_m: float,
+    eink_vermiet_m: float,
     eink_st_abzüge_params: dict,
 ) -> float:
     """Calculates tax deduction allowance for elderly.
@@ -112,8 +112,8 @@ def eink_st_altersfreib(
         See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
     eink_selbst_m
         See :func:`eink_selbst_m`.
-    vermiet_eink_m
-        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
+    eink_vermiet_m
+        See basic input variable :ref:`eink_vermiet_m <eink_vermiet_m>`.
     eink_st_abzüge_params
         See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
 
@@ -121,9 +121,9 @@ def eink_st_altersfreib(
     -------
 
     """
-    agelimit = eink_st_abzüge_params["altersentlastungsbetrag_altersgrenze"]
-    weiteres_einkommen = max(kapitaleink_brutto_m + eink_selbst_m + vermiet_eink_m, 0.0)
-    if alter > agelimit:
+    altersgrenze = eink_st_abzüge_params["altersentlastungsbetrag_altersgrenze"]
+    weiteres_einkommen = max(kapitaleink_brutto_m + eink_selbst_m + eink_vermiet_m, 0.0)
+    if alter > altersgrenze:
         out = (
             eink_st_abzüge_params["altersentlastung_quote"]
             * 12

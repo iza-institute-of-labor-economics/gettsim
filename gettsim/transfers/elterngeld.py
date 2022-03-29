@@ -65,8 +65,6 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 ) -> float:
     """Calculating the claim for benefits depending on previous wage.
 
-    TODO: This function requires `.fillna(0)` at the end. Investigate!
-
     Parameters
     ----------
     _ges_rentenv_beitr_bemess_grenze_m
@@ -160,6 +158,8 @@ def elternzeit_anspruch(
 def elterngeld_kindkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
     """Check for sibling bonus on parental leave benefit.
 
+    # ToDo: why use datum and geburtsjahr instead of alter?
+
     Parameters
     ----------
     geburtsjahr
@@ -171,8 +171,9 @@ def elterngeld_kindkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
     -------
 
     """
+    geburtsjahr = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
     out = (
-        elterngeld_params["datum"].year - geburtsjahr
+        geburtsjahr - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[0]
     )
     return out
@@ -192,8 +193,9 @@ def elterngeld_vorschulkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
     -------
 
     """
+    geburtsjahr = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
     out = (
-        elterngeld_params["datum"].year - geburtsjahr
+        geburtsjahr - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
     )
     return out

@@ -287,6 +287,7 @@ def execute_dag(dag, data, targets, debug):
                     results[task] = dag.nodes[task]["function"](
                         **kwargs
                     )  # .rename(task)
+
                 except Exception as e:
                     if debug:
                         traceback.print_exc()

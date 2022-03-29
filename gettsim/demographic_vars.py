@@ -3,7 +3,6 @@ are used throughout modules of gettsim."""
 import datetime
 
 import numpy as np
-import pandas as pd
 
 
 aggregation_demographic_vars = {
@@ -205,11 +204,13 @@ def geburtsdatum(geburtsjahr: int, geburtsmonat: int, geburtstag: int) -> np.dat
     -------
 
     """
-    out = np.datetime64(datetime.datetime(geburtsjahr, geburtsmonat, geburtstag))
+    out = np.datetime64(
+        datetime.datetime(geburtsjahr, geburtsmonat, geburtstag)
+    ).astype("datetime64[D]")
     return out
 
 
-def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict,) -> float:
+def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict) -> float:
     """Calculate age of youngest child in months.
 
     Parameters
@@ -224,11 +225,12 @@ def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict,) -> float
     -------
 
     """
-    date = pd.to_datetime(elterngeld_params["datum"])
-    age_in_days = date - geburtsdatum
+    # ToDo: Find out why geburtsdatum need to be cast to datetime64 again. It
+    # ToDo: should already have this type based on the function above
+    age_in_days = elterngeld_params["datum"] - np.datetime64(geburtsdatum)
 
-    out = age_in_days / np.timedelta64(1, "M")
-    return out
+    out = age_in_days / 30.436875
+    return out.astype(float)
 
 
 def jüngstes_kind_oder_mehrling(

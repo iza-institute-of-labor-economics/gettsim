@@ -28,7 +28,7 @@ INPUT_COLS = [
     "unterhaltsvors_m",
     "jahr",
 ]
-OUT_COLS = ["kinderzuschl_vorläufig_m_hh"]
+OUT_COLS = ["_kinderzuschl_vor_vermög_check_m_hh"]
 # 2006 and 2009 are missing
 YEARS = [2011, 2013, 2016, 2017, 2019, 2020, 2021]
 

@@ -67,7 +67,10 @@ def grouped_min(column, group_id):
 
     # For datetime, convert to float (as numpy_groupies can handle datetime only if
     # numba is installed)
-    if np.issubdtype(column.dtype, np.datetime64):
+
+    if np.issubdtype(column.dtype, np.datetime64) or np.issubdtype(
+        column.dtype, np.timedelta64
+    ):
         dtype = column.dtype
         float_col = column.astype("datetime64[ms]").astype(float)
 
