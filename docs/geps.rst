@@ -17,5 +17,6 @@ These GEPs are currently in place:
    ../geps/gep-01
    ../geps/gep-02
    ../geps/gep-03
+   ../geps/gep-04
    ../geps/gep-05
    ../geps/gep-x
