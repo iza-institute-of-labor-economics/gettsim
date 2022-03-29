@@ -10,94 +10,94 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | Variable name           | Description                                 | Type         |
 +=========================+=============================================+==============+
-| _`hh_id`                | Household identifier                        | IntSeries    |
+| _`hh_id`                | Household identifier                        | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`tu_id`                | Tax Unit identifier (married couples + kids)| IntSeries    |
+| _`tu_id`                | Tax Unit identifier (married couples + kids)| int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`kind`                 | Dummy: Dependent child living with parents  | BoolSeries   |
+| _`kind`                 | Dummy: Dependent child living with parents  | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`bruttolohn_m`         | Monthly wage                                | FloatSeries  |
+| _`bruttolohn_m`         | Monthly wage                                | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`alter`                | Age of Individual                           | IntSeries    |
+| _`alter`                | Age of Individual                           | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`rentner`              | Dummy: Pensioner employment status          | BoolSeries   |
+| _`rentner`              | Dummy: Pensioner employment status          | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`alleinerz`            | Dummy: Single parent                        | BoolSeries   |
+| _`alleinerz`            | Dummy: Single parent                        | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`wohnort_ost`          | Dummy: Living in former East Germany        | BoolSeries   |
+| _`wohnort_ost`          | Dummy: Living in former East Germany        | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`in_priv_krankenv`     | Dummy: In private health insurance          | BoolSeries   |
+| _`in_priv_krankenv`     | Dummy: In private health insurance          | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`priv_rentenv_beitr_m` | Monthly private pension contribution        | FloatSeries  |
+| _`priv_rentenv_beitr_m` | Monthly private pension contribution        | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`in_ausbildung`        | Dummy: Employment status “in education”     | BoolSeries   |
+| _`in_ausbildung`        | Dummy: Employment status “in education”     | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`selbstständig`        | Dummy: Individual is self-employed          | BoolSeries   |
+| _`selbstständig`        | Dummy: Individual is self-employed          | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`hat_kinder`           | Dummy: Individual has kids (incl. not in hh)| BoolSeries   |
+| _`hat_kinder`           | Dummy: Individual has kids (incl. not in hh)| bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`betreuungskost_m`     | Monthly childcare expenses                  | FloatSeries  |
+| _`betreuungskost_m`     | Monthly childcare expenses                  | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`sonstig_eink_m`       | Additional income                           | FloatSeries  |
+| _`sonstig_eink_m`       | Additional income                           | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`eink_selbst_m`        | Monthly income from self-employment         | FloatSeries  |
+| _`eink_selbst_m`        | Monthly income from self-employment         | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`vermiet_eink_m`       | Monthly rental income                       | FloatSeries  |
+| _`eink_vermietung_m`    | Monthly rental income                       | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`kapitaleink_brutto_m` | Monthly capital income                      | FloatSeries  |
+| _`kapitaleink_brutto_m` | Monthly capital income                      | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`bruttokaltmiete_m_hh` | Monthly rent expenses for household         | FloatSeries  |
+| _`bruttokaltmiete_m_hh` | Monthly rent expenses for household         | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`heizkosten_m_hh`      | Monthly heating expenses for household      | FloatSeries  |
+| _`heizkosten_m_hh`      | Monthly heating expenses for household      | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`wohnfläche_hh`        | Size of household dwelling in square meters | IntSeries    |
+| _`wohnfläche_hh`        | Size of household dwelling in square meters | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`bewohnt_eigentum_hh`  | Dummy: Owner-occupied housing               | BoolSeries   |
+| _`bewohnt_eigentum_hh`  | Dummy: Owner-occupied housing               | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_monate_lfdj` | Months in unemployment, current year        | IntSeries    |
+| _`arbeitsl_monate_lfdj` | Months in unemployment, current year        | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_monate_vorj` | Months in unemployment, previous year       | IntSeries    |
+| _`arbeitsl_monate_vorj` | Months in unemployment, previous year       | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_monate_v2j`  | Months in unemployment, two years before    | IntSeries    |
+| _`arbeitsl_monate_v2j`  | Months in unemployment, two years before    | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`arbeitsstunden_w`     | Weekly working hours of individual          | IntSeries    |
+| _`arbeitsstunden_w`     | Weekly working hours of individual          | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`bruttolohn_vorj_m`    | Monthly wage, previous year                 | FloatSeries  |
+| _`bruttolohn_vorj_m`    | Monthly wage, previous year                 | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`geburtstag`           | Day of birth                                | IntSeries    |
+| _`geburtstag`           | Day of birth                                | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`geburtsmonat`         | Month of birth                              | IntSeries    |
+| _`geburtsmonat`         | Month of birth                              | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`geburtsjahr`          | Year of birth                               | IntSeries    |
+| _`geburtsjahr`          | Year of birth                               | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`jahr_renteneintr`     | Year of retirement                          | IntSeries    |
+| _`jahr_renteneintr`     | Year of retirement                          | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`m_elterngeld`         | Number of months hh received elterngeld     | IntSeries    |
+| _`m_elterngeld`         | Number of months hh received elterngeld     | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`m_elterngeld_vat`     | Number of months father received elterngeld | IntSeries    |
+| _`m_elterngeld_vat_hh`  | Number of months father received elterngeld | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`m_elterngeld_mut`     | Number of months mother received elterngeld | IntSeries    |
+| _`m_elterngeld_mut_hh`  | Number of months mother received elterngeld | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`behinderungsgrad`     | Handicap degree (between 0 and 100)         | IntSeries    |
+| _`behinderungsgrad`     | Handicap degree (between 0 and 100)         | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`schwerbeh_g`          | Severerly handicapped, with flag "G"        | BoolSeries   |
+| _`schwerbeh_g`          | Severerly handicapped, with flag "G"        | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`mietstufe`            | Level of rents in city (1: low, 3: average) | IntSeries    |
+| _`mietstufe`            | Level of rents in city (1: low, 3: average) | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`immobilie_baujahr_hh` | Construction year of dwelling               | IntSeries    |
+| _`immobilie_baujahr_hh` | Construction year of dwelling               | int          |
 +-------------------------+---------------------------------------------+--------------+
-| _`vermögen_hh`          | Wealth of household                         | FloatSeries  |
+| _`vermögen_hh`          | Wealth of household                         | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`entgeltp`             | Earnings points for pension claim           | FloatSeries  |
+| _`entgeltp`             | Earnings points for pension claim           | float        |
 +-------------------------+---------------------------------------------+--------------+
-|| _`grundr_zeiten`       || Number of months determining Grundrente    || IntSeries   |
+|| _`grundr_zeiten`       || Number of months determining Grundrente    || int         |
 ||                        || eligibility                                ||             |
 +-------------------------+---------------------------------------------+--------------+
-|| _`grundr_bew_zeiten`   || Number of months determining Grundrente    || IntSeries   |
+|| _`grundr_bew_zeiten`   || Number of months determining Grundrente    || int         |
 ||                        || payments                                   ||             |
 +-------------------------+---------------------------------------------+--------------+
-|| _`grundr_entgeltp`     || Average `entgeltp` during                  || FloatSeries |
+|| _`grundr_entgeltp`     || Average `entgeltp` during                  || float       |
 ||                        || `grundr_bew_zeiten`                        ||             |
 +-------------------------+---------------------------------------------+--------------+
-| _`priv_rente_m`         | Amount of monthly private pension           | FloatSeries  |
+| _`priv_rente_m`         | Amount of monthly private pension           | float        |
 +-------------------------+---------------------------------------------+--------------+

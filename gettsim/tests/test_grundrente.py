@@ -54,7 +54,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_grundrente(input_data, year, column):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
 
@@ -107,7 +107,10 @@ def test_proxy_rente_vorj(input_data_proxy_rente, year):
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
     target = "rente_vorj_vor_grundr_proxy_m"
     calc_result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=target,
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=target,
     )
     assert_series_equal(calc_result[target].astype(float), year_data[target])
 

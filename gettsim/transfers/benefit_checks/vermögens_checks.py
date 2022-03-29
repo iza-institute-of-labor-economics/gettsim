@@ -1,16 +1,8 @@
-import numpy as np
-import pandas as pd
-
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def _kinderzuschl_nach_vermög_check_m_hh(
-    _kinderzuschl_vor_vermög_check_m_hh: FloatSeries,
-    vermögen_hh: FloatSeries,
-    arbeitsl_geld_2_vermög_freib_hh,
-) -> FloatSeries:
+    _kinderzuschl_vor_vermög_check_m_hh: float,
+    vermögen_hh: float,
+    arbeitsl_geld_2_vermög_freib_hh: float,
+) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
     Parameters
@@ -26,17 +18,20 @@ def _kinderzuschl_nach_vermög_check_m_hh(
     -------
 
     """
-    out = _kinderzuschl_vor_vermög_check_m_hh.copy()
-    out.loc[vermögen_hh > arbeitsl_geld_2_vermög_freib_hh] = 0
+
+    if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
+        out = 0.0
+    else:
+        out = _kinderzuschl_vor_vermög_check_m_hh
     return out
 
 
 def wohngeld_nach_vermög_check_m_hh(
-    wohngeld_vor_vermög_check_m_hh: FloatSeries,
-    vermögen_hh: FloatSeries,
-    haushaltsgröße_hh: IntSeries,
+    wohngeld_vor_vermög_check_m_hh: float,
+    vermögen_hh: float,
+    haushaltsgröße_hh: int,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
 
     The payment depends on the wealth of the household and the number of household
@@ -57,29 +52,29 @@ def wohngeld_nach_vermög_check_m_hh(
     -------
 
     """
-    out = wohngeld_vor_vermög_check_m_hh.copy()
-    condition = vermögen_hh <= (
+
+    if vermögen_hh <= (
         wohngeld_params["vermögensgrundfreibetrag"]
         + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
-    )
-    out.loc[~condition] = 0
+    ):
+        out = wohngeld_vor_vermög_check_m_hh
+    else:
+        out = 0.0
+
     return out
 
 
-def _arbeitsl_geld_2_grundfreib_vermög_hh(
-    hh_id: IntSeries,
-    kind: BoolSeries,
-    alter: IntSeries,
-    geburtsjahr: IntSeries,
-    _arbeitsl_geld_2_max_grundfreib_vermög: FloatSeries,
+def _arbeitsl_geld_2_grundfreib_vermög(
+    kind: bool,
+    alter: int,
+    geburtsjahr: int,
+    _arbeitsl_geld_2_max_grundfreib_vermög: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate exemptions based on individuals age.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     kind
         See basic input variable :ref:`kind <kind>`.
     alter
@@ -96,25 +91,25 @@ def _arbeitsl_geld_2_grundfreib_vermög_hh(
 
     """
     threshold_years = list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())
-    out = pd.Series(0, index=alter.index)
-    out.loc[geburtsjahr <= threshold_years[0]] = (
-        list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[0]
-        * alter.loc[geburtsjahr <= threshold_years[0]]
-    )
-    out.loc[(geburtsjahr >= threshold_years[1]) & ~kind] = (
-        list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[1]
-        * alter.loc[(threshold_years[1] <= geburtsjahr) & ~kind]
-    )
+    if geburtsjahr <= threshold_years[0]:
+        out = (
+            list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[0] * alter
+        )
+    elif (geburtsjahr >= threshold_years[1]) and (not kind):
+        out = (
+            list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[1] * alter
+        )
+    else:
+        out = 0.0
 
-    # exemption is bounded from above.
-    out = out.clip(upper=_arbeitsl_geld_2_max_grundfreib_vermög)
-
-    return out.groupby(hh_id).sum()
+    return min(out, _arbeitsl_geld_2_max_grundfreib_vermög)
 
 
 def _arbeitsl_geld_2_max_grundfreib_vermög(
-    geburtsjahr: IntSeries, kind: BoolSeries, arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+    geburtsjahr: int,
+    kind: bool,
+    arbeitsl_geld_2_params: dict,
+) -> float:
     """Calculate maximal wealth exemptions by year of birth.
 
     Parameters
@@ -135,54 +130,30 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
     threshold_years = list(
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
     )
-    conditions = [
-        (geburtsjahr <= threshold_years[0]).astype(bool),
-        (
-            (threshold_years[1] <= geburtsjahr) & (geburtsjahr < threshold_years[2])
-        ).astype(bool),
-        (
-            (threshold_years[2] <= geburtsjahr) & (geburtsjahr < threshold_years[3])
-        ).astype(bool),
-        ((threshold_years[3] <= geburtsjahr) & ~kind).astype(bool),
-        True,
-    ]
-
-    choices = [
-        (
-            list(
-                arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].values()
-            )[0]
-        ),
-        (
-            list(
-                arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].values()
-            )[1]
-        ),
-        (
-            list(
-                arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].values()
-            )[2]
-        ),
-        (
-            list(
-                arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].values()
-            )[3]
-        ),
-        0,
-    ]
-
-    data = np.select(conditions, choices)
-    out = pd.Series(0, index=geburtsjahr.index) + data
+    obergrenzen = list(
+        arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].values()
+    )
+    if kind:
+        out = 0.0
+    else:
+        if geburtsjahr < threshold_years[1]:
+            out = obergrenzen[0]
+        elif geburtsjahr < threshold_years[2]:
+            out = obergrenzen[1]
+        elif geburtsjahr < threshold_years[3]:
+            out = obergrenzen[2]
+        else:
+            out = obergrenzen[3]
 
     return out
 
 
 def arbeitsl_geld_2_vermög_freib_hh(
-    _arbeitsl_geld_2_grundfreib_vermög_hh: FloatSeries,
-    anz_kinder_bis_17_hh: IntSeries,
-    haushaltsgröße_hh: IntSeries,
+    _arbeitsl_geld_2_grundfreib_vermög_hh: float,
+    anz_kinder_bis_17_hh: int,
+    haushaltsgröße_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate actual exemptions.
 
     Parameters

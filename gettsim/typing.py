@@ -1,14 +1,8 @@
-from typing import TypeVar
-
+import numpy as np
 from pandas.api.types import is_bool_dtype
 from pandas.api.types import is_datetime64_any_dtype
 from pandas.api.types import is_float_dtype
 from pandas.api.types import is_integer_dtype
-
-FloatSeries = TypeVar("FloatSeries")
-IntSeries = TypeVar("IntSeries")
-BoolSeries = TypeVar("BoolSeries")
-DateTimeSeries = TypeVar("DateTimeSeries")
 
 
 def check_if_series_has_internal_type(series, internal_type):
@@ -26,13 +20,13 @@ def check_if_series_has_internal_type(series, internal_type):
     out : bool
         Return check variable.
     """
-    if internal_type == FloatSeries:
+    if internal_type == float:
         out = is_float_dtype(series) or is_integer_dtype(series)
-    elif internal_type == BoolSeries:
+    elif internal_type == bool:
         out = is_bool_dtype(series)
-    elif internal_type == IntSeries:
+    elif internal_type == int:
         out = is_integer_dtype(series)
-    elif internal_type == DateTimeSeries:
+    elif internal_type == np.datetime64:
         out = is_datetime64_any_dtype(series)
     else:
         raise ValueError(f"The internal type {internal_type} is not defined.")

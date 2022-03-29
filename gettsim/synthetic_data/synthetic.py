@@ -7,6 +7,8 @@ import pandas as pd
 from gettsim.config import ROOT_DIR
 from gettsim.policy_environment import _load_parameter_group_from_yaml
 
+current_year = datetime.datetime.now().year
+
 
 def append_other_hh_members(
     df, hh_typ, n_children, age_adults, age_children, double_earner
@@ -59,7 +61,7 @@ def create_synthetic_data(
     age_children=None,
     baujahr=1980,
     double_earner=False,
-    policy_year=datetime.datetime.now().year,
+    policy_year=current_year,
     heterogeneous_vars=(),
     **kwargs,
 ):
@@ -210,7 +212,7 @@ def create_one_set_of_households(
         "betreuungskost_m",
         "sonstig_eink_m",
         "eink_selbst_m",
-        "vermiet_eink_m",
+        "eink_vermietung_m",
         "kapitaleink_brutto_m",
         "bruttokaltmiete_m_hh",
         "heizkosten_m_hh",
@@ -226,8 +228,8 @@ def create_one_set_of_households(
         "geburtsjahr",
         "jahr_renteneintr",
         "m_elterngeld",
-        "m_elterngeld_mut",
-        "m_elterngeld_vat",
+        "m_elterngeld_mut_hh",
+        "m_elterngeld_vat_hh",
         "behinderungsgrad",
         "mietstufe",
         "immobilie_baujahr",
@@ -265,8 +267,8 @@ def create_one_set_of_households(
     for int_col in [
         "behinderungsgrad",
         "m_elterngeld",
-        "m_elterngeld_mut",
-        "m_elterngeld_vat",
+        "m_elterngeld_mut_hh",
+        "m_elterngeld_vat_hh",
         "arbeitsl_monate_lfdj",
         "arbeitsl_monate_vorj",
         "arbeitsl_monate_v2j",

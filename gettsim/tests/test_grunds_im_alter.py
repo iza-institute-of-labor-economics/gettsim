@@ -30,7 +30,7 @@ INPUT_COLS = [
     "arbeitsl_geld_m",
     "sonstig_eink_m",
     "eink_selbst_m",
-    "vermiet_eink_m",
+    "eink_vermietung_m",
     "eink_st_tu",
     "soli_st_tu",
     "sozialv_beitr_gesamt_m",
@@ -69,7 +69,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_grunds_im_alter(input_data, year, column):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
 
