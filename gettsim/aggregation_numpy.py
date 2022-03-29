@@ -40,15 +40,15 @@ def grouped_max(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="max")
     fail_if_dtype_not_numeric_or_datetime(column, agg_func="max")
 
-    # For datetime, convert to float (as numpy_groupies can handle datetime only if
+    # For datetime, convert to integer (as numpy_groupies can handle datetime only if
     # numba is installed)
     if np.issubdtype(column.dtype, np.datetime64):
         dtype = column.dtype
-        float_col = column.astype("datetime64[ms]").astype(float)
+        float_col = column.astype("datetime64[D]").astype(int)
 
         out_on_hh_float = npg.aggregate(group_id, float_col, func="max")
 
-        out_on_hh = out_on_hh_float.astype("datetime64[ms]").astype(dtype)
+        out_on_hh = out_on_hh_float.astype("datetime64[D]").astype(dtype)
 
         # Expand to individual level
         out = out_on_hh[group_id]
@@ -65,18 +65,18 @@ def grouped_min(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="min")
     fail_if_dtype_not_numeric_or_datetime(column, agg_func="min")
 
-    # For datetime, convert to float (as numpy_groupies can handle datetime only if
+    # For datetime, convert to integer (as numpy_groupies can handle datetime only if
     # numba is installed)
 
     if np.issubdtype(column.dtype, np.datetime64) or np.issubdtype(
         column.dtype, np.timedelta64
     ):
         dtype = column.dtype
-        float_col = column.astype("datetime64[ms]").astype(float)
+        float_col = column.astype("datetime64[D]").astype(int)
 
         out_on_hh_float = npg.aggregate(group_id, float_col, func="min")
 
-        out_on_hh = out_on_hh_float.astype("datetime64[ms]").astype(dtype)
+        out_on_hh = out_on_hh_float.astype("datetime64[D]").astype(dtype)
 
         # Expand to individual level
         out = out_on_hh[group_id]
