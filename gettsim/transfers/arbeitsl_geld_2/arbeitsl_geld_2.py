@@ -39,7 +39,8 @@ def arbeitsl_geld_2_m_hh(
 
 
 def arbeitsl_geld_2_regelbedarf_m_hh(
-    arbeitsl_geld_2_regelsatz_m_hh: float, arbeitsl_geld_2_kost_unterk_m_hh: float,
+    arbeitsl_geld_2_regelsatz_m_hh: float,
+    arbeitsl_geld_2_kost_unterk_m_hh: float,
 ) -> float:
     """Basic monthly subsistence level on household level.
 

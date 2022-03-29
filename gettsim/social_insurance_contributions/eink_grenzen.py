@@ -39,7 +39,9 @@ def geringfügig_beschäftigt(bruttolohn_m: float, mini_job_grenze: float) -> bo
 
 
 def in_gleitzone(
-    bruttolohn_m: float, geringfügig_beschäftigt: bool, soz_vers_beitr_params: dict,
+    bruttolohn_m: float,
+    geringfügig_beschäftigt: bool,
+    soz_vers_beitr_params: dict,
 ) -> bool:
     """Check if individual's income is in midi-job range.
 
@@ -68,7 +70,8 @@ def in_gleitzone(
 
 
 def midi_job_bemessungsentgelt_m(
-    bruttolohn_m: float, soz_vers_beitr_params: dict,
+    bruttolohn_m: float,
+    soz_vers_beitr_params: dict,
 ) -> float:
     """Income subject to social insurance contributions for midi job.
 

@@ -22,7 +22,9 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
 
 @add_rounding_spec(params_key="ges_rente")
 def ges_rente_nach_grundr_m(
-    ges_rente_vor_grundr_m: float, grundr_zuschlag_m: float, rentner: bool,
+    ges_rente_vor_grundr_m: float,
+    grundr_zuschlag_m: float,
+    rentner: bool,
 ) -> float:
     """Calculate total public pension including Grundrentenzuschlag. Is
     only active after 2021 when Grundrente is in place.

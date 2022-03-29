@@ -94,7 +94,10 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     prox_income = 12 * max_wage - eink_st_abzüge_params["werbungskostenpauschale"]
     prox_income = max(prox_income, 0.0)
 
-    prox_tax = _eink_st_tarif(prox_income, eink_st_params,)
+    prox_tax = _eink_st_tarif(
+        prox_income,
+        eink_st_params,
+    )
 
     prox_soli = piecewise_polynomial(
         prox_tax,
@@ -155,7 +158,10 @@ def elternzeit_anspruch(
     return out
 
 
-def elterngeld_kindkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
+def elterngeld_kindkind(
+    geburtsjahr: int,
+    elterngeld_params: dict,
+) -> bool:
     """Check for sibling bonus on parental leave benefit.
 
     # ToDo: why use datum and geburtsjahr instead of alter?
@@ -179,7 +185,10 @@ def elterngeld_kindkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
     return out
 
 
-def elterngeld_vorschulkind(geburtsjahr: int, elterngeld_params: dict,) -> bool:
+def elterngeld_vorschulkind(
+    geburtsjahr: int,
+    elterngeld_params: dict,
+) -> bool:
     """Check for sibling bonus on parental leave benefit.
 
     Parameters
@@ -240,7 +249,8 @@ def elterngeld_geschw_bonus_anspruch(
 
 
 def _elterngeld_anz_mehrlinge_anspruch(
-    elternzeit_anspruch: bool, anz_mehrlinge_jüngstes_kind_hh: np.datetime64,
+    elternzeit_anspruch: bool,
+    anz_mehrlinge_jüngstes_kind_hh: np.datetime64,
 ) -> int:
     """Check for multiple bonus on parental leave benefit.
 
@@ -299,7 +309,8 @@ def elterngeld_nettolohn_m(
 
 
 def elterngeld_eink_relev_m(
-    _elterngeld_proxy_eink_vorj_elterngeld_m: float, elterngeld_nettolohn_m: float,
+    _elterngeld_proxy_eink_vorj_elterngeld_m: float,
+    elterngeld_nettolohn_m: float,
 ) -> float:
     """Calculating the relevant wage for the calculation of elterngeld.
 
@@ -350,14 +361,13 @@ def elterngeld_anteil_eink_erlass(
         < elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
     ):
         out = (
-            (
-                elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
-                - elterngeld_eink_relev_m
-            )
-            / elterngeld_params["eink_schritt_korrektur"]
-            * elterngeld_params["prozent_korrektur"]
-            + elterngeld_params["faktor"]
-        )
+            elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
+            - elterngeld_eink_relev_m
+        ) / elterngeld_params["eink_schritt_korrektur"] * elterngeld_params[
+            "prozent_korrektur"
+        ] + elterngeld_params[
+            "faktor"
+        ]
 
     # Lower replacement rate if considered income is above a threshold
     elif (

@@ -60,7 +60,9 @@ def eink_st_alleinerz_freib_tu_bis_2014(
 
 
 def eink_st_alleinerz_freib_tu_ab_2015(
-    alleinerz_tu: bool, anz_kinder_tu: int, eink_st_abzüge_params: dict,
+    alleinerz_tu: bool,
+    anz_kinder_tu: int,
+    eink_st_abzüge_params: dict,
 ) -> float:
     """Calculates tax deduction allowance for single parents since 2015.
 

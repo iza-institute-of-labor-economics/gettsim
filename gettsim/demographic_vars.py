@@ -234,7 +234,9 @@ def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict) -> float:
 
 
 def jüngstes_kind_oder_mehrling(
-    alter_monate: float, alter_monate_jüngstes_mitglied_hh: float, kind: bool,
+    alter_monate: float,
+    alter_monate_jüngstes_mitglied_hh: float,
+    kind: bool,
 ) -> int:
     """Check if person is the youngest child in the household or a twin, triplet, etc.
     of the youngest child.

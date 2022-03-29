@@ -43,7 +43,9 @@ def arbeitsl_geld_m(
 
 
 def arbeitsl_monate_gesamt(
-    arbeitsl_monate_lfdj: int, arbeitsl_monate_vorj: int, arbeitsl_monate_v2j: int,
+    arbeitsl_monate_lfdj: int,
+    arbeitsl_monate_vorj: int,
+    arbeitsl_monate_v2j: int,
 ) -> int:
     """Aggregate months of unemployment over the last two years.
 

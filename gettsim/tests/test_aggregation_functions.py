@@ -461,7 +461,8 @@ def test_grouped_sum_raises(
 ):
 
     with pytest.raises(
-        error_sum, match=exception_match,
+        error_sum,
+        match=exception_match,
     ):
         if backend == "jax":
             grouped_sum_jax(column_to_aggregate, group_id)
@@ -486,7 +487,8 @@ def test_grouped_mean_raises(
 ):
 
     with pytest.raises(
-        error_mean, match=exception_match,
+        error_mean,
+        match=exception_match,
     ):
         if backend == "jax":
             grouped_mean_jax(column_to_aggregate, group_id)
@@ -511,7 +513,8 @@ def test_grouped_max_raises(
 ):
 
     with pytest.raises(
-        error_max, match=exception_match,
+        error_max,
+        match=exception_match,
     ):
         if backend == "jax":
             grouped_max_jax(column_to_aggregate, group_id)
@@ -536,7 +539,8 @@ def test_grouped_min_raises(
 ):
 
     with pytest.raises(
-        error_min, match=exception_match,
+        error_min,
+        match=exception_match,
     ):
         if backend == "jax":
             grouped_min_jax(column_to_aggregate, group_id)
@@ -561,7 +565,8 @@ def test_grouped_any_raises(
 ):
 
     with pytest.raises(
-        error_any, match=exception_match,
+        error_any,
+        match=exception_match,
     ):
         if backend == "jax":
             grouped_any_jax(column_to_aggregate, group_id)
@@ -586,7 +591,8 @@ def test_grouped_all_raises(
 ):
 
     with pytest.raises(
-        error_all, match=exception_match,
+        error_all,
+        match=exception_match,
     ):
         if backend == "jax":
             grouped_all_jax(column_to_aggregate, group_id)
@@ -614,7 +620,8 @@ def test_grouped_cumsum_raises(
         pass
     elif backend == "numpy":
         with pytest.raises(
-            error_cumsum, match=exception_match,
+            error_cumsum,
+            match=exception_match,
         ):
             grouped_cumsum_numpy(column_to_aggregate, group_id)
     else:

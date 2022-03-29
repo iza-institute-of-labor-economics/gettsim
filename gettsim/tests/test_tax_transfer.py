@@ -42,7 +42,8 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_tax_transfer(
-    input_data, year,
+    input_data,
+    year,
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[
@@ -61,7 +62,8 @@ def test_tax_transfer(
 
 @pytest.mark.parametrize("year", YEARS)
 def test_data_types(
-    input_data, year,
+    input_data,
+    year,
 ):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)

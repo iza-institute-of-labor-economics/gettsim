@@ -27,7 +27,8 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_soli_st(
-    input_data, year,
+    input_data,
+    year,
 ):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
@@ -43,5 +44,7 @@ def test_soli_st(
         columns_overriding_functions=user_cols,
     )
     assert_series_equal(
-        results["soli_st_tu"], year_data["soli_st_tu"], check_dtype=False,
+        results["soli_st_tu"],
+        year_data["soli_st_tu"],
+        check_dtype=False,
     )

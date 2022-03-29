@@ -387,7 +387,8 @@ def _load_parameter_group_from_yaml(
         return dt
 
     raw_group_data = yaml.load(
-        (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"), Loader=yaml.CLoader,
+        (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"),
+        Loader=yaml.CLoader,
     )
 
     # Load parameters (exclude 'rounding' parameters which are handled at the

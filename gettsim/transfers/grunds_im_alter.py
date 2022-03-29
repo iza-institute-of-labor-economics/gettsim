@@ -183,7 +183,8 @@ def grunds_im_alter_erwerbseink_m(
 
 
 def _grunds_im_alter_kapitaleink_brutto_m(
-    kapitaleink_brutto: float, grunds_im_alter_params: dict,
+    kapitaleink_brutto: float,
+    grunds_im_alter_params: dict,
 ) -> float:
     """Calculate capital income considered in the calculation of Grundsicherung im
     Alter.
@@ -214,7 +215,9 @@ def _grunds_im_alter_kapitaleink_brutto_m(
 
 
 def grunds_im_alter_priv_rente_m(
-    priv_rente_m: float, arbeitsl_geld_2_params: dict, grunds_im_alter_params: dict,
+    priv_rente_m: float,
+    arbeitsl_geld_2_params: dict,
+    grunds_im_alter_params: dict,
 ) -> float:
     """Calculate private pension benefits considered in the calculation of
     Grundsicherung im Alter.
@@ -290,7 +293,9 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     return out
 
 
-def grunds_im_alter_ges_rente_m_bis_2020(ges_rente_m: float,) -> float:
+def grunds_im_alter_ges_rente_m_bis_2020(
+    ges_rente_m: float,
+) -> float:
     """Calculate public pension benefits which are considered in the calculation of
     Grundsicherung im Alter.
 
@@ -356,7 +361,9 @@ def grunds_im_alter_ges_rente_m_ab_2021(
 
 
 def grunds_im_alter_vermög_freib_hh(
-    anz_erwachsene_hh: int, anz_kinder_hh: int, grunds_im_alter_params: dict,
+    anz_erwachsene_hh: int,
+    anz_kinder_hh: int,
+    grunds_im_alter_params: dict,
 ) -> float:
     """Calculate wealth not considered for Grundsicherung im Alter.
 

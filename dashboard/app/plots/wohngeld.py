@@ -100,7 +100,10 @@ def wohngeld(plot_dict, data):
 
     p = setup_plot(src)
 
-    description = Div(text=plot_dict["description"], width=1000,)
+    description = Div(
+        text=plot_dict["description"],
+        width=1000,
+    )
 
     year_label = Div(text="Year")
 

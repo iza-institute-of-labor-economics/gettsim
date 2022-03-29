@@ -29,11 +29,6 @@ from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_if_series_has_internal_type
 
-# try:
-#     import jax.numpy as jnp
-# except ImportError:
-#     pass
-
 
 class KeyErrorMessage(str):
     """Subclass str to allow for line breaks in KeyError messages"""
@@ -740,7 +735,8 @@ def _add_rounding_to_functions_in_dag(dag_raw, params):
                     )
                 # Add rounding.
                 dag.nodes[task]["function"] = _add_rounding_to_one_function(
-                    base=rounding_spec["base"], direction=rounding_spec["direction"],
+                    base=rounding_spec["base"],
+                    direction=rounding_spec["direction"],
                 )(dag.nodes[task]["function"])
     return dag
 

@@ -52,7 +52,9 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_eltgeld(
-    year, column, input_data,
+    year,
+    column,
+    input_data,
 ):
     """Run tests to validate elterngeld.
 
@@ -77,5 +79,9 @@ def test_eltgeld(
     )
 
     assert_series_equal(
-        result[column], year_data[column], check_dtype=False, atol=1e-2, rtol=1,
+        result[column],
+        year_data[column],
+        check_dtype=False,
+        atol=1e-2,
+        rtol=1,
     )

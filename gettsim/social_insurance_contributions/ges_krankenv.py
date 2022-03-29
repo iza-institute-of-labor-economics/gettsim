@@ -83,7 +83,8 @@ def _ges_krankenv_beitr_bruttolohn_m(
 
 
 def ges_krankenv_beitr_selbst_m(
-    _ges_krankenv_bemessungsgrundlage_eink_selbst: float, soz_vers_beitr_params: dict,
+    _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
+    soz_vers_beitr_params: dict,
 ) -> float:
     """Calculates health insurance contributions.
     Self-employed pay the full
@@ -155,7 +156,8 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
 
 
 def _ges_krankenv_bemessungsgrundlage_rente_m(
-    sum_ges_rente_priv_rente_m: float, _ges_krankenv_beitr_bemess_grenze_m: float,
+    sum_ges_rente_priv_rente_m: float,
+    _ges_krankenv_beitr_bemess_grenze_m: float,
 ) -> float:
     """Choose the amount of pension which is subject to health insurance contribution.
 

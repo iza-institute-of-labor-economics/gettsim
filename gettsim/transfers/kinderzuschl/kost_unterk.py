@@ -27,7 +27,8 @@ def kinderzuschl_kost_unterk_m(
 
 
 def kinderzuschl_bruttokaltmiete_m(
-    bruttokaltmiete_m_hh: float, _anteil_personen_in_haushalt_tu: float,
+    bruttokaltmiete_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
 ) -> float:
     """Share of household's monthly rent attributed to the tax unit.
 
@@ -46,7 +47,8 @@ def kinderzuschl_bruttokaltmiete_m(
 
 
 def kinderzuschl_heizkosten_m(
-    heizkosten_m_hh: float, _anteil_personen_in_haushalt_tu: float,
+    heizkosten_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
 ) -> float:
     """Share of household's heating expenses attributed to the tax unit.
 
@@ -65,7 +67,9 @@ def kinderzuschl_heizkosten_m(
 
 
 def _kinderzuschl_wohnbedarf_eltern_anteil_tu(
-    anz_kinder_tu: int, anz_erwachsene_tu: int, kinderzuschl_params: dict,
+    anz_kinder_tu: int,
+    anz_erwachsene_tu: int,
+    kinderzuschl_params: dict,
 ) -> float:
     """Calculate living needs broken down to the parents.
      Defined as parents' subsistence level on housing, divided by sum

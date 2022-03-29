@@ -74,7 +74,9 @@ def input_data():
 
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
 def test_zve(
-    input_data, year, target,
+    input_data,
+    year,
+    target,
 ):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
@@ -108,7 +110,11 @@ def test_zve(
 
     # TODO: There are large differences for the 2018 test. See #217.
     assert_series_equal(
-        result[target], expected_result, check_dtype=False, atol=1e-1, rtol=1,
+        result[target],
+        expected_result,
+        check_dtype=False,
+        atol=1e-1,
+        rtol=1,
     )
 
 

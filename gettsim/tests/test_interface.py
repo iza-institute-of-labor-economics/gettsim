@@ -144,7 +144,8 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         return b
 
     with pytest.raises(
-        ValueError, match="The following data columns are missing",
+        ValueError,
+        match="The following data columns are missing",
     ):
         compute_taxes_and_transfers(
             minimal_input_data, {}, functions=[b, c], targets="c"
@@ -165,7 +166,8 @@ def test_fail_if_missing_pid(minimal_input_data):
     data = minimal_input_data.drop("p_id", axis=1).copy()
 
     with pytest.raises(
-        ValueError, match="The input data must contain the column p_id",
+        ValueError,
+        match="The input data must contain the column p_id",
     ):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
@@ -175,7 +177,8 @@ def test_fail_if_non_unique_pid(minimal_input_data):
     data["p_id"] = 1
 
     with pytest.raises(
-        ValueError, match="The following p_ids are non-unique",
+        ValueError,
+        match="The following p_ids are non-unique",
     ):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
@@ -185,7 +188,8 @@ def test_fail_if_non_unique_cols(minimal_input_data):
     data["temp"] = data["hh_id"]
     data = data.rename(columns={"temp": "hh_id"})
     with pytest.raises(
-        ValueError, match="The following columns are non-unique",
+        ValueError,
+        match="The following columns are non-unique",
     ):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
@@ -207,7 +211,8 @@ def test_partial_parameters_to_functions_removes_argument():
 
     # Fails if params is added to partial function
     with pytest.raises(
-        TypeError, match=("got multiple values for argument "),
+        TypeError,
+        match=("got multiple values for argument "),
     ):
         func_after_partial(2, {"test_param_1": 1})
 

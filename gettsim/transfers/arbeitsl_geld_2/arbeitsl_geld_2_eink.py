@@ -95,7 +95,9 @@ def arbeitsl_geld_2_brutto_eink_m(
 
 
 def arbeitsl_geld_2_2005_netto_quote(
-    bruttolohn_m: float, elterngeld_nettolohn_m: float, arbeitsl_geld_2_params: dict,
+    bruttolohn_m: float,
+    elterngeld_nettolohn_m: float,
+    arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of net to gross wage.
 
@@ -160,7 +162,9 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
 
 
 def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
-    bruttolohn_m: float, anz_kinder_hh: int, arbeitsl_geld_2_params: dict,
+    bruttolohn_m: float,
+    anz_kinder_hh: int,
+    arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calcualte share of income, which remains to the individual sinc 10/2005.
 

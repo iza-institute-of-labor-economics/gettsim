@@ -64,7 +64,10 @@ def child_benefits(plot_dict, data):
 
     p = setup_plot(data)
 
-    description = Div(text=plot_dict["description"], width=1000,)
+    description = Div(
+        text=plot_dict["description"],
+        width=1000,
+    )
 
     layout = column(description, p)
 

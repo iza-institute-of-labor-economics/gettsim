@@ -29,7 +29,8 @@ def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
 
 
 def kindergeld_m_ab_1997(
-    kinderfreib_günstiger_tu: bool, kindergeld_basis_m: float,
+    kinderfreib_günstiger_tu: bool,
+    kindergeld_basis_m: float,
 ) -> float:
     """Kindergeld calculation since 1997.
 
@@ -84,7 +85,10 @@ def kindergeld_basis_m(
 
 
 def kindergeld_anspruch_nach_stunden(
-    alter: int, in_ausbildung: bool, arbeitsstunden_w: float, kindergeld_params: dict,
+    alter: int,
+    in_ausbildung: bool,
+    arbeitsstunden_w: float,
+    kindergeld_params: dict,
 ) -> bool:
     """Determine kindergeld eligibility depending on working hours.
 
@@ -116,7 +120,10 @@ def kindergeld_anspruch_nach_stunden(
 
 
 def kindergeld_anspruch_nach_lohn(
-    alter: int, in_ausbildung: bool, bruttolohn_m: float, kindergeld_params: dict,
+    alter: int,
+    in_ausbildung: bool,
+    bruttolohn_m: float,
+    kindergeld_params: dict,
 ) -> bool:
     """Determine kindergeld eligibility depending on kids wage.
 

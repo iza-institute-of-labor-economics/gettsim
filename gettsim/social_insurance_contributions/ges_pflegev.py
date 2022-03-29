@@ -1,5 +1,7 @@
 def ges_pflegev_zusatz_kinderlos(
-    hat_kinder: bool, alter: int, soz_vers_beitr_params: dict,
+    hat_kinder: bool,
+    alter: int,
+    soz_vers_beitr_params: dict,
 ) -> bool:
     """
     Whether additional care insurance contribution for childless individuals applies.

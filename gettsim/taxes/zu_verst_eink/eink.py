@@ -17,7 +17,9 @@ def eink_selbst(eink_selbst_m: float) -> float:
 
 
 def eink_abhängig_beschäftigt(
-    bruttolohn_m: float, geringfügig_beschäftigt: bool, eink_st_abzüge_params: dict,
+    bruttolohn_m: float,
+    geringfügig_beschäftigt: bool,
+    eink_st_abzüge_params: dict,
 ) -> float:
     """Aggregate monthly gross wage to yearly income and deduct
     'Werbungskostenpauschale'.
@@ -124,7 +126,10 @@ def sum_eink_ohne_kapital(
     return out
 
 
-def kapitaleink(kapitaleink_brutto: float, eink_st_abzüge_params: dict,) -> float:
+def kapitaleink(
+    kapitaleink_brutto: float,
+    eink_st_abzüge_params: dict,
+) -> float:
     """Capital income minus Sparerpauschbetrag
 
     Parameters
@@ -147,7 +152,10 @@ def kapitaleink(kapitaleink_brutto: float, eink_st_abzüge_params: dict,) -> flo
     return max(out, 0.0)
 
 
-def sum_eink_mit_kapital(sum_eink_ohne_kapital: float, kapitaleink: float,) -> float:
+def sum_eink_mit_kapital(
+    sum_eink_ohne_kapital: float,
+    kapitaleink: float,
+) -> float:
     """Sum of gross incomes with capital income.
 
     Parameters

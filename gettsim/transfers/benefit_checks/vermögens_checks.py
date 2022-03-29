@@ -106,7 +106,9 @@ def _arbeitsl_geld_2_grundfreib_vermög(
 
 
 def _arbeitsl_geld_2_max_grundfreib_vermög(
-    geburtsjahr: int, kind: bool, arbeitsl_geld_2_params: dict,
+    geburtsjahr: int,
+    kind: bool,
+    arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate maximal wealth exemptions by year of birth.
 

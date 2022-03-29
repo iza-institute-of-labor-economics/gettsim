@@ -72,7 +72,8 @@ def _ges_rentenv_beitr_midi_job_m_m(
 
 
 def _ges_rentenv_beitr_bruttolohn_m(
-    bruttolohn_m: float, _ges_rentenv_beitr_bemess_grenze_m: float,
+    bruttolohn_m: float,
+    _ges_rentenv_beitr_bemess_grenze_m: float,
 ) -> float:
     """Calculate the wage subject to pension and
     unemployment insurance contributions.
