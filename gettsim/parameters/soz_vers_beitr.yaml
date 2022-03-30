@@ -19,8 +19,8 @@ beitr_satz:
   unit: Share
   1984-01-01:
     ges_krankenv:
-      durchschnitt: null
-      allgemein: 0.1144
+      durchschnitt: 0.1144
+      allgemein: null
       ermäßigt: null
       zusatz: null
     ges_pflegev:
@@ -30,8 +30,8 @@ beitr_satz:
     ges_rentenv: 0.0925
   1985-01-01:
     ges_krankenv:
-      durchschnitt: null
-      allgemein: 0.118
+      durchschnitt: 0.118
+      allgemein: null
       ermäßigt: null
       zusatz: null
     ges_pflegev:
@@ -41,8 +41,8 @@ beitr_satz:
     ges_rentenv: 0.0935
   1986-01-01:
     ges_krankenv:
-      durchschnitt: null
-      allgemein: 0.122
+      durchschnitt: 0.122
+      allgemein: null
       ermäßigt: null
       zusatz: null
     ges_pflegev:
@@ -52,8 +52,8 @@ beitr_satz:
     ges_rentenv: 0.096
   1987-01-01:
     ges_krankenv:
-      durchschnitt: null
-      allgemein: 0.1248
+      durchschnitt: 0.1248
+      allgemein: null
       ermäßigt: null
       zusatz: null
     ges_pflegev:
