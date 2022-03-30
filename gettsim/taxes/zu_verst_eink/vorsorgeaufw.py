@@ -254,7 +254,7 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
     bruttolohn_m: float,
     eink_st_abzüge_params: dict,
 ) -> float:
-    """Calcaulate vorsoge expenditures until 2019 for singles.
+    """Calculate precautionary expenditures until 2019 for singles.
 
     Parameters
     ----------
@@ -280,7 +280,7 @@ def _vorsorgeaufw_vom_lohn_bis_2019_tu(
     bruttolohn_m_tu: float,
     eink_st_abzüge_params: dict,
 ) -> float:
-    """Calcaulate vorsoge expenditures until 2019 per tax unit.
+    """Calculate precautionary expenditures until 2019 per tax unit.
 
     Parameters
     ----------
@@ -310,7 +310,7 @@ def _berechne_vorsorgeaufw_bis_2004(
     anzahl_erwachsene: int,
     eink_st_abzüge_params: dict,
 ) -> float:
-    """Calcaulate vorsoge expenditures until 2004.
+    """Calculate precautionary expenditures until 2004.
 
     Parameters
     ----------
