@@ -301,7 +301,7 @@ def create_one_set_of_households(
     df["kapitaleink_brutto_m"] = kwargs.get("kapitaleink_brutto_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
     df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
-    dim = kwargs.get("dimension", 1)
+    dim = kwargs.get("dimension", 0)
 
     df["hh_id"] = 100 * dim + df.index
     df["tu_id"] = 100 * dim + df.index
