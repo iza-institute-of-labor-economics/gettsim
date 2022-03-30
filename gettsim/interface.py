@@ -131,6 +131,7 @@ def compute_taxes_and_transfers(
 
     # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data)
+    _fail_if_pid_is_non_unique(data)
     data = _reduce_to_necessary_data(dag, data, check_minimal_specification)
 
     # Convert series to numpy arrays
@@ -183,7 +184,6 @@ def check_data_check_functions_and_merge_functions(
         column.
     """
     data_cols = list(data.keys())
-    _fail_if_pid_is_non_unique(data)
     _fail_if_columns_overriding_functions_are_not_in_data(
         data_cols, columns_overriding_functions
     )
