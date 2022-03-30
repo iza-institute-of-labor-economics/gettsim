@@ -80,11 +80,11 @@ YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019]
 
 @pytest.fixture(scope="module")
 def input_data():
-    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_alg2.csv")
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "arbeitsl_geld_2.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_alg2(input_data, year, column):
+def test_arbeitsl_geld_2(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)

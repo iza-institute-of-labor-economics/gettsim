@@ -33,7 +33,7 @@ OUT_COLS = ["kinderzuschl_m_hh", "wohngeld_m_hh", "arbeitsl_geld_2_m_hh"]
 
 @pytest.fixture(scope="module")
 def input_data():
-    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_prio.csv")
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "benefit_checks.csv")
 
 
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))

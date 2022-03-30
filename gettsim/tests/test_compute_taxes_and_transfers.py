@@ -35,13 +35,13 @@ OUT_COLS = [
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_tax_transfer.csv"
+    file_name = "compute_taxes_and_transfers.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_tax_transfer(
+def test_compute_taxes_and_transfers(
     input_data,
     year,
 ):

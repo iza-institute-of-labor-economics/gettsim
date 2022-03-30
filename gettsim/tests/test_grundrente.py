@@ -46,7 +46,7 @@ OUT_COLS = OUT_COLS_TOL.keys()
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_grundrente.csv"
+    file_name = "grundrente.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     out["p_id"] = out["p_id"].astype(int)
     return out
@@ -92,7 +92,7 @@ INPUT_COLS_INCOME = [
 
 @pytest.fixture(scope="module")
 def input_data_proxy_rente():
-    file_name = "test_dfs_grundrente_proxy_rente.csv"
+    file_name = "grundrente_proxy_rente.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     out["p_id"] = out["p_id"].astype(int)
     out["jahr_renteneintr"] = out["jahr_renteneintr"].astype("Int64")

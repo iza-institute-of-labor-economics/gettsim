@@ -27,9 +27,7 @@ TEST_COLUMNS = ["eink_st_tu", "kindergeld_m", "kindergeld_m_hh", "kindergeld_m_t
 
 @pytest.fixture(scope="module")
 def input_data():
-    return pd.read_csv(
-        ROOT_DIR / "tests" / "test_data" / "test_dfs_favorability_check.csv"
-    )
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "favorability_check.csv")
 
 
 @pytest.mark.parametrize("year, target", product(YEARS, TEST_COLUMNS))

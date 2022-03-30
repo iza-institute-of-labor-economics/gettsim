@@ -37,13 +37,13 @@ OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_ssc.csv"
+    file_name = "soz_vers.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
-def test_soc_ins_contrib(input_data, year, target):
+def test_soz_vers(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
