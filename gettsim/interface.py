@@ -55,13 +55,16 @@ def compute_taxes_and_transfers(
     data : pandas.Series or pandas.DataFrame or dict of pandas.Series
         Data provided by the user.
     params : dict
-        A dictionary with parameters from the policy environment. For more
-        information see the documentation of the :ref:`param_files`.
+        A dictionary with parameters from the policy environment. For more information
+        see the documentation of the :ref:`param_files`.
     functions : str, pathlib.Path, callable, module, imports statements, dict
-        Function from the policy environment. Functions can be anything of the specified
-        types and a list of the same objects. If the object is a dictionary, the keys of
-        the dictionary are used as a name instead of the function name. For all other
-        objects, the name is inferred from the function name.
+        Function from the policy environment. Functions can be anything of the
+        specified types and a list of the same objects. If the object is a dictionary,
+        the keys of the dictionary are used as a name instead of the function name. For
+        all other objects, the name is inferred from the function name.
+    aggregation_specs : dict, default None
+        A dictionary which contains specs for functions which aggregate variables on
+        the tax unit or household level.
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
@@ -165,6 +168,9 @@ def check_data_check_functions_and_merge_functions(
         needed by the user.
     data : dict of pandas.Series
         Data provided by the user.
+    aggregation_specs : dict, default None
+        A dictionary which contains specs for functions which aggregate variables on
+        the tax unit or household level.
 
     Returns
     -------
