@@ -783,7 +783,7 @@ ag_abgaben_geringf:
     ges_rentenv: 0.15
     st: 0.02
 
-ges_pflegev_zusatz_kinderlos_altersgrenze:
+ges_pflegev_zusatz_kinderlos_mindestalter:
   name:
     de: Altersgrenze Beitragszuschlag für Kinderlose
     en: Age limit additional contribution for childless
