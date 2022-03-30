@@ -2,7 +2,7 @@
 Note:
 - Values for "arbeitsl_geld_2_vor_vorrang_m_hh" and "arbeitsl_geld_2_m_hh" are
   only regression tests
-- "wohngeld_basis_hh" is set to 0 to avoid testing Wohngeld-Vorrang and the
+- "wohngeld_vor_vermög_check_m_hh" is set to 0 to avoid testing Wohngeld-Vorrang and the
   calculation of Wohngeld here.
 
 """
@@ -27,22 +27,22 @@ INPUT_COLS = [
     "heizkosten_m_hh",
     "wohnfläche_hh",
     "bewohnt_eigentum_hh",
-    "alleinerziehend",
+    "alleinerz",
     "bruttolohn_m",
-    "summe_ges_priv_rente_m",
-    "kapitaleink_m",
+    "sum_ges_rente_priv_rente_m",
+    "kapitaleink_brutto_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
     "eink_selbst_m",
-    "vermiet_eink_m",
+    "eink_vermietung_m",
     "eink_st_tu",
     "soli_st_tu",
-    "sozialv_beitr_m",
+    "sozialv_beitr_gesamt_m",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
     "jahr",
-    "wohngeld_basis_hh",
+    "wohngeld_vor_vermög_check_m_hh",
     "vermögen_hh",
     "geburtsjahr",
     "rentner",
@@ -51,31 +51,31 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    "arbeitsl_geld_2_brutto_eink",
-    "arbeitsl_geld_2_eink_anr_frei",
-    "arbeitsl_geld_2_eink",
-    "_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh",
-    "regelsatz_m_hh",
-    "kost_unterk_m_hh",
+    "arbeitsl_geld_2_brutto_eink_m",
+    "arbeitsl_geld_2_eink_anr_frei_m",
+    "arbeitsl_geld_2_eink_m",
+    "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
+    "arbeitsl_geld_2_regelsatz_m_hh",
+    "arbeitsl_geld_2_kost_unterk_m_hh",
     "unterhaltsvors_m_hh",
     "arbeitsl_geld_2_vor_vorrang_m_hh",
     "arbeitsl_geld_2_m_hh",
 ]
 
-override_columns = [
+OVERRIDE_COLS = [
     "arbeitsl_geld_m",
     "soli_st_tu",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
     "eink_st_tu",
-    "sozialv_beitr_m",
-    "summe_ges_priv_rente_m",
-    "wohngeld_basis_hh",
+    "sozialv_beitr_gesamt_m",
+    "sum_ges_rente_priv_rente_m",
+    "wohngeld_vor_vermög_check_m_hh",
 ]
 
 
-YEARS = [2005, 2006, 2009, 2011, 2013, 2016, 2019]
+YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019]
 
 
 @pytest.fixture(scope="module")
@@ -85,7 +85,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_alg2(input_data, year, column):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
@@ -94,7 +94,7 @@ def test_alg2(input_data, year, column):
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=override_columns,
+        columns_overriding_functions=OVERRIDE_COLS,
     )
     if column in [
         "arbeitsl_geld_2_vor_vorrang_m_hh",

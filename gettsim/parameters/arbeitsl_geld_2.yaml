@@ -8,9 +8,10 @@ eink_anr_frei:
       definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011
       § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
       G. v. 24.03.2011 BGBl. I S. 453).
-    en:
+    en: >-
+      Income shares which do not lead to tapering of benefits.
   type: piecewise_linear
-  time: month
+  reference_period: Month
   2005-01-01:
     reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
     0:
@@ -102,7 +103,7 @@ regelsatz:
       2: Adults in a partner relationship; 3: Adults not in a partner relationship;
       4: Children 14 to 18 years; 5: Children 6 to 13 years; 6: Children 0 to 5 years.
   unit: Euro
-  time: month
+  reference_period: Month
   2005-01-01:
     scalar: 338
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
@@ -260,9 +261,9 @@ anteil_regelsatz:
 mehrbedarf_anteil:
   name:
     de: >-
-      Erster Schlüssel ist Mehrbedarf AE bei mind. einem Kind unter 7 Jahren oder zwei
-      oder drei Kindern unter 16 Jahre. Der Zweite gibt den Mehrbedarf an wenn der
-      Anspruch größer ist als der für den ersten Schlüssel. Der dritte Schlüssel gibt
+      ``kind_unter_7_oder_mehr`` gibt Mehrbedarf AE bei mind. einem Kind unter 7 Jahren oder zwei
+      oder drei Kindern unter 16 Jahre an. ``min_1_kind`` gibt den Mehrbedarf an wenn der
+      Anspruch größer ist als der für den ersten Schlüssel. ``max`` gibt
       den Maximalanteil für den Mehrbedarf für Alleinerziehende gemessen am maßgebenden
       Regelbedarf.
     en: >-
@@ -273,7 +274,7 @@ mehrbedarf_anteil:
     de: § 21 (3) Nr. 1 SGB II.
     en:
   unit: Share
-  time: Month
+  reference_period: Month
   2005-01-01:
     min_1_kind: 0.12
     kind_unter_7_oder_mehr: 0.36
@@ -286,8 +287,9 @@ vermögensgrundfreibetrag_obergrenze:
     en: Maximum of basic allowance
   description:
     de: § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen, die vor 1948
-        geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr
-        auf, scheint aber noch relevant zu sein.
+        geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr auf
+        und ist nicht mehr relevant, da alle betroffenen Personen zu alt für ALG 2
+        sind.
     en: Differs by birth year.
   unit: Euro
   2005-01-01:
@@ -379,7 +381,7 @@ abzugsfähige_pausch:
       § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
     en:
   unit: Euro
-  time: Month
+  reference_period: Month
   2005-01-01:
     werbung: 15.33
     versicherung: 30
@@ -401,7 +403,7 @@ max_miete_pro_qm:
     en: The rent per square meter must not exceed a reasonable amount in order to remain
         eligible for ALG2. This limit is not specifically laid down in the law, but is
         a rule of thumb used by the employment agencies.
-  unit: Euro/ qm
+  unit: Euro / Square Meter
   reference: § 22 SGB II
   1984-01-01:
     max: 10

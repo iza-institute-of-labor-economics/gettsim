@@ -49,8 +49,8 @@ Prerequisites
    .. code-block:: bash
 
        $ conda activate gettsim
-       $ conda develop .
        $ pre-commit install
+
 
 Development workflow
 --------------------
@@ -102,11 +102,13 @@ Development workflow
 
 *  The final PR will be merged by one of the main contributors.
 
+
 Code style
 ----------
 *  We make use of NumPy-type docstrings: https://numpydoc.readthedocs.io/en/latest/format.html
 *  Otherwise, we adhere to this `styleguide <https://estimagic.readthedocs.io/en/latest/contributing/styleguide.html>`_
    (which was written for estimagic).
+
 
 FAQ
 ---

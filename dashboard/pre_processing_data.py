@@ -12,11 +12,18 @@ import pandas as pd
 from gettsim import set_up_policy_environment
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.transfers.wohngeld import wohngeld_basis
-from gettsim.transfers.wohngeld import wohngeld_miete_ab_2009
-from gettsim.transfers.wohngeld import wohngeld_miete_ab_2021
-from gettsim.transfers.wohngeld import wohngeld_miete_bis_2008
+from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2009
+from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_m_bis_2008
 from gettsim.transfers.wohngeld import wohngeld_min_miete
+from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m_hh
+
+wohngeld_miete_m_ab_2009 = np.vectorize(wohngeld_miete_m_ab_2009)
+wohngeld_miete_m_ab_2021 = np.vectorize(wohngeld_miete_m_ab_2021)
+wohngeld_miete_m_bis_2008 = np.vectorize(wohngeld_miete_m_bis_2008)
+wohngeld_min_miete = np.vectorize(wohngeld_min_miete)
+wohngeld_vor_vermög_check_m_hh = np.vectorize(wohngeld_vor_vermög_check_m_hh)
+_eink_st_tarif = np.vectorize(_eink_st_tarif)
 
 
 # Each plot has one data preparation function as defined below
@@ -67,7 +74,7 @@ def deduction_data(start, end):
     # Loop through years to get the policy parameters
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
-        params = policy_params["eink_st_abzuege"]
+        params = policy_params["eink_st_abzüge"]
         if i < 2002:
             params["grundfreibetrag"] = round(grundfreibetrag[i])
         if i >= 2002:
@@ -116,31 +123,28 @@ def prepare_wg_data(sel_year, hh_size):
 
     # Miete needs to be corrected acc. to mietstufe and hh size
     if sel_year <= 2008:
-        wohngeld_miete = wohngeld_miete_bis_2008(
+        wohngeld_miete_m = wohngeld_miete_m_bis_2008(
             pd.Series([3] * len(miete)),
             pd.Series([1980] * len(miete)),
             household_size,
-            pd.Series(range(len(miete))),
             miete,
             pd.Series([1] * len(miete)),
             wohngeld_min_miete(household_size, params),
             params,
         )
     if 2009 <= sel_year <= 2020:
-        wohngeld_miete = wohngeld_miete_ab_2009(
+        wohngeld_miete_m = wohngeld_miete_m_ab_2009(
             pd.Series([3] * len(miete)),
             household_size,
-            pd.Series(range(len(miete))),
             miete,
             pd.Series([1] * len(miete)),
             wohngeld_min_miete(household_size, params),
             params,
         )
     if sel_year >= 2021:
-        wohngeld_miete = wohngeld_miete_ab_2021(
+        wohngeld_miete_m = wohngeld_miete_m_ab_2021(
             pd.Series([3] * len(miete)),
             household_size,
-            pd.Series(range(len(miete))),
             miete,
             pd.Series([1] * len(miete)),
             wohngeld_min_miete(household_size, params),
@@ -156,11 +160,11 @@ def prepare_wg_data(sel_year, hh_size):
     for i in range(len(einkommen)):
         this_column = wohngeld_df.columns[i]
         e = pd.Series(data=[einkommen[i]] * len(einkommen))
-        wohngeld_df[this_column] = wohngeld_basis(
-            haushaltsgröße=household_size,
+        wohngeld_df[this_column] = wohngeld_vor_vermög_check_m_hh(
+            haushaltsgröße_hh=household_size,
             # Account for minimum income
-            wohngeld_eink=np.maximum(e, params["min_eink"][hh_size]),
-            wohngeld_miete=wohngeld_miete,
+            wohngeld_eink_m=np.maximum(e, params["min_eink"][hh_size]),
+            wohngeld_miete_m=wohngeld_miete_m,
             wohngeld_params=params,
         )
     wohngeld_df.index = miete
@@ -197,13 +201,19 @@ def tax_rate_data(start, end):
         soli_params = policy_params["soli_st"]["soli_st"]
 
         eink_tax = _eink_st_tarif(einkommen, eink_params)
-        soli = piecewise_polynomial(
-            eink_tax,
-            thresholds=soli_params["thresholds"],
-            rates=soli_params["rates"],
-            intercepts_at_lower_thresholds=soli_params[
-                "intercepts_at_lower_thresholds"
-            ],
+
+        soli = np.array(
+            [
+                piecewise_polynomial(
+                    x,
+                    thresholds=soli_params["thresholds"],
+                    rates=soli_params["rates"],
+                    intercepts_at_lower_thresholds=soli_params[
+                        "intercepts_at_lower_thresholds"
+                    ],
+                )
+                for x in eink_tax
+            ]
         )
         marginal_rate = np.gradient(eink_tax, einkommen)
         overall_marginal_rate = np.gradient(eink_tax + soli, einkommen)
@@ -260,7 +270,7 @@ def social_security_data(start, end):
 
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
-        soz_vers_dict[i] = policy_params["soz_vers_beitr"]["soz_vers_beitr"]
+        soz_vers_dict[i] = policy_params["soz_vers_beitr"]["beitr_satz"]
 
     soz_vers_df = pd.DataFrame(data=soz_vers_dict).transpose()
     # Dictionary entries into columns
@@ -366,5 +376,6 @@ def generate_data():
     dbfile.close()
 
 
-# This line needs to be run manually once after major changes i.e. new plots.
-generate_data()
+if __name__ == "__main__":
+    # Run manually once after major changes i.e. new plots.
+    generate_data()

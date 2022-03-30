@@ -42,15 +42,21 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   (:ghuser:`Eric-Sommer`).
 * :gh:`349` Create parameters for several hard coded numbers in code.
   (:ghuser:`LauraGergeleit`).
+* :gh:`355` Major renaming based on GEP 01, e.g.: correct use of ``_m``-suffix;
+  ``alleinerziehend`` becomes ``alleinerz``; rename `ges_rentenv.yaml` to
+  `ges_rente.yaml` (:ghuser:`hmgaudecker`, :ghuser:`ChristianZimpelmann`)
+* :gh:`356` Define functions on scalars and have them vectorised by numpy or jax.
+  Implement aggregation functions on group levels. (:ghuser:`LauraGergeleit`,
+  :ghuser:`ChristianZimpelmann`)
 
 0.4.2 — 2022-01-25
-------------------
+--------------------
 
 * Ensure GETTSIM works with Pandas 1.4 (:gh:`337`)
 
 
 0.4.1 — 2021-04-11
-------------------
+--------------------
 
 * :gh:`248` Implement 2021 increase in lump sum tax deductions for disabled.
    (:ghuser:`Eric-Sommer`).
@@ -71,7 +77,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.4.0 — 2020-11-11
-------------------
+--------------------
 
 * :gh:`241` renaming of directories: `gettsim.benefits` to `gettsim.transfers`;
    `gettsim.soz_vers` to `gettsim.social_insurance`; `gettsim.data` to
@@ -99,14 +105,14 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.3.4 — 2020-07-30
-------------------
+--------------------
 
 * :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
   (:ghuser:`hmgaudecker`, :ghuser:`MaxBlesch`)
 
 
 0.3.3 — 2020-06-27
-------------------
+--------------------
 
 * :gh:`212` improves the error message when reduced series could not be expanded with an
   id variable and fixes a related error in the internal functions
@@ -118,7 +124,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.3.2 — 2020-06-19
-------------------
+--------------------
 
 * :gh:`196` adds docstring to `policy_for_date.py` and improves its interface
   (:ghuser:`MaxBlesch`).
@@ -136,7 +142,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.3.1 — 2020-06-05
-------------------
+--------------------
 
 * :gh:`188` removes misleading code bits from the documentation and adds a copy-button
   (:ghuser:`tobiasraabe`).
@@ -145,7 +151,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.3.0 — 2020-06-04
-------------------
+--------------------
 
 * Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
 * Break up params.yaml into group-level files (:ghuser:`MaxBlesch`)
@@ -182,7 +188,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.2.1 — 2019-11-20
-------------------
+--------------------
 
 * Fix error with real SOEP data and "Wohngeld" for households with more than 12
   household members (:ghuser:`Eric-Sommer`, :ghuser:`MaxBlesch`)
@@ -194,7 +200,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.2.0 — 2019-11-06
-------------------
+--------------------
 
 This will be the initial release of ``gettsim``.
 
@@ -212,7 +218,7 @@ This will be the initial release of ``gettsim``.
 
 
 0.1 and prior work — 2019-09-30
--------------------------------
+---------------------------------
 
 Most code written by :ghuser:`Eric-Sommer` based on `IZAΨMOD <https://www.iza.org/
 publications/dp/8553/documentation-izapsmod-v30-the-iza-policy-simulation-model>`_, a

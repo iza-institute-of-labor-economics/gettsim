@@ -58,7 +58,7 @@ attribute_dict = {
         "top_left",
         f"""This graph shows the evolution of the main lump-sum tax deductions
         creating a wedge between market and taxable income.
-        <a href="{param_url}/eink_st_abzuege.yaml">
+        <a href="{param_url}/eink_st_abzüge.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "wohngeld": [
@@ -122,8 +122,11 @@ plot_dict = {
     p: {a: attribute_dict[p][counter] for counter, a in enumerate(plot_attributes)}
     for p in plot_list
 }
-
-all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
+# Makes a difference whether we launch the Dashboard app or start tests.
+try:
+    all_data = pickle.load(open("dashboard/param_dashboard_data.pickle", "rb"))
+except FileNotFoundError:
+    all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
 
 # print("{} INFO - Server receives request".format(datetime.now(tz)))
 

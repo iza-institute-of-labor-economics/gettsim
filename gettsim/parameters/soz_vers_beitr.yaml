@@ -1,4 +1,4 @@
-soz_vers_beitr:
+beitr_satz:
   name:
     de: Beitragssätze zu den gesetzlichen Sozialversicherungen
     en: Contribution rate to statutory social insurances
@@ -260,7 +260,7 @@ soz_vers_beitr:
     reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
 
 
-beitr_bemess_grenze:
+beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
     en: Income Threshold for social insurance.
@@ -271,7 +271,7 @@ beitr_bemess_grenze:
     de:
     en:
   unit: Euro
-  time: month
+  reference_period: Month
   1984-01-01:
     ges_krankenv:
       west: 1994
@@ -535,7 +535,7 @@ beitr_bemess_grenze:
     reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
 
 
-bezugsgröße:
+bezugsgröße_selbst_m:
   name:
     de: Monatliche Bezugsgröße
     en: Monthly reference size
@@ -543,7 +543,7 @@ bezugsgröße:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
     en:
   unit: Euro
-  time: month
+  reference_period: Month
   1984-01-01:
     west: 1396
   1985-01-01:
@@ -671,7 +671,7 @@ bezugsgröße_selbst_anteil:
   1984-01-01:
     scalar: 0.75
 
-geringfügige_eink_grenzen:
+geringfügige_eink_grenzen_m:
   name:
     de: Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
     en: Thresholds for marginal employment ('mini' and 'midi' jobs)
@@ -679,7 +679,7 @@ geringfügige_eink_grenzen:
     de: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
     en:
   unit: Euro
-  time: month
+  reference_period: Month
   1984-01-01:
     mini_job:
       west: 199
@@ -809,7 +809,7 @@ ges_pflegev_zusatz_kinderlos_altersgrenze:
   description:
     de: Der Beitragssatz für Kinderlose steigt ab dieser Altersgrenze an.
     en: The contribution rate for childless people increases from this age limit.
-  unit: Years
+  unit: Year
   reference: § 55 Abs. 3 SGB XI
   2005-01-01:
     scalar: 23

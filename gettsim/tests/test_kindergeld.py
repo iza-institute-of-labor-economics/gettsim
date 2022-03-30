@@ -17,12 +17,12 @@ INPUT_COLS = [
     "arbeitsstunden_w",
     "in_ausbildung",
     "bruttolohn_m",
-    "_zu_verst_eink_kein_kinderfreib_tu",
+    "_zu_verst_eink_ohne_kinderfreib_tu",
 ]
 YEARS = [2002, 2010, 2011, 2013, 2019, 2020, 2021]
 TEST_COLS = [
-    "kindergeld_m_basis_tu",
-    "kinderbonus_m_basis_tu",
+    "kindergeld_basis_m_tu",
+    "kinderbonus_basis_m_tu",
     "kindergeld_m_hh",
     "kinderbonus_m_hh",
     "kinderbonus_m_tu",
@@ -39,11 +39,11 @@ def input_data():
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
 def test_kindergeld(input_data, year, target):
 
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    user_cols = ["_zu_verst_eink_kein_kinderfreib_tu"]
+    user_cols = ["_zu_verst_eink_ohne_kinderfreib_tu"]
     calc_result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,

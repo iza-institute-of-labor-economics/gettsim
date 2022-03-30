@@ -14,7 +14,7 @@ from gettsim.policy_environment import set_up_policy_environment
 from gettsim.typing import check_if_series_has_internal_type
 
 
-YEARS = [2019, 2020, 2021]
+YEARS = [2019]
 
 OUT_COLS = [
     "eink_st_tu",
@@ -42,27 +42,28 @@ def input_data():
 
 @pytest.mark.parametrize("year", YEARS)
 def test_tax_transfer(
-    input_data, year,
+    input_data,
+    year,
 ):
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[
-        list(TYPES_INPUT_VARIABLES.keys()) + ["summe_ges_priv_rente_m"]
+        list(TYPES_INPUT_VARIABLES.keys()) + ["sum_ges_rente_priv_rente_m"]
     ].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
-    # params["renten_daten"] = renten_daten
 
     compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
         targets=OUT_COLS,
-        columns_overriding_functions=["summe_ges_priv_rente_m"],
+        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
 
 
 @pytest.mark.parametrize("year", YEARS)
 def test_data_types(
-    input_data, year,
+    input_data,
+    year,
 ):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)
@@ -73,7 +74,7 @@ def test_data_types(
 
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[
-        list(TYPES_INPUT_VARIABLES.keys()) + ["summe_ges_priv_rente_m"]
+        list(TYPES_INPUT_VARIABLES.keys()) + ["sum_ges_rente_priv_rente_m"]
     ].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
     # params["renten_daten"] = renten_daten
@@ -84,7 +85,7 @@ def test_data_types(
         functions=policy_functions,
         targets=OUT_COLS,
         debug=True,
-        columns_overriding_functions=["summe_ges_priv_rente_m"],
+        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
     for column_name, series in data.items():
         if series.empty:

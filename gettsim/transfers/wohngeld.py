@@ -2,101 +2,50 @@
 import numpy as np
 
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def wohngeld_m_hh(
-    wohngeld_vermögens_check_hh: FloatSeries,
-    wohngeld_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    alle_erwachsene_sind_rentner_hh: BoolSeries,
-) -> FloatSeries:
+    wohngeld_nach_vermög_check_m_hh: float,
+    wohngeld_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_hh: bool,
+    erwachsene_alle_rentner_hh: bool,
+) -> float:
     """Calculate final housing benefit per household.
 
     Parameters
     ----------
-    wohngeld_vermögens_check_hh
-        See :func:`wohngeld_vermögens_check_hh`.
+    wohngeld_nach_vermög_check_m_hh
+        See :func:`wohngeld_nach_vermög_check_m_hh`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
     wohngeld_kinderzuschl_vorrang_hh
         See :func:`wohngeld_kinderzuschl_vorrang_hh`.
-    alle_erwachsene_sind_rentner_hh
-        See :func:`alle_erwachsene_sind_rentner_hh`.
+    erwachsene_alle_rentner_hh
+        See :func:`erwachsene_alle_rentner_hh`.
 
     Returns
     -------
 
     """
-    cond = (
-        ~wohngeld_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh
-        | alle_erwachsene_sind_rentner_hh
-    )
-    wohngeld_vermögens_check_hh.loc[cond] = 0
-    return wohngeld_vermögens_check_hh
+    if (
+        (not wohngeld_vorrang_hh)
+        and (not wohngeld_kinderzuschl_vorrang_hh)
+        or erwachsene_alle_rentner_hh
+    ):
+        out = 0.0
+    else:
+        out = wohngeld_nach_vermög_check_m_hh
 
-
-def wohngeld_basis_hh(hh_id: IntSeries, wohngeld_basis: FloatSeries) -> FloatSeries:
-    """Calculate preliminary housing benefit per household.
-
-    Social benefit for recipients with income above basic social assistance Computation
-    is very complicated, accounts for household size, income, actual rent and differs on
-    the municipality level ('Mietstufe' (1,...,6)).
-
-    We usually don't have information on the last item. Therefore we assume 'Mietstufe'
-    3, corresponding to an average level, but other Mietstufen can be specified in
-    `household`.
-
-    Benefit amount depends on parameters `wohngeld_miete` (rent) and
-    `wohngeld_eink` (income) (§19 WoGG).
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    wohngeld_basis
-        See :func:`wohngeld_basis`.
-
-    Returns
-    -------
-
-    """
-    # ToDo: When thinking about calculating wohngeld on the correct level, we need
-    # account for multiple tax units in one household. The following is the old code!
-    # See #218.
-    # out = (wohngeld_basis * tu_vorstand).groupby(hh_id).sum().round(2)
-    out = wohngeld_basis.groupby(hh_id).max().round(2)
     return out
 
 
-def zu_verst_ges_rente_tu(
-    zu_verst_ges_rente: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Aggreate pension payments subject to taxation in tax unit.
-
-    Parameters
-    ----------
-    zu_verst_ges_rente
-        See :func:`zu_verst_ges_rente`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return zu_verst_ges_rente.groupby(tu_id).sum()
-
-
-def wohngeld_abzüge_tu(
-    eink_st_tu: FloatSeries,
-    ges_rentenv_beitr_m_tu: FloatSeries,
-    ges_krankenv_beitr_m_tu: FloatSeries,
+def wohngeld_abzüge_m_tu(
+    eink_st_tu: float,
+    ges_rentenv_beitr_m_tu: float,
+    ges_krankenv_beitr_m_tu: float,
     wohngeld_params: dict,
-) -> FloatSeries:
-    """Calcualte housing benefit subtractions.
+) -> float:
+    """Calculate housing benefit subtractions.
 
     Parameters
     ----------
@@ -114,77 +63,41 @@ def wohngeld_abzüge_tu(
 
     """
     abzug_stufen = (
-        (eink_st_tu > 0) * 1
-        + (ges_rentenv_beitr_m_tu > 0)
-        + (ges_krankenv_beitr_m_tu > 0)
+        (eink_st_tu > 0) + (ges_rentenv_beitr_m_tu > 0) + (ges_krankenv_beitr_m_tu > 0)
     )
-    return abzug_stufen.replace(wohngeld_params["abzug_stufen"])
+    out = wohngeld_params["abzug_stufen"][abzug_stufen]
+    return out
 
 
-def zu_verst_ges_rente(
-    ertragsanteil: FloatSeries, summe_ges_priv_rente_m: FloatSeries
-) -> FloatSeries:
-    """Calculate pension payment subject to taxation.
-
-    Parameters
-    ----------
-    ertragsanteil
-        See :func:`ertragsanteil`.
-    summe_ges_priv_rente_m
-        See basic input variable :ref:`summe_ges_priv_rente_m <summe_ges_priv_rente_m>`.
-
-    Returns
-    -------
-
-    """
-    return ertragsanteil * summe_ges_priv_rente_m
-
-
-def wohngeld_brutto_eink_tu(
-    brutto_eink_1_tu: FloatSeries,
-    brutto_eink_4_tu: FloatSeries,
-    brutto_eink_5_tu: FloatSeries,
-    brutto_eink_6_tu: FloatSeries,
-) -> FloatSeries:
+def wohngeld_eink_vor_abzug_m_tu(
+    eink_selbst_tu: float,
+    eink_abhängig_beschäftigt_tu: float,
+    kapitaleink_brutto_tu: float,
+    eink_vermietung_tu: float,
+    arbeitsl_geld_m_tu: float,
+    sonstig_eink_m_tu: float,
+    eink_rente_zu_verst_m_tu: float,
+    unterhaltsvors_m_tu: float,
+    elterngeld_m_tu: float,
+) -> float:
     """Sum gross incomes relevant for housing benefit calculation per tax unit.
 
     Parameters
     ----------
-    brutto_eink_1_tu
-        See :func:`_brutto_eink_1_tu`.
-    brutto_eink_4_tu
-        See :func:`brutto_eink_4_tu`.
-    brutto_eink_5_tu
-        See :func:`brutto_eink_5_tu`.
-    brutto_eink_6_tu
-        See :func:`brutto_eink_6_tu`.
-
-    Returns
-    -------
-
-    """
-    return (
-        brutto_eink_1_tu + brutto_eink_4_tu + brutto_eink_5_tu + brutto_eink_6_tu
-    ) / 12
-
-
-def wohngeld_sonstiges_eink_tu(
-    arbeitsl_geld_m_tu: FloatSeries,
-    sonstig_eink_m_tu: FloatSeries,
-    zu_verst_ges_rente_tu: FloatSeries,
-    unterhaltsvors_m_tu: FloatSeries,
-    elterngeld_m_tu: FloatSeries,
-) -> FloatSeries:
-    """Sumn addtitional incomes relevant for housing benefit per tax unit.
-
-    Parameters
-    ----------
+    eink_selbst_tu
+        See :func:`_eink_selbst_tu`.
+    eink_abhängig_beschäftigt_tu
+        See :func:`eink_abhängig_beschäftigt_tu`.
+    kapitaleink_brutto_tu
+        See :func:`kapitaleink_brutto_tu`.
+    eink_vermietung_tu
+        See :func:`eink_vermietung_tu`.
     arbeitsl_geld_m_tu
         See :func:`arbeitsl_geld_m_tu`.
     sonstig_eink_m_tu
         See :func:`sonstig_eink_m_tu`.
-    zu_verst_ges_rente_tu
-        See :func:`zu_verst_ges_rente_tu`.
+    eink_rente_zu_verst_m_tu
+        See :func:`eink_rente_zu_verst_m_tu`.
     unterhaltsvors_m_tu
         See :func:`unterhaltsvors_m_tu`.
     elterngeld_m_tu
@@ -194,57 +107,48 @@ def wohngeld_sonstiges_eink_tu(
     -------
 
     """
-    return (
+    einkommen_tu = (
+        eink_selbst_tu
+        + eink_abhängig_beschäftigt_tu
+        + kapitaleink_brutto_tu
+        + eink_vermietung_tu
+    ) / 12
+
+    transfers_tu = (
         arbeitsl_geld_m_tu
-        + sonstig_eink_m_tu
-        + zu_verst_ges_rente_tu
+        + eink_rente_zu_verst_m_tu
         + unterhaltsvors_m_tu
         + elterngeld_m_tu
     )
 
-
-def anzahl_kinder_unter_11_per_tu(tu_id: IntSeries, alter: IntSeries) -> IntSeries:
-    """Count children under eleven per tax unit.
-
-    Parameters
-    ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-
-    Returns
-    -------
-
-    """
-    return (alter < 11).groupby(tu_id).transform("sum")
+    return einkommen_tu + transfers_tu + sonstig_eink_m_tu
 
 
-def wohngeld_eink_abzüge_bis_2015(
-    bruttolohn_m: FloatSeries,
-    arbeitende_kinder: IntSeries,
-    behinderungsgrad: IntSeries,
-    alleinerziehend: BoolSeries,
-    kind: BoolSeries,
-    anzahl_kinder_unter_11_per_tu: IntSeries,
+def wohngeld_eink_abzüge_m_bis_2015(
+    bruttolohn_m: float,
+    wohngeld_arbeitendes_kind: bool,
+    behinderungsgrad: int,
+    alleinerz: bool,
+    kind: bool,
+    anz_kinder_bis_10_tu: int,
     wohngeld_params: dict,
-):
+) -> float:
     """Calculate housing benefit subtractions until 2015.
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    arbeitende_kinder
-        See :func:`arbeitende_kinder`.
+    wohngeld_arbeitendes_kind
+        See :func:`wohngeld_arbeitendes_kind`.
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
-    alleinerziehend
-        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
+    alleinerz
+        See basic input variable :ref:`alleinerz <alleinerz>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    anzahl_kinder_unter_11_per_tu
-        See :func:`anzahl_kinder_unter_11_per_tu`.
+    anz_kinder_bis_10_tu
+        See :func:`anz_kinder_bis_10_tu`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -252,7 +156,7 @@ def wohngeld_eink_abzüge_bis_2015(
     -------
 
     """
-    freib_behinderung = piecewise_polynomial(
+    freib_behinderung_m = piecewise_polynomial(
         behinderungsgrad,
         thresholds=list(wohngeld_params["freib_behinderung"]) + [np.inf],
         rates=np.array([[0] * len(wohngeld_params["freib_behinderung"])]),
@@ -260,21 +164,24 @@ def wohngeld_eink_abzüge_bis_2015(
             yearly_v / 12 for yearly_v in wohngeld_params["freib_behinderung"].values()
         ],
     )
-    freib_kinder = (
-        arbeitende_kinder
-        * bruttolohn_m.clip(lower=None, upper=wohngeld_params["freib_kinder"][24])
-    ) + (
-        (alleinerziehend & ~kind)
-        * anzahl_kinder_unter_11_per_tu
-        * wohngeld_params["freib_kinder"][12]
-    )
 
-    return freib_behinderung + freib_kinder
+    # Subtraction for single parents and working children
+    if wohngeld_arbeitendes_kind:
+        freib_kinder_m = min(
+            bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
+        )
+
+    elif alleinerz and (not kind):
+        freib_kinder_m = (
+            anz_kinder_bis_10_tu * wohngeld_params["freib_kinder_m"]["alleinerz"]
+        )
+    else:
+        freib_kinder_m = 0.0
+
+    return freib_behinderung_m + freib_kinder_m
 
 
-def arbeitende_kinder(
-    bruttolohn_m: FloatSeries, kindergeld_anspruch: BoolSeries
-) -> IntSeries:
+def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) -> bool:
     """Check if chiildren are working.
 
     Parameters
@@ -288,29 +195,30 @@ def arbeitende_kinder(
     -------
 
     """
-    return (bruttolohn_m > 0) & kindergeld_anspruch
+    out = (bruttolohn_m > 0) and kindergeld_anspruch
+    return out
 
 
-def wohngeld_eink_abzüge_ab_2016(
-    bruttolohn_m: FloatSeries,
-    kindergeld_anspruch: BoolSeries,
-    behinderungsgrad: IntSeries,
-    alleinerziehend: BoolSeries,
-    kind: BoolSeries,
+def wohngeld_eink_abzüge_m_ab_2016(
+    bruttolohn_m: float,
+    wohngeld_arbeitendes_kind: bool,
+    behinderungsgrad: int,
+    alleinerz: bool,
+    kind: bool,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate housing benefit subtracting since 2016.
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
+    wohngeld_arbeitendes_kind
+        See :func:`wohngeld_arbeitendes_kind`.
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
-    alleinerziehend
-        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
+    alleinerz
+        See basic input variable :ref:`alleinerz <alleinerz>`.
     kind
         See basic input variable :ref:`kind <kind>`.
     wohngeld_params
@@ -319,43 +227,42 @@ def wohngeld_eink_abzüge_ab_2016(
     -------
 
     """
-    workingchild = (bruttolohn_m > 0) & kindergeld_anspruch
-
-    abzüge = (
-        (behinderungsgrad > 0) * wohngeld_params["freib_behinderung"] / 12
-        + workingchild
-        * bruttolohn_m.clip(lower=0, upper=wohngeld_params["freib_kinder"][24])
-        + alleinerziehend * wohngeld_params["freib_kinder"][12] * ~kind
+    freib_behinderung_m = (
+        wohngeld_params["freib_behinderung"] / 12 if behinderungsgrad > 0 else 0
     )
 
-    return abzüge
+    # Subtraction for single parents and working children
+    if wohngeld_arbeitendes_kind:
+        freib_kinder_m = min(
+            bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
+        )
+    elif alleinerz and (not kind):
+        freib_kinder_m = wohngeld_params["freib_kinder_m"]["alleinerz"]
+    else:
+        freib_kinder_m = 0.0
+
+    return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_eink(
-    tu_id: IntSeries,
-    haushaltsgröße: IntSeries,
-    wohngeld_eink_abzüge: FloatSeries,
-    wohngeld_abzüge_tu: FloatSeries,
-    wohngeld_brutto_eink_tu: FloatSeries,
-    wohngeld_sonstiges_eink_tu: FloatSeries,
+def wohngeld_eink_m(
+    haushaltsgröße_hh: int,
+    wohngeld_eink_abzüge_m_tu: float,
+    wohngeld_abzüge_m_tu: float,
+    wohngeld_eink_vor_abzug_m_tu: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate final income relevant for calculation of housing benefit.
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    haushaltsgröße
-        See :func:`haushaltsgröße`.
-    wohngeld_eink_abzüge
-        See :func:`wohngeld_eink_abzüge`.
-    wohngeld_abzüge_tu
-        See :func:`wohngeld_abzüge_tu`.
-    wohngeld_brutto_eink_tu
-        See :func:`wohngeld_brutto_eink_tu`.
-    wohngeld_sonstiges_eink_tu
-        See :func:`wohngeld_sonstiges_eink_tu`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
+    wohngeld_eink_abzüge_m_tu
+        See :func:`wohngeld_eink_abzüge_m_tu`.
+    wohngeld_abzüge_m_tu
+        See :func:`wohngeld_abzüge_m_tu`.
+    wohngeld_eink_vor_abzug_m_tu
+        See :func:`wohngeld_eink_vor_abzug_m_tu`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -363,48 +270,46 @@ def wohngeld_eink(
     -------
 
     """
-    wohngeld_eink_abzüge_tu = wohngeld_eink_abzüge.groupby(tu_id).sum()
-
-    vorläufiges_eink = (1 - wohngeld_abzüge_tu) * (
-        wohngeld_brutto_eink_tu + wohngeld_sonstiges_eink_tu - wohngeld_eink_abzüge_tu
+    vorläufiges_eink = (1 - wohngeld_abzüge_m_tu) * (
+        wohngeld_eink_vor_abzug_m_tu - wohngeld_eink_abzüge_m_tu
     )
 
-    unteres_eink = haushaltsgröße.clip(upper=max(wohngeld_params["min_eink"])).replace(
-        wohngeld_params["min_eink"]
-    )
+    unteres_eink = wohngeld_params["min_eink"][
+        min(haushaltsgröße_hh, max(wohngeld_params["min_eink"]))
+    ]
 
-    return tu_id.replace(vorläufiges_eink).clip(lower=unteres_eink)
+    out = max(vorläufiges_eink, unteres_eink)
+    return out
 
 
-def wohngeld_min_miete(haushaltsgröße: IntSeries, wohngeld_params: dict) -> FloatSeries:
-    """Calculate minamal rent subject housing benefit calculation.
+def wohngeld_min_miete(haushaltsgröße_hh: int, wohngeld_params: dict) -> float:
+    """Calculate minimal rent subject housing benefit calculation.
 
     Parameters
     ----------
-    haushaltsgröße
-        See :func:`haushaltsgröße`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
     Returns
     -------
 
     """
+    out = wohngeld_params["min_miete"][
+        min(haushaltsgröße_hh, max(wohngeld_params["min_miete"]))
+    ]
+    return out
 
-    return haushaltsgröße.clip(upper=(max(wohngeld_params["min_eink"]))).replace(
-        wohngeld_params["min_miete"]
-    )
 
-
-def wohngeld_miete_bis_2008(
-    mietstufe: IntSeries,
-    immobilie_baujahr_hh: IntSeries,
-    haushaltsgröße: IntSeries,
-    hh_id: IntSeries,
-    bruttokaltmiete_m_hh: FloatSeries,
-    tax_unit_share: FloatSeries,
-    wohngeld_min_miete: FloatSeries,
+def wohngeld_miete_m_bis_2008(
+    mietstufe: int,
+    immobilie_baujahr_hh: int,
+    haushaltsgröße_hh: int,
+    bruttokaltmiete_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
+    wohngeld_min_miete: float,
     wohngeld_params: dict,
-):
+) -> float:
     """Calculate maximal rent subject housing benefit calculation until 2008.
 
     Parameters
@@ -413,14 +318,12 @@ def wohngeld_miete_bis_2008(
         See basic input variable :ref:`mietstufe <mietstufe>`.
     immobilie_baujahr_hh
         See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
-    haushaltsgröße
-        See :func:`haushaltsgröße`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    tax_unit_share
-        See :func:`tax_unit_share`.
+    _anteil_personen_in_haushalt_tu
+        See :func:`_anteil_personen_in_haushalt_tu`.
     wohngeld_min_miete
         See :func:`wohngeld_min_miete`.
     wohngeld_params
@@ -430,58 +333,55 @@ def wohngeld_miete_bis_2008(
     -------
 
     """
-    immobilie_baujahr = hh_id.replace(immobilie_baujahr_hh)
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
     # size.
-    yearly_cutoffs = sorted(wohngeld_params["max_miete"][1], reverse=True)
-    conditions = [immobilie_baujahr <= cutoff for cutoff in yearly_cutoffs]
-    constr_year_category = np.select(conditions, yearly_cutoffs)
-    max_definierte_hh_größe = max(
-        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
+    params_max_miete = wohngeld_params["max_miete"]
+    selected_bin_index = np.searchsorted(
+        sorted(params_max_miete[1]), immobilie_baujahr_hh, side="left"
     )
-    data = [
-        wohngeld_params["max_miete"][hh_größe][constr_year][ms]
-        if hh_größe <= max_definierte_hh_größe
-        else wohngeld_params["max_miete"][max_definierte_hh_größe][constr_year][ms]
-        + wohngeld_params["max_miete"]["jede_weitere_person"][constr_year][ms]
-        * (hh_größe - max_definierte_hh_größe)
-        for hh_größe, constr_year, ms in zip(
-            haushaltsgröße, constr_year_category, mietstufe
+
+    constr_year = list(params_max_miete[1])[selected_bin_index]
+
+    # Calc maximal considered rent
+    # ToDo: Think about calculating max_definierte_hh_größe already in parameter
+    # ToDo: pre-processing and add it to wohngeld_params
+    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
+    if haushaltsgröße_hh <= max_definierte_hh_größe:
+        max_miete = params_max_miete[haushaltsgröße_hh][constr_year][mietstufe]
+    else:
+        max_miete = params_max_miete[max_definierte_hh_größe][constr_year][
+            mietstufe
+        ] + params_max_miete["jede_weitere_person"][constr_year][mietstufe] * (
+            haushaltsgröße_hh - max_definierte_hh_größe
         )
-    ]
 
-    wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
-        * tax_unit_share
-    ).clip(lower=wohngeld_min_miete)
+    out = min(bruttokaltmiete_m_hh, max_miete) * _anteil_personen_in_haushalt_tu
+    out = max(out, wohngeld_min_miete)
 
-    return wg_miete
+    return out
 
 
-def wohngeld_miete_ab_2009(
-    mietstufe: IntSeries,
-    haushaltsgröße: IntSeries,
-    hh_id: IntSeries,
-    bruttokaltmiete_m_hh: FloatSeries,
-    tax_unit_share: FloatSeries,
-    wohngeld_min_miete: FloatSeries,
+def wohngeld_miete_m_ab_2009(
+    mietstufe: int,
+    haushaltsgröße_hh: int,
+    bruttokaltmiete_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
+    wohngeld_min_miete: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate maximal rent subject housing benefit calculation since 2009.
 
     Parameters
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    haushaltsgröße
-        See :func:`haushaltsgröße`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    tax_unit_share
-        See :func:`tax_unit_share`.
+    _anteil_personen_in_haushalt_tu
+        See :func:`_anteil_personen_in_haushalt_tu`.
     wohngeld_min_miete
         See :func:`wohngeld_min_miete`.
     wohngeld_params
@@ -491,49 +391,46 @@ def wohngeld_miete_ab_2009(
     -------
 
     """
-    max_definierte_hh_größe = max(
-        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
-    )
-    data = [
-        wohngeld_params["max_miete"][hh_größe][ms]
-        if hh_größe <= max_definierte_hh_größe
-        else wohngeld_params["max_miete"][max_definierte_hh_größe][ms]
-        + wohngeld_params["max_miete"]["jede_weitere_person"][ms]
-        * (hh_größe - max_definierte_hh_größe)
-        for hh_größe, ms in zip(haushaltsgröße, mietstufe)
-    ]
 
-    wg_miete = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
-        * tax_unit_share
-    ).clip(lower=wohngeld_min_miete)
+    params_max_miete = wohngeld_params["max_miete"]
 
-    return wg_miete
+    # Calc maximal considered rent
+    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
+    if haushaltsgröße_hh <= max_definierte_hh_größe:
+        max_miete = params_max_miete[haushaltsgröße_hh][mietstufe]
+    else:
+        max_miete = params_max_miete[max_definierte_hh_größe][
+            mietstufe
+        ] + params_max_miete["jede_weitere_person"][mietstufe] * (
+            haushaltsgröße_hh - max_definierte_hh_größe
+        )
+
+    out = min(bruttokaltmiete_m_hh, max_miete) * _anteil_personen_in_haushalt_tu
+    out = max(out, wohngeld_min_miete)
+
+    return out
 
 
-def wohngeld_miete_ab_2021(
-    mietstufe: IntSeries,
-    haushaltsgröße: IntSeries,
-    hh_id: IntSeries,
-    bruttokaltmiete_m_hh: FloatSeries,
-    tax_unit_share: FloatSeries,
-    wohngeld_min_miete: FloatSeries,
+def wohngeld_miete_m_ab_2021(
+    mietstufe: int,
+    haushaltsgröße_hh: int,
+    bruttokaltmiete_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
+    wohngeld_min_miete: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate maximal rent subject housing benefit calculation since 2021.
 
     Parameters
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    haushaltsgröße
-        See :func:`haushaltsgröße`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    tax_unit_share
-        See :func:`tax_unit_share`.
+    _anteil_personen_in_haushalt_tu
+        See :func:`_anteil_personen_in_haushalt_tu`.
     wohngeld_min_miete
         See :func:`wohngeld_min_miete`.
     wohngeld_params
@@ -543,48 +440,57 @@ def wohngeld_miete_ab_2021(
     -------
 
     """
-    max_definierte_hh_größe = max(
-        i for i in wohngeld_params["max_miete"] if isinstance(i, int)
-    )
-    data = [
-        wohngeld_params["max_miete"][hh_größe][ms]
-        + wohngeld_params["heizkosten_zuschuss"][hh_größe]
-        if hh_größe <= max_definierte_hh_größe
-        else wohngeld_params["max_miete"][5][ms]
-        + (
-            wohngeld_params["max_miete"]["jede_weitere_person"][ms]
-            * (hh_größe - max_definierte_hh_größe)
+    params_max_miete = wohngeld_params["max_miete"]
+
+    # Calc maximal considered rent
+    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
+    if haushaltsgröße_hh <= max_definierte_hh_größe:
+        max_miete = params_max_miete[haushaltsgröße_hh][mietstufe]
+    else:
+        max_miete = (
+            params_max_miete[max_definierte_hh_größe][mietstufe]
+            + (haushaltsgröße_hh - max_definierte_hh_größe)
+            * params_max_miete["jede_weitere_person"][mietstufe]
         )
-        + wohngeld_params["heizkosten_zuschuss"][5]
-        + wohngeld_params["heizkosten_zuschuss"]["5plus"]
-        * (hh_größe - max_definierte_hh_größe)
-        for hh_größe, ms in zip(haushaltsgröße, mietstufe)
-    ]
+
+    # Calc heating allowance
+    max_def_hh_größe_heating = max(
+        i for i in wohngeld_params["heizkosten_zuschuss"] if isinstance(i, int)
+    )
+    if haushaltsgröße_hh <= max_def_hh_größe_heating:
+        heating_allowance = wohngeld_params["heizkosten_zuschuss"][haushaltsgröße_hh]
+    else:
+        heating_allowance = wohngeld_params["heizkosten_zuschuss"][
+            max_def_hh_größe_heating
+        ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
+            wohngeld_params["heizkosten_zuschuss"]["jede_weitere_person"]
+        )
 
     out = (
-        np.clip(data, a_min=None, a_max=hh_id.replace(bruttokaltmiete_m_hh))
-        * tax_unit_share
-    ).clip(lower=wohngeld_min_miete)
+        min(bruttokaltmiete_m_hh, max_miete + heating_allowance)
+        * _anteil_personen_in_haushalt_tu
+    )
+    out = max(out, wohngeld_min_miete)
 
     return out
 
 
-def wohngeld_basis(
-    haushaltsgröße: IntSeries,
-    wohngeld_eink: FloatSeries,
-    wohngeld_miete: FloatSeries,
+def wohngeld_vor_vermög_check_m_hh(
+    haushaltsgröße_hh: int,
+    wohngeld_eink_m: float,
+    wohngeld_miete_m: float,
     wohngeld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calcualte preliminary housing benefit.
 
     Parameters
     ----------
-    haushaltsgröße
-        See :func:`haushaltsgröße`.
-    wohngeld_eink
-        See :func:`wohngeld_eink`.
-    wohngeld_miete
-        See :func:`wohngeld_miete`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
+    wohngeld_eink_m
+        See :func:`wohngeld_eink_m`.
+    wohngeld_miete_m
+        See :func:`wohngeld_miete_m`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -592,74 +498,51 @@ def wohngeld_basis(
     -------
 
     """
-    koeffizienten = [
-        wohngeld_params["koeffizienten_berechnungsformel"][hh_größe]
-        for hh_größe in haushaltsgröße.clip(upper=(max(wohngeld_params["min_eink"])))
+    max_considered_hh_größe = max(wohngeld_params["min_eink"])
+
+    koeffizienten = wohngeld_params["koeffizienten_berechnungsformel"][
+        min(haushaltsgröße_hh, max_considered_hh_größe)
     ]
-
-    koeffizienten_a = [koeffizient["a"] for koeffizient in koeffizienten]
-    koeffizienten_b = [koeffizient["b"] for koeffizient in koeffizienten]
-    koeffizienten_c = [koeffizient["c"] for koeffizient in koeffizienten]
-
-    out = (
-        wohngeld_params["faktor_berechnungsformel"]
-        * (
-            wohngeld_miete
-            - (
-                (
-                    koeffizienten_a
-                    + (koeffizienten_b * wohngeld_miete)
-                    + (koeffizienten_c * wohngeld_eink)
-                )
-                * wohngeld_eink
+    out = wohngeld_params["faktor_berechnungsformel"] * (
+        wohngeld_miete_m
+        - (
+            (
+                koeffizienten["a"]
+                + (koeffizienten["b"] * wohngeld_miete_m)
+                + (koeffizienten["c"] * wohngeld_eink_m)
             )
+            * wohngeld_eink_m
         )
-    ).clip(lower=0)
-
-    # If more than 12 persons, there is a lump-sum on top.
-    # The maximum is still capped at `wohngeld_miete`.
-    out_more_than_12 = (
-        out
-        + wohngeld_params["bonus_12_mehr"]
-        * (haushaltsgröße - max(wohngeld_params["min_eink"]))
-    ).clip(upper=wohngeld_miete)
-
-    out = out.where(
-        haushaltsgröße <= (max(wohngeld_params["min_eink"])), out_more_than_12
     )
+    out = max(out, 0.0)
+
+    if haushaltsgröße_hh > max_considered_hh_größe:
+        # If more than 12 persons, there is a lump-sum on top.
+        # The maximum is still capped at `wohngeld_miete_m`.
+        out += wohngeld_params["bonus_12_mehr"] * (
+            haushaltsgröße_hh - max_considered_hh_größe
+        )
+        out = min(out, wohngeld_miete_m)
 
     return out
 
 
-def tax_unit_share(tu_id: IntSeries, haushaltsgröße: IntSeries) -> FloatSeries:
+def _anteil_personen_in_haushalt_tu(
+    tax_unit_größe_tu: int, haushaltsgröße_hh: int
+) -> float:
     """Calculate the share of tax units in household.
 
+    ToDo: Change to tax_unit_größe / haushaltsgröße_hh
+
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    haushaltsgröße
-        See :func:`haushaltsgröße`.
+    tax_unit_größe_tu
+        See :func:`tax_unit_größe_tu`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
 
     Returns
     -------
 
     """
-    return tu_id.groupby(tu_id).transform("count") / haushaltsgröße
-
-
-def sonstig_eink_m_tu(sonstig_eink_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate additional per tax unit.
-
-    Parameters
-    ----------
-    sonstig_eink_m
-        See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return sonstig_eink_m.groupby(tu_id).sum()
+    return tax_unit_größe_tu / haushaltsgröße_hh

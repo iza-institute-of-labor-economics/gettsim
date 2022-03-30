@@ -1,17 +1,10 @@
-import numpy as np
-
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
 def arbeitsl_geld_2_m_hh(
-    arbeitsl_geld_2_vor_vorrang_m_hh: FloatSeries,
-    wohngeld_vorrang_hh: BoolSeries,
-    kinderzuschl_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    alle_erwachsene_sind_rentner_hh: BoolSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_vor_vorrang_m_hh: float,
+    wohngeld_vorrang_hh: bool,
+    kinderzuschl_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_hh: bool,
+    erwachsene_alle_rentner_hh: bool,
+) -> float:
 
     """Calculate final monthly subsistence payment on household level.
 
@@ -25,52 +18,55 @@ def arbeitsl_geld_2_m_hh(
         See :func:`kinderzuschl_vorrang_hh`.
     wohngeld_kinderzuschl_vorrang_hh
         See :func:`wohngeld_kinderzuschl_vorrang_hh`.
-    alle_erwachsene_sind_rentner_hh
-        See :func:`alle_erwachsene_sind_rentner_hh   `.
+    erwachsene_alle_rentner_hh
+        See :func:`erwachsene_alle_rentner_hh   `.
 
     Returns
     -------
-    FloatSeries with the income by unemployment insurance per household.
+    float with the income by unemployment insurance per household.
     """
-    out = arbeitsl_geld_2_vor_vorrang_m_hh.copy()
-    cond = (
+    if (
         wohngeld_vorrang_hh
-        | kinderzuschl_vorrang_hh
-        | wohngeld_kinderzuschl_vorrang_hh
-        | alle_erwachsene_sind_rentner_hh
-    )
-    out.loc[cond] = 0
+        or kinderzuschl_vorrang_hh
+        or wohngeld_kinderzuschl_vorrang_hh
+        or erwachsene_alle_rentner_hh
+    ):
+        out = 0.0
+    else:
+        out = arbeitsl_geld_2_vor_vorrang_m_hh
+
     return out
 
 
-def regelbedarf_m_hh(
-    regelsatz_m_hh: FloatSeries, kost_unterk_m_hh: FloatSeries
-) -> FloatSeries:
+def arbeitsl_geld_2_regelbedarf_m_hh(
+    arbeitsl_geld_2_regelsatz_m_hh: float,
+    arbeitsl_geld_2_kost_unterk_m_hh: float,
+) -> float:
     """Basic monthly subsistence level on household level.
 
     This includes cost of dwelling.
 
     Parameters
     ----------
-    regelsatz_m_hh
-        See :func:`regelsatz_m_hh`.
-    kost_unterk_m_hh
-        See :func:`kost_unterk_m_hh`.
+    arbeitsl_geld_2_regelsatz_m_hh
+        See :func:`arbeitsl_geld_2_regelsatz_m_hh`.
+    arbeitsl_geld_2_kost_unterk_m_hh
+        See :func:`arbeitsl_geld_2_kost_unterk_m_hh`.
 
     Returns
     -------
-    FloatSeries checks the minimum monthly needs of an household.
+    float checks the minimum monthly needs of an household.
     """
-    return regelsatz_m_hh + kost_unterk_m_hh
+    return arbeitsl_geld_2_regelsatz_m_hh + arbeitsl_geld_2_kost_unterk_m_hh
 
 
-def _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh(
-    alleinerziehend_hh: BoolSeries,
-    anz_kinder_hh: IntSeries,
-    anz_kind_zwischen_0_6_hh: IntSeries,
-    anz_kind_zwischen_0_15_hh: IntSeries,
+def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
+    alleinerz_hh: bool,
+    anz_kinder_hh: int,
+    anz_kinder_bis_6_hh: int,
+    anz_kinder_bis_15_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
 
     """Compute additional need for single parents.
 
@@ -80,118 +76,125 @@ def _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh(
 
     Parameters
     ----------
-    alleinerziehend_hh
-        See :func:`alleinerziehend_hh`.
+    alleinerz_hh
+        See :func:`alleinerz_hh`.
     anz_kinder_hh
         See :func:`anz_kinder_hh`.
-    anz_kind_zwischen_0_6_hh
-        See :func:`anz_kind_zwischen_0_6_hh`.
-    anz_kind_zwischen_0_15_hh
-        See :func:`anz_kind_zwischen_0_15_hh`.
+    anz_kinder_bis_6_hh
+        See :func:`anz_kinder_bis_6_hh`.
+    anz_kinder_bis_15_hh
+        See :func:`anz_kinder_bis_15_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
 
     Returns
     -------
-    FloatSeries checks how much more a single parent need.
+    float checks how much more a single parent need.
     """
+    if alleinerz_hh:
 
-    # Get minimal Mehrbedarf share. Minimal rate times number of children
-    lower = arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
+        # Get minimal Mehrbedarf share. Minimal rate times number of children
+        lower = (
+            arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
+        )
+        upper = arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
 
-    # Special case if 1 kid below 6 or 2,3 below 15.
-    value = (
-        (anz_kind_zwischen_0_6_hh >= 1)
-        | ((2 <= anz_kind_zwischen_0_15_hh) & (anz_kind_zwischen_0_15_hh <= 3))
-    ) * arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
+        # Special case if 1 kid below 6 or 2,3 below 15.
+        mehrbedarf = (
+            arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
+            if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
+            else 0.0
+        )
 
-    # Clip value at calculated minimal share and given upper share
-    out = alleinerziehend_hh * value.clip(
-        lower=lower, upper=arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
-    )
+        # Clip value at calculated minimal share and given upper share
+        # Note that upper limit is applied last (for many children lower
+        # could be greater than upper)
+        out = min(max(mehrbedarf, lower), upper)
+    else:
+        out = 0.0
     return out
 
 
-def kindersatz_m_hh_bis_2010(
-    anz_kind_zwischen_0_6_hh: IntSeries,
-    anz_kind_zwischen_7_13_hh: IntSeries,
-    anz_kind_zwischen_14_24_hh: IntSeries,
+def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
+    anz_kinder_bis_6_hh: int,
+    anz_kinder_ab_7_bis_13_hh: int,
+    anz_kinder_ab_14_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate basic monthly subsistence for children until 2010.
 
     Since 2010 children get additional shares instead of lump sum payments.
 
     Parameters
     ----------
-    anz_kind_zwischen_0_6_hh
-        See :func:`anz_kind_zwischen_0_6_hh`.
-    anz_kind_zwischen_7_13_hh
-        See :func:`anz_kind_zwischen_7_13_hh`.
-    anz_kind_zwischen_14_24_hh
-        See :func:`anz_kind_zwischen_14_24_hh`.
+    anz_kinder_bis_6_hh
+        See :func:`anz_kinder_bis_6_hh`.
+    anz_kinder_ab_7_bis_13_hh
+        See :func:`anz_kinder_ab_7_bis_13_hh`.
+    anz_kinder_ab_14_bis_24_hh
+        See :func:`anz_kinder_ab_14_bis_24_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
-    FloatSeries with the support of children until year 2010.
+    float with the support of children until year 2010.
     """
     # Dictionary of additional shares.
     anteile = arbeitsl_geld_2_params["anteil_regelsatz"]
 
     # Multiply number of kids in age range with corresponding additional share
     out = arbeitsl_geld_2_params["regelsatz"] * (
-        anteile["kinder_0_6"] * anz_kind_zwischen_0_6_hh
-        + anteile["kinder_7_13"] * anz_kind_zwischen_7_13_hh
-        + anteile["kinder_14_24"] * anz_kind_zwischen_14_24_hh
+        anteile["kinder_0_6"] * anz_kinder_bis_6_hh
+        + anteile["kinder_7_13"] * anz_kinder_ab_7_bis_13_hh
+        + anteile["kinder_14_24"] * anz_kinder_ab_14_bis_24_hh
     )
 
     return out
 
 
-def kindersatz_m_hh_ab_2011(
-    anz_kind_zwischen_0_6_hh: IntSeries,
-    anz_kind_zwischen_7_13_hh: IntSeries,
-    anz_kind_zwischen_14_24_hh: IntSeries,
+def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
+    anz_kinder_bis_6_hh: int,
+    anz_kinder_ab_7_bis_13_hh: int,
+    anz_kinder_ab_14_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate basic monthly subsistence for children since 2011.
 
     Here the sum in euro is directly in the law.
 
     Parameters
     ----------
-    anz_kind_zwischen_0_6_hh
-        See :func:`anz_kind_zwischen_0_6_hh`.
-    anz_kind_zwischen_7_13_hh
-        See :func:`anz_kind_zwischen_7_13_hh`.
-    anz_kind_zwischen_14_24_hh
-        See :func:`anz_kind_zwischen_14_24_hh`.
+    anz_kinder_bis_6_hh
+        See :func:`anz_kinder_bis_6_hh`.
+    anz_kinder_ab_7_bis_13_hh
+        See :func:`anz_kinder_ab_7_bis_13_hh`.
+    anz_kinder_ab_14_bis_24_hh
+        See :func:`anz_kinder_ab_14_bis_24_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
-    FloatSeries with the support of children since year 2011
+    float with the support of children since year 2011
     """
     # Sum payments for each age group
     out = (
-        arbeitsl_geld_2_params["regelsatz"][6] * anz_kind_zwischen_0_6_hh
-        + arbeitsl_geld_2_params["regelsatz"][5] * anz_kind_zwischen_7_13_hh
-        + arbeitsl_geld_2_params["regelsatz"][4] * anz_kind_zwischen_14_24_hh
+        arbeitsl_geld_2_params["regelsatz"][6] * anz_kinder_bis_6_hh
+        + arbeitsl_geld_2_params["regelsatz"][5] * anz_kinder_ab_7_bis_13_hh
+        + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
     )
 
     return out
 
 
-def regelsatz_m_hh_bis_2010(
-    anz_erwachsene_hh: IntSeries,
-    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh: FloatSeries,
-    kindersatz_m_hh: FloatSeries,
+def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
+    anz_erwachsene_hh: int,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
 
     """Calculate basic monthly subsistence without dwelling until 2010.
 
@@ -200,38 +203,38 @@ def regelsatz_m_hh_bis_2010(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh`.
-    kindersatz_m_hh
-        See :func:`kindersatz_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
+    arbeitsl_geld_2_kindersatz_m_hh
+        See :func:`arbeitsl_geld_2_kindersatz_m_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
-    FloatSeries with the sum in Euro.
+    float with the sum in Euro.
     """
-    data = np.where(
-        anz_erwachsene_hh == 1,
-        arbeitsl_geld_2_params["regelsatz"]
-        * (1 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh),
-        arbeitsl_geld_2_params["regelsatz"]
-        * (
+    weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
+    if anz_erwachsene_hh == 1:
+        out = arbeitsl_geld_2_params["regelsatz"] * (
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        )
+    else:
+        out = arbeitsl_geld_2_params["regelsatz"] * (
             2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
-            + (anz_erwachsene_hh - 2).clip(lower=0)
+            + weitere_erwachsene
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
-        ),
-    )
+        )
 
-    return kindersatz_m_hh + data
+    return out + arbeitsl_geld_2_kindersatz_m_hh
 
 
-def regelsatz_m_hh_ab_2011(
-    anz_erwachsene_hh: IntSeries,
-    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh: FloatSeries,
-    kindersatz_m_hh: FloatSeries,
+def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
+    anz_erwachsene_hh: int,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
 
     """Calculate basic monthly subsistence without dwelling since 2011.
 
@@ -239,27 +242,73 @@ def regelsatz_m_hh_ab_2011(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh`.
-    kindersatz_m_hh
-        See :func:`kindersatz_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
+    arbeitsl_geld_2_kindersatz_m_hh
+        See :func:`arbeitsl_geld_2_kindersatz_m_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
     Returns
     -------
-    FloatSeries with the minimum needs of an household in Euro.
+    float with the minimum needs of an household in Euro.
     """
-    data = np.where(
-        anz_erwachsene_hh == 1,
-        arbeitsl_geld_2_params["regelsatz"][1]
-        * (1 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh),
-        arbeitsl_geld_2_params["regelsatz"][2]
-        * (2 + _arbeitsl_geld_2_alleinerziehenden_mehrbedarf_m_hh)
-        + (
-            arbeitsl_geld_2_params["regelsatz"][3]
-            * (anz_erwachsene_hh - 2).clip(lower=0)
-        ),
-    )
 
-    return kindersatz_m_hh + data
+    weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
+    if anz_erwachsene_hh == 1:
+        out = arbeitsl_geld_2_params["regelsatz"][1] * (
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        )
+    else:
+        out = arbeitsl_geld_2_params["regelsatz"][2] * (
+            2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+        ) + (arbeitsl_geld_2_params["regelsatz"][3] * weitere_erwachsene)
+
+    return out + arbeitsl_geld_2_kindersatz_m_hh
+
+
+def arbeitsl_geld_2_vor_vorrang_m_hh(
+    arbeitsl_geld_2_regelbedarf_m_hh: float,
+    kindergeld_m_hh: float,
+    unterhaltsvors_m_hh: float,
+    arbeitsl_geld_2_eink_m_hh: float,
+    vermögen_hh: float,
+    arbeitsl_geld_2_vermög_freib_hh: float,
+) -> float:
+    """Calculate potential basic subsistence (after income deduction and
+    wealth check).
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_regelbedarf_m_hh
+        See :func:`arbeitsl_geld_2_regelbedarf_m_hh`.
+    kindergeld_m_hh
+        See :func:`kindergeld_m_hh`.
+    unterhaltsvors_m_hh
+        See :func:`unterhaltsvors_m_hh`.
+    arbeitsl_geld_2_eink_m_hh
+        See :func:`arbeitsl_geld_2_eink_m_hh`.
+    arbeitsl_geld_2_vermög_freib_hh
+        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
+    vermögen_hh
+        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
+
+    Returns
+    -------
+
+    """
+
+    # Check wealth exemption
+    if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
+        out = 0.0
+    else:
+        # Deduct income from various sources
+        out = (
+            arbeitsl_geld_2_regelbedarf_m_hh
+            - arbeitsl_geld_2_eink_m_hh
+            - unterhaltsvors_m_hh
+            - kindergeld_m_hh
+        )
+        out = max(out, 0.0)
+
+    return out

@@ -9,7 +9,8 @@ from gettsim.visualization import _select_nodes_in_dag
 
 
 @pytest.mark.parametrize(
-    "n_nodes, node, order, expected", [(5, 3, 1, {2, 3, 4}), (5, 1, 2, {0, 1, 2, 3})],
+    "n_nodes, node, order, expected",
+    [(5, 3, 1, {2, 3, 4}), (5, 1, 2, {0, 1, 2, 3})],
 )
 def test_kth_order_neighbors(n_nodes, node, order, expected):
     dag = nx.DiGraph([(i, i + 1) for i in range(n_nodes)])
@@ -28,7 +29,8 @@ def test_node_and_ancestors(n_nodes, node, order, expected):
 
 
 @pytest.mark.parametrize(
-    "n_nodes, node, order, expected", [(5, 3, 1, {2, 3}), (5, 1, 2, {0, 1})],
+    "n_nodes, node, order, expected",
+    [(5, 3, 1, {2, 3}), (5, 1, 2, {0, 1})],
 )
 def test_node_and_ancestors_order(n_nodes, node, order, expected):
     dag = nx.DiGraph([(i, i + 1) for i in range(n_nodes)])
@@ -47,7 +49,8 @@ def test_node_and_descendants(n_nodes, node, order, expected):
 
 
 @pytest.mark.parametrize(
-    "n_nodes, node, order, expected", [(5, 3, 1, {3, 4}), (5, 1, 2, {1, 2, 3})],
+    "n_nodes, node, order, expected",
+    [(5, 3, 1, {3, 4}), (5, 1, 2, {1, 2, 3})],
 )
 def test_node_and_descendants_order(n_nodes, node, order, expected):
     dag = nx.DiGraph([(i, i + 1) for i in range(n_nodes)])
