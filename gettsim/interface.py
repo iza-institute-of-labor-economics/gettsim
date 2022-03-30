@@ -838,7 +838,7 @@ def _create_aggregation_functions(
     }
 
     # Add automated aggregation specs.
-    # Note: For duplicate keys, automated specs are treated with lower priority.
+    # Note: For duplicate keys, explicitly set specs are treated with higher priority than automated specs.
     aggregation_dict = {**automated_sum_aggregation_specs, **aggregation_dict}
 
     # Add user provided aggregation specs.
