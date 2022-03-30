@@ -64,7 +64,9 @@ def compute_taxes_and_transfers(
         all other objects, the name is inferred from the function name.
     aggregation_specs : dict, default None
         A dictionary which contains specs for functions which aggregate variables on
-        the tax unit or household level.
+        the tax unit or household level. The syntax is the same as for aggregation
+        specs in the code base and as specified in
+        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
@@ -168,9 +170,11 @@ def check_data_check_functions_and_merge_functions(
         needed by the user.
     data : dict of pandas.Series
         Data provided by the user.
-    aggregation_specs : dict, default None
+    aggregation_specs : dict
         A dictionary which contains specs for functions which aggregate variables on
-        the tax unit or household level.
+        the tax unit or household level. The syntax is the same as for aggregation
+        specs in the code base and as specified in
+        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
 
     Returns
     -------
@@ -838,7 +842,8 @@ def _create_aggregation_functions(
     }
 
     # Add automated aggregation specs.
-    # Note: For duplicate keys, explicitly set specs are treated with higher priority than automated specs.
+    # Note: For duplicate keys, explicitly set specs are treated with higher priority
+    # than automated specs.
     aggregation_dict = {**automated_sum_aggregation_specs, **aggregation_dict}
 
     # Add user provided aggregation specs.
