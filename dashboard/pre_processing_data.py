@@ -371,5 +371,6 @@ def generate_data():
     dbfile.close()
 
 
-# This line needs to be run manually once after major changes i.e. new plots.
-generate_data()
+if __name__ == "__main__":
+    # Run manually once after major changes i.e. new plots.
+    generate_data()

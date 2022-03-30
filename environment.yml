@@ -6,8 +6,6 @@ dependencies:
   - pip
   - anaconda-client
   - bokeh
-  - conda-build
-  - conda-verify
   - jupyterlab
   - nbsphinx
   - networkx
@@ -30,3 +28,4 @@ dependencies:
   - sphinx_rtd_theme
   - pip:
     - bump2version
+    - -e .
