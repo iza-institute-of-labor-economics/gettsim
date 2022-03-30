@@ -3,58 +3,18 @@
 """
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
-def arbeitsl_geld_m_tu(arbeitsl_geld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate unemployment benefit on tax unit level.
-
-    Parameters
-    ----------
-    arbeitsl_geld_m
-        See :func:`arbeitsl_geld_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return arbeitsl_geld_m.groupby(tu_id).sum()
-
-
-def arbeitsl_geld_m_hh(arbeitsl_geld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """Aggregate unemployment benefit on household level.
-
-    Parameters
-    ----------
-    arbeitsl_geld_m
-        See :func:`arbeitsl_geld_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return arbeitsl_geld_m.groupby(hh_id).sum()
 
 
 def arbeitsl_geld_m(
-    tu_id: IntSeries,
-    anz_kinder_tu: IntSeries,
-    arbeitsl_geld_berechtigt: BoolSeries,
-    arbeitsl_geld_eink_vorj_proxy: FloatSeries,
+    anz_kinder_tu: int,
+    arbeitsl_geld_berechtigt: bool,
+    arbeitsl_geld_eink_vorj_proxy: float,
     arbeitsl_geld_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate unemployment benefit.
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
     arbeitsl_geld_berechtigt
@@ -68,27 +28,25 @@ def arbeitsl_geld_m(
     -------
 
     """
-    arbeitsl_geld_satz = (tu_id.replace(anz_kinder_tu) == 0).replace(
-        {
-            True: arbeitsl_geld_params["satz_ohne_kinder"],
-            False: arbeitsl_geld_params["satz_mit_kindern"],
-        }
-    )
 
-    arbeitsl_geld_m = arbeitsl_geld_berechtigt.astype(float) * 0
+    if arbeitsl_geld_berechtigt:
+        out = 0.0
+    else:
+        if anz_kinder_tu == 0:
+            arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
+        else:
+            arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
-    arbeitsl_geld_m[arbeitsl_geld_berechtigt] = (
-        arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
-    )
+        out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
 
-    return arbeitsl_geld_m
+    return out
 
 
 def arbeitsl_monate_gesamt(
-    arbeitsl_monate_lfdj: IntSeries,
-    arbeitsl_monate_vorj: IntSeries,
-    arbeitsl_monate_v2j: IntSeries,
-) -> IntSeries:
+    arbeitsl_monate_lfdj: int,
+    arbeitsl_monate_vorj: int,
+    arbeitsl_monate_v2j: int,
+) -> int:
     """Aggregate months of unemployment over the last two years.
 
     Parameters
@@ -108,12 +66,12 @@ def arbeitsl_monate_gesamt(
 
 
 def arbeitsl_geld_berechtigt(
-    arbeitsl_monate_gesamt: IntSeries,
-    alter: IntSeries,
-    sum_ges_rente_priv_rente_m: FloatSeries,
-    arbeitsstunden_w: FloatSeries,
+    arbeitsl_monate_gesamt: int,
+    alter: int,
+    sum_ges_rente_priv_rente_m: float,
+    arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
-) -> BoolSeries:
+) -> bool:
     """Check eligibility for unemployment benefit.
 
     Different rates for parent and non-parents. Take into account actual wages. There
@@ -137,25 +95,26 @@ def arbeitsl_geld_berechtigt(
     -------
 
     """
-    return (
+    out = (
         (
             arbeitsl_monate_gesamt
             <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"]
         )
-        & (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
-        & (sum_ges_rente_priv_rente_m == 0)
-        & (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
+        and (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
+        and (sum_ges_rente_priv_rente_m == 0)
+        and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
+    return out
 
 
 def arbeitsl_geld_eink_vorj_proxy(
-    _ges_rentenv_beitr_bemess_grenze_m: FloatSeries,
-    bruttolohn_vorj_m: FloatSeries,
+    _ges_rentenv_beitr_bemess_grenze_m: float,
+    bruttolohn_vorj_m: float,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
     eink_st_abzüge_params: dict,
     soli_st_params: dict,
-) -> FloatSeries:
+) -> float:
     """Approximate last years income for unemployment benefit.
 
     Parameters
@@ -178,9 +137,7 @@ def arbeitsl_geld_eink_vorj_proxy(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = bruttolohn_vorj_m.clip(
-        lower=None, upper=_ges_rentenv_beitr_bemess_grenze_m
-    )
+    max_wage = min(bruttolohn_vorj_m, _ges_rentenv_beitr_bemess_grenze_m)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch"] * max_wage
@@ -198,5 +155,6 @@ def arbeitsl_geld_eink_vorj_proxy(
             "intercepts_at_lower_thresholds"
         ],
     )
-
-    return (max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12).clip(lower=0)
+    out = max_wage - prox_ssc - prox_tax / 12 - prox_soli / 12
+    out = max(out, 0.0)
+    return out

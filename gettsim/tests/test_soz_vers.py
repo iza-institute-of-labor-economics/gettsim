@@ -32,6 +32,8 @@ OUT_COLS = [
     "ges_pflegev_beitr_m",
 ]
 
+OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
+
 
 @pytest.fixture(scope="module")
 def input_data():
@@ -42,7 +44,7 @@ def input_data():
 
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
 def test_soc_ins_contrib(input_data, year, target):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
@@ -51,7 +53,7 @@ def test_soc_ins_contrib(input_data, year, target):
         params=policy_params,
         functions=policy_functions,
         targets=target,
-        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
+        columns_overriding_functions=OVERRIDE_COLS,
     )
 
     pd.testing.assert_series_equal(results[target], year_data[target])

@@ -1,36 +1,14 @@
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
-
-
-def arbeitsl_geld_2_eink_m_hh(
-    arbeitsl_geld_2_eink_m: FloatSeries, hh_id: IntSeries
-) -> FloatSeries:
-    """Sum up the income per household for calculation of basic subsistence.
-
-    Parameters
-    ----------
-    arbeitsl_geld_2_eink_m
-        See :func:`arbeitsl_geld_2_eink_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-    FloatSeries returns the income given by unemployment insurance per household.
-    """
-    return arbeitsl_geld_2_eink_m.groupby(hh_id).sum()
 
 
 def arbeitsl_geld_2_eink_m(
-    arbeitsl_geld_2_brutto_eink_m: FloatSeries,
-    eink_st_tu: FloatSeries,
-    tu_id: IntSeries,
-    soli_st_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
-    sozialv_beitr_gesamt_m: FloatSeries,
-    arbeitsl_geld_2_eink_anr_frei_m: FloatSeries,
-) -> FloatSeries:
+    arbeitsl_geld_2_brutto_eink_m: float,
+    eink_st_tu: float,
+    soli_st_tu: float,
+    anz_erwachsene_tu: int,
+    sozialv_beitr_gesamt_m: float,
+    arbeitsl_geld_2_eink_anr_frei_m: float,
+) -> float:
 
     """Sum up the income for calculation of basic subsistence.
 
@@ -42,8 +20,6 @@ def arbeitsl_geld_2_eink_m(
         See :func:`sozialv_beitr_gesamt_m`.
     eink_st_tu
         See :func:`eink_st_tu`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     soli_st_tu
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
@@ -53,47 +29,30 @@ def arbeitsl_geld_2_eink_m(
 
     Returns
     -------
-    Float Series with the income of a person by unemployment insurance.
+    Income of a person by unemployment insurance.
     """
 
-    return (
+    out = (
         arbeitsl_geld_2_brutto_eink_m
-        - tu_id.replace((eink_st_tu / anz_erwachsene_tu) / 12)
-        - tu_id.replace((soli_st_tu / anz_erwachsene_tu) / 12)
+        - (eink_st_tu / anz_erwachsene_tu / 12)
+        - (soli_st_tu / anz_erwachsene_tu / 12)
         - sozialv_beitr_gesamt_m
         - arbeitsl_geld_2_eink_anr_frei_m
-    ).clip(lower=0)
+    )
 
-
-def arbeitsl_geld_2_brutto_eink_m_hh(
-    arbeitsl_geld_2_brutto_eink_m: FloatSeries, hh_id: IntSeries
-) -> FloatSeries:
-
-    """Sum up the income before tax per household for calculation of basic subsistence.
-    Parameters
-    ----------
-    arbeitsl_geld_2_brutto_eink_m
-        See :func:`arbeitsl_geld_2_brutto_eink_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-    Float Series with the income of a person by unemployment insurance before tax.
-    """
-    return arbeitsl_geld_2_brutto_eink_m.groupby(hh_id).sum()
+    return max(out, 0.0)
 
 
 def arbeitsl_geld_2_brutto_eink_m(
-    bruttolohn_m: FloatSeries,
-    sonstig_eink_m: FloatSeries,
-    eink_selbst_m: FloatSeries,
-    vermiet_eink_m: FloatSeries,
-    kapitaleink_brutto_m: FloatSeries,
-    sum_ges_rente_priv_rente_m: FloatSeries,
-    arbeitsl_geld_m: FloatSeries,
-    elterngeld_m: FloatSeries,
-) -> FloatSeries:
+    bruttolohn_m: float,
+    sonstig_eink_m: float,
+    eink_selbst_m: float,
+    eink_vermietung_m: float,
+    kapitaleink_brutto_m: float,
+    sum_ges_rente_priv_rente_m: float,
+    arbeitsl_geld_m: float,
+    elterngeld_m: float,
+) -> float:
 
     """Sum up the income before tax for calculation of basic subsistence.
 
@@ -105,8 +64,8 @@ def arbeitsl_geld_2_brutto_eink_m(
         See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
     eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    vermiet_eink_m
-        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
+    eink_vermietung_m
+        See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
     kapitaleink_brutto_m
         See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
     sum_ges_rente_priv_rente_m
@@ -119,25 +78,27 @@ def arbeitsl_geld_2_brutto_eink_m(
 
     Returns
     -------
-    FloatSeries with the income by unemployment insurance before tax.
+    Income by unemployment insurance before tax.
     """
-    return (
+    out = (
         bruttolohn_m
         + sonstig_eink_m
         + eink_selbst_m
-        + vermiet_eink_m
+        + eink_vermietung_m
         + kapitaleink_brutto_m
         + sum_ges_rente_priv_rente_m
         + arbeitsl_geld_m
         + elterngeld_m
     )
 
+    return out
+
 
 def arbeitsl_geld_2_2005_netto_quote(
-    bruttolohn_m: FloatSeries,
-    elterngeld_nettolohn_m: FloatSeries,
+    bruttolohn_m: float,
+    elterngeld_nettolohn_m: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate share of net to gross wage.
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
@@ -156,22 +117,23 @@ def arbeitsl_geld_2_2005_netto_quote(
 
     """
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit nach § 11 Abs. 2 Nr. 1-5.
-    alg2_2005_bne = (
-        elterngeld_nettolohn_m
-        - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
-        - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
-    ).clip(lower=0)
+    alg2_2005_bne = max(
+        (
+            elterngeld_nettolohn_m
+            - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
+            - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
+        ),
+        0,
+    )
 
-    arbeitsl_geld_2_2005_netto_quote = alg2_2005_bne / bruttolohn_m
-
-    return arbeitsl_geld_2_2005_netto_quote
+    return alg2_2005_bne / bruttolohn_m
 
 
 def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
-    bruttolohn_m: FloatSeries,
-    arbeitsl_geld_2_2005_netto_quote: FloatSeries,
+    bruttolohn_m: float,
+    arbeitsl_geld_2_2005_netto_quote: float,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate share of income, which remains to the individual until 09/2005.
 
     Parameters
@@ -200,17 +162,14 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
 
 
 def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
-    hh_id: IntSeries,
-    bruttolohn_m: FloatSeries,
-    anz_kinder_hh: IntSeries,
+    bruttolohn_m: float,
+    anz_kinder_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calcualte share of income, which remains to the individual sinc 10/2005.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     anz_kinder_hh
@@ -222,22 +181,23 @@ def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
     -------
 
     """
-    out = bruttolohn_m * 0
-    kinder_in_hh_individual = hh_id.replace(anz_kinder_hh > 0).astype(bool)
-    out.loc[kinder_in_hh_individual] = piecewise_polynomial(
-        x=bruttolohn_m.loc[kinder_in_hh_individual],
-        thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
-        rates=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["rates"],
-        intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-    out.loc[~kinder_in_hh_individual] = piecewise_polynomial(
-        x=bruttolohn_m.loc[~kinder_in_hh_individual],
-        thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
-        rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
-        intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
+
+    if anz_kinder_hh > 0:
+        out = piecewise_polynomial(
+            x=bruttolohn_m,
+            thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
+            rates=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["rates"],
+            intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
+                "eink_anr_frei_kinder"
+            ]["intercepts_at_lower_thresholds"],
+        )
+    else:
+        out = piecewise_polynomial(
+            x=bruttolohn_m,
+            thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
+            rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
+            intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
+                "intercepts_at_lower_thresholds"
+            ],
+        )
     return out

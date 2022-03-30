@@ -57,7 +57,8 @@ def test_no_rounding_specs(rounding_specs):
 
 
 @pytest.mark.parametrize(
-    "base, direction", [(1, "upper"), ("0.1", "down"), (5, "closest")],
+    "base, direction",
+    [(1, "upper"), ("0.1", "down"), (5, "closest")],
 )
 def test_rounding_specs_wrong_format(base, direction):
     with pytest.raises(ValueError):
@@ -81,7 +82,8 @@ def test_rounding_specs_wrong_format(base, direction):
 
 
 @pytest.mark.parametrize(
-    "base, direction, input_values, exp_output", rounding_specs_and_exp_results,
+    "base, direction, input_values, exp_output",
+    rounding_specs_and_exp_results,
 )
 def test_rounding(base, direction, input_values, exp_output):
     """Check if rounding is correct"""
@@ -100,13 +102,17 @@ def test_rounding(base, direction, input_values, exp_output):
     }
 
     calc_result = compute_taxes_and_transfers(
-        data=data, functions=[test_func], params=rounding_specs, targets=["test_func"],
+        data=data,
+        functions=[test_func],
+        params=rounding_specs,
+        targets=["test_func"],
     )
     np.array_equal(calc_result["test_func"].values, np.array(exp_output))
 
 
 @pytest.mark.parametrize(
-    "base, direction, input_values_exp_output, _ignore", rounding_specs_and_exp_results,
+    "base, direction, input_values_exp_output, _ignore",
+    rounding_specs_and_exp_results,
 )
 def test_no_rounding(base, direction, input_values_exp_output, _ignore):  # noqa: U101
 
@@ -124,7 +130,10 @@ def test_no_rounding(base, direction, input_values_exp_output, _ignore):  # noqa
     }
 
     calc_result = compute_taxes_and_transfers(
-        data=data, functions=[test_func], params=rounding_specs, targets=["test_func"],
+        data=data,
+        functions=[test_func],
+        params=rounding_specs,
+        targets=["test_func"],
     )
     np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
 

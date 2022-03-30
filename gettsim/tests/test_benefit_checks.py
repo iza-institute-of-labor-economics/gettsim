@@ -17,7 +17,7 @@ INPUT_COLS = [
     "rentner",
     "alter",
     "vermögen_hh",
-    "kinderzuschl_vorläufig_m",
+    "_kinderzuschl_vor_vermög_check_m_hh",
     "wohngeld_vor_vermög_check_m_hh",
     "arbeitsl_geld_2_regelbedarf_m_hh",
     "kindergeld_m_hh",
@@ -39,10 +39,10 @@ def input_data():
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
 def test_benefit_checks(input_data, year, target):
     """Test the benefit checks."""
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     columns = [
-        "kinderzuschl_vorläufig_m",
+        "_kinderzuschl_vor_vermög_check_m_hh",
         "wohngeld_vor_vermög_check_m_hh",
         "arbeitsl_geld_2_regelbedarf_m_hh",
         "kindergeld_m_hh",

@@ -10,5 +10,4 @@ This section documents the code inside GETTSIM.
    functions
    input_variables
    variables_out
-   types
    params

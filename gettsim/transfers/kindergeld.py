@@ -1,12 +1,20 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
+aggregation_kindergeld = {
+    "kumulativer_kindergeld_anspruch_tu": {
+        "source_col": "kindergeld_anspruch",
+        "aggr": "cumsum",
+    },
+    "anz_kinder_mit_kindergeld_tu": {
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+}
 
 
-def kindergeld_m_bis_1996(kindergeld_basis_m: FloatSeries) -> FloatSeries:
+def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
     """Kindergeld calculation until 1996.
 
-    Until 1996 individuals could claim child allowance and recieve child benefit.
+    Until 1996 individuals could claim Kinderfreibetrag and receive Kindergeld at the
+    same time.
 
     Parameters
     ----------
@@ -21,10 +29,9 @@ def kindergeld_m_bis_1996(kindergeld_basis_m: FloatSeries) -> FloatSeries:
 
 
 def kindergeld_m_ab_1997(
-    kinderfreib_günstiger_tu: BoolSeries,
-    kindergeld_basis_m: FloatSeries,
-    tu_id: IntSeries,
-) -> FloatSeries:
+    kinderfreib_günstiger_tu: bool,
+    kindergeld_basis_m: float,
+) -> float:
     """Kindergeld calculation since 1997.
 
     Parameters
@@ -40,60 +47,23 @@ def kindergeld_m_ab_1997(
     -------
 
     """
-    beantrage_kinderfreib = tu_id.replace(kinderfreib_günstiger_tu)
-    out = kindergeld_basis_m
-    out.loc[beantrage_kinderfreib] = 0
+    out = 0 if kinderfreib_günstiger_tu else kindergeld_basis_m
     return out
 
 
-def kindergeld_m_hh(kindergeld_m: FloatSeries, hh_id: IntSeries) -> FloatSeries:
-    """Aggregate Child benefit on the household level.
-
-    Aggregate Child benefit on the household level, as we could have several tax_units
-    in one household.
-
-    Parameters
-    ----------
-    kindergeld_m
-        See :func:`kindergeld_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return kindergeld_m.groupby(hh_id).sum()
-
-
-def kindergeld_m_tu(kindergeld_m: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate Child benefit on the tax unit level.
-
-    Parameters
-    ----------
-    kindergeld_m
-        See :func:`kindergeld_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return kindergeld_m.groupby(tu_id).sum()
-
-
 def kindergeld_basis_m(
-    tu_id: IntSeries, kindergeld_anspruch: BoolSeries, kindergeld_params: dict
-) -> FloatSeries:
+    kindergeld_anspruch: bool,
+    kumulativer_kindergeld_anspruch_tu: int,
+    kindergeld_params: dict,
+) -> float:
     """Calculate the preliminary kindergeld.
 
     Parameters
     ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
+    kumulativer_kindergeld_anspruch_tu
+        See :func:`kumulativer_kindergeld_anspruch_tu`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
@@ -101,43 +71,25 @@ def kindergeld_basis_m(
     -------
 
     """
-    # Kindergeld_Anspruch is the cumulative sum of eligible children.
-    kumulativer_anspruch = (
-        (kindergeld_anspruch.astype(int)).groupby(tu_id).transform("cumsum")
-    )
+
     # Make sure that only eligible children get assigned kindergeld
-    kumulativer_anspruch.loc[~kindergeld_anspruch] = 0
-    out = kumulativer_anspruch.clip(upper=max(kindergeld_params["kindergeld"])).replace(
-        kindergeld_params["kindergeld"]
-    )
+    if not kindergeld_anspruch:
+        out = 0.0
+    else:
+        # Kindergeld_Anspruch is the cumulative sum of eligible children.
+        kumulativer_anspruch_wins = min(
+            kumulativer_kindergeld_anspruch_tu, max(kindergeld_params["kindergeld"])
+        )
+        out = kindergeld_params["kindergeld"][kumulativer_anspruch_wins]
     return out
 
 
-def kindergeld_basis_m_tu(
-    kindergeld_basis_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Aggregate the preliminary kindergeld on tax unit level.
-
-    Parameters
-    ----------
-    kindergeld_basis_m
-        See :func:`kindergeld_basis_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return kindergeld_basis_m.groupby(tu_id).sum()
-
-
 def kindergeld_anspruch_nach_stunden(
-    alter: IntSeries,
-    in_ausbildung: BoolSeries,
-    arbeitsstunden_w: FloatSeries,
+    alter: int,
+    in_ausbildung: bool,
+    arbeitsstunden_w: float,
     kindergeld_params: dict,
-) -> BoolSeries:
+) -> bool:
     """Determine kindergeld eligibility depending on working hours.
 
     The current eligibility rule is, that kids must not work more than 20
@@ -156,25 +108,23 @@ def kindergeld_anspruch_nach_stunden(
 
     Returns
     -------
-    BoolSeries indiciating kindergeld eligibility.
+    Boolean indiciating kindergeld eligibility.
     """
-    out = alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]
-    out = out | (
-        (kindergeld_params["höchstalter"]["ohne_bedingungen"] <= alter)
-        & (alter <= kindergeld_params["höchstalter"]["mit_bedingungen"])
-        & in_ausbildung
-        & (arbeitsstunden_w <= kindergeld_params["stundengrenze"])
+    out = (alter < kindergeld_params["altersgrenze"]["ohne_bedingungen"]) or (
+        (alter < kindergeld_params["altersgrenze"]["mit_bedingungen"])
+        and in_ausbildung
+        and (arbeitsstunden_w <= kindergeld_params["stundengrenze"])
     )
 
     return out
 
 
 def kindergeld_anspruch_nach_lohn(
-    alter: IntSeries,
-    in_ausbildung: BoolSeries,
-    bruttolohn_m: FloatSeries,
+    alter: int,
+    in_ausbildung: bool,
+    bruttolohn_m: float,
     kindergeld_params: dict,
-) -> BoolSeries:
+) -> bool:
     """Determine kindergeld eligibility depending on kids wage.
 
     Before 2011, there was an income ceiling for children
@@ -196,57 +146,10 @@ def kindergeld_anspruch_nach_lohn(
     -------
 
     """
-    out = alter < kindergeld_params["höchstalter"]["ohne_bedingungen"]
-    out = out | (
-        (kindergeld_params["höchstalter"]["ohne_bedingungen"] <= alter)
-        & (alter <= kindergeld_params["höchstalter"]["mit_bedingungen"])
-        & in_ausbildung
-        & (bruttolohn_m <= kindergeld_params["einkommensgrenze"] / 12)
+    out = (alter < kindergeld_params["altersgrenze"]["ohne_bedingungen"]) or (
+        (alter < kindergeld_params["altersgrenze"]["mit_bedingungen"])
+        and in_ausbildung
+        and (bruttolohn_m <= kindergeld_params["einkommensgrenze"] / 12)
     )
 
     return out
-
-
-def kinderbonus_basis_m(
-    kindergeld_basis_m: FloatSeries, kindergeld_params: dict
-) -> FloatSeries:
-    """Calculate the kinderbonus.
-
-    (one-time payment, non-allowable against transfer payments)
-
-    Parameters
-    ----------
-    kindergeld_basis_m
-        See :func:`kindergeld_basis_m`.
-    kindergeld_params
-        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
-
-    Returns
-    -------
-
-    """
-    # Kinderbonus is payed for all children who are eligible for Kindergeld
-    out = kindergeld_basis_m.copy()
-
-    # Kinderbonus parameter is specified on the yearly level
-    out.loc[kindergeld_basis_m > 0] = kindergeld_params["kinderbonus"] / 12
-    return out
-
-
-def kinderbonus_basis_m_tu(
-    kinderbonus_basis_m: FloatSeries, tu_id: IntSeries
-) -> FloatSeries:
-    """Aggregate the Kinderbonus on tax unit level.
-
-    Parameters
-    ----------
-    kinderbonus_basis_m
-        See :func:`kinderbonus_basis_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return kinderbonus_basis_m.groupby(tu_id).sum()

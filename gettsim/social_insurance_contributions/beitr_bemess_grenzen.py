@@ -1,10 +1,6 @@
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-
-
 def _ges_rentenv_beitr_bemess_grenze_m(
-    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
+    wohnort_ost: bool, soz_vers_beitr_params: dict
+) -> float:
     """Calculating the income threshold up to which pension insurance payments apply.
 
     Parameters
@@ -16,20 +12,15 @@ def _ges_rentenv_beitr_bemess_grenze_m(
     -------
 
     """
-    out = wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
-            False: soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"][
-                "west"
-            ],
-        }
-    )
-    return out.astype(float)
+    params = soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]
+    out = params["ost"] if wohnort_ost else params["west"]
+
+    return float(out)
 
 
 def _ges_krankenv_beitr_bemess_grenze_m(
-    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
+    wohnort_ost: bool, soz_vers_beitr_params: dict
+) -> float:
     """Calculating the income threshold up to which health insurance payments apply.
 
     Parameters
@@ -41,24 +32,19 @@ def _ges_krankenv_beitr_bemess_grenze_m(
 
     Returns
     -------
-    Pandas Series containing the income threshold up to which the rate of health
-    insurance contributions apply.
+    The income threshold up to which the rate of health insurance contributions apply.
 
     """
-    out = wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
-            False: soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"][
-                "west"
-            ],
-        }
-    )
-    return out.astype(float)
+    params = soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]
+
+    out = params["ost"] if wohnort_ost else params["west"]
+
+    return float(out)
 
 
 def _ges_krankenv_bezugsgröße_selbst_m(
-    wohnort_ost: BoolSeries, soz_vers_beitr_params: dict
-) -> FloatSeries:
+    wohnort_ost: bool, soz_vers_beitr_params: dict
+) -> float:
     """Threshold for self employment income subject to health insurance.
 
     Selecting by place of living the income threshold for self employed up to which the
@@ -74,9 +60,10 @@ def _ges_krankenv_bezugsgröße_selbst_m(
     Returns
     -------
     """
-    return wohnort_ost.replace(
-        {
-            True: soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"],
-            False: soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"],
-        }
-    ).astype(float)
+    out = (
+        soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"]
+        if wohnort_ost
+        else soz_vers_beitr_params["bezugsgröße_selbst_m"]["west"]
+    )
+
+    return float(out)
