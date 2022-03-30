@@ -785,8 +785,8 @@ ag_abgaben_geringf:
 
 ges_pflegev_zusatz_kinderlos_mindestalter:
   name:
-    de: Altersgrenze Beitragszuschlag für Kinderlose
-    en: Age limit additional contribution for childless
+    de: Mindestalter Beitragszuschlag für Kinderlose
+    en: Minimum age for additional contribution for childless
   description:
     de: Der Beitragssatz für Kinderlose steigt ab dieser Altersgrenze an.
     en: The contribution rate for childless people increases from this age limit.
