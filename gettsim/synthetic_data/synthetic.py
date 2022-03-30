@@ -188,7 +188,7 @@ def create_synthetic_data(
                 hh_id_min = synth["hh_id"].max() + 1
                 tu_id_min = synth["tu_id"].max() + 1
                 dim_counter += 1
-
+        synth = synth.reset_index(drop=True)
     return synth
 
 
