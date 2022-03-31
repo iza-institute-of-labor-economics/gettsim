@@ -101,5 +101,6 @@ def test_data_types(
                 raise ValueError("Column name unknown.")
             if not check_if_series_has_internal_type(series, internal_type):
                 raise AssertionError(
-                    f"{column_name} has datatype {series.dtype}, but should have {internal_type}."
+                    f"{column_name} has datatype {series.dtype}, "
+                    f"but should have {internal_type}."
                 )
