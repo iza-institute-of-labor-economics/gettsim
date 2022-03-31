@@ -20,7 +20,7 @@ from gettsim.shared import add_rounding_spec
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_tax_transfer.csv"
+    file_name = "full_taxes_and_transfers.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 

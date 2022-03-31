@@ -41,7 +41,7 @@ def input_data():
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_compute_taxes_and_transfers(
+def test_full_taxes_and_transfers(
     input_data,
     year,
 ):
