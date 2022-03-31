@@ -131,7 +131,10 @@ def plot_dag(
     # Create and add aggregation functions
     typical_data_cols = list(TYPES_INPUT_VARIABLES)
     aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions, targets, typical_data_cols
+        user_and_internal_functions,
+        targets,
+        typical_data_cols,
+        user_provided_aggregation_specs={},
     )
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
 

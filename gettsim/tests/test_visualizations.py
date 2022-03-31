@@ -6,6 +6,7 @@ from gettsim.visualization import _kth_order_neighbors
 from gettsim.visualization import _node_and_ancestors
 from gettsim.visualization import _node_and_descendants
 from gettsim.visualization import _select_nodes_in_dag
+from gettsim.visualization import plot_dag
 
 
 @pytest.mark.parametrize(
@@ -100,3 +101,8 @@ def test_select_nodes_in_dag(n_nodes, selectors, expected):
     dag = nx.DiGraph([(i, i + 1) for i in range(n_nodes)])
     dag = _select_nodes_in_dag(dag, selectors)
     assert set(dag.nodes) == expected
+
+
+def test_plot_dag():
+    """Make sure that minimal example doesn't produce an error"""
+    plot_dag(functions=[], targets=["erwachsene_alle_rentner_hh"])
