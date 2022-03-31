@@ -35,7 +35,7 @@ OUT_COLS = [
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "compute_taxes_and_transfers.csv"
+    file_name = "full_taxes_and_transfers.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 

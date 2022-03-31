@@ -37,7 +37,7 @@ OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "soz_vers.csv"
+    file_name = "sozialv_beitr.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
