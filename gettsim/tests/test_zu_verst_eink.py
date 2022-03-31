@@ -67,13 +67,13 @@ YEARS = [2005, 2009, 2010, 2012, 2018, 2019]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_zve.csv"
+    file_name = "zu_verst_eink.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
-def test_zve(
+def test_zu_verst_eink(
     input_data,
     year,
     target,

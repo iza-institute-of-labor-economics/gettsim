@@ -31,7 +31,7 @@ TEST_COLS = [
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_kindergeld.csv"
+    file_name = "kindergeld.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 

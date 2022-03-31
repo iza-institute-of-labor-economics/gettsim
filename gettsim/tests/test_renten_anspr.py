@@ -38,13 +38,13 @@ YEARS = [2010, 2012, 2015]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_pensions.csv"
+    file_name = "renten_anspr.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_pension(input_data, year, column):
+def test_renten_anspr(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
