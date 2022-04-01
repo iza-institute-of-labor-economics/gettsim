@@ -33,7 +33,6 @@ test:
     - pytest
   source_files:
     - gettsim/parameters
-    - gettsim/tests/test_parameters
     - gettsim/tests
     - setup.cfg
   commands:
