@@ -510,6 +510,7 @@ beitr_bemess_grenze_m:
       ost: 6700
     reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
   2022-01-01:
+    deviation_from: previous
     ges_rentenv:
       west: 7050
       ost: 6750
@@ -794,3 +795,10 @@ ges_pflegev_zusatz_kinderlos_mindestalter:
   reference: § 55 Abs. 3 SGB XI
   2005-01-01:
     scalar: 23
+
+rounding:
+  midi_job_faktor_f:
+    1990-01-01:
+      base: 0.0001
+      direction: nearest
+      reference:
