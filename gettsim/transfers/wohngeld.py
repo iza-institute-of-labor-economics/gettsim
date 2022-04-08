@@ -265,14 +265,14 @@ def wohngeld_eink_m(
     -------
 
     """
-    vorläufiges_eink = (1 - wohngeld_abzüge_m_tu) * (
-        wohngeld_eink_vor_abzug_m_tu - wohngeld_eink_abzüge_m_tu
+    vorläufiges_eink = (
+        (1 - wohngeld_abzüge_m_tu) * (wohngeld_eink_vor_abzug_m_tu)
+        + unterhaltsvors_m_tu
+        - wohngeld_eink_abzüge_m_tu
     )
-
     unteres_eink = wohngeld_params["min_eink"][
         min(haushaltsgröße_hh, max(wohngeld_params["min_eink"]))
     ]
-
     out = max(vorläufiges_eink, unteres_eink)
     return out
 

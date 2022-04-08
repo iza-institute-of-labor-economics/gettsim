@@ -26,6 +26,7 @@ INPUT_COLS = [
     "unterhaltsvors_m",
     "jahr",
     "wohngeld_arbeitendes_kind",
+    "wohngeld_abzüge_m_tu",
     "behinderungsgrad",
     "eink_selbst_tu",
     "kapitaleink_brutto_tu",
@@ -34,6 +35,7 @@ INPUT_COLS = [
     "sonstig_eink_m_tu",
     "eink_rente_zu_verst_m_tu",
     "elterngeld_m_tu",
+    "wohnort_ost",
 ]
 YEARS_TEST = [2021]
 
@@ -48,6 +50,7 @@ OVERRIDE_COLS = [
     "kapitaleink_brutto_tu",
     "unterhaltsvors_m",
     "wohngeld_arbeitendes_kind",
+    "wohngeld_abzüge_m_tu",
     "kindergeld_anspruch",
 ]
 
@@ -70,9 +73,6 @@ def test_wohngeld(input_data, year, column):
         targets=column,
         columns_overriding_functions=OVERRIDE_COLS,
     )
-    if column == "wohngeld_eink_m":
-        result[column] = result[column].round(1)
-    else:
-        result[column] = result[column].round(2)
+    result[column] = result[column].round(2)
 
     assert_series_equal(result[column].astype(float), year_data[column])
