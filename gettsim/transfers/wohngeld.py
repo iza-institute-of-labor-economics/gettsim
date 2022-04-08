@@ -111,12 +111,7 @@ def wohngeld_eink_vor_abzug_m_tu(
         + eink_vermietung_tu
     ) / 12
 
-    transfers_tu = (
-        arbeitsl_geld_m_tu
-        + eink_rente_zu_verst_m_tu
-        + unterhaltsvors_m_tu
-        + elterngeld_m_tu
-    )
+    transfers_tu = arbeitsl_geld_m_tu + eink_rente_zu_verst_m_tu + elterngeld_m_tu
 
     return einkommen_tu + transfers_tu + sonstig_eink_m_tu
 
