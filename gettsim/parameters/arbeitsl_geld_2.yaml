@@ -449,3 +449,14 @@ mehbedarf_alg2:
   unit: Percent
   reference: § 30 Abs. 1 SGB XII, https://www.buzer.de/gesetz/3415/al0-3758.htm
   2006-12-07:
+    scalar: 0.15
+
+behinderungsgrad_mehrbedarf:
+  name:
+    de: Höhe des Grades der Behinderung, ab dem man Mehrbedarf im Arbeitslosengeld 2 bekommt
+    en: This is an english name
+  description:
+    de: Festgelegte Grenze des Grades der Behinderung. Nicht im Gesetz verankert.
+    en: English name
+  2005-01-01:
+    scalar: 30
