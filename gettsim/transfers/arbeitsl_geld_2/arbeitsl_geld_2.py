@@ -115,6 +115,31 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
         out = 0.0
     return out
 
+def _arbeitsl_geld_2_behindert_mehrbedarf_m_hh(
+    behindert_hh: bool,    
+    arbeitsl_geld_2_params: dict,
+) -> float:
+
+    """Compute additional need for disabled people.
+
+    Additional need for disabled but employable. 35% on top of the Regelbedarf per person.
+
+    Parameters
+    ----------
+    behindert_hh
+        See :func:`behindert_hh`.
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+
+
+    Returns
+    -------
+    float checks how much more a single parent need.
+    """
+    out = behindert_hh * arbeitsl_geld_2_params["mehrbedarf_alg2_behindert"]
+    return out
+
+
 
 def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
     anz_kinder_bis_6_hh: int,
@@ -192,6 +217,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
 def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     anz_erwachsene_hh: int,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    _arbeitsl_geld_2_behindert_mehrbedarf_m_hh: float,
     arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -217,14 +243,14 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
         out = arbeitsl_geld_2_params["regelsatz"] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            1 + min(_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh + _arbeitsl_geld_2_behindert_mehrbedarf_m_hh, 1)
         )
     else:
         out = arbeitsl_geld_2_params["regelsatz"] * (
             2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
             + weitere_erwachsene
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
-        )
+        )* (1 + min( _arbeitsl_geld_2_behindert_mehrbedarf_m_hh, 1))
 
     return out + arbeitsl_geld_2_kindersatz_m_hh
 
@@ -257,11 +283,11 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
         out = arbeitsl_geld_2_params["regelsatz"][1] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            1 + min(_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh + _arbeitsl_geld_2_behindert_mehrbedarf_m_hh, 1)
         )
     else:
         out = arbeitsl_geld_2_params["regelsatz"][2] * (
-            2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            2 + min(_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh + _arbeitsl_geld_2_behindert_mehrbedarf_m_hh, 1)
         ) + (arbeitsl_geld_2_params["regelsatz"][3] * weitere_erwachsene)
 
     return out + arbeitsl_geld_2_kindersatz_m_hh

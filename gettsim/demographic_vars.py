@@ -26,6 +26,7 @@ aggregation_demographic_vars = {
         "source_col": "jüngstes_kind_oder_mehrling",
         "aggr": "sum",
     },
+    "anz_behindert_hh": {"source_col": "behindert", "aggr": "sum"}
 }
 
 
@@ -259,4 +260,10 @@ def jüngstes_kind_oder_mehrling(
 
     """
     out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) and kind
+    return out
+
+def behindert(
+    behinderungsgrad: int
+    ):
+    out = behinderungsgrad>=30
     return out
