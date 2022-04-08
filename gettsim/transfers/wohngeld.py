@@ -77,7 +77,6 @@ def wohngeld_eink_vor_abzug_m_tu(
     arbeitsl_geld_m_tu: float,
     sonstig_eink_m_tu: float,
     eink_rente_zu_verst_m_tu: float,
-    unterhaltsvors_m_tu: float,
     elterngeld_m_tu: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation per tax unit.
@@ -98,8 +97,6 @@ def wohngeld_eink_vor_abzug_m_tu(
         See :func:`sonstig_eink_m_tu`.
     eink_rente_zu_verst_m_tu
         See :func:`eink_rente_zu_verst_m_tu`.
-    unterhaltsvors_m_tu
-        See :func:`unterhaltsvors_m_tu`.
     elterngeld_m_tu
         See :func:`elterngeld_m_tu`.
 
@@ -249,6 +246,7 @@ def wohngeld_eink_m(
     wohngeld_eink_abzüge_m_tu: float,
     wohngeld_abzüge_m_tu: float,
     wohngeld_eink_vor_abzug_m_tu: float,
+    unterhaltsvors_m_tu: float,
     wohngeld_params: dict,
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit.
@@ -263,6 +261,8 @@ def wohngeld_eink_m(
         See :func:`wohngeld_abzüge_m_tu`.
     wohngeld_eink_vor_abzug_m_tu
         See :func:`wohngeld_eink_vor_abzug_m_tu`.
+    unterhaltsvors_m_tu
+        See :func:`unterhaltsvors_m_tu`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
