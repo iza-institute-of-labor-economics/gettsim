@@ -434,7 +434,7 @@ berechtigte_wohnfläche_eigentum:
     erweiterung: 20
 
 
-mehrbedarf_alg2:
+mehrbedarf_alg2_behindert:
   name:
     de: Mehrbedarf bei Schwerbehinderung
     en: Additional requirement when severely disabled
