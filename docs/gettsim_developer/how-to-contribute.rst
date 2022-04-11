@@ -18,7 +18,13 @@ To contribute to the project, adhere to the following process.
 Prerequisites
 -------------
 
-*  The process starts differently for regular contributors and newcomers. As a
+* Make sure you have the following programs installed and that these can be found on your path:
+
+  * A Python distribution (we recommend using: `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`_ or Anaconda)
+  * `Git <https://git-scm.com/downloads>`_
+  * A modern text editor (e.g. `VS Code <https://code.visualstudio.com/>`_)
+
+*  Cloning the repository works differently for regular contributors and newcomers. As a
    contributor you might have been granted privileges to push to the GETTSIM repository.
    Thus, you can clone the repository directly using
 

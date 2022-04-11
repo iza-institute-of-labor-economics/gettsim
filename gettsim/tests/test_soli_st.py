@@ -20,7 +20,7 @@ YEARS = [1991, 1993, 1996, 1999, 2003, 2022]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_soli.csv"
+    file_name = "soli_st.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 

@@ -61,7 +61,7 @@ OUT_COLS = [
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_grunds_im_alter.csv"
+    file_name = "grunds_im_alter.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     out["p_id"] = out["p_id"].astype(int)
     return out

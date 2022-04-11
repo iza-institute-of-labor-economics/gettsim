@@ -35,13 +35,13 @@ OUT_COLS = [
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_tax_transfer.csv"
+    file_name = "full_taxes_and_transfers.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_tax_transfer(
+def test_full_taxes_and_transfers(
     input_data,
     year,
 ):
@@ -101,5 +101,6 @@ def test_data_types(
                 raise ValueError("Column name unknown.")
             if not check_if_series_has_internal_type(series, internal_type):
                 raise AssertionError(
-                    f"{column_name} has datatype {series.dtype}, but should have {internal_type}."
+                    f"{column_name} has datatype {series.dtype}, "
+                    f"but should have {internal_type}."
                 )

@@ -8,7 +8,7 @@ from gettsim.interface import compute_taxes_and_transfers  # noqa: F401
 from gettsim.policy_environment import set_up_policy_environment  # noqa: F401
 from gettsim.visualization import plot_dag  # noqa: F401
 
-__version__ = "0.4.1"
+__version__ = "0.5.0"
 
 COUNTER_TEST_EXECUTIONS = itertools.count()
 
