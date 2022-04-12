@@ -27,7 +27,7 @@ from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
-from gettsim.typing import check_if_series_has_internal_type
+from gettsim.typing import convert_series_to_internal_type
 
 
 class KeyErrorMessage(str):
@@ -335,13 +335,13 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
         check_data = True
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
-            check_data = check_if_series_has_internal_type(series, internal_type)
+            check_data, _ = convert_series_to_internal_type(series, internal_type)
         elif (
             column_name in columns_overriding_functions
             and "return" in functions[column_name].__annotations__
         ):
             internal_type = functions[column_name].__annotations__["return"]
-            check_data = check_if_series_has_internal_type(series, internal_type)
+            check_data, _ = convert_series_to_internal_type(series, internal_type)
 
         if not check_data:
             raise ValueError(

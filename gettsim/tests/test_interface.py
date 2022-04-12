@@ -7,6 +7,7 @@ import pytest
 from gettsim import compute_taxes_and_transfers
 from gettsim import test
 from gettsim.config import ROOT_DIR
+from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
@@ -16,6 +17,7 @@ from gettsim.interface import _fail_if_group_variables_not_constant_within_group
 from gettsim.interface import _fail_if_pid_is_non_unique
 from gettsim.interface import _partial_parameters_to_functions
 from gettsim.shared import add_rounding_spec
+from gettsim.typing import convert_series_to_internal_type
 
 
 @pytest.fixture(scope="module")
@@ -52,11 +54,11 @@ func_after_partial = _partial_parameters_to_functions(
 def test_fail_if_datatype_is_false(input_data):
     with does_not_raise():
         _fail_if_datatype_is_false(input_data, [], [])
-    with pytest.raises(ValueError):
+    with does_not_raise():
         altered_data = input_data.copy(deep=True)
         altered_data["alter"] = altered_data["alter"].astype(float)
         _fail_if_datatype_is_false(altered_data, [], [])
-    with pytest.raises(ValueError):
+    with does_not_raise():
         _, functions = load_user_and_internal_functions(None)
         columns = ["abgelt_st_tu"]
         new_data = pd.DataFrame(data=[True, False], columns=columns, dtype=bool)
@@ -293,3 +295,33 @@ def test_user_provided_aggregation_specs_function():
     np.testing.assert_array_almost_equal(
         out["arbeitsl_geld_2_m_double_hh"], expected_res
     )
+
+
+def test_convert_series_to_internal_types():
+    data = pd.DataFrame(
+        {
+            "p_id": [1.0],
+            "hh_id": [2.0],
+            "hat_kinder": [0],
+            "m_elterngeld": [200.0],
+            "schwerbeh_g": [1],
+        }
+    )
+    expected_data = pd.DataFrame(
+        {
+            "p_id": [1],
+            "hh_id": [2],
+            "hat_kinder": [False],
+            "m_elterngeld": [200],
+            "schwerbeh_g": [True],
+        }
+    )
+    for label, series in data.items():
+        internal_type = TYPES_INPUT_VARIABLES[label]
+        out, data[label] = convert_series_to_internal_type(series, internal_type)
+        if not out:
+            raise ValueError(
+                f"The data type is not consistent with {internal_type}"
+                f"and converging the data type to {internal_type} failed."
+            )
+    np.testing.assert_array_almost_equal(data, expected_data)
