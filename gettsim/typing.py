@@ -18,8 +18,7 @@ def convert_series_to_internal_type(series, internal_type):
 
     Returns
     -------
-    out : pd.Series
-        Returns.
+    out : adjusted pd.Series and boolean
     """
     if internal_type == float:
         out = is_float_dtype(series) or is_integer_dtype(series)
