@@ -9,9 +9,11 @@ from gettsim import compute_taxes_and_transfers
 from gettsim.config import INTERNAL_PARAM_GROUPS
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
+from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _load_functions
 from gettsim.policy_environment import load_reforms_for_date
 from gettsim.shared import add_rounding_spec
+from gettsim.typing import convert_series_to_internal_type
 
 
 rounding_specs_and_exp_results = [
@@ -188,3 +190,23 @@ def test_decorator_for_all_functions_with_rounding_spec():
             "function is missing the add_rounding_spec decorator. The attribute "
             "__rounding_params_key__ is not found."
         )
+
+
+@pytest.mark.parametrize(
+    "data, expected_data",
+    [
+        (pd.DataFrame({"p_id": [1.0]}), pd.DataFrame({"p_id": [1]})),
+        (pd.DataFrame({"hh_id": [2.0]}), pd.DataFrame({"hh_id": [2]})),
+        (pd.DataFrame({"hat_kinder": [0]}), pd.DataFrame({"hat_kinder": [False]})),
+        (
+            pd.DataFrame({"m_elterngeld": [200.0]}),
+            pd.DataFrame({"m_elterngeld": [200]}),
+        ),
+        (pd.DataFrame({"schwerbeh_g": [1]}), pd.DataFrame({"schwerbeh_g": [True]})),
+    ],
+)
+def test_convert_series_to_internal_types(data, expected_data):
+    for label, series in data.items():
+        internal_type = TYPES_INPUT_VARIABLES[label]
+        data[label] = convert_series_to_internal_type(series, internal_type)
+    np.testing.assert_array_almost_equal(data, expected_data)
