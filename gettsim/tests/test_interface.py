@@ -7,7 +7,6 @@ import pytest
 from gettsim import compute_taxes_and_transfers
 from gettsim import test
 from gettsim.config import ROOT_DIR
-from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_functions_and_columns_overlap
@@ -52,13 +51,15 @@ func_after_partial = _partial_parameters_to_functions(
 def test_fail_if_cannot_be_converted_to_correct_type():
     with does_not_raise():
         data = pd.DataFrame({"p_id": [1.0]})
-        for label, series in data.items():
-            internal_type = TYPES_INPUT_VARIABLES[label]
-            data[label] = convert_series_to_internal_type(series, internal_type)
+        expected_data = 1
+        for _, series in data.items():
+            internal_type = type(expected_data)
+            convert_series_to_internal_type(series, internal_type)
     with pytest.raises(ValueError):
         data = pd.DataFrame({"m_elterngeld": ["200.0"]})
-        for label, series in data.items():
-            internal_type = TYPES_INPUT_VARIABLES[label]
+        expected_data = 200
+        for _, series in data.items():
+            internal_type = type(expected_data)
             convert_series_to_internal_type(series, internal_type)
 
 
@@ -294,26 +295,20 @@ def test_user_provided_aggregation_specs_function():
     )
 
 
-def test_convert_series_to_internal_types():
-    data = pd.DataFrame(
-        {
-            "p_id": [1.0],
-            "hh_id": [2.0],
-            "hat_kinder": [0],
-            "m_elterngeld": [200.0],
-            "schwerbeh_g": [1],
-        }
-    )
-    expected_data = pd.DataFrame(
-        {
-            "p_id": [1],
-            "hh_id": [2],
-            "hat_kinder": [False],
-            "m_elterngeld": [200],
-            "schwerbeh_g": [True],
-        }
-    )
+@pytest.mark.parametrize(
+    "data, expected_data",
+    [
+        (pd.DataFrame({"p_id": [1.0]}), 1),
+        (pd.DataFrame({"hh_id": [2.0]}), 2),
+        (pd.DataFrame({"hat_kinder": [0]}), False),
+        (pd.DataFrame({"m_elterngeld": [200.0]}), 200),
+        (pd.DataFrame({"schwerbeh_g": [1]}), True),
+        # (pd.DataFrame({"date": [2012-5-1]}),
+        # np.datetime64('2012-05-01'))
+    ],
+)
+def test_convert_series_to_internal_types(data, expected_data):
     for label, series in data.items():
-        internal_type = TYPES_INPUT_VARIABLES[label]
+        internal_type = type(expected_data)
         data[label] = convert_series_to_internal_type(series, internal_type)
     np.testing.assert_array_almost_equal(data, expected_data)
