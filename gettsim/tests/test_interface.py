@@ -48,19 +48,23 @@ func_after_partial = _partial_parameters_to_functions(
 )["test_func"]
 
 
-def test_fail_if_cannot_be_converted_to_correct_type():
-    with does_not_raise():
-        data = pd.DataFrame({"p_id": [1.0]})
-        expected_data = 1
-        for _, series in data.items():
-            internal_type = type(expected_data)
-            convert_series_to_internal_type(series, internal_type)
-    with pytest.raises(ValueError):
-        data = pd.DataFrame({"m_elterngeld": ["200.0"]})
-        expected_data = 200
-        for _, series in data.items():
-            internal_type = type(expected_data)
-            convert_series_to_internal_type(series, internal_type)
+@pytest.mark.parametrize(
+    "input_data, expected_type, error_match",
+    [
+        (pd.DataFrame({"m_elterngeld": ["Hallo"]}), int, "Conversion of data type to"),
+        (pd.DataFrame({"m_elterngeld": [12]}), str, "The internal type"),
+        (pd.DataFrame({"p_id": [1.5]}), int, "Data type of input is float"),
+        (pd.DataFrame({"schwerbeh_g": [5]}), bool, "Conversion to"),
+        (pd.DataFrame({"schwerbeh_g": [1.5]}), bool, "Conversion to"),
+        (pd.DataFrame({"schwerbeh_g": ["richtig"]}), bool, "Conversion to"),
+    ],
+)
+def test_fail_if_cannot_be_converted_to_correct_type(
+    input_data, expected_type, error_match
+):
+    with pytest.raises(ValueError, match=error_match):
+        for _, series in input_data.items():
+            convert_series_to_internal_type(series, expected_type)
 
 
 @pytest.mark.parametrize(
@@ -296,19 +300,49 @@ def test_user_provided_aggregation_specs_function():
 
 
 @pytest.mark.parametrize(
-    "data, expected_data",
+    "input_data, expected_type, expected_output_data",
     [
-        (pd.DataFrame({"p_id": [1.0]}), 1),
-        (pd.DataFrame({"hh_id": [2.0]}), 2),
-        (pd.DataFrame({"hat_kinder": [0]}), False),
-        (pd.DataFrame({"m_elterngeld": [200.0]}), 200),
-        (pd.DataFrame({"schwerbeh_g": [1]}), True),
-        # (pd.DataFrame({"date": [2012-5-1]}),
-        # np.datetime64('2012-05-01'))
+        (
+            pd.DataFrame({"hat_kinder": [0]}),
+            bool,
+            pd.DataFrame({"hat_kinder": [False]}),
+        ),
+        (
+            pd.DataFrame({"schwerbeh_g": [1]}),
+            bool,
+            pd.DataFrame({"schwerbeh_g": [True]}),
+        ),
+        (
+            pd.DataFrame({"vermögen_hh": [200]}),
+            float,
+            pd.DataFrame({"vermögen_hh": [200.0]}),
+        ),
+        (pd.DataFrame({"p_id": [1.0]}), int, pd.DataFrame({"p_id": [1]})),
+        (pd.DataFrame({"hh_id": [2.0]}), int, pd.DataFrame({"p_id": [2]})),
+        (pd.DataFrame({"m_elterngeld": [200.0]}), int, pd.DataFrame({"p_id": [200]})),
+        (
+            pd.DataFrame({"schwerbeh_g": [1.0]}),
+            bool,
+            pd.DataFrame({"schwerbeh_g": [True]}),
+        ),
+        (
+            pd.DataFrame({"schwerbeh_g": ["True"]}),
+            bool,
+            pd.DataFrame({"schwerbeh_g": [True]}),
+        ),
+        (
+            pd.DataFrame({"vermögen_hh": ["235.46"]}),
+            float,
+            pd.DataFrame({"vermögen_hh": [235.46]}),
+        ),
+        # (pd.DataFrame({"date": ["2020"]}),
+        # np.datetime64('2020-01-01'))
     ],
 )
-def test_convert_series_to_internal_types(data, expected_data):
-    for label, series in data.items():
-        internal_type = type(expected_data)
-        data[label] = convert_series_to_internal_type(series, internal_type)
-    np.testing.assert_array_almost_equal(data, expected_data)
+def test_convert_series_to_internal_types(
+    input_data, expected_type, expected_output_data
+):
+    for label, series in input_data.items():
+        internal_type = expected_type
+        input_data[label] = convert_series_to_internal_type(series, internal_type)
+    np.testing.assert_array_almost_equal(input_data, expected_output_data)

@@ -11,7 +11,6 @@ from gettsim.functions_loader import _load_functions
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.policy_environment import load_reforms_for_date
 from gettsim.policy_environment import set_up_policy_environment
-from gettsim.typing import convert_series_to_internal_type
 
 
 YEARS = [2019]
@@ -99,7 +98,10 @@ def test_data_types(
                 internal_type = year_functions[column_name].__annotations__["return"]
             else:
                 raise ValueError("Column name unknown.")
-            out, _ = convert_series_to_internal_type(series, internal_type)
+            if type(series) == type(internal_type):
+                out = True
+            else:
+                out = False
             if not out:
                 raise AssertionError(
                     f"{column_name} has datatype {series.dtype}, "

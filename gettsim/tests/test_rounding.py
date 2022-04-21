@@ -13,6 +13,8 @@ from gettsim.functions_loader import _load_functions
 from gettsim.policy_environment import load_reforms_for_date
 from gettsim.shared import add_rounding_spec
 
+# from tests.test_interface import input_data
+
 
 rounding_specs_and_exp_results = [
     (1, "up", [100.24, 100.78], [101.0, 101.0]),
