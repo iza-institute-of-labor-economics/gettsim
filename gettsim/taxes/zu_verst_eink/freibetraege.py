@@ -2,7 +2,7 @@ import numpy as np
 
 
 def _eink_st_behinderungsgrad_pauschbetrag(
-    behinderungsgrad: int, eink_st_abzüge_params: dict
+    behinderungsgrad: int, eink_st_abzuege_params: dict
 ) -> float:
     """Assign tax deduction allowance for handicaped to different handicap degrees.
 
@@ -10,8 +10,8 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     ----------
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -19,7 +19,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     """
 
     # Get disability degree thresholds
-    bins = sorted(eink_st_abzüge_params["behinderten_pauschbetrag"])
+    bins = sorted(eink_st_abzuege_params["behinderten_pauschbetrag"])
 
     # Select corresponding bin.
     selected_bin_index = (
@@ -28,13 +28,13 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     selected_bin = bins[selected_bin_index]
 
     # Select appropriate pauschbetrag.
-    out = eink_st_abzüge_params["behinderten_pauschbetrag"][selected_bin]
+    out = eink_st_abzuege_params["behinderten_pauschbetrag"][selected_bin]
 
     return out
 
 
 def eink_st_alleinerz_freib_tu_bis_2014(
-    alleinerz_tu: bool, eink_st_abzüge_params: dict
+    alleinerz_tu: bool, eink_st_abzuege_params: dict
 ) -> float:
     """Calculates tax deduction allowance for single parents until 2014.
 
@@ -44,15 +44,15 @@ def eink_st_alleinerz_freib_tu_bis_2014(
     ----------
     alleinerz_tu
         See :func:`alleinerz_tu`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
 
     """
     if alleinerz_tu:
-        out = eink_st_abzüge_params["alleinerz_freibetrag"]
+        out = eink_st_abzuege_params["alleinerz_freibetrag"]
     else:
         out = 0.0
 
@@ -62,7 +62,7 @@ def eink_st_alleinerz_freib_tu_bis_2014(
 def eink_st_alleinerz_freib_tu_ab_2015(
     alleinerz_tu: bool,
     anz_kinder_tu: int,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculates tax deduction allowance for single parents since 2015.
 
@@ -75,16 +75,16 @@ def eink_st_alleinerz_freib_tu_ab_2015(
         See :func:`alleinerz_tu`.
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
 
     """
     alleinerz_freib_tu = (
-        eink_st_abzüge_params["alleinerz_freibetrag"]
-        + anz_kinder_tu * eink_st_abzüge_params["alleinerz_freibetrag_zusatz"]
+        eink_st_abzuege_params["alleinerz_freibetrag"]
+        + anz_kinder_tu * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz_tu:
         out = alleinerz_freib_tu
@@ -100,7 +100,7 @@ def eink_st_altersfreib(
     kapitaleink_brutto_m: float,
     eink_selbst_m: float,
     eink_vermietung_m: float,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculates tax deduction allowance for elderly.
 
@@ -116,31 +116,31 @@ def eink_st_altersfreib(
         See :func:`eink_selbst_m`.
     eink_vermietung_m
         See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
 
     """
-    altersgrenze = eink_st_abzüge_params["altersentlastungsbetrag_altersgrenze"]
+    altersgrenze = eink_st_abzuege_params["altersentlastungsbetrag_altersgrenze"]
     weiteres_einkommen = max(
         kapitaleink_brutto_m + eink_selbst_m + eink_vermietung_m, 0.0
     )
     if alter > altersgrenze:
         out = (
-            eink_st_abzüge_params["altersentlastung_quote"]
+            eink_st_abzuege_params["altersentlastung_quote"]
             * 12
             * (bruttolohn_m + weiteres_einkommen)
         )
-        out = min(out, eink_st_abzüge_params["altersentlastungsbetrag_max"])
+        out = min(out, eink_st_abzuege_params["altersentlastungsbetrag_max"])
     else:
         out = 0.0
 
     return out
 
 
-def eink_st_sonderausgaben_bis_2011(kind: bool, eink_st_abzüge_params: dict) -> float:
+def eink_st_sonderausgaben_bis_2011(kind: bool, eink_st_abzuege_params: dict) -> float:
     """Calculating sonderausgaben for childcare until 2011.
 
     There is only a lumpsum payment implemented.
@@ -148,15 +148,15 @@ def eink_st_sonderausgaben_bis_2011(kind: bool, eink_st_abzüge_params: dict) ->
     ----------
     kind
         See basic input variable :ref:`kind <kind>`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
 
     """
     if kind:
-        out = eink_st_abzüge_params["sonderausgabenpauschbetrag"]
+        out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]
     else:
         out = 0.0
 
@@ -168,7 +168,7 @@ def eink_st_sonderausgaben_ab_2012(
     kind: bool,
     anz_kinder_tu: int,
     anz_erwachsene_tu: int,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate sonderausgaben for childcare since 2012.
 
@@ -184,8 +184,8 @@ def eink_st_sonderausgaben_ab_2012(
         See :func:`anz_kinder_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -193,7 +193,7 @@ def eink_st_sonderausgaben_ab_2012(
     """
     abziehbare_betreuungskosten = min(
         12 * betreuungskost_m,
-        eink_st_abzüge_params["kinderbetreuungskosten_abz_maximum"],
+        eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
     )
 
     if kind:
@@ -202,7 +202,7 @@ def eink_st_sonderausgaben_ab_2012(
         out = (
             anz_kinder_tu
             * abziehbare_betreuungskosten
-            * eink_st_abzüge_params["kinderbetreuungskosten_abz_anteil"]
+            * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
         ) / anz_erwachsene_tu
 
     return out
@@ -211,7 +211,7 @@ def eink_st_sonderausgaben_ab_2012(
 def eink_st_kinderfreib_tu(
     anz_kinder_mit_kindergeld_tu: float,
     anz_erwachsene_tu: int,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Aggregate child allowances on tax unit level.
 
@@ -221,14 +221,14 @@ def eink_st_kinderfreib_tu(
         See :func:`anz_kinder_mit_kindergeld_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
 
     """
-    kifreib_total = sum(eink_st_abzüge_params["kinderfreibetrag"].values())
+    kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
     out = kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
     return out

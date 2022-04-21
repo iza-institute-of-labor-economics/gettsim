@@ -16,10 +16,10 @@ from gettsim.taxes.eink_st import eink_st_tu_ab_1997
 from gettsim.taxes.eink_st import eink_st_tu_bis_1996
 from gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import sum_eink_ohne_kapital
-from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_alleinerz_freib_tu_ab_2015
-from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_alleinerz_freib_tu_bis_2014
-from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_ab_2015
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_bis_2014
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_bis_2011
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2005_bis_2009
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2010_bis_2019
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2020
@@ -224,13 +224,13 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
         # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
             pd.Series(jahr),
-            thresholds=params["eink_st_abzüge"]["einführungsfaktor"]["thresholds"],
-            rates=params["eink_st_abzüge"]["einführungsfaktor"]["rates"],
-            intercepts_at_lower_thresholds=params["eink_st_abzüge"][
+            thresholds=params["eink_st_abzuege"]["einführungsfaktor"]["thresholds"],
+            rates=params["eink_st_abzuege"]["einführungsfaktor"]["rates"],
+            intercepts_at_lower_thresholds=params["eink_st_abzuege"][
                 "einführungsfaktor"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzüge"][
+        params["eink_st_abzuege"][
             "einführungsfaktor_vorsorgeaufw_alter_ab_2005"
         ] = out.loc[0]
     return params
