@@ -23,7 +23,7 @@ INPUT_COLS = [
 ]
 
 
-YEARS = [2002, 2010, 2018, 2019, 2020]
+YEARS = [2002, 2010, 2018, 2019, 2020, 2022]
 OUT_COLS = [
     "sozialv_beitr_gesamt_m",
     "ges_rentenv_beitr_m",

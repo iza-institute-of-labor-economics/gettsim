@@ -71,7 +71,6 @@ def in_gleitzone(
 
 def midi_job_bemessungsentgelt_ab_2005_bis_2008(
     bruttolohn_m: float,
-    in_gleitzone: bool,
     soz_vers_beitr_params: dict,
 ) -> float:
     """Select income subject to social insurance contributions for midi job.
@@ -125,9 +124,10 @@ def midi_job_bemessungsentgelt_ab_2005_bis_2008(
     mini_job_anteil = (
         f * soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
-    lohn_über_mini = (bruttolohn_m * in_gleitzone) - soz_vers_beitr_params[
-        "geringfügige_eink_grenzen_m"
-    ]["mini_job"]["west"]
+    lohn_über_mini = (
+        bruttolohn_m
+        - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
+    )
     gewichtete_midi_job_rate = (
         soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
         / (
@@ -143,8 +143,7 @@ def midi_job_bemessungsentgelt_ab_2005_bis_2008(
         * f
     )
 
-    out = mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
-    return out
+    return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
 def midi_job_bemessungsentgelt_ab_2009(
@@ -163,8 +162,6 @@ def midi_job_bemessungsentgelt_ab_2009(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -174,7 +171,7 @@ def midi_job_bemessungsentgelt_ab_2009(
     FloatSeries with the income subject to social insurance contributions for midi job.
     """
     # First calculate the factor F from the formula in § 163 (10) SGB VI
-    # Therefore sum the contributions which are the same for employee and employer
+    # Therefore sum the contributions from employee and employer
     allg_soz_vers_beitr = (
         soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
         + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
@@ -197,9 +194,8 @@ def midi_job_bemessungsentgelt_ab_2009(
         + soz_vers_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
         + soz_vers_beitr_params["ag_abgaben_geringf"]["st"]
     )
-    # Now calculate final factor
+    # Now calculate factor F
     f = round(pausch_mini / (an_anteil + ag_anteil), 4)
-
     # Now use the factor to calculate the overall bemessungsentgelt
     mini_job_anteil = (
         f * soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
@@ -223,9 +219,7 @@ def midi_job_bemessungsentgelt_ab_2009(
         )
         * f
     )
-
-    out = mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
-    return out
+    return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
 
 
 def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> bool:

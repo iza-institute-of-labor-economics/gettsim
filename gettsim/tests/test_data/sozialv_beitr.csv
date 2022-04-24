@@ -14,3 +14,5 @@ hh_id,tu_id,p_id,bruttolohn_m,wohnort_ost,alter,selbstständig,hat_kinder,eink_s
 13,13,111,700,FALSE,20,FALSE,FALSE,0,0,FALSE,2002,144.55,,,,,675.85,66.85,5.95,49,22.75,,
 14,14,4684,0,FALSE,40,TRUE,TRUE,2500,0,FALSE,2019,433.37438,,,,,-193.2,0,71.25563,362.11875,0,,
 15,15,222,3000,FALSE,40,FALSE,FALSE,0,0,FALSE,2020,603.75,,,,,,279,53.25,235.5,36,,Sozialversicherungs-Rechner auf www.barmer.de
+16,16,223,750,FALSE,40,FALSE,FALSE,0,0,FALSE,2022,123.80,,,,,,56.25,11.59,48.70,7.26,,Sozialversicherungs-Rechner auf www.barmer.de
+17,17,224,1050,FALSE,40,FALSE,TRUE,0,0,FALSE,2022,197.53,,,,,,91.51,15.01,79.21,11.80,,Sozialversicherungs-Rechner auf www.barmer.de
