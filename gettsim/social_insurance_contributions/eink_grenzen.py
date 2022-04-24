@@ -125,10 +125,9 @@ def midi_job_bemessungsentgelt_ab_2005_bis_2008(
     mini_job_anteil = (
         f * soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
-    lohn_über_mini = (
-        bruttolohn_m.loc[in_gleitzone]
-        - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
-    )
+    lohn_über_mini = (bruttolohn_m * in_gleitzone) - soz_vers_beitr_params[
+        "geringfügige_eink_grenzen_m"
+    ]["mini_job"]["west"]
     gewichtete_midi_job_rate = (
         soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
         / (
