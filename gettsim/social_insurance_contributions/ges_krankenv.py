@@ -3,7 +3,7 @@ def ges_krankenv_beitr_m(
     ges_krankenv_beitr_rente_m: float,
     ges_krankenv_beitr_selbst_m: float,
     in_gleitzone: bool,
-    _ges_krankenv_beitr_midi_job_m: float,
+    ges_krankenv_beitr_midi_job_m: float,
     _ges_krankenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
     selbstständig: bool,
@@ -18,8 +18,8 @@ def ges_krankenv_beitr_m(
         See :func:`ges_krankenv_beitr_rente_m`.
     ges_krankenv_beitr_selbst_m
         See :func:`ges_krankenv_beitr_selbst_m`.
-    _ges_krankenv_beitr_midi_job_m
-        See :func:`_ges_krankenv_beitr_midi_job_m`.
+    ges_krankenv_beitr_midi_job_m
+        See :func:`ges_krankenv_beitr_midi_job_m`.
     in_gleitzone
         See :func:`in_gleitzone`.
     _ges_krankenv_beitr_bruttolohn_m
@@ -44,7 +44,7 @@ def ges_krankenv_beitr_m(
     elif geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
-        out = _ges_krankenv_beitr_midi_job_m
+        out = ges_krankenv_beitr_midi_job_m
     else:
         out = beitr_regulär_beschäftigt_m
 
@@ -334,7 +334,7 @@ def _ges_krankenv_bemessungsgrundlage_rente_m(
 
 
 def _ges_krankenv_beitr_rente_until2005(
-    ges_krankenv_rente: float, soz_vers_beitr_params: dict
+    ges_krankenv_rente_m: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for pension incomes until 2008.
 
@@ -343,8 +343,8 @@ def _ges_krankenv_beitr_rente_until2005(
 
     Parameters
     ----------
-    _ges_krankenv_bemessungsgrundlage_rente_m
-        See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
+    ges_krankenv_rente_m
+        See :func:`ges_krankenv_rente_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -355,11 +355,11 @@ def _ges_krankenv_beitr_rente_until2005(
 
     return (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["durchschnitt"] / 2
-    ) * ges_krankenv_rente
+    ) * ges_krankenv_rente_m
 
 
 def _ges_krankenv_beitr_rente_2005_2008(
-    ges_krankenv_rente: float, soz_vers_beitr_params: dict
+    ges_krankenv_rente_m: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for pension incomes
 
@@ -370,8 +370,8 @@ def _ges_krankenv_beitr_rente_2005_2008(
 
     Parameters
     ----------
-    ges_krankenv_rente
-        See :func:`ges_krankenv_rente`.
+    ges_krankenv_rente_m
+        See :func:`ges_krankenv_rente_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -382,12 +382,12 @@ def _ges_krankenv_beitr_rente_2005_2008(
     out = (
         (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["durchschnitt"] / 2)
         + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zusatz"]
-    ) * ges_krankenv_rente
+    ) * ges_krankenv_rente_m
     return out
 
 
 def _ges_krankenv_beitr_rente_2009_2018(
-    ges_krankenv_rente: float, soz_vers_beitr_params: dict
+    ges_krankenv_rente_m: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for pension incomes
 
@@ -398,8 +398,8 @@ def _ges_krankenv_beitr_rente_2009_2018(
 
     Parameters
     ----------
-    ges_krankenv_rente
-        See :func:`ges_krankenv_rente`.
+    ges_krankenv_rente_m
+        See :func:`ges_krankenv_rente_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -410,12 +410,12 @@ def _ges_krankenv_beitr_rente_2009_2018(
     out = (
         (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allgemein"] / 2)
         + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zusatz"]
-    ) * ges_krankenv_rente
+    ) * ges_krankenv_rente_m
     return out
 
 
 def _ges_krankenv_beitr_rente_ab_2019(
-    ges_krankenv_rente: float, soz_vers_beitr_params: dict
+    ges_krankenv_rente_m: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for pension incomes
 
@@ -425,8 +425,8 @@ def _ges_krankenv_beitr_rente_ab_2019(
 
     Parameters
     ----------
-    ges_krankenv_rente
-        See :func:`ges_krankenv_rente`.
+    ges_krankenv_rente_m
+        See :func:`ges_krankenv_rente_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -440,7 +440,7 @@ def _ges_krankenv_beitr_rente_ab_2019(
             + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zusatz"]
         )
         / 2
-    ) * ges_krankenv_rente
+    ) * ges_krankenv_rente_m
 
     return out
 
@@ -554,7 +554,7 @@ def _ag_beitr_ges_krankenv_midi_job_ab_2009(
 
 
 def an_beitr_ges_krankenv_midi_job(
-    ges_beitr_ges_krankenv_midi_job: float,
+    ges_krankenv_beitr_midi_job_m: float,
     ag_beitr_ges_krankenv_midi_job: float,
 ) -> float:
     """Calculating the employer health insurance contribution.
@@ -562,15 +562,15 @@ def an_beitr_ges_krankenv_midi_job(
 
     Parameters
     ----------
-    ges_beitr_ges_krankenv_midi_job
-        See :func:`ges_beitr_ges_krankenv_midi_job`.
+    ges_krankenv_beitr_midi_job_m
+        See :func:`ges_krankenv_beitr_midi_job_m`.
     ag_beitr_ges_krankenv_midi_job
         See :func:`ag_beitr_ges_krankenv_midi_job`.
     Returns
     -------
 
     """
-    return ges_beitr_ges_krankenv_midi_job - ag_beitr_ges_krankenv_midi_job
+    return ges_krankenv_beitr_midi_job_m - ag_beitr_ges_krankenv_midi_job
 
 
 def selbstständig_ges_krankenv(selbstständig: bool, in_priv_krankenv: bool) -> bool:

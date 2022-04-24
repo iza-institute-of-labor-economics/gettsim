@@ -405,48 +405,48 @@ def load_reforms_for_date(date):
             "ag_beitr_ges_krankenv_midi_job"
         ] = _ag_beitr_ges_krankenv_midi_job_ab_2003_bis_2008
         functions[
-            "ges_beitr_ges_krankenv_midi_job"
+            "ges_krankenv_beitr_midi_job_m"
         ] = _ges_beitr_ges_krankenv_midi_job_ab_2003_bis_2008
         functions[
-            "midi_job_bemessungsentgelt"
+            "midi_job_bemessungsentgelt_m"
         ] = midi_job_bemessungsentgelt_ab_2005_bis_2008
     else:
         functions[
             "ag_beitr_ges_krankenv_midi_job"
         ] = _ag_beitr_ges_krankenv_midi_job_ab_2009
         functions[
-            "ges_beitr_ges_krankenv_midi_job"
+            "ges_krankenv_beitr_midi_job_m"
         ] = _ges_beitr_ges_krankenv_midi_job_ab_2009
-        functions["midi_job_bemessungsentgelt"] = midi_job_bemessungsentgelt_ab_2009
+        functions["midi_job_bemessungsentgelt_m"] = midi_job_bemessungsentgelt_ab_2009
 
     if datetime.date(1993, 1, 1) <= date < datetime.date(2005, 7, 1):
-        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_until2005
+        functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_until2005
         functions[
             "_ges_krankenv_beitr_reg_beschäftigt"
         ] = _ges_krankenv_beitr_reg_beschäftigt_bis_06_2005
-        functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_before2005
+        functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_before2005
     elif (
         datetime.date(year=2005, month=7, day=1)
         <= date
         <= datetime.date(year=2008, month=12, day=31)
     ):
-        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_2005_2008
+        functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_2005_2008
         functions[
             "_ges_krankenv_beitr_reg_beschäftigt"
         ] = _ges_krankenv_beitr_reg_beschäftigt_ab_07_2005_bis_2008
-        functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_2005_2008
+        functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_2005_2008
     elif (year <= 1992) or (year <= 2009 <= 2018):
-        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_2009_2018
+        functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_2009_2018
         functions[
             "_ges_krankenv_beitr_reg_beschäftigt"
         ] = _ges_krankenv_beitr_reg_beschäftigt_ab_2009_bis_2018
-        functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_ab_2009
+        functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_ab_2009
     else:
-        functions["ges_krankenv_beitr_rente"] = _ges_krankenv_beitr_rente_ab_2019
+        functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_ab_2019
         functions[
             "_ges_krankenv_beitr_reg_beschäftigt"
         ] = _ges_krankenv_beitr_reg_beschäftigt_ab_2019
-        functions["ges_krankenv_beitr_selbst"] = _ges_krankenv_beitr_selbst_ab_2009
+        functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_ab_2009
 
     return functions
 

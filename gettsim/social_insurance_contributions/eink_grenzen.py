@@ -105,11 +105,11 @@ def midi_job_bemessungsentgelt_ab_2005_bis_2008(
     # Then calculate specific shares
     an_anteil = (
         allg_soz_vers_beitr
-        + (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["durchschnitt"] / 2)
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zusatz"]
+        + (soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["durchschnitt"] / 2)
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["zusatz"]
     )
     ag_anteil = allg_soz_vers_beitr + (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["durchschnitt"] / 2
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["durchschnitt"] / 2
     )
 
     # Sum over the shares which are specific for midi jobs.
@@ -123,23 +123,23 @@ def midi_job_bemessungsentgelt_ab_2005_bis_2008(
 
     # Now use the factor to calculate the overall bemessungsentgelt
     mini_job_anteil = (
-        f * soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        f * soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
     lohn_über_mini = (
         bruttolohn_m.loc[in_gleitzone]
-        - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
     )
     gewichtete_midi_job_rate = (
-        soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
+        soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
         / (
-            soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
-            - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+            soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
+            - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
         )
     ) - (
-        soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+        soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
         / (
-            soz_vers_beitr_params["geringfügige_eink_grenzen"]["midi_job"]
-            - soz_vers_beitr_params["geringfügige_eink_grenzen"]["mini_job"]["west"]
+            soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
+            - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
         )
         * f
     )
@@ -177,19 +177,19 @@ def midi_job_bemessungsentgelt_ab_2009(
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
     allg_soz_vers_beitr = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_rentenv"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_pflegev"]["standard"]
-        + soz_vers_beitr_params["soz_vers_beitr"]["arbeitsl_v"]
+        soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
+        + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        + soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
 
     # Then calculate specific shares
     an_anteil = (
         allg_soz_vers_beitr
-        + (soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allgemein"] / 2)
-        + soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["zusatz"]
+        + (soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"] / 2)
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["zusatz"]
     )
     ag_anteil = allg_soz_vers_beitr + (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["allgemein"] / 2
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"] / 2
     )
 
     # Sum over the shares which are specific for midi jobs.
