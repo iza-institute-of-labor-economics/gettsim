@@ -4,8 +4,7 @@ def ges_krankenv_beitr_m(
     ges_krankenv_beitr_selbst_m: float,
     in_gleitzone: bool,
     ges_krankenv_beitr_midi_job_m: float,
-    _ges_krankenv_beitr_bruttolohn_m: float,
-    soz_vers_beitr_params: dict,
+    _ges_krankenv_beitr_reg_beschäftigt: float,
     selbstständig: bool,
 ) -> float:
     """Contribution for each individual to the public health insurance.
@@ -20,12 +19,10 @@ def ges_krankenv_beitr_m(
         See :func:`ges_krankenv_beitr_selbst_m`.
     ges_krankenv_beitr_midi_job_m
         See :func:`ges_krankenv_beitr_midi_job_m`.
+    _ges_krankenv_beitr_reg_beschäftigt
+        See :func:`_ges_krankenv_beitr_reg_beschäftigt`.
     in_gleitzone
         See :func:`in_gleitzone`.
-    _ges_krankenv_beitr_bruttolohn_m
-        See :func:`_ges_krankenv_beitr_bruttolohn_m`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     selbstständig
         See basic input variable :ref:`selbstständig <selbstständig>`.
 
@@ -34,10 +31,6 @@ def ges_krankenv_beitr_m(
     -------
 
     """
-    beitr_regulär_beschäftigt_m = (
-        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"]
-        * _ges_krankenv_beitr_bruttolohn_m
-    )
 
     if selbstständig:
         out = ges_krankenv_beitr_selbst_m
@@ -46,14 +39,14 @@ def ges_krankenv_beitr_m(
     elif in_gleitzone:
         out = ges_krankenv_beitr_midi_job_m
     else:
-        out = beitr_regulär_beschäftigt_m
+        out = _ges_krankenv_beitr_reg_beschäftigt
 
     # Add the health insurance contribution for pensions
     return out + ges_krankenv_beitr_rente_m
 
 
 def _ges_krankenv_beitr_reg_beschäftigt_bis_06_2005(
-    bruttolohn_ges_krankenv_beitr_m: float, soz_vers_beitr_params: dict
+    _ges_krankenv_bruttolohn_m: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for regular jobs until 2008.
 
@@ -62,8 +55,8 @@ def _ges_krankenv_beitr_reg_beschäftigt_bis_06_2005(
 
     Parameters
     ----------
-    bruttolohn_ges_krankenv_beitr_m
-        See :func:`bruttolohn_ges_krankenv_beitr_m`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -74,11 +67,11 @@ def _ges_krankenv_beitr_reg_beschäftigt_bis_06_2005(
 
     return (
         soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["durchschnitt"] / 2
-    ) * bruttolohn_ges_krankenv_beitr_m
+    ) * _ges_krankenv_bruttolohn_m
 
 
 def _ges_krankenv_beitr_reg_beschäftigt_ab_07_2005_bis_2008(
-    bruttolohn_ges_krankenv_beitr_m: float, soz_vers_beitr_params: dict
+    _ges_krankenv_bruttolohn_m: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for regular jobs
 
@@ -89,8 +82,8 @@ def _ges_krankenv_beitr_reg_beschäftigt_ab_07_2005_bis_2008(
 
     Parameters
     ----------
-    bruttolohn_ges_krankenv_beitr_m
-        See :func:`bruttolohn_ges_krankenv_beitr_m`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -101,11 +94,11 @@ def _ges_krankenv_beitr_reg_beschäftigt_ab_07_2005_bis_2008(
     return (
         (soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["durchschnitt"] / 2)
         + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["zusatz"]
-    ) * bruttolohn_ges_krankenv_beitr_m
+    ) * _ges_krankenv_bruttolohn_m
 
 
 def _ges_krankenv_beitr_reg_beschäftigt_ab_2009_bis_2018(
-    bruttolohn_ges_krankenv_beitr_m: float, soz_vers_beitr_params: dict
+    _ges_krankenv_bruttolohn_m: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for regular jobs
 
@@ -116,8 +109,8 @@ def _ges_krankenv_beitr_reg_beschäftigt_ab_2009_bis_2018(
 
     Parameters
     ----------
-    bruttolohn_ges_krankenv_beitr_m
-        See :func:`bruttolohn_ges_krankenv_beitr_m`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -128,11 +121,11 @@ def _ges_krankenv_beitr_reg_beschäftigt_ab_2009_bis_2018(
     return (
         (soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"] / 2)
         + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["zusatz"]
-    ) * bruttolohn_ges_krankenv_beitr_m
+    ) * _ges_krankenv_bruttolohn_m
 
 
 def _ges_krankenv_beitr_reg_beschäftigt_ab_2019(
-    bruttolohn_ges_krankenv_beitr_m: float, soz_vers_beitr_params: dict
+    _ges_krankenv_bruttolohn_m: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for regular jobs
 
@@ -142,8 +135,8 @@ def _ges_krankenv_beitr_reg_beschäftigt_ab_2019(
 
     Parameters
     ----------
-    bruttolohn_ges_krankenv_beitr_m
-        See :func:`bruttolohn_ges_krankenv_beitr_m`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
@@ -158,10 +151,10 @@ def _ges_krankenv_beitr_reg_beschäftigt_ab_2019(
             + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["zusatz"]
         )
         / 2
-    ) * bruttolohn_ges_krankenv_beitr_m
+    ) * _ges_krankenv_bruttolohn_m
 
 
-def _ges_krankenv_beitr_bruttolohn_m(
+def _ges_krankenv_bruttolohn_m(
     bruttolohn_m: float,
     _ges_krankenv_beitr_bemess_grenze_m: float,
     regulär_beschäftigt: bool,
@@ -242,7 +235,9 @@ def _ges_krankenv_beitr_selbst_2005_2008(
     return _ges_krankenv_bemessungsgrundlage_rente_m * beitr_satz
 
 
-def _ges_krankenv_beitr_selbst_ab_2009(soz_vers_beitr_params: dict) -> float:
+def _ges_krankenv_beitr_selbst_ab_2009(
+    _ges_krankenv_bemessungsgrundlage_eink_selbst, soz_vers_beitr_params: dict
+) -> float:
     """Calculates health insurance contributions.
     Self-employed pay the full
     contribution (employer + employee), which is either assessed on their
@@ -263,6 +258,7 @@ def _ges_krankenv_beitr_selbst_ab_2009(soz_vers_beitr_params: dict) -> float:
         soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"]
         + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["zusatz"]
     )
+
     return _ges_krankenv_bemessungsgrundlage_eink_selbst * beitr_satz
 
 

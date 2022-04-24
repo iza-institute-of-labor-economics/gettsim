@@ -435,7 +435,7 @@ def load_reforms_for_date(date):
             "_ges_krankenv_beitr_reg_beschäftigt"
         ] = _ges_krankenv_beitr_reg_beschäftigt_ab_07_2005_bis_2008
         functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_2005_2008
-    elif (year <= 1992) or (year <= 2009 <= 2018):
+    elif (year <= 1992) or (2009 <= year <= 2018):
         functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_2009_2018
         functions[
             "_ges_krankenv_beitr_reg_beschäftigt"
