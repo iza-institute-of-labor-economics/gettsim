@@ -26,13 +26,13 @@ YEARS = [2010, 2011, 2015, 2019]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_ui.csv"
+    file_name = "arbeitsl_geld.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_ui(
+def test_arbeitsl_geld(
     input_data,
     year,
 ):

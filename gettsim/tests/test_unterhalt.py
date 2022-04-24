@@ -29,7 +29,7 @@ YEAR_MONTHS = [[2018, 1], [2019, 1], [2019, 8]]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_uhv.csv"
+    file_name = "unterhalt.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
@@ -42,7 +42,7 @@ def input_data():
         for year_month in YEAR_MONTHS
     ],
 )
-def test_uhv(input_data, column, year, month):
+def test_unterhalt(input_data, column, year, month):
     year_data = input_data[
         (input_data["jahr"] == year) & (input_data["monat"] == month)
     ].reset_index(drop=True)

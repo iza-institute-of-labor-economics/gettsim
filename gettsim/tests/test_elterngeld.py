@@ -45,13 +45,13 @@ OVERRIDE_COLS = [
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_eltg.csv"
+    file_name = "elterngeld.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_eltgeld(
+def test_elterngeld(
     year,
     column,
     input_data,

@@ -20,7 +20,7 @@ from gettsim.shared import add_rounding_spec
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_tax_transfer.csv"
+    file_name = "full_taxes_and_transfers.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
@@ -232,3 +232,64 @@ def test_partial_parameters_to_functions_keep_decorator():
     )["test_func"]
 
     assert partial_func.__rounding_params_key__ == "params_key_test"
+
+
+def test_user_provided_aggregation_specs():
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m": [100, 100, 100],
+        }
+    )
+    aggregation_specs = {
+        "arbeitsl_geld_2_m_hh": {
+            "source_col": "arbeitsl_geld_2_m",
+            "aggr": "sum",
+        }
+    }
+    expected_res = pd.Series([200, 200, 100])
+
+    out = compute_taxes_and_transfers(
+        data,
+        {},
+        functions=[],
+        targets="arbeitsl_geld_2_m_hh",
+        aggregation_specs=aggregation_specs,
+    )
+
+    np.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
+
+
+def test_user_provided_aggregation_specs_function():
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m": [200, 100, 100],
+        }
+    )
+    aggregation_specs = {
+        "arbeitsl_geld_2_m_double_hh": {
+            "source_col": "arbeitsl_geld_2_m_double",
+            "aggr": "max",
+        }
+    }
+    expected_res = pd.Series([400, 400, 200])
+
+    def arbeitsl_geld_2_m_double(arbeitsl_geld_2_m):
+        return 2 * arbeitsl_geld_2_m
+
+    out = compute_taxes_and_transfers(
+        data,
+        {},
+        functions=[arbeitsl_geld_2_m_double],
+        targets="arbeitsl_geld_2_m_double_hh",
+        aggregation_specs=aggregation_specs,
+    )
+
+    np.testing.assert_array_almost_equal(
+        out["arbeitsl_geld_2_m_double_hh"], expected_res
+    )

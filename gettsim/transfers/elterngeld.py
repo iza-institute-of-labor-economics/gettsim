@@ -60,7 +60,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     bruttolohn_vorj_m: float,
     elterngeld_params: dict,
     eink_st_params: dict,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
     soli_st_params: dict,
 ) -> float:
     """Calculating the claim for benefits depending on previous wage.
@@ -75,8 +75,8 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -91,7 +91,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     prox_ssc = elterngeld_params["soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_income = 12 * max_wage - eink_st_abzüge_params["werbungskostenpauschale"]
+    prox_income = 12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"]
     prox_income = max(prox_income, 0.0)
 
     prox_tax = _eink_st_tarif(

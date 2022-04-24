@@ -17,7 +17,7 @@ requirements:
     - setuptools
 
   run:
-    - python >=3.6
+    - python >=3.8
     - bokeh
     - networkx
     - pandas
@@ -25,6 +25,8 @@ requirements:
     - pygments
     - pytest
     - pyyaml
+    - numpy_groupies
+    - ipython
 
 test:
   requires:

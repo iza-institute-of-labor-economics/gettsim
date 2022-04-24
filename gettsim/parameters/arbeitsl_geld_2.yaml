@@ -62,6 +62,7 @@ eink_anr_frei:
     deviation_from: previous
     2:
       upper_threshold: 1000
+
 eink_anr_frei_kinder:
   name:
     de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt

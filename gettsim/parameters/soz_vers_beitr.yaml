@@ -255,7 +255,6 @@ beitr_satz:
   2022-01-01:
     deviation_from: previous
     ges_pflegev:
-      standard: 0.01175
       zusatz_kinderlos: 0.0035
     reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
 
@@ -802,13 +801,13 @@ ag_abgaben_geringf:
     ges_rentenv: 0.15
     st: 0.02
 
-ges_pflegev_zusatz_kinderlos_altersgrenze:
+ges_pflegev_zusatz_kinderlos_mindestalter:
   name:
-    de: Altersgrenze Beitragszuschlag für Kinderlose
-    en: Age limit additional contribution for childless
+    de: Mindestalter Beitragszuschlag für Kinderlose
+    en: Minimum age for additional contribution for childless
   description:
-    de: Der Beitragssatz für Kinderlose steigt ab dieser Altersgrenze an.
-    en: The contribution rate for childless people increases from this age limit.
+    de: Der Beitragssatz für Kinderlose ist ab diesem Alter höher.
+    en: Childless individuals face a higher contribution rate starting at this age.
   unit: Year
   reference: § 55 Abs. 3 SGB XI
   2005-01-01:

@@ -5,7 +5,13 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.5.0 —
+0.5.1 —
+------------------
+* :gh:`377` Fix wrong parameter value for `ges_pflegev` contribution
+  (:ghuser:`JuergenWiemers`).
+* :gh:`383` Remove ä, ö, ü from file names (:ghuser:`ChristianZimpelmann`).
+
+0.5.0 — 01.04.2022
 ------------------
 
 * :gh:`327` add behinderten_pauschbetrag for 1975-1986 (:ghuser:`lillyfischer`).
@@ -45,9 +51,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`355` Major renaming based on GEP 01, e.g.: correct use of ``_m``-suffix;
   ``alleinerziehend`` becomes ``alleinerz``; rename `ges_rentenv.yaml` to
   `ges_rente.yaml` (:ghuser:`hmgaudecker`, :ghuser:`ChristianZimpelmann`)
-* :gh:`356` Define functions on scalars and have them vectorised by numpy or jax.
-  Implement aggregation functions on group levels. (:ghuser:`LauraGergeleit`,
-  :ghuser:`ChristianZimpelmann`)
+* :gh:`356` Define functions on scalars and have them vectorised. Implement aggregation
+  functions on group levels. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
 
 0.4.2 — 2022-01-25
 --------------------
@@ -202,7 +207,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 0.2.0 — 2019-11-06
 --------------------
 
-This will be the initial release of ``gettsim``.
+Initial release of ``gettsim``.
 
 * Set up as a conda-installable package (:ghuser:`tobiasraabe`)
 * Migration of the parameter database from xls to yaml (:ghuser:`mjbloemer`,
