@@ -91,7 +91,9 @@ def _ges_krankenv_beitr_reg_beschäftigt(
 
 
 def krankenv_beitr_lohnsteuer(
-    bruttolohn_ges_krankenv_beitr_m: FloatSeries, soz_vers_beitr_params: dict
+    bruttolohn_ges_krankenv_beitr_m: FloatSeries,
+    soz_vers_beitr_params: dict,
+    ges_krankenv_zusatz: float,
 ) -> FloatSeries:
     """Calculates health insurance contributions as used by lohnsteuer
     Parameters
@@ -100,6 +102,8 @@ def krankenv_beitr_lohnsteuer(
         See :func:`bruttolohn_ges_krankenv_beitr_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    ges_krankenv_zusatz
+        See basic input variable :ref:`ges_krankenv_zusatz <ges_krankenv_zusatz>`.
     Returns
     -------
     Pandas Series containing monthly health insurance contributions on earnings
@@ -107,11 +111,7 @@ def krankenv_beitr_lohnsteuer(
     # This is essentially 'erm' plus half the top-up contribution.
     return (
         soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["erm"]
-        + (
-            soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["an"]
-            - soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["erm"]
-        )
-        - 0.003
+        + ges_krankenv_zusatz / 100 / 2
     ) * bruttolohn_ges_krankenv_beitr_m
 
 
