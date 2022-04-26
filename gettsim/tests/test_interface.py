@@ -5,8 +5,6 @@ import pandas as pd
 import pytest
 
 from gettsim import compute_taxes_and_transfers
-from gettsim import test
-from gettsim.config import ROOT_DIR
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_functions_and_columns_overlap
@@ -15,13 +13,6 @@ from gettsim.interface import _fail_if_pid_is_non_unique
 from gettsim.interface import _partial_parameters_to_functions
 from gettsim.shared import add_rounding_spec
 from gettsim.typing import convert_series_to_internal_type
-
-
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "full_taxes_and_transfers.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
 
 
 @pytest.fixture(scope="module")
@@ -199,6 +190,8 @@ def test_fail_if_non_unique_cols(minimal_input_data):
 
 
 def test_consecutive_internal_test_runs():
+    from gettsim import test
+
     test("--collect-only")
 
     with pytest.warns(UserWarning, match="Repeated execution of the test suite"):
@@ -317,8 +310,14 @@ def test_user_provided_aggregation_specs_function():
             float,
             pd.DataFrame({"vermögen_hh": [200.0]}),
         ),
-        (pd.DataFrame({"p_id": [1.0]}), int, pd.DataFrame({"p_id": [1]})),
-        (pd.DataFrame({"hh_id": [2.0]}), int, pd.DataFrame({"p_id": [2]})),
+        (
+            pd.DataFrame({"p_id": [1.0, 4.0]}),
+            int,
+            pd.DataFrame(
+                {"p_id": [1, 4]},
+            ),
+        ),
+        (pd.DataFrame({"hh_id": [2.0, 3.0]}), int, pd.DataFrame({"p_id": [2, 3]})),
         (pd.DataFrame({"m_elterngeld": [200.0]}), int, pd.DataFrame({"p_id": [200]})),
         (
             pd.DataFrame({"schwerbeh_g": [1.0]}),
@@ -335,6 +334,11 @@ def test_user_provided_aggregation_specs_function():
             float,
             pd.DataFrame({"vermögen_hh": [235.46]}),
         ),
+        (
+            pd.DataFrame({"test_date": ["2020"]}),
+            np.datetime64,
+            pd.DataFrame({"test_date": [np.datetime64("2020-01-01")]}),
+        ),
         # (pd.DataFrame({"date": ["2020"]}),
         # np.datetime64('2020-01-01'))
     ],
@@ -345,4 +349,4 @@ def test_convert_series_to_internal_types(
     for label, series in input_data.items():
         internal_type = expected_type
         input_data[label] = convert_series_to_internal_type(series, internal_type)
-    np.testing.assert_array_almost_equal(input_data, expected_output_data)
+    pd.testing.assert_series_equal(input_data.iloc[0], expected_output_data.iloc[0])

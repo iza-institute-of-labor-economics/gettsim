@@ -20,14 +20,11 @@ def convert_series_to_internal_type(series, internal_type):
     -------
     out : adjusted pd.Series
     """
+
     if internal_type == float:
-        out = is_float_dtype(series)
-        cond = is_bool_dtype(series)
-        if out:
-            series = series
-        elif cond:
+        if is_bool_dtype(series):
             raise ValueError(f"Conversion of data type to {internal_type} failed.")
-        else:
+        elif not is_float_dtype(series):
             try:
                 series = series.astype(float)
             except ValueError:
