@@ -22,6 +22,7 @@ def convert_series_to_internal_type(series, internal_type):
     """
 
     if internal_type == float:
+        # Conversion from boolean to float fails
         if is_bool_dtype(series):
             raise ValueError(f"Conversion of data type to {internal_type} failed.")
         elif not is_float_dtype(series):
@@ -36,6 +37,7 @@ def convert_series_to_internal_type(series, internal_type):
             cond2 = type(content) == str
         if out:
             series = series
+        # input data type is integer or float
         elif cond:
             for _, content in series.items():
                 if content == 1 or content == 0:
@@ -50,6 +52,7 @@ def convert_series_to_internal_type(series, internal_type):
                         f"Conversion to {internal_type} failed."
                         f" Input data does not consist of 1 or 0."
                     )
+        # input data type is string
         elif cond2:
             for _, content in series.items():
                 if content == "True" or content == "False":
@@ -75,21 +78,22 @@ def convert_series_to_internal_type(series, internal_type):
         if out:
             series = series
         elif cond:
-            adjusted_series = series.astype(int)
-            for _, content in adjusted_series.items():
-                for _, content2 in series.items():
-                    if content2 == content:
-                        try:
-                            series = series.astype(int)
-                        except ValueError:
-                            raise ValueError(
-                                f"Conversion of data type to {internal_type} failed."
-                            )
-                    else:
-                        raise ValueError(
-                            "Data type of input is float but should be int. "
-                            "An automatic conversion would lead to rounded numbers."
-                        )
+            adjusted_series = series.astype(np.int64)
+            sum_adjusted = adjusted_series.sum()
+            sum_original = series.sum()
+            # checking if decimal spaces are equal to 0
+            if sum_adjusted == sum_original:
+                try:
+                    series = series.astype(np.int64)
+                except ValueError:
+                    raise ValueError(
+                        f"Conversion of data type to {internal_type} failed."
+                    )
+            else:
+                raise ValueError(
+                    "Data type of input is float but should be int. "
+                    "An automatic conversion would lead to rounded numbers."
+                )
         else:
             try:
                 series = series.astype(int)
