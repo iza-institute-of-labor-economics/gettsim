@@ -216,7 +216,9 @@ def check_data_check_functions_and_merge_functions(
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
     )
-    # _fail_if_datatype_is_false(data, columns_overriding_functions, all_functions)
+    data = _convert_data_to_correct_types(
+        data, columns_overriding_functions, all_functions
+    )
 
     # Remove functions that are overridden
     all_functions = {
@@ -312,8 +314,8 @@ def prepare_results(results, data, debug):
     return results
 
 
-def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
-    """Check if the provided data has the right types.
+def _convert_data_to_correct_types(data, columns_overriding_functions, functions):
+    """Convert all series of data to the type that is expected by GETTSIM.
 
     Parameters
     ----------
@@ -327,8 +329,7 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
 
     Returns
     -------
-    ValueError
-        Fail if the data types are not matching the required in gettsim.
+    data : dict of pandas.Series with correct type
 
     """
     for column_name, series in data.items():
@@ -341,6 +342,8 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
         ):
             internal_type = functions[column_name].__annotations__["return"]
             data[column_name] = convert_series_to_internal_type(series, internal_type)
+
+    return data
 
 
 def _process_data(data):

@@ -328,8 +328,7 @@ def test_user_provided_aggregation_specs_function():
 def test_convert_series_to_internal_types(
     input_data, expected_type, expected_output_data
 ):
-    internal_type = expected_type
-    adjusted_input = convert_series_to_internal_type(input_data, internal_type)
+    adjusted_input = convert_series_to_internal_type(input_data, expected_type)
     pd.testing.assert_series_equal(adjusted_input, expected_output_data)
 
 

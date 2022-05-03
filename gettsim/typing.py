@@ -22,90 +22,75 @@ def convert_series_to_internal_type(series, internal_type):
     out : adjusted pd.Series
     """
 
+    # Conversion to float
     if internal_type == float:
         # Conversion from boolean to float fails
         if is_bool_dtype(series):
-            raise ValueError(f"Conversion of data type to {internal_type} failed.")
+            raise ValueError("Conversion of boolean to float is not supported.")
         elif not is_float_dtype(series):
             try:
                 series = series.astype(float)
             except ValueError:
                 raise ValueError(f"Conversion of data type to {internal_type} failed.")
+
+    # Conversion to boolean
     elif internal_type == bool:
-        out = is_bool_dtype(series)
-        cond1 = is_integer_dtype(series) or is_float_dtype(series)
-        cond2 = is_object_dtype(series)
-        if out:
-            series = series
+
         # if input data type is integer or float,
-        # check if series consists only of 1 or 0
-        elif cond1:
+        if is_integer_dtype(series) or is_float_dtype(series):
+
+            # check if series consists only of 1 or 0
             if len([v for v in series.unique() if v not in [1, 0]]) == 0:
-                try:
-                    series = series.astype(bool)
-                except ValueError:
-                    raise ValueError(
-                        f"Conversion of data type to {internal_type} failed."
-                    )
+                series = series.astype(bool)
             else:
                 raise ValueError(
-                    f"Conversion to {internal_type} failed."
-                    f" Input data does not only consist of 1 or 0."
+                    "Conversion of int or float to boolean is only supported"
+                    " if input data only consists of 1 and 0."
                 )
-        # if input data type is string, check if series consists only of True or False
-        elif cond2:
+
+        # if input data type is object
+        elif is_object_dtype(series):
+
+            # Check if series consists only of True or False
             if len([v for v in series.unique() if v not in ["True", "False"]]) == 0:
-                try:
-                    series = series.replace({"True": True, "False": False})
-                except ValueError:
-                    raise ValueError(
-                        f"Conversion to {internal_type} failed."
-                        f" Input data does not only consist of True or False."
-                    )
+                series = series.replace({"True": True, "False": False})
             else:
                 raise ValueError(
-                    f"Conversion to {internal_type} failed."
-                    f" Input data does not consist of statements True or False."
+                    "Conversion of object to boolean is only supported"
+                    " if input data only consists of True and False."
                 )
-        else:
+        elif not is_bool_dtype(series):
             try:
                 series = series.astype(bool)
             except ValueError:
                 raise ValueError(f"Conversion of data type to {internal_type} failed.")
+
+    # Conversion to int
     elif internal_type == int:
-        out = is_integer_dtype(series)
-        cond = is_float_dtype(series)
-        if out:
-            series = series
-        elif cond:
+        if is_float_dtype(series):
+
             # checking if decimal spaces are equal to 0, if not return error
             if np.array_equal(series, series.astype(np.int64)):
-                try:
-                    series = series.astype(np.int64)
-                except ValueError:
-                    raise ValueError(
-                        f"Conversion of data type to {internal_type} failed."
-                    )
+                series = series.astype(np.int64)
             else:
                 raise ValueError(
-                    "Data type of input is float but should be int. "
-                    "An automatic conversion would lead to rounded numbers."
+                    "Conversion of float to int is only supported"
+                    " if all decimal spaces of input data are equal to 0."
                 )
-        else:
+        elif not is_integer_dtype(series):
             try:
                 series = series.astype(np.int64)
             except ValueError:
                 raise ValueError(f"Conversion of data type to {internal_type} failed.")
+
+    # Conversion to DateTime
     elif internal_type == np.datetime64:
-        out = is_datetime64_any_dtype(series)
-        if out:
-            series = series
-        else:
+        if not is_datetime64_any_dtype(series):
             try:
                 series = series.astype(np.datetime64)
             except ValueError:
                 raise ValueError(f"Conversion of data type to {internal_type} failed.")
     else:
-        raise ValueError(f"The internal type {internal_type} is not defined.")
+        raise ValueError(f"The internal type {internal_type} is not yet supported.")
 
     return series
