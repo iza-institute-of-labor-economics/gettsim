@@ -33,6 +33,24 @@ def convert_series_to_internal_type(series, internal_type):
             except ValueError:
                 raise ValueError(f"Conversion of data type to {internal_type} failed.")
 
+    # Conversion to int
+    elif internal_type == int:
+        if is_float_dtype(series):
+
+            # checking if decimal spaces are equal to 0, if not return error
+            if np.array_equal(series, series.astype(np.int64)):
+                series = series.astype(np.int64)
+            else:
+                raise ValueError(
+                    "Conversion of float to int is only supported"
+                    " if all decimal spaces of input data are equal to 0."
+                )
+        elif not is_integer_dtype(series):
+            try:
+                series = series.astype(np.int64)
+            except ValueError:
+                raise ValueError(f"Conversion of data type to {internal_type} failed.")
+
     # Conversion to boolean
     elif internal_type == bool:
 
@@ -60,28 +78,10 @@ def convert_series_to_internal_type(series, internal_type):
                     " if input data only consists of True and False."
                 )
         elif not is_bool_dtype(series):
-            try:
-                series = series.astype(bool)
-            except ValueError:
-                raise ValueError(f"Conversion of data type to {internal_type} failed.")
-
-    # Conversion to int
-    elif internal_type == int:
-        if is_float_dtype(series):
-
-            # checking if decimal spaces are equal to 0, if not return error
-            if np.array_equal(series, series.astype(np.int64)):
-                series = series.astype(np.int64)
-            else:
-                raise ValueError(
-                    "Conversion of float to int is only supported"
-                    " if all decimal spaces of input data are equal to 0."
-                )
-        elif not is_integer_dtype(series):
-            try:
-                series = series.astype(np.int64)
-            except ValueError:
-                raise ValueError(f"Conversion of data type to {internal_type} failed.")
+            raise ValueError(
+                "Conversion to bool is only supported for "
+                "bool, int, float or object columns."
+            )
 
     # Conversion to DateTime
     elif internal_type == np.datetime64:

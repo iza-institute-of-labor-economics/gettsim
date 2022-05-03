@@ -335,18 +335,37 @@ def test_convert_series_to_internal_types(
 @pytest.mark.parametrize(
     "input_data, expected_type, error_match",
     [
+        (
+            pd.Series(["Hallo", 2, 3]),
+            float,
+            "Conversion of data type",
+        ),
+        (
+            pd.Series([True, False]),
+            float,
+            "Conversion of boolean to float is not supported.",
+        ),
+        (pd.Series(["2.0", "3.0"]), int, "Conversion of data type"),
         (pd.Series(["Hallo"]), int, "Conversion of data type to"),
-        (pd.Series([2.1, 3.0]), int, "Conversion of float to int is only"),
-        (pd.Series([1.5, 1.0, 2.9]), int, "Conversion of float to int is only"),
+        (pd.Series([2.1, 3.0]), int, "Conversion of float to int is only supported"),
+        (
+            pd.Series([1.5, 1.0, 2.9]),
+            int,
+            "Conversion of float to int is only supported",
+        ),
         (pd.Series([5, 2, 3]), bool, "Conversion of int or float to boolean"),
         (pd.Series([1.5, 1.0, 35.0]), bool, "Conversion of int or float to boolean"),
-        (pd.Series([True, False]), float, "Conversion of boolean to float"),
+        (
+            pd.Series(["a", "b", "c"]).astype("category"),
+            bool,
+            "Conversion to bool is only supported for",
+        ),
+        (pd.Series([1, 0, 3]), bool, "Conversion of int or float to boolean"),
         (pd.Series(["richtig"]), bool, "Conversion of object to boolean"),
         (pd.Series(["True", "False", ""]), bool, "Conversion of object to boolean"),
         (pd.Series(["true"]), bool, "Conversion of object to boolean"),
-        (pd.Series(["2.0", "3.0"]), int, "Conversion of data type"),
         (pd.Series(["zweitausendzwanzig"]), np.datetime64, "Conversion of data type"),
-        (pd.Series([True]), np.datetime64, "Conversion of data type"),
+        (pd.Series([True, True]), np.datetime64, "Conversion of data type"),
         (pd.Series([2020]), str, "The internal type"),
     ],
 )

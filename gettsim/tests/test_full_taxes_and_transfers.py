@@ -98,12 +98,5 @@ def test_data_types(
                 internal_type = year_functions[column_name].__annotations__["return"]
             else:
                 raise ValueError("Column name unknown.")
-            if type(series) == type(internal_type):
-                out = True
-            else:
-                out = False
-            if not out:
-                raise AssertionError(
-                    f"{column_name} has datatype {series.dtype}, "
-                    f"but should have {internal_type}."
-                )
+
+            assert type(series) == type(internal_type)
