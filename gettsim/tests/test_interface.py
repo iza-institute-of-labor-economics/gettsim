@@ -40,24 +40,6 @@ func_after_partial = _partial_parameters_to_functions(
 
 
 @pytest.mark.parametrize(
-    "input_data, expected_type, error_match",
-    [
-        (pd.Series(["Hallo"]), int, "Conversion of data type to"),
-        (pd.Series([2.1, 3.0]), int, "Data type of input is float"),
-        (pd.Series([1.5]), int, "Data type of input is float"),
-        (pd.Series([5]), bool, "Conversion to"),
-        (pd.Series([1.5]), bool, "Conversion to"),
-        (pd.Series(["richtig"]), bool, "Conversion to"),
-    ],
-)
-def test_fail_if_cannot_be_converted_to_correct_type(
-    input_data, expected_type, error_match
-):
-    with pytest.raises(ValueError, match=error_match):
-        convert_series_to_internal_type(input_data, expected_type)
-
-
-@pytest.mark.parametrize(
     "data, columns_overriding_functions, expectation",
     [
         ({}, ["not_in_data"], pytest.raises(ValueError)),
@@ -300,7 +282,7 @@ def test_user_provided_aggregation_specs_function():
             pd.Series([False, True, False]),
         ),
         (
-            pd.Series([1, 0, 1]),
+            pd.Series([1.0, 0.0, 1]),
             bool,
             pd.Series([True, False, True]),
         ),
@@ -314,7 +296,7 @@ def test_user_provided_aggregation_specs_function():
             int,
             pd.Series([1, 4, 10]),
         ),
-        (pd.Series([2.0, 3.0]), int, pd.Series([2, 3])),
+        (pd.Series(["2", "3"]), int, pd.Series([2, 3])),
         (pd.Series([200.0, 567.0]), int, pd.Series([200, 567])),
         (
             pd.Series([1.0, 0.0]),
@@ -322,9 +304,9 @@ def test_user_provided_aggregation_specs_function():
             pd.Series([True, False]),
         ),
         (
-            pd.Series(["True"]),
+            pd.Series(["True", "False"]),
             bool,
-            pd.Series([True]),
+            pd.Series([True, False]),
         ),
         (
             pd.Series(["235.46", "678.34"]),
@@ -336,6 +318,11 @@ def test_user_provided_aggregation_specs_function():
             np.datetime64,
             pd.Series([np.datetime64("2020-01-01"), np.datetime64("2018-01-01")]),
         ),
+        (
+            pd.Series(["01.01.2020"]),
+            np.datetime64,
+            pd.Series([np.datetime64("2020-01-01")]),
+        ),
     ],
 )
 def test_convert_series_to_internal_types(
@@ -344,3 +331,29 @@ def test_convert_series_to_internal_types(
     internal_type = expected_type
     adjusted_input = convert_series_to_internal_type(input_data, internal_type)
     pd.testing.assert_series_equal(adjusted_input, expected_output_data)
+
+
+@pytest.mark.parametrize(
+    "input_data, expected_type, error_match",
+    [
+        (pd.Series(["Hallo"]), int, "Conversion of data type to"),
+        (pd.Series([2.1, 3.0]), int, "Data type of input is float"),
+        (pd.Series([1.5, 1.0, 2.9]), int, "Data type of input is float"),
+        (pd.Series([5, 2, 3]), bool, "Conversion to"),
+        (pd.Series([1.5, 1.0, 35.0]), bool, "Conversion to"),
+        (pd.Series([1, 0, 3]), bool, "Conversion to"),
+        (pd.Series([True, False]), float, "Conversion of data type"),
+        (pd.Series(["richtig"]), bool, "Conversion to"),
+        (pd.Series(["True", "False", ""]), bool, "Conversion to"),
+        (pd.Series(["true"]), bool, "Conversion to"),
+        (pd.Series(["2.0", "3.0"]), int, "Conversion of data type"),
+        (pd.Series(["zweitausendzwanzig"]), np.datetime64, "Conversion of data type"),
+        (pd.Series([True]), np.datetime64, "Conversion of data type"),
+        (pd.Series([2020]), str, "The internal type"),
+    ],
+)
+def test_fail_if_cannot_be_converted_to_correct_type(
+    input_data, expected_type, error_match
+):
+    with pytest.raises(ValueError, match=error_match):
+        convert_series_to_internal_type(input_data, expected_type)

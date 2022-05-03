@@ -3,6 +3,7 @@ from pandas.api.types import is_bool_dtype
 from pandas.api.types import is_datetime64_any_dtype
 from pandas.api.types import is_float_dtype
 from pandas.api.types import is_integer_dtype
+from pandas.api.types import is_object_dtype
 
 
 def convert_series_to_internal_type(series, internal_type):
@@ -32,41 +33,40 @@ def convert_series_to_internal_type(series, internal_type):
                 raise ValueError(f"Conversion of data type to {internal_type} failed.")
     elif internal_type == bool:
         out = is_bool_dtype(series)
-        cond = is_integer_dtype(series) or is_float_dtype(series)
-        for _, content in series.items():
-            cond2 = type(content) == str
+        cond1 = is_integer_dtype(series) or is_float_dtype(series)
+        cond2 = is_object_dtype(series)
         if out:
             series = series
-        # input data type is integer or float
-        elif cond:
-            for _, content in series.items():
-                if content == 1 or content == 0:
-                    try:
-                        series = series.astype(bool)
-                    except ValueError:
-                        raise ValueError(
-                            f"Conversion of data type to {internal_type} failed."
-                        )
-                else:
+        # if input data type is integer or float,
+        # check if series consists only of 1 or 0
+        elif cond1:
+            if len([v for v in series.unique() if v not in [1, 0]]) == 0:
+                try:
+                    series = series.astype(bool)
+                except ValueError:
                     raise ValueError(
-                        f"Conversion to {internal_type} failed."
-                        f" Input data does not consist of 1 or 0."
+                        f"Conversion of data type to {internal_type} failed."
                     )
-        # input data type is string
+            else:
+                raise ValueError(
+                    f"Conversion to {internal_type} failed."
+                    f" Input data does not only consist of 1 or 0."
+                )
+        # if input data type is string, check if series consists only of True or False
         elif cond2:
-            for _, content in series.items():
-                if content == "True" or content == "False":
-                    try:
-                        series = series.astype(bool)
-                    except ValueError:
-                        raise ValueError(
-                            f"Conversion of data type to {internal_type} failed."
-                        )
-                else:
+            if len([v for v in series.unique() if v not in ["True", "False"]]) == 0:
+                try:
+                    series = series.replace({"True": True, "False": False})
+                except ValueError:
                     raise ValueError(
                         f"Conversion to {internal_type} failed."
-                        f" Input data does not consist of statements True or False."
+                        f" Input data does not only consist of True or False."
                     )
+            else:
+                raise ValueError(
+                    f"Conversion to {internal_type} failed."
+                    f" Input data does not consist of statements True or False."
+                )
         else:
             try:
                 series = series.astype(bool)
@@ -78,11 +78,8 @@ def convert_series_to_internal_type(series, internal_type):
         if out:
             series = series
         elif cond:
-            adjusted_series = series.astype(np.int64)
-            sum_adjusted = adjusted_series.sum()
-            sum_original = series.sum()
-            # checking if decimal spaces are equal to 0
-            if sum_adjusted == sum_original:
+            # checking if decimal spaces are equal to 0, if not return error
+            if np.array_equal(series, series.astype(np.int64)):
                 try:
                     series = series.astype(np.int64)
                 except ValueError:
@@ -96,7 +93,7 @@ def convert_series_to_internal_type(series, internal_type):
                 )
         else:
             try:
-                series = series.astype(int)
+                series = series.astype(np.int64)
             except ValueError:
                 raise ValueError(f"Conversion of data type to {internal_type} failed.")
     elif internal_type == np.datetime64:
