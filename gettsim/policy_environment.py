@@ -12,56 +12,17 @@ from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.social_insurance_contributions.eink_grenzen import (
-    midi_job_bemessungsentgelt_ab_2005_bis_2008,
-)
-from gettsim.social_insurance_contributions.eink_grenzen import (
-    midi_job_bemessungsentgelt_ab_2009,
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_satz_arbeitg_ab_2019,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ag_beitr_ges_krankenv_midi_job_ab_2003_bis_2008,
+    _ges_krankenv_beitr_satz_arbeitg_bis_2018,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ag_beitr_ges_krankenv_midi_job_ab_2009,
+    ges_krankenv_beitr_satz_ab_2019,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_beitr_ges_krankenv_midi_job_ab_2003_bis_2008,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_beitr_ges_krankenv_midi_job_ab_2009,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_reg_beschaeftigt_ab_07_2005_bis_2008,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_reg_beschaeftigt_ab_2009_bis_2018,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_reg_beschaeftigt_ab_2019,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_reg_beschaeftigt_bis_06_2005,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_rente_2005_2008,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_rente_2009_2018,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_rente_ab_2019,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_rente_until2005,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_selbst_2005_2008,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_selbst_ab_2009,
-)
-from gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_selbst_before2005,
+    ges_krankenv_beitr_satz_bis_2018,
 )
 from gettsim.taxes.eink_st import eink_st_tu_ab_1997
 from gettsim.taxes.eink_st import eink_st_tu_bis_1996
@@ -400,53 +361,17 @@ def load_reforms_for_date(date):
         functions["ges_rente_m"] = ges_rente_nach_grundr_m
         functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_ab_2021
 
-    if year <= 2008:
+    # Equal split of Zusatzbeitrag for health insurance contribution rates
+    if year <= 2018:
+        functions["ges_krankenv_beitr_satz"] = ges_krankenv_beitr_satz_bis_2018
         functions[
-            "ag_beitr_ges_krankenv_midi_job"
-        ] = _ag_beitr_ges_krankenv_midi_job_ab_2003_bis_2008
-        functions[
-            "ges_krankenv_beitr_midi_job_m"
-        ] = _ges_beitr_ges_krankenv_midi_job_ab_2003_bis_2008
-        functions[
-            "midi_job_bemessungsentgelt_m"
-        ] = midi_job_bemessungsentgelt_ab_2005_bis_2008
+            "_ges_krankenv_beitr_satz_arbeitg"
+        ] = _ges_krankenv_beitr_satz_arbeitg_bis_2018
     else:
+        functions["ges_krankenv_beitr_satz"] = ges_krankenv_beitr_satz_ab_2019
         functions[
-            "ag_beitr_ges_krankenv_midi_job"
-        ] = _ag_beitr_ges_krankenv_midi_job_ab_2009
-        functions[
-            "ges_krankenv_beitr_midi_job_m"
-        ] = _ges_beitr_ges_krankenv_midi_job_ab_2009
-        functions["midi_job_bemessungsentgelt_m"] = midi_job_bemessungsentgelt_ab_2009
-
-    if datetime.date(1993, 1, 1) <= date < datetime.date(2005, 7, 1):
-        functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_until2005
-        functions[
-            "_ges_krankenv_beitr_reg_beschäftigt"
-        ] = _ges_krankenv_beitr_reg_beschaeftigt_bis_06_2005
-        functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_before2005
-    elif (
-        datetime.date(year=2005, month=7, day=1)
-        <= date
-        <= datetime.date(year=2008, month=12, day=31)
-    ):
-        functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_2005_2008
-        functions[
-            "_ges_krankenv_beitr_reg_beschäftigt"
-        ] = _ges_krankenv_beitr_reg_beschaeftigt_ab_07_2005_bis_2008
-        functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_2005_2008
-    elif (year <= 1992) or (2009 <= year <= 2018):
-        functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_2009_2018
-        functions[
-            "_ges_krankenv_beitr_reg_beschäftigt"
-        ] = _ges_krankenv_beitr_reg_beschaeftigt_ab_2009_bis_2018
-        functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_ab_2009
-    else:
-        functions["ges_krankenv_beitr_rente_m"] = _ges_krankenv_beitr_rente_ab_2019
-        functions[
-            "_ges_krankenv_beitr_reg_beschäftigt"
-        ] = _ges_krankenv_beitr_reg_beschaeftigt_ab_2019
-        functions["ges_krankenv_beitr_selbst_m"] = _ges_krankenv_beitr_selbst_ab_2009
+            "_ges_krankenv_beitr_satz_arbeitg"
+        ] = _ges_krankenv_beitr_satz_arbeitg_ab_2019
 
     return functions
 
