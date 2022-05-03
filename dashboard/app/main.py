@@ -58,7 +58,7 @@ attribute_dict = {
         "top_left",
         f"""This graph shows the evolution of the main lump-sum tax deductions
         creating a wedge between market and taxable income.
-        <a href="{param_url}/eink_st_abzüge.yaml">
+        <a href="{param_url}/eink_st_abzuege.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "wohngeld": [

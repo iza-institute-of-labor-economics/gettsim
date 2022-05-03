@@ -2,7 +2,7 @@ def vorsorgeaufw_alter_ab_2005(
     kind: bool,
     ges_rentenv_beitr_m: float,
     priv_rentenv_beitr_m: float,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Determine contributions to retirement savings deductible from taxable income.
 
@@ -20,8 +20,8 @@ def vorsorgeaufw_alter_ab_2005(
         See :func:`ges_rentenv_beitr_m`.
     priv_rentenv_beitr_m
         See basic input variable :ref:`priv_rentenv_beitr_m <priv_rentenv_beitr_m>`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -32,11 +32,11 @@ def vorsorgeaufw_alter_ab_2005(
         out = 0.0
     else:
         out = (
-            eink_st_abzüge_params["einführungsfaktor_vorsorgeaufw_alter_ab_2005"]
+            eink_st_abzuege_params["einführungsfaktor_vorsorgeaufw_alter_ab_2005"]
             * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
             - ges_rentenv_beitr_m
         ) * 12
-        out = min(out, eink_st_abzüge_params["vorsorge_altersaufw_max"])
+        out = min(out, eink_st_abzuege_params["vorsorge_altersaufw_max"])
 
     return out
 
@@ -47,7 +47,7 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     arbeitsl_v_beitr_m: float,
     ges_pflegev_beitr_m: float,
     kind: bool,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate Vorsorgeaufwendungen from 2005 to 2010.
 
@@ -66,8 +66,8 @@ def _vorsorge_alternative_ab_2005_bis_2009(
         See :func:`arbeitsl_v_beitr_m`.
     ges_pflegev_beitr_m
         See :func:`ges_pflegev_beitr_m`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -81,7 +81,7 @@ def _vorsorge_alternative_ab_2005_bis_2009(
             ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m
         )
         sum_vorsorge = min(
-            sum_vorsorge, eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]
+            sum_vorsorge, eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
         )
         out = sum_vorsorge + vorsorgeaufw_alter_ab_2005
 
@@ -149,7 +149,7 @@ def vorsorgeaufw_ab_2020(
     ges_krankenv_beitr_m: float,
     arbeitsl_v_beitr_m: float,
     kind: bool,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate Vorsorgeaufwendungen since 2020.
 
@@ -166,8 +166,8 @@ def vorsorgeaufw_ab_2020(
         See :func:`ges_krankenv_beitr_m`.
     arbeitsl_v_beitr_m
         See :func:`arbeitsl_v_beitr_m`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -179,11 +179,11 @@ def vorsorgeaufw_ab_2020(
     else:
         sonstige_vors = 12 * (
             ges_pflegev_beitr_m
-            + (1 - eink_st_abzüge_params["vorsorge_kranken_minderung"])
+            + (1 - eink_st_abzuege_params["vorsorge_kranken_minderung"])
             * ges_krankenv_beitr_m
         )
         limit_below = sonstige_vors + 12 * arbeitsl_v_beitr_m
-        limit_above = eink_st_abzüge_params["vorsorge_sonstige_aufw_max"]
+        limit_above = eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
 
         out = min(max(sonstige_vors, limit_below), limit_above)
         out += vorsorgeaufw_alter_ab_2005
@@ -199,7 +199,7 @@ def vorsorgeaufw_bis_2004(
     ges_rentenv_beitr_m_tu: float,
     gemeinsam_veranlagt_tu: bool,
     kind: bool,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate Vorsorgeaufwendungen until 2004.
 
@@ -221,8 +221,8 @@ def vorsorgeaufw_bis_2004(
         See :func:`gemeinsam_veranlagt_tu`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -234,7 +234,7 @@ def vorsorgeaufw_bis_2004(
             ges_krankenv_beitr_m,
             ges_rentenv_beitr_m,
             1,
-            eink_st_abzüge_params,
+            eink_st_abzuege_params,
         )
     elif (gemeinsam_veranlagt_tu) and (not kind):
         out = _berechne_vorsorgeaufw_bis_2004(
@@ -242,7 +242,7 @@ def vorsorgeaufw_bis_2004(
             ges_krankenv_beitr_m_tu,
             ges_rentenv_beitr_m_tu,
             2,
-            eink_st_abzüge_params,
+            eink_st_abzuege_params,
         )
     else:
         out = 0.0
@@ -252,7 +252,7 @@ def vorsorgeaufw_bis_2004(
 
 def _vorsorgeaufw_vom_lohn_bis_2019_single(
     bruttolohn_m: float,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate precautionary expenditures until 2019 for singles.
 
@@ -262,23 +262,23 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     gemeinsam_veranlagt_tu
         See :func:`gemeinsam_veranlagt_tu`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
 
     """
     out = (
-        eink_st_abzüge_params["vorsorge2004_vorwegabzug"]
-        - eink_st_abzüge_params["vorsorge2004_kürzung_vorwegabzug"] * 12 * bruttolohn_m
+        eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
+        - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"] * 12 * bruttolohn_m
     )
     return max(out, 0.0)
 
 
 def _vorsorgeaufw_vom_lohn_bis_2019_tu(
     bruttolohn_m_tu: float,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate precautionary expenditures until 2019 per tax unit.
 
@@ -286,16 +286,16 @@ def _vorsorgeaufw_vom_lohn_bis_2019_tu(
     ----------
     bruttolohn_m_tu
         See :func:`bruttolohn_m_tu`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
 
     """
     out = 0.5 * (
-        2 * eink_st_abzüge_params["vorsorge2004_vorwegabzug"]
-        - eink_st_abzüge_params["vorsorge2004_kürzung_vorwegabzug"]
+        2 * eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
+        - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
         * 12
         * bruttolohn_m_tu
     )
@@ -308,7 +308,7 @@ def _berechne_vorsorgeaufw_bis_2004(
     ges_krankenv_beitr: float,
     ges_rentenv_beitr: float,
     anzahl_erwachsene: int,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate precautionary expenditures until 2004.
 
@@ -318,7 +318,7 @@ def _berechne_vorsorgeaufw_bis_2004(
     ges_krankenv_beitr
     ges_rentenv_beitr
     anzahl_erwachsene
-    eink_st_abzüge_params
+    eink_st_abzuege_params
 
     Returns
     -------
@@ -330,15 +330,15 @@ def _berechne_vorsorgeaufw_bis_2004(
 
     item_1 = (1 / anzahl_erwachsene) * multiplikator1
 
-    if item_1 > eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]:
-        multiplikator2 = eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
+    if item_1 > eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"]:
+        multiplikator2 = eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"]
     else:
         multiplikator2 = item_1
 
     item_2 = (1 / anzahl_erwachsene) * multiplikator2
 
     hoechstgrenze_item3 = (
-        anzahl_erwachsene * eink_st_abzüge_params["vorsorge_2004_grundhöchstbetrag"]
+        anzahl_erwachsene * eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"]
     )
 
     if (item_1 - item_2) > hoechstgrenze_item3:

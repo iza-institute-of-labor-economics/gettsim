@@ -7,7 +7,9 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 0.5.1 —
 ------------------
-
+* :gh:`377` Fix wrong parameter value for `ges_pflegev` contribution
+  (:ghuser:`JuergenWiemers`).
+* :gh:`383` Remove ä, ö, ü from file names (:ghuser:`ChristianZimpelmann`).
 
 0.5.0 — 01.04.2022
 ------------------
