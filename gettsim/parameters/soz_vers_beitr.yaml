@@ -149,7 +149,6 @@ beitr_satz:
     ges_rentenv: 0.0995
   2008-01-01:
     ges_krankenv:
-      mean_allgemein: null
       allgemein: 0.14
       sonderbeitrag: 0.009
     ges_pflegev:
@@ -191,7 +190,6 @@ beitr_satz:
       allgemein: 0.146
       ermäßigt: 0.14
       mean_zusatzbeitrag: 0.009
-      sonderbeitrag: null
     ges_pflegev:
       standard: 0.01175
       zusatz_kinderlos: 0.0025
@@ -224,16 +222,16 @@ beitr_satz:
     arbeitsl_v: 0.013
     ges_rentenv: 0.093
   2020-01-01:
-    note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
     deviation_from: previous
     ges_krankenv:
       mean_zusatzbeitrag: 0.011
     arbeitsl_v: 0.012
+    note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
   2021-01-01:
     deviation_from: previous
-    note: Durchschnittlicher Zusatzbeitragssatz 1,3%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
     ges_krankenv:
       mean_zusatzbeitrag: 0.013
+    note: Durchschnittlicher Zusatzbeitragssatz 1,3%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
   2022-01-01:
     deviation_from: previous
     ges_pflegev:

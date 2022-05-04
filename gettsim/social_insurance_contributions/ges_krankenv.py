@@ -3,7 +3,7 @@ def ges_krankenv_beitr_m(
     ges_krankenv_beitr_rente_m: float,
     ges_krankenv_beitr_selbst_m: float,
     in_gleitzone: bool,
-    ges_krankenv_beitr_midi_job_m: float,
+    ges_krankenv_midi_job_arbeitn_m: float,
     _ges_krankenv_beitr_reg_beschäftigt: float,
     selbstständig: bool,
 ) -> float:
@@ -17,8 +17,8 @@ def ges_krankenv_beitr_m(
         See :func:`ges_krankenv_beitr_rente_m`.
     ges_krankenv_beitr_selbst_m
         See :func:`ges_krankenv_beitr_selbst_m`.
-    ges_krankenv_beitr_midi_job_m
-        See :func:`ges_krankenv_beitr_midi_job_m`.
+    ges_krankenv_midi_job_arbeitn_m
+        See :func:`ges_krankenv_midi_job_arbeitn_m`.
     _ges_krankenv_beitr_reg_beschäftigt
         See :func:`_ges_krankenv_beitr_reg_beschäftigt`.
     in_gleitzone
@@ -37,7 +37,7 @@ def ges_krankenv_beitr_m(
     elif geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
-        out = ges_krankenv_beitr_midi_job_m
+        out = ges_krankenv_midi_job_arbeitn_m
     else:
         out = _ges_krankenv_beitr_reg_beschäftigt
 
@@ -174,7 +174,7 @@ def _ges_krankenv_bruttolohn_m(
     return out
 
 
-def _ges_krankenv_beitr_reg_beschaeftigt(
+def _ges_krankenv_beitr_reg_beschäftigt(
     _ges_krankenv_bruttolohn_m: float, ges_krankenv_beitr_satz: float
 ) -> float:
     """Calculates health insurance contributions for regular jobs.
@@ -240,8 +240,8 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     return out
 
 
-def _ges_krankenv_beitr_selbst_before2005(
-    _ges_krankenv_bemessungsgrundlage_rente_m: float,
+def ges_krankenv_beitr_selbst_m(
+    _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
@@ -251,8 +251,8 @@ def _ges_krankenv_beitr_selbst_before2005(
 
     Parameters
     ----------
-    _ges_krankenv_bemessungsgrundlage_rente_m
-        See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
+    _ges_krankenv_bemessungsgrundlage_eink_selbst
+        See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbst`.
     ges_krankenv_beitr_satz
         See :func:`ges_krankenv_beitr_satz`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -265,7 +265,7 @@ def _ges_krankenv_beitr_selbst_before2005(
     """
     out = (
         ges_krankenv_beitr_satz + _ges_krankenv_beitr_satz_arbeitg
-    ) * _ges_krankenv_bemessungsgrundlage_rente_m
+    ) * _ges_krankenv_bemessungsgrundlage_eink_selbst
     return out
 
 
@@ -289,7 +289,7 @@ def _ges_krankenv_bemessungsgrundlage_rente_m(
     return min(sum_ges_rente_priv_rente_m, _ges_krankenv_beitr_bemess_grenze_m)
 
 
-def _ges_krankenv_beitr_rente(
+def ges_krankenv_beitr_rente_m(
     _ges_krankenv_bemessungsgrundlage_rente_m: float, ges_krankenv_beitr_satz: float
 ) -> float:
     """Calculates health insurance contributions for pension incomes.
@@ -309,7 +309,7 @@ def _ges_krankenv_beitr_rente(
     return ges_krankenv_beitr_satz * _ges_krankenv_bemessungsgrundlage_rente_m
 
 
-def _ges_beitr_ges_krankenv_midi_job_ab_2003_bis_2008(
+def _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m(
     midi_job_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
@@ -337,7 +337,7 @@ def _ges_beitr_ges_krankenv_midi_job_ab_2003_bis_2008(
     return out
 
 
-def _ag_beitr_ges_krankenv_midi_job(
+def ges_krankenv_midi_job_arbeitg_m(
     bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitg: float
 ) -> float:
     """Calculating the employer health insurance contribution for midi jobs.
@@ -362,24 +362,26 @@ def _ag_beitr_ges_krankenv_midi_job(
     return out
 
 
-def an_beitr_ges_krankenv_midi_job(
-    ges_krankenv_beitr_midi_job_m: float,
-    ag_beitr_ges_krankenv_midi_job: float,
+def ges_krankenv_midi_job_arbeitn_m(
+    _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m: float,
+    ges_krankenv_midi_job_arbeitg_m: float,
 ) -> float:
     """Calculating the employee health insurance contribution for midi jobs.
 
 
     Parameters
     ----------
-    ges_krankenv_beitr_midi_job_m
-        See :func:`ges_krankenv_beitr_midi_job_m`.
-    ag_beitr_ges_krankenv_midi_job
-        See :func:`ag_beitr_ges_krankenv_midi_job`.
+    _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m
+        See :func:`_ges_krankenv_midi_job_sum_arbeitn_arbeitg_m`.
+    ges_krankenv_midi_job_arbeitg_m
+        See :func:`ges_krankenv_midi_job_arbeitg_m`.
     Returns
     -------
 
     """
-    return ges_krankenv_beitr_midi_job_m - ag_beitr_ges_krankenv_midi_job
+    return (
+        _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m - ges_krankenv_midi_job_arbeitg_m
+    )
 
 
 def selbstständig_ges_krankenv(selbstständig: bool, in_priv_krankenv: bool) -> bool:

@@ -124,7 +124,7 @@ def midi_job_faktor_f(
     return out
 
 
-def midi_job_bemessungsentgelt(
+def midi_job_bemessungsentgelt_m(
     midi_job_faktor_f: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
