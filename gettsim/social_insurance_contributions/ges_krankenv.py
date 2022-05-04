@@ -49,7 +49,7 @@ def ges_krankenv_beitr_satz_bis_2018(soz_vers_beitr_params: dict) -> float:
     """Select contribution rates of employees for health insurance until 2018.
 
     The contribution rates consists of a general rate (split equally between employers
-    and employees) and a top-up rate which is fully payed by employees.
+    and employees) and a top-up rate which is fully paid by employees.
 
     Parameters
     ----------
@@ -63,14 +63,14 @@ def ges_krankenv_beitr_satz_bis_2018(soz_vers_beitr_params: dict) -> float:
     beitr_satz_params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
 
     # Contribution rates differ between insurance entities until 2008.
-    # We, hence, rely on average contribution rates "mean_allgemein".
+    # We, hence, rely on average contribution rates "mean_allgemein" for these years.
     allgemeiner_beitrag = (
         beitr_satz_params["allgemein"]
         if "allgemein" in beitr_satz_params
         else beitr_satz_params["mean_allgemein"]
     )
 
-    # From Juli 2007 until 2014, Sonderbeitrag is in place
+    # From July 2005 until 2014, Sonderbeitrag is in place
     # From 2015 on, a Zusatzbeitrag is in place which differs between
     # insurance entities
     if "sonderbeitrag" in beitr_satz_params:
@@ -104,7 +104,6 @@ def ges_krankenv_beitr_satz_ab_2019(soz_vers_beitr_params: dict) -> float:
 
 def _ges_krankenv_beitr_satz_arbeitg_bis_2018(soz_vers_beitr_params: dict) -> float:
     """Select contribution rates of employers for health insurance until 2018.
-
 
     Parameters
     ----------
@@ -151,7 +150,8 @@ def _ges_krankenv_bruttolohn_m(
     regulär_beschäftigt: bool,
 ) -> float:
     """Calculate the wage subject to public health insurance contributions.
-
+    This affects marginally employed persons and high wages for above
+    the assessment ceiling.
 
     Parameters
     ----------
@@ -201,8 +201,11 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     in_priv_krankenv: bool,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Choose the amount of selfemployed income which is subject to health insurance
-    contribution.
+    """Choose the amount of self-employed income which is subject to health insurance
+    contributions.
+    Only affects those self-employed who voluntarily contribute to the public health
+    system. For those, contributions are assessed either on total self-employement
+    income or 3/4 of the 'Bezugsgröße'.
 
     Parameters
     ----------
@@ -246,8 +249,7 @@ def ges_krankenv_beitr_selbst_m(
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
     """Calculates health insurance contributions for self employed income.
-    Self-employed pay the full contribution (employer + employee), which is either
-    assessed on their self-employement income or 3/4 of the 'Bezugsgröße'.
+    Self-employed pay the full contribution (employer + employee).
 
     Parameters
     ----------
