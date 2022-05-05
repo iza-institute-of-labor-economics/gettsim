@@ -60,23 +60,21 @@ def ges_krankenv_beitr_satz_bis_2018(soz_vers_beitr_params: dict) -> float:
     -------
 
     """
-    beitr_satz_params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
+    params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
 
     # Contribution rates differ between insurance entities until 2008.
     # We, hence, rely on average contribution rates "mean_allgemein" for these years.
     allgemeiner_beitrag = (
-        beitr_satz_params["allgemein"]
-        if "allgemein" in beitr_satz_params
-        else beitr_satz_params["mean_allgemein"]
+        params["allgemein"] if "allgemein" in params else params["mean_allgemein"]
     )
 
     # From July 2005 until 2014, Sonderbeitrag is in place
     # From 2015 on, a Zusatzbeitrag is in place which differs between
     # insurance entities
-    if "sonderbeitrag" in beitr_satz_params:
-        zusatzbeitrag = beitr_satz_params["sonderbeitrag"]
-    elif "mean_zusatzbeitrag" in beitr_satz_params:
-        zusatzbeitrag = beitr_satz_params["mean_zusatzbeitrag"]
+    if "sonderbeitrag" in params:
+        zusatzbeitrag = params["sonderbeitrag"]
+    elif "mean_zusatzbeitrag" in params:
+        zusatzbeitrag = params["mean_zusatzbeitrag"]
     else:
         zusatzbeitrag = 0
     return allgemeiner_beitrag / 2 + zusatzbeitrag
@@ -96,9 +94,9 @@ def ges_krankenv_beitr_satz_ab_2019(soz_vers_beitr_params: dict) -> float:
     -------
 
     """
-    beitr_satz_params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
-    allgemeiner_beitrag = beitr_satz_params["allgemein"]
-    zusatzbeitrag = beitr_satz_params["mean_zusatzbeitrag"]
+    params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
+    allgemeiner_beitrag = params["allgemein"]
+    zusatzbeitrag = params["mean_zusatzbeitrag"]
     return (allgemeiner_beitrag + zusatzbeitrag) / 2
 
 
@@ -114,14 +112,12 @@ def _ges_krankenv_beitr_satz_arbeitg_bis_2018(soz_vers_beitr_params: dict) -> fl
     -------
 
     """
-    beitr_satz_params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
+    params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
 
     # Contribution rates differ between insurance entities until 2008.
     # We, hence, rely on average contribution rates "mean_allgemein".
     allgemeiner_beitrag = (
-        beitr_satz_params["allgemein"]
-        if "allgemein" in beitr_satz_params
-        else beitr_satz_params["mean_allgemein"]
+        params["allgemein"] if "allgemein" in params else params["mean_allgemein"]
     )
 
     return allgemeiner_beitrag / 2
