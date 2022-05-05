@@ -33,6 +33,7 @@ INPUT_COLS = [
     "jahr",
     "wohnort_ost",
     "ges_krankenv_beitr_m",
+    "geburtsjahr",
 ]
 OUT_COLS = [
     "zu_verst_eink_kein_kinderfreib",
