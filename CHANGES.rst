@@ -10,6 +10,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`377` Fix wrong parameter value for `ges_pflegev` contribution
   (:ghuser:`JuergenWiemers`).
 * :gh:`383` Remove ä, ö, ü from file names (:ghuser:`ChristianZimpelmann`).
+* :gh:`385` Make altersentlastungsbetrag dependent on age not on current 
+  date (:ghuser:`m-pannier`, :ghuser:`lillyfischer`).
 
 0.5.0 — 01.04.2022
 ------------------
