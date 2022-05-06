@@ -49,6 +49,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   `ges_rente.yaml` (:ghuser:`hmgaudecker`, :ghuser:`ChristianZimpelmann`)
 * :gh:`356` Define functions on scalars and have them vectorised. Implement aggregation
   functions on group levels. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
+* :gh:`380` Implement an automatic type conversion of imported variables. Adding test
+  cases in `test_interface.py`. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
 
 0.4.2 — 2022-01-25
 --------------------
