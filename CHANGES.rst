@@ -5,13 +5,20 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.5.1 —
+0.5.2 —
+------------------
+* :gh:`323` Health care contribution parameters are better aligned with law.
+  Restructure calculation of ges_krankenv, minor changes to ges_pflegev.
+  (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
+
+
+0.5.1 — 2022-04-21
 ------------------
 * :gh:`377` Fix wrong parameter value for `ges_pflegev` contribution
   (:ghuser:`JuergenWiemers`).
 * :gh:`383` Remove ä, ö, ü from file names (:ghuser:`ChristianZimpelmann`).
 
-0.5.0 — 01.04.2022
+0.5.0 — 2022-04-01
 ------------------
 
 * :gh:`327` add behinderten_pauschbetrag for 1975-1986 (:ghuser:`lillyfischer`).
@@ -44,8 +51,6 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`343` New argument for `compute_taxes_and_transfers`: `rounding`. If set to False,
   rounding of outputs is disabled. Add rounding for `eink_st_tu`. Rounding for other
   functions will be introduced in future PRs. (:ghuser:`ChristianZimpelmann`).
-* :gh:`323` Health care contributions are better aligned with law
-  (:ghuser:`Eric-Sommer`).
 * :gh:`349` Create parameters for several hard coded numbers in code.
   (:ghuser:`LauraGergeleit`).
 * :gh:`355` Major renaming based on GEP 01, e.g.: correct use of ``_m``-suffix;
