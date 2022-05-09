@@ -631,3 +631,51 @@ kinderbetreuungskosten_abz_maximum:
   2012-01-01:
     scalar: 4000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
+
+
+vorsorge_pauschale_rv_anteil:
+  name:
+    de: Anteil abgezogene Rentenversicherungsbeiträge
+    en: Share of deducted pension insurance contributions
+  description:
+    de: Funktion für den Anteil der Rentenversicherungsbeiträge, die bei der Lohnsteuerberechnung abgezogen werden
+    en: Function for the share of pension insurance contributions deducted in the payroll tax calculation
+  unit: share
+  reference: § 39 (4) EStG
+  note:
+    de: Funktion erst ab 2005 vorhanden. Steigt zwischen 2005 und 2025 jährlich um 4 Prozentpunkte.
+    en: rises between 2005 and 2025 by 4 percentage points annually.
+  type: piecewise_linear
+  2005-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 2005
+      rate_linear: 0
+      intercept_at_lower_threshold: 0.2
+    1:
+      lower_threshold: 2005
+      upper_threshold: 2025
+      rate_linear: 0.04
+      intercept_at_lower_threshold: 0.2
+    2:
+      lower_threshold: 2025
+      upper_threshold: inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 1
+
+
+
+vorsorgepauschale_kv_max:
+  name:
+    de: Höchstbetrag Mindestvorsorgepauschale
+    en: Maximum amount Mindestvorsorgepauschale
+  description:
+    de: Höchsbetrag für Mindestvorsorgepauschale der Beiträge zu GKV und PKV, die von der Lohnsteuer abgesetzt werden können.
+    en: Maximum amount considered for Mindestvorsorgepauschale of contributions to health and care insurance that can be deducted from withholding tax
+  reference: 39b (2) Nr.3 EStG. Depends on Steuerklasse.
+  unit: Euro
+  time: year
+  2009-07-23:
+    stkl3: 3000
+    stkl_nicht3: 1900
+    reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
