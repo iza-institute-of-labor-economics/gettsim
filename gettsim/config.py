@@ -22,7 +22,7 @@ If a path is a directory, all Python files are recursively collected from that f
 
 INTERNAL_PARAM_GROUPS = [
     "eink_st",
-    "eink_st_abzüge",
+    "eink_st_abzuege",
     "soli_st",
     "arbeitsl_geld",
     "soz_vers_beitr",

@@ -19,7 +19,7 @@ def eink_selbst(eink_selbst_m: float) -> float:
 def eink_abhängig_beschäftigt(
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Aggregate monthly gross wage to yearly income and deduct
     'Werbungskostenpauschale'.
@@ -32,8 +32,8 @@ def eink_abhängig_beschäftigt(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -42,7 +42,7 @@ def eink_abhängig_beschäftigt(
     if geringfügig_beschäftigt:
         out = 0.0
     else:
-        out = 12 * bruttolohn_m - eink_st_abzüge_params["werbungskostenpauschale"]
+        out = 12 * bruttolohn_m - eink_st_abzuege_params["werbungskostenpauschale"]
 
     return out
 
@@ -130,7 +130,7 @@ def sum_eink_ohne_kapital(
 
 def kapitaleink(
     kapitaleink_brutto: float,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Capital income minus Sparerpauschbetrag
 
@@ -138,8 +138,8 @@ def kapitaleink(
     ----------
     kapitaleink_brutto
         See :func:`kapitaleink_brutto`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
@@ -147,8 +147,8 @@ def kapitaleink(
     """
     out = (
         kapitaleink_brutto
-        - eink_st_abzüge_params["sparerpauschbetrag"]
-        - eink_st_abzüge_params["sparer_werbungskosten_pauschbetrag"]
+        - eink_st_abzuege_params["sparerpauschbetrag"]
+        - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )
 
     return max(out, 0.0)
