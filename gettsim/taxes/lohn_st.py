@@ -3,17 +3,14 @@ import pandas as pd
 
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def lohn_st_eink(
-    bruttolohn_m: FloatSeries,
-    steuerklasse: IntSeries,
+    bruttolohn_m: float,
+    steuerklasse: int,
     eink_st_abzuege_params: dict,
-    vorsorgepauschale: FloatSeries,
-) -> FloatSeries:
+    vorsorgepauschale: float,
+) -> float:
     """Calculates taxable income for lohnsteuer
 
     Parameters
@@ -57,9 +54,7 @@ def lohn_st_eink(
     return out
 
 
-def lohn_st(
-    lohn_st_eink: FloatSeries, eink_st_params: dict, steuerklasse: IntSeries
-) -> FloatSeries:
+def lohn_st(lohn_st_eink: float, eink_st_params: dict, steuerklasse: int) -> float:
     """
     Calculates Lohnsteuer = withholding tax on earnings,
     paid monthly by the employer on behalf of the employee.
@@ -108,13 +103,13 @@ def lohn_st(
 
 
 def vorsorgepauschale_ab_2010(
-    bruttolohn_m: FloatSeries,
-    steuerklasse: IntSeries,
+    bruttolohn_m: float,
+    steuerklasse: int,
     eink_st_abzuege_params: dict,
-    ges_rentenv_beitr_regular_job: FloatSeries,
-    krankenv_beitr_lohnsteuer: FloatSeries,
-    _ges_pflegev_beitr_reg_beschäftigt: FloatSeries,
-) -> FloatSeries:
+    ges_rentenv_beitr_regular_job: float,
+    krankenv_beitr_lohnsteuer: float,
+    _ges_pflegev_beitr_reg_beschäftigt: float,
+) -> float:
     """
     Calculates Vorsorgepauschale for Lohnsteuer valid since 2010
     Those are deducted from gross earnings.
@@ -173,7 +168,7 @@ def vorsorgepauschale_ab_2010(
     return out.fillna(0)
 
 
-def vorsorgepauschale_2005_2010() -> FloatSeries:
+def vorsorgepauschale_2005_2010() -> float:
     """
     vorsorg_rv and vorsorg_kv_option_a are identical to after 2010
     """
@@ -209,14 +204,14 @@ def vorsorg_rv_anteil(eink_st_abzuege_params: dict):
 
 
 def steuerklasse(
-    tu_id: IntSeries,
-    gemeinsam_veranlagt: BoolSeries,
-    alleinerziehend: BoolSeries,
-    bruttolohn_m: FloatSeries,
+    tu_id: int,
+    gemeinsam_veranlagt: bool,
+    alleinerziehend: bool,
+    bruttolohn_m: float,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
-) -> IntSeries:
-    """ Determine Lohnsteuerklassen (also called 'tax brackets')
+) -> int:
+    """Determine Lohnsteuerklassen (also called 'tax brackets')
     They determine the basic allowance for the withdrawal tax
 
     1: Single
@@ -231,13 +226,13 @@ def steuerklasse(
 
     Parameters
     ----------
-    tu_id: IntSeries
+    tu_id: int
         See basic input variable :ref:`tu_id <tu_id>`.
-    gemeinsam_veranlagt: BoolSeries
-        Return of :func:`anz_erwachsene_tu`.
-    alleinerziehend: BoolSeries
+    gemeinsam_veranlagt: bool
+        Return of :func:`gemeinsam_veranlagt`.
+    alleinerziehend: bool
         See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
-    bruttolohn_m: FloatSeries
+    bruttolohn_m: float
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     eink_st_params:
         See params documentation :ref:`eink_st_params <eink_st_params>`
@@ -246,7 +241,7 @@ def steuerklasse(
 
     Returns
     ----------
-    steuerklasse: IntSeries
+    steuerklasse: int
         The steuerklasse for each person in the tax unit
     """
 

@@ -8,7 +8,6 @@ This section documents the code inside GETTSIM.
 
    interface
    functions
-   variables
+   input_variables
    variables_out
-   types
    params

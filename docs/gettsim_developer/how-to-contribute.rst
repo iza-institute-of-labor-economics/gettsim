@@ -18,7 +18,13 @@ To contribute to the project, adhere to the following process.
 Prerequisites
 -------------
 
-*  The process starts differently for regular contributors and newcomers. As a
+* Make sure you have the following programs installed and that these can be found on your path:
+
+  * A Python distribution (we recommend using: `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`_ or Anaconda)
+  * `Git <https://git-scm.com/downloads>`_
+  * A modern text editor (e.g. `VS Code <https://code.visualstudio.com/>`_)
+
+*  Cloning the repository works differently for regular contributors and newcomers. As a
    contributor you might have been granted privileges to push to the GETTSIM repository.
    Thus, you can clone the repository directly using
 
@@ -49,8 +55,8 @@ Prerequisites
    .. code-block:: bash
 
        $ conda activate gettsim
-       $ conda develop .
        $ pre-commit install
+
 
 Development workflow
 --------------------
@@ -102,11 +108,13 @@ Development workflow
 
 *  The final PR will be merged by one of the main contributors.
 
+
 Code style
 ----------
 *  We make use of NumPy-type docstrings: https://numpydoc.readthedocs.io/en/latest/format.html
 *  Otherwise, we adhere to this `styleguide <https://estimagic.readthedocs.io/en/latest/contributing/styleguide.html>`_
    (which was written for estimagic).
+
 
 FAQ
 ---

@@ -1,3 +1,10 @@
+""" Test the updating of Entgeltpunkte and
+the pension income based on Entgeltpunkte.
+
+These are "only" regression tests.
+"""
+import itertools
+
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
@@ -16,46 +23,36 @@ INPUT_COLS = [
     "alter",
     "jahr",
     "geburtsjahr",
-    "entgeltpunkte",
+    "entgeltp",
 ]
 
+OUT_COLS = [
+    "entgeltp_update",
+    "entgeltp_update_lohn",
+    # "ges_rente_regelaltersgrenze",
+    # "_ges_rentenv_beitr_bemess_grenze_m",
+]
 
 YEARS = [2010, 2012, 2015]
 
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_pensions.csv"
+    file_name = "renten_anspr.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_pension(input_data, year):
-    column = "rente_anspr_m"
-    year_data = input_data[input_data["jahr"] == year]
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+def test_renten_anspr(input_data, year, column):
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
-
-    calc_result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column,
-    )
-    assert_series_equal(calc_result[column].round(2), year_data[column])
-
-
-@pytest.mark.parametrize("year", YEARS)
-def test_update_earning_points(input_data, year):
-    year_data = input_data[input_data["jahr"] == year]
-    df = year_data[INPUT_COLS].copy()
-
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
 
     calc_result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets="entgeltpunkte_update",
+        targets=column,
     )
-    assert_series_equal(
-        calc_result["entgeltpunkte_update"], year_data["EP_end"], check_names=False
-    )
+    assert_series_equal(calc_result[column], year_data[column])

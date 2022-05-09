@@ -1,11 +1,8 @@
 from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
-def brutto_eink_1(eink_selbst_m: FloatSeries) -> FloatSeries:
-    """Aggregate income gross from self-employment to full year income.
+def eink_selbst(eink_selbst_m: float) -> float:
+    """Aggregate gross income from self-employment to full year income.
 
     Parameters
     ----------
@@ -16,33 +13,16 @@ def brutto_eink_1(eink_selbst_m: FloatSeries) -> FloatSeries:
     -------
 
     """
-    return 12 * eink_selbst_m.clip(lower=0)
+    return 12 * eink_selbst_m
 
 
-def brutto_eink_1_tu(brutto_eink_1: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate income gross from self-employment on tax unit level.
-
-
-    Parameters
-    ----------
-    brutto_eink_1
-        See :func:`brutto_eink_1`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return brutto_eink_1.groupby(tu_id).sum()
-
-
-def brutto_eink_4(
-    bruttolohn_m: FloatSeries,
-    geringfügig_beschäftigt: BoolSeries,
+def eink_abhängig_beschäftigt(
+    bruttolohn_m: float,
+    geringfügig_beschäftigt: bool,
     eink_st_abzuege_params: dict,
-) -> FloatSeries:
-    """Aggreagate monthly gross wage to yearly income and deduct 'Werbungskosten'.
+) -> float:
+    """Aggregate monthly gross wage to yearly income and deduct
+    'Werbungskostenpauschale'.
 
     The wage is reducted by a lump sum payment for 'Werbungskosten'
 
@@ -59,170 +39,105 @@ def brutto_eink_4(
     -------
 
     """
-    out = 12 * bruttolohn_m - eink_st_abzuege_params["werbungskostenpauschale"]
-    out.loc[geringfügig_beschäftigt] = 0
-    return out.clip(lower=0)
+    if geringfügig_beschäftigt:
+        out = 0.0
+    else:
+        out = 12 * bruttolohn_m - eink_st_abzuege_params["werbungskostenpauschale"]
+
+    return out
 
 
-def brutto_eink_4_tu(brutto_eink_4: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate gross income of non selfemployed work on tax unit level.
-
-    Parameters
-    ----------
-    brutto_eink_4
-        See :func:`brutto_eink_4`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return brutto_eink_4.groupby(tu_id).sum()
-
-
-def brutto_eink_5(kapital_eink_m: FloatSeries) -> FloatSeries:
+def kapitaleink_brutto(kapitaleink_brutto_m: float) -> float:
     """Aggregate monthly gross capital income to yearly income.
 
 
     Parameters
     ----------
-    kapital_eink_m
-        See basic input variable :ref:`kapital_eink_m <kapital_eink_m>`.
+    kapitaleink_brutto_m
+        See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
 
     Returns
     -------
 
     """
-    return (12 * kapital_eink_m).clip(lower=0)
+    return 12 * kapitaleink_brutto_m
 
 
-def brutto_eink_5_tu(brutto_eink_5: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate yearly gross capital income on tax unit level.
-
-    Parameters
-    ----------
-    brutto_eink_5
-        See :func:`brutto_eink_5`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return brutto_eink_5.groupby(tu_id).sum()
-
-
-def brutto_eink_6(vermiet_eink_m: FloatSeries) -> FloatSeries:
+def eink_vermietung(eink_vermietung_m: float) -> float:
     """Aggregate monthly gross rental income to yearly income.
 
     Parameters
     ----------
-    vermiet_eink_m
-        See basic input variable :ref:`vermiet_eink_m <vermiet_eink_m>`.
+    eink_vermietung_m
+        See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
 
     Returns
     -------
 
     """
-    return (12 * vermiet_eink_m).clip(lower=0)
+    return 12 * eink_vermietung_m
 
 
-def brutto_eink_6_tu(brutto_eink_6: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate yearly gross income from rents on tax unit level.
+def eink_rente_zu_verst(
+    sum_ges_rente_priv_rente_m: float, rente_ertragsanteil: float
+) -> float:
+    """Aggregate monthly gross pension income subject to taxation to yearly income.
 
     Parameters
     ----------
-    brutto_eink_6
-        See :func:`brutto_eink_6`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-
-    Returns
-    -------
-
-    """
-    return brutto_eink_6.groupby(tu_id).sum()
-
-
-def brutto_eink_7(ges_rente_m: FloatSeries, ertragsanteil: FloatSeries) -> FloatSeries:
-    """Aggregate monthly gross pension payments subject to taxation to yearly income.
-
-    We could summarize other incomes here as well, but only use pensions.
-
-    Parameters
-    ----------
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
-    ertragsanteil
-        See :func:`ertragsanteil`.
+    sum_ges_rente_priv_rente_m
+        See basic input variable :ref:`sum_ges_rente_priv_rente_m
+        <sum_ges_rente_priv_rente_m>`.
+    rente_ertragsanteil
+        See :func:`rente_ertragsanteil`.
 
     Returns
     -------
 
     """
-    return ertragsanteil * 12 * ges_rente_m
+    return rente_ertragsanteil * 12 * sum_ges_rente_priv_rente_m
 
 
-def brutto_eink_7_tu(brutto_eink_7: FloatSeries, tu_id: IntSeries) -> FloatSeries:
-    """Aggregate yearly gross pension income subject to taxation on tax unit level.
-
-    Parameters
-    ----------
-    brutto_eink_7
-        See :func:`brutto_eink_7`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    return brutto_eink_7.groupby(tu_id).sum()
-
-
-def sum_brutto_eink_ohne_kapital(
-    brutto_eink_1: FloatSeries,
-    brutto_eink_4: FloatSeries,
-    brutto_eink_6: FloatSeries,
-    brutto_eink_7: FloatSeries,
-) -> FloatSeries:
+def sum_eink_ohne_kapital(
+    eink_selbst: float,
+    eink_abhängig_beschäftigt: float,
+    eink_vermietung: float,
+    eink_rente_zu_verst: float,
+) -> float:
     """Sum of gross incomes without capital income.
 
-    Since 2009 capital income is not subject to noraml taxation.
+    Since 2009 capital income is not subject to normal taxation.
     Parameters
     ----------
-    brutto_eink_1
-        See :func:`brutto_eink_1`.
-    brutto_eink_4
-        See :func:`brutto_eink_4`.
-    brutto_eink_6
-        See :func:`brutto_eink_6`.
-    brutto_eink_7
-        See :func:`brutto_eink_7`.
+    eink_selbst
+        See :func:`eink_selbst`.
+    eink_abhängig_beschäftigt
+        See :func:`eink_abhängig_beschäftigt`.
+    eink_vermietung
+        See :func:`eink_vermietung`.
+    eink_rente_zu_verst
+        See :func:`eink_rente_zu_verst`.
 
     Returns
     -------
 
     """
-    return brutto_eink_1 + brutto_eink_4 + brutto_eink_6 + brutto_eink_7
+    out = (
+        eink_selbst + eink_abhängig_beschäftigt + eink_vermietung + eink_rente_zu_verst
+    )
+    return out
 
 
-def sum_brutto_eink_mit_kapital(
-    sum_brutto_eink_ohne_kapital: FloatSeries,
-    brutto_eink_5: FloatSeries,
+def kapitaleink(
+    kapitaleink_brutto: float,
     eink_st_abzuege_params: dict,
-):
-    """Sum of gross incomes with capital income.
+) -> float:
+    """Capital income minus Sparerpauschbetrag
 
     Parameters
     ----------
-    sum_brutto_eink_ohne_kapital
-        See :func:`sum_brutto_eink_ohne_kapital`.
-    brutto_eink_5
-        See :func:`brutto_eink_5`.
+    kapitaleink_brutto
+        See :func:`kapitaleink_brutto`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -230,14 +145,36 @@ def sum_brutto_eink_mit_kapital(
     -------
 
     """
-    return sum_brutto_eink_ohne_kapital + (
-        brutto_eink_5
+    out = (
+        kapitaleink_brutto
         - eink_st_abzuege_params["sparerpauschbetrag"]
         - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
-    ).clip(lower=0)
+    )
+
+    return max(out, 0.0)
 
 
-def ertragsanteil(jahr_renteneintr: IntSeries, eink_st_params: dict) -> FloatSeries:
+def sum_eink_mit_kapital(
+    sum_eink_ohne_kapital: float,
+    kapitaleink: float,
+) -> float:
+    """Sum of gross incomes with capital income.
+
+    Parameters
+    ----------
+    sum_eink_ohne_kapital
+        See :func:`sum_eink_ohne_kapital`.
+    kapitaleink
+        See :func:`kapitaleink`.
+
+    Returns
+    -------
+
+    """
+    return sum_eink_ohne_kapital + kapitaleink
+
+
+def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
     """Calculate the share of pensions subject to income taxation.
 
     Parameters
@@ -252,10 +189,30 @@ def ertragsanteil(jahr_renteneintr: IntSeries, eink_st_params: dict) -> FloatSer
     """
     out = piecewise_polynomial(
         x=jahr_renteneintr,
-        thresholds=eink_st_params["ertragsanteil"]["thresholds"],
-        rates=eink_st_params["ertragsanteil"]["rates"],
-        intercepts_at_lower_thresholds=eink_st_params["ertragsanteil"][
+        thresholds=eink_st_params["rente_ertragsanteil"]["thresholds"],
+        rates=eink_st_params["rente_ertragsanteil"]["rates"],
+        intercepts_at_lower_thresholds=eink_st_params["rente_ertragsanteil"][
             "intercepts_at_lower_thresholds"
         ],
     )
     return out
+
+
+def eink_rente_zu_verst_m(
+    rente_ertragsanteil: float, sum_ges_rente_priv_rente_m: float
+) -> float:
+    """Calculate pension payment subject to taxation.
+
+    Parameters
+    ----------
+    rente_ertragsanteil
+        See :func:`rente_ertragsanteil`.
+    sum_ges_rente_priv_rente_m
+        See basic input variable :ref:`sum_ges_rente_priv_rente_m
+        <sum_ges_rente_priv_rente_m>`.
+
+    Returns
+    -------
+
+    """
+    return rente_ertragsanteil * sum_ges_rente_priv_rente_m

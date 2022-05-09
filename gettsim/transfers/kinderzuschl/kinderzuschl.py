@@ -12,134 +12,127 @@ Kinderzuschlag / Additional Child Benefit
     2. net income minus housing benefit needs has to be lower than total ALG2 need plus
        additional child benefit.
 
-    3. Over a certain income threshold (which depends on housing costs, and is therefore
-       household-specific), parental income is deducted from child benefit claim.
+    3. Over a certain income threshold (which depends on housing costs, and is
+       therefore household-specific), parental income is deducted from child benefit
+       claim.
 
     In contrast to ALG2, Kiz considers only the rental costs that are attributed to the
     parents. This is done by some fixed share which is updated on annual basis
     ('jährlicher Existenzminimumsbericht')
-"""
-import pandas as pd
 
-from gettsim.typing import BoolSeries
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
+    # ToDo: Reconsider current assumption: not payed out if a pensioneer lives in the
+    # ToDo: household.
+"""
 
 
 def kinderzuschl_m_hh(
-    kinderzuschl_vermögens_check_hh: FloatSeries,
-    kinderzuschl_vorrang_hh: BoolSeries,
-    wohngeld_kinderzuschl_vorrang_hh: BoolSeries,
-    rentner_in_hh: BoolSeries,
-) -> FloatSeries:
+    _kinderzuschl_nach_vermög_check_m_hh: float,
+    kinderzuschl_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_hh: bool,
+    anz_rentner_hh: int,
+) -> float:
     """Aggregate child benefit on household level.
 
     Parameters
     ----------
-    kinderzuschl_vermögens_check_hh
-        See :func:`kinderzuschl_vermögens_check_hh`.
+    _kinderzuschl_nach_vermög_check_m_hh
+        See :func:`_kinderzuschl_nach_vermög_check_m_hh`.
     kinderzuschl_vorrang_hh
         See :func:`kinderzuschl_vorrang_hh`.
     wohngeld_kinderzuschl_vorrang_hh
         See :func:`wohngeld_kinderzuschl_vorrang_hh`.
-    rentner_in_hh
-        See :func:`rentner_in_hh`.
+    anz_rentner_hh
+        See :func:`anz_rentner_hh`.
 
     Returns
     -------
 
     """
-    out = kinderzuschl_vermögens_check_hh.copy()
-    cond = (
-        ~kinderzuschl_vorrang_hh & ~wohngeld_kinderzuschl_vorrang_hh
-    ) | rentner_in_hh
-    out.loc[cond] = 0
+    if ((not kinderzuschl_vorrang_hh) and (not wohngeld_kinderzuschl_vorrang_hh)) or (
+        anz_rentner_hh > 0
+    ):
+        out = 0.0
+    else:
+        out = _kinderzuschl_nach_vermög_check_m_hh
+
     return out
 
 
-def kinderzuschl_vorläufig_m_hh(
-    kinderzuschl_vorläufig_m: FloatSeries, hh_id: IntSeries
-) -> FloatSeries:
-    """Aggregate preliminary child benefit on household level.
-
-    Parameters
-    ----------
-    kinderzuschl_vorläufig_m
-        See :func:`kinderzuschl_vorläufig_m`.
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-
-    Returns
-    -------
-
-    """
-    return kinderzuschl_vorläufig_m.groupby(hh_id).max()
-
-
-def kinderzuschl_vorläufig_m_ab_07_2019(
-    hh_id: IntSeries,
-    arbeitsl_geld_2_brutto_eink_hh: FloatSeries,
-    kinderzuschl_eink_min: FloatSeries,
-    kinderzuschl_kindereink_abzug: FloatSeries,
-    kinderzuschl_eink_anrechn: FloatSeries,
-) -> FloatSeries:
-    """Calculate preliminary child benefit since 07/2019.
+def _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019(
+    arbeitsl_geld_2_brutto_eink_m_hh: float,
+    kinderzuschl_eink_min_m_hh: float,
+    kinderzuschl_kindereink_abzug_m_hh: float,
+    kinderzuschl_eink_anrechn_m_hh: float,
+) -> float:
+    """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
+    Arbeitslosengeld 2 applies will be checked later.
 
     Parameters
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    arbeitsl_geld_2_brutto_eink_hh
-        See :func:`arbeitsl_geld_2_brutto_eink_hh`.
-    kinderzuschl_eink_min
-        See :func:`kinderzuschl_eink_min`.
-    kinderzuschl_kindereink_abzug
-        See :func:`kinderzuschl_kindereink_abzug`.
-    kinderzuschl_eink_anrechn
-        See :func:`kinderzuschl_eink_anrechn`.
+    arbeitsl_geld_2_brutto_eink_m_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
+    kinderzuschl_eink_min_m_hh
+        See :func:`kinderzuschl_eink_min_m_hh`.
+    kinderzuschl_kindereink_abzug_m_hh
+        See :func:`kinderzuschl_kindereink_abzug_m_hh`.
+    kinderzuschl_eink_anrechn_m_hh
+        See :func:`kinderzuschl_eink_anrechn_m_hh`.
 
     Returns
     -------
 
     """
-    out = pd.Series(0, index=hh_id.index)
-    condition = hh_id.replace(arbeitsl_geld_2_brutto_eink_hh) >= kinderzuschl_eink_min
-    out.loc[condition] = (
-        kinderzuschl_kindereink_abzug.groupby(hh_id).transform("sum")
-        - kinderzuschl_eink_anrechn
-    ).clip(lower=0)
+    if arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh:
+        out = max(
+            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0.0
+        )
+    else:
+        out = 0.0
 
-    return out.groupby(hh_id).transform("max")
+    return out
 
 
-def kinderzuschl_vorläufig_m_bis_06_2019(
-    hh_id: IntSeries,
-    kinderzuschl_eink_spanne: BoolSeries,
-    kinderzuschl_kindereink_abzug: FloatSeries,
-    kinderzuschl_eink_anrechn: FloatSeries,
-) -> FloatSeries:
-    """Calculate preliminary child benefit since 2005 until 06/2019.
+def _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019(
+    arbeitsl_geld_2_brutto_eink_m_hh: float,
+    kinderzuschl_eink_min_m_hh: float,
+    kinderzuschl_eink_max_m_hh: float,
+    arbeitsl_geld_2_eink_m_hh: float,
+    kinderzuschl_kindereink_abzug_m_hh: float,
+    kinderzuschl_eink_anrechn_m_hh: float,
+) -> float:
+    """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
+    Arbeitslosengeld 2 applies will be checked later.
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kinderzuschl_eink_spanne
-        See :func:`kinderzuschl_eink_spanne`.
-    kinderzuschl_kindereink_abzug
-        See :func:`kinderzuschl_kindereink_abzug`.
-    kinderzuschl_eink_anrechn
-        See :func:`kinderzuschl_eink_anrechn`.
+    arbeitsl_geld_2_brutto_eink_m_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
+    kinderzuschl_eink_min_m_hh
+        See :func:`kinderzuschl_eink_min_m_hh`.
+    kinderzuschl_eink_max_m_hh
+        See :func:`kinderzuschl_eink_max_m_hh`.
+    arbeitsl_geld_2_eink_m_hh
+        See :func:`arbeitsl_geld_2_eink_m_hh`.
+    kinderzuschl_kindereink_abzug_m_hh
+        See :func:`kinderzuschl_kindereink_abzug_m_hh`.
+    kinderzuschl_eink_anrechn_m_hh
+        See :func:`kinderzuschl_eink_anrechn_m_hh`.
 
     Returns
     -------
 
     """
-    out = pd.Series(0, index=kinderzuschl_eink_spanne.index)
 
-    out.loc[kinderzuschl_eink_spanne] = (
-        kinderzuschl_kindereink_abzug.groupby(hh_id).transform("sum")
-        - kinderzuschl_eink_anrechn
-    ).clip(lower=0)
+    # Check if household income is in income range for child benefit.
+    if (arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh) and (
+        arbeitsl_geld_2_eink_m_hh <= kinderzuschl_eink_max_m_hh
+    ):
+        out = max(
+            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0
+        )
+    else:
+        out = 0.0
 
-    return out.groupby(hh_id).transform("max")
+    return out

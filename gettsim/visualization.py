@@ -25,9 +25,11 @@ from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
 from gettsim.config import DEFAULT_TARGETS
-from gettsim.dag import _fail_if_targets_not_in_functions
+from gettsim.config import TYPES_INPUT_VARIABLES
+from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
 from gettsim.dag import create_dag
 from gettsim.functions_loader import load_user_and_internal_functions
+from gettsim.interface import _create_aggregation_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
@@ -124,17 +126,33 @@ def plot_dag(
     functions, internal_functions = load_user_and_internal_functions(functions)
 
     # Create one dictionary of functions and perform check.
-    functions = {**internal_functions, **functions}
-    functions = {
-        k: v for k, v in functions.items() if k not in columns_overriding_functions
+    user_and_internal_functions = {**internal_functions, **functions}
+
+    # Create and add aggregation functions
+    typical_data_cols = list(TYPES_INPUT_VARIABLES)
+    aggregation_funcs = _create_aggregation_functions(
+        user_and_internal_functions,
+        targets,
+        typical_data_cols,
+        user_provided_aggregation_specs={},
+    )
+    all_functions = {**user_and_internal_functions, **aggregation_funcs}
+
+    all_functions = {
+        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
     }
-    _fail_if_targets_not_in_functions(functions, targets)
+
+    _fail_if_targets_not_in_functions_or_override_columns(
+        all_functions, targets, columns_overriding_functions
+    )
 
     # Partial parameters to functions such that they disappear in the DAG.
-    functions = _mock_parameters_arguments(functions)
-
+    all_functions = _mock_parameters_arguments(all_functions)
     dag = create_dag(
-        functions, targets, columns_overriding_functions, check_minimal_specification
+        all_functions,
+        targets,
+        columns_overriding_functions,
+        check_minimal_specification,
     )
 
     selectors = [] if selectors is None else _to_list(selectors)
@@ -260,8 +278,8 @@ def _add_url_to_dag(dag):
     for node in dag.nodes:
         # Retrieve the name from the function because some functions are defined for
         # time periods and the node name will point to a non-existent function, but the
-        # function name is a valid target. E.g., wohngeld_eink_abzüge and
-        # wohngeld_eink_abzüge_bis_2015.
+        # function name is a valid target. E.g., wohngeld_eink_abzüge_m and
+        # wohngeld_eink_abzüge_m_bis_2015.
         if "function" in dag.nodes[node]:
             # Fix for partialed functions.
             try:
@@ -493,25 +511,38 @@ def _get_selected_nodes(dag, selector):
     if selector["type"] == "nodes":
         selected_nodes = _to_list(selector["node"])
     elif selector["type"] == "ancestors":
-        selected_nodes = _node_and_ancestors(dag, selector["node"])
+        selected_nodes = _node_and_ancestors(
+            dag, selector["node"], selector.get("order", None)
+        )
     elif selector["type"] == "descendants":
-        selected_nodes = _node_and_descendants(dag, selector["node"])
+        selected_nodes = _node_and_descendants(
+            dag, selector["node"], selector.get("order", None)
+        )
     elif selector["type"] in ["neighbors", "neighbours"]:
         selected_nodes = list(
             _kth_order_neighbors(dag, selector["node"], selector.get("order", 1))
         )
     else:
-        raise NotImplementedError(f"Selector type '{selector['type']}' is not defined.")
+        raise NotImplementedError(
+            f"Selector type '{selector['type']}' is not defined. "
+            "Allowed are only 'nodes', 'ancestors', 'descendants', or 'neighbors'."
+        )
 
     return set(selected_nodes)
 
 
-def _node_and_ancestors(dag, node):
-    return [node] + list(nx.ancestors(dag, node))
+def _node_and_ancestors(dag, node, order):
+    ancestors = list(nx.ancestors(dag, node))
+    if order:
+        ancestors = list(_kth_order_predecessors(dag, node, order=order))
+    return [node] + ancestors
 
 
-def _node_and_descendants(dag, node):
-    return [node] + list(nx.descendants(dag, node))
+def _node_and_descendants(dag, node, order):
+    descendants = list(nx.descendants(dag, node))
+    if order:
+        descendants = list(_kth_order_successors(dag, node, order=order))
+    return [node] + descendants
 
 
 def _kth_order_neighbors(dag, node, order):
