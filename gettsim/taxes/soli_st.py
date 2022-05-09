@@ -95,10 +95,13 @@ def kinderfreibetrag_lohn_st(
     )
 
     # For certain tax brackets, twice the child allowance can be deducted
-    out = (
-        (kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3]))
-        + (kinderfreibetrag_basis * steuerklasse == 4)
-    ) * anz_kindergeld_kinder_tu
+
+    if steuerklasse == 1 | steuerklasse == 2 | steuerklasse == 3:
+        out = kinderfreibetrag_basis * 2 * anz_kindergeld_kinder_tu
+    elif steuerklasse == 4:
+        out = kinderfreibetrag_basis * anz_kindergeld_kinder_tu
+    else:
+        out = 0
     return out
 
 
@@ -121,11 +124,13 @@ def lohn_st_kinderfreibetrag(
         lohn_st_eink_kifb * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
-    out = (
-        (lohnsteuer_splittingtarif * (steuerklasse == 3))
-        + (lohnsteuer_basistarif * (steuerklasse.isin([1, 2, 4])))
-        + (lohnsteuer_klasse5_6 * (steuerklasse.isin([5, 6])))
-    )
+    if (steuerklasse == 1) | (steuerklasse == 2) | (steuerklasse == 4):
+        out = lohnsteuer_basistarif
+    elif steuerklasse == 3:
+        out = lohnsteuer_splittingtarif
+    else:
+        out = lohnsteuer_klasse5_6
+
     return out
 
 

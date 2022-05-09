@@ -633,6 +633,7 @@ kinderbetreuungskosten_abz_maximum:
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
 
 
+
 vorsorge_pauschale_rv_anteil:
   name:
     de: Anteil abgezogene Rentenversicherungsbeiträge
@@ -664,6 +665,18 @@ vorsorge_pauschale_rv_anteil:
       intercept_at_lower_threshold: 1
 
 
+vorsorgepauschale_mindestanteil:
+  name:
+    de: Mindestanteil für Mindestvorsorgepauschale
+    en: Minimum share for Mindestvorsorgepauschale
+  description:
+    de: Mindestanteil an Beiträgen zu GKV und GPV, der abgesetzt wird bei Mindestvorsorgepauschale
+    en: Minimum share of minimum contributions to health care and care insurance deducted from Mindestvorsorgepauschale
+  reference: 39b (2) Nr.3 EStG
+  unit: share
+  2009-07-23:
+    scalar: 0.12
+    reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 
 vorsorgepauschale_kv_max:
   name:
@@ -671,7 +684,7 @@ vorsorgepauschale_kv_max:
     en: Maximum amount Mindestvorsorgepauschale
   description:
     de: Höchsbetrag für Mindestvorsorgepauschale der Beiträge zu GKV und PKV, die von der Lohnsteuer abgesetzt werden können.
-    en: Maximum amount considered for Mindestvorsorgepauschale of contributions to health and care insurance that can be deducted from withholding tax
+    en: Maximum amount considered for Mindestvorsorgepauschale of contributions to health care and care insurance that can be deducted from withholding tax
   reference: 39b (2) Nr.3 EStG. Depends on Steuerklasse.
   unit: Euro
   time: year

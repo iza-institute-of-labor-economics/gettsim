@@ -251,7 +251,7 @@ def krankenv_beitr_lohnsteuer(
     """
     # This is essentially 'erm' plus half the top-up contribution.
     out = (
-        soz_vers_beitr_params["soz_vers_beitr"]["ges_krankenv"]["erm"]
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
         + ges_krankenv_zusatz / 100 / 2
     ) * _ges_krankenv_beitr_bruttolohn_m
 
