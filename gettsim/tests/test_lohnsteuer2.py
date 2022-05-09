@@ -34,7 +34,7 @@ YEARS = [2020]
 
 @pytest.fixture(scope="module")
 def input_data():
-    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_lohn_st_2.csv")
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "lohn_st_2.csv")
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
@@ -43,16 +43,10 @@ def test_lohnsteuer_2(input_data, year, column):
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    columns = [
-        "anz_kindergeld_kinder_tu",
-        "steuerklasse",
-    ]
-
     result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=columns,
     )
     assert_series_equal(result[column], year_data[column], check_dtype=False)
