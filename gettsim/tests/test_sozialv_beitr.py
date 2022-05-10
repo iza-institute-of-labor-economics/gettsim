@@ -23,7 +23,7 @@ INPUT_COLS = [
 ]
 
 
-YEARS = [2002, 2010, 2018, 2019, 2020]
+YEARS = [2002, 2010, 2018, 2019, 2020, 2022]
 OUT_COLS = [
     "sozialv_beitr_gesamt_m",
     "ges_rentenv_beitr_m",
@@ -56,4 +56,6 @@ def test_sozialv_beitr(input_data, year, target):
         columns_overriding_functions=OVERRIDE_COLS,
     )
 
-    pd.testing.assert_series_equal(results[target], year_data[target])
+    pd.testing.assert_series_equal(
+        results[target], year_data[target], check_exact=False, atol=0.1
+    )
