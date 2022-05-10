@@ -11,6 +11,7 @@ from gettsim.social_insurance_contributions.ges_pflegev import *  # noqa: F401, 
 from gettsim.social_insurance_contributions.ges_rentenv import *  # noqa: F401, F403
 from gettsim.taxes.abgelt_st import *  # noqa: F401, F403
 from gettsim.taxes.eink_st import *  # noqa: F401, F403
+from gettsim.taxes.lohn_st import *  # noqa: F401, F403
 from gettsim.taxes.soli_st import *  # noqa: F401, F403
 from gettsim.taxes.zu_verst_eink.eink import *  # noqa: F401, F403
 from gettsim.taxes.zu_verst_eink.freibetraege import *  # noqa: F401, F403

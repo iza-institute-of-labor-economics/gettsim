@@ -4,12 +4,24 @@ beitr_satz:
     en: Contribution rate to statutory social insurances
   description:
     de:
+      ges_krankenv: Beitragssätze für gesetzliche Krankenversicherung.
+                    mean_allgemein - durchschnittlicher Beitragssatz, bis 2008
+                    allgemein - allgemeiner Satz (§241 SGB V), ab 2009
+                    sonderbeitrag - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
+                    ermäßigt - ermäßigter Satz (§243 SGB V)
+                    zusatz - durchschnittlicher Zusatzbeitragssatz.
     en:
+      ges_krankenv: Statury Contribution Rates for mandatory health insurance.
+                    mean_allgemein - average contribution rate, 1992 to 2008
+                    allgemein - general statutory contribution rate, since 2009
+                    sonderbeitrag - paid by employees, Jul 2005 to 2014
+                    ermäßigt - reduced rate
+                    zusatz - average top-up contribution rate
+
   unit: Share
   1984-01-01:
     ges_krankenv:
-      ag: 0.0572
-      an: 0.0572
+      mean_allgemein: 0.1144
     ges_pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -17,8 +29,7 @@ beitr_satz:
     ges_rentenv: 0.0925
   1985-01-01:
     ges_krankenv:
-      ag: 0.059
-      an: 0.059
+      mean_allgemein: 0.118
     ges_pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -26,8 +37,7 @@ beitr_satz:
     ges_rentenv: 0.0935
   1986-01-01:
     ges_krankenv:
-      ag: 0.061
-      an: 0.061
+      mean_allgemein: 0.122
     ges_pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -35,8 +45,7 @@ beitr_satz:
     ges_rentenv: 0.096
   1987-01-01:
     ges_krankenv:
-      ag: 0.0624
-      an: 0.0624
+      mean_allgemein: 0.1248
     ges_pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -45,31 +54,26 @@ beitr_satz:
   1988-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.0644
-      an: 0.0644
+      allgemein: 0.1288
   1989-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.0645
-      an: 0.0645
+      allgemein: 0.129
   1990-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.0625
-      an: 0.0625
+      allgemein: 0.125
   1991-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.064
-      an: 0.064
+      allgemein: .128
   1992-01-01:
     deviation_from: previous
     arbeitsl_v: 0.0315
     ges_rentenv: 0.0885
   1993-01-01:
     ges_krankenv:
-      ag: 0.067
-      an: 0.067
+      mean_allgemein: 0.134
     ges_pflegev:
       standard: 0
       zusatz_kinderlos: 0
@@ -81,8 +85,7 @@ beitr_satz:
   1995-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.066
-      an: 0.066
+      mean_allgemein: 0.132
     ges_rentenv: 0.093
   1996-01-01:
     deviation_from: previous
@@ -91,8 +94,7 @@ beitr_satz:
       standard: 0.005
   1997-01-01:
     ges_krankenv:
-      ag: 0.067
-      an: 0.067
+      mean_allgemein: 0.134
     ges_pflegev:
       standard: 0.0085
       zusatz_kinderlos: 0
@@ -101,61 +103,55 @@ beitr_satz:
   1998-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.068
-      an: 0.068
+      mean_allgemein: 0.136
   2000-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.06785
-      an: 0.06785
+      mean_allgemein: 0.1357
     ges_rentenv: 0.0965
   2001-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.0679
-      an: 0.0679
+      mean_allgemein: 0.1358
     ges_rentenv: 0.0955
   2002-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.07
-      an: 0.07
+      mean_allgemein: 0.14
   2003-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.072
-      an: 0.072
+      mean_allgemein: 0.144
     ges_rentenv: 0.0975
   2004-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.071
-      an: 0.071
+      mean_allgemein: 0.142
   2005-01-01:
     ges_krankenv:
-      ag: 0.0689
-      an: 0.0689
+      mean_allgemein: 0.142
     ges_pflegev:
       standard: 0.0085
       zusatz_kinderlos: 0.0025
     arbeitsl_v: 0.0325
     ges_rentenv: 0.0975
-  2006-01-01:
+  2005-07-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.0666
-      an: 0.0756
+      mean_allgemein: 0.133
+      sonderbeitrag: 0.009
+    note: Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung des Sonderbeitrags
+    reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
   2007-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.0695
-      an: 0.0785
+      mean_allgemein: 0.139
     arbeitsl_v: 0.021
     ges_rentenv: 0.0995
   2008-01-01:
     ges_krankenv:
-      ag: 0.07
-      an: 0.079
+      allgemein: 0.14
+      sonderbeitrag: 0.009
     ges_pflegev:
       standard: 0.00975
       zusatz_kinderlos: 0.0025
@@ -164,19 +160,22 @@ beitr_satz:
   2009-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.073
-      an: 0.082
+      allgemein: 0.146
+      sonderbeitrag: 0.009
+      ermäßigt: 0.140
     arbeitsl_v: 0.014
-  2010-01-01:
+  2009-07-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.07
-      an: 0.079
+      allgemein: 0.14
+      ermäßigt: 0.134
+      sonderbeitrag: 0.009
   2011-01-01:
     deviation_from: previous
     ges_krankenv:
-      ag: 0.073
-      an: 0.082
+      allgemein: 0.146
+      ermäßigt: 0.14
+    reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
     arbeitsl_v: 0.015
   2012-01-01:
     deviation_from: previous
@@ -189,18 +188,20 @@ beitr_satz:
       standard: 0.01025
   2015-01-01:
     ges_krankenv:
-      ag: 0.073
-      an: 0.082
+      allgemein: 0.146
+      ermäßigt: 0.14
+      mean_zusatzbeitrag: 0.009
     ges_pflegev:
       standard: 0.01175
       zusatz_kinderlos: 0.0025
     arbeitsl_v: 0.015
     ges_rentenv: 0.0935
+    note: Abschaffung Sonderbeitrag, Einführung kassenabhängiger Zusatzbeitrag
   2016-01-01:
     deviation_from: previous
-    note: Bekanntmachung Bundesanzeiger 30.12.2015 und  http://www.bmg.bund.de/ministerium/meldungen/2015/gkv-zusatzbeitrag.html
     ges_krankenv:
-      an: 0.084
+      mean_zusatzbeitrag: 0.011
+    note: Bekanntmachung Bundesanzeiger 30.12.2015
   2017-01-01:
     deviation_from: previous
     ges_pflegev:
@@ -208,31 +209,30 @@ beitr_satz:
   2018-01-01:
     deviation_from: previous
     ges_krankenv:
-      an: 0.083
+      mean_zusatzbeitrag: 0.01
     ges_rentenv: 0.093
   2019-01-01:
     note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387. Durchschnittlicher zusatzbeitragssatz 0,9%
     ges_krankenv:
-      ag: 0.0775
-      an: 0.0775
+      allgemein: 0.146
+      ermäßigt: 0.14
+      mean_zusatzbeitrag: 0.009
     ges_pflegev:
       standard: 0.01525
       zusatz_kinderlos: 0.0025
     arbeitsl_v: 0.013
     ges_rentenv: 0.093
   2020-01-01:
-    note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
     deviation_from: previous
     ges_krankenv:
-      ag: 0.0785
-      an: 0.0785
+      mean_zusatzbeitrag: 0.011
     arbeitsl_v: 0.012
+    note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
   2021-01-01:
     deviation_from: previous
-    note: Durchschnittlicher Zusatzbeitragssatz 1,3%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
     ges_krankenv:
-      ag: 0.0795
-      an: 0.0795
+      mean_zusatzbeitrag: 0.013
+    note: Durchschnittlicher Zusatzbeitragssatz 1,3%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
   2022-01-01:
     deviation_from: previous
     ges_pflegev:

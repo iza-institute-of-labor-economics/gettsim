@@ -1,3 +1,5 @@
+import numpy as np
+
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 
@@ -38,15 +40,7 @@ def soli_st_tu(
     """
     eink_st_per_individual = eink_st_mit_kinderfreib_tu / anz_erwachsene_tu
     out = (
-        anz_erwachsene_tu
-        * piecewise_polynomial(
-            eink_st_per_individual,
-            thresholds=soli_st_params["soli_st"]["thresholds"],
-            rates=soli_st_params["soli_st"]["rates"],
-            intercepts_at_lower_thresholds=soli_st_params["soli_st"][
-                "intercepts_at_lower_thresholds"
-            ],
-        )
+        anz_erwachsene_tu * _soli_tarif(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_tu
     )
 
@@ -95,7 +89,6 @@ def kinderfreibetrag_lohn_st(
     )
 
     # For certain tax brackets, twice the child allowance can be deducted
-
     if steuerklasse == 1 | steuerklasse == 2 | steuerklasse == 3:
         out = kinderfreibetrag_basis * 2 * anz_kindergeld_kinder_tu
     elif steuerklasse == 4:
@@ -158,4 +151,5 @@ def _soli_tarif(st_per_individual: float, soli_st_params: dict) -> float:
             "intercepts_at_lower_thresholds"
         ],
     )
+
     return out

@@ -204,13 +204,13 @@ eink_st_tarif:
 rente_ertragsanteil:
   name:
     de: >-
-      Piecewise linear Ertrgasanteil funktion für den Anteil an
-      sozialversicherungspflichtigen Renteneinkommen.
+      Piecewise linear Ertragsanteil-Funktion für den Anteil an
+      sozialversicherungspflichtigen Renteneinkommen
     en:
       Piecewise linear function for calculating the share of pensions subject to income
       taxation.
   description:
-    de: Einkommensteuergesetz (EStG) § 22
+    de: § 22 EStG
     en:
   note:
     de: >-
