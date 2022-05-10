@@ -5,7 +5,14 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.5.1 —
+0.5.2 —
+------------------
+* :gh:`323` Health care contribution parameters are better aligned with law.
+  Restructure calculation of ges_krankenv, minor changes to ges_pflegev.
+  (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
+
+
+0.5.1 — 2022-04-21
 ------------------
 * :gh:`377` Fix wrong parameter value for `ges_pflegev` contribution
   (:ghuser:`JuergenWiemers`).
@@ -13,7 +20,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 * :gh:`385` Make altersentlastungsbetrag dependent on age not on current 
   date (:ghuser:`m-pannier`, :ghuser:`lillyfischer`).
 
-0.5.0 — 01.04.2022
+0.5.0 — 2022-04-01
 ------------------
 
 * :gh:`327` add behinderten_pauschbetrag for 1975-1986 (:ghuser:`lillyfischer`).

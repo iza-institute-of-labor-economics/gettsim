@@ -1,13 +1,11 @@
 kinderfreibetrag:
   name:
-    de: >-
-      Kinderfreibetrag (sächliches Existenzminimum des Kindes,
-      seit 2000 auch der Freibetrag für Betreuungs-, Erziehungs-
-      und Ausbildungskosten)
+    de: Kinderfreibetrag
     en: Basic Income Tax Allowance for children
   description:
     de: >-
-      § 32 (6) EStG, früher auch Absatz 7 und 8. Wird verdoppelt für gemeinsam
+      sächliches Existenzminimum des Kindes, seit 2000 auch der Freibetrag für
+      Betreuungs-, Erziehungs- und Ausbildungskosten. Wird verdoppelt für gemeinsam
       veranlagte Paare. §32 (6) EStG, seit 2000.
     en:
   unit: Euro
