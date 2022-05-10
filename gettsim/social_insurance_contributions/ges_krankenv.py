@@ -383,15 +383,15 @@ def _ges_krankenv_midi_job_arbeitn_m(
 
 
 def krankenv_beitr_lohnsteuer(
-    _ges_krankenv_beitr_bruttolohn_m: float,
+    _ges_krankenv_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
     ges_krankenv_zusatz: float,
 ) -> float:
     """Calculates health insurance contributions as used by lohnsteuer
     Parameters
     ----------
-    _ges_krankenv_beitr_bruttolohn_m
-        See :func:`_ges_krankenv_beitr_bruttolohn_m`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     ges_krankenv_zusatz
@@ -404,6 +404,6 @@ def krankenv_beitr_lohnsteuer(
     out = (
         soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["an"]
         + ges_krankenv_zusatz / 100 / 2
-    ) * _ges_krankenv_beitr_bruttolohn_m
+    ) * _ges_krankenv_bruttolohn_m
 
     return out
