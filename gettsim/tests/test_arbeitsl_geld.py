@@ -53,6 +53,6 @@ def test_arbeitsl_geld(
         result["arbeitsl_geld_m"],
         year_data["arbeitsl_geld_m"],
         atol=1e-3,
-        rtol=1,
+        rtol=1e-4,
         check_dtype=False,
     )
