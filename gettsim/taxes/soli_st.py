@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 
@@ -117,7 +115,7 @@ def lohn_st_kinderfreibetrag(
         lohn_st_eink_kifb * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
-    if (steuerklasse == 1) | (steuerklasse == 2) | (steuerklasse == 4):
+    if steuerklasse in (1, 2, 4):
         out = lohnsteuer_basistarif
     elif steuerklasse == 3:
         out = lohnsteuer_splittingtarif

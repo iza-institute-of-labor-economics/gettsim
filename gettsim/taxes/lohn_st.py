@@ -92,7 +92,7 @@ def lohn_st(lohn_st_eink: float, eink_st_params: dict, steuerklasse: int) -> flo
         lohn_st_eink * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
-    if (steuerklasse == 1) | (steuerklasse == 2) | (steuerklasse == 4):
+    if steuerklasse in (1, 2, 4):
         out = lohnsteuer_basistarif
     elif steuerklasse == 3:
         out = lohnsteuer_splittingtarif
@@ -193,7 +193,7 @@ def vorsorg_rv_anteil(eink_st_abzuege_params: dict, jahr: int):
     """
 
     out = piecewise_polynomial(
-        x=jahr,      
+        x=jahr,
         thresholds=eink_st_abzuege_params["vorsorge_pauschale_rv_anteil"]["thresholds"],
         rates=eink_st_abzuege_params["vorsorge_pauschale_rv_anteil"]["rates"],
         intercepts_at_lower_thresholds=eink_st_abzuege_params[
