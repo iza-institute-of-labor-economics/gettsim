@@ -12,14 +12,26 @@ from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.piecewise_functions import piecewise_polynomial
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_satz_arbeitg_ab_2019,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_beitr_satz_arbeitg_bis_2018,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    ges_krankenv_beitr_satz_ab_2019,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    ges_krankenv_beitr_satz_bis_2018,
+)
 from gettsim.taxes.eink_st import eink_st_tu_ab_1997
 from gettsim.taxes.eink_st import eink_st_tu_bis_1996
 from gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import sum_eink_ohne_kapital
-from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_alleinerz_freib_tu_ab_2015
-from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_alleinerz_freib_tu_bis_2014
-from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibeträge import eink_st_sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_ab_2015
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_bis_2014
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_ab_2012
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_bis_2011
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2005_bis_2009
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2010_bis_2019
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2020
@@ -224,13 +236,13 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
         # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
             pd.Series(jahr),
-            thresholds=params["eink_st_abzüge"]["einführungsfaktor"]["thresholds"],
-            rates=params["eink_st_abzüge"]["einführungsfaktor"]["rates"],
-            intercepts_at_lower_thresholds=params["eink_st_abzüge"][
+            thresholds=params["eink_st_abzuege"]["einführungsfaktor"]["thresholds"],
+            rates=params["eink_st_abzuege"]["einführungsfaktor"]["rates"],
+            intercepts_at_lower_thresholds=params["eink_st_abzuege"][
                 "einführungsfaktor"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzüge"][
+        params["eink_st_abzuege"][
             "einführungsfaktor_vorsorgeaufw_alter_ab_2005"
         ] = out.loc[0]
     return params
@@ -348,6 +360,18 @@ def load_reforms_for_date(date):
     else:
         functions["ges_rente_m"] = ges_rente_nach_grundr_m
         functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_ab_2021
+
+    # Equal split of Zusatzbeitrag for health insurance contribution rates
+    if year <= 2018:
+        functions["ges_krankenv_beitr_satz"] = ges_krankenv_beitr_satz_bis_2018
+        functions[
+            "_ges_krankenv_beitr_satz_arbeitg"
+        ] = _ges_krankenv_beitr_satz_arbeitg_bis_2018
+    else:
+        functions["ges_krankenv_beitr_satz"] = ges_krankenv_beitr_satz_ab_2019
+        functions[
+            "_ges_krankenv_beitr_satz_arbeitg"
+        ] = _ges_krankenv_beitr_satz_arbeitg_ab_2019
 
     return functions
 

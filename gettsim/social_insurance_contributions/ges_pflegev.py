@@ -28,7 +28,7 @@ def ges_pflegev_beitr_m(
     ges_pflegev_beitr_selbst_m: float,
     _ges_pflegev_beitr_midi_job_m_m: float,
     ges_pflegev_zusatz_kinderlos: bool,
-    _ges_krankenv_beitr_bruttolohn_m: float,
+    _ges_krankenv_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
     in_gleitzone: bool,
     selbstständig: bool,
@@ -47,8 +47,8 @@ def ges_pflegev_beitr_m(
         See :func:`_ges_pflegev_beitr_midi_job_m_m`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
-    _ges_krankenv_beitr_bruttolohn_m
-        See :func:`_ges_krankenv_beitr_bruttolohn_m`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     in_gleitzone
@@ -63,14 +63,14 @@ def ges_pflegev_beitr_m(
 
     # Calculate care insurance contributions for regular jobs.
     beitr_regulär_beschäftigt_m = (
-        _ges_krankenv_beitr_bruttolohn_m
+        _ges_krankenv_bruttolohn_m
         * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         beitr_regulär_beschäftigt_m += (
-            _ges_krankenv_beitr_bruttolohn_m
+            _ges_krankenv_bruttolohn_m
             * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 

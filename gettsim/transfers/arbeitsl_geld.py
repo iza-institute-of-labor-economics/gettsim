@@ -112,7 +112,7 @@ def arbeitsl_geld_eink_vorj_proxy(
     bruttolohn_vorj_m: float,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
-    eink_st_abzüge_params: dict,
+    eink_st_abzuege_params: dict,
     soli_st_params: dict,
 ) -> float:
     """Approximate last years income for unemployment benefit.
@@ -127,8 +127,8 @@ def arbeitsl_geld_eink_vorj_proxy(
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
-    eink_st_abzüge_params
-        See params documentation :ref:`eink_st_abzüge_params <eink_st_abzüge_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -144,7 +144,7 @@ def arbeitsl_geld_eink_vorj_proxy(
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_tax = _eink_st_tarif(
-        12 * max_wage - eink_st_abzüge_params["werbungskostenpauschale"],
+        12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
     )
     prox_soli = piecewise_polynomial(

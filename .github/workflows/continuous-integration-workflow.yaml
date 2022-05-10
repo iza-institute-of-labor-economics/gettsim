@@ -29,7 +29,7 @@ jobs:
 
       - name: Run pytest.
         shell: bash -l {0}
-        run: pytest --ignore=gettsim/dashboard/ --cov-report=xml --cov=./
+        run: pytest --ignore=dashboard/ --cov-report=xml --cov=./
 
       - name: Upload coverage report.
         if: runner.os == 'Linux' && matrix.python-version == '3.9'
@@ -44,11 +44,11 @@ jobs:
           pre-commit install -f --install-hooks
           pre-commit run --all-files
 
-  # run-jax-tests:
+   # run-jax-tests:
 
-  #   name: Run jax tests on Linux
+  #  name: Run jax tests on Linux
   #   runs-on: ubuntu-latest
-
+  
   #   steps:
   #     - uses: actions/checkout@v2
   #     - uses: conda-incubator/setup-miniconda@v2
@@ -58,11 +58,11 @@ jobs:
   #         activate-environment: gettsim
   #         environment-file: environment_jax.yml
 
-  #     - name: Run pytest on jax tests.
+  #    - name: Run pytest on jax tests.
   #       shell: bash -l {0}
   #       run: pytest --ignore=gettsim/dashboard/ --cov-report=xml --cov=./
 
-  #     - name: Upload coverage report.
+  #    - name: Upload coverage report.
   #       uses: codecov/codecov-action@v1
   #       with:
   #         token: ${{ secrets.CODECOV_TOKEN }}

@@ -74,7 +74,7 @@ def deduction_data(start, end):
     # Loop through years to get the policy parameters
     for i in years:
         policy_params, policy_functions = set_up_policy_environment(i)
-        params = policy_params["eink_st_abzüge"]
+        params = policy_params["eink_st_abzuege"]
         if i < 2002:
             params["grundfreibetrag"] = round(grundfreibetrag[i])
         if i >= 2002:
@@ -276,16 +276,21 @@ def social_security_data(start, end):
     # Dictionary entries into columns
     ges_krankenv = soz_vers_df["ges_krankenv"].apply(pd.Series)
     ges_pflegev = soz_vers_df["ges_pflegev"].apply(pd.Series)
-    #
-    soz_vers_out = pd.concat(
-        [soz_vers_df[["arbeitsl_v", "ges_rentenv"]], ges_krankenv, ges_pflegev], axis=1
-    )
 
+    soz_vers_out = pd.concat(
+        [
+            soz_vers_df[["arbeitsl_v", "ges_rentenv"]],
+            ges_krankenv[["mean_allgemein", "allgemein", "zusatz"]],
+            ges_pflegev,
+        ],
+        axis=1,
+    )
     soz_vers_out.columns = [
         "unemployment insurance",
         "pension insurance",
-        "health insurance employer",
-        "health insurance employee",
+        "health insurance average",
+        "health insurance general",
+        "health insurance top-up",
         "care insurance",
         "additional care insurance no child",
     ]
