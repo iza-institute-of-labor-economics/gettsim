@@ -37,6 +37,18 @@ INTERNAL_PARAM_GROUPS = [
     "grunds_im_alter",
 ]
 
+SUPPORTED_GROUPINGS = {
+    "tu": {
+        "name": "tax unit",
+        "description": "one or two persons that file their taxes together.",
+        "nested_by": "hh",
+    },
+    "hh": {
+        "name": "household",
+        "description": "all individuals living in the same household.",
+    },
+}
+
 ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
 
 DEFAULT_TARGETS = [
