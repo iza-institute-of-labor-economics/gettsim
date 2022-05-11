@@ -114,7 +114,6 @@ def test_zu_verst_eink(
         expected_result,
         check_dtype=False,
         atol=1e-1,
-        rtol=1,
     )
 
 
