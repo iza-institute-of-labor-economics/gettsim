@@ -60,6 +60,4 @@ def test_vorsorgeaufw(
     )
 
     # TODO: Here our test values are off by about 5 euro. We should revisit. See #217.
-    assert_series_equal(
-        result[target], year_data[target], atol=1e-1, rtol=1, check_dtype=False
-    )
+    assert_series_equal(result[target], year_data[target], atol=1e-1, check_dtype=False)

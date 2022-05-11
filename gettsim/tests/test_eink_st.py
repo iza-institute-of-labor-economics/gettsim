@@ -69,5 +69,8 @@ def test_eink_st(
     )
 
     assert_series_equal(
-        result[column], year_data[column], check_dtype=False, atol=1e-2, rtol=1
+        result[column],
+        year_data[column],
+        check_dtype=False,
+        atol=1,
     )
