@@ -51,4 +51,4 @@ def test_favorability_check(input_data, year, target):
         columns_overriding_functions=columns_overriding_functions,
     )
 
-    assert_series_equal(result[target], year_data[target], check_dtype=False)
+    assert_series_equal(result[target], year_data[target], check_dtype=False, atol=0)

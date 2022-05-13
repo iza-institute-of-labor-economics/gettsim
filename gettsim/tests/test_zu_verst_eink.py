@@ -113,7 +113,7 @@ def test_zu_verst_eink(
         result[target],
         expected_result,
         check_dtype=False,
-        atol=1e-1,
+        atol=0,
     )
 
 

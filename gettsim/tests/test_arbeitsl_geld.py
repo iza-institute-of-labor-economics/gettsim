@@ -52,6 +52,6 @@ def test_arbeitsl_geld(
     assert_series_equal(
         result["arbeitsl_geld_m"],
         year_data["arbeitsl_geld_m"],
-        atol=1e-3,
+        atol=0,
         check_dtype=False,
     )

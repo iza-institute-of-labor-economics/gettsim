@@ -47,4 +47,5 @@ def test_soli_st(
         results["soli_st_tu"],
         year_data["soli_st_tu"],
         check_dtype=False,
+        atol=0,
     )

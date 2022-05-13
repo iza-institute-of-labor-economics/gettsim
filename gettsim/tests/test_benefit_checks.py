@@ -58,4 +58,4 @@ def test_benefit_checks(input_data, year, target):
         targets=target,
         columns_overriding_functions=columns,
     )
-    assert_series_equal(result[target], year_data[target], check_dtype=False)
+    assert_series_equal(result[target], year_data[target], check_dtype=False, atol=0)

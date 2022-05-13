@@ -55,4 +55,4 @@ def test_renten_anspr(input_data, year, column):
         functions=policy_functions,
         targets=column,
     )
-    assert_series_equal(calc_result[column], year_data[column])
+    assert_series_equal(calc_result[column], year_data[column], atol=0)

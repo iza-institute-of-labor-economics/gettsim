@@ -72,5 +72,5 @@ def test_eink_st(
         result[column],
         year_data[column],
         check_dtype=False,
-        atol=1,
+        atol=0,
     )

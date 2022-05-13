@@ -71,4 +71,5 @@ def test_kinderzuschl(
         result[column],
         year_data[column],
         check_dtype=False,
+        atol=0,
     )

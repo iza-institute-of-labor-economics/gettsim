@@ -57,4 +57,4 @@ def test_unterhalt(input_data, column, year, month):
         columns_overriding_functions=["arbeitsl_geld_m", "sum_ges_rente_priv_rente_m"],
     )
 
-    assert_series_equal(result[column], year_data[column], check_dtype=False)
+    assert_series_equal(result[column], year_data[column], check_dtype=False, atol=0)

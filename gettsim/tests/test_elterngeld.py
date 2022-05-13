@@ -82,5 +82,5 @@ def test_elterngeld(
         result[column],
         year_data[column],
         check_dtype=False,
-        atol=1e-2,
+        atol=0,
     )
