@@ -631,3 +631,35 @@ kinderbetreuungskosten_abz_maximum:
   2012-01-01:
     scalar: 4000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
+
+rounding:
+  vorsorgeaufw:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  vorsorgeaufw_ab_2010_bis_2019:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  vorsorgeaufw_ab_2020:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  vorsorgeaufw_bis_2004:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  vorsorgeaufw_ab_2005_bis_2009:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest

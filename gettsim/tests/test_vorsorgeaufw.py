@@ -22,10 +22,10 @@ INPUT_COLS = [
     "jahr",
     "ges_krankenv_beitr_m",
 ]
-OUT_COLS = ["vorsorge"]
+OUT_COLS = ["vorsorgeaufw"]
 
-TEST_COLS = ["vorsorge"]
-YEARS = [2004, 2005, 2010, 2012, 2025]
+TEST_COLS = ["vorsorgeaufw"]
+YEARS = [2004, 2005, 2010, 2012, 2018, 2020, 2021, 2025]
 
 OVERRIDE_COLS = [
     "ges_krankenv_beitr_m",

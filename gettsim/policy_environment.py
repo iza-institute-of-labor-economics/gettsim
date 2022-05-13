@@ -293,13 +293,13 @@ def load_reforms_for_date(date):
         functions["sonderausgaben"] = eink_st_sonderausgaben_bis_2011
 
     if year >= 2020:
-        functions["vorsorge"] = vorsorgeaufw_ab_2020
+        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2020
     elif 2020 > year >= 2010:
-        functions["vorsorge"] = vorsorgeaufw_ab_2010_bis_2019
+        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2010_bis_2019
     elif 2010 > year >= 2005:
-        functions["vorsorge"] = vorsorgeaufw_ab_2005_bis_2009
+        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2005_bis_2009
     elif year <= 2004:
-        functions["vorsorge"] = vorsorgeaufw_bis_2004
+        functions["vorsorgeaufw"] = vorsorgeaufw_bis_2004
 
     if year <= 2015:
         functions["wohngeld_eink_abzüge_m"] = wohngeld_eink_abzüge_m_bis_2015
