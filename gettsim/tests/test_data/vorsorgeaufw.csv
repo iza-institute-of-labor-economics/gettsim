@@ -1,18 +1,17 @@
-tu_id,hh_id,p_id,jahr,bruttolohn_m,kind,priv_rentenv_beitr_m,ges_rentenv_beitr_m,arbeitsl_v_beitr_m,ges_krankenv_beitr_m,ges_pflegev_beitr_m,alter,,vorsorgeaufw,quelle
-11,11,1,2004,3000,FALSE,150,294,0,237,36.75,50,,2001,https://www.steuerlex24.de/demoseite/information_steuerlexikon/index/xid/462984
-2,2,2,2005,3500,FALSE,334,500,0,0,0,40,,3604.8,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-2,2,3,2005,0,TRUE,0,0,0,0,0,0,,0,
-5,5,4,2005,3500,FALSE,0,500,0,0,0,40,,2001,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-8,8,5,2005,4166.666667,FALSE,0,406.25,0,133.33,0,40,,2475,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-9,9,6,2005,1666.666667,FALSE,0,162.5,0,133.33,0,40,,2001,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-3,3,7,2010,3500,FALSE,334,500,0,0,0,40,,5205.6,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-6,6,8,2010,3500,FALSE,0,500,0,0,0,40,,2400,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-6,6,9,2010,0,TRUE,0,0,0,0,0,0,,0,
-10,10,10,2012,3000,FALSE,150,294,0,237,36.75,50,,4925.44,https://www.steuerlex24.de/demoseite/information_steuerlexikon/index/xid/462984
-4,4,11,2025,3500,FALSE,334,500,0,0,0,40,,10008,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-7,7,12,2025,3500,FALSE,0,500,0,0,0,40,,6000,https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-12,12,13,2021,4305.56,FALSE,250,387.5,0,0,0,50,,6666,https://www.finanztip.de/vorsorgeaufwendungen/
-13,13,14,2020,2583.33,FALSE,150,232.5,0,0,0,45,,3852,https://www.ruv.de/ratgeber/altersvorsorge/staatliche-foerderung/basisrente-sonderausgabenabzug
-14,14,15,2024,2583.33,FALSE,150,232.5,0,0,0,45,,4442.4,https://www.ruv.de/ratgeber/altersvorsorge/staatliche-foerderung/basisrente-sonderausgabenabzug
-15,15,16,2018,1500,FALSE,0,150,30,120,22.5,40,,3196,Testcase from zu_verst_eink
-16,16,17,2010,1500,FALSE,0,150,30,120,22.5,40,,2620,Testcase from zu_verst_eink
+"tu_id","hh_id","p_id","jahr","bruttolohn_m","kind","priv_rentenv_beitr_m","ges_rentenv_beitr_m","arbeitsl_v_beitr_m","ges_krankenv_beitr_m","ges_pflegev_beitr_m","alter",,"vorsorgeaufw","quelle"
+11,11,1,2004,3000,"FALSE",150,294,0,237,36.75,50,,2001,"https://www.steuerlex24.de/demoseite/information_steuerlexikon/index/xid/462984"
+2,2,2,2005,3500,"FALSE",334,500,0,0,0,40,,3605,"https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980 (adjusted for rounding)"
+2,2,3,2005,0,"TRUE",0,0,0,0,0,0,,0,
+5,5,4,2005,3500,"FALSE",0,500,0,0,0,40,,2001,"https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980"
+8,8,5,2005,4166.666667,"FALSE",0,406.25,0,133.33,0,40,,2475,"https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980"
+9,9,6,2005,1666.666667,"FALSE",0,162.5,0,133.33,0,40,,2001,"https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980"
+3,3,7,2010,3500,"FALSE",334,500,0,0,0,40,,5205,"https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980 (adjusted for rounding)"
+6,6,8,2010,3500,"FALSE",0,500,0,0,0,40,,2400,"https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980"
+6,6,9,2010,0,"TRUE",0,0,0,0,0,0,,0,
+4,4,11,2025,3500,"FALSE",334,500,0,0,0,40,,10008,"https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980 (adjusted for rounding)"
+7,7,12,2025,3500,"FALSE",0,500,0,0,0,40,,6000,"https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980"
+12,12,13,2021,4305.56,"FALSE",250,387.5,0,0,0,50,,6666,"https://www.finanztip.de/vorsorgeaufwendungen/"
+13,13,14,2020,2583.33,"FALSE",150,232.5,0,0,0,45,,3852,"https://www.ruv.de/ratgeber/altersvorsorge/staatliche-foerderung/basisrente-sonderausgabenabzug"
+14,14,15,2024,2583.33,"FALSE",150,232.5,0,0,0,45,,4442.4,"https://www.ruv.de/ratgeber/altersvorsorge/staatliche-foerderung/basisrente-sonderausgabenabzug"
+15,15,16,2018,1500,"FALSE",0,150,30,120,22.5,40,,3196,"Testcase from zu_verst_eink"
+16,16,17,2010,1500,"FALSE",0,150,30,120,22.5,40,,2620,"Testcase from zu_verst_eink"

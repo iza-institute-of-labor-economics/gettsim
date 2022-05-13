@@ -79,8 +79,5 @@ def test_elterngeld(
     )
 
     assert_series_equal(
-        result[column],
-        year_data[column],
-        check_dtype=False,
-        atol=0,
+        result[column], year_data[column], check_dtype=False, atol=1e-1, rtol=0
     )

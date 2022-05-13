@@ -16,7 +16,7 @@ applying the tax schedule.
 
 
 def freibeträge(
-    vorsorge: float,
+    vorsorgeaufw: float,
     sonderausgaben: float,
     _eink_st_behinderungsgrad_pauschbetrag: float,
     alleinerz_freib_tu: float,
@@ -27,8 +27,8 @@ def freibeträge(
     Parameters
     ----------
 
-    vorsorge
-        See :func:`vorsorge`.
+    vorsorgeaufw
+        See :func:`vorsorgeaufw`.
     sonderausgaben
         See :func:`sonderausgaben`.
     _eink_st_behinderungsgrad_pauschbetrag
@@ -46,7 +46,7 @@ def freibeträge(
     """
 
     out = (
-        vorsorge
+        vorsorgeaufw
         + sonderausgaben
         + _eink_st_behinderungsgrad_pauschbetrag
         + alleinerz_freib_tu

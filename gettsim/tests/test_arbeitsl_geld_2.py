@@ -103,4 +103,4 @@ def test_arbeitsl_geld_2(input_data, year, column):
         result = calc_result[column].round(2)
     else:
         result = calc_result[column]
-    assert_series_equal(result, year_data[column], check_dtype=False, atol=0)
+    assert_series_equal(result, year_data[column], check_dtype=False, atol=1e-1, rtol=0)

@@ -51,7 +51,7 @@ OUT_COLS = [
     "sonder",
     "alleinerz_freib_tu",
     "eink_st_altersfreib",
-    "vorsorge",
+    "vorsorgeaufw",
 ]
 
 TEST_COLS = [
@@ -110,10 +110,7 @@ def test_zu_verst_eink(
 
     # TODO: There are large differences for the 2018 test. See #217.
     assert_series_equal(
-        result[target],
-        expected_result,
-        check_dtype=False,
-        atol=0,
+        result[target], expected_result, check_dtype=False, atol=1e-1, rtol=0
     )
 
 

@@ -25,7 +25,7 @@ INPUT_COLS = [
 OUT_COLS = ["vorsorgeaufw"]
 
 TEST_COLS = ["vorsorgeaufw"]
-YEARS = [2004, 2005, 2010, 2012, 2018, 2020, 2021, 2025]
+YEARS = [2004, 2005, 2010, 2018, 2020, 2021, 2024, 2025]
 
 OVERRIDE_COLS = [
     "ges_krankenv_beitr_m",
@@ -60,5 +60,6 @@ def test_vorsorgeaufw(
         columns_overriding_functions=OVERRIDE_COLS,
     )
 
-    # TODO: Here our test values are off by about 5 euro. We should revisit. See #217.
-    assert_series_equal(result[target], year_data[target], atol=0, check_dtype=False)
+    assert_series_equal(
+        result[target], year_data[target], atol=1, rtol=0, check_dtype=False
+    )
