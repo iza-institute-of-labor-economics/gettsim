@@ -34,33 +34,21 @@ INPUT_COLS = [
     "wohnort_ost",
     "ges_krankenv_beitr_m",
 ]
-OUT_COLS = [
-    "zu_verst_eink_kein_kinderfreib",
-    "zu_verst_eink_kinderfreib",
-    "kinderfreib",
-    "eink_selbst_m",
-    "eink_abhängig_beschäftigt",
-    "kapitaleink_brutto_m",
-    "eink_vermietung_m",
-    "eink_rente_zu_verst",
-    "eink_selbst_tu",
-    "eink_abhängig_beschäftigt_tu",
-    "kapitaleink_brutto_tu",
-    "eink_vermietung_m_tu",
-    "rente_ertragsanteil",
-    "sonder",
-    "alleinerz_freib_tu",
-    "eink_st_altersfreib",
-    "vorsorgeaufw",
-]
 
-TEST_COLS = [
+OUT_COLS = [
     "_zu_verst_eink_ohne_kinderfreib_tu",
     "zu_verst_eink_mit_kinderfreib_tu",
     "eink_st_kinderfreib_tu",
     "eink_st_altersfreib",
     "alleinerz_freib_tu",
     "sum_eink",
+]
+OVERRIDE_COLS = [
+    "ges_krankenv_beitr_m",
+    "arbeitsl_v_beitr_m",
+    "ges_pflegev_beitr_m",
+    "ges_rentenv_beitr_m",
+    "sum_ges_rente_priv_rente_m",
 ]
 YEARS = [2005, 2009, 2010, 2012, 2018, 2019]
 
@@ -72,7 +60,7 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
 def test_zu_verst_eink(
     input_data,
     year,
@@ -82,33 +70,16 @@ def test_zu_verst_eink(
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
-    columns_overriding_functions = [
-        "ges_krankenv_beitr_m",
-        "arbeitsl_v_beitr_m",
-        "ges_pflegev_beitr_m",
-        "ges_rentenv_beitr_m",
-        "sum_ges_rente_priv_rente_m",
-    ]
     result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
         targets=target,
-        columns_overriding_functions=columns_overriding_functions,
+        columns_overriding_functions=OVERRIDE_COLS,
     )
 
-    if target == "kindergeld_tu":
-        expected_result = sum_test_data_tu("kindergeld", year_data)
-    elif target == "_zu_verst_eink_ohne_kinderfreib_tu":
-        expected_result = sum_test_data_tu("_zu_verst_eink_ohne_kinderfreib", year_data)
-    elif target == "zu_verst_eink_mit_kinderfreib_tu":
-        expected_result = sum_test_data_tu("zu_verst_eink_mit_kinderfreib", year_data)
-    elif target == "eink_st_kinderfreib_tu":
-        expected_result = sum_test_data_tu("eink_st_kinderfreib", year_data)
-    else:
-        expected_result = year_data[target]
+    expected_result = year_data[target]
 
-    # TODO: There are large differences for the 2018 test. See #217.
     assert_series_equal(
         result[target], expected_result, check_dtype=False, atol=1e-1, rtol=0
     )
