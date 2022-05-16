@@ -243,9 +243,9 @@ altersentlastungsbetrag_max:
     en: Maximum Amount of Tax Credit for older employees.
   description:
     de: >-
-      24a EStG S. 5. Tabelle legt die Werte bis 2040 fest. 
+      24a EStG S. 5. Tabelle legt die Werte bis 2040 fest.
       Bis 2004 erhalten alle Steuerpflichtigen, die im voherigen Kalenderjahr das 64. Lebensjahr vollendet haben, maximal den gleichen Altersentlastungsbetrag.
-      Ab 2005 hängt dieser Betrag, den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab. 
+      Ab 2005 hängt dieser Betrag, den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
     en: >-
       If someone receives employment income above the age of 64, a share up to this amount is deducted.
       Since 2005, this amount additionally depends on the birth year.
@@ -307,7 +307,7 @@ altersentlastung_quote:
     de: >-
       §24a EStG S.5. Tabelle legt alle Werte bis 2040 fest.
       Bis 2004 wird bei allen Steuerpflichtigen, die im voherigen Kalenderjahr das 64. Lebensjahr vollendet haben, die gleiche Altersentlastungsquote abgezogen.
-      Ab 2005 hängt diese Quote, den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab. 
+      Ab 2005 hängt diese Quote, den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
     en: >-
       If someone receives employment income above the age of 64, this share of income is deducted.
       Since 2005, this share additionally depends on the birth year.
@@ -353,7 +353,7 @@ altersentlastung_quote:
     1973: 0.016
     1974: 0.008
     1975: 0
-    
+
 altersentlastungsbetrag_altersgrenze:
   name:
     de: Altersgrenze für Altersentlastungsbetrag

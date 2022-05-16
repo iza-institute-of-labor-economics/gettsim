@@ -139,6 +139,7 @@ def eink_st_altersfreib_bis_2004(
 
     return out
 
+
 def eink_st_altersfreib_ab_2005(
     bruttolohn_m: float,
     alter: int,
@@ -182,28 +183,25 @@ def eink_st_altersfreib_ab_2005(
         else:
             # Get maximum tax credit
             bins = sorted(eink_st_abzuege_params["altersentlastungsbetrag_max"])
-            
+
             # Select corresponding bin.
             selected_bin_index = (
                 np.searchsorted(bins + [np.inf], geburtsjahr, side="right") - 1
             )
-            
+
             selected_bin = bins[selected_bin_index]
-            
+
         # Select appropriate tax credit threshold and quota.
         out_max = eink_st_abzuege_params["altersentlastungsbetrag_max"][selected_bin]
         quo = eink_st_abzuege_params["altersentlastung_quote"][selected_bin]
 
-        out_quo = (
-            quo
-            * 12
-            * (bruttolohn_m + weiteres_einkommen)
-        )
+        out_quo = quo * 12 * (bruttolohn_m + weiteres_einkommen)
         out = min(out_quo, out_max)
     else:
         out = 0.0
 
     return out
+
 
 def eink_st_sonderausgaben_bis_2011(kind: bool, eink_st_abzuege_params: dict) -> float:
     """Calculating sonderausgaben for childcare until 2011.
