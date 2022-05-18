@@ -35,6 +35,7 @@ INPUT_COLS = [
     "selbstständig",
     "hat_kinder",
     "in_priv_krankenv",
+    "geburtsjahr",
 ]
 
 OUT_COLS = [
@@ -45,6 +46,7 @@ OUT_COLS = [
     "alleinerz_freib_tu",
     "sum_eink",
     "_eink_st_behinderungsgrad_pauschbetrag",
+    "vorsorgeaufw",
 ]
 OVERRIDE_COLS = [
     "sum_ges_rente_priv_rente_m",
