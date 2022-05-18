@@ -60,7 +60,7 @@ def eink_st_alleinerz_freib_tu_bis_2014(
 
 
 def eink_st_alleinerz_freib_tu_ab_2015(
-    alleinerz_tu: bool,
+    alleinerz: bool,
     anz_kinder_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -84,9 +84,9 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     """
     alleinerz_freib_tu = (
         eink_st_abzuege_params["alleinerz_freibetrag"]
-        + anz_kinder_tu * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
+        + (anz_kinder_tu - 1) * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
-    if alleinerz_tu:
+    if alleinerz:
         out = alleinerz_freib_tu
     else:
         out = 0.0
@@ -140,7 +140,9 @@ def eink_st_altersfreib(
     return out
 
 
-def eink_st_sonderausgaben_bis_2011(kind: bool, eink_st_abzuege_params: dict) -> float:
+def eink_st_sonderausgaben_bis_2011(
+    sonderausg: float, kind: bool, gem_veranlagt: bool, eink_st_abzuege_params: dict
+) -> float:
     """Calculating sonderausgaben for childcare until 2011.
 
     There is only a lumpsum payment implemented.
@@ -155,10 +157,17 @@ def eink_st_sonderausgaben_bis_2011(kind: bool, eink_st_abzuege_params: dict) ->
     -------
 
     """
-    if kind:
-        out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]
+    if gem_veranlagt:
+        pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["couple"]
     else:
+        pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+
+    if kind:
         out = 0.0
+    elif sonderausg > pauschale:
+        out = sonderausg
+    else:
+        out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
     return out
 
@@ -169,6 +178,7 @@ def eink_st_sonderausgaben_ab_2012(
     anz_kinder_tu: int,
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
+    gem_veranlagt: bool,
 ) -> float:
     """Calculate sonderausgaben for childcare since 2012.
 
@@ -195,15 +205,23 @@ def eink_st_sonderausgaben_ab_2012(
         12 * betreuungskost_m,
         eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
     )
+    out = (
+        anz_kinder_tu
+        * abziehbare_betreuungskosten
+        * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
+    ) / anz_erwachsene_tu
+
+    if gem_veranlagt:
+        pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["couple"]
+    else:
+        pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
     if kind:
         out = 0.0
+    elif out > pauschale:
+        out = out
     else:
-        out = (
-            anz_kinder_tu
-            * abziehbare_betreuungskosten
-            * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
-        ) / anz_erwachsene_tu
+        out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
     return out
 

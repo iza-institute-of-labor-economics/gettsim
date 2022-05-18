@@ -37,14 +37,11 @@ def freibeträge(
         See :func:`alleinerz_freib_tu`.
     eink_st_altersfreib
         See :func:`eink_st_altersfreib`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
 
     """
-
     out = (
         vorsorgeaufw
         + sonderausgaben

@@ -24,15 +24,17 @@ INPUT_COLS = [
     "in_ausbildung",
     "kind",
     "behinderungsgrad",
-    "ges_rentenv_beitr_m",
     "priv_rentenv_beitr_m",
-    "arbeitsl_v_beitr_m",
-    "ges_pflegev_beitr_m",
     "alleinerz",
     "alter",
     "jahr",
     "wohnort_ost",
-    "ges_krankenv_beitr_m",
+    "gem_veranlagt",
+    "sonderausg",
+    "werbungskosten",
+    "selbstständig",
+    "hat_kinder",
+    "in_priv_krankenv",
 ]
 
 OUT_COLS = [
@@ -42,15 +44,12 @@ OUT_COLS = [
     "eink_st_altersfreib",
     "alleinerz_freib_tu",
     "sum_eink",
+    "_eink_st_behinderungsgrad_pauschbetrag",
 ]
 OVERRIDE_COLS = [
-    "ges_krankenv_beitr_m",
-    "arbeitsl_v_beitr_m",
-    "ges_pflegev_beitr_m",
-    "ges_rentenv_beitr_m",
     "sum_ges_rente_priv_rente_m",
 ]
-YEARS = [2005, 2009, 2010, 2012, 2018, 2019]
+YEARS = [2010, 2015, 2018, 2019, 2020]
 
 
 @pytest.fixture(scope="module")

@@ -160,14 +160,17 @@ sonderausgabenpauschbetrag:
   unit: Euro
   reference_period: Year
   1984-01-01:
-    scalar: 138
+    single: 138
+    couple: 276
     reference:
   1988-01-01:
-    scalar: 55
+    single: 55
+    couple: 110
     reference: Art. 1 G. v. 25.07.1988, BGBl. I S. 1093
     note: 108 DM. Rückdatiert auf das gesamte Jahr.
   2002-01-01:
-    scalar: 36
+    single: 36
+    couple: 72
     note: Art. 1 G. v. 19.12.2000, BGBl. I S. 1790
 
 sparerpauschbetrag:
