@@ -12,6 +12,9 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
 * :gh:`392` Fix relative tolerance which was set too high for some tests. Rename
   `vorsorge` to `vorsorgeaufw` (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`).
+* :gh:`385` Make altersentlastungsbetrag dependent on age not on current
+  date (:ghuser:`m-pannier`, :ghuser:`lillyfischer`).
+
 
 0.5.1 — 2022-04-21
 ------------------

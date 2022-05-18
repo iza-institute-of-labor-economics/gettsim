@@ -94,7 +94,7 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     return out
 
 
-def eink_st_altersfreib(
+def eink_st_altersfreib_bis_2004(
     bruttolohn_m: float,
     alter: int,
     kapitaleink_brutto_m: float,
@@ -140,8 +140,74 @@ def eink_st_altersfreib(
     return out
 
 
+def eink_st_altersfreib_ab_2005(
+    bruttolohn_m: float,
+    alter: int,
+    geburtsjahr: int,
+    kapitaleink_brutto_m: float,
+    eink_selbst_m: float,
+    eink_vermietung_m: float,
+    eink_st_abzuege_params: dict,
+) -> float:
+    """Calculates tax deduction allowance for elderly.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    kapitaleink_brutto_m
+        See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
+    eink_selbst_m
+        See :func:`eink_selbst_m`.
+    eink_vermietung_m
+        See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+
+    Returns
+    -------
+
+    """
+    altersgrenze = eink_st_abzuege_params["altersentlastungsbetrag_altersgrenze"]
+    weiteres_einkommen = max(
+        kapitaleink_brutto_m + eink_selbst_m + eink_vermietung_m, 0.0
+    )
+    if alter > altersgrenze:
+        if geburtsjahr <= 1939:
+            selected_bin = 1940
+
+        else:
+            # Get maximum tax credit
+            bins = sorted(eink_st_abzuege_params["altersentlastungsbetrag_max"])
+
+            # Select corresponding bin.
+            selected_bin_index = (
+                np.searchsorted(bins + [np.inf], geburtsjahr, side="right") - 1
+            )
+
+            selected_bin = bins[selected_bin_index]
+
+        # Select appropriate tax credit threshold and quota.
+        out_max = eink_st_abzuege_params["altersentlastungsbetrag_max"][selected_bin]
+        quo = eink_st_abzuege_params["altersentlastung_quote"][selected_bin]
+
+        out_quo = quo * 12 * (bruttolohn_m + weiteres_einkommen)
+        out = min(out_quo, out_max)
+    else:
+        out = 0.0
+
+    return out
+
+
 def eink_st_sonderausgaben_bis_2011(
-    sonderausg: float, kind: bool, gem_veranlagt: bool, eink_st_abzuege_params: dict
+    kind: bool,
+    eink_st_abzuege_params: dict,
+    gem_veranlagt: bool,
+    sonderausg: float,
 ) -> float:
     """Calculating sonderausgaben for childcare until 2011.
 
