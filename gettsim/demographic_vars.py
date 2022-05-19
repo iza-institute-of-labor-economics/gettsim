@@ -26,12 +26,12 @@ aggregation_demographic_vars = {
         "source_col": "jüngstes_kind_oder_mehrling",
         "aggr": "sum",
     },
-    "anz_behinderte_hh": {"source_col": "behindert", "aggr": "sum"}
+    "anz_behindert_hh": {"source_col": "behindert", "aggr": "sum"},
 }
 
 
-def behindert(behinderungsgrad: int, alter:int, arbeitsl_geld_2_params: dict) -> bool:
-    """ Check if individual is eligible for additional allowance if disabled.
+def behindert(behinderungsgrad: int, alter: int, arbeitsl_geld_2_params: dict) -> bool:
+    """Check if individual is eligible for additional allowance if disabled.
 
     Parameters
     ----------
@@ -47,7 +47,9 @@ def behindert(behinderungsgrad: int, alter:int, arbeitsl_geld_2_params: dict) ->
     -------
 
     """
-    out = (behinderungsgrad > arbeitsl_geld_2_params["behinderungsgrad_mehrbedarf"]) & (alter > 14)
+    out = (behinderungsgrad > arbeitsl_geld_2_params["behinderungsgrad_mehrbedarf"]) & (
+        alter > 14
+    )
     return out
 
 
