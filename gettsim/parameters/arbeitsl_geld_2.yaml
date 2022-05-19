@@ -436,17 +436,14 @@ berechtigte_wohnfläche_eigentum:
 
 mehrbedarf_alg2_behindert:
   name:
-    de: Mehrbedarf bei Schwerbehinderung
-    en: Additional requirement when severely disabled
+    de: Mehrbedarf bei Behinderung
+    en: Additional requirement when disabled
   description:
     de:
-      please edit Dieser Prozentanteil des Regelbedarfs wird Menschen mit Schwerbehindertenausweis mit
-      Merkzeichen G, die Grundsicherung im Alter oder bei Erwerbsminderung bekommen,
-      als Mehrbedarf anerkannt.
+      Dieser Prozentanteil des Regelbedarfs wird Erwerbsfähigen gewährt,
+      die 'Leistungen zur Teilhabe am Arbeitsleben' erhalten.
     en:
-      This percentage of the normal requirement is added as an additional requirement for someone
-      who has a severly disabled ID card which shows the code 'G' and is entitled to the Grundsicherung.
-  unit: Percent
+  unit: share
   reference: § 21 Abs. 4 SGB II
-  2005-01-01: 
+  2005-01-01:
     scalar: 0.35
