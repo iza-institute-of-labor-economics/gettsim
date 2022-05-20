@@ -252,17 +252,3 @@ rounding:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 6 EStG
-  _zu_verst_eink_ohne_kinderfreib_tu:
-    note:
-      en: Starting date unclear
-    1984-01-01:
-      base: 0.01
-      direction: down
-      reference: § 32a Abs. 1 S. 6 EStG
-  zu_verst_eink_mit_kinderfreib_tu:
-    note:
-      en: Starting date unclear
-    1984-01-01:
-      base: 0.01
-      direction: down
-      reference: § 32a Abs. 1 S. 6 EStG
