@@ -278,7 +278,7 @@ def eink_st_sonderausgaben_ab_2012(
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
     ) / anz_erwachsene_tu
 
-    freibetrag = max(out, sonderausg)
+    sonderausgaben = out + sonderausg
 
     if gem_veranlagt:
         pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["couple"]
@@ -287,8 +287,8 @@ def eink_st_sonderausgaben_ab_2012(
 
     if kind:
         out = 0.0
-    elif freibetrag > pauschale:
-        out = freibetrag
+    elif sonderausgaben > pauschale:
+        out = sonderausgaben
     else:
         out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
