@@ -49,7 +49,7 @@ OVERRIDE_COLS = [
     "sum_ges_rente_priv_rente_m",
     "vorsorgeaufw",
 ]
-YEARS = [2010, 2015, 2018, 2019, 2020]
+YEARS = [2010, 2015, 2017, 2018, 2019, 2020]
 
 
 @pytest.fixture(scope="module")
