@@ -206,8 +206,6 @@ def eink_st_altersfreib_ab_2005(
 def eink_st_sonderausgaben_bis_2011(
     kind: bool,
     eink_st_abzuege_params: dict,
-    gem_veranlagt: bool,
-    sonderausg: float,
 ) -> float:
     """Calculating sonderausgaben for childcare until 2011.
 
@@ -223,15 +221,10 @@ def eink_st_sonderausgaben_bis_2011(
     -------
 
     """
-    if gem_veranlagt:
-        pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["couple"]
-    else:
-        pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+    # so far, only the Sonderausgabenpauschale is considered
 
     if kind:
         out = 0.0
-    elif sonderausg > pauschale:
-        out = sonderausg
     else:
         out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
@@ -244,8 +237,7 @@ def eink_st_sonderausgaben_ab_2012(
     anz_kinder_tu: int,
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
-    gem_veranlagt: bool,
-    sonderausg: float,
+    gemeinsam_veranlagt_tu: bool,
 ) -> float:
     """Calculate sonderausgaben for childcare since 2012.
 
@@ -272,23 +264,21 @@ def eink_st_sonderausgaben_ab_2012(
         12 * betreuungskost_m,
         eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
     )
-    out = (
+    sonderausgaben_betreuung = (
         anz_kinder_tu
         * abziehbare_betreuungskosten
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
     ) / anz_erwachsene_tu
 
-    sonderausgaben = out + sonderausg
-
-    if gem_veranlagt:
+    if gemeinsam_veranlagt_tu:
         pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["couple"]
     else:
         pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
     if kind:
         out = 0.0
-    elif sonderausgaben > pauschale:
-        out = sonderausgaben
+    elif sonderausgaben_betreuung > pauschale:
+        out = sonderausgaben_betreuung
     else:
         out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 

@@ -20,7 +20,6 @@ def eink_abhängig_beschäftigt(
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
     eink_st_abzuege_params: dict,
-    werbungskosten: float,
 ) -> float:
     """Aggregate monthly gross wage to yearly income and deduct
     'Werbungskostenpauschale'.
@@ -40,10 +39,7 @@ def eink_abhängig_beschäftigt(
     -------
 
     """
-    if werbungskosten > eink_st_abzuege_params["werbungskostenpauschale"]:
-        abzug = werbungskosten
-    else:
-        abzug = eink_st_abzuege_params["werbungskostenpauschale"]
+    abzug = eink_st_abzuege_params["werbungskostenpauschale"]
 
     if geringfügig_beschäftigt:
         out = 0.0
