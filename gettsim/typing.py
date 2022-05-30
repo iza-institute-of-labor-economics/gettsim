@@ -6,7 +6,7 @@ from pandas.api.types import is_integer_dtype
 from pandas.api.types import is_object_dtype
 
 
-def convert_series_to_internal_type(series, internal_type):
+def convert_series_to_internal_type(variable, series, internal_type):
     """Check if data type of series fits to the internal type of gettsim and
     otherwise convert data type of series to the internal type of gettsim.
 
@@ -29,12 +29,13 @@ def convert_series_to_internal_type(series, internal_type):
         # Conversion from boolean to float fails
         if is_bool_dtype(out):
             raise ValueError(
-                f"Your variable {series} has the data type boolean."
-                f" Conversion of boolean to required data type float is not supported."
+                f"Your variable {variable} has the data type {out.dtype}."
+                f" Conversion of {out.dtype} to expected data {internal_type}"
+                f" is not supported."
             )
         if is_object_dtype(out):
             raise ValueError(
-                f"Your variable {series} has the data type object."
+                f"Your variable {variable} has the data type {out.dtype}."
                 f" GETTSIM does not support this data type."
             )
         elif not is_float_dtype(out):
@@ -42,8 +43,9 @@ def convert_series_to_internal_type(series, internal_type):
                 out = out.astype(float)
             except ValueError:
                 raise ValueError(
-                    f"Your variable {series} has the data type {type(series)}."
-                    f" Conversion of required data type {internal_type} failed."
+                    f"Your variable {variable} has the data type {out.dtype}."
+                    f" Conversion of {out.dtype} to required data type {internal_type}"
+                    f" failed."
                 )
 
     # Conversion to int
@@ -55,13 +57,14 @@ def convert_series_to_internal_type(series, internal_type):
                 out = out.astype(np.int64)
             else:
                 raise ValueError(
-                    f"Your variable {series} has the data type float."
-                    f"Conversion of float to required data type int is only supported"
-                    f" if all decimal places of input data are equal to 0."
+                    f"Your variable {variable} has the data type {out.dtype}."
+                    f" Conversion of {out.dtype} to expected data type"
+                    f" {internal_type} is only supported if all"
+                    f" decimal places of input data are equal to 0."
                 )
         if is_object_dtype(out):
             raise ValueError(
-                f"Your variable {series} has the data type object."
+                f"Your variable {variable} has the data type {out.dtype}."
                 f" GETTSIM does not support this data type."
             )
         elif not is_integer_dtype(out):
@@ -69,8 +72,9 @@ def convert_series_to_internal_type(series, internal_type):
                 out = out.astype(np.int64)
             except ValueError:
                 raise ValueError(
-                    f"Your variable {series} has the data type {type(series)}."
-                    f" Conversion of required data type {internal_type} failed."
+                    f"Your variable {variable} has the data type {out.dtype}."
+                    f" Conversion of {out.dtype} to expected data type {internal_type}"
+                    f" failed."
                 )
 
     # Conversion to boolean
@@ -84,29 +88,30 @@ def convert_series_to_internal_type(series, internal_type):
                 out = out.astype(bool)
             else:
                 raise ValueError(
-                    f"Your variable {series} has the data type {type(series)}."
-                    f"Conversion of {type(series)} to boolean is supported only"
-                    f" if input data exclusively contains '1' and '0'."
+                    f"Your variable {variable} has the data type {out.dtype}."
+                    f" Conversion of {out.dtype} to expected data type {internal_type}"
+                    f" is only supported if input data exclusively"
+                    f" contains '1' and '0'."
                 )
 
         # if input data type is object, raise error
         elif is_object_dtype(out):
             raise ValueError(
-                f"Your variable {series} has the data type object."
+                f"Your variable {variable} has the data type {out.dtype}."
                 f" GETTSIM does not support this data type."
             )
         elif not is_bool_dtype(out):
             raise ValueError(
-                f"Your variable {series} has the data type {type(series)}."
-                f" Conversion to bool is supported only for"
-                f" int, float or object columns."
+                f"Your variable {variable} has the data type {out.dtype}."
+                f" Conversion of {out.dtype} to expected data type {internal_type}"
+                f" is only supported for int, float or object columns."
             )
 
     # Conversion to DateTime
     elif internal_type == np.datetime64:
         if is_object_dtype(out):
             raise ValueError(
-                f"Your variable {series} has the data type object."
+                f"Your variable {variable} has the data type {out.dtype}."
                 f" GETTSIM does not support this data type."
             )
         elif not is_datetime64_any_dtype(out):
@@ -114,8 +119,9 @@ def convert_series_to_internal_type(series, internal_type):
                 out = out.astype(np.datetime64)
             except ValueError:
                 raise ValueError(
-                    f"Your variable {series} has the data type {type(series)}."
-                    f" Conversion of required data type {internal_type} failed."
+                    f"Your variable {variable} has the data type {out.dtype}."
+                    f" Conversion of {out.dtype} to expected data type"
+                    f" {internal_type} failed."
                 )
     else:
         raise ValueError(f"The internal type {internal_type} is not yet supported.")
