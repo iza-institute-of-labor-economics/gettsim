@@ -730,7 +730,7 @@ regelaltersgrenze:
   description:
     de:
       Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
-      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger, 
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger,
       wenn keine Ausnahmeregelungen erfüllt sind.
     en:
       Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
@@ -740,8 +740,8 @@ regelaltersgrenze:
   note:
     de: >-
       Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
-      implementiert. Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964. 
-      Ab einschließlich Jahrgang 1964 gilt NRA 67.
+      implementiert. Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
+      Ab einschließlich Jahrgang 1964 gilt NRA 67. (todo jahrgänge vor 1946)
     en:
   type: piecewise_linear
   2002-01-01:
