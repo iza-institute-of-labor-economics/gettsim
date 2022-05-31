@@ -12,6 +12,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
 * :gh:`385` Make altersentlastungsbetrag dependent on age not on current
   date (:ghuser:`m-pannier`, :ghuser:`lillyfischer`).
+* :gh:`393` normal retirement age adjustment aligned with the rules.
+  (:ghuser:`TeBackh`).
 
 
 0.5.1 — 2022-04-21
