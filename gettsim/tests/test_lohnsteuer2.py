@@ -17,7 +17,6 @@ INPUT_COLS = [
     "anz_kindergeld_kinder_tu",
     "wohnort_ost",
     "steuerklasse",
-    "ges_krankenv_zusatz",
     "bruttolohn_m",
     "alter",
     "hat_kinder",

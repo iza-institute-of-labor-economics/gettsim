@@ -1,2 +1,2 @@
-hh_id,tu_id,p_id,jahr,steuerklasse,anz_kindergeld_kinder_tu,bruttolohn_m,wohnort_ost,ges_krankenv_zusatz,alter,hat_kinder,lohn_st,lohn_st_soli
-1,1,1,2020,1,6,3500,FALSE,1.36,50,TRUE,4875,0
+hh_id,tu_id,p_id,jahr,steuerklasse,anz_kindergeld_kinder_tu,bruttolohn_m,wohnort_ost,alter,hat_kinder,lohn_st,lohn_st_soli
+1,1,1,2020,1,6,3500,FALSE,50,TRUE,4875,0
