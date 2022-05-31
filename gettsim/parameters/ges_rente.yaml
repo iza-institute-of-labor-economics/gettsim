@@ -730,11 +730,12 @@ regelaltersgrenze:
   description:
     de:
       Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
-      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger.
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger, 
+      wenn keine Ausnahmeregelungen erfüllt sind.
     en:
       Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
       claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
-      the pension claim is higher or lower.
+      the pension claim is higher or lower, unless special conditions apply.
   reference: § 35 Satz 2 SGB VI
   note:
     de: >-
@@ -745,15 +746,19 @@ regelaltersgrenze:
   2002-01-01:
     0:
       lower_threshold: -inf
-      upper_threshold: 1947
+      upper_threshold: 1946
       rate_linear: 0
       intercept_at_lower_threshold: 65
     1:
-      lower_threshold: 1947
-      upper_threshold: 1971
+      lower_threshold: 1946
+      upper_threshold: 1958
       rate_linear: 0.083333333
     2:
-      lower_threshold: 1971
+      lower_threshold: 1958
+      upper_threshold: 1964
+      rate_linear: 0.166666667
+    3:
+      lower_threshold: 1964
       upper_threshold: inf
       rate_linear: 0
 
