@@ -122,7 +122,10 @@ def vorsorgepauschale_ab_2010(
       See :func:`steuerklasse`
     eink_st_abzuege_params:
       See params documentation :ref:`eink_st_abzuege_params`
-
+    krankenv_beitr_lohnsteuer:
+        See :func:`krankenv_beitr_lohnsteuer`
+    soz_vers_beitr_params:
+        See params documentation :ref:`soz_vers_beitr_params`
 
     Returns
     -------

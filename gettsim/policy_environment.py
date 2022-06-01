@@ -258,7 +258,10 @@ def _parse_vorsorg_rv_anteil(date, params):
 
     Parameters
     ----------
-    eink_st_abzuege_params
+    date: datetime.date
+        The date for which the policy parameters are set up.
+    params: dict
+        A dictionary with parameters from the policy environment.
 
     Returns
     -------
