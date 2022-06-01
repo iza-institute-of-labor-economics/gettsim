@@ -1,4 +1,3 @@
-from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 
 
@@ -105,7 +104,6 @@ def lohn_st(lohn_st_eink: float, eink_st_params: dict, steuerklasse: int) -> flo
 def vorsorgepauschale_ab_2010(
     bruttolohn_m: float,
     steuerklasse: int,
-    vorsorg_rv_anteil: float,
     eink_st_abzuege_params: dict,
     krankenv_beitr_lohnsteuer: float,
     soz_vers_beitr_params: dict,
@@ -135,8 +133,7 @@ def vorsorgepauschale_ab_2010(
     vorsorg_rv = (
         12
         * (bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"])
-        * vorsorg_rv_anteil
-        * float(vorsorg_rv_anteil(eink_st_abzuege_params))
+        * eink_st_abzuege_params["vorsorg_rv_anteil"]
     )
 
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
@@ -175,32 +172,6 @@ def vorsorgepauschale_2005_2010() -> float:
     """
 
     out = 0
-    return out
-
-
-def vorsorg_rv_anteil(eink_st_abzuege_params: dict, jahr: int):
-    """
-    Calculates the share of pension contributions to be deducted for Lohnsteuer
-    increases by year
-
-    Parameters
-    ----------
-    eink_st_abzuege_params
-
-    Returns
-    -------
-    out: float
-    """
-
-    out = piecewise_polynomial(
-        x=jahr,
-        thresholds=eink_st_abzuege_params["vorsorge_pauschale_rv_anteil"]["thresholds"],
-        rates=eink_st_abzuege_params["vorsorge_pauschale_rv_anteil"]["rates"],
-        intercepts_at_lower_thresholds=eink_st_abzuege_params[
-            "vorsorge_pauschale_rv_anteil"
-        ]["intercepts_at_lower_thresholds"],
-    )
-
     return out
 
 
