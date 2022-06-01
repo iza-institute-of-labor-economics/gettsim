@@ -273,13 +273,11 @@ def _parse_vorsorg_rv_anteil(date, params):
 
         out = piecewise_polynomial(
             pd.Series(jahr),
-            thresholds=params["eink_st_abzuege_params"]["vorsorge_pauschale_rv_anteil"][
+            thresholds=params["eink_st_abzuege"]["vorsorge_pauschale_rv_anteil"][
                 "thresholds"
             ],
-            rates=params["eink_st_abzuege_params"]["vorsorge_pauschale_rv_anteil"][
-                "rates"
-            ],
-            intercepts_at_lower_thresholds=params["eink_st_abzuege_params"][
+            rates=params["eink_st_abzuege"]["vorsorge_pauschale_rv_anteil"]["rates"],
+            intercepts_at_lower_thresholds=params["eink_st_abzuege"][
                 "vorsorge_pauschale_rv_anteil"
             ]["intercepts_at_lower_thresholds"],
         )
