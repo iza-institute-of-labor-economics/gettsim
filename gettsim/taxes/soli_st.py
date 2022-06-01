@@ -1,5 +1,3 @@
-import numpy as np
-
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 
@@ -68,14 +66,13 @@ def lohn_st_eink_kifb(lohn_st_eink: float, kinderfreibetrag_lohn_st: float) -> f
     """Calculates tax base for Soli Lohnsteuer
     by subtracting child allowance from regular lohnsteuer taxable income
     """
-    return np.maximum(lohn_st_eink - kinderfreibetrag_lohn_st, 0)
+    return max(lohn_st_eink - kinderfreibetrag_lohn_st, 0)
 
 
 def kinderfreibetrag_lohn_st(
-    tu_id: int,
     steuerklasse: int,
     anz_kindergeld_kinder_tu: float,
-    eink_st_abzuege_params,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Calculates Child Allowance for Lohnsteuer-Soli
 
@@ -90,10 +87,12 @@ def kinderfreibetrag_lohn_st(
     )
 
     # For certain tax brackets, twice the child allowance can be deducted
-    out = (
-        (kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3]))
-        + (kinderfreibetrag_basis * steuerklasse == 4)
-    ) * tu_id.replace(anz_kindergeld_kinder_tu)
+    if steuerklasse == 1 | steuerklasse == 2 | steuerklasse == 3:
+        out = kinderfreibetrag_basis * 2 * anz_kindergeld_kinder_tu
+    elif steuerklasse == 4:
+        out = kinderfreibetrag_basis * anz_kindergeld_kinder_tu
+    else:
+        out = 0
     return out
 
 
@@ -107,7 +106,7 @@ def lohn_st_kinderfreibetrag(
     lohnsteuer_splittingtarif = 2 * _eink_st_tarif(
         lohn_st_eink_kifb / 2, eink_st_params
     )
-    lohnsteuer_klasse5_6 = np.maximum(
+    lohnsteuer_klasse5_6 = max(
         2
         * (
             _eink_st_tarif(lohn_st_eink_kifb * 1.25, eink_st_params)
@@ -116,11 +115,13 @@ def lohn_st_kinderfreibetrag(
         lohn_st_eink_kifb * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
-    out = (
-        (lohnsteuer_splittingtarif * (steuerklasse == 3))
-        + (lohnsteuer_basistarif * (steuerklasse.isin([1, 2, 4])))
-        + (lohnsteuer_klasse5_6 * (steuerklasse.isin([5, 6])))
-    )
+    if steuerklasse in (1, 2, 4):
+        out = lohnsteuer_basistarif
+    elif steuerklasse == 3:
+        out = lohnsteuer_splittingtarif
+    else:
+        out = lohnsteuer_klasse5_6
+
     return out
 
 
