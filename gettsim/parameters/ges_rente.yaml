@@ -751,17 +751,108 @@ regelaltersgrenze:
       rate_linear: 0
       intercept_at_lower_threshold: 65
     1:
-      lower_threshold: 1946
       upper_threshold: 1958
       rate_linear: 0.083333333
     2:
-      lower_threshold: 1958
       upper_threshold: 1964
       rate_linear: 0.166666667
     3:
-      lower_threshold: 1964
       upper_threshold: inf
       rate_linear: 0
+
+altersgrenze_langjahrig:
+  name:
+    de: Eintrittsalter für langjaehrig versicherte - abschlagsfrei
+    en: Entry age for long term insured (35 years) without deductions
+  description:
+    de:
+      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger,
+      wenn keine Ausnahmeregelungen erfüllt sind.
+    en:
+      Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
+      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+      the pension claim is higher or lower, unless special conditions apply.
+  reference: § 35 Satz 2 SGB VI
+  note:
+    de: >-
+      Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
+      implementiert. Kohorten vor 1937 konnten mit 63 abschlagsfrei in Rente gehen.
+      Ab Geburtsdatum Januar 1937 wurde fuer jeden Monat, den die Person spaeter geboren wurde das
+      Eintrittsalter um 1 Monat erhoeht bis Geburtsdatum Dezember 1938: Eintrittsalter 65. Dieses
+      Eintrittsalter galt bis einschliesslich Jahrgang 1948. Ab Geburtsdatum Maerz 1949 entspricht die
+      Altersgrenze der Regelaltersgrenze, also 65 Jahre, 3 Monate. Fuer Geburtsdatum 1/1949 ist sie
+      65, 1 Monat. Fuer 2/1949 65, 2 Monate.
+    en:
+  type: piecewise_linear
+  2002-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1936
+      rate_linear: 0
+      intercept_at_lower_threshold: 63
+    1:
+      upper_threshold: 1938
+      rate_linear: 1
+    2:
+      upper_threshold: 1948
+      rate_linear: 0
+    3:
+      lower_threshold: 1949
+      upper_threshold: 1958
+      rate_linear: 0.083333333
+      intercept_at_lower_threshold: 65.25
+    4:
+      upper_threshold: 1964
+      rate_linear: 0.166666667
+    5:
+      upper_threshold: inf
+      rate_linear: 0
+
+altersgrenze_besond_langjahrig:
+  name:
+    de: Eintrittsalter fuer besond. langjaehrig versicherte - abschlagsfrei
+    en: Entry age for very long term insured (45 years) without deductions
+  description:
+    de:
+      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger,
+      wenn keine Ausnahmeregelungen erfüllt sind.
+    en:
+      Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
+      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+      the pension claim is higher or lower, unless special conditions apply.
+  reference: § 38 SGB VI
+  note:
+    de: >-
+      Diese Funktion ist hier ab 2010 angegeben. Vor 2010  nicht existent.
+      Fuer Kohorten 1947 bis einschließlich 1950 gilt die Grenze von 65 Jahren. Kohor
+    en:
+  type: piecewise_linear
+  2010-01-01:
+    0:
+      lower_threshold: 1947
+      upper_threshold: inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 65
+  2014-07-01:
+    0:
+      lower_threshold: 1947
+      upper_threshold: 1949
+      rate_linear: 0
+      intercept_at_lower_threshold: 65
+    1:
+      lower_threshold: 1950
+      upper_threshold: 1952
+      rate_linear: 0
+      intercept_at_lower_threshold: 63
+    2:
+      upper_threshold: 1964
+      rate_linear: 0.166666667
+    3:
+      upper_threshold: inf
+      rate_linear: 0
+
 
 rounding:
   ges_rente_m:
