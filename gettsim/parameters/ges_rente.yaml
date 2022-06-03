@@ -798,19 +798,18 @@ altersgrenze_langjahrig:
       upper_threshold: 1948
       rate_linear: 0
     3:
-      lower_threshold: 1949
+      upper_threshold: 1949.25
+      rate_linear: 1
+    4:
+      lower_threshold: 1949.25
       upper_threshold: 1958
       rate_linear: 0.083333333
-      intercept_at_lower_threshold: 65.25
-    4:
+    5:
       upper_threshold: 1964
       rate_linear: 0.166666667
-    5:
+    6:
       upper_threshold: inf
       rate_linear: 0
-
-
-
 
 rounding:
   ges_rente_m:
