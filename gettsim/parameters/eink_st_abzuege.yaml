@@ -161,16 +161,13 @@ sonderausgabenpauschbetrag:
   reference_period: Year
   1984-01-01:
     single: 138
-    couple: 276
     reference:
   1988-01-01:
     single: 55
-    couple: 110
     reference: Art. 1 G. v. 25.07.1988, BGBl. I S. 1093
     note: 108 DM. Rückdatiert auf das gesamte Jahr.
   2002-01-01:
     single: 36
-    couple: 72
     note: Art. 1 G. v. 19.12.2000, BGBl. I S. 1790
 
 sparerpauschbetrag:
@@ -641,3 +638,9 @@ rounding:
     1984-01-01:
       base: 0.01
       direction: nearest
+  sonderausgaben_betreuung:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 1
+      direction: up

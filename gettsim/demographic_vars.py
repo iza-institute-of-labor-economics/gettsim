@@ -13,6 +13,7 @@ aggregation_demographic_vars = {
     "anz_kinder_tu": {"source_col": "kind", "aggr": "sum"},
     "anz_kinder_bis_17_hh": {"source_col": "kind_bis_17", "aggr": "sum"},
     "anz_kinder_bis_6_hh": {"source_col": "kind_bis_6", "aggr": "sum"},
+    "anz_kinder_bis_13_hh": {"source_col": "kind_bis_13", "aggr": "sum"},
     "anz_kinder_bis_15_hh": {"source_col": "kind_bis_15", "aggr": "sum"},
     "anz_kinder_ab_7_bis_13_hh": {"source_col": "kind_ab_7_bis_13", "aggr": "sum"},
     "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
@@ -80,6 +81,24 @@ def kind_bis_10(alter: int, kind: bool) -> int:
 
     """
     out = kind and (alter <= 10)
+    return out
+
+
+def kind_bis_13(alter: int, kind: bool) -> int:
+    """Calculate if child under the age of 14.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (alter <= 13)
     return out
 
 

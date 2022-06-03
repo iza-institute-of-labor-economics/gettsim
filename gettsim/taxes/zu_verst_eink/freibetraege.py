@@ -1,5 +1,7 @@
 import numpy as np
 
+from gettsim.shared import add_rounding_spec
+
 
 def _eink_st_behinderungsgrad_pauschbetrag(
     behinderungsgrad: int, eink_st_abzuege_params: dict
@@ -231,15 +233,14 @@ def eink_st_sonderausgaben_bis_2011(
     return out
 
 
-def eink_st_sonderausgaben_ab_2012(
-    betreuungskost_m: float,
-    kind: bool,
-    anz_kinder_tu: int,
-    anz_erwachsene_tu: int,
+@add_rounding_spec(params_key="eink_st_abzuege")
+def sonderausgaben_betreuung(
     eink_st_abzuege_params: dict,
-    gemeinsam_veranlagt_tu: bool,
+    anz_kinder_bis_13_hh: int,
+    betreuungskost_m: float,
+    anz_erwachsene_tu: int,
 ) -> float:
-    """Calculate sonderausgaben for childcare since 2012.
+    """Calculate sonderausgaben for childcare for childen under 14.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
@@ -247,12 +248,42 @@ def eink_st_sonderausgaben_ab_2012(
     ----------
     betreuungskost_m
         See basic input variable :ref:`betreuungskost_m <betreuungskost_m>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    anz_kinder_tu
-        See :func:`anz_kinder_tu`.
+    anz_kinder_bis_13_hh
+        See :func:`anz_kinder_bis_13_hh`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    """
+
+    abziehbare_betreuungskosten = min(
+        12 * betreuungskost_m,
+        eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
+    )
+    out = (
+        anz_kinder_bis_13_hh
+        * abziehbare_betreuungskosten
+        * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
+    ) / anz_erwachsene_tu
+
+    return out
+
+
+def eink_st_sonderausgaben_ab_2012(
+    kind: bool,
+    eink_st_abzuege_params: dict,
+    sonderausgaben_betreuung: float,
+) -> float:
+    """Calculate sonderausgaben since 2012.
+
+    We follow 10 Abs.1 Nr. 5 EStG. You can
+    details here https://www.buzer.de/s1.htm?a=10&g=estg.
+    Parameters
+    ----------
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    sonderausgaben_betreuung
+        See :func:`sonderausgaben_betreuung`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -260,25 +291,13 @@ def eink_st_sonderausgaben_ab_2012(
     -------
 
     """
-    abziehbare_betreuungskosten = min(
-        12 * betreuungskost_m,
-        eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
-    )
-    sonderausgaben_betreuung = (
-        anz_kinder_tu
-        * abziehbare_betreuungskosten
-        * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
-    ) / anz_erwachsene_tu
-
-    if gemeinsam_veranlagt_tu:
-        pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["couple"]
-    else:
-        pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+    sonderausgaben_gesamt = sonderausgaben_betreuung
+    pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
     if kind:
         out = 0.0
-    elif sonderausgaben_betreuung > pauschale:
-        out = sonderausgaben_betreuung
+    elif sonderausgaben_gesamt > pauschale:
+        out = sonderausgaben_gesamt
     else:
         out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
