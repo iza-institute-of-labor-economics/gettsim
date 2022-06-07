@@ -755,7 +755,7 @@ regelaltersgrenze:
       rate_linear: 0.083333333
     2:
       upper_threshold: 1964
-      rate_linear: 0.166666667
+      rate_linear: 0.16666666
     3:
       upper_threshold: inf
       rate_linear: 0
