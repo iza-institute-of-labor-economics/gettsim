@@ -52,7 +52,48 @@ def lohn_st_eink(
     return out
 
 
-def lohn_st(lohn_st_eink: float, eink_st_params: dict, steuerklasse: int) -> float:
+def lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> float:
+    """
+
+        Calculates base for Lst for Steuerklasse 5 and 6
+    §39 b Absatz 2 Satz 7 (part 1):
+        Jahreslohnsteuer die sich aus dem Zweifachen des Unterschiedsbetrags zwischen
+    dem Steuerbetrag für das Eineinviertelfache und dem Steuerbetrag für das
+    Dreiviertelfache des zu versteuernden Jahresbetrags nach § 32a Absatz 1 ergibt;
+    die Jahreslohnsteuer beträgt jedoch mindestens 14 Prozent des zu versteuernden
+    Jahresbetrags.
+
+    Parameters
+    ----------
+
+    taxable_inc
+        Taxable Income used in function (not necessarily the same as lohn_st_eink)
+    eink_st_params
+        See params documentation :ref:`eink_st_params <eink_st_params>`
+
+    Returns
+    -------
+    Base for Lohnsteuer for Steuerklasse 5 and 6
+    """
+
+    lohnsteuer_klasse5_6_basis = max(
+        2
+        * (
+            _eink_st_tarif(taxable_inc * 1.25, eink_st_params)
+            - _eink_st_tarif(taxable_inc * 0.75, eink_st_params)
+        ),
+        taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1],
+    )
+
+    return lohnsteuer_klasse5_6_basis
+
+
+def lohn_st(
+    lohn_st_eink: float,
+    eink_st_params: dict,
+    steuerklasse: int,
+    lohnsteuer_klasse5_6_basis: float,
+) -> float:
     """
     Calculates Lohnsteuer = withholding tax on earnings,
     paid monthly by the employer on behalf of the employee.
@@ -73,6 +114,8 @@ def lohn_st(lohn_st_eink: float, eink_st_params: dict, steuerklasse: int) -> flo
         See :func:`lohn_st_eink`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`
+    lohnsteuer_klasse5_6_basis
+        See :func:`lohnsteuer_klasse5_6_basis`.
     steuerklasse
 
 
@@ -80,16 +123,42 @@ def lohn_st(lohn_st_eink: float, eink_st_params: dict, steuerklasse: int) -> flo
     -------
     Individual withdrawal tax on annual basis
     """
+
     lohnsteuer_basistarif = _eink_st_tarif(lohn_st_eink, eink_st_params)
     lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohn_st_eink / 2, eink_st_params)
-    lohnsteuer_klasse5_6 = max(
-        2
-        * (
-            _eink_st_tarif(lohn_st_eink * 1.25, eink_st_params)
-            - _eink_st_tarif(lohn_st_eink * 0.75, eink_st_params)
-        ),
-        lohn_st_eink * eink_st_params["eink_st_tarif"]["rates"][0][1],
-    )
+    lohnsteuer_5_6_basis = lohnsteuer_klasse5_6_basis(lohn_st_eink, eink_st_params)
+
+    grenze_1 = eink_st_params["lohn_st_einkommensgrenzen"][1]
+    grenze_2 = eink_st_params["lohn_st_einkommensgrenzen"][2]
+    grenze_3 = eink_st_params["lohn_st_einkommensgrenzen"][3]
+
+    if lohn_st_eink < grenze_1:
+        lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis
+    elif lohn_st_eink in range(grenze_1, grenze_2):
+        lohnsteuer_grenze_1 = lohnsteuer_klasse5_6_basis(grenze_1, eink_st_params)
+        max_lohnsteuer = (
+            lohnsteuer_grenze_1
+            + (lohn_st_eink - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
+        )
+        lohnsteuer_klasse5_6 = min(
+            max_lohnsteuer, lohnsteuer_klasse5_6_basis(lohn_st_eink, eink_st_params)
+        )
+    elif lohn_st_eink in range(grenze_2, grenze_3):
+        lohnsteuer_grenze_2 = lohnsteuer_klasse5_6_basis(grenze_2, eink_st_params)
+        lohnsteuer_klasse5_6 = (
+            lohnsteuer_grenze_2
+            + (lohn_st_eink - grenze_2) * eink_st_params["eink_st_tarif"]["rates"][0][3]
+        )
+    else:
+        lohnsteuer_grenze_2 = lohnsteuer_klasse5_6_basis(grenze_2, eink_st_params)
+        lohnsteuer_zw_grenze_2_3 = (grenze_3 - grenze_2) * eink_st_params[
+            "eink_st_tarif"
+        ]["rates"][0][3]
+        lohnsteuer_klasse5_6 = (
+            lohnsteuer_grenze_2
+            + lohnsteuer_zw_grenze_2_3
+            + (lohn_st_eink - grenze_3) * eink_st_params["eink_st_tarif"]["rates"][0][4]
+        )
 
     if steuerklasse in (1, 2, 4):
         out = lohnsteuer_basistarif
