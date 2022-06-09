@@ -1,17 +1,13 @@
-import numpy as np
-
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.typing import FloatSeries
-from gettsim.typing import IntSeries
 
 
 def soli_st_tu(
-    eink_st_kinderfreib_tu: FloatSeries,
-    anz_erwachsene_tu: IntSeries,
-    abgelt_st_tu: FloatSeries,
+    eink_st_mit_kinderfreib_tu: float,
+    anz_erwachsene_tu: int,
+    abgelt_st_tu: float,
     soli_st_params: dict,
-) -> FloatSeries:
+) -> float:
     """Calculate the Solidarity Surcharge.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
@@ -27,8 +23,8 @@ def soli_st_tu(
 
     Parameters
     ----------
-    eink_st_kinderfreib_tu
-        See :func:`eink_st_kinderfreib_tu`.
+    eink_st_mit_kinderfreib_tu
+        See :func:`eink_st_mit_kinderfreib_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     abgelt_st_tu
@@ -40,7 +36,7 @@ def soli_st_tu(
     -------
 
     """
-    eink_st_per_individual = eink_st_kinderfreib_tu / anz_erwachsene_tu
+    eink_st_per_individual = eink_st_mit_kinderfreib_tu / anz_erwachsene_tu
     out = (
         anz_erwachsene_tu * _soli_tarif(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_tu
@@ -49,9 +45,7 @@ def soli_st_tu(
     return out
 
 
-def lohn_st_soli(
-    lohn_st_kinderfreibetrag: FloatSeries, soli_st_params: dict
-) -> FloatSeries:
+def lohn_st_soli(lohn_st_kinderfreibetrag: float, soli_st_params: dict) -> float:
     """
     Calculates the Solidarity Surcharge as a top-up on Lohnsteuer
 
@@ -68,22 +62,19 @@ def lohn_st_soli(
     return _soli_tarif(lohn_st_kinderfreibetrag, soli_st_params)
 
 
-def lohn_st_eink_kifb(
-    lohn_st_eink: FloatSeries, kinderfreibetrag_lohn_st: FloatSeries
-) -> FloatSeries:
-    """ Calculates tax base for Soli Lohnsteuer
+def lohn_st_eink_kifb(lohn_st_eink: float, kinderfreibetrag_lohn_st: float) -> float:
+    """Calculates tax base for Soli Lohnsteuer
     by subtracting child allowance from regular lohnsteuer taxable income
     """
-    return np.maximum(lohn_st_eink - kinderfreibetrag_lohn_st, 0)
+    return max(lohn_st_eink - kinderfreibetrag_lohn_st, 0)
 
 
 def kinderfreibetrag_lohn_st(
-    tu_id: IntSeries,
-    steuerklasse: IntSeries,
-    anz_kindergeld_kinder_tu: FloatSeries,
-    eink_st_abzuege_params,
-) -> FloatSeries:
-    """ Calculates Child Allowance for Lohnsteuer-Soli
+    steuerklasse: int,
+    anz_kindergeld_kinder_tu: float,
+    eink_st_abzuege_params: dict,
+) -> float:
+    """Calculates Child Allowance for Lohnsteuer-Soli
 
     For the purpose of Soli on Lohnsteuer,
     the child allowance not only depends on the number of children,
@@ -96,24 +87,26 @@ def kinderfreibetrag_lohn_st(
     )
 
     # For certain tax brackets, twice the child allowance can be deducted
-    out = (
-        (kinderfreibetrag_basis * 2 * steuerklasse.isin([1, 2, 3]))
-        + (kinderfreibetrag_basis * steuerklasse == 4)
-    ) * tu_id.replace(anz_kindergeld_kinder_tu)
+    if steuerklasse == 1 | steuerklasse == 2 | steuerklasse == 3:
+        out = kinderfreibetrag_basis * 2 * anz_kindergeld_kinder_tu
+    elif steuerklasse == 4:
+        out = kinderfreibetrag_basis * anz_kindergeld_kinder_tu
+    else:
+        out = 0
     return out
 
 
 def lohn_st_kinderfreibetrag(
-    lohn_st_eink_kifb: FloatSeries, steuerklasse: IntSeries, eink_st_params: dict
-) -> FloatSeries:
-    """ Calculate Lohnsteuer just as lohn_st function,
+    lohn_st_eink_kifb: float, steuerklasse: int, eink_st_params: dict
+) -> float:
+    """Calculate Lohnsteuer just as lohn_st function,
     but with a different tax base, i.e. including child allowance
     """
     lohnsteuer_basistarif = _eink_st_tarif(lohn_st_eink_kifb, eink_st_params)
     lohnsteuer_splittingtarif = 2 * _eink_st_tarif(
         lohn_st_eink_kifb / 2, eink_st_params
     )
-    lohnsteuer_klasse5_6 = np.maximum(
+    lohnsteuer_klasse5_6 = max(
         2
         * (
             _eink_st_tarif(lohn_st_eink_kifb * 1.25, eink_st_params)
@@ -122,15 +115,17 @@ def lohn_st_kinderfreibetrag(
         lohn_st_eink_kifb * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
-    out = (
-        (lohnsteuer_splittingtarif * (steuerklasse == 3))
-        + (lohnsteuer_basistarif * (steuerklasse.isin([1, 2, 4])))
-        + (lohnsteuer_klasse5_6 * (steuerklasse.isin([5, 6])))
-    )
+    if steuerklasse in (1, 2, 4):
+        out = lohnsteuer_basistarif
+    elif steuerklasse == 3:
+        out = lohnsteuer_splittingtarif
+    else:
+        out = lohnsteuer_klasse5_6
+
     return out
 
 
-def _soli_tarif(st_per_individual: FloatSeries, soli_st_params: dict) -> FloatSeries:
+def _soli_tarif(st_per_individual: float, soli_st_params: dict) -> float:
     """
     The isolated function for Solidaritätszuschlag
 
@@ -146,7 +141,7 @@ def _soli_tarif(st_per_individual: FloatSeries, soli_st_params: dict) -> FloatSe
 
     """
 
-    return piecewise_polynomial(
+    out = piecewise_polynomial(
         st_per_individual,
         thresholds=soli_st_params["soli_st"]["thresholds"],
         rates=soli_st_params["soli_st"]["rates"],
@@ -154,3 +149,5 @@ def _soli_tarif(st_per_individual: FloatSeries, soli_st_params: dict) -> FloatSe
             "intercepts_at_lower_thresholds"
         ],
     )
+
+    return out

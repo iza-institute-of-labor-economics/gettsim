@@ -13,10 +13,10 @@ INPUT_COLS = [
     "bruttolohn_vorj_m",
     "wohnort_ost",
     "kind",
-    "arbeitsl_lfdj_m",
-    "arbeitsl_vorj_m",
-    "arbeitsl_vor2j_m",
-    "ges_rente_m",
+    "arbeitsl_monate_lfdj",
+    "arbeitsl_monate_vorj",
+    "arbeitsl_monate_v2j",
+    "sum_ges_rente_priv_rente_m",
     "arbeitsstunden_w",
     "alter",
     "jahr",
@@ -26,16 +26,17 @@ YEARS = [2010, 2011, 2015, 2019]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_ui.csv"
+    file_name = "arbeitsl_geld.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_ui(
-    input_data, year,
+def test_arbeitsl_geld(
+    input_data,
+    year,
 ):
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
@@ -44,6 +45,7 @@ def test_ui(
         params=policy_params,
         functions=policy_functions,
         targets="arbeitsl_geld_m",
+        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.

@@ -1,12 +1,12 @@
-kinderzuschl_max:
+maximum:
   name:
-    de: Höhe des Kinderzuschlags
-    en: Additional child benefit
+    de: Maximale Höhe des Kinderzuschlags
+    en: Maximum additional child benefit
   description:
     de: § 6a (2) BKGG. Betrag pro Kind
     en: Amount per child.
   unit: Euro
-  time: month
+  reference_period: Month
   2005-01-01:
     scalar: 140
     reference: Art. 46 G. v. 24.12.2003 BGBl. I S. 2954.
@@ -16,8 +16,12 @@ kinderzuschl_max:
   2019-07-01:
     scalar: 185
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530. For 2020, Art. 2 Nr. 4 G. v. 29.04.2019 BGBl. I S. 530.
+  2021-01-01:
+    scalar: null
+    reference: § 6a (2) BKGG
     note: Ab 2021 wird der Betrag aus anderen Parametern berechnet.
-kinderzuschl_min_eink_paare:
+
+min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
     en: Minimum income to be eligible for add. child benefit (couples)
@@ -25,14 +29,15 @@ kinderzuschl_min_eink_paare:
     de: § 6a (1) Nr. 2 BKGG.
     en:
   unit: Euro
-  time: month
+  reference_period: Month
   2005-01-01:
     scalar: 0
     note: kein expliziter Wert im Gesetz.
   2008-10-01:
     scalar: 900
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-kinderzuschl_min_eink_alleinerz:
+
+min_eink_alleinerz:
   name:
     de: Mindesteinkommen für Alleinerziehende
     en: Minimum income for single parents
@@ -40,21 +45,22 @@ kinderzuschl_min_eink_alleinerz:
     de: § 6a (1) Nr. 2 BKGG.
     en:
   unit: Euro
-  time: month
+  reference_period: Month
   2005-01-01:
     scalar: 0
     note: kein expliziter Wert im Gesetz.
   2008-10-01:
     scalar: 600
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-kinderzuschl_entzug_eltern:
+
+entzugsrate_eltern:
   name:
     de: Minderungsrate durch Einkommen der Eltern über BMG
-    en: transfer withdrawal rate for parent's income
+    en: Transfer withdrawal rate for parent's income
   description:
     de: § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG. Rate, mit der der Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt.
     en:
-  unit: share
+  unit: Share
   2005-01-01:
     scalar: 0.7
     reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
@@ -64,29 +70,31 @@ kinderzuschl_entzug_eltern:
   2020-01-01:
     scalar: 0.45
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
-kinderzuschl_entzug_kind:
+
+entzugsrate_kind:
   name:
     de: Minderungsrate durch Einkommen des Kindes
     en: Rate at which child income is deducted
   description:
     de: § 6a (3) BKGG. Einkommen des Kindes beinhaltet auch Unterhalt und Unterhaltsvorschuss.
     en: Child alimony and alimony advance payments are also attributed to the child.
-  unit: share
+  unit: Share
   2005-01-01:
     scalar: 1
     reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
   2019-07-01:
     scalar: 0.45
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
-exmin:
+
+existenzminimum:
   name:
     de: Höhen des Existenzminimums, festgelegt im Existenzminimumsbericht der Bundesregierung.
     en:
   description:
     de: Berechnet für jeweils zwei Jahre die Höhe der steuerfrei zu stellenden Existenzminima (nicht identisch mit dem steuerlichen Grundfreibetrag).
     en: Every two years, the government calculates the subsistence levels 'to be allowed from taxation'. These form the basis for a number of kiz parameters.
-  unit: euro
-  time: year
+  unit: Euro
+  reference_period: Year
   2005-01-01:
     regelsatz:
       single: 4164

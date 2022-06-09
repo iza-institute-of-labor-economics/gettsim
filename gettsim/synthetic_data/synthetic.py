@@ -7,6 +7,8 @@ import pandas as pd
 from gettsim.config import ROOT_DIR
 from gettsim.policy_environment import _load_parameter_group_from_yaml
 
+current_year = datetime.datetime.now().year
+
 
 def append_other_hh_members(
     df, hh_typ, n_children, age_adults, age_children, double_earner
@@ -27,24 +29,26 @@ def append_other_hh_members(
         if not double_earner:
             adult["bruttolohn_m"] = 0
 
-        new_df = new_df.append(adult, ignore_index=True)
+        new_df = pd.concat(objs=[new_df, adult], ignore_index=True)
 
-    child = df.copy()
-    child["kind"] = True
-    child["in_ausbildung"] = True
-    child["bruttolohn_m"] = 0
-
-    if n_children == 1:
-        children = child.copy()
-        children["alter"] = age_children[0]
-    elif n_children == 2:
-        children = child.append(child, ignore_index=True)
-        children["alter"] = age_children
+    if n_children > 0:
+        child = df.copy()
+        child["kind"] = True
+        child["in_ausbildung"] = True
+        child["bruttolohn_m"] = 0
+        if n_children == 1:
+            children = child.copy()
+            children["alter"] = age_children[0]
+        elif n_children == 2:
+            children = pd.concat(objs=[child, child], ignore_index=True)
+            children["alter"] = age_children
+        else:
+            raise ValueError(n_children)
+        # append children
+        new_df = pd.concat(objs=[new_df, children])
     else:
-        children = None
+        pass
 
-    # append children
-    new_df = new_df.append(children)
     new_df["tu_vorstand"] = False
 
     return new_df
@@ -57,7 +61,7 @@ def create_synthetic_data(
     age_children=None,
     baujahr=1980,
     double_earner=False,
-    policy_year=datetime.datetime.now().year,
+    policy_year=current_year,
     heterogeneous_vars=(),
     **kwargs,
 ):
@@ -91,7 +95,7 @@ def create_synthetic_data(
 
     kwargs:
 
-    bruttolohn_m, kapital_eink_m, eink_selbst_m, vermögen_hh (int):
+    bruttolohn_m, kapitaleink_brutto_m, eink_selbst_m, vermögen_hh (int):
         values for income and wealth, respectively.
         only valid if heterogenous_vars is empty
     """
@@ -123,10 +127,17 @@ def create_synthetic_data(
         if (a < 0) or (type(a) != int):
             raise ValueError(f"illegal value for age: {a}")
 
+    p_id_min = 0
+    hh_id_min = 0
+    tu_id_min = 0
+
     if len(heterogeneous_vars) == 0:
         # If no heterogeneity specified,
         # just create the household types with default incomes.
         synth = create_one_set_of_households(
+            p_id_min,
+            hh_id_min,
+            tu_id_min,
             hh_typen,
             n_children,
             age_adults,
@@ -146,7 +157,7 @@ def create_synthetic_data(
             # allow only certain variables to vary
             if hetvar not in [
                 "bruttolohn_m",
-                "kapital_eink_m",
+                "kapitaleink_brutto_m",
                 "eink_selbst_m",
                 "vermögen_hh",
             ]:
@@ -154,28 +165,37 @@ def create_synthetic_data(
                     f"Illegal value for variable to vary across households: {hetvar}"
                 )
             for value in heterogeneous_vars[hetvar]:
-                synth = synth.append(
-                    create_one_set_of_households(
-                        hh_typen,
-                        n_children,
-                        age_adults,
-                        age_children,
-                        baujahr,
-                        double_earner,
-                        policy_year,
-                        dimension=dimensions[dim_counter],
-                        **{hetvar: value},
-                    )
+                synth = pd.concat(
+                    objs=[
+                        synth,
+                        create_one_set_of_households(
+                            p_id_min,
+                            hh_id_min,
+                            tu_id_min,
+                            hh_typen,
+                            n_children,
+                            age_adults,
+                            age_children,
+                            baujahr,
+                            double_earner,
+                            policy_year,
+                            dimension=dimensions[dim_counter],
+                            **{hetvar: value},
+                        ),
+                    ]
                 )
+                p_id_min = synth["p_id"].max() + 1
+                hh_id_min = synth["hh_id"].max() + 1
+                tu_id_min = synth["tu_id"].max() + 1
                 dim_counter += 1
-
-    synth = synth.reset_index()
-    synth["p_id"] = synth.index
-
+        synth = synth.reset_index(drop=True)
     return synth
 
 
 def create_one_set_of_households(
+    p_id_min,
+    hh_id_min,
+    tu_id_min,
     hh_typen,
     n_children,
     age_adults,
@@ -195,7 +215,7 @@ def create_one_set_of_households(
         "bruttolohn_m",
         "alter",
         "rentner",
-        "alleinerziehend",
+        "alleinerz",
         "wohnort_ost",
         "in_priv_krankenv",
         "priv_rentenv_beitr_m",
@@ -205,16 +225,15 @@ def create_one_set_of_households(
         "betreuungskost_m",
         "sonstig_eink_m",
         "eink_selbst_m",
-        "vermiet_eink_m",
-        "kapital_eink_m",
-        "ges_rente_m",
+        "eink_vermietung_m",
+        "kapitaleink_brutto_m",
         "bruttokaltmiete_m_hh",
         "heizkosten_m_hh",
         "wohnfläche_hh",
         "bewohnt_eigentum_hh",
-        "arbeitsl_lfdj_m",
-        "arbeitsl_vorj_m",
-        "arbeitsl_vor2j_m",
+        "arbeitsl_monate_lfdj",
+        "arbeitsl_monate_vorj",
+        "arbeitsl_monate_v2j",
         "arbeitsstunden_w",
         "bruttolohn_vorj_m",
         "geburtstag",
@@ -222,19 +241,27 @@ def create_one_set_of_households(
         "geburtsjahr",
         "jahr_renteneintr",
         "m_elterngeld",
-        "m_elterngeld_mut",
-        "m_elterngeld_vat",
+        "m_elterngeld_mut_hh",
+        "m_elterngeld_vat_hh",
         "behinderungsgrad",
         "mietstufe",
         "immobilie_baujahr",
         "vermögen_hh",
-        "entgeltpunkte",
+        "entgeltp",
+        "grundr_bew_zeiten",
+        "grundr_entgeltp",
+        "grundr_zeiten",
+        "priv_rente_m",
+        "schwerbeh_g",
     ]
     # Create one row per desired household
+    n_rows = len(hh_typen) * len(n_children)
     df = pd.DataFrame(
         columns=output_columns,
-        data=np.zeros((len(hh_typen) * len(n_children), len(output_columns))),
+        data=np.zeros((n_rows, len(output_columns))),
     )
+    df["hh_id"] = pd.RangeIndex(n_rows) + hh_id_min
+    df["tu_id"] = pd.RangeIndex(n_rows) + tu_id_min
 
     # Some columns require boolean type. initiate them with False
     for bool_col in [
@@ -245,9 +272,10 @@ def create_one_set_of_households(
         "rentner",
         "gem_veranlagt",
         "in_ausbildung",
-        "alleinerziehend",
+        "alleinerz",
         "bewohnt_eigentum_hh",
         "in_priv_krankenv",
+        "schwerbeh_g",
     ]:
         df[bool_col] = False
 
@@ -255,11 +283,11 @@ def create_one_set_of_households(
     for int_col in [
         "behinderungsgrad",
         "m_elterngeld",
-        "m_elterngeld_mut",
-        "m_elterngeld_vat",
-        "arbeitsl_lfdj_m",
-        "arbeitsl_vorj_m",
-        "arbeitsl_vor2j_m",
+        "m_elterngeld_mut_hh",
+        "m_elterngeld_vat_hh",
+        "arbeitsl_monate_lfdj",
+        "arbeitsl_monate_vorj",
+        "arbeitsl_monate_v2j",
     ]:
         df[int_col] = df[int_col].astype(int)
 
@@ -286,31 +314,30 @@ def create_one_set_of_households(
 
     # Income and wealth
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
-    df["kapital_eink_m"] = kwargs.get("kapital_eink_m", 0)
+    df["kapitaleink_brutto_m"] = kwargs.get("kapitaleink_brutto_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
     df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
-    dim = kwargs.get("dimension", 1)
-
-    df["hh_id"] = 100 * dim + df.index
-    df["tu_id"] = 100 * dim + df.index
 
     # append entries for children and partner
     for hht in hh_typen:
         for nch in n_children:
-            df = df.append(
-                append_other_hh_members(
-                    df[
-                        (df["hh_typ"].str[:6] == hht)
-                        & (df["hh_typ"].str[7:8].astype(int) == nch)
-                    ],
-                    hht,
-                    nch,
-                    age_adults,
-                    age_children,
-                    double_earner,
-                )
+            df = pd.concat(
+                objs=[
+                    df,
+                    append_other_hh_members(
+                        df[
+                            (df["hh_typ"].str[:6] == hht)
+                            & (df["hh_typ"].str[7:8].astype(int) == nch)
+                        ],
+                        hht,
+                        nch,
+                        age_adults,
+                        age_children,
+                        double_earner,
+                    ),
+                ]
             )
-    df = df.reset_index()
+    df = df.reset_index(drop=True)
     df["geburtsjahr"] = policy_year - df["alter"]
     df["geburtsmonat"] = 1
     df["geburtstag"] = 1
@@ -326,17 +353,25 @@ def create_one_set_of_households(
     df.loc[
         (df["hh_typ"].str.contains("couple")) & (~df["kind"]), "gem_veranlagt"
     ] = True
+
     # Single Parent Dummy
     df.loc[
         (df["hh_typ"].str.contains("single"))
         & (df["hh_typ"].str[7:8].astype(int) > 0)
         & (~df["kind"]),
-        "alleinerziehend",
+        "alleinerz",
     ] = True
 
-    df = df.sort_values(by=["hh_typ", "hh_id"])
+    # Retirement variables
+    df["grundr_zeiten"] = (df["alter"] - 20).clip(lower=0) * 12
+    df["grundr_bew_zeiten"] = df["grundr_zeiten"]
+    df["entgeltp"] = df["grundr_zeiten"] / 12
+    df["grundr_entgeltp"] = df["entgeltp"]
 
     df = df.reset_index()
-    df["p_id"] = df.index
+    df = df.sort_values(by=["hh_id", "tu_id", "index"])
+    df = df.drop(columns=["index"]).reset_index(drop=True)
+    df["p_id"] = df.index + p_id_min
+    df = df.sort_values(by=["hh_id", "tu_id", "p_id"])
 
-    return df[["hh_id", "tu_id", "p_id", "hh_typ"] + output_columns]
+    return df[["p_id", "hh_id", "tu_id", "hh_typ"] + output_columns]

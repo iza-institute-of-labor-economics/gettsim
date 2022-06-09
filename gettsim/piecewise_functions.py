@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 
 def piecewise_polynomial(
@@ -28,71 +27,54 @@ def piecewise_polynomial(
         The value of `x` under the piecewise function.
 
     """
-    # If no individual is transferred, we return an empty series
-    if x.empty:
-        return x
-
     num_intervals = len(thresholds) - 1
     degree_polynomial = rates.shape[0]
 
     # Check in which interval each individual is. The thresholds are not exclusive on
-    # the right side!
-    binned = pd.cut(
-        x,
-        bins=thresholds,
-        right=False,
-        include_lowest=True,
-        labels=range(num_intervals),
-    ).astype(float)
+    # the right side.
+    selected_bin = np.searchsorted(thresholds, x, side="right") - 1
 
-    # Create series with last threshold for each individual
-    thresholds_individual = binned.replace(dict(enumerate(thresholds[:-1])))
+    # Calc last threshold for each individual
+    threshold = thresholds[selected_bin]
 
-    # Increment for each individual in the corresponding interval
-    increment_to_calc = x - thresholds_individual
-
-    # Check if any value is in the lowest interval.
-    if 0 in binned.array and intercepts_at_lower_thresholds[0] == np.nan:
-        raise ValueError(f"In {x.name} is a value outside the determined range.")
+    # Increment for each individual in the corresponding interval.
+    increment_to_calc = x - threshold
 
     # If each individual has its own rates or the rates are scaled, we can't use the
     # intercept, which was generated in the parameter loading.
     if rates_multiplier is not None:
 
-        # Initialize Series containing 0 for all individuals
-        out = x * 0
-        out += intercepts_at_lower_thresholds[0]
+        # Initialize Series containing 0 for all individuals.
+        out = intercepts_at_lower_thresholds[0]
 
-        # Go through all intervals except the first and last
+        # Go through all intervals except the first and last.
         for i in range(2, num_intervals):
             threshold_incr = thresholds[i] - thresholds[i - 1]
             for pol in range(1, degree_polynomial + 1):
 
                 # We only calculate the intercepts for individuals who are in this or
                 # higher interval. Hence we have to use the individual rates.
-                out.loc[binned >= i] += (
-                    rates_multiplier.loc[binned >= i]
-                    * rates[pol - 1, i - 1]
-                    * threshold_incr ** pol
-                )
+                if selected_bin >= i:
+                    out += (
+                        rates_multiplier * rates[pol - 1, i - 1] * threshold_incr**pol
+                    )
 
     # If rates remain the same, everything is a lot easier.
     else:
         # We assign each individual the pre-calculated intercept.
-        out = binned.replace(dict(enumerate(intercepts_at_lower_thresholds)))
+        out = intercepts_at_lower_thresholds[selected_bin]
 
     # Intialize a multiplyer for 1 if it is not given.
     rates_multiplier = 1 if rates_multiplier is None else rates_multiplier
-    # Now add the evaluation of the increment
-    for pol in range(1, degree_polynomial + 1):
-        out += (
-            binned.replace(dict(enumerate(rates[pol - 1, :])))
-            * rates_multiplier
-            * (increment_to_calc ** pol)
-        )
 
-    # For those in interval zero, the above equations yield wrong results
-    out.loc[binned == 0] = intercepts_at_lower_thresholds[0]
+    if selected_bin > 0:
+        # Now add the evaluation of the increment
+        for pol in range(1, degree_polynomial + 1):
+            out += (
+                rates[pol - 1][selected_bin]
+                * rates_multiplier
+                * (increment_to_calc**pol)
+            )
 
     return out
 
@@ -136,7 +118,7 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
         parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys
     )
     piecewise_elements = {
-        "thresholds": thresholds,
+        "thresholds": np.array(thresholds),
         "rates": rates,
         "intercepts_at_lower_thresholds": intercepts,
     }
@@ -399,6 +381,6 @@ def calculate_intercepts(
 
     out = intercept_interval
     for pol in range(1, rates.shape[0] + 1):
-        out += rates[pol - 1, index_interval] * (increment_to_calc ** pol)
+        out += rates[pol - 1, index_interval] * (increment_to_calc**pol)
 
     return out

@@ -11,3 +11,4 @@ ignore:
   - "setup.py"
   - "dashboard/**/*"
   - "gettsim/parameters/_dynamic_pension_data"
+  - "gettsim/aggregation_jax.py"

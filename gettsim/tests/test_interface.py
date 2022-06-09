@@ -8,16 +8,19 @@ from gettsim import compute_taxes_and_transfers
 from gettsim import test
 from gettsim.config import ROOT_DIR
 from gettsim.functions_loader import load_user_and_internal_functions
-from gettsim.interface import _expand_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_datatype_is_false
 from gettsim.interface import _fail_if_functions_and_columns_overlap
+from gettsim.interface import _fail_if_group_variables_not_constant_within_groups
+from gettsim.interface import _fail_if_pid_is_non_unique
+from gettsim.interface import _partial_parameters_to_functions
+from gettsim.shared import add_rounding_spec
 
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_dfs_tax_transfer.csv"
+    file_name = "full_taxes_and_transfers.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
@@ -34,6 +37,16 @@ def minimal_input_data():
         index=np.arange(n_individuals),
     )
     return out
+
+
+# Create a partial function which is used by some tests below
+def func_before_partial(arg_1, arbeitsl_geld_2_params):
+    return arg_1 + arbeitsl_geld_2_params["test_param_1"]
+
+
+func_after_partial = _partial_parameters_to_functions(
+    {"test_func": func_before_partial}, {"arbeitsl_geld_2": {"test_param_1": 1}}
+)["test_func"]
 
 
 def test_fail_if_datatype_is_false(input_data):
@@ -96,14 +109,31 @@ def test_fail_if_functions_and_columns_overlap(columns, functions, type_, expect
         _fail_if_functions_and_columns_overlap(columns, functions, type_)
 
 
-def test_expand_data_raise_error():
-    data = {"wrong_variable_hh": pd.Series(data=np.arange(4), index=np.arange(4))}
-    ids = pd.Series(
-        data=np.arange(8), index=np.arange(4).repeat(2), name="hh_id"
-    ).to_frame()
+def test_fail_if_pid_does_not_exist():
+    data = pd.Series(data=np.arange(8), name="hh_id").to_frame()
 
-    with pytest.raises(KeyError):
-        _expand_data(data, ids)
+    with pytest.raises(ValueError):
+        _fail_if_pid_is_non_unique(data)
+
+
+def test_fail_if_pid_is_non_unique():
+    data = pd.Series(data=np.arange(4).repeat(2), name="p_id").to_frame()
+
+    with pytest.raises(ValueError):
+        _fail_if_pid_is_non_unique(data)
+
+
+def test_fail_if_group_variables_not_constant_within_groups():
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m_hh": [100, 200, 300],
+        }
+    )
+
+    with pytest.raises(ValueError):
+        _fail_if_group_variables_not_constant_within_groups(data)
 
 
 def test_missing_root_nodes_raises_error(minimal_input_data):
@@ -114,7 +144,8 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         return b
 
     with pytest.raises(
-        ValueError, match="The following data columns are missing",
+        ValueError,
+        match="The following data columns are missing",
     ):
         compute_taxes_and_transfers(
             minimal_input_data, {}, functions=[b, c], targets="c"
@@ -135,7 +166,8 @@ def test_fail_if_missing_pid(minimal_input_data):
     data = minimal_input_data.drop("p_id", axis=1).copy()
 
     with pytest.raises(
-        ValueError, match="The input data must contain the column p_id",
+        ValueError,
+        match="The input data must contain the column p_id",
     ):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
@@ -145,7 +177,19 @@ def test_fail_if_non_unique_pid(minimal_input_data):
     data["p_id"] = 1
 
     with pytest.raises(
-        ValueError, match="The following p_ids are non-unique",
+        ValueError,
+        match="The following p_ids are non-unique",
+    ):
+        compute_taxes_and_transfers(data, {}, functions=[], targets=[])
+
+
+def test_fail_if_non_unique_cols(minimal_input_data):
+    data = minimal_input_data.copy()
+    data["temp"] = data["hh_id"]
+    data = data.rename(columns={"temp": "hh_id"})
+    with pytest.raises(
+        ValueError,
+        match="The following columns are non-unique",
     ):
         compute_taxes_and_transfers(data, {}, functions=[], targets=[])
 
@@ -155,3 +199,97 @@ def test_consecutive_internal_test_runs():
 
     with pytest.warns(UserWarning, match="Repeated execution of the test suite"):
         test("--collect-only")
+
+
+def test_partial_parameters_to_functions():
+
+    # Partial function produces correct result
+    assert func_after_partial(2) == 3
+
+
+def test_partial_parameters_to_functions_removes_argument():
+
+    # Fails if params is added to partial function
+    with pytest.raises(
+        TypeError,
+        match=("got multiple values for argument "),
+    ):
+        func_after_partial(2, {"test_param_1": 1})
+
+    # No error for original function
+    func_before_partial(2, {"test_param_1": 1})
+
+
+def test_partial_parameters_to_functions_keep_decorator():
+    """Make sure that rounding decorator is kept for partial function"""
+
+    @add_rounding_spec(params_key="params_key_test")
+    def test_func(arg_1, arbeitsl_geld_2_params):
+        return arg_1 + arbeitsl_geld_2_params["test_param_1"]
+
+    partial_func = _partial_parameters_to_functions(
+        {"test_func": test_func}, {"arbeitsl_geld_2": {"test_param_1": 1}}
+    )["test_func"]
+
+    assert partial_func.__rounding_params_key__ == "params_key_test"
+
+
+def test_user_provided_aggregation_specs():
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m": [100, 100, 100],
+        }
+    )
+    aggregation_specs = {
+        "arbeitsl_geld_2_m_hh": {
+            "source_col": "arbeitsl_geld_2_m",
+            "aggr": "sum",
+        }
+    }
+    expected_res = pd.Series([200, 200, 100])
+
+    out = compute_taxes_and_transfers(
+        data,
+        {},
+        functions=[],
+        targets="arbeitsl_geld_2_m_hh",
+        aggregation_specs=aggregation_specs,
+    )
+
+    np.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
+
+
+def test_user_provided_aggregation_specs_function():
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m": [200, 100, 100],
+        }
+    )
+    aggregation_specs = {
+        "arbeitsl_geld_2_m_double_hh": {
+            "source_col": "arbeitsl_geld_2_m_double",
+            "aggr": "max",
+        }
+    }
+    expected_res = pd.Series([400, 400, 200])
+
+    def arbeitsl_geld_2_m_double(arbeitsl_geld_2_m):
+        return 2 * arbeitsl_geld_2_m
+
+    out = compute_taxes_and_transfers(
+        data,
+        {},
+        functions=[arbeitsl_geld_2_m_double],
+        targets="arbeitsl_geld_2_m_double_hh",
+        aggregation_specs=aggregation_specs,
+    )
+
+    np.testing.assert_array_almost_equal(
+        out["arbeitsl_geld_2_m_double_hh"], expected_res
+    )

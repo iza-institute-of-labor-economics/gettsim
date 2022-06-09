@@ -5,29 +5,70 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.5.0 —
+0.5.2 —
 ------------------
-* :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters.
-   (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
+* :gh:`323` Health care contribution parameters are better aligned with law.
+  Restructure calculation of ges_krankenv, minor changes to ges_pflegev.
+  (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
 * :gh:`150` Implement lohnsteuer / withdrawal tax.
    (:ghuser:`Eric-Sommer`).
-* :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh.
+
+
+0.5.1 — 2022-04-21
+------------------
+* :gh:`377` Fix wrong parameter value for `ges_pflegev` contribution
+  (:ghuser:`JuergenWiemers`).
+* :gh:`383` Remove ä, ö, ü from file names (:ghuser:`ChristianZimpelmann`).
+
+0.5.0 — 2022-04-01
+------------------
+
+* :gh:`327` add behinderten_pauschbetrag for 1975-1986 (:ghuser:`lillyfischer`).
+* :gh:`285` Set up bokeh dashboard to visualize tax-benefit parameters
+   (:ghuser:`Si-Pf`, :ghuser:`Eric-Sommer`).
+* :gh:`306` Add the possibility to load the value of a parameter of the previous
+   year when calling `set_up_policy_environment` (:ghuser:`ChristianZimpelmann`).
+* :gh:`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove
+   `ges_rente_m` as input. Rename `gettsim.renten_anspr` to `gettsim.transfers.rente`.
+   Rename `gettsim.social_insurance` to `gettsim.social_insurance_contributions`
+   (:ghuser:`davpahl`, :ghuser:`ChristianZimpelmann`).
+* :gh:`307` Allow to specify order up to which ancestors and descendants are shown
+   when plotting a dag (:ghuser:`ChristianZimpelmann`).
+* :gh:`310` Added Mehrbedarf G to Implementation of Grundsicherung im Alter
+   (:ghuser:`paulinaschroeder`).
+* :gh:`311` Rename variable kaltmiete_m_hh to bruttokaltmiete_m_hh
    (:ghuser:`LauraGergeleit`).
 * :gh:`319`:gh:`320` Implement changes for social assistance and social insurance
    becoming effective in 2022 (:ghuser:`Eric-Sommer`).
 * :gh:`322` Add updated wohngeld parameters for 2022 (:ghuser:`mjbloemer`,
   :ghuser:`lillyfischer`).
 * :gh:`312` Updated GEP-01 with effects on character limits, time and unit identifiers,
-  adjustments for DAG backend. (:ghuser:`hmgaudecker`)
+  adjustments for DAG backend (:ghuser:`hmgaudecker`).
 * :gh:`314` Enforced character limits from GEP-01 for all function names and input
   variables. Make variable names more precise (e.g., `ges_` in front of all social
   insurance parameters that have private counterparts, `eink_st` everywhere the income
   tax is meant). Make variables consistent (e.g. `kinderfreibetrag` had different
   abbreviations, now `kinderfreib` everywhere). (:ghuser:`hmgaudecker`,
   :ghuser:`ChristianZimpelmann`)
+* :gh:`343` New argument for `compute_taxes_and_transfers`: `rounding`. If set to False,
+  rounding of outputs is disabled. Add rounding for `eink_st_tu`. Rounding for other
+  functions will be introduced in future PRs. (:ghuser:`ChristianZimpelmann`).
+* :gh:`349` Create parameters for several hard coded numbers in code.
+  (:ghuser:`LauraGergeleit`).
+* :gh:`355` Major renaming based on GEP 01, e.g.: correct use of ``_m``-suffix;
+  ``alleinerziehend`` becomes ``alleinerz``; rename `ges_rentenv.yaml` to
+  `ges_rente.yaml` (:ghuser:`hmgaudecker`, :ghuser:`ChristianZimpelmann`)
+* :gh:`356` Define functions on scalars and have them vectorised. Implement aggregation
+  functions on group levels. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
+
+0.4.2 — 2022-01-25
+--------------------
+
+* Ensure GETTSIM works with Pandas 1.4 (:gh:`337`)
+
 
 0.4.1 — 2021-04-11
-------------------
+--------------------
 
 * :gh:`248` Implement 2021 increase in lump sum tax deductions for disabled.
    (:ghuser:`Eric-Sommer`).
@@ -48,7 +89,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.4.0 — 2020-11-11
-------------------
+--------------------
 
 * :gh:`241` renaming of directories: `gettsim.benefits` to `gettsim.transfers`;
    `gettsim.soz_vers` to `gettsim.social_insurance`; `gettsim.data` to
@@ -76,14 +117,14 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.3.4 — 2020-07-30
-------------------
+--------------------
 
 * :gh:`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
   (:ghuser:`hmgaudecker`, :ghuser:`MaxBlesch`)
 
 
 0.3.3 — 2020-06-27
-------------------
+--------------------
 
 * :gh:`212` improves the error message when reduced series could not be expanded with an
   id variable and fixes a related error in the internal functions
@@ -95,7 +136,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.3.2 — 2020-06-19
-------------------
+--------------------
 
 * :gh:`196` adds docstring to `policy_for_date.py` and improves its interface
   (:ghuser:`MaxBlesch`).
@@ -113,7 +154,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.3.1 — 2020-06-05
-------------------
+--------------------
 
 * :gh:`188` removes misleading code bits from the documentation and adds a copy-button
   (:ghuser:`tobiasraabe`).
@@ -122,7 +163,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.3.0 — 2020-06-04
-------------------
+--------------------
 
 * Cleanup of ALG II parameters and documentation (:ghuser:`mjbloemer`)
 * Break up params.yaml into group-level files (:ghuser:`MaxBlesch`)
@@ -159,7 +200,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.2.1 — 2019-11-20
-------------------
+--------------------
 
 * Fix error with real SOEP data and "Wohngeld" for households with more than 12
   household members (:ghuser:`Eric-Sommer`, :ghuser:`MaxBlesch`)
@@ -171,9 +212,9 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 
 
 0.2.0 — 2019-11-06
-------------------
+--------------------
 
-This will be the initial release of ``gettsim``.
+Initial release of ``gettsim``.
 
 * Set up as a conda-installable package (:ghuser:`tobiasraabe`)
 * Migration of the parameter database from xls to yaml (:ghuser:`mjbloemer`,
@@ -189,7 +230,7 @@ This will be the initial release of ``gettsim``.
 
 
 0.1 and prior work — 2019-09-30
--------------------------------
+---------------------------------
 
 Most code written by :ghuser:`Eric-Sommer` based on `IZAΨMOD <https://www.iza.org/
 publications/dp/8553/documentation-izapsmod-v30-the-iza-policy-simulation-model>`_, a

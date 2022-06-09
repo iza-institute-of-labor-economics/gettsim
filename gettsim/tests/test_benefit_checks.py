@@ -17,12 +17,12 @@ INPUT_COLS = [
     "rentner",
     "alter",
     "vermögen_hh",
-    "kinderzuschl_vorläufig_m",
-    "wohngeld_basis_hh",
-    "regelbedarf_m_hh",
+    "_kinderzuschl_vor_vermög_check_m_hh",
+    "wohngeld_vor_vermög_check_m_hh",
+    "arbeitsl_geld_2_regelbedarf_m_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m_hh",
-    "arbeitsl_geld_2_eink_hh",
+    "arbeitsl_geld_2_eink_m_hh",
     "geburtsjahr",
     "jahr",
 ]
@@ -33,21 +33,21 @@ OUT_COLS = ["kinderzuschl_m_hh", "wohngeld_m_hh", "arbeitsl_geld_2_m_hh"]
 
 @pytest.fixture(scope="module")
 def input_data():
-    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "test_dfs_prio.csv")
+    return pd.read_csv(ROOT_DIR / "tests" / "test_data" / "benefit_checks.csv")
 
 
 @pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
 def test_benefit_checks(input_data, year, target):
     """Test the benefit checks."""
-    year_data = input_data[input_data["jahr"] == year]
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     columns = [
-        "kinderzuschl_vorläufig_m",
-        "wohngeld_basis_hh",
-        "regelbedarf_m_hh",
+        "_kinderzuschl_vor_vermög_check_m_hh",
+        "wohngeld_vor_vermög_check_m_hh",
+        "arbeitsl_geld_2_regelbedarf_m_hh",
         "kindergeld_m_hh",
         "unterhaltsvors_m_hh",
-        "arbeitsl_geld_2_eink_hh",
+        "arbeitsl_geld_2_eink_m_hh",
     ]
 
     policy_params, policy_functions = set_up_policy_environment(date=year)
