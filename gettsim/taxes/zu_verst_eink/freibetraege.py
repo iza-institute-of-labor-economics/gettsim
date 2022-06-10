@@ -236,7 +236,7 @@ def eink_st_sonderausgaben_bis_2011(
 @add_rounding_spec(params_key="eink_st_abzuege")
 def sonderausgaben_betreuung(
     eink_st_abzuege_params: dict,
-    anz_kinder_bis_13_hh: int,
+    anz_kinder_bis_13_tu: int,
     betreuungskost_m: float,
     anz_erwachsene_tu: int,
 ) -> float:
@@ -248,8 +248,8 @@ def sonderausgaben_betreuung(
     ----------
     betreuungskost_m
         See basic input variable :ref:`betreuungskost_m <betreuungskost_m>`.
-    anz_kinder_bis_13_hh
-        See :func:`anz_kinder_bis_13_hh`.
+    anz_kinder_bis_13_tu
+        See :func:`anz_kinder_bis_13_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
@@ -261,7 +261,7 @@ def sonderausgaben_betreuung(
         eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
     )
     out = (
-        anz_kinder_bis_13_hh
+        anz_kinder_bis_13_tu
         * abziehbare_betreuungskosten
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
     ) / anz_erwachsene_tu
