@@ -160,14 +160,14 @@ sonderausgabenpauschbetrag:
   unit: Euro
   reference_period: Year
   1984-01-01:
-    scalar: 138
+    single: 138
     reference:
   1988-01-01:
-    scalar: 55
+    single: 55
     reference: Art. 1 G. v. 25.07.1988, BGBl. I S. 1093
     note: 108 DM. Rückdatiert auf das gesamte Jahr.
   2002-01-01:
-    scalar: 36
+    single: 36
     note: Art. 1 G. v. 19.12.2000, BGBl. I S. 1790
 
 sparerpauschbetrag:
@@ -606,3 +606,41 @@ kinderbetreuungskosten_abz_maximum:
   2012-01-01:
     scalar: 4000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
+
+rounding:
+  vorsorgeaufw:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  vorsorgeaufw_ab_2010_bis_2019:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  vorsorgeaufw_ab_2020:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  vorsorgeaufw_bis_2004:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  vorsorgeaufw_ab_2005_bis_2009:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 0.01
+      direction: nearest
+  sonderausgaben_betreuung:
+    note:
+      en: Starting date unclear
+    1984-01-01:
+      base: 1
+      direction: up

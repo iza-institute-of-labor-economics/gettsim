@@ -49,7 +49,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
 
     # ToDo: Freibeträge for income are currently not considered
     # ToDo: as freibeträge_tu depends on pension income through
-    # ToDo: `ges_krankenv_beitr_m` -> `vorsorge` -> `freibeträge`
+    # ToDo: `ges_krankenv_beitr_m` -> `vorsorgeaufw` -> `freibeträge`
 
     Reference: § 97a Abs. 2 S. 1 SGB VI
 
