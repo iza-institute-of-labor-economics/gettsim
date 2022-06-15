@@ -334,28 +334,26 @@ def _convert_data_to_correct_types(data, columns_overriding_functions, functions
     """
     collected_errors = [
         "The following data columns do not have the correct data type"
-        " and could not savely be converted to the expected type: \n\n"
+        " and could not savely be converted to the expected type: \n"
     ]
     for column_name, series in data.items():
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
             try:
                 data[column_name] = convert_series_to_internal_type(
-                    column_name, series, internal_type
+                    series, internal_type
                 )
             except ValueError as e:
-                collected_errors.append(f"{column_name}: {e}")
+                collected_errors.append(f" - {column_name}: {e}")
         elif (
             column_name in columns_overriding_functions
             and "return" in functions[column_name].__annotations__
         ):
             internal_type = functions[column_name].__annotations__["return"]
-            data[column_name] = convert_series_to_internal_type(
-                column_name, series, internal_type
-            )
+            data[column_name] = convert_series_to_internal_type(series, internal_type)
 
     if len(collected_errors) > 1:
-        raise ValueError("\n\n".join(collected_errors))
+        raise ValueError("\n".join(collected_errors))
     return data
 
 
