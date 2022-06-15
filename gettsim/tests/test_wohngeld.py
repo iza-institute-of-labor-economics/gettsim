@@ -83,4 +83,4 @@ def test_wohngeld(input_data, year, column):
     else:
         result[column] = result[column].round(2)
 
-    assert_series_equal(result[column].astype(float), year_data[column])
+    assert_series_equal(result[column].astype(float), year_data[column], atol=0, rtol=0)
