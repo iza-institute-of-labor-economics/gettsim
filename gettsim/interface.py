@@ -332,10 +332,7 @@ def _convert_data_to_correct_types(data, columns_overriding_functions, functions
     data : dict of pandas.Series with correct type
 
     """
-    collected_errors = [
-        "The following data columns do not have the expected data type"
-        " and could not savely be converted: \n"
-    ]
+    collected_errors = ["The data types of the following columns are invalid: \n"]
     for column_name, series in data.items():
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
@@ -353,7 +350,16 @@ def _convert_data_to_correct_types(data, columns_overriding_functions, functions
             data[column_name] = convert_series_to_internal_type(series, internal_type)
 
     if len(collected_errors) > 1:
-        raise ValueError("\n".join(collected_errors))
+        raise ValueError(
+            "\n".join(collected_errors) + "\n" + "\n" + "Note that conversion"
+            " from floating point to integers or Booleans inherently suffers from"
+            " approximation error. It might well be that your data seemingly obey the"
+            " restrictions when scrolling through them, but in fact they do not"
+            " (for example, because 1e-15 is displayed as 0.0)."
+            + "\n"
+            + "The best solution is to convert all columns"
+            " to the expected data types yourself."
+        )
     return data
 
 

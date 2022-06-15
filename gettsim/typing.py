@@ -63,8 +63,8 @@ def convert_series_to_internal_type(series, internal_type):
         # Conversion to boolean
         elif internal_type == bool:
 
-            # if input data type is integer or float,
-            if is_integer_dtype(out) or is_float_dtype(out):
+            # if input data type is integer
+            if is_integer_dtype(out):
 
                 # check if series consists only of 1 or 0
                 if len([v for v in out.unique() if v not in [1, 0]]) == 0:
@@ -73,6 +73,17 @@ def convert_series_to_internal_type(series, internal_type):
                     raise ValueError(
                         basic_error_msg + " This conversion is only supported if"
                         " input data exclusively contains the values 1 and 0."
+                    )
+            # if input data type is float
+            if is_float_dtype(out):
+
+                # check if series consists only of 1.0 or 0.0
+                if len([v for v in out.unique() if v not in [1, 0]]) == 0:
+                    out = out.astype(bool)
+                else:
+                    raise ValueError(
+                        basic_error_msg + " This conversion is only supported if"
+                        " input data exclusively contains the values 1.0 and 0.0."
                     )
 
             elif not is_bool_dtype(out):

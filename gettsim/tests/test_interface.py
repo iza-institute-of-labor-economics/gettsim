@@ -274,78 +274,95 @@ def test_user_provided_aggregation_specs_function():
 
 
 @pytest.mark.parametrize(
-    "variable, input_data, expected_type, expected_output_data",
+    "input_data, expected_type, expected_output_data",
     [
-        (
-            "kind",
-            pd.Series([0, 1, 0]),
-            bool,
-            pd.Series([False, True, False]),
-        ),
-        (
-            "kind",
-            pd.Series([1.0, 0.0, 1]),
-            bool,
-            pd.Series([True, False, True]),
-        ),
-        (
-            "vermögen_hh",
-            pd.Series([200, 550, 237]),
-            float,
-            pd.Series([200.0, 550.0, 237.0]),
-        ),
-        (
-            "hh_id",
-            pd.Series([1.0, 4.0, 10.0]),
-            int,
-            pd.Series([1, 4, 10]),
-        ),
-        ("grundr_zeiten", pd.Series([200.0, 567.0]), int, pd.Series([200, 567])),
-        (
-            "selbstständig",
-            pd.Series([1.0, 0.0]),
-            bool,
-            pd.Series([True, False]),
-        ),
+        (pd.Series([0, 1, 0]), bool, pd.Series([False, True, False])),
+        (pd.Series([1.0, 0.0, 1]), bool, pd.Series([True, False, True])),
+        (pd.Series([200, 550, 237]), float, pd.Series([200.0, 550.0, 237.0])),
+        (pd.Series([1.0, 4.0, 10.0]), int, pd.Series([1, 4, 10])),
+        (pd.Series([200.0, 567.0]), int, pd.Series([200, 567])),
+        (pd.Series([1.0, 0.0]), bool, pd.Series([True, False])),
     ],
 )
 def test_convert_series_to_internal_types(
-    variable, input_data, expected_type, expected_output_data
+    input_data, expected_type, expected_output_data
 ):
-    adjusted_input = convert_series_to_internal_type(
-        variable, input_data, expected_type
-    )
+    adjusted_input = convert_series_to_internal_type(input_data, expected_type)
     pd.testing.assert_series_equal(adjusted_input, expected_output_data)
 
 
 @pytest.mark.parametrize(
-    "variable, input_data, expected_type, error_match",
+    "input_data, expected_type, error_match",
     [
-        ("heizkosten_m_hh", pd.Series(["Hallo", 200, 325]), float, "Your variable"),
-        ("heizkosten_m_hh", pd.Series([True, False]), float, "Your variable"),
-        ("hh_id", pd.Series(["2.0", "3.0"]), int, "Your variable"),
-        ("hh_id", pd.Series(["Hallo"]), int, "Your variable"),
-        ("hh_id", pd.Series([2.1, 3.0]), int, "Your variable"),
-        ("hh_id", pd.Series([1.5, 1.0, 2.9]), int, "Your variable"),
-        ("kind", pd.Series([5, 2, 3]), bool, "Your variable"),
-        ("kind", pd.Series([1.5, 1.0, 35.0]), bool, "Your variable"),
-        ("kind", pd.Series(["a", "b", "c"]).astype("category"), bool, "Your variable"),
-        ("kind", pd.Series([1, 0, 3]), bool, "Your variable"),
-        ("kind", pd.Series(["richtig"]), bool, "Your variable"),
-        ("kind", pd.Series(["True", "False", ""]), bool, "Your variable"),
-        ("kind", pd.Series(["true"]), bool, "Your variable"),
         (
-            "geburtsdatum",
+            pd.Series(["Hallo", 200, 325]),
+            float,
+            "Conversion from input type object to float failed.",
+        ),
+        (
+            pd.Series([True, False]),
+            float,
+            "Conversion from input type bool to float failed.",
+        ),
+        (
+            pd.Series(["2.0", "3.0"]),
+            int,
+            "Conversion from input type object to int failed.",
+        ),
+        (
+            pd.Series([1.5, 1.0, 2.9]),
+            int,
+            "Conversion from input type float64 to int failed.",
+        ),
+        (
+            pd.Series([5, 2, 3]),
+            bool,
+            "Conversion from input type int64 to bool failed.",
+        ),
+        (
+            pd.Series([1.5, 1.0, 35.0]),
+            bool,
+            "Conversion from input type float64 to bool failed.",
+        ),
+        (
+            pd.Series(["a", "b", "c"]).astype("category"),
+            bool,
+            "Conversion from input type category to bool failed.",
+        ),
+        (
+            pd.Series(["richtig"]),
+            bool,
+            "Conversion from input type object to bool failed.",
+        ),
+        (
+            pd.Series(["True", "False", ""]),
+            bool,
+            "Conversion from input type object to bool failed.",
+        ),
+        (
+            pd.Series(["true"]),
+            bool,
+            "Conversion from input type object to bool failed.",
+        ),
+        (
             pd.Series(["zweitausendzwanzig"]),
             np.datetime64,
-            "Your variable",
+            "Conversion from input type object to datetime64 failed.",
         ),
-        ("geburtsdatum", pd.Series([True, True]), np.datetime64, "Your variable"),
-        ("information", pd.Series([2020]), str, "The internal type"),
+        (
+            pd.Series([True, True]),
+            np.datetime64,
+            "Conversion from input type bool to datetime64 failed.",
+        ),
+        (
+            pd.Series([2020]),
+            str,
+            "The internal type <class 'str'> is not yet supported.",
+        ),
     ],
 )
 def test_fail_if_cannot_be_converted_to_correct_type(
-    variable, input_data, expected_type, error_match
+    input_data, expected_type, error_match
 ):
     with pytest.raises(ValueError, match=error_match):
-        convert_series_to_internal_type(variable, input_data, expected_type)
+        convert_series_to_internal_type(input_data, expected_type)
