@@ -333,8 +333,8 @@ def _convert_data_to_correct_types(data, columns_overriding_functions, functions
 
     """
     collected_errors = [
-        "The following data columns do not have the correct data type"
-        " and could not savely be converted to the expected type: \n"
+        "The following data columns do not have the expected data type"
+        " and could not savely be converted: \n"
     ]
     for column_name, series in data.items():
         if column_name in TYPES_INPUT_VARIABLES:

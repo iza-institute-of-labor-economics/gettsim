@@ -28,7 +28,7 @@ def convert_series_to_internal_type(series, internal_type):
         "Conversion from input type " f"{out.dtype} to {internal_type.__name__} failed."
     )
     if is_object_dtype(out):
-        raise ValueError(basic_error_msg + " Object type is not supported as input.")
+        raise ValueError(basic_error_msg + " object type is not supported as input.")
     else:
 
         # Conversion to float
