@@ -1,7 +1,12 @@
 import datetime
 
+import numpy as np
 import pandas as pd
 import pytest
+from pandas.api.types import is_bool_dtype
+from pandas.api.types import is_datetime64_any_dtype
+from pandas.api.types import is_float_dtype
+from pandas.api.types import is_integer_dtype
 
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
@@ -11,7 +16,6 @@ from gettsim.functions_loader import _load_functions
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.policy_environment import load_reforms_for_date
 from gettsim.policy_environment import set_up_policy_environment
-
 
 YEARS = [2019]
 
@@ -68,8 +72,8 @@ def test_data_types(
     functions = _load_functions(imports)
 
     # Load all time dependent functions
-    for year in range(1990, 2023):
-        year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
+    for y in range(1990, 2023):
+        year_functions = load_reforms_for_date(datetime.date(year=y, month=1, day=1))
 
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[
@@ -87,6 +91,7 @@ def test_data_types(
         columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
     for column_name, series in data.items():
+
         if series.empty:
             pass
         else:
@@ -97,6 +102,22 @@ def test_data_types(
             elif column_name in year_functions:
                 internal_type = year_functions[column_name].__annotations__["return"]
             else:
-                raise ValueError("Column name unknown.")
-
-            assert type(series) == type(internal_type)
+                # ToDo: Implement easy way to find out expected type of
+                # ToDo: aggregated functions
+                if column_name.endswith("_tu") or column_name.endswith("_hh"):
+                    internal_type = None
+                else:
+                    raise ValueError(f"Column name {column_name} unknown.")
+            if internal_type:
+                if internal_type == bool:
+                    assert is_bool_dtype(series)
+                elif internal_type == int:
+                    assert is_integer_dtype(series)
+                elif internal_type == float:
+                    assert is_float_dtype(series)
+                elif internal_type == np.datetime64:
+                    assert is_datetime64_any_dtype(series)
+                else:
+                    raise ValueError(
+                        f"Internal type {internal_type} not yet supported in this test."
+                    )

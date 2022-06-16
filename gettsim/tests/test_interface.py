@@ -305,6 +305,11 @@ def test_convert_series_to_internal_types(
             "Conversion from input type bool to float failed.",
         ),
         (
+            pd.Series(["a", "b", "c"]).astype("category"),
+            float,
+            "Conversion from input type category to float failed.",
+        ),
+        (
             pd.Series(["2.0", "3.0"]),
             int,
             "Conversion from input type object to int failed.",
@@ -313,6 +318,11 @@ def test_convert_series_to_internal_types(
             pd.Series([1.5, 1.0, 2.9]),
             int,
             "Conversion from input type float64 to int failed.",
+        ),
+        (
+            pd.Series(["a", "b", "c"]).astype("category"),
+            int,
+            "Conversion from input type category to int failed.",
         ),
         (
             pd.Series([5, 2, 3]),

@@ -47,7 +47,7 @@ def kinderzuschl_eink_regel_m_hh_bis_2010(
             * anz_erwachsene_hh
         )
 
-    return out
+    return float(out)
 
 
 def kinderzuschl_eink_regel_m_hh_ab_2011(
@@ -81,7 +81,7 @@ def kinderzuschl_eink_regel_m_hh_ab_2011(
     elif anz_erwachsene_hh > 2:
         out = arbeitsl_geld_2_params["regelsatz"][3] * anz_erwachsene_hh
 
-    return out
+    return float(out)
 
 
 def kinderzuschl_eink_relev_m(
