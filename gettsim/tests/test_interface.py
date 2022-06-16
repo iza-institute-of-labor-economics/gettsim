@@ -5,6 +5,7 @@ import pandas as pd
 import pytest
 
 from gettsim import compute_taxes_and_transfers
+from gettsim.interface import _convert_data_to_correct_types
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
 from gettsim.interface import _fail_if_functions_and_columns_overlap
@@ -371,8 +372,65 @@ def test_convert_series_to_internal_types(
         ),
     ],
 )
-def test_fail_if_cannot_be_converted_to_correct_type(
+def test_fail_if_cannot_be_converted_to_internal_type(
     input_data, expected_type, error_match
 ):
     with pytest.raises(ValueError, match=error_match):
         convert_series_to_internal_type(input_data, expected_type)
+
+
+@pytest.mark.parametrize(
+    "data, columns_overriding_functions, functions, error_match",
+    [
+        (
+            pd.DataFrame({"hh_id": [1, 1.1, 2]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - hh_id: Conversion from input type float64 to int failed. "
+            "This conversion is only supported if all decimal places of input"
+            " data are equal to 0.",
+        ),
+        (
+            pd.DataFrame({"wohnort_ost": [1.1, 0.0, 1.0]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - wohnort_ost: Conversion from input type float64 to bool failed."
+            " This conversion is only supported if input data exclusively contains"
+            " the values 1.0 and 0.0.",
+        ),
+        (
+            pd.DataFrame({"wohnort_ost": [2, 0, 1], "hh_id": [1.0, 2.0, 3.0]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - wohnort_ost: Conversion from input type int64 to bool failed."
+            "This conversion is only supported if input data exclusively contains"
+            "the values 1 and 0.",
+        ),
+        (
+            pd.DataFrame({"wohnort_ost": ["True", "False"]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - wohnort_ost: Conversion from input type object to bool failed."
+            " Object type is not supported as input.",
+        ),
+        (
+            pd.DataFrame({"hh_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - hh_id: Conversion from input type object to int failed. "
+            "Object type is not supported as input."
+            + "\n - bruttolohn_m: Conversion from input type object to float failed."
+            " Object type is not supported as input.",
+        ),
+    ],
+)
+def test_fail_if_cannot_be_converted_to_correct_type(
+    data, columns_overriding_functions, functions, error_match
+):
+    with pytest.raises(ValueError, match=error_match):
+        _convert_data_to_correct_types(data, columns_overriding_functions, functions)

@@ -6,6 +6,41 @@ from pandas.api.types import is_integer_dtype
 from pandas.api.types import is_object_dtype
 
 
+def check_series_has_expected_type(series, internal_type):
+    """Checks whether used series has already expected internal type.
+    If that is not the case, a warning with the converted variables is returned.
+
+    Parameters
+    ----------
+    series : pandas.Series or pandas.DataFrame or dict of pandas.Series
+        Data provided by the user.
+    internal_type : TypeVar
+        One of the internal gettsim types.
+
+    Returns
+    -------
+    Bool and Warnings
+
+    """
+    data = series.copy()
+    if (internal_type == float) & (is_float_dtype(data)):
+        out = True
+    elif (internal_type == int) & (is_integer_dtype(data)):
+        out = True
+    elif (internal_type == bool) & (is_bool_dtype(data)):
+        out = True
+    elif (internal_type == np.datetime64) & (is_datetime64_any_dtype(data)):
+        out = True
+    else:
+        raise Warning(
+            "Input variable "
+            f"{data.dtype} has been automatically "
+            f"converted to {internal_type.__name__}."
+        )
+
+    return out
+
+
 def convert_series_to_internal_type(series, internal_type):
     """Check if data type of series fits to the internal type of gettsim and
     otherwise convert data type of series to the internal type of gettsim.
@@ -28,7 +63,7 @@ def convert_series_to_internal_type(series, internal_type):
         "Conversion from input type " f"{out.dtype} to {internal_type.__name__} failed."
     )
     if is_object_dtype(out):
-        raise ValueError(basic_error_msg + " object type is not supported as input.")
+        raise ValueError(basic_error_msg + " Object type is not supported as input.")
     else:
 
         # Conversion to float

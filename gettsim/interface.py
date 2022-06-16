@@ -27,6 +27,7 @@ from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
+from gettsim.typing import check_series_has_expected_type
 from gettsim.typing import convert_series_to_internal_type
 
 
@@ -333,6 +334,15 @@ def _convert_data_to_correct_types(data, columns_overriding_functions, functions
 
     """
     collected_errors = ["The data types of the following columns are invalid: \n"]
+    collected_conversions = [
+        "The data types of the following input variables have been converted: \n"
+    ]
+    general_warning = [
+        "Note that the automatic conversion of data types is unsafe and that"
+        " its correctness cannot be guaranteed."
+        " The best solution is to convert all columns to the expected data"
+        " types yourself."
+    ]
     for column_name, series in data.items():
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
@@ -342,6 +352,15 @@ def _convert_data_to_correct_types(data, columns_overriding_functions, functions
                 )
             except ValueError as e:
                 collected_errors.append(f" - {column_name}: {e}")
+            if check_series_has_expected_type:
+                try:
+                    check_series_has_expected_type(series, internal_type)
+                except Warning as w:
+                    str_match = [
+                        s for s in collected_errors if f" - {column_name}:" in s
+                    ]
+                    if len(str_match) == 0:
+                        collected_conversions.append(f" - {column_name}: {w}")
         elif (
             column_name in columns_overriding_functions
             and "return" in functions[column_name].__annotations__
@@ -359,6 +378,16 @@ def _convert_data_to_correct_types(data, columns_overriding_functions, functions
             + "\n"
             + "The best solution is to convert all columns"
             " to the expected data types yourself."
+            + "\n"
+            + "\n"
+            + "\n".join(collected_conversions)
+            + "\n"
+            + "\n"
+            + "\n".join(general_warning)
+        )
+    if len(collected_conversions) > 1:
+        raise Warning(
+            "\n".join(collected_conversions) + "\n" + "\n" + "\n".join(general_warning)
         )
     return data
 
