@@ -760,7 +760,7 @@ regelaltersgrenze:
       upper_threshold: inf
       rate_linear: 0
 
-altersgrenze_langjahrig:
+altersgrenze_langjährig_versicherte:
   name:
     de: Eintrittsalter für langjaehrig versicherte - abschlagsfrei
     en: Entry age for long term insured (35 years) without deductions
