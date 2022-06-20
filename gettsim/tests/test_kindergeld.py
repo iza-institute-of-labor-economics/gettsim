@@ -51,4 +51,6 @@ def test_kindergeld(input_data, year, target):
         targets=target,
         columns_overriding_functions=user_cols,
     )
-    assert_series_equal(calc_result[target], year_data[target], check_dtype=False)
+    assert_series_equal(
+        calc_result[target], year_data[target], check_dtype=False, atol=0, rtol=0
+    )

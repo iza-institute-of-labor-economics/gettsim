@@ -1,3 +1,6 @@
+from gettsim.shared import add_rounding_spec
+
+
 def vorsorgeaufw_alter_ab_2005(
     kind: bool,
     ges_rentenv_beitr_m: float,
@@ -88,6 +91,7 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     return out
 
 
+@add_rounding_spec(params_key="eink_st_abzuege")
 def vorsorgeaufw_ab_2005_bis_2009(
     _vorsorge_alternative_ab_2005_bis_2009: float,
     vorsorgeaufw_bis_2004: float,
@@ -114,6 +118,7 @@ def vorsorgeaufw_ab_2005_bis_2009(
     return out
 
 
+@add_rounding_spec(params_key="eink_st_abzuege")
 def vorsorgeaufw_ab_2010_bis_2019(
     vorsorgeaufw_bis_2004: float, vorsorgeaufw_ab_2020: float
 ) -> float:
@@ -143,6 +148,7 @@ def vorsorgeaufw_ab_2010_bis_2019(
     return out
 
 
+@add_rounding_spec(params_key="eink_st_abzuege")
 def vorsorgeaufw_ab_2020(
     vorsorgeaufw_alter_ab_2005: float,
     ges_pflegev_beitr_m: float,
@@ -190,6 +196,7 @@ def vorsorgeaufw_ab_2020(
     return out
 
 
+@add_rounding_spec(params_key="eink_st_abzuege")
 def vorsorgeaufw_bis_2004(
     _vorsorgeaufw_vom_lohn_bis_2019_single: float,
     _vorsorgeaufw_vom_lohn_bis_2019_tu: float,
@@ -273,6 +280,7 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
         eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
         - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"] * 12 * bruttolohn_m
     )
+
     return max(out, 0.0)
 
 

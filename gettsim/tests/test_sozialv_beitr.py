@@ -57,5 +57,5 @@ def test_sozialv_beitr(input_data, year, target):
     )
 
     pd.testing.assert_series_equal(
-        results[target], year_data[target], check_exact=False, atol=0.1
+        results[target], year_data[target], check_exact=False, atol=1e-1, rtol=0
     )
