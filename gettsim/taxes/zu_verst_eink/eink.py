@@ -39,10 +39,12 @@ def eink_abhängig_beschäftigt(
     -------
 
     """
+    abzug = eink_st_abzuege_params["werbungskostenpauschale"]
+
     if geringfügig_beschäftigt:
         out = 0.0
     else:
-        out = 12 * bruttolohn_m - eink_st_abzuege_params["werbungskostenpauschale"]
+        out = 12 * bruttolohn_m - abzug
 
     return out
 
