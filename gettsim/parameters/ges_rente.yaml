@@ -762,7 +762,7 @@ regelaltersgrenze:
 
 altersgrenze_langjährig_versicherte:
   name:
-    de: Eintrittsalter für langjaehrig versicherte - abschlagsfrei
+    de: Eintrittsalter für langjährig Versicherte - abschlagsfrei
     en: Entry age for long term insured (35 years) without deductions
   description:
     de:
@@ -828,30 +828,32 @@ altersgrenze_besonders_langjährig_versicherte:
   note:
     de: >-
       Diese Funktion ist hier ab 2010 angegeben. Vor 2010  nicht existent.
-      Fuer Kohorten 1947 bis einschließlich 1950 gilt die Grenze von 65 Jahren. Kohor
+      Fuer Kohorten 1947 bis einschließlich 1950 gilt die Grenze von 65 Jahren. Vor 47 galt sowieso regelaltersgrenze 65.
     en:
   type: piecewise_linear
   2010-01-01:
     0:
-      lower_threshold: 1947
+      lower_threshold: -inf
       upper_threshold: inf
       rate_linear: 0
       intercept_at_lower_threshold: 65
   2014-07-01:
     0:
-      lower_threshold: 1947
-      upper_threshold: 1949
+      lower_threshold: -inf
+      upper_threshold: 1950
       rate_linear: 0
       intercept_at_lower_threshold: 65
     1:
       lower_threshold: 1950
+      upper_threshold: 1951
+      rate_linear: -2
+    2:
       upper_threshold: 1952
       rate_linear: 0
-      intercept_at_lower_threshold: 63
-    2:
-      upper_threshold: 1964
-      rate_linear: 0.166666667
     3:
+      upper_threshold: 1964
+      rate_linear: 0.16666666
+    4:
       upper_threshold: inf
       rate_linear: 0
 
