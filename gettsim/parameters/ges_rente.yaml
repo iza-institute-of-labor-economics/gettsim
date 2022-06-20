@@ -803,7 +803,7 @@ altersgrenze_langjahrig:
     4:
       lower_threshold: 1949.25
       upper_threshold: 1958
-      rate_linear: 0.083333333
+      rate_linear: 0.08333333
     5:
       upper_threshold: 1964
       rate_linear: 0.16666666
