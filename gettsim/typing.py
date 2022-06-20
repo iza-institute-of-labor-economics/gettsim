@@ -8,7 +8,6 @@ from pandas.api.types import is_object_dtype
 
 def check_series_has_expected_type(series, internal_type):
     """Checks whether used series has already expected internal type.
-    If that is not the case, a warning with the converted variables is returned.
 
     Parameters
     ----------
@@ -19,7 +18,7 @@ def check_series_has_expected_type(series, internal_type):
 
     Returns
     -------
-    Bool and Warnings
+    Bool
 
     """
     data = series.copy()
@@ -32,11 +31,7 @@ def check_series_has_expected_type(series, internal_type):
     elif (internal_type == np.datetime64) & (is_datetime64_any_dtype(data)):
         out = True
     else:
-        raise Warning(
-            "Input variable "
-            f"{data.dtype} has been automatically "
-            f"converted to {internal_type.__name__}."
-        )
+        out = False
 
     return out
 
@@ -71,7 +66,7 @@ def convert_series_to_internal_type(series, internal_type):
             # Conversion from boolean to float fails
             if is_bool_dtype(out):
                 raise ValueError(basic_error_msg + " This conversion is not supported.")
-            elif not is_float_dtype(out):
+            else:
                 try:
                     out = out.astype(float)
                 except ValueError:
@@ -89,7 +84,7 @@ def convert_series_to_internal_type(series, internal_type):
                         basic_error_msg + " This conversion is only supported if all"
                         " decimal places of input data are equal to 0."
                     )
-            elif not is_integer_dtype(out):
+            else:
                 try:
                     out = out.astype(np.int64)
                 except ValueError:
@@ -110,7 +105,7 @@ def convert_series_to_internal_type(series, internal_type):
                         " input data exclusively contains the values 1 and 0."
                     )
             # if input data type is float
-            if is_float_dtype(out):
+            elif is_float_dtype(out):
 
                 # check if series consists only of 1.0 or 0.0
                 if len([v for v in out.unique() if v not in [1, 0]]) == 0:
@@ -121,7 +116,7 @@ def convert_series_to_internal_type(series, internal_type):
                         " input data exclusively contains the values 1.0 and 0.0."
                     )
 
-            elif not is_bool_dtype(out):
+            else:
                 raise ValueError(
                     basic_error_msg + " Conversion to boolean is only supported for"
                     " int and float columns."

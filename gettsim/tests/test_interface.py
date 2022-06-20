@@ -387,8 +387,8 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             {},
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - hh_id: Conversion from input type float64 to int failed. "
-            "This conversion is only supported if all decimal places of input"
+            + "\n - hh_id: Conversion from input type float64 to int failed."
+            " This conversion is only supported if all decimal places of input"
             " data are equal to 0.",
         ),
         (
@@ -406,8 +406,8 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             {},
             "The data types of the following columns are invalid: \n"
             + "\n - wohnort_ost: Conversion from input type int64 to bool failed."
-            "This conversion is only supported if input data exclusively contains"
-            "the values 1 and 0.",
+            " This conversion is only supported if input data exclusively contains"
+            " the values 1 and 0.",
         ),
         (
             pd.DataFrame({"wohnort_ost": ["True", "False"]}),
