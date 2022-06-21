@@ -6,6 +6,7 @@ dependencies:
   - pip
   - anaconda-client
   - bokeh
+  - dags
   - jupyterlab
   - nbsphinx
   - networkx
