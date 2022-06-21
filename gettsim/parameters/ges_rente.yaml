@@ -726,34 +726,37 @@ zugangsfaktor_veränderung_pro_jahr:
 regelaltersgrenze:
   name:
     de: Eintrittsalter für Regelaltersrente
-    en: Entry age for receiving regelaltersrente
+    en: Entry age for receiving regelaltersrente - normal retirement age (NRA)
   description:
     de:
       Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
-      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger.
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger,
+      wenn keine Ausnahmeregelungen erfüllt sind.
     en:
       Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
       claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
-      the pension claim is higher or lower.
+      the pension claim is higher or lower, unless special conditions apply.
   reference: § 35 Satz 2 SGB VI
   note:
     de: >-
       Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
-      implementiert.
+      implementiert. Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
+      Ab einschließlich Jahrgang 1964 gilt NRA 67. (todo jahrgänge vor 1946)
     en:
   type: piecewise_linear
   2002-01-01:
     0:
       lower_threshold: -inf
-      upper_threshold: 1947
+      upper_threshold: 1946
       rate_linear: 0
       intercept_at_lower_threshold: 65
     1:
-      lower_threshold: 1947
-      upper_threshold: 1971
+      upper_threshold: 1958
       rate_linear: 0.083333333
     2:
-      lower_threshold: 1971
+      upper_threshold: 1964
+      rate_linear: 0.16666666
+    3:
       upper_threshold: inf
       rate_linear: 0
 
@@ -792,7 +795,7 @@ altersrente_für_frauen:
       upper_threshold: 1952
       rate_linear: 0
     3:
-      upper_threshold: 1952.00001
+      upper_threshold: 1952.00001 # since 1952 abolished -  regelaltersgrenze applies - jump in theshold to 63 and 6 month
       rate_linear: 0.5
     4:
       upper_threshold: 1953
