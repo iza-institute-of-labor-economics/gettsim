@@ -223,11 +223,16 @@ def ges_rente_zugangsfaktor(
     """Calculate the zugangsfaktor based on the year the
     subject retired.
 
-    At the regelaltersgrenze, the agent is allowed to get pensions with his full
-    claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
-    the pension claim is higher or lower.
+    At the regelaltersgrenze - normal retirement age (NRA), the agent is allowed to
+    get pensions with his full claim. In general, if the agent retires earlier or later,
+    the Zugangsfaktor and therefore the pension claim is higher or lower.
 
     Legal reference: § 77 Abs. 2 Nr. 2 SGB VI
+
+    However, under certain conditions agents can receive their full pension claim
+    (Zugangsfaktor=1) at an earlier age - full retirement age (FRA) -  (e.g. women,
+    long term insured, disabled). That is the zugangsfaktor is 1 in [FRA, NRA].
+    It only increases after the NRA for all agents without exeptions.
 
     Parameters
     ----------
@@ -275,7 +280,8 @@ def ges_rente_zugangsfaktor(
 
 
 def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
-    """Calculates the age, at which a worker is eligible to claim his full pension.
+    """Calculates the age, at which a worker is eligible to claim his regular pension.
+        Normal retirement age (NRA)
 
     Parameters
     ----------
@@ -295,4 +301,58 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
             "intercepts_at_lower_thresholds"
         ],
     )
+    return out
+
+
+def ges_rente_altersgrenze_altersrente(
+    geburtsjahr: int, geburtsmonat: int, geschlecht: int, ges_rente_params: dict
+) -> float:
+    """Calculates the age, at which a worker is eligible to claim his full pension.
+        Full retirement age (FRA). This age is smaller or equal to the regelaltersgrenze
+        (FRA<=NRA) and depends on personal characteristics as gender, insurance
+        duration, health/disability, employment status. Note: this is just implementing
+        pension  for women. Todo: to be extended for long term insured etc.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    geschlecht
+        Needs to become basic input variable!
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    """
+    regelrente = piecewise_polynomial(
+        x=geburtsjahr,
+        thresholds=ges_rente_params["regelaltersgrenze"]["thresholds"],
+        rates=ges_rente_params["regelaltersgrenze"]["rates"],
+        intercepts_at_lower_thresholds=ges_rente_params["regelaltersgrenze"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
+
+    pension_for_women = piecewise_polynomial(
+        x=geburtsjahr + geburtsmonat / 12,
+        thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
+        rates=ges_rente_params["altersrente_für_frauen"]["rates"],
+        intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
+
+    thresholds_m = [regelrente]
+    thresholds_w = thresholds_m.extend(pension_for_women)
+
+    if geschlecht == 0:
+        thresholds = thresholds_m
+    else:
+        thresholds = thresholds_w
+
+    out = min(thresholds)
+
     return out
