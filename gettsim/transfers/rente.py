@@ -304,7 +304,7 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
     return out
 
 
-def ges_rente_altersgrenze_altersrente(
+def ges_rente_grenze_altersrente(
     geburtsjahr: int, geburtsmonat: int, geschlecht: int, ges_rente_params: dict
 ) -> float:
     """Calculates the age, at which a worker is eligible to claim his full pension.
