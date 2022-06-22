@@ -218,6 +218,7 @@ def ges_rente_zugangsfaktor(
     rentner: bool,
     jahr_renteneintr: int,
     ges_rente_regelaltersgrenze: float,
+    ges_rente_grenze_altersrente: float,
     ges_rente_params: dict,
 ) -> float:
     """Calculate the zugangsfaktor based on the year the
@@ -244,6 +245,8 @@ def ges_rente_zugangsfaktor(
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
+    ges_rente_grenze_altersrente
+        See :func:`ges_rente_grenze_altersrente`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -256,7 +259,13 @@ def ges_rente_zugangsfaktor(
         alter_renteneintritt = jahr_renteneintr - geburtsjahr
 
         # Calc difference to Regelaltersgrenze
-        diff = alter_renteneintritt - ges_rente_regelaltersgrenze
+        # (todo: replace ges_rente_regelaltersgrenze
+        # with ar_langjährig_versicherte)
+        diff_a = alter_renteneintritt - ges_rente_grenze_altersrente
+        diff_l = (
+            alter_renteneintritt - ges_rente_regelaltersgrenze
+        )  # to be replaced by threshold for long term insured
+        diff_r = alter_renteneintritt - ges_rente_regelaltersgrenze
         faktor_pro_jahr_vorzeitig = ges_rente_params[
             "zugangsfaktor_veränderung_pro_jahr"
         ]["vorzeitiger_renteneintritt"]
@@ -264,13 +273,17 @@ def ges_rente_zugangsfaktor(
             "späterer_renteneintritt"
         ]
 
-        # Zugangsfactor lower if retired before Regelaltersgrenze
-        # Zugangsfactor larger if retired before Regelaltersgrenze
-        if diff < 0:
-            out = 1 + diff * faktor_pro_jahr_vorzeitig
+        # Zugangsfactor <1 if retired before Altersgrenze, it is measured
+        # relative to the threshold for long term insured current
+        # stand in: ges_rente_regelaltersgrenze
+        # Zugangsfactor 1 if retired between [FRA, NRA]
+        # Zugangsfactor >1 if retired after ges_rente_regelaltersgrenze
+        if diff_a < 0:
+            out = 1 + diff_l * faktor_pro_jahr_vorzeitig
+        elif diff_r > 0:
+            out = 1 + diff_r * faktor_pro_jahr_später
         else:
-            out = 1 + diff * faktor_pro_jahr_später
-
+            out = 1
         out = max(out, 0.0)
     # Return 0 if person not yet retired
     else:
@@ -308,10 +321,11 @@ def ges_rente_grenze_altersrente(
     geburtsjahr: int, geburtsmonat: int, geschlecht: int, ges_rente_params: dict
 ) -> float:
     """Calculates the age, at which a worker is eligible to claim his full pension.
-        Full retirement age (FRA). This age is smaller or equal to the regelaltersgrenze
-        (FRA<=NRA) and depends on personal characteristics as gender, insurance
-        duration, health/disability, employment status. Note: this is just implementing
-        pension  for women. Todo: to be extended for long term insured etc.
+        Full retirement age (FRA) without deductions. This age is smaller or equal
+        to the regelaltersgrenze (FRA<=NRA) and depends on personal characteristics
+        as gender, insurance duration, health/disability, employment status. Note:
+        This version is just implementing pension  for women. Todo: to be extended
+        for long term insured etc.
 
     Parameters
     ----------
@@ -320,7 +334,7 @@ def ges_rente_grenze_altersrente(
     geburtsmonat
         See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     geschlecht
-        Needs to become basic input variable!
+        See basic input variable (NEW)
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -346,7 +360,7 @@ def ges_rente_grenze_altersrente(
     )
 
     thresholds_m = [regelrente]
-    thresholds_w = thresholds_m.extend(pension_for_women)
+    thresholds_w = [regelrente, pension_for_women]
 
     if geschlecht == 0:
         thresholds = thresholds_m
