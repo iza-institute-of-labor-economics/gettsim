@@ -351,7 +351,7 @@ def ges_rente_grenze_altersrente(
     )
 
     pension_for_women = piecewise_polynomial(
-        x=geburtsjahr + geburtsmonat / 12,
+        x=geburtsjahr + (geburtsmonat - 1) / 12,
         thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
         rates=ges_rente_params["altersrente_für_frauen"]["rates"],
         intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
