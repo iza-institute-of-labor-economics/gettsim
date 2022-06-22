@@ -83,7 +83,7 @@ INPUT_COLS_INCOME = [
     "priv_rente_m",
     "entgeltp",
     "geburtsjahr",
-    "geburtsjahr",
+    "geburtsmonat",
     "rentner",
     "jahr_renteneintr",
     "wohnort_ost",
