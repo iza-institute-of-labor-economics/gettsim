@@ -11,7 +11,7 @@ current_year = datetime.datetime.now().year
 
 
 def append_other_hh_members(
-    df, hh_typ, n_children, age_adults, age_children, double_earner
+    df, hh_typ, n_children, age_adults, gen_adults, age_children, double_earner
 ):
     """
     duplicates information from the one person already created
@@ -26,6 +26,7 @@ def append_other_hh_members(
     if hh_typ == "couple":
         adult = df.copy()
         adult["alter"] = age_adults[1]
+        adult["geschlecht"] = gen_adults[1]
         if not double_earner:
             adult["bruttolohn_m"] = 0
 
@@ -58,6 +59,7 @@ def create_synthetic_data(
     hh_typen=None,
     n_children=None,
     age_adults=None,
+    gen_adults=None,
     age_children=None,
     baujahr=1980,
     double_earner=False,
@@ -77,6 +79,9 @@ def create_synthetic_data(
 
     age_adults (list of int):
         Assumed age of adult(s)
+
+    gen_adults (list of int):
+        Assumend gender of adult(s), 0 male 1 female
 
     age_children (list of int):
         Assumed age of children (first and second child, respectively)
@@ -106,6 +111,8 @@ def create_synthetic_data(
         n_children = [0, 1, 2]
     if age_adults is None:
         age_adults = [35, 35]
+    if gen_adults is None:
+        gen_adults = [0, 1]
     if age_children is None:
         age_children = [3, 8]
 
@@ -127,6 +134,10 @@ def create_synthetic_data(
         if (a < 0) or (type(a) != int):
             raise ValueError(f"illegal value for age: {a}")
 
+    for g in gen_adults:
+        if g not in [0, 1]:
+            raise ValueError("gender type must be either 0 (male)  or 1 (female)")
+
     p_id_min = 0
     hh_id_min = 0
     tu_id_min = 0
@@ -141,6 +152,7 @@ def create_synthetic_data(
             hh_typen,
             n_children,
             age_adults,
+            gen_adults,
             age_children,
             baujahr,
             double_earner,
@@ -175,6 +187,7 @@ def create_synthetic_data(
                             hh_typen,
                             n_children,
                             age_adults,
+                            gen_adults,
                             age_children,
                             baujahr,
                             double_earner,
@@ -199,6 +212,7 @@ def create_one_set_of_households(
     hh_typen,
     n_children,
     age_adults,
+    gen_adults,
     age_children,
     baujahr,
     double_earner,
@@ -214,6 +228,7 @@ def create_one_set_of_households(
         "kind",
         "bruttolohn_m",
         "alter",
+        "geschlecht",
         "rentner",
         "alleinerz",
         "wohnort_ost",
@@ -293,6 +308,7 @@ def create_one_set_of_households(
 
     # 'Custom' initializations
     df["alter"] = age_adults[0]
+    df["geschlecht"] = gen_adults[0]
     df["immobilie_baujahr"] = baujahr
 
     # Household Types
@@ -332,6 +348,7 @@ def create_one_set_of_households(
                         hht,
                         nch,
                         age_adults,
+                        gen_adults,
                         age_children,
                         double_earner,
                     ),

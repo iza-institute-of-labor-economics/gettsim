@@ -726,7 +726,7 @@ zugangsfaktor_veränderung_pro_jahr:
 regelaltersgrenze:
   name:
     de: Eintrittsalter für Regelaltersrente
-    en: Entry age for receiving regelaltersrente
+    en: Entry age for receiving regelaltersrente - normal retirement age (NRA)
   description:
     de:
       Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
@@ -757,6 +757,56 @@ regelaltersgrenze:
       upper_threshold: 1964
       rate_linear: 0.16666666
     3:
+      upper_threshold: inf
+      rate_linear: 0
+
+altersrente_für_frauen:
+  name:
+    de: Eintrittsalter für Altersrente für Frauen
+    en: Entry age for receiving Altersrente für Frauen
+  description:
+    de:
+      Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geboren vor 1952 in rente gehen konnten.
+    en:
+      Piecewise linear function returning the age thresholds for retirement of women born before 1952.
+  reference: § 237a SGB VI
+  note:
+    de: >-
+      Frauen, die vor 1940 geboren wurden, konnten mit 60 abschlagsfrei in Rente gehen,
+      nach einer Wartezeit von 15 Jahren und mit mindestens 10 Beitragsjahren ab dem Alter von 40.
+      Ab 1940 wurde das Eintrittsalter sukzessive erhöhrt um einen Monat pro Geburtsmonat auf das Alter 65.
+      Für Kohorten 1945-1951 beträgt es konstant 65. Für Kohorten ab 1952 ist es abgeschafft. Ab dort regelaltersgrenze implementiert.
+    en:
+      Women born before 1940 were able to retire at age 60 without deductions (required waiting period of 15 years and 10 years of
+      contributions after age 40). The age threshold was increase by one month for each birthmonth up to age 65 for cohort 1945.
+      Between cohort 1945 and 1951 the threshold remained constant.
+      The special pension scheme for women was abolished for cohorts born afer 1952. regelaltersgrenze afterwards.
+  type: piecewise_linear
+  1980-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1939
+      rate_linear: 0
+      intercept_at_lower_threshold: 60
+    1:
+      upper_threshold: 1945
+      rate_linear: 1
+    2:
+      upper_threshold: 1952
+      rate_linear: 0
+    3:
+      upper_threshold: 1952.00001 # since 1952 abolished -  regelaltersgrenze applies - jump in theshold to 63 and 6 month
+      rate_linear: 0.5
+    4:
+      upper_threshold: 1953
+      rate_linear: 0
+    5:
+      upper_threshold: 1958
+      rate_linear: 0.083333333
+    6:
+      upper_threshold: 1964
+      rate_linear: 0.16666666
+    7:
       upper_threshold: inf
       rate_linear: 0
 
