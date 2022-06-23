@@ -414,8 +414,26 @@ def ges_rente_grenze_altersrente(
         ]["intercepts_at_lower_thresholds"],
     )
 
-    thresholds_m = [regelrente, pension_for_long]
-    thresholds_w = [regelrente, pension_for_long, pension_for_women]
+    pension_for_extralong = piecewise_polynomial(
+        x=geburtsjahr,
+        thresholds=ges_rente_params["altersgrenze_besonders_langjährig_versicherte"][
+            "thresholds"
+        ],
+        rates=ges_rente_params["altersgrenze_besonders_langjährig_versicherte"][
+            "rates"
+        ],
+        intercepts_at_lower_thresholds=ges_rente_params[
+            "altersgrenze_besonders_langjährig_versicherte"
+        ]["intercepts_at_lower_thresholds"],
+    )
+
+    thresholds_m = [regelrente, pension_for_long, pension_for_extralong]
+    thresholds_w = [
+        regelrente,
+        pension_for_long,
+        pension_for_extralong,
+        pension_for_women,
+    ]
 
     if geschlecht == 0:
         thresholds = thresholds_m
