@@ -293,7 +293,7 @@ def ges_rente_zugangsfaktor(
 
 
 def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
-    """Calculates the age, at which a worker is eligible to claim his regular pension.
+    """Calculates the age, at which a person is eligible to claim the regular pension.
         Normal retirement age (NRA)
 
     Parameters
@@ -320,7 +320,7 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
 def ges_rente_grenze_altersrente(
     geburtsjahr: int, geburtsmonat: int, geschlecht: int, ges_rente_params: dict
 ) -> float:
-    """Calculates the age, at which a worker is eligible to claim his full pension.
+    """Calculates the age, at which a person is eligible to claim the full pension.
         Full retirement age (FRA) without deductions. This age is smaller or equal
         to the regelaltersgrenze (FRA<=NRA) and depends on personal characteristics
         as gender, insurance duration, health/disability, employment status. Note:
@@ -349,18 +349,37 @@ def ges_rente_grenze_altersrente(
             "intercepts_at_lower_thresholds"
         ],
     )
+    if geburtsjahr < 1945:
+        x_wom = geburtsjahr + (geburtsmonat - 1) / 12
+    else:
+        x_wom = geburtsjahr
 
     pension_for_women = piecewise_polynomial(
-        x=geburtsjahr + (geburtsmonat - 1) / 12,
+        x=x_wom,
         thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
         rates=ges_rente_params["altersrente_für_frauen"]["rates"],
         intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
             "intercepts_at_lower_thresholds"
         ],
     )
+    if geburtsjahr < 1951:
+        x_long = geburtsjahr + (geburtsmonat - 1) / 12
+    else:
+        x_long = geburtsjahr
 
-    thresholds_m = [regelrente]
-    thresholds_w = [regelrente, pension_for_women]
+    pension_for_long = piecewise_polynomial(
+        x=x_long,
+        thresholds=ges_rente_params["altersgrenze_langjährig_versicherte"][
+            "thresholds"
+        ],
+        rates=ges_rente_params["altersgrenze_langjährig_versicherte"]["rates"],
+        intercepts_at_lower_thresholds=ges_rente_params[
+            "altersgrenze_langjährig_versicherte"
+        ]["intercepts_at_lower_thresholds"],
+    )
+
+    thresholds_m = [regelrente, pension_for_long]
+    thresholds_w = [regelrente, pension_for_long, pension_for_women]
 
     if geschlecht == 0:
         thresholds = thresholds_m
