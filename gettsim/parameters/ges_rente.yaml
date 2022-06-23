@@ -741,7 +741,7 @@ regelaltersgrenze:
     de: >-
       Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
       implementiert. Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
-      Ab einschließlich Jahrgang 1964 gilt NRA 67. (todo jahrgänge vor 1946)
+      Ab einschließlich Jahrgang 1964 gilt NRA 67.
     en:
   type: piecewise_linear
   2002-01-01:
@@ -789,13 +789,13 @@ altersrente_für_frauen:
       rate_linear: 0
       intercept_at_lower_threshold: 60
     1:
-      upper_threshold: 1945
+      upper_threshold: 1944.916666666
       rate_linear: 1
     2:
-      upper_threshold: 1951.916667 # constant 65
+      upper_threshold: 1951.916666666 # constant 65
       rate_linear: 0
     3:
-      upper_threshold: 1952 # since 1952 abolished -  regelaltersgrenze applies - jump in theshold by 6 month
+      upper_threshold: 1952.0000 # since 1952 abolished -  regelaltersgrenze applies - jump in theshold by 6 month
       rate_linear: 6
     4:
       upper_threshold: 1958
@@ -823,8 +823,7 @@ altersgrenze_langjährig_versicherte:
   reference: § 35 Satz 2 SGB VI
   note:
     de: >-
-      Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
-      implementiert. Kohorten vor 1937 konnten mit 63 abschlagsfrei in Rente gehen.
+      Kohorten vor 1937 konnten mit 63 abschlagsfrei in Rente gehen.
       Ab Geburtsdatum Januar 1937 wurde fuer jeden Monat, den die Person spaeter geboren wurde das
       Eintrittsalter um 1 Monat erhoeht bis Geburtsdatum Dezember 1938: Eintrittsalter 65. Dieses
       Eintrittsalter galt bis einschliesslich Jahrgang 1948. Ab Geburtsdatum Maerz 1949 entspricht die
@@ -832,29 +831,32 @@ altersgrenze_langjährig_versicherte:
       65, 1 Monat. Fuer 2/1949 65, 2 Monate.
     en:
   type: piecewise_linear
-  2002-01-01:
+  1984-01-01:
     0:
       lower_threshold: -inf
       upper_threshold: 1936.916667
       rate_linear: 0
       intercept_at_lower_threshold: 63
     1:
-      upper_threshold: 1938.916667
+      upper_threshold: 1938.916666666
       rate_linear: 1
     2:
-      upper_threshold: 1948.916667
+      upper_threshold: 1948.916666666
       rate_linear: 0
     3:
-      upper_threshold: 1949.16667
+      upper_threshold: 1949.25
       rate_linear: 1
     4:
-      upper_threshold: 1950.91667
+      upper_threshold: 1950 #1950.91667
       rate_linear: 0
+    #4:
+    #  upper_threshold: 1951 #1950.91667
+    #  rate_linear: 0
     5:
       upper_threshold: 1958
       rate_linear: 0.08333333
     6:
-      upper_threshold: 1964.99
+      upper_threshold: 1964
       rate_linear: 0.16666666
     7:
       upper_threshold: inf

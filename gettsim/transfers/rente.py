@@ -427,12 +427,12 @@ def ges_rente_grenze_altersrente(
         ]["intercepts_at_lower_thresholds"],
     )
 
-    thresholds_m = [regelrente, pension_for_long, pension_for_extralong]
+    thresholds_m = [regelrente, pension_for_long]  # pension_for_extralong
     thresholds_w = [
         regelrente,
         pension_for_long,
-        pension_for_extralong,
         pension_for_women,
+        pension_for_extralong,
     ]
 
     if geschlecht == 0:
