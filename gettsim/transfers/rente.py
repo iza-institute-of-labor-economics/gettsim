@@ -218,6 +218,7 @@ def ges_rente_zugangsfaktor(
     rentner: bool,
     jahr_renteneintr: int,
     ges_rente_regelaltersgrenze: float,
+    ges_rente_grenze_langjährig: float,
     ges_rente_grenze_altersrente: float,
     ges_rente_params: dict,
 ) -> float:
@@ -245,6 +246,8 @@ def ges_rente_zugangsfaktor(
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
+    ges_rente_grenze_langjährig
+        See :func:`ges_rente_grenze_langjährig`
     ges_rente_grenze_altersrente
         See :func:`ges_rente_grenze_altersrente`.
     ges_rente_params
@@ -258,13 +261,12 @@ def ges_rente_zugangsfaktor(
         # Calc age at retirement
         alter_renteneintritt = jahr_renteneintr - geburtsjahr
 
-        # Calc difference to Regelaltersgrenze
-        # (todo: replace ges_rente_regelaltersgrenze
-        # with ar_langjährig_versicherte)
+        # Calc difference to full retirement age (FRA)
         diff_a = alter_renteneintritt - ges_rente_grenze_altersrente
-        diff_l = (
-            alter_renteneintritt - ges_rente_regelaltersgrenze
-        )  # to be replaced by threshold for long term insured
+        # Calc difference to FRA of long term insured (Altersgrenze langjährig
+        # versicherte)
+        diff_l = alter_renteneintritt - ges_rente_grenze_langjährig
+        # Calc difference to normal retirement age (Regelaltersgrenze)
         diff_r = alter_renteneintritt - ges_rente_regelaltersgrenze
         faktor_pro_jahr_vorzeitig = ges_rente_params[
             "zugangsfaktor_veränderung_pro_jahr"
@@ -273,11 +275,10 @@ def ges_rente_zugangsfaktor(
             "späterer_renteneintritt"
         ]
 
-        # Zugangsfactor <1 if retired before Altersgrenze, it is measured
-        # relative to the threshold for long term insured current
-        # stand in: ges_rente_regelaltersgrenze
-        # Zugangsfactor 1 if retired between [FRA, NRA]
-        # Zugangsfactor >1 if retired after ges_rente_regelaltersgrenze
+        # Zugangsfaktor <1 if retired before FRA of long term insured,
+        # it is measured relative to the threshold for long term insured
+        # Zugangsfaktor 1 if retired between [FRA, NRA]
+        # Zugangsfaktor >1 if retired after ges_rente_regelaltersgrenze
         if diff_a < 0:
             out = 1 + diff_l * faktor_pro_jahr_vorzeitig
         elif diff_r > 0:
@@ -317,15 +318,50 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
     return out
 
 
+def ges_rente_grenze_langjährig(
+    geburtsjahr: int, geburtsmonat: int, ges_rente_params: dict
+) -> float:
+    """Calculates the age, at which a longterm insured person is eligible to claim
+        the full pension. Full retirement age (FRA) without deductions. This age
+        is smaller or equal to the regelaltersgrenze (FRA<=NRA).
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    """
+    if geburtsjahr < 1951:
+        x_long = geburtsjahr + (geburtsmonat - 1) / 12
+    else:
+        x_long = geburtsjahr
+
+    out = piecewise_polynomial(
+        x=x_long,
+        thresholds=ges_rente_params["altersgrenze_langjährig_versicherte"][
+            "thresholds"
+        ],
+        rates=ges_rente_params["altersgrenze_langjährig_versicherte"]["rates"],
+        intercepts_at_lower_thresholds=ges_rente_params[
+            "altersgrenze_langjährig_versicherte"
+        ]["intercepts_at_lower_thresholds"],
+    )
+    return out
+
+
 def ges_rente_grenze_altersrente(
     geburtsjahr: int, geburtsmonat: int, geschlecht: int, ges_rente_params: dict
 ) -> float:
     """Calculates the age, at which a person is eligible to claim the full pension.
         Full retirement age (FRA) without deductions. This age is smaller or equal
         to the regelaltersgrenze (FRA<=NRA) and depends on personal characteristics
-        as gender, insurance duration, health/disability, employment status. Note:
-        This version is just implementing pension  for women. Todo: to be extended
-        for long term insured etc.
+        as gender, insurance duration, health/disability, employment status.
 
     Parameters
     ----------
