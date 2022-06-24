@@ -32,6 +32,8 @@ from gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital
 from gettsim.taxes.zu_verst_eink.eink import sum_eink_ohne_kapital
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_ab_2015
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_bis_2014
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_ab_2005
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_bis_2004
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_ab_2012
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_bis_2011
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2005_bis_2009
@@ -313,6 +315,11 @@ def load_reforms_for_date(date):
     else:
         functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_ab_2015
 
+    if year <= 2004:
+        functions["eink_st_altersfreib"] = eink_st_altersfreib_bis_2004
+    else:
+        functions["eink_st_altersfreib"] = eink_st_altersfreib_ab_2005
+
     if year <= 1996:
         functions["eink_st_tu"] = eink_st_tu_bis_1996
         functions["kindergeld_m"] = kindergeld_m_bis_1996
@@ -331,13 +338,13 @@ def load_reforms_for_date(date):
         functions["sonderausgaben"] = eink_st_sonderausgaben_bis_2011
 
     if year >= 2020:
-        functions["vorsorge"] = vorsorgeaufw_ab_2020
+        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2020
     elif 2020 > year >= 2010:
-        functions["vorsorge"] = vorsorgeaufw_ab_2010_bis_2019
+        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2010_bis_2019
     elif 2010 > year >= 2005:
-        functions["vorsorge"] = vorsorgeaufw_ab_2005_bis_2009
+        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2005_bis_2009
     elif year <= 2004:
-        functions["vorsorge"] = vorsorgeaufw_bis_2004
+        functions["vorsorgeaufw"] = vorsorgeaufw_bis_2004
 
     if year >= 2010:
         functions["vorsorgepauschale"] = vorsorgepauschale_ab_2010

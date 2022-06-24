@@ -83,4 +83,4 @@ def test_grunds_im_alter(input_data, year, column):
 
     # Retype outcols to float (from int)
     expected = year_data[column].astype(float)
-    assert_series_equal(calc_result[column], expected)
+    assert_series_equal(calc_result[column], expected, atol=1e-1, rtol=0)

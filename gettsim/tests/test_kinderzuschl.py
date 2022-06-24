@@ -68,7 +68,5 @@ def test_kinderzuschl(
     )
 
     assert_series_equal(
-        result[column],
-        year_data[column],
-        check_dtype=False,
+        result[column], year_data[column], check_dtype=False, atol=0, rtol=0
     )

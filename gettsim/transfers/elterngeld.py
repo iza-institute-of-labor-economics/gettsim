@@ -177,9 +177,9 @@ def elterngeld_kindkind(
     -------
 
     """
-    geburtsjahr = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
+    current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
     out = (
-        geburtsjahr - geburtsjahr
+        current_year - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[0]
     )
     return out
@@ -202,9 +202,9 @@ def elterngeld_vorschulkind(
     -------
 
     """
-    geburtsjahr = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
+    current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
     out = (
-        geburtsjahr - geburtsjahr
+        current_year - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
     )
     return out
