@@ -403,7 +403,7 @@ def ges_rente_grenze_altersrente(
     ges_rente_params: dict,
     ges_rente_grenze_langjährig_frau: float,
     ges_rente_regelaltersgrenze: float,
-    ges_rente_vorraussetz_besonders_lang: int,
+    ges_rente_vorraussetz_besond_lang: int,
 ) -> float:
     """Calculates the age, at which a person is eligible to claim the full pension.
         Full retirement age (FRA) without deductions. This age is smaller or equal
@@ -424,15 +424,15 @@ def ges_rente_grenze_altersrente(
         See :func:`ges_rente_grenze_langjährig_frau`
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`
-    ges_rente_vorraussetz_besonders_lang
-        See:func:`ges_rente_vorraussetz_besonders_lang`
+    ges_rente_vorraussetz_besond_lang
+        See:func:`ges_rente_vorraussetz_besond_lang`
     Returns
     -------
     """
 
     regelrente = ges_rente_regelaltersgrenze
     pension_long_or_women = ges_rente_grenze_langjährig_frau
-    elig_extralong = ges_rente_vorraussetz_besonders_lang
+    elig_extralong = ges_rente_vorraussetz_besond_lang
 
     if elig_extralong == 1:
         pension_for_extralong = piecewise_polynomial(
@@ -506,7 +506,7 @@ def ges_rente_vorraussetz_langjährig(
     return out
 
 
-def ges_rente_vorraussetz_besonders_lang() -> int:
+def ges_rente_vorraussetz_besond_lang() -> int:
     """Determining the eligibility for pension for very long-term insured
         Wartezeit 45 years
 
