@@ -319,11 +319,17 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
 
 
 def ges_rente_grenze_langjährig_frau(
-    geburtsjahr: int, geburtsmonat: int, geschlecht: int, ges_rente_params: dict
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+    ges_rente_vorraussetz_frauen: int,
+    ges_rente_vorraussetz_langjährig: int,
 ) -> float:
     """Calculates the age, at which a longterm insured person or women is eligible to
-        claim the full pension or women Full retirement age (FRA) without deductions.
+        claim the full pension. Full retirement age (FRA) without deductions.
         This age is smaller or equal to the regelaltersgrenze (FRA<=NRA).
+        These thresholds are relevant for the size of the Zugangsfaktor.
+
 
     Parameters
     ----------
@@ -335,47 +341,59 @@ def ges_rente_grenze_langjährig_frau(
         See basic input variable (NEW)
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_vorraussetz_frauen
+        See :func:`ges_rente_vorraussetz_frauen`
+    ges_rente_vorraussetz_langjährig
+        See :func:``ges_rente_vorraussetz_langjährig``
 
     Returns
     -------
+
     """
+    elig_long = ges_rente_vorraussetz_langjährig
+    elig_women = ges_rente_vorraussetz_frauen
 
     if geburtsjahr < 1951:
         x_long = geburtsjahr + (geburtsmonat - 1) / 12
     else:
         x_long = geburtsjahr
 
-    pension_for_long = piecewise_polynomial(
-        x=x_long,
-        thresholds=ges_rente_params["altersgrenze_langjährig_versicherte"][
-            "thresholds"
-        ],
-        rates=ges_rente_params["altersgrenze_langjährig_versicherte"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_langjährig_versicherte"
-        ]["intercepts_at_lower_thresholds"],
-    )
+    if elig_long == 1:
+        pension_for_long = piecewise_polynomial(
+            x=x_long,
+            thresholds=ges_rente_params["altersgrenze_langjährig_versicherte"][
+                "thresholds"
+            ],
+            rates=ges_rente_params["altersgrenze_langjährig_versicherte"]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params[
+                "altersgrenze_langjährig_versicherte"
+            ]["intercepts_at_lower_thresholds"],
+        )
+    else:
+        pension_for_long = 9000
 
     if geburtsjahr < 1945:
         x_wom = geburtsjahr + (geburtsmonat - 1) / 12
     else:
         x_wom = geburtsjahr
 
-    pension_for_women = piecewise_polynomial(
-        x=x_wom,
-        thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
-        rates=ges_rente_params["altersrente_für_frauen"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-
-    if geschlecht == 0:
-        threshold = pension_for_long
+    if elig_women == 1:
+        pension_for_women = piecewise_polynomial(
+            x=x_wom,
+            thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
+            rates=ges_rente_params["altersrente_für_frauen"]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
+                "intercepts_at_lower_thresholds"
+            ],
+        )
     else:
-        threshold = pension_for_women
+        pension_for_women = 9000  # default to not be selected
 
-    out = threshold
+    # if geschlecht == 0:
+    #    out = pension_for_long
+    # else:
+
+    out = min(pension_for_women, pension_for_long)
 
     return out
 
@@ -401,6 +419,10 @@ def ges_rente_grenze_altersrente(
         See basic input variable (NEW)
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_grenze_langjährig_frau
+        See :func:`ges_rente_grenze_langjährig_frau`
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`
 
     Returns
     -------
@@ -423,5 +445,56 @@ def ges_rente_grenze_altersrente(
     )
 
     out = min([regelrente, pension_long_or_women, pension_for_extralong])
+
+    return out
+
+
+def ges_rente_vorraussetz_frauen(geschlecht: int) -> int:  # , ges_rente_params: dict
+    """Function determining the eligibility for pension for women
+        Wartezeit 15 years, contributions 10 years after age 40,
+        being a women.
+
+        !!!Work in progress !!! Wartezeiten need to be implemented
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    geschlecht
+        See basic input variable (NEW)
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    """
+    if geschlecht == 1:
+        out = 1
+    else:
+        out = 0
+
+    return out
+
+
+def ges_rente_vorraussetz_langjährig(
+    # geburtsjahr: int, geschlecht: int, ges_rente_params: dict
+) -> int:
+    """Determining the eligibility for pension for long-term insured
+        Wartezeit 35 years
+
+        !!! Work in progress placeholder function!!!
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    geschlecht
+        See basic input variable (NEW)
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    """
+
+    out = 1
 
     return out
