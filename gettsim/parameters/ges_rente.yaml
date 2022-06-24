@@ -769,7 +769,8 @@ altersrente_für_frauen:
       Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geboren vor 1952 in rente gehen konnten.
     en:
       Piecewise linear function returning the age thresholds for retirement of women born before 1952.
-  reference: § 237a SGB VI
+  reference: § 237a SGB VI,
+     https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/25-altersrente-fuer-frauen.html
   note:
     de: >-
       Frauen, die vor 1940 geboren wurden, konnten mit 60 abschlagsfrei in Rente gehen,
@@ -820,7 +821,8 @@ altersgrenze_langjährig_versicherte:
       Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
       claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
       the pension claim is higher or lower, unless special conditions apply.
-  reference: § 35 Satz 2 SGB VI
+  reference: § 236 SGB VI,
+      https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/242-altersrente-fuer-langjaehrig-versicherte-altersgrenzen.html
   note:
     de: >-
       Kohorten vor 1937 konnten mit 63 abschlagsfrei in Rente gehen.
@@ -849,9 +851,6 @@ altersgrenze_langjährig_versicherte:
     4:
       upper_threshold: 1950 #1950.91667
       rate_linear: 0
-    #4:
-    #  upper_threshold: 1951 #1950.91667
-    #  rate_linear: 0
     5:
       upper_threshold: 1958
       rate_linear: 0.08333333
@@ -875,7 +874,8 @@ altersgrenze_besonders_langjährig_versicherte:
       Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
       claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
       the pension claim is higher or lower, unless special conditions apply.
-  reference: § 38 SGB VI
+  reference: § 38 SGB VI,
+      https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
   note:
     de: >-
       Diese Funktion ist hier ab 2010 angegeben. Vor 2010  nicht existent.
