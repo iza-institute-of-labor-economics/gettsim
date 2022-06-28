@@ -26,7 +26,7 @@ def append_other_hh_members(
     if hh_typ == "couple":
         adult = df.copy()
         adult["alter"] = age_adults[1]
-        adult["geschlecht"] = gen_adults[1]
+        adult["weiblich"] = gen_adults[1]
         if not double_earner:
             adult["bruttolohn_m"] = 0
 
@@ -112,7 +112,7 @@ def create_synthetic_data(
     if age_adults is None:
         age_adults = [35, 35]
     if gen_adults is None:
-        gen_adults = [0, 1]
+        gen_adults = [False, True]
     if age_children is None:
         age_children = [3, 8]
 
@@ -135,8 +135,8 @@ def create_synthetic_data(
             raise ValueError(f"illegal value for age: {a}")
 
     for g in gen_adults:
-        if g not in [0, 1]:
-            raise ValueError("gender type must be either 0 (male)  or 1 (female)")
+        if g not in [False, True]:
+            raise ValueError("gender weiblich must be bool.")
 
     p_id_min = 0
     hh_id_min = 0
@@ -228,7 +228,7 @@ def create_one_set_of_households(
         "kind",
         "bruttolohn_m",
         "alter",
-        "geschlecht",
+        "weiblich",
         "rentner",
         "alleinerz",
         "wohnort_ost",
@@ -308,7 +308,7 @@ def create_one_set_of_households(
 
     # 'Custom' initializations
     df["alter"] = age_adults[0]
-    df["geschlecht"] = gen_adults[0]
+    df["weiblich"] = gen_adults[0]
     df["immobilie_baujahr"] = baujahr
 
     # Household Types
