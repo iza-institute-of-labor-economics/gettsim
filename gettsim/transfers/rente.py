@@ -482,6 +482,7 @@ def ges_rente_vorraussetz_frauen(geschlecht: int) -> int:  # , ges_rente_params:
 
 
 def ges_rente_vorraussetz_langjährig(
+    ges_rente_wartezeit_35: float,
     # geburtsjahr: int, geschlecht: int, ges_rente_params: dict
 ) -> int:
     """Determining the eligibility for pension for long-term insured
@@ -499,9 +500,13 @@ def ges_rente_vorraussetz_langjährig(
         See basic input variable (NEW)
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_wartezeit_35
+        See :func: `ges_rente_wartezeit_35`.
     """
-
-    out = 1
+    if ges_rente_wartezeit_35 >= 35:
+        out = 1
+    else:
+        out = 0
 
     return out
 
@@ -525,5 +530,76 @@ def ges_rente_vorraussetz_besond_lang() -> int:
     """
 
     out = 0
+
+    return out
+
+
+# todo implement eligibility function and eligibility in regelaltersrente function.
+def ges_rente_wartezeit_5(
+    pflichtbeitragszeit: float, freiwilligebeitragszeit: float, ersatzzeit: float
+) -> float:
+    """Aggregates time periods that are relevant for the general eligibility
+    of the regular pension (regelaltersrente). "Allgemeine Wartezeit".
+    """
+    out = pflichtbeitragszeit + freiwilligebeitragszeit + ersatzzeit
+
+    return out
+
+
+# todo implement zeiten in basic inputs, maybe implement default if vars
+#  not available? somewhere swtich for eligibility in interface?
+def ges_rente_wartezeit_35(
+    rententrechtl_zeit: float,
+    pflichtbeitragszeit: float,
+    freiwilligebeitragszeit: float,
+    anrechnungszeit: float,
+    ersatzzeit: float,
+    kinder_bz: float,
+    pflege9295_bz: float,
+) -> float:
+    """Aggregates time periods that are relevant for the eligibility of pension
+    for long-term insured.
+
+    """
+    if rententrechtl_zeit > 0:  # is not missing
+        out = rententrechtl_zeit
+    else:
+        out = (
+            pflichtbeitragszeit
+            + freiwilligebeitragszeit
+            + anrechnungszeit
+            + ersatzzeit
+            + pflege9295_bz
+            + kinder_bz
+        )
+    return out
+
+
+# seite 27 Dok _19_wartezeiten
+def ges_rente_wartezeit_45(
+    pflichtbeitragszeit: float,
+    freiwilligebeitragszeit: float,
+    anrechnungszeit_45: float,
+    ersatzzeit: float,
+    kinder_bz: float,
+    pflege9295_bz: float,
+) -> float:
+    """Aggregates time periods that are relevant for the eligibility of pension
+    for very long-term insured.
+
+    """
+    if pflichtbeitragszeit >= 18:
+        freiwilligbeitr = freiwilligebeitragszeit
+    if pflichtbeitragszeit < 18:
+        freiwilligbeitr = 0
+
+    out = (
+        pflichtbeitragszeit
+        + freiwilligbeitr
+        + anrechnungszeit_45
+        + ersatzzeit
+        + pflege9295_bz
+        + kinder_bz
+    )
 
     return out
