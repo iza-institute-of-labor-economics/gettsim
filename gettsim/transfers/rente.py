@@ -261,11 +261,11 @@ def ges_rente_zugangsfaktor(
         # Calc difference to Regelaltersgrenze
         # (todo: replace ges_rente_regelaltersgrenze
         # with ar_langjährig_versicherte)
-        diff_a = alter_renteneintritt - ges_rente_grenze_volle_altersrente
-        diff_l = (
+        diff_volle_rente = alter_renteneintritt - ges_rente_grenze_volle_altersrente
+        diff_longterm_pension_age = (
             alter_renteneintritt - ges_rente_regelaltersgrenze
         )  # to be replaced by threshold for long term insured
-        diff_r = alter_renteneintritt - ges_rente_regelaltersgrenze
+        diff_regelrente = alter_renteneintritt - ges_rente_regelaltersgrenze
         faktor_pro_jahr_vorzeitig = ges_rente_params[
             "zugangsfaktor_veränderung_pro_jahr"
         ]["vorzeitiger_renteneintritt"]
@@ -278,10 +278,10 @@ def ges_rente_zugangsfaktor(
         # stand in: ges_rente_regelaltersgrenze
         # Zugangsfactor 1 if retired between [FRA, NRA]
         # Zugangsfactor >1 if retired after ges_rente_regelaltersgrenze
-        if diff_a < 0:
-            out = 1 + diff_l * faktor_pro_jahr_vorzeitig
-        elif diff_r > 0:
-            out = 1 + diff_r * faktor_pro_jahr_später
+        if diff_volle_rente < 0:
+            out = 1 + diff_longterm_pension_age * faktor_pro_jahr_vorzeitig
+        elif diff_regelrente > 0:
+            out = 1 + diff_regelrente * faktor_pro_jahr_später
         else:
             out = 1
         out = max(out, 0.0)
