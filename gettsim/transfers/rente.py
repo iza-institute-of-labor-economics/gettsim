@@ -367,9 +367,9 @@ def ges_rente_grenze_altersrente(
     thresholds_w = [regelrente, pension_for_women]
 
     if weiblich:
-        thresholds = thresholds_m
-    else:
         thresholds = thresholds_w
+    else:
+        thresholds = thresholds_m
 
     out = min(thresholds)
 
