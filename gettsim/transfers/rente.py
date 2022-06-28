@@ -318,7 +318,11 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
 
 
 def ges_rente_grenze_volle_altersrente(
-    geburtsjahr: int, geburtsmonat: int, weiblich: bool, ges_rente_params: dict
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_vorraussetz_frauen: int,
+    ges_rente_regelaltersgrenze: float,
+    ges_rente_params: dict,
 ) -> float:
     """Calculates the age, at which a worker is eligible to claim his full pension.
         Full retirement age (FRA) without deductions. This age is smaller or equal
@@ -341,36 +345,47 @@ def ges_rente_grenze_volle_altersrente(
     Returns
     -------
     """
-    regelrente = piecewise_polynomial(
-        x=geburtsjahr,
-        thresholds=ges_rente_params["regelaltersgrenze"]["thresholds"],
-        rates=ges_rente_params["regelaltersgrenze"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params["regelaltersgrenze"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
+    regelrente = ges_rente_regelaltersgrenze
+
     if geburtsjahr < 1945:
         x_wom = geburtsjahr + (geburtsmonat - 1) / 12
     else:
         x_wom = geburtsjahr
 
-    pension_for_women = piecewise_polynomial(
-        x=x_wom,
-        thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
-        rates=ges_rente_params["altersrente_für_frauen"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-
-    thresholds_m = [regelrente]
-    thresholds_w = [regelrente, pension_for_women]
-
-    if weiblich:
-        thresholds = thresholds_w
+    if ges_rente_vorraussetz_frauen == 1:
+        pension_for_women = piecewise_polynomial(
+            x=x_wom,
+            thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
+            rates=ges_rente_params["altersrente_für_frauen"]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
+                "intercepts_at_lower_thresholds"
+            ],
+        )
     else:
-        thresholds = thresholds_m
+        pension_for_women = 9000
 
-    out = min(thresholds)
+    out = min(regelrente, pension_for_women)
+
+    return out
+
+
+def ges_rente_vorraussetz_frauen(weiblich: bool) -> int:  # , ges_rente_params: dict
+    """Function determining the eligibility for pension for women
+        Wartezeit 15 years, contributions 10 years after age 40,
+        being a women.
+        !!!Work in progress !!! Wartezeiten need to be implemented
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    weiblich
+        See basic input variable (NEW)
+    """
+    if weiblich:
+        out = 1
+    else:
+        out = 0
 
     return out
