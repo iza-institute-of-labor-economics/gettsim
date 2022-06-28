@@ -218,7 +218,7 @@ def ges_rente_zugangsfaktor(
     rentner: bool,
     jahr_renteneintr: int,
     ges_rente_regelaltersgrenze: float,
-    ges_rente_grenze_altersrente: float,
+    ges_rente_grenze_volle_altersrente: float,
     ges_rente_params: dict,
 ) -> float:
     """Calculate the zugangsfaktor based on the year the
@@ -261,7 +261,7 @@ def ges_rente_zugangsfaktor(
         # Calc difference to Regelaltersgrenze
         # (todo: replace ges_rente_regelaltersgrenze
         # with ar_langjährig_versicherte)
-        diff_a = alter_renteneintritt - ges_rente_grenze_altersrente
+        diff_a = alter_renteneintritt - ges_rente_grenze_volle_altersrente
         diff_l = (
             alter_renteneintritt - ges_rente_regelaltersgrenze
         )  # to be replaced by threshold for long term insured
@@ -317,7 +317,7 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
     return out
 
 
-def ges_rente_grenze_altersrente(
+def ges_rente_grenze_volle_altersrente(
     geburtsjahr: int, geburtsmonat: int, weiblich: bool, ges_rente_params: dict
 ) -> float:
     """Calculates the age, at which a worker is eligible to claim his full pension.
