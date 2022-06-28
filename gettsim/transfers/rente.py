@@ -318,7 +318,7 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
 
 
 def ges_rente_grenze_altersrente(
-    geburtsjahr: int, geburtsmonat: int, geschlecht: int, ges_rente_params: dict
+    geburtsjahr: int, geburtsmonat: int, weiblich: bool, ges_rente_params: dict
 ) -> float:
     """Calculates the age, at which a worker is eligible to claim his full pension.
         Full retirement age (FRA) without deductions. This age is smaller or equal
@@ -333,7 +333,7 @@ def ges_rente_grenze_altersrente(
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     geburtsmonat
         See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
-    geschlecht
+    weiblich
         See basic input variable (NEW)
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
@@ -366,7 +366,7 @@ def ges_rente_grenze_altersrente(
     thresholds_m = [regelrente]
     thresholds_w = [regelrente, pension_for_women]
 
-    if geschlecht == 0:
+    if weiblich:
         thresholds = thresholds_m
     else:
         thresholds = thresholds_w
