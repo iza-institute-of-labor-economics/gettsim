@@ -4,6 +4,7 @@ import inspect
 import textwrap
 import warnings
 
+import dags
 import numpy as np
 import pandas as pd
 
@@ -84,7 +85,6 @@ def compute_taxes_and_transfers(
 
         1. All necessary inputs and all computed variables are returned.
         2. If an exception occurs while computing one variable, the exception is
-           printed, but not raised. The computation of all dependent variables is
            skipped.
 
     Returns
@@ -118,6 +118,13 @@ def compute_taxes_and_transfers(
         data,
         aggregation_specs,
     )
+    _fail_if_targets_not_in_functions_or_override_columns(
+        all_functions, targets, columns_overriding_functions
+    )
+    # Partial parameters to functions such that they disappear in the DAG.
+    partialed_functions = _partial_parameters_to_functions(all_functions, params)
+
+    all_functions = partialed_functions
 
     # Set up dag.
     dag = prepare_functions_and_set_up_dag(
@@ -129,16 +136,41 @@ def compute_taxes_and_transfers(
         rounding=rounding,
     )
 
+    # Add rounding to functions.
+    if rounding:
+
+        # Select functions which are needed to calculate the targets
+        all_functions = {k: v for k, v in all_functions.items() if k in dag.nodes}
+        all_functions = _add_rounding_to_functions(all_functions, params)
+
+    # print("ges_krankenv_beitr_satz" in all_functions)
+    # print(all_functions["ges_krankenv_beitr_satz"])
+    # print(inspect.signature(all_functions["ges_krankenv_beitr_satz"]))
+    # print("ges_krankenv_beitr_satz" in dag.nodes)
+    # print("ges_krankenv_beitr_satz" in set(_root_nodes(dag)))
     # Do some checks.
-    _fail_if_root_nodes_are_missing(dag, data)
+    _fail_if_root_nodes_are_missing(dag, data, all_functions)
     _fail_if_pid_is_non_unique(data)
     data = _reduce_to_necessary_data(dag, data, check_minimal_specification)
 
     # Convert series to numpy arrays
     data = {key: series.values for key, series in data.items()}
 
+    # Restrict to root nodes
+    root_nodes = set(_root_nodes(dag))
+    input_data = {k: v for k, v in data.items() if k in root_nodes}
+
     # Execute DAG.
-    results = execute_dag(dag, data, targets, debug)
+    # results = execute_dag(dag, data, targets, debug)
+    combined_function = dags.dag.create_combined_function_from_dag(
+        dag,
+        all_functions,
+        targets,
+        return_type="dict",
+        aggregator=None,
+        enforce_signature=True,
+    )
+    results = combined_function(**input_data)
 
     # Prepare results.
     results = prepare_results(results, data, debug)
@@ -262,27 +294,63 @@ def prepare_functions_and_set_up_dag(
     dag : networkx.DiGraph
         The DAG of the tax and transfer system.
     """
-    _fail_if_targets_not_in_functions_or_override_columns(
-        all_functions, targets, columns_overriding_functions
-    )
-
-    # Partial parameters to functions such that they disappear in the DAG.
-    partialed_functions = _partial_parameters_to_functions(all_functions, params)
-
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
-    dag = create_dag(
-        functions=partialed_functions,
+
+    dag = dags.dag.create_dag(
+        functions=all_functions,
         targets=targets,
-        columns_overriding_functions=columns_overriding_functions,
-        check_minimal_specification=check_minimal_specification,
+    )
+    _fail_if_columns_overriding_functions_are_not_in_dag(
+        dag, columns_overriding_functions, check_minimal_specification
     )
 
-    # Add rounding to functions.
-    if rounding:
-        dag = _add_rounding_to_functions_in_dag(dag, params)
+    # dag = dags.create_dag(
+    #     functions=partialed_functions,
+    #     targets=targets,
+    # )
 
     return dag
+
+
+def _fail_if_columns_overriding_functions_are_not_in_dag(
+    dag, columns_overriding_functions, check_minimal_specification
+):
+    """Fail if ``columns_overriding_functions`` are not in the DAG.
+
+    Parameters
+    ----------
+    dag : networkx.DiGraph
+        The DAG which is limited to targets and their ancestors.
+    columns_overriding_functions : list of str
+        The nodes which are provided by columns in the data and do not need to be
+        computed. These columns limit the depth of the DAG.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimalistic configuration
+        should be silenced, emitted as warnings or errors.
+
+    Warnings
+    --------
+    UserWarning
+        Warns if there are columns in 'columns_overriding_functions' which are not
+        necessary and ``check_minimal_specification`` is set to "warn".
+    Raises
+    ------
+    ValueError
+        Raised if there are columns in 'columns_overriding_functions' which are not
+        necessary and ``check_minimal_specification`` is set to "raise".
+
+    """
+    unused_columns = set(columns_overriding_functions) - set(dag.nodes)
+    formatted = format_list_linewise(unused_columns)
+    if unused_columns and check_minimal_specification == "warn":
+        warnings.warn(
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+        )
+    elif unused_columns and check_minimal_specification == "raise":
+        raise ValueError(
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+        )
 
 
 def prepare_results(results, data, debug):
@@ -593,12 +661,31 @@ def _reorder_columns(results):
     return results[sorted_ids + remaining_columns]
 
 
-def _fail_if_root_nodes_are_missing(dag, data):
-    missing_nodes = []
-    for node in _root_nodes(dag):
-        if node not in data and "function" not in dag.nodes[node]:
-            missing_nodes.append(node)
+# def _kth_order_successors(dag, node, order):
+#     yield node
 
+#     if 1 <= order:
+#         for successor in dag.successors(node):
+#             yield from _kth_order_successors(dag, successor, order=order - 1)
+
+
+def _fail_if_root_nodes_are_missing(dag, data, functions):
+    root_nodes = set(_root_nodes(dag))
+
+    # Identify functions that are part of the DAG, but do not depend
+    # on any other function
+    funcs_based_on_params_only = [
+        func_name
+        for func_name, func in functions.items()
+        if len(
+            [a for a in inspect.signature(func).parameters if not a.endswith("_params")]
+        )
+        == 0
+    ]
+
+    missing_nodes = [
+        c for c in root_nodes if c not in data and c not in funcs_based_on_params_only
+    ]
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)
         raise ValueError(f"The following data columns are missing.\n{formatted}")
@@ -699,7 +786,7 @@ def _add_rounding_to_one_function(base, direction):
     return inner
 
 
-def _add_rounding_to_functions_in_dag(dag_raw, params):
+def _add_rounding_to_functions(functions, params):
     """Add appropriate rounding of outputs to functions
 
     Parameters
@@ -716,52 +803,51 @@ def _add_rounding_to_functions_in_dag(dag_raw, params):
         in the DAG.
 
     """
-    dag = copy.deepcopy(dag_raw)
+    functions_new = copy.deepcopy(functions)
 
-    for task in dag:
-        if "function" in dag.nodes[task]:
-            func = dag.nodes[task]["function"]
+    for func_name, func in functions.items():
 
-            # If function has rounding params attribute, look for rounding specs in
-            # params dict.
-            if hasattr(func, "__rounding_params_key__"):
-                params_key = func.__rounding_params_key__
-
-                # Check if there are any rounding specifications.
-                if not (
-                    params_key in params
-                    and "rounding" in params[params_key]
-                    and task in params[params_key]["rounding"]
-                ):
-                    raise KeyError(
-                        KeyErrorMessage(
-                            f"Rounding specifications for function {task} are expected"
-                            " in the parameter dictionary \n"
-                            f" at ['{params_key}']['rounding']['{task}']. These nested"
-                            " keys do not exist. \n"
-                            " If this function should not be rounded,"
-                            " remove the respective decorator."
-                        )
+        # If function has rounding params attribute, look for rounding specs in
+        # params dict.
+        if hasattr(func, "__rounding_params_key__"):
+            params_key = func.__rounding_params_key__
+            # Check if there are any rounding specifications.
+            if not (
+                params_key in params
+                and "rounding" in params[params_key]
+                and func_name in params[params_key]["rounding"]
+            ):
+                raise KeyError(
+                    KeyErrorMessage(
+                        f"Rounding specifications for function {func_name} are expected"
+                        " in the parameter dictionary \n"
+                        f" at ['{params_key}']['rounding']['{func_name}']. These nested"
+                        " keys do not exist. \n"
+                        " If this function should not be rounded,"
+                        " remove the respective decorator."
                     )
+                )
 
-                rounding_spec = params[params_key]["rounding"][task]
+            rounding_spec = params[params_key]["rounding"][func_name]
 
-                # Check if expected parameters are present in rounding specifications.
-                if not ("base" in rounding_spec and "direction" in rounding_spec):
-                    raise KeyError(
-                        KeyErrorMessage(
-                            "Both 'base' and 'direction' are expected as rounding "
-                            "parameters in the parameter dictionary. \n "
-                            "At least one of them "
-                            f"is missing at ['{params_key}']['rounding']['{task}']."
-                        )
+            # Check if expected parameters are present in rounding specifications.
+            if not ("base" in rounding_spec and "direction" in rounding_spec):
+                raise KeyError(
+                    KeyErrorMessage(
+                        "Both 'base' and 'direction' are expected as rounding "
+                        "parameters in the parameter dictionary. \n "
+                        "At least one of them "
+                        f"is missing at ['{params_key}']['rounding']['{func_name}']."
                     )
-                # Add rounding.
-                dag.nodes[task]["function"] = _add_rounding_to_one_function(
-                    base=rounding_spec["base"],
-                    direction=rounding_spec["direction"],
-                )(dag.nodes[task]["function"])
-    return dag
+                )
+
+            # Add rounding.
+            functions_new[func_name] = _add_rounding_to_one_function(
+                base=rounding_spec["base"],
+                direction=rounding_spec["direction"],
+            )(func)
+
+    return functions_new
 
 
 def _partial_parameters_to_functions(functions, params):

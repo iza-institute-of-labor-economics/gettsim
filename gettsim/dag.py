@@ -46,13 +46,13 @@ def create_dag(
     dag = _create_complete_dag(functions)
     dag = _limit_dag_to_targets_and_their_ancestors(dag, targets)
 
-    _fail_if_columns_overriding_functions_are_not_in_dag(
-        dag, columns_overriding_functions, check_minimal_specification
-    )
+    # _fail_if_columns_overriding_functions_are_not_in_dag(
+    #     dag, columns_overriding_functions, check_minimal_specification
+    # )
 
-    dag = _remove_unused_ancestors_of_columns_overriding_functions(
-        dag, columns_overriding_functions
-    )
+    # dag = _remove_unused_ancestors_of_columns_overriding_functions(
+    #     dag, columns_overriding_functions
+    # )
 
     # Check for cycles in dag
     _fail_if_dag_contains_cycle(dag)
