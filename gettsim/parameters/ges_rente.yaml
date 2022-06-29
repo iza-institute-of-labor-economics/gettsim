@@ -739,9 +739,8 @@ regelaltersgrenze:
   reference: § 35 Satz 2 SGB VI
   note:
     de: >-
-      Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
-      implementiert. Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
-      Ab einschließlich Jahrgang 1964 gilt NRA 67. (todo jahrgänge vor 1946)
+      Diese Funktion ist hier ab 2002 angegeben. Analog zur implementierung des Steuersystems. Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
+      Ab einschließlich Jahrgang 1964 gilt NRA 67.
     en:
   type: piecewise_linear
   2002-01-01:
@@ -806,6 +805,7 @@ altersrente_für_frauen:
     6:
       upper_threshold: inf
       rate_linear: 0
+
 
 rounding:
   ges_rente_m:
