@@ -1,12 +1,7 @@
 import datetime
 
-import numpy as np
 import pandas as pd
 import pytest
-from pandas.api.types import is_bool_dtype
-from pandas.api.types import is_datetime64_any_dtype
-from pandas.api.types import is_float_dtype
-from pandas.api.types import is_integer_dtype
 
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
@@ -16,6 +11,7 @@ from gettsim.functions_loader import _load_functions
 from gettsim.interface import compute_taxes_and_transfers
 from gettsim.policy_environment import load_reforms_for_date
 from gettsim.policy_environment import set_up_policy_environment
+from gettsim.typing import check_series_has_expected_type
 
 YEARS = [2019]
 
@@ -109,15 +105,4 @@ def test_data_types(
                 else:
                     raise ValueError(f"Column name {column_name} unknown.")
             if internal_type:
-                if internal_type == bool:
-                    assert is_bool_dtype(series)
-                elif internal_type == int:
-                    assert is_integer_dtype(series)
-                elif internal_type == float:
-                    assert is_float_dtype(series)
-                elif internal_type == np.datetime64:
-                    assert is_datetime64_any_dtype(series)
-                else:
-                    raise ValueError(
-                        f"Internal type {internal_type} not yet supported in this test."
-                    )
+                assert check_series_has_expected_type(series, internal_type)
