@@ -733,8 +733,8 @@ regelaltersgrenze:
       gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger,
       wenn keine Ausnahmeregelungen erfüllt sind.
     en:
-      Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
-      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+      Piecewise linear function returning the statutory normal retirement age ("regelaltersgrenze") at which the agent is allowed to get pensions without deductions.
+      If the agent retires earlier or later, the Zugangsfaktor and therefore
       the pension claim is higher or lower, unless special conditions apply.
   reference: § 35 Satz 2 SGB VI
   note:

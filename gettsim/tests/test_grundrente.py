@@ -88,7 +88,7 @@ INPUT_COLS_INCOME = [
     "jahr_renteneintr",
     "wohnort_ost",
     "bruttolohn_m",
-    "geschlecht",
+    "weiblich",
 ]
 
 

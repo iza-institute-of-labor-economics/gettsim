@@ -64,7 +64,7 @@ TYPES_INPUT_VARIABLES = {
     "vermögen_hh": float,
     "bruttolohn_m": float,
     "alter": int,
-    "geschlecht": int,
+    "weiblich": bool,
     "selbstständig": bool,
     "wohnort_ost": bool,
     "hat_kinder": bool,
