@@ -102,7 +102,7 @@ def _arbeitsl_geld_2_grundfreib_vermög(
     else:
         out = 0.0
 
-    return min(out, _arbeitsl_geld_2_max_grundfreib_vermög)
+    return float(min(out, _arbeitsl_geld_2_max_grundfreib_vermög))
 
 
 def _arbeitsl_geld_2_max_grundfreib_vermög(
@@ -145,7 +145,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
         else:
             out = obergrenzen[3]
 
-    return out
+    return float(out)
 
 
 def arbeitsl_geld_2_vermög_freib_hh(
