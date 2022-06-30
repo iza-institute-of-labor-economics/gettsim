@@ -268,6 +268,15 @@ def create_one_set_of_households(
         "grundr_zeiten",
         "priv_rente_m",
         "schwerbeh_g",
+        "rententrechtl_zeit",
+        "pflichtbeitragszeit",
+        "freiwilligebeitragszeit",
+        "anrechnungszeit",
+        "ersatzzeit",
+        "kinder_berückz",
+        "pflege9295_berückz",
+        "anrechnungszeit_45",
+        "jahre_beiträg_nach40",
     ]
     # Create one row per desired household
     n_rows = len(hh_typen) * len(n_children)
@@ -384,6 +393,23 @@ def create_one_set_of_households(
     df["grundr_bew_zeiten"] = df["grundr_zeiten"]
     df["entgeltp"] = df["grundr_zeiten"] / 12
     df["grundr_entgeltp"] = df["entgeltp"]
+    # Rente Wartezeiten
+    df["pflichtbeitragszeit"] = (df["alter"] - 25).clip(lower=0) * 12
+    df["jahre_beiträg_nach40"] = (df["alter"] - 40).clip(lower=0) * 12
+    df["freiwilligebeitragszeit"] = 5
+    df["ersatzzeit"] = 0
+    df["anrechnungszeit"] = 10
+    df["kinder_berückz"] = 24
+    df["pflege9295_berückz"] = 1
+    df["rententrechtl_zeit"] = (
+        df["pflichtbeitragszeit"]
+        + df["freiwilligebeitragszeit"]
+        + df["anrechnungszeit"]
+        + df["kinder_berückz"]
+        + df["pflege9295_berückz"]
+        + df["ersatzzeit"]
+    )
+    df["anrechnungszeit_45"] = 5
 
     df = df.reset_index()
     df = df.sort_values(by=["hh_id", "tu_id", "index"])

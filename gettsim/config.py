@@ -105,6 +105,15 @@ TYPES_INPUT_VARIABLES = {
     "grundr_bew_zeiten": int,
     "priv_rente_m": float,
     "schwerbeh_g": bool,
+    "rententrechtl_zeit": float,
+    "pflichtbeitragszeit": float,
+    "freiwilligebeitragszeit": float,
+    "anrechnungszeit": float,
+    "anrechnungszeit_45": float,
+    "ersatzzeit": float,
+    "kinder_berückz": float,
+    "pflege9295_berückz": float,
+    "jahre_beiträg_nach40": float,
 }
 
 # =====================================================================================
