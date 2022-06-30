@@ -452,7 +452,9 @@ def ges_rente_grenz_voll_altersrente(
     return out
 
 
-def ges_rente_vorraussetz_frauen(weiblich: bool) -> int:  # , ges_rente_params: dict
+def ges_rente_vorraussetz_frauen(
+    weiblich: bool, ges_rente_wartezeit_15: float, jahre_beiträg_nach40: float
+) -> int:  # , ges_rente_params: dict
     """Function determining the eligibility for pension for women
         Wartezeit 15 years, contributions 10 years after age 40,
         being a women.
@@ -466,11 +468,16 @@ def ges_rente_vorraussetz_frauen(weiblich: bool) -> int:  # , ges_rente_params: 
         See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     weiblich
         See basic input variable (NEW)
+    ges_rente_wartezeit_15
+        See :func:`ges_rente_wartezeit_15`
+    jahre_beiträg_nach40
+        !!not yet determined!!
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     """
-    if weiblich:
+    # todo: condition with employment after 40
+    if weiblich and ges_rente_wartezeit_15 >= 15 and jahre_beiträg_nach40 >= 10:
         out = 1
     else:
         out = 0
@@ -541,6 +548,19 @@ def ges_rente_wartezeit_5(
 
 # todo implement zeiten in basic inputs, maybe implement default if vars
 #  not available? somewhere swtich for eligibility in interface?
+
+
+def ges_rente_wartezeit_15(
+    pflichtbeitragszeit: float, freiwilligebeitragszeit: float, ersatzzeit: float
+) -> float:
+    """Aggregates time periods that are relevant for the pension
+    for women and Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
+    """
+    out = pflichtbeitragszeit + freiwilligebeitragszeit + ersatzzeit
+
+    return out
+
+
 def ges_rente_wartezeit_35(
     rententrechtl_zeit: float,
     pflichtbeitragszeit: float,
