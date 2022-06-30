@@ -270,7 +270,7 @@ def create_one_set_of_households(
         "schwerbeh_g",
         "rententrechtl_zeit",
         "pflichtbeitragszeit",
-        "freiwilligebeitragszeit",
+        "freiw_beitragszeit",
         "anrechnungszeit",
         "ersatzzeit",
         "kinder_berückz",
@@ -396,14 +396,14 @@ def create_one_set_of_households(
     # Rente Wartezeiten
     df["pflichtbeitragszeit"] = (df["alter"] - 25).clip(lower=0) * 12
     df["jahre_beiträg_nach40"] = (df["alter"] - 40).clip(lower=0) * 12
-    df["freiwilligebeitragszeit"] = 5
+    df["freiw_beitragszeit"] = 5
     df["ersatzzeit"] = 0
     df["anrechnungszeit"] = 10
     df["kinder_berückz"] = 24
     df["pflege9295_berückz"] = 1
     df["rententrechtl_zeit"] = (
         df["pflichtbeitragszeit"]
-        + df["freiwilligebeitragszeit"]
+        + df["freiw_beitragszeit"]
         + df["anrechnungszeit"]
         + df["kinder_berückz"]
         + df["pflege9295_berückz"]

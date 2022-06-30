@@ -107,7 +107,7 @@ TYPES_INPUT_VARIABLES = {
     "schwerbeh_g": bool,
     "rententrechtl_zeit": float,
     "pflichtbeitragszeit": float,
-    "freiwilligebeitragszeit": float,
+    "freiw_beitragszeit": float,
     "anrechnungszeit": float,
     "anrechnungszeit_45": float,
     "ersatzzeit": float,

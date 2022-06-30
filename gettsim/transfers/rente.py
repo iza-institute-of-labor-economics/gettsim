@@ -505,7 +505,7 @@ def ges_rente_vorraussetz_langjährig(
     ges_rente_wartezeit_35
         See :func: `ges_rente_wartezeit_35`.
     """
-    if ges_rente_wartezeit_35 >= 35:
+    if ges_rente_wartezeit_35 >= (35):
         out = 1
     else:
         out = 0
@@ -536,12 +536,12 @@ def ges_rente_vorrauss_besond_lang() -> int:
 
 # todo implement eligibility function and eligibility in regelaltersrente function.
 def ges_rente_wartezeit_5(
-    pflichtbeitragszeit: float, freiwilligebeitragszeit: float, ersatzzeit: float
+    pflichtbeitragszeit: float, freiw_beitragszeit: float, ersatzzeit: float
 ) -> float:
     """Aggregates time periods that are relevant for the general eligibility
     of the regular pension (regelaltersrente). "Allgemeine Wartezeit".
     """
-    out = pflichtbeitragszeit + freiwilligebeitragszeit + ersatzzeit
+    out = (pflichtbeitragszeit + freiw_beitragszeit + ersatzzeit) / 12
 
     return out
 
@@ -551,12 +551,12 @@ def ges_rente_wartezeit_5(
 
 
 def ges_rente_wartezeit_15(
-    pflichtbeitragszeit: float, freiwilligebeitragszeit: float, ersatzzeit: float
+    pflichtbeitragszeit: float, freiw_beitragszeit: float, ersatzzeit: float
 ) -> float:
     """Aggregates time periods that are relevant for the pension
     for women and Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
     """
-    out = pflichtbeitragszeit + freiwilligebeitragszeit + ersatzzeit
+    out = (pflichtbeitragszeit + freiw_beitragszeit + ersatzzeit) / 12
 
     return out
 
@@ -564,7 +564,7 @@ def ges_rente_wartezeit_15(
 def ges_rente_wartezeit_35(
     rententrechtl_zeit: float,
     pflichtbeitragszeit: float,
-    freiwilligebeitragszeit: float,
+    freiw_beitragszeit: float,
     anrechnungszeit: float,
     ersatzzeit: float,
     kinder_berückz: float,
@@ -576,23 +576,23 @@ def ges_rente_wartezeit_35(
 
     """
     if rententrechtl_zeit > 0:  # is not missing
-        out = rententrechtl_zeit
+        out = rententrechtl_zeit / 12
     else:
         out = (
             pflichtbeitragszeit
-            + freiwilligebeitragszeit
+            + freiw_beitragszeit
             + anrechnungszeit
             + ersatzzeit
             + pflege9295_berückz
             + kinder_berückz
-        )
+        ) / 12
     return out
 
 
 # seite 27 Dok _19_wartezeiten
 def ges_rente_wartezeit_45(
     pflichtbeitragszeit: float,
-    freiwilligebeitragszeit: float,
+    freiw_beitragszeit: float,
     anrechnungszeit_45: float,
     ersatzzeit: float,
     kinder_berückz: float,
@@ -604,9 +604,9 @@ def ges_rente_wartezeit_45(
     if at least 18 years of mandatory contributions. Not all anrechnungszeiten are
     considered, but only specific ones (ALG I, Kurzarbeit but not ALG II).
     """
-    if pflichtbeitragszeit >= 18:
-        freiwilligbeitr = freiwilligebeitragszeit
-    if pflichtbeitragszeit < 18:
+    if pflichtbeitragszeit >= (18 * 12):
+        freiwilligbeitr = freiw_beitragszeit
+    else:
         freiwilligbeitr = 0
 
     out = (
@@ -616,6 +616,6 @@ def ges_rente_wartezeit_45(
         + ersatzzeit
         + pflege9295_berückz
         + kinder_berückz
-    )
+    ) / 12
 
     return out
