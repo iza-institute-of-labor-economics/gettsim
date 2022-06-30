@@ -89,6 +89,14 @@ INPUT_COLS_INCOME = [
     "wohnort_ost",
     "bruttolohn_m",
     "weiblich",
+    "jahre_beiträg_nach40",
+    "pflichtbeitragszeit",
+    "freiw_beitragszeit",
+    "ersatzzeit",
+    "rententrechtl_zeit",
+    "anrechnungszeit",
+    "kinder_berückz",
+    "pflege9295_berückz",
 ]
 
 
