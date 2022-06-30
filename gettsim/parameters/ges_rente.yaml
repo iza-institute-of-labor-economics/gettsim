@@ -775,11 +775,14 @@ altersrente_für_frauen:
       nach einer Wartezeit von 15 Jahren und mit mindestens 10 Beitragsjahren ab dem Alter von 40.
       Ab 1940 wurde das Eintrittsalter sukzessive erhöhrt um einen Monat pro Geburtsmonat auf das Alter 65.
       Für Kohorten 1945-1951 beträgt es konstant 65. Für Kohorten ab 1952 ist es abgeschafft. Ab dort regelaltersgrenze implementiert.
+      Durch die monatliche Anpassung des Renteneintrittsalters enthalten die thresholds Nachkommastellen.
     en:
       Women born before 1940 were able to retire at age 60 without deductions (required waiting period of 15 years and 10 years of
       contributions after age 40). The age threshold was increase by one month for each birthmonth up to age 65 for cohort 1945.
       Between cohort 1945 and 1951 the threshold remained constant.
-      The special pension scheme for women was abolished for cohorts born afer 1952. regelaltersgrenze afterwards.
+      The special pension scheme for women was abolished for cohorts born afer 1952. regelaltersgrenze afterwards. Due To
+      monthly increases in the retirement age, the thresholds contain decimal places. The reference is always the first of each month
+      such that for example for the date Dezember 1951 we use 1951.916666666, and for January 1952 it is 1952.0000.
   type: piecewise_linear
   1980-01-01:
     0:
@@ -791,7 +794,7 @@ altersrente_für_frauen:
       upper_threshold: 1944.916666666
       rate_linear: 1
     2:
-      upper_threshold: 1951.916666666 # constant 65
+      upper_threshold: 1951.916666666 # constant 65 till december 1951. Reference is always the first of each month.
       rate_linear: 0
     3:
       upper_threshold: 1952.0000 # since 1952 abolished -  regelaltersgrenze applies - jump in theshold by 6 month
