@@ -97,6 +97,7 @@ INPUT_COLS_INCOME = [
     "anrechnungszeit",
     "kinder_berückz",
     "pflege9295_berückz",
+    "anrechnungszeit_45",
 ]
 
 
