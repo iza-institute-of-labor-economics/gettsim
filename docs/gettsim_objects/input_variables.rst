@@ -111,7 +111,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 || _`anrechnungszeit`     || Months of sickness, pregnancy/Mutterschutz,|| float       |
 ||                        || unemployment, school/university after age  ||             |
-||                        || 17 (max 8), insurance retirement           ||             |
+||                        || 17 (max 8 years), insurance retirement     ||             |
 +-------------------------+---------------------------------------------+--------------+
 || _`anrechnungszeit_45`  || Months of sickness, unemployment (only time|| float       |
 ||                        || of Entgeltersatzleistungen, not ALGII),    ||             |
