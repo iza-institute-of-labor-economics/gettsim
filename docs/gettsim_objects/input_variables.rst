@@ -103,3 +103,27 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`weiblich`             | If gender is female                         | bool         |
 +-------------------------+---------------------------------------------+--------------+
+| _`rententrechtl_zeit`   | Sum of all times relevant for retirement    | float        |
++-------------------------+---------------------------------------------+--------------+
+| _`pflichtbeitragszeit`  | Months of mandtory contributions            | float        |
++-------------------------+---------------------------------------------+--------------+
+| _`freiw_beitragszeit`   | Months of voluntary contributions           | float        |
++-------------------------+---------------------------------------------+--------------+
+|| _`anrechnungszeit`     || Months of sickness, pregnancy/Mutterschutz,|| float       |
+||                        || unemployment, school/university after age  ||             |
+||                        || 17 (max 8), insurance retirement           ||             |
++-------------------------+---------------------------------------------+--------------+
+|| _`anrechnungszeit_45`  || Months of sickness, unemployment (only time|| float       |
+||                        || of Entgeltersatzleistungen, not ALGII),    ||             |
+||                        || interim payments (Übergangsgeld), marginal ||             |
+||                        || employment                                 ||             |
++-------------------------+---------------------------------------------+--------------+
+|| _`ersatzzeit`          || Months during military, persecution/escape,|| float       |
+||                        || internment and consecutive sickness        ||             |
++-------------------------+---------------------------------------------+--------------+
+| _`kinder_berückz`       | Months of childcare till age 10             | float        |
++-------------------------+---------------------------------------------+--------------+
+| _`pflege9295_berückz`   | Months of home care (01.01.1992-31.03.1995) | float        |
++-------------------------+---------------------------------------------+--------------+
+| _`jahre_beiträg_nach40` | Years of mandat. contributions after age 40 | float        |
++-------------------------+---------------------------------------------+--------------+
