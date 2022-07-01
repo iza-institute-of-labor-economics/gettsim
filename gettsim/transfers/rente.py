@@ -263,8 +263,8 @@ def ges_rente_zugangsfaktor(
 
         # Calc difference to full retirement age (FRA)
         diff_volle_rente = alter_renteneintritt - ges_rente_grenz_voll_altersrente
-        # Calc difference to FRA of long term insured (Altersgrenze langjährig
-        # versicherte)
+        # Calc difference to FRA of long term insured or pension for women
+        # (Altersgrenze langjährig Versicherte , Altersrente für Frauen).
         diff_longterm_pension_age = (
             alter_renteneintritt - ges_rente_grenze_langjährig_frau
         )
@@ -277,11 +277,11 @@ def ges_rente_zugangsfaktor(
             "späterer_renteneintritt"
         ]
 
-        # Zugangsfactor <1 if retired before Altersgrenze, it is measured
-        # relative to the threshold for long term insured current
-        # stand in: ges_rente_regelaltersgrenze
-        # Zugangsfactor 1 if retired between [FRA, NRA]
-        # Zugangsfactor >1 if retired after ges_rente_regelaltersgrenze
+        # Zugangsfaktor <1: if retired before full retirement age, it is measured
+        # relative to the threshold for long term insured or pension for women. Note:
+        # we need both  diff_volle_rente and diff_longterm_pension_age here!
+        # Zugangsfaktor >1: if retired after ges_rente_regelaltersgrenze
+        # Zugangsfaktor =1: if retired between [FRA, NRA]
         if diff_volle_rente < 0:
             out = 1 + diff_longterm_pension_age * faktor_pro_jahr_vorzeitig
         elif diff_regelrente > 0:
@@ -296,7 +296,9 @@ def ges_rente_zugangsfaktor(
     return out
 
 
-def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
+def ges_rente_regelaltersgrenze(
+    geburtsjahr: int, ges_rente_vorraus_regelrente: bool, ges_rente_params: dict
+) -> float:
     """Calculates the age, at which a person is eligible to claim the regular pension.
         Normal retirement age (NRA). This pension cannot be claimed earlier than at the
         NRA, ie it does not serve as reference for calculating deductions. However, it
@@ -309,6 +311,8 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_vorraus_regelrente
+        See :func: ``ges_rente_vorraus_regelrente``.
 
     Returns
     -------
@@ -491,11 +495,14 @@ def ges_rente_vorraussetz_frauen(
     Parameters
     ----------
     weiblich
-        See basic input variable (NEW)
+        See basic input variable :ref:`weiblich <weiblich>`.
     ges_rente_wartezeit_15
         See :func:`ges_rente_wartezeit_15`
     jahre_beiträg_nach40
-
+        See basic input variable :ref:`jahre_beiträg_nach40 <jahre_beiträg_nach40>`.
+    Returns
+    -------
+    Eligibility as bool.
 
     """
     # todo: condition with employment after 40
@@ -507,23 +514,19 @@ def ges_rente_vorraussetz_frauen(
     return out
 
 
-def ges_rente_vorraussetz_langjährig(
-    ges_rente_wartezeit_35: float,
-    # geburtsjahr: int,  ges_rente_params: dict
-) -> bool:
+def ges_rente_vorraussetz_langjährig(ges_rente_wartezeit_35: float) -> bool:
     """Determining the eligibility for pension for long-term insured
         Wartezeit 35 years.
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     ges_rente_wartezeit_35
         See :func: `ges_rente_wartezeit_35`.
+
+    Returns
+    -------
+    Eligibility as bool.
+
     """
     if ges_rente_wartezeit_35 >= 35:
         out = True
@@ -535,7 +538,8 @@ def ges_rente_vorraussetz_langjährig(
 
 def ges_rente_vorrauss_besond_lang(ges_rente_wartezeit_45: float) -> bool:
     """Determining the eligibility for pension for very long-term insured
-        Wartezeit 45 years
+        Wartezeit 45 years. "Rente für besonders langjährig Versicherte"
+        aka "Rente mit 63".
 
     Parameters
     ----------
@@ -544,8 +548,7 @@ def ges_rente_vorrauss_besond_lang(ges_rente_wartezeit_45: float) -> bool:
 
     Returns
     -------
-    Eligibility for "Rente für besonders langjährig Versicherte"
-    aka "Rente mit 63" as bool.
+    Eligibility as bool.
 
     """
 
@@ -582,7 +585,7 @@ def ges_rente_wartezeit_5(
     return out
 
 
-# todo implement zeiten in basic inputs, maybe implement default if vars
+# todo imaybe implement default  for zeiten if vars
 #  not available? somewhere swtich for eligibility in interface?
 
 
@@ -671,8 +674,9 @@ def ges_rente_wartezeit_45(
     """Aggregates time periods that are relevant for the eligibility of pension
     for very long-term insured. Wartezeit von 45 Jahren. Not all "rentenrechtliche
     Zeiten" are considered. Years with voluntary contributions are only considered
-    if at least 18 years of mandatory contributions. Not all anrechnungszeiten are
-    considered, but only specific ones (ALG I, Kurzarbeit but not ALG II).
+    if at least 18 years of mandatory contributions (pflichtbeitragszeit). Not all
+    anrechnungszeiten are considered, but only specific ones (e.g. ALG I, Kurzarbeit
+    but not ALG II).
 
     Parameters
     ----------
