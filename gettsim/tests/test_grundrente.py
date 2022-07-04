@@ -72,7 +72,7 @@ def test_grundrente(input_data, year, column):
         ],
     )
     tol = OUT_COLS_TOL[column]
-    assert_series_equal(calc_result[column], year_data[column], atol=tol)
+    assert_series_equal(calc_result[column], year_data[column], atol=tol, rtol=0)
 
 
 INPUT_COLS_INCOME = [
@@ -112,7 +112,7 @@ def test_proxy_rente_vorj(input_data_proxy_rente, year):
         functions=policy_functions,
         targets=target,
     )
-    assert_series_equal(calc_result[target].astype(float), year_data[target])
+    assert_series_equal(calc_result[target].astype(float), year_data[target], rtol=0)
 
 
 @pytest.mark.parametrize("year", YEARS)
@@ -144,4 +144,5 @@ def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
         calc_result["rente_vorj_vor_grundr_proxy_m"],
         calc_result_last_year["ges_rente_vor_grundr_m"] + year_data["priv_rente_m"],
         check_names=False,
+        rtol=0,
     )
