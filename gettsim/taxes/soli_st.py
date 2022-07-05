@@ -71,7 +71,7 @@ def lohn_st_eink_kifb(lohn_st_eink: float, kinderfreibetrag_lohn_st: float) -> f
 
 def kinderfreibetrag_lohn_st(
     steuerklasse: int,
-    anz_kindergeld_kinder_tu: float,
+    anz_kinder_mit_kindergeld_tu: float,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculates Child Allowance for Lohnsteuer-Soli
@@ -88,9 +88,9 @@ def kinderfreibetrag_lohn_st(
 
     # For certain tax brackets, twice the child allowance can be deducted
     if steuerklasse == 1 | steuerklasse == 2 | steuerklasse == 3:
-        out = kinderfreibetrag_basis * 2 * anz_kindergeld_kinder_tu
+        out = kinderfreibetrag_basis * 2 * anz_kinder_mit_kindergeld_tu
     elif steuerklasse == 4:
-        out = kinderfreibetrag_basis * anz_kindergeld_kinder_tu
+        out = kinderfreibetrag_basis * anz_kinder_mit_kindergeld_tu
     else:
         out = 0
     return out

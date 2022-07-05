@@ -45,8 +45,7 @@ def lohn_st_eink(
         - werbungskosten
         - sonderausgaben
         - entlastung_freibetrag_alleinerz
-        - vorsorgepauschale
-        ,
+        - vorsorgepauschale,
         0,
     )
 
@@ -251,14 +250,23 @@ def vorsorgepauschale_2005_2010() -> float:
 
 def steuerklasse(
     tu_id: int,
-    gemeinsam_veranlagt: bool,
-    alleinerziehend: bool,
+    gemeinsam_veranlagt_tu: bool,
+    alleinerz_tu: bool,
     bruttolohn_m: float,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
 ) -> int:
     """Determine Lohnsteuerklassen (also called 'tax brackets')
-    They determine the basic allowance for the withdrawal tax
+    if not delivered by the user.
+    They determine the basic allowance for the withdrawal tax.
+
+    Tax brackets are predetermined for singles and single parents.
+    Married couples can choose between the combinations 4/4, 3/5 and 5/3.
+    We assume the following:
+        -  If one of the spouses earns less than the income tax allowance,
+           this is essentially a single-earner couple. The spouse with the higher
+           income is assigned tax bracket 3, the other spouse tax bracket 5.
+        - In all other cases, we assign tax bracket 4 to both spouses.
 
     1: Single
     2: Single Parent
@@ -274,10 +282,10 @@ def steuerklasse(
     ----------
     tu_id: int
         See basic input variable :ref:`tu_id <tu_id>`.
-    gemeinsam_veranlagt: bool
-        Return of :func:`gemeinsam_veranlagt`.
-    alleinerziehend: bool
-        See basic input variable :ref:`alleinerziehend <alleinerziehend>`.
+    gemeinsam_veranlagt_tu: bool
+        Return of :func:`gemeinsam_veranlagt_tu`.
+    alleinerz_tu: bool
+        See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
     bruttolohn_m: float
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     eink_st_params:
@@ -293,8 +301,7 @@ def steuerklasse(
 
     bruttolohn_max = bruttolohn_m.groupby(tu_id).max()
     bruttolohn_min = bruttolohn_m.groupby(tu_id).min()
-    # Determine Single Earner Couple:
-    # If one of the spouses earns tax-free income, assume Single Earner Couple
+
     einkommensgrenze_zweitverdiener = (
         eink_st_params["eink_st_tarif"]["thresholds"][1]
         + eink_st_abzuege_params["werbungskostenpauschale"]
@@ -302,14 +309,14 @@ def steuerklasse(
     alleinverdiener_paar = (
         (bruttolohn_min <= einkommensgrenze_zweitverdiener / 12)
         & (bruttolohn_max > 0)
-        & (gemeinsam_veranlagt)
+        & (gemeinsam_veranlagt_tu)
     )
-    cond_steuerklasse1 = (~gemeinsam_veranlagt) & ~alleinerziehend
-    cond_steuerklasse2 = alleinerziehend
+    cond_steuerklasse1 = (~gemeinsam_veranlagt_tu) & ~alleinerz_tu
+    cond_steuerklasse2 = alleinerz_tu
     cond_steuerklasse3 = alleinverdiener_paar & (
         bruttolohn_m > einkommensgrenze_zweitverdiener / 12
     )
-    cond_steuerklasse4 = (gemeinsam_veranlagt) & (~alleinverdiener_paar)
+    cond_steuerklasse4 = (gemeinsam_veranlagt_tu) & (~alleinverdiener_paar)
     cond_steuerklasse5 = alleinverdiener_paar & (
         bruttolohn_m <= einkommensgrenze_zweitverdiener / 12
     )

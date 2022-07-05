@@ -172,7 +172,7 @@ def bmf_collect(inc, outvar, faktorverfahren, faktor, n_kinder, stkl, jahr):
 
 
 def gen_lohnsteuer_test():
-    """ Calls the BMF API to generate correct lohnsteuer payments"""
+    """Calls the BMF API to generate correct lohnsteuer payments"""
 
     hh = pd.DataFrame(
         {
@@ -249,9 +249,7 @@ def test_steuerklassen():
             "alter": [30, 30, 30, 30, 50, 50, 8],
             "kind": [False, False, False, False, False, False, True],
             "bruttolohn_m": [2000, 2000, 2000, 2000, 0, 2000, 0],
-            "gemeinsam_veranlagt": [False, True, True, True, True, False, False],
             "steuerklasse": [1, 4, 4, 3, 5, 2, 2],
-            "alleinerziehend": [False, False, False, False, False, True, True],
         }
     )
     result = compute_taxes_and_transfers(
@@ -259,7 +257,6 @@ def test_steuerklassen():
         params=policy_params,
         functions=policy_functions,
         targets=["steuerklasse"],
-        columns_overriding_functions=["gemeinsam_veranlagt"],
     )
 
     assert_series_equal(df["steuerklasse"], result["steuerklasse"])
