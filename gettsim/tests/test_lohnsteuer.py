@@ -248,6 +248,7 @@ def test_steuerklassen():
             "hh_id": [1, 2, 2, 3, 3, 4, 4],
             "alter": [30, 30, 30, 30, 50, 50, 8],
             "kind": [False, False, False, False, False, False, True],
+            "alleinerz": [False, False, False, False, False, True, True],
             "bruttolohn_m": [2000, 2000, 2000, 2000, 0, 2000, 0],
             "steuerklasse": [1, 4, 4, 3, 5, 2, 2],
         }
@@ -256,7 +257,7 @@ def test_steuerklassen():
         data=df.drop(columns=["steuerklasse"]),
         params=policy_params,
         functions=policy_functions,
-        targets=["steuerklasse"],
+        targets=["steuerklasse_tu"],
     )
 
     assert_series_equal(df["steuerklasse"], result["steuerklasse"])

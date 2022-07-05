@@ -24,7 +24,6 @@ def lohn_st_eink(
     -------
 
     """
-    # WHY IS THIS 1908??
     entlastung_freibetrag_alleinerz = (steuerklasse == 2) * eink_st_abzuege_params[
         "alleinerz_freibetrag"
     ]
@@ -244,8 +243,7 @@ def vorsorgepauschale_2005_2010() -> float:
     return out
 
 
-def steuerklasse(
-    tu_id: int,
+def steuerklasse_tu(
     gemeinsam_veranlagt_tu: bool,
     alleinerz_tu: bool,
     bruttolohn_m: float,
@@ -276,8 +274,6 @@ def steuerklasse(
 
     Parameters
     ----------
-    tu_id: int
-        See basic input variable :ref:`tu_id <tu_id>`.
     gemeinsam_veranlagt_tu: bool
         Return of :func:`gemeinsam_veranlagt_tu`.
     alleinerz_tu: bool
@@ -295,8 +291,8 @@ def steuerklasse(
         The steuerklasse for each person in the tax unit
     """
 
-    bruttolohn_max = bruttolohn_m.groupby(tu_id).max()
-    bruttolohn_min = bruttolohn_m.groupby(tu_id).min()
+    bruttolohn_max = max(bruttolohn_m)
+    bruttolohn_min = min(bruttolohn_m)
 
     einkommensgrenze_zweitverdiener = (
         eink_st_params["eink_st_tarif"]["thresholds"][1]
