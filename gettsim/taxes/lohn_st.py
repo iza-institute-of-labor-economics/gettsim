@@ -76,8 +76,7 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
     Base for Lohnsteuer for Steuerklasse 5 and 6
     """
 
-    taxable_inc = taxable_inc.copy()
-    lohnsteuer_klasse5_6_basis = max(
+    out = max(
         2
         * (
             _eink_st_tarif(taxable_inc * 1.25, eink_st_params)
@@ -86,14 +85,13 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
         taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
-    return lohnsteuer_klasse5_6_basis
+    return out
 
 
 def lohn_st(
     lohn_st_eink: float,
     eink_st_params: dict,
     steuerklasse: int,
-    _lohnsteuer_klasse5_6_basis: float,
 ) -> float:
     """
     Calculates Lohnsteuer = withholding tax on earnings,
@@ -106,7 +104,7 @@ def lohn_st(
 
     1,2,4: Standard tariff (§32a (1) EStG)
     3: Splitting tariff (§32a (5) EStG)
-    5,6,: Take twice the difference between applying the tariff on 5/4 and 3/4
+    5,6: Take twice the difference between applying the tariff on 5/4 and 3/4
           of taxable income. Tax rate may not be lower than the
           starting statutory one.
     Parameters
@@ -115,10 +113,8 @@ def lohn_st(
         See :func:`lohn_st_eink`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`
-    lohnsteuer_klasse5_6_basis
-        See :func:`lohnsteuer_klasse5_6_basis`.
-    steuerklasse
-
+    steuerklasse:
+        See :func:`steuerklasse`
 
     Returns
     -------
@@ -129,9 +125,9 @@ def lohn_st(
     lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohn_st_eink / 2, eink_st_params)
     lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis(lohn_st_eink, eink_st_params)
 
-    grenze_1 = eink_st_params["lohn_st_einkommensgrenzen"][1]
-    grenze_2 = eink_st_params["lohn_st_einkommensgrenzen"][2]
-    grenze_3 = eink_st_params["lohn_st_einkommensgrenzen"][3]
+    grenze_1 = int(eink_st_params["eink_st_tarif"]["rates"][0][1])
+    grenze_2 = int(eink_st_params["eink_st_tarif"]["rates"][0][2])
+    grenze_3 = int(eink_st_params["eink_st_tarif"]["rates"][0][3])
 
     if lohn_st_eink < grenze_1:
         lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis

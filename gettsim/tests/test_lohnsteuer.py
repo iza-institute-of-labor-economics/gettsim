@@ -269,7 +269,7 @@ def test_lohnsteuer(input_data, year, column, reload_test_data=False):
 
     year_data = input_data[input_data["year"] == year]
     df = year_data[INPUT_COLS].copy()
-    df["alleinerziehend"] = df["steuerklasse"] == 2
+    df["alleinerz"] = df["steuerklasse"] == 2
     df["wohnort_ost"] = False
     df["jahr_renteneintr"] = 2060
     df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
