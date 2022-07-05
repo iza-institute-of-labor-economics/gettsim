@@ -196,6 +196,7 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     selbstständig: bool,
     in_priv_krankenv: bool,
     soz_vers_beitr_params: dict,
+    _ges_krankenv_beitr_bemess_grenze_m: float,
 ) -> float:
     """Choose the amount of self-employed income which is subject to health insurance
     contributions.
@@ -215,6 +216,8 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
         See basic input variable :ref:`in_priv_krankenv <in_priv_krankenv>`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    _ges_krankenv_beitr_bemess_grenze_m
+        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
 
     Returns
     -------
@@ -222,21 +225,12 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     """
     # Calculate if self employed insures via public health insurance.
     if selbstständig and not in_priv_krankenv:
-        bezugsgröße_selbstv_m = _ges_krankenv_bezugsgröße_selbst_m
         min_eink_selbst_m = _ges_krankenv_bezugsgröße_selbst_m/90*30
         eink_selbst_selbstv_m = max(min_eink_selbst_m,eink_selbst_m)
     else:
-        bezugsgröße_selbstv_m = 0.0
-        eink_selbst_selbstv_m = 0.0
+        out= 0.0
 
-    anteil_ges_krankenv_bezugsgröße_selbst_m = (
-        soz_vers_beitr_params["bezugsgröße_selbst_anteil"] * bezugsgröße_selbstv_m
-    )
-
-    if eink_selbst_selbstv_m > anteil_ges_krankenv_bezugsgröße_selbst_m:
-        out = anteil_ges_krankenv_bezugsgröße_selbst_m
-    else:
-        out = eink_selbst_selbstv_m
+    out = min(_ges_krankenv_beitr_bemess_grenze_m,eink_selbst_selbstv_m) 
     return out
 
 

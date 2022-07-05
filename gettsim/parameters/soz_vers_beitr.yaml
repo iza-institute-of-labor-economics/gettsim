@@ -641,17 +641,6 @@ bezugsgröße_selbst_m:
     ost: 3150
     reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
 
-bezugsgröße_selbst_anteil:
-  name:
-    de: Einkommensbezugsgröße für Selbständige
-    en: Reference size of income for selfemployed
-  description:
-    de: Maximale Bezugsgröße des Einkommens in der gesetzlichen Krankenversicherung für Selbständige
-    en: Maximum amount of income which is subject to health insurance contribution for selfemployed
-  unit: Share
-  1984-01-01:
-    scalar: 0.75
-
 geringfügige_eink_grenzen_m:
   name:
     de: Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
