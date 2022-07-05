@@ -151,7 +151,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
         + anteile["kinder_14_24"] * anz_kinder_ab_14_bis_24_hh
     )
 
-    return out
+    return float(out)
 
 
 def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
@@ -186,7 +186,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
         + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
     )
 
-    return out
+    return float(out)
 
 
 def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
