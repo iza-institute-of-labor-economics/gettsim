@@ -223,7 +223,8 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     # Calculate if self employed insures via public health insurance.
     if selbstständig and not in_priv_krankenv:
         bezugsgröße_selbstv_m = _ges_krankenv_bezugsgröße_selbst_m
-        eink_selbst_selbstv_m = eink_selbst_m
+        min_eink_selbst_m = _ges_krankenv_bezugsgröße_selbst_m/90*30
+        eink_selbst_selbstv_m = max(min_eink_selbst_m,eink_selbst_m)
     else:
         bezugsgröße_selbstv_m = 0.0
         eink_selbst_selbstv_m = 0.0
