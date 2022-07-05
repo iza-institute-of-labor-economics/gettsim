@@ -268,7 +268,7 @@ def test_lohnsteuer(input_data, year, column, reload_test_data=False):
     if reload_test_data:
         gen_lohnsteuer_test()
 
-    year_data = input_data[input_data["year"] == year]
+    year_data = input_data[input_data["year"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     df["alleinerz"] = df["steuerklasse"] == 2
     df["wohnort_ost"] = False
@@ -283,7 +283,6 @@ def test_lohnsteuer(input_data, year, column, reload_test_data=False):
         params=policy_params,
         functions=policy_functions,
         targets=[column],
-        columns_overriding_functions="steuerklasse",
     )
 
     assert_series_equal(

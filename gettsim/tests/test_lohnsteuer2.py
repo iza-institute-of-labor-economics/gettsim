@@ -149,6 +149,6 @@ def test_lohnsteuer_2(input_data, year, column):
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=["steuerklasse", "anz_kinder_mit_kindergeld_tu"],
+        columns_overriding_functions=["anz_kinder_mit_kindergeld_tu"],
     )
     assert_series_equal(result[column], input_data[column], check_dtype=False)
