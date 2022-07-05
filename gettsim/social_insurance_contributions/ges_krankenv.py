@@ -227,10 +227,11 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     if selbstständig and not in_priv_krankenv:
         min_eink_selbst_m = _ges_krankenv_bezugsgröße_selbst_m/90*30
         eink_selbst_selbstv_m = max(min_eink_selbst_m,eink_selbst_m)
+        out = min(_ges_krankenv_beitr_bemess_grenze_m,eink_selbst_selbstv_m)
+        
     else:
         out= 0.0
 
-    out = min(_ges_krankenv_beitr_bemess_grenze_m,eink_selbst_selbstv_m) 
     return out
 
 
