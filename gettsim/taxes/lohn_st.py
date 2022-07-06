@@ -124,9 +124,9 @@ def lohn_st(
     lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohn_st_eink / 2, eink_st_params)
     lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis(lohn_st_eink, eink_st_params)
 
-    grenze_1 = eink_st_params["lohn_st_einkommensgrenzen"][1]
-    grenze_2 = eink_st_params["lohn_st_einkommensgrenzen"][2]
-    grenze_3 = eink_st_params["lohn_st_einkommensgrenzen"][3]
+    grenze_1 = eink_st_params["lohn_st_einkommensgrenzen"]["threshold"][1]
+    grenze_2 = eink_st_params["lohn_st_einkommensgrenzen"]["threshold"][2]
+    grenze_3 = eink_st_params["lohn_st_einkommensgrenzen"]["threshold"][3]
 
     if lohn_st_eink < grenze_1:
         lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis
