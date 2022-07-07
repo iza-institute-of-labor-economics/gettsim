@@ -26,6 +26,9 @@ dependencies:
   - sphinx-automodapi
   - sphinx-copybutton
   - sphinx_rtd_theme
+
+
   - pip:
+    - plotly
     - bump2version
     - -e .

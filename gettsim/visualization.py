@@ -22,6 +22,250 @@ from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 
 
+def plot_dag(
+    functions,
+    targets=None,
+    columns_overriding_functions=None,
+    check_minimal_specification="ignore",
+    selectors=None,
+    orientation="v",
+    show_labels=True,
+    show_legend=False,
+    hover_info=False,
+):
+    """Plot the dag of the tax and transfer system. Note that if 10 or less nodes are
+    plotted, labels are always displayed.
+
+    Parameters
+    ----------
+    functions : str, pathlib.Path, callable, module, imports statements, dict
+        Functions can be anything of the specified types and a list of the same objects.
+        If the object is a dictionary, the keys of the dictionary are used as a name
+        instead of the function name. For all other objects, the name is inferred from
+        the function name.
+    targets : str, list of str
+        String or list of strings with names of functions whose output is actually
+        needed by the user.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
+    selectors : str or list of str or dict or list of dict or list of str and dict
+        Selectors allow to you to select and de-select nodes in the graph for
+        visualization. For the full list of options, see the tutorial about
+        `visualization <../docs/tutorials/visualize.ipynb>`_. By default, all nodes are
+        shown.
+    orientation :str,default "v"
+         Whether the graph is horizontal or vertical
+    show_labels : bool, default True
+        Whether the graph is annotated with labels.
+    show_legend: bool, default False
+        Whether the graph include legend.
+    hover_info: bool, default as false
+        Experimental feature which makes the source code of the functions or tbe node
+        names or none accessible as a hover information. Sometimes, the tooltip is not
+        properly displayed.
+
+    """
+    targets = DEFAULT_TARGETS if targets is None else targets
+    targets = parse_to_list_of_strings(targets, "targets")
+    columns_overriding_functions = parse_to_list_of_strings(
+        columns_overriding_functions, "columns_overriding_functions"
+    )
+
+    # Load functions and perform checks.
+    functions, internal_functions = load_user_and_internal_functions(functions)
+
+    # Create one dictionary of functions and perform check.
+    user_and_internal_functions = {**internal_functions, **functions}
+
+    # Create and add aggregation functions
+    typical_data_cols = list(TYPES_INPUT_VARIABLES)
+    aggregation_funcs = _create_aggregation_functions(
+        user_and_internal_functions,
+        targets,
+        typical_data_cols,
+        user_provided_aggregation_specs={},
+    )
+    all_functions = {**user_and_internal_functions, **aggregation_funcs}
+
+    all_functions = {
+        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
+    }
+
+    _fail_if_targets_not_in_functions_or_override_columns(
+        all_functions, targets, columns_overriding_functions
+    )
+
+    # Partial parameters to functions such that they disappear in the DAG.
+    all_functions = _mock_parameters_arguments(all_functions)
+    dag = create_dag(
+        all_functions,
+        targets,
+        columns_overriding_functions,
+        check_minimal_specification,
+    )
+
+    selectors = [] if selectors is None else _to_list(selectors)
+    dag = _select_nodes_in_dag(dag, selectors)
+    dag = _add_url_to_dag(dag)
+    # Even if we do not show the source codes , we need to remove the functions.
+    dag = _replace_functions_with_source_code(dag)
+    layout_df = _create_pydot_layout(dag, orientation)
+    # prepare for the nodes dataframe including their url
+    names = layout_df.index
+    node_x_coord = layout_df[0].values
+    node_y_coord = layout_df[1].values
+    url = []
+    for x in names:
+        url.append(dag.nodes[x]["url"])
+    url = np.array(url)
+    codes = []
+
+    for x in names:
+        codes.append(dag.nodes[x]["source_code"])
+
+    combo = pd.DataFrame(
+        {"x": node_x_coord, "y": node_y_coord, "url": url, "source_code": codes}
+    )
+    combo.source_code = combo.source_code.str.split("\n").str.join("<br>")
+
+    # prepare for the edges dataframe
+    df = pd.DataFrame(list(dag.edges))
+    if len(df) == 0:
+        df["x0"] = 0
+        df["y0"] = 0
+    else:
+        df["x0"] = df[0].map(layout_df[0])
+        df["y0"] = df[0].map(layout_df[1])
+        df["x1"] = df[1].map(layout_df[0])
+        df["y1"] = df[1].map(layout_df[1])
+    df["None"] = ""
+    if len(df) == 0:
+        edge_x = []
+        edge_y = []
+    else:
+        edge_x = df[["x0", "x1", "None"]].apply(tuple, axis=1).tolist()
+        edge_x = list(reduce(operator.concat, edge_x))
+        edge_y = df[["y0", "y1", "None"]].apply(tuple, axis=1).tolist()
+        edge_y = list(reduce(operator.concat, edge_y))
+    # prepare for the arrows
+    arrows = []
+    for i in range(len(df)):
+        arrow = go.layout.Annotation(
+            x=df["x1"][i],
+            y=df["y1"][i],
+            xref="x",
+            yref="y",
+            text="",
+            showarrow=True,
+            axref="x",
+            ayref="y",
+            ax=df["x0"][i],
+            ay=df["y0"][i],
+            arrowhead=2,
+            arrowsize=2,
+            startstandoff=5,
+            standoff=5,
+            arrowcolor="gray",
+        )
+        arrows.append(arrow)
+
+    # plot the nodes, edges and arrows together
+
+    fig = go.FigureWidget(
+        layout=go.Layout(
+            showlegend=True,
+            hovermode="closest",
+            clickmode="select",
+            annotations=arrows,
+            hoverlabel_font_size=10,
+            margin={"b": 20, "l": 5, "r": 5, "t": 40},
+            xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+            yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+        )
+    )
+    fig.add_scatter(
+        x=edge_x,
+        y=edge_y,
+        line={"width": 0.5, "color": "blue"},
+        hoverinfo="none",
+        mode="lines",
+        showlegend=False,
+    )
+    # choose the different option for plotting
+
+    if (len(names) > 10) or (show_labels is False):
+        mode = "markers"
+        fig.add_scatter(
+            x=combo.x,
+            y=combo.y,
+            mode=mode,
+            hoverinfo="text",
+            textposition="bottom center",
+            text=list(names),
+            showlegend=show_legend,
+            marker={
+                "showscale": False,
+                "reversescale": True,
+                "color": "red",
+                "size": 15,
+            },
+        )
+
+    elif (len(names) <= 10) or ((len(names) > 10) and (show_labels is True)):
+        mode = "markers+text"
+
+    elif (len(names) > 10) and (show_labels is True):
+        mode = "markers +text"
+
+    if hover_info is True:
+        for i in range(len(combo)):
+            fig.add_scatter(
+                x=[combo.x[i]],
+                y=[combo.y[i]],
+                mode=mode,
+                hovertext=combo.source_code[i],
+                hoverinfo="text",
+                textposition="bottom center",
+                hoverlabel={"bgcolor": "lightgrey", "font": {"color": "black"}},
+                text=names[i],
+                showlegend=False,
+                name=names[i],
+                marker={
+                    "showscale": False,
+                    "reversescale": True,
+                    "color": "red",
+                    "size": 15,
+                },
+            )
+
+    elif hover_info is False:
+        fig.add_scatter(
+            x=combo.x,
+            y=combo.y,
+            mode=mode,
+            hoverinfo="skip",
+            textposition="bottom center",
+            text=list(names),
+            showlegend=False,
+            marker={
+                "showscale": False,
+                "reversescale": True,
+                "color": "red",
+                "size": 15,
+            },
+        )
+    else:
+
+        raise ValueError("Please choose between True or False for hover_info")
+
+    fig.show()
+    return fig
+
+
 def _mock_parameters_arguments(functions):
     """Mock the parameter arguments.
 
@@ -331,246 +575,3 @@ def _kth_order_successors(dag, node, order):
     if 1 <= order:
         for successor in dag.successors(node):
             yield from _kth_order_successors(dag, successor, order=order - 1)
-
-
-def plot_dag(
-    functions,
-    source_code=False,
-    targets=None,
-    columns_overriding_functions=None,
-    check_minimal_specification="ignore",
-    selectors=None,
-    orientation="v",
-    showlabels=True,
-    showlegend=False,
-):
-    """Plot the dag of the tax and transfer system.
-
-    Parameters
-    ----------
-    functions : str, pathlib.Path, callable, module, imports statements, dict
-        Functions can be anything of the specified types and a list of the same objects.
-        If the object is a dictionary, the keys of the dictionary are used as a name
-        instead of the function name. For all other objects, the name is inferred from
-        the function name.
-    source_code str,
-        Experimental feature which makes the source code of the functions or tbe node
-        names or none accessible as a hover information. Sometimes, the tooltip is not
-        properly displayed.
-    targets : str, list of str
-        String or list of strings with names of functions whose output is actually
-        needed by the user.
-    columns_overriding_functions : str list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimal configuration should
-        be silenced, emitted as warnings or errors.
-    selectors : str or list of str or dict or list of dict or list of str and dict
-        Selectors allow to you to select and de-select nodes in the graph for
-        visualization. For the full list of options, see the tutorial about
-        `visualization <../docs/tutorials/visualize.ipynb>`_. By default, all nodes are
-        shown.
-    orientation :str,default "v"
-        decide whether the graph is horizontal or vertical
-    showlabels : bool, default True
-        Annotate the graph with labels.
-    showlegend: bool, default False
-        Include legend in a graph
-
-    """
-    targets = DEFAULT_TARGETS if targets is None else targets
-    targets = parse_to_list_of_strings(targets, "targets")
-    columns_overriding_functions = parse_to_list_of_strings(
-        columns_overriding_functions, "columns_overriding_functions"
-    )
-
-    # Load functions and perform checks.
-    functions, internal_functions = load_user_and_internal_functions(functions)
-
-    # Create one dictionary of functions and perform check.
-    user_and_internal_functions = {**internal_functions, **functions}
-
-    # Create and add aggregation functions
-    typical_data_cols = list(TYPES_INPUT_VARIABLES)
-    aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions,
-        targets,
-        typical_data_cols,
-        user_provided_aggregation_specs={},
-    )
-    all_functions = {**user_and_internal_functions, **aggregation_funcs}
-
-    all_functions = {
-        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
-    }
-
-    _fail_if_targets_not_in_functions_or_override_columns(
-        all_functions, targets, columns_overriding_functions
-    )
-
-    # Partial parameters to functions such that they disappear in the DAG.
-    all_functions = _mock_parameters_arguments(all_functions)
-    dag = create_dag(
-        all_functions,
-        targets,
-        columns_overriding_functions,
-        check_minimal_specification,
-    )
-
-    selectors = [] if selectors is None else _to_list(selectors)
-    dag = _select_nodes_in_dag(dag, selectors)
-    dag = _add_url_to_dag(dag)
-    # Even if we do not show the source codes , we need to remove the functions.
-    dag = _replace_functions_with_source_code(dag)
-    layout_df = _create_pydot_layout(dag, orientation)
-    # prepare for the nodes dataframe including their url
-    names = layout_df.index
-    node_x_coord = layout_df[0].values
-    node_y_coord = layout_df[1].values
-    url = []
-    for x in names:
-        url.append(dag.nodes[x]["url"])
-    url = np.array(url)
-    codes = []
-
-    for x in names:
-        codes.append(dag.nodes[x]["source_code"])
-
-    combo = pd.DataFrame(
-        {"x": node_x_coord, "y": node_y_coord, "url": url, "source_code": codes}
-    )
-    combo.source_code = combo.source_code.str.split("\n").str.join("<br>")
-
-    # prepare for the edges dataframe
-    df = pd.DataFrame(list(dag.edges))
-    if len(df) == 0:
-        df["x0"] = 0
-        df["y0"] = 0
-    else:
-        df["x0"] = df[0].map(layout_df[0])
-        df["y0"] = df[0].map(layout_df[1])
-        df["x1"] = df[1].map(layout_df[0])
-        df["y1"] = df[1].map(layout_df[1])
-    df["None"] = np.nan
-    if len(df) == 0:
-        edge_x = []
-        edge_y = []
-    else:
-        edge_x = df[["x0", "x1", "None"]].apply(tuple, axis=1).tolist()
-        edge_x = list(reduce(operator.concat, edge_x))
-        edge_y = df[["y0", "y1", "None"]].apply(tuple, axis=1).tolist()
-        edge_y = list(reduce(operator.concat, edge_y))
-    # prepare for the arrows
-    arrows = []
-    for i in range(len(df)):
-        arrow = go.layout.Annotation(
-            x=df["x1"][i],
-            y=df["y1"][i],
-            xref="x",
-            yref="y",
-            text="",
-            showarrow=True,
-            axref="x",
-            ayref="y",
-            ax=df["x0"][i],
-            ay=df["y0"][i],
-            arrowhead=2,
-            arrowsize=2,
-            startstandoff=5,
-            standoff=5,
-            arrowcolor="gray",
-        )
-        arrows.append(arrow)
-
-    # plot the nodes, edges and arrows together
-
-    fig = go.FigureWidget(
-        layout=go.Layout(
-            showlegend=True,
-            hovermode="closest",
-            clickmode="select",
-            annotations=arrows,
-            hoverlabel_font_size=10,
-            margin={"b": 20, "l": 5, "r": 5, "t": 40},
-            xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
-            yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
-        )
-    )
-    fig.add_scatter(
-        x=edge_x,
-        y=edge_y,
-        line={"width": 0.5, "color": "blue"},
-        hoverinfo="none",
-        mode="lines",
-        showlegend=False,
-    )
-    # choose the different option for plotting
-
-    if (len(names) > 10) or (showlabels is False):
-        mode = "markers"
-        fig.add_scatter(
-            x=combo.x,
-            y=combo.y,
-            mode=mode,
-            hoverinfo="text",
-            textposition="bottom center",
-            text=list(names),
-            showlegend=showlegend,
-            marker={
-                "showscale": False,
-                "reversescale": True,
-                "color": "red",
-                "size": 15,
-            },
-        )
-
-    elif (len(names) <= 10) or ((len(names) > 10) and (showlabels is True)):
-        mode = "markers+text"
-
-    elif (len(names) > 10) and (showlabels is True):
-        mode = "markers +text"
-
-    if source_code is True:
-        for i in range(len(combo)):
-            fig.add_scatter(
-                x=[combo.x[i]],
-                y=[combo.y[i]],
-                mode=mode,
-                hovertext=combo.source_code[i],
-                hoverinfo="text",
-                textposition="bottom center",
-                hoverlabel={"bgcolor": "lightgrey", "font": {"color": "black"}},
-                text=names[i],
-                showlegend=False,
-                name=names[i],
-                marker={
-                    "showscale": False,
-                    "reversescale": True,
-                    "color": "red",
-                    "size": 15,
-                },
-            )
-
-    elif source_code is False:
-        fig.add_scatter(
-            x=combo.x,
-            y=combo.y,
-            mode=mode,
-            hoverinfo="skip",
-            textposition="bottom center",
-            text=list(names),
-            showlegend=False,
-            marker={
-                "showscale": False,
-                "reversescale": True,
-                "color": "red",
-                "size": 15,
-            },
-        )
-    else:
-
-        raise ValueError("Please choose right argument specification")
-
-    fig.show()
-    return fig

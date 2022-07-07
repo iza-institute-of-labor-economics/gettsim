@@ -5,6 +5,12 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
+0.5.3 — 2022-07-02
+------------------
+* :gh:`403`  Replace `Bokeh` with `plotly` for visualization.
+  (:ghuser:`effieHAN`,:ghuser:`sofyaakimova`).
+
+
 0.5.2 —
 ------------------
 * :gh:`323` Health care contribution parameters are better aligned with law.
