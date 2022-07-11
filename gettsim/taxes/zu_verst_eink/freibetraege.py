@@ -32,7 +32,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     # Select appropriate pauschbetrag.
     out = eink_st_abzuege_params["behinderten_pauschbetrag"][selected_bin]
 
-    return out
+    return float(out)
 
 
 def eink_st_alleinerz_freib_tu_bis_2014(
@@ -230,7 +230,7 @@ def eink_st_sonderausgaben_bis_2011(
     else:
         out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
-    return out
+    return float(out)
 
 
 @add_rounding_spec(params_key="eink_st_abzuege")
@@ -266,7 +266,7 @@ def sonderausgaben_betreuung(
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
     ) / anz_erwachsene_tu
 
-    return out
+    return float(out)
 
 
 def eink_st_sonderausgaben_ab_2012(
@@ -301,7 +301,7 @@ def eink_st_sonderausgaben_ab_2012(
     else:
         out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
-    return out
+    return float(out)
 
 
 def eink_st_kinderfreib_tu(
@@ -327,4 +327,4 @@ def eink_st_kinderfreib_tu(
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
     out = kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
-    return out
+    return float(out)
