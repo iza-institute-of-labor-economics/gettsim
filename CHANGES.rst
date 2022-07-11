@@ -9,6 +9,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
 ------------------
 * :gh:`403`  Replace `Bokeh` with `plotly` for visualization.
   (:ghuser:`effieHAN`,:ghuser:`sofyaakimova`).
+* :gh:`406`  Changed variable name from `vermögen_hh` to `vermögen_bedürft_hh`.
+  (:ghuser:`LauraGergeleit`).
 
 
 0.5.2 —
