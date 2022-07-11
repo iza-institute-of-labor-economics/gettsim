@@ -61,7 +61,7 @@ TYPES_INPUT_VARIABLES = {
     "hh_id": int,
     "tu_id": int,
     "p_id": int,
-    "vermögen_hh": float,
+    "vermögen_bedürft_hh": float,
     "bruttolohn_m": float,
     "alter": int,
     "selbstständig": bool,
