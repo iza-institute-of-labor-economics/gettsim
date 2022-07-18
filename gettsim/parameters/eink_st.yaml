@@ -255,11 +255,11 @@ lohn_st_einkommensgrenzen:
   unit: Euros
   2022-01-01:
     0:
-      threshold: 11793
+      lower_threshold: 11793
     1:
-      threshold: 29298
+      lower_threshold: 29298
     2:
-      threshold: 222260
+      lower_threshold: 222260
 
 
 rounding:

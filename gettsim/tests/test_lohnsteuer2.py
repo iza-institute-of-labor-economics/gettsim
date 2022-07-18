@@ -13,12 +13,14 @@ INPUT_COLS = [
     "hh_id",
     "tu_id",
     "p_id",
-    "anz_kinder_mit_kindergeld_tu",
+    "eink_st_kinderfreib_tu",
     "wohnort_ost",
     "steuerklasse",
     "bruttolohn_m",
     "alter",
     "hat_kinder",
+    "arbeitsstunden_w",
+    "in_ausbildung",
 ]
 
 OUT_COLS = [
@@ -91,7 +93,7 @@ def input_data():
     test_data["tu_id"] = test_data["p_id"]
     test_data["hh_id"] = test_data["p_id"]
 
-    # Create variables needed for GETTSIM (unclear reason)
+    # Create variables needed for GETTSIM (not sure why GETTSIM requires them)
     test_data["alter"] = 25
     test_data.loc[test_data["wohnort_ost"] == 0, "wohnort_ost"] = False
     test_data.loc[test_data["wohnort_ost"] == 1, "wohnort_ost"] = True
@@ -99,6 +101,8 @@ def input_data():
     test_data.loc[test_data["anz_kinder_mit_kindergeld_tu"] == 0, "hat_kinder"] = False
     test_data.loc[test_data["anz_kinder_mit_kindergeld_tu"] > 0, "hat_kinder"] = True
     test_data["hat_kinder"] = test_data["hat_kinder"].astype(bool)
+    test_data["arbeitsstunden_w"] = 40
+    test_data["in_ausbildung"] = False
 
     # Transform cent values to full Euros
     test_data["lst_wage"] = test_data["lst_wage"] / 100
@@ -135,6 +139,11 @@ def input_data():
             test_data[outvar] * 12
         )
 
+    # Provisionally, calculate amount of claimed Kinderfreibeträge outside of Gettsim
+    test_data["eink_st_kinderfreib_tu"] = (
+        test_data["anz_kinder_mit_kindergeld_tu"] * (2730 + 1464) * 2
+    )
+
     return test_data
 
 
@@ -149,6 +158,6 @@ def test_lohnsteuer_2(input_data, year, column):
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=["anz_kinder_mit_kindergeld_tu"],
+        columns_overriding_functions=["eink_st_kinderfreib_tu"],
     )
     assert_series_equal(result[column], input_data[column], check_dtype=False)
