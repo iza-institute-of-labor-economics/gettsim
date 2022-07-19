@@ -282,11 +282,15 @@ def ges_rente_zugangsfaktor(
         # we need both  diff_volle_rente and diff_longterm_pension_age here!
         # Zugangsfaktor >1: if retired after ges_rente_regelaltersgrenze
         # Zugangsfaktor =1: if retired between [FRA, NRA]
-        if diff_volle_rente < 0:
+        # Note: Not yet implemented a feasibility check  - if person retires early but
+        # is not women or long term insured it will calculate very high penalty
+        # (pensionage 9000) this may happen if person is disabled or unemployed
+        # before retirement - not implemented yet.
+        if diff_volle_rente < 0:  # [ERA,FRA)
             out = 1 + diff_longterm_pension_age * faktor_pro_jahr_vorzeitig
-        elif diff_regelrente > 0:
+        elif diff_regelrente > 0:  # [NRA, inf]
             out = 1 + diff_regelrente * faktor_pro_jahr_später
-        else:
+        else:  # [FRA,NRA]
             out = 1
         out = max(out, 0.0)
     # Return 0 if person not yet retired
