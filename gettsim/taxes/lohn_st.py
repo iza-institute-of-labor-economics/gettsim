@@ -90,6 +90,7 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
 def lohn_st(
     lohn_st_eink: float,
     eink_st_params: dict,
+    lohn_st_params: dict,
     steuerklasse: int,
 ) -> float:
     """
@@ -112,6 +113,8 @@ def lohn_st(
         See :func:`lohn_st_eink`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`
+    lohn_st_params
+        See params documentation :ref:`lohn_st_params <lohn_st_params>`
     steuerklasse:
         See :func:`steuerklasse`
 
@@ -124,9 +127,9 @@ def lohn_st(
     lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohn_st_eink / 2, eink_st_params)
     lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis(lohn_st_eink, eink_st_params)
 
-    grenze_1 = eink_st_params["lohn_st_einkommensgrenzen"]["threshold"][0]
-    grenze_2 = eink_st_params["lohn_st_einkommensgrenzen"]["threshold"][1]
-    grenze_3 = eink_st_params["lohn_st_einkommensgrenzen"]["threshold"][2]
+    grenze_1 = lohn_st_params["lohn_st_einkommensgrenzen"]["threshold"][0]
+    grenze_2 = lohn_st_params["lohn_st_einkommensgrenzen"]["threshold"][1]
+    grenze_3 = lohn_st_params["lohn_st_einkommensgrenzen"]["threshold"][2]
 
     if lohn_st_eink < grenze_1:
         lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis

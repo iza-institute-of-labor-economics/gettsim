@@ -1,0 +1,21 @@
+lohn_st_einkommensgrenzen:
+    name:
+      de: Einkommensgrenzen für Steuerklasse 5 und 6
+      en: Thresholds for Steuerklasse 5 and 6
+    description:
+      de: Einkommensgrenzen für Steuerklasse 5 und 6, innerhalb derer Mindest- und Maximalsteuern festgelegt sind
+      en: Thresholds for Steuerklasse 5 and 6, where minimum and maximum tax rates apply
+    reference: § 39b Absatz 2 Satz 7 EStG
+    note:
+      de: >-
+        Nur für 2022 bis jetzt implementiert
+      en:
+    unit: Euros
+    reference_period: Year
+    2022-01-01:
+    0:
+      treshold: 11793
+    1:
+      treshold: 29298
+    2:
+      treshold: 222260
