@@ -30,7 +30,7 @@ aggregation_demographic_vars = {
 }
 
 
-def kind_bis_17(alter: int, kind: bool) -> int:
+def kind_bis_17(alter: int, kind: bool) -> bool:
     """Calculate if underage person.
 
     Parameters
@@ -48,7 +48,7 @@ def kind_bis_17(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_bis_6(alter: int, kind: bool) -> int:
+def kind_bis_6(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 7.
 
     Parameters
@@ -66,7 +66,7 @@ def kind_bis_6(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_bis_10(alter: int, kind: bool) -> int:
+def kind_bis_10(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 11.
 
     Parameters
@@ -84,7 +84,7 @@ def kind_bis_10(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_bis_13(alter: int, kind: bool) -> int:
+def kind_bis_13(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 14.
 
     Parameters
@@ -102,7 +102,7 @@ def kind_bis_13(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_bis_15(alter: int, kind: bool) -> int:
+def kind_bis_15(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 16.
 
     Parameters
@@ -120,7 +120,7 @@ def kind_bis_15(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_ab_7_bis_13(alter: int, kind: bool) -> int:
+def kind_ab_7_bis_13(alter: int, kind: bool) -> bool:
     """Calculate if child between 7 and 13 years old.
 
     Parameters
@@ -138,7 +138,7 @@ def kind_ab_7_bis_13(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_ab_14_bis_24(alter: int, kind: bool) -> int:
+def kind_ab_14_bis_24(alter: int, kind: bool) -> bool:
     """Calculate if child between 14 and 24 years old.
 
     Parameters
@@ -156,7 +156,7 @@ def kind_ab_14_bis_24(alter: int, kind: bool) -> int:
     return out
 
 
-def erwachsen(kind: bool) -> int:
+def erwachsen(kind: bool) -> bool:
     """Calculate if adult.
 
     Parameters
@@ -256,7 +256,7 @@ def jüngstes_kind_oder_mehrling(
     alter_monate: float,
     alter_monate_jüngstes_mitglied_hh: float,
     kind: bool,
-) -> int:
+) -> bool:
     """Check if person is the youngest child in the household or a twin, triplet, etc.
     of the youngest child.
 

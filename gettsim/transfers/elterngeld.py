@@ -458,4 +458,6 @@ def elterngeld_mehrlinge_bonus_m(
     -------
 
     """
-    return _elterngeld_anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]
+    return float(
+        _elterngeld_anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]
+    )

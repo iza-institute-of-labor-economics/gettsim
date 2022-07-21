@@ -27,7 +27,8 @@ from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
-from gettsim.typing import check_if_series_has_internal_type
+from gettsim.typing import check_series_has_expected_type
+from gettsim.typing import convert_series_to_internal_type
 
 
 class KeyErrorMessage(str):
@@ -216,7 +217,9 @@ def check_data_check_functions_and_merge_functions(
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
     )
-    _fail_if_datatype_is_false(data, columns_overriding_functions, all_functions)
+    data = _convert_data_to_correct_types(
+        data, columns_overriding_functions, all_functions
+    )
 
     # Remove functions that are overridden
     all_functions = {
@@ -312,8 +315,8 @@ def prepare_results(results, data, debug):
     return results
 
 
-def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
-    """Check if the provided data has the right types.
+def _convert_data_to_correct_types(data, columns_overriding_functions, functions):
+    """Convert all series of data to the type that is expected by GETTSIM.
 
     Parameters
     ----------
@@ -327,29 +330,62 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
 
     Returns
     -------
-    ValueError
-        Fail if the data types are not matching the required in gettsim.
+    data : dict of pandas.Series with correct type
 
     """
+    collected_errors = ["The data types of the following columns are invalid: \n"]
+    collected_conversions = [
+        "The data types of the following input variables have been converted: \n"
+    ]
+    general_warning = (
+        "Note that the automatic conversion of data types is unsafe and that"
+        " its correctness cannot be guaranteed."
+        " The best solution is to convert all columns to the expected data"
+        " types yourself."
+    )
     for column_name, series in data.items():
-        check_data = True
+
+        # Find out if internal_type is defined
+        internal_type = None
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
-            check_data = check_if_series_has_internal_type(series, internal_type)
         elif (
             column_name in columns_overriding_functions
             and "return" in functions[column_name].__annotations__
         ):
             internal_type = functions[column_name].__annotations__["return"]
-            check_data = check_if_series_has_internal_type(series, internal_type)
 
-        if not check_data:
-            raise ValueError(
-                f"The column {column_name} of your DataFrame has the "
-                f"dtype {series.dtype}. It has to be a {internal_type}. "
-                f"You can find more information on the gettsim types in "
-                f"the documentation."
-            )
+        # Make conversion if necessary
+        if internal_type and not check_series_has_expected_type(series, internal_type):
+            try:
+                data[column_name] = convert_series_to_internal_type(
+                    series, internal_type
+                )
+                collected_conversions.append(
+                    f" - {column_name} from {series.dtype} "
+                    f"to {internal_type.__name__}"
+                )
+
+            except ValueError as e:
+                collected_errors.append(f" - {column_name}: {e}")
+
+    # If any error occured raise Error
+    if len(collected_errors) > 1:
+        raise ValueError(
+            "\n".join(collected_errors) + "\n" + "\n" + "Note that conversion"
+            " from floating point to integers or Booleans inherently suffers from"
+            " approximation error. It might well be that your data seemingly obey the"
+            " restrictions when scrolling through them, but in fact they do not"
+            " (for example, because 1e-15 is displayed as 0.0)."
+            + "\n"
+            + "The best solution is to convert all columns"
+            " to the expected data types yourself."
+        )
+
+    # Otherwise raise warning which lists all sucessful conversions
+    elif len(collected_conversions) > 1:
+        warnings.warn("\n".join(collected_conversions) + "\n" + "\n" + general_warning)
+    return data
 
 
 def _process_data(data):
