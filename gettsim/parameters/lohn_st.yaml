@@ -13,9 +13,9 @@ lohn_st_einkommensgrenzen:
     unit: Euros
     reference_period: Year
     2022-01-01:
-    0:
-      treshold: 11793
-    1:
-      treshold: 29298
-    2:
-      treshold: 222260
+      0:
+        11793
+      1:
+        29298
+      2:
+        222260
