@@ -5,11 +5,6 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
-0.5.3 — 2022-07-02
-------------------
-* :gh:`403`  Replace `Bokeh` with `plotly` for visualization.
-  (:ghuser:`effieHAN`,:ghuser:`sofyaakimova`).
-
 
 0.5.2 —
 ------------------
@@ -22,6 +17,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   date (:ghuser:`m-pannier`, :ghuser:`lillyfischer`).
 * :gh:`393` normal retirement age adjustment aligned with the rules.
   (:ghuser:`TeBackh`).
+* :gh:`403`  Replace `Bokeh` with `plotly` for visualization.
+  (:ghuser:`effieHAN`,:ghuser:`sofyaakimova`).
 
 
 0.5.1 — 2022-04-21
