@@ -20,7 +20,8 @@ def _kinderzuschl_nach_vermög_check_m_hh(
     """
 
     if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_hh:
-        out = 0.0
+        diff = vermögen_bedürft_hh - arbeitsl_geld_2_vermög_freib_hh
+        out = max(_kinderzuschl_vor_vermög_check_m_hh - diff, 0.0)
     else:
         out = _kinderzuschl_vor_vermög_check_m_hh
     return out
