@@ -31,7 +31,7 @@ def plot_dag(
     orientation="v",
     show_labels=True,
     show_legend=False,
-    hover_info=False,
+    hover_source_code=False,
 ):
     """Plot the dag of the tax and transfer system. Note that if 10 or less nodes are
     plotted, labels are always displayed.
@@ -60,10 +60,13 @@ def plot_dag(
     orientation :str,default "v"
          Whether the graph is horizontal or vertical
     show_labels : bool, default True
-        Whether the graph is annotated with labels.
+        Whether the graph is annotated with labels. 
+        By default when number of nodes is smaller than 10 all names are displayed 
+        next to the node.  Otherwise, names are displayed next to the node only when 
+        hovering over it. 
     show_legend: bool, default False
         Whether the graph include legend.
-    hover_info: bool, default as false
+    hover_source_code: bool, default as false
         Experimental feature which makes the source code of the functions or tbe node
         names or none accessible as a hover information. Sometimes, the tooltip is not
         properly displayed.
@@ -177,7 +180,7 @@ def plot_dag(
 
     fig = go.FigureWidget(
         layout=go.Layout(
-            showlegend=True,
+            showlegend=show_legend,
             hovermode="closest",
             clickmode="select",
             annotations=arrows,
@@ -206,7 +209,7 @@ def plot_dag(
             hoverinfo="text",
             textposition="bottom center",
             text=list(names),
-            showlegend=show_legend,
+            showlegend=False,
             marker={
                 "showscale": False,
                 "reversescale": True,
@@ -217,11 +220,9 @@ def plot_dag(
 
     elif (len(names) <= 10) or ((len(names) > 10) and (show_labels is True)):
         mode = "markers+text"
+        
 
-    elif (len(names) > 10) and (show_labels is True):
-        mode = "markers +text"
-
-    if hover_info is True:
+    if hover_source_code:
         for i in range(len(combo)):
             fig.add_scatter(
                 x=[combo.x[i]],
@@ -232,7 +233,7 @@ def plot_dag(
                 textposition="bottom center",
                 hoverlabel={"bgcolor": "lightgrey", "font": {"color": "black"}},
                 text=names[i],
-                showlegend=False,
+                showlegend=show_legend,
                 name=names[i],
                 marker={
                     "showscale": False,
@@ -242,7 +243,7 @@ def plot_dag(
                 },
             )
 
-    elif hover_info is False:
+    elif not hover_source_code:
         fig.add_scatter(
             x=combo.x,
             y=combo.y,
@@ -260,7 +261,7 @@ def plot_dag(
         )
     else:
 
-        raise ValueError("Please choose between True or False for hover_info")
+        raise ValueError("Please choose between True or False for hover_source_code")
 
     fig.show()
     return fig
