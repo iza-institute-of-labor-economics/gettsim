@@ -1,12 +1,15 @@
 import networkx as nx
 import pytest
 
+from gettsim import set_up_policy_environment
 from gettsim.visualization import _get_selected_nodes
 from gettsim.visualization import _kth_order_neighbors
 from gettsim.visualization import _node_and_ancestors
 from gettsim.visualization import _node_and_descendants
 from gettsim.visualization import _select_nodes_in_dag
 from gettsim.visualization import plot_dag
+
+policy_params, policy_functions = set_up_policy_environment(date=2020)
 
 
 @pytest.mark.parametrize(
@@ -106,3 +109,16 @@ def test_select_nodes_in_dag(n_nodes, selectors, expected):
 def test_plot_dag():
     """Make sure that minimal example doesn't produce an error"""
     plot_dag(functions=[], targets=["erwachsene_alle_rentner_hh"])
+
+
+def test_one_dot_plot_dag():
+    """Make sure that the one dot graph example doesn't produce an error"""
+    selectors = "kapitaleink_brutto_tu"
+    plot_dag(functions=policy_functions, selectors=selectors)
+
+
+def test_10_dots_plot_dag():
+    """Make sure that when No.of nodes is larger than 10 or show_labels is false,
+    the graph example doesn't produce an error and hover information works properly"""
+    selector = {"type": "descendants", "node": "geringfügig_beschäftigt"}
+    plot_dag(functions=policy_functions, show_labels=False, selectors=selector)
