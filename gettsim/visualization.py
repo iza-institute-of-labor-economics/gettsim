@@ -38,10 +38,10 @@ def plot_dag(
     Parameters
     ----------
     functions : str, pathlib.Path, callable, module, imports statements, dict
-        Functions can be anything of the specified types and a list of the same objects.
-        If the object is a dictionary, the keys of the dictionary are used as a name
-        instead of the function name. For all other objects, the name is inferred from
-        the function name.
+        Functions can be anything of the specified types and a list of the same
+        objects. If the object is a dictionary, the keys of the dictionary are used as
+        a name instead of the function name. For all other objects, the name is
+        inferred from the function name.
     targets : str, list of str
         String or list of strings with names of functions whose output is actually
         needed by the user.
@@ -59,14 +59,13 @@ def plot_dag(
     orientation :str,default "v"
          Whether the graph is horizontal or vertical
     show_labels : bool, default True
-        Whether the graph is annotated with labels.
-        By default when number of nodes is smaller than 10 all names are displayed
-        next to the node.  Otherwise, names are displayed next to the node only when
-        hovering over it.
+        Whether the graph is annotated with labels next to each node, in case the
+        number of nodes is at most 10. Otherwise, names are displayed next to the node
+        only when hovering over it. For more than 10 nodes, this arguement is ignored
+        and the labels are always only shown when hovering over it.
     hover_source_code: bool, default as false
-        Experimental feature which makes the source code of the functions or tbe node
-        names or none accessible as a hover information. Sometimes, the tooltip is not
-        properly displayed.
+        Experimental feature which makes the source code of the functions accessible as
+        a hover information. Sometimes, the tooltip is not properly displayed.
 
     """
     targets = DEFAULT_TARGETS if targets is None else targets
