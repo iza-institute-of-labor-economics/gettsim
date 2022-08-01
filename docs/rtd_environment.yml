@@ -1,28 +1,23 @@
-name: gettsim
 channels:
   - conda-forge
 dependencies:
-  - bokeh
-  - ipywidgets
-  # Jinja2 3.1.0 breaks docs. Keep until nbconvert or Jinja2 fixes it.
-  - jinja2<3.1.0
-  - jupyterlab
-  - nbsphinx
-  - networkx
-  - numpy_groupies
-  - numpydoc
-  - pandas
-  - pip
-  - pydot
-  - pygments
-  - pytest
   - python
-  - pyyaml
-  - restructuredtext_lint
+  - bokeh
+  - black
+  - ipython
+  - nbsphinx
+  - numpydoc
+  - numpy_groupies
   - sphinx
-  - sphinx_rtd_theme
   - sphinx-automodapi
   - sphinx-copybutton
-  - pip:
-    - plotly
-    - -e .
+  - sphinx_rtd_theme
+  - ipython_genutils
+
+  # Modules necessary since sphinx-automodapi cannot mock modules. See
+  # https://github.com/astropy/sphinx-automodapi/issues/77.
+  - networkx
+  - numpy
+  - pandas
+  - pytest
+  - pyyaml
