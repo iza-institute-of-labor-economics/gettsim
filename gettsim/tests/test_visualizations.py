@@ -121,4 +121,25 @@ def test_10_dots_plot_dag():
     """Make sure that when No.of nodes is larger than 10 or show_labels is false,
     the graph example doesn't produce an error and hover information works properly"""
     selector = {"type": "descendants", "node": "geringfügig_beschäftigt"}
-    plot_dag(functions=policy_functions, show_labels=False, selectors=selector)
+    plot_dag(functions=policy_functions, selectors=selector, orientation="h")
+
+
+def test_horizontal_plot_dag():
+    """Make sure that when we choose horizontal orientation,
+    the graph example doesn't produce an error"""
+    plot_dag(
+        functions=policy_functions,
+        selectors=[{"node": "zu_verst_kapitaleink_tu", "type": "neighbors"}],
+        orientation="h",
+    )
+
+
+def test_hover_source_code_plot_dag():
+    """Make sure that when hover information is source code,
+    the graph example doesn't produce an error and works properly"""
+    plot_dag(
+        functions=policy_functions,
+        selectors=[{"node": "zu_verst_kapitaleink_tu", "type": "neighbors"}],
+        orientation="h",
+        hover_source_code=True,
+    )

@@ -61,7 +61,7 @@ def plot_dag(
     show_labels : bool, default True
         Whether the graph is annotated with labels next to each node, in case the
         number of nodes is at most 10. Otherwise, names are displayed next to the node
-        only when hovering over it. For more than 10 nodes, this arguement is ignored
+        only when hovering over it. For more than 10 nodes, this argument is ignored
         and the labels are always only shown when hovering over it.
     hover_source_code: bool, default as false
         Experimental feature which makes the source code of the functions accessible as
@@ -192,12 +192,16 @@ def plot_dag(
         mode="lines",
         showlegend=False,
     )
-    # choose the different option for plotting
+    # choose the different options for plotting
 
     if (len(names) > 10) or (show_labels is False):
+        # For more than 10 nodes or show_labels is False,
+        # the labels are shown when hovering over it.
+        # Otherwise, they are displayed next to the nodes.
+
         mode = "markers"
         hover_info = "text"
-    elif (len(names) <= 10) or ((len(names) > 10) and (show_labels is True)):
+    else:
         mode = "markers+text"
         hover_info = "skip"
 
@@ -216,6 +220,9 @@ def plot_dag(
             "size": 15,
         },
     )
+
+    # add the source code to the graph,
+    # that is displayed as hover information
 
     if hover_source_code:
         for i in range(len(combo)):
