@@ -544,6 +544,11 @@ def ges_rente_vorraus_regelrente(ges_rente_wartezeit_5: float) -> bool:
     ----------
     ges_rente_wartezeit_5
         See :func:`ges_rente_wartezeit_5`.
+
+    Returns
+    -------
+    Eligibility as bool.
+
     """
     out = ges_rente_wartezeit_5 >= 5
 
@@ -565,6 +570,7 @@ def ges_rente_vorraus_frauen(
         See :func:`ges_rente_wartezeit_15`
     jahre_beiträg_nach40
         See basic input variable :ref:`jahre_beiträg_nach40 <jahre_beiträg_nach40>`.
+
     Returns
     -------
     Eligibility as bool.
@@ -637,7 +643,7 @@ def ges_rente_wartezeit_5(
 
     Returns
     -------
-    wartezeit in years
+    Wartezeit in years.
     """
     out = (pflichtbeitragszeit + freiw_beitragszeit + ersatzzeit) / 12
 
@@ -665,7 +671,7 @@ def ges_rente_wartezeit_15(
 
     Returns
     -------
-    wartezeit in years
+    Wartezeit in years
     """
     out = (pflichtbeitragszeit + freiw_beitragszeit + ersatzzeit) / 12
 
@@ -704,7 +710,7 @@ def ges_rente_wartezeit_35(
 
     Returns
     -------
-    wartezeit in years
+    Wartezeit in years
 
     """
     if rententrechtl_zeit > 0:  # is not missing
@@ -754,7 +760,7 @@ def ges_rente_wartezeit_45(
 
     Returns
     -------
-    wartezeit in years
+    Wartezeit in years
     """
     if pflichtbeitragszeit >= (18 * 12):
         freiwilligbeitr = freiw_beitragszeit
