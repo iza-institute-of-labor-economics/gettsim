@@ -766,7 +766,7 @@ altersrente_für_frauen:
     en: Entry age for receiving Altersrente für Frauen
   description:
     de:
-      Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geboren vor 1952 in rente gehen konnten.
+      Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geboren vor 1952 in Rente gehen konnten.
     en:
       Piecewise linear function returning the age thresholds for retirement of women born before 1952.
   reference: § 237a SGB VI,
