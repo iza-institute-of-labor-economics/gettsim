@@ -301,7 +301,7 @@ def ges_rente_zugangsfaktor(
 def ges_rente_grenz_voll_altersrente(
     ges_rente_regelaltersgrenze: float,
     ges_rente_frauen_altersgrenze: float,
-    ges_rente_langjährig_altersgrenze: float,
+    _ges_rente_langjährig_altersgrenze: float,
     ges_rente_bes_lang_altersgrenze: float,
     ges_rente_vorraus_regelrente: bool,
     ges_rente_vorraus_frauen: bool,
@@ -319,8 +319,8 @@ def ges_rente_grenz_voll_altersrente(
         See :func:`ges_rente_regelaltersgrenze`.
     ges_rente_frauen_altersgrenze
         See :func:`ges_rente_frauen_altersgrenze`.
-    ges_rente_langjährig_altersgrenze
-        See :func:`ges_rente_langjährig_altersgrenze`.
+    _ges_rente_langjährig_altersgrenze
+        See :func:`_ges_rente_langjährig_altersgrenze`.
     ges_rente_bes_lang_altersgrenze
         See :func:`ges_rente_bes_lang_altersgrenze`.
     ges_rente_vorraus_regelrente
@@ -344,7 +344,7 @@ def ges_rente_grenz_voll_altersrente(
     if ges_rente_vorraus_frauen:
         out = min([out, ges_rente_frauen_altersgrenze])
     if ges_rente_vorraus_langjährig:
-        out = min([out, ges_rente_langjährig_altersgrenze])
+        out = min([out, _ges_rente_langjährig_altersgrenze])
     if ges_rente_vorraus_besond_lang:
         out = min([out, ges_rente_bes_lang_altersgrenze])
 
@@ -353,7 +353,7 @@ def ges_rente_grenz_voll_altersrente(
 
 def referenz_alter_abschlag(
     ges_rente_frauen_altersgrenze: float,
-    ges_rente_langjährig_altersgrenze: float,
+    _ges_rente_langjährig_altersgrenze: float,
     ges_rente_vorraus_frauen: bool,
     ges_rente_vorraus_langjährig: bool,
 ) -> float:
@@ -379,9 +379,9 @@ def referenz_alter_abschlag(
     """
     out = float("Nan")
     if ges_rente_vorraus_langjährig and ges_rente_vorraus_frauen:
-        out = min([ges_rente_frauen_altersgrenze, ges_rente_langjährig_altersgrenze])
+        out = min([ges_rente_frauen_altersgrenze, _ges_rente_langjährig_altersgrenze])
     if ges_rente_vorraus_langjährig and not ges_rente_vorraus_frauen:
-        out = ges_rente_langjährig_altersgrenze
+        out = _ges_rente_langjährig_altersgrenze
 
     return out
 
@@ -458,7 +458,7 @@ def ges_rente_frauen_altersgrenze(
     return out
 
 
-def ges_rente_langjährig_altersgrenze(
+def _ges_rente_langjährig_altersgrenze(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
