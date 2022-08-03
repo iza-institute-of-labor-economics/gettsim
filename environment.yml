@@ -2,33 +2,30 @@ name: gettsim
 channels:
   - conda-forge
 dependencies:
+  - python
+  - pip
   - anaconda-client
   - bokeh
-  - ipywidgets
-  # Jinja2 3.1.0 breaks docs. Keep until nbconvert or Jinja2 fixes it.
-  - jinja2<3.1.0
   - jupyterlab
   - nbsphinx
   - networkx
   - numpy_groupies
+  # Jinja2 3.1.0 breaks docs. Keep until nbconvert or Jinja2 fixes it.
+  - jinja2<3.1.0
   - pandas
   - pdbpp
-  - pip
   - pre-commit
   - pydot
   - pygments
+  - pyyaml
   - pytest
   - pytest-cov
   - pytest-xdist
-  - python
-  - pyyaml
   - restructuredtext_lint
   - sphinx
-  - sphinx_rtd_theme
   - sphinx-automodapi
   - sphinx-copybutton
+  - sphinx_rtd_theme
   - pip:
-    - kaleido
-    - plotly
     - bump2version
     - -e .
