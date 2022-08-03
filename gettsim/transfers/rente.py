@@ -246,8 +246,10 @@ def ges_rente_zugangsfaktor(
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_grenze_langjährig_frau
-        See :func:`ges_rente_grenze_langjährig_frau`
+    ges_rente_frauen_altersgrenze
+        See :func:`ges_rente_frauen_altersgrenze`
+    ges_rente_langjährig_altersgrenze
+        See :func:`ges_rente_langjährig_altersgrenze`
     ges_rente_grenz_voll_altersrente
         See :func:`ges_rente_grenz_voll_altersrente`.
     ges_rente_params
@@ -335,12 +337,102 @@ def ges_rente_regelaltersgrenze(
     return out
 
 
+def ges_rente_frauen_altersgrenze(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+    # ges_rente_vorraussetz_frauen: bool,  # ToDo move to zugangsfaktor function
+) -> float:
+    """Calculates the age, at which a women is eligible to claim the full pension. This
+        pension scheme allows for early retirement with deductions. Hence this
+        threshold is needed as reference for calculating the zugangsfaktor.
+
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_vorraussetz_frauen
+        See :func:`ges_rente_vorraussetz_frauen`
+
+    Returns
+    -------
+    returns the lowest full retirement age for women.
+
+    """
+    if geburtsjahr < 1945:
+        x_wom = geburtsjahr + (geburtsmonat - 1) / 12
+    else:
+        x_wom = geburtsjahr
+
+    # if ges_rente_vorraussetz_frauen:  # ToDo to zugangsfaktor function
+    out = piecewise_polynomial(
+        x=x_wom,
+        thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
+        rates=ges_rente_params["altersrente_für_frauen"]["rates"],
+        intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
+            "intercepts_at_lower_thresholds"
+        ],
+    )
+
+    return out
+
+
+def ges_rente_langjährig_altersgrenze(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+    # ges_rente_vorraussetz_langjährig: bool,  # ToDo move to zugangsfaktor function
+) -> float:
+    """Calculates the age, at which a long term insured person (at least 35 years )is
+        eligible to claim the full pension.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_vorrauss_besond_lang
+        See:func:`ges_rente_vorrauss_besond_lang`.
+
+    Returns
+    -------
+    Full retirement age (without deductions) for long term insured.
+    """
+
+    if geburtsjahr < 1951:
+        x_long = geburtsjahr + (geburtsmonat - 1) / 12
+    else:
+        x_long = geburtsjahr
+
+    # if ges_rente_vorraussetz_langjährig:
+    out = piecewise_polynomial(
+        x=x_long,
+        thresholds=ges_rente_params["altersgrenze_langjährig_versicherte"][
+            "thresholds"
+        ],
+        rates=ges_rente_params["altersgrenze_langjährig_versicherte"]["rates"],
+        intercepts_at_lower_thresholds=ges_rente_params[
+            "altersgrenze_langjährig_versicherte"
+        ]["intercepts_at_lower_thresholds"],
+    )
+
+    return out
+
+
 def ges_rente_grenze_langjährig_frau(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
     ges_rente_vorraussetz_frauen: bool,
-    ges_rente_vorraussetz_langjährig: bool,
+    ges_rente_vorraussetz_langjährig: bool,  # ToDo move to zugangsfaktor function
 ) -> float:
     """Calculates the age, at which a longterm insured person or women is eligible to
         claim the full pension. Full retirement age (FRA) without deductions.
