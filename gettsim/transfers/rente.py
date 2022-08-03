@@ -481,10 +481,7 @@ def ges_rente_vorraus_regelrente(ges_rente_wartezeit_5: float) -> bool:
     ges_rente_wartezeit_5
         See :func:`ges_rente_wartezeit_5`.
     """
-    if ges_rente_wartezeit_5 >= 5:
-        out = True
-    else:
-        out = False
+    out = ges_rente_wartezeit_5 >= 5
 
     return out
 
@@ -532,10 +529,7 @@ def ges_rente_vorraussetz_langjährig(ges_rente_wartezeit_35: float) -> bool:
     Eligibility as bool.
 
     """
-    if ges_rente_wartezeit_35 >= 35:
-        out = True
-    else:
-        out = False
+    out = ges_rente_wartezeit_35 >= 35
 
     return out
 
@@ -556,10 +550,7 @@ def ges_rente_vorrauss_besond_lang(ges_rente_wartezeit_45: float) -> bool:
 
     """
 
-    if ges_rente_wartezeit_45 >= 45:
-        out = True
-    else:
-        out = False
+    out = ges_rente_wartezeit_45 >= 45
 
     return out
 
