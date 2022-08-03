@@ -679,7 +679,6 @@ def ges_rente_wartezeit_15(
 
 
 def ges_rente_wartezeit_35(
-    rententrechtl_zeit: float,
     pflichtbeitragszeit: float,
     freiw_beitragszeit: float,
     anrechnungszeit: float,
@@ -688,42 +687,37 @@ def ges_rente_wartezeit_35(
     pflege9295_berückz: float,
 ) -> float:
     """Aggregates time periods that are relevant for the eligibility of pension
-    for long-term insured. Wartezeit von 35 Jahren. All "rentenrechtliche Zeiten"
-    are considered.
+     for long-term insured. Wartezeit von 35 Jahren. All "rentenrechtliche Zeiten"
+     are considered.
 
-    Parameters
-    ----------
-    rententrechtl_zeit
-        See basic input variable :ref:`rententrechtl_zeit <rententrechtl_zeit>`.
+     Parameters
+     ----------
     pflichtbeitragszeit
-        See basic input variable :ref:`pflichtbeitragszeit <pflichtbeitragszeit>`.
-    freiw_beitragszeit
-        See basic input variable :ref:`freiw_beitragszeit <freiw_beitragszeit>`.
-    ersatzzeit
-        See basic input variable :ref:`ersatzzeit <ersatzzeit>`.
-    anrechnungszeit
-        See basic input variable :ref:`anrechnungszeit <anrechnungszeit>`.
-    kinder_berückz
-        See basic input variable :ref:`kinder_berückz <kinder_berückz>`.
-    pflege9295_berückz
-        See basic input variable :ref:`pflege9295_berückz <pflege9295_berückz>`.
+         See basic input variable :ref:`pflichtbeitragszeit <pflichtbeitragszeit>`.
+     freiw_beitragszeit
+         See basic input variable :ref:`freiw_beitragszeit <freiw_beitragszeit>`.
+     ersatzzeit
+         See basic input variable :ref:`ersatzzeit <ersatzzeit>`.
+     anrechnungszeit
+         See basic input variable :ref:`anrechnungszeit <anrechnungszeit>`.
+     kinder_berückz
+         See basic input variable :ref:`kinder_berückz <kinder_berückz>`.
+     pflege9295_berückz
+         See basic input variable :ref:`pflege9295_berückz <pflege9295_berückz>`.
 
-    Returns
-    -------
-    Wartezeit in years
+     Returns
+     -------
+     Wartezeit in years
 
     """
-    if rententrechtl_zeit > 0:  # is not missing
-        out = rententrechtl_zeit / 12
-    else:
-        out = (
-            pflichtbeitragszeit
-            + freiw_beitragszeit
-            + anrechnungszeit
-            + ersatzzeit
-            + pflege9295_berückz
-            + kinder_berückz
-        ) / 12
+    out = (
+        pflichtbeitragszeit
+        + freiw_beitragszeit
+        + anrechnungszeit
+        + ersatzzeit
+        + pflege9295_berückz
+        + kinder_berückz
+    ) / 12
     return out
 
 

@@ -103,8 +103,6 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`weiblich`             | True if female                              | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`rententrechtl_zeit`   | Sum of all times relevant for retirement    | float        |
-+-------------------------+---------------------------------------------+--------------+
 | _`pflichtbeitragszeit`  | Months of mandtory contributions            | float        |
 +-------------------------+---------------------------------------------+--------------+
 | _`freiw_beitragszeit`   | Months of voluntary contributions           | float        |
