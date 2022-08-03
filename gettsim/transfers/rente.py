@@ -302,6 +302,57 @@ def ges_rente_zugangsfaktor(
     return out
 
 
+def ges_rente_grenz_voll_altersrente(
+    ges_rente_regelaltersgrenze: float,
+    ges_rente_frauen_altersgrenze: float,
+    ges_rente_langjährig_altersgrenze: float,
+    ges_rente_bes_lang_altersgrenze: float,
+    ges_rente_vorraus_regelrente: bool,
+    ges_rente_vorraussetz_frauen: bool,
+    ges_rente_vorraussetz_langjährig: bool,
+    ges_rente_vorrauss_besond_lang: bool,
+) -> float:
+    """Calculates the age, at which a person is eligible to claim the full pension.
+        Full retirement age (FRA) without deductions. This age is smaller or equal
+        to the regelaltersgrenze (FRA<=NRA) and depends on personal characteristics
+        as gender, insurance duration, health/disability, employment status.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_frauen_altersgrenze
+        See :func:`ges_rente_frauen_altersgrenze`.
+    ges_rente_langjährig_altersgrenze
+        See :func:`ges_rente_langjährig_altersgrenze`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    ges_rente_vorrauss_besond_lang
+        See:func:`ges_rente_vorrauss_besond_lang`.
+
+    Returns
+    -------
+    Lowest possible full retirement age (without deductions). Nan if
+    person not eligigble for a public pension.
+    """
+
+    out = float("Nan")
+    if ges_rente_vorraus_regelrente:
+        out = ges_rente_regelaltersgrenze
+    if ges_rente_vorraussetz_frauen:
+        out = min([out, ges_rente_frauen_altersgrenze])
+    if ges_rente_vorraussetz_langjährig:
+        out = min([out, ges_rente_langjährig_altersgrenze])
+    if ges_rente_vorrauss_besond_lang:
+        out = min([out, ges_rente_bes_lang_altersgrenze])
+
+    return out
+
+
 def ges_rente_regelaltersgrenze(
     geburtsjahr: int, ges_rente_vorraus_regelrente: bool, ges_rente_params: dict
 ) -> float:
@@ -427,6 +478,42 @@ def ges_rente_langjährig_altersgrenze(
     return out
 
 
+def ges_rente_bes_lang_altersgrenze(
+    geburtsjahr: int,
+    ges_rente_params: dict,
+) -> float:
+    """Calculates the threshold from which very long term insured
+        people (at least 45 years) can claim their full pension
+        without deductions.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age (without deductions) for very long term insured.
+
+    """
+    out = piecewise_polynomial(
+        x=geburtsjahr,
+        thresholds=ges_rente_params["altersgrenze_besonders_langjährig_versicherte"][
+            "thresholds"
+        ],
+        rates=ges_rente_params["altersgrenze_besonders_langjährig_versicherte"][
+            "rates"
+        ],
+        intercepts_at_lower_thresholds=ges_rente_params[
+            "altersgrenze_besonders_langjährig_versicherte"
+        ]["intercepts_at_lower_thresholds"],
+    )
+
+    return out
+
+
 def ges_rente_grenze_langjährig_frau(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -503,64 +590,6 @@ def ges_rente_grenze_langjährig_frau(
         )
 
     out = min(pension_for_women, pension_for_long)
-
-    return out
-
-
-def ges_rente_grenz_voll_altersrente(
-    geburtsjahr: int,
-    ges_rente_params: dict,
-    ges_rente_grenze_langjährig_frau: float,
-    ges_rente_regelaltersgrenze: float,
-    ges_rente_vorrauss_besond_lang: bool,
-) -> float:
-    """Calculates the age, at which a person is eligible to claim the full pension.
-        Full retirement age (FRA) without deductions. This age is smaller or equal
-        to the regelaltersgrenze (FRA<=NRA) and depends on personal characteristics
-        as gender, insurance duration, health/disability, employment status.
-
-    Parameters
-    ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
-    ges_rente_grenze_langjährig_frau
-        See :func:`ges_rente_grenze_langjährig_frau`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_vorrauss_besond_lang
-        See:func:`ges_rente_vorrauss_besond_lang`.
-
-    Returns
-    -------
-    Lowest possible full retirement age (without deductions).
-    """
-
-    regelrente = ges_rente_regelaltersgrenze
-    pension_long_or_women = ges_rente_grenze_langjährig_frau
-
-    if ges_rente_vorrauss_besond_lang:
-        pension_for_extralong = piecewise_polynomial(
-            x=geburtsjahr,
-            thresholds=ges_rente_params[
-                "altersgrenze_besonders_langjährig_versicherte"
-            ]["thresholds"],
-            rates=ges_rente_params["altersgrenze_besonders_langjährig_versicherte"][
-                "rates"
-            ],
-            intercepts_at_lower_thresholds=ges_rente_params[
-                "altersgrenze_besonders_langjährig_versicherte"
-            ]["intercepts_at_lower_thresholds"],
-        )
-    else:
-        pension_for_extralong = (
-            9000  # arbitrary high number to represent non-feasible retirement age
-        )
-
-    out = min([regelrente, pension_long_or_women, pension_for_extralong])
 
     return out
 
