@@ -719,7 +719,6 @@ def ges_rente_wartezeit_35(
     return out
 
 
-# seite 27 Dok _19_wartezeiten
 def ges_rente_wartezeit_45(
     pflichtbeitragszeit: float,
     freiw_beitragszeit: float,
