@@ -29,7 +29,7 @@ def plot_dag(
     check_minimal_specification="ignore",
     selectors=None,
     orientation="v",
-    show_labels=True,
+    show_labels=None,
     hover_source_code=False,
 ):
     """Plot the dag of the tax and transfer system. Note that if 10 or less nodes are
@@ -58,11 +58,12 @@ def plot_dag(
         shown.
     orientation :str,default "v"
          Whether the graph is horizontal or vertical
-    show_labels : bool, default True
-        Whether the graph is annotated with labels next to each node, in case the
-        number of nodes is at most 10. Otherwise, names are displayed next to the node
-        only when hovering over it. For more than 10 nodes, this argument is ignored
-        and the labels are always only shown when hovering over it.
+    show_labels : bool, default None
+        Whether the graph is annotated with labels next to each node. By default, 
+        the labels are shown when the number of nodes is at most 10. 
+        Otherwise, names are displayed next to the node only when hovering over it. 
+        It is also possible to display labels regardless of the number of nodes, setting 
+        variable as True or hide labels when a variable is False.
     hover_source_code: bool, default as false
         Experimental feature which makes the source code of the functions accessible as
         a hover information. Sometimes, the tooltip is not properly displayed.
@@ -194,16 +195,26 @@ def plot_dag(
     )
     # choose the different options for plotting
 
-    if (len(names) > 10) or (show_labels is False):
-        # For more than 10 nodes or show_labels is False,
-        # the labels are shown when hovering over it.
-        # Otherwise, they are displayed next to the nodes.
+    # When show_lebels = None and number of nodes >10
+    # labels are shown when hovering over it.
+    # Same happens when show_labels is False,
+    # Otherwise, labels are displayed next to the nodes.
 
-        mode = "markers"
-        hover_info = "text"
-    else:
+    if show_labels is None:
+        if len(names) <= 10:
+            mode = "markers+text"
+            hover_info = "skip"
+        else:
+            mode = "markers"
+            hover_info = "text"
+
+    elif show_labels:
         mode = "markers+text"
         hover_info = "skip"
+
+    elif not show_labels:
+        mode = "markers"
+        hover_info = "text"
 
     fig.add_scatter(
         x=combo.x,
