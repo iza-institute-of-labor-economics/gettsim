@@ -556,7 +556,7 @@ def ges_rente_vorraus_regelrente(ges_rente_wartezeit_5: float) -> bool:
 
 
 def ges_rente_vorraus_frauen(
-    weiblich: bool, ges_rente_wartezeit_15: float, jahre_beiträge_nach40: float
+    weiblich: bool, ges_rente_wartezeit_15: float, jahre_beitr_nach40: float
 ) -> bool:  # , ges_rente_params: dict
     """Function determining the eligibility for Altersrente für Frauen (pension
         for women) Wartezeit 15 years, contributions 10 years after age 40,
@@ -568,15 +568,15 @@ def ges_rente_vorraus_frauen(
         See basic input variable :ref:`weiblich <weiblich>`.
     ges_rente_wartezeit_15
         See :func:`ges_rente_wartezeit_15`
-    jahre_beiträge_nach40
-        See basic input variable :ref:`jahre_beiträge_nach40 <jahre_beiträge_nach40>`.
+    jahre_beitr_nach40
+        See basic input variable :ref:`jahre_beitr_nach40 <jahre_beitr_nach40>`.
 
     Returns
     -------
     Eligibility as bool.
 
     """
-    if weiblich and ges_rente_wartezeit_15 >= 15 and jahre_beiträge_nach40 >= 10:
+    if weiblich and ges_rente_wartezeit_15 >= 15 and jahre_beitr_nach40 >= 10:
         out = True
     else:
         out = False
@@ -682,7 +682,7 @@ def ges_rente_wartezeit_35(
     anrechnungszeit: float,
     ersatzzeit: float,
     kinder_berücks_zeit: float,
-    pfleg9295_berücks_zeit: float,
+    pfl9295_berücks_zeit: float,
 ) -> float:
     """Aggregates time periods that are relevant for the eligibility of
         Altersrente für langjährig Versicherte (pension for long-term insured).
@@ -700,8 +700,8 @@ def ges_rente_wartezeit_35(
         See :func:`anrechnungszeit`
      kinder_berücks_zeit
         See basic input variable :ref:`kinder_berücks_zeit <kinder_berücks_zeit>`.
-     pfleg9295_berücks_zeit
-        See basic input variable :ref:`pfleg9295_berücks_zeit <pfleg9295_berücks_zeit>`
+     pfl9295_berücks_zeit
+        See basic input variable :ref:`pfl9295_berücks_zeit <pfl9295_berücks_zeit>`
 
      Returns
      -------
@@ -713,7 +713,7 @@ def ges_rente_wartezeit_35(
         + freiw_beitragszeit
         + anrechnungszeit
         + ersatzzeit
-        + pfleg9295_berücks_zeit
+        + pfl9295_berücks_zeit
         + kinder_berücks_zeit
     ) / 12
     return out
@@ -725,7 +725,7 @@ def ges_rente_wartezeit_45(
     anrechnungszeit_45: float,
     ersatzzeit: float,
     kinder_berücks_zeit: float,
-    pfleg9295_berücks_zeit: float,
+    pfl9295_berücks_zeit: float,
 ) -> float:
     """Aggregates time periods that are relevant for the eligibility of
     Altersrente für besonders langjährig Versicherte (pension for very long-term
@@ -747,8 +747,8 @@ def ges_rente_wartezeit_45(
         See :func:`anrechnungszeit_45`.
     kinder_berücks_zeit
         See basic input variable :ref:`kinder_berücks_zeit <kinder_berücks_zeit>`.
-    pfleg9295_berücks_zeit
-        See basic input variable :ref:`pfleg9295_berücks_zeit <pfleg9295_berücks_zeit>`.
+    pfl9295_berücks_zeit
+        See basic input variable :ref:`pfl9295_berücks_zeit <pfl9295_berücks_zeit>`.
 
     Returns
     -------
@@ -764,7 +764,7 @@ def ges_rente_wartezeit_45(
         + freiwilligbeitr
         + anrechnungszeit_45
         + ersatzzeit
-        + pfleg9295_berücks_zeit
+        + pfl9295_berücks_zeit
         + kinder_berücks_zeit
     ) / 12
 
@@ -772,12 +772,12 @@ def ges_rente_wartezeit_45(
 
 
 def anrechnungszeit(
-    zeit_au_reha_teilhabe: float,
+    zeit_au_reha_teilh: float,
     zeit_krank_17_25: float,
     zeit_mutterschutz: float,
     zeit_arbeitslos: float,
     zeit_ausbild_suche: float,
-    zeit_schul_ausbildung: float,
+    zeit_schul_ausbild: float,
     zeit_rente_erwmind: float,
 ) -> float:
     """Adds up all times that are accounted for in "Anrechnungszeiten"
@@ -789,8 +789,8 @@ def anrechnungszeit(
 
     Parameters
     ----------
-    zeit_au_reha_teilhabe
-        See basic input variable :ref:`zeit_au_reha_teilhabe <zeit_au_reha_teilhabe>`.
+    zeit_au_reha_teilh
+        See basic input variable :ref:`zeit_au_reha_teilh <zeit_au_reha_teilh>`.
     zeit_krank_17_25
         See basic input variable :ref:`zeit_krank_17_25 <zeit_krank_17_25>`.
     zeit_mutterschutz
@@ -799,8 +799,8 @@ def anrechnungszeit(
         See basic input variable :ref:`zeit_arbeitslos <zeit_arbeitslos>`.
     zeit_ausbild_suche
         See basic input variable :ref:`zeit_ausbild_suche <zeit_ausbild_suche>`.
-    zeit_schul_ausbildung
-        See basic input variable :ref:`zeit_schul_ausbildung <zeit_schul_ausbildung>`.
+    zeit_schul_ausbild
+        See basic input variable :ref:`zeit_schul_ausbild <zeit_schul_ausbild>`.
     zeit_rente_erwmind
         See basic input variable :ref:`zeit_rente_erwmind <zeit_rente_erwmind>`.
 
@@ -808,19 +808,19 @@ def anrechnungszeit(
     -------
     """
     out = (
-        zeit_au_reha_teilhabe
+        zeit_au_reha_teilh
         + zeit_krank_17_25
         + zeit_mutterschutz
         + zeit_arbeitslos
         + zeit_ausbild_suche
-        + zeit_schul_ausbildung
+        + zeit_schul_ausbild
         + zeit_rente_erwmind
     )
     return out
 
 
 def anrechnungszeit_45(
-    zeit_au_reha_teilhabe: float,
+    zeit_au_reha_teilh: float,
     zeit_alg1_übergang: float,
     zeit_marg_employment: float,
 ) -> float:
@@ -834,8 +834,8 @@ def anrechnungszeit_45(
 
     Parameters
     ----------
-    zeit_au_reha_teilhabe
-        See basic input variable :ref:`zeit_au_reha_teilhabe <zeit_au_reha_teilhabe>`.
+    zeit_au_reha_teilh
+        See basic input variable :ref:`zeit_au_reha_teilh <zeit_au_reha_teilh>`.
     zeit_alg1_übergang
         See basic input variable :ref:`zeit_alg1_übergang <zeit_alg1_übergang>`.
     zeit_marg_employment
@@ -843,6 +843,6 @@ def anrechnungszeit_45(
     Returns
     -------
     """
-    out = zeit_au_reha_teilhabe + zeit_alg1_übergang + zeit_marg_employment
+    out = zeit_au_reha_teilh + zeit_alg1_übergang + zeit_marg_employment
 
     return out

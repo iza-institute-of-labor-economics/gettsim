@@ -272,18 +272,18 @@ def create_one_set_of_households(
         "pflichtbeitragszeit",
         "freiw_beitragszeit",
         "zeit_mutterschutz",
-        "zeit_au_reha_teilhabe",
+        "zeit_au_reha_teilh",
         "zeit_krank_17_25",
         "zeit_arbeitslos",
         "zeit_ausbild_suche",
-        "zeit_schul_ausbildung",
+        "zeit_schul_ausbild",
         "zeit_rente_erwmind",
         "zeit_marg_employment",
         "zeit_alg1_übergang",
         "ersatzzeit",
         "kinder_berücks_zeit",
-        "pfleg9295_berücks_zeit",
-        "jahre_beiträge_nach40",
+        "pfl9295_berücks_zeit",
+        "jahre_beitr_nach40",
     ]
     # Create one row per desired household
     n_rows = len(hh_typen) * len(n_children)
@@ -402,11 +402,11 @@ def create_one_set_of_households(
     df["grundr_entgeltp"] = df["entgeltp"]
     # Rente Wartezeiten
     df["pflichtbeitragszeit"] = (df["alter"] - 25).clip(lower=0) * 12
-    df["jahre_beiträge_nach40"] = (df["alter"] - 40).clip(lower=0) * 12
+    df["jahre_beitr_nach40"] = (df["alter"] - 40).clip(lower=0) * 12
     df["freiw_beitragszeit"] = 5
     df["ersatzzeit"] = 0
-    df["zeit_schul_ausbildung"] = 10
-    df["zeit_au_reha_teilhabe"] = 0
+    df["zeit_schul_ausbild"] = 10
+    df["zeit_au_reha_teilh"] = 0
     df["zeit_krank_17_25"] = 0
     df["zeit_mutterschutz"] = 0
     df["zeit_arbeitslos"] = 0
@@ -415,7 +415,7 @@ def create_one_set_of_households(
     df["zeit_alg1_übergang"] = 0
     df["zeit_marg_employment"] = 0
     df["kinder_berücks_zeit"] = 24
-    df["pfleg9295_berücks_zeit"] = 1
+    df["pfl9295_berücks_zeit"] = 1
     df = df.reset_index()
     df = df.sort_values(by=["hh_id", "tu_id", "index"])
     df = df.drop(columns=["index"]).reset_index(drop=True)

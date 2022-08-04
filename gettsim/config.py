@@ -108,18 +108,18 @@ TYPES_INPUT_VARIABLES = {
     "pflichtbeitragszeit": float,
     "freiw_beitragszeit": float,
     "zeit_mutterschutz": float,
-    "zeit_au_reha_teilhabe": float,
+    "zeit_au_reha_teilh": float,
     "zeit_krank_17_25": float,
     "zeit_arbeitslos": float,
     "zeit_ausbild_suche": float,
-    "zeit_schul_ausbildung": float,
+    "zeit_schul_ausbild": float,
     "zeit_rente_erwmind": float,
     "zeit_marg_employment": float,
     "zeit_alg1_übergang": float,
     "ersatzzeit": float,
     "kinder_berücks_zeit": float,
-    "pfleg9295_berücks_zeit": float,
-    "jahre_beiträge_nach40": float,
+    "pfl9295_berücks_zeit": float,
+    "jahre_beitr_nach40": float,
 }
 
 # =====================================================================================
