@@ -556,7 +556,7 @@ def ges_rente_vorraus_regelrente(ges_rente_wartezeit_5: float) -> bool:
 
 
 def ges_rente_vorraus_frauen(
-    weiblich: bool, ges_rente_wartezeit_15: float, jahre_beiträg_nach40: float
+    weiblich: bool, ges_rente_wartezeit_15: float, jahre_beiträge_nach40: float
 ) -> bool:  # , ges_rente_params: dict
     """Function determining the eligibility for Altersrente für Frauen (pension
         for women) Wartezeit 15 years, contributions 10 years after age 40,
@@ -568,15 +568,15 @@ def ges_rente_vorraus_frauen(
         See basic input variable :ref:`weiblich <weiblich>`.
     ges_rente_wartezeit_15
         See :func:`ges_rente_wartezeit_15`
-    jahre_beiträg_nach40
-        See basic input variable :ref:`jahre_beiträg_nach40 <jahre_beiträg_nach40>`.
+    jahre_beiträge_nach40
+        See basic input variable :ref:`jahre_beiträge_nach40 <jahre_beiträge_nach40>`.
 
     Returns
     -------
     Eligibility as bool.
 
     """
-    if weiblich and ges_rente_wartezeit_15 >= 15 and jahre_beiträg_nach40 >= 10:
+    if weiblich and ges_rente_wartezeit_15 >= 15 and jahre_beiträge_nach40 >= 10:
         out = True
     else:
         out = False
