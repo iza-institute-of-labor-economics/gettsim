@@ -109,7 +109,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`zeit_mutterschutz`    | Months of maternal protections              | float        |
 +-------------------------+---------------------------------------------+--------------+
-||_`zeit_au_reha_teilhabe`|| Months of sickness, rehabilitation,        || float       |
+||_`zeit_au_reha_teilh`   || Months of sickness, rehabilitation,        || float       |
 ||                        || measures for worklife participation        ||             |
 +-------------------------+---------------------------------------------+--------------+
 | _`zeit_krank_17_25`     | Months of sickness between age 16 and 24    | float        |
@@ -118,7 +118,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`zeit_ausbild_suche`   | Months of apprenticeship search             | float        |
 +-------------------------+---------------------------------------------+--------------+
-||_`zeit_schul_ausbildung`|| Months of schooling (incl college, uni     || float       |
+||_`zeit_schul_ausbild`   || Months of schooling (incl college, uni     || float       |
 ||                        || from age 17, max. 8 years)                 ||             |
 +-------------------------+---------------------------------------------+--------------+
 || _`zeit_rente_erwmind`  || Months of retirement benefits if included  || float       |
@@ -138,7 +138,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`kinder_berücks_zeit`  | Months of childcare till age 10             | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`pfleg9295_berücks_zeit`| Months of home care (01.01.1992-31.03.1995)| float        |
+| _`pfl9295_berücks_zeit` | Months of home care (01.01.1992-31.03.1995)| float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`jahre_beiträge_nach40`| Years of mandat. contributions after age 40 | float        |
+| _`jahre_beitr_nach40`   | Years of mandat. contributions after age 40 | float        |
 +-------------------------+---------------------------------------------+--------------+
