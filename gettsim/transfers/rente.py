@@ -823,6 +823,7 @@ def anrechnungszeit(
 def anrechnungszeit_45(
     zeit_au_reha_teilhabe: float,
     zeit_alg1_übergang: float,
+    zeit_marg_employment: float,
 ) -> float:
     """Adds up all times NOT included in Beitragszeiten, Berücksichtigungszeiten,
     Ersatzzeiten (a variant of Anrechnungszeiten) that are accounted for in
@@ -838,11 +839,11 @@ def anrechnungszeit_45(
         See basic input variable :ref:`zeit_au_reha_teilhabe <zeit_au_reha_teilhabe>`.
     zeit_alg1_übergang
         See basic input variable :ref:`zeit_alg1_übergang <zeit_alg1_übergang>`.
-
-
+    zeit_marg_employment
+        See basic input variable :ref:`zeit_marg_employment <zeit_marg_employment>`.
     Returns
     -------
     """
-    out = zeit_au_reha_teilhabe + zeit_alg1_übergang
+    out = zeit_au_reha_teilhabe + zeit_alg1_übergang + zeit_marg_employment
 
     return out
