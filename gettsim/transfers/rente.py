@@ -681,8 +681,8 @@ def ges_rente_wartezeit_35(
     freiw_beitragszeit: float,
     anrechnungszeit: float,
     ersatzzeit: float,
-    kinder_berückz: float,
-    pflege9295_berückz: float,
+    kinder_berücks_zeit: float,
+    pfleg9295_berücks_zeit: float,
 ) -> float:
     """Aggregates time periods that are relevant for the eligibility of
         Altersrente für langjährig Versicherte (pension for long-term insured).
@@ -691,17 +691,17 @@ def ges_rente_wartezeit_35(
      Parameters
      ----------
     pflichtbeitragszeit
-         See basic input variable :ref:`pflichtbeitragszeit <pflichtbeitragszeit>`.
+        See basic input variable :ref:`pflichtbeitragszeit <pflichtbeitragszeit>`.
      freiw_beitragszeit
-         See basic input variable :ref:`freiw_beitragszeit <freiw_beitragszeit>`.
+        See basic input variable :ref:`freiw_beitragszeit <freiw_beitragszeit>`.
      ersatzzeit
-         See basic input variable :ref:`ersatzzeit <ersatzzeit>`.
+        See basic input variable :ref:`ersatzzeit <ersatzzeit>`.
      anrechnungszeit
         See :func:`anrechnungszeit`
-     kinder_berückz
-         See basic input variable :ref:`kinder_berückz <kinder_berückz>`.
-     pflege9295_berückz
-         See basic input variable :ref:`pflege9295_berückz <pflege9295_berückz>`.
+     kinder_berücks_zeit
+        See basic input variable :ref:`kinder_berücks_zeit <kinder_berücks_zeit>`.
+     pfleg9295_berücks_zeit
+        See basic input variable :ref:`pfleg9295_berücks_zeit <pfleg9295_berücks_zeit>`
 
      Returns
      -------
@@ -713,8 +713,8 @@ def ges_rente_wartezeit_35(
         + freiw_beitragszeit
         + anrechnungszeit
         + ersatzzeit
-        + pflege9295_berückz
-        + kinder_berückz
+        + pfleg9295_berücks_zeit
+        + kinder_berücks_zeit
     ) / 12
     return out
 
@@ -725,8 +725,8 @@ def ges_rente_wartezeit_45(
     freiw_beitragszeit: float,
     anrechnungszeit_45: float,
     ersatzzeit: float,
-    kinder_berückz: float,
-    pflege9295_berückz: float,
+    kinder_berücks_zeit: float,
+    pfleg9295_berücks_zeit: float,
 ) -> float:
     """Aggregates time periods that are relevant for the eligibility of
     Altersrente für besonders langjährig Versicherte (pension for very long-term
@@ -746,10 +746,10 @@ def ges_rente_wartezeit_45(
         See basic input variable :ref:`ersatzzeit <ersatzzeit>`.
     anrechnungszeit_45
         See :func:`anrechnungszeit_45`.
-    kinder_berückz
-        See basic input variable :ref:`kinder_berückz <kinder_berückz>`.
-    pflege9295_berückz
-        See basic input variable :ref:`pflege9295_berückz <pflege9295_berückz>`.
+    kinder_berücks_zeit
+        See basic input variable :ref:`kinder_berücks_zeit <kinder_berücks_zeit>`.
+    pfleg9295_berücks_zeit
+        See basic input variable :ref:`pfleg9295_berücks_zeit <pfleg9295_berücks_zeit>`.
 
     Returns
     -------
@@ -765,8 +765,8 @@ def ges_rente_wartezeit_45(
         + freiwilligbeitr
         + anrechnungszeit_45
         + ersatzzeit
-        + pflege9295_berückz
-        + kinder_berückz
+        + pfleg9295_berücks_zeit
+        + kinder_berücks_zeit
     ) / 12
 
     return out
