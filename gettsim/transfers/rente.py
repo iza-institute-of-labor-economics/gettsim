@@ -558,8 +558,8 @@ def ges_rente_vorraus_regelrente(ges_rente_wartezeit_5: float) -> bool:
 def ges_rente_vorraus_frauen(
     weiblich: bool, ges_rente_wartezeit_15: float, jahre_beiträg_nach40: float
 ) -> bool:  # , ges_rente_params: dict
-    """Function determining the eligibility for pension for women
-        Wartezeit 15 years, contributions 10 years after age 40,
+    """Function determining the eligibility for Altersrente für Frauen (pension
+        for women) Wartezeit 15 years, contributions 10 years after age 40,
         being a women.
 
     Parameters
@@ -586,8 +586,8 @@ def ges_rente_vorraus_frauen(
 
 
 def ges_rente_vorraus_langjährig(ges_rente_wartezeit_35: float) -> bool:
-    """Determining the eligibility for pension for long-term insured
-        Wartezeit 35 years.
+    """Determining the eligibility for Altersrente für langjährig Versicherte
+        (pension for long-term insured). Wartezeit 35 years.
 
     Parameters
     ----------
@@ -605,8 +605,8 @@ def ges_rente_vorraus_langjährig(ges_rente_wartezeit_35: float) -> bool:
 
 
 def ges_rente_vorraus_besond_lang(ges_rente_wartezeit_45: float) -> bool:
-    """Determining the eligibility for pension for very long-term insured
-        Wartezeit 45 years. "Rente für besonders langjährig Versicherte"
+    """Determining the eligibility for Altersrente für besonders langjährig
+        Versicherte (pension for very long-term insured). Wartezeit 45 years.
         aka "Rente mit 63".
 
     Parameters
@@ -657,8 +657,8 @@ def ges_rente_wartezeit_5(
 def ges_rente_wartezeit_15(
     pflichtbeitragszeit: float, freiw_beitragszeit: float, ersatzzeit: float
 ) -> float:
-    """Aggregates time periods that are relevant for the pension
-    for women and Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
+    """Aggregates time periods that are relevant for the Altersrente für Frauen
+      and Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
 
     Parameters
     ----------
@@ -686,9 +686,9 @@ def ges_rente_wartezeit_35(
     kinder_berückz: float,
     pflege9295_berückz: float,
 ) -> float:
-    """Aggregates time periods that are relevant for the eligibility of pension
-     for long-term insured. Wartezeit von 35 Jahren. All "rentenrechtliche Zeiten"
-     are considered.
+    """Aggregates time periods that are relevant for the eligibility of
+        Altersrente für langjährig Versicherte (pension for long-term insured).
+        Wartezeit von 35 Jahren. All "rentenrechtliche Zeiten" are considered.
 
      Parameters
      ----------
@@ -730,8 +730,9 @@ def ges_rente_wartezeit_45(
     kinder_berückz: float,
     pflege9295_berückz: float,
 ) -> float:
-    """Aggregates time periods that are relevant for the eligibility of pension
-    for very long-term insured. Wartezeit von 45 Jahren. Not all "rentenrechtliche
+    """Aggregates time periods that are relevant for the eligibility of
+    Altersrente für besonders langjährig Versicherte (pension for very long-term
+    insured). Wartezeit von 45 Jahren. Not all "rentenrechtliche
     Zeiten" are considered. Years with voluntary contributions are only considered
     if at least 18 years of mandatory contributions (pflichtbeitragszeit). Not all
     anrechnungszeiten are considered, but only specific ones (e.g. ALG I, Kurzarbeit
