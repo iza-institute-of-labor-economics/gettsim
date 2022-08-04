@@ -442,12 +442,12 @@ def ges_rente_frauen_altersgrenze(
 
     """
     if geburtsjahr < 1945:
-        birth = geburtsjahr + (geburtsmonat - 1) / 12
+        x = geburtsjahr + (geburtsmonat - 1) / 12
     else:
-        birth = geburtsjahr
+        x = geburtsjahr
 
     out = piecewise_polynomial(
-        x=birth,
+        x=x,
         thresholds=ges_rente_params["altersrente_für_frauen"]["thresholds"],
         rates=ges_rente_params["altersrente_für_frauen"]["rates"],
         intercepts_at_lower_thresholds=ges_rente_params["altersrente_für_frauen"][
@@ -483,12 +483,12 @@ def _ges_rente_langjährig_altersgrenze(
     """
 
     if geburtsjahr < 1951:
-        birth = geburtsjahr + (geburtsmonat - 1) / 12
+        x = geburtsjahr + (geburtsmonat - 1) / 12
     else:
-        birth = geburtsjahr
+        x = geburtsjahr
 
     out = piecewise_polynomial(
-        x=birth,
+        x=x,
         thresholds=ges_rente_params["altersgrenze_langjährig_versicherte"][
             "thresholds"
         ],
