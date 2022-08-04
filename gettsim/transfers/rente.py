@@ -281,8 +281,8 @@ def ges_rente_zugangsfaktor(
         # Zugangsfaktor >1: if retired after ges_rente_regelaltersgrenze
         # Zugangsfaktor =1: if retired between [FRA, NRA]
         # Note: Not yet implemented a feasibility check  - if person retires early but
-        # is not women or long term insured it will calculate very high penalty
-        # (pensionage 9000) this may happen if person is disabled or unemployed
+        # is not women or long term insured it will return a nan
+        #  this may happen if person is disabled or unemployed
         # before retirement - not implemented yet.
         if diff_volle_rente < 0:  # [ERA,FRA)
             out = 1 + diff_referenz_alter * faktor_pro_jahr_vorzeitig
@@ -576,7 +576,6 @@ def ges_rente_vorraus_frauen(
     Eligibility as bool.
 
     """
-    # todo: condition with employment after 40
     if weiblich and ges_rente_wartezeit_15 >= 15 and jahre_beiträg_nach40 >= 10:
         out = True
     else:
@@ -625,7 +624,6 @@ def ges_rente_vorraus_besond_lang(ges_rente_wartezeit_45: float) -> bool:
     return out
 
 
-# todo implement eligibility function and eligibility in regelaltersrente function.
 def ges_rente_wartezeit_5(
     pflichtbeitragszeit: float, freiw_beitragszeit: float, ersatzzeit: float
 ) -> float:
@@ -650,7 +648,7 @@ def ges_rente_wartezeit_5(
     return out
 
 
-# todo imaybe implement default  for zeiten if vars
+# todo maybe implement default  for zeiten if vars
 #  not available? somewhere swtich for eligibility in interface?
 
 
@@ -699,7 +697,7 @@ def ges_rente_wartezeit_35(
      ersatzzeit
          See basic input variable :ref:`ersatzzeit <ersatzzeit>`.
      anrechnungszeit
-         See basic input variable :ref:`anrechnungszeit <anrechnungszeit>`.
+        See :func:`anrechnungszeit`
      kinder_berückz
          See basic input variable :ref:`kinder_berückz <kinder_berückz>`.
      pflege9295_berückz
@@ -747,7 +745,7 @@ def ges_rente_wartezeit_45(
     ersatzzeit
         See basic input variable :ref:`ersatzzeit <ersatzzeit>`.
     anrechnungszeit_45
-        See basic input variable :ref:`anrechnungszeit_45 <anrechnungszeit_45>`.
+        See :func:`anrechnungszeit_45`.
     kinder_berückz
         See basic input variable :ref:`kinder_berückz <kinder_berückz>`.
     pflege9295_berückz
@@ -770,5 +768,81 @@ def ges_rente_wartezeit_45(
         + pflege9295_berückz
         + kinder_berückz
     ) / 12
+
+    return out
+
+
+def anrechnungszeit(
+    zeit_au_reha_teilhabe: float,
+    zeit_krank_17_25: float,
+    zeit_mutterschutz: float,
+    zeit_arbeitslos: float,
+    zeit_ausbild_suche: float,
+    zeit_schul_ausbildung: float,
+    zeit_rente_erwmind: float,
+) -> float:
+    """Adds up all times that are accounted for in "Anrechnungszeiten"
+    relevant for "Wartezeit von 35 Jahren" i.e. for Altersrente für
+    langjährig Versicherte (pension for long term insured).
+    (Ref: Studientext der Deutschen Rentenversicherung, Nr. 19,
+    Wartezeiten, Ausgabe 2021, S. 24.)
+
+
+    Parameters
+    ----------
+    zeit_au_reha_teilhabe
+        See basic input variable :ref:`zeit_au_reha_teilhabe <zeit_au_reha_teilhabe>`.
+    zeit_krank_17_25
+        See basic input variable :ref:`zeit_krank_17_25 <zeit_krank_17_25>`.
+    zeit_mutterschutz
+        See basic input variable :ref:`zeit_mutterschutz <zeit_mutterschutz>`.
+    zeit_arbeitslos
+        See basic input variable :ref:`zeit_arbeitslos <zeit_arbeitslos>`.
+    zeit_ausbild_suche
+        See basic input variable :ref:`zeit_ausbild_suche <zeit_ausbild_suche>`.
+    zeit_schul_ausbildung
+        See basic input variable :ref:`zeit_schul_ausbildung <zeit_schul_ausbildung>`.
+    zeit_rente_erwmind
+        See basic input variable :ref:`zeit_rente_erwmind <zeit_rente_erwmind>`.
+
+    Returns
+    -------
+    """
+    out = (
+        zeit_au_reha_teilhabe
+        + zeit_krank_17_25
+        + zeit_mutterschutz
+        + zeit_arbeitslos
+        + zeit_ausbild_suche
+        + zeit_schul_ausbildung
+        + zeit_rente_erwmind
+    )
+    return out
+
+
+def anrechnungszeit_45(
+    zeit_au_reha_teilhabe: float,
+    zeit_alg1_übergang: float,
+) -> float:
+    """Adds up all times NOT included in Beitragszeiten, Berücksichtigungszeiten,
+    Ersatzzeiten (a variant of Anrechnungszeiten) that are accounted for in
+    "Wartezeit von 45 Jahren" i.e. for Altersrente für besonders langjährig
+    Versicherte (pension for very long term insured). "nur Anrechnungszeiten mit
+    Bezug von Entgeltersatzleistungen der Arbeitsförderung, Leistungen bei Krankheit
+    und Übergangsgeld". (Ref: Studientext der Deutschen Rentenversicherung, Nr. 19,
+    Wartezeiten, Ausgabe 2021, S. 24)
+
+    Parameters
+    ----------
+    zeit_au_reha_teilhabe
+        See basic input variable :ref:`zeit_au_reha_teilhabe <zeit_au_reha_teilhabe>`.
+    zeit_alg1_übergang
+        See basic input variable :ref:`zeit_alg1_übergang <zeit_alg1_übergang>`.
+
+
+    Returns
+    -------
+    """
+    out = zeit_au_reha_teilhabe + zeit_alg1_übergang
 
     return out
