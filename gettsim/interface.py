@@ -434,7 +434,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
         for level in ["hh", "tu"]:
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
-                if not (max_value == col).all():
+                if not np.allclose(max_value, col):
                     message = _format_text_for_cmdline(
                         f"""
                         Column '{name}' has not one unique value per group defined by
