@@ -358,7 +358,7 @@ def referenz_alter_abschlag(
     ges_rente_vorraus_langjährig: bool,
 ) -> float:
     """Determines reference age for deduction calculation
-    in case of early retirement (Zugangsfaktir). Nan if person is not
+    in case of early retirement (Zugangsfaktor). Nan if person is not
     eligible for early retirement. (The regular pension and the pension
     for very long term insured cannot be claimed early.)
 
@@ -422,9 +422,10 @@ def ges_rente_frauen_altersgrenze(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the age, at which a women is eligible to claim the full pension. This
-        pension scheme allows for early retirement with deductions. Hence this
-        threshold is needed as reference for calculating the zugangsfaktor.
+    """Calculates the age, at which a women is eligible to claim the full pension
+        (without deductions). This pension scheme allows for early retirement
+        from age 60 with deductions. Hence this threshold is needed as reference
+        for calculating the zugangsfaktor.
 
 
     Parameters
@@ -463,8 +464,10 @@ def _ges_rente_langjährig_altersgrenze(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the age, at which a long term insured person (at least 35 years )is
-        eligible to claim the full pension.
+    """Calculates the age, at which a long term insured person (at least 35 years ) is
+        eligible to claim the full pension. This pension scheme allows for early
+        retirement from age 63 with deductions. Hence this threshold is needed as
+        reference for calculating the zugangsfaktor.
 
     Parameters
     ----------
@@ -556,7 +559,7 @@ def ges_rente_vorraus_regelrente(ges_rente_wartezeit_5: float) -> bool:
 
 
 def ges_rente_vorraus_frauen(
-    weiblich: bool, ges_rente_wartezeit_15: float, jahre_beitr_nach40: float
+    weiblich: bool, ges_rente_wartezeit_15: float, jahre_beitr_nach40: float, alter: int
 ) -> bool:  # , ges_rente_params: dict
     """Function determining the eligibility for Altersrente für Frauen (pension
         for women) Wartezeit 15 years, contributions 10 years after age 40,
@@ -576,7 +579,12 @@ def ges_rente_vorraus_frauen(
     Eligibility as bool.
 
     """
-    if weiblich and ges_rente_wartezeit_15 >= 15 and jahre_beitr_nach40 >= 10:
+    if (
+        weiblich
+        and ges_rente_wartezeit_15 >= 15
+        and jahre_beitr_nach40 >= 10
+        and alter >= 60
+    ):
         out = True
     else:
         out = False
@@ -584,7 +592,7 @@ def ges_rente_vorraus_frauen(
     return out
 
 
-def ges_rente_vorraus_langjährig(ges_rente_wartezeit_35: float) -> bool:
+def ges_rente_vorraus_langjährig(ges_rente_wartezeit_35: float, alter: int) -> bool:
     """Determining the eligibility for Altersrente für langjährig Versicherte
         (pension for long-term insured). Wartezeit 35 years.
 
@@ -598,7 +606,10 @@ def ges_rente_vorraus_langjährig(ges_rente_wartezeit_35: float) -> bool:
     Eligibility as bool.
 
     """
-    out = ges_rente_wartezeit_35 >= 35
+    if alter >= 63:
+        out = ges_rente_wartezeit_35 >= 35
+    else:
+        out = False
 
     return out
 
