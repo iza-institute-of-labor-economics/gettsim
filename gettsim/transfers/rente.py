@@ -312,9 +312,9 @@ def _ges_rente_altersgrenze_abschlagsfrei(
     ges_rente_vorraus_besond_lang: bool,
 ) -> float:
     """Calculates the age, at which a person is eligible to claim the full pension.
-        Full retirement age (FRA) without deductions. This age is smaller or equal
-        to the regelaltersgrenze (FRA<=NRA) and depends on personal characteristics
-        as gender, insurance duration, health/disability, employment status.
+    Full retirement age (FRA) without deductions. This age is smaller or equal
+    to the regelaltersgrenze (FRA<=NRA) and depends on personal characteristics
+    as gender, insurance duration, health/disability, employment status.
 
     Parameters
     ----------
@@ -394,10 +394,10 @@ def referenz_alter_abschlag(
 
 def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
     """Calculates the age, at which a person is eligible to claim the regular pension.
-        Normal retirement age (NRA). This pension cannot be claimed earlier than at the
-        NRA, ie it does not serve as reference for calculating deductions. However, it
-        serves as reference for calculating gains in the Zugangsfakor in case
-        of later retirement.
+    Normal retirement age (NRA). This pension cannot be claimed earlier than at the
+    NRA, ie it does not serve as reference for calculating deductions. However, it
+    serves as reference for calculating gains in the Zugangsfakor in case
+    of later retirement.
 
     Parameters
     ----------
@@ -429,9 +429,9 @@ def ges_rente_frauen_altersgrenze(
     ges_rente_params: dict,
 ) -> float:
     """Calculates the age, at which a women is eligible to claim the full pension
-        (without deductions). This pension scheme allows for early retirement
-        from age 60 with deductions. Hence this threshold is needed as reference
-        for calculating the zugangsfaktor.
+    (without deductions). This pension scheme allows for early retirement
+    from age 60 with deductions. Hence this threshold is needed as reference
+    for calculating the zugangsfaktor.
 
 
     Parameters
@@ -524,8 +524,8 @@ def ges_rente_bes_lang_altersgrenze(
     ges_rente_params: dict,
 ) -> float:
     """Calculates the threshold from which very long term insured
-        people (at least 45 years) can claim their full pension
-        without deductions.
+    people (at least 45 years) can claim their full pension
+    without deductions.
 
     Parameters
     ----------
@@ -559,7 +559,22 @@ def ges_rente_vorauss_vorzeitig(
     ges_rente_vorraus_frauen: bool,
     ges_rente_vorraus_langjährig: bool,
 ) -> float:
-    """ """
+    """Function determining eligibility for early retirement.
+    Can only be claimed if eligible for "Rente für langjährig Versicherte"
+    or "Rente für Frauen" (or -not yet implemented - for disabled).
+
+    Parameters
+    ----------
+    ges_rente_vorraus_frauen
+        See :func:`ges_rente_vorraus_frauen`.
+    ges_rente_vorraus_langjährig
+        See :func:`ges_rente_vorraus_langjährig`.
+
+    Returns
+    -------
+    Eligibility as bool.
+
+    """
 
     out = ges_rente_vorraus_frauen or ges_rente_vorraus_langjährig
 
@@ -593,8 +608,8 @@ def ges_rente_vorraus_frauen(
     ges_rente_params: dict,
 ) -> bool:
     """Function determining the eligibility for Altersrente für Frauen (pension
-        for women) Wartezeit 15 years, contributions 10 years after age 40,
-        being a women.
+    for women) Wartezeit 15 years, contributions 10 years after age 40,
+    being a women.
 
     Parameters
     ----------
@@ -604,6 +619,12 @@ def ges_rente_vorraus_frauen(
         See :func:`ges_rente_wartezeit_15`
     y_pflichtbeitr_ab_40
         See basic input variable :ref:`y_pflichtbeitr_ab_40 <y_pflichtbeitr_ab_40>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
@@ -635,12 +656,16 @@ def ges_rente_vorraus_langjährig(
     ges_rente_params: dict,
 ) -> bool:
     """Determining the eligibility for Altersrente für langjährig Versicherte
-        (pension for long-term insured). Wartezeit 35 years.
+    (pension for long-term insured). Wartezeit 35 years.
 
     Parameters
     ----------
     ges_rente_wartezeit_35
         See :func: `ges_rente_wartezeit_35`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
@@ -657,8 +682,8 @@ def ges_rente_vorraus_langjährig(
 
 def ges_rente_vorraus_besond_lang(ges_rente_wartezeit_45: float) -> bool:
     """Determining the eligibility for Altersrente für besonders langjährig
-        Versicherte (pension for very long-term insured). Wartezeit 45 years.
-        aka "Rente mit 63".
+    Versicherte (pension for very long-term insured). Wartezeit 45 years.
+    aka "Rente mit 63".
 
     Parameters
     ----------
@@ -704,7 +729,7 @@ def ges_rente_wartezeit_15(
     m_pflichtbeitrag: float, m_freiw_beitrag: float, m_ersatzzeit: float
 ) -> float:
     """Aggregates time periods that are relevant for the Altersrente für Frauen
-      and Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
+    and Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
 
     Parameters
     ----------
@@ -733,27 +758,27 @@ def ges_rente_wartezeit_35(
     m_pfleg_berücks_zeit: float,
 ) -> float:
     """Aggregates time periods that are relevant for the eligibility of
-        Altersrente für langjährig Versicherte (pension for long-term insured).
-        Wartezeit von 35 Jahren. All "rentenrechtliche Zeiten" are considered.
+    Altersrente für langjährig Versicherte (pension for long-term insured).
+    Wartezeit von 35 Jahren. All "rentenrechtliche Zeiten" are considered.
 
      Parameters
      ----------
     m_pflichtbeitrag
         See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
-     m_freiw_beitrag
+    m_freiw_beitrag
         See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
-     m_ersatzzeit
+    m_ersatzzeit
         See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
-     anrechnungszeit
+    anrechnungszeit
         See :func:`anrechnungszeit`
-     m_kind_berücks_zeit
+    m_kind_berücks_zeit
         See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
-     m_pfleg_berücks_zeit
+    m_pfleg_berücks_zeit
         See basic input variable :ref:`m_pfleg_berücks_zeit <m_pfleg_berücks_zeit>`
 
-     Returns
-     -------
-     Wartezeit in years
+    Returns
+    -------
+    Wartezeit in years
 
     """
     out = (
@@ -851,6 +876,7 @@ def anrechnungszeit(
 
     Returns
     -------
+    Anrechnungszeit in months
     """
     out = (
         m_arbeitsunfähig
@@ -886,6 +912,7 @@ def anrechnungszeit_45(
         See basic input variable :ref:`m_geringf_beschäft <m_geringf_beschäft>`.
     Returns
     -------
+    Anrechnungszeit in months.
     """
     out = m_arbeitsunfähig + m_alg1_übergang + m_geringf_beschäft
 
