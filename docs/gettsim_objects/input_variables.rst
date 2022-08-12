@@ -103,44 +103,40 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`weiblich`             | True if female                              | bool         |
 +-------------------------+---------------------------------------------+--------------+
-|| _`pflichtbeitragszeit` || Months of mandatory pension insurance      || float       |
-||                        || contributions                              ||             |
+| _`m_pflichtbeitrag`     | Months of mandatory contributions           | float        |
 +-------------------------+---------------------------------------------+--------------+
-|| _`freiw_beitragszeit`  || Months of voluntary pension insurance      || float       |
-||                        || contributions                              ||             |
+| _`m_freiw_beitrag`      | Months of voluntary contributions           | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`zeit_mutterschutz`    | Months of maternal protections              | float        |
+| _`m_mutterschutz`       | Months of maternal protections              | float        |
 +-------------------------+---------------------------------------------+--------------+
-||_`zeit_au_reha_teilh`   || Months of sickness, rehabilitation,        || float       |
+||_`m_arbeitsunfähig`     || Months of sickness, rehabilitation,        || float       |
 ||                        || measures for worklife participation        ||             |
+||                        || (Teilhabe)                                 ||             |
 +-------------------------+---------------------------------------------+--------------+
-| _`zeit_krank_17_25`     | Months of sickness between age 16 and 24    | float        |
+| _`m_krank_ab_16_bis_24` | Months of sickness between age 16 and 24    | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`zeit_arbeitslos`      | Months of unemployment (registered)         | float        |
+| _`m_arbeitslos`         | Months of unemployment (registered)         | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`zeit_ausbild_suche`   | Months of apprenticeship search             | float        |
+| _`m_ausbild_suche`      | Months of apprenticeship search             | float        |
 +-------------------------+---------------------------------------------+--------------+
-||_`zeit_schul_ausbild`   || Months of schooling (incl college, uni     || float       |
+||_`m_schul_ausbild`      || Months of schooling (incl college, uni     || float       |
 ||                        || from age 17, max. 8 years)                 ||             |
 +-------------------------+---------------------------------------------+--------------+
-|| _`zeit_rente_erwmind`  || Months of retirement benefits if included  || float       |
-||                        || in Zurechnungszeiten (insurance retirement)||             |
-+-------------------------+---------------------------------------------+--------------+
-|| _`zeit_alg1_übergang`  || Months of unemployment (only time          || float       |
+|| _`m_alg1_übergang`     || Months of unemployment (only time          || float       |
 ||                        || of Entgeltersatzleistungen, not ALGII),    ||             |
 ||                        || i.e. Arbeitslosengeld, Unterhaltsgeld,     ||             |
 ||                        || Übergangsgeld                              ||             |
 +-------------------------+---------------------------------------------+--------------+
-|| _`zeit_marg_employment`|| Month of marginal employment (w/o          || float       |
+|| _`m_geringf_beschäft`  || Month of marginal employment (w/o          || float       |
 ||                        || mandatory contributions) (computed after   ||             |
 ||                        || § 244a SGB VI - earningspoints/0,0313)     ||             |
 +-------------------------+---------------------------------------------+--------------+
-|| _`ersatzzeit`          || Months during military, persecution/escape,|| float       |
+|| _`m_ersatzzeit`        || Months during military, persecution/escape,|| float       |
 ||                        || internment and consecutive sickness        ||             |
 +-------------------------+---------------------------------------------+--------------+
-| _`kinder_berücks_zeit`  | Months of childcare till age 10             | float        |
+| _`m_kind_berücks_zeit`  | Months of childcare till age 10             | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`pfl9295_berücks_zeit` | Months of home care (01.01.1992-31.03.1995)| float        |
+| _`m_pfleg_berücks_zeit` | Months of home care (01.01.1992-31.03.1995) | float        |
 +-------------------------+---------------------------------------------+--------------+
-| _`jahre_beitr_nach40`   | Years of mandat. contributions after age 40 | float        |
+| _`y_pflichtbeitr_ab_40` | Years of mandat. contributions after age 40 | float        |
 +-------------------------+---------------------------------------------+--------------+
