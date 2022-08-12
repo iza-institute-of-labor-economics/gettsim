@@ -16,9 +16,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   date (:ghuser:`m-pannier`, :ghuser:`lillyfischer`).
 * :gh:`393` normal retirement age adjustment aligned with the rules.
   (:ghuser:`TeBackh`).
-* :gh:`398` Implement pension for women (:ghuser:`TeBackh`).
 * :gh:`396` Implement pension for (very) long term insured, including eligibility criteria,
-   i.e. "Wartezeiten" (:ghuser:`TeBackh`).
+   i.e. "Wartezeiten". Implement pension for women (:ghuser:`TeBackh`).
 
 
 0.5.1 — 2022-04-21

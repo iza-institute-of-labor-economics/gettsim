@@ -103,7 +103,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`weiblich`             | True if female                              | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`pflichtbeitragszeit`  | Months of mandtory contributions            | float        |
+| _`pflichtbeitragszeit`  | Months of mandatory contributions           | float        |
 +-------------------------+---------------------------------------------+--------------+
 | _`freiw_beitragszeit`   | Months of voluntary contributions           | float        |
 +-------------------------+---------------------------------------------+--------------+

@@ -141,10 +141,6 @@ def entgeltp_update(entgeltp: float, entgeltp_update_lohn: float) -> float:
     variables (e.g., benefits for raising children,
     informal care), return the new earnings points.
 
-    models 'Rentenformel':
-    https://de.wikipedia.org/wiki/Rentenformel
-    https://de.wikipedia.org/wiki/Rentenanpassungsformel
-
     Parameters
     ----------
     entgeltp
