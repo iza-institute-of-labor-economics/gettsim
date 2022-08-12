@@ -103,9 +103,11 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`weiblich`             | True if female                              | bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`pflichtbeitragszeit`  | Months of mandatory contributions           | float        |
+|| _`pflichtbeitragszeit` || Months of mandatory pension insurance      || float       |
+||                        || contributions                              ||             |
 +-------------------------+---------------------------------------------+--------------+
-| _`freiw_beitragszeit`   | Months of voluntary contributions           | float        |
+|| _`freiw_beitragszeit`  || Months of voluntary pension insurance      || float       |
+||                        || contributions                              ||             |
 +-------------------------+---------------------------------------------+--------------+
 | _`zeit_mutterschutz`    | Months of maternal protections              | float        |
 +-------------------------+---------------------------------------------+--------------+
