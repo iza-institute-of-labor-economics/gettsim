@@ -29,11 +29,11 @@ INPUT_COLS = [
 OUT_COLS = [
     "entgeltp_update",
     "entgeltp_update_lohn",
-    # "ges_rente_regelaltersgrenze",
+    "ges_rente_regelaltersgrenze",
     # "_ges_rentenv_beitr_bemess_grenze_m",
 ]
 
-YEARS = [2010, 2012, 2015]
+YEARS = [2010, 2012, 2015, 2018]
 
 
 @pytest.fixture(scope="module")
