@@ -430,7 +430,7 @@ def _create_pydot_layout(dag, orientation):
 
     else:
         raise ValueError(
-            f"Orientation must be one of 'v', 'h', but got '{orientation}'"
+            f"orientation must be one of 'v', 'h', but got '{orientation}'"
         )
 
     return layout_df
