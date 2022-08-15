@@ -19,10 +19,11 @@ dependencies:
   - python
   - pyyaml
   - restructuredtext_lint
-  - sphinx
+  # Automodapi leads to error within numpy_groupies/numba for sphinx 5.1.1
+  # See: https://github.com/astropy/sphinx-automodapi/issues/148
+  - sphinx=5.1.0
   - sphinx_rtd_theme
   - sphinx-automodapi
   - sphinx-copybutton
   - pip:
-    - plotly
-    - -e .
+      - plotly
