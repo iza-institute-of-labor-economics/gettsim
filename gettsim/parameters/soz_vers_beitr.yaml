@@ -25,11 +25,11 @@ beitr_satz:
                     ermäßigt - reduced rate
                     zusatz - average top-up contribution rate
      ges_pflegev: 	Statury Contribution Rates for mandatory care insurance.
-                    standard - employee’s contribution rate
+                    standard - employees contribution rate
                     zusatz_kinderlos - contribution rate for insured people without
                     children and at least 23 years old. paid by employees. est. 2005
-     arbeitsl_v:	  employee’s contribution rate for unemployment insurance.
-     ges_rentenv:	employee’s contribution rate for pension insurance.
+     arbeitsl_v:	  employees contribution rate for unemployment insurance.
+     ges_rentenv:	employees contribution rate for pension insurance.
 
   unit: Share
   1984-01-01:
