@@ -19,7 +19,10 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   (:ghuser:`TeBackh`).
 * :gh:`403`  Replace `Bokeh` with `plotly` for visualization.
   (:ghuser:`effieHAN`,:ghuser:`sofyaakimova`).
-
+* :gh:`380` Implement an automatic type conversion of imported variables. Adding test
+  cases in `test_interface.py`. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
+* :gh:`406` Changed variable name from `vermögen_hh` to `vermögen_bedürft_hh`. Add test
+  cases for several transfers (:ghuser:`LauraGergeleit`).
 
 0.5.1 — 2022-04-21
 ------------------
@@ -67,8 +70,6 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   `ges_rente.yaml` (:ghuser:`hmgaudecker`, :ghuser:`ChristianZimpelmann`)
 * :gh:`356` Define functions on scalars and have them vectorised. Implement aggregation
   functions on group levels. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
-* :gh:`380` Implement an automatic type conversion of imported variables. Adding test
-  cases in `test_interface.py`. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
 
 0.4.2 — 2022-01-25
 --------------------

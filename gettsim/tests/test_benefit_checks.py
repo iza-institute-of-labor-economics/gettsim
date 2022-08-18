@@ -16,7 +16,7 @@ INPUT_COLS = [
     "kind",
     "rentner",
     "alter",
-    "vermögen_hh",
+    "vermögen_bedürft_hh",
     "_kinderzuschl_vor_vermög_check_m_hh",
     "wohngeld_vor_vermög_check_m_hh",
     "arbeitsl_geld_2_regelbedarf_m_hh",
