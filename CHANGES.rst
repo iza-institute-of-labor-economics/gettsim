@@ -6,7 +6,6 @@ chronological order. We follow `semantic versioning <https://semver.org/>`_ and 
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
 
-
 0.5.2 —
 ------------------
 * :gh:`323` Health care contribution parameters are better aligned with law.
@@ -18,10 +17,12 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   date (:ghuser:`m-pannier`, :ghuser:`lillyfischer`).
 * :gh:`393` normal retirement age adjustment aligned with the rules.
   (:ghuser:`TeBackh`).
+* :gh:`403`  Replace `Bokeh` with `plotly` for visualization.
+  (:ghuser:`effieHAN`,:ghuser:`sofyaakimova`).
 * :gh:`380` Implement an automatic type conversion of imported variables. Adding test
   cases in `test_interface.py`. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
-* :gh:`406`  Changed variable name from `vermögen_hh` to `vermögen_bedürft_hh`.
-  (:ghuser:`LauraGergeleit`).
+* :gh:`406` Changed variable name from `vermögen_hh` to `vermögen_bedürft_hh`. Add test
+  cases for several transfers (:ghuser:`LauraGergeleit`).
 
 0.5.1 — 2022-04-21
 ------------------
