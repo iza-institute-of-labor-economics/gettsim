@@ -217,7 +217,7 @@ def ges_rente_zugangsfaktor(
     referenz_alter_abschlag: float,
     _ges_rente_altersgrenze_abschlagsfrei: float,
     ges_rente_vorauss_vorzeitig: float,
-    ges_rente_vorraus_regelrente: bool,
+    ges_rente_vorrauss_regelrente: bool,
     ges_rente_params: dict,
 ) -> float:
     """Calculate the zugangsfaktor based on the year the
@@ -250,8 +250,8 @@ def ges_rente_zugangsfaktor(
         See :func:`_ges_rente_altersgrenze_abschlagsfrei`.
     ges_rente_vorauss_vorzeitig
         See :func:`ges_rente_vorauss_vorzeitig`.
-    ges_rente_vorraus_regelrente
-        See :func:`ges_rente_vorraus_regelrente`.
+    ges_rente_vorrauss_regelrente
+        See :func:`ges_rente_vorrauss_regelrente`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -259,7 +259,7 @@ def ges_rente_zugangsfaktor(
     -------
 
     """
-    if rentner and ges_rente_vorraus_regelrente:
+    if rentner and ges_rente_vorrauss_regelrente:
         # Calc age at retirement
         alter_renteneintritt = jahr_renteneintr - geburtsjahr
 
@@ -310,10 +310,10 @@ def _ges_rente_altersgrenze_abschlagsfrei(
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langjährig_altersgrenze: float,
     ges_rente_bes_lang_altersgrenze: float,
-    ges_rente_vorraus_regelrente: bool,
-    ges_rente_vorraus_frauen: bool,
-    ges_rente_vorraus_langjährig: bool,
-    ges_rente_vorraus_besond_lang: bool,
+    ges_rente_vorrauss_regelrente: bool,
+    ges_rente_vorrauss_frauen: bool,
+    ges_rente_vorrauss_langjährig: bool,
+    ges_rente_vorrauss_besond_lang: bool,
 ) -> float:
     """Calculates the age, at which a person is eligible to claim the full pension.
     Full retirement age (FRA) without deductions. This age is smaller or equal
@@ -330,14 +330,14 @@ def _ges_rente_altersgrenze_abschlagsfrei(
         See :func:`_ges_rente_langjährig_altersgrenze`.
     ges_rente_bes_lang_altersgrenze
         See :func:`ges_rente_bes_lang_altersgrenze`.
-    ges_rente_vorraus_regelrente
-        See :func:`ges_rente_vorraus_regelrente`.
-    ges_rente_vorraus_frauen
-        See :func:`ges_rente_vorraus_frauen`.
-    ges_rente_vorraus_langjährig
-        See :func:`ges_rente_vorraus_langjährig`.
-    ges_rente_vorraus_besond_lang
-        See :func:`ges_rente_vorraus_besond_lang`.
+    ges_rente_vorrauss_regelrente
+        See :func:`ges_rente_vorrauss_regelrente`.
+    ges_rente_vorrauss_frauen
+        See :func:`ges_rente_vorrauss_frauen`.
+    ges_rente_vorrauss_langjährig
+        See :func:`ges_rente_vorrauss_langjährig`.
+    ges_rente_vorrauss_besond_lang
+        See :func:`ges_rente_vorrauss_besond_lang`.
 
     Returns
     -------
@@ -346,13 +346,13 @@ def _ges_rente_altersgrenze_abschlagsfrei(
     """
 
     out = float("Nan")
-    if ges_rente_vorraus_regelrente:
+    if ges_rente_vorrauss_regelrente:
         out = ges_rente_regelaltersgrenze
-    if ges_rente_vorraus_frauen:
+    if ges_rente_vorrauss_frauen:
         out = min([out, ges_rente_frauen_altersgrenze])
-    if ges_rente_vorraus_langjährig:
+    if ges_rente_vorrauss_langjährig:
         out = min([out, _ges_rente_langjährig_altersgrenze])
-    if ges_rente_vorraus_besond_lang:
+    if ges_rente_vorrauss_besond_lang:
         out = min([out, ges_rente_bes_lang_altersgrenze])
 
     return out
@@ -361,8 +361,8 @@ def _ges_rente_altersgrenze_abschlagsfrei(
 def referenz_alter_abschlag(
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langjährig_altersgrenze: float,
-    ges_rente_vorraus_frauen: bool,
-    ges_rente_vorraus_langjährig: bool,
+    ges_rente_vorrauss_frauen: bool,
+    ges_rente_vorrauss_langjährig: bool,
 ) -> float:
     """Determines reference age for deduction calculation
     in case of early retirement (Zugangsfaktor). Nan if person is not
@@ -375,20 +375,20 @@ def referenz_alter_abschlag(
         See :func:`ges_rente_frauen_altersgrenze`.
     _ges_rente_langjährig_altersgrenze
         See :func:`_ges_rente_langjährig_altersgrenze`.
-    ges_rente_vorraus_frauen
-        See :func:`ges_rente_vorraus_frauen`.
-    ges_rente_vorraus_langjährig
-        See :func:`ges_rente_vorraus_langjährig`.
+    ges_rente_vorrauss_frauen
+        See :func:`ges_rente_vorrauss_frauen`.
+    ges_rente_vorrauss_langjährig
+        See :func:`ges_rente_vorrauss_langjährig`.
 
      Returns
     -------
     Reference age for deduction calculation.
     """
-    if ges_rente_vorraus_langjährig and ges_rente_vorraus_frauen:
+    if ges_rente_vorrauss_langjährig and ges_rente_vorrauss_frauen:
         out = min([ges_rente_frauen_altersgrenze, _ges_rente_langjährig_altersgrenze])
-    elif ges_rente_vorraus_langjährig:
+    elif ges_rente_vorrauss_langjährig:
         out = _ges_rente_langjährig_altersgrenze
-    elif ges_rente_vorraus_frauen:
+    elif ges_rente_vorrauss_frauen:
         out = ges_rente_frauen_altersgrenze
     else:
         out = float("Nan")
@@ -558,8 +558,8 @@ def ges_rente_bes_lang_altersgrenze(
 
 
 def ges_rente_vorauss_vorzeitig(
-    ges_rente_vorraus_frauen: bool,
-    ges_rente_vorraus_langjährig: bool,
+    ges_rente_vorrauss_frauen: bool,
+    ges_rente_vorrauss_langjährig: bool,
 ) -> float:
     """Function determining eligibility for early retirement.
     Can only be claimed if eligible for "Rente für langjährig Versicherte"
@@ -567,10 +567,10 @@ def ges_rente_vorauss_vorzeitig(
 
     Parameters
     ----------
-    ges_rente_vorraus_frauen
-        See :func:`ges_rente_vorraus_frauen`.
-    ges_rente_vorraus_langjährig
-        See :func:`ges_rente_vorraus_langjährig`.
+    ges_rente_vorrauss_frauen
+        See :func:`ges_rente_vorrauss_frauen`.
+    ges_rente_vorrauss_langjährig
+        See :func:`ges_rente_vorrauss_langjährig`.
 
     Returns
     -------
@@ -578,12 +578,12 @@ def ges_rente_vorauss_vorzeitig(
 
     """
 
-    out = ges_rente_vorraus_frauen or ges_rente_vorraus_langjährig
+    out = ges_rente_vorrauss_frauen or ges_rente_vorrauss_langjährig
 
     return out
 
 
-def ges_rente_vorraus_regelrente(ges_rente_wartezeit_5: float) -> bool:
+def ges_rente_vorrauss_regelrente(ges_rente_wartezeit_5: float) -> bool:
     """Function determining the eligibility for the Regelaltersrente.
 
     Parameters
@@ -601,7 +601,7 @@ def ges_rente_vorraus_regelrente(ges_rente_wartezeit_5: float) -> bool:
     return out
 
 
-def ges_rente_vorraus_frauen(
+def ges_rente_vorrauss_frauen(
     weiblich: bool,
     ges_rente_wartezeit_15: float,
     y_pflichtbeitr_ab_40: float,
@@ -652,7 +652,7 @@ def ges_rente_vorraus_frauen(
     return out
 
 
-def ges_rente_vorraus_langjährig(
+def ges_rente_vorrauss_langjährig(
     ges_rente_wartezeit_35: float,
     alter: int,
     ges_rente_params: dict,
@@ -674,15 +674,14 @@ def ges_rente_vorraus_langjährig(
     Eligibility as bool.
 
     """
-    if alter >= ges_rente_params["altersgrenze_langjährig_versicherte_vorzeitig"]:
-        out = ges_rente_wartezeit_35 >= 35
-    else:
-        out = False
+    out = (
+        alter >= ges_rente_params["altersgrenze_langjährig_versicherte_vorzeitig"]
+    ) and (ges_rente_wartezeit_35 >= 35)
 
     return out
 
 
-def ges_rente_vorraus_besond_lang(ges_rente_wartezeit_45: float) -> bool:
+def ges_rente_vorrauss_besond_lang(ges_rente_wartezeit_45: float) -> bool:
     """Determining the eligibility for Altersrente für besonders langjährig
     Versicherte (pension for very long-term insured). Wartezeit 45 years.
     aka "Rente mit 63".
@@ -804,9 +803,9 @@ def ges_rente_wartezeit_45(
 ) -> float:
     """Aggregates time periods that are relevant for the eligibility of
     Altersrente für besonders langjährig Versicherte (pension for very long-term
-    insured). Wartezeit von 45 Jahren. Not all "rentenrechtliche
-    Zeiten" are considered. Years with voluntary contributions are only considered
-    if at least 18 years of mandatory contributions (m_pflichtbeitrag). Not all
+    insured). Wartezeit von 45 Jahren. Not all "rentenrechtliche Zeiten" are
+    considered. Years with voluntary contributions are only considered if at least 18
+    years of mandatory contributions (m_pflichtbeitrag). Not all
     ges_rente_anrechnungszeiten are considered, but only specific ones (e.g. ALG I,
     Kurzarbeit but not ALG II).
 
