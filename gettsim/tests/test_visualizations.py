@@ -113,7 +113,7 @@ def test_plot_dag():
 
 def test_one_dot_plot_dag():
     """Make sure that the one dot graph example doesn't produce an error"""
-    selectors = "kapitaleink_brutto_tu"
+    selectors = "kapitaleink_brutto_m_tu"
     plot_dag(functions=policy_functions, selectors=selectors)
 
 

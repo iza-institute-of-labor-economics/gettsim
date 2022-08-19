@@ -16,7 +16,7 @@ from gettsim.aggregation import grouped_mean
 from gettsim.aggregation import grouped_min
 from gettsim.aggregation import grouped_sum
 from gettsim.config import DEFAULT_TARGETS
-from gettsim.config import ORDER_OF_IDS
+from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.config import USE_JAX
 from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
@@ -415,13 +415,13 @@ def _process_data(data):
             "'data' is not a pd.DataFrame or a pd.Series or a dictionary of pd.Series."
         )
 
-    # Check that group variables (e.g. ending with "_hh") are constant within groups
+    # Check that group variables are constant within groups
     _fail_if_group_variables_not_constant_within_groups(data)
     return data
 
 
 def _fail_if_group_variables_not_constant_within_groups(data):
-    """Check whether group variables (ending with `"_tu"` or `"_hh"`) have the same
+    """Check whether group variables have the same
     value within each group. Possible groups are households or tax units.
 
     Parameters
@@ -431,7 +431,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
 
     """
     for name, col in data.items():
-        for level in ["hh", "tu"]:
+        for level in SUPPORTED_GROUPINGS:
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
                 if not (max_value == col).all():
@@ -440,7 +440,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
                         Column '{name}' has not one unique value per group defined by
                         `{level}_id`.
 
-                        This is expected if the variable name ends with '_hh' or '_tu'.
+                        This is expected if the variable name ends with '_{level}'.
 
                         To fix the error, assign the same value to each group or remove
                         the indicator from the variable name.
@@ -521,7 +521,7 @@ def _fail_if_columns_overriding_functions_are_not_in_functions(
     unnecessary_columns_overriding_functions = [
         col
         for col in columns_overriding_functions
-        if (col not in functions) and (rchop(rchop(col, "_tu"), "_hh") not in functions)
+        if (col not in functions) and (remove_group_suffix(col) not in functions)
     ]
     if unnecessary_columns_overriding_functions:
         n_cols = len(unnecessary_columns_overriding_functions)
@@ -560,10 +560,11 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
         type_str = "internal aggregation "
     else:
         type_str = ""
+
     overlap = sorted(
         name
         for name in columns
-        if (name in functions) or (rchop(rchop(name, "_tu"), "_hh") in functions)
+        if (name in functions) or (remove_group_suffix(name) in functions)
     )
 
     if overlap:
@@ -622,8 +623,10 @@ def _format_text_for_cmdline(text, width=79):
 
 
 def _reorder_columns(results):
-    ids_in_data = {"hh_id", "p_id", "tu_id"} & set(results.columns)
-    sorted_ids = sorted(ids_in_data, key=lambda x: ORDER_OF_IDS[x])
+    order_ids = {f"{g}_id": i for i, g in enumerate(SUPPORTED_GROUPINGS)}
+    order_ids["p_id"] = len(order_ids)
+    ids_in_data = order_ids.keys() & set(results.columns)
+    sorted_ids = sorted(ids_in_data, key=lambda x: order_ids[x])
     remaining_columns = [i for i in results if i not in sorted_ids]
 
     return results[sorted_ids + remaining_columns]
@@ -844,8 +847,23 @@ def _partial_parameters_to_functions(functions, params):
 def rchop(s, suffix):
     # ToDO: Replace by removesuffix when only python >= 3.9 is supported
     if suffix and s.endswith(suffix):
-        return s[: -len(suffix)]
-    return s
+        out = s[: -len(suffix)]
+    else:
+        out = s
+    return out
+
+
+def remove_group_suffix(col):
+
+    # Set default result
+    out = col
+
+    # Remove suffix from result if applicable
+    for g in SUPPORTED_GROUPINGS:
+        if col.endswith(f"_{g}"):
+            out = rchop(col, f"_{g}")
+
+    return out
 
 
 def _create_aggregation_functions(
@@ -869,11 +887,11 @@ def _create_aggregation_functions(
         col
         for col in potential_agg_cols
         if (col not in user_and_internal_functions)
-        and (col.endswith("_tu") or col.endswith("_hh"))
-        and (rchop(rchop(col, "_tu"), "_hh") in potential_source_cols)
+        and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
+        and (remove_group_suffix(col) in potential_source_cols)
     ]
     automated_sum_aggregation_specs = {
-        agg_col: {"aggr": "sum", "source_col": rchop(rchop(agg_col, "_tu"), "_hh")}
+        agg_col: {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
         for agg_col in automated_sum_aggregation_cols
     }
 
@@ -893,7 +911,6 @@ def _create_aggregation_functions(
         )
         for agg_col, agg_spec in aggregation_dict.items()
     }
-
     return aggregation_funcs
 
 
@@ -973,11 +990,10 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
             )
 
     # Identify grouping level
-    if agg_col.endswith("_tu"):
-        group_id = "tu_id"
-    elif agg_col.endswith("_hh"):
-        group_id = "hh_id"
-    else:
+    for g in SUPPORTED_GROUPINGS:
+        if agg_col.endswith(f"_{g}"):
+            group_id = f"{g}_id"
+    if not group_id:
         raise ValueError(
             "Name of aggregated column needs to have a suffix "
             "indicating the group over which it is aggregated. "

@@ -49,8 +49,6 @@ SUPPORTED_GROUPINGS = {
     },
 }
 
-ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
-
 DEFAULT_TARGETS = [
     "eink_st_tu",
     "soli_st_tu",

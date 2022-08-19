@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 
 from gettsim.config import ROOT_DIR
+from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.policy_environment import _load_parameter_group_from_yaml
 
 current_year = datetime.datetime.now().year
@@ -128,16 +129,16 @@ def create_synthetic_data(
             raise ValueError(f"illegal value for age: {a}")
 
     p_id_min = 0
-    hh_id_min = 0
-    tu_id_min = 0
+    group_mins = {}
+    for g in SUPPORTED_GROUPINGS:
+        group_mins[g] = 0
 
     if len(heterogeneous_vars) == 0:
         # If no heterogeneity specified,
         # just create the household types with default incomes.
         synth = create_one_set_of_households(
             p_id_min,
-            hh_id_min,
-            tu_id_min,
+            group_mins,
             hh_typen,
             n_children,
             age_adults,
@@ -170,8 +171,7 @@ def create_synthetic_data(
                         synth,
                         create_one_set_of_households(
                             p_id_min,
-                            hh_id_min,
-                            tu_id_min,
+                            group_mins,
                             hh_typen,
                             n_children,
                             age_adults,
@@ -185,8 +185,8 @@ def create_synthetic_data(
                     ]
                 )
                 p_id_min = synth["p_id"].max() + 1
-                hh_id_min = synth["hh_id"].max() + 1
-                tu_id_min = synth["tu_id"].max() + 1
+                for g in SUPPORTED_GROUPINGS:
+                    group_mins[g] = synth[f"{g}_id"].max() + 1
                 dim_counter += 1
         synth = synth.reset_index(drop=True)
     return synth
@@ -194,8 +194,7 @@ def create_synthetic_data(
 
 def create_one_set_of_households(
     p_id_min,
-    hh_id_min,
-    tu_id_min,
+    group_mins,
     hh_typen,
     n_children,
     age_adults,
@@ -260,8 +259,8 @@ def create_one_set_of_households(
         columns=output_columns,
         data=np.zeros((n_rows, len(output_columns))),
     )
-    df["hh_id"] = pd.RangeIndex(n_rows) + hh_id_min
-    df["tu_id"] = pd.RangeIndex(n_rows) + tu_id_min
+    for g in group_mins:
+        df[f"{g}_id"] = pd.RangeIndex(n_rows) + group_mins[g]
 
     # Some columns require boolean type. initiate them with False
     for bool_col in [
@@ -368,10 +367,12 @@ def create_one_set_of_households(
     df["entgeltp"] = df["grundr_zeiten"] / 12
     df["grundr_entgeltp"] = df["entgeltp"]
 
+    group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
     df = df.reset_index()
-    df = df.sort_values(by=["hh_id", "tu_id", "index"])
+    df = df.sort_values(by=group_ids + ["index"])
     df = df.drop(columns=["index"]).reset_index(drop=True)
     df["p_id"] = df.index + p_id_min
-    df = df.sort_values(by=["hh_id", "tu_id", "p_id"])
 
-    return df[["p_id", "hh_id", "tu_id", "hh_typ"] + output_columns]
+    df = df.sort_values(by=group_ids + ["p_id"])
+
+    return df[["p_id"] + group_ids + ["hh_typ"] + output_columns]
