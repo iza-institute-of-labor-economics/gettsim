@@ -990,6 +990,7 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
             )
 
     # Identify grouping level
+    group_id = None
     for g in SUPPORTED_GROUPINGS:
         if agg_col.endswith(f"_{g}"):
             group_id = f"{g}_id"
