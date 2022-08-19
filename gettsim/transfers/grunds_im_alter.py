@@ -8,7 +8,7 @@ def grunds_im_alter_m_hh(
     unterhaltsvors_m_hh: float,
     grunds_im_alter_eink_m_hh: float,
     erwachsene_alle_rentner_hh: bool,
-    vermögen_hh: float,
+    vermögen_bedürft_hh: float,
     grunds_im_alter_vermög_freib_hh: float,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
@@ -34,8 +34,8 @@ def grunds_im_alter_m_hh(
         See :func:`grunds_im_alter_eink_m_hh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh`.
+    vermögen_bedürft_hh
+        See basic input variable :ref:`vermögen_bedürft_hh`.
     grunds_im_alter_vermög_freib_hh
         See :func:`grunds_im_alter_vermög_freib_hh`.
     Returns
@@ -45,7 +45,7 @@ def grunds_im_alter_m_hh(
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_hh >= grunds_im_alter_vermög_freib_hh) or (
+    if (vermögen_bedürft_hh >= grunds_im_alter_vermög_freib_hh) or (
         not erwachsene_alle_rentner_hh
     ):
         out = 0.0

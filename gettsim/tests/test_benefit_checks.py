@@ -16,7 +16,7 @@ INPUT_COLS = [
     "kind",
     "rentner",
     "alter",
-    "vermögen_hh",
+    "vermögen_bedürft_hh",
     "_kinderzuschl_vor_vermög_check_m_hh",
     "wohngeld_vor_vermög_check_m_hh",
     "arbeitsl_geld_2_regelbedarf_m_hh",
@@ -58,4 +58,6 @@ def test_benefit_checks(input_data, year, target):
         targets=target,
         columns_overriding_functions=columns,
     )
-    assert_series_equal(result[target], year_data[target], check_dtype=False)
+    assert_series_equal(
+        result[target], year_data[target], check_dtype=False, atol=1e-1, rtol=0
+    )

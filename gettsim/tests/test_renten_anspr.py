@@ -29,11 +29,11 @@ INPUT_COLS = [
 OUT_COLS = [
     "entgeltp_update",
     "entgeltp_update_lohn",
-    # "ges_rente_regelaltersgrenze",
+    "ges_rente_regelaltersgrenze",
     # "_ges_rentenv_beitr_bemess_grenze_m",
 ]
 
-YEARS = [2010, 2012, 2015]
+YEARS = [2010, 2012, 2015, 2018]
 
 
 @pytest.fixture(scope="module")
@@ -55,4 +55,4 @@ def test_renten_anspr(input_data, year, column):
         functions=policy_functions,
         targets=column,
     )
-    assert_series_equal(calc_result[column], year_data[column])
+    assert_series_equal(calc_result[column], year_data[column], atol=1e-1, rtol=0)

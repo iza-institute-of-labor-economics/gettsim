@@ -17,6 +17,7 @@ aggregation_demographic_vars = {
     "anz_kinder_ab_7_bis_13_hh": {"source_col": "kind_ab_7_bis_13", "aggr": "sum"},
     "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
     "anz_kinder_bis_10_tu": {"source_col": "kind_bis_10", "aggr": "sum"},
+    "anz_kinder_bis_13_tu": {"source_col": "kind_bis_13", "aggr": "sum"},
     "alleinerz_tu": {"source_col": "alleinerz", "aggr": "any"},
     "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
     "haushaltsgröße_hh": {"aggr": "count"},
@@ -29,7 +30,7 @@ aggregation_demographic_vars = {
 }
 
 
-def kind_bis_17(alter: int, kind: bool) -> int:
+def kind_bis_17(alter: int, kind: bool) -> bool:
     """Calculate if underage person.
 
     Parameters
@@ -47,7 +48,7 @@ def kind_bis_17(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_bis_6(alter: int, kind: bool) -> int:
+def kind_bis_6(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 7.
 
     Parameters
@@ -65,7 +66,7 @@ def kind_bis_6(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_bis_10(alter: int, kind: bool) -> int:
+def kind_bis_10(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 11.
 
     Parameters
@@ -83,7 +84,25 @@ def kind_bis_10(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_bis_15(alter: int, kind: bool) -> int:
+def kind_bis_13(alter: int, kind: bool) -> bool:
+    """Calculate if child under the age of 14.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (alter <= 13)
+    return out
+
+
+def kind_bis_15(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 16.
 
     Parameters
@@ -101,7 +120,7 @@ def kind_bis_15(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_ab_7_bis_13(alter: int, kind: bool) -> int:
+def kind_ab_7_bis_13(alter: int, kind: bool) -> bool:
     """Calculate if child between 7 and 13 years old.
 
     Parameters
@@ -119,7 +138,7 @@ def kind_ab_7_bis_13(alter: int, kind: bool) -> int:
     return out
 
 
-def kind_ab_14_bis_24(alter: int, kind: bool) -> int:
+def kind_ab_14_bis_24(alter: int, kind: bool) -> bool:
     """Calculate if child between 14 and 24 years old.
 
     Parameters
@@ -137,7 +156,7 @@ def kind_ab_14_bis_24(alter: int, kind: bool) -> int:
     return out
 
 
-def erwachsen(kind: bool) -> int:
+def erwachsen(kind: bool) -> bool:
     """Calculate if adult.
 
     Parameters
@@ -237,7 +256,7 @@ def jüngstes_kind_oder_mehrling(
     alter_monate: float,
     alter_monate_jüngstes_mitglied_hh: float,
     kind: bool,
-) -> int:
+) -> bool:
     """Check if person is the youngest child in the household or a twin, triplet, etc.
     of the youngest child.
 

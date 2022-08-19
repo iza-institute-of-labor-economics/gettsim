@@ -27,8 +27,13 @@ INPUT_COLS = [
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
+    "geburtsjahr",
+    "vermögen_bedürft_hh",
 ]
-OUT_COLS = ["_kinderzuschl_vor_vermög_check_m_hh"]
+OUT_COLS = [
+    "_kinderzuschl_vor_vermög_check_m_hh",
+    "_kinderzuschl_nach_vermög_check_m_hh",
+]
 # 2006 and 2009 are missing
 YEARS = [2011, 2013, 2016, 2017, 2019, 2020, 2021]
 
@@ -68,7 +73,5 @@ def test_kinderzuschl(
     )
 
     assert_series_equal(
-        result[column],
-        year_data[column],
-        check_dtype=False,
+        result[column], year_data[column], check_dtype=False, atol=0, rtol=0
     )

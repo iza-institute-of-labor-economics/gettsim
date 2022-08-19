@@ -5,12 +5,24 @@ This is a record of all past ``gettsim`` releases and what went into them in rev
 chronological order. We follow `semantic versioning <https://semver.org/>`_ and all
 releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_.
 
+
 0.5.2 —
 ------------------
 * :gh:`323` Health care contribution parameters are better aligned with law.
   Restructure calculation of ges_krankenv, minor changes to ges_pflegev.
   (:ghuser:`Eric-Sommer`, :ghuser:`ChristianZimpelmann`).
-
+* :gh:`392` Fix relative tolerance which was set too high for some tests. Rename
+  `vorsorge` to `vorsorgeaufw` (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`).
+* :gh:`385` Make altersentlastungsbetrag dependent on age not on current
+  date (:ghuser:`m-pannier`, :ghuser:`lillyfischer`).
+* :gh:`393` normal retirement age adjustment aligned with the rules.
+  (:ghuser:`TeBackh`).
+* :gh:`403`  Replace `Bokeh` with `plotly` for visualization.
+  (:ghuser:`effieHAN`,:ghuser:`sofyaakimova`).
+* :gh:`380` Implement an automatic type conversion of imported variables. Adding test
+  cases in `test_interface.py`. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
+* :gh:`406` Changed variable name from `vermögen_hh` to `vermögen_bedürft_hh`. Add test
+  cases for several transfers (:ghuser:`LauraGergeleit`).
 
 0.5.1 — 2022-04-21
 ------------------

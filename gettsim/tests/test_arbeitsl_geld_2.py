@@ -43,7 +43,7 @@ INPUT_COLS = [
     "elterngeld_m",
     "jahr",
     "wohngeld_vor_vermög_check_m_hh",
-    "vermögen_hh",
+    "vermögen_bedürft_hh",
     "geburtsjahr",
     "rentner",
     "in_ausbildung",
@@ -75,7 +75,7 @@ OVERRIDE_COLS = [
 ]
 
 
-YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019]
+YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019, 2022]
 
 
 @pytest.fixture(scope="module")
@@ -103,4 +103,4 @@ def test_arbeitsl_geld_2(input_data, year, column):
         result = calc_result[column].round(2)
     else:
         result = calc_result[column]
-    assert_series_equal(result, year_data[column], check_dtype=False)
+    assert_series_equal(result, year_data[column], check_dtype=False, atol=1e-1, rtol=0)
