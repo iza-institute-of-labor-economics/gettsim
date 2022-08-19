@@ -100,7 +100,7 @@ def create_synthetic_data(
 
     kwargs:
 
-    bruttolohn_m, kapitaleink_brutto_m, eink_selbst_m, vermögen_hh (int):
+    bruttolohn_m, kapitaleink_brutto_m, eink_selbst_m, vermögen_bedürft_hh (int):
         values for income and wealth, respectively.
         only valid if heterogenous_vars is empty
     """
@@ -171,7 +171,7 @@ def create_synthetic_data(
                 "bruttolohn_m",
                 "kapitaleink_brutto_m",
                 "eink_selbst_m",
-                "vermögen_hh",
+                "vermögen_bedürft_hh",
             ]:
                 raise ValueError(
                     f"Illegal value for variable to vary across households: {hetvar}"
@@ -261,7 +261,7 @@ def create_one_set_of_households(
         "behinderungsgrad",
         "mietstufe",
         "immobilie_baujahr",
-        "vermögen_hh",
+        "vermögen_bedürft_hh",
         "entgeltp",
         "grundr_bew_zeiten",
         "grundr_entgeltp",
@@ -346,7 +346,7 @@ def create_one_set_of_households(
     df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
     df["kapitaleink_brutto_m"] = kwargs.get("kapitaleink_brutto_m", 0)
     df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
-    df["vermögen_hh"] = kwargs.get("vermögen_hh", 0)
+    df["vermögen_bedürft_hh"] = kwargs.get("vermögen_bedürft_hh", 0)
 
     # append entries for children and partner
     for hht in hh_typen:

@@ -36,7 +36,7 @@ def test_synthetic():
         n_children=0,
         heterogeneous_vars={
             "bruttolohn_m": list(np.arange(0, 6000, 1000)),
-            "vermögen_hh": [10_000, 500_000, 1_000_000],
+            "vermögen_bedürft_hh": [10_000, 500_000, 1_000_000],
         },
     )
     # is household id unique?

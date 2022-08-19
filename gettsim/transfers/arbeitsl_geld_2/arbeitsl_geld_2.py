@@ -151,7 +151,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
         + anteile["kinder_14_24"] * anz_kinder_ab_14_bis_24_hh
     )
 
-    return out
+    return float(out)
 
 
 def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
@@ -186,7 +186,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
         + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
     )
 
-    return out
+    return float(out)
 
 
 def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
@@ -272,7 +272,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
     kindergeld_m_hh: float,
     unterhaltsvors_m_hh: float,
     arbeitsl_geld_2_eink_m_hh: float,
-    vermögen_hh: float,
+    vermögen_bedürft_hh: float,
     arbeitsl_geld_2_vermög_freib_hh: float,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and
@@ -290,8 +290,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
         See :func:`arbeitsl_geld_2_eink_m_hh`.
     arbeitsl_geld_2_vermög_freib_hh
         See :func:`arbeitsl_geld_2_vermög_freib_hh`.
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
+    vermögen_bedürft_hh
+        See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
 
     Returns
     -------
@@ -299,7 +299,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
     """
 
     # Check wealth exemption
-    if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
+    if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_hh:
         out = 0.0
     else:
         # Deduct income from various sources

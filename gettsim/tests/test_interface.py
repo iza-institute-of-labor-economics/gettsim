@@ -5,24 +5,15 @@ import pandas as pd
 import pytest
 
 from gettsim import compute_taxes_and_transfers
-from gettsim import test
-from gettsim.config import ROOT_DIR
-from gettsim.functions_loader import load_user_and_internal_functions
+from gettsim.interface import _convert_data_to_correct_types
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
-from gettsim.interface import _fail_if_datatype_is_false
 from gettsim.interface import _fail_if_functions_and_columns_overlap
 from gettsim.interface import _fail_if_group_variables_not_constant_within_groups
 from gettsim.interface import _fail_if_pid_is_non_unique
 from gettsim.interface import _partial_parameters_to_functions
 from gettsim.shared import add_rounding_spec
-
-
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "full_taxes_and_transfers.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
-    return out
+from gettsim.typing import convert_series_to_internal_type
 
 
 @pytest.fixture(scope="module")
@@ -47,20 +38,6 @@ def func_before_partial(arg_1, arbeitsl_geld_2_params):
 func_after_partial = _partial_parameters_to_functions(
     {"test_func": func_before_partial}, {"arbeitsl_geld_2": {"test_param_1": 1}}
 )["test_func"]
-
-
-def test_fail_if_datatype_is_false(input_data):
-    with does_not_raise():
-        _fail_if_datatype_is_false(input_data, [], [])
-    with pytest.raises(ValueError):
-        altered_data = input_data.copy(deep=True)
-        altered_data["alter"] = altered_data["alter"].astype(float)
-        _fail_if_datatype_is_false(altered_data, [], [])
-    with pytest.raises(ValueError):
-        _, functions = load_user_and_internal_functions(None)
-        columns = ["abgelt_st_tu"]
-        new_data = pd.DataFrame(data=[True, False], columns=columns, dtype=bool)
-        _fail_if_datatype_is_false(new_data, columns, functions)
 
 
 @pytest.mark.parametrize(
@@ -195,6 +172,8 @@ def test_fail_if_non_unique_cols(minimal_input_data):
 
 
 def test_consecutive_internal_test_runs():
+    from gettsim import test
+
     test("--collect-only")
 
     with pytest.warns(UserWarning, match="Repeated execution of the test suite"):
@@ -293,3 +272,165 @@ def test_user_provided_aggregation_specs_function():
     np.testing.assert_array_almost_equal(
         out["arbeitsl_geld_2_m_double_hh"], expected_res
     )
+
+
+@pytest.mark.parametrize(
+    "input_data, expected_type, expected_output_data",
+    [
+        (pd.Series([0, 1, 0]), bool, pd.Series([False, True, False])),
+        (pd.Series([1.0, 0.0, 1]), bool, pd.Series([True, False, True])),
+        (pd.Series([200, 550, 237]), float, pd.Series([200.0, 550.0, 237.0])),
+        (pd.Series([1.0, 4.0, 10.0]), int, pd.Series([1, 4, 10])),
+        (pd.Series([200.0, 567.0]), int, pd.Series([200, 567])),
+        (pd.Series([1.0, 0.0]), bool, pd.Series([True, False])),
+    ],
+)
+def test_convert_series_to_internal_types(
+    input_data, expected_type, expected_output_data
+):
+    adjusted_input = convert_series_to_internal_type(input_data, expected_type)
+    pd.testing.assert_series_equal(adjusted_input, expected_output_data)
+
+
+@pytest.mark.parametrize(
+    "input_data, expected_type, error_match",
+    [
+        (
+            pd.Series(["Hallo", 200, 325]),
+            float,
+            "Conversion from input type object to float failed.",
+        ),
+        (
+            pd.Series([True, False]),
+            float,
+            "Conversion from input type bool to float failed.",
+        ),
+        (
+            pd.Series(["a", "b", "c"]).astype("category"),
+            float,
+            "Conversion from input type category to float failed.",
+        ),
+        (
+            pd.Series(["2.0", "3.0"]),
+            int,
+            "Conversion from input type object to int failed.",
+        ),
+        (
+            pd.Series([1.5, 1.0, 2.9]),
+            int,
+            "Conversion from input type float64 to int failed.",
+        ),
+        (
+            pd.Series(["a", "b", "c"]).astype("category"),
+            int,
+            "Conversion from input type category to int failed.",
+        ),
+        (
+            pd.Series([5, 2, 3]),
+            bool,
+            "Conversion from input type int64 to bool failed.",
+        ),
+        (
+            pd.Series([1.5, 1.0, 35.0]),
+            bool,
+            "Conversion from input type float64 to bool failed.",
+        ),
+        (
+            pd.Series(["a", "b", "c"]).astype("category"),
+            bool,
+            "Conversion from input type category to bool failed.",
+        ),
+        (
+            pd.Series(["richtig"]),
+            bool,
+            "Conversion from input type object to bool failed.",
+        ),
+        (
+            pd.Series(["True", "False", ""]),
+            bool,
+            "Conversion from input type object to bool failed.",
+        ),
+        (
+            pd.Series(["true"]),
+            bool,
+            "Conversion from input type object to bool failed.",
+        ),
+        (
+            pd.Series(["zweitausendzwanzig"]),
+            np.datetime64,
+            "Conversion from input type object to datetime64 failed.",
+        ),
+        (
+            pd.Series([True, True]),
+            np.datetime64,
+            "Conversion from input type bool to datetime64 failed.",
+        ),
+        (
+            pd.Series([2020]),
+            str,
+            "The internal type <class 'str'> is not yet supported.",
+        ),
+    ],
+)
+def test_fail_if_cannot_be_converted_to_internal_type(
+    input_data, expected_type, error_match
+):
+    with pytest.raises(ValueError, match=error_match):
+        convert_series_to_internal_type(input_data, expected_type)
+
+
+@pytest.mark.parametrize(
+    "data, columns_overriding_functions, functions, error_match",
+    [
+        (
+            pd.DataFrame({"hh_id": [1, 1.1, 2]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - hh_id: Conversion from input type float64 to int failed."
+            " This conversion is only supported if all decimal places of input"
+            " data are equal to 0.",
+        ),
+        (
+            pd.DataFrame({"wohnort_ost": [1.1, 0.0, 1.0]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - wohnort_ost: Conversion from input type float64 to bool failed."
+            " This conversion is only supported if input data exclusively contains"
+            " the values 1.0 and 0.0.",
+        ),
+        (
+            pd.DataFrame({"wohnort_ost": [2, 0, 1], "hh_id": [1.0, 2.0, 3.0]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - wohnort_ost: Conversion from input type int64 to bool failed."
+            " This conversion is only supported if input data exclusively contains"
+            " the values 1 and 0.",
+        ),
+        (
+            pd.DataFrame({"wohnort_ost": ["True", "False"]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - wohnort_ost: Conversion from input type object to bool failed."
+            " Object type is not supported as input.",
+        ),
+        (
+            pd.DataFrame({"hh_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
+            {},
+            {},
+            "The data types of the following columns are invalid: \n"
+            + "\n - hh_id: Conversion from input type object to int failed. "
+            "Object type is not supported as input."
+            + "\n - bruttolohn_m: Conversion from input type object to float failed."
+            " Object type is not supported as input.",
+        ),
+    ],
+)
+def test_fail_if_cannot_be_converted_to_correct_type(
+    data, columns_overriding_functions, functions, error_match
+):
+    with pytest.raises(ValueError, match=error_match):
+        _convert_data_to_correct_types(data, columns_overriding_functions, functions)
