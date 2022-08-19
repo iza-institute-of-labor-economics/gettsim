@@ -461,12 +461,12 @@ def ges_rente_frauen_altersgrenze(
 
     out = piecewise_polynomial(
         x=x,
-        thresholds=ges_rente_params["altersrente_für_frauen_abschlagsfrei"][
+        thresholds=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
             "thresholds"
         ],
-        rates=ges_rente_params["altersrente_für_frauen_abschlagsfrei"]["rates"],
+        rates=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]["rates"],
         intercepts_at_lower_thresholds=ges_rente_params[
-            "altersrente_für_frauen_abschlagsfrei"
+            "altersgrenze_für_frauen_abschlagsfrei"
         ]["intercepts_at_lower_thresholds"],
     )
 
@@ -807,8 +807,8 @@ def ges_rente_wartezeit_45(
     insured). Wartezeit von 45 Jahren. Not all "rentenrechtliche
     Zeiten" are considered. Years with voluntary contributions are only considered
     if at least 18 years of mandatory contributions (m_pflichtbeitrag). Not all
-    ges_rente_anrechnungszeiten are considered, but only specific ones (e.g. ALG I, Kurzarbeit
-    but not ALG II).
+    ges_rente_anrechnungszeiten are considered, but only specific ones (e.g. ALG I,
+    Kurzarbeit but not ALG II).
 
     Parameters
     ----------

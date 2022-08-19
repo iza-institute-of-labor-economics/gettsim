@@ -771,7 +771,7 @@ regelaltersgrenze:
       upper_threshold: inf
       rate_linear: 0
 
-altersrente_für_frauen_abschlagsfrei:
+altersgrenze_für_frauen_abschlagsfrei:
   name:
     de: Eintrittsalter für Altersrente für Frauen
     en: Entry age for receiving Altersrente für Frauen
