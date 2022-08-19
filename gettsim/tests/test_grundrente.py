@@ -93,7 +93,6 @@ INPUT_COLS_INCOME = [
     "m_pflichtbeitrag",
     "m_freiw_beitrag",
     "m_ersatzzeit",
-    "rententrechtl_zeit",
     "m_schul_ausbild",
     "m_kind_berücks_zeit",
     "m_pfleg_berücks_zeit",

@@ -268,7 +268,6 @@ def create_one_set_of_households(
         "grundr_zeiten",
         "priv_rente_m",
         "schwerbeh_g",
-        "rententrechtl_zeit",
         "m_pflichtbeitrag",
         "m_freiw_beitrag",
         "m_mutterschutz",
