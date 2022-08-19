@@ -80,8 +80,8 @@ def create_synthetic_data(
     age_adults (list of int):
         Assumed age of adult(s)
 
-    gen_female (list of int):
-        Assumend gender of adult(s), 0 male 1 female
+    gen_female (list of bool):
+        Assumend gender of adult(s), 'False' male 'True' female
 
     age_children (list of int):
         Assumed age of children (first and second child, respectively)
