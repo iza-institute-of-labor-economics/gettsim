@@ -18,18 +18,18 @@ beitr_satz:
       arbeitsl_v:  Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
       ges_rentenv: Beitragssätze zur allgemeinen Rentenversicherung für Arbeitnehmer.
     en:
-     ges_krankenv:  Statury Contribution Rates for mandatory health insurance.
-                    mean_allgemein - average contribution rate, 1992 to 2008
-                    allgemein - general statutory contribution rate, since 2009
-                    sonderbeitrag - paid by employees, Jul 2005 to 2014
-                    ermäßigt - reduced rate
-                    zusatz - average top-up contribution rate
+     ges_krankenv: Statury Contribution Rates for mandatory health insurance.
+                   mean_allgemein - average contribution rate, 1992 to 2008
+                   allgemein - general statutory contribution rate, since 2009
+                   sonderbeitrag - paid by employees, Jul 2005 to 2014
+                   ermäßigt - reduced rate
+                   zusatz - average top-up contribution rate
      ges_pflegev: Statury Contribution Rates for mandatory care insurance.
                   standard - employees contribution rate
                   zusatz_kinderlos - contribution rate for insured people without
                   children and at least 23 years old. paid by employees. est. 2005
-     arbeitsl_v:	employees contribution rate for unemployment insurance.
-     ges_rentenv:	employees contribution rate for pension insurance.
+     arbeitsl_v:  employees contribution rate for unemployment insurance.
+     ges_rentenv: employees contribution rate for pension insurance.
 
   unit: Share
   1984-01-01:
