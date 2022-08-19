@@ -384,8 +384,7 @@ def _create_pydot_layout(dag):
     # Remap layout from integers to labels.
     integer_to_labels = dict(zip(dag_w_integer_nodes.nodes, dag.nodes))
     layout = {
-        integer_to_labels[i]: np.array(integer_layout[str(i)])
-        for i in integer_to_labels
+        integer_to_labels[i]: np.array(integer_layout[i]) for i in integer_to_labels
     }
 
     # Convert nonnegative integer coordinates from the layout to unit cube.

@@ -248,6 +248,10 @@ def ges_rente_zugangsfaktor(
         See :func:`referenz_alter_abschlag`.
     _ges_rente_altersgrenze_abschlagsfrei
         See :func:`_ges_rente_altersgrenze_abschlagsfrei`.
+    ges_rente_vorauss_vorzeitig
+        See :func:`ges_rente_vorauss_vorzeitig`.
+    ges_rente_vorraus_regelrente
+        See :func:`ges_rente_vorraus_regelrente`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -369,8 +373,8 @@ def referenz_alter_abschlag(
     ----------
     ges_rente_frauen_altersgrenze
         See :func:`ges_rente_frauen_altersgrenze`.
-    ges_rente_langjährig_altersgrenze
-        See :func:`ges_rente_langjährig_altersgrenze`.
+    _ges_rente_langjährig_altersgrenze
+        See :func:`_ges_rente_langjährig_altersgrenze`.
     ges_rente_vorraus_frauen
         See :func:`ges_rente_vorraus_frauen`.
     ges_rente_vorraus_langjährig
@@ -487,8 +491,6 @@ def _ges_rente_langjährig_altersgrenze(
         See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
-    ges_rente_vorraus_besond_lang
-        See:func:`ges_rente_vorraus_besond_lang`.
 
     Returns
     -------
@@ -752,7 +754,7 @@ def ges_rente_wartezeit_15(
 def ges_rente_wartezeit_35(
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
-    anrechnungszeit: float,
+    ges_rente_anrechnungszeit: float,
     m_ersatzzeit: float,
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
@@ -769,8 +771,8 @@ def ges_rente_wartezeit_35(
         See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
     m_ersatzzeit
         See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
-    anrechnungszeit
-        See :func:`anrechnungszeit`
+    ges_rente_anrechnungszeit
+        See :func:`ges_rente_anrechnungszeit`
     m_kind_berücks_zeit
         See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
     m_pfleg_berücks_zeit
@@ -784,7 +786,7 @@ def ges_rente_wartezeit_35(
     out = (
         m_pflichtbeitrag
         + m_freiw_beitrag
-        + anrechnungszeit
+        + ges_rente_anrechnungszeit
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
@@ -795,7 +797,7 @@ def ges_rente_wartezeit_35(
 def ges_rente_wartezeit_45(
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
-    anrechnungszeit_45: float,
+    ges_rente_anrechnungszeit_45: float,
     m_ersatzzeit: float,
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
@@ -805,7 +807,7 @@ def ges_rente_wartezeit_45(
     insured). Wartezeit von 45 Jahren. Not all "rentenrechtliche
     Zeiten" are considered. Years with voluntary contributions are only considered
     if at least 18 years of mandatory contributions (m_pflichtbeitrag). Not all
-    anrechnungszeiten are considered, but only specific ones (e.g. ALG I, Kurzarbeit
+    ges_rente_anrechnungszeiten are considered, but only specific ones (e.g. ALG I, Kurzarbeit
     but not ALG II).
 
     Parameters
@@ -814,10 +816,10 @@ def ges_rente_wartezeit_45(
         See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
     m_freiw_beitrag
         See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
+    ges_rente_anrechnungszeit_45
+        See :func:`ges_rente_anrechnungszeit_45`.
     m_ersatzzeit
         See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
-    anrechnungszeit_45
-        See :func:`anrechnungszeit_45`.
     m_kind_berücks_zeit
         See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
     m_pfleg_berücks_zeit
@@ -835,7 +837,7 @@ def ges_rente_wartezeit_45(
     out = (
         m_pflichtbeitrag
         + freiwilligbeitr
-        + anrechnungszeit_45
+        + ges_rente_anrechnungszeit_45
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
@@ -844,7 +846,7 @@ def ges_rente_wartezeit_45(
     return out
 
 
-def anrechnungszeit(
+def ges_rente_anrechnungszeit(
     m_arbeitsunfähig: float,
     m_krank_ab_16_bis_24: float,
     m_mutterschutz: float,
@@ -889,7 +891,7 @@ def anrechnungszeit(
     return out
 
 
-def anrechnungszeit_45(
+def ges_rente_anrechnungszeit_45(
     m_arbeitsunfähig: float,
     m_alg1_übergang: float,
     m_geringf_beschäft: float,
