@@ -109,7 +109,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`m_mutterschutz`       | Months of maternal protections              | float        |
 +-------------------------+---------------------------------------------+--------------+
-||_`m_arbeitsunfähig`     || Months of sickness, rehabilitation,        || float       |
+|| _`m_arbeitsunfähig`    || Months of sickness, rehabilitation,        || float       |
 ||                        || measures for worklife participation        ||             |
 ||                        || (Teilhabe)                                 ||             |
 +-------------------------+---------------------------------------------+--------------+
@@ -119,7 +119,7 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`m_ausbild_suche`      | Months of apprenticeship search             | float        |
 +-------------------------+---------------------------------------------+--------------+
-||_`m_schul_ausbild`      || Months of schooling (incl college, uni     || float       |
+|| _`m_schul_ausbild`     || Months of schooling (incl college, uni     || float       |
 ||                        || from age 17, max. 8 years)                 ||             |
 +-------------------------+---------------------------------------------+--------------+
 || _`m_alg1_übergang`     || Months of unemployment (only time          || float       |
