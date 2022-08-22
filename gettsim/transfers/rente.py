@@ -478,10 +478,10 @@ def _ges_rente_langjährig_altersgrenze(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the age, at which a long term insured person (at least 35 years ) is
+    """Calculates the age, at which a long term insured person (at least 35 years) is
     eligible to claim the full pension (without deductions). This pension scheme allows
-    for early retirement from age 63 with deductions. Hence this threshold is needed as
-    reference for calculating the zugangsfaktor.
+    for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
+    as reference for calculating the zugangsfaktor.
 
     Parameters
     ----------
