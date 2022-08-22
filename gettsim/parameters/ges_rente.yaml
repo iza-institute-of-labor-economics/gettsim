@@ -750,12 +750,11 @@ regelaltersgrenze:
   reference: § 35 Satz 2 SGB VI
   note:
     de: >-
-      Diese Funktion ist hier ab 2002 angegeben. Vor 2002 ist das Steuersystem nicht
-      implementiert. Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
+      Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
       Ab einschließlich Jahrgang 1964 gilt NRA 67.
     en:
   type: piecewise_linear
-  2002-01-01:
+  1984-01-01:
     0:
       lower_threshold: -inf
       upper_threshold: 1946
