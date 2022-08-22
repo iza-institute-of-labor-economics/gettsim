@@ -921,7 +921,7 @@ altersgrenze_besonders_langjährig_versicherte:
   note:
     de: >-
       Diese Funktion ist hier ab 2010 angegeben. Vor 2010  nicht existent.
-      Fuer Kohorten 1947 bis einschließlich 1950 gilt die Grenze von 65 Jahren. Vor 47 galt sowieso regelaltersgrenze 65.
+      Für Kohorten bis einschließlich 1950 gilt die Grenze von 65 Jahren.
     en:
   type: piecewise_linear
   2010-01-01:
