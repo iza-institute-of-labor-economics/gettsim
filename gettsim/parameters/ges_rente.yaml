@@ -784,12 +784,13 @@ altersgrenze_für_frauen_abschlagsfrei:
     de: >-
       Frauen, die vor 1940 geboren wurden, konnten mit 60 abschlagsfrei in Rente gehen,
       nach einer Wartezeit von 15 Jahren und mit mindestens 10 Beitragsjahren ab dem Alter von 40.
-      Ab 1940 wurde das Eintrittsalter sukzessive erhöhrt um einen Monat pro Geburtsmonat auf das Alter 65.
-      Für Kohorten 1945-1951 beträgt es konstant 65. Für Kohorten ab 1952 ist es abgeschafft. Ab dort regelaltersgrenze implementiert.
+      Ab 1940 wurde das Eintrittsalter sukzessive erhöhrt um einen Monat pro Geburtsmonat auf das Alter 65. Daher werden
+      bei der Angabe der Grenzen Dezimalstellen benötigt. Für Kohorten 1945-1951 beträgt es konstant 65. Für Kohorten ab
+      1952 ist es abgeschafft. Ab dort regelaltersgrenze implementiert.
     en:
       Women born before 1940 were able to retire at age 60 without deductions (required waiting period of 15 years and 10 years of
       contributions after age 40). The age threshold was increase by one month for each birthmonth up to age 65 for cohort 1945.
-      Between cohort 1945 and 1951 the threshold remained constant.
+      Therefore decimal places are needed to define thresholds. Between cohort 1945 and 1951 the threshold remained constant.
       The special pension scheme for women was abolished for cohorts born afer 1952. regelaltersgrenze afterwards.
   type: piecewise_linear
   1980-01-01:
