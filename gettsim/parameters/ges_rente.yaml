@@ -839,7 +839,7 @@ altersgrenze_für_frauen_vorzeitig:
       upper_threshold: inf # constant 67
       rate_linear: 0
 
-altersgrenze_langjährig_versicherte_vorzeitig:
+altersgrenze_langj_versicherte_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte.
     en: Early retirement age for long term insured
@@ -850,7 +850,7 @@ altersgrenze_langjährig_versicherte_vorzeitig:
   1980-01-01:
     scalar: 63
 
-altersgrenze_langjährig_versicherte_abschlagsfrei:
+altersgrenze_langj_versicherte_abschlagsfrei:
   name:
     de: Eintrittsalter für langjährig Versicherte - abschlagsfrei
     en: Entry age for long term insured (35 insurance years) without deductions
@@ -903,7 +903,7 @@ altersgrenze_langjährig_versicherte_abschlagsfrei:
       upper_threshold: inf
       rate_linear: 0
 
-altersgrenze_besonders_langjährig_versicherte:
+altersgrenze_besonders_langj_versicherte:
   name:
     de: Eintrittsalter für besond. langjährig versicherte - abschlagsfrei ("Rente mit 63")
     en: Entry age for very long term insured (45 insurance years) without deductions

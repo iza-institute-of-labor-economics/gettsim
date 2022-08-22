@@ -308,8 +308,8 @@ def ges_rente_zugangsfaktor(
 def _ges_rente_altersgrenze_abschlagsfrei(
     ges_rente_regelaltersgrenze: float,
     ges_rente_frauen_altersgrenze: float,
-    _ges_rente_langjährig_altersgrenze: float,
-    ges_rente_bes_lang_altersgrenze: float,
+    _ges_rente_langj_altersgrenze: float,
+    _ges_rente_besond_langj_altersgrenze: float,
     ges_rente_vorauss_regelrente: bool,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
@@ -326,10 +326,10 @@ def _ges_rente_altersgrenze_abschlagsfrei(
         See :func:`ges_rente_regelaltersgrenze`.
     ges_rente_frauen_altersgrenze
         See :func:`ges_rente_frauen_altersgrenze`.
-    _ges_rente_langjährig_altersgrenze
-        See :func:`_ges_rente_langjährig_altersgrenze`.
-    ges_rente_bes_lang_altersgrenze
-        See :func:`ges_rente_bes_lang_altersgrenze`.
+    _ges_rente_langj_altersgrenze
+        See :func:`_ges_rente_langj_altersgrenze`.
+    _ges_rente_besond_langj_altersgrenze
+        See :func:`_ges_rente_besond_langj_altersgrenze`.
     ges_rente_vorauss_regelrente
         See :func:`ges_rente_vorauss_regelrente`.
     ges_rente_vorauss_frauen
@@ -351,16 +351,16 @@ def _ges_rente_altersgrenze_abschlagsfrei(
     if ges_rente_vorauss_frauen:
         out = min([out, ges_rente_frauen_altersgrenze])
     if ges_rente_vorauss_langj:
-        out = min([out, _ges_rente_langjährig_altersgrenze])
+        out = min([out, _ges_rente_langj_altersgrenze])
     if ges_rente_vorauss_besond_langj:
-        out = min([out, ges_rente_bes_lang_altersgrenze])
+        out = min([out, _ges_rente_besond_langj_altersgrenze])
 
     return out
 
 
 def referenz_alter_abschlag(
     ges_rente_frauen_altersgrenze: float,
-    _ges_rente_langjährig_altersgrenze: float,
+    _ges_rente_langj_altersgrenze: float,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
 ) -> float:
@@ -373,8 +373,8 @@ def referenz_alter_abschlag(
     ----------
     ges_rente_frauen_altersgrenze
         See :func:`ges_rente_frauen_altersgrenze`.
-    _ges_rente_langjährig_altersgrenze
-        See :func:`_ges_rente_langjährig_altersgrenze`.
+    _ges_rente_langj_altersgrenze
+        See :func:`_ges_rente_langj_altersgrenze`.
     ges_rente_vorauss_frauen
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
@@ -385,9 +385,9 @@ def referenz_alter_abschlag(
     Reference age for deduction calculation.
     """
     if ges_rente_vorauss_langj and ges_rente_vorauss_frauen:
-        out = min([ges_rente_frauen_altersgrenze, _ges_rente_langjährig_altersgrenze])
+        out = min([ges_rente_frauen_altersgrenze, _ges_rente_langj_altersgrenze])
     elif ges_rente_vorauss_langj:
-        out = _ges_rente_langjährig_altersgrenze
+        out = _ges_rente_langj_altersgrenze
     elif ges_rente_vorauss_frauen:
         out = ges_rente_frauen_altersgrenze
     else:
@@ -473,7 +473,7 @@ def ges_rente_frauen_altersgrenze(
     return out
 
 
-def _ges_rente_langjährig_altersgrenze(
+def _ges_rente_langj_altersgrenze(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
@@ -507,21 +507,19 @@ def _ges_rente_langjährig_altersgrenze(
 
     out = piecewise_polynomial(
         x=x,
-        thresholds=ges_rente_params[
-            "altersgrenze_langjährig_versicherte_abschlagsfrei"
-        ]["thresholds"],
-        rates=ges_rente_params["altersgrenze_langjährig_versicherte_abschlagsfrei"][
-            "rates"
+        thresholds=ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "thresholds"
         ],
+        rates=ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"]["rates"],
         intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_langjährig_versicherte_abschlagsfrei"
+            "altersgrenze_langj_versicherte_abschlagsfrei"
         ]["intercepts_at_lower_thresholds"],
     )
 
     return out
 
 
-def ges_rente_bes_lang_altersgrenze(
+def _ges_rente_besond_langj_altersgrenze(
     geburtsjahr: int,
     ges_rente_params: dict,
 ) -> float:
@@ -543,14 +541,12 @@ def ges_rente_bes_lang_altersgrenze(
     """
     out = piecewise_polynomial(
         x=geburtsjahr,
-        thresholds=ges_rente_params["altersgrenze_besonders_langjährig_versicherte"][
+        thresholds=ges_rente_params["altersgrenze_besonders_langj_versicherte"][
             "thresholds"
         ],
-        rates=ges_rente_params["altersgrenze_besonders_langjährig_versicherte"][
-            "rates"
-        ],
+        rates=ges_rente_params["altersgrenze_besonders_langj_versicherte"]["rates"],
         intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_besonders_langjährig_versicherte"
+            "altersgrenze_besonders_langj_versicherte"
         ]["intercepts_at_lower_thresholds"],
     )
 
@@ -674,9 +670,9 @@ def ges_rente_vorauss_langj(
     Eligibility as bool.
 
     """
-    out = (
-        alter >= ges_rente_params["altersgrenze_langjährig_versicherte_vorzeitig"]
-    ) and (ges_rente_wartezeit_35 >= 35)
+    out = (alter >= ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]) and (
+        ges_rente_wartezeit_35 >= 35
+    )
 
     return out
 
