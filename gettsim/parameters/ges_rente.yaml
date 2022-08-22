@@ -920,7 +920,7 @@ altersgrenze_besonders_langjährig_versicherte:
     https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
   note:
     de: >-
-      Diese Funktion ist hier ab 2010 angegeben. Vor 2010  nicht existent.
+      Die Regelung existiert ab 2010.
       Für Kohorten bis einschließlich 1950 gilt die Grenze von 65 Jahren.
     en:
   type: piecewise_linear
