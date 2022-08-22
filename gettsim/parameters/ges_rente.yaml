@@ -819,12 +819,12 @@ altersgrenze_für_frauen_abschlagsfrei:
 
 altersgrenze_für_frauen_vorzeitig:
   name:
-    de:
-    en:
+    de: Altersgrenze für vorzeitigen Bezug der Altersrente für Frauen.
+    en: Early retirement age for women.
   description:
-    de:
-    en:
-  reference:
+    de: Frühesmögliches Alter ab dem die Altersrente für Frauen bezogen werden kann (mit Abschlägen).
+    en: Ealiest possible age to receive pension for women (with deductions).
+  reference: § 237a SGB VI Altersrente für Frauen. (https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html)
   type: piecewise_linear
   1980-01-01:
     0:
@@ -841,19 +841,19 @@ altersgrenze_für_frauen_vorzeitig:
 
 altersgrenze_langjährig_versicherte_vorzeitig:
   name:
-    de:
-    en:
+    de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte.
+    en: Early retirement age for long term insured
   description:
-    de:
-    en:
-  reference:
+    de: Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte bezogen werden kann (mit Abschlägen).
+    en: Ealiest possible age to receive pension for long term insured (with deductions).
+  reference: § 236 SGB VI Altersrente für langjährig Versicherte. (https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html)
   1980-01-01:
     scalar: 63
 
 altersgrenze_langjährig_versicherte_abschlagsfrei:
   name:
     de: Eintrittsalter für langjährig Versicherte - abschlagsfrei
-    en: Entry age for long term insured (35 years) without deductions
+    en: Entry age for long term insured (35 insurance years) without deductions
   description:
     de:
       Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
@@ -905,8 +905,8 @@ altersgrenze_langjährig_versicherte_abschlagsfrei:
 
 altersgrenze_besonders_langjährig_versicherte:
   name:
-    de: Eintrittsalter fuer besond. langjaehrig versicherte - abschlagsfrei
-    en: Entry age for very long term insured (45 years) without deductions
+    de: Eintrittsalter fuer besond. langjaehrig versicherte - abschlagsfrei ("Rente mit 63")
+    en: Entry age for very long term insured (45 insurance years) without deductions
   description:
     de:
       Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
