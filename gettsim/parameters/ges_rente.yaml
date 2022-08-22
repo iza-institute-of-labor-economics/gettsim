@@ -868,11 +868,11 @@ altersgrenze_langjährig_versicherte_abschlagsfrei:
   note:
     de: >-
       Kohorten vor 1937 konnten mit 63 abschlagsfrei in Rente gehen.
-      Ab Geburtsdatum Januar 1937 wurde fuer jeden Monat, den die Person spaeter geboren wurde das
-      Eintrittsalter um 1 Monat erhoeht bis Geburtsdatum Dezember 1938: Eintrittsalter 65. Dieses
-      Eintrittsalter galt bis einschliesslich Jahrgang 1948. Ab Geburtsdatum Maerz 1949 entspricht die
-      Altersgrenze der Regelaltersgrenze, also 65 Jahre, 3 Monate. Fuer Geburtsdatum 1/1949 ist sie
-      65, 1 Monat. Fuer 2/1949 65, 2 Monate.
+      Ab Geburtsdatum Januar 1937 wurde für jeden Monat, den die Person später geboren wurde das
+      Eintrittsalter um 1 Monat erhöht bis Geburtsdatum Dezember 1938: Eintrittsalter 65. Dieses
+      Eintrittsalter galt bis einschließlich Jahrgang 1948. Ab Geburtsdatum März 1949 entspricht die
+      Altersgrenze der Regelaltersgrenze, also 65 Jahre, 3 Monate. Für Geburtsdatum 1/1949 ist sie
+      65, 1 Monat. Für 2/1949 65, 2 Monate.
     en:
   type: piecewise_linear
   1984-01-01:
@@ -905,7 +905,7 @@ altersgrenze_langjährig_versicherte_abschlagsfrei:
 
 altersgrenze_besonders_langjährig_versicherte:
   name:
-    de: Eintrittsalter fuer besond. langjaehrig versicherte - abschlagsfrei ("Rente mit 63")
+    de: Eintrittsalter für besond. langjährig versicherte - abschlagsfrei ("Rente mit 63")
     en: Entry age for very long term insured (45 insurance years) without deductions
   description:
     de:
