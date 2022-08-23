@@ -141,5 +141,6 @@ household.
 || _`m_pfleg_berücks_zeit`|| Total months of home care                  || float       |
 ||                        || (01.01.1992-31.03.1995)                    ||             |
 +-------------------------+---------------------------------------------+--------------+
-| _`y_pflichtbeitr_ab_40` | Years of mandat. contributions after age 40 | float        |
+|| _`y_pflichtbeitr_ab_40`|| Total years of mandat. contributions after || float       |
+||                        || age 40                                     ||             |
 +-------------------------+---------------------------------------------+--------------+
