@@ -1,6 +1,6 @@
 def ges_rentenv_beitr_m(
     geringfügig_beschäftigt: bool,
-    _ges_rentenv_beitr_midi_job_m_m: float,
+    _ges_rentenv_beitr_midi_job_m: float,
     _ges_rentenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
     in_gleitzone: bool,
@@ -12,8 +12,8 @@ def ges_rentenv_beitr_m(
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
 
-    _ges_rentenv_beitr_midi_job_m_m
-        See :func:`_ges_rentenv_beitr_midi_job_m_m`.
+    _ges_rentenv_beitr_midi_job_m
+        See :func:`_ges_rentenv_beitr_midi_job_m`.
     _ges_rentenv_beitr_bruttolohn_m
         See :func:`_ges_rentenv_beitr_bruttolohn_m`.
     soz_vers_beitr_params
@@ -33,14 +33,14 @@ def ges_rentenv_beitr_m(
     if geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
-        out = _ges_rentenv_beitr_midi_job_m_m
+        out = _ges_rentenv_beitr_midi_job_m
     else:
         out = ges_rentenv_beitr_regular_job_m
 
     return out
 
 
-def _ges_rentenv_beitr_midi_job_m_m(
+def _ges_rentenv_beitr_midi_job_m(
     midi_job_bemessungsentgelt_m: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,

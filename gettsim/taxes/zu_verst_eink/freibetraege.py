@@ -104,7 +104,7 @@ def eink_st_altersfreib_bis_2004(
     eink_vermietung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for elderly.
+    """Calculates tax deduction allowance for elderly until 2004.
 
     Parameters
     ----------
@@ -151,7 +151,7 @@ def eink_st_altersfreib_ab_2005(
     eink_vermietung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for elderly.
+    """Calculates tax deduction allowance for elderly since 2005.
 
     Parameters
     ----------
@@ -209,7 +209,7 @@ def eink_st_sonderausgaben_bis_2011(
     kind: bool,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculating sonderausgaben for childcare until 2011.
+    """Calculating individual sonderausgaben for childcare until 2011.
 
     There is only a lumpsum payment implemented.
     Parameters
@@ -240,7 +240,7 @@ def sonderausgaben_betreuung(
     betreuungskost_m: float,
     anz_erwachsene_tu: int,
 ) -> float:
-    """Calculate sonderausgaben for childcare for childen under 14.
+    """Calculate individual sonderausgaben for childcare for childen under 14.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
@@ -274,7 +274,7 @@ def eink_st_sonderausgaben_ab_2012(
     eink_st_abzuege_params: dict,
     sonderausgaben_betreuung: float,
 ) -> float:
-    """Calculate sonderausgaben since 2012.
+    """Calculate individual sonderausgaben since 2012.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.

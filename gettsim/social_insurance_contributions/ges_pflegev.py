@@ -26,7 +26,7 @@ def ges_pflegev_beitr_m(
     geringfügig_beschäftigt: bool,
     ges_pflegev_beitr_rente_m: float,
     ges_pflegev_beitr_selbst_m: float,
-    _ges_pflegev_beitr_midi_job_m_m: float,
+    _ges_pflegev_beitr_midi_job_m: float,
     ges_pflegev_zusatz_kinderlos: bool,
     _ges_krankenv_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
@@ -43,8 +43,8 @@ def ges_pflegev_beitr_m(
         See :func:`ges_pflegev_beitr_rente_m`.
     ges_pflegev_beitr_selbst_m
         See :func:`ges_pflegev_beitr_selbst_m`.
-    _ges_pflegev_beitr_midi_job_m_m
-        See :func:`_ges_pflegev_beitr_midi_job_m_m`.
+    _ges_pflegev_beitr_midi_job_m
+        See :func:`_ges_pflegev_beitr_midi_job_m`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     _ges_krankenv_bruttolohn_m
@@ -79,7 +79,7 @@ def ges_pflegev_beitr_m(
     elif geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
-        out = _ges_pflegev_beitr_midi_job_m_m
+        out = _ges_pflegev_beitr_midi_job_m
     else:
         out = beitr_regulär_beschäftigt_m
 
@@ -92,7 +92,7 @@ def ges_pflegev_beitr_selbst_m(
     _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculates care insurance contributions.
+    """Calculates care insurance contributions for self-employed individuals.
 
     Self-employed pay the full
     contribution (employer + employee), which is either assessed on their
@@ -166,7 +166,7 @@ def ges_pflegev_beitr_rente_m(
     return out
 
 
-def _ges_pflegev_beitr_midi_job_m_m(
+def _ges_pflegev_beitr_midi_job_m(
     ges_pflegev_zusatz_kinderlos: bool,
     midi_job_bemessungsentgelt_m: float,
     bruttolohn_m: float,

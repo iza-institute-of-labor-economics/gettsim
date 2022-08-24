@@ -3,7 +3,8 @@ from gettsim.shared import add_rounding_spec
 
 
 def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float:
-    """Calculate total pension as sum of private and public pension.
+    """Calculate total individual pension as sum of private and
+    public pension.
 
     Parameters
     ----------
@@ -26,7 +27,7 @@ def ges_rente_nach_grundr_m(
     grundr_zuschlag_m: float,
     rentner: bool,
 ) -> float:
-    """Calculate total public pension including Grundrentenzuschlag. Is
+    """Calculate total individual public pension including Grundrentenzuschlag. Is
     only active after 2021 when Grundrente is in place.
 
     Parameters

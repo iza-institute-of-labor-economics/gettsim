@@ -45,7 +45,7 @@ def wohngeld_abzüge_m_tu(
     ges_krankenv_beitr_m_tu: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate housing benefit subtractions.
+    """Calculate housing benefit subtractions per tax unit.
 
     Parameters
     ----------
