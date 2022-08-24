@@ -12,7 +12,7 @@ current_year = datetime.datetime.now().year
 
 
 def append_other_hh_members(
-    df, hh_typ, n_children, age_adults, age_children, double_earner
+    df, hh_typ, n_children, age_adults, gen_female, age_children, double_earner
 ):
     """
     duplicates information from the one person already created
@@ -27,6 +27,7 @@ def append_other_hh_members(
     if hh_typ == "couple":
         adult = df.copy()
         adult["alter"] = age_adults[1]
+        adult["weiblich"] = gen_female[1]
         if not double_earner:
             adult["bruttolohn_m"] = 0
 
@@ -59,6 +60,7 @@ def create_synthetic_data(
     hh_typen=None,
     n_children=None,
     age_adults=None,
+    gen_female=None,
     age_children=None,
     baujahr=1980,
     double_earner=False,
@@ -78,6 +80,9 @@ def create_synthetic_data(
 
     age_adults (list of int):
         Assumed age of adult(s)
+
+    gen_female (list of bool):
+        Assumend gender of adult(s), 'False' male 'True' female
 
     age_children (list of int):
         Assumed age of children (first and second child, respectively)
@@ -107,6 +112,8 @@ def create_synthetic_data(
         n_children = [0, 1, 2]
     if age_adults is None:
         age_adults = [35, 35]
+    if gen_female is None:
+        gen_female = [False, True]
     if age_children is None:
         age_children = [3, 8]
 
@@ -128,6 +135,10 @@ def create_synthetic_data(
         if (a < 0) or (type(a) != int):
             raise ValueError(f"illegal value for age: {a}")
 
+    for g in gen_female:
+        if g not in [False, True]:
+            raise ValueError("gender weiblich must be bool.")
+
     p_id_min = 0
     group_mins = {}
     for g in SUPPORTED_GROUPINGS:
@@ -142,6 +153,7 @@ def create_synthetic_data(
             hh_typen,
             n_children,
             age_adults,
+            gen_female,
             age_children,
             baujahr,
             double_earner,
@@ -175,6 +187,7 @@ def create_synthetic_data(
                             hh_typen,
                             n_children,
                             age_adults,
+                            gen_female,
                             age_children,
                             baujahr,
                             double_earner,
@@ -198,6 +211,7 @@ def create_one_set_of_households(
     hh_typen,
     n_children,
     age_adults,
+    gen_female,
     age_children,
     baujahr,
     double_earner,
@@ -213,6 +227,7 @@ def create_one_set_of_households(
         "kind",
         "bruttolohn_m",
         "alter",
+        "weiblich",
         "rentner",
         "alleinerz",
         "wohnort_ost",
@@ -252,6 +267,20 @@ def create_one_set_of_households(
         "grundr_zeiten",
         "priv_rente_m",
         "schwerbeh_g",
+        "m_pflichtbeitrag",
+        "m_freiw_beitrag",
+        "m_mutterschutz",
+        "m_arbeitsunfähig",
+        "m_krank_ab_16_bis_24",
+        "m_arbeitslos",
+        "m_ausbild_suche",
+        "m_schul_ausbild",
+        "m_geringf_beschäft",
+        "m_alg1_übergang",
+        "m_ersatzzeit",
+        "m_kind_berücks_zeit",
+        "m_pfleg_berücks_zeit",
+        "y_pflichtbeitr_ab_40",
     ]
     # Create one row per desired household
     n_rows = len(hh_typen) * len(n_children)
@@ -292,6 +321,7 @@ def create_one_set_of_households(
 
     # 'Custom' initializations
     df["alter"] = age_adults[0]
+    df["weiblich"] = gen_female[0]
     df["immobilie_baujahr"] = baujahr
 
     # Household Types
@@ -331,6 +361,7 @@ def create_one_set_of_households(
                         hht,
                         nch,
                         age_adults,
+                        gen_female,
                         age_children,
                         double_earner,
                     ),
@@ -366,6 +397,22 @@ def create_one_set_of_households(
     df["grundr_bew_zeiten"] = df["grundr_zeiten"]
     df["entgeltp"] = df["grundr_zeiten"] / 12
     df["grundr_entgeltp"] = df["entgeltp"]
+
+    # Rente Wartezeiten
+    df["m_pflichtbeitrag"] = (df["alter"] - 25).clip(lower=0) * 12
+    df["y_pflichtbeitr_ab_40"] = (df["alter"] - 40).clip(lower=0) * 12
+    df["m_freiw_beitrag"] = 5
+    df["m_ersatzzeit"] = 0
+    df["m_schul_ausbild"] = 10
+    df["m_arbeitsunfähig"] = 0
+    df["m_krank_ab_16_bis_24"] = 0
+    df["m_mutterschutz"] = 0
+    df["m_arbeitslos"] = 0
+    df["m_ausbild_suche"] = 0
+    df["m_alg1_übergang"] = 0
+    df["m_geringf_beschäft"] = 0
+    df["m_kind_berücks_zeit"] = 24
+    df["m_pfleg_berücks_zeit"] = 1
 
     group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
     df = df.reset_index()

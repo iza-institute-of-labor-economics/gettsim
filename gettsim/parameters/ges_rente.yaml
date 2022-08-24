@@ -4,9 +4,10 @@ alpha:
     en: alpha
   description:
     de: Teil des Nachhaltigkeitsfaktors in der Rentenanpassungsformel,
-        welche das Verhältnis von Rentnern zu Beitragszahlern modifiziert
-    en: Part of the sustainability factor in the pension adjustment formula which modifies
-        the ratio of pentioners to contributors
+      welche das Verhältnis von Rentnern zu Beitragszahlern modifiziert
+    en:
+      Part of the sustainability factor in the pension adjustment formula which modifies
+      the ratio of pentioners to contributors
   unit: Factor
   reference: §68 Abs. 4 S. 6 SGB VI
   1984-01-01:
@@ -47,10 +48,12 @@ beitragsvolumen:
     de: Beitragsvolumen der gesetzlichen Rentenversicherung
     en: Contribution volume of the statutory pension insurance
   description:
-    de: Summe der Beiträge zur Rentenversicherung aller rentenversicherungspflichtig Beschäftigten,
-        der geringfügig Beschäftigten und der Bezieher von ALG. statistik-rente.de/drv
-    en: Sum of contributions to the pension insurance of all employees subject to pension insurance,
-        marginally employed and recipients of ALG.
+    de:
+      Summe der Beiträge zur Rentenversicherung aller rentenversicherungspflichtig Beschäftigten,
+      der geringfügig Beschäftigten und der Bezieher von ALG. statistik-rente.de/drv
+    en:
+      Sum of contributions to the pension insurance of all employees subject to pension insurance,
+      marginally employed and recipients of ALG.
   unit: Euro
   1991-01-01:
     scalar: 108688000
@@ -117,9 +120,10 @@ eckrente:
     en: Standard pension
   description:
     de: Höhe einer abschlagsfreien Rente bei 45 Entgeltpunkten.
-        Ergibt sich aus Multiplikation des Rentenwerts mit 45. statistik-rente.de/drv
-    en: Amount of a pension without discounts when reaching 45 Entgeltpunkte, which is
-        calculated by multiplying 45 with the Rentenwert.
+      Ergibt sich aus Multiplikation des Rentenwerts mit 45. statistik-rente.de/drv
+    en:
+      Amount of a pension without discounts when reaching 45 Entgeltpunkte, which is
+      calculated by multiplying 45 with the Rentenwert.
   unit: Euro
   reference: § 154 Abs. 3 Satz 1 Nr. 2 SGB VI
   1995-01-01:
@@ -210,10 +214,12 @@ beitragspflichtiges_durchschnittsentgelt:
     de: Beitragspflichtiges Durchschnittsentgelt aller Versicherten
     en: Mean relevant wage of all insured individuals
   description:
-    de: Durchschnittsentgelt aller Versicherten im Sinne der deutschen Sozialversicherung.
-        Dieses wird benötigt zur Berechnung der Entgeltpunkte.
-    en: Mean wage of all insured people in the sense of the German social insurance, which is needed
-        to calculate the Entgeltpunkte.
+    de:
+      Durchschnittsentgelt aller Versicherten im Sinne der deutschen Sozialversicherung.
+      Dieses wird benötigt zur Berechnung der Entgeltpunkte.
+    en:
+      Mean wage of all insured people in the sense of the German social insurance, which is needed
+      to calculate the Entgeltpunkte.
   unit: Euro
   reference period: year
   reference: Anlage 1 SGB VI
@@ -506,8 +512,9 @@ rentenwert:
     de: Rentenwerte alte und neue Bundesländer
     en: Pension value old and new federal states
   description:
-    de: Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für einen
-        Entgeltpunkt entspricht.
+    de:
+      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für einen
+      Entgeltpunkt entspricht.
     en: The current pension value expresses the amount of monthly pension paid for one Entgeltpunkt.
   unit: Euro
   reference: statistik-rente.de/drv,  § 68 SGB VI
@@ -611,10 +618,11 @@ grundr_höchstwert:
     de: Höchstwert der Entgeltpunkte für Grundrente
     en: Maximum value of Entgeltpunkte for Grundrente
   description:
-    de: Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte
-        und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert.
+    de:
+      Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte
+      und des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert.
     en: constant to determine Höchstwert of additional Entgeltpunkte and
-        effect of an additional month of Grundrentenzeiten on Höchstwert.
+      effect of an additional month of Grundrentenzeiten on Höchstwert.
   2021-01-01:
     base: 0.0334
     increment: 0.001389
@@ -636,10 +644,12 @@ grundr_zeiten:
     de: Grundrentenzeiten
     en: Months needed for basic pension
   description:
-    de: Minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und
-        Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
-    en: Minimal number of Grundrentenzeiten required to be entitled to Grundrente
-        and maximum number of months that are considered for Grundrente.
+    de:
+      Minimal benötigte Grundrentenzeiten um zur Grundrente berechtigt zu sein und
+      Zahl an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht berücksichtigt werden
+    en:
+      Minimal number of Grundrentenzeiten required to be entitled to Grundrente
+      and maximum number of months that are considered for Grundrente.
   unit: Month
   2021-01-01:
     min: 396
@@ -652,9 +662,9 @@ grundr_einkommensanr_single:
     en: Crediting of income for basic pension for individuals without married partner
   description:
     de: Werte werden mit dem Rentenwert multipliziert,
-        um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
+      um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
     en: Values are multiplied with the Rentenwert to compute the thresholds
-        of the income crediting rule of Grundrentenzuschlag
+      of the income crediting rule of Grundrentenzuschlag
   reference: § 97a Abs. 4 S. 2, 4 SGB VI
   type: piecewise_linear
   2021-01-01:
@@ -676,9 +686,9 @@ grundr_einkommensanr_verheiratet:
     en: Crediting of income for basic pension for individuals with married partner
   description:
     de: Werte werden mit dem Rentenwert multipliziert,
-        um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
+      um Schwellen der Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
     en: Values are multiplied with the Rentenwert to compute the thresholds
-        of the income crediting rule of Grundrentenzuschlag
+      of the income crediting rule of Grundrentenzuschlag
   reference: § 97a Abs. 4 S. 2, 4 SGB VI
   type: piecewise_linear
   2021-01-01:
@@ -693,7 +703,6 @@ grundr_einkommensanr_verheiratet:
     2:
       upper_threshold: inf
       rate_linear: 1
-
 
 grundr_faktor_bonus:
   name:
@@ -712,10 +721,12 @@ zugangsfaktor_veränderung_pro_jahr:
     de: Veränderung des Zugangsfaktors pro Jahr
     en: Change in Zugangsfaktor per year
   description:
-    de: Faktor um den sich der Zugangsfaktor für die staatliche Rente erhöht/senkt für jedes Jahr,
-        das länger/kürzer gearbeitet wird
-    en: Factor with which the Zugangsfaktor / "access factor" for receiving the statutory pension is
-        increased/ decreased for each month of less / more work
+    de:
+      Faktor um den sich der Zugangsfaktor für die staatliche Rente erhöht/senkt für jedes Jahr,
+      das länger/kürzer gearbeitet wird
+    en:
+      Factor with which the Zugangsfaktor / "access factor" for receiving the statutory pension is
+      increased/ decreased for each month of less / more work
   unit: Factor
   reference period: year
   reference: §77 Abs. 2 Nr. 2 SGB VI
@@ -726,7 +737,7 @@ zugangsfaktor_veränderung_pro_jahr:
 regelaltersgrenze:
   name:
     de: Eintrittsalter für Regelaltersrente
-    en: Entry age for receiving regelaltersrente (NRA)
+    en: Entry age for receiving regelaltersrente - normal retirement age (NRA)
   description:
     de:
       Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
@@ -739,11 +750,11 @@ regelaltersgrenze:
   reference: § 35 Satz 2 SGB VI
   note:
     de: >-
-      Diese Funktion ist hier ab 2002 angegeben. Analog zur implementierung des Steuersystems. Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
+      Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
       Ab einschließlich Jahrgang 1964 gilt NRA 67.
     en:
   type: piecewise_linear
-  2002-01-01:
+  1984-01-01:
     0:
       lower_threshold: -inf
       upper_threshold: 1946
@@ -759,6 +770,185 @@ regelaltersgrenze:
       upper_threshold: inf
       rate_linear: 0
 
+altersgrenze_für_frauen_abschlagsfrei:
+  name:
+    de: Eintrittsalter für Altersrente für Frauen
+    en: Entry age for receiving Altersrente für Frauen
+  description:
+    de: Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geboren vor 1952 in Rente gehen konnten.
+    en: Piecewise linear function returning the age thresholds for retirement of women born before 1952.
+  reference: § 237a SGB VI,
+    https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/25-altersrente-fuer-frauen.html
+  note:
+    de: >-
+      Frauen, die vor 1940 geboren wurden, konnten mit 60 abschlagsfrei in Rente gehen,
+      nach einer Wartezeit von 15 Jahren und mit mindestens 10 Beitragsjahren ab dem Alter von 40.
+      Ab 1940 wurde das Eintrittsalter sukzessive erhöhrt um einen Monat pro Geburtsmonat auf das Alter 65. Daher werden
+      bei der Angabe der Grenzen Dezimalstellen benötigt. Für Kohorten 1945-1951 beträgt es konstant 65. Für Kohorten ab
+      1952 ist es abgeschafft. Ab dort regelaltersgrenze implementiert.
+    en:
+      Women born before 1940 were able to retire at age 60 without deductions (required waiting period of 15 years and 10 years of
+      contributions after age 40). The age threshold was increase by one month for each birthmonth up to age 65 for cohort 1945.
+      Therefore decimal places are needed to define thresholds. Between cohort 1945 and 1951 the threshold remained constant.
+      The special pension scheme for women was abolished for cohorts born afer 1952. regelaltersgrenze afterwards.
+  type: piecewise_linear
+  1980-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1939.916667
+      rate_linear: 0
+      intercept_at_lower_threshold: 60
+    1:
+      upper_threshold: 1944.916666666
+      rate_linear: 1
+    2:
+      upper_threshold: 1951.916666666 # constant 65
+      rate_linear: 0
+    3:
+      upper_threshold: 1952.0000 # since 1952 abolished -  regelaltersgrenze applies - jump in theshold by 6 month
+      rate_linear: 6
+    4:
+      upper_threshold: 1958
+      rate_linear: 0.083333333
+    5:
+      upper_threshold: 1964
+      rate_linear: 0.16666666
+    6:
+      upper_threshold: inf
+      rate_linear: 0
+
+altersgrenze_für_frauen_vorzeitig:
+  name:
+    de: Altersgrenze für vorzeitigen Bezug der Altersrente für Frauen.
+    en: Early retirement age for women.
+  description:
+    de: Frühesmögliches Alter ab dem die Altersrente für Frauen bezogen werden kann (mit Abschlägen).
+    en: Ealiest possible age to receive pension for women (with deductions).
+  reference: § 237a SGB VI Altersrente für Frauen. (https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html)
+  type: piecewise_linear
+  1980-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1952
+      rate_linear: 0
+      intercept_at_lower_threshold: 60
+    1:
+      upper_threshold: 1953
+      rate_linear: 7
+    2:
+      upper_threshold: inf # constant 67
+      rate_linear: 0
+
+altersgrenze_langj_versicherte_vorzeitig:
+  name:
+    de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte.
+    en: Early retirement age for long term insured
+  description:
+    de: Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte bezogen werden kann (mit Abschlägen).
+    en: Ealiest possible age to receive pension for long term insured (with deductions).
+  reference: § 236 SGB VI Altersrente für langjährig Versicherte. (https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html)
+  1980-01-01:
+    scalar: 63
+
+altersgrenze_langj_versicherte_abschlagsfrei:
+  name:
+    de: Eintrittsalter für langjährig Versicherte - abschlagsfrei
+    en: Entry age for long term insured (35 insurance years) without deductions
+  description:
+    de:
+      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger,
+      wenn keine Ausnahmeregelungen erfüllt sind.
+    en:
+      Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
+      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+      the pension claim is higher or lower, unless special conditions apply.
+  reference: § 236 SGB VI,
+    https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/242-altersrente-fuer-langjaehrig-versicherte-altersgrenzen.html
+  note:
+    de: >-
+      Kohorten vor 1937 konnten mit 63 abschlagsfrei in Rente gehen.
+      Ab Geburtsdatum Januar 1937 wurde für jeden Monat, den die Person später geboren wurde das
+      Eintrittsalter um 1 Monat erhöht bis Geburtsdatum Dezember 1938: Eintrittsalter 65. Dieses
+      Eintrittsalter galt bis einschließlich Jahrgang 1948. Ab Geburtsdatum März 1949 entspricht die
+      Altersgrenze der Regelaltersgrenze, also 65 Jahre, 3 Monate. Für Geburtsdatum 1/1949 ist sie
+      65, 1 Monat. Für 2/1949 65, 2 Monate.
+    en:
+  type: piecewise_linear
+  1984-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1936.916667
+      rate_linear: 0
+      intercept_at_lower_threshold: 63
+    1:
+      upper_threshold: 1938.916666666
+      rate_linear: 1
+    2:
+      upper_threshold: 1948.916666666
+      rate_linear: 0
+    3:
+      upper_threshold: 1949.25
+      rate_linear: 1
+    4:
+      upper_threshold: 1950 #1950.91667
+      rate_linear: 0
+    5:
+      upper_threshold: 1958
+      rate_linear: 0.08333333
+    6:
+      upper_threshold: 1964
+      rate_linear: 0.16666666
+    7:
+      upper_threshold: inf
+      rate_linear: 0
+
+altersgrenze_besonders_langj_versicherte:
+  name:
+    de: Eintrittsalter für besond. langjährig versicherte - abschlagsfrei ("Rente mit 63")
+    en: Entry age for very long term insured (45 insurance years) without deductions
+  description:
+    de:
+      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das Individuum mit seinem vollen Rentenanspruch in Rente
+      gehen kann. Geht die Person früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch höher oder niedriger,
+      wenn keine Ausnahmeregelungen erfüllt sind.
+    en:
+      Piecewise linear function returning the regelaltersgrenze at which the agent is allowed to get pensions with his full
+      claim. If the agent retires earlier or later, the Zugangsfaktor and therefore
+      the pension claim is higher or lower, unless special conditions apply.
+  reference: § 38 SGB VI,
+    https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
+  note:
+    de: >-
+      Die Regelung existiert ab 2010.
+      Für Kohorten bis einschließlich 1950 gilt die Grenze von 65 Jahren.
+    en:
+  type: piecewise_linear
+  2010-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 65
+  2014-07-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1950
+      rate_linear: 0
+      intercept_at_lower_threshold: 65
+    1:
+      lower_threshold: 1950
+      upper_threshold: 1951
+      rate_linear: -2
+    2:
+      upper_threshold: 1952
+      rate_linear: 0
+    3:
+      upper_threshold: 1964
+      rate_linear: 0.16666666
+    4:
+      upper_threshold: inf
+      rate_linear: 0
 
 rounding:
   ges_rente_m:
