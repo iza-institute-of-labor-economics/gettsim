@@ -83,26 +83,10 @@ INPUT_COLS_INCOME = [
     "priv_rente_m",
     "entgeltp",
     "geburtsjahr",
-    "geburtsmonat",
     "rentner",
     "jahr_renteneintr",
     "wohnort_ost",
     "bruttolohn_m",
-    "weiblich",
-    "y_pflichtbeitr_ab_40",
-    "m_pflichtbeitrag",
-    "m_freiw_beitrag",
-    "m_ersatzzeit",
-    "m_schul_ausbild",
-    "m_kind_berücks_zeit",
-    "m_pfleg_berücks_zeit",
-    "m_arbeitsunfähig",
-    "m_krank_ab_16_bis_24",
-    "m_mutterschutz",
-    "m_arbeitslos",
-    "m_ausbild_suche",
-    "m_alg1_übergang",
-    "m_geringf_beschäft",
 ]
 
 
@@ -128,7 +112,9 @@ def test_proxy_rente_vorj(input_data_proxy_rente, year):
         functions=policy_functions,
         targets=target,
     )
-    assert_series_equal(calc_result[target].astype(float), year_data[target], rtol=0)
+    assert_series_equal(
+        calc_result[target].astype(float), year_data[target], rtol=0, atol=0.01
+    )
 
 
 @pytest.mark.parametrize("year", YEARS)
