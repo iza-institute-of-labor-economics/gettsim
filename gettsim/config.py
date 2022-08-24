@@ -74,6 +74,7 @@ TYPES_INPUT_VARIABLES = {
     "vermögen_bedürft_hh": float,
     "bruttolohn_m": float,
     "alter": int,
+    "weiblich": bool,
     "selbstständig": bool,
     "wohnort_ost": bool,
     "hat_kinder": bool,
@@ -114,6 +115,20 @@ TYPES_INPUT_VARIABLES = {
     "grundr_bew_zeiten": int,
     "priv_rente_m": float,
     "schwerbeh_g": bool,
+    "m_pflichtbeitrag": float,
+    "m_freiw_beitrag": float,
+    "m_mutterschutz": float,
+    "m_arbeitsunfähig": float,
+    "m_krank_ab_16_bis_24": float,
+    "m_arbeitslos": float,
+    "m_ausbild_suche": float,
+    "m_schul_ausbild": float,
+    "m_geringf_beschäft": float,
+    "m_alg1_übergang": float,
+    "m_ersatzzeit": float,
+    "m_kind_berücks_zeit": float,
+    "m_pfleg_berücks_zeit": float,
+    "y_pflichtbeitr_ab_40": float,
 }
 
 # =====================================================================================
