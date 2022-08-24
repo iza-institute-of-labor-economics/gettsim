@@ -101,3 +101,46 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`priv_rente_m`         | Amount of monthly private pension           | float        |
 +-------------------------+---------------------------------------------+--------------+
+| _`weiblich`             | True if female                              | bool         |
++-------------------------+---------------------------------------------+--------------+
+|| _`m_pflichtbeitrag`    || Total months of mandatory pension          || float       |
+||                        || insurance contributions                    ||             |
++-------------------------+---------------------------------------------+--------------+
+|| _`m_freiw_beitrag`     || Total months of voluntary pension          || float       |
+||                        || insurance contributions                    ||             |
++-------------------------+---------------------------------------------+--------------+
+| _`m_mutterschutz`       | Total months of maternal protections        | float        |
++-------------------------+---------------------------------------------+--------------+
+|| _`m_arbeitsunfähig`    || Total months of sickness, rehabilitation,  || float       |
+||                        || measures for worklife participation        ||             |
+||                        || (Teilhabe)                                 ||             |
++-------------------------+---------------------------------------------+--------------+
+| _`m_krank_ab_16_bis_24` | Months of sickness between age 16 and 24    | float        |
++-------------------------+---------------------------------------------+--------------+
+| _`m_arbeitslos`         | Total months of unemployment (registered)   | float        |
++-------------------------+---------------------------------------------+--------------+
+| _`m_ausbild_suche`      | Total months of apprenticeship search       | float        |
++-------------------------+---------------------------------------------+--------------+
+|| _`m_schul_ausbild`     || Months of schooling (incl college, uni     || float       |
+||                        || from age 17, max. 8 years)                 ||             |
++-------------------------+---------------------------------------------+--------------+
+|| _`m_alg1_übergang`     || Total months of unemployment (only time    || float       |
+||                        || of Entgeltersatzleistungen, not ALGII),    ||             |
+||                        || i.e. Arbeitslosengeld, Unterhaltsgeld,     ||             |
+||                        || Übergangsgeld                              ||             |
++-------------------------+---------------------------------------------+--------------+
+|| _`m_geringf_beschäft`  || Total month of marginal employment (w/o    || float       |
+||                        || mandatory contributions) (computed after   ||             |
+||                        || § 244a SGB VI - earningspoints/0,0313)     ||             |
++-------------------------+---------------------------------------------+--------------+
+|| _`m_ersatzzeit`        || Months during military, persecution/escape,|| float       |
+||                        || internment and consecutive sickness        ||             |
++-------------------------+---------------------------------------------+--------------+
+| _`m_kind_berücks_zeit`  | Total months of childcare till age 10       | float        |
++-------------------------+---------------------------------------------+--------------+
+|| _`m_pfleg_berücks_zeit`|| Total months of home care                  || float       |
+||                        || (01.01.1992-31.03.1995)                    ||             |
++-------------------------+---------------------------------------------+--------------+
+|| _`y_pflichtbeitr_ab_40`|| Total years of mandat. contributions after || float       |
+||                        || age 40                                     ||             |
++-------------------------+---------------------------------------------+--------------+
