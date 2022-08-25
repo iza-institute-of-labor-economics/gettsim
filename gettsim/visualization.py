@@ -267,7 +267,6 @@ def plot_dag(
             f" or False, but got '{hover_source_code}'"
         )
 
-    fig.show()
     return fig
 
 
