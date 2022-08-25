@@ -262,9 +262,12 @@ def plot_dag(
             },
         )
     else:
+        raise ValueError(
+            "hover_source_code must be either True"
+            f" or False, but got '{hover_source_code}'"
+        )
 
-        raise ValueError("Please choose between True or False for hover_source_code")
-
+    fig.show()
     return fig
 
 
@@ -426,8 +429,9 @@ def _create_pydot_layout(dag, orientation):
         layout_df[0] = layout_df[0] * (-1)
 
     else:
-
-        raise ValueError("Please choose correct orientation of the graph")
+        raise ValueError(
+            f"orientation must be one of 'v', 'h', but got '{orientation}'"
+        )
 
     return layout_df
 
