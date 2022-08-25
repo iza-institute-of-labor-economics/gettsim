@@ -59,11 +59,11 @@ def plot_dag(
     orientation :str,default "v"
          Whether the graph is horizontal or vertical
     show_labels : bool, default None
-        Whether the graph is annotated with labels next to each node. By default, 
-        the labels are shown when the number of nodes is at most 10. 
-        Otherwise, names are displayed next to the node only when hovering over it. 
-        It is also possible to display labels regardless of the number of nodes, setting 
-        variable as True or hide labels when a variable is False.
+        Whether the graph is annotated with labels next to each node. By default,
+        the labels are shown when the number of nodes is at most 10.
+        Otherwise, names are displayed next to the node only when hovering over it.
+        It is also possible to display labels regardless of the number of nodes, setting
+        variable as True or hide labels when the variable is False.
     hover_source_code: bool, default as false
         Experimental feature which makes the source code of the functions accessible as
         a hover information. Sometimes, the tooltip is not properly displayed.
@@ -194,25 +194,14 @@ def plot_dag(
         showlegend=False,
     )
     # choose the different options for plotting
-
     # When show_lebels = None and number of nodes >10
     # labels are shown when hovering over it.
     # Same happens when show_labels is False,
     # Otherwise, labels are displayed next to the nodes.
-
-    if show_labels is None:
-        if len(names) <= 10:
-            mode = "markers+text"
-            hover_info = "skip"
-        else:
-            mode = "markers"
-            hover_info = "text"
-
-    elif show_labels:
+    if show_labels or (show_labels is None and len(names) <= 10):
         mode = "markers+text"
         hover_info = "skip"
-
-    elif not show_labels:
+    else:
         mode = "markers"
         hover_info = "text"
 
@@ -273,9 +262,12 @@ def plot_dag(
             },
         )
     else:
+        raise ValueError(
+            "hover_source_code must be either True"
+            f" or False, but got '{hover_source_code}'"
+        )
 
-        raise ValueError("Please choose between True or False for hover_source_code")
-
+    fig.show()
     return fig
 
 
@@ -437,8 +429,9 @@ def _create_pydot_layout(dag, orientation):
         layout_df[0] = layout_df[0] * (-1)
 
     else:
-
-        raise ValueError("Please choose correct orientation of the graph")
+        raise ValueError(
+            f"orientation must be one of 'v', 'h', but got '{orientation}'"
+        )
 
     return layout_df
 
