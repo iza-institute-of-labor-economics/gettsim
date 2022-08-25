@@ -128,7 +128,9 @@ def test_proxy_rente_vorj(input_data_proxy_rente, year):
         functions=policy_functions,
         targets=target,
     )
-    assert_series_equal(calc_result[target].astype(float), year_data[target], rtol=0)
+    assert_series_equal(
+        calc_result[target].astype(float), year_data[target], rtol=0, atol=0.01
+    )
 
 
 @pytest.mark.parametrize("year", YEARS)
