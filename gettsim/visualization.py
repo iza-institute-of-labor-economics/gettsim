@@ -276,7 +276,6 @@ def plot_dag(
 
         raise ValueError("Please choose between True or False for hover_source_code")
 
-    fig.show()
     return fig
 
 
