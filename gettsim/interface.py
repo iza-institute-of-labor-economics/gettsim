@@ -860,7 +860,8 @@ def remove_group_suffix(col):
 
     # Remove suffix from result if applicable
     for g in SUPPORTED_GROUPINGS:
-        out = rchop(col, f"_{g}")
+        if col.endswith(f"_{g}"):
+            out = rchop(col, f"_{g}")
 
     return out
 
