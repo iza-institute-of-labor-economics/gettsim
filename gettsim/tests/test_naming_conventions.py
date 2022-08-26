@@ -8,7 +8,7 @@ from gettsim.config import GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _load_functions
-from gettsim.interface import rchop
+from gettsim.interface import remove_group_suffix
 from gettsim.policy_environment import load_reforms_for_date
 from gettsim.tests.utils_tests import nice_output_list_of_strings
 
@@ -55,7 +55,7 @@ def test_all_default_targets_among_function_names(time_indep_function_names):
         c
         for c in DEFAULT_TARGETS
         if (c not in time_indep_function_names)
-        and (rchop(rchop(c, "_tu"), "_hh") not in time_indep_function_names)
+        and (remove_group_suffix(c) not in time_indep_function_names)
     ]
     assert not check, nice_output_list_of_strings(check)
 

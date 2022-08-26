@@ -7,7 +7,7 @@ def sozialv_beitr_gesamt_m(
     ges_rentenv_beitr_m: float,
     arbeitsl_v_beitr_m: float,
 ) -> float:
-    """Sum of all social insurance contributions.
+    """Sum of all social insurance contributions of an individual.
 
 
     Parameters
@@ -41,7 +41,7 @@ def arbeitsl_v_beitr_m(
     _ges_rentenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculate the contribution for each individual to the unemployment insurance.
+    """Contribution for each individual to the unemployment insurance.
 
     Parameters
     ----------
