@@ -36,7 +36,8 @@ household.
 +-------------------------+---------------------------------------------+--------------+
 | _`hat_kinder`           | Dummy: Individual has kids (incl. not in hh)| bool         |
 +-------------------------+---------------------------------------------+--------------+
-| _`betreuungskost_m`     | Monthly childcare expenses                  | float        |
+|| _`betreuungskost_m`    || Monthly childcare expenses for a           || float       |
+||                        || particular child under the age of 14       ||             |
 +-------------------------+---------------------------------------------+--------------+
 | _`sonstig_eink_m`       | Additional income                           | float        |
 +-------------------------+---------------------------------------------+--------------+

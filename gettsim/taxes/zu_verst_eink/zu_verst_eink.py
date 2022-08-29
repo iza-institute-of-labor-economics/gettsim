@@ -15,28 +15,25 @@ applying the tax schedule.
 """
 
 
-def freibeträge(
+def individual_freibeträge(
     vorsorgeaufw: float,
-    sonderausgaben: float,
     _eink_st_behinderungsgrad_pauschbetrag: float,
-    alleinerz_freib_tu: float,
     eink_st_altersfreib: float,
+    alleinerz_freib_tu: float,
 ) -> float:
-    """Calculate allowances.
+    """Calculate individual allowances.
 
     Parameters
     ----------
 
     vorsorgeaufw
         See :func:`vorsorgeaufw`.
-    sonderausgaben
-        See :func:`sonderausgaben`.
     _eink_st_behinderungsgrad_pauschbetrag
         See :func:`_eink_st_behinderungsgrad_pauschbetrag`.
-    alleinerz_freib_tu
-        See :func:`alleinerz_freib_tu`.
     eink_st_altersfreib
         See :func:`eink_st_altersfreib`.
+    alleinerz_freib_tu
+        See :func:`alleinerz_freib_tu`.
 
     Returns
     -------
@@ -44,11 +41,33 @@ def freibeträge(
     """
     out = (
         vorsorgeaufw
-        + sonderausgaben
         + _eink_st_behinderungsgrad_pauschbetrag
-        + alleinerz_freib_tu
         + eink_st_altersfreib
+        + alleinerz_freib_tu
     )
+    return out
+
+
+def freibeträge_tu(
+    eink_st_sonderausgaben_tu: float,
+    individual_freibeträge_tu: float,
+) -> float:
+    """Calculate total allowances.
+
+    Parameters
+    ----------
+
+    eink_st_sonderausgaben_tu
+        See :func:`eink_st_sonderausgaben_tu`.
+    individual_freibeträge_tu
+        See :func:`individual_freibeträge_tu`.
+
+    Returns
+    -------
+
+    """
+    out = individual_freibeträge_tu + eink_st_sonderausgaben_tu
+
     return out
 
 
@@ -91,4 +110,6 @@ def zu_verst_eink_mit_kinderfreib_tu(
     -------
 
     """
-    return _zu_verst_eink_ohne_kinderfreib_tu - eink_st_kinderfreib_tu
+
+    out = _zu_verst_eink_ohne_kinderfreib_tu - eink_st_kinderfreib_tu
+    return max(out, 0.0)
