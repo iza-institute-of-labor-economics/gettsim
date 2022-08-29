@@ -25,6 +25,9 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   cases in `test_interface.py`. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
 * :gh:`406` Changed variable name from `vermögen_hh` to `vermögen_bedürft_hh`. Add test
   cases for several transfers (:ghuser:`LauraGergeleit`).
+* :gh:`383` Remove ä, ö, ü from file names (:ghuser:`ChristianZimpelmann`).
+* :gh:`415` Define supported groupings in `config.py`. (:ghuser:`LauraGergeleit`,
+  :ghuser:`ChristianZimpelmann`)
 
 0.5.1 — 2022-04-21
 ------------------
