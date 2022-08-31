@@ -69,59 +69,59 @@ def wohngeld_abzüge_m_tu(
     return out
 
 
-def wohngeld_eink_vor_abzug_m_tu(
-    eink_selbst_tu: float,
-    eink_abhängig_beschäftigt_tu: float,
-    kapitaleink_brutto_tu: float,
-    eink_vermietung_tu: float,
-    arbeitsl_geld_m_tu: float,
-    sonstig_eink_m_tu: float,
-    eink_rente_zu_verst_m_tu: float,
-    unterhaltsvors_m_tu: float,
-    elterngeld_m_tu: float,
+def wohngeld_eink_vor_abzug_m_hh(
+    eink_selbst_hh: float,
+    eink_abhängig_beschäftigt_hh: float,
+    kapitaleink_brutto_hh: float,
+    eink_vermietung_hh: float,
+    arbeitsl_geld_m_hh: float,
+    sonstig_eink_m_hh: float,
+    eink_rente_zu_verst_m_hh: float,
+    unterhaltsvors_m_hh: float,
+    elterngeld_m_hh: float,
 ) -> float:
-    """Sum gross incomes relevant for housing benefit calculation per tax unit.
+    """Sum gross incomes relevant for housing benefit calculation per individual.
 
     Parameters
     ----------
-    eink_selbst_tu
-        See :func:`_eink_selbst_tu`.
-    eink_abhängig_beschäftigt_tu
-        See :func:`eink_abhängig_beschäftigt_tu`.
-    kapitaleink_brutto_tu
-        See :func:`kapitaleink_brutto_tu`.
-    eink_vermietung_tu
-        See :func:`eink_vermietung_tu`.
-    arbeitsl_geld_m_tu
-        See :func:`arbeitsl_geld_m_tu`.
-    sonstig_eink_m_tu
-        See :func:`sonstig_eink_m_tu`.
-    eink_rente_zu_verst_m_tu
-        See :func:`eink_rente_zu_verst_m_tu`.
-    unterhaltsvors_m_tu
-        See :func:`unterhaltsvors_m_tu`.
-    elterngeld_m_tu
-        See :func:`elterngeld_m_tu`.
+    eink_selbst_hh
+        See :func:`_eink_selbst_hh`.
+    eink_abhängig_beschäftigt_hh
+        See :func:`eink_abhängig_beschäftigt_hh`.
+    kapitaleink_brutto_hh
+        See :func:`kapitaleink_brutto_hh`.
+    eink_vermietung_hh
+        See :func:`eink_vermietung_hh`.
+    arbeitsl_geld_m_hh
+        See :func:`arbeitsl_geld_m_hh`.
+    sonstig_eink_m_hh
+        See :func:`sonstig_eink_m_hh`.
+    eink_rente_zu_verst_m_hh
+        See :func:`eink_rente_zu_verst_m_hh`.
+    unterhaltsvors_m_hh
+        See :func:`unterhaltsvors_m_hh`.
+    elterngeld_m_hh
+        See :func:`elterngeld_m_hh`.
 
     Returns
     -------
 
     """
-    einkommen_tu = (
-        eink_selbst_tu
-        + eink_abhängig_beschäftigt_tu
-        + kapitaleink_brutto_tu
-        + eink_vermietung_tu
+    einkommen_hh = (
+        eink_selbst_hh
+        + eink_abhängig_beschäftigt_hh
+        + kapitaleink_brutto_hh
+        + eink_vermietung_hh
     ) / 12
 
-    transfers_tu = (
-        arbeitsl_geld_m_tu
-        + eink_rente_zu_verst_m_tu
-        + unterhaltsvors_m_tu
-        + elterngeld_m_tu
+    transfers_hh = (
+        arbeitsl_geld_m_hh
+        + eink_rente_zu_verst_m_hh
+        + unterhaltsvors_m_hh
+        + elterngeld_m_hh
     )
 
-    return einkommen_tu + transfers_tu + sonstig_eink_m_tu
+    return einkommen_hh + transfers_hh + sonstig_eink_m_hh
 
 
 def wohngeld_eink_abzüge_m_bis_2015(
@@ -133,7 +133,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
     anz_kinder_bis_10_tu: int,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate housing benefit subtractions until 2015.
+    """Calculate housing benefit subtractions for one individual until 2015.
 
     Parameters
     ----------
@@ -182,7 +182,7 @@ def wohngeld_eink_abzüge_m_bis_2015(
 
 
 def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) -> bool:
-    """Check if chiildren are working.
+    """Check if children are working.
 
     Parameters
     ----------
@@ -207,7 +207,7 @@ def wohngeld_eink_abzüge_m_ab_2016(
     kind: bool,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate housing benefit subtracting since 2016.
+    """Calculate housing benefit subtracting for one individual since 2016.
 
     Parameters
     ----------
@@ -244,25 +244,25 @@ def wohngeld_eink_abzüge_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_eink_m(
+def wohngeld_eink_m_hh(
     haushaltsgröße_hh: int,
-    wohngeld_eink_abzüge_m_tu: float,
+    wohngeld_eink_abzüge_m_hh: float,
     wohngeld_abzüge_m_tu: float,
-    wohngeld_eink_vor_abzug_m_tu: float,
+    wohngeld_eink_vor_abzug_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate final income relevant for calculation of housing benefit.
+    """Calculate final income relevant for calculation of housing benefit per individual.
 
     Parameters
     ----------
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
-    wohngeld_eink_abzüge_m_tu
-        See :func:`wohngeld_eink_abzüge_m_tu`.
+    wohngeld_eink_abzüge_m_hh
+        See :func:`wohngeld_eink_abzüge_m_hh`.
     wohngeld_abzüge_m_tu
         See :func:`wohngeld_abzüge_m_tu`.
-    wohngeld_eink_vor_abzug_m_tu
-        See :func:`wohngeld_eink_vor_abzug_m_tu`.
+    wohngeld_eink_vor_abzug_m_hh
+        See :func:`wohngeld_eink_vor_abzug_m_hh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -271,7 +271,7 @@ def wohngeld_eink_m(
 
     """
     vorläufiges_eink = (1 - wohngeld_abzüge_m_tu) * (
-        wohngeld_eink_vor_abzug_m_tu - wohngeld_eink_abzüge_m_tu
+        wohngeld_eink_vor_abzug_m_hh - wohngeld_eink_abzüge_m_hh
     )
 
     unteres_eink = wohngeld_params["min_eink"][
@@ -477,7 +477,7 @@ def wohngeld_miete_m_ab_2021(
 
 def wohngeld_vor_vermög_check_m_hh(
     haushaltsgröße_hh: int,
-    wohngeld_eink_m: float,
+    wohngeld_eink_m_hh: float,
     wohngeld_miete_m: float,
     wohngeld_params: dict,
 ) -> float:
@@ -487,8 +487,8 @@ def wohngeld_vor_vermög_check_m_hh(
     ----------
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
-    wohngeld_eink_m
-        See :func:`wohngeld_eink_m`.
+    wohngeld_eink_m_hh
+        See :func:`wohngeld_eink_m_hh`.
     wohngeld_miete_m
         See :func:`wohngeld_miete_m`.
     wohngeld_params
@@ -509,9 +509,9 @@ def wohngeld_vor_vermög_check_m_hh(
             (
                 koeffizienten["a"]
                 + (koeffizienten["b"] * wohngeld_miete_m)
-                + (koeffizienten["c"] * wohngeld_eink_m)
+                + (koeffizienten["c"] * wohngeld_eink_m_hh)
             )
-            * wohngeld_eink_m
+            * wohngeld_eink_m_hh
         )
     )
     out = max(out, 0.0)
