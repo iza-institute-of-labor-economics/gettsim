@@ -288,7 +288,7 @@ def _vorsorgeaufw_vom_lohn_bis_2019_tu(
     bruttolohn_m_tu: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculate precautionary expenditures until 2019 per tax unit.
+    """Calculate precautionary expenditures until 2019 on tax unit level.
 
     Parameters
     ----------

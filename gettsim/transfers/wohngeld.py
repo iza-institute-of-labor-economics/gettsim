@@ -10,7 +10,7 @@ def wohngeld_m_hh(
     wohngeld_kinderzuschl_vorrang_hh: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
-    """Calculate final housing benefit per household.
+    """Calculate final housing benefit on household level.
 
     Parameters
     ----------
@@ -45,7 +45,7 @@ def wohngeld_abzüge_m_tu(
     ges_krankenv_beitr_m_tu: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate housing benefit subtractions per tax unit.
+    """Calculate housing benefit subtractions on tax unit level.
 
     Parameters
     ----------
@@ -80,7 +80,8 @@ def wohngeld_eink_vor_abzug_m_hh(
     unterhaltsvors_m_hh: float,
     elterngeld_m_hh: float,
 ) -> float:
-    """Sum gross incomes relevant for housing benefit calculation per individual.
+    """Sum gross incomes relevant for housing benefit calculation
+    on household level.
 
     Parameters
     ----------
@@ -301,7 +302,7 @@ def wohngeld_min_miete(haushaltsgröße_hh: int, wohngeld_params: dict) -> float
     return float(out)
 
 
-def wohngeld_miete_m_bis_2008(
+def wohngeld_miete_m_bis_2008_hh(
     mietstufe: int,
     immobilie_baujahr_hh: int,
     haushaltsgröße_hh: int,
@@ -310,7 +311,8 @@ def wohngeld_miete_m_bis_2008(
     wohngeld_min_miete: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate maximal rent subject housing benefit calculation until 2008.
+    """Maximal rent subject housing benefit calculation on household
+    level until 2008.
 
     Parameters
     ----------
@@ -362,7 +364,7 @@ def wohngeld_miete_m_bis_2008(
     return out
 
 
-def wohngeld_miete_m_ab_2009(
+def wohngeld_miete_m_ab_2009_hh(
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
@@ -370,7 +372,8 @@ def wohngeld_miete_m_ab_2009(
     wohngeld_min_miete: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate maximal rent subject housing benefit calculation since 2009.
+    """Maximal rent subject housing benefit calculation on
+    household level since 2009.
 
     Parameters
     ----------
@@ -411,7 +414,7 @@ def wohngeld_miete_m_ab_2009(
     return out
 
 
-def wohngeld_miete_m_ab_2021(
+def wohngeld_miete_m_ab_2021_hh(
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
@@ -478,7 +481,7 @@ def wohngeld_miete_m_ab_2021(
 def wohngeld_vor_vermög_check_m_hh(
     haushaltsgröße_hh: int,
     wohngeld_eink_m_hh: float,
-    wohngeld_miete_m: float,
+    wohngeld_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
     """Calcualte preliminary housing benefit.
@@ -489,8 +492,8 @@ def wohngeld_vor_vermög_check_m_hh(
         See :func:`haushaltsgröße_hh`.
     wohngeld_eink_m_hh
         See :func:`wohngeld_eink_m_hh`.
-    wohngeld_miete_m
-        See :func:`wohngeld_miete_m`.
+    wohngeld_miete_m_hh
+        See :func:`wohngeld_miete_m_hh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -504,11 +507,11 @@ def wohngeld_vor_vermög_check_m_hh(
         min(haushaltsgröße_hh, max_considered_hh_größe)
     ]
     out = wohngeld_params["faktor_berechnungsformel"] * (
-        wohngeld_miete_m
+        wohngeld_miete_m_hh
         - (
             (
                 koeffizienten["a"]
-                + (koeffizienten["b"] * wohngeld_miete_m)
+                + (koeffizienten["b"] * wohngeld_miete_m_hh)
                 + (koeffizienten["c"] * wohngeld_eink_m_hh)
             )
             * wohngeld_eink_m_hh
@@ -518,11 +521,11 @@ def wohngeld_vor_vermög_check_m_hh(
 
     if haushaltsgröße_hh > max_considered_hh_größe:
         # If more than 12 persons, there is a lump-sum on top.
-        # The maximum is still capped at `wohngeld_miete_m`.
+        # The maximum is still capped at `wohngeld_miete_m_hh`.
         out += wohngeld_params["bonus_12_mehr"] * (
             haushaltsgröße_hh - max_considered_hh_größe
         )
-        out = min(out, wohngeld_miete_m)
+        out = min(out, wohngeld_miete_m_hh)
 
     return out
 

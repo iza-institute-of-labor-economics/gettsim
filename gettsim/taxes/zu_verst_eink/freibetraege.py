@@ -209,7 +209,7 @@ def eink_st_sonderausgaben_bis_2011_tu(
     eink_st_abzuege_params: dict,
     anz_erwachsene_tu: int,
 ) -> float:
-    """Calculating individual sonderausgaben for childcare until 2011.
+    """Individual sonderausgaben on tax unit level until 2011.
 
     There is only a lumpsum payment implemented.
     Parameters
@@ -237,8 +237,8 @@ def eink_st_abz_betreuungskost(
     eink_st_abzuege_params: dict,
     betreuungskost_m: float,
 ) -> float:
-    """Calculate individual deductable childcare cost for each individual
-    childen under 14.
+    """Individual deductable childcare cost for each individual
+    child under 14.
 
     ----------
     betreuungskost_m
@@ -258,7 +258,7 @@ def sonderausgaben_betreuung_tu(
     eink_st_abzuege_params: dict,
     eink_st_abz_betreuungskost_tu: float,
 ) -> float:
-    """Calculate sonderausgaben for childcare per tax unit.
+    """Sonderausgaben for childcare on tax unit level.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
@@ -283,7 +283,7 @@ def eink_st_sonderausgaben_ab_2012_tu(
     sonderausgaben_betreuung_tu: float,
     anz_erwachsene_tu: int,
 ) -> float:
-    """Calculate individual sonderausgaben since 2012.
+    """Individual sonderausgaben on tax unit level since 2012.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
@@ -311,10 +311,7 @@ def eink_st_sonderausgaben_ab_2012_tu(
     if sonderausgaben_gesamt > pauschale:
         out = sonderausgaben_gesamt
     else:
-        out = (
-            eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
-            * anz_erwachsene_tu
-        )
+        out = pauschale
 
     return float(out)
 
