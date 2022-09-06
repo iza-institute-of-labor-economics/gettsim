@@ -1,11 +1,11 @@
 .. _means_testing:
 
-Assets for means testing
-========================
+Assets considered for means testing
+===================================
 
-| The table below gives an overview of all tangible and intangible assets which are deducted from the overall assets of a household when performing means testing for the respective transfer.
+| The table below gives an overview of all tangible and intangible assets which are considered when performing means for several transfers. A cross indicates that the asset class is not considered and, hence, deducted from the overall assets of a household.
 
-| This documentation shall help to understand the composition of the :ref:`basic input variable <input_variables>` 'vermögen_bedürft_hh'.
+| This documentation shall help to understand the composition of the :ref:`basic input variable <input_variables>` 'vermögen_bedürft_hh'. Despite small differences over the transfers we decided, for now, to require only one wealth variable as input and use it for all transfers.
 
 .. note::
    | ALGII = Grundsicherung für Arbeitslose
@@ -13,27 +13,28 @@ Assets for means testing
    | WoGe = Wohngeld
    | KiZu = Kinderzuschlag
 
-   HS = hardship case
+   HC = hardship case
+   (The realization of these assets would constitute a particular hardship for the person, § 90 Abs.3 SGBXII `<https://www.gesetze-im-internet.de/sgb_12/__90.html>`_)
 
 +-----------------------------------------------+---------+---------+---------+---------+
 | Not counted as assets                         |  ALGII  |  GSA/E  |  WoGe   |  KiZu   |
 +===============================================+=========+=========+=========+=========+
 | Appropriate household goods                   |    x    |    x    |    x    |    x    |
 +-----------------------------------------------+---------+---------+---------+---------+
-|| adequate motor vehicle for each              ||   x    || x (HC) ||   x    ||   x    |
+|| Adequate motor vehicle for each              ||   x    || x (HC) ||   x    ||   x    |
 || person capable of working                    ||        ||        ||        ||        |
 +-----------------------------------------------+---------+---------+---------+---------+
 || Assets for retirement provision and          ||   x    ||   x    ||   x    ||   x    |
 || retirement assets                            ||        ||        ||        ||        |
 +-----------------------------------------------+---------+---------+---------+---------+
-|| owner-occupied house/apartment of            ||   x    ||   x    ||   x    ||   x    |
+|| Owner-occupied house/apartment of            ||   x    ||   x    ||   x    ||   x    |
 || appropriate size                             ||        ||        ||        ||        |
 +-----------------------------------------------+---------+---------+---------+---------+
 || Assets for obtaining/maintaining a house     ||   x    ||   x    ||   x    ||   x    |
 || property for people in need of care          ||        ||        ||        ||        |
 +-----------------------------------------------+---------+---------+---------+---------+
 || Assets to build up/secure a livelihood       ||   x    ||   x    ||   x    ||   x    |
-|| or Establishment of a household              ||        ||        ||        ||        |
+|| or establishment of a household              ||        ||        ||        ||        |
 +-----------------------------------------------+---------+---------+---------+---------+
 | Family and heirloom pieces                    | x (HC)  |    x    |         | x (HC)  |
 +-----------------------------------------------+---------+---------+---------+---------+
@@ -47,7 +48,7 @@ Assets for means testing
 +-----------------------------------------------+---------+---------+---------+---------+
 
 .. seealso::
-    Here you can check out the legal bases for the definition of assets for each transfer.
+    See the following links for legal bases for the definition of assets for each transfer.
      * ALGII: §12 SGBII `<https://www.gesetze-im-internet.de/sgb_2/__12.html>`_
      * GSA/E: §90 SGBXII `<https://www.gesetze-im-internet.de/sgb_12/__90.html>`_
      * WoGe: §21 WoGG `<https://www.gesetze-im-internet.de/bkgg_1996/__6a.html>`_
