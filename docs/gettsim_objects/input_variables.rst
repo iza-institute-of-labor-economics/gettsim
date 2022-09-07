@@ -86,8 +86,9 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 | _`immobilie_baujahr_hh`   | Construction year of dwelling               | int          |
 +---------------------------+---------------------------------------------+--------------+
-|:ref:`vermögen_bedürft_hh  | Assets for means testing of household       | float        |
-|<means_testing>`           |                                             |              |
+|| _`vermögen_bedürft_hh`   || Assets for means testing of household.     || float       |
+||                          || :ref:`See this page for more details.      ||             |
+|                           | <means_testing>`                            |              |
 +---------------------------+---------------------------------------------+--------------+
 | _`entgeltp`               | Earnings points for pension claim           | float        |
 +---------------------------+---------------------------------------------+--------------+
