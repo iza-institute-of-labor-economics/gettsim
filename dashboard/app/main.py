@@ -133,6 +133,7 @@ except FileNotFoundError:
             "No dashboard data found. Please run 'pre_processing_data.py' first."
         )
 
+
 # print("{} INFO - Server receives request".format(datetime.now(tz)))
 
 # Call tab functions)
