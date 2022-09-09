@@ -126,7 +126,12 @@ plot_dict = {
 try:
     all_data = pickle.load(open("dashboard/param_dashboard_data.pickle", "rb"))
 except FileNotFoundError:
-    all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
+    try:
+        all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            "No dashboard data found. Please run 'pre_processing_data.py' first."
+        )
 
 # print("{} INFO - Server receives request".format(datetime.now(tz)))
 
