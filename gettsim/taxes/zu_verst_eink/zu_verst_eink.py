@@ -56,7 +56,7 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
     sum_eink_tu: float,
     freibeträge_tu: float,
 ) -> float:
-    """Calculate taxable income without child allowance.
+    """Calculate taxable income without child allowance per tax unit.
 
     Parameters
     ----------
@@ -78,7 +78,7 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
 def zu_verst_eink_mit_kinderfreib_tu(
     _zu_verst_eink_ohne_kinderfreib_tu: float, eink_st_kinderfreib_tu: float
 ) -> float:
-    """Calculate taxable income with child allowance.
+    """Calculate taxable income with child allowance per tax unit.
 
     Parameters
     ----------

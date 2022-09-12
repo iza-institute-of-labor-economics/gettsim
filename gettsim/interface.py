@@ -17,7 +17,7 @@ from gettsim.aggregation import grouped_mean
 from gettsim.aggregation import grouped_min
 from gettsim.aggregation import grouped_sum
 from gettsim.config import DEFAULT_TARGETS
-from gettsim.config import ORDER_OF_IDS
+from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.config import USE_JAX
 from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
@@ -28,7 +28,8 @@ from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
-from gettsim.typing import check_if_series_has_internal_type
+from gettsim.typing import check_series_has_expected_type
+from gettsim.typing import convert_series_to_internal_type
 
 
 class KeyErrorMessage(str):
@@ -248,7 +249,9 @@ def check_data_check_functions_and_merge_functions(
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
     )
-    _fail_if_datatype_is_false(data, columns_overriding_functions, all_functions)
+    data = _convert_data_to_correct_types(
+        data, columns_overriding_functions, all_functions
+    )
 
     # Remove functions that are overridden
     all_functions = {
@@ -380,8 +383,8 @@ def prepare_results(results, data, debug):
     return results
 
 
-def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
-    """Check if the provided data has the right types.
+def _convert_data_to_correct_types(data, columns_overriding_functions, functions):
+    """Convert all series of data to the type that is expected by GETTSIM.
 
     Parameters
     ----------
@@ -395,29 +398,62 @@ def _fail_if_datatype_is_false(data, columns_overriding_functions, functions):
 
     Returns
     -------
-    ValueError
-        Fail if the data types are not matching the required in gettsim.
+    data : dict of pandas.Series with correct type
 
     """
+    collected_errors = ["The data types of the following columns are invalid: \n"]
+    collected_conversions = [
+        "The data types of the following input variables have been converted: \n"
+    ]
+    general_warning = (
+        "Note that the automatic conversion of data types is unsafe and that"
+        " its correctness cannot be guaranteed."
+        " The best solution is to convert all columns to the expected data"
+        " types yourself."
+    )
     for column_name, series in data.items():
-        check_data = True
+
+        # Find out if internal_type is defined
+        internal_type = None
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
-            check_data = check_if_series_has_internal_type(series, internal_type)
         elif (
             column_name in columns_overriding_functions
             and "return" in functions[column_name].__annotations__
         ):
             internal_type = functions[column_name].__annotations__["return"]
-            check_data = check_if_series_has_internal_type(series, internal_type)
 
-        if not check_data:
-            raise ValueError(
-                f"The column {column_name} of your DataFrame has the "
-                f"dtype {series.dtype}. It has to be a {internal_type}. "
-                f"You can find more information on the gettsim types in "
-                f"the documentation."
-            )
+        # Make conversion if necessary
+        if internal_type and not check_series_has_expected_type(series, internal_type):
+            try:
+                data[column_name] = convert_series_to_internal_type(
+                    series, internal_type
+                )
+                collected_conversions.append(
+                    f" - {column_name} from {series.dtype} "
+                    f"to {internal_type.__name__}"
+                )
+
+            except ValueError as e:
+                collected_errors.append(f" - {column_name}: {e}")
+
+    # If any error occured raise Error
+    if len(collected_errors) > 1:
+        raise ValueError(
+            "\n".join(collected_errors) + "\n" + "\n" + "Note that conversion"
+            " from floating point to integers or Booleans inherently suffers from"
+            " approximation error. It might well be that your data seemingly obey the"
+            " restrictions when scrolling through them, but in fact they do not"
+            " (for example, because 1e-15 is displayed as 0.0)."
+            + "\n"
+            + "The best solution is to convert all columns"
+            " to the expected data types yourself."
+        )
+
+    # Otherwise raise warning which lists all sucessful conversions
+    elif len(collected_conversions) > 1:
+        warnings.warn("\n".join(collected_conversions) + "\n" + "\n" + general_warning)
+    return data
 
 
 def _process_data(data):
@@ -447,13 +483,13 @@ def _process_data(data):
             "'data' is not a pd.DataFrame or a pd.Series or a dictionary of pd.Series."
         )
 
-    # Check that group variables (e.g. ending with "_hh") are constant within groups
+    # Check that group variables are constant within groups
     _fail_if_group_variables_not_constant_within_groups(data)
     return data
 
 
 def _fail_if_group_variables_not_constant_within_groups(data):
-    """Check whether group variables (ending with `"_tu"` or `"_hh"`) have the same
+    """Check whether group variables have the same
     value within each group. Possible groups are households or tax units.
 
     Parameters
@@ -463,7 +499,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
 
     """
     for name, col in data.items():
-        for level in ["hh", "tu"]:
+        for level in SUPPORTED_GROUPINGS:
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
                 if not (max_value == col).all():
@@ -472,7 +508,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
                         Column '{name}' has not one unique value per group defined by
                         `{level}_id`.
 
-                        This is expected if the variable name ends with '_hh' or '_tu'.
+                        This is expected if the variable name ends with '_{level}'.
 
                         To fix the error, assign the same value to each group or remove
                         the indicator from the variable name.
@@ -553,7 +589,7 @@ def _fail_if_columns_overriding_functions_are_not_in_functions(
     unnecessary_columns_overriding_functions = [
         col
         for col in columns_overriding_functions
-        if (col not in functions) and (rchop(rchop(col, "_tu"), "_hh") not in functions)
+        if (col not in functions) and (remove_group_suffix(col) not in functions)
     ]
     if unnecessary_columns_overriding_functions:
         n_cols = len(unnecessary_columns_overriding_functions)
@@ -592,10 +628,11 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
         type_str = "internal aggregation "
     else:
         type_str = ""
+
     overlap = sorted(
         name
         for name in columns
-        if (name in functions) or (rchop(rchop(name, "_tu"), "_hh") in functions)
+        if (name in functions) or (remove_group_suffix(name) in functions)
     )
 
     if overlap:
@@ -654,8 +691,10 @@ def _format_text_for_cmdline(text, width=79):
 
 
 def _reorder_columns(results):
-    ids_in_data = {"hh_id", "p_id", "tu_id"} & set(results.columns)
-    sorted_ids = sorted(ids_in_data, key=lambda x: ORDER_OF_IDS[x])
+    order_ids = {f"{g}_id": i for i, g in enumerate(SUPPORTED_GROUPINGS)}
+    order_ids["p_id"] = len(order_ids)
+    ids_in_data = order_ids.keys() & set(results.columns)
+    sorted_ids = sorted(ids_in_data, key=lambda x: order_ids[x])
     remaining_columns = [i for i in results if i not in sorted_ids]
 
     return results[sorted_ids + remaining_columns]
@@ -894,8 +933,23 @@ def _partial_parameters_to_functions(functions, params):
 def rchop(s, suffix):
     # ToDO: Replace by removesuffix when only python >= 3.9 is supported
     if suffix and s.endswith(suffix):
-        return s[: -len(suffix)]
-    return s
+        out = s[: -len(suffix)]
+    else:
+        out = s
+    return out
+
+
+def remove_group_suffix(col):
+
+    # Set default result
+    out = col
+
+    # Remove suffix from result if applicable
+    for g in SUPPORTED_GROUPINGS:
+        if col.endswith(f"_{g}"):
+            out = rchop(col, f"_{g}")
+
+    return out
 
 
 def _create_aggregation_functions(
@@ -919,11 +973,11 @@ def _create_aggregation_functions(
         col
         for col in potential_agg_cols
         if (col not in user_and_internal_functions)
-        and (col.endswith("_tu") or col.endswith("_hh"))
-        and (rchop(rchop(col, "_tu"), "_hh") in potential_source_cols)
+        and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
+        and (remove_group_suffix(col) in potential_source_cols)
     ]
     automated_sum_aggregation_specs = {
-        agg_col: {"aggr": "sum", "source_col": rchop(rchop(agg_col, "_tu"), "_hh")}
+        agg_col: {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
         for agg_col in automated_sum_aggregation_cols
     }
 
@@ -943,7 +997,6 @@ def _create_aggregation_functions(
         )
         for agg_col, agg_spec in aggregation_dict.items()
     }
-
     return aggregation_funcs
 
 
@@ -1023,11 +1076,11 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
             )
 
     # Identify grouping level
-    if agg_col.endswith("_tu"):
-        group_id = "tu_id"
-    elif agg_col.endswith("_hh"):
-        group_id = "hh_id"
-    else:
+    group_id = None
+    for g in SUPPORTED_GROUPINGS:
+        if agg_col.endswith(f"_{g}"):
+            group_id = f"{g}_id"
+    if not group_id:
         raise ValueError(
             "Name of aggregated column needs to have a suffix "
             "indicating the group over which it is aggregated. "

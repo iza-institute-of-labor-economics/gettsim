@@ -6,7 +6,9 @@ def _ges_rentenv_beitr_bemess_grenze_m(
     Parameters
     ----------
     wohnort_ost
+        See :func:`wohnort_ost`.
     soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------

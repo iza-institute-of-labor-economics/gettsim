@@ -45,7 +45,7 @@ def wohngeld_abzüge_m_tu(
     ges_krankenv_beitr_m_tu: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate housing benefit subtractions.
+    """Calculate housing benefit subtractions per tax unit.
 
     Parameters
     ----------
@@ -298,7 +298,7 @@ def wohngeld_min_miete(haushaltsgröße_hh: int, wohngeld_params: dict) -> float
     out = wohngeld_params["min_miete"][
         min(haushaltsgröße_hh, max(wohngeld_params["min_miete"]))
     ]
-    return out
+    return float(out)
 
 
 def wohngeld_miete_m_bis_2008(
