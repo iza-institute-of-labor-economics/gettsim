@@ -39,22 +39,25 @@ def wohngeld_m_hh(
     return out
 
 
-def wohngeld_abzüge_m_tu(
+def wohngeld_abzüge_m(
     eink_st_tu: float,
-    ges_rentenv_beitr_m_tu: float,
-    ges_krankenv_beitr_m_tu: float,
+    ges_rentenv_beitr_m: float,
+    ges_krankenv_beitr_m: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate housing benefit subtractions on tax unit level.
+    """Calculate housing benefit subtractions on the individual level.
+
+    Note that eink_st_tu is used as an approximation, since Lohnsteuer
+    is not yet implemented.
 
     Parameters
     ----------
     eink_st_tu
         See :func:`eink_st_tu`.
-    ges_rentenv_beitr_m_tu
-        See :func:`ges_rentenv_beitr_m_tu`.
-    ges_krankenv_beitr_m_tu
-        See :func:`ges_krankenv_beitr_m_tu`.
+    ges_rentenv_beitr_m
+        See :func:`ges_rentenv_beitr_m`.
+    ges_krankenv_beitr_m
+        See :func:`ges_krankenv_beitr_m`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -63,25 +66,26 @@ def wohngeld_abzüge_m_tu(
 
     """
     abzug_stufen = (
-        (eink_st_tu > 0) + (ges_rentenv_beitr_m_tu > 0) + (ges_krankenv_beitr_m_tu > 0)
+        (eink_st_tu > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
     )
     out = wohngeld_params["abzug_stufen"][abzug_stufen]
     return out
 
 
-def wohngeld_eink_vor_abzug_m_hh(
-    eink_selbst_hh: float,
-    eink_abhängig_beschäftigt_hh: float,
-    kapitaleink_brutto_hh: float,
-    eink_vermietung_hh: float,
-    arbeitsl_geld_m_hh: float,
-    sonstig_eink_m_hh: float,
-    eink_rente_zu_verst_m_hh: float,
-    unterhaltsvors_m_hh: float,
-    elterngeld_m_hh: float,
+def wohngeld_eink_vor_abzug_m(
+    eink_selbst: float,
+    eink_abhängig_beschäftigt: float,
+    kapitaleink_brutto: float,
+    eink_vermietung: float,
+    arbeitsl_geld_m: float,
+    sonstig_eink_m: float,
+    eink_rente_zu_verst_m: float,
+    unterhaltsvors_m: float,
+    elterngeld_m: float,
+    wohngeld_abzüge_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation
-    on household level.
+    on individual level and deducting individual housing benefit subtractions.
 
     Parameters
     ----------
@@ -108,21 +112,17 @@ def wohngeld_eink_vor_abzug_m_hh(
     -------
 
     """
-    einkommen_hh = (
-        eink_selbst_hh
-        + eink_abhängig_beschäftigt_hh
-        + kapitaleink_brutto_hh
-        + eink_vermietung_hh
+    einkommen = (
+        eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
     ) / 12
 
-    transfers_hh = (
-        arbeitsl_geld_m_hh
-        + eink_rente_zu_verst_m_hh
-        + unterhaltsvors_m_hh
-        + elterngeld_m_hh
+    transfers = (
+        arbeitsl_geld_m + eink_rente_zu_verst_m + unterhaltsvors_m + elterngeld_m
     )
 
-    return einkommen_hh + transfers_hh + sonstig_eink_m_hh
+    eink_indiv = einkommen + transfers + sonstig_eink_m
+    out = (1 - wohngeld_abzüge_m) * eink_indiv
+    return out
 
 
 def wohngeld_eink_abzüge_m_bis_2015(
@@ -248,7 +248,6 @@ def wohngeld_eink_abzüge_m_ab_2016(
 def wohngeld_eink_m_hh(
     haushaltsgröße_hh: int,
     wohngeld_eink_abzüge_m_hh: float,
-    wohngeld_abzüge_m_tu: float,
     wohngeld_eink_vor_abzug_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
@@ -260,8 +259,6 @@ def wohngeld_eink_m_hh(
         See :func:`haushaltsgröße_hh`.
     wohngeld_eink_abzüge_m_hh
         See :func:`wohngeld_eink_abzüge_m_hh`.
-    wohngeld_abzüge_m_tu
-        See :func:`wohngeld_abzüge_m_tu`.
     wohngeld_eink_vor_abzug_m_hh
         See :func:`wohngeld_eink_vor_abzug_m_hh`.
     wohngeld_params
@@ -271,7 +268,7 @@ def wohngeld_eink_m_hh(
     -------
 
     """
-    vorläufiges_eink = (1 - wohngeld_abzüge_m_tu) * (
+    wohngeld_eink_nach_abzug_m_hh = (
         wohngeld_eink_vor_abzug_m_hh - wohngeld_eink_abzüge_m_hh
     )
 
@@ -279,7 +276,7 @@ def wohngeld_eink_m_hh(
         min(haushaltsgröße_hh, max(wohngeld_params["min_eink"]))
     ]
 
-    out = max(vorläufiges_eink, unteres_eink)
+    out = max(wohngeld_eink_nach_abzug_m_hh, unteres_eink)
     return out
 
 
