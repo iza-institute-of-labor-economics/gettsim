@@ -39,7 +39,7 @@ def wohngeld_m_hh(
     return out
 
 
-def wohngeld_abzüge_m(
+def wohngeld_abzüge_st_sozialv_m(
     eink_st_tu: float,
     ges_rentenv_beitr_m: float,
     ges_krankenv_beitr_m: float,
@@ -72,7 +72,7 @@ def wohngeld_abzüge_m(
     return out
 
 
-def wohngeld_eink_vor_abzug_m(
+def wohngeld_eink_vor_freib_m(
     eink_selbst: float,
     eink_abhängig_beschäftigt: float,
     kapitaleink_brutto: float,
@@ -82,7 +82,7 @@ def wohngeld_eink_vor_abzug_m(
     eink_rente_zu_verst_m: float,
     unterhaltsvors_m: float,
     elterngeld_m: float,
-    wohngeld_abzüge_m: float,
+    wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation
     on individual level and deducting individual housing benefit subtractions.
@@ -121,11 +121,11 @@ def wohngeld_eink_vor_abzug_m(
     )
 
     eink_indiv = einkommen + transfers + sonstig_eink_m
-    out = (1 - wohngeld_abzüge_m) * eink_indiv
+    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_indiv
     return out
 
 
-def wohngeld_eink_abzüge_m_bis_2015(
+def wohngeld_eink_freib_m_bis_2015(
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
     behinderungsgrad: int,
@@ -200,7 +200,7 @@ def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) ->
     return out
 
 
-def wohngeld_eink_abzüge_m_ab_2016(
+def wohngeld_eink_freib_m_ab_2016(
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
     behinderungsgrad: int,
@@ -247,8 +247,8 @@ def wohngeld_eink_abzüge_m_ab_2016(
 
 def wohngeld_eink_m_hh(
     haushaltsgröße_hh: int,
-    wohngeld_eink_abzüge_m_hh: float,
-    wohngeld_eink_vor_abzug_m_hh: float,
+    wohngeld_eink_freib_m_hh: float,
+    wohngeld_eink_vor_freib_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit per individual.
@@ -257,10 +257,10 @@ def wohngeld_eink_m_hh(
     ----------
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
-    wohngeld_eink_abzüge_m_hh
-        See :func:`wohngeld_eink_abzüge_m_hh`.
-    wohngeld_eink_vor_abzug_m_hh
-        See :func:`wohngeld_eink_vor_abzug_m_hh`.
+    wohngeld_eink_freib_m_hh
+        See :func:`wohngeld_eink_freib_m_hh`.
+    wohngeld_eink_vor_freib_m_hh
+        See :func:`wohngeld_eink_vor_freib_m_hh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -269,7 +269,7 @@ def wohngeld_eink_m_hh(
 
     """
     wohngeld_eink_nach_abzug_m_hh = (
-        wohngeld_eink_vor_abzug_m_hh - wohngeld_eink_abzüge_m_hh
+        wohngeld_eink_vor_freib_m_hh - wohngeld_eink_freib_m_hh
     )
 
     unteres_eink = wohngeld_params["min_eink"][
@@ -299,7 +299,7 @@ def wohngeld_min_miete(haushaltsgröße_hh: int, wohngeld_params: dict) -> float
     return float(out)
 
 
-def wohngeld_miete_m_bis_2008_hh(
+def wohngeld_miete_m_hh_bis_2008(
     mietstufe: int,
     immobilie_baujahr_hh: int,
     haushaltsgröße_hh: int,
@@ -361,7 +361,7 @@ def wohngeld_miete_m_bis_2008_hh(
     return out
 
 
-def wohngeld_miete_m_ab_2009_hh(
+def wohngeld_miete_m_hh_ab_2009(
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
@@ -411,7 +411,7 @@ def wohngeld_miete_m_ab_2009_hh(
     return out
 
 
-def wohngeld_miete_m_ab_2021_hh(
+def wohngeld_miete_m_hh_ab_2021(
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,

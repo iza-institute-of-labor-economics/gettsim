@@ -205,7 +205,7 @@ def eink_st_altersfreib_ab_2005(
     return out
 
 
-def eink_st_sonderausgaben_bis_2011_tu(
+def eink_st_sonderausgaben_tu_bis_2011(
     eink_st_abzuege_params: dict,
     anz_erwachsene_tu: int,
 ) -> float:
@@ -278,7 +278,7 @@ def sonderausgaben_betreuung_tu(
     return float(out)
 
 
-def eink_st_sonderausgaben_ab_2012_tu(
+def eink_st_sonderausgaben_tu_ab_2012(
     eink_st_abzuege_params: dict,
     sonderausgaben_betreuung_tu: float,
     anz_erwachsene_tu: int,
