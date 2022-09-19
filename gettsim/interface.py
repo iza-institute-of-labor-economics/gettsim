@@ -21,8 +21,6 @@ from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.config import USE_JAX
 from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
-from gettsim.dag import create_dag
-from gettsim.dag import execute_dag
 from gettsim.functions_loader import load_aggregation_dict
 from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
@@ -122,6 +120,11 @@ def compute_taxes_and_transfers(
     _fail_if_targets_not_in_functions_or_override_columns(
         all_functions, targets, columns_overriding_functions
     )
+
+    # Add rounding to functions.
+    if rounding:
+        all_functions = _add_rounding_to_functions(all_functions, params)
+
     # Partial parameters to functions such that they disappear in the DAG.
     partialed_functions = _partial_parameters_to_functions(all_functions, params)
 
@@ -136,13 +139,6 @@ def compute_taxes_and_transfers(
         check_minimal_specification=check_minimal_specification,
         rounding=rounding,
     )
-
-    # Add rounding to functions.
-    if rounding:
-
-        # Select functions which are needed to calculate the targets
-        all_functions = {k: v for k, v in all_functions.items() if k in dag.nodes}
-        all_functions = _add_rounding_to_functions(all_functions, params)
 
     # print("ges_krankenv_beitr_satz" in all_functions)
     # print(all_functions["ges_krankenv_beitr_satz"])
