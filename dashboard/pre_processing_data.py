@@ -280,7 +280,7 @@ def social_security_data(start, end):
     soz_vers_out = pd.concat(
         [
             soz_vers_df[["arbeitsl_v", "ges_rentenv"]],
-            ges_krankenv[["mean_allgemein", "allgemein", "zusatz"]],
+            ges_krankenv[["mean_allgemein", "allgemein", "mean_zusatzbeitrag"]],
             ges_pflegev,
         ],
         axis=1,
