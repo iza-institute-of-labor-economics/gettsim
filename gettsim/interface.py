@@ -121,32 +121,32 @@ def compute_taxes_and_transfers(
         all_functions, targets, columns_overriding_functions
     )
 
-    # Add rounding to functions.
-    if rounding:
-        all_functions = _add_rounding_to_functions(all_functions, params)
-
-    # Partial parameters to functions such that they disappear in the DAG.
-    partialed_functions = _partial_parameters_to_functions(all_functions, params)
-
-    all_functions = partialed_functions
-
     # Set up dag.
     dag = prepare_functions_and_set_up_dag(
         all_functions=all_functions,
         targets=targets,
-        params=params,
         columns_overriding_functions=columns_overriding_functions,
         check_minimal_specification=check_minimal_specification,
-        rounding=rounding,
+    )
+    functions_in_dag = {
+        f_name: f for f_name, f in all_functions.items() if (f_name in dag.nodes)
+    }
+    # Add rounding to functions.
+    if rounding:
+        functions_in_dag = _add_rounding_to_functions(functions_in_dag, params)
+
+    # Partial parameters to functions such that they disappear in the DAG.
+    functions_in_dag = _partial_parameters_to_functions(functions_in_dag, params)
+
+    dag = prepare_functions_and_set_up_dag(
+        all_functions=functions_in_dag,
+        targets=targets,
+        columns_overriding_functions=columns_overriding_functions,
+        check_minimal_specification=check_minimal_specification,
     )
 
-    # print("ges_krankenv_beitr_satz" in all_functions)
-    # print(all_functions["ges_krankenv_beitr_satz"])
-    # print(inspect.signature(all_functions["ges_krankenv_beitr_satz"]))
-    # print("ges_krankenv_beitr_satz" in dag.nodes)
-    # print("ges_krankenv_beitr_satz" in set(_root_nodes(dag)))
     # Do some checks.
-    _fail_if_root_nodes_are_missing(dag, data, all_functions)
+    _fail_if_root_nodes_are_missing(dag, data, functions_in_dag)
     _fail_if_pid_is_non_unique(data)
     data = _reduce_to_necessary_data(dag, data, check_minimal_specification)
 
@@ -161,7 +161,7 @@ def compute_taxes_and_transfers(
     # results = execute_dag(dag, data, targets, debug)
     combined_function = dags.dag.create_combined_function_from_dag(
         dag,
-        all_functions,
+        functions_in_dag,
         targets,
         return_type="dict",
         aggregator=None,
@@ -260,10 +260,8 @@ def check_data_check_functions_and_merge_functions(
 def prepare_functions_and_set_up_dag(
     all_functions,
     targets,
-    params,
     columns_overriding_functions,
     check_minimal_specification,
-    rounding,
 ):
     """Set up the DAG. Partial functions before that and add rounding afterwards.
 
@@ -276,17 +274,12 @@ def prepare_functions_and_set_up_dag(
         List of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` contains all key outputs as
         defined by `gettsim.config.DEFAULT_TARGETS`.
-    params : dict
-        A dictionary with parameters from the policy environment. For more
-        information see the documentation of the :ref:`param_files`.
     columns_overriding_functions : list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimal configuration should
         be silenced, emitted as warnings or errors.
-    rounding : bool, default True
-        Indicator for whether rounding should be applied as specified in the law.
 
     Returns
     -------

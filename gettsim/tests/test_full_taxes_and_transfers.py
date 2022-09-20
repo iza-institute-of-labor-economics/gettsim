@@ -32,8 +32,6 @@ OUT_COLS = [
 ]
 OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
 
-OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
-
 
 @pytest.fixture(scope="module")
 def input_data():
