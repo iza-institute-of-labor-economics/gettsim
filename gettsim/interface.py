@@ -131,11 +131,14 @@ def compute_taxes_and_transfers(
     functions_in_dag = {
         f_name: f for f_name, f in all_functions.items() if (f_name in dag.nodes)
     }
+
     # Add rounding to functions.
     if rounding:
         functions_in_dag = _add_rounding_to_functions(functions_in_dag, params)
 
     # Partial parameters to functions such that they disappear in the DAG.
+    # Note: Needs to be done after rounding such that dags recognizes partialled
+    # parameters.
     functions_in_dag = _partial_parameters_to_functions(functions_in_dag, params)
 
     dag = prepare_functions_and_set_up_dag(
@@ -296,11 +299,6 @@ def prepare_functions_and_set_up_dag(
     _fail_if_columns_overriding_functions_are_not_in_dag(
         dag, columns_overriding_functions, check_minimal_specification
     )
-
-    # dag = dags.create_dag(
-    #     functions=partialed_functions,
-    #     targets=targets,
-    # )
 
     return dag
 
@@ -687,14 +685,6 @@ def _reorder_columns(results):
     remaining_columns = [i for i in results if i not in sorted_ids]
 
     return results[sorted_ids + remaining_columns]
-
-
-# def _kth_order_successors(dag, node, order):
-#     yield node
-
-#     if 1 <= order:
-#         for successor in dag.successors(node):
-#             yield from _kth_order_successors(dag, successor, order=order - 1)
 
 
 def _fail_if_root_nodes_are_missing(dag, data, functions):
