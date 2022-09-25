@@ -20,7 +20,6 @@ from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.config import USE_JAX
-from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
 from gettsim.functions_loader import load_aggregation_dict
 from gettsim.functions_loader import load_user_and_internal_functions
 from gettsim.shared import format_list_linewise
@@ -108,8 +107,9 @@ def compute_taxes_and_transfers(
 
     # Perform several checks on functions and data. Merge internal and user functions.
     data = copy.deepcopy(data)
-    data = _process_data(data)
-    all_functions = check_data_check_functions_and_merge_functions(
+    data = _process_and_check_data(data, columns_overriding_functions)
+
+    all_functions = process_merge_and_check_functions(
         user_functions,
         internal_functions,
         columns_overriding_functions,
@@ -117,12 +117,18 @@ def compute_taxes_and_transfers(
         data,
         aggregation_specs,
     )
-    _fail_if_targets_not_in_functions_or_override_columns(
-        all_functions, targets, columns_overriding_functions
+
+    data = _convert_data_to_correct_types(
+        data, columns_overriding_functions, all_functions
     )
 
+    # Remove functions that are overridden (needs to be done after data conversion)
+    all_functions = {
+        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
+    }
+
     # Set up dag.
-    dag = prepare_functions_and_set_up_dag(
+    dag = set_up_dag(
         all_functions=all_functions,
         targets=targets,
         columns_overriding_functions=columns_overriding_functions,
@@ -141,7 +147,7 @@ def compute_taxes_and_transfers(
     # parameters.
     functions_in_dag = _partial_parameters_to_functions(functions_in_dag, params)
 
-    dag = prepare_functions_and_set_up_dag(
+    dag = set_up_dag(
         all_functions=functions_in_dag,
         targets=targets,
         columns_overriding_functions=columns_overriding_functions,
@@ -178,7 +184,7 @@ def compute_taxes_and_transfers(
     return results
 
 
-def check_data_check_functions_and_merge_functions(
+def process_merge_and_check_functions(
     user_functions,
     internal_functions,
     columns_overriding_functions,
@@ -186,8 +192,8 @@ def check_data_check_functions_and_merge_functions(
     data,
     aggregation_specs,
 ):
-    """Make some checks on input data and on interal and user functions. Merge internal
-    and user functions and afterwards perform some more checks.
+    """Merge internal and user functions. Add aggregation functions. Perform some
+    checks.
 
     Parameters
     ----------
@@ -199,15 +205,15 @@ def check_data_check_functions_and_merge_functions(
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
     targets : list of str
-        List of strings with names of functions whose output is actually
-        needed by the user.
+        List of strings with names of functions whose output is actually needed by the
+        user.
     data : dict of pandas.Series
         Data provided by the user.
     aggregation_specs : dict
         A dictionary which contains specs for functions which aggregate variables on
         the tax unit or household level. The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+        specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
 
     Returns
     -------
@@ -215,14 +221,6 @@ def check_data_check_functions_and_merge_functions(
         All internal and user functions except the ones that are overridden by an input
         column.
     """
-    data_cols = list(data.keys())
-    _fail_if_columns_overriding_functions_are_not_in_data(
-        data_cols, columns_overriding_functions
-    )
-
-    data_cols_excl_overriding = [
-        c for c in data_cols if c not in columns_overriding_functions
-    ]
 
     # Create one dictionary of functions and perform check.
     user_and_internal_functions = {**internal_functions, **user_functions}
@@ -234,33 +232,36 @@ def check_data_check_functions_and_merge_functions(
 
     # Create and add aggregation functions
     aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions, targets, data_cols, aggregation_specs
+        user_and_internal_functions, targets, list(data), aggregation_specs
     )
 
-    for funcs, name in zip(
-        [internal_functions, user_functions, aggregation_funcs],
-        ["internal", "user", "aggregation"],
-    ):
-        _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
+    # Check for overlap of functions and data columns
+    if data:
+        data_cols_excl_overriding = [
+            c for c in data if c not in columns_overriding_functions
+        ]
+        for funcs, name in zip(
+            [internal_functions, user_functions, aggregation_funcs],
+            ["internal", "user", "aggregation"],
+        ):
+            _fail_if_functions_and_columns_overlap(
+                data_cols_excl_overriding, funcs, name
+            )
 
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
     )
-    data = _convert_data_to_correct_types(
-        data, columns_overriding_functions, all_functions
-    )
 
-    # Remove functions that are overridden
-    all_functions = {
-        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
-    }
+    _fail_if_targets_not_in_functions_or_override_columns(
+        all_functions, targets, columns_overriding_functions
+    )
 
     return all_functions
 
 
-def prepare_functions_and_set_up_dag(
+def set_up_dag(
     all_functions,
     targets,
     columns_overriding_functions,
@@ -443,13 +444,16 @@ def _convert_data_to_correct_types(data, columns_overriding_functions, functions
     return data
 
 
-def _process_data(data):
+def _process_and_check_data(data, columns_overriding_functions):
     """Process data.
 
     Parameters
     ----------
     data : pandas.Series or pandas.DataFrame or dict of pandas.Series
         Data provided by the user.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
 
     Returns
     -------
@@ -472,6 +476,11 @@ def _process_data(data):
 
     # Check that group variables are constant within groups
     _fail_if_group_variables_not_constant_within_groups(data)
+
+    _fail_if_columns_overriding_functions_are_not_in_data(
+        list(data), columns_overriding_functions
+    )
+
     return data
 
 
@@ -745,6 +754,38 @@ def _fail_if_duplicates_in_columns(data):
         duplicated = list(data.columns[data.columns.duplicated()])
         raise ValueError(
             "The following columns are non-unique in the input data:" f"{duplicated}"
+        )
+
+
+def _fail_if_targets_not_in_functions_or_override_columns(
+    functions, targets, columns_overriding_functions
+):
+    """Fail if targets are not in functions.
+
+    Parameters
+    ----------
+    functions : dict of callable
+        Dictionary containing functions to build the DAG.
+    targets : list of str
+        The targets which should be computed. They limit the DAG in the way that only
+        ancestors of these nodes need to be considered.
+    columns_overriding_functions : list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+
+    Raises
+    ------
+    ValueError
+        Raised if ``targets`` are not in functions.
+
+    """
+    targets_not_in_functions = (
+        set(targets) - set(functions) - set(columns_overriding_functions)
+    )
+    if targets_not_in_functions:
+        formatted = format_list_linewise(targets_not_in_functions)
+        raise ValueError(
+            f"The following targets have no corresponding function:\n{formatted}"
         )
 
 

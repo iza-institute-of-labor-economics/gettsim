@@ -9,11 +9,11 @@ from gettsim.config import ROOT_DIR
 def load_user_and_internal_functions(functions):
     functions = [] if functions is None else functions
 
-    custom_functions = _load_functions(functions)
+    user_functions = _load_functions(functions)
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     internal_functions = _load_functions(imports)
 
-    return custom_functions, internal_functions
+    return user_functions, internal_functions
 
 
 def load_aggregation_dict():

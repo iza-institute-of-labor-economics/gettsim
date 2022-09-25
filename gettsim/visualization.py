@@ -12,11 +12,9 @@ from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
 from gettsim.config import DEFAULT_TARGETS
-from gettsim.config import TYPES_INPUT_VARIABLES
-from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
-from gettsim.dag import create_dag
 from gettsim.functions_loader import load_user_and_internal_functions
-from gettsim.interface import _create_aggregation_functions
+from gettsim.interface import process_merge_and_check_functions
+from gettsim.interface import set_up_dag
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
@@ -26,6 +24,7 @@ def plot_dag(
     functions,
     targets=None,
     columns_overriding_functions=None,
+    aggregation_specs=None,
     check_minimal_specification="ignore",
     selectors=None,
     orientation="v",
@@ -48,6 +47,11 @@ def plot_dag(
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
+    aggregation_specs : dict, default None
+        A dictionary which contains specs for functions which aggregate variables on
+        the tax unit or household level. The syntax is the same as for aggregation
+        specs in the code base and as specified in
+        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimal configuration should
         be silenced, emitted as warnings or errors.
@@ -69,50 +73,45 @@ def plot_dag(
         a hover information. Sometimes, the tooltip is not properly displayed.
 
     """
+    # Set defaults for some parameters.
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
+
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"
     )
+    aggregation_specs = {} if aggregation_specs is None else aggregation_specs
 
-    # Load functions and perform checks.
-    functions, internal_functions = load_user_and_internal_functions(functions)
+    # Load functions.
+    user_functions, internal_functions = load_user_and_internal_functions(functions)
 
-    # Create one dictionary of functions and perform check.
-    user_and_internal_functions = {**internal_functions, **functions}
-
-    # Create and add aggregation functions
-    typical_data_cols = list(TYPES_INPUT_VARIABLES)
-    aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions,
+    all_functions = process_merge_and_check_functions(
+        user_functions,
+        internal_functions,
+        columns_overriding_functions,
         targets,
-        typical_data_cols,
-        user_provided_aggregation_specs={},
+        data=[],
+        aggregation_specs=aggregation_specs,
     )
-    all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
+    # Remove functions that are overridden
     all_functions = {
         k: v for k, v in all_functions.items() if k not in columns_overriding_functions
     }
 
-    _fail_if_targets_not_in_functions_or_override_columns(
-        all_functions, targets, columns_overriding_functions
-    )
-
-    # Partial parameters to functions such that they disappear in the DAG.
-    all_functions = _mock_parameters_arguments(all_functions)
-    dag = create_dag(
-        all_functions,
-        targets,
-        columns_overriding_functions,
-        check_minimal_specification,
+    # Set up dag.
+    dag = set_up_dag(
+        all_functions=all_functions,
+        targets=targets,
+        columns_overriding_functions=columns_overriding_functions,
+        check_minimal_specification=check_minimal_specification,
     )
 
     selectors = [] if selectors is None else _to_list(selectors)
     dag = _select_nodes_in_dag(dag, selectors)
     dag = _add_url_to_dag(dag)
     # Even if we do not show the source codes , we need to remove the functions.
-    dag = _replace_functions_with_source_code(dag)
+    dag = _replace_functions_with_source_code(dag, all_functions)
     layout_df = _create_pydot_layout(dag, orientation)
     # prepare for the nodes dataframe including their url
     names = layout_df.index
@@ -336,7 +335,7 @@ def _create_url(func_name):
     )
 
 
-def _replace_functions_with_source_code(dag):
+def _replace_functions_with_source_code(dag, all_functions):
     """Replace functions in the DAG with their source code.
 
     Parameters
@@ -352,8 +351,8 @@ def _replace_functions_with_source_code(dag):
 
     """
     for node in dag.nodes:
-        if "function" in dag.nodes[node]:
-            function = dag.nodes[node].pop("function")
+        if node in all_functions:
+            function = all_functions[node]
             if isinstance(function, functools.partial):
                 source = inspect.getsource(function.func)
             else:
