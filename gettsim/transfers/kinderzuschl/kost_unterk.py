@@ -90,8 +90,8 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_tu(
     """
     ex_min = kinderzuschl_params["existenzminimum"]
 
-    # Only 5 children are considered
-    considered_children = min(anz_kinder_tu, 5)
+    # Up to 10 children are considered
+    considered_children = min(anz_kinder_tu, 10)
     single_oder_paar = "single" if anz_erwachsene_tu == 1 else "paare"
 
     out = (
