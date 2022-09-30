@@ -32,9 +32,9 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 | _`in_ausbildung`          | Dummy: Employment status “in education”     | bool         |
 +---------------------------+---------------------------------------------+--------------+
-| _`selbstständig`          | Dummy: Individual is self-employed          | bool         |
+| _`selbstständig`          | Dummy: Full-time self-employed              | bool         |
 +---------------------------+---------------------------------------------+--------------+
-| _`hat_kinder`             | Dummy: Individual has kids (incl. not in hh)| bool         |
+| _`hat_kinder`             | Dummy: Has kids (incl. not in hh)           | bool         |
 +---------------------------+---------------------------------------------+--------------+
 | _`betreuungskost_m`       | Monthly childcare expenses                  | float        |
 +---------------------------+---------------------------------------------+--------------+
@@ -103,7 +103,7 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 | _`priv_rente_m`           | Amount of monthly private pension           | float        |
 +---------------------------+---------------------------------------------+--------------+
-| _`weiblich`               | True if female                              | bool         |
+| _`weiblich`               | Dummy: female                               | bool         |
 +---------------------------+---------------------------------------------+--------------+
 || _`m_pflichtbeitrag`      || Total months of mandatory pension          || float       |
 ||                          || insurance contributions                    ||             |
