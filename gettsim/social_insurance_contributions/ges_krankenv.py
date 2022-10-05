@@ -245,10 +245,7 @@ def ges_krankenv_beitr_selbst_m(
     ----------
     _ges_krankenv_bemessungsgrundlage_eink_selbst
         See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbst`.
-    ges_krankenv_beitr_satz
-        See :func:`ges_krankenv_beitr_satz`.
-    _ges_krankenv_beitr_satz_arbeitg
-        See :func:`_ges_krankenv_beitr_satz_arbeitg`.
+
 
     Returns
     -------
