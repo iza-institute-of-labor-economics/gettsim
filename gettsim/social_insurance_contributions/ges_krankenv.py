@@ -198,10 +198,11 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     _ges_krankenv_beitr_bemess_grenze_m: float,
 ) -> float:
     """Choose the amount of self-employed income which is subject to health insurance
-    contributions.
+    contributions. The value is bounded from below and from above.
     Only affects those self-employed who voluntarily contribute to the public health
-    system. 
-    SGB V §240 Abs4
+    system.
+
+    Reference: §240 SGB V Abs. 4
 
     Parameters
     ----------
@@ -224,19 +225,18 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     """
     # Calculate if self employed insures via public health insurance.
     if selbstständig and not in_priv_krankenv:
-        min_eink_selbst_m = _ges_krankenv_bezugsgröße_selbst_m/90*30 
-        eink_selbst_selbstv_m = max(min_eink_selbst_m,eink_selbst_m)
-        out = min(_ges_krankenv_beitr_bemess_grenze_m,eink_selbst_selbstv_m)
-        
+        min_eink_selbst_m = _ges_krankenv_bezugsgröße_selbst_m / 90 * 30
+        eink_selbst_selbstv_m = max(min_eink_selbst_m, eink_selbst_m)
+        out = min(_ges_krankenv_beitr_bemess_grenze_m, eink_selbst_selbstv_m)
+
     else:
-        out= 0.0
+        out = 0.0
 
     return out
 
 
 def ges_krankenv_beitr_selbst_m(
-    _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
-    soz_vers_beitr_params: dict
+    _ges_krankenv_bemessungsgrundlage_eink_selbst: float, soz_vers_beitr_params: dict
 ) -> float:
     """Calculates health insurance contributions for self employed income.
     Self-employed pay the full reduced contribution.
@@ -254,8 +254,12 @@ def ges_krankenv_beitr_selbst_m(
     """
 
     params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
-    ermäßigter_beitrag = params["ermäßigt"] if ("ermäßigt" in params) else params["mean_allgemein"]
-    zusatzbeitrag = params["mean_zusatzbeitrag"] if "mean_zusatzbeitrag" in params else 0.0
+    ermäßigter_beitrag = (
+        params["ermäßigt"] if ("ermäßigt" in params) else params["mean_allgemein"]
+    )
+    zusatzbeitrag = (
+        params["mean_zusatzbeitrag"] if "mean_zusatzbeitrag" in params else 0.0
+    )
     ges_krankenv_beitr_satz_selbst = ermäßigter_beitrag + zusatzbeitrag
 
     out = ges_krankenv_beitr_satz_selbst * _ges_krankenv_bemessungsgrundlage_eink_selbst
