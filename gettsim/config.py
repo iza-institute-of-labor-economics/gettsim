@@ -37,7 +37,17 @@ INTERNAL_PARAM_GROUPS = [
     "grunds_im_alter",
 ]
 
-ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
+SUPPORTED_GROUPINGS = {
+    "tu": {
+        "name": "tax unit",
+        "description": "one or two persons that file their taxes together.",
+        "nested_by": "hh",
+    },
+    "hh": {
+        "name": "household",
+        "description": "all individuals living in the same household.",
+    },
+}
 
 DEFAULT_TARGETS = [
     "eink_st_tu",
@@ -61,9 +71,10 @@ TYPES_INPUT_VARIABLES = {
     "hh_id": int,
     "tu_id": int,
     "p_id": int,
-    "vermögen_hh": float,
+    "vermögen_bedürft_hh": float,
     "bruttolohn_m": float,
     "alter": int,
+    "weiblich": bool,
     "selbstständig": bool,
     "wohnort_ost": bool,
     "hat_kinder": bool,
@@ -104,6 +115,20 @@ TYPES_INPUT_VARIABLES = {
     "grundr_bew_zeiten": int,
     "priv_rente_m": float,
     "schwerbeh_g": bool,
+    "m_pflichtbeitrag": float,
+    "m_freiw_beitrag": float,
+    "m_mutterschutz": float,
+    "m_arbeitsunfähig": float,
+    "m_krank_ab_16_bis_24": float,
+    "m_arbeitslos": float,
+    "m_ausbild_suche": float,
+    "m_schul_ausbild": float,
+    "m_geringf_beschäft": float,
+    "m_alg1_übergang": float,
+    "m_ersatzzeit": float,
+    "m_kind_berücks_zeit": float,
+    "m_pfleg_berücks_zeit": float,
+    "y_pflichtbeitr_ab_40": float,
 }
 
 # =====================================================================================

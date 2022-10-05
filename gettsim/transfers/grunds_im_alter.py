@@ -8,7 +8,7 @@ def grunds_im_alter_m_hh(
     unterhaltsvors_m_hh: float,
     grunds_im_alter_eink_m_hh: float,
     erwachsene_alle_rentner_hh: bool,
-    vermögen_hh: float,
+    vermögen_bedürft_hh: float,
     grunds_im_alter_vermög_freib_hh: float,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
@@ -34,8 +34,8 @@ def grunds_im_alter_m_hh(
         See :func:`grunds_im_alter_eink_m_hh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh`.
+    vermögen_bedürft_hh
+        See basic input variable :ref:`vermögen_bedürft_hh`.
     grunds_im_alter_vermög_freib_hh
         See :func:`grunds_im_alter_vermög_freib_hh`.
     Returns
@@ -45,7 +45,7 @@ def grunds_im_alter_m_hh(
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_hh >= grunds_im_alter_vermög_freib_hh) or (
+    if (vermögen_bedürft_hh >= grunds_im_alter_vermög_freib_hh) or (
         not erwachsene_alle_rentner_hh
     ):
         out = 0.0
@@ -77,8 +77,8 @@ def grunds_im_alter_eink_m(
     sozialv_beitr_gesamt_m: float,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate income considered in the calculation of Grundsicherung im
-    Alter.
+    """Calculate individual income considered in the calculation of Grundsicherung
+    im Alter.
 
     Parameters
     ----------
@@ -147,8 +147,8 @@ def grunds_im_alter_erwerbseink_m(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate earnings considered in the calculation of Grundsicherung im
-    Alter.
+    """Calculate individual earnings considered in the calculation of Grundsicherung
+    im Alter.
 
     Legal reference: § 82 SGB XII Abs. 3
 
@@ -186,8 +186,8 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     kapitaleink_brutto: float,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate capital income considered in the calculation of Grundsicherung im
-    Alter.
+    """Calculate individual capital income considered in the calculation of Grundsicherung
+    im Alter.
 
     Legal reference: § 82 SGB XII Abs. 2
 
@@ -219,8 +219,8 @@ def grunds_im_alter_priv_rente_m(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate private pension benefits considered in the calculation of
-    Grundsicherung im Alter.
+    """Calculate individual private pension benefits considered in the calculation
+    of Grundsicherung im Alter.
 
     Legal reference: § 82 SGB XII Abs. 4
 
@@ -296,8 +296,8 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
 def grunds_im_alter_ges_rente_m_bis_2020(
     ges_rente_m: float,
 ) -> float:
-    """Calculate public pension benefits which are considered in the calculation of
-    Grundsicherung im Alter.
+    """Calculate individual public pension benefits which are considered in the
+    calculation of Grundsicherung im Alter until 2020.
 
     Until 2020: No deduction is possible.
 
@@ -319,8 +319,8 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate public pension benefits which are considered in the calculation of
-    Grundsicherung im Alter.
+    """Calculate individual public pension benefits which are considered in the
+    calculation of Grundsicherung im Alter since 2021.
 
     Starting from 2021: If eligible for Grundrente, can deduct 100€ completely and 30%
     of private pension above 100 (but no more than 1/2 of regelbedarf)
@@ -365,7 +365,7 @@ def grunds_im_alter_vermög_freib_hh(
     anz_kinder_hh: int,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate wealth not considered for Grundsicherung im Alter.
+    """Calculate wealth not considered for Grundsicherung im Alter per household.
 
     Parameters
     ----------

@@ -158,7 +158,7 @@ def elternzeit_anspruch(
     return out
 
 
-def elterngeld_kindkind(
+def elterngeld_kind(
     geburtsjahr: int,
     elterngeld_params: dict,
 ) -> bool:
@@ -211,7 +211,7 @@ def elterngeld_vorschulkind(
 
 
 def elterngeld_geschw_bonus_anspruch(
-    elterngeld_kindkind_hh: int,
+    elterngeld_kind_hh: int,
     elterngeld_vorschulkind_hh: int,
     elternzeit_anspruch: bool,
     elterngeld_params: dict,
@@ -220,8 +220,8 @@ def elterngeld_geschw_bonus_anspruch(
 
     Parameters
     ----------
-    elterngeld_kindkind_hh
-        See :func:`elterngeld_kindkind_hh`.
+    elterngeld_kind_hh
+        See :func:`elterngeld_kind_hh`.
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`.
     elterngeld_vorschulkind_hh
@@ -237,7 +237,7 @@ def elterngeld_geschw_bonus_anspruch(
 
         # ToDo: Should this be >=? Reference (§ 2 (2) BEEG) is not completely clear
         out = (
-            elterngeld_kindkind_hh
+            elterngeld_kind_hh
             == list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[0]
         ) or (
             elterngeld_vorschulkind_hh

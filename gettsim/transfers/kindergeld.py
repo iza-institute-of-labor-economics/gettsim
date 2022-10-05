@@ -11,7 +11,7 @@ aggregation_kindergeld = {
 
 
 def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
-    """Kindergeld calculation until 1996.
+    """Kindergeld for an individual child until 1996.
 
     Until 1996 individuals could claim Kinderfreibetrag and receive Kindergeld at the
     same time.
@@ -32,7 +32,7 @@ def kindergeld_m_ab_1997(
     kinderfreib_günstiger_tu: bool,
     kindergeld_basis_m: float,
 ) -> float:
-    """Kindergeld calculation since 1997.
+    """Kindergeld for an individual child since 1997 (after Günstigerprüfung).
 
     Parameters
     ----------
@@ -56,7 +56,7 @@ def kindergeld_basis_m(
     kumulativer_kindergeld_anspruch_tu: int,
     kindergeld_params: dict,
 ) -> float:
-    """Calculate the preliminary kindergeld.
+    """Calculate the preliminary kindergeld for an individual child.
 
     Parameters
     ----------
@@ -90,7 +90,8 @@ def kindergeld_anspruch_nach_stunden(
     arbeitsstunden_w: float,
     kindergeld_params: dict,
 ) -> bool:
-    """Determine kindergeld eligibility depending on working hours.
+    """Determine kindergeld eligibility for an individual child
+    depending on working hours.
 
     The current eligibility rule is, that kids must not work more than 20
     hour and are below 25.
@@ -125,7 +126,8 @@ def kindergeld_anspruch_nach_lohn(
     bruttolohn_m: float,
     kindergeld_params: dict,
 ) -> bool:
-    """Determine kindergeld eligibility depending on kids wage.
+    """Determine kindergeld eligibility for an individual child
+    depending on kids wage.
 
     Before 2011, there was an income ceiling for children
     returns a boolean variable whether a specific person is a child eligible for

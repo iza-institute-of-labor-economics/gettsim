@@ -308,6 +308,9 @@ def rente_vorj_vor_grundr_proxy_m(
     ges_rente_zugangsfaktor: float,
 ) -> float:
     """Estimated amount of public pensions of last year excluding Grundrentenzuschlag.
+
+    Parameters
+    ----------
     rentner
         See basic input variable :ref:`rentner <rentner>`.
     rentenwert_vorjahr

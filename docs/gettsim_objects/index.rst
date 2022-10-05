@@ -11,3 +11,4 @@ This section documents the code inside GETTSIM.
    input_variables
    variables_out
    params
+   means_testing
