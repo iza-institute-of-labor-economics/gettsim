@@ -133,13 +133,13 @@ def compute_taxes_and_transfers(
     # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_pid_is_non_unique(data)
-    data = _reduce_to_necessary_data(dag, data, check_minimal_specification)
+    data_red = _reduce_to_necessary_data(dag, data, check_minimal_specification)
 
     # Convert series to numpy arrays
-    data = {key: series.values for key, series in data.items()}
+    data_red = {key: series.values for key, series in data_red.items()}
 
     # Execute DAG.
-    results = execute_dag(dag, data, targets, debug)
+    results = execute_dag(dag, data_red, targets, debug)
 
     # Prepare results.
     results = prepare_results(results, data, debug)
@@ -309,7 +309,11 @@ def prepare_results(results, data, debug):
     if debug:
         results = pd.DataFrame({**data, **results})
     else:
-        results = pd.DataFrame(results)
+        identifiers = [f"{g}_id" for g in SUPPORTED_GROUPINGS if f"{g}_id" in data] + [
+            "p_id"
+        ]
+        data_ids = {k: v for k, v in data.items() if k in identifiers}
+        results = pd.DataFrame({**data_ids, **results})
     results = _reorder_columns(results)
 
     return results
