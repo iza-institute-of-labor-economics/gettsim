@@ -6,7 +6,7 @@ aggregation_kinderzuschl_eink = {
 }
 
 
-def kinderzuschl_eink_regel_m_hh_bis_2010(
+def kinderzuschl_eink_regel_m_tu_bis_2010(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
     anz_erwachsene_hh: int,
     arbeitsl_geld_2_params: dict,
@@ -50,9 +50,9 @@ def kinderzuschl_eink_regel_m_hh_bis_2010(
     return float(out)
 
 
-def kinderzuschl_eink_regel_m_hh_ab_2011(
+def kinderzuschl_eink_regel_m_tu_ab_2011(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
-    anz_erwachsene_hh: int,
+    anz_erwachsene_tu: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate income relevant for calculation of child benefit since 2011.
@@ -61,8 +61,8 @@ def kinderzuschl_eink_regel_m_hh_ab_2011(
     ----------
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
-    anz_erwachsene_hh
-        See :func:`anz_erwachsene_hh`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -70,42 +70,42 @@ def kinderzuschl_eink_regel_m_hh_ab_2011(
     -------
 
     """
-    if anz_erwachsene_hh == 1:
+    if anz_erwachsene_tu == 1:
         out = arbeitsl_geld_2_params["regelsatz"][1] * (
             1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         )
-    elif anz_erwachsene_hh == 2:
+    elif anz_erwachsene_tu == 2:
         out = arbeitsl_geld_2_params["regelsatz"][2] * (
             2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         )
-    elif anz_erwachsene_hh > 2:
-        out = arbeitsl_geld_2_params["regelsatz"][3] * anz_erwachsene_hh
+    elif anz_erwachsene_tu > 2:
+        out = arbeitsl_geld_2_params["regelsatz"][3] * anz_erwachsene_tu
 
     return float(out)
 
 
-def kinderzuschl_eink_relev_m(
-    kinderzuschl_eink_regel_m_hh: float, kinderzuschl_kost_unterk_m: float
+def kinderzuschl_eink_relev_m_tu(
+    kinderzuschl_eink_regel_m_tu: float, kinderzuschl_kost_unterk_m_tu: float
 ) -> float:
     """Aggregate relevant income and rental costs.
 
     # ToDo: Find out if it should be calculated on tu or hh level
     Parameters
     ----------
-    kinderzuschl_eink_regel_m_hh
-        See :func:`kinderzuschl_eink_regel_m_hh`.
-    kinderzuschl_kost_unterk_m
-        See :func:`kinderzuschl_kost_unterk_m`.
+    kinderzuschl_eink_regel_m_tu
+        See :func:`kinderzuschl_eink_regel_m_tu`.
+    kinderzuschl_kost_unterk_m_tu
+        See :func:`kinderzuschl_kost_unterk_m_tu`.
 
     Returns
     -------
 
     """
-    return kinderzuschl_eink_regel_m_hh + kinderzuschl_kost_unterk_m
+    return kinderzuschl_eink_regel_m_tu + kinderzuschl_kost_unterk_m_tu
 
 
-def kinderzuschl_eink_max_m_hh(
-    kinderzuschl_eink_relev_m: float,
+def kinderzuschl_eink_max_m_tu(
+    kinderzuschl_eink_relev_m_tu: float,
     _kinderzuschl_anz_kinder_anspruch_hh: int,
     kinderzuschl_params: dict,
 ) -> float:
@@ -117,8 +117,8 @@ def kinderzuschl_eink_max_m_hh(
 
     Parameters
     ----------
-    kinderzuschl_eink_relev_m
-        See :func:`kinderzuschl_eink_relev_m`.
+    kinderzuschl_eink_relev_m_tu
+        See :func:`kinderzuschl_eink_relev_m_tu`.
     _kinderzuschl_anz_kinder_anspruch_hh
         See :func:`_kinderzuschl_anz_kinder_anspruch_hh`.
     kinderzuschl_params
@@ -129,7 +129,7 @@ def kinderzuschl_eink_max_m_hh(
 
     """
     out = (
-        kinderzuschl_eink_relev_m
+        kinderzuschl_eink_relev_m_tu
         + kinderzuschl_params["maximum"] * _kinderzuschl_anz_kinder_anspruch_hh
     )
 
@@ -202,9 +202,9 @@ def kinderzuschl_kindereink_abzug_m(
     return max(out, 0.0)
 
 
-def kinderzuschl_eink_anrechn_m(
-    arbeitsl_geld_2_eink_m_hh: float,
-    kinderzuschl_eink_relev_m: float,
+def kinderzuschl_eink_anrechn_m_tu(
+    arbeitsl_geld_2_eink_m_tu: float,
+    kinderzuschl_eink_relev_m_tu: float,
     kinderzuschl_params: dict,
 ) -> float:
     """Calculate parental income subtracted from child benefit.
@@ -213,10 +213,10 @@ def kinderzuschl_eink_anrechn_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_eink_m_hh
-        See :func:`arbeitsl_geld_2_eink_m_hh`.
-    kinderzuschl_eink_relev_m
-        See :func:`kinderzuschl_eink_relev_m`.
+    arbeitsl_geld_2_eink_m_tu
+        See :func:`arbeitsl_geld_2_eink_m_tu`.
+    kinderzuschl_eink_relev_m_tu
+        See :func:`kinderzuschl_eink_relev_m_tu`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -225,7 +225,7 @@ def kinderzuschl_eink_anrechn_m(
 
     """
     out = kinderzuschl_params["entzugsrate_eltern"] * (
-        arbeitsl_geld_2_eink_m_hh - kinderzuschl_eink_relev_m
+        arbeitsl_geld_2_eink_m_tu - kinderzuschl_eink_relev_m_tu
     )
 
     return max(out, 0.0)

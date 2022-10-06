@@ -24,6 +24,7 @@ INPUT_COLS = [
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
     "arbeitsl_geld_2_brutto_eink_m_hh",
     "arbeitsl_geld_2_eink_m_hh",
+    "arbeitsl_geld_2_eink_m_tu",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
@@ -44,6 +45,7 @@ OVERRIDE_COLS = [
     "unterhaltsvors_m",
     "arbeitsl_geld_2_brutto_eink_m_hh",
     "kindergeld_anspruch",
+    "arbeitsl_geld_2_eink_m_tu",
 ]
 
 

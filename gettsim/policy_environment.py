@@ -69,10 +69,10 @@ from gettsim.transfers.kinderzuschl.kinderzuschl import (
     _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
-    kinderzuschl_eink_regel_m_hh_ab_2011,
+    kinderzuschl_eink_regel_m_tu_ab_2011,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
-    kinderzuschl_eink_regel_m_hh_bis_2010,
+    kinderzuschl_eink_regel_m_tu_bis_2010,
 )
 from gettsim.transfers.rente import ges_rente_nach_grundr_m
 from gettsim.transfers.rente import ges_rente_vor_grundr_m
@@ -322,10 +322,10 @@ def load_reforms_for_date(date):
 
     if year <= 2010:
         functions[
-            "kinderzuschl_eink_regel_m_hh"
-        ] = kinderzuschl_eink_regel_m_hh_bis_2010
+            "kinderzuschl_eink_regel_m_tu"
+        ] = kinderzuschl_eink_regel_m_tu_bis_2010
     else:
-        functions["kinderzuschl_eink_regel_m_hh"] = kinderzuschl_eink_regel_m_hh_ab_2011
+        functions["kinderzuschl_eink_regel_m_tu"] = kinderzuschl_eink_regel_m_tu_ab_2011
 
     if date < datetime.date(year=2019, month=7, day=1):
         functions[

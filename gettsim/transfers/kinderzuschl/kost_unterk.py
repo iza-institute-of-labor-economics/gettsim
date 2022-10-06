@@ -1,7 +1,8 @@
-def kinderzuschl_kost_unterk_m(
+def kinderzuschl_kost_unterk_m_tu(
     _kinderzuschl_wohnbedarf_eltern_anteil_tu: float,
-    bruttokaltmiete_m_tu: float,
-    heizkosten_m_tu: float,
+    bruttokaltmiete_m_hh: float,
+    heizkosten_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
 ) -> float:
     """Calculate costs of living eligible to claim.
 
@@ -20,9 +21,11 @@ def kinderzuschl_kost_unterk_m(
     -------
 
     """
-    out = _kinderzuschl_wohnbedarf_eltern_anteil_tu * (
-        bruttokaltmiete_m_tu + heizkosten_m_tu
-    )
+    warmmiete_m_hh = bruttokaltmiete_m_hh + heizkosten_m_hh
+    anteil_warmmiete_m_tu = warmmiete_m_hh * _anteil_personen_in_haushalt_tu
+
+    out = _kinderzuschl_wohnbedarf_eltern_anteil_tu * anteil_warmmiete_m_tu
+
     return out
 
 
