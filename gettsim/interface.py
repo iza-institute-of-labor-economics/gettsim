@@ -168,8 +168,7 @@ def compute_taxes_and_transfers(
 
     # Execute DAG.
     # results = execute_dag(dag, data, targets, debug)
-    combined_function = dags.dag.create_combined_function_from_dag(
-        dag,
+    combined_function = dags.dag.concatenate_functions(
         functions_in_dag,
         targets,
         return_type="dict",
