@@ -118,11 +118,12 @@ def compute_taxes_and_transfers(
         aggregation_specs,
     )
 
+    # Convert data to expected type and remove functions that are overridden (the
+    # latter needs to be done after data conversion as _convert_data_to_correct_types
+    # uses functions to infer expected type of overriding columns)
     data = _convert_data_to_correct_types(
         data, columns_overriding_functions, all_functions
     )
-
-    # Remove functions that are overridden (needs to be done after data conversion)
     all_functions = {
         k: v for k, v in all_functions.items() if k not in columns_overriding_functions
     }
@@ -147,6 +148,7 @@ def compute_taxes_and_transfers(
     # parameters.
     functions_in_dag = _partial_parameters_to_functions(functions_in_dag, params)
 
+    # Create dag using only necessary functions and performe some checks.
     dag = set_up_dag(
         all_functions=functions_in_dag,
         targets=targets,
@@ -154,7 +156,6 @@ def compute_taxes_and_transfers(
         check_minimal_specification=check_minimal_specification,
     )
 
-    # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data, functions_in_dag)
     _fail_if_pid_is_non_unique(data)
     data = _reduce_to_necessary_data(dag, data, check_minimal_specification)
@@ -211,8 +212,8 @@ def process_merge_and_check_functions(
     aggregation_specs : dict
         A dictionary which contains specs for functions which aggregate variables on
         the tax unit or household level. The syntax is the same as for aggregation
-        specs in the code base and as specified in [GEP
-        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+        specs in the code base and as specified in
+        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
 
     Returns
     -------
@@ -869,6 +870,7 @@ def _add_rounding_to_functions(functions, params):
         # params dict.
         if hasattr(func, "__rounding_params_key__"):
             params_key = func.__rounding_params_key__
+
             # Check if there are any rounding specifications.
             if not (
                 params_key in params

@@ -129,6 +129,64 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         )
 
 
+def test_fail_if_columns_overriding_functions_are_not_in_dag():
+    def b(a):
+        return a
+
+    def c(a):
+        return a
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "a": [100, 200, 300],
+            "b": [1, 2, 3],
+        }
+    )
+    with pytest.raises(
+        ValueError,
+        match="The following 'columns_overriding_functions' are unused",
+    ):
+        compute_taxes_and_transfers(
+            data,
+            {},
+            functions=[b, c],
+            targets="c",
+            columns_overriding_functions=["b"],
+            check_minimal_specification="raise",
+        )
+
+
+def test_fail_if_columns_overriding_functions_are_not_in_dag_warn():
+    def b(a):
+        return a
+
+    def c(a):
+        return a
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "a": [100, 200, 300],
+            "b": [1, 2, 3],
+        }
+    )
+    with pytest.warns(
+        UserWarning,
+        match="The following 'columns_overriding_functions' are unused",
+    ):
+        compute_taxes_and_transfers(
+            data,
+            {},
+            functions=[b, c],
+            targets="c",
+            columns_overriding_functions=["b"],
+            check_minimal_specification="warn",
+        )
+
+
 def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input_data):
     def a():
         return pd.Series(range(minimal_input_data.shape[0]))
@@ -137,6 +195,19 @@ def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input
         return a
 
     compute_taxes_and_transfers(minimal_input_data, {}, functions=[a, b], targets="b")
+
+
+def test_fail_if_targets_not_in_functions_or_override_columns(minimal_input_data):
+    with pytest.raises(
+        ValueError,
+        match="The following targets have no corresponding function",
+    ):
+        compute_taxes_and_transfers(
+            minimal_input_data,
+            {},
+            functions=[],
+            targets="unknown_target",
+        )
 
 
 def test_fail_if_missing_pid(minimal_input_data):
