@@ -770,6 +770,28 @@ geringfügige_eink_grenzen_m:
     deviation_from: previous
     reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
     midi_job: 1300
+  2022-10-01:
+    midi_job: 1600
+    reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
+    note: the former mini_job parameter depends on the statutory minimum wage since 2022-10-01
+
+geringf_eink_faktor:
+  name:
+    de: Faktor, mit dem der Mindestlohn in der Berechnung der Geringfügigkeitsgrenze multipliziert wird.
+  reference: §8 (1) Nr. 1a SGB IV
+  2022-10-01:
+    scalar: 130
+    reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
+
+geringf_eink_divisor:
+  name:
+    de: Betrag, durch den der Mindestlohn, multipliziert mit gering_eink_faktor, dividiert wird,
+        um die Geringfügigkeitsgrenze zu erhalten.
+  reference: §8 (1) Nr. 1a SGB IV
+  2022-10-01:
+    scalar: 3
+    reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
+
 
 ag_abgaben_geringf:
   name:
@@ -807,6 +829,31 @@ ges_pflegev_zusatz_kinderlos_mindestalter:
   reference: § 55 Abs. 3 SGB XI
   2005-01-01:
     scalar: 23
+
+mindestlohn:
+  name:
+    de: Allgemeiner gesetzlicher Mindestlohn pro Stunde
+    en: Statutory hourly minimum wage
+  unit: Euro
+  reference: §1 (2) Mindestlohngesetz
+  2015-01-01:
+    scalar: 8.5
+  2017-01-01:
+    scalar: 8.84
+  2019-01-01:
+    scalar: 9.19
+  2020-01-01:
+    scalar: 9.35
+  2021-01-01:
+    scalar: 9.5
+  2021-07-01:
+    scalar: 9.6
+  2022-01-01:
+    scalar: 9.82
+  2022-07-01:
+    scalar: 10.45
+  2022-10-01:
+    scalar: 12
 
 rounding:
   midi_job_faktor_f:
