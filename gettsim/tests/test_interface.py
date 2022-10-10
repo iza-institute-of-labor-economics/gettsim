@@ -129,7 +129,109 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         )
 
 
-def test_fail_if_columns_overriding_functions_are_not_in_dag():
+def test_data_as_series():
+    def c(p_id):
+        return p_id
+
+    data = pd.Series([1, 2, 3])
+    data.name = "p_id"
+
+    compute_taxes_and_transfers(
+        data,
+        {},
+        functions=[c],
+        targets="c",
+    )
+
+
+def test_data_as_dict():
+    def c(b):
+        return b
+
+    data = {
+        "p_id": pd.Series([1, 2, 3]),
+        "hh_id": pd.Series([1, 1, 2]),
+        "b": pd.Series([100, 200, 300]),
+    }
+
+    compute_taxes_and_transfers(
+        data,
+        {},
+        functions=[c],
+        targets="c",
+    )
+
+
+def test_wrong_data_type():
+    def c(b):
+        return b
+
+    data = "not_a_data_object"
+    with pytest.raises(
+        NotImplementedError,
+        match=(
+            "'data' is not a pd.DataFrame or a "
+            "pd.Series or a dictionary of pd.Series."
+        ),
+    ):
+        compute_taxes_and_transfers(
+            data,
+            {},
+            [c],
+        )
+
+
+def test_check_minimal_spec_data():
+    def c(b):
+        return b
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "a": [100, 200, 300],
+            "b": [1, 2, 3],
+        }
+    )
+    with pytest.raises(
+        ValueError,
+        match="The following columns in 'data' are unused",
+    ):
+        compute_taxes_and_transfers(
+            data,
+            {},
+            functions=[c],
+            targets="c",
+            check_minimal_specification="raise",
+        )
+
+
+def test_check_minimal_spec_data_warn():
+    def c(b):
+        return b
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "a": [100, 200, 300],
+            "b": [1, 2, 3],
+        }
+    )
+    with pytest.warns(
+        UserWarning,
+        match="The following columns in 'data' are unused",
+    ):
+        compute_taxes_and_transfers(
+            data,
+            {},
+            functions=[c],
+            targets="c",
+            check_minimal_specification="warn",
+        )
+
+
+def test_check_minimal_spec_columns_overriding():
     def b(a):
         return a
 
@@ -158,7 +260,7 @@ def test_fail_if_columns_overriding_functions_are_not_in_dag():
         )
 
 
-def test_fail_if_columns_overriding_functions_are_not_in_dag_warn():
+def test_check_minimal_spec_columns_overriding_warn():
     def b(a):
         return a
 
@@ -343,6 +445,62 @@ def test_user_provided_aggregation_specs_function():
     np.testing.assert_array_almost_equal(
         out["arbeitsl_geld_2_m_double_hh"], expected_res
     )
+
+
+def test_aggregation_specs_missing_group_sufix():
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m": [100, 100, 100],
+        }
+    )
+    aggregation_specs = {
+        "arbeitsl_geld_2_m_agg": {
+            "source_col": "arbeitsl_geld_2_m",
+            "aggr": "sum",
+        }
+    }
+    with pytest.raises(
+        ValueError,
+        match="Name of aggregated column needs to have a suffix",
+    ):
+        compute_taxes_and_transfers(
+            data,
+            {},
+            functions=[],
+            targets="arbeitsl_geld_2_m_agg",
+            aggregation_specs=aggregation_specs,
+        )
+
+
+def test_aggregation_specs_agg_not_impl():
+
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+            "arbeitsl_geld_2_m": [100, 100, 100],
+        }
+    )
+    aggregation_specs = {
+        "arbeitsl_geld_2_m_hh": {
+            "source_col": "arbeitsl_geld_2_m",
+            "aggr": "aggr_not_implemented",
+        }
+    }
+    with pytest.raises(
+        ValueError,
+        match="Aggr aggr_not_implemented is not implemented, yet.",
+    ):
+        compute_taxes_and_transfers(
+            data,
+            {},
+            functions=[],
+            targets="arbeitsl_geld_2_m_hh",
+            aggregation_specs=aggregation_specs,
+        )
 
 
 @pytest.mark.parametrize(
