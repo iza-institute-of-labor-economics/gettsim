@@ -29,7 +29,7 @@ dependencies:
   - sphinx-automodapi
   - sphinx-copybutton
   - pip:
-      - kaleido
-      - plotly
-      - bump2version
-      - -e .
+    - kaleido
+    - plotly
+    - bump2version
+    - -e .
