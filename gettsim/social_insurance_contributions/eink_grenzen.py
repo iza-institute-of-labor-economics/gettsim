@@ -2,7 +2,7 @@ from gettsim.shared import add_rounding_spec
 
 
 def mini_job_grenze(
-    wohnort_ost: bool, geringfügigkeitsgrenze_west: int, gerinfügigkeitsgrenze_ost: int
+    wohnort_ost: bool, geringfügigkeitsgrenze_west: int, geringfügigkeitsgrenze_ost: int
 ) -> float:
     """Select the income threshold depending on place of living
 
@@ -16,7 +16,7 @@ def mini_job_grenze(
     -------
 
     """
-    out = gerinfügigkeitsgrenze_ost if wohnort_ost else geringfügigkeitsgrenze_west
+    out = geringfügigkeitsgrenze_ost if wohnort_ost else geringfügigkeitsgrenze_west
     return float(out)
 
 
