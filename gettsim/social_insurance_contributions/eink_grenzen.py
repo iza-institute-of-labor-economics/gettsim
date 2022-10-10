@@ -1,7 +1,9 @@
 from gettsim.shared import add_rounding_spec
 
 
-def mini_job_grenze(wohnort_ost: bool, soz_vers_beitr_params: dict) -> float:
+def mini_job_grenze(
+    wohnort_ost: bool, geringfügigkeitsgrenze_west: int, gerinfügigkeitsgrenze_ost: int
+) -> float:
     """Select the income threshold depending on place of living
 
     Parameters
@@ -14,8 +16,7 @@ def mini_job_grenze(wohnort_ost: bool, soz_vers_beitr_params: dict) -> float:
     -------
 
     """
-    params = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]
-    out = params["ost"] if wohnort_ost else params["west"]
+    out = gerinfügigkeitsgrenze_ost if wohnort_ost else geringfügigkeitsgrenze_west
     return float(out)
 
 
@@ -128,6 +129,7 @@ def midi_job_bemessungsentgelt_m(
     midi_job_faktor_f: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
+    geringfügigkeitsgrenze_west: int,
 ) -> float:
     """Income subject to social insurance contributions for midi job.
 
@@ -152,30 +154,43 @@ def midi_job_bemessungsentgelt_m(
     Income subject to social insurance contributions for midi job.
     """
     # Now use the factor to calculate the overall bemessungsentgelt
-    mini_job_anteil = (
-        midi_job_faktor_f
-        * soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
-    )
-    lohn_über_mini = (
-        bruttolohn_m
-        - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
-    )
+    mini_job_anteil = midi_job_faktor_f * geringfügigkeitsgrenze_west
+    lohn_über_mini = bruttolohn_m - geringfügigkeitsgrenze_west
     gewichtete_midi_job_rate = (
         soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
         / (
             soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
-            - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
+            - geringfügigkeitsgrenze_west
         )
     ) - (
-        soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
+        geringfügigkeitsgrenze_west
         / (
             soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
-            - soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
+            - geringfügigkeitsgrenze_west
         )
         * midi_job_faktor_f
     )
 
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
+
+
+def geringfügigkeitsgrenze_west_vor_2022(soz_vers_beitr_params: dict) -> int:
+    return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
+
+
+def geringfügigkeitsgrenze_ost_vor_2022(soz_vers_beitr_params: dict) -> int:
+    return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["ost"]
+
+
+def geringfügigkeitsgrenze_ab_2022(soz_vers_beitr_params: dict) -> int:
+    """Since 10/2022, the mini job threshold is calculated
+    from the statutory minimum wage"""
+
+    return round(
+        soz_vers_beitr_params["mindestlohn"]
+        * soz_vers_beitr_params["geringf_eink_faktor"]
+        / soz_vers_beitr_params["geringf_eink_divisor"]
+    )
 
 
 def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> bool:

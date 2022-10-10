@@ -12,6 +12,15 @@ from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.piecewise_functions import piecewise_polynomial
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    geringfügigkeitsgrenze_ab_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    geringfügigkeitsgrenze_ost_vor_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    geringfügigkeitsgrenze_west_vor_2022,
+)
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_ab_2019,
 )
@@ -350,6 +359,13 @@ def load_reforms_for_date(date):
         functions[
             "arbeitsl_geld_2_regelsatz_m_hh"
         ] = arbeitsl_geld_2_regelsatz_m_hh_ab_2011
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions["geringfügigkeitsgrenze_west"] = geringfügigkeitsgrenze_ab_2022
+        functions["geringfügigkeitsgrenze_ost"] = geringfügigkeitsgrenze_ab_2022
+    else:
+        functions["geringfügigkeitsgrenze_west"] = geringfügigkeitsgrenze_west_vor_2022
+        functions["geringfügigkeitsgrenze_ost"] = geringfügigkeitsgrenze_ost_vor_2022
 
     if date < datetime.date(year=2005, month=10, day=1):
         functions[
