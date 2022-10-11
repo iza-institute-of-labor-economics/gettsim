@@ -9,7 +9,7 @@ coverage:
 
 ignore:
   - "setup.py"
-  - "dashboard/**/*"
+  - "dashboard"
   - "gettsim/parameters/_dynamic_pension_data"
   - "gettsim/aggregation_jax.py"
-  - "gettsim/tests/**/*"
+  - "gettsim/tests"
