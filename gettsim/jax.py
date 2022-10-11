@@ -2,7 +2,10 @@ import ast
 import functools
 import inspect
 from copy import deepcopy
+from importlib import import_module
 from typing import Dict
+
+import astor
 
 
 DEFAULT_MAPPING = {" and ": " & ", " or ": " | ", " not ": " ~"}
@@ -15,7 +18,7 @@ def change_if_to_where_wrapper(
 
     Args:
         func (callable): Function.
-        backend (str): Backend array library.
+        backend (str): Backend array library abbreviation.
         mapping (dict): Find-and-replace mapping which is applied to the source code
             before the ast is generated.
 
@@ -28,16 +31,12 @@ def change_if_to_where_wrapper(
     # recreate scope of function and add array library
     scope = func.__globals__
     if backend == "np":
-        import numpy as np
-
-        scope["np"] = np
+        scope["np"] = import_module("numpy")
     elif backend == "jnp":
-        import jax.numpy as jnp
-
-        scope["jnp"] = jnp
+        scope["jnp"] = import_module("jax.numpy")
     else:
-        msg = "Argument 'backend' must be in {'np', 'jnp'}."
-        raise ValueError(msg)
+        msg = f"Argument 'backend' is {backend} but must be in {'np', 'jnp'}."
+        raise NotImplementedError(msg)
 
     # execute new ast
     compiled = compile(tree, "<ast>", "exec")
@@ -57,7 +56,7 @@ def change_if_to_where_source(
 
     Args:
         func (callable): Function.
-        backend (str): Backend array library.
+        backend (str): Backend array library abbreviation.
         mapping (dict): Find-and-replace mapping which is applied to the source code
             before the ast is generated.
 
@@ -65,8 +64,6 @@ def change_if_to_where_source(
         str: Source code of new function with altered ast.
 
     """
-    import astor
-
     tree = _change_if_to_where_ast(func, backend=backend, mapping=mapping)
     source = astor.code_gen.to_source(tree)
     return source
@@ -79,7 +76,7 @@ def _change_if_to_where_ast(
 
     Args:
         func (callable): Function.
-        backend (str): Backend array library.
+        backend (str): Backend array library abbreviation.
         mapping (dict): Find-and-replace mapping which is applied to the source code
             before the ast is generated.
 

@@ -10,5 +10,6 @@ coverage:
 ignore:
   - "setup.py"
   - "dashboard/**/*"
+  - "gettsim/tests"
   - "gettsim/parameters/_dynamic_pension_data"
   - "gettsim/aggregation_jax.py"

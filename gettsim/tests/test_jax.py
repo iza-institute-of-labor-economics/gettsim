@@ -87,6 +87,22 @@ def f6_exp(flag, another_flag):
     return out
 
 
+def f7(x):
+    return 0 if x < 0 else 1
+
+
+def f7_exp(x):
+    return np.where(x < 0, 0, 1)
+
+
+def f8(x):
+    return -1 if x < 0 else (1 if x > 0 else 0)
+
+
+def f8_exp(x):
+    return np.where(x < 0, -1, np.where(x > 0, 1, 0))
+
+
 x = np.arange(-10, 10)
 rng = np.random.default_rng(seed=0)
 flag = rng.binomial(1, 0.25, size=100)
@@ -101,6 +117,8 @@ TEST_CASES = [
     (f4, f4_exp, (x,)),
     (f5, f5_exp, (x,)),
     (f6, f6_exp, (flag, another_flag)),
+    (f7, f7_exp, (x,)),
+    (f8, f8_exp, (x,)),
 ]
 
 
@@ -131,12 +149,21 @@ def test_change_if_to_where_wrapper(func, expected, args):
 
 
 def g1(x):
+    # function with multiple operations in the if-clause
     a = 0
     b = 1
     if x < 0:
         a = 1
         b = 0
     return a + b
+
+
+def g2(x):
+    # function with illegal operations in the if-clause
+    if x < 0:
+        print(x)  # noqa: T201
+    else:
+        print(not x)  # noqa: T201
 
 
 def test_multiline_error_source():
@@ -147,3 +174,18 @@ def test_multiline_error_source():
 def test_multiline_error_wrapper():
     with pytest.raises(TranslateToJaxError):
         change_if_to_where_wrapper(g1)
+
+
+def test_notimplemented_error():
+    with pytest.raises(NotImplementedError):
+        change_if_to_where_wrapper(f1, backend="dask")
+
+
+def test_unallowed_operation_source():
+    with pytest.raises(TranslateToJaxError):
+        change_if_to_where_source(g2)
+
+
+def test_unallowed_operation_wrapper():
+    with pytest.raises(TranslateToJaxError):
+        change_if_to_where_source(g2)
