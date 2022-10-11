@@ -6,10 +6,11 @@ from numpy.testing import assert_array_equal
 
 from gettsim.jax import change_if_to_where_source
 from gettsim.jax import change_if_to_where_wrapper
+from gettsim.jax import TranslateToJaxError
 
 
 # ======================================================================================
-# Test functions
+# Test functions (no error)
 # ======================================================================================
 
 
@@ -104,7 +105,7 @@ TEST_CASES = [
 
 
 # ======================================================================================
-# Tests
+# Tests (no error)
 # ======================================================================================
 
 
@@ -120,5 +121,29 @@ def test_change_if_to_where_source(func, expected, args):  # noqa: U100
 def test_change_if_to_where_wrapper(func, expected, args):
     got_func = change_if_to_where_wrapper(func, backend="np")
     got = got_func(*args)
-    exp = expected(x)
+    exp = expected(*args)
     assert_array_equal(got, exp)
+
+
+# ======================================================================================
+# Test correct error raising
+# ======================================================================================
+
+
+def g1(x):
+    a = 0
+    b = 1
+    if x < 0:
+        a = 1
+        b = 0
+    return a + b
+
+
+def test_multiline_error_source():
+    with pytest.raises(TranslateToJaxError):
+        change_if_to_where_source(g1)
+
+
+def test_multiline_error_wrapper():
+    with pytest.raises(TranslateToJaxError):
+        change_if_to_where_wrapper(g1)

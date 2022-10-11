@@ -1,4 +1,3 @@
-# TODO: dtypes
 import ast
 import functools
 import inspect
@@ -26,12 +25,26 @@ def change_if_to_where_wrapper(
     """
     tree = _change_if_to_where_ast(func, backend=backend, mapping=mapping)
 
+    # recreate scope of function and add array library
+    scope = func.__globals__
+    if backend == "np":
+        import numpy as np
+
+        scope["np"] = np
+    elif backend == "jnp":
+        import jax.numpy as jnp
+
+        scope["jnp"] = jnp
+    else:
+        msg = "Argument 'backend' must be in {'np', 'jnp'}."
+        raise ValueError(msg)
+
     # execute new ast
-    compiled = compile(tree, "<string>", "exec")
-    exec(compiled)
+    compiled = compile(tree, "<ast>", "exec")
+    exec(compiled, scope)
 
     # assign created function
-    new_func = locals()[func.__name__]
+    new_func = scope[func.__name__]
     return functools.wraps(func)(new_func)
 
 
@@ -150,9 +163,9 @@ def _if_to_call(node: ast.If, backend: str):
     """
     args = [node.test, node.body[0].value]
 
-    if len(node.orelse) > 1:
+    if len(node.orelse) > 1 or len(node.body) > 1:
         msg = _too_many_operations_message(node)
-        raise ParseToJaxError(msg)
+        raise TranslateToJaxError(msg)
     elif node.orelse == []:
         args.append(ast.Name(id=node.body[0].targets[0].id, ctx=ast.Load()))
     elif isinstance(node.orelse[0], (ast.Return, ast.Assign)):
@@ -163,7 +176,7 @@ def _if_to_call(node: ast.If, backend: str):
         args.append(_ifexp_to_call(node.orelse[0], backend=backend))
     else:
         msg = _unallowed_operation_message(node)
-        raise ParseToJaxError(msg)
+        raise TranslateToJaxError(msg)
 
     call = ast.Call(
         func=ast.Attribute(
@@ -209,8 +222,8 @@ def _ifexp_to_call(node: ast.IfExp, backend: str):
 # ======================================================================================
 
 
-class ParseToJaxError(ValueError):
-    """Error when function cannot be parsed into JAX compatible format."""
+class TranslateToJaxError(ValueError):
+    """Error when function cannot be translated into JAX compatible format."""
 
     pass
 
