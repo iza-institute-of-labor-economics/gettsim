@@ -12,3 +12,4 @@ ignore:
   - "dashboard/**/*"
   - "gettsim/parameters/_dynamic_pension_data"
   - "gettsim/aggregation_jax.py"
+  - "gettsim/tests/**/*"
