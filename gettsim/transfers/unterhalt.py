@@ -80,7 +80,7 @@ def unterhaltsvorschuss_eink_m_tu(
     arbeitsl_geld_m_tu: float,
 ) -> float:
     """Calculate relevant income for advance on alimony payment
-    per tax unit.
+    on tax unit level.
 
     Parameters
     ----------

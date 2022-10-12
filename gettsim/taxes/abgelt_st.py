@@ -1,5 +1,5 @@
 def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
-    """Calculate abgeltungssteuer per tax unit.
+    """Calculate abgeltungssteuer on tax unit level.
 
     Parameters
     ----------
@@ -20,7 +20,7 @@ def zu_verst_kapitaleink_tu(
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculate taxable income per tax unit.
+    """Calculate taxable income on tax unit level.
 
     Parameters
     ----------
