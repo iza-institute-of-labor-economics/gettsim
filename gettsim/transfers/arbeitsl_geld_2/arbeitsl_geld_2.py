@@ -23,7 +23,7 @@ def arbeitsl_geld_2_m_hh(
 
     Returns
     -------
-    float with the income by unemployment insurance per household.
+    float with the income by unemployment insurance on household level.
     """
     if (
         wohngeld_vorrang_hh

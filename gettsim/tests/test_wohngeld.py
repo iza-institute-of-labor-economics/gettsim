@@ -42,7 +42,7 @@ INPUT_COLS = [
 ]
 YEARS_TEST = [2006, 2009, 2013, 2016, 2018, 2019, 2021]
 
-# ToDo: add "wohngeld_miete_m" "wohngeld_eink_m" to test data and to
+# ToDo: add "wohngeld_miete_m_hh" "wohngeld_eink_m" to test data and to
 # ToDo: OUT_COLS (take care of rounding)
 
 OUT_COLS = ["wohngeld_vor_vermög_check_m_hh", "wohngeld_nach_vermög_check_m_hh"]

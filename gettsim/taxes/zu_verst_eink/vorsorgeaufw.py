@@ -199,7 +199,7 @@ def vorsorgeaufw_ab_2020(
 @add_rounding_spec(params_key="eink_st_abzuege")
 def vorsorgeaufw_bis_2004(
     _vorsorgeaufw_vom_lohn_bis_2019_single: float,
-    _vorsorgeaufw_vom_lohn_bis_2019_tu: float,
+    _vorsorgeaufw_vom_lohn_tu_bis_2019: float,
     ges_krankenv_beitr_m: float,
     ges_rentenv_beitr_m: float,
     ges_krankenv_beitr_m_tu: float,
@@ -214,8 +214,8 @@ def vorsorgeaufw_bis_2004(
     ----------
     _vorsorgeaufw_vom_lohn_bis_2019_single
         See :func:`_vorsorgeaufw_vom_lohn_bis_2019_single`.
-    _vorsorgeaufw_vom_lohn_bis_2019_tu
-        See :func:`_vorsorgeaufw_vom_lohn_bis_2019_tu`.
+    _vorsorgeaufw_vom_lohn_tu_bis_2019
+        See :func:`_vorsorgeaufw_vom_lohn_tu_bis_2019`.
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
     ges_rentenv_beitr_m
@@ -245,7 +245,7 @@ def vorsorgeaufw_bis_2004(
         )
     elif (gemeinsam_veranlagt_tu) and (not kind):
         out = _berechne_vorsorgeaufw_bis_2004(
-            _vorsorgeaufw_vom_lohn_bis_2019_tu,
+            _vorsorgeaufw_vom_lohn_tu_bis_2019,
             ges_krankenv_beitr_m_tu,
             ges_rentenv_beitr_m_tu,
             2,
@@ -284,11 +284,11 @@ def _vorsorgeaufw_vom_lohn_bis_2019_single(
     return max(out, 0.0)
 
 
-def _vorsorgeaufw_vom_lohn_bis_2019_tu(
+def _vorsorgeaufw_vom_lohn_tu_bis_2019(
     bruttolohn_m_tu: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculate precautionary expenditures until 2019 per tax unit.
+    """Calculate precautionary expenditures until 2019 on tax unit level.
 
     Parameters
     ----------
