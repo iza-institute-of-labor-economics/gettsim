@@ -861,3 +861,8 @@ rounding:
       base: 0.0001
       direction: nearest
       reference:
+  geringfügigkeitsgrenze_ab_2022:
+    2022-10-01:
+      base: 1
+      direction: up
+      reference: §8 (1a) S.2 SGB IV.

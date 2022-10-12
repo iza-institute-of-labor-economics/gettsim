@@ -175,18 +175,54 @@ def midi_job_bemessungsentgelt_m(
 
 
 def geringfügigkeitsgrenze_west_vor_2022(soz_vers_beitr_params: dict) -> int:
+    """
+    Obtains marginal job thresholds for West Germany before 2022
+
+    Parameters
+    ----------
+    soz_vers_beitr_params:
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+    Marginal Job Threshold
+    """
     return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["west"]
 
 
 def geringfügigkeitsgrenze_ost_vor_2022(soz_vers_beitr_params: dict) -> int:
+    """
+    Obtains marginal job thresholds for East Germany before 2022
+
+    Parameters
+    ----------
+    soz_vers_beitr_params:
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+    Marginal Job Threshold
+    """
     return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"]["ost"]
 
 
+@add_rounding_spec(params_key="soz_vers_beitr")
 def geringfügigkeitsgrenze_ab_2022(soz_vers_beitr_params: dict) -> int:
-    """Since 10/2022, the mini job threshold is calculated
-    from the statutory minimum wage"""
+    """
+    Obtains marginal job threshold since 10/2022.
+    Since then, it is calculated from the statutory minimum wage
 
-    return round(
+    Parameters
+    ----------
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+    Marginal Job Threshold
+    """
+
+    return (
         soz_vers_beitr_params["mindestlohn"]
         * soz_vers_beitr_params["geringf_eink_faktor"]
         / soz_vers_beitr_params["geringf_eink_divisor"]
