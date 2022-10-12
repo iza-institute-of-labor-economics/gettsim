@@ -22,23 +22,24 @@ documentation of all :ref:`functions`.
 +-------------------------+-----------------------------------------------------------+
 | entgeltp_update         | Updated earning points for pension claim                  |
 +-------------------------+-----------------------------------------------------------+
-| abgelt_st_tu            | Capital income tax per tax unit                           |
+| abgelt_st_tu            | Capital income tax on tax unit level                      |
 +-------------------------+-----------------------------------------------------------+
-| soli_st_tu              | Solidarity surcharge per tax unit                         |
+| soli_st_tu              | Solidarity surcharge on tax unit level                    |
 +-------------------------+-----------------------------------------------------------+
 | kindergeld_m            | Monthly child benefit                                     |
 +-------------------------+-----------------------------------------------------------+
-| eink_st_tu              | Income Tax per tax unit                                   |
+| eink_st_tu              | Income Tax on tax unit level                              |
 +-------------------------+-----------------------------------------------------------+
 | unterhaltsvors_m        | Alimony advance payment                                   |
 +-------------------------+-----------------------------------------------------------+
-| arbeitsl_geld_2_m_hh    | Monthly subsistence payment per household                 |
+| arbeitsl_geld_2_m_hh    | Monthly subsistence payment on household level            |
 +-------------------------+-----------------------------------------------------------+
 | kinderzuschl_m_hh       | Monthly additional child benefit, household sum           |
 +-------------------------+-----------------------------------------------------------+
 | elterngeld_m            | Monthly parental leave benefit                            |
 +-------------------------+-----------------------------------------------------------+
-| wohngeld_m_hh           | Monthly housing benefit per household                     |
+| wohngeld_m_hh           | Monthly housing benefit on household level                |
 +-------------------------+-----------------------------------------------------------+
-| grunds_im_alter_m_hh    | Monthly subsistence payment for retirees per household    |
+|| grunds_im_alter_m_hh   || Monthly subsistence payment for retirees on household    |
+||                        || level                                                    |
 +-------------------------+-----------------------------------------------------------+
