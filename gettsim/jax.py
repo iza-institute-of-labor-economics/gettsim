@@ -164,15 +164,27 @@ def _if_to_call(node: ast.If, backend: str):
         msg = _too_many_operations_message(node)
         raise TranslateToJaxError(msg)
     elif node.orelse == []:
-        args.append(ast.Name(id=node.body[0].targets[0].id, ctx=ast.Load()))
-    elif isinstance(node.orelse[0], (ast.Return, ast.Assign)):
+        if isinstance(node.body[0], ast.Return):
+            msg = _return_and_no_else_message(node)
+            raise TranslateToJaxError(msg)
+        elif hasattr(node.body[0], "targets"):
+            name = ast.Name(id=node.body[0].targets[0].id, ctx=ast.Load())
+        else:
+            name = ast.Name(id=node.body[0].target.id, ctx=ast.Load())
+        args.append(name)
+    elif isinstance(node.orelse[0], ast.Return):
         args.append(node.orelse[0].value)
     elif isinstance(node.orelse[0], ast.If):
-        args.append(_if_to_call(node.orelse[0], backend=backend))
-    elif isinstance(node.orelse[0], ast.IfExp):
-        args.append(_ifexp_to_call(node.orelse[0], backend=backend))
+        call = _if_to_call(node.orelse[0], backend=backend)
+        args.append(call)
+    elif isinstance(node.orelse[0], (ast.Assign, ast.AugAssign)):
+        if isinstance(node.orelse[0].value, ast.IfExp):
+            call = _ifexp_to_call(node.orelse[0].value, backend=backend)
+            args.append(call)
+        else:
+            args.append(node.orelse[0].value)
     else:
-        msg = _unallowed_operation_message(node)
+        msg = _unallowed_operation_message(node.orelse[0])
         raise TranslateToJaxError(msg)
 
     call = ast.Call(
@@ -225,26 +237,41 @@ class TranslateToJaxError(ValueError):
     pass
 
 
-def _too_many_operations_message(node: ast.If):  # noqa: U100
-    # If we require the package 'astor' to be installed the error message could be
-    # improved greatly by printing the source code that generated the error.
+def _return_and_no_else_message(node: ast.Return):
+    source = _node_to_formatted_source(node)
     msg = (
-        "If-elif-else statements are only allowed to either return a statement or "
-        "expression, or to assign a statement or expression. In one of your "
-        "If-elif-else clause you perform more operations. You can circument this error "
-        "by writing a function that performs these operations."
+        "The if-clause body is a return statement, while the else clause is missing.\n"
+        "Please swap the return statement for an assignment or add an else-clause.\n"
+        f"The source code in question is:\n\n{source}"
+    )
+    return msg
+
+
+def _too_many_operations_message(node: ast.If):
+    source = _node_to_formatted_source(node)
+    msg = (
+        "An if statement is performing multiple operations, which is forbidden.\n"
+        "Please only perform one operation in the body of an if-elif-else statement.\n"
+        f"The source code in question is:\n\n{source}"
     )
     return msg
 
 
 def _unallowed_operation_message(node: ast.If):
-    msg = f"""The body of the elif or else clause is of type {type(node.orelse[0])}.
-    Allowed types are the following:
-
-    ast.If : Another if-else-elif clause
-    ast.IfExp : A one-line if-else statement. Example: 1 if flag else 0
-    ast.Assign : An assignment. Example: x = 3
-    ast.Return : A return statement. Example: return out
-
-    """
+    source = _node_to_formatted_source(node)
+    msg = (
+        "An if-elif-else clause body is of type {type(node)}, which is forbidden.\n"
+        "Allowed types are the following:\n\n"
+        "ast.If : Another if-else-elif clause\n"
+        "ast.IfExp : A one-line if-else statement. Example: 1 if flag else 0\n"
+        "ast.Assign : An assignment. Example: x = 3\n"
+        "ast.Return : A return statement. Example: return out\n\n"
+        f"The source code in question is:\n\n{source}"
+    )
     return msg
+
+
+def _node_to_formatted_source(node: ast.AST):
+    source = astor.code_gen.to_source(node)
+    source = " > " + source[:-1].replace("\n", "\n > ")
+    return source
