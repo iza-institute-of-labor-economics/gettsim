@@ -778,7 +778,7 @@ geringfügige_eink_grenzen_m:
 geringf_eink_faktor:
   name:
     de: Faktor, mit dem der Mindestlohn in der Berechnung der Geringfügigkeitsgrenze multipliziert wird.
-  reference: §8 (1) Nr. 1a SGB IV
+  reference: §8 (1a) SGB IV
   2022-10-01:
     scalar: 130
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
@@ -787,7 +787,7 @@ geringf_eink_divisor:
   name:
     de: Betrag, durch den der Mindestlohn, multipliziert mit gering_eink_faktor, dividiert wird,
         um die Geringfügigkeitsgrenze zu erhalten.
-  reference: §8 (1) Nr. 1a SGB IV
+  reference: §8 (1a) SGB IV
   2022-10-01:
     scalar: 3
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
