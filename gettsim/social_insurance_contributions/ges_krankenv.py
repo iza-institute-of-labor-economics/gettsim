@@ -196,6 +196,7 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     selbstständig: bool,
     in_priv_krankenv: bool,
     _ges_krankenv_beitr_bemess_grenze_m: float,
+    mindestanteil_bezugsgröße_beitragspf_einnahme_selbst: float,
 ) -> float:
     """Choose the amount of self-employed income which is subject to health insurance
     contributions.
@@ -224,7 +225,7 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     """
     # Calculate if self employed insures via public health insurance.
     if selbstständig and not in_priv_krankenv:
-        min_eink_selbst_m = _ges_krankenv_bezugsgröße_selbst_m/90*30 
+        min_eink_selbst_m = _ges_krankenv_bezugsgröße_selbst_m*mindestanteil_bezugsgröße_beitragspf_einnahme_selbst 
         eink_selbst_selbstv_m = max(min_eink_selbst_m,eink_selbst_m)
         out = min(_ges_krankenv_beitr_bemess_grenze_m,eink_selbst_selbstv_m)
         
