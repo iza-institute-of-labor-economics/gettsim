@@ -661,7 +661,7 @@ mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
     en: Minimum contribution for self employed as fraction of Bezugsgröße
   description:
     de: Als beitragspflichtige Einnahmen gilt für den Kalendertag mindestens der neunzigste Teil der monatlichen Bezugsgröße (1/90*30) SGB V §240 Abs4
-    en: Health Insurance contributions have to be payed, at the minimum, on the ninetieth part of the monthly Bezugsgröße for each Calender day 
+    en: Health Insurance contributions have to be payed, at the minimum, on the ninetieth part of the monthly Bezugsgröße for each Calender day
   unit: Share
   1984-01-01:
     scalar: 0.33333333
