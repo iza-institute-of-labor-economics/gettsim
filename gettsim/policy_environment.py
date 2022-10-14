@@ -32,8 +32,8 @@ from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_bis_2014
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_ab_2005
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_bis_2004
-from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_ab_2012
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_bis_2011
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2005_bis_2009
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2010_bis_2019
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2020
@@ -76,11 +76,11 @@ from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
 )
 from gettsim.transfers.rente import ges_rente_nach_grundr_m
 from gettsim.transfers.rente import ges_rente_vor_grundr_m
-from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_m_ab_2016
-from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_m_bis_2015
-from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2009
-from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2021
-from gettsim.transfers.wohngeld import wohngeld_miete_m_bis_2008
+from gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
+from gettsim.transfers.wohngeld import wohngeld_eink_freib_m_bis_2015
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009_bis_2020
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
 
 
 def set_up_policy_environment(date):
@@ -295,9 +295,9 @@ def load_reforms_for_date(date):
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
 
     if year > 2011:
-        functions["sonderausgaben"] = eink_st_sonderausgaben_ab_2012
+        functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_ab_2012
     else:
-        functions["sonderausgaben"] = eink_st_sonderausgaben_bis_2011
+        functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_bis_2011
 
     if year >= 2020:
         functions["vorsorgeaufw"] = vorsorgeaufw_ab_2020
@@ -309,16 +309,16 @@ def load_reforms_for_date(date):
         functions["vorsorgeaufw"] = vorsorgeaufw_bis_2004
 
     if year <= 2015:
-        functions["wohngeld_eink_abzüge_m"] = wohngeld_eink_abzüge_m_bis_2015
+        functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_bis_2015
     else:
-        functions["wohngeld_eink_abzüge_m"] = wohngeld_eink_abzüge_m_ab_2016
+        functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_ab_2016
 
     if year <= 2008:
-        functions["wohngeld_miete_m"] = wohngeld_miete_m_bis_2008
+        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_bis_2008
     elif 2009 <= year <= 2020:
-        functions["wohngeld_miete_m"] = wohngeld_miete_m_ab_2009
+        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2009_bis_2020
     else:
-        functions["wohngeld_miete_m"] = wohngeld_miete_m_ab_2021
+        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2021
 
     if year <= 2010:
         functions[

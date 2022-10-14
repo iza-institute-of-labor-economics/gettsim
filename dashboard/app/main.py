@@ -1,4 +1,5 @@
 import pickle
+import warnings
 
 import pytz
 from bokeh.io import curdoc
@@ -116,50 +117,59 @@ attribute_dict = {
     ],
 }
 
-# print("{} INFO - Creating a plot dict".format(datetime.now(tz)))
 
-plot_dict = {
-    p: {a: attribute_dict[p][counter] for counter, a in enumerate(plot_attributes)}
-    for p in plot_list
-}
-# Makes a difference whether we launch the Dashboard app or start tests.
-try:
-    all_data = pickle.load(open("dashboard/param_dashboard_data.pickle", "rb"))
-except FileNotFoundError:
+def create_dashboard():
+    # print("{} INFO - Creating a plot dict".format(datetime.now(tz)))
+
+    plot_dict = {
+        p: {a: attribute_dict[p][counter] for counter, a in enumerate(plot_attributes)}
+        for p in plot_list
+    }
+    # Makes a difference whether we launch the Dashboard app or start tests.
+    all_data = None
     try:
-        all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
+        all_data = pickle.load(open("dashboard/param_dashboard_data.pickle", "rb"))
     except FileNotFoundError:
-        raise FileNotFoundError(
-            "No dashboard data found. Please run 'pre_processing_data.py' first."
+        try:
+            all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
+        except FileNotFoundError:
+            warnings.warn(
+                "No dashboard data found. Please run 'pre_processing_data.py' first."
+            )
+
+    # Start dashboard only if data was found
+    if all_data:
+
+        # Call tab functions)
+        tab1 = tax_rate(plot_dict["tax_rate"], all_data["tax_rate"])
+        tab2 = deductions(plot_dict["deductions"], all_data["deductions"])
+        tab3 = wohngeld(plot_dict["wohngeld"], all_data["wohngeld"])
+        tab4 = child_benefits(plot_dict["child_benefits"], all_data["child_benefits"])
+        tab5 = social_security(
+            plot_dict["social_security"], all_data["social_security"]
+        )
+        tab6 = social_assistance(
+            plot_dict["social_assistance"], all_data["social_assistance"]
         )
 
+        tabs = Tabs(tabs=[tab1, tab2, tab3, tab4, tab5, tab6])
 
-# print("{} INFO - Server receives request".format(datetime.now(tz)))
+        header = Div(
+            text="""<h1>GETTSIM parameter visualisations</h1>""", width=900, height=80
+        )
 
-# Call tab functions)
-tab1 = tax_rate(plot_dict["tax_rate"], all_data["tax_rate"])
-tab2 = deductions(plot_dict["deductions"], all_data["deductions"])
-tab3 = wohngeld(plot_dict["wohngeld"], all_data["wohngeld"])
-tab4 = child_benefits(plot_dict["child_benefits"], all_data["child_benefits"])
-tab5 = social_security(plot_dict["social_security"], all_data["social_security"])
-tab6 = social_assistance(plot_dict["social_assistance"], all_data["social_assistance"])
+        intro = Div(
+            text="""<h4>This dashboard visualizes GETTSIM parameters. Further information can be
+            found in the
+            <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
+            """,
+            width=800,
+            height=70,
+        )
 
-tabs = Tabs(tabs=[tab1, tab2, tab3, tab4, tab5, tab6])
-
-header = Div(text="""<h1>GETTSIM parameter visualisations</h1>""", width=900, height=80)
-
-intro = Div(
-    text="""<h4>This dashboard visualizes GETTSIM parameters. Further information can be
-    found in the
-    <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
-    """,
-    width=800,
-    height=70,
-)
+        # Put everything together
+        curdoc().add_root(column(header, intro, tabs))
+        curdoc().title = "GETTSIM parameter visualizations"
 
 
-# print("{} INFO - Server completes processing request".format(datetime.now(tz)))
-
-# Put everything together
-curdoc().add_root(column(header, intro, tabs))
-curdoc().title = "GETTSIM parameter visualizations"
+create_dashboard()
