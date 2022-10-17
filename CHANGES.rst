@@ -30,6 +30,7 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   :ghuser:`ChristianZimpelmann`)
 * :gh:`416` Added documentation page for Vermögensbegriff for transfers.
   (:ghuser:`LauraGergeleit`)
+* :gh:`405` Fixed calculation of voluntary contribution by self-employed to the GKV. (:ghuser:`JHermann99`)
 
 0.5.1 — 2022-04-21
 ------------------
