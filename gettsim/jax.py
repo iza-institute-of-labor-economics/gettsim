@@ -13,15 +13,15 @@ BACKEND_TO_MODULE = {"jax": "jax.numpy", "numpy": "numpy"}
 def make_vectorizable(func: callable, backend: str):
     """Redefine function to be vectorizable given backend.
 
-    This function replaces if statements with {backend}.where(), as well as boolean
+    This function replaces if statements with where() calls, as well as boolean
     operations with their bit operation counterpart, and not with inversion. After the
     replacement the function can be called with vector-valued input.
 
     Args:
         func (callable): Function.
-        backend (str): Backend library. See dict `BACKEND_TO_MODULE` for currently
-            supported backends. Array module must export function `where` that behaves
-            as `numpy.where`.
+        backend (str): Backend library. Currently supported backends are 'jax' and
+            'numpy'. Array module must export function `where` that behaves as
+            `numpy.where`.
 
     Returns:
         callable: New function with altered ast.
@@ -230,23 +230,19 @@ def _boolop_to_binop(node: ast.BoolOp):
             instead of 'or'.
 
     """
-    binop = ast.BinOp()
+    left, right = node.values
 
-    if isinstance(node.values[0], ast.BoolOp):
-        binop.left = _boolop_to_binop(node.values[0])
-    else:
-        binop.left = node.values[0]
+    if isinstance(left, ast.BoolOp):
+        left = _boolop_to_binop(left)
 
-    if isinstance(node.values[1], ast.BoolOp):
-        binop.right = _boolop_to_binop(node.values[1])
-    else:
-        binop.right = node.values[1]
+    if isinstance(right, ast.BoolOp):
+        right = _boolop_to_binop(right)
 
-    if isinstance(node.op, ast.And):
-        binop.op = ast.BitAnd()
-    elif isinstance(node.op, ast.Or):
-        binop.op = ast.BitOr()
-
+    binop = ast.BinOp(
+        left=left,
+        right=right,
+        op={ast.And: ast.BitAnd(), ast.Or: ast.BitOr()}[type(node.op)],
+    )
     return binop
 
 
