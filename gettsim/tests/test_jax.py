@@ -1,11 +1,11 @@
 import inspect
 
-import numpy as np
+import numpy
 import pytest
 from numpy.testing import assert_array_equal
 
-from gettsim.jax import change_if_to_where_source
-from gettsim.jax import change_if_to_where_wrapper
+from gettsim.jax import make_vectorizable
+from gettsim.jax import make_vectorizable_source
 from gettsim.jax import TranslateToJaxError
 
 
@@ -22,7 +22,7 @@ def f1(x):
 
 
 def f1_exp(x):
-    return np.where(x < 0, 0, 1)
+    return numpy.where(x < 0, 0, 1)
 
 
 def f2(x):
@@ -34,7 +34,7 @@ def f2(x):
 
 
 def f2_exp(x):
-    out = np.where(x < 0, 0, 1)
+    out = numpy.where(x < 0, 0, 1)
     return out
 
 
@@ -43,7 +43,7 @@ def f3(x):
 
 
 def f3_exp(x):
-    return np.where(x < 0, 0, 1)
+    return numpy.where(x < 0, 0, 1)
 
 
 def f4(x):
@@ -55,7 +55,7 @@ def f4(x):
 
 def f4_exp(x):
     out = 1
-    out = np.where(x < 0, 0, out)
+    out = numpy.where(x < 0, 0, out)
     return out
 
 
@@ -70,7 +70,7 @@ def f5(x):
 
 
 def f5_exp(x):
-    out = np.where(x < 0, -1, np.where(x > 0, 1, 0))
+    out = numpy.where(x < 0, -1, numpy.where(x > 0, 1, 0))
     return out
 
 
@@ -83,16 +83,18 @@ def f6(flag, another_flag):
 
 
 def f6_exp(flag, another_flag):
-    out = np.where(flag & ~another_flag, 1, 0)
+    out = numpy.where(flag & ~another_flag, 1, 0)
     return out
 
 
 def f7(x):
-    return 0 if x < 0 else 1
+    out = 0 if x < 0 else 1
+    return out
 
 
 def f7_exp(x):
-    return np.where(x < 0, 0, 1)
+    out = numpy.where(x < 0, 0, 1)
+    return out
 
 
 def f8(x):
@@ -100,13 +102,13 @@ def f8(x):
 
 
 def f8_exp(x):
-    return np.where(x < 0, -1, np.where(x > 0, 1, 0))
+    return numpy.where(x < 0, -1, numpy.where(x > 0, 1, 0))
 
 
 # expect no change since there is no if-clause and no [and|or] statement.
 def f9(x):
-    y = np.sum(x)
-    z = np.prod(x)
+    y = numpy.sum(x)
+    z = numpy.prod(x)
     return y * z
 
 
@@ -131,7 +133,7 @@ def f11(x):
 
 
 def f11_exp(x):
-    out = np.where(x < 0, -1, np.where(x > 0, 1, 0))
+    out = numpy.where(x < 0, -1, numpy.where(x > 0, 1, 0))
     return out
 
 
@@ -144,12 +146,12 @@ def f12(x):
 
 def f12_exp(x):
     out = 0
-    out += np.where(x < 1, 1, out)
+    out += numpy.where(x < 1, 1, out)
     return out
 
 
-x = np.arange(-10, 10)
-rng = np.random.default_rng(seed=0)
+x = numpy.arange(-10, 10)
+rng = numpy.random.default_rng(seed=0)
 flag = rng.binomial(1, 0.25, size=100)
 another_flag = rng.binomial(1, 0.75, size=100)
 
@@ -180,13 +182,13 @@ TEST_CASES = [
 def test_change_if_to_where_source(func, expected, args):  # noqa: U100
     exp = inspect.getsource(expected)
     exp = exp.replace("_exp", "")
-    got = change_if_to_where_source(func, backend="np")
+    got = make_vectorizable_source(func, backend="numpy")
     assert exp == got
 
 
 @pytest.mark.parametrize("func, expected, args", TEST_CASES)
 def test_change_if_to_where_wrapper(func, expected, args):
-    got_func = change_if_to_where_wrapper(func, backend="np")
+    got_func = make_vectorizable(func, backend="numpy")
     got = got_func(*args)
     exp = expected(*args)
     assert_array_equal(got, exp)
@@ -209,17 +211,17 @@ def g1(x):
 
 def test_too_many_operations_error_source():
     with pytest.raises(TranslateToJaxError):
-        change_if_to_where_source(g1)
+        make_vectorizable_source(g1, backend="numpy")
 
 
 def test_too_many_operations_error_wrapper():
     with pytest.raises(TranslateToJaxError):
-        change_if_to_where_wrapper(g1)
+        make_vectorizable(g1, backend="numpy")
 
 
 def test_notimplemented_error():
     with pytest.raises(NotImplementedError):
-        change_if_to_where_wrapper(f1, backend="dask")
+        make_vectorizable(f1, backend="dask")
 
 
 def g2(x):
@@ -240,22 +242,10 @@ def g3(x):
 @pytest.mark.parametrize("func", [g2, g3])
 def test_unallowed_operation_source(func):
     with pytest.raises(TranslateToJaxError):
-        change_if_to_where_source(func)
+        make_vectorizable_source(func, backend="numpy")
 
 
 @pytest.mark.parametrize("func", [g2, g3])
 def test_unallowed_operation_wrapper(func):
     with pytest.raises(TranslateToJaxError):
-        change_if_to_where_wrapper(func)
-
-
-def g4(x):
-    # no brackets around logical expression
-    flag = x < 0 and x > -1
-    return flag
-
-
-def test_missing_brackets():
-    with pytest.raises(ValueError):
-        g = change_if_to_where_wrapper(g4)
-        g(x)
+        make_vectorizable(func, backend="numpy")
