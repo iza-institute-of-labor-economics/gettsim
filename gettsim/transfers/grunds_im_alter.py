@@ -365,7 +365,7 @@ def grunds_im_alter_vermög_freib_hh(
     anz_kinder_hh: int,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate wealth not considered for Grundsicherung im Alter per household.
+    """Calculate wealth not considered for Grundsicherung im Alter on household level.
 
     Parameters
     ----------

@@ -7,7 +7,7 @@ def eink_st_ohne_kinderfreib_tu(
     anz_erwachsene_tu: int,
     eink_st_params: dict,
 ) -> float:
-    """Taxes without child allowance per tax unit.
+    """Taxes without child allowance on tax unit level.
 
     Parameters
     ----------
@@ -35,7 +35,7 @@ def eink_st_mit_kinderfreib_tu(
     anz_erwachsene_tu: int,
     eink_st_params: dict,
 ) -> float:
-    """Taxes with child allowance per tax unit.
+    """Taxes with child allowance on tax unit level.
 
     Parameters
     ----------
@@ -85,7 +85,7 @@ def _eink_st_tarif(x: float, params: dict) -> float:
 
 @add_rounding_spec(params_key="eink_st")
 def eink_st_tu_bis_1996(eink_st_mit_kinderfreib_tu: float) -> float:
-    """Income tax calculation per tax unit until 1996.
+    """Income tax calculation on tax unit level until 1996.
 
     Until 1996 individuals could claim Kinderfreibetrag and receive Kindergeld
     at the same time.
@@ -110,7 +110,7 @@ def eink_st_tu_ab_1997(
     eink_st_mit_kinderfreib_tu: float,
     kinderfreib_günstiger_tu: bool,
 ) -> float:
-    """Income tax calculation per tax unit since 1997.
+    """Income tax calculation on tax unit level since 1997.
 
     Parameters
     ----------
