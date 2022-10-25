@@ -63,10 +63,10 @@ from gettsim.transfers.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.transfers.kindergeld import kindergeld_m_ab_1997
 from gettsim.transfers.kindergeld import kindergeld_m_bis_1996
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
-    _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019,
+    _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
-    _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019,
+    _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_m_tu_ab_2011,
@@ -329,12 +329,12 @@ def load_reforms_for_date(date):
 
     if date < datetime.date(year=2019, month=7, day=1):
         functions[
-            "_kinderzuschl_vor_vermög_check_m_hh"
-        ] = _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019
+            "_kinderzuschl_vor_vermög_check_m_tu"
+        ] = _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019
     else:
         functions[
-            "_kinderzuschl_vor_vermög_check_m_hh"
-        ] = _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019
+            "_kinderzuschl_vor_vermög_check_m_tu"
+        ] = _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019
 
     if year <= 2010:
         functions[
