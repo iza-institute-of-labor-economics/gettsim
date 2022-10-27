@@ -74,7 +74,7 @@ def in_gleitzone(
 
 
 @add_rounding_spec(params_key="soz_vers_beitr")
-def midi_job_faktor_f(
+def midi_job_faktor_f_bis_2022(
     soz_vers_beitr_params: dict,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
@@ -125,13 +125,59 @@ def midi_job_faktor_f(
     return out
 
 
+@add_rounding_spec(params_key="soz_vers_beitr")
+def midi_job_faktor_f_ab_2022(
+    soz_vers_beitr_params: dict,
+) -> float:
+    """Faktor F which is needed for the calculation of Bemessungsentgelt
+    (beitragspflichtige Einnahme) of midi jobs. It is calculated as the ratio of 28 %
+    divided by the total social security contribution rate
+    (Gesamtsozialversicherungsbeitragssatz).
+
+    Legal reference: § 163 Abs. 10 SGB VI
+
+
+    Parameters
+    ----------
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+    Income subject to social insurance contributions for midi job.
+    """
+    # Calculate the Gesamtsozialversicherungsbeitragssatz by summing social
+    # insurance contributions for employer and employee and
+    # adding the mean Zusatzbeitrag
+    allg_soz_vers_beitr = (
+        soz_vers_beitr_params["beitr_satz"]["ges_rentenv"] * 2
+        + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"] * 2
+        + soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"] * 2
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"]
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["mean_zusatzbeitrag"]
+    )
+
+    # Sum over the shares which are specific for midi jobs.
+    # New formula only inludes the lump-sum contributions to health care
+    # and pension insurance
+    pausch_mini = (
+        soz_vers_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+        + soz_vers_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+    )
+
+    # Now calculate final factor f
+    out = pausch_mini / allg_soz_vers_beitr
+
+    return out
+
+
 def midi_job_bemessungsentgelt_m(
     midi_job_faktor_f: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
     geringfügigkeitsgrenze_west: int,
 ) -> float:
-    """Income subject to social insurance contributions for midi job.
+    """Income subject to social insurance contributions for midi job until October 2022.
 
     Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midi jobs subject
     to social insurance contribution.
@@ -172,6 +218,90 @@ def midi_job_bemessungsentgelt_m(
     )
 
     return mini_job_anteil + lohn_über_mini * gewichtete_midi_job_rate
+
+
+def midi_beitragspfl_einnahme_m(
+    midi_job_faktor_f: float,
+    bruttolohn_m: float,
+    soz_vers_beitr_params: dict,
+) -> float:
+    """Total income subject to social insurance contributions for employers a
+    and employees for midi job since October 2022.
+
+    Beitragspflichtige Einnahme is the reference income for midi jobs subject
+    to employer and employee social insurance contribution.
+
+    Legal reference: Changes in § 20 SGB IV from 01.10.2022
+
+
+    Parameters
+    ----------
+    midi_job_faktor_f
+        See basic input variable :ref:`midi_job_faktor_f <midi_job_faktor_f>`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+
+    Returns
+    -------
+    Income subject to social insurance contributions for midi job.
+    """
+    geringfüg_grenze = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"][
+        "west"
+    ]
+
+    midijob_grenze = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
+
+    quotient1 = (midijob_grenze) / (midijob_grenze - geringfüg_grenze)
+    quotient2 = (geringfüg_grenze) / (midijob_grenze - geringfüg_grenze)
+    einkommen_diff = bruttolohn_m - geringfüg_grenze
+
+    faktor1 = midi_job_faktor_f * geringfüg_grenze
+    faktor2 = (quotient1 - quotient2 * midi_job_faktor_f) * einkommen_diff
+    out = faktor1 + faktor2
+
+    return out
+
+
+def midi_sond_beitragspfl_einnahme_m(
+    bruttolohn_m: float,
+    soz_vers_beitr_params: dict,
+) -> float:
+    """Income subject to employee social insurance contributions for midi job
+    since October 2022.
+
+    Gesonderte Beitragspflichtige Einnahme is the reference income for midi jobs subject
+    to employee social insurance contribution.
+
+    Legal reference: Changes in § 20 SGB IV from 01.10.2022
+
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+
+    Returns
+    -------
+    Income subject to employee social insurance contributions for midi job.
+    """
+    geringfüg_grenze = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["mini_job"][
+        "west"
+    ]
+
+    midijob_grenze = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midi_job"]
+
+    quotient = midijob_grenze / (midijob_grenze - geringfüg_grenze)
+    einkommen_diff = bruttolohn_m - geringfüg_grenze
+
+    out = quotient * einkommen_diff
+
+    return out
 
 
 def geringfügigkeitsgrenze_west_vor_2022(soz_vers_beitr_params: dict) -> int:

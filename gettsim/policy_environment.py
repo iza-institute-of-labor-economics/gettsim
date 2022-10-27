@@ -12,6 +12,12 @@ from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.piecewise_functions import piecewise_polynomial
+from gettsim.social_insurance_contributions.arbeitsl_v import (
+    _arbeitsl_v_beitr_midi_job_m_ab_2022,
+)
+from gettsim.social_insurance_contributions.arbeitsl_v import (
+    _arbeitsl_v_beitr_midi_job_m_bis_2022,
+)
 from gettsim.social_insurance_contributions.eink_grenzen import (
     geringfügigkeitsgrenze_ab_2022,
 )
@@ -21,6 +27,12 @@ from gettsim.social_insurance_contributions.eink_grenzen import (
 from gettsim.social_insurance_contributions.eink_grenzen import (
     geringfügigkeitsgrenze_west_vor_2022,
 )
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    midi_job_faktor_f_ab_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    midi_job_faktor_f_bis_2022,
+)
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_ab_2019,
 )
@@ -28,10 +40,40 @@ from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_bis_2018,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midi_job_arbeitg_m_ab_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midi_job_arbeitg_m_bis_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midi_job_arbeitn_m_ab_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midi_job_arbeitn_m_bis_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m_ab_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m_bis_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
     ges_krankenv_beitr_satz_ab_2019,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
     ges_krankenv_beitr_satz_bis_2018,
+)
+from gettsim.social_insurance_contributions.ges_pflegev import (
+    _ges_pflegev_beitr_midi_job_m_ab_2022,
+)
+from gettsim.social_insurance_contributions.ges_pflegev import (
+    _ges_pflegev_beitr_midi_job_m_bis_2022,
+)
+from gettsim.social_insurance_contributions.ges_rentenv import (
+    _ges_rentenv_beitr_midi_job_m_ab_2022,
+)
+from gettsim.social_insurance_contributions.ges_rentenv import (
+    _ges_rentenv_beitr_midi_job_m_bis_2022,
 )
 from gettsim.taxes.eink_st import eink_st_tu_ab_1997
 from gettsim.taxes.eink_st import eink_st_tu_bis_1996
@@ -366,6 +408,63 @@ def load_reforms_for_date(date):
     else:
         functions["geringfügigkeitsgrenze_west"] = geringfügigkeitsgrenze_west_vor_2022
         functions["geringfügigkeitsgrenze_ost"] = geringfügigkeitsgrenze_ost_vor_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions["midi_job_faktor_f"] = midi_job_faktor_f_ab_2022
+    else:
+        functions["midi_job_faktor_f"] = midi_job_faktor_f_bis_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions["_arbeitsl_v_beitr_midi_job_m"] = _arbeitsl_v_beitr_midi_job_m_ab_2022
+    else:
+        functions[
+            "_arbeitsl_v_beitr_midi_job_m"
+        ] = _arbeitsl_v_beitr_midi_job_m_bis_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_krankenv_midi_job_sum_arbeitn_arbeitg_m"
+        ] = _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m_ab_2022
+    else:
+        functions[
+            "_ges_krankenv_midi_job_sum_arbeitn_arbeitg_m"
+        ] = _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m_bis_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_krankenv_midi_job_arbeitg_m"
+        ] = _ges_krankenv_midi_job_arbeitg_m_ab_2022
+    else:
+        functions[
+            "_ges_krankenv_midi_job_arbeitg_m"
+        ] = _ges_krankenv_midi_job_arbeitg_m_bis_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_krankenv_midi_job_arbeitn_m"
+        ] = _ges_krankenv_midi_job_arbeitn_m_ab_2022
+    else:
+        functions[
+            "_ges_krankenv_midi_job_arbeitn_m"
+        ] = _ges_krankenv_midi_job_arbeitn_m_bis_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_pflegev_beitr_midi_job_m"
+        ] = _ges_pflegev_beitr_midi_job_m_ab_2022
+    else:
+        functions[
+            "_ges_pflegev_beitr_midi_job_m"
+        ] = _ges_pflegev_beitr_midi_job_m_bis_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_rentenv_beitr_midi_job_m"
+        ] = _ges_rentenv_beitr_midi_job_m_ab_2022
+    else:
+        functions[
+            "_ges_rentenv_beitr_midi_job_m"
+        ] = _ges_rentenv_beitr_midi_job_m_bis_2022
 
     if date < datetime.date(year=2005, month=10, day=1):
         functions[

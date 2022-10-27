@@ -307,13 +307,13 @@ def ges_krankenv_beitr_rente_m(
     return ges_krankenv_beitr_satz * _ges_krankenv_bemessungsgrundlage_rente_m
 
 
-def _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m(
+def _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m_bis_2022(
     midi_job_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
     """Calculating the sum of employee and employer health insurance contribution for
-    midi jobs.
+    midi jobs until October 2022.
 
 
     Parameters
@@ -335,10 +335,39 @@ def _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m(
     return out
 
 
-def _ges_krankenv_midi_job_arbeitg_m(
+def _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m_ab_2022(
+    midi_beitragspfl_einnahme_m: float,
+    ges_krankenv_beitr_satz: float,
+    _ges_krankenv_beitr_satz_arbeitg: float,
+) -> float:
+    """Calculating the sum of employee and employer health insurance contribution for
+    midi jobs since October 2022.
+
+
+    Parameters
+    ----------
+    midi_job_bemessungsentgelt_m
+        See :func:`midi_job_bemessungsentgelt_m`.
+    ges_krankenv_beitr_satz
+        See :func:`ges_krankenv_beitr_satz`.
+    _ges_krankenv_beitr_satz_arbeitg
+        See :func:`_ges_krankenv_beitr_satz_arbeitg`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        ges_krankenv_beitr_satz + _ges_krankenv_beitr_satz_arbeitg
+    ) * midi_beitragspfl_einnahme_m
+    return out
+
+
+def _ges_krankenv_midi_job_arbeitg_m_bis_2022(
     bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitg: float
 ) -> float:
-    """Calculating the employer health insurance contribution for midi jobs.
+    """Calculating the employer health insurance contribution for midi jobs
+    until October 2022.
 
     Parameters
     ----------
@@ -360,11 +389,45 @@ def _ges_krankenv_midi_job_arbeitg_m(
     return out
 
 
-def _ges_krankenv_midi_job_arbeitn_m(
+def _ges_krankenv_midi_job_arbeitg_m_ab_2022(
+    _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m: float,
+    _ges_krankenv_midi_job_arbeitn_m: float,
+    in_gleitzone: bool,
+) -> float:
+    """Calculating the employer health insurance contribution for midi jobs
+    since October 2022.
+
+    Parameters
+    ----------
+    _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m
+        See :func:`_ges_krankenv_midi_job_sum_arbeitn_arbeitg_m`.
+    _ges_krankenv_midi_job_arbeitn_m
+        See :func:`_ges_krankenv_midi_job_arbeitn_m`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
+    _ges_krankenv_beitr_satz_arbeitg
+        See :func:`_ges_krankenv_beitr_satz_arbeitg`.
+    Returns
+    -------
+
+    """
+    if in_gleitzone:
+        out = (
+            _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m
+            - _ges_krankenv_midi_job_arbeitn_m
+        )
+    else:
+        out = 0.0
+
+    return out
+
+
+def _ges_krankenv_midi_job_arbeitn_m_bis_2022(
     _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m: float,
     _ges_krankenv_midi_job_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee health insurance contribution for midi jobs.
+    """Calculating the employee health insurance contribution for midi jobs
+    until October 2022.
 
 
     Parameters
@@ -380,3 +443,24 @@ def _ges_krankenv_midi_job_arbeitn_m(
     return (
         _ges_krankenv_midi_job_sum_arbeitn_arbeitg_m - _ges_krankenv_midi_job_arbeitg_m
     )
+
+
+def _ges_krankenv_midi_job_arbeitn_m_ab_2022(
+    midi_sond_beitragspfl_einnahme_m: float,
+    ges_krankenv_beitr_satz: float,
+) -> float:
+    """Calculating the employee health insurance contribution for midi jobs
+    since October 2022.
+
+
+    Parameters
+    ----------
+    midi_sond_beitragspfl_einnahme_m
+        See :func:`midi_sond_beitragspfl_einnahme_m`.
+    ges_krankenv_beitr_satz
+        See :func:`ges_krankenv_beitr_satz`.
+    Returns
+    -------
+
+    """
+    return midi_sond_beitragspfl_einnahme_m * ges_krankenv_beitr_satz

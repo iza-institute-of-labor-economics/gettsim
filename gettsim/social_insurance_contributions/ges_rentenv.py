@@ -40,12 +40,13 @@ def ges_rentenv_beitr_m(
     return out
 
 
-def _ges_rentenv_beitr_midi_job_m(
+def _ges_rentenv_beitr_midi_job_m_bis_2022(
     midi_job_bemessungsentgelt_m: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculating the employer unemployment insurance contribution.
+    """Calculating the employee unemployment insurance contribution
+    until October 2022.
 
     Parameters
     ----------
@@ -69,6 +70,31 @@ def _ges_rentenv_beitr_midi_job_m(
         bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
     )
     return ges_beitr_midi_job - ag_beitr_midi_job
+
+
+def _ges_rentenv_beitr_midi_job_m_ab_2022(
+    midi_sond_beitragspfl_einnahme_m: float,
+    soz_vers_beitr_params: dict,
+) -> float:
+    """Calculating the employee unemployment insurance contribution
+    since October 2022.
+
+    Parameters
+    ----------
+    midi_sond_beitragspfl_einnahme_m
+        See :func:`midi_sond_beitragspfl_einnahme_m`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    an_beitr_midi_job = (
+        midi_sond_beitragspfl_einnahme_m
+        * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
+    )
+    return an_beitr_midi_job
 
 
 def _ges_rentenv_beitr_bruttolohn_m(

@@ -166,13 +166,13 @@ def ges_pflegev_beitr_rente_m(
     return out
 
 
-def _ges_pflegev_beitr_midi_job_m(
+def _ges_pflegev_beitr_midi_job_m_bis_2022(
     ges_pflegev_zusatz_kinderlos: bool,
     midi_job_bemessungsentgelt_m: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculating the employer care insurance contribution.
+    """Calculating the employee care insurance contribution until October 2022.
 
 
     Parameters
@@ -209,3 +209,42 @@ def _ges_pflegev_beitr_midi_job_m(
         bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
     return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m
+
+
+def _ges_pflegev_beitr_midi_job_m_ab_2022(
+    ges_pflegev_zusatz_kinderlos: bool,
+    midi_sond_beitragspfl_einnahme_m: float,
+    midi_beitragspfl_einnahme_m: float,
+    soz_vers_beitr_params: dict,
+) -> float:
+    """Calculating the employee care insurance contribution since October 2022.
+
+    Parameters
+    ----------
+    ges_pflegev_zusatz_kinderlos
+        See :func:`ges_pflegev_zusatz_kinderlos`.
+    midi_beitragspfl_einnahme_m
+        See :func:`midi_beitragspfl_einnahme_m`.
+    midi_sond_beitragspfl_einnahme_m
+        See :func:`midi_sond_beitragspfl_einnahme_m`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    # Calculate the employee care insurance contribution
+    an_beitr_midi_job_m = (
+        midi_sond_beitragspfl_einnahme_m
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    )
+
+    # Add additional contribution for childless individuals
+    if ges_pflegev_zusatz_kinderlos:
+        an_beitr_midi_job_m += (
+            midi_beitragspfl_einnahme_m
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+
+    return an_beitr_midi_job_m

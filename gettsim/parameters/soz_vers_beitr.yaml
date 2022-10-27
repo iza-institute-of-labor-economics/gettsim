@@ -771,6 +771,9 @@ geringfügige_eink_grenzen_m:
     reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
     midi_job: 1300
   2022-10-01:
+    mini_job:
+      west: 520
+      ost: 520
     midi_job: 1600
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     note: the former mini_job parameter depends on the statutory minimum wage since 2022-10-01
@@ -861,7 +864,12 @@ rounding:
       base: 0.0001
       direction: nearest
       reference:
-  geringfügigkeitsgrenze_ab_2022:
+  geringfügigkeitsgrenze_west:
+    2022-10-01:
+      base: 1
+      direction: up
+      reference: §8 (1a) S.2 SGB IV.
+  geringfügigkeitsgrenze_ost:
     2022-10-01:
       base: 1
       direction: up
