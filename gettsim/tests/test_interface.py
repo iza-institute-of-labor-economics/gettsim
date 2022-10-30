@@ -11,7 +11,7 @@ from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_f
 from gettsim.interface import _fail_if_functions_and_columns_overlap
 from gettsim.interface import _fail_if_group_variables_not_constant_within_groups
 from gettsim.interface import _fail_if_pid_is_non_unique
-from gettsim.interface import _partial_parameters_to_functions
+from gettsim.interface import _round_and_partial_parameters_to_functions
 from gettsim.shared import add_rounding_spec
 from gettsim.typing import convert_series_to_internal_type
 
@@ -35,8 +35,10 @@ def func_before_partial(arg_1, arbeitsl_geld_2_params):
     return arg_1 + arbeitsl_geld_2_params["test_param_1"]
 
 
-func_after_partial = _partial_parameters_to_functions(
-    {"test_func": func_before_partial}, {"arbeitsl_geld_2": {"test_param_1": 1}}
+func_after_partial = _round_and_partial_parameters_to_functions(
+    {"test_func": func_before_partial},
+    {"arbeitsl_geld_2": {"test_param_1": 1}},
+    rounding=False,
 )["test_func"]
 
 
@@ -379,8 +381,10 @@ def test_partial_parameters_to_functions_keep_decorator():
     def test_func(arg_1, arbeitsl_geld_2_params):
         return arg_1 + arbeitsl_geld_2_params["test_param_1"]
 
-    partial_func = _partial_parameters_to_functions(
-        {"test_func": test_func}, {"arbeitsl_geld_2": {"test_param_1": 1}}
+    partial_func = _round_and_partial_parameters_to_functions(
+        {"test_func": test_func},
+        {"arbeitsl_geld_2": {"test_param_1": 1}},
+        rounding=False,
     )["test_func"]
 
     assert partial_func.__rounding_params_key__ == "params_key_test"
@@ -609,11 +613,10 @@ def test_fail_if_cannot_be_converted_to_internal_type(
 
 
 @pytest.mark.parametrize(
-    "data, columns_overriding_functions, functions, error_match",
+    "data, functions_overriden, error_match",
     [
         (
             pd.DataFrame({"hh_id": [1, 1.1, 2]}),
-            {},
             {},
             "The data types of the following columns are invalid: \n"
             + "\n - hh_id: Conversion from input type float64 to int failed."
@@ -623,7 +626,6 @@ def test_fail_if_cannot_be_converted_to_internal_type(
         (
             pd.DataFrame({"wohnort_ost": [1.1, 0.0, 1.0]}),
             {},
-            {},
             "The data types of the following columns are invalid: \n"
             + "\n - wohnort_ost: Conversion from input type float64 to bool failed."
             " This conversion is only supported if input data exclusively contains"
@@ -631,7 +633,6 @@ def test_fail_if_cannot_be_converted_to_internal_type(
         ),
         (
             pd.DataFrame({"wohnort_ost": [2, 0, 1], "hh_id": [1.0, 2.0, 3.0]}),
-            {},
             {},
             "The data types of the following columns are invalid: \n"
             + "\n - wohnort_ost: Conversion from input type int64 to bool failed."
@@ -641,14 +642,12 @@ def test_fail_if_cannot_be_converted_to_internal_type(
         (
             pd.DataFrame({"wohnort_ost": ["True", "False"]}),
             {},
-            {},
             "The data types of the following columns are invalid: \n"
             + "\n - wohnort_ost: Conversion from input type object to bool failed."
             " Object type is not supported as input.",
         ),
         (
             pd.DataFrame({"hh_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
-            {},
             {},
             "The data types of the following columns are invalid: \n"
             + "\n - hh_id: Conversion from input type object to int failed. "
@@ -659,7 +658,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
     ],
 )
 def test_fail_if_cannot_be_converted_to_correct_type(
-    data, columns_overriding_functions, functions, error_match
+    data, functions_overriden, error_match
 ):
     with pytest.raises(ValueError, match=error_match):
-        _convert_data_to_correct_types(data, columns_overriding_functions, functions)
+        _convert_data_to_correct_types(data, functions_overriden)
