@@ -47,8 +47,8 @@ def wohngeld_abzüge_st_sozialv_m(
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
 
-    Note that eink_st_tu is used as an approximation, since Lohnsteuer
-    is not yet implemented.
+    Note that eink_st_tu is used as an approximation for taxes on income (as mentioned
+    in § 16 WoGG Satz 1 Nr. 1).
 
     Parameters
     ----------
@@ -89,24 +89,24 @@ def wohngeld_eink_vor_freib_m(
 
     Parameters
     ----------
-    eink_selbst_hh
-        See :func:`_eink_selbst_hh`.
-    eink_abhängig_beschäftigt_hh
-        See :func:`eink_abhängig_beschäftigt_hh`.
-    kapitaleink_brutto_hh
-        See :func:`kapitaleink_brutto_hh`.
-    eink_vermietung_hh
-        See :func:`eink_vermietung_hh`.
-    arbeitsl_geld_m_hh
-        See :func:`arbeitsl_geld_m_hh`.
-    sonstig_eink_m_hh
-        See :func:`sonstig_eink_m_hh`.
-    eink_rente_zu_verst_m_hh
-        See :func:`eink_rente_zu_verst_m_hh`.
-    unterhaltsvors_m_hh
-        See :func:`unterhaltsvors_m_hh`.
-    elterngeld_m_hh
-        See :func:`elterngeld_m_hh`.
+    eink_selbst
+        See :func:`_eink_selbst`.
+    eink_abhängig_beschäftigt
+        See :func:`eink_abhängig_beschäftigt`.
+    kapitaleink_brutto
+        See :func:`kapitaleink_brutto`.
+    eink_vermietung
+        See :func:`eink_vermietung`.
+    arbeitsl_geld_m
+        See :func:`arbeitsl_geld_m`.
+    sonstig_eink_m
+        See :func:`sonstig_eink_m`.
+    eink_rente_zu_verst_m
+        See :func:`eink_rente_zu_verst_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    elterngeld_m
+        See :func:`elterngeld_m`.
 
     Returns
     -------
@@ -120,8 +120,8 @@ def wohngeld_eink_vor_freib_m(
         arbeitsl_geld_m + eink_rente_zu_verst_m + unterhaltsvors_m + elterngeld_m
     )
 
-    eink_indiv = einkommen + transfers + sonstig_eink_m
-    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_indiv
+    eink_ind = einkommen + transfers + sonstig_eink_m
+    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
     return out
 
 
@@ -251,7 +251,8 @@ def wohngeld_eink_m_hh(
     wohngeld_eink_vor_freib_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate final income relevant for calculation of housing benefit per individual.
+    """Calculate final income relevant for calculation of housing benefit
+    on household level.
 
     Parameters
     ----------
@@ -361,7 +362,7 @@ def wohngeld_miete_m_hh_bis_2008(
     return out
 
 
-def wohngeld_miete_m_hh_ab_2009(
+def wohngeld_miete_m_hh_ab_2009_bis_2020(
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,

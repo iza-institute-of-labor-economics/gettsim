@@ -78,7 +78,7 @@ from gettsim.transfers.rente import ges_rente_nach_grundr_m
 from gettsim.transfers.rente import ges_rente_vor_grundr_m
 from gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_freib_m_bis_2015
-from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009_bis_2020
 from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2021
 from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
 
@@ -316,7 +316,7 @@ def load_reforms_for_date(date):
     if year <= 2008:
         functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_bis_2008
     elif 2009 <= year <= 2020:
-        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2009
+        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2009_bis_2020
     else:
         functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2021
 
