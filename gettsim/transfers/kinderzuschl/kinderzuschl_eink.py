@@ -34,7 +34,7 @@ def kinderzuschl_eink_elternteil(
 
 def kinderzuschl_eink_regel_m_tu_bis_2010(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
-    alleinerz_tu: int,
+    alleinerz_tu: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate income relevant for calculation of child benefit until 2010.
