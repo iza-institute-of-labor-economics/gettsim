@@ -136,7 +136,7 @@ def compute_taxes_and_transfers(
     )
 
     # Create input data.
-    input_data = create_input_data(
+    input_data = _create_input_data(
         data=data,
         processed_functions=processed_functions,
         targets=targets,
@@ -155,35 +155,9 @@ def compute_taxes_and_transfers(
     results = tax_transfer_function(**input_data)
 
     # Prepare results.
-    prepared_results = prepare_results(results, data, debug)
+    prepared_results = _prepare_results(results, data, debug)
 
     return prepared_results
-
-
-def create_input_data(
-    data,
-    processed_functions,
-    targets,
-    columns_overriding_functions,
-    check_minimal_specification,
-):
-    # Create dag using processed functions
-    dag = set_up_dag(
-        all_functions=processed_functions,
-        targets=targets,
-        columns_overriding_functions=columns_overriding_functions,
-        check_minimal_specification=check_minimal_specification,
-    )
-    root_nodes = set(_root_nodes(dag))
-    _fail_if_root_nodes_are_missing(root_nodes, data, processed_functions)
-    data = _reduce_to_necessary_data(root_nodes, data, check_minimal_specification)
-
-    # Convert series to numpy arrays
-    data = {key: series.values for key, series in data.items()}
-
-    # Restrict to root nodes
-    input_data = {k: v for k, v in data.items() if k in root_nodes}
-    return input_data
 
 
 def load_and_check_functions(
@@ -193,13 +167,20 @@ def load_and_check_functions(
     data_cols,
     aggregation_specs,
 ):
-    """Load internal functions. Add aggregation functions and user functions. Perform
-    some checks.
+    """Create the dict with all functions that may become part of the DAG by
+
+    - merging user and internal functions
+    - vectorize all functions
+    - adding aggregation functions
+
+    Check that:
+    - all targets are in set of functions or in columns_overriding_functions
+    - columns_overriding_functions are in set of functions
 
     Parameters
     ----------
     user_functions_raw : dict
-        A dictionary mapping variable names to policy functions by the user.
+        A dictionary mapping column names to policy functions by the user.
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
@@ -227,7 +208,7 @@ def load_and_check_functions(
 
     # Vectorize functions.
     user_and_internal_functions = {
-        fn: vectorize_func(f)
+        fn: _vectorize_func(f)
         for fn, f in {**internal_functions, **user_functions}.items()
     }
 
@@ -237,17 +218,14 @@ def load_and_check_functions(
     )
 
     # Check for overlap of functions and data columns.
-    if data_cols:
-        data_cols_excl_overriding = [
-            c for c in data_cols if c not in columns_overriding_functions
-        ]
-        for funcs, name in zip(
-            [internal_functions, user_functions, aggregation_funcs],
-            ["internal", "user", "aggregation"],
-        ):
-            _fail_if_functions_and_columns_overlap(
-                data_cols_excl_overriding, funcs, name
-            )
+    data_cols_excl_overriding = [
+        c for c in data_cols if c not in columns_overriding_functions
+    ]
+    for funcs, name in zip(
+        [internal_functions, user_functions, aggregation_funcs],
+        ["internal", "user", "aggregation"],
+    ):
+        _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
     all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
@@ -312,6 +290,177 @@ def set_up_dag(
     return dag
 
 
+def _process_and_check_data(data, columns_overriding_functions):
+    """Process data and perform several checks.
+
+    Parameters
+    ----------
+    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+        Data provided by the user.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+
+    Returns
+    -------
+    data : dict of pandas.Series
+
+    """
+    if isinstance(data, pd.DataFrame):
+        _fail_if_duplicates_in_columns(data)
+        data = dict(data)
+    elif isinstance(data, pd.Series):
+        data = {data.name: data}
+    elif isinstance(data, dict) and all(
+        isinstance(i, pd.Series) for i in data.values()
+    ):
+        pass
+    else:
+        raise NotImplementedError(
+            "'data' is not a pd.DataFrame or a pd.Series or a dictionary of pd.Series."
+        )
+    # Check that group variables are constant within groups
+    _fail_if_group_variables_not_constant_within_groups(data)
+
+    _fail_if_columns_overriding_functions_are_not_in_data(
+        list(data), columns_overriding_functions
+    )
+    _fail_if_pid_is_non_unique(data)
+
+    return data
+
+
+def _round_and_partial_parameters_to_functions(functions, params, rounding):
+    """Create a dictionary of all functions that are available.
+
+    Parameters
+    ----------
+    functions : dict of callable
+        Dictionary of functions which are either internal or user provided functions.
+    params : dict
+        Dictionary of parameters which is partialed to the function such that `params`
+        are invisible to the DAG.
+    rounding : bool
+        Indicator for whether rounding should be applied as specified in the law.
+
+    Returns
+    -------
+    processed_functions : dict of callable
+        Dictionary mapping function names to rounded callables with partialed
+        parameters.
+
+    """
+    # Add rounding to functions.
+    if rounding:
+        functions = _add_rounding_to_functions(functions, params)
+
+    # Partial parameters to functions such that they disappear in the DAG.
+    # Note: Needs to be done after rounding such that dags recognizes partialled
+    # parameters.
+    processed_functions = {}
+    for name, function in functions.items():
+
+        arguments = get_names_of_arguments_without_defaults(function)
+        partial_params = {
+            i: params[i[:-7]]
+            for i in arguments
+            if i.endswith("_params") and i[:-7] in params
+        }
+        if partial_params:
+            partial_func = functools.partial(function, **partial_params)
+
+            # Make sure that rounding parameter attribute is transferred to partial
+            # function. Otherwise, this information would get lost.
+            if hasattr(function, "__rounding_params_key__"):
+                partial_func.__rounding_params_key__ = function.__rounding_params_key__
+
+            processed_functions[name] = partial_func
+        else:
+            processed_functions[name] = function
+
+    return processed_functions
+
+
+def _create_input_data(
+    data,
+    processed_functions,
+    targets,
+    columns_overriding_functions,
+    check_minimal_specification="ignore",
+):
+    """Create input data for use in the calculation of taxes and transfers by:
+
+    - reducing to necessary data
+    - convert pandas.Series to numpy.array
+
+    Parameters
+    ----------
+    data : Dict of pandas.Series
+        Data provided by the user.
+    processed_functions : dict of callable
+        Dictionary mapping function names to callables.
+    targets : list of str
+        List of strings with names of functions whose output is actually needed by the
+        user.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
+
+    Returns
+    -------
+    input_data : Dict of numpy.array
+        Data which can be used to calculate taxes and transfers.
+
+    """
+    # Create dag using processed functions
+    dag = set_up_dag(
+        all_functions=processed_functions,
+        targets=targets,
+        columns_overriding_functions=columns_overriding_functions,
+        check_minimal_specification=check_minimal_specification,
+    )
+    root_nodes = set(_root_nodes(dag))
+    _fail_if_root_nodes_are_missing(root_nodes, data, processed_functions)
+    data = _reduce_to_necessary_data(root_nodes, data, check_minimal_specification)
+
+    # Convert series to numpy arrays
+    data = {key: series.values for key, series in data.items()}
+
+    # Restrict to root nodes
+    input_data = {k: v for k, v in data.items() if k in root_nodes}
+    return input_data
+
+
+def _prepare_results(results, data, debug):
+    """Prepare results after DAG was executed
+
+    Parameters
+    ----------
+    results : dict
+        Dictionary of pd.Series with the results.
+    data : dict
+        Dictionary of pd.Series based on the input data provided by the user.
+    debug : bool
+        Indicates debug mode.
+
+    Returns
+    -------
+    results : pandas.DataFrame
+        Nicely formatted DataFrame of the results.
+
+    """
+    if debug:
+        results = pd.DataFrame({**data, **results})
+    else:
+        results = pd.DataFrame(results)
+    results = _reorder_columns(results)
+
+    return results
+
+
 def _fail_if_columns_overriding_functions_are_not_in_dag(
     dag, columns_overriding_functions, check_minimal_specification
 ):
@@ -350,33 +499,6 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
         raise ValueError(
             f"The following 'columns_overriding_functions' are unused:\n{formatted}"
         )
-
-
-def prepare_results(results, data, debug):
-    """Prepare results after DAG was executed
-
-    Parameters
-    ----------
-    results : dict
-        Dictionary of pd.Series with the results.
-    data : dict
-        Dictionary of pd.Series based on the input data provided by the user.
-    debug : bool
-        Indicates debug mode.
-
-    Returns
-    -------
-    results : pandas.DataFrame
-        Nicely formatted DataFrame of the results.
-
-    """
-    if debug:
-        results = pd.DataFrame({**data, **results})
-    else:
-        results = pd.DataFrame(results)
-    results = _reorder_columns(results)
-
-    return results
 
 
 def _convert_data_to_correct_types(data, functions_overriden):
@@ -449,49 +571,8 @@ def _convert_data_to_correct_types(data, functions_overriden):
     return data
 
 
-def _process_and_check_data(data, columns_overriding_functions):
-    """Process data and perform several checks.
-
-    Parameters
-    ----------
-    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
-        Data provided by the user.
-    columns_overriding_functions : str list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
-
-    Returns
-    -------
-    data : dict of pandas.Series
-
-    """
-    if isinstance(data, pd.DataFrame):
-        _fail_if_duplicates_in_columns(data)
-        data = dict(data)
-    elif isinstance(data, pd.Series):
-        data = {data.name: data}
-    elif isinstance(data, dict) and all(
-        isinstance(i, pd.Series) for i in data.values()
-    ):
-        pass
-    else:
-        raise NotImplementedError(
-            "'data' is not a pd.DataFrame or a pd.Series or a dictionary of pd.Series."
-        )
-    # Check that group variables are constant within groups
-    _fail_if_group_variables_not_constant_within_groups(data)
-
-    _fail_if_columns_overriding_functions_are_not_in_data(
-        list(data), columns_overriding_functions
-    )
-    _fail_if_pid_is_non_unique(data)
-
-    return data
-
-
 def _fail_if_group_variables_not_constant_within_groups(data):
-    """Check whether group variables have the same
-    value within each group. Possible groups are households or tax units.
+    """Check whether group variables have the same value within each group.
 
     Parameters
     ----------
@@ -712,9 +793,6 @@ def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
         )
         == 0
     ]
-    # print(list(root_nodes))
-    # print(data.keys())
-    # print(funcs_based_on_params_only)
 
     missing_nodes = [
         c for c in root_nodes if c not in data and c not in funcs_based_on_params_only
@@ -915,57 +993,6 @@ def _add_rounding_to_functions(functions, params):
     return functions_new
 
 
-def _round_and_partial_parameters_to_functions(functions, params, rounding):
-    """Create a dictionary of all functions that are available.
-
-    Parameters
-    ----------
-    functions : dict of callable
-        Dictionary of functions which are either internal or user provided functions.
-    params : dict
-        Dictionary of parameters which is partialed to the function such that `params`
-        are invisible to the DAG.
-    rounding : bool
-        Indicator for whether rounding should be applied as specified in the law.
-
-    Returns
-    -------
-    processed_functions : dict of callable
-        Dictionary mapping function names to rounded callables with partialed
-        parameters.
-
-    """
-    # Add rounding to functions.
-    if rounding:
-        functions = _add_rounding_to_functions(functions, params)
-
-    # Partial parameters to functions such that they disappear in the DAG.
-    # Note: Needs to be done after rounding such that dags recognizes partialled
-    # parameters.
-    processed_functions = {}
-    for name, function in functions.items():
-
-        arguments = get_names_of_arguments_without_defaults(function)
-        partial_params = {
-            i: params[i[:-7]]
-            for i in arguments
-            if i.endswith("_params") and i[:-7] in params
-        }
-        if partial_params:
-            partial_func = functools.partial(function, **partial_params)
-
-            # Make sure that rounding parameter attribute is transferred to partial
-            # function. Otherwise, this information would get lost.
-            if hasattr(function, "__rounding_params_key__"):
-                partial_func.__rounding_params_key__ = function.__rounding_params_key__
-
-            processed_functions[name] = partial_func
-        else:
-            processed_functions[name] = function
-
-    return processed_functions
-
-
 def rchop(s, suffix):
     # ToDO: Replace by removesuffix when only python >= 3.9 is supported
     if suffix and s.endswith(suffix):
@@ -1138,12 +1165,12 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
             ].__annotations__["return"]
 
             # Find out return type
-            annotations["return"] = select_return_type(aggr, annotations[source_col])
+            annotations["return"] = _select_return_type(aggr, annotations[source_col])
         elif source_col in TYPES_INPUT_VARIABLES:
             annotations[source_col] = TYPES_INPUT_VARIABLES[source_col]
 
             # Find out return type
-            annotations["return"] = select_return_type(aggr, annotations[source_col])
+            annotations["return"] = _select_return_type(aggr, annotations[source_col])
         else:
             # ToDo: Think about how type annotations of aggregations of user-provided
             # ToDo: input variables are handled
@@ -1225,7 +1252,7 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     return aggregation_func
 
 
-def select_return_type(aggr, source_col_type):
+def _select_return_type(aggr, source_col_type):
     # Find out return type
     if (source_col_type == int) and (aggr in ["any", "all"]):
         return_type = bool
@@ -1237,7 +1264,7 @@ def select_return_type(aggr, source_col_type):
     return return_type
 
 
-def vectorize_func(func):
+def _vectorize_func(func):
     signature = inspect.signature(func)
 
     # Vectorize

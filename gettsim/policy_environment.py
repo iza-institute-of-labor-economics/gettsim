@@ -98,7 +98,7 @@ def set_up_policy_environment(date):
         A dictionary with parameters from the policy environment. For more
         information see the documentation of the :ref:`param_files`.
     functions : dict
-        Dictionary of time dependent policy reforms. Keys are the variable names they
+        Dictionary of time dependent policy reforms. Keys are the column names they
         create.
 
     """
@@ -261,7 +261,7 @@ def load_reforms_for_date(date):
     Returns
     -------
     functions : dict
-        Dictionary of time dependent policy reforms. Keys are the variable names they
+        Dictionary of time dependent policy reforms. Keys are the column names they
         create.
 
     """

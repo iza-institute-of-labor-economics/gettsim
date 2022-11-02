@@ -55,7 +55,7 @@ def _load_functions(sources, include_imported_functions=False):
     Returns
     -------
     functions : dict
-        A dictionary mapping variable names to functions producing them.
+        A dictionary mapping column names to functions producing them.
 
     """
     sources = sources if isinstance(sources, list) else [sources]
