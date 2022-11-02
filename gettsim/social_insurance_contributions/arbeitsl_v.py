@@ -37,7 +37,7 @@ def sozialv_beitr_gesamt_m(
 def arbeitsl_v_beitr_m(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
-    _arbeitsl_v_beitr_midi_job_m: float,
+    _arbeitsl_v_beitr_midijob_arbeitn_m: float,
     _ges_rentenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
@@ -49,8 +49,8 @@ def arbeitsl_v_beitr_m(
         See :func:`geringfügig_beschäftigt`.
     in_gleitzone
         See :func:`in_gleitzone`.
-    _arbeitsl_v_beitr_midi_job_m
-        See :func:`_arbeitsl_v_beitr_midi_job_m`.
+    _arbeitsl_v_beitr_midijob_arbeitn_m
+        See :func:`_arbeitsl_v_beitr_midijob_arbeitn_m`.
     _ges_rentenv_beitr_bruttolohn_m
         See :func:`_ges_rentenv_beitr_bruttolohn_m`.
     soz_vers_beitr_params
@@ -69,24 +69,73 @@ def arbeitsl_v_beitr_m(
     if geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
-        out = _arbeitsl_v_beitr_midi_job_m
+        out = _arbeitsl_v_beitr_midijob_arbeitn_m
     else:
         out = arbeitsl_v_regulär_beschäftigt_m
 
     return out
 
 
-def _arbeitsl_v_beitr_midi_job_m_bis_2022(
-    midi_job_bemessungsentgelt_m: float,
-    bruttolohn_m: float,
+def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m_bis_10_2022(
+    midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculating the employee unemployment insurance contribution until Oktober 2022.
+    """Calculating the sum of employee and employer unemployment insurance
+    contribution for midijobs until October 2022.
 
     Parameters
     ----------
-    midi_job_bemessungsentgelt_m
-        See :func:`midi_job_bemessungsentgelt_m`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    gesamtbeitrag_midijob_m = (
+        midijob_bemessungsentgelt_m
+        * 2
+        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+    )
+    return gesamtbeitrag_midijob_m
+
+
+def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
+    midijob_beitragspf_einnahme_m: float,
+    soz_vers_beitr_params: dict,
+) -> float:
+    """Calculating the sum of employee and employer unemployment insurance
+    contribution for midijobs since October 2022.
+
+    Parameters
+    ----------
+    midijob_beitragspf_einnahme_m
+        See :func:`midijob_beitragspf_einnahme_m`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    gesamtbeitrag_midijob_m = (
+        midijob_beitragspf_einnahme_m
+        * 2
+        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+    )
+    return gesamtbeitrag_midijob_m
+
+
+def _arbeitsl_v_beitr_midijob_arbeitg_m_bis_10_2022(
+    bruttolohn_m: float,
+    soz_vers_beitr_params: dict,
+) -> float:
+    """Calculating the employer unemployment insurance contribution until October 2022.
+
+    Parameters
+    ----------
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     bruttolohn_m
@@ -96,27 +145,70 @@ def _arbeitsl_v_beitr_midi_job_m_bis_2022(
     -------
 
     """
-    gesamtbeitrag_midi_job_m = (
-        midi_job_bemessungsentgelt_m
-        * 2
-        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
-    )
-    ag_beitr_midi_job_m = (
+    ag_beitr_midijob_m = (
         bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
-    return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m
+    return ag_beitr_midijob_m
 
 
-def _arbeitsl_v_beitr_midi_job_m_ab_2022(
-    midi_sond_beitragspfl_einnahme_m: float,
+def _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022(
+    _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m: float,
+    _arbeitsl_v_beitr_midijob_arbeitn_m: float,
+) -> float:
+    """Calculating the employer unemployment insurance contribution since October 2022.
+
+    Parameters
+    ----------
+    _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m
+        See :func:`_arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m`.
+    _arbeitsl_v_beitr_midijob_arbeitn_m
+        See :func:`_arbeitsl_v_beitr_midijob_arbeitn_m`.
+
+    Returns
+    -------
+
+    """
+    ag_beitr_midijob_m = (
+        _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m
+        - _arbeitsl_v_beitr_midijob_arbeitn_m
+    )
+    return ag_beitr_midijob_m
+
+
+def _arbeitsl_v_beitr_midijob_arbeitn_m_bis_10_2022(
+    _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m: float,
+    _arbeitsl_v_beitr_midijob_arbeitg_m: float,
+) -> float:
+    """Calculating the employee unemployment insurance contribution until October 2022.
+
+    Parameters
+    ----------
+    _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m
+        See :func:`_arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m`.
+    _arbeitsl_v_beitr_midijob_arbeitg_m
+        See :func:`_arbeitsl_v_beitr_midijob_arbeitg_m`.
+
+    Returns
+    -------
+
+    """
+    an_beitr_midijob_m = (
+        _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m
+        - _arbeitsl_v_beitr_midijob_arbeitg_m
+    )
+    return an_beitr_midijob_m
+
+
+def _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022(
+    _midijob_beitragspf_einnahme_arbeitn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
     """Calculating the employee unemployment insurance contribution since October 2022.
 
     Parameters
     ----------
-    midi_sond_beitragspfl_einnahme_m
-        See :func:`midi_sond_beitragspfl_einnahme_m`.
+    _midijob_beitragspf_einnahme_arbeitn_m
+        See :func:`_midijob_beitragspf_einnahme_arbeitn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -124,8 +216,8 @@ def _arbeitsl_v_beitr_midi_job_m_ab_2022(
     -------
 
     """
-    an_beitr_midi_job_m = (
-        midi_sond_beitragspfl_einnahme_m
+    an_beitr_midijob_m = (
+        _midijob_beitragspf_einnahme_arbeitn_m
         * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
-    return an_beitr_midi_job_m
+    return an_beitr_midijob_m

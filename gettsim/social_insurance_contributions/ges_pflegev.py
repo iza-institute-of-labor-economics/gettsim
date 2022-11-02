@@ -26,7 +26,7 @@ def ges_pflegev_beitr_m(
     geringfügig_beschäftigt: bool,
     ges_pflegev_beitr_rente_m: float,
     ges_pflegev_beitr_selbst_m: float,
-    _ges_pflegev_beitr_midi_job_m: float,
+    _ges_pflegev_beitr_midijob_arbeitn_m: float,
     ges_pflegev_zusatz_kinderlos: bool,
     _ges_krankenv_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
@@ -43,8 +43,8 @@ def ges_pflegev_beitr_m(
         See :func:`ges_pflegev_beitr_rente_m`.
     ges_pflegev_beitr_selbst_m
         See :func:`ges_pflegev_beitr_selbst_m`.
-    _ges_pflegev_beitr_midi_job_m
-        See :func:`_ges_pflegev_beitr_midi_job_m`.
+    _ges_pflegev_beitr_midijob_arbeitn_m
+        See :func:`_ges_pflegev_beitr_midijob_arbeitn_m`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     _ges_krankenv_bruttolohn_m
@@ -79,7 +79,7 @@ def ges_pflegev_beitr_m(
     elif geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
-        out = _ges_pflegev_beitr_midi_job_m
+        out = _ges_pflegev_beitr_midijob_arbeitn_m
     else:
         out = beitr_regulär_beschäftigt_m
 
@@ -166,21 +166,91 @@ def ges_pflegev_beitr_rente_m(
     return out
 
 
-def _ges_pflegev_beitr_midi_job_m_bis_2022(
-    ges_pflegev_zusatz_kinderlos: bool,
-    midi_job_bemessungsentgelt_m: float,
-    bruttolohn_m: float,
+def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_10_2022(
+    midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
+    ges_pflegev_zusatz_kinderlos: bool,
 ) -> float:
-    """Calculating the employee care insurance contribution until October 2022.
+    """Calculating the sum of employee and employer care insurance contribution for
+    midijobs until October 2022.
 
 
     Parameters
     ----------
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
-    midi_job_bemessungsentgelt_m
-        See :func:`midi_job_bemessungsentgelt_m`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+    """
+
+    gesamtbeitrag_midijob_m = (
+        midijob_bemessungsentgelt_m
+        * 2
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    )
+
+    # Add additional contribution for childless individuals
+    if ges_pflegev_zusatz_kinderlos:
+        gesamtbeitrag_midijob_m += (
+            midijob_bemessungsentgelt_m
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+
+    return gesamtbeitrag_midijob_m
+
+
+def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
+    midijob_beitragspf_einnahme_m: float,
+    soz_vers_beitr_params: dict,
+    ges_pflegev_zusatz_kinderlos: bool,
+) -> float:
+    """Calculating the sum of employee and employer care insurance contribution for
+    midijobs since October 2022.
+
+
+    Parameters
+    ----------
+    midijob_beitragspf_einnahme_m
+        See :func:`midijob_beitragspf_einnahme_m`.
+    ges_pflegev_zusatz_kinderlos
+        See :func:`ges_pflegev_zusatz_kinderlos`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+    """
+
+    gesamtbeitrag_midijob_m = (
+        midijob_beitragspf_einnahme_m
+        * 2
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    )
+
+    # Add additional contribution for childless individuals
+    if ges_pflegev_zusatz_kinderlos:
+        gesamtbeitrag_midijob_m += (
+            midijob_beitragspf_einnahme_m
+            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+
+    return gesamtbeitrag_midijob_m
+
+
+def _ges_pflegev_beitr_midijob_arbeitg_m_bis_10_2022(
+    bruttolohn_m: float,
+    soz_vers_beitr_params: dict,
+) -> float:
+    """Calculating the employer care insurance contribution until October 2022.
+
+
+    Parameters
+    ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     soz_vers_beitr_params
@@ -191,30 +261,67 @@ def _ges_pflegev_beitr_midi_job_m_bis_2022(
     -------
 
     """
-    # Calculate the sum of employee and employer care insurance contribution.
-    gesamtbeitrag_midi_job_m = (
-        midi_job_bemessungsentgelt_m
-        * 2
-        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-    )
-
-    # Add additional contribution for childless individuals
-    if ges_pflegev_zusatz_kinderlos:
-        gesamtbeitrag_midi_job_m += (
-            midi_job_bemessungsentgelt_m
-            * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
-        )
-
-    ag_beitr_midi_job_m = (
+    ag_beitr_midijob_m = (
         bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
-    return gesamtbeitrag_midi_job_m - ag_beitr_midi_job_m
+    return ag_beitr_midijob_m
 
 
-def _ges_pflegev_beitr_midi_job_m_ab_2022(
+def _ges_pflegev_beitr_midijob_arbeitg_m_ab_10_2022(
+    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
+    _ges_pflegev_beitr_midijob_arbeitn_m: float,
+) -> float:
+    """Calculating the employer care insurance contribution since October 2022.
+
+
+    Parameters
+    ----------
+    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m
+        See :func:`_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m`.
+    _ges_pflegev_beitr_midijob_arbeitn_m
+        See :func:`_ges_pflegev_beitr_midijob_arbeitn_m`.
+
+
+    Returns
+    -------
+
+    """
+    ag_beitr_midijob_m = (
+        _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m
+        - _ges_pflegev_beitr_midijob_arbeitn_m
+    )
+    return ag_beitr_midijob_m
+
+
+def _ges_pflegev_beitr_midijob_arbeitn_m_bis_10_2022(
+    _ges_pflegev_beitr_midijob_arbeitg_m: float,
+    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
+) -> float:
+    """Calculating the employee care insurance contribution until October 2022.
+
+    Parameters
+    ----------
+    _ges_pflegev_beitr_midijob_arbeitg_m
+        See :func:`_ges_pflegev_beitr_midijob_arbeitg_m`.
+    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m
+        See :func:`_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m`.
+
+    Returns
+    -------
+
+    """
+    an_beitr_midijob_m = (
+        _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m
+        - _ges_pflegev_beitr_midijob_arbeitg_m
+    )
+
+    return an_beitr_midijob_m
+
+
+def _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022(
     ges_pflegev_zusatz_kinderlos: bool,
-    midi_sond_beitragspfl_einnahme_m: float,
-    midi_beitragspfl_einnahme_m: float,
+    _midijob_beitragspf_einnahme_arbeitn_m: float,
+    midijob_beitragspf_einnahme_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
     """Calculating the employee care insurance contribution since October 2022.
@@ -223,10 +330,10 @@ def _ges_pflegev_beitr_midi_job_m_ab_2022(
     ----------
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
-    midi_beitragspfl_einnahme_m
-        See :func:`midi_beitragspfl_einnahme_m`.
-    midi_sond_beitragspfl_einnahme_m
-        See :func:`midi_sond_beitragspfl_einnahme_m`.
+    midijob_beitragspf_einnahme_m
+        See :func:`midijob_beitragspf_einnahme_m`.
+    _midijob_beitragspf_einnahme_arbeitn_m
+        See :func:`_midijob_beitragspf_einnahme_arbeitn_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -235,16 +342,16 @@ def _ges_pflegev_beitr_midi_job_m_ab_2022(
 
     """
     # Calculate the employee care insurance contribution
-    an_beitr_midi_job_m = (
-        midi_sond_beitragspfl_einnahme_m
+    an_beitr_midijob_m = (
+        _midijob_beitragspf_einnahme_arbeitn_m
         * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
-        an_beitr_midi_job_m += (
-            midi_beitragspfl_einnahme_m
+        an_beitr_midijob_m += (
+            midijob_beitragspf_einnahme_m
             * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
-    return an_beitr_midi_job_m
+    return an_beitr_midijob_m

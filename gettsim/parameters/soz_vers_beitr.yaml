@@ -675,108 +675,108 @@ geringfügige_eink_grenzen_m:
   unit: Euro
   reference_period: Month
   1984-01-01:
-    mini_job:
+    minijob:
       west: 199
-    midi_job: 0
+    midijob: 0
   1985-01-01:
     deviation_from: previous
-    mini_job:
+    minijob:
       west: 205
   1986-01-01:
     deviation_from: previous
-    mini_job:
+    minijob:
       west: 210
   1987-01-01:
     deviation_from: previous
-    mini_job:
+    minijob:
       west: 220
   1988-01-01:
     deviation_from: previous
-    mini_job:
+    minijob:
       west: 225
   1989-01-01:
     deviation_from: previous
-    mini_job:
+    minijob:
       west: 230
   1990-01-01:
-    mini_job:
+    minijob:
       west: 240
       ost: 102
-    midi_job: 0
+    midijob: 0
   1991-01-01:
-    mini_job:
+    minijob:
       west: 245
       ost: 120
-    midi_job: 0
+    midijob: 0
   1992-01-01:
-    mini_job:
+    minijob:
       west: 256
       ost: 153
-    midi_job: 0
+    midijob: 0
   1993-01-01:
-    mini_job:
+    minijob:
       west: 271
       ost: 199
-    midi_job: 0
+    midijob: 0
   1994-01-01:
-    mini_job:
+    minijob:
       west: 286
       ost: 225
-    midi_job: 0
+    midijob: 0
   1995-01-01:
-    mini_job:
+    minijob:
       west: 297
       ost: 240
-    midi_job: 0
+    midijob: 0
   1996-01-01:
-    mini_job:
+    minijob:
       west: 302
       ost: 256
-    midi_job: 0
+    midijob: 0
   1997-01-01:
-    mini_job:
+    minijob:
       west: 312
       ost: 266
-    midi_job: 0
+    midijob: 0
   1998-01-01:
     deviation_from: previous
-    mini_job:
+    minijob:
       west: 317
   1999-01-01:
-    mini_job:
+    minijob:
       west: 322
       ost: 271
-    midi_job: 0
+    midijob: 0
   2000-01-01:
     deviation_from: previous
-    mini_job:
+    minijob:
       ost: 322
   2002-01-01:
-    mini_job:
+    minijob:
       west: 325
       ost: 325
-    midi_job: 0
+    midijob: 0
   2004-01-01:
-    mini_job:
+    minijob:
       west: 400
       ost: 400
-    midi_job: 800
+    midijob: 800
   2013-01-01:
-    mini_job:
+    minijob:
       west: 450
       ost: 450
-    midi_job: 850
+    midijob: 850
   2019-01-01:
     deviation_from: previous
     reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
-    midi_job: 1300
+    midijob: 1300
   2022-10-01:
-    mini_job:
+    minijob:
       west: 520
       ost: 520
-    midi_job: 1600
+    midijob: 1600
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-    note: the former mini_job parameter depends on the statutory minimum wage since 2022-10-01
+    note: the former minijob parameter depends on the statutory minimum wage since 2022-10-01
 
 geringf_eink_faktor:
   name:
@@ -859,17 +859,17 @@ mindestlohn:
     scalar: 12
 
 rounding:
-  midi_job_faktor_f:
+  midijob_faktor_f:
     1990-01-01:
       base: 0.0001
       direction: nearest
       reference:
-  geringfügigkeitsgrenze_west:
+  minijob_grenze_west:
     2022-10-01:
       base: 1
       direction: up
       reference: §8 (1a) S.2 SGB IV.
-  geringfügigkeitsgrenze_ost:
+  minijob_grenze_ost:
     2022-10-01:
       base: 1
       direction: up
