@@ -2,7 +2,7 @@ from gettsim.shared import add_rounding_spec
 
 
 def minijob_grenze(
-    wohnort_ost: bool, minijob_grenze_west: int, minijob_grenze_ost: int
+    wohnort_ost: bool, minijob_grenze_west: float, minijob_grenze_ost: float
 ) -> float:
     """Select the income threshold depending on place of living
 
@@ -189,7 +189,7 @@ def midijob_bemessungsentgelt_m(
     midijob_faktor_f: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
-    minijob_grenze_west: int,
+    minijob_grenze_west: float,
 ) -> float:
     """Income subject to social insurance contributions for midijob until October 2022.
 
@@ -316,7 +316,8 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
     return out
 
 
-def minijob_grenze_west_vor_10_2022(soz_vers_beitr_params: dict) -> int:
+@add_rounding_spec(params_key="soz_vers_beitr")
+def minijob_grenze_west_vor_10_2022(soz_vers_beitr_params: dict) -> float:
     """
     Obtains marginal job thresholds for West Germany before October 2022.
 
@@ -332,7 +333,8 @@ def minijob_grenze_west_vor_10_2022(soz_vers_beitr_params: dict) -> int:
     return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["west"]
 
 
-def minijob_grenze_ost_vor_10_2022(soz_vers_beitr_params: dict) -> int:
+@add_rounding_spec(params_key="soz_vers_beitr")
+def minijob_grenze_ost_vor_10_2022(soz_vers_beitr_params: dict) -> float:
     """
     Obtains marginal job thresholds for East Germany before October 2022.
 
@@ -349,7 +351,7 @@ def minijob_grenze_ost_vor_10_2022(soz_vers_beitr_params: dict) -> int:
 
 
 @add_rounding_spec(params_key="soz_vers_beitr")
-def minijob_grenze_ab_10_2022(soz_vers_beitr_params: dict) -> int:
+def minijob_grenze_ab_10_2022(soz_vers_beitr_params: dict) -> float:
     """
     Obtains marginal job threshold since 10/2022.
     Since then, it is calculated from the statutory minimum wage
