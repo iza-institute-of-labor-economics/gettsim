@@ -771,9 +771,6 @@ geringfügige_eink_grenzen_m:
     reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
     midijob: 1300
   2022-10-01:
-    minijob:
-      west: 520
-      ost: 520
     midijob: 1600
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     note: the former minijob parameter depends on the statutory minimum wage since 2022-10-01
