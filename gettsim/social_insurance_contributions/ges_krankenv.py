@@ -45,6 +45,55 @@ def ges_krankenv_beitr_m(
     return out + ges_krankenv_beitr_rente_m
 
 
+def ges_krankenv_beitr_arbeitg_m(
+    geringfügig_beschäftigt: bool,
+    in_gleitzone: bool,
+    bruttolohn_m: float,
+    _ges_krankenv_midijob_arbeitg_m: float,
+    _ges_krankenv_bruttolohn_m: float,
+    selbstständig: bool,
+    soz_vers_beitr_params: dict,
+    _ges_krankenv_beitr_satz_arbeitg: float,
+) -> float:
+    """Contribution for a respective employer to the public health insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    _ges_krankenv_midijob_arbeitg_m
+        See :func:`_ges_krankenv_midijob_arbeitg_m`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
+    _ges_krankenv_beitr_satz_arbeitg
+        See :func:`_ges_krankenv_beitr_satz_arbeitg`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    selbstständig
+        See basic input variable :ref:`selbstständig <selbstständig>`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+
+    Returns
+    -------
+
+    """
+
+    if selbstständig:
+        out = 0.0
+    elif geringfügig_beschäftigt:
+        out = bruttolohn_m * soz_vers_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+    elif in_gleitzone:
+        out = _ges_krankenv_midijob_arbeitg_m
+    else:
+        out = _ges_krankenv_bruttolohn_m * _ges_krankenv_beitr_satz_arbeitg
+
+    return out
+
+
 def ges_krankenv_beitr_satz_bis_2018(soz_vers_beitr_params: dict) -> float:
     """Select contribution rates of employees for health insurance until 2018.
 

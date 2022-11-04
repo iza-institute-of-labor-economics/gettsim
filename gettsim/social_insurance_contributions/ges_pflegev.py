@@ -87,6 +87,53 @@ def ges_pflegev_beitr_m(
     return out + ges_pflegev_beitr_rente_m
 
 
+def ges_pflegev_beitr_arbeitg_m(
+    geringfügig_beschäftigt: bool,
+    _ges_pflegev_beitr_midijob_arbeitg_m: float,
+    _ges_krankenv_bruttolohn_m: float,
+    soz_vers_beitr_params: dict,
+    in_gleitzone: bool,
+    selbstständig: bool,
+) -> float:
+    """Contribution of the respective employer to the public care insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    _ges_pflegev_beitr_midijob_arbeitg_m
+        See :func:`_ges_pflegev_beitr_midijob_arbeitg_m`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
+    selbstständig
+        See basic input variable :ref:`selbstständig <selbstständig>`.
+
+    Returns
+    -------
+
+    """
+    # Calculate care insurance contributions for regular jobs.
+    beitr_regulär_beschäftigt_m = (
+        _ges_krankenv_bruttolohn_m
+        * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    )
+
+    if selbstständig:
+        out = 0.0
+    if geringfügig_beschäftigt:
+        out = 0.0
+    elif in_gleitzone:
+        out = _ges_pflegev_beitr_midijob_arbeitg_m
+    else:
+        out = beitr_regulär_beschäftigt_m
+
+    return out
+
+
 def ges_pflegev_beitr_selbst_m(
     ges_pflegev_zusatz_kinderlos: bool,
     _ges_krankenv_bemessungsgrundlage_eink_selbst: float,

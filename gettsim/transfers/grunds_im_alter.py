@@ -74,7 +74,7 @@ def grunds_im_alter_eink_m(
     eink_st_tu: float,
     soli_st_tu: float,
     anz_erwachsene_tu: int,
-    sozialv_beitr_gesamt_m: float,
+    sozialv_beitr_arbeitn_m: float,
     grunds_im_alter_params: dict,
 ) -> float:
     """Calculate individual income considered in the calculation of Grundsicherung
@@ -102,8 +102,8 @@ def grunds_im_alter_eink_m(
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    sozialv_beitr_gesamt_m
-        See :func:`sozialv_beitr_gesamt_m`.
+    sozialv_beitr_arbeitn_m
+        See :func:`sozialv_beitr_arbeitn_m`.
     grunds_im_alter_params
         See params documentation
         :ref:`grunds_im_alter_params <grunds_im_alter_params>`.
@@ -135,7 +135,7 @@ def grunds_im_alter_eink_m(
         total_income
         - (eink_st_tu / anz_erwachsene_tu / 12)
         - (soli_st_tu / anz_erwachsene_tu / 12)
-        - sozialv_beitr_gesamt_m
+        - sozialv_beitr_arbeitn_m
     )
 
     return max(out, 0.0)

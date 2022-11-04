@@ -40,6 +40,50 @@ def ges_rentenv_beitr_m(
     return out
 
 
+def ges_rentenv_beitr_arbeitg_m(
+    geringfügig_beschäftigt: bool,
+    _ges_rentenv_beitr_midijob_arbeitg_m: float,
+    _ges_rentenv_beitr_bruttolohn_m: float,
+    soz_vers_beitr_params: dict,
+    in_gleitzone: bool,
+    bruttolohn_m: float,
+) -> float:
+    """Contribution for a respective employer to the pension insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    _ges_rentenv_beitr_midijob_arbeitg_m
+        See :func:`_ges_rentenv_beitr_midijob_arbeitg_m`.
+    _ges_rentenv_beitr_bruttolohn_m
+        See :func:`_ges_rentenv_beitr_bruttolohn_m`.
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    in_gleitzone
+        See :func:`in_gleitzone`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+
+    Returns
+    -------
+
+    """
+    ges_rentenv_beitr_regular_job_m = (
+        _ges_rentenv_beitr_bruttolohn_m
+        * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
+    )
+
+    if geringfügig_beschäftigt:
+        out = bruttolohn_m * soz_vers_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+    elif in_gleitzone:
+        out = _ges_rentenv_beitr_midijob_arbeitg_m
+    else:
+        out = ges_rentenv_beitr_regular_job_m
+
+    return out
+
+
 def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m_bis_10_2022(
     midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,

@@ -6,7 +6,7 @@ def arbeitsl_geld_2_eink_m(
     eink_st_tu: float,
     soli_st_tu: float,
     anz_erwachsene_tu: int,
-    sozialv_beitr_gesamt_m: float,
+    sozialv_beitr_arbeitn_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
 ) -> float:
 
@@ -16,8 +16,8 @@ def arbeitsl_geld_2_eink_m(
     ----------
     arbeitsl_geld_2_brutto_eink_m
         See :func:`arbeitsl_geld_2_eink_m`.
-    sozialv_beitr_gesamt_m
-        See :func:`sozialv_beitr_gesamt_m`.
+    sozialv_beitr_arbeitn_m
+        See :func:`sozialv_beitr_arbeitn_m`.
     eink_st_tu
         See :func:`eink_st_tu`.
     soli_st_tu
@@ -36,7 +36,7 @@ def arbeitsl_geld_2_eink_m(
         arbeitsl_geld_2_brutto_eink_m
         - (eink_st_tu / anz_erwachsene_tu / 12)
         - (soli_st_tu / anz_erwachsene_tu / 12)
-        - sozialv_beitr_gesamt_m
+        - sozialv_beitr_arbeitn_m
         - arbeitsl_geld_2_eink_anr_frei_m
     )
 
