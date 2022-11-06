@@ -1,28 +1,18 @@
 import copy
 import functools
 import inspect
-import textwrap
 import warnings
 
 import dags
 import numpy as np
 import pandas as pd
 
-from gettsim.aggregation import grouped_all
-from gettsim.aggregation import grouped_any
-from gettsim.aggregation import grouped_count
-from gettsim.aggregation import grouped_cumsum
-from gettsim.aggregation import grouped_max
-from gettsim.aggregation import grouped_mean
-from gettsim.aggregation import grouped_min
-from gettsim.aggregation import grouped_sum
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
-from gettsim.config import USE_JAX
-from gettsim.functions_loader import load_aggregation_dict
-from gettsim.functions_loader import load_user_and_internal_functions
+from gettsim.functions_loader import load_and_check_functions
 from gettsim.shared import format_list_linewise
+from gettsim.shared import format_text_for_cmdline
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_series_has_expected_type
@@ -95,19 +85,16 @@ def compute_taxes_and_transfers(
     # Set defaults for some parameters.
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
-
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"
     )
     params = {} if params is None else params
     aggregation_specs = {} if aggregation_specs is None else aggregation_specs
 
-    # Perform several checks on data.
+    # Process data and functions.
     data = _process_and_check_data(
         data=data, columns_overriding_functions=columns_overriding_functions
     )
-
-    # Load functions.
     functions_not_overriden, functions_overriden = load_and_check_functions(
         user_functions_raw=functions,
         columns_overriding_functions=columns_overriding_functions,
@@ -115,8 +102,6 @@ def compute_taxes_and_transfers(
         data_cols=list(data),
         aggregation_specs=aggregation_specs,
     )
-
-    # Convert data to expected type.
     data = _convert_data_to_correct_types(data, functions_overriden)
 
     # Select necessary nodes by creating a preliminary DAG.
@@ -158,93 +143,6 @@ def compute_taxes_and_transfers(
     prepared_results = _prepare_results(results, data, debug)
 
     return prepared_results
-
-
-def load_and_check_functions(
-    user_functions_raw,
-    columns_overriding_functions,
-    targets,
-    data_cols,
-    aggregation_specs,
-):
-    """Create the dict with all functions that may become part of the DAG by
-
-    - merging user and internal functions
-    - vectorize all functions
-    - adding aggregation functions
-
-    Check that:
-    - all targets are in set of functions or in columns_overriding_functions
-    - columns_overriding_functions are in set of functions
-
-    Parameters
-    ----------
-    user_functions_raw : dict
-        A dictionary mapping column names to policy functions by the user.
-    columns_overriding_functions : str list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
-    targets : list of str
-        List of strings with names of functions whose output is actually needed by the
-        user.
-    data_cols : list
-        Data columns provided by the user.
-    aggregation_specs : dict
-        A dictionary which contains specs for functions which aggregate variables on
-        the tax unit or household level. The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
-
-    Returns
-    -------
-    functions_not_overriden : dict
-        All functions except the ones that are overridden by an input column.
-    functions_overriden : dict
-        Functions that are overridden by an input column.
-    """
-    user_functions, internal_functions = load_user_and_internal_functions(
-        user_functions_raw
-    )
-
-    # Vectorize functions.
-    user_and_internal_functions = {
-        fn: _vectorize_func(f)
-        for fn, f in {**internal_functions, **user_functions}.items()
-    }
-
-    # Create and add aggregation functions.
-    aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions, targets, data_cols, aggregation_specs
-    )
-
-    # Check for overlap of functions and data columns.
-    data_cols_excl_overriding = [
-        c for c in data_cols if c not in columns_overriding_functions
-    ]
-    for funcs, name in zip(
-        [internal_functions, user_functions, aggregation_funcs],
-        ["internal", "user", "aggregation"],
-    ):
-        _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
-
-    all_functions = {**user_and_internal_functions, **aggregation_funcs}
-
-    _fail_if_columns_overriding_functions_are_not_in_functions(
-        columns_overriding_functions, all_functions
-    )
-
-    _fail_if_targets_not_in_functions_or_override_columns(
-        all_functions, targets, columns_overriding_functions
-    )
-
-    # Select/remove functions that are overridden.
-    functions_not_overriden = {
-        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
-    }
-    functions_overriden = {
-        k: v for k, v in all_functions.items() if k in columns_overriding_functions
-    }
-    return functions_not_overriden, functions_overriden
 
 
 def set_up_dag(
@@ -585,7 +483,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
                 if not (max_value == col).all():
-                    message = _format_text_for_cmdline(
+                    message = format_text_for_cmdline(
                         f"""
                         Column '{name}' has not one unique value per group defined by
                         `{level}_id`.
@@ -624,12 +522,12 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
     if unused_columns_overriding_functions:
-        first_part = _format_text_for_cmdline(
+        first_part = format_text_for_cmdline(
             f"You passed the following user {column_sg_pl}:"
         )
         list_ = format_list_linewise(unused_columns_overriding_functions)
 
-        second_part = _format_text_for_cmdline(
+        second_part = format_text_for_cmdline(
             f"""
             {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in the
             data.
@@ -646,130 +544,6 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
             """
         )
         raise ValueError("\n".join([first_part, list_, second_part]))
-
-
-def _fail_if_columns_overriding_functions_are_not_in_functions(
-    columns_overriding_functions, functions
-):
-    """Fail if ``columns_overriding_functions`` are not found in functions.
-
-    Parameters
-    ----------
-    columns_overriding_functions : str list of str
-        Names of columns which are preferred over function defined in the tax and
-        transfer system.
-    functions : dict of callable
-        A dictionary of functions.
-
-    Raises
-    ------
-    ValueError
-        Fail if some ``columns_overriding_functions`` are not found in internal or user
-        functions.
-
-    """
-    unnecessary_columns_overriding_functions = [
-        col
-        for col in columns_overriding_functions
-        if (col not in functions) and (remove_group_suffix(col) not in functions)
-    ]
-    if unnecessary_columns_overriding_functions:
-        n_cols = len(unnecessary_columns_overriding_functions)
-        intro = _format_text_for_cmdline(
-            f"""
-            You passed the following user column{'' if n_cols == 1 else 's'} which {'is'
-            if n_cols == 1 else 'are'} unnecessary because no functions require them as
-            inputs.
-            """
-        )
-        list_ = format_list_linewise(unnecessary_columns_overriding_functions)
-        raise ValueError("\n".join([intro, list_]))
-
-
-def _fail_if_functions_and_columns_overlap(columns, functions, type_):
-    """Fail if functions which compute columns overlap with existing columns.
-
-    Parameters
-    ----------
-    columns : list of str
-        List of strings containing column names.
-    functions : dict
-        Dictionary of functions.
-    type_ : {"internal", "user"}
-        Source of the functions. "user" means functions passed by the user.
-
-    Raises
-    ------
-    ValueError
-        Fail if functions which compute columns overlap with existing columns.
-
-    """
-    if type_ == "internal":
-        type_str = "internal "
-    elif type_ == "aggregation":
-        type_str = "internal aggregation "
-    else:
-        type_str = ""
-
-    overlap = sorted(
-        name
-        for name in columns
-        if (name in functions) or (remove_group_suffix(name) in functions)
-    )
-
-    if overlap:
-        n_cols = len(overlap)
-        first_part = _format_text_for_cmdline(
-            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
-        )
-        formatted = format_list_linewise(overlap)
-        second_part = _format_text_for_cmdline(
-            f"""
-            {'This is' if n_cols == 1 else 'These are'} already present among the
-            {type_str}functions of the taxes and transfers system.
-
-            If you want {'this' if n_cols == 1 else 'a'} data column to be used
-            instead of calculating it within GETTSIM, please specify it among the
-            *columns_overriding_functions*{'.' if type_ == 'internal' else ''' or remove
-            the function from *functions*.'''}
-
-            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
-            by {type_str}functions, remove it from the *data* you pass to GETTSIM.
-
-            {'' if n_cols == 1 else '''You need to pick one option for each column that
-            appears in the list above.'''}
-            """
-        )
-        raise ValueError("\n".join([first_part, formatted, second_part]))
-
-
-def _format_text_for_cmdline(text, width=79):
-    """Format exception messages and warnings for the cmdline.
-
-    Parameter
-    ---------
-    text : str
-        The text which can include multiple paragraphs separated by two newlines.
-    width : int
-        The text will be wrapped by `width` characters.
-
-    Returns
-    -------
-    formatted_text : str
-        Correctly dedented, wrapped text.
-
-    """
-    text = text.lstrip("\n")
-    paragraphs = text.split("\n\n")
-    wrapped_paragraphs = []
-    for paragraph in paragraphs:
-        dedented_paragraph = textwrap.dedent(paragraph)
-        wrapped_paragraph = textwrap.fill(dedented_paragraph, width=width)
-        wrapped_paragraphs.append(wrapped_paragraph)
-
-    formatted_text = "\n\n".join(wrapped_paragraphs)
-
-    return formatted_text
 
 
 def _reorder_columns(results):
@@ -837,38 +611,6 @@ def _fail_if_duplicates_in_columns(data):
         duplicated = list(data.columns[data.columns.duplicated()])
         raise ValueError(
             "The following columns are non-unique in the input data:" f"{duplicated}"
-        )
-
-
-def _fail_if_targets_not_in_functions_or_override_columns(
-    functions, targets, columns_overriding_functions
-):
-    """Fail if targets are not in functions.
-
-    Parameters
-    ----------
-    functions : dict of callable
-        Dictionary containing functions to build the DAG.
-    targets : list of str
-        The targets which should be computed. They limit the DAG in the way that only
-        ancestors of these nodes need to be considered.
-    columns_overriding_functions : list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
-
-    Raises
-    ------
-    ValueError
-        Raised if ``targets`` are not in functions.
-
-    """
-    targets_not_in_functions = (
-        set(targets) - set(functions) - set(columns_overriding_functions)
-    )
-    if targets_not_in_functions:
-        formatted = format_list_linewise(targets_not_in_functions)
-        raise ValueError(
-            f"The following targets have no corresponding function:\n{formatted}"
         )
 
 
@@ -991,296 +733,3 @@ def _add_rounding_to_functions(functions, params):
             )(func)
 
     return functions_new
-
-
-def rchop(s, suffix):
-    # ToDO: Replace by removesuffix when only python >= 3.9 is supported
-    if suffix and s.endswith(suffix):
-        out = s[: -len(suffix)]
-    else:
-        out = s
-    return out
-
-
-def remove_group_suffix(col):
-
-    # Set default result
-    out = col
-
-    # Remove suffix from result if applicable
-    for g in SUPPORTED_GROUPINGS:
-        if col.endswith(f"_{g}"):
-            out = rchop(col, f"_{g}")
-
-    return out
-
-
-def _create_aggregation_functions(
-    user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
-):
-    """Create aggregation functions"""
-    aggregation_dict = load_aggregation_dict()
-
-    # Make specs for automated sum aggregation
-    potential_source_cols = list(user_and_internal_functions) + data_cols
-    potential_agg_cols = set(
-        [
-            arg
-            for func in user_and_internal_functions.values()
-            for arg in get_names_of_arguments_without_defaults(func)
-        ]
-        + targets
-    )
-
-    automated_sum_aggregation_cols = [
-        col
-        for col in potential_agg_cols
-        if (col not in user_and_internal_functions)
-        and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
-        and (remove_group_suffix(col) in potential_source_cols)
-    ]
-    automated_sum_aggregation_specs = {
-        agg_col: {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
-        for agg_col in automated_sum_aggregation_cols
-    }
-
-    # Add automated aggregation specs.
-    # Note: For duplicate keys, explicitly set specs are treated with higher priority
-    # than automated specs.
-    aggregation_dict = {**automated_sum_aggregation_specs, **aggregation_dict}
-
-    # Add user provided aggregation specs.
-    # Note: For duplicate keys, user provided specs are treated with higher priority.
-    aggregation_dict = {**aggregation_dict, **user_provided_aggregation_specs}
-
-    # Create functions from specs
-    aggregation_funcs = {
-        agg_col: _create_one_aggregation_func(
-            agg_col, agg_spec, user_and_internal_functions
-        )
-        for agg_col, agg_spec in aggregation_dict.items()
-    }
-    return aggregation_funcs
-
-
-def rename_arguments(func=None, mapper=None, annotations=None):
-    if not annotations:
-        annotations = {}
-
-    def decorator_rename_arguments(func):
-
-        old_parameters = dict(inspect.signature(func).parameters)
-        parameters = []
-        for name, param in old_parameters.items():
-            if name in mapper:
-                parameters.append(param.replace(name=mapper[name]))
-            else:
-                parameters.append(param)
-
-        signature = inspect.Signature(parameters=parameters)
-
-        reverse_mapper = {v: k for k, v in mapper.items()}
-
-        @functools.wraps(func)
-        def wrapper_rename_arguments(*args, **kwargs):
-            internal_kwargs = {}
-            for name, value in kwargs.items():
-                if name in reverse_mapper:
-                    internal_kwargs[reverse_mapper[name]] = value
-                elif name not in mapper:
-                    internal_kwargs[name] = value
-            return func(*args, **internal_kwargs)
-
-        wrapper_rename_arguments.__signature__ = signature
-        wrapper_rename_arguments.__annotations__ = annotations
-
-        return wrapper_rename_arguments
-
-    if callable(func):
-        return decorator_rename_arguments(func)
-    else:
-        return decorator_rename_arguments
-
-
-def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions):
-    """Create an aggregation function based on aggregation specification.
-
-    Parameters
-    ----------
-    agg_col : str
-        Name of the aggregated column.
-    agg_specs : dict
-        Dictionary of aggregation specifications. Can contain the source column
-        ("source_col") and the group ids ("group_id")
-    user_and_internal_functions: dict
-        Dictionary of functions.
-
-
-    Returns
-    -------
-    aggregation_func : The aggregation func with the expected signature
-
-    """
-
-    # Read individual specification parameters and make sure nothing is missing
-    try:
-        aggr = agg_specs["aggr"]
-    except KeyError:
-        raise KeyError(
-            f"No aggr keyword is specified for aggregation column {agg_col}."
-        )
-
-    if aggr != "count":
-        try:
-            source_col = agg_specs["source_col"]
-        except KeyError:
-            raise KeyError(
-                f"Source_col is not specified for aggregation column {agg_col}."
-            )
-
-    # Identify grouping level
-    group_id = None
-    for g in SUPPORTED_GROUPINGS:
-        if agg_col.endswith(f"_{g}"):
-            group_id = f"{g}_id"
-    if not group_id:
-        raise ValueError(
-            "Name of aggregated column needs to have a suffix "
-            "indicating the group over which it is aggregated. "
-            f"The name {agg_col} does not do so."
-        )
-
-    # Build annotations
-    annotations = {group_id: int}
-    if aggr == "count":
-        annotations["return"] = int
-    else:
-
-        if (
-            source_col in user_and_internal_functions
-            and "return" in user_and_internal_functions[source_col].__annotations__
-        ):
-            annotations[source_col] = user_and_internal_functions[
-                source_col
-            ].__annotations__["return"]
-
-            # Find out return type
-            annotations["return"] = _select_return_type(aggr, annotations[source_col])
-        elif source_col in TYPES_INPUT_VARIABLES:
-            annotations[source_col] = TYPES_INPUT_VARIABLES[source_col]
-
-            # Find out return type
-            annotations["return"] = _select_return_type(aggr, annotations[source_col])
-        else:
-            # ToDo: Think about how type annotations of aggregations of user-provided
-            # ToDo: input variables are handled
-            pass
-
-    # Define aggregation func
-    if aggr == "count":
-
-        @rename_arguments(mapper={"group_id": group_id}, annotations=annotations)
-        def aggregation_func(group_id):
-            return grouped_count(group_id)
-
-    elif aggr == "sum":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregation_func(source_col, group_id):
-            return grouped_sum(source_col, group_id)
-
-    elif aggr == "mean":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregation_func(source_col, group_id):
-            return grouped_mean(source_col, group_id)
-
-    elif aggr == "max":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregation_func(source_col, group_id):
-            return grouped_max(source_col, group_id)
-
-    elif aggr == "min":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregation_func(source_col, group_id):
-            return grouped_min(source_col, group_id)
-
-    elif aggr == "any":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregation_func(source_col, group_id):
-            return grouped_any(source_col, group_id)
-
-    elif aggr == "all":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregation_func(source_col, group_id):
-            return grouped_all(source_col, group_id)
-
-    elif aggr == "cumsum":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregation_func(source_col, group_id):
-            return grouped_cumsum(source_col, group_id)
-
-    else:
-        raise ValueError(f"Aggr {aggr} is not implemented, yet.")
-
-    return aggregation_func
-
-
-def _select_return_type(aggr, source_col_type):
-    # Find out return type
-    if (source_col_type == int) and (aggr in ["any", "all"]):
-        return_type = bool
-    elif (source_col_type == bool) and (aggr in ["sum"]):
-        return_type = int
-    else:
-        return_type = source_col_type
-
-    return return_type
-
-
-def _vectorize_func(func):
-    signature = inspect.signature(func)
-
-    # Vectorize
-    if USE_JAX:
-
-        # ToDo: user jnp.vectorize once all functions are compatible with jax
-        # func_vec = jnp.vectorize(func)
-        func_vec = np.vectorize(func)
-
-    else:
-        func_vec = np.vectorize(func)
-
-    @functools.wraps(func)
-    def wrapper_vectorize_func(*args, **kwargs):
-        return func_vec(*args, **kwargs)
-
-    wrapper_vectorize_func.__signature__ = signature
-
-    return wrapper_vectorize_func

@@ -9,8 +9,8 @@ from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
 from gettsim.functions_loader import load_aggregation_dict
-from gettsim.interface import remove_group_suffix
 from gettsim.policy_environment import load_reforms_for_date
+from gettsim.shared import remove_group_suffix
 from gettsim.tests.utils_tests import nice_output_list_of_strings
 
 

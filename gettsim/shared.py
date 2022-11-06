@@ -1,6 +1,31 @@
 import inspect
 import textwrap
 
+from gettsim.config import SUPPORTED_GROUPINGS
+
+
+def add_rounding_spec(params_key):
+    """Decorator adding the location of the rounding specification to a function.
+
+    Parameters
+    ----------
+    params_key : str
+        Key of the parameters dictionary where rouding specifications are found. For
+        functions that are not user-written this is just the name of the respective
+        .yaml file.
+
+    Returns
+    -------
+    func : function
+        Function with __rounding_params_key__ attribute
+    """
+
+    def inner(func):
+        func.__rounding_params_key__ = params_key
+        return func
+
+    return inner
+
 
 def format_list_linewise(list_):
     formatted_list = '",\n    "'.join(list_)
@@ -33,6 +58,35 @@ def parse_to_list_of_strings(user_input, name):
     return sorted(set(user_input))
 
 
+def format_text_for_cmdline(text, width=79):
+    """Format exception messages and warnings for the cmdline.
+
+    Parameter
+    ---------
+    text : str
+        The text which can include multiple paragraphs separated by two newlines.
+    width : int
+        The text will be wrapped by `width` characters.
+
+    Returns
+    -------
+    formatted_text : str
+        Correctly dedented, wrapped text.
+
+    """
+    text = text.lstrip("\n")
+    paragraphs = text.split("\n\n")
+    wrapped_paragraphs = []
+    for paragraph in paragraphs:
+        dedented_paragraph = textwrap.dedent(paragraph)
+        wrapped_paragraph = textwrap.fill(dedented_paragraph, width=width)
+        wrapped_paragraphs.append(wrapped_paragraph)
+
+    formatted_text = "\n\n".join(wrapped_paragraphs)
+
+    return formatted_text
+
+
 def get_names_of_arguments_without_defaults(function):
     """Get argument names without defaults.
 
@@ -59,24 +113,23 @@ def get_names_of_arguments_without_defaults(function):
     return argument_names_without_defaults
 
 
-def add_rounding_spec(params_key):
-    """Decorator adding the location of the rounding specification to a function.
+def remove_group_suffix(col):
 
-    Parameters
-    ----------
-    params_key : str
-        Key of the parameters dictionary where rouding specifications are found. For
-        functions that are not user-written this is just the name of the respective
-        .yaml file.
+    # Set default result
+    out = col
 
-    Returns
-    -------
-    func : function
-        Function with __rounding_params_key__ attribute
-    """
+    # Remove suffix from result if applicable
+    for g in SUPPORTED_GROUPINGS:
+        if col.endswith(f"_{g}"):
+            out = rchop(col, f"_{g}")
 
-    def inner(func):
-        func.__rounding_params_key__ = params_key
-        return func
+    return out
 
-    return inner
+
+def rchop(s, suffix):
+    # ToDO: Replace by removesuffix when only python >= 3.9 is supported
+    if suffix and s.endswith(suffix):
+        out = s[: -len(suffix)]
+    else:
+        out = s
+    return out

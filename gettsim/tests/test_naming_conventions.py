@@ -8,8 +8,8 @@ from gettsim.config import GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _load_functions
-from gettsim.interface import remove_group_suffix
 from gettsim.policy_environment import load_reforms_for_date
+from gettsim.shared import remove_group_suffix
 from gettsim.tests.utils_tests import nice_output_list_of_strings
 
 

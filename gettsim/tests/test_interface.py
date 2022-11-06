@@ -5,10 +5,12 @@ import pandas as pd
 import pytest
 
 from gettsim import compute_taxes_and_transfers
+from gettsim.functions_loader import (
+    _fail_if_columns_overriding_functions_are_not_in_functions,
+)
+from gettsim.functions_loader import _fail_if_functions_and_columns_overlap
 from gettsim.interface import _convert_data_to_correct_types
 from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
-from gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_functions
-from gettsim.interface import _fail_if_functions_and_columns_overlap
 from gettsim.interface import _fail_if_group_variables_not_constant_within_groups
 from gettsim.interface import _fail_if_pid_is_non_unique
 from gettsim.interface import _round_and_partial_parameters_to_functions
