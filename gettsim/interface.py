@@ -91,7 +91,7 @@ def compute_taxes_and_transfers(
     params = {} if params is None else params
     aggregation_specs = {} if aggregation_specs is None else aggregation_specs
 
-    # Process data and functions.
+    # Process data and load dictionaries with functions.
     data = _process_and_check_data(
         data=data, columns_overriding_functions=columns_overriding_functions
     )
