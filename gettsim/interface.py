@@ -107,7 +107,7 @@ def compute_taxes_and_transfers(
         data=data, columns_overriding_functions=columns_overriding_functions
     )
 
-    # Load functions.
+    # Load dictionaries with functions.
     functions_not_overriden, functions_overriden = load_and_check_functions(
         user_functions_raw=functions,
         columns_overriding_functions=columns_overriding_functions,
