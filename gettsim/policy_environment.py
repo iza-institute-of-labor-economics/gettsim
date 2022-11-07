@@ -98,8 +98,8 @@ def set_up_policy_environment(date):
         A dictionary with parameters from the policy environment. For more
         information see the documentation of the :ref:`param_files`.
     functions : dict
-        Dictionary of time dependent policy reforms. Keys are the column names they
-        create.
+        Dictionary mapping column names to functions creating the respective
+        data.
 
     """
     # Check policy date for correct format and transfer to datetime.date
@@ -116,7 +116,7 @@ def set_up_policy_environment(date):
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
 
-    functions = load_reforms_for_date(date)
+    functions = load_functions_for_date(date)
 
     return params, functions
 
@@ -250,7 +250,7 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     return params
 
 
-def load_reforms_for_date(date):
+def load_functions_for_date(date):
     """Load time-dependent policy reforms.
 
     Parameters
@@ -261,8 +261,8 @@ def load_reforms_for_date(date):
     Returns
     -------
     functions : dict
-        Dictionary of time dependent policy reforms. Keys are the column names they
-        create.
+        Dictionary mapping column names to functions creating the respective
+        data.
 
     """
     year = date.year
