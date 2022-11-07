@@ -55,7 +55,7 @@ def ges_krankenv_beitr_arbeitg_m(
     soz_vers_beitr_params: dict,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
-    """Contribution for a respective employer to the public health insurance.
+    """Contribution of the respective employer to the public health insurance.
 
     Parameters
     ----------

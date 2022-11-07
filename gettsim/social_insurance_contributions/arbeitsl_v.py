@@ -1,7 +1,7 @@
 """Functions for modeling unemployment and pension insurance."""
 
 
-def sozialv_beitr_arbeitn_m(
+def sozialv_beitr_m(
     ges_pflegev_beitr_m: float,
     ges_krankenv_beitr_m: float,
     ges_rentenv_beitr_m: float,
@@ -40,7 +40,7 @@ def sozialv_beitr_arbeitg_m(
     ges_rentenv_beitr_arbeitg_m: float,
     arbeitsl_v_beitr_arbeitg_m: float,
 ) -> float:
-    """Sum of all social insurance contributions of a respective employer.
+    """Sum of all social insurance contributions of the respective employer.
 
 
     Parameters
@@ -67,8 +67,8 @@ def sozialv_beitr_arbeitg_m(
     return out
 
 
-def sozialv_beitr_gesamt_m(
-    sozialv_beitr_arbeitn_m: float,
+def _sozialv_beitr_arbeitn_arbeitg_m(
+    sozialv_beitr_m: float,
     sozialv_beitr_arbeitg_m: float,
     in_gleitzone: bool,
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
@@ -80,8 +80,8 @@ def sozialv_beitr_gesamt_m(
 
     Parameters
     ----------
-    sozialv_beitr_arbeitn_m
-        See :func:`sozialv_beitr_arbeitn_m`.
+    sozialv_beitr_m
+        See :func:`sozialv_beitr_m`.
     sozialv_beitr_arbeitg_m
         See :func:`sozialv_beitr_arbeitg_m`.
     _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m
@@ -107,7 +107,7 @@ def sozialv_beitr_gesamt_m(
             + _ges_krankenv_midijob_sum_arbeitn_arbeitg_m
         )
     else:
-        out = sozialv_beitr_arbeitn_m + sozialv_beitr_arbeitg_m
+        out = sozialv_beitr_m + sozialv_beitr_arbeitg_m
     return out
 
 
@@ -160,7 +160,7 @@ def arbeitsl_v_beitr_arbeitg_m(
     _ges_rentenv_beitr_bruttolohn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Contribution for the respective employer to the unemployment insurance.
+    """Contribution of the respective employer to the unemployment insurance.
 
     Parameters
     ----------

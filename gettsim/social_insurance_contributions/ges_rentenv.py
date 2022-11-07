@@ -48,7 +48,7 @@ def ges_rentenv_beitr_arbeitg_m(
     in_gleitzone: bool,
     bruttolohn_m: float,
 ) -> float:
-    """Contribution for a respective employer to the pension insurance.
+    """Contribution of the respective employer to the pension insurance.
 
     Parameters
     ----------

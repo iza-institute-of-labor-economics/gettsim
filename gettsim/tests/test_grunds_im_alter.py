@@ -33,7 +33,7 @@ INPUT_COLS = [
     "eink_vermietung_m",
     "eink_st_tu",
     "soli_st_tu",
-    "sozialv_beitr_arbeitn_m",
+    "sozialv_beitr_m",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
@@ -44,7 +44,7 @@ INPUT_COLS = [
 OVERRIDE_COLS = [
     "eink_st_tu",
     "soli_st_tu",
-    "sozialv_beitr_arbeitn_m",
+    "sozialv_beitr_m",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
