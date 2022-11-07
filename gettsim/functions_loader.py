@@ -18,8 +18,8 @@ from gettsim.config import ROOT_DIR
 from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.config import USE_JAX
+from gettsim.shared import format_errors_and_warnings
 from gettsim.shared import format_list_linewise
-from gettsim.shared import format_text_for_cmdline
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import remove_group_suffix
 
@@ -634,7 +634,7 @@ def _fail_if_columns_overriding_functions_are_not_in_functions(
     ]
     if unnecessary_columns_overriding_functions:
         n_cols = len(unnecessary_columns_overriding_functions)
-        intro = format_text_for_cmdline(
+        intro = format_errors_and_warnings(
             f"""
             You passed the following user column{'' if n_cols == 1 else 's'} which {'is'
             if n_cols == 1 else 'are'} unnecessary because no functions require them as
@@ -678,11 +678,11 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
 
     if overlap:
         n_cols = len(overlap)
-        first_part = format_text_for_cmdline(
+        first_part = format_errors_and_warnings(
             f"Your data provides the column{'' if n_cols == 1 else 's'}:"
         )
         formatted = format_list_linewise(overlap)
-        second_part = format_text_for_cmdline(
+        second_part = format_errors_and_warnings(
             f"""
             {'This is' if n_cols == 1 else 'These are'} already present among the
             {type_str}functions of the taxes and transfers system.

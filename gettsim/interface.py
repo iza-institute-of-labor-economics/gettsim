@@ -11,8 +11,8 @@ from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import load_and_check_functions
+from gettsim.shared import format_errors_and_warnings
 from gettsim.shared import format_list_linewise
-from gettsim.shared import format_text_for_cmdline
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_series_has_expected_type
@@ -483,7 +483,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
                 if not (max_value == col).all():
-                    message = format_text_for_cmdline(
+                    message = format_errors_and_warnings(
                         f"""
                         Column '{name}' has not one unique value per group defined by
                         `{level}_id`.
@@ -522,12 +522,12 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
     column_sg_pl = "column" if n_cols == 1 else "columns"
 
     if unused_columns_overriding_functions:
-        first_part = format_text_for_cmdline(
+        first_part = format_errors_and_warnings(
             f"You passed the following user {column_sg_pl}:"
         )
         list_ = format_list_linewise(unused_columns_overriding_functions)
 
-        second_part = format_text_for_cmdline(
+        second_part = format_errors_and_warnings(
             f"""
             {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in the
             data.

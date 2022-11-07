@@ -58,8 +58,10 @@ def parse_to_list_of_strings(user_input, name):
     return sorted(set(user_input))
 
 
-def format_text_for_cmdline(text, width=79):
-    """Format exception messages and warnings for the cmdline.
+def format_errors_and_warnings(text, width=79):
+    """Format our own exception messages and warnings by dedenting paragraphs and
+    wrapping at the specified width. Mainly required because of messages are written
+    as part of indented blocks in our source code.
 
     Parameter
     ---------
