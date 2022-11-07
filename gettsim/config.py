@@ -20,7 +20,7 @@ If a path is a directory, all Python files are recursively collected from that f
 
 """
 
-INTERNAL_PARAM_GROUPS = [
+INTERNAL_PARAMS_GROUPS = [
     "eink_st",
     "eink_st_abzuege",
     "soli_st",
