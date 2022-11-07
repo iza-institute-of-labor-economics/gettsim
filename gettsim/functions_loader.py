@@ -61,9 +61,9 @@ def load_and_check_functions(
 
     Returns
     -------
-    functions_not_overriden : dict
+    functions_not_overridden : dict
         All functions except the ones that are overridden by an input column.
-    functions_overriden : dict
+    functions_overridden : dict
         Functions that are overridden by an input column.
     """
 
@@ -105,13 +105,13 @@ def load_and_check_functions(
     )
 
     # Select/remove functions that are overridden.
-    functions_not_overriden = {
+    functions_not_overridden = {
         k: v for k, v in all_functions.items() if k not in columns_overriding_functions
     }
-    functions_overriden = {
+    functions_overridden = {
         k: v for k, v in all_functions.items() if k in columns_overriding_functions
     }
-    return functions_not_overriden, functions_overriden
+    return functions_not_overridden, functions_overridden
 
 
 def load_user_and_internal_functions(user_functions_raw):

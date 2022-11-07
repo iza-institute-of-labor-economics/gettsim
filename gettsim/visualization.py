@@ -76,7 +76,7 @@ def plot_dag(
     )
 
     # Load functions.
-    functions_not_overriden, functions_overriden = load_and_check_functions(
+    functions_not_overridden, functions_overridden = load_and_check_functions(
         user_functions_raw=functions,
         columns_overriding_functions=columns_overriding_functions,
         targets=targets,
@@ -86,13 +86,13 @@ def plot_dag(
 
     # Select necessary nodes by creating a preliminary DAG.
     nodes = set_up_dag(
-        all_functions=functions_not_overriden,
+        all_functions=functions_not_overridden,
         targets=targets,
         columns_overriding_functions=columns_overriding_functions,
         check_minimal_specification=check_minimal_specification,
     ).nodes
     necessary_functions = {
-        f_name: f for f_name, f in functions_not_overriden.items() if (f_name in nodes)
+        f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
     # Mock parameter arguments for all necessary functions.

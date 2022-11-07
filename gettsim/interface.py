@@ -95,24 +95,24 @@ def compute_taxes_and_transfers(
     data = _process_and_check_data(
         data=data, columns_overriding_functions=columns_overriding_functions
     )
-    functions_not_overriden, functions_overriden = load_and_check_functions(
+    functions_not_overridden, functions_overridden = load_and_check_functions(
         user_functions_raw=functions,
         columns_overriding_functions=columns_overriding_functions,
         targets=targets,
         data_cols=list(data),
         aggregation_specs=aggregation_specs,
     )
-    data = _convert_data_to_correct_types(data, functions_overriden)
+    data = _convert_data_to_correct_types(data, functions_overridden)
 
     # Select necessary nodes by creating a preliminary DAG.
     nodes = set_up_dag(
-        all_functions=functions_not_overriden,
+        all_functions=functions_not_overridden,
         targets=targets,
         columns_overriding_functions=columns_overriding_functions,
         check_minimal_specification=check_minimal_specification,
     ).nodes
     necessary_functions = {
-        f_name: f for f_name, f in functions_not_overriden.items() if (f_name in nodes)
+        f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
     # Round and partial all necessary functions.
@@ -399,15 +399,15 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
         )
 
 
-def _convert_data_to_correct_types(data, functions_overriden):
+def _convert_data_to_correct_types(data, functions_overridden):
     """Convert all series of data to the type that is expected by GETTSIM.
 
     Parameters
     ----------
     data : pandas.Series or pandas.DataFrame or dict of pandas.Series
         Data provided by the user.
-    functions_overriden : dict of callable
-        Functions to be overriden.
+    functions_overridden : dict of callable
+        Functions to be overridden.
 
     Returns
     -------
@@ -431,10 +431,10 @@ def _convert_data_to_correct_types(data, functions_overriden):
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
         elif (
-            column_name in functions_overriden
-            and "return" in functions_overriden[column_name].__annotations__
+            column_name in functions_overridden
+            and "return" in functions_overridden[column_name].__annotations__
         ):
-            internal_type = functions_overriden[column_name].__annotations__["return"]
+            internal_type = functions_overridden[column_name].__annotations__["return"]
 
         # Make conversion if necessary
         if internal_type and not check_series_has_expected_type(series, internal_type):

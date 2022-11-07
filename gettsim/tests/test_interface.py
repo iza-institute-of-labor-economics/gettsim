@@ -615,7 +615,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
 
 
 @pytest.mark.parametrize(
-    "data, functions_overriden, error_match",
+    "data, functions_overridden, error_match",
     [
         (
             pd.DataFrame({"hh_id": [1, 1.1, 2]}),
@@ -660,7 +660,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
     ],
 )
 def test_fail_if_cannot_be_converted_to_correct_type(
-    data, functions_overriden, error_match
+    data, functions_overridden, error_match
 ):
     with pytest.raises(ValueError, match=error_match):
-        _convert_data_to_correct_types(data, functions_overriden)
+        _convert_data_to_correct_types(data, functions_overridden)
