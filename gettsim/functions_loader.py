@@ -67,7 +67,7 @@ def load_and_check_functions(
         Functions that are overridden by an input column.
     """
 
-    # Load user and internal funcitons.
+    # Load user and internal functions.
     user_functions_raw = [] if user_functions_raw is None else user_functions_raw
     user_functions = _load_functions(user_functions_raw)
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
@@ -80,7 +80,7 @@ def load_and_check_functions(
     }
 
     # Create and add aggregation functions.
-    aggregation_funcs = _create_aggregation_functions(
+    aggregation_functions = _create_aggregation_functions(
         user_and_internal_functions, targets, data_cols, aggregation_specs
     )
 
@@ -89,12 +89,12 @@ def load_and_check_functions(
         c for c in data_cols if c not in columns_overriding_functions
     ]
     for funcs, name in zip(
-        [internal_functions, user_functions, aggregation_funcs],
+        [internal_functions, user_functions, aggregation_functions],
         ["internal", "user", "aggregation"],
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
-    all_functions = {**user_and_internal_functions, **aggregation_funcs}
+    all_functions = {**user_and_internal_functions, **aggregation_functions}
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
@@ -343,13 +343,13 @@ def _create_aggregation_functions(
     aggregation_dict = {**aggregation_dict, **user_provided_aggregation_specs}
 
     # Create functions from specs
-    aggregation_funcs = {
+    aggregation_functions = {
         agg_col: _create_one_aggregation_func(
             agg_col, agg_spec, user_and_internal_functions
         )
         for agg_col, agg_spec in aggregation_dict.items()
     }
-    return aggregation_funcs
+    return aggregation_functions
 
 
 def rename_arguments(func=None, mapper=None, annotations=None):
