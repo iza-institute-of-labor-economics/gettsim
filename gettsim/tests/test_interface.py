@@ -303,7 +303,9 @@ def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input
     compute_taxes_and_transfers(minimal_input_data, {}, functions=[a, b], targets="b")
 
 
-def test_fail_if_targets_not_in_functions_or_override_columns(minimal_input_data):
+def test_fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(
+    minimal_input_data,
+):
     with pytest.raises(
         ValueError,
         match="The following targets have no corresponding function",
