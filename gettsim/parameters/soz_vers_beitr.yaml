@@ -5,31 +5,31 @@ beitr_satz:
   description:
     de:
       ges_krankenv: Beitragssätze für gesetzliche Krankenversicherung.
-                    mean_allgemein - durchschnittlicher Beitragssatz, bis 2008
-                    allgemein - allgemeiner Satz (§241 SGB V), ab 2009
-                    sonderbeitrag - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
-                    ermäßigt - ermäßigter Satz (§243 SGB V)
-                    zusatz - durchschnittlicher Zusatzbeitragssatz.
+        mean_allgemein - durchschnittlicher Beitragssatz, bis 2008
+        allgemein - allgemeiner Satz (§241 SGB V), ab 2009
+        sonderbeitrag - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
+        ermäßigt - ermäßigter Satz (§243 SGB V)
+        zusatz - durchschnittlicher Zusatzbeitragssatz.
       ges_pflegev: Beitragssätze für gesetzliche Pflegeversicherung.
-                   standard - Beitragssatz für Arbeitnehmer
-                   zusatz_kinderlos - Beitragszuschlag für kinderlose Versicherte,
-                   die das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer
-                   alleine getragen. Eingeführt 2005.
-      arbeitsl_v:  Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
+        standard - Beitragssatz für Arbeitnehmer
+        zusatz_kinderlos - Beitragszuschlag für kinderlose Versicherte,
+        die das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer
+        alleine getragen. Eingeführt 2005.
+      arbeitsl_v: Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
       ges_rentenv: Beitragssätze zur allgemeinen Rentenversicherung für Arbeitnehmer.
     en:
-     ges_krankenv: Statury Contribution Rates for mandatory health insurance.
-                   mean_allgemein - average contribution rate, 1992 to 2008
-                   allgemein - general statutory contribution rate, since 2009
-                   sonderbeitrag - paid by employees, Jul 2005 to 2014
-                   ermäßigt - reduced rate
-                   zusatz - average top-up contribution rate
-     ges_pflegev: Statury Contribution Rates for mandatory care insurance.
-                  standard - employees contribution rate
-                  zusatz_kinderlos - contribution rate for insured people without
-                  children and at least 23 years old. paid by employees. est. 2005
-     arbeitsl_v:  employees contribution rate for unemployment insurance.
-     ges_rentenv: employees contribution rate for pension insurance.
+      ges_krankenv: Statury Contribution Rates for mandatory health insurance.
+        mean_allgemein - average contribution rate, 1992 to 2008
+        allgemein - general statutory contribution rate, since 2009
+        sonderbeitrag - paid by employees, Jul 2005 to 2014
+        ermäßigt - reduced rate
+        zusatz - average top-up contribution rate
+      ges_pflegev: Statury Contribution Rates for mandatory care insurance.
+        standard - employees contribution rate
+        zusatz_kinderlos - contribution rate for insured people without
+        children and at least 23 years old. paid by employees. est. 2005
+      arbeitsl_v: employees contribution rate for unemployment insurance.
+      ges_rentenv: employees contribution rate for pension insurance.
 
   unit: Share
   1984-01-01:
@@ -251,7 +251,6 @@ beitr_satz:
     ges_pflegev:
       zusatz_kinderlos: 0.0035
     reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
-
 
 beitr_bemess_grenze_m:
   name:
@@ -528,7 +527,6 @@ beitr_bemess_grenze_m:
       ost: 6750
     reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
 
-
 bezugsgröße_selbst_m:
   name:
     de: Monatliche Bezugsgröße
@@ -771,9 +769,12 @@ geringfügige_eink_grenzen_m:
     reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
     midijob: 1300
   2022-10-01:
+    minijob:
+      west: null
+      ost: null
     midijob: 1600
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-    note: the former minijob parameter depends on the statutory minimum wage since 2022-10-01
+    note: minijob thresholds depend on the statutory minimum wage since 2022-10-01
 
 geringf_eink_faktor:
   name:
@@ -785,13 +786,13 @@ geringf_eink_faktor:
 
 geringf_eink_divisor:
   name:
-    de: Betrag, durch den der Mindestlohn, multipliziert mit gering_eink_faktor, dividiert wird,
-        um die Geringfügigkeitsgrenze zu erhalten.
+    de:
+      Betrag, durch den der Mindestlohn, multipliziert mit gering_eink_faktor, dividiert wird,
+      um die Geringfügigkeitsgrenze zu erhalten.
   reference: §8 (1a) SGB IV
   2022-10-01:
     scalar: 3
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-
 
 ag_abgaben_geringf:
   name:

@@ -213,12 +213,12 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m_bis_10_2022(
     -------
 
     """
-    gesamtbeitrag_midijob_m = (
+    out = (
         midijob_bemessungsentgelt_m
         * 2
         * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
-    return gesamtbeitrag_midijob_m
+    return out
 
 
 def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
@@ -239,12 +239,12 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
     -------
 
     """
-    gesamtbeitrag_midijob_m = (
+    out = (
         midijob_beitragspf_einnahme_m
         * 2
         * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
-    return gesamtbeitrag_midijob_m
+    return out
 
 
 def _arbeitsl_v_beitr_midijob_arbeitg_m_bis_10_2022(
@@ -264,10 +264,8 @@ def _arbeitsl_v_beitr_midijob_arbeitg_m_bis_10_2022(
     -------
 
     """
-    ag_beitr_midijob_m = (
-        bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
-    )
-    return ag_beitr_midijob_m
+    out = bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+    return out
 
 
 def _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022(
@@ -287,11 +285,11 @@ def _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022(
     -------
 
     """
-    ag_beitr_midijob_m = (
+    out = (
         _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m
         - _arbeitsl_v_beitr_midijob_arbeitn_m
     )
-    return ag_beitr_midijob_m
+    return out
 
 
 def _arbeitsl_v_beitr_midijob_arbeitn_m_bis_10_2022(
@@ -311,11 +309,11 @@ def _arbeitsl_v_beitr_midijob_arbeitn_m_bis_10_2022(
     -------
 
     """
-    an_beitr_midijob_m = (
+    out = (
         _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m
         - _arbeitsl_v_beitr_midijob_arbeitg_m
     )
-    return an_beitr_midijob_m
+    return out
 
 
 def _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022(
@@ -335,8 +333,8 @@ def _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022(
     -------
 
     """
-    an_beitr_midijob_m = (
+    out = (
         _midijob_beitragspf_einnahme_arbeitn_m
         * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
-    return an_beitr_midijob_m
+    return out
