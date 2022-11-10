@@ -70,11 +70,6 @@ def sozialv_beitr_arbeitg_m(
 def _sozialv_beitr_arbeitn_arbeitg_m(
     sozialv_beitr_m: float,
     sozialv_beitr_arbeitg_m: float,
-    in_gleitzone: bool,
-    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
-    _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m: float,
-    _ges_krankenv_midijob_sum_arbeitn_arbeitg_m: float,
-    _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
 ) -> float:
     """Sum of all social insurance contributions of an employer and employee.
 
@@ -84,30 +79,11 @@ def _sozialv_beitr_arbeitn_arbeitg_m(
         See :func:`sozialv_beitr_m`.
     sozialv_beitr_arbeitg_m
         See :func:`sozialv_beitr_arbeitg_m`.
-    _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m
-        See :func:`_ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m`.
-    _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m
-        See :func:`_arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m`.
-    _ges_krankenv_midijob_sum_arbeitn_arbeitg_m
-        See :func:`_ges_krankenv_midijob_sum_arbeitn_arbeitg_m`.
-    _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m
-        See :func:`_ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
-
     Returns
     -------
 
     """
-    if in_gleitzone:
-        out = (
-            _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m
-            + _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m
-            + _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m
-            + _ges_krankenv_midijob_sum_arbeitn_arbeitg_m
-        )
-    else:
-        out = sozialv_beitr_m + sozialv_beitr_arbeitg_m
+    out = sozialv_beitr_m + sozialv_beitr_arbeitg_m
     return out
 
 
