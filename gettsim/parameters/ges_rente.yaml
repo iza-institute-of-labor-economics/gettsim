@@ -895,7 +895,7 @@ altersgrenze_langj_versicherte_abschlagsfrei:
       rate_linear: 0
     5:
       upper_threshold: 1958
-      rate_linear: 0.08333333
+      rate_linear: 0.083333333
     6:
       upper_threshold: 1964
       rate_linear: 0.16666666

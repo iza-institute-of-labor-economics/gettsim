@@ -1,8 +1,3 @@
-""" Test the updating of Entgeltpunkte and
-the pension income based on Entgeltpunkte.
-
-These are "only" regression tests.
-"""
 import itertools
 
 import pandas as pd
@@ -18,12 +13,9 @@ INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
-    "bruttolohn_m",
-    "wohnort_ost",
     "alter",
     "jahr",
     "geburtsjahr",
-    "entgeltp",
     "geburtsmonat",
     "m_arbeitsunfähig",
     "m_krank_ab_16_bis_24",
@@ -43,18 +35,15 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    "entgeltp_update",
-    "entgeltp_update_lohn",
     "_ges_rente_altersgrenze_abschlagsfrei",
-    # "_ges_rentenv_beitr_bemess_grenze_m",
 ]
 
-YEARS = [2010, 2012, 2015, 2018]
+YEARS = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
 
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "renten_anspr.csv"
+    file_name = "renten_alter.csv"
     out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
     return out
 
