@@ -30,6 +30,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   :ghuser:`ChristianZimpelmann`)
 * :gh:`416` Added documentation page for Vermögensbegriff for transfers.
   (:ghuser:`LauraGergeleit`)
+* :gh:`428` Added a new test for retirment ages for (very) long term insured and women.
+  (:ghuser:`LauraGergeleit`)
 
 0.5.1 — 2022-04-21
 ------------------
