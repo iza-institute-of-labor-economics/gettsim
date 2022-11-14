@@ -4,6 +4,13 @@ import textwrap
 from gettsim.config import SUPPORTED_GROUPINGS
 
 
+class KeyErrorMessage(str):
+    """Subclass str to allow for line breaks in KeyError messages"""
+
+    def __repr__(self):
+        return str(self)
+
+
 def add_rounding_spec(params_key):
     """Decorator adding the location of the rounding specification to a function.
 

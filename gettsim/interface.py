@@ -14,16 +14,10 @@ from gettsim.functions_loader import load_and_check_functions
 from gettsim.shared import format_errors_and_warnings
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
+from gettsim.shared import KeyErrorMessage
 from gettsim.shared import parse_to_list_of_strings
 from gettsim.typing import check_series_has_expected_type
 from gettsim.typing import convert_series_to_internal_type
-
-
-class KeyErrorMessage(str):
-    """Subclass str to allow for line breaks in KeyError messages"""
-
-    def __repr__(self):
-        return str(self)
 
 
 def compute_taxes_and_transfers(
