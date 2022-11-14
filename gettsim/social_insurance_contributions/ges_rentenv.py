@@ -84,17 +84,17 @@ def ges_rentenv_beitr_arbeitg_m(
     return out
 
 
-def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m_bis_10_2022(
-    midijob_bemessungsentgelt_m: float,
+def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
+    _midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
     """Calculating the sum of employee and employer pension insurance contribution for
-    midijobs until October 2022.
+    midijobs.
 
     Parameters
     ----------
-    midijob_bemessungsentgelt_m
-        See :func:`midijob_bemessungsentgelt_m`.
+    _midijob_bemessungsentgelt_m
+        See :func:`_midijob_bemessungsentgelt_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -102,44 +102,19 @@ def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m_bis_10_2022(
     -------
     """
     ges_beitr_midijob = (
-        midijob_bemessungsentgelt_m
+        _midijob_bemessungsentgelt_m
         * 2
         * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
     )
     return ges_beitr_midijob
 
 
-def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
-    midijob_beitragspf_einnahme_m: float,
-    soz_vers_beitr_params: dict,
-) -> float:
-    """Calculating the sum of employee and employer pension insurance contribution for
-    midijobs since October 2022.
-
-    Parameters
-    ----------
-    midijob_beitragspf_einnahme_m
-        See :func:`midijob_beitragspf_einnahme_m`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-
-    Returns
-    -------
-    """
-    ges_beitr_midijob = (
-        midijob_beitragspf_einnahme_m
-        * 2
-        * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
-    )
-    return ges_beitr_midijob
-
-
-def _ges_rentenv_beitr_midijob_arbeitg_m_bis_10_2022(
+def _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022(
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
     """Calculating the employer unemployment insurance contribution
-    until October 2022.
+    until September 2022.
 
     Parameters
     ----------
@@ -152,8 +127,8 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_bis_10_2022(
     -------
 
     """
-    ag_beitr_midijob = bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
-    return ag_beitr_midijob
+    out = bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
+    return out
 
 
 def _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022(
@@ -174,19 +149,19 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022(
     -------
 
     """
-    ag_beitr_midijob = (
+    out = (
         _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m
         - _ges_rentenv_beitr_midijob_arbeitn_m
     )
-    return ag_beitr_midijob
+    return out
 
 
-def _ges_rentenv_beitr_midijob_arbeitn_m_bis_10_2022(
+def _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022(
     _ges_rentenv_beitr_midijob_arbeitg_m: float,
     _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
 ) -> float:
     """Calculating the employee unemployment insurance contribution
-    until October 2022.
+    until September 2022.
 
     Parameters
     ----------

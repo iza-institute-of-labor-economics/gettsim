@@ -356,19 +356,19 @@ def ges_krankenv_beitr_rente_m(
     return ges_krankenv_beitr_satz * _ges_krankenv_bemessungsgrundlage_rente_m
 
 
-def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m_bis_10_2022(
-    midijob_bemessungsentgelt_m: float,
+def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m(
+    _midijob_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
     """Calculating the sum of employee and employer health insurance contribution for
-    midijobs until October 2022.
+    midijobs.
 
 
     Parameters
     ----------
-    midijob_bemessungsentgelt_m
-        See :func:`midijob_bemessungsentgelt_m`.
+    _midijob_bemessungsentgelt_m
+        See :func:`_midijob_bemessungsentgelt_m`.
     ges_krankenv_beitr_satz
         See :func:`ges_krankenv_beitr_satz`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -380,43 +380,15 @@ def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m_bis_10_2022(
     """
     out = (
         ges_krankenv_beitr_satz + _ges_krankenv_beitr_satz_arbeitg
-    ) * midijob_bemessungsentgelt_m
+    ) * _midijob_bemessungsentgelt_m
     return out
 
 
-def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
-    midijob_beitragspf_einnahme_m: float,
-    ges_krankenv_beitr_satz: float,
-    _ges_krankenv_beitr_satz_arbeitg: float,
-) -> float:
-    """Calculating the sum of employee and employer health insurance contribution for
-    midijobs since October 2022.
-
-
-    Parameters
-    ----------
-    midijob_beitragspf_einnahme_m
-        See :func:`midijob_beitragspf_einnahme_m`.
-    ges_krankenv_beitr_satz
-        See :func:`ges_krankenv_beitr_satz`.
-    _ges_krankenv_beitr_satz_arbeitg
-        See :func:`_ges_krankenv_beitr_satz_arbeitg`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        ges_krankenv_beitr_satz + _ges_krankenv_beitr_satz_arbeitg
-    ) * midijob_beitragspf_einnahme_m
-    return out
-
-
-def _ges_krankenv_midijob_arbeitg_m_bis_10_2022(
+def _ges_krankenv_midijob_arbeitg_m_bis_09_2022(
     bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitg: float
 ) -> float:
     """Calculating the employer health insurance contribution for midijobs
-    until October 2022.
+    until September 2022.
 
     Parameters
     ----------
@@ -471,12 +443,12 @@ def _ges_krankenv_midijob_arbeitg_m_ab_10_2022(
     return out
 
 
-def _ges_krankenv_midijob_arbeitn_m_bis_10_2022(
+def _ges_krankenv_midijob_arbeitn_m_bis_09_2022(
     _ges_krankenv_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_krankenv_midijob_arbeitg_m: float,
 ) -> float:
     """Calculating the employee health insurance contribution for midijobs
-    until October 2022.
+    until September 2022.
 
 
     Parameters

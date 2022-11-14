@@ -74,7 +74,7 @@ def in_gleitzone(
 
 
 @add_rounding_spec(params_key="soz_vers_beitr")
-def midijob_faktor_f_bis_10_2022(
+def midijob_faktor_f_bis_09_2022(
     soz_vers_beitr_params: dict,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
@@ -185,13 +185,13 @@ def midijob_faktor_f_ab_10_2022(
     return out
 
 
-def midijob_bemessungsentgelt_m(
+def __midijob_bemessungsentgelt_m_bis_09_2022(
     midijob_faktor_f: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
     minijob_grenze_west: float,
 ) -> float:
-    """Income subject to social insurance contributions for midijob until October 2022.
+    """Income subject to social insurance contributions for midijob until September 2022.
 
     Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midijobs subject
     to social insurance contribution.
@@ -234,7 +234,7 @@ def midijob_bemessungsentgelt_m(
     return minijob_anteil + lohn_über_mini * gewichtete_midijob_rate
 
 
-def midijob_beitragspf_einnahme_m(
+def __midijob_bemessungsentgelt_m_ab_10_2022(
     midijob_faktor_f: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
@@ -242,6 +242,7 @@ def midijob_beitragspf_einnahme_m(
 ) -> float:
     """Total income subject to social insurance contributions for employers a
     and employees for midijob since October 2022.
+    In the law, the considered income is referred to as "beitragspflichtige Einnahme".
 
     Beitragspflichtige Einnahme is the reference income for midijobs subject
     to employer and employee social insurance contribution.
