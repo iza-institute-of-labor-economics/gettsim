@@ -82,7 +82,6 @@ def compute_taxes_and_transfers(
 
     """
 
-    # Set defaults for some parameters.
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(

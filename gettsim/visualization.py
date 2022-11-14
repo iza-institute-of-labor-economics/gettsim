@@ -95,7 +95,7 @@ def plot_dag(
         f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
-    # Mock parameter arguments for all necessary functions.
+    # Params should not show up in DAG.
     processed_functions = _mock_parameters_arguments(necessary_functions)
 
     dag = set_up_dag(
