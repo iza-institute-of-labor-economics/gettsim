@@ -159,8 +159,8 @@ def create_dashboard():
         )
 
         intro = Div(
-            text="""<h4>This dashboard visualizes GETTSIM parameters. Further information
-            can be found in the
+            text="""<h4>This dashboard visualizes GETTSIM parameters. Further
+            information can be found in the
             <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
             """,
             width=800,
