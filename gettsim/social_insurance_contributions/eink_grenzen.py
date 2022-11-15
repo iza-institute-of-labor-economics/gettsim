@@ -191,10 +191,11 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     soz_vers_beitr_params: dict,
     minijob_grenze_west: float,
 ) -> float:
-    """Income subject to social insurance contributions for midijob until September 2022.
+    """Income subject to social insurance contributions for midijob until September
+    2022.
 
-    Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midijobs subject
-    to social insurance contribution.
+    Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midijobs subject to
+    social insurance contribution.
 
     Legal reference: § 163 Abs. 10 SGB VI
 

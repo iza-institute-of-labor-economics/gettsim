@@ -186,8 +186,8 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     kapitaleink_brutto: float,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate individual capital income considered in the calculation of Grundsicherung
-    im Alter.
+    """Calculate individual capital income considered in the calculation of
+    Grundsicherung im Alter.
 
     Legal reference: § 82 SGB XII Abs. 2
 
@@ -197,7 +197,8 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     kapitaleink_brutto
         See :func:`kapitaleink_brutto`.
     grunds_im_alter_params
-        See params documentation :ref:`grunds_im_alter_params <grunds_im_alter_params>`.
+        See params documentation :ref:`grunds_im_alter_params
+        <grunds_im_alter_params>`.
 
     Returns
     -------
