@@ -25,10 +25,10 @@ from gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022,
 )
 from gettsim.social_insurance_contributions.eink_grenzen import (
-    _midijob_bemessungsentgelt_m_ab_10_2022,
+    midijob_bemessungsentgelt_m_ab_10_2022,
 )
 from gettsim.social_insurance_contributions.eink_grenzen import (
-    _midijob_bemessungsentgelt_m_bis_09_2022,
+    midijob_bemessungsentgelt_m_bis_09_2022,
 )
 from gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_faktor_f_ab_10_2022,
@@ -521,12 +521,12 @@ def load_reforms_for_date(date):
 
     if date >= datetime.date(year=2022, month=10, day=1):
         functions[
-            "_midijob_bemessungsentgelt_m"
-        ] = _midijob_bemessungsentgelt_m_ab_10_2022
+            "midijob_bemessungsentgelt_m"
+        ] = midijob_bemessungsentgelt_m_ab_10_2022
     else:
         functions[
-            "_midijob_bemessungsentgelt_m"
-        ] = _midijob_bemessungsentgelt_m_bis_09_2022
+            "midijob_bemessungsentgelt_m"
+        ] = midijob_bemessungsentgelt_m_bis_09_2022
 
     if date < datetime.date(year=2005, month=10, day=1):
         functions[

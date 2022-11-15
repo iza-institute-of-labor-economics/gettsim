@@ -185,7 +185,7 @@ def midijob_faktor_f_ab_10_2022(
     return out
 
 
-def _midijob_bemessungsentgelt_m_bis_09_2022(
+def midijob_bemessungsentgelt_m_bis_09_2022(
     midijob_faktor_f: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
@@ -234,7 +234,7 @@ def _midijob_bemessungsentgelt_m_bis_09_2022(
     return minijob_anteil + lohn_über_mini * gewichtete_midijob_rate
 
 
-def _midijob_bemessungsentgelt_m_ab_10_2022(
+def midijob_bemessungsentgelt_m_ab_10_2022(
     midijob_faktor_f: float,
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,

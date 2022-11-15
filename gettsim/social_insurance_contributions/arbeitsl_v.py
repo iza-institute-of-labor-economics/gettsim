@@ -172,7 +172,7 @@ def arbeitsl_v_beitr_arbeitg_m(
 
 
 def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
-    _midijob_bemessungsentgelt_m: float,
+    midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
     """Calculating the sum of employee and employer unemployment insurance
@@ -180,8 +180,8 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
 
     Parameters
     ----------
-    _midijob_bemessungsentgelt_m
-        See :func:`_midijob_bemessungsentgelt_m`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -190,7 +190,7 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
 
     """
     out = (
-        _midijob_bemessungsentgelt_m
+        midijob_bemessungsentgelt_m
         * 2
         * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
     )

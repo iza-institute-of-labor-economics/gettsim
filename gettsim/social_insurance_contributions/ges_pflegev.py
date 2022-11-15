@@ -214,7 +214,7 @@ def ges_pflegev_beitr_rente_m(
 
 
 def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022(
-    _midijob_bemessungsentgelt_m: float,
+    midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
     ges_pflegev_zusatz_kinderlos: bool,
 ) -> float:
@@ -224,8 +224,8 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022(
 
     Parameters
     ----------
-    _midijob_bemessungsentgelt_m
-        See :func:`_midijob_bemessungsentgelt_m`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     soz_vers_beitr_params
@@ -236,7 +236,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022(
     """
 
     gesamtbeitrag_midijob_m = (
-        _midijob_bemessungsentgelt_m
+        midijob_bemessungsentgelt_m
         * 2
         * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
@@ -244,7 +244,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022(
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         gesamtbeitrag_midijob_m += (
-            _midijob_bemessungsentgelt_m
+            midijob_bemessungsentgelt_m
             * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
@@ -252,7 +252,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022(
 
 
 def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
-    _midijob_bemessungsentgelt_m: float,
+    midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
     ges_pflegev_zusatz_kinderlos: bool,
 ) -> float:
@@ -262,8 +262,8 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
 
     Parameters
     ----------
-    _midijob_bemessungsentgelt_m
-        See :func:`_midijob_bemessungsentgelt_m`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     soz_vers_beitr_params
@@ -274,7 +274,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
     """
 
     gesamtbeitrag_midijob_m = (
-        _midijob_bemessungsentgelt_m
+        midijob_bemessungsentgelt_m
         * 2
         * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
@@ -282,7 +282,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         gesamtbeitrag_midijob_m += (
-            _midijob_bemessungsentgelt_m
+            midijob_bemessungsentgelt_m
             * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
@@ -366,7 +366,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_bis_09_2022(
 def _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022(
     ges_pflegev_zusatz_kinderlos: bool,
     _midijob_beitragspf_einnahme_arbeitn_m: float,
-    _midijob_bemessungsentgelt_m: float,
+    midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
     """Calculating the employee care insurance contribution since October 2022.
@@ -375,8 +375,8 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022(
     ----------
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
-    _midijob_bemessungsentgelt_m
-        See :func:`_midijob_bemessungsentgelt_m`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
     _midijob_beitragspf_einnahme_arbeitn_m
         See :func:`_midijob_beitragspf_einnahme_arbeitn_m`.
     soz_vers_beitr_params
@@ -395,7 +395,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022(
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         an_beitr_midijob_m += (
-            _midijob_bemessungsentgelt_m
+            midijob_bemessungsentgelt_m
             * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 

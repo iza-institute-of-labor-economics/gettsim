@@ -85,7 +85,7 @@ def ges_rentenv_beitr_arbeitg_m(
 
 
 def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
-    _midijob_bemessungsentgelt_m: float,
+    midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
     """Calculating the sum of employee and employer pension insurance contribution for
@@ -93,8 +93,8 @@ def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
 
     Parameters
     ----------
-    _midijob_bemessungsentgelt_m
-        See :func:`_midijob_bemessungsentgelt_m`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
@@ -102,7 +102,7 @@ def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
     -------
     """
     ges_beitr_midijob = (
-        _midijob_bemessungsentgelt_m
+        midijob_bemessungsentgelt_m
         * 2
         * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
     )

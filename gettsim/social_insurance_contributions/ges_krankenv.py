@@ -357,7 +357,7 @@ def ges_krankenv_beitr_rente_m(
 
 
 def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m(
-    _midijob_bemessungsentgelt_m: float,
+    midijob_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
@@ -367,8 +367,8 @@ def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m(
 
     Parameters
     ----------
-    _midijob_bemessungsentgelt_m
-        See :func:`_midijob_bemessungsentgelt_m`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
     ges_krankenv_beitr_satz
         See :func:`ges_krankenv_beitr_satz`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -380,7 +380,7 @@ def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m(
     """
     out = (
         ges_krankenv_beitr_satz + _ges_krankenv_beitr_satz_arbeitg
-    ) * _midijob_bemessungsentgelt_m
+    ) * midijob_bemessungsentgelt_m
     return out
 
 
