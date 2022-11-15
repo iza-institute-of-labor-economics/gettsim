@@ -484,7 +484,7 @@ abzug_stufen:
     3: 0.3
   2016-01-01:
     deviation_from: previous
-    0: 0
+    0: 0.0
     reference: Art. G. v. 02.10.2015 BGBl I S. 1610
 
 min_miete:
