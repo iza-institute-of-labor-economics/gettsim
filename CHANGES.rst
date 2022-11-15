@@ -25,11 +25,12 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   cases in `test_interface.py`. (:ghuser:`LauraGergeleit`, :ghuser:`ChristianZimpelmann`)
 * :gh:`406` Changed variable name from `vermögen_hh` to `vermögen_bedürft_hh`. Add test
   cases for several transfers (:ghuser:`LauraGergeleit`).
-* :gh:`383` Remove ä, ö, ü from file names (:ghuser:`ChristianZimpelmann`).
 * :gh:`415` Define supported groupings in `config.py`. (:ghuser:`LauraGergeleit`,
   :ghuser:`ChristianZimpelmann`)
 * :gh:`416` Added documentation page for Vermögensbegriff for transfers.
   (:ghuser:`LauraGergeleit`)
+* :gh:`423` Modeled marginal employment rules reform from 10/2022.
+  (:ghuser:`Eric-Sommer`, :ghuser:`LauraGergeleit`)
 
 0.5.1 — 2022-04-21
 ------------------
