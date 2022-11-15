@@ -133,13 +133,13 @@ def compute_taxes_and_transfers(
     # Do some checks.
     _fail_if_root_nodes_are_missing(dag, data)
     _fail_if_pid_is_non_unique(data)
-    data_red = _reduce_to_necessary_data(dag, data, check_minimal_specification)
+    data_reduced = _reduce_to_necessary_data(dag, data, check_minimal_specification)
 
     # Convert series to numpy arrays
-    data_red = {key: series.values for key, series in data_red.items()}
+    data_reduced = {key: series.values for key, series in data_reduced.items()}
 
     # Execute DAG.
-    results = execute_dag(dag, data_red, targets, debug)
+    results = execute_dag(dag, data_reduced, targets, debug)
 
     # Prepare results.
     results = prepare_results(results, data, debug)
