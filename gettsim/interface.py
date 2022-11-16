@@ -221,181 +221,6 @@ def _process_and_check_data(data, columns_overriding_functions):
     return data
 
 
-def _round_and_partial_parameters_to_functions(functions, params, rounding):
-    """Create a dictionary of all functions that are available.
-
-    Parameters
-    ----------
-    functions : dict of callable
-        Dictionary of functions which are either internal or user provided functions.
-    params : dict
-        Dictionary of parameters which is partialed to the function such that `params`
-        are invisible to the DAG.
-    rounding : bool
-        Indicator for whether rounding should be applied as specified in the law.
-
-    Returns
-    -------
-    processed_functions : dict of callable
-        Dictionary mapping function names to rounded callables with partialed
-        parameters.
-
-    """
-    # Add rounding to functions.
-    if rounding:
-        functions = _add_rounding_to_functions(functions, params)
-
-    # Partial parameters to functions such that they disappear in the DAG.
-    # Note: Needs to be done after rounding such that dags recognizes partialled
-    # parameters.
-    processed_functions = {}
-    for name, function in functions.items():
-
-        arguments = get_names_of_arguments_without_defaults(function)
-        partial_params = {
-            i: params[i[:-7]]
-            for i in arguments
-            if i.endswith("_params") and i[:-7] in params
-        }
-        if partial_params:
-            partial_func = functools.partial(function, **partial_params)
-
-            # Make sure that rounding parameter attribute is transferred to partial
-            # function. Otherwise, this information would get lost.
-            if hasattr(function, "__rounding_params_key__"):
-                partial_func.__rounding_params_key__ = function.__rounding_params_key__
-
-            processed_functions[name] = partial_func
-        else:
-            processed_functions[name] = function
-
-    return processed_functions
-
-
-def _create_input_data(
-    data,
-    processed_functions,
-    targets,
-    columns_overriding_functions,
-    check_minimal_specification="ignore",
-):
-    """Create input data for use in the calculation of taxes and transfers by:
-
-    - reducing to necessary data
-    - convert pandas.Series to numpy.array
-
-    Parameters
-    ----------
-    data : Dict of pandas.Series
-        Data provided by the user.
-    processed_functions : dict of callable
-        Dictionary mapping function names to callables.
-    targets : list of str
-        List of strings with names of functions whose output is actually needed by the
-        user.
-    columns_overriding_functions : str list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimal configuration should
-        be silenced, emitted as warnings or errors.
-
-    Returns
-    -------
-    input_data : Dict of numpy.array
-        Data which can be used to calculate taxes and transfers.
-
-    """
-    # Create dag using processed functions
-    dag = set_up_dag(
-        all_functions=processed_functions,
-        targets=targets,
-        columns_overriding_functions=columns_overriding_functions,
-        check_minimal_specification=check_minimal_specification,
-    )
-    root_nodes = {n for n in dag.nodes if list(dag.predecessors(n)) == []}
-    _fail_if_root_nodes_are_missing(root_nodes, data, processed_functions)
-    data = _reduce_to_necessary_data(root_nodes, data, check_minimal_specification)
-
-    # Convert series to numpy arrays
-    data = {key: series.values for key, series in data.items()}
-
-    # Restrict to root nodes
-    input_data = {k: v for k, v in data.items() if k in root_nodes}
-    return input_data
-
-
-def _prepare_results(results, data, debug):
-    """Prepare results after DAG was executed
-
-    Parameters
-    ----------
-    results : dict
-        Dictionary of pd.Series with the results.
-    data : dict
-        Dictionary of pd.Series based on the input data provided by the user.
-    debug : bool
-        Indicates debug mode.
-
-    Returns
-    -------
-    results : pandas.DataFrame
-        Nicely formatted DataFrame of the results.
-
-    """
-    if debug:
-        results = pd.DataFrame({**data, **results})
-    else:
-        identifiers = [f"{g}_id" for g in SUPPORTED_GROUPINGS if f"{g}_id" in data] + [
-            "p_id"
-        ]
-        data_ids = {k: v for k, v in data.items() if k in identifiers}
-        results = pd.DataFrame({**data_ids, **results})
-    results = _reorder_columns(results)
-
-    return results
-
-
-def _fail_if_columns_overriding_functions_are_not_in_dag(
-    dag, columns_overriding_functions, check_minimal_specification
-):
-    """Fail if ``columns_overriding_functions`` are not in the DAG.
-
-    Parameters
-    ----------
-    dag : networkx.DiGraph
-        The DAG which is limited to targets and their ancestors.
-    columns_overriding_functions : list of str
-        The nodes which are provided by columns in the data and do not need to be
-        computed. These columns limit the depth of the DAG.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimalistic configuration
-        should be silenced, emitted as warnings or errors.
-
-    Warnings
-    --------
-    UserWarning
-        Warns if there are columns in 'columns_overriding_functions' which are not
-        necessary and ``check_minimal_specification`` is set to "warn".
-    Raises
-    ------
-    ValueError
-        Raised if there are columns in 'columns_overriding_functions' which are not
-        necessary and ``check_minimal_specification`` is set to "raise".
-
-    """
-    unused_columns = set(columns_overriding_functions) - set(dag.nodes)
-    formatted = format_list_linewise(unused_columns)
-    if unused_columns and check_minimal_specification == "warn":
-        warnings.warn(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
-        )
-    elif unused_columns and check_minimal_specification == "raise":
-        raise ValueError(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
-        )
-
-
 def _convert_data_to_correct_types(data, functions_overridden):
     """Convert all series of data to the type that is expected by GETTSIM.
 
@@ -464,6 +289,68 @@ def _convert_data_to_correct_types(data, functions_overridden):
     elif len(collected_conversions) > 1:
         warnings.warn("\n".join(collected_conversions) + "\n" + "\n" + general_warning)
     return data
+
+
+def _create_input_data(
+    data,
+    processed_functions,
+    targets,
+    columns_overriding_functions,
+    check_minimal_specification="ignore",
+):
+    """Create input data for use in the calculation of taxes and transfers by:
+
+    - reducing to necessary data
+    - convert pandas.Series to numpy.array
+
+    Parameters
+    ----------
+    data : Dict of pandas.Series
+        Data provided by the user.
+    processed_functions : dict of callable
+        Dictionary mapping function names to callables.
+    targets : list of str
+        List of strings with names of functions whose output is actually needed by the
+        user.
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
+        tax and transfer system.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
+
+    Returns
+    -------
+    input_data : Dict of numpy.array
+        Data which can be used to calculate taxes and transfers.
+
+    """
+    # Create dag using processed functions
+    dag = set_up_dag(
+        all_functions=processed_functions,
+        targets=targets,
+        columns_overriding_functions=columns_overriding_functions,
+        check_minimal_specification=check_minimal_specification,
+    )
+    root_nodes = {n for n in dag.nodes if list(dag.predecessors(n)) == []}
+    _fail_if_root_nodes_are_missing(root_nodes, data, processed_functions)
+    data = _reduce_to_necessary_data(root_nodes, data, check_minimal_specification)
+
+    # Convert series to numpy arrays
+    data = {key: series.values for key, series in data.items()}
+
+    # Restrict to root nodes
+    input_data = {k: v for k, v in data.items() if k in root_nodes}
+    return input_data
+
+
+def _fail_if_duplicates_in_columns(data):
+    """Check that all column names are unique"""
+    if any(data.columns.duplicated()):
+        duplicated = list(data.columns[data.columns.duplicated()])
+        raise ValueError(
+            "The following columns are non-unique in the input data:" f"{duplicated}"
+        )
 
 
 def _fail_if_group_variables_not_constant_within_groups(data):
@@ -543,14 +430,19 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
         raise ValueError("\n".join([first_part, list_, second_part]))
 
 
-def _reorder_columns(results):
-    order_ids = {f"{g}_id": i for i, g in enumerate(SUPPORTED_GROUPINGS)}
-    order_ids["p_id"] = len(order_ids)
-    ids_in_data = order_ids.keys() & set(results.columns)
-    sorted_ids = sorted(ids_in_data, key=lambda x: order_ids[x])
-    remaining_columns = [i for i in results if i not in sorted_ids]
+def _fail_if_pid_is_non_unique(data):
+    """Check that pid is unique"""
 
-    return results[sorted_ids + remaining_columns]
+    if "p_id" not in data:
+        message = "The input data must contain the column p_id"
+        raise ValueError(message)
+    elif not data["p_id"].is_unique:
+        list_of_nunique_ids = list(data["p_id"].loc[data["p_id"].duplicated()])
+        message = (
+            "The following p_ids are non-unique in the input data:"
+            f"{list_of_nunique_ids}"
+        )
+        raise ValueError(message)
 
 
 def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
@@ -587,77 +479,55 @@ def _reduce_to_necessary_data(root_nodes, data, check_minimal_specification):
     return {k: v for k, v in data.items() if k not in unnecessary_data}
 
 
-def _fail_if_pid_is_non_unique(data):
-    """Check that pid is unique"""
-
-    if "p_id" not in data:
-        message = "The input data must contain the column p_id"
-        raise ValueError(message)
-    elif not data["p_id"].is_unique:
-        list_of_nunique_ids = list(data["p_id"].loc[data["p_id"].duplicated()])
-        message = (
-            "The following p_ids are non-unique in the input data:"
-            f"{list_of_nunique_ids}"
-        )
-        raise ValueError(message)
-
-
-def _fail_if_duplicates_in_columns(data):
-    """Check that all column names are unique"""
-    if any(data.columns.duplicated()):
-        duplicated = list(data.columns[data.columns.duplicated()])
-        raise ValueError(
-            "The following columns are non-unique in the input data:" f"{duplicated}"
-        )
-
-
-def _add_rounding_to_one_function(base, direction):
-    """Decorator to round the output of a function.
+def _round_and_partial_parameters_to_functions(functions, params, rounding):
+    """Create a dictionary of all functions that are available.
 
     Parameters
     ----------
-    base : float
-        Precision of rounding (e.g. 0.1 to round to the first decimal place)
-    round_d : bool
-        Whether rounding should be applied
-    direction : str
-        Whether the series should be rounded up, down or to the nearest number
+    functions : dict of callable
+        Dictionary of functions which are either internal or user provided functions.
+    params : dict
+        Dictionary of parameters which is partialed to the function such that `params`
+        are invisible to the DAG.
+    rounding : bool
+        Indicator for whether rounding should be applied as specified in the law.
 
     Returns
     -------
-    results : pandas.Series
-        Series with (potentially) rounded numbers
+    processed_functions : dict of callable
+        Dictionary mapping function names to rounded callables with partialed
+        parameters.
+
     """
+    # Add rounding to functions.
+    if rounding:
+        functions = _add_rounding_to_functions(functions, params)
 
-    def inner(func):
+    # Partial parameters to functions such that they disappear in the DAG.
+    # Note: Needs to be done after rounding such that dags recognizes partialled
+    # parameters.
+    processed_functions = {}
+    for name, function in functions.items():
 
-        # Make sure that signature is preserved.
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            out = func(*args, **kwargs)
+        arguments = get_names_of_arguments_without_defaults(function)
+        partial_params = {
+            i: params[i[:-7]]
+            for i in arguments
+            if i.endswith("_params") and i[:-7] in params
+        }
+        if partial_params:
+            partial_func = functools.partial(function, **partial_params)
 
-            # Check inputs.
-            if not (type(base) in [int, float]):
-                raise ValueError(
-                    f"base needs to be a number, got '{base}' for '{func.__name__}'"
-                )
+            # Make sure that rounding parameter attribute is transferred to partial
+            # function. Otherwise, this information would get lost.
+            if hasattr(function, "__rounding_params_key__"):
+                partial_func.__rounding_params_key__ = function.__rounding_params_key__
 
-            if direction == "up":
-                rounded_out = base * np.ceil(out / base)
-            elif direction == "down":
-                rounded_out = base * np.floor(out / base)
-            elif direction == "nearest":
-                rounded_out = base * (out / base).round()
-            else:
-                raise ValueError(
-                    "direction must be one of 'up', 'down', or 'nearest'"
-                    f", got '{direction}' for '{func.__name__}'"
-                )
-            return rounded_out
+            processed_functions[name] = partial_func
+        else:
+            processed_functions[name] = function
 
-        return wrapper
-
-    return inner
+    return processed_functions
 
 
 def _add_rounding_to_functions(functions, params):
@@ -723,3 +593,133 @@ def _add_rounding_to_functions(functions, params):
             )(func)
 
     return functions_new
+
+
+def _add_rounding_to_one_function(base, direction):
+    """Decorator to round the output of a function.
+
+    Parameters
+    ----------
+    base : float
+        Precision of rounding (e.g. 0.1 to round to the first decimal place)
+    round_d : bool
+        Whether rounding should be applied
+    direction : str
+        Whether the series should be rounded up, down or to the nearest number
+
+    Returns
+    -------
+    results : pandas.Series
+        Series with (potentially) rounded numbers
+    """
+
+    def inner(func):
+
+        # Make sure that signature is preserved.
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            out = func(*args, **kwargs)
+
+            # Check inputs.
+            if not (type(base) in [int, float]):
+                raise ValueError(
+                    f"base needs to be a number, got '{base}' for '{func.__name__}'"
+                )
+
+            if direction == "up":
+                rounded_out = base * np.ceil(out / base)
+            elif direction == "down":
+                rounded_out = base * np.floor(out / base)
+            elif direction == "nearest":
+                rounded_out = base * (out / base).round()
+            else:
+                raise ValueError(
+                    "direction must be one of 'up', 'down', or 'nearest'"
+                    f", got '{direction}' for '{func.__name__}'"
+                )
+            return rounded_out
+
+        return wrapper
+
+    return inner
+
+
+def _fail_if_columns_overriding_functions_are_not_in_dag(
+    dag, columns_overriding_functions, check_minimal_specification
+):
+    """Fail if ``columns_overriding_functions`` are not in the DAG.
+
+    Parameters
+    ----------
+    dag : networkx.DiGraph
+        The DAG which is limited to targets and their ancestors.
+    columns_overriding_functions : list of str
+        The nodes which are provided by columns in the data and do not need to be
+        computed. These columns limit the depth of the DAG.
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimalistic configuration
+        should be silenced, emitted as warnings or errors.
+
+    Warnings
+    --------
+    UserWarning
+        Warns if there are columns in 'columns_overriding_functions' which are not
+        necessary and ``check_minimal_specification`` is set to "warn".
+    Raises
+    ------
+    ValueError
+        Raised if there are columns in 'columns_overriding_functions' which are not
+        necessary and ``check_minimal_specification`` is set to "raise".
+
+    """
+    unused_columns = set(columns_overriding_functions) - set(dag.nodes)
+    formatted = format_list_linewise(unused_columns)
+    if unused_columns and check_minimal_specification == "warn":
+        warnings.warn(
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+        )
+    elif unused_columns and check_minimal_specification == "raise":
+        raise ValueError(
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+        )
+
+
+def _prepare_results(results, data, debug):
+    """Prepare results after DAG was executed
+
+    Parameters
+    ----------
+    results : dict
+        Dictionary of pd.Series with the results.
+    data : dict
+        Dictionary of pd.Series based on the input data provided by the user.
+    debug : bool
+        Indicates debug mode.
+
+    Returns
+    -------
+    results : pandas.DataFrame
+        Nicely formatted DataFrame of the results.
+
+    """
+    if debug:
+        results = pd.DataFrame({**data, **results})
+    else:
+        identifiers = [f"{g}_id" for g in SUPPORTED_GROUPINGS if f"{g}_id" in data] + [
+            "p_id"
+        ]
+        data_ids = {k: v for k, v in data.items() if k in identifiers}
+        results = pd.DataFrame({**data_ids, **results})
+    results = _reorder_columns(results)
+
+    return results
+
+
+def _reorder_columns(results):
+    order_ids = {f"{g}_id": i for i, g in enumerate(SUPPORTED_GROUPINGS)}
+    order_ids["p_id"] = len(order_ids)
+    ids_in_data = order_ids.keys() & set(results.columns)
+    sorted_ids = sorted(ids_in_data, key=lambda x: order_ids[x])
+    remaining_columns = [i for i in results if i not in sorted_ids]
+
+    return results[sorted_ids + remaining_columns]
