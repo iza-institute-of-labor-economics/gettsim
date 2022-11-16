@@ -313,7 +313,7 @@ def _create_input_data(
         columns_overriding_functions=columns_overriding_functions,
         check_minimal_specification=check_minimal_specification,
     )
-    root_nodes = set(_root_nodes(dag))
+    root_nodes = {n for n in dag.nodes if list(dag.predecessors(n)) == []}
     _fail_if_root_nodes_are_missing(root_nodes, data, processed_functions)
     data = _reduce_to_necessary_data(root_nodes, data, check_minimal_specification)
 
@@ -605,13 +605,6 @@ def _fail_if_duplicates_in_columns(data):
         raise ValueError(
             "The following columns are non-unique in the input data:" f"{duplicated}"
         )
-
-
-def _root_nodes(dag):
-    for node in dag.nodes:
-        has_no_parents = len(list(dag.predecessors(node))) == 0
-        if has_no_parents:
-            yield node
 
 
 def _add_rounding_to_one_function(base, direction):
