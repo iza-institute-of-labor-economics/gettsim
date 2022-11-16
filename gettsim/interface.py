@@ -346,7 +346,11 @@ def _prepare_results(results, data, debug):
     if debug:
         results = pd.DataFrame({**data, **results})
     else:
-        results = pd.DataFrame(results)
+        identifiers = [f"{g}_id" for g in SUPPORTED_GROUPINGS if f"{g}_id" in data] + [
+            "p_id"
+        ]
+        data_ids = {k: v for k, v in data.items() if k in identifiers}
+        results = pd.DataFrame({**data_ids, **results})
     results = _reorder_columns(results)
 
     return results

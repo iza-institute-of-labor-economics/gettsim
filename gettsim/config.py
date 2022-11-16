@@ -38,14 +38,14 @@ INTERNAL_PARAMS_GROUPS = [
 ]
 
 SUPPORTED_GROUPINGS = {
+    "hh": {
+        "name": "household",
+        "description": "all individuals living in the same household.",
+    },
     "tu": {
         "name": "tax unit",
         "description": "one or two persons that file their taxes together.",
         "nested_by": "hh",
-    },
-    "hh": {
-        "name": "household",
-        "description": "all individuals living in the same household.",
     },
 }
 
@@ -53,6 +53,7 @@ DEFAULT_TARGETS = [
     "eink_st_tu",
     "soli_st_tu",
     "abgelt_st_tu",
+    "sozialv_beitr_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",

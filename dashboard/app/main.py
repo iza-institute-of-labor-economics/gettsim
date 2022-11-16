@@ -69,9 +69,9 @@ attribute_dict = {
         "0€",
         "0€",
         "top_left",
-        f"""This Graph depicts the monthly housing benefit, depending on household size and
-        year, for a given combination of rent and income. We assume 'Mietstufe' 3, which
-        corresponds to a municipality with average rental cost.
+        f"""This Graph depicts the monthly housing benefit, depending on household size
+        and year, for a given combination of rent and income. We assume 'Mietstufe' 3,
+        which corresponds to a municipality with average rental cost.
         <a href="{params_url}/wohngeld.yaml">
         <em>Details and legal references.</em></a>""",
     ],
@@ -159,8 +159,8 @@ def create_dashboard():
         )
 
         intro = Div(
-            text="""<h4>This dashboard visualizes GETTSIM parameters. Further information can be
-            found in the
+            text="""<h4>This dashboard visualizes GETTSIM parameters. Further
+            information can be found in the
             <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
             """,
             width=800,
