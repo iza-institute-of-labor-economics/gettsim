@@ -37,8 +37,8 @@ repos:
   #   hooks:
   #     - id: doc8
   #       exclude: "docs/gettsim_objects/variables.rst|docs/geps/gep-00.rst"
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.3
+  - repo: https://github.com/PyCQA/flake8
+    rev: 5.0.4
     hooks:
       - id: flake8
         additional_dependencies: [
