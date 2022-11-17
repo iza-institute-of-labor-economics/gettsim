@@ -35,7 +35,7 @@ plot_attributes = [
     "description",
 ]
 # Github-Link to Parameters
-param_url = """https://github.com/iza-institute-of-labor-economics/
+params_url = """https://github.com/iza-institute-of-labor-economics/
 gettsim/blob/main/gettsim/parameters"""
 attribute_dict = {
     "tax_rate": [
@@ -46,7 +46,7 @@ attribute_dict = {
         "0%",
         "bottom_right",
         f"""This graph demonstrates the statutory income tax rate with and without
-        Solidarity Surcharge. <a href="{param_url}/eink_st.yaml">
+        Solidarity Surcharge. <a href="{params_url}/eink_st.yaml">
         <em>Details and legal references.</em></a>
         """,
     ],
@@ -59,7 +59,7 @@ attribute_dict = {
         "top_left",
         f"""This graph shows the evolution of the main lump-sum tax deductions
         creating a wedge between market and taxable income.
-        <a href="{param_url}/eink_st_abzuege.yaml">
+        <a href="{params_url}/eink_st_abzuege.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "wohngeld": [
@@ -72,7 +72,7 @@ attribute_dict = {
         f"""This Graph depicts the monthly housing benefit, depending on household size
         and year, for a given combination of rent and income. We assume 'Mietstufe' 3,
         which corresponds to a municipality with average rental cost.
-        <a href="{param_url}/wohngeld.yaml">
+        <a href="{params_url}/wohngeld.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "child_benefits": [
@@ -83,7 +83,7 @@ attribute_dict = {
         "0€",
         "top_left",
         f"""Monthly child benefit by order of child within the household.
-        <a href="{param_url}/kindergeld.yaml">
+        <a href="{params_url}/kindergeld.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "social_security": [
@@ -100,7 +100,7 @@ attribute_dict = {
         vary across health insurance funds; we assume the national average.
         In the period 1993-2007, competition between sickness funds meant
         there was not one contribution rate. GETTSIM provides an average.
-        <a href="{param_url}/soz_vers_beitr.yaml">
+        <a href="{params_url}/soz_vers_beitr.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "social_assistance": [
@@ -112,7 +112,7 @@ attribute_dict = {
         "bottom_right",
         f"""This graph depicts monthly personal social assistance payments
          ('Regelsatz Arbeitslosengeld II') by household member.
-        <a href="{param_url}/arbeitsl_geld_2.yaml">
+        <a href="{params_url}/arbeitsl_geld_2.yaml">
         <em>Details and legal references.</em></a>""",
     ],
 }
@@ -128,10 +128,10 @@ def create_dashboard():
     # Makes a difference whether we launch the Dashboard app or start tests.
     all_data = None
     try:
-        all_data = pickle.load(open("dashboard/param_dashboard_data.pickle", "rb"))
+        all_data = pickle.load(open("dashboard/params_dashboard_data.pickle", "rb"))
     except FileNotFoundError:
         try:
-            all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
+            all_data = pickle.load(open("params_dashboard_data.pickle", "rb"))
         except FileNotFoundError:
             warnings.warn(
                 "No dashboard data found. Please run 'pre_processing_data.py' first."
