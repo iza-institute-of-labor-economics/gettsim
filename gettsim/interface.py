@@ -535,16 +535,15 @@ def _add_rounding_to_functions(functions, params):
 
     Parameters
     ----------
-    dag : networkx.DiGraph
-        The DAG of the tax and transfer system.
+    functions : dict of callable
+        Dictionary of functions which are either internal or user provided functions.
     params : dict
         Dictionary of parameters
 
     Returns
     -------
-    dag : networkx.DiGraph
-        The DAG of the tax and transfer system with rounding applied to the functions
-        in the DAG.
+    functions_new : dict of callable
+        Dictionary of rounded functions.
 
     """
     functions_new = copy.deepcopy(functions)
