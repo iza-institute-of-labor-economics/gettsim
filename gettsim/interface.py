@@ -41,7 +41,7 @@ def compute_taxes_and_transfers(
         A dictionary with parameters from the policy environment. For more information
         see the documentation of the :ref:`params_files`.
     functions : str, pathlib.Path, callable, module, imports statements, dict
-        Function from the policy environment. Functions can be anything of the
+        Functions from the policy environment. Functions can be anything of the
         specified types and a list of the same objects. If the object is a dictionary,
         the keys of the dictionary are used as a name instead of the function name. For
         all other objects, the name is inferred from the function name.
