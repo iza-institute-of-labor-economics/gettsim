@@ -8,8 +8,8 @@ from gettsim.config import GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _load_functions
-from gettsim.interface import remove_group_suffix
-from gettsim.policy_environment import load_reforms_for_date
+from gettsim.policy_environment import load_functions_for_date
+from gettsim.shared import remove_group_suffix
 from gettsim.tests.utils_tests import nice_output_list_of_strings
 
 
@@ -28,7 +28,9 @@ def all_function_names():
 def time_indep_function_names(all_function_names):
     time_dependent_functions = {}
     for year in range(1990, 2030):
-        year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
+        year_functions = load_functions_for_date(
+            datetime.date(year=year, month=1, day=1)
+        )
         new_dict = {func.__name__: key for key, func in year_functions.items()}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
