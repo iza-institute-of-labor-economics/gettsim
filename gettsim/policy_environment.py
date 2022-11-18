@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from gettsim.config import INTERNAL_PARAM_GROUPS
+from gettsim.config import INTERNAL_PARAMS_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
@@ -172,17 +172,17 @@ def set_up_policy_environment(date):
     -------
     params : dict
         A dictionary with parameters from the policy environment. For more
-        information see the documentation of the :ref:`param_files`.
+        information see the documentation of the :ref:`params_files`.
     functions : dict
-        Dictionary of time dependent policy reforms. Keys are the variable names they
-        create.
+        Dictionary mapping column names to functions creating the respective
+        data.
 
     """
     # Check policy date for correct format and transfer to datetime.date
     date = _parse_date(date)
 
     params = {}
-    for group in INTERNAL_PARAM_GROUPS:
+    for group in INTERNAL_PARAMS_GROUPS:
         params_one_group = _load_parameter_group_from_yaml(date, group)
 
         # Align parameters for piecewise polynomial functions
@@ -192,7 +192,7 @@ def set_up_policy_environment(date):
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
 
-    functions = load_reforms_for_date(date)
+    functions = load_functions_for_date(date)
 
     return params, functions
 
@@ -326,7 +326,7 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     return params
 
 
-def load_reforms_for_date(date):
+def load_functions_for_date(date):
     """Load time-dependent policy reforms.
 
     Parameters
@@ -337,8 +337,8 @@ def load_reforms_for_date(date):
     Returns
     -------
     functions : dict
-        Dictionary of time dependent policy reforms. Keys are the variable names they
-        create.
+        Dictionary mapping column names to functions creating the respective
+        data.
 
     """
     year = date.year
@@ -771,7 +771,7 @@ def set_by_path(data_dict, key_list, value):
     get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
-def add_progressionsfaktor(param_dict, parameter):
+def add_progressionsfaktor(params_dict, parameter):
     """Quadratic factor of tax tariff function.
 
     The German tax tariff is defined on several income intervals with distinct
@@ -785,11 +785,11 @@ def add_progressionsfaktor(param_dict, parameter):
     (rate_fiv - rate_iv) / (2 * (upper_thres - low_thres))
 
     """
-    out_dict = copy.deepcopy(param_dict)
+    out_dict = copy.deepcopy(params_dict)
     interval_keys = sorted(key for key in out_dict if isinstance(key, int))
     # Check and extract lower thresholds.
     lower_thresholds, upper_thresholds, thresholds = check_thresholds(
-        param_dict, parameter, interval_keys
+        params_dict, parameter, interval_keys
     )
     for key in interval_keys:
         if "rate_quadratic" not in out_dict[key]:

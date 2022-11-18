@@ -31,6 +31,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   (:ghuser:`LauraGergeleit`)
 * :gh:`423` Modeled marginal employment rules reform from 10/2022.
   (:ghuser:`Eric-Sommer`, :ghuser:`LauraGergeleit`)
+* :gh:`399` Use dags package to create the DAG.
+  (:ghuser:`ChristianZimpelmann`)
 
 0.5.1 — 2022-04-21
 ------------------
