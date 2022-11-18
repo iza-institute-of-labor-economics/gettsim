@@ -422,6 +422,56 @@ koeffizienten_berechnungsformel:
       a: -0.14
       b: 0.000098
       c: 0.0000503
+  2023-01-01:
+    reference: Referentenentwurf Wohngeld-Plus-Gesetz zu § 19 Absatz 1
+    1:
+      a: 0.04
+      b: 0.0004991
+      c: 0.0000462
+    2:
+      a: 0.03
+      b: 0.0003716
+      c: 0.0000345
+    3:
+      a: 0.02
+      b: 0.0003035
+      c: 0.0000278
+    4:
+      a: 0.01
+      b: 0.0002251
+      c: 0.00002
+    5:
+      a: 0
+      b: 0.0001985
+      c: 0.0000195
+    6:
+      a: -0.01
+      b: 0.0001792
+      c: 0.0000188
+    7:
+      a: -0.02
+      b: 0.0001657
+      c: 0.0000187
+    8:
+      a: -0.03
+      b: 0.0001648
+      c: 0.0000187
+    9:
+      a: -0.04
+      b: 0.0001432
+      c: 0.0000188
+    10:
+      a: -0.06
+      b: 0.00013
+      c: 0.0000188
+    11:
+      a: -0.09
+      b: 0.0001188
+      c: 0.0000222
+    12:
+      a: -0.12
+      b: 0.0001152
+      c: 0.0000251
 
 haushaltsgröße_hhn:
   name:
@@ -638,6 +688,20 @@ min_eink:
     10: 957
     11: 1248
     12: 1443
+  2023-01-01:
+    reference: Gesetzesänderungen zu § 19 Absatz 2 (Wohngeld-Plus-Gesetz)
+    1: 350
+    2: 600
+    3: 800
+    4: 1000
+    5: 1200
+    6: 1400
+    7: 1600
+    8: 1800
+    9: 2000
+    10: 2200
+    11: 2400
+    12: 2600
 
 freib_kinder_m:
   name:
@@ -1848,3 +1912,39 @@ heizkosten_zuschuss:
     5: 29.4
     jede_weitere_person: 3.6
   reference: Art. 1 G. v. 15.05.2020, BGBl I S. 1015.
+
+dauerhafte_heizkostenkomponente:
+  name:
+    de: Dauerhafte Heizkostenkomponente in Abhängigkeit der Haushaltsgröße
+    en:
+  description:
+    de: Gesetzesänderung zum 1.1.23 von §12 (6,7) WoGG
+    en:
+  unit: Euro
+  reference_period: Month
+  2023-01-01:
+    1: 96
+    2: 124
+    3: 148
+    4: 172
+    5: 196
+    jede_weitere_person: 24
+  reference: https://dserver.bundestag.de/btd/20/042/2004230.pdf
+
+klimakomponente:
+  name:
+    de: Dauerhafte Heizkostenkomponente in Abhängigkeit der Haushaltsgröße
+    en:
+  description:
+    de: Gesetzesänderung zum 1.1.23 von §12 (6,7) WoGG
+    en:
+  unit: Euro
+  reference_period: Month
+  2023-01-01:
+    1: 19.20
+    2: 24.80
+    3: 29.60
+    4: 34.40
+    5: 39.20
+    jede_weitere_person: 4.8
+  reference: https://dserver.bundestag.de/btd/20/042/2004230.pdf

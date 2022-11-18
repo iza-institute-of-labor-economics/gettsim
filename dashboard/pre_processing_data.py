@@ -14,6 +14,7 @@ from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009_bis_2020
 from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2023
 from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
 from gettsim.transfers.wohngeld import wohngeld_min_miete
 from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m_hh
@@ -22,6 +23,7 @@ wohngeld_miete_m_hh_ab_2009_bis_2020 = np.vectorize(
     wohngeld_miete_m_hh_ab_2009_bis_2020
 )
 wohngeld_miete_m_hh_ab_2021 = np.vectorize(wohngeld_miete_m_hh_ab_2021)
+wohngeld_miete_m_hh_ab_2023 = np.vectorize(wohngeld_miete_m_hh_ab_2023)
 wohngeld_miete_m_hh_bis_2008 = np.vectorize(wohngeld_miete_m_hh_bis_2008)
 wohngeld_min_miete = np.vectorize(wohngeld_min_miete)
 wohngeld_vor_vermög_check_m_hh = np.vectorize(wohngeld_vor_vermög_check_m_hh)
@@ -145,6 +147,15 @@ def prepare_wg_data(sel_year, hh_size):
         )
     if sel_year >= 2021:
         wohngeld_miete_m_hh = wohngeld_miete_m_hh_ab_2021(
+            pd.Series([3] * len(miete)),
+            household_size,
+            miete,
+            pd.Series([1] * len(miete)),
+            wohngeld_min_miete(household_size, params),
+            params,
+        )
+    if sel_year >= 2023:
+        wohngeld_miete_m_hh = wohngeld_miete_m_hh_ab_2023(
             pd.Series([3] * len(miete)),
             household_size,
             miete,
