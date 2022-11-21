@@ -1895,14 +1895,15 @@ vermögensfreibetrag_pers:
     reference: Wohngeld-Verwaltungsvorschrift 2009.
     note: At least in place since then.
 
-heizkosten_zuschuss:
+heating_cost_relief_m:
   name:
-    de: Heizkosten-Zuschuss in Abhängigkeit der Haushaltsgröße
-    en:
+    de: Heizkostenentlastung aufgrund der CO2-Bepreisung
+    en: Reduction in heating costs due to CO2 pricing
   description:
-    de: §12 (6) WoGG
-    en:
+    de: Betrag zur Entlastung bei den Heizkosten aufgrund der CO2-Bepreisung in Euro in Anhängigkeit der Haushaltsgröße
+    en: Amount of relief in heating costs due to CO2 pricing in euros depending on household size
   unit: Euro
+  reference: §12 (6) WoGG, Art. 1 G. v. 15.05.2020, BGBl I S. 1015.
   reference_period: Month
   2021-01-01:
     1: 14.4
@@ -1911,16 +1912,16 @@ heizkosten_zuschuss:
     4: 25.8
     5: 29.4
     jede_weitere_person: 3.6
-  reference: Art. 1 G. v. 15.05.2020, BGBl I S. 1015.
 
-dauerhafte_heizkostenkomponente:
+dauerhafte_heizkostenkomponente_m:
   name:
-    de: Dauerhafte Heizkostenkomponente in Abhängigkeit der Haushaltsgröße
-    en:
+    de: Dauerhafte Heizkostenkomponente
+    en: Permanent heating cost component
   description:
-    de: Gesetzesänderung zum 1.1.23 von §12 (6,7) WoGG
-    en:
+    de: Dauerhafte Heizkostenkomponente in Abhängigkeit der Haushaltsgröße eingeführt mit der Wohngeldreform 2023
+    en: Permanent heating cost component depending on household size introduced with the housing subsidy reform 2023
   unit: Euro
+  reference: Gesetzesänderung zum 1.1.23 von §12 (6,7) WoGG, https://dserver.bundestag.de/btd/20/042/2004230.pdf
   reference_period: Month
   2023-01-01:
     1: 96
@@ -1929,16 +1930,18 @@ dauerhafte_heizkostenkomponente:
     4: 172
     5: 196
     jede_weitere_person: 24
-  reference: https://dserver.bundestag.de/btd/20/042/2004230.pdf
 
-klimakomponente:
+klimakomponente_m:
   name:
-    de: Dauerhafte Heizkostenkomponente in Abhängigkeit der Haushaltsgröße
-    en:
+    de: Klimakomponente
+    en: climate component
   description:
-    de: Gesetzesänderung zum 1.1.23 von §12 (6,7) WoGG
-    en:
+    de: Als Klimakomponente zu berücksichtigender Zuschlag zu den Höchstbeträgen nach § 12 Absatz 1 in Euro
+        in Abhängigkeit der Haushaltsgröße; eingeführt mit der Wohngeldreform 2023
+    en: Surcharge to be taken into account as climate component in addition to the maximum amounts pursuant to § 12 (1)
+        in euros depending on the size of the household; introduced with the housing subsidy reform 2023
   unit: Euro
+  reference: Gesetzesänderung zum 1.1.23 von §12 (6,7) WoGG, https://dserver.bundestag.de/btd/20/042/2004230.pdf
   reference_period: Month
   2023-01-01:
     1: 19.20
@@ -1947,4 +1950,3 @@ klimakomponente:
     4: 34.40
     5: 39.20
     jede_weitere_person: 4.8
-  reference: https://dserver.bundestag.de/btd/20/042/2004230.pdf
