@@ -18,6 +18,15 @@
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/ambv/black
 
+.. image:: https://img.shields.io/github/contributors/iza-institute-of-labor-economics/gettsim.svg
+    :target: https://github.com/iza-institute-of-labor-economics/gettsim/graphs/contributors
+
+.. image:: https://img.shields.io/badge/License-GPLv3-blue.svg
+    :target: https://www.gnu.org/licenses/gpl-3.0
+
+.. image:: https://img.shields.io/badge/zulip-join_chat-brightgreen.svg
+    :target: https://gettsim.zulipchat.com
+
 .. raw:: html
 
    <p align="center">
@@ -48,7 +57,6 @@ The documentation is available at https://gettsim.readthedocs.io. If you want to
 use it or help out in its development, feel free to get in touch! The ideal ways
 are to open an issue if you find a bug or something does not work as expected,
 or by joining our Zulip Chat at https://gettsim.zulipchat.com.
-
 
 
 Initiated by
