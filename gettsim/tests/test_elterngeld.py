@@ -18,7 +18,7 @@ INPUT_COLS = [
     "wohnort_ost",
     "eink_st_m",
     "soli_st_m",
-    "sozialv_beitr_gesamt_m",
+    "sozialv_beitr_m",
     "geburtsjahr",
     "geburtsmonat",
     "geburtstag",
@@ -38,7 +38,7 @@ YEARS = [2017, 2018, 2019]
 
 OVERRIDE_COLS = [
     "soli_st_tu",
-    "sozialv_beitr_gesamt_m",
+    "sozialv_beitr_m",
     "eink_st_tu",
 ]
 

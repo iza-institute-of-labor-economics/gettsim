@@ -13,10 +13,8 @@ from pygments.formatters import HtmlFormatter
 
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import TYPES_INPUT_VARIABLES
-from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
-from gettsim.dag import create_dag
-from gettsim.functions_loader import load_user_and_internal_functions
-from gettsim.interface import _create_aggregation_functions
+from gettsim.interface import load_and_check_functions
+from gettsim.interface import set_up_dag
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
@@ -69,40 +67,38 @@ def plot_dag(
         a hover information. Sometimes, the tooltip is not properly displayed.
 
     """
+
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"
     )
 
-    # Load functions and perform checks.
-    functions, internal_functions = load_user_and_internal_functions(functions)
-
-    # Create one dictionary of functions and perform check.
-    user_and_internal_functions = {**internal_functions, **functions}
-
-    # Create and add aggregation functions
-    typical_data_cols = list(TYPES_INPUT_VARIABLES)
-    aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions,
-        targets,
-        typical_data_cols,
-        user_provided_aggregation_specs={},
+    # Load functions.
+    functions_not_overridden, functions_overridden = load_and_check_functions(
+        user_functions_raw=functions,
+        columns_overriding_functions=columns_overriding_functions,
+        targets=targets,
+        data_cols=list(TYPES_INPUT_VARIABLES),
+        aggregation_specs={},
     )
-    all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
-    all_functions = {
-        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
+    # Select necessary nodes by creating a preliminary DAG.
+    nodes = set_up_dag(
+        all_functions=functions_not_overridden,
+        targets=targets,
+        columns_overriding_functions=columns_overriding_functions,
+        check_minimal_specification=check_minimal_specification,
+    ).nodes
+    necessary_functions = {
+        f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
-    _fail_if_targets_not_in_functions_or_override_columns(
-        all_functions, targets, columns_overriding_functions
-    )
+    # Params should not show up in DAG.
+    processed_functions = _mock_parameters_arguments(necessary_functions)
 
-    # Partial parameters to functions such that they disappear in the DAG.
-    all_functions = _mock_parameters_arguments(all_functions)
-    dag = create_dag(
-        all_functions,
+    dag = set_up_dag(
+        processed_functions,
         targets,
         columns_overriding_functions,
         check_minimal_specification,

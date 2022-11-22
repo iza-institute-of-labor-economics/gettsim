@@ -9,7 +9,7 @@ from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
 from gettsim.interface import compute_taxes_and_transfers
-from gettsim.policy_environment import load_reforms_for_date
+from gettsim.policy_environment import load_functions_for_date
 from gettsim.policy_environment import set_up_policy_environment
 from gettsim.typing import check_series_has_expected_type
 
@@ -68,7 +68,7 @@ def test_data_types(
 
     # Load all time dependent functions
     for y in range(1990, 2023):
-        year_functions = load_reforms_for_date(datetime.date(year=y, month=1, day=1))
+        year_functions = load_functions_for_date(datetime.date(year=y, month=1, day=1))
 
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[INPUT_COLS].copy()
