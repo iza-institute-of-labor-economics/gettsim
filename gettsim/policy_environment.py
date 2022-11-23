@@ -575,7 +575,7 @@ def _load_parameter_group_from_yaml(
 
     Returns
     -------
-    tax_data : dict
+    out_params : dict
         Dictionary of parameters loaded from raw yaml file and striped of
         unnecessary keys.
 
@@ -599,7 +599,7 @@ def _load_parameter_group_from_yaml(
     # Load parameters (exclude 'rounding' parameters which are handled at the
     # end of this function)
     not_trans_keys = ["note", "reference", "deviation_from", "access_different_date"]
-    tax_data = {}
+    out_params = {}
     if not parameters:
         parameters = [k for k in raw_group_data if k != "rounding"]
 
@@ -616,45 +616,46 @@ def _load_parameter_group_from_yaml(
         if not past_policies:
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
+            # Otherwise, do not create an entry for this parameter.
             if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
                 future_policy = raw_group_data[param][np.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
-                    tax_data[param] = _load_parameter_group_from_yaml(
+                    params_temp = _load_parameter_group_from_yaml(
                         date,
                         path_list[0],
                         parameters=[path_list[1]],
                         yaml_path=yaml_path,
-                    )[path_list[1]]
-            else:
-                # TODO: Should there be missing values or should the key not exist?
-                tax_data[param] = np.nan
+                    )
+                    if path_list[1] in params_temp:
+                        out_params[param] = params_temp[path_list[1]]
+
         else:
             policy_in_place = raw_group_data[param][np.max(past_policies)]
             if "scalar" in policy_in_place.keys():
                 if policy_in_place["scalar"] == "inf":
-                    tax_data[param] = np.inf
+                    out_params[param] = np.inf
                 else:
-                    tax_data[param] = policy_in_place["scalar"]
+                    out_params[param] = policy_in_place["scalar"]
             else:
-                tax_data[param] = {}
+                out_params[param] = {}
                 # Keys which if given are transferred
                 add_trans_keys = ["type", "progressionsfaktor"]
                 for key in add_trans_keys:
                     if key in raw_group_data[param]:
-                        tax_data[param][key] = raw_group_data[param][key]
+                        out_params[param][key] = raw_group_data[param][key]
                 value_keys = (
                     key for key in policy_in_place.keys() if key not in not_trans_keys
                 )
                 if "deviation_from" in policy_in_place.keys():
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
-                        tax_data[param] = _load_parameter_group_from_yaml(
+                        out_params[param] = _load_parameter_group_from_yaml(
                             new_date, group, parameters=[param], yaml_path=yaml_path
                         )[param]
                     elif "." in policy_in_place["deviation_from"]:
                         path_list = policy_in_place["deviation_from"].split(".")
-                        tax_data[param] = _load_parameter_group_from_yaml(
+                        out_params[param] = _load_parameter_group_from_yaml(
                             date,
                             path_list[0],
                             parameters=[path_list[1]],
@@ -662,22 +663,24 @@ def _load_parameter_group_from_yaml(
                         )[path_list[1]]
                     for key in value_keys:
                         key_list = []
-                        tax_data[param][key] = transfer_dictionary(
+                        out_params[param][key] = transfer_dictionary(
                             policy_in_place[key],
-                            copy.deepcopy(tax_data[param][key]),
+                            copy.deepcopy(out_params[param][key]),
                             key_list,
                         )
                 else:
                     for key in value_keys:
-                        tax_data[param][key] = policy_in_place[key]
+                        out_params[param][key] = policy_in_place[key]
 
             # Also load earlier parameter values if this is specified in yaml
             if "access_different_date" in raw_group_data[param]:
                 if raw_group_data[param]["access_different_date"] == "vorjahr":
                     date_last_year = subtract_years_from_date(date, years=1)
-                    tax_data[f"{param}_vorjahr"] = _load_parameter_group_from_yaml(
+                    params_last_year = _load_parameter_group_from_yaml(
                         date_last_year, group, parameters=[param], yaml_path=yaml_path
-                    )[param]
+                    )
+                    if param in params_last_year:
+                        out_params[f"{param}_vorjahr"] = params_last_year[param]
                 else:
                     raise ValueError(
                         "Currently, access_different_date is only implemented for "
@@ -685,14 +688,14 @@ def _load_parameter_group_from_yaml(
                         f"For parameter {param} a different string is specified."
                     )
 
-    tax_data["datum"] = np.datetime64(date)
+    out_params["datum"] = np.datetime64(date)
 
     # Load rounding parameters if they exist
     if "rounding" in raw_group_data:
-        tax_data["rounding"] = _load_rounding_parameters(
+        out_params["rounding"] = _load_rounding_parameters(
             date, raw_group_data["rounding"]
         )
-    return tax_data
+    return out_params
 
 
 def _load_rounding_parameters(date, rounding_spec):

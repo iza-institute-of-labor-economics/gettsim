@@ -1896,7 +1896,7 @@ vermögensfreibetrag_pers:
     reference: Wohngeld-Verwaltungsvorschrift 2009.
     note: At least in place since then.
 
-heating_cost_relief_m:
+heizkostenentlastung_m:
   name:
     de: Heizkostenentlastung aufgrund der CO2-Bepreisung
     en: Reduction in heating costs due to CO2 pricing
