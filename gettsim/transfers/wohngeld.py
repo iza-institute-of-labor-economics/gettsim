@@ -360,61 +360,14 @@ def wohngeld_miete_m_hh_bis_2008(
     return out
 
 
-def wohngeld_miete_m_hh_ab_2009_bis_2020(
+def wohngeld_miete_m_hh_ab_2009(
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
     wohngeld_min_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
-    """Maximal rent subject housing benefit calculation on
-    household level since 2009.
-
-    Parameters
-    ----------
-    mietstufe
-        See basic input variable :ref:`mietstufe <mietstufe>`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
-    bruttokaltmiete_m_hh
-        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
-
-    Returns
-    -------
-
-    """
-
-    params_max_miete = wohngeld_params["max_miete"]
-
-    # Calc maximal considered rent
-    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
-    if haushaltsgröße_hh <= max_definierte_hh_größe:
-        max_miete_m_hh = params_max_miete[haushaltsgröße_hh][mietstufe]
-    else:
-        max_miete_m_hh = params_max_miete[max_definierte_hh_größe][
-            mietstufe
-        ] + params_max_miete["jede_weitere_person"][mietstufe] * (
-            haushaltsgröße_hh - max_definierte_hh_größe
-        )
-
-    out = min(bruttokaltmiete_m_hh, max_miete_m_hh)
-    out = max(out, wohngeld_min_miete_m_hh)
-
-    return out
-
-
-def wohngeld_miete_m_hh_ab_2021_bis_2022(
-    mietstufe: int,
-    haushaltsgröße_hh: int,
-    bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
-    wohngeld_params: dict,
-) -> float:
-    """Calculate maximal rent subject housing benefit calculation since 2021.
+    """Calculate maximal rent subject housing benefit calculation since 2009.
 
     Parameters
     ----------
@@ -446,110 +399,63 @@ def wohngeld_miete_m_hh_ab_2021_bis_2022(
             * params_max_miete["jede_weitere_person"][mietstufe]
         )
 
-    # Calc heating allowance
-    max_def_hh_größe_heating = max(
-        i for i in wohngeld_params["heating_cost_relief_m"] if isinstance(i, int)
-    )
-    if haushaltsgröße_hh <= max_def_hh_größe_heating:
-        heating_allowance_m = wohngeld_params["heating_cost_relief_m"][
-            haushaltsgröße_hh
-        ]
-    else:
-        heating_allowance_m = wohngeld_params["heating_cost_relief_m"][
-            max_def_hh_größe_heating
-        ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
-            wohngeld_params["heating_cost_relief_m"]["jede_weitere_person"]
+    # Calc heating allowance, introduced in 2021
+    if "heating_cost_relief_m" in wohngeld_params:
+        max_def_hh_größe_heating = max(
+            i for i in wohngeld_params["heating_cost_relief_m"] if isinstance(i, int)
         )
-
-    out = min(bruttokaltmiete_m_hh, max_miete_m_hh)
-    out = max(out, wohngeld_min_miete_m_hh) + heating_allowance_m
-
-    return out
-
-
-def wohngeld_miete_m_hh_ab_2023(
-    mietstufe: int,
-    haushaltsgröße_hh: int,
-    bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
-    wohngeld_params: dict,
-) -> float:
-    """Calculate maximal rent subject housing benefit calculation since 2023.
-
-    Parameters
-    ----------
-    mietstufe
-        See basic input variable :ref:`mietstufe <mietstufe>`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
-    bruttokaltmiete_m_hh
-        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
-
-    Returns
-    -------
-
-    """
-    params_max_miete = wohngeld_params["max_miete"]
-
-    # Calc maximal considered rent
-    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
-    if haushaltsgröße_hh <= max_definierte_hh_größe:
-        max_miete_m_hh = params_max_miete[haushaltsgröße_hh][mietstufe]
+        if haushaltsgröße_hh <= max_def_hh_größe_heating:
+            heating_allowance_m = wohngeld_params["heating_cost_relief_m"][
+                haushaltsgröße_hh
+            ]
+        else:
+            heating_allowance_m = wohngeld_params["heating_cost_relief_m"][
+                max_def_hh_größe_heating
+            ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
+                wohngeld_params["heating_cost_relief_m"]["jede_weitere_person"]
+            )
     else:
-        max_miete_m_hh = (
-            params_max_miete[max_definierte_hh_größe][mietstufe]
-            + (haushaltsgröße_hh - max_definierte_hh_größe)
-            * params_max_miete["jede_weitere_person"][mietstufe]
-        )
+        heating_allowance_m = 0
 
-    # Calc heating allowance
-    max_def_hh_größe_heating = max(
-        i for i in wohngeld_params["heating_cost_relief_m"] if isinstance(i, int)
-    )
-    if haushaltsgröße_hh <= max_def_hh_größe_heating:
-        heating_allowance_m = wohngeld_params["heating_cost_relief_m"][
-            haushaltsgröße_hh
-        ]
-    else:
-        heating_allowance_m = wohngeld_params["heating_cost_relief_m"][
-            max_def_hh_größe_heating
-        ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
-            wohngeld_params["heating_cost_relief_m"]["jede_weitere_person"]
+    # Calc permanent heating cost component, introduced in 2023
+    if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
+        max_def_hh_größe_heating = max(
+            i
+            for i in wohngeld_params["dauerhafte_heizkostenkomponente_m"]
+            if isinstance(i, int)
         )
+        if haushaltsgröße_hh <= max_def_hh_größe_heating:
+            heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
+                haushaltsgröße_hh
+            ]
+        else:
+            heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
+                max_def_hh_größe_heating
+            ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
+                wohngeld_params["dauerhafte_heizkostenkomponente_m"][
+                    "jede_weitere_person"
+                ]
+            )
+    else:
+        heating_component_m = 0
 
-    # Calc permanent heating cost component
-    max_def_hh_größe_heating = max(
-        i
-        for i in wohngeld_params["dauerhafte_heizkostenkomponente_m"]
-        if isinstance(i, int)
-    )
-    if haushaltsgröße_hh <= max_def_hh_größe_heating:
-        heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-            haushaltsgröße_hh
-        ]
-    else:
-        heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-            max_def_hh_größe_heating
-        ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
-            wohngeld_params["dauerhafte_heizkostenkomponente_m"]["jede_weitere_person"]
+    # Calc climate component, introduced in 2023
+    if "klimakomponente_m" in wohngeld_params:
+        max_def_hh_größe_heating = max(
+            i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
         )
-
-    # Calc climate component
-    max_def_hh_größe_heating = max(
-        i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
-    )
-    if haushaltsgröße_hh <= max_def_hh_größe_heating:
-        climate_component_m = wohngeld_params["klimakomponente_m"][haushaltsgröße_hh]
+        if haushaltsgröße_hh <= max_def_hh_größe_heating:
+            climate_component_m = wohngeld_params["klimakomponente_m"][
+                haushaltsgröße_hh
+            ]
+        else:
+            climate_component_m = wohngeld_params["klimakomponente_m"][
+                max_def_hh_größe_heating
+            ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
+                wohngeld_params["klimakomponente_m"]["jede_weitere_person"]
+            )
     else:
-        climate_component_m = wohngeld_params["klimakomponente_m"][
-            max_def_hh_größe_heating
-        ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
-            wohngeld_params["klimakomponente_m"]["jede_weitere_person"]
-        )
+        climate_component_m = 0
 
     out = min(bruttokaltmiete_m_hh, max_miete_m_hh + climate_component_m)
     out = max(out, wohngeld_min_miete_m_hh) + heating_allowance_m + heating_component_m
