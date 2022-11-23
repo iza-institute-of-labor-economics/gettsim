@@ -250,7 +250,7 @@ def elterngeld_geschw_bonus_anspruch(
 
 def _elterngeld_anz_mehrlinge_anspruch(
     elternzeit_anspruch: bool,
-    anz_mehrlinge_jüngstes_kind_hh: np.datetime64,
+    anz_mehrlinge_jüngstes_kind_hh: int,
 ) -> int:
     """Check for multiple bonus on parental leave benefit.
 
