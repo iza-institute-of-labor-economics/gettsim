@@ -154,11 +154,11 @@ def _if_to_call(node: ast.If, module: str):
 
     if len(node.orelse) > 1 or len(node.body) > 1:
         msg = _too_many_operations_message(node)
-        raise TranslateToJaxError(msg)
+        raise TranslateToVectorizableError(msg)
     elif node.orelse == []:
         if isinstance(node.body[0], ast.Return):
             msg = _return_and_no_else_message(node)
-            raise TranslateToJaxError(msg)
+            raise TranslateToVectorizableError(msg)
         elif hasattr(node.body[0], "targets"):
             name = ast.Name(id=node.body[0].targets[0].id, ctx=ast.Load())
         else:
@@ -177,7 +177,7 @@ def _if_to_call(node: ast.If, module: str):
             args.append(node.orelse[0].value)
     else:
         msg = _unallowed_operation_message(node.orelse[0])
-        raise TranslateToJaxError(msg)
+        raise TranslateToVectorizableError(msg)
 
     call = ast.Call(
         func=ast.Attribute(
@@ -251,8 +251,8 @@ def _boolop_to_binop(node: ast.BoolOp):
 # ======================================================================================
 
 
-class TranslateToJaxError(ValueError):
-    """Error when function cannot be translated into JAX compatible format."""
+class TranslateToVectorizableError(ValueError):
+    """Error when function cannot be translated into vectorizable compatible format."""
 
     pass
 

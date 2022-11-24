@@ -1,13 +1,17 @@
 import inspect
 
+import jax.numpy
 import numpy
 import pytest
 from numpy.testing import assert_array_equal
 
+from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
+from gettsim.functions_loader import _load_functions
 from gettsim.jax import make_vectorizable
 from gettsim.jax import make_vectorizable_source
-from gettsim.jax import TranslateToJaxError
-
+from gettsim.jax import TranslateToVectorizableError
+from gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m
+from gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
 
 # ======================================================================================
 # Test functions (no error)
@@ -210,12 +214,12 @@ def g1(x):
 
 
 def test_too_many_operations_error_source():
-    with pytest.raises(TranslateToJaxError):
+    with pytest.raises(TranslateToVectorizableError):
         make_vectorizable_source(g1, backend="numpy")
 
 
 def test_too_many_operations_error_wrapper():
-    with pytest.raises(TranslateToJaxError):
+    with pytest.raises(TranslateToVectorizableError):
         make_vectorizable(g1, backend="numpy")
 
 
@@ -241,11 +245,101 @@ def g3(x):
 
 @pytest.mark.parametrize("func", [g2, g3])
 def test_unallowed_operation_source(func):
-    with pytest.raises(TranslateToJaxError):
+    with pytest.raises(TranslateToVectorizableError):
         make_vectorizable_source(func, backend="numpy")
 
 
 @pytest.mark.parametrize("func", [g2, g3])
 def test_unallowed_operation_wrapper(func):
-    with pytest.raises(TranslateToJaxError):
+    with pytest.raises(TranslateToVectorizableError):
         make_vectorizable(func, backend="numpy")
+
+
+# ======================================================================================
+# Test that functions defined in gettsim can be made vectorizable
+# ======================================================================================
+
+
+gettsim_functions = _load_functions(sources=PATHS_TO_INTERNAL_FUNCTIONS)
+
+
+@pytest.mark.parametrize("func", gettsim_functions.values())
+def test_convertable(func):
+    make_vectorizable(func, backend="numpy")
+
+
+# ======================================================================================
+# Test that vectorized functions defined in gettsim can be called with array input
+# ======================================================================================
+
+
+@pytest.xfail(reason="max operator is not vectorized.")
+@pytest.mark.parametrize("backend", ["numpy", "jax"])
+def test_transfers__elterngeld__elterngeld_geschw_bonus_m(backend):
+
+    full = {"numpy": numpy.full, "jax": jax.numpy.full}[backend]
+
+    # Test original gettsim function on scalar input
+    # ==================================================================================
+    elterngeld_eink_erlass_m = 3.0
+    elterngeld_geschw_bonus_anspruch = True
+    elterngeld_params = {"geschw_bonus_aufschlag": 1.0, "geschw_bonus_minimum": 2.0}
+
+    exp = elterngeld_geschw_bonus_m(
+        elterngeld_eink_erlass_m=elterngeld_eink_erlass_m,
+        elterngeld_geschw_bonus_anspruch=elterngeld_geschw_bonus_anspruch,
+        elterngeld_params=elterngeld_params,
+    )
+    assert exp == 3.0
+
+    # Create array inputs and assert that gettsim functions raises error
+    # ==================================================================================
+    shape = 10
+    elterngeld_eink_erlass_m = full(shape, elterngeld_eink_erlass_m)
+    elterngeld_geschw_bonus_anspruch = full(shape, elterngeld_geschw_bonus_anspruch)
+
+    with pytest.raises(ValueError, match="truth value of an array with more than"):
+        elterngeld_geschw_bonus_m(
+            elterngeld_eink_erlass_m=elterngeld_eink_erlass_m,
+            elterngeld_geschw_bonus_anspruch=elterngeld_geschw_bonus_anspruch,
+            elterngeld_params=elterngeld_params,
+        )
+
+    # Call converted function on array input and test result
+    # ==================================================================================
+    converted = make_vectorizable(elterngeld_geschw_bonus_m, backend=backend)
+    got = converted(
+        elterngeld_eink_erlass_m=elterngeld_eink_erlass_m,
+        elterngeld_geschw_bonus_anspruch=elterngeld_geschw_bonus_anspruch,
+        elterngeld_params=elterngeld_params,
+    )
+    assert_array_equal(got, full(shape, exp))
+
+
+@pytest.mark.parametrize("backend", ["numpy", "jax"])
+def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
+
+    full = {"numpy": numpy.full, "jax": jax.numpy.full}[backend]
+
+    # Test original gettsim function on scalar input
+    # ==================================================================================
+    grundr_entgeltp = 1.0
+    grundr_bew_zeiten = 2
+
+    exp = grundr_bew_zeiten_avg_entgeltp(grundr_entgeltp, grundr_bew_zeiten)
+    assert exp == 0.5
+
+    # Create array inputs and assert that gettsim functions raises error
+    # ==================================================================================
+    shape = 10
+    grundr_entgeltp = full(shape, grundr_entgeltp)
+    grundr_bew_zeiten = full(shape, grundr_bew_zeiten)
+
+    with pytest.raises(ValueError, match="truth value of an array with more than"):
+        grundr_bew_zeiten_avg_entgeltp(grundr_entgeltp, grundr_bew_zeiten)
+
+    # Call converted function on array input and test result
+    # ==================================================================================
+    converted = make_vectorizable(grundr_bew_zeiten_avg_entgeltp, backend=backend)
+    got = converted(grundr_entgeltp, grundr_bew_zeiten)
+    assert_array_equal(got, full(shape, exp))
