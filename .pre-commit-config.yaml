@@ -79,9 +79,8 @@ repos:
         args: [
             # --no-strict-optional,
             --ignore-missing-imports,
-            --install-types,
-            --non-interactive,
           ]
+        additional_dependencies: [types-PyYAML, types-pytz]
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.9.0
