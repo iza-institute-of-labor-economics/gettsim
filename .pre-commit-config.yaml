@@ -107,21 +107,21 @@ repos:
     rev: 1.5.0
     hooks:
       - id: interrogate
-        # args: [-v, --fail-under=75]
+        args: [-v, --fail-under=50]
         exclude: ^(dashboard/|gettsim/docs/)
 
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.26.1
-    hooks:
-      - id: yamllint
-        files: \.(yaml|yml)$
-        types: [file, yaml]
-        entry: "yamllint --strict -f parsable -d '{rules: {document-start: {present: false}}'"
+  # - repo: https://github.com/adrienverge/yamllint.git
+  #   rev: v1.26.1
+  #   hooks:
+  #     - id: yamllint
+  #       files: \.(yaml|yml)$
+  #       types: [file, yaml]
+  #       entry: "yamllint --strict -f parsable -d '{rules: {document-start: {present: false}}'"
 
-  - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-    rev: 0.2.1 # or other specific tag
-    hooks:
-      - id: yamlfmt
+  # - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+  #   rev: 0.2.1 # or other specific tag
+  #   hooks:
+  #     - id: yamlfmt
 
   - repo: meta
     hooks:
