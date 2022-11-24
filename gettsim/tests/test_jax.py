@@ -273,7 +273,7 @@ def test_convertable(func):
 # ======================================================================================
 
 
-@pytest.xfail(reason="max operator is not vectorized.")
+@pytest.mark.xfail(reason="max operator is not vectorized.")
 @pytest.mark.parametrize("backend", ["numpy", "jax"])
 def test_transfers__elterngeld__elterngeld_geschw_bonus_m(backend):
 
@@ -294,7 +294,7 @@ def test_transfers__elterngeld__elterngeld_geschw_bonus_m(backend):
 
     # Create array inputs and assert that gettsim functions raises error
     # ==================================================================================
-    shape = 10
+    shape = (10, 2)
     elterngeld_eink_erlass_m = full(shape, elterngeld_eink_erlass_m)
     elterngeld_geschw_bonus_anspruch = full(shape, elterngeld_geschw_bonus_anspruch)
 
@@ -331,7 +331,7 @@ def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
 
     # Create array inputs and assert that gettsim functions raises error
     # ==================================================================================
-    shape = 10
+    shape = (10, 2)
     grundr_entgeltp = full(shape, grundr_entgeltp)
     grundr_bew_zeiten = full(shape, grundr_bew_zeiten)
 
