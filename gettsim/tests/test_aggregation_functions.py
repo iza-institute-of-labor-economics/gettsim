@@ -183,7 +183,7 @@ test_grouped_specs = [
     for backend in available_backends
     if backend != "jax"
 ]
-test_grouped_specs = dict(ChainMap(*test_grouped_specs))
+test_grouped_specs_dict = dict(ChainMap(*test_grouped_specs))
 
 
 test_grouped_raises_specs = [
@@ -265,11 +265,11 @@ test_grouped_raises_specs = [
     }
     for backend in available_backends
 ]
-test_grouped_raises_specs = dict(ChainMap(*test_grouped_raises_specs))
+test_grouped_raises_specs_dict = dict(ChainMap(*test_grouped_raises_specs))
 
 
 @parameterize_based_on_dict(
-    test_grouped_specs,
+    test_grouped_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -292,7 +292,7 @@ def test_grouped_sum(backend, column_to_aggregate, group_id, expected_res_sum):
 
 
 @parameterize_based_on_dict(
-    test_grouped_specs,
+    test_grouped_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -315,7 +315,7 @@ def test_grouped_mean(backend, column_to_aggregate, group_id, expected_res_mean)
 
 
 @parameterize_based_on_dict(
-    test_grouped_specs,
+    test_grouped_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -338,7 +338,7 @@ def test_grouped_max(backend, column_to_aggregate, group_id, expected_res_max):
 
 
 @parameterize_based_on_dict(
-    test_grouped_specs,
+    test_grouped_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -361,7 +361,7 @@ def test_grouped_min(backend, column_to_aggregate, group_id, expected_res_min):
 
 
 @parameterize_based_on_dict(
-    test_grouped_specs,
+    test_grouped_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -383,7 +383,7 @@ def test_grouped_cumsum(backend, column_to_aggregate, group_id, expected_res_cum
 
 
 @parameterize_based_on_dict(
-    test_grouped_specs,
+    test_grouped_specs_dict,
     keys_of_test_cases=["backend", "group_id", "expected_res_count"],
 )
 def test_grouped_count(backend, group_id, expected_res_count):
@@ -401,7 +401,7 @@ def test_grouped_count(backend, group_id, expected_res_count):
 
 
 @parameterize_based_on_dict(
-    test_grouped_specs,
+    test_grouped_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -424,7 +424,7 @@ def test_grouped_any(backend, column_to_aggregate, group_id, expected_res_any):
 
 
 @parameterize_based_on_dict(
-    test_grouped_specs,
+    test_grouped_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -447,7 +447,7 @@ def test_grouped_all(backend, column_to_aggregate, group_id, expected_res_all):
 
 
 @parameterize_based_on_dict(
-    test_grouped_raises_specs,
+    test_grouped_raises_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -473,7 +473,7 @@ def test_grouped_sum_raises(
 
 
 @parameterize_based_on_dict(
-    test_grouped_raises_specs,
+    test_grouped_raises_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -499,7 +499,7 @@ def test_grouped_mean_raises(
 
 
 @parameterize_based_on_dict(
-    test_grouped_raises_specs,
+    test_grouped_raises_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -525,7 +525,7 @@ def test_grouped_max_raises(
 
 
 @parameterize_based_on_dict(
-    test_grouped_raises_specs,
+    test_grouped_raises_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -551,7 +551,7 @@ def test_grouped_min_raises(
 
 
 @parameterize_based_on_dict(
-    test_grouped_raises_specs,
+    test_grouped_raises_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -577,7 +577,7 @@ def test_grouped_any_raises(
 
 
 @parameterize_based_on_dict(
-    test_grouped_raises_specs,
+    test_grouped_raises_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
@@ -603,7 +603,7 @@ def test_grouped_all_raises(
 
 
 @parameterize_based_on_dict(
-    test_grouped_raises_specs,
+    test_grouped_raises_specs_dict,
     keys_of_test_cases=[
         "backend",
         "column_to_aggregate",
