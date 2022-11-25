@@ -1,9 +1,9 @@
 import datetime
 import itertools
 
-import numpy as np
 import pandas as pd
 
+from gettsim.config import numpy_or_jax as np
 from gettsim.config import ROOT_DIR
 from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.policy_environment import _load_parameter_group_from_yaml

@@ -6,10 +6,10 @@ after any parameter is changed.
 import pickle
 from datetime import date
 
-import numpy as np
 import pandas as pd
 
 from gettsim import set_up_policy_environment
+from gettsim.config import numpy_or_jax as np
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009_bis_2020

@@ -1,9 +1,10 @@
-import numpy as np
 from pandas.api.types import is_bool_dtype
 from pandas.api.types import is_datetime64_any_dtype
 from pandas.api.types import is_float_dtype
 from pandas.api.types import is_integer_dtype
 from pandas.api.types import is_object_dtype
+
+from gettsim.config import numpy_or_jax as np
 
 
 def check_series_has_expected_type(series, internal_type):

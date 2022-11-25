@@ -1,4 +1,4 @@
-import numpy as np
+from gettsim.config import numpy_or_jax as np
 
 
 def piecewise_polynomial(

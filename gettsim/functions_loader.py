@@ -3,8 +3,6 @@ import importlib
 import inspect
 from pathlib import Path
 
-import numpy as np
-
 from gettsim.aggregation import grouped_all
 from gettsim.aggregation import grouped_any
 from gettsim.aggregation import grouped_count
@@ -13,6 +11,7 @@ from gettsim.aggregation import grouped_max
 from gettsim.aggregation import grouped_mean
 from gettsim.aggregation import grouped_min
 from gettsim.aggregation import grouped_sum
+from gettsim.config import numpy_or_jax as np
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
 from gettsim.config import SUPPORTED_GROUPINGS

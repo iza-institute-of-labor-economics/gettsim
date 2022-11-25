@@ -2,7 +2,7 @@
 are used throughout modules of gettsim."""
 import datetime
 
-import numpy as np
+from gettsim.config import numpy_or_jax as np
 
 
 aggregation_demographic_vars = {

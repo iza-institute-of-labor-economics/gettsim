@@ -3,11 +3,11 @@ import datetime
 import operator
 from functools import reduce
 
-import numpy as np
 import pandas as pd
 import yaml
 
 from gettsim.config import INTERNAL_PARAMS_GROUPS
+from gettsim.config import numpy_or_jax as np
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters

@@ -1,7 +1,6 @@
-import numpy as np
-
 from gettsim import compute_taxes_and_transfers
 from gettsim import set_up_policy_environment
+from gettsim.config import numpy_or_jax as np
 from gettsim.synthetic_data.synthetic import create_synthetic_data
 
 

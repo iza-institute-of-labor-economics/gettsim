@@ -1,6 +1,5 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
-import numpy as np
-
+from gettsim.config import numpy_or_jax as np
 from gettsim.piecewise_functions import piecewise_polynomial
 
 

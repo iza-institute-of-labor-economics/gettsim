@@ -1,10 +1,10 @@
 from contextlib import ExitStack as does_not_raise  # noqa: N813
 
-import numpy as np
 import pandas as pd
 import pytest
 
 from gettsim import compute_taxes_and_transfers
+from gettsim.config import numpy_or_jax as np
 from gettsim.functions_loader import (
     _fail_if_columns_overriding_functions_are_not_in_functions,
 )

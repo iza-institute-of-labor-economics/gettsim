@@ -4,10 +4,10 @@ import inspect
 import warnings
 
 import dags
-import numpy as np
 import pandas as pd
 
 from gettsim.config import DEFAULT_TARGETS
+from gettsim.config import numpy_or_jax as np
 from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import load_and_check_functions

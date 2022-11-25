@@ -1,5 +1,14 @@
 from pathlib import Path
 
+import numpy
+
+try:
+    import jax
+except ImportError:
+    IS_JAX_INSTALLED = False
+else:
+    IS_JAX_INSTALLED = True
+
 
 # Obtain the root directory of the package. Do not import gettsim which creates a
 # circular import.
@@ -133,7 +142,28 @@ TYPES_INPUT_VARIABLES = {
 }
 
 # =====================================================================================
-# Check Available Packages
+# Decide whether to use JAX as backend
 # =====================================================================================
 
+# defaults
 USE_JAX = False
+numpy_or_jax = numpy
+
+
+def set_array_backend(backend: str):
+    """Set array library backend.
+
+    backend (str): Must be in {'jax', 'numpy'}.
+
+    """
+    if backend not in {"jax", "numpy"}:
+        raise ValueError(f"Backend must be in {'jax', 'numpy'} but is {backend}.")
+
+    global USE_JAX
+    USE_JAX = backend == "jax"
+
+    if IS_JAX_INSTALLED:
+        global numpy_or_jax
+        numpy_or_jax = jax.numpy
+    else:
+        raise ValueError("To use the 'jax' backend jax needs to be installed.")

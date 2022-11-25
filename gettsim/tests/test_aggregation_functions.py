@@ -1,7 +1,6 @@
 import copy
 from collections import ChainMap
 
-import numpy as np
 import pytest
 
 from gettsim.aggregation_jax import grouped_all as grouped_all_jax
@@ -19,6 +18,7 @@ from gettsim.aggregation_numpy import grouped_max as grouped_max_numpy
 from gettsim.aggregation_numpy import grouped_mean as grouped_mean_numpy
 from gettsim.aggregation_numpy import grouped_min as grouped_min_numpy
 from gettsim.aggregation_numpy import grouped_sum as grouped_sum_numpy
+from gettsim.config import numpy_or_jax as np
 from gettsim.config import USE_JAX
 
 

@@ -1,12 +1,12 @@
 import datetime
 
-import numpy as np
 import pandas as pd
 import pytest
 import yaml
 
 from gettsim import compute_taxes_and_transfers
 from gettsim.config import INTERNAL_PARAMS_GROUPS
+from gettsim.config import numpy_or_jax as np
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
 from gettsim.functions_loader import _load_functions

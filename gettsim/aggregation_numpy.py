@@ -1,7 +1,8 @@
 from warnings import warn
 
-import numpy as np
 import numpy_groupies as npg
+
+from gettsim.config import numpy_or_jax as np
 
 
 def grouped_count(group_id):
