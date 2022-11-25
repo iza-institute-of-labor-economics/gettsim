@@ -1,6 +1,4 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
-import numpy as np
-
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 
@@ -250,7 +248,7 @@ def elterngeld_geschw_bonus_anspruch(
 
 def _elterngeld_anz_mehrlinge_anspruch(
     elternzeit_anspruch: bool,
-    anz_mehrlinge_jüngstes_kind_hh: np.datetime64,
+    anz_mehrlinge_jüngstes_kind_hh: int,
 ) -> int:
     """Check for multiple bonus on parental leave benefit.
 
