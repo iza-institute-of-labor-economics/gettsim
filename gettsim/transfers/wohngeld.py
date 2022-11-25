@@ -399,9 +399,9 @@ def wohngeld_miete_m_hh_ab_2009(
             * params_max_miete["jede_weitere_person"][mietstufe]
         )
 
-    # Calc heating allowance. Before 2021, heating allowance was not introduced yet.
-    # For this time frame, the respective parameter is not part of wohngeld_params and
-    # heating allowance is set to 0.
+    # Calc heating allowance. Before 2021, heating allowance was not
+    # introduced yet.For this time frame, the respective parameter is
+    # not part of wohngeld_params and heating allowance is set to 0.
     if "heizkostenentlastung_m" in wohngeld_params:
         max_def_hh_größe_heating = max(
             i for i in wohngeld_params["heizkostenentlastung_m"] if isinstance(i, int)
@@ -419,9 +419,9 @@ def wohngeld_miete_m_hh_ab_2009(
     else:
         heating_allowance_m = 0
 
-    # Calc heating cost component. Before 2023, heating cost component was not introduced yet.
-    # For this time frame, the respective parameter is not part of wohngeld_params and
-    # heating cost component is set to 0.
+    # Calc heating cost component. Before 2023, heating cost component was not
+    # introduced yet.For this time frame, the respective parameter is not part
+    # of wohngeld_params and heating cost component is set to 0.
     if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
         max_def_hh_größe_heating = max(
             i
@@ -443,9 +443,9 @@ def wohngeld_miete_m_hh_ab_2009(
     else:
         heating_component_m = 0
 
-    # Calc climate component. Before 2023, climate component was not introduced yet.
-    # For this time frame, the respective parameter is not part of wohngeld_params and
-    # climate component is set to 0.
+    # Calc climate component. Before 2023, climate component was not
+    # introduced yet. For this time frame, the respective parameter is not
+    # part of wohngeld_params and climate component is set to 0.
     if "klimakomponente_m" in wohngeld_params:
         max_def_hh_größe_heating = max(
             i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
