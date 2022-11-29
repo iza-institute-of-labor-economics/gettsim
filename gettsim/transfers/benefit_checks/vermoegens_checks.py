@@ -72,7 +72,9 @@ def _arbeitsl_geld_2_grundfreib_vermög(
     _arbeitsl_geld_2_max_grundfreib_vermög: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-    """Calculate exemptions based on individuals age.
+    """Calculate wealth exemptions based on individuals age.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -113,6 +115,8 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
 ) -> float:
     """Calculate maximal wealth exemptions by year of birth.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     hh_id
@@ -149,13 +153,15 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
     return float(out)
 
 
-def arbeitsl_geld_2_vermög_freib_hh(
+def arbeitsl_geld_2_vermög_freib_hh_bis_2022(
     _arbeitsl_geld_2_grundfreib_vermög_hh: float,
     anz_kinder_bis_17_hh: int,
     haushaltsgröße_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-    """Calculate actual exemptions.
+    """Calculate actual exemptions until 2022.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -178,4 +184,37 @@ def arbeitsl_geld_2_vermög_freib_hh(
         + anz_kinder_bis_17_hh * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
         + haushaltsgröße_hh * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
     )
+    return out
+
+
+def arbeitsl_geld_2_vermög_freib_hh_ab_2023(
+    arbeitsl_geld_2_params: dict,
+    haushaltsgröße_hh: int,
+    bürgerg_bezug_vorj: float,
+) -> float:
+    """Calculate actual wealth exemptions since 2023.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
+    bürgerg_bezug_vorj
+        See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
+
+
+    Returns
+    -------
+
+    """
+    params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
+    if bürgerg_bezug_vorj == 0:
+        out = (
+            params["vor_karenzzeit"] + (haushaltsgröße_hh - 1) * params["normaler_satz"]
+        )
+    else:
+        out = haushaltsgröße_hh * params["normaler_satz"]
     return out

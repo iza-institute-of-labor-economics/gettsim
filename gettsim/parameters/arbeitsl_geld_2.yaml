@@ -83,6 +83,63 @@ eink_anr_frei_kinder:
     3:
       upper_threshold: 1500
 
+eink_anr_frei_bürgergeld:
+  name:
+    de: Anrechnungsfreie Einkommensanteile beim Bürgergeld
+    en: Income shares not subject to transfer withdrawal
+  description:
+    de: >-
+      Einkommensanteile, die anrechnungsfrei bleiben. Mit dem Bürgergeld wurde
+      ein höherer Prozentsatz für Einkommen zwischen 520 und 1000 Euro eingeführt.
+    en: >-
+      Income shares which do not lead to tapering of benefits. Bürgergeld introduced
+      a higher percentage for incomes between 520 and 1000 Euro.
+  type: piecewise_linear
+  reference_period: Month
+  2023-01-01:
+    reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    0:
+      lower_threshold: -inf
+      upper_threshold: 0
+      rate: 0
+      intercept_at_lower_threshold: 0
+    1:
+      lower_threshold: 0
+      upper_threshold: 100
+      rate: 1.0
+    2:
+      upper_threshold: 520
+      rate: 0.2
+    3:
+      upper_threshold: 1000
+      rate: 0.3
+    4:
+      upper_threshold: 1200
+      rate: 0.1
+    5:
+      upper_threshold: inf
+      rate: 0
+
+eink_anr_frei_kinder_bürgergeld:
+  name:
+    de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
+    en:
+  description:
+    de: >-
+      Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3,
+      Haushalt mit Kindern. Gilt statt die Parameter in eink_anr_frei für
+      Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 §
+      11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
+      G. v. 24.03.2011 BGBl. I S. 453).
+    en:
+  note: Ersetzt Parameter in eink_anr_frei, falls nicht vorhanden
+  type: piecewise_linear
+  2023-01-01:
+    reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    deviation_from: arbeitsl_geld_2.eink_anr_frei_bürgergeld
+    4:
+      upper_threshold: 1500
+
 regelsatz:
   name:
     de: Regelsatz, seit 2011 Beträge differenzieren sich nach Regelbedarfsstufen
@@ -231,6 +288,14 @@ regelsatz:
     5: 311
     6: 285
     reference: V. v. 13.10.2021 BGBl. I S. 4674.
+  2023-01-01:
+    1: 502
+    2: 451
+    3: 402
+    4: 420
+    5: 348
+    6: 318
+    reference: Bürgergeld Gesetzesänderung der Anlage zu § 28
 
 anteil_regelsatz:
   name:
@@ -329,6 +394,26 @@ vermögensgrundfreibetrag:
     deviation_from: previous
     1948: 150
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+
+schonvermögen_bürgergeld:
+  name:
+    de: Schonvermögen beim Bürgergeld
+    en: Protected wealth for the citizen's income
+  description:
+    de: Seit der Einführung des Bürgergelds zum 01.01.2023 gilt ein
+        Vermögensfreibetrag von 15.000 Euro pro Mitglied der Bedarfsgemeinschaft
+        nach Ablauf der Karenzzeit von einem Jahr. Während der Karenzzeit
+        ist ein Vermögen von 40.000 Euro für die erste Person einer Bedarfsgemeinschaft
+        und 15.000 Euro für jede weitere erlaubt.
+    en: Since the introduction of the citizen's allowance as of 01.01.2023,
+        every member of the need community is allowed to own 15,000 Euro after
+        the end of the waiting period of 1 year. During the waiting period
+        wealth of 40,000 euros are allowed for the first person in a needs-based
+        community and 15,000 euros for each additional person.
+  unit: Euro
+  2023-01-01:
+    vor_karenzzeit: 40000
+    normaler_satz: 15000
 
 
 vermögensfreibetrag_austattung:
@@ -432,3 +517,7 @@ berechtigte_wohnfläche_eigentum:
   1984-01-01:
     basisgröße: 80
     erweiterung: 20
+  2023-01-01:
+    eigentum: 140
+    ab_5_personen: 20
+    note: Gilt für Eigenheime. Eigentumswohnungen dürfen nur bis zu 130qm groß sein.

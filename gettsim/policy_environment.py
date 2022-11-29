@@ -126,10 +126,25 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_regelsatz_m_hh_bis_2010,
 )
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
-    arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005,
+    arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005_bis_2023,
+)
+from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
+    arbeitsl_geld_2_eink_anr_frei_m_ab_2023,
 )
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005,
+)
+from gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
+    arbeitsl_geld_2_kost_unterk_m_hh_ab_2023,
+)
+from gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
+    arbeitsl_geld_2_kost_unterk_m_hh_bis_2022,
+)
+from gettsim.transfers.benefit_checks.vermoegens_checks import (
+    arbeitsl_geld_2_vermög_freib_hh_ab_2023,
+)
+from gettsim.transfers.benefit_checks.vermoegens_checks import (
+    arbeitsl_geld_2_vermög_freib_hh_bis_2022,
 )
 from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_2021
 from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_bis_2020
@@ -402,6 +417,24 @@ def load_functions_for_date(date):
     else:
         functions["kinderzuschl_eink_regel_m_hh"] = kinderzuschl_eink_regel_m_hh_ab_2011
 
+    if year <= 2022:
+        functions[
+            "arbeitsl_geld_2_vermög_freib_hh"
+        ] = arbeitsl_geld_2_vermög_freib_hh_bis_2022
+    else:
+        functions[
+            "arbeitsl_geld_2_vermög_freib_hh"
+        ] = arbeitsl_geld_2_vermög_freib_hh_ab_2023
+
+    if year <= 2022:
+        functions[
+            "arbeitsl_geld_2_kost_unterk_m_hh"
+        ] = arbeitsl_geld_2_kost_unterk_m_hh_bis_2022
+    else:
+        functions[
+            "arbeitsl_geld_2_kost_unterk_m_hh"
+        ] = arbeitsl_geld_2_kost_unterk_m_hh_ab_2023
+
     if date < datetime.date(year=2019, month=7, day=1):
         functions[
             "_kinderzuschl_vor_vermög_check_m_hh"
@@ -532,10 +565,18 @@ def load_functions_for_date(date):
         functions[
             "arbeitsl_geld_2_eink_anr_frei_m"
         ] = arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005
+    elif (
+        datetime.date(year=2005, month=10, day=1)
+        <= date
+        < datetime.date(year=2023, month=1, day=1)
+    ):
+        functions[
+            "arbeitsl_geld_2_eink_anr_frei_m"
+        ] = arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005_bis_2023
     else:
         functions[
             "arbeitsl_geld_2_eink_anr_frei_m"
-        ] = arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005
+        ] = arbeitsl_geld_2_eink_anr_frei_m_ab_2023
 
     # Introduction of Grundrente
     if year < 2021:

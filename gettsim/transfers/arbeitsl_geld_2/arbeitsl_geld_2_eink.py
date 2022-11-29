@@ -12,6 +12,8 @@ def arbeitsl_geld_2_eink_m(
 
     """Sum up the income for calculation of basic subsistence.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     arbeitsl_geld_2_brutto_eink_m
@@ -55,6 +57,8 @@ def arbeitsl_geld_2_brutto_eink_m(
 ) -> float:
 
     """Sum up the income before tax for calculation of basic subsistence.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -100,8 +104,9 @@ def arbeitsl_geld_2_2005_netto_quote(
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of net to gross wage.
-
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -136,6 +141,8 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
 ) -> float:
     """Calculate share of income, which remains to the individual until 09/2005.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     bruttolohn_m
@@ -161,12 +168,15 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
     return out
 
 
-def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
+def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005_bis_2023(
     bruttolohn_m: float,
     anz_kinder_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-    """Calcualte share of income, which remains to the individual sinc 10/2005.
+    """Calcualte share of income, which remains to the individual from 10/2005
+    until 2023.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -199,5 +209,51 @@ def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
             intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
                 "intercepts_at_lower_thresholds"
             ],
+        )
+    return out
+
+
+def arbeitsl_geld_2_eink_anr_frei_m_ab_2023(
+    bruttolohn_m: float,
+    anz_kinder_hh: int,
+    arbeitsl_geld_2_params: dict,
+) -> float:
+    """Calcualte share of income, which remains to the individual since 2023.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    anz_kinder_hh
+        See :func:`anz_kinder_hh`.
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+
+    Returns
+    -------
+
+    """
+
+    if anz_kinder_hh > 0:
+        out = piecewise_polynomial(
+            x=bruttolohn_m,
+            thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder_bürgergeld"][
+                "thresholds"
+            ],
+            rates=arbeitsl_geld_2_params["eink_anr_frei_kinder_bürgergeld"]["rates"],
+            intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
+                "eink_anr_frei_kinder_bürgergeld"
+            ]["intercepts_at_lower_thresholds"],
+        )
+    else:
+        out = piecewise_polynomial(
+            x=bruttolohn_m,
+            thresholds=arbeitsl_geld_2_params["eink_anr_frei_bürgergeld"]["thresholds"],
+            rates=arbeitsl_geld_2_params["eink_anr_frei_bürgergeld"]["rates"],
+            intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
+                "eink_anr_frei_bürgergeld"
+            ]["intercepts_at_lower_thresholds"],
         )
     return out

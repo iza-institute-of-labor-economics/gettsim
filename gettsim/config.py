@@ -127,6 +127,7 @@ TYPES_INPUT_VARIABLES = {
     "m_kind_berücks_zeit": float,
     "m_pfleg_berücks_zeit": float,
     "y_pflichtbeitr_ab_40": float,
+    "bürgerg_bezug_vorj": float,
 }
 
 # =====================================================================================
