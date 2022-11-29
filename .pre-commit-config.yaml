@@ -7,7 +7,7 @@ repos:
       - id: reorder-python-imports
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: check-yaml
         exclude: 'meta\.yaml'
@@ -53,7 +53,7 @@ repos:
   #       exclude: "docs/gettsim_objects/variables.rst|docs/geps/gep-00.rst"
 
   - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
+    rev: 6.0.0
     hooks:
       - id: flake8
         additional_dependencies: [
