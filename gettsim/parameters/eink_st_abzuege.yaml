@@ -149,6 +149,9 @@ werbungskostenpauschale:
     scalar: 1000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131.
     note: Für Lohnsteuerabzug gültig ab 2011-11-05.
+  2022-01-01:
+    scalar: 1200
+    reference: Art. 2 G. v. 23.05.2022 BGBl. I S. 749
 
 sonderausgabenpauschbetrag:
   name:
