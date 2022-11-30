@@ -79,6 +79,18 @@ kinderfreibetrag:
     sächl_existenzmin: 2730
     beitr_erz_ausb: 1464
     reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
+  2022-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 2810
+    reference: Drucksache 20/3469. Änderung rückwirkend für das Jahr 2022. Noch nicht im BGBl. veröffentlicht.
+  2023-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 2880
+    reference: Drucksache 20/3469. Noch nicht im BGBl. veröffentlicht.
+  2024-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 3192
+    reference: Art. 3 Nr. 1 Inflationsausgleichsgesetz. Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
 
 vorsorge2004_vorwegabzug:
   name:
