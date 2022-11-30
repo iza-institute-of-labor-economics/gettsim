@@ -58,42 +58,6 @@ def kinderzuschl_m_hh(
     return out
 
 
-def _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019(
-    arbeitsl_geld_2_brutto_eink_m_hh: float,
-    kinderzuschl_eink_min_m_hh: float,
-    kinderzuschl_kindereink_abzug_m_hh: float,
-    kinderzuschl_eink_anrechn_m_hh: float,
-) -> float:
-    """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
-    Arbeitslosengeld 2 applies will be checked later.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    arbeitsl_geld_2_brutto_eink_m_hh
-        See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
-    kinderzuschl_eink_min_m_hh
-        See :func:`kinderzuschl_eink_min_m_hh`.
-    kinderzuschl_kindereink_abzug_m_hh
-        See :func:`kinderzuschl_kindereink_abzug_m_hh`.
-    kinderzuschl_eink_anrechn_m_hh
-        See :func:`kinderzuschl_eink_anrechn_m_hh`.
-
-    Returns
-    -------
-
-    """
-    if arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh:
-        out = max(
-            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0.0
-        )
-    else:
-        out = 0.0
-
-    return out
-
-
 def _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019(
     arbeitsl_geld_2_brutto_eink_m_hh: float,
     kinderzuschl_eink_min_m_hh: float,
@@ -130,7 +94,43 @@ def _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019(
         arbeitsl_geld_2_eink_m_hh <= kinderzuschl_eink_max_m_hh
     ):
         out = max(
-            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0
+            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0.0
+        )
+    else:
+        out = 0.0
+
+    return out
+
+
+def _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019(
+    arbeitsl_geld_2_brutto_eink_m_hh: float,
+    kinderzuschl_eink_min_m_hh: float,
+    kinderzuschl_kindereink_abzug_m_hh: float,
+    kinderzuschl_eink_anrechn_m_hh: float,
+) -> float:
+    """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
+    Arbeitslosengeld 2 applies will be checked later.
+
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    arbeitsl_geld_2_brutto_eink_m_hh
+        See :func:`arbeitsl_geld_2_brutto_eink_m_hh`.
+    kinderzuschl_eink_min_m_hh
+        See :func:`kinderzuschl_eink_min_m_hh`.
+    kinderzuschl_kindereink_abzug_m_hh
+        See :func:`kinderzuschl_kindereink_abzug_m_hh`.
+    kinderzuschl_eink_anrechn_m_hh
+        See :func:`kinderzuschl_eink_anrechn_m_hh`.
+
+    Returns
+    -------
+
+    """
+    if arbeitsl_geld_2_brutto_eink_m_hh >= kinderzuschl_eink_min_m_hh:
+        out = max(
+            kinderzuschl_kindereink_abzug_m_hh - kinderzuschl_eink_anrechn_m_hh, 0.0
         )
     else:
         out = 0.0

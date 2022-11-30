@@ -101,7 +101,7 @@ TYPES_INPUT_VARIABLES = {
     "heizkosten_m_hh": float,
     "jahr_renteneintr": int,
     "behinderungsgrad": int,
-    "wohnfläche_hh": int,
+    "wohnfläche_hh": float,
     "m_elterngeld": int,
     "m_elterngeld_vat_hh": int,
     "m_elterngeld_mut_hh": int,
