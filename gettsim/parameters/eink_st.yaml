@@ -201,6 +201,28 @@ eink_st_tarif:
       upper_threshold: 58596
     3:
       upper_threshold: 277826
+  2023-01-01:
+    deviation_from: previous
+    reference: Art. 2 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    0:
+      upper_threshold: 10909
+    1:
+      upper_threshold: 16000
+    2:
+      upper_threshold: 62810
+    3:
+      upper_threshold: 277826
+  2024-01-01:
+    deviation_from: previous
+    reference: Art. 3 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    0:
+      upper_threshold: 11605
+    1:
+      upper_threshold: 17006
+    2:
+      upper_threshold: 66761
+    3:
+      upper_threshold: 277826
 
 rente_ertragsanteil:
   name:
