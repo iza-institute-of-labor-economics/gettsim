@@ -219,6 +219,9 @@ sparerpauschbetrag:
     scalar: 801
     reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
     note: Integration von Werbungskostenpauschbetrag für Zinseinkünfte in Sparerpauschbetrag.
+  2023-01-01:
+    scalar: 1000
+    reference: Stand Gesetzentwurf der Bundesregierung Entwurf eines Jahressteuergesetzes 2022 (JStG 2022). Drucksache 20/3879 10.10.2022. Artikel 4. Inkrafttreten siehe Artikel 30.
 
 sparer_werbungskosten_pauschbetrag:
   name:
