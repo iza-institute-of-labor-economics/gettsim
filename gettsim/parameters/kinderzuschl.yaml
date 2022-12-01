@@ -27,7 +27,7 @@ maximum:
   2024-01-01:
     scalar: null
     reference: § 6a (2) BKGG
-    note: Ab 2021 wird der Betrag aus anderen Parametern berechnet.
+    note: Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.
 
 min_eink_paare:
   name:
