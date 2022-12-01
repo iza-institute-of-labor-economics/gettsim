@@ -258,6 +258,8 @@ def _parse_kinderzuschl_max(date, params):
     Since 2021, this measure has been derived from subsistence
     levels. This function implements that calculation.
 
+    For 2023 the amount is once again explicitly specified as a parameter.
+
     Parameters
     ----------
     date: datetime.date
@@ -272,7 +274,7 @@ def _parse_kinderzuschl_max(date, params):
 
     """
 
-    if date.year >= 2021:
+    if date.year >= 2024 and 2023 > date.year >= 2021:
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
             params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
