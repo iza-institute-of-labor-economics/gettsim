@@ -255,8 +255,8 @@ def _parse_kinderzuschl_max(date, params):
     """Prior to 2021, the maximum amount of the
     Kinderzuschlag was specified directly in the laws and directives.
 
-    Since 2021, this measure has been derived from subsistence
-    levels. This function implements that calculation.
+    In 2021, 2022, and from 2024 on, this measure has been derived from
+    subsistence levels. This function implements that calculation.
 
     For 2023 the amount is once again explicitly specified as a parameter.
 
