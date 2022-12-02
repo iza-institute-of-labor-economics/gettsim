@@ -25,7 +25,7 @@ def arbeitsl_geld_2_kost_unterk_m_hh_bis_2022(
 def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,
-    bürgerg_bezug_vorj: float,
+    bürgerg_bezug_vorj: bool,
     _arbeitsl_geld_2_berechtigte_wohnfläche_hh: int,
     _arbeitsl_geld_2_warmmiete_pro_qm_hh: float,
 ) -> float:
@@ -52,15 +52,17 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
     -------
     float with total monthly cost of rent.
     """
-    if bürgerg_bezug_vorj == 0:
-        out = bruttokaltmiete_m_hh + heizkosten_m_hh
-        # nur angemessene Heizkosten werden berücksichtigt
-        # diese werden unter Berücksichtigung der tatsächlichen Wohnungsgröße berechnet
-    else:
+    if bürgerg_bezug_vorj:
         out = (
             _arbeitsl_geld_2_berechtigte_wohnfläche_hh
             * _arbeitsl_geld_2_warmmiete_pro_qm_hh
         )
+    else:
+        out = bruttokaltmiete_m_hh + heizkosten_m_hh
+        # To Do: only reasonable heating costs are taken into account
+        # these are calculated taking into account the actual size of the apartment
+        # not just the appropriate size
+
     return out
 
 
@@ -120,19 +122,12 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
     """
     params = arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]
     if bewohnt_eigentum_hh:
-        if "eigentum" in params:
-            maximum = (
-                params["eigentum"] + (haushaltsgröße_hh - 4) * params["ab_5_personen"]
-            )
-
+        if haushaltsgröße_hh < 5:
+            maximum = params[haushaltsgröße_hh]
         else:
-            weitere_mitglieder = max(haushaltsgröße_hh - 2, 0)
             maximum = (
-                arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]["basisgröße"]
-                + weitere_mitglieder
-                * arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"][
-                    "erweiterung"
-                ]
+                params[haushaltsgröße_hh]
+                + (haushaltsgröße_hh - 4) * params["je_weitere_person"]
             )
     else:
         weitere_mitglieder = max(haushaltsgröße_hh - 1, 0)

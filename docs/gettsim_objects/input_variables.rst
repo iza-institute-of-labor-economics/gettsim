@@ -146,5 +146,5 @@ household.
 || _`y_pflichtbeitr_ab_40`  || Total years of mandat. contributions after || float       |
 ||                          || age 40                                     ||             |
 +---------------------------+---------------------------------------------+--------------+
-|_`bürgerg_bezug_vorj`      | Received Bürgergeld, previous year          | float        |
+|_`bürgerg_bezug_vorj`      | Received Bürgergeld in previous year        | bool         |
 +---------------------------+---------------------------------------------+--------------+

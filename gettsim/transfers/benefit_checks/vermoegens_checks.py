@@ -190,9 +190,11 @@ def arbeitsl_geld_2_vermög_freib_hh_bis_2022(
 def arbeitsl_geld_2_vermög_freib_hh_ab_2023(
     arbeitsl_geld_2_params: dict,
     haushaltsgröße_hh: int,
-    bürgerg_bezug_vorj: float,
+    bürgerg_bezug_vorj: bool,
 ) -> float:
     """Calculate actual wealth exemptions since 2023.
+
+    During the first year (Karenzzeit), the wealth exemption is substantially larger.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
@@ -211,10 +213,12 @@ def arbeitsl_geld_2_vermög_freib_hh_ab_2023(
 
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
-    if bürgerg_bezug_vorj == 0:
-        out = (
-            params["vor_karenzzeit"] + (haushaltsgröße_hh - 1) * params["normaler_satz"]
-        )
-    else:
+    if bürgerg_bezug_vorj:
         out = haushaltsgröße_hh * params["normaler_satz"]
+    else:
+        out = (
+            params["während_karenzzeit"]
+            + (haushaltsgröße_hh - 1) * params["normaler_satz"]
+        )
+
     return out

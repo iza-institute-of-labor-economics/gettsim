@@ -126,10 +126,7 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_regelsatz_m_hh_bis_2010,
 )
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
-    arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005_bis_2023,
-)
-from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
-    arbeitsl_geld_2_eink_anr_frei_m_ab_2023,
+    arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005,
 )
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005,
@@ -565,18 +562,10 @@ def load_functions_for_date(date):
         functions[
             "arbeitsl_geld_2_eink_anr_frei_m"
         ] = arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005
-    elif (
-        datetime.date(year=2005, month=10, day=1)
-        <= date
-        < datetime.date(year=2023, month=1, day=1)
-    ):
-        functions[
-            "arbeitsl_geld_2_eink_anr_frei_m"
-        ] = arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005_bis_2023
     else:
         functions[
             "arbeitsl_geld_2_eink_anr_frei_m"
-        ] = arbeitsl_geld_2_eink_anr_frei_m_ab_2023
+        ] = arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005
 
     # Introduction of Grundrente
     if year < 2021:
