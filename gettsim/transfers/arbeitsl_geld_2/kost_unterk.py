@@ -30,8 +30,9 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
     _arbeitsl_geld_2_warmmiete_pro_qm_hh: float,
 ) -> float:
     """Calculate costs of living eligible to claim since 2023.
-    During the first two years, the waiting period, the appropriateness
-    of the living costs is not tested but considered fully in Bürgergeld.
+    During the first year, the waiting period (Karenzzeit), only the
+    appropriateness of the heating costs is tested, while the living
+    costs are fully considered in Bürgergeld.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
