@@ -400,7 +400,7 @@ def wohngeld_miete_m_hh_ab_2009(
         )
 
     # Calc heating allowance. Before 2021, heating allowance was not
-    # introduced yet.For this time frame, the respective parameter is
+    # introduced yet. For this time frame, the respective parameter is
     # not part of wohngeld_params and heating allowance is set to 0.
     if "heizkostenentlastung_m" in wohngeld_params:
         max_def_hh_größe_heating = max(
@@ -420,7 +420,7 @@ def wohngeld_miete_m_hh_ab_2009(
         heating_allowance_m = 0
 
     # Calc heating cost component. Before 2023, heating cost component was not
-    # introduced yet.For this time frame, the respective parameter is not part
+    # introduced yet. For this time frame, the respective parameter is not part
     # of wohngeld_params and heating cost component is set to 0.
     if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
         max_def_hh_größe_heating = max(

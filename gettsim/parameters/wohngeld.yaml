@@ -493,12 +493,13 @@ haushaltsgröße_hhn:
 
 bonus_12_mehr:
   name:
-    de: Zusätzlicher Betrag pro Person für Haushalte mit mehr als 12 Personen
-    en:
+    de: Zusätzlicher Betrag für große Haushalte
+    en: Additional amount for big households
   description:
-    de: §19 Abs. 3 WoGG
-    en:
+    de: Haushalte mit mehr als 12 Personen erhalten einen zusätzlichen Betrag pro Person.
+    en: Households with more than 12 persons receive an additional amount per person.
   unit: Euro
+  reference: §19 Abs. 3 WoGG
   reference_period: Month
   2001-01-01:
     scalar: 40
@@ -512,6 +513,10 @@ bonus_12_mehr:
   2020-01-01:
     scalar: 51
     reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+  2023-01-01:
+    scalar: 57
+    reference: Referentenentwurf Wohngeld-Plus-Gesetz zu § 19 Absatz 3
+
 
 abzug_stufen:
   name:
