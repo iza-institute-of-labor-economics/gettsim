@@ -1,6 +1,4 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
-import numpy as np
-
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 
@@ -250,7 +248,7 @@ def elterngeld_geschw_bonus_anspruch(
 
 def _elterngeld_anz_mehrlinge_anspruch(
     elternzeit_anspruch: bool,
-    anz_mehrlinge_jüngstes_kind_hh: np.datetime64,
+    anz_mehrlinge_jüngstes_kind_hh: int,
 ) -> int:
     """Check for multiple bonus on parental leave benefit.
 
@@ -274,7 +272,7 @@ def elterngeld_nettolohn_m(
     eink_st_tu: float,
     soli_st_tu: float,
     anz_erwachsene_tu: int,
-    sozialv_beitr_gesamt_m: float,
+    sozialv_beitr_m: float,
 ) -> float:
     """Calculate the net wage.
 
@@ -291,8 +289,8 @@ def elterngeld_nettolohn_m(
         See :func:`soli_st_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    sozialv_beitr_gesamt_m
-        See :func:`sozialv_beitr_gesamt_m`.
+    sozialv_beitr_m
+        See :func:`sozialv_beitr_m`.
 
     Returns
     -------
@@ -302,7 +300,7 @@ def elterngeld_nettolohn_m(
         bruttolohn_m
         - (eink_st_tu / anz_erwachsene_tu / 12)
         - (soli_st_tu / anz_erwachsene_tu / 12)
-        - sozialv_beitr_gesamt_m
+        - sozialv_beitr_m
     )
 
     return max(out, 0.0)

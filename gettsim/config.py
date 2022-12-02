@@ -8,19 +8,16 @@ ROOT_DIR = Path(__file__).parent
 GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
 GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 
+# List of paths to internal functions.
+# If a path is a directory, all Python files are recursively collected from that folder.
 PATHS_TO_INTERNAL_FUNCTIONS = [
     ROOT_DIR / "social_insurance_contributions",
     ROOT_DIR / "transfers",
     ROOT_DIR / "taxes",
     ROOT_DIR / "demographic_vars.py",
 ]
-"""list of Paths: List of paths to internal functions.
 
-If a path is a directory, all Python files are recursively collected from that folder.
-
-"""
-
-INTERNAL_PARAM_GROUPS = [
+INTERNAL_PARAMS_GROUPS = [
     "eink_st",
     "eink_st_abzuege",
     "soli_st",
@@ -38,14 +35,14 @@ INTERNAL_PARAM_GROUPS = [
 ]
 
 SUPPORTED_GROUPINGS = {
+    "hh": {
+        "name": "household",
+        "description": "all individuals living in the same household.",
+    },
     "tu": {
         "name": "tax unit",
         "description": "one or two persons that file their taxes together.",
         "nested_by": "hh",
-    },
-    "hh": {
-        "name": "household",
-        "description": "all individuals living in the same household.",
     },
 }
 
@@ -53,6 +50,7 @@ DEFAULT_TARGETS = [
     "eink_st_tu",
     "soli_st_tu",
     "abgelt_st_tu",
+    "sozialv_beitr_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
