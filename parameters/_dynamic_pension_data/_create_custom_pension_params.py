@@ -1,15 +1,19 @@
+"""The following functions could be used to calculate the pension claim in future years
+or alternative policy scenarios.
+
+The functions need some improvement and are not yet done.
+
 """
-The following functions could be used to calculate the pension claim in future
-years or alternative policy scenarios. The functions need some improvement and are
-not yet done.
-"""
+from __future__ import annotations
 
 
 def brechne_rentenwert_aus_daten(ges_rente_params, year):
     """From 2018 onwards we calculate the rentenwert with the formula given by law.
+
     The formula takes three factors, which will be calculated seperatly. For a
     detailed explanation see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
+
     """
     # Rentenwert: The monetary value of one 'entgeltpunkt'.
     # This depends, among others, of past developments.
@@ -28,9 +32,12 @@ def brechne_rentenwert_aus_daten(ges_rente_params, year):
 
 
 def lohnkomponente(ges_rente_params, year):
-    """Returns the lohnkomponente for each year. It deppends on the average wages of
+    """Returns the lohnkomponente for each year.
+
+    It deppends on the average wages of
     the previous years. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
+
     """
     return ges_rente_params[f"durchschnittslohn_{year - 1}"] / (
         ges_rente_params[f"durchschnittslohn_{year - 2}"]
@@ -50,9 +57,12 @@ def lohnkomponente(ges_rente_params, year):
 
 
 def riesterfaktor(ges_rente_params, soz_vers_beitr_params, year):
-    """This factor returns the riesterfactor, depending on the Altersvorsogeanteil
-    and the contributions to the pension insurance. For details see
+    """This factor returns the riesterfactor, depending on the Altersvorsogeanteil and
+    the contributions to the pension insurance.
+
+    For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
+
     """
     return (
         100
@@ -67,9 +77,12 @@ def riesterfaktor(ges_rente_params, soz_vers_beitr_params, year):
 
 def nachhaltigkeitsfaktor(ges_rente_params, year):
     """This factor mirrors the effect of the relationship between pension insurance
-    receivers and contributes on the pensions. It depends on the rentnerquotienten and
+    receivers and contributes on the pensions.
+
+    It depends on the rentnerquotienten and
     some correcting scalar alpha. For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
+
     """
     rq_last_year = rentnerquotienten(ges_rente_params, year - 1)
     rq_two_years_before = rentnerquotienten(ges_rente_params, year - 2)
@@ -81,8 +94,11 @@ def nachhaltigkeitsfaktor(ges_rente_params, year):
 
 def rentnerquotienten(ges_rente_params, soz_vers_beitr_params, year):
     """The rentnerquotient is the relationship between pension insurance receivers and
-    contributes. For details see
+    contributes.
+
+    For details see
     https://de.wikipedia.org/wiki/Rentenanpassungsformel
+
     """
     return (
         ges_rente_params[f"gesamtes_rentenvolumen_{year}"]

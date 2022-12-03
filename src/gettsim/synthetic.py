@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import itertools
 
@@ -13,10 +15,8 @@ current_year = datetime.datetime.now().year
 def append_other_hh_members(
     df, hh_typ, n_children, age_adults, gen_female, age_children, double_earner
 ):
-    """
-    duplicates information from the one person already created
-    as often as needed and adjusts columns that differ
-    """
+    """duplicates information from the one person already created as often as needed and
+    adjusts columns that differ."""
     # create empty dataframe with correct columns and datatypes
     new_df = df.iloc[0:0].copy()
     if hh_typ == "single" and n_children == 0:
@@ -67,9 +67,8 @@ def create_synthetic_data(
     heterogeneous_vars=(),
     **kwargs,
 ):
-    """
-    Creates a dataset with hypothetical household types,
-    which can be used as input for gettsim
+    """Creates a dataset with hypothetical household types, which can be used as input
+    for gettsim.
 
     hh_typen (list of str):
         Allowed Household Types: 'single', 'couple'
@@ -103,6 +102,7 @@ def create_synthetic_data(
     bruttolohn_m, kapitaleink_brutto_m, eink_selbst_m, vermögen_bedürft_hh (int):
         values for income and wealth, respectively.
         only valid if heterogenous_vars is empty
+
     """
     # Set Defaults
     if hh_typen is None:
@@ -217,8 +217,11 @@ def create_one_set_of_households(
     policy_year,
     **kwargs,
 ):
-    """Create one set of households. If hetereogeneity in a dimension is considered
-    (e.g. income) this creates all households with the same value.
+    """Create one set of households.
+
+    If hetereogeneity in a dimension is considered (e.g. income) this creates all
+    households with the same value.
+
     """
     # Initiate empty dataframe.
     # Same order as 'Basic Input Variables' in the documentation

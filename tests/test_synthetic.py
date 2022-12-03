@@ -1,13 +1,13 @@
+from __future__ import annotations
+
 import numpy as np
 from gettsim import compute_taxes_and_transfers
 from gettsim import set_up_policy_environment
-from gettsim.synthetic_data.synthetic import create_synthetic_data
+from gettsim.synthetic import create_synthetic_data
 
 
 def test_synthetic():
-    """
-    Test creation of synthetic data
-    """
+    """Test creation of synthetic data."""
     # run with defaults
     df = create_synthetic_data()
     # rent must be positive

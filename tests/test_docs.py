@@ -6,6 +6,7 @@ import inspect
 import pytest
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
+from gettsim.config import SRC_DIR
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _convert_paths_to_import_strings
 from gettsim.functions_loader import _load_functions
@@ -95,7 +96,7 @@ def test_all_input_vars_documented(
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     documented_functions = _load_functions(
-        ROOT_DIR / "functions.py", include_imported_functions=True
+        SRC_DIR / "functions.py", include_imported_functions=True
     )
 
     internal_function_files = [

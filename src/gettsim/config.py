@@ -5,7 +5,8 @@ from pathlib import Path
 
 # Obtain the root directory of the package. Do not import gettsim which creates a
 # circular import.
-ROOT_DIR = Path(__file__).parent.resolve()
+SRC_DIR = Path(__file__).parent.resolve()
+ROOT_DIR = SRC_DIR.parent.parent.resolve()
 
 GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
 GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
@@ -13,10 +14,10 @@ GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 # List of paths to internal functions.
 # If a path is a directory, all Python files are recursively collected from that folder.
 PATHS_TO_INTERNAL_FUNCTIONS = [
-    ROOT_DIR / "social_insurance_contributions",
-    ROOT_DIR / "transfers",
-    ROOT_DIR / "taxes",
-    ROOT_DIR / "demographic_vars.py",
+    SRC_DIR / "social_insurance_contributions",
+    SRC_DIR / "transfers",
+    SRC_DIR / "taxes",
+    SRC_DIR / "demographic_vars.py",
 ]
 
 INTERNAL_PARAMS_GROUPS = [

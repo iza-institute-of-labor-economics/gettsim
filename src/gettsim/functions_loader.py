@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import functools
 import importlib
 import inspect
@@ -13,7 +15,7 @@ from gettsim.aggregation import grouped_mean
 from gettsim.aggregation import grouped_min
 from gettsim.aggregation import grouped_sum
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from gettsim.config import ROOT_DIR
+from gettsim.config import SRC_DIR
 from gettsim.config import SUPPORTED_GROUPINGS
 from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.config import USE_JAX
@@ -30,7 +32,7 @@ def load_and_check_functions(
     data_cols,
     aggregation_specs,
 ):
-    """Create the dict with all functions that may become part of the DAG by
+    """Create the dict with all functions that may become part of the DAG by.
 
     - merging user and internal functions
     - vectorize all functions
@@ -64,6 +66,7 @@ def load_and_check_functions(
         All functions except the ones that are overridden by an input column.
     functions_overridden : dict
         Functions that are overridden by an input column.
+
     """
 
     # Load user and internal functions.
@@ -137,14 +140,14 @@ def _convert_paths_to_import_strings(paths):
 
     Example
     -------
-    >>> path = ROOT_DIR / "demographic_vars.py"
+    >>> path = SRC_DIR / "demographic_vars.py"
     >>> _convert_paths_to_import_strings(path)
     ['gettsim.demographic_vars']
 
     """
     paths = paths if isinstance(paths, list) else [paths]
     ps = _search_directories_recursively_for_python_files(paths)
-    ps = [Path("gettsim") / p.relative_to(ROOT_DIR) for p in ps]
+    ps = [Path("gettsim") / p.relative_to(SRC_DIR) for p in ps]
     import_strings = [p.with_suffix("").as_posix().replace("/", ".") for p in ps]
 
     return import_strings
@@ -308,7 +311,7 @@ def _load_aggregation_combined_dict_from_strings(sources):
 def _create_aggregation_functions(
     user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
 ):
-    """Create aggregation functions"""
+    """Create aggregation functions."""
     aggregation_dict = load_aggregation_dict()
 
     # Make specs for automated sum aggregation

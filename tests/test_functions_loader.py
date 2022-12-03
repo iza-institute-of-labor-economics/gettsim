@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import textwrap
 
-from gettsim.config import ROOT_DIR
+from gettsim.config import SRC_DIR
 from gettsim.functions_loader import _load_functions
 
 
@@ -24,7 +26,7 @@ def test_load_modules():
 
 def test_load_path():
     assert _load_functions(
-        ROOT_DIR / "social_insurance_contributions" / "ges_krankenv.py"
+        SRC_DIR / "social_insurance_contributions" / "ges_krankenv.py"
     )
 
 
