@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import inspect
 
@@ -10,7 +12,11 @@ from gettsim.functions_loader import _load_functions
 from gettsim.functions_loader import load_aggregation_dict
 from gettsim.policy_environment import load_functions_for_date
 from gettsim.shared import remove_group_suffix
-from gettsim.tests.utils_tests import nice_output_list_of_strings
+
+
+def _nice_output_list_of_strings(list_of_strings):
+    my_str = "\n".join(sorted(list_of_strings))
+    return f"\n\n{my_str}\n\n"
 
 
 @pytest.fixture(scope="module")
@@ -57,8 +63,7 @@ def test_all_input_vars_documented(
     aggregation_dict,
 ):
     """Test if arguments of all non-internal functions are either the name of another
-    function, a documented input variable, or a parameter dictionary
-    """
+    function, a documented input variable, or a parameter dictionary."""
     functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
 
     # Collect arguments of all non-internal functions (do not start with underscore)
@@ -85,7 +90,7 @@ def test_all_input_vars_documented(
         and (not c.endswith("_params"))
     ]
 
-    assert not check, nice_output_list_of_strings(check)
+    assert not check, _nice_output_list_of_strings(check)
 
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():

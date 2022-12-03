@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 
 import pytest
@@ -9,7 +11,11 @@ from gettsim.config import TYPES_INPUT_VARIABLES
 from gettsim.functions_loader import _load_functions
 from gettsim.policy_environment import load_functions_for_date
 from gettsim.shared import remove_group_suffix
-from gettsim.tests.utils_tests import nice_output_list_of_strings
+
+
+def _nice_output_list_of_strings(list_of_strings):
+    my_str = "\n".join(sorted(list_of_strings))
+    return f"\n\n{my_str}\n\n"
 
 
 @pytest.fixture(scope="module")
@@ -48,7 +54,9 @@ def check_length(column_names, limit):
     over_limit = [
         f"{name:40} ({len(name)})" for name in column_names if len(name) > limit
     ]
-    assert not over_limit, nice_output_list_of_strings(over_limit) + f"limit is {limit}"
+    assert not over_limit, (
+        _nice_output_list_of_strings(over_limit) + f"limit is {limit}"
+    )
 
 
 def test_all_default_targets_among_function_names(time_indep_function_names):
@@ -58,7 +66,7 @@ def test_all_default_targets_among_function_names(time_indep_function_names):
         if (c not in time_indep_function_names)
         and (remove_group_suffix(c) not in time_indep_function_names)
     ]
-    assert not check, nice_output_list_of_strings(check)
+    assert not check, _nice_output_list_of_strings(check)
 
 
 def test_length_column_names_default_targets():
