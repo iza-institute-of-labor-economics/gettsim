@@ -53,7 +53,7 @@ repos:
   #       exclude: "docs/gettsim_objects/variables.rst|docs/geps/gep-00.rst"
 
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 5.0.4
     hooks:
       - id: flake8
         additional_dependencies: [
