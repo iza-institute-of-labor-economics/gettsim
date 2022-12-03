@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 
 # Obtain the root directory of the package. Do not import gettsim which creates a
 # circular import.
-ROOT_DIR = Path(__file__).parent
+ROOT_DIR = Path(__file__).parent.resolve()
 
 GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
 GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
