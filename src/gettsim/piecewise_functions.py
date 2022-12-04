@@ -82,8 +82,6 @@ def piecewise_polynomial(
 def get_piecewise_parameters(parameter_dict, parameter, func_type):
     """Create the objects for piecewise polynomial.
 
-
-
     Parameters
     ----------
     parameter_dict
@@ -128,7 +126,6 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
 
 def check_thresholds(parameter_dict, parameter, keys):
     """Check and transfer raw threshold data.
-
 
     Transfer and check raw threshold data, which needs to be specified in a
     piecewise_polynomial layout in the yaml file.

@@ -194,9 +194,8 @@ def _ges_krankenv_bruttolohn_m(
     _ges_krankenv_beitr_bemess_grenze_m: float,
     regulär_beschäftigt: bool,
 ) -> float:
-    """Calculate the wage subject to public health insurance contributions.
-    This affects marginally employed persons and high wages for above
-    the assessment ceiling.
+    """Calculate the wage subject to public health insurance contributions. This affects
+    marginally employed persons and high wages for above the assessment ceiling.
 
     Parameters
     ----------
@@ -234,6 +233,7 @@ def _ges_krankenv_beitr_reg_beschäftigt(
     -------
     Pandas Series containing monthly health insurance contributions for regularly
     employed income.
+
     """
 
     return ges_krankenv_beitr_satz * _ges_krankenv_bruttolohn_m
@@ -247,10 +247,9 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     soz_vers_beitr_params: dict,
 ) -> float:
     """Choose the amount of self-employed income which is subject to health insurance
-    contributions.
-    Only affects those self-employed who voluntarily contribute to the public health
-    system. For those, contributions are assessed either on total self-employement
-    income or 3/4 of the 'Bezugsgröße'.
+    contributions. Only affects those self-employed who voluntarily contribute to the
+    public health system. For those, contributions are assessed either on total self-
+    employement income or 3/4 of the 'Bezugsgröße'.
 
     Parameters
     ----------
@@ -293,8 +292,8 @@ def ges_krankenv_beitr_selbst_m(
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
-    """Calculates health insurance contributions for self employed income.
-    Self-employed pay the full contribution (employer + employee).
+    """Calculates health insurance contributions for self employed income. Self-employed
+    pay the full contribution (employer + employee).
 
     Parameters
     ----------
@@ -309,6 +308,7 @@ def ges_krankenv_beitr_selbst_m(
     -------
     Pandas Series containing monthly health insurance contributions for self employed
     income.
+
     """
     out = (
         ges_krankenv_beitr_satz + _ges_krankenv_beitr_satz_arbeitg
@@ -351,6 +351,7 @@ def ges_krankenv_beitr_rente_m(
     -------
     Pandas Series containing monthly health insurance contributions on pension income
     income.
+
     """
 
     return ges_krankenv_beitr_satz * _ges_krankenv_bemessungsgrundlage_rente_m
@@ -363,7 +364,6 @@ def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m(
 ) -> float:
     """Calculating the sum of employee and employer health insurance contribution for
     midijobs.
-
 
     Parameters
     ----------
@@ -387,8 +387,8 @@ def _ges_krankenv_midijob_sum_arbeitn_arbeitg_m(
 def _ges_krankenv_midijob_arbeitg_m_bis_09_2022(
     bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitg: float
 ) -> float:
-    """Calculating the employer health insurance contribution for midijobs
-    until September 2022.
+    """Calculating the employer health insurance contribution for midijobs until
+    September 2022.
 
     Parameters
     ----------
@@ -415,8 +415,8 @@ def _ges_krankenv_midijob_arbeitg_m_ab_10_2022(
     _ges_krankenv_midijob_arbeitn_m: float,
     in_gleitzone: bool,
 ) -> float:
-    """Calculating the employer health insurance contribution for midijobs
-    since October 2022.
+    """Calculating the employer health insurance contribution for midijobs since October
+    2022.
 
     Parameters
     ----------
@@ -447,9 +447,8 @@ def _ges_krankenv_midijob_arbeitn_m_bis_09_2022(
     _ges_krankenv_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_krankenv_midijob_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee health insurance contribution for midijobs
-    until September 2022.
-
+    """Calculating the employee health insurance contribution for midijobs until
+    September 2022.
 
     Parameters
     ----------
@@ -468,9 +467,8 @@ def _ges_krankenv_midijob_arbeitn_m_ab_10_2022(
     _midijob_beitragspf_einnahme_arbeitn_m: float,
     ges_krankenv_beitr_satz: float,
 ) -> float:
-    """Calculating the employee health insurance contribution for midijobs
-    since October 2022.
-
+    """Calculating the employee health insurance contribution for midijobs since October
+    2022.
 
     Parameters
     ----------

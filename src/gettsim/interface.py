@@ -165,6 +165,7 @@ def set_up_dag(
     -------
     dag : networkx.DiGraph
         The DAG of the tax and transfer system.
+
     """
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
@@ -344,7 +345,7 @@ def _create_input_data(
 
 
 def _fail_if_duplicates_in_columns(data):
-    """Check that all column names are unique"""
+    """Check that all column names are unique."""
     if any(data.columns.duplicated()):
         duplicated = list(data.columns[data.columns.duplicated()])
         raise ValueError(
@@ -430,7 +431,7 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
 
 
 def _fail_if_pid_is_non_unique(data):
-    """Check that pid is unique"""
+    """Check that pid is unique."""
 
     if "p_id" not in data:
         message = "The input data must contain the column p_id"
@@ -465,7 +466,6 @@ def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
 
 
 def _reduce_to_necessary_data(root_nodes, data, check_minimal_specification):
-
     # Produce warning or fail if more than necessary data is given.
     unnecessary_data = set(data) - root_nodes
     formatted = format_list_linewise(unnecessary_data)
@@ -530,7 +530,7 @@ def _round_and_partial_parameters_to_functions(functions, params, rounding):
 
 
 def _add_rounding_to_functions(functions, params):
-    """Add appropriate rounding of outputs to functions
+    """Add appropriate rounding of outputs to functions.
 
     Parameters
     ----------
@@ -609,6 +609,7 @@ def _add_rounding_to_one_function(base, direction):
     -------
     results : pandas.Series
         Series with (potentially) rounded numbers
+
     """
 
     def inner(func):
@@ -683,7 +684,7 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
 
 
 def _prepare_results(results, data, debug):
-    """Prepare results after DAG was executed
+    """Prepare results after DAG was executed.
 
     Parameters
     ----------

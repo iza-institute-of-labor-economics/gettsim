@@ -381,7 +381,6 @@ def _highlight_source_code(source):
 
 
 def _create_pydot_layout(dag, orientation):
-
     # Convert node labels to integers because some names cannot be handled by pydot.
     dag_w_integer_nodes = nx.relabel.convert_node_labels_to_integers(dag)
 

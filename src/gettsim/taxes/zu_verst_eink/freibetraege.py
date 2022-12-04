@@ -267,6 +267,7 @@ def sonderausgaben_betreuung_tu(
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     eink_st_abz_betreuungskost_tu
         See :func:`eink_st_abz_betreuungskost_tu`.
+
     """
 
     out = (

@@ -2,7 +2,7 @@ def kinderbonus_m(
     kinderfreib_günstiger_tu: bool,
     kinderbonus_basis_m: float,
 ) -> float:
-    """Calculate Kinderbonus for an individual child after Günstigerprüfung
+    """Calculate Kinderbonus for an individual child after Günstigerprüfung.
 
     (one-time payment, non-allowable against transfer payments).
 

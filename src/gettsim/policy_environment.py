@@ -207,6 +207,7 @@ def _parse_date(date):
     -------
     date : datetime.date
         The date for which the policy system is set up.
+
     """
     if isinstance(date, str):
         date = pd.to_datetime(date).date()
@@ -251,8 +252,8 @@ def _parse_piecewise_parameters(tax_data):
 
 
 def _parse_kinderzuschl_max(date, params):
-    """Prior to 2021, the maximum amount of the
-    Kinderzuschlag was specified directly in the laws and directives.
+    """Prior to 2021, the maximum amount of the Kinderzuschlag was specified directly in
+    the laws and directives.
 
     Since 2021, this measure has been derived from subsistence
     levels. This function implements that calculation.
@@ -584,7 +585,7 @@ def _load_parameter_group_from_yaml(
     """
 
     def subtract_years_from_date(dt, years):
-        """Subtract one or more years from a date object"""
+        """Subtract one or more years from a date object."""
         try:
             dt = dt.replace(year=dt.year - years)
 
@@ -712,6 +713,7 @@ def _load_rounding_parameters(date, rounding_spec):
         dictionary:
           - Keys: Functions to be rounded.
           - Values: Rounding parameters for the specified date
+
     """
     out = {}
     rounding_parameters = ["direction", "base"]

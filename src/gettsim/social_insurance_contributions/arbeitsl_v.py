@@ -9,7 +9,6 @@ def sozialv_beitr_m(
 ) -> float:
     """Sum of all social insurance contributions of an individual.
 
-
     Parameters
     ----------
     ges_pflegev_beitr_m
@@ -41,7 +40,6 @@ def sozialv_beitr_arbeitg_m(
     arbeitsl_v_beitr_arbeitg_m: float,
 ) -> float:
     """Sum of all social insurance contributions of the respective employer.
-
 
     Parameters
     ----------
@@ -175,8 +173,8 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculating the sum of employee and employer unemployment insurance
-    contribution for midijobs.
+    """Calculating the sum of employee and employer unemployment insurance contribution
+    for midijobs.
 
     Parameters
     ----------

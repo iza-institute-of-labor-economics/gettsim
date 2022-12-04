@@ -4,7 +4,7 @@ from gettsim.shared import add_rounding_spec
 def minijob_grenze(
     wohnort_ost: bool, minijob_grenze_west: float, minijob_grenze_ost: float
 ) -> float:
-    """Select the income threshold depending on place of living
+    """Select the income threshold depending on place of living.
 
     Parameters
     ----------
@@ -38,6 +38,7 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
     Returns
     -------
     Whether person earns less than marginal employment threshold.
+
     """
     return bruttolohn_m <= minijob_grenze
 
@@ -66,6 +67,7 @@ def in_gleitzone(
     Returns
     -------
     Whether individual's income is in midi-job range.
+
     """
     out = (
         bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
@@ -80,10 +82,10 @@ def midijob_faktor_f_bis_09_2022(
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
     """Faktor F which is needed for the calculation of Bemessungsentgelt
-    (beitragspflichtige Einnahme) of midijobs before October 2022.
-    It is calculated as the ratio of the sum of lump-sum contributions for
-    marginal employment (30 %) divided by the total social security contribution
-    rate (Gesamtsozialversicherungsbeitragssatz).
+    (beitragspflichtige Einnahme) of midijobs before October 2022. It is calculated as
+    the ratio of the sum of lump-sum contributions for marginal employment (30 %)
+    divided by the total social security contribution rate
+    (Gesamtsozialversicherungsbeitragssatz).
 
     Legal reference: § 163 Abs. 10 SGB VI
 
@@ -100,6 +102,7 @@ def midijob_faktor_f_bis_09_2022(
     Returns
     -------
     Income subject to social insurance contributions for midijob.
+
     """
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
@@ -133,12 +136,11 @@ def midijob_faktor_f_ab_10_2022(
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
     """Faktor F which is needed for the calculation of Bemessungsentgelt
-    (beitragspflichtige Einnahme) of midijobs since October 2022.
-    It is calculated as the ratio of the sum of lump-sum contributions
-    for marginal employment (28 %) divided by the total social security contribution
-    rate (Gesamtsozialversicherungsbeitragssatz).
-    Since October 2022 the sum of lump-sum contributions for marginal employment
-    does not include the 2% flat-rate tax.
+    (beitragspflichtige Einnahme) of midijobs since October 2022. It is calculated as
+    the ratio of the sum of lump-sum contributions for marginal employment (28 %)
+    divided by the total social security contribution rate
+    (Gesamtsozialversicherungsbeitragssatz). Since October 2022 the sum of lump-sum
+    contributions for marginal employment does not include the 2% flat-rate tax.
 
     Legal reference: § 163 Abs. 10 SGB VI
 
@@ -155,6 +157,7 @@ def midijob_faktor_f_ab_10_2022(
     Returns
     -------
     Income subject to social insurance contributions for midijob.
+
     """
     # Calculate the Gesamtsozialversicherungsbeitragssatz by summing social
     # insurance contributions for employer and employee and
@@ -213,6 +216,7 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     Returns
     -------
     Income subject to social insurance contributions for midijob.
+
     """
     # Now use the factor to calculate the overall bemessungsentgelt
     minijob_anteil = midijob_faktor_f * minijob_grenze_west
@@ -241,9 +245,9 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     soz_vers_beitr_params: dict,
     minijob_grenze: float,
 ) -> float:
-    """Total income subject to social insurance contributions for employers a
-    and employees for midijob since October 2022.
-    In the law, the considered income is referred to as "beitragspflichtige Einnahme".
+    """Total income subject to social insurance contributions for employers a and
+    employees for midijob since October 2022. In the law, the considered income is
+    referred to as "beitragspflichtige Einnahme".
 
     Beitragspflichtige Einnahme is the reference income for midijobs subject
     to employer and employee social insurance contribution.
@@ -266,6 +270,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     Returns
     -------
     Income subject to social insurance contributions for midijob.
+
     """
     midijob_grenze = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
@@ -285,8 +290,8 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
     soz_vers_beitr_params: dict,
     minijob_grenze: float,
 ) -> float:
-    """Income subject to employee social insurance contributions for midijob
-    since October 2022.
+    """Income subject to employee social insurance contributions for midijob since
+    October 2022.
 
     Gesonderte Beitragspflichtige Einnahme is the reference income for midijobs subject
     to employee social insurance contribution.
@@ -307,6 +312,7 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
     Returns
     -------
     Income subject to employee social insurance contributions for midijob.
+
     """
     midijob_grenze = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
@@ -320,8 +326,7 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
 
 @add_rounding_spec(params_key="soz_vers_beitr")
 def minijob_grenze_west_vor_10_2022(soz_vers_beitr_params: dict) -> float:
-    """
-    Obtains marginal job thresholds for West Germany before October 2022.
+    """Obtains marginal job thresholds for West Germany before October 2022.
 
     Parameters
     ----------
@@ -331,14 +336,14 @@ def minijob_grenze_west_vor_10_2022(soz_vers_beitr_params: dict) -> float:
     Returns
     -------
     Marginal Job Threshold
+
     """
     return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["west"]
 
 
 @add_rounding_spec(params_key="soz_vers_beitr")
 def minijob_grenze_ost_vor_10_2022(soz_vers_beitr_params: dict) -> float:
-    """
-    Obtains marginal job thresholds for East Germany before October 2022.
+    """Obtains marginal job thresholds for East Germany before October 2022.
 
     Parameters
     ----------
@@ -348,15 +353,15 @@ def minijob_grenze_ost_vor_10_2022(soz_vers_beitr_params: dict) -> float:
     Returns
     -------
     Marginal Job Threshold
+
     """
     return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["ost"]
 
 
 @add_rounding_spec(params_key="soz_vers_beitr")
 def minijob_grenze_ab_10_2022(soz_vers_beitr_params: dict) -> float:
-    """
-    Obtains marginal job threshold since 10/2022.
-    Since then, it is calculated from the statutory minimum wage
+    """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
+    the statutory minimum wage.
 
     Parameters
     ----------
@@ -366,6 +371,7 @@ def minijob_grenze_ab_10_2022(soz_vers_beitr_params: dict) -> float:
     Returns
     -------
     Marginal Job Threshold
+
     """
 
     return (
@@ -392,6 +398,7 @@ def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> b
     Returns
     -------
     Whether regular employed persons.
+
     """
     out = (
         bruttolohn_m >= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]

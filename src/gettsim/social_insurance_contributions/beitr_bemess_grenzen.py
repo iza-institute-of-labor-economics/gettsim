@@ -61,6 +61,7 @@ def _ges_krankenv_bezugsgröße_selbst_m(
 
     Returns
     -------
+
     """
     out = (
         soz_vers_beitr_params["bezugsgröße_selbst_m"]["ost"]

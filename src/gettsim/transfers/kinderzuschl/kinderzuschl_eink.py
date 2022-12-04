@@ -109,8 +109,8 @@ def kinderzuschl_eink_max_m_hh(
     _kinderzuschl_anz_kinder_anspruch_hh: int,
     kinderzuschl_params: dict,
 ) -> float:
-    """Calculate maximum income to be eligible for additional
-       child benefit (Kinderzuschlag).
+    """Calculate maximum income to be eligible for additional child benefit
+    (Kinderzuschlag).
 
     There is a maximum income threshold, depending on the need, plus the potential kiz
     receipt (§6a (1) Nr. 3 BKGG).

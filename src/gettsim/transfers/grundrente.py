@@ -6,8 +6,8 @@ from gettsim.shared import add_rounding_spec
 def grundr_zuschlag_m(
     grundr_zuschlag_vor_eink_anr_m: float, grundr_zuschlag_eink_m: float
 ) -> float:
-    """Calculate Grundrentenzuschlag (additional monthly pensions payments
-    resulting from Grundrente)
+    """Calculate Grundrentenzuschlag (additional monthly pensions payments resulting
+    from Grundrente)
 
     Parameters
     ----------
@@ -146,8 +146,8 @@ def grundr_zuschlag_vor_eink_anr_m(
     ges_rente_zugangsfaktor: float,
     ges_rente_params: dict,
 ) -> float:
-    """Calculate additional monthly pensions payments resulting from
-    Grundrente, without taking into account income crediting rules.
+    """Calculate additional monthly pensions payments resulting from Grundrente, without
+    taking into account income crediting rules.
 
     The Zugangsfaktor is limited to 1 and considered Grundrentezeiten
     are limited to 35 years (420 months).
@@ -219,8 +219,8 @@ def grundr_bew_zeiten_avg_entgeltp(
 
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_höchstwert_m(grundr_zeiten: int, ges_rente_params: dict) -> float:
-    """Calculates the maximum allowed number of average Entgeltpunkte (per month)
-    after adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
+    """Calculates the maximum allowed number of average Entgeltpunkte (per month) after
+    adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
 
     Parameters
     ----------
@@ -336,6 +336,7 @@ def rente_vorj_vor_grundr_proxy_m(
 
     Returns
     -------
+
     """
 
     if rentner:

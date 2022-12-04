@@ -22,7 +22,7 @@ from gettsim.config import USE_JAX
 
 
 def parameterize_based_on_dict(test_cases, keys_of_test_cases=None):
-    """Apply pytest.mark.parametrize based on a dictionary"""
+    """Apply pytest.mark.parametrize based on a dictionary."""
     test_cases = copy.copy(test_cases)
     if keys_of_test_cases:
 
@@ -277,7 +277,6 @@ test_grouped_raises_specs_dict = dict(ChainMap(*test_grouped_raises_specs))
     ],
 )
 def test_grouped_sum(backend, column_to_aggregate, group_id, expected_res_sum):
-
     # Calculate result
     if backend == "jax":
         result = grouped_sum_jax(column_to_aggregate, group_id)
@@ -300,7 +299,6 @@ def test_grouped_sum(backend, column_to_aggregate, group_id, expected_res_sum):
     ],
 )
 def test_grouped_mean(backend, column_to_aggregate, group_id, expected_res_mean):
-
     # Calculate result
     if backend == "jax":
         result = grouped_mean_jax(column_to_aggregate, group_id)
@@ -323,7 +321,6 @@ def test_grouped_mean(backend, column_to_aggregate, group_id, expected_res_mean)
     ],
 )
 def test_grouped_max(backend, column_to_aggregate, group_id, expected_res_max):
-
     # Calculate result
     if backend == "jax":
         result = grouped_max_jax(column_to_aggregate, group_id)
@@ -346,7 +343,6 @@ def test_grouped_max(backend, column_to_aggregate, group_id, expected_res_max):
     ],
 )
 def test_grouped_min(backend, column_to_aggregate, group_id, expected_res_min):
-
     # Calculate result
     if backend == "jax":
         result = grouped_min_jax(column_to_aggregate, group_id)
@@ -369,7 +365,6 @@ def test_grouped_min(backend, column_to_aggregate, group_id, expected_res_min):
     ],
 )
 def test_grouped_cumsum(backend, column_to_aggregate, group_id, expected_res_cumsum):
-
     # Calculate result
     if backend == "jax":
         pass
@@ -386,7 +381,6 @@ def test_grouped_cumsum(backend, column_to_aggregate, group_id, expected_res_cum
     keys_of_test_cases=["backend", "group_id", "expected_res_count"],
 )
 def test_grouped_count(backend, group_id, expected_res_count):
-
     # Calculate result
     if backend == "jax":
         result = grouped_count_jax(group_id)
@@ -409,7 +403,6 @@ def test_grouped_count(backend, group_id, expected_res_count):
     ],
 )
 def test_grouped_any(backend, column_to_aggregate, group_id, expected_res_any):
-
     # Calculate result
     if backend == "jax":
         result = grouped_any_jax(column_to_aggregate, group_id)
@@ -432,7 +425,6 @@ def test_grouped_any(backend, column_to_aggregate, group_id, expected_res_any):
     ],
 )
 def test_grouped_all(backend, column_to_aggregate, group_id, expected_res_all):
-
     # Calculate result
     if backend == "jax":
         result = grouped_all_jax(column_to_aggregate, group_id)

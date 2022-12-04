@@ -1,7 +1,7 @@
-""" Test the updating of Entgeltpunkte and
-the pension income based on Entgeltpunkte.
+"""Test the updating of Entgeltpunkte and the pension income based on Entgeltpunkte.
 
 These are "only" regression tests.
+
 """
 import itertools
 

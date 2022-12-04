@@ -77,8 +77,8 @@ def grunds_im_alter_eink_m(
     sozialv_beitr_m: float,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate individual income considered in the calculation of Grundsicherung
-    im Alter.
+    """Calculate individual income considered in the calculation of Grundsicherung im
+    Alter.
 
     Parameters
     ----------
@@ -147,8 +147,8 @@ def grunds_im_alter_erwerbseink_m(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate individual earnings considered in the calculation of Grundsicherung
-    im Alter.
+    """Calculate individual earnings considered in the calculation of Grundsicherung im
+    Alter.
 
     Legal reference: § 82 SGB XII Abs. 3
 
@@ -220,8 +220,8 @@ def grunds_im_alter_priv_rente_m(
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
-    """Calculate individual private pension benefits considered in the calculation
-    of Grundsicherung im Alter.
+    """Calculate individual private pension benefits considered in the calculation of
+    Grundsicherung im Alter.
 
     Legal reference: § 82 SGB XII Abs. 4
 

@@ -3,8 +3,7 @@ def ges_pflegev_zusatz_kinderlos(
     alter: int,
     soz_vers_beitr_params: dict,
 ) -> bool:
-    """
-    Whether additional care insurance contribution for childless individuals applies.
+    """Whether additional care insurance contribution for childless individuals applies.
 
     Parameters
     ----------
@@ -159,6 +158,7 @@ def ges_pflegev_beitr_selbst_m(
     Returns
     -------
     Monthly care insurance contributions for self employed income.
+
     """
     out = (
         _ges_krankenv_bemessungsgrundlage_eink_selbst
@@ -183,7 +183,6 @@ def ges_pflegev_beitr_rente_m(
 ) -> float:
     """Calculating the contribution to health insurance for pension income.
 
-
     Parameters
     ----------
     ges_pflegev_zusatz_kinderlos
@@ -196,6 +195,7 @@ def ges_pflegev_beitr_rente_m(
     Returns
     -------
     Monthly health insurance contributions for pension income.
+
     """
     out = (
         _ges_krankenv_bemessungsgrundlage_rente_m
@@ -221,7 +221,6 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022(
     """Calculating the sum of employee and employer care insurance contribution for
     midijobs until September 2022.
 
-
     Parameters
     ----------
     midijob_bemessungsentgelt_m
@@ -233,6 +232,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022(
 
     Returns
     -------
+
     """
 
     gesamtbeitrag_midijob_m = (
@@ -259,7 +259,6 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
     """Calculating the sum of employee and employer care insurance contribution for
     midijobs since October 2022.
 
-
     Parameters
     ----------
     midijob_bemessungsentgelt_m
@@ -271,6 +270,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
 
     Returns
     -------
+
     """
 
     gesamtbeitrag_midijob_m = (
@@ -295,7 +295,6 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_bis_09_2022(
 ) -> float:
     """Calculating the employer care insurance contribution until September 2022.
 
-
     Parameters
     ----------
     bruttolohn_m
@@ -317,7 +316,6 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_ab_10_2022(
     _ges_pflegev_beitr_midijob_arbeitn_m: float,
 ) -> float:
     """Calculating the employer care insurance contribution since October 2022.
-
 
     Parameters
     ----------

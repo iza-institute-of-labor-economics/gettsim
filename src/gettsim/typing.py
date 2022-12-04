@@ -37,8 +37,8 @@ def check_series_has_expected_type(series, internal_type):
 
 
 def convert_series_to_internal_type(series, internal_type):
-    """Check if data type of series fits to the internal type of gettsim and
-    otherwise convert data type of series to the internal type of gettsim.
+    """Check if data type of series fits to the internal type of gettsim and otherwise
+    convert data type of series to the internal type of gettsim.
 
     Parameters
     ----------
@@ -50,6 +50,7 @@ def convert_series_to_internal_type(series, internal_type):
     Returns
     -------
     out : adjusted pd.Series
+
     """
     # Copy input series in out
     out = series.copy()

@@ -359,13 +359,11 @@ def test_consecutive_internal_test_runs():
 
 
 def test_partial_parameters_to_functions():
-
     # Partial function produces correct result
     assert func_after_partial(2) == 3
 
 
 def test_partial_parameters_to_functions_removes_argument():
-
     # Fails if params is added to partial function
     with pytest.raises(
         TypeError,
@@ -378,7 +376,7 @@ def test_partial_parameters_to_functions_removes_argument():
 
 
 def test_partial_parameters_to_functions_keep_decorator():
-    """Make sure that rounding decorator is kept for partial function"""
+    """Make sure that rounding decorator is kept for partial function."""
 
     @add_rounding_spec(params_key="params_key_test")
     def test_func(arg_1, arbeitsl_geld_2_params):
@@ -394,7 +392,6 @@ def test_partial_parameters_to_functions_keep_decorator():
 
 
 def test_user_provided_aggregation_specs():
-
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -422,7 +419,6 @@ def test_user_provided_aggregation_specs():
 
 
 def test_user_provided_aggregation_specs_function():
-
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -455,7 +451,6 @@ def test_user_provided_aggregation_specs_function():
 
 
 def test_aggregation_specs_missing_group_sufix():
-
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -483,7 +478,6 @@ def test_aggregation_specs_missing_group_sufix():
 
 
 def test_aggregation_specs_agg_not_impl():
-
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],

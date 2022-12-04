@@ -54,7 +54,6 @@ def _vorsorge_alternative_ab_2005_bis_2009(
 ) -> float:
     """Calculate Vorsorgeaufwendungen from 2005 to 2010.
 
-
     Pension contributions are accounted for up to €20k. From this, a certain share
     can actually be deducted, starting with 60% in 2005. Other deductions are simply
     added up, up to a ceiling of 1500 p.a. for standard employees.

@@ -1,4 +1,4 @@
-""" Some tests for the policy_environment module"""
+"""Some tests for the policy_environment module."""
 import pandas as pd
 import pytest
 from gettsim.config import ROOT_DIR

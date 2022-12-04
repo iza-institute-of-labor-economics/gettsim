@@ -3,8 +3,7 @@ from gettsim.shared import add_rounding_spec
 
 
 def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float:
-    """Calculate total individual pension as sum of private and
-    public pension.
+    """Calculate total individual pension as sum of private and public pension.
 
     Parameters
     ----------
@@ -27,8 +26,8 @@ def ges_rente_nach_grundr_m(
     grundr_zuschlag_m: float,
     rentner: bool,
 ) -> float:
-    """Calculate total individual public pension including Grundrentenzuschlag. Is
-    only active after 2021 when Grundrente is in place.
+    """Calculate total individual public pension including Grundrentenzuschlag. Is only
+    active after 2021 when Grundrente is in place.
 
     Parameters
     ----------
@@ -55,8 +54,8 @@ def ges_rente_vor_grundr_m(
     rentenwert: float,
     rentner: bool,
 ) -> float:
-    """Old-Age Pensions claim without Grundrentenzuschlag.
-    The function follows the following equation:
+    """Old-Age Pensions claim without Grundrentenzuschlag. The function follows the
+    following equation:
 
     .. math::
 
@@ -221,8 +220,7 @@ def ges_rente_zugangsfaktor(
     ges_rente_vorauss_regelrente: bool,
     ges_rente_params: dict,
 ) -> float:
-    """Calculate the zugangsfaktor based on the year the
-    subject retired.
+    """Calculate the zugangsfaktor based on the year the subject retired.
 
     At the regelaltersgrenze - normal retirement age (NRA), the agent is allowed to
     get pensions with his full claim. In general, if the agent retires earlier or later,
@@ -316,10 +314,10 @@ def _ges_rente_altersgrenze_abschlagsfrei(
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
 ) -> float:
-    """Calculates the age, at which a person is eligible to claim the full pension.
-    Full retirement age (FRA) without deductions. This age is smaller or equal
-    to the regelaltersgrenze (FRA<=NRA) and depends on personal characteristics
-    as gender, insurance duration, health/disability, employment status.
+    """Calculates the age, at which a person is eligible to claim the full pension. Full
+    retirement age (FRA) without deductions. This age is smaller or equal to the
+    regelaltersgrenze (FRA<=NRA) and depends on personal characteristics as gender,
+    insurance duration, health/disability, employment status.
 
     Parameters
     ----------
@@ -344,6 +342,7 @@ def _ges_rente_altersgrenze_abschlagsfrei(
     -------
     Lowest possible full retirement age (without deductions). Nan if
     person not eligigble for a public pension.
+
     """
 
     out = float("Nan")
@@ -365,10 +364,9 @@ def referenz_alter_abschlag(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
 ) -> float:
-    """Determines reference age for deduction calculation
-    in case of early retirement (Zugangsfaktor). Nan if person is not
-    eligible for early retirement. (The regular pension and the pension
-    for very long term insured cannot be claimed early.)
+    """Determines reference age for deduction calculation in case of early retirement
+    (Zugangsfaktor). Nan if person is not eligible for early retirement. (The regular
+    pension and the pension for very long term insured cannot be claimed early.)
 
     Parameters
     ----------
@@ -384,6 +382,7 @@ def referenz_alter_abschlag(
      Returns
     -------
     Reference age for deduction calculation.
+
     """
     if ges_rente_vorauss_langj and ges_rente_vorauss_frauen:
         out = min([ges_rente_frauen_altersgrenze, _ges_rente_langj_altersgrenze])
@@ -399,10 +398,9 @@ def referenz_alter_abschlag(
 
 def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
     """Calculates the age, at which a person is eligible to claim the regular pension.
-    Normal retirement age (NRA). This pension cannot be claimed earlier than at the
-    NRA, ie it does not serve as reference for calculating deductions. However, it
-    serves as reference for calculating gains in the Zugangsfakor in case
-    of later retirement.
+    Normal retirement age (NRA). This pension cannot be claimed earlier than at the NRA,
+    ie it does not serve as reference for calculating deductions. However, it serves as
+    reference for calculating gains in the Zugangsfakor in case of later retirement.
 
     Parameters
     ----------
@@ -414,6 +412,7 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
 
     Returns
     -------
+
     """
 
     out = piecewise_polynomial(
@@ -434,10 +433,9 @@ def ges_rente_frauen_altersgrenze(
     ges_rente_params: dict,
 ) -> float:
     """Calculates the age, at which a women is eligible to claim the full pension
-    (without deductions). This pension scheme allows for early retirement
-    from age 60 with deductions. Hence this threshold is needed as reference
-    for calculating the zugangsfaktor.
-
+    (without deductions). This pension scheme allows for early retirement from age 60
+    with deductions. Hence this threshold is needed as reference for calculating the
+    zugangsfaktor.
 
     Parameters
     ----------
@@ -496,6 +494,7 @@ def _ges_rente_langj_altersgrenze(
     Returns
     -------
     Full retirement age (without deductions) for long term insured.
+
     """
 
     # From 1951 on, the altersgrenze of langjährig Versicherte is equal to the
@@ -524,9 +523,8 @@ def _ges_rente_besond_langj_altersgrenze(
     geburtsjahr: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the threshold from which very long term insured
-    people (at least 45 years) can claim their full pension
-    without deductions.
+    """Calculates the threshold from which very long term insured people (at least 45
+    years) can claim their full pension without deductions.
 
     Parameters
     ----------
@@ -558,8 +556,9 @@ def ges_rente_vorauss_vorzeitig(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
 ) -> float:
-    """Function determining eligibility for early retirement.
-    Can only be claimed if eligible for "Rente für langjährig Versicherte"
+    """Function determining eligibility for early retirement. Can only be claimed if
+    eligible for "Rente für langjährig Versicherte".
+
     or "Rente für Frauen" (or -not yet implemented - for disabled).
 
     Parameters
@@ -606,9 +605,8 @@ def ges_rente_vorauss_frauen(
     geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
-    """Function determining the eligibility for Altersrente für Frauen (pension
-    for women) Wartezeit 15 years, contributions 10 years after age 40,
-    being a women.
+    """Function determining the eligibility for Altersrente für Frauen (pension for
+    women) Wartezeit 15 years, contributions 10 years after age 40, being a women.
 
     Parameters
     ----------
@@ -654,8 +652,8 @@ def ges_rente_vorauss_langj(
     alter: int,
     ges_rente_params: dict,
 ) -> bool:
-    """Determining the eligibility for Altersrente für langjährig Versicherte
-    (pension for long-term insured). Wartezeit 35 years.
+    """Determining the eligibility for Altersrente für langjährig Versicherte (pension
+    for long-term insured). Wartezeit 35 years.
 
     Parameters
     ----------
@@ -679,9 +677,8 @@ def ges_rente_vorauss_langj(
 
 
 def ges_rente_vorauss_besond_langj(ges_rente_wartezeit_45: float) -> bool:
-    """Determining the eligibility for Altersrente für besonders langjährig
-    Versicherte (pension for very long-term insured). Wartezeit 45 years.
-    aka "Rente mit 63".
+    """Determining the eligibility for Altersrente für besonders langjährig Versicherte
+    (pension for very long-term insured). Wartezeit 45 years. aka "Rente mit 63".
 
     Parameters
     ----------
@@ -702,8 +699,8 @@ def ges_rente_vorauss_besond_langj(ges_rente_wartezeit_45: float) -> bool:
 def ges_rente_wartezeit_5(
     m_pflichtbeitrag: float, m_freiw_beitrag: float, m_ersatzzeit: float
 ) -> float:
-    """Aggregates time periods that are relevant for the general eligibility
-    of the regular pension (regelaltersrente). "Allgemeine Wartezeit".
+    """Aggregates time periods that are relevant for the general eligibility of the
+    regular pension (regelaltersrente). "Allgemeine Wartezeit".
 
     Parameters
     ----------
@@ -717,6 +714,7 @@ def ges_rente_wartezeit_5(
     Returns
     -------
     Wartezeit in years.
+
     """
     out = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
 
@@ -726,8 +724,8 @@ def ges_rente_wartezeit_5(
 def ges_rente_wartezeit_15(
     m_pflichtbeitrag: float, m_freiw_beitrag: float, m_ersatzzeit: float
 ) -> float:
-    """Aggregates time periods that are relevant for the Altersrente für Frauen
-    and Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
+    """Aggregates time periods that are relevant for the Altersrente für Frauen and
+    Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
 
     Parameters
     ----------
@@ -741,6 +739,7 @@ def ges_rente_wartezeit_15(
     Returns
     -------
     Wartezeit in years
+
     """
     out = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
 
@@ -755,9 +754,9 @@ def ges_rente_wartezeit_35(
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
 ) -> float:
-    """Aggregates time periods that are relevant for the eligibility of
-    Altersrente für langjährig Versicherte (pension for long-term insured).
-    Wartezeit von 35 Jahren. All "rentenrechtliche Zeiten" are considered.
+    """Aggregates time periods that are relevant for the eligibility of Altersrente für
+    langjährig Versicherte (pension for long-term insured). Wartezeit von 35 Jahren. All
+    "rentenrechtliche Zeiten" are considered.
 
      Parameters
      ----------
@@ -798,13 +797,12 @@ def ges_rente_wartezeit_45(
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
 ) -> float:
-    """Aggregates time periods that are relevant for the eligibility of
-    Altersrente für besonders langjährig Versicherte (pension for very long-term
-    insured). Wartezeit von 45 Jahren. Not all "rentenrechtliche Zeiten" are
-    considered. Years with voluntary contributions are only considered if at least 18
-    years of mandatory contributions (m_pflichtbeitrag). Not all
-    ges_rente_anrechnungszeiten are considered, but only specific ones (e.g. ALG I,
-    Kurzarbeit but not ALG II).
+    """Aggregates time periods that are relevant for the eligibility of Altersrente für
+    besonders langjährig Versicherte (pension for very long-term insured). Wartezeit von
+    45 Jahren. Not all "rentenrechtliche Zeiten" are considered. Years with voluntary
+    contributions are only considered if at least 18 years of mandatory contributions
+    (m_pflichtbeitrag). Not all ges_rente_anrechnungszeiten are considered, but only
+    specific ones (e.g. ALG I, Kurzarbeit but not ALG II).
 
     Parameters
     ----------
@@ -824,6 +822,7 @@ def ges_rente_wartezeit_45(
     Returns
     -------
     Wartezeit in years
+
     """
     if m_pflichtbeitrag >= (18 * 12):
         freiwilligbeitr = m_freiw_beitrag
@@ -893,11 +892,11 @@ def ges_rente_anrechnungszeit_45(
     m_geringf_beschäft: float,
 ) -> float:
     """Adds up all times NOT included in Beitragszeiten, Berücksichtigungszeiten,
-    Ersatzzeiten (a variant of Anrechnungszeiten) that are accounted for in
-    "Wartezeit von 45 Jahren" i.e. for Altersrente für besonders langjährig
-    Versicherte (pension for very long term insured). "nur Anrechnungszeiten mit
-    Bezug von Entgeltersatzleistungen der Arbeitsförderung, Leistungen bei Krankheit
-    und Übergangsgeld". (Ref: Studientext der Deutschen Rentenversicherung, Nr. 19,
+    Ersatzzeiten (a variant of Anrechnungszeiten) that are accounted for in "Wartezeit
+    von 45 Jahren" i.e. for Altersrente für besonders langjährig Versicherte (pension
+    for very long term insured). "nur Anrechnungszeiten mit Bezug von
+    Entgeltersatzleistungen der Arbeitsförderung, Leistungen bei Krankheit und
+    Übergangsgeld". (Ref: Studientext der Deutschen Rentenversicherung, Nr. 19,
     Wartezeiten, Ausgabe 2021, S. 24)
 
     Parameters
@@ -911,6 +910,7 @@ def ges_rente_anrechnungszeit_45(
     Returns
     -------
     Anrechnungszeit in months.
+
     """
     out = m_arbeitsunfähig + m_alg1_übergang + m_geringf_beschäft
 

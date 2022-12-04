@@ -326,7 +326,6 @@ def elterngeld_eink_relev_m(
     Returns
     -------
 
-
     """
     return _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_m
 

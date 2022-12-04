@@ -1,5 +1,8 @@
-"""This module computes demographic variables directly on the data. These information
-are used throughout modules of gettsim."""
+"""This module computes demographic variables directly on the data.
+
+These information are used throughout modules of gettsim.
+
+"""
 import datetime
 
 import numpy as np
@@ -167,6 +170,7 @@ def gemeinsam_veranlagt_tu(anz_erwachsene_tu: int) -> bool:
     Returns
     -------
     Boolean indicating two wage earners in tax unit.
+
     """
     return anz_erwachsene_tu == 2
 

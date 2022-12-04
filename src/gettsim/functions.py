@@ -1,7 +1,5 @@
 """Import all functions to a central place in order to automatically create the overview
-in the documentation.
-
-"""
+in the documentation."""
 from gettsim.demographic_vars import *  # noqa: F401, F403
 from gettsim.social_insurance_contributions.arbeitsl_v import *  # noqa: F401, F403
 from gettsim.social_insurance_contributions.beitr_bemess_grenzen import *  # noqa: F401, F403, E501

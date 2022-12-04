@@ -42,7 +42,6 @@ def test_decorator():
     ],
 )
 def test_no_rounding_specs(rounding_specs):
-
     with pytest.raises(KeyError):
 
         @add_rounding_spec(params_key="params_key_test")
@@ -87,7 +86,7 @@ def test_rounding_specs_wrong_format(base, direction):
     rounding_specs_and_exp_results,
 )
 def test_rounding(base, direction, input_values, exp_output):
-    """Check if rounding is correct"""
+    """Check if rounding is correct."""
 
     # Define function that should be rounded
     @add_rounding_spec(params_key="params_key_test")
@@ -116,7 +115,6 @@ def test_rounding(base, direction, input_values, exp_output):
     rounding_specs_and_exp_results,
 )
 def test_no_rounding(base, direction, input_values_exp_output, _ignore):  # noqa: U101
-
     # Define function that should be rounded
     @add_rounding_spec(params_key="params_key_test")
     def test_func(income):
@@ -140,9 +138,8 @@ def test_no_rounding(base, direction, input_values_exp_output, _ignore):  # noqa
 
 
 def test_decorator_for_all_functions_with_rounding_spec():
-    """Check if all functions for which rounding parameters are specified have
-    an attribute which indicates rounding
-    """
+    """Check if all functions for which rounding parameters are specified have an
+    attribute which indicates rounding."""
 
     # Find all functions for which rounding parameters are specified
     params_dict = {

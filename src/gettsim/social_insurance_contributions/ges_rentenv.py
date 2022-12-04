@@ -100,6 +100,7 @@ def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
 
     Returns
     -------
+
     """
     ges_beitr_midijob = (
         midijob_bemessungsentgelt_m
@@ -113,8 +114,8 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022(
     bruttolohn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculating the employer unemployment insurance contribution
-    until September 2022.
+    """Calculating the employer unemployment insurance contribution until September
+    2022.
 
     Parameters
     ----------
@@ -135,8 +136,7 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022(
     _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_rentenv_beitr_midijob_arbeitn_m: float,
 ) -> float:
-    """Calculating the employer unemployment insurance contribution
-    since October 2022.
+    """Calculating the employer unemployment insurance contribution since October 2022.
 
     Parameters
     ----------
@@ -160,8 +160,8 @@ def _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022(
     _ges_rentenv_beitr_midijob_arbeitg_m: float,
     _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee unemployment insurance contribution
-    until September 2022.
+    """Calculating the employee unemployment insurance contribution until September
+    2022.
 
     Parameters
     ----------
@@ -185,8 +185,7 @@ def _ges_rentenv_beitr_midijob_arbeitn_m_ab_10_2022(
     _midijob_beitragspf_einnahme_arbeitn_m: float,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculating the employee unemployment insurance contribution
-    since October 2022.
+    """Calculating the employee unemployment insurance contribution since October 2022.
 
     Parameters
     ----------
@@ -210,8 +209,7 @@ def _ges_rentenv_beitr_bruttolohn_m(
     bruttolohn_m: float,
     _ges_rentenv_beitr_bemess_grenze_m: float,
 ) -> float:
-    """Calculate the wage subject to pension and
-    unemployment insurance contributions.
+    """Calculate the wage subject to pension and unemployment insurance contributions.
 
     Parameters
     ----------

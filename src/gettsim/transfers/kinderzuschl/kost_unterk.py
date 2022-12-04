@@ -71,9 +71,9 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_tu(
     anz_erwachsene_tu: int,
     kinderzuschl_params: dict,
 ) -> float:
-    """Calculate living needs broken down to the parents.
-     Defined as parents' subsistence level on housing, divided by sum
-     of subsistence level from parents and children.
+    """Calculate living needs broken down to the parents. Defined as parents'
+    subsistence level on housing, divided by sum of subsistence level from parents and
+    children.
 
     Parameters
     ----------

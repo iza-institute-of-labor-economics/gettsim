@@ -14,6 +14,7 @@ def arbeitsl_geld_2_kost_unterk_m_hh(
     Returns
     -------
     float with total monthly cost of rent.
+
     """
     return (
         _arbeitsl_geld_2_berechtigte_wohnfläche_hh
@@ -41,6 +42,7 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
     Returns
     -------
     Integer with the total amount of rental costs per squaremeter.
+
     """
     out = (bruttokaltmiete_m_hh + heizkosten_m_hh) / wohnfläche_hh
 
@@ -70,6 +72,7 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
     Returns
     -------
     Integer with the number of squaremeters.
+
     """
     if bewohnt_eigentum_hh:
         weitere_mitglieder = max(haushaltsgröße_hh - 2, 0)

@@ -30,6 +30,7 @@ def arbeitsl_geld_2_eink_m(
     Returns
     -------
     Income of a person by unemployment insurance.
+
     """
 
     out = (
@@ -79,6 +80,7 @@ def arbeitsl_geld_2_brutto_eink_m(
     Returns
     -------
     Income by unemployment insurance before tax.
+
     """
     out = (
         bruttolohn_m

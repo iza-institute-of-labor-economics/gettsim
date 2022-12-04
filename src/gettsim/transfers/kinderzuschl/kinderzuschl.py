@@ -1,27 +1,27 @@
-"""
-Kinderzuschlag / Additional Child Benefit
+"""Kinderzuschlag / Additional Child Benefit.
 
-    The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they would
-    be eligible to ALG2 due to the fact that their claim rises because of their
-    children, they can claim Kiz.
+The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they would
+be eligible to ALG2 due to the fact that their claim rises because of their
+children, they can claim Kiz.
 
-    A couple of criteria need to be met.
+A couple of criteria need to be met.
 
-    1. the household has to have some income
+1. the household has to have some income
 
-    2. net income minus housing benefit needs has to be lower than total ALG2 need plus
-       additional child benefit.
+2. net income minus housing benefit needs has to be lower than total ALG2 need plus
+   additional child benefit.
 
-    3. Over a certain income threshold (which depends on housing costs, and is
-       therefore household-specific), parental income is deducted from child benefit
-       claim.
+3. Over a certain income threshold (which depends on housing costs, and is
+   therefore household-specific), parental income is deducted from child benefit
+   claim.
 
-    In contrast to ALG2, Kiz considers only the rental costs that are attributed to the
-    parents. This is done by some fixed share which is updated on annual basis
-    ('jährlicher Existenzminimumsbericht')
+In contrast to ALG2, Kiz considers only the rental costs that are attributed to the
+parents. This is done by some fixed share which is updated on annual basis
+('jährlicher Existenzminimumsbericht')
 
-    # ToDo: Reconsider current assumption: not payed out if a pensioneer lives in the
-    # ToDo: household.
+# ToDo: Reconsider current assumption: not payed out if a pensioneer lives in the
+# ToDo: household.
+
 """
 
 

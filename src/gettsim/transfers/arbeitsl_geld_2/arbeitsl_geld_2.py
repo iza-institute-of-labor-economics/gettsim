@@ -24,6 +24,7 @@ def arbeitsl_geld_2_m_hh(
     Returns
     -------
     float with the income by unemployment insurance on household level.
+
     """
     if (
         wohngeld_vorrang_hh
@@ -56,6 +57,7 @@ def arbeitsl_geld_2_regelbedarf_m_hh(
     Returns
     -------
     float checks the minimum monthly needs of an household.
+
     """
     return arbeitsl_geld_2_regelsatz_m_hh + arbeitsl_geld_2_kost_unterk_m_hh
 
@@ -91,6 +93,7 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     Returns
     -------
     float checks how much more a single parent need.
+
     """
     if alleinerz_hh:
 
@@ -140,6 +143,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
     Returns
     -------
     float with the support of children until year 2010.
+
     """
     # Dictionary of additional shares.
     anteile = arbeitsl_geld_2_params["anteil_regelsatz"]
@@ -178,6 +182,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     Returns
     -------
     float with the support of children since year 2011
+
     """
     # Sum payments for each age group
     out = (
@@ -198,7 +203,6 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
 
     """Calculate basic monthly subsistence without dwelling until 2010.
 
-
     Parameters
     ----------
     anz_erwachsene_hh
@@ -213,6 +217,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     Returns
     -------
     float with the sum in Euro.
+
     """
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
@@ -252,6 +257,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     Returns
     -------
     float with the minimum needs of an household in Euro.
+
     """
 
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
@@ -275,8 +281,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
     vermögen_bedürft_hh: float,
     arbeitsl_geld_2_vermög_freib_hh: float,
 ) -> float:
-    """Calculate potential basic subsistence (after income deduction and
-    wealth check).
+    """Calculate potential basic subsistence (after income deduction and wealth check).
 
     Parameters
     ----------

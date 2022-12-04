@@ -83,8 +83,8 @@ def wohngeld_eink_vor_freib_m(
     elterngeld_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
-    """Sum gross incomes relevant for housing benefit calculation
-    on individual level and deducting individual housing benefit subtractions.
+    """Sum gross incomes relevant for housing benefit calculation on individual level
+    and deducting individual housing benefit subtractions.
 
     Parameters
     ----------
@@ -250,8 +250,8 @@ def wohngeld_eink_m_hh(
     wohngeld_eink_vor_freib_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate final income relevant for calculation of housing benefit
-    on household level.
+    """Calculate final income relevant for calculation of housing benefit on household
+    level.
 
     Parameters
     ----------
@@ -308,8 +308,7 @@ def wohngeld_miete_m_hh_bis_2008(
     wohngeld_min_miete: float,
     wohngeld_params: dict,
 ) -> float:
-    """Maximal rent subject housing benefit calculation on household
-    level until 2008.
+    """Maximal rent subject housing benefit calculation on household level until 2008.
 
     Parameters
     ----------
@@ -369,8 +368,7 @@ def wohngeld_miete_m_hh_ab_2009_bis_2020(
     wohngeld_min_miete: float,
     wohngeld_params: dict,
 ) -> float:
-    """Maximal rent subject housing benefit calculation on
-    household level since 2009.
+    """Maximal rent subject housing benefit calculation on household level since 2009.
 
     Parameters
     ----------

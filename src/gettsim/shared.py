@@ -5,7 +5,7 @@ from gettsim.config import SUPPORTED_GROUPINGS
 
 
 class KeyErrorMessage(str):
-    """Subclass str to allow for line breaks in KeyError messages"""
+    """Subclass str to allow for line breaks in KeyError messages."""
 
     def __repr__(self):
         return str(self)
@@ -25,6 +25,7 @@ def add_rounding_spec(params_key):
     -------
     func : function
         Function with __rounding_params_key__ attribute
+
     """
 
     def inner(func):
@@ -67,8 +68,8 @@ def parse_to_list_of_strings(user_input, name):
 
 def format_errors_and_warnings(text, width=79):
     """Format our own exception messages and warnings by dedenting paragraphs and
-    wrapping at the specified width. Mainly required because of messages are written
-    as part of indented blocks in our source code.
+    wrapping at the specified width. Mainly required because of messages are written as
+    part of indented blocks in our source code.
 
     Parameter
     ---------
@@ -123,7 +124,6 @@ def get_names_of_arguments_without_defaults(function):
 
 
 def remove_group_suffix(col):
-
     # Set default result
     out = col
 

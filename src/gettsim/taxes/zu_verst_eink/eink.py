@@ -52,7 +52,6 @@ def eink_abhängig_beschäftigt(
 def kapitaleink_brutto(kapitaleink_brutto_m: float) -> float:
     """Aggregate monthly gross capital income to yearly income.
 
-
     Parameters
     ----------
     kapitaleink_brutto_m
@@ -134,7 +133,7 @@ def kapitaleink(
     kapitaleink_brutto: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Capital income minus Sparerpauschbetrag
+    """Capital income minus Sparerpauschbetrag.
 
     Parameters
     ----------
