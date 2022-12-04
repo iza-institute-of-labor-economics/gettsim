@@ -32,7 +32,7 @@ jobs:
           cache-downloads: true
 
       - name: Run tests
-        run: micromamba run -n gettsim --ignore=dashboard/ --cov=./ --cov-report=xml
+        run: micromamba run -n gettsim pytest --ignore=dashboard/ --cov=./ --cov-report=xml
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
@@ -57,7 +57,7 @@ jobs:
   #         cache-downloads: true
 
   #     - name: Run tests
-  #       run: micromamba run -n gettsim --ignore=dashboard/ --cov=./ --cov-report=xml
+  #       run: micromamba run -n gettsim pytest --ignore=dashboard/ --cov=./ --cov-report=xml
 
   #     - name: Upload coverage reports
   #       if: runner.os == 'Linux' && matrix.python-version == '3.11'
