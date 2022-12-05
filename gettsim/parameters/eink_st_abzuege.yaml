@@ -163,7 +163,7 @@ werbungskostenpauschale:
     note: Für Lohnsteuerabzug gültig ab 2011-11-05.
   2022-01-01:
     scalar: 1200
-    reference: Art. 2 G. v. 23.05.2022 BGBl. I S. 749 
+    reference: Art. 2 G. v. 23.05.2022 BGBl. I S. 749
   2023-01-01:
     scalar: 1230
     reference: Beschlussempfehlung des Finanzausschusses zum Jahressteuergesetz 2022 Bundestag Drucksache 20/4729. Noch nicht im BGBl. veröffentlicht.
