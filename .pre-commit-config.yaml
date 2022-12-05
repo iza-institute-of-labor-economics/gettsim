@@ -129,6 +129,12 @@ repos:
             --ignore-missing-imports,
           ]
         additional_dependencies: [types-PyYAML, types-pytz]
+  - repo: https://github.com/mgedmin/check-manifest
+    rev: "0.48"
+    hooks:
+      - id: check-manifest
+        args: [--no-build-isolation]
+        additional_dependencies: [setuptools-scm, toml]
   - repo: meta
     hooks:
       - id: check-hooks-apply
