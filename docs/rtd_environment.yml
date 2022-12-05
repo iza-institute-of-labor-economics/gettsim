@@ -26,5 +26,6 @@ dependencies:
   - sphinx_rtd_theme
   - sphinx-automodapi
   - sphinx-copybutton
+  - myst-parser
   - pip:
       - plotly
