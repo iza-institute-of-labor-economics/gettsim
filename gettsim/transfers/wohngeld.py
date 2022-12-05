@@ -331,6 +331,14 @@ def wohngeld_miete_m_hh_bis_2008(
     -------
 
     """
+    params_max_personen = wohngeld_params["bonus_sehr_große_haushalte"][
+        "max_anz_personen_normale_berechnung"
+    ]
+    if haushaltsgröße_hh > params_max_personen:
+        berücks_personen = params_max_personen
+    else:
+        berücks_personen = haushaltsgröße_hh
+
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
     # size.
@@ -351,7 +359,7 @@ def wohngeld_miete_m_hh_bis_2008(
         max_miete_m_hh = params_max_miete[max_definierte_hh_größe][constr_year][
             mietstufe
         ] + params_max_miete["jede_weitere_person"][constr_year][mietstufe] * (
-            haushaltsgröße_hh - max_definierte_hh_größe
+            berücks_personen - max_definierte_hh_größe
         )
 
     out = min(bruttokaltmiete_m_hh, max_miete_m_hh)
@@ -388,6 +396,14 @@ def wohngeld_miete_m_hh_ab_2009(
     """
     params_max_miete = wohngeld_params["max_miete"]
 
+    params_max_personen = wohngeld_params["bonus_sehr_große_haushalte"][
+        "max_anz_personen_normale_berechnung"
+    ]
+    if haushaltsgröße_hh > params_max_personen:
+        berücks_personen = params_max_personen
+    else:
+        berücks_personen = haushaltsgröße_hh
+
     # Calc maximal considered rent
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
     if haushaltsgröße_hh <= max_definierte_hh_größe:
@@ -395,7 +411,7 @@ def wohngeld_miete_m_hh_ab_2009(
     else:
         max_miete_m_hh = (
             params_max_miete[max_definierte_hh_größe][mietstufe]
-            + (haushaltsgröße_hh - max_definierte_hh_größe)
+            + (berücks_personen - max_definierte_hh_größe)
             * params_max_miete["jede_weitere_person"][mietstufe]
         )
 
@@ -413,7 +429,7 @@ def wohngeld_miete_m_hh_ab_2009(
         else:
             heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
                 max_def_hh_größe_heating
-            ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
+            ] + (berücks_personen - max_def_hh_größe_heating) * (
                 wohngeld_params["heizkostenentlastung_m"]["jede_weitere_person"]
             )
     else:
@@ -435,7 +451,7 @@ def wohngeld_miete_m_hh_ab_2009(
         else:
             heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
                 max_def_hh_größe_heating
-            ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
+            ] + (berücks_personen - max_def_hh_größe_heating) * (
                 wohngeld_params["dauerhafte_heizkostenkomponente_m"][
                     "jede_weitere_person"
                 ]
@@ -457,7 +473,7 @@ def wohngeld_miete_m_hh_ab_2009(
         else:
             climate_component_m = wohngeld_params["klimakomponente_m"][
                 max_def_hh_größe_heating
-            ] + (haushaltsgröße_hh - max_def_hh_größe_heating) * (
+            ] + (berücks_personen - max_def_hh_größe_heating) * (
                 wohngeld_params["klimakomponente_m"]["jede_weitere_person"]
             )
     else:
@@ -513,9 +529,9 @@ def wohngeld_vor_vermög_check_m_hh(
     if haushaltsgröße_hh > max_considered_hh_größe:
         # If more than 12 persons, there is a lump-sum on top.
         # The maximum is still capped at `wohngeld_miete_m_hh`.
-        out += wohngeld_params["bonus_12_mehr"] * (
-            haushaltsgröße_hh - max_considered_hh_größe
-        )
+        out += wohngeld_params["bonus_sehr_große_haushalte"][
+            "bonus_jede_weitere_person"
+        ] * (haushaltsgröße_hh - max_considered_hh_größe)
         out = min(out, wohngeld_miete_m_hh)
 
     return out
