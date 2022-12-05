@@ -163,7 +163,10 @@ werbungskostenpauschale:
     note: Für Lohnsteuerabzug gültig ab 2011-11-05.
   2022-01-01:
     scalar: 1200
-    reference: Art. 2 G. v. 23.05.2022 BGBl. I S. 749
+    reference: Art. 2 G. v. 23.05.2022 BGBl. I S. 749 
+  2023-01-01:
+    scalar: 1230
+    reference: Beschlussempfehlung des Finanzausschusses zum Jahressteuergesetz 2022 Bundestag Drucksache 20/4729. Noch nicht im BGBl. veröffentlicht.
 
 sonderausgabenpauschbetrag:
   name:
@@ -444,6 +447,9 @@ alleinerz_freibetrag:
   2020-01-01:
     scalar: 4008
     reference: Art. 3 Nr. 2 G. v. 29.12.2020 BGBl. I S.3096
+  2023-01-01:
+    scalar: 4260
+    reference: Beschlussempfehlung des Finanzausschusses zum Jahressteuergesetz 2022 Bundestag Drucksache 20/4729. Noch nicht im BGBl. veröffentlicht.
 
 
 alleinerz_freibetrag_zusatz:
