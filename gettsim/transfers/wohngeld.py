@@ -331,13 +331,10 @@ def wohngeld_miete_m_hh_bis_2008(
     -------
 
     """
-    params_max_personen = wohngeld_params["bonus_sehr_große_haushalte"][
+    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
-    if haushaltsgröße_hh > params_max_personen:
-        berücks_personen = params_max_personen
-    else:
-        berücks_personen = haushaltsgröße_hh
+    berücks_personen = min(haushaltsgröße_hh, max_berücks_personen)
 
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
@@ -396,13 +393,10 @@ def wohngeld_miete_m_hh_ab_2009(
     """
     params_max_miete = wohngeld_params["max_miete"]
 
-    params_max_personen = wohngeld_params["bonus_sehr_große_haushalte"][
+    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
-    if haushaltsgröße_hh > params_max_personen:
-        berücks_personen = params_max_personen
-    else:
-        berücks_personen = haushaltsgröße_hh
+    berücks_personen = min(haushaltsgröße_hh, max_berücks_personen)
 
     # Calc maximal considered rent
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
@@ -508,10 +502,12 @@ def wohngeld_vor_vermög_check_m_hh(
     -------
 
     """
-    max_considered_hh_größe = max(wohngeld_params["min_eink"])
+    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
+        "max_anz_personen_normale_berechnung"
+    ]
 
     koeffizienten = wohngeld_params["koeffizienten_berechnungsformel"][
-        min(haushaltsgröße_hh, max_considered_hh_größe)
+        min(haushaltsgröße_hh, max_berücks_personen)
     ]
     out = wohngeld_params["faktor_berechnungsformel"] * (
         wohngeld_miete_m_hh
@@ -526,12 +522,12 @@ def wohngeld_vor_vermög_check_m_hh(
     )
     out = max(out, 0.0)
 
-    if haushaltsgröße_hh > max_considered_hh_größe:
+    if haushaltsgröße_hh > max_berücks_personen:
         # If more than 12 persons, there is a lump-sum on top.
         # The maximum is still capped at `wohngeld_miete_m_hh`.
         out += wohngeld_params["bonus_sehr_große_haushalte"][
             "bonus_jede_weitere_person"
-        ] * (haushaltsgröße_hh - max_considered_hh_größe)
+        ] * (haushaltsgröße_hh - max_berücks_personen)
         out = min(out, wohngeld_miete_m_hh)
 
     return out
