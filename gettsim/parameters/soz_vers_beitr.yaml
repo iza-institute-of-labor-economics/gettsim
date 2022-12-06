@@ -526,6 +526,15 @@ beitr_bemess_grenze_m:
       west: 7050
       ost: 6750
     reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
+  2023-01-01:
+    ges_krankenv:
+      west: 4987.5
+      ost: 4987.5
+    ges_rentenv:
+      west: 7300
+      ost: 7100
+    reference: V. v. 28.11.2022 BGBl. I. S. 2128.
+
 
 bezugsgröße_selbst_m:
   name:
@@ -651,6 +660,11 @@ bezugsgröße_selbst_m:
     west: 3290
     ost: 3150
     reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
+  2022-01-01:
+    west: 3395
+    ost: 3290
+    reference: V. v. 28.11.2022 BGBl. I. S. 2128.
+
 
 bezugsgröße_selbst_anteil:
   name:
