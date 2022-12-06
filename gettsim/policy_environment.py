@@ -7,11 +7,44 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from gettsim.config import INTERNAL_PARAM_GROUPS
+from gettsim.config import INTERNAL_PARAMS_GROUPS
 from gettsim.config import ROOT_DIR
 from gettsim.piecewise_functions import check_thresholds
 from gettsim.piecewise_functions import get_piecewise_parameters
 from gettsim.piecewise_functions import piecewise_polynomial
+from gettsim.social_insurance_contributions.arbeitsl_v import (
+    _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.arbeitsl_v import (
+    _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.arbeitsl_v import (
+    _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.arbeitsl_v import (
+    _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    midijob_bemessungsentgelt_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    midijob_bemessungsentgelt_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    midijob_faktor_f_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    midijob_faktor_f_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    minijob_grenze_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    minijob_grenze_ost_vor_10_2022,
+)
+from gettsim.social_insurance_contributions.eink_grenzen import (
+    minijob_grenze_west_vor_10_2022,
+)
 from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_ab_2019,
 )
@@ -19,10 +52,52 @@ from gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_bis_2018,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midijob_arbeitg_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midijob_arbeitg_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midijob_arbeitn_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
+    _ges_krankenv_midijob_arbeitn_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.ges_krankenv import (
     ges_krankenv_beitr_satz_ab_2019,
 )
 from gettsim.social_insurance_contributions.ges_krankenv import (
     ges_krankenv_beitr_satz_bis_2018,
+)
+from gettsim.social_insurance_contributions.ges_pflegev import (
+    _ges_pflegev_beitr_midijob_arbeitg_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.ges_pflegev import (
+    _ges_pflegev_beitr_midijob_arbeitg_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.ges_pflegev import (
+    _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.ges_pflegev import (
+    _ges_pflegev_beitr_midijob_arbeitn_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.ges_pflegev import (
+    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.ges_pflegev import (
+    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.ges_rentenv import (
+    _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.ges_rentenv import (
+    _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022,
+)
+from gettsim.social_insurance_contributions.ges_rentenv import (
+    _ges_rentenv_beitr_midijob_arbeitn_m_ab_10_2022,
+)
+from gettsim.social_insurance_contributions.ges_rentenv import (
+    _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022,
 )
 from gettsim.taxes.eink_st import eink_st_tu_ab_1997
 from gettsim.taxes.eink_st import eink_st_tu_bis_1996
@@ -34,8 +109,8 @@ from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_bis_2014
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_ab_2005
 from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_bis_2004
-from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_ab_2012
-from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_bis_2011
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_ab_2012
+from gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_bis_2011
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2005_bis_2009
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2010_bis_2019
 from gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2020
@@ -78,11 +153,11 @@ from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
 )
 from gettsim.transfers.rente import ges_rente_nach_grundr_m
 from gettsim.transfers.rente import ges_rente_vor_grundr_m
-from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_m_ab_2016
-from gettsim.transfers.wohngeld import wohngeld_eink_abzüge_m_bis_2015
-from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2009
-from gettsim.transfers.wohngeld import wohngeld_miete_m_ab_2021
-from gettsim.transfers.wohngeld import wohngeld_miete_m_bis_2008
+from gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
+from gettsim.transfers.wohngeld import wohngeld_eink_freib_m_bis_2015
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009_bis_2020
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
 
 
 def set_up_policy_environment(date):
@@ -98,17 +173,17 @@ def set_up_policy_environment(date):
     -------
     params : dict
         A dictionary with parameters from the policy environment. For more
-        information see the documentation of the :ref:`param_files`.
+        information see the documentation of the :ref:`params_files`.
     functions : dict
-        Dictionary of time dependent policy reforms. Keys are the variable names they
-        create.
+        Dictionary mapping column names to functions creating the respective
+        data.
 
     """
     # Check policy date for correct format and transfer to datetime.date
     date = _parse_date(date)
 
     params = {}
-    for group in INTERNAL_PARAM_GROUPS:
+    for group in INTERNAL_PARAMS_GROUPS:
         params_one_group = _load_parameter_group_from_yaml(date, group)
 
         # Align parameters for piecewise polynomial functions
@@ -119,7 +194,7 @@ def set_up_policy_environment(date):
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
     params = _parse_vorsorg_rv_anteil(date, params)
 
-    functions = load_reforms_for_date(date)
+    functions = load_functions_for_date(date)
 
     return params, functions
 
@@ -288,7 +363,7 @@ def _parse_vorsorg_rv_anteil(date, params):
     return params
 
 
-def load_reforms_for_date(date):
+def load_functions_for_date(date):
     """Load time-dependent policy reforms.
 
     Parameters
@@ -299,8 +374,8 @@ def load_reforms_for_date(date):
     Returns
     -------
     functions : dict
-        Dictionary of time dependent policy reforms. Keys are the variable names they
-        create.
+        Dictionary mapping column names to functions creating the respective
+        data.
 
     """
     year = date.year
@@ -333,9 +408,9 @@ def load_reforms_for_date(date):
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
 
     if year > 2011:
-        functions["sonderausgaben"] = eink_st_sonderausgaben_ab_2012
+        functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_ab_2012
     else:
-        functions["sonderausgaben"] = eink_st_sonderausgaben_bis_2011
+        functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_bis_2011
 
     if year >= 2020:
         functions["vorsorgeaufw"] = vorsorgeaufw_ab_2020
@@ -352,16 +427,16 @@ def load_reforms_for_date(date):
         functions["vorsorgepauschale"] = vorsorgepauschale_2005_2010
 
     if year <= 2015:
-        functions["wohngeld_eink_abzüge_m"] = wohngeld_eink_abzüge_m_bis_2015
+        functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_bis_2015
     else:
-        functions["wohngeld_eink_abzüge_m"] = wohngeld_eink_abzüge_m_ab_2016
+        functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_ab_2016
 
     if year <= 2008:
-        functions["wohngeld_miete_m"] = wohngeld_miete_m_bis_2008
+        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_bis_2008
     elif 2009 <= year <= 2020:
-        functions["wohngeld_miete_m"] = wohngeld_miete_m_ab_2009
+        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2009_bis_2020
     else:
-        functions["wohngeld_miete_m"] = wohngeld_miete_m_ab_2021
+        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2021
 
     if year <= 2010:
         functions[
@@ -393,6 +468,108 @@ def load_reforms_for_date(date):
         functions[
             "arbeitsl_geld_2_regelsatz_m_hh"
         ] = arbeitsl_geld_2_regelsatz_m_hh_ab_2011
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions["minijob_grenze_west"] = minijob_grenze_ab_10_2022
+        functions["minijob_grenze_ost"] = minijob_grenze_ab_10_2022
+    else:
+        functions["minijob_grenze_west"] = minijob_grenze_west_vor_10_2022
+        functions["minijob_grenze_ost"] = minijob_grenze_ost_vor_10_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions["midijob_faktor_f"] = midijob_faktor_f_ab_10_2022
+    else:
+        functions["midijob_faktor_f"] = midijob_faktor_f_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_arbeitsl_v_beitr_midijob_arbeitg_m"
+        ] = _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022
+    else:
+        functions[
+            "_arbeitsl_v_beitr_midijob_arbeitg_m"
+        ] = _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_arbeitsl_v_beitr_midijob_arbeitn_m"
+        ] = _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022
+    else:
+        functions[
+            "_arbeitsl_v_beitr_midijob_arbeitn_m"
+        ] = _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_krankenv_midijob_arbeitg_m"
+        ] = _ges_krankenv_midijob_arbeitg_m_ab_10_2022
+    else:
+        functions[
+            "_ges_krankenv_midijob_arbeitg_m"
+        ] = _ges_krankenv_midijob_arbeitg_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_krankenv_midijob_arbeitn_m"
+        ] = _ges_krankenv_midijob_arbeitn_m_ab_10_2022
+    else:
+        functions[
+            "_ges_krankenv_midijob_arbeitn_m"
+        ] = _ges_krankenv_midijob_arbeitn_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m"
+        ] = _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022
+    else:
+        functions[
+            "_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m"
+        ] = _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_pflegev_beitr_midijob_arbeitg_m"
+        ] = _ges_pflegev_beitr_midijob_arbeitg_m_ab_10_2022
+    else:
+        functions[
+            "_ges_pflegev_beitr_midijob_arbeitg_m"
+        ] = _ges_pflegev_beitr_midijob_arbeitg_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_pflegev_beitr_midijob_arbeitn_m"
+        ] = _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022
+    else:
+        functions[
+            "_ges_pflegev_beitr_midijob_arbeitn_m"
+        ] = _ges_pflegev_beitr_midijob_arbeitn_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_rentenv_beitr_midijob_arbeitg_m"
+        ] = _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022
+    else:
+        functions[
+            "_ges_rentenv_beitr_midijob_arbeitg_m"
+        ] = _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "_ges_rentenv_beitr_midijob_arbeitn_m"
+        ] = _ges_rentenv_beitr_midijob_arbeitn_m_ab_10_2022
+    else:
+        functions[
+            "_ges_rentenv_beitr_midijob_arbeitn_m"
+        ] = _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022
+
+    if date >= datetime.date(year=2022, month=10, day=1):
+        functions[
+            "midijob_bemessungsentgelt_m"
+        ] = midijob_bemessungsentgelt_m_ab_10_2022
+    else:
+        functions[
+            "midijob_bemessungsentgelt_m"
+        ] = midijob_bemessungsentgelt_m_bis_09_2022
 
     if date < datetime.date(year=2005, month=10, day=1):
         functions[
@@ -634,7 +811,7 @@ def set_by_path(data_dict, key_list, value):
     get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
-def add_progressionsfaktor(param_dict, parameter):
+def add_progressionsfaktor(params_dict, parameter):
     """Quadratic factor of tax tariff function.
 
     The German tax tariff is defined on several income intervals with distinct
@@ -648,11 +825,11 @@ def add_progressionsfaktor(param_dict, parameter):
     (rate_fiv - rate_iv) / (2 * (upper_thres - low_thres))
 
     """
-    out_dict = copy.deepcopy(param_dict)
+    out_dict = copy.deepcopy(params_dict)
     interval_keys = sorted(key for key in out_dict if isinstance(key, int))
     # Check and extract lower thresholds.
     lower_thresholds, upper_thresholds, thresholds = check_thresholds(
-        param_dict, parameter, interval_keys
+        params_dict, parameter, interval_keys
     )
     for key in interval_keys:
         if "rate_quadratic" not in out_dict[key]:

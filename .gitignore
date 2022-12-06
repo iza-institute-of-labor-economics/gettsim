@@ -72,4 +72,4 @@ ___*
 .env/installed_spec.json
 docs/_build
 docs/tutorials/sandbox_cz.ipynb
-param_dashboard_data.pickle
+params_dashboard_data.pickle

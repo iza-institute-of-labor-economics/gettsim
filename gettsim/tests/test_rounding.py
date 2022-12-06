@@ -6,12 +6,14 @@ import pytest
 import yaml
 
 from gettsim import compute_taxes_and_transfers
-from gettsim.config import INTERNAL_PARAM_GROUPS
+from gettsim.config import INTERNAL_PARAMS_GROUPS
 from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from gettsim.config import ROOT_DIR
 from gettsim.functions_loader import _load_functions
-from gettsim.policy_environment import load_reforms_for_date
+from gettsim.interface import _add_rounding_to_functions
+from gettsim.policy_environment import load_functions_for_date
 from gettsim.shared import add_rounding_spec
+
 
 rounding_specs_and_exp_results = [
     (1, "up", [100.24, 100.78], [101.0, 101.0]),
@@ -149,7 +151,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
             (ROOT_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8"),
             Loader=yaml.CLoader,
         )
-        for group in INTERNAL_PARAM_GROUPS
+        for group in INTERNAL_PARAMS_GROUPS
     }
     params_keys_with_rounding_spec = [
         k for k in params_dict if "rounding" in params_dict[k]
@@ -162,7 +164,9 @@ def test_decorator_for_all_functions_with_rounding_spec():
     # addressed.
     time_dependent_functions = {}
     for year in range(1990, 2023):
-        year_functions = load_reforms_for_date(datetime.date(year=year, month=1, day=1))
+        year_functions = load_functions_for_date(
+            datetime.date(year=year, month=1, day=1)
+        )
         new_dict = {func.__name__: key for key, func in year_functions.items()}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
@@ -186,4 +190,27 @@ def test_decorator_for_all_functions_with_rounding_spec():
             f"For the function {fn}, rounding parameters are specified. But the "
             "function is missing the add_rounding_spec decorator. The attribute "
             "__rounding_params_key__ is not found."
+        )
+
+
+@pytest.mark.parametrize(
+    "params, match",
+    [
+        ({}, "Rounding specifications for function"),
+        ({"eink_st": {}}, "Rounding specifications for function"),
+        ({"eink_st": {"rounding": {}}}, "Rounding specifications for function"),
+        (
+            {"eink_st": {"rounding": {"eink_st_func": {}}}},
+            "Both 'base' and 'direction' are expected",
+        ),
+    ],
+)
+def test_raise_if_missing_rounding_spec(params, match):
+    @add_rounding_spec(params_key="eink_st")
+    def eink_st_func(arg_1: float) -> float:
+        return arg_1
+
+    with pytest.raises(KeyError, match=match):
+        _add_rounding_to_functions(
+            functions={"eink_st_func": eink_st_func}, params=params
         )

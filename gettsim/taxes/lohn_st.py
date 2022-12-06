@@ -45,7 +45,7 @@ def lohn_st_eink(
         - sonderausgaben
         - entlastung_freibetrag_alleinerz
         - vorsorgepauschale,
-        0,
+        0.0,
     )
 
     return out

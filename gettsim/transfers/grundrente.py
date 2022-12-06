@@ -207,7 +207,13 @@ def grundr_bew_zeiten_avg_entgeltp(
     -------
 
     """
-    out = grundr_entgeltp / grundr_bew_zeiten
+    if grundr_bew_zeiten > 0:
+        out = grundr_entgeltp / grundr_bew_zeiten
+
+    # Return 0 if grundr_bew_zeiten is 0. Then, grundr_entgeltp should be 0, too.
+    else:
+        out = 0
+
     return out
 
 
@@ -308,6 +314,9 @@ def rente_vorj_vor_grundr_proxy_m(
     ges_rente_zugangsfaktor: float,
 ) -> float:
     """Estimated amount of public pensions of last year excluding Grundrentenzuschlag.
+
+    Parameters
+    ----------
     rentner
         See basic input variable :ref:`rentner <rentner>`.
     rentenwert_vorjahr

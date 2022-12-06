@@ -2,7 +2,9 @@ def kinderbonus_m(
     kinderfreib_günstiger_tu: bool,
     kinderbonus_basis_m: float,
 ) -> float:
-    """Calculate Kinderbonus (one-time payment, non-allowable against transfer payments).
+    """Calculate Kinderbonus for an individual child after Günstigerprüfung
+
+    (one-time payment, non-allowable against transfer payments).
 
     Parameters
     ----------
@@ -21,7 +23,7 @@ def kinderbonus_m(
 
 
 def kinderbonus_basis_m(kindergeld_basis_m: float, kindergeld_params: dict) -> float:
-    """Calculate the kinderbonus.
+    """Calculate potential Kinderbonus for an individual child.
 
     (one-time payment, non-allowable against transfer payments)
 
@@ -37,6 +39,7 @@ def kinderbonus_basis_m(kindergeld_basis_m: float, kindergeld_params: dict) -> f
 
     """
     # Kinderbonus parameter is specified on the yearly level
+    # kindergeld_basis_m is zero for all adults
     if kindergeld_basis_m > 0:
         out = kindergeld_params["kinderbonus"] / 12
     else:

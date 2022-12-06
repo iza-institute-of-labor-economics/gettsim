@@ -4,7 +4,7 @@
 def unterhaltsvors_m(
     alleinerz: bool,
     alter: int,
-    unterhaltsvorschuss_eink_tu_m: float,
+    unterhaltsvorschuss_eink_m_tu: float,
     unterhalt_params: dict,
     kindergeld_params: dict,
 ) -> float:
@@ -26,8 +26,8 @@ def unterhaltsvors_m(
         See basic input variable :ref:`alleinerz <alleinerz>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    unterhaltsvorschuss_eink_tu_m
-        See :func:`unterhaltsvorschuss_eink_tu_m`.
+    unterhaltsvorschuss_eink_m_tu
+        See :func:`unterhaltsvorschuss_eink_m_tu`.
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     kindergeld_params
@@ -54,7 +54,7 @@ def unterhaltsvors_m(
         (altersgrenzen[1] <= alter <= altersgrenzen[2])
         and alleinerz
         and (
-            unterhaltsvorschuss_eink_tu_m
+            unterhaltsvorschuss_eink_m_tu
             > unterhalt_params["unterhaltsvors_mindesteinkommen"]
         )
     ):
@@ -70,7 +70,7 @@ def unterhaltsvors_m(
     return out
 
 
-def unterhaltsvorschuss_eink_tu_m(
+def unterhaltsvorschuss_eink_m_tu(
     bruttolohn_m_tu: float,
     sonstig_eink_m_tu: float,
     eink_selbst_m_tu: float,
@@ -79,7 +79,8 @@ def unterhaltsvorschuss_eink_tu_m(
     sum_ges_rente_priv_rente_m_tu: float,
     arbeitsl_geld_m_tu: float,
 ) -> float:
-    """Calculate relevant income for advance on alimony payment.
+    """Calculate relevant income for advance on alimony payment
+    on tax unit level.
 
     Parameters
     ----------

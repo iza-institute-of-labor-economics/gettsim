@@ -37,13 +37,13 @@ INPUT_COLS = [
     "eink_vermietung_m",
     "eink_st_tu",
     "soli_st_tu",
-    "sozialv_beitr_gesamt_m",
+    "sozialv_beitr_m",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
     "jahr",
     "wohngeld_vor_vermög_check_m_hh",
-    "vermögen_hh",
+    "vermögen_bedürft_hh",
     "geburtsjahr",
     "rentner",
     "in_ausbildung",
@@ -69,13 +69,13 @@ OVERRIDE_COLS = [
     "unterhaltsvors_m",
     "elterngeld_m",
     "eink_st_tu",
-    "sozialv_beitr_gesamt_m",
+    "sozialv_beitr_m",
     "sum_ges_rente_priv_rente_m",
     "wohngeld_vor_vermög_check_m_hh",
 ]
 
 
-YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019]
+YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019, 2022]
 
 
 @pytest.fixture(scope="module")

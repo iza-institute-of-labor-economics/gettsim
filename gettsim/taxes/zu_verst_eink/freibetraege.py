@@ -32,7 +32,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     # Select appropriate pauschbetrag.
     out = eink_st_abzuege_params["behinderten_pauschbetrag"][selected_bin]
 
-    return out
+    return float(out)
 
 
 def eink_st_alleinerz_freib_tu_bis_2014(
@@ -104,7 +104,7 @@ def eink_st_altersfreib_bis_2004(
     eink_vermietung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for elderly.
+    """Calculates tax deduction allowance for elderly until 2004.
 
     Parameters
     ----------
@@ -151,7 +151,7 @@ def eink_st_altersfreib_ab_2005(
     eink_vermietung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for elderly.
+    """Calculates tax deduction allowance for elderly since 2005.
 
     Parameters
     ----------
@@ -205,19 +205,19 @@ def eink_st_altersfreib_ab_2005(
     return out
 
 
-def eink_st_sonderausgaben_bis_2011(
-    kind: bool,
+def eink_st_sonderausgaben_tu_bis_2011(
     eink_st_abzuege_params: dict,
+    anz_erwachsene_tu: int,
 ) -> float:
-    """Calculating sonderausgaben for childcare until 2011.
+    """Individual sonderausgaben on tax unit level until 2011.
 
     There is only a lumpsum payment implemented.
     Parameters
     ----------
-    kind
-        See basic input variable :ref:`kind <kind>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    anz_erwachsene_tu
+        See func `anz_erwachsene_tu <anz_erwachsene_tu>`.
 
     Returns
     -------
@@ -225,56 +225,65 @@ def eink_st_sonderausgaben_bis_2011(
     """
     # so far, only the Sonderausgabenpauschale is considered
 
-    if kind:
-        out = 0.0
-    else:
-        out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+    out = (
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+        * anz_erwachsene_tu
+    )
 
+    return float(out)
+
+
+def eink_st_abz_betreuungskost(
+    eink_st_abzuege_params: dict,
+    betreuungskost_m: float,
+) -> float:
+    """Individual deductable childcare cost for each individual
+    child under 14.
+
+    ----------
+    betreuungskost_m
+        See basic input variable :ref:`betreuungskost_m <betreuungskost_m>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    """
+    out = min(
+        12 * betreuungskost_m,
+        eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
+    )
     return out
 
 
 @add_rounding_spec(params_key="eink_st_abzuege")
-def sonderausgaben_betreuung(
+def sonderausgaben_betreuung_tu(
     eink_st_abzuege_params: dict,
-    anz_kinder_bis_13_tu: int,
-    betreuungskost_m: float,
-    anz_erwachsene_tu: int,
+    eink_st_abz_betreuungskost_tu: float,
 ) -> float:
-    """Calculate sonderausgaben for childcare for childen under 14.
+    """Sonderausgaben for childcare on tax unit level.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
     Parameters
     ----------
-    betreuungskost_m
-        See basic input variable :ref:`betreuungskost_m <betreuungskost_m>`.
-    anz_kinder_bis_13_tu
-        See :func:`anz_kinder_bis_13_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    eink_st_abz_betreuungskost_tu
+        See :func:`eink_st_abz_betreuungskost_tu`.
     """
 
-    abziehbare_betreuungskosten = min(
-        12 * betreuungskost_m,
-        eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
-    )
     out = (
-        anz_kinder_bis_13_tu
-        * abziehbare_betreuungskosten
+        eink_st_abz_betreuungskost_tu
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
-    ) / anz_erwachsene_tu
+    )
 
-    return out
+    return float(out)
 
 
-def eink_st_sonderausgaben_ab_2012(
-    kind: bool,
+def eink_st_sonderausgaben_tu_ab_2012(
     eink_st_abzuege_params: dict,
-    sonderausgaben_betreuung: float,
+    sonderausgaben_betreuung_tu: float,
+    anz_erwachsene_tu: int,
 ) -> float:
-    """Calculate sonderausgaben since 2012.
+    """Individual sonderausgaben on tax unit level since 2012.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
@@ -282,26 +291,29 @@ def eink_st_sonderausgaben_ab_2012(
     ----------
     kind
         See basic input variable :ref:`kind <kind>`.
-    sonderausgaben_betreuung
-        See :func:`sonderausgaben_betreuung`.
+    sonderausgaben_betreuung_tu
+        See :func:`sonderausgaben_betreuung_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
 
     Returns
     -------
 
     """
-    sonderausgaben_gesamt = sonderausgaben_betreuung
-    pauschale = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+    sonderausgaben_gesamt = sonderausgaben_betreuung_tu
+    pauschale = (
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+        * anz_erwachsene_tu
+    )
 
-    if kind:
-        out = 0.0
-    elif sonderausgaben_gesamt > pauschale:
+    if sonderausgaben_gesamt > pauschale:
         out = sonderausgaben_gesamt
     else:
-        out = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+        out = pauschale
 
-    return out
+    return float(out)
 
 
 def eink_st_kinderfreib_tu(
@@ -327,4 +339,4 @@ def eink_st_kinderfreib_tu(
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
     out = kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
-    return out
+    return float(out)

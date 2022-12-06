@@ -1,4 +1,5 @@
 import pickle
+import warnings
 
 import pytz
 from bokeh.io import curdoc
@@ -34,7 +35,7 @@ plot_attributes = [
     "description",
 ]
 # Github-Link to Parameters
-param_url = """https://github.com/iza-institute-of-labor-economics/
+params_url = """https://github.com/iza-institute-of-labor-economics/
 gettsim/blob/main/gettsim/parameters"""
 attribute_dict = {
     "tax_rate": [
@@ -45,7 +46,7 @@ attribute_dict = {
         "0%",
         "bottom_right",
         f"""This graph demonstrates the statutory income tax rate with and without
-        Solidarity Surcharge. <a href="{param_url}/eink_st.yaml">
+        Solidarity Surcharge. <a href="{params_url}/eink_st.yaml">
         <em>Details and legal references.</em></a>
         """,
     ],
@@ -58,7 +59,7 @@ attribute_dict = {
         "top_left",
         f"""This graph shows the evolution of the main lump-sum tax deductions
         creating a wedge between market and taxable income.
-        <a href="{param_url}/eink_st_abzuege.yaml">
+        <a href="{params_url}/eink_st_abzuege.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "wohngeld": [
@@ -68,10 +69,10 @@ attribute_dict = {
         "0€",
         "0€",
         "top_left",
-        f"""This Graph depicts the monthly housing benefit, depending on household size and
-        year, for a given combination of rent and income. We assume 'Mietstufe' 3, which
-        corresponds to a municipality with average rental cost.
-        <a href="{param_url}/wohngeld.yaml">
+        f"""This Graph depicts the monthly housing benefit, depending on household size
+        and year, for a given combination of rent and income. We assume 'Mietstufe' 3,
+        which corresponds to a municipality with average rental cost.
+        <a href="{params_url}/wohngeld.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "child_benefits": [
@@ -82,7 +83,7 @@ attribute_dict = {
         "0€",
         "top_left",
         f"""Monthly child benefit by order of child within the household.
-        <a href="{param_url}/kindergeld.yaml">
+        <a href="{params_url}/kindergeld.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "social_security": [
@@ -99,7 +100,7 @@ attribute_dict = {
         vary across health insurance funds; we assume the national average.
         In the period 1993-2007, competition between sickness funds meant
         there was not one contribution rate. GETTSIM provides an average.
-        <a href="{param_url}/soz_vers_beitr.yaml">
+        <a href="{params_url}/soz_vers_beitr.yaml">
         <em>Details and legal references.</em></a>""",
     ],
     "social_assistance": [
@@ -111,49 +112,64 @@ attribute_dict = {
         "bottom_right",
         f"""This graph depicts monthly personal social assistance payments
          ('Regelsatz Arbeitslosengeld II') by household member.
-        <a href="{param_url}/arbeitsl_geld_2.yaml">
+        <a href="{params_url}/arbeitsl_geld_2.yaml">
         <em>Details and legal references.</em></a>""",
     ],
 }
 
-# print("{} INFO - Creating a plot dict".format(datetime.now(tz)))
 
-plot_dict = {
-    p: {a: attribute_dict[p][counter] for counter, a in enumerate(plot_attributes)}
-    for p in plot_list
-}
-# Makes a difference whether we launch the Dashboard app or start tests.
-try:
-    all_data = pickle.load(open("dashboard/param_dashboard_data.pickle", "rb"))
-except FileNotFoundError:
-    all_data = pickle.load(open("param_dashboard_data.pickle", "rb"))
+def create_dashboard():
+    # print("{} INFO - Creating a plot dict".format(datetime.now(tz)))
 
-# print("{} INFO - Server receives request".format(datetime.now(tz)))
+    plot_dict = {
+        p: {a: attribute_dict[p][counter] for counter, a in enumerate(plot_attributes)}
+        for p in plot_list
+    }
+    # Makes a difference whether we launch the Dashboard app or start tests.
+    all_data = None
+    try:
+        all_data = pickle.load(open("dashboard/params_dashboard_data.pickle", "rb"))
+    except FileNotFoundError:
+        try:
+            all_data = pickle.load(open("params_dashboard_data.pickle", "rb"))
+        except FileNotFoundError:
+            warnings.warn(
+                "No dashboard data found. Please run 'pre_processing_data.py' first."
+            )
 
-# Call tab functions)
-tab1 = tax_rate(plot_dict["tax_rate"], all_data["tax_rate"])
-tab2 = deductions(plot_dict["deductions"], all_data["deductions"])
-tab3 = wohngeld(plot_dict["wohngeld"], all_data["wohngeld"])
-tab4 = child_benefits(plot_dict["child_benefits"], all_data["child_benefits"])
-tab5 = social_security(plot_dict["social_security"], all_data["social_security"])
-tab6 = social_assistance(plot_dict["social_assistance"], all_data["social_assistance"])
+    # Start dashboard only if data was found
+    if all_data:
 
-tabs = Tabs(tabs=[tab1, tab2, tab3, tab4, tab5, tab6])
+        # Call tab functions)
+        tab1 = tax_rate(plot_dict["tax_rate"], all_data["tax_rate"])
+        tab2 = deductions(plot_dict["deductions"], all_data["deductions"])
+        tab3 = wohngeld(plot_dict["wohngeld"], all_data["wohngeld"])
+        tab4 = child_benefits(plot_dict["child_benefits"], all_data["child_benefits"])
+        tab5 = social_security(
+            plot_dict["social_security"], all_data["social_security"]
+        )
+        tab6 = social_assistance(
+            plot_dict["social_assistance"], all_data["social_assistance"]
+        )
 
-header = Div(text="""<h1>GETTSIM parameter visualisations</h1>""", width=900, height=80)
+        tabs = Tabs(tabs=[tab1, tab2, tab3, tab4, tab5, tab6])
 
-intro = Div(
-    text="""<h4>This dashboard visualizes GETTSIM parameters. Further information can be
-    found in the
-    <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
-    """,
-    width=800,
-    height=70,
-)
+        header = Div(
+            text="""<h1>GETTSIM parameter visualisations</h1>""", width=900, height=80
+        )
+
+        intro = Div(
+            text="""<h4>This dashboard visualizes GETTSIM parameters. Further
+            information can be found in the
+            <a href="https://gettsim.readthedocs.io/en/stable/">documentation</a>.</h4>
+            """,
+            width=800,
+            height=70,
+        )
+
+        # Put everything together
+        curdoc().add_root(column(header, intro, tabs))
+        curdoc().title = "GETTSIM parameter visualizations"
 
 
-# print("{} INFO - Server completes processing request".format(datetime.now(tz)))
-
-# Put everything together
-curdoc().add_root(column(header, intro, tabs))
-curdoc().title = "GETTSIM parameter visualizations"
+create_dashboard()

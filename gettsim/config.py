@@ -8,19 +8,16 @@ ROOT_DIR = Path(__file__).parent
 GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
 GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 
+# List of paths to internal functions.
+# If a path is a directory, all Python files are recursively collected from that folder.
 PATHS_TO_INTERNAL_FUNCTIONS = [
     ROOT_DIR / "social_insurance_contributions",
     ROOT_DIR / "transfers",
     ROOT_DIR / "taxes",
     ROOT_DIR / "demographic_vars.py",
 ]
-"""list of Paths: List of paths to internal functions.
 
-If a path is a directory, all Python files are recursively collected from that folder.
-
-"""
-
-INTERNAL_PARAM_GROUPS = [
+INTERNAL_PARAMS_GROUPS = [
     "eink_st",
     "eink_st_abzuege",
     "soli_st",
@@ -38,12 +35,23 @@ INTERNAL_PARAM_GROUPS = [
     "lohn_st",
 ]
 
-ORDER_OF_IDS = {"hh_id": 0, "tu_id": 1, "p_id": 2}
+SUPPORTED_GROUPINGS = {
+    "hh": {
+        "name": "household",
+        "description": "all individuals living in the same household.",
+    },
+    "tu": {
+        "name": "tax unit",
+        "description": "one or two persons that file their taxes together.",
+        "nested_by": "hh",
+    },
+}
 
 DEFAULT_TARGETS = [
     "eink_st_tu",
     "soli_st_tu",
     "abgelt_st_tu",
+    "sozialv_beitr_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
@@ -62,9 +70,10 @@ TYPES_INPUT_VARIABLES = {
     "hh_id": int,
     "tu_id": int,
     "p_id": int,
-    "vermögen_hh": float,
+    "vermögen_bedürft_hh": float,
     "bruttolohn_m": float,
     "alter": int,
+    "weiblich": bool,
     "selbstständig": bool,
     "wohnort_ost": bool,
     "hat_kinder": bool,
@@ -105,6 +114,20 @@ TYPES_INPUT_VARIABLES = {
     "grundr_bew_zeiten": int,
     "priv_rente_m": float,
     "schwerbeh_g": bool,
+    "m_pflichtbeitrag": float,
+    "m_freiw_beitrag": float,
+    "m_mutterschutz": float,
+    "m_arbeitsunfähig": float,
+    "m_krank_ab_16_bis_24": float,
+    "m_arbeitslos": float,
+    "m_ausbild_suche": float,
+    "m_schul_ausbild": float,
+    "m_geringf_beschäft": float,
+    "m_alg1_übergang": float,
+    "m_ersatzzeit": float,
+    "m_kind_berücks_zeit": float,
+    "m_pfleg_berücks_zeit": float,
+    "y_pflichtbeitr_ab_40": float,
 }
 
 # =====================================================================================

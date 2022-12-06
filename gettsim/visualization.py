@@ -1,61 +1,23 @@
 import functools
 import inspect
+import operator
+from functools import reduce
 
 import networkx as nx
 import numpy as np
 import pandas as pd
-from bokeh.io import output_notebook
-from bokeh.io import show
-from bokeh.models import Arrow
-from bokeh.models import BoxZoomTool
-from bokeh.models import Circle
-from bokeh.models import ColumnDataSource
-from bokeh.models import HoverTool
-from bokeh.models import LabelSet
-from bokeh.models import NormalHead
-from bokeh.models import OpenURL
-from bokeh.models import Plot
-from bokeh.models import Range1d
-from bokeh.models import ResetTool
-from bokeh.models import TapTool
-from bokeh.models import Title
-from bokeh.plotting import from_networkx
+import plotly.graph_objects as go
 from pygments import highlight
 from pygments import lexers
 from pygments.formatters import HtmlFormatter
 
 from gettsim.config import DEFAULT_TARGETS
 from gettsim.config import TYPES_INPUT_VARIABLES
-from gettsim.dag import _fail_if_targets_not_in_functions_or_override_columns
-from gettsim.dag import create_dag
-from gettsim.functions_loader import load_user_and_internal_functions
-from gettsim.interface import _create_aggregation_functions
+from gettsim.interface import load_and_check_functions
+from gettsim.interface import set_up_dag
 from gettsim.shared import format_list_linewise
 from gettsim.shared import get_names_of_arguments_without_defaults
 from gettsim.shared import parse_to_list_of_strings
-
-
-ARROW_KWARGS_DEFAULTS = {"size": 7, "fill_color": "red"}
-EDGE_KWARGS_DEFAULTS = {"line_color": "red", "line_width": 1}
-NODE_KWARGS_DEFAULTS = {"size": 15, "fill_color": "blue"}
-PLOT_KWARGS_DEFAULTS = {
-    "plot_width": 600,
-    "plot_height": 600,
-    "x_range": Range1d(-1.3, 1.3),
-    "y_range": Range1d(-1.3, 1.3),
-}
-LABEL_KWARGS_DEFAULT = {
-    "x_offset": -30,
-    "y_offset": 8,
-    "render_mode": "canvas",
-    "text_font_size": "12px",
-}
-
-
-TOOLTIPS = """
-column: @index <br>
-source code: @source_code{safe}
-"""
 
 
 def plot_dag(
@@ -64,23 +26,20 @@ def plot_dag(
     columns_overriding_functions=None,
     check_minimal_specification="ignore",
     selectors=None,
-    labels=True,
-    tooltips=False,
-    plot_kwargs=None,
-    arrow_kwargs=None,
-    edge_kwargs=None,
-    label_kwargs=None,
-    node_kwargs=None,
+    orientation="v",
+    show_labels=None,
+    hover_source_code=False,
 ):
-    """Plot the dag of the tax and transfer system.
+    """Plot the dag of the tax and transfer system. Note that if 10 or less nodes are
+    plotted, labels are always displayed.
 
     Parameters
     ----------
     functions : str, pathlib.Path, callable, module, imports statements, dict
-        Functions can be anything of the specified types and a list of the same objects.
-        If the object is a dictionary, the keys of the dictionary are used as a name
-        instead of the function name. For all other objects, the name is inferred from
-        the function name.
+        Functions can be anything of the specified types and a list of the same
+        objects. If the object is a dictionary, the keys of the dictionary are used as
+        a name instead of the function name. For all other objects, the name is
+        inferred from the function name.
     targets : str, list of str
         String or list of strings with names of functions whose output is actually
         needed by the user.
@@ -95,137 +54,216 @@ def plot_dag(
         visualization. For the full list of options, see the tutorial about
         `visualization <../docs/tutorials/visualize.ipynb>`_. By default, all nodes are
         shown.
-    labels : bool, default True
-        Annotate nodes with labels.
-    tooltips : bool, default False
+    orientation :str,default "v"
+         Whether the graph is horizontal or vertical
+    show_labels : bool, default None
+        Whether the graph is annotated with labels next to each node. By default,
+        the labels are shown when the number of nodes is at most 10.
+        Otherwise, names are displayed next to the node only when hovering over it.
+        It is also possible to display labels regardless of the number of nodes, setting
+        variable as True or hide labels when the variable is False.
+    hover_source_code: bool, default as false
         Experimental feature which makes the source code of the functions accessible as
-        a tooltip. Sometimes, the tooltip is not properly displayed.
-    plot_kwargs : dict
-        Additional keyword arguments passed to :class:`bokeh.models.Plot`.
-    arrow_kwargs : dict
-        Additional keyword arguments passed to :class:`bokeh.models.Arrow`. For example,
-        change the size of the head with ``{"size": 10}``.
-    edge_kwargs : dict
-        Additional keyword arguments passed to :class:`bokeh.models.MultiLine`. For
-        example, change the color with ``{"fill_color": "green"}``.
-    label_kwargs : dict
-        Additional keyword arguments passed to :class:`bokeh.models.LabelSet`. For
-        example, change the fontsize with ``{"text_font_size": "12px"}``.
-    node_kwargs : dict
-        Additional keyword arguments passed to :class:`bokeh.models.Circle`. For
-        example, change the color with ``{"fill_color": "orange"}``.
+        a hover information. Sometimes, the tooltip is not properly displayed.
 
     """
+
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     columns_overriding_functions = parse_to_list_of_strings(
         columns_overriding_functions, "columns_overriding_functions"
     )
 
-    # Load functions and perform checks.
-    functions, internal_functions = load_user_and_internal_functions(functions)
-
-    # Create one dictionary of functions and perform check.
-    user_and_internal_functions = {**internal_functions, **functions}
-
-    # Create and add aggregation functions
-    typical_data_cols = list(TYPES_INPUT_VARIABLES)
-    aggregation_funcs = _create_aggregation_functions(
-        user_and_internal_functions,
-        targets,
-        typical_data_cols,
-        user_provided_aggregation_specs={},
+    # Load functions.
+    functions_not_overridden, functions_overridden = load_and_check_functions(
+        user_functions_raw=functions,
+        columns_overriding_functions=columns_overriding_functions,
+        targets=targets,
+        data_cols=list(TYPES_INPUT_VARIABLES),
+        aggregation_specs={},
     )
-    all_functions = {**user_and_internal_functions, **aggregation_funcs}
 
-    all_functions = {
-        k: v for k, v in all_functions.items() if k not in columns_overriding_functions
+    # Select necessary nodes by creating a preliminary DAG.
+    nodes = set_up_dag(
+        all_functions=functions_not_overridden,
+        targets=targets,
+        columns_overriding_functions=columns_overriding_functions,
+        check_minimal_specification=check_minimal_specification,
+    ).nodes
+    necessary_functions = {
+        f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
-    _fail_if_targets_not_in_functions_or_override_columns(
-        all_functions, targets, columns_overriding_functions
-    )
+    # Params should not show up in DAG.
+    processed_functions = _mock_parameters_arguments(necessary_functions)
 
-    # Partial parameters to functions such that they disappear in the DAG.
-    all_functions = _mock_parameters_arguments(all_functions)
-    dag = create_dag(
-        all_functions,
+    dag = set_up_dag(
+        processed_functions,
         targets,
         columns_overriding_functions,
         check_minimal_specification,
     )
 
     selectors = [] if selectors is None else _to_list(selectors)
-    plot_kwargs = {} if plot_kwargs is None else plot_kwargs
-    arrow_kwargs = {} if arrow_kwargs is None else arrow_kwargs
-    edge_kwargs = {} if edge_kwargs is None else edge_kwargs
-    label_kwargs = {} if label_kwargs is None else label_kwargs
-    node_kwargs = {} if node_kwargs is None else node_kwargs
-
     dag = _select_nodes_in_dag(dag, selectors)
-
     dag = _add_url_to_dag(dag)
-    # Even if we do not use the source codes as tooltips, we need to remove the
-    # functions.
+    # Even if we do not show the source codes , we need to remove the functions.
     dag = _replace_functions_with_source_code(dag)
+    layout_df = _create_pydot_layout(dag, orientation)
+    # prepare for the nodes dataframe including their url
+    names = layout_df.index
+    node_x_coord = layout_df[0].values
+    node_y_coord = layout_df[1].values
+    url = []
+    for x in names:
+        url.append(dag.nodes[x]["url"])
+    url = np.array(url)
+    codes = []
+    for x in names:
+        codes.append(dag.nodes[x]["source_code"])
 
-    plot_kwargs["title"] = _to_bokeh_title(
-        plot_kwargs.get("title", "Tax and Transfer System")
+    combo = pd.DataFrame(
+        {"x": node_x_coord, "y": node_y_coord, "url": url, "source_code": codes}
     )
-    plot = Plot(**{**PLOT_KWARGS_DEFAULTS, **plot_kwargs})
+    combo.source_code = combo.source_code.str.split("\n").str.join("<br>")
 
-    layout = _create_pydot_layout(dag)
-    graph_renderer = from_networkx(dag, layout, scale=1, center=(0, 0))
-
-    graph_renderer.node_renderer.glyph = Circle(
-        **{**NODE_KWARGS_DEFAULTS, **node_kwargs}
-    )
-
-    graph_renderer.edge_renderer.visible = False
-    for (
-        _,
-        (start_node, end_node),
-    ) in graph_renderer.edge_renderer.data_source.to_df().iterrows():
-        (x_start, y_start), (x_end, y_end) = _compute_arrow_coordinates(
-            layout[start_node], layout[end_node]
+    # prepare for the edges dataframe
+    df = pd.DataFrame(list(dag.edges))
+    if len(df) == 0:
+        df["x0"] = 0
+        df["y0"] = 0
+    else:
+        df["x0"] = df[0].map(layout_df[0])
+        df["y0"] = df[0].map(layout_df[1])
+        df["x1"] = df[1].map(layout_df[0])
+        df["y1"] = df[1].map(layout_df[1])
+    df["None"] = ""
+    if len(df) == 0:
+        edge_x = []
+        edge_y = []
+    else:
+        edge_x = df[["x0", "x1", "None"]].apply(tuple, axis=1).tolist()
+        edge_x = list(reduce(operator.concat, edge_x))
+        edge_y = df[["y0", "y1", "None"]].apply(tuple, axis=1).tolist()
+        edge_y = list(reduce(operator.concat, edge_y))
+    # prepare for the arrows
+    arrows = []
+    for i in range(len(df)):
+        arrow = go.layout.Annotation(
+            x=df["x1"][i],
+            y=df["y1"][i],
+            xref="x",
+            yref="y",
+            text="",
+            showarrow=True,
+            axref="x",
+            ayref="y",
+            ax=df["x0"][i],
+            ay=df["y0"][i],
+            arrowhead=2,
+            arrowsize=2,
+            startstandoff=5,
+            standoff=5,
+            arrowcolor="gray",
         )
-        plot.add_layout(
-            Arrow(
-                end=NormalHead(**{**ARROW_KWARGS_DEFAULTS, **arrow_kwargs}),
-                x_start=x_start,
-                y_start=y_start,
-                x_end=x_end,
-                y_end=y_end,
-                **{**EDGE_KWARGS_DEFAULTS, **edge_kwargs},
+        arrows.append(arrow)
+
+    # plot the nodes, edges and arrows together
+
+    fig = go.FigureWidget(
+        layout=go.Layout(
+            showlegend=False,
+            hovermode="closest",
+            annotations=arrows,
+            hoverlabel_font_size=10,
+            margin={"b": 20, "l": 5, "r": 5, "t": 40},
+            xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+            yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+        )
+    )
+    fig.add_scatter(
+        x=edge_x,
+        y=edge_y,
+        line={"width": 0.5, "color": "blue"},
+        hoverinfo="none",
+        mode="lines",
+        showlegend=False,
+    )
+    # choose the different options for plotting
+    # When show_lebels = None and number of nodes >10
+    # labels are shown when hovering over it.
+    # Same happens when show_labels is False,
+    # Otherwise, labels are displayed next to the nodes.
+    if show_labels or (show_labels is None and len(names) <= 10):
+        mode = "markers+text"
+        hover_info = "skip"
+    else:
+        mode = "markers"
+        hover_info = "text"
+
+    fig.add_scatter(
+        x=combo.x,
+        y=combo.y,
+        mode=mode,
+        hoverinfo=hover_info,
+        textposition="bottom center",
+        text=list(names),
+        showlegend=False,
+        marker={
+            "showscale": False,
+            "reversescale": True,
+            "color": "red",
+            "size": 15,
+        },
+    )
+
+    # add the source code to the graph,
+    # that is displayed as hover information
+
+    if hover_source_code:
+        for i in range(len(combo)):
+            fig.add_scatter(
+                x=[combo.x[i]],
+                y=[combo.y[i]],
+                mode=mode,
+                hovertext=combo.source_code[i],
+                hoverinfo="text",
+                textposition="bottom center",
+                hoverlabel={"bgcolor": "lightgrey", "font": {"color": "black"}},
+                text=names[i],
+                showlegend=False,
+                name=names[i],
+                marker={
+                    "showscale": False,
+                    "reversescale": True,
+                    "color": "red",
+                    "size": 15,
+                },
             )
+
+    elif not hover_source_code:
+        fig.add_scatter(
+            x=combo.x,
+            y=combo.y,
+            mode=mode,
+            hoverinfo="skip",
+            textposition="bottom center",
+            text=list(names),
+            showlegend=False,
+            marker={
+                "showscale": False,
+                "reversescale": True,
+                "color": "red",
+                "size": 15,
+            },
+        )
+    else:
+        raise ValueError(
+            "hover_source_code must be either True"
+            f" or False, but got '{hover_source_code}'"
         )
 
-    plot.renderers.append(graph_renderer)
-
-    tools = [BoxZoomTool(), ResetTool()]
-    tools.append(TapTool(callback=OpenURL(url="@url")))
-    if tooltips:
-        tools.append(HoverTool(tooltips=TOOLTIPS))
-
-    plot.add_tools(*tools)
-
-    if labels:
-        source = ColumnDataSource(
-            pd.DataFrame(layout).T.rename(columns={0: "x", 1: "y"})
-        )
-        labels = LabelSet(
-            x="x",
-            y="y",
-            text="index",
-            source=source,
-            **{**LABEL_KWARGS_DEFAULT, **label_kwargs},
-        )
-        plot.add_layout(labels)
-
-    output_notebook()
-    show(plot)
-
-    return plot
+    return fig
 
 
 def _mock_parameters_arguments(functions):
@@ -256,12 +294,6 @@ def _mock_parameters_arguments(functions):
     return mocked_functions
 
 
-def _to_bokeh_title(title):
-    t = Title()
-    t.text = title
-    return t
-
-
 def _select_nodes_in_dag(dag, raw_selectors):
     """Select nodes in the DAG based on the selectors."""
     raw_selectors = _convert_non_dict_selectors(raw_selectors)
@@ -278,8 +310,8 @@ def _add_url_to_dag(dag):
     for node in dag.nodes:
         # Retrieve the name from the function because some functions are defined for
         # time periods and the node name will point to a non-existent function, but the
-        # function name is a valid target. E.g., wohngeld_eink_abzüge_m and
-        # wohngeld_eink_abzüge_m_bis_2015.
+        # function name is a valid target. E.g., wohngeld_eink_freib_m and
+        # wohngeld_eink_freib_m_bis_2015.
         if "function" in dag.nodes[node]:
             # Fix for partialed functions.
             try:
@@ -322,7 +354,8 @@ def _replace_functions_with_source_code(dag):
                 source = inspect.getsource(function.func)
             else:
                 source = inspect.getsource(function)
-            dag.nodes[node]["source_code"] = _highlight_source_code(source)
+            dag.nodes[node]["source_code_highlighted"] = _highlight_source_code(source)
+            dag.nodes[node]["source_code"] = source
         else:
             dag.nodes[node]["source_code"] = "Column in data"
 
@@ -348,27 +381,8 @@ def _highlight_source_code(source):
     return highlight(source, lex, formatter)
 
 
-def _create_pydot_layout(dag):
-    """Create a layout for the graph with pydot.
+def _create_pydot_layout(dag, orientation):
 
-    The function :func:`networkx.drawing.nx_pydot.pydot_layout` has some shortcoming
-    which are resolved here.
-
-    - Cannot handle underscores in node labels and longer labels.
-    - Cannot handle node attributes which cannot be serialized with JSON.
-    - Produces coordinates which are not inside the unit cube.
-
-    Parameters
-    ----------
-    dag : networkx.DiGraph
-        The DAG for which to produce the layout
-
-    Returns
-    -------
-    layout : dict of arrays
-        A dictionary node labels as keys and xy coordinates as values in an array.
-
-    """
     # Convert node labels to integers because some names cannot be handled by pydot.
     dag_w_integer_nodes = nx.relabel.convert_node_labels_to_integers(dag)
 
@@ -399,19 +413,22 @@ def _create_pydot_layout(dag):
     for k, v in layout.items():
         layout[k] = (v - (max_ + min_) / 2) / ((max_ - min_) / 2).clip(1)
 
-    return layout
+    if orientation == "v":
 
+        layout_df = np.transpose(pd.DataFrame.from_dict(layout))
 
-def _compute_arrow_coordinates(start, end, scalar=0.05):
-    """Compute arrow coordinates.
+    elif orientation == "h":
 
-    This function computes the coordinates of the tail and the head of the arrow. The
-    scalar compresses the arrow such that its tail and head do not overlap with the
-    nodes.
+        layout_df = np.transpose(pd.DataFrame.from_dict(layout))
+        layout_df[[0, 1]] = layout_df[[1, 0]]
+        layout_df[0] = layout_df[0] * (-1)
 
-    """
-    unit_vector = (end - start) / np.sum(np.abs(end - start))
-    return start + unit_vector * scalar, end - unit_vector * scalar
+    else:
+        raise ValueError(
+            f"orientation must be one of 'v', 'h', but got '{orientation}'"
+        )
+
+    return layout_df
 
 
 def _to_list(scalar_or_iter):
@@ -438,18 +455,6 @@ def _to_list(scalar_or_iter):
         if isinstance(scalar_or_iter, str) or isinstance(scalar_or_iter, dict)
         else list(scalar_or_iter)
     )
-
-
-def _validate_selectors(selectors):
-    for selector in selectors:
-        if not isinstance(selector, str) or not (
-            isinstance(selector, dict) and "node" in selector and "type" in selector
-        ):
-            raise ValueError("A selector has to be a str or a dictionary.")
-
-        if selector["type"] in ["neighbors", "neighbours"]:
-            if selector["order"] < 1:
-                raise ValueError("The order of neighbors cannot be smaller than one.")
 
 
 def _convert_non_dict_selectors(selectors_):

@@ -11,7 +11,7 @@ def arbeitsl_geld_m(
     arbeitsl_geld_eink_vorj_proxy: float,
     arbeitsl_geld_params: dict,
 ) -> float:
-    """Calculate unemployment benefit.
+    """Calculate individual unemployment benefit.
 
     Parameters
     ----------

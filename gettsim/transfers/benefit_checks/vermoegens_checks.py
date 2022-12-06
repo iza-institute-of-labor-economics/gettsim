@@ -1,6 +1,6 @@
 def _kinderzuschl_nach_vermög_check_m_hh(
     _kinderzuschl_vor_vermög_check_m_hh: float,
-    vermögen_hh: float,
+    vermögen_bedürft_hh: float,
     arbeitsl_geld_2_vermög_freib_hh: float,
 ) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
@@ -9,8 +9,8 @@ def _kinderzuschl_nach_vermög_check_m_hh(
     ----------
     _kinderzuschl_vor_vermög_check_m_hh
         See :func:`_kinderzuschl_vor_vermög_check_m_hh`.
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
+    vermögen_bedürft_hh
+        See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
     arbeitsl_geld_2_vermög_freib_hh
         See :func:`arbeitsl_geld_2_vermög_freib_hh`.
 
@@ -19,8 +19,9 @@ def _kinderzuschl_nach_vermög_check_m_hh(
 
     """
 
-    if vermögen_hh > arbeitsl_geld_2_vermög_freib_hh:
-        out = 0.0
+    if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_hh:
+        diff = vermögen_bedürft_hh - arbeitsl_geld_2_vermög_freib_hh
+        out = max(_kinderzuschl_vor_vermög_check_m_hh - diff, 0.0)
     else:
         out = _kinderzuschl_vor_vermög_check_m_hh
     return out
@@ -28,7 +29,7 @@ def _kinderzuschl_nach_vermög_check_m_hh(
 
 def wohngeld_nach_vermög_check_m_hh(
     wohngeld_vor_vermög_check_m_hh: float,
-    vermögen_hh: float,
+    vermögen_bedürft_hh: float,
     haushaltsgröße_hh: int,
     wohngeld_params: dict,
 ) -> float:
@@ -41,8 +42,8 @@ def wohngeld_nach_vermög_check_m_hh(
     ----------
     wohngeld_vor_vermög_check_m_hh
         See :func:`wohngeld_vor_vermög_check_m_hh`.
-    vermögen_hh
-        See basic input variable :ref:`vermögen_hh <vermögen_hh>`.
+    vermögen_bedürft_hh
+        See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
     wohngeld_params
@@ -53,7 +54,7 @@ def wohngeld_nach_vermög_check_m_hh(
 
     """
 
-    if vermögen_hh <= (
+    if vermögen_bedürft_hh <= (
         wohngeld_params["vermögensgrundfreibetrag"]
         + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
     ):
@@ -102,7 +103,7 @@ def _arbeitsl_geld_2_grundfreib_vermög(
     else:
         out = 0.0
 
-    return min(out, _arbeitsl_geld_2_max_grundfreib_vermög)
+    return float(min(out, _arbeitsl_geld_2_max_grundfreib_vermög))
 
 
 def _arbeitsl_geld_2_max_grundfreib_vermög(
@@ -145,7 +146,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
         else:
             out = obergrenzen[3]
 
-    return out
+    return float(out)
 
 
 def arbeitsl_geld_2_vermög_freib_hh(

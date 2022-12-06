@@ -15,28 +15,25 @@ applying the tax schedule.
 """
 
 
-def freibeträge(
+def freibeträge_ind(
     vorsorgeaufw: float,
-    sonderausgaben: float,
     _eink_st_behinderungsgrad_pauschbetrag: float,
-    alleinerz_freib_tu: float,
     eink_st_altersfreib: float,
+    alleinerz_freib_tu: float,
 ) -> float:
-    """Calculate allowances.
+    """Sum up all tax-deductible allowances applicable at the individual level.
 
     Parameters
     ----------
 
     vorsorgeaufw
         See :func:`vorsorgeaufw`.
-    sonderausgaben
-        See :func:`sonderausgaben`.
     _eink_st_behinderungsgrad_pauschbetrag
         See :func:`_eink_st_behinderungsgrad_pauschbetrag`.
-    alleinerz_freib_tu
-        See :func:`alleinerz_freib_tu`.
     eink_st_altersfreib
         See :func:`eink_st_altersfreib`.
+    alleinerz_freib_tu
+        See :func:`alleinerz_freib_tu`.
 
     Returns
     -------
@@ -44,11 +41,33 @@ def freibeträge(
     """
     out = (
         vorsorgeaufw
-        + sonderausgaben
         + _eink_st_behinderungsgrad_pauschbetrag
-        + alleinerz_freib_tu
         + eink_st_altersfreib
+        + alleinerz_freib_tu
     )
+    return out
+
+
+def freibeträge_tu(
+    eink_st_sonderausgaben_tu: float,
+    freibeträge_ind_tu: float,
+) -> float:
+    """Calculate total allowances on tax unit level.
+
+    Parameters
+    ----------
+
+    eink_st_sonderausgaben_tu
+        See :func:`eink_st_sonderausgaben_tu`.
+    freibeträge_ind_tu
+        See :func:`freibeträge_ind_tu`.
+
+    Returns
+    -------
+
+    """
+    out = freibeträge_ind_tu + eink_st_sonderausgaben_tu
+
     return out
 
 
@@ -56,7 +75,7 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
     sum_eink_tu: float,
     freibeträge_tu: float,
 ) -> float:
-    """Calculate taxable income without child allowance.
+    """Calculate taxable income without child allowance on tax unit level.
 
     Parameters
     ----------
@@ -78,7 +97,7 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
 def zu_verst_eink_mit_kinderfreib_tu(
     _zu_verst_eink_ohne_kinderfreib_tu: float, eink_st_kinderfreib_tu: float
 ) -> float:
-    """Calculate taxable income with child allowance.
+    """Calculate taxable income with child allowance on tax unit level.
 
     Parameters
     ----------
@@ -91,4 +110,6 @@ def zu_verst_eink_mit_kinderfreib_tu(
     -------
 
     """
-    return _zu_verst_eink_ohne_kinderfreib_tu - eink_st_kinderfreib_tu
+
+    out = _zu_verst_eink_ohne_kinderfreib_tu - eink_st_kinderfreib_tu
+    return max(out, 0.0)
