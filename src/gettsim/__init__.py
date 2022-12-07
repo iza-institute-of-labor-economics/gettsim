@@ -1,11 +1,11 @@
 """This module contains the main namespace of gettsim."""
-# Import the version from _version.py which is dynamically created by setuptools-scm
-# when the project is installed with ``pip install -e .``. Do not put it into version
-# control!
 from __future__ import annotations
 
 try:
-    from ._version import version as __version__
+    # Import the version from _version.py which is dynamically created by
+    # setuptools-scm upon installing the project with pip.
+    # Do not put it under version control!
+    from _gettsim._version import version as __version__
 except ImportError:
     __version__ = "unknown"
 
@@ -14,10 +14,17 @@ import itertools
 import warnings
 
 import pytest
-from gettsim.config import ROOT_DIR
-from gettsim.interface import compute_taxes_and_transfers  # noqa: F401
-from gettsim.policy_environment import set_up_policy_environment  # noqa: F401
-from gettsim.visualization import plot_dag  # noqa: F401
+from _gettsim_tests import TEST_DIR
+from _gettsim.config import RESOURCE_DIR
+from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.policy_environment import set_up_policy_environment
+from _gettsim.visualization import plot_dag
+
+# ToDo: Remove. Legacy stuff, still in docs
+from _gettsim import social_insurance_contributions
+from _gettsim import synthetic
+from _gettsim import taxes
+from _gettsim import transfers
 
 
 COUNTER_TEST_EXECUTIONS = itertools.count()
@@ -27,7 +34,7 @@ def test(*args):
     n_test_executions = next(COUNTER_TEST_EXECUTIONS)
 
     if n_test_executions == 0:
-        pytest.main([str(ROOT_DIR), *args])
+        pytest.main([str(TEST_DIR), *args])
     else:
         warnings.warn(
             "Repeated execution of the test suite is not possible. Start a new Python "
@@ -41,4 +48,10 @@ __all__ = [
     "compute_taxes_and_transfers",
     "set_up_policy_environment",
     "plot_dag",
+    "RESOURCE_DIR",
+    # ToDo: Remove remainder.
+    "social_insurance_contributions",
+    "synthetic",
+    "taxes",
+    "transfers",
 ]

@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 
 [tool.setuptools_scm]
-write_to = "src/gettsim/_version.py"
+write_to = "src/_gettsim/_version.py"
 
 
 [tool.mypy]
-files = ["src", "tests"]
+files = ["src"]
 check_untyped_defs = true
-disallow_any_generics = true
+disallow_any_generics = false
 disallow_incomplete_defs = true
 disallow_untyped_defs = true
 no_implicit_optional = true
@@ -19,6 +19,26 @@ warn_unused_ignores = true
 
 
 [[tool.mypy.overrides]]
-module = "tests.*"
+module = "_gettsim_tests.*"
 disallow_untyped_defs = false
 ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "gettsim"
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "_gettsim.parameters._dynamic_pension_data.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "dashboard.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "_gettsim.*"
+ignore_errors = true
+
+
+[tool.tryceratops]
+ignore = ["TC003"]
