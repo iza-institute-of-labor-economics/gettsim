@@ -1,5 +1,4 @@
-GETTSIM Enhancement Proposals
-=============================
+# GETTSIM Enhancement Proposals
 
 Setting up GETTSIM and making major changes is done via the process of GETTSIM
 Enhancement Proposals, short GEPs. They serve the purpose of summarising discussions
@@ -9,14 +8,15 @@ changes (or not).
 
 These GEPs are currently in place:
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Meta-GEPs
+```{toctree}
+:caption: Meta-GEPs
+:maxdepth: 1
 
-   ../geps/gep-00
-   ../geps/gep-01
-   ../geps/gep-02
-   ../geps/gep-03
-   ../geps/gep-04
-   ../geps/gep-05
-   ../geps/gep-x
+../geps/gep-00
+../geps/gep-01
+../geps/gep-02
+../geps/gep-03
+../geps/gep-04
+../geps/gep-05
+../geps/gep-x
+```

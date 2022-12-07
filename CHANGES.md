@@ -7,7 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## 0.5.2 —
 
--   `323` Health care contribution parameters are better aligned with
+-   ```{gh}323``` Health care contribution parameters are better aligned with
     law. Restructure calculation of ges\_krankenv, minor changes to
     ges\_pflegev. (`Eric-Sommer`, `ChristianZimpelmann`).
 
@@ -304,7 +304,5 @@ Initial release of `gettsim`.
 
 ## 0.1 and prior work — 2019-09-30
 
-Most code written by `Eric-Sommer` based on [IZAΨMOD
-&lt;https://www.iza.org/
-publications/dp/8553/documentation-izapsmod-v30-the-iza-policy-simulation-model&gt;](),
+Most code written by `Eric-Sommer` based on [IZAΨMOD](https://www.iza.org/publications/dp/8553/documentation-izapsmod-v30-the-iza-policy-simulation-model&gt),
 a policy microsimulation model developed at [IZA](https://www.iza.org).

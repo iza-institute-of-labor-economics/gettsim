@@ -1,14 +1,12 @@
-:download:`Download the template here <gep-x.rst>`.
+{download}`Download the template here <gep-x.md>`.
 
-.. Delete above this line
+% Delete above this line
 
+(gep-x)=
 
-.. _gep-x:
+# GEP X — Template and Instructions
 
-=================================
-GEP X — Template and Instructions
-=================================
-
+```{eval-rst}
 +------------+-------------------------------------------------------------------------+
 | Author     | <list of authors' real names and optionally, email addresses>           |
 +            +-------------------------------------------------------------------------+
@@ -23,27 +21,21 @@ GEP X — Template and Instructions
 +------------+-------------------------------------------------------------------------+
 | Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
 +------------+-------------------------------------------------------------------------+
+```
 
-
-
-Abstract
---------
+## Abstract
 
 The abstract should be a short description of what the GEP will achieve.
 
 Note that the — in the title is an elongated dash, not - (a minus sign).
 
-
-Motivation and Scope
---------------------
+## Motivation and Scope
 
 This section describes the need for the proposed change. It should describe the existing
 problem, who it affects, what it is trying to solve, and why. This section should
 explicitly address the scope of and key requirements for the proposed change.
 
-
-Usage and Impact
-----------------
+## Usage and Impact
 
 This section describes how users of GETTSIM will use features described in this GEP. It
 should be comprised mainly of code examples that wouldn't be possible without acceptance
@@ -52,35 +44,27 @@ the ecosystem. This section should be written from the perspective of the users 
 GETTSIM, and the benefits it will provide them; and as such, it should include
 implementation details only if necessary to explain the functionality.
 
-
-Backward compatibility
-----------------------
+## Backward compatibility
 
 This section describes the ways in which the GEP breaks backward compatibility.
 
-The `#GEPs`_ stream will contain the GEP up to and including this section. This
+The [#GEPs] stream will contain the GEP up to and including this section. This
 is to avoid losing users who are not interested in implementation details and instead
 focus the discussion on usage and impact of the intended features.
 
-
-Detailed description
---------------------
+## Detailed description
 
 This section should provide a detailed description of the proposed change. It should
 include examples of how the new functionality would be used, intended use-cases and
 pseudo-code illustrating its use.
 
-
-Related Work
-------------
+## Related Work
 
 This section should list relevant and/or similar technologies, possibly in other
 libraries. It does not need to be comprehensive, just list the major examples of prior
 and relevant art.
 
-
-Implementation
---------------
+## Implementation
 
 This section lists the major steps required to implement the GEP.  Where possible, it
 should be noted where one step is dependent on another, and which steps may be
@@ -91,16 +75,12 @@ Any pull requests or development branches containing work on this GEP should be 
 to from here.  (A GEP does not need to be implemented in a single pull request if it
 makes sense to implement it in discrete phases).
 
-
-Alternatives
-------------
+## Alternatives
 
 If there were any alternative solutions to solving the same problem, they should be
 discussed here, along with a justification for the chosen approach.
 
-
-Discussion
-----------
+## Discussion
 
 This section may just be a bullet list including links to any discussions regarding the
 GEP:
@@ -108,19 +88,14 @@ GEP:
 - Links to relevant GitHub issues, pull requests.
 - Discussion on XXX
 
+## References and Footnotes
 
-References and Footnotes
-------------------------
+[^id1]: Each GEP must either be explicitly labeled as placed in the public domain (see
+    this GEP as an example) or licensed under the [Open Publication License].
 
-.. [1] Each GEP must either be explicitly labeled as placed in the public domain (see
-       this GEP as an example) or licensed under the `Open Publication License`_.
+## Copyright
 
-.. _Open Publication License: https://www.opencontent.org/openpub/
+This document has been placed in the public domain. [^id1]
 
-.. _#GEPs: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs
-
-
-Copyright
----------
-
-This document has been placed in the public domain. [1]_
+[#geps]: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs
+[open publication license]: https://www.opencontent.org/openpub/
