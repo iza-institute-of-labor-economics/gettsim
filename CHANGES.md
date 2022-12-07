@@ -7,7 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## 0.5.2 —
 
--   ```{gh}323``` Health care contribution parameters are better aligned with
+-   ```{github} 323``` Health care contribution parameters are better aligned with
     law. Restructure calculation of ges\_krankenv, minor changes to
     ges\_pflegev. (`Eric-Sommer`, `ChristianZimpelmann`).
 
