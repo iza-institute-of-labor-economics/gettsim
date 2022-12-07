@@ -22,7 +22,7 @@ versioning](https://semver.org/) and all releases are available on
 -   `393` normal retirement age adjustment aligned with the rules.
     (`TeBackh`).
 
--   `396` Implement pension for (very) long term insured, including eligibility criteria,  
+-   `396` Implement pension for (very) long term insured, including eligibility criteria,
     i.e. "Wartezeiten". Implement pension for women (`TeBackh`).
 
 -   `403` Replace <span class="title-ref">Bokeh</span> with <span
@@ -62,15 +62,15 @@ versioning](https://semver.org/) and all releases are available on
 
 -   `327` add behinderten\_pauschbetrag for 1975-1986 (`lillyfischer`).
 
--   `285` Set up bokeh dashboard to visualize tax-benefit parameters  
+-   `285` Set up bokeh dashboard to visualize tax-benefit parameters
     (`Si-Pf`, `Eric-Sommer`).
 
--   `306` Add the possibility to load the value of a parameter of the previous  
+-   `306` Add the possibility to load the value of a parameter of the previous
     year when calling <span
     class="title-ref">set\_up\_policy\_environment</span>
     (`ChristianZimpelmann`).
 
--   `275` Implement Grundrente. Implement Grundsicherung im Alter. Remove  
+-   `275` Implement Grundrente. Implement Grundsicherung im Alter. Remove
     <span class="title-ref">ges\_rente\_m</span> as input. Rename <span
     class="title-ref">gettsim.renten\_anspr</span> to <span
     class="title-ref">gettsim.transfers.rente</span>. Rename <span
@@ -78,16 +78,16 @@ versioning](https://semver.org/) and all releases are available on
     class="title-ref">gettsim.social\_insurance\_contributions</span>
     (`davpahl`, `ChristianZimpelmann`).
 
--   `307` Allow to specify order up to which ancestors and descendants are shown  
+-   `307` Allow to specify order up to which ancestors and descendants are shown
     when plotting a dag (`ChristianZimpelmann`).
 
--   `310` Added Mehrbedarf G to Implementation of Grundsicherung im Alter  
+-   `310` Added Mehrbedarf G to Implementation of Grundsicherung im Alter
     (`paulinaschroeder`).
 
--   `311` Rename variable kaltmiete\_m\_hh to bruttokaltmiete\_m\_hh  
+-   `311` Rename variable kaltmiete\_m\_hh to bruttokaltmiete\_m\_hh
     (`LauraGergeleit`).
 
--   `319``320` Implement changes for social assistance and social insurance  
+-   `319``320` Implement changes for social assistance and social insurance
     becoming effective in 2022 (`Eric-Sommer`).
 
 -   `322` Add updated wohngeld parameters for 2022 (`mjbloemer`,
@@ -131,25 +131,25 @@ versioning](https://semver.org/) and all releases are available on
 
 ## 0.4.1 — 2021-04-11
 
--   `248` Implement 2021 increase in lump sum tax deductions for disabled.  
+-   `248` Implement 2021 increase in lump sum tax deductions for disabled.
     (`Eric-Sommer`).
 
--   `254` Implement 2021 increase in unemployment benefits  
+-   `254` Implement 2021 increase in unemployment benefits
     (`Eric-Sommer`).
 
--   `253` Implement 2021 changes in health insurance contribution rates and  
+-   `253` Implement 2021 changes in health insurance contribution rates and
     other social insurance regulations (`Eric-Sommer`).
 
--   `266` Adjust visualization.py to link nodes of DAGs to documentation  
+-   `266` Adjust visualization.py to link nodes of DAGs to documentation
     properly (`davpahl`, `ChristianZimpelmann`).
 
--   `267` Implement new calculation of Kinderzuschlag parameter  
+-   `267` Implement new calculation of Kinderzuschlag parameter
     (`Eric-Sommer`).
 
--   `252` implement 2021 reforms to income tax tariff and family tax deductions  
+-   `252` implement 2021 reforms to income tax tariff and family tax deductions
     (`Eric-Sommer`).
 
--   `235` Module to create synthetic data  
+-   `235` Module to create synthetic data
     (`Eric-Sommer`, `ChristianZimpelmann`).
 
 -   `256` Implement 2021 housing benefit reform (`Eric-Sommer`).
@@ -159,21 +159,21 @@ versioning](https://semver.org/) and all releases are available on
 
 ## 0.4.0 — 2020-11-11
 
--   `241` renaming of directories: <span class="title-ref">gettsim.benefits</span> to <span class="title-ref">gettsim.transfers</span>;  
+-   `241` renaming of directories: <span class="title-ref">gettsim.benefits</span> to <span class="title-ref">gettsim.transfers</span>;
     <span class="title-ref">gettsim.soz\_vers</span> to <span
     class="title-ref">gettsim.social\_insurance</span>; <span
     class="title-ref">gettsim.data</span> to <span
     class="title-ref">gettsim.parameters</span> (`MaxBlesch`,
     `ChristianZimpelmann`).
 
--   `230` adds type hints and links all docstring variables to the documentation.  
+-   `230` adds type hints and links all docstring variables to the documentation.
     Also all functions have a one liner docstring now (`MaxBlesch`,
     `FelixAhlbrecht`).
 
--   `232` introduces beginner tutorials on how to use GETTSIM (`amageh`,  
+-   `232` introduces beginner tutorials on how to use GETTSIM (`amageh`,
     `davpahl`, `Trichter33`).
 
--   `185` adds the DAG code for renten\_anspr\_m (`MaxBlesch`). This is  
+-   `185` adds the DAG code for renten\_anspr\_m (`MaxBlesch`). This is
     based on the pension simulation code by (`Eric-Sommer`).
 
 -   `184` adds visualization of the tax and transfer system as an
