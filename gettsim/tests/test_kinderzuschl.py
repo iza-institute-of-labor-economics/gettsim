@@ -22,8 +22,9 @@ INPUT_COLS = [
     "alleinerz",
     "kindergeld_anspruch",
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
-    "arbeitsl_geld_2_brutto_eink_m_hh",
+    "kinderzuschl_eink_elternteil_tu",
     "arbeitsl_geld_2_eink_m_hh",
+    "arbeitsl_geld_2_eink_m_tu",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
@@ -31,8 +32,8 @@ INPUT_COLS = [
     "vermögen_bedürft_hh",
 ]
 OUT_COLS = [
-    "_kinderzuschl_vor_vermög_check_m_hh",
-    "_kinderzuschl_nach_vermög_check_m_hh",
+    "_kinderzuschl_vor_vermög_check_m_tu",
+    "_kinderzuschl_nach_vermög_check_m_tu",
 ]
 # 2006 and 2009 are missing
 YEARS = [2011, 2013, 2016, 2017, 2019, 2020, 2021]
@@ -42,8 +43,9 @@ OVERRIDE_COLS = [
     "arbeitsl_geld_2_eink_m_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
-    "arbeitsl_geld_2_brutto_eink_m_hh",
+    "kinderzuschl_eink_elternteil_tu",
     "kindergeld_anspruch",
+    "arbeitsl_geld_2_eink_m_tu",
 ]
 
 
