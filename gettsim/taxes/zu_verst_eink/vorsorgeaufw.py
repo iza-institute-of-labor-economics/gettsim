@@ -179,20 +179,24 @@ def vorsorgeaufw_ab_2020(
     -------
 
     """
-    # maybe add unemployment insurance, but do not exceed 1900€.
     if kind:
         out = 0.0
     else:
-        sonstige_vors = 12 * (
+        basiskrankenversicherung = 12 * (
             ges_pflegev_beitr_m
             + (1 - eink_st_abzuege_params["vorsorge_kranken_minderung"])
             * ges_krankenv_beitr_m
         )
-        limit_below = sonstige_vors + 12 * arbeitsl_v_beitr_m
-        limit_above = eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
 
-        out = min(max(sonstige_vors, limit_below), limit_above)
-        out += vorsorgeaufw_alter_ab_2005
+        sonst_vors_max = eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
+        sonst_vors_before_basiskrankenv = min(
+            12 * (arbeitsl_v_beitr_m + ges_pflegev_beitr_m + ges_krankenv_beitr_m),
+            sonst_vors_max,
+        )
+
+        # Basiskrankenversicherung can always be deducted even if above sonst_vors_max
+        sonst_vors = max(basiskrankenversicherung, sonst_vors_before_basiskrankenv)
+        out = sonst_vors + vorsorgeaufw_alter_ab_2005
     return out
 
 
