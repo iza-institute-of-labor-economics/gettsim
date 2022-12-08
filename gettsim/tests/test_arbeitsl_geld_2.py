@@ -51,14 +51,14 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    "arbeitsl_geld_2_brutto_eink_m",
-    "arbeitsl_geld_2_eink_anr_frei_m",
+    # "arbeitsl_geld_2_brutto_eink_m",
+    # "arbeitsl_geld_2_eink_anr_frei_m",
     "arbeitsl_geld_2_eink_m",
-    "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
+    # "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
     "arbeitsl_geld_2_regelsatz_m_hh",
     "arbeitsl_geld_2_kost_unterk_m_hh",
-    "unterhaltsvors_m_hh",
-    "arbeitsl_geld_2_vor_vorrang_m_hh",
+    # "unterhaltsvors_m_hh",
+    # "arbeitsl_geld_2_vor_vorrang_m_hh",
     "arbeitsl_geld_2_m_hh",
 ]
 
@@ -75,7 +75,7 @@ OVERRIDE_COLS = [
 ]
 
 
-YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019, 2022]
+YEARS = [2005, 2006, 2009, 2013, 2018, 2019, 2022]
 
 
 @pytest.fixture(scope="module")

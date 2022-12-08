@@ -1,5 +1,5 @@
 def arbeitsl_geld_2_kost_unterk_m_hh(
-    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: int,
+    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: float,
     _arbeitsl_geld_2_warmmiete_pro_qm_hh: float,
 ) -> float:
     """Calculate costs of living eligible to claim.
@@ -24,7 +24,7 @@ def arbeitsl_geld_2_kost_unterk_m_hh(
 def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,
-    wohnfläche_hh: int,
+    wohnfläche_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate rent per square meter.
@@ -51,11 +51,11 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
 
 
 def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
-    wohnfläche_hh: int,
+    wohnfläche_hh: float,
     bewohnt_eigentum_hh: bool,
     haushaltsgröße_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> int:
+) -> float:
     """Calculate size of dwelling eligible to claim.
 
     Parameters
