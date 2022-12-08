@@ -2,7 +2,7 @@
 
 
 def unterhaltsvors_m(
-    alleinerz: bool,
+    alleinerz_tu: bool,
     alter: int,
     unterhaltsvorschuss_eink_m_tu: float,
     unterhalt_params: dict,
@@ -22,8 +22,8 @@ def unterhaltsvors_m(
 
     Parameters
     ----------
-    alleinerz
-        See basic input variable :ref:`alleinerz <alleinerz>`.
+    alleinerz_tu
+        See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
     alter
         See basic input variable :ref:`alter <alter>`.
     unterhaltsvorschuss_eink_m_tu
@@ -39,11 +39,11 @@ def unterhaltsvors_m(
     """
 
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
-    if (alter < altersgrenzen[0]) and alleinerz:
+    if (alter < altersgrenzen[0]) and alleinerz_tu:
         out = (
             unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
         )
-    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) and alleinerz:
+    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) and alleinerz_tu:
         out = (
             unterhalt_params["mindestunterhalt"][12]
             - kindergeld_params["kindergeld"][1]
@@ -52,7 +52,7 @@ def unterhaltsvors_m(
     # Older kids get it only if the single parent has income > 600€.
     elif (
         (altersgrenzen[1] <= alter <= altersgrenzen[2])
-        and alleinerz
+        and alleinerz_tu
         and (
             unterhaltsvorschuss_eink_m_tu
             > unterhalt_params["unterhaltsvors_mindesteinkommen"]
