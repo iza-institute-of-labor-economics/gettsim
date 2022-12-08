@@ -80,9 +80,6 @@ TYPES_INPUT_VARIABLES = {
     "in_priv_krankenv": bool,
     "priv_rentenv_beitr_m": float,
     "bruttolohn_vorj_m": float,
-    "arbeitsl_monate_lfdj": int,
-    "arbeitsl_monate_vorj": int,
-    "arbeitsl_monate_v2j": int,
     "arbeitsstunden_w": float,
     "geburtsjahr": int,
     "geburtstag": int,
@@ -127,6 +124,10 @@ TYPES_INPUT_VARIABLES = {
     "m_kind_berücks_zeit": float,
     "m_pfleg_berücks_zeit": float,
     "y_pflichtbeitr_ab_40": float,
+    "anwartschaftszeit": int,
+    "arbeitssuchend": bool,
+    "arbeitsl_geld_m_vorj": int,
+    "arbeitsl_geld_m_v2j": int,
 }
 
 # =====================================================================================

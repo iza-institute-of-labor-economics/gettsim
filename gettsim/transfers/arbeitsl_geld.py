@@ -3,13 +3,12 @@
 """
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
-
-# from gettsim.transfers.rente import ges_rente_regelaltersgrenze
+from gettsim.transfers.rente import ges_rente_regelaltersgrenze
 
 
 def arbeitsl_geld_m(
     anz_kinder_tu: int,
-    arbeitsl_geld_berechtigt: bool,
+    anspruchsdauer_aktuell: int,
     arbeitsl_geld_eink_vorj_proxy: float,
     arbeitsl_geld_params: dict,
 ) -> float:
@@ -19,8 +18,8 @@ def arbeitsl_geld_m(
     ----------
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
-    arbeitsl_geld_berechtigt
-        See :func:`arbeitsl_geld_berechtigt`.
+    anspruchsdauer_aktuell
+        See :func:`anspruchsdauer_aktuell`.
     arbeitsl_geld_eink_vorj_proxy
         See :func:`arbeitsl_geld_eink_vorj_proxy`.
     arbeitsl_geld_params
@@ -31,67 +30,77 @@ def arbeitsl_geld_m(
 
     """
 
-    if arbeitsl_geld_berechtigt:
-        if anz_kinder_tu == 0:
-            arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
-        else:
-            arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
-
-        out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
+    if anz_kinder_tu == 0:
+        arbeitsl_geld_satz = (
+            arbeitsl_geld_params["satz_ohne_kinder"] * anspruchsdauer_aktuell / 12
+        )
     else:
-        out = 0.0
+        arbeitsl_geld_satz = (
+            arbeitsl_geld_params["satz_mit_kindern"] * anspruchsdauer_aktuell / 12
+        )
+
+    out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
 
     return out
 
 
-def arbeitsl_monate_gesamt(
-    arbeitsl_monate_lfdj: int,
-    arbeitsl_monate_vorj: int,
-    arbeitsl_monate_v2j: int,
+def anspruchsdauer_aktuell(
+    anspruchsdauer_gesamt: int,
+    alter: int,
+    arbeitsl_geld_params: dict,
+    arbeitsl_geld_berechtigt: bool,
+    arbeitsl_geld_m_vorj: int,
+    arbeitsl_geld_m_v2j: int,
 ) -> int:
-    """Aggregate months of unemployment over the last two years.
+    """Calculate the amount of months a person can receive unemployment benifit
+    this year.
 
     Parameters
     ----------
-    arbeitsl_monate_lfdj
-        See basic input variable :ref:`arbeitsl_monate_lfdj <arbeitsl_monate_lfdj>`.
-    arbeitsl_monate_vorj
-        See basic input variable :ref:`arbeitsl_monate_vorj <arbeitsl_monate_vorj>`.
-    arbeitsl_monate_v2j
-        See basic input variable :ref:`arbeitsl_monate_v2j <arbeitsl_monate_v2j>`.
+    anspruchsdauer_gesamt
+        See :func:`anspruchsdauer_gesamt`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    arbeitsl_geld_params
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
+    arbeitsl_geld_berechtigt
+        See :func:`arbeitsl_geld_berechtigt`.
+    arbeitsl_geld_m_vorj
+        See basic input variable :ref:`arbeitsl_geld_m_vorj <arbeitsl_geld_m_vorj>`.
+    arbeitsl_geld_m_v2j
+        See basic input variable :ref:`arbeitsl_geld_m_v2j <arbeitsl_geld_m_v2j>`.
 
     Returns
     -------
 
     """
-    return arbeitsl_monate_lfdj + arbeitsl_monate_vorj + arbeitsl_monate_v2j
+
+    if arbeitsl_geld_berechtigt:
+        if alter >= arbeitsl_geld_params["anwartschaftszeit"]["threshold_5"]["age"]:
+            out = max(
+                anspruchsdauer_gesamt - arbeitsl_geld_m_vorj - arbeitsl_geld_m_v2j, 0
+            )
+        else:
+            out = max(anspruchsdauer_gesamt - arbeitsl_geld_m_vorj, 0)
+    else:
+        out = 0
+
+    return out
 
 
-def arbeitsl_geld_berechtigt(
-    arbeitsl_monate_gesamt: int,
+def anspruchsdauer_gesamt(
+    anwartschaftszeit: int,
     alter: int,
-    sum_ges_rente_priv_rente_m: float,
-    arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
-    # ges_rente_regelaltersgrenze: float,
-    # arbeitslos: bool,
-) -> bool:
-    """Check eligibility for unemployment benefit.
-
-    Different rates for parent and non-parents. Take into account actual wages. There
-    are different replacement rates depending on presence of children
+) -> int:
+    """Calculate the amount of months a person could receive unemployment benifit.
 
     Parameters
     ----------
-    arbeitsl_monate_gesamt
-        See :func:`arbeitsl_monate_gesamt`.
+    anwartschaftszeit
+        See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    sum_ges_rente_priv_rente_m
-        See basic input variable :ref:`sum_ges_rente_priv_rente_m
-        <sum_ges_rente_priv_rente_m>`.
-    arbeitsstunden_w
-        See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -99,64 +108,64 @@ def arbeitsl_geld_berechtigt(
     -------
 
     """
+    for threshold in [
+        "threshold_1",
+        "threshold_2",
+        "threshold_3",
+        "threshold_4",
+        "threshold_5",
+        "threshold_6",
+        "threshold_7",
+    ]:
+        if (
+            anwartschaftszeit
+            >= arbeitsl_geld_params["anwartschaftszeit"][threshold]["min"]
+            and alter >= arbeitsl_geld_params["anwartschaftszeit"][threshold]["age"]
+        ):
+            out = arbeitsl_geld_params["anwartschaftszeit"][threshold]["anspruch"]
+        else:
+            out = 0
+
+        return out
+    return out
+
+
+def arbeitsl_geld_berechtigt(
+    alter: int,
+    arbeitssuchend: bool,
+    arbeitsstunden_w: float,
+    arbeitsl_geld_params: dict,
+    geburtsjahr: int,
+    ges_rente_params: dict,
+) -> bool:
+    """Check eligibility for unemployment benefit.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    arbeitssuchend
+        See basic input variable :ref:`arbeitssuchend <arbeitssuchend>`.
+    arbeitsstunden_w
+        See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
+    arbeitsl_geld_params
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+
+    """
+    regelaltersgrenze = ges_rente_regelaltersgrenze(geburtsjahr, ges_rente_params)
+
     out = (
-        (
-            arbeitsl_monate_gesamt
-            <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"]
-        )
-        # the duration of unemployment benifit depends on how long you paid
-        # unemloyment insurance in the last 30 months
-        and (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
-        # supposed to be younger than Regelaltersgrenze
-        and (sum_ges_rente_priv_rente_m == 0)  # ?
+        arbeitssuchend
+        and (alter < regelaltersgrenze)
         and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
-    # # in order to get alg you need to:
-    # # - not be in_ausbildung/ dem Arbeitsmarkt zu Verfügung stehen (min. 15 h/ week)
-    # # - paid unemployment insurance in at least 12 of the last 30 months
-    # # - be registered as unemployed
-    # # you then get alg for:
-    # # - 6 months for 12 months unemployement insurance
-    # # - 8 months for 16, 10 for 20 and 12 for 24
-    # # - if you´re at least 50: 15 for 30
-    # # - if you´re at least 55: 18 for 36
-    # # - if you´re at least 58: 24 for 48
-    # # you get:
-    # # - 60% (or 67%) of your Leistungsentgelt
-    # # Leistungsentgelt =
-    # # bruttolohn (of months > mini-job) - lohnsteuer - soli - social insurances (20%)
-
-    # out = (
-    #     (
-    #         arbeitsl_versich_monate_letzte_30_monate
-    #         >= arbeitsl_geld_params["anwartschaftszeit"]["min_dauer"]
-    #         == 12
-    #     )
-    #     and (arbeitslos_gemeldet)
-    #     and (~arbeitsl_geld_prev_year)
-    #     and (alter < ges_rente_regelaltersgrenze)
-    #     and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
-    # )
-    # if alter > 58:
-    #     out = (
-    #         (
-    #             arbeitsl_versich_monate_letzten_30_monate
-    #             >= arbeitsl_geld_params["anwartschaftszeit"]["min_dauer"]
-    #             == 12
-    #         )
-    #         and (arbeitslos_gemeldet)
-    #         and (~arbeitsl_geld_prev_prev_year)
-    #         and (alter < ges_rente_regelaltersgrenze)
-    #         and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
-    #     )
-
-    # out = (
-    #     (arbeitsl_monate_gesamt
-    # < arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"])
-    #     and (arbeitslos)
-    #     and (alter < ges_rente_regelaltersgrenze)
-    #     and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
-    # )
 
     return out
 

@@ -56,12 +56,6 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 | _`bewohnt_eigentum_hh`    | Dummy: Owner-occupied housing               | bool         |
 +---------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_monate_lfdj`   | Months in unemployment, current year        | int          |
-+---------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_monate_vorj`   | Months in unemployment, previous year       | int          |
-+---------------------------+---------------------------------------------+--------------+
-| _`arbeitsl_monate_v2j`    | Months in unemployment, two years before    | int          |
-+---------------------------+---------------------------------------------+--------------+
 | _`arbeitsstunden_w`       | Weekly working hours of individual          | int          |
 +---------------------------+---------------------------------------------+--------------+
 | _`bruttolohn_vorj_m`      | Monthly wage, previous year                 | float        |
@@ -146,6 +140,15 @@ household.
 || _`y_pflichtbeitr_ab_40`  || Total years of mandat. contributions after || float       |
 ||                          || age 40                                     ||             |
 +---------------------------+---------------------------------------------+--------------+
-|| _`arbeitslos`            || Dummy: unemployed                          || bool        |
+|| _`anwartschaftszeit`     || Months of unemployment insurance           || int         |
+||                          || contributions in the last 30 months        ||             |
++---------------------------+---------------------------------------------+--------------+
+|| _`arbeitssuchend`        || Dummy: looking for employment              || bool        |
 ||                          ||                                            ||             |
++---------------------------+---------------------------------------------+--------------+
+|| _`arbeitsl_geld_m_vorj`  || Amount of months in which Arbeitslosengeld || int         |
+||                          || was received in previous year              ||             |
++---------------------------+---------------------------------------------+--------------+
+|| _`arbeitsl_geld_m_v2j`   || Amount of months in which Arbeitslosengeld || int         |
+||                          || was received two years before              ||             |
 +---------------------------+---------------------------------------------+--------------+
