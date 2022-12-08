@@ -336,16 +336,18 @@ def create_one_set_of_households(
         datetime.date(policy_year, 1, 1),
         f"{ROOT_DIR}/synthetic_data/bedarfsgemeinschaften",
     )
-    df["wohnfläche_hh"] = df["hh_typ"].map(bg_daten["wohnfläche"])
-    df["bruttokaltmiete_m_hh"] = df["hh_typ"].map(bg_daten["bruttokaltmiete"])
-    df["heizkosten_m_hh"] = df["hh_typ"].map(bg_daten["heizkosten"])
+    df["wohnfläche_hh"] = df["hh_typ"].map(bg_daten["wohnfläche"]).astype(float)
+    df["bruttokaltmiete_m_hh"] = (
+        df["hh_typ"].map(bg_daten["bruttokaltmiete"]).astype(float)
+    )
+    df["heizkosten_m_hh"] = df["hh_typ"].map(bg_daten["heizkosten"]).astype(float)
     df["mietstufe"] = 3
 
     # Income and wealth
-    df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0)
-    df["kapitaleink_brutto_m"] = kwargs.get("kapitaleink_brutto_m", 0)
-    df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0)
-    df["vermögen_bedürft_hh"] = kwargs.get("vermögen_bedürft_hh", 0)
+    df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0.0)
+    df["kapitaleink_brutto_m"] = kwargs.get("kapitaleink_brutto_m", 0.0)
+    df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0.0)
+    df["vermögen_bedürft_hh"] = kwargs.get("vermögen_bedürft_hh", 0.0)
 
     # append entries for children and partner
     for hht in hh_typen:
@@ -399,20 +401,20 @@ def create_one_set_of_households(
     df["grundr_entgeltp"] = df["entgeltp"]
 
     # Rente Wartezeiten
-    df["m_pflichtbeitrag"] = (df["alter"] - 25).clip(lower=0) * 12
-    df["y_pflichtbeitr_ab_40"] = (df["alter"] - 40).clip(lower=0) * 12
-    df["m_freiw_beitrag"] = 5
-    df["m_ersatzzeit"] = 0
-    df["m_schul_ausbild"] = 10
-    df["m_arbeitsunfähig"] = 0
-    df["m_krank_ab_16_bis_24"] = 0
-    df["m_mutterschutz"] = 0
-    df["m_arbeitslos"] = 0
-    df["m_ausbild_suche"] = 0
-    df["m_alg1_übergang"] = 0
-    df["m_geringf_beschäft"] = 0
-    df["m_kind_berücks_zeit"] = 24
-    df["m_pfleg_berücks_zeit"] = 1
+    df["m_pflichtbeitrag"] = ((df["alter"] - 25).clip(lower=0) * 12).astype(float)
+    df["y_pflichtbeitr_ab_40"] = ((df["alter"] - 40).clip(lower=0) * 12).astype(float)
+    df["m_freiw_beitrag"] = 5.0
+    df["m_ersatzzeit"] = 0.0
+    df["m_schul_ausbild"] = 10.0
+    df["m_arbeitsunfähig"] = 0.0
+    df["m_krank_ab_16_bis_24"] = 0.0
+    df["m_mutterschutz"] = 0.0
+    df["m_arbeitslos"] = 0.0
+    df["m_ausbild_suche"] = 0.0
+    df["m_alg1_übergang"] = 0.0
+    df["m_geringf_beschäft"] = 0.0
+    df["m_kind_berücks_zeit"] = 24.0
+    df["m_pfleg_berücks_zeit"] = 1.0
 
     group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
     df = df.reset_index()
