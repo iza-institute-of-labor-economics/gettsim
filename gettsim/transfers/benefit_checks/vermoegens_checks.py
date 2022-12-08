@@ -1,5 +1,5 @@
-def _kinderzuschl_nach_vermög_check_m_hh(
-    _kinderzuschl_vor_vermög_check_m_hh: float,
+def _kinderzuschl_nach_vermög_check_m_tu(
+    _kinderzuschl_vor_vermög_check_m_tu: float,
     vermögen_bedürft_hh: float,
     arbeitsl_geld_2_vermög_freib_hh: float,
 ) -> float:
@@ -7,8 +7,8 @@ def _kinderzuschl_nach_vermög_check_m_hh(
 
     Parameters
     ----------
-    _kinderzuschl_vor_vermög_check_m_hh
-        See :func:`_kinderzuschl_vor_vermög_check_m_hh`.
+    _kinderzuschl_vor_vermög_check_m_tu
+        See :func:`_kinderzuschl_vor_vermög_check_m_tu`.
     vermögen_bedürft_hh
         See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
     arbeitsl_geld_2_vermög_freib_hh
@@ -21,9 +21,9 @@ def _kinderzuschl_nach_vermög_check_m_hh(
 
     if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_hh:
         diff = vermögen_bedürft_hh - arbeitsl_geld_2_vermög_freib_hh
-        out = max(_kinderzuschl_vor_vermög_check_m_hh - diff, 0.0)
+        out = max(_kinderzuschl_vor_vermög_check_m_tu - diff, 0.0)
     else:
-        out = _kinderzuschl_vor_vermög_check_m_hh
+        out = _kinderzuschl_vor_vermög_check_m_tu
     return out
 
 
