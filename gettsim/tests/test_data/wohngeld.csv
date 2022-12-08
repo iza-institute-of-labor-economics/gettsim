@@ -5,7 +5,7 @@ hh_id,tu_id,p_id,jahr,haushaltsgröße_hh,kind,kindergeld_anspruch,bruttokaltmie
 2,2,18,2013,2,FALSE,FALSE,400,80,FALSE,40,1995,3,800,30000,0,0,0,100,0,0,0,10000,0,0,0,0,100,80,50,202.21,202.21,
 2,2,19,2013,2,FALSE,FALSE,400,80,FALSE,55,1995,3,0,30000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,202.21,202.21,
 3,3,20,2009,2,FALSE,FALSE,400,80,TRUE,37,1995,3,1000,95000,0,0,0,250,0,0,0,16000,0,0,1000,1000,100,80,0,25.66,0,
-3,3,21,2009,2,TRUE,FALSE,400,80,TRUE,8,1995,3,0,95000,0,0,0,0,0,0,0,0,0,0,1000,0,0,0,0,25.66,0,
+3,3,21,2009,2,TRUE,FALSE,400,80,FALSE,8,1995,3,0,95000,0,0,0,0,0,0,0,0,0,0,1000,0,0,0,0,25.66,0,
 4,4,22,2006,5,FALSE,FALSE,850,120,FALSE,42,1995,3,0,200000,0,0,0,0,0,0,0,0,0,0,0,0,50,0,0,508.76,508.76,no wealth treshold in place before 2009
 4,4,23,2006,5,FALSE,FALSE,850,120,FALSE,53,1995,3,0,200000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,508.76,508.76,no wealth treshold in place before 2010
 4,4,24,2006,5,TRUE,FALSE,850,120,FALSE,7,1995,3,0,200000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,508.76,508.76,no wealth treshold in place before 2011
@@ -37,8 +37,8 @@ hh_id,tu_id,p_id,jahr,haushaltsgröße_hh,kind,kindergeld_anspruch,bruttokaltmie
 8,8,50,2018,6,TRUE,FALSE,1400,300,FALSE,15,1995,4,0,220000,0,0,0,0,0,0,0,0,0,0,7000,0,0,0,0,41.66,0,
 8,8,51,2018,6,TRUE,FALSE,1400,300,FALSE,6,1995,4,0,220000,0,0,0,0,0,0,0,0,0,0,7000,0,0,0,0,41.66,0,
 8,8,52,2018,6,TRUE,FALSE,1400,300,FALSE,5,1995,4,0,220000,0,0,0,0,0,0,0,0,0,0,7000,0,0,0,0,41.66,0,
-9,9,53,2013,2,False,FALSE,400,80,False,50,2005,3,800,90000,0,0,0,100,0,0,0,10000,0,0,0,0,100,80,50,202.21,202.21,
-9,9,54,2013,2,False,FALSE,400,80,False,55,2005,3,0,90000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,202.21,202.21,
+9,9,53,2013,2,FALSE,FALSE,400,80,FALSE,50,2005,3,800,90000,0,0,0,100,0,0,0,10000,0,0,0,0,100,80,50,202.21,202.21,
+9,9,54,2013,2,FALSE,FALSE,400,80,FALSE,55,2005,3,0,90000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,202.21,202.21,
 10,10,55,2021,1,FALSE,FALSE,600,100,FALSE,57,1980,5,1050,61000,0,0,0,0,0,0,0,12600,0,0,300,300,100,80,0,248.75,0,https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed when you click on the question mark next to the housing allowance calculation)
 11,11,55,2023,1,FALSE,FALSE,600,100,FALSE,57,1982,5,1050,5000,0,0,0,0,0,0,0,12600,0,0,300,300,100,80,0,425.05,425.05,https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed when you click on the question mark next to the housing allowance calculation)
 12,12,56,2023,1,FALSE,FALSE,600,100,FALSE,57,1982,5,1050,61000,0,0,0,0,0,0,0,12600,0,0,300,300,100,80,0,425.05,0,https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed when you click on the question mark next to the housing allowance calculation)

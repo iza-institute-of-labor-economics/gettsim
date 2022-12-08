@@ -485,7 +485,7 @@ def wohngeld_vor_vermög_check_m_hh(
     wohngeld_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calcualte preliminary housing benefit.
+    """Calculate preliminary housing benefit.
 
     Parameters
     ----------

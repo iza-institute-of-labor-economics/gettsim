@@ -102,7 +102,6 @@ def kinderzuschl_eink_relev_m_tu(
 ) -> float:
     """Aggregate relevant income and rental costs.
 
-    # ToDo: Find out if it should be calculated on tu or hh level
     Parameters
     ----------
     kinderzuschl_eink_regel_m_tu
