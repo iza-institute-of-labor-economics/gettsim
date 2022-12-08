@@ -95,6 +95,7 @@ def compute_taxes_and_transfers(
         data_cols=list(data),
         aggregation_specs=aggregation_specs,
     )
+
     data = _convert_data_to_correct_types(data, functions_overridden)
 
     # Select necessary nodes by creating a preliminary DAG.
