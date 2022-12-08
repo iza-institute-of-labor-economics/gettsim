@@ -1,5 +1,5 @@
 def arbeitsl_geld_2_kost_unterk_m_hh_bis_2022(
-    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: int,
+    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: float,
     _arbeitsl_geld_2_warmmiete_pro_qm_hh: float,
 ) -> float:
     """Calculate costs of living eligible to claim until 2022.
@@ -26,7 +26,7 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,
     bürgerg_bezug_vorj: bool,
-    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: int,
+    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: float,
     _arbeitsl_geld_2_warmmiete_pro_qm_hh: float,
 ) -> float:
     """Calculate costs of living eligible to claim since 2023.
@@ -60,7 +60,7 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
         )
     else:
         out = bruttokaltmiete_m_hh + heizkosten_m_hh
-        # To Do: only reasonable heating costs are taken into account
+        # ToDo: only reasonable heating costs are taken into account
         # these are calculated taking into account the actual size of the apartment
         # not just the appropriate size
 
@@ -70,7 +70,7 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
 def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,
-    wohnfläche_hh: int,
+    wohnfläche_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate rent per square meter.
@@ -99,11 +99,11 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_hh(
 
 
 def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
-    wohnfläche_hh: int,
+    wohnfläche_hh: float,
     bewohnt_eigentum_hh: bool,
     haushaltsgröße_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> int:
+) -> float:
     """Calculate size of dwelling eligible to claim.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
