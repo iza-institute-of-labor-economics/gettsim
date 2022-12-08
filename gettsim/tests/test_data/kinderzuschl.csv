@@ -1,39 +1,39 @@
-hh_id,tu_id,p_id,head,jahr,geburtsjahr,hh_korr,hhsize,kind,kindergeld_anspruch,alter,arbeitsstunden_w,bruttolohn_m,in_ausbildung,bruttokaltmiete_m_hh,heizkosten_m_hh,alleinerz,_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh,anz_erw_tu,anz_kinder_tu,arbeitsl_geld_2_brutto_eink_m_hh,arbeitsl_geld_2_eink_m_hh,vermögen_bedürft_hh,kindergeld_m_hh,unterhaltsvors_m,_kinderzuschl_vor_vermög_check_m_hh,_kinderzuschl_nach_vermög_check_m_hh,Comment,Source
-1,1,1,TRUE,2016,1986,1,3,FALSE,FALSE,30,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,0,190,0,140,140,,
-1,1,2,FALSE,2016,1986,1,3,FALSE,FALSE,30,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,0,190,0,140,140,,
-1,1,3,FALSE,2016,2014,1,3,TRUE,TRUE,2,0,0,FALSE,700,100,FALSE,0,2,1,1200,644,0,190,0,140,140,,
-2,2,4,TRUE,2013,1973,1,2,FALSE,FALSE,40,0,2000,FALSE,400,80,FALSE,0,2,0,800,512,0,0,0,0,0,,
-2,2,5,FALSE,2013,1973,1,2,FALSE,FALSE,40,0,2000,FALSE,400,80,FALSE,0,2,0,800,512,0,0,0,0,0,,
-3,3,6,TRUE,2009,1981,1,2,FALSE,FALSE,28,0,2000,FALSE,400,80,TRUE,0.36,1,1,1000,719,0,164,0,140,140,,
-3,3,7,FALSE,2009,2008,1,2,TRUE,TRUE,1,0,0,FALSE,400,80,FALSE,0.36,1,1,1000,719,0,164,0,140,140,,
-4,4,8,TRUE,2006,1973,1,5,FALSE,FALSE,33,0,2000,FALSE,850,120,FALSE,0,2,3,2000,1500,0,462,0,216.65,216.65,,
-4,4,9,FALSE,2006,1976,1,5,FALSE,FALSE,30,0,2000,FALSE,850,120,FALSE,0,2,3,2000,1500,0,462,0,216.65,216.65,,
-4,4,10,FALSE,2006,1994,1,5,TRUE,TRUE,12,0,0,FALSE,850,120,FALSE,0,2,3,2000,1500,0,462,0,216.65,216.65,,
-4,4,11,FALSE,2006,1996,1,5,TRUE,TRUE,10,0,0,FALSE,850,120,FALSE,0,2,3,2000,1500,0,462,0,216.65,216.65,,
-4,4,12,FALSE,2006,2004,1,5,TRUE,TRUE,2,0,0,FALSE,850,120,FALSE,0,2,3,2000,1500,0,462,0,216.65,216.65,,
-5,5,13,TRUE,2011,1981,1,3,FALSE,FALSE,30,0,2000,FALSE,720,110,FALSE,0,3,0,2500,1578,0,0,0,0,0,,
-5,5,14,FALSE,2011,1971,1,3,FALSE,FALSE,40,0,2000,FALSE,720,110,FALSE,0,3,0,2500,1578,0,0,0,0,0,,
-5,5,15,FALSE,2011,1976,1,3,FALSE,FALSE,35,0,2000,FALSE,720,110,FALSE,0,3,0,2500,1578,0,0,0,0,0,,
-6,6,16,TRUE,2019,1991,1,2,FALSE,FALSE,28,0,2000,FALSE,400,80,TRUE,0.36,1,1,1000,719,0,194,0,10,10,,
-6,6,17,FALSE,2019,2018,1,2,TRUE,TRUE,1,0,0,FALSE,400,80,FALSE,0.36,1,1,1000,719,0,194,160,10,10,,
-7,7,18,TRUE,2016,1986,1,3,FALSE,FALSE,30,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,0,190,0,40,40,,
-7,7,19,FALSE,2016,1986,1,3,FALSE,FALSE,30,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,0,190,0,40,40,,
-7,7,20,FALSE,2016,2014,1,3,TRUE,TRUE,2,0,100,FALSE,700,100,FALSE,0,2,1,1200,644,0,190,0,40,40,,
-8,8,21,TRUE,2020,1982,1,2,FALSE,FALSE,38,0,2000,FALSE,400,80,TRUE,0.36,1,1,1000,719,0,204,0,117.5,117.5,,
-8,8,22,FALSE,2020,2005,1,2,TRUE,TRUE,15,0,150,FALSE,400,80,FALSE,0.36,1,1,1000,719,0,204,0,117.5,117.5,,
-9,9,23,TRUE,2017,1977,1,4,FALSE,FALSE,40,0,1300,FALSE,800,90,FALSE,0,2,2,1300,900,0,384,0,50,50,,
-9,9,24,FALSE,2017,1979,1,4,FALSE,FALSE,38,0,0,FALSE,800,90,FALSE,0,2,2,1300,900,0,384,0,50,50,,
-9,9,25,FALSE,2017,2002,1,4,TRUE,TRUE,15,0,120,TRUE,800,90,FALSE,0,2,2,1300,900,0,384,0,50,50,,
-9,9,26,FALSE,2017,2004,1,4,TRUE,TRUE,13,0,180,TRUE,800,90,FALSE,0,2,2,1300,900,0,384,0,50,50,,
-10,10,27,TRUE,2021,1986,1,2,FALSE,FALSE,35,0,1600,FALSE,750,100,FALSE,0,2,1,1600,1200,0,219,0,205,205,,
-10,10,28,TRUE,2021,1988,1,2,FALSE,FALSE,33,0,0,FALSE,750,100,FALSE,0,2,1,1600,1200,0,219,0,205,205,,
-10,10,29,FALSE,2021,2009,1,2,TRUE,TRUE,12,0,0,TRUE,750,100,FALSE,0,2,1,1600,1200,0,219,0,205,205,,
-11,11,30,TRUE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,4000,190,0,140,140,Wealth below wealth allowance leading to no deduction in Kinderzuschlag,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
-11,11,31,FALSE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,4000,190,0,140,140,Wealth below wealth allowance leading to no deduction in Kinderzuschlag,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
-11,11,32,FALSE,2016,2005,1,3,TRUE,TRUE,11,0,0,FALSE,700,100,FALSE,0,2,1,1200,644,4000,190,0,140,140,Wealth below wealth allowance leading to no deduction in Kinderzuschlag,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
-12,12,33,TRUE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,17400,190,0,140,90,Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first month,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
-12,12,34,FALSE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,17400,190,0,140,90,Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first month,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
-12,12,35,FALSE,2016,2005,1,3,TRUE,TRUE,11,0,0,FALSE,700,100,FALSE,0,2,1,1200,644,17400,190,0,140,90,Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first month,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
-13,13,36,TRUE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,25000,190,0,140,0,Wealth significantly above wealth allowance leading to no claim,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
-13,13,37,FALSE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,25000,190,0,140,0,Wealth significantly above wealth allowance leading to no claim,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
-13,13,38,FALSE,2016,2005,1,3,TRUE,TRUE,11,0,0,FALSE,700,100,FALSE,0,2,1,1200,644,25000,190,0,140,0,Wealth significantly above wealth allowance leading to no claim,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+hh_id,tu_id,p_id,head,jahr,geburtsjahr,hh_korr,hhsize,kind,kindergeld_anspruch,alter,arbeitsstunden_w,bruttolohn_m,in_ausbildung,bruttokaltmiete_m_hh,heizkosten_m_hh,alleinerz,_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh,anz_erw_tu,anz_kinder_tu,kinderzuschl_eink_elternteil_tu,arbeitsl_geld_2_eink_m_hh,arbeitsl_geld_2_eink_m_tu,vermögen_bedürft_hh,kindergeld_m_hh,unterhaltsvors_m,_kinderzuschl_vor_vermög_check_m_tu,_kinderzuschl_nach_vermög_check_m_tu,Comment,Source
+1,1,1,TRUE,2016,1986,1,3,FALSE,FALSE,30,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,0,190,0,140,140,,
+1,1,2,FALSE,2016,1986,1,3,FALSE,FALSE,30,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,0,190,0,140,140,,
+1,1,3,FALSE,2016,2014,1,3,TRUE,TRUE,2,0,0,FALSE,700,100,FALSE,0,2,1,1200,644,644,0,190,0,140,140,,
+2,2,4,TRUE,2013,1973,1,2,FALSE,FALSE,40,0,2000,FALSE,400,80,FALSE,0,2,0,800,512,512,0,0,0,0,0,,
+2,2,5,FALSE,2013,1973,1,2,FALSE,FALSE,40,0,2000,FALSE,400,80,FALSE,0,2,0,800,512,512,0,0,0,0,0,,
+3,3,6,TRUE,2009,1981,1,2,FALSE,FALSE,28,0,2000,FALSE,400,80,TRUE,0.36,1,1,1000,719,719,0,164,0,140,140,,
+3,3,7,FALSE,2009,2008,1,2,TRUE,TRUE,1,0,0,FALSE,400,80,FALSE,0.36,1,1,1000,719,719,0,164,0,140,140,,
+4,4,8,TRUE,2006,1973,1,5,FALSE,FALSE,33,0,2000,FALSE,850,120,FALSE,0,2,3,2000,1500,1500,0,462,0,216.65,216.65,,
+4,4,9,FALSE,2006,1976,1,5,FALSE,FALSE,30,0,2000,FALSE,850,120,FALSE,0,2,3,2000,1500,1500,0,462,0,216.65,216.65,,
+4,4,10,FALSE,2006,1994,1,5,TRUE,TRUE,12,0,0,FALSE,850,120,FALSE,0,2,3,2000,1500,1500,0,462,0,216.65,216.65,,
+4,4,11,FALSE,2006,1996,1,5,TRUE,TRUE,10,0,0,FALSE,850,120,FALSE,0,2,3,2000,1500,1500,0,462,0,216.65,216.65,,
+4,4,12,FALSE,2006,2004,1,5,TRUE,TRUE,2,0,0,FALSE,850,120,FALSE,0,2,3,2000,1500,1500,0,462,0,216.65,216.65,,
+5,5,13,TRUE,2011,1981,1,3,FALSE,FALSE,30,0,2000,FALSE,720,110,FALSE,0,3,0,2500,1578,1578,0,0,0,0,0,,
+5,5,14,FALSE,2011,1971,1,3,FALSE,FALSE,40,0,2000,FALSE,720,110,FALSE,0,3,0,2500,1578,1578,0,0,0,0,0,,
+5,5,15,FALSE,2011,1976,1,3,FALSE,FALSE,35,0,2000,FALSE,720,110,FALSE,0,3,0,2500,1578,1578,0,0,0,0,0,,
+6,6,16,TRUE,2019,1991,1,2,FALSE,FALSE,28,0,2000,FALSE,400,80,TRUE,0.36,1,1,1000,719,719,0,194,0,10,10,,
+6,6,17,FALSE,2019,2018,1,2,TRUE,TRUE,1,0,0,FALSE,400,80,FALSE,0.36,1,1,1000,719,719,0,194,160,10,10,,
+7,7,18,TRUE,2016,1986,1,3,FALSE,FALSE,30,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,0,190,0,40,40,,
+7,7,19,FALSE,2016,1986,1,3,FALSE,FALSE,30,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,0,190,0,40,40,,
+7,7,20,FALSE,2016,2014,1,3,TRUE,TRUE,2,0,100,FALSE,700,100,FALSE,0,2,1,1200,644,644,0,190,0,40,40,,
+8,8,21,TRUE,2020,1982,1,2,FALSE,FALSE,38,0,2000,FALSE,400,80,TRUE,0.36,1,1,1000,719,719,0,204,0,117.5,117.5,,
+8,8,22,FALSE,2020,2005,1,2,TRUE,TRUE,15,0,150,FALSE,400,80,FALSE,0.36,1,1,1000,719,719,0,204,0,117.5,117.5,,
+9,9,23,TRUE,2017,1977,1,4,FALSE,FALSE,40,0,1300,FALSE,800,90,FALSE,0,2,2,1300,900,900,0,384,0,50,50,,
+9,9,24,FALSE,2017,1979,1,4,FALSE,FALSE,38,0,0,FALSE,800,90,FALSE,0,2,2,1300,900,900,0,384,0,50,50,,
+9,9,25,FALSE,2017,2002,1,4,TRUE,TRUE,15,0,120,TRUE,800,90,FALSE,0,2,2,1300,900,900,0,384,0,50,50,,
+9,9,26,FALSE,2017,2004,1,4,TRUE,TRUE,13,0,180,TRUE,800,90,FALSE,0,2,2,1300,900,900,0,384,0,50,50,,
+10,10,27,TRUE,2021,1986,1,2,FALSE,FALSE,35,0,1600,FALSE,750,100,FALSE,0,2,1,1600,1200,1200,0,219,0,205,205,,
+10,10,28,TRUE,2021,1988,1,2,FALSE,FALSE,33,0,0,FALSE,750,100,FALSE,0,2,1,1600,1200,1200,0,219,0,205,205,,
+10,10,29,FALSE,2021,2009,1,2,TRUE,TRUE,12,0,0,TRUE,750,100,FALSE,0,2,1,1600,1200,1200,0,219,0,205,205,,
+11,11,30,TRUE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,4000,190,0,140,140,Wealth below wealth allowance leading to no deduction in Kinderzuschlag,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+11,11,31,FALSE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,4000,190,0,140,140,Wealth below wealth allowance leading to no deduction in Kinderzuschlag,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+11,11,32,FALSE,2016,2005,1,3,TRUE,TRUE,11,0,0,FALSE,700,100,FALSE,0,2,1,1200,644,644,4000,190,0,140,140,Wealth below wealth allowance leading to no deduction in Kinderzuschlag,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+12,12,33,TRUE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,17400,190,0,140,90,Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first month,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+12,12,34,FALSE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,17400,190,0,140,90,Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first month,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+12,12,35,FALSE,2016,2005,1,3,TRUE,TRUE,11,0,0,FALSE,700,100,FALSE,0,2,1,1200,644,644,17400,190,0,140,90,Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first month,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+13,13,36,TRUE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,25000,190,0,140,0,Wealth significantly above wealth allowance leading to no claim,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+13,13,37,FALSE,2016,1976,1,3,FALSE,FALSE,40,0,2000,FALSE,700,100,FALSE,0,2,1,1200,644,644,25000,190,0,140,0,Wealth significantly above wealth allowance leading to no claim,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
+13,13,38,FALSE,2016,2005,1,3,TRUE,TRUE,11,0,0,FALSE,700,100,FALSE,0,2,1,1200,644,644,25000,190,0,140,0,Wealth significantly above wealth allowance leading to no claim,inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz BKGG Ã‚Â§ 6a)
