@@ -58,42 +58,6 @@ def kinderzuschl_m_hh(
     return out
 
 
-def _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019(
-    kinderzuschl_eink_elternteil_tu: float,
-    kinderzuschl_eink_min_m_tu: float,
-    kinderzuschl_kindereink_abzug_m_tu: float,
-    kinderzuschl_eink_anrechn_m_tu: float,
-) -> float:
-    """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
-    Arbeitslosengeld 2 applies will be checked later.
-
-    Parameters
-    ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    kinderzuschl_eink_elternteil_tu
-        See :func:`kinderzuschl_eink_elternteil_tu`.
-    kinderzuschl_eink_min_m_tu
-        See :func:`kinderzuschl_eink_min_m_tu`.
-    kinderzuschl_kindereink_abzug_m_tu
-        See :func:`kinderzuschl_kindereink_abzug_m_tu`.
-    kinderzuschl_eink_anrechn_m_tu
-        See :func:`kinderzuschl_eink_anrechn_m_tu`.
-
-    Returns
-    -------
-
-    """
-    if kinderzuschl_eink_elternteil_tu >= kinderzuschl_eink_min_m_tu:
-        out = max(
-            kinderzuschl_kindereink_abzug_m_tu - kinderzuschl_eink_anrechn_m_tu, 0.0
-        )
-    else:
-        out = 0.0
-
-    return out
-
-
 def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(
     kinderzuschl_eink_elternteil_tu: float,
     kinderzuschl_eink_min_m_tu: float,
@@ -101,7 +65,7 @@ def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(
     kinderzuschl_kindereink_abzug_m_tu: float,
     kinderzuschl_eink_anrechn_m_tu: float,
 ) -> float:
-    """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
+    """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
 
     Parameters
@@ -127,7 +91,43 @@ def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(
         kinderzuschl_eink_elternteil_tu <= kinderzuschl_eink_max_m_tu
     ):
         out = max(
-            kinderzuschl_kindereink_abzug_m_tu - kinderzuschl_eink_anrechn_m_tu, 0
+            kinderzuschl_kindereink_abzug_m_tu - kinderzuschl_eink_anrechn_m_tu, 0.0
+        )
+    else:
+        out = 0.0
+
+    return out
+
+
+def _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019(
+    kinderzuschl_eink_elternteil_tu: float,
+    kinderzuschl_eink_min_m_tu: float,
+    kinderzuschl_kindereink_abzug_m_tu: float,
+    kinderzuschl_eink_anrechn_m_tu: float,
+) -> float:
+    """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
+    Arbeitslosengeld 2 applies will be checked later.
+
+    Parameters
+    ----------
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
+    kinderzuschl_eink_elternteil_tu
+        See :func:`kinderzuschl_eink_elternteil_tu`.
+    kinderzuschl_eink_min_m_tu
+        See :func:`kinderzuschl_eink_min_m_tu`.
+    kinderzuschl_kindereink_abzug_m_tu
+        See :func:`kinderzuschl_kindereink_abzug_m_tu`.
+    kinderzuschl_eink_anrechn_m_tu
+        See :func:`kinderzuschl_eink_anrechn_m_tu`.
+
+    Returns
+    -------
+
+    """
+    if kinderzuschl_eink_elternteil_tu >= kinderzuschl_eink_min_m_tu:
+        out = max(
+            kinderzuschl_kindereink_abzug_m_tu - kinderzuschl_eink_anrechn_m_tu, 0.0
         )
     else:
         out = 0.0
