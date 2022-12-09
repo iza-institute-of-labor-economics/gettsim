@@ -1,5 +1,6 @@
 include CITATION
 include LICENSE
+include CHANGES.rst
 include CODE_OF_CONDUCT.rst
 
 recursive-include src py.typed
