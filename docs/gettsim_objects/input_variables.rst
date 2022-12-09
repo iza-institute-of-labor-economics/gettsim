@@ -40,7 +40,10 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 | _`betreuungskost_m`       | Monthly childcare expenses                  | float        |
 +---------------------------+---------------------------------------------+--------------+
-| _`sonstig_eink_m`         | Additional income                           | float        |
+|| _`sonstig_eink_m`        || Additional income: includes private and    || float       |
+||                          || public transfers that are not yet          ||             |
+||                          || implemented in GETTSIM (e.g. Bafög,        ||             |
+||                          || Kriegsopferfürsorge)                       ||             |
 +---------------------------+---------------------------------------------+--------------+
 | _`eink_selbst_m`          | Monthly income from self-employment         | float        |
 +---------------------------+---------------------------------------------+--------------+
@@ -145,4 +148,6 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 || _`y_pflichtbeitr_ab_40`  || Total years of mandat. contributions after || float       |
 ||                          || age 40                                     ||             |
++---------------------------+---------------------------------------------+--------------+
+|_`bürgerg_bezug_vorj`      | Received Bürgergeld in previous year        | bool         |
 +---------------------------+---------------------------------------------+--------------+

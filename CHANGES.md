@@ -51,6 +51,10 @@ versioning](https://semver.org/) and all releases are available on
 
 -   `399` Use dags package to create the DAG. (`ChristianZimpelmann`)
 
+-   `440` Implemented Bürgergeld, which reforms <span
+    class="title-ref">arbeitsl_geld_2</span> from 01/01/2023.
+    (`LauraGergeleit`)
+
 ## 0.5.1 — 2022-04-21
 
 -   `377` Fix wrong parameter value for <span
