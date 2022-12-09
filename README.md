@@ -17,24 +17,23 @@
    <br>
 </p>
 
-GETTSIM provides a depiction of the German Taxes and Transfers System
-that is usable in a wide array of research applications, ranging from
-complex dynamic programming models to detailed microsimulation studies.
+GETTSIM provides a depiction of the German Taxes and Transfers System that is usable in
+a wide array of research applications, ranging from complex dynamic programming models
+to detailed microsimulation studies.
 
-GETTSIM is implemented in Python, thereby achieving both
-user-friendliness and flexibility. All features are extensively tested.
+GETTSIM is implemented in Python, thereby achieving both user-friendliness and
+flexibility. All features are extensively tested.
 
 You can install GETTSIM via conda with
 
-``` bash
+```bash
 $ conda install -c gettsim -c conda-forge gettsim
 ```
 
-The documentation is available at <https://gettsim.readthedocs.io>. If
-you want to use it or help out in its development, feel free to get in
-touch! The ideal ways are to open an issue if you find a bug or
-something does not work as expected, or by joining our Zulip Chat at
-<https://gettsim.zulipchat.com>.
+The documentation is available at <https://gettsim.readthedocs.io>. If you want to use
+it or help out in its development, feel free to get in touch! The ideal ways are to open
+an issue if you find a bug or something does not work as expected, or by joining our
+Zulip Chat at <https://gettsim.zulipchat.com>.
 
 # Initiated by
 
@@ -44,55 +43,55 @@ something does not work as expected, or by joining our Zulip Chat at
    </a>
    &emsp;
 
-   <a href="https://www.diw.de/">
+<a href="https://www.diw.de/">
       <img src="docs/_static/images/diw_logo.jpg" width="150" alt="DIW">
    </a>
    &emsp;
 
-   <a href="https://www.ifo.de/">
+<a href="https://www.ifo.de/">
       <img src="docs/_static/images/ifo_logo.png" width="150" alt="ifo Institute">
    </a>
    &emsp;
 
-   <a href="https://www.zew.de/">
+<a href="https://www.zew.de/">
       <img src="docs/_static/images/zew_logo.png" width="150" alt="ZEW">
    </a>
    &emsp;
 
-   <a href="https://www.uni-bonn.de">
+<a href="https://www.uni-bonn.de">
       <img src="docs/_static/images/uni_bonn_logo.png" width="150"
       alt="Universität Bonn">
    </a>
    &emsp;
 
-   <br>
+<br>
    <br>
 
-   <a href="https://www.uni-kassel.de">
+<a href="https://www.uni-kassel.de">
       <img src="docs/_static/images/uni_kassel_logo.png" width="150"
       alt="Universität Kassel">
    </a>
    &emsp;
 
-   <a href="https://www.uni-muenchen.de">
+<a href="https://www.uni-muenchen.de">
       <img src="docs/_static/images/lmu_logo.svg" width="150"
       alt="Ludwig-Maximilians-Universität München">
    </a>
    &emsp;
 
-   <a href="https://www.uni-mannheim.de">
+<a href="https://www.uni-mannheim.de">
       <img src="docs/_static/images/uni_mannheim_logo.png" width="150"
       alt="Universität Mannheim">
    </a>
    &emsp;
 
-   <a href="https://www.fu-berlin.de">
+<a href="https://www.fu-berlin.de">
       <img src="docs/_static/images/fu_berlin_logo.svg" width="150"
       alt="Freie Universität Berlin">
    </a>
    &emsp;
 
-   <a href="https://www.iab.de/">
+<a href="https://www.iab.de/">
       <img src="docs/_static/images/iab_logo.png" width="150" alt="IAB">
    </a>
    &emsp;

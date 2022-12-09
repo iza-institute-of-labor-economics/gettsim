@@ -32,7 +32,7 @@ a nutshell and without explanations, these conventions are:
    Abbreviations of words that form a part of these names are always followed by an
    underscore, unless it is the last word.
 
-2. Names should be long enough to be readable. However, we impose limits in order to
+1. Names should be long enough to be readable. However, we impose limits in order to
    make GETTSIM usable in languages, which place limits on characters (Stata, in
    particular).
 
@@ -44,20 +44,20 @@ a nutshell and without explanations, these conventions are:
      favorability check) start with an underscore and there are no restrictions.
      Internal variables should be used sparingly.
 
-3. If names need to be concatenated for making clear what a column name refers to (e.g.,
-   `arbeitsl_geld_2_vermög_freib_hh` vs. `grunds_im_alter_vermög_freib_hh`), the
-   group (i.e., the tax or transfer) that a variable refers to appears first.
+1. If names need to be concatenated for making clear what a column name refers to (e.g.,
+   `arbeitsl_geld_2_vermög_freib_hh` vs. `grunds_im_alter_vermög_freib_hh`), the group
+   (i.e., the tax or transfer) that a variable refers to appears first.
 
-4. Because of the necessity of concatenated column names, there will be conflicts
+1. Because of the necessity of concatenated column names, there will be conflicts
    between readability (1.) and variable length (2.). If such conflicts arise, they need
    to be solved on a case by case basis. Consistency across different variants of a
    variable names always has to be kept.
 
-5. The language should generally be English in all coding efforts and documentation.
+1. The language should generally be English in all coding efforts and documentation.
    German should be used for all institutional features and directly corresponding
    names.
 
-6. German identifiers use correct spelling even if it is non-ASCII (this mostly concerns
+1. German identifiers use correct spelling even if it is non-ASCII (this mostly concerns
    the letters ä, ö, ü, ß).
 
 We explain the background for these choices below.
@@ -71,8 +71,8 @@ particularly important to clearly document our rules for naming things.
 There are three basic building blocks of the code:
 
 1. The input and output data, including any values stored intermediately.
-2. The parameters of the tax transfer system, as detailed in the YAML files.
-3. Python identifiers, that is, variables and functions.
+1. The parameters of the tax transfer system, as detailed in the YAML files.
+1. Python identifiers, that is, variables and functions.
 
 The general rules and considerations apply in the same way to similar concepts, e.g.,
 groups of parameters of filenames.
@@ -111,8 +111,8 @@ no restriction on the number of characters. Internal columns should be used spar
 
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., `kinderfreib`,
-`_zu_verst_eink_ohne_kinderfreib_tu`). This makes searching for identifiers
-easier and less error-prone.
+`_zu_verst_eink_ohne_kinderfreib_tu`). This makes searching for identifiers easier and
+less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
 `arbeitsl_geld_2_vermög_freib_hh` vs. `grunds_im_alter_vermög_freib_hh`), the group
@@ -130,16 +130,16 @@ Time unit identifiers always appear before unit identifiers (e.g.,
 
 ## Parameters of the taxes and transfers system
 
-The structure of these parameters will be laid out in gep-3; we just note some
-general naming considerations here.
+The structure of these parameters will be laid out in gep-3; we just note some general
+naming considerations here.
 
 - There is a hierarchical structure to these parameters in that each of them is
   associated with a group (e.g., `arbeitsl_geld`, `kinderzuschlag`). These groups or
   abbreviations thereof do not re-appear in the name of the parameter.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to
-  abbreviate them (e.g., `wohngeld_params["vermögensgrundfreibetrag"]` for the
-  parameter and `wohngeld_nach_vermög_check_m_hh` for a column derived from it).
+  abbreviate them (e.g., `wohngeld_params["vermögensgrundfreibetrag"]` for the parameter
+  and `wohngeld_nach_vermög_check_m_hh` for a column derived from it).
 
 ## Other Python identifiers (Functions, Variables)
 
@@ -147,14 +147,13 @@ Python identifiers should generally be in English, unless they refer to a specif
 or set of laws, which is where the same reasoning applies as above.
 
 The length of an identifier name tends to be proportional to its scope. In a list
-comprehension or a short loop, `i` might be an acceptable name for the running
-variable. A function that is used in many different places should have a descriptive
-name.
+comprehension or a short loop, `i` might be an acceptable name for the running variable.
+A function that is used in many different places should have a descriptive name.
 
 The name of variables should reflect the content or meaning of the variable and not the
 type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
-cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to
-indicate the time unit and one of {`hh`, `tu`} to indicate the unit of aggregation.
+cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to indicate
+the time unit and one of {`hh`, `tu`} to indicate the unit of aggregation.
 
 ## Examples
 
@@ -168,17 +167,17 @@ them will thus not be able to guess their meaning without looking them up.
 More meaningful alternatives could be `alo_geld` or `arb_los_geld`. These names use
 abbreviations of the compounds of the term "Arbeitslosengeld", which the group name is
 supposed to reflect, and connect them in a Pythonic manner through underscores. However,
-`alo_geld` still leaves much room for interpretation and `arb_los_geld` separates
-the term "arbeitslosen" in an odd way.
+`alo_geld` still leaves much room for interpretation and `arb_los_geld` separates the
+term "arbeitslosen" in an odd way.
 
-The final choice `arbeitsl_geld` avoids all the disadvantages of the other options as
-it is an unambivalent, natural, and minimal abbreviation of the original term it is
+The final choice `arbeitsl_geld` avoids all the disadvantages of the other options as it
+is an unambivalent, natural, and minimal abbreviation of the original term it is
 supposed to represent.
 
 ## Alternatives
 
-- We considered using more English identifiers, but opted against it because of the
-  lack of precision and uniqueness (see the example above: How to distinguish between
+- We considered using more English identifiers, but opted against it because of the lack
+  of precision and uniqueness (see the example above: How to distinguish between
   Erziehungsgeld, Elterngeld, and Elterngeld Plus in English?).
 - Use one of the standards for column identifiers. They are not precise enough and
   sometimes rather cryptic.
@@ -188,8 +187,9 @@ supposed to represent.
 
 ## A final note
 
-No styleguide in the world can be complete or always be applicable. Python's  [PEP-8](https://www.python.org/dev/peps/pep-0008/) has the wonderful section called [A
-Foolish Consistency is the Hobgoblin of Little Minds](https://www.python.org/dev/peps/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds)
+No styleguide in the world can be complete or always be applicable. Python's
+[PEP-8](https://www.python.org/dev/peps/pep-0008/) has the wonderful section called
+[A Foolish Consistency is the Hobgoblin of Little Minds](https://www.python.org/dev/peps/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds)
 for that. Quoting from there:
 
 > A style guide is about consistency. Consistency with this style guide is important.
@@ -204,15 +204,15 @@ for that. Quoting from there:
 >
 > Some other good reasons to ignore a particular guideline:
 >
-> > 1. When applying the guideline would make the code less readable, even for
-> >    someone who is used to reading code that follows this PEP.
-> > 2. To be consistent with surrounding code that also breaks it (maybe for
-> >    historic reasons) -- although this is also an opportunity to clean up someone
-> >    else's mess (in true XP style).
-> > 3. Because the code in question predates the introduction of the guideline and
-> >    there is no other reason to be modifying that code.
-> > 4. When the code needs to remain compatible with older versions of Python that
-> >    don't support the feature recommended by the style guide.
+> > 1. When applying the guideline would make the code less readable, even for someone
+> >    who is used to reading code that follows this PEP.
+> > 1. To be consistent with surrounding code that also breaks it (maybe for historic
+> >    reasons) -- although this is also an opportunity to clean up someone else's mess
+> >    (in true XP style).
+> > 1. Because the code in question predates the introduction of the guideline and there
+> >    is no other reason to be modifying that code.
+> > 1. When the code needs to remain compatible with older versions of Python that don't
+> >    support the feature recommended by the style guide.
 
 ## Discussion
 

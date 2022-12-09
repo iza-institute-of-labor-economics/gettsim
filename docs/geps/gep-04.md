@@ -40,14 +40,14 @@ vectorized during DAG setup.
 The implementation choice to use a DAG to represent the taxes and transfers system is
 motivated by two main reasons.
 
-1. The taxes and transfers system is constantly evolving in many dimensions,
-   flexibility is thus needed internally. Additionally, it is not enough to represent
-   the state of the system at any given point in time, but users need to be able to
-   introduce their own changes. Being able to change or replace any part of the taxes
-   and transfers system is crucial. Put differently, there is no meaningful distinction
-   between parts of the system only ever touched by developers and parts that are
-   modifiable by users. A DAG implementation allows to eliminate this usual boundary
-   for almost all use cases.
+1. The taxes and transfers system is constantly evolving in many dimensions, flexibility
+   is thus needed internally. Additionally, it is not enough to represent the state of
+   the system at any given point in time, but users need to be able to introduce their
+   own changes. Being able to change or replace any part of the taxes and transfers
+   system is crucial. Put differently, there is no meaningful distinction between parts
+   of the system only ever touched by developers and parts that are modifiable by users.
+   A DAG implementation allows to eliminate this usual boundary for almost all use
+   cases.
 
 1) The DAG allows a user to limit computations to generate a set of target variables,
    which she is ultimately interested in. Doing so allows cutting down on the number of
@@ -102,10 +102,10 @@ def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> floa
     return abgelt_st_params["satz"] * zu_verst_kapitaleink_tu
 ```
 
-The function {func}`abgelt_st_tu` requires the variable `zu_verst_kapital_eink_tu`
-which is the amount of taxable capital income on tax unit level (the latter is implied by the
-`_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_tu` must be provided by the
-user as a column of the input data or it has to be the name of another function.
+The function {func}`abgelt_st_tu` requires the variable `zu_verst_kapital_eink_tu` which
+is the amount of taxable capital income on tax unit level (the latter is implied by the
+`_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_tu` must be provided by the user
+as a column of the input data or it has to be the name of another function.
 `abgelt_st_params` is a dictionary of parameters related to the calculation of
 `abgelt_st_tu`.
 
@@ -124,8 +124,8 @@ def soli_st_tu(
 may use `abgelt_st_tu` as an input argument. The DAG backend ensures that the function
 `abgelt_st_tu` will be executed first.
 
-Note that the type annotations (e.g. `float`) indicate the expected type of each
-input and the output of a function, see {ref}`gep-2`.
+Note that the type annotations (e.g. `float`) indicate the expected type of each input
+and the output of a function, see {ref}`gep-2`.
 
 ## Directed Acyclic Graph
 
@@ -178,9 +178,9 @@ functions to change over time, new functions to appear, or old ones to disappear
 Some examples include:
 
 1. `arbeitsl_hilfe` being replaced by `arbeitsl_geld_2`.
-2. `kinderbonus` being active only in a few years.
-3. The introduction of `kinderzuschl`.
-4. Capital income entering `sum_brutto_eink` or not.
+1. `kinderbonus` being active only in a few years.
+1. The introduction of `kinderzuschl`.
+1. Capital income entering `sum_brutto_eink` or not.
 
 The goal is that the graph for any particular point in time is minimal in the sense that
 `arbeitsl_geld_2` does not appear before it was conceived, it is apparent from the
@@ -188,16 +188,16 @@ interface of `sum_brutto_eink` whether it includes capital income or not, etc..
 
 In the yaml-files corresponding to a particular tax / transfer, functions not present in
 all years will need to be listed with along with the dates for when they are active. See
-\:gep-3-keys-referring-to-functions: for the precise syntax. That mechanism should be
+:gep-3-keys-referring-to-functions: for the precise syntax. That mechanism should be
 used for:
 
 1. Functions that are newly introduced.
 
-2. Functions that cease to be relevant.
+1. Functions that cease to be relevant.
 
-3. Functions whose interface changes over time.
+1. Functions whose interface changes over time.
 
-4. Functions whose body changes so much that
+1. Functions whose body changes so much that
 
    - it is useful to signal that things have changed and/or
    - it would be awkward to program the different behaviors in one block with case
@@ -220,8 +220,8 @@ Many taxes or transfers require group-level variables. \<GEP-2 describes
 data. This section describes how to specify them.
 
 In order to inject aggregation functions into the graph, scripts with functions of the
-taxes and transfer system should define a dictionary `aggregation_[script_name]` at
-the module level. This dictionary must specify the aggregated columns as keys and a
+taxes and transfer system should define a dictionary `aggregation_[script_name]` at the
+module level. This dictionary must specify the aggregated columns as keys and a
 dictionary with keys `source_col` and `aggr` as values. If `aggr` is `count`,
 `source_col` is not needed.
 
@@ -234,14 +234,14 @@ aggregation_demographic_vars = {
 }
 ```
 
-The group identifier (`tu_id`, `hh_id`) will be automatically included as an
-argument; for `count` no other variable is necessary.
+The group identifier (`tu_id`, `hh_id`) will be automatically included as an argument;
+for `count` no other variable is necessary.
 
 The output type will be the same as the input type. Exceptions:
 
 - Input type `bool` and aggregation `sum` leads to output type `int`.
-- Input type `int` and aggregation {math}`\in \{` `any`, `all` {math}`\}`
-  leads to output type `bool`
+- Input type `int` and aggregation {math}`\in \{` `any`, `all` {math}`\}` leads to
+  output type `bool`
 - Aggregation `count` will always result in an `int`.
 
 The most common operation are sums of individual measures. GETTSIM adds the following
@@ -268,9 +268,9 @@ def arbeitsl_geld_2_m_hh(kindergeld_m_hh, other_arguments):
     ...
 ```
 
-a node `kindergeld_m_hh` containing the household-level sum of `kindergeld_m` will
-be automatically added to the graph. Its parents in the graph will be `kindergeld_m`
-and `hh_id`. This is the same as specifying:
+a node `kindergeld_m_hh` containing the household-level sum of `kindergeld_m` will be
+automatically added to the graph. Its parents in the graph will be `kindergeld_m` and
+`hh_id`. This is the same as specifying:
 
 ```
 aggregation_kindergeld =  = {
@@ -289,11 +289,11 @@ Similarly to summations to the group level, GETTSIM will automatically convert v
 referring to different reference periods defined in {ref}`gep-1` (years (default, no
 suffix), months `_m`, weeks `_w`, and days `_d`).
 
-In case a column with annual values `[column]` exists, the graph will be augmented
-with a node including monthly values like `[column]_m` should that be requested.
-Requests can be either inputs in a downstream function or explicit targets of the
-calculation. In case the column refers to a different level of aggregation, say
-`[column]_hh`, the same applies to `[column]_m_hh`.
+In case a column with annual values `[column]` exists, the graph will be augmented with
+a node including monthly values like `[column]_m` should that be requested. Requests can
+be either inputs in a downstream function or explicit targets of the calculation. In
+case the column refers to a different level of aggregation, say `[column]_hh`, the same
+applies to `[column]_m_hh`.
 
 Automatic summation will only happen in case no column `[column]_m` is explicitly set.
 Using a different conversion function than the sum is as easy as explicitly specifying
@@ -323,9 +323,11 @@ functions for, say, `[column]_w` need to be set.
 ## Related Work
 
 - The [OpenFisca](https://github.com/openfisca) project uses an internal DAG as well.
-- Scheduling computations on data with task graphs is how [Dask](https://docs.dask.org/) splits and distributes computations.
-- Based on GETTSIM and many other projects, the [dags](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2004) project
-  combines the core ideas in one spot. GETTSIM will likely use it to implement
+- Scheduling computations on data with task graphs is how [Dask](https://docs.dask.org/)
+  splits and distributes computations.
+- Based on GETTSIM and many other projects, the
+  [dags](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2004)
+  project combines the core ideas in one spot. GETTSIM will likely use it to implement
   functionality at some point.
 
 ## Alternatives

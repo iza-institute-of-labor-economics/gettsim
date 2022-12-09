@@ -2,13 +2,16 @@
 
 # Assets considered for means testing
 
-The table below gives an overview of all tangible and intangible assets which are considered when performing means for several transfers. A cross indicates that the asset class is not considered and, hence, deducted from the overall assets of a household.
+The table below gives an overview of all tangible and intangible assets which are
+considered when performing means for several transfers. A cross indicates that the asset
+class is not considered and, hence, deducted from the overall assets of a household.
 
 This documentation shall help to understand the composition of the
 
 {ref}`basic input variable <input_variables>`
 
- 'vermögen_bedürft_hh'. Despite small differences over the transfers, we decided, for now, to require only one wealth variable as input and use it for all transfers.
+'vermögen_bedürft_hh'. Despite small differences over the transfers, we decided, for
+now, to require only one wealth variable as input and use it for all transfers.
 
 ```{note}
 ALGII = Grundsicherung für Arbeitslose

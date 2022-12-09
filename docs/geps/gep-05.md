@@ -29,7 +29,7 @@ ways. This leads to different use cases for GETTSIM.
 
 1. Some applications require the exact, rounded, amount as specified in the law. This is
    also helpful for creating test cases.
-2. Other applications benefit if functions are mostly smooth and the non-rounding error
+1. Other applications benefit if functions are mostly smooth and the non-rounding error
    relative to the law does not matter much.
 
 GETTSIM's default will be 1. This document describes how we support both use cases.
@@ -39,8 +39,8 @@ GETTSIM's default will be 1. This document describes how we support both use cas
 ## Implementation
 
 GETTSIM allows for optional rounding of functions' results. Rounding parameters are
-specified in the `.yaml`-files. The following goes through the details using an
-example from the basic pension allowance (Grundrente).
+specified in the `.yaml`-files. The following goes through the details using an example
+from the basic pension allowance (Grundrente).
 
 The law on the public pension insurance specifies that the maximum possible
 Grundrentenzuschlag `grundr_zuschlag_höchstwert_m` be rounded to the nearest fourth
@@ -61,13 +61,13 @@ rounding:
 The specification of the rounding parameters starts with the key `rounding` at the
 outermost level of indentation. The keys are names of functions.
 
-At the next level, the `YYYY-MM-DD` key(s) indicate when rounding was introduced
-and/or changed. This is done in in the same way as for other policy parameters, see
-{ref}`gep-3`. Those `YYYY-MM-DD` key(s) are associated with a dictionary containing
-the following elements:
+At the next level, the `YYYY-MM-DD` key(s) indicate when rounding was introduced and/or
+changed. This is done in in the same way as for other policy parameters, see
+{ref}`gep-3`. Those `YYYY-MM-DD` key(s) are associated with a dictionary containing the
+following elements:
 
-- The parameter `base` determines the base to which the variables is rounded. It has
-  to be a floating point number.
+- The parameter `base` determines the base to which the variables is rounded. It has to
+  be a floating point number.
 - The parameter `direction` has to be one of `up`, `down`, or `nearest`.
 - The `reference` must contain the reference to the law, which specifies the rounding.
 
@@ -80,8 +80,8 @@ required argument: `params_key` points to the key of the policy parameters dicti
 containing the rounding parameters relating to the function that is decorated. In the
 above example, the rounding specification for `grundr_zuschlag_höchstwert_m` will be
 found in `policy_params["ges_rente"]` after `set_up_policy_environment()` has been
-called (since it was specified in `ges_rente.yaml`). Hence, the `params_key`
-argument of `add_rounding_spec` has to be `"ges_rente"`:
+called (since it was specified in `ges_rente.yaml`). Hence, the `params_key` argument of
+`add_rounding_spec` has to be `"ges_rente"`:
 
 ```python
 @add_rounding_spec(params_key="ges_rente")
@@ -90,19 +90,18 @@ def grundr_zuschlag_höchstwert_m(grundr_zeiten: int) -> float:
     return out
 ```
 
-The decorator adds the attribute `__rounding_params_key__` to the function. When
-calling `compute_taxes_and_transfers` with `rounding=True`, GETTSIM will look for a
-key `"rounding"` in `policy_params["params_key"]` and within that, for another key
-containing the decorated function's name (here: `"grundr_zuschlag_höchstwert_m"`).
-That is, by the machinery outlined in {ref}`GEP 3 <gep-3>`, the following indexing of
-the `policy_params` dictionary
+The decorator adds the attribute `__rounding_params_key__` to the function. When calling
+`compute_taxes_and_transfers` with `rounding=True`, GETTSIM will look for a key
+`"rounding"` in `policy_params["params_key"]` and within that, for another key
+containing the decorated function's name (here: `"grundr_zuschlag_höchstwert_m"`). That
+is, by the machinery outlined in {ref}`GEP 3 <gep-3>`, the following indexing of the
+`policy_params` dictionary
 
 ```python
 policy_params["ges_rente"]["rounding"]["grundr_zuschlag_höchstwert_m"]
 ```
 
-needs to be possible and yield the `"base"` and `"direction"` keys as described
-above.
+needs to be possible and yield the `"base"` and `"direction"` keys as described above.
 
 Note that GETTSIM only allows for optional rounding of functions' results. In case one
 is tempted to write a function requiring an intermediate variable to be rounded, the
@@ -114,9 +113,9 @@ In case a function has a `__rounding_params_key__`, but the respective parameter
 missing in `policy_params`, an error is raised.
 
 Note that if the results have to be rounded in some years, but not in others (e.g. after
-a policy reform) the rounding parameters (both `"base"` and `"direction"`) must be
-set to `None`. This allows that the rounding parameters are found and no error is
-raised, but still no rounding is applied.
+a policy reform) the rounding parameters (both `"base"` and `"direction"`) must be set
+to `None`. This allows that the rounding parameters are found and no error is raised,
+but still no rounding is applied.
 
 In case rounding parameters are specified and the function does not have a
 `__rounding_params_key__` attribute, execution will not lead to an error. This will
@@ -161,10 +160,9 @@ parameters in the `.py` files directly) for the following reason:
 
 - Zulip: <https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs>
 - PR: <https://github.com/iza-institute-of-labor-economics/gettsim/pull/324>
-- PR Implementation: <https://github.com/iza-institute-of-labor-economics/gettsim/pull/316>
+- PR Implementation:
+  <https://github.com/iza-institute-of-labor-economics/gettsim/pull/316>
 
 ## Copyright
 
 This document has been placed in the public domain.
-
-[zulip post]: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2005/near/269384311

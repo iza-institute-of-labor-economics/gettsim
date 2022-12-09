@@ -48,9 +48,9 @@ implementation details only if necessary to explain the functionality.
 
 This section describes the ways in which the GEP breaks backward compatibility.
 
-The [#GEPs] stream will contain the GEP up to and including this section. This
-is to avoid losing users who are not interested in implementation details and instead
-focus the discussion on usage and impact of the intended features.
+The [#GEPs] stream will contain the GEP up to and including this section. This is to
+avoid losing users who are not interested in implementation details and instead focus
+the discussion on usage and impact of the intended features.
 
 ## Detailed description
 
@@ -66,13 +66,13 @@ and relevant art.
 
 ## Implementation
 
-This section lists the major steps required to implement the GEP.  Where possible, it
+This section lists the major steps required to implement the GEP. Where possible, it
 should be noted where one step is dependent on another, and which steps may be
-optionally omitted.  Where it makes sense, each step should include a link to related
+optionally omitted. Where it makes sense, each step should include a link to related
 pull requests as the implementation progresses.
 
 Any pull requests or development branches containing work on this GEP should be linked
-to from here.  (A GEP does not need to be implemented in a single pull request if it
+to from here. (A GEP does not need to be implemented in a single pull request if it
 makes sense to implement it in discrete phases).
 
 ## Alternatives
@@ -90,12 +90,12 @@ GEP:
 
 ## References and Footnotes
 
-[^id1]: Each GEP must either be explicitly labeled as placed in the public domain (see
-    this GEP as an example) or licensed under the [Open Publication License].
-
 ## Copyright
 
 This document has been placed in the public domain. [^id1]
+
+[^id1]: Each GEP must either be explicitly labeled as placed in the public domain (see this GEP
+    as an example) or licensed under the [Open Publication License].
 
 [#geps]: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs
 [open publication license]: https://www.opencontent.org/openpub/

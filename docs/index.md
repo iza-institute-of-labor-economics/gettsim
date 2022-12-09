@@ -7,21 +7,23 @@ end-line: 38
 ---
 ```
 
-You can find the content of the documentation in the table below. After installation
-you can use the tutorials to help you get started with GETTSIM. How-to guides provide
+You can find the content of the documentation in the table below. After installation you
+can use the tutorials to help you get started with GETTSIM. How-to guides provide
 detailed explanations on how to accomplish specific tasks with GETTSIM.
 
 ```{toctree}
-:caption: Links
-:hidden: true
-
+---
+caption: Links
+hidden: true
+---
 gettsim on Github <https://github.com/iza-institute-of-labor-economics/gettsim>
 ```
 
 ```{toctree}
-:caption: Table of Contents
-:maxdepth: 1
-
+---
+caption: Table of Contents
+maxdepth: 1
+---
 installation
 tutorials/index
 how_to_guides/index

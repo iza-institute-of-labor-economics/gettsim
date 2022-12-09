@@ -9,9 +9,10 @@ changes (or not).
 These GEPs are currently in place:
 
 ```{toctree}
-:caption: Meta-GEPs
-:maxdepth: 1
-
+---
+caption: Meta-GEPs
+maxdepth: 1
+---
 ../geps/gep-00
 ../geps/gep-01
 ../geps/gep-02

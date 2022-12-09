@@ -3,8 +3,9 @@
 This section documents the code inside GETTSIM.
 
 ```{toctree}
-:maxdepth: 1
-
+---
+maxdepth: 1
+---
 interface
 functions
 input_variables

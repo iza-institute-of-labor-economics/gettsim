@@ -5,8 +5,9 @@ and contribute to the project please reach out to us by joining our Zulip Chat a
 <https://gettsim.zulipchat.com>.
 
 ```{toctree}
-:maxdepth: 1
-
+---
+maxdepth: 1
+---
 code-of-conduct
 how-to-contribute
 how-to-maintain

@@ -3,19 +3,24 @@
 Contributions are always welcome. Everything ranging from small extensions of the
 documentation to implementing new features is appreciated. Of course, the bigger the
 change the more it is necessary to reach out to us in advance for an discussion. You can
-start an discussion by [posting an issue](https://github.com/iza-institute-of-labor-economics/gettsim/issues/new/choose) which can be a bug report or a feature request or
-something else.
+start an discussion by
+[posting an issue](https://github.com/iza-institute-of-labor-economics/gettsim/issues/new/choose)
+which can be a bug report or a feature request or something else.
 
-To get acquainted with the code base, you can also check out the [documentation](https://gettsim.readthedocs.io/en/latest/) or our [issue tracker](https://github.com/iza-institute-of-labor-economics/gettsim/issues) for some
-immediate and clearly defined tasks.
+To get acquainted with the code base, you can also check out the
+[documentation](https://gettsim.readthedocs.io/en/latest/) or our
+[issue tracker](https://github.com/iza-institute-of-labor-economics/gettsim/issues) for
+some immediate and clearly defined tasks.
 
 To contribute to the project, adhere to the following process.
 
 ## Prerequisites
 
-- Make sure you have the following programs installed and that these can be found on your path:
+- Make sure you have the following programs installed and that these can be found on
+  your path:
 
-  - A Python distribution (we recommend using: [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or Anaconda)
+  - A Python distribution (we recommend using:
+    [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or Anaconda)
   - [Git](https://git-scm.com/downloads)
   - A modern text editor (e.g. [VS Code](https://code.visualstudio.com/))
 
@@ -27,10 +32,12 @@ To contribute to the project, adhere to the following process.
   $ git clone https://github.com/iza-institute-of-labor-economics/gettsim
   ```
 
-  As a newcomer or infrequent contributor, you must first create a fork of GETTSIM
-  which is a copy of the repository into your account where you have unlimited access.
-  Go to the [Github page of GETTSIM](https://github.com/iza-institute-of-labor-economics/gettsim) and click on the fork
-  button in the upper right corner. Then, clone your fork onto your disk with
+  As a newcomer or infrequent contributor, you must first create a fork of GETTSIM which
+  is a copy of the repository into your account where you have unlimited access. Go to
+  the
+  [Github page of GETTSIM](https://github.com/iza-institute-of-labor-economics/gettsim)
+  and click on the fork button in the upper right corner. Then, clone your fork onto
+  your disk with
 
   ```bash
   $ git clone https://github.com/<user>/gettsim
@@ -54,8 +61,8 @@ To contribute to the project, adhere to the following process.
 ## Development workflow
 
 - We always develop new features in new branches. Thus, create a new branch by picking
-  an appropriate name, e.g., `kindergeld-freibetrag` or `ubi`. Make sure to branch
-  off from main and not any other branch.
+  an appropriate name, e.g., `kindergeld-freibetrag` or `ubi`. Make sure to branch off
+  from main and not any other branch.
 
   ```bash
   $ git checkout -b <branch-name>
@@ -80,8 +87,8 @@ To contribute to the project, adhere to the following process.
 
   A commit starts the pre-commits which are additional checks, mostly formatting and
   style checks. If an error occurs, the commit is rejected and you need to review the
-  log in your terminal to fix the issues. If an reported error is unclear to you, try
-  to use Google for more help. After fixing all issues, you need to commit the changes
+  log in your terminal to fix the issues. If an reported error is unclear to you, try to
+  use Google for more help. After fixing all issues, you need to commit the changes
   again.
 
 - If your commit passes, push your changes to the repository. Then, go to either the
@@ -91,19 +98,21 @@ To contribute to the project, adhere to the following process.
   accomplish and how you did it.
 
   The PR also starts a complete run of the test suite on a continuous integration
-  server. The status of the tests is shown in the PR. You can follow the links to
-  Github Actions to get more details on why the tests failed. Reiterate on your changes
-  until the tests pass on the remote machine.
+  server. The status of the tests is shown in the PR. You can follow the links to Github
+  Actions to get more details on why the tests failed. Reiterate on your changes until
+  the tests pass on the remote machine.
 
-- Ask one of the main contributors to review your changes. Include their remarks in
-  your changes.
+- Ask one of the main contributors to review your changes. Include their remarks in your
+  changes.
 
 - The final PR will be merged by one of the main contributors.
 
 ## Code style
 
-- We make use of NumPy-type docstrings: <https://numpydoc.readthedocs.io/en/latest/format.html>
-- Otherwise, we adhere to this [styleguide](https://estimagic.readthedocs.io/en/latest/contributing/styleguide.html)
+- We make use of NumPy-type docstrings:
+  <https://numpydoc.readthedocs.io/en/latest/format.html>
+- Otherwise, we adhere to this
+  [styleguide](https://estimagic.readthedocs.io/en/latest/contributing/styleguide.html)
   (which was written for estimagic).
 
 ## FAQ

@@ -40,18 +40,18 @@ before adding new parameters.
 
 Each YAML file contains a number of parameters at the outermost level of indentation.
 Each of these parameters in turn is a dictionary with at least three keys: `name`,
-`description`, and the `YYYY-MM-DD`-formatted date on which it first took effect.
-Values usually change over time; each time a value is changed, another `YYYY-MM-DD`
-entry is added.
+`description`, and the `YYYY-MM-DD`-formatted date on which it first took effect. Values
+usually change over time; each time a value is changed, another `YYYY-MM-DD` entry is
+added.
 
 Some keys at the outermost level refer to functions of the taxes and transfers system.
-These work differently and they are {ref}`treated separately below
-<gep-3-keys-referring-to-functions>`.
+These work differently and they are
+{ref}`treated separately below <gep-3-keys-referring-to-functions>`.
 
 1. The `name` key has two sub-keys `de` and `en`, which are
 
-   - short names without re-stating the realm of the parameter (e.g.
-     "Arbeitslosengeld II" or "Kinderzuschlag");
+   - short names without re-stating the realm of the parameter (e.g. "Arbeitslosengeld
+     II" or "Kinderzuschlag");
    - not sentences;
    - correctly capitalised.
 
@@ -64,15 +64,15 @@ These work differently and they are {ref}`treated separately below
        en: Income shares not subject to transfer withdrawal
    ```
 
-2. The `description` key has two sub-keys `de` and `en`, which
+1. The `description` key has two sub-keys `de` and `en`, which
 
    - are exhaustive explanations of the parameter;
 
    - show the § and Gesetzbuch of that parameter (including its entire history if the
      location has changed);
 
-   - mention bigger amendments / Neufassungen and be as helpful as possible to
-     make sense of that parameter.
+   - mention bigger amendments / Neufassungen and be as helpful as possible to make
+     sense of that parameter.
 
      Example:
 
@@ -89,14 +89,13 @@ These work differently and they are {ref}`treated separately below
            Income shares which do not lead to tapering of benefits.
      ```
 
-3. The `unit` key informs on the unit of the values (Euro or DM if monetary,
-   share of some other value, ...).
+1. The `unit` key informs on the unit of the values (Euro or DM if monetary, share of
+   some other value, ...).
 
    - In rare cases (e.g. child benefit age threshold), it might be omitted.
    - It should be capitalised.
-   - Some values used at this point: `Euro`, `DM`, `Share`, `Percent`,
-     `Factor`, `Year`, `Month`, `Hour`, `Square Meter`, `Euro / Square
-     Meter`.
+   - Some values used at this point: `Euro`, `DM`, `Share`, `Percent`, `Factor`, `Year`,
+     `Month`, `Hour`, `Square Meter`, `Euro / Square Meter`.
    - The `unit` key may be overridden at lower levels. For example, the unit will
      typically be `Euro` for monetary quantities. For the years prior to its
      introduction, it may be specified as `DM`.
@@ -110,17 +109,13 @@ These work differently and they are {ref}`treated separately below
      unit: Euro
    ```
 
-4. The (optional) `type` key may contain a reference to a particular function that
-   is implemented. Examples are `piecewise_linear` or `piecewise_quadratic`
+1. The (optional) `type` key may contain a reference to a particular function that is
+   implemented. Examples are `piecewise_linear` or `piecewise_quadratic`
 
-5. The (optional) `reference_period` key informs on the reference period of the
-   values, if applicable
+1. The (optional) `reference_period` key informs on the reference period of the values,
+   if applicable
 
-   Possible values:
-   \- `Year`
-   \- `Month`
-   \- `Week`
-   \- `Day`
+   Possible values: - `Year` - `Month` - `Week` - `Day`
 
    Example:
 
@@ -137,8 +132,7 @@ These work differently and they are {ref}`treated separately below
 6. The (optional) `access_prior_parameters` can be used to make the parameter of a
    previous point in time (relative to the date specified available in
    `set_up_policy_environment`) available within GETTSIM functions. It requires the
-   `reference_period` (one of `Year`, `Month`, `Week`, `Day`) and the
-   `number_of_lags`.
+   `reference_period` (one of `Year`, `Month`, `Week`, `Day`) and the `number_of_lags`.
 
    Example:
 
@@ -152,7 +146,7 @@ These work differently and they are {ref}`treated separately below
        - number_of_lags: 1
    ```
 
-7. The YYYY-MM-DD key(s)
+1. The YYYY-MM-DD key(s)
 
    - hold all historical values for a specific parameter or set of parameters in the
      `value` subkey;
@@ -163,8 +157,8 @@ These work differently and they are {ref}`treated separately below
    - may give hints towards the type of function they refer to via the `type` subkey;
    - may include formulas if the law does;
    - may reference other parameters as described below.
-   - may contain a `unit` subkey, which overrides the `unit` key mentioned in 3.
-     (mostly relevant for DM / Euro)
+   - may contain a `unit` subkey, which overrides the `unit` key mentioned in 3. (mostly
+     relevant for DM / Euro)
 
    The remainder of this section explains this element in much more detail.
 
@@ -214,8 +208,8 @@ eink_anr_frei_kinder:
       upper_threshold: 1500
 ```
 
-A special keyword is `previous`, which just refers to the set of values in the
-previous law change.
+A special keyword is `previous`, which just refers to the set of values in the previous
+law change.
 
 ```yaml
 eink_anr_frei:
@@ -266,8 +260,8 @@ The following walks through several cases.
         kinder: 156
   ```
 
-- In some cases, a dictionary with numbered keys makes sense. It is important to
-  use these, not lists!
+- In some cases, a dictionary with numbered keys makes sense. It is important to use
+  these, not lists!
 
   ```yaml
   kindergeld:
@@ -305,9 +299,9 @@ The following walks through several cases.
 - If a parameter ceases to be relevant, is superseded by something else, etc., there
   must be a `YYYY-MM-DD` key with a note on this.
 
-  Generally, this `YYYY-MM-DD` key will have an entry `scalar: null` regardless of
-  the previous structure. Ideally, there would be a `reference` and potentially a
-  `note` key. Example:
+  Generally, this `YYYY-MM-DD` key will have an entry `scalar: null` regardless of the
+  previous structure. Ideally, there would be a `reference` and potentially a `note`
+  key. Example:
 
   ```yaml
   value: null
@@ -352,13 +346,12 @@ rounding:
 The specification of the rounding parameters starts with the key `rounding` at the
 outermost level of indentation. The keys are names of functions.
 
-At the next level, the `YYYY-MM-DD` key(s) indicate when rounding was introduced
-and/or changed. This is done in in the same way as for other policy parameters. Those
-`YYYY-MM-DD` key(s) are associated with a dictionary containing the following
-elements:
+At the next level, the `YYYY-MM-DD` key(s) indicate when rounding was introduced and/or
+changed. This is done in in the same way as for other policy parameters. Those
+`YYYY-MM-DD` key(s) are associated with a dictionary containing the following elements:
 
-- The parameter `base` determines the base to which the variables is rounded. It has
-  to be a floating point number.
+- The parameter `base` determines the base to which the variables is rounded. It has to
+  be a floating point number.
 - The parameter `direction` has to be one of `up`, `down`, or `nearest`.
 - The `reference` must contain the reference to the law, which specifies the rounding.
 

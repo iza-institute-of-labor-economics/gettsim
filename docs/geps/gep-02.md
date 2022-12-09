@@ -27,13 +27,13 @@ in the data provided by the user (if it comes in the form of a DataFrame) or cal
 by GETTSIM. All these arrays have the same length. This length corresponds to the number
 of individuals. Functions operate on a single row of data.
 
-If a column name is `[x]_id` with `x` {math}`\in \{` `hh`, `tu` {math}`\}`, it
-will be the same for all households, tax units, or any other grouping of individuals
-specified in {ref}`GEP 1 <gep-1-column-names>`.
+If a column name is `[x]_id` with `x` {math}`\in \{` `hh`, `tu` {math}`\}`, it will be
+the same for all households, tax units, or any other grouping of individuals specified
+in {ref}`GEP 1 <gep-1-column-names>`.
 
-Any other column name ending in `_id` indicates a link to a different individual
-(e.g., child-parent relations could be `parent_0_ind_id`, `parent_1_ind_id`;
-receiver of child benefits would be `kindergeldempf_id`).
+Any other column name ending in `_id` indicates a link to a different individual (e.g.,
+child-parent relations could be `parent_0_ind_id`, `parent_1_ind_id`; receiver of child
+benefits would be `kindergeldempf_id`).
 
 ## Motivation and Scope
 
@@ -43,19 +43,20 @@ parents and children, payors/receivers of alimony payments, which parent receive
 `kindergeld` payments, etc..
 
 Potentially, there are many ways of storing these data: Long form, wide form,
-collections of tables adhering to [database normal forms](https://en.wikipedia.org/wiki/Database_normalization), N-dimensional arrays, etc.. As
-usual, everything involves trade-offs, for example:
+collections of tables adhering to
+[database normal forms](https://en.wikipedia.org/wiki/Database_normalization),
+N-dimensional arrays, etc.. As usual, everything involves trade-offs, for example:
 
 - Normal forms require many merge / join operations, which the tools we are using are
   not optimised for.
 
 - One N-dimensional array is not possible because groups are not necessarily nested
 
-- Almost all functions are much easier to implement when working with a single row.
-  This is most important for the typical user and increasing the number of developers.
+- Almost all functions are much easier to implement when working with a single row. This
+  is most important for the typical user and increasing the number of developers.
 
-- Modern tools for vectorization (e.g., Jax) scale best when working with
-  single rows of data.
+- Modern tools for vectorization (e.g., Jax) scale best when working with single rows of
+  data.
 
   Aggregation to groups of individuals (households, tax units) or referencing data from
   other rows (parents, receiver of child benefits) is not trivial with these tools.
@@ -70,8 +71,8 @@ Users are affected only via the interface of lower-level functions. Under the pr
 implementation, they will always work on single rows of data. Many alternatives would
 require users to write vectorised code, making filtering operations more cumbersome. For
 aggregation or referencing other individuals' data, GETTSIM will provide functions that
-allow abstracting from implementation details, see {ref}`below
-<gep-2-aggregation-functions>`.
+allow abstracting from implementation details, see
+{ref}`below <gep-2-aggregation-functions>`.
 
 ## Detailed description
 
@@ -83,8 +84,8 @@ that case, only the relevant steps apply.
   (e.g., `kindergeldempf_id`) are valid.
 
 - GETTSIM will then create internal identifiers for individuals, households, and tax
-  units. GETTSIM will also generate appropriate columns with identifiers pointing
-  to other individuals. Columns with the original values are stored.
+  units. GETTSIM will also generate appropriate columns with identifiers pointing to
+  other individuals. Columns with the original values are stored.
 
   All internal identifiers are integers starting at 0 and counting in increments of 1.
   For individuals, they are sorted, implying they can be used to index into the arrays.
@@ -93,9 +94,9 @@ that case, only the relevant steps apply.
 
   Because groups of individuals are not necessarily nested (e.g., joint taxation during
   separation phase but living in different households), they cannot be sorted in
-  general. In case users know their data allows sorting on all groups  (i.e., all groups
-  have a nesting structure), they will be able to provide a `data_is_sorted` flag,
-  which defaults to `False`.
+  general. In case users know their data allows sorting on all groups (i.e., all groups
+  have a nesting structure), they will be able to provide a `data_is_sorted` flag, which
+  defaults to `False`.
 
 - The core of GETTSIM works with a collection of 1-d arrays, all of which have the same
   length as the number of individuals.
@@ -113,8 +114,8 @@ that case, only the relevant steps apply.
 ### Grouped values and aggregation functions
 
 Often columns refer to groups of individuals. Such columns have a suffix indicating the
-group (see {ref}`GEP 1 <gep-1-column-names>`, currently `_hh` or `_tu`). These
-columns' values will be repeated for all individuals who form part of a group.
+group (see {ref}`GEP 1 <gep-1-column-names>`, currently `_hh` or `_tu`). These columns'
+values will be repeated for all individuals who form part of a group.
 
 By default, GETTSIM will check consistency on input columns in this respect. Users will
 be able to turn this check off.
@@ -131,15 +132,15 @@ Aggregation functions will be provided by GETTSIM.
   - The stringified name of the aggregated variable. This **must** end with a feasible
     unit of aggregation, i.e., `_hh` or `_tu`
   - The stringified name of the original variable.
-  - The type of aggregation {math}`\in \{` `sum`, `mean`, `max`, `min`, `any`
-    {math}`\}`
+  - The type of aggregation {math}`\in \{` `sum`, `mean`, `max`, `min`, `any` {math}`\}`
 
   Note that as per {ref}`GEP 4 <gep-4-aggregation-functions>`, sums will be calculated
   implicitly if the graph contains a column `my_col` and an aggregate such as
   `my_col_hh` is requested somewhere.
 
 Note that the groups `tu` and `hh` may change in the future. Some might also be
-calculated via relations between household members, see [discussion](https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/180917151)
+calculated via relations between household members, see
+[discussion](https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/180917151)
 on Zulip in this respect.
 
 ## Alternatives
@@ -149,14 +150,17 @@ cumbersome because case distinctions had to be made in vectorized code (e.g., pi
 different values from the parameter database depending on a child's age).
 
 Adhering to normal forms (e.g., reducing the length of arrays to the number of
-households like \[here\](<https://www.tensorflow.org/api_docs/python/tf/math/segment_sum>)
-would have led to many merge-like operations in user functions.
+households like
+\[here\](<https://www.tensorflow.org/api_docs/python/tf/math/segment_sum>) would have
+led to many merge-like operations in user functions.
 
 ## Discussion
 
-- Some [discussion on Zulip](https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/180917151)
+- Some
+  [discussion on Zulip](https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/180917151)
   re data structures.
-- Zulip stream for [GEP 2](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859).
+- Zulip stream for
+  [GEP 2](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001/near/189539859).
 
 ## Copyright
 
