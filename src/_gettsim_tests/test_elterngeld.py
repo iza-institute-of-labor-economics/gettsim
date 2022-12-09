@@ -58,9 +58,9 @@ def test_elterngeld(
     """Run tests to validate elterngeld.
 
     hh_id 7 in test cases is for the calculator on
-    https://familienportal.de/familienportal/meta/egr. The result of the calculator is
-    10 Euro off the result from _gettsim. We need to discuss if we should adapt the
-    calculation of the proxy wage of last year or anything else.
+    https://familienportal.de/familienportal/meta/egr. The calculator's result is 10
+    Euro off GETTSIM's result. We need to discuss if we should adapt the calculation of
+    the proxy wage of last year or anything else.
 
     """
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
