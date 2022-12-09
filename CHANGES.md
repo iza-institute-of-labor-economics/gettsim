@@ -7,9 +7,9 @@ versioning](https://semver.org/) and all releases are available on
 
 ## 0.6.0 —
 
--   ```{github} 323``` Health care contribution parameters are better aligned with
+-   `323` Health care contribution parameters are better aligned with
     law. Restructure calculation of ges\_krankenv, minor changes to
-    ges\_pflegev. (`Eric-Sommer`, `ChristianZimpelmann`).
+    ges\_pflegev. ([@Eric-Sommer](https://github.com/Eric-Sommer), `ChristianZimpelmann`).
 
 -   `392` Fix relative tolerance which was set too high for some tests.
     Rename <span class="title-ref">vorsorge</span> to <span
@@ -47,7 +47,7 @@ versioning](https://semver.org/) and all releases are available on
     (`LauraGergeleit`)
 
 -   `423` Modeled marginal employment rules reform from 10/2022.
-    (`Eric-Sommer`, `LauraGergeleit`)
+    ([@Eric-Sommer](https://github.com/Eric-Sommer), `LauraGergeleit`)
 
 -   `399` Use dags package to create the DAG. (`ChristianZimpelmann`)
 
@@ -70,7 +70,7 @@ versioning](https://semver.org/) and all releases are available on
 -   `327` add behinderten\_pauschbetrag for 1975-1986 (`lillyfischer`).
 
 -   `285` Set up bokeh dashboard to visualize tax-benefit parameters
-    (`Si-Pf`, `Eric-Sommer`).
+    (`Si-Pf`, [@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `306` Add the possibility to load the value of a parameter of the previous
     year when calling <span
@@ -95,7 +95,7 @@ versioning](https://semver.org/) and all releases are available on
     (`LauraGergeleit`).
 
 -   `319``320` Implement changes for social assistance and social insurance
-    becoming effective in 2022 (`Eric-Sommer`).
+    becoming effective in 2022 ([@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `322` Add updated wohngeld parameters for 2022 (`mjbloemer`,
     `lillyfischer`).
@@ -139,27 +139,27 @@ versioning](https://semver.org/) and all releases are available on
 ## 0.4.1 — 2021-04-11
 
 -   `248` Implement 2021 increase in lump sum tax deductions for disabled.
-    (`Eric-Sommer`).
+    ([@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `254` Implement 2021 increase in unemployment benefits
-    (`Eric-Sommer`).
+    ([@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `253` Implement 2021 changes in health insurance contribution rates and
-    other social insurance regulations (`Eric-Sommer`).
+    other social insurance regulations ([@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `266` Adjust visualization.py to link nodes of DAGs to documentation
     properly (`davpahl`, `ChristianZimpelmann`).
 
 -   `267` Implement new calculation of Kinderzuschlag parameter
-    (`Eric-Sommer`).
+    ([@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `252` implement 2021 reforms to income tax tariff and family tax deductions
-    (`Eric-Sommer`).
+    ([@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `235` Module to create synthetic data
-    (`Eric-Sommer`, `ChristianZimpelmann`).
+    ([@Eric-Sommer](https://github.com/Eric-Sommer), `ChristianZimpelmann`).
 
--   `256` Implement 2021 housing benefit reform (`Eric-Sommer`).
+-   `256` Implement 2021 housing benefit reform ([@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `283` Implement Kinderbonus in 2020 and 2021
     (`ChristianZimpelmann`).
@@ -181,7 +181,7 @@ versioning](https://semver.org/) and all releases are available on
     `davpahl`, `Trichter33`).
 
 -   `185` adds the DAG code for renten\_anspr\_m (`MaxBlesch`). This is
-    based on the pension simulation code by (`Eric-Sommer`).
+    based on the pension simulation code by ([@Eric-Sommer](https://github.com/Eric-Sommer)).
 
 -   `184` adds visualization of the tax and transfer system as an
     interactive bokeh plot and documentation improvements
@@ -251,31 +251,31 @@ versioning](https://semver.org/) and all releases are available on
 -   Cleanup of ALG II parameters and documentation (`mjbloemer`)
 -   Break up params.yaml into group-level files (`MaxBlesch`)
 -   Corrected income deductions for additional child benefit
-    (`Eric-Sommer`)
+    ([@Eric-Sommer](https://github.com/Eric-Sommer))
 -   Implemented "Starke-Familien-Gesetz" from July 2019 on child
-    benefits (`Eric-Sommer`)
+    benefits ([@Eric-Sommer](https://github.com/Eric-Sommer))
 -   Remove child specific ALG II withdrawal and refactoring of ALG II
     (`MaxBlesch`, `mjbloemer`)
 -   Add ALG II transfer withdrawal 2005-01-01 to 2005-09-30
     (`mjbloemer`, `MaxBlesch`)
--   Child tax allowance modelled as two separate items. (`Eric-Sommer`)
+-   Child tax allowance modelled as two separate items. ([@Eric-Sommer](https://github.com/Eric-Sommer))
 -   Alimony advance payment (*Unterhaltsvorschuss*) now modelled more in
-    line with the law (`Eric-Sommer`)
+    line with the law ([@Eric-Sommer](https://github.com/Eric-Sommer))
 -   Implement Art. 3 of *Familienentlastungsgesetz* on income tax tariff
-    and child tax allowance becoming effective in 2020 (`Eric-Sommer`)
+    and child tax allowance becoming effective in 2020 ([@Eric-Sommer](https://github.com/Eric-Sommer))
 -   Implement parity in health care contributions since 2019 and 2020
-    contribution rates (`Eric-Sommer`)
+    contribution rates ([@Eric-Sommer](https://github.com/Eric-Sommer))
 -   Add *Elterngeld* calculation (`MaxBlesch`, `boryana-ilieva`)
 -   Fix Soli 1991 calculation, improve Soli 1995 calculation, add 2021
     Soli parameters and add Soli tests (`mjbloemer`, `MaxBlesch`)
--   Implement pre-2010 ruling on *Vorsorgeaufwendungen* (`Eric-Sommer`)
+-   Implement pre-2010 ruling on *Vorsorgeaufwendungen* ([@Eric-Sommer](https://github.com/Eric-Sommer))
 -   `gettsim` is released as a conda noarch package (`tobiasraabe`)
 -   Implement 2020 reform increasing housing benefit
     (*Wohngeldstärkungsgesetz*) and complete parameters on past benefits
-    (`Eric-Sommer`)
+    ([@Eric-Sommer](https://github.com/Eric-Sommer))
 -   Regroup wohngeld parameters according to GEP-3 (`MaxBlesch`)
 -   Renamed all data columns to German names (`amageh`, `MaxBlesch`)
--   Renamed and regrouped all param files (`Eric-Sommer`, `MaxBlesch`)
+-   Renamed and regrouped all param files ([@Eric-Sommer](https://github.com/Eric-Sommer), `MaxBlesch`)
 -   Added generic/piecewise functions (`johannesgoldbeck`,
     `ppoepperling`, `MaxBlesch`)
 -   A series of pull requests established the new DAG-based backend and
@@ -286,9 +286,9 @@ versioning](https://semver.org/) and all releases are available on
 ## 0.2.1 — 2019-11-20
 
 -   Fix error with real SOEP data and "Wohngeld" for households with
-    more than 12 household members (`Eric-Sommer`, `MaxBlesch`)
+    more than 12 household members ([@Eric-Sommer](https://github.com/Eric-Sommer), `MaxBlesch`)
 -   Better description of required input and output columns
-    (`MaxBlesch`, `Eric-Sommer`)
+    (`MaxBlesch`, [@Eric-Sommer](https://github.com/Eric-Sommer))
 -   Fix dependencies for conda package (`tobiasraabe`)
 -   Fill changelog and include in docs (`tobiasraabe`, `hmgaudecker`)
 -   Add maintenance section to website (`tobiasraabe`)
@@ -303,13 +303,13 @@ Initial release of `gettsim`.
 -   Migration of test parameters from xls to csv (`MaxBlesch`,
     `tobiasraabe`)
 -   Get the main entry point to work, change interface (`MaxBlesch`,
-    janosg, `Eric-Sommer`, `hmgaudecker`, `tobiasraabe`)
+    janosg, [@Eric-Sommer](https://github.com/Eric-Sommer), `hmgaudecker`, `tobiasraabe`)
 -   Tax and transfer module uses apply instead of loops (`MaxBlesch`,
     `hmgaudecker`)
--   Correct tax treatment of child care costs (`Eric-Sommer`)
--   Improve calculation of housing allowance (`Eric-Sommer`)
+-   Correct tax treatment of child care costs ([@Eric-Sommer](https://github.com/Eric-Sommer))
+-   Improve calculation of housing allowance ([@Eric-Sommer](https://github.com/Eric-Sommer))
 
 ## 0.1 and prior work — 2019-09-30
 
-Most code written by `Eric-Sommer` based on [IZAΨMOD](https://www.iza.org/publications/dp/8553/documentation-izapsmod-v30-the-iza-policy-simulation-model&gt),
+Most code written by [@Eric-Sommer](https://github.com/Eric-Sommer) based on [IZAΨMOD](https://www.iza.org/publications/dp/8553/documentation-izapsmod-v30-the-iza-policy-simulation-model&gt),
 a policy microsimulation model developed at [IZA](https://www.iza.org).

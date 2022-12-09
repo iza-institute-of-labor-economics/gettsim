@@ -102,12 +102,11 @@ todo_emit_warnings = True
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for a list of
 # builtin themes.
-html_theme = "sphinx_rtd_theme"
+html_theme = "pydata_sphinx_theme"
 html_logo = "_static/images/gettsim_logo.svg"
 
 html_theme_options = {
-    "logo_only": True,
-    "display_version": False,
+    "github_url": "https://github.com/iza-institute-of-labor-economics/gettsim",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here, relative
@@ -116,6 +115,13 @@ html_theme_options = {
 html_static_path = ["_static"]
 
 html_css_files = ["css/custom.css"]
+
+html_sidebars = {
+    "**": [
+        "relations.html",  # needs 'show_related': True theme option to display
+        "searchbox.html",
+    ]
+}
 
 # Napoleon settings
 napoleon_use_rtype = False
