@@ -5,7 +5,9 @@
 The table below gives an overview of all variables needed to run GETTSIM completely.
 Note that the variables with \_hh at the end, have to be constant over the whole
 household.
+
 (input_variables_table)=
+
 | Variable name                 | Description                                                                                                                       | Type  |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | `` _`hh_id` ``                | Household identifier                                                                                                              | int   |

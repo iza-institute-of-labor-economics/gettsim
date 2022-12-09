@@ -8,17 +8,21 @@ and then used in {func}`compute_taxes_and_transfers` is a dictionary of these
 compartment specific dictionaries. Thus it is a dictionary of dictionaries, where the
 keys are the name of the compartment. The files from which
 {func}`set_up_policy_environment` loads the default parameters for each year, can be
-found [here](https://github.com/iza-institute-of-labor-economics/gettsim/tree/main/gettsim/parameters) and are named by the compartment. Our current guidlines on how
-these files are set up can be found in the GEP-2.
+found
+[here](https://github.com/iza-institute-of-labor-economics/gettsim/tree/main/gettsim/parameters)
+and are named by the compartment. Our current guidlines on how these files are set up
+can be found in the GEP-2.
 
-Inside GETTSIM, functions don't operate with the full {code}`params` file and
-instead just use each compartment specific parameter dictionary. The names of these
-dictionaries are named by the structure {code}`compartment_name + _params`. The explicit
-names can be found in the table below. GETTSIM reads the function arguments and
-selects the corresponding part of the {code}`params` file. For GETTSIM to read and
-process the arguments of functions correctly the {code}`compartment_name + _params`
-variables have to be last inputs in the function signature.
+Inside GETTSIM, functions don't operate with the full {code}`params` file and instead
+just use each compartment specific parameter dictionary. The names of these dictionaries
+are named by the structure {code}`compartment_name + _params`. The explicit names can be
+found in the table below. GETTSIM reads the function arguments and selects the
+corresponding part of the {code}`params` file. For GETTSIM to read and process the
+arguments of functions correctly the {code}`compartment_name + _params` variables have
+to be last inputs in the function signature.
+
 (params_table)=
+
 | Parameter file name             | Compartment of gettsim         |
 | ------------------------------- | ------------------------------ |
 | `` _`soz_vers_beitr_params` ``  | Social insurance contributions |
