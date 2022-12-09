@@ -1,7 +1,7 @@
-include CITATION
-include LICENSE
-include CODE_OF_CONDUCT.md
 include CHANGES.md
+include CITATION
+include CODE_OF_CONDUCT.md
+include LICENSE
 
 recursive-include src py.typed
 recursive-include src *.yaml

@@ -5,7 +5,7 @@ in reverse chronological order. We follow [semantic
 versioning](https://semver.org/) and all releases are available on
 [Anaconda.org](https://anaconda.org/gettsim/gettsim).
 
-## 0.5.2 —
+## 0.6.0 —
 
 -   ```{github} 323``` Health care contribution parameters are better aligned with
     law. Restructure calculation of ges\_krankenv, minor changes to
@@ -54,6 +54,9 @@ versioning](https://semver.org/) and all releases are available on
 -   `440` Implemented Bürgergeld, which reforms <span
     class="title-ref">arbeitsl_geld_2</span> from 01/01/2023.
     (`LauraGergeleit`)
+
+-   `450` Update CI, use modern package structure (`hmgaudecker`)
+
 
 ## 0.5.1 — 2022-04-21
 
