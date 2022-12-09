@@ -105,7 +105,7 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
     bewohnt_eigentum_hh: bool,
     haushaltsgröße_hh: int,
     arbeitsl_geld_2_params: dict,
-) -> int:
+) -> float:
     """Calculate size of dwelling eligible to claim.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
