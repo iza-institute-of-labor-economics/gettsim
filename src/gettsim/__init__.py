@@ -34,7 +34,7 @@ def test(*args):
     n_test_executions = next(COUNTER_TEST_EXECUTIONS)
 
     if n_test_executions == 0:
-        pytest.main([str(TEST_DIR), *args])
+        pytest.main([str(TEST_DIR), "--noconftest", *args])
     else:
         warnings.warn(
             "Repeated execution of the test suite is not possible. Start a new Python "
