@@ -38,9 +38,9 @@ def kind_bis_17(alter: int, kind: bool) -> bool:
     Parameters
     ----------
     alter
-        See basic input variable :ref:`alter <alter>`.
+        See basic input variable :ref:`alter <input_variable_table>`.
     kind
-        See basic input variable :ref:`kind <kind>`.
+        See basic input variable :ref:`kind <input_variable_table>`.
 
     Returns
     -------
@@ -56,9 +56,9 @@ def kind_bis_6(alter: int, kind: bool) -> bool:
     Parameters
     ----------
     alter
-        See basic input variable :ref:`alter <alter>`.
+        See basic input variable :ref:`alter <input_variable_table>`.
     kind
-        See basic input variable :ref:`kind <kind>`.
+        See basic input variable :ref:`kind <input_variable_table>`.
 
     Returns
     -------
@@ -74,9 +74,9 @@ def kind_bis_10(alter: int, kind: bool) -> bool:
     Parameters
     ----------
     alter
-        See basic input variable :ref:`alter <alter>`.
+        See basic input variable :ref:`alter <input_variable_table>`.
     kind
-        See basic input variable :ref:`kind <kind>`.
+        See basic input variable :ref:`kind <input_variable_table>`.
 
     Returns
     -------
@@ -92,9 +92,9 @@ def kind_bis_15(alter: int, kind: bool) -> bool:
     Parameters
     ----------
     alter
-        See basic input variable :ref:`alter <alter>`.
+        See basic input variable :ref:`alter <input_variable_table>`.
     kind
-        See basic input variable :ref:`kind <kind>`.
+        See basic input variable :ref:`kind <input_variable_table>`.
 
     Returns
     -------
@@ -110,9 +110,9 @@ def kind_ab_7_bis_13(alter: int, kind: bool) -> bool:
     Parameters
     ----------
     alter
-        See basic input variable :ref:`alter <alter>`.
+        See basic input variable :ref:`alter <input_variable_table>`.
     kind
-        See basic input variable :ref:`kind <kind>`.
+        See basic input variable :ref:`kind <input_variable_table>`.
 
     Returns
     -------
@@ -128,9 +128,9 @@ def kind_ab_14_bis_24(alter: int, kind: bool) -> bool:
     Parameters
     ----------
     alter
-        See basic input variable :ref:`alter <alter>`.
+        See basic input variable :ref:`alter <input_variable_table>`.
     kind
-        See basic input variable :ref:`kind <kind>`.
+        See basic input variable :ref:`kind <input_variable_table>`.
 
     Returns
     -------
@@ -146,9 +146,9 @@ def erwachsen(kind: bool) -> bool:
     Parameters
     ----------
     alter
-        See basic input variable :ref:`alter <alter>`.
+        See basic input variable :ref:`alter <input_variable_table>`.
     kind
-        See basic input variable :ref:`kind <kind>`.
+        See basic input variable :ref:`kind <input_variable_table>`.
 
     Returns
     -------
@@ -164,7 +164,7 @@ def gemeinsam_veranlagt_tu(anz_erwachsene_tu: int) -> bool:
     Parameters
     ----------
     tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
+        See basic input variable :ref:`tu_id <input_variable_table>`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     Returns
@@ -198,11 +198,11 @@ def geburtsdatum(geburtsjahr: int, geburtsmonat: int, geburtstag: int) -> np.dat
     Parameters
     ----------
     geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+        See basic input variable :ref:`geburtsjahr <input_variable_table>`.
     geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+        See basic input variable :ref:`geburtsmonat <input_variable_table>`.
     geburtstag
-        See basic input variable :ref:`geburtstag <geburtstag>`.
+        See basic input variable :ref:`geburtstag <input_variable_table>`.
 
     Returns
     -------
@@ -220,11 +220,11 @@ def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict) -> float:
     Parameters
     ----------
     hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+        See basic input variable :ref:`hh_id <input_variable_table>`.
     geburtsdatum
         See :func:`geburtsdatum`.
     elterngeld_params
-        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+        See params documentation :ref:`elterngeld_params <input_variable_table>`.
     Returns
     -------
 
@@ -256,7 +256,7 @@ def jüngstes_kind_oder_mehrling(
     alter_monate_jüngstes_mitglied_hh
         See :func:`alter_monate_jüngstes_mitglied_hh`.
     kind
-        See basic input variable :ref:`kind <kind>`.
+        See basic input variable :ref:`kind <input_variable_table>`.
 
     Returns
     -------

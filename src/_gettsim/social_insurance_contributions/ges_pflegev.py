@@ -8,9 +8,9 @@ def ges_pflegev_zusatz_kinderlos(
     Parameters
     ----------
     hat_kinder
-        See basic input variable :ref:`hat_kinder <hat_kinder>`.
+        See basic input variable :ref:`hat_kinder <input_variables_table>`.
     alter
-        See basic input variable :ref:`alter <alter>`.
+        See basic input variable :ref:`alter <input_variables_table>`.
 
     Returns
     -------
@@ -54,11 +54,11 @@ def ges_pflegev_beitr_m(
     _ges_krankenv_bruttolohn_m
         See :func:`_ges_krankenv_bruttolohn_m`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
     in_gleitzone
         See :func:`in_gleitzone`.
     selbstständig
-        See basic input variable :ref:`selbstständig <selbstständig>`.
+        See basic input variable :ref:`selbstständig <input_variables_table>`.
 
     Returns
     -------
@@ -110,11 +110,11 @@ def ges_pflegev_beitr_arbeitg_m(
     _ges_krankenv_bruttolohn_m
         See :func:`_ges_krankenv_bruttolohn_m`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
     in_gleitzone
         See :func:`in_gleitzone`.
     selbstständig
-        See basic input variable :ref:`selbstständig <selbstständig>`.
+        See basic input variable :ref:`selbstständig <input_variables_table>`.
 
     Returns
     -------
@@ -158,7 +158,7 @@ def ges_pflegev_beitr_selbst_m(
         See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbst`.
 
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -195,7 +195,7 @@ def ges_pflegev_beitr_rente_m(
     _ges_krankenv_bemessungsgrundlage_rente_m
         See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -233,7 +233,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022(
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -271,7 +271,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022(
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -303,9 +303,9 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_bis_09_2022(
     Parameters
     ----------
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
 
     Returns
@@ -383,7 +383,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022(
     _midijob_beitragspf_einnahme_arbeitn_m
         See :func:`_midijob_beitragspf_einnahme_arbeitn_m`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------

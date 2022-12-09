@@ -8,7 +8,7 @@ def _ges_rentenv_beitr_bemess_grenze_m(
     wohnort_ost
         See :func:`wohnort_ost`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -30,7 +30,7 @@ def _ges_krankenv_beitr_bemess_grenze_m(
     wohnort_ost
         See :func:`wohnort_ost`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -55,9 +55,9 @@ def _ges_krankenv_bezugsgröße_selbst_m(
     Parameters
     ----------
     wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+        See basic input variable :ref:`wohnort_ost <input_variables_table>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------

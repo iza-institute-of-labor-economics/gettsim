@@ -17,7 +17,7 @@ def ges_rentenv_beitr_m(
     _ges_rentenv_beitr_bruttolohn_m
         See :func:`_ges_rentenv_beitr_bruttolohn_m`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
     in_gleitzone
         See :func:`in_gleitzone`.
 
@@ -59,11 +59,11 @@ def ges_rentenv_beitr_arbeitg_m(
     _ges_rentenv_beitr_bruttolohn_m
         See :func:`_ges_rentenv_beitr_bruttolohn_m`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
     in_gleitzone
         See :func:`in_gleitzone`.
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
 
     Returns
     -------
@@ -96,7 +96,7 @@ def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m
         See :func:`midijob_bemessungsentgelt_m`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -120,9 +120,9 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022(
     Parameters
     ----------
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -192,7 +192,7 @@ def _ges_rentenv_beitr_midijob_arbeitn_m_ab_10_2022(
     _midijob_beitragspf_einnahme_arbeitn_m
         See :func:`_midijob_beitragspf_einnahme_arbeitn_m`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
 
     Returns
     -------
@@ -214,7 +214,7 @@ def _ges_rentenv_beitr_bruttolohn_m(
     Parameters
     ----------
     bruttolohn_m
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
     _ges_rentenv_beitr_bemess_grenze_m
         See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
 
