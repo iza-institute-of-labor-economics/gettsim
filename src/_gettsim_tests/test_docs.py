@@ -120,7 +120,7 @@ def test_type_hints():
 
     # Load all time dependent functions
     time_dependent_functions = {}
-    for year in range(1990, 2023):
+    for year in range(1990, 2024):
         year_functions = load_functions_for_date(
             datetime.date(year=year, month=1, day=1)
         )

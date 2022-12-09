@@ -130,7 +130,7 @@ def grunds_im_alter_eink_m(
     )
 
     # subtract taxes and social insurance contributions
-    # TODO: Change this to lohn_steuer
+    # TODO: Change this to lohnsteuer
     out = (
         total_income
         - (eink_st_tu / anz_erwachsene_tu / 12)

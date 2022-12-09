@@ -55,7 +55,7 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 | _`heizkosten_m_hh`        | Monthly heating expenses for household      | float        |
 +---------------------------+---------------------------------------------+--------------+
-| _`wohnfläche_hh`          | Size of household dwelling in square meters | int          |
+| _`wohnfläche_hh`          | Size of household dwelling in square meters | float        |
 +---------------------------+---------------------------------------------+--------------+
 | _`bewohnt_eigentum_hh`    | Dummy: Owner-occupied housing               | bool         |
 +---------------------------+---------------------------------------------+--------------+
