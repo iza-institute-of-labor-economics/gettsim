@@ -32,7 +32,7 @@ def load_and_check_functions(
     data_cols,
     aggregation_specs,
 ):
-    """Create the dict with all functions that may become part of the DAG by.
+    """Create the dict with all functions that may become part of the DAG by:
 
     - merging user and internal functions
     - vectorize all functions

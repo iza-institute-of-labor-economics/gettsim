@@ -1,7 +1,8 @@
-def kinderzuschl_kost_unterk_m(
+def kinderzuschl_kost_unterk_m_tu(
     _kinderzuschl_wohnbedarf_eltern_anteil_tu: float,
-    kinderzuschl_bruttokaltmiete_m: float,
-    kinderzuschl_heizkosten_m: float,
+    bruttokaltmiete_m_hh: float,
+    heizkosten_m_hh: float,
+    _anteil_personen_in_haushalt_tu: float,
 ) -> float:
     """Calculate costs of living eligible to claim.
 
@@ -11,22 +12,24 @@ def kinderzuschl_kost_unterk_m(
     ----------
     _kinderzuschl_wohnbedarf_eltern_anteil_tu
         See :func:`_kinderzuschl_wohnbedarf_eltern_anteil_tu`.
-    kinderzuschl_bruttokaltmiete_m
-        See :func:`kinderzuschl_bruttokaltmiete_m`.
-    kinderzuschl_heizkosten_m
-        See :func:`kinderzuschl_heizkosten_m`.
+    bruttokaltmiete_m_tu
+        See :func:`bruttokaltmiete_m_tu`.
+    heizkosten_m_tu
+        See :func:`heizkosten_m_tu`.
 
     Returns
     -------
 
     """
-    out = _kinderzuschl_wohnbedarf_eltern_anteil_tu * (
-        kinderzuschl_bruttokaltmiete_m + kinderzuschl_heizkosten_m
-    )
+    warmmiete_m_hh = bruttokaltmiete_m_hh + heizkosten_m_hh
+    anteil_warmmiete_m_tu = warmmiete_m_hh * _anteil_personen_in_haushalt_tu
+
+    out = _kinderzuschl_wohnbedarf_eltern_anteil_tu * anteil_warmmiete_m_tu
+
     return out
 
 
-def kinderzuschl_bruttokaltmiete_m(
+def bruttokaltmiete_m_tu(
     bruttokaltmiete_m_hh: float,
     _anteil_personen_in_haushalt_tu: float,
 ) -> float:
@@ -46,7 +49,7 @@ def kinderzuschl_bruttokaltmiete_m(
     return bruttokaltmiete_m_hh * _anteil_personen_in_haushalt_tu
 
 
-def kinderzuschl_heizkosten_m(
+def heizkosten_m_tu(
     heizkosten_m_hh: float,
     _anteil_personen_in_haushalt_tu: float,
 ) -> float:
@@ -90,8 +93,8 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_tu(
     """
     ex_min = kinderzuschl_params["existenzminimum"]
 
-    # Only 5 children are considered
-    considered_children = min(anz_kinder_tu, 5)
+    # Up to 10 children are considered
+    considered_children = min(anz_kinder_tu, 10)
     single_oder_paar = "single" if anz_erwachsene_tu == 1 else "paare"
 
     out = (
