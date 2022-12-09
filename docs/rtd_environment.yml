@@ -23,7 +23,7 @@ dependencies:
   # Automodapi leads to error within numpy_groupies/numba for sphinx 5.1.1
   # See: https://github.com/astropy/sphinx-automodapi/issues/148
   - sphinx=5.1.0
-  - pydata_sphinx_theme
+  - pydata-sphinx-theme>=0.3.0
   - sphinx-automodapi
   - sphinx-copybutton
   - myst-parser
