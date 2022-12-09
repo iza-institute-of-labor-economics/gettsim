@@ -16,8 +16,13 @@ def ges_pflegev_zusatz_kinderlos(
     -------
 
     """
-    altersgrenze = soz_vers_beitr_params["ges_pflegev_zusatz_kinderlos_mindestalter"]
-    out = (not hat_kinder) and alter >= altersgrenze
+    if "ges_pflegev_zusatz_kinderlos_mindestalter" in soz_vers_beitr_params:
+        altersgrenze = soz_vers_beitr_params[
+            "ges_pflegev_zusatz_kinderlos_mindestalter"
+        ]
+        out = (not hat_kinder) and alter >= altersgrenze
+    else:
+        out = False
     return out
 
 

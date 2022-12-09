@@ -12,6 +12,8 @@ def arbeitsl_geld_2_eink_m(
 
     """Sum up the income for calculation of basic subsistence.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     arbeitsl_geld_2_brutto_eink_m
@@ -56,6 +58,8 @@ def arbeitsl_geld_2_brutto_eink_m(
 ) -> float:
 
     """Sum up the income before tax for calculation of basic subsistence.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -105,6 +109,8 @@ def arbeitsl_geld_2_2005_netto_quote(
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     bruttolohn_m
@@ -138,6 +144,8 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
 ) -> float:
     """Calculate share of income, which remains to the individual until 09/2005.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     bruttolohn_m
@@ -168,7 +176,9 @@ def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
     anz_kinder_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-    """Calcualte share of income, which remains to the individual sinc 10/2005.
+    """Calculate share of income, which remains to the individual since 10/2005.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------

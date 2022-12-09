@@ -526,6 +526,15 @@ beitr_bemess_grenze_m:
       west: 7050
       ost: 6750
     reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
+  2023-01-01:
+    ges_krankenv:
+      west: 4987.5
+      ost: 4987.5
+    ges_rentenv:
+      west: 7300
+      ost: 7100
+    reference: V. v. 28.11.2022 BGBl. I. S. 2128.
+
 
 bezugsgröße_selbst_m:
   name:
@@ -651,6 +660,11 @@ bezugsgröße_selbst_m:
     west: 3290
     ost: 3150
     reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
+  2023-01-01:
+    west: 3395
+    ost: 3290
+    reference: V. v. 28.11.2022 BGBl. I. S. 2128.
+
 
 bezugsgröße_selbst_anteil:
   name:
@@ -824,10 +838,12 @@ ges_pflegev_zusatz_kinderlos_mindestalter:
     de: Mindestalter Beitragszuschlag für Kinderlose
     en: Minimum age for additional contribution for childless
   description:
-    de: Der Beitragssatz für Kinderlose ist ab diesem Alter höher.
-    en: Childless individuals face a higher contribution rate starting at this age.
+    de: Kinderlose Mitglieder der sozialen Pflegeversicherung, die das 23. Lebensjahr
+        vollendet haben, müssen seit dem 1. Januar 2005 einen erhöhten Beitragssatz entrichten.
+    en: Childless members of the social care insurance, who have reached the age of 23, have
+        to pay a higher contribution rate since January 1, 2005.
   unit: Year
-  reference: § 55 Abs. 3 SGB XI
+  reference: § 55 Abs. 3 SGB XI, KiBG Art. 1
   2005-01-01:
     scalar: 23
 

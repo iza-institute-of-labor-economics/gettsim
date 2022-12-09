@@ -47,6 +47,7 @@ INPUT_COLS = [
     "rentner",
     "in_ausbildung",
     "arbeitsstunden_w",
+    "bürgerg_bezug_vorj",
 ]
 
 OUT_COLS = [
@@ -74,7 +75,7 @@ OVERRIDE_COLS = [
 ]
 
 
-YEARS = [2005, 2006, 2009, 2011, 2013, 2018, 2019, 2022]
+YEARS = [2005, 2006, 2009, 2013, 2018, 2019, 2022, 2023]
 
 
 @pytest.fixture(scope="module")

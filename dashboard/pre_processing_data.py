@@ -12,18 +12,15 @@ import pandas as pd
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.taxes.eink_st import _eink_st_tarif
-from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009_bis_2020
-from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2021
+from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
 from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
-from _gettsim.transfers.wohngeld import wohngeld_min_miete
+from _gettsim.transfers.wohngeld import wohngeld_min_miete_m_hh
 from _gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m_hh
 
-wohngeld_miete_m_hh_ab_2009_bis_2020 = np.vectorize(
-    wohngeld_miete_m_hh_ab_2009_bis_2020
-)
-wohngeld_miete_m_hh_ab_2021 = np.vectorize(wohngeld_miete_m_hh_ab_2021)
+
+wohngeld_miete_m_hh_ab_2009 = np.vectorize(wohngeld_miete_m_hh_ab_2009)
 wohngeld_miete_m_hh_bis_2008 = np.vectorize(wohngeld_miete_m_hh_bis_2008)
-wohngeld_min_miete = np.vectorize(wohngeld_min_miete)
+wohngeld_min_miete_m_hh = np.vectorize(wohngeld_min_miete_m_hh)
 wohngeld_vor_vermög_check_m_hh = np.vectorize(wohngeld_vor_vermög_check_m_hh)
 _eink_st_tarif = np.vectorize(_eink_st_tarif)
 
@@ -131,25 +128,16 @@ def prepare_wg_data(sel_year, hh_size):
             household_size,
             miete,
             pd.Series([1] * len(miete)),
-            wohngeld_min_miete(household_size, params),
+            wohngeld_min_miete_m_hh(household_size, params),
             params,
         )
-    if 2009 <= sel_year <= 2020:
-        wohngeld_miete_m_hh = wohngeld_miete_m_hh_ab_2009_bis_2020(
+    if 2009 <= sel_year:
+        wohngeld_miete_m_hh = wohngeld_miete_m_hh_ab_2009(
             pd.Series([3] * len(miete)),
             household_size,
             miete,
             pd.Series([1] * len(miete)),
-            wohngeld_min_miete(household_size, params),
-            params,
-        )
-    if sel_year >= 2021:
-        wohngeld_miete_m_hh = wohngeld_miete_m_hh_ab_2021(
-            pd.Series([3] * len(miete)),
-            household_size,
-            miete,
-            pd.Series([1] * len(miete)),
-            wohngeld_min_miete(household_size, params),
+            wohngeld_min_miete_m_hh(household_size, params),
             params,
         )
 

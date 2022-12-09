@@ -39,7 +39,7 @@ INPUT_COLS = [
     "vermögen_bedürft_hh",
     "haushaltsgröße_hh",
 ]
-YEARS_TEST = [2006, 2009, 2013, 2016, 2018, 2019, 2021]
+YEARS_TEST = [2006, 2009, 2013, 2016, 2018, 2019, 2021, 2023]
 
 # ToDo: add "wohngeld_miete_m_hh" "wohngeld_eink_m" to test data and to
 # ToDo: OUT_COLS (take care of rounding)

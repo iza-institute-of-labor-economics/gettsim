@@ -8,6 +8,8 @@ def arbeitsl_geld_2_m_hh(
 
     """Calculate final monthly subsistence payment on household level.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     arbeitsl_geld_2_vor_vorrang_m_hh
@@ -47,6 +49,8 @@ def arbeitsl_geld_2_regelbedarf_m_hh(
 
     This includes cost of dwelling.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     arbeitsl_geld_2_regelsatz_m_hh
@@ -75,6 +79,8 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     Additional need for single parents. Maximum 60% of the standard amount on top if
     you have at least one kid below 6 or two or three below 15, you get 36%
     on top alternatively, you get 12% per kid, depending on what's higher.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -125,9 +131,10 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
     anz_kinder_ab_14_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-    """Calculate basic monthly subsistence for children until 2010.
+    """Calculate basic monthly subsistence for children until 2010. Since 2010 children
+    get additional shares instead of lump sum payments.
 
-    Since 2010 children get additional shares instead of lump sum payments.
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -164,9 +171,10 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     anz_kinder_ab_14_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-    """Calculate basic monthly subsistence for children since 2011.
+    """Calculate basic monthly subsistence for children since 2011. Here the sum in euro
+    is directly in the law.
 
-    Here the sum in euro is directly in the law.
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -202,6 +210,8 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
 ) -> float:
 
     """Calculate basic monthly subsistence without dwelling until 2010.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -243,6 +253,8 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
 
     """Calculate basic monthly subsistence without dwelling since 2011.
 
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
     Parameters
     ----------
     anz_erwachsene_hh
@@ -282,6 +294,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
     arbeitsl_geld_2_vermög_freib_hh: float,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and wealth check).
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
