@@ -1,6 +1,8 @@
 """Functions to compute unemployment benefits (Arbeitslosengeld).
 
 """
+import numpy as np
+
 from gettsim.piecewise_functions import piecewise_polynomial
 from gettsim.taxes.eink_st import _eink_st_tarif
 from gettsim.transfers.rente import ges_rente_regelaltersgrenze
@@ -8,7 +10,7 @@ from gettsim.transfers.rente import ges_rente_regelaltersgrenze
 
 def arbeitsl_geld_m(
     anz_kinder_tu: int,
-    anspruchsdauer_aktuell: int,
+    arbeitsl_geld_berechtigt: int,
     arbeitsl_geld_eink_vorj_proxy: float,
     arbeitsl_geld_params: dict,
 ) -> float:
@@ -30,109 +32,51 @@ def arbeitsl_geld_m(
 
     """
 
-    if anz_kinder_tu == 0:
-        arbeitsl_geld_satz = (
-            arbeitsl_geld_params["satz_ohne_kinder"] * anspruchsdauer_aktuell / 12
-        )
-    else:
-        arbeitsl_geld_satz = (
-            arbeitsl_geld_params["satz_mit_kindern"] * anspruchsdauer_aktuell / 12
-        )
-
-    out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
-
-    return out
-
-
-def anspruchsdauer_aktuell(
-    anspruchsdauer_gesamt: int,
-    alter: int,
-    arbeitsl_geld_params: dict,
-    arbeitsl_geld_berechtigt: bool,
-    arbeitsl_geld_m_vorj: int,
-    arbeitsl_geld_m_v2j: int,
-) -> int:
-    """Calculate the amount of months a person can receive unemployment benifit
-    this year.
-
-    Parameters
-    ----------
-    anspruchsdauer_gesamt
-        See :func:`anspruchsdauer_gesamt`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    arbeitsl_geld_params
-        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
-    arbeitsl_geld_berechtigt
-        See :func:`arbeitsl_geld_berechtigt`.
-    arbeitsl_geld_m_vorj
-        See basic input variable :ref:`arbeitsl_geld_m_vorj <arbeitsl_geld_m_vorj>`.
-    arbeitsl_geld_m_v2j
-        See basic input variable :ref:`arbeitsl_geld_m_v2j <arbeitsl_geld_m_v2j>`.
-
-    Returns
-    -------
-
-    """
-
     if arbeitsl_geld_berechtigt:
-        if alter >= arbeitsl_geld_params["anwartschaftszeit"]["threshold_5"]["age"]:
-            out = max(
-                anspruchsdauer_gesamt - arbeitsl_geld_m_vorj - arbeitsl_geld_m_v2j, 0
-            )
+        if anz_kinder_tu == 0:
+            arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
         else:
-            out = max(anspruchsdauer_gesamt - arbeitsl_geld_m_vorj, 0)
+            arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
+
+        out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
     else:
-        out = 0
+        out = 0.0
 
     return out
 
 
-def anspruchsdauer_gesamt(
-    anwartschaftszeit: int,
-    alter: int,
-    arbeitsl_geld_params: dict,
+def restliche_anspruchsdauer(
+    dauer_nach_anwartschaftszeit: int,
+    dauer_nach_alter: int,
+    arbeitsl_geld_bezug_m: int,
 ) -> int:
-    """Calculate the amount of months a person could receive unemployment benifit.
+    """Calculate the remaining amount of months a person can receive unemployment
+    benifit this year.
 
     Parameters
     ----------
-    anwartschaftszeit
-        See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    arbeitsl_geld_params
-        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
+    dauer_nach_anwartschaftszeit
+        See :func:`dauer_nach_anwartschaftszeit`.
+    dauer_nach_alter
+        See :func:`dauer_nach_alter`.
+    arbeitsl_geld_bezug_m
+        See basic input variable :ref:`arbeitsl_geld_bezug_m <arbeitsl_geld_bezug_m>`.
+
 
     Returns
     -------
 
     """
-    for threshold in [
-        "threshold_1",
-        "threshold_2",
-        "threshold_3",
-        "threshold_4",
-        "threshold_5",
-        "threshold_6",
-        "threshold_7",
-    ]:
-        if (
-            anwartschaftszeit
-            >= arbeitsl_geld_params["anwartschaftszeit"][threshold]["min"]
-            and alter >= arbeitsl_geld_params["anwartschaftszeit"][threshold]["age"]
-        ):
-            out = arbeitsl_geld_params["anwartschaftszeit"][threshold]["anspruch"]
-        else:
-            out = 0
+    anspruchsdauer_gesamt = min(dauer_nach_alter, dauer_nach_anwartschaftszeit)
+    out = max(anspruchsdauer_gesamt - arbeitsl_geld_bezug_m, 0)
 
-        return out
     return out
 
 
 def arbeitsl_geld_berechtigt(
     alter: int,
     arbeitssuchend: bool,
+    restliche_anspruchsdauer: int,
     arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
     geburtsjahr: int,
@@ -146,6 +90,8 @@ def arbeitsl_geld_berechtigt(
         See basic input variable :ref:`alter <alter>`.
     arbeitssuchend
         See basic input variable :ref:`arbeitssuchend <arbeitssuchend>`.
+    restliche_anspruchsdauer
+        See :func:`restliche_anspruchsdauer`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
@@ -163,11 +109,81 @@ def arbeitsl_geld_berechtigt(
 
     out = (
         arbeitssuchend
+        and (restliche_anspruchsdauer > 0)
         and (alter < regelaltersgrenze)
         and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
 
     return out
+
+
+def dauer_nach_alter(
+    alter: int,
+    arbeitsl_geld_params: dict,
+) -> int:
+    """Calculate the lenght of unemployment benifit according to age.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    arbeitsl_geld_params
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
+
+    Returns
+    -------
+
+    """
+    nach_alter = piecewise_polynomial(
+        alter,
+        thresholds=list(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])
+        + [np.inf],
+        rates=np.array(
+            [[0] * len(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])]
+        ),
+        intercepts_at_lower_thresholds=list(
+            arbeitsl_geld_params["anspruchsdauer"]["nach_alter"].values()
+        ),
+    )
+
+    return nach_alter
+
+
+def dauer_nach_anwartschaftszeit(
+    anwartschaftszeit: int,
+    arbeitsl_geld_params: dict,
+) -> int:
+    """Calculate the lenght of unemployment benifit according to anwartschaftszeit.
+
+    Parameters
+    ----------
+    anwartschaftszeit
+        See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
+    arbeitsl_geld_params
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
+
+    Returns
+    -------
+
+    """
+    nach_anwartschaftszeit = piecewise_polynomial(
+        anwartschaftszeit,
+        thresholds=list(
+            arbeitsl_geld_params["anspruchsdauer"]["nach_anwartschaftszeit"]
+        )
+        + [np.inf],
+        rates=np.array(
+            [
+                [0]
+                * len(arbeitsl_geld_params["anspruchsdauer"]["nach_anwartschaftszeit"])
+            ]
+        ),
+        intercepts_at_lower_thresholds=list(
+            arbeitsl_geld_params["anspruchsdauer"]["nach_anwartschaftszeit"].values()
+        ),
+    )
+
+    return nach_anwartschaftszeit
 
 
 def arbeitsl_geld_eink_vorj_proxy(

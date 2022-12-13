@@ -165,40 +165,25 @@ stundengrenze:
     scalar: 15
     reference: Art. 2 G. v. 20.12.2011 BGBl I S. 2854
 
-anwartschaftszeit:
+anspruchsdauer:
   name:
-    de: Anwartschaftszeit für ALG 1
-    en: anwartschaftszeit for ALG 1
+    de: Anspruchsdauer für ALG 1
+    en: lenght of ALG 1 eligibility
   description:
-    de: Nur Personen unter 65 Jahren haben einen Anspruch auf ALG1.
-    en: Only individuals under the age of 65 are eligible for ALG1.
+    de: Dauer des Anspruchs auf ALG 1 richtet sich nach Alter und Anwartschaftszeit
+    en: The lenght of ALG 1 eligibility depends on age and Anwartschaftszeit
   reference: § 147 Abs. 2 SGB III
   1997-03-24:
-    threshold_1:
-      age: 0
-      min: 12
-      anspruch: 6
-    threshold_2:
-      age: 0
-      min: 16
-      anspruch: 8
-    threshold_3:
-      age: 0
-      min: 20
-      anspruch: 10
-    threshold_4:
-      age: 0
-      min: 24
-      anspruch: 12
-    threshold_5:
-      age: 50
-      min: 30
-      anspruch: 15
-    threshold_6:
-      age: 55
-      min: 36
-      anspruch: 18
-    threshold_7:
-      age: 58
-      min: 48
-      anspruch: 24
+    nach_alter:
+      0: 12
+      50: 15
+      55: 18
+      58: 24
+    nach_anwartschaftszeit:
+      12: 6
+      18: 8
+      20: 10
+      24: 12
+      30: 15
+      36: 18
+      48: 24

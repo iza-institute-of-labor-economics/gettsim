@@ -141,14 +141,12 @@ household.
 ||                          || age 40                                     ||             |
 +---------------------------+---------------------------------------------+--------------+
 || _`anwartschaftszeit`     || Months of unemployment insurance           || int         |
-||                          || contributions in the last 30 months        ||             |
+||                          || contributions in the 30 months before      ||             |
+||                          || claimining unemployment insurance          ||             |
 +---------------------------+---------------------------------------------+--------------+
 || _`arbeitssuchend`        || Dummy: looking for employment              || bool        |
 ||                          ||                                            ||             |
 +---------------------------+---------------------------------------------+--------------+
-|| _`arbeitsl_geld_m_vorj`  || Amount of months in which Arbeitslosengeld || int         |
-||                          || was received in previous year              ||             |
-+---------------------------+---------------------------------------------+--------------+
-|| _`arbeitsl_geld_m_v2j`   || Amount of months in which Arbeitslosengeld || int         |
-||                          || was received two years before              ||             |
+|| _`arbeitsl_geld_bezug_m` || Amount of months the individual already    || int         |
+||                          || receives Arbeitslosengeld                  ||             |
 +---------------------------+---------------------------------------------+--------------+

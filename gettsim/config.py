@@ -126,8 +126,7 @@ TYPES_INPUT_VARIABLES = {
     "y_pflichtbeitr_ab_40": float,
     "anwartschaftszeit": int,
     "arbeitssuchend": bool,
-    "arbeitsl_geld_m_vorj": int,
-    "arbeitsl_geld_m_v2j": int,
+    "arbeitsl_geld_bezug_m": int,
 }
 
 # =====================================================================================
