@@ -77,12 +77,12 @@ soli_st:
       rate: 0.055
       upper_threshold: inf
   2023-01-01:
-    reference: Art. 4 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    reference: Art. 4 G. v. 08.12.2022 BGBl. I S. 2230.
     deviation_from: previous
     0:
       upper_threshold: 17543
   2024-01-01:
-    reference: Art. 5 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    reference: Art. 5 G. v. 08.12.2022 BGBl. I S. 2230.
     deviation_from: previous
     0:
       upper_threshold: 18130

@@ -22,7 +22,7 @@ maximum:
     note: Ab 2021 wird der Betrag aus anderen Parametern berechnet.
   2023-01-01:
     scalar: 250
-    reference: Art. 6 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
     note: Regelung für das Kalenderjahr 2023, abweichend von § 6a Absatz 2.
   2024-01-01:
     scalar: null

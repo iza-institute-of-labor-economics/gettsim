@@ -203,7 +203,7 @@ eink_st_tarif:
       upper_threshold: 277826
   2023-01-01:
     deviation_from: previous
-    reference: Art. 2 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
     0:
       upper_threshold: 10909
     1:
@@ -214,7 +214,7 @@ eink_st_tarif:
       upper_threshold: 277826
   2024-01-01:
     deviation_from: previous
-    reference: Art. 3 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
     0:
       upper_threshold: 11605
     1:

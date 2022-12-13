@@ -82,15 +82,15 @@ kinderfreibetrag:
   2022-01-01:
     deviation_from: previous
     sächl_existenzmin: 2810
-    reference: Art. 1 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    reference: Art. 1 G. v. 08.12.2022 BGBl. I S. 2230.
   2023-01-01:
     deviation_from: previous
     sächl_existenzmin: 3012
-    reference: Art. 2 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
   2024-01-01:
     deviation_from: previous
     sächl_existenzmin: 3192
-    reference: Art. 3 Inflationsausgleichsgesetz. Bundesrat Drucksache 576/22. Noch nicht im BGBl. veröffentlicht.
+    reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
 
 vorsorge2004_vorwegabzug:
   name:
