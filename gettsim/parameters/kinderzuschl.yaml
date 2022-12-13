@@ -321,3 +321,33 @@ existenzminimum:
       paare: 1080
       kinder: 216
     reference: 13. Existenzminimumsbericht, Bundestag Drucksache 19/22800, Übersicht 4.
+  2023-01-01:
+    deviation_from: previous
+    regelsatz:
+      single: 6024
+      kinder: 4248
+    bildung_und_teilhabe:
+      kinder: 336
+    kosten_der_unterkunft:
+      single: 3828
+      kinder: 1152
+    heizkosten:
+      single: 1056
+      kinder: 288
+    reference: 14. Existenzminimumsbericht, Bundestag Drucksache 20/4443, Übersicht 4.
+  2024-01-01:
+    regelsatz:
+      single: 6444
+      paare: 11592
+      kinder: 4548
+    bildung_und_teilhabe:
+      kinder: 336
+    kosten_der_unterkunft:
+      single: 3684
+      paare: 5892
+      kinder: 1188
+    heizkosten:
+      single: 1104
+      paare: 1500
+      kinder: 312
+    reference: 14. Existenzminimumsbericht, Bundestag Drucksache 20/4443, Übersicht 4.

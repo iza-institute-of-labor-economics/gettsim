@@ -62,6 +62,29 @@ eink_anr_frei:
     deviation_from: previous
     2:
       upper_threshold: 1000
+  2023-01-01:
+    reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    0:
+      lower_threshold: -inf
+      upper_threshold: 0
+      rate: 0
+      intercept_at_lower_threshold: 0
+    1:
+      lower_threshold: 0
+      upper_threshold: 100
+      rate: 1.0
+    2:
+      upper_threshold: 520
+      rate: 0.2
+    3:
+      upper_threshold: 1000
+      rate: 0.3
+    4:
+      upper_threshold: 1200
+      rate: 0.1
+    5:
+      upper_threshold: inf
+      rate: 0
 
 eink_anr_frei_kinder:
   name:
@@ -81,6 +104,11 @@ eink_anr_frei_kinder:
     reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
     deviation_from: arbeitsl_geld_2.eink_anr_frei
     3:
+      upper_threshold: 1500
+  2023-01-01:
+    reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    deviation_from: arbeitsl_geld_2.eink_anr_frei
+    4:
       upper_threshold: 1500
 
 regelsatz:
@@ -231,6 +259,14 @@ regelsatz:
     5: 311
     6: 285
     reference: V. v. 13.10.2021 BGBl. I S. 4674.
+  2023-01-01:
+    1: 502
+    2: 451
+    3: 402
+    4: 420
+    5: 348
+    6: 318
+    reference: Bürgergeld Gesetzesänderung der Anlage zu § 28
 
 anteil_regelsatz:
   name:
@@ -311,6 +347,12 @@ vermögensgrundfreibetrag_obergrenze:
     1958: 9900
     1964: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
+  2023-01-01:
+    1947: null
+    1948: null
+    1958: null
+    1964: null
+
 
 
 vermögensgrundfreibetrag:
@@ -329,6 +371,29 @@ vermögensgrundfreibetrag:
     deviation_from: previous
     1948: 150
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+  2023-01-01:
+    1947: null
+    1948: null
+
+schonvermögen_bürgergeld:
+  name:
+    de: Schonvermögen beim Bürgergeld
+    en: Protected wealth for the citizen's income
+  description:
+    de: Seit der Einführung des Bürgergelds zum 01.01.2023 gilt ein
+        Vermögensfreibetrag von 15.000 Euro pro Mitglied der Bedarfsgemeinschaft
+        nach Ablauf der Karenzzeit von einem Jahr. Während der Karenzzeit
+        ist ein Vermögen von 40.000 Euro für die erste Person einer Bedarfsgemeinschaft
+        und 15.000 Euro für jede weitere erlaubt.
+    en: Since the introduction of the citizen's allowance as of 01.01.2023,
+        every member of the need community is allowed to own 15,000 Euro after
+        the end of the waiting period of 1 year. During the waiting period
+        wealth of 40,000 euros are allowed for the first person in a needs-based
+        community and 15,000 euros for each additional person.
+  unit: Euro
+  2023-01-01:
+    während_karenzzeit: 40000
+    normaler_satz: 15000
 
 
 vermögensfreibetrag_austattung:
@@ -342,6 +407,8 @@ vermögensfreibetrag_austattung:
   2005-01-01:
     scalar: 750
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+  2023-01-01:
+    scalar: null
 
 
 vermögensfreibetrag_kind:
@@ -358,6 +425,8 @@ vermögensfreibetrag_kind:
   2006-08-01:
     scalar: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+  2023-01-01:
+    scalar: null
 
 vermög_freib_alter:
   name:
@@ -370,6 +439,10 @@ vermög_freib_alter:
     1: 1948
     2: 1958
     3: 1963
+  2023-01-01:
+    1: null
+    2: null
+    3: null
 
 abzugsfähige_pausch:
   name:
@@ -427,8 +500,24 @@ berechtigte_wohnfläche_eigentum:
     de: Berechtigte Eigentumsfläche für ALG2-Empfänger*innen
     en: Property space eligible for ALG2-recipients
   description:
-    de: Eigentum darf für zwei Personen 80 Quadratmeter (+20 für jede weitere Person) groß sein.
-    en: Property for two people may be 80 square meters (+20 for each additional person).
+    de: Vor 2023 gilt, dass Eigentum für zwei Personen im Haushalt 80 Quadratmeter
+        (+20 für jede weitere Person) groß sein darf. Ab 2023 ist die erlaubte Größe
+        für Eigenheime auf 140 Quadratmeter (für Eigentumswohnungen aus 130 Quadratmeter)
+        gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person angehoben.
+    en: Before 2023, property for two people in the household may be 80 square meters
+        (+20 for each additional person). From 2023, the permitted size for owner-occupied
+        homes has risen to 140 square meters (for condominiums from 130 square meters)
+        and will be increased by 20 square meters per person from 5 persons in the household.
   1984-01-01:
-    basisgröße: 80
-    erweiterung: 20
+    1: 80
+    2: 80
+    3: 100
+    4: 120
+    je_weitere_person: 20
+  2023-01-01:
+    1: 140
+    2: 140
+    3: 140
+    4: 140
+    je_weitere_person: 20
+    note: Gilt für Eigenheime. Eigentumswohnungen dürfen nur bis zu 130qm groß sein.
