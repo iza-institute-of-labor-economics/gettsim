@@ -16,18 +16,15 @@ applying the tax schedule.
 
 
 def freibeträge_ind(
-    vorsorgeaufw: float,
     _eink_st_behinderungsgrad_pauschbetrag: float,
     eink_st_altersfreib: float,
     alleinerz_freib_tu: float,
 ) -> float:
     """Sum up all tax-deductible allowances applicable at the individual level.
-
+    #ToDo: Check whether these columns are really calculated at the individual level.
     Parameters
     ----------
 
-    vorsorgeaufw
-        See :func:`vorsorgeaufw`.
     _eink_st_behinderungsgrad_pauschbetrag
         See :func:`_eink_st_behinderungsgrad_pauschbetrag`.
     eink_st_altersfreib
@@ -40,8 +37,7 @@ def freibeträge_ind(
 
     """
     out = (
-        vorsorgeaufw
-        + _eink_st_behinderungsgrad_pauschbetrag
+        _eink_st_behinderungsgrad_pauschbetrag
         + eink_st_altersfreib
         + alleinerz_freib_tu
     )
@@ -50,6 +46,7 @@ def freibeträge_ind(
 
 def freibeträge_tu(
     eink_st_sonderausgaben_tu: float,
+    vorsorgeaufw_tu: float,
     freibeträge_ind_tu: float,
 ) -> float:
     """Calculate total allowances on tax unit level.
@@ -59,6 +56,8 @@ def freibeträge_tu(
 
     eink_st_sonderausgaben_tu
         See :func:`eink_st_sonderausgaben_tu`.
+    vorsorgeaufw_tu
+        See :func:`vorsorgeaufw_tu`.
     freibeträge_ind_tu
         See :func:`freibeträge_ind_tu`.
 
@@ -66,7 +65,7 @@ def freibeträge_tu(
     -------
 
     """
-    out = freibeträge_ind_tu + eink_st_sonderausgaben_tu
+    out = eink_st_sonderausgaben_tu + vorsorgeaufw_tu + freibeträge_ind_tu
 
     return out
 

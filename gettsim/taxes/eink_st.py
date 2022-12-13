@@ -156,8 +156,9 @@ def kinderfreib_günstiger_tu(
     -------
 
     """
-    eink_st_kein_kinderfreib = eink_st_ohne_kinderfreib_tu - 12 * (
-        kindergeld_basis_m_tu + kinderbonus_basis_m_tu
+    eink_st_kein_kinderfreib = (
+        eink_st_ohne_kinderfreib_tu
+        - 12 * (kindergeld_basis_m_tu + kinderbonus_basis_m_tu) / 2
     )
     out = eink_st_kein_kinderfreib > eink_st_mit_kinderfreib_tu
     return out

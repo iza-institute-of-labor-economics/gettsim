@@ -20,8 +20,8 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: mixed-line-ending
-        args: ["--fix=lf"]
-        description: Forces to replace line ending by the UNIX 'lf' character.
+        args: ["--fix=crlf"]
+        description: Forces to replace line ending by the UNIX 'crlf' character.
       - id: check-ast
       - id: check-case-conflict
       - id: check-docstring-first
