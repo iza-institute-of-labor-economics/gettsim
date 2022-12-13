@@ -6,6 +6,7 @@ soli_st:
     de: Ab 1995, der upper threshold im Intervall 1 ist nach der Formel transition_threshold in soli_st.py berechnet.
     en:
   type: piecewise_linear
+  soli_übergang: True
   1991-01-01:
     reference:
       Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
