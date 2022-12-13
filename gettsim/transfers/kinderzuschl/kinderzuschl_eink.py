@@ -6,11 +6,11 @@ aggregation_kinderzuschl_eink = {
 }
 
 
-def kinderzuschl_eink_elternteil(
+def kinderzuschl_bruttoeink_eltern_m(
     arbeitsl_geld_2_brutto_eink_m: float,
     eltern: bool,
 ) -> float:
-    """Calculate parental income for child benefit.
+    """Calculate parental gross income for child benefit.
 
     Parameters
     ----------
@@ -29,6 +29,30 @@ def kinderzuschl_eink_elternteil(
     else:
         out = 0.0
 
+    return out
+
+
+def kinderzuschl_eink_eltern_m(
+    arbeitsl_geld_2_eink_m: float,
+    eltern: bool,
+) -> float:
+    """Calculate parental income considered for child benefit.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_eink_m_tu
+        See :func:`arbeitsl_geld_2_eink_m_tu`.
+    eltern
+        See basic input variable :ref:`eltern <eltern>`.
+
+    Returns
+    -------
+
+    """
+    if eltern:
+        out = arbeitsl_geld_2_eink_m
+    else:
+        out = 0.0
     return out
 
 
@@ -215,7 +239,7 @@ def kinderzuschl_kindereink_abzug_m(
 
 
 def kinderzuschl_eink_anrechn_m_tu(
-    arbeitsl_geld_2_eink_m_tu: float,
+    kinderzuschl_eink_eltern_m_tu: float,
     kinderzuschl_eink_relev_m_tu: float,
     kinderzuschl_params: dict,
 ) -> float:
@@ -225,8 +249,8 @@ def kinderzuschl_eink_anrechn_m_tu(
 
     Parameters
     ----------
-    arbeitsl_geld_2_eink_m_tu
-        See :func:`arbeitsl_geld_2_eink_m_tu`.
+    kinderzuschl_eink_eltern_m_tu
+        See :func:`kinderzuschl_eink_eltern_m_tu`.
     kinderzuschl_eink_relev_m_tu
         See :func:`kinderzuschl_eink_relev_m_tu`.
     kinderzuschl_params
@@ -237,7 +261,7 @@ def kinderzuschl_eink_anrechn_m_tu(
 
     """
     out = kinderzuschl_params["entzugsrate_eltern"] * (
-        arbeitsl_geld_2_eink_m_tu - kinderzuschl_eink_relev_m_tu
+        kinderzuschl_eink_eltern_m_tu - kinderzuschl_eink_relev_m_tu
     )
 
     return max(out, 0.0)

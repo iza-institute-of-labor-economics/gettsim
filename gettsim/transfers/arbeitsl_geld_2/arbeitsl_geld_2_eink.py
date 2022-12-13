@@ -40,7 +40,7 @@ def arbeitsl_geld_2_eink_m(
         - arbeitsl_geld_2_eink_anr_frei_m
     )
 
-    return max(out, 0.0)
+    return out
 
 
 def arbeitsl_geld_2_brutto_eink_m(
