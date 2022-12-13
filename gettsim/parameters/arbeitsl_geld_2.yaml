@@ -323,10 +323,11 @@ vermögensgrundfreibetrag_obergrenze:
     de: Maximaler Vermögensgrundfreibetrag
     en: Maximum of basic allowance
   description:
-    de: § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen, die vor 1948
-        geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr auf
-        und ist nicht mehr relevant, da alle betroffenen Personen zu alt für ALG 2
-        sind.
+    de:
+      § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen, die vor 1948
+      geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr auf
+      und ist nicht mehr relevant, da alle betroffenen Personen zu alt für ALG 2
+      sind.
     en: Differs by birth year.
   unit: Euro
   2005-01-01:
@@ -352,8 +353,6 @@ vermögensgrundfreibetrag_obergrenze:
     1948: null
     1958: null
     1964: null
-
-
 
 vermögensgrundfreibetrag:
   name:
@@ -381,20 +380,19 @@ schonvermögen_bürgergeld:
     en: Protected wealth for the citizen's income
   description:
     de: Seit der Einführung des Bürgergelds zum 01.01.2023 gilt ein
-        Vermögensfreibetrag von 15.000 Euro pro Mitglied der Bedarfsgemeinschaft
-        nach Ablauf der Karenzzeit von einem Jahr. Während der Karenzzeit
-        ist ein Vermögen von 40.000 Euro für die erste Person einer Bedarfsgemeinschaft
-        und 15.000 Euro für jede weitere erlaubt.
+      Vermögensfreibetrag von 15.000 Euro pro Mitglied der Bedarfsgemeinschaft
+      nach Ablauf der Karenzzeit von einem Jahr. Während der Karenzzeit
+      ist ein Vermögen von 40.000 Euro für die erste Person einer Bedarfsgemeinschaft
+      und 15.000 Euro für jede weitere erlaubt.
     en: Since the introduction of the citizen's allowance as of 01.01.2023,
-        every member of the need community is allowed to own 15,000 Euro after
-        the end of the waiting period of 1 year. During the waiting period
-        wealth of 40,000 euros are allowed for the first person in a needs-based
-        community and 15,000 euros for each additional person.
+      every member of the need community is allowed to own 15,000 Euro after
+      the end of the waiting period of 1 year. During the waiting period
+      wealth of 40,000 euros are allowed for the first person in a needs-based
+      community and 15,000 euros for each additional person.
   unit: Euro
   2023-01-01:
     während_karenzzeit: 40000
     normaler_satz: 15000
-
 
 vermögensfreibetrag_austattung:
   name:
@@ -409,7 +407,6 @@ vermögensfreibetrag_austattung:
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2023-01-01:
     scalar: null
-
 
 vermögensfreibetrag_kind:
   name:
@@ -471,12 +468,14 @@ max_miete_pro_qm:
     de: Obergenze Miete pro Quadratmeter
     en: Upper limit rent per square meter
   description:
-    de: Die Miete pro Quadratmeter darf einen angemessenen Betrag nicht übersteigen, um für ALG2
-        berechtigt zu sein. Diese Grenze ist nicht konkret im Gesetz festgehalten, sondern wird als
-        Faustregel von den Arbeitsargenturen verwendet.
-    en: The rent per square meter must not exceed a reasonable amount in order to remain
-        eligible for ALG2. This limit is not specifically laid down in the law, but is
-        a rule of thumb used by the employment agencies.
+    de:
+      Die Miete pro Quadratmeter darf einen angemessenen Betrag nicht übersteigen, um für ALG2
+      berechtigt zu sein. Diese Grenze ist nicht konkret im Gesetz festgehalten, sondern wird als
+      Faustregel von den Arbeitsargenturen verwendet.
+    en:
+      The rent per square meter must not exceed a reasonable amount in order to remain
+      eligible for ALG2. This limit is not specifically laid down in the law, but is
+      a rule of thumb used by the employment agencies.
   unit: Euro / Square Meter
   reference: § 22 SGB II
   1984-01-01:
@@ -487,10 +486,12 @@ berechtigte_wohnfläche_miete:
     de: Berechtigte Miet-Wohnfläche für ALG2-Empfänger*innen
     en: Living rental space eligible for ALG2-recipients
   description:
-    de: Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere Person)
-        groß sein.
-    en: A rental apartment may be 45 square meters for a single person (+15 for each additional
-        person).
+    de:
+      Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere Person)
+      groß sein.
+    en:
+      A rental apartment may be 45 square meters for a single person (+15 for each additional
+      person).
   1984-01-01:
     single: 45
     je_weitere_person: 15
@@ -500,14 +501,16 @@ berechtigte_wohnfläche_eigentum:
     de: Berechtigte Eigentumsfläche für ALG2-Empfänger*innen
     en: Property space eligible for ALG2-recipients
   description:
-    de: Vor 2023 gilt, dass Eigentum für zwei Personen im Haushalt 80 Quadratmeter
-        (+20 für jede weitere Person) groß sein darf. Ab 2023 ist die erlaubte Größe
-        für Eigenheime auf 140 Quadratmeter (für Eigentumswohnungen aus 130 Quadratmeter)
-        gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person angehoben.
-    en: Before 2023, property for two people in the household may be 80 square meters
-        (+20 for each additional person). From 2023, the permitted size for owner-occupied
-        homes has risen to 140 square meters (for condominiums from 130 square meters)
-        and will be increased by 20 square meters per person from 5 persons in the household.
+    de:
+      Vor 2023 gilt, dass Eigentum für zwei Personen im Haushalt 80 Quadratmeter
+      (+20 für jede weitere Person) groß sein darf. Ab 2023 ist die erlaubte Größe
+      für Eigenheime auf 140 Quadratmeter (für Eigentumswohnungen aus 130 Quadratmeter)
+      gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person angehoben.
+    en:
+      Before 2023, property for two people in the household may be 80 square meters
+      (+20 for each additional person). From 2023, the permitted size for owner-occupied
+      homes has risen to 140 square meters (for condominiums from 130 square meters)
+      and will be increased by 20 square meters per person from 5 persons in the household.
   1984-01-01:
     1: 80
     2: 80
