@@ -23,10 +23,7 @@ INPUT_COLS = [
     "in_ausbildung",
 ]
 
-OUT_COLS = [
-    "lohn_st",
-    "lohn_st_soli",
-]
+OUT_COLS = ["lohn_st_m", "lohn_st_soli_m", "lohn_st_eink", "vorsorgepauschale"]
 
 
 YEARS = [2022]
@@ -123,26 +120,35 @@ def input_data():
         test_data["lst_wage"] / 12
     )
 
-    # Output of lst function is monthly lst,
-    # so output must be calculated back to original input values
-    for outvar in ["lohn_st", "lohn_st_soli"]:
+    test_data["lohn_st_m"] = test_data["lohn_st"]
+    test_data["lohn_st_soli_m"] = test_data["lohn_st_soli"]
+
+    for outvar in ["lohn_st_m", "lohn_st_soli_m"]:
+
         test_data.loc[test_data["period_of_obtained_wage"] == 4, outvar] = (
-            test_data[outvar] * 12 / 360
+            test_data[outvar] * 360 / 12
         )
         test_data.loc[test_data["period_of_obtained_wage"] == 3, outvar] = (
-            test_data[outvar] * 12 / 360 * 7
+            test_data[outvar] / 7 * 360 / 12
         )
         test_data.loc[test_data["period_of_obtained_wage"] == 2, outvar] = test_data[
             outvar
         ]
         test_data.loc[test_data["period_of_obtained_wage"] == 1, outvar] = (
-            test_data[outvar] * 12
+            test_data[outvar] / 12
         )
 
     # Provisionally, calculate amount of claimed Kinderfreibeträge outside of Gettsim
     test_data["eink_st_kinderfreib_tu"] = (
         test_data["anz_kinder_mit_kindergeld_tu"] * (2730 + 1464) * 2
     )
+
+    # Conditions to simplify testing
+    test_data["lohn_st_eink"] = 0
+    test_data["vorsorgepauschale"] = 0
+
+    test_data = test_data[test_data["steuerklasse"].isin([5])]
+    test_data = test_data[test_data["p_id"] == 1305]
 
     return test_data
 

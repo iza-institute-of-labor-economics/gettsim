@@ -483,31 +483,3 @@ def _ges_krankenv_midijob_arbeitn_m_ab_10_2022(
 
     """
     return _midijob_beitragspf_einnahme_arbeitn_m * ges_krankenv_beitr_satz
-
-
-def krankenv_beitr_lohnsteuer(
-    _ges_krankenv_bruttolohn_m: float,
-    soz_vers_beitr_params: dict,
-) -> float:
-    """Calculates health insurance contributions as used by lohnsteuer
-    Parameters
-    ----------
-    _ges_krankenv_bruttolohn_m
-        See :func:`_ges_krankenv_bruttolohn_m`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-    mean_zusatzbeitrag
-        See params documentation :ref:`mean_zusatzbeitrag <mean_zusatzbeitrag>`.
-    Returns
-    -------
-    Pandas Series containing monthly health insurance contributions on earnings
-    """
-    # This is essentially 'erm' plus half the top-up contribution.
-    out = (
-        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"] / 2
-        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["mean_zusatzbeitrag"]
-        / 100
-        / 2
-    ) * _ges_krankenv_bruttolohn_m
-
-    return out

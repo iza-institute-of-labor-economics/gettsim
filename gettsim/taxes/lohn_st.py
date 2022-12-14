@@ -87,7 +87,7 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
     return out
 
 
-def lohn_st(
+def lohn_st_m(
     lohn_st_eink: float,
     eink_st_params: dict,
     lohn_st_params: dict,
@@ -133,7 +133,7 @@ def lohn_st(
 
     if lohn_st_eink < grenze_1:
         lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis
-    elif lohn_st_eink in range(grenze_1, grenze_2):
+    elif grenze_1 <= lohn_st_eink < grenze_2:
         lohnsteuer_grenze_1 = _lohnsteuer_klasse5_6_basis(grenze_1, eink_st_params)
         max_lohnsteuer = (
             lohnsteuer_grenze_1
@@ -142,7 +142,7 @@ def lohn_st(
         lohnsteuer_klasse5_6 = min(
             max_lohnsteuer, _lohnsteuer_klasse5_6_basis(lohn_st_eink, eink_st_params)
         )
-    elif lohn_st_eink in range(grenze_2, grenze_3):
+    elif grenze_2 <= lohn_st_eink < grenze_3:
         lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis(grenze_2, eink_st_params)
         lohnsteuer_klasse5_6 = (
             lohnsteuer_grenze_2
@@ -166,15 +166,17 @@ def lohn_st(
     else:
         out = lohnsteuer_klasse5_6
 
-    return out
+    out = out / 12
+
+    return max(out, 0.0)
 
 
 def vorsorgepauschale_ab_2010(
     bruttolohn_m: float,
     steuerklasse: int,
     eink_st_abzuege_params: dict,
-    krankenv_beitr_lohnsteuer: float,
     soz_vers_beitr_params: dict,
+    wohnort_ost: bool,
 ) -> float:
     """
     Calculates Vorsorgepauschale for Lohnsteuer valid since 2010
@@ -190,10 +192,11 @@ def vorsorgepauschale_ab_2010(
       See :func:`steuerklasse`
     eink_st_abzuege_params:
       See params documentation :ref:`eink_st_abzuege_params`
-    krankenv_beitr_lohnsteuer:
-        See :func:`krankenv_beitr_lohnsteuer`
     soz_vers_beitr_params:
         See params documentation :ref:`soz_vers_beitr_params`
+    wohnort_ost:
+      See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+
 
     Returns
     -------
@@ -201,9 +204,14 @@ def vorsorgepauschale_ab_2010(
     """
 
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
+    if wohnort_ost:
+        bruttolohn_rente = min(12 * bruttolohn_m, 81000)
+    else:
+        bruttolohn_rente = min(12 * bruttolohn_m, 84600)
+
     vorsorg_rv = (
-        12
-        * (bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"])
+        bruttolohn_rente
+        * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
         * eink_st_abzuege_params["vorsorge_pauschale_rv_anteil"]
     )
 
@@ -211,8 +219,10 @@ def vorsorgepauschale_ab_2010(
     # For health care deductions, there are two ways to calculate.
     # a) at least 12% of earnings of earnings can be deducted,
     #    but only up to a certain threshold
+
+    bruttolohn_kv = min(12 * bruttolohn_m, 58050)
     vorsorg_kv_option_a_basis = (
-        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_m * 12
+        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_kv
     )
 
     if steuerklasse == 3:
@@ -225,15 +235,18 @@ def vorsorgepauschale_ab_2010(
         ]
 
     vorsorg_kv_option_a = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
+
     # b) Take the actual contributions (usually the better option),
     #   but apply the reduced rate!
-    vorsorg_kv_option_b = krankenv_beitr_lohnsteuer
-    vorsorg_kv_option_b += (
-        bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-    )
-    # add both RV and KV deductions. For KV, take the larger amount.
-    out = vorsorg_rv + max(vorsorg_kv_option_a, vorsorg_kv_option_b * 12)
 
+    vorsorg_kv_option_b = bruttolohn_kv * (
+        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["mean_zusatzbeitrag"] / 2
+        + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    )
+
+    # add both RV and KV deductions. For KV, take the larger amount.
+    out = vorsorg_rv + max(vorsorg_kv_option_a, vorsorg_kv_option_b)
     return out
 
 
@@ -246,81 +259,84 @@ def vorsorgepauschale_2005_2010() -> float:
     return out
 
 
-def steuerklasse_tu(
-    gemeinsam_veranlagt_tu: bool,
-    alleinerz_tu: bool,
-    bruttolohn_m: float,
-    eink_st_params: dict,
-    eink_st_abzuege_params: dict,
-) -> int:
-    """Determine Lohnsteuerklassen (also called 'tax brackets')
-    if not delivered by the user.
-    They determine the basic allowance for the withdrawal tax.
+# Possible ToDo: Determine Steuerklasse endogenously.
+# Right now, Steuerklasse is an input variable
 
-    Tax brackets are predetermined for singles and single parents.
-    Married couples can choose between the combinations 4/4, 3/5 and 5/3.
-    We assume the following:
-        -  If one of the spouses earns less than the income tax allowance,
-           this is essentially a single-earner couple. The spouse with the higher
-           income is assigned tax bracket 3, the other spouse tax bracket 5.
-        - In all other cases, we assign tax bracket 4 to both spouses.
+# def steuerklasse_tu(
+#     gemeinsam_veranlagt_tu: bool,
+#     alleinerz_tu: bool,
+#     bruttolohn_m: float,
+#     eink_st_params: dict,
+#     eink_st_abzuege_params: dict,
+# ) -> int:
+#     """Determine Lohnsteuerklassen (also called 'tax brackets')
+#     if not delivered by the user.
+#     They determine the basic allowance for the withdrawal tax.
 
-    1: Single
-    2: Single Parent
-    3: One spouse in married couple who receives allowance of both partners.
-       Makes sense primarily for Single-Earner Households
-    4: Both spouses receive their individual allowance
-    5: If one spouse chooses 3, the other has to choose 5,
-       which means no allowance.
-    6: Additional Job...not modelled yet, as we do not
-    distinguish between different jobs
+#     Tax brackets are predetermined for singles and single parents.
+#     Married couples can choose between the combinations 4/4, 3/5 and 5/3.
+#     We assume the following:
+#         -  If one of the spouses earns less than the income tax allowance,
+#            this is essentially a single-earner couple. The spouse with the higher
+#            income is assigned tax bracket 3, the other spouse tax bracket 5.
+#         - In all other cases, we assign tax bracket 4 to both spouses.
 
-    Parameters
-    ----------
-    gemeinsam_veranlagt_tu: bool
-        Return of :func:`gemeinsam_veranlagt_tu`.
-    alleinerz_tu: bool
-        See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
-    bruttolohn_m: float
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_st_params:
-        See params documentation :ref:`eink_st_params <eink_st_params>`
-    eink_st_abzuege_params:
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`
+#     1: Single
+#     2: Single Parent
+#     3: One spouse in married couple who receives allowance of both partners.
+#        Makes sense primarily for Single-Earner Households
+#     4: Both spouses receive their individual allowance
+#     5: If one spouse chooses 3, the other has to choose 5,
+#        which means no allowance.
+#     6: Additional Job...not modelled yet, as we do not
+#     distinguish between different jobs
 
-    Returns
-    ----------
-    steuerklasse: int
-        The steuerklasse for each person in the tax unit
-    """
+#     Parameters
+#     ----------
+#     gemeinsam_veranlagt_tu: bool
+#         Return of :func:`gemeinsam_veranlagt_tu`.
+#     alleinerz_tu: bool
+#         See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
+#     bruttolohn_m: float
+#         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+#     eink_st_params:
+#         See params documentation :ref:`eink_st_params <eink_st_params>`
+#     eink_st_abzuege_params:
+#      See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`
 
-    bruttolohn_max = max(bruttolohn_m)
-    bruttolohn_min = min(bruttolohn_m)
+#     Returns
+#     ----------
+#     steuerklasse: int
+#         The steuerklasse for each person in the tax unit
+#     """
 
-    einkommensgrenze_zweitverdiener = (
-        eink_st_params["eink_st_tarif"]["thresholds"][1]
-        + eink_st_abzuege_params["werbungskostenpauschale"]
-    )
-    alleinverdiener_paar = (
-        (bruttolohn_min <= einkommensgrenze_zweitverdiener / 12)
-        & (bruttolohn_max > 0)
-        & (gemeinsam_veranlagt_tu)
-    )
-    cond_steuerklasse1 = (~gemeinsam_veranlagt_tu) & ~alleinerz_tu
-    cond_steuerklasse2 = alleinerz_tu
-    cond_steuerklasse3 = alleinverdiener_paar & (
-        bruttolohn_m > einkommensgrenze_zweitverdiener / 12
-    )
-    cond_steuerklasse4 = (gemeinsam_veranlagt_tu) & (~alleinverdiener_paar)
-    cond_steuerklasse5 = alleinverdiener_paar & (
-        bruttolohn_m <= einkommensgrenze_zweitverdiener / 12
-    )
-    steuerklasse = (
-        1 * cond_steuerklasse1
-        + 2 * cond_steuerklasse2
-        + 3 * cond_steuerklasse3
-        + 4 * cond_steuerklasse4
-        + 5 * cond_steuerklasse5
-    )
+#     bruttolohn_max = max(bruttolohn_m)
+#     bruttolohn_min = min(bruttolohn_m)
 
-    return steuerklasse
+#     einkommensgrenze_zweitverdiener = (
+#         eink_st_params["eink_st_tarif"]["thresholds"][1]
+#         + eink_st_abzuege_params["werbungskostenpauschale"]
+#     )
+#     alleinverdiener_paar = (
+#         (bruttolohn_min <= einkommensgrenze_zweitverdiener / 12)
+#         & (bruttolohn_max > 0)
+#         & (gemeinsam_veranlagt_tu)
+#     )
+#     cond_steuerklasse1 = (~gemeinsam_veranlagt_tu) & ~alleinerz_tu
+#     cond_steuerklasse2 = alleinerz_tu
+#     cond_steuerklasse3 = alleinverdiener_paar & (
+#         bruttolohn_m > einkommensgrenze_zweitverdiener / 12
+#     )
+#     cond_steuerklasse4 = (gemeinsam_veranlagt_tu) & (~alleinverdiener_paar)
+#     cond_steuerklasse5 = alleinverdiener_paar & (
+#         bruttolohn_m <= einkommensgrenze_zweitverdiener / 12
+#     )
+#     steuerklasse = (
+#         1 * cond_steuerklasse1
+#         + 2 * cond_steuerklasse2
+#         + 3 * cond_steuerklasse3
+#         + 4 * cond_steuerklasse4
+#         + 5 * cond_steuerklasse5
+#     )
+
+#     return steuerklasse

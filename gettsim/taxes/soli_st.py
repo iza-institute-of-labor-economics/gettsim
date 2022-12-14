@@ -45,7 +45,7 @@ def soli_st_tu(
     return out
 
 
-def lohn_st_soli(lohn_st_kinderfreibetrag: float, soli_st_params: dict) -> float:
+def lohn_st_soli_m(lohn_st_kinderfreibetrag: float, soli_st_params: dict) -> float:
     """
     Calculates the Solidarity Surcharge as a top-up on Lohnsteuer
 
