@@ -7,36 +7,18 @@ soli_st:
     en:
   type: piecewise_linear
   1991-01-01:
-    reference:
-      Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
-    0:
-      lower_threshold: -inf
-      rate: 0
-      intercept_at_lower_threshold: 0
-      upper_threshold: 0
-    1:
-      lower_threshold: 0
-      rate: 0.0375
-      upper_threshold: inf
+    reference: Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
+    rate: 0.0375
+    freigrenze: 0
   1993-01-01:
-    0:
-      lower_threshold: -inf
-      rate: 0
-      intercept_at_lower_threshold: 0
-      upper_threshold: inf
+    note: Eventually remove function completely.
+    rate: 0
+    deviation_from: previous
   1995-01-01:
     reference: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944.
-    0:
-      lower_threshold: -inf
-      intercept_at_lower_threshold: 0
-      rate: 0
-      upper_threshold: 681
-    1:
-      upper_threshold: 1089.6
-      rate: 0.2
-    2:
-      rate: 0.075
-      upper_threshold: inf
+    rate: 0.075
+    tatsächliche_max_rate: 0.2
+    freigrenze: 681
   1998-01-01:
     reference: Artikel 1 G. v. 21.11.1997 BGBl. I S. 2743.
     0:
