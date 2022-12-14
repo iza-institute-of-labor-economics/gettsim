@@ -201,6 +201,7 @@ def set_up_policy_environment(date):
     # extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
+    params = _parse_soli_parameters(date, params)
 
     functions = load_functions_for_date(date)
 
@@ -824,3 +825,31 @@ def add_progressionsfaktor(params_dict, parameter):
                 out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
             ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
     return out_dict
+
+
+def _parse_soli_parameters(date, params):
+    """
+
+    Parameters
+    ----------
+    date: datetime.date
+        The date for which the policy parameters are set up.
+    params: dict
+        A dictionary with parameters from the policy environment.
+
+    Returns
+    -------
+    params: dic
+        updated dictionary
+
+    """
+    params = copy.deepcopy(params)
+    if date.year >= 1995:
+        params["soli_st"]["soli_st"]["thresholds"][2] = float(
+            params["soli_st"]["soli_st"]["rates"][0][1]
+            * params["soli_st"]["soli_st"]["thresholds"][1]
+        ) / (
+            params["soli_st"]["soli_st"]["rates"][0][1]
+            - params["soli_st"]["soli_st"]["rates"][0][2]
+        )
+    return params
