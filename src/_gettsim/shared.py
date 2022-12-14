@@ -124,21 +124,8 @@ def get_names_of_arguments_without_defaults(function):
 
 
 def remove_group_suffix(col):
-    # Set default result
     out = col
-
-    # Remove suffix from result if applicable
     for g in SUPPORTED_GROUPINGS:
-        if col.endswith(f"_{g}"):
-            out = rchop(col, f"_{g}")
+        out = out.removesuffix(f"_{g}")
 
-    return out
-
-
-def rchop(s, suffix):
-    # ToDO: Replace by removesuffix when only python >= 3.9 is supported
-    if suffix and s.endswith(suffix):
-        out = s[: -len(suffix)]
-    else:
-        out = s
     return out
