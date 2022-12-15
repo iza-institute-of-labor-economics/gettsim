@@ -1,5 +1,4 @@
 def kinderbonus_m(
-    kinderfreib_günstiger_tu: bool,
     kinderbonus_basis_m: float,
 ) -> float:
     """Calculate Kinderbonus for an individual child after Günstigerprüfung
@@ -8,8 +7,6 @@ def kinderbonus_m(
 
     Parameters
     ----------
-    kinderfreib_günstiger_tu
-        See :func:`kinderfreib_günstiger_tu`.
     kinderbonus_basis_m
         See :func:`kinderbonus_basis_m`.
 
@@ -17,8 +14,7 @@ def kinderbonus_m(
     -------
 
     """
-    out = 0.0 if kinderfreib_günstiger_tu else kinderbonus_basis_m
-
+    out = kinderbonus_basis_m
     return out
 
 

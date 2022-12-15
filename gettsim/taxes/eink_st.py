@@ -109,6 +109,7 @@ def eink_st_tu_ab_1997(
     eink_st_ohne_kinderfreib_tu: float,
     eink_st_mit_kinderfreib_tu: float,
     kinderfreib_günstiger_tu: bool,
+    eink_st_rel_kindergeld_tu: float,
 ) -> float:
     """Income tax calculation on tax unit level since 1997.
 
@@ -120,24 +121,59 @@ def eink_st_tu_ab_1997(
         See :func:`eink_st_mit_kinderfreib_tu`.
     kinderfreib_günstiger_tu
         See :func:`kinderfreib_günstiger_tu`.
+    eink_st_rel_kindergeld_tu
+        See :func:`eink_st_rel_kindergeld_tu`.
 
     Returns
     -------
 
     """
     if kinderfreib_günstiger_tu:
-        out = eink_st_mit_kinderfreib_tu
+        out = eink_st_mit_kinderfreib_tu + eink_st_rel_kindergeld_tu
     else:
         out = eink_st_ohne_kinderfreib_tu
 
     return out
 
 
-def kinderfreib_günstiger_tu(
-    eink_st_ohne_kinderfreib_tu: float,
+def eink_st_rel_kindergeld_tu(
     kindergeld_basis_m_tu: float,
     kinderbonus_basis_m_tu: float,
+    anz_erwachsene_tu: int,
+) -> float:
+    """Return Kindergeld relevant for income tax of the tax unit. For parents
+    which do not file taxes together, only half of Kindergeld is considered.
+
+    Source: § 31 Satz 4 EStG: "Bei nicht zusammenveranlagten Eltern wird der
+    Kindergeldanspruch im Umfang des Kinderfreibetrags angesetzt."
+
+    # ToDo: Check whether Kinderbonus part of it.
+    # ToDo: This factor need to be refactored once children are put in separate tax
+    # ToDo: units and are linked to their parents (one or two)
+
+
+    Parameters
+    ----------
+    kindergeld_basis_m_tu
+        See :func:`kindergeld_basis_m_tu`.
+    kinderbonus_basis_m_tu
+        See :func:`kinderbonus_basis_m_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
+    Returns
+    -------
+
+    """
+    out = (
+        12 * (kindergeld_basis_m_tu + kinderbonus_basis_m_tu) * (anz_erwachsene_tu / 2)
+    )
+    return out
+
+
+def kinderfreib_günstiger_tu(
+    eink_st_ohne_kinderfreib_tu: float,
     eink_st_mit_kinderfreib_tu: float,
+    eink_st_rel_kindergeld_tu: float,
 ) -> bool:
     """Return whether Kinderfreibetrag is more favorable than Kindergeld.
 
@@ -145,19 +181,15 @@ def kinderfreib_günstiger_tu(
     ----------
     eink_st_ohne_kinderfreib_tu
         See :func:`eink_st_ohne_kinderfreib_tu`.
-    kindergeld_basis_m_tu
-        See :func:`kindergeld_basis_m_tu`.
-    kinderbonus_basis_m_tu
-        See :func:`kinderbonus_basis_m_tu`.
     eink_st_mit_kinderfreib_tu
         See :func:`eink_st_mit_kinderfreib_tu`.
-
+    eink_st_rel_kindergeld_tu
+        See :func:`eink_st_rel_kindergeld_tu`.
     Returns
     -------
 
     """
-    eink_st_kein_kinderfreib = eink_st_ohne_kinderfreib_tu - 12 * (
-        kindergeld_basis_m_tu + kinderbonus_basis_m_tu
-    )
-    out = eink_st_kein_kinderfreib > eink_st_mit_kinderfreib_tu
+    unterschiedsbeitrag = eink_st_ohne_kinderfreib_tu - eink_st_mit_kinderfreib_tu
+
+    out = unterschiedsbeitrag > eink_st_rel_kindergeld_tu
     return out
