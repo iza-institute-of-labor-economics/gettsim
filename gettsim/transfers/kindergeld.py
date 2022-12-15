@@ -29,25 +29,20 @@ def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
 
 
 def kindergeld_m_ab_1997(
-    kinderfreib_günstiger_tu: bool,
     kindergeld_basis_m: float,
 ) -> float:
     """Kindergeld for an individual child since 1997 (after Günstigerprüfung).
 
     Parameters
     ----------
-    kinderfreib_günstiger_tu
-        See :func:`kinderfreib_günstiger_tu`.
     kindergeld_basis_m
         See :func:`kindergeld_basis_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
 
     Returns
     -------
 
     """
-    out = 0 if kinderfreib_günstiger_tu else kindergeld_basis_m
+    out = kindergeld_basis_m
     return out
 
 
