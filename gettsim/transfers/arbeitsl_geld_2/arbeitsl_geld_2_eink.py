@@ -8,6 +8,7 @@ def arbeitsl_geld_2_eink_m(
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
+    kind: bool,
 ) -> float:
 
     """Sum up the income for calculation of basic subsistence.
@@ -28,19 +29,31 @@ def arbeitsl_geld_2_eink_m(
         See :func:`anz_erwachsene_tu`.
     arbeitsl_geld_2_eink_anr_frei_m
         See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
     Income of a person by unemployment insurance.
     """
-
-    out = (
-        arbeitsl_geld_2_brutto_eink_m
-        - (eink_st_tu / anz_erwachsene_tu / 12)
-        - (soli_st_tu / anz_erwachsene_tu / 12)
-        - sozialv_beitr_m
-        - arbeitsl_geld_2_eink_anr_frei_m
-    )
+    # ToDo: Implement deduction of child income including allowance of 100 EUR.
+    if kind:
+        # Do not substract income tax as long as children are still part of the tax
+        # unit of their parents
+        # ToDo: Rewrite once children are in a separate tax unit
+        out = (
+            arbeitsl_geld_2_brutto_eink_m
+            - sozialv_beitr_m
+            - arbeitsl_geld_2_eink_anr_frei_m
+        )
+    else:
+        out = (
+            arbeitsl_geld_2_brutto_eink_m
+            - (eink_st_tu / anz_erwachsene_tu / 12)
+            - (soli_st_tu / anz_erwachsene_tu / 12)
+            - sozialv_beitr_m
+            - arbeitsl_geld_2_eink_anr_frei_m
+        )
 
     return out
 
