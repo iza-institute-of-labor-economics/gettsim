@@ -127,7 +127,7 @@ TYPES_INPUT_VARIABLES = {
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "arbeitsl_geld_bezug_m": int,
-    "versich_pfl_m": int,
+    "soz_vers_pflicht_5j": int,
 }
 
 # =====================================================================================

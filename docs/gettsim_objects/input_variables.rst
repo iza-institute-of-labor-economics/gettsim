@@ -150,7 +150,7 @@ household.
 || _`arbeitsl_geld_bezug_m` || Amount of months the individual already    || int         |
 ||                          || receives Arbeitslosengeld                  ||             |
 +---------------------------+---------------------------------------------+--------------+
-|| _`versich_pfl_m`         || Months of subjection to compulsory         || int         |
+|| _`soz_vers_pflicht_5j`   || Months of subjection to compulsory         || int         |
 ||                          || insurance in the 5 years before            ||             |
 ||                          || claiming unemployment insurance          ||             |
 +---------------------------+---------------------------------------------+--------------+

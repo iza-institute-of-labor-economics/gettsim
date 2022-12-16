@@ -154,7 +154,7 @@ def dauer_nach_alter(
 
 
 def dauer_nach_versich_pfl(
-    versich_pfl_m: int,
+    soz_vers_pflicht_5j: int,
     arbeitsl_geld_params: dict,
 ) -> int:
     """Calculate the lenght of unemployment benifit according to months of
@@ -162,8 +162,8 @@ def dauer_nach_versich_pfl(
 
     Parameters
     ----------
-    versich_pfl_m
-        See basic input variable :ref:`versich_pfl_m <versich_pfl_m>`.
+    soz_vers_pflicht_5j
+        See basic input variable :ref:`soz_vers_pflicht_5j <soz_vers_pflicht_5j>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -172,7 +172,7 @@ def dauer_nach_versich_pfl(
 
     """
     nach_versich_pfl = piecewise_polynomial(
-        versich_pfl_m,
+        soz_vers_pflicht_5j,
         thresholds=list(arbeitsl_geld_params["anspruchsdauer"]["nach_versich_pfl"])
         + [np.inf],
         rates=np.array(
