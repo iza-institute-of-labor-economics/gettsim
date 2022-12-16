@@ -46,7 +46,8 @@ def arbeitsl_geld_m(
 
 
 def restliche_anspruchsdauer(
-    dauer_nach_anwartschaftszeit: int,
+    anwartschaftszeit: int,
+    dauer_nach_versich_pfl: int,
     dauer_nach_alter: int,
     arbeitsl_geld_bezug_m: int,
 ) -> int:
@@ -55,8 +56,8 @@ def restliche_anspruchsdauer(
 
     Parameters
     ----------
-    dauer_nach_anwartschaftszeit
-        See :func:`dauer_nach_anwartschaftszeit`.
+    dauer_nach_versich_pfl
+        See :func:`dauer_nach_versich_pfl`.
     dauer_nach_alter
         See :func:`dauer_nach_alter`.
     arbeitsl_geld_bezug_m
@@ -67,8 +68,9 @@ def restliche_anspruchsdauer(
     -------
 
     """
-    anspruchsdauer_gesamt = min(dauer_nach_alter, dauer_nach_anwartschaftszeit)
-    out = max(anspruchsdauer_gesamt - arbeitsl_geld_bezug_m, 0)
+    if anwartschaftszeit:
+        anspruchsdauer_gesamt = min(dauer_nach_alter, dauer_nach_versich_pfl)
+        out = max(anspruchsdauer_gesamt - arbeitsl_geld_bezug_m, 0)
 
     return out
 
@@ -149,16 +151,17 @@ def dauer_nach_alter(
     return nach_alter
 
 
-def dauer_nach_anwartschaftszeit(
-    anwartschaftszeit: int,
+def dauer_nach_versich_pfl(
+    versich_pfl_m: int,
     arbeitsl_geld_params: dict,
 ) -> int:
-    """Calculate the lenght of unemployment benifit according to anwartschaftszeit.
+    """Calculate the lenght of unemployment benifit according to months of
+    subjection to compulsory insurance.
 
     Parameters
     ----------
-    anwartschaftszeit
-        See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
+    versich_pfl_m
+        See basic input variable :ref:`versich_pfl_m <versich_pfl_m>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -166,24 +169,19 @@ def dauer_nach_anwartschaftszeit(
     -------
 
     """
-    nach_anwartschaftszeit = piecewise_polynomial(
-        anwartschaftszeit,
-        thresholds=list(
-            arbeitsl_geld_params["anspruchsdauer"]["nach_anwartschaftszeit"]
-        )
+    nach_versich_pfl = piecewise_polynomial(
+        versich_pfl_m,
+        thresholds=list(arbeitsl_geld_params["anspruchsdauer"]["nach_versich_pfl"])
         + [np.inf],
         rates=np.array(
-            [
-                [0]
-                * len(arbeitsl_geld_params["anspruchsdauer"]["nach_anwartschaftszeit"])
-            ]
+            [[0] * len(arbeitsl_geld_params["anspruchsdauer"]["nach_versich_pfl"])]
         ),
         intercepts_at_lower_thresholds=list(
-            arbeitsl_geld_params["anspruchsdauer"]["nach_anwartschaftszeit"].values()
+            arbeitsl_geld_params["anspruchsdauer"]["nach_versich_pfl"].values()
         ),
     )
 
-    return nach_anwartschaftszeit
+    return nach_versich_pfl
 
 
 def arbeitsl_geld_eink_vorj_proxy(

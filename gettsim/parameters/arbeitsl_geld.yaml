@@ -170,8 +170,12 @@ anspruchsdauer:
     de: Anspruchsdauer für ALG 1
     en: lenght of ALG 1 eligibility
   description:
-    de: Dauer des Anspruchs auf ALG 1 richtet sich nach Alter und Anwartschaftszeit
-    en: The lenght of ALG 1 eligibility depends on age and Anwartschaftszeit
+    de: >-
+      Dauer des Anspruchs auf ALG 1 richtet sich nach Alter und wie viele Monate
+      eine Person versicherungsplichtig in den letzten 5 Jahren war.
+    en: >-
+      The lenght of ALG 1 eligibility depends on age and on how many months a
+      person was subject to compulsory insurance
   reference: § 147 Abs. 2 SGB III
   1997-03-24:
     nach_alter:
@@ -179,7 +183,7 @@ anspruchsdauer:
       50: 15
       55: 18
       58: 24
-    nach_anwartschaftszeit:
+    nach_versich_pfl:
       12: 6
       18: 8
       20: 10

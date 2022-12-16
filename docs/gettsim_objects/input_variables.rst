@@ -140,13 +140,17 @@ household.
 || _`y_pflichtbeitr_ab_40`  || Total years of mandat. contributions after || float       |
 ||                          || age 40                                     ||             |
 +---------------------------+---------------------------------------------+--------------+
-|| _`anwartschaftszeit`     || Months of unemployment insurance           || int         |
+|| _`anwartschaftszeit`     || Dummy: at least 12 months of unemployment  || bool        |
 ||                          || contributions in the 30 months before      ||             |
-||                          || claimining unemployment insurance          ||             |
+||                          || claiming unemployment insurance          ||             |
 +---------------------------+---------------------------------------------+--------------+
 || _`arbeitssuchend`        || Dummy: looking for employment              || bool        |
 ||                          ||                                            ||             |
 +---------------------------+---------------------------------------------+--------------+
 || _`arbeitsl_geld_bezug_m` || Amount of months the individual already    || int         |
 ||                          || receives Arbeitslosengeld                  ||             |
++---------------------------+---------------------------------------------+--------------+
+|| _`versich_pfl_m`         || Months of subjection to compulsory         || int         |
+||                          || insurance in the 5 years before            ||             |
+||                          || claiming unemployment insurance          ||             |
 +---------------------------+---------------------------------------------+--------------+
