@@ -37,6 +37,16 @@ mindestunterhalt:
     12: 451
     17: 528
     reference: Artikel 1 V. v. 03.11.2020 BGBl. I S. 2344.
+  2022-01-01:
+    6: 396
+    12: 455
+    17: 533
+    reference: Artikel 1 V. v. 30.11.2021 BGBl. I S. 5066.
+  2023-01-01:
+    6: 437
+    12: 502
+    17: 588
+    reference: Artikel 1 V. v. 30.11.2022 BGBl. I S. 2130.
 
 unterhaltsvors_mindesteinkommen:
   name:

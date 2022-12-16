@@ -191,13 +191,36 @@ eink_st_tarif:
       upper_threshold: 274613
   2022-01-01:
     deviation_from: previous
-    reference: Art. 2. G. v. 01.12.2020 BGBl. I S. 2616
+    reference: Art. 1 G. v. 23.05.2022 BGBl. I S. 749
+    note: First specified in Art. 2. G. v. 01.12.2020 BGBl. I S. 2616, new defined resp. overridden in above reference.
     0:
-      upper_threshold: 9984
+      upper_threshold: 10347
     1:
       upper_threshold: 14926
     2:
       upper_threshold: 58596
+    3:
+      upper_threshold: 277826
+  2023-01-01:
+    deviation_from: previous
+    reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
+    0:
+      upper_threshold: 10909
+    1:
+      upper_threshold: 16000
+    2:
+      upper_threshold: 62810
+    3:
+      upper_threshold: 277826
+  2024-01-01:
+    deviation_from: previous
+    reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
+    0:
+      upper_threshold: 11605
+    1:
+      upper_threshold: 17006
+    2:
+      upper_threshold: 66761
     3:
       upper_threshold: 277826
 

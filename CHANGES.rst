@@ -35,6 +35,8 @@ releases are available on `Anaconda.org <https://anaconda.org/gettsim/gettsim>`_
   (:ghuser:`Eric-Sommer`, :ghuser:`LauraGergeleit`)
 * :gh:`399` Use dags package to create the DAG.
   (:ghuser:`ChristianZimpelmann`)
+* :gh:`440` Implemented Bürgergeld, which reforms `arbeitsl_geld_2` from 01/01/2023.
+  (:ghuser:`LauraGergeleit`)
 
 0.5.1 — 2022-04-21
 ------------------

@@ -79,6 +79,18 @@ kinderfreibetrag:
     sächl_existenzmin: 2730
     beitr_erz_ausb: 1464
     reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
+  2022-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 2810
+    reference: Art. 1 G. v. 08.12.2022 BGBl. I S. 2230.
+  2023-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 3012
+    reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
+  2024-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 3192
+    reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
 
 vorsorge2004_vorwegabzug:
   name:
@@ -149,6 +161,12 @@ werbungskostenpauschale:
     scalar: 1000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131.
     note: Für Lohnsteuerabzug gültig ab 2011-11-05.
+  2022-01-01:
+    scalar: 1200
+    reference: Art. 2 G. v. 23.05.2022 BGBl. I S. 749
+  2023-01-01:
+    scalar: 1230
+    reference: Beschlussempfehlung des Finanzausschusses zum Jahressteuergesetz 2022 Bundestag Drucksache 20/4729. Noch nicht im BGBl. veröffentlicht.
 
 sonderausgabenpauschbetrag:
   name:
@@ -204,6 +222,9 @@ sparerpauschbetrag:
     scalar: 801
     reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
     note: Integration von Werbungskostenpauschbetrag für Zinseinkünfte in Sparerpauschbetrag.
+  2023-01-01:
+    scalar: 1000
+    reference: Stand Gesetzentwurf der Bundesregierung Entwurf eines Jahressteuergesetzes 2022 (JStG 2022). Drucksache 20/3879 10.10.2022. Artikel 4. Inkrafttreten siehe Artikel 30.
 
 sparer_werbungskosten_pauschbetrag:
   name:
@@ -425,7 +446,10 @@ alleinerz_freibetrag:
     reference: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
   2020-01-01:
     scalar: 4008
-    reference: Art. 3 Nr. 2 G. v. 21.12.2020 BGBl. I S.3096
+    reference: Art. 3 Nr. 2 G. v. 29.12.2020 BGBl. I S.3096
+  2023-01-01:
+    scalar: 4260
+    reference: Beschlussempfehlung des Finanzausschusses zum Jahressteuergesetz 2022 Bundestag Drucksache 20/4729. Noch nicht im BGBl. veröffentlicht.
 
 
 alleinerz_freibetrag_zusatz:

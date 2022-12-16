@@ -133,6 +133,18 @@ from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
 from gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005,
 )
+from gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
+    arbeitsl_geld_2_kost_unterk_m_hh_ab_2023,
+)
+from gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
+    arbeitsl_geld_2_kost_unterk_m_hh_bis_2022,
+)
+from gettsim.transfers.benefit_checks.vermoegens_checks import (
+    arbeitsl_geld_2_vermög_freib_hh_ab_2023,
+)
+from gettsim.transfers.benefit_checks.vermoegens_checks import (
+    arbeitsl_geld_2_vermög_freib_hh_bis_2022,
+)
 from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_2021
 from gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_bis_2020
 from gettsim.transfers.kindergeld import kindergeld_anspruch_nach_lohn
@@ -140,23 +152,22 @@ from gettsim.transfers.kindergeld import kindergeld_anspruch_nach_stunden
 from gettsim.transfers.kindergeld import kindergeld_m_ab_1997
 from gettsim.transfers.kindergeld import kindergeld_m_bis_1996
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
-    _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019,
+    _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl import (
-    _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019,
+    _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
-    kinderzuschl_eink_regel_m_hh_ab_2011,
+    kinderzuschl_eink_regel_m_tu_ab_2011,
 )
 from gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
-    kinderzuschl_eink_regel_m_hh_bis_2010,
+    kinderzuschl_eink_regel_m_tu_bis_2010,
 )
 from gettsim.transfers.rente import ges_rente_nach_grundr_m
 from gettsim.transfers.rente import ges_rente_vor_grundr_m
 from gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
 from gettsim.transfers.wohngeld import wohngeld_eink_freib_m_bis_2015
-from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009_bis_2020
-from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2021
+from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
 from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
 
 
@@ -258,8 +269,10 @@ def _parse_kinderzuschl_max(date, params):
     """Prior to 2021, the maximum amount of the
     Kinderzuschlag was specified directly in the laws and directives.
 
-    Since 2021, this measure has been derived from subsistence
-    levels. This function implements that calculation.
+    In 2021, 2022, and from 2024 on, this measure has been derived from
+    subsistence levels. This function implements that calculation.
+
+    For 2023 the amount is once again explicitly specified as a parameter.
 
     Parameters
     ----------
@@ -275,7 +288,7 @@ def _parse_kinderzuschl_max(date, params):
 
     """
 
-    if date.year >= 2021:
+    if (date.year >= 2024) or (2023 > date.year >= 2021):
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
             params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
@@ -433,26 +446,42 @@ def load_functions_for_date(date):
 
     if year <= 2008:
         functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_bis_2008
-    elif 2009 <= year <= 2020:
-        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2009_bis_2020
     else:
-        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2021
+        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2009
 
     if year <= 2010:
         functions[
-            "kinderzuschl_eink_regel_m_hh"
-        ] = kinderzuschl_eink_regel_m_hh_bis_2010
+            "kinderzuschl_eink_regel_m_tu"
+        ] = kinderzuschl_eink_regel_m_tu_bis_2010
     else:
-        functions["kinderzuschl_eink_regel_m_hh"] = kinderzuschl_eink_regel_m_hh_ab_2011
+        functions["kinderzuschl_eink_regel_m_tu"] = kinderzuschl_eink_regel_m_tu_ab_2011
+
+    if year <= 2022:
+        functions[
+            "arbeitsl_geld_2_vermög_freib_hh"
+        ] = arbeitsl_geld_2_vermög_freib_hh_bis_2022
+    else:
+        functions[
+            "arbeitsl_geld_2_vermög_freib_hh"
+        ] = arbeitsl_geld_2_vermög_freib_hh_ab_2023
+
+    if year <= 2022:
+        functions[
+            "arbeitsl_geld_2_kost_unterk_m_hh"
+        ] = arbeitsl_geld_2_kost_unterk_m_hh_bis_2022
+    else:
+        functions[
+            "arbeitsl_geld_2_kost_unterk_m_hh"
+        ] = arbeitsl_geld_2_kost_unterk_m_hh_ab_2023
 
     if date < datetime.date(year=2019, month=7, day=1):
         functions[
-            "_kinderzuschl_vor_vermög_check_m_hh"
-        ] = _kinderzuschl_vor_vermög_check_m_hh_bis_06_2019
+            "_kinderzuschl_vor_vermög_check_m_tu"
+        ] = _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019
     else:
         functions[
-            "_kinderzuschl_vor_vermög_check_m_hh"
-        ] = _kinderzuschl_vor_vermög_check_m_hh_ab_07_2019
+            "_kinderzuschl_vor_vermög_check_m_tu"
+        ] = _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019
 
     if year <= 2010:
         functions[
@@ -621,7 +650,7 @@ def _load_parameter_group_from_yaml(
 
     Returns
     -------
-    tax_data : dict
+    out_params : dict
         Dictionary of parameters loaded from raw yaml file and striped of
         unnecessary keys.
 
@@ -645,7 +674,7 @@ def _load_parameter_group_from_yaml(
     # Load parameters (exclude 'rounding' parameters which are handled at the
     # end of this function)
     not_trans_keys = ["note", "reference", "deviation_from", "access_different_date"]
-    tax_data = {}
+    out_params = {}
     if not parameters:
         parameters = [k for k in raw_group_data if k != "rounding"]
 
@@ -662,45 +691,46 @@ def _load_parameter_group_from_yaml(
         if not past_policies:
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
+            # Otherwise, do not create an entry for this parameter.
             if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
                 future_policy = raw_group_data[param][np.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
-                    tax_data[param] = _load_parameter_group_from_yaml(
+                    params_temp = _load_parameter_group_from_yaml(
                         date,
                         path_list[0],
                         parameters=[path_list[1]],
                         yaml_path=yaml_path,
-                    )[path_list[1]]
-            else:
-                # TODO: Should there be missing values or should the key not exist?
-                tax_data[param] = np.nan
+                    )
+                    if path_list[1] in params_temp:
+                        out_params[param] = params_temp[path_list[1]]
+
         else:
             policy_in_place = raw_group_data[param][np.max(past_policies)]
             if "scalar" in policy_in_place.keys():
                 if policy_in_place["scalar"] == "inf":
-                    tax_data[param] = np.inf
+                    out_params[param] = np.inf
                 else:
-                    tax_data[param] = policy_in_place["scalar"]
+                    out_params[param] = policy_in_place["scalar"]
             else:
-                tax_data[param] = {}
+                out_params[param] = {}
                 # Keys which if given are transferred
                 add_trans_keys = ["type", "progressionsfaktor"]
                 for key in add_trans_keys:
                     if key in raw_group_data[param]:
-                        tax_data[param][key] = raw_group_data[param][key]
+                        out_params[param][key] = raw_group_data[param][key]
                 value_keys = (
                     key for key in policy_in_place.keys() if key not in not_trans_keys
                 )
                 if "deviation_from" in policy_in_place.keys():
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
-                        tax_data[param] = _load_parameter_group_from_yaml(
+                        out_params[param] = _load_parameter_group_from_yaml(
                             new_date, group, parameters=[param], yaml_path=yaml_path
                         )[param]
                     elif "." in policy_in_place["deviation_from"]:
                         path_list = policy_in_place["deviation_from"].split(".")
-                        tax_data[param] = _load_parameter_group_from_yaml(
+                        out_params[param] = _load_parameter_group_from_yaml(
                             date,
                             path_list[0],
                             parameters=[path_list[1]],
@@ -708,22 +738,24 @@ def _load_parameter_group_from_yaml(
                         )[path_list[1]]
                     for key in value_keys:
                         key_list = []
-                        tax_data[param][key] = transfer_dictionary(
+                        out_params[param][key] = transfer_dictionary(
                             policy_in_place[key],
-                            copy.deepcopy(tax_data[param][key]),
+                            copy.deepcopy(out_params[param][key]),
                             key_list,
                         )
                 else:
                     for key in value_keys:
-                        tax_data[param][key] = policy_in_place[key]
+                        out_params[param][key] = policy_in_place[key]
 
             # Also load earlier parameter values if this is specified in yaml
             if "access_different_date" in raw_group_data[param]:
                 if raw_group_data[param]["access_different_date"] == "vorjahr":
                     date_last_year = subtract_years_from_date(date, years=1)
-                    tax_data[f"{param}_vorjahr"] = _load_parameter_group_from_yaml(
+                    params_last_year = _load_parameter_group_from_yaml(
                         date_last_year, group, parameters=[param], yaml_path=yaml_path
-                    )[param]
+                    )
+                    if param in params_last_year:
+                        out_params[f"{param}_vorjahr"] = params_last_year[param]
                 else:
                     raise ValueError(
                         "Currently, access_different_date is only implemented for "
@@ -731,14 +763,14 @@ def _load_parameter_group_from_yaml(
                         f"For parameter {param} a different string is specified."
                     )
 
-    tax_data["datum"] = np.datetime64(date)
+    out_params["datum"] = np.datetime64(date)
 
     # Load rounding parameters if they exist
     if "rounding" in raw_group_data:
-        tax_data["rounding"] = _load_rounding_parameters(
+        out_params["rounding"] = _load_rounding_parameters(
             date, raw_group_data["rounding"]
         )
-    return tax_data
+    return out_params
 
 
 def _load_rounding_parameters(date, rounding_spec):
