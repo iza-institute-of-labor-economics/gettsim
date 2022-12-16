@@ -13,12 +13,13 @@ INPUT_COLS = [
     "bruttolohn_vorj_m",
     "wohnort_ost",
     "kind",
-    "arbeitsl_monate_lfdj",
-    "arbeitsl_monate_vorj",
-    "arbeitsl_monate_v2j",
-    "sum_ges_rente_priv_rente_m",
+    "anwartschaftszeit",
+    "arbeitssuchend",
+    "versich_pfl_m",
+    "arbeitsl_geld_bezug_m",
     "arbeitsstunden_w",
     "alter",
+    "geburtsjahr",
     "jahr",
 ]
 YEARS = [2010, 2011, 2015, 2019]
@@ -45,7 +46,6 @@ def test_arbeitsl_geld(
         params=policy_params,
         functions=policy_functions,
         targets="arbeitsl_geld_m",
-        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.

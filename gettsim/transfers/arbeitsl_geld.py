@@ -71,6 +71,8 @@ def restliche_anspruchsdauer(
     if anwartschaftszeit:
         anspruchsdauer_gesamt = min(dauer_nach_alter, dauer_nach_versich_pfl)
         out = max(anspruchsdauer_gesamt - arbeitsl_geld_bezug_m, 0)
+    else:
+        out = 0
 
     return out
 
