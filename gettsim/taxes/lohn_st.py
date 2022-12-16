@@ -177,6 +177,7 @@ def vorsorgepauschale_ab_2010(
     eink_st_abzuege_params: dict,
     soz_vers_beitr_params: dict,
     wohnort_ost: bool,
+    ges_krankenv_zusatzbeitrag: float,
 ) -> float:
     """
     Calculates Vorsorgepauschale for Lohnsteuer valid since 2010
@@ -196,6 +197,8 @@ def vorsorgepauschale_ab_2010(
         See params documentation :ref:`soz_vers_beitr_params`
     wohnort_ost:
       See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    ges_krankenv_zusatzbeitrag
+        See :func:ges_krankenv_zusatzbeitrag`.
 
 
     Returns
@@ -241,7 +244,7 @@ def vorsorgepauschale_ab_2010(
 
     vorsorg_kv_option_b = bruttolohn_kv * (
         soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["mean_zusatzbeitrag"] / 2
+        + ges_krankenv_zusatzbeitrag / 2 / 100
         + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 

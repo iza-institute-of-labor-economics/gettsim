@@ -94,7 +94,36 @@ def ges_krankenv_beitr_arbeitg_m(
     return out
 
 
-def ges_krankenv_beitr_satz_bis_2018(soz_vers_beitr_params: dict) -> float:
+def ges_krankenv_zusatzbeitrag(soz_vers_beitr_params: dict) -> float:
+    """Calculates the top-up rate of the health care insurance.
+
+    Parameters
+    ----------
+    soz_vers_beitr_params
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+
+    # From July 2005 until 2014, Sonderbeitrag is in place
+    # From 2015 on, a Zusatzbeitrag is in place which differs between
+    # insurance entities
+    params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
+    if "sonderbeitrag" in params:
+        out = params["sonderbeitrag"]
+    elif "mean_zusatzbeitrag" in params:
+        out = params["mean_zusatzbeitrag"]
+    else:
+        out = 0
+    return out
+
+
+def ges_krankenv_beitr_satz_bis_2018(
+    soz_vers_beitr_params: dict,
+    ges_krankenv_zusatzbeitrag: float,
+) -> float:
     """Select contribution rates of employees for health insurance until 2018.
 
     The contribution rates consists of a general rate (split equally between employers
@@ -104,6 +133,8 @@ def ges_krankenv_beitr_satz_bis_2018(soz_vers_beitr_params: dict) -> float:
     ----------
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    ges_krankenv_zusatzbeitrag
+        See :func:ges_krankenv_zusatzbeitrag`.
 
     Returns
     -------
@@ -117,16 +148,7 @@ def ges_krankenv_beitr_satz_bis_2018(soz_vers_beitr_params: dict) -> float:
         params["allgemein"] if "allgemein" in params else params["mean_allgemein"]
     )
 
-    # From July 2005 until 2014, Sonderbeitrag is in place
-    # From 2015 on, a Zusatzbeitrag is in place which differs between
-    # insurance entities
-    if "sonderbeitrag" in params:
-        zusatzbeitrag = params["sonderbeitrag"]
-    elif "mean_zusatzbeitrag" in params:
-        zusatzbeitrag = params["mean_zusatzbeitrag"]
-    else:
-        zusatzbeitrag = 0
-    return allgemeiner_beitrag / 2 + zusatzbeitrag
+    return allgemeiner_beitrag / 2 + ges_krankenv_zusatzbeitrag
 
 
 def ges_krankenv_beitr_satz_ab_2019(soz_vers_beitr_params: dict) -> float:
@@ -138,6 +160,8 @@ def ges_krankenv_beitr_satz_ab_2019(soz_vers_beitr_params: dict) -> float:
     ----------
     soz_vers_beitr_params
         See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    ges_krankenv_zusatzbeitrag
+        See :func:ges_krankenv_zusatzbeitrag`.
 
     Returns
     -------
@@ -145,7 +169,7 @@ def ges_krankenv_beitr_satz_ab_2019(soz_vers_beitr_params: dict) -> float:
     """
     params = soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]
     allgemeiner_beitrag = params["allgemein"]
-    zusatzbeitrag = params["mean_zusatzbeitrag"]
+    zusatzbeitrag = ges_krankenv_zusatzbeitrag
     return (allgemeiner_beitrag + zusatzbeitrag) / 2
 
 

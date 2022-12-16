@@ -21,9 +21,10 @@ INPUT_COLS = [
     "hat_kinder",
     "arbeitsstunden_w",
     "in_ausbildung",
+    "ges_krankenv_zusatzbeitrag",
 ]
 
-OUT_COLS = ["lohn_st_m", "lohn_st_soli_m", "lohn_st_eink", "vorsorgepauschale"]
+OUT_COLS = ["lohn_st_m", "lohn_st_soli_m"]
 
 
 YEARS = [2022]
@@ -83,6 +84,7 @@ def input_data():
         "lzz": "period_of_obtained_wage",
         "lstlzz": "lohn_st",
         "solzlzz": "lohn_st_soli",
+        "kvz": "ges_krankenv_zusatzbeitrag",
     }
     test_data = lst_data[[*var_names]].rename(columns=var_names).copy()
 
@@ -148,7 +150,7 @@ def input_data():
     test_data["vorsorgepauschale"] = 0
 
     test_data = test_data[test_data["steuerklasse"].isin([5])]
-    test_data = test_data[test_data["p_id"] == 1305]
+    test_data = test_data[test_data["p_id"] == 963]
 
     return test_data
 
@@ -164,6 +166,9 @@ def test_lohnsteuer_2(input_data, year, column):
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=["eink_st_kinderfreib_tu"],
+        columns_overriding_functions=[
+            "eink_st_kinderfreib_tu",
+            "ges_krankenv_zusatzbeitrag",
+        ],
     )
     assert_series_equal(result[column], input_data[column], check_dtype=False)
