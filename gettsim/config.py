@@ -95,7 +95,7 @@ TYPES_INPUT_VARIABLES = {
     "heizkosten_m_hh": float,
     "jahr_renteneintr": int,
     "behinderungsgrad": int,
-    "wohnfläche_hh": int,
+    "wohnfläche_hh": float,
     "m_elterngeld": int,
     "m_elterngeld_vat_hh": int,
     "m_elterngeld_mut_hh": int,
@@ -128,6 +128,7 @@ TYPES_INPUT_VARIABLES = {
     "arbeitssuchend": bool,
     "arbeitsl_geld_bezug_m": int,
     "soz_vers_pflicht_5j": int,
+    "bürgerg_bezug_vorj": bool,
 }
 
 # =====================================================================================
