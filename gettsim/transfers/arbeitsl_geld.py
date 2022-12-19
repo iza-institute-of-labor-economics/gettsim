@@ -10,7 +10,7 @@ from gettsim.transfers.rente import ges_rente_regelaltersgrenze
 
 def arbeitsl_geld_m(
     anz_kinder_tu: int,
-    arbeitsl_geld_berechtigt: int,
+    arbeitsl_geld_berechtigt: bool,
     arbeitsl_geld_eink_vorj_proxy: float,
     arbeitsl_geld_params: dict,
 ) -> float:
@@ -45,14 +45,15 @@ def arbeitsl_geld_m(
     return out
 
 
-def restliche_anspruchsdauer(
+def arbeitl_geld_restliche_anspruchsdauer(
+    alter: int,
+    soz_vers_pflicht_5j: int,
     anwartschaftszeit: int,
-    dauer_nach_versich_pfl: int,
-    dauer_nach_alter: int,
     arbeitsl_geld_bezug_m: int,
+    arbeitsl_geld_params: dict,
 ) -> int:
     """Calculate the remaining amount of months a person can receive unemployment
-    benifit this year.
+    benefit this year.
 
     Parameters
     ----------
@@ -68,8 +69,43 @@ def restliche_anspruchsdauer(
     -------
 
     """
+    nach_alter = piecewise_polynomial(
+        alter,
+        thresholds=list(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])
+        + [np.inf],
+        rates=np.array(
+            [[0] * len(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])]
+        ),
+        intercepts_at_lower_thresholds=list(
+            arbeitsl_geld_params["anspruchsdauer"]["nach_alter"].values()
+        ),
+    )
+    nach_versich_pfl = piecewise_polynomial(
+        soz_vers_pflicht_5j,
+        thresholds=list(
+            arbeitsl_geld_params["anspruchsdauer"][
+                "nach_versicherungspflichtige_monate"
+            ]
+        )
+        + [np.inf],
+        rates=np.array(
+            [
+                [0]
+                * len(
+                    arbeitsl_geld_params["anspruchsdauer"][
+                        "nach_versicherungspflichtige_monate"
+                    ]
+                )
+            ]
+        ),
+        intercepts_at_lower_thresholds=list(
+            arbeitsl_geld_params["anspruchsdauer"][
+                "nach_versicherungspflichtige_monate"
+            ].values()
+        ),
+    )
     if anwartschaftszeit:
-        anspruchsdauer_gesamt = min(dauer_nach_alter, dauer_nach_versich_pfl)
+        anspruchsdauer_gesamt = min(nach_alter, nach_versich_pfl)
         out = max(anspruchsdauer_gesamt - arbeitsl_geld_bezug_m, 0)
     else:
         out = 0
@@ -119,71 +155,6 @@ def arbeitsl_geld_berechtigt(
     )
 
     return out
-
-
-def dauer_nach_alter(
-    alter: int,
-    arbeitsl_geld_params: dict,
-) -> int:
-    """Calculate the lenght of unemployment benifit according to age.
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    arbeitsl_geld_params
-        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
-
-    Returns
-    -------
-
-    """
-    nach_alter = piecewise_polynomial(
-        alter,
-        thresholds=list(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])
-        + [np.inf],
-        rates=np.array(
-            [[0] * len(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])]
-        ),
-        intercepts_at_lower_thresholds=list(
-            arbeitsl_geld_params["anspruchsdauer"]["nach_alter"].values()
-        ),
-    )
-
-    return nach_alter
-
-
-def dauer_nach_versich_pfl(
-    soz_vers_pflicht_5j: int,
-    arbeitsl_geld_params: dict,
-) -> int:
-    """Calculate the lenght of unemployment benifit according to months of
-    subjection to compulsory insurance.
-
-    Parameters
-    ----------
-    soz_vers_pflicht_5j
-        See basic input variable :ref:`soz_vers_pflicht_5j <soz_vers_pflicht_5j>`.
-    arbeitsl_geld_params
-        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
-
-    Returns
-    -------
-
-    """
-    nach_versich_pfl = piecewise_polynomial(
-        soz_vers_pflicht_5j,
-        thresholds=list(arbeitsl_geld_params["anspruchsdauer"]["nach_versich_pfl"])
-        + [np.inf],
-        rates=np.array(
-            [[0] * len(arbeitsl_geld_params["anspruchsdauer"]["nach_versich_pfl"])]
-        ),
-        intercepts_at_lower_thresholds=list(
-            arbeitsl_geld_params["anspruchsdauer"]["nach_versich_pfl"].values()
-        ),
-    )
-
-    return nach_versich_pfl
 
 
 def arbeitsl_geld_eink_vorj_proxy(

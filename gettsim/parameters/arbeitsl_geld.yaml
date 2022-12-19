@@ -183,7 +183,7 @@ anspruchsdauer:
       50: 15
       55: 18
       58: 24
-    nach_versich_pfl:
+    nach_versicherungspflichtige_monate:
       12: 6
       18: 8
       20: 10
