@@ -20,8 +20,8 @@ def arbeitsl_geld_m(
     ----------
     anz_kinder_tu
         See :func:`anz_kinder_tu`.
-    anspruchsdauer_aktuell
-        See :func:`anspruchsdauer_aktuell`.
+    arbeitsl_geld_berechtigt
+        See :func:`arbeitsl_geld_berechtigt`.
     arbeitsl_geld_eink_vorj_proxy
         See :func:`arbeitsl_geld_eink_vorj_proxy`.
     arbeitsl_geld_params
@@ -57,13 +57,16 @@ def arbeitl_geld_restliche_anspruchsdauer(
 
     Parameters
     ----------
-    dauer_nach_versich_pfl
-        See :func:`dauer_nach_versich_pfl`.
-    dauer_nach_alter
-        See :func:`dauer_nach_alter`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    soz_vers_pflicht_5j
+        See basic input variable :ref:`soz_vers_pflicht_5j <soz_vers_pflicht_5j>`.
+    anwartschaftszeit
+        See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
     arbeitsl_geld_bezug_m
         See basic input variable :ref:`arbeitsl_geld_bezug_m <arbeitsl_geld_bezug_m>`.
-
+    arbeitsl_geld_params
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
     Returns
     -------
