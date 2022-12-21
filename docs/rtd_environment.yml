@@ -34,4 +34,4 @@ dependencies:
   - pip:
     - plotly
     - kaleido
-    - -e .
+    - -e ..
