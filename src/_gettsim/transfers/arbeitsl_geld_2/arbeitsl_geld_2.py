@@ -21,7 +21,7 @@ def arbeitsl_geld_2_m_hh(
     wohngeld_kinderzuschl_vorrang_hh
         See :func:`wohngeld_kinderzuschl_vorrang_hh`.
     erwachsene_alle_rentner_hh
-        See :func:`erwachsene_alle_rentner_hh   `.
+        See :func:`erwachsene_alle_rentner_hh`.
 
     Returns
     -------

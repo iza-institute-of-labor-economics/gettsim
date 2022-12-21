@@ -20,11 +20,7 @@ from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.visualization import plot_dag
 
-# ToDo: Remove. Legacy stuff, still in docs
-from _gettsim import social_insurance_contributions
-from _gettsim import synthetic
-from _gettsim import taxes
-from _gettsim import transfers
+from _gettsim.synthetic import create_synthetic_data
 
 
 COUNTER_TEST_EXECUTIONS = itertools.count()
@@ -51,7 +47,7 @@ __all__ = [
     "RESOURCE_DIR",
     # ToDo: Remove remainder.
     "social_insurance_contributions",
-    "synthetic",
+    "create_synthetic_data",
     "taxes",
     "transfers",
 ]

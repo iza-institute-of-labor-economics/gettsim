@@ -157,7 +157,7 @@ def create_synthetic_data(
             baujahr,
             double_earner,
             policy_year,
-            bruttolohn_m=kwargs.get("bruttolohn_m", 2000),
+            bruttolohn_m=kwargs.get("bruttolohn_m", 2000.0),
         )
     else:
         synth = pd.DataFrame()
