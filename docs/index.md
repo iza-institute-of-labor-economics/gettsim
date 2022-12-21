@@ -34,7 +34,7 @@ changes
 glossary
 ```
 
-# Initiated by
+# GETTSIM has been initiated by
 
 ```{raw} html
 <p align="center">

@@ -94,6 +94,8 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3.11", None),
 }
 
+myst_heading_anchors = 3
+
 numpydoc_show_class_members = False
 
 todo_include_todos = True
