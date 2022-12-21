@@ -1,9 +1,11 @@
 ---
+
 name: Bug Report
-about: Create a report to help us improve
-title: ''
-labels: bug
+about: Create a bug report to help us improve GETTSIM
+title: "BUG:"
+labels: "bug"
 assignees: ''
+
 
 ---
 
@@ -11,20 +13,27 @@ assignees: ''
 
 A clear and concise description of what the bug is.
 
-### To Reproduce
+- [ ] I have checked that this issue has not already been reported.
 
-Ideally, provide a minimal code example. If that's not possible, describe steps to
-reproduce the bug.
+- [ ] I have confirmed this bug exists on the latest version of GETTSIM.
 
-### Expected behavior
+- [ ] (optional) I have confirmed this bug exists on the `main` branch of GETTSIM.
 
-A clear and concise description of what you expected to happen.
+---
 
-### Screenshots/Error messages
+**Note**: Please read [this
+guide](https://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports) detailing
+how to provide the necessary information for us to reproduce your bug.
 
-If applicable, add screenshots to help explain your problem.
+#### Code Sample, a copy-pastable example
 
-### System
+```python
+# Your code here
+```
 
-- OS: [e.g. Windows 10]
-- Version [e.g. 0.1]
+#### Problem description
+
+Explain **why** the current behaviour is a problem and why the expected output is a
+better solution.
+
+#### Expected Output
