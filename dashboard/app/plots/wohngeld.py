@@ -37,10 +37,10 @@ def wohngeld(plot_dict, data):
         src.data.update(new_src.data)
 
     def setup_plot(src):
-        """
-        Create the heatmap plot.
+        """Create the heatmap plot.
 
         src: ColumnDataSource
+
         """
 
         # Prepare a color pallete and color mapper
