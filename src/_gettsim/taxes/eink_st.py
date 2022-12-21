@@ -166,8 +166,8 @@ def eink_st_rel_kindergeld_tu(
     kinderbonus_basis_m_tu: float,
     anz_erwachsene_tu: int,
 ) -> float:
-    """Return Kindergeld relevant for income tax of the tax unit. For parents
-    which do not file taxes together, only half of Kindergeld is considered.
+    """Return Kindergeld relevant for income tax of the tax unit. For parents which do
+    not file taxes together, only half of Kindergeld is considered.
 
     Source: § 31 Satz 4 EStG: "Bei nicht zusammenveranlagten Eltern wird der
     Kindergeldanspruch im Umfang des Kinderfreibetrags angesetzt."
