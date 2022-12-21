@@ -10,12 +10,12 @@ from .plotstyle import plotstyle
 
 def deductions(plot_dict, data):
     def setup_plot(src):
-        """
-        Create the deduction plot.
+        """Create the deduction plot.
 
         Parameters
 
         src: ColumnDataSource returned by the data preparation function
+
         """
 
         # Plot for the most important deductions
