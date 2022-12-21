@@ -1,4 +1,4 @@
-(how_to)=
+(how_to_guides)=
 
 # How-To Guides
 

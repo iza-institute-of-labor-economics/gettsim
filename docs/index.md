@@ -9,7 +9,7 @@ end-line: 32
 
 You can find the content of the documentation in the table below. Once you have
 installed GETTSIM, you may use the [tutorials](tutorials) to help you get started with
-GETTSIM. [How-to guides](how-to-guides) provide detailed explanations on how to
+GETTSIM. [How-to guides](how_to_guides) provide detailed explanations on how to
 accomplish specific tasks with GETTSIM.
 
 ```{toctree}
