@@ -10,10 +10,11 @@ from .plotstyle import plotstyle
 
 def child_benefits(plot_dict, data):
     def setup_plot(kindergeld_df):
-        """
-        Create the kindergeld plot.
+        """Create the kindergeld plot.
+
         Parameters
         (pd.Dataframe): Returned by the data preparation function
+
         """
         # Plot for kindergeld params
 

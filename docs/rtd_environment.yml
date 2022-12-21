@@ -1,30 +1,37 @@
-name: gettsim
+name: gettsim-docs
+
 channels:
   - conda-forge
+  - nodefaults
+
 dependencies:
-  - bokeh
+  - python
+  - pip >=21.1
   - dags
   - ipywidgets
-  # Jinja2 3.1.0 breaks docs. Keep until nbconvert or Jinja2 fixes it.
-  - jinja2<3.1.0
+  # Jinja2 3.1 does not work with nbconvert
+  # E.g., https://github.com/jupyter/nbconvert/issues/1740
+  - jinja2<3.1
   - jupyterlab
-  - nbsphinx
   - networkx
   - numpy_groupies
   - numpydoc
   - pandas
-  - pip
   - pydot
   - pygments
   - pytest
-  - python
   - pyyaml
-  - restructuredtext_lint
+  # Documentation
+
   # Automodapi leads to error within numpy_groupies/numba for sphinx 5.1.1
   # See: https://github.com/astropy/sphinx-automodapi/issues/148
   - sphinx=5.1.0
-  - sphinx_rtd_theme
+  - myst-parser
+  - pydata-sphinx-theme>=0.3.0
   - sphinx-automodapi
   - sphinx-copybutton
+  - nbsphinx
   - pip:
-      - plotly
+    - plotly
+    - kaleido
+    - -e ..
