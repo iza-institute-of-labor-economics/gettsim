@@ -2,20 +2,18 @@
 
 # GEP 5 — Optional Rounding of Variables
 
-```{eval-rst}
-+------------+-------------------------------------------------------------------+
-| Author     | `Janos Gabler <https://github.com/janosg>`_                       |
-+            +-------------------------------------------------------------------+
-|            | `Christian Zimpelmann <https://github.com/ChristianZimpelmann>`_  |
-+------------+-------------------------------------------------------------------+
-| Status     | Provisional                                                       |
-+------------+-------------------------------------------------------------------+
-| Type       | Standards Track                                                   |
-+------------+-------------------------------------------------------------------+
-| Created    | 2022-02-02                                                        |
-+------------+-------------------------------------------------------------------+
-| Resolution | `Zulip Post`_                                                     |
-+------------+-------------------------------------------------------------------+
+```{list-table}
+
+- * Author
+  * [Janos Gabler](https://github.com/janosg), [Christian Zimpelmann](https://github.com/ChristianZimpelmann)
+- * Status
+  * Provisional
+- * Type
+  * Standards Track
+- * Created
+  * 2022-02-02
+- * Resolution
+  * [Zulip post](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2005/near/270427530)
 ```
 
 ## Abstract

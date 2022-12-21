@@ -35,7 +35,6 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
-    "sphinx_rtd_theme",
     "myst_parser",
 ]
 
@@ -70,7 +69,6 @@ autodoc_default_options = {
     "undoc-members": True,
 }
 autodoc_mock_imports = [
-    "bokeh",
     "networkx",
     "numpy",
     "numpy_groupies",
@@ -83,14 +81,17 @@ autodoc_mock_imports = [
 ]
 
 extlinks = {
-    "ghuser": ("https://github.com/%s", "@"),
-    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
+    "ghuser": ("https://github.com/%s", "@%s"),
+    "gh": (
+        "https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s",
+        "#%s",
+    ),
 }
 
 intersphinx_mapping = {
     "numpy": ("https://docs.scipy.org/doc/numpy", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
-    "python": ("https://docs.python.org/3.7", None),
+    "python": ("https://docs.python.org/3.11", None),
 }
 
 numpydoc_show_class_members = False

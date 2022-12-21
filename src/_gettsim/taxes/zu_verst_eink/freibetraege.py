@@ -208,9 +208,10 @@ def eink_st_sonderausgaben_tu_bis_2011(
     eink_st_abzuege_params: dict,
     anz_erwachsene_tu: int,
 ) -> float:
-    """Individual sonderausgaben on tax unit level until 2011.
+    """Individual Sonderausgaben on tax unit level until 2011.
 
-    There is only a lumpsum payment implemented.
+    Only a lump sum payment is implemented.
+
     Parameters
     ----------
     eink_st_abzuege_params
@@ -236,14 +237,18 @@ def eink_st_abz_betreuungskost(
     eink_st_abzuege_params: dict,
     betreuungskost_m: float,
 ) -> float:
-    """Individual deductable childcare cost for each individual
-    child under 14.
+    """Individual deductable childcare cost for each individual child under 14.
 
+    Parameters
     ----------
     betreuungskost_m
         See basic input variable :ref:`betreuungskost_m <betreuungskost_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+
+    Returns
+    -------
+
     """
     out = min(
         12 * betreuungskost_m,
@@ -261,12 +266,16 @@ def sonderausgaben_betreuung_tu(
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
+
     Parameters
     ----------
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     eink_st_abz_betreuungskost_tu
         See :func:`eink_st_abz_betreuungskost_tu`.
+
+    Returns
+    -------
 
     """
 
@@ -287,6 +296,7 @@ def eink_st_sonderausgaben_tu_ab_2012(
 
     We follow 10 Abs.1 Nr. 5 EStG. You can
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
+
     Parameters
     ----------
     kind
