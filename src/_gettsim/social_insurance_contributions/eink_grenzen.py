@@ -9,9 +9,9 @@ def minijob_grenze(
     Parameters
     ----------
     wohnort_ost
-        See basic input variable :ref:`wohnort_ost <input_variables_table>`.
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     Returns
     -------
 
@@ -30,7 +30,7 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
     Parameters
     ----------
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     minijob_grenze
         See :func:`minijob_grenze`.
 
@@ -58,11 +58,11 @@ def in_gleitzone(
     Parameters
     ----------
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -93,7 +93,7 @@ def midijob_faktor_f_bis_09_2022(
     Parameters
     ----------
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     ges_krankenv_beitr_satz
         See :func:`ges_krankenv_beitr_satz`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -148,7 +148,7 @@ def midijob_faktor_f_ab_10_2022(
     Parameters
     ----------
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     ges_krankenv_beitr_satz
         See :func:`ges_krankenv_beitr_satz`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -208,9 +208,9 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     midijob_faktor_f
         See :func:`midijob_faktor_f`.
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
 
     Returns
@@ -262,9 +262,9 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     minijob_grenze
         See :func:`minijob_grenze`.
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
 
     Returns
@@ -302,9 +302,9 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
     Parameters
     ----------
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
     minijob_grenze
         See :func:`minijob_grenze`.
 
@@ -331,7 +331,7 @@ def minijob_grenze_west_vor_10_2022(soz_vers_beitr_params: dict) -> float:
     Parameters
     ----------
     soz_vers_beitr_params:
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -348,7 +348,7 @@ def minijob_grenze_ost_vor_10_2022(soz_vers_beitr_params: dict) -> float:
     Parameters
     ----------
     soz_vers_beitr_params:
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -366,7 +366,7 @@ def minijob_grenze_ab_10_2022(soz_vers_beitr_params: dict) -> float:
     Parameters
     ----------
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -391,9 +391,9 @@ def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> b
     Parameters
     ----------
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------

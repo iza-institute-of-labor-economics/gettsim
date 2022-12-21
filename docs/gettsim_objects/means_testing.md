@@ -7,9 +7,11 @@ considered when performing means for several transfers. A cross indicates that t
 class is not considered and, hence, deducted from the overall assets of a household.
 
 This documentation shall help to understand the composition of the
-{ref}`basic input variable<input_variables>` 'vermögen_bedürft_hh'. Despite small
-differences over the transfers, we decided, for now, to require only one wealth variable
-as input and use it for all transfers.
+
+{ref}`basic input variable <input_variables>`
+
+'vermögen_bedürft_hh'. Despite small differences over the transfers, we decided, for
+now, to require only one wealth variable as input and use it for all transfers.
 
 ```{note}
 ALGII = Grundsicherung für Arbeitslose
@@ -38,9 +40,8 @@ HC = hardship case
 | Items for the satisfaction of spiritual needs                                     |        | x      | x    |        |
 
 ```{seealso}
-**See the following links for legal bases for the definition of assets for each transfer.**
-
-  - ALGII: §12 SGBII [https://www.gesetze-im-internet.de/sgb_2/\_\_12.html](https://www.gesetze-im-internet.de/sgb_2/__12.html)
+See the following links for legal bases for the definition of assets for each transfer.
+: - ALGII: §12 SGBII [https://www.gesetze-im-internet.de/sgb_2/\_\_12.html](https://www.gesetze-im-internet.de/sgb_2/__12.html)
   - GSA/E: §90 SGBXII [https://www.gesetze-im-internet.de/sgb_12/\_\_90.html](https://www.gesetze-im-internet.de/sgb_12/__90.html)
   - WoGe: §21 WoGG [https://www.gesetze-im-internet.de/bkgg_1996/\_\_6a.html](https://www.gesetze-im-internet.de/bkgg_1996/__6a.html)
   - KiZu: §6a BKGG, Abs.3 [https://www.gesetze-im-internet.de/bkgg_1996/\_\_6a.html](https://www.gesetze-im-internet.de/bkgg_1996/__6a.html)

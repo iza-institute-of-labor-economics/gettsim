@@ -24,7 +24,7 @@ def ges_krankenv_beitr_m(
     in_gleitzone
         See :func:`in_gleitzone`.
     selbstständig
-        See basic input variable :ref:`selbstständig <input_variables_table>`.
+        See basic input variable :ref:`selbstständig <selbstständig>`.
 
 
     Returns
@@ -70,11 +70,11 @@ def ges_krankenv_beitr_arbeitg_m(
     in_gleitzone
         See :func:`in_gleitzone`.
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     selbstständig
-        See basic input variable :ref:`selbstständig <input_variables_table>`.
+        See basic input variable :ref:`selbstständig <selbstständig>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
 
     Returns
@@ -103,7 +103,7 @@ def ges_krankenv_beitr_satz_bis_2018(soz_vers_beitr_params: dict) -> float:
     Parameters
     ----------
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -137,7 +137,7 @@ def ges_krankenv_beitr_satz_ab_2019(soz_vers_beitr_params: dict) -> float:
     Parameters
     ----------
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -155,7 +155,7 @@ def _ges_krankenv_beitr_satz_arbeitg_bis_2018(soz_vers_beitr_params: dict) -> fl
     Parameters
     ----------
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -254,15 +254,15 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     Parameters
     ----------
     eink_selbst_m
-        See basic input variable :ref:`eink_selbst_m <input_variables_table>`.
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     _ges_krankenv_bezugsgröße_selbst_m
         See :func:`_ges_krankenv_bezugsgröße_selbst_m`.
     selbstständig
-        See basic input variable :ref:`selbstständig <input_variables_table>`.
+        See basic input variable :ref:`selbstständig <selbstständig>`.
     in_priv_krankenv
-        See basic input variable :ref:`in_priv_krankenv <input_variables_table>`.
+        See basic input variable :ref:`in_priv_krankenv <in_priv_krankenv>`.
     soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <params_table>`.
+        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
 
     Returns
     -------
@@ -393,7 +393,7 @@ def _ges_krankenv_midijob_arbeitg_m_bis_09_2022(
     Parameters
     ----------
     bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <input_variables_table>`.
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     in_gleitzone
         See :func:`in_gleitzone`.
     _ges_krankenv_beitr_satz_arbeitg
