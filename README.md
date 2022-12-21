@@ -35,7 +35,7 @@ it or help out in its development, feel free to get in touch! The ideal ways are
 an issue if you find a bug or something does not work as expected, or by joining our
 Zulip Chat at <https://gettsim.zulipchat.com>.
 
-# Initiated by
+## Initiated by
 
 <p align="center">
    <a href="https://www.iza.org">

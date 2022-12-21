@@ -2,14 +2,15 @@
 
 ```{include} ../README.md
 ---
-start-line: 31
-end-line: 38
+start-line: 19
+end-line: 32
 ---
 ```
 
-You can find the content of the documentation in the table below. After installation you
-can use the tutorials to help you get started with GETTSIM. How-to guides provide
-detailed explanations on how to accomplish specific tasks with GETTSIM.
+You can find the content of the documentation in the table below. Once you have
+installed GETTSIM, you may use the [tutorials](tutorials) to help you get started with
+GETTSIM. [How-to guides](how-to-guides) provide detailed explanations on how to
+accomplish specific tasks with GETTSIM.
 
 ```{toctree}
 ---
@@ -34,7 +35,7 @@ changes
 glossary
 ```
 
-# GETTSIM has been initiated by
+## Initiated by
 
 ```{raw} html
 <p align="center">
