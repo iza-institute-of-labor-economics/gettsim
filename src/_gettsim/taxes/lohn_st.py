@@ -1,4 +1,4 @@
-from gettsim.taxes.eink_st import _eink_st_tarif
+from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
 def lohn_st_eink(

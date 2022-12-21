@@ -2,9 +2,9 @@ import itertools
 
 import pandas as pd
 import pytest
-from _gettsim.config import TESTDATA_DIR
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
+from _gettsim_tests import TEST_DATA_DIR
 from pandas.testing import assert_series_equal
 
 
@@ -33,7 +33,7 @@ YEARS = [2022]
 def input_data():
     # Loading BMF test data
     lst_data = pd.read_excel(
-        TESTDATA_DIR / "lohnsteuer_testfälle_bmf_2022.xlsx",
+        TEST_DATA_DIR / "lohnsteuer_testfälle_bmf_2022.xlsx",
         header=9,
     )
 

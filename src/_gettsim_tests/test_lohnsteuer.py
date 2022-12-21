@@ -5,9 +5,9 @@ import xml.etree.ElementTree as ElementTree
 import numpy as np
 import pandas as pd
 import pytest
-from gettsim.config import ROOT_DIR
-from gettsim.interface import compute_taxes_and_transfers
-from gettsim.policy_environment import set_up_policy_environment
+from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.policy_environment import set_up_policy_environment
+from _gettsim_tests import TEST_DATA_DIR
 from pandas.testing import assert_series_equal
 
 
@@ -215,7 +215,7 @@ def gen_lohnsteuer_test():
         jahr=hh["year"],
     )
     # Export
-    lohnsteuer_test_out = f"{ROOT_DIR}/tests/test_data/test_dfs_lohn_st.csv"
+    lohnsteuer_test_out = TEST_DATA_DIR / "test_dfs_lohn_st.csv"
     hh.to_csv(lohnsteuer_test_out, index=False)
 
 
@@ -230,7 +230,7 @@ TEST_COLUMNS = ["lohn_st", "lohn_st_soli"]
 @pytest.fixture(scope="module")
 def input_data():
     file_name = "test_dfs_lohn_st.csv"
-    out = pd.read_csv(ROOT_DIR / "tests" / "test_data" / file_name)
+    out = pd.read_csv(TEST_DATA_DIR / file_name)
     return out
 
 
