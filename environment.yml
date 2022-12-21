@@ -9,17 +9,19 @@ dependencies:
   - pip >=21.1
   - setuptools_scm
   - toml
-  - bokeh<3.0
   - dags
-  - ipywidgets
-  # Jinja2 3.1.0 breaks docs. Keep until nbconvert or Jinja2 fixes it.
-  - jinja2<3.1.0
+  # https://github.com/plotly/plotly.py/issues/3686
+  # https://github.com/plotly/plotly.py/pull/3930
+  - ipywidgets<8
+  # Jinja2 3.1 does not work with nbconvert
+  # E.g., https://github.com/jupyter/nbconvert/issues/1740
+  - jinja2<3.1
   - jupyterlab
   - networkx
   - numpy_groupies
+  - numpydoc
   - pandas
   - pdbpp
-  - pip
   - pre-commit
   - pydot
   - pygments
@@ -32,15 +34,16 @@ dependencies:
   - conda-lock
 
   # Documentation
-  - furo
-  - nbsphinx
-  - restructuredtext_lint
-  - sphinx
-  - sphinx_rtd_theme
+
+  # Automodapi leads to error within numpy_groupies/numba for sphinx 5.1.1
+  # See: https://github.com/astropy/sphinx-automodapi/issues/148
+  - sphinx=5.1.0
+  - myst-parser
+  - pydata-sphinx-theme>=0.3.0
   - sphinx-automodapi
   - sphinx-copybutton
-  - sphinx-panels
+  - nbsphinx
   - pip:
-    - kaleido
     - plotly
+    - kaleido
     - -e .

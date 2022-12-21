@@ -1,0 +1,4 @@
+(changes)=
+
+```{include} ../CHANGES.md
+```

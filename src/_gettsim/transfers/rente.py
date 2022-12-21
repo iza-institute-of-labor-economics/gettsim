@@ -658,7 +658,7 @@ def ges_rente_vorauss_langj(
     Parameters
     ----------
     ges_rente_wartezeit_35
-        See :func: `ges_rente_wartezeit_35`.
+        See :func:`ges_rente_wartezeit_35`.
     alter
         See basic input variable :ref:`alter <alter>`.
     ges_rente_params
@@ -758,8 +758,8 @@ def ges_rente_wartezeit_35(
     langjährig Versicherte (pension for long-term insured). Wartezeit von 35 Jahren. All
     "rentenrechtliche Zeiten" are considered.
 
-     Parameters
-     ----------
+    Parameters
+    ----------
     m_pflichtbeitrag
         See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
     m_freiw_beitrag
