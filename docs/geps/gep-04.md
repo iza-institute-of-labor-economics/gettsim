@@ -2,26 +2,21 @@
 
 # GEP 4 — A DAG—based Computational Backend
 
-```{eval-rst}
-+------------+-------------------------------------------------------------------------+
-| Author     | `Max Blesch <https://github.com/MaxBlesch>`_                            |
-+            +-------------------------------------------------------------------------+
-|            | `Janos Gabler <https://github.com/janosg>`_                             |
-+            +-------------------------------------------------------------------------+
-|            | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
-+            +-------------------------------------------------------------------------+
-|            | `Tobias Raabe <https://github.com/tobiasraabe>`_                        |
-+            +-------------------------------------------------------------------------+
-|            | `Christian Zimpelmann <https://github.com/ChristianZimpelmann>`_        |
-+------------+-------------------------------------------------------------------------+
-| Status     | Provisional                                                             |
-+------------+-------------------------------------------------------------------------+
-| Type       | Standards Track                                                         |
-+------------+-------------------------------------------------------------------------+
-| Created    | 2022-03-28                                                              |
-+------------+-------------------------------------------------------------------------+
-| Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2004 |
-+------------+-------------------------------------------------------------------------+
+```{list-table}
+- * Author
+  * [Max Blesch](https://github.com/MaxBlesch),
+    [Janos Gabler](https://github.com/janosg),
+    [Hans-Martin von Gaudecker](https://github.com/hmgaudecker),
+    [Tobias Raabe](https://github.com/tobiasraabe),
+    [Christian Zimpelmann](https://github.com/ChristianZimpelmann)
+- * Status
+  * Provisional
+- * Type
+  * Standards Track
+- * Created
+  * 2022-03-28
+- * Resolution
+  * [Accepted](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2004)
 ```
 
 ## Abstract
@@ -135,7 +130,7 @@ to GETTSIM or they are computed by functions. Edges are pointing from input colu
 variables, which require them to be computed.
 
 ```{note}
-GETTSIM allows to visualize the graph, see this [tutorial](visualize_the_system.ipynb).
+GETTSIM allows to visualize the graph, see this [guide](../how_to_guides/visualizing_the_system.ipynb).
 ```
 
 The resulting structure is a special kind of graph, called a directed acyclic graph
@@ -302,17 +297,11 @@ Using a different conversion function than the sum is as easy as explicitly spec
 Conversion goes both ways and uses the following formulas:
 
 ```{eval-rst}
-+-----------+--------+------------+
 | time unit | suffix | factor     |
-+-----------+--------+------------+
 | Year      |        | 1          |
-+-----------+--------+------------+
 | Month     | ``_m`` | 12         |
-+-----------+--------+------------+
 | Week      | ``_w`` | 365.25 / 7 |
-+-----------+--------+------------+
 | Day       | ``_d`` | 365.25     |
-+-----------+--------+------------+
 ```
 
 These values average over leap years. They ensure that conversion is always possible

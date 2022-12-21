@@ -2,24 +2,21 @@
 
 # GEP 1 — Naming Conventions
 
-```{eval-rst}
-+------------+-------------------------------------------------------------------------+
-| Author     | `Maximilian Blömer <https://github.com/mjbloemer>`_                     |
-+            +-------------------------------------------------------------------------+
-|            | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
-+            +-------------------------------------------------------------------------+
-|            | `Eric Sommer <https://github.com/Eric-Sommer>`_                         |
-+------------+-------------------------------------------------------------------------+
-| Status     | Provisional                                                             |
-+------------+-------------------------------------------------------------------------+
-| Type       | Standards Track                                                         |
-+------------+-------------------------------------------------------------------------+
-| Created    | 2019-11-04                                                              |
-+------------+-------------------------------------------------------------------------+
-| Updated    | 2022-03-28                                                              |
-+------------+-------------------------------------------------------------------------+
-| Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001 |
-+------------+-------------------------------------------------------------------------+
+```{list-table}
+- * Author
+  * [Maximilian Blömer](https://github.com/mjbloemer),
+    [Hans-Martin von Gaudecker](https://github.com/hmgaudecker),
+    [Eric Sommer](https://github.com/Eric-Sommer)
+- * Status
+  * Provisional
+- * Type
+  * Standards Track
+- * Created
+  * 2019-11-04
+- * Updated
+  * 2022-03-28
+- * Resolution
+  * [Accepted](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2001)
 ```
 
 ## Abstract

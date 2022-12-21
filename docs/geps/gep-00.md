@@ -1,17 +1,16 @@
 # GEP 0 — Purpose and Process
 
-```{eval-rst}
-+------------+-------------------------------------------------------------------------+
-| Author     | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
-+------------+-------------------------------------------------------------------------+
-| Status     | Provisional                                                             |
-+------------+-------------------------------------------------------------------------+
-| Type       | Process                                                                 |
-+------------+-------------------------------------------------------------------------+
-| Created    | 2019-10-22                                                              |
-+------------+-------------------------------------------------------------------------+
-| Resolution | Accepted                                                                |
-+------------+-------------------------------------------------------------------------+
+```{list-table}
+- * Author
+  * [Hans-Martin von Gaudecker](https://github.com/hmgaudecker)
+- * Status
+  * Provisional
+- * Type
+  * Process
+- * Created
+  * 2019-10-22
+- * Resolution
+  * [Accepted](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/General/near/178834568)
 ```
 
 ## What is a GEP?
@@ -90,6 +89,7 @@ the prototype implementation to be made available as PR to the GETTSIM repositor
 GEPs are discussed in [#GEPs]. The possible paths of the status of GEPs are as follows:
 
 ```{image} /_static/gep-process.png
+
 ```
 
 All GEPs should be created with the `Draft` status.
@@ -171,7 +171,7 @@ community (celebratory emoji optional but encouraged 🎉✨), and then update t
 setting its `:Status:` to `Accepted`, and its `:Resolution:` header to a link to your
 follow-up message.
 
-If there *are* substantive objections, then the GEP remains in `Draft` state, discussion
+If there _are_ substantive objections, then the GEP remains in `Draft` state, discussion
 continues as normal, and it can be proposed for acceptance again later once the
 objections are resolved.
 

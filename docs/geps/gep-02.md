@@ -2,18 +2,17 @@
 
 # GEP 2 — Internal Representation of Data on Individuals
 
-```{eval-rst}
-+------------+-------------------------------------------------------------------------+
-| Author     | `Hans-Martin von Gaudecker <https://github.com/hmgaudecker>`_           |
-+------------+-------------------------------------------------------------------------+
-| Status     | Provisional                                                             |
-+------------+-------------------------------------------------------------------------+
-| Type       | Standards Track                                                         |
-+------------+-------------------------------------------------------------------------+
-| Created    | 2022-03-28                                                              |
-+------------+-------------------------------------------------------------------------+
-| Resolution | https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2002 |
-+------------+-------------------------------------------------------------------------+
+```{list-table}
+- * Author
+  * [Hans-Martin von Gaudecker](https://github.com/hmgaudecker)
+- * Status
+  * Provisional
+- * Type
+  * Standards Track
+- * Created
+  * 2022-03-28
+- * Resolution
+  * [Accepted](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2002)
 ```
 
 ## Abstract

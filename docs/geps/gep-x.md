@@ -6,21 +6,18 @@
 
 # GEP X — Template and Instructions
 
-```{eval-rst}
-+------------+-------------------------------------------------------------------------+
-| Author     | <list of authors' real names and optionally, email addresses>           |
-+            +-------------------------------------------------------------------------+
-|            | <add multiple authors in additional rows>                               |
-+------------+-------------------------------------------------------------------------+
-| Status     | <Draft | Active | Accepted | Provisional | Deferred | Rejected          |
-|            |  | Withdrawn | Final | Superseded>                                      |
-+------------+-------------------------------------------------------------------------+
-| Type       |  <Standards Track | Process>                                            |
-+------------+-------------------------------------------------------------------------+
-| Created    | <date created on, in yyyy-mm-dd format>                                 |
-+------------+-------------------------------------------------------------------------+
-| Resolution | <url> (required for Accepted | Rejected | Withdrawn)                    |
-+------------+-------------------------------------------------------------------------+
+```{list-table}
+- * Author
+  * [First Author](<https://github.com/USERNAME>),
+    [Second Author](<https://github.com/USERNAME>)
+- * Status
+  * <Draft | Active | Accepted | Provisional | Deferred | Rejected Withdrawn | Final | Superseded>
+- * Type
+  *  <Standards Track | Process>
+- * Created
+  * <date created on, in yyyy-mm-dd format>
+- * Resolution
+  * One of [Accepted | Rejected | Withdrawn](<url>) once resolution has been found
 ```
 
 ## Abstract
