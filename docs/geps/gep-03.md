@@ -129,9 +129,10 @@ These work differently and they are
 (gep-3-access_prior_parameters)=
 
 6. The (optional) `access_prior_parameters` can be used to make the parameter of a
-   previous point in time (relative to the date specified available in
-   `set_up_policy_environment`) available within GETTSIM functions. It requires the
-   `reference_period` (one of `Year`, `Month`, `Week`, `Day`) and the `number_of_lags`.
+   previous point in time (relative to the date specified in
+   {func}`set_up_policy_environment <_gettsim.policy_environment.set_up_policy_environment>`)
+   available within GETTSIM functions. It requires the `reference_period` (one of
+   `Year`, `Month`, `Week`, `Day`) and the `number_of_lags`.
 
    Example:
 

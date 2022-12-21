@@ -76,7 +76,7 @@ indicates that the output should potentially be rounded. `add_rounding_spec` tak
 required argument: `params_key` points to the key of the policy parameters dictionary
 containing the rounding parameters relating to the function that is decorated. In the
 above example, the rounding specification for `grundr_zuschlag_höchstwert_m` will be
-found in `policy_params["ges_rente"]` after `set_up_policy_environment()` has been
+found in `policy_params["ges_rente"]` after {func}`set_up_policy_environment()` has been
 called (since it was specified in `ges_rente.yaml`). Hence, the `params_key` argument of
 `add_rounding_spec` has to be `"ges_rente"`:
 
@@ -88,11 +88,12 @@ def grundr_zuschlag_höchstwert_m(grundr_zeiten: int) -> float:
 ```
 
 The decorator adds the attribute `__rounding_params_key__` to the function. When calling
-`compute_taxes_and_transfers` with `rounding=True`, GETTSIM will look for a key
-`"rounding"` in `policy_params["params_key"]` and within that, for another key
-containing the decorated function's name (here: `"grundr_zuschlag_höchstwert_m"`). That
-is, by the machinery outlined in {ref}`GEP 3 <gep-3>`, the following indexing of the
-`policy_params` dictionary
+{func}`compute_taxes_and_transfers <_gettsim.interface.compute_taxes_and_transfers>`
+with `rounding=True`, GETTSIM will look for a key `"rounding"` in
+`policy_params["params_key"]` and within that, for another key containing the decorated
+function's name (here: `"grundr_zuschlag_höchstwert_m"`). That is, by the machinery
+outlined in {ref}`GEP 3 <gep-3>`, the following indexing of the `policy_params`
+dictionary
 
 ```python
 policy_params["ges_rente"]["rounding"]["grundr_zuschlag_höchstwert_m"]
