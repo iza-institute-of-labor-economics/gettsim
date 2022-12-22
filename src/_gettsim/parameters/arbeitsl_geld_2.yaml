@@ -1,12 +1,15 @@
+---
 eink_anr_frei:
   name:
     de: Anrechnungsfreie Einkommensanteile
     en: Income shares not subject to transfer withdrawal
   description:
     de: >-
-      Einkommensanteile, die anrechnungsfrei bleiben. § 30 SGB II. Seit 01.10.2005 zudem
+      Einkommensanteile, die anrechnungsfrei bleiben. § 30 SGB II. Seit 01.10.2005
+      zudem
       definiert durch Freibetrag in § 11 SGB II, siehe auch § 67 SGB II. Seit 01.04.2011
-      § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
+      § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel
+      2
       G. v. 24.03.2011 BGBl. I S. 453).
     en: >-
       Income shares which do not lead to tapering of benefits.
@@ -121,7 +124,8 @@ regelsatz:
     de: >-
       § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011
       wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt.
-      Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I S.
+      Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I
+      S.
       3159.
     en:
   note:
@@ -140,7 +144,8 @@ regelsatz:
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     note: >-
       Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte
-      Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in
+      Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro,
+      in
       den neuen Bundesländern 331 Euro.
   2005-07-01:
     scalar: 338
@@ -301,10 +306,10 @@ anteil_regelsatz:
 mehrbedarf_anteil:
   name:
     de: >-
-      ``kind_unter_7_oder_mehr`` gibt Mehrbedarf AE bei mind. einem Kind unter 7 Jahren oder zwei
-      oder drei Kindern unter 16 Jahre an. ``min_1_kind`` gibt den Mehrbedarf an wenn der
-      Anspruch größer ist als der für den ersten Schlüssel. ``max`` gibt
-      den Maximalanteil für den Mehrbedarf für Alleinerziehende gemessen am maßgebenden
+      ``kind_unter_7_oder_mehr`` gibt Mehrbedarf AE bei mind. einem Kind unter 7 Jahren
+      oder zwei oder drei Kindern unter 16 Jahre an. ``min_1_kind`` gibt den Mehrbedarf
+      an wenn der Anspruch größer ist als der für den ersten Schlüssel. ``max`` gibt den
+      Maximalanteil für den Mehrbedarf für Alleinerziehende gemessen am maßgebenden
       Regelbedarf.
     en: >-
       Additional need, single parent, one child below 7 or two or three children
@@ -326,10 +331,10 @@ vermögensgrundfreibetrag_obergrenze:
     de: Maximaler Vermögensgrundfreibetrag
     en: Maximum of basic allowance
   description:
-    de: § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen, die vor 1948
-        geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr auf
-        und ist nicht mehr relevant, da alle betroffenen Personen zu alt für ALG 2
-        sind.
+    de: >-
+      § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen, die vor 1948 geboren
+      wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht mehr auf und ist
+      nicht mehr relevant, da alle betroffenen Personen zu alt für ALG 2 sind.
     en: Differs by birth year.
   unit: Euro
   2005-01-01:
@@ -351,14 +356,12 @@ vermögensgrundfreibetrag_obergrenze:
     1964: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
   2023-01-01:
-    1947: null
-    1948: null
-    1958: null
-    1964: null
+    1947:
+    1948:
+    1958:
+    1964:
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
-
 
 vermögensgrundfreibetrag:
   name:
@@ -377,8 +380,8 @@ vermögensgrundfreibetrag:
     1948: 150
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2023-01-01:
-    1947: null
-    1948: null
+    1947:
+    1948:
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
 
@@ -387,23 +390,23 @@ schonvermögen_bürgergeld:
     de: Schonvermögen beim Bürgergeld
     en: Protected wealth for the citizen's income
   description:
-    de: Seit der Einführung des Bürgergelds zum 01.01.2023 gilt ein
-        Vermögensfreibetrag von 15.000 Euro pro Mitglied der Bedarfsgemeinschaft
-        nach Ablauf der Karenzzeit von einem Jahr. Während der Karenzzeit
-        ist ein Vermögen von 40.000 Euro für die erste Person einer Bedarfsgemeinschaft
-        und 15.000 Euro für jede weitere erlaubt.
-    en: Since the introduction of the citizen's allowance as of 01.01.2023,
-        every member of the need community is allowed to own 15,000 Euro after
-        the end of the waiting period of 1 year. During the waiting period
-        wealth of 40,000 euros are allowed for the first person in a needs-based
-        community and 15,000 euros for each additional person.
+    de: >-
+      Seit der Einführung des Bürgergelds zum 01.01.2023 gilt ein Vermögensfreibetrag
+      von 15.000 Euro pro Mitglied der Bedarfsgemeinschaft nach Ablauf der Karenzzeit
+      von einem Jahr. Während der Karenzzeit ist ein Vermögen von 40.000 Euro für die
+      erste Person einer Bedarfsgemeinschaft und 15.000 Euro für jede weitere erlaubt.
+    en: >-
+      Since the introduction of the citizen's allowance as of 01.01.2023, every member
+      of the need community is allowed to own 15,000 Euro after the end of the waiting
+      period of 1 year. During the waiting period wealth of 40,000 euros are allowed for
+      the first person in a needs-based community and 15,000 euros for each additional
+      person.
   unit: Euro
   2023-01-01:
     während_karenzzeit: 40000
     normaler_satz: 15000
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 
 vermögensfreibetrag_austattung:
   name:
@@ -417,10 +420,9 @@ vermögensfreibetrag_austattung:
     scalar: 750
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2023-01-01:
-    scalar: null
+    scalar:
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 
 vermögensfreibetrag_kind:
   name:
@@ -437,10 +439,9 @@ vermögensfreibetrag_kind:
     scalar: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2023-01-01:
-    scalar: null
+    scalar:
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 
 vermög_freib_alter:
   name:
@@ -454,12 +455,11 @@ vermög_freib_alter:
     2: 1958
     3: 1963
   2023-01-01:
-    1: null
-    2: null
-    3: null
+    1:
+    2:
+    3:
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 
 abzugsfähige_pausch:
   name:
@@ -488,12 +488,14 @@ max_miete_pro_qm:
     de: Obergenze Miete pro Quadratmeter
     en: Upper limit rent per square meter
   description:
-    de: Die Miete pro Quadratmeter darf einen angemessenen Betrag nicht übersteigen, um für ALG2
-        berechtigt zu sein. Diese Grenze ist nicht konkret im Gesetz festgehalten, sondern wird als
-        Faustregel von den Arbeitsargenturen verwendet.
-    en: The rent per square meter must not exceed a reasonable amount in order to remain
-        eligible for ALG2. This limit is not specifically laid down in the law, but is
-        a rule of thumb used by the employment agencies.
+    de: >-
+      Die Miete pro Quadratmeter darf einen angemessenen Betrag nicht übersteigen, um
+      für ALG2 berechtigt zu sein. Diese Grenze ist nicht konkret im Gesetz
+      festgehalten, sondern wird als Faustregel von den Arbeitsargenturen verwendet.
+    en: >-
+      The rent per square meter must not exceed a reasonable amount in order to remain
+      eligible for ALG2. This limit is not specifically laid down in the law, but is a
+      rule of thumb used by the employment agencies.
   unit: Euro / Square Meter
   reference: § 22 SGB II
   1984-01-01:
@@ -504,10 +506,12 @@ berechtigte_wohnfläche_miete:
     de: Berechtigte Miet-Wohnfläche für ALG2-Empfänger*innen
     en: Living rental space eligible for ALG2-recipients
   description:
-    de: Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere Person)
-        groß sein.
-    en: A rental apartment may be 45 square meters for a single person (+15 for each additional
-        person).
+    de: >-
+      Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere
+      Person) groß sein.
+    en: >-
+      A rental apartment may be 45 square meters for a single person (+15 for each
+      additional person).
   1984-01-01:
     single: 45
     je_weitere_person: 15
@@ -517,14 +521,17 @@ berechtigte_wohnfläche_eigentum:
     de: Berechtigte Eigentumsfläche für ALG2-Empfänger*innen
     en: Property space eligible for ALG2-recipients
   description:
-    de: Vor 2023 gilt, dass Eigentum für zwei Personen im Haushalt 80 Quadratmeter
-        (+20 für jede weitere Person) groß sein darf. Ab 2023 ist die erlaubte Größe
-        für Eigenheime auf 140 Quadratmeter (für Eigentumswohnungen aus 130 Quadratmeter)
-        gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person angehoben.
-    en: Before 2023, property for two people in the household may be 80 square meters
-        (+20 for each additional person). From 2023, the permitted size for owner-occupied
-        homes has risen to 140 square meters (for condominiums from 130 square meters)
-        and will be increased by 20 square meters per person from 5 persons in the household.
+    de: >-
+      Vor 2023 gilt, dass Eigentum für zwei Personen im Haushalt 80 Quadratmeter (+20
+      für jede weitere Person) groß sein darf. Ab 2023 ist die erlaubte Größe für
+      Eigenheime auf 140 Quadratmeter (für Eigentumswohnungen aus 130 Quadratmeter)
+      gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person
+      angehoben.
+    en: >-
+      Before 2023, property for two people in the household may be 80 square meters (+20
+      for each additional person). From 2023, the permitted size for owner-occupied
+      homes has risen to 140 square meters (for condominiums from 130 square meters) and
+      will be increased by 20 square meters per person from 5 persons in the household.
   1984-01-01:
     1: 80
     2: 80

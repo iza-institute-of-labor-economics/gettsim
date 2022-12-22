@@ -1,10 +1,15 @@
+---
 mindestunterhalt:
   name:
     de: Mindestunterhalt für Kinder
     en: Minimum Child Alimony
   description:
-    de: § 1612a BGB, § 1 Mindesunterhaltsverordnung. Mindestunterhalt für Kinder in Abhängigkeit des Alters (unter 6, unter 12, bis 17 Jahre)
-    en: Minimum Child Alimony depending on age of child (below 6, below 12, up to 17 years).
+    de: >-
+      § 1612a BGB, § 1 Mindesunterhaltsverordnung. Mindestunterhalt für Kinder in
+      Abhängigkeit des Alters (unter 6, unter 12, bis 17 Jahre)
+    en: >-
+      Minimum Child Alimony depending on age of child (below 6, below 12, up to 17
+      years).
   unit: Euro
   reference_period: Month
   2016-01-01:
@@ -50,8 +55,10 @@ mindestunterhalt:
 
 unterhaltsvors_mindesteinkommen:
   name:
-    de: Monatliches Mindesteinkommen, um UHV für Kinder ab 13 Jahren zu erhalten
-    en: Minimal income necessary to get child alimony advance for children 13 to 17 years.
+    de: >-
+      Monatliches Mindesteinkommen, um UHV für Kinder ab 13 Jahren zu erhalten
+    en: >-
+      Minimal income necessary to get child alimony advance for children 13 to 17 years.
   description:
     de: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
     en:
@@ -66,12 +73,15 @@ unterhaltsvors_altersgrenzen:
     de: Altersgrenzen für den Bezug von Unterhaltsvorschuss
     en: age limits for receiving alimony payments
   description:
-    de: Kinder, die das 12. Lebensjahr noch nicht vollendet haben und bei einem alleinerziehenden
-        Elternteil leben haben Anspruch auf Unterhaltszahlungen. Zudem können auch Kinder bis zur
-        Vollendung des 18. Lebensjahres Unterhalt bekommen, wenn das Elternteil mind. 600€ Einkommen hat.
-    en: Children under the age of 12 living with a single parent are entitled to alimony payments.
-        In addition, children up to the age of 18 receive alimony payments if the parent has an
-        income of at least €600.
+    de: >-
+      Kinder, die das 12. Lebensjahr noch nicht vollendet haben und bei einem
+      alleinerziehenden Elternteil leben haben Anspruch auf Unterhaltszahlungen. Zudem
+      können auch Kinder bis zur Vollendung des 18. Lebensjahres Unterhalt bekommen,
+      wenn das Elternteil mind. 600€ Einkommen hat.
+    en: >-
+      Children under the age of 12 living with a single parent are entitled to alimony
+      payments. In addition, children up to the age of 18 receive alimony payments if
+      the parent has an income of at least €600.
   reference: § 1 Abs. 1, 1a UhVorschG
   2017-01-01:
     1: 6
