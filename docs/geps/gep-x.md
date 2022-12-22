@@ -83,7 +83,7 @@ This section may just be a bullet list including links to any discussions regard
 GEP:
 
 - Links to relevant GitHub issues, pull requests.
-- Discussion on XXX
+- Discussion on Zulip
 
 ## References and Footnotes
 
