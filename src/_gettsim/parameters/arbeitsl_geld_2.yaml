@@ -63,7 +63,8 @@ eink_anr_frei:
     2:
       upper_threshold: 1000
   2023-01-01:
-    reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
     0:
       lower_threshold: -inf
       upper_threshold: 0
@@ -106,7 +107,8 @@ eink_anr_frei_kinder:
     3:
       upper_threshold: 1500
   2023-01-01:
-    reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
     deviation_from: arbeitsl_geld_2.eink_anr_frei
     4:
       upper_threshold: 1500
@@ -266,7 +268,8 @@ regelsatz:
     4: 420
     5: 348
     6: 318
-    reference: Bürgergeld Gesetzesänderung der Anlage zu § 28
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
 
 anteil_regelsatz:
   name:
@@ -352,6 +355,8 @@ vermögensgrundfreibetrag_obergrenze:
     1948: null
     1958: null
     1964: null
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
 
 
 
@@ -374,6 +379,8 @@ vermögensgrundfreibetrag:
   2023-01-01:
     1947: null
     1948: null
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
 
 schonvermögen_bürgergeld:
   name:
@@ -394,6 +401,8 @@ schonvermögen_bürgergeld:
   2023-01-01:
     während_karenzzeit: 40000
     normaler_satz: 15000
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
 
 
 vermögensfreibetrag_austattung:
@@ -409,6 +418,8 @@ vermögensfreibetrag_austattung:
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2023-01-01:
     scalar: null
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
 
 
 vermögensfreibetrag_kind:
@@ -427,6 +438,9 @@ vermögensfreibetrag_kind:
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2023-01-01:
     scalar: null
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
+
 
 vermög_freib_alter:
   name:
@@ -443,6 +457,9 @@ vermög_freib_alter:
     1: null
     2: null
     3: null
+    reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    note: Bürgergeld-Gesetz
+
 
 abzugsfähige_pausch:
   name:
