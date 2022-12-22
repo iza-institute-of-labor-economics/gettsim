@@ -1,6 +1,4 @@
 ---
-# Exclude every file or folder starting with a dot.
-# exclude: ^(\.git|\.mypy)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
