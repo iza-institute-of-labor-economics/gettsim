@@ -19,5 +19,6 @@ maxdepth: 1
 ../geps/gep-03
 ../geps/gep-04
 ../geps/gep-05
+../geps/gep-06
 ../geps/gep-x
 ```
