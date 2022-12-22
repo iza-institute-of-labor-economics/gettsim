@@ -1,12 +1,19 @@
+---
 vermögensfreibetrag:
   name:
     de: Schonvermögen für Grundsicherung im Alter
     en: Allowed amount of wealth for Grundsicherung im Alter
   description:
-    de: Ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter / bei Erwerbsminderung.
-    en: There is no entitlement to Grundsicherung im Alter / bei Erwerbsminderung if assets exceed this threshold.
+    de: >-
+      Ab dieser Vermögensschwelle besteht kein Anspruch auf Grundsicherung im Alter /
+      bei Erwerbsminderung.
+    en: >-
+      There is no entitlement to Grundsicherung im Alter / bei Erwerbsminderung if
+      assets exceed this threshold.
   unit: Euro
-  reference: § 1 Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches Sozialgesetzbuch
+  reference: >-
+    § 1 Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches
+    Sozialgesetzbuch
   1984-01-01:
     adult: 0
     child: 0
@@ -20,12 +27,16 @@ vermögensfreibetrag:
 ges_rente_anr_frei:
   name:
     de: Anrechnungsfreier Anteil der staatlichen Rente (bei mind. 33 Grundrentenzeiten)
-    en: Public pension share not subject to transfer withdrawal (if at least 33 Grundrentenzeiten)
+    en: >-
+      Public pension share not subject to transfer withdrawal (if at least 33
+      Grundrentenzeiten)
   description:
-    de: Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre
-        Grundrentenzeiten erreicht wurden.
-    en: Public pension shares not subject to transfer withdrawal for subjects whose
-        Grundrentenzeiten exceeds 33 years.
+    de: >-
+      Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre
+      Grundrentenzeiten erreicht wurden.
+    en: >-
+      Public pension shares not subject to transfer withdrawal for subjects whose
+      Grundrentenzeiten exceeds 33 years.
   unit: Share
   type: piecewise_linear
   1984-01-01:
@@ -55,10 +66,12 @@ elterngeld_anr_frei:
     de: Freibetrag des Elterngeldes für Grundsicherung
     en: Amount of parental allowance for not subject to transfer withdrawal
   description:
-    de: Nur der Betrag, der über dem Elterngeld-Mindestbetrag liegt, wird auf das
-        Einkommen bei der Berechnung der Grundsicherung angerechnet.
-    en: Only the amount above the minimum amount of parental allowance is added to the
-        income when calculating the Grundsicherung.
+    de: >-
+      Nur der Betrag, der über dem Elterngeld-Mindestbetrag liegt, wird auf das
+      Einkommen bei der Berechnung der Grundsicherung angerechnet.
+    en: >-
+      Only the amount above the minimum amount of parental allowance is added to the
+      income when calculating the Grundsicherung.
   unit: Euro
   1984-01-01:
     scalar: 0
@@ -72,11 +85,12 @@ kapitaleink_anr_frei:
     de: Freibetrag des Kapitaleinkommens für Grundsicherung
     en: Amount of capital income not subject to transfer withdrawal
   description:
-    de: Nur das Kapitaleinkommen, das über diesem Freibetrag liegt, wird auf die
+    de: >-
+      Nur das Kapitaleinkommen, das über diesem Freibetrag liegt, wird auf die
       Grundsicherung im Alter angerechnet. The reference is § 82 SGB XII Abs. 2.
-    en:
-      Only the capital income above the threshold is considered for the calculation
-      of the Grundsicherung im Alter.
+    en: >-
+      Only the capital income above the threshold is considered for the calculation of
+      the Grundsicherung im Alter.
   unit: Euro
   reference_period: Year
   1984-01-01:
@@ -91,8 +105,12 @@ erwerbseink_anr_frei:
     de: Anrechnungsfreier Anteil des Erwerbseinkommens für Grundsicherung
     en: Income shares not subject to transfer withdrawal
   description:
-    de: Anteil des Erwerbseinkommens, welcher bei der Berechnung der Grundsicherung nicht zum Einkommen addiert wird.
-    en: Share of income, which is not added to the total income when calculating the Grundsicherung.
+    de: >-
+      Anteil des Erwerbseinkommens, welcher bei der Berechnung der Grundsicherung nicht
+      zum Einkommen addiert wird.
+    en: >-
+      Share of income, which is not added to the total income when calculating the
+      Grundsicherung.
   unit: Share
   reference: § 82 SGB XII Abs. 3
   1984-01-01:
@@ -106,8 +124,12 @@ priv_rente_anr_frei:
     de: Anrechnungsfreie Anteile der privaten Rente für Grundsicherung
     en: Private pension shares not subject to transfer withdrawal
   description:
-    de: Anteil der privaten Rente, welcher bei der Berechnung der Grundsicherung nicht zum Einkommen addiert wird.
-    en: Share of privat pension, which is not added to total income when calculating the Grundsicherung.
+    de: >-
+      Anteil der privaten Rente, welcher bei der Berechnung der Grundsicherung nicht zum
+      Einkommen addiert wird.
+    en: >-
+      Share of privat pension, which is not added to total income when calculating the
+      Grundsicherung.
   unit: Share
   type: piecewise_linear
   reference: § 82 SGB XII Abs. 4
@@ -137,13 +159,14 @@ mehrbedarf_schwerbeh_g:
     de: Mehrbedarf bei Schwerbehinderung
     en: Additional requirement when severely disabled
   description:
-    de:
-      Dieser Prozentanteil des Regelbedarfs wird Menschen mit Schwerbehindertenausweis mit
-      Merkzeichen G, die Grundsicherung im Alter oder bei Erwerbsminderung bekommen,
+    de: >-
+      Dieser Prozentanteil des Regelbedarfs wird Menschen mit Schwerbehindertenausweis
+      mit Merkzeichen G, die Grundsicherung im Alter oder bei Erwerbsminderung bekommen,
       als Mehrbedarf anerkannt.
-    en:
-      This percentage of the normal requirement is added as an additional requirement for someone
-      who has a severly disabled ID card which shows the code 'G' and is entitled to the Grundsicherung.
+    en: >-
+      This percentage of the normal requirement is added as an additional requirement
+      for someone who has a severly disabled ID card which shows the code 'G' and is
+      entitled to the Grundsicherung.
   unit: Percent
   reference: § 30 Abs. 1 SGB XII, https://www.buzer.de/gesetz/3415/al0-3758.htm
   2006-12-07:

@@ -1,13 +1,17 @@
+---
 altersgrenze:
   name:
     de: Alter, ab dem Kindergeld nicht mehr gezahlt wird.
     en: Age at which child benefit is no longer paid.
   description:
-    de: Für minderjährige Kinder besteht ohne Bedingungen ein Anspruch auf Kindergeld. Auch
-        für erwachsene Kinder kann bis zu einer Altersgrenze unter bestimmten Bedingungen ein
-        Anspruch auf Kindergeld bestehen.
-    en: Underage children are entitled to child benefit without any conditions. Also adult
-        children up to a specified age are entitled to child benefit under certain conditions.
+    de: >-
+      Für minderjährige Kinder besteht ohne Bedingungen ein Anspruch auf Kindergeld.
+      Auch für erwachsene Kinder kann bis zu einer Altersgrenze unter bestimmten
+      Bedingungen ein Anspruch auf Kindergeld bestehen.
+    en: >-
+      Underage children are entitled to child benefit without any conditions. Also adult
+      children up to a specified age are entitled to child benefit under certain
+      conditions.
   unit: Year
   reference: § 32 Art. 2-4 EStG.
   1984-01-01:
@@ -24,7 +28,10 @@ kindergeld:
     de: Kindergeld, Betrag je nach Reihenfolge der Kinder.
     en: Child benefit amount, depending on succession of children.
   description:
-    de: § 66 (1) EStG. Identische Werte in §6 (1) BKGG, diese sind aber nur für beschränkt Steuerpflichtige relevant (d.h. Ausländer mit Erwerbstätigkeit in Deutschland). Für Werte vor 2002, siehe 'BMF - Datensammlung zur Steuerpolitik'
+    de: >-
+      § 66 (1) EStG. Identische Werte in §6 (1) BKGG, diese sind aber nur für beschränkt
+      Steuerpflichtige relevant (d.h. Ausländer mit Erwerbstätigkeit in Deutschland).
+      Für Werte vor 2002, siehe 'BMF - Datensammlung zur Steuerpolitik'
     en:
   unit: Euro
   reference_period: Month
@@ -174,7 +181,9 @@ einkommensgrenze:
     de: Einkommensgrenze der Kinder für Kindergeldanspruch
     en: Income Ceiling for children in order to get child benefit.
   description:
-    de: § 32 (4) EStG. Wurde 2012 durch eine Höchstgrenze der gearbeiteten Stunden ersetzt.
+    de: >-
+      § 32 (4) EStG. Wurde 2012 durch eine Höchstgrenze der gearbeiteten Stunden
+      ersetzt.
     en:
   unit: Euro
   reference_period: Year
@@ -210,7 +219,9 @@ stundengrenze:
     de: Wochenstundengrenze für Kindergeldanspruch
     en: Working hours threshold for child benefit eligibility
   description:
-    de: §32 (4) S. 3 EStG. Maximale Anzahl von erlaubten Wochenstunden des Kindes für den Bezug von Kindergeld
+    de: >-
+      §32 (4) S. 3 EStG. Maximale Anzahl von erlaubten Wochenstunden des Kindes für den
+      Bezug von Kindergeld
     en:
   unit: Hour
   reference_period: Week
@@ -223,7 +234,10 @@ kinderbonus:
     de: Kinderbonus (Einmalzahlung)
     en: Child bonus (one-time payment)
   description:
-    de: Aufstockung des Kindergeldes während COVID-19 Pandemie. Wurde im September/Oktober 2020 bzw. Mai 2021 ausgezahlt, aber ist hier auf das volle Kalenderjahr angerechnet.
+    de: >-
+      Aufstockung des Kindergeldes während COVID-19 Pandemie. Wurde im September/Oktober
+      2020 bzw. Mai 2021 ausgezahlt, aber ist hier auf das volle Kalenderjahr
+      angerechnet.
     en:
   unit: Euro
   reference_period: Year

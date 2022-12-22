@@ -1,3 +1,4 @@
+---
 kinderfreibetrag:
   name:
     de: Kinderfreibetrag
@@ -97,7 +98,10 @@ vorsorge2004_vorwegabzug:
     de: Vorwegabzug der Vorsorgeaufwendungen der Rechtslage vor 2004.
     en: Lump sum deduction for precautionary expenses, before 2004.
   description:
-    de: § 10 (4a) EStG. Früher §10 (3) EStG. Hier steht jeweils der Wert für den Steuerpflichtigen. Wird verdoppelt für gemeinsam veranlagte Ehegatten. Der gesamte Zeitverlauf wurde bereits 2005 festgelegt.
+    de: >-
+      § 10 (4a) EStG. Früher §10 (3) EStG. Hier steht jeweils der Wert für den
+      Steuerpflichtigen. Wird verdoppelt für gemeinsam veranlagte Ehegatten. Der gesamte
+      Zeitverlauf wurde bereits 2005 festgelegt.
     en:
   unit: Euro
   reference_period: Year
@@ -193,7 +197,9 @@ sparerpauschbetrag:
     de: Sparerpauschbetrag
     en: Allowance for Capital Gains
   description:
-    de: § 20 (9) EStG. Früher § 20 (4) EStG. Wert für Singles. Wird verdoppelt für gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
+    de: >-
+      § 20 (9) EStG. Früher § 20 (4) EStG. Wert für Singles. Wird verdoppelt für
+      gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
     en:
   unit: Euro
   reference_period: Year
@@ -221,7 +227,9 @@ sparerpauschbetrag:
   2009-01-01:
     scalar: 801
     reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
-    note: Integration von Werbungskostenpauschbetrag für Zinseinkünfte in Sparerpauschbetrag.
+    note: >-
+      Integration von Werbungskostenpauschbetrag für Zinseinkünfte in
+      Sparerpauschbetrag.
   2023-01-01:
     scalar: 1000
     reference: G. v. 20.12.2022 BGBl. I S. 2294.
@@ -264,12 +272,14 @@ altersentlastungsbetrag_max:
     en: Maximum Amount of Tax Credit for older employees.
   description:
     de: >-
-      24a EStG S. 5. Tabelle legt die Werte bis 2040 fest.
-      Bis 2004 erhalten alle Steuerpflichtigen, die im voherigen Kalenderjahr das 64. Lebensjahr vollendet haben, maximal den gleichen Altersentlastungsbetrag.
-      Ab 2005 hängt dieser Betrag, den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
+      24a EStG S. 5. Tabelle legt die Werte bis 2040 fest. Bis 2004 erhalten alle
+      Steuerpflichtigen, die im voherigen Kalenderjahr das 64. Lebensjahr vollendet
+      haben, maximal den gleichen Altersentlastungsbetrag. Ab 2005 hängt dieser Betrag,
+      den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
     en: >-
-      If someone receives employment income above the age of 64, a share up to this amount is deducted.
-      Since 2005, this amount additionally depends on the birth year.
+      If someone receives employment income above the age of 64, a share up to this
+      amount is deducted. Since 2005, this amount additionally depends on the birth
+      year.
   unit: Euro
   reference_period: Year
   1984-01-01:
@@ -326,12 +336,13 @@ altersentlastung_quote:
     en: Income share deducted for older employees.
   description:
     de: >-
-      §24a EStG S.5. Tabelle legt alle Werte bis 2040 fest.
-      Bis 2004 wird bei allen Steuerpflichtigen, die im voherigen Kalenderjahr das 64. Lebensjahr vollendet haben, die gleiche Altersentlastungsquote abgezogen.
-      Ab 2005 hängt diese Quote, den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
+      §24a EStG S.5. Tabelle legt alle Werte bis 2040 fest. Bis 2004 wird bei allen
+      Steuerpflichtigen, die im voherigen Kalenderjahr das 64. Lebensjahr vollendet
+      haben, die gleiche Altersentlastungsquote abgezogen. Ab 2005 hängt diese Quote,
+      den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
     en: >-
-      If someone receives employment income above the age of 64, this share of income is deducted.
-      Since 2005, this share additionally depends on the birth year.
+      If someone receives employment income above the age of 64, this share of income is
+      deducted. Since 2005, this share additionally depends on the birth year.
   unit: Share
   1984-01-01:
     scalar: 0.4
@@ -380,12 +391,13 @@ altersentlastungsbetrag_altersgrenze:
     de: Altersgrenze für Altersentlastungsbetrag
     en: Age limit for old-age relief amount
   description:
-    de: Der Altersentlastungsbetrag wird einem Steuerpflichtigen gewährt,
-        der vor dem Beginn des Kalenderjahres, in dem er sein Einkommen bezogen hat,
-        das 64. Lebensjahr vollendet hatte.
-    en: The old-age relief amount is granted to a taxpayer
-        who, before the start of the calendar year in which he received his income,
-        had reached the age of 64.
+    de: >-
+      Der Altersentlastungsbetrag wird einem Steuerpflichtigen gewährt, der vor dem
+      Beginn des Kalenderjahres, in dem er sein Einkommen bezogen hat, das 64.
+      Lebensjahr vollendet hatte.
+    en: >-
+      The old-age relief amount is granted to a taxpayer who, before the start of the
+      calendar year in which he received his income, had reached the age of 64.
   reference: § 24a Art. 3 EStG
   1984-01-01:
     scalar: 64
@@ -395,10 +407,12 @@ einführungsfaktor:
     de: Einführungsfaktor für Altersvorsorge Aufwendung
     en: Introductory factor for pension expense
   description:
-    de: In den Jahren 2005-2025 steigt der Anteil der abzugsfähigen Beiträge von 60% in 2005
-        jährlich um 2 Prozentpunkte an, bis 100% in 2025 erreicht werden.
-    en: In the years 2005-2025 the share of deductible contributions increases by 2 percentage
-        points each year from 60% in 2005 to 100% in 2025.
+    de: >-
+      In den Jahren 2005-2025 steigt der Anteil der abzugsfähigen Beiträge von 60% in
+      2005 jährlich um 2 Prozentpunkte an, bis 100% in 2025 erreicht werden.
+    en: >-
+      In the years 2005-2025 the share of deductible contributions increases by 2
+      percentage points each year from 60% in 2005 to 100% in 2025.
   reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
   type: piecewise_linear
   2005-01-01:
@@ -451,13 +465,14 @@ alleinerz_freibetrag:
     scalar: 4260
     reference: G. v. 20.12.2022 BGBl. I S. 2294.
 
-
 alleinerz_freibetrag_zusatz:
   name:
     de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag
     en: Income Tax Allowance for Single Parents; additional amount
   description:
-    de: §24b (2) S. 2 EStG. Alleinerziehenden-Entlastungsbetrag, Zusatzbetrag pro Kind ab dem 2. Kind.
+    de: >-
+      §24b (2) S. 2 EStG. Alleinerziehenden-Entlastungsbetrag, Zusatzbetrag pro Kind ab
+      dem 2. Kind.
     en:
   unit: Euro
   reference_period: Year
@@ -470,7 +485,9 @@ vorsorge2004_kürzung_vorwegabzug:
     de: Kürzung des Vorwegabzugs für Vorsorgeaufwendungen vor 2004.
     en:
   description:
-    de: §10 (3) S. 2 EStG (vor 2004). Der Vorwegabzug wird pauschal um einen Anteil gekürzt bei abhängig Beschäftigten (vereinfacht).
+    de: >-
+      §10 (3) S. 2 EStG (vor 2004). Der Vorwegabzug wird pauschal um einen Anteil
+      gekürzt bei abhängig Beschäftigten (vereinfacht).
     en:
   unit: Share
   1985-01-01:
@@ -492,7 +509,9 @@ vorsorge2004_kürzung_vorwegabzug:
 
 vorsorge_sonstige_aufw_max:
   name:
-    de: Regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege, AL-V), der für sozialverspfl. Beschäftigte gilt.
+    de: >-
+      Regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege,
+      AL-V), der für sozialverspfl. Beschäftigte gilt.
     en:
   description:
     de: §10 Abs. 4 S.1 EStG
@@ -520,7 +539,9 @@ vorsorge_altersaufw_max:
     note: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
   2015-01-01:
     scalar: 22170
-    note: Ab 2015 knappschaftlicher Höchstbetrag, d.h. knappschaftlicher Beitragssatz * knappschaftliche Beitragsbemessungsgrenze
+    note: >-
+      Ab 2015 knappschaftlicher Höchstbetrag, d.h. knappschaftlicher Beitragssatz *
+      knappschaftliche Beitragsbemessungsgrenze
   2016-01-01:
     scalar: 22766
     note: .248 * 91800
@@ -548,7 +569,9 @@ vorsorge_altersaufw_max:
 
 vorsorge_kranken_minderung:
   name:
-    de: Anteil, um den Krankenversicherungsbeiträge gemindert werden bei abhängig Beschäftigten.
+    de: >-
+      Anteil, um den Krankenversicherungsbeiträge gemindert werden bei abhängig
+      Beschäftigten.
     en:
   description:
     de: §10 (3) a) S.4 EStG
@@ -605,10 +628,11 @@ behinderten_pauschbetrag:
     90: 2460
     100: 2840
 
-
 kinderbetreuungskosten_abz_anteil:
   name:
-    de: Anteil der Betreuungsaufwendungen, der auf das zu versteuernde Einkommen anrechenbar ist
+    de: >-
+      Anteil der Betreuungsaufwendungen, der auf das zu versteuernde Einkommen
+      anrechenbar ist
     en: Share of child care expenses which can be deducted
   description:
     de: §10 (1) Nr. 5 EStG

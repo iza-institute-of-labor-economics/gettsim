@@ -1,3 +1,4 @@
+---
 faktor:
   name:
     de: Faktor bei der ElG-Berechung, 2. Stufe
@@ -28,7 +29,9 @@ nettoeinkommen_stufen:
     de: Nettoeinkommen an 1. und 2. Stufe
     en: Net income where the first and second bracket starts
   description:
-    de: § 2 (2) BEEG. Maßgeblich ist das durchschnittlich erzielte monatliche Einkommen vor der Geburt
+    de: >-
+      § 2 (2) BEEG. Maßgeblich ist das durchschnittlich erzielte monatliche Einkommen
+      vor der Geburt
     en:
   unit: Euro
   reference_period: Month
@@ -99,10 +102,12 @@ geschw_bonus_altersgrenzen_kinder:
     de: Altersgrenzen für Geschwisterbonus
     en: Age limit for sibling bonus
   description:
-    de: Leben im Haushalt zwei Kinder unter 3 Jahren oder mehr als zwei unter 6 Jahren wird das
-        Elterngeld um 10% (max. um 75€) erhöht.
-    en: If there are two children under the age of 3 or more than two under the age of 6
-        living in the household, Parental allowance is increased by 10% (max. by €75).
+    de: >-
+      Leben im Haushalt zwei Kinder unter 3 Jahren oder mehr als zwei unter 6 Jahren
+      wird das Elterngeld um 10% (max. um 75€) erhöht.
+    en: >-
+      If there are two children under the age of 3 or more than two under the age of 6
+      living in the household, Parental allowance is increased by 10% (max. by €75).
   reference: § 2a BEEG
   2007-01-01:
     3: 2

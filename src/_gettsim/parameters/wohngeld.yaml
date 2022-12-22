@@ -1,3 +1,4 @@
+---
 faktor_berechnungsformel:
   name:
     de: Faktor am Anfang der Wohngeldformel
@@ -20,7 +21,9 @@ koeffizienten_berechnungsformel:
     de: Parameter a, b, c der Wohngeldformel
     en:
   description:
-    de: WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)). Seit 2022 auch §24 Wohngeldverordnung (WoGV).
+    de: >-
+      WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)). Seit 2022 auch §24
+      Wohngeldverordnung (WoGV).
     en:
   note: The keys from 1 to 12 below refer to the household size.
   1984-01-01:
@@ -479,13 +482,14 @@ haushaltsgröße_hhn:
     de: Haushaltsgrößen, die beim Wohngeld berücksichtigt werden
     en: Household sizes taken into account for housing benefit
   description:
-    de:
-      Haushalte mit mehr als 5 Mitgliedern haben einen festgesetzten Höchstbetrag für Miete und Belastung.
-      Das Wohngeld für bis zu 12 Haushaltsmitglieder kann durch die Formel berechnet werden.
-    en:
-      Households with more than 5 members have a fixed maximum amount for rent and burden.
-      The housing benefit for up to 12 household members can be calculated using the formula
-      be calculated.
+    de: >-
+      Haushalte mit mehr als 5 Mitgliedern haben einen festgesetzten Höchstbetrag für
+      Miete und Belastung. Das Wohngeld für bis zu 12 Haushaltsmitglieder kann durch die
+      Formel berechnet werden.
+    en: >-
+      Households with more than 5 members have a fixed maximum amount for rent and
+      burden. The housing benefit for up to 12 household members can be calculated using
+      the formula be calculated.
   reference: § 19 Abs.1 WoGG
   1984-01-01:
     1: 5
@@ -496,10 +500,12 @@ bonus_sehr_große_haushalte:
     de: Zusätzlicher Betrag für große Haushalte
     en: Additional amount for big households
   description:
-    de: Haushalte mit mehr als 12 Personen erhalten einen zusätzlichen Betrag pro Person,
-        der auf das Wohngeld für einen Haushalt mit 12 Personen angerechnet wird.
-    en: Households with more than 12 persons receive an additional amount per person,
-        which is counted towards the housing allowance for a household of 12 people.
+    de: >-
+      Haushalte mit mehr als 12 Personen erhalten einen zusätzlichen Betrag pro Person,
+      der auf das Wohngeld für einen Haushalt mit 12 Personen angerechnet wird.
+    en: >-
+      Households with more than 12 persons receive an additional amount per person,
+      which is counted towards the housing allowance for a household of 12 people.
   unit: Euro
   reference: §19 Abs. 3 WoGG
   reference_period: Month
@@ -527,12 +533,16 @@ bonus_sehr_große_haushalte:
 
 abzug_stufen:
   name:
-    de: Prozentualer Pauschalabzug vom Bruttoeinkommen, falls 0, 1, 2, 3 Kriterien erfüllt sind
+    de: >-
+      Prozentualer Pauschalabzug vom Bruttoeinkommen, falls 0, 1, 2, 3 Kriterien erfüllt
+      sind
     en:
   description:
     de: § 16 (1, 2) WoGG
     en:
-  note: Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge - entrichtete GRV-Beiträge
+  note: >-
+    Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge -
+    entrichtete GRV-Beiträge
   1984-01-01:
     0: 0.06
     1: 0.125
@@ -726,31 +736,34 @@ freib_kinder_m:
   unit: Euro
   reference_period: Month
   1984-01-01:
-    "alleinerz": 51
-    "arbeitendes_kind": 0
+    alleinerz: 51
+    arbeitendes_kind: 0
   2001-01-01:
     deviation_from: previous
-    "arbeitendes_kind": 51
+    arbeitendes_kind: 51
   2002-01-01:
-    "alleinerz": 50
-    "arbeitendes_kind": 50
+    alleinerz: 50
+    arbeitendes_kind: 50
   2016-01-01:
-    note: neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch nicht 25J.
+    note: >-
+      neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch
+      nicht 25J.
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
-    "alleinerz": 110
-    "arbeitendes_kind": 100
+    alleinerz: 110
+    arbeitendes_kind: 100
 
 freib_behinderung:
   name:
     de: Jährlicher Freibetrag pro behindertes Haushaltsmitglied
     en:
   description:
-    de: Der Betrag ist abhängig vom Behinderungsgrad der jeweiligen Person.
-      Vor 2016 ist der Betrag unterschiedlich für Personen mit Behinderungsgrad über
-      bzw unter 80%. Für Menschen mit Behinderungsgrad unter 100% muss zusätzlich
-      Pflegebedürftigkeit gem. §14 SGB XI. und gleichzeitig
-      Häusliche/teilstationäre/Kurzzeit-Pflege vorliegen. Dies ist aktuell nicht
-      implementiert. § 17 Nr. 1 WoGG. (früher § 17 (2) WoGG)
+    de: >-
+      Der Betrag ist abhängig vom Behinderungsgrad der jeweiligen Person. Vor 2016 ist
+      der Betrag unterschiedlich für Personen mit Behinderungsgrad über bzw unter 80%.
+      Für Menschen mit Behinderungsgrad unter 100% muss zusätzlich Pflegebedürftigkeit
+      gem. §14 SGB XI. und gleichzeitig Häusliche/teilstationäre/Kurzzeit-Pflege
+      vorliegen. Dies ist aktuell nicht implementiert. § 17 Nr. 1 WoGG. (früher § 17 (2)
+      WoGG)
     en:
   unit: Euro
   reference_period: Year
@@ -772,9 +785,9 @@ freib_behinderung:
   2016-01-01:
     reference: 2 Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
     scalar: 1500
-    note:
-      neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem.
-      §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
+    note: >-
+      neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14
+      SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
   2020-01-01:
     reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
     scalar: 1800
@@ -784,12 +797,12 @@ behinderungsgrad:
     de: Behinderungsgrad für Freibetrag
     en: Degree of disability for allowance
   description:
-    de:
-      Ein Wohngeld-Freibetrag wird Menschen mit Behinderung gewährt. Dabei hängt die Höhe des
-      Freibetrages vom Behinderungsgrad ab.
-    en:
-      A housing benefit allowance is granted to people with disabilities. The height of the
-      allowance depends on the degree of disability.
+    de: >-
+      Ein Wohngeld-Freibetrag wird Menschen mit Behinderung gewährt. Dabei hängt die
+      Höhe des Freibetrages vom Behinderungsgrad ab.
+    en: >-
+      A housing benefit allowance is granted to people with disabilities. The height of
+      the allowance depends on the degree of disability.
   reference: § 17 Abs. 1 WoGG
   unit: Percent
   1984-01-01:
@@ -801,9 +814,13 @@ max_miete:
     de: Höchstbeträge für Miete und Belastung
     en:
   description:
-    de: Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG. Seit 2022 auch §24 Wohngeldverordnung (WoGV).
+    de: >-
+      Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG. Seit 2022 auch §24
+      Wohngeldverordnung (WoGV).
     en:
-  note: Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) - Mietstufe geordnet. Alle Werte in vollen Euro.
+  note: >-
+    Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) -
+    Mietstufe geordnet. Alle Werte in vollen Euro.
   unit: Euro
   reference_period: Month
   1981-01-01:
@@ -910,7 +927,9 @@ max_miete:
         2: 47
         3: 48
     reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
-    note: Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
+    note: >-
+      Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird
+      "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
   1985-01-01:
     1:
       1965:
@@ -1063,7 +1082,8 @@ max_miete:
         4: 56
         5: 59
     reference: Art. 1 G. v. 11.07.1985 BGBl I S. 1318.
-    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+    note: >-
+      Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   1990-01-01:
     1:
       1965:
@@ -1240,7 +1260,8 @@ max_miete:
         5: 59
         6: 61
     reference: Art. 1 G. v. 13.12.1989 BGBl I S. 2148.
-    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+    note: >-
+      Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   1990-10-01:
     1:
       1965:
@@ -1375,7 +1396,8 @@ max_miete:
         5: 61
         6: 64
     reference: Art. 1 G. v. 10.08.1990 BGBl I S. 1522.
-    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+    note: >-
+      Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   1993-01-01:
     1:
       1965:
@@ -1552,7 +1574,8 @@ max_miete:
         5: 74
         6: 79
     reference: Neufassung WoGG v. 11.02.1993 BGBl I S. 183.
-    note: Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+    note: >-
+      Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   2001-01-01:
     1:
       1965:
@@ -1881,7 +1904,11 @@ vermögensgrundfreibetrag:
     de: Vermögensgrundfreibetrag für den Haushalt
     en: Basic wealth exemption at the household level
   description:
-    de: Wohngeld-Verwaltungsvorschift 21.37. Seit 2009 (G. v. 24.09.2008, BGBl. I S. 1856) wird durch §21 Nr. 3 WoGG geregelt, dass hohes Vermögen ein Ausschlussgrund für Wohngeld sein kann. Die genauen Werte regelt die Verwaltungsvorschrift vom April 2009. Vorher war hohes Vermögen laut WoGG kein Ausschlussgrund.
+    de: >-
+      Wohngeld-Verwaltungsvorschift 21.37. Seit 2009 (G. v. 24.09.2008, BGBl. I S. 1856)
+      wird durch §21 Nr. 3 WoGG geregelt, dass hohes Vermögen ein Ausschlussgrund für
+      Wohngeld sein kann. Die genauen Werte regelt die Verwaltungsvorschrift vom April
+      2009. Vorher war hohes Vermögen laut WoGG kein Ausschlussgrund.
     en: Since 2009, wealth might be a reason not to grand housing benefit.
   unit: Euro
   1970-01-01:
@@ -1913,8 +1940,12 @@ heizkostenentlastung_m:
     de: Heizkostenentlastung aufgrund der CO2-Bepreisung
     en: Reduction in heating costs due to CO2 pricing
   description:
-    de: Betrag zur Entlastung bei den Heizkosten aufgrund der CO2-Bepreisung in Euro in Anhängigkeit der Haushaltsgröße
-    en: Amount of relief in heating costs due to CO2 pricing in euros depending on household size
+    de: >-
+      Betrag zur Entlastung bei den Heizkosten aufgrund der CO2-Bepreisung in Euro in
+      Anhängigkeit der Haushaltsgröße
+    en: >-
+      Amount of relief in heating costs due to CO2 pricing in euros depending on
+      household size
   unit: Euro
   reference: §12 (6) WoGG, Art. 1 G. v. 15.05.2020, BGBl I S. 1015.
   reference_period: Month
@@ -1931,8 +1962,12 @@ dauerhafte_heizkostenkomponente_m:
     de: Dauerhafte Heizkostenkomponente
     en: Permanent heating cost component
   description:
-    de: Dauerhafte Heizkostenkomponente in Abhängigkeit der Haushaltsgröße eingeführt mit der Wohngeldreform 2023
-    en: Permanent heating cost component depending on household size introduced with the housing subsidy reform 2023
+    de: >-
+      Dauerhafte Heizkostenkomponente in Abhängigkeit der Haushaltsgröße eingeführt mit
+      der Wohngeldreform 2023
+    en: >-
+      Permanent heating cost component depending on household size introduced with the
+      housing subsidy reform 2023
   unit: Euro
   reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
   reference_period: Month
@@ -1949,10 +1984,14 @@ klimakomponente_m:
     de: Klimakomponente
     en: climate component
   description:
-    de: Als Klimakomponente zu berücksichtigender Zuschlag zu den Höchstbeträgen nach § 12 Absatz 1 in Euro
-        in Abhängigkeit der Haushaltsgröße; eingeführt mit der Wohngeldreform 2023
-    en: Surcharge to be taken into account as climate component in addition to the maximum amounts pursuant to § 12 (1)
-        in euros depending on the size of the household; introduced with the housing subsidy reform 2023
+    de: >-
+      Als Klimakomponente zu berücksichtigender Zuschlag zu den Höchstbeträgen nach § 12
+      Absatz 1 in Euro in Abhängigkeit der Haushaltsgröße; eingeführt mit der
+      Wohngeldreform 2023
+    en: >-
+      Surcharge to be taken into account as climate component in addition to the maximum
+      amounts pursuant to § 12 (1) in euros depending on the size of the household;
+      introduced with the housing subsidy reform 2023
   unit: Euro
   reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
   reference_period: Month

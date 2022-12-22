@@ -1,3 +1,4 @@
+---
 freibetrag:
   name:
     de: Freibetrag bei der Anrechnung von Nebeneinkommen
@@ -32,7 +33,9 @@ dauer_auszahlung:
     de: Voraussetzungen für ALG 1
     en: Requirements for ALG 1
   description:
-    de: ALG 1 wird für die ersten 12 Monate der Arbeitslosigkeit und für Personen unter 65 ausgezahlt.
+    de: >-
+      ALG 1 wird für die ersten 12 Monate der Arbeitslosigkeit und für Personen unter 65
+      ausgezahlt.
     en: ALG 1 is paid for the first 12 months of unemployment and for people under 65.
   unit: Month
   reference: § 161 Abs.1 SGB III
@@ -45,8 +48,8 @@ soz_vers_pausch:
     en: Fictitious social insurance contribution rate
   description:
     de: >-
-        § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt.
-        ACHTUNG! Beim Elterngeld gibt es eine ähnliche Größe.
+      § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt. ACHTUNG! Beim
+      Elterngeld gibt es eine ähnliche Größe.
     en:
   unit: Share
   1984-01-01:
