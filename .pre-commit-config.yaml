@@ -84,36 +84,36 @@ repos:
             Pygments,
           ]
 
-    # ToDo: comment in if only python 3.10 and above is supported
-    # - repo: https://github.com/dosisod/refurb
-    #   rev: v1.7.0
-    #   hooks:
-    #     - id: refurb
+  # ToDo: comment in if only python 3.10 and above is supported
+  # - repo: https://github.com/dosisod/refurb
+  #   rev: v1.7.0
+  #   hooks:
+  #     - id: refurb
 
   - repo: https://github.com/guilatrova/tryceratops
     rev: v1.1.0
     hooks:
       - id: tryceratops
 
-    # - repo: https://github.com/econchick/interrogate
-    #   rev: 1.5.0
-    #   hooks:
-    #     - id: interrogate
-    #       args: [-v, --fail-under=50]
-    #       exclude: ^(dashboard/|gettsim/docs/)
+  # - repo: https://github.com/econchick/interrogate
+  #   rev: 1.5.0
+  #   hooks:
+  #     - id: interrogate
+  #       args: [-v, --fail-under=50]
+  #       exclude: ^(dashboard/|gettsim/docs/)
 
-    # - repo: https://github.com/adrienverge/yamllint.git
-    #   rev: v1.26.1
-    #   hooks:
-    #     - id: yamllint
-    #       files: \.(yaml|yml)$
-    #       types: [file, yaml]
-    #       entry: "yamllint --strict -f parsable -d '{rules: {document-start: {present: false}}'"
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.26.1
+    hooks:
+      - id: yamllint
+        files: \.(yaml|yml)$
+        types: [file, yaml]
+        entry: "yamllint --strict -f parsable -d '{rules: {document-start: {present: false}}'"
 
-    # - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-    #   rev: 0.2.1 # or other specific tag
-    #   hooks:
-    #     - id: yamlfmt
+  - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+    rev: 0.2.1 # or other specific tag
+    hooks:
+      - id: yamlfmt
 
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
