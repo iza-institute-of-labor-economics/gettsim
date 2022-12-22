@@ -102,18 +102,14 @@ repos:
   #       args: [-v, --fail-under=50]
   #       exclude: ^(dashboard/|gettsim/docs/)
 
+  - repo: https://github.com/lyz-code/yamlfix/
+    rev: master
+    hooks:
+      - id: yamlfix
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.26.1
+    rev: v1.28.0
     hooks:
       - id: yamllint
-        files: \.(yaml|yml)$
-        types: [file, yaml]
-        entry: "yamllint --strict -f parsable -d '{rules: {document-start: {present: false}}'"
-
-  - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-    rev: 0.2.1 # or other specific tag
-    hooks:
-      - id: yamlfmt
 
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
