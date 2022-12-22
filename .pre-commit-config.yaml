@@ -6,7 +6,8 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-added-large-files
-        args: [--maxkb=10000]
+        args:
+          - --maxkb=10000
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: check-vcs-permalinks
@@ -14,12 +15,16 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
-        types: [text]
+        types:
+          - text
       - id: mixed-line-ending
-        args: [--fix=lf]
+        args:
+          - --fix=lf
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: no-commit-to-branch
-        args: [--branch, main]
+        args:
+          - --branch
+          - main
       - id: trailing-whitespace
       - id: check-ast
       - id: check-docstring-first
@@ -36,12 +41,14 @@ repos:
     rev: v3.3.1
     hooks:
       - id: pyupgrade
-        args: [--py39-plus]
+        args:
+          - --py39-plus
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.9.0
     hooks:
       - id: reorder-python-imports
-        args: [--py39-plus]
+        args:
+          - --py39-plus
   - repo: https://github.com/asottile/setup-cfg-fmt
     rev: v2.2.0
     hooks:
@@ -112,15 +119,23 @@ repos:
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-gfm, mdformat-black]
-        args: [--wrap, '88']
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-black
+        args:
+          - --wrap
+          - '88'
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-myst, mdformat-black]
-        args: [--wrap, '88']
+        additional_dependencies:
+          - mdformat-myst
+          - mdformat-black
+        args:
+          - --wrap
+          - '88'
         files: (docs/.)
         # Exclude files with admonitions.
         # exclude: |
@@ -131,14 +146,20 @@ repos:
     rev: v0.991
     hooks:
       - id: mypy
-        args: [--ignore-missing-imports]
-        additional_dependencies: [types-PyYAML, types-pytz]
+        args:
+          - --ignore-missing-imports
+        additional_dependencies:
+          - types-PyYAML
+          - types-pytz
   - repo: https://github.com/mgedmin/check-manifest
     rev: '0.48'
     hooks:
       - id: check-manifest
-        args: [--no-build-isolation]
-        additional_dependencies: [setuptools-scm, toml]
+        args:
+          - --no-build-isolation
+        additional_dependencies:
+          - setuptools-scm
+          - toml
   - repo: meta
     hooks:
       - id: check-hooks-apply
