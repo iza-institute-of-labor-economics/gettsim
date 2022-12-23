@@ -292,8 +292,8 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
 def ges_krankenv_beitr_selbst_m(
     _ges_krankenv_bemessungsgrundlage_eink_selbst: float, soz_vers_beitr_params: dict
 ) -> float:
-    """Calculates health insurance contributions for self employed income.
-    Self-employed pay the full reduced contribution.
+    """Calculates health insurance contributions for self employed income. Self-employed
+    pay the full reduced contribution.
 
     Parameters
     ----------
