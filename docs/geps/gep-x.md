@@ -11,13 +11,16 @@
   * [First Author](<https://github.com/USERNAME>),
     [Second Author](<https://github.com/USERNAME>)
 - * Status
-  * <Draft | Active | Accepted | Provisional | Deferred | Rejected Withdrawn | Final | Superseded>
+  * <Draft | Active | Accepted | Provisional | Deferred | Rejected | Withdrawn | Final
+    | Superseded>
 - * Type
   *  <Standards Track | Process>
 - * Created
   * <date created on, in yyyy-mm-dd format>
 - * Resolution
-  * One of [Accepted | Rejected | Withdrawn](<url>) once resolution has been found
+  * One of [Accepted | Rejected |
+    Withdrawn](<https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.XXX>)
+    once resolution has been found
 ```
 
 ## Abstract
