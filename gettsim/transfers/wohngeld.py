@@ -211,7 +211,6 @@ def wohngeld_eink_freib_m_ab_2016(
     wohngeld_arbeitendes_kind: bool,
     behinderungsgrad: int,
     alleinerz: bool,
-    kind: bool,
     wohngeld_params: dict,
 ) -> float:
     """Calculate housing benefit subtracting for one individual since 2016.
@@ -239,11 +238,13 @@ def wohngeld_eink_freib_m_ab_2016(
     )
 
     # Subtraction for single parents and working children
+    # ToDo: Check how to handle subjects that are single parents and also still count
+    # ToDO: as arbeitendes kind (are eligible for Kindergeld)
     if wohngeld_arbeitendes_kind:
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
         )
-    elif alleinerz and (not kind):
+    elif alleinerz:
         freib_kinder_m = wohngeld_params["freib_kinder_m"]["alleinerz"]
     else:
         freib_kinder_m = 0.0
@@ -278,7 +279,6 @@ def wohngeld_eink_m_hh(
     wohngeld_eink_nach_abzug_m_hh = (
         wohngeld_eink_vor_freib_m_hh - wohngeld_eink_freib_m_hh
     )
-
     unteres_eink = wohngeld_params["min_eink"][
         min(haushaltsgröße_hh, max(wohngeld_params["min_eink"]))
     ]
