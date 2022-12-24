@@ -63,7 +63,7 @@ The proposed changes will affect all areas of GETTSIM
 
 1. The use of namespaces will have the usual benefits as in (Python) code:
    Disambiguation while keeping things that belong together in one place. We largely
-   have this structure already for the parameters (think about each `params_[x]`
+   have this structure already for the parameters (think about each `[x]_param`
    dictionary as a namespace). As an example, take the (partly hypothetical) example of
    `anwartschaftszeit` mentioned above. Under the current structure, we may want to use:
 
@@ -136,8 +136,8 @@ The proposed changes will affect all areas of GETTSIM
      e.g., `p_beitragssatz`.
 
      In both cases, the namespace makes clear we are talking about, say, `arbeitsl_v`.
-     If we need parameters external to the current namespace, we will need the same
-     verbose syntax as in 1. (`ges_rentenv___params` /
+     If we need parameters which are external to the current namespace, we will need the
+     same verbose syntax as in 1. (`ges_rentenv___params` /
      `ges_rentenv___params___beitragssatz`).
 
      What we do will depend in part on how strict we will want to be about type
@@ -180,6 +180,8 @@ and relevant art.
 
 ## Implementation
 
+### Separator to use for namespaces in DAG
+
 \[tbd\]
 
 This section lists the major steps required to implement the GEP. Where possible, it
@@ -191,10 +193,75 @@ Any pull requests or development branches containing work on this GEP should be 
 to from here. (A GEP does not need to be implemented in a single pull request if it
 makes sense to implement it in discrete phases).
 
+Restriction: It must be a valid Python identifier, so `.` is impossible. It also should
+be possible to parse it without too many case distinctions, double underscores might not
+be very future-proof given they are used extensively in Python.
+
+Alternatives might be (very open for discussion here):
+
+1. Triple underscores
+
+   - Pro:
+
+     - Easy to type
+     - Fits well with the rest
+
+   - Con:
+
+     - Easy to miss the tripling up
+     - Names get even longer than they will be in the first place
+     - Ambiguity when module names start / end with underscores (might just disallow /
+       ignore private modules)
+
+1. Some Greek letter, e.g. Ω (Unicode 0x3a9, Greek Capital Letter Omega)
+
+   - Pro:
+
+     - Easy to see purpose
+     - Short
+
+   - Con:
+
+     - Hard to type
+     - Ununsual
+
+### Distinguishing between different input arguments
+
+The main issue for the extended DAG might be how to distinguish fairly automatically
+between data to be vectorized over (input columns, policy functions) and arguments that
+are be partialed in (parameters and values derived from those).
+
+This currently works via matching `_params` at the end of an argument. If continuing to
+work with dictionaries (pytrees) as arguments, we could keep that convention or think of
+a similar one.
+
+### Example
+
+We distribute code across various private modules and keep one namespace per tax /
+transfer / social insurance.
+
+```
+ges_rente
+|-- __init.py__
+|   +-- from ._aufbau import *
+|   +-- from ._auszahlung import *
+|   +-- ...
+|   +-- params = load_params("params.yaml")
+|-- params.yaml
+|-- _aufbau.py
+|   +-- def beitrag()
+|   +-- def entgeltp_update()
+|-- _auszahlung.py
+|   +-- def betrag()
+|-- _langj_versicherte.py
+|-- _grundrente.py
+|-- ...
+```
+
 ## Alternatives
 
-Continuing with the status quo does not seem to be an option to me. We learned so much
-in the past three years that now seems to be a good time to put those lessons into code.
+Continuing with the status quo does not seem to be an option. We learned so much in the
+past three years that now seems to be a good time to put those lessons into code.
 
 ## Discussion
 
