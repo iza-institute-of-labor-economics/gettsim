@@ -10,43 +10,7 @@ aggregation_kindergeld = {
 }
 
 
-def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
-    """Kindergeld for an individual child until 1996.
-
-    Until 1996 individuals could claim Kinderfreibetrag and receive Kindergeld at the
-    same time.
-
-    Parameters
-    ----------
-    kindergeld_basis_m
-        See :func:`kindergeld_basis_m`.
-
-    Returns
-    -------
-
-    """
-    return kindergeld_basis_m
-
-
-def kindergeld_m_ab_1997(
-    kindergeld_basis_m: float,
-) -> float:
-    """Kindergeld for an individual child since 1997 (after Günstigerprüfung).
-
-    Parameters
-    ----------
-    kindergeld_basis_m
-        See :func:`kindergeld_basis_m`.
-
-    Returns
-    -------
-
-    """
-    out = kindergeld_basis_m
-    return out
-
-
-def kindergeld_basis_m(
+def kindergeld_m(
     kindergeld_anspruch: bool,
     kumulativer_kindergeld_anspruch_tu: int,
     kindergeld_params: dict,

@@ -16,12 +16,11 @@ INPUT_COLS = [
     "eink_st_ohne_kinderfreib_tu",
     "eink_st_mit_kinderfreib_tu",
     "abgelt_st_tu",
-    "kindergeld_basis_m",
-    "kindergeld_basis_m_tu",
+    "kindergeld_m",
     "jahr",
 ]
 YEARS = [2010, 2012, 2016]
-TEST_COLUMNS = ["eink_st_tu", "kindergeld_m", "kindergeld_m_hh", "kindergeld_m_tu"]
+TEST_COLUMNS = ["eink_st_tu", "kindergeld_m_hh", "kindergeld_m_tu"]
 
 
 @pytest.fixture(scope="module")
@@ -38,8 +37,7 @@ def test_favorability_check(input_data, year, target):
         "eink_st_ohne_kinderfreib_tu",
         "eink_st_mit_kinderfreib_tu",
         "abgelt_st_tu",
-        "kindergeld_basis_m",
-        "kindergeld_basis_m_tu",
+        "kindergeld_m",
     ]
 
     result = compute_taxes_and_transfers(
