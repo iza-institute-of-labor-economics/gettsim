@@ -1,10 +1,11 @@
+---
 eink_st_tarif:
   name:
     de: Einkommenssteuer Tarif
     en: Income Tax tarif
   description:
     de: §32a EStG
-    en:
+    en: null
   note:
     de: >-
       Der quadratische Anstieg in den mittleren Intervallen wird nach der Formel
@@ -14,7 +15,7 @@ eink_st_tarif:
       The quadratic rate is calculated by gettsim with the formula of the
       Progressionsfaktor. For details see the docstring of add_progressionsfaktor.
   type: piecewise_quadratic
-  progressionsfaktor: True
+  progressionsfaktor: true
   2002-01-01:
     0:
       lower_threshold: -inf
@@ -192,7 +193,9 @@ eink_st_tarif:
   2022-01-01:
     deviation_from: previous
     reference: Art. 1 G. v. 23.05.2022 BGBl. I S. 749
-    note: First specified in Art. 2. G. v. 01.12.2020 BGBl. I S. 2616, new defined resp. overridden in above reference.
+    note: >-
+      First specified in Art. 2. G. v. 01.12.2020 BGBl. I S. 2616, new defined resp.
+      overridden in above reference.
     0:
       upper_threshold: 10347
     1:
@@ -229,17 +232,17 @@ rente_ertragsanteil:
     de: >-
       Piecewise linear Ertrgasanteil funktion für den Anteil an
       sozialversicherungspflichtigen Renteneinkommen.
-    en:
+    en: >-
       Piecewise linear function for calculating the share of pensions subject to income
       taxation.
   description:
     de: Einkommensteuergesetz (EStG) § 22
-    en:
+    en: null
   note:
     de: >-
       Diese Funktion ist hier ab 2002 angegeben. Vor 2002 das Steuersystem ist nicht
       implementiert.
-    en:
+    en: null
   type: piecewise_linear
   2002-01-01:
     0:

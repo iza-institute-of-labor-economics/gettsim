@@ -1,14 +1,16 @@
+---
 soli_st:
   name:
     de: Solidaritätszuschlag
-    en:
+    en: null
   description:
-    de: Ab 1995, der upper threshold im Intervall 1 ist nach der Formel transition_threshold in soli_st.py berechnet.
-    en:
+    de: >-
+      Ab 1995, der upper threshold im Intervall 1 ist nach der Formel
+      transition_threshold in soli_st.py berechnet.
+    en: null
   type: piecewise_linear
   1991-01-01:
-    reference:
-      Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
+    reference: Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
     0:
       lower_threshold: -inf
       rate: 0
