@@ -2,13 +2,13 @@
 faktor_berechnungsformel:
   name:
     de: Faktor am Anfang der Wohngeldformel
-    en:
+    en: null
   description:
     de: Anlage 2 WoGG zu §19 Abs. 2 WoGG
-    en:
+    en: null
   1984-01-01:
     scalar: 1
-    reference:
+    reference: null
   2009-01-01:
     scalar: 1.08
     reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
@@ -19,12 +19,12 @@ faktor_berechnungsformel:
 koeffizienten_berechnungsformel:
   name:
     de: Parameter a, b, c der Wohngeldformel
-    en:
+    en: null
   description:
     de: >-
       WoGG - Anlage 2 (bis 2019 Anlage 1) (zu § 19 (1)). Seit 2022 auch §24
       Wohngeldverordnung (WoGV).
-    en:
+    en: null
   note: The keys from 1 to 12 below refer to the household size.
   1984-01-01:
     note: Parameter aus Regressionsanalyse der Wohngeldtabellen
@@ -536,10 +536,10 @@ abzug_stufen:
     de: >-
       Prozentualer Pauschalabzug vom Bruttoeinkommen, falls 0, 1, 2, 3 Kriterien erfüllt
       sind
-    en:
+    en: null
   description:
     de: § 16 (1, 2) WoGG
-    en:
+    en: null
   note: >-
     Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge -
     entrichtete GRV-Beiträge
@@ -563,10 +563,10 @@ abzug_stufen:
 min_miete:
   name:
     de: Minimalwert für Parameter M
-    en:
+    en: null
   description:
     de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
-    en:
+    en: null
   unit: Euro
   1984-01-01:
     1: 0
@@ -639,10 +639,10 @@ min_miete:
 min_eink:
   name:
     de: Minimalwert für Parameter Y
-    en:
+    en: null
   description:
     de: WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
-    en:
+    en: null
   unit: Euro
   1984-01-01:
     1: 0
@@ -729,10 +729,10 @@ min_eink:
 freib_kinder_m:
   name:
     de: Monatlicher Freibetrag für Alleinerziehende und arbeitende Kinder
-    en:
+    en: null
   description:
     de: § 17 (4/5) WoGG
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   1984-01-01:
@@ -755,7 +755,7 @@ freib_kinder_m:
 freib_behinderung:
   name:
     de: Jährlicher Freibetrag pro behindertes Haushaltsmitglied
-    en:
+    en: null
   description:
     de: >-
       Der Betrag ist abhängig vom Behinderungsgrad der jeweiligen Person. Vor 2016 ist
@@ -764,7 +764,7 @@ freib_behinderung:
       gem. §14 SGB XI. und gleichzeitig Häusliche/teilstationäre/Kurzzeit-Pflege
       vorliegen. Dies ist aktuell nicht implementiert. § 17 Nr. 1 WoGG. (früher § 17 (2)
       WoGG)
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1984-01-01:
@@ -812,12 +812,12 @@ behinderungsgrad:
 max_miete:
   name:
     de: Höchstbeträge für Miete und Belastung
-    en:
+    en: null
   description:
     de: >-
       Anlage 1 WoGG, bis 2019 §12 (1) WoGG. Vor 2009 §8 (1) WoGG. Seit 2022 auch §24
       Wohngeldverordnung (WoGV).
-    en:
+    en: null
   note: >-
     Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) -
     Mietstufe geordnet. Alle Werte in vollen Euro.
@@ -1925,7 +1925,7 @@ vermögensfreibetrag_pers:
     en: Additional wealth exemption for each additional household member
   description:
     de: Wohngeld-Verwaltungsvorschift 21.37
-    en:
+    en: null
   unit: Euro
   1970-01-01:
     scalar: inf

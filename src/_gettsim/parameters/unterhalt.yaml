@@ -61,7 +61,7 @@ unterhaltsvors_mindesteinkommen:
       Minimal income necessary to get child alimony advance for children 13 to 17 years.
   description:
     de: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2017-01-01:

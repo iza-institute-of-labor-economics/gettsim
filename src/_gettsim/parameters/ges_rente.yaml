@@ -774,7 +774,7 @@ regelaltersgrenze:
     de: >-
       Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
       Ab einschließlich Jahrgang 1964 gilt NRA 67.
-    en:
+    en: null
   type: piecewise_linear
   1984-01-01:
     0:
@@ -913,7 +913,7 @@ altersgrenze_langj_versicherte_abschlagsfrei:
       65. Dieses Eintrittsalter galt bis einschließlich Jahrgang 1948. Ab Geburtsdatum
       März 1949 entspricht die Altersgrenze der Regelaltersgrenze, also 65 Jahre, 3
       Monate. Für Geburtsdatum 1/1949 ist sie 65, 1 Monat. Für 2/1949 65, 2 Monate.
-    en:
+    en: null
   type: piecewise_linear
   1984-01-01:
     0:
@@ -965,7 +965,7 @@ altersgrenze_besonders_langj_versicherte:
       https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
       Die Regelung existiert ab 2010. Für Kohorten bis einschließlich 1950 gilt die
       Grenze von 65 Jahren.
-    en:
+    en: null
   type: piecewise_linear
   2010-01-01:
     0:

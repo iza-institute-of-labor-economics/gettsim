@@ -5,7 +5,7 @@ faktor:
     en: Replacement Rate of Parental Benefit, second bracket.
   description:
     de: § 2 (1) BEEG
-    en:
+    en: null
   unit: Share
   2007-01-01:
     scalar: 0.67
@@ -17,7 +17,7 @@ höchstbetrag:
     en: Maximum Parental Benefit
   description:
     de: § 2 (1) BEEG
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2007-01-01:
@@ -32,7 +32,7 @@ nettoeinkommen_stufen:
     de: >-
       § 2 (2) BEEG. Maßgeblich ist das durchschnittlich erzielte monatliche Einkommen
       vor der Geburt
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2007-01-01:
@@ -50,7 +50,7 @@ mindestbetrag:
     en: Minimum amount of parental benefit
   description:
     de: § 2 (5) BEEG
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2007-01-01:
@@ -63,7 +63,7 @@ prozent_korrektur:
     en: Percentage correction for lower or high incomes
   description:
     de: § 2 (2) BEEG
-    en:
+    en: null
   unit: Share
   2007-01-01:
     scalar: 0.001
@@ -75,7 +75,7 @@ prozent_minimum:
     en: Percentage deduction limit for higher incomes
   description:
     de: § 2 (2) BEEG
-    en:
+    en: null
   unit: Share
   2007-01-01:
     scalar: 0.67
@@ -90,7 +90,7 @@ eink_schritt_korrektur:
     en: Income steps for percentage correction
   description:
     de: § 2 (2) BEEG
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2007-01-01:
@@ -119,7 +119,7 @@ geschw_bonus_aufschlag:
     en: Sibling Bonus, percentage top-up
   description:
     de: § 2a (1) BEEG. Früher § 2 (4) BEEG
-    en:
+    en: null
   unit: Share
   2007-01-01:
     scalar: 0.1
@@ -131,7 +131,7 @@ geschw_bonus_minimum:
     en: Sibling Bonus, minimal amount
   description:
     de: § 2a (1) BEEG. Früher §2 (4)  BEEG
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2007-01-01:
@@ -144,7 +144,7 @@ mehrlingbonus:
     en: Twin, triplet bonus per additional child
   description:
     de: § 2a (4) BEEG, früher §2 (6) BEEG.
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2007-01-01:
@@ -154,10 +154,10 @@ mehrlingbonus:
 soz_vers_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
-    en:
+    en: null
   description:
     de: §2f BEEG. Vor 2012 waren es die eigentlichen Pflichtbeiträge.
-    en:
+    en: null
   unit: Share
   2012-09-18:
     scalar: 0.21
@@ -170,7 +170,7 @@ max_monate_paar:
     en: Maximum number of months a couple may receive parental benefit.
   description:
     de: § 4 (3) BEEG
-    en:
+    en: null
   2007-01-01:
     scalar: 14
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
@@ -181,7 +181,7 @@ max_monate_ind:
     en: Maximum number of months an individual parent may receive parental benefit.
   description:
     de: § 4 (3) BEEG
-    en:
+    en: null
   2007-01-01:
     scalar: 12
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748

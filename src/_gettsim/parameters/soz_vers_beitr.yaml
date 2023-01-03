@@ -268,10 +268,10 @@ beitr_bemess_grenze_m:
     en: Income Threshold for social insurance.
   description:
     de: Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist identisch.
-    en:
+    en: null
   note:
-    de:
-    en:
+    de: null
+    en: null
   unit: Euro
   reference_period: Month
   1984-01-01:
@@ -554,7 +554,7 @@ bezugsgröße_selbst_m:
     en: Monthly reference size
   description:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   1984-01-01:
@@ -702,7 +702,7 @@ geringfügige_eink_grenzen_m:
     en: Thresholds for marginal employment ('mini' and 'midi' jobs)
   description:
     de: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   1984-01-01:
@@ -803,8 +803,8 @@ geringfügige_eink_grenzen_m:
     midijob: 1300
   2022-10-01:
     minijob:
-      west:
-      ost:
+      west: null
+      ost: null
     midijob: 1600
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     note: minijob thresholds depend on the statutory minimum wage since 2022-10-01
@@ -832,13 +832,13 @@ geringf_eink_divisor:
 ag_abgaben_geringf:
   name:
     de: Pauschalabgaben bei geringf. Beschäftigung
-    en:
+    en: null
   description:
     de: >-
       Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur
       Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II
       EStG)
-    en:
+    en: null
   unit: Share
   1984-01-01:
     ges_krankenv: 0
@@ -904,12 +904,12 @@ rounding:
     1990-01-01:
       base: 0.0001
       direction: nearest
-      reference:
+      reference: null
   minijob_grenze_west:
     1990-01-01:
       base: 1
       direction: up
-      reference:
+      reference: null
     2022-10-01:
       base: 1
       direction: up
@@ -918,7 +918,7 @@ rounding:
     1990-01-01:
       base: 1
       direction: up
-      reference:
+      reference: null
     2022-10-01:
       base: 1
       direction: up

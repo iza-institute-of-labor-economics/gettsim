@@ -93,7 +93,7 @@ eink_anr_frei:
 eink_anr_frei_kinder:
   name:
     de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
-    en:
+    en: null
   description:
     de: >-
       Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3,
@@ -101,7 +101,7 @@ eink_anr_frei_kinder:
       Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 §
       11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
       G. v. 24.03.2011 BGBl. I S. 453).
-    en:
+    en: null
   note: Ersetzt Parameter in eink_anr_frei, falls nicht vorhanden
   type: piecewise_linear
   2005-10-01:
@@ -127,7 +127,7 @@ regelsatz:
       Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I
       S.
       3159.
-    en:
+    en: null
   note:
     de: >-
       Regelbedafstufen (1 bis 6): 1: Alleinstehender Erwachsener;
@@ -284,12 +284,12 @@ anteil_regelsatz:
     de: >-
       § 20 (3) SGB II, eigentliche Wirknorm ist § 20 IV SGB II i.V.m Absatz V
       derselben Norm. 2005 bis 2010.
-    en:
+    en: null
   note:
     de: >-
       2005-2010 der Regelsatz für weitere Haushaltsmitglieder wurden als Anteil
       des Standardsatzes bestimmt.
-    en:
+    en: null
   unit: Share
   2005-01-01:
     zwei_erwachsene: 0.9
@@ -317,7 +317,7 @@ mehrbedarf_anteil:
       additional need for single parents
   description:
     de: § 21 (3) Nr. 1 SGB II.
-    en:
+    en: null
   unit: Share
   reference_period: Month
   2005-01-01:
@@ -356,10 +356,10 @@ vermögensgrundfreibetrag_obergrenze:
     1964: 10050
     note: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
   2023-01-01:
-    1947:
-    1948:
-    1958:
-    1964:
+    1947: null
+    1948: null
+    1958: null
+    1964: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
 
@@ -380,8 +380,8 @@ vermögensgrundfreibetrag:
     1948: 150
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2023-01-01:
-    1947:
-    1948:
+    1947: null
+    1948: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
 
@@ -414,13 +414,13 @@ vermögensfreibetrag_austattung:
     en: Allowance for furniture
   description:
     de: § 12 (2) Satz 1 Nr. 4 SGB II.
-    en:
+    en: null
   unit: Euro
   2005-01-01:
     scalar: 750
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2023-01-01:
-    scalar:
+    scalar: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
 
@@ -430,7 +430,7 @@ vermögensfreibetrag_kind:
     en: Allowance for furniture
   description:
     de: § 12 (2) Satz 1 Nr. 1 SGB II.
-    en:
+    en: null
   unit: Euro
   2005-01-01:
     scalar: 4100
@@ -439,7 +439,7 @@ vermögensfreibetrag_kind:
     scalar: 3100
     reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
   2023-01-01:
-    scalar:
+    scalar: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
 
@@ -455,9 +455,9 @@ vermög_freib_alter:
     2: 1958
     3: 1963
   2023-01-01:
-    1:
-    2:
-    3:
+    1: null
+    2: null
+    3: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
 
@@ -470,7 +470,7 @@ abzugsfähige_pausch:
       § 6 (1) Nr. 3 a) ALG II-V. 2005-01.01 bis 2016-07-31. Betrag mit V. v. 26.07
       .2016 BGBl. I S. 1858 entfallen. Wie entfallen?
       § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2005-01-01:

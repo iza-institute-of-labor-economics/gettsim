@@ -8,7 +8,7 @@ kinderfreibetrag:
       sächliches Existenzminimum des Kindes, seit 2000 auch der Freibetrag für
       Betreuungs-, Erziehungs- und Ausbildungskosten. Wird verdoppelt für gemeinsam
       veranlagte Paare. §32 (6) EStG, seit 2000.
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1983-01-01:
@@ -33,7 +33,7 @@ kinderfreibetrag:
     note: Laut Gesetz 261 DM pro Monat.
   1997-01-01:
     sächl_existenzmin: 1767
-    reference:
+    reference: null
     note: Laut Gesetz 288 DM pro Monat (ab 2000 3456 DM pro Jahr)
   2000-01-01:
     beitr_erz_ausb: 774
@@ -102,45 +102,45 @@ vorsorge2004_vorwegabzug:
       § 10 (4a) EStG. Früher §10 (3) EStG. Hier steht jeweils der Wert für den
       Steuerpflichtigen. Wird verdoppelt für gemeinsam veranlagte Ehegatten. Der gesamte
       Zeitverlauf wurde bereits 2005 festgelegt.
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1985-01-01:
     scalar: 1534
-    reference:
+    reference: null
   1989-01-01:
     scalar: 2045
-    reference:
+    reference: null
   1993-01-01:
     scalar: 3068
     reference: .
   2011-01-01:
     scalar: 2700
-    reference:
+    reference: null
   2012-01-01:
     scalar: 2400
-    reference:
+    reference: null
   2013-01-01:
     scalar: 2100
-    reference:
+    reference: null
   2014-01-01:
     scalar: 1800
-    reference:
+    reference: null
   2015-01-01:
     scalar: 1500
-    reference:
+    reference: null
   2016-01-01:
     scalar: 1200
-    reference:
+    reference: null
   2017-01-01:
     scalar: 900
-    reference:
+    reference: null
   2018-01-01:
     scalar: 600
-    reference:
+    reference: null
   2019-01-01:
     scalar: 300
-    reference:
+    reference: null
 
 werbungskostenpauschale:
   name:
@@ -156,11 +156,11 @@ werbungskostenpauschale:
     note: 564 DM
   1990-01-01:
     scalar: 1044
-    reference:
+    reference: null
     note: 2000 DM.
   2004-01-01:
     scalar: 920
-    reference:
+    reference: null
   2012-01-01:
     scalar: 1000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131.
@@ -178,12 +178,12 @@ sonderausgabenpauschbetrag:
     en: Lump-sum deduction for other expenses
   description:
     de: § 10c EStG
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1984-01-01:
     single: 138
-    reference:
+    reference: null
   1988-01-01:
     single: 55
     reference: Art. 1 G. v. 25.07.1988, BGBl. I S. 1093
@@ -200,7 +200,7 @@ sparerpauschbetrag:
     de: >-
       § 20 (9) EStG. Früher § 20 (4) EStG. Wert für Singles. Wird verdoppelt für
       gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1975-01-01:
@@ -220,10 +220,10 @@ sparerpauschbetrag:
     reference: Art. 1 G. v. 19.12.2000 BGBl I S. 1790.
   2004-01-01:
     scalar: 1370
-    note:
+    note: null
   2007-01-01:
     scalar: 750
-    note:
+    note: null
   2009-01-01:
     scalar: 801
     reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
@@ -237,10 +237,10 @@ sparerpauschbetrag:
 sparer_werbungskosten_pauschbetrag:
   name:
     de: Werbungskostenpauschbetrag bei Zinseinkünften
-    en:
+    en: null
   description:
     de: § 9a EStG, bis 2009
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1975-01-01:
@@ -248,20 +248,20 @@ sparer_werbungskosten_pauschbetrag:
     note: 100 DM.
   2009-01-01:
     scalar: 0
-    note:
+    note: null
 
 vorsorge_2004_grundhöchstbetrag:
   name:
     de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle
-    en:
+    en: null
   description:
     de: §10 (3) EStG bis 2004.
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1985-01-01:
     scalar: 1196
-    reference:
+    reference: null
   1992-01-01:
     scalar: 1334
     reference: .
@@ -284,13 +284,13 @@ altersentlastungsbetrag_max:
   reference_period: Year
   1984-01-01:
     scalar: 1534
-    reference:
+    reference: null
   1989-01-01:
     scalar: 1902
-    reference:
+    reference: null
   2002-01-01:
     scalar: 1908
-    reference:
+    reference: null
   2005-01-01:
     reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     1940: 1900
@@ -346,7 +346,7 @@ altersentlastung_quote:
   unit: Share
   1984-01-01:
     scalar: 0.4
-    reference:
+    reference: null
   2005-01-01:
     reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     1940: 0.4
@@ -434,27 +434,27 @@ alleinerz_freibetrag:
     en: Income Tax Allowance for Single Parents
   description:
     de: § 24b (1) EStG. vor 2004 "Haushaltsfreibetrag", § 32 (7) EStG
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1984-01-01:
     scalar: 2154
-    reference:
+    reference: null
   1986-01-01:
     scalar: 2319
-    reference:
+    reference: null
   1989-01-01:
     scalar: 2871
-    reference:
+    reference: null
   2001-01-01:
     scalar: 2916
     reference: .
   2002-01-01:
     scalar: 2340
-    reference:
+    reference: null
   2004-01-01:
     scalar: 1308
-    reference:
+    reference: null
   2015-01-01:
     scalar: 1908
     reference: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
@@ -473,7 +473,7 @@ alleinerz_freibetrag_zusatz:
     de: >-
       §24b (2) S. 2 EStG. Alleinerziehenden-Entlastungsbetrag, Zusatzbetrag pro Kind ab
       dem 2. Kind.
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   2015-01-01:
@@ -483,19 +483,19 @@ alleinerz_freibetrag_zusatz:
 vorsorge2004_kürzung_vorwegabzug:
   name:
     de: Kürzung des Vorwegabzugs für Vorsorgeaufwendungen vor 2004.
-    en:
+    en: null
   description:
     de: >-
       §10 (3) S. 2 EStG (vor 2004). Der Vorwegabzug wird pauschal um einen Anteil
       gekürzt bei abhängig Beschäftigten (vereinfacht).
-    en:
+    en: null
   unit: Share
   1985-01-01:
     scalar: 0.0935
     note: entspricht Beitrag zur RV
   1986-01-01:
     scalar: 0.096
-    note:
+    note: null
   1987-01-01:
     scalar: 0.0935
     note: .
@@ -512,10 +512,10 @@ vorsorge_sonstige_aufw_max:
     de: >-
       Regulärer Maximalbetrag für sonstige Vorsorgeaufwendungen (Kranken-, Pflege,
       AL-V), der für sozialverspfl. Beschäftigte gilt.
-    en:
+    en: null
   description:
     de: §10 Abs. 4 S.1 EStG
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   2005-01-01:
@@ -528,10 +528,10 @@ vorsorge_sonstige_aufw_max:
 vorsorge_altersaufw_max:
   name:
     de: Maximalbetrag der Altersvorsorgeaufwendungen, 2005er Rechtsstand
-    en:
+    en: null
   description:
     de: §10 (3) EStG, Anlage 2 SGB VI
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   2005-01-01:
@@ -572,10 +572,10 @@ vorsorge_kranken_minderung:
     de: >-
       Anteil, um den Krankenversicherungsbeiträge gemindert werden bei abhängig
       Beschäftigten.
-    en:
+    en: null
   description:
     de: §10 (3) a) S.4 EStG
-    en:
+    en: null
   unit: Share
   2009-07-23:
     scalar: 0.04
@@ -587,7 +587,7 @@ behinderten_pauschbetrag:
     en: Tax Credit for disabled, depending on degree of disability.
   description:
     de: § 33b (3) EStG.
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1975-01-01:
@@ -636,7 +636,7 @@ kinderbetreuungskosten_abz_anteil:
     en: Share of child care expenses which can be deducted
   description:
     de: §10 (1) Nr. 5 EStG
-    en:
+    en: null
   unit: Share
   2012-01-01:
     scalar: 0.6666666
@@ -648,7 +648,7 @@ kinderbetreuungskosten_abz_maximum:
     en: Maximum amount of deductable child care expenses per child
   description:
     de: §10 (1) Nr. 5 EStG
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   2012-01-01:

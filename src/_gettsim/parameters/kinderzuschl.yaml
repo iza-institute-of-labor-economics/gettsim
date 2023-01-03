@@ -19,7 +19,7 @@ maximum:
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
     note: For 2020, Art. 2 Nr. 4 G. v. 29.04.2019 BGBl. I S. 530.
   2021-01-01:
-    scalar:
+    scalar: null
     reference: § 6a (2) BKGG
     note: Ab 2021 wird der Betrag aus anderen Parametern berechnet.
   2023-01-01:
@@ -27,7 +27,7 @@ maximum:
     reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
     note: Regelung für das Kalenderjahr 2023, abweichend von § 6a Absatz 2.
   2024-01-01:
-    scalar:
+    scalar: null
     reference: § 6a (2) BKGG
     note: Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.
 
@@ -37,7 +37,7 @@ min_eink_paare:
     en: Minimum income to be eligible for add. child benefit (couples)
   description:
     de: § 6a (1) Nr. 2 BKGG.
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2005-01-01:
@@ -53,7 +53,7 @@ min_eink_alleinerz:
     en: Minimum income for single parents
   description:
     de: § 6a (1) Nr. 2 BKGG.
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2005-01-01:
@@ -73,7 +73,7 @@ entzugsrate_eltern:
       Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der
       Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten
       berücksichtigt.
-    en:
+    en: null
   unit: Share
   2005-01-01:
     scalar: 0.7
@@ -108,7 +108,7 @@ existenzminimum:
     de: >-
       Höhen des Existenzminimums, festgelegt im Existenzminimumsbericht der
       Bundesregierung.
-    en:
+    en: null
   description:
     de: >-
       Berechnet für jeweils zwei Jahre die Höhe der steuerfrei zu stellenden

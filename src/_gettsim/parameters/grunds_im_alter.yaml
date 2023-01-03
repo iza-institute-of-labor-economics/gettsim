@@ -95,7 +95,7 @@ kapitaleink_anr_frei:
   reference_period: Year
   1984-01-01:
     scalar: 0
-    note:
+    note: null
   2016-01-01:
     reference: § 43 SGB XII Abs. 2
     scalar: 26

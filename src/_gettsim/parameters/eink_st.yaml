@@ -5,7 +5,7 @@ eink_st_tarif:
     en: Income Tax tarif
   description:
     de: §32a EStG
-    en:
+    en: null
   note:
     de: >-
       Der quadratische Anstieg in den mittleren Intervallen wird nach der Formel
@@ -237,12 +237,12 @@ rente_ertragsanteil:
       taxation.
   description:
     de: Einkommensteuergesetz (EStG) § 22
-    en:
+    en: null
   note:
     de: >-
       Diese Funktion ist hier ab 2002 angegeben. Vor 2002 das Steuersystem ist nicht
       implementiert.
-    en:
+    en: null
   type: piecewise_linear
   2002-01-01:
     0:

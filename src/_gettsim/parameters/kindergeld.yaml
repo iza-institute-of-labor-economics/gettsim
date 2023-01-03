@@ -17,7 +17,7 @@ altersgrenze:
   1984-01-01:
     mit_bedingungen: 27
     ohne_bedingungen: 18
-    reference:
+    reference: null
   2007-01-01:
     mit_bedingungen: 25
     ohne_bedingungen: 18
@@ -32,83 +32,83 @@ kindergeld:
       § 66 (1) EStG. Identische Werte in §6 (1) BKGG, diese sind aber nur für beschränkt
       Steuerpflichtige relevant (d.h. Ausländer mit Erwerbstätigkeit in Deutschland).
       Für Werte vor 2002, siehe 'BMF - Datensammlung zur Steuerpolitik'
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   1975-01-01:
-    reference:
+    reference: null
     1: 26
     2: 36
     3: 61
     4: 61
   1978-01-01:
-    reference:
+    reference: null
     1: 26
     2: 41
     3: 77
     4: 77
   1979-01-01:
-    reference:
+    reference: null
     1: 26
     2: 51
     3: 102
     4: 102
   1979-07-01:
-    reference:
+    reference: null
     1: 26
     2: 61
     3: 102
     4: 102
   1981-02-01:
-    reference:
+    reference: null
     1: 26
     2: 61
     3: 123
     4: 123
   1982-01-01:
-    reference:
+    reference: null
     1: 26
     2: 51
     3: 112
     4: 123
   1990-07-01:
-    reference:
+    reference: null
     1: 26
     2: 66
     3: 112
     4: 123
   1992-01-01:
-    reference:
+    reference: null
     1: 36
     2: 66
     3: 112
     4: 123
   1996-01-01:
-    reference:
+    reference: null
     1: 102
     2: 102
     3: 153
     4: 179
   1997-01-01:
-    reference:
+    reference: null
     1: 112
     2: 112
     3: 153
     4: 179
   1999-01-01:
-    reference:
+    reference: null
     1: 128
     2: 128
     3: 153
     4: 179
   2000-01-01:
-    reference:
+    reference: null
     1: 138
     2: 138
     3: 153
     4: 179
   2002-01-01:
-    reference:
+    reference: null
     1: 154
     2: 154
     3: 154
@@ -184,19 +184,19 @@ einkommensgrenze:
     de: >-
       § 32 (4) EStG. Wurde 2012 durch eine Höchstgrenze der gearbeiteten Stunden
       ersetzt.
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1984-01-01:
     scalar: 0
-    reference:
+    reference: null
   1996-01-01:
     scalar: 6136
     reference: Art. 1 G. v. 11.10.1995 BGBl. I S. 1250
     note: Originalwert 12000 DM.
   1999-01-01:
     scalar: 6657
-    referemce:
+    referemce: null
   2000-01-01:
     scalar: 6902
     reference: .
@@ -208,7 +208,7 @@ einkommensgrenze:
     reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
   2004-01-01:
     scalar: 7680
-    reference:
+    reference: null
   2009-01-01:
     scalar: 8004
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
@@ -222,7 +222,7 @@ stundengrenze:
     de: >-
       §32 (4) S. 3 EStG. Maximale Anzahl von erlaubten Wochenstunden des Kindes für den
       Bezug von Kindergeld
-    en:
+    en: null
   unit: Hour
   reference_period: Week
   2012-01-01:
@@ -238,7 +238,7 @@ kinderbonus:
       Aufstockung des Kindergeldes während COVID-19 Pandemie. Wurde im September/Oktober
       2020 bzw. Mai 2021 ausgezahlt, aber ist hier auf das volle Kalenderjahr
       angerechnet.
-    en:
+    en: null
   unit: Euro
   reference_period: Year
   1984-01-01:

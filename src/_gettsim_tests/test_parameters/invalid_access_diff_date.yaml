@@ -2,7 +2,7 @@
 rentenwert:
   description:
     de: Historische Rentenwerte alte und neue Bundesländer. statistik-rente.de/drv
-    en:
+    en: null
   unit: Euro
   access_different_date: vormonat
   2018-07-01:
