@@ -4,10 +4,6 @@ repos:
     rev: 1.2.0
     hooks:
       - id: yamlfix
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.28.0
-    hooks:
-      - id: yamllint
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -34,6 +30,10 @@ repos:
       - id: trailing-whitespace
       - id: check-ast
       - id: check-docstring-first
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.28.0
+    hooks:
+      - id: yamllint
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.9.0
     hooks:
