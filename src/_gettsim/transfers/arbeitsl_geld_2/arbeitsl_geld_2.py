@@ -1,3 +1,11 @@
+aggregation_arbeitsl_geld_2 = {
+    "anz_arbeitsl_geld_2_behindert_hh": {
+        "source_col": "_arbeitsl_geld_2_behindert",
+        "aggr": "sum",
+    },
+}
+
+
 def arbeitsl_geld_2_m_hh(
     arbeitsl_geld_2_vor_vorrang_m_hh: float,
     wohngeld_vorrang_hh: bool,
@@ -125,8 +133,33 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     return out
 
 
+def _arbeitsl_geld_2_behindert(
+    behinderungsgrad: int, alter: int, arbeitsl_geld_2_params: dict
+) -> bool:
+    """Check if individual is eligible for additional allowance if disabled.
+
+    Parameters
+    ----------
+    behinderungsgrad
+        See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+
+
+    Returns
+    -------
+
+    """
+    out = (
+        behinderungsgrad > arbeitsl_geld_2_params["mehrbedarf_min_behinderungsgrad"]
+    ) & (alter > 14)
+    return out
+
+
 def _arbeitsl_geld_2_behindert_mehrbedarf_m_hh(
-    behindert_hh: bool,
+    anz_arbeitsl_geld_2_behindert_hh: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
 
@@ -137,8 +170,8 @@ def _arbeitsl_geld_2_behindert_mehrbedarf_m_hh(
 
     Parameters
     ----------
-    behindert_hh
-        See :func:`behindert_hh`.
+    anz_arbeitsl_geld_2_behindert_hh
+        See :func:`_arbeitsl_geld_2_behindert`, summed up to hh level.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -148,7 +181,10 @@ def _arbeitsl_geld_2_behindert_mehrbedarf_m_hh(
     float checks how much more a single parent need.
 
     """
-    out = behindert_hh * arbeitsl_geld_2_params["mehrbedarf_behindert"]
+    out = (
+        anz_arbeitsl_geld_2_behindert_hh
+        * arbeitsl_geld_2_params["mehrbedarf_behindert"]
+    )
     return out
 
 
