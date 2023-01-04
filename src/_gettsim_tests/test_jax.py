@@ -263,7 +263,7 @@ gettsim_functions = _load_functions(sources=PATHS_TO_INTERNAL_FUNCTIONS)
 
 
 @pytest.mark.parametrize("func", gettsim_functions.values())
-def test_convertable(func):
+def test_convertible(func):
     make_vectorizable(func, backend="numpy")
 
 
