@@ -116,7 +116,7 @@ The proposed changes will affect all areas of GETTSIM
    def midijob_bemessungsentgelt_m_some_spec():
        pass
 
-   @dates_active(start="2022-10-01", removesuffix="_some_spec")
+   @dates_active(start="2022-10-01", removesuffix="_another_spec")
    def midijob_bemessungsentgelt_m_another_spec():
        pass
    ```
