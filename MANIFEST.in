@@ -18,6 +18,7 @@ exclude *environment.yml
 exclude codecov.yml
 exclude .pre-commit-config.yaml
 exclude .readthedocs.yaml
+exclude .yamllint.yml
 
 prune docs
 prune dashboard

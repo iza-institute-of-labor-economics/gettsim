@@ -1,3 +1,4 @@
+---
 maximum:
   name:
     de: Maximale Höhe des Kinderzuschlags
@@ -15,7 +16,8 @@ maximum:
     reference: Art. 12 G. v. 20.12.2016 BGBl. I S. 3000.
   2019-07-01:
     scalar: 185
-    reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530. For 2020, Art. 2 Nr. 4 G. v. 29.04.2019 BGBl. I S. 530.
+    reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
+    note: For 2020, Art. 2 Nr. 4 G. v. 29.04.2019 BGBl. I S. 530.
   2021-01-01:
     scalar: null
     reference: § 6a (2) BKGG
@@ -35,7 +37,7 @@ min_eink_paare:
     en: Minimum income to be eligible for add. child benefit (couples)
   description:
     de: § 6a (1) Nr. 2 BKGG.
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2005-01-01:
@@ -51,7 +53,7 @@ min_eink_alleinerz:
     en: Minimum income for single parents
   description:
     de: § 6a (1) Nr. 2 BKGG.
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   2005-01-01:
@@ -66,8 +68,12 @@ entzugsrate_eltern:
     de: Minderungsrate durch Einkommen der Eltern über BMG
     en: Transfer withdrawal rate for parent's income
   description:
-    de: § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG. Rate, mit der der Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten berücksichtigt.
-    en:
+    de: >-
+      § 6a (6) BKGG, bis 01.07.2019 § 6a (4) BKGG. Rate, mit der der
+      Gesamtkinderzuschlag nach Erreichen der Bemessungsgrenze durch Einkommen der
+      Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten
+      berücksichtigt.
+    en: null
   unit: Share
   2005-01-01:
     scalar: 0.7
@@ -84,8 +90,11 @@ entzugsrate_kind:
     de: Minderungsrate durch Einkommen des Kindes
     en: Rate at which child income is deducted
   description:
-    de: § 6a (3) BKGG. Einkommen des Kindes beinhaltet auch Unterhalt und Unterhaltsvorschuss.
-    en: Child alimony and alimony advance payments are also attributed to the child.
+    de: >-
+      § 6a (3) BKGG. Einkommen des Kindes beinhaltet auch Unterhalt und
+      Unterhaltsvorschuss.
+    en: >-
+      Child alimony and alimony advance payments are also attributed to the child.
   unit: Share
   2005-01-01:
     scalar: 1
@@ -96,11 +105,17 @@ entzugsrate_kind:
 
 existenzminimum:
   name:
-    de: Höhen des Existenzminimums, festgelegt im Existenzminimumsbericht der Bundesregierung.
-    en:
+    de: >-
+      Höhen des Existenzminimums, festgelegt im Existenzminimumsbericht der
+      Bundesregierung.
+    en: null
   description:
-    de: Berechnet für jeweils zwei Jahre die Höhe der steuerfrei zu stellenden Existenzminima (nicht identisch mit dem steuerlichen Grundfreibetrag).
-    en: Every two years, the government calculates the subsistence levels 'to be allowed from taxation'. These form the basis for a number of kiz parameters.
+    de: >-
+      Berechnet für jeweils zwei Jahre die Höhe der steuerfrei zu stellenden
+      Existenzminima (nicht identisch mit dem steuerlichen Grundfreibetrag).
+    en: >-
+      Every two years, the government calculates the subsistence levels 'to be allowed
+      from taxation'. These form the basis for a number of kiz parameters.
   unit: Euro
   reference_period: Year
   2005-01-01:
@@ -176,7 +191,9 @@ existenzminimum:
       single: 744
       paare: 864
       kinder: 180
-    reference: 9. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 5. Werte nur für Singles anders
+    reference: >-
+      9. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 5. Werte nur
+      für Singles anders
   2014-01-01:
     regelsatz:
       single: 4680
@@ -208,7 +225,9 @@ existenzminimum:
       single: 696
       paare: 1008
       kinder: 180
-    reference: 10. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 4. Werte für Paare unverändert.
+    reference: >-
+      10. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 4. Werte für
+      Paare unverändert.
   2016-01-01:
     regelsatz:
       single: 4872
@@ -240,7 +259,9 @@ existenzminimum:
       single: 600
       paare: 900
       kinder: 156
-    reference: 11. Existenzminimumsbericht, Bundestag Drucksache 18/10220, Übersicht 4. Werte für Paare unverändert.
+    reference: >-
+      11. Existenzminimumsbericht, Bundestag Drucksache 18/10220, Übersicht 4. Werte für
+      Paare unverändert.
   2018-01-01:
     regelsatz:
       single: 4968

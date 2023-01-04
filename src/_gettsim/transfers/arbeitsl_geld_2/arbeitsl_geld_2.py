@@ -49,7 +49,7 @@ def arbeitsl_geld_2_regelbedarf_m_hh(
 
     This includes cost of dwelling.
 
-    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.:
 
     Parameters
     ----------
