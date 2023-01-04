@@ -3,13 +3,13 @@ import inspect
 import jax.numpy
 import numpy
 import pytest
-from gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from gettsim.functions_loader import _load_functions
-from gettsim.jax import make_vectorizable
-from gettsim.jax import make_vectorizable_source
-from gettsim.jax import TranslateToVectorizableError
-from gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m
-from gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
+from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
+from _gettsim.functions_loader import _load_functions
+from _gettsim.jax import make_vectorizable
+from _gettsim.jax import make_vectorizable_source
+from _gettsim.jax import TranslateToVectorizableError
+from _gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m
+from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
 from numpy.testing import assert_array_equal
 
 # ======================================================================================

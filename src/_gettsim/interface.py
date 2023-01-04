@@ -10,13 +10,13 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.config import TYPES_INPUT_VARIABLES
 from _gettsim.functions_loader import load_and_check_functions
+from _gettsim.gettsim_typing import check_series_has_expected_type
+from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.shared import format_errors_and_warnings
 from _gettsim.shared import format_list_linewise
 from _gettsim.shared import get_names_of_arguments_without_defaults
 from _gettsim.shared import KeyErrorMessage
 from _gettsim.shared import parse_to_list_of_strings
-from _gettsim.typing import check_series_has_expected_type
-from _gettsim.typing import convert_series_to_internal_type
 
 
 def compute_taxes_and_transfers(
