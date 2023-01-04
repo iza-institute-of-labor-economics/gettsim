@@ -181,10 +181,24 @@ avoid losing users who are not interested in implementation details and instead 
 the discussion on usage and impact of the intended features.
 
 The `compute_taxes_and_transfers` function will get an additional optional keyword
-argument, `columns_mapping`. As the name suggests, it maps columns in the user-provided
-data to those that GETTSIM expects. If there is demand, we will provide a code snippet
+argument, `columns_mapping`. As the name suggests, it maps names expected by GETTSIM to
+columns in the user-provided data. If there is demand, we will provide a code snippet
 that maps the column names expected by GETTSIM v0.6 to column names in the updated
 structure.
+
+This `columns_mapping` argument be particularly relevant for Stata users because some
+names may become longer than the limit supported by Stata. It is also useful if one
+prefers to have English variable names in one's data etc.. When calling from Stata, the
+mapping could be specified in a yaml file that looks something like:
+
+```yaml
+---
+ges_rente___anwartschaftszeit: pens_qual_per
+arbeitsl_geld___anwartschaftszeit: ue_ins_qual_per
+```
+
+GETTSIM will then rename the columns internally (or create a duplicate column, the data
+columns need not be unique).
 
 Other changes will impact primarily the development of GETTSIM or the replacement of
 policy functions. These will be breaking changes, which seem necessary for the
