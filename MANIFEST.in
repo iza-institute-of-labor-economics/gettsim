@@ -1,0 +1,24 @@
+include CHANGES.md
+include CITATION
+include CODE_OF_CONDUCT.md
+include LICENSE
+
+recursive-include src py.typed
+recursive-include src *.yaml
+recursive-include src *.csv
+recursive-include src *.py
+
+global-exclude __pycache__/**/*
+global-exclude *.py[cod]
+global-exclude *.ods
+exclude .coveragerc
+exclude tox.ini
+exclude *environment.yml
+exclude codecov.yml
+exclude .pre-commit-config.yaml
+exclude .readthedocs.yaml
+exclude .yamllint.yml
+
+prune docs
+prune dashboard
+prune src/_gettsim/parameters/_dynamic_pension_data
