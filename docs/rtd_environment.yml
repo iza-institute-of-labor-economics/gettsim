@@ -1,3 +1,4 @@
+---
 name: gettsim-docs
 
 channels:
@@ -34,6 +35,6 @@ dependencies:
   - sphinx-copybutton
   - nbsphinx
   - pip:
-    - plotly
-    - kaleido
-    - -e ..
+      - plotly
+      - kaleido
+      - -e ..
