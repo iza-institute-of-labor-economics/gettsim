@@ -10,7 +10,6 @@ from .plotstyle import plotstyle
 
 def social_security(plot_dict, data):
     def setup_plot(src):
-
         p = figure(
             plot_width=900,
             plot_height=400,
