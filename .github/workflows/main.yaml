@@ -1,3 +1,4 @@
+---
 name: main
 
 # Automatically cancel a previous run.
@@ -11,7 +12,7 @@ on:
       - main
   pull_request:
     branches:
-      - "*"
+      - '*'
 
 jobs:
   run-tests:
@@ -19,13 +20,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
-        python-version: ["3.11"]
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        python-version:
+          - '3.11'
         include:
           - os: ubuntu-latest
-            python-version: "3.9"
+            python-version: '3.9'
           - os: ubuntu-latest
-            python-version: "3.10"
+            python-version: '3.10'
     steps:
       - uses: actions/checkout@v3
       - name: Install conda environment with micromamba
@@ -36,7 +41,8 @@ jobs:
           cache-downloads: true
 
       - name: Run tests
-        run: micromamba run -n gettsim pytest --ignore=dashboard/ --cov=./ --cov-report=xml
+        run: >-
+          micromamba run -n gettsim pytest --ignore=dashboard/ --cov=./ --cov-report=xml
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
@@ -61,7 +67,9 @@ jobs:
   #         cache-downloads: true
 
   #     - name: Run tests
-  #       run: micromamba run -n gettsim pytest --ignore=dashboard/ --cov=./ --cov-report=xml
+  #       run: >-
+  #         micromamba run -n gettsim pytest --ignore=dashboard/
+  #         --cov=./ --cov-report=xml
 
   #     - name: Upload coverage reports
   #       if: runner.os == 'Linux' && matrix.python-version == '3.11'

@@ -623,7 +623,6 @@ def _add_rounding_to_one_function(base, direction):
     """
 
     def inner(func):
-
         # Make sure that signature is preserved.
         @functools.wraps(func)
         def wrapper(*args, **kwargs):

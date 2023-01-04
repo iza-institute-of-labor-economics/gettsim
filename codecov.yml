@@ -1,15 +1,15 @@
+---
 codecov:
   notify:
-    require_ci_to_pass: yes
+    require_ci_to_pass: true
 
 coverage:
   precision: 2
   round: down
-  range: "50...100"
+  range: 50...100
 
 ignore:
-  - "setup.py"
-  - "dashboard"
-  - "gettsim/parameters/_dynamic_pension_data"
-  - "gettsim/aggregation_jax.py"
-  - "gettsim/tests"
+  - setup.py
+  - dashboard/
+  - src/_gettsim/parameters/_dynamic_pension_data/
+  - src/_gettsim_tests/
