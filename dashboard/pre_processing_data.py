@@ -1,21 +1,22 @@
-"""
-This module puts together the data needed for the dashboards based
-on the specified GETTSIM parameters. It has to be run manually
-after any parameter is changed.
+"""This module puts together the data needed for the dashboards based on the specified
+GETTSIM parameters.
+
+It has to be run manually after any parameter is changed.
+
 """
 import pickle
 from datetime import date
 
 import numpy as np
 import pandas as pd
+from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.policy_environment import set_up_policy_environment
+from _gettsim.taxes.eink_st import _eink_st_tarif
+from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
+from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
+from _gettsim.transfers.wohngeld import wohngeld_min_miete_m_hh
+from _gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m_hh
 
-from gettsim import set_up_policy_environment
-from gettsim.piecewise_functions import piecewise_polynomial
-from gettsim.taxes.eink_st import _eink_st_tarif
-from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
-from gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
-from gettsim.transfers.wohngeld import wohngeld_min_miete_m_hh
-from gettsim.transfers.wohngeld import wohngeld_vor_vermög_check_m_hh
 
 wohngeld_miete_m_hh_ab_2009 = np.vectorize(wohngeld_miete_m_hh_ab_2009)
 wohngeld_miete_m_hh_bis_2008 = np.vectorize(wohngeld_miete_m_hh_bis_2008)
@@ -28,12 +29,12 @@ _eink_st_tarif = np.vectorize(_eink_st_tarif)
 
 
 def deduction_data(start, end):
-    """
-    Data preparation for income tax deduction parameters. Return a dataframe.
+    """Data preparation for income tax deduction parameters. Return a dataframe.
 
     Parameters:
     start (Int): Defines the start of the simulated period
     end (Int):  Defines the end of the simulated period
+
     """
 
     # Period for simulation:
@@ -172,14 +173,14 @@ def wohngeld_data():
 
 
 def tax_rate_data(start, end):
-    """
-    For a given year span returns the policy parameters to plot income tax
-    rate per income
+    """For a given year span returns the policy parameters to plot income tax rate per
+    income.
 
     sel_year (Int): The year for which the data will be simulated. The range for
                     which parameters can be simulated is 2002-2020.
 
     returns dict
+
     """
     years = range(start, end + 1)
     einkommen = pd.Series(data=np.linspace(0, 300000, 601))
@@ -218,11 +219,13 @@ def tax_rate_data(start, end):
 
 
 def child_benefits_data(start, end):
-    """
-    Data preparation for kindergeld parameters. Returns a dataframe.
+    """Data preparation for kindergeld parameters.
+
+    Returns a dataframe.
     Parameters:
     start (Int): Defines the start of the simulated period
     end (Int):  Defines the end of the simulated period
+
     """
 
     # Calculate simulation period
@@ -244,14 +247,14 @@ def child_benefits_data(start, end):
 
 
 def social_security_data(start, end):
-    """
-    For a year range returns the policy parameters to plot the social insurance
-    contributions
+    """For a year range returns the policy parameters to plot the social insurance
+    contributions.
 
     start (Int): Defines the start of the simulated period
     end (Int):  Defines the end of the simulated period
 
     returns dataframe
+
     """
     years = range(start, end + 1)
 
@@ -290,9 +293,8 @@ def social_security_data(start, end):
 
 
 def social_assistance_data(start, end):
-    """
-    For a year range returns the policy parameters to plot the social insurance
-    contributions
+    """For a year range returns the policy parameters to plot the social insurance
+    contributions.
 
     start (Int):
         Defines the start of the simulated period
@@ -301,6 +303,7 @@ def social_assistance_data(start, end):
 
     returns:
         soz_ass_out: pd.DataFrame
+
     """
 
     years = range(start, end + 1)

@@ -73,3 +73,4 @@ ___*
 docs/_build
 docs/tutorials/sandbox_cz.ipynb
 params_dashboard_data.pickle
+_version.py

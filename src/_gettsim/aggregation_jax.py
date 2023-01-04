@@ -1,0 +1,84 @@
+from _gettsim.aggregation_numpy import fail_if_dtype_not_boolean_or_int
+from _gettsim.aggregation_numpy import fail_if_dtype_not_float
+from _gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_boolean
+from _gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_datetime
+from _gettsim.aggregation_numpy import fail_if_dtype_of_group_id_not_int
+
+try:
+    import jax.numpy as jnp
+    from jax.ops import segment_max
+    from jax.ops import segment_min
+    from jax.ops import segment_sum
+except ImportError:
+    pass
+
+
+def grouped_count(group_id):
+    fail_if_dtype_of_group_id_not_int(group_id, agg_func="count")
+    out_on_hh = segment_sum(jnp.ones(len(group_id)), group_id)
+    out = out_on_hh[group_id]
+    return out
+
+
+def grouped_sum(column, group_id):
+    fail_if_dtype_of_group_id_not_int(group_id, agg_func="sum")
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
+    if column.dtype in ["bool", "int"]:
+        column = column.astype(float)
+
+    out_on_hh = segment_sum(column, group_id)
+    out = out_on_hh[group_id]
+    return out
+
+
+def grouped_mean(column, group_id):
+    fail_if_dtype_of_group_id_not_int(group_id, agg_func="mean")
+    fail_if_dtype_not_float(column, agg_func="mean")
+    sum_on_hh = segment_sum(column, group_id)
+    sizes = segment_sum(jnp.ones(len(column)), group_id)
+    mean_on_hh = sum_on_hh / sizes
+    out = mean_on_hh[group_id]
+    return out
+
+
+def grouped_max(column, group_id):
+    fail_if_dtype_of_group_id_not_int(group_id, agg_func="max")
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="max")
+
+    out_on_hh = segment_max(column, group_id)
+    out = out_on_hh[group_id]
+    return out
+
+
+def grouped_min(column, group_id):
+    fail_if_dtype_of_group_id_not_int(group_id, agg_func="min")
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="min")
+    out_on_hh = segment_min(column, group_id)
+    out = out_on_hh[group_id]
+    return out
+
+
+def grouped_any(column, group_id):
+    fail_if_dtype_of_group_id_not_int(group_id, agg_func="any")
+    fail_if_dtype_not_boolean_or_int(column, agg_func="any")
+
+    # Convert to boolean if necessary
+    if column.dtype == "int":
+        column = column.astype("bool")
+
+    out_on_hh = segment_max(column, group_id)
+    out = out_on_hh[group_id]
+    return out
+
+
+def grouped_all(column, group_id):
+    fail_if_dtype_of_group_id_not_int(group_id, agg_func="all")
+    fail_if_dtype_not_boolean_or_int(column, agg_func="all")
+
+    # Convert to boolean if necessary
+    if column.dtype == "int":
+        column = column.astype("bool")
+
+    out_on_hh = segment_min(column, group_id)
+    out = out_on_hh[group_id]
+    return out

@@ -9,7 +9,7 @@ import datetime as dt
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath("../src"))
 
 # -- Project information -----------------------------------------------------
 
@@ -35,7 +35,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
-    "sphinx_rtd_theme",
+    "myst_parser",
 ]
 
 # The master toctree document.
@@ -43,6 +43,15 @@ master_doc = "index"
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ["_templates"]
+
+# The suffix(es) of source filenames.
+# You can specify multiple suffix as a list of string:
+#
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".txt": "restructuredtext",
+    ".md": "markdown",
+}
 
 # List of patterns, relative to source directory, that match files and directories to
 # ignore when looking for source files. This pattern also affects html_static_path and
@@ -60,7 +69,6 @@ autodoc_default_options = {
     "undoc-members": True,
 }
 autodoc_mock_imports = [
-    "bokeh",
     "networkx",
     "numpy",
     "numpy_groupies",
@@ -73,15 +81,20 @@ autodoc_mock_imports = [
 ]
 
 extlinks = {
-    "ghuser": ("https://github.com/%s", "@"),
-    "gh": ("https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s", "#"),
+    "ghuser": ("https://github.com/%s", "@%s"),
+    "gh": (
+        "https://github.com/iza-institute-of-labor-economics/gettsim/pull/%s",
+        "#%s",
+    ),
 }
 
 intersphinx_mapping = {
     "numpy": ("https://docs.scipy.org/doc/numpy", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
-    "python": ("https://docs.python.org/3.7", None),
+    "python": ("https://docs.python.org/3.11", None),
 }
+
+myst_heading_anchors = 3
 
 numpydoc_show_class_members = False
 
@@ -92,12 +105,11 @@ todo_emit_warnings = True
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for a list of
 # builtin themes.
-html_theme = "sphinx_rtd_theme"
+html_theme = "pydata_sphinx_theme"
 html_logo = "_static/images/gettsim_logo.svg"
 
 html_theme_options = {
-    "logo_only": True,
-    "display_version": False,
+    "github_url": "https://github.com/iza-institute-of-labor-economics/gettsim",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here, relative
@@ -106,6 +118,13 @@ html_theme_options = {
 html_static_path = ["_static"]
 
 html_css_files = ["css/custom.css"]
+
+html_sidebars = {
+    "**": [
+        "relations.html",  # needs 'show_related': True theme option to display
+        "searchbox.html",
+    ]
+}
 
 # Napoleon settings
 napoleon_use_rtype = False
