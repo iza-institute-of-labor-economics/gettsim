@@ -42,3 +42,8 @@ ignore_errors = true
 
 [tool.tryceratops]
 ignore = ["TC003"]
+
+[tool.yamlfix]
+line_length = 88
+flow_style_sequence = false
+none_representation = "null"
