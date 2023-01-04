@@ -1,3 +1,4 @@
+---
 name: gettsim-docs
 
 channels:
@@ -5,10 +6,12 @@ channels:
   - nodefaults
 
 dependencies:
-  - python
+  - python=3.11
   - pip >=21.1
   - dags
-  - ipywidgets
+  # https://github.com/plotly/plotly.py/issues/3686
+  # https://github.com/plotly/plotly.py/pull/3930
+  - ipywidgets<8
   # Jinja2 3.1 does not work with nbconvert
   # E.g., https://github.com/jupyter/nbconvert/issues/1740
   - jinja2<3.1
@@ -32,6 +35,6 @@ dependencies:
   - sphinx-copybutton
   - nbsphinx
   - pip:
-    - plotly
-    - kaleido
-    - -e ..
+      - plotly
+      - kaleido
+      - -e ..
