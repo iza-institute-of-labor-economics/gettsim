@@ -223,7 +223,7 @@ Alternatives might be (very open for discussion here):
    - Con:
 
      - Hard to type
-     - Ununsual
+     - Unusual
 
 ### Distinguishing between different input arguments
 
