@@ -144,6 +144,34 @@ The proposed changes will affect all areas of GETTSIM
      checking; mypy does like very general dictionaries. But in general, it can be
      useful to see directly from the interface of a function what is being used inside.
 
+     Another advantage of the individual-parameter approach instead of unstructured
+     dicts is that it would make this part of the DAG more natural. E.g., we could have
+     a special function:
+
+     ```py
+     def parse_params_dict(params):
+         pass
+     ```
+
+     which returns each of its top-level keys, e.g. in case of `soli_st`, this might be
+
+     - `p_rate`
+     - `p_freigrenze`
+     - `p_max_rate`
+
+     where the `p_` prefix only signals to the vectorisation machinery that
+     vectorisation will not apply to these arguments. There might then be a function:
+
+     ```py
+     def p_soli_st(p_rate, p_freigrenze, p_max_rate):
+         pass
+     ```
+
+     which uses these values to return a structured dict with keys `thresholds`,
+     `rates`, `intercepts_at_lower_thresholds`, i.e., what is required by
+     `piecewise_polynomial` and which is the current content of
+     `soli_st_params["soli_st"]`.
+
 ## Backward compatibility
 
 This section describes the ways in which the GEP breaks backward compatibility.
@@ -233,7 +261,7 @@ are be partialed in (parameters and values derived from those).
 
 This currently works via matching `_params` at the end of an argument. If continuing to
 work with dictionaries (pytrees) as arguments, we could keep that convention or think of
-a similar one.
+a similar one, e.g., the `p_` prefix as described above.
 
 ### Example
 
