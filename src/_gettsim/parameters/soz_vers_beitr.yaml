@@ -1,33 +1,33 @@
+---
 beitr_satz:
   name:
     de: Beitragssätze zu den gesetzlichen Sozialversicherungen
     en: Contribution rate to statutory social insurances
   description:
     de:
-      ges_krankenv: Beitragssätze für gesetzliche Krankenversicherung.
-        mean_allgemein - durchschnittlicher Beitragssatz, bis 2008
-        allgemein - allgemeiner Satz (§241 SGB V), ab 2009
-        sonderbeitrag - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
-        ermäßigt - ermäßigter Satz (§243 SGB V)
-        zusatz - durchschnittlicher Zusatzbeitragssatz.
-      ges_pflegev: Beitragssätze für gesetzliche Pflegeversicherung.
-        standard - Beitragssatz für Arbeitnehmer
-        zusatz_kinderlos - Beitragszuschlag für kinderlose Versicherte,
-        die das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer
-        alleine getragen. Eingeführt 2005.
+      ges_krankenv: >-
+        Beitragssätze für gesetzliche Krankenversicherung. mean_allgemein -
+        durchschnittlicher Beitragssatz, bis 2008 allgemein - allgemeiner Satz (§241 SGB
+        V), ab 2009 sonderbeitrag - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
+        ermäßigt - ermäßigter Satz (§243 SGB V) zusatz - durchschnittlicher
+        Zusatzbeitragssatz.
+      ges_pflegev: >-
+        Beitragssätze für gesetzliche Pflegeversicherung. standard - Beitragssatz für
+        Arbeitnehmer zusatz_kinderlos - Beitragszuschlag für kinderlose Versicherte, die
+        das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer alleine getragen.
+        Eingeführt 2005.
       arbeitsl_v: Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
       ges_rentenv: Beitragssätze zur allgemeinen Rentenversicherung für Arbeitnehmer.
     en:
-      ges_krankenv: Statury Contribution Rates for mandatory health insurance.
-        mean_allgemein - average contribution rate, 1992 to 2008
-        allgemein - general statutory contribution rate, since 2009
-        sonderbeitrag - paid by employees, Jul 2005 to 2014
-        ermäßigt - reduced rate
-        zusatz - average top-up contribution rate
-      ges_pflegev: Statury Contribution Rates for mandatory care insurance.
-        standard - employees contribution rate
-        zusatz_kinderlos - contribution rate for insured people without
-        children and at least 23 years old. paid by employees. est. 2005
+      ges_krankenv: >-
+        Statury Contribution Rates for mandatory health insurance. mean_allgemein -
+        average contribution rate, 1992 to 2008 allgemein - general statutory
+        contribution rate, since 2009 sonderbeitrag - paid by employees, Jul 2005 to
+        2014 ermäßigt - reduced rate zusatz - average top-up contribution rate
+      ges_pflegev: >-
+        Statury Contribution Rates for mandatory care insurance. standard - employees
+        contribution rate zusatz_kinderlos - contribution rate for insured people
+        without children and at least 23 years old. paid by employees. est. 2005
       arbeitsl_v: employees contribution rate for unemployment insurance.
       ges_rentenv: employees contribution rate for pension insurance.
 
@@ -153,7 +153,9 @@ beitr_satz:
     ges_krankenv:
       mean_allgemein: 0.133
       sonderbeitrag: 0.009
-    note: Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung des Sonderbeitrags
+    note: >-
+      Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung des
+      Sonderbeitrags
     reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
   2007-01-01:
     deviation_from: previous
@@ -193,7 +195,9 @@ beitr_satz:
   2012-01-01:
     deviation_from: previous
     ges_rentenv: 0.098
-    note: Quelle http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
+    note: >-
+      Quelle
+      http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
   2013-01-01:
     deviation_from: previous
     ges_rentenv: 0.0945
@@ -225,7 +229,9 @@ beitr_satz:
       mean_zusatzbeitrag: 0.01
     ges_rentenv: 0.093
   2019-01-01:
-    note: Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387. Durchschnittlicher zusatzbeitragssatz 0,9%
+    note: >-
+      Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387.
+      Durchschnittlicher zusatzbeitragssatz 0,9%
     ges_krankenv:
       allgemein: 0.146
       ermäßigt: 0.14
@@ -240,12 +246,16 @@ beitr_satz:
     ges_krankenv:
       mean_zusatzbeitrag: 0.011
     arbeitsl_v: 0.012
-    note: Durchschnittlicher Zusatzbeitragssatz 1,1%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
+    note: >-
+      Durchschnittlicher Zusatzbeitragssatz 1,1%,
+      https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
   2021-01-01:
     deviation_from: previous
     ges_krankenv:
       mean_zusatzbeitrag: 0.013
-    note: Durchschnittlicher Zusatzbeitragssatz 1,3%, https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
+    note: >-
+      Durchschnittlicher Zusatzbeitragssatz 1,3%,
+      https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
   2022-01-01:
     deviation_from: previous
     ges_pflegev:
@@ -258,10 +268,10 @@ beitr_bemess_grenze_m:
     en: Income Threshold for social insurance.
   description:
     de: Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist identisch.
-    en:
+    en: null
   note:
-    de:
-    en:
+    de: null
+    en: null
   unit: Euro
   reference_period: Month
   1984-01-01:
@@ -466,7 +476,8 @@ beitr_bemess_grenze_m:
     ges_rentenv:
       west: 5950
       ost: 5000
-    note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+    note: >-
+      http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
   2015-01-01:
     ges_krankenv:
       west: 4125
@@ -481,7 +492,8 @@ beitr_bemess_grenze_m:
     ges_rentenv:
       west: 6200
       ost: 5400
-    note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+    note: >-
+      https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
   2017-01-01:
     ges_krankenv:
       west: 4350
@@ -489,7 +501,8 @@ beitr_bemess_grenze_m:
     ges_rentenv:
       west: 6350
       ost: 5700
-    note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+    note: >-
+      https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
   2018-01-01:
     ges_krankenv:
       west: 4425
@@ -541,7 +554,7 @@ bezugsgröße_selbst_m:
     en: Monthly reference size
   description:
     de: §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   1984-01-01:
@@ -626,18 +639,21 @@ bezugsgröße_selbst_m:
     west: 2695
     ost: 2275
   2014-01-01:
-    note: http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+    note: >-
+      http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
     west: 2765
     ost: 2345
   2015-01-01:
     west: 2835
     ost: 2415
   2016-01-01:
-    note: https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+    note: >-
+      https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
     west: 2905
     ost: 2520
   2017-01-01:
-    note: https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+    note: >-
+      https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
     west: 2975
     ost: 2660
   2018-01-01:
@@ -664,14 +680,15 @@ bezugsgröße_selbst_m:
     ost: 3290
     reference: V. v. 28.11.2022 BGBl. I. S. 2128.
 
-
 mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
   name:
     de: Mindestberechungsbeitrag für Selbstständige als Anteil der Bezugsgröße
     en: Minimum contribution for self employed as fraction of Bezugsgröße
   description:
-    de: Als beitragspflichtige Einnahmen gilt für den Kalendertag mindestens der neunzigste Teil der monatlichen Bezugsgröße (1/90*30)
-    en: Health Insurance contributions have to be payed, at the minimum, on the ninetieth part of the monthly Bezugsgröße for each Calender day
+    de: >-
+      Als beitragspflichtige Einnahmen gilt für den Kalendertag mindestens der neunzigste Teil der monatlichen Bezugsgröße (1/90*30)
+    en: >-
+      Health Insurance contributions have to be payed, at the minimum, on the ninetieth part of the monthly Bezugsgröße for each Calender day
   unit: Share
   reference: §240 SGB V Abs. 4
   note: Exact date of introduction of this parameter unclear (was in place in 2006)
@@ -680,11 +697,12 @@ mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
 
 geringfügige_eink_grenzen_m:
   name:
-    de: Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
+    de: >-
+      Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
     en: Thresholds for marginal employment ('mini' and 'midi' jobs)
   description:
     de: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
-    en:
+    en: null
   unit: Euro
   reference_period: Month
   1984-01-01:
@@ -793,7 +811,9 @@ geringfügige_eink_grenzen_m:
 
 geringf_eink_faktor:
   name:
-    de: Faktor, mit dem der Mindestlohn in der Berechnung der Geringfügigkeitsgrenze multipliziert wird.
+    de: >-
+      Faktor, mit dem der Mindestlohn in der Berechnung der Geringfügigkeitsgrenze
+      multipliziert wird.
   reference: §8 (1a) SGB IV
   2022-10-01:
     scalar: 130
@@ -801,9 +821,9 @@ geringf_eink_faktor:
 
 geringf_eink_divisor:
   name:
-    de:
-      Betrag, durch den der Mindestlohn, multipliziert mit gering_eink_faktor, dividiert wird,
-      um die Geringfügigkeitsgrenze zu erhalten.
+    de: >-
+      Betrag, durch den der Mindestlohn, multipliziert mit gering_eink_faktor, dividiert
+      wird, um die Geringfügigkeitsgrenze zu erhalten.
   reference: §8 (1a) SGB IV
   2022-10-01:
     scalar: 3
@@ -812,10 +832,13 @@ geringf_eink_divisor:
 ag_abgaben_geringf:
   name:
     de: Pauschalabgaben bei geringf. Beschäftigung
-    en:
+    en: null
   description:
-    de: Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II EStG)
-    en:
+    de: >-
+      Pauschalbeitrag zur Krankenversicherung (§ 249b SGB V), Pauschalbetrag zur
+      Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II
+      EStG)
+    en: null
   unit: Share
   1984-01-01:
     ges_krankenv: 0
@@ -839,10 +862,13 @@ ges_pflegev_zusatz_kinderlos_mindestalter:
     de: Mindestalter Beitragszuschlag für Kinderlose
     en: Minimum age for additional contribution for childless
   description:
-    de: Kinderlose Mitglieder der sozialen Pflegeversicherung, die das 23. Lebensjahr
-        vollendet haben, müssen seit dem 1. Januar 2005 einen erhöhten Beitragssatz entrichten.
-    en: Childless members of the social care insurance, who have reached the age of 23, have
-        to pay a higher contribution rate since January 1, 2005.
+    de: >-
+      Kinderlose Mitglieder der sozialen Pflegeversicherung, die das 23. Lebensjahr
+      vollendet haben, müssen seit dem 1. Januar 2005 einen erhöhten Beitragssatz
+      entrichten.
+    en: >-
+      Childless members of the social care insurance, who have reached the age of 23,
+      have to pay a higher contribution rate since January 1, 2005.
   unit: Year
   reference: § 55 Abs. 3 SGB XI, KiBG Art. 1
   2005-01-01:
@@ -878,12 +904,12 @@ rounding:
     1990-01-01:
       base: 0.0001
       direction: nearest
-      reference:
+      reference: null
   minijob_grenze_west:
     1990-01-01:
       base: 1
       direction: up
-      reference:
+      reference: null
     2022-10-01:
       base: 1
       direction: up
@@ -892,7 +918,7 @@ rounding:
     1990-01-01:
       base: 1
       direction: up
-      reference:
+      reference: null
     2022-10-01:
       base: 1
       direction: up

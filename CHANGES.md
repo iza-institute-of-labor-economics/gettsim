@@ -22,8 +22,8 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`393` normal retirement age adjustment aligned with the rules.
   ({ghuser}`TeBackh`).
 
-- {gh}`396` Implement pension for (very) long term insured, including eligibility
-  criteria, i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`).
+- {gh}`396` Implement pension for (very) long term insured, including eligibility criteria,
+  i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`).
 
 - {gh}`403` Replace <span class="title-ref">Bokeh</span> with <span
   class="title-ref">plotly</span> for visualization.
@@ -59,6 +59,8 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`405` Fixed calculation of voluntary contribution by self-employed to the GKV.
   ({ghuser}`JHermann99`)
+- {gh}`470` Execute notebooks as part of the documentation build on readthedocs
+  ({ghuser}`hmgaudecker`)
 
 ## 0.5.1 — 2022-04-21
 
