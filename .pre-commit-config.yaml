@@ -108,10 +108,10 @@ repos:
   #   rev: 1.2.0
   #   hooks:
   #     - id: yamlfix
-  # - repo: https://github.com/adrienverge/yamllint.git
-  #   rev: v1.28.0
-  #   hooks:
-  #     - id: yamllint
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.28.0
+    hooks:
+      - id: yamllint
 
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
