@@ -552,10 +552,9 @@ mehrbedarf_behindert:
     de: Mehrbedarf bei Behinderung
     en: Additional requirement when disabled
   description:
-    de:
-      Dieser Prozentanteil des Regelbedarfs wird Erwerbsfähigen gewährt,
-      die 'Leistungen zur Teilhabe am Arbeitsleben' erhalten.
-    en:
+    de: Dieser Prozentanteil des Regelbedarfs wird Erwerbsfähigen gewährt, die 'Leistungen
+      zur Teilhabe am Arbeitsleben' erhalten.
+    en: null
   unit: share
   reference: § 21 Abs. 4 SGB II
   2005-01-01:
