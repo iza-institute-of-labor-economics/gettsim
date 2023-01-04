@@ -1,25 +1,28 @@
-# Exclude every file or folder starting with a dot.
-exclude: ^\.
+---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
       - id: check-added-large-files
-        args: ["--maxkb=10000"]
+        args:
+          - --maxkb=10000
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: check-vcs-permalinks
       - id: check-yaml
-        exclude: 'meta\.yaml'
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
-        types: [text]
+        types:
+          - text
       - id: mixed-line-ending
-        args: ["--fix=lf"]
+        args:
+          - --fix=lf
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: no-commit-to-branch
-        args: [--branch, main]
+        args:
+          - --branch
+          - main
       - id: trailing-whitespace
       - id: check-ast
       - id: check-docstring-first
@@ -36,12 +39,14 @@ repos:
     rev: v3.3.1
     hooks:
       - id: pyupgrade
-        args: [--py39-plus]
+        args:
+          - --py39-plus
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.9.0
     hooks:
       - id: reorder-python-imports
-        args: [--py39-plus]
+        args:
+          - --py39-plus
   - repo: https://github.com/asottile/setup-cfg-fmt
     rev: v2.2.0
     hooks:
@@ -55,106 +60,109 @@ repos:
     hooks:
       - id: docformatter
         args:
-          [
-            --in-place,
-            --wrap-summaries,
-            "88",
-            --wrap-descriptions,
-            "88",
-            --blank,
-          ]
+          - --in-place
+          - --wrap-summaries
+          - '88'
+          - --wrap-descriptions
+          - '88'
+          - --blank
   - repo: https://github.com/PyCQA/flake8
     rev: 5.0.4
     hooks:
       - id: flake8
-        additional_dependencies: [
-            flake8-alfred,
-            flake8-bugbear,
-            flake8-builtins,
-            flake8-comprehensions,
-            flake8-docstrings,
-            flake8-eradicate,
-            flake8-print,
+        additional_dependencies:
+          - flake8-alfred
+          - flake8-bugbear
+          - flake8-builtins
+          - flake8-comprehensions
+          - flake8-docstrings
+          - flake8-eradicate
+          - flake8-print
             # flake8-pytest-style,  # produces SyntaxError with umlauts.
-            flake8-todo,
-            flake8-typing-imports,
-            flake8-unused-arguments,
-            pep8-naming,
-            pydocstyle,
-            Pygments,
-          ]
+          - flake8-todo
+          - flake8-typing-imports
+          - flake8-unused-arguments
+          - pep8-naming
+          - pydocstyle
+          - Pygments
 
-    # ToDo: comment in if only python 3.10 and above is supported
-    # - repo: https://github.com/dosisod/refurb
-    #   rev: v1.7.0
-    #   hooks:
-    #     - id: refurb
+  # ToDo: comment in if only python 3.10 and above is supported
+  # - repo: https://github.com/dosisod/refurb
+  #   rev: v1.7.0
+  #   hooks:
+  #     - id: refurb
 
   - repo: https://github.com/guilatrova/tryceratops
     rev: v1.1.0
     hooks:
       - id: tryceratops
 
-    # - repo: https://github.com/econchick/interrogate
-    #   rev: 1.5.0
-    #   hooks:
-    #     - id: interrogate
-    #       args: [-v, --fail-under=50]
-    #       exclude: ^(dashboard/|gettsim/docs/)
+  # - repo: https://github.com/econchick/interrogate
+  #   rev: 1.5.0
+  #   hooks:
+  #     - id: interrogate
+  #       args: [-v, --fail-under=50]
+  #       exclude: ^(dashboard/|gettsim/docs/)
 
-    # - repo: https://github.com/adrienverge/yamllint.git
-    #   rev: v1.26.1
-    #   hooks:
-    #     - id: yamllint
-    #       files: \.(yaml|yml)$
-    #       types: [file, yaml]
-    #       entry: "yamllint --strict -f parsable -d '{rules: {document-start: {present: false}}'"
-
-    # - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-    #   rev: 0.2.1 # or other specific tag
-    #   hooks:
-    #     - id: yamlfmt
+  - repo: https://github.com/lyz-code/yamlfix
+    rev: 1.2.0
+    hooks:
+      - id: yamlfix
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.28.0
+    hooks:
+      - id: yamllint
 
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-gfm, mdformat-black]
-        args: [--wrap, "88"]
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-black
+        args:
+          - --wrap
+          - '88'
         files: (README\.md)
-        exclude: |
-          (?x)^(
-              {{cookiecutter.project_slug}}/README.md
-          )$
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-myst, mdformat-black]
-        args: [--wrap, "88"]
+        additional_dependencies:
+          - mdformat-myst
+          - mdformat-black
+        args:
+          - --wrap
+          - '88'
         files: (docs/.)
-        # Exclude files with admonitions.
-        # exclude: |
-        #     (?x)^(
-        #         path/to/file.py
-        #     )$
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.991
     hooks:
       - id: mypy
-        args: [
-            # --no-strict-optional,
-            --ignore-missing-imports,
-          ]
-        additional_dependencies: [types-PyYAML, types-pytz]
+        args:
+          - --ignore-missing-imports
+        additional_dependencies:
+          - types-PyYAML
+          - types-pytz
   - repo: https://github.com/mgedmin/check-manifest
-    rev: "0.48"
+    rev: '0.48'
     hooks:
       - id: check-manifest
-        args: [--no-build-isolation]
-        additional_dependencies: [setuptools-scm, toml]
+        args:
+          - --no-build-isolation
+        additional_dependencies:
+          - setuptools-scm
+          - toml
   - repo: meta
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
-    # -   id: identity  # Prints all files passed to pre-commits. Debugging.
+      # - id: identity  # Prints all files passed to pre-commits. Debugging.
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout
+        args:
+          - --extra-keys
+          - metadata.kernelspec
