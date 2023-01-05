@@ -122,7 +122,7 @@ Type: bool
 
 ## `betreuungskost_m`
 
-Monthly childcare expenses
+Monthly childcare expenses for a particular child under the age of 14
 
 Type: float
 
@@ -429,7 +429,7 @@ Months of schooling (incl college, unifrom age 17, max. 8 years)
 
 Type: float
 
-(m_alg1_übergang)=
+(m*alg1*übergang)=
 
 ## `m_alg1_übergang`
 
