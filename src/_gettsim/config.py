@@ -10,6 +10,7 @@ except ImportError:
     IS_JAX_INSTALLED = False
 else:
     IS_JAX_INSTALLED = True
+    jax.config.update("jax_platform_name", "cpu")
 
 
 # Obtain the root directory of the package. Do not import gettsim which creates a
