@@ -429,7 +429,7 @@ Months of schooling (incl college, unifrom age 17, max. 8 years)
 
 Type: float
 
-(m*alg1*übergang)=
+(m_alg1_übergang)=
 
 ## `m_alg1_übergang`
 
