@@ -7,7 +7,7 @@ recursive-include src py.typed
 recursive-include src *.yaml
 recursive-include src *.csv
 recursive-include src *.py
-include src/_gettsim_tests/test_data/lohnsteuer_testfälle_bmf_2022.xlsx
+recursive-include src/_gettsim_tests/test_data/original_testfaelle *.*
 
 global-exclude __pycache__/**/*
 global-exclude *.py[cod]

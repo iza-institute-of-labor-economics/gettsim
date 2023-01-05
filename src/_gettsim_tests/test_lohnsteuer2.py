@@ -23,7 +23,7 @@ INPUT_COLS = [
     "ges_krankenv_zusatzbeitrag",
 ]
 
-OUT_COLS = ["lohn_st_m", "lohn_st_soli_m"]
+OUT_COLS = ["lohn_st_m", "lohn_st_soli_m", "vorsorgepauschale", "lohn_st_eink"]
 
 
 YEARS = [2022]
@@ -138,6 +138,8 @@ def input_data():
             test_data[outvar] / 12
         )
 
+    test_data["lohn_st_m"] = test_data["lohn_st_m"] // 1
+
     # Provisionally, calculate amount of claimed Kinderfreibeträge outside of Gettsim
     test_data["eink_st_kinderfreib_tu"] = (
         test_data["anz_kinder_mit_kindergeld_tu"] * (2730 + 1464) * 2
@@ -148,7 +150,7 @@ def input_data():
     test_data["vorsorgepauschale"] = 0
 
     test_data = test_data[test_data["steuerklasse"].isin([5])]
-    test_data = test_data[test_data["p_id"] == 963]
+    # test_data = test_data[test_data["p_id"] == 1667]
 
     return test_data
 

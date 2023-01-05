@@ -1,6 +1,10 @@
+from math import trunc
+
+from _gettsim.shared import add_rounding_spec
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
+@add_rounding_spec(params_key="lohn_st")
 def lohn_st_eink(
     bruttolohn_m: float,
     steuerklasse: int,
@@ -78,10 +82,10 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
     out = max(
         2
         * (
-            _eink_st_tarif(taxable_inc * 1.25, eink_st_params)
-            - _eink_st_tarif(taxable_inc * 0.75, eink_st_params)
+            trunc(_eink_st_tarif(taxable_inc * 1.25, eink_st_params))
+            - trunc(_eink_st_tarif(taxable_inc * 0.75, eink_st_params))
         ),
-        taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1],
+        trunc(taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1]),
     )
 
     return out
@@ -139,6 +143,7 @@ def lohn_st_m(
             lohnsteuer_grenze_1
             + (lohn_st_eink - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
         )
+        max_lohnsteuer = trunc(max_lohnsteuer)
         lohnsteuer_klasse5_6 = min(
             max_lohnsteuer, _lohnsteuer_klasse5_6_basis(lohn_st_eink, eink_st_params)
         )
@@ -148,16 +153,19 @@ def lohn_st_m(
             lohnsteuer_grenze_2
             + (lohn_st_eink - grenze_2) * eink_st_params["eink_st_tarif"]["rates"][0][3]
         )
+        trunc(lohnsteuer_klasse5_6)
     else:
         lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis(grenze_2, eink_st_params)
         lohnsteuer_zw_grenze_2_3 = (grenze_3 - grenze_2) * eink_st_params[
             "eink_st_tarif"
         ]["rates"][0][3]
+        lohnsteuer_klasse5_6 = lohnsteuer_grenze_2 + lohnsteuer_zw_grenze_2_3
+        lohnsteuer_klasse5_6 = trunc(lohnsteuer_klasse5_6)
         lohnsteuer_klasse5_6 = (
-            lohnsteuer_grenze_2
-            + lohnsteuer_zw_grenze_2_3
+            lohnsteuer_klasse5_6
             + (lohn_st_eink - grenze_3) * eink_st_params["eink_st_tarif"]["rates"][0][4]
         )
+        lohnsteuer_klasse5_6 = trunc(lohnsteuer_klasse5_6)
 
     if steuerklasse in (1, 2, 4):
         out = lohnsteuer_basistarif
@@ -166,11 +174,12 @@ def lohn_st_m(
     else:
         out = lohnsteuer_klasse5_6
 
-    out = out / 12
+    out = trunc(out / 12)
 
     return max(out, 0.0)
 
 
+@add_rounding_spec(params_key="lohn_st")
 def vorsorgepauschale_ab_2010(
     bruttolohn_m: float,
     steuerklasse: int,
