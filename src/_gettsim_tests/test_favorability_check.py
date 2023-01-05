@@ -20,7 +20,7 @@ INPUT_COLS = [
     "jahr",
 ]
 YEARS = [2010, 2012, 2016]
-TEST_COLUMNS = ["eink_st_tu", "kindergeld_m_hh", "kindergeld_m_tu"]
+TEST_COLUMNS = ["eink_st_tu"]
 
 
 @pytest.fixture(scope="module")

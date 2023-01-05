@@ -7,7 +7,8 @@ def eink_st_ohne_kinderfreib_tu(
     anz_erwachsene_tu: int,
     eink_st_params: dict,
 ) -> float:
-    """Taxes without child allowance on tax unit level.
+    """Taxes without child allowance on tax unit level. Also referred to as "tarifliche
+    ESt II".
 
     Parameters
     ----------
@@ -35,7 +36,8 @@ def eink_st_mit_kinderfreib_tu(
     anz_erwachsene_tu: int,
     eink_st_params: dict,
 ) -> float:
-    """Taxes with child allowance on tax unit level.
+    """Taxes with child allowance on tax unit level. Also referred to as "tarifliche ESt
+    I".
 
     Parameters
     ----------
