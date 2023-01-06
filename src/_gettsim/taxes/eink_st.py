@@ -7,7 +7,8 @@ def eink_st_ohne_kinderfreib_tu(
     anz_erwachsene_tu: int,
     eink_st_params: dict,
 ) -> float:
-    """Taxes without child allowance on tax unit level.
+    """Taxes without child allowance on tax unit level. Also referred to as "tarifliche
+    ESt II".
 
     Parameters
     ----------
@@ -35,7 +36,8 @@ def eink_st_mit_kinderfreib_tu(
     anz_erwachsene_tu: int,
     eink_st_params: dict,
 ) -> float:
-    """Taxes with child allowance on tax unit level.
+    """Taxes with child allowance on tax unit level. Also referred to as "tarifliche ESt
+    I".
 
     Parameters
     ----------
@@ -162,8 +164,8 @@ def kinderfreib_günstiger_tu(
 
 
 def eink_st_rel_kindergeld_tu(
-    kindergeld_basis_m_tu: float,
-    kinderbonus_basis_m_tu: float,
+    kindergeld_m_tu: float,
+    kinderbonus_m_tu: float,
     anz_erwachsene_tu: int,
 ) -> float:
     """Return Kindergeld relevant for income tax of the tax unit. For parents which do
@@ -178,17 +180,15 @@ def eink_st_rel_kindergeld_tu(
 
     Parameters
     ----------
-    kindergeld_basis_m_tu
-        See :func:`kindergeld_basis_m_tu`.
-    kinderbonus_basis_m_tu
-        See :func:`kinderbonus_basis_m_tu`.
+    kindergeld_m_tu
+        See :func:`kindergeld_m_tu`.
+    kinderbonus_m_tu
+        See :func:`kinderbonus_m_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     Returns
     -------
 
     """
-    out = (
-        12 * (kindergeld_basis_m_tu + kinderbonus_basis_m_tu) * (anz_erwachsene_tu / 2)
-    )
+    out = 12 * (kindergeld_m_tu + kinderbonus_m_tu) * (anz_erwachsene_tu / 2)
     return out

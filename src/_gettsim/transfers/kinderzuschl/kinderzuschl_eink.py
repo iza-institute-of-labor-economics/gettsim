@@ -7,15 +7,18 @@ aggregation_kinderzuschl_eink = {
 
 
 def kinderzuschl_bruttoeink_eltern_m(
-    arbeitsl_geld_2_brutto_eink_m: float,
+    arbeitsl_geld_2_bruttoeink_m: float,
     eltern: bool,
 ) -> float:
-    """Calculate parental gross income for child benefit.
+    """Calculate parental gross income for calculation of child benefit.
+
+    This variable is used to check whether the minimum income threshold for child
+    benefit is met.
 
     Parameters
     ----------
-    arbeitsl_geld_2_brutto_eink_m
-        See :func:`arbeitsl_geld_2_brutto_eink_m`.
+    arbeitsl_geld_2_bruttoeink_m
+        See :func:`arbeitsl_geld_2_bruttoeink_m`.
     eltern
         See :func:`eltern`.
 
@@ -25,7 +28,7 @@ def kinderzuschl_bruttoeink_eltern_m(
     """
 
     if eltern:
-        out = arbeitsl_geld_2_brutto_eink_m
+        out = arbeitsl_geld_2_bruttoeink_m
     else:
         out = 0.0
 
@@ -36,7 +39,8 @@ def kinderzuschl_eink_eltern_m(
     arbeitsl_geld_2_eink_m: float,
     eltern: bool,
 ) -> float:
-    """Calculate parental income considered for child benefit.
+    """Parental income (after deduction of taxes, social insurance contributions, and
+    other deductions) for calculation of child benefit.
 
     Parameters
     ----------
