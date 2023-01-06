@@ -21,9 +21,8 @@ INPUT_COLS = [
     "jahr",
     "ges_krankenv_beitr_m",
 ]
-OUT_COLS = ["vorsorgeaufw"]
+OUT_COLS = ["vorsorgeaufw_tu"]
 
-TEST_COLS = ["vorsorgeaufw"]
 YEARS = [2004, 2005, 2010, 2018, 2020, 2021, 2024, 2025]
 
 OVERRIDE_COLS = [
@@ -41,7 +40,7 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, target", itertools.product(YEARS, TEST_COLS))
+@pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
 def test_vorsorgeaufw(
     input_data,
     year,

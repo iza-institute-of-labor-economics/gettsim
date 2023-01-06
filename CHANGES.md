@@ -67,6 +67,9 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`461` Fix bug in calculation of income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
 
+- {gh}`458` Calculate Vorsorgeaufwendungen on tax unit level and fix bug
+  ({ghuser}`ChristianZimpelmann`).
+
 ## 0.5.1 — 2022-04-21
 
 - {gh}`377` Fix wrong parameter value for <span

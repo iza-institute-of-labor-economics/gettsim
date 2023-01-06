@@ -32,7 +32,7 @@ INPUT_COLS = [
     "hat_kinder",
     "in_priv_krankenv",
     "geburtsjahr",
-    "vorsorgeaufw",
+    "vorsorgeaufw_tu",
 ]
 
 OUT_COLS = [
@@ -46,7 +46,7 @@ OUT_COLS = [
 ]
 OVERRIDE_COLS = [
     "sum_ges_rente_priv_rente_m",
-    "vorsorgeaufw",
+    "vorsorgeaufw_tu",
 ]
 YEARS = [2010, 2015, 2017, 2018, 2019, 2020]
 
