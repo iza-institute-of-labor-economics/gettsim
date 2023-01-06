@@ -69,6 +69,10 @@ def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(
     """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
 
+    To be eligible for Kinderzuschlag, gross income of parents needs to exceed the
+    minimum income threshold and net income needs to be below the maximum income
+    threshold.
+
     Parameters
     ----------
     kinderzuschl_bruttoeink_eltern_m_tu
@@ -110,6 +114,9 @@ def _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019(
 ) -> float:
     """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
+
+    To be eligible for Kinderzuschlag, gross income of parents needs to exceed the
+    minimum income threshold.
 
     Parameters
     ----------
