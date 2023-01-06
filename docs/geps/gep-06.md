@@ -35,7 +35,7 @@ in at least three directions:
 1. Names in the DAG are constantly hitting character limits because similar concepts are
    used across different domains
    ([example from PR 457](https://github.com/iza-institute-of-labor-economics/gettsim/pull/457#discussion_r1054643021):
-   `anwartschaftszeit` in pensions and unemployment insurance — ).
+   `anwartschaftszeit` in pensions and unemployment insurance).
 1. Handling functions that change over the years is not robust (examples in
    [Issue 449](https://github.com/iza-institute-of-labor-economics/gettsim/issues/449)
 1. Parameters files do not handle cases well when functions expect parameters in a
@@ -45,7 +45,7 @@ in at least three directions:
 These issues severely limit the development of GETTSIM. We have been spending far too
 much time finding names that adhere to our self-imposed character limits. Adding
 parameters is sometimes awkward as there is no obvious way for pre-processing them.
-functions with changing interfaces over the years is a constant pain. Specifying
+Functions with changing interfaces over the years are a constant pain.
 
 The proposed changes will push the usage of a DAG to more domains in order to extend the
 declarative approach to all components of the taxes and transfers system, not just the
@@ -75,11 +75,11 @@ The proposed changes will affect all areas of GETTSIM
 
    With namespaces, we would have:
 
-   - `ges_rente___anwartschaftszeit`
-   - `arbeitsl_geld___anwartschaftszeit`
+   - `ges_rente__anwartschaftszeit`
+   - `arbeitsl_geld__anwartschaftszeit`
 
    The precise character (sequence) used for namespace separation does not matter and
-   can be determined down the road; the example uses triple underscores. The only
+   can be determined down the road; the example uses double underscores. The only
    restriction is that the result must be a valid Python identifier, so a dot will not
    work.
 
@@ -125,52 +125,75 @@ The proposed changes will affect all areas of GETTSIM
    functions dictionary. Else, whatever is left after removing `removesuffix` will be
    placed as a key in the functions dictionary.
 
+   ```{todo}
+   For functions that are changing names more than anything (like *Arbeitslosengeld 2* →
+   *Bürgergeld*, which is a bad example only because it is at the namespace level), a
+   `change_name` keyword may be useful. We should determine empirically whether it is
+   worth it.)
+   ```
+
 1. The yaml-files with parameters
 
    - Will live in the same directory as the other functions (=same namespace).
-
    - Will be parsed to dictionaries and that's it.
 
-   - Might be used in a similar way as they are now (argument `params`, use
-     `params["beitragssatz"]` to access elements) or get special treatment as arguments,
-     e.g., `p_beitragssatz`.
+   The keys from these dictionary can then be used as nodes in the DAG.
 
-     In both cases, the namespace makes clear we are talking about, say, `arbeitsl_v`.
-     If we need parameters which are external to the current namespace, we will need the
-     same verbose syntax as in 1. (`ges_rentenv___params` /
-     `ges_rentenv___params___beitragssatz`).
+1. Functions will not have `[x]_params` arguments containing potentially large and
+   unstructured dicts any more. Instead, functions will only use the arguments they
+   require. In order to distinguish between arguments to be vectorised over (=data
+   columns and outputs of policy functions) and arguments that do not vary with the data
+   (e.g., parameters taken directly from the `yaml`-files or values derived from them,
+   including structured short vectors like inputs for `piecewise_polynomial`), there
+   will be a decorator `vectorize_over`.
 
-     What we do will depend in part on how strict we will want to be about type
-     checking; mypy does like very general dictionaries. But in general, it can be
-     useful to see directly from the interface of a function what is being used inside.
+   ```{todo}
+   TBD: Allow only one decorator `vectorize_over` or `do_not_vectorize_over` in addition?
+   (names can be better, of course)
 
-     Another advantage of the individual-parameter approach instead of unstructured
-     dicts is that it would make this part of the DAG more natural. E.g., we could have
-     a special function:
+   Trade-off between having only one way to achieve things and keeping things concise
+   (some functions have lots of "data" inputs, others have a lot of "parameter" inputs).
+   ```
 
-     ```py
-     def parse_params_dict(params):
-         pass
-     ```
+   The namespace makes clear we are talking about, say, the function `beitrag` in the
+   namespace `arbeitsl_v` will have an input `beitragssatz`. If we need parameters which
+   are external to the current namespace, we will need the same verbose syntax as in 1.
+   (`ges_rentenv__beitragsbemessungsgrenze`).
 
-     which returns each of its top-level keys, e.g. in case of `soli_st`, this might be
+   This approach will make the part of the DAG dealing with parameters of the taxes and
+   transfers system more natural. E.g., we could have a special function:
 
-     - `p_rate`
-     - `p_freigrenze`
-     - `p_max_rate`
+   ```py
+   def parse_params_dict(params):
+       pass
+   ```
 
-     where the `p_` prefix only signals to the vectorisation machinery that
-     vectorisation will not apply to these arguments. There might then be a function:
+   which returns each of its top-level keys, e.g. in case of `soli_st`, this might be
 
-     ```py
-     def p_soli_st(p_rate, p_freigrenze, p_max_rate):
-         pass
-     ```
+   - `rate`
+   - `freigrenze`
+   - `max_rate`
 
-     which uses these values to return a structured dict with keys `thresholds`,
-     `rates`, `intercepts_at_lower_thresholds`, i.e., what is required by
-     `piecewise_polynomial` and which is the current content of
-     `soli_st_params["soli_st"]`.
+   There might then be a function:
+
+   ```py
+   def params_piecewise_polynomial(rate, freigrenze, max_rate):
+       pass
+   ```
+
+   which uses these values to return a structured dict with keys `thresholds`, `rates`,
+   `intercepts_at_lower_thresholds`, i.e., what is required by `piecewise_polynomial`
+   and which is the current content of `soli_st_params["soli_st"]`.
+
+1. Because we will be expanding the scope of decorators, we will store function
+   attributes in a more structured way than what is currently being done.
+
+   E.g., currently the `add_rounding_spec` decorator will add an attribute
+   `__rounding_params_key__` to a function.
+
+   ```{todo}
+   Understand how pytask is doing this and add explanation of implementation.
+   ```
 
 ## Backward compatibility
 
@@ -193,8 +216,8 @@ mapping could be specified in a yaml file that looks something like:
 
 ```yaml
 ---
-ges_rente___anwartschaftszeit: pens_qual_per
-arbeitsl_geld___anwartschaftszeit: ue_ins_qual_per
+ges_rente__anwartschaftszeit: pens_qual_per
+arbeitsl_geld__anwartschaftszeit: ue_ins_qual_per
 ```
 
 GETTSIM will then rename the columns internally (or create a duplicate column, the data
@@ -236,12 +259,11 @@ to from here. (A GEP does not need to be implemented in a single pull request if
 makes sense to implement it in discrete phases).
 
 Restriction: It must be a valid Python identifier, so `.` is impossible. It also should
-be possible to parse it without too many case distinctions, double underscores might not
-be very future-proof given they are used extensively in Python.
+be possible to parse it without too many case distinctions.
 
 Alternatives might be (very open for discussion here):
 
-1. Triple underscores
+1. double underscores
 
    - Pro:
 
@@ -250,10 +272,10 @@ Alternatives might be (very open for discussion here):
 
    - Con:
 
-     - Easy to miss the tripling up
+     - Somewhat easy to miss the doubling up
      - Names get even longer than they will be in the first place
-     - Ambiguity when module names start / end with underscores (might just disallow /
-       ignore private modules)
+     - Ambiguity when module names start **and** end with underscores (might just
+       disallow / ignore special modules)
 
 1. Some Greek letter, e.g. Ω (Unicode 0x3a9, Greek Capital Letter Omega)
 
@@ -282,14 +304,21 @@ a similar one, e.g., the `p_` prefix as described above.
 We distribute code across various private modules and keep one namespace per tax /
 transfer / social insurance.
 
+In main namespace (will be used to build the DAG):
+
 ```
 ges_rente
 |-- __init.py__
-|   +-- from ._aufbau import *
-|   +-- from ._auszahlung import *
+|   +-- from _gettsim.ges_rente._aufbau import *
+|   +-- from _gettsim.ges_rente._auszahlung import *
 |   +-- ...
-|   +-- params = load_params("params.yaml")
-|-- params.yaml
+|   +-- params = load_params("_gettsim/ges_rente/params.yaml")
+```
+
+Private namespace:
+
+```
+ges_rente
 |-- _aufbau.py
 |   +-- def beitrag()
 |   +-- def entgeltp_update()
@@ -297,6 +326,8 @@ ges_rente
 |   +-- def betrag()
 |-- _langj_versicherte.py
 |-- _grundrente.py
+|-- ...
+|-- params.yaml
 |-- ...
 ```
 
