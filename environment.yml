@@ -31,9 +31,10 @@ dependencies:
   - pytest-xdist
   - pyyaml
 
-  # Speed, will be optional
+  # Prequisite for jax, lightweight so avoid case distinction
   - astor
-  - jax
+  # Speed, will be optional
+  # - jax
 
 
   # Reproducibility

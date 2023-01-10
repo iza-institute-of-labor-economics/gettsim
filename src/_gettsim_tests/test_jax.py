@@ -1,10 +1,13 @@
 import inspect
 import string
 
-import jax.numpy
 import numpy
 import pytest
+from _gettsim.config import IS_JAX_INSTALLED
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
+
+if IS_JAX_INSTALLED:
+    import jax.numpy
 from _gettsim.functions_loader import _load_functions
 from _gettsim.jax import make_vectorizable
 from _gettsim.jax import make_vectorizable_source
@@ -234,6 +237,7 @@ TEST_CASES = [
 # ======================================================================================
 
 
+@pytest.mark.skipif(not IS_JAX_INSTALLED, reason="JAX is not installed")
 @pytest.mark.parametrize("func, expected, args", TEST_CASES)
 def test_change_if_to_where_source(func, expected, args):  # noqa: U100
     exp = inspect.getsource(expected)
@@ -242,6 +246,7 @@ def test_change_if_to_where_source(func, expected, args):  # noqa: U100
     assert string_equal(exp, got)
 
 
+@pytest.mark.skipif(not IS_JAX_INSTALLED, reason="JAX is not installed")
 @pytest.mark.parametrize("func, expected, args", TEST_CASES)
 def test_change_if_to_where_wrapper(func, expected, args):
     got_func = make_vectorizable(func, backend="numpy")
@@ -315,6 +320,7 @@ def test_convertible(func):
 # ======================================================================================
 
 
+@pytest.mark.skipif(not IS_JAX_INSTALLED, reason="JAX is not installed")
 @pytest.mark.xfail(reason="max operator is not vectorized.")
 @pytest.mark.parametrize("backend", ["numpy", "jax"])
 def test_transfers__elterngeld__elterngeld_geschw_bonus_m(backend):
@@ -357,6 +363,7 @@ def test_transfers__elterngeld__elterngeld_geschw_bonus_m(backend):
     assert_array_equal(got, full(shape, exp))
 
 
+@pytest.mark.skipif(not IS_JAX_INSTALLED, reason="JAX is not installed")
 @pytest.mark.parametrize("backend", ["numpy", "jax"])
 def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
     full = {"numpy": numpy.full, "jax": jax.numpy.full}[backend]
@@ -385,6 +392,7 @@ def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
     assert_array_equal(got, full(shape, exp))
 
 
+@pytest.mark.skipif(not IS_JAX_INSTALLED, reason="JAX is not installed")
 @pytest.mark.parametrize("backend", ["numpy", "jax"])
 def test_transfers__elternzeit_elternzeit_anspruch(backend):
     full = {"numpy": numpy.full, "jax": jax.numpy.full}[backend]
