@@ -207,6 +207,42 @@ def f14_exp(x):
     return numpy.logical_or(numpy.logical_and(numpy.logical_and(a, b), c), d)
 
 
+def f15(x):
+    return min(x, 0)
+
+
+def f15_exp(x):
+    return numpy.minimum(x, 0)
+
+
+def f16(x):  # noqa: U100
+    return max(range(10))
+
+
+def f16_exp(x):  # noqa: U100
+    return numpy.max(range(10))
+
+
+def f17(x):
+    a = x < 0
+    b = x // 2
+    return any((a, b))
+
+
+def f17_exp(x):
+    a = x < 0
+    b = x // 2
+    return numpy.any((a, b))
+
+
+def f18(x):  # noqa: U100
+    return sum(range(10))
+
+
+def f18_exp(x):  # noqa: U100
+    return numpy.sum(range(10))
+
+
 x = numpy.arange(-10, 10)
 rng = numpy.random.default_rng(seed=0)
 flag = rng.binomial(1, 0.25, size=100)
@@ -229,6 +265,10 @@ TEST_CASES = [
     (f12, f12_exp, (x,)),
     (f13, f13_exp, (x,)),
     (f14, f14_exp, (x,)),
+    (f15, f15_exp, (x,)),
+    (f16, f16_exp, (x,)),
+    (f17, f17_exp, (x,)),
+    (f18, f18_exp, (x,)),
 ]
 
 
@@ -285,18 +325,23 @@ def g3(x):
     return 1
 
 
+def g4(x):
+    # max with three arguments
+    return max(x, 0, 1)
+
+
 def test_notimplemented_error():
     with pytest.raises(NotImplementedError):
         make_vectorizable(f1, backend="dask")
 
 
-@pytest.mark.parametrize("func", [g1, g2, g3])
+@pytest.mark.parametrize("func", [g1, g2, g3, g4])
 def test_unallowed_operation_source(func):
     with pytest.raises(TranslateToVectorizableError):
         make_vectorizable_source(func, backend="numpy")
 
 
-@pytest.mark.parametrize("func", [g1, g2, g3])
+@pytest.mark.parametrize("func", [g1, g2, g3, g4])
 def test_unallowed_operation_wrapper(func):
     with pytest.raises(TranslateToVectorizableError):
         make_vectorizable(func, backend="numpy")
@@ -340,7 +385,6 @@ def test_not_yet_convertible(func):
 
 
 @pytest.mark.skipif(not IS_JAX_INSTALLED, reason="JAX is not installed")
-@pytest.mark.xfail(reason="max operator is not vectorized.")
 @pytest.mark.parametrize("backend", ["numpy", "jax"])
 def test_transfers__elterngeld__elterngeld_geschw_bonus_m(backend):
     full = {"numpy": numpy.full, "jax": jax.numpy.full}[backend]

@@ -106,13 +106,18 @@ def _add_parent_attr_to_ast(tree: ast.AST):
 
 
 # ======================================================================================
-# Transformation class and corresponding functions
+# Transformation class
 # ======================================================================================
 
 
 class Transformer(ast.NodeTransformer):
     def __init__(self, module: str):
         self.module = module
+
+    def visit_Call(self, node: ast.Call):  # noqa: N802
+        self.generic_visit(node)
+        call = _call_to_call_from_module(node, module=self.module)
+        return call
 
     def visit_UnaryOp(self, node: ast.UnaryOp):  # noqa: N802
         if isinstance(node.op, ast.Not):
@@ -140,6 +145,11 @@ class Transformer(ast.NodeTransformer):
         self.generic_visit(node)
         call = _ifexp_to_call(node, module=self.module)
         return call
+
+
+# ======================================================================================
+# Transformation functions on node level
+# ======================================================================================
 
 
 def _not_to_call(node: ast.UnaryOp, module: str):
@@ -281,6 +291,54 @@ def _boolop_to_call(node: ast.BoolOp, module: str):
     return call
 
 
+def _call_to_call_from_module(node: ast.Call, module: str):
+    """Transform built-in Calls to Calls from module.
+
+    Transforms built-in functions in ('sum', 'any', 'all', 'max', 'min') to their
+    backend equivalent.
+
+    Args:
+        node (ast.Call): A Call node in the ast.
+
+    Returns:
+        ast.Call: The Call expression reformatted using functions from the module
+            `module`, e.g., `{module}.max(x)` instead of `max(x)`.
+
+    """
+    to_transform = ("sum", "any", "all", "max", "min")
+
+    transform_node = hasattr(node.func, "id") and node.func.id in to_transform
+
+    if not transform_node:
+        # Only transform built-in calls, otherwise return node
+        return node
+
+    func_id = node.func.id
+    call = deepcopy(node)
+    args = node.args
+
+    if len(args) == 1:
+        # Handles all cases called with a single sequence-type argument
+        call.func = ast.Attribute(
+            value=ast.Name(id=module, ctx=ast.Load()),
+            attr=func_id,
+            ctx=ast.Load(),
+        )
+    elif func_id in ("max", "min") and len(args) == 2:
+        # Handles case of comparison between two variables
+        attr = func_id + "imum"  # max -> maximum, min -> minimum
+        call.func = ast.Attribute(
+            value=ast.Name(id=module, ctx=ast.Load()),
+            attr=attr,
+            ctx=ast.Load(),
+        )
+    else:
+        msg = _too_many_arguments_call_error_message(node)
+        raise TranslateToVectorizableError(msg)
+
+    return call
+
+
 # ======================================================================================
 # Transformation errors
 # ======================================================================================
@@ -290,6 +348,17 @@ class TranslateToVectorizableError(ValueError):
     """Error when function cannot be translated into vectorizable compatible format."""
 
     pass
+
+
+def _too_many_arguments_call_error_message(node: ast.Call):
+    source = _node_to_formatted_source(node)
+    _func_name = node.func.id
+    msg = (
+        f"The function {_func_name} is called with too many arguments. Please only use "
+        "one iterable argument for (`sum`, `any`, `all`, `max`, `min`) or two "
+        f"arguments for (`max`, `min`).\nThe source code in question is:\n\n{source}"
+    )
+    return msg
 
 
 def _return_and_no_else_error_message(node: ast.Return):
