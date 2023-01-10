@@ -215,12 +215,14 @@ def f15_exp(x):
     return numpy.minimum(x, 0)
 
 
-def f16(x):  # noqa: U100
-    return max(range(10))
+def f16(x):
+    n = int(sum(x))
+    return max(n)
 
 
-def f16_exp(x):  # noqa: U100
-    return numpy.max(range(10))
+def f16_exp(x):
+    n = int(numpy.sum(x))
+    return numpy.max(n)
 
 
 def f17(x):
@@ -235,12 +237,14 @@ def f17_exp(x):
     return numpy.any((a, b))
 
 
-def f18(x):  # noqa: U100
-    return sum(range(10))
+def f18(x):
+    n = int(any(x)) + 1
+    return sum(n)
 
 
-def f18_exp(x):  # noqa: U100
-    return numpy.sum(range(10))
+def f18_exp(x):
+    n = int(numpy.any(x)) + 1
+    return numpy.sum(n)
 
 
 x = numpy.arange(-10, 10)
