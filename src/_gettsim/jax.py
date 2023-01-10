@@ -117,10 +117,17 @@ class Transformer(ast.NodeTransformer):
     def visit_Not(self, node: ast.Not):  # noqa: N802, U100
         return ast.Invert()
 
+    def visit_UnaryOp(self, node: ast.UnaryOp):  # noqa: N802
+        if isinstance(node.op, ast.Not):
+            out = _not_to_call(node)
+        else:
+            out = node
+        return out
+
     def visit_BoolOp(self, node: ast.BoolOp):  # noqa: N802
         self.generic_visit(node)
-        binop = _boolop_to_binop(node)
-        return binop
+        call = _boolop_to_call(node, module=self.module)
+        return call
 
     def visit_If(self, node: ast.If):  # noqa: N802
         self.generic_visit(node)
@@ -138,6 +145,30 @@ class Transformer(ast.NodeTransformer):
         return call
 
 
+def _not_to_call(node: ast.UnaryOp, module: str):
+    """Transform negation operation to Call.
+
+    Args:
+        node (ast.If): A UnaryOp node in the ast.
+        module (str): Module which exports the function `where` that behaves as
+            `numpy.where`.
+
+    Returns:
+        ast.Call: The negation reformatted using a call to {module}.logical_not().
+
+    """
+    call = ast.Call(
+        func=ast.Attribute(
+            value=ast.Name(id=module, ctx=ast.Load()),
+            attr="logical_not",
+            ctx=ast.Load(),
+        ),
+        args=[node.operand],
+        keywords=[],
+    )
+    return call
+
+
 def _if_to_call(node: ast.If, module: str):
     """Transform If statement to Call.
 
@@ -153,11 +184,11 @@ def _if_to_call(node: ast.If, module: str):
     args = [node.test, node.body[0].value]
 
     if len(node.orelse) > 1 or len(node.body) > 1:
-        msg = _too_many_operations_message(node)
+        msg = _too_many_operations_error_message(node)
         raise TranslateToVectorizableError(msg)
     elif node.orelse == []:
         if isinstance(node.body[0], ast.Return):
-            msg = _return_and_no_else_message(node)
+            msg = _return_and_no_else_error_message(node)
             raise TranslateToVectorizableError(msg)
         elif hasattr(node.body[0], "targets"):
             name = ast.Name(id=node.body[0].targets[0].id, ctx=ast.Load())
@@ -176,7 +207,7 @@ def _if_to_call(node: ast.If, module: str):
         else:
             args.append(node.orelse[0].value)
     else:
-        msg = _unallowed_operation_message(node.orelse[0])
+        msg = _unallowed_operation_error_message(node.orelse[0])
         raise TranslateToVectorizableError(msg)
 
     call = ast.Call(
@@ -219,31 +250,41 @@ def _ifexp_to_call(node: ast.IfExp, module: str):
     return call
 
 
-def _boolop_to_binop(node: ast.BoolOp):
+def _boolop_to_call(node: ast.BoolOp, module: str):
     """Transform BoolOp operation to BinOp.
 
     Args:
         node (ast.BoolOp): A BoolOp node in the ast.
 
     Returns:
-        ast.BinOp: The BoolOp expression reformatted using '&' instead of 'and', and '|'
-            instead of 'or'.
+        ast.Call: The BoolOp expression reformatted using functions 'logical_and'
+            instead of 'and', and 'logical_or' instead of 'or'.
 
     """
-    left, right = node.values
+    if len(node.values) == 2:
+        left, right = node.values
+    else:
+        msg = _chained_boolop_message(node)
+        raise TranslateToVectorizableError(msg)
 
     if isinstance(left, ast.BoolOp):
-        left = _boolop_to_binop(left)
+        left = _boolop_to_call(left)
 
     if isinstance(right, ast.BoolOp):
-        right = _boolop_to_binop(right)
+        right = _boolop_to_call(right)
 
-    binop = ast.BinOp(
-        left=left,
-        right=right,
-        op={ast.And: ast.BitAnd(), ast.Or: ast.BitOr()}[type(node.op)],
+    args = [left, right]
+
+    operation = {ast.And: "logical_and", ast.Or: "logical_or"}[type(node.op)]
+
+    call = ast.Call(
+        func=ast.Attribute(
+            value=ast.Name(id=module, ctx=ast.Load()), attr=operation, ctx=ast.Load()
+        ),
+        args=args,
+        keywords=[],
     )
-    return binop
+    return call
 
 
 # ======================================================================================
@@ -257,7 +298,17 @@ class TranslateToVectorizableError(ValueError):
     pass
 
 
-def _return_and_no_else_message(node: ast.Return):
+def _chained_boolop_message(node: ast.BoolOp):
+    source = _node_to_formatted_source(node)
+    msg = (
+        "A boolean operations need to be seperated using brackets so that every "
+        "operation has a unique left and right part. For example, `(a and b) and b` is "
+        f"okay but `a and b and c` is not.\nThe source code in question is:\n\n{source}"
+    )
+    return msg
+
+
+def _return_and_no_else_error_message(node: ast.Return):
     source = _node_to_formatted_source(node)
     msg = (
         "The if-clause body is a return statement, while the else clause is missing.\n"
@@ -267,7 +318,7 @@ def _return_and_no_else_message(node: ast.Return):
     return msg
 
 
-def _too_many_operations_message(node: ast.If):
+def _too_many_operations_error_message(node: ast.If):
     source = _node_to_formatted_source(node)
     msg = (
         "An if statement is performing multiple operations, which is forbidden.\n"
@@ -277,7 +328,7 @@ def _too_many_operations_message(node: ast.If):
     return msg
 
 
-def _unallowed_operation_message(node: ast.If):
+def _unallowed_operation_error_message(node: ast.If):
     source = _node_to_formatted_source(node)
     msg = (
         "An if-elif-else clause body is of type {type(node)}, which is forbidden.\n"

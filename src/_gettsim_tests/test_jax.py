@@ -86,7 +86,7 @@ def f6(flag, another_flag):
 
 
 def f6_exp(flag, another_flag):
-    out = numpy.where(flag & ~another_flag, 1, 0)
+    out = numpy.where(numpy.logical_and(flag, ~another_flag), 1, 0)
     return out
 
 
@@ -122,9 +122,9 @@ def f10(x):
 
 
 def f10_exp(x):
-    flag = (x < 0) & (x > -1)
-    another_flag = (x < 0) | (x > -1)
-    return flag & ~another_flag
+    flag = numpy.logical_and(x < 0, x > -1)
+    another_flag = numpy.logical_or(x < 0, x > -1)
+    return numpy.logical_and(flag, ~another_flag)
 
 
 def f11(x):
@@ -153,6 +153,22 @@ def f12_exp(x):
     return out
 
 
+def f13(x):
+    a = x < 0
+    b = x > 0
+    c = x != 0
+    d = True
+    return ((a and b) or c) and d
+
+
+def f13_exp(x):
+    a = x < 0
+    b = x > 0
+    c = x != 0
+    d = True
+    return numpy.logical_and(numpy.logical_or(numpy.logical_and(a, b), c), d)
+
+
 x = numpy.arange(-10, 10)
 rng = numpy.random.default_rng(seed=0)
 flag = rng.binomial(1, 0.25, size=100)
@@ -173,6 +189,7 @@ TEST_CASES = [
     (f10, f10_exp, (x,)),
     (f11, f11_exp, (x,)),
     (f12, f12_exp, (x,)),
+    (f13, f13_exp, (x,)),
 ]
 
 
@@ -212,21 +229,6 @@ def g1(x):
     return a + b
 
 
-def test_too_many_operations_error_source():
-    with pytest.raises(TranslateToVectorizableError):
-        make_vectorizable_source(g1, backend="numpy")
-
-
-def test_too_many_operations_error_wrapper():
-    with pytest.raises(TranslateToVectorizableError):
-        make_vectorizable(g1, backend="numpy")
-
-
-def test_notimplemented_error():
-    with pytest.raises(NotImplementedError):
-        make_vectorizable(f1, backend="dask")
-
-
 def g2(x):
     # function with illegal operations in the if-clause
     if x < 0:
@@ -242,13 +244,26 @@ def g3(x):
     return 1
 
 
-@pytest.mark.parametrize("func", [g2, g3])
+def g4(x):
+    # chained boolean operatons
+    a = x < 0
+    b = x > 0
+    c = True
+    return a and b and c or not c
+
+
+def test_notimplemented_error():
+    with pytest.raises(NotImplementedError):
+        make_vectorizable(f1, backend="dask")
+
+
+@pytest.mark.parametrize("func", [g1, g2, g3, g4])
 def test_unallowed_operation_source(func):
     with pytest.raises(TranslateToVectorizableError):
         make_vectorizable_source(func, backend="numpy")
 
 
-@pytest.mark.parametrize("func", [g2, g3])
+@pytest.mark.parametrize("func", [g1, g2, g3, g4])
 def test_unallowed_operation_wrapper(func):
     with pytest.raises(TranslateToVectorizableError):
         make_vectorizable(func, backend="numpy")
