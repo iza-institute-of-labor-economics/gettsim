@@ -67,7 +67,7 @@ jobs:
         uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: environment.yml
-          extra-specs: python=${{ matrix.python-version }} astor jax
+          extra-specs: jax python=${{ matrix.python-version }}
           cache-downloads: true
 
       - name: Run tests
