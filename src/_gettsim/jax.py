@@ -114,12 +114,9 @@ class Transformer(ast.NodeTransformer):
     def __init__(self, module: str):
         self.module = module
 
-    def visit_Not(self, node: ast.Not):  # noqa: N802, U100
-        return ast.Invert()
-
     def visit_UnaryOp(self, node: ast.UnaryOp):  # noqa: N802
         if isinstance(node.op, ast.Not):
-            out = _not_to_call(node)
+            out = _not_to_call(node, module=self.module)
         else:
             out = node
         return out

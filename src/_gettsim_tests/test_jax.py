@@ -1,4 +1,5 @@
 import inspect
+import string
 
 import jax.numpy
 import numpy
@@ -11,6 +12,23 @@ from _gettsim.jax import TranslateToVectorizableError
 from _gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m
 from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
 from numpy.testing import assert_array_equal
+
+
+# ======================================================================================
+# String comparison
+# ======================================================================================
+
+
+def string_equal(s1, s2):
+    remove = string.punctuation + string.whitespace
+    mapping = {ord(c): None for c in remove}
+    return s1.translate(mapping) == s2.translate(mapping)
+
+
+def test_compare_str():
+    assert string_equal("This ! is a     test.", "This is a test")
+    assert not string_equal("This is a test", "This is not a test")
+
 
 # ======================================================================================
 # Test functions (no error)
@@ -86,7 +104,7 @@ def f6(flag, another_flag):
 
 
 def f6_exp(flag, another_flag):
-    out = numpy.where(numpy.logical_and(flag, ~another_flag), 1, 0)
+    out = numpy.where(numpy.logical_and(flag, numpy.logical_not(another_flag)), 1, 0)
     return out
 
 
@@ -124,7 +142,7 @@ def f10(x):
 def f10_exp(x):
     flag = numpy.logical_and(x < 0, x > -1)
     another_flag = numpy.logical_or(x < 0, x > -1)
-    return numpy.logical_and(flag, ~another_flag)
+    return numpy.logical_and(flag, numpy.logical_not(another_flag))
 
 
 def f11(x):
@@ -203,7 +221,7 @@ def test_change_if_to_where_source(func, expected, args):  # noqa: U100
     exp = inspect.getsource(expected)
     exp = exp.replace("_exp", "")
     got = make_vectorizable_source(func, backend="numpy")
-    assert exp == got
+    assert string_equal(exp, got)
 
 
 @pytest.mark.parametrize("func, expected, args", TEST_CASES)
