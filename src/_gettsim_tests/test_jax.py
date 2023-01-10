@@ -10,6 +10,7 @@ from _gettsim.jax import make_vectorizable
 from _gettsim.jax import make_vectorizable_source
 from _gettsim.jax import TranslateToVectorizableError
 from _gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m
+from _gettsim.transfers.elterngeld import elternzeit_anspruch
 from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
 from numpy.testing import assert_array_equal
 
@@ -381,4 +382,57 @@ def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
     # ==================================================================================
     converted = make_vectorizable(grundr_bew_zeiten_avg_entgeltp, backend=backend)
     got = converted(grundr_entgeltp, grundr_bew_zeiten)
+    assert_array_equal(got, full(shape, exp))
+
+
+@pytest.mark.parametrize("backend", ["numpy", "jax"])
+def test_transfers__elternzeit_elternzeit_anspruch(backend):
+    full = {"numpy": numpy.full, "jax": jax.numpy.full}[backend]
+
+    # Test original gettsim function on scalar input
+    # ==================================================================================
+    alter_monate_juengstes_mitglied_hh = 12.0
+    m_elterngeld_mut_hh = 2
+    m_elterngeld_vat_hh = 3
+    m_elterngeld = 4
+    kind = False
+    elterngeld_params = {"max_monate_paar": 14.0, "max_monate_ind": 6}
+
+    exp = elternzeit_anspruch(
+        alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
+        m_elterngeld_mut_hh=m_elterngeld_mut_hh,
+        m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+        m_elterngeld=m_elterngeld,
+        kind=kind,
+        elterngeld_params=elterngeld_params,
+    )
+
+    assert exp is True
+
+    # Create array inputs and assert that gettsim functions raises error
+    # ==================================================================================
+    shape = (10, 1)
+    alter_monate_juengstes_mitglied_hh = full(shape, alter_monate_juengstes_mitglied_hh)
+
+    with pytest.raises(ValueError, match="truth value of an array with more than"):
+        elternzeit_anspruch(
+            alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
+            m_elterngeld_mut_hh=m_elterngeld_mut_hh,
+            m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+            m_elterngeld=m_elterngeld,
+            kind=kind,
+            elterngeld_params=elterngeld_params,
+        )
+
+    # Call converted function on array input and test result
+    # ==================================================================================
+    converted = make_vectorizable(elternzeit_anspruch, backend=backend)
+    got = converted(
+        alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
+        m_elterngeld_mut_hh=m_elterngeld_mut_hh,
+        m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+        m_elterngeld=m_elterngeld,
+        kind=kind,
+        elterngeld_params=elterngeld_params,
+    )
     assert_array_equal(got, full(shape, exp))
