@@ -248,7 +248,7 @@ def _ifexp_to_call(node: ast.IfExp, module: str):
 
 
 def _boolop_to_call(node: ast.BoolOp, module: str):
-    """Transform BoolOp operation to BinOp.
+    """Transform BoolOp operation to Call.
 
     Args:
         node (ast.BoolOp): A BoolOp node in the ast.
@@ -258,29 +258,26 @@ def _boolop_to_call(node: ast.BoolOp, module: str):
             instead of 'and', and 'logical_or' instead of 'or'.
 
     """
-    if len(node.values) == 2:
-        left, right = node.values
-    else:
-        msg = _chained_boolop_message(node)
-        raise TranslateToVectorizableError(msg)
-
-    if isinstance(left, ast.BoolOp):
-        left = _boolop_to_call(left)
-
-    if isinstance(right, ast.BoolOp):
-        right = _boolop_to_call(right)
-
-    args = [left, right]
-
     operation = {ast.And: "logical_and", ast.Or: "logical_or"}[type(node.op)]
 
-    call = ast.Call(
-        func=ast.Attribute(
-            value=ast.Name(id=module, ctx=ast.Load()), attr=operation, ctx=ast.Load()
-        ),
-        args=args,
-        keywords=[],
-    )
+    def _constructor(left, right):
+        """Construct calls of the form `numpy.logical_(and|or)(left, right)`."""
+        return ast.Call(
+            func=ast.Attribute(
+                value=ast.Name(id=module, ctx=ast.Load()),
+                attr=operation,
+                ctx=ast.Load(),
+            ),
+            args=[left, right],
+            keywords=[],
+        )
+
+    values = [
+        _boolop_to_call(v, module=module) if isinstance(v, ast.BoolOp) else v
+        for v in node.values
+    ]
+
+    call = functools.reduce(_constructor, values)
     return call
 
 
@@ -293,16 +290,6 @@ class TranslateToVectorizableError(ValueError):
     """Error when function cannot be translated into vectorizable compatible format."""
 
     pass
-
-
-def _chained_boolop_message(node: ast.BoolOp):
-    source = _node_to_formatted_source(node)
-    msg = (
-        "A boolean operations need to be seperated using brackets so that every "
-        "operation has a unique left and right part. For example, `(a and b) and b` is "
-        f"okay but `a and b and c` is not.\nThe source code in question is:\n\n{source}"
-    )
-    return msg
 
 
 def _return_and_no_else_error_message(node: ast.Return):

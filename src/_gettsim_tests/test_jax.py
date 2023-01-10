@@ -187,6 +187,22 @@ def f13_exp(x):
     return numpy.logical_and(numpy.logical_or(numpy.logical_and(a, b), c), d)
 
 
+def f14(x):
+    a = x < 0
+    b = x > 0
+    c = x != 0
+    d = True
+    return a and b and c or d
+
+
+def f14_exp(x):
+    a = x < 0
+    b = x > 0
+    c = x != 0
+    d = True
+    return numpy.logical_or(numpy.logical_and(numpy.logical_and(a, b), c), d)
+
+
 x = numpy.arange(-10, 10)
 rng = numpy.random.default_rng(seed=0)
 flag = rng.binomial(1, 0.25, size=100)
@@ -208,6 +224,7 @@ TEST_CASES = [
     (f11, f11_exp, (x,)),
     (f12, f12_exp, (x,)),
     (f13, f13_exp, (x,)),
+    (f14, f14_exp, (x,)),
 ]
 
 
@@ -262,26 +279,18 @@ def g3(x):
     return 1
 
 
-def g4(x):
-    # chained boolean operatons
-    a = x < 0
-    b = x > 0
-    c = True
-    return a and b and c or not c
-
-
 def test_notimplemented_error():
     with pytest.raises(NotImplementedError):
         make_vectorizable(f1, backend="dask")
 
 
-@pytest.mark.parametrize("func", [g1, g2, g3, g4])
+@pytest.mark.parametrize("func", [g1, g2, g3])
 def test_unallowed_operation_source(func):
     with pytest.raises(TranslateToVectorizableError):
         make_vectorizable_source(func, backend="numpy")
 
 
-@pytest.mark.parametrize("func", [g1, g2, g3, g4])
+@pytest.mark.parametrize("func", [g1, g2, g3])
 def test_unallowed_operation_wrapper(func):
     with pytest.raises(TranslateToVectorizableError):
         make_vectorizable(func, backend="numpy")
