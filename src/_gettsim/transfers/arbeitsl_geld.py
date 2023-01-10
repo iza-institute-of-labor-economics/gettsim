@@ -27,12 +27,12 @@ def arbeitsl_geld_m(
 
     """
 
-    if arbeitsl_geld_berechtigt:
-        if anz_kinder_tu == 0:
-            arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
-        else:
-            arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
+    if anz_kinder_tu == 0:
+        arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
+    elif anz_kinder_tu > 0:
+        arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
+    if arbeitsl_geld_berechtigt:
         out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
     else:
         out = 0.0

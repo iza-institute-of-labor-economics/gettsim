@@ -134,12 +134,30 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
                 + (haushaltsgröße_hh - 4) * params["je_weitere_person"]
             )
     else:
-        weitere_mitglieder = max(haushaltsgröße_hh - 1, 0)
         maximum = (
             arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
-            + weitere_mitglieder
+            + max(haushaltsgröße_hh - 1, 0)
             * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
                 "je_weitere_person"
             ]
         )
     return min(wohnfläche_hh, maximum)
+
+    # params = arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]
+    # if bewohnt_eigentum_hh and haushaltsgröße_hh < 5:
+    #         maximum = params[haushaltsgröße_hh]
+    # elif bewohnt_eigentum_hh and haushaltsgröße_hh >= 5:
+    #         maximum = (
+    #             params[haushaltsgröße_hh]
+    #             + (haushaltsgröße_hh - 4) * params["je_weitere_person"]
+    #         )
+
+    # if not bewohnt_eigentum_hh:
+    #     maximum = (
+    #         arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
+    #         + max(haushaltsgröße_hh - 1, 0)
+    #         * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
+    #             "je_weitere_person"
+    #         ]
+    #     )
+    # return min(wohnfläche_hh, maximum)

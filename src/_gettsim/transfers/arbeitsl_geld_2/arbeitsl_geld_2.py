@@ -322,12 +322,12 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
         out = 0.0
     else:
         # Deduct income from various sources
-        out = (
+        out = max(
+            0.0,
             arbeitsl_geld_2_regelbedarf_m_hh
             - arbeitsl_geld_2_eink_m_hh
             - unterhaltsvors_m_hh
-            - kindergeld_m_hh
+            - kindergeld_m_hh,
         )
-        out = max(out, 0.0)
 
     return out

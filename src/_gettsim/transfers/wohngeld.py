@@ -523,10 +523,12 @@ def wohngeld_vor_vermög_check_m_hh(
     if haushaltsgröße_hh > max_berücks_personen:
         # If more than 12 persons, there is a lump-sum on top.
         # The maximum is still capped at `wohngeld_miete_m_hh`.
-        out += wohngeld_params["bonus_sehr_große_haushalte"][
-            "bonus_jede_weitere_person"
-        ] * (haushaltsgröße_hh - max_berücks_personen)
-        out = min(out, wohngeld_miete_m_hh)
+        out = min(
+            out
+            + wohngeld_params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
+            * (haushaltsgröße_hh - max_berücks_personen),
+            wohngeld_miete_m_hh,
+        )
 
     return out
 

@@ -36,10 +36,11 @@ def kindergeld_m(
         out = 0.0
     else:
         # Kindergeld_Anspruch is the cumulative sum of eligible children.
-        kumulativer_anspruch_wins = min(
-            kumulativer_kindergeld_anspruch_tu, max(kindergeld_params["kindergeld"])
-        )
-        out = kindergeld_params["kindergeld"][kumulativer_anspruch_wins]
+        out = kindergeld_params["kindergeld"][
+            min(
+                kumulativer_kindergeld_anspruch_tu, max(kindergeld_params["kindergeld"])
+            )
+        ]
     return out
 
 

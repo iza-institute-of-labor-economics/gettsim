@@ -129,12 +129,12 @@ def eink_st_altersfreib_bis_2004(
         kapitaleink_brutto_m + eink_selbst_m + eink_vermietung_m, 0.0
     )
     if alter > altersgrenze:
-        out = (
+        out = min(
             eink_st_abzuege_params["altersentlastung_quote"]
             * 12
-            * (bruttolohn_m + weiteres_einkommen)
+            * (bruttolohn_m + weiteres_einkommen),
+            eink_st_abzuege_params["altersentlastungsbetrag_max"],
         )
-        out = min(out, eink_st_abzuege_params["altersentlastungsbetrag_max"])
     else:
         out = 0.0
 
@@ -180,7 +180,6 @@ def eink_st_altersfreib_ab_2005(
     if alter > altersgrenze:
         if geburtsjahr <= 1939:
             selected_bin = 1940
-
         else:
             # Get maximum tax credit
             bins = sorted(eink_st_abzuege_params["altersentlastungsbetrag_max"])

@@ -34,12 +34,15 @@ def vorsorgeaufw_alter_ab_2005(
     if kind:
         out = 0.0
     else:
-        out = (
-            eink_st_abzuege_params["einführungsfaktor_vorsorgeaufw_alter_ab_2005"]
-            * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
-            - ges_rentenv_beitr_m
-        ) * 12
-        out = min(out, eink_st_abzuege_params["vorsorge_altersaufw_max"])
+        out = min(
+            (
+                eink_st_abzuege_params["einführungsfaktor_vorsorgeaufw_alter_ab_2005"]
+                * (2 * ges_rentenv_beitr_m + priv_rentenv_beitr_m)
+                - ges_rentenv_beitr_m
+            )
+            * 12,
+            eink_st_abzuege_params["vorsorge_altersaufw_max"],
+        )
 
     return out
 
@@ -79,13 +82,10 @@ def _vorsorge_alternative_ab_2005_bis_2009(
     if kind:
         out = 0.0
     else:
-        sum_vorsorge = 12 * (
-            ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m
+        out = vorsorgeaufw_alter_ab_2005 + min(
+            12 * (ges_krankenv_beitr_m + arbeitsl_v_beitr_m + ges_pflegev_beitr_m),
+            eink_st_abzuege_params["vorsorge_sonstige_aufw_max"],
         )
-        sum_vorsorge = min(
-            sum_vorsorge, eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
-        )
-        out = sum_vorsorge + vorsorgeaufw_alter_ab_2005
 
     return out
 

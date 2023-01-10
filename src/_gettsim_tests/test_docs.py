@@ -4,6 +4,7 @@ import datetime
 import inspect
 
 import pytest
+from _gettsim.config import IS_JAX_INSTALLED
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.config import TYPES_INPUT_VARIABLES
@@ -56,6 +57,7 @@ def time_indep_function_names(all_function_names):
     return time_indep_function_names
 
 
+@pytest.mark.skipif(IS_JAX_INSTALLED, reason="Need workaround for numpy.datetime64")
 def test_all_input_vars_documented(
     default_input_variables,
     time_indep_function_names,
@@ -93,6 +95,7 @@ def test_all_input_vars_documented(
     assert not check, _nice_output_list_of_strings(check)
 
 
+@pytest.mark.skipif(IS_JAX_INSTALLED, reason="Need workaround for numpy.datetime64")
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     documented_functions = _load_functions(
         RESOURCE_DIR / "functions.py", include_imported_functions=True
