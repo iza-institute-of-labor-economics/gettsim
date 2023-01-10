@@ -67,7 +67,9 @@ jobs:
         uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: environment.yml
-          extra-specs: jax python=${{ matrix.python-version }}
+          extra-specs: |
+            python=${{ matrix.python-version }}
+            jax
           cache-downloads: true
 
       - name: Run tests
