@@ -59,6 +59,12 @@ The proposed changes will affect all areas of GETTSIM
 1. A clear way to pre-process parameters will allow specifying parameters exactly as
    they are written into the law.
 
+```{note}
+Not sure whether it will belong here, but it just occurred to me while browsing issues
+that adding an interface to handle interactions between programmes might be a good idea.
+Currently we have some mix of `vorrangprüfungen` and `günstigerprüfungen` (probably done ad hoc in different modules), but ideally we'll want to have this in a more structured way.
+```
+
 ## Usage and Impact
 
 1. The use of namespaces will have the usual benefits as in (Python) code:
