@@ -33,7 +33,7 @@ YEARS = [2022]
 def input_data():
     # Loading BMF test data
     lst_data = pd.read_excel(
-        TEST_DATA_DIR / "lohnsteuer_testfälle_bmf_2022.xlsx",
+        TEST_DATA_DIR / "original_testfaelle" / "lohnsteuer_bmf_2022.xlsx",
         header=9,
     )
 
@@ -150,7 +150,7 @@ def input_data():
     test_data["vorsorgepauschale"] = 0
 
     test_data = test_data[test_data["steuerklasse"].isin([5])]
-    # test_data = test_data[test_data["p_id"] == 1667]
+    test_data = test_data[test_data["p_id"] == 1305]
 
     return test_data
 
