@@ -187,6 +187,7 @@ def vorsorgepauschale_ab_2010(
     soz_vers_beitr_params: dict,
     wohnort_ost: bool,
     ges_krankenv_zusatzbeitrag: float,
+    ges_pflegev_zusatz_kinderlos: bool,
 ) -> float:
     """Calculates Vorsorgepauschale for Lohnsteuer valid since 2010 Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
@@ -198,6 +199,8 @@ def vorsorgepauschale_ab_2010(
       See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     steuerklasse:
       See :func:`steuerklasse`
+    ges_pflegev_zusatz_kinderlos:
+      See :func:`ges_pflegev_zusatz_kinderlos`
     eink_st_abzuege_params:
       See params documentation :ref:`eink_st_abzuege_params`
     soz_vers_beitr_params:
@@ -250,10 +253,15 @@ def vorsorgepauschale_ab_2010(
     # b) Take the actual contributions (usually the better option),
     #   but apply the reduced rate!
 
+    if ges_pflegev_zusatz_kinderlos:
+        beitr_satz_pflegev = soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"] + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+    else: 
+        beitr_satz_pflegev = soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+
     vorsorg_kv_option_b = bruttolohn_kv * (
         soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
         + ges_krankenv_zusatzbeitrag / 2 / 100
-        + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        + beitr_satz_pflegev
     )
 
     # add both RV and KV deductions. For KV, take the larger amount.
