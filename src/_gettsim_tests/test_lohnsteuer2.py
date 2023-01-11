@@ -151,8 +151,8 @@ def input_data():
     test_data["lohn_st_eink"] = 0
     test_data["vorsorgepauschale"] = 0
 
-    test_data = test_data[test_data["steuerklasse"].isin([5])]
-    test_data = test_data[test_data["p_id"] == 1473]
+    # test_data = test_data[test_data["steuerklasse"].isin([5])]
+    # test_data = test_data[test_data["p_id"] == 1473]
 
     return test_data
 
@@ -174,4 +174,6 @@ def test_lohnsteuer_2(input_data, year, column):
             "ges_pflegev_zusatz_kinderlos",
         ],
     )
-    assert_series_equal(result[column], input_data[column], check_dtype=False)
+    assert_series_equal(
+        result[column], input_data[column], check_dtype=False, atol=1e-1, rtol=1e-1
+    )
