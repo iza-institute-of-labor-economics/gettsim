@@ -1,7 +1,7 @@
 """This module provides functions to compute alimony payments (Unterhalt)."""
 
 
-def unterhaltsvors_m(
+def unterhaltsvors_m_bis_06_2017(
     alleinerz_tu: bool,
     alter: int,
     unterhaltsvorschuss_eink_m_tu: float,
@@ -56,10 +56,72 @@ def unterhaltsvors_m(
             unterhalt_params["mindestunterhalt"][12]
             - kindergeld_params["kindergeld"][1]
         )
+    else:
+        out = 0.0
+
+    # TODO: Check against actual transfers
+
+    return out
+
+
+def unterhaltsvors_m_ab_07_2017(
+    alleinerz_tu: bool,
+    alter: int,
+    unterhaltsvorschuss_eink_m_tu: float,
+    unterhalt_params: dict,
+    kindergeld_params: dict,
+) -> float:
+    """Calculate advance on alimony payment(Unterhaltsvorschuss).
+
+    Single Parents get alimony payments for themselves and for their child from the ex
+    partner. If the ex partner is not able to pay the child alimony, the government pays
+    the child alimony to the mother (or the father, if he has the kids)
+
+    The amount is specified in §1612a BGB.
+
+    # ToDo: Result was rounded up in previous code. Check if this is correct and
+    # ToDo: implement rounding spec accordingly
+
+    Parameters
+    ----------
+    alleinerz_tu
+        See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    unterhaltsvorschuss_eink_m_tu
+        See :func:`unterhaltsvorschuss_eink_m_tu`.
+    unterhalt_params
+        See params documentation :ref:`unterhalt_params <unterhalt_params>`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
+    """
+
+    if "mindestunterhalt" not in unterhalt_params:
+        raise NotImplementedError(
+            """
+        Unterhaltsvorschuss is not implemented yet prior to 2016, see
+        https://github.com/iza-institute-of-labor-economics/gettsim/issues/479.
+
+        """
+        )
+    altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
+    if (alter < altersgrenzen[0]) and alleinerz_tu:
+        out = (
+            unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
+        )
+    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) and alleinerz_tu:
+        out = (
+            unterhalt_params["mindestunterhalt"][12]
+            - kindergeld_params["kindergeld"][1]
+        )
 
     # Older kids get it only if the single parent has income > 600€.
     elif (
-        (altersgrenzen[1] <= alter <= altersgrenzen[2])
+        (altersgrenzen[1] <= alter < altersgrenzen[2])
         and alleinerz_tu
         and (
             unterhaltsvorschuss_eink_m_tu
@@ -67,7 +129,7 @@ def unterhaltsvors_m(
         )
     ):
         out = (
-            unterhalt_params["mindestunterhalt"][17]
+            unterhalt_params["mindestunterhalt"][18]
             - kindergeld_params["kindergeld"][1]
         )
     else:

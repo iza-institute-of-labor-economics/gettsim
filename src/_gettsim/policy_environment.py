@@ -160,6 +160,8 @@ from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
 from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_m_tu_bis_2010,
 )
+from _gettsim.transfers.unterhalt import unterhaltsvors_m_bis_06_2017
+from _gettsim.transfers.unterhalt import unterhaltsvors_m_ab_07_2017
 from _gettsim.transfers.rente import ges_rente_nach_grundr_m
 from _gettsim.transfers.rente import ges_rente_vor_grundr_m
 from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
@@ -437,6 +439,16 @@ def load_functions_for_date(date):
         functions[
             "_kinderzuschl_vor_vermög_check_m_tu"
         ] = _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019
+
+    if date < datetime.date(year=2017, month=7, day=1):
+        functions[
+            "unterhaltsvors_m"
+        ] = unterhaltsvors_m_bis_06_2017
+    else:
+        functions[
+            "unterhaltsvors_m"
+        ] = unterhaltsvors_m_ab_07_2017
+
 
     if year <= 2010:
         functions[
