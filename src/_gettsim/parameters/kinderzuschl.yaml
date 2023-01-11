@@ -31,6 +31,26 @@ maximum:
     reference: § 6a (2) BKGG
     note: Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.
 
+kindersofortzuschlag_kiz:
+  name:
+    de: Kindersofortzuschlag
+    en: Instant surcharge for children
+  description:
+    de: >-
+      Mit Einführung des Sofortzuschlags zum 1. Juli 2022
+      steigt der Höchstbetrag im Kinderzuschlag um 20 Euro.
+    en: >-
+      With the introduction of the immediate supplement from July 1, 2022,
+      the maximum amountin the child supplement increases by 20 euros.
+  unit: Euros
+  reference: § 6a Abs. 2 Satz 4 BKGG
+  2022-07-01:
+    scalar: 20
+  2023-01-01:
+    scalar: null
+  2024-01-01:
+    scalar: 20
+
 min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
@@ -226,8 +246,8 @@ existenzminimum:
       paare: 1008
       kinder: 180
     reference: >-
-      10. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 4. Werte für
-      Paare unverändert.
+      10. Existenzminimumsbericht, Bundestag Drucksache 17/5550,
+      Übersicht 4. Werte für Paare unverändert.
   2016-01-01:
     regelsatz:
       single: 4872
@@ -259,9 +279,8 @@ existenzminimum:
       single: 600
       paare: 900
       kinder: 156
-    reference: >-
-      11. Existenzminimumsbericht, Bundestag Drucksache 18/10220, Übersicht 4. Werte für
-      Paare unverändert.
+    reference: 11. Existenzminimumsbericht, Bundestag Drucksache 18/10220, Übersicht 4.
+    note: Werte für Paare unverändert.
   2018-01-01:
     regelsatz:
       single: 4968
