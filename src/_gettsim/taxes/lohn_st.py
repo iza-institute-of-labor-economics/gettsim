@@ -254,9 +254,14 @@ def vorsorgepauschale_ab_2010(
     #   but apply the reduced rate!
 
     if ges_pflegev_zusatz_kinderlos:
-        beitr_satz_pflegev = soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"] + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
-    else: 
-        beitr_satz_pflegev = soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        beitr_satz_pflegev = (
+            soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+            + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+    else:
+        beitr_satz_pflegev = soz_vers_beitr_params["beitr_satz"]["ges_pflegev"][
+            "standard"
+        ]
 
     vorsorg_kv_option_b = bruttolohn_kv * (
         soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
