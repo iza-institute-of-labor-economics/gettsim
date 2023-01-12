@@ -150,8 +150,6 @@ from _gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_20
 from _gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_bis_2020
 from _gettsim.transfers.kindergeld import kindergeld_anspruch_nach_lohn
 from _gettsim.transfers.kindergeld import kindergeld_anspruch_nach_stunden
-from _gettsim.transfers.kindergeld import kindergeld_m_ab_1997
-from _gettsim.transfers.kindergeld import kindergeld_m_bis_1996
 from _gettsim.transfers.kinderzuschl.kinderzuschl import (
     _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019,
 )
@@ -412,10 +410,8 @@ def load_functions_for_date(date):
 
     if year <= 1996:
         functions["eink_st_tu"] = eink_st_tu_bis_1996
-        functions["kindergeld_m"] = kindergeld_m_bis_1996
     else:
         functions["eink_st_tu"] = eink_st_tu_ab_1997
-        functions["kindergeld_m"] = kindergeld_m_ab_1997
 
     if year > 2011:
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
