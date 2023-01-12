@@ -21,6 +21,7 @@ dependencies:
   - networkx
   - numpy_groupies
   - numpydoc
+  - openpyxl
   - pandas
   - pdbpp
   - pre-commit
