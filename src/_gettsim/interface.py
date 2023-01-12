@@ -129,6 +129,20 @@ def compute_taxes_and_transfers(
         aggregator=None,
         enforce_signature=True,
     )
+
+    if "unterhalt" in params:
+        if (
+            "mindestunterhalt" not in params["unterhalt"]
+            and "unterhaltsvors_m" in processed_functions
+        ):
+            raise NotImplementedError(
+                """
+Unterhaltsvorschuss is not implemented yet prior to 2016, see
+https://github.com/iza-institute-of-labor-economics/gettsim/issues/479.
+
+        """
+            )
+
     results = tax_transfer_function(**input_data)
 
     # Prepare results.
