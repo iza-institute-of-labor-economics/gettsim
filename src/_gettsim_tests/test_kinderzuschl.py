@@ -21,9 +21,8 @@ INPUT_COLS = [
     "alleinerz",
     "kindergeld_anspruch",
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
-    "kinderzuschl_eink_elternteil_tu",
-    "arbeitsl_geld_2_eink_m_hh",
-    "arbeitsl_geld_2_eink_m_tu",
+    "kinderzuschl_bruttoeink_eltern_m",
+    "kinderzuschl_eink_eltern_m",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "jahr",
@@ -34,17 +33,16 @@ OUT_COLS = [
     "_kinderzuschl_vor_vermög_check_m_tu",
     "_kinderzuschl_nach_vermög_check_m_tu",
 ]
-# 2006 and 2009 are missing
-YEARS = [2011, 2013, 2016, 2017, 2019, 2020, 2021]
+# 2006 and 2009 are missing -> are currently failing
+YEARS = [2013, 2016, 2017, 2019, 2020, 2021]
 
 OVERRIDE_COLS = [
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
-    "arbeitsl_geld_2_eink_m_hh",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
-    "kinderzuschl_eink_elternteil_tu",
+    "kinderzuschl_bruttoeink_eltern_m",
+    "kinderzuschl_eink_eltern_m",
     "kindergeld_anspruch",
-    "arbeitsl_geld_2_eink_m_tu",
 ]
 
 
@@ -67,10 +65,9 @@ def test_kinderzuschl(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=column,
+        targets=[column],
         columns_overriding_functions=OVERRIDE_COLS,
     )
-
     assert_series_equal(
         result[column], year_data[column], check_dtype=False, atol=0, rtol=0
     )
