@@ -64,6 +64,9 @@ versioning](https://semver.org/) and all releases are available on
   Kindergeld is not set to 0 if Kinderfreibetrag is beneficial
   ({ghuser}`LauraGergeleit`, {ghuser}`ChristianZimpelmann`).
 
+- {gh}`461` Fix bug in calculation of income for Kinderzuschlag.
+  ({ghuser}`ChristianZimpelmann`).
+
 - {gh}`150` Implement lohnsteuer / withholding tax.
   ({ghuser}`Eric-Sommer`, {ghuser}`JakobWegmann`).
 
