@@ -100,8 +100,8 @@ vorsorge2004_vorwegabzug:
   description:
     de: >-
       § 10 (4a) EStG. Früher §10 (3) EStG. Hier steht jeweils der Wert für den
-      Steuerpflichtigen. Wird verdoppelt für gemeinsam veranlagte Ehegatten. Der gesamte
-      Zeitverlauf wurde bereits 2005 festgelegt.
+      Steuerpflichtigen. Wird verdoppelt für gemeinsam veranlagte Ehegatten. Der
+      gesamte Zeitverlauf wurde bereits 2005 festgelegt.
     en: null
   unit: Euro
   reference_period: Year
@@ -408,11 +408,13 @@ einführungsfaktor:
     en: Introductory factor for pension expense
   description:
     de: >-
-      In den Jahren 2005-2025 steigt der Anteil der abzugsfähigen Beiträge von 60% in
-      2005 jährlich um 2 Prozentpunkte an, bis 100% in 2025 erreicht werden.
+      In den Jahren 2005-2022 steigt der Anteil der abzugsfähigen Beiträge von 60% in
+      2005 jährlich um 2 Prozentpunkte an bis 94% in 2022 erreicht werden. Ab 2023
+      betragen die abzugfähigen Beiträge 100%.
     en: >-
-      In the years 2005-2025 the share of deductible contributions increases by 2
-      percentage points each year from 60% in 2005 to 100% in 2025.
+      In the years 2005-2022 the share of deductible contributions increases by 2
+      percentage points each year from 60% in 2005 to 94% in 2022. From 2023 on, the
+      deductible contributions are 100%.
   reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
   type: piecewise_linear
   2005-01-01:
@@ -427,6 +429,22 @@ einführungsfaktor:
     2:
       upper_threshold: inf
       rate_linear: 0
+  2023-01-01:
+    0:
+      lower_threshold: -inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 0.6
+    1:
+      lower_threshold: 2005
+      rate_linear: 0.02
+    2:
+      lower_threshold: 2022
+      upper_threshold: 2023
+      rate_linear: 0.06
+    3:
+      upper_threshold: inf
+      rate_linear: 0
+    reference: G. v. 20.12.2022 BGBl. I S. 2294.
 
 alleinerz_freibetrag:
   name:
