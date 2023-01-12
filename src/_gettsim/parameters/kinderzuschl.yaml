@@ -31,7 +31,7 @@ maximum:
     reference: § 6a (2) BKGG
     note: Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.
 
-kindersofortzuschlag_kiz:
+kindersofortzuschl:
   name:
     de: Kindersofortzuschlag
     en: Instant surcharge for children

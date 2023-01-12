@@ -8,7 +8,7 @@ eink_anr_frei:
       Einkommensanteile, die anrechnungsfrei bleiben. § 30 SGB II. Seit 01.10.2005
       zudem
       definiert durch Freibetrag in § 11 SGB II, s. § 67 SGB II. Seit 01.04.2011
-      § 11b (2) SGB II  (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
+      § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
       G. v. 24.03.2011 BGBl. I S. 453).
     en: >-
       Income shares which do not lead to tapering of benefits.
@@ -275,10 +275,10 @@ regelsatz:
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
 
-kindersofortzuschlag_alg:
+kindersofortzuschl:
   name:
-    de: Kindersofortzuschlag
-    en: Instant surcharge for children
+    de: Kindersofortzuschlag für Arbeitslosengeld II
+    en: Instant surcharge for children for unemployment benefit
   description:
     de: >-
       Kinder, Jugendliche  und junge Erwachsene, die Anspruch auf

@@ -194,20 +194,16 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     """
 
     # Sum payments for each age group
-    if "kindersofortzuschlag_alg" in arbeitsl_geld_2_params:
-        zuschlag = arbeitsl_geld_2_params["kindersofortzuschlag_alg"]
-        out = (
-            (arbeitsl_geld_2_params["regelsatz"][6] + zuschlag) * anz_kinder_bis_6_hh
-            + (arbeitsl_geld_2_params["regelsatz"][5] + zuschlag)
-            * anz_kinder_ab_7_bis_13_hh
-            + (arbeitsl_geld_2_params["regelsatz"][4] + zuschlag)
-            * anz_kinder_ab_14_bis_24_hh
-        )
-    else:
-        out = (
-            arbeitsl_geld_2_params["regelsatz"][6] * anz_kinder_bis_6_hh
-            + arbeitsl_geld_2_params["regelsatz"][5] * anz_kinder_ab_7_bis_13_hh
-            + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
+    out = (
+        arbeitsl_geld_2_params["regelsatz"][6] * anz_kinder_bis_6_hh
+        + arbeitsl_geld_2_params["regelsatz"][5] * anz_kinder_ab_7_bis_13_hh
+        + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
+    )
+
+    if "kindersofortzuschl" in arbeitsl_geld_2_params:
+        kindersofortzuschl = arbeitsl_geld_2_params["kindersofortzuschl"]
+        out += kindersofortzuschl * (
+            anz_kinder_bis_6_hh + anz_kinder_ab_7_bis_13_hh + anz_kinder_ab_14_bis_24_hh
         )
 
     return float(out)
