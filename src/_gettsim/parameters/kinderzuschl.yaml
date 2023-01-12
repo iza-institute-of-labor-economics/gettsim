@@ -33,15 +33,15 @@ maximum:
 
 kindersofortzuschl:
   name:
-    de: Kindersofortzuschlag
-    en: Instant surcharge for children
+    de: Kindersofortzuschlag für Kinderzuschlag
+    en: Instant surcharge for children for additional child benefit
   description:
     de: >-
       Mit Einführung des Sofortzuschlags zum 1. Juli 2022
       steigt der Höchstbetrag im Kinderzuschlag um 20 Euro.
     en: >-
       With the introduction of the immediate supplement from July 1, 2022,
-      the maximum amountin the child supplement increases by 20 euros.
+      the maximum amount in the child supplement increases by 20 euros.
   unit: Euros
   reference: § 6a Abs. 2 Satz 4 BKGG
   2022-07-01:
