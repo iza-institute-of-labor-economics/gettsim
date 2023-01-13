@@ -200,11 +200,10 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
         + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
     )
 
-    if "kindersofortzuschl" in arbeitsl_geld_2_params:
-        kindersofortzuschl = arbeitsl_geld_2_params["kindersofortzuschl"]
-        out += kindersofortzuschl * (
-            anz_kinder_bis_6_hh + anz_kinder_ab_7_bis_13_hh + anz_kinder_ab_14_bis_24_hh
-        )
+    kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
+    out += kindersofortzuschl * (
+        anz_kinder_bis_6_hh + anz_kinder_ab_7_bis_13_hh + anz_kinder_ab_14_bis_24_hh
+    )
 
     return float(out)
 
